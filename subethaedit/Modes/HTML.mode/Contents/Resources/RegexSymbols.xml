@@ -7,7 +7,7 @@
         <endregex>--&gt;</endregex>
     </blocks>
     
-    <symbol id="Headers" font-weight="normal" font-style="normal" image="SymbolT" indentation="1" ignoreblocks="yes">
+    <symbol id="Headers" font-weight="normal" font-style="normal" image="SymbolH.png" indentation="1" ignoreblocks="yes">
         <regex>&lt;[hH][1-6]&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex>
     </symbol>
 

@@ -13,10 +13,14 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
 @implementation RegexSymbolDefinition
 
 /*"Initiates the Syntax Definition with an XML file"*/
-- (id)initWithFile:(NSString *)aPath {
-    if (!aPath) return nil;
+- (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode {
     self=[super init];
     if (self) {
+        if (!aPath) {
+            [self dealloc];
+            return nil;
+        }
+        [self setMode:aMode];
         I_symbols = [NSMutableArray new];
         I_block = nil;
         // Parse XML File
@@ -96,7 +100,12 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                     if (aImage) {
                         [I_currentSymbol setObject:aImage forKey:@"image"];
                     } else {
-                        NSLog(@"Can't find image '%@'", [attributes objectForKey:@"image"]);
+                        aImage = [[[NSImage alloc] initWithContentsOfFile:[[[self mode] bundle] pathForImageResource:[attributes objectForKey:@"image"]]] autorelease];
+                        if (aImage) {
+                            [I_currentSymbol setObject:aImage forKey:@"image"];
+                        } else {
+                             NSLog(@"Can't find image '%@'", [attributes objectForKey:@"image"]);
+                        }
                     }
                 }
                 
@@ -188,8 +197,6 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
         CFXMLNodeRef xmlNode = CFXMLTreeGetNode(xmlTree);
 
         if (CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) {
-            //CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
-            //NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
             NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
             if ([@"find" isEqualToString:tag]) {
                     NSString *aString = extractStringWithEntitiesFromTree(xmlTree);
@@ -218,5 +225,13 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
     return I_block;
 }
 
+- (DocumentMode *)mode
+{
+    return I_mode;
+}
+
+- (void)setMode:(DocumentMode *)aMode {
+    I_mode = aMode;
+}
 
 @end

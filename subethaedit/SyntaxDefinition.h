@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <OgreKit/OgreKit.h>
+#import "DocumentMode.h"
 
 @interface SyntaxDefinition : NSObject {
     NSString *I_name;               /*"Name (obsolete?)"*/
+    DocumentMode *I_mode;               
     NSCharacterSet *I_tokenSet;     /*"Set for tokenizing"*/
     NSCharacterSet *I_invertedTokenSet;     /*"Set for tokenizing"*/
     NSMutableArray *I_states;       /*"All states except the default state"*/
@@ -21,7 +23,7 @@
 }
 
 /*"Initizialisation"*/
-- (id)initWithFile:(NSString *)synfile;
+- (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;
 
 /*"XML parsing"*/
 - (void)parseXMLFile:(NSString *)aPath;
@@ -46,6 +48,7 @@
 - (NSArray *)regularExpressionsInState:(int)aState;
 - (void)setCombinedStateRegex;
 - (OGRegularExpression *)combinedStateRegex;
-
+- (DocumentMode *)mode;
+- (void)setMode:(DocumentMode *)aMode;
 
 @end

@@ -42,13 +42,18 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
 
 
 /*"Initiates the Syntax Definition with an XML file"*/
-- (id)initWithFile:(NSString *)aPath {
+- (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode {
     self=[super init];
     if (self) {
+        if (!aPath) {
+            [self dealloc];
+            return nil;
+        }
         // Alloc & Init
         I_defaultState = [NSMutableDictionary new];
         I_states = [NSMutableArray new];
         I_name = [@"Not named" retain];
+        [self setMode:aMode];
                 
         // Parse XML File
         [self parseXMLFile:aPath];
@@ -59,7 +64,6 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         [self cacheStyles];
         [self setCombinedStateRegex];        
     }
-    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Initiated new SyntaxDefinition:%@",[self description]);
     return self;
 }
 
@@ -530,6 +534,15 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
 - (OGRegularExpression *)combinedStateRegex
 {
     return I_combinedStateRegex;
+}
+
+- (DocumentMode *)mode
+{
+    return I_mode;
+}
+
+- (void)setMode:(DocumentMode *)aMode {
+    I_mode = aMode;
 }
 
 
