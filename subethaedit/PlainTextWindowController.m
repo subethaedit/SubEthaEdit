@@ -890,11 +890,39 @@ enum {
 #pragma mark -
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
-//    if ([[self document] isRemote]) {
-//        displayName=[displayName stringByAppendingFormat:@" (%@)",
-//                        [[[UserManager sharedInstance] userForUserId:[[self document] userIdOfHost]] 
-//                            objectForKey:kUserNameProperty]];
-//    }
+    PlainTextDocument *document = (PlainTextDocument *)[self document];
+    TCMMMSession *session = [document session];
+    
+    NSArray *pathComponents = [[document fileName] pathComponents];
+    int count = [pathComponents count];
+    if (count != 0) {
+        NSMutableString *result = [NSMutableString string];
+        int i = count;
+        int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+        for (i = count-1; i >= 0 && i > count-pathComponentsToShow-1; i--) {
+            if (i != count-1) {
+                [result insertString:@"/" atIndex:0];
+            }
+            [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
+        }
+        
+        displayName = result;
+    } else {
+        if (session && ![session isServer]) {
+            displayName = [session filename];
+        }
+    }
+
+    if (session && ![session isServer]) {
+        displayName = [displayName stringByAppendingFormat:@" - %@", [[[TCMMMUserManager sharedInstance] userForUserID:[session hostID]] name]];
+        if ([document fileName]) {
+            if (![[[session filename] lastPathComponent] isEqualToString:[[document fileName] lastPathComponent]]) {
+                displayName = [displayName stringByAppendingFormat:@" (%@)",[[session filename] lastPathComponent]];
+            }
+            displayName = [displayName stringByAppendingString:@" *"];
+        }
+    }
+    
     int requests;
     if ((requests=[[[(PlainTextDocument *)[self document] session] pendingUsers] count])>0) {
         displayName=[displayName stringByAppendingFormat:@" (%@)", [NSString stringWithFormat:NSLocalizedString(@"%d pending", @"Pending Users Display in Menu Title Bar"), requests]];

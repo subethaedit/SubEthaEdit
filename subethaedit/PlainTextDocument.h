@@ -70,6 +70,7 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSDictionary *I_fileAttributes;
     NSDictionary *I_ODBParameters;
     NSString *I_jobDescription;
+    NSString *I_temporaryDisplayName;
     
     IBOutlet NSView *O_savePanelAccessoryView;
     IBOutlet NSView *O_savePanelAccessoryView2;
@@ -172,6 +173,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setODBParameters:(NSDictionary *)aDictionary;
 - (NSString *)jobDescription;
 - (void)setJobDescription:(NSString *)aString;
+- (NSString *)temporaryDisplayName;
+- (void)setTemporaryDisplayName:(NSString *)name;
 
 - (void)setHighlightsSyntax:(BOOL)aFlag;
 - (BOOL)highlightsSyntax;

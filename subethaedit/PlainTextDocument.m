@@ -719,6 +719,10 @@ static NSString *tempFileName(NSString *origPath) {
         [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
     }
     TCMMMSession *newSession=[[(TCMMMSession *)[TCMMMSession alloc] initWithDocument:self] autorelease];
+    if (oldSession) {
+        NSString *name = [oldSession filename];
+        [newSession setFilename:[name lastPathComponent]];
+    }
     NSArray *contributors=[oldSession contributors];
     if ([contributors count]) {
         [newSession addContributors:contributors];
@@ -801,6 +805,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_fileAttributes release];
     [I_ODBParameters release];
     [I_jobDescription release];
+    [I_temporaryDisplayName release];
     [I_lineEndingString release];
     [I_symbolArray release];
     [I_symbolPopUpMenu release];
@@ -922,6 +927,16 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)setJobDescription:(NSString *)aString {
     [I_jobDescription autorelease];
     I_jobDescription = [aString copy];
+}
+
+- (NSString *)temporaryDisplayName {
+    return I_temporaryDisplayName;
+}
+
+- (void)setTemporaryDisplayName:(NSString *)name {
+    [I_temporaryDisplayName autorelease];
+    I_temporaryDisplayName = [name copy];
+    [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
 }
 
 - (BOOL)isAnnounced {
@@ -2842,57 +2857,35 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 
 - (NSString *)preparedDisplayName {
-    NSMutableString *result=[NSMutableString string];
-    NSArray *pathComponents=[[self fileName] pathComponents];
-    int count=[pathComponents count];
-    if (!count) {
-        result = (NSMutableString *)[super displayName];
+    NSArray *pathComponents = [[self fileName] pathComponents];
+    int count = [pathComponents count];
+    if (count == 0) {
+        return [super displayName];
     } else {
-        int i=count;
-        int pathComponentsToShow=[[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-        for (i=count-1;i>=0 && i>count-pathComponentsToShow-1;i--) {
-            if (i!=count-1) {
+        NSMutableString *result = [NSMutableString string];
+        int i = count;
+        int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+        for (i = count-1; i >= 0 && i > count-pathComponentsToShow-1; i--) {
+            if (i != count-1) {
                 [result insertString:@"/" atIndex:0];
             }
             [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
         }
+        return result;
     }
-    return result;
 }
 
 - (NSString *)displayName {
-    NSMutableString *result=[NSMutableString string];
-    TCMMMSession *session=[self session];
-    if (!session || [session isServer] || I_flags.shouldChangeChangeCount) {
-        NSArray *pathComponents=[[self fileName] pathComponents];
-        int count=[pathComponents count];
-        if (!count) {
-            result = (NSMutableString *)[super displayName];
-        } else {
-            int i=count;
-            int pathComponentsToShow=[[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-            for (i=count-1;i>=0 && i>count-pathComponentsToShow-1;i--) {
-                if (i!=count-1) {
-                    [result insertString:@"/" atIndex:0];
-                }
-                [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
-            }
-        }
-    } else {
-        [result appendString:[session filename]];
+    TCMMMSession *session = [self session];
+    if (session && ![self fileName] && ![self temporaryDisplayName]) {
+        return [[session filename] lastPathComponent];
     }
-
-    if (session && ![session isServer]) {
-        [result appendFormat:@" - %@",[[[TCMMMUserManager sharedInstance] userForUserID:[session hostID]] name]];
-        if (I_flags.shouldChangeChangeCount) {
-            if (![[[session filename] lastPathComponent] isEqualToString:[[self fileName] lastPathComponent]]) {
-                [result appendFormat:@" (%@)",[[session filename] lastPathComponent]];
-            }
-            [result appendString:@" *"];
-        }
+ 
+    if ([self temporaryDisplayName]) {
+        return [self temporaryDisplayName];
     }
-
-    return result;
+    
+    return [super displayName];
 }
 
 #pragma mark -
@@ -3435,7 +3428,7 @@ static NSString *S_measurementUnits;
     [self setWrapLines:[[aSessionInformation objectForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
     [self setWrapMode:[[aSessionInformation objectForKey:DocumentModeWrapModePreferenceKey] intValue]];
 
-    [self setFileName:[aSession filename]];
+    //[self setFileName:[aSession filename]];
 
     [self makeWindowControllers];
     PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];

@@ -378,9 +378,8 @@ static NSString *tempFileName() {
     while ((fileName = [enumerator nextObject])) {
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
-            [properties setObject:[fileName lastPathComponent] forKey:@"lastComponentOfFileName"];
             [document setScriptingProperties:properties];
-            [properties removeObjectForKey:@"lastComponentOfFileName"];
+            [(PlainTextDocument *)document setTemporaryDisplayName:[fileName lastPathComponent]];
             if (jobDescription) {
                 [(PlainTextDocument *)document setJobDescription:jobDescription];
             }
@@ -411,7 +410,7 @@ static NSString *tempFileName() {
                 [(PlainTextDocument *)document setShouldChangeChangeCount:NO];
             }
             if (pipeTitle) {
-                [properties setObject:pipeTitle forKey:@"lastComponentOfFileName"];
+                [(PlainTextDocument *)document setTemporaryDisplayName:pipeTitle];
             }
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
