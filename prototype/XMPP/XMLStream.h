@@ -23,6 +23,8 @@
     Node *I_stanzaNode;
     Node *I_node;
     int I_depth;
+    
+    id I_delegate;
 }
 
 - (void)writeData:(NSData *)aData;
@@ -31,5 +33,15 @@
 
 - (void)readBytes;
 - (void)writeBytes;
+
+- (void)setDelegate:(id)aDelegate;
+- (id)delegate;
+
+@end
+
+@interface NSObject (XMLStreamDelegateAdditions)
+
+- (void)streamDidOpen:(XMLStream *)aXMLStream;
+- (void)stream:(XMLStream *)aXMLStream didReceiveStanza:(Node *)aNode;
 
 @end

@@ -38,6 +38,16 @@
     [super dealloc];
 }
 
+- (void)setDelegate:(id)aDelegate
+{
+    I_delegate = aDelegate;
+}
+
+- (id)delegate
+{
+    return I_delegate;
+}
+
 - (void)connectToHost:(NSHost *)aHost
 {
     [NSStream getStreamsToHost:aHost
@@ -55,6 +65,9 @@
     
     [I_inputStream open];
     [I_outputStream open];
+    
+    NSString *startElement = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><stream:stream xmlns:stream=\"http://etherx.jabber.org/streams\" to=\"%@\" xmlns=\"jabber:client\">", @"codingmonkeys.no-ip.org"];
+    [self writeData:[startElement dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 - (void)disconnect
@@ -187,6 +200,12 @@
         [I_streamNode setAttributes:attributeDict];
         [I_streamNode setParent:nil];
         I_node = I_streamNode;
+        if ([elementName isEqualToString:@"stream"] && [namespaceURI isEqualToString:@"http://etherx.jabber.org/streams"]) {
+            NSLog(@"Successfully opened stream.");
+            if ([I_delegate respondsToSelector:@selector(streamDidOpen:)]) {
+                [I_delegate streamDidOpen:self];
+            }
+        }
     } else if (I_depth == 1) {
         I_stanzaNode = [[Node alloc] init];
         [I_stanzaNode setName:elementName];
@@ -217,6 +236,9 @@
     } else if (I_depth == 2) {
         I_node = I_streamNode;
         NSLog(@"Parsed stanza: %@", I_stanzaNode);
+        if ([I_delegate respondsToSelector:@selector(stream:didReceiveStanza:)]) {
+            [I_delegate stream:self didReceiveStanza:I_stanzaNode];
+        }
     } else if (I_depth == 1) {
         I_node = nil;
     }
