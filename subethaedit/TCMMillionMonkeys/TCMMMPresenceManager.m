@@ -30,6 +30,17 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 
 #pragma mark -
 
+/*"
+    StatusInformation:
+        @"Status" => @"NoStatus" | @"GotStatus"
+        @"UserID" => userID
+        @"Sessions" => TCMMMSessions
+        @"NetService" => NSNetService
+        @"isVisible"  => nil | NSNumber "YES"
+        @"InternalIsVisible" => nil | NSNumber "YES" // for internal use only
+"*/
+
+
 @implementation TCMMMPresenceManager
 
 + (TCMMMPresenceManager *)sharedInstance {
