@@ -22,6 +22,7 @@
 #import "DocumentModeManager.h"
 #import "TextOperation.h"
 #import "SelectionOperation.h"
+#import "UserChangeOperation.h"
 #import "EncodingManager.h"
 #import "TextView.h"
 
@@ -72,6 +73,7 @@ NSString * const AddressHistory = @"AddressHistory";
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
+    [UserChangeOperation class];
 }
 
 - (void)registerTransformers {

@@ -273,7 +273,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 
 
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs {
-    if ([aGroup isEqualToString:@"PoofGroup"]) {
+    if ([aGroup isEqualToString:@"PoofGroup"] || [aGroup isEqualToString:@"CloseGroup"]) {
         NSEnumerator *userIDs=[aUserIDs objectEnumerator];
         NSString *userID;
         TCMMMUser *user;
@@ -285,7 +285,7 @@ NSString * const TCMMMSessionDidChangeNotification =
             if (group) {
                 [I_groupByUserID removeObjectForKey:userID];
                 [[I_participants objectForKey:group] removeObject:user];
-                [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:userID newGroup:@""]];
+                [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:userID newGroup:aGroup]];
                 SessionProfile *profile=[I_profilesByUserID objectForKey:userID];
                 [profile close];
                 [self detachStateAndProfileForUserWithID:userID];
@@ -417,7 +417,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 - (void)abandon {
     NSMutableSet *userIDs=[NSMutableSet setWithArray:[I_groupByUserID allKeys]];
     [userIDs removeObject:[TCMMMUserManager myUserID]];
-    [self setGroup:@"PoofGroup" forParticipantsWithUserIDs:[userIDs allObjects]];
+    [self setGroup:@"CloseGroup" forParticipantsWithUserIDs:[userIDs allObjects]];
     [self setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
 }
 
@@ -676,7 +676,11 @@ NSString * const TCMMMSessionDidChangeNotification =
                 [self cleanupParticipants];
                 [self detachStateAndProfileForUserWithID:[self hostID]];
                 // detach document
-                [[self document] sessionDidReceiveKick:self];
+                if ([[anOperation newGroup] isEqualTo:@"PoofGroup"]) {
+                    [[self document] sessionDidReceiveKick:self];
+                } else {
+                    [[self document] sessionDidReceiveClose:self];
+                }
             }
         } else {
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
