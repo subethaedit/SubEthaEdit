@@ -287,6 +287,9 @@ subethaedit/English.lproj/SavePanelAccessory.nib/keyedobjects.nib -text
 subethaedit/English.lproj/SelectEncodingsPanel.nib/classes.nib -text
 subethaedit/English.lproj/SelectEncodingsPanel.nib/info.nib -text
 subethaedit/English.lproj/SelectEncodingsPanel.nib/objects.nib -text
+subethaedit/English.lproj/Setup.nib/classes.nib -text
+subethaedit/English.lproj/Setup.nib/info.nib -text
+subethaedit/English.lproj/Setup.nib/keyedobjects.nib -text
 subethaedit/English.lproj/WebPreview.nib/classes.nib -text
 subethaedit/English.lproj/WebPreview.nib/info.nib -text
 subethaedit/English.lproj/WebPreview.nib/keyedobjects.nib -text
@@ -616,6 +619,8 @@ subethaedit/SelectionOperation.h -text
 subethaedit/SelectionOperation.m -text
 subethaedit/SessionProfile.h -text
 subethaedit/SessionProfile.m -text
+subethaedit/SetupController.h -text
+subethaedit/SetupController.m -text
 subethaedit/SplitView.h -text
 subethaedit/SplitView.m -text
 subethaedit/SubEthaEdit.sdef -text

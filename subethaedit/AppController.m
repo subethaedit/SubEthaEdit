@@ -16,6 +16,7 @@
 #import "InternetBrowserController.h"
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
+#import "SetupController.h"
 
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
@@ -251,6 +252,7 @@ NSString * const AddressHistory = @"AddressHistory";
 #define MODEMENUNAMETAG 20 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+    
     [self registerTransformers];
     [self addMe];
     [self setupFileEncodingsSubmenu];
@@ -278,6 +280,16 @@ NSString * const AddressHistory = @"AddressHistory";
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is acutally after the opening of the first untitled document window!
 
+    //SetupController *setupController = [SetupController new];
+    //NSModalSession modalSession = [NSApp beginModalSessionForWindow:[setupController window]];
+    //for (;;) {
+    //    if ([NSApp runModalSession:modalSession] != NSRunContinuesResponse)
+    //    break;
+    //}
+    //[NSApp endModalSession:modalSession];
+    //[setupController release];
+
+
     // set up beep profiles
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
@@ -290,6 +302,7 @@ NSString * const AddressHistory = @"AddressHistory";
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
+
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] setVisible:NO];
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];

@@ -666,6 +666,7 @@ static InternetBrowserController *sharedInstance = nil;
                                                     [NSNumber numberWithBool:YES], @"inbound",
                                                     sessions, @"Sessions",
                                                     HostEntryStatusSessionOpen, @"status", nil]];
+        [sessions release];
     }
     [O_browserListView reloadData];
 }

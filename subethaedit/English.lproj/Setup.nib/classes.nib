@@ -1,0 +1,22 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {agreeLicense = id; continueDone = id; disagreeLicense = id; goBack = id; }; 
+            CLASS = SetupController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_continueButton" = NSButton; 
+                "O_doneTabItem" = NSTabViewItem; 
+                "O_goBackButton" = NSButton; 
+                "O_licenseConfirmationSheet" = NSWindow; 
+                "O_licenseTabItem" = NSTabViewItem; 
+                "O_purchaseTabItem" = NSTabViewItem; 
+                "O_tabView" = NSTabView; 
+                "O_welcomeTabItem" = NSTabViewItem; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}
