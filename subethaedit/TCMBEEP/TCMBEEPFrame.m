@@ -84,18 +84,20 @@
     if (self) {
         I_answerNumber = -1;
         BOOL error = NO;
-        if (sscanf(aHeaderString, "%3s %d %d %1s %u %d\r",
+        if (sscanf(aHeaderString, "%3s %d %u %d\r", I_messageType, &I_channelNumber, &I_sequenceNumber, &I_length) == 4) {
+            if (strcmp(I_messageType, "SEQ") != 0) {
+                error = YES;
+            }
+        } else if (sscanf(aHeaderString, "%3s %d %d %1s %u %d\r",
                     I_messageType, &I_channelNumber, &I_messageNumber,
                     I_continuationIndicator, &I_sequenceNumber, &I_length) == 6) {
             
-        } else if (sscanf(aHeaderString,"%3s %d %d %1s %u %d %d\r",
+        } else if (sscanf(aHeaderString, "%3s %d %d %1s %u %d %d\r",
                     I_messageType, &I_channelNumber, &I_messageNumber,
                     I_continuationIndicator, &I_sequenceNumber, &I_length, &I_answerNumber) == 7) {
-            if (!(strcmp(I_messageType, "ANS"))) {
+            if (strcmp(I_messageType, "ANS") != 0) {
                 error = YES;
             }
-        } else if (sscanf(aHeaderString, "%3s %d %u %d\r", I_messageType, &I_channelNumber, &I_sequenceNumber, &I_length) == 4) {
-        
         } else {
             error = YES;
         }
