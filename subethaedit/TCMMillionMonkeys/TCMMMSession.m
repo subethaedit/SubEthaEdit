@@ -558,15 +558,25 @@ NSString * const TCMMMSessionDidChangeNotification =
 - (void)joinRequestWithProfile:(SessionProfile *)profile
 {        
     NSString *peerUserID = [[[profile session] userInfo] objectForKey:@"peerUserID"];
-    [I_profilesByUserID setObject:profile forKey:peerUserID];
-    // decide if autojoin depending on setting
     
-    // if no autojoin add user to pending users and notify 
+    // if user is already joined, kick the one that is in here, because he probably has lost
+    // his connection anyway...
+    
+    SessionProfile *userProfile=[I_profilesByUserID objectForKey:peerUserID];
+    if (userProfile) {
+        [self setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:peerUserID]];
+    }
+
+    [I_profilesByUserID setObject:profile forKey:peerUserID];
+
     [I_pendingUsers addObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
+
+    // decide if autojoin depending on setting
     if ([self accessState]!=TCMMMSessionAccessLockedState) {
         [self setGroup:[self accessState]==TCMMMSessionAccessReadWriteState?@"ReadWrite":@"ReadOnly"
               forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers count]-1]];
     } else {
+        // if no autojoin add user to pending users and notify 
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
         [[NSSound soundNamed:@"Knock"] play];
     }
