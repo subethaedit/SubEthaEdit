@@ -45,9 +45,15 @@ typedef enum {
     IBOutlet NSButton *O_wrapAroundCheckbox;
     NSMutableArray *I_findHistory;
     NSMutableArray *I_replaceHistory;   
-    BOOL ignoreNextComboBoxEvent; 
+    BOOL ignoreNextComboBoxEvent;
+    NSArray *I_replaceAllMatchArray;
+    NSData *I_replaceAllMatchArrayData;
+    NSMutableString *I_replaceAllText;
+    OGReplaceExpression *I_replaceAllRepex;
+    OGRegularExpression *I_replaceAllRegex;
+    int I_replaceAllReplaced;
+    int I_replaceAllArrayIndex;
 }
-
 + (FindReplaceController *)sharedInstance;
 
 - (NSPanel *)findPanel;
