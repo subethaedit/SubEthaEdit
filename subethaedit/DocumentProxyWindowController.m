@@ -95,6 +95,13 @@
     [O_statusBarTextField setStringValue:NSLocalizedString(@"Invitation was canceled!",@"Text in Proxy window")];
 }
 
+- (void)didLoseConnection {
+    if (![O_statusBarTextField window]) {
+        [[[self window] contentView] replaceSubview:O_bottomDecisionView with:O_bottomStatusView];
+    }
+    [O_statusBarTextField setStringValue:NSLocalizedString(@"Did lose Connection!",@"Text in Proxy window")];
+}
+
 - (void)windowDidResize:(NSNotification *)aNotification {
     if (I_targetWindow && NSEqualRects([[self window] frame],[I_targetWindow frame])) {
         [I_targetWindow orderWindow:NSWindowBelow relativeTo:[[self window] windowNumber]];

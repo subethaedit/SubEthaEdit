@@ -944,11 +944,14 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         }
         [user leaveSessionID:[self sessionID]];
     } else {
+        if ([self clientState]==TCMMMSessionClientParticipantState) {
         // server is gone, almost the same as kick
         // i was kicked, snief
         // remove all Users
-        [self cleanupParticipants];
+            [self cleanupParticipants];
+        }
         [self detachStateAndProfileForUserWithID:[self hostID]];
+        [self profileDidClose:aProfile];
         // detach document
         [[self document] sessionDidLoseConnection:self];
         [self setClientState:TCMMMSessionClientNoState];

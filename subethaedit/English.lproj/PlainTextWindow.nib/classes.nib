@@ -30,6 +30,7 @@
                 "O_readOnlyButton" = NSButton; 
                 "O_readWriteButton" = NSButton; 
                 "O_receivingContentView" = NSView; 
+                "O_receivingStatusTextField" = NSTextField; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

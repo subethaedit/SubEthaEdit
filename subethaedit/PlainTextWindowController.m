@@ -231,6 +231,11 @@ enum {
     }
 }
 
+- (void)didLoseConnection {
+    [O_progressIndicator stopAnimation:self];
+    [O_receivingStatusTextField setStringValue:NSLocalizedString(@"Did lose Connection!",@"Text in Proxy window")];
+}
+
 - (void)updateProgress:(NSNotification *)aNotification {
     [O_progressIndicator setDoubleValue:[[aNotification object] percentOfSessionReceived]];
 }

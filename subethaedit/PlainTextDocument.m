@@ -2360,10 +2360,19 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession {
-    [self TCM_generateNewSession];
-    NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"LostConnection",@"LostConnection title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"LostConnectionInfo",@"LostConnection info in Sheet")];
-    [alert setAlertStyle:NSInformationalAlertStyle];
-    [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+    if ([[self windowControllers] count]>0) {
+        [self TCM_generateNewSession];
+        if (I_flags.isReceivingContent) {
+            PlainTextWindowController *controller=[[self windowControllers] objectAtIndex:0];
+            [controller didLoseConnection];
+        } else {
+            NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"LostConnection",@"LostConnection title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"LostConnectionInfo",@"LostConnection info in Sheet")];
+            [alert setAlertStyle:NSInformationalAlertStyle];
+            [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+        }
+    } else if (I_documentProxyWindowController) {
+        [I_documentProxyWindowController didLoseConnection];
+    }
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation {

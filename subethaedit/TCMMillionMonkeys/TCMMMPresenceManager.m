@@ -234,7 +234,10 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         [sessionEntry setObject:[NSNumber numberWithInt:1] forKey:@"Count"];
         [I_registeredSessions setObject:sessionEntry forKey:[aSession sessionID]];
     } else {
-        NSAssert([sessionEntry objectForKey:@"Session"]==aSession,@"SessionRegistry: tried to register Session that differs from already registered Session");
+        if (!([sessionEntry objectForKey:@"Session"]==aSession)) {
+            NSLog(@"SessionRegistry: tried to register Session that differs from already registered Session");
+            [sessionEntry setObject:aSession forKey:@"Session"];
+        }
         [sessionEntry setObject:[NSNumber numberWithInt:[[sessionEntry objectForKey:@"Count"] intValue]+1] 
                          forKey:@"Count"];
     }
