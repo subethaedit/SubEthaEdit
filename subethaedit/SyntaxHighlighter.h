@@ -27,7 +27,7 @@ extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
 -(void)highlightAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange;
 -(void)stateMachineOnAttributedString:(NSMutableAttributedString *)aString inRange:(NSRange)aRange;
 -(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState;
--(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange;
+-(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState;
 
 /*"Document Interaction"*/
 - (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage;

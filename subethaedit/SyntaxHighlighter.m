@@ -82,7 +82,6 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
 
 
 /*
-
 Basic layout of the Chunky State Machine Algorithm:
 
 do {
@@ -98,6 +97,7 @@ do {
     
     if (stateStarts) do {
         DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"New loop with Range: %@",NSStringFromRange(currentRange));
+        NSAutoreleasePool *syntaxPool = [NSAutoreleasePool new];
 
         // Are we already in a state?
         if ((currentRange.location>0) && 
@@ -129,6 +129,7 @@ do {
                                                     
                         [aString addAttributes:attributes range:stateRange];
                         [self highlightPlainStringsOfAttributedString:aString inRange:stateRange forState:stateNumber];
+                        [self highlightRegularExpressionsOfAttributedString:aString inRange:stateRange forState:stateNumber];
                         currentRange.location = NSMaxRange(stateRange);
                         currentRange.length = currentRange.length - stateRange.length;
                     } else {
@@ -159,7 +160,9 @@ do {
             }
             // Color defaultState
             [self highlightPlainStringsOfAttributedString:aString inRange:defaultStateRange forState:-1];
+            [self highlightRegularExpressionsOfAttributedString:aString inRange:defaultStateRange forState:-1];
         }
+        [syntaxPool release];
     } while (currentRange.length>0);
     [aString addAttribute:kSyntaxHighlightingIsCorrectAttributeName value:kSyntaxHighlightingIsCorrectAttributeValue range:aRange];
 }
@@ -174,6 +177,7 @@ do {
     [scanner setCharactersToBeSkipped:[definition invertedTokenSet]];
     [scanner setScanLocation:aRange.location];
     do {
+        NSAutoreleasePool *tokenPool = [NSAutoreleasePool new];
         NSString *token = nil;
         if ([scanner scanCharactersFromSet:[definition tokenSet] intoString:&token]) {
             if (token) {
@@ -185,12 +189,29 @@ do {
                 }
             }
         } else break;
+        [tokenPool release];
     } while ([scanner scanLocation]< NSMaxRange(aRange));
 }
 
--(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange
+-(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState
 {
-
+    int state = aState + 1; // Default state has index 0 in lookup table, so call with -1 to get it
+    SyntaxDefinition *definition = [self syntaxDefinition];
+    NSDictionary *regexDict = [definition regularExpressionsInState:state];
+    OGRegularExpression *aRegex;
+    OGRegularExpressionMatch *aMatch;
+    NSDictionary *style;
+    
+    if (regexDict) {
+        NSEnumerator *regexEnumerator = [regexDict keyEnumerator];
+        while ((aRegex = [regexEnumerator nextObject])) {
+            style = [regexDict objectForKey:aRegex];
+            NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:[aString string] range:aRange] objectEnumerator];
+            while ((aMatch = [matchEnumerator nextObject])) {
+                [aString addAttribute:NSForegroundColorAttributeName value:[style objectForKey:@"color"] range:[aMatch rangeOfMatchedString]];             
+            }
+        }
+    }
 }
 
 #pragma mark - 
