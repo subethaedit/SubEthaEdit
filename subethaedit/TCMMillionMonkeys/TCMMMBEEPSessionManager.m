@@ -251,11 +251,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
 {
     NSDictionary *sessionInfo = [I_sessionInformationByUserID objectForKey:aUserID];
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"sessionInfo: %@", sessionInfo);
-    return [sessionInfo objectForKey:@"RendezvousSession"];
+    return [self sessionForUserID:aUserID URLString:nil]; 
 }
 
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID URLString:(NSString *)aURLString
 {
+    TCMBEEPSession *fallbackSession = nil;
     NSDictionary *info = [I_outboundInternetSessions objectForKey:aURLString];
     if (info) {
         NSArray *sessions = [info objectForKey:@"sessions"];
@@ -268,13 +269,15 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
     
     info = [self sessionInformationForUserID:aUserID];
-    if (aURLString) {
-        NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
-        if (inboundSessions && [inboundSessions count] > 0) {
-            TCMBEEPSession *BEEPSession = [inboundSessions objectAtIndex:0];
-            if ([[[BEEPSession userInfo] objectForKey:@"peerUserID"] isEqualToString:aUserID]) {
+    NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
+    if (inboundSessions && [inboundSessions count] > 0) {
+        NSEnumerator *inboundSessionEnumerator = [inboundSessions objectEnumerator];
+        TCMBEEPSession *BEEPSession = nil;
+        while ((BEEPSession = [inboundSessionEnumerator nextObject])) {
+            if (!fallbackSession) fallbackSession = BEEPSession;
+            if (aURLString && [[[BEEPSession userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
                 return BEEPSession;
-            }        
+            }
         }
     }
 
@@ -282,7 +285,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         return [info objectForKey:@"RendezvousSession"];
     }
     
-    return nil;
+    return fallbackSession;
 }
 
 #pragma mark -
@@ -612,21 +615,29 @@ static TCMMMBEEPSessionManager *sharedInstance;
 #pragma mark -
 #pragma mark ### Session Profile delegate methods ###
 
-- (void)profile:(SessionProfile *)profile didReceiveJoinRequestForSessionID:(NSString *)sessionID {
-    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"didReceiveJoinRequest: %@", sessionID);
-    TCMMMSession *session = [[TCMMMPresenceManager sharedInstance] sessionForSessionID:sessionID];
+- (void)profile:(SessionProfile *)aProfile didReceiveInvitationForSession:(TCMMMSession *)aSession {
+    TCMMMSession *session=[[TCMMMPresenceManager sharedInstance] referenceSessionForSession:aSession];
     if (session) {
-        [session joinRequestWithProfile:profile];
-        [profile setDelegate:session];
-        [I_pendingSessionProfiles removeObject:profile];
+        [aProfile setDelegate:nil];
+        [session invitationWithProfile:aProfile];
+        [I_pendingSessionProfiles removeObject:aProfile];
     } else {
-        NSLog(@"WARNING: Closing channel where never a channel was closed before");
-        [[profile channel] close];
+        [[aProfile channel] close];
     }
 }
 
-- (void)profile:(SessionProfile *)profile didReceiveInvitationForSessionID:(NSString *)sessionID {
-    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"didReceiveInvitation: %@", sessionID);
+
+- (void)profile:(SessionProfile *)aProfile didReceiveJoinRequestForSessionID:(NSString *)sessionID {
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"didReceiveJoinRequest: %@", sessionID);
+    TCMMMSession *session = [[TCMMMPresenceManager sharedInstance] sessionForSessionID:sessionID];
+    if (session) {
+        [aProfile setDelegate:nil];
+        [session joinRequestWithProfile:aProfile];
+        [I_pendingSessionProfiles removeObject:aProfile];
+    } else {
+        NSLog(@"WARNING: Closing channel where never a channel was closed before");
+        [[aProfile channel] close];
+    }
 }
 
 #pragma mark -
