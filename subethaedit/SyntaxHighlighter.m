@@ -91,12 +91,14 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                     if ((stateEnd = [foundState objectForKey:@"EndsWithRegex"])) {    
                         NSRange endRange;
                         NSRange stateRange;
-                        NSRange startRange = NSMakeRange(0,0);
+                        NSRange startRange;
 
                         // Add start to colorRange
                         NSRange attRange;
                         if([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 longestEffectiveRange:&attRange inRange:aRange] isEqualToString:@"Start"]){
                             startRange = attRange;
+                        } else {
+                            startRange = NSMakeRange(NSNotFound,0);
                         }
 
                         if ((endMatch = [stateEnd matchInString:theString range:currentRange])) { // Search for end of state
@@ -115,13 +117,18 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                                                     [NSNumber numberWithInt:stateNumber],kSyntaxHighlightingStateName,
                                                     nil];
                                                     
-                        stateRange = NSUnionRange(startRange,stateRange);                    
-                        [aString addAttributes:attributes range:stateRange];
-                        [self highlightRegularExpressionsOfAttributedString:aString inRange:stateRange forState:stateNumber];
-                        [self highlightPlainStringsOfAttributedString:aString inRange:stateRange forState:stateNumber];
-                        currentRange.length = NSMaxRange(currentRange) - NSMaxRange(stateRange);
+                        NSRange colorRange;
+                        if (startRange.location!=NSNotFound) {
+                            colorRange = NSUnionRange(startRange,stateRange);
+                        } else {
+                            colorRange = stateRange;
+                        }
+                        [aString addAttributes:attributes range:colorRange];
+                        [self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:stateNumber];
+                        [self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:stateNumber];
+
                         currentRange.location = NSMaxRange(stateRange);
-                        //currentRange.length = currentRange.length - stateRange.length;
+                        currentRange.length = currentRange.length - stateRange.length;
                     } else {
                         NSLog(@"ERROR: Missing EndsWithRegex tag.");
                         return;
