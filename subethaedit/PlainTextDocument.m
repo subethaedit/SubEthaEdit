@@ -68,6 +68,8 @@ NSString * const PlainTextDocumentDidChangeEditStatusNotification =
                @"PlainTextDocumentDidChangeEditStatusNotification";
 NSString * const PlainTextDocumentParticipantsDidChangeNotification =
                @"PlainTextDocumentParticipantsDidChangeNotification";
+NSString * const PlainTextDocumentUserDidChangeSelectionNotification =
+               @"PlainTextDocumentUserDidChangeSelectionNotification";
 NSString * const PlainTextDocumentDidChangeDisplayNameNotification = 
                @"PlainTextDocumentDidChangeDisplayNameNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = 
@@ -2056,6 +2058,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         [self invalidateLayoutForRange:aRange];
     }
+    [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentUserDidChangeSelectionNotification object:self userInfo:[NSDictionary dictionaryWithObject:user forKey:@"User"]]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:0
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+    
     [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
 }
 

@@ -8,7 +8,7 @@
 
 #import <AppKit/AppKit.h>
 
-@class PlainTextDocument,PopUpButton;
+@class PlainTextDocument,PopUpButton,RadarScroller;
 
 @interface PlainTextEditor : NSResponder {
     IBOutlet NSTextField *O_positionTextField;
@@ -23,6 +23,7 @@
     IBOutlet NSView       *O_editorView;
     IBOutlet NSView       *O_topStatusBarView;
     IBOutlet NSView       *O_bottomStatusBarView;
+    RadarScroller   *I_radarScroller;
     NSTextView      *I_textView;
     NSTextContainer *I_textContainer;
     NSWindowController *I_windowController;

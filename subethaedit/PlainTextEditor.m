@@ -16,9 +16,12 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMMMSession.h"
 #import "ButtonScrollView.h"
 #import "PopUpButton.h"
 #import "PopUpButtonCell.h"
+#import "RadarScroller.h"
+#import "SelectionOperation.h"
 
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions) 
 - (void)TCM_updateStatusBar;
@@ -46,6 +49,7 @@
     [I_textView setDelegate:nil];
     [O_editorView release];
     [I_textContainer release];
+    [I_radarScroller release];
     [super dealloc];
 }
 
@@ -55,6 +59,9 @@
     [[NSNotificationCenter defaultCenter] 
             addObserver:self selector:@selector(defaultParagraphStyleDidChange:) 
             name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:[I_windowController document]];
+    [[NSNotificationCenter defaultCenter] 
+            addObserver:self selector:@selector(userDidChangeSelection:) 
+            name:PlainTextDocumentUserDidChangeSelectionNotification object:[I_windowController document]];
     [[NSNotificationCenter defaultCenter] 
             addObserver:self selector:@selector(plainTextDocumentDidChangeEditStatus:) 
             name:PlainTextDocumentDidChangeEditStatusNotification object:[I_windowController document]];
@@ -70,8 +77,9 @@
         [O_editorView addSubview:O_scrollView];
         [O_scrollView release];
     }
-    
+    I_radarScroller=[RadarScroller new];
     [O_scrollView setHasVerticalScroller:YES];
+    [O_scrollView setVerticalScroller:I_radarScroller];
     NSRect frame;
     frame.origin=NSMakePoint(0.,0.);
     frame.size  =[O_scrollView contentSize];
@@ -122,9 +130,11 @@
     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [view addSubview:[O_editorView autorelease]];
     [view setPostsFrameChangedNotifications:YES];
+    [I_textView setPostsFrameChangedNotifications:YES];
     [O_editorView setNextResponder:self];
     [self setNextResponder:view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
     O_editorView = view;
     [O_symbolPopUpButton setDelegate:self];
     [[O_symbolPopUpButton cell] setControlSize:NSSmallControlSize];
@@ -798,9 +808,44 @@
 #pragma mark -
 #pragma mark ### notification handling ###
 
+- (void)textViewFrameDidChange:(NSNotification *)aNotification {
+    [I_radarScroller setMaxHeight:[I_textView frame].size.height];
+}
+
 - (void)viewFrameDidChange:(NSNotification *)aNotification {
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
+}
+
+- (void)userDidChangeSelection:(NSNotification *)aNotification {
+    TCMMMUser *user=[[aNotification userInfo] objectForKey:@"User"];
+    if (user) {
+        NSString *sessionID=[[[self document] session] sessionID];
+        NSColor *changeColor=[user changeColor];
+        
+        
+        SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
+        if (selectionOperation) {
+            int rectCount;
+            NSRange range=[selectionOperation selectedRange];
+            NSRectArray rects=[[I_textView layoutManager]
+                                rectArrayForCharacterRange:range
+                              withinSelectedCharacterRange:range 
+                                           inTextContainer:[I_textView textContainer] 
+                                                 rectCount:&rectCount];
+            if (rectCount>0) {
+                NSRect rect=rects[0]; 
+                int i;
+                for (i=1; i<rectCount;i++) {
+                    rect=NSUnionRect(rect,rects[i]);
+                }                                    
+                [I_radarScroller setMarkFor:[user userID] 
+                                withColor:changeColor
+                            forMinLocation:(float)rect.origin.y 
+                            andMaxLocation:(float)NSMaxY(rect)];            
+            }
+        }
+    }
 }
 
 #pragma mark -
