@@ -37,6 +37,7 @@
 - (IBAction)validateDefaultsState:(id)aSender;
 - (IBAction)changeDefaultState:(id)aSender;
 - (IBAction)export:(id)aSender;
+- (IBAction)revertToMode:(id)aSender;
 
 - (void)setBaseFont:(NSFont *)aFont;
 - (NSFont *)baseFont;

@@ -270,13 +270,15 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
         I_defaultSyntaxStyle = [self syntaxHighlighter]?[[[self syntaxHighlighter] defaultSyntaxStyle] copy]:[SyntaxStyle new];
         [I_defaultSyntaxStyle setDocumentMode:self];
-        I_syntaxStyle=[I_defaultSyntaxStyle copy];
+        SyntaxStyle *style=[I_defaultSyntaxStyle copy];
 
         NSDictionary *syntaxStyleDictionary=[I_defaults objectForKey:DocumentModeSyntaxStylePreferenceKey];
         if (syntaxStyleDictionary) {
-            [I_syntaxStyle takeStylesFromDefaultsDictionary:syntaxStyleDictionary];
+            [style takeStylesFromDefaultsDictionary:syntaxStyleDictionary];
         }        
 
+        [self setSyntaxStyle:style];
+        
         [I_defaults addObserver:self
                      forKeyPath:DocumentModeEncodingPreferenceKey
                         options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld)
@@ -354,6 +356,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (SyntaxStyle *)syntaxStyle {
     return I_syntaxStyle;
+}
+
+- (void)setSyntaxStyle:(SyntaxStyle *)aStyle {
+    [I_syntaxStyle autorelease];
+    I_syntaxStyle=[aStyle retain];
 }
 
 - (SyntaxStyle *)defaultSyntaxStyle {

@@ -293,6 +293,13 @@
     }
 }
 
+- (IBAction)revertToMode:(id)aSender {
+    DocumentMode *mode=[I_currentSyntaxStyle documentMode];
+    [mode setSyntaxStyle:[[[mode defaultSyntaxStyle] copy] autorelease]];
+    [self changeMode:O_modePopUpButton];
+}
+
+
 - (void)didUnselect {
     // Save preferences
 }

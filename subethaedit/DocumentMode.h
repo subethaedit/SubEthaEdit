@@ -83,6 +83,7 @@ extern NSString * const DocumentModeUseDefaultStylePreferenceKey;
 - (void)setDefaults:(NSMutableDictionary *)defaults;
 - (id)defaultForKey:(NSString *)aKey;
 - (SyntaxStyle *)syntaxStyle;
+- (void)setSyntaxStyle:(SyntaxStyle *)aStyle;
 - (SyntaxStyle *)defaultSyntaxStyle;
 
 - (BOOL)isBaseMode;
