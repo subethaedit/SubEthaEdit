@@ -381,8 +381,6 @@ static FindReplaceController *sharedInstance=nil;
                     posRange.location = foundRange.location;
                 } else break;
             }
-                    [O_progressIndicator stopAnimation:nil];
-
         } else {
         
             if (![OGRegularExpression isValidExpressionString:findString]) {
@@ -406,43 +404,37 @@ static FindReplaceController *sharedInstance=nil;
             }
         
 
-            OGReplaceExpression *regex = [OGRegularExpression regularExpressionWithString:findString
+            OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:findString
                                      options:[self currentOgreOptions]
                                      syntax:[self currentOgreSyntax]
                                      escapeCharacter:[self currentOgreEscapeCharacter]];
     
             OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:replaceString];
             
-            NSArray *matchArray = [I_replaceAllRegex allMatchesInString:text options:[self currentOgreOptions] range:aRange];
+            NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:aRange];
 
-            int count = [I_replaceAllMatchArray count];
-            I_replaceAllArrayIndex = count-1;
-            if (count==0) {
-                NSBeep();
-                [O_progressIndicator stopAnimation:nil];
-                return;
-            }
-            
+            int count = [matchArray count];
+            int i; 
             for (i = count-1; i >= 0; i--) {
                 OGRegularExpressionMatch *aMatch = [I_replaceAllMatchArray objectAtIndex:i];
-                //NSLog(@"#%d",i);
-                //NSLog(@"%@",NSStringFromRange([aMatch rangeOfMatchedString]));
-                [I_replaceAllText replaceCharactersInRange:[aMatch rangeOfMatchedString] withString:[I_replaceAllRepex replaceMatchedStringOf:aMatch]];
+                NSLog(@"#%d",i);
+                NSLog(@"%@",NSStringFromRange([aMatch rangeOfMatchedString]));
+                [text replaceCharactersInRange:[aMatch rangeOfMatchedString] withString:[repex replaceMatchedStringOf:aMatch]];
                 replaced++;
             }
-    
-    
-        [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), replaced]];
-        [O_statusTextField setHidden:NO];
-        [O_progressIndicator stopAnimation:nil];
-
-            
             // OgreKit + Autorelease Pool = Massives Saugen            
             //[self replaceAFewMatches];
             
-            
             //NSLog(@"After replace: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
         }
+        if (replaced==0) {
+            NSBeep();
+            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found"), replaced]];
+        } else {
+            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), replaced]];
+        }
+        [O_statusTextField setHidden:NO];
+        [O_progressIndicator stopAnimation:nil];
     }
 }
 
