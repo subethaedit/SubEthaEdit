@@ -67,11 +67,11 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_messageWriteQueue = [NSMutableArray new];
             I_outgoingFrameQueue = [NSMutableArray new];
             I_sequenceNumber = 0;
-            I_incomingWindowSize = MAXWINDOWSIZE;
-            I_incomingBufferSize = MAXWINDOWSIZE;
-            I_incomingBufferSizeAvailable = MAXWINDOWSIZE;
+            I_incomingWindowSize = 4096;
+            I_incomingBufferSize = 4096;
+            I_incomingBufferSizeAvailable = 4096;
             I_incomingSequenceNumber = 0;
-            I_outgoingWindowSize = MAXWINDOWSIZE;
+            I_outgoingWindowSize = 4096;
             I_flags.isInitiator = isInitiator;
             I_channelStatus = TCMBEEPChannelStatusOpen;
         } else {
@@ -99,6 +99,18 @@ static NSMutableDictionary *profileURIToClassMapping;
     [I_outgoingFrameQueue release];
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Channel deallocated");
     [super dealloc];
+}
+
+- (NSString *)description
+{
+    //return [NSString stringWithFormat:@"\nincomingWindowSize: %d\nincomingBufferSize: %d\nincomingBufferSizeAvailable: %d\nincomingSequenceNumber: %d\nsequenceNumber: %d\noutgoingWindowSize: %d",
+    //                                    I_incomingWindowSize,
+    //                                    I_incomingBufferSize,
+    //                                    I_incomingBufferSizeAvailable,
+    //                                    I_incomingSequenceNumber,
+    //                                    I_sequenceNumber,
+    //                                    I_outgoingWindowSize];
+    return [super description];
 }
 
 - (BOOL)isInitiator
@@ -209,8 +221,18 @@ static NSMutableDictionary *profileURIToClassMapping;
 // Accessors for session
 - (BOOL)hasFramesAvailable
 {
-    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"frames available? %d", ([I_messageWriteQueue count] > 0));
-    return ([I_messageWriteQueue count] > 0 || [I_outgoingFrameQueue count] > 0);
+    if ([I_outgoingFrameQueue count] > 0) {
+        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"hasFramesAvailable: YES");
+        return YES;
+    }
+    
+    if (([I_messageWriteQueue count] > 0) && (I_outgoingWindowSize > 0)) {
+        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"hasFramesAvailable: YES");
+        return YES;
+    }
+    
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"hasFramesAvailable: NO");
+    return NO;
 }
 
 - (NSArray *)availableFramesFittingInCurrentWindow;
@@ -276,6 +298,7 @@ static NSMutableDictionary *profileURIToClassMapping;
         }
         int32_t window = [aFrame length];
         I_outgoingWindowSize += window;
+        [[self session] channelHasFramesAvailable:self];
         return YES;
     }
     
@@ -338,9 +361,11 @@ static NSMutableDictionary *profileURIToClassMapping;
         [self setPreviousReadFrame:aFrame];
         I_incomingSequenceNumber = [aFrame sequenceNumber];
         I_incomingBufferSizeAvailable -= [aFrame length];
-        if (I_incomingBufferSizeAvailable < (int)(MAXWINDOWSIZE / 2.0)) {
+        if (I_incomingBufferSizeAvailable < (int)(I_incomingBufferSize / 2.0)) {
             // prepare SEQ frame
-            TCMBEEPFrame *SEQFrame = [TCMBEEPFrame SEQFrameWithChannelNumber:[self number] acknowledgementNumber:I_incomingSequenceNumber windowSize:MAXWINDOWSIZE];
+            I_incomingWindowSize = MAXWINDOWSIZE;
+            I_incomingBufferSize = MAXWINDOWSIZE;
+            TCMBEEPFrame *SEQFrame = [TCMBEEPFrame SEQFrameWithChannelNumber:[self number] acknowledgementNumber:I_incomingSequenceNumber windowSize:I_incomingWindowSize];
             I_incomingBufferSizeAvailable = I_incomingBufferSize;
             [I_outgoingFrameQueue addObject:SEQFrame];
             [[self session] channelHasFramesAvailable:self];
@@ -348,6 +373,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     } else {
         NSLog(@"NOT ACCEPTED: %@", aFrame);
     }
+    
     return accept;
 }
 

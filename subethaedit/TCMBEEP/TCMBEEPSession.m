@@ -671,7 +671,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     BOOL didSendAtAll = NO;
     do {
         int i;
-        for (i=0;i<10;i++) {
+        for (i = 0; i < 10; i++) {
             didSend = NO;
             NSEnumerator *channels = [[self activeChannels] objectEnumerator];
             TCMBEEPChannel *channel = nil;
@@ -692,7 +692,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
             }
             if (!didSend) break;
         }
-    } while (didSend && ((((double)(clock()-start_time))/CLOCKS_PER_SEC) < 0.1));
+    } while (didSend && ((((double)(clock() - start_time)) / CLOCKS_PER_SEC) < 0.1));
     if (didSendAtAll) {
         if ([I_outputStream hasSpaceAvailable]) {
             [self TCM_writeBytes];
