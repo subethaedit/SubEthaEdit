@@ -404,7 +404,7 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				LIBRARY_SEARCH_PATHS = /Users/mbo/Documents/SubEthaEdit/wc/trunk/prototype/XMPP;
+				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Dynamic;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = XMPP;
