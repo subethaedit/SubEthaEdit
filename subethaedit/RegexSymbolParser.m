@@ -27,13 +27,6 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
 - (void)markBlocks:(NSTextStorage *)aTextStorage
 {
     // NSArray of NSRanges faster??
-    
-
-
-
-
-
-
 
 /*    [aTextStorage removeAttribute:kSymbolParsingIsInABlock range:NSMakeRange(0,[[aTextStorage string] length])];
     NSCharacterSet *brackets = [NSCharacterSet characterSetWithCharactersInString:@"{"];
@@ -70,12 +63,14 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
 
 - (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage 
 {
-    OGRegularExpression *regex;
+    OGRegularExpression *regex, *trim;
     OGRegularExpressionMatch *aMatch;
     NSMutableArray *returnArray =[NSMutableArray array];
     [self markBlocks:aTextStorage];
 
     regex = [[[OGRegularExpression alloc] initWithString:@"([-+][^(-;]*\\([A-Za-z0-9 *_]*\\)[A-Za-z0-9_ ]+[^{;]*)" options:OgreFindNotEmptyOption] autorelease];
+    
+    trim = [[[OGRegularExpression alloc] initWithString:@"([\\n\\r]| +|:( *\\([^\\)]*\\) *[a-zA-Z0-9]*))" options:OgreFindNotEmptyOption] autorelease];
     
     NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string]] objectEnumerator];
     while ((aMatch = [matchEnumerator nextObject])) {
@@ -83,11 +78,11 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
         NSRange fullrange = [aMatch rangeOfMatchedString];
         if ([aTextStorage attribute:kSymbolParsingIsInABlock atIndex:jumprange.location effectiveRange:nil]) break;
         
-        NSString *name = [aMatch matchedString];
+        NSString *name = [trim replaceAllMatchesInString:[aMatch matchedString] withString:@" " options:OgreNoneOption];
         //NSLog(@"Symbol:%@",name);
         NSString *type = @"bar";
         int mask = 0;
-        NSImage *image = nil;
+        NSImage *image = [NSImage imageNamed:@"SymbolM"];
         
         [returnArray addObject:[SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type jumpRange:jumprange range:fullrange]];
     }
