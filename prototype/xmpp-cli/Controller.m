@@ -6,8 +6,8 @@
 //  Copyright (c) 2003 TheCodingMonkeys. All rights reserved.
 //
 
+#import <XMPP/XMLStream.h>
 #import "Controller.h"
-#import "XMLStream.h"
 
 @implementation Controller
 

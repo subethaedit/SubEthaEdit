@@ -92,7 +92,7 @@
 		08FB779DFE84155DC02AAC07 = {
 			children = (
 				08FB779EFE84155DC02AAC07,
-				1485AE5A05739DD500C9B70B,
+				1485AFA10573AEF800C9B70B,
 			);
 			isa = PBXGroup;
 			name = "External Frameworks and Libraries";
@@ -118,15 +118,15 @@
 //142
 //143
 //144
-		1485AE5A05739DD500C9B70B = {
+		1485AFA10573AEF800C9B70B = {
 			expectedFileType = wrapper.framework;
 			isa = PBXFileReference;
 			path = XMPP.framework;
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		1485AE5B05739DD500C9B70B = {
-			fileRef = 1485AE5A05739DD500C9B70B;
+		1485AFA20573AEF800C9B70B = {
+			fileRef = 1485AFA10573AEF800C9B70B;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -281,7 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F9C0486AA7600D96B5E,
-				1485AE5B05739DD500C9B70B,
+				1485AFA20573AEF800C9B70B,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

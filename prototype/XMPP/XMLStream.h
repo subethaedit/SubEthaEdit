@@ -28,7 +28,7 @@
 }
 
 - (void)writeData:(NSData *)aData;
-- (void)connectToHost:(NSHost *)aHost;
+- (void)connectToName:(NSString *)aName;
 - (void)disconnect;
 
 - (void)readBytes;

@@ -48,9 +48,10 @@
     return I_delegate;
 }
 
-- (void)connectToHost:(NSHost *)aHost
+- (void)connectToName:(NSString *)aName
 {
-    [NSStream getStreamsToHost:aHost
+    NSHost *host = [NSHost hostWithName:aName];
+    [NSStream getStreamsToHost:host
                           port:5222
                    inputStream:&I_inputStream
                   outputStream:&I_outputStream];
@@ -66,7 +67,7 @@
     [I_inputStream open];
     [I_outputStream open];
     
-    NSString *startElement = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><stream:stream xmlns:stream=\"http://etherx.jabber.org/streams\" to=\"%@\" xmlns=\"jabber:client\">", @"codingmonkeys.no-ip.org"];
+    NSString *startElement = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><stream:stream xmlns:stream=\"http://etherx.jabber.org/streams\" to=\"%@\" xmlns=\"jabber:client\">", aName];
     [self writeData:[startElement dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
