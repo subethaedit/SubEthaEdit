@@ -2088,7 +2088,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" | xargs rm -rf\n";
+			shellScript = "find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" | xargs rm -rf\n\nfind \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Frameworks\" -name \"Headers\" | xargs rm -rf";
 		};
 		14C51C6F0601C93C0030F488 = {
 			fileEncoding = 4;
@@ -6002,10 +6002,10 @@
 				142872FE06DF6BC400FB57C5,
 				148501710732CAB400A974A2,
 				1463F043062D2C9500C422F5,
-				14BC80DE07290AEB00657A93,
 				8D15AC300486D014006FF6A4,
 				8D15AC330486D014006FF6A4,
 				5E2A5BA806132149006242F9,
+				14BC80DE07290AEB00657A93,
 				142884C106E33F0C00FB57C5,
 			);
 			buildRules = (
