@@ -595,12 +595,17 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (void)leave {
     if (![self isServer]) {
         SessionProfile *profile = [I_profilesByUserID objectForKey:[self hostID]];
+        TCMMMState *state=[profile MMState];
         if (profile) {
             UserChangeOperation *iLeftOperation=[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[TCMMMUserManager myUserID] newGroup:@""];
             [self documentDidApplyOperation:iLeftOperation]; // note that this only comes through if content was already transmitted
             [profile abortIncomingMessages];
             [profile close];
             [profile setDelegate:nil];
+            [profile setMMState:nil];
+            [state setClient:nil];
+            [state setDelegate:nil];
+            [I_statesByClientID removeObjectForKey:[self hostID]];
             [I_profilesByUserID removeObjectForKey:[self hostID]];
             [self cleanupParticipants];
             [[TCMMMUserManager me] leaveSessionID:[self sessionID]];
