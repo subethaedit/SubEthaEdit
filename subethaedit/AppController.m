@@ -15,6 +15,8 @@
 #import "RendezvousBrowserController.h"
 #import "DebugPreferences.h"
 #import "EncodingPreferences.h"
+#import "HandshakeProfile.h"
+#import "TCMBEEPChannel.h"
 
 #define PORTRANGESTART 12347
 #define PORTRANGELENGTH 10
@@ -108,7 +110,9 @@
     [TCMPreferenceController registerPrefModule:debugPrefs];
     EncodingPreferences *encodingPrefs = [[EncodingPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:encodingPrefs];
-    
+    // set up beep profiles
+    [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
+
     [self addMe];
     // set up BEEPListener
     for (I_listeningPort=PORTRANGESTART;I_listeningPort<PORTRANGESTART+PORTRANGELENGTH;I_listeningPort++) {
@@ -122,6 +126,7 @@
             I_listener=nil;
         }
     }
+
     
     // Announce ourselves via rendezvous
     I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_emac._tcp." name:@"" port:I_listeningPort];

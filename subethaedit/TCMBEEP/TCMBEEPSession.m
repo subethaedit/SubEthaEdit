@@ -223,16 +223,6 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     [self activateChannel:I_managementChannel];
 
     [profile sendGreetingWithProfileURIs:[self profileURIs] featuresAttribute:nil localizeAttribute:nil];
-    
-//    NSString *greeting = @"Content-Type: application/beep+xml\r\n\r\n<greeting features=\"token1 token2\" localize=\"de fr cz\" invalid=\"haha\"><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
-//    greeting = [NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@", [greeting length], greeting, kTCMBEEPFrameTrailer];
-//    NSData *greetingData = [greeting dataUsingEncoding:NSASCIIStringEncoding];
-//    [self TCM_writeData:greetingData];
-//    
-//    greeting = @"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
-//    greeting = [NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@", [greeting length], greeting, kTCMBEEPFrameTrailer];
-//    greetingData = [greeting dataUsingEncoding:NSASCIIStringEncoding];
-//    [self TCM_writeData:greetingData];
 }
 
 - (void)close
@@ -485,7 +475,9 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 - (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI {
     TCMBEEPChannel *channel=[[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI];
     [self activateChannel:[channel autorelease]];
-    [[self delegate] BEEPSession:self didOpenChannelWithProfile:[channel profile]];
+    id delegate=[self delegate];
+    if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:)])
+        [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile]];
 }
 
 - (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray

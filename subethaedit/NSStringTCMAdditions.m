@@ -50,4 +50,8 @@
     return [[addressAsString copy] autorelease];
 }
 
++ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding {
+    return [[[NSString alloc] initWithData:aData encoding:aEncoding] autorelease];
+}
+
 @end

@@ -16,10 +16,9 @@
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel
 {
-    self = [super init];
+    self = [super initWithChannel:aChannel];
     if (self) {
         NSLog(@"Initialized TCMBEEPManagmentProfile");
-        [self setChannel:aChannel];
         I_firstMessage = YES;
         I_pendingChannelRequestMessageNumbers = [NSMutableDictionary new];
     }

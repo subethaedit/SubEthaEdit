@@ -36,6 +36,7 @@ static TCMMMPresenceManager *sharedInstance = nil;
 
 - (void)statusConnectToNetService:(NSNetService *)aNetService userID:(NSString *)aUserID sender:(id)aSender
 {
+    DEBUGLOG(@"Presence",5,@"netservice: %@",aNetService);
     NSMutableDictionary *statusOfUserID=[I_statusOfUserIDs objectForKey:aUserID];
     if (!statusOfUserID) {
         statusOfUserID=[NSMutableDictionary dictionary];

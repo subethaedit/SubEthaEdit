@@ -12,5 +12,6 @@
 @interface NSString (NSStringTCMAdditions)
 
 + (NSString *)stringWithAddressData:(NSData *)aData;
++ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding;
 
 @end
