@@ -2334,7 +2334,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Developer/Tools/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 SubEthaEdit.sdef";
+			shellScript = "/Developer/Tools/sdp -f a -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 SubEthaEdit.sdef\n\nsed s/hidden=\\\"hidden\\\"//g SubEthaEdit.sdef | /Developer/Tools/sdp -f st -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3";
 		};
 		14CF2C4506428E7000D430AA = {
 			fileEncoding = 4;
