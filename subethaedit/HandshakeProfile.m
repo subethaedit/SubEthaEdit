@@ -30,7 +30,7 @@
 }
 
 - (NSData *)handshakePayloadWithUserID:(NSString *)aUserID {
-    NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"userid=%@\001version=2.00\001token=none",aUserID] dataUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"GRTuserid=%@\001version=2.00\001token=none",aUserID] dataUsingEncoding:NSUTF8StringEncoding]];
     return payload;
 }
 
@@ -45,6 +45,36 @@
     // simple message reply model
     if ([aMessage isMSG]) {
         NSString *string=[NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding];
+        NSString *type=[string substringToIndex:3];
+        if ([type isEqualToString:@"GRT"]) {
+            string=[string substringFromIndex:3];
+            NSArray *pairsArray=[string componentsSeparatedByString: @"\001"];
+            NSEnumerator *pairs=[pairsArray objectEnumerator];
+            NSString *pair;
+            while ((pair = [pairs nextObject])) {
+                NSRange foundRange=[pair rangeOfString:@"="];
+                if (foundRange.location!=NSNotFound) {
+                    NSString *key = [[pair substringToIndex:foundRange.location] lowercaseString];
+                    NSString *value=[pair substringFromIndex:NSMaxRange(foundRange)];
+                    [I_remoteInfos setObject:value forKey:key];
+                }
+            }
+            NSLog(@"Handshake greeting was: %@",string);
+            NSString *userID=[[self delegate] profile:self shouldProceedHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+            if (userID) {
+                TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[self handshakePayloadWithUserID:userID]];
+                [[self channel] sendMessage:[message autorelease]];        
+            } else {
+                // brich ab
+            }
+        } else {
+            if ([type isEqualToString:@"ACK"]) {
+                [[self delegate] profile:self receivedAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+            }
+        }
+    } else if ([aMessage isRPY]) {
+        NSString *string=[NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding];
+        NSLog(@"ShakeHandRPY was: %@",string);
         string=[string substringFromIndex:3];
         NSArray *pairsArray=[string componentsSeparatedByString: @"\001"];
         NSEnumerator *pairs=[pairsArray objectEnumerator];
@@ -57,16 +87,6 @@
                 [I_remoteInfos setObject:value forKey:key];
             }
         }
-        NSLog(@"Handshake greeting was: %@",string);
-        NSString *userID=[[self delegate] profile:self shouldProceedHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
-        if (userID) {
-            TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[self handshakePayloadWithUserID:userID]];
-            [[self channel] sendMessage:[message autorelease]];        
-        } else {
-            // brich ab
-        }      
-    } else if ([aMessage isRPY]) {
-        NSLog(@"ShakeHandRPY was: %@",[NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding]);
         BOOL shouldAck=NO;
         if ([[self delegate] respondsToSelector:@selector(profile:shouldAckHandshakeWithUserID:)]) {
             shouldAck=[[self delegate] profile:self shouldAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
@@ -75,6 +95,7 @@
             NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"ACK"] dataUsingEncoding:NSUTF8StringEncoding]];
             TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[[self channel] nextMessageNumber] payload:payload];
             [[self channel] sendMessage:[message autorelease]];
+            [[self delegate] profile:self didAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
         } else {
             // brich ab
         }
