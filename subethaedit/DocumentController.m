@@ -139,6 +139,10 @@
     return document;
 }
 
+- (id)openUntitledDocumentOfType:(NSString *)docType display:(BOOL)display {
+    return [super openUntitledDocumentOfType:docType display:display];
+}
+
 - (void)removeDocument:(NSDocument *)document {
 
     int i;
@@ -199,7 +203,8 @@ struct ModificationInfo
             }
         }
         [replyEvent setDescriptor:listDesc forKeyword:keyDirectObject];
-    } else if ([event eventClass] == 'Foo ' && [event eventID] == 'Bar ') {
+    } else if ([event eventClass] == 'Hdra' && [event eventID] == 'See ') {
+
         NSMutableArray *documents = [NSMutableArray array];
         NSAppleEventDescriptor *listDesc = [event descriptorForKeyword:keyDirectObject];
         int i;

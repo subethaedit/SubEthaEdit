@@ -101,6 +101,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_sendODBCloseEvent;
 - (void)TCM_sendODBModifiedEvent;
 - (BOOL)TCM_validateDocument;
+- (NSDictionary *)TCM_propertiesOfCurrentSeeEvent;
 @end
 
 #pragma mark -
@@ -1293,6 +1294,29 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
+- (NSDictionary *)TCM_propertiesOfCurrentSeeEvent {
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"propertiesOfCurrentSeeEvent");
+    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+    if (!([eventDesc eventClass] == 'Hdra' && [eventDesc eventID] == 'See ')) {
+        return nil;
+    }
+    
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%@", [eventDesc description]);
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    NSString *IANACharSetName = [[eventDesc descriptorForKeyword:'Enc '] stringValue];
+    if (IANACharSetName) {
+        [parameters setObject:IANACharSetName forKey:@"IANACharSetName"];
+        
+    }
+    NSString *modeName = [[eventDesc descriptorForKeyword:'Mode'] stringValue];
+    if (modeName) {
+        [parameters setObject:modeName forKey:@"ModeName"];
+    }
+    
+    return parameters;
+}
+
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
     I_flags.shouldSelectModeOnSave=NO;
 
@@ -1347,6 +1371,27 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     } else {
         encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
     }
+    
+    
+    NSDictionary *arguments = [self TCM_propertiesOfCurrentSeeEvent];
+    if (arguments) {
+        NSString *modeName = [arguments objectForKey:@"ModeName"];
+        if (modeName) {
+            mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
+            encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+        }
+        
+        NSString *IANACharSetName = [arguments objectForKey:@"IANACharSetName"];
+        if (IANACharSetName) {
+            CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)IANACharSetName);
+            if (cfEncoding != kCFStringEncodingInvalidId) {
+                encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+            } else {
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"IANACharSetName invalid: %@", IANACharSetName);
+            }
+        }
+    }
+
 
     NSDictionary *docAttrs = nil;
     NSMutableDictionary *options = [NSMutableDictionary dictionary];

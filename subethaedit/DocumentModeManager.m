@@ -177,6 +177,18 @@
     return [NSString stringWithFormat:@"DocumentModeManager, FoundModeBundles:%@",[I_modeBundles description]];
 }
 
+- (DocumentMode *)documentModeForName:(NSString *)aName {
+    NSString *identifier;
+    if ([aName hasPrefix:@"SEEMode."]) {
+        identifier = aName;
+    } else {
+        identifier = [NSString stringWithFormat:@"SEEMode.%@", aName];
+    }
+    DocumentMode *mode = [self documentModeForIdentifier:identifier];
+    
+    return (mode ? mode : [self baseMode]);
+}
+
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier {
 	NSBundle *bundle=[I_modeBundles objectForKey:anIdentifier];
 	if (bundle) {
