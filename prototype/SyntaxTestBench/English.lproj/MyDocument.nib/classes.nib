@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {chooseSyntaxName = id; toggleSyntaxColoring = id; }; 
+            CLASS = MyDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_positionTextField" = NSTextField; 
+                "O_scrollView" = NSScrollView; 
+                "O_symbolPopUpButton" = TextPopUpControl; 
+                "O_window" = NSWindow; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }, 
+        {CLASS = TextPopUpControl; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }
+    ); 
+    IBVersion = 1; 
+}

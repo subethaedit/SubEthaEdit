@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Header</key>
+	<dict>
+		<key>Extensions</key>
+		<string>html,shtml,htm,xhtml,asp,shtm</string>
+                <key>Function Modifiers</key>
+		<array>
+			<dict>
+				<key>Replace</key>
+				<string>&lt;[^&gt;]*&gt;</string>
+				<key>With</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>Functions Regular Expression</key>
+		<string>&lt;[hH][0-9][^&gt;]*&gt;[^&lt;]+&lt;/[hH][0-9]&gt;</string>
+		<key>Name</key>
+		<string>HTML</string>
+                <key>Valid Characters for Variables</key>
+		<string>._0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+	</dict>
+	<key>Styles</key>
+	<array>
+		<dict>
+			<key>Color</key>
+			<array>
+				<real>0.53724998235702515</real>
+				<real>0.074510000646114349</real>
+				<real>0.31369999051094055</real>
+			</array>
+			<key>Name</key>
+			<string>Entities</string>
+			<key>Multiline</key>
+			<false/>
+			<key>Regular Expressions</key>
+			<array>
+                            <string>&amp;[^;]*;</string>
+			</array>
+                </dict>
+		<dict>
+			<key>Color</key>
+			<array>
+				<real>0.53724998235702515</real>
+				<real>0.074510000646114349</real>
+				<real>0.31369999051094055</real>
+			</array>
+			<key>Name</key>
+			<string>Tags</string>
+			<key>Multiline</key>
+			<false/>
+			<key>Regular Expressions</key>
+			<array>
+                            <string>&lt;[^&gt;]*&gt;</string>
+			</array>
+                </dict>
+		<dict>
+			<key>Color</key>
+			<array>
+				<real>0.608</real>
+				<real>0.267</real>
+				<real>0.0</real>
+			</array>
+			<key>Multiline</key>
+			<false/>
+			<key>Name</key>
+			<string>Parameters</string>
+			<key>Plain Strings</key>
+			<array>
+                                <string>(ABOVE|above) *=</string>
+                                <string>(ACCEPT|accept) *=</string>
+                                <string>(ACTION|action) *=</string>
+                                <string>(ALIGN|align) *=</string>
+                                <string>(ALINK|alink) *=</string>
+                                <string>(ALT|alt) *=</string>
+                                <string>(ANNOTATIONHEIGHT|annotationHeight) *=</string>
+                                <string>(ARCHIVE|archive) *=</string>
+                                <string>(BACKGROUND|background) *=</string>
+                                <string>(BELOW|below) *=</string>
+                                <string>(BGCOLOR|bgcolor) *=</string>
+                                <string>(BORDER|border) *=</string>
+                                <string>(BORDERCOLOR|bordercolor) *=</string>
+                                <string>(BORDERSTYLE|borderstyle) *=</string>
+                                <string>(CELLPADDING|cellpadding) *=</string>
+                                <string>(CELLSPACING|cellspacing) *=</string>
+                                <string>(CHARSET|charset) *=</string>
+                                <string>(CHECKFREQUENCY|checkFrequency) *=</string>
+                                <string>(CHECKED|checked) *=</string>
+                                <string>(CITE|cite) *=</string>
+                                <string>(CLASS|class) *=</string>
+                                <string>(CLASSID|classid) *=</string>
+                                <string>(CLEAR|clear) *=</string>
+                                <string>(CLIP|clip) *=</string>
+                                <string>(CODE|code) *=</string>
+                                <string>(CODEBASE|codebase) *=</string>
+                                <string>(COLOR|color) *=</string>
+                                <string>(COLS|cols) *=</string>
+                                <string>(COLSPAN|colspan) *=</string>
+                                <string>(CONTENT|content) *=</string>
+                                <string>(CONTINUE|continue) *=</string>
+                                <string>(CONTROLLER|controller) *=</string>
+                                <string>(COORDS|coords) *=</string>
+                                <string>(DEFER|defer) *=</string>
+                                <string>(DISABLED|disabled) *=</string>
+                                <string>(EFFECT|effect) *=</string>
+                                <string>(ENCTYPE|enctype) *=</string>
+                                <string>(FACE|face) *=</string>
+                                <string>(FORMS|forms) *=</string>
+                                <string>(FRAMEBORDER|frameborder) *=</string>
+                                <string>(HEIGHT|height) *=</string>
+                                <string>(HIDDEN|hidden) *=</string>
+                                <string>(HREF|href) *=</string>
+                                <string>(HSPACE|hspace) *=</string>
+                                <string>(HTTP-EQUIV|http-equiv) *=</string>
+                                <string>(ID|id) *=</string>
+                                <string>(ISMAP|ismap) *=</string>
+                                <string>(LANGUAGE|language) *=</string>
+                                <string>(LASTCHECKEDTIME|lastCheckedTime) *=</string>
+                                <string>(LEFT|left) *=</string>
+                                <string>(LEFTMARGIN|leftmargin) *=</string>
+                                <string>(LINK|link) *=</string>
+                                <string>(MARGINHEIGHT|marginheight) *=</string>
+                                <string>(MARGINWIDTH|marginwidth) *=</string>
+                                <string>(MAXLENGTH|maxlength) *=</string>
+                                <string>(MEDIA|media) *=</string>
+                                <string>(METHOD|method) *=</string>
+                                <string>(MULTIPLE|multiple) *=</string>
+                                <string>(NAME|name) *=</string>
+                                <string>(NORESIZE|noresize) *=</string>
+                                <string>(NOSHADE|noshade) *=</string>
+                                <string>(NOWRAP|nowrap) *=</string>
+                                <string>(ONABORT|onabort) *=</string>
+                                <string>(ONBLUR|onblur) *=</string>
+                                <string>(ONCHANGE|onchange) *=</string>
+                                <string>(ONCLICK|onclick) *=</string>
+                                <string>(ONERROR|onerror) *=</string>
+                                <string>(ONFOCUS|onfocus) *=</string>
+                                <string>(ONLOAD|onload) *=</string>
+                                <string>(ONMOUSEDOWN|onmousedown) *=</string>
+                                <string>(ONMOUSEOUT|onmouseout) *=</string>
+                                <string>(ONMOUSEOVER|onmouseover) *=</string>
+                                <string>(ONMOUSEUP|onmouseup) *=</string>
+                                <string>(ONRESET|onreset) *=</string>
+                                <string>(ONSUBMIT|onsubmit) *=</string>
+                                <string>(ONUNLOAD|onunload) *=</string>
+                                <string>(PAGEX|pagex) *=</string>
+                                <string>(PAGEY|pagey) *=</string>
+                                <string>(PLAIN|plain) *=</string>
+                                <string>(PLUGINSPAGE|pluginspage) *=</string>
+                                <string>(PROMPT|prompt) *=</string>
+                                <string>(READONLY|readonly) *=</string>
+                                <string>(REL|rel) *=</string>
+                                <string>(REV|rev) *=</string>
+                                <string>(ROWS|rows) *=</string>
+                                <string>(ROWSPAN|rowspan) *=</string>
+                                <string>(SCROLLBARPERCENTAGE|scrollbarPercentage) *=</string>
+                                <string>(SCROLLING|scrolling) *=</string>
+                                <string>(SELECTED|selected) *=</string>
+                                <string>(SEQNUM|seqnum) *=</string>
+                                <string>(SHAPE|shape) *=</string>
+                                <string>(SIZE|size) *=</string>
+                                <string>(SRC|src) *=</string>
+                                <string>(START|start) *=</string>
+                                <string>(STATUS|status) *=</string>
+                                <string>(STYLE|style) *=</string>
+                                <string>(TARGET|target) *=</string>
+                                <string>(TEXT|text) *=</string>
+                                <string>(TITLE|title) *=</string>
+                                <string>(TOP|top) *=</string>
+                                <string>(TOPMARGIN|topmargin) *=</string>
+                                <string>(TYPE|type) *=</string>
+                                <string>(USEMAP|usemap) *=</string>
+                                <string>(VALIGN|valign) *=</string>
+                                <string>(VALUE|value) *=</string>
+                                <string>(VISIBILITY|visibility) *=</string>
+                                <string>(VLINK|vlink) *=</string>
+                                <string>(VSPACE|vspace) *=</string>
+                                <string>(WIDTH|width) *=</string>
+                                <string>(WORDCOUNT|wordCount) *=</string>
+                                <string>(X-COLLAPSED|x-collapsed) *=</string>
+                                <string>(Z-INDEX|z-index) *=</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Color</key>
+                        <array>
+				<real>0.1</real>
+				<real>0.1</real>
+				<real>0.65</real>
+			</array>
+			<key>Multiline</key>
+			<false/>
+			<key>Regular Expressions</key>
+			<array>
+                            <string>("[^"]*")</string>
+			</array>
+			<key>Name</key>
+			<string>Strings</string>
+		</dict>
+		<dict>
+			<key>Color</key>
+			<array>
+				<real>0.1371999979019165</real>
+				<real>0.43130001425743103</real>
+				<real>0.14499999582767487</real>
+			</array>
+			<key>Multiline</key>
+			<true/>
+			<key>Multiline Begin</key>
+			<string>&lt;!--</string>
+			<key>Multiline End</key>
+			<string>--&gt;</string>
+			<key>Name</key>
+			<string>Comments</string>
+		</dict>
+		<dict>
+			<key>Color</key>
+			<array>
+				<real>0.1371999979019165</real>
+				<real>0.43130001425743103</real>
+				<real>0.14499999582767487</real>
+			</array>
+			<key>Multiline</key>
+			<true/>
+			<key>Multiline Begin</key>
+			<string>&lt;\?</string>
+			<key>Multiline End</key>
+			<string>\?&gt;</string>
+			<key>Name</key>
+			<string>Comments PHP Style</string>
+		</dict>
+	</array>
+</dict>
+</plist>
