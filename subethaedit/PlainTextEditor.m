@@ -143,6 +143,152 @@
     return (PlainTextDocument *)[I_windowController document];
 }
 
+- (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent{
+    int changedChars=0;
+    NSRange affectedCharRange=NSMakeRange(aLineRange.location,0);
+    NSString *replacementString=@"";
+    NSTextStorage *textStorage=[aTextView textStorage];
+    NSString *string=[textStorage string];
+    int tabWidth=[[self document] tabWidth];
+    if ([[self document] usesTabs]) {
+         if (aIndent) {
+            replacementString=@"\t";
+            changedChars+=1;        
+        } else {
+            if ([string length]>aLineRange.location &&
+            	[string characterAtIndex:aLineRange.location]==[@"\t" characterAtIndex:0]) {
+                affectedCharRange.length=1;
+                changedChars-=1;
+            }
+        }
+    } else {
+        unsigned firstCharacter=aLineRange.location;
+        // replace tabs with spaces
+        while (firstCharacter<NSMaxRange(aLineRange)) {
+            unichar character;
+            character=[string characterAtIndex:firstCharacter];
+            if (character==[@" " characterAtIndex:0]) {
+                firstCharacter++;
+            } else if (character==[@"\t" characterAtIndex:0]) {
+                changedChars+=tabWidth-1;
+                firstCharacter++;
+            } else {
+                break;
+            }   
+        }
+        if (changedChars!=0) {
+            NSRange affectedRange=NSMakeRange(aLineRange.location,firstCharacter-aLineRange.location);
+            NSString *replacementString=[@" " stringByPaddingToLength:firstCharacter-aLineRange.location+changedChars 
+                                                       withString:@" " startingAtIndex:0];
+            if ([aTextView shouldChangeTextInRange:affectedRange 
+                                 replacementString:replacementString]) {
+                NSAttributedString *attributedReplaceString=[[NSAttributedString alloc] 
+                                                                initWithString:replacementString 
+                                                                    attributes:[aTextView typingAttributes]];
+                
+                [textStorage replaceCharactersInRange:affectedRange 
+                                  withAttributedString:attributedReplaceString];                    
+                firstCharacter+=changedChars;  
+                [attributedReplaceString release];
+            }
+        }
+
+        if (aIndent) {
+            changedChars+=tabWidth;
+            replacementString=[@" " stringByPaddingToLength:tabWidth
+                                                 withString:@" " startingAtIndex:0];
+        } else {
+            if (firstCharacter>=affectedCharRange.location+tabWidth) {
+                affectedCharRange.length=tabWidth;
+                changedChars-=tabWidth;
+            } else {
+                affectedCharRange.length=firstCharacter-affectedCharRange.location;
+                changedChars-=affectedCharRange.length;
+            }                 
+        }
+    }
+    if (affectedCharRange.length>0 || [replacementString length]>0) {
+        if ([aTextView  shouldChangeTextInRange:affectedCharRange 
+                              replacementString:replacementString]) {
+            NSAttributedString *attributedReplaceString=[[NSAttributedString alloc] 
+                                                            initWithString:replacementString 
+                                                                attributes:[aTextView typingAttributes]];
+            [textStorage replaceCharactersInRange:affectedCharRange 
+                              withAttributedString:attributedReplaceString];                    
+            [attributedReplaceString release];
+        }
+    }
+    return changedChars;
+}
+
+- (void)dentParagraphsInTextView:(NSTextView *)aTextView in:(BOOL)aIndent{
+//    if (I_blockedit.hasBlockeditRanges) {
+//        NSBeep();
+//    } else {
+    
+        NSRange affectedRange=[aTextView selectedRange];
+        [aTextView setSelectedRange:NSMakeRange(affectedRange.location,0)];
+        NSRange lineRange;
+        NSUndoManager *undoManager=[[self document] undoManager];
+        NSTextStorage *textStorage=[aTextView textStorage];
+        NSString *string=[textStorage string];
+        
+        [undoManager beginUndoGrouping];
+        if (affectedRange.length==0) {
+            [textStorage beginEditing];
+            lineRange=[string lineRangeForRange:affectedRange];
+            int lengthChange=[self dentLineInTextView:aTextView withRange:lineRange in:aIndent];
+            [textStorage endEditing];
+            if (lengthChange>0) {
+                affectedRange.location+=lengthChange;
+            } else if (lengthChange<0) {
+                if (affectedRange.location-lineRange.location<ABS(lengthChange)) {
+                    affectedRange.location=lineRange.location;
+                } else {
+                    affectedRange.location+=lengthChange;
+                }
+            }
+            [aTextView setSelectedRange:affectedRange];
+        } else {
+            affectedRange=[string lineRangeForRange:affectedRange];
+            [textStorage beginEditing];
+            lineRange.location=NSMaxRange(affectedRange)-1;
+            lineRange.length=1;
+            lineRange=[string lineRangeForRange:lineRange];        
+            int result=0;
+            int changedLength=0;
+            while (!DisjointRanges(lineRange,affectedRange)) {
+                result=[self dentLineInTextView:aTextView withRange:lineRange in:aIndent];
+    
+                changedLength+=result;
+                // special case
+                if (lineRange.location==0) break;
+                
+                lineRange=[string lineRangeForRange:NSMakeRange(lineRange.location-1,1)];  
+            }
+            affectedRange.length+=changedLength;
+            [textStorage endEditing];
+            [aTextView didChangeText];
+            
+            if (affectedRange.location<0 || NSMaxRange(affectedRange)>[textStorage length]) {
+                if (affectedRange.length>0) {
+                    affectedRange=NSIntersectionRange(affectedRange,NSMakeRange(0,[textStorage length]));
+                } else {
+                    if (affectedRange.location<0) {
+                        affectedRange.location=0;
+                    } else {
+                        affectedRange.location=[textStorage length];
+                    }
+                }
+            }
+            [aTextView setSelectedRange:affectedRange];
+        } 
+        [undoManager endUndoGrouping];
+//    }
+}
+
+
+#pragma mark -
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
@@ -247,6 +393,14 @@
 
 - (IBAction)toggleBottomStatusBar:(id)aSender {
     [self setShowsBottomStatusBar:![self showsBottomStatusBar]];
+}
+
+- (IBAction)shiftRight:(id)aSender {
+    [self dentParagraphsInTextView:I_textView in:YES];
+}
+
+- (IBAction)shiftLeft:(id)aSender {
+    [self dentParagraphsInTextView:I_textView in:NO];
 }
 
 #pragma mark -

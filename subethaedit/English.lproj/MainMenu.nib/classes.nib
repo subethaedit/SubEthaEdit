@@ -12,6 +12,8 @@
                 changeTabWidth = id; 
                 conceal = id; 
                 newView = id; 
+                shiftLeft = id; 
+                shiftRight = id; 
                 toggleBottomStatusBar = id; 
                 toggleCharacterWrapping = id; 
                 toggleIndentNewLines = id; 
