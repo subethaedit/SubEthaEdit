@@ -76,7 +76,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     [aString removeAttribute:kSyntaxHighlightingStateName range:aRange];
     [aString removeAttribute:kSyntaxHighlightingStateDelimiterName range:aRange];
     
-    if (stateStarts) do {
+    do {
         //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"New loop with Range: %@",NSStringFromRange(currentRange));
         NSAutoreleasePool *syntaxPool = [NSAutoreleasePool new];
 
