@@ -343,6 +343,8 @@ subethaedit/GetURLCommand.h -text
 subethaedit/GetURLCommand.m -text
 subethaedit/GutterRulerView.h -text
 subethaedit/GutterRulerView.m -text
+subethaedit/HTMLExport/Base.css -text
+subethaedit/HTMLExport/Base.html -text
 subethaedit/HandshakeProfile.h -text
 subethaedit/HandshakeProfile.m -text
 subethaedit/HueToColorValueTransformer.h -text

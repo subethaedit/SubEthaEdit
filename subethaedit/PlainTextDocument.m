@@ -1293,13 +1293,37 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     NSString *directory=[aPanel filename];
     NSString *htmlFile=[directory stringByAppendingPathComponent:[[directory lastPathComponent] stringByAppendingPathExtension:@"html"]];
-    [[NSFileManager defaultManager] createDirectoryAtPath:directory attributes:nil];
+    NSFileManager *fileManager=[NSFileManager defaultManager];
+    BOOL isDirectory;
+    if ([fileManager fileExistsAtPath:directory isDirectory:&isDirectory]) {
+        if (![fileManager removeFileAtPath:directory handler:nil]) {
+            [[NSAlert alertWithMessageText:NSLocalizedString(@"ExportCouldNotOverwriteTitle",@"Title of Export error message when file to be overwritten cannot be deleted") 
+                    defaultButton:NSLocalizedString(@"OK",nil) 
+                    alternateButton:nil otherButton:nil 
+                    informativeTextWithFormat:NSLocalizedString(@"ExportCouldNotOverwriteText",
+                                                                @"Text of Export error message when file to be overwritten cannot be deleted")] runModal];
+            
+            return;
+        }
+    }
+    [fileManager createDirectoryAtPath:directory attributes:nil];
+    NSString *imageDirectory=[directory stringByAppendingPathComponent:@"img"];
+    [fileManager createDirectoryAtPath:imageDirectory attributes:nil];
     NSMutableSet *shortContributorIDs=[[NSMutableSet new] autorelease];
     
-    NSMutableString *result=[NSMutableString string];
+    // Load Templates
+    NSString *templateDirectory=[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"HTMLExport"];
+    NSString *documentBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.html"]] 
+                                    encoding:NSUTF8StringEncoding] autorelease];
+    NSString *styleSheetBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.css"]] 
+                                    encoding:NSUTF8StringEncoding] autorelease];
+    NSMutableString *styleSheet=[NSMutableString stringWithFormat:styleSheetBase];
     
-    NSMutableString *stylesheet=[NSMutableString stringWithString:@"div.card {\n    float:left;\n    display:inline;\n    border: 1px solid;\n    border-color:#ddd;\n    background-color:#eee;\n    margin:10px;\n    width:250px;\n    height:90px;\n    font-size:12px;\n    color:#555;\n    clear: right;\n}\n\ndiv.card img {\n    float:left;\n    padding-right:10px;\n    width:64px;\n    height:64px;\n    margin:10px;\n}\n\ndiv.Contributors {\n    clear: all;\n}\n\nh4 {\n    padding-bottom:0px;\n    margin-bottom:0.5em;\n    font-size:14px;\n    color:#000;\n    \n}\n"];
-    
+    NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
+
+    // ShortID users
+    BOOL colorConflict=NO;
+    NSMutableSet *userColors=[NSMutableSet new];
     NSMutableArray *contributorDictionaries=[NSMutableArray array];
     NSMutableArray *lurkerDictionaries=[NSMutableArray array];
     NSMutableDictionary *contributorDictionary=[NSMutableDictionary dictionary];
@@ -1309,6 +1333,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSCharacterSet *validCharacters=[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
     while ((contributor=[contributorEnumerator nextObject])) {
         NSScanner *scanner=[NSScanner scannerWithString:[contributor name]];
+        [scanner setCharactersToBeSkipped:[validCharacters invertedSet]];
         NSMutableString *IDBasis=[NSMutableString string];
         while (![scanner isAtEnd]) {
             NSString *scannedString;
@@ -1325,22 +1350,46 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
         }
         [shortContributorIDs addObject:IDString];
-        [[[contributor properties] objectForKey:@"ImageAsPNG"] writeToFile:[directory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
+        [[[contributor properties] objectForKey:@"ImageAsPNG"] writeToFile:[imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
         NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
         if ([contributorIDs containsObject:[contributor userID]]) {
             [contributorDictionary   setObject:dictionary forKey:[contributor userID]];
             [contributorDictionaries addObject:dictionary];
-            NSColor *userColor=[[self documentBackgroundColor] blendedColorWithFraction:[[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
-                             ofColor:[contributor changeColor]];
-            [stylesheet appendFormat:@".%@ {\n    background-color: %@;\n}\n\n",IDString,[userColor HTMLString]];
+            if ([userColors containsObject:[hueTrans reverseTransformedValue:[contributor changeColor]]]) {
+                colorConflict=YES;
+            }
+            [userColors addObject:[hueTrans reverseTransformedValue:[contributor changeColor]]];
         } else {
             [lurkerDictionaries addObject:dictionary];
         }
         
     }
-    NSString *displayName=[[self displayName] stringByReplacingEntities];
-    [result appendFormat:@"<html><head><title>%@</title><style type=\"text/css\">\n%@\n</style></head><body><h1>%@</h1>\n",displayName,stylesheet,displayName];
+
+    NSSortDescriptor *nameDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"User.name" 
+              ascending:YES
+              selector:@selector(caseInsensitiveCompare:)] autorelease];
+    [contributorDictionaries sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
+    [lurkerDictionaries      sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
+
+    NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
+    NSDictionary *contributorDict=nil;
+    int i=0;
+
+    while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
+        NSColor *color=colorConflict?
+                [hueTrans transformedValue:[NSNumber numberWithFloat:(float)i/[contributorDictionaries count]*100.]]:
+                [[contributorDict objectForKey:@"User"] changeColor];
+        
+        NSColor *userColor=[[self documentBackgroundColor] blendedColorWithFraction:[[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
+                             ofColor:color];
+        [styleSheet appendFormat:@".%@ {\n    background-color: %@;\n}\n\n",[contributorDict objectForKey:@"ShortID"],[userColor HTMLString]];
+        i++;
+    }
     
+    // prepare DisplayName
+    NSString *displayName=[[self displayName] stringByReplacingEntities];
+    
+    // modify TextStorage
     NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
     NSMutableAttributedString *attributedStringForXHTML=[(TextStorage *)[self textStorage] attributedStringForXHTMLExportWithRange:wholeRange foregroundColor:[self documentForegroundColor] backgroundColor:[self documentBackgroundColor]];
     
@@ -1358,58 +1407,100 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     // Contributors as Cards
     
-    [result appendString:@"<div class=\"Contributors\">"];
-    NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
-    NSDictionary *contributorDict=nil;
-    while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
-        NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntities];
-        NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
-        NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntities];
-        NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntities];
-        [result appendFormat:@"<div class=\"Card\"><img src=\"%@.png\" alt=\"%@\"/><h4 class=\"%@\">%@</h4>aim: %@<br />email: %@</div>\n",shortID,name,shortID,name,aim,email];
+//    [result appendString:@"<div>"];
+//    NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
+//    NSDictionary *contributorDict=nil;
+//    while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
+//        NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntities];
+//        NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
+//        NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntities];
+//        NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntities];
+//        [result appendFormat:@"<div class=\"Card %@\"><img src=\"img/%@.png\" alt=\"%@\"/><h4>%@</h4>",shortID,shortID,name,name];
+//        if ([aim length]) {
+//            [result appendFormat:@"aim: <a href=\"aim:goim?screenname=%@\">%@</a>",aim,aim];
+//        }
+//        [result appendString:@"<br />"];
+//        if ([email length]) {
+//            [result appendFormat:@"email: <a href=\"%@\">%@</a>",email,email];
+//        }
+//        [result appendFormat:@"</div>\n"];
+//    }
+//    [result appendString:@"</div>\n"];
+//    [result appendString:@"<div class=\"Clearer\"></div>"];
+
+    // Prepare Legend
+    NSMutableString *legend=[NSMutableString string];    
+    // Contriburtors and lurkers as Table
+    // lurkers as Table
+    [legend appendString:@"<table>"];
+    if ([contributorDictionaries count]) {
+        [legend appendString:@"<tr><th colspan=\"3\">Contributors</th></tr>\n"];
+        NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
+        NSDictionary *contributorDict=nil;
+        while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
+            NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntities];
+            NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
+            NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntities];
+            NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntities];
+            [legend appendFormat:@"<tr class=\"%@\"><th><img src=\"img/%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th><td class=\"ContributorName\">%@</td><td>",shortID,shortID,name,name];
+            if ([aim length]) {
+                [legend appendFormat:@"aim: <a href=\"aim:goim?screenname=%@\">%@</a>",aim,aim];
+            }
+            [legend appendString:@"<br />"];
+            if ([email length]) {
+                [legend appendFormat:@"email: <a href=\"%@\">%@</a>",email,email];
+            }
+            [legend appendString:@"</td></tr>\n"];
+        }
+        
     }
-    [result appendString:@"</div>\n"];
-    [result appendString:@"<br clear=\"all\"/>"];
-    
-    // lurkers as Tables
     if ([lurkerDictionaries count]) {
-        [result appendString:@"<table><tr><td></td><td>Name</td><td>email</td><td>aim</td></tr>\n"];
+        [legend appendString:@"<tr><th colspan=\"3\">Visitors</th></tr>\n"];
         NSEnumerator *lurkers=[lurkerDictionaries objectEnumerator];
         NSDictionary *lurker=nil;
+        int alternateFlag=0;
         while ((lurker=[lurkers nextObject])) {
             NSString *name   =[[lurker valueForKeyPath:@"User.name"] stringByReplacingEntities];
             NSString *shortID= [lurker valueForKeyPath:@"ShortID"];
             NSString *aim    =[[lurker valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntities];
             NSString *email  =[[lurker valueForKeyPath:@"User.properties.Email"] stringByReplacingEntities];
-            [result appendFormat:@"<tr><td><img src=\"%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></td><td>%@</td><td>%@</td><td>%@</td></tr>",shortID,name,name,aim,email];
+            [legend appendFormat:@"<tr%@><th><img src=\"img/%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th><td class=\"VisitorName\">%@</td><td>",alternateFlag?@" class=\"Alternate\"":@"",shortID,name,name];
+            if ([aim length]) {
+                [legend appendFormat:@"aim: <a href=\"aim:goim?screenname=%@\">%@</a>",aim,aim];
+            }
+            [legend appendString:@"<br />"];
+            if ([email length]) {
+                [legend appendFormat:@"email: <a href=\"%@\">%@</a>",email,email];
+            }
+            [legend appendString:@"</td></tr>\n"];
+            alternateFlag=1-alternateFlag;
         }
-        [result appendString:@"</table>\n"];
     }
+    [legend appendString:@"</table>\n"];
     
-    
-    NSFont *baseFont=[self fontWithTrait:0];
-    NSString *fontString=[NSString stringWithFormat:@"%@",[baseFont fontName]];
-    if ([baseFont isFixedPitch]) {
-        fontString=[fontString stringByAppendingString:@", monospace"];
-    } else {
-        fontString=[fontString stringByAppendingString:@", serif"];
-    }
-
+    // Prepare Content    
+    NSMutableString *content=[NSMutableString string];
+    NSString *fontString=@"";
+    if ([[self fontWithTrait:0] isFixedPitch]) {
+        fontString=@"font-size:small; font-family: monospace; ";
+    } 
     [attributedStringForXHTML detab:YES inRange:wholeRange tabWidth:[self tabWidth] askingTextView:nil];
     BOOL wrapsLines=[self wrapLines];
     NSString *topLevelTag=wrapsLines?@"div":@"pre";
     if (wrapsLines) {
         [attributedStringForXHTML makeLeadingWhitespaceNonBreaking];
     }
-    NSMutableString *content=[attributedStringForXHTML XHTMLStringWithAttributeMapping:baseAttributeMapping];
+    NSMutableString *innerContent=[attributedStringForXHTML XHTMLStringWithAttributeMapping:baseAttributeMapping];
     if (wrapsLines) {
-        [content addBRs];
+        [innerContent addBRs];
     }
-    [result appendFormat:@"<%@ style=\"font-size:small; color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto; font-family:%@;\">",topLevelTag, [[self documentForegroundColor] HTMLString],[[self documentBackgroundColor] HTMLString],fontString];
-    [result appendString:content];
-    [result appendFormat:@"</%@>",topLevelTag];
-    
-    [result appendString:@"</body></html>"];
+    [content appendFormat:@"<%@ style=\"color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto;%@\">",topLevelTag, [[self documentForegroundColor] HTMLString],[[self documentBackgroundColor] HTMLString],fontString];
+    [content appendString:innerContent];
+    [content appendFormat:@"</%@>",topLevelTag];
+
+
+    // finish creation :-)    
+    NSString *result=[NSString stringWithFormat:documentBase,displayName,styleSheet,legend,content];
     [[result dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:htmlFile atomically:YES];
 }
 
