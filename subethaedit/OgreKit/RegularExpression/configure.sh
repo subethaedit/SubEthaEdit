@@ -1,9 +1,14 @@
 #!/bin/bash
 
 clean="clean"
-echo "argument"
-echo "$1"
-if [ $1 = $clean ]; then
+
+if [ $1 ]; then
+    buildaction=$1
+else
+    buildaction="build"
+fi
+
+if [ $buildaction = $clean ]; then
     rm -rf "RegularExpression/oniguruma"
 fi
 

@@ -51,7 +51,7 @@ static OSStatus RemoveFiles(CFArrayRef files, CFDictionaryRef *result)
     err = MoreSecSetPrivilegedEUID();
     count = [(NSArray *)files count];
     if (err == noErr) {
-        BOOL result;
+        BOOL result = YES;
         for (i = 0; i < count; i++) {
             result = [fileManager removeFileAtPath:[(NSArray *)files objectAtIndex:i] handler:nil];
             if (!result) {
