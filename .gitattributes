@@ -361,6 +361,10 @@ subethaedit/Modes/Ruby.mode/Contents/Info.plist -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/SQL.mode/Contents/Info.plist -text
+subethaedit/Modes/SQL.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/SQL.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/SQL.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/XML.mode/Contents/Info.plist -text
 subethaedit/Modes/XML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/XML.mode/Contents/Resources/SyntaxDefinition.xml -text
