@@ -325,7 +325,7 @@ NSString * const TCMMMSessionDidChangeNotification =
             [I_closingStates addObject:state];
             [state handleOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[TCMMMUserManager myUserID] newGroup:@""]];
             [state setDelegate:nil];
-            //[profile close];
+            [profile close];
             [I_participants removeAllObjects];
             [I_contributors removeAllObjects];
             [I_profilesByUserID removeObjectForKey:[self hostID]];

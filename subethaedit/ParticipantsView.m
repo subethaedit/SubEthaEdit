@@ -9,7 +9,7 @@
 #import "ParticipantsView.h"
 
 
-#define ITEMROWHEIGHT 20.
+#define ITEMROWHEIGHT 22.
 #define CHILDROWHEIGHT 38.
 
 static NSColor *alternateRowColor=nil;
@@ -146,15 +146,16 @@ static NSColor *alternateRowColor=nil;
     if (!mNameAttributes) {
         mNameAttributes = [[NSMutableDictionary dictionaryWithObject:
             [NSFont systemFontOfSize:[NSFont smallSystemFontSize]] forKey:NSFontAttributeName] retain];
-        [mNameAttributes setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+        [mNameAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     }
     NSRect bounds=[self bounds];
     NSRect itemRect=NSMakeRect(0, 0,bounds.size.width, ITEMROWHEIGHT);
-    [[NSColor grayColor] set];
-    if ([I_selectedRows containsIndex:[self rowForItem:aItemIndex child:-1]]) {
-        [[NSColor blackColor] set];
-    }    
-    NSRectFill(itemRect);
+    NSImage *fillImage=[NSImage imageNamed:@"ParticipantBar_Fill"];
+    [fillImage setFlipped:YES];
+    [fillImage drawInRect:itemRect fromRect:NSMakeRect(0,0,[fillImage size].width,[fillImage size].height) operation:NSCompositeCopy fraction:1.0];
+    [[NSColor lightGrayColor] set];
+    itemRect.size.height-=1;
+    NSFrameRect(itemRect);
     
     id dataSource=[self dataSource];
     
@@ -167,7 +168,7 @@ static NSColor *alternateRowColor=nil;
     NSString *string=[dataSource participantsView:self objectValueForTag:ParticipantsItemNameTag ofItemAtIndex:aItemIndex];
     [[NSColor whiteColor] set];
     if (string) {
-        [string drawAtPoint:NSMakePoint(32.+9+16.+3.,4.)
+        [string drawAtPoint:NSMakePoint(16.+9+16.+3.,3.)
                withAttributes:mNameAttributes];
     }
 

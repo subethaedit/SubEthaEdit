@@ -367,14 +367,15 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 - (void)handleError:(NSNumber *)error withService:(NSNetService *)service
 {
     static int count=1;
-    NSLog(@"An error occurred with service %@.%@.%@, error code = %@",
-        [service name], [service type], [service domain], error);
     // Handle error here
     if ([error intValue]==NSNetServicesCollisionError) {
         [I_netService autorelease];
         I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_see._tcp." name:[NSString stringWithFormat:@"%@ (%d)",[self serviceName],count++] port:[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
         [I_netService setDelegate:self];
         [self TCM_validateServiceAnnouncement];
+    } else {
+        NSLog(@"An error occurred with service %@.%@.%@, error code = %@",
+            [service name], [service type], [service domain], error);
     }
 }
 
