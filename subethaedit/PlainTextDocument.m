@@ -84,6 +84,8 @@ NSString * const PlainTextDocumentUserDidChangeSelectionNotification =
                @"PlainTextDocumentUserDidChangeSelectionNotification";
 NSString * const PlainTextDocumentDidChangeDisplayNameNotification = 
                @"PlainTextDocumentDidChangeDisplayNameNotification";
+NSString * const PlainTextDocumentDidChangeTextStorageNotification = 
+               @"PlainTextDocumentDidChangeTextStorageNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = 
                @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
@@ -2803,6 +2805,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 
     }
+    [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidChangeTextStorageNotification object:self]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
 
 - (NSDictionary *)blockeditAttributesForTextStorage:(TextStorage *)aTextStorage {

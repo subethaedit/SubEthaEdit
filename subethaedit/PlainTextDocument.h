@@ -16,6 +16,7 @@
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;
 
+extern NSString * const PlainTextDocumentDidChangeTextStorageNotification;
 extern NSString * const PlainTextDocumentDidChangeSymbolsNotification;
 extern NSString * const PlainTextDocumentDidChangeEditStatusNotification;
 extern NSString * const PlainTextDocumentParticipantsDidChangeNotification;
