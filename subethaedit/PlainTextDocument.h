@@ -38,6 +38,7 @@ extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
     NSDictionary  *I_plainTextAttributes;
     NSMutableParagraphStyle *I_defaultParagraphStyle;
     NSDictionary *I_fileAttributes;
+    NSDictionary *I_ODBParameters;
     
     IBOutlet NSView *O_savePanelAccessoryView;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
@@ -69,6 +70,8 @@ extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
 - (void)setFileEncoding:(unsigned int)anEncoding;
 - (NSDictionary *)fileAttributes;
 - (void)setFileAttributes:(NSDictionary *)attributes;
+- (NSDictionary *)ODBParameters;
+- (void)setODBParameters:(NSDictionary *)aDictionary;
 
 - (BOOL)wrapsCharacters;
 - (BOOL)usesTabs;

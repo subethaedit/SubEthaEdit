@@ -267,6 +267,7 @@ subethaedit/NSNetServiceTCMAdditions.h -text
 subethaedit/NSNetServiceTCMAdditions.m -text
 subethaedit/NSStringTCMAdditions.h -text
 subethaedit/NSStringTCMAdditions.m -text
+subethaedit/ODBEditorSuite.h -text
 subethaedit/OgreKit/FindPanel/Dutch.lproj/OgreAPFCLocalizable.strings -text
 subethaedit/OgreKit/FindPanel/Dutch.lproj/OgreAdvancedFindPanel.nib/classes.nib -text
 subethaedit/OgreKit/FindPanel/Dutch.lproj/OgreAdvancedFindPanel.nib/info.nib -text

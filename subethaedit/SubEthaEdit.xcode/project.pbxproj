@@ -38,6 +38,7 @@
 				31B738E40611C6330004F28D,
 				5EAD69AA05EE5F5300E75BFF,
 				144DD73B061049D90047D354,
+				14497AB8062C380000E1C9F1,
 				1058C7A7FEA54F5311CA2CBB,
 				144BC7C905EE5C84006397BC,
 				14AE9D6B05F610EB0025CADE,
@@ -349,6 +350,34 @@
 		};
 		1444315F0611B9E4008FDA2E = {
 			fileRef = 1444315D0611B9E4008FDA2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14497AA5062C37E800E1C9F1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = ODBEditorSuite.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14497AA6062C37E800E1C9F1 = {
+			fileRef = 14497AA5062C37E800E1C9F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14497AB8062C380000E1C9F1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Carbon.framework;
+			path = /System/Library/Frameworks/Carbon.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		14497AB9062C380000E1C9F1 = {
+			fileRef = 14497AB8062C380000E1C9F1;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1585,6 +1614,7 @@
 		2A37F4AFFDCFA73011CA2CEA = {
 			children = (
 				5E4F35BD05EF77C5009D71ED,
+				14497AA5062C37E800E1C9F1,
 				32DBCF750370BD2300C91783,
 				2A37F4B0FDCFA73011CA2CEA,
 				14963A44061F0FF6009B8E42,
@@ -3223,6 +3253,7 @@
 				5E0462F6062326DA00D94C08,
 				5E046CC806256E4600D94C08,
 				5E3E6D6A062C1A1E006EB7A1,
+				14497AA6062C37E800E1C9F1,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3374,6 +3405,7 @@
 				14AE9D6C05F610EB0025CADE,
 				144DD73C061049D90047D354,
 				31B738E50611C6330004F28D,
+				14497AB9062C380000E1C9F1,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
