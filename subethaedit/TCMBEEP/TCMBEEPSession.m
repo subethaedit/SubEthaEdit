@@ -104,6 +104,11 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     I_timeout = [[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey];
 
 #ifndef TCM_NO_DEBUG
+	isLogging = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableBEEPLogging"];
+	if (!isLogging) {
+		return;
+	}
+	
     if (!logDirectory) {
         NSString *appName = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension];
         NSString *appDir = [[@"~/Library/Logs/" stringByExpandingTildeInPath] stringByAppendingPathComponent:appName];
@@ -204,17 +209,19 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [I_terminateTimer invalidate];
     [I_terminateTimer release];
 #ifndef TCM_NO_DEBUG
-    NSString *trailerString = [NSString stringWithFormat:@"\n\n[%@] dealloc\n\n", [[NSCalendarDate calendarDate] description]];
-    NSData *trailerData = [trailerString dataUsingEncoding:NSASCIIStringEncoding];
-    [I_rawLogInHandle writeData:trailerData];
-    [I_rawLogInHandle closeFile];
-    [I_rawLogInHandle release];
-    [I_rawLogOutHandle writeData:trailerData];
-    [I_rawLogOutHandle closeFile];
-    [I_rawLogOutHandle release];
-    [I_frameLogHandle writeData:trailerData];
-    [I_frameLogHandle closeFile];
-    [I_frameLogHandle release];
+	if (isLogging) {
+		NSString *trailerString = [NSString stringWithFormat:@"\n\n[%@] dealloc\n\n", [[NSCalendarDate calendarDate] description]];
+		NSData *trailerData = [trailerString dataUsingEncoding:NSASCIIStringEncoding];
+		[I_rawLogInHandle writeData:trailerData];
+		[I_rawLogInHandle closeFile];
+		[I_rawLogInHandle release];
+		[I_rawLogOutHandle writeData:trailerData];
+		[I_rawLogOutHandle closeFile];
+		[I_rawLogOutHandle release];
+		[I_frameLogHandle writeData:trailerData];
+		[I_frameLogHandle closeFile];
+		[I_frameLogHandle release];
+	}
 #endif
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"BEEPSession deallocated");
     [super dealloc];
@@ -493,7 +500,9 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                 while ((frame = [frames nextObject])) {
                     [frame appendToMutableData:I_writeBuffer];
 #ifndef TCM_NO_DEBUG
-                    [I_frameLogHandle writeData:[frame descriptionInLogFileFormatIncoming:NO]];
+					if (isLogging) {
+						[I_frameLogHandle writeData:[frame descriptionInLogFileFormatIncoming:NO]];
+					}
 #endif
                     DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Sending Frame: %@", [frame description]);
                 }
@@ -509,7 +518,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     CFIndex bytesRead = CFReadStreamRead(I_readStream, buffer, sizeof(buffer));
      
 #ifndef TCM_NO_DEBUG
-    if (bytesRead > 0) {
+    if (isLogging && bytesRead > 0) {
         [I_rawLogInHandle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
 //        [I_rawLogInHandle writeData:[@"|" dataUsingEncoding:NSASCIIStringEncoding]];
     }
@@ -542,7 +551,9 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                             break;
                         } else {
 #ifndef TCM_NO_DEBUG
-                        [I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
+							if (isLogging) {
+								[I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
+							}
 #endif  
                         }
                     } else {
@@ -595,7 +606,9 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                 }
 
 #ifndef TCM_NO_DEBUG
-                [I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
+				if (isLogging) {
+					[I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
+				}
 #endif                
                 // dispatch frame!
                 TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
@@ -630,7 +643,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     CFIndex bytesWritten = CFWriteStreamWrite(I_writeStream, [I_writeBuffer bytes], [I_writeBuffer length]);
 
 #ifndef TCM_NO_DEBUG
-    if (bytesWritten > 0) [I_rawLogOutHandle writeData:[NSData dataWithBytesNoCopy:(void *)[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
+    if (isLogging && bytesWritten > 0) [I_rawLogOutHandle writeData:[NSData dataWithBytesNoCopy:(void *)[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
 #endif
 
     if (bytesWritten > 0) {

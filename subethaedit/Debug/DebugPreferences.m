@@ -85,11 +85,9 @@
     // Initialize user interface elements to reflect current preference settings
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL enableDebugMenu = [defaults boolForKey:@"EnableDebugMenu"];
-    if (enableDebugMenu) {
-        [toggleDebugMenuCheckBox setState:NSOnState];
-    } else {
-        [toggleDebugMenuCheckBox setState:NSOffState];    
-    }
+	[toggleDebugMenuCheckBox setState:(enableDebugMenu ? NSOnState : NSOffState)];
+	BOOL enableBEEPLogging = [defaults boolForKey:@"EnableBEEPLogging"];
+	[toggleBEEPLoggingCheckBox setState:(enableBEEPLogging ? NSOnState : NSOffState)];
     [[DebugController sharedInstance] enableDebugMenu:enableDebugMenu];
 }
 
@@ -109,6 +107,16 @@
     } else if (state == NSOffState) {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"EnableDebugMenu"];        
         [[DebugController sharedInstance] enableDebugMenu:NO];
+    }
+}
+
+- (IBAction)toggleBEEPLogging:(id)sender
+{
+    int state = [sender state];
+    if (state == NSOnState) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"EnableBEEPLogging"];
+    } else if (state == NSOffState) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"EnableBEEPLogging"];        
     }
 }
 
