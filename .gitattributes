@@ -354,7 +354,6 @@ subethaedit/Knock.wav -text
 subethaedit/LayoutManager.h -text
 subethaedit/LayoutManager.m -text
 subethaedit/Localizable.strings -text
-subethaedit/Mode.icns -text
 subethaedit/Modes/ActionScript.mode/Contents/Info.plist -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/RegexSymbols.xml -text
@@ -661,7 +660,6 @@ subethaedit/SplitView.h -text
 subethaedit/SplitView.m -text
 subethaedit/SubEthaEdit.sdef -text
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
-subethaedit/SubEthaEditFiles.icns -text
 subethaedit/SubEthaEditSuite.scriptSuite -text
 subethaedit/SubEthaEditSuite.scriptTerminology -text
 subethaedit/SubEthaEdit_Prefix.pch -text
@@ -772,6 +770,7 @@ subethaedit/artwork/HideChangeMarks.psd -text
 subethaedit/artwork/Internet.tiff -text
 subethaedit/artwork/InternetResume.tiff -text
 subethaedit/artwork/InternetStop.tiff -text
+subethaedit/artwork/Mode.icns -text
 subethaedit/artwork/NamedLogo2.tiff -text
 subethaedit/artwork/NextChange.png -text
 subethaedit/artwork/NextChange.psd -text
@@ -801,6 +800,7 @@ subethaedit/artwork/StatusPending.tiff -text
 subethaedit/artwork/StatusReadOnly.tiff -text
 subethaedit/artwork/StatusReadWrite.tiff -text
 subethaedit/artwork/SubEthaEdit.icns -text
+subethaedit/artwork/SubEthaEditFiles.icns -text
 subethaedit/artwork/SubEthaEdit_Splash.png -text
 subethaedit/artwork/Symbol#.tiff -text
 subethaedit/artwork/SymbolC.tiff -text
