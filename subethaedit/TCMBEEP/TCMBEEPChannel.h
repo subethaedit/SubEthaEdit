@@ -41,6 +41,7 @@ typedef enum {
     NSMutableIndexSet *I_messageNumbersWithPendingReplies;
     NSMutableIndexSet *I_unacknowledgedMessageNumbers;
     NSMutableIndexSet *I_inboundMessageNumbersWithPendingReplies;
+    NSMutableIndexSet *I_preemptedMessageNumbers;
     NSMutableArray *I_defaultReadQueue;
     NSMutableDictionary *I_answerReadQueues;
     NSMutableArray *I_messageWriteQueue;
@@ -79,7 +80,7 @@ typedef enum {
 
 // Convenience for Profiles
 - (int32_t)sendMSGMessageWithPayload:(NSData *)aPayload;
-
+- (BOOL)preemptFrame:(TCMBEEPFrame *)aFrame;
 
 // Accessors for session
 - (BOOL)hasFramesAvailable;

@@ -426,7 +426,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     
     // NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
     while (bytesRead > 0 && (bytesRead - bytesParsed > 0)) {
-        int remainingBytes = bytesRead-bytesParsed;
+        int remainingBytes = bytesRead - bytesParsed;
         if (I_currentReadState == frameHeaderState) {
             int i;
             // search for 0x0a (LF)
@@ -494,14 +494,15 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
             if (remainingBytes + [I_readBuffer length] >= 5) {
                 int localbytesread = 5 - [I_readBuffer length];
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:5 - [I_readBuffer length]];
-                // I_readBuffer == "END\r\n" ?
-                #warning "validate frame end"
-                // dispatch frame!
+                if (strncmp((char *)[I_readBuffer bytes], "END\r\n", 5) != 0) {
+                    [self terminate];
+                    break;
+                }
 
 #ifdef TCMBEEP_DEBUG
                 [I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
 #endif                
-
+                // dispatch frame!
                 TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
                 if (channel) {
                     BOOL didAccept = [channel acceptFrame:[I_currentReadFrame autorelease]];
@@ -818,6 +819,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 - (void)closedChannelWithNumber:(int32_t)aChannelNumber
 {
     TCMBEEPChannel *channel = [I_activeChannels objectForLong:aChannelNumber];
+    [[channel retain] autorelease];
     [channel closed];
     [channel cleanup];
     
