@@ -1,0 +1,61 @@
+{
+    IBClasses = (
+        {
+            CLASS = Document; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {encodingAccessory = id; encodingPopupButton = id; ignoreRichTextButton = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = DocumentModeMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
+        {
+            CLASS = DocumentModePopUpButton; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPopUpButton; 
+        }, 
+        {
+            ACTIONS = {
+                clearAll = id; 
+                encodingListChanged = id; 
+                revertToDefault = id; 
+                selectAll = id; 
+                selectedEncoding = id; 
+                showPanel = id; 
+            }; 
+            CLASS = EncodingManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                encodingAccessory = NSView; 
+                encodingMatrix = NSMatrix; 
+                encodingPopupButton = EncodingPopUpButton; 
+                ignoreRichTextButton = NSButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = EncodingMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
+        {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                announce = id; 
+                chooseLineEndings = id; 
+                conceal = id; 
+                convertLineEndings = id; 
+                goIntoBundles = id; 
+                newView = id; 
+                toggleIsAnnounced = id; 
+                toggleSyntaxHighlighting = id; 
+            }; 
+            CLASS = PlainTextDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_goIntoBundlesCheckbox" = NSButton; 
+                "O_goIntoBundlesCheckbox2" = NSButton; 
+                "O_savePanelAccessoryView" = NSView; 
+                "O_savePanelAccessoryView2" = NSView; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }
+    ); 
+    IBVersion = 1; 
+}
