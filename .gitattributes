@@ -973,6 +973,8 @@ subethaedit/TCMRendezvousBrowser.h -text
 subethaedit/TCMRendezvousBrowser.m -text
 subethaedit/TableView.h -text
 subethaedit/TableView.m -text
+subethaedit/Tests/Tests.m -text
+subethaedit/Tests/Tests_Prefix.pch -text
 subethaedit/TextFieldCell.h -text
 subethaedit/TextFieldCell.m -text
 subethaedit/TextOperation.h -text

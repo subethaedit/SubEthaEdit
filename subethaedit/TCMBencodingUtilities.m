@@ -73,7 +73,11 @@ id TCM_BdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
             } else {
                 id key=TCM_BdecodedObject(aBytes,aPosition,aLength);
                 id value=TCM_BdecodedObject(aBytes,aPosition,aLength);
-                [result setObject:value forKey:key];
+                if (key && value) {
+                    [result setObject:value forKey:key];
+                } else { 
+                    return nil;
+                }
             }
         }
     } else if (aBytes[*aPosition]=='l') {
@@ -85,7 +89,11 @@ id TCM_BdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
                 break;
             } else {
                 id value=TCM_BdecodedObject(aBytes,aPosition,aLength);
-                [result addObject:value];
+                if (value) {
+                    [result addObject:value];
+                } else {
+                    return nil;
+                }
             }
         }
     } else if (aBytes[*aPosition]>='0' && aBytes[*aPosition]<='9') {

@@ -2530,6 +2530,7 @@
 				8D15AC370486D014006FF6A4,
 				14DC3C3406C3C6CB000E9E0A,
 				1428841006E33DE900FB57C5,
+				5E96530707EDD7860003D65C,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -2570,6 +2571,7 @@
 				14DC3C3306C3C6CB000E9E0A,
 				31DEE029061089D0001EC83E,
 				14963A3D061F0CFD009B8E42,
+				5E96530607EDD7860003D65C,
 			);
 		};
 		2A37F4AAFDCFA73011CA2CEA = {
@@ -2639,6 +2641,7 @@
 		};
 		2A37F4AFFDCFA73011CA2CEA = {
 			children = (
+				5E9652EC07EDD5E80003D65C,
 				5E4F35BD05EF77C5009D71ED,
 				14497AA5062C37E800E1C9F1,
 				32DBCF750370BD2300C91783,
@@ -4721,6 +4724,111 @@
 		};
 		5E93652207140BF800065CA2 = {
 			fileRef = 5E93652107140BF800065CA2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9652EC07EDD5E80003D65C = {
+			children = (
+				5E9652FB07EDD6860003D65C,
+				5E9652FC07EDD6860003D65C,
+			);
+			isa = PBXGroup;
+			name = Tests;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E9652FB07EDD6860003D65C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Tests_Prefix.pch;
+			path = Tests/Tests_Prefix.pch;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E9652FC07EDD6860003D65C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = Tests.m;
+			path = Tests/Tests.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E96530407EDD7860003D65C = {
+			buildActionMask = 2147483647;
+			files = (
+				5E96530907EDD7A80003D65C,
+				5E96530A07EDD7AD0003D65C,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5E96530507EDD7860003D65C = {
+			buildActionMask = 2147483647;
+			files = (
+				5E96530B07EDD8060003D65C,
+				5E96530E07EDD80A0003D65C,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5E96530607EDD7860003D65C = {
+			buildPhases = (
+				5E96530407EDD7860003D65C,
+				5E96530507EDD7860003D65C,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Tests/Tests_Prefix.pch;
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Tests;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = Tests;
+			productName = Tests;
+			productReference = 5E96530707EDD7860003D65C;
+			productType = "com.apple.product-type.tool";
+		};
+		5E96530707EDD7860003D65C = {
+			explicitFileType = "compiled.mach-o.executable";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Tests;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5E96530907EDD7A80003D65C = {
+			fileRef = 5E9652FC07EDD6860003D65C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E96530A07EDD7AD0003D65C = {
+			fileRef = 5EACED4705F5087E0008743E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E96530B07EDD8060003D65C = {
+			fileRef = 1058C7A7FEA54F5311CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E96530E07EDD80A0003D65C = {
+			fileRef = 14497AB8062C380000E1C9F1;
 			isa = PBXBuildFile;
 			settings = {
 			};
