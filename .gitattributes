@@ -56,6 +56,8 @@ artwork/icons/ToolbarItems/test.psd -text
 artwork/icons/favicon.psd -text
 artwork/icons/mode.psd -text
 artwork/icons/mode32.psd -text
+artwork/icons/style.psd -text
+artwork/icons/style32.psd -text
 artwork/icons/txt.icns -text
 artwork/mockups/RendezvousBrowser.psd -text
 artwork/mockups/RendezvousBrowser2.psd -text
@@ -1054,6 +1056,7 @@ subethaedit/artwork/WaitPipe.png -text
 subethaedit/artwork/WebReload.tiff -text
 subethaedit/artwork/codingmonkeys.png -text
 subethaedit/artwork/myriad.png -text
+subethaedit/artwork/style.icns -text
 subethaedit/createDiskImage.sh -text
 subethaedit/debug.tiff -text
 subethaedit/main.m -text
