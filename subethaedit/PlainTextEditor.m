@@ -163,7 +163,7 @@
                         sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_positionTextField font] 
                                                                        forKey:NSFontAttributeName]].width+5.;
         [O_positionTextField setFrame:positionFrame];
-        position.x = NSMaxX(positionFrame);
+        position.x = (float)(int)NSMaxX(positionFrame);
         NSRect newWrittenByFrame=[O_writtenByTextField frame];
         newWrittenByFrame.size.width=[[O_writtenByTextField stringValue]
                                         sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_writtenByTextField font] 
