@@ -319,7 +319,6 @@
                                 (CFDictionaryRef *)&errorDict);
     if (!contentTree) {
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"nixe baum: %@", [errorDict description]);
-        CFRelease(contentTree);
         [[self session] terminate]; 
         return;
     }        
