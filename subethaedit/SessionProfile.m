@@ -154,7 +154,7 @@
             if ([delegate respondsToSelector:@selector(profileDidCancelJoinRequest:)]) {
                 [delegate profileDidCancelJoinRequest:self];
             }
-            [[self channel] close];
+            //[[self channel] close];
         } else if (strncmp(type, "JONACK", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received accepted join.");
             id delegate = [self delegate];

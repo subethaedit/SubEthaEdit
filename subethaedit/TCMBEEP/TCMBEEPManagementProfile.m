@@ -34,6 +34,7 @@
         I_firstMessage = YES;
         I_pendingChannelRequestMessageNumbers = [NSMutableDictionary new];
         I_channelNumbersByCloseRequests = [NSMutableDictionary new];
+        I_messageNumbersOfCloseRequestsByChannelsNumbers = [NSMutableDictionary new];
     }
     return self;
 }
@@ -42,6 +43,7 @@
 {
     [I_pendingChannelRequestMessageNumbers release];
     [I_channelNumbersByCloseRequests release];
+    [I_messageNumbersOfCloseRequestsByChannelsNumbers release];
     [super dealloc];
 }
 
@@ -99,6 +101,16 @@
     TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:messageNumber payload:payload];
     [I_channelNumbersByCloseRequests setObject:[NSNumber numberWithLong:aChannelNumber] forLong:messageNumber];
     [[self channel] sendMessage:[message autorelease]];    
+}
+
+- (void)acceptCloseRequestForChannelWithNumber:(int32_t)aChannelNumber
+{
+    NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
+    int32_t messageNumber = [[I_messageNumbersOfCloseRequestsByChannelsNumbers objectForLong:aChannelNumber] intValue];
+    TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:messageNumber payload:payload];
+    [[self channel] sendMessage:[message autorelease]];
+    [I_messageNumbersOfCloseRequestsByChannelsNumbers removeObjectForLong:aChannelNumber];
+    [[self session] closedChannelWithNumber:aChannelNumber];
 }
 
 #pragma mark -
@@ -226,11 +238,10 @@
     if (number && code) {
         // close request for a specific channel
         int32_t channelNumber = [number intValue];
+        [I_channelNumbersByCloseRequests setObject:[NSNumber numberWithLong:channelNumber] forLong:[aMessage messageNumber]];
+        [I_messageNumbersOfCloseRequestsByChannelsNumbers setObject:[NSNumber numberWithLong:[aMessage messageNumber]] forLong:channelNumber];
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Close requested for channel number: %d", channelNumber);
-        NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
-        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
-        [[self channel] sendMessage:[message autorelease]];
-        [[self session] closedChannelWithNumber:channelNumber];
+        [[self session] closeRequestedForChannelWithNumber:channelNumber];
     } else if ((number == nil || [number intValue] == 0) && code) {
         // close request for the session
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Close requested for session");

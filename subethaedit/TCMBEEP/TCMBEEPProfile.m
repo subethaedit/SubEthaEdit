@@ -80,6 +80,11 @@
     [[self channel] close];
 }
 
+- (void)channelDidReceiveCloseRequest
+{
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidReceiveCloseRequest: %@", NSStringFromClass([self class]));
+}
+
 - (void)channelDidClose
 {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidClose: %@", NSStringFromClass([self class]));

@@ -35,6 +35,7 @@
 - (BOOL)isServer;
 - (void)setProfileURI:(NSString *)aProfileURI;
 - (NSString *)profileURI;
+- (void)channelDidReceiveCloseRequest;
 - (void)channelDidClose;
 - (void)channelDidNotCloseWithError:(NSError *)error;
 - (void)cleanup;

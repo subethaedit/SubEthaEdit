@@ -13,7 +13,9 @@ typedef enum {
    TCMBEEPChannelStatusNotOpen = 0,
    //TCMBEEPChannelStatusOpening,
    TCMBEEPChannelStatusOpen,
+   TCMBEEPChannelStatusAtEnd,
    TCMBEEPChannelStatusClosing,
+   TCMBEEPChannelStatusCloseRequested,
    TCMBEEPChannelStatusClosed,
    TCMBEEPChannelStatusError
 } TCMBEEPChannelStatus;
@@ -37,6 +39,7 @@ typedef enum {
     TCMBEEPFrame *I_previousReadFrame;
     TCMBEEPMessage *I_currentReadMessage;
     NSMutableIndexSet *I_messageNumbersWithPendingReplies;
+    NSMutableIndexSet *I_unacknowledgedMessageNumbers;
     NSMutableIndexSet *I_inboundMessageNumbersWithPendingReplies;
     NSMutableArray *I_defaultReadQueue;
     NSMutableDictionary *I_answerReadQueues;
@@ -73,7 +76,6 @@ typedef enum {
 - (id)profile;
 - (TCMBEEPChannelStatus)channelStatus;
 - (void)close;
-- (void)terminate;
 
 // Convenience for Profiles
 - (void)sendMSGMessageWithPayload:(NSData *)aPayload;
@@ -88,5 +90,6 @@ typedef enum {
 - (void)cleanup;
 - (void)closed;
 - (void)closeFailedWithError:(NSError *)error;
+- (void)closeRequested;
 
 @end

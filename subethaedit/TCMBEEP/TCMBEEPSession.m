@@ -420,7 +420,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     int bytesRead = [I_inputStream read:buffer maxLength:sizeof(buffer)];
     
 #ifdef TCMBEEP_DEBUG
-    if (bytesRead) [I_rawLogInHandle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
+    if (bytesRead > 0) [I_rawLogInHandle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
 #endif
     
     // NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
@@ -789,6 +789,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     [[I_managementChannel profile] closeChannelWithNumber:aChannelNumber code:aReplyCode];
 }
 
+- (void)closeRequestedForChannelWithNumber:(int32_t)aChannelNumber
+{
+    TCMBEEPChannel *channel = [I_activeChannels objectForLong:aChannelNumber];
+    [channel closeRequested];
+}
+
 - (void)closedChannelWithNumber:(int32_t)aChannelNumber
 {
     TCMBEEPChannel *channel = [I_activeChannels objectForLong:aChannelNumber];
@@ -802,6 +808,11 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     if (aChannelNumber == 0) {
         [self terminate];
     }
+}
+
+- (void)acceptCloseRequestForChannelWithNumber:(int32_t)aChannelNumber
+{
+    [[I_managementChannel profile] acceptCloseRequestForChannelWithNumber:aChannelNumber];
 }
 
 @end

@@ -117,6 +117,8 @@ enum {
 - (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray sender:(id)aSender;
 - (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator;
 - (void)closeChannelWithNumber:(int32_t)aChannelNumber code:(int)aReplyCode;
+- (void)closeRequestedForChannelWithNumber:(int32_t)aChannelNumber;
+- (void)acceptCloseRequestForChannelWithNumber:(int32_t)aChannelNumber;
 
 @end
 
