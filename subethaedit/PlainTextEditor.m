@@ -245,6 +245,18 @@
     }    
 }
 
+- (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows {
+    NSSize result;
+    NSFont *font=[[self document] fontWithTrait:0];
+    float characterWidth=[font widthOfString:@"m"];
+    result.width = characterWidth*aColumns + [[I_textView textContainer] lineFragmentPadding]*2 + [I_textView textContainerInset].width*2 + ([O_editorView bounds].size.width - [I_textView bounds].size.width);
+    result.height = [font defaultLineHeightForFont]*aRows + 
+                    ([self showsBottomStatusBar]?18.:0) + 
+                    ([self showsTopStatusBar]?18.:0) +
+                    [I_textView textContainerInset].height * 2;
+    return result;
+}
+
 - (void)TCM_updateBottomStatusBar {
     if (I_flags.showBottomStatusBar) {
         PlainTextDocument *document=[self document];

@@ -41,6 +41,8 @@
 - (PlainTextDocument *)document;
 - (void)setIsSplit:(BOOL)aFlag;
 
+- (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows;
+
 - (void)setShowsChangeMarks:(BOOL)aFlag;
 - (BOOL)showsChangeMarks;
 - (void)setWrapsLines:(BOOL)aFlag;

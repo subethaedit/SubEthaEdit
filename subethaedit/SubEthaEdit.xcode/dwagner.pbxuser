@@ -706,8 +706,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {365, 167}}",
-							"{{0, 176}, {365, 267}}",
+							"{{0, 0}, {491, 167}}",
+							"{{0, 176}, {491, 267}}",
 						);
 					};
 					VerticalSplitView = {
@@ -789,7 +789,7 @@
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {730, 466}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "495 192 730 487 0 0 1280 832 ";
+				RubberWindowFrame = "330 157 730 487 0 0 1280 832 ";
 			};
 			PBXWorkspaceStateSaveDate = 104228919;
 		};

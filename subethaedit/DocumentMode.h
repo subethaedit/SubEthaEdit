@@ -25,6 +25,8 @@ extern NSString * const DocumentModeUseTabsPreferenceKey                ;
 extern NSString * const DocumentModeWrapLinesPreferenceKey              ;
 extern NSString * const DocumentModeShowInvisibleCharactersPreferenceKey;
 extern NSString * const DocumentModeWrapModePreferenceKey               ;
+extern NSString * const DocumentModeColumnsPreferenceKey                ;
+extern NSString * const DocumentModeRowsPreferenceKey                   ;
 
 @class SyntaxHighlighter;
 

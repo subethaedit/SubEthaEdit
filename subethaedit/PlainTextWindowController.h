@@ -42,5 +42,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)gotoLine:(unsigned)aLine;
 - (void)selectRange:(NSRange)aRange;
 
+- (void)setSizeByColumns:(int)aColumns rows:(int)aRows;
 
 @end

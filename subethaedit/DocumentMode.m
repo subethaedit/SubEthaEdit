@@ -27,6 +27,8 @@ NSString * const DocumentModeTabWidthPreferenceKey             = @"TabWidth";
 NSString * const DocumentModeUseTabsPreferenceKey              = @"UseTabs";
 NSString * const DocumentModeWrapLinesPreferenceKey            = @"WrapLines";
 NSString * const DocumentModeWrapModePreferenceKey             = @"WrapMode";
+NSString * const DocumentModeRowsPreferenceKey                 = @"Rows";
+NSString * const DocumentModeColumnsPreferenceKey              = @"Columns";
 NSString * const DocumentModeUseDefaultViewPreferenceKey       = @"UseDefaultView";
 NSString * const DocumentModeUseDefaultEditPreferenceKey       = @"UseDefaultEdit";
 NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFile";
@@ -50,6 +52,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                   forKey:DocumentModeWrapModePreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeShowLineNumbersPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeRowsPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeColumnsPreferenceKey];
                                   
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
                                   forKey:DocumentModeUseTabsPreferenceKey];
@@ -85,6 +91,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         } else {
             I_defaults = [NSMutableDictionary new];
             [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModeColumnsPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithInt:24] forKey:DocumentModeRowsPreferenceKey];
             NSFont *font=[NSFont userFixedPitchFontOfSize:0.0];
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
             [dict setObject:[font fontName] 

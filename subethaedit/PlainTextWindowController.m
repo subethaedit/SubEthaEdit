@@ -109,6 +109,10 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     }
 }
 
+- (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
+    [[self window] setContentSize:[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows]];
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     
