@@ -2463,15 +2463,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
         // gather selections from all textviews and transform them
         NSArray *editors=[self plainTextEditors];
+        I_flags.isRemotelyEditingTextStorage=![[aOperation userID] isEqualToString:[TCMMMUserManager myUserID]];
         NSMutableArray   *oldSelections=[NSMutableArray array];
-        NSEnumerator *editorEnumerator=[editors objectEnumerator];
-        PlainTextEditor *editor;
-        while ((editor=[editorEnumerator nextObject])) {
-            [oldSelections addObject:[SelectionOperation selectionOperationWithRange:[[editor textView] selectedRange] userID:@"doesn't matter"]];
+        if (I_flags.isRemotelyEditingTextStorage) {
+            NSEnumerator *editorEnumerator=[editors objectEnumerator];
+            PlainTextEditor *editor=nil;
+            while ((editor=[editorEnumerator nextObject])) {
+                [oldSelections addObject:[SelectionOperation selectionOperationWithRange:[[editor textView] selectedRange] userID:@"doesn't matter"]];
+            }
         }
 
-
-        I_flags.isRemotelyEditingTextStorage=![[aOperation userID] isEqualToString:[TCMMMUserManager myUserID]];
         TextOperation *operation=(TextOperation *)aOperation;
         NSTextStorage *textStorage=[self textStorage];
         [textStorage beginEditing];
@@ -2485,23 +2486,22 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                               [[operation replacementString] length])];
         [textStorage endEditing];
 
-        // set selection of all textviews
-        TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
-        int index=0;
-        for (index=0;index<(int)[editors count];index++) {
-            SelectionOperation *selectionOperation = [oldSelections objectAtIndex:index];
-            [transformator transformOperation:selectionOperation serverOperation:aOperation];
-            editor = [editors objectAtIndex:index];
-            [[editor textView] setSelectedRange:[selectionOperation selectedRange]];
-        }
 
         if (I_flags.isRemotelyEditingTextStorage) {
-            [[self documentUndoManager] transformStacksWithOperation:operation];
-        } else {
-            NSTextView *textView=[[[self topmostWindowController] activePlainTextEditor] textView];
-            [textView setSelectedRange:NSMakeRange([operation affectedCharRange].location+[[operation replacementString] length],0)];
-            [textView scrollRangeToVisible:[textView selectedRange]];
+            // set selection of all textviews
+            TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
+            int index=0;
+            for (index=0;index<(int)[editors count];index++) {
+                SelectionOperation *selectionOperation = [oldSelections objectAtIndex:index];
+                [transformator transformOperation:selectionOperation serverOperation:aOperation];
+                PlainTextEditor *editor = [editors objectAtIndex:index];
+                [[editor textView] setSelectedRange:[selectionOperation selectedRange]];
+            }
         }
+        
+        if (I_flags.isRemotelyEditingTextStorage) {
+            [[self documentUndoManager] transformStacksWithOperation:operation];
+        } 
         I_flags.isRemotelyEditingTextStorage=NO;
     } else if ([[aOperation operationID] isEqualToString:[SelectionOperation operationID]]){
         [self changeSelectionOfUserWithID:[aOperation userID] 

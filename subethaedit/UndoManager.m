@@ -11,7 +11,7 @@
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextDocument.h"
 #import "TextOperation.h"
-
+#import "PlainTextWindowController.h"
 
 NSString * const UndoManagerCheckpointNotification = @"UndoManagerCheckpointNotification";
 NSString * const UndoManagerDidOpenUndoGroupNotification = @"UndoManagerDidOpenUndoGroupNotification";
@@ -538,10 +538,17 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     
     if (actions != nil) {
         unsigned i = [actions count];
-        
+        [[_document textStorage] beginEditing];
+        TextOperation *operation;
         while (i-- > 0) {
-            TextOperation *operation = [actions objectAtIndex:i];
+            operation = [actions objectAtIndex:i];
             [_document handleOperation:operation];
+        }
+        [[_document textStorage] endEditing];
+        if (operation) {
+            NSTextView *textView=[[[_document topmostWindowController] activePlainTextEditor] textView];
+            [textView setSelectedRange:NSMakeRange([operation affectedCharRange].location+[[operation replacementString] length],0)];
+            [textView scrollRangeToVisible:[textView selectedRange]];
         }
     }
 }
