@@ -58,5 +58,4 @@
     return [self titleWidth]+22.;
 }
 
-
 @end

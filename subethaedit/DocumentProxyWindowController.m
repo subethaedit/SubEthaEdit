@@ -32,13 +32,15 @@
 - (void)update {
     TCMMMSessionClientState state=[[(PlainTextDocument *)[self document] session] clientState];
     if (state == TCMMMSessionClientJoiningState) {
-        if (![O_bottomStatusView window]) {
-            [[[self window] contentView] replaceSubview:O_bottomDecisionView with:O_bottomStatusView];
+        if ([O_bottomStatusView isHidden]) {
+            [O_bottomDecisionView setHidden:YES];
+            [O_bottomStatusView setHidden:NO];
         }
         [O_statusBarTextField setStringValue:NSLocalizedString(@"Awaiting answer...",@"Text while waiting for answer to join request")];
     } else if (state == TCMMMSessionClientInvitedState) {
-        if (![O_bottomDecisionView window]) {
-            [[[self window] contentView] replaceSubview:O_bottomStatusView with:O_bottomDecisionView];
+        if ([O_bottomDecisionView isHidden]) {
+            [O_bottomStatusView setHidden:YES];
+            [O_bottomDecisionView setHidden:NO];
         }
     }
     [self synchronizeWindowTitleWithDocumentName];
@@ -49,22 +51,29 @@
 //    [((NSPanel *)window) setFloatingPanel:NO];
     [window setHidesOnDeactivate:NO];
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[I_session hostID]];
-    [O_userImageView setImage:[[user properties] objectForKey:@"Image48"]];
+    [O_userImageView setImage:[[user properties] objectForKey:@"Image"]];
     [O_userNameTextField setStringValue:[user name]];
     NSString *filename=[I_session filename];
     [O_documentTitleTextField setStringValue:filename];
     [O_documentImageView setImage:[[NSWorkspace sharedWorkspace] iconForFileType:[filename pathExtension]]];
 //    NSLog(@"Session :%@",[I_session description]);
+    [O_bottomDecisionView setFrame:[O_bottomCustomView frame]];
+    [O_bottomStatusView setFrame:[O_bottomCustomView frame]];
+    [O_bottomCustomView removeFromSuperview];
+    [[window contentView] addSubview:O_bottomStatusView];
+    [[window contentView] addSubview:O_bottomDecisionView];
+    
     if ([I_session wasInvited]) {
-        [[window contentView] replaceSubview:O_bottomCustomView with:O_bottomDecisionView];
+        [O_bottomStatusView setHidden:YES];
     } else {
-        [[window contentView] replaceSubview:O_bottomCustomView with:O_bottomStatusView];
+        [O_bottomDecisionView setHidden:YES];
     }
     [self update];
 }
 
 - (IBAction)acceptAction:(id)aSender {
-    [[[self window] contentView] replaceSubview:O_bottomDecisionView with:O_bottomStatusView];
+    [O_bottomStatusView   setHidden:NO];
+    [O_bottomDecisionView setHidden:YES];
     [O_statusBarTextField setStringValue:@""];
     [[(PlainTextDocument *)[self document] session] acceptInvitation];
 }
@@ -89,16 +98,14 @@
 }
 
 - (void)invitationWasCanceled {
-    if (![O_statusBarTextField window]) {
-        [[[self window] contentView] replaceSubview:O_bottomDecisionView with:O_bottomStatusView];
-    }
+    [O_bottomStatusView   setHidden:NO];
+    [O_bottomDecisionView setHidden:YES];
     [O_statusBarTextField setStringValue:NSLocalizedString(@"Invitation was canceled!",@"Text in Proxy window")];
 }
 
 - (void)didLoseConnection {
-    if (![O_statusBarTextField window]) {
-        [[[self window] contentView] replaceSubview:O_bottomDecisionView with:O_bottomStatusView];
-    }
+    [O_bottomStatusView   setHidden:NO];
+    [O_bottomDecisionView setHidden:YES];
     [O_statusBarTextField setStringValue:NSLocalizedString(@"Did lose Connection!",@"Text in Proxy window")];
 }
 
