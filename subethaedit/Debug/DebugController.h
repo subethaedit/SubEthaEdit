@@ -6,6 +6,9 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#ifndef TCM_NO_DEBUG
+
+
 #import <Foundation/Foundation.h>
 
 
@@ -18,3 +21,6 @@
 - (void)enableDebugMenu:(BOOL)flag;
 
 @end
+
+
+#endif

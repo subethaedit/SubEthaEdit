@@ -14,8 +14,7 @@
 #import "TCMPreferenceController.h"
 #import "RendezvousBrowserController.h"
 #import "InternetBrowserController.h"
-#import "Debug/DebugPreferences.h"
-#import "Debug/DebugController.h"
+
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
 #import "HandshakeProfile.h"
@@ -30,6 +29,11 @@
 #import "FontAttributesToStringValueTransformer.h"
 #import "HueToColorValueTransformer.h"
 #import "SaturationToColorValueTransformer.h"
+
+#ifndef TCM_NO_DEBUG
+#import "Debug/DebugPreferences.h"
+#import "Debug/DebugController.h"
+#endif
 
 int const FormatMenuTag = 2000;
 int const FileEncodingsMenuItemTag = 2001;
@@ -238,14 +242,16 @@ NSString * const DefaultPortNumber = @"port";
     [self setupDocumentModeSubmenu];
     [self setupScriptMenu];
 
-    [[DebugController sharedInstance] enableDebugMenu:[[NSUserDefaults standardUserDefaults] boolForKey:@"EnableDebugMenu"]];
-
     GeneralPreferences *generalPrefs = [[GeneralPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:generalPrefs];
     EditPreferences *editPrefs = [[EditPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:editPrefs];
+    
+#ifndef TCM_NO_DEBUG
+    [[DebugController sharedInstance] enableDebugMenu:[[NSUserDefaults standardUserDefaults] boolForKey:@"EnableDebugMenu"]];
     DebugPreferences *debugPrefs = [[DebugPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:debugPrefs];
+#endif
     
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:[NSDocumentController sharedDocumentController]
                                                        andSelector:@selector(handleAppleEvent:withReplyEvent:)

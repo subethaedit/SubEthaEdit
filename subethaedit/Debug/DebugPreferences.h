@@ -6,6 +6,9 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#ifndef TCM_NO_DEBUG
+
+
 #import <Foundation/Foundation.h>
 #import "TCMPreferenceModule.h"
 
@@ -21,3 +24,6 @@
 - (IBAction)toggleDebugMenu:(id)sender;
 
 @end
+
+
+#endif

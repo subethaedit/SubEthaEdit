@@ -6,6 +6,9 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#ifndef TCM_NO_DEBUG
+
+
 #import "DebugController.h"
 
 
@@ -44,3 +47,5 @@ static DebugController * sharedInstance = nil;
 }
 
 @end
+
+#endif
