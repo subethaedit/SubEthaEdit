@@ -9,6 +9,7 @@
 #import "RendezvousBrowserController.h"
 #import "TCMRendezvousBrowser.h"
 #import "TCMMMPresenceManager.h"
+#import "TCMMMUserManager.h"
 
 @implementation RendezvousBrowserController
 - (id)init {
@@ -60,7 +61,7 @@
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didResolveService:(NSNetService *)aNetService {
 //    [I_tableData addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"resolved %@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
     NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
-    if (userID) {
+    if (userID && ![userID isEqualTo:[TCMMMUserManager myID]]) {
         [I_foundUserIDs addObject:userID];
         [[TCMMMPresenceManager sharedInstance] statusConnectToNetService:aNetService userID:userID sender:self];
     }

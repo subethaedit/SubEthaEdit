@@ -25,10 +25,18 @@
     [super dealloc];
 }
 
+- (NSDictionary *)remoteInfos {
+    return I_remoteInfos;
+}
+
+- (NSData *)handshakePayloadWithUserID:(NSString *)aUserID {
+    NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"userid=%@\001version=2.00\001token=none",aUserID] dataUsingEncoding:NSUTF8StringEncoding]];
+    return payload;
+}
+
 - (void)shakeHandsWithUserID:(NSString *)aUserID
 {
-    NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"GRTuserid=%@\001version=2.00\001token=none",aUserID] dataUsingEncoding:NSUTF8StringEncoding]];
-    TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[[self channel] nextMessageNumber] payload:payload];
+    TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[[self channel] nextMessageNumber] payload:[self handshakePayloadWithUserID:aUserID]];
     [[self channel] sendMessage:[message autorelease]];
 }
 
@@ -50,14 +58,26 @@
             }
         }
         NSLog(@"Handshake greeting was: %@",string);
-        NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"ACK"] dataUsingEncoding:NSUTF8StringEncoding]];
-        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
-        [[self channel] sendMessage:[message autorelease]];
+        NSString *userID=[[self delegate] profile:self shouldProceedHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+        if (userID) {
+            TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[self handshakePayloadWithUserID:userID]];
+            [[self channel] sendMessage:[message autorelease]];        
+        } else {
+            // brich ab
+        }      
     } else if ([aMessage isRPY]) {
         NSLog(@"ShakeHandRPY was: %@",[NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding]);
-        if ([[self delegate] respondsToSelector:@selector(profile:didReceiveHandshakeWithUserID:andInformation:)]) {
-            [[self delegate] profile:self didReceiveHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"] andInformation:I_remoteInfos];
-       }
+        BOOL shouldAck=NO;
+        if ([[self delegate] respondsToSelector:@selector(profile:shouldAckHandshakeWithUserID:)]) {
+            shouldAck=[[self delegate] profile:self shouldAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+        }
+        if (shouldAck) {
+            NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"ACK"] dataUsingEncoding:NSUTF8StringEncoding]];
+            TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[[self channel] nextMessageNumber] payload:payload];
+            [[self channel] sendMessage:[message autorelease]];
+        } else {
+            // brich ab
+        }
     }
 }
 

@@ -15,6 +15,7 @@
 @interface TCMBEEPProfile : NSObject
 {
     TCMBEEPChannel *I_channel;
+    NSString *I_profileURI;
     id I_delegate;
 }
 
@@ -26,6 +27,7 @@
 - (id)delegate;
 - (void)setChannel:(TCMBEEPChannel *)aChannel;
 - (TCMBEEPChannel *)channel;
-
+- (void)setProfileURI:(NSString *)aProfileURI;
+- (NSString *)profileURI;
 
 @end

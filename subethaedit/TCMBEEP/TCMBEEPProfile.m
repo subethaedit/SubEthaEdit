@@ -40,6 +40,15 @@
     return I_channel;
 }
 
+- (void)setProfileURI:(NSString *)aProfileURI {
+    [I_profileURI autorelease];
+     I_profileURI = [aProfileURI copy];
+}
+
+- (NSString *)profileURI {
+    return I_profileURI;
+}
+
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage {
     NSLog(@"You should have overridden this!");
 }

@@ -44,13 +44,14 @@ static NSMutableDictionary *profileURIToClassMapping;
 }
 
 /*""*/
-- (id)initWithSession:(TCMBEEPSession *)aSession number:(unsigned long)aNumber profileURI:(NSString *)aProfileURI
+- (id)initWithSession:(TCMBEEPSession *)aSession number:(unsigned long)aNumber profileURI:(NSString *)aProfileURI asServer:(BOOL)isServer
 {
     self = [super init];
     if (self) {
         Class profileClass = nil;
         if (profileClass = [[TCMBEEPChannel profileURIToClassMapping] objectForKey:aProfileURI]) {
             I_profile=[[profileClass alloc] initWithChannel:self];
+            [I_profile setProfileURI:aProfileURI];
             [self setSession:aSession];
             [self setNumber:aNumber];
             [self setProfileURI:aProfileURI];
@@ -63,6 +64,7 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_nextMessageNumber = 0;
             I_messageWriteQueue = [NSMutableArray new];
             I_sequenceNumber = 0;
+            I_flags.isServer=isServer;
         }
     }
     
@@ -81,6 +83,10 @@ static NSMutableDictionary *profileURIToClassMapping;
     [I_answerReadQueues release];
     [I_messageWriteQueue release];
     [super dealloc];
+}
+
+- (BOOL)isServer {
+    return I_flags.isServer;
 }
 
 - (void)setPreviousReadFrame:(TCMBEEPFrame *)aFrame
