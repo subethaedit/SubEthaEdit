@@ -7,6 +7,10 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
+				5E41CCF007F982D700ACF87D,
+				5E41CCF107F982D700ACF87D,
+				5E41CCEB07F982AC00ACF87D,
+				5E41CCEA07F982AC00ACF87D,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -108,6 +112,12 @@
 			isa = PBXProject;
 			mainGroup = 29B97314FDCFA39411CA2CEA;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5EA63E4C07F0841D009BD76C;
+					ProjectRef = 5EA63E4B07F0841C009BD76C;
+				},
+			);
 			targets = (
 				8D1107260486CEB800E47090,
 			);
@@ -119,6 +129,7 @@
 				29B97317FDCFA39411CA2CEA,
 				29B97323FDCFA39411CA2CEA,
 				19C28FACFE9D520D11CA2CBB,
+				5EA63E4B07F0841C009BD76C,
 			);
 			isa = PBXGroup;
 			name = BEEPSEEKiller;
@@ -256,6 +267,138 @@
 //4A2
 //4A3
 //4A4
+//5E0
+//5E1
+//5E2
+//5E3
+//5E4
+		5E41CCEA07F982AC00ACF87D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMRendezvousBrowser.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E41CCEB07F982AC00ACF87D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMRendezvousBrowser.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E41CCEC07F982AC00ACF87D = {
+			fileRef = 5E41CCEA07F982AC00ACF87D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E41CCED07F982AC00ACF87D = {
+			fileRef = 5E41CCEB07F982AC00ACF87D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E41CCF007F982D700ACF87D = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = AppController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E41CCF107F982D700ACF87D = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = AppController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E41CCF207F982D700ACF87D = {
+			fileRef = 5E41CCF007F982D700ACF87D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E41CCF307F982D700ACF87D = {
+			fileRef = 5E41CCF107F982D700ACF87D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EA63E4B07F0841C009BD76C = {
+			isa = PBXFileReference;
+			lastKnownFileType = "wrapper.pb-project";
+			name = TCMBEEP.xcode;
+			path = TCMBEEP/TCMBEEP.xcode;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA63E4C07F0841D009BD76C = {
+			children = (
+				5EA63E4E07F0841D009BD76C,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA63E4E07F0841D009BD76C = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = TCMBEEP.framework;
+			refType = 3;
+			remoteRef = 5EA63E5207F08446009BD76C;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5EA63E4F07F0842D009BD76C = {
+			fileRef = 5EA63E4E07F0841D009BD76C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EA63E5007F08440009BD76C = {
+			containerPortal = 5EA63E4B07F0841C009BD76C;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = TCMBEEP;
+		};
+		5EA63E5107F08440009BD76C = {
+			isa = PBXTargetDependency;
+			name = "TCMBEEP (from TCMBEEP.xcode)";
+			targetProxy = 5EA63E5007F08440009BD76C;
+		};
+		5EA63E5207F08446009BD76C = {
+			containerPortal = 5EA63E4B07F0841C009BD76C;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = TCMBEEP;
+		};
+		5EA63E5707F08456009BD76C = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5EA63E5807F08467009BD76C,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5EA63E5807F08467009BD76C = {
+			fileRef = 5EA63E4E07F0841D009BD76C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//5E0
+//5E1
+//5E2
+//5E3
+//5E4
 //8D0
 //8D1
 //8D2
@@ -266,6 +409,7 @@
 				8D1107290486CEB800E47090,
 				8D11072C0486CEB800E47090,
 				8D11072E0486CEB800E47090,
+				5EA63E5707F08456009BD76C,
 			);
 			buildRules = (
 			);
@@ -279,6 +423,7 @@
 				WRAPPER_EXTENSION = app;
 			};
 			dependencies = (
+				5EA63E5107F08440009BD76C,
 			);
 			isa = PBXNativeTarget;
 			name = BEEPSEEKiller;
@@ -292,6 +437,8 @@
 			files = (
 				8D11072A0486CEB800E47090,
 				8D11072B0486CEB800E47090,
+				5E41CCED07F982AC00ACF87D,
+				5E41CCF207F982D700ACF87D,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,6 +459,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090,
+				5E41CCEC07F982AC00ACF87D,
+				5E41CCF307F982D700ACF87D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,6 +476,7 @@
 		8D11072E0486CEB800E47090 = {
 			buildActionMask = 2147483647;
 			files = (
+				5EA63E4F07F0842D009BD76C,
 				8D11072F0486CEB800E47090,
 			);
 			isa = PBXFrameworksBuildPhase;

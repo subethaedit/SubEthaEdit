@@ -609,6 +609,8 @@ subethaedit/see/main.m -text
 subethaedit/see/see.1 -text
 subethaedit/see/see.vers -text
 subethaedit/version.plist -text
+tool/BEEPSEEKiller/AppController.h -text
+tool/BEEPSEEKiller/AppController.m -text
 tool/BEEPSEEKiller/BEEPSEEKiller.xcode/project.pbxproj -text
 tool/BEEPSEEKiller/BEEPSEEKiller_Prefix.pch -text
 tool/BEEPSEEKiller/English.lproj/InfoPlist.strings -text
@@ -616,6 +618,8 @@ tool/BEEPSEEKiller/English.lproj/MainMenu.nib/classes.nib -text
 tool/BEEPSEEKiller/English.lproj/MainMenu.nib/info.nib -text
 tool/BEEPSEEKiller/English.lproj/MainMenu.nib/keyedobjects.nib -text
 tool/BEEPSEEKiller/Info.plist -text
+tool/BEEPSEEKiller/TCMRendezvousBrowser.h -text
+tool/BEEPSEEKiller/TCMRendezvousBrowser.m -text
 tool/BEEPSEEKiller/main.m -text
 tool/BEEPSEEKiller/version.plist -text
 tool/BEEPSample/BEEPSample.xcode/mbo.pbxuser -text
