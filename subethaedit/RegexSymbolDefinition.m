@@ -201,7 +201,7 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
             if ([@"find" isEqualToString:tag]) {
                     NSString *aString = extractStringWithEntitiesFromTree(xmlTree);
                     if ([OGRegularExpression isValidExpressionString:aString]) {
-                        findRegex = [[[OGRegularExpression alloc] initWithString:aString options:OgreFindNotEmptyOption] autorelease];
+                        findRegex = [[[OGRegularExpression alloc] initWithString:aString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
                     } else NSLog(@"ERROR: %@ is not a valid Regex.", aString);
             }  else if ([@"replace" isEqualToString:tag]) {
                     replaceString = extractStringWithEntitiesFromTree(xmlTree);

@@ -12,10 +12,8 @@
         <postprocess>
             <find>(:) *\([^\)]*\) *[a-zA-Z0-9]*</find>
             <replace>\1</replace>
-            <find>([\n\r]| +|\([^\)]*\))</find>
-            <replace> </replace>
-            <find>^([-+]) *</find>
-            <replace>\1</replace>
+            <find>([\n\r\t]| +|\([^\)]*\))</find>
+            <replace></replace>
         </postprocess>
     </symbol>
 
@@ -35,11 +33,20 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Pragma Mark Separators" font-weight="bold" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="yes">
+    <symbol id="Pragma Marks" font-weight="bold" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="yes">
         <regex>(#pragma mark[	 -]*[^\n]*)\n</regex>
         <postprocess>
-            <find>#pragma mark[-	 \n]*</find>
+            <find>#pragma mark[-	 \n]*</find> <!-- An empty string places a separator -->
             <replace></replace>
         </postprocess>
     </symbol>
+
+    <symbol id="CVS/SVN conflict" font-weight="bold" font-style="normal" image="SymbolWarn" indentation="0" ignoreblocks="no">
+        <regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;[^=]*======[^&gt;]*&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
+        <postprocess>
+            <find>.*</find>
+            <replace>Versioning conflict!</replace>
+        </postprocess>
+    </symbol>
+
 </symbols>

@@ -103,11 +103,13 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
         OGRegularExpressionMatch *aMatch;
         while ((aMatch = [matchEnumerator nextObject])) {
             NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
+            if (![aMatch substringAtIndex:1]) jumprange = [aMatch rangeOfMatchedString];
             NSRange fullrange = [aMatch rangeOfMatchedString];
             if ([aTextStorage attribute:kSymbolParsingIsInABlock atIndex:jumprange.location effectiveRange:nil]) break;
             NSString *name = [aMatch substringAtIndex:1];
-            
+            if (!name) name = [aMatch matchedString];
             // Replace Stuff!
+            
             NSArray *postprocess = [symbol objectForKey:@"postprocess"];
             if (postprocess) {
                 int postprocesscount = [postprocess count];
