@@ -28,6 +28,8 @@
 - (void)dealloc {
     // maybe fixed:
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [[EncodingManager sharedInstance] unregisterEncoding:I_encoding];
     [I_contents release];
     [I_lineStarts  release];
     [super dealloc];

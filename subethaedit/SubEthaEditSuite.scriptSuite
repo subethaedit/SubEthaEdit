@@ -31,12 +31,21 @@
 			<string>pltd</string>
 			<key>Attributes</key>
 			<dict>
+                                <key>fileEncoding</key>
+                                <dict>
+                                        <key>AppleEventCode</key>
+					<string>flen</string>
+					<key>ReadOnly</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>NSNumber&lt;Int&gt;</string>
+                                </dict>
 				<key>textStorage</key>
 				<dict>
 					<key>AppleEventCode</key>
 					<string>pcnt</string>
 					<key>Type</key>
-					<string>NSTextSuite.NSTextStorage</string>
+					<string>SubEthaEditSuite.TextStorage</string>
 				</dict>
 			</dict>
 			<key>DefaultSubcontainerAttribute</key>
@@ -44,6 +53,106 @@
 			<key>Superclass</key>
 			<string>ASKDocumentSuite.NSDocument</string>
 		</dict>
+		<key>TextStorage</key>
+		<dict>
+			<key>AppleEventCode</key>
+			<string>ctxt</string>
+			<key>Attributes</key>
+			<dict>
+                                <key>encoding</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>txen</string>
+                                        <key>ReadOnly</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>NSNumber&lt;Int&gt;</string>
+				</dict>
+				<key>fontName</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>font</string>
+					<key>Type</key>
+					<string>NSString</string>
+				</dict>
+				<key>fontSize</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>colr</string>
+					<key>Type</key>
+					<string>NSColor</string>
+				</dict>
+				<key>foregroundColor</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>ptsz</string>
+					<key>Type</key>
+					<string>NSNumber&lt;Double&gt;</string>
+				</dict>
+			</dict>
+			<key>Superclass</key>
+			<string>NSTextSuite.NSTextStorage</string>
+			<key>ToManyRelationships</key>
+			<dict>
+				<key>attributeRuns</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>catr</string>
+					<key>ReadOnly</key>
+					<string>NO</string>
+					<key>Type</key>
+					<string>SubEthaEditSuite.TextStorage</string>
+				</dict>
+				<key>characters</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>cha </string>
+					<key>ReadOnly</key>
+					<string>NO</string>
+					<key>Type</key>
+					<string>SubEthaEditSuite.TextStorage</string>
+				</dict>
+                                <!--
+				<key>insertionPoints</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>cins</string>
+					<key>ReadOnly</key>
+					<string>NO</string>
+					<key>Type</key>
+					<string>PBXApplicationSuite.PBXInsertionPoint</string>
+				</dict>
+                                -->
+				<key>paragraphs</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>cpar</string>
+					<key>ReadOnly</key>
+					<string>NO</string>
+					<key>Type</key>
+					<string>SubEthaEditSuite.TextStorage</string>
+				</dict>
+				<key>words</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>cwor</string>
+					<key>ReadOnly</key>
+					<string>NO</string>
+					<key>Type</key>
+					<string>SubEthaEditSuite.TextStorage</string>
+				</dict>
+			</dict>
+			<key>ToOneRelationships</key>
+			<dict>
+				<key>text</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>ctxt</string>
+					<key>Type</key>
+					<string>SubEthaEditSuite.TextStorage</string>
+				</dict>
+			</dict>
+                </dict>
 	</dict>
 	<key>Commands</key>
 	<dict>

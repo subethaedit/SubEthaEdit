@@ -15,6 +15,13 @@
 		<dict>
 			<key>Attributes</key>
 			<dict>
+				<key>fileEncoding</key>
+				<dict>
+					<key>Description</key>
+					<string>file encoding</string>
+					<key>Name</key>
+					<string>file encoding</string>
+				</dict>
 				<key>textStorage</key>
 				<dict>
 					<key>Description</key>
@@ -27,6 +34,46 @@
 			<string>text document</string>
 			<key>PluralName</key>
 			<string>text documents</string>
+		</dict>
+		<key>TextStorage</key>
+		<dict>
+			<key>Attributes</key>
+			<dict>
+                                <key>encoding</key>
+				<dict>
+					<key>Description</key>
+					<string>text encoding</string>
+					<key>Name</key>
+					<string>encoding</string>
+				</dict>
+				<key>fontName</key>
+				<dict>
+					<key>Description</key>
+					<string></string>
+					<key>Name</key>
+					<string>font</string>
+				</dict>
+				<key>fontSize</key>
+				<dict>
+					<key>Description</key>
+					<string></string>
+					<key>Name</key>
+					<string>color</string>
+				</dict>
+				<key>foregroundColor</key>
+				<dict>
+					<key>Description</key>
+					<string></string>
+					<key>Name</key>
+					<string>size</string>
+				</dict>
+			</dict>
+			<key>Description</key>
+			<string></string>
+			<key>Name</key>
+			<string>text</string>
+			<key>PluralName</key>
+			<string>text</string>
 		</dict>
 	</dict>
 	<key>Commands</key>
