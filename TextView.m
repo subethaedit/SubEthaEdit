@@ -257,6 +257,42 @@ static NSMenu *defaultMenu=nil;
     }
 }
 
+- (void)complete:(id)sender {
+    I_flags.shouldCheckCompleteStart=YES;
+    [super complete:sender];
+}
+
+- (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index {
+    NSArray *result=[super completionsForPartialWordRange:charRange indexOfSelectedItem:index];
+    if (I_flags.shouldCheckCompleteStart) {
+        if ([result count]) {
+            if ([[self delegate] respondsToSelector:@selector(textViewWillStartAutocomplete:)]) {
+                [[self delegate] textViewWillStartAutocomplete:self];
+            }
+        }
+        I_flags.shouldCheckCompleteStart=NO;
+    }
+    return result;
+}
+
+#define APPKIT10_3 743
+
+- (void)insertCompletion:(NSString *)word forPartialWordRange:(NSRange)charRange movement:(int)movement isFinal:(BOOL)flag {
+    [super insertCompletion:word forPartialWordRange:charRange movement:movement isFinal:flag];
+    if (flag) {
+        //NSLog(@"%f",NSAppKitVersionNumber);
+        if (floor(NSAppKitVersionNumber) <= APPKIT10_3 && charRange.length==1) {
+            // Documented bug in 10.3.x so work around it
+            [self setSelectedRange:charRange];
+            [self insertText:word];
+            [self setSelectedRange:NSMakeRange(charRange.location,[word length])];
+        }
+        if ([[self delegate] respondsToSelector:@selector(textView:didFinishAutocompleteByInsertingCompletion:forPartialWordRange:movement:)]) {
+            [[self delegate] textView:self didFinishAutocompleteByInsertingCompletion:word forPartialWordRange:charRange movement:movement];
+        }
+    }
+}
+
 #pragma mark -
 #pragma mark ### dragging ###
 

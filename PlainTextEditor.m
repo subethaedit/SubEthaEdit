@@ -1024,5 +1024,24 @@
     return completions;
 }
 
+- (void)textViewWillStartAutocomplete:(TextView *)aTextView {
+//    NSLog(@"Start");
+    PlainTextDocument *document=[self document];
+    [document setIsHandlingUndoManually:YES];
+    [document setShouldChangeChangeCount:NO];
+}
+
+- (void)textView:(TextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement {
+//    NSLog(@"textView: didFinishAutocompleteByInsertingCompletion:%@ forPartialWordRange:%@ movement:%d",aWord,NSStringFromRange(aCharRange),aMovement);
+    PlainTextDocument *document=[self document];
+    UndoManager *undoManager=[document documentUndoManager];
+    [undoManager registerUndoChangeTextInRange:NSMakeRange(aCharRange.location,[aWord length])
+                 replacementString:[[[aTextView textStorage] string] substringWithRange:aCharRange] shouldGroupWithPriorOperation:NO];
+
+    [document setIsHandlingUndoManually:NO];
+    [document setShouldChangeChangeCount:YES];
+    [document updateChangeCount:NSChangeDone];
+
+}
 
 @end

@@ -53,6 +53,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL didPauseBecauseOfMarkedText;
         BOOL shouldChangeChangeCount;
         BOOL shouldSelectModeOnSave;
+        BOOL isHandlingUndoManually;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -184,6 +185,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 #pragma mark -
 #pragma mark ### Flag Accessors ###
+- (BOOL)isHandlingUndoManually;
+- (void)setIsHandlingUndoManually:(BOOL)aFlag;
 - (BOOL)shouldChangeChangeCount;
 - (void)setShouldChangeChangeCount:(BOOL)aFlag;
 

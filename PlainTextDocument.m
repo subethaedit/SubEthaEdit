@@ -176,6 +176,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 - (void)TCM_initHelper {
+    I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
     [self setUndoManager:nil];
     I_rangesToInvalidate = [NSMutableArray new];
@@ -541,6 +542,15 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         }
         [textView setSelectedRange:symbolRange];
         [textView scrollRangeToVisible:symbolRange];
+        PlainTextWindowController *controller=(PlainTextWindowController *)[[textView window] windowController];
+        NSArray *plainTextEditors=[controller plainTextEditors];
+        int i=0;
+        for (i=0;i<[plainTextEditors count]; i++) {
+            if ([[plainTextEditors objectAtIndex:i] textView]==textView) {
+                [[plainTextEditors objectAtIndex:i] setFollowUserID:nil];
+                break;
+            }
+        }
     } else {
         NSBeep();
     }
@@ -2139,6 +2149,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 #pragma mark ### Flag Accessors ###
 
+- (BOOL)isHandlingUndoManually {
+    return I_flags.isHandlingUndoManually;
+}
+
+- (void)setIsHandlingUndoManually:(BOOL)aFlag {
+    I_flags.isHandlingUndoManually=aFlag;
+}
+
 - (BOOL)shouldChangeChangeCount {
     return I_flags.shouldChangeChangeCount;
 }
@@ -2734,7 +2752,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
 - (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
-    if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile) {
+    if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile && !I_flags.isHandlingUndoManually) {
         TextOperation *operation=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:(NSString *)[TCMMMUserManager myUserID]];
         UndoManager *undoManager=[self documentUndoManager];
         BOOL shouldGroup=YES;

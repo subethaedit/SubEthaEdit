@@ -10,6 +10,9 @@
 
 @interface TextView : NSTextView {
     BOOL I_isDragTarget;
+    struct {
+        BOOL shouldCheckCompleteStart;
+    } I_flags;
 }
 + (void)setDefaultMenu:(NSMenu *)aMenu;
 @end
@@ -18,4 +21,6 @@
 - (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent;
 - (NSDictionary *)blockeditAttributesForTextView:(NSTextView *)aTextView;
 - (void)textViewDidChangeSpellCheckingSetting:(TextView *)aTextView;
+- (void)textView:(TextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement;
+- (void)textViewWillStartAutocomplete:(TextView *)aTextView;
 @end

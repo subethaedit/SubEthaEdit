@@ -3507,6 +3507,8 @@
                 <string>or</string>
                 <string>echo</string>
                 <string>new</string>
+                <string>static</string>
+                <string>var</string>
                 <string>int</string>
                 <string>float</string>
                 <string>string</string>
