@@ -99,7 +99,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                                                  name:PlainTextDocumentDidChangeDisplayNameNotification 
                                                object:[self document]];
     
-    PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self];
+    PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
     [[self window] setContentView:[plainTextEditor editorView]];
     [I_plainTextEditors addObject:plainTextEditor];
     [plainTextEditor release];
@@ -357,7 +357,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 
 - (void)toggleSplitView:(id)aSender {
     if ([I_plainTextEditors count]==1) {
-        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self];
+        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:NO];
         [I_plainTextEditors addObject:plainTextEditor];
         [plainTextEditor release];
         NSSplitView *splitView = [[SplitView alloc] initWithFrame:[[[self window] contentView] frame]];
@@ -375,6 +375,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         [[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
         [I_plainTextEditors removeObjectAtIndex:1];
     }
+    [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];
 }
 
 #pragma mark -

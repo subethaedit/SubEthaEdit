@@ -26,14 +26,16 @@
     struct {
         BOOL showTopStatusBar;
         BOOL showBottomStatusBar;
+        BOOL hasSplitButton;
     } I_flags;
 }
 
 
-- (id)initWithWindowController:(NSWindowController *)aWindowController;
+- (id)initWithWindowController:(NSWindowController *)aWindowController splitButton:(BOOL)aFlag;
 - (NSView *)editorView;
 - (NSTextView *)textView;
 - (PlainTextDocument *)document;
+- (void)setIsSplit:(BOOL)aFlag;
 
 - (BOOL)showsTopStatusBar;
 - (void)setShowsTopStatusBar:(BOOL)aFlag;

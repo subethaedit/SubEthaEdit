@@ -16,6 +16,7 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "ButtonScrollView.h"
 
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions) 
 - (void)TCM_updateStatusBar;
@@ -24,10 +25,11 @@
 
 @implementation PlainTextEditor 
 
-- (id)initWithWindowController:(NSWindowController *)aWindowController {
+- (id)initWithWindowController:(NSWindowController *)aWindowController splitButton:(BOOL)aFlag {
     self = [super init];
     if (self) {
         I_windowController = aWindowController;
+        I_flags.hasSplitButton = aFlag;
         I_flags.showTopStatusBar = YES;
         I_flags.showBottomStatusBar = YES;
         [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
@@ -47,6 +49,15 @@
 - (void)awakeFromNib {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultParagraphStyleDidChange:) name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:[I_windowController document]];
 
+    if (I_flags.hasSplitButton) {
+        NSRect scrollviewFrame=[O_scrollView frame];
+        [O_scrollView removeFromSuperview];
+        O_scrollView = [[ButtonScrollView alloc] initWithFrame:scrollviewFrame];
+        [O_scrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [O_editorView addSubview:O_scrollView];
+        [O_scrollView release];
+    }
+    
     [O_scrollView setHasVerticalScroller:YES];
     NSRect frame;
     frame.origin=NSMakePoint(0.,0.);
@@ -176,6 +187,12 @@
 
 - (PlainTextDocument *)document {
     return (PlainTextDocument *)[I_windowController document];
+}
+
+- (void)setIsSplit:(BOOL)aFlag {
+    if (I_flags.hasSplitButton) {
+        [[(ButtonScrollView *)O_scrollView button] setState:aFlag?NSOnState:NSOffState];
+    }
 }
 
 - (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent{

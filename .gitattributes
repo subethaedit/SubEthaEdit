@@ -183,6 +183,8 @@ prototype/xmpp-cli/xmpp.xcode/project.pbxproj -text
 prototype/xmpp-cli/xmpp_Prefix.pch -text
 subethaedit/AppController.h -text
 subethaedit/AppController.m -text
+subethaedit/ButtonScrollView.h -text
+subethaedit/ButtonScrollView.m -text
 subethaedit/DebugPreferences.h -text
 subethaedit/DebugPreferences.m -text
 subethaedit/DebugPrefs.nib/classes.nib -text
@@ -543,6 +545,8 @@ subethaedit/artwork/ScriptMenu.tiff -text
 subethaedit/artwork/ShiftLeft.tiff -text
 subethaedit/artwork/ShiftRight.tiff -text
 subethaedit/artwork/ShowChangeMarks.psd -text
+subethaedit/artwork/SplitClose.tiff -text
+subethaedit/artwork/SplitOpen.tiff -text
 subethaedit/artwork/StatusLock.tiff -text
 subethaedit/artwork/StatusReadOnly.tiff -text
 subethaedit/artwork/SubEthaEdit.icns -text
