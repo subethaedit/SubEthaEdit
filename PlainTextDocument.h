@@ -52,6 +52,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL isReadingFile;
         BOOL didPauseBecauseOfMarkedText;
         BOOL shouldChangeChangeCount;
+        BOOL shouldSelectModeOnSave;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;

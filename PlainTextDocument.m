@@ -176,6 +176,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 - (void)TCM_initHelper {
+    I_flags.shouldSelectModeOnSave=YES;
     [self setUndoManager:nil];
     I_rangesToInvalidate = [NSMutableArray new];
     I_findAllControllers = [NSMutableArray new];
@@ -1239,6 +1240,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)saveToFile:(NSString *)fileName saveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
+
+    if (I_flags.shouldSelectModeOnSave) {
+        DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+        if (![mode isBaseMode]) {
+            [self setDocumentMode:mode];
+        }
+        I_flags.shouldSelectModeOnSave=NO;
+    }
+
     if (saveOperation == NSSaveToOperation) {
         I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
     }
@@ -1270,6 +1280,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
+    I_flags.shouldSelectModeOnSave=NO;
 
     I_flags.isReadingFile=YES;
 
@@ -2413,6 +2424,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (identifier) {
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
         [self setDocumentMode:newMode];
+        I_flags.shouldSelectModeOnSave=NO;
     }
 }
 
@@ -2607,6 +2619,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     I_flags.isRemotelyEditingTextStorage=NO;
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
     [self updateChangeCount:NSChangeCleared];
+    I_flags.shouldSelectModeOnSave=NO;
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent {
