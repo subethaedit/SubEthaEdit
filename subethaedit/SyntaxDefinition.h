@@ -7,14 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <OgreKit/OgreKit.h>
 
 @interface SyntaxDefinition : NSObject {
     NSString *I_name;               /*"Name (obsolete?)"*/
     NSCharacterSet *I_tokenSet;     /*"Set for tokenizing"*/
+    NSCharacterSet *I_invertedTokenSet;     /*"Set for tokenizing"*/
     NSMutableArray *I_states;       /*"All states except the default state"*/
     NSMutableDictionary *I_defaultState;    /*"Default state"*/
     NSMutableArray *I_stylesForToken;   /*"Chached plainstrings"*/
     NSMutableArray *I_stylesForRegex;   /*"Chached regexs"*/
+    OGRegularExpression *I_combinedStateRegex;     /*"All state-begins in one regex"*/
 }
 
 /*"Initizialisation"*/
@@ -34,9 +37,14 @@
 /*"Accessors"*/
 - (NSString *)name;
 - (void)setName:(NSString *)aString;
+- (NSMutableArray *)states;
 - (NSCharacterSet *)tokenSet;
+- (NSCharacterSet *)invertedTokenSet;
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet;
 - (NSDictionary *)styleForToken:(NSString *)aToken inState:(int)aState;
-- (NSDictionary *)regularExpressions;
+- (NSDictionary *)regularExpressionsInState:(int)aState;
+- (void)setCombinedStateRegex;
+- (OGRegularExpression *)combinedStateRegex;
+
 
 @end

@@ -8,7 +8,6 @@
 
 #import "SyntaxDefinition.h"
 #import "NSColorTCMAdditions.h"
-#import <OgreKit/OgreKit.h>
 
 
 @implementation SyntaxDefinition
@@ -34,7 +33,8 @@
         // Setup stuff <-> style dictionaries
         I_stylesForToken = [NSMutableArray new];
         I_stylesForRegex = [NSMutableArray new];
-        [self cacheStyles]; 
+        [self cacheStyles];
+        [self setCombinedStateRegex];
         
         // Compile RegExs
         
@@ -60,6 +60,7 @@
 -(void)parseXMLFile:(NSString *)aPath {
     CFXMLTreeRef cfXMLTree;
     CFDataRef xmlData;
+    if (!(aPath)) NSLog(@"ERROR: Can't parse nil syntax definition.");
     CFURLRef sourceURL = (CFURLRef)[NSURL fileURLWithPath:aPath];
     NSDictionary *errorDict;
 
@@ -173,8 +174,12 @@
         if ([@"state" isEqualToString:tag]) {
             NSMutableDictionary *aDictionary = [NSMutableDictionary dictionary];
             [I_states addObject:aDictionary];
-            [aDictionary addEntriesFromDictionary:attributes];
-
+            [aDictionary addEntriesFromDictionary:attributes]; //FIXME: Cache styles
+            NSColor *aColor;
+            if (aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]]) 
+                [aDictionary setObject:aColor forKey:@"color"];
+            if (aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"background-color"]]) 
+                [aDictionary setObject:aColor forKey:@"background-color"];
             [self stateForTreeNode:xmlTree toDictionary:aDictionary];
         } else if ([@"default" isEqualToString:tag]) {
             [I_defaultState addEntriesFromDictionary:attributes];
@@ -209,6 +214,7 @@
                 DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<begin> tag is PlainString");
                 [aDictionary setObject:innerContent forKey:@"BeginsWithPlainString"];
             }
+        // FIXME: Case insensitivity, strings!
         } else if ([@"end" isEqualToString:tag]) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found <end> tag");
             CFXMLTreeRef firstTree = CFTreeGetFirstChild(xmlTree);
@@ -217,9 +223,17 @@
             CFXMLNodeRef secondNode = CFXMLTreeGetNode(secondTree);
             NSString *innerTag = (NSString *)CFXMLNodeGetString(firstNode);
             NSString *innerContent = (NSString *)CFXMLNodeGetString(secondNode);
+            
             if ([innerTag isEqualTo:@"regex"]) {
                 DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<end> tag is RegEx");
                 [aDictionary setObject:innerContent forKey:@"EndsWithRegexString"];
+                
+                OGRegularExpression *endRegex;
+                if ([OGRegularExpression isValidExpressionString:innerContent]) {
+                    if (endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease])
+                        [aDictionary setObject:endRegex forKey:@"EndsWithRegex"];
+                } else NSLog(@"%@ is not a valid Regex.", innerContent);
+                
             } else if ([innerTag isEqualTo:@"string"]) {
                 DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<end> tag is PlainString");
                 [aDictionary setObject:innerContent forKey:@"EndsWithPlainString"];
@@ -292,6 +306,10 @@
     while (aDictionary = [statesEnumerator nextObject]) {
         if (aDictionary = [aDictionary objectForKey:@"KeywordGroups"]) [self addStylesForKeywordGroups:aDictionary];
     }
+    
+    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching plainstrings:%@",[I_stylesForToken description]);
+    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching regular expressions:%@",[I_stylesForRegex description]);
+
 }
 
 /*"Creates dictionaries which match styles (color, font, etc.) to plainstrings or regexs"*/
@@ -327,21 +345,31 @@
                 [newDictionary setObject:attributes forKey:keyword];
             }
         }
-        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching plainstrings:%@",[I_stylesForToken description]);
         // Then do the regex stuff
         
         if (keywords = [keywordGroup objectForKey:@"RegularExpressions"]) {
             NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
             NSMutableDictionary *newDictionary;
             newDictionary = [NSMutableDictionary dictionary];
-            [I_stylesForToken addObject:newDictionary];
+            [I_stylesForRegex addObject:newDictionary];
             NSString *keyword;
+            NSString *aString;
             while (keyword = [keywordEnumerator nextObject]) {
-                //2DO Compile the regex
-                //[newDictionary setObject:attributes forKey:regex];
+                OGRegularExpression *regex;
+                unsigned regexOptions = OgreFindLongestOption|OgreFindNotEmptyOption;
+                if (aString =[attributes objectForKey:@"casesensitive"]) {       
+                    if ([aString isEqualTo:@"no"]) {
+                        regexOptions = regexOptions|OgreIgnoreCaseOption;
+                    }
+                }
+                if ([OGRegularExpression isValidExpressionString:keyword]) {
+                    if (regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease])
+                        [newDictionary setObject:attributes forKey:regex];
+                } else {
+                    NSLog(@"ERROR: %@ in \"%@\" is not a valid regular expression", keyword, [attributes objectForKey:@"id"]);
+                }
             }
         }
-        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching regular expressions:%@",[I_stylesForRegex description]);
     }
 }
 
@@ -364,31 +392,78 @@
      I_name = [aString copy];
 }
 
+- (NSMutableArray *)states
+{
+    return I_states;
+}
+
 - (NSCharacterSet *)tokenSet
 {
     return I_tokenSet;
+}
+
+- (NSCharacterSet *)invertedTokenSet
+{
+    return I_invertedTokenSet;
 }
 
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet
 {
     [I_tokenSet autorelease];
      I_tokenSet = [aCharacterSet copy];
+     I_invertedTokenSet = [[aCharacterSet invertedSet] copy];
 }
 
 - (NSDictionary *)styleForToken:(NSString *)aToken inState:(int)aState 
 {
-    //NSDictionary *aStyle;
-    //if (aStyle = [I_stylesForToken objectForKey:aToken]) return aStyle;
+    NSDictionary *aStyle;
+    if (aStyle = [[I_stylesForToken objectAtIndex:aState] objectForKey:aToken]) return aStyle;
     // FIXME: Handle caseinsensitive Tokens with CFDictionary
-    //else 
-    return nil;
+    else return nil;
 }
 
-- (NSDictionary *)regularExpressions
+- (NSDictionary *)regularExpressionsInState:(int)aState
 {
-    return nil;
+    NSDictionary *aRegexDictionary;
+    if (aRegexDictionary = [I_stylesForRegex objectAtIndex:aState]) return aRegexDictionary;
+    else return nil;
 }
 
+- (void)setCombinedStateRegex 
+{
+    NSMutableString *combinedString = [NSMutableString string];
+    NSEnumerator *statesEnumerator = [I_states objectEnumerator];
+    NSMutableDictionary *aDictionary;
+    while (aDictionary = [statesEnumerator nextObject]) {
+        NSString *beginString;
+        if (beginString = [aDictionary objectForKey:@"BeginsWithRegexString"]) {
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found regex string state start:%@",beginString);
+        } else if (beginString = [aDictionary objectForKey:@"BeginsWithPlainString"]) {
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found plain string state start:%@",beginString);
+        } else {
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"ERROR: State without begin:%@",[aDictionary description]);
+        }
+        if (beginString) {
+            [combinedString appendString:[NSString stringWithFormat:@"(%@)|",beginString]];
+        }
+    }
+    int combinedStringLength = [combinedString length];
+    if (combinedStringLength>1) {
+        [combinedString deleteCharactersInRange:NSMakeRange(combinedStringLength-1,1)];      
+        [I_combinedStateRegex autorelease];
+        if ([OGRegularExpression isValidExpressionString:combinedString]) {
+            I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
+        } else {
+            NSLog(@"ERROR: %@ (begins of all states) is not a valid regular expression", combinedString);
+        }
+    }
+    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"CombinedStateRegex:%@",[self combinedStateRegex]);
+}
+
+- (OGRegularExpression *)combinedStateRegex
+{
+    return I_combinedStateRegex;
+}
 
 
 @end

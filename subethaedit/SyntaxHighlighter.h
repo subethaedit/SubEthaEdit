@@ -23,6 +23,12 @@ extern NSString * const kSyntaxHighlightingIsDirtyAttributeValue;
 - (SyntaxDefinition *)syntaxDefinition;
 - (void)setSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
 
+/*"Highlighting"*/
+-(void)highlightAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange;
+-(void)stateMachineOnAttributedString:(NSMutableAttributedString *)aString inRange:(NSRange)aRange;
+-(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState;
+-(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange;
+
 /*"Document Interaction"*/
 - (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage;
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage;

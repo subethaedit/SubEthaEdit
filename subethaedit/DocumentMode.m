@@ -8,6 +8,7 @@
 
 #import "DocumentMode.h"
 #import "SyntaxHighlighter.h"
+#import "SyntaxDefinition.h"
 
 
 @implementation DocumentMode
@@ -16,7 +17,8 @@
     self = [super init];
     if (self) {
         I_bundle = [aBundle retain];
-        I_syntaxHighlighter = [SyntaxHighlighter new];
+        SyntaxDefinition *synDef = [[[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"]] autorelease];
+        I_syntaxHighlighter = [[SyntaxHighlighter alloc] initWithSyntaxDefinition:synDef];
     }
     return self;
 }
