@@ -1339,7 +1339,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     [[textStorage mutableString] setString:@""]; // Empty the document
-    [options setObject:[NSNumber numberWithInt:1] forKey:@"UseWebKit"];
 
     NSURL *fileURL = [NSURL fileURLWithPath:[fileName stringByExpandingTildeInPath]];
 
