@@ -117,6 +117,7 @@ extern NSString * const ChangedByUserIDAttributeName;
     UndoManager *I_undoManager;
     TextOperation *I_lastRegisteredUndoOperation;
     
+    NSMutableDictionary *I_printOptions;
     // Print nib
     IBOutlet NSView *O_printOptionView;
     IBOutlet NSObjectController *O_printOptionController;
@@ -270,7 +271,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 #pragma mark ### Printing ###
 - (IBAction)changeFontViaPanel:(id)sender;
-
+- (NSMutableDictionary *)printOptions;
+- (void)setPrintOptions:(NSDictionary *)aPrintOptions;
 
 #pragma mark -
 #pragma mark ### Session Interaction ###

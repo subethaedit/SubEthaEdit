@@ -264,17 +264,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)printPreferencesDidChange:(NSNotification *)aNotification {
     if ([[aNotification object] isEqualTo:[self documentMode]]) {
-        NSPrintInfo *printInfo=[self printInfo];
-        NSPrintInfo *defaultPrintInfo=[NSKeyedUnarchiver unarchiveObjectWithData:[[self documentMode] defaultForKey:DocumentModePrintInfoPreferenceKey]];
-        NSEnumerator *keyPaths=[[PrintPreferences relevantPrintOptionKeys] objectEnumerator];
-        NSString     *keyPath=nil;
-        while ((keyPath=[keyPaths nextObject])) {
-            id value=[[defaultPrintInfo dictionary] objectForKey:keyPath];
-            if (value) {
-                [[printInfo dictionary] setObject:value forKey:keyPath];
-            }
-        }
-        [self setPrintInfo:printInfo];
+        [self setPrintOptions:[[self documentMode] defaultForKey:DocumentModePrintOptionsPreferenceKey]];
     }
 }
 
@@ -863,7 +853,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_documentMode release];
     [I_documentBackgroundColor release];
     [I_documentForegroundColor release];
-
+    [I_printOptions autorelease];
 
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
@@ -927,7 +917,7 @@ static NSString *tempFileName(NSString *origPath) {
     [self takeStyleSettingsFromDocumentMode];
     [self takeEditSettingsFromDocumentMode];
     
-    [self setPrintInfo:[NSKeyedUnarchiver unarchiveObjectWithData:[[self documentMode] defaultForKey:DocumentModePrintInfoPreferenceKey]]];    
+    [self setPrintOptions:[[self documentMode] defaultForKey:DocumentModePrintOptionsPreferenceKey]];    
 }
 
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode {
@@ -943,6 +933,15 @@ static NSString *tempFileName(NSString *origPath) {
     }
     [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
     [self updateSymbolTable];
+}
+
+- (NSMutableDictionary *)printOptions {
+    return I_printOptions;
+}
+
+- (void)setPrintOptions:(NSDictionary *)aPrintOptions {
+    [I_printOptions autorelease];
+    I_printOptions=[aPrintOptions mutableCopy];
 }
 
 // only because the original implementation updates the changecount
@@ -3071,7 +3070,7 @@ static NSString *S_measurementUnits;
     if (showPanels) {
         // Add accessory view, if needed
         [op setAccessoryView:O_printOptionView];
-        [O_printOptionController setContent:[[op printInfo] dictionary]];
+        [O_printOptionController setContent:[self printOptions]];
     }
     I_printOperationIsRunning=YES;
     // Run operation, which shows the Print panel if showPanels was YES
@@ -3088,8 +3087,7 @@ static NSString *S_measurementUnits;
         [self setPrintInfo:[[NSPrintOperation currentOperation] printInfo]];
     }
     [O_printOptionController setContent:[NSMutableDictionary dictionary]];
-    // very ugly... but otherwise we get an exception when the printinfo is autoreleased
-    [op performSelector:@selector(autorelease) withObject:nil afterDelay:3.];
+    [op autorelease];
 }
 
 - (IBAction)changeFontViaPanel:(id)sender {
@@ -3111,11 +3109,7 @@ static NSString *S_measurementUnits;
                  forKey:NSFontNameAttribute];
         [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
                  forKey:NSFontSizeAttribute];
-        [[O_printOptionController content] setValue:dict forKeyPath:@"dictionary.SEEFontAttributes"];
-        // meaningless ugly content update triggering of controller layer bullshit
-        NSPrintInfo *printInfo=[O_printOptionController content];
-        [O_printOptionController setContent:[[[O_printOptionController content] copy] autorelease]];
-        [O_printOptionController setContent:printInfo];
+        [[O_printOptionController content] setValue:dict forKeyPath:@"SEEFontAttributes"];
     } else {
         [self setPlainFont:newFont];
     }
