@@ -219,6 +219,12 @@
             if ([delegate respondsToSelector:@selector(profileDidAcceptJoinRequest:)]) {
                 [delegate profileDidAcceptJoinRequest:self];
             }
+        } else if (strncmp(type, "INVCAN", 6) == 0) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received cancel Invitation.");
+            id delegate = [self delegate];
+            if ([delegate respondsToSelector:@selector(profileDidCancelInvitation:)]) {
+                [delegate profileDidCancelInvitation:self];
+            }
         } else if (strncmp(type, "INVDNY", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received decline Invitation.");
             id delegate = [self delegate];

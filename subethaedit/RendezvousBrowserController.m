@@ -168,6 +168,13 @@ static RendezvousBrowserController *sharedInstance=nil;
     [self TCM_validateStatusPopUpButton];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
+
+// debug code
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionClientStateDidChange:) name:TCMMMSessionClientStateDidChangeNotification object:nil];
+}
+
+- (void)sessionClientStateDidChange:(NSNotification *)aNotificaiton {
+    [O_browserListView setNeedsDisplay:YES];
 }
 
 - (void)announcedSessionsDidChange:(NSNotification *)aNotification {
@@ -275,7 +282,7 @@ static RendezvousBrowserController *sharedInstance=nil;
             if (aChildIndex >= 0 && aChildIndex < [sessions count]) {
                 TCMMMSession *session=[sessions objectAtIndex:aChildIndex];
                 if (aTag==TCMMMBrowserChildNameTag) {
-                    return [session filename];
+                    return [NSString stringWithFormat:@"%d:%@",[session clientState],[session filename]];
                 } else if (aTag==TCMMMBrowserChildIconImageTag) {
                     NSString *extension=[[session filename] pathExtension];
                     NSImage *icon=[icons objectForKey:extension];

@@ -74,6 +74,13 @@
     [O_statusBarTextField setStringValue:NSLocalizedString(@"Join Request was denied!",@"Text in Proxy window")];
 }
 
+- (void)invitationWasCanceled {
+    if (![O_statusBarTextField window]) {
+        [[[self window] contentView] replaceSubview:O_bottomDecisionView with:O_bottomStatusView];
+    }
+    [O_statusBarTextField setStringValue:NSLocalizedString(@"Invitation was canceled!",@"Text in Proxy window")];
+}
+
 - (void)windowDidResize:(NSNotification *)aNotification {
     if (I_targetWindow && NSEqualRects([[self window] frame],[I_targetWindow frame])) {
         [I_targetWindow orderWindow:NSWindowBelow relativeTo:[[self window] windowNumber]];
@@ -89,7 +96,7 @@
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
     NSString *filename=[I_session filename];
-    if ([I_session isServer]) {
+    if ([I_session wasInvited]) {
         return [NSString stringWithFormat:NSLocalizedString(@"%@ (invited...)",@"Proxy window title for invited documents"),filename];
     } else {
         return [NSString stringWithFormat:NSLocalizedString(@"%@ (joining...)",@"Proxy window title for joining documents"),filename];

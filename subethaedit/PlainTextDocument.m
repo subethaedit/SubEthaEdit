@@ -2344,6 +2344,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
+- (void)sessionDidCancelInvitation:(TCMMMSession *)aSession {
+    [I_documentProxyWindowController invitationWasCanceled];
+}
+
 - (void)sessionDidReceiveClose:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
     NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"Closed",@"Server Closed Document title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"ClosedInfo",@"Server Closed Document info in Sheet")];

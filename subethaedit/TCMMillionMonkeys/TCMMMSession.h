@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
+extern NSString * const TCMMMSessionClientStateDidChangeNotification;
 extern NSString * const TCMMMSessionParticipantsDidChangeNotification;
 extern NSString * const TCMMMSessionPendingUsersDidChangeNotification;
 extern NSString * const TCMMMSessionDidChangeNotification;
@@ -21,6 +22,14 @@ typedef enum TCMMMSessionAccessState {
     TCMMMSessionAccessReadOnlyState=1,
     TCMMMSessionAccessReadWriteState=2
 } TCMMMSessionAccessState;
+
+typedef enum TCMMMSessionClientState {
+    TCMMMSessionClientNoState=0,
+    TCMMMSessionClientJoiningState=1,
+    TCMMMSessionClientInvitedState=2,
+    TCMMMSessionClientParticipantState=3,
+} TCMMMSessionClientState;
+
 
 @interface TCMMMSession : NSObject
 {
@@ -41,6 +50,7 @@ typedef enum TCMMMSessionAccessState {
     NSMutableArray *I_closingProfiles;
     NSMutableArray *I_closingStates;
     TCMMMSessionAccessState I_accessState;
+    TCMMMSessionClientState I_clientState;
     struct {
         BOOL isServer;
         BOOL shouldSendJoinRequest;
@@ -76,6 +86,10 @@ typedef enum TCMMMSessionAccessState {
 
 - (void)setAccessState:(TCMMMSessionAccessState)aState;
 - (TCMMMSessionAccessState)accessState;
+
+- (void)setClientState:(TCMMMSessionClientState)aState;
+- (TCMMMSessionClientState)clientState;
+
 
 - (NSDictionary *)invitedUsers;
 - (NSString *)stateOfInvitedUserById:(NSString *)aUserID;
@@ -123,6 +137,7 @@ typedef enum TCMMMSessionAccessState {
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession;
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
 - (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession;
+- (void)sessionDidCancelInvitation:(TCMMMSession *)aSession;
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent;
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;

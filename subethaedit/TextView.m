@@ -313,6 +313,7 @@ static NSMenu *defaultMenu=nil;
                 [session inviteUser:user intoGroup:@"ReadWrite" usingBEEPSession:BEEPSession];
             }
         }
+        [self setIsDragTarget:NO];
         return YES;
     } else {
         return [super performDragOperation:sender];

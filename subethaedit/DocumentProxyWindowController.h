@@ -34,6 +34,6 @@
 - (void)setSession:(TCMMMSession *)aSession;
 - (void)dissolveToWindow:(NSWindow *)aWindow;
 - (void)joinRequestWasDenied;
-
+- (void)invitationWasCanceled;
 
 @end

@@ -29,6 +29,8 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
                @"TCMMMSessionPendingUsersDidChangeNotification";
 NSString * const TCMMMSessionDidChangeNotification = 
                @"TCMMMSessionDidChangeNotification";
+NSString * const TCMMMSessionClientStateDidChangeNotification = 
+               @"TCMMMSessionClientStateDidChangeNotification";
 NSString * const TCMMMSessionDidReceiveContentNotification = 
                @"TCMMMSessionDidReceiveContentNotification";
 
@@ -91,7 +93,8 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         I_closingProfiles = [NSMutableArray new];
         I_closingStates   = [NSMutableArray new];
         I_flags.shouldSendJoinRequest = NO;
-        I_flags.isServer = NO;
+        [self setIsServer:NO];
+        [self setClientState:TCMMMSessionClientNoState];
     }
     return self;
 }
@@ -109,6 +112,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [I_participants setObject:[NSMutableArray arrayWithObject:me] forKey:@"ReadWrite"];
         [I_groupByUserID setObject:@"ReadWrite" forKey:[me userID]];
         [self setIsServer:YES];
+        [self setClientState:TCMMMSessionClientNoState];
     }
     return self;
 }
@@ -287,6 +291,22 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     return I_accessState;
 }
 
+- (void)setClientState:(TCMMMSessionClientState)aState {
+    if (I_clientState!=aState) {
+        I_clientState = aState;
+        [[NSNotificationQueue defaultQueue] 
+        enqueueNotification:[NSNotification notificationWithName:TCMMMSessionClientStateDidChangeNotification object:self]
+               postingStyle:NSPostWhenIdle 
+               coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+                   forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+    }
+}
+
+- (TCMMMSessionClientState)clientState {
+    return I_clientState;
+}
+
+
 #pragma mark -
 
 - (void)documentDidApplyOperation:(TCMMMOperation *)anOperation {
@@ -464,7 +484,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [I_stateOfInvitedUsers removeObjectForKey:aUserID];
         [I_groupOfInvitedUsers removeObjectForKey:aUserID];
         SessionProfile *profile=[I_profilesByUserID objectForKey:aUserID];
-        [profile close];
+        [profile cancelInvitation];
         [profile setDelegate:nil];
         [I_profilesByUserID removeObjectForKey:aUserID];
         [self TCM_sendParticipantsDidChangeNotification];
@@ -497,17 +517,22 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession
 {
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
-    if (document) {
-        [document showWindows];
-    } else {
-        [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
+    TCMMMSessionClientState state=[self clientState];
+    if (state != TCMMMSessionClientParticipantState &&
+        state != TCMMMSessionClientInvitedState) {
         TCMBEEPSession *session = aBEEPSession;
         if (!session) {
             session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
         }
-        I_flags.shouldSendJoinRequest=YES;
-        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
+        if (session) {
+            [self setClientState:TCMMMSessionClientJoiningState];
+            [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
+            I_flags.shouldSendJoinRequest=YES;
+            [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
+        }
+    } else {
+        PlainTextDocument *document=(PlainTextDocument *)[self document];
+        [document showWindows];    
     }
 }
 
@@ -517,11 +542,13 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [profile setDelegate:nil];
     [I_profilesByUserID removeObjectForKey:[self hostID]];
     I_flags.shouldSendJoinRequest = NO;
+    [self setClientState:TCMMMSessionClientNoState];
 }
 
 - (void)acceptInvitation {
     SessionProfile *profile = [I_profilesByUserID objectForKey:[self hostID]];
     [profile acceptInvitation];
+    [self setClientState:TCMMMSessionClientParticipantState];
 }
 
 - (void)declineInvitation {
@@ -529,6 +556,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [profile declineInvitation];
     [profile setDelegate:nil];
     [I_profilesByUserID removeObjectForKey:[self hostID]];
+    [self setClientState:TCMMMSessionClientNoState];
 }
 
 - (void)leave {
@@ -536,13 +564,14 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         SessionProfile *profile = [I_profilesByUserID objectForKey:[self hostID]];
         if (profile) {
             UserChangeOperation *iLeftOperation=[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[TCMMMUserManager myUserID] newGroup:@""];
-            [self documentDidApplyOperation:iLeftOperation]; // note that this only comes through if content was already übermittelt
+            [self documentDidApplyOperation:iLeftOperation]; // note that this only comes through if content was already transmitted
             [profile abortIncomingMessages];
             [profile close];
             [self detachStateAndProfileForUserWithID:[self hostID]];
             [self cleanupParticipants];
             [[TCMMMUserManager me] leaveSessionID:[self sessionID]];
         }
+        [self setClientState:TCMMMSessionClientNoState];
     }
 }
 
@@ -555,8 +584,6 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)inviteUserWithID:(NSString *)aUserID
 {
-    // merk invited userID
-    
     TCMBEEPSession *session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
     [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
 }
@@ -703,6 +730,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (void)invitationWithProfile:(SessionProfile *)profile
 {
     [self setWasInvited:YES];
+    [self setClientState:TCMMMSessionClientInvitedState];
     PlainTextDocument *document=(PlainTextDocument *)[self document];
     if (document) {
         NSLog(@"Mist already having a document...");
@@ -752,6 +780,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [[self document] sessionDidDenyJoinRequest:self];
     [I_closingProfiles addObject:aProfile];
     [I_profilesByUserID removeObjectForKey:peerUserID];
+    [self setClientState:TCMMMSessionClientNoState];
 }
 
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)profile
@@ -764,7 +793,14 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [profile setMMState:state];
     [I_statesByClientID setObject:state forKey:[[[profile session] userInfo] objectForKey:@"peerUserID"]];
     [state release];
+    [self setClientState:TCMMMSessionClientParticipantState];
 }
+
+- (void)profileDidCancelInvitation:(SessionProfile *)aProfile {
+    [[self document] sessionDidCancelInvitation:self];
+    [self setClientState:TCMMMSessionClientNoState];
+}
+
 
 - (void)profileDidDeclineInvitation:(SessionProfile *)aProfile {
     NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
@@ -889,6 +925,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [self detachStateAndProfileForUserWithID:[self hostID]];
         // detach document
         [[self document] sessionDidLoseConnection:self];
+        [self setClientState:TCMMMSessionClientNoState];
     }
 }
 
@@ -929,6 +966,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                 } else {
                     [[self document] sessionDidReceiveClose:self];
                 }
+                [self setClientState:TCMMMSessionClientNoState];
             }
         } else {
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
