@@ -15,6 +15,9 @@ extern NSString * const SerialNumberPrefKey;
 extern NSString * const LicenseeNamePrefKey;
 extern NSString * const LicenseeOrganizationPrefKey;
 
+#define SEE_TOOL_PATH    @"/usr/bin/see"
+#define SEE_MANPAGE_PATH @"/usr/share/man/man1/see.1"
+
 
 @interface SetupController : NSWindowController {
     IBOutlet NSTabView *O_tabView;
@@ -28,6 +31,7 @@ extern NSString * const LicenseeOrganizationPrefKey;
     
     IBOutlet NSWindow *O_licenseConfirmationSheet;
     BOOL hasAgreedToLicense;
+    BOOL hasInstalledTool;
     BOOL isFirstRun;
     NSArray *itemOrder;
     int itemIndex;
@@ -41,10 +45,15 @@ extern NSString * const LicenseeOrganizationPrefKey;
     IBOutlet NSTextView *O_licenseTextView;
     
     IBOutlet NSTabView *O_doneTabView;
+    
+    IBOutlet NSButton *O_useCommandLineToolCheckbox;
 }
 
 + (BOOL)shouldRun;
 + (SetupController *)sharedInstance;
+
++ (BOOL)installCommandLineTool;
++ (BOOL)removeCommandLineTool;
 
 - (IBAction)continueDone:(id)sender;
 - (IBAction)goBack:(id)sender;

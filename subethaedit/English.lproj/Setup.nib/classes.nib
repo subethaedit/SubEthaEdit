@@ -28,6 +28,7 @@
                 "O_purchaseTabItem" = NSTabViewItem; 
                 "O_serialNumberField" = NSTextField; 
                 "O_tabView" = NSTabView; 
+                "O_useCommandLineToolCheckbox" = NSButton; 
                 "O_welcomeTabItem" = NSTabViewItem; 
             }; 
             SUPERCLASS = NSWindowController; 

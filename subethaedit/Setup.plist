@@ -10,8 +10,8 @@
 	<key>FirstRun</key>
 	<array>
 		<string>welcome</string>
-		<string>installtool</string>
 		<string>license</string>
+		<string>installtool</string>
 		<string>purchase</string>
 		<string>done</string>
 	</array>
