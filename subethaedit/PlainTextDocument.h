@@ -50,6 +50,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL isReceivingContent;
         BOOL isReadingFile;
         BOOL didPauseBecauseOfMarkedText;
+        BOOL shouldChangeChangeCount;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -175,8 +176,12 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 - (UndoManager *)documentUndoManager;
 
+- (NSString *)preparedDisplayName;
+
 #pragma mark -
 #pragma mark ### Flag Accessors ###
+- (BOOL)shouldChangeChangeCount;
+- (void)setShouldChangeChangeCount:(BOOL)aFlag;
 
 - (BOOL)wrapLines;
 - (void)setWrapLines:(BOOL)aFlag;

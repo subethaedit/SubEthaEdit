@@ -815,6 +815,7 @@ enum {
 
 - (void)MMSessionDidChange:(NSNotification *)aNotifcation {
     [self validateUpperDrawer];
+    [self synchronizeWindowTitleWithDocumentName];
 }
 
 - (void)participantsDidChange:(NSNotification *)aNotifcation {

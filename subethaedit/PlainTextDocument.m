@@ -654,7 +654,9 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         [newSession addContributors:contributors];
     }
     [self setSession:newSession];
+    [self setShouldChangeChangeCount:YES];
     [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
+    [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
 }
 
 - (id)init {
@@ -679,6 +681,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 - (id)initWithSession:(TCMMMSession *)aSession {
     self = [super init];
     if (self) {
+        [self setShouldChangeChangeCount:NO];
         [self setSession:aSession];
         [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
         I_textStorage = [TextStorage new];
@@ -1466,6 +1469,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             } else {
                 [self setODBParameters:nil];
             }
+            [self setShouldChangeChangeCount:YES];
         }
         [self TCM_webPreviewOnSaveRefresh];
     }
@@ -1975,13 +1979,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #pragma mark -
 
-- (NSString *)displayName {
+- (NSString *)preparedDisplayName {
     NSMutableString *result=[NSMutableString string];
-    TCMMMSession *session=[self session];
-    if (!session || [session isServer]) {
-        NSArray *pathComponents=[[self fileName] pathComponents];
-        int count=[pathComponents count];
-        if (!count) return [super displayName];
+    NSArray *pathComponents=[[self fileName] pathComponents];
+    int count=[pathComponents count];
+    if (!count) {
+        result = [super displayName];
+    } else {
         int i=count;
         int pathComponentsToShow=[[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
         for (i=count-1;i>=0 && i>count-pathComponentsToShow-1;i--) {
@@ -1990,10 +1994,29 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
             [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
         }
-    } else {
-        [result appendString:[NSString stringWithFormat:@"%@ - %@",[session filename],[[[TCMMMUserManager sharedInstance] userForUserID:[session hostID]] name]]];
     }
-    
+    return result;
+}
+
+- (NSString *)displayName {
+    NSMutableString *result=[NSMutableString string];
+    TCMMMSession *session=[self session];
+    if (!session || [session isServer] || I_flags.shouldChangeChangeCount) {
+        [result appendString:[self preparedDisplayName]];
+    } else {
+        [result appendString:[session filename]];
+    }
+
+    if (session && ![session isServer]) {
+        [result appendFormat:@" - %@",[[[TCMMMUserManager sharedInstance] userForUserID:[session hostID]] name]];
+        if (I_flags.shouldChangeChangeCount) {
+            if (![[[session filename] lastPathComponent] isEqualToString:[[self fileName] lastPathComponent]]) {
+                [result appendFormat:@" (%@)",[[session filename] lastPathComponent]];
+            }
+            [result appendString:@" *"];
+        }
+    }
+
     return result;
 }
 
@@ -2004,6 +2027,18 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #pragma mark -
 #pragma mark ### Flag Accessors ###
+
+- (BOOL)shouldChangeChangeCount {
+    return I_flags.shouldChangeChangeCount;
+}
+
+- (void)setShouldChangeChangeCount:(BOOL)aFlag {
+    if (aFlag!=I_flags.shouldChangeChangeCount) {
+        I_flags.shouldChangeChangeCount=aFlag;
+        [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
+    }
+}
+
 // wrapline setting is only for book keeping - editor scope
 - (BOOL)showInvisibleCharacters {
     return I_flags.showInvisibleCharacters;
@@ -2250,6 +2285,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     (void)[self TCM_validateDocument];
 }
 
+- (void)updateChangeCount:(NSDocumentChangeType)changeType {
+    if (changeType==NSChangeCleared || I_flags.shouldChangeChangeCount) {
+        [super updateChangeCount:changeType];
+    }
+}
+
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
 
@@ -2443,7 +2484,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [super setFileName:fileName];
     TCMMMSession *session=[self session];
     if ([session isServer]) {
-        [session setFilename:[self displayName]];
+        [session setFilename:[self preparedDisplayName]];
     }
 }
 

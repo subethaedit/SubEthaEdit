@@ -114,7 +114,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     if (self) {
         [self setDocument:aDocument];
         [self setSessionID:[NSString UUIDString]];
-        [self setFilename:[aDocument displayName]];
+        [self setFilename:[(PlainTextDocument *)aDocument preparedDisplayName]];
         [self setHostID:[TCMMMUserManager myUserID]];
         TCMMMUser *me=[TCMMMUserManager me];
         [I_contributors addObject:me];
