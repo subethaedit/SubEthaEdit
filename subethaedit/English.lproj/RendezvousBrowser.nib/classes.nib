@@ -1,8 +1,13 @@
 {
     IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {setVisibilityByPopUpButton = id; }; 
+            ACTIONS = {concealAllDocuments = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {setVisibilityByMenuItem = id; }; 
             CLASS = RendezvousBrowserController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -11,6 +16,7 @@
                 "O_imageView" = NSImageView; 
                 "O_myNameTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 
+                "O_statusPopUpButton" = NSPopUpButton; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

@@ -821,7 +821,11 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
             [(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0] openParticipantsDrawer:self];
         } else {
             DEBUGLOG(@"Document", 5, @"conceal");
-            [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
+            TCMMMSession *session=[self session];
+            [[TCMMMPresenceManager sharedInstance] concealSession:session];
+            if ([session participantCount]<=1) {
+                [[self windowControllers] makeObjectsPerformSelector:@selector(closeParticipantsDrawer:) withObject:self];
+            }
         }
     }
 }

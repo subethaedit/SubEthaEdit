@@ -22,6 +22,10 @@ NSString * const TCMMMPresenceManagerUserDidChangeNotification=
                @"TCMMMPresenceManagerUserDidChangeNotification";
 NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
                @"TCMMMPresenceManagerUserSessionsDidChangeNotification";
+NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification=
+               @"TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification";
+NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
+               @"TCMMMPresenceManagerServiceAnnouncementDidChangeNotification";
 
 @interface TCMMMPresenceManager (TCMMMPresenceManagerPrivateAdditions)
 
@@ -93,8 +97,10 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
         [I_netService setProtocolSpecificInformation:[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001version=2",[me name],[me userID]]];
         [I_netService publish];
         I_flags.serviceIsPublished = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:self];
     } else if (!(I_flags.isVisible || [I_announcedSessions count]>0) && I_flags.serviceIsPublished){
         [I_netService stop];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:self];
     } else if (I_flags.serviceIsPublished) {
 //      causes severe mDNSResponderCrash!
 //        NSString *txtRecord=[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001docs=%d\001version=2",[me name],[me ID],[I_announcedSessions count]];
@@ -103,6 +109,9 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     }
 }
 
+- (BOOL)isVisible {
+    return I_flags.isVisible;
+}
 
 - (void)setVisible:(BOOL)aFlag
 {
@@ -145,11 +154,20 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(announceSession:) withObject:[aNotification object]];
 }
 
+- (void)TCM_sendAnnouncedSessionsDidChangeNotification {
+    [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:self]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
+
 - (void)announceSession:(TCMMMSession *)aSession {
     [I_announcedSessions setObject:aSession forKey:[aSession sessionID]];
     [self TCM_validateServiceAnnouncement];
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(announceSession:) withObject:aSession];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionDidChange:) name:TCMMMSessionDidChangeNotification object:aSession];
+    [self TCM_sendAnnouncedSessionsDidChangeNotification];
 }
 
 - (void)concealSession:(TCMMMSession *)aSession {
@@ -157,6 +175,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     [I_announcedSessions removeObjectForKey:[aSession sessionID]];
     [self TCM_validateServiceAnnouncement];
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(concealSession:) withObject:aSession];
+    [self TCM_sendAnnouncedSessionsDidChangeNotification];
 }
 
 - (TCMMMSession *)sessionForSessionID:(NSString *)aSessionID

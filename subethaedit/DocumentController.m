@@ -12,6 +12,7 @@
 #import "EncodingManager.h"
 #import "DocumentModeManager.h"
 #import "AppController.h"
+#import "TCMMMPresenceManager.h"
 
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
@@ -167,6 +168,26 @@ struct ModificationInfo
             }
         }
         [replyEvent setDescriptor:listDesc forKeyword:keyDirectObject];
+    }
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL selector = [menuItem action];
+    
+    if (selector == @selector(concealAllDocuments:)) {
+        return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
+    }
+    return [super validateMenuItem:menuItem];
+}
+
+
+- (IBAction)concealAllDocuments:(id)aSender {
+    PlainTextDocument *document=nil;
+    NSEnumerator *documents = [[self documents] objectEnumerator];
+    while ((document=[documents nextObject])) {
+        if ([document isAnnounced]) {
+            [document setIsAnnounced:NO];
+        }
     }
 }
 

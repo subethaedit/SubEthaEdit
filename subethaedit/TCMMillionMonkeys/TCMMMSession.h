@@ -66,6 +66,7 @@ typedef enum TCMMMSessionAccessState {
 - (void)setAccessState:(TCMMMSessionAccessState)aState;
 - (TCMMMSessionAccessState)accessState;
 
+- (unsigned int)participantCount;
 - (NSDictionary *)participants;
 - (NSArray *)pendingUsers;
 

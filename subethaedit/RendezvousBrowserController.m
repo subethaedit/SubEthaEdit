@@ -45,9 +45,25 @@ static RendezvousBrowserController *sharedInstance=nil;
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_foundUserIDs release];
     [I_data release];
     [super dealloc];
+}
+
+- (void)TCM_validateStatusPopUpButton {
+    TCMMMPresenceManager *pm=[TCMMMPresenceManager sharedInstance];
+    BOOL isVisible=[pm isVisible];
+    int announcedCount=[[pm announcedSessions] count];
+    NSString *statusString=@"";
+    if (announcedCount>0) {
+        statusString=[NSString stringWithFormat:NSLocalizedString(@"%d Document(s)","Status string in visibility pull down in Rendezvous and Internet browser"),announcedCount];
+    } else if (isVisible) {
+        statusString=NSLocalizedString(@"visible",@"Status string in vibilitypulldown in Browsers for visible");
+    } else {
+        statusString=NSLocalizedString(@"invisible",@"Status string in vibilitypulldown in Browsers for invisible");
+    }
+    [[[O_statusPopUpButton menu] itemAtIndex:0] setTitle:statusString];
 }
 
 - (void)windowWillLoad {
@@ -88,11 +104,26 @@ static RendezvousBrowserController *sharedInstance=nil;
     [[O_actionPullDownButton cell] setAlternateImage:[NSImage imageNamed:@"ActionPressed"]];
     [[O_actionPullDownButton cell] setUsesItemFromMenu:NO];
     [O_actionPullDownButton addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
-
+    
+    
+    [[O_statusPopUpButton menu] setDelegate:self];
+    [self TCM_validateStatusPopUpButton];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
 }
 
-- (IBAction)setVisibilityByPopUpButton:(id)aSender {
-    [[TCMMMPresenceManager sharedInstance] setVisible:([aSender indexOfSelectedItem]==0)];
+- (void)announcedSessionsDidChange:(NSNotification *)aNotification {
+    [self TCM_validateStatusPopUpButton];
+}
+
+- (void)menuNeedsUpdate:(NSMenu *)aMenu {
+    BOOL isVisible=[[TCMMMPresenceManager sharedInstance] isVisible];
+    [[aMenu itemWithTag:10] setState:isVisible?NSOnState:NSOffState];
+    [[aMenu itemWithTag:11] setState:(!isVisible)?NSOnState:NSOffState];
+}
+
+- (IBAction)setVisibilityByMenuItem:(id)aSender {
+    [[TCMMMPresenceManager sharedInstance] setVisible:([aSender tag]==10)];
 }
 
 - (IBAction)joinSession:(id)aSender

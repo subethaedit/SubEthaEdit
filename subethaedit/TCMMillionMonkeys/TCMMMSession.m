@@ -228,6 +228,10 @@ NSString * const TCMMMSessionDidChangeNotification =
     return I_flags.isServer;
 }
 
+- (unsigned int)participantCount {
+    return [I_groupByUserID count];
+}
+
 - (NSDictionary *)participants {
     return I_participants;
 }

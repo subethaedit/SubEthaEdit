@@ -13,6 +13,8 @@
 extern NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
+extern NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification;
+extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification;
 
 @interface TCMMMPresenceManager : NSObject
 {
@@ -32,6 +34,7 @@ extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
 
 - (TCMMMStatusProfile *)statusProfileForUserID:(NSString *)aUserID;
 
+- (BOOL)isVisible;
 - (void)setVisible:(BOOL)aFlag;
 
 - (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile;
