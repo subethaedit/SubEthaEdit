@@ -667,8 +667,6 @@ subethaedit/SplitView.h -text
 subethaedit/SplitView.m -text
 subethaedit/SubEthaEdit.sdef -text
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
-subethaedit/SubEthaEditSuite.scriptSuite -text
-subethaedit/SubEthaEditSuite.scriptTerminology -text
 subethaedit/SubEthaEdit_Prefix.pch -text
 subethaedit/SymbolTableEntry.h -text
 subethaedit/SymbolTableEntry.m -text

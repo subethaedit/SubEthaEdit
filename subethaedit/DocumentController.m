@@ -225,7 +225,7 @@ struct ModificationInfo
                 NSString *path = [[NSURL URLWithString:URLString] path];
                 [document readFromFile:path ofType:@"PlainTextType"];
                 [document updateChangeCount:NSChangeDone];
-                [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
+                //[[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
                 if (shouldPrint) {
                     [document printDocument:self];
                 }

@@ -40,13 +40,13 @@ static NSString *tempFileName() {
 
 
 static void printHelp() {
-    fprintf(stdout, "Usage: see ...\n");
+    fprintf(stdout, "Usage: see [-hlprvw] [-e encoding_name] [-m mode_name] [-t title] [file ...]\n");
     fflush(stdout);
 }
 
 
 static void printVersion() {
-    fprintf(stdout, "see tool version x\n");
+    fprintf(stdout, "see 1.0 (vXXX)\n");
     fflush(stdout);
 }
 
@@ -148,11 +148,11 @@ int main (int argc, const char * argv[]) {
 
     
     //
-    // Parsing arguments
+    // Parsing options
     //
     
     int ch;
-    while ((ch = getopt_long(argc, (char * const *)argv, "hvwrlpe:m:t:", longopts, NULL)) != -1) {
+    while ((ch = getopt_long(argc, (char * const *)argv, "hlprvwe:m:t:", longopts, NULL)) != -1) {
         switch(ch) {
             case 'h':
                 help = YES;
@@ -183,9 +183,6 @@ int main (int argc, const char * argv[]) {
             case 't':
                 pipeTitle = [NSString stringWithUTF8String:optarg];
                 break;
-            case 1:
-                NSLog(@"1: %s", optarg);
-                break;
             case ':': // missing option argument
             case '?': // invalid option
             default:
@@ -202,7 +199,7 @@ int main (int argc, const char * argv[]) {
     }
     
     //
-    // Processing arguments which don't require file names
+    // Processing options
     //
     
     if (help) {
@@ -214,7 +211,7 @@ int main (int argc, const char * argv[]) {
     } else {
     
         //
-        // Parsing file names
+        // Parsing filename arguments
         //
         
         argc -= optind;
@@ -227,7 +224,19 @@ int main (int argc, const char * argv[]) {
             if (path) {
                 NSString *fileName = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
                 [fileNames addObject:fileName];
-                [fileURLs addObject:[NSURL fileURLWithPath:fileName]];
+                
+                BOOL isDir;
+                if ([fileManager fileExistsAtPath:fileName isDirectory:&isDir]) {
+                    if (isDir) {
+                        fprintf(stdout, "\"%s\" is a directory.\n", argv[i]);
+                        fflush(stdout);
+                    } else {
+                        [fileURLs addObject:[NSURL fileURLWithPath:fileName]];                        
+                    }
+                } else {
+                    fprintf(stdout, "\"%s\" not found.\n", argv[i]);
+                    fflush(stdout);
+                }
             } else {
                 NSLog(@"Error occurred while resolving path: %s", argv[i]);
             }
@@ -270,24 +279,38 @@ int main (int argc, const char * argv[]) {
         // Launch SubEthaEdit and relay arguments from cli via Apple Event
         //
         
-        BOOL success = launchSubEthaEdit();
-        if (success) {
-            AppleEvent reply;
-            AESendMode sendMode = kAENoReply;
-            long timeOut = kAEDefaultTimeout;
-            NSAppleEventDescriptor *desc = eventDescriptorFromOptions(fileURLs, wait, encoding, mode, temp, pipeTitle, print);
-            
-            if (desc) {
-                if (wait) {
-                    sendMode = kAEWaitReply;
-                    timeOut = kNoTimeOut;            
-                }
+        if (temp || [fileURLs count] > 0) {
+            BOOL success = launchSubEthaEdit();
+            if (success) {
+                AppleEvent reply;
+                AESendMode sendMode = kAENoReply;
+                long timeOut = kAEDefaultTimeout;
+                NSAppleEventDescriptor *desc = eventDescriptorFromOptions(fileURLs, wait, encoding, mode, temp, pipeTitle, print);
                 
-                OSStatus err = AESendMessage([desc aeDesc], &reply, sendMode, timeOut);
-                if (err != noErr) {
-                    NSLog(@"Error while sending Apple Event");
-                }
-            }      
+                if (desc) {
+                    if (wait || temp) {
+                        sendMode = kAEWaitReply;
+                        timeOut = kNoTimeOut;            
+                    }
+                    
+                    OSStatus err = AESendMessage([desc aeDesc], &reply, sendMode, timeOut);
+                    if (err != noErr) {
+                        NSLog(@"Error while sending Apple Event");
+                    }
+                }      
+            }
+        }
+        
+        //
+        // Remove temp file
+        //
+        
+        if (temp) {
+            int count = [fileURLs count];
+            for (i = 0; i < count; i++) {
+                NSString *path = [[fileURLs objectAtIndex:i] path];
+                [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
+            }
         }
         
         //
