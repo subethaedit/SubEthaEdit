@@ -78,6 +78,8 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSMenu *I_symbolPopUpMenuSorted;
     NSTimer *I_symbolUpdateTimer;
     
+    NSTimer *I_webPreviewDelayedRefreshTimer;
+    
     WebPreviewWindowController *I_webPreviewWindowController;
 }
 

@@ -143,7 +143,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 - (void)TCM_initHelper {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWebPreview:)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_webPreviewRefreshNotification:)
         name:PlainTextDocumentRefreshWebPreviewNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performHighlightSyntax)
         name:PlainTextDocumentSyntaxColorizeNotification object:self];
@@ -605,6 +605,9 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     }
     
     [self TCM_sendODBCloseEvent];
+
+    [I_symbolUpdateTimer release];
+    [I_webPreviewDelayedRefreshTimer release];
         
     [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
     [I_textStorage setDelegate:nil];
@@ -738,11 +741,42 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     }
 }
 
+
 - (IBAction)refreshWebPreview:(id)aSender {
     if (!I_webPreviewWindowController) {
         [self showWebPreview:self];
     } else {
         [I_webPreviewWindowController refresh:self];
+    }
+}
+
+#define WEBPREVIEWDELAYEDREFRESHINTERVAL 1.5
+
+- (void)triggerDelayedWebPreviewRefresh {
+    if ([[self documentMode] hasSymbols]) {
+        if ([I_webPreviewDelayedRefreshTimer isValid]) {
+            [I_webPreviewDelayedRefreshTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:WEBPREVIEWDELAYEDREFRESHINTERVAL]];
+        } else {
+            [I_webPreviewDelayedRefreshTimer release];
+            I_webPreviewDelayedRefreshTimer=[[NSTimer timerWithTimeInterval:WEBPREVIEWDELAYEDREFRESHINTERVAL 
+                                                    target:self 
+                                                  selector:@selector(delayedWebPreviewRefreshAction:)
+                                                  userInfo:nil repeats:NO] retain];
+            [[NSRunLoop currentRunLoop] addTimer:I_webPreviewDelayedRefreshTimer forMode:NSDefaultRunLoopMode]; //(NSString *)kCFRunLoopCommonModes];
+        }
+    }
+}
+
+- (void)delayedWebPreviewRefreshAction:(NSTimer *)aTimer {
+    [self refreshWebPreview:self];
+}
+
+
+- (void)TCM_webPreviewRefreshNotification:(NSNotification *)aNotification {
+    if ([I_webPreviewWindowController refreshType] == kWebPreviewRefreshAutomatic) {
+        [self refreshWebPreview:self];
+    } else if ([I_webPreviewWindowController refreshType] == kWebPreviewRefreshDelayed) {
+        [self triggerDelayedWebPreviewRefresh];
     }
 }
 
@@ -806,6 +840,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 //        NSLog(@"Last window closed");
         // terminate syntax coloring
         I_flags.highlightSyntax = NO;
+        [I_symbolUpdateTimer invalidate];
+        [I_webPreviewDelayedRefreshTimer invalidate];
     }
 }
 
@@ -2017,7 +2053,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     if (I_webPreviewWindowController && 
         [[I_webPreviewWindowController window] isVisible] &&
-        [I_webPreviewWindowController refreshType]==kWebPreviewRefreshAutomatic) {
+        ([I_webPreviewWindowController refreshType]==kWebPreviewRefreshAutomatic || 
+         [I_webPreviewWindowController refreshType]==kWebPreviewRefreshDelayed)) {
         [[NSNotificationQueue defaultQueue] 
     enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentRefreshWebPreviewNotification object:self]
            postingStyle:NSPostWhenIdle 

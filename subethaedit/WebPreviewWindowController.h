@@ -14,6 +14,7 @@
 extern int const kWebPreviewRefreshAutomatic;
 extern int const kWebPreviewRefreshOnSave   ;
 extern int const kWebPreviewRefreshManually ;
+extern int const kWebPreviewRefreshDelayed  ;
 
 @class PlainTextDocument;
 

@@ -12,6 +12,7 @@
 int const kWebPreviewRefreshAutomatic=1;
 int const kWebPreviewRefreshOnSave   =2;
 int const kWebPreviewRefreshManually =3;
+int const kWebPreviewRefreshDelayed  =4;
 
 static NSString *WebPreviewWindowSizePreferenceKey=@"WebPreviewWindowSize";
 
