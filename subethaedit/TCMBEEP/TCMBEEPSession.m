@@ -49,6 +49,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     I_currentReadFrame = nil;
 
     I_userInfo = [NSMutableDictionary new];
+    I_channelRequests = [NSMutableDictionary new];
 }
 
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
@@ -90,6 +91,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     [I_profileURIs release];
     [I_peerProfileURIs release];
     [I_currentReadFrame release];
+    [I_channelRequests release];
     [super dealloc];
 }
 
@@ -515,14 +517,25 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 - (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI asServer:(BOOL)isServer {
     TCMBEEPChannel *channel=[[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI asServer:isServer];
     [self activateChannel:[channel autorelease]];
-    id delegate=[self delegate];
-    if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:)])
-        [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile]];
+    if (isServer) {
+        id delegate=[self delegate];
+        if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:)])
+            [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile]];
+    } else {
+        // sender rausfinden
+        NSNumber *channelNumber = [NSNumber numberWithInt:aChannelNumber];
+        id aSender=[I_channelRequests objectForKey:channelNumber];
+        [I_channelRequests removeObjectForKey:channelNumber]; 
+        // sender profile geben
+        [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile]];
+    }
 }
 
-- (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
+- (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray sender:(id)aSender
 {
-    [[I_managementChannel profile] startChannelNumber:[self nextChannelNumber] withProfileURIs:aProfileURIArray andData:aDataArray];
+    NSNumber *channelNumber = [NSNumber numberWithInt:[self nextChannelNumber]];
+    [I_channelRequests setObject:aSender forKey:channelNumber];
+    [[I_managementChannel profile] startChannelNumber:[channelNumber intValue] withProfileURIs:aProfileURIArray andData:aDataArray];
 }
 
 - (void)didReceiveAcceptStartRequestForChannel:(int32_t)aNumber withProfileURI:(NSString *)aProfileURI andData:(NSData *)aData

@@ -49,6 +49,8 @@ enum {
     NSString *I_peerFeaturesAttribute;
     NSString *I_peerLocalizeAttribute;
     
+    NSMutableDictionary *I_channelRequests;
+    
     TCMBEEPFrame *I_currentReadFrame;
     struct {
         BOOL isSending;
@@ -87,7 +89,7 @@ enum {
 - (void)activateChannel:(TCMBEEPChannel *)aChannel;
 
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel;
-- (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray;
+- (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray sender:(id)aSender;
 
 - (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI asServer:(BOOL)isServer;
 

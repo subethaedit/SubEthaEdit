@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const TCMMMBEEPSessionManagerDidAcceptSessionNotification;
+extern NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification;
+extern NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification;
+
+
 @class TCMBEEPListener, TCMHost;
 
 @interface TCMMMBEEPSessionManager : NSObject

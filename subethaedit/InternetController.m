@@ -11,6 +11,8 @@
 #import "TCMMMUserManager.h"
 #import "TCMHost.h"
 #import "TCMMMBEEPSessionManager.h"
+#import "TCMBEEPSession.h"
+#import "TCMBEEPProfile.h"
 
 
 @implementation InternetController
@@ -27,6 +29,7 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_resolvingHosts release];
     [I_resolvedHosts release];
     [super dealloc];
@@ -40,6 +43,21 @@
     [O_imageView setImage:[[me properties] objectForKey:@"Image"]];
     [((NSPanel *)[self window]) setFloatingPanel:NO];
     [[self window] setHidesOnDeactivate:NO];
+    
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
+    [defaultCenter addObserver:self 
+                      selector:@selector(TCM_didAcceptSession:)
+                          name:TCMMMBEEPSessionManagerDidAcceptSessionNotification
+                        object:manager];
+    [defaultCenter addObserver:self 
+                      selector:@selector(TCM_sessionDidEnd:)
+                          name:TCMMMBEEPSessionManagerSessionDidEndNotification
+                        object:manager];
+    [defaultCenter addObserver:self 
+                      selector:@selector(TCM_connectToHostDidFail:)
+                          name:TCMMMBEEPSessionManagerConnectToHostDidFailNotification
+                        object:manager];
 }
 
 - (IBAction)connect:(id)aSender
@@ -69,6 +87,35 @@
     DEBUGLOG(@"Internet", 5, @"host: %@, didNotResolve: %@", sender, error);
     [sender setDelegate:nil];
     [I_resolvingHosts removeObjectForKey:[sender name]];
+}
+
+#pragma mark -
+
+- (void)TCM_didAcceptSession:(NSNotification *)notification
+{
+    DEBUGLOG(@"Internet", 5, @"TCM_didAcceptSession: %@", notification);
+}
+
+- (void)TCM_sessionDidEnd:(NSNotification *)notification
+{
+    DEBUGLOG(@"Internet", 5, @"TCM_sessionDidEnd: %@", notification);
+}
+
+- (void)TCM_connectToHostDidFail:(NSNotification *)notification
+{
+    DEBUGLOG(@"Internet", 5, @"TCM_connectToHostDidFail: %@", notification);
+    
+    TCMHost *host = [[notification userInfo] objectForKey:@"host"];
+    if (host) {
+        [I_resolvedHosts removeObjectForKey:[host name]];
+    }
+}
+
+#pragma mark -
+
+- (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
+{
+    DEBUGLOG(@"Internet", 5, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
 }
 
 @end

@@ -20,6 +20,8 @@ static TCMMMPresenceManager *sharedInstance = nil;
 
 @end
 
+#pragma mark -
+
 @implementation TCMMMPresenceManager
 
 + (TCMMMPresenceManager *)sharedInstance {
@@ -34,12 +36,17 @@ static TCMMMPresenceManager *sharedInstance = nil;
     self = [super init];
     if (self) {
         I_statusOfUserIDs = [NSMutableDictionary new];
+        I_statusProfilesInServerRole = [NSMutableSet new];
         I_flags.serviceIsPublished=NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didEndSession:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
     }
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_statusOfUserIDs release];
     [I_netService release];
     [super dealloc];
@@ -103,6 +110,7 @@ static TCMMMPresenceManager *sharedInstance = nil;
     NSMutableDictionary *status=[self statusOfUserID:userID];
     [status removeObjectForKey:@"StatusProfile"];
     [status setObject:@"GotStatus" forKey:@"Status"];
+    [I_statusProfilesInServerRole removeObject:aProfile];
     [aProfile setDelegate:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidChangeVisibility" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSNumber numberWithBool:NO],@"isVisible",nil]];
 }
@@ -111,8 +119,39 @@ static TCMMMPresenceManager *sharedInstance = nil;
 #pragma mark ### TCMMMBEEPSessionManager callbacks ###
 
 - (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile {
-    NSString *userID=[[[[aProfile channel] session] userInfo] objectForKey:@"peerUserID"];
+    NSLog(@"acceptStatusProfile!");
+    [aProfile setDelegate:self];
+    if ([aProfile isServer]) {
+        [self sendInitialStatusViaProfile:aProfile];
+        [I_statusProfilesInServerRole addObject:aProfile];
+    } else {
+        NSLog(@"mist: nicht server");
+    }
+}
+
+#pragma mark -
+- (void)TCM_didAcceptSession:(NSNotification *)aNotification 
+{
+    TCMBEEPSession *session=[[aNotification userInfo] objectForKey:@"Session"];
+    NSString *userID=[[session userInfo] objectForKey:@"peerUserID"];
+    NSMutableDictionary *statusOfUserID=[self statusOfUserID:userID];
+    if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"NoStatus"]) {
+        NSLog(@"starting StatusProfile with: %@",userID);
+        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil sender:self];
+    }
     
+}
+
+- (void)TCM_didEndSession:(NSNotification *)aNotification 
+{
+    TCMBEEPSession *session=[[aNotification userInfo] objectForKey:@"Session"];
+    
+}
+
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile 
+{
+    NSLog(@"Got status Channel!");
+    NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *statusOfUserID=[self statusOfUserID:userID];
     
     if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
@@ -122,11 +161,7 @@ static TCMMMPresenceManager *sharedInstance = nil;
     }
     [statusOfUserID setObject:@"GotStatus" forKey:@"Status"];
     [statusOfUserID setObject:aProfile forKey:@"StatusProfile"];
-    [aProfile setDelegate:self];
-    [self sendInitialStatusViaProfile:aProfile];
 }
-
-
 #pragma mark -
 #pragma mark ### Published NetService Delegate ###
 

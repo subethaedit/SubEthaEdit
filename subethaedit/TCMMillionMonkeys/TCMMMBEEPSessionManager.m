@@ -23,6 +23,13 @@ static NSString *kBEEPSessionStatusGotSession=@"GotSession";
 static NSString *kBEEPSessionStatusConnecting=@"Connecting";
 
 
+NSString * const TCMMMBEEPSessionManagerDidAcceptSessionNotification = 
+               @"TCMMMBEEPSessionManagerDidAcceptSessionNotification";
+NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification = 
+               @"TCMMMBEEPSessionManagerSessionDidEndNotification";
+NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification = 
+               @"TCMMMBEEPSessionManagerConnectToHostDidFailNotification";
+
 /*
     SessionInformation:
         @"RendezvousStatus" => kBEEPSessionStatusNoSession | kBEEPSessionStatusGotSession | kBEEPSessionStatusConnecting
@@ -41,6 +48,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
 @interface TCMMMBEEPSessionManager (TCMMMBEEPSessionManagerPrivateAdditions)
 
 - (void)TCM_connectToNetServiceWithInformation:(NSMutableDictionary *)aInformation;
+- (void)TCM_sendDidAcceptNotificationForSession:(TCMBEEPSession *)aSession;
+- (void)TCM_sendDidEndNotificationForSession:(TCMBEEPSession *)aSession error:(NSError *)anError;
+
 
 @end
 
@@ -221,7 +231,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                     }
                 }
             }
-            [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"] andData:nil];
+            [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"] andData:nil sender:self];
         }
     } else {
         [aBEEPSession setDelegate:nil];
@@ -253,7 +263,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 {
     if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
         [aProfile setDelegate:self];
-        if (![[aProfile channel] isServer]) {
+        if (![aProfile isServer]) {
             if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
                 NSString *aUserID=[[aBEEPSession userInfo] objectForKey:@"peerUserID"];
                 NSMutableDictionary *information=[self sessionInformationForUserID:aUserID];
@@ -267,7 +277,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         }
     } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"]) {
         [[TCMMMPresenceManager sharedInstance] acceptStatusProfile:(TCMMMStatusProfile *)aProfile];
-        if ([[aProfile channel] isServer]) {
+        if ([aProfile isServer]) {
             // distribute the profile to the corresponding handler
         } else {
             // find the open request
@@ -288,6 +298,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             if ([sessionInformation objectForKey:@"RendezvousSession"]==aBEEPSession) {
                 [sessionInformation removeObjectForKey:@"RendezvousSession"];
                 [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
+                [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
             }
         } else if ([status isEqualToString:kBEEPSessionStatusConnecting]) {
             if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] containsObject:aBEEPSession]) {
@@ -305,19 +316,48 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [[sessionInformation objectForKey:@"OutboundSessions"] removeObject:aBEEPSession];
         [[sessionInformation objectForKey:@"InboundSessions"]  removeObject:aBEEPSession];
         NSString *name = [[aBEEPSession userInfo] objectForKey:@"name"];
-        NSDictionary *infoDict = [I_pendingOutboundSessions objectForKey:name];
+        NSMutableDictionary *infoDict = [I_pendingOutboundSessions objectForKey:name];
         if (infoDict) {
             NSMutableArray *sessions = [infoDict objectForKey:@"sessions"];
             [sessions removeObject:aBEEPSession];
             if ([sessions count] == 0) {
+                [infoDict removeObjectForKey:@"sessions"];
+                [[NSNotificationCenter defaultCenter]
+                        postNotificationName:TCMMMBEEPSessionManagerConnectToHostDidFailNotification
+                                      object:self
+                                    userInfo:infoDict];
                 [I_pendingOutboundSessions removeObjectForKey:name];
             }
+        } else {
+            [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
         }
     }
 
-    // send notification about session failure
     [I_pendingSessions removeObject:aBEEPSession];
     DEBUGLOG(@"MMBEEPSessions",3,@"%@",[self description]);
+}
+
+
+#pragma mark -
+#pragma mark ### notifications ###
+
+- (void)TCM_sendDidAcceptNotificationForSession:(TCMBEEPSession *)aSession {
+
+    [[NSNotificationCenter defaultCenter] 
+        postNotificationName:TCMMMBEEPSessionManagerDidAcceptSessionNotification 
+                      object:self
+                    userInfo:[NSDictionary dictionaryWithObject:aSession forKey:@"Session"]];
+}
+
+- (void)TCM_sendDidEndNotificationForSession:(TCMBEEPSession *)aSession error:(NSError *)anError {
+    NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObject:aSession forKey:@"Session"];
+    if (anError) {
+        [userInfo setObject:anError forKey:@"Error"];
+    }
+    [[NSNotificationCenter defaultCenter] 
+        postNotificationName:TCMMMBEEPSessionManagerSessionDidEndNotification 
+                      object:self
+                    userInfo:userInfo];
 }
 
 #pragma mark -
@@ -395,6 +435,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)profile:(HandshakeProfile *)aProfile didAckHandshakeWithUserID:(NSString *)aUserID {
     // trigger creating profiles for clients
+    [self TCM_sendDidAcceptNotificationForSession:[aProfile session]];
 }
 
 - (void)profile:(HandshakeProfile *)aProfile receivedAckHandshakeWithUserID:(NSString *)aUserID {
@@ -405,13 +446,15 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
         [I_pendingSessions removeObject:session];
         NSLog(@"received ACK");
-        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
+        [self TCM_sendDidAcceptNotificationForSession:session];
+//        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
     } else {
         NSMutableArray *inboundSessions=[information objectForKey:@"InboundSessions"];
         [inboundSessions addObject:session];
         [I_pendingSessions removeObject:session];
         NSLog(@"received ACK");
-        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
+        [self TCM_sendDidAcceptNotificationForSession:session];
+//        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
     }
 }
 
