@@ -1829,6 +1829,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSString *modeName = [arguments objectForKey:@"ModeName"];
         if (modeName) {
             mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
+            if (!mode) {
+                mode = [[DocumentModeManager sharedInstance] baseMode];
+            }
             encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         }
         
@@ -3940,6 +3943,55 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (!NSEqualRanges(newSelectedRange,[textView selectedRange]) && newSelectedRange.location!=NSNotFound) {
             [textView setSelectedRange:newSelectedRange];
         }
+    }
+}
+
+@end
+
+#pragma mark -
+
+@interface PlainTextDocument (PlainTextDocumentScriptingAdditions)
+
+- (NSString *)encoding;
+- (void)setEncoding:(NSString *)name;
+- (NSString *)mode;
+- (void)setMode:(NSString *)identifier;
+
+@end
+
+@implementation PlainTextDocument (PlainTextDocumentScriptingAdditions)
+
+- (NSString *)encoding {
+    CFStringEncoding cfEncoding = CFStringConvertNSStringEncodingToEncoding([self fileEncoding]);
+    if (cfEncoding != kCFStringEncodingInvalidId) {
+        CFStringRef IANAName = CFStringConvertEncodingToIANACharSetName(cfEncoding);
+        if (IANAName) {
+            return (NSString *)IANAName;
+        }
+    }
+    
+    NSScriptCommand *command = [NSScriptCommand currentCommand];
+    [command setScriptErrorNumber:1];
+    [command setScriptErrorString:@"Couldn't determine encoding of document ..."];
+    return nil;
+}
+
+- (void)setEncoding:(NSString *)name {
+
+}
+
+- (NSString *)mode {
+    return [[self documentMode] documentModeIdentifier];
+}
+
+- (void)setMode:(NSString *)identifier {
+    DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForName:identifier];
+    if (mode) {
+        [self setDocumentMode:mode];
+    } else {
+        NSScriptCommand *command = [NSScriptCommand currentCommand];
+        [command setScriptErrorNumber:2];
+        [command setScriptErrorString:@"Couldn't find specified mode"];    
     }
 }
 

@@ -186,7 +186,7 @@
     }
     DocumentMode *mode = [self documentModeForIdentifier:identifier];
     
-    return (mode ? mode : [self baseMode]);
+    return mode;
 }
 
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier {

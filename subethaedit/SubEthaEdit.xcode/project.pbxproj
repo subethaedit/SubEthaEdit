@@ -250,34 +250,6 @@
 			settings = {
 			};
 		};
-		1428767A06DFA10B00FB57C5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			path = StandardSuite.scriptSuite;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1428767B06DFA10B00FB57C5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			path = StandardSuite.scriptTerminology;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1428767C06DFA10B00FB57C5 = {
-			fileRef = 1428767A06DFA10B00FB57C5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		1428767D06DFA10B00FB57C5 = {
-			fileRef = 1428767B06DFA10B00FB57C5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		142883F406E33D5000FB57C5 = {
 			children = (
 				142883F706E33D7800FB57C5,
@@ -1454,8 +1426,6 @@
 			children = (
 				14006965060C64F60060F71E,
 				1428730106DF6BFF00FB57C5,
-				1428767A06DFA10B00FB57C5,
-				1428767B06DFA10B00FB57C5,
 				14006969060C65430060F71E,
 				1400696A060C65430060F71E,
 			);
@@ -2129,12 +2099,10 @@
 				SubEthaEditSuite.scriptSuite,
 				SubEthaEditSuite.scriptTerminology,
 				SubEthaEditScripting.r,
-				StandardSuite.scriptSuite,
-				StandardSuite.scriptTerminology,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Developer/Tools/sdp -f ast -V 10.3 SubEthaEdit.sdef";
+			shellScript = "/Developer/Tools/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 SubEthaEdit.sdef";
 		};
 		14CF2C4506428E7000D430AA = {
 			fileEncoding = 4;
@@ -5810,8 +5778,6 @@
 				5ED5526D065A86C700EA1663,
 				5EF18E0F066495C600957730,
 				145B024306A6A60B00160C0E,
-				1428767C06DFA10B00FB57C5,
-				1428767D06DFA10B00FB57C5,
 				1469B46A06EDBD0400863288,
 				1469B49C06EDBF5400863288,
 				5ED0BC8B06F592B9002E7C81,
