@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {
+            CLASS = Controller; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"o_ArrayController" = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {myAction = id; }; 
+            CLASS = NSArrayController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObjectController; 
+        }, 
+        {CLASS = TCMFocusringTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
+    ); 
+    IBVersion = 1; 
+}
