@@ -149,8 +149,17 @@
 
 - (void)TCM_adjustTopStatusBarFrames {
     if (I_flags.showTopStatusBar) {
-        float symbolWidth=[[[O_symbolPopUpButton selectedItem] attributedTitle] size].width+50.;
-
+        NSAttributedString *title=[[O_symbolPopUpButton selectedItem] attributedTitle];
+        float symbolWidth;
+        if (title) {
+            symbolWidth=[title size].width;
+        } else {
+            symbolWidth=[[[O_symbolPopUpButton selectedItem] title]
+                                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_symbolPopUpButton font] 
+                                                                                       forKey:NSFontAttributeName]].width;
+        }
+        symbolWidth+=50.;
+        
         NSRect bounds=[O_topStatusBarView bounds];
         NSRect positionFrame=[O_positionTextField frame];
         NSPoint position=positionFrame.origin;

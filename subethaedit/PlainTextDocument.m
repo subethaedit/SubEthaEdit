@@ -260,17 +260,29 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 - (void)updateSymbolTable {
 
-    NSLog(@"updating SymbolTable");
-
-    static NSFont *plainFont=nil,*italicFont=nil,*boldFont=nil,*boldItalicFont=nil;
-    if (!italicFont) {
+    static NSDictionary *plainAttributes=nil, *italicAttributes=nil, *boldAttributes=nil, *boldItalicAttributes=nil;
+    if (!plainAttributes) {
         NSFontManager *fontManager=[NSFontManager sharedFontManager];
-        plainFont = [NSFont fontWithName:@"ArialMT" size:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
-        if (!plainFont) plainFont=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
-        [plainFont retain];
-        italicFont    =[[fontManager convertFont:plainFont toHaveTrait:NSItalicFontMask] retain];
-        boldFont      =[[fontManager convertFont:plainFont toHaveTrait:NSBoldFontMask] retain];
-        boldItalicFont=[[fontManager convertFont:boldFont  toHaveTrait:NSItalicFontMask] retain];
+        NSMutableDictionary *attributes=[NSMutableDictionary new];
+        NSMutableParagraphStyle *style=[NSMutableParagraphStyle new];
+        [style setLineBreakMode:NSLineBreakByTruncatingTail];
+        [attributes setObject:style forKey:NSParagraphStyleAttributeName];
+        NSFont *font = [NSFont fontWithName:@"ArialMT" size:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
+        if (!font) font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
+        NSFont *italicFont    =[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
+        NSFont *boldFont      =[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
+        NSFont *boldItalicFont=[fontManager convertFont:boldFont toHaveTrait:NSItalicFontMask];
+        [attributes setObject:font forKey:NSFontAttributeName];
+        plainAttributes=[attributes copy];
+        [attributes setObject:italicFont forKey:NSFontAttributeName];
+        italicAttributes=[attributes copy];
+        [attributes setObject:boldFont forKey:NSFontAttributeName];
+        boldAttributes=[attributes copy];
+        [attributes setObject:boldItalicFont forKey:NSFontAttributeName];
+        boldItalicAttributes=[attributes copy];
+        
+        [attributes release];
+        [style release];
     }
 
     DocumentMode *mode=[self documentMode];
@@ -302,19 +314,20 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
                 [menuItem setTag:i];
                 [menuItem setImage:[entry image]];
                 int fontTraitMask=[entry fontTraitMask];
-                NSFont *font=plainFont;
+                NSDictionary *attributes=plainAttributes;
                 switch (fontTraitMask) {
                     case (NSBoldFontMask | NSItalicFontMask):
-                        font=boldItalicFont;
+                        attributes=boldItalicAttributes;
                         break;
                     case NSItalicFontMask :
-                        font=italicFont;
+                        attributes=italicAttributes;
                         break;
                     case NSBoldFontMask :
-                        font=boldFont;
+                        attributes=boldAttributes;
                         break;
                 }
-                [menuItem setAttributedTitle:[[[NSAttributedString alloc] initWithString:[entry name] attributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]] autorelease]];
+                [menuItem setAttributedTitle:
+                    [[[NSAttributedString alloc] initWithString:[entry name] attributes:attributes] autorelease]];
                 [I_symbolPopUpMenu addItem:menuItem];
                 [itemsToSort addObject:[[menuItem copy] autorelease]];
                 [menuItem release];
@@ -386,6 +399,11 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (IBAction)chooseGotoSymbolMenuItem:(NSMenuItem *)aMenuItem {
     NSRange symbolRange=[[I_symbolArray objectAtIndex:[aMenuItem tag]] jumpRange];
     NSTextView *textView=[aMenuItem representedObject];
+    NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
+    symbolRange=NSIntersectionRange(symbolRange,wholeRange);
+    if (symbolRange.location==NSNotFound) {
+        symbolRange=NSMakeRange(NSMaxRange(wholeRange)>0?NSMaxRange(wholeRange)-1:0,0);
+    }
     [textView setSelectedRange:symbolRange];
     [textView scrollRangeToVisible:symbolRange];   
 }
