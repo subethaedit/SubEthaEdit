@@ -60,7 +60,7 @@ typedef enum {
 - (void)performFindPanelAction:(id)sender forTextView:(NSTextView *)aTextView;
 - (void)performFindPanelAction:(id)sender;
 - (IBAction)updateRegexDrawer:(id)aSender;
-- (void) find:(NSString*)findString forward:(BOOL)forward;
+- (BOOL) find:(NSString*)findString forward:(BOOL)forward;
 - (void) findNextAndOrderOut:(id)sender;
 
 @end

@@ -1,14 +1,17 @@
 {
     IBClasses = (
         {
+            ACTIONS = {findAll = id; }; 
             CLASS = FindAllController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_findAllPanel" = NSPanel; 
+                "O_findRegexTextField" = NSTextField; 
                 "O_findResultsTextField" = NSTextField; 
                 "O_resultsController" = NSArrayController; 
+                "O_resultsTableView" = NSTableView; 
             }; 
-            SUPERCLASS = NSObject; 
+            SUPERCLASS = NSWindowController; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
     ); 

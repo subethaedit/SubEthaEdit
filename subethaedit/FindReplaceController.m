@@ -40,6 +40,9 @@ static FindReplaceController *sharedInstance=nil;
             NSLog(@"Failed to load FindReplace.nib");
             NSBeep();
         }
+    } else {
+        [O_findPanel setFloatingPanel:NO];
+        [O_findPanel setHidesOnDeactivate:NO];
     }
 }
 
@@ -49,6 +52,7 @@ static FindReplaceController *sharedInstance=nil;
 
 - (NSPanel *)findPanel {
     if (!O_findPanel) [self loadUI];
+
     return O_findPanel;
 }
 
@@ -146,12 +150,16 @@ static FindReplaceController *sharedInstance=nil;
 
 - (void)performFindPanelAction:(id)sender 
 {
+    [O_statusTextField setHidden:YES];
+    NSString *findString = [O_findComboBox stringValue];
     if ([sender tag]==NSFindPanelActionShowFindPanel) {
         [self orderFrontFindPanel:self];
     } else if ([sender tag]==NSFindPanelActionNext) {
-        [self find:[O_findComboBox stringValue] forward:YES];
+        if (![findString isEqualToString:@""]) [self find:findString forward:YES];
+        else NSBeep();
     } else if ([sender tag]==NSFindPanelActionPrevious) {
-        [self find:[O_findComboBox stringValue] forward:NO];
+        if (![findString isEqualToString:@""]) [self find:findString forward:NO];
+        else NSBeep();
     } else if ([sender tag]==NSFindPanelActionReplaceAll) {
         NSLog(@"ReplaceAll");
     } else if ([sender tag]==NSFindPanelActionReplace) {
@@ -164,38 +172,52 @@ static FindReplaceController *sharedInstance=nil;
         NSTextView *target = [self targetToFindIn];
         if (target) {
             [O_findComboBox setStringValue:[[target string] substringWithRange:[target selectedRange]]];
-        }
+        } else NSBeep();
     } else if ([sender tag]==TCMFindPanelActionFindAll) {
-        //[self findAll:[O_findComboBox stringValue]];
-        
+        if ([findString isEqualToString:@""]) {
+            NSBeep();
+            return;
+        }
+        if ((![OGRegularExpression isValidExpressionString:findString])&&(![self currentOgreSyntax]==OgreSimpleMatchingSyntax)) {
+            [O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
+            [O_statusTextField setHidden:NO];
+            NSBeep();
+            return;
+        }
         NSTextView *target = [self targetToFindIn];
         if (target) {
-
             OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
                                          options:[self currentOgreOptions]
                                          syntax:[self currentOgreSyntax]
                                          escapeCharacter:[self currentOgreEscapeCharacter]];
-            
-            
             FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andOptions:[self currentOgreOptions]] autorelease];
             [(PlainTextDocument *)[[[target window] windowController] document] addFindAllController:findall];
-            [findall findAll];
-        }
+            [findall findAll:self];
+        } else NSBeep();
     }
 }
 
 - (void) findNextAndOrderOut:(id)sender 
 {
-    [self find:[O_findComboBox stringValue] forward:YES];
-    [[self findPanel] orderOut:self];
+    if([self find:[O_findComboBox stringValue] forward:YES]) [[self findPanel] orderOut:self];
+    else [O_findComboBox selectText:nil];
 }
 
-- (void) find:(NSString*)findString forward:(BOOL)forward
+- (BOOL) find:(NSString*)findString forward:(BOOL)forward
 {
+    BOOL found = NO;
     NSAutoreleasePool *findPool = [NSAutoreleasePool new];     
+    [O_progressIndicator setHidden:NO];
     [O_progressIndicator startAnimation:nil];
         
-    //if (![OGRegularExpression isValidRegularExpression:findString]) return;
+    if ((![OGRegularExpression isValidExpressionString:findString])&&(![self currentOgreSyntax]==OgreSimpleMatchingSyntax)) {
+        [O_progressIndicator stopAnimation:nil];
+        [O_progressIndicator setHidden:YES];
+        [O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
+        [O_statusTextField setHidden:NO];
+        NSBeep();
+        return NO;
+    }
     
     OGRegularExpression *regex;
     regex = [OGRegularExpression regularExpressionWithString:findString
@@ -217,6 +239,7 @@ static FindReplaceController *sharedInstance=nil;
             enumerator=[regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection))];
             aMatch = [enumerator nextObject];
             if (aMatch != nil) {
+                found = YES;
                 NSRange foundRange = [aMatch rangeOfMatchedString];
                 [target setSelectedRange:foundRange];
                 [target scrollRangeToVisible:foundRange];
@@ -225,6 +248,7 @@ static FindReplaceController *sharedInstance=nil;
                 enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,selection.location)];
                 aMatch = [enumerator nextObject];
                 if (aMatch != nil) {
+                    found = YES;
                     NSRange foundRange = [aMatch rangeOfMatchedString];
                     [target setSelectedRange:foundRange];
                     [target scrollRangeToVisible:foundRange];
@@ -239,6 +263,7 @@ static FindReplaceController *sharedInstance=nil;
                 BOOL wrap = ([O_wrapAroundCheckbox state]==NSOnState); 
                 NSRange foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];
                 if (foundRange.length) {
+                    found = YES;
                     [target setSelectedRange:foundRange];
                     [target scrollRangeToVisible:foundRange];
                     [target display];
@@ -247,6 +272,7 @@ static FindReplaceController *sharedInstance=nil;
                 NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:NSMakeRange(0, selection.location)];
                 if ([matchArray count] > 0) aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
                 if (aMatch != nil) {
+                    found = YES;
                     NSRange foundRange = [aMatch rangeOfMatchedString];
                     [target setSelectedRange:foundRange];
                     [target scrollRangeToVisible:foundRange];
@@ -255,6 +281,7 @@ static FindReplaceController *sharedInstance=nil;
                     NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection))];
                     if ([matchArray count] > 0) aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
                     if (aMatch != nil) {
+                        found = YES;
                         NSRange foundRange = [aMatch rangeOfMatchedString];
                         [target setSelectedRange:foundRange];
                         [target scrollRangeToVisible:foundRange];
@@ -268,7 +295,9 @@ static FindReplaceController *sharedInstance=nil;
     }
                                  
     [O_progressIndicator stopAnimation:nil];
+    [O_progressIndicator setHidden:YES];
     [findPool release];
+    return found;
 }
 
 #pragma mark -

@@ -10,18 +10,19 @@
 #import <OgreKit/OgreKit.h>
 #import "PlainTextDocument.h"
 
-@interface FindAllController : NSObject {
+@interface FindAllController : NSWindowController {
     IBOutlet NSPanel *O_findAllPanel;
     IBOutlet NSArrayController *O_resultsController;
     IBOutlet NSTextField *O_findResultsTextField;
+    IBOutlet NSTextField *O_findRegexTextField;
+    IBOutlet NSTableView *O_resultsTableView;
     PlainTextDocument *I_document;
     OGRegularExpression *I_regularExpression;
     unsigned I_options;
 }
 
 - (id)initWithRegex:(OGRegularExpression*)regex andOptions:(unsigned)options;
-- (void) findAll;
+- (IBAction)findAll:(id)sender;
 - (void)setDocument:(PlainTextDocument *)aDocument;
-- (NSPanel *)findAllPanel;
 
 @end

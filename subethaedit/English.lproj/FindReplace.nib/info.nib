@@ -11,6 +11,10 @@
 	</dict>
 	<key>IBFramework Version</key>
 	<string>364.0</string>
+	<key>IBOpenObjects</key>
+	<array>
+		<integer>123</integer>
+	</array>
 	<key>IBSystem Version</key>
 	<string>7F44</string>
 </dict>

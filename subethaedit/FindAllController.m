@@ -14,44 +14,36 @@
 @implementation FindAllController
 
 - (id)initWithRegex:(OGRegularExpression*)regex andOptions:(unsigned)options {
-    self = [super init];
+    self = [super initWithWindowNibName:@"FindAll"];
     if (self) {
         I_regularExpression = [regex copy];
         I_options = options;
-
     }
     return self;
 }
 
 - (void)dealloc 
 {
-    [[self findAllPanel] orderOut:self];
+    [[self window] orderOut:self];
     [I_regularExpression release];
     [super dealloc];
 }
 
-- (void)loadUI {
-    if (!O_findAllPanel) {
-        if (![NSBundle loadNibNamed:@"FindAll" owner:self]) {
-            NSLog(@"Failed to load FindAll.nib");
-            NSBeep();
-        }
-    }
-}
-
-- (NSPanel *)findAllPanel {
-    if (!O_findAllPanel) [self loadUI];
-    return O_findAllPanel;
-}
-
 - (void)setDocument:(PlainTextDocument *)aDocument {
     I_document = aDocument;
+    [[self window] setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ - Find All",@"FindRegexPrefix"),[aDocument displayName]]];
 }
 
-- (void) findAll
+- (void)windowDidLoad {
+    [((NSPanel *)[self window]) setFloatingPanel:NO];
+    [[self window] setHidesOnDeactivate:NO];
+    [O_findRegexTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Find: %@",@"FindRegexPrefix"),[I_regularExpression expressionString]]];
+}
+
+- (void)findAll:(id)sender
 {
+    [self showWindow:self];
     [O_resultsController removeObjects:[O_resultsController arrangedObjects]]; //Clear arraycontroller
-    [[self findAllPanel] makeKeyAndOrderFront:nil];
     OGRegularExpression *regex = I_regularExpression;
     unsigned options = I_options;
 
@@ -63,6 +55,9 @@
         
         int i;
         int count = [matchArray count];
+        NSTableColumn* stringCol = [[O_resultsTableView tableColumns] objectAtIndex:1];
+        int longestCol = 150;
+
         [O_findResultsTextField setStringValue:[NSString stringWithFormat:@"%d found.",count]];
         for (i=0;i<count;i++) {
             OGRegularExpressionMatch *aMatch = [matchArray objectAtIndex:i];
@@ -96,8 +91,16 @@
                                 aString,@"foundString",
                                 aRange,@"range",
                                 line,@"line",nil]];
+
+            NSSize stringSize = [aString size];
+            if (longestCol<stringSize.width) {
+                [stringCol setMinWidth:stringSize.width+5];
+                longestCol = stringSize.width;
+            }
+
             [aString release];
         }
+            [O_resultsTableView tile];
     }
 }
 
@@ -112,6 +115,7 @@
     } 
     return NO;
 }
+
 @end
 
 
