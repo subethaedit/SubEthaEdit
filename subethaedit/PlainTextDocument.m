@@ -1902,6 +1902,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     else NSLog(@"Something has gone terribly wrong: No FindAllController array");
 }
 
+- (void)removeFindAllController:(FindAllController *)aController
+{
+    if (I_findAllControllers) [I_findAllControllers removeObject:aController];
+    else NSLog(@"Something has gone terribly wrong: No FindAllController array");
+}
+
 - (NSURL *)documentURL {
     if (![[self session] isServer]) {
         return nil;

@@ -223,6 +223,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 
 - (void)addFindAllController:(FindAllController *)aController;
+- (void)removeFindAllController:(FindAllController *)aController;
 
 
 @end

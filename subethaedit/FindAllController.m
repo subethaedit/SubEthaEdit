@@ -30,6 +30,11 @@
     [super dealloc];
 }
 
+- (void)windowWillClose:(NSNotification *)aNotification {
+    NSLog(@"close");
+    [I_document removeFindAllController:self];
+}
+
 - (NSArray*) arrangedObjects
 {
     return [O_resultsController arrangedObjects];
@@ -43,6 +48,7 @@
 - (void)windowDidLoad {
     [((NSPanel *)[self window]) setFloatingPanel:NO];
     [[self window] setHidesOnDeactivate:NO];
+    [[self window] setDelegate:self];
     [O_findRegexTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Find: %@",@"FindRegexPrefix"),[I_regularExpression expressionString]]];
 }
 
