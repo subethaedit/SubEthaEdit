@@ -27,11 +27,12 @@ enum {
     NSMutableData *I_writeBuffer;
     int I_currentReadState;
     int I_currentReadFrameRemainingContentSize;
-    BOOL I_isInitiator;
 
     TCMBEEPChannel *I_managementChannel;
     NSMutableDictionary *I_requestedChannels;
     NSMutableDictionary *I_activeChannels;
+    
+    int32_t I_nextChannelNumber;
     
     id I_delegate;
     
@@ -48,6 +49,7 @@ enum {
     TCMBEEPFrame *I_currentReadFrame;
     struct {
         BOOL isSending;
+        BOOL isInitiator;
     } I_flags;
 }
 
@@ -80,5 +82,15 @@ enum {
 - (void)activateChannel:(TCMBEEPChannel *)aChannel;
 
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel;
+- (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray;
+
+@end
+
+
+@interface TCMBEEPSession (TCMBEEPSessionDelegateAdditions)
+
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray;
+
+- (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forRequests:(NSArray *)aRequests;
 
 @end

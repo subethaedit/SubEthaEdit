@@ -55,7 +55,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
         [self setPeerAddressData:aData];
         
         CFStreamCreatePairWithSocket(kCFAllocatorDefault, aSocketHandle, (CFReadStreamRef *)&I_inputStream, (CFWriteStreamRef *)&I_outputStream);
-                 
+        I_flags.isInitiator = NO;
+        I_nextChannelNumber = 0;
         [self TCM_initHelper];        
     }
     
@@ -69,7 +70,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
         [self setPeerAddressData:aData];
         CFSocketSignature signature = {PF_INET, SOCK_STREAM, IPPROTO_TCP, (CFDataRef)aData};
         CFStreamCreatePairWithPeerSocketSignature(kCFAllocatorDefault, &signature, (CFReadStreamRef *)&I_inputStream, (CFWriteStreamRef *)&I_outputStream);
-        
+        I_flags.isInitiator = YES;
+        I_nextChannelNumber = -1;
         [self TCM_initHelper];
     }
     
@@ -185,12 +187,17 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 - (BOOL)isInitiator
 {
-    return I_isInitiator;
+    return I_flags.isInitiator;
 }
 
 - (NSMutableDictionary *)activeChannels
 {
     return I_activeChannels;
+}
+
+- (int32_t)nextChannelNumber {
+    I_nextChannelNumber+=2;
+    return I_nextChannelNumber;
 }
 
 - (void)activateChannel:(TCMBEEPChannel *)aChannel
@@ -441,6 +448,44 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     [self setPeerLocalizeAttribute:aLocalizeAttribute];
     [self setPeerFeaturesAttribute:aFeaturesAttribute];
     [self setPeerProfileURIs:profileURIs];
+    if ([[self delegate] respondsToSelector:@selector(BEEPSession:didReceiveGreetingWithProfileURIs:)]) {
+        [[self delegate] BEEPSession:self didReceiveGreetingWithProfileURIs:profileURIs];
+    }
+}
+
+- (NSMutableDictionary *)preferedAnswerToAcceptRequestForChannel:(int32_t)channelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
+{
+    // Profile URIs ausdünnen 
+    NSMutableArray *requestArray=[NSMutableArray array];
+    NSMutableDictionary *preferedAnswer=nil;
+    int i;
+    for (i = 0; i<[aProfileURIArray count]; i++) {
+        if ([[self profileURIs] containsObject:[aProfileURIArray objectAtIndex:i]]) {
+            [requestArray addObject:[NSDictionary dictionaryWithObjectsAndKeys: [aProfileURIArray objectAtIndex:i], @"ProfileURI", [aDataArray objectAtIndex:i], @"Data", nil]];
+            if (!preferedAnswer) 
+                preferedAnswer=[NSMutableDictionary dictionaryWithObjectsAndKeys: [aProfileURIArray objectAtIndex:i], @"ProfileURI", [NSData data], @"Data", nil];
+        }
+    }
+    // prefered Profile URIs raussuchen
+    if (!preferedAnswer) return nil;
+    // if channel exists 
+    if ([I_activeChannels objectForLong:channelNumber]) return nil;
+    // delegate fragen, falls er gefragt werden will
+    if ([[self delegate] respondsToSelector:@selector(BEEPSession:willSendReply:forRequests:)]) {
+        preferedAnswer = [[self delegate] BEEPSession:self
+                willSendReply:preferedAnswer forRequests:requestArray];
+    }
+    return preferedAnswer;
+}
+
+- (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
+{
+    [[I_managementChannel profile] startChannelNumber:[self nextChannelNumber] withProfileURIs:aProfileURIArray andData:aDataArray];
+}
+
+- (void)didReceiveAcceptStartRequestForChannel:(int32_t)aNumber withProfileURI:(NSString *)aProfileURI andData:(NSData *)aData
+{
+    NSLog(@"Established channel: %d", aNumber);
 }
 
 @end

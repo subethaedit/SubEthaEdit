@@ -44,6 +44,7 @@
     NSLog(@"Generated addressdata: %@",[NSString stringWithAddressData:addressData]);
     
     TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
+    [session setProfileURIs:[NSArray arrayWithObjects:@"http://blah.net", @"http://BEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEP", nil]];
     [session open];
     if (session) {
         NSLog(@"Session opened: %@",[session description]);
@@ -84,5 +85,14 @@
     [aBEEPSession retain];
 }
 
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray
+{
+    [aBEEPSession startChannelWithProfileURIs:aProfileURIArray andData:nil];
+}
+
+- (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forRequests:(NSArray *)aRequests
+{
+    return aReply;
+}
 
 @end

@@ -16,6 +16,7 @@
     TCMBEEPChannel *I_channel;
     id I_delegate;
     BOOL I_firstMessage;
+    NSMutableDictionary *I_pendingChannelRequestMessageNumbers;
 }
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel;
@@ -30,11 +31,17 @@
 - (void)setChannel:(TCMBEEPChannel *)aChannel;
 - (TCMBEEPChannel *)channel;
 
+- (void)startChannelNumber:(int32_t)aChannelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray;
+
 @end
 
 
 @interface TCMBEEPManagementProfile (TCMBEEPManagementProfileDelegateAdditions)
 
 - (void)didReceiveGreetingWithProfileURIs:(NSArray *)profileURIs featuresAttribute:(NSString *)aFeaturesAttribute localizeAttribute:(NSString *)aLocalizeAttribute;
+
+- (NSMutableDictionary *)preferedAnswerToAcceptRequestForChannel:(int32_t)channelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray;
+
+- (void)didReceiveAcceptStartRequestForChannel:(int32_t)aNumber withProfileURI:(NSString *)aProfileURI andData:(NSData *)aData;
 
 @end
