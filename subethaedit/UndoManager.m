@@ -403,6 +403,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     [_redoStack removeAllObjects];
     [_redoGroup release];
     _redoGroup = nil;
+    _flags.automaticGroupLevel=-1;
 }
 
 - (void)removeAllActionsWithTarget:(id)target {
