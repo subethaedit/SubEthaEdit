@@ -38,7 +38,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     if (self) {
         Class profileClass=nil;
         if (profileClass=[[TCMBEEPChannel profileURIToClassMapping] objectForKey:aProfileURI]) {
-            I_profile=[profileClass new];
+            I_profile=[[profileClass alloc] initWithChannel:self];
             [self setSession:aSession];
             [self setNumber:aNumber];
             [self setProfileURI:aProfileURI];

@@ -11,15 +11,23 @@
 extern NSString * const kTCMBEEPFrameTrailer     ;
 extern NSString * const kTCMBEEPManagementProfile;
 
-@class TCMBEEPChannel;
+enum {
+    frameHeaderState = 1,
+    frameContentState,
+    frameEndState
+};
+
+@class TCMBEEPChannel, TCMBEEPFrame;
 
 @interface TCMBEEPSession : NSObject
 {
     NSInputStream  *I_inputStream;
     NSOutputStream *I_outputStream;
-    NSMutableData  *I_readBuffer;
+    NSMutableData  *I_readHeaderBuffer;
+    NSMutableData  *I_readContentBuffer;
     NSMutableData  *I_writeBuffer;
-    
+    int I_currentReadState;
+    int I_currentReadFrameRemainingContentSize;
     BOOL I_isInitiator;
 
     TCMBEEPChannel *I_managementChannel;
@@ -37,6 +45,8 @@ extern NSString * const kTCMBEEPManagementProfile;
     NSString *I_localizeAttribute;
     NSString *I_peerFeaturesAttribute;
     NSString *I_peerLocalizeAttribute;
+    
+    TCMBEEPFrame *I_currentReadFrame;
 }
 
 /*"Initializers"*/
@@ -46,6 +56,10 @@ extern NSString * const kTCMBEEPManagementProfile;
 /*"Accessors"*/
 - (void)setDelegate:(id)aDelegate;
 - (id)delegate;
+- (void)setProfileURIs:(NSArray *)anArray;
+- (NSArray *)profileURIs;
+- (void)setPeerProfileURIs:(NSArray *)anArray;
+- (NSArray *)peerProfileURIs;
 - (void)setPeerAddressData:(NSData *)aData;
 - (NSData *)peerAddressData;
 - (void)setFeaturesAttribute:(NSString *)anAttribute;
