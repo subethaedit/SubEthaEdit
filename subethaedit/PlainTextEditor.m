@@ -737,7 +737,8 @@
     }
     
     if (![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
-        //if (!([self isRemote] || [self isShared])) {
+        TCMMMSession *session=[document session];
+        if ([session isServer] && [session participantCount]<=1) {
             NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                                             @"ShouldPromoteAlert", @"Alert",
                                                             aTextView, @"TextView",
@@ -756,9 +757,9 @@
                               modalDelegate:document 
                              didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
                                 contextInfo:[contextInfo retain]];
-        //} else {
-        //    NSBeep();
-        //}      
+        } else {
+            NSBeep();
+        }      
         return NO;
     } else {
         [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] typingAttributes]];

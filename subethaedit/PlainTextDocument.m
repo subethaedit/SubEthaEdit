@@ -930,7 +930,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [textStorage removeAttribute:ChangedByUserIDAttributeName range:NSMakeRange(0,[textStorage length])];
 }
 
-- (void)selectEncoding:(id)aSender {
+- (IBAction)selectEncoding:(id)aSender {
 
     NSStringEncoding encoding = [aSender tag];
     
@@ -1526,7 +1526,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         } else {
             [anItem setState:NSOffState];
         }
-        return (!I_flags.isReceivingContent);
+        TCMMMSession *session=[self session];
+        return (!I_flags.isReceivingContent && [session isServer] && [session participantCount]<=1);
     } else if (selector == @selector(chooseMode:)) {
         DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
         NSString *identifier=[modeManager documentModeIdentifierForTag:[anItem tag]];
@@ -2053,55 +2054,58 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"alertDidEnd: %@", alertIdentifier);
 
     if ([alertIdentifier isEqualToString:@"SelectEncodingAlert"]) {
-        NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntValue];
-        if (returnCode == NSAlertFirstButtonReturn) {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
-            [[alert window] orderOut:self];
-            if (![[I_textStorage string] canBeConvertedToEncoding:encoding]) {
-                NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                [newAlert setAlertStyle:NSWarningAlertStyle];
-                [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
-                [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not applicable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
-                [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-                [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                     modalDelegate:nil 
-                                    didEndSelector:nil
-                                       contextInfo:NULL];            
-            } else {
-                [self setFileEncoding:encoding];
-                [self updateChangeCount:NSChangeDone];
-            }
-        }
-
-        if (returnCode == NSAlertThirdButtonReturn) {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
-            [[alert window] orderOut:self];
-            NSData *stringData = [[I_textStorage string] dataUsingEncoding:[self fileEncoding]];
-            NSString *reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
-            if (!reinterpretedString) {
-                NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                [newAlert setAlertStyle:NSWarningAlertStyle];
-                [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
-                [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
-                [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-                [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                     modalDelegate:nil 
-                                    didEndSelector:nil
-                                       contextInfo:NULL];              
-            } else {
-                [I_textStorage beginEditing];
-                [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
-                [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
-                
-                if (I_flags.highlightSyntax) {
-                    [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
+        TCMMMSession *session=[self session];
+        if (!I_flags.isReceivingContent && [session isServer] && [session participantCount]<=1) {
+            NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntValue];
+            if (returnCode == NSAlertFirstButtonReturn) {
+                DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
+                [[alert window] orderOut:self];
+                if (![[I_textStorage string] canBeConvertedToEncoding:encoding]) {
+                    NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+                    [newAlert setAlertStyle:NSWarningAlertStyle];
+                    [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
+                    [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not applicable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
+                    [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                    [newAlert beginSheetModalForWindow:[self windowForSheet]
+                                         modalDelegate:nil 
+                                        didEndSelector:nil
+                                           contextInfo:NULL];            
+                } else {
+                    [self setFileEncoding:encoding];
+                    [self updateChangeCount:NSChangeDone];
                 }
-        
-                [I_textStorage endEditing];
-                
-                [reinterpretedString release];
-                [self setFileEncoding:encoding];
-                [self updateChangeCount:NSChangeDone];            
+            }
+    
+            if (returnCode == NSAlertThirdButtonReturn) {
+                DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
+                [[alert window] orderOut:self];
+                NSData *stringData = [[I_textStorage string] dataUsingEncoding:[self fileEncoding]];
+                NSString *reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
+                if (!reinterpretedString) {
+                    NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+                    [newAlert setAlertStyle:NSWarningAlertStyle];
+                    [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
+                    [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
+                    [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                    [newAlert beginSheetModalForWindow:[self windowForSheet]
+                                         modalDelegate:nil 
+                                        didEndSelector:nil
+                                           contextInfo:NULL];              
+                } else {
+                    [I_textStorage beginEditing];
+                    [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
+                    [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
+                    
+                    if (I_flags.highlightSyntax) {
+                        [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
+                    }
+            
+                    [I_textStorage endEditing];
+                    
+                    [reinterpretedString release];
+                    [self setFileEncoding:encoding];
+                    [self updateChangeCount:NSChangeDone];            
+                }
             }
         }
     } else if ([alertIdentifier isEqualToString:@"ShouldPromoteAlert"]) {
