@@ -1,10 +1,35 @@
 //
 //  RendezvousBrowserController.m
-//  rendezvous
+//  RendezCon
 //
 //  Created by Dominik Wagner on Wed Nov 19 2003.
 //  Copyright (c) 2003 TheCodingMonkeys. All rights reserved.
 //
+//  Redistribution and use in source and binary forms, with or without modification, 
+//  are permitted provided that the following conditions are met:
+//
+//  - Redistributions of source code must retain the above copyright notice,
+//    this list of conditions and the following disclaimer.
+//
+//  - Redistributions in binary form must reproduce the above copyright notice, 
+//    this list of conditions and the following disclaimer in the documentation
+//    and/or other materials provided with the distribution.
+//
+//  - Neither the name of the TheCodingMonkeys nor the names of its contributors
+//    may be used to endorse or promote products derived from this software without 
+//    specific prior written permission.
+//
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+//  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+//  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+//  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+//  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+//  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+//  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+//  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+//  POSSIBILITY OF SUCH DAMAGE.
+
 #import "RendezvousBrowserController.h"
 #import "sys/socket.h"
 #import "netinet/in.h"
@@ -16,7 +41,8 @@
 #pragma mark -
 #pragma mark ### init, dealloc & co ###
 
-+ (void)initialize {
++ (void)initialize
+{
     // Using the NSUserDefaultsController here has no benefits over the NSUserDefaults
     // But since this is intended to be Controller Sample Code...
     NSUserDefaultsController *defaultsController=
@@ -26,7 +52,8 @@
     [defaultsController setInitialValues:initialDefaults];
 }
 
-- (id)init {
+- (id)init
+{
     self=[super init];
     if (self) {
         I_foundNetServices   =[NSMutableArray      new];
@@ -37,7 +64,8 @@
     return self;
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     // this would have been nice to be done in Interface Builder. An constant like 
     // IBAction would be nice (IBBinding?)
     // Or are we to provide an extra Objectcontroller for this object to bind again, 
@@ -70,7 +98,8 @@
     
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [self stopBrowsing];
     [I_netServiceBrowsers  release];
     [I_foundNetServices    release];
@@ -80,7 +109,8 @@
 #pragma mark -
 #pragma mark ### KeyValueObserving ###
 
-+ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey {
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey
+{
     return NO;
 }
 
@@ -92,15 +122,18 @@
 //     NSLog(@"Path: %@, value: %@",aKeyPath, [aChange descriptionInStringsFileFormat]);
 // }
 
--(NSMutableArray *)foundNetServices {
+- (NSMutableArray *)foundNetServices
+{
     return I_foundNetServices;
 }
 
--(NSMutableArray *)servicesToBrowseFor {
+- (NSMutableArray *)servicesToBrowseFor
+{
     return I_servicesToBrowseFor;
 }
 
--(void)setServicesToBrowseFor:(NSMutableArray *)aArray {
+- (void)setServicesToBrowseFor:(NSMutableArray *)aArray
+{
     // I don't know exactly if this is the correct indexset,
     // I could not find exact documentation on this
     // But If I Observe myself, than this is the only combination that does not throw exceptions
@@ -116,7 +149,8 @@
 
 #pragma mark -
 
--(void)startBrowsing {
+- (void)startBrowsing
+{
     NSEnumerator *services=[I_servicesToBrowseFor objectEnumerator];
     NSDictionary *service=nil;
     while ((service=[services nextObject])) {
@@ -126,7 +160,8 @@
     }
 }
 
-- (void)stopBrowsing {
+- (void)stopBrowsing
+{
     [[I_netServiceBrowsers allValues] makeObjectsPerformSelector:@selector(stop)];
     [[I_netServiceBrowsers allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_netServiceBrowsers removeAllObjects];
@@ -136,7 +171,8 @@
     [self  didChange:NSKeyValueChangeRemoval valuesAtIndexes:set forKey:@"foundNetServices"];
 }
 
--(void)removeServicesOfType:(NSString *)aServiceType {
+- (void)removeServicesOfType:(NSString *)aServiceType
+{
     int serviceIndex;
     NSMutableIndexSet *indexes=[NSMutableIndexSet indexSet];
     for (serviceIndex=[I_foundNetServices count]-1;serviceIndex>=0;serviceIndex--) {
@@ -157,7 +193,8 @@
     }
 }
 
-- (void)searchForServicesOfType:(NSString *)aServiceType {
+- (void)searchForServicesOfType:(NSString *)aServiceType
+{
     if (![I_netServiceBrowsers objectForKey:aServiceType]) {
         NSNetServiceBrowser *browser=[[NSNetServiceBrowser new] autorelease];
         [browser setDelegate:self];
@@ -166,7 +203,8 @@
     }
 }
 
-- (void)stopSearchingForServicesOfType:(NSString *)aServiceType {
+- (void)stopSearchingForServicesOfType:(NSString *)aServiceType
+{
     NSNetServiceBrowser *browser;
     if ((browser=[I_netServiceBrowsers objectForKey:aServiceType])) {
         [browser stop];
@@ -179,7 +217,8 @@
 #pragma mark -
 #pragma mark ### Actions ###
 
-- (IBAction)didChangeStatusOfServiceToBrowse:(id)aSender {
+- (IBAction)didChangeStatusOfServiceToBrowse:(id)aSender
+{
     // originally I intended to do
     // [O_servicesController selectedObjects];
     // but the array controller changes the selection after the action is sent
@@ -197,13 +236,14 @@
     }
 }
 
-- (IBAction)stopAndRestart:(id)aSender {
+- (IBAction)stopAndRestart:(id)aSender
+{
     [self stopBrowsing];
     [self startBrowsing];
 }
 
-- (IBAction)simpleURLDoubleAction:(id)aSender {
-
+- (IBAction)simpleURLDoubleAction:(id)aSender
+{
     NSString *address=[[[O_addressesController selectedObjects] objectAtIndex:0] objectForKey:@"addressAsString"];
     NSString *service=[(NSNetService *)[[[O_serviceController selectedObjects] objectAtIndex:0] objectForKey:@"Service"] type];
     NSString *scheme =[service substringWithRange:NSMakeRange(1,[service rangeOfString:@"."].location-1)];
@@ -355,14 +395,16 @@
 #pragma mark -
 #pragma mark ### NSWindow delegate methods ###
 
--(void)windowWillClose:(NSNotification *)aNotification {
+-(void)windowWillClose:(NSNotification *)aNotification
+{
     [NSApp terminate:self];
 }
 
 #pragma mark -
 #pragma mark ### NSApplication delegate methods ###
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
     NSUserDefaultsController* defaultsController=[NSUserDefaultsController sharedUserDefaultsController];
     [[defaultsController values] setValue:I_servicesToBrowseFor forKey:@"servicesToBrowseFor"];
     [defaultsController save:self];
@@ -370,4 +412,5 @@
     // [[NSUserDefaults standardUserDefaults] setObject:I_servicesToBrowseFor forKey:@"servicesToBrowseFor"];
     // which is a bit shorter and actually nicer
 }
+
 @end
