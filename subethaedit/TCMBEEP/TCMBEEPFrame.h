@@ -23,9 +23,16 @@
     NSData *I_payload;
 }
 
-+ (TCMBEEPFrame *)frameWithMessage:(TCMBEEPMessage *)aMessage sequenceNumber:(uint32_t)aSequenceNumber;
++ (TCMBEEPFrame *)frameWithMessage:(TCMBEEPMessage *)aMessage 
+                    sequenceNumber:(uint32_t)aSequenceNumber
+                     payloadLength:(uint32_t)aLength
+                      intermediate:(BOOL)aFlag;
 
-- (id)initWithMessage:(TCMBEEPMessage *)aMessage sequenceNumber:(uint32_t)aSequenceNumber;
+- (id)initWithMessage:(TCMBEEPMessage *)aMessage 
+       sequenceNumber:(uint32_t)aSequenceNumber
+        payloadLength:(uint32_t)aLength
+         intermediate:(BOOL)aFlag;
+         
 - (id)initWithHeader:(char *)aHeaderString;
 
 - (void)setPayload:(NSData *)aData;

@@ -82,11 +82,14 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 
 - (void)dealloc
 {
-    [I_contributors release];
-    [I_participants release];
-    [I_filename release];
+    I_document = nil;
     [I_sessionID release];
+    [I_hostID release];
+    [I_filename release];
     [I_profilesByUserID release];
+    //[I_state release];
+    [I_participants release];    
+    [I_contributors release];
     [I_pendingUsers release];
     [I_groupByUserID release];
     [I_statesByClientID release];

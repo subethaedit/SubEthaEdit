@@ -26,6 +26,8 @@
 }
 
 - (void)dealloc {
+    I_client = nil;
+    I_delegate = nil;
     [I_messageBuffer release];
     [super dealloc];
 }

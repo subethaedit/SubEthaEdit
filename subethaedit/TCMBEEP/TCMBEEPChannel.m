@@ -62,6 +62,8 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_nextMessageNumber = 0;
             I_messageWriteQueue = [NSMutableArray new];
             I_sequenceNumber = 0;
+            I_incomingWindowSize = 4096;
+            I_outgoingWindowSize = 4096;
             I_flags.isInitiator = isInitiator;
         }
     }
@@ -150,7 +152,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 // Convenience for Profiles
 - (void)sendMSGMessageWithPayload:(NSData *)aPayload
 {
-    [self sendMessage: [[[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[self nextMessageNumber] payload:aPayload] autorelease]];
+    [self sendMessage:[[[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[self nextMessageNumber] payload:aPayload] autorelease]];
 }
 
 // Accessors for session
@@ -166,10 +168,30 @@ static NSMutableDictionary *profileURIToClassMapping;
         return [NSArray array];
     }
     
-    TCMBEEPFrame *frame = [TCMBEEPFrame frameWithMessage:[I_messageWriteQueue objectAtIndex:0] sequenceNumber:I_sequenceNumber];
-    I_sequenceNumber += [[I_messageWriteQueue objectAtIndex:0] payloadLength];
-    [I_messageWriteQueue removeObjectAtIndex:0];
-    return [NSArray arrayWithObject:frame];
+    NSMutableArray *frames = [NSMutableArray array];
+    int bytesAllowedToSend = MIN([[self session] maximumFrameSize], I_outgoingWindowSize);
+    while (bytesAllowedToSend > 0 && [I_messageWriteQueue count] > 0) {
+        TCMBEEPMessage *message = [I_messageWriteQueue objectAtIndex:0];
+        int payloadLength = [message payloadLength];
+        if (payloadLength <= bytesAllowedToSend) {
+            // convert message to frame and send frame
+            TCMBEEPFrame *frame = [TCMBEEPFrame frameWithMessage:message sequenceNumber:I_sequenceNumber payloadLength:payloadLength intermediate:NO];
+            [frames addObject:frame];
+            [I_messageWriteQueue removeObjectAtIndex:0];
+            I_sequenceNumber += payloadLength;
+            bytesAllowedToSend -= payloadLength;
+        } else {
+            // split message into several frames
+            int framePayload = bytesAllowedToSend;
+            TCMBEEPFrame *frame = [TCMBEEPFrame frameWithMessage:message sequenceNumber:I_sequenceNumber payloadLength:framePayload intermediate:YES];
+            [message setPayload:[[message payload] subdataWithRange:NSMakeRange(framePayload, payloadLength - framePayload)]];
+            [frames addObject:frame];
+            I_sequenceNumber += framePayload;
+            bytesAllowedToSend -= framePayload;
+        }
+    }
+    
+    return frames;
 }
 
 - (int32_t)nextMessageNumber
@@ -198,9 +220,9 @@ static NSMutableDictionary *profileURIToClassMapping;
         if (![aFrame isIntermediate]) {
             // FINISH and DISPATCH
             TCMBEEPMessage *message = [TCMBEEPMessage messageWithQueue:queue];
-            if (strcmp([aFrame messageType],"MSG") == 0) {
+            if (strcmp([aFrame messageType], "MSG") == 0) {
                 [I_inboundMessageNumbersWithPendingReplies addIndex:[aFrame messageNumber]];
-            } else if (strcmp([aFrame messageType],"ANS") != 0) {
+            } else if (strcmp([aFrame messageType], "ANS") != 0) {
                 [I_messageNumbersWithPendingReplies removeIndex:[aFrame messageNumber]];
             }
             [[self profile] processBEEPMessage:message];
@@ -216,7 +238,10 @@ static NSMutableDictionary *profileURIToClassMapping;
                 }
             }
         }
+        
         [self setPreviousReadFrame:aFrame];
+    } else {
+        NSLog(@"NOT ACCEPTED: %@", aFrame);
     }
     return accept;
 }
@@ -239,6 +264,7 @@ static NSMutableDictionary *profileURIToClassMapping;
           strcmp(messageType, "ERR") == 0 ||
           strcmp(messageType, "ANS") == 0 ||
           strcmp(messageType, "NUL") == 0)) {
+        NSLog(@"1ter punkt 2.2.1.1");
         result = NO;
     }
                 
@@ -301,7 +327,8 @@ static NSMutableDictionary *profileURIToClassMapping;
                 
     //  if the header starts with "NUL", and the continuation indicator is
     //  intermediate ("*") or the payload size is non-zero.
-    if (strcmp(messageType, "NUL") && [aFrame isIntermediate]) {
+    if (strcmp(messageType, "NUL") == 0 && [aFrame isIntermediate]) {
+        NSLog(@"11ter punkt 2.2.1.1");
         result = NO;
     }
     

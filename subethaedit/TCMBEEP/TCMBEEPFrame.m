@@ -13,12 +13,21 @@
 
 @implementation TCMBEEPFrame
 
-+ (TCMBEEPFrame *)frameWithMessage:(TCMBEEPMessage *)aMessage sequenceNumber:(uint32_t)aSequenceNumber
++ (TCMBEEPFrame *)frameWithMessage:(TCMBEEPMessage *)aMessage 
+                    sequenceNumber:(uint32_t)aSequenceNumber
+                     payloadLength:(uint32_t)aLength
+                      intermediate:(BOOL)aFlag
 {
-    return [[[TCMBEEPFrame alloc] initWithMessage:aMessage sequenceNumber:aSequenceNumber] autorelease];
+    return [[[TCMBEEPFrame alloc] initWithMessage:aMessage 
+                                   sequenceNumber:aSequenceNumber
+                                    payloadLength:aLength
+                                     intermediate:aFlag] autorelease];
 }
 
-- (id)initWithMessage:(TCMBEEPMessage *)aMessage sequenceNumber:(uint32_t)aSequenceNumber
+- (id)initWithMessage:(TCMBEEPMessage *)aMessage 
+       sequenceNumber:(uint32_t)aSequenceNumber
+        payloadLength:(uint32_t)aLength
+         intermediate:(BOOL)aFlag
 {
     self = [super init];
     if (self) {
@@ -26,10 +35,20 @@
         I_channelNumber = [aMessage channelNumber];
         I_messageNumber = [aMessage messageNumber];
         I_answerNumber = [aMessage answerNumber];
-        I_continuationIndicator[0] = '.';
+        
+        if (aFlag) {
+            I_continuationIndicator[0] = '*';
+        } else {
+            I_continuationIndicator[0] = '.';
+        }
         I_continuationIndicator[1] = 0;
-        I_length = [aMessage payloadLength];
-        [self setPayload:[aMessage payload]];
+        
+        if ([aMessage payloadLength] < aLength) {
+            NSLog(@"ERROR! Absurd length");
+        }
+        [self setPayload:[[aMessage payload] subdataWithRange:NSMakeRange(0, aLength)]];
+        I_length = aLength;
+        
         I_sequenceNumber = aSequenceNumber;
     }
     return self;

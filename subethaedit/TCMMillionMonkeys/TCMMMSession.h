@@ -27,7 +27,7 @@ typedef enum TCMMMSessionState {
     NSString *I_hostID;
     NSString *I_filename;
     NSMutableDictionary *I_profilesByUserID;
-    TCMMMSessionState *I_state;
+    //TCMMMSessionState *I_state;
     NSMutableDictionary *I_participants;
     NSMutableSet *I_contributors;
     NSMutableArray *I_pendingUsers;
