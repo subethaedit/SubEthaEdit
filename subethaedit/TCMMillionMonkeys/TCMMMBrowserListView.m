@@ -148,7 +148,7 @@ static NSColor *alternateRowColor=nil;
         [itemStep concat];
         [self TCM_drawItemAtIndex:i];
         int j;
-        int numberOfChildren=[[self dataSource] listView:self numberOfChildrenOfItemAtIndex:i];
+        int numberOfChildren=[self numberOfChildrenOfItemAtIndex:i];
         for (j=0;j<numberOfChildren;j++) {
             [childStep concat];
             [self TCM_drawChildWithIndex:j ofItemAtIndex:i];
@@ -210,7 +210,11 @@ static NSColor *alternateRowColor=nil;
 }
 
 - (int)numberOfItems {
-   return [I_dataSource numberOfItemsInListView:self]; 
+   return [[self dataSource] numberOfItemsInListView:self]; 
+}
+
+- (int)numberOfChildrenOfItemAtIndex:(int)aIndex {
+   return [[self dataSource] listView:self numberOfChildrenOfItemAtIndex:aIndex]; 
 }
 
 - (void)reloadData {
@@ -225,17 +229,16 @@ static NSColor *alternateRowColor=nil;
     if (scrollView) {
         NSRect frame=[[scrollView contentView] frame];
         int numberOfItems=[self numberOfItems];
-        if (frame.size.height<numberOfItems*ITEMROWHEIGHT) {
-            frame.size.height=numberOfItems*ITEMROWHEIGHT;
+        int i;
+        float desiredHeight=numberOfItems*ITEMROWHEIGHT;
+        for (i=0;i<numberOfItems;i++) {
+            int numberOfChildren=[self numberOfChildrenOfItemAtIndex:i];
+            desiredHeight+=numberOfChildren*CHILDROWHEIGHT;
+        }
+        if (frame.size.height<desiredHeight) {
+            frame.size.height=desiredHeight;
         }
         [self setFrameSize:frame.size];
-//        NSRect bounds=[self bounds];
-//        if (numberOfRows>I_selectedRow) {
-//            bounds.origin.y+=bounds.size.height;
-//            bounds.size.height=ITEMROWHEIGHT;
-//            bounds.origin.y-=(I_selectedRow+1)*ITEMROWHEIGHT;
-//            [self scrollRectToVisible:bounds];
-//        }
     }
     [self setNeedsDisplay:YES];
 }

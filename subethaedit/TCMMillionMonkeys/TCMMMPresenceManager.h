@@ -20,6 +20,8 @@ extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
     NSMutableDictionary *I_statusOfUserIDs;
     NSMutableSet        *I_statusProfilesInServerRole;
     NSMutableDictionary *I_announcedSessions;
+    
+    NSMutableDictionary *I_registeredSessions;
     struct {
         BOOL isVisible;
         BOOL serviceIsPublished;
@@ -36,5 +38,9 @@ extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
 - (void)announceSession:(TCMMMSession *)aSession;
 - (void)concealSession:(TCMMMSession *)aSession;
 - (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID;
+
+- (void)registerSession:(TCMMMSession *)aSession;
+- (void)unregisterSession:(TCMMMSession *)aSession;
+- (TCMMMSession *)referenceSessionForSession:(TCMMMSession *)aSession;
 
 @end

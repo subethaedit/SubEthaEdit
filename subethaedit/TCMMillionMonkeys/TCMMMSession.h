@@ -13,6 +13,7 @@
 {
     NSDocument *I_document;
     NSString *I_sessionID;
+    NSString *I_hostID;
     NSString *I_filename;
     
     NSMutableDictionary *I_participants;
@@ -35,6 +36,9 @@
 
 - (void)setDocument:(NSDocument *)aDocument;
 - (NSDocument *)document;
+
+- (void)setHostID:(NSString *)aHostID;
+- (NSString *)hostID;
 
 - (void)setIsServer:(BOOL)isServer;
 - (BOOL)isServer;

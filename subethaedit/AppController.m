@@ -104,7 +104,12 @@
     [userManager setMe:[me autorelease]];
 }
 
+- (void)awakeFromNib {
+    [self addMe];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    // this is acutally after the opening of the first untitled document window!
     DebugPreferences *debugPrefs = [[DebugPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:debugPrefs];
     EncodingPreferences *encodingPrefs = [[EncodingPreferences new] autorelease];
@@ -114,8 +119,6 @@
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
 
-    [self addMe];
-    
     [[TCMMMBEEPSessionManager sharedInstance] listen];
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];
     

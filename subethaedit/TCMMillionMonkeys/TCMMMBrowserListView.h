@@ -42,6 +42,7 @@ enum {
 
 - (void)reloadData;
 - (int)numberOfItems;
+- (int)numberOfChildrenOfItemAtIndex:(int)aIndex;
 - (void)noteEnclosingScrollView;
 - (void)resizeToFit;
 

@@ -8,6 +8,7 @@
 
 #import "TCMMMSession.h"
 #import "TCMBencodingUtilities.h"
+#import "TCMMMUserManager.h"
 
 
 @implementation TCMMMSession
@@ -16,6 +17,7 @@
 {
     NSDictionary *sessionDict=TCM_BdecodedObjectWithData(aData);
     TCMMMSession *session = [[TCMMMSession alloc] initWithSessionID:[sessionDict objectForKey:@"SessionID"] filename:[sessionDict objectForKey:@"Filename"]];
+    [session setHostID:[sessionDict objectForKey:@"HostID"]];
     return [session autorelease];
 }
 
@@ -35,6 +37,7 @@
         [self setDocument:aDocument];
         [self setSessionID:[NSString UUIDString]];
         [self setFilename:[aDocument displayName]];
+        [self setHostID:[TCMMMUserManager myID]];
     }
     return self;
 }
@@ -76,12 +79,23 @@
 - (void)setSessionID:(NSString *)aSessionID
 {
     [I_sessionID autorelease];
-    I_sessionID = [aSessionID copy];
+     I_sessionID = [aSessionID copy];
 }
 
 - (NSString *)sessionID
 {
     return I_sessionID;
+}
+
+- (void)setHostID:(NSString *)aHostID
+{
+    [I_hostID autorelease];
+     I_hostID = [aHostID copy];
+}
+
+- (NSString *)hostID
+{
+    return I_hostID;
 }
 
 - (void)setDocument:(NSDocument *)aDocument
@@ -109,6 +123,7 @@
     NSMutableDictionary *sessionDict = [NSMutableDictionary dictionary];
     [sessionDict setObject:[self filename] forKey:@"Filename"];
     [sessionDict setObject:[self sessionID] forKey:@"SessionID"];
+    [sessionDict setObject:[self hostID] forKey:@"HostID"];
     return TCM_BencodedObject(sessionDict);
 }
 

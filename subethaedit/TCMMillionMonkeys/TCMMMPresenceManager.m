@@ -45,7 +45,8 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     if (self) {
         I_statusOfUserIDs = [NSMutableDictionary new];
         I_statusProfilesInServerRole = [NSMutableSet new];
-        I_announcedSessions = [NSMutableDictionary new];
+        I_announcedSessions  = [NSMutableDictionary new];
+        I_registeredSessions = [NSMutableDictionary new];
         I_flags.serviceIsPublished=NO;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didEndSession:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
@@ -56,6 +57,8 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 - (void)dealloc 
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [I_announcedSessions release];
+    [I_registeredSessions release];
     [I_statusOfUserIDs release];
     [I_netService release];
     [super dealloc];
@@ -123,6 +126,47 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(concealSession:) withObject:aSession];
 }
 
+#pragma mark -
+#pragma mark ### Registered Sessions ###
+
+- (void)registerSession:(TCMMMSession *)aSession {
+    NSMutableDictionary *sessionEntry=[I_registeredSessions objectForKey:[aSession sessionID]];
+    if (!sessionEntry) {
+        sessionEntry=[NSMutableDictionary dictionary];
+        [sessionEntry setObject:aSession forKey:@"Session"];
+        [sessionEntry setObject:[NSNumber numberWithInt:1] forKey:@"Count"];
+        [I_registeredSessions setObject:sessionEntry forKey:[aSession sessionID]];
+    } else {
+        NSAssert([sessionEntry objectForKey:@"Session"]==aSession,@"SessionRegistry: tried to register Session that differs from already registered Session");
+        [sessionEntry setObject:[NSNumber numberWithInt:[[sessionEntry objectForKey:@"Count"] intValue]+1] 
+                         forKey:@"Count"];
+    }
+}
+
+- (void)unregisterSession:(TCMMMSession *)aSession {
+    NSMutableDictionary *sessionEntry=[I_registeredSessions objectForKey:[aSession sessionID]];
+    NSAssert(sessionEntry,@"SessionRegistry: unregistered a Session that was not registered");
+    int count=[[sessionEntry objectForKey:@"Count"] intValue]-1;
+    if (count<=0) {
+        [I_registeredSessions removeObjectForKey:[aSession sessionID]];
+    } else {
+        [sessionEntry setObject:[NSNumber numberWithInt:count] 
+                         forKey:@"Count"];
+    }
+}
+
+- (TCMMMSession *)referenceSessionForSession:(TCMMMSession *)aSession {
+    NSMutableDictionary *sessionEntry=[I_registeredSessions objectForKey:[aSession sessionID]];
+    if (sessionEntry) {
+        // merge
+        TCMMMSession *session=[sessionEntry objectForKey:@"Session"];
+        [session setFilename:[aSession filename]];
+        return session;
+    } else {
+        return aSession;
+    }
+}
+
 
 #pragma mark -
 #pragma mark ### TCMMMStatusProfile interaction
@@ -177,8 +221,12 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     NSMutableDictionary *status=[self statusOfUserID:userID];
     NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
     // TODO: merge session if already existing session is here
-    [sessions setObject:aSession forKey:[aSession sessionID]];
-    [self TCM_validateVisibilityOfUserID:userID];
+    TCMMMSession *session=[self referenceSessionForSession:aSession];
+    if (![sessions objectForKey:[session sessionID]]) {
+        [self registerSession:session];
+        [sessions setObject:session forKey:[session sessionID]];
+        [self TCM_validateVisibilityOfUserID:userID];
+    }
     NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil];
     [userInfo setObject:aSession forKey:@"AnnouncedSession"];
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
@@ -191,7 +239,11 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
     NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
-    [sessions removeObjectForKey:anID];
+    TCMMMSession *session=[sessions objectForKey:anID];
+    if (session) {
+        [sessions removeObjectForKey:anID];
+        [self unregisterSession:session];
+    }
     NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil];
     [userInfo setObject:anID forKey:@"ConcealedSessionID"];
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
@@ -205,6 +257,11 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     NSMutableDictionary *status=[self statusOfUserID:userID];
     [status removeObjectForKey:@"StatusProfile"];
     [status setObject:@"NoStatus" forKey:@"Status"];
+    NSEnumerator *sessions=[[status objectForKey:@"Sessions"] objectEnumerator];
+    TCMMMSession *session=nil;
+    while ((session=[sessions nextObject])) {
+        [self unregisterSession:session];
+    }
     [status setObject:[NSMutableDictionary dictionary] forKey:@"Sessions"];
     [I_statusProfilesInServerRole removeObject:aProfile];
     [aProfile setDelegate:nil];

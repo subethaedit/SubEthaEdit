@@ -55,6 +55,7 @@
     [O_browserListView setDoubleAction:@selector(joinSession:)];
     [O_scrollView setHasVerticalScroller:YES];
     [[O_scrollView verticalScroller] setControlSize:NSSmallControlSize];
+    [O_scrollView setAutohidesScrollers:YES];
     [O_scrollView setDocumentView:O_browserListView];
     [O_browserListView noteEnclosingScrollView];
 }

@@ -21,12 +21,17 @@
         // Add your subclass-specific initialization here.
         // If an error occurs here, send a [self release] message and return nil.
         [self setSession:[[TCMMMSession alloc] initWithDocument:self]];
+        [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
     
     }
     return self;
 }
 
 - (void)dealloc {
+    if (I_flags.isAnnounced) {
+        [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
+    }
+    [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
     [I_session release];
 }
 
