@@ -219,7 +219,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
     NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:userID];
     NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
-    if ([status isEqualToString:kBEEPSessionStatusNoSession]) {
+    if (![status isEqualToString:kBEEPSessionStatusGotSession]) {
         [sessionInformation setObject:aNetService forKey:@"NetService"];
         [sessionInformation setObject:kBEEPSessionStatusConnecting forKey:@"RendezvousStatus"];
         [sessionInformation setObject:[NSNumber numberWithInt:0] forKey:@"TriedNetServiceAddresses"];

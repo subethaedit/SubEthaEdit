@@ -12,10 +12,11 @@
 #import <Foundation/Foundation.h>
 
 @class DebugUserController;
-@class DebugBEEPController;
+@class DebugBEEPController,DebugPresenceController;
 
 @interface DebugController : NSObject
 {
+    DebugPresenceController *I_debugPresenceController;
     DebugUserController *I_debugUserController;
     DebugBEEPController *I_debugBEEPController;
 }

@@ -56,4 +56,6 @@ extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotifica
 - (TCMMMSession *)referenceSessionForSession:(TCMMMSession *)aSession;
 
 
+// debug only
+- (NSArray *)allUsers;
 @end

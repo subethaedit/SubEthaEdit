@@ -123,6 +123,17 @@ static NSString *kServiceKey=@"Service";
         [serviceEntry 
             setObject:[NSNumber numberWithInt:[[serviceEntry objectForKey:kServiceCountKey] intValue] +1] 
             forKey:kServiceCountKey];
+        NSNetService *netService=[serviceEntry objectForKey:kServiceKey];
+        if ([self resolvesServices] && [[serviceEntry objectForKey:@"LastResolveStart"] timeIntervalSinceNow] < -60) {
+            [netService resolve];
+            [aNetService performSelector:@selector(stop) withObject:nil afterDelay:30.];
+            [serviceEntry setObject:[NSDate date] forKey:@"LastResolveStart"];
+            DEBUGLOG(@"RendezvousLogDomain",DetailedLogLevel,@"resolves again because of different service count");
+        }
+        id delegate=[self delegate];
+        if ([delegate respondsToSelector:@selector(rendezvousBrowser:didChangeCountOfResolved:service:)]) {
+            [delegate rendezvousBrowser:self didChangeCountOfResolved:[[serviceEntry objectForKey:kDidResolveKey] boolValue] service:netService];
+        }
     } else {
         serviceEntry=[NSMutableDictionary dictionary];
         [serviceEntry setObject:aNetService forKey:kServiceKey];
@@ -131,6 +142,7 @@ static NSString *kServiceKey=@"Service";
             [aNetService setDelegate:self];
             [aNetService resolve];
             [aNetService performSelector:@selector(stop) withObject:nil afterDelay:30.];
+            [serviceEntry setObject:[NSDate date] forKey:@"LastResolveStart"];
         }
         id delegate=[self delegate];
         if ([delegate respondsToSelector:@selector(rendezvousBrowser:didFindService:)]) {
@@ -161,6 +173,11 @@ static NSString *kServiceKey=@"Service";
             [self removeEntryForService:aNetService];
         } else {
             [serviceEntry setObject:[NSNumber numberWithInt:newCount] forKey:kServiceCountKey];
+            id delegate=[self delegate];
+            if ([delegate respondsToSelector:@selector(rendezvousBrowser:didChangeCountOfResolved:service:)]) {
+                NSNetService *netService=[serviceEntry objectForKey:kServiceKey];
+                [delegate rendezvousBrowser:self didChangeCountOfResolved:[[serviceEntry objectForKey:kDidResolveKey] boolValue] service:netService];
+            }
         }
     }
 }

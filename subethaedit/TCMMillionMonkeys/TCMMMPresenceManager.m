@@ -219,6 +219,10 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     }
 }
 
+- (NSArray *)allUsers {
+    return [I_statusOfUserIDs allValues];
+}
+
 #pragma mark -
 #pragma mark ### Registered Sessions ###
 
@@ -375,7 +379,8 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 - (void)connectToRendezvousUserID:(NSString *)aUserID {
     NSDictionary *status=[self statusOfUserID:aUserID];
     NSNetService *netService=[status objectForKey:@"NetService"];
-    if (netService) {
+    if (netService && ![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"])
+ {
         [[TCMMMBEEPSessionManager sharedInstance] connectToNetService:netService];
     }
 }
@@ -461,6 +466,22 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         }
     }
 }
+
+- (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didChangeCountOfResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
+    DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"ChangedCountOfService: %@",aNetService);
+    if (wasResolved) {
+        NSLog(@"Was resolved");
+        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
+        if (userID && ![userID isEqualTo:[TCMMMUserManager myUserID]]) {
+            NSLog(@"has userID:%@",userID);
+            NSMutableDictionary *status=[self statusOfUserID:userID];
+            if (![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
+                [self performSelector:@selector(connectToRendezvousUserID:) withObject:userID afterDelay:0.3];
+            }
+        }
+    }
+}
+
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didRemoveResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
     DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Removed Service: %@",aNetService);

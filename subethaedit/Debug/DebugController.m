@@ -12,6 +12,7 @@
 #import "DebugController.h"
 #import "DebugBEEPController.h"
 #import "DebugUserController.h"
+#import "DebugPresenceController.h"
 
 
 static DebugController * sharedInstance = nil;
@@ -44,6 +45,12 @@ static DebugController * sharedInstance = nil;
         NSMenuItem *usersItem = [[NSMenuItem alloc] initWithTitle:@"Show Users" action:@selector(showUsers:) keyEquivalent:@""];
         [usersItem setTarget:self];
         [menu addItem:usersItem];
+        [usersItem release];
+        
+        NSMenuItem *presenceItem = [[NSMenuItem alloc] initWithTitle:@"Show Presence" action:@selector(showPresence:) keyEquivalent:@""];
+        [presenceItem setTarget:self];
+        [menu addItem:presenceItem];
+        [presenceItem release];
         
         NSMenuItem *BEEPItem = [[NSMenuItem alloc] initWithTitle:@"Show Sessions & Channels" action:@selector(showBEEP:) keyEquivalent:@""];
         [BEEPItem setTarget:self];
@@ -55,6 +62,13 @@ static DebugController * sharedInstance = nil;
     } else if (flag == NO && indexOfDebugMenu != -1) {
         [[NSApp mainMenu] removeItemAtIndex:indexOfDebugMenu];
     }
+}
+
+- (IBAction)showPresence:(id)aSender {
+    if (!I_debugPresenceController) {
+        I_debugPresenceController = [DebugPresenceController new];
+    }
+    [I_debugPresenceController showWindow:aSender];
 }
 
 - (IBAction)showUsers:(id)aSender {
