@@ -714,27 +714,11 @@
 			settings = {
 			};
 		};
-		143C360005ECB200008C6DFE = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = NSDictionaryTCMAdditions.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		143C360105ECB200008C6DFE = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = NSDictionaryTCMAdditions.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		143C360205ECB200008C6DFE = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = NSStringTCMAdditions.h;
+			path = NSStringSEEAdditions.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -742,21 +726,9 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = NSStringTCMAdditions.m;
+			path = NSStringSEEAdditions.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		143C360405ECB200008C6DFE = {
-			fileRef = 143C360005ECB200008C6DFE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		143C360505ECB200008C6DFE = {
-			fileRef = 143C360105ECB200008C6DFE;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		143C360605ECB200008C6DFE = {
 			fileRef = 143C360205ECB200008C6DFE;
@@ -1951,6 +1923,62 @@
 			settings = {
 			};
 		};
+		14AD0BF407FC53E400E36927 = {
+			isa = PBXFileReference;
+			lastKnownFileType = "wrapper.pb-project";
+			name = TCMFoundation.xcode;
+			path = TCMFoundation/TCMFoundation.xcode;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14AD0BF507FC53E400E36927 = {
+			children = (
+				14AD0BF707FC53E700E36927,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14AD0BF707FC53E700E36927 = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = TCMFoundation.framework;
+			refType = 3;
+			remoteRef = 14AD0C0207FC542E00E36927;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14AD0BF807FC53FC00E36927 = {
+			fileRef = 14AD0BF707FC53E700E36927;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14AD0BF907FC541200E36927 = {
+			fileRef = 14AD0BF707FC53E700E36927;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14AD0C0207FC542E00E36927 = {
+			containerPortal = 14AD0BF407FC53E400E36927;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = TCMFoundation;
+		};
+		14AD0C0307FC547600E36927 = {
+			containerPortal = 14AD0BF407FC53E400E36927;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = TCMFoundation;
+		};
+		14AD0C0407FC547600E36927 = {
+			isa = PBXTargetDependency;
+			name = "TCMFoundation (from TCMFoundation.xcode)";
+			targetProxy = 14AD0C0307FC547600E36927;
+		};
 		14AE9CAA05F5E8F00025CADE = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -2611,6 +2639,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 14AD0BF507FC53E400E36927;
+					ProjectRef = 14AD0BF407FC53E400E36927;
+				},
+				{
 					ProductGroup = 145BFDEC06A5E09B00160C0E;
 					ProjectRef = 145BFDEB06A5E09B00160C0E;
 				},
@@ -2643,6 +2675,7 @@
 				19C28FB0FE9D524F11CA2CBB,
 				145BFDEB06A5E09B00160C0E,
 				14D6771E07F17FDC00FA264D,
+				14AD0BF407FC53E400E36927,
 			);
 			isa = PBXGroup;
 			name = SubEthaEdit;
@@ -3685,6 +3718,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				14AD0BF907FC541200E36927,
 				145BFE2506A5E0CF00160C0E,
 				14D6776007F1832500FA264D,
 			);
@@ -4153,8 +4187,6 @@
 				31C995A1060F377500E3AB1E,
 				5EA9826306400C2200FD5B65,
 				5EA9826406400C2200FD5B65,
-				143C360005ECB200008C6DFE,
-				143C360105ECB200008C6DFE,
 				5E834C0305FD1689004EB5D1,
 				5E834C0405FD1689004EB5D1,
 				5E4F35B905EF77B6009D71ED,
@@ -6100,6 +6132,7 @@
 				WRAPPER_EXTENSION = app;
 			};
 			dependencies = (
+				14AD0C0407FC547600E36927,
 				145BFE2706A5E10900160C0E,
 				14D6775D07F1831300FA264D,
 				14F45E9D06DBB84B0048F2F8,
@@ -6116,7 +6149,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC290486D014006FF6A4,
-				143C360405ECB200008C6DFE,
 				143C360605ECB200008C6DFE,
 				143C360E05ECCEE8008C6DFE,
 				5EEB177205ECF6F700C17677,
@@ -6352,7 +6384,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC320486D014006FF6A4,
-				143C360505ECB200008C6DFE,
 				143C360705ECB200008C6DFE,
 				143C360F05ECCEE8008C6DFE,
 				5EEB177305ECF6F700C17677,
@@ -6464,6 +6495,7 @@
 		8D15AC330486D014006FF6A4 = {
 			buildActionMask = 2147483647;
 			files = (
+				14AD0BF807FC53FC00E36927,
 				14D6776107F1832C00FA264D,
 				145BFE2806A5E11C00160C0E,
 				8D15AC340486D014006FF6A4,

@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import <TCMFoundation/TCMFoundation.h>
 #import "HandshakeProfile.h"
 #import "TCMBencodingUtilities.h"
 

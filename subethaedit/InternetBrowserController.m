@@ -6,9 +6,11 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+
 #import "InternetBrowserController.h"
 #import "TCMHost.h"
 #import <TCMBEEP/TCMBEEP.h>
+#import <TCMFoundation/TCMFoundation.h>
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "ImagePopUpButtonCell.h"

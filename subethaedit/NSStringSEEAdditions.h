@@ -1,5 +1,5 @@
 //
-//  NSStringTCMAdditions.h
+//  NSStringSEEAdditions.h
 //  
 //
 //  Created by Martin Ott on Tue Feb 17 2004.
@@ -16,17 +16,16 @@ typedef enum _LineEnding {
     LineEndingUnicodeParagraphSeparator = 5  // U+2029
 } LineEnding;
 
-@interface NSMutableString (NSStringTCMAdditions)
+@interface NSMutableString (NSStringSEEAdditions)
 
 - (void)convertLineEndingsToLineEndingString:(NSString *)aNewLineEndingString;
 - (NSMutableString *)addBRs;
 
 @end
 
-@interface NSString (NSStringTCMAdditions)
+@interface NSString (NSStringSEEAdditions)
 
 + (NSString *)stringWithUUIDData:(NSData *)aData;
-+ (NSString *)stringWithAddressData:(NSData *)aData;
 + (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding;
 + (NSString *)UUIDString;
 
@@ -41,13 +40,13 @@ typedef enum _LineEnding {
 - (NSMutableString *)stringByReplacingEntitiesForUTF8:(BOOL)forUTF8;
 @end
 
-@interface NSAttributedString (NSAttributedStringTCMAdditions)
+@interface NSAttributedString (NSAttributedStringSEEAdditions)
 
 - (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8;
 
 @end
 
-@interface NSMutableAttributedString (NSMutableAttributedStringTCMAdditions) 
+@interface NSMutableAttributedString (NSMutableAttributedStringSEEAdditions) 
 
 /* returns length change */
 - (NSRange)detab:(BOOL)shouldDetab inRange:(NSRange)aRange tabWidth:(int)aTabWidth askingTextView:(NSTextView *)aTextView;

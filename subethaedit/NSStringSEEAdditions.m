@@ -1,18 +1,14 @@
 //
-//  NSStringTCMAdditions.m
+//  NSStringSEEAdditions.m
 //  
 //
 //  Created by Martin Ott on Tue Feb 17 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "NSStringTCMAdditions.h"
+#import "NSStringSEEAdditions.h"
 #import <OgreKit/OgreKit.h>
 
-#import <netinet/in.h>
-#import <netinet6/in6.h>
-#import <arpa/inet.h>
-#import <sys/socket.h>
 
 static void convertLineEndingsInString(NSMutableString *string, NSString *newLineEnding)
 {
@@ -74,7 +70,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     }
 }
 
-@implementation NSMutableString (NSStringTCMAdditions)
+@implementation NSMutableString (NSStringSEEAdditions)
 
 - (void)convertLineEndingsToLineEndingString:(NSString *)aNewLineEndingString {
     convertLineEndingsInString(self,aNewLineEndingString);
@@ -98,7 +94,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 @end
 
 
-@implementation NSString (NSStringTCMAdditions) 
+@implementation NSString (NSStringSEEAdditions) 
 
 + (NSString *)stringWithUUIDData:(NSData *)aData {
     if (aData!=nil) {
@@ -109,41 +105,6 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     } else {
         return nil;
     }
-}
-
-
-+ (NSString *)stringWithAddressData:(NSData *)aData
-{
-    struct sockaddr *socketAddress = (struct sockaddr *)[aData bytes];
-    
-    // IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF" at max, which is 40 bytes (0-terminated)
-    // IPv4 Addresses are "255.255.255.255" at max which is smaller
-    
-    char stringBuffer[40];
-    NSString *addressAsString = nil;
-    if (socketAddress->sa_family == AF_INET) {
-        if (inet_ntop(AF_INET, &((struct in_addr)((struct sockaddr_in *)socketAddress)->sin_addr), stringBuffer, 40)) {
-            addressAsString = [NSString stringWithUTF8String:stringBuffer];
-        } else {
-            addressAsString = @"IPv4 un-ntopable";
-        }
-        int port = ((struct sockaddr_in *)socketAddress)->sin_port;
-        addressAsString = [addressAsString stringByAppendingFormat:@":%d", port];
-    } else if (socketAddress->sa_family == AF_INET6) {
-         if (inet_ntop(AF_INET6, &(((struct sockaddr_in6 *)socketAddress)->sin6_addr), stringBuffer, 40)) {
-            addressAsString = [NSString stringWithUTF8String:stringBuffer];
-        } else {
-            addressAsString = @"IPv6 un-ntopable";
-        }
-        int port = ((struct sockaddr_in6 *)socketAddress)->sin6_port;
-        
-        // Suggested IPv6 format (see http://www.faqs.org/rfcs/rfc2732.html)
-        addressAsString = [NSString stringWithFormat:@"[%@]:%d", addressAsString, port]; 
-    } else {
-        addressAsString = @"neither IPv6 nor IPv4";
-    }
-    
-    return [[addressAsString copy] autorelease];
 }
 
 + (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding
@@ -610,7 +571,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 }
 @end
 
-@implementation NSAttributedString (NSAttributedStringTCMAdditions)
+@implementation NSAttributedString (NSAttributedStringSEEAdditions)
 
 /*"AttributeMapping:
 
@@ -710,7 +671,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 
 
-@implementation NSMutableAttributedString (NSMutableAttributedStringTCMAdditions) 
+@implementation NSMutableAttributedString (NSMutableAttributedStringSEEAdditions) 
 
 - (NSRange)detab:(BOOL)shouldDetab inRange:(NSRange)aRange tabWidth:(int)aTabWidth askingTextView:(NSTextView *)aTextView {
     [self beginEditing];
