@@ -12,6 +12,7 @@
 extern NSString * const TCMMMSessionParticipantsDidChangeNotification;
 extern NSString * const TCMMMSessionPendingUsersDidChangeNotification;
 extern NSString * const TCMMMSessionDidChangeNotification;
+extern NSString * const TCMMMSessionDidReceiveContentNotification;
 
 @class SessionProfile, TCMMMOperation, TCMBEEPSession, TCMMMUser;
 
@@ -45,6 +46,8 @@ typedef enum TCMMMSessionAccessState {
         BOOL shouldSendJoinRequest;
         BOOL wasInvited;
     } I_flags;
+    unsigned int I_sessionContentLength;
+    unsigned int I_receivedContentLength;
 }
 
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData;
@@ -108,6 +111,7 @@ typedef enum TCMMMSessionAccessState {
 
 - (void)documentDidApplyOperation:(TCMMMOperation *)anOperation;
 
+- (double)percentOfSessionReceived;
 @end
 
 

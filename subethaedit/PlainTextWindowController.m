@@ -20,6 +20,7 @@
 #import "SplitView.h"
 #import "RendezvousBrowserController.h"
 #import "GeneralPreferences.h"
+#import "TCMMMSession.h"
 
 NSString * const PlainTextWindowToolbarIdentifier = 
                @"PlainTextWindowToolbarIdentifier";
@@ -184,14 +185,19 @@ enum {
     NSWindow *window=[self window];
     I_flags.isReceivingContent=aFlag;
     if (aFlag) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:TCMMMSessionDidReceiveContentNotification object:[(PlainTextDocument *)[self document] session]];
         [window setContentView:O_receivingContentView];
         [O_progressIndicator startAnimation:self];
     } else {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionDidReceiveContentNotification object:[(PlainTextDocument *)[self document] session]];
         [O_progressIndicator stopAnimation:self];
         [window setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
     }
 }
 
+- (void)updateProgress:(NSNotification *)aNotification {
+    [O_progressIndicator setDoubleValue:[[aNotification object] percentOfSessionReceived]];
+}
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
     NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];

@@ -29,11 +29,13 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
                @"TCMMMSessionPendingUsersDidChangeNotification";
 NSString * const TCMMMSessionDidChangeNotification = 
                @"TCMMMSessionDidChangeNotification";
+NSString * const TCMMMSessionDidReceiveContentNotification = 
+               @"TCMMMSessionDidReceiveContentNotification";
 
 
 @interface TCMMMSession (TCMMMSessionPrivateAdditions)
 
-- (NSDictionary *)TCM_sessionInformation;
+- (NSDictionary *)TCM_sessionInformationForUserID:(NSString *)aUserID;
 - (void)TCM_setSessionParticipants:(NSDictionary *)aParticipants;
 
 @end
@@ -411,9 +413,8 @@ NSString * const TCMMMSessionDidChangeNotification =
             [I_statesByClientID setObject:state forKey:[user userID]];
 //            [profile setMMState:state];
             [profile acceptJoin];
-            [profile sendSessionInformation:[self TCM_sessionInformation]];
+            [profile sendSessionInformation:[self TCM_sessionInformationForUserID:[user userID]]];
             PlainTextDocument *document=(PlainTextDocument *)[self document];
-            [I_sessionContentForUserID setObject:[NSDictionary dictionaryWithObject:[(TextStorage *)[document textStorage] dictionaryRepresentation] forKey:@"TextStorage"] forKey:[user userID]];
             [document sendInitialUserState];
             [state release];
             [user joinSessionID:[self sessionID]];
@@ -559,7 +560,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 
 #pragma mark -
 
-- (NSDictionary *)TCM_sessionInformation
+- (NSDictionary *)TCM_sessionInformationForUserID:(NSString *)userID 
 {
     NSMutableDictionary *sessionInformation=[NSMutableDictionary dictionary];
     NSMutableArray *contributorNotifications=[NSMutableArray array];
@@ -583,6 +584,13 @@ NSString * const TCMMMSessionDidChangeNotification =
     }
     [sessionInformation setObject:participantsRepresentation forKey:@"Participants"];
     [sessionInformation setObject:[[self document] sessionInformation] forKey:@"DocumentSessionInformation"];
+
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    NSDictionary *sessionContent=[NSDictionary dictionaryWithObject:[(TextStorage *)[document textStorage] dictionaryRepresentation] forKey:@"TextStorage"];
+    [I_sessionContentForUserID setObject:sessionContent forKey:userID];
+
+    [sessionInformation setObject:[NSNumber numberWithUnsignedInt:[TCM_BencodedObject(sessionContent) length]] forKey:@"ContentLength"];
+
     return sessionInformation;
 }
 
@@ -645,6 +653,20 @@ NSString * const TCMMMSessionDidChangeNotification =
         }
     }
 }
+
+- (void)profile:(SessionProfile *)aProfile didReceiveSessionContentFrame:(TCMBEEPFrame *)aFrame {
+    I_receivedContentLength+=[aFrame length];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionDidReceiveContentNotification object:self];
+}
+
+- (double)percentOfSessionReceived {
+    if (I_sessionContentLength!=0) {
+        return (double)(I_receivedContentLength/(double)I_sessionContentLength)*100;
+    } else {
+        return 50.;
+    }
+}
+
 
 # pragma mark -
 
@@ -767,9 +789,8 @@ NSString * const TCMMMSessionDidChangeNotification =
     [state setClient:profile];
     [I_statesByClientID setObject:state forKey:[user userID]];
     // [profile setMMState:state];
-    [profile sendSessionInformation:[self TCM_sessionInformation]];
+    [profile sendSessionInformation:[self TCM_sessionInformationForUserID:[user userID]]];
     PlainTextDocument *document=(PlainTextDocument *)[self document];
-    [I_sessionContentForUserID setObject:[NSDictionary dictionaryWithObject:[(TextStorage *)[document textStorage] dictionaryRepresentation] forKey:@"TextStorage"] forKey:[user userID]];
     [document sendInitialUserState];
     [state release];
     [user joinSessionID:[self sessionID]];
@@ -797,6 +818,9 @@ NSString * const TCMMMSessionDidChangeNotification =
     }
 
     [self TCM_setSessionParticipants:[sessionInfo objectForKey:@"Participants"]];
+
+    I_sessionContentLength = [[sessionInfo objectForKey:@"ContentLength"] unsignedIntValue] + 6;
+    I_receivedContentLength = 0;
 
     [[self document] session:self didReceiveSessionInformation:[sessionInfo objectForKey:@"DocumentSessionInformation"]];
 

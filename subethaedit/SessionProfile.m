@@ -242,6 +242,8 @@
                 [data appendData:TCM_BencodedObject(userRequests)];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
                 [[self channel] sendMessage:[message autorelease]];
+                I_flags.isTrackingSesConFrames=YES;
+                I_numberOfTrackedSesConMSG=0;
                 return;
             }
         } else if (strncmp(type, "SESCON", 6) == 0) {
@@ -253,6 +255,7 @@
             }
             DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"content: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
             [self setContentHasBeenExchanged:YES];
+            I_flags.isTrackingSesConFrames=NO;
         } else if (strncmp(type, "USRFUL", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received full user.");
             // TODO: validate userID
@@ -325,6 +328,27 @@
     } else {
         [I_outgoingMMMessageQueue addObject:data];
     }
+}
+
+- (void)channelDidReceiveFrame:(TCMBEEPFrame *)aFrame startingMessage:(BOOL)aFlag
+{
+    if (I_flags.isTrackingSesConFrames) {
+        if (I_numberOfTrackedSesConMSG==0 && aFlag) {
+            NSData *data=[aFrame payload];
+            if ([data length]>=6) {
+                if (strncmp((char *)[data bytes], "SESCON", 6) == 0) {
+                    I_numberOfTrackedSesConMSG=[aFrame messageNumber];
+                }
+            }
+        }
+        if (I_numberOfTrackedSesConMSG==[aFrame messageNumber]) {
+            id delegate=[self delegate];
+            if ([delegate respondsToSelector:@selector(profile:didReceiveSessionContentFrame:)]) {
+                [delegate profile:self didReceiveSessionContentFrame:aFrame];
+            }
+        }
+    }
+    [super channelDidReceiveFrame:aFrame startingMessage:aFlag];
 }
 
 @end

@@ -22,7 +22,9 @@
     struct {
         BOOL contentHasBeenExchanged;
         BOOL isClosing;
+        BOOL isTrackingSesConFrames;
     } I_flags;
+    int32_t I_numberOfTrackedSesConMSG;
     int32_t I_numberOfUnacknowledgedSessconMSG;
 }
 
@@ -54,6 +56,7 @@
 - (void)profileDidAckSessionContent:(SessionProfile *)aProfile;
 - (void)profile:(SessionProfile *)aProfile didReceiveJoinRequestForSessionID:(NSString *)aSessionID;
 - (void)profile:(SessionProfile *)aProfile didReceiveInvitationForSession:(TCMMMSession *)aSession;
+- (void)profile:(SessionProfile *)aProfile didReceiveSessionContentFrame:(TCMBEEPFrame *)aFrame;
 - (void)profileDidCancelJoinRequest:(SessionProfile *)aProfile;
 - (void)profileDidDenyJoinRequest:(SessionProfile *)aProfile;
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)aProfile;
