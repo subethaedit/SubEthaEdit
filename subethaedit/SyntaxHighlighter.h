@@ -38,3 +38,10 @@ extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange;
 
 @end
+
+@interface NSObject (SyntaxHighlighterDocument) 
+- (NSColor *)documentBackgroundColor;
+- (NSColor *)documentForegroundColor;
+- (NSFont *)fontWithTrait:(NSFontTraitMask)aMask;
+- (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID;
+@end

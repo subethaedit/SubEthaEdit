@@ -76,6 +76,8 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
 
     [aString removeAttribute:kSyntaxHighlightingStateName range:aRange];
     [aString removeAttribute:kSyntaxHighlightingStateDelimiterName range:aRange];
+
+    NSMutableDictionary *scratchAttributes=[NSMutableDictionary dictionary];
     
     do {
         //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"New loop with Range: %@",NSStringFromRange(currentRange));
@@ -112,23 +114,9 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
                             stateRange = NSMakeRange(currentRange.location, NSMaxRange(aRange) - currentRange.location);
                         }
                         
-                        NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                    [theDocument fontWithTrait:[[foundState objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
-                                                    [NSNumber numberWithInt:stateNumber],kSyntaxHighlightingStateName,
-                                                    nil];
-                        
-                        NSColor *stateColor;
-                        if ((stateColor = [foundState objectForKey:@"color"])) {
-                            if (I_theDocumentBackgroundIsDark) {
-                                NSColor *stateInvertedColor;
-                                if ((stateInvertedColor = [foundState objectForKey:@"inverted-color"])) {
-                                    stateColor = stateInvertedColor;
-                                } else {
-                                    stateColor = [stateColor brightnessInvertedColor];
-                                }
-                            }
-                            [attributes setObject:stateColor forKey:NSForegroundColorAttributeName];
-                        }
+                        [scratchAttributes removeAllObjects];
+                        [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[foundState objectForKey:@"styleID"]]];
+                        [scratchAttributes setObject:[NSNumber numberWithInt:stateNumber] forKey:kSyntaxHighlightingStateName];
                                                     
                         NSRange colorRange;
                         if (startRange.location!=NSNotFound) {
@@ -136,7 +124,7 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
                         } else {
                             colorRange = stateRange;
                         }
-                        [aString addAttributes:attributes range:colorRange];
+                        [aString addAttributes:scratchAttributes range:colorRange];
                         [self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:stateNumber];
                         [self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:stateNumber];
 
@@ -157,38 +145,24 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
                 defaultStateRange.length = startRange.location - currentRange.location;
                 stateNumber = [startMatch indexOfFirstMatchedSubstring] - 1;
                 foundState = [[definition states] objectAtIndex:stateNumber];
-                NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            I_theDocumentBackgroundIsDark?[[foundState objectForKey:@"color"] brightnessInvertedColor]:[foundState objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
-                                            [theDocument fontWithTrait:[[foundState objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
-                                            [NSNumber numberWithInt:stateNumber],kSyntaxHighlightingStateName,
-                                            @"Start",kSyntaxHighlightingStateDelimiterName,
-                                            nil];
-                [aString addAttributes:attributes range:startRange];
+
+                [scratchAttributes removeAllObjects];
+                [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[foundState objectForKey:@"styleID"]]];
+                [scratchAttributes setObject:[NSNumber numberWithInt:stateNumber] forKey:kSyntaxHighlightingStateName];
+                [scratchAttributes setObject:@"Start" forKey:kSyntaxHighlightingStateDelimiterName];
+                [aString addAttributes:scratchAttributes range:startRange];
+
                 currentRange.length = currentRange.length - (NSMaxRange(startRange) - currentRange.location);
                 currentRange.location = NSMaxRange(startRange);
             } else { //No state left in chunk 
                 currentRange.location = NSMaxRange(currentRange);
                 currentRange.length = 0;
             }
+
             // Color defaultState
-            NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        [theDocument documentForegroundColor], NSForegroundColorAttributeName,
-                                        [theDocument fontWithTrait:[[defaultState objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName, nil];
-            
-            NSColor *stateColor;
-            if ((stateColor = [defaultState objectForKey:@"color"])) {
-                if (I_theDocumentBackgroundIsDark) {
-                    NSColor *stateInvertedColor;
-                    if ((stateInvertedColor = [defaultState objectForKey:@"inverted-color"])) {
-                        stateColor = stateInvertedColor;
-                    } else {
-                        stateColor = [stateColor brightnessInvertedColor];
-                    }
-                } 
-                [attributes setObject:stateColor forKey:NSForegroundColorAttributeName];
-            }
-            
-            [aString addAttributes:attributes range:defaultStateRange];
+            [aString addAttributes:[theDocument styleAttributesForStyleID:[defaultState objectForKey:@"styleID"]] 
+                     range:defaultStateRange];
+
             [self highlightRegularExpressionsOfAttributedString:aString inRange:defaultStateRange forState:-1];
             [self highlightPlainStringsOfAttributedString:aString inRange:defaultStateRange forState:-1];
         }
@@ -234,7 +208,7 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
     aState++; // Default state has index 0 in lookup table, so call with -1 to get it
     int aMaxRange = NSMaxRange(aRange);
     int location;
-    NSDictionary *style;
+    NSString *styleID;
     SyntaxDefinition *definition = [self syntaxDefinition];
 
     NSMutableDictionary *attributes=[NSMutableDictionary new];
@@ -248,17 +222,12 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
             location = [scanner scanLocation];
             if (token) {
                 //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found Token: %@ in State %d",token, aState);
-                if ((style = [definition styleForToken:token inState:aState])) {
+                if ((styleID = [definition styleForToken:token inState:aState])) {
                     int tokenlength = [token length];
                     NSRange foundRange = NSMakeRange(location-tokenlength,tokenlength);
                     if (NSMaxRange(foundRange)>aMaxRange) break;
 
-                    [attributes setObject:I_theDocumentBackgroundIsDark?[[style objectForKey:@"color"] brightnessInvertedColor]:[style objectForKey:@"color"]
-                                   forKey:NSForegroundColorAttributeName];
-                    [attributes setObject:[theDocument fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]]
-                                   forKey:NSFontAttributeName];
-                                                
-                    [aString addAttributes:attributes range:foundRange];
+                    [aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:foundRange];
                 }
             }
         } else break;
@@ -273,29 +242,21 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
     NSArray *regexArray = [[self syntaxDefinition] regularExpressionsInState:aState];
     OGRegularExpression *aRegex;
     OGRegularExpressionMatch *aMatch;
-    NSDictionary *style;
     NSString *theString = [aString string];
     int i;
     int count = [regexArray count];
-
-    NSMutableDictionary *attributes=[NSMutableDictionary new];
     
     for (i=0; i<count; i++) {
         NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
         aRegex = [currentRegexStyle objectAtIndex:0];
-        style = [currentRegexStyle objectAtIndex:1];
 
-        [attributes setObject:I_theDocumentBackgroundIsDark?[[style objectForKey:@"color"] brightnessInvertedColor]:[style objectForKey:@"color"]
-                       forKey:NSForegroundColorAttributeName];
-        [attributes setObject:[theDocument fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]]
-                       forKey:NSFontAttributeName];
+        NSDictionary *attributes=[theDocument styleAttributesForStyleID:[currentRegexStyle objectAtIndex:1]];
         
         NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:aRange] objectEnumerator];
         while ((aMatch = [matchEnumerator nextObject])) {
             [aString addAttributes:attributes range:[aMatch rangeOfSubstringAtIndex:1]]; // Only color first group.
         }
     }
-    [attributes release];
 }
 
 #pragma mark - 
@@ -325,7 +286,13 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
 #pragma mark - Document Interaction
 #pragma mark - 
 
-/*"Colorizes at least one chunk of the TextStorage, returns NO if there is still work to do"*/
+/*"Colorizes at least one chunk of the TextStorage, returns NO if there is still work to do
+    document must provide the following methods:
+    -(NSColor *)documentBackgroundColor;
+    -(NSColor *)documentForegroundColor;
+    -(NSFont *)fontWithTrait:(NSFontTraitMask *);
+    -(NSDictionary *)styleAttributesForStyleID:(NSString *)styleID;
+"*/
 - (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage ofDocument:(id)sender
 {
     NSRange textRange=NSMakeRange(0,[aTextStorage length]);

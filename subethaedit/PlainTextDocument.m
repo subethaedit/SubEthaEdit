@@ -802,6 +802,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_fonts.boldFont release];
     [I_fonts.italicFont release];
     [I_fonts.boldItalicFont release];
+    [I_styleCacheDictionary release];
     [I_defaultParagraphStyle release];
     [I_fileAttributes release];
     [I_ODBParameters release];
@@ -855,14 +856,13 @@ static NSString *tempFileName(NSString *origPath) {
     return I_documentMode;
 }
 
-- (void)setDocumentMode:(DocumentMode *)aDocumentMode {
-    [I_documentMode autorelease];
-    SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
-    [highlighter cleanUpTextStorage:[self textStorage]];
-     I_documentMode = [aDocumentMode retain];
+- (void)takeSettingsFromDocumentMode:(DocumentMode *)aDocumentMode {
     [self setHighlightsSyntax:[[aDocumentMode defaultForKey:DocumentModeHighlightSyntaxPreferenceKey] boolValue]];
-    [self setDocumentBackgroundColor:[aDocumentMode defaultForKey:DocumentModeBackgroundColorPreferenceKey]];
-    [self setDocumentForegroundColor:[aDocumentMode defaultForKey:DocumentModeForegroundColorPreferenceKey]];
+    BOOL useDefaultStyle=[[aDocumentMode defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
+    BOOL darkBackground=[[aDocumentMode defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
+    NSDictionary *syntaxStyle=[useDefaultStyle?[[DocumentModeManager baseMode] syntaxStyle]:[aDocumentMode syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
+    [self setDocumentBackgroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-background-color":@"background-color"]];
+    [self setDocumentForegroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-color":@"color"]];
 
     NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
@@ -893,6 +893,14 @@ static NSString *tempFileName(NSString *origPath) {
     [self setPrintInfo:[NSKeyedUnarchiver unarchiveObjectWithData:[aDocumentMode defaultForKey:DocumentModePrintInfoPreferenceKey]]];
     
     [[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
+}
+
+- (void)setDocumentMode:(DocumentMode *)aDocumentMode {
+    [I_documentMode autorelease];
+    SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
+    [highlighter cleanUpTextStorage:[self textStorage]];
+     I_documentMode = [aDocumentMode retain];
+    [self takeSettingsFromDocumentMode:aDocumentMode];
 }
 
 // only because the original implementation updates the changecount
@@ -2668,11 +2676,36 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)setPlainFont:(NSFont *)aFont {
+    [I_styleCacheDictionary autorelease];
+    I_styleCacheDictionary = [NSMutableDictionary new];
     [I_fonts.plainFont autorelease];
     I_fonts.plainFont = [aFont copy];
     [self TCM_styleFonts];
     [self TCM_invalidateTextAttributes];
     [self TCM_invalidateDefaultParagraphStyle];
+}
+
+- (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID {
+    NSDictionary *result=[I_styleCacheDictionary objectForKey:aStyleID];
+    if (!result) {
+        DocumentMode *documentMode=[self documentMode];
+        BOOL darkBackground=[[documentMode defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
+        NSDictionary *style=nil;
+        if ([aStyleID isEqualToString:SyntaxStyleBaseIdentifier] && 
+            [[documentMode defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue]) {
+            style=[[[DocumentModeManager baseMode] syntaxStyle] styleForKey:aStyleID];
+        } else {
+            style=[[documentMode syntaxStyle] styleForKey:aStyleID];
+        }
+        NSFont *font=[self fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]];
+        NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
+        result=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
+            foregroundColor,NSForegroundColorAttributeName,
+            aStyleID,@"styleID",
+            nil];
+        [I_styleCacheDictionary setObject:result forKey:aStyleID];
+    }
+    return result;
 }
 
 - (NSDictionary *)typingAttributes {

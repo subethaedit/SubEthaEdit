@@ -65,6 +65,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         NSFont *italicFont;
         NSFont *boldItalicFont;
     } I_fonts;
+    NSMutableDictionary *I_styleCacheDictionary;
     NSDictionary *I_plainTextAttributes;
     NSDictionary *I_typingAttributes;
     NSMutableParagraphStyle *I_defaultParagraphStyle;
