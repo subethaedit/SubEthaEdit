@@ -236,7 +236,7 @@ NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
     
     NSDictionary *alertContext = (NSDictionary *)contextInfo;
     if (returnCode == NSAlertSecondButtonReturn) {
-        NSLog(@"abort connection");
+        DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"abort connection");
         NSMutableDictionary *item = [alertContext objectForKey:@"item"];
         [item removeObjectForKey:@"UserID"];
         [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
@@ -255,7 +255,7 @@ NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
     
     ItemChildPair pair = [aSender itemChildPairAtRow:row];
-    if (pair.childIndex!=-1) {
+    if (pair.childIndex != -1) {
         NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
         NSArray *sessions = [userDict objectForKey:@"Sessions"];
         TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];

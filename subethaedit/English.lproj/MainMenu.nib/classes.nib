@@ -28,6 +28,7 @@
                 chooseLineEndings = id; 
                 clearChangeMarks = id; 
                 convertLineEndings = id; 
+                copyDocumentURL = id; 
                 jumpToNextChange = id; 
                 jumpToNextSymbol = id; 
                 jumpToPreviousChange = id; 
