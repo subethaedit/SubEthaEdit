@@ -503,7 +503,8 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 }
 
 - (IBAction)showReleaseNotes:(id)sender {
-
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"txt"];
+    [[NSWorkspace sharedWorkspace] openFile:path];
 }
 
 - (IBAction)showAcknowledgements:(id)sender {

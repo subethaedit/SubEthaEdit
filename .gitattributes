@@ -880,6 +880,7 @@ subethaedit/RegexSymbolDefinition.h -text
 subethaedit/RegexSymbolDefinition.m -text
 subethaedit/RegexSymbolParser.h -text
 subethaedit/RegexSymbolParser.m -text
+subethaedit/ReleaseNotes.txt -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
 subethaedit/SaturationToColorValueTransformer.h -text

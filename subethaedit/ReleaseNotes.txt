@@ -1,0 +1,11 @@
+SubEthaEdit 2.1 Release Notes
+-----------------------------
+
+New Features:
+<TBD>
+
+Changes:
+<TBD>
+
+Bug Fixes:
+<TBD>
