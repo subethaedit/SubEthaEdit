@@ -60,13 +60,13 @@
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.Zaphod</string>
+	<string>de.codingmonkeys.SubEthaEdit</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>Hdra</string>
 	<key>CFBundleVersion</key>
 	<string>BUILD_NUMBER_PLACEHOLDER</string>
 	<key>LSMinimumSystemVersion</key>

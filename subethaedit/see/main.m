@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <getopt.h>
-
+#import <stdio.h>
 
  static struct option longopts[] = {
     { "help",       no_argument,            0,  'h' },
@@ -20,6 +20,17 @@
     { 0,            0,                      0,  0 }
  };
 
+static NSString *tempFileName() {
+    static int sequenceNumber = 0;
+    NSString *origPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"tmp"];
+    NSString *name;
+    do {
+        sequenceNumber++;
+        name = [NSString stringWithFormat:@"%d-%d-%d.%@", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber, [origPath pathExtension]];
+        name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
+    } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
+    return name;
+}
 
 int main (int argc, const char * argv[]) {
 
@@ -52,12 +63,33 @@ int main (int argc, const char * argv[]) {
     argc -= optind;
     argv += optind;
     
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSMutableArray *fileNames = [NSMutableArray array];
     int i;
     for (i = 0; i < argc; i++) {
-        NSLog(@"found file argument: %s", argv[i]);
+        [fileNames addObject:[fileManager stringWithFileSystemRepresentation:argv[i] length:strlen(argv[i])]];
     }
+    NSLog(@"fileNames: %@", fileNames);
     
-    // [NSFileHandle fileHandleWithStandardInput];
+    if ([fileNames count] > 0) {
+    
+    } else {
+        NSString *fileName = tempFileName();
+        NSLog(@"write to file: %@", fileName);
+        [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
+        NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
+        NSFileHandle *fdin = [NSFileHandle fileHandleWithStandardInput];
+        while (TRUE) {
+            NSData *data = [fdin readDataOfLength:1024];
+            if ([data length] != 0) {
+                [fdout writeData:data];
+            } else {
+                break;
+            }
+        }
+        [fdout closeFile];
+        [fileManager removeFileAtPath:fileName handler:nil];
+    }
     
     [pool release];
     return 0;
