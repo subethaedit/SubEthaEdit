@@ -1659,9 +1659,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (IBAction)convertLineEndings:(id)aSender {
     [self setLineEnding:[aSender tag]];
+    [[self documentUndoManager] beginUndoGrouping];
     [[[self textStorage] mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
-    [[self documentUndoManager] removeAllActions]; 
-    // undo is not too easy here... however... we could store a complete copy of the document in the undobuffer
+    [[self documentUndoManager] endUndoGrouping];
 }
 
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious symbolForRange:(NSRange)aRange {
