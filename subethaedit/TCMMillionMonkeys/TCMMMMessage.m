@@ -23,6 +23,7 @@
         I_numberOfServerMessages = [[aDictionary objectForKey:@"#S"] longLongValue];
 
         I_operation = [[TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]] retain];
+        NSAssert(I_operation,@"operation was nill");
         //NSLog(@"message: %@",[self description]);
     }
     return self;
