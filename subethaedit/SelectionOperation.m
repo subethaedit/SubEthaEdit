@@ -35,7 +35,7 @@
     
     NSRange selectedRange=[selectionOperation selectedRange];
     if (DisjointRanges([textOperation affectedCharRange], selectedRange)) {
-        if ([textOperation affectedCharRange].location < selectedRange.location) {
+        if ([textOperation affectedCharRange].location <= selectedRange.location) {
             selectedRange.location += [[textOperation replacementString] length] - [textOperation affectedCharRange].length;
         }
     } else {
