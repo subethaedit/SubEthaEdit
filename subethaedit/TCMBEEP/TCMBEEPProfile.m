@@ -40,16 +40,30 @@
     return I_channel;
 }
 
-- (void)setProfileURI:(NSString *)aProfileURI {
+- (void)setProfileURI:(NSString *)aProfileURI
+{
     [I_profileURI autorelease];
      I_profileURI = [aProfileURI copy];
 }
 
-- (NSString *)profileURI {
+- (NSString *)profileURI
+{
     return I_profileURI;
 }
 
-- (void)processBEEPMessage:(TCMBEEPMessage *)aMessage {
+- (void)processBEEPMessage:(TCMBEEPMessage *)aMessage
+{
     NSLog(@"You should have overridden this!");
 }
+
+- (void)cleanup
+{
+    NSLog(@"cleanup profile");
+    id delegate = [self delegate];
+    if ([delegate respondsToSelector:@selector(profile:didFailWithError:)]) {
+        NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
+        [delegate profile:self didFailWithError:error];
+    }
+}
+
 @end

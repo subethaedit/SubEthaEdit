@@ -99,6 +99,7 @@ static TCMMMPresenceManager *sharedInstance = nil;
 
 - (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
     [aProfile sendMyself:[TCMMMUserManager me]];
+    NSLog(@"%@",[[TCMMMBEEPSessionManager sharedInstance] description]);
 }
 
 #pragma mark -

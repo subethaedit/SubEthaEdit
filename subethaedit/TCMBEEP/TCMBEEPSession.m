@@ -26,6 +26,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 - (void)TCM_writeData:(NSData *)aData;
 - (void)TCM_readBytes;
 - (void)TCM_writeBytes;
+- (void)TCM_cleanup;
 @end
 
 #pragma mark -
@@ -242,6 +243,30 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 {
     [I_outputStream close];
     [I_inputStream close];
+    [self TCM_cleanup];
+}
+
+- (void)TCM_cleanup
+{
+    BOOL informDelegate = (I_activeChannels!=nil);
+    NSEnumerator *activeChannels = [I_activeChannels objectEnumerator];  
+    TCMBEEPChannel *channel;
+    while ((channel = [activeChannels nextObject])) {
+        [channel cleanup];
+    }
+    [I_activeChannels release];
+    I_activeChannels = nil;
+    
+    if (informDelegate) {
+        id delegate = [self delegate];
+        if ([delegate respondsToSelector:@selector(BEEPSession:didFailWithError:)]) {
+            NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
+            [delegate BEEPSession:self didFailWithError:error];
+        }
+    }
+    
+    // cleanup requested channels
+    // cleanup managment channel
 }
 
 - (void)TCM_writeData:(NSData *)aData
@@ -365,6 +390,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
             break;
         case NSStreamEventEndEncountered:
             NSLog(@"Input stream end encountered.");
+            [self TCM_cleanup];
             break;
         default:
             NSLog(@"Input stream not handling this event: %d", streamEvent);
@@ -390,6 +416,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
             break;
         case NSStreamEventEndEncountered:
             NSLog(@"Output stream end encountered.");
+            [self TCM_cleanup];
             break;
         default:
             NSLog(@"Output stream not handling this event: %d", streamEvent);

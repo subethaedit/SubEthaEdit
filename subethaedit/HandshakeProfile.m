@@ -36,8 +36,7 @@
 
 - (void)shakeHandsWithUserID:(NSString *)aUserID
 {
-    TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[[self channel] nextMessageNumber] payload:[self handshakePayloadWithUserID:aUserID]];
-    [[self channel] sendMessage:[message autorelease]];
+    [[self channel] sendMSGMessageWithPayload:[self handshakePayloadWithUserID:aUserID]];
 }
 
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage

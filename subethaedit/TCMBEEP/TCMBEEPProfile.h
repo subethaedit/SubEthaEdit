@@ -31,5 +31,13 @@
 - (TCMBEEPChannel *)channel;
 - (void)setProfileURI:(NSString *)aProfileURI;
 - (NSString *)profileURI;
+- (void)cleanup;
+
+@end
+
+
+@interface NSObject (TCMBEEPProfileDelegateAdditions)
+
+- (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError;
 
 @end

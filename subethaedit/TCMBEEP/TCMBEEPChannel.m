@@ -332,5 +332,13 @@ static NSMutableDictionary *profileURIToClassMapping;
     [[self session] channelHasFramesAvailable:self];
 }
 
+- (void)cleanup
+{
+    [[self profile] cleanup];
+    [[self profile] setChannel:nil];
+    [I_profile release];
+    I_profile = nil;
+}
+
 @end
 
