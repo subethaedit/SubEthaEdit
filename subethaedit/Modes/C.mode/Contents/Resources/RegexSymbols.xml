@@ -8,7 +8,7 @@
     </blocks>
     
     <symbol id="C Funtions" font-weight="normal" font-style="normal" image="SymbolF()" indentation="1" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r])(?:[\w0-9_*]+\s+){1,3}[\w0-9_*]+[ \t]*\([\w0-9_,\s*&amp;/]*\)(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r])(?:[\w0-9_*]+\s+){1,3}[\w0-9_*]+[ \t]*\([\]\[\w0-9_,\s*&amp;/]*\)(?=\s*\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>

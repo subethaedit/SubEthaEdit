@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>SEEMode.C</string>
+	<string>SEEMode.C++</string>
 	<key>CFBundleName</key>
-	<string>C</string>
+	<string>C++</string>
     <key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -18,8 +18,11 @@
 	<string>6.0</string>
 	<key>TCMModeExtensions</key>
 	<array>
-	   <string>c</string>
-	   <string>strings</string>
+	   <string>cpp</string>
+	   <string>c++</string>
+	   <string>cp</string>
+	   <string>cxx</string>
+	   <string>C</string>
 	</array>
 </dict>
 </plist>
