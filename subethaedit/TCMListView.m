@@ -273,6 +273,13 @@ NSString *ListViewDidChangeSelectionNotification=
     return I_selectedRows;
 }
 
+- (void)deselectAll:(id)aSender {
+    unsigned int index;
+    for (index=[I_selectedRows lastIndex];index!=NSNotFound;index=[I_selectedRows lastIndex]) {
+        [self deselectRow:index];
+    }
+}
+
 - (void)deselectRow:(int)aRow {
     if ([I_selectedRows containsIndex:aRow]) {
         [I_selectedRows removeIndex:aRow];
@@ -426,6 +433,8 @@ NSString *ListViewDidChangeSelectionNotification=
                 [self contextMenuMouseDown:aEvent];
             }
         }
+    } else {
+        [self deselectAll:self];
     }
     //NSLog(@"indexOfRow: %d", I_clickedRow);
 }
@@ -530,27 +539,28 @@ NSString *ListViewDidChangeSelectionNotification=
 
 - (void)mouseDragged:(NSEvent *)aEvent {
 //    NSLog(@"mouseDragged");
-        
-    NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-
-    BOOL allowDrag = NO;
-    id dataSource = [self dataSource];
-    if ([dataSource respondsToSelector:@selector(listView:writeRows:toPasteboard:)]) {
-        allowDrag = [dataSource listView:self writeRows:[self selectedRowIndexes] toPasteboard:pboard];
-    }
-
-    if (allowDrag) {
-        NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
-        
-        I_clickedRow = [self TCM_indexOfRowAtPoint:point];
-        ItemChildPair pair = [self itemChildPairAtRow:I_clickedRow];
-        NSRect rectInImage=NSMakeRect(0,0,10,10);
-        NSImage *image=[self dragImageSelectedRect:&rectInImage forChild:pair.childIndex ofItem:pair.itemIndex];
-        NSRect rowRect=[self rectForRow:I_clickedRow];
-        NSPoint imageOffset=point;
-        imageOffset.x=0;
-        imageOffset.y=rowRect.origin.y+rowRect.size.height+([image size].height-NSMaxY(rectInImage));
-        [self dragImage:image at:imageOffset offset:NSMakeSize(0.,0.) event:aEvent pasteboard:pboard source:self slideBack:YES];
+    if (I_clickedRow!=-1 && [I_selectedRows count]>0) {
+        NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+    
+        BOOL allowDrag = NO;
+        id dataSource = [self dataSource];
+        if ([dataSource respondsToSelector:@selector(listView:writeRows:toPasteboard:)]) {
+            allowDrag = [dataSource listView:self writeRows:[self selectedRowIndexes] toPasteboard:pboard];
+        }
+    
+        if (allowDrag) {
+            NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
+            
+            I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+            ItemChildPair pair = [self itemChildPairAtRow:I_clickedRow];
+            NSRect rectInImage=NSMakeRect(0,0,10,10);
+            NSImage *image=[self dragImageSelectedRect:&rectInImage forChild:pair.childIndex ofItem:pair.itemIndex];
+            NSRect rowRect=[self rectForRow:I_clickedRow];
+            NSPoint imageOffset=point;
+            imageOffset.x=0;
+            imageOffset.y=rowRect.origin.y+rowRect.size.height+([image size].height-NSMaxY(rectInImage));
+            [self dragImage:image at:imageOffset offset:NSMakeSize(0.,0.) event:aEvent pasteboard:pboard source:self slideBack:YES];
+        }
     }
 }
 

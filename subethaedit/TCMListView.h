@@ -75,6 +75,7 @@ extern NSString *ListViewDidChangeSelectionNotification;
 /*"Selection Handling"*/
 - (int)selectedRow;
 - (NSIndexSet *)selectedRowIndexes;
+- (void)deselectAll:(id)aSender;
 - (void)deselectRow:(int)aRow;
 - (int)numberOfSelectedRows;
 - (void)selectRow:(int)aRow byExtendingSelection:(BOOL)extend;
