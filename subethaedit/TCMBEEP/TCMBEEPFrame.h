@@ -45,4 +45,6 @@
 
 - (void)appendToMutableData:(NSMutableData *)aData;
 
+- (NSData *)descriptionInLogFileFormatIncoming:(BOOL)aFlag;
+
 @end

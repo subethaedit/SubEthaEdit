@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "TCMBEEPProfile.h"
 
+
 extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
 
@@ -56,8 +57,12 @@ enum {
         BOOL isSending;
         BOOL isInitiator;
     } I_flags;
-    
-    NSFileHandle *I_logHandleIn,*I_logHandleOut;
+        
+#ifdef TCMBEEP_DEBUG
+    NSFileHandle *I_frameLogHandle;
+    NSFileHandle *I_rawLogInHandle;
+    NSFileHandle *I_rawLogOutHandle;
+#endif
 }
 
 /*"Initializers"*/

@@ -67,8 +67,26 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %d %d - Payload length: %d", I_messageType, I_channelNumber, I_messageNumber,
-                    I_continuationIndicator, I_sequenceNumber, I_length, [I_payload length]];
+    return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %d %d - Payload length: %d", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length, [I_payload length]];
+}
+
+- (NSData *)descriptionInLogFileFormatIncoming:(BOOL)aFlag
+{
+    NSString *prefix = aFlag ? @"> " : @"< ";
+    NSMutableData *data = [NSMutableData data];
+    NSString *header = [NSString stringWithFormat:@"%@%3s %d %d %1s %d %d\r\n", prefix, I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length];
+    [data appendData:[header dataUsingEncoding:NSASCIIStringEncoding]];
+    NSString *payloadString = [[[NSString alloc] initWithData:I_payload encoding:NSMacOSRomanStringEncoding] autorelease];
+    NSArray *components = [payloadString componentsSeparatedByString:@"\r\n"];
+    int i;
+    for (i = 0; i < [components count]; i++) {
+        [data appendData:[prefix dataUsingEncoding:NSASCIIStringEncoding]];
+        [data appendData:[[components objectAtIndex:i] dataUsingEncoding:NSMacOSRomanStringEncoding]];
+        [data appendData:[@"\r\n" dataUsingEncoding:NSASCIIStringEncoding]];
+    }
+    [data appendData:[[NSString stringWithFormat:@"%@END\r\n", prefix] dataUsingEncoding:NSASCIIStringEncoding]];
+    
+    return data;
 }
 
 #pragma mark -
