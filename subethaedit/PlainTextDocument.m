@@ -711,7 +711,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [I_textStorage release];
     [I_webPreviewWindowController release];
     [I_documentProxyWindowController release];
-    //[I_session release];
+    [I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
     [I_blockeditAttributes release];
@@ -1500,6 +1500,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                                                 nil] retain]];
         } else {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:@"Debug"];
+            [alert setInformativeText:@"Document will be reverted"];
+            [alert addButtonWithTitle:@"OK"];
+            [alert beginSheetModalForWindow:window
+                              modalDelegate:nil
+                             didEndSelector:NULL
+                                contextInfo:nil];
             BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
             if (successful) {
                 [self updateChangeCount:NSChangeCleared];

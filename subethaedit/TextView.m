@@ -236,4 +236,53 @@ static NSMenu *defaultMenu=nil;
     [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:[aColor isDark]?[[NSColor selectedTextBackgroundColor] brightnessInvertedColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
 }
 
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+        NSLog(@"draggingEntered:");
+        return NSDragOperationGeneric;
+    } else {
+        return [super draggingEntered:sender];
+    }
+}
+
+- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+        NSLog(@"draggingUpdated:");
+        return NSDragOperationGeneric;
+    } else {
+        return [super draggingUpdated:sender];
+    }
+}
+
+- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+        NSLog(@"prepareForDragOperation:");
+        return YES;
+    } else {
+        return [super prepareForDragOperation:sender];
+    }
+}
+
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+        NSLog(@"performDragOperation:");
+        return YES;
+    } else {
+        return [super performDragOperation:sender];
+    }
+}
+
+- (void)concludeDragOperation:(id <NSDraggingInfo>)sender {
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+        NSLog(@"concludeDragOperation:");
+    } else {
+        [super concludeDragOperation:sender];
+    }
+}
+
 @end

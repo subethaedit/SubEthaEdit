@@ -407,6 +407,30 @@ static NSColor *alternateRowColor=nil;
 }
 
 #pragma mark -
+#pragma mark ### Dragging Source/Destination ###
+
+// Dragging Source
+- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
+    NSLog(@"draggingSourceOperationMaskForLocal: %@", isLocal ? @"YES" : @"NO");
+    return NSDragOperationGeneric;
+}
+
+// Dragging Source
+- (void)draggedImage:(NSImage *)anImage endedAt:(NSPoint)aPoint operation:(NSDragOperation)operation {
+    NSLog(@"draggedImage:endedAt:operation: %d", operation);
+}
+
+// Dragging Destination
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
+    return NSDragOperationNone;
+}
+
+// Dragging Destination
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+    return NO;
+}
+
+#pragma mark -
 #pragma mark ### Event Handling ###
 
 - (void)mouseDown:(NSEvent *)aEvent {
@@ -448,6 +472,66 @@ static NSColor *alternateRowColor=nil;
         }
     }
     //NSLog(@"indexOfRow: %d", I_clickedRow);
+}
+
+- (NSImage *)dragImage {
+    NSMutableIndexSet *rows=[[self selectedRowIndexes] mutableCopy];
+    int rowIndex=-1;
+    NSMutableArray *itemChildPairs=[NSMutableArray array];
+    NSSize imageSize=[self bounds].size;
+    imageSize.height=0;
+    while ([rows count]) {
+        rowIndex=[rows firstIndex];
+        ItemChildPair pair=[self itemChildPairAtRow:rowIndex];
+        imageSize.height+=pair.childIndex==-1?ITEMROWHEIGHT:CHILDROWHEIGHT;
+        [itemChildPairs addObject:[NSValue valueWithBytes:&pair objCType:@encode(ItemChildPair)]];
+        [rows removeIndex:rowIndex];
+    }
+    [rows release];
+
+    NSLog(@"DragImage size:%@",NSStringFromSize(imageSize));
+
+    NSImage *resultImage=[[NSImage alloc] initWithSize:imageSize];
+    [resultImage setFlipped:YES];
+    [NSGraphicsContext saveGraphicsState];
+    [resultImage lockFocus];
+    NSAffineTransform *itemStep=[NSAffineTransform transform];
+    [itemStep translateXBy:0 yBy:ITEMROWHEIGHT];
+    NSAffineTransform *childStep=[NSAffineTransform transform];
+    [childStep translateXBy:0 yBy:CHILDROWHEIGHT];
+    NSEnumerator *pairValues=[itemChildPairs objectEnumerator];
+    NSValue *value=nil;
+    while ((value=[pairValues nextObject])) {
+        ItemChildPair pair;
+        [value getValue:&pair];
+        if (pair.childIndex==-1) {
+            [self TCM_drawItemAtIndex:pair.itemIndex];
+            [itemStep concat];
+        } else {
+            [self TCM_drawChildWithIndex:pair.childIndex ofItemAtIndex:pair.itemIndex];
+            [childStep concat];
+        }
+    }
+    [resultImage unlockFocus];
+    [NSGraphicsContext restoreGraphicsState];
+    [resultImage setFlipped:NO];
+    return resultImage;
+}
+
+- (void)mouseDragged:(NSEvent *)anEvent {
+    NSLog(@"mouseDragged");
+        
+    NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+
+    BOOL allowDrag = NO;
+    id dataSource = [self dataSource];
+    if ([dataSource respondsToSelector:@selector(listView:writeRows:toPasteboard:)]) {
+        allowDrag = [dataSource listView:self writeRows:[self selectedRowIndexes] toPasteboard:pboard];
+    }
+
+    if (allowDrag) {
+        [self dragImage:[self dragImage] at:[self convertPoint:[anEvent locationInWindow] fromView:nil] offset:NSMakeSize(0.0, 0.0) event:anEvent pasteboard:pboard source:self slideBack:YES];
+    }
 }
 
 - (int)numberOfItems {

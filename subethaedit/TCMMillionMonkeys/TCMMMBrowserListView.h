@@ -90,6 +90,10 @@ enum {
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex;
 - (NSString *)listView:(TCMMMBrowserListView *)aListView toolTipStringAtIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex;
 
+- (BOOL)listView:(TCMMMBrowserListView *)listView acceptDrop:(id <NSDraggingInfo>)info row:(int)row;
+- (NSDragOperation)listView:(TCMMMBrowserListView *)listView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row;
+- (BOOL)listView:(TCMMMBrowserListView *)listView writeRows:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pboard;
+
 @end
 
 

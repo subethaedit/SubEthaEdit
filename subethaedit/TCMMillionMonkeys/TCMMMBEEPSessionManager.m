@@ -254,6 +254,37 @@ static TCMMMBEEPSessionManager *sharedInstance;
     return [sessionInfo objectForKey:@"RendezvousSession"];
 }
 
+- (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID URLString:(NSString *)aURLString
+{
+    NSDictionary *info = [I_outboundInternetSessions objectForKey:aURLString];
+    if (info) {
+        NSArray *sessions = [info objectForKey:@"sessions"];
+        if (sessions && [sessions count] > 0) {
+            TCMBEEPSession *BEEPSession = [sessions objectAtIndex:0];
+            if ([[[BEEPSession userInfo] objectForKey:@"peerUserID"] isEqualToString:aUserID]) {
+                return BEEPSession;
+            }
+        }
+    }
+    
+    info = [self sessionInformationForUserID:aUserID];
+    if (aURLString) {
+        NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
+        if (inboundSessions && [inboundSessions count] > 0) {
+            TCMBEEPSession *BEEPSession = [inboundSessions objectAtIndex:0];
+            if ([[[BEEPSession userInfo] objectForKey:@"peerUserID"] isEqualToString:aUserID]) {
+                return BEEPSession;
+            }        
+        }
+    }
+
+    if ([[info objectForKey:@"RendezvousStatus"] isEqualToString:kBEEPSessionStatusGotSession]) {
+        return [info objectForKey:@"RendezvousSession"];
+    }
+    
+    return nil;
+}
+
 #pragma mark -
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray
