@@ -10,6 +10,7 @@
 
 @interface TCMMMUser : NSObject {
     NSMutableDictionary *I_properties;
+    NSMutableDictionary *I_propertiesBySessionID;
     NSString *I_userID;
     NSString *I_serviceName;
     NSString *I_name;
@@ -32,6 +33,9 @@
 - (void)setChangeCount:(long long)aChangeCount;
 - (long long)changeCount;
 
+- (void)joinSessionID:(NSString *)aSessionID;
+- (void)leaveSessionID:(NSString *)aSessionID;
+- (NSMutableDictionary *)propertiesForSessionID:(NSString *)aSessionID;
 
 - (void)updateWithUser:(TCMMMUser *)aUser;
 

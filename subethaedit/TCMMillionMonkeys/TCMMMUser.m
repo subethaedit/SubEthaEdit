@@ -45,12 +45,14 @@
 - (id)init {
     if ((self=[super init])) {
         I_properties=[NSMutableDictionary new];
+        I_propertiesBySessionID=[NSMutableDictionary new];
         I_changeCount = (long long)[NSDate timeIntervalSinceReferenceDate];
     }
     return self;
 }
 
 - (void)dealloc {
+    [I_propertiesBySessionID release];
     [I_properties release];
     [I_userID release];
     [I_serviceName release];
@@ -100,6 +102,19 @@
 
 - (long long)changeCount {
     return I_changeCount;
+}
+
+- (void)joinSessionID:(NSString *)aSessionID {
+    NSAssert([I_propertiesBySessionID objectForKey:aSessionID]==nil, @"User already joined");
+    [I_propertiesBySessionID setObject:[NSMutableDictionary dictionary] forKey:aSessionID];
+}
+
+- (void)leaveSessionID:(NSString *)aSessionID {
+    [I_propertiesBySessionID removeObjectForKey:aSessionID];
+}
+
+- (NSMutableDictionary *)propertiesForSessionID:(NSString *)aSessionID {
+    return [I_propertiesBySessionID objectForKey:aSessionID];
 }
 
 - (void)updateWithUser:(TCMMMUser *)aUser {

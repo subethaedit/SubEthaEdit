@@ -18,6 +18,16 @@
 NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
                @"TCMMMSessionPendingUsersDidChangeNotification";
 
+
+@interface TCMMMSession (TCMMMSessionPrivateAdditions)
+
+- (NSDictionary *)TCM_sessionInformation;
+- (void)TCM_setSessionParticipants:(NSDictionary *)aParticipants;
+
+@end
+
+#pragma mark -
+
 @implementation TCMMMSession
 
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData
@@ -36,6 +46,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
         I_profilesByUserID = [NSMutableDictionary new];
         I_pendingUsers = [NSMutableArray new];
         I_stateByUserID = [NSMutableDictionary new];
+        I_contributors = [NSMutableSet new];
     }
     return self;
 }
@@ -48,6 +59,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
         [self setSessionID:[NSString UUIDString]];
         [self setFilename:[aDocument displayName]];
         [self setHostID:[TCMMMUserManager myUserID]];
+        [I_contributors addObject:[TCMMMUserManager me]];
     }
     return self;
 }
@@ -64,6 +76,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 
 - (void)dealloc
 {
+    [I_contributors release];
     [I_participants release];
     [I_filename release];
     [I_sessionID release];
@@ -154,7 +167,11 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
                 [I_participants setObject:[NSMutableArray array] forKey:aState];
             }
             [[I_participants objectForKey:aState] addObject:user];
-            [[I_profilesByUserID objectForKey:[user userID]] acceptJoin];
+            [I_contributors addObject:user];
+            SessionProfile *profile = [I_profilesByUserID objectForKey:[user userID]];
+            [profile acceptJoin];
+            [profile sendSessionInformation:[self TCM_sessionInformation]];
+
             [set removeIndex:index];
         }
         [set release];
@@ -210,6 +227,56 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 
 #pragma mark -
 
+- (NSDictionary *)TCM_sessionInformation
+{
+    NSMutableDictionary *sessionInformation=[NSMutableDictionary dictionary];
+    NSMutableArray *contributorNotifications=[NSMutableArray array];
+    NSEnumerator *contributors = [I_contributors objectEnumerator];
+    TCMMMUser *contributor=nil;
+    while ((contributor=[contributors nextObject])) {
+        [contributorNotifications addObject:[contributor notification]];
+    }
+    [sessionInformation setObject:contributorNotifications forKey:@"Contributors"];
+    NSMutableDictionary *participantsRepresentation=[NSMutableDictionary dictionary];
+    NSEnumerator *groups=[I_participants keyEnumerator];
+    NSString *group = nil;
+    while ((group = [groups nextObject])) {
+        NSEnumerator *users=[[I_participants objectForKey:group] objectEnumerator];
+        NSMutableArray *userRepresentations=[NSMutableArray array];
+        TCMMMUser *user=nil;
+        while ((user=[users nextObject])) {
+            [userRepresentations addObject:[NSDictionary dictionaryWithObjectsAndKeys:[user notification],@"User",[NSDictionary dictionary],@"SessionProperties",nil]];
+        }
+        [participantsRepresentation setObject:userRepresentations forKey:group];
+    }
+    [sessionInformation setObject:participantsRepresentation forKey:@"Participants"];
+    return sessionInformation;
+}
+
+- (void)TCM_setSessionParticipants:(NSDictionary *)aParticipants
+{
+    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+    NSEnumerator *groups=[aParticipants keyEnumerator];
+    NSString *group = nil;
+    while ((group = [groups nextObject])) {
+        NSMutableArray *groupArray=[I_participants objectForKey:group];
+        if (groupArray == nil) {
+            groupArray = [NSMutableArray array];
+            [I_participants setObject:groupArray forKey:group];
+        }
+        NSEnumerator *users=[[aParticipants objectForKey:group] objectEnumerator];
+        NSDictionary *userDict=nil;
+        while ((userDict=[users nextObject])) {
+            TCMMMUser *user=[userManager userForUserID:[[TCMMMUser userWithNotification:[userDict objectForKey:@"User"]] userID]];
+            [user joinSessionID:[self sessionID]];
+            [groupArray addObject:user];
+            [I_stateByUserID setObject:group forKey:[user userID]];
+        }
+    }
+}
+
+#pragma mark -
+
 // When you request a profile you have to implement BEEPSession:didOpenChannelWithProfile: to receive the profile
 - (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
 {
@@ -225,6 +292,41 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)profile
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profileDidAcceptJoinRequest: %@", profile);
+}
+
+- (NSArray *)profile:(SessionProfile *)profile userRequestsForSessionInformation:(NSDictionary *)sessionInfo
+{
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profile:userRequestsForSessionInformation:");
+    
+    NSArray *contributors=[sessionInfo objectForKey:@"Contributors"];
+    NSMutableArray *result=[NSArray array];
+    NSEnumerator *users=[contributors objectEnumerator];
+    NSDictionary *userNotification;
+    TCMMMUser *user=nil;
+    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+    while ((userNotification=[users nextObject])) {
+        user=[TCMMMUser userWithNotification:userNotification];
+        if ([userManager sender:profile shouldRequestUser:user]) {
+            [result addObject:userNotification];
+        }
+        [I_contributors addObject:[userManager userForUserID:[user userID]]];
+    }
+
+    [self TCM_setSessionParticipants:[sessionInfo objectForKey:@"Participants"]];
+
+    return result;
+}
+
+- (void)profile:(SessionProfile *)aProfile didReceiveUserRequests:(NSArray *)aUserRequestArray
+{
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profile:didReceiveUserRequests:");
+    NSEnumerator *userRequests=[aUserRequestArray objectEnumerator]; 
+    TCMMMUser *user=nil;
+    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+    while ((user=[userRequests nextObject])) {
+        [aProfile sendUser:[userManager userForUserID:[user userID]]];
+    }
+    [aProfile sendSessionContent:[NSDictionary dictionaryWithObject:@"Ich bin der Content" forKey:@"Content"]];
 }
 
 @end

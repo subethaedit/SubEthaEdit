@@ -37,6 +37,25 @@
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
+- (void)sendSessionInformation:(NSDictionary *)aSessionInformation {
+    NSMutableData *data = [NSMutableData dataWithBytes:"SESINF" length:6];
+    [data appendData:TCM_BencodedObject(aSessionInformation)];
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
+- (void)sendSessionContent:(NSDictionary *)aSessionContent {
+    NSMutableData *data = [NSMutableData dataWithBytes:"SESCON" length:6];
+    [data appendData:TCM_BencodedObject(aSessionContent)];
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
+
+- (void)sendUser:(TCMMMUser *)aUser {
+    NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
+    [data appendData:[aUser userBencoded]];
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage
 {
     if ([aMessage isMSG]) {
@@ -77,6 +96,27 @@
             }
         } else if (strncmp(type, "INVACK", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Receive accepted invitation.");
+        } else if (strncmp(type, "SESINF", 6) == 0) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received session information.");
+            NSData *data = [[aMessage payload] subdataWithRange:NSMakeRange(6, [[aMessage payload] length]-6)];
+            NSDictionary *dict = TCM_BdecodedObjectWithData(data);
+            id delegate = [self delegate];
+            if ([delegate respondsToSelector:@selector(profile:userRequestsForSessionInformation:)]) {
+                NSArray *userRequests = [delegate profile:self userRequestsForSessionInformation:dict];
+                NSMutableData *data = [NSMutableData dataWithBytes:"USRREQ" length:6];
+                [data appendData:TCM_BencodedObject(userRequests)];
+                TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
+                [[self channel] sendMessage:[message autorelease]];
+                return;
+            }
+        } else if (strncmp(type, "SESCON", 6) == 0) {
+            NSData *data = [[aMessage payload] subdataWithRange:NSMakeRange(6, [[aMessage payload] length]-6)];
+            DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"content: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
+        } else if (strncmp(type, "USRFUL", 6) == 0) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received full user.");
+            // TODO: validate userID
+            TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
+            [[TCMMMUserManager sharedInstance] addUser:user];
         }
         
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
@@ -96,7 +136,21 @@
             TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
             [[TCMMMUserManager sharedInstance] addUser:user];
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received USRFUL");
+        } else if (strncmp(type, "USRREQ", 6) == 0) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received USRREQ from Client");
+
+            NSArray *neededUserNotifications=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
+            NSMutableArray *neededUsers=[NSMutableArray array];
+            NSEnumerator *notifications=[neededUserNotifications objectEnumerator];
+            NSDictionary *notificationDict=nil;
+            while ((notificationDict = [notifications nextObject])) {
+                [neededUsers addObject:[TCMMMUser userWithNotification:notificationDict]];
+            }
+            if ([[self delegate] respondsToSelector:@selector(profile:didReceiveUserRequests:)]) {
+                [[self delegate] profile:self didReceiveUserRequests:neededUsers];
+            }
         }
+
     }
 }
 
