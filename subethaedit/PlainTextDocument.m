@@ -25,6 +25,7 @@
 #import "TextOperation.h"
 #import "SelectionOperation.h"
 #import "ODBEditorSuite.h"
+#import "GeneralPreferences.h"
 
 
 #pragma options align=mac68k
@@ -578,6 +579,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
             [self setFileEncoding:encoding];
         }
         I_flags.isRemotelyEditingTextStorage=NO;
+        [self setShowsChangeMarks:[[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesAlonePreferenceKey] && [[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]];
         [self TCM_initHelper];
     }
     return self;
@@ -593,6 +595,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
         I_flags.isRemotelyEditingTextStorage=NO;
         [aSession setDocument:self];
+        [self setShowsChangeMarks:[[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]];
         [self TCM_initHelper];
     }
     return self;

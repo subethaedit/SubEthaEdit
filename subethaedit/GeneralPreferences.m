@@ -53,6 +53,11 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
                     forKey:MyEmailsPreferenceKey];
     [defaultDict setObject:[NSNumber numberWithBool:YES]
                     forKey:OpenDocumentOnStartPreferenceKey];
+    [defaultDict setObject:[NSNumber numberWithBool:YES]
+                    forKey:HighlightChangesPreferenceKey];
+    [defaultDict setObject:[NSNumber numberWithBool:NO]
+                    forKey:HighlightChangesAlonePreferenceKey];
+                    
     [defaultDict setObject:BASEMODEIDENTIFIER
                     forKey:ModeForNewDocumentsPreferenceKey];
     

@@ -63,7 +63,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
     [toolbar setAllowsUserCustomization:YES];
-    //[toolbar setAutosavesConfiguration:YES];
+    [toolbar setAutosavesConfiguration:YES];
     [toolbar setDelegate:self];
     [[self window] setToolbar:toolbar];
     

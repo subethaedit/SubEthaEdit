@@ -12,6 +12,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "GeneralPreferences.h"
+#import "TextStorage.h"
 
 @implementation LayoutManager
 
@@ -29,8 +30,18 @@
 - (void)setShowsChangeMarks:(BOOL)showsChangeMarks {
     if (showsChangeMarks != I_flags.showsChangeMarks) {
         I_flags.showsChangeMarks=showsChangeMarks;
-        [self invalidateLayoutForCharacterRange:NSMakeRange(0,[[self textStorage] length]) 
-              isSoft:YES actualCharacterRange:NULL];
+        TextStorage *textStorage = (TextStorage *)[self textStorage];
+        NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+        NSRange searchRange;
+        unsigned position=wholeRange.location;
+        while (position < NSMaxRange(wholeRange)) {
+            NSString *userID=[textStorage attribute:ChangedByUserIDAttributeName 
+                                atIndex:position longestEffectiveRange:&searchRange inRange:wholeRange];
+            if (userID) {
+                [self invalidateLayoutForCharacterRange:searchRange isSoft:NO actualCharacterRange:NULL];
+            }
+            position=NSMaxRange(searchRange);
+        }
     }
 }
 
