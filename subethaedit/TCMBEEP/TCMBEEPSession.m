@@ -418,7 +418,10 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     int bytesRead = [I_inputStream read:buffer maxLength:sizeof(buffer)];
     
 #ifdef TCMBEEP_DEBUG
-    if (bytesRead > 0) [I_rawLogInHandle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
+    if (bytesRead > 0) {
+        [I_rawLogInHandle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
+//        [I_rawLogInHandle writeData:[@"|" dataUsingEncoding:NSASCIIStringEncoding]];
+    }
 #endif
     
     // NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
@@ -436,6 +439,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
             if (i < bytesRead) {
                 // found LF
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:(i - bytesParsed + 1)];
+                //NSLog(@"Header String: %s", (char *)[I_readBuffer bytes]);
                 I_currentReadFrame = [[TCMBEEPFrame alloc] initWithHeader:(char *)[I_readBuffer bytes]];
                 if ([I_currentReadFrame isSEQ]) {
                     TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
@@ -488,8 +492,10 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
             }
         } else if (I_currentReadState == frameEndState) {
             if (remainingBytes + [I_readBuffer length] >= 5) {
+                int localbytesread = 5 - [I_readBuffer length];
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:5 - [I_readBuffer length]];
                 // I_readBuffer == "END\r\n" ?
+                #warning "validate frame end"
                 // dispatch frame!
 
 #ifdef TCMBEEP_DEBUG
@@ -509,9 +515,9 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
                     [self terminate];
                     break;
                 }
-                [I_readBuffer setLength:0];
                 I_currentReadState = frameHeaderState;
-                bytesParsed += 5 - [I_readBuffer length];
+                [I_readBuffer setLength:0];
+                bytesParsed += localbytesread;
             } else {
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
                 bytesParsed = bytesRead;
