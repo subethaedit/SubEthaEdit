@@ -39,6 +39,8 @@ while [ $# -gt 0 ] ; do
     /usr/sbin/chown -R root:admin ${1}
     echo "...setting permissions"
     /bin/chmod -R ug+w ${1}
+	echo "...removing obscure symlink"
+	find ${1} -type l -name "SubEtha*" -print -delete
     echo "...copying ${1}"
     /Developer/Tools/CpMac -r ${1} /Volumes/${imageName}
     shift
