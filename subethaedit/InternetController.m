@@ -7,6 +7,8 @@
 //
 
 #import "InternetController.h"
+#import "TCMMMUser.h"
+#import "TCMMMUserManager.h"
 
 
 @implementation InternetController
@@ -20,4 +22,14 @@
     return self;    
 }
 
+- (void)windowDidLoad
+{
+    [[self window] setFrameAutosaveName:@"Internet"];
+    TCMMMUser *me = [TCMMMUserManager me];
+    [O_myNameTextField setStringValue:[me name]];
+    [O_imageView setImage:[[me properties] objectForKey:@"Image"]];
+    [((NSPanel *)[self window]) setFloatingPanel:NO];
+    [[self window] setHidesOnDeactivate:NO];
+}
+    
 @end

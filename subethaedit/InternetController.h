@@ -9,8 +9,11 @@
 #import <AppKit/AppKit.h>
 
 
-@interface InternetController : NSWindowController {
-
+@interface InternetController : NSWindowController
+{
+    IBOutlet NSTableView *O_tableView;
+    IBOutlet NSImageView *O_imageView;
+    IBOutlet NSTextField *O_myNameTextField;
 }
 
 @end

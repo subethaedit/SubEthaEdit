@@ -524,7 +524,7 @@
 			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
 				PBXProjectWorkspaceModule_StateKey_Rev39 = {
 					PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
-						BoundsStr = "{{0, 0}, {571, 1155}}";
+						BoundsStr = "{{0, 0}, {571, 419}}";
 						Rows = (
 							0,
 						);
@@ -584,13 +584,17 @@
 							PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
 								2A37F4AAFDCFA73011CA2CEA,
 								2A37F4ABFDCFA73011CA2CEA,
+								5EEB176D05ECF6DA00C17677,
+								2A37F4B8FDCFA73011CA2CEA,
 							);
 							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								(
+									40,
+									35,
 									0,
 								),
 							);
-							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {224, 418}}";
+							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 30}, {224, 418}}";
 						};
 						PBXTopSmartGroupGIDs = (
 						);
@@ -658,7 +662,7 @@
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "199 316 827 478 0 0 1280 832 ";
+				RubberWindowFrame = "385 266 827 478 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {691, 318}}";
