@@ -12,7 +12,9 @@
 #import "TCMBEEPMessage.h"
 #import "TCMBEEPManagementProfile.h"
 
+
 static NSMutableDictionary *profileURIToClassMapping;
+
 
 @interface TCMBEEPChannel (TCMBEEPChannelPrivateAdditions)
 
@@ -24,33 +26,29 @@ static NSMutableDictionary *profileURIToClassMapping;
 
 @implementation TCMBEEPChannel
 
-/*"Initializes the class before itÕs used. See NSObject."*/
 + (void)initialize
 {
     profileURIToClassMapping = [NSMutableDictionary new];
     [self setClass:[TCMBEEPManagementProfile class] forProfileURI:kTCMBEEPManagementProfile];
 }
 
-/*""*/
 + (NSDictionary *)profileURIToClassMapping
 {
     return profileURIToClassMapping;
 }
 
-/*""*/
 + (void)setClass:(Class)aClass forProfileURI:(NSString *)aProfileURI
 {
     [profileURIToClassMapping setObject:aClass forKey:aProfileURI];
 }
 
-/*""*/
 - (id)initWithSession:(TCMBEEPSession *)aSession number:(unsigned long)aNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator
 {
     self = [super init];
     if (self) {
         Class profileClass = nil;
         if ((profileClass = [[TCMBEEPChannel profileURIToClassMapping] objectForKey:aProfileURI])) {
-            I_profile=[[profileClass alloc] initWithChannel:self];
+            I_profile = [[profileClass alloc] initWithChannel:self];
             [I_profile setProfileURI:aProfileURI];
             [self setSession:aSession];
             [self setNumber:aNumber];
@@ -64,7 +62,7 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_nextMessageNumber = 0;
             I_messageWriteQueue = [NSMutableArray new];
             I_sequenceNumber = 0;
-            I_flags.isInitiator=isInitiator;
+            I_flags.isInitiator = isInitiator;
         }
     }
     
@@ -85,7 +83,8 @@ static NSMutableDictionary *profileURIToClassMapping;
     [super dealloc];
 }
 
-- (BOOL)isInitiator {
+- (BOOL)isInitiator
+{
     return I_flags.isInitiator;
 }
 
@@ -112,59 +111,52 @@ static NSMutableDictionary *profileURIToClassMapping;
 }
 
 
-/*""*/
 - (void)setNumber:(unsigned long)aNumber
 {
     I_number = aNumber;
 }
 
-/*""*/
 - (unsigned long)number
 {
     return I_number;
 }
 
-/*""*/
 - (void)setSession:(TCMBEEPSession *)aSession
 {
     I_session = aSession;
 }
 
-/*""*/
 - (TCMBEEPSession *)session
 {
     return I_session;
 }
 
-/*""*/
 - (void)setProfileURI:(NSString *)aProfileURI
 {
     [I_profileURI autorelease];
     I_profileURI = [aProfileURI copy];
 }
 
-/*""*/
 - (NSString *)profileURI
 {
     return I_profileURI;
 }
 
-/*""*/
 - (id)profile
 {
     return I_profile;
 }
 
-#pragma mark ### Convenience for Profiles ###
-- (void)sendMSGMessageWithPayload:(NSData *)aPayload {
+// Convenience for Profiles
+- (void)sendMSGMessageWithPayload:(NSData *)aPayload
+{
     [self sendMessage: [[[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[self nextMessageNumber] payload:aPayload] autorelease]];
 }
 
-#pragma mark ### Accessors for session ###
-
+// Accessors for session
 - (BOOL)hasFramesAvailable
 {
-    //DEBUGLOG((@"BEEPLogDomain", DetailedLogLevel, @"frames available? %d",([I_messageWriteQueue count] > 0));
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"frames available? %d", ([I_messageWriteQueue count] > 0));
     return ([I_messageWriteQueue count] > 0);
 }
 
@@ -237,7 +229,6 @@ static NSMutableDictionary *profileURIToClassMapping;
     TCMBEEPFrame *previousReadFrame = [self previousReadFrame];
     
     BOOL result = YES;
-    
     
     //  Checking for poorly-formed frames as stated in section 2.2.1.1 RFC3080.
 
@@ -328,7 +319,7 @@ static NSMutableDictionary *profileURIToClassMapping;
         [I_inboundMessageNumbersWithPendingReplies removeIndex:[aMessage messageNumber]];
     }
     [I_messageWriteQueue addObject:aMessage];
-    //DEBUGLOG((@"BEEPLogDomain", DetailedLogLevel, @"sendMessageQueue = %@",I_messageWriteQueue);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"sendMessageQueue = %@", I_messageWriteQueue);
     [[self session] channelHasFramesAvailable:self];
 }
 

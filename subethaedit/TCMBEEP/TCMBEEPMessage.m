@@ -9,6 +9,7 @@
 #import "TCMBEEPMessage.h"
 #import "TCMBEEPFrame.h"
 
+
 @implementation TCMBEEPMessage
 
 + (TCMBEEPMessage *)messageWithQueue:(NSArray *)aQueue
@@ -51,6 +52,13 @@
         }
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [I_messageTypeString release];
+    [I_payload release];
+    [super dealloc];
 }
 
 - (void)setMessageTypeString:(NSString *)aString
@@ -110,22 +118,29 @@
     return [I_payload length];
 }
 
-- (BOOL)isMSG {
+- (BOOL)isMSG
+{
     return [I_messageTypeString isEqualTo:@"MSG"];
 }
-- (BOOL)isANS{
+
+- (BOOL)isANS
+{
     return [I_messageTypeString isEqualTo:@"ANS"];
 }
-- (BOOL)isNUL{
+
+- (BOOL)isNUL
+{
     return [I_messageTypeString isEqualTo:@"NUL"];
 }
-- (BOOL)isRPY{
+
+- (BOOL)isRPY
+{
     return [I_messageTypeString isEqualTo:@"RPY"];
 }
-- (BOOL)isERR{
+
+- (BOOL)isERR
+{
     return [I_messageTypeString isEqualTo:@"ERR"];
 }
-
-
 
 @end

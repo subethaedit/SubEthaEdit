@@ -11,6 +11,7 @@
 
 @class TCMBEEPSession, TCMBEEPFrame, TCMBEEPMessage;
 
+
 @interface TCMBEEPChannel : NSObject
 {
     unsigned long I_number;
@@ -54,11 +55,11 @@
 - (TCMBEEPMessage *)currentReadMessage;
 - (id)profile;
 
-#pragma mark ### Convenience for Profiles ###
+// Convenience for Profiles
 - (void)sendMSGMessageWithPayload:(NSData *)aPayload;
 
-#pragma mark ### Accessors for session ###
 
+// Accessors for session
 - (BOOL)hasFramesAvailable;
 - (NSArray *)availableFramesFittingInCurrentWindow;
 
