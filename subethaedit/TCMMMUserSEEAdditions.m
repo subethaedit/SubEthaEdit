@@ -32,7 +32,9 @@
     
     TCMMMUser *user=[[TCMMMUser new] autorelease];
     [user setName:[aRepresentation objectForKey:@"name"]];
-    [user setUserID:[NSString stringWithUUIDData:[aRepresentation objectForKey:@"uID"]]];
+	NSString *userID=[NSString stringWithUUIDData:[aRepresentation objectForKey:@"uID"]];
+	if (!userID) return nil;
+    [user setUserID:userID];
     [user setChangeCount:[[aRepresentation objectForKey:@"cnt"] longLongValue]];
     NSString *string=[aRepresentation objectForKey:@"AIM"];
     if (string==nil) { string=@"";}
@@ -43,7 +45,7 @@
     else if (![string isKindOfClass:[NSString class]]) { return nil;}
     [[user properties] setObject:string forKey:@"Email"];
     NSData *pngData=[aRepresentation objectForKey:@"PNG"];
-    NSImage *image=[[[NSImage alloc] initWithData:[[user properties] objectForKey:@"ImageAsPNG"]] autorelease];
+    NSImage *image=[[[NSImage alloc] initWithData:pngData] autorelease];
     if (!image) {
         image=[[NSImage imageNamed:@"DefaultPerson.tiff"] resizedImageWithSize:NSMakeSize(64.,64.)];
         pngData=[image TIFFRepresentation];

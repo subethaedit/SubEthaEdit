@@ -56,7 +56,11 @@
             if (strncmp(bytes,"USRFUL",6)==0) {
                 // TODO: validate userID
                 TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
-                [[TCMMMUserManager sharedInstance] addUser:user];
+				if (user && [[user userID] isEqualToString:[[[self session] userInfo] objectForKey:@"peerUserID"]]) {
+					[[TCMMMUserManager sharedInstance] addUser:user];
+				} else {
+					[[self session] terminate];
+				}
             }
         } else if ([[aMessage payload] length]==0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel,@"Status Profile Received Ack");
