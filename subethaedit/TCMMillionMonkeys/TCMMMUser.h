@@ -32,6 +32,7 @@
 - (NSString *)name;
 - (void)setChangeCount:(long long)aChangeCount;
 - (long long)changeCount;
+- (void)updateChangeCount;
 
 - (void)joinSessionID:(NSString *)aSessionID;
 - (void)leaveSessionID:(NSString *)aSessionID;

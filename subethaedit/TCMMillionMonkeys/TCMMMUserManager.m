@@ -40,8 +40,12 @@ static TCMMMUserManager *sharedInstance=nil;
 
 - (void)didChangeMe {
     // alter change count
+    TCMMMUser *me=[self me];
+    [me updateChangeCount];
     // announce change via notification
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMUserManagerUserDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:me forKey:@"User"]];
     // announce change via status channels
+    [[TCMMMPresenceManager sharedInstance] propagateChangeOfMyself];
 }
 
 - (id)init {

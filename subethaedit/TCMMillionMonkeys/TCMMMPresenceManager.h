@@ -40,11 +40,12 @@ extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
 - (void)announceSession:(TCMMMSession *)aSession;
 - (void)concealSession:(TCMMMSession *)aSession;
 - (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID;
+- (TCMMMSession *)sessionForSessionID:(NSString *)aSessionID;
+- (void)propagateChangeOfMyself;
 
 - (void)registerSession:(TCMMMSession *)aSession;
 - (void)unregisterSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)referenceSessionForSession:(TCMMMSession *)aSession;
 
-- (TCMMMSession *)sessionForSessionID:(NSString *)aSessionID;
 
 @end

@@ -9,6 +9,7 @@
 #import "GeneralPreferences.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
 #import <AddressBook/AddressBook.h>
 
 
@@ -48,6 +49,8 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
                     forKey:MyAIMsPreferenceKey];
     [defaultDict setObject:[NSArray array]
                     forKey:MyEmailsPreferenceKey];
+    [defaultDict setObject:[NSNumber numberWithBool:YES]
+                    forKey:OpenDocumentOnStartPreferenceKey];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultDict];
     
@@ -216,7 +219,7 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
     NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
     NSNumber *hue = (NSNumber *)[hueTrans reverseTransformedValue:[aSender color]];
     [[O_colorsPopUpButton lastItem] 
-        setImage: [self TCM_menuImageWithColor:[hueTrans transformedValue:[aSender color]]]];
+        setImage: [self TCM_menuImageWithColor:[hueTrans transformedValue:hue]]];
 
     [defaults setObject:hue
                  forKey:MyColorHuePreferenceKey];

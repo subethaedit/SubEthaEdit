@@ -57,6 +57,20 @@
 - (void)setUserHue:(NSNumber *)aHue {
     if (aHue) {
         [[self properties] setObject:aHue forKey:@"Hue"];
+
+        NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
+        
+        NSColor *color=[hueTrans transformedValue:aHue];
+        NSRect rect=NSMakeRect(0,0,13,8);
+        NSImage *image=[[[NSImage alloc] initWithSize:rect.size] autorelease];
+        [image lockFocus];
+        [color drawSwatchInRect:rect];
+    //    [aColor set];
+    //    NSRectFill(rect);
+        [[NSColor blackColor] set];
+        [NSBezierPath strokeRect:rect];
+        [image unlockFocus];
+        [[self properties] setObject:image forKey:@"ColorImage"];
     }
 }
 

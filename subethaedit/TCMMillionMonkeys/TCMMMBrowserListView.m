@@ -166,6 +166,15 @@ static NSColor *alternateRowColor=nil;
         [string drawAtPoint:NSMakePoint(32.+11.,1.)
                withAttributes:mNameAttributes];
     }
+    NSSize nameSize=[string sizeWithAttributes:mNameAttributes];
+    image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageNextToNameTag ofItemAtIndex:aIndex];
+    if (image) {
+        [image compositeToPoint:NSMakePoint(32.+11.+(int)nameSize.width+6.,
+                                            (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.) 
+                      operation:NSCompositeSourceOver];
+    }
+    
+    
     NSSize cellSize=[I_disclosureCell cellSize];
     [I_disclosureCell drawWithFrame:NSMakeRect(32.+10,20.,cellSize.width,cellSize.height) inView:self];
     string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusTag ofItemAtIndex:aIndex];

@@ -46,7 +46,7 @@
     if ((self=[super init])) {
         I_properties=[NSMutableDictionary new];
         I_propertiesBySessionID=[NSMutableDictionary new];
-        I_changeCount = (long long)[NSDate timeIntervalSinceReferenceDate];
+        [self updateChangeCount];
     }
     return self;
 }
@@ -103,6 +103,11 @@
 - (long long)changeCount {
     return I_changeCount;
 }
+
+- (void)updateChangeCount {
+    [self setChangeCount: (long long)[NSDate timeIntervalSinceReferenceDate]];
+}
+
 
 - (void)joinSessionID:(NSString *)aSessionID {
     NSAssert([I_propertiesBySessionID objectForKey:aSessionID]==nil, @"User already joined");

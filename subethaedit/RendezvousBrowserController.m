@@ -168,6 +168,8 @@
             return [NSString stringWithFormat:@"%d Document(s)",[[item objectForKey:@"Sessions"] count]];
         } else if (aTag==TCMMMBrowserItemImageTag) {
             return [[user properties] objectForKey:@"Image32"];
+        } else if (aTag==TCMMMBrowserItemImageNextToNameTag) {
+            return [[user properties] objectForKey:@"ColorImage"];
         }
     }
     return nil;

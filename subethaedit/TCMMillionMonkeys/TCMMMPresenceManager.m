@@ -141,6 +141,14 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     return [[I_registeredSessions objectForKey:aSessionID] objectForKey:@"Session"];
 }
 
+- (void)propagateChangeOfMyself {
+    NSEnumerator *profiles=[I_statusProfilesInServerRole objectEnumerator];
+    TCMMMStatusProfile *profile=nil;
+    while ((profile=[profiles nextObject])) {
+        [profile sendUserDidChangeNotification:[TCMMMUserManager me]];
+    }
+}
+
 #pragma mark -
 #pragma mark ### Registered Sessions ###
 
