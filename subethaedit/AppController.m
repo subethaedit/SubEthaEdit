@@ -24,6 +24,8 @@
 #import "SelectionOperation.h"
 #import "EncodingManager.h"
 
+#import "SaturationToColorValueTransformer.h"
+#import "HueToColorValueTransformer.h"
 
 int const FormatMenuTag = 2000;
 int const FileEncodingsMenuItemTag = 2001;
@@ -49,6 +51,20 @@ int const WindowMenuTag = 3000;
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
+}
+
+- (void)registerTransformers {
+    HueToColorValueTransformer *hueTrans=[[HueToColorValueTransformer new] autorelease];
+    [NSValueTransformer setValueTransformer:hueTrans
+                                    forName:@"HueToColor"];
+    SaturationToColorValueTransformer *satTrans=[[[SaturationToColorValueTransformer alloc] initWithColor:[NSColor blackColor]] autorelease];
+    [NSValueTransformer setValueTransformer:satTrans 
+                                    forName:@"SaturationToBlackColor"];
+    satTrans=[[[SaturationToColorValueTransformer alloc] initWithColor:[NSColor whiteColor]] autorelease];
+    [NSValueTransformer setValueTransformer:satTrans 
+                                    forName:@"SaturationToWhiteColor"];
+    NSLog(@"Transforms: %@",[[NSValueTransformer valueTransformerNames] description]);
+
 }
 
 - (void)addMe {
@@ -137,6 +153,7 @@ int const WindowMenuTag = 3000;
     [self addMe];
     [self setupFileEncodingsSubmenu];
     [self setupScriptMenu];
+    [self registerTransformers];
 
     GeneralPreferences *generalPrefs = [[GeneralPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:generalPrefs];
@@ -185,6 +202,11 @@ int const WindowMenuTag = 3000;
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     
 }
+
+-(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+}
+
 
 - (void)setupFileEncodingsSubmenu {
     NSMenuItem *formatMenu = [[NSApp mainMenu] itemWithTag:FormatMenuTag];

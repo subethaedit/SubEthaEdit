@@ -409,6 +409,8 @@ subethaedit/GeneralPreferences.h -text
 subethaedit/GeneralPreferences.m -text
 subethaedit/HandshakeProfile.h -text
 subethaedit/HandshakeProfile.m -text
+subethaedit/HueToColorValueTransformer.h -text
+subethaedit/HueToColorValueTransformer.m -text
 subethaedit/Info.plist -text
 subethaedit/InternetController.h -text
 subethaedit/InternetController.m -text
@@ -437,6 +439,8 @@ subethaedit/Preferences.nib/info.nib -text
 subethaedit/Preferences.nib/keyedobjects.nib -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
+subethaedit/SaturationToColorValueTransformer.h -text
+subethaedit/SaturationToColorValueTransformer.m -text
 subethaedit/SelectionOperation.h -text
 subethaedit/SelectionOperation.m -text
 subethaedit/SessionProfile.h -text

@@ -1,9 +1,29 @@
 {
     IBClasses = (
+        {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {changeMyColor = id; }; 
             CLASS = GeneralPreferences; 
             LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_aimTextField" = NSTextField; 
+                "O_alsoInLocalDocumentsButton" = NSButton; 
+                "O_changeSaturationSlider" = NSSlider; 
+                "O_changesDarkColorWell" = NSColorWell; 
+                "O_changesLightColorWell" = NSColorWell; 
+                "O_colorsPopUpButton" = NSPopUpButton; 
+                "O_defaultModePopUpButton" = NSPopUpButton; 
+                "O_emailTextField" = NSTextField; 
+                "O_higlightChangesButton" = NSButton; 
+                "O_nameTextField" = NSTextField; 
+                "O_openNewDocumentAtStartupButton" = NSButton; 
+                "O_pictureImageView" = NSImageView; 
+                "O_selectionDarkColorWell" = NSColorWell; 
+                "O_selectionLightColorWell" = NSColorWell; 
+                "O_selectionSaturationSlider" = NSSlider; 
+                "O_useAddressbookButton" = NSButton; 
+            }; 
             SUPERCLASS = TCMPreferenceModule; 
         }, 
         {
