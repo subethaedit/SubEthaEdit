@@ -38,6 +38,7 @@
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
         I_waitingDocuments = [NSMutableDictionary new];
         I_refCountsOfSeeScriptCommands = [NSMutableDictionary new];
+        I_pipingSeeScriptCommands = [NSMutableArray new];
     }
     return self;
 }
@@ -49,6 +50,7 @@
     [I_suspendedSeeScriptCommands release];
     [I_waitingDocuments release];
     [I_refCountsOfSeeScriptCommands release];
+    [I_pipingSeeScriptCommands release];
     [super dealloc];
 }
 
@@ -173,7 +175,7 @@ static NSString *tempFileName() {
     NSString *name;
     do {
         sequenceNumber++;
-        name = [NSString stringWithFormat:@"see-%d-%d-%d", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber];
+        name = [NSString stringWithFormat:@"SEE-%d-%d-%d", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber];
         name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
     } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
     return name;
@@ -187,6 +189,7 @@ static NSString *tempFileName() {
         NSString *key = [keys objectAtIndex:i];
         NSMutableArray *documents = [I_waitingDocuments objectForKey:key];
         if ([documents containsObject:document]) {
+            BOOL isPiping = [I_pipingSeeScriptCommands containsObject:key];
             int refCount = [[I_refCountsOfSeeScriptCommands objectForKey:key] intValue];
             refCount--;
             if (refCount < 1) {
@@ -194,17 +197,20 @@ static NSString *tempFileName() {
                 NSEnumerator *enumerator = [documents objectEnumerator];
                 NSDocument *doc;
                 while ((doc = [enumerator nextObject])) {
-                    NSString *fileName = tempFileName();
-                    BOOL result = [doc writeToFile:fileName ofType:@"PlainTextType"];
-                    if (result) {
-                        [fileNames addObject:fileName];
-                    }                
+                    if (isPiping) {
+                        NSString *fileName = tempFileName();
+                        BOOL result = [doc writeToFile:fileName ofType:@"PlainTextType"];
+                        if (result) {
+                            [fileNames addObject:fileName];
+                        }
+                    }
                 }
                 NSScriptCommand *command = [I_suspendedSeeScriptCommands objectForKey:key];
                 [command resumeExecutionWithResult:fileNames];
                 [I_suspendedSeeScriptCommands removeObjectForKey:key];
                 [I_waitingDocuments removeObjectForKey:key];
                 [I_refCountsOfSeeScriptCommands removeObjectForKey:key];
+                [I_pipingSeeScriptCommands removeObject:key];
             } else {
                 [I_refCountsOfSeeScriptCommands setObject:[NSNumber numberWithInt:refCount] forKey:key];
             }
@@ -434,11 +440,16 @@ static NSString *tempFileName() {
         }
     }
     
+    NSString *identifier = [NSString UUIDString];
+
+    if (isPipingOut) {
+        [I_pipingSeeScriptCommands addObject:identifier];
+    }
+    
     if (shouldWait) {
         int count = [documents count];
         if (count > 0) {
             [command suspendExecution];
-            NSString *identifier = [NSString UUIDString];
             [I_suspendedSeeScriptCommands setObject:command forKey:identifier];
             [I_waitingDocuments setObject:documents forKey:identifier];
             [I_refCountsOfSeeScriptCommands setObject:[NSNumber numberWithInt:count] forKey:identifier];

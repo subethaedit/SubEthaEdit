@@ -344,6 +344,11 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                                     forKeyword:'Wait'];
             }
             
+            if ([options objectForKey:@"pipe-out"]) {
+                [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
+                                    forKeyword:'PipO'];
+            }
+                        
             AppleEvent reply;
             OSStatus err = AESendMessage([appleEvent aeDesc], &reply, sendMode, timeOut);
             if (err == noErr) {

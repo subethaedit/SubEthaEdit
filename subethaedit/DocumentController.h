@@ -28,6 +28,7 @@
     NSMutableDictionary *I_suspendedSeeScriptCommands;
     NSMutableDictionary *I_refCountsOfSeeScriptCommands;
     NSMutableDictionary *I_waitingDocuments;
+    NSMutableArray *I_pipingSeeScriptCommands;
 }
 
 + (DocumentController *)sharedInstance;
