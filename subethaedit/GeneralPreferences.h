@@ -17,6 +17,7 @@ extern NSString * const HighlightChangesPreferenceKey      ;
 extern NSString * const HighlightChangesAlonePreferenceKey ;
 extern NSString * const OpenDocumentOnStartPreferenceKey   ;
 extern NSString * const SelectedMyColorPreferenceKey       ;
+extern NSString * const ModeForNewDocumentsPreferenceKey   ;
 extern NSString * const MyNamePreferenceKey ;
 extern NSString * const MyAIMPreferenceKey  ;
 extern NSString * const MyEmailPreferenceKey;
@@ -26,6 +27,7 @@ extern NSString * const MyNamesPreferenceKey ;
 extern NSString * const MyAIMsPreferenceKey  ;
 extern NSString * const MyEmailsPreferenceKey;
 
+@class DocumentModePopUpButton;
 
 @interface GeneralPreferences : TCMPreferenceModule {
     IBOutlet NSButton    *O_useAddressbookButton;
@@ -48,10 +50,13 @@ extern NSString * const MyEmailsPreferenceKey;
     
     IBOutlet NSButton *O_openNewDocumentAtStartupButton;
     IBOutlet NSPopUpButton *O_defaultModePopUpButton;
+    
+    IBOutlet DocumentModePopUpButton *O_modeForNewDocumentsPopUpButton;
 }
 
 - (IBAction)changeName:(id)aSender;
 - (IBAction)changeAIM:(id)aSender;
 - (IBAction)changeEmail:(id)aSender;
 - (IBAction)changeMyColor:(id)aSender;
+- (IBAction)changeModeForNewDocuments:(id)aSender;
 @end

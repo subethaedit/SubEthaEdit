@@ -10,6 +10,7 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "DocumentModeManager.h"
 #import <AddressBook/AddressBook.h>
 
 
@@ -20,6 +21,7 @@ NSString * const ChangesSaturationPreferenceKey      = @"ChangesSaturation";
 NSString * const HighlightChangesPreferenceKey       = @"HighlightChanges";
 NSString * const HighlightChangesAlonePreferenceKey  = @"HighlightChangesAlone";
 NSString * const OpenDocumentOnStartPreferenceKey    = @"OpenDocumentOnStart";
+NSString * const ModeForNewDocumentsPreferenceKey    = @"ModeForNewDocuments";
 NSString * const SelectedMyColorPreferenceKey        = @"SelectedMyColor";
 NSString * const MyNamePreferenceKey    = @"MyName";
 NSString * const MyAIMPreferenceKey     = @"MyAIM";
@@ -51,6 +53,8 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
                     forKey:MyEmailsPreferenceKey];
     [defaultDict setObject:[NSNumber numberWithBool:YES]
                     forKey:OpenDocumentOnStartPreferenceKey];
+    [defaultDict setObject:BASEMODEIDENTIFIER
+                    forKey:ModeForNewDocumentsPreferenceKey];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultDict];
     
@@ -125,6 +129,12 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
     }
 }
 
+- (IBAction)changeModeForNewDocuments:(id)aSender {
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    [defaults setObject:[aSender selectedModeIdentifier] forKey:ModeForNewDocumentsPreferenceKey];
+}
+
+
 - (IBAction)changeEmail:(id)aSender {
     TCMMMUser *me=[TCMMMUserManager me];
     NSString *newValue=[O_emailComboBox stringValue];
@@ -197,11 +207,15 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
     [self TCM_setupComboBoxes];
     [self TCM_setupColorPopUp];
     
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    
     TCMMMUser *me=[TCMMMUserManager me];
     [O_pictureImageView setImage:[[me properties] objectForKey:@"Image"]];
     [O_nameTextField setStringValue:[me name]];
     [O_emailComboBox setStringValue:[[me properties] objectForKey:@"Email"]];
     [O_aimComboBox   setStringValue:[[me properties] objectForKey:@"AIM"]];
+    [O_modeForNewDocumentsPopUpButton setSelectedModeIdentifier:
+        [defaults objectForKey:ModeForNewDocumentsPreferenceKey]];
 }
 
 - (void)didUnselect {

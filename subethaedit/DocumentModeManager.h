@@ -41,6 +41,7 @@
 + (DocumentModeManager *)sharedInstance;
 
 - (DocumentMode *)baseMode;
+- (DocumentMode *)modeForNewDocuments;
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier;
 - (DocumentMode *)documentModeForExtension:(NSString *)anExtension;
 - (NSString *)documentModeIdentifierForTag:(int)aTag;

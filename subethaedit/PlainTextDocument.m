@@ -360,7 +360,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
         [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
         I_textStorage = [TextStorage new];
         [I_textStorage setDelegate:self];
-        [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
+        [self setDocumentMode:[[DocumentModeManager sharedInstance] modeForNewDocuments]];
         I_flags.isRemotelyEditingTextStorage=NO;
         [self TCM_initHelper];
     }

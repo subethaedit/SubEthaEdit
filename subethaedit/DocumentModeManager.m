@@ -7,6 +7,7 @@
 //
 
 #import "DocumentModeManager.h"
+#import "GeneralPreferences.h"
 
 #define MODEPATHCOMPONENT @"Application Support/SubEthaEdit/Modes/"
 
@@ -181,6 +182,14 @@
 
 - (DocumentMode *)baseMode {
     return [self documentModeForIdentifier:BASEMODEIDENTIFIER];
+}
+
+- (DocumentMode *)modeForNewDocuments {
+    DocumentMode *returnValue=[self documentModeForIdentifier:[[NSUserDefaults standardUserDefaults] objectForKey:ModeForNewDocumentsPreferenceKey]];
+    if (!returnValue) {
+        returnValue=[self baseMode];
+    }
+    return returnValue;
 }
 
 - (DocumentMode *)documentModeForExtension:(NSString *)anExtension {

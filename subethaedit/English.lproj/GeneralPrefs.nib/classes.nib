@@ -1,9 +1,22 @@
 {
     IBClasses = (
+        {CLASS = DocumentModeManager; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = DocumentModeMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
+        {
+            CLASS = DocumentModePopUpButton; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPopUpButton; 
+        }, 
         {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {changeAIM = id; changeEmail = id; changeMyColor = id; changeName = id; }; 
+            ACTIONS = {
+                changeAIM = id; 
+                changeEmail = id; 
+                changeModeForNewDocuments = id; 
+                changeMyColor = id; 
+                changeName = id; 
+            }; 
             CLASS = GeneralPreferences; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -16,6 +29,7 @@
                 "O_defaultModePopUpButton" = NSPopUpButton; 
                 "O_emailComboBox" = NSComboBox; 
                 "O_higlightChangesButton" = NSButton; 
+                "O_modeForNewDocumentsPopUpButton" = DocumentModePopUpButton; 
                 "O_nameTextField" = NSTextField; 
                 "O_openNewDocumentAtStartupButton" = NSButton; 
                 "O_pictureImageView" = NSImageView; 
