@@ -521,10 +521,8 @@
                 <string>ABS</string>
             </keywords>
             <keywords id="Numbers" color="#00f" useforautocomplete="no">
-				<regex>[^[A-Za-z0-9]](([0-9]*\.?[0-9]+)|([0-9]+\.?[0-9]*))[^[A-Za-z0-9]]</regex>
-				<regex>(^(([0-9]*\.?[0-9]+)|([0-9]+\.?[0-9]*)))[^[A-Za-z0-9]]</regex>
-				<regex>[^[A-Za-z0-9]](([0-9]*\.?[0-9]+)|([0-9]+\.?[0-9]*))$</regex>
-				<regex>(0x[0-9a-fA-F]+)</regex>
+				<regex>(?&lt;=[^[A-Za-z0-9]]|^)(([0-9]*\.[0-9]*([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]))(([uU][lL]?)|([lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
+				<regex></regex>
             </keywords>
             <keywords id="Characters" color="#00f" useforautocomplete="no">
 				<regex>('.')</regex>
