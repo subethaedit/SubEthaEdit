@@ -20,6 +20,7 @@ NSString * const HostEntryStatusResolveFailed = @"HostEntryStatusResolveFailed";
 NSString * const HostEntryStatusContacting = @"HostEntryStatusContacting";
 NSString * const HostEntryStatusContactFailed = @"HostEntryStatusContactFailed";
 NSString * const HostEntryStatusSessionOpen = @"HostEntryStatusSessionOpen";
+NSString * const HostEntryStatusSessionInvisible = @"HostEntryStatusSessionInvisible";
 NSString * const HostEntryStatusSessionAtEnd = @"HostEntryStatusSessionAtEnd";
 NSString * const HostEntryStatusCancelling = @"HostEntryStatusCancelling";
 NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
@@ -54,6 +55,18 @@ static InternetBrowserController *sharedInstance = nil;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
+    
+        NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+        TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
+        [defaultCenter addObserver:self 
+                          selector:@selector(TCM_didAcceptSession:)
+                              name:TCMMMBEEPSessionManagerDidAcceptSessionNotification
+                            object:manager];
+        [defaultCenter addObserver:self 
+                          selector:@selector(TCM_sessionDidEnd:)
+                              name:TCMMMBEEPSessionManagerSessionDidEndNotification
+                            object:manager];
+
     }
     return self;    
 }
@@ -108,6 +121,7 @@ static InternetBrowserController *sharedInstance = nil;
 
     [O_addressComboBox setUsesDataSource:YES];
     [O_addressComboBox setDataSource:self];
+    [O_addressComboBox setCompletes:YES];
     [self setComboBoxItems:[[NSUserDefaults standardUserDefaults] objectForKey:AddressHistory]];
     [O_addressComboBox noteNumberOfItemsChanged];
     [O_addressComboBox reloadData];
@@ -117,14 +131,6 @@ static InternetBrowserController *sharedInstance = nil;
 
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
-    [defaultCenter addObserver:self 
-                      selector:@selector(TCM_didAcceptSession:)
-                          name:TCMMMBEEPSessionManagerDidAcceptSessionNotification
-                        object:manager];
-    [defaultCenter addObserver:self 
-                      selector:@selector(TCM_sessionDidEnd:)
-                          name:TCMMMBEEPSessionManagerSessionDidEndNotification
-                        object:manager];
     [defaultCenter addObserver:self 
                       selector:@selector(TCM_connectToHostDidFail:)
                           name:TCMMMBEEPSessionManagerConnectToHostDidFailNotification
@@ -223,7 +229,10 @@ static InternetBrowserController *sharedInstance = nil;
             // otherwise add new entry to I_data
             TCMHost *host = [TCMHost hostWithName:[url host] port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
             [I_resolvingHosts setObject:host forKey:URLString];
-            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:URLString, @"URLString", HostEntryStatusResolving, @"status", url, @"URL", nil]];
+            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                        URLString, @"URLString",
+                                                        HostEntryStatusResolving, @"status",
+                                                        url, @"URL", nil]];
             [host setDelegate:self];
             [host resolve];
         }
@@ -288,16 +297,16 @@ static InternetBrowserController *sharedInstance = nil;
     int index = pair.itemIndex;
     NSMutableDictionary *item = [I_data objectAtIndex:index];
     if ([item objectForKey:@"failed"]) {
-        NSLog(@"trying to reconnect");
+        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
         [item removeObjectForKey:@"BEEPSession"];
         [item removeObjectForKey:@"UserID"];
         [item removeObjectForKey:@"Sessions"];
         [item removeObjectForKey:@"failed"];
         [self connectToURL:[item objectForKey:@"URL"] retry:YES];
     } else {
-        NSLog(@"cancel");
+        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
         if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusResolving]) {
-            NSLog(@"cancel resolve");
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel resolve");
             [item removeObjectForKey:@"UserID"];
             [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
             TCMHost *host = [I_resolvingHosts objectForKey:[item objectForKey:@"URLString"]];
@@ -307,7 +316,7 @@ static InternetBrowserController *sharedInstance = nil;
             [item setObject:HostEntryStatusCancelled forKey:@"status"];
             [O_browserListView reloadData];
         } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusContacting]) {
-            NSLog(@"cancel contact");
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel contact");
             [item removeObjectForKey:@"UserID"];
             [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
             [item setObject:HostEntryStatusCancelling forKey:@"status"];
@@ -315,7 +324,7 @@ static InternetBrowserController *sharedInstance = nil;
             TCMHost *host = [I_resolvedHosts objectForKey:[item objectForKey:@"URLString"]];
             [[TCMMMBEEPSessionManager sharedInstance] cancelConnectToHost:host];
         } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
-            NSLog(@"cancel open session");
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel open session");
             TCMBEEPSession *session = [item objectForKey:@"BEEPSession"];
             BOOL abort = NO;
             NSEnumerator *channels = [[session channels] objectEnumerator];
@@ -520,15 +529,33 @@ static InternetBrowserController *sharedInstance = nil;
     if (index != -1) {
         NSString *userID = [[session userInfo] objectForKey:@"peerUserID"];
         NSMutableDictionary *item = [I_data objectAtIndex:index];
+        [item removeObjectForKey:@"failed"];
         [item setObject:session forKey:@"BEEPSession"];
         [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
         [item setObject:userID forKey:@"UserID"];
         NSDictionary *infoDict = [[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
         [item setObject:[[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy] forKey:@"Sessions"];
-        [item setObject:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
+//        [item setObject:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
         [O_browserListView reloadData];
         [self processDocumentURL:[item objectForKey:@"URL"]];
+    } else {
+        // Inbound session
+        BOOL isRendezvous = [[session userInfo] objectForKey:@"isRendezvous"] != nil ? YES : NO;
+        if (!isRendezvous) {
+            NSString *userID = [[session userInfo] objectForKey:@"peerUserID"];
+            NSDictionary *infoDict = [[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
+            NSMutableArray *sessions = [[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy];
+            NSString *URLString = [[session userInfo] objectForKey:@"URLString"];
+            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                        userID, @"UserID",
+                                                        URLString, @"URLString",
+                                                        session, @"BEEPSession",
+                                                        [NSNumber numberWithBool:YES], @"inbound",
+                                                        sessions, @"Sessions",
+                                                        HostEntryStatusSessionOpen, @"status", nil]];
+        }
     }
+    [O_browserListView reloadData];
 }
 
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
@@ -601,16 +628,22 @@ static InternetBrowserController *sharedInstance = nil;
     NSString *userID = [userInfo objectForKey:@"UserID"];
     BOOL isVisible = [[userInfo objectForKey:@"isVisible"] boolValue];
     
-    if (!isVisible) {
+    //if (!isVisible) {
         NSMutableIndexSet *indexes = [self indexesOfItemsWithUserID:userID];
         int index;
         while ((index = [indexes firstIndex]) != NSNotFound) {
             [indexes removeIndex:[indexes firstIndex]];
             if (index >= 0) {
-                [I_data removeObjectAtIndex:index];
+                //[I_data removeObjectAtIndex:index];
+                NSMutableDictionary *item = [I_data objectAtIndex:index];
+                if (isVisible) {
+                    [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
+                } else {
+                    [item setObject:HostEntryStatusSessionInvisible forKey:@"status"];
+                }
             }            
         }
-    }
+    //}
     [O_browserListView reloadData];
 }
 
@@ -637,7 +670,7 @@ static InternetBrowserController *sharedInstance = nil;
                             break;
                         }
                     }
-                    if (i==[sessions count]) {
+                    if (i == [sessions count]) {
                         [sessions addObject:session];
                     }
                 } else {
@@ -688,10 +721,15 @@ static InternetBrowserController *sharedInstance = nil;
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
     if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
         NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
-        
         TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
-
+        
+        BOOL isVisible = NO;
         if (user) {
+            NSDictionary *userStatus = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
+            isVisible = [userStatus objectForKey:@"isVisible"] == nil ? NO : YES;
+        }
+
+        if (user && isVisible && ![[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionAtEnd]) {
             if (aTag == TCMMMBrowserItemNameTag) {
                 return [user name];
             } else if (aTag == TCMMMBrowserItemStatusTag) {
@@ -717,7 +755,11 @@ static InternetBrowserController *sharedInstance = nil;
             }
             
             if ([item objectForKey:@"failed"]) {
-                return [NSImage imageNamed:@"InternetResume"];
+                if ([item objectForKey:@"inbound"]) {
+                    return nil;
+                } else {
+                    return [NSImage imageNamed:@"InternetResume"];
+                }
             } else {
                 return [NSImage imageNamed:@"InternetStop"];
             }

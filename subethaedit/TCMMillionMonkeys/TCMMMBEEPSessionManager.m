@@ -326,11 +326,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
         }
     } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"]) {
         [[TCMMMPresenceManager sharedInstance] acceptStatusProfile:(TCMMMStatusProfile *)aProfile];
-        if ([aProfile isServer]) {
-            // distribute the profile to the corresponding handler
-        } else {
-            // find the open request
-        }
     } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got SubEthaEditSession profile");
         [aProfile setDelegate:self];
@@ -446,7 +441,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 #pragma mark -
-#pragma mark ### notifications ###
+#pragma mark ### Notifications ###
 
 - (void)TCM_sendDidAcceptNotificationForSession:(TCMBEEPSession *)aSession
 {
@@ -552,7 +547,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 - (void)profile:(HandshakeProfile *)aProfile receivedAckHandshakeWithUserID:(NSString *)aUserID {
-    NSMutableDictionary *information=[self sessionInformationForUserID:aUserID];
+    NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
     TCMBEEPSession *session = [aProfile session];
     if ([[session userInfo] objectForKey:@"isRendezvous"]) {
         [information setObject:session forKey:@"RendezvousSession"];
@@ -560,14 +555,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [I_pendingSessions removeObject:session];
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"received ACK");
         [self TCM_sendDidAcceptNotificationForSession:session];
-//        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
     } else {
-        NSMutableArray *inboundSessions=[information objectForKey:@"InboundSessions"];
+        NSMutableArray *inboundSessions = [information objectForKey:@"InboundSessions"];
         [inboundSessions addObject:session];
         [I_pendingSessions removeObject:session];
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"received ACK");
         [self TCM_sendDidAcceptNotificationForSession:session];
-//        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
     }
 }
 
@@ -582,7 +575,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [profile setDelegate:session];
         [I_pendingSessionProfiles removeObject:profile];
     } else {
-        // close channel
+        #warning "close channel"
     }
 }
 

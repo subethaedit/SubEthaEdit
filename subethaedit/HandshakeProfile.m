@@ -14,7 +14,7 @@
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel {
     self = [super initWithChannel:aChannel];
     if (self) {
-        I_remoteInfos=[NSMutableDictionary new];
+        I_remoteInfos = [NSMutableDictionary new];
     }
     return self;
 }
@@ -29,9 +29,14 @@
 }
 
 - (NSData *)handshakePayloadWithUserID:(NSString *)aUserID {
-    NSMutableString *string=[NSMutableString stringWithFormat:@"GRTuserid=%@\001version=2.00",aUserID];
-    if ([[[[[self channel] session] userInfo] objectForKey:@"isRendezvous"] boolValue]){
+    NSMutableString *string = [NSMutableString stringWithFormat:@"GRTuserid=%@\001version=2.00", aUserID];
+    if ([[[[self session] userInfo] objectForKey:@"isRendezvous"] boolValue]){
         [string appendString:@"\001rendez=vous"];
+    } else {
+        NSString *URLString = [[[self session] userInfo] objectForKey:@"URLString"];
+        if (URLString) {
+            [string appendFormat:@"\001url=%@", URLString];
+        }
     }
     return [string dataUsingEncoding:NSUTF8StringEncoding];
 }
@@ -45,26 +50,29 @@
 {
     // simple message reply model
     if ([aMessage isMSG]) {
-        NSString *string=[NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding];
-        NSString *type=[string substringToIndex:3];
+        NSString *string = [NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding];
+        NSString *type = [string substringToIndex:3];
         if ([type isEqualToString:@"GRT"]) {
-            string=[string substringFromIndex:3];
-            NSArray *pairsArray=[string componentsSeparatedByString: @"\001"];
-            NSEnumerator *pairs=[pairsArray objectEnumerator];
+            string = [string substringFromIndex:3];
+            NSArray *pairsArray = [string componentsSeparatedByString:@"\001"];
+            NSEnumerator *pairs = [pairsArray objectEnumerator];
             NSString *pair;
             while ((pair = [pairs nextObject])) {
-                NSRange foundRange=[pair rangeOfString:@"="];
-                if (foundRange.location!=NSNotFound) {
+                NSRange foundRange = [pair rangeOfString:@"="];
+                if (foundRange.location != NSNotFound) {
                     NSString *key = [[pair substringToIndex:foundRange.location] lowercaseString];
-                    NSString *value=[pair substringFromIndex:NSMaxRange(foundRange)];
+                    NSString *value = [pair substringFromIndex:NSMaxRange(foundRange)];
                     [I_remoteInfos setObject:value forKey:key];
                 }
             }
-            DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"Handshake greeting was: %@",string);
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Handshake greeting was: %@", string);
             if ([I_remoteInfos objectForKey:@"rendez"]) {
-                [[[[self channel] session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
+                [[[self session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
             }
-            NSString *userID=[[self delegate] profile:self shouldProceedHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+            if ([I_remoteInfos objectForKey:@"url"]) {
+                [[[self session] userInfo] setObject:[I_remoteInfos objectForKey:@"url"] forKey:@"URLString"];                
+            }
+            NSString *userID = [[self delegate] profile:self shouldProceedHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
             if (userID) {
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[self handshakePayloadWithUserID:userID]];
                 [[self channel] sendMessage:[message autorelease]];        

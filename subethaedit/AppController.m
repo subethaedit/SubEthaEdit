@@ -282,6 +282,7 @@ NSString * const AddressHistory = @"AddressHistory";
 
     [[TCMMMBEEPSessionManager sharedInstance] listen];
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];
+    [InternetBrowserController sharedInstance];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
