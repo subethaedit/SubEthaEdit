@@ -317,7 +317,7 @@
         [self addStylesForKeywordGroups:aDictionary];
     } else {
         [I_stylesForToken addObject:[NSDictionary dictionary]];
-        [I_stylesForRegex addObject:[NSDictionary dictionary]];
+        [I_stylesForRegex addObject:[NSArray array]];
     }
     
     NSEnumerator *statesEnumerator = [I_states objectEnumerator];
@@ -326,7 +326,7 @@
             [self addStylesForKeywordGroups:aDictionary];
         } else {
             [I_stylesForToken addObject:[NSDictionary dictionary]];
-            [I_stylesForRegex addObject:[NSDictionary dictionary]];
+            [I_stylesForRegex addObject:[NSArray array]];
         }
     }
     
@@ -342,9 +342,9 @@
     NSDictionary *keywordGroup;
     
     NSMutableDictionary *newPlainDictionary = [NSMutableDictionary dictionary];
-    NSMutableDictionary *newRegExDictionary = [NSMutableDictionary dictionary];
+    NSMutableArray *newRegExArray = [NSMutableArray array];
     [I_stylesForToken addObject:newPlainDictionary];
-    [I_stylesForRegex addObject:newRegExDictionary];
+    [I_stylesForRegex addObject:newRegExArray];
 
     while ((keywordGroup = [groupEnumerator nextObject])) {
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
@@ -371,9 +371,6 @@
         NSDictionary *keywords;
         if ((keywords = [keywordGroup objectForKey:@"PlainStrings"])) {
             NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-            //NSMutableDictionary *newDictionary;
-            //newDictionary = [NSMutableDictionary dictionary];
-            //[I_stylesForToken addObject:newDictionary];
             NSString *keyword;
             while ((keyword = [keywordEnumerator nextObject])) {
                 [newPlainDictionary setObject:attributes forKey:keyword];
@@ -383,9 +380,6 @@
         
         if ((keywords = [keywordGroup objectForKey:@"RegularExpressions"])) {
             NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-            //NSMutableDictionary *newDictionary;
-            //newDictionary = [NSMutableDictionary dictionary];
-            //[I_stylesForRegex addObject:newDictionary];
             NSString *keyword;
             NSString *aString;
             while ((keyword = [keywordEnumerator nextObject])) {
@@ -398,8 +392,9 @@
                     }
                 }
                 if ([OGRegularExpression isValidExpressionString:keyword]) {
-                    if ((regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease]))
-                        [newRegExDictionary setObject:attributes forKey:regex];
+                    if ((regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease])) {
+                        [newRegExArray addObject:[NSArray arrayWithObjects:regex, attributes, nil]];
+                    }
                 } else {
                     NSLog(@"ERROR: %@ in \"%@\" is not a valid regular expression", keyword, [attributes objectForKey:@"id"]);
                 }
@@ -462,9 +457,9 @@
     else return nil;
 }
 
-- (NSDictionary *)regularExpressionsInState:(int)aState
+- (NSArray *)regularExpressionsInState:(int)aState
 {
-    NSDictionary *aRegexDictionary;
+    NSArray *aRegexDictionary;
     if ((aRegexDictionary = [I_stylesForRegex objectAtIndex:aState])) return aRegexDictionary;
     else return nil;
 }

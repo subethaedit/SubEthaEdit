@@ -158,7 +158,9 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
 
 -(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState
 {
-    int state = aState + 1; // Default state has index 0 in lookup table, so call with -1 to get it
+    aState++; // Default state has index 0 in lookup table, so call with -1 to get it
+    int aMaxRange = NSMaxRange(aRange);
+    int location;
     NSDictionary *style;
     SyntaxDefinition *definition = [self syntaxDefinition];
 
@@ -168,38 +170,54 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     do {
         NSString *token = nil;
         if ([scanner scanCharactersFromSet:[definition tokenSet] intoString:&token]) {
+            location = [scanner scanLocation];
             if (token) {
                 //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found Token: %@ in State %d",token, aState);
-                if ((style = [definition styleForToken:token inState:state])) {
-                    NSRange foundRange = NSMakeRange([scanner scanLocation]-[token length],[token length]);
-                    if (NSMaxRange(foundRange)>NSMaxRange(aRange)) break;
-                    [aString addAttribute:NSForegroundColorAttributeName value:[style objectForKey:@"color"] range:foundRange];
-                    NSFontTraitMask mask = [[style objectForKey:@"font-trait"] unsignedIntValue];
-                    [aString addAttribute:NSFontAttributeName value:[theDocument fontWithTrait:mask] range:foundRange];
+                if ((style = [definition styleForToken:token inState:aState])) {
+                    int tokenlength = [token length];
+                    NSRange foundRange = NSMakeRange(location-tokenlength,tokenlength);
+                    if (NSMaxRange(foundRange)>aMaxRange) break;
+                    //NSFontTraitMask mask = [[style objectForKey:@"font-trait"] unsignedIntValue];
+                    
+                    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [style objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
+                                               [theDocument fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
+                                                nil];
+                                                
+                    [aString addAttributes:attributes range:foundRange];
+
+                    
+                    
                 }
             }
         } else break;
-    } while ([scanner scanLocation]< NSMaxRange(aRange));
+    } while (location < aMaxRange);
 }
 
 -(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState
 {
-    int state = aState + 1; // Default state has index 0 in lookup table, so call with -1 to get it
-    SyntaxDefinition *definition = [self syntaxDefinition];
-    NSDictionary *regexDict = [definition regularExpressionsInState:state];
+    aState++; // Default state has index 0 in lookup table, so call with -1 to get it
+    NSArray *regexArray = [[self syntaxDefinition] regularExpressionsInState:aState];
     OGRegularExpression *aRegex;
     OGRegularExpressionMatch *aMatch;
     NSDictionary *style;
+    NSString *theString = [aString string];
+    int i;
+    int count = [regexArray count];
     
-    if (regexDict) {
-        NSEnumerator *regexEnumerator = [regexDict keyEnumerator];
-        while ((aRegex = [regexEnumerator nextObject])) {
-            style = [regexDict objectForKey:aRegex];
-            NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:[aString string] range:aRange] objectEnumerator];
-            while ((aMatch = [matchEnumerator nextObject])) {
-                // FIXME: Only color first group!
-                [aString addAttribute:NSForegroundColorAttributeName value:[style objectForKey:@"color"] range:[aMatch rangeOfMatchedString]];
-            }
+    for (i=0; i<count; i++) {
+        NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
+        aRegex = [currentRegexStyle objectAtIndex:0];
+        style = [currentRegexStyle objectAtIndex:1];
+
+        NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [style objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
+                                   [theDocument fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
+                                    nil];
+        
+        NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:aRange] objectEnumerator];
+        while ((aMatch = [matchEnumerator nextObject])) {
+            [aString addAttributes:attributes range:[aMatch rangeOfSubstringAtIndex:1]]; // Only color first group.
         }
     }
 }
@@ -235,6 +253,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     NSRange textRange=NSMakeRange(0,[aTextStorage length]);
     double return_after = 0.2;
     BOOL returnvalue = NO;
+    BOOL returncontrol = NO;
     clock_t start_time = clock();
     int chunks=0;
     NSRange dirtyRange;
@@ -256,7 +275,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                 if (chunkRange.length > chunkSize) chunkRange.length = chunkSize;
                 chunkRange = [[aTextStorage string] lineRangeForRange:chunkRange];
 
-                DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
+                //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
 
 
                 [self highlightAttributedString:aTextStorage inRange:chunkRange];
@@ -264,6 +283,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                 
                 if ((((double)(clock()-start_time))/CLOCKS_PER_SEC) > return_after) {
                     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Coloring took too long, aborting after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
+                    returncontrol = YES;
                     break;
                 }
                 
@@ -285,7 +305,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
             }
         }
 
-        if ((((double)(clock()-start_time))/CLOCKS_PER_SEC) > return_after) {
+        if (returncontrol) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Returning control");
             break;
         }

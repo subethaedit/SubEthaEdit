@@ -43,7 +43,7 @@
 - (NSCharacterSet *)invertedTokenSet;
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet;
 - (NSDictionary *)styleForToken:(NSString *)aToken inState:(int)aState;
-- (NSDictionary *)regularExpressionsInState:(int)aState;
+- (NSArray *)regularExpressionsInState:(int)aState;
 - (void)setCombinedStateRegex;
 - (OGRegularExpression *)combinedStateRegex;
 
