@@ -59,6 +59,12 @@ int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
 
+static int s_isRegistered=NO;
+
+int abcde() {
+    return s_isRegistered;
+}
+
 
 NSString * const DefaultPortNumber = @"port";
 NSString * const AddressHistory = @"AddressHistory";
@@ -507,6 +513,7 @@ static AppController *sharedInstance = nil;
         NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
         NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
         if (name && [serial isValidSerial]) {
+            s_isRegistered=YES;
             return NO;
         }
     } else if (selector==@selector(enterSerialNumber:)) {

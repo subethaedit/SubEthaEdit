@@ -12,6 +12,7 @@
 #define kKAHL 'KAHL'
 #define kMOD 'MOD '
 
+int abcde();
 
 @interface AppController : NSObject {
     BOOL I_lastShouldOpenUntitledFile;
