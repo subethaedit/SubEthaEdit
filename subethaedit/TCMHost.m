@@ -54,6 +54,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 - (void)dealloc
 {
+    I_delegate = nil;
     [I_name release];
     [I_addresses release];
     [super dealloc];

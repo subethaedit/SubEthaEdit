@@ -200,6 +200,11 @@
     TCMHost *host = [[notification userInfo] objectForKey:@"host"];
     if (host) {
         [I_resolvedHosts removeObjectForKey:[host name]];
+        int index = [self indexOfItemWithHostname:[host name]];
+        if (index != -1) {
+            [[I_data objectAtIndex:index] setObject:@"Connect to host failed" forKey:@"status"];
+            [O_browserListView reloadData];
+        }
     }
 }
 
