@@ -12,10 +12,12 @@
 #import <Foundation/Foundation.h>
 
 @class DebugUserController;
+@class DebugBEEPController;
 
 @interface DebugController : NSObject
 {
     DebugUserController *I_debugUserController;
+    DebugBEEPController *I_debugBEEPController;
 }
 
 + (DebugController *)sharedInstance;
@@ -23,6 +25,7 @@
 - (void)enableDebugMenu:(BOOL)flag;
 
 - (IBAction)showUsers:(id)aSender;
+- (IBAction)showBEEP:(id)sender;
 
 @end
 

@@ -29,11 +29,11 @@ typedef enum _LineEnding {
 + (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding;
 + (NSString *)UUIDString;
 
-- (BOOL) isValidSerial;
-- (long) base36Value;
+- (BOOL)isValidSerial;
+- (long)base36Value;
 
 - (BOOL)isWhiteSpace;
-- (unsigned) detabbedLengthForRange:(NSRange)aRange tabWidth:(int)aTabWidth;
+- (unsigned)detabbedLengthForRange:(NSRange)aRange tabWidth:(int)aTabWidth;
 - (BOOL)detabbedLength:(unsigned)aLength fromIndex:(unsigned)aFromIndex 
                 length:(unsigned *)rLength upToCharacterIndex:(unsigned *)rIndex
               tabWidth:(int)aTabWidth;

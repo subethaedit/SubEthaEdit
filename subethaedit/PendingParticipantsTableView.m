@@ -17,10 +17,10 @@
         return NSDragOperationDelete;
     }
     
-    return [super draggingSourceOperationMaskForLocal:isLocal];
+    return NSDragOperationMove;
 }
 
-/*
+
 - (void)draggedImage:(NSImage *)anImage endedAt:(NSPoint)aPoint operation:(NSDragOperation)operation {
     NSLog(@"draggedImage:endedAt:operation: %d", operation);
     [super draggedImage:anImage endedAt:aPoint operation:operation];
@@ -31,6 +31,6 @@
         NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, point, NSMakeSize(64, 64), nil, 0, NULL);
     }
 }
-*/
+
 
 @end

@@ -23,6 +23,7 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification;
     NSMutableDictionary *I_sessionInformationByUserID;
     NSMutableSet *I_pendingSessions;
     NSMutableSet *I_pendingSessionProfiles;
+    NSMutableArray *I_sessions;
     
     NSMutableDictionary *I_pendingOutboundSessions;
 }
@@ -35,5 +36,6 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification;
 - (void)connectToHost:(TCMHost *)aHost;
 
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID;
+- (NSArray *)sessions;
 
 @end

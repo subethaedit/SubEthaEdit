@@ -75,6 +75,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_pendingSessionProfiles = [NSMutableSet new];
         I_pendingSessions = [NSMutableSet new];
         I_pendingOutboundSessions = [NSMutableDictionary new];
+        I_sessions = [NSMutableArray new];
     }
     return self;
 }
@@ -87,6 +88,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [I_pendingSessionProfiles release];
     [I_pendingSessions release];
     [I_pendingOutboundSessions release];
+    [I_sessions release];
     [super dealloc];
 }
 
@@ -141,6 +143,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     for (i = 0; i < [addresses count]; i++) {
         NSData *addressData = [addresses objectAtIndex:i];
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
+        [I_sessions addObject:session];
         [outgoingSessions addObject:session];
         [session release];
         [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
@@ -192,6 +195,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     while ((addressData = [addresses nextObject])) {
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
         [[session userInfo] setObject:[aHost name] forKey:@"name"];
+        [I_sessions addObject:session];
         [sessions addObject:session];
         [session release];
         [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
@@ -205,6 +209,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSDictionary *sessionInfo = [I_sessionInformationByUserID objectForKey:aUserID];
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"sessionInfo: %@", sessionInfo);
     return [sessionInfo objectForKey:@"RendezvousSession"];
+}
+
+- (NSArray *)sessions
+{
+    return I_sessions;
 }
 
 #pragma mark -
@@ -543,6 +552,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [aBEEPSession setDelegate:self];
     [aBEEPSession open];
     [I_pendingSessions addObject:aBEEPSession];
+    [I_sessions addObject:aBEEPSession];
 }
 
 @end

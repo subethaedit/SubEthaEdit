@@ -10,6 +10,7 @@
 
 
 #import "DebugController.h"
+#import "DebugBEEPController.h"
 #import "DebugUserController.h"
 
 
@@ -40,9 +41,14 @@ static DebugController * sharedInstance = nil;
         NSMenuItem *debugItem = [[NSMenuItem alloc] initWithTitle:@"Debug" action:nil keyEquivalent:@""];
         NSMenu *menu = [[[NSMenu alloc] initWithTitle:@"Debug"] autorelease];
         
-        NSMenuItem *usersItem=[[NSMenuItem alloc] initWithTitle:@"Show Users" action:@selector(showUsers:) keyEquivalent:@""];
+        NSMenuItem *usersItem = [[NSMenuItem alloc] initWithTitle:@"Show Users" action:@selector(showUsers:) keyEquivalent:@""];
         [usersItem setTarget:self];
         [menu addItem:usersItem];
+        
+        NSMenuItem *BEEPItem = [[NSMenuItem alloc] initWithTitle:@"Show Sessions & Channels" action:@selector(showBEEP:) keyEquivalent:@""];
+        [BEEPItem setTarget:self];
+        [menu addItem:BEEPItem];
+                
         [debugItem setSubmenu:menu];
         [[NSApp mainMenu] addItem:debugItem];
         [debugItem release];
@@ -53,12 +59,19 @@ static DebugController * sharedInstance = nil;
 
 - (IBAction)showUsers:(id)aSender {
     if (!I_debugUserController) {
-        I_debugUserController=[DebugUserController new];
+        I_debugUserController = [DebugUserController new];
     }
     [I_debugUserController showWindow:aSender];
 }
 
+- (IBAction)showBEEP:(id)sender {
+    if (!I_debugBEEPController) {
+        I_debugBEEPController = [DebugBEEPController new];
+    }
+    [I_debugBEEPController showWindow:sender];
+}
 
 @end
+
 
 #endif

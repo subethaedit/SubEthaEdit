@@ -252,8 +252,14 @@
     [[self delegate] closedChannelWithNumber:channelNumber];
 }
 
+- (void)TCM_processErrorMessage:(TCMBEEPMessage *)aMessage
+{
+}
+
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage
 {
+    #warning "check for message types MSG, RPY and ERR"
+    
     // remove MIME Header
     NSData *contentData = [aMessage payload];
     // find "\r\n\r\n"
@@ -316,7 +322,7 @@
                     [self TCM_processOKMessage:aMessage];
                 } else if ([@"error" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
                     DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found error element...");
-
+                    [self TCM_processErrorMessage:aMessage];
                 } else {
                     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"No valid element was found!");
                 }

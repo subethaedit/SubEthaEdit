@@ -718,10 +718,13 @@
 				14E92E2B06396E210099D67B,
 				144BC77105EE26B0006397BC,
 				144BC77205EE26B0006397BC,
+				14CF2C4506428E7000D430AA,
+				14CF2C4606428E7000D430AA,
 				5E4CCE24063BE22D00D03B71,
 				5E4CCE25063BE22D00D03B71,
 				144BC7C305EE43B6006397BC,
 				5E4CCE28063BE3A400D03B71,
+				14CF2C4906428EA900D430AA,
 			);
 			isa = PBXGroup;
 			name = Debug;
@@ -1465,6 +1468,50 @@
 		};
 		14CF29190641457200D430AA = {
 			fileRef = 14CF29170641457200D430AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14CF2C4506428E7000D430AA = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = DebugBEEPController.h;
+			path = Debug/DebugBEEPController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14CF2C4606428E7000D430AA = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = DebugBEEPController.m;
+			path = Debug/DebugBEEPController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14CF2C4706428E7100D430AA = {
+			fileRef = 14CF2C4506428E7000D430AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14CF2C4806428E7100D430AA = {
+			fileRef = 14CF2C4606428E7000D430AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14CF2C4906428EA900D430AA = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = DebugBEEP.nib;
+			path = Debug/DebugBEEP.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14CF2C4A06428EA900D430AA = {
+			fileRef = 14CF2C4906428EA900D430AA;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4256,6 +4303,7 @@
 				5EA9826506400C2200FD5B65,
 				5EA982820640FC6D00FD5B65,
 				14CF29180641457200D430AA,
+				14CF2C4706428E7100D430AA,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4336,6 +4384,7 @@
 				3138EEB7063FB82400BF5C1F,
 				5EA9823A063FF3EA00FD5B65,
 				5EA982860641001800FD5B65,
+				14CF2C4A06428EA900D430AA,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4437,6 +4486,7 @@
 				5EA9826606400C2200FD5B65,
 				5EA982830640FC6D00FD5B65,
 				14CF29190641457200D430AA,
+				14CF2C4806428E7100D430AA,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

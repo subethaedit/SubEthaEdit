@@ -206,6 +206,11 @@ subethaedit/AppController.h -text
 subethaedit/AppController.m -text
 subethaedit/ButtonScrollView.h -text
 subethaedit/ButtonScrollView.m -text
+subethaedit/Debug/DebugBEEP.nib/classes.nib -text
+subethaedit/Debug/DebugBEEP.nib/info.nib -text
+subethaedit/Debug/DebugBEEP.nib/keyedobjects.nib -text
+subethaedit/Debug/DebugBEEPController.h -text
+subethaedit/Debug/DebugBEEPController.m -text
 subethaedit/Debug/DebugController.h -text
 subethaedit/Debug/DebugController.m -text
 subethaedit/Debug/DebugPreferences.h -text

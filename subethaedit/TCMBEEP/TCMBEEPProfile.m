@@ -74,6 +74,16 @@
     NSLog(@"You should have overridden this!");
 }
 
+- (void)channelDidClose
+{
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidClose: %@", NSStringFromClass([self class]));
+}
+
+- (void)channelDidNotCloseWithError:(NSError *)error
+{
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidNotCloseWithError: %@", NSStringFromClass([self class]));
+}
+
 - (void)cleanup
 {
     DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"cleanup profile");

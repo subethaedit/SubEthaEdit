@@ -1,0 +1,15 @@
+{
+    IBClasses = (
+        {
+            CLASS = DebugBEEPController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_sessionController" = NSArrayController; 
+                "O_sessionManagerController" = NSObjectController; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
