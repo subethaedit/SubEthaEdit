@@ -66,6 +66,19 @@
     [document release];
 }
 
+- (NSArray *)documentsInMode:(DocumentMode *)aDocumentMode {
+    NSMutableArray *result=[NSMutableArray array];
+    NSEnumerator *documents=[[self documents] objectEnumerator];
+    PlainTextDocument *document=nil;
+    while ((document=[documents nextObject])) {
+        if ([[document documentMode] isEqual:aDocumentMode]) {
+            [result addObject:document];
+        }
+    }
+    return result;
+}
+
+
 - (IBAction)goIntoBundles:(id)sender {
     BOOL flag = ([sender state] == NSOffState) ? NO : YES;
     [I_openPanel setTreatsFilePackagesAsDirectories:flag];

@@ -11,6 +11,7 @@
 @class TCMMMSession;
 @class EncodingPopUpButton;
 @class DocumentModePopUpButton;
+@class DocumentMode;
 
 @interface DocumentController : NSDocumentController {
     IBOutlet NSView *O_openPanelAccessoryView;
@@ -38,6 +39,8 @@
 - (IBAction)goIntoBundles:(id)sender;
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession;
+
+- (NSArray *)documentsInMode:(DocumentMode *)aDocumentMode;
 
 - (NSStringEncoding)encodingFromLastRunOpenPanel;
 - (NSString *)modeIdentifierFromLastRunOpenPanel;
