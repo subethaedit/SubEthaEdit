@@ -32,6 +32,18 @@ extern NSString * const DocumentModeRowsPreferenceKey                   ;
 extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
 extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
 extern NSString * const DocumentModeSpellCheckingPreferenceKey          ;
+
+extern NSString * const DocumentModeExportPreferenceKey                    ;
+extern NSString * const DocumentModeExportHTMLPreferenceKey                ;
+extern NSString * const DocumentModeHTMLExportAddCurrentDatePreferenceKey  ;
+extern NSString * const DocumentModeHTMLExportHighlightSyntaxPreferenceKey ;
+extern NSString * const DocumentModeHTMLExportShowAIMAndEmailPreferenceKey ;
+extern NSString * const DocumentModeHTMLExportShowChangeMarksPreferenceKey ;
+extern NSString * const DocumentModeHTMLExportShowParticipantsPreferenceKey;
+extern NSString * const DocumentModeHTMLExportShowUserImagesPreferenceKey  ;
+extern NSString * const DocumentModeHTMLExportShowVisitorsPreferenceKey    ;
+extern NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey ;
+
 @class SyntaxHighlighter;
 @class RegexSymbolParser;
 

@@ -2625,6 +2625,7 @@
 				1498F2C8062572650021FF8C,
 				5EEB185B05ED0F3700C17677,
 				148892DF06186D94005BDDCB,
+				5ED0C78D06F6010B002E7C81,
 				148892D806186C76005BDDCB,
 				14840CF7061AF8640082EA0A,
 				5E43E09F0639771800DF31A0,
@@ -4827,6 +4828,30 @@
 			settings = {
 			};
 		};
+		5ED0C78D06F6010B002E7C81 = {
+			children = (
+				5ED0C78E06F6010B002E7C81,
+			);
+			isa = PBXVariantGroup;
+			name = Export.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5ED0C78E06F6010B002E7C81 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/Export.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5ED0C78F06F6010B002E7C81 = {
+			fileRef = 5ED0C78D06F6010B002E7C81;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5ED305B80601BF6C00C38815 = {
 			children = (
 				1469B47106EDBD6200863288,
@@ -5791,6 +5816,7 @@
 				1469B49C06EDBF5400863288,
 				5ED0BC8B06F592B9002E7C81,
 				145808E306F5C8B0000905EE,
+				5ED0C78F06F6010B002E7C81,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

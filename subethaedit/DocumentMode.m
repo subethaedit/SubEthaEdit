@@ -40,6 +40,17 @@ NSString * const DocumentModeUseDefaultFontPreferenceKey       = @"UseDefaultFon
 NSString * const DocumentModeForegroundColorPreferenceKey      = @"ForegroundColor"  ;
 NSString * const DocumentModeBackgroundColorPreferenceKey      = @"BackgroundColor"  ;
 
+NSString * const DocumentModeExportPreferenceKey               = @"Export";
+NSString * const DocumentModeExportHTMLPreferenceKey           = @"HTML";
+NSString * const DocumentModeHTMLExportAddCurrentDatePreferenceKey   = @"AddCurrentDate"; 
+NSString * const DocumentModeHTMLExportHighlightSyntaxPreferenceKey  = @"HighlightSyntax"; 
+NSString * const DocumentModeHTMLExportShowAIMAndEmailPreferenceKey  = @"ShowAIMAndEmail"; 
+NSString * const DocumentModeHTMLExportShowChangeMarksPreferenceKey  = @"ShowChangeMarks"; 
+NSString * const DocumentModeHTMLExportShowParticipantsPreferenceKey = @"ShowParticipants"; 
+NSString * const DocumentModeHTMLExportShowUserImagesPreferenceKey   = @"ShowUserImages"; 
+NSString * const DocumentModeHTMLExportShowVisitorsPreferenceKey     = @"ShowVisitors"; 
+NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey  = @"WrittenByHovers"; 
+
 static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 @implementation DocumentMode
@@ -158,6 +169,28 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                forKey:DocumentModeUseDefaultFontPreferenceKey];
             }
         }
+
+        NSMutableDictionary *export=[I_defaults objectForKey:DocumentModeExportPreferenceKey];
+        export = export?[[export mutableCopy] autorelease]:[NSMutableDictionary dictionary];
+        [I_defaults setObject:export forKey:DocumentModeExportPreferenceKey];
+
+        NSMutableDictionary *html=[export objectForKey:DocumentModeExportHTMLPreferenceKey];
+        if (!html) {
+            NSNumber *yes=[NSNumber numberWithBool:YES];
+            html=[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                yes,DocumentModeHTMLExportAddCurrentDatePreferenceKey  ,
+                yes,DocumentModeHTMLExportHighlightSyntaxPreferenceKey ,
+                yes,DocumentModeHTMLExportShowAIMAndEmailPreferenceKey ,
+                yes,DocumentModeHTMLExportShowChangeMarksPreferenceKey ,
+                yes,DocumentModeHTMLExportShowParticipantsPreferenceKey,
+                yes,DocumentModeHTMLExportShowUserImagesPreferenceKey  ,
+                yes,DocumentModeHTMLExportShowVisitorsPreferenceKey    ,
+                yes,DocumentModeHTMLExportWrittenByHoversPreferenceKey ,
+                nil];
+        } else {
+            html=[[html mutableCopy] autorelease];
+        }
+        [export setObject:html forKey:DocumentModeExportHTMLPreferenceKey];
         
         [I_defaults addObserver:self
                      forKeyPath:DocumentModeEncodingPreferenceKey

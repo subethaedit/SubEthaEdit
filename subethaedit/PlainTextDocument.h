@@ -70,6 +70,9 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSDictionary *I_fileAttributes;
     NSDictionary *I_ODBParameters;
     
+    IBOutlet NSWindow *O_exportSheet;
+    IBOutlet NSObjectController *O_exportSheetController;
+    
     IBOutlet NSView *O_savePanelAccessoryView;
     IBOutlet NSView *O_savePanelAccessoryView2;
     IBOutlet NSButton *O_goIntoBundlesCheckbox;
@@ -235,6 +238,13 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)highlightSyntaxInRange:(NSRange)aRange;
 - (void)performHighlightSyntax;
 - (void)highlightSyntaxLoop;
+
+#pragma mark ### Export ###
+
+- (IBAction)exportDocument:(id)aSender;
+- (IBAction)cancelExport:(id)aSender;
+- (IBAction)continueExport:(id)aSender;
+
 
 #pragma mark -
 #pragma mark ### Session Interaction ###
