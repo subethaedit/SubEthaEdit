@@ -20,17 +20,17 @@
     NSMutableDictionary *I_netServiceBrowsers;
 }
 
-#pragma -
-#pragma ### Accessors ###
+#pragma mark -
+#pragma mark ### Accessors ###
 - (NSMutableArray *)foundNetServices;
 - (NSMutableArray *)servicesToBrowseFor;
--(void)setServicesToBrowseFor:(NSMutableArray *)aArray;
+- (void)setServicesToBrowseFor:(NSMutableArray *)aArray;
 
-#pragma -
-#pragma ### Actions ###
+#pragma mark -
+#pragma mark ### Actions ###
 - (IBAction)stopAndRestart:(id)aSender;
 
-#pragma -
+#pragma mark -
 - (void)startBrowsing;
 - (void) stopBrowsing;
 - (void)          removeServicesOfType:(NSString *)aServiceType;
