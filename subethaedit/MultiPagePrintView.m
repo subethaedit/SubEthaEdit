@@ -157,15 +157,15 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     // happy paginating:
     I_pageCount=0;
     NSPrintInfo *printInfo = [[NSPrintOperation currentOperation] printInfo];
-    NSDictionary *printInfoDictionary = [printInfo dictionary];
+    NSDictionary *printDictionary = [I_document printOptions];
     //NSLog(@"PrintInfo: %@",[[[[printInfo dictionary] mutableCopy] autorelease] description]);
 
     SyntaxHighlighter *highlighter=nil;
-    if ([[printInfoDictionary objectForKey:@"SEEHighlightSyntax"] boolValue]) {
+    if ([[printDictionary objectForKey:@"SEEHighlightSyntax"] boolValue]) {
         highlighter=[[I_document documentMode] syntaxHighlighter];
     }
 
-    BOOL copyFirst=([[printInfoDictionary objectForKey:@"SEEColorizeSyntax"] boolValue] != [I_document highlightsSyntax]);
+    BOOL copyFirst=([[printDictionary objectForKey:@"SEEColorizeSyntax"] boolValue] != [I_document highlightsSyntax]);
     
     int i=0;
     for (i=0;i<2;i++) {
@@ -180,10 +180,10 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     }
 
     BOOL needToEnforceWhiteBackground=
-        ([[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue] && 
+        ([[printDictionary objectForKey:@"SEEWhiteBackground"] boolValue] && 
          [[[I_document documentMode] defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue]);
 
-    if (![[printInfoDictionary objectForKey:@"SEEHighlightSyntax"] boolValue]) {
+    if (![[printDictionary objectForKey:@"SEEHighlightSyntax"] boolValue]) {
         [I_textStorage addAttribute:NSForegroundColorAttributeName value:needToEnforceWhiteBackground?[NSColor blackColor]:[I_document documentForegroundColor] range:NSMakeRange(0,[I_textStorage length])];
         [I_textStorage addAttribute:NSFontAttributeName value:[I_document fontWithTrait:0] 
             range:NSMakeRange(0,[I_textStorage length])];
@@ -193,24 +193,24 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     
     
     if (needToEnforceWhiteBackground && highlighter) {
-        if ([[printInfoDictionary objectForKey:@"SEEUseCustomFont"] boolValue]) {
-            NSDictionary *fontAttributes=[printInfoDictionary objectForKey:@"SEEFontAttributes"];
+        if ([[printDictionary objectForKey:@"SEEUseCustomFont"] boolValue]) {
+            NSDictionary *fontAttributes=[printDictionary objectForKey:@"SEEFontAttributes"];
             NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
             if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
             I_baseFont=[newFont retain];
         } else {
             NSFont *newFont=[I_document fontWithTrait:0];
-            if ([[printInfoDictionary objectForKey:@"SEEResizeDocumentFont"] boolValue]) {
-                newFont=[[NSFontManager sharedFontManager] convertFont:newFont toSize:[[printInfoDictionary objectForKey:@"SEEResizeDocumentFontTo"] floatValue]];
+            if ([[printDictionary objectForKey:@"SEEResizeDocumentFont"] boolValue]) {
+                newFont=[[NSFontManager sharedFontManager] convertFont:newFont toSize:[[printDictionary objectForKey:@"SEEResizeDocumentFontTo"] floatValue]];
             }
             I_baseFont=[newFont retain];
         }
         [highlighter updateStylesInTextStorage:I_textStorage ofDocument:self];
     } else {
-        if (![[printInfoDictionary objectForKey:@"SEEUseCustomFont"] boolValue]) {
-            if ([[printInfoDictionary objectForKey:@"SEEResizeDocumentFont"] boolValue]) {
+        if (![[printDictionary objectForKey:@"SEEUseCustomFont"] boolValue]) {
+            if ([[printDictionary objectForKey:@"SEEResizeDocumentFont"] boolValue]) {
                 NSFontManager *fontManager=[NSFontManager sharedFontManager];
-                float newSize=[[printInfoDictionary objectForKey:@"SEEResizeDocumentFontTo"] floatValue];
+                float newSize=[[printDictionary objectForKey:@"SEEResizeDocumentFontTo"] floatValue];
                 if (newSize<=0.) newSize=4.;
                 if (lineNumberSize > newSize) lineNumberSize=newSize;
                 NSRange wholeRange=NSMakeRange(0,[I_textStorage length]);
@@ -225,7 +225,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
             }
         } else {
             NSFontManager *fontManager=[NSFontManager sharedFontManager];
-            NSDictionary *fontAttributes=[printInfoDictionary objectForKey:@"SEEFontAttributes"];
+            NSDictionary *fontAttributes=[printDictionary objectForKey:@"SEEFontAttributes"];
             NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
             if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
             if (lineNumberSize > [newFont pointSize]) lineNumberSize=[newFont pointSize];
@@ -249,18 +249,18 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     
     I_pageSize=[printInfo paperSize];
     I_textContainerSize=I_pageSize;
-    // NSLog(@"left:%f, top:%f, right:%f, bottom:%f",[printInfo leftMargin],[printInfo topMargin],[printInfo rightMargin],[printInfo bottomMargin]);
-    I_textContainerSize.width  -= [printInfo leftMargin] + [printInfo rightMargin];
-    I_textContainerSize.height -= [printInfo topMargin] + [printInfo bottomMargin];
+    // NSLog(@"left:%f, top:%f, right:%f, bottom:%f",[[printDictionary objectForKey:NSPrintLeftMargin] floatValue],[[printDictionary objectForKey:NSPrintTopMargin] floatValue],[[printDictionary objectForKey:NSPrintRightMargin] floatValue],[[printDictionary objectForKey:NSPrintBottomMargin] floatValue]);
+    I_textContainerSize.width  -= [[printDictionary objectForKey:NSPrintLeftMargin] floatValue] + [[printDictionary objectForKey:NSPrintRightMargin] floatValue];
+    I_textContainerSize.height -= [[printDictionary objectForKey:NSPrintTopMargin] floatValue] + [[printDictionary objectForKey:NSPrintBottomMargin] floatValue];
 
-    I_textContainerOrigin.x=[printInfo leftMargin];
-    I_textContainerOrigin.y=[printInfo topMargin];
+    I_textContainerOrigin.x=[[printDictionary objectForKey:NSPrintLeftMargin] floatValue];
+    I_textContainerOrigin.y=[[printDictionary objectForKey:NSPrintTopMargin] floatValue];
 
     
     NSUserDefaults *standardUserDefaults=[NSUserDefaults standardUserDefaults];
 
-    if ([[printInfoDictionary objectForKey:@"SEEPageHeader"] boolValue]) {
-        I_headerTextView =[[NSTextView alloc] initWithFrame:NSMakeRect([printInfo leftMargin],[printInfo rightMargin],I_textContainerSize.width,I_textContainerSize.height)];
+    if ([[printDictionary objectForKey:@"SEEPageHeader"] boolValue]) {
+        I_headerTextView =[[NSTextView alloc] initWithFrame:NSMakeRect([[printDictionary objectForKey:NSPrintLeftMargin] floatValue],[[printDictionary objectForKey:NSPrintRightMargin] floatValue],I_textContainerSize.width,I_textContainerSize.height)];
         [[I_headerTextView textContainer] setLineFragmentPadding:0.];
         [I_headerTextView setTextContainerInset:NSMakeSize(0.,0.)];
         [I_headerTextView setDrawsBackground:NO];
@@ -281,12 +281,12 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                     [[NSCalendarDate calendarDate] 
                             descriptionWithCalendarFormat:[standardUserDefaults objectForKey:NSDateFormatString] 
                             locale:(id)standardUserDefaults] ];
-        if ([[printInfoDictionary objectForKey:@"SEEPageHeaderFilename"] boolValue] &&
-            [[printInfoDictionary objectForKey:@"SEEPageHeaderCurrentDate"] boolValue]) {
+        if ([[printDictionary objectForKey:@"SEEPageHeaderFilename"] boolValue] &&
+            [[printDictionary objectForKey:@"SEEPageHeaderCurrentDate"] boolValue]) {
             [self setHeaderFormatString:[NSString stringWithFormat:@"%1$@\t%2$@\n%3$@",[self printJobTitle],@"%1$@",date]];
-        } else if ([[printInfoDictionary objectForKey:@"SEEPageHeaderFilename"] boolValue]) {
+        } else if ([[printDictionary objectForKey:@"SEEPageHeaderFilename"] boolValue]) {
             [self setHeaderFormatString:[NSString stringWithFormat:@"%1$@\t%2$@",[self printJobTitle],@"%1$@"]];
-        } else if ([[printInfoDictionary objectForKey:@"SEEPageHeaderCurrentDate"] boolValue]) {
+        } else if ([[printDictionary objectForKey:@"SEEPageHeaderCurrentDate"] boolValue]) {
             [self setHeaderFormatString:[NSString stringWithFormat:@"%1$@\t%2$@",date,@"%1$@"]];
         } else {
             [self setHeaderFormatString:@"\t%1$@"];
@@ -313,7 +313,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
 
     float legendHeight=0.;    
     // Contributors and Visitors at the first page
-    if ([[printInfoDictionary objectForKey:@"SEEParticipants"] boolValue]) {
+    if ([[printDictionary objectForKey:@"SEEParticipants"] boolValue]) {
         NSSet *contributorIDs=[I_document userIDsOfContributors];
         NSEnumerator *contributorEnumerator=[[[I_document session] contributors] objectEnumerator];
         TCMMMUser *contributor=nil;
@@ -341,15 +341,15 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         [I_visitorArray     sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
 
         I_measures.contributorWidth=2*LEGENDIMAGEPADDING+I_measures.contributorNameWidth+
-                                    ([[printInfoDictionary objectForKey:@"SEEParticipantImages"] boolValue]?LEGENDTABLEENTRYHEIGHT:0)+
-                                    ([[printInfoDictionary objectForKey:@"SEEParticipantsAIMAndEmail"] boolValue]?MAX(I_measures.contributorAIMWidth,I_measures.contributorEmailWidth)+2*LEGENDIMAGEPADDING+I_measures.emailAIMLabelWidth:0);
+                                    ([[printDictionary objectForKey:@"SEEParticipantImages"] boolValue]?LEGENDTABLEENTRYHEIGHT:0)+
+                                    ([[printDictionary objectForKey:@"SEEParticipantsAIMAndEmail"] boolValue]?MAX(I_measures.contributorAIMWidth,I_measures.contributorEmailWidth)+2*LEGENDIMAGEPADDING+I_measures.emailAIMLabelWidth:0);
                                     
 
         I_measures.visitorWidth=2*LEGENDIMAGEPADDING+I_measures.visitorNameWidth+
-                                ([[printInfoDictionary objectForKey:@"SEEParticipantImages"] boolValue]?LEGENDTABLEENTRYHEIGHT:0)+
-                                ([[printInfoDictionary objectForKey:@"SEEParticipantsAIMAndEmail"] boolValue]?MAX(I_measures.visitorAIMWidth,I_measures.visitorEmailWidth)+2*LEGENDIMAGEPADDING+I_measures.emailAIMLabelWidth:0);
+                                ([[printDictionary objectForKey:@"SEEParticipantImages"] boolValue]?LEGENDTABLEENTRYHEIGHT:0)+
+                                ([[printDictionary objectForKey:@"SEEParticipantsAIMAndEmail"] boolValue]?MAX(I_measures.visitorAIMWidth,I_measures.visitorEmailWidth)+2*LEGENDIMAGEPADDING+I_measures.emailAIMLabelWidth:0);
         
-        if ([[printInfoDictionary objectForKey:@"SEEParticipantsVisitors"] boolValue]) {
+        if ([[printDictionary objectForKey:@"SEEParticipantsVisitors"] boolValue]) {
             float visitorHeight=LEGENDTABLEHEADERHEIGHT+LEGENDTABLEENTRYHEIGHT*[I_visitorArray count];
             if (I_measures.contributorWidth+2*LEGENDIMAGEPADDING+I_measures.visitorWidth>I_textContainerSize.width) {
                 legendHeight+=visitorHeight;
@@ -359,7 +359,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         }
 
         I_contributorCount=[I_contributorArray count];
-        I_visitorCount = [[printInfoDictionary objectForKey:@"SEEParticipantsVisitors"] boolValue]?[I_visitorArray count]:0;
+        I_visitorCount = [[printDictionary objectForKey:@"SEEParticipantsVisitors"] boolValue]?[I_visitorArray count]:0;
         I_contributorIndex=0;
         I_visitorIndex=0;
 
@@ -437,7 +437,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     }
 
     // setup Paragraph Style and add line Numbers
-    BOOL lineNumbers=[[printInfoDictionary objectForKey:@"SEELineNumbers"] boolValue];
+    BOOL lineNumbers=[[printDictionary objectForKey:@"SEELineNumbers"] boolValue];
     
     NSRange lastGlyphRange=NSMakeRange(NSNotFound,0);
     if ([I_textStorage length]>0) {
@@ -505,20 +505,20 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
 
         // prepare for Annotation and Background
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
-        if ([[printInfoDictionary objectForKey:@"SEEColorizeChangeMarks"] boolValue] ||
-            [[printInfoDictionary objectForKey:@"SEEAnnotateChangeMarks"] boolValue]) {
+        if ([[printDictionary objectForKey:@"SEEColorizeChangeMarks"] boolValue] ||
+            [[printDictionary objectForKey:@"SEEAnnotateChangeMarks"] boolValue]) {
             NSRange foundRange=NSMakeRange(0,0);
             NSRange wholeRange=NSMakeRange(0,[I_textStorage length]);
             while (NSMaxRange(wholeRange)>NSMaxRange(foundRange)) {
                 NSString *userID=[I_textStorage attribute:ChangedByUserIDAttributeName atIndex:NSMaxRange(foundRange) longestEffectiveRange:&foundRange inRange:wholeRange];
                 if (userID) {
-                    if ([[printInfoDictionary objectForKey:@"SEEAnnotateChangeMarks"] boolValue]) {
+                    if ([[printDictionary objectForKey:@"SEEAnnotateChangeMarks"] boolValue]) {
                         [I_textStorage addAttribute:@"AnnotateID" value:userID range:foundRange];
                     }
-                    if ([[printInfoDictionary objectForKey:@"SEEColorizeChangeMarks"] boolValue]) {
+                    if ([[printDictionary objectForKey:@"SEEColorizeChangeMarks"] boolValue]) {
                         TCMMMUser *user=[userManager userForUserID:userID];
                         NSColor *changeColor=[user changeColor];
-                        NSColor *userBackgroundColor=[[[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor] blendedColorWithFraction:
+                        NSColor *userBackgroundColor=[[[printDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor] blendedColorWithFraction:
                                             [standardUserDefaults floatForKey:ChangesSaturationPreferenceKey]/100.
                                          ofColor:changeColor];
                         [I_textStorage addAttribute:@"PrintBackgroundColour" value:userBackgroundColor range:foundRange];
@@ -527,8 +527,8 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
             }
         }
 
-        if ([[printInfoDictionary objectForKey:@"SEEColorizeWrittenBy"] boolValue] ||
-            [[printInfoDictionary objectForKey:@"SEEAnnotateWrittenBy"] boolValue]) {
+        if ([[printDictionary objectForKey:@"SEEColorizeWrittenBy"] boolValue] ||
+            [[printDictionary objectForKey:@"SEEAnnotateWrittenBy"] boolValue]) {
             NSRange foundRange=NSMakeRange(0,0);
             NSRange wholeRange=NSMakeRange(0,[I_textStorage length]);
             while (NSMaxRange(wholeRange)>NSMaxRange(foundRange)) {
@@ -536,13 +536,13 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                                                 atIndex:NSMaxRange(foundRange) 
                                                 longestEffectiveRange:&foundRange inRange:wholeRange];
                 if (userID) {
-                    if ([[printInfoDictionary objectForKey:@"SEEAnnotateWrittenBy"] boolValue]) {
+                    if ([[printDictionary objectForKey:@"SEEAnnotateWrittenBy"] boolValue]) {
                         [I_textStorage addAttribute:@"AnnotateID" value:userID range:foundRange];
                     }
-                    if ([[printInfoDictionary objectForKey:@"SEEColorizeWrittenBy"] boolValue]) {
+                    if ([[printDictionary objectForKey:@"SEEColorizeWrittenBy"] boolValue]) {
                         TCMMMUser *user=[userManager userForUserID:userID];
                         NSColor *changeColor=[user changeColor];
-                        NSColor *userBackgroundColor=[[[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor] blendedColorWithFraction:
+                        NSColor *userBackgroundColor=[[[printDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor] blendedColorWithFraction:
                                             [standardUserDefaults floatForKey:ChangesSaturationPreferenceKey]/100.
                                          ofColor:changeColor];
                         [I_textStorage addAttribute:@"PrintBackgroundColour" value:userBackgroundColor range:foundRange];
@@ -567,7 +567,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     [self setFrame:NSMakeRect(0.,0.,I_pageSize.width,0.)];
     NSPoint origin=I_textContainerOrigin;
     do {
-        BOOL leftPage=I_pageCount%2 && [[printInfoDictionary objectForKey:@"SEEFacingPages"] boolValue];
+        BOOL leftPage=I_pageCount%2 && [[printDictionary objectForKey:@"SEEFacingPages"] boolValue];
         overflew=NO;
         if (I_pageCount<I_pagesWithLegend-1) {
             overflew = YES;
@@ -578,12 +578,12 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
             }
             if (containerSize.height>0) { 
                 NSTextContainer *textContainer=[[NSTextContainer alloc] initWithContainerSize:containerSize];
-                NSTextView *textview= [[PrintTextView alloc] initWithFrame:NSMakeRect(leftPage?[printInfo rightMargin]:origin.x,origin.y+((I_pageCount==I_pagesWithLegend-1)?legendHeight:0.),
+                NSTextView *textview= [[PrintTextView alloc] initWithFrame:NSMakeRect(leftPage?[[printDictionary objectForKey:NSPrintRightMargin] floatValue]:origin.x,origin.y+((I_pageCount==I_pagesWithLegend-1)?legendHeight:0.),
                                                                         containerSize.width,containerSize.height)
                                                           textContainer:textContainer];
                 [textview setHorizontallyResizable:NO];
                 [textview setVerticallyResizable:NO];
-                [textview setBackgroundColor:[[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor]];
+                [textview setBackgroundColor:[[printDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor]];
                 [I_layoutManager addTextContainer:textContainer];
                 [self addSubview:textview];
                 NSRange glyphRange=[I_layoutManager glyphRangeForTextContainer:textContainer];
@@ -625,28 +625,27 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     }
 
     NSUserDefaults *standardUserDefaults=[NSUserDefaults standardUserDefaults];
-    NSPrintInfo *printInfo = [[NSPrintOperation currentOperation] printInfo];
-    NSDictionary *printInfoDictionary = [printInfo dictionary];
+    NSDictionary *printDictionary = [I_document printOptions];
 
 
     if (!isVisitor && 
-        ([[printInfoDictionary objectForKey:@"SEEColorizeChangeMarks"] boolValue] ||
-         [[printInfoDictionary objectForKey:@"SEEColorizeWrittenBy"]   boolValue])) {
+        ([[printDictionary objectForKey:@"SEEColorizeChangeMarks"] boolValue] ||
+         [[printDictionary objectForKey:@"SEEColorizeWrittenBy"]   boolValue])) {
         NSColor *changeColor=[aUser changeColor];
-        NSColor *userBackgroundColor=[[[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor] blendedColorWithFraction:
+        NSColor *userBackgroundColor=[[[printDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor] blendedColorWithFraction:
                             [standardUserDefaults floatForKey:ChangesSaturationPreferenceKey]/100.
                          ofColor:changeColor];
         [userBackgroundColor set];
         [NSBezierPath fillRect:NSMakeRect(point.x,point.y,(isVisitor?I_measures.visitorNameWidth:I_measures.contributorNameWidth)+LEGENDIMAGEPADDING*2+
-            ([[printInfoDictionary objectForKey:@"SEEParticipantImages"] boolValue]?LEGENDTABLEENTRYHEIGHT:0),
+            ([[printDictionary objectForKey:@"SEEParticipantImages"] boolValue]?LEGENDTABLEENTRYHEIGHT:0),
             LEGENDTABLEENTRYHEIGHT)];
-        [S_nameAttributes setObject:[[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor blackColor]:[I_document documentForegroundColor] forKey:NSForegroundColorAttributeName];
+        [S_nameAttributes setObject:[[printDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor blackColor]:[I_document documentForegroundColor] forKey:NSForegroundColorAttributeName];
     } else {
         [S_nameAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     }
 
     NSPoint textPoint=point;
-    if ([[printInfoDictionary objectForKey:@"SEEParticipantImages"] boolValue]) {
+    if ([[printDictionary objectForKey:@"SEEParticipantImages"] boolValue]) {
         
         NSRect myPictureRect=NSMakeRect(point.x+LEGENDIMAGEPADDING,point.y+LEGENDIMAGEPADDING,
                                         LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING,
@@ -671,7 +670,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     //                textPoint.y+=LEGENDIMAGEPADDING;
     textPoint.x+=(isVisitor?I_measures.visitorNameWidth:I_measures.contributorNameWidth)+LEGENDIMAGEPADDING*2;
     
-    if ([[printInfoDictionary objectForKey:@"SEEParticipantsAIMAndEmail"] boolValue]) {
+    if ([[printDictionary objectForKey:@"SEEParticipantsAIMAndEmail"] boolValue]) {
         [mutableAttributedString replaceCharactersInRange:NSMakeRange(0,[mutableAttributedString length]) withString:@""];
         
         NSString *aim=[[aUser properties] objectForKey:@"AIM"];
@@ -715,19 +714,18 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
 }
 
 - (void)drawRect:(NSRect)rect {
-    NSPrintInfo *printInfo = [[NSPrintOperation currentOperation] printInfo];
-    NSDictionary *printInfoDictionary = [printInfo dictionary];
+    NSDictionary *printDictionary = [I_document printOptions];
 
     int currentPage=(int)(rect.origin.y/I_pageSize.height)+1;
-    BOOL leftPage=(currentPage-1)%2 && [[printInfoDictionary objectForKey:@"SEEFacingPages"] boolValue];
-    float originX=leftPage?[printInfo rightMargin]:[printInfo leftMargin];
-    if ([[printInfoDictionary objectForKey:@"SEEPageHeader"] boolValue]) {
+    BOOL leftPage=(currentPage-1)%2 && [[printDictionary objectForKey:@"SEEFacingPages"] boolValue];
+    float originX=leftPage?[[printDictionary objectForKey:NSPrintRightMargin] floatValue]:[[printDictionary objectForKey:NSPrintLeftMargin] floatValue];
+    if ([[printDictionary objectForKey:@"SEEPageHeader"] boolValue]) {
 
         // Drawing code here.
         // NSLog(@"drawRect: %@", NSStringFromRect(rect));
         // move header to current location
         NSRect headerFrame=[I_headerTextView frame];
-        headerFrame.origin.y=(currentPage-1)*I_pageSize.height+[printInfo topMargin];
+        headerFrame.origin.y=(currentPage-1)*I_pageSize.height+[[printDictionary objectForKey:NSPrintTopMargin] floatValue];
         headerFrame.origin.x=originX;
         [I_headerTextView setFrame:headerFrame];
         
@@ -750,7 +748,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                   width:0.5];
     }
 
-    if ([[printInfoDictionary objectForKey:@"SEEParticipants"] boolValue] && currentPage<=I_pagesWithLegend) {
+    if ([[printDictionary objectForKey:@"SEEParticipants"] boolValue] && currentPage<=I_pagesWithLegend) {
 
         NSPoint origin=NSMakePoint(rect.origin.x+I_textContainerOrigin.x,(currentPage-1)*I_pageSize.height+I_textContainerOrigin.y);
         origin.x=originX;
@@ -849,7 +847,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                 float tableWidth=(visitors?I_measures.visitorWidth:I_measures.contributorWidth);
                 
                 if (visitors) {
-                    if ([[printInfoDictionary objectForKey:@"SEEParticipantsVisitors"] boolValue]) {
+                    if ([[printDictionary objectForKey:@"SEEParticipantsVisitors"] boolValue]) {
                         if (I_measures.contributorWidth+2*LEGENDIMAGEPADDING+I_measures.visitorWidth<I_textContainerSize.width
                             && I_contributorCount-I_contributorIndex>0) {
                             cursor.x+=I_measures.contributorWidth+2*LEGENDIMAGEPADDING;
@@ -902,7 +900,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
 //    [[NSColor redColor] set];
 //    NSRectFill(rect);
 //    [[NSColor greenColor] set];
-//    NSFrameRect(NSMakeRect(rect.origin.x+[printInfo leftMargin],rect.origin.y+[printInfo topMargin],I_textContainerSize.width,I_textContainerSize.height));
+//    NSFrameRect(NSMakeRect(rect.origin.x+[[printDictionary objectForKey:NSPrintLeftMargin] floatValue],rect.origin.y+[[printDictionary objectForKey:NSPrintTopMargin] floatValue],I_textContainerSize.width,I_textContainerSize.height));
 }
 
 - (NSRect)rectForPage:(int)page {

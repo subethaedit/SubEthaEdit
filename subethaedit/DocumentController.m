@@ -36,6 +36,7 @@
 - (id)init {
     self = [super init];
     if (self) {
+        I_isOpeningUntitledDocument = NO;
         I_fileNamesFromLastRunOpenPanel = [NSMutableArray new];
         I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
@@ -64,6 +65,19 @@
     [document showWindows];
     [document release];
 }
+
+- (NSArray *)documentsInMode:(DocumentMode *)aDocumentMode {
+    NSMutableArray *result=[NSMutableArray array];
+    NSEnumerator *documents=[[self documents] objectEnumerator];
+    PlainTextDocument *document=nil;
+    while ((document=[documents nextObject])) {
+        if ([[document documentMode] isEqual:aDocumentMode]) {
+            [result addObject:document];
+        }
+    }
+    return result;
+}
+
 
 - (IBAction)goIntoBundles:(id)sender {
     BOOL flag = ([sender state] == NSOffState) ? NO : YES;
@@ -170,7 +184,14 @@
 }
 
 - (id)openUntitledDocumentOfType:(NSString *)docType display:(BOOL)display {
-    return [super openUntitledDocumentOfType:docType display:display];
+    I_isOpeningUntitledDocument = YES;
+    NSDocument *document = [super openUntitledDocumentOfType:docType display:display];
+    I_isOpeningUntitledDocument = NO;
+    return document;
+}
+
+- (BOOL)isOpeningUntitledDocument {
+    return I_isOpeningUntitledDocument;
 }
 
 static NSString *tempFileName() {
@@ -403,6 +424,10 @@ static NSString *tempFileName() {
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
+            if (![properties objectForKey:@"mode"]) {
+                DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+                [properties setObject:[mode documentModeIdentifier] forKey:@"mode"];
+            }
             [document setScriptingProperties:properties];
             [(PlainTextDocument *)document setTemporaryDisplayName:[fileName lastPathComponent]];
             [(PlainTextDocument *)document setDirectoryForSavePanel:[fileName stringByDeletingLastPathComponent]];

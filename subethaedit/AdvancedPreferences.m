@@ -31,7 +31,8 @@
 
 - (void)mainViewDidLoad {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    [O_disableScreenFontsButton setState:[[defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] floatValue]<=1.?NSOnState:NSOffState];
+    BOOL disableState=([defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] && [[defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] floatValue]<=1.);
+    [O_disableScreenFontsButton setState:disableState?NSOnState:NSOffState];
     [O_synthesiseFontsButton setState:[defaults boolForKey:SynthesiseFontsPreferenceKey]?NSOnState:NSOffState];
 }
 

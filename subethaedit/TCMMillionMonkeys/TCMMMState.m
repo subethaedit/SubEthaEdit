@@ -31,7 +31,7 @@
 }
 
 - (void)dealloc {
-    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"MMState incoming messages %@",[I_incomingMessages description]);
+    // DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"MMState incoming messages %@",[I_incomingMessages description]);
     I_client = nil;
     I_delegate = nil;
     [I_timer invalidate];
@@ -69,6 +69,9 @@
 
 - (void)setClient:(NSObject <TCMMMStateClientProtocol> *)aClient {
     I_client = aClient;
+    if (!I_client) {
+        [self setIsSendingNoOps:NO];
+    }
 }
 
 - (void)setDelegate:(id)aDelegate {

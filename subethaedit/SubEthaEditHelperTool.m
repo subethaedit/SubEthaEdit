@@ -168,6 +168,42 @@ static OSStatus ExchangeFileContents(CFStringRef path1, CFStringRef path2, CFDic
     return status;
 }
 
+static OSStatus AquireRight(AuthorizationRef auth)
+{
+    OSStatus err;
+    static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+    static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                               | kAuthorizationFlagInteractionAllowed
+                                               | kAuthorizationFlagExtendRights
+                                               ;
+    AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+    AuthorizationRights rights = { 1, &right };
+
+    // Before doing our privileged work, acquire an authorization right.
+    // This allows the system administrator to configure the system 
+    // (via "/etc/authorization") for the security level that they want.
+    //
+    // Unfortunately, the default rule in "/etc/authorization" always 
+    // triggers a password dialog.  Right now, there's no way around 
+    // this [2939908].  One commonly accepted workaround is to not 
+    // acquire a authorization right (ie don't call AuthorizationCopyRights
+    // here) but instead limit your tool in some other way.  For example, 
+    // an Internet setup assistant helper tool might only allow the user 
+    // to modify network locations that they created.
+    
+    #if MORE_DEBUG
+        fprintf(stderr, "MoreSecurityTest: HelperTool: Calling ACR\n");
+    #endif
+
+    err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+
+    #if MORE_DEBUG
+        fprintf(stderr, "MoreSecurityTest: HelperTool: ACR returned %ld\n", err);
+    #endif
+    
+    return err;
+}
+
 static OSStatus TestToolCommandProc(AuthorizationRef auth, CFDictionaryRef request, CFDictionaryRef *result)
 	// Our command callback for MoreSecHelperToolMain.  Extracts 
 	// the command name from the request dictionary and calls 
@@ -191,23 +227,38 @@ static OSStatus TestToolCommandProc(AuthorizationRef auth, CFDictionaryRef reque
     if (err == noErr) {
         if (CFEqual(command, CFSTR("GetFileDescriptor"))) {
             CFStringRef fileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("FileName"));
-            err = GetFileDescriptor(fileName, result);
+            err = AquireRight(auth);
+            if (err == noErr) {
+                err = GetFileDescriptor(fileName, result);
+            }
         } else if (CFEqual(command, CFSTR("ExchangeFileContents"))) {
             CFStringRef intermediateFileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("IntermediateFileName"));
             CFStringRef actualFileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("ActualFileName"));
             CFDictionaryRef attributes = (CFDictionaryRef)CFDictionaryGetValue(request, CFSTR("Attributes"));
-            err = ExchangeFileContents(intermediateFileName, actualFileName, attributes, result);
+            err = AquireRight(auth);
+            if (err == noErr) {
+                err = ExchangeFileContents(intermediateFileName, actualFileName, attributes, result);
+            }
         } else if (CFEqual(command, CFSTR("CopyFiles"))) {
             CFStringRef sourceFile = (CFStringRef)CFDictionaryGetValue(request, CFSTR("SourceFile"));
             CFStringRef targetFile = (CFStringRef)CFDictionaryGetValue(request, CFSTR("TargetFile"));
             CFDictionaryRef targetAttrs = (CFDictionaryRef)CFDictionaryGetValue(request, CFSTR("TargetAttributes"));
-            err = CopyFiles(sourceFile, targetFile, targetAttrs, result);
+            err = AquireRight(auth);
+            if (err == noErr) {
+                err = CopyFiles(sourceFile, targetFile, targetAttrs, result);
+            }
         } else if (CFEqual(command, CFSTR("RemoveFiles"))) {
             CFArrayRef files = (CFArrayRef)CFDictionaryGetValue(request, CFSTR("Files"));
-            err = RemoveFiles(files, result);
+            err = AquireRight(auth);
+            if (err == noErr) {
+                err = RemoveFiles(files, result);
+            }
         } else if (CFEqual(command, CFSTR("GetReadOnlyFileDescriptor"))) {
             CFStringRef fileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("FileName"));
-            err = GetReadOnlyFileDescriptor(fileName, result);
+            err = AquireRight(auth);
+            if (err == noErr) {
+                err = GetReadOnlyFileDescriptor(fileName, result);
+            }
         }
     }
     return err;

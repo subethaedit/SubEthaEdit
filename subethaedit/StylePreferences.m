@@ -21,12 +21,14 @@
     self = [super init];
     if (self) {
         I_baseStyleDictionary=[NSMutableDictionary new];
+        I_undoManager=[NSUndoManager new];
     }
     return self;
 }
 
 - (void)dealloc {
     [I_baseStyleDictionary release];
+    [I_undoManager release];
     [super dealloc];
 }
 
@@ -93,6 +95,8 @@
 
 - (void)updateBackgroundColor {
     NSDictionary *baseStyle=[[[O_styleController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
+    [O_backgroundColorWell         setColor:[baseStyle objectForKey:@"background-color"]         ];
+    [O_invertedBackgroundColorWell setColor:[baseStyle objectForKey:@"inverted-background-color"]]; 
     [O_stylesTableView setLightBackgroundColor:[baseStyle objectForKey:@"background-color"]];
     [O_stylesTableView setDarkBackgroundColor: [baseStyle objectForKey:@"inverted-background-color"]];
     [O_stylesTableView reloadData];
@@ -238,6 +242,35 @@
     [[O_boldButton superview] setNeedsDisplay:YES];
 }
 
+- (NSUndoManager *)undoManager {
+    return I_undoManager;
+}
+
+- (void)setStyle:(SyntaxStyle *)aStyle {
+    // style now
+    DocumentMode *mode=[aStyle documentMode];
+    SyntaxStyle *styleToRegister=[[[mode syntaxStyle] copy] autorelease];
+    [I_undoManager registerUndoWithTarget:self selector:@selector(setStyle:) object:styleToRegister];
+    NSIndexSet *newSelection=[SyntaxStyle indexesWhereStyle:aStyle isNotEqualToStyle:styleToRegister];
+    [mode setSyntaxStyle:aStyle];
+    if (![[O_modePopUpButton selectedMode] isEqualTo:mode]) {
+        [O_modePopUpButton setSelectedMode:mode];
+        [self changeMode:O_modePopUpButton];
+    } else {
+        I_currentSyntaxStyle=aStyle;
+        [O_stylesTableView reloadData];
+    }
+    [O_stylesTableView selectRowIndexes:newSelection byExtendingSelection:NO];
+    [O_stylesTableView scrollRowToVisible:[newSelection firstIndex]];
+    [self updateBackgroundColor];
+    [self updateInspector];
+}
+
+
+- (void)storeCurrentStyleForUndo {
+    [I_undoManager registerUndoWithTarget:self selector:@selector(setStyle:) object:[[I_currentSyntaxStyle copy] autorelease]];
+}
+
 #pragma mark -
 #pragma mark IBActions
 
@@ -252,18 +285,21 @@
 }
 
 - (IBAction)changeLightBackgroundColor:(id)aSender {
+    [self storeCurrentStyleForUndo];
     NSMutableDictionary *baseStyle=[I_currentSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier];
     [baseStyle setObject:[aSender color] forKey:@"background-color"];
     [self updateBackgroundColor];
 }
 
 - (IBAction)changeDarkBackgroundColor:(id)aSender {
+    [self storeCurrentStyleForUndo];
     NSMutableDictionary *baseStyle=[I_currentSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier];
     [baseStyle setObject:[aSender color] forKey:@"inverted-background-color"];
     [self updateBackgroundColor];
 }
 
 - (void)setKey:(NSString *)aKey ofSelectedStylesToObject:(id)anObject {
+    [self storeCurrentStyleForUndo];
     NSMutableDictionary *style=nil;
     NSEnumerator *selectedStyles=[self selectedStylesEnumerator];
     while ((style=[selectedStyles nextObject])) {
@@ -282,6 +318,7 @@
 }
 
 - (void)setTrait:(NSFontTraitMask)aTrait ofSelectedStylesTo:(BOOL)aState {
+    [self storeCurrentStyleForUndo];
     NSMutableDictionary *style=nil;
     NSEnumerator *selectedStyles=[self selectedStylesEnumerator];
     while ((style=[selectedStyles nextObject])) {
@@ -360,14 +397,11 @@
     if (aReturnCode == NSAlertFirstButtonReturn) {
         NSEnumerator *styles=[[dictionary objectForKey:@"style"] objectEnumerator];
         SyntaxStyle *style=nil;
+        [I_undoManager beginUndoGrouping];
         while ((style = [styles nextObject])) {
-            [[style documentMode] setSyntaxStyle:style];
+            [self setStyle:style];
         }
-        style=[[dictionary objectForKey:@"style"] lastObject];
-        if (style) {
-            [O_modePopUpButton setSelectedMode:[style documentMode]];
-            [self changeMode:O_modePopUpButton];
-        }
+        [I_undoManager endUndoGrouping];
     } else if (aReturnCode == NSAlertThirdButtonReturn) {
         [[DocumentController sharedInstance] openDocumentWithContentsOfFile:[dictionary objectForKey:@"filename"] display:YES];
     }
@@ -382,6 +416,7 @@
 }
 
 - (IBAction)export:(id)aSender {
+    I_shouldExportAll = ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) != 0;
     NSSavePanel *savePanel=[NSSavePanel savePanel];
     [savePanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
     [savePanel setCanCreateDirectories:YES];
@@ -390,7 +425,7 @@
     [savePanel setTreatsFilePackagesAsDirectories:YES];
     [savePanel setRequiredFileType:@"seestyle"];
     [savePanel beginSheetForDirectory:nil 
-        file:[[[[[I_currentSyntaxStyle documentMode]  documentModeIdentifier] componentsSeparatedByString:@"."] lastObject] stringByAppendingPathExtension:@"seestyle"] 
+        file:[I_shouldExportAll?NSLocalizedString(@"StylePrefsIconLabel",@""):[[[[I_currentSyntaxStyle documentMode]  documentModeIdentifier] componentsSeparatedByString:@"."] lastObject] stringByAppendingPathExtension:@"seestyle"] 
         modalForWindow:[O_stylesTableView window] 
         modalDelegate:self 
         didEndSelector:@selector(exportSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
@@ -398,17 +433,19 @@
 
 - (void)exportSheetDidEnd:(NSSavePanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
     if (aReturnCode==NSOKButton) {
-        [[[I_currentSyntaxStyle xmlFileRepresentation] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:[aPanel filename] atomically:YES];
+        [[I_shouldExportAll?[DocumentModeManager xmlFileRepresentationOfAllStyles]:[I_currentSyntaxStyle xmlFileRepresentation] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:[aPanel filename] atomically:YES];
     }
 }
 
 - (IBAction)revertToMode:(id)aSender {
+    [self storeCurrentStyleForUndo];
     DocumentMode *mode=[I_currentSyntaxStyle documentMode];
     [mode setSyntaxStyle:[[[mode defaultSyntaxStyle] copy] autorelease]];
     [self changeMode:O_modePopUpButton];
 }
 
 - (IBAction)revertSelectionToMode:(id)aSender {
+    [self storeCurrentStyleForUndo];
     NSMutableDictionary *style=nil;
     NSEnumerator *selectedStyles=[self selectedStylesEnumerator];
     SyntaxStyle *defaultStyle=[[O_modePopUpButton selectedMode] defaultSyntaxStyle];

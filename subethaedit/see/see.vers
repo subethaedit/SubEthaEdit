@@ -1,2 +1,3 @@
 const char *gToolVersion = "#PLACEHOLDER#";
-const char *gToolVersionString = "1.0";
+const int gToolVersionMajor = 1;
+const int gToolVersionMinor = 0;

@@ -18,6 +18,7 @@ extern NSString * const SyntaxStyleBaseIdentifier;
     NSMutableArray *I_keyArray;
 }
 
++ (NSIndexSet *)indexesWhereStyle:(SyntaxStyle *)aStyle isNotEqualToStyle:(SyntaxStyle *)aStyle;
 + (BOOL)style:(NSDictionary *)aStyle isEqualToStyle:(NSDictionary *)anotherStyle;
 + (NSArray *)syntaxStylesWithXMLFile:(NSString *)aPath;
 

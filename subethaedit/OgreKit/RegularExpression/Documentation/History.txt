@@ -1,3 +1,21 @@
+2004-10-20 Isao Sonobe  <sonobe@gauge.scphys.kyoto-u.ac.jp>
+
+	* OgreKit[dep]: 
+	release ver.2.0.0beta9.
+
+	* Oniguruma[dist]: 
+	import ver.3.3.1.
+
+2004-10-20 Isao Sonobe  <sonobe@gauge.scphys.kyoto-u.ac.jp>
+
+	* OgreKit[dep]: 
+	release ver.2.0.0beta8.
+
+	* Oniguruma[dist]: 
+	import ver.3.3.0.
+	Sorry, I forgot to update the Oniguruma.
+	(thanks Martin Ott)
+
 2004-09-26 Isao Sonobe  <sonobe@gauge.scphys.kyoto-u.ac.jp>
 
 	* OgreKit[dep]: 

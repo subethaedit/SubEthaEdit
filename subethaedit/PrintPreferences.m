@@ -18,7 +18,7 @@ static NSArray *S_relevantPrintOptionKeys=nil;
 + (NSArray *)relevantPrintOptionKeys {
     if (!S_relevantPrintOptionKeys) {
         S_relevantPrintOptionKeys=
-        [[NSArray arrayWithObjects:@"NSTopMargin",@"NSLeftMargin",@"NSRightMargin",@"NSBottomMargin",@"SEEFacingPages",
+        [[NSArray arrayWithObjects:NSPrintLeftMargin,NSPrintRightMargin,NSPrintBottomMargin,NSPrintTopMargin,@"SEEFacingPages",
                                    @"SEEParticipants", @"SEEParticipantImages", 
                                    @"SEEParticipantsAIMAndEmail", @"SEEParticipantsVisitors",
                                    @"SEEHighlightSyntax", @"SEELineNumbers", 
@@ -77,11 +77,13 @@ static NSArray *S_relevantPrintOptionKeys=nil;
 
 - (void)validateDefaultState {
     if ([[I_currentMode defaultForKey:DocumentModeUseDefaultPrintPreferenceKey] boolValue]) {
-        [I_defaultModeDictionary removeAllObjects];
-        [I_defaultModeDictionary setDictionary:[[NSKeyedUnarchiver unarchiveObjectWithData:[[DocumentModeManager baseMode] defaultForKey:DocumentModePrintInfoPreferenceKey]] dictionary]];
+        if ([I_defaultModeDictionary count]<=0) {
+            [I_defaultModeDictionary removeAllObjects];
+            [I_defaultModeDictionary setDictionary:[[[[DocumentModeManager baseMode] defaultForKey:DocumentModePrintOptionsPreferenceKey] copy] autorelease]];
+        }
         [O_printOptionController setContent:I_defaultModeDictionary];
         [self setSubviewsOfView:O_printOptionView enabled:NO];
-    } else{
+    } else {
         [self setSubviewsOfView:O_printOptionView enabled:YES];
         [O_printOptionController setContent:I_printDictionary];
     }
@@ -116,9 +118,8 @@ static NSString *S_measurementUnits;
 
 - (IBAction)changeMode:(id)aSender {
     DocumentMode *newMode=[aSender selectedMode];
-    NSPrintInfo *printInfo=[NSKeyedUnarchiver unarchiveObjectWithData:[newMode defaultForKey:DocumentModePrintInfoPreferenceKey]];
     NSMutableDictionary *myDictionary=[I_printDictionary autorelease];
-    I_printDictionary=[[NSMutableDictionary dictionaryWithDictionary:[printInfo dictionary]] retain];
+    I_printDictionary=[[newMode defaultForKey:DocumentModePrintOptionsPreferenceKey] mutableCopy];
     NSEnumerator *keyPaths=[[PrintPreferences relevantPrintOptionKeys] objectEnumerator];
     NSString     *keyPath=nil;
     while ((keyPath=[keyPaths nextObject])) {
@@ -134,17 +135,8 @@ static NSString *S_measurementUnits;
 
 - (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)anObject change:(NSDictionary *)aChange context:(void *)aContext {
 //    DEBUGLOG(@"Blah",AlwaysLogLevel,@"%@ %@ %@",aKeyPath,anObject,aChange);
-    NSPrintInfo *printInfo=[NSKeyedUnarchiver unarchiveObjectWithData:[I_currentMode defaultForKey:DocumentModePrintInfoPreferenceKey]];
-    NSEnumerator *keyPaths=[[PrintPreferences relevantPrintOptionKeys] objectEnumerator];
-    NSString     *keyPath=nil;
-    while ((keyPath=[keyPaths nextObject])) {
-        id value=[I_printDictionary objectForKey:keyPath];
-        if (value) {
-            [[printInfo dictionary] setObject:value forKey:keyPath];
-        }
-    }
-    [[I_currentMode defaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:printInfo] 
-                                 forKey:DocumentModePrintInfoPreferenceKey];
+    [[I_currentMode defaults] setObject:[[I_printDictionary mutableCopy] autorelease] 
+                                 forKey:DocumentModePrintOptionsPreferenceKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:PrintPreferencesDidChangeNotification object:I_currentMode];
 }
 

@@ -12,10 +12,19 @@
 #define kKAHL 'KAHL'
 #define kMOD 'MOD '
 
+int abcde();
+@class TCMIdleTimer;
 
 @interface AppController : NSObject {
-
+    BOOL I_lastShouldOpenUntitledFile;
+    TCMIdleTimer *I_idleTimer;
 }
+
++ (AppController *)sharedInstance;
+
+- (BOOL)applicationIsIdling;
+
+- (BOOL)lastShouldOpenUntitledFile;
 
 - (IBAction)undo:(id)aSender;
 - (IBAction)redo:(id)aSender;

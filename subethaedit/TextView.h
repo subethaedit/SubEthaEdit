@@ -13,6 +13,7 @@
     struct {
         BOOL shouldCheckCompleteStart;
     } I_flags;
+    NSTimer *I_timer;
 }
 + (void)setDefaultMenu:(NSMenu *)aMenu;
 @end

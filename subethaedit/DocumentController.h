@@ -11,6 +11,7 @@
 @class TCMMMSession;
 @class EncodingPopUpButton;
 @class DocumentModePopUpButton;
+@class DocumentMode;
 
 @interface DocumentController : NSDocumentController {
     IBOutlet NSView *O_openPanelAccessoryView;
@@ -19,6 +20,8 @@
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSPanel *O_modeHintPanel;
     NSOpenPanel *I_openPanel;
+    
+    BOOL I_isOpeningUntitledDocument;
     
     NSStringEncoding I_encodingFromLastRunOpenPanel;
     NSString *I_modeIdentifierFromLastRunOpenPanel;
@@ -37,10 +40,14 @@
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession;
 
+- (NSArray *)documentsInMode:(DocumentMode *)aDocumentMode;
+
 - (NSStringEncoding)encodingFromLastRunOpenPanel;
 - (NSString *)modeIdentifierFromLastRunOpenPanel;
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument;
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;
+
+- (BOOL)isOpeningUntitledDocument;
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)handlePrintScriptCommand:(NSScriptCommand *)command;

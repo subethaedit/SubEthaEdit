@@ -1,9 +1,8 @@
-
 This document explains the syntax of SubEthaEdit's underlying regular expression engine, Oniguruma. If you need help with basic regular expression authoring have a look at http://www.regular-expressions.info/
 
-----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
-Oniguruma Regular Expressions     2004/04/22
+Oniguruma Regular Expressions     2004/08/24
 
 syntax: ONIG_SYNTAX_RUBY (default)
 
@@ -22,23 +21,26 @@ syntax: ONIG_SYNTAX_RUBY (default)
   \v           vertical tab   (0x0B)
   \n           newline        (0x0A)
   \r           return         (0x0D)
-  \b           back space     (0x08) (* in character class only)
+  \b           back space     (0x08)
   \f           form feed      (0x0C)
   \a           bell           (0x07)
   \e           escape         (0x1B)
-  \nnn         octal char
-  \xHH         hexadecimal char
-  \x{7HHHHHHH} wide hexadecimal char
-  \cx          control char
-  \C-x         control char
-  \M-x         meta  (x|0x80)  
-  \M-\C-x      meta control char
+  \nnn         octal char            (encoded byte value)
+  \xHH         hexadecimal char      (encoded byte value)
+  \x{7HHHHHHH} wide hexadecimal char (character code point value)
+  \cx          control char          (character code point value)
+  \C-x         control char          (character code point value)
+  \M-x         meta  (x|0x80)        (character code point value)
+  \M-\C-x      meta control char     (character code point value)
+
+ (* \b is effective in character class [...] only)
 
 
 3. Character types
 
   .        any character (except newline)
-  \w       word character (alphanumeric, "_" and multibyte char)
+  \w       word character
+           (alphanumeric, "_" and multibyte char. See also "A-6. Problems")
   \W       non-word char
   \s       whitespace char (\t, \n, \v, \f, \r, \x20)
   \S       non-whitespace char
@@ -65,8 +67,7 @@ syntax: ONIG_SYNTAX_RUBY (default)
     +?      1 or more times
     {n,m}?  at least n but not more than m times  
     {n,}?   at least n times
-    {,n}?   at least 0 but not more than n times ({0,n}?)
-    {n}?    n times (no meaning, but same as Perl)
+    {,n}?   at least 0 but not more than n times (== {0,n}?)
 
   possessive (greedy and does not backtrack after repeated)
 
@@ -88,12 +89,13 @@ syntax: ONIG_SYNTAX_RUBY (default)
   \A      beginning of string
   \Z      end of string, or before newline at the end
   \z      end of string
-  \G      previous end-of-match position
+  \G      matching start position
+          (Ruby: previous end-of-match position)
 
 
 6. Character class
 
-  [^...]  negative class (lowest precedence operator)
+  ^...    negative class (lowest precedence operator)
   x-y     range from x to y
   [...]   set (character class in character class)
   ..&&..  intersection (low precedence at the next of ^)
@@ -101,7 +103,7 @@ syntax: ONIG_SYNTAX_RUBY (default)
     ex. [a-w&&[^c-g]z] ==> ([a-w] AND ([^c-g] OR z)) ==> [abh-w]
 
   * If you want to use '[', '-', ']' as a normal character
-     in a character class, you should escape these characters by '\'.
+    in a character class, you should escape these characters by '\'.
 
 
   POSIX bracket ([:xxxxx:], negate [:^xxxxx:])
@@ -279,6 +281,9 @@ A-4. Differences with Japanized GNU regex(version 0.12) of Ruby
      a multibyte code char in character class if multibyte encoding
      is specified.
      (ex. [\xa1\xa2], [\xa1\xa7-\xa4\xa1])
+   + allow the range of single byte char and multibyte char in character
+     class.
+     ex. /[a-<<any EUC-JP character>>]/ in EUC-JP encoding.
    + effect range of isolated option is to next ')'.
      ex. (?:(?i)a|b) is interpreted as (?:(?i:a|b)), not (?:(?i:a)|b).
    + isolated option is not transparent to previous pattern.
@@ -295,6 +300,8 @@ A-4. Differences with Japanized GNU regex(version 0.12) of Ruby
      /a{,n}/ == /a{0,n}/
      The simultanious abbreviation of the number of times of the minimum
      and the maximum is not allowed. (/a{,}/)
+   + /a{n}?/ is not a non-greedy operator.
+     /a{n}?/ == /(?:a{n})?/
    + Zero-length match in infinite repeat stops the repeat,
      then changes of the capture group status are checked as stop condition.
      /(?:()|())*\1\2/ =~ ""
@@ -314,21 +321,21 @@ A-5. Disabled functions by default syntax
 
 A-6. Problems
 
-   + Invalid first byte as a character in UTF-8 is allowed.
-     (which is the same as GNU regex of Ruby)
+   + Invalid encoding byte sequence is not checked in UTF-8.
 
+     * Invalid first byte is treated as a character.
        /./u =~ "\xa3"
 
-     Although it is possible to validate,
-     it will become slower than now.
+     * Incomplete byte sequence is not checked.
+       /\w+/ =~ "a\xf3\x8ec"
 
 
-   + Character type of multibyte encoded character is not correct.
+   + Character types of multibyte encoded characters are not correct.
 
      All multibyte encoded characters are treated as word(\w) character.
-     (and [:graph:], [:print:] type in character class)
+     (and POSIX bracket [:graph:], [:print:] type)
 
-     In UTF-8, only the multibyte character in code point
+     In UTF-8 and UTF-16, only the multibyte character in code point
      [U+0080 - U+00FF] is correctly judged in a character type.
 
 // END

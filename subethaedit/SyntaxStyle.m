@@ -37,6 +37,24 @@ static NSArray *S_possibleStyleColors;
     return YES;
 }
 
++ (NSIndexSet *)indexesWhereStyle:(SyntaxStyle *)aStyle isNotEqualToStyle:(SyntaxStyle *)anotherStyle {
+    if ([[aStyle documentMode] isEqual:[anotherStyle documentMode]]) {
+        NSMutableIndexSet *result=[NSMutableIndexSet indexSet];
+        NSArray *allKeys=[aStyle allKeys];
+        unsigned int i=0;
+        unsigned int count=[allKeys count];
+        for (i=0;i<count;i++) {
+            NSString *styleID=[allKeys objectAtIndex:i];
+            if (![SyntaxStyle style:[aStyle styleForKey:styleID] isEqualToStyle:[anotherStyle styleForKey:styleID]]) {
+                [result addIndex:i];
+            }
+        }
+        return result;
+    } else {
+        return nil;
+    }
+}
+
 - (void)takeValuesFromModeSubtree:(CFXMLTreeRef)aModeTree {
     int childCount;
     int index;
@@ -295,12 +313,12 @@ static NSArray *S_possibleStyleColors;
                 [[style objectForKey:@"inverted-background-color"] HTMLString]];
         }
     }
-    return [NSString stringWithFormat:@"<mode id=\"%@\">\n%@</mode>",[[self documentMode] documentModeIdentifier],result];
+    return [NSString stringWithFormat:@"<mode id=\"%@\">\n%@</mode>\n",[[self documentMode] documentModeIdentifier],result];
 
 }
 
 - (NSString *)xmlFileRepresentation {
-    return [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<seestyle>\n%@\n</seestyle>",[self xmlRepresentation]];
+    return [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<seestyle>\n%@</seestyle>\n",[self xmlRepresentation]];
 }
 
 

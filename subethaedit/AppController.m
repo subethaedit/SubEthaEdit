@@ -17,6 +17,7 @@
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
 #import "SetupController.h"
+#import "TCMIdleTimer.h"
 
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
@@ -27,6 +28,8 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 #import "DocumentModeManager.h"
+#import "DocumentController.h"
+#import "PlainTextEditor.h"
 #import "TextOperation.h"
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
@@ -59,6 +62,12 @@ int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
 
+static int s_isRegistered=NO;
+
+int abcde() {
+    return s_isRegistered;
+}
+
 
 NSString * const DefaultPortNumber = @"port";
 NSString * const AddressHistory = @"AddressHistory";
@@ -80,6 +89,8 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 #pragma mark -
 
+static AppController *sharedInstance = nil;
+
 @implementation AppController
 
 + (void)initialize {
@@ -100,6 +111,15 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
     [UserChangeOperation class];
     [TCMMMNoOperation class];
+}
+
++ (AppController *)sharedInstance {
+    return sharedInstance;
+}
+
+- (void)awakeFromNib {
+    sharedInstance = self;
+    I_lastShouldOpenUntitledFile = NO;
 }
 
 - (void)registerTransformers {
@@ -288,12 +308,6 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     
-    //#warning "Termination has to be removed before release!"
-    if ([[NSDate dateWithString:@"2004-11-15 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
-        [NSApp terminate:self];
-        return;
-    }
-    
     [self registerTransformers];
     [self addMe];
     [self setupFileEncodingsSubmenu];
@@ -328,12 +342,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
     if ([SetupController shouldRun]) {
         SetupController *setupController = [SetupController sharedInstance];
-        NSModalSession modalSession = [NSApp beginModalSessionForWindow:[setupController window]];
-        for (;;) {
-            if ([NSApp runModalSession:modalSession] != NSRunContinuesResponse)
-            break;
-        }
-        [NSApp endModalSession:modalSession];
+        (int)[NSApp runModalForWindow:[setupController window]];
     }
     
     // set up beep profiles
@@ -346,6 +355,17 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 
     [InternetBrowserController sharedInstance];
+
+
+    I_idleTimer=[[TCMIdleTimer alloc] initWithBeginInterval:120. repeatInterval:100000000.];
+    [I_idleTimer setDelegate:self];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
+    NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
+    if (name && [serial isValidSerial]) {
+        s_isRegistered=YES;
+    }
+
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -353,17 +373,61 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] setVisible:NO];
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
-//    [[TCMMMBEEPSessionManager sharedInstance] terminateAllBEEPSessions];    
+    //[[TCMMMBEEPSessionManager sharedInstance] terminateAllBEEPSessions];    
 }
 
--(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL isSetupDone = ([defaults objectForKey:SetupVersionPrefKey] != nil);
     if (!isSetupDone) {
+        I_lastShouldOpenUntitledFile = NO;
         return NO;
     }
-    return [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+    BOOL result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+    I_lastShouldOpenUntitledFile = result;
+    return result;
 }
+
+- (BOOL)lastShouldOpenUntitledFile {
+    return I_lastShouldOpenUntitledFile;
+}
+
+- (BOOL)applicationIsIdling {
+    return [I_idleTimer isIdling];
+}
+
+- (void)setNeedsDisplayOnTextViews {
+    NSEnumerator *documents=[[[DocumentController sharedInstance] documents] objectEnumerator];
+    PlainTextDocument *document=nil;
+    while ((document=[documents nextObject])) {
+        NSEnumerator *editors=[[document plainTextEditors] objectEnumerator];
+        PlainTextEditor *editor=nil;
+        while ((editor=[editors nextObject])) {
+            [[editor textView] setNeedsDisplay:YES];
+        }
+    }
+}
+
+- (void)idleTimerDidFire:(id)aSender {
+    // make all textviews draw their background if not registered
+    if (!abcde()) {
+        [self setNeedsDisplayOnTextViews];
+    }
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)aNotification {
+    if (!abcde()) {
+        [self setNeedsDisplayOnTextViews];
+    }
+}
+
+- (void)idleTimerDidStop:(id)aSender {
+    // make all textviews draw their background if not registered
+    if (!abcde() && [NSApp isActive]) {
+        [self setNeedsDisplayOnTextViews];
+    }
+}
+
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {
     static NSMenu *dockMenu=nil;
@@ -443,11 +507,23 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 #pragma mark ### IBActions ###
 
 - (IBAction)undo:(id)aSender {
-    [[[NSDocumentController sharedDocumentController] currentDocument] undo:aSender];
+    id document=[[NSDocumentController sharedDocumentController] currentDocument];
+    if (document) {
+        [document undo:aSender];
+    } else {
+        NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+        [undoManager undo];
+    }
 }
 
 - (IBAction)redo:(id)aSender {
-    [[[NSDocumentController sharedDocumentController] currentDocument] redo:aSender];
+    id document=[[NSDocumentController sharedDocumentController] currentDocument];
+    if (document) {
+        [document redo:aSender];
+    } else {
+        NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+        [undoManager redo];
+    }
 }
 
 - (IBAction)purchaseSubEthaEdit:(id)sender {
@@ -466,20 +542,23 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
         if (currentDocument) {
             return [[currentDocument documentUndoManager] canUndo];
         } else {
-            return NO;
+            NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+            return [undoManager canUndo];
         }
     } else if (selector==@selector(redo:)) {
         PlainTextDocument *currentDocument=[[NSDocumentController sharedDocumentController] currentDocument];
         if (currentDocument) {
             return [[currentDocument documentUndoManager] canRedo];
         } else {
-            return NO;
+            NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+            return [undoManager canRedo];
         }
     } else if (selector==@selector(purchaseSubEthaEdit:)) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
         NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
         if (name && [serial isValidSerial]) {
+            s_isRegistered=YES;
             return NO;
         }
     } else if (selector==@selector(enterSerialNumber:)) {
@@ -494,6 +573,28 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     return YES;
 }
 
+- (void)TCM_showPlainTextFile:(NSString *)fileName {
+
+    NSAppleEventDescriptor *propRecord = [NSAppleEventDescriptor recordDescriptor];
+    [propRecord setDescriptor:[NSAppleEventDescriptor descriptorWithString:@"utf-8"]
+                   forKeyword:'Encd'];                
+
+    ProcessSerialNumber psn = {0, kCurrentProcess};
+    NSAppleEventDescriptor *addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
+    if (addressDescriptor != nil) {
+        NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+
+        [appleEvent setParamDescriptor:propRecord
+                            forKeyword:keyAEPropData];
+        [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:fileName]
+                            forKeyword:'Stdi'];
+        [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:[fileName lastPathComponent]]
+                       forKeyword:'Pipe'];
+        AppleEvent reply;
+        (void)AESendMessage([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
+    }
+}
+
 - (IBAction)showLicense:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"License" ofType:@"rtf"];
     [[NSWorkspace sharedWorkspace] openFile:path];
@@ -501,17 +602,17 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 - (IBAction)showRegExHelp:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RE" ofType:@"txt"];
-    [[NSWorkspace sharedWorkspace] openFile:path];
+    [self TCM_showPlainTextFile:path];
 }
 
 - (IBAction)showReleaseNotes:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"txt"];
-    [[NSWorkspace sharedWorkspace] openFile:path];
+    [self TCM_showPlainTextFile:path];
 }
 
 - (IBAction)showAcknowledgements:(id)sender {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"rtf"];
-    [[NSWorkspace sharedWorkspace] openFile:path];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"txt"];
+    [self TCM_showPlainTextFile:path];
 }
 
 - (IBAction)visitWebsite:(id)sender {

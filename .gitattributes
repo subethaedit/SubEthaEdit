@@ -261,7 +261,7 @@ prototype/xmpp-cli/xmpp.xcode/project.pbxproj -text
 prototype/xmpp-cli/xmpp_Prefix.pch -text
 subethaedit/AboutPanelController.h -text
 subethaedit/AboutPanelController.m -text
-subethaedit/Acknowledgements.rtf -text
+subethaedit/Acknowledgements.txt -text
 subethaedit/AdvancedPreferences.h -text
 subethaedit/AdvancedPreferences.m -text
 subethaedit/AppController.h -text
@@ -334,9 +334,6 @@ subethaedit/English.lproj/Localizable.strings -text svneol=unset#text/plain
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
 subethaedit/English.lproj/MainMenu.nib/info.nib -text
 subethaedit/English.lproj/MainMenu.nib/keyedobjects.nib -text
-subethaedit/English.lproj/OpenDocuments.nib/classes.nib -text
-subethaedit/English.lproj/OpenDocuments.nib/info.nib -text
-subethaedit/English.lproj/OpenDocuments.nib/keyedobjects.nib -text
 subethaedit/English.lproj/OpenPanelAccessory.nib/classes.nib -text
 subethaedit/English.lproj/OpenPanelAccessory.nib/info.nib -text
 subethaedit/English.lproj/OpenPanelAccessory.nib/keyedobjects.nib -text
@@ -346,7 +343,6 @@ subethaedit/English.lproj/PlainTextEditor.nib/keyedobjects.nib -text
 subethaedit/English.lproj/PlainTextWindow.nib/classes.nib -text
 subethaedit/English.lproj/PlainTextWindow.nib/info.nib -text
 subethaedit/English.lproj/PlainTextWindow.nib/keyedobjects.nib -text
-subethaedit/English.lproj/Preferences.strings -text
 subethaedit/English.lproj/PrintOptions.nib/classes.nib -text
 subethaedit/English.lproj/PrintOptions.nib/info.nib -text
 subethaedit/English.lproj/PrintOptions.nib/keyedobjects.nib -text
@@ -368,8 +364,8 @@ subethaedit/English.lproj/Setup.nib/keyedobjects.nib -text
 subethaedit/English.lproj/StylePrefs.nib/classes.nib -text
 subethaedit/English.lproj/StylePrefs.nib/info.nib -text
 subethaedit/English.lproj/StylePrefs.nib/keyedobjects.nib -text
-subethaedit/English.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help[!!-~]idx -text
 subethaedit/English.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
+subethaedit/English.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
 subethaedit/English.lproj/SubEthaEditHelp/css/access.css -text
 subethaedit/English.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 subethaedit/English.lproj/SubEthaEditHelp/html/learn.html -text
@@ -427,7 +423,6 @@ subethaedit/Modes/Applescript.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Applescript.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Base.mode/Contents/Info.plist -text
 subethaedit/Modes/Base.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
-subethaedit/Modes/Base.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/C++.mode/Contents/Info.plist -text
 subethaedit/Modes/C++.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/C++.mode/Contents/Resources/English.lproj/Localizable.strings -text
@@ -836,7 +831,7 @@ subethaedit/OgreKit/RegularExpression/OgreKit.h -text
 subethaedit/OgreKit/RegularExpression/OgreKitWithoutFindPanel/OgreKit.h -text
 subethaedit/OgreKit/RegularExpression/OgreKit_Prefix.pch -text
 subethaedit/OgreKit/RegularExpression/configure.sh -text
-subethaedit/OgreKit/RegularExpression/onigd20040917.tar.gz -text
+subethaedit/OgreKit/RegularExpression/onigd20041018.tar.gz -text
 subethaedit/OgreKit/RegularExpression/version.plist -text
 subethaedit/OgreKit/RegularExpressionTest/Calc.h -text
 subethaedit/OgreKit/RegularExpressionTest/Calc.m -text
@@ -918,6 +913,8 @@ subethaedit/SyntaxHighlighter.h -text
 subethaedit/SyntaxHighlighter.m -text
 subethaedit/SyntaxStyle.h -text
 subethaedit/SyntaxStyle.m -text
+subethaedit/TCMApplication.h -text
+subethaedit/TCMApplication.m -text
 subethaedit/TCMBEEP/TCMBEEP.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.m -text
@@ -937,6 +934,8 @@ subethaedit/TCMBencodingUtilities.h -text
 subethaedit/TCMBencodingUtilities.m -text
 subethaedit/TCMHost.h -text
 subethaedit/TCMHost.m -text
+subethaedit/TCMIdleTimer.h -text
+subethaedit/TCMIdleTimer.m -text
 subethaedit/TCMListView.h -text
 subethaedit/TCMListView.m -text
 subethaedit/TCMMMUserSEEAdditions.h -text
@@ -992,7 +991,6 @@ subethaedit/Tools/convertcolor.pl -text
 subethaedit/Tools/customers2vcf.pl -text
 subethaedit/Tools/parseCocoaEnums.pl -text
 subethaedit/Tools/parseObjCHeadersForAutocomplete.pl -text
-subethaedit/Tools/seeserver.pl -text
 subethaedit/Tools/serials/attackserial.pl -text
 subethaedit/Tools/serials/checkserial.pl -text
 subethaedit/Tools/serials/checkserial/checkserial.xcode/pittenau.pbxuser -text

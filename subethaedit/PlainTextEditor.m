@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import "DocumentController.h"
 #import "PlainTextEditor.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
@@ -1003,22 +1004,6 @@
     [self tabParagraphsInTextView:I_textView de:NO];
 }
 
-- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
-    NSString *itemIdentifier = [toolbarItem itemIdentifier];
-
-    if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {
-        BOOL showsChangeMarks=[(LayoutManager *)[I_textView layoutManager] showsChangeMarks];
-        [toolbarItem setImage:showsChangeMarks
-                              ?[NSImage imageNamed: @"HideChangeMarks"]
-                              :[NSImage imageNamed: @"ShowChangeMarks"]  ];
-        [toolbarItem setLabel:showsChangeMarks
-                              ?NSLocalizedString(@"Hide Changes", nil)
-                              :NSLocalizedString(@"Show Changes", nil)];
-    }
-
-    return YES;
-}
-
 - (IBAction)jumpToNextChange:(id)aSender {
     TextView *textView = (TextView *)[self textView];
     unsigned maxrange=NSMaxRange([textView selectedRange]);
@@ -1229,6 +1214,7 @@
 
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
     [I_textView setDefaultParagraphStyle:[[I_windowController document] defaultParagraphStyle]];
+    [self TCM_updateBottomStatusBar];;
     [self textDidChange:aNotification];
 }
 
@@ -1316,13 +1302,17 @@
 
     // find all matches in the current text for this prefix
     OGRegularExpression *findExpression=[[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"(?<=\\W)%@\\w+",partialWord] options:OgreFindNotEmptyOption];
-    NSEnumerator *matches=[findExpression matchEnumeratorInString:textString];
-    OGRegularExpressionMatch *match=nil;
-    while ((match=[matches nextObject])) {
-        [dictionary setObject:@"Blah" forKey:[match matchedString]];
+    NSEnumerator *documents=[[[DocumentController sharedInstance] documentsInMode:[[self document] documentMode]] objectEnumerator];
+    PlainTextDocument *document=nil;
+    while ((document=[documents nextObject])) {
+        NSEnumerator *matches=[findExpression matchEnumeratorInString:[[document textStorage] string]];
+        OGRegularExpressionMatch *match=nil;
+        while ((match=[matches nextObject])) {
+            [dictionary setObject:@"Blah" forKey:[match matchedString]];
+        }
     }
     [findExpression release];
-    [completions addObjectsFromArray:[[dictionary allKeys] sortedArrayUsingSelector:@selector(compare:)]];
+    [completions addObjectsFromArray:[[dictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
     [dictionary release];
 // Too slow unfortunatly.
 /*    NSArray *paras = [[[self document] textStorage] paragraphs];
