@@ -1010,6 +1010,7 @@ enum {
     }
     [sender setDelegate:nil];
     [I_resolvingHosts removeObjectForKey:[[sender userInfo] objectForKey:@"URLString"]];
+    [self TCM_validateClearButton];
 }
 
 #pragma mark -
