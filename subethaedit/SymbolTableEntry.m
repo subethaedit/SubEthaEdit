@@ -14,7 +14,7 @@
     I_isSeparator=aFlag;  
 }
 
-+ (SymbolTableEntry *)symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType jumpRange:(NSRange)aJumpRange range:(NSRange)aRange {
++ (SymbolTableEntry *)symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType  indentationLevel:(int)anIndentationLevel jumpRange:(NSRange)aJumpRange range:(NSRange)aRange {
     SymbolTableEntry *result=[[SymbolTableEntry new] autorelease];
     [result setName:aName];
     [result setFontTraitMask:aMask];
@@ -22,6 +22,7 @@
     [result setType:aType];
     [result setJumpRange:aJumpRange];
     [result setRange:aRange];
+    [result setIndentationLevel:anIndentationLevel];
     [result setIsSeparator:NO];
     return result;
 }
@@ -78,6 +79,14 @@
 }
 - (void)setRange:(NSRange)aRange {
     I_range=aRange;
+}
+
+- (void)setIndentationLevel:(int)indentationLevel {
+    I_indentationLevel=indentationLevel;
+}
+
+- (int)indentationLevel {
+    return I_indentationLevel;
 }
 
 - (BOOL)isSeparator {

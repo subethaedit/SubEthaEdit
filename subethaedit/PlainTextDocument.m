@@ -333,6 +333,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
                 }
                 [menuItem setAttributedTitle:
                     [[[NSAttributedString alloc] initWithString:[entry name] attributes:attributes] autorelease]];
+                [menuItem setIndentationLevel:[entry indentationLevel]];
                 [I_symbolPopUpMenu addItem:menuItem];
                 [itemsToSort addObject:[[menuItem copy] autorelease]];
                 [menuItem release];

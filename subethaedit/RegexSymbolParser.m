@@ -84,7 +84,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
         int mask = 0;
         NSImage *image = [NSImage imageNamed:@"SymbolM"];
         
-        [returnArray addObject:[SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type jumpRange:jumprange range:fullrange]];
+        [returnArray addObject:[SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:rand()%5 jumpRange:jumprange range:fullrange]];
     }
 
     return returnArray;

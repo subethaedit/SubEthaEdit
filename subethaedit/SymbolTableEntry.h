@@ -16,10 +16,11 @@
     NSString *I_type;
     NSRange  I_jumpRange;
     NSRange  I_range;
+    int      I_indentationLevel;
     BOOL I_isSeparator;
 }
 
-+ (SymbolTableEntry *)symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType jumpRange:(NSRange)aJumpRange range:(NSRange)aRange;
++ (SymbolTableEntry *)symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType indentationLevel:(int)anIndentationLevel jumpRange:(NSRange)aJumpRange range:(NSRange)aRange;
 + (SymbolTableEntry *)symbolTableEntrySeparator;
 
 - (NSString *)name;
@@ -34,5 +35,7 @@
 - (void)setJumpRange:(NSRange)aJumpRange;
 - (NSRange)range;
 - (void)setRange:(NSRange)aRange;
+- (void)setIndentationLevel:(int)aIndentationLevel;
+- (int)indentationLevel;
 - (BOOL)isSeparator;
 @end
