@@ -110,4 +110,22 @@
     return [I_payload length];
 }
 
+- (BOOL)isMSG {
+    return [I_messageTypeString isEqualTo:@"MSG"];
+}
+- (BOOL)isANS{
+    return [I_messageTypeString isEqualTo:@"ANS"];
+}
+- (BOOL)isNUL{
+    return [I_messageTypeString isEqualTo:@"NUL"];
+}
+- (BOOL)isRPY{
+    return [I_messageTypeString isEqualTo:@"RPY"];
+}
+- (BOOL)isERR{
+    return [I_messageTypeString isEqualTo:@"ERR"];
+}
+
+
+
 @end

@@ -35,4 +35,11 @@
 - (NSData *)payload;
 - (unsigned)payloadLength;
 
+// convenience
+- (BOOL)isMSG;
+- (BOOL)isANS;
+- (BOOL)isNUL;
+- (BOOL)isRPY;
+- (BOOL)isERR;
+
 @end
