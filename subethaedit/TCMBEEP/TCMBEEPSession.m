@@ -47,6 +47,18 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     [I_inputStream setDelegate:self];
     [I_outputStream setDelegate:self];
     
+    // Enable TCP keep alive
+    NSData *socketNativeHandleData = [I_inputStream propertyForKey:(NSString *)kCFStreamPropertySocketNativeHandle];
+    if (socketNativeHandleData) {
+        CFSocketNativeHandle socketNativeHandle;
+        [socketNativeHandleData getBytes:&socketNativeHandle length:sizeof(CFSocketNativeHandle)];
+        int yes = 1;
+        int result = setsockopt(socketNativeHandle, SOL_SOCKET, SO_KEEPALIVE, &yes, sizeof(int));
+        if (result == -1) {
+            NSLog(@"Failed to enable TCP keep alive!");
+        }
+    }
+                        
     I_profileURIs = [NSMutableArray new];
     I_peerProfileURIs = [NSMutableArray new];
     
@@ -382,6 +394,22 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
                 // found LF
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:(i - bytesParsed + 1)];
                 I_currentReadFrame = [[TCMBEEPFrame alloc] initWithHeader:(char *)[I_readBuffer bytes]];
+                if ([I_currentReadFrame isSEQ]) {
+                    TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
+                    if (channel) {
+                        BOOL didAccept = [channel acceptFrame:[I_currentReadFrame autorelease]];
+                        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
+                    } else {
+                        [self close];
+                        break;
+                    }
+                    I_currentReadFrame = nil;                    
+                    [I_readBuffer setLength:0];
+                    I_currentReadState = frameHeaderState;
+                    bytesParsed = i + 1;
+                    continue;
+                }
+                
                 if (!I_currentReadFrame) {
                     [self close];
                     break;

@@ -13,6 +13,16 @@
 
 @implementation TCMBEEPFrame
 
++ (TCMBEEPFrame *)SEQFrameWithChannelNumber:(int32_t)channelNumber
+                      acknowledgementNumber:(uint32_t)acknowledgementNumber
+                                 windowSize:(int32_t)windowSize
+{
+    return [[[TCMBEEPFrame alloc] initWithChannelNumber:channelNumber
+                                  acknowledgementNumber:acknowledgementNumber
+                                             windowSize:windowSize] autorelease];
+
+}
+
 + (TCMBEEPFrame *)frameWithMessage:(TCMBEEPMessage *)aMessage 
                     sequenceNumber:(uint32_t)aSequenceNumber
                      payloadLength:(uint32_t)aLength
@@ -22,6 +32,20 @@
                                    sequenceNumber:aSequenceNumber
                                     payloadLength:aLength
                                      intermediate:aFlag] autorelease];
+}
+
+- (id)initWithChannelNumber:(int32_t)channelNumber
+      acknowledgementNumber:(uint32_t)acknowledgementNumber
+                 windowSize:(int32_t)windowSize
+{
+    self = [super init];
+    if (self) {
+        [self setMessageTypeString:@"SEQ"];
+        I_channelNumber = channelNumber;
+        I_sequenceNumber = acknowledgementNumber;
+        I_length = windowSize;  
+    }
+    return self;
 }
 
 - (id)initWithMessage:(TCMBEEPMessage *)aMessage 
@@ -92,13 +116,23 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %d %d - Payload length: %d", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length, [I_payload length]];
+    if ([self isSEQ]) {
+        return [NSString stringWithFormat:@"%3s %d %u %d", I_messageType, I_channelNumber, I_sequenceNumber, I_length];
+    } else {
+        return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %d %d - Payload length: %d", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length, [I_payload length]];
+    }
 }
 
 - (NSData *)descriptionInLogFileFormatIncoming:(BOOL)aFlag
 {
     NSString *prefix = aFlag ? @"> " : @"< ";
     NSMutableData *data = [NSMutableData data];
+    if ([self isSEQ]) {
+        NSString *header = [NSString stringWithFormat:@"%@%3s %d %u %d\r\n", prefix, I_messageType, I_channelNumber, I_sequenceNumber, I_length];
+        [data appendData:[header dataUsingEncoding:NSASCIIStringEncoding]];
+        return data;
+    }
+    
     NSString *header = [NSString stringWithFormat:@"%@%3s %d %d %1s %d %d\r\n", prefix, I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length];
     [data appendData:[header dataUsingEncoding:NSASCIIStringEncoding]];
     NSString *payloadString = [[[NSString alloc] initWithData:I_payload encoding:NSMacOSRomanStringEncoding] autorelease];
@@ -178,10 +212,22 @@
     return (strcmp([self messageType], "ANS") == 0);
 }
 
+- (BOOL)isSEQ
+{
+    return (strcmp([self messageType], "SEQ") == 0);
+}
+
 - (void)appendToMutableData:(NSMutableData *)aData {
     NSString *headerString = nil;
+    
+    if ([self isSEQ]) {
+        headerString = [NSString stringWithFormat:@"%s %d %u %d\r\n", I_messageType, I_channelNumber, I_sequenceNumber, I_length];    
+        [aData appendData:[headerString dataUsingEncoding:NSASCIIStringEncoding]];
+        return;
+    }
+    
     if ([self isANS]) {
-        headerString = [NSString stringWithFormat:@"%s %d %d %s %u %d %d\r\n", I_messageType, I_channelNumber,I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length, I_answerNumber];    
+        headerString = [NSString stringWithFormat:@"%s %d %d %s %u %d %d\r\n", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length, I_answerNumber];    
     } else {
         headerString = [NSString stringWithFormat:@"%s %d %d %s %u %d\r\n", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length];
     }
