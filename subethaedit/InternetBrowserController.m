@@ -113,6 +113,18 @@
 }
 
 - (IBAction)joinSession:(id)aSender {
+    int row = [aSender clickedRow];
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
+    
+    ItemChildPair pair = [aSender itemChildPairAtRow:row];
+    if (pair.childIndex!=-1) {
+        NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
+        NSArray *sessions = [userDict objectForKey:@"Sessions"];
+        TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
+        TCMBEEPSession *BEEPSession = [userDict objectForKey:@"BEEPSession"];
+        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join on session: %@, using BEEPSession: %@", session, BEEPSession);
+        [session joinUsingBEEPSession:BEEPSession];
+    }
 }
 
 - (int)indexOfItemWithHostname:(NSString *)name {
@@ -170,10 +182,12 @@
 
 - (void)TCM_didAcceptSession:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
-    TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];    
-    int index = [self indexOfItemWithHostname:[[session userInfo] objectForKey:@"name"]];
+    TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
+    NSString *hostname = [[session userInfo] objectForKey:@"name"];
+    int index = [self indexOfItemWithHostname:hostname];
     if (index != -1) {
         NSMutableDictionary *item = [I_data objectAtIndex:index];
+        [item setObject:session forKey:@"BEEPSession"];
         [item setObject:@"BEEP session established" forKey:@"status"];
         NSString *userID = [[session userInfo] objectForKey:@"peerUserID"];
         [item setObject:userID forKey:@"UserID"];
@@ -187,9 +201,12 @@
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
-    int index = [self indexOfItemWithHostname:[[session userInfo] objectForKey:@"name"]];
+    NSString *hostname = [[session userInfo] objectForKey:@"name"];
+    int index = [self indexOfItemWithHostname:hostname];
     if (index != -1) {
-        [[I_data objectAtIndex:index] setObject:@"BEEP session ended" forKey:@"status"];
+        NSMutableDictionary *item = [I_data objectAtIndex:index];
+        [item setObject:@"BEEP session ended" forKey:@"status"];
+        [item removeObjectForKey:@"BEEPSession"];
         [O_browserListView reloadData];
     }
 }

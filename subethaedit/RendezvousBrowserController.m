@@ -106,7 +106,7 @@ static RendezvousBrowserController *sharedInstance=nil;
         NSArray *sessions = [userDict objectForKey:@"Sessions"];
         TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
         DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Found session: %@", session);
-        [session join]; // also specify BEEPSession
+        [session joinUsingBEEPSession:nil];
     }
 }
 

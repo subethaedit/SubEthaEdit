@@ -13,7 +13,7 @@ extern NSString * const TCMMMSessionParticipantsDidChangeNotification;
 extern NSString * const TCMMMSessionPendingUsersDidChangeNotification;
 extern NSString * const TCMMMSessionDidChangeNotification;
 
-@class SessionProfile, TCMMMOperation;
+@class SessionProfile, TCMMMOperation, TCMBEEPSession;
 
 typedef enum TCMMMSessionAccessState {
     TCMMMSessionAccessLockedState=0,
@@ -74,7 +74,7 @@ typedef enum TCMMMSessionAccessState {
 
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 
-- (void)join;
+- (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession;
 - (void)cancelJoin;
 - (void)leave;
 - (void)inviteUserWithID:(NSString *)aUserID;

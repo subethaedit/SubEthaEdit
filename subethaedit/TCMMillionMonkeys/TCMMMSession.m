@@ -295,14 +295,17 @@ NSString * const TCMMMSessionDidChangeNotification =
     return sessionDict;
 }
 
-- (void)join
+- (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession
 {
     PlainTextDocument *document=(PlainTextDocument *)[self document];
     if (document) {
         [document showWindows];
     } else {
         [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
-        TCMBEEPSession *session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
+        TCMBEEPSession *session = aBEEPSession;
+        if (!session) {
+            session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
+        }
         I_flags.shouldSendJoinRequest=YES;
         [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
     }

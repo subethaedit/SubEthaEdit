@@ -204,7 +204,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSMutableDictionary *infoDict = [NSMutableDictionary dictionary];
     [infoDict setObject:aHost forKey:@"host"];
     
-    NSMutableSet *sessions = [NSMutableSet set];
+    NSMutableArray *sessions = [NSMutableArray array];
     [infoDict setObject:sessions forKey:@"sessions"];
     
     [I_pendingOutboundSessions setObject:infoDict forKey:[aHost name]];
@@ -262,10 +262,13 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 NSMutableArray *sessions = [info objectForKey:@"sessions"];
                 TCMBEEPSession *session;
                 while ((session = [sessions lastObject])) {
+                    [[session retain] autorelease];
+                    [sessions removeObjectAtIndex:[sessions count]-1];
                     if (session != aBEEPSession) {
-                        [[session retain] autorelease];
                         [session setDelegate:nil];
                         [session terminate];
+                    } else {
+                        NSLog(@"retain this session somewhere: %@", session);
                     }
                 }
             }
