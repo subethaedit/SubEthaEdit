@@ -21,5 +21,6 @@
 - (NSRange)affectedCharRange;
 - (void)setReplacementString:(NSString *)aString;
 - (NSString *)replacementString;
+- (BOOL)isIrrelevant;
 
 @end

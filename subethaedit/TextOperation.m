@@ -187,6 +187,10 @@
     return I_replacementString;
 }
 
+- (BOOL)isIrrelevant {
+    return ((I_affectedCharRange.length == 0) && ([I_replacementString length] == 0));
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"affectedRange: %@; string: %@; byUser: %@", NSStringFromRange([self affectedCharRange]), [self replacementString], [self userID]];
 }

@@ -586,10 +586,9 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
                     [transformator transformOperation:operation serverOperation:[actions objectAtIndex:i]];
                 }
                 
-                #warning "Support NoOps"
-                //if ([[actions objectAtIndex:i] isNoOperation]) {
-                //    [actions removeObjectAtIndex:i];
-                //}
+                if ([[actions objectAtIndex:i] isIrrelevant]) {
+                    [actions removeObjectAtIndex:i];
+                }
             }
             group = [group parent];
         }
@@ -606,10 +605,9 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
                     [transformator transformOperation:operation serverOperation:[actions objectAtIndex:k]];
                 }
             
-                #warning "Support NoOps"
-                //if ([[actions objectAtIndex:k] isNoOperation]) {
-                //    [actions removeObjectAtIndex:k];
-                //}
+                if ([[actions objectAtIndex:k] isIrrelevant]) {
+                    [actions removeObjectAtIndex:k];
+                }
             }
             
             if ([actions count] == 0) {
@@ -634,10 +632,9 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
                     [transformator transformOperation:operation serverOperation:[actions objectAtIndex:i]];
                 }
                 
-                #warning "Support NoOps"
-                //if ([[actions objectAtIndex:i] isNoOperation]) {
-                //    [actions removeObjectAtIndex:i];
-                //}
+                if ([[actions objectAtIndex:i] isIrrelevant]) {
+                    [actions removeObjectAtIndex:i];
+                }
             }
             group = [group parent];
         }
@@ -654,10 +651,9 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
                     //[operation transform:[actions objectAtIndex:k]];
                     [transformator transformOperation:operation serverOperation:[actions objectAtIndex:k]];                }
                 
-                #warning "Support NoOps"
-                //if ([[actions objectAtIndex:k] isNoOperation]) {
-                //    [actions removeObjectAtIndex:k];
-                //}
+                if ([[actions objectAtIndex:k] isIrrelevant]) {
+                    [actions removeObjectAtIndex:k];
+                }
             }
             
             if ([actions count] == 0) {
