@@ -550,8 +550,6 @@ NSString *ListViewDidChangeSelectionNotification=
     
         if (allowDrag) {
             NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
-            
-            I_clickedRow = [self indexOfRowAtPoint:point];
             ItemChildPair pair = [self itemChildPairAtRow:I_clickedRow];
             NSRect rectInImage=NSMakeRect(0,0,10,10);
             NSImage *image=[self dragImageSelectedRect:&rectInImage forChild:pair.childIndex ofItem:pair.itemIndex];

@@ -993,7 +993,6 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [I_documentProxyWindowController autorelease];
     I_documentProxyWindowController = nil;
     if ([[self windowControllers] count]==0) {
-        NSLog(@"away...");
         TCMMMSession *session=[self session];
         [session setDocument:nil];
         if ([session wasInvited]) {

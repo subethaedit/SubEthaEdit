@@ -59,23 +59,23 @@
 
 - (void)awakeFromNib {
     PlainTextDocument *document=[self document];
-
+    if (document) {
+        [[NSNotificationCenter defaultCenter] 
+                addObserver:self selector:@selector(defaultParagraphStyleDidChange:) 
+                name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:document];
+        [[NSNotificationCenter defaultCenter] 
+                addObserver:self selector:@selector(userDidChangeSelection:) 
+                name:PlainTextDocumentUserDidChangeSelectionNotification object:document];
+        [[NSNotificationCenter defaultCenter] 
+                addObserver:self selector:@selector(plainTextDocumentDidChangeEditStatus:) 
+                name:PlainTextDocumentDidChangeEditStatusNotification object:document];
+        [[NSNotificationCenter defaultCenter] 
+                addObserver:self selector:@selector(plainTextDocumentDidChangeSymbols:) 
+                name:PlainTextDocumentDidChangeSymbolsNotification object:document];
     [[NSNotificationCenter defaultCenter] 
-            addObserver:self selector:@selector(defaultParagraphStyleDidChange:) 
-            name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:[I_windowController document]];
-    [[NSNotificationCenter defaultCenter] 
-            addObserver:self selector:@selector(userDidChangeSelection:) 
-            name:PlainTextDocumentUserDidChangeSelectionNotification object:[I_windowController document]];
-    [[NSNotificationCenter defaultCenter] 
-            addObserver:self selector:@selector(plainTextDocumentDidChangeEditStatus:) 
-            name:PlainTextDocumentDidChangeEditStatusNotification object:[I_windowController document]];
-    [[NSNotificationCenter defaultCenter] 
-            addObserver:self selector:@selector(plainTextDocumentDidChangeSymbols:) 
-            name:PlainTextDocumentDidChangeSymbolsNotification object:[I_windowController document]];
-[[NSNotificationCenter defaultCenter] 
-            addObserver:self selector:@selector(plainTextDocumentUserDidChangeSelection:) 
-            name:PlainTextDocumentUserDidChangeSelectionNotification object:[I_windowController document]];
-
+                addObserver:self selector:@selector(plainTextDocumentUserDidChangeSelection:) 
+                name:PlainTextDocumentUserDidChangeSelectionNotification object:document];
+    }
 
 
     if (I_flags.hasSplitButton) {
@@ -161,10 +161,12 @@
 
 - (void)takeSettingsFromDocument {
     PlainTextDocument *document=[self document];
-    [[self textView] setBackgroundColor:[document documentBackgroundColor]];
-    [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
-    [self setWrapsLines: [document wrapLines]];
-    [self setShowsGutter:[document showsGutter]];
+    if (document) {
+        [[self textView] setBackgroundColor:[document documentBackgroundColor]];
+        [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
+        [self setWrapsLines: [document wrapLines]];
+        [self setShowsGutter:[document showsGutter]];
+    }
     [self updateSymbolPopUpSorted:NO];
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
@@ -329,6 +331,15 @@
 - (PlainTextDocument *)document {
     return (PlainTextDocument *)[I_windowController document];
 }
+
+- (void)setWindowController:(NSWindowController *)aWindowController {
+    I_windowController = aWindowController;
+}
+
+- (NSWindowController *)windowController {
+    return I_windowController;
+}
+
 
 - (void)setIsSplit:(BOOL)aFlag {
     if (I_flags.hasSplitButton) {

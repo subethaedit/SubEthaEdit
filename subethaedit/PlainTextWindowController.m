@@ -106,6 +106,7 @@ enum {
     [[[self window] toolbar] setDelegate:nil];
     [O_participantsView setDocument:nil];
     [O_participantsView release];
+    [I_plainTextEditors makeObjectsPerformSelector:@selector(setWindowController:) withObject:nil];
     [I_plainTextEditors release];
     [super dealloc];
 }

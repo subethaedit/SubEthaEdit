@@ -59,7 +59,8 @@
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 - (void)setFollowUserID:(NSString *)userID;
 - (NSString *)followUserID;
-
+- (void)setWindowController:(NSWindowController *)aWindowController;
+- (NSWindowController *)windowController;
 - (void)takeSettingsFromDocument;
 
 - (void)updateSelectedSymbol;
