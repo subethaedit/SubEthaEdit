@@ -188,11 +188,11 @@ static NSColor *alternateRowColor=nil;
     }
     
     
-    NSSize cellSize=[I_disclosureCell cellSize];
-    [I_disclosureCell drawWithFrame:NSMakeRect(32.+10,20.,cellSize.width,cellSize.height) inView:self];
+//    NSSize cellSize=[I_disclosureCell cellSize];
+//    [I_disclosureCell drawWithFrame:NSMakeRect(32.+10,20.,cellSize.width,cellSize.height) inView:self];
     string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusTag ofItemAtIndex:aIndex];
     if (string) {
-        [string drawAtPoint:NSMakePoint(32.+27,20.)
+        [string drawAtPoint:NSMakePoint(32.+11,20.) //was 32.+27 for with diclosure triangle
                withAttributes:mStatusAttributes];
     }
     

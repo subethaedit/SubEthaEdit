@@ -598,6 +598,32 @@ NSString * const TCMMMSessionDidChangeNotification =
     }
 }
 
+- (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError {
+    SessionProfile *profile=(SessionProfile *)aProfile;
+    if ([self isServer]) {
+        // same as leave for this user
+        NSString *userID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
+        NSString *group=[I_groupByUserID objectForKey:userID];
+        [I_groupByUserID removeObjectForKey:userID];
+        [[I_participants objectForKey:group] removeObject:user];
+        [self detachStateAndProfileForUserWithID:userID];
+        [self profileDidClose:profile];
+        SelectionOperation *selectionOperation=[[user propertiesForSessionID:[self sessionID]] objectForKey:@"SelectionOperation"];
+        if (selectionOperation) {
+            [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
+        }
+        [user leaveSessionID:[self sessionID]];
+    } else {
+        // server is gone, almost the same as kick
+        // i was kicked, snief
+        // remove all Users
+        [self cleanupParticipants];
+        [self detachStateAndProfileForUserWithID:[self hostID]];
+        // detach document
+        [[self document] sessionDidLoseConnection:self];
+    }
+}
 
 #pragma mark -
 #pragma ### State interaction ###
