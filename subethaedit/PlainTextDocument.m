@@ -1976,7 +1976,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedDocumentId: %@", escapedDocumentId);
     if (escapedDocumentId != nil) {
         [escapedDocumentId autorelease];
-        [address appendFormat:@"?%@=%@", @"sessionID", escapedDocumentId];
+        [address appendFormat:@"?%@=%@", @"documentID", escapedDocumentId];
     }
 
     DEBUGLOG(@"InternetLogLevel", DetailedLogLevel, @"address: %@", address);

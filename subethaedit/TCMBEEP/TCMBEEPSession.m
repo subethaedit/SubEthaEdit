@@ -460,7 +460,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     }
 }
 
-#define kWriteBufferThreshold 81920
+#define kWriteBufferThreshold 65535
 
 - (void)TCM_fillBufferInRoundRobinFashion
 {

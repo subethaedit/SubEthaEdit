@@ -368,8 +368,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                         [session setDelegate:nil];
                         [session terminate];
                     } else {
-                        #warning "retain this session somewhere"
-                        //NSLog(@"retain this session somewhere: %@", session);
+                        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"retain this session somewhere: %@", session);
                     }
                 }
             }

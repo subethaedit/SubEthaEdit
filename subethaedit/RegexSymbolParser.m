@@ -43,7 +43,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
 - (void)markBlocks:(NSTextStorage *)aTextStorage
 {
     // Too fucking slow
-    clock_t start_time = clock();
+    //clock_t start_time = clock();
     OGRegularExpression *blockMark = [[self symbolDefinition] block];
     
     NSEnumerator *matchEnumerator = [[blockMark allMatchesInString:[aTextStorage string]] objectEnumerator];

@@ -36,7 +36,7 @@
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:aUserID forKey:@"uid"];
-    [dict setObject:@"2.0.0" forKey:@"vers"];
+    [dict setObject:@"200" forKey:@"vers"];
 
     if ([[[[self session] userInfo] objectForKey:@"isRendezvous"] boolValue]) {
         [dict setObject:@"vous" forKey:@"rendez"];
