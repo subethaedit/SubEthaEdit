@@ -20,6 +20,7 @@
 	<array>
 	   <string>tex</string>
 	   <string>latex</string>
+	   <string>sty</string>
 	</array>
 </dict>
 </plist>

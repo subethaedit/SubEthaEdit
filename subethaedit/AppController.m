@@ -193,6 +193,8 @@ static AppController *sharedInstance = nil;
 
         } else {
             myName=NSFullUserName();
+            myEmail=@"";
+            myAIM=@"";
         }
         [defaults setObject:myEmail forKey:MyEmailPreferenceKey];
         [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
