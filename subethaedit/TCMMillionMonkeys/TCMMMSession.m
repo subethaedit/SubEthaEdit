@@ -148,12 +148,14 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [[I_profilesByUserID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_profilesByUserID release];
     [I_participants release];
+    [I_statesWithRemainingMessages makeObjectsPerformSelector:@selector(setClient:) withObject:nil];
     [I_statesWithRemainingMessages makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_statesWithRemainingMessages release];
     [I_sessionContentForUserID release];
     [I_contributors release];
     [I_pendingUsers release];
     [I_groupByUserID release];
+    [[I_statesByClientID allValues] makeObjectsPerformSelector:@selector(setClient:) withObject:nil];
     [[I_statesByClientID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_statesByClientID release];
     DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"MMSession deallocated");
@@ -1188,6 +1190,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [state processMessage];
             if (![state hasMessagesAvailable]) {
                 [state setDelegate:nil];
+                [state setClient:nil];
                 [statesToDiscard addObject:state];
             } else {
                 hasMessagesAvailable=YES;
