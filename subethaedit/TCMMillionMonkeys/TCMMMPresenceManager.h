@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class TCMMMStatusProfile;
 
 @interface TCMMMPresenceManager : NSObject {
     NSNetService *I_netService;
     NSMutableDictionary *I_statusOfUserIDs;
+    NSMutableDictionary *I_statusProfilesInServerRole;
+    NSMutableDictionary *I_statusProfilesInClientRole;
     struct {
         BOOL isVisible;
         BOOL serviceIsPublished;
@@ -23,5 +26,7 @@
 - (void)statusConnectToNetService:(NSNetService *)aNetService userID:(NSString *)userID sender:(id)aSender;
 
 - (void)setVisible:(BOOL)aFlag;
+
+- (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "TCMMMBEEPSessionManager.h"
+#import "TCMMMPresenceManager.h"
 #import "TCMBEEPListener.h"
 #import "TCMBEEPSession.h"
 #import "TCMBEEPChannel.h"
@@ -131,7 +132,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [I_pendingSessions addObject:session];
         [outgoingSessions  addObject:session];
         [session setUserInfo:[NSDictionary dictionaryWithObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"]];
-        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", nil]];
+        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",@"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
         [session setDelegate:self];
         [session open];
     }
@@ -211,7 +212,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
             }
             [(HandshakeProfile *)aProfile shakeHandsWithUserID:[TCMMMUserManager myID]];
         }
-    } else {
+    } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"])
+{
+        [[TCMMMPresenceManager sharedInstance] acceptStatusProfile:(TCMMMStatusProfile *)aProfile];
         if ([[aProfile channel] isServer]) {
             // distribute the profile to the corresponding handler
         } else {
@@ -225,6 +228,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (NSString *)profile:(HandshakeProfile *)aProfile shouldProceedHandshakeWithUserID:(NSString *)aUserID {
     NSMutableDictionary *information=[self sessionInformationForUserID:aUserID];
+    [[[aProfile channel] session] setUserInfo:[NSDictionary dictionaryWithObject:aUserID forKey:@"peerUserID"]];
     if ([[information objectForKey:@"Status"] isEqualTo:kBEEPSessionStatusGotSession]) {
         return nil;
     } else if ([[information objectForKey:@"Status"] isEqualTo:kBEEPSessionStatusNoSession]) {
@@ -245,7 +249,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 return nil;
             } else {
                 [information setObject:[[aProfile channel] session] forKey:@"inboundSession"];
-                return [TCMMMUserManager myID]; // preliminary
+                return [TCMMMUserManager myID]; 
             }
         } else {
             TCMBEEPSession *inboundSession=[information objectForKey:@"inboundSession"];
@@ -277,15 +281,16 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 - (void)profile:(HandshakeProfile *)aProfile didAckHandshakeWithUserID:(NSString *)aUserID {
+    [[[aProfile channel] session] startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
     // trigger creating profiles for clients
 }
 
 - (void)profile:(HandshakeProfile *)aProfile receivedAckHandshakeWithUserID:(NSString *)aUserID {
-    NSLog(@"received ACK");
     NSMutableDictionary *information=[self sessionInformationForUserID:aUserID];
     [information setObject:[[aProfile channel] session] forKey:@"Session"];
     [information setObject:kBEEPSessionStatusGotSession forKey:@"Status"];
     NSLog(@"received ACK");
+    [[[aProfile channel] session] startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
 }
 
 
@@ -301,7 +306,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession
 {
     NSLog(@"Got Session %@", aBEEPSession);
-    [aBEEPSession setProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]];
+    [aBEEPSession setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",@"http://www.codingmonkeys.de/BEEP/TCMMMStatus",nil]];
     [aBEEPSession setDelegate:self];
     [aBEEPSession open];
     [I_pendingSessions addObject:aBEEPSession];

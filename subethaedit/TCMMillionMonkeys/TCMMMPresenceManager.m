@@ -8,6 +8,7 @@
 
 #import "TCMMMPresenceManager.h"
 #import "TCMMMBEEPSessionManager.h"
+#import "TCMMMStatusProfile.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 
@@ -89,6 +90,16 @@ static TCMMMPresenceManager *sharedInstance = nil;
 
 #pragma mark -
 #pragma mark ### TCMMMBEEPSessionManager callbacks ###
+
+- (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile {
+    NSString *userID=[[[[aProfile channel] session] userInfo] objectForKey:@"peerUserID"];
+    BOOL isServer = [[aProfile channel] isServer];
+    if (isServer) {
+        NSLog(@"Received status profile for user: %@ as Server",userID);
+    } else {
+        NSLog(@"Received status profile for user: %@ as Client",userID);
+    }
+}
 
 
 #pragma mark -

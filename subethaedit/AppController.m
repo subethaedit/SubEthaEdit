@@ -11,6 +11,7 @@
 #import "AppController.h"
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMPresenceManager.h"
+#import "TCMMMStatusProfile.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMPreferenceController.h"
@@ -106,6 +107,7 @@
     [TCMPreferenceController registerPrefModule:encodingPrefs];
     // set up beep profiles
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
+    [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];    
 
     [self addMe];
     
