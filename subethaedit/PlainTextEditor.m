@@ -695,6 +695,7 @@
     } else {
         [cell addItemWithTitle:NSLocalizedString(@"<No selected symbol>", @"Entry for Symbol Pop Up when no Symbol is found")];
     }
+    [self TCM_adjustTopStatusBarFrames];
 }
 
 - (void)popUpWillShowMenu:(PopUpButton *)aButton {
@@ -705,7 +706,6 @@
         I_flags.symbolPopUpIsSorted=sorted;
     }
 }
-
 
 
 #pragma mark -

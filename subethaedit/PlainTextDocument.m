@@ -392,12 +392,17 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (int)selectedSymbolForRange:(NSRange)aRange {
     if (aRange.length==0) aRange.length=1;
     int count=[I_symbolArray count];
+    int nearest=-1;
     while (--count>=0) {
-        if (!DisjointRanges(aRange,[[I_symbolArray objectAtIndex:count] range])) {
+        NSRange symbolRange=[[I_symbolArray objectAtIndex:count] range];
+        if (!DisjointRanges(aRange,symbolRange)) {
             return count;
         }
+        if (nearest==-1 && aRange.location > NSMaxRange(symbolRange)) {
+            nearest=count;
+        }
     }
-    return -1;
+    return nearest;
 }
 
 
