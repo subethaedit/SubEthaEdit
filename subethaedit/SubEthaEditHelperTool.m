@@ -21,6 +21,49 @@
 #include "MoreSecurity.h"
 #include "MoreCFQ.h"
 
+static OSStatus CopyFiles(CFStringRef sourceFile, CFStringRef targetFile, CFDictionaryRef targetAttrs, CFDictionaryRef *result)
+{
+    OSStatus err;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    err = MoreSecSetPrivilegedEUID();
+    if (err == noErr) {
+        if ([fileManager fileExistsAtPath:(NSString *)targetFile]) {
+            (void)[fileManager removeFileAtPath:(NSString *)targetFile handler:nil];
+        }
+        BOOL result = [fileManager copyPath:(NSString *)sourceFile toPath:(NSString *)targetFile handler:nil];
+        if (result) {
+            result = [fileManager changeFileAttributes:(NSDictionary *)targetAttrs atPath:(NSString *)targetFile];
+        }
+        err = result ? noErr : paramErr;
+    }
+    
+    return err;
+}
+
+static OSStatus RemoveFiles(CFArrayRef files, CFDictionaryRef *result)
+{
+    OSStatus err;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    int i;
+    int count;
+    
+    err = MoreSecSetPrivilegedEUID();
+    count = [(NSArray *)files count];
+    if (err == noErr) {
+        BOOL result;
+        for (i = 0; i < count; i++) {
+            result = [fileManager removeFileAtPath:[(NSArray *)files objectAtIndex:i] handler:nil];
+            if (!result) {
+                break;
+            }
+        }
+        err = result ? noErr : paramErr;
+    }
+    
+    return err;
+}
+
 static OSStatus GetFileDescriptor(CFStringRef fileName, CFDictionaryRef *result)
 {
     OSStatus err;
@@ -28,7 +71,7 @@ static OSStatus GetFileDescriptor(CFStringRef fileName, CFDictionaryRef *result)
     int desc = NULL;
     NSNumber *descNum;
     
-    NSLog(@"converting fileName: %@", (NSString *)fileName);
+    //NSLog(@"converting fileName: %@", (NSString *)fileName);
     const char *path = [[NSFileManager defaultManager] fileSystemRepresentationWithPath:(NSString *)fileName];
     
     descNum = NULL;
@@ -42,7 +85,7 @@ static OSStatus GetFileDescriptor(CFStringRef fileName, CFDictionaryRef *result)
     descNum = [NSNumber numberWithInt:desc];
     [descArray addObject:descNum];
     *result = (CFDictionaryRef)[[NSDictionary dictionaryWithObject:descArray forKey:(NSString *)kMoreSecFileDescriptorsKey] retain];
-    NSLog(@"result dictionary: %@", (NSDictionary *)*result);
+    //NSLog(@"result dictionary: %@", (NSDictionary *)*result);
     [descArray release];
     
     return noErr;
@@ -57,14 +100,14 @@ static OSStatus ExchangeFileContents(CFStringRef path1, CFStringRef path2, CFDic
     
     if (![(NSString *)path1 getFileSystemRepresentation:cPath1 maxLength:MAXPATHLEN] || ![(NSString *)path2 getFileSystemRepresentation:cPath2 maxLength:MAXPATHLEN]) return paramErr;
 
-    NSLog(@"trying MoreSecSetPrivilegedEUID");
+    //NSLog(@"trying MoreSecSetPrivilegedEUID");
     status = MoreSecSetPrivilegedEUID();
     if (status == noErr) {
-        NSLog(@"MoreSecSetPrivilegedEUID succeeded");
+        //NSLog(@"MoreSecSetPrivilegedEUID succeeded");
         err = exchangedata(cPath1, cPath2, 0) ? errno : 0;
 
         if (err == EACCES || err == EPERM) {	// Seems to be a write-protected or locked file; try temporarily changing
-            NSLog(@" Seems to be a write-protected or locked file; try temporarily changing");
+            //NSLog(@"Seems to be a write-protected or locked file; try temporarily changing");
             NSDictionary *attrs = (NSDictionary *)path2Attrs ? (NSDictionary *)path2Attrs : [fileManager fileAttributesAtPath:(NSString *)path2 traverseLink:YES];
             NSNumber *curPerms = [attrs objectForKey:NSFilePosixPermissions];
             BOOL curImmutable = [attrs fileIsImmutable];
@@ -76,13 +119,13 @@ static OSStatus ExchangeFileContents(CFStringRef path1, CFStringRef path2, CFDic
             if (curImmutable) [fileManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSFileImmutable, nil] atPath:(NSString *)path2];
         }
         if (err == 0) {
-            NSLog(@"first or second call to exchangedata succeeded");
+            //NSLog(@"first or second call to exchangedata succeeded");
             [fileManager removeFileAtPath:(NSString *)path1 handler:nil];
         } else {
-            NSLog(@"exchangedata failed, try to move file");
+            //NSLog(@"exchangedata failed, try to move file");
             BOOL success = [fileManager movePath:(NSString *)path1 toPath:(NSString *)path2 handler:nil];
             if (!success) {
-                NSLog(@"move failed");
+                //NSLog(@"move failed");
                 (void)[fileManager removeFileAtPath:(NSString *)path1 handler:nil];
                 status = paramErr;
             } else {
@@ -125,6 +168,14 @@ static OSStatus TestToolCommandProc(AuthorizationRef auth, CFDictionaryRef reque
             CFStringRef actualFileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("ActualFileName"));
             CFDictionaryRef attributes = (CFDictionaryRef)CFDictionaryGetValue(request, CFSTR("Attributes"));
             err = ExchangeFileContents(intermediateFileName, actualFileName, attributes, result);
+        } else if (CFEqual(command, CFSTR("CopyFiles"))) {
+            CFStringRef sourceFile = (CFStringRef)CFDictionaryGetValue(request, CFSTR("SourceFile"));
+            CFStringRef targetFile = (CFStringRef)CFDictionaryGetValue(request, CFSTR("TargetFile"));
+            CFDictionaryRef targetAttrs = (CFDictionaryRef)CFDictionaryGetValue(request, CFSTR("TargetAttributes"));
+            err = CopyFiles(sourceFile, targetFile, targetAttrs, result);
+        } else if (CFEqual(command, CFSTR("RemoveFiles"))) {
+            CFArrayRef files = (CFArrayRef)CFDictionaryGetValue(request, CFSTR("Files"));
+            err = RemoveFiles(files, result);
         }
     }
     return err;
@@ -135,7 +186,7 @@ int main(int argc, const char *argv[]) {
 
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
-    NSLog(@"PID %qd starting\nEUID = %ld\nRUID = %ld\n", (long long)getpid(), (long)geteuid(), (long)getuid());
+    //NSLog(@"PID %qd starting\nEUID = %ld\nRUID = %ld\n", (long long)getpid(), (long)geteuid(), (long)getuid());
         
     int err;
     int result;
@@ -172,7 +223,7 @@ int main(int argc, const char *argv[]) {
     // Map the error code to a tool result.
     result = MoreSecErrorToHelperToolResult(err);
 
-    NSLog(@"PID %qd stopping\nerr = %d\nresult = %d", (long long)getpid(), err, result);
+    //NSLog(@"PID %qd stopping\nerr = %d\nresult = %d", (long long)getpid(), err, result);
     [pool release];
         
     return result;

@@ -71,6 +71,10 @@ static BOOL launchSubEthaEdit() {
         return NO;
     } else {
         
+        //NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
+        //NSString *bundleVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
+        //NSLog(@"Retrieved bundle version of installed SubEthaEdit: %@", bundleVersion);
+        
         //appURL = (CFURLRef)[NSURL URLWithString:@"file:///Users/Shared/BuildProducts/SubEthaEdit.app"];
         
         LSLaunchURLSpec inLaunchSpec;
@@ -428,10 +432,10 @@ int main (int argc, const char * argv[]) {
 
         if (path) {
             NSString *fileName = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
-            NSLog(@"fileName after realpath: %@", fileName);
+            //NSLog(@"fileName after realpath: %@", fileName);
             [fileNames addObject:fileName];
         } else {
-            NSLog(@"Error occurred while resolving path: %s", argv[i]);
+            //NSLog(@"Error occurred while resolving path: %s", argv[i]);
         }
     }
         

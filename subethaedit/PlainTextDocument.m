@@ -1652,7 +1652,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             OSStatus err;
             CFURLRef tool = NULL;
             AuthorizationRef auth = NULL;
-            int resultCode;
             NSDictionary *request = nil;
             NSDictionary *response = nil;
             NSString *intermediateFileName = tempFileName(fullDocumentPath);
@@ -1677,28 +1676,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 // a temporary tool.
                 
                 if (err == kMoreSecFolderInappropriateErr) {
-                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-                    [alert setAlertStyle:NSWarningAlertStyle];
-                    [alert setMessageText:NSLocalizedString(@"Your home directory is on a volume that does not support privileged helper tools. "
-                        "Would you like to use a temporary copy of the tool?", nil)];
-                    [alert setInformativeText:NSLocalizedString(@"The temporary tool will be deleted periodically.\nIn the Finder's Get Info window, uncheck the 'Ignore ownership' on the disk containing your home directory.\nAlternatively, ask your system administrator to install the tool for you.", nil)];
-                    [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-                    resultCode = [alert runModal];
-                    err = noErr;
-                    if (resultCode == NSAlertSecondButtonReturn) {
-                        err = userCanceledErr;
-                    }
-                    
-                    if (err == noErr) {
-                        err = MoreSecCopyHelperToolURLAndCheckBundled(
-                            CFBundleGetMainBundle(), 
-                            CFSTR("SubEthaEditHelperToolTemplate"), 
-                            kTemporaryFolderType, 
-                            CFSTR("SubEthaEdit"), 
-                            CFSTR("SubEthaEditHelperTool"), 
-                            &tool);
-                    }
+                    err = MoreSecCopyHelperToolURLAndCheckBundled(
+                        CFBundleGetMainBundle(), 
+                        CFSTR("SubEthaEditHelperToolTemplate"), 
+                        kTemporaryFolderType, 
+                        CFSTR("SubEthaEdit"), 
+                        CFSTR("SubEthaEditHelperTool"), 
+                        &tool);
                 }
             }
             
@@ -1720,7 +1704,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             // Extract information from the response.
 	
             if (err == noErr) {
-                CFShow((CFDictionaryRef)response);
+                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
 
                 err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
                 if (err == noErr) {
@@ -1780,7 +1764,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             // Extract information from the response.
             
             if (err == noErr) {
-                CFShow((CFDictionaryRef)response);
+                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
 
                 err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
                 if (err == noErr) {

@@ -1,8 +1,13 @@
 {
     IBClasses = (
         {
+            ACTIONS = {installCommandLineTool = id; removeCommandLineTool = id; }; 
             CLASS = AdvancedPreferences; 
             LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_installCommandLineToolButton" = NSButton; 
+                "O_removeCommandLineToolButton" = NSButton; 
+            }; 
             SUPERCLASS = TCMPreferenceModule; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
