@@ -106,6 +106,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)makeProxyWindowController;
 - (void)killProxyWindowController;
 - (void)proxyWindowWillClose;
+- (void)updateProxyWindow;
 
 - (void)setSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)session;

@@ -1005,6 +1005,10 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     }
 }
 
+- (void)updateProxyWindow {
+    [I_documentProxyWindowController update];
+}
+
 - (void)proxyWindowWillClose {
     [self killProxyWindowController];
 }

@@ -118,7 +118,6 @@ typedef enum TCMMMSessionClientState {
 
 - (void)leave;
 - (void)abandon;
-- (void)inviteUserWithID:(NSString *)aUserID;
 
 - (void)joinRequestWithProfile:(SessionProfile *)profile;
 - (void)invitationWithProfile:(SessionProfile *)profile;

@@ -408,9 +408,11 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         while ((index = [set firstIndex]) != NSNotFound) {
             TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
             SessionProfile *profile=[I_profilesByUserID objectForKey:[user userID]];
-            [profile denyJoin];
-            [profile close];
-            [I_closingProfiles addObject:profile];
+            if (profile) {
+                [profile denyJoin];
+                [profile close];
+                [I_closingProfiles addObject:profile];
+            }
             [I_profilesByUserID removeObjectForKey:[user userID]];
             [set removeIndex:index];
         }
@@ -518,21 +520,25 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession
 {
     TCMMMSessionClientState state=[self clientState];
-    if (state != TCMMMSessionClientParticipantState &&
-        state != TCMMMSessionClientInvitedState) {
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    if (state==TCMMMSessionClientNoState) {
         TCMBEEPSession *session = aBEEPSession;
         if (!session) {
             session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
         }
         if (session) {
             [self setClientState:TCMMMSessionClientJoiningState];
-            [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
             I_flags.shouldSendJoinRequest=YES;
+            if (!document) {
+                [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
+            } else {
+                [document updateProxyWindow];
+                [document showWindows];
+            }
             [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
         }
     } else {
-        PlainTextDocument *document=(PlainTextDocument *)[self document];
-        [document showWindows];    
+         [document showWindows];    
     }
 }
 
@@ -580,12 +586,6 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [userIDs removeObject:[TCMMMUserManager myUserID]];
     [self setGroup:@"CloseGroup" forParticipantsWithUserIDs:[userIDs allObjects]];
     [self setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
-}
-
-- (void)inviteUserWithID:(NSString *)aUserID
-{
-    TCMBEEPSession *session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
-    [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
 }
 
 #pragma mark -
@@ -707,39 +707,62 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     // if user is already joined, kick the one that is in here, because he probably has lost
     // his connection anyway...
     
-    SessionProfile *userProfile=[I_profilesByUserID objectForKey:peerUserID];
-    if (userProfile) {
+    NSString *participantGroup=[I_groupByUserID objectForKey:peerUserID];
+    if (participantGroup) {
         [self setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:peerUserID]];
     }
-
-    [I_profilesByUserID setObject:profile forKey:peerUserID];
-
-    [I_pendingUsers addObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
-    [profile setDelegate:self];
-    // decide if autojoin depending on setting
-    if ([self accessState]!=TCMMMSessionAccessLockedState) {
-        [self setGroup:[self accessState]==TCMMMSessionAccessReadWriteState?@"ReadWrite":@"ReadOnly"
-              forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers count]-1]];
+    TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:peerUserID];
+    
+    if ([I_pendingUsers containsObject:user]) {
+        [self setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers indexOfObject:user]]];
+    }
+    NSString *userState=[I_stateOfInvitedUsers objectForKey:peerUserID];
+    if (userState && [userState isEqualToString:@"AwaitingResponse"]) {
+        [profile denyJoin];
     } else {
-        // if no autojoin add user to pending users and notify 
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
-        [[NSSound soundNamed:@"Knock"] play];
+        if (userState) {
+            [self cancelInvitationForUserWithID:peerUserID];
+        }
+        [I_profilesByUserID setObject:profile forKey:peerUserID];
+    
+        [I_pendingUsers addObject:user];
+        [profile setDelegate:self];
+        // decide if autojoin depending on setting
+        if ([self accessState]!=TCMMMSessionAccessLockedState) {
+            [self setGroup:[self accessState]==TCMMMSessionAccessReadWriteState?@"ReadWrite":@"ReadOnly"
+                  forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers count]-1]];
+        } else {
+            // if no autojoin add user to pending users and notify 
+            [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+            [[NSSound soundNamed:@"Knock"] play];
+        }
     }
 }
 
 - (void)invitationWithProfile:(SessionProfile *)profile
 {
-    [self setWasInvited:YES];
-    [self setClientState:TCMMMSessionClientInvitedState];
+    TCMMMSessionClientState state=[self clientState];
     PlainTextDocument *document=(PlainTextDocument *)[self document];
-    if (document) {
-        NSLog(@"Mist already having a document...");
-//        [document showWindows];
+    if (state==TCMMMSessionClientParticipantState) {
+        [profile declineInvitation];
+    } else if (state==TCMMMSessionClientInvitedState && document) {
+        [profile declineInvitation];
+        [document showWindows];
     } else {
-        [[NSSound soundNamed:@"Invitation"] play];
+        if (state==TCMMMSessionClientJoiningState) {
+            [self cancelJoin];
+        }
+        
         [profile setDelegate:self];
-        [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
         [I_profilesByUserID setObject:profile forKey:[self hostID]];
+        if (!document) {
+            [self setClientState:TCMMMSessionClientInvitedState];
+            [self setWasInvited:YES];
+            [[NSSound soundNamed:@"Invitation"] play];
+            [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
+        } else {
+            [document updateProxyWindow];
+        }
     }
 }
 
@@ -798,6 +821,9 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)profileDidCancelInvitation:(SessionProfile *)aProfile {
     [[self document] sessionDidCancelInvitation:self];
+    NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    [I_closingProfiles addObject:aProfile];
+    [I_profilesByUserID removeObjectForKey:peerUserID];
     [self setClientState:TCMMMSessionClientNoState];
 }
 

@@ -29,6 +29,20 @@
     [super dealloc];
 }
 
+- (void)update {
+    TCMMMSessionClientState state=[[(PlainTextDocument *)[self document] session] clientState];
+    if (state == TCMMMSessionClientJoiningState) {
+        if (![O_bottomStatusView window]) {
+            [[[self window] contentView] replaceSubview:O_bottomDecisionView with:O_bottomStatusView];
+        }
+        [O_statusBarTextField setStringValue:NSLocalizedString(@"Awaiting answer...",@"Text while waiting for answer to join request")];
+    } else if (state == TCMMMSessionClientInvitedState) {
+        if (![O_bottomDecisionView window]) {
+            [[[self window] contentView] replaceSubview:O_bottomStatusView with:O_bottomDecisionView];
+        }
+    }
+    [self synchronizeWindowTitleWithDocumentName];
+}
 
 - (void)windowDidLoad {
     NSWindow *window=[self window];
@@ -46,6 +60,7 @@
     } else {
         [[window contentView] replaceSubview:O_bottomCustomView with:O_bottomStatusView];
     }
+    [self update];
 }
 
 - (IBAction)acceptAction:(id)aSender {
@@ -53,7 +68,6 @@
     [O_statusBarTextField setStringValue:@"...."];
     [[(PlainTextDocument *)[self document] session] acceptInvitation];
 }
-
 
 - (void)setSession:(TCMMMSession *)aSession {
     [I_session autorelease];
@@ -96,7 +110,7 @@
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
     NSString *filename=[I_session filename];
-    if ([I_session wasInvited]) {
+    if ([I_session clientState]==TCMMMSessionClientInvitedState) {
         return [NSString stringWithFormat:NSLocalizedString(@"%@ (invited...)",@"Proxy window title for invited documents"),filename];
     } else {
         return [NSString stringWithFormat:NSLocalizedString(@"%@ (joining...)",@"Proxy window title for joining documents"),filename];
