@@ -259,7 +259,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     TCMBEEPSession *fallbackSession = nil;
     
     NSDictionary *info = [self sessionInformationForUserID:aUserID];
-    NSArray *outboundSessions = [info objectForKey:@"outboundSessions"];
+    NSArray *outboundSessions = [info objectForKey:@"OutboundSessions"];
     NSEnumerator *outboundSessionEnumerator = [outboundSessions objectEnumerator];
     TCMBEEPSession *session = nil;
     while ((session = [outboundSessionEnumerator nextObject])) {
