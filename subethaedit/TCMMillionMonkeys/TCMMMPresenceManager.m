@@ -73,7 +73,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     
     TCMMMUser *me=[[TCMMMUserManager sharedInstance] me];
     if ((I_flags.isVisible || [I_announcedSessions count]>0) && !I_flags.serviceIsPublished) {
-        [I_netService setProtocolSpecificInformation:[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001version=2",[me name],[me ID]]];
+        [I_netService setProtocolSpecificInformation:[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001version=2",[me name],[me userID]]];
         [I_netService publish];
         I_flags.serviceIsPublished = YES;
     } else if (!(I_flags.isVisible || [I_announcedSessions count]>0) && I_flags.serviceIsPublished){
@@ -194,7 +194,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 }
 
 - (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
-    [aProfile sendMyself:[TCMMMUserManager me]];
+    [aProfile sendUserDidChangeNotification:[TCMMMUserManager me]];
     [aProfile sendVisibility:YES];
     NSEnumerator *sessions=[[self announcedSessions] objectEnumerator];
     TCMMMSession *session=nil;
@@ -202,10 +202,6 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
         [aProfile announceSession:session];
     }
     NSLog(@"%@",[[TCMMMBEEPSessionManager sharedInstance] description]);
-}
-
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveUser:(TCMMMUser *)aUser {
-    [[TCMMMUserManager sharedInstance] setUser:aUser forID:[aUser ID]];
 }
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible {

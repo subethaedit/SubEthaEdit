@@ -41,7 +41,7 @@
         [self setDocument:aDocument];
         [self setSessionID:[NSString UUIDString]];
         [self setFilename:[aDocument displayName]];
-        [self setHostID:[TCMMMUserManager myID]];
+        [self setHostID:[TCMMMUserManager myUserID]];
     }
     return self;
 }

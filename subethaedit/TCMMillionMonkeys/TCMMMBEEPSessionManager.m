@@ -282,7 +282,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             } else {
                 // Do something here for internet sessions
             }
-            [(HandshakeProfile *)aProfile shakeHandsWithUserID:[TCMMMUserManager myID]];
+            [(HandshakeProfile *)aProfile shakeHandsWithUserID:[TCMMMUserManager myUserID]];
         }
     } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"]) {
         [[TCMMMPresenceManager sharedInstance] acceptStatusProfile:(TCMMMStatusProfile *)aProfile];
@@ -389,18 +389,18 @@ static TCMMMBEEPSessionManager *sharedInstance;
             } else {
                 [information setObject:[aProfile session] forKey:@"InboundRendezvousSession"];
                 [information setObject:kBEEPSessionStatusConnecting forKey:@"RendezvousStatus"];
-                return [TCMMMUserManager myID];
+                return [TCMMMUserManager myUserID];
             }
         } else if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusConnecting]) {
             if ([information objectForKey:@"NetService"]) {
                 NSLog(@"Received connection for %@ while I already tried connecting",aUserID);
-                BOOL iWin=([[TCMMMUserManager myID] compare:aUserID]==NSOrderedDescending);
-                NSLog(@"%@ %@ %@",[TCMMMUserManager myID],iWin?@">":@"<=",aUserID);
+                BOOL iWin=([[TCMMMUserManager myUserID] compare:aUserID]==NSOrderedDescending);
+                NSLog(@"%@ %@ %@",[TCMMMUserManager myUserID],iWin?@">":@"<=",aUserID);
                 if (iWin) {
                     return nil;
                 } else {
                     [information setObject:[aProfile session] forKey:@"InboundRendezvousSession"];
-                    return [TCMMMUserManager myID]; 
+                    return [TCMMMUserManager myUserID]; 
                 }
             } else {
                 TCMBEEPSession *inboundSession=[information objectForKey:@"InboundRendezvousSession"];
@@ -409,7 +409,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             }
         }
     } else {
-        return [TCMMMUserManager myID];
+        return [TCMMMUserManager myUserID];
     }
     
     return nil; // should not happen
@@ -421,7 +421,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     if ([[session userInfo] objectForKey:@"isRendezvous"]) {
         TCMBEEPSession *inboundSession=[information objectForKey:@"InboundRendezvousSession"];
         if (inboundSession) {
-            BOOL iWin=([[TCMMMUserManager myID] compare:aUserID]==NSOrderedDescending);
+            BOOL iWin=([[TCMMMUserManager myUserID] compare:aUserID]==NSOrderedDescending);
             if (iWin) {
                 [inboundSession setDelegate:nil];
                 [inboundSession close];

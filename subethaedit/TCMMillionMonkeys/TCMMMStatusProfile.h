@@ -15,13 +15,13 @@
 
 }
 
-- (void)sendMyself:(TCMMMUser *)aUser;
+- (void)requestUser;
+- (void)sendUserDidChangeNotification:(TCMMMUser *)aUser;
 - (void)announceSession:(TCMMMSession *)aSession;
 @end
 
 @interface NSObject (TCMMMStatusProfileDelegateMethods) 
 - (void)sendVisibility:(BOOL)isVisible;
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveUser:(TCMMMUser *)aUser;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID;

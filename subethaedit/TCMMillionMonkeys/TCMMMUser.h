@@ -10,18 +10,27 @@
 
 @interface TCMMMUser : NSObject {
     NSMutableDictionary *I_properties;
-    NSString *I_ID;
+    NSString *I_userID;
     NSString *I_serviceName;
     NSString *I_name;
+    long long I_changeCount;
 }
+
++ (id)userWithBencodedNotification:(NSData *)aData;
+- (NSData *)notificationBencoded;
 
 - (NSMutableDictionary *)properties;
 
-- (void)setID:(NSString *)aID;
-- (NSString *)ID;
+- (void)setUserID:(NSString *)aID;
+- (NSString *)userID;
 - (void)setServiceName:(NSString *)aServiceName;
 - (NSString *)serviceName;
 - (void)setName:(NSString *)aName;
 - (NSString *)name;
+- (void)setChangeCount:(long long)aChangeCount;
+- (long long)changeCount;
+
+
+- (void)updateWithUser:(TCMMMUser *)aUser;
 
 @end

@@ -9,6 +9,7 @@
 #import "TCMMMStatusProfile.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMMMUserManager.h"
 #import "TCMBencodingUtilities.h"
 #import "TCMMMSession.h"
 
@@ -25,9 +26,14 @@
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
-- (void)sendMyself:(TCMMMUser *)aUser {
-    NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
-    [data appendData:[aUser userBencoded]];
+- (void)sendUserDidChangeNotification:(TCMMMUser *)aUser {
+    NSMutableData *data=[NSMutableData dataWithBytes:"USRCHG" length:6];
+    [data appendData:[aUser notificationBencoded]];
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
+- (void)requestUser {
+    NSMutableData *data=[NSMutableData dataWithBytes:"USRREQ" length:6];
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
@@ -44,16 +50,37 @@
 }
 
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage {
-    if ([aMessage isMSG]) {
+    if ([aMessage isRPY]) {
+        if ([[aMessage payload] length]>=6) {
+            unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
+            if (strncmp(bytes,"USRFUL",6)==0) {
+                // TODO: validate userID
+                TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
+                [[TCMMMUserManager sharedInstance] addUser:user];
+            }
+        } else if ([[aMessage payload] length]==0) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel,@"Status Profile Received Ack");
+        } else {
+            DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel,@"Status Profile Received Bullshit");
+        }
+    } else if ([aMessage isMSG]) {
         if ([[aMessage payload] length]<6) {
             NSLog(@"StatusProfile MSG with payload less than 6 bytes is not allowed");
         } else {
             unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
-            if (strncmp(bytes,"USRFUL",6)==0) {
-                TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
-                [[self delegate] profile:self didReceiveUser:user];
+            if (strncmp(bytes,"USRCHG",6)==0) {
+                TCMMMUser *user=[TCMMMUser userWithBencodedNotification:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
+                if ([[TCMMMUserManager sharedInstance] sender:self shouldRequestUser:user]) {
+                    [self requestUser];
+                }
+            } else if (strncmp(bytes,"USRREQ",6)==0) {
+                NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
+                [data appendData:[[TCMMMUserManager me] userBencoded]];
+                TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
+                [[self channel] sendMessage:[message autorelease]];
+                return;
             } else if (strncmp(bytes,"DOC",3)==0) {
-                NSLog(@"Received Document");
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received Document");
                 if (strncmp(&bytes[3],"ANN",3)==0) {
                     TCMMMSession *session=[TCMMMSession sessionWithBencodedSession:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
                     [[self delegate] profile:self didReceiveAnnouncedSession:session];

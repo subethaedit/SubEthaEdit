@@ -94,7 +94,7 @@
         userID=[NSString UUIDString];
         [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"UserID"];
     }
-    [me setID:userID];
+    [me setUserID:userID];
 
     [me setName:myName];
     [[me properties] setObject:scaledMyImage forKey:@"Image"];

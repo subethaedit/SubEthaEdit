@@ -47,6 +47,10 @@ NSData *TCM_BencodedObject(id aObject) {
             [result appendData:TCM_BencodedObject(object)];
         }
         [result appendBytes:"e" length:1];
+    } else if ([aObject isKindOfClass:[NSNumber class]]) {
+        long long number=[aObject longLongValue];
+        NSData *longLongData=[[NSString stringWithFormat:@"i%qie",number] dataUsingEncoding:NSUTF8StringEncoding];
+        [result appendData:longLongData];
     }
     
     return result;
@@ -98,6 +102,19 @@ id TCM_BdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
             (*aPosition)++;
             result=[[[NSData alloc] initWithBytes:&aBytes[*aPosition] length:length] autorelease];
             *aPosition=(*aPosition)+length;
+        }
+    } else if (aBytes[*aPosition]=='i') {
+        (*aPosition)++;
+        long long number=0;
+        while (*aPosition<aLength && aBytes[*aPosition]>='0' && aBytes[*aPosition]<='9') {
+            number=number*10+aBytes[*aPosition]-'0';
+            (*aPosition)++;
+        }
+        if (aBytes[*aPosition]=='e') {
+            result=[NSNumber numberWithLongLong:number];
+            (*aPosition)++;
+        } else {
+            result=nil;
         }
     }
     return result;

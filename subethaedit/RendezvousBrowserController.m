@@ -65,6 +65,8 @@
     NSLog(@"Autoresizes Subviews: %@",([[O_scrollView contentView] autoresizesSubviews]?@"YES":@"NO"));
     [[O_scrollView contentView] setAutoresizesSubviews:NO];
     [O_browserListView noteEnclosingScrollView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
 }
 
 - (IBAction)setVisibilityByPopUpButton:(id)aSender {
@@ -105,7 +107,7 @@
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didResolveService:(NSNetService *)aNetService {
 //    [I_data addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"resolved %@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
     NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
-    if (userID && ![userID isEqualTo:[TCMMMUserManager myID]]) {
+    if (userID && ![userID isEqualTo:[TCMMMUserManager myUserID]]) {
         [I_foundUserIDs addObject:userID];
         [[TCMMMBEEPSessionManager sharedInstance] connectToNetService:aNetService];
     }
@@ -148,7 +150,7 @@
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
     if (anItemIndex>=0 && anItemIndex<[I_data count]) {
         NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
-        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:[item objectForKey:@"UserID"]];
+        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
     
         if (aTag==TCMMMBrowserItemNameTag) {
             return [user name];
@@ -248,6 +250,16 @@
         }
     }
     [O_browserListView reloadData];
+}
+
+#pragma mark -
+#pragma mark ### TCMMMUserManager Notifications ###
+
+- (void)userDidChange:(NSNotification *)aNotification {
+    TCMMMUser *user = [[aNotification userInfo] objectForKey:@"User"];
+    if ([I_foundUserIDs containsObject:[user userID]]) {
+        [O_browserListView reloadData];
+    }
 }
 
 @end

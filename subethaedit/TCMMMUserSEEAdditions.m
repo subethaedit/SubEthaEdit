@@ -17,7 +17,8 @@
     NSDictionary *userDict=TCM_BdecodedObjectWithData(aData);
     TCMMMUser *user=[TCMMMUser new];
     [user setName:[userDict objectForKey:@"Name"]];
-    [user setID:[userDict objectForKey:@"ID"]];
+    [user setUserID:[userDict objectForKey:@"UserID"]];
+    [user setChangeCount:[[userDict objectForKey:@"ChangeCount"] longLongValue]];
     NSData *pngData=[userDict objectForKey:@"ImageAsPNG"];
     [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
     [[user properties] setObject:[[[NSImage alloc] initWithData:[[user properties] objectForKey:@"ImageAsPNG"]] autorelease] forKey:@"Image"];
@@ -35,7 +36,12 @@
 
 
 - (NSData *)userBencoded {
-    NSDictionary *user=[NSDictionary dictionaryWithObjectsAndKeys:[self name],@"Name",[self ID],@"ID",[I_properties objectForKey:@"ImageAsPNG"],@"ImageAsPNG",nil];
+    NSDictionary *user=[NSDictionary dictionaryWithObjectsAndKeys:
+        [self name],@"Name",
+        [self userID],@"UserID",
+        [I_properties objectForKey:@"ImageAsPNG"],@"ImageAsPNG",
+        [NSNumber numberWithLong:[self changeCount]],@"ChangeCount",
+        nil];
     return TCM_BencodedObject(user);
 }
 

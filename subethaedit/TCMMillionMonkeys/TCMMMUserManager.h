@@ -8,20 +8,27 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const TCMMMUserManagerUserDidChangeNotification;
+
 @class TCMMMUser;
 
 @interface TCMMMUserManager : NSObject {
     NSMutableDictionary *I_usersByID;
+    NSMutableDictionary *I_userRequestsByID;
     TCMMMUser *I_me;
 }
 
 + (TCMMMUserManager *)sharedInstance;
 + (TCMMMUser *)me;
-+ (NSString *)myID;
++ (NSString *)myUserID;
 
 - (void)setMe:(TCMMMUser *)aUser;
 - (TCMMMUser *)me;
-- (NSString *)myID;
-- (TCMMMUser *)userForID:(NSString *)aID;
-- (void)setUser:(TCMMMUser *)aUser forID:(NSString *)aID;
+- (NSString *)myUserID;
+- (TCMMMUser *)userForUserID:(NSString *)aID;
+- (void)setUser:(TCMMMUser *)aUser forUserID:(NSString *)aID;
+
+- (void)addUser:(TCMMMUser *)aUser;
+- (BOOL)sender:(id)aSender shouldRequestUser:(TCMMMUser *)aUser;
+
 @end
