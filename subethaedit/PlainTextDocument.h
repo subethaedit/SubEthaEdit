@@ -11,6 +11,8 @@
 
 @class TCMMMSession, TCMMMOperation, DocumentMode;
 
+extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
+
 @interface PlainTextDocument : NSDocument
 {
     TCMMMSession *I_session;
@@ -32,6 +34,7 @@
         NSFont *boldItalicFont;
     } I_fonts;
     NSDictionary  *I_plainTextAttributes;
+    NSMutableParagraphStyle *I_defaultParagraphStyle;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
@@ -51,10 +54,13 @@
 
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait;
 - (NSDictionary *)plainTextAttributes;
+- (NSParagraphStyle *)defaultParagraphStyle;
 - (void)setPlainFont:(NSFont *)aFont;
 
 - (unsigned int)fileEncoding;
 - (void)setFileEncoding:(unsigned int)anEncoding;
+
+- (void)setTabWidth:(int)aTabWidth;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

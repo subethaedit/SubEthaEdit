@@ -22,7 +22,6 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 - (id)init {
     if ((self=[super initWithWindowNibName:@"PlainTextWindow"])) {
-    
     }
     return self;
 }
@@ -44,11 +43,15 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 - (void)windowDidLoad {
     [[NSNotificationCenter defaultCenter] addObserver:[self document] selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:O_textView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultParagraphStyleDidChange:) name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:[self document]];
 
     [O_pendingUsersTableView setTarget:self];
     [O_pendingUsersTableView setDoubleAction:@selector(pendingUsersTableViewDoubleAction:)];
     [[O_textView layoutManager] replaceTextStorage:[[self document] textStorage]];
     [O_textView setDelegate:self];
+
+    [O_textView setDefaultParagraphStyle:[[self document] defaultParagraphStyle]];
+
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
     [toolbar setAllowsUserCustomization:YES];
     //[toolbar setAutosavesConfiguration:YES];
@@ -197,6 +200,12 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 //- (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {
 //}
+
+#pragma mark -
+
+- (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
+    [O_textView setDefaultParagraphStyle:[[self document] defaultParagraphStyle]];
+}
 
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###

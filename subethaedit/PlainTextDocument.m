@@ -19,6 +19,13 @@
 #import "SelectionOperation.h"
 
 static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTextDocumentSyntaxColorizeNotification";
+NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
+
+@interface PlainTextDocument (PlainTextDocumentPrivateAdditions) 
+- (void)TCM_invalidateDefaultParagraphStyle;
+- (void)TCM_styleFonts;
+- (void)TCM_initHelper;
+@end
 
 @implementation PlainTextDocument
 
@@ -83,6 +90,7 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     [I_fonts.boldFont release];
     [I_fonts.italicFont release];
     [I_fonts.boldItalicFont release];
+    [I_defaultParagraphStyle release];
 }
 
 - (void)setSession:(TCMMMSession *)aSession {
@@ -113,10 +121,7 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     I_flags.indentNewLines=[[aDocumentMode defaultForKey:DocumentModeIndentNewLinesPreferenceKey] boolValue];
     I_flags.useTabs=[[aDocumentMode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue];
-    I_tabWidth=[[aDocumentMode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue];
-    if (I_tabWidth<1) {
-        I_tabWidth=1;
-    }
+    [self setTabWidth:[[aDocumentMode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue]];
     [self setPlainFont:newFont];
     [I_textStorage addAttributes:[self plainTextAttributes]
                                range:NSMakeRange(0,[I_textStorage length])];
@@ -390,6 +395,7 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     [self TCM_styleFonts];
     [I_plainTextAttributes release];
     I_plainTextAttributes=nil;
+    [self TCM_invalidateDefaultParagraphStyle];
 }
 
 - (NSDictionary *)plainTextAttributes {
@@ -429,6 +435,42 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
 
 }
 
+- (NSParagraphStyle *)defaultParagraphStyle {
+    if (!I_defaultParagraphStyle) {
+        I_defaultParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [I_defaultParagraphStyle setTabStops:[NSArray array]];
+        NSFont *font=[self fontWithTrait:nil];
+        float charWidth = [font widthOfString:@" "];
+        if (charWidth<=0) {
+            charWidth=[font maximumAdvancement].width;
+        }
+        [I_defaultParagraphStyle setDefaultTabInterval:charWidth*I_tabWidth];
+        [I_defaultParagraphStyle addTabStop:[[[NSTextTab alloc] initWithType:NSLeftTabStopType location:charWidth*I_tabWidth] autorelease]];
+        [[self textStorage] addAttribute:NSParagraphStyleAttributeName value:I_defaultParagraphStyle range:NSMakeRange(0,[[self textStorage] length])];
+    }
+    return I_defaultParagraphStyle;
+}
+
+
+- (void)TCM_invalidateDefaultParagraphStyle {
+    [I_defaultParagraphStyle autorelease];
+    I_defaultParagraphStyle=nil;
+    [[NSNotificationQueue defaultQueue] 
+        enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:self]
+               postingStyle:NSPostWhenIdle 
+               coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+                   forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
+
+
+- (void)setTabWidth:(int)aTabWidth {
+    I_tabWidth=aTabWidth;
+    if (I_tabWidth<1) {
+        I_tabWidth=1;
+    }
+    [self TCM_invalidateDefaultParagraphStyle];
+}
+
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
 
@@ -441,7 +483,7 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
 }
 
 - (IBAction)changeTabWidth:(id)aSender {
-    I_tabWidth=[[aSender title] intValue];
+    [self setTabWidth:[[aSender title] intValue]];
 }
 
 - (IBAction)chooseMode:(id)aSender {
