@@ -31,7 +31,7 @@ typedef enum {
     IBOutlet NSButton *O_regexCheckbox;
     IBOutlet NSButton *O_regexCaptureGroupsCheckbox;
     IBOutlet NSButton *O_regexDontCaptureCheckbox;
-    IBOutlet NSButton *O_regexEscapeCharacter;
+    IBOutlet NSPopUpButton *O_regexEscapeCharacter;
     IBOutlet NSButton *O_regexExtendedCheckbox;
     IBOutlet NSButton *O_regexFindLongestCheckbox;
     IBOutlet NSButton *O_regexIgnoreEmptyCheckbox;

@@ -68,6 +68,7 @@
         int longestCol = 150;
 
         [O_findResultsTextField setStringValue:[NSString stringWithFormat:@"%d found.",count]];
+        
         for (i=0;i<count;i++) {
             OGRegularExpressionMatch *aMatch = [matchArray objectAtIndex:i];
             NSRange matchRange = [aMatch rangeOfMatchedString];

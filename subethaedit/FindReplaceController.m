@@ -171,7 +171,7 @@ static FindReplaceController *sharedInstance=nil;
 
 - (NSString*)currentOgreEscapeCharacter
 {
-    if ([O_regexSyntaxPopup tag]==1) return OgreGUIYenCharacter;
+    if ([O_regexEscapeCharacter tag]==1) return OgreGUIYenCharacter;
     else return OgreBackslashCharacter;
 }
 
@@ -185,6 +185,48 @@ static FindReplaceController *sharedInstance=nil;
     return (obj && [obj isKindOfClass:[NSTextView class]]) ? obj : nil;
 }
 
+- (void)saveStateToPreferences
+{
+    NSMutableDictionary *prefs = [NSMutableDictionary dictionary];
+    [prefs setObject:[NSNumber numberWithInt:[O_regexSyntaxPopup indexOfSelectedItem]] forKey:@"Syntax"];
+    [prefs setObject:[NSNumber numberWithInt:[O_regexEscapeCharacter indexOfSelectedItem]] forKey:@"Escape"];
+    [prefs setObject:[NSNumber numberWithInt:[O_scopePopup indexOfSelectedItem]] forKey:@"Scope"];
+    
+    [prefs setObject:[NSNumber numberWithInt:[O_wrapAroundCheckbox state]] forKey:@"Wrap"];
+    [prefs setObject:[NSNumber numberWithInt:[O_regexCheckbox state]] forKey:@"RegEx"];   
+    [prefs setObject:[NSNumber numberWithInt:[O_regexSinglelineCheckbox state]] forKey:@"Singleline"];
+    [prefs setObject:[NSNumber numberWithInt:[O_regexMultilineCheckbox state]] forKey:@"Multiline"];
+    [prefs setObject:[NSNumber numberWithInt:[O_ignoreCaseCheckbox state]] forKey:@"IgnoreCase"];
+    [prefs setObject:[NSNumber numberWithInt:[O_regexExtendedCheckbox state]] forKey:@"Extended"];
+    [prefs setObject:[NSNumber numberWithInt:[O_regexFindLongestCheckbox state]] forKey:@"FindLongest"];
+    [prefs setObject:[NSNumber numberWithInt:[O_regexIgnoreEmptyCheckbox state]] forKey:@"IgnoreEmpty"];
+    [prefs setObject:[NSNumber numberWithInt:[O_regexNegateSinglelineCheckbox state]] forKey:@"NegateSingleline"];
+    [prefs setObject:[NSNumber numberWithInt:[O_regexDontCaptureCheckbox state]] forKey:@"DontCapture"];
+    [prefs setObject:[NSNumber numberWithInt:[O_regexCaptureGroupsCheckbox state]] forKey:@"Capture"];
+    [[NSUserDefaults standardUserDefaults] setObject:prefs forKey:@"Find Panel Preferences"];
+}
+
+- (void)loadStateFromPreferences
+{
+    NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"Find Panel Preferences"];
+    if (prefs) {
+    [O_regexSyntaxPopup selectItemAtIndex:[[prefs objectForKey:@"Syntax"] intValue]];
+    [O_regexEscapeCharacter selectItemAtIndex:[[prefs objectForKey:@"Escape"] intValue]];
+    [O_scopePopup selectItemAtIndex:[[prefs objectForKey:@"Scope"] intValue]];
+
+    [O_wrapAroundCheckbox setState:[[prefs objectForKey:@"Wrap"] intValue]];
+    [O_regexCheckbox setState:[[prefs objectForKey:@"RegEx"] intValue]];
+    [O_regexSinglelineCheckbox setState:[[prefs objectForKey:@"Singleline"] intValue]];
+    [O_regexMultilineCheckbox setState:[[prefs objectForKey:@"Multiline"] intValue]];
+    [O_ignoreCaseCheckbox setState:[[prefs objectForKey:@"IgnoreCase"] intValue]];
+    [O_regexExtendedCheckbox setState:[[prefs objectForKey:@"Extended"] intValue]];
+    [O_regexFindLongestCheckbox setState:[[prefs objectForKey:@"FindLongest"] intValue]];
+    [O_regexIgnoreEmptyCheckbox setState:[[prefs objectForKey:@"IgnoreEmpty"] intValue]];
+    [O_regexNegateSinglelineCheckbox setState:[[prefs objectForKey:@"NegateSingleline"] intValue]];
+    [O_regexDontCaptureCheckbox setState:[[prefs objectForKey:@"DontCapture"] intValue]];
+    [O_regexCaptureGroupsCheckbox setState:[[prefs objectForKey:@"Capture"] intValue]];
+    }
+}
 
 - (void)performFindPanelAction:(id)sender 
 {
@@ -198,6 +240,14 @@ static FindReplaceController *sharedInstance=nil;
     }
     
     if ([sender tag]==NSFindPanelActionShowFindPanel) {
+        [self loadStateFromPreferences];
+    } else {
+        [self saveStateToPreferences];
+    }
+
+    
+    if ([sender tag]==NSFindPanelActionShowFindPanel) {
+        [self updateRegexDrawer:self];
         [self orderFrontFindPanel:self];
     } else if ([sender tag]==NSFindPanelActionNext) {
         if (![findString isEqualToString:@""]) [self find:findString forward:YES];
@@ -240,6 +290,7 @@ static FindReplaceController *sharedInstance=nil;
 
             FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andRange:scope] autorelease];
             [(PlainTextDocument *)[[[target window] windowController] document] addFindAllController:findall];
+            if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self loadFindStringToPasteboard];
             [findall findAll:self];
         } else NSBeep();
     }
@@ -256,6 +307,7 @@ static FindReplaceController *sharedInstance=nil;
             return;
         }
         if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
+            [self loadFindStringToPasteboard];
             [text replaceCharactersInRange:selection withString:[O_replaceComboBox stringValue]];
         } else {
             // This might not work for lookahead etc.
@@ -314,6 +366,7 @@ static FindReplaceController *sharedInstance=nil;
     if (target) {
         NSMutableString *text = [[target textStorage] mutableString];
         if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
+            [self loadFindStringToPasteboard];
             unsigned options = NSLiteralSearch|NSBackwardsSearch;
             if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
             
