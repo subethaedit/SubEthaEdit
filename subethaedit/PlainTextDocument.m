@@ -1806,7 +1806,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (I_lastSaveOperation == NSSaveToOperation) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
             [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
-            return [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+            return [[I_textStorage string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
         } else {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
             return [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
