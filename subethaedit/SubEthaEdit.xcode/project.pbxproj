@@ -58,6 +58,7 @@
 		};
 		1058C7A8FEA54F5311CA2CBB = {
 			children = (
+				14EAA84606CB6E7B0000E12D,
 				14AE9CB605F60C570025CADE,
 				14AE9CB705F60C570025CADE,
 				2A37F4C5FDCFA73011CA2CEA,
@@ -1796,6 +1797,98 @@
 			settings = {
 			};
 		};
+		14DBD87C06CB6674002450EE = {
+			fileRef = 2A37F4C5FDCFA73011CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14DC3C2606C3C531000E9E0A = {
+			children = (
+				14DC3C3806C3C717000E9E0A,
+				14DC3C3906C3C717000E9E0A,
+			);
+			isa = PBXGroup;
+			name = see;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14DC3C3106C3C6CB000E9E0A = {
+			buildActionMask = 2147483647;
+			files = (
+				14DC3C3A06C3C720000E9E0A,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14DC3C3206C3C6CB000E9E0A = {
+			buildActionMask = 2147483647;
+			files = (
+				14EAAD6E06CB9F3F0000E12D,
+				14DBD87C06CB6674002450EE,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14DC3C3306C3C6CB000E9E0A = {
+			buildPhases = (
+				14DC3C3106C3C6CB000E9E0A,
+				14DC3C3206C3C6CB000E9E0A,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = see;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = see;
+			productName = see;
+			productReference = 14DC3C3406C3C6CB000E9E0A;
+			productType = "com.apple.product-type.tool";
+		};
+		14DC3C3406C3C6CB000E9E0A = {
+			explicitFileType = "compiled.mach-o.executable";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = see;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14DC3C3806C3C717000E9E0A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = main.m;
+			path = see/main.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14DC3C3906C3C717000E9E0A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.man;
+			name = see.1;
+			path = see/see.1;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14DC3C3A06C3C720000E9E0A = {
+			fileRef = 14DC3C3806C3C717000E9E0A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14E3EACA06149C5D0083426B = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -1849,6 +1942,20 @@
 		};
 		14EA6955060F651A00D02455 = {
 			fileRef = 14EA6953060F651A00D02455;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14EAA84606CB6E7B0000E12D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = ApplicationServices.framework;
+			path = /System/Library/Frameworks/ApplicationServices.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		14EAAD6E06CB9F3F0000E12D = {
+			fileRef = 14497AB8062C380000E1C9F1;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1956,6 +2063,7 @@
 		19C28FB0FE9D524F11CA2CBB = {
 			children = (
 				8D15AC370486D014006FF6A4,
+				14DC3C3406C3C6CB000E9E0A,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1993,6 +2101,7 @@
 			targets = (
 				8D15AC270486D014006FF6A4,
 				147037FE060C642F0087BA25,
+				14DC3C3306C3C6CB000E9E0A,
 				31DEE029061089D0001EC83E,
 				14963A3D061F0CFD009B8E42,
 			);
@@ -2005,6 +2114,7 @@
 				5EEB176D05ECF6DA00C17677,
 				143C35DB05ECAC32008C6DFE,
 				2A37F4AFFDCFA73011CA2CEA,
+				14DC3C2606C3C531000E9E0A,
 				2A37F4B8FDCFA73011CA2CEA,
 				2A37F4C3FDCFA73011CA2CEA,
 				19C28FB0FE9D524F11CA2CBB,
@@ -4991,7 +5101,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(LOCAL_LIBRARY_DIR)/TCMInternal/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;

@@ -34,6 +34,7 @@
     self = [super init];
     if (self) {
         I_fileNamesFromLastRunOpenPanel = [NSMutableArray new];
+        I_suspensionIDs = [NSMutableArray new];
     }
     return self;
 }
@@ -41,6 +42,8 @@
 - (void)dealloc {
     [I_modeIdentifierFromLastRunOpenPanel release];
     [I_fileNamesFromLastRunOpenPanel release];
+    [I_suspensionIDs release];
+    [super dealloc];
 }
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession {
@@ -136,6 +139,25 @@
     return document;
 }
 
+- (void)removeDocument:(NSDocument *)document {
+
+    int i;
+    int count = [I_suspensionIDs count];
+    for (i = count-1; i >= 0; i--) {
+        NSDictionary *dict = [I_suspensionIDs objectAtIndex:i];
+        NSMutableArray *array = [dict objectForKey:@"documents"];
+        [array removeObject:document];
+        if ([array count] == 0) {
+            NSAppleEventManagerSuspensionID suspensionID;
+            [[dict objectForKey:@"suspensionID"] getValue:&suspensionID];
+            [I_suspensionIDs removeObjectAtIndex:i];
+            [[NSAppleEventManager sharedAppleEventManager] resumeWithSuspensionID:suspensionID];
+        }
+    }
+    
+    [super removeDocument:document];
+}
+
 #pragma mark -
 
 #pragma options align=mac68k
@@ -177,6 +199,24 @@ struct ModificationInfo
             }
         }
         [replyEvent setDescriptor:listDesc forKeyword:keyDirectObject];
+    } else if ([event eventClass] == 'Foo ' && [event eventID] == 'Bar ') {
+        NSMutableArray *documents = [NSMutableArray array];
+        NSAppleEventDescriptor *listDesc = [event descriptorForKeyword:keyDirectObject];
+        int i;
+        for (i = 1; i <= [listDesc numberOfItems]; i++) {
+            NSString *URLString = [[listDesc descriptorAtIndex:i] stringValue];
+            NSDocument *document = [self openDocumentWithContentsOfFile:[[NSURL URLWithString:URLString] path] display:YES];
+            [documents addObject:document];
+        }
+        
+        NSAppleEventDescriptor *waitDesc = [event descriptorForKeyword:'Wait'];
+        if (waitDesc && [waitDesc booleanValue]) {
+            NSAppleEventManagerSuspensionID suspensionID = [[NSAppleEventManager sharedAppleEventManager] suspendCurrentAppleEvent];
+            [I_suspensionIDs addObject:
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                    [NSValue value:&suspensionID withObjCType:@encode(NSAppleEventManagerSuspensionID)], @"suspensionID",
+                    documents, @"documents", nil]];
+        }
     }
 }
 

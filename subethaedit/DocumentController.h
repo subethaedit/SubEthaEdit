@@ -21,6 +21,7 @@
     NSStringEncoding I_encodingFromLastRunOpenPanel;
     NSString *I_modeIdentifierFromLastRunOpenPanel;
     NSMutableArray *I_fileNamesFromLastRunOpenPanel;
+    NSMutableArray *I_suspensionIDs;
 }
 
 + (DocumentController *)sharedInstance;
