@@ -6,6 +6,7 @@
     #import <Cocoa/Cocoa.h>
     #import "NSDictionaryTCMAdditions.h"
     #import "NSStringTCMAdditions.h"
+    #import "NSNetServiceTCMAdditions.h"
 #endif
 
 

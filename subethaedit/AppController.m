@@ -179,7 +179,7 @@
 
 - (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
     NSLog(@"Got Session %@",aBEEPSession);
-    //[aBEEPSession setProfileURIs:[NSArray arrayWithObject:kSimpleSendProfileURI]];
+    [aBEEPSession setProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]];
     [aBEEPSession open];
     [aBEEPSession setDelegate:self];
     [aBEEPSession retain];

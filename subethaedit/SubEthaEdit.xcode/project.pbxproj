@@ -86,7 +86,8 @@
 				5EEB186705ED1EBE00C17677,
 				5EEB186805ED1EBE00C17677,
 				5EEB186A05ED1EBE00C17677,
-				5EEB186E05ED1EBE00C17677,
+				5E4F360E05EF90FF009D71ED,
+				5E4F360F05EF90FF009D71ED,
 				5EEB186B05ED1EBE00C17677,
 				5EEB187205ED1EBE00C17677,
 			);
@@ -446,6 +447,8 @@
 				144BC77205EE26B0006397BC,
 				1464B3FF05EE793C00D21A18,
 				1464B40005EE793C00D21A18,
+				5E4F360805EF8E3F009D71ED,
+				5E4F360905EF8E3F009D71ED,
 				2A37F4AEFDCFA73011CA2CEA,
 				2A37F4ACFDCFA73011CA2CEA,
 				5EEB185505ED0E1600C17677,
@@ -481,10 +484,7 @@
 		};
 		2A37F4AFFDCFA73011CA2CEA = {
 			children = (
-				143C360005ECB200008C6DFE,
-				143C360105ECB200008C6DFE,
-				143C360205ECB200008C6DFE,
-				143C360305ECB200008C6DFE,
+				5E4F35BD05EF77C5009D71ED,
 				32DBCF750370BD2300C91783,
 				2A37F4B0FDCFA73011CA2CEA,
 			);
@@ -669,6 +669,160 @@
 //5E2
 //5E3
 //5E4
+		5E4F35B305EF7530009D71ED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMMMPresenceManager.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F35B405EF7530009D71ED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMMMPresenceManager.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F35B505EF7530009D71ED = {
+			fileRef = 5E4F35B305EF7530009D71ED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4F35B605EF7530009D71ED = {
+			fileRef = 5E4F35B405EF7530009D71ED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4F35B905EF77B6009D71ED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NSNetServiceTCMAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F35BA05EF77B6009D71ED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NSNetServiceTCMAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F35BB05EF77B6009D71ED = {
+			fileRef = 5E4F35B905EF77B6009D71ED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4F35BC05EF77B6009D71ED = {
+			fileRef = 5E4F35BA05EF77B6009D71ED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4F35BD05EF77C5009D71ED = {
+			children = (
+				143C360005ECB200008C6DFE,
+				143C360105ECB200008C6DFE,
+				5E4F35B905EF77B6009D71ED,
+				5E4F35BA05EF77B6009D71ED,
+				143C360205ECB200008C6DFE,
+				143C360305ECB200008C6DFE,
+			);
+			isa = PBXGroup;
+			name = Additions;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F35ED05EF8000009D71ED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMMMBEEPSessionManager.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F35EE05EF8000009D71ED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMMMBEEPSessionManager.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F35EF05EF8000009D71ED = {
+			fileRef = 5E4F35ED05EF8000009D71ED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4F35F005EF8000009D71ED = {
+			fileRef = 5E4F35EE05EF8000009D71ED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4F360805EF8E3F009D71ED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = HandshakeProfile.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F360905EF8E3F009D71ED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = HandshakeProfile.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F360A05EF8E3F009D71ED = {
+			fileRef = 5E4F360805EF8E3F009D71ED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4F360B05EF8E3F009D71ED = {
+			fileRef = 5E4F360905EF8E3F009D71ED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4F360E05EF90FF009D71ED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMBEEPProfile.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F360F05EF90FF009D71ED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMBEEPProfile.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4F361005EF90FF009D71ED = {
+			fileRef = 5E4F360E05EF90FF009D71ED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4F361105EF90FF009D71ED = {
+			fileRef = 5E4F360F05EF90FF009D71ED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EAD69AA05EE5F5300E75BFF = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -709,6 +863,10 @@
 		};
 		5EEB176D05ECF6DA00C17677 = {
 			children = (
+				5E4F35ED05EF8000009D71ED,
+				5E4F35EE05EF8000009D71ED,
+				5E4F35B305EF7530009D71ED,
+				5E4F35B405EF7530009D71ED,
 				5EEB177005ECF6F700C17677,
 				5EEB177105ECF6F700C17677,
 				5EEB177605ECF8D300C17677,
@@ -919,14 +1077,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		5EEB186E05ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = TCMBEEPProfile.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		5EEB186F05ED1EBE00C17677 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1003,12 +1153,6 @@
 		};
 		5EEB187A05ED1EBF00C17677 = {
 			fileRef = 5EEB186D05ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187B05ED1EBF00C17677 = {
-			fileRef = 5EEB186E05ED1EBE00C17677;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1115,7 +1259,6 @@
 				5EEB187805ED1EBF00C17677,
 				5EEB187905ED1EBF00C17677,
 				5EEB187A05ED1EBF00C17677,
-				5EEB187B05ED1EBF00C17677,
 				5EEB187C05ED1EBF00C17677,
 				5EEB187D05ED1EBF00C17677,
 				5EEB188105ED1F0500C17677,
@@ -1123,6 +1266,11 @@
 				144BC76705EE1F21006397BC,
 				144BC77305EE26B0006397BC,
 				1464B40105EE793C00D21A18,
+				5E4F35B505EF7530009D71ED,
+				5E4F35BB05EF77B6009D71ED,
+				5E4F35EF05EF8000009D71ED,
+				5E4F360A05EF8E3F009D71ED,
+				5E4F361005EF90FF009D71ED,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1202,6 +1350,11 @@
 				144BC76805EE1F21006397BC,
 				144BC77405EE26B0006397BC,
 				1464B40205EE793C00D21A18,
+				5E4F35B605EF7530009D71ED,
+				5E4F35BC05EF77B6009D71ED,
+				5E4F35F005EF8000009D71ED,
+				5E4F360B05EF8E3F009D71ED,
+				5E4F361105EF90FF009D71ED,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

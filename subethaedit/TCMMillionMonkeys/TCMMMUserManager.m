@@ -20,6 +20,10 @@ static TCMMMUserManager *sharedInstance=nil;
     return sharedInstance;
 }
 
++ (NSString *)myID {
+    return [[self sharedInstance] myID];
+}
+
 - (id)init {
     if ((self=[super init])) {
         I_usersByID=[NSMutableDictionary new];
@@ -40,6 +44,9 @@ static TCMMMUserManager *sharedInstance=nil;
 }
 - (TCMMMUser *)me {
     return I_me;
+}
+- (NSString *)myID {
+    return [[self me] ID];
 }
 - (TCMMMUser *)userForID:(NSString *)aID {
     return [I_usersByID objectForKey:aID];

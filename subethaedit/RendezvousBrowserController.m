@@ -8,6 +8,7 @@
 
 #import "RendezvousBrowserController.h"
 #import "TCMRendezvousBrowser.h"
+#import "TCMMMPresenceManager.h"
 
 @implementation RendezvousBrowserController
 - (id)init {
@@ -16,11 +17,13 @@
         I_browser=[[TCMRendezvousBrowser alloc] initWithServiceType:@"_emac._tcp." domain:@""];
         [I_browser setDelegate:self];
         [I_browser startSearch];
+        I_foundUserIDs=[NSMutableSet new];
     }
     return self;
 }
 
 - (void)dealloc {
+    [I_foundUserIDs release];
     [I_tableData release];
     [super dealloc];
 }
@@ -52,17 +55,30 @@
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didFindService:(NSNetService *)aNetService {
     NSLog(@"foundservice: %@",aNetService);
-    [I_tableData addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
-    [self setTableData:[self tableData]];
 }
+
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didResolveService:(NSNetService *)aNetService {
-    [I_tableData addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"resolved %@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
-    [self setTableData:[self tableData]];
+//    [I_tableData addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"resolved %@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
+    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
+    if (userID) {
+        [I_foundUserIDs addObject:userID];
+        [[TCMMMPresenceManager sharedInstance] statusConnectToNetService:aNetService userID:userID sender:self];
+    }
 }
+
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didRemoveResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
     NSLog(@"Removed Service: %@",aNetService);
 }
 
+#pragma mark -
+#pragma mark ### TCMMMPresenceManager Notifications ###
 
+- (void)userChangedAvailability:(NSNotification *)aNotification {
+
+}
+
+- (void)userChangedAnnouncedDocuments:(NSNotification *)aNotification {
+
+}
 
 @end

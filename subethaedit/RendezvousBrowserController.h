@@ -13,6 +13,7 @@
     NSMutableArray *I_tableData;
     IBOutlet NSTableView *I_tableView;
     TCMRendezvousBrowser *I_browser;
+    NSMutableSet *I_foundUserIDs;
 }
 
 -(NSMutableArray *)tableData;

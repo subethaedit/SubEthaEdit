@@ -16,9 +16,11 @@
 }
 
 + (TCMMMUserManager *)sharedInstance;
++ (NSString *)myID;
 
 - (void)setMe:(TCMMMUser *)aUser;
 - (TCMMMUser *)me;
+- (NSString *)myID;
 - (TCMMMUser *)userForID:(NSString *)aID;
 - (void)setUser:(TCMMMUser *)aUser forID:(NSString *)aID;
 @end

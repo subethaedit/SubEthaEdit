@@ -11,10 +11,8 @@
 
 @class TCMBEEPChannel;
 
-@interface TCMBEEPManagementProfile : NSObject <TCMBEEPProfile>
+@interface TCMBEEPManagementProfile : TCMBEEPProfile
 {
-    TCMBEEPChannel *I_channel;
-    id I_delegate;
     BOOL I_firstMessage;
     NSMutableDictionary *I_pendingChannelRequestMessageNumbers;
 }
@@ -24,12 +22,6 @@
 - (void)sendGreetingWithProfileURIs:(NSArray *)anArray featuresAttribute:(NSString *)aFeaturesString localizeAttribute:(NSString *)aLocalizeString;
 
 #pragma mark -
-
-/*"Accessors"*/
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
-- (void)setChannel:(TCMBEEPChannel *)aChannel;
-- (TCMBEEPChannel *)channel;
 
 - (void)startChannelNumber:(int32_t)aChannelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray;
 
