@@ -363,7 +363,7 @@ static AppController *sharedInstance = nil;
     [InternetBrowserController sharedInstance];
 
 
-    I_idleTimer=[[TCMIdleTimer alloc] initWithBeginInterval:60. repeatInterval:100000000.];
+    I_idleTimer=[[TCMIdleTimer alloc] initWithBeginInterval:120. repeatInterval:100000000.];
     [I_idleTimer setDelegate:self];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
