@@ -153,6 +153,10 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
     return I_flags.isServer;
 }
 
+- (NSDictionary *)participants {
+    return I_participants;
+}
+
 - (NSArray *)pendingUsers {
     return I_pendingUsers;
 }

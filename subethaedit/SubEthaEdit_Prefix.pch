@@ -16,6 +16,11 @@ typedef enum LogLevels {
     AllLogLevel = 3
 } LogLevels;
 
+typedef struct _ItemChildPair {
+    int itemIndex;
+    int childIndex;
+} ItemChildPair;
+
 
 #ifdef BLOCK_DEBUGLOGS
 #define DEBUGLOG(domain, level, format, args...)

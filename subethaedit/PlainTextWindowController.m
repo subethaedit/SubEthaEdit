@@ -83,7 +83,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     [[O_actionPullDown cell] setUsesItemFromMenu:NO];
     [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"MenŸ", nil]];
     
-    [O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
+    //[O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(pendingUsersDidChange:)
@@ -123,8 +123,9 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     NSLog(@"pendingUsersTableViewDoubleAction");
     NSIndexSet *set = [aSender selectedRowIndexes];
     if ([set count] > 0) {
-        [[(PlainTextDocument *)[self document] session] setGroup:@"NixPoofState" forPendingUsersWithIndexes:set];
+        [[(PlainTextDocument *)[self document] session] setGroup:@"ReadWrite" forPendingUsersWithIndexes:set];
     }
+    [O_participantsView reloadData];
 }
 
 #pragma mark -
@@ -206,6 +207,69 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
     [O_textView setDefaultParagraphStyle:[[self document] defaultParagraphStyle]];
 }
+#pragma mark -
+#pragma mark ### ParticipantsView data source methods ###
+
+- (int)numberOfItemsInParticipantsView:(ParticipantsView *)aListView {
+    return 2;
+}
+
+- (int)participantsView:(ParticipantsView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex {
+    NSDictionary *participants=[[(PlainTextDocument *)[self document] session] participants];
+    NSLog(@"Participants: %@",[participants description]);
+    if (anItemIndex==0) {
+        return [[participants objectForKey:@"ReadWrite"] count];
+    } else if (anItemIndex==1) {
+        return [[participants objectForKey:@"ReadOnly"] count];
+    }
+    return 0;
+}
+
+- (id)participantsView:(ParticipantsView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
+
+//    static NSImage *statusLock=nil;
+    static NSImage *statusReadOnly=nil;
+
+//    if (!statusLock) statusLock=[[NSImage imageNamed:@"StatusLock"] retain];
+    if (!statusReadOnly) statusReadOnly=[[NSImage imageNamed:@"StatusReadOnly"] retain];
+    if (anItemIndex==0) {
+        if (aTag==ParticipantsItemStatusImageTag) {
+            return nil;
+        } else if (aTag==ParticipantsItemNameTag) {
+            return @"read/write";
+        } 
+    } else if (anItemIndex==1) {
+        if (aTag==ParticipantsItemStatusImageTag) {
+            return statusReadOnly;
+        } else if (aTag==ParticipantsItemNameTag) {
+            return @"read only";
+        } 
+    }
+    return nil;
+}
+
+- (id)participantsView:(ParticipantsView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+    NSDictionary *participants=[[(PlainTextDocument *)[self document] session] participants];
+    TCMMMUser *user=nil;
+    if (anItemIndex==0) {
+        user=[[participants objectForKey:@"ReadWrite"] objectAtIndex:anIndex];
+    } else if (anItemIndex==1) {
+        user=[[participants objectForKey:@"ReadOnly"] objectAtIndex:anIndex];
+    }
+    if (anItemIndex>=0 && anItemIndex<2) {
+        if (aTag==ParticipantsChildNameTag) {
+            return [user name];
+        } else if (aTag==ParticipantsChildStatusTag) {
+            return @"status";
+        } else if (aTag==ParticipantsChildImageTag) {
+            return [[user properties] objectForKey:@"Image32"];
+        } else if (aTag==ParticipantsChildImageNextToNameTag) {
+            return [[user properties] objectForKey:@"ColorImage"];
+        }
+    }
+    return nil;
+}
+
 
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###

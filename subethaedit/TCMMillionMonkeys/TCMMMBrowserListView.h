@@ -20,13 +20,6 @@ enum {
     TCMMMBrowserChildActionImageTag
 };
 
-typedef struct _ItemChildPair {
-    int itemIndex;
-    int childIndex;
-} ItemChildPair;
-
-
-
 @interface TCMMMBrowserListView : NSView
 {
     NSBezierPath *I_itemSelectionPath;

@@ -59,6 +59,7 @@ typedef enum TCMMMSessionState {
 - (void)setIsServer:(BOOL)isServer;
 - (BOOL)isServer;
 
+- (NSDictionary *)participants;
 - (NSArray *)pendingUsers;
 
 - (NSData *)sessionBencoded;
