@@ -199,6 +199,8 @@ static AppController *sharedInstance = nil;
             myEmail=@"";
             myAIM=@"";
         }
+        if (!myEmail) myEmail=@"";
+        if (!myAIM)   myAIM  =@"";
         [defaults setObject:myEmail forKey:MyEmailPreferenceKey];
         [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
         

@@ -175,7 +175,7 @@
 			//NSLog(@"%@",file);
             if ([[file pathExtension] isEqualToString:@"mode"]) {
                 NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]];
-                if (bundle) {
+                if (bundle && [bundle bundleIdentifier]) {
 					NSEnumerator *extensions = [[[bundle infoDictionary] objectForKey:@"TCMModeExtensions"] objectEnumerator];
 					NSString *extension = nil;
 					while ((extension = [extensions nextObject])) {
