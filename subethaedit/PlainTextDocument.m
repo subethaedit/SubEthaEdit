@@ -3188,7 +3188,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                           replacementString:replacementString
                                              paragraphRange:NSMakeRange(NSMaxRange(lineRangeToExclude),
                                                                  NSMaxRange(blockeditRange)-NSMaxRange(lineRangeToExclude))
-                                          inTextView:textView];
+                                                 inTextView:textView
+                                                   tabWidth:[self tabWidth] useTabs:[self usesTabs]];
 //                        NSLog(@"Edited Block after");
                     }
                     newSelectedRange=[textView selectedRange];
@@ -3199,7 +3200,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                           replacementString:replacementString
                                              paragraphRange:(otherRange=NSMakeRange(blockeditRange.location,
                                                                  lineRangeToExclude.location-blockeditRange.location))
-                                                 inTextView:textView];
+                                                 inTextView:textView
+                                                   tabWidth:[self tabWidth] useTabs:[self usesTabs]];
 //                        NSLog(@"Edited Block before");
                         lengthChange+=tempRange.length-otherRange.length;
                     }
@@ -3210,7 +3212,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     [textStorage blockChangeTextInRange:lineRange
                                       replacementString:replacementString
                                          paragraphRange:blockeditRange
-                                             inTextView:textView];
+                                             inTextView:textView
+                                               tabWidth:[self tabWidth] useTabs:[self usesTabs]];
     //                        NSLog(@"Edited Block");
                     if (newSelectedRange.location!=NSNotFound) {
                         lengthChange+=tempRange.length-blockeditRange.length;
