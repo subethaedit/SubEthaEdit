@@ -5,6 +5,8 @@
         {
             ACTIONS = {
                 chooseSymbol = id; 
+                jumpToNextChange = id; 
+                jumpToPreviousChange = id; 
                 toggleLineNumbers = id; 
                 toggleShowsChangeMarks = id; 
                 toggleWrap = id; 
@@ -19,9 +21,10 @@
                 "O_modeTextField" = NSTextField; 
                 "O_positionTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 
-                "O_symbolPopUpButton" = NSPopUpButton; 
+                "O_symbolPopUpButton" = PopUpButton; 
                 "O_tabStatusTextField" = NSTextField; 
                 "O_topStatusBarView" = NSView; 
+                "O_waitPipeStatusImageView" = NSImageView; 
                 "O_windowWidthTextField" = NSTextField; 
                 "O_writtenByTextField" = NSTextField; 
             }; 

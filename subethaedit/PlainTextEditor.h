@@ -11,6 +11,7 @@
 @class PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser;
 
 @interface PlainTextEditor : NSResponder {
+    IBOutlet NSImageView *O_waitPipeStatusImageView;
     IBOutlet NSTextField *O_positionTextField;
     IBOutlet NSTextField *O_tabStatusTextField;
     IBOutlet NSTextField *O_windowWidthTextField;

@@ -205,11 +205,18 @@
 #define RIGHTINSET 5.
 
 - (void)TCM_adjustTopStatusBarFrames {
+    static float s_initialXPosition=NSNotFound;
+    if (s_initialXPosition==NSNotFound) {
+        s_initialXPosition=[O_positionTextField frame].origin.x;
+    }
     if (I_flags.showTopStatusBar) {
         float symbolWidth=[(PopUpButtonCell *)[O_symbolPopUpButton cell] desiredWidth];
-
+        PlainTextDocument *document=[self document];
         NSRect bounds=[O_topStatusBarView bounds];
         NSRect positionFrame=[O_positionTextField frame];
+        BOOL isWaiting=[[self document] isWaiting];
+        [O_waitPipeStatusImageView setHidden:!isWaiting];
+        positionFrame.origin.x=isWaiting?s_initialXPosition+14.:s_initialXPosition;
         NSPoint position=positionFrame.origin;
         positionFrame.size.width=[[O_positionTextField stringValue]
                         sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_positionTextField font]
@@ -222,7 +229,7 @@
                                                                                        forKey:NSFontAttributeName]].width+5.;
         NSRect newPopUpFrame=[O_symbolPopUpButton frame];
         newPopUpFrame.origin.x=position.x;
-        if (![[[self document] documentMode] hasSymbols]) {
+        if (![[document documentMode] hasSymbols]) {
             newPopUpFrame.size.width=0;
             [O_symbolPopUpButton setHidden:YES];
         } else {

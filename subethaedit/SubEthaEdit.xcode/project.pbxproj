@@ -4442,6 +4442,20 @@
 			settings = {
 			};
 		};
+		5E93652107140BF800065CA2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			name = WaitPipe.png;
+			path = artwork/WaitPipe.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E93652207140BF800065CA2 = {
+			fileRef = 5E93652107140BF800065CA2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E96948C0600B6D3006C2AA4 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -5316,6 +5330,7 @@
 				5EA5422F06352B1600A06297,
 				3138EEB6063FB82400BF5C1F,
 				14C51E3706026BC70030F488,
+				5E93652107140BF800065CA2,
 				5EA543CA06357EC800A06297,
 			);
 			isa = PBXGroup;
@@ -6076,6 +6091,7 @@
 				5E6D9D38070062DB003DAE06,
 				5E0FCF49070AEF8C00A3D96D,
 				5E0FCF58070AF34E00A3D96D,
+				5E93652207140BF800065CA2,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

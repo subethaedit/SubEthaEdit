@@ -920,6 +920,16 @@ static NSString *tempFileName(NSString *origPath) {
     I_ODBParameters = [aDictionary retain];
 }
 
+
+- (BOOL)isWaiting {
+    return I_flags.isWaiting;
+}
+
+- (void)setIsWaiting:(BOOL)aFlag {
+    I_flags.isWaiting=aFlag;
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
+}
+
 - (NSString *)jobDescription {
     return I_jobDescription;
 }
@@ -927,6 +937,9 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)setJobDescription:(NSString *)aString {
     [I_jobDescription autorelease];
     I_jobDescription = [aString copy];
+    // ISSUE: faulty, just for now
+    [self setIsWaiting:YES];
+    [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
 }
 
 - (NSString *)temporaryDisplayName {
