@@ -103,6 +103,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
+- (IBAction)newView:(id)aSender;
+
 - (void)makeProxyWindowController;
 - (void)killProxyWindowController;
 - (void)proxyWindowWillClose;
@@ -225,6 +227,5 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 - (void)addFindAllController:(FindAllController *)aController;
 - (void)removeFindAllController:(FindAllController *)aController;
-
 
 @end

@@ -48,7 +48,7 @@ static RendezvousBrowserController *sharedInstance=nil;
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagJoin];
 
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(showDocument:) keyEquivalent:@""];
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(join:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagShowDocument];
         
