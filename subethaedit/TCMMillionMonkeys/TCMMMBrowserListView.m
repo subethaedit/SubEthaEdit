@@ -261,7 +261,7 @@ static NSColor *alternateRowColor=nil;
 
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
 
-    if (aPoint.y > I_indexMaxHeight || aPoint.y < 0)
+    if (aPoint.y >= I_indexMaxHeight || aPoint.y < 0)
         return - 1;
 
     int searchPosition=(int)(aPoint.y/I_indexMaxHeight)*I_indexNumberOfItems;
@@ -280,7 +280,7 @@ static NSColor *alternateRowColor=nil;
     
     int baseRow=I_indexRowAtItem[searchPosition];
     if (aPoint.y>testRange.location+ITEMROWHEIGHT) {
-        baseRow+=(int)((aPoint.y-testRange.location-ITEMROWHEIGHT)/CHILDROWHEIGHT)+1;
+        baseRow+=(int)((aPoint.y-testRange.location-ITEMROWHEIGHT-1)/CHILDROWHEIGHT)+1;
     }
     
     return baseRow;
