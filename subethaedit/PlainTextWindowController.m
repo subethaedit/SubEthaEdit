@@ -630,11 +630,11 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         } else if (aTag==ParticipantsChildStatusTag) {
             NSMutableDictionary *properties=[user propertiesForSessionID:[session sessionID]];
             SelectionOperation *selectionOperation=[properties objectForKey:@"SelectionOperation"];
-            if (selectionOperation) {
-                return [(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
-            } else if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
+            if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
                 return [(TextStorage *)[document textStorage] 
                         positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
+            } else if (selectionOperation) {
+                return [(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
             } else {
                 return @"No Position";
             }
