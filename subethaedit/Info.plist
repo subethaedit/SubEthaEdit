@@ -222,5 +222,9 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>SubEthaEdit Help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>SubEthaEdit Help</string>
 </dict>
 </plist>
