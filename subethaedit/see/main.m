@@ -40,6 +40,7 @@ static struct option longopts[] = {
     { "mode",       required_argument,      0,  'm' }, // option
     { "pipe-title", required_argument,      0,  't' }, // option
     { "job-description", required_argument, 0,  'j' }, // option
+    { "short-version", no_argument,         0,  'V' }, // command
     { 0,            0,                      0,  0 }
 };
 
@@ -151,6 +152,11 @@ CFURLRef URLRefForSubEthaEdit() {
     if (testURL) CFRelease(testURL);
     if (array) CFRelease(array);
     return appURL;
+}
+
+static void printShortVersion() {
+    fprintf(stdout, "%s\n", gToolVersion);
+    fflush(stdout);
 }
 
 static void printVersion() {
@@ -489,6 +495,7 @@ int main (int argc, const char * argv[]) {
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     BOOL launch = NO;
     BOOL version = NO;
+    BOOL short_version = NO;
     BOOL help = NO;
     NSMutableArray *fileNames = [NSMutableArray array];
     int i;
@@ -499,7 +506,7 @@ int main (int argc, const char * argv[]) {
     //
     
     int ch;
-    while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvwe:m:t:j:", longopts, NULL)) != -1) {
+    while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvVwe:m:t:j:", longopts, NULL)) != -1) {
         switch(ch) {
             case 'b':
                 [options setObject:[NSNumber numberWithBool:YES] forKey:@"background"];
@@ -540,6 +547,9 @@ int main (int argc, const char * argv[]) {
                     NSString *jobDesc = [NSString stringWithUTF8String:optarg];
                     [options setObject:jobDesc forKey:@"job-description"];
                 } break;
+            case 'V': {
+                    short_version = YES;
+                } break;
             case ':': // missing option argument
             case '?': // invalid option
             default:
@@ -577,6 +587,8 @@ int main (int argc, const char * argv[]) {
         printHelp();
     } else if (version) {
         printVersion();
+    } else if (short_version) {
+        printShortVersion();
     } else if (launch && ([fileNames count] == 0)) {
         (void)launchSubEthaEdit(options);
     } else {

@@ -1685,6 +1685,16 @@
 			settings = {
 			};
 		};
+		14935C80071AABB30059E4AA = {
+			buildSettings = {
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				OTHER_CFLAGS = "-DTCM_NO_DEBUG -DNS_BLOCK_ASSERTIONS -DNDEBUG";
+				UNSTRIPPED_PRODUCT = YES;
+			};
+			isa = PBXBuildStyle;
+			name = "Deployment Unstripped";
+		};
 		14963A3C061F0CFD009B8E42 = {
 			buildActionMask = 12;
 			files = (
@@ -2370,16 +2380,6 @@
 			settings = {
 			};
 		};
-		14F35FCC0657BAD700013758 = {
-			buildSettings = {
-				DEPLOYMENT_LOCATION = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				OTHER_CFLAGS = "-DTCM_NO_DEBUG -DNS_BLOCK_ASSERTIONS -DNDEBUG";
-				UNSTRIPPED_PRODUCT = YES;
-			};
-			isa = PBXBuildStyle;
-			name = "Deployment Unstripped";
-		};
 		14F45E9C06DBB84B0048F2F8 = {
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA;
 			isa = PBXContainerItemProxy;
@@ -2509,7 +2509,7 @@
 			buildStyles = (
 				4A9504D0FFE6A4CB11CA0CBA,
 				4A9504D1FFE6A4CB11CA0CBA,
-				14F35FCC0657BAD700013758,
+				14935C80071AABB30059E4AA,
 			);
 			hasScannedForEncodings = 1;
 			isa = PBXProject;
