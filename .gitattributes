@@ -160,6 +160,8 @@ prototype/xmpp-cli/main.m -text
 prototype/xmpp-cli/xmpp.1 -text
 prototype/xmpp-cli/xmpp.xcode/project.pbxproj -text
 prototype/xmpp-cli/xmpp_Prefix.pch -text
+subethaedit/AppController.h -text
+subethaedit/AppController.m -text
 subethaedit/English.lproj/Credits.rtf -text
 subethaedit/English.lproj/InfoPlist.strings -text
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
