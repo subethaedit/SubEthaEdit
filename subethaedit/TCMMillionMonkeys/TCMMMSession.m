@@ -280,10 +280,15 @@ NSString * const TCMMMSessionDidChangeNotification =
 
 - (void)join
 {
-    [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
-    TCMBEEPSession *session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
-    I_flags.shouldSendJoinRequest=YES;
-    [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    if (document) {
+        [document showWindows];
+    } else {
+        [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
+        TCMBEEPSession *session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
+        I_flags.shouldSendJoinRequest=YES;
+        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
+    }
 }
 
 - (void)cancelJoin {
