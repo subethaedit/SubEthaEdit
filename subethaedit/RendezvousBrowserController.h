@@ -20,6 +20,8 @@
     IBOutlet NSPopUpButton *O_actionPullDownButton;
     IBOutlet NSPopUpButton *O_statusPopUpButton;
     NSMutableSet *I_userIDsInRendezvous;
+    
+    NSMenu *I_contextMenu;
 }
 
 + (RendezvousBrowserController *)sharedInstance;

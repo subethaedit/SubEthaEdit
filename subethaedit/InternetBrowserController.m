@@ -132,6 +132,7 @@ static InternetBrowserController *sharedInstance = nil;
     [I_data release];
     [I_resolvingHosts release];
     [I_resolvedHosts release];
+    [I_contextMenu release];
     [super dealloc];
 }
 

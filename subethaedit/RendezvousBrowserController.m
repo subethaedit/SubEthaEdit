@@ -14,6 +14,12 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
+enum {
+    BrowserContextMenuTagInvite = 0,
+    BrowserContextMenuTagJoin,
+    BrowserContextMenuTagCancelJoin,
+    BrowserContextMenuTagShowDocument
+};
 
 static RendezvousBrowserController *sharedInstance=nil;
 
@@ -35,6 +41,31 @@ static RendezvousBrowserController *sharedInstance=nil;
     if ((self=[super initWithWindowNibName:@"RendezvousBrowser"])) {
         I_data=[NSMutableArray new];
         I_userIDsInRendezvous=[NSMutableSet new];
+        
+        
+        I_contextMenu = [NSMenu new];
+        NSMenuItem *item = nil;
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuInvite", @"Invite user entry for Browser context menu") action:@selector(invite:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagInvite];
+
+        [I_contextMenu addItem:[NSMenuItem separatorItem]];
+
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuJoin", @"Join document entry for Browser context menu") action:@selector(join:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagJoin];
+
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuCancelJoin", @"Cancel join document entry for Browser context menu") action:@selector(cancelJoin:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagCancelJoin];
+
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(showDocument:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagShowDocument];
+        
+        [I_contextMenu setDelegate:self];    
+       
+       
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeRendezvousStatus:) name:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:nil];
@@ -50,6 +81,7 @@ static RendezvousBrowserController *sharedInstance=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_userIDsInRendezvous release];
     [I_data release];
+    [I_contextMenu release];
     [super dealloc];
 }
 
@@ -105,8 +137,14 @@ static RendezvousBrowserController *sharedInstance=nil;
     [[O_actionPullDownButton cell] setImage:[NSImage imageNamed:@"Action"]];
     [[O_actionPullDownButton cell] setAlternateImage:[NSImage imageNamed:@"ActionPressed"]];
     [[O_actionPullDownButton cell] setUsesItemFromMenu:NO];
-    [O_actionPullDownButton addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
-    
+    [O_actionPullDownButton addItemWithTitle:@"<do not modify>"];
+    NSMenu *actionMenu = [O_actionPullDownButton menu];
+    [actionMenu setDelegate:self];
+    NSEnumerator *contextMenuItems = [[I_contextMenu itemArray] objectEnumerator];
+    id menuItem = nil;
+    while ((menuItem = [contextMenuItems nextObject])) {
+        [actionMenu addItem:[[menuItem copy] autorelease]];
+    }    
     
     PullDownButtonCell *cell=[[[PullDownButtonCell alloc] initTextCell:@"" pullsDown:YES] autorelease];
     NSMenu *oldMenu=[[[O_statusPopUpButton cell] menu] retain];
@@ -137,9 +175,12 @@ static RendezvousBrowserController *sharedInstance=nil;
 }
 
 - (void)menuNeedsUpdate:(NSMenu *)aMenu {
-    BOOL isVisible=[[TCMMMPresenceManager sharedInstance] isVisible];
-    [[aMenu itemWithTag:10] setState:isVisible?NSOnState:NSOffState];
-    [[aMenu itemWithTag:11] setState:(!isVisible)?NSOnState:NSOffState];
+   if ([aMenu isEqual:[O_statusPopUpButton menu]]) {
+        BOOL isVisible=[[TCMMMPresenceManager sharedInstance] isVisible];
+        [[aMenu itemWithTag:10] setState:isVisible?NSOnState:NSOffState];
+        [[aMenu itemWithTag:11] setState:(!isVisible)?NSOnState:NSOffState];
+        return;
+    }
 }
 
 - (IBAction)setVisibilityByMenuItem:(id)aSender {
@@ -163,6 +204,10 @@ static RendezvousBrowserController *sharedInstance=nil;
 
 #pragma mark -
 #pragma mark ### TCMMMBrowserListViewDataSource methods ###
+
+- (NSMenu *)contextMenuForListView:(TCMListView *)listView clickedAtRow:(int)row {
+    return I_contextMenu;
+}
 
 - (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex {
     if (anItemIndex==-1) {
