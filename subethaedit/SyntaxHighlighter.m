@@ -327,7 +327,6 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     NSRange dirtyRange;
     NSRange chunkRange;
     id correct;
-    BOOL returnValue = NO;
     
     theDocument = sender;
     I_theDocumentBackgroundIsDark = [[theDocument documentBackgroundColor] isDark];
@@ -369,7 +368,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
         } else {
             position=NSMaxRange(dirtyRange);
             if (position>=[aTextStorage length]) {
-                returnValue = YES;
+                returnvalue = YES;
                 break;
             }
         }
