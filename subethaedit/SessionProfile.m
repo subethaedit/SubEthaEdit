@@ -10,6 +10,7 @@
 #import "TCMBencodingUtilities.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "UserChangeOperation.h"
 
 @implementation SessionProfile
 
@@ -124,9 +125,9 @@
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
-- (void)sendSessionContent:(NSDictionary *)aSessionContent {
+- (void)sendSessionContent:(NSData *)aSessionContent {
     NSMutableData *data = [NSMutableData dataWithBytes:"SESCON" length:6];
-    [data appendData:TCM_BencodedObject(aSessionContent)];
+    [data appendData:aSessionContent];
     I_numberOfUnacknowledgedSessconMSG=[[self channel] sendMSGMessageWithPayload:data];
     [self setContentHasBeenExchanged:YES];
 }
@@ -271,6 +272,16 @@
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received MMMessage.");
             NSDictionary *dict=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
             TCMMMMessage *message=[TCMMMMessage messageWithDictionaryRepresentation:dict];
+            TCMMMOperation *operation=[message operation];
+            if ([operation isKindOfClass:[UserChangeOperation class]] &&
+                [(UserChangeOperation *)operation type]==UserChangeTypeGroupChange &&                                 
+                [[operation userID] isEqualToString:[TCMMMUserManager myUserID]] &&
+                [[(UserChangeOperation *)operation newGroup] isEqualToString:@"ReadOnly"]) {
+                id delegate=[self delegate];
+                if ([delegate respondsToSelector:@selector(profile:didReceiveUserChangeToReadOnly:)]) {
+                    [delegate profile:self didReceiveUserChangeToReadOnly:(UserChangeOperation *)operation];
+                }
+            }
             [I_MMState handleMessage:message];
         }
         

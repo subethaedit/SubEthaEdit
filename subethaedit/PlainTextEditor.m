@@ -851,8 +851,10 @@
 }
 
 - (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent {
-    I_flags.pausedProcessing=YES;
-    [[[self document] session] pauseProcessing];
+    if (!I_flags.pausedProcessing) {
+        I_flags.pausedProcessing=YES;
+        [[[self document] session] pauseProcessing];
+    }
 }
 
 #pragma mark -

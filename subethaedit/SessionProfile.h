@@ -11,7 +11,7 @@
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 
 
-@class TCMMMUser, TCMMMState;
+@class TCMMMUser, TCMMMState, UserChangeOperation;
 
 
 @interface SessionProfile : TCMBEEPProfile <TCMMMStateClientProtocol>
@@ -33,7 +33,7 @@
 - (void)sendJoinRequestForSessionID:(NSString *)aSessionID;
 - (void)sendUserRequest:(NSDictionary *)aUserNotification;
 - (void)cancelJoin;
-- (void)sendSessionContent:(NSDictionary *)aSessionContent;
+- (void)sendSessionContent:(NSData *)aSessionContent;
 - (void)sendSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)cancelInvitation;
 - (void)acceptInvitation;
@@ -66,6 +66,7 @@
 - (void)profileDidDeclineInvitation:(SessionProfile *)aProfile;
 - (NSArray *)profile:(SessionProfile *)aProfile userRequestsForSessionInformation:(NSDictionary *)sessionInfo;
 - (void)profile:(SessionProfile *)aProfile didReceiveUserRequests:(NSArray *)aUserRequestArray;
+- (void)profile:(SessionProfile *)aProfile didReceiveUserChangeToReadOnly:(UserChangeOperation *)anOperation;
 
 - (void)state:(TCMMMState *)aState handleMessage:(TCMMMMessage *)aMessage;
 

@@ -47,8 +47,7 @@ typedef enum TCMMMSessionClientState {
     NSMutableArray *I_pendingUsers;
     NSMutableDictionary *I_groupByUserID;
     NSMutableDictionary *I_statesByClientID;
-    NSMutableArray *I_closingProfiles;
-    NSMutableArray *I_closingStates;
+    NSMutableSet *I_statesWithRemainingMessages;
     TCMMMSessionAccessState I_accessState;
     TCMMMSessionClientState I_clientState;
     struct {

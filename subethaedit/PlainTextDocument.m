@@ -3046,6 +3046,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         //NSLog(@"started because of marked... in did change");
         I_flags.didPauseBecauseOfMarkedText=NO;
         [[self session] startProcessing];
+//        DEBUGLOG(@"MillionMonkeysDomain",AlwaysLogLevel,@"start");
     }
     
     if (I_bracketMatching.matchingBracketPosition!=NSNotFound) {

@@ -41,6 +41,8 @@
 - (void)setDelegate:(id)aDelegate;
 - (id)delegate;
 
+- (void)processAllUserChangeMessages;
+- (void)appendOperationToIncomingMessageQueue:(TCMMMOperation *)anOperation;
 - (void)handleMessage:(TCMMMMessage *)aMessage;
 - (void)handleOperation:(TCMMMOperation *)anOperation;
 

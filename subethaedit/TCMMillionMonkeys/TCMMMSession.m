@@ -43,7 +43,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 @interface TCMMMSession (TCMMMSessionPrivateAdditions)
 
 - (NSDictionary *)TCM_sessionInformationForUserID:(NSString *)aUserID;
-- (void)TCM_setSessionParticipants:(NSDictionary *)aParticipants;
+- (NSArray *)TCM_setSessionParticipants:(NSDictionary *)aParticipants  forProfile:(SessionProfile *)profile;
 - (void)triggerPerformRoundRobin;
 - (void)processRoundRobinMessageProcessing;
 
@@ -97,11 +97,10 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         I_groupByUserID = [NSMutableDictionary new];
         I_contributors = [NSMutableSet new];
         I_statesByClientID = [NSMutableDictionary new];
-        I_closingProfiles = [NSMutableArray new];
-        I_closingStates   = [NSMutableArray new];
         I_flags.shouldSendJoinRequest = NO;
         I_flags.isPerformingRoundRobin = NO;
         I_flags.pauseCount = 0;
+        I_statesWithRemainingMessages=[NSMutableSet new];
         [self setIsServer:NO];
         [self setClientState:TCMMMSessionClientNoState];
     }
@@ -148,11 +147,9 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [I_filename release];
     [[I_profilesByUserID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_profilesByUserID release];
-    [I_closingProfiles makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
-    [I_closingProfiles release];
     [I_participants release];
-    [I_closingStates makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
-    [I_closingStates release];
+    [I_statesWithRemainingMessages makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
+    [I_statesWithRemainingMessages release];
     [I_sessionContentForUserID release];
     [I_contributors release];
     [I_pendingUsers release];
@@ -178,22 +175,9 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     }
     [I_participants removeAllObjects];
     [I_groupByUserID removeAllObjects];
-//    [I_invitedUsers removeAllObjects];
-//    [I_groupOfInvitedUsers removeAllObjects];
-}
-
-- (void)detachStateAndProfileForUserWithID:(NSString *)aUserID {
-    TCMMMState *state=[I_statesByClientID objectForKey:aUserID];
-    if (state) {
-        [state setDelegate:nil];
-        [I_closingStates addObject:state];
-        [I_statesByClientID removeObjectForKey:aUserID];
-    }
-    SessionProfile *profile=[I_profilesByUserID objectForKey:aUserID];
-    if (profile) {
-        [I_closingProfiles addObject:profile];
-        [I_profilesByUserID removeObjectForKey:aUserID];
-    }
+    [I_invitedUsers removeAllObjects];
+    [I_groupOfInvitedUsers removeAllObjects];
+    [I_stateOfInvitedUsers removeAllObjects];
 }
 
 #pragma mark -
@@ -323,10 +307,15 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)documentDidApplyOperation:(TCMMMOperation *)anOperation {
     NSEnumerator *states = [I_statesByClientID objectEnumerator];
-    TCMMMState *state;
+    TCMMMState *state=nil;
     while ((state = [states nextObject])) {
         [state handleOperation:anOperation];
     }
+    states=[I_statesWithRemainingMessages objectEnumerator];
+    while ((state=[states nextObject])) {
+        [state handleOperation:anOperation];
+    }
+
 }
 
 #pragma mark -
@@ -361,7 +350,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                 }
                 SessionProfile *profile=[I_profilesByUserID objectForKey:userID];
                 [profile close];
-                [self detachStateAndProfileForUserWithID:userID];
+                TCMMMState *state=[I_statesByClientID objectForKey:userID];
+                [state setClient:nil];
+                [state setDelegate:nil];
+                [I_statesByClientID removeObjectForKey:userID];
+                [profile setDelegate:nil];
+                [I_profilesByUserID removeObjectForKey:userID];
                 SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
                 if (selectionOperation) {
                     [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
@@ -400,7 +394,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                     [state setDelegate:nil];
                     [I_statesByClientID removeObjectForKey:userID];
                     [profile setMMState:nil];
-                    [profile sendSessionContent:[NSDictionary dictionaryWithObject:[(TextStorage *)[(PlainTextDocument *)[self document] textStorage] dictionaryRepresentation] forKey:@"TextStorage"]];
+                    [profile sendSessionContent:TCM_BencodedObject([NSDictionary dictionaryWithObject:[(TextStorage *)[(PlainTextDocument *)[self document] textStorage] dictionaryRepresentation] forKey:@"TextStorage"])];
                     state = [[TCMMMState alloc] initAsServer:YES];
                     [state setDelegate:self];
                     [state setClient:profile];
@@ -423,7 +417,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             if (profile) {
                 [profile denyJoin];
                 [profile close];
-                [I_closingProfiles addObject:profile];
+                [profile setDelegate:nil];
             }
             [I_profilesByUserID removeObjectForKey:[user userID]];
             [set removeIndex:index];
@@ -509,10 +503,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     if (![I_invitedUsers objectForKey:aGroup]) {
         [I_invitedUsers setObject:[NSMutableArray array] forKey:aGroup];
     }
+
     NSString *userID=[aUser userID];
     if (!aBEEPSession) {
         aBEEPSession = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:userID];
     }
+    
     if ([self isServer] && ![I_profilesByUserID objectForKey:userID]) {
         [I_groupOfInvitedUsers setObject:aGroup forKey:userID];
         [I_stateOfInvitedUsers setObject:@"AwaitingResponse" forKey:userID];
@@ -565,8 +561,13 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)acceptInvitation {
     SessionProfile *profile = [I_profilesByUserID objectForKey:[self hostID]];
-    [profile acceptInvitation];
-    [self setClientState:TCMMMSessionClientParticipantState];
+    if (profile) {
+        [profile acceptInvitation];
+        [self setClientState:TCMMMSessionClientParticipantState];
+    } else {
+        [self setClientState:TCMMMSessionClientNoState];
+        NSBeep();
+    }
 }
 
 - (void)declineInvitation {
@@ -585,7 +586,8 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [self documentDidApplyOperation:iLeftOperation]; // note that this only comes through if content was already transmitted
             [profile abortIncomingMessages];
             [profile close];
-            [self detachStateAndProfileForUserWithID:[self hostID]];
+            [profile setDelegate:nil];
+            [I_profilesByUserID removeObjectForKey:[self hostID]];
             [self cleanupParticipants];
             [[TCMMMUserManager me] leaveSessionID:[self sessionID]];
         }
@@ -616,7 +618,6 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [contributorNotifications addObject:[contributor notification]];
         }
     }
-    NSLog(@"contributorNotifications: %@",[contributorNotifications description]);
     [sessionInformation setObject:contributorNotifications forKey:@"Contributors"];
     NSMutableDictionary *participantsRepresentation=[NSMutableDictionary dictionary];
     NSEnumerator *groups=[I_participants keyEnumerator];
@@ -631,19 +632,20 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [participantsRepresentation setObject:userRepresentations forKey:group];
     }
     [sessionInformation setObject:participantsRepresentation forKey:@"Participants"];
-    [sessionInformation setObject:[[self document] sessionInformation] forKey:@"DocumentSessionInformation"];
-
     PlainTextDocument *document=(PlainTextDocument *)[self document];
-    NSDictionary *sessionContent=[NSDictionary dictionaryWithObject:[(TextStorage *)[document textStorage] dictionaryRepresentation] forKey:@"TextStorage"];
-    [I_sessionContentForUserID setObject:sessionContent forKey:userID];
+    [sessionInformation setObject:[document sessionInformation] forKey:@"DocumentSessionInformation"];
 
-    [sessionInformation setObject:[NSNumber numberWithUnsignedInt:[TCM_BencodedObject(sessionContent) length]] forKey:@"ContentLength"];
+    NSDictionary *sessionContent=[NSDictionary dictionaryWithObject:[(TextStorage *)[document textStorage] dictionaryRepresentation] forKey:@"TextStorage"];
+    [I_sessionContentForUserID setObject:TCM_BencodedObject(sessionContent) forKey:userID];
+
+    [sessionInformation setObject:[NSNumber numberWithUnsignedInt:[(NSData *)[I_sessionContentForUserID objectForKey:userID] length]] forKey:@"ContentLength"];
 
     return sessionInformation;
 }
 
-- (void)TCM_setSessionParticipants:(NSDictionary *)aParticipants
+- (NSArray *)TCM_setSessionParticipants:(NSDictionary *)aParticipants forProfile:(SessionProfile *)profile
 {
+    NSMutableArray *result=[NSMutableArray array];
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     NSEnumerator *groups=[aParticipants keyEnumerator];
     NSString *group = nil;
@@ -656,8 +658,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         NSEnumerator *users=[[aParticipants objectForKey:group] objectEnumerator];
         NSDictionary *userDict=nil;
         while ((userDict=[users nextObject])) {
-            TCMMMUser *user=[userManager userForUserID:[[TCMMMUser userWithNotification:[userDict objectForKey:@"User"]] userID]];
+            TCMMMUser *user=[TCMMMUser userWithNotification:[userDict objectForKey:@"User"]];
+            if ([userManager sender:profile shouldRequestUser:user]) {
+                [result addObject:userDict];
+            }
             NSString *userID=[user userID];
+            user=[userManager userForUserID:userID];
             NSString *sessionID=[self sessionID];
             NSMutableDictionary *properties=[user propertiesForSessionID:sessionID];
             if (!properties) {
@@ -669,6 +675,8 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [I_groupByUserID setObject:group forKey:userID];
         }
     }
+    
+    return result;
 }
 
 #pragma mark -
@@ -692,6 +700,9 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     } else {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
         if (I_flags.shouldSendJoinRequest) {
+            if ([I_profilesByUserID objectForKey:[self hostID]]) {
+                DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"WARNING! Profile already in place.");
+            }
             [I_profilesByUserID setObject:profile forKey:[self hostID]];
             [profile setDelegate:self];
             [(SessionProfile *)profile sendJoinRequestForSessionID:[self sessionID]];
@@ -734,6 +745,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     if ([I_pendingUsers containsObject:user]) {
         [self setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers indexOfObject:user]]];
     }
+
     NSString *userState=[I_stateOfInvitedUsers objectForKey:peerUserID];
     if (userState && [userState isEqualToString:@"AwaitingResponse"]) {
         [profile denyJoin];
@@ -772,11 +784,14 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         }
         
         [profile setDelegate:self];
+        if ([I_profilesByUserID objectForKey:[self hostID]]) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"invitationWithProfile but another profile is in place: %@", [I_profilesByUserID objectForKey:[self hostID]]);
+        }
         [I_profilesByUserID setObject:profile forKey:[self hostID]];
         [self setClientState:TCMMMSessionClientInvitedState];
+        [[NSSound soundNamed:@"Invitation"] play];
         if (!document) {
             [self setWasInvited:YES];
-            [[NSSound soundNamed:@"Invitation"] play];
             [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
         } else {
             [document updateProxyWindow];
@@ -795,16 +810,16 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 }
 
 - (void)profile:(SessionProfile *)profile didReceiveSessionContent:(id)aContent {
-    [[self document] session:self didReceiveContent:aContent];
     if (![I_statesByClientID objectForKey:[self hostID]]) {
         TCMMMState *state=[[TCMMMState alloc] initAsServer:NO];
         [state setDelegate:self];
-        [state setClient:[I_profilesByUserID objectForKey:[self hostID]]];
+        [state setClient:profile];
         [profile setMMState:state];
         [state setIsSendingNoOps:YES];
         [I_statesByClientID setObject:state forKey:[self hostID]];
         [state release];
     }
+    [[self document] session:self didReceiveContent:aContent];
 }
 
 - (void)profileDidAckSessionContent:(SessionProfile *)aProfile {
@@ -819,8 +834,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profileDidAcceptJoinRequest: %@", aProfile);
     NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     [[self document] sessionDidDenyJoinRequest:self];
-    [I_closingProfiles addObject:aProfile];
-    [I_profilesByUserID removeObjectForKey:peerUserID];
+    [aProfile setDelegate:nil];
+    if ([I_profilesByUserID objectForKey:peerUserID]==aProfile) {
+        [I_profilesByUserID removeObjectForKey:peerUserID];
+    } else {
+        DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"profileDidDenyJoinRequest but another profile is in place: %@", [I_profilesByUserID objectForKey:peerUserID]);
+    }
     [self setClientState:TCMMMSessionClientNoState];
 }
 
@@ -832,7 +851,11 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [state setDelegate:self];
     [state setClient:profile];
     [profile setMMState:state];
-    [I_statesByClientID setObject:state forKey:[[[profile session] userInfo] objectForKey:@"peerUserID"]];
+    NSString *peerUserID=[[[profile session] userInfo] objectForKey:@"peerUserID"];
+    if ([I_statesByClientID objectForKey:peerUserID]) {
+        DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"profileDidAcceptJoinRequest but another State is in place: %@", [I_statesByClientID objectForKey:peerUserID]);    
+    }
+    [I_statesByClientID setObject:state forKey:peerUserID];
     [state release];
     [self setClientState:TCMMMSessionClientParticipantState];
 }
@@ -840,8 +863,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (void)profileDidCancelInvitation:(SessionProfile *)aProfile {
     [[self document] sessionDidCancelInvitation:self];
     NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
-    [I_closingProfiles addObject:aProfile];
-    [I_profilesByUserID removeObjectForKey:peerUserID];
+    [aProfile setDelegate:nil];
+    if ([I_profilesByUserID objectForKey:peerUserID]==aProfile) {
+        [I_profilesByUserID removeObjectForKey:peerUserID];
+    } else {
+        DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"profileDidCancelInvitation - profile and profileByuserID didn't match: %@",[I_profilesByUserID objectForKey:peerUserID]);    
+    }
     [self setClientState:TCMMMSessionClientNoState];
 }
 
@@ -850,7 +877,11 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     [I_stateOfInvitedUsers setObject:@"DeclinedInvitation" forKey:peerUserID];
     [aProfile setDelegate:nil];
-    [I_profilesByUserID removeObjectForKey:peerUserID];
+    if ([I_profilesByUserID objectForKey:peerUserID]==aProfile) {
+        [I_profilesByUserID removeObjectForKey:peerUserID];
+    } else {
+        DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"profileDidDeclineInvitation - profile and profileByuserID didn't match: %@",[I_profilesByUserID objectForKey:peerUserID]);    
+    }
     [self TCM_sendParticipantsDidChangeNotification];
 }
 
@@ -869,7 +900,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [[I_participants objectForKey:group] addObject:user];
     [I_contributors addObject:user];
     [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeJoin user:user newGroup:group]];
-    SessionProfile *profile = [I_profilesByUserID objectForKey:[user userID]];
+    SessionProfile *profile = aProfile; //[I_profilesByUserID objectForKey:[user userID]];
     TCMMMState *state = [[TCMMMState alloc] initAsServer:YES];
     [state setDelegate:self];
     [state setClient:profile];
@@ -900,10 +931,10 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         if ([userManager sender:profile shouldRequestUser:user]) {
             [result addObject:userNotification];
         }
-        [I_contributors addObject:user];
+        [I_contributors addObject:[userManager userForUserID:[user userID]]];
     }
 
-    [self TCM_setSessionParticipants:[sessionInfo objectForKey:@"Participants"]];
+    [result addObjectsFromArray:[self TCM_setSessionParticipants:[sessionInfo objectForKey:@"Participants"] forProfile:profile]];
 
     I_sessionContentLength = [[sessionInfo objectForKey:@"ContentLength"] unsignedIntValue] + 6;
     I_receivedContentLength = 0;
@@ -923,61 +954,86 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [aProfile sendUser:[userManager userForUserID:[user userID]]];
     }
     NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
-    [aProfile sendSessionContent:[[[I_sessionContentForUserID objectForKey:peerUserID] retain] autorelease]];
+    [aProfile sendSessionContent:[I_sessionContentForUserID objectForKey:peerUserID]];
     [I_sessionContentForUserID removeObjectForKey:peerUserID];
 }
 
 - (void)profileDidClose:(TCMBEEPProfile *)aProfile {
     SessionProfile *profile=(SessionProfile *)aProfile;
-    if ([[I_profilesByUserID allValues] containsObject:aProfile]) {
-        // treat as error
-        [self profile:aProfile didFailWithError:nil];
-    }
+    NSString *peerUserID = [[[profile session] userInfo] objectForKey:@"peerUserID"];
     TCMMMState *state=[profile MMState];
     if (state) {
-        [[state retain] autorelease];
-        [I_closingStates removeObject:state];
+        [I_statesWithRemainingMessages addObject:state];
+        //NSLog(@"states: %@",[I_statesWithRemainingMessages description]);
+        if (state==[I_statesByClientID objectForKey:peerUserID]) {
+            [I_statesByClientID removeObjectForKey:peerUserID];
+        }
         [state setClient:nil];
     }
+    [profile setMMState:nil];
     [profile setDelegate:nil];
-    [I_closingProfiles removeObject:profile];
+    if ([I_profilesByUserID objectForKey:peerUserID]==aProfile) {
+        [I_sessionContentForUserID removeObjectForKey:peerUserID];
+        [I_profilesByUserID removeObjectForKey:peerUserID];
+    }
 }
 
 - (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError {
-    SessionProfile *profile=(SessionProfile *)aProfile;
     if ([self isServer]) {
-        // same as leave for this user
-        NSString *userID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
-        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
-        NSString *group=[I_groupByUserID objectForKey:userID];
-        [[I_participants objectForKey:group] removeObject:user];
-        [I_groupByUserID removeObjectForKey:userID];
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
-        [self TCM_sendParticipantsDidChangeNotification];
-        [self detachStateAndProfileForUserWithID:userID];
-        [self profileDidClose:profile];
-        SelectionOperation *selectionOperation=[[user propertiesForSessionID:[self sessionID]] objectForKey:@"SelectionOperation"];
-        if (selectionOperation) {
-            [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
+        NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+        
+        TCMMMState *state=[I_statesByClientID objectForKey:peerUserID];
+        if (state) {
+            UserChangeOperation *heLeft=[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:peerUserID newGroup:@"LostConnection"];
+            [state appendOperationToIncomingMessageQueue:heLeft]; 
+            [I_statesWithRemainingMessages addObject:state];
+            //NSLog(@"states: %@",[I_statesWithRemainingMessages description]);
+            [state setClient:nil];
         }
-        [user leaveSessionID:[self sessionID]];
-    } else {
+        [aProfile setDelegate:nil];
+        [(SessionProfile *)aProfile setMMState:nil];
+        if ([I_profilesByUserID objectForKey:peerUserID]==aProfile) {
+            [I_sessionContentForUserID removeObjectForKey:peerUserID];
+            [I_profilesByUserID removeObjectForKey:peerUserID];
+        }
+    } else { 
         if ([self clientState]==TCMMMSessionClientParticipantState) {
-        // server is gone, almost the same as kick
-        // i was kicked, snief
-        // remove all Users
-            [self cleanupParticipants];
+            NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+            
+            TCMMMState *state=[I_statesByClientID objectForKey:peerUserID];
+            if (state) {
+                UserChangeOperation *heLeft=[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:peerUserID newGroup:@"LostConnection"];
+                [state appendOperationToIncomingMessageQueue:heLeft]; 
+                [I_statesWithRemainingMessages addObject:state];
+        //NSLog(@"states: %@",[I_statesWithRemainingMessages description]);
+                [state setClient:nil];
+            }
+            [aProfile setDelegate:nil];
+            [(SessionProfile *)aProfile setMMState:nil];
+            if ([I_profilesByUserID objectForKey:peerUserID]==aProfile) {
+                [I_profilesByUserID removeObjectForKey:peerUserID];
+            }
+        } else {
+            [[self document] sessionDidLoseConnection:self];
         }
-        [self detachStateAndProfileForUserWithID:[self hostID]];
-        [self profileDidClose:aProfile];
-        // detach document
-        [[self document] sessionDidLoseConnection:self];
-        [self setClientState:TCMMMSessionClientNoState];
     }
 }
 
 #pragma mark -
 #pragma ### State interaction ###
+
+- (void)profile:(SessionProfile *)aProfile didReceiveUserChangeToReadOnly:(UserChangeOperation *)anOperation {
+    //NSLog(@"pre-emtive-didRecieveUserChangeToReadOnly");
+    TCMMMState *state=[I_statesByClientID objectForKey:[self hostID]];
+    [state processAllUserChangeMessages];
+    [self setGroup:@"ReadOnly" forParticipantsWithUserIDs:[NSArray arrayWithObject:[TCMMMUserManager myUserID]]];
+    SessionProfile *profile=[I_profilesByUserID objectForKey:[self hostID]];
+    [profile setMMState:nil];
+    [state setDelegate:nil];
+    [state setClient:nil];
+    [I_statesByClientID removeObjectForKey:[self hostID]];
+    [(PlainTextDocument *)[self document] validateEditability];   
+}
 
 - (void)handleUserChangeOperation:(UserChangeOperation *)anOperation fromState:(TCMMMState *)aState {
     if ([anOperation type]==UserChangeTypeJoin) {
@@ -1006,7 +1062,6 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                 // i was kicked, snief
                 // remove all Users
                 [self cleanupParticipants];
-                [self detachStateAndProfileForUserWithID:[self hostID]];
                 // detach document
                 if ([[anOperation newGroup] isEqualTo:@"PoofGroup"]) {
                     [[self document] sessionDidReceiveKick:self];
@@ -1015,14 +1070,19 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                 }
                 [self setClientState:TCMMMSessionClientNoState];
             }
+        } else if ([userID isEqualToString:[self hostID]] && ![self isServer]) {
+            if ([[anOperation newGroup] isEqualTo:@"PoofGroup"]) {
+                [[self document] sessionDidLoseConnection:self];
+            } else {
+                [[self document] sessionDidReceiveClose:self];
+            }
+            [self cleanupParticipants];
+            [self setClientState:TCMMMSessionClientNoState];
         } else {
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
             NSString *group=[I_groupByUserID objectForKey:userID];
             [[I_participants objectForKey:group] removeObject:user];
             [I_groupByUserID removeObjectForKey:userID];
-            if ([self isServer]) {
-                [self detachStateAndProfileForUserWithID:userID];
-            }
             SelectionOperation *selectionOperation=[[user propertiesForSessionID:[self sessionID]] objectForKey:@"SelectionOperation"];
             if (selectionOperation) {
                 [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
@@ -1038,9 +1098,13 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             if ([self isServer]) {
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Can't change my group in my document, pah!");
             } else {
+                //NSLog(@"normal self change:%@",[anOperation description]);
                 if ([[anOperation newGroup] isEqualTo:@"ReadOnly"]) {
-                    
+                    //NSLog(@"normal self change to read only");
+
                     [[aState retain] autorelease];
+                    SessionProfile *profile=[I_profilesByUserID objectForKey:[self hostID]];
+                    [profile setMMState:nil];
                     [aState setDelegate:nil];
                     [aState setClient:nil];
                     [I_statesByClientID removeObjectForKey:[self hostID]];
@@ -1076,10 +1140,11 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)pauseProcessing {
     I_flags.pauseCount++;
-    //NSLog(@"paused");
+//    NSLog(@"paused %d",I_flags.pauseCount);
 }
 
 - (void)startProcessing {
+//    NSLog(@"started %d",I_flags.pauseCount);
     //NSLog(@"started");
     I_flags.pauseCount--;
     [self triggerPerformRoundRobin];
@@ -1092,7 +1157,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (void)triggerPerformRoundRobin {
     if (!I_flags.isPerformingRoundRobin &&
         !(I_flags.pauseCount>0) &&
-        [I_statesByClientID count]>0) {
+        ([I_statesByClientID count]>0 || [I_statesWithRemainingMessages count]>0)) {
         I_flags.isPerformingRoundRobin = YES;
         [self performSelector:@selector(performRoundRobinMessageProcessing) withObject:nil afterDelay:kWaitingTime];
     }
@@ -1105,8 +1170,10 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
     BOOL hasMessagesAvailable = YES;
     int count = [I_statesByClientID count];
+    int remainingCount = [I_statesWithRemainingMessages count];
     NSArray *states=[I_statesByClientID allValues];
-    while (!(I_flags.pauseCount>0) && hasMessagesAvailable && count && timeSpent<kProcessingTime) {
+    NSMutableArray *statesToDiscard=[NSMutableArray array];
+    while (!(I_flags.pauseCount>0) && hasMessagesAvailable && (count || remainingCount) && timeSpent<kProcessingTime) {
         hasMessagesAvailable = NO;
         for (i=0;i<count;i++) {
             TCMMMState *state=[states objectAtIndex:i];
@@ -1114,6 +1181,23 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             if (!hasMessagesAvailable) {
                 hasMessagesAvailable=[state hasMessagesAvailable];
             }
+        }
+        NSEnumerator *states=[I_statesWithRemainingMessages objectEnumerator];
+        TCMMMState *state=nil;
+        while ((state=[states nextObject])) {
+            [state processMessage];
+            if (![state hasMessagesAvailable]) {
+                [state setDelegate:nil];
+                [statesToDiscard addObject:state];
+            } else {
+                hasMessagesAvailable=YES;
+            }
+        }
+        while ([statesToDiscard count]) {
+            state = [statesToDiscard lastObject];
+            [I_statesWithRemainingMessages removeObject:state];
+            [statesToDiscard removeLastObject];
+            NSLog(@"discarding state: %@",[state description]);
         }
         timeSpent=(((double)(clock()-start_time))/CLOCKS_PER_SEC);
     }

@@ -12,6 +12,7 @@
 #import "TCMMMMessage.h"
 #import "TCMMMTransformator.h"
 #import "TCMMMUserManager.h"
+#import "UserChangeOperation.h"
 
 
 @implementation TCMMMState
@@ -30,6 +31,7 @@
 }
 
 - (void)dealloc {
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"MMState incoming messages %@",[I_incomingMessages description]);
     I_client = nil;
     I_delegate = nil;
     [I_timer invalidate];
@@ -148,6 +150,24 @@
         
         [I_incomingMessages removeLastObject];
     }
+}
+
+- (void)processAllUserChangeMessages {
+    NSEnumerator *incomingMessages=[I_incomingMessages reverseObjectEnumerator];
+    TCMMMMessage *message=nil;
+    while ((message=[incomingMessages nextObject])) {
+        TCMMMOperation *operation=[message operation];
+        if ([operation isKindOfClass:[UserChangeOperation class]]) {
+            if ([[self delegate] respondsToSelector:@selector(state:handleOperation:)]) {
+                [[self delegate] state:self handleOperation:operation];
+            }
+        }
+    }
+}
+
+- (void)appendOperationToIncomingMessageQueue:(TCMMMOperation *)anOperation {
+    TCMMMMessage *message = [[[TCMMMMessage alloc] initWithOperation:anOperation numberOfClient:I_numberOfClientMessages numberOfServer:I_numberOfServerMessages] autorelease];
+    [I_incomingMessages insertObject:message atIndex:0];
 }
 
 - (void)handleMessage:(TCMMMMessage *)aMessage {
