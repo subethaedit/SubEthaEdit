@@ -8,13 +8,15 @@
 
 #import "WebPreviewWindowController.h"
 #import "PlainTextDocument.h"
+#import "DocumentMode.h"
 
 int const kWebPreviewRefreshAutomatic=1;
 int const kWebPreviewRefreshOnSave   =2;
 int const kWebPreviewRefreshManually =3;
 int const kWebPreviewRefreshDelayed  =4;
 
-static NSString *WebPreviewWindowSizePreferenceKey=@"WebPreviewWindowSize";
+static NSString *WebPreviewWindowSizePreferenceKey =@"WebPreviewWindowSize";
+static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 
 @implementation WebPreviewWindowController
 
@@ -24,7 +26,14 @@ static NSString *WebPreviewWindowSizePreferenceKey=@"WebPreviewWindowSize";
     [self updateBaseURL];
     _hasSavedVisibleRect=NO;
     _shallCache=YES;
+    NSNumber *refreshTypeNumber=[[[aDocument documentMode] defaults] objectForKey:WebPreviewRefreshModePreferenceKey];
     _refreshType=kWebPreviewRefreshDelayed;
+    if (refreshTypeNumber) {
+        int refreshType=[refreshTypeNumber intValue];
+        if (refreshType>0 && refreshType <=kWebPreviewRefreshDelayed) {
+            _refreshType=refreshType;
+        }
+    }
     return self;
 }
 
@@ -110,6 +119,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 }
 
 - (void)setRefreshType:(int)aRefreshType {
+    [[[[self plainTextDocument] documentMode] defaults] setObject:[NSNumber numberWithInt:aRefreshType] forKey:WebPreviewRefreshModePreferenceKey];
     if ([self isWindowLoaded]) {
         int index=[oRefreshButton indexOfItemWithTag:aRefreshType];
         if (index!=-1) {
@@ -123,7 +133,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 
 
 -(IBAction)changeRefreshType:(id)aSender {
-    _refreshType=[[aSender selectedItem] tag];     
+    [self setRefreshType:[[aSender selectedItem] tag]];
 }
 
 -(void)windowDidLoad {
