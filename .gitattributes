@@ -723,10 +723,12 @@ subethaedit/artwork/Announce.tiff -text
 subethaedit/artwork/Conceal.tiff -text
 subethaedit/artwork/DefaultPerson.tiff -text
 subethaedit/artwork/EditPrefs.tiff -text
+subethaedit/artwork/EmptyButton.tiff -text
 subethaedit/artwork/GeneralPrefs.tiff -text
 subethaedit/artwork/HideChangeMarks.psd -text
 subethaedit/artwork/InternetResume.tiff -text
 subethaedit/artwork/InternetStop.tiff -text
+subethaedit/artwork/LogoGreenFullSize.psd -text
 subethaedit/artwork/NextChange.psd -text
 subethaedit/artwork/NextSymbol.tiff -text
 subethaedit/artwork/ParticipantBar_Fill.tiff -text
