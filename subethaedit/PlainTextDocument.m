@@ -110,6 +110,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_sendODBModifiedEvent;
 - (BOOL)TCM_validateDocument;
 - (NSDictionary *)TCM_propertiesOfCurrentSeeEvent;
+- (BOOL)TCM_readFromFile:(NSString *)fileName ofType:(NSString *)docType properties:(NSDictionary *)properties;
 @end
 
 #pragma mark -
@@ -199,6 +200,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_initHelper {
+    I_suspendedScriptCommands = [NSMutableArray new];
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
     [self setUndoManager:nil];
@@ -760,6 +762,8 @@ static NSString *tempFileName(NSString *origPath) {
         [I_session abandon];
     }
 
+    [I_suspendedScriptCommands release];
+    
     [I_symbolUpdateTimer release];
     [I_webPreviewDelayedRefreshTimer release];
 
@@ -935,6 +939,16 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (BOOL)isRemotelyEditingTextStorage {
     return I_flags.isRemotelyEditingTextStorage;
+}
+
+- (void)addSuspendedScriptCommand:(NSScriptCommand *)command {
+    [I_suspendedScriptCommands addObject:command];
+}
+
+- (void)resumeSuspendedScriptCommands {
+    NSLog(@"resume suspended commands");
+    [I_suspendedScriptCommands makeObjectsPerformSelector:@selector(resumeExecutionWithResult:) withObject:nil];
+    [I_suspendedScriptCommands removeAllObjects];
 }
 
 - (IBAction)showWebPreview:(id)aSender {
@@ -1669,7 +1683,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return parameters;
 }
 
-- (NSData *)TCM_dataWitContentsOfFileReadUsingAuthorizedHelper:(NSString *)fileName {
+- (NSData *)TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:(NSString *)fileName {
     OSStatus err;
     CFURLRef tool = NULL;
     AuthorizationRef auth = NULL;
@@ -1768,39 +1782,47 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
-- (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
-    I_flags.shouldSelectModeOnSave=NO;
+- (BOOL)TCM_readFromFile:(NSString *)fileName ofType:(NSString *)docType properties:(NSDictionary *)properties {
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromFile:%@ ofType:%@ properties: %@", fileName, docType, properties);
 
-    I_flags.isReadingFile=YES;
-
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromFile:%@ ofType:%@", fileName, docType);
+    I_flags.shouldSelectModeOnSave = NO;
+    I_flags.isReadingFile = YES;
 
     if (![docType isEqualToString:@"PlainTextType"]) {
-        I_flags.isReadingFile=NO;
+        I_flags.isReadingFile = NO;
         return NO;
     }
-
-    BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
 
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
     if (!fileExists || isDir) {
-        I_flags.isReadingFile=NO;
+        I_flags.isReadingFile = NO;
         return NO;
     }
 
     NSTextStorage *textStorage = [self textStorage];
 
+
+    BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
+
     // Determine mode
     DocumentMode *mode = nil;
-    if (isDocumentFromOpenPanel) {
-        NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
-        if ([identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
-            NSString *extension = [fileName pathExtension];
-            mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
-        } else {
-            mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
+    if ([properties objectForKey:@"mode"]) {
+        NSString *modeName = [properties objectForKey:@"mode"];
+        mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
+        if (!mode) {
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode name invalid: %@", modeName);
+        }
+    } else {
+        if (isDocumentFromOpenPanel) {
+            NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
+            if ([identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
+                NSString *extension = [fileName pathExtension];
+                mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
+            } else {
+                mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
+            }
         }
     }
 
@@ -1812,18 +1834,32 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 
     // Determine encoding
-    NSStringEncoding encoding;
-    if (isDocumentFromOpenPanel) {
-        DocumentController *documentController = (DocumentController *)[NSDocumentController sharedDocumentController];
-        encoding = [documentController encodingFromLastRunOpenPanel];
-        if (encoding == ModeStringEncoding) {
-            encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+    NSStringEncoding encoding = NoStringEncoding;
+    if ([properties objectForKey:@"encoding"]) {
+        NSString *IANACharSetName = [properties objectForKey:@"encoding"];
+        if (IANACharSetName) {
+            CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)IANACharSetName);
+            if (cfEncoding != kCFStringEncodingInvalidId) {
+                encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+            } else {
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"IANACharSetName invalid: %@", IANACharSetName);
+            }
         }
     } else {
-        encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+        if (isDocumentFromOpenPanel) {
+            DocumentController *documentController = (DocumentController *)[NSDocumentController sharedDocumentController];
+            encoding = [documentController encodingFromLastRunOpenPanel];
+            if (encoding == ModeStringEncoding) {
+                encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+            }
+        }
     }
     
-    
+    if (encoding == NoStringEncoding) {
+        encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+    }
+        
+    /*
     NSDictionary *arguments = [self TCM_propertiesOfCurrentSeeEvent];
     if (arguments) {
         NSString *modeName = [arguments objectForKey:@"ModeName"];
@@ -1845,8 +1881,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
     }
-
-
+    */
+    
+    
     NSDictionary *docAttrs = nil;
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
 
@@ -1860,7 +1897,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSData *fileData = nil;
     if (!isReadable) {
         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-        fileData = [self TCM_dataWitContentsOfFileReadUsingAuthorizedHelper:fileName];
+        fileData = [self TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:fileName];
         if (fileData == nil) {
             I_flags.isReadingFile = NO;
             return NO;
@@ -1935,9 +1972,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setDocumentMode:mode];
     [self updateChangeCount:NSChangeCleared];
 
-    I_flags.isReadingFile=NO;
+    I_flags.isReadingFile = NO;
 
     return YES;
+}
+
+- (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
+    NSDictionary *properties = [[DocumentController sharedDocumentController] propertiesForOpenedFile:fileName];
+    return [self TCM_readFromFile:fileName ofType:docType properties:properties];
 }
 
 
@@ -4056,6 +4098,43 @@ typedef enum {
     NSScriptCommand *command = [NSScriptCommand currentCommand];
     [command setScriptErrorNumber:2];
     [command setScriptErrorString:@"Document is not announced."];
+    return nil;
+}
+
+- (id)handleReadFromFileScriptCommand:(NSScriptCommand *)command {
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"command: %@", command);
+    
+    NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+
+    NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
+                                                    classDescriptionWithAppleEventCode:'pltd'];
+    
+    NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];
+    NSEnumerator *enumerator = [evaluatedProperties keyEnumerator];
+    id argumentKey;
+    while ((argumentKey = [enumerator nextObject])) {
+        if ([argumentKey isKindOfClass:[NSNumber class]]) {
+            NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
+            if (key) {
+                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+            }
+        } else if ([argumentKey isKindOfClass:[NSString class]]) {
+            [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
+        }
+    }
+    
+    (void)[self TCM_readFromFile:[[command evaluatedArguments] objectForKey:@"File"]
+                          ofType:@"PlainTextType"
+                      properties:properties];
+
+    [self updateChangeCount:NSChangeDone];
+    
+    NSAppleEventDescriptor *waitDesc = [[command appleEvent] descriptorForKeyword:'Wait'];
+    if (waitDesc && [waitDesc booleanValue]) {
+        [self addSuspendedScriptCommand:command];
+        [command suspendExecution];
+    }
+                          
     return nil;
 }
 

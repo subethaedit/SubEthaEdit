@@ -275,6 +275,8 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 
+    [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
+    
 //    #warning "Termination has to be removed before release!"
 //    if ([[NSDate dateWithString:@"2004-06-18 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
 //        [NSApp terminate:self];

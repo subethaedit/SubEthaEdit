@@ -23,7 +23,8 @@
     NSStringEncoding I_encodingFromLastRunOpenPanel;
     NSString *I_modeIdentifierFromLastRunOpenPanel;
     NSMutableArray *I_fileNamesFromLastRunOpenPanel;
-    NSMutableArray *I_suspensionIDs;
+    
+    NSMutableDictionary *I_propertiesForOpenedFiles;
 }
 
 + (DocumentController *)sharedInstance;
@@ -35,5 +36,8 @@
 - (NSStringEncoding)encodingFromLastRunOpenPanel;
 - (NSString *)modeIdentifierFromLastRunOpenPanel;
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument;
+- (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;
+
+- (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 
 @end

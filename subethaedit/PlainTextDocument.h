@@ -69,6 +69,7 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSMutableParagraphStyle *I_defaultParagraphStyle;
     NSDictionary *I_fileAttributes;
     NSDictionary *I_ODBParameters;
+    NSMutableArray *I_suspendedScriptCommands;
     
     IBOutlet NSWindow *O_exportSheet;
     IBOutlet NSObjectController *O_exportSheetController;
@@ -259,5 +260,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 - (void)addFindAllController:(FindAllController *)aController;
 - (void)removeFindAllController:(FindAllController *)aController;
+
+- (void)addSuspendedScriptCommand:(NSScriptCommand *)command;
+- (void)resumeSuspendedScriptCommands;
 
 @end

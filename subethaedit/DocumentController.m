@@ -34,7 +34,7 @@
     self = [super init];
     if (self) {
         I_fileNamesFromLastRunOpenPanel = [NSMutableArray new];
-        I_suspensionIDs = [NSMutableArray new];
+        I_propertiesForOpenedFiles = [NSMutableDictionary new];
     }
     return self;
 }
@@ -42,7 +42,7 @@
 - (void)dealloc {
     [I_modeIdentifierFromLastRunOpenPanel release];
     [I_fileNamesFromLastRunOpenPanel release];
-    [I_suspensionIDs release];
+    [I_propertiesForOpenedFiles release];
     [super dealloc];
 }
 
@@ -52,6 +52,18 @@
     [self addDocument:document];
     [document showWindows];
     [document release];
+}
+
+- (void)addDocument:(NSDocument *)document {
+    [super addDocument:document];
+    if ([[NSScriptCommand currentCommand] isKindOfClass:[NSCreateCommand class]]) {
+        NSScriptCommand *command = [NSScriptCommand currentCommand];
+        NSAppleEventDescriptor *waitDesc = [[command appleEvent] descriptorForKeyword:'Wait'];
+        if (waitDesc && [waitDesc booleanValue]) {
+            [(PlainTextDocument *)document addSuspendedScriptCommand:command];
+            [command suspendExecution];
+        }
+    }
 }
 
 - (IBAction)goIntoBundles:(id)sender {
@@ -135,6 +147,10 @@
     return YES;
 }
 
+- (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName {
+    return [I_propertiesForOpenedFiles objectForKey:fileName];
+}
+
 - (id)openDocumentWithContentsOfFile:(NSString *)fileName display:(BOOL)flag {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
     
@@ -158,22 +174,65 @@
 }
 
 - (void)removeDocument:(NSDocument *)document {
+    [(PlainTextDocument *)document resumeSuspendedScriptCommands];
+    [super removeDocument:document];
+}
 
-    int i;
-    int count = [I_suspensionIDs count];
-    for (i = count-1; i >= 0; i--) {
-        NSDictionary *dict = [I_suspensionIDs objectAtIndex:i];
-        NSMutableArray *array = [dict objectForKey:@"documents"];
-        [array removeObject:document];
-        if ([array count] == 0) {
-            NSAppleEventManagerSuspensionID suspensionID;
-            [[dict objectForKey:@"suspensionID"] getValue:&suspensionID];
-            [I_suspensionIDs removeObjectAtIndex:i];
-            [[NSAppleEventManager sharedAppleEventManager] resumeWithSuspensionID:suspensionID];
+- (id)handleOpenScriptCommand:(NSScriptCommand *)command {
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"command: %@", [command description]);
+
+    NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+
+    NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
+                                                    classDescriptionWithAppleEventCode:'pltd'];
+    
+    NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];
+    NSEnumerator *enumerator = [evaluatedProperties keyEnumerator];
+    id argumentKey;
+    while ((argumentKey = [enumerator nextObject])) {
+        if ([argumentKey isKindOfClass:[NSNumber class]]) {
+            NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
+            if (key) {
+                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+            }
+        } else if ([argumentKey isKindOfClass:[NSString class]]) {
+            [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
         }
     }
     
-    [super removeDocument:document];
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"properties: %@", properties);
+    
+    NSMutableArray *files = [NSMutableArray array];
+    id directParameter = [command directParameter];
+    if ([directParameter isKindOfClass:[NSArray class]]) {
+        [files addObjectsFromArray:directParameter];
+    } else if ([directParameter isKindOfClass:[NSString class]]) {
+        [files addObject:directParameter];
+    } else if ([directParameter isKindOfClass:[NSURL class]]) {
+        [files addObject:[directParameter path]];
+    }
+    
+    BOOL shouldWait = NO;
+    NSAppleEventDescriptor *waitDesc = [[command appleEvent] descriptorForKeyword:'Wait'];
+    if (waitDesc && [waitDesc booleanValue]) {
+        shouldWait = YES;
+    }
+    
+    enumerator = [files objectEnumerator];
+    NSString *filename;
+    while ((filename = [enumerator nextObject])) {
+        [I_propertiesForOpenedFiles setObject:properties forKey:filename];
+        PlainTextDocument *document = [self openDocumentWithContentsOfFile:filename display:YES];
+        if (shouldWait) {
+            [document addSuspendedScriptCommand:command];
+        }
+    }
+
+    if (shouldWait) {
+        [command suspendExecution];
+    }
+            
+    return nil;
 }
 
 #pragma mark -
@@ -217,55 +276,6 @@ struct ModificationInfo
             }
         }
         [replyEvent setDescriptor:listDesc forKeyword:keyDirectObject];
-    } else if ([event eventClass] == 'Hdra' && [event eventID] == 'See ') {
-
-        BOOL shouldPrint = NO;
-        NSAppleEventDescriptor *printDesc = [event descriptorForKeyword:'Prnt'];
-        if (printDesc && [printDesc booleanValue]) {
-            shouldPrint = YES;
-        }
-        
-        NSAppleEventDescriptor *tempDesc = [event descriptorForKeyword:'Temp'];
-        if (tempDesc && [tempDesc booleanValue]) {
-            NSAppleEventDescriptor *listDesc = [event descriptorForKeyword:keyDirectObject];
-            int i;
-            for (i = 1; i <= [listDesc numberOfItems]; i++) {
-                NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
-                NSString *fileName = [[event descriptorForKeyword:'Name'] stringValue];
-                if (fileName) {
-                    [document setFileName:fileName];
-                }
-                NSString *URLString = [[listDesc descriptorAtIndex:i] stringValue];
-                NSString *path = [[NSURL URLWithString:URLString] path];
-                [document readFromFile:path ofType:@"PlainTextType"];
-                [document updateChangeCount:NSChangeDone];
-                //[[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
-                if (shouldPrint) {
-                    [document printDocument:self];
-                }
-            }            
-        } else {
-            NSMutableArray *documents = [NSMutableArray array];
-            NSAppleEventDescriptor *listDesc = [event descriptorForKeyword:keyDirectObject];
-            int i;
-            for (i = 1; i <= [listDesc numberOfItems]; i++) {
-                NSString *URLString = [[listDesc descriptorAtIndex:i] stringValue];
-                NSDocument *document = [self openDocumentWithContentsOfFile:[[NSURL URLWithString:URLString] path] display:YES];
-                [documents addObject:document];
-                if (shouldPrint) {
-                    [document printDocument:self];
-                }
-            }
-            
-            NSAppleEventDescriptor *waitDesc = [event descriptorForKeyword:'Wait'];
-            if (waitDesc && [waitDesc booleanValue]) {
-                NSAppleEventManagerSuspensionID suspensionID = [[NSAppleEventManager sharedAppleEventManager] suspendCurrentAppleEvent];
-                [I_suspensionIDs addObject:
-                    [NSDictionary dictionaryWithObjectsAndKeys:
-                        [NSValue value:&suspensionID withObjCType:@encode(NSAppleEventManagerSuspensionID)], @"suspensionID",
-                        documents, @"documents", nil]];
-            }
-        }
     }
 }
 

@@ -75,7 +75,7 @@ static BOOL launchSubEthaEdit() {
         //NSString *bundleVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
         //NSLog(@"Retrieved bundle version of installed SubEthaEdit: %@", bundleVersion);
         
-        //appURL = (CFURLRef)[NSURL URLWithString:@"file:///Users/Shared/BuildProducts/SubEthaEdit.app"];
+        appURL = (CFURLRef)[NSURL URLWithString:@"file:///Users/Shared/BuildProducts/SubEthaEdit.app"];
         
         LSLaunchURLSpec inLaunchSpec;
         inLaunchSpec.appURL = appURL;
@@ -90,57 +90,28 @@ static BOOL launchSubEthaEdit() {
 }
 
 
-static NSAppleEventDescriptor *eventDescriptorFromOptions(NSArray *fileURLs, BOOL temp, NSDictionary *options) {
-    int i;
-    OSType creatorCode = 'Hdra';
-    NSAppleEventDescriptor *addressDescriptor;
+static NSAppleEventDescriptor *propertiesEventDescriptorWithOptions(NSDictionary *options) {
+    NSAppleEventDescriptor *propRecord = [NSAppleEventDescriptor recordDescriptor];
     
-    addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:&creatorCode length:sizeof(creatorCode)];
-    if (addressDescriptor != nil) {
-        NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-        if (appleEvent != nil) {
-            NSAppleEventDescriptor *listDesc = [NSAppleEventDescriptor listDescriptor];
-            for (i = 1; i <= [fileURLs count]; i++) {
-                NSString *URLString = [[fileURLs objectAtIndex:i-1] absoluteString];
-                [listDesc insertDescriptor:[NSAppleEventDescriptor descriptorWithString:URLString]
-                                   atIndex:i];
-            }
-            [appleEvent setDescriptor:listDesc forKeyword:keyDirectObject];
-            if ([options objectForKey:@"wait"]) {
-                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
-                               forKeyword:'Wait'];
-            }
-            NSString *encoding = [options objectForKey:@"enocding"];
-            if (encoding) {
-                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:encoding]
-                               forKeyword:'Enc '];
-            }
-            NSString *mode = [options objectForKey:@"mode"];
-            if (mode) {
-                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:mode]
-                               forKeyword:'Mode'];
-            }
-            if (temp) {
-                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
-                               forKeyword:'Temp'];
-            }
-            NSString *pipeTitle = [options objectForKey:@"pipe-title"];
-            if (pipeTitle) {
-                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:pipeTitle]
-                               forKeyword:'Name'];
-            }
-            if ([options objectForKey:@"print"]) {
-                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
-                               forKeyword:'Prnt'];
-            }
-    
-            return appleEvent;
-        }
-    }
-    
-    return nil;
-}
+    NSString *pipeTitle = [options objectForKey:@"pipe-title"];
+    if (pipeTitle) {
+        [propRecord setDescriptor:[NSAppleEventDescriptor descriptorWithString:pipeTitle]
+                       forKeyword:pName];
 
+    }
+    NSString *mode = [options objectForKey:@"mode"];
+    if (mode) {
+        [propRecord setDescriptor:[NSAppleEventDescriptor descriptorWithString:mode]
+                       forKeyword:'Mode'];                
+    }
+    NSString *encoding = [options objectForKey:@"encoding"];
+    if (encoding) {
+        [propRecord setDescriptor:[NSAppleEventDescriptor descriptorWithString:encoding]
+                       forKeyword:'Encd'];                
+    }
+                    
+    return propRecord;
+}
 
 static void makeUntitledDocument(NSString *title, NSDictionary *options) {
     if (!launchSubEthaEdit()) {
@@ -162,17 +133,26 @@ static void makeUntitledDocument(NSString *title, NSDictionary *options) {
             [appleEvent setParamDescriptor:propRecord
                                 forKeyword:keyAEPropData];
             
+            AESendMode sendMode = kAEWaitReply;
+            long timeOut = kAEDefaultTimeout;
+            
+            if ([options objectForKey:@"wait"]) {
+                sendMode = kAEWaitReply;
+                timeOut = kNoTimeOut;
+                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
+                               forKeyword:'Wait'];
+            }
+            
             AppleEvent reply;
-            OSStatus err = AESendMessage([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
+            OSStatus err = AESendMessage([appleEvent aeDesc], &reply, sendMode, timeOut);
             if (err != noErr) {
-                NSLog(@"Error while sending Apple Event");
+                NSLog(@"Error while sending Apple Event: %d", err);
             }
         }
     }
 }
 
 
-/*
 static void makeUntitledDocumentFromFile(NSString *fileName, NSDictionary *options) {
     if (!launchSubEthaEdit()) {
         return;
@@ -187,23 +167,53 @@ static void makeUntitledDocumentFromFile(NSString *fileName, NSDictionary *optio
         if (appleEvent != nil) {
             [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithTypeCode:'pltd']
                                 forKeyword:keyAEObjectClass];
-            NSString *pipeTitle = [options objectForKey:@"pipe-title"];
-            if (pipeTitle) {
-                NSAppleEventDescriptor *propRecord = [NSAppleEventDescriptor recordDescriptor];
-                [propRecord setDescriptor:[NSAppleEventDescriptor descriptorWithString:pipeTitle]
-                               forKeyword:pName];
-                [appleEvent setParamDescriptor:propRecord
-                                    forKeyword:keyAEPropData];
-            }
+
+            NSAppleEventDescriptor *propRecord = propertiesEventDescriptorWithOptions(options);
+            [appleEvent setParamDescriptor:propRecord
+                                forKeyword:keyAEPropData];
             
             AppleEvent reply;
             OSStatus err = AESendMessage([appleEvent aeDesc], &reply, kAEWaitReply, kAEDefaultTimeout);
             if (err == noErr) {
                 NSAppleEventDescriptor *replyDesc = [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&reply];
                 NSLog(@"reply: %@", replyDesc);
+                NSAppleEventDescriptor *specifierDesc = [replyDesc descriptorForKeyword:keyDirectObject];
+                
+                appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'MySu' eventID:'Read' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+                if (appleEvent) {
+                    [appleEvent setDescriptor:specifierDesc
+                                   forKeyword:keyDirectObject];
+                    [appleEvent setParamDescriptor:propRecord
+                                        forKeyword:keyAEPropData];
+                                        
+                    NSURL *fileURL = [NSURL fileURLWithPath:fileName];
+                    FSRef fileRef;
+                    Boolean result = CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
+                    if (!result) {
+                        NSLog(@"Failed to convert CFURL to FSRef");
+                    }
+                    [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)]
+                                        forKeyword:'From'];
+                    
+                    AESendMode sendMode = kAEWaitReply;
+                    long timeOut = kAEDefaultTimeout;
+                    
+                    if ([options objectForKey:@"wait"]) {
+                        sendMode = kAEWaitReply;
+                        timeOut = kNoTimeOut;
+                        [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
+                                       forKeyword:'Wait'];
+                    }
+            
+                    err = AESendMessage([appleEvent aeDesc], &reply, sendMode, timeOut);
+                    if (err != noErr) {
+                        NSLog(@"Error while sending Apple Event: %d", err);
+                    }
+                }
+                
                 [replyDesc release];
             } else {
-                NSLog(@"Error while sending Apple Event");
+                NSLog(@"Error while sending Apple Event: %d", err);
             }
         }
     }
@@ -211,9 +221,44 @@ static void makeUntitledDocumentFromFile(NSString *fileName, NSDictionary *optio
 
 
 static void openDocument(NSString *fileName, NSDictionary *options) {
-
+    if (!launchSubEthaEdit()) {
+        return;
+    }
+    
+    OSType creatorCode = 'Hdra';
+    NSAppleEventDescriptor *addressDescriptor;
+    
+    addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:&creatorCode length:sizeof(creatorCode)];
+    if (addressDescriptor != nil) {
+        NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEOpenDocuments targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+        if (appleEvent != nil) {
+            NSURL *fileURL = [NSURL fileURLWithPath:fileName];
+            FSRef fileRef;
+            CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
+            [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)]
+                           forKeyword:keyDirectObject];
+            NSAppleEventDescriptor *propRecord = propertiesEventDescriptorWithOptions(options);
+            [appleEvent setParamDescriptor:propRecord
+                                forKeyword:keyAEPropData];
+                                
+            AESendMode sendMode = kAENoReply;
+            long timeOut = kAEDefaultTimeout;
+            
+            if ([options objectForKey:@"wait"]) {
+                sendMode = kAEWaitReply;
+                timeOut = kNoTimeOut;
+                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
+                               forKeyword:'Wait'];
+            }
+            
+            AppleEvent reply;
+            OSStatus err = AESendMessage([appleEvent aeDesc], &reply, sendMode, timeOut);
+            if (err != noErr) {
+                NSLog(@"Error while sending Apple Event: %d", err);
+            }
+        }
+    }
 }
-*/
 
 
 static void openFiles(NSArray *fileNames, NSDictionary *options) {
@@ -222,8 +267,6 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     ProcessSerialNumber psn = {0, kNoProcess};
     ProcessSerialNumber noPSN = {0, kNoProcess};
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSMutableArray *fileURLs = [NSMutableArray array];
-    BOOL temp = NO;
     BOOL wait = [[options objectForKey:@"wait"] boolValue];
     BOOL resume = [[options objectForKey:@"resume"] boolValue];
     int i = 0;
@@ -241,7 +284,6 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     //
     
     if ([fileNames count] == 0) {
-        temp = YES;
         NSString *fileName = tempFileName();
         [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
         NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
@@ -255,8 +297,8 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
             }
         }
         [fdout closeFile];
-        //makeUntitledDocumentFromFile(fileName, options);
-        [fileURLs addObject:[NSURL fileURLWithPath:fileName]];
+        makeUntitledDocumentFromFile(fileName, options);
+        [[NSFileManager defaultManager] removeFileAtPath:fileName handler:nil];
     } else {
         BOOL isDir;
         count = [fileNames count];
@@ -267,8 +309,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
                     //fprintf(stdout, "\"%s\" is a directory.\n", fileName);
                     //fflush(stdout);
                 } else {
-                    //openDocument(fileName, options);
-                    [fileURLs addObject:[NSURL fileURLWithPath:fileName]];                      
+                    openDocument(fileName, options);
                 }
             } else {
                 makeUntitledDocument(fileName, options);
@@ -284,45 +325,6 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     }
     NSLog(@"stdout a pipe? %@", isStandardOutputATTY ? @"NO" : @"YES");
     */
-        
-        
-    //
-    // Launch SubEthaEdit and relay arguments from cli via Apple Event
-    //
-    
-    if (temp || [fileURLs count] > 0) {
-        BOOL success = launchSubEthaEdit();
-        if (success) {
-            AppleEvent reply;
-            AESendMode sendMode = kAENoReply;
-            long timeOut = kAEDefaultTimeout;
-            NSAppleEventDescriptor *desc = eventDescriptorFromOptions(fileURLs, temp, options);
-            
-            if (desc) {
-                if (wait || temp) {
-                    sendMode = kAEWaitReply;
-                    timeOut = kNoTimeOut;            
-                }
-                
-                OSStatus err = AESendMessage([desc aeDesc], &reply, sendMode, timeOut);
-                if (err != noErr) {
-                    NSLog(@"Error while sending Apple Event");
-                }
-            }      
-        }
-    }
-    
-    //
-    // Remove temp file
-    //
-    
-    if (temp) {
-        int count = [fileURLs count];
-        for (i = 0; i < count; i++) {
-            NSString *path = [[fileURLs objectAtIndex:i] path];
-            [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
-        }
-    }
     
     //
     // Bring terminal to front when wait and resume was specified

@@ -18,6 +18,11 @@
                         <cocoa method="orderedDocuments"/>
                     </element>
                 </elements>
+				<responds-to-commands>
+					<responds-to name="SubEthaEditSuite.Open">
+						<cocoa method="TCM_handleOpenScriptCommand:"/>
+					</responds-to>
+				</responds-to-commands>
             </class>
             <class name="text document" code="pltd" inherits="document">
                 <cocoa class="PlainTextDocument"/>
@@ -44,6 +49,11 @@
                         <cocoa method="announcementURL"/>
                     </property>
                 </properties>
+				<responds-to-commands>
+					<responds-to name="read">
+						<cocoa method="handleReadFromFileScriptCommand:"/>
+					</responds-to>
+				</responds-to-commands>
             </class>
             <class name="text" plural="text" code="ctxt" description="Rich (styled) text">
 				<cocoa class="TextStorage"/>
@@ -92,6 +102,15 @@
             <command name="open url" code="WWW!OURL">
                 <cocoa class="GetURLCommand"/>
                 <direct-parameter type="object"/>
+            </command>
+            <command name="read" code="MySuRead" hidden="hidden" description="">
+                <direct-parameter type="object" description=""/>
+                <parameter name="from" code="From" type="file" description="">
+					<cocoa key="File"/>
+				</parameter>
+                <parameter name="with properties" code="prdt" type="record" optional="optional" description="initial properties">
+                    <cocoa key="WithProperties"/>
+                </parameter>
             </command>
         </commands>
     </suite>

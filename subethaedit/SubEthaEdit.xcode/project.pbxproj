@@ -2311,6 +2311,34 @@
 			settings = {
 			};
 		};
+		14EBE89F06FEF44F006EFB94 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NSApplicationTCMAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14EBE8A006FEF44F006EFB94 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NSApplicationTCMAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14EBE8A106FEF44F006EFB94 = {
+			fileRef = 14EBE89F06FEF44F006EFB94;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14EBE8A206FEF44F006EFB94 = {
+			fileRef = 14EBE8A006FEF44F006EFB94;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14F35FCC0657BAD700013758 = {
 			buildSettings = {
 				DEPLOYMENT_LOCATION = YES;
@@ -2512,8 +2540,8 @@
 				1439BC560649520E00A5BD0D,
 				14840CFC061AF8CA0082EA0A,
 				14AE9CAA05F5E8F00025CADE,
-				5EF18E2E066496E200957730,
-				5EF18E2F066496E200957730,
+				14EBE89F06FEF44F006EFB94,
+				14EBE8A006FEF44F006EFB94,
 				5EBAC2CC064A7372006E6BBF,
 				5EBAC2AE064A7358006E6BBF,
 				5E61F31906675C4700B0C572,
@@ -2522,6 +2550,8 @@
 				5EEB185605ED0E1600C17677,
 				14352D2606539BCE00C9685E,
 				14352D2706539BCE00C9685E,
+				5EF18E2E066496E200957730,
+				5EF18E2F066496E200957730,
 				14FF9705065221920021FB60,
 				14FF9706065221920021FB60,
 				1439BC680649740D00A5BD0D,
@@ -5676,6 +5706,7 @@
 				1428840806E33DA000FB57C5,
 				1428840A06E33DA000FB57C5,
 				1469B47306EDBD6200863288,
+				14EBE8A106FEF44F006EFB94,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5895,6 +5926,7 @@
 				1428840606E33DA000FB57C5,
 				1428840906E33DA000FB57C5,
 				1469B47406EDBD6200863288,
+				14EBE8A206FEF44F006EFB94,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
