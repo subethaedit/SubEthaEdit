@@ -56,6 +56,8 @@ enum {
 }
 @end
 
+#pragma mark -
+
 static NSString * const PlainTextDocumentSyntaxColorizeNotification = 
                       @"PlainTextDocumentSyntaxColorizeNotification";
 NSString * const PlainTextDocumentRefreshWebPreviewNotification = 
@@ -435,12 +437,15 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     int count=[I_symbolArray count];
     int nearest=-1;
     while (--count>=0) {
-        NSRange symbolRange=[[I_symbolArray objectAtIndex:count] range];
-        if (TouchingRanges(aRange,symbolRange)) {
-            return count;
-        }
-        if (nearest==-1 && aRange.location > NSMaxRange(symbolRange)) {
-            nearest=count;
+        SymbolTableEntry *entry=[I_symbolArray objectAtIndex:count];
+        if (![entry isSeparator]) {
+            NSRange symbolRange=[entry range];
+            if (TouchingRanges(aRange,symbolRange)) {
+                return count;
+            }
+            if (nearest==-1 && aRange.location > NSMaxRange(symbolRange)) {
+                nearest=count;
+            }
         }
     }
     return nearest;
