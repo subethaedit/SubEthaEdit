@@ -878,7 +878,7 @@
         
         <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="italic">
             <begin><string>@?"</string></begin>
-            <end><regex>[^\\]"</regex></end>
+            <end><regex>([^\\]"|^")</regex></end>
         </state>
 
         <state id="Preprocessor" color="#683821" background-color="none" font-weight="normal" font-style="italic">
