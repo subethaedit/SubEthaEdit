@@ -11,6 +11,7 @@
 #import "PlainTextDocument.h"
 #import "EncodingManager.h"
 #import "DocumentModeManager.h"
+#import "AppController.h"
 
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
@@ -114,6 +115,50 @@
     }
     [I_fileNamesFromLastRunOpenPanel removeObjectAtIndex:index];
     return YES;
+}
+
+#pragma mark -
+
+#pragma options align=mac68k
+struct ModificationInfo
+{
+    FSSpec theFile; // identifies the file
+    long theDate; // the date/time the file was last modified
+    short saved; // set this to zero when replying
+};
+#pragma options align=reset
+
+- (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"handleAppleEvent: %@, withReplyEvent: %@", [event description], [replyEvent description]);
+    OSErr err;
+    
+    if ([event eventClass] == kKAHL && [event eventID] == kMOD) {
+        NSAppleEventDescriptor *listDesc = [NSAppleEventDescriptor listDescriptor];
+        NSArray *documents = [self documents];
+        NSEnumerator *enumerator = [documents objectEnumerator];
+        NSDocument *document;
+        while ((document = [enumerator nextObject])) {
+            if ([document isDocumentEdited]) {
+                NSString *name = [document fileName];
+                if (name != nil) {
+                    NSURL *fileURL = [NSURL fileURLWithPath:name];
+                    FSRef fileRef;
+                    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
+                    FSSpec fsSpec;
+                    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
+                    if (err == noErr) {
+                        struct ModificationInfo modificationInfo;
+                        modificationInfo.theFile = fsSpec;
+                        modificationInfo.theDate = 0;
+                        modificationInfo.saved = 0;
+                        NSAppleEventDescriptor *modificationInfoDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeChar bytes:&modificationInfo length:sizeof(struct ModificationInfo)];
+                        [listDesc insertDescriptor:modificationInfoDesc atIndex:0];
+                    }
+                }
+            }
+        }
+        [replyEvent setDescriptor:listDesc forKeyword:keyDirectObject];
+    }
 }
 
 @end

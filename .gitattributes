@@ -533,4 +533,6 @@ subethaedit/artwork/URLIcon.tiff -text
 subethaedit/createDiskImage.sh -text
 subethaedit/debug.tiff -text
 subethaedit/main.m -text
+subethaedit/see/main.c -text
+subethaedit/see/see.1 -text
 subethaedit/version.plist -text

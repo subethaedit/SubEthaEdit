@@ -240,6 +240,11 @@ NSString * const DefaultPortNumber = @"port";
     [TCMPreferenceController registerPrefModule:editPrefs];
     DebugPreferences *debugPrefs = [[DebugPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:debugPrefs];
+    
+    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:[NSDocumentController sharedDocumentController]
+                                                       andSelector:@selector(handleAppleEvent:withReplyEvent:)
+                                                     forEventClass:kKAHL
+                                                        andEventID:kMOD];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {

@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 
 
+#define kKAHL 'KAHL'
+#define kMOD 'MOD '
+
+
 @interface AppController : NSObject {
 }
 

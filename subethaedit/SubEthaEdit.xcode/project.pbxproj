@@ -310,8 +310,8 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			path = AppController.m;
-			refType = 4;
-			sourceTree = "<group>";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		143C360E05ECCEE8008C6DFE = {
 			fileRef = 143C360C05ECCEE8008C6DFE;
@@ -705,6 +705,117 @@
 		};
 		1473143306130AFC00609A01 = {
 			fileRef = 1473143106130AFC00609A01;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		147883B9062751DA00B6685C = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		147883BA062751DA00B6685C = {
+			buildActionMask = 2147483647;
+			files = (
+				147883FF0627538100B6685C,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		147883BB062751DA00B6685C = {
+			buildPhases = (
+				147883B9062751DA00B6685C,
+				147883BA062751DA00B6685C,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = see;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = see;
+			productName = see;
+			productReference = 147883BC062751DA00B6685C;
+			productType = "com.apple.product-type.tool";
+		};
+		147883BC062751DA00B6685C = {
+			explicitFileType = "compiled.mach-o.executable";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = see;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		147883BE062751E500B6685C = {
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 147883BB062751DA00B6685C;
+			remoteInfo = see;
+		};
+		147883BF062751E500B6685C = {
+			isa = PBXTargetDependency;
+			target = 147883BB062751DA00B6685C;
+			targetProxy = 147883BE062751E500B6685C;
+		};
+		147883E30627525F00B6685C = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				147883EF0627528400B6685C,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		147883EF0627528400B6685C = {
+			fileRef = 147883BC062751DA00B6685C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		147883F2062752B700B6685C = {
+			children = (
+				147883FD0627537600B6685C,
+				147883FE0627537700B6685C,
+			);
+			isa = PBXGroup;
+			name = see;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		147883FD0627537600B6685C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = main.c;
+			path = see/main.c;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		147883FE0627537700B6685C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.man;
+			name = see.1;
+			path = see/see.1;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		147883FF0627538100B6685C = {
+			fileRef = 147883FD0627537600B6685C;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1392,6 +1503,7 @@
 		19C28FB0FE9D524F11CA2CBB = {
 			children = (
 				8D15AC370486D014006FF6A4,
+				147883BC062751DA00B6685C,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1424,6 +1536,7 @@
 				147037FE060C642F0087BA25,
 				31DEE029061089D0001EC83E,
 				14963A3D061F0CFD009B8E42,
+				147883BB062751DA00B6685C,
 			);
 		};
 		2A37F4AAFDCFA73011CA2CEA = {
@@ -1432,6 +1545,7 @@
 				5EEB176D05ECF6DA00C17677,
 				143C35DB05ECAC32008C6DFE,
 				2A37F4AFFDCFA73011CA2CEA,
+				147883F2062752B700B6685C,
 				2A37F4B8FDCFA73011CA2CEA,
 				2A37F4C3FDCFA73011CA2CEA,
 				19C28FB0FE9D524F11CA2CBB,
@@ -2979,6 +3093,7 @@
 				8D15AC300486D014006FF6A4,
 				8D15AC330486D014006FF6A4,
 				5E2A5BA806132149006242F9,
+				147883E30627525F00B6685C,
 			);
 			buildRules = (
 			);
@@ -3003,6 +3118,7 @@
 				WRAPPER_EXTENSION = app;
 			};
 			dependencies = (
+				147883BF062751E500B6685C,
 			);
 			isa = PBXNativeTarget;
 			name = SubEthaEdit;
