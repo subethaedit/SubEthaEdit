@@ -1635,7 +1635,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                         }
                         [legend appendString:@"<br />"];
                         if ([email length]) {
-                            [legend appendFormat:@"%@ <a href=\"%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
+                            [legend appendFormat:@"%@ <a href=\"mailto:%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
                         }
                         [legend appendString:@"</td>"];
                     }
@@ -1665,7 +1665,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                         }
                         [legend appendString:@"<br />"];
                         if ([email length]) {
-                            [legend appendFormat:@"%@ <a href=\"%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
+                            [legend appendFormat:@"%@ <a href=\"mailto:%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
                         }
                         [legend appendString:@"</td>"];
                     }
