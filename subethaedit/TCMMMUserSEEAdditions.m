@@ -24,6 +24,10 @@
     [user setUserID:[aRepresentation objectForKey:@"UserID"]];
     [user setChangeCount:[[aRepresentation objectForKey:@"ChangeCount"] longLongValue]];
     NSData *pngData=[aRepresentation objectForKey:@"ImageAsPNG"];
+    NSString *string=[aRepresentation objectForKey:@"AIM"];
+    [[user properties] setObject:string?string:@"" forKey:@"AIM"];
+    string=[aRepresentation objectForKey:@"Email"];
+    [[user properties] setObject:string?string:@"" forKey:@"Email"];
     [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
     [[user properties] setObject:[[[NSImage alloc] initWithData:[[user properties] objectForKey:@"ImageAsPNG"]] autorelease] forKey:@"Image"];
     [user prepareImages];
@@ -41,6 +45,8 @@
 
 - (NSDictionary *)dictionaryRepresentation {
     return [NSDictionary dictionaryWithObjectsAndKeys:
+        [[self properties] objectForKey:@"AIM"],@"AIM",
+        [[self properties] objectForKey:@"Email"],@"Email",
         [self name],@"Name",
         [self userID],@"UserID",
         [[self properties] objectForKey:@"ImageAsPNG"],@"ImageAsPNG",
