@@ -633,7 +633,7 @@ static InternetBrowserController *sharedInstance = nil;
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
     NSString *URLString = [[session userInfo] objectForKey:@"URLString"];
-    BOOL isRendezvous = [[session userInfo] objectForKey:@"isRendezvous"] != nil ? YES : NO;
+    BOOL isRendezvous = [[session userInfo] objectForKey:@"isRendezvous"] != nil;
     if (isRendezvous) {
         return;
     }
@@ -674,6 +674,11 @@ static InternetBrowserController *sharedInstance = nil;
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
+    BOOL isRendezvous = [[session userInfo] objectForKey:@"isRendezvous"] != nil;
+    if (isRendezvous) {
+        return;
+    }
+    
     NSString *URLString = [[session userInfo] objectForKey:@"URLString"];
     int index = [self indexOfItemWithURLString:URLString];
     if (index != -1) {

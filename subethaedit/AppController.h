@@ -14,9 +14,13 @@
 
 
 @interface AppController : NSObject {
+
 }
 
 - (IBAction)undo:(id)aSender;
 - (IBAction)redo:(id)aSender;
+
+- (IBAction)purchaseSubEthaEdit:(id)sender;
+- (IBAction)enterSerialNumber:(id)sender;
 
 @end

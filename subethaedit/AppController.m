@@ -286,16 +286,14 @@ NSString * const AddressHistory = @"AddressHistory";
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is acutally after the opening of the first untitled document window!
 
-    //SetupController *setupController = [SetupController new];
+    //SetupController *setupController = [SetupController sharedInstance];
     //NSModalSession modalSession = [NSApp beginModalSessionForWindow:[setupController window]];
     //for (;;) {
     //    if ([NSApp runModalSession:modalSession] != NSRunContinuesResponse)
     //    break;
     //}
     //[NSApp endModalSession:modalSession];
-    //[setupController release];
-
-
+    
     // set up beep profiles
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
@@ -394,6 +392,14 @@ NSString * const AddressHistory = @"AddressHistory";
     [[[NSDocumentController sharedDocumentController] currentDocument] redo:aSender];
 }
 
+- (IBAction)purchaseSubEthaEdit:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/purchase/"]];
+}
+
+- (IBAction)enterSerialNumber:(id)sender {
+    [[SetupController sharedInstance] showWindow:self];
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     
@@ -411,6 +417,10 @@ NSString * const AddressHistory = @"AddressHistory";
         } else {
             return NO;
         }
+    } else if (selector==@selector(purchaseSubEthaEdit:)) {
+        return YES;
+    } else if (selector==@selector(enterSerialNumber:)) {
+        return YES;
     }
 
     return YES;

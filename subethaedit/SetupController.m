@@ -11,11 +11,21 @@
 #define kApplicationMenuItemTag 999
 #define kQuitMenuItemTag 998
 
+static SetupController *sharedInstance = nil;
+
 @implementation SetupController
+
++ (SetupController *)sharedInstance {
+    return sharedInstance;
+}
 
 - (id)init {
     self = [super initWithWindowNibName:@"Setup"];
     return self;
+}
+
+- (void)awakeFromNib {
+    sharedInstance = self;
 }
 
 - (void)windowDidLoad {
@@ -37,6 +47,10 @@
               contextInfo:nil];
 
         return;
+    }
+    
+    if ([[O_tabView selectedTabViewItem] isEqual:O_purchaseTabItem]) {
+    
     }
     
     if ([[O_tabView selectedTabViewItem] isEqual:O_doneTabItem]) {

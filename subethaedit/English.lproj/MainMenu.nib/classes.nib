@@ -6,7 +6,7 @@
             SUPERCLASS = NSWindowController; 
         }, 
         {
-            ACTIONS = {redo = id; undo = id; }; 
+            ACTIONS = {enterSerialNumber = id; purchaseSubEthaEdit = id; redo = id; undo = id; }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
@@ -120,6 +120,22 @@
                 "O_imageView" = NSImageView; 
                 "O_myNameTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {agreeLicense = id; continueDone = id; disagreeLicense = id; goBack = id; }; 
+            CLASS = SetupController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_continueButton" = NSButton; 
+                "O_doneTabItem" = NSTabViewItem; 
+                "O_goBackButton" = NSButton; 
+                "O_licenseConfirmationSheet" = NSWindow; 
+                "O_licenseTabItem" = NSTabViewItem; 
+                "O_purchaseTabItem" = NSTabViewItem; 
+                "O_tabView" = NSTabView; 
+                "O_welcomeTabItem" = NSTabViewItem; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

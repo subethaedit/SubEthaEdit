@@ -23,6 +23,8 @@
     BOOL hasAgreedToLicense;
 }
 
++ (SetupController *)sharedInstance;
+
 - (IBAction)continueDone:(id)sender;
 - (IBAction)goBack:(id)sender;
 
