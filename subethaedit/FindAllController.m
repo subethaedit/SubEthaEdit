@@ -31,7 +31,7 @@
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
-    NSLog(@"close");
+    //NSLog(@"close");
     [I_document removeFindAllController:self];
 }
 

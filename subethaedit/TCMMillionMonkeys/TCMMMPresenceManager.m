@@ -235,7 +235,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         [I_registeredSessions setObject:sessionEntry forKey:[aSession sessionID]];
     } else {
         if (!([sessionEntry objectForKey:@"Session"]==aSession)) {
-            NSLog(@"SessionRegistry: tried to register Session that differs from already registered Session");
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"SessionRegistry: tried to register Session that differs from already registered Session");
             [sessionEntry setObject:aSession forKey:@"Session"];
         }
         [sessionEntry setObject:[NSNumber numberWithInt:[[sessionEntry objectForKey:@"Count"] intValue]+1] 
@@ -449,7 +449,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 }
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didNotSearch:(NSError *)anError {
-    NSLog(@"Mist: %@",anError);
+    DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Mist: %@",anError);
 }
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didFindService:(NSNetService *)aNetService {
@@ -513,7 +513,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         [I_netService setDelegate:self];
         [self TCM_validateServiceAnnouncement];
     } else {
-        NSLog(@"An error occurred with service %@.%@.%@, error code = %@",
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"An error occurred with service %@.%@.%@, error code = %@",
             [service name], [service type], [service domain], error);
     }
 }

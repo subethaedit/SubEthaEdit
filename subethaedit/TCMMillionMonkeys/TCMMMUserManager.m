@@ -215,7 +215,7 @@ static TCMMMUserManager *sharedInstance=nil;
     
     if (hasRecipient) {
         [URLString deleteCharactersInRange:NSMakeRange([URLString length] - 1, 1)];
-        NSLog(@"URLString: %@", URLString);
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"URLString: %@", URLString);
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URLString]];
     }
 }

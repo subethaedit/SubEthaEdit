@@ -69,7 +69,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
             if (depth>0) depth--;
         }
     }
-    NSLog(@"time for marking: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
+    //NSLog(@"time for marking: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
 }
 
 - (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage 

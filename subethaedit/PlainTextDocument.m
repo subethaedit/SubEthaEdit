@@ -1921,13 +1921,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 {
     [aController setDocument:self];
     if (I_findAllControllers) [I_findAllControllers addObject:aController];
-    else NSLog(@"Something has gone terribly wrong: No FindAllController array");
+    //else NSLog(@"Something has gone terribly wrong: No FindAllController array");
 }
 
 - (void)removeFindAllController:(FindAllController *)aController
 {
     if (I_findAllControllers) [I_findAllControllers removeObject:aController];
-    else NSLog(@"Something has gone terribly wrong: No FindAllController array");
+    //else NSLog(@"Something has gone terribly wrong: No FindAllController array");
 }
 
 - (NSURL *)documentURL {
@@ -2539,7 +2539,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:aUserID];
     NSMutableDictionary *properties=[user propertiesForSessionID:[[self session] sessionID]];
     if (!properties) {
-        NSLog(@"Tried to change selection of user for session in which he isnt");
+        //NSLog(@"Tried to change selection of user for session in which he isnt");
     } else {
         SelectionOperation *selectionOperation=[properties objectForKey:@"SelectionOperation"];
         if (selectionOperation) {

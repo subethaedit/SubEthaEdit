@@ -368,7 +368,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
                         [session setDelegate:nil];
                         [session terminate];
                     } else {
-                        NSLog(@"retain this session somewhere: %@", session);
+                        #warning "retain this session somewhere"
+                        //NSLog(@"retain this session somewhere: %@", session);
                     }
                 }
             }
@@ -411,7 +412,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
                 NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
                 if ([[information objectForKey:@"OutgoingRendezvousSessions"] count]) {
-                    NSLog(@"Can't happen");
+                    #warning "Can't happen"
+                    //NSLog(@"Can't happen");
                 }
             } else {
                 // Do something here for internet sessions
@@ -694,7 +696,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [session joinRequestWithProfile:aProfile];
         [I_pendingSessionProfiles removeObject:aProfile];
     } else {
-        NSLog(@"WARNING: Closing channel where never a channel was closed before");
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"WARNING: Closing channel where never a channel was closed before");
         [[aProfile channel] close];
     }
 }

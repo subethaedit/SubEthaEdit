@@ -680,7 +680,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [(SessionProfile *)profile sendInvitationWithSession:self];
             [I_profilesByUserID setObject:profile forKey:peerUserID];
         } else {
-            NSLog(@"Invitation not sent because of fishyness");
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Invitation not sent because of fishyness");
             [profile close];
         }
     } else {
@@ -995,7 +995,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
         if ([userID isEqualToString:[userManager myUserID]]) {
             if ([self isServer]) {
-                NSLog(@"Can't kick me out of my document, pah!");
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Can't kick me out of my document, pah!");
             } else {
                 // i was kicked, snief
                 // remove all Users
@@ -1030,7 +1030,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
         if ([userID isEqualToString:[userManager myUserID]]) {
             if ([self isServer]) {
-                NSLog(@"Can't change my group in my document, pah!");
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Can't change my group in my document, pah!");
             } else {
                 if ([[anOperation newGroup] isEqualTo:@"ReadOnly"]) {
                     
@@ -1044,7 +1044,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         }
         
     } else {
-        NSLog(@"Got UserChangeOperation: %@",[anOperation description]);
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got UserChangeOperation: %@",[anOperation description]);
     }
 }
 

@@ -110,7 +110,7 @@
 
 
 - (void)joinSessionID:(NSString *)aSessionID {
-    if (!([I_propertiesBySessionID objectForKey:aSessionID]==nil)) NSLog(@"User already joined");
+    if (!([I_propertiesBySessionID objectForKey:aSessionID]==nil)) DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"User already joined");
     [I_propertiesBySessionID setObject:[NSMutableDictionary dictionary] forKey:aSessionID];
 }
 

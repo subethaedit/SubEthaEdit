@@ -156,7 +156,7 @@ static NSString *kServiceKey=@"Service";
          didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
     NSMutableDictionary *serviceEntry=[self entryForService:aNetService];
     if (!serviceEntry) {
-        NSLog(@"A service that not has been found was removed: %@",[aNetService description]);
+        //NSLog(@"A service that not has been found was removed: %@",[aNetService description]);
     } else {
         int newCount=[[serviceEntry objectForKey:kServiceCountKey] intValue]-1;
         if (newCount<=0) {
@@ -188,7 +188,7 @@ static NSString *kServiceKey=@"Service";
 - (void)netServiceDidResolveAddress:(NSNetService *)aNetService  {
     NSMutableDictionary *serviceEntry=[self entryForService:aNetService];
     if (!serviceEntry) {
-        NSLog(@"A service that not has been found was resolved: %@",[aNetService description]);
+        //NSLog(@"A service that not has been found was resolved: %@",[aNetService description]);
     } else {
         NSNetService *netService=[serviceEntry objectForKey:kServiceKey];
         [netService setDelegate:nil];

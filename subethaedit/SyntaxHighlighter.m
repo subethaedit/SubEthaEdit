@@ -146,7 +146,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                         return;
                     }
                 }  else {
-                    NSLog(@"ERROR: Can't lookup state. This is very fishy.");
+                    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"ERROR: Can't lookup state. This is very fishy.");
                     return;
                 }
         } else { // Currently not in a state -> Search next.

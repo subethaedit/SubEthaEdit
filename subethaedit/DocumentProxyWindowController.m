@@ -54,7 +54,7 @@
     NSString *filename=[I_session filename];
     [O_documentTitleTextField setStringValue:filename];
     [O_documentImageView setImage:[[NSWorkspace sharedWorkspace] iconForFileType:[filename pathExtension]]];
-    NSLog(@"Session :%@",[I_session description]);
+//    NSLog(@"Session :%@",[I_session description]);
     if ([I_session wasInvited]) {
         [[window contentView] replaceSubview:O_bottomCustomView with:O_bottomDecisionView];
     } else {
