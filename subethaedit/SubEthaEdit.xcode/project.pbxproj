@@ -1964,6 +1964,18 @@
 			isa = PBXBuildStyle;
 			name = "Deployment Unstripped";
 		};
+		14F45E9C06DBB84B0048F2F8 = {
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 14DC3C3306C3C6CB000E9E0A;
+			remoteInfo = see;
+		};
+		14F45E9D06DBB84B0048F2F8 = {
+			isa = PBXTargetDependency;
+			target = 14DC3C3306C3C6CB000E9E0A;
+			targetProxy = 14F45E9C06DBB84B0048F2F8;
+		};
 		14FF9705065221920021FB60 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -5119,6 +5131,7 @@
 			};
 			dependencies = (
 				145BFE2706A5E10900160C0E,
+				14F45E9D06DBB84B0048F2F8,
 			);
 			isa = PBXNativeTarget;
 			name = SubEthaEdit;

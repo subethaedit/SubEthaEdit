@@ -205,6 +205,12 @@ struct ModificationInfo
         [replyEvent setDescriptor:listDesc forKeyword:keyDirectObject];
     } else if ([event eventClass] == 'Hdra' && [event eventID] == 'See ') {
 
+        BOOL shouldPrint = NO;
+        NSAppleEventDescriptor *printDesc = [event descriptorForKeyword:'Prnt'];
+        if (printDesc && [printDesc booleanValue]) {
+            shouldPrint = YES;
+        }
+        
         NSAppleEventDescriptor *tempDesc = [event descriptorForKeyword:'Temp'];
         if (tempDesc && [tempDesc booleanValue]) {
             NSAppleEventDescriptor *listDesc = [event descriptorForKeyword:keyDirectObject];
@@ -220,6 +226,9 @@ struct ModificationInfo
                 [document readFromFile:path ofType:@"PlainTextType"];
                 [document updateChangeCount:NSChangeDone];
                 [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
+                if (shouldPrint) {
+                    [document printDocument:self];
+                }
             }            
         } else {
             NSMutableArray *documents = [NSMutableArray array];
@@ -229,6 +238,9 @@ struct ModificationInfo
                 NSString *URLString = [[listDesc descriptorAtIndex:i] stringValue];
                 NSDocument *document = [self openDocumentWithContentsOfFile:[[NSURL URLWithString:URLString] path] display:YES];
                 [documents addObject:document];
+                if (shouldPrint) {
+                    [document printDocument:self];
+                }
             }
             
             NSAppleEventDescriptor *waitDesc = [event descriptorForKeyword:'Wait'];
