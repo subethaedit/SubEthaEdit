@@ -1106,6 +1106,7 @@
 				145BFDF506A5E09E00160C0E,
 				145BFDF706A5E09E00160C0E,
 				146D09E006F1CFF500D0A7CA,
+				14A59CC707FC03A80026D2C9,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1910,6 +1911,21 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		14A59CC707FC03A80026D2C9 = {
+			fileType = wrapper.application;
+			isa = PBXReferenceProxy;
+			path = ReplaceWithAttributesTest.app;
+			refType = 3;
+			remoteRef = 14A59DEA07FC03B80026D2C9;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14A59DEA07FC03B80026D2C9 = {
+			containerPortal = 145BFDEB06A5E09B00160C0E;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4D1C345C07017B9D00EC43A5;
+			remoteInfo = ReplaceWithAttributesTest;
 		};
 		14A5B34E06218D2700DC3A93 = {
 			children = (
