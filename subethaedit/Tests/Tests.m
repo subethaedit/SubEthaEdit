@@ -1,5 +1,5 @@
 #import <Cocoa/Cocoa.h>
-#import "TCMBencodingUtilities.h"
+#import <TCMFoundation/TCMBencodingUtilities.h>
 
 NSData* TCMBencodingEncode(id object) {
     NSLog(@"Encoding object: %@", [object description]);

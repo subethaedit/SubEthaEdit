@@ -8,7 +8,7 @@
 
 #import "../TCMBEEP/TCMBEEP.h"
 #import "TCMMMSession.h"
-#import "TCMBencodingUtilities.h"
+#import <TCMFoundation/TCMBencodingUtilities.h>
 #import "TCMMMUserManager.h"
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUser.h"

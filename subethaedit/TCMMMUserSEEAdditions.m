@@ -8,7 +8,7 @@
 
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMUser.h"
-#import "TCMBencodingUtilities.h"
+#import <TCMFoundation/TCMBencodingUtilities.h>
 #import "NSImageTCMAdditions.h"
 
 @implementation TCMMMUser (TCMMMUserSEEAdditions) 

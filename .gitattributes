@@ -439,8 +439,6 @@ subethaedit/SyntaxStyle.h -text
 subethaedit/SyntaxStyle.m -text
 subethaedit/TCMApplication.h -text
 subethaedit/TCMApplication.m -text
-subethaedit/TCMBencodingUtilities.h -text
-subethaedit/TCMBencodingUtilities.m -text
 subethaedit/TCMHost.h -text
 subethaedit/TCMHost.m -text
 subethaedit/TCMIdleTimer.h -text

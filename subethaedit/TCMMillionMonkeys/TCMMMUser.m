@@ -6,7 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "TCMBencodingUtilities.h"
+#import <TCMFoundation/TCMBencodingUtilities.h>
 #import "TCMMMUser.h"
 
 NSString * const TCMMMUserWillLeaveSessionNotification =
