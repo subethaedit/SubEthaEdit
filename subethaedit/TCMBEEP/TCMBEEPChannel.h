@@ -9,6 +9,16 @@
 #import <Foundation/Foundation.h>
 
 
+typedef enum {
+   TCMBEEPChannelStatusNotOpen = 0,
+   //TCMBEEPChannelStatusOpening,
+   TCMBEEPChannelStatusOpen,
+   TCMBEEPChannelStatusClosing,
+   TCMBEEPChannelStatusClosed,
+   TCMBEEPChannelStatusError
+} TCMBEEPChannelStatus;
+
+
 @class TCMBEEPSession, TCMBEEPFrame, TCMBEEPMessage;
 
 
@@ -33,6 +43,7 @@
     NSMutableArray *I_messageWriteQueue;
     NSMutableArray *I_outgoingFrameQueue;
     int32_t I_nextMessageNumber;
+    TCMBEEPChannelStatus I_channelStatus;
     struct {
         BOOL isInitiator;
     } I_flags;
@@ -60,6 +71,8 @@
 - (void)setCurrentReadMessage:(TCMBEEPMessage *)aMessage;
 - (TCMBEEPMessage *)currentReadMessage;
 - (id)profile;
+- (TCMBEEPChannelStatus)channelStatus;
+- (void)close;
 
 // Convenience for Profiles
 - (void)sendMSGMessageWithPayload:(NSData *)aPayload;

@@ -13,6 +13,17 @@
 #import <CoreFoundation/CoreFoundation.h>
 
 
+@interface TCMBEEPManagementProfile (TCMBEEPManagementProfilePrivateAdditions)
+
+- (void)TCM_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef)aContentTree;
+- (void)TCM_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree;
+- (void)TCM_proccessCloseMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree;
+- (void)TCM_processOKMessage:(TCMBEEPMessage *)aMessage;
+
+@end
+
+# pragma mark -
+
 @implementation TCMBEEPManagementProfile
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel
@@ -22,6 +33,7 @@
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Initialized TCMBEEPManagmentProfile");
         I_firstMessage = YES;
         I_pendingChannelRequestMessageNumbers = [NSMutableDictionary new];
+        I_channelNumbersByCloseRequests = [NSMutableDictionary new];
     }
     return self;
 }
@@ -29,6 +41,7 @@
 - (void)dealloc
 {
     [I_pendingChannelRequestMessageNumbers release];
+    [I_channelNumbersByCloseRequests release];
     [super dealloc];
 }
 
@@ -78,9 +91,19 @@
     [[self channel] sendMessage:[message autorelease]];
 }
 
+- (void)closeChannelWithNumber:(int32_t)aChannelNumber code:(int)aReplyCode
+{
+    // compose close message
+    NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<close number='%d' code='%d' />", aChannelNumber, aReplyCode] dataUsingEncoding:NSUTF8StringEncoding]];
+    int32_t messageNumber = [[self channel] nextMessageNumber];
+    TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:messageNumber payload:payload];
+    [I_channelNumbersByCloseRequests setObject:[NSNumber numberWithLong:aChannelNumber] forLong:messageNumber];
+    [[self channel] sendMessage:[message autorelease]];    
+}
+
 #pragma mark -
 
-- (void)_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef)aContentTree 
+- (void)TCM_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef)aContentTree 
 {
     BOOL malformedGreeting = YES;
     if ([[aMessage messageTypeString] isEqualTo:@"RPY"] &&
@@ -128,7 +151,7 @@
     }
 }
 
-- (void)_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree
+- (void)TCM_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree
 {
     CFXMLNodeRef startNode = CFXMLTreeGetNode(aSubTree);
     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(startNode);
@@ -195,6 +218,34 @@
     }
 }
 
+- (void)TCM_proccessCloseMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree
+{
+    CFXMLNodeRef closeNode = CFXMLTreeGetNode(aSubTree);
+    CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(closeNode);
+    NSDictionary *attributes = (NSDictionary *)info->attributes;
+    NSAssert([attributes objectForKey:@"number"] != nil, @"No number attribute found.");
+    NSAssert([attributes objectForKey:@"code"] != nil, @"No code attributes found.");
+    
+    int32_t channelNumber = [[attributes objectForKey:@"number"] intValue];
+    int code = [[attributes objectForKey:@"code"] intValue];
+    
+    if (channelNumber == 0) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Close requested for session");
+    } else {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Close requested for channel number: %d", channelNumber);
+
+        NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
+        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
+        [[self channel] sendMessage:[message autorelease]];        
+    }
+}
+
+- (void)TCM_processOKMessage:(TCMBEEPMessage *)aMessage
+{
+    int32_t channelNumber = [[I_channelNumbersByCloseRequests objectForLong:[aMessage messageNumber]] longValue];
+    [[[self channel] session] closedChannelWithNumber:channelNumber];
+}
+
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage
 {
     // remove MIME Header
@@ -202,9 +253,9 @@
     // find "\r\n\r\n"
     int i;
     uint8_t *bytes = (uint8_t *)[contentData bytes];
-    for (i=0; i<[contentData length]-4; i++) {
+    for (i = 0; i < [contentData length] - 4; i++) {
         if (bytes[i] == '\r') {
-            if (strncmp(&bytes[i], "\r\n\r\n",4) == 0) {
+            if (strncmp(&bytes[i], "\r\n\r\n", 4) == 0) {
                 break;
             }
         }
@@ -218,11 +269,11 @@
     NSDictionary *errorDict;
     
     contentTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,
-        (CFDataRef)contentData,
-        NULL, //sourceURL
-        kCFXMLParserSkipWhitespace | kCFXMLParserSkipMetaData,
-        kCFXMLNodeCurrentVersion,
-        (CFDictionaryRef *)&errorDict);
+                                (CFDataRef)contentData,
+                                NULL, //sourceURL
+                                kCFXMLParserSkipWhitespace | kCFXMLParserSkipMetaData,
+                                kCFXMLNodeCurrentVersion,
+                                (CFDictionaryRef *)&errorDict);
     if (!contentTree) {
         NSLog(@"nixe baum: %@", [errorDict description]);
         CFRelease(contentTree);
@@ -230,7 +281,7 @@
     }        
     
     if (I_firstMessage) {
-        [self _processGreeting:aMessage XMLTree:contentTree];
+        [self TCM_processGreeting:aMessage XMLTree:contentTree];
         I_firstMessage = NO;
     } else {
         // "Normalbetrieb"        
@@ -241,18 +292,27 @@
             CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
             if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
                 if ([@"start" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Was Start... %@", @"blah");
-                    [self _proccessStartMessage:aMessage XMLSubTree:xmlTree];
+                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found start element...");
+                    [self TCM_proccessStartMessage:aMessage XMLSubTree:xmlTree];
                 } else if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Was Profile... %@", @"blah");
+                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found profile element...");
                     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
                     NSDictionary *attributes = (NSDictionary *)info->attributes;
                     NSString *URI;
                     if ((URI = [attributes objectForKey:@"uri"])) {
                         [[self delegate] didReceiveAcceptStartRequestForChannel:[[I_pendingChannelRequestMessageNumbers objectForLong:[aMessage messageNumber]] longValue] withProfileURI:URI andData:[NSData data]];
                     }
+                } else if ([@"close" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found close element...");
+                    [self TCM_proccessCloseMessage:aMessage XMLSubTree:xmlTree];
+                } else if ([@"ok" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found ok element...");
+                    [self TCM_processOKMessage:aMessage];
+                } else if ([@"error" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found error element...");
+
                 } else {
-                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"WARUM?");
+                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"No valid element was found!");
                 }
             } else {
                 // kein kCFXMLNodeTypeElement node

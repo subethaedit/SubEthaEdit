@@ -17,6 +17,7 @@
 {
     BOOL I_firstMessage;
     NSMutableDictionary *I_pendingChannelRequestMessageNumbers;
+    NSMutableDictionary *I_channelNumbersByCloseRequests;
 }
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel;
@@ -26,16 +27,16 @@
 #pragma mark -
 
 - (void)startChannelNumber:(int32_t)aChannelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray;
+- (void)closeChannelWithNumber:(int32_t)aChannelNumber code:(int)aReplyCode;
 
 @end
 
+#pragma mark -
 
 @interface NSObject (TCMBEEPManagementProfileDelegateAdditions)
 
 - (void)didReceiveGreetingWithProfileURIs:(NSArray *)profileURIs featuresAttribute:(NSString *)aFeaturesAttribute localizeAttribute:(NSString *)aLocalizeAttribute;
-
 - (NSMutableDictionary *)preferedAnswerToAcceptRequestForChannel:(int32_t)channelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray;
-
 - (void)didReceiveAcceptStartRequestForChannel:(int32_t)aNumber withProfileURI:(NSString *)aProfileURI andData:(NSData *)aData;
 
 @end
