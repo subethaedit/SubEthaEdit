@@ -279,6 +279,21 @@
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
 
+        <state id="q{}" color="#760f15">
+            <begin><regex>q[qxwr]?{</regex></begin>
+            <end><regex>}</regex></end>
+        </state>
+
+        <state id="q||" color="#760f15">
+            <begin><regex>q[qxwr]?\|</regex></begin>
+            <end><regex>\|</regex></end>
+        </state>
+
+        <state id="q//" color="#760f15">
+            <begin><regex>q[qxwr]?/</regex></begin>
+            <end><regex>/</regex></end>
+        </state>
+
         <state id="Backticks" color="#608">
             <begin><regex>`</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
