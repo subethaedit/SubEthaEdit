@@ -193,6 +193,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [I_channelRequests release];
     [I_channels release];
     [I_currentReadFrame release];
+    [I_terminateTimer release];
 #ifdef TCMBEEP_DEBUG
     [I_rawLogInHandle closeFile];
     [I_rawLogInHandle release];
@@ -200,7 +201,6 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [I_rawLogOutHandle release];
     [I_frameLogHandle closeFile];
     [I_frameLogHandle release];
-    [I_terminateTimer release];
 #endif
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"BEEPSession deallocated");
     [super dealloc];
@@ -213,11 +213,11 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)startTerminator {
     if (!I_terminateTimer) {
-        I_terminateTimer=[[NSTimer timerWithTimeInterval:I_timeout 
-                                                target:self 
-                                              selector:@selector(terminate)
-                                              userInfo:nil repeats:NO] retain];
-        [[NSRunLoop currentRunLoop] addTimer:I_terminateTimer forMode:NSDefaultRunLoopMode]; //(NSString *)kCFRunLoopCommonModes];
+        I_terminateTimer = [[NSTimer timerWithTimeInterval:I_timeout
+                                                    target:self 
+                                                  selector:@selector(terminate)
+                                                 userInfo:nil repeats:NO] retain];
+        [[NSRunLoop currentRunLoop] addTimer:I_terminateTimer forMode:NSDefaultRunLoopMode];
     } 
 }
 
