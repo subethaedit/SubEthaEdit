@@ -13,6 +13,16 @@
 
 static NSColor *alternateRowColor=nil;
 
+
+@interface TCMMMBrowserListView (TCMBrowserListViewPrivateAdditions)
+
+- (void)TCM_drawItemAtIndex:(int)aIndex;
+- (int)TCM_indexOfItemAtPoint:(NSPoint)aPoint isChild:(BOOL *)isChild;
+
+@end
+
+#pragma mark -
+
 @implementation TCMMMBrowserListView
 
 - (id)initWithFrame:(NSRect)frame
@@ -86,9 +96,9 @@ static NSColor *alternateRowColor=nil;
 
 - (void)drawRect:(NSRect)rect
 {
-    // Drawing code here.
     int numberOfItems=[self numberOfItems];
     int i;
+    
     [[NSColor whiteColor] set];
     NSRectFill(rect);
     [NSGraphicsContext saveGraphicsState];
@@ -102,7 +112,25 @@ static NSColor *alternateRowColor=nil;
         [self TCM_drawItemAtIndex:i];
         [transform concat];
     }
+    
     [NSGraphicsContext restoreGraphicsState];
+}
+
+- (int)TCM_indexOfItemAtPoint:(NSPoint)aPoint isChild:(BOOL *)isChild {
+    
+    *isChild = NO;
+    
+    return -1;
+}
+
+- (void)mouseDown:(NSEvent *)aEvent {
+
+    NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
+    NSLog(@"Clicked at: %@", NSStringFromPoint(point));
+    
+    BOOL isChild;
+    int indexOfItem = [self TCM_indexOfItemAtPoint:point isChild:&isChild];
+    NSLog(@"indexOfItem: %d, isChild: %@", indexOfItem, isChild ? @"YES" : @"NO");
 }
 
 - (int)numberOfItems {

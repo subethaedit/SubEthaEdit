@@ -299,6 +299,136 @@
 		vrLen = 710;
 		vrLoc = 1707;
 	};
+	14249F6505FD0C8A00D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F6605FD0C8B00D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F6705FD0C8C00D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F6805FD0C8D00D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F6905FD121100D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F6A05FD121200D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F6B05FD121B00D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F6C05FD13A000D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F6D05FD18BC00D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F6E05FD1C0D00D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F6F05FD1C0D00D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F7005FD1C0D00D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
+	14249F7105FD34D400D8C6B9 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 100";
+		rLen = 0;
+		rLoc = 2723;
+		rType = 0;
+		vrLen = 710;
+		vrLoc = 1707;
+	};
 	143C357505EBEC02008C6DFE = {
 		activeArgIndex = 2147483647;
 		activeArgIndices = (
@@ -570,7 +700,7 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 100186485;
+			PBXPerProjectTemplateStateSaveDate = 100480373;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -935,7 +1065,7 @@
 			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
 				PBXProjectWorkspaceModule_StateKey_Rev39 = {
 					PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
-						BoundsStr = "{{0, 0}, {596, 1290}}";
+						BoundsStr = "{{0, 0}, {596, 1350}}";
 						Rows = (
 							0,
 						);
@@ -945,7 +1075,6 @@
 					PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 						PBXSplitModuleInNavigatorKey = {
 							Split0 = {
-								bookmark = 14249F5A05FCEF1A00D8C6B9;
 								history = (
 									1464B41F05EE97B500D21A18,
 									1464B42005EE97B500D21A18,
@@ -977,7 +1106,7 @@
 						};
 					};
 					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {611, 488}}";
-					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 245}, {611, 243}}";
+					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 0}, {750, 480}}";
 					PBXProjectWorkspaceModule_OldSuperviewFrame = "{{246, 0}, {611, 488}}";
 					PBXProjectWorkspaceModule_SGTM = {
 						PBXBottomSmartGroupGIDs = (
@@ -1002,6 +1131,7 @@
 						PBXSmartGroupTreeModuleOutlineStateKey_v7 = {
 							PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
 								2A37F4AAFDCFA73011CA2CEA,
+								2A37F4ABFDCFA73011CA2CEA,
 							);
 							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								(
@@ -1099,14 +1229,14 @@
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "127 293 857 530 0 0 1280 832 ";
+				RubberWindowFrame = "86 281 857 530 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {691, 318}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "564 149 691 339 0 0 1280 832 ";
+				RubberWindowFrame = "561 143 691 339 0 0 1280 832 ";
 			};
-			PBXWorkspaceStateSaveDate = 100186485;
+			PBXWorkspaceStateSaveDate = 100480373;
 		};
 		perUserProjectItems = {
 			142496BA05F8913300D8C6B9 = 142496BA05F8913300D8C6B9;
@@ -1138,6 +1268,19 @@
 			14249F5805FCEF1600D8C6B9 = 14249F5805FCEF1600D8C6B9;
 			14249F5905FCEF1A00D8C6B9 = 14249F5905FCEF1A00D8C6B9;
 			14249F5A05FCEF1A00D8C6B9 = 14249F5A05FCEF1A00D8C6B9;
+			14249F6505FD0C8A00D8C6B9 = 14249F6505FD0C8A00D8C6B9;
+			14249F6605FD0C8B00D8C6B9 = 14249F6605FD0C8B00D8C6B9;
+			14249F6705FD0C8C00D8C6B9 = 14249F6705FD0C8C00D8C6B9;
+			14249F6805FD0C8D00D8C6B9 = 14249F6805FD0C8D00D8C6B9;
+			14249F6905FD121100D8C6B9 = 14249F6905FD121100D8C6B9;
+			14249F6A05FD121200D8C6B9 = 14249F6A05FD121200D8C6B9;
+			14249F6B05FD121B00D8C6B9 = 14249F6B05FD121B00D8C6B9;
+			14249F6C05FD13A000D8C6B9 = 14249F6C05FD13A000D8C6B9;
+			14249F6D05FD18BC00D8C6B9 = 14249F6D05FD18BC00D8C6B9;
+			14249F6E05FD1C0D00D8C6B9 = 14249F6E05FD1C0D00D8C6B9;
+			14249F6F05FD1C0D00D8C6B9 = 14249F6F05FD1C0D00D8C6B9;
+			14249F7005FD1C0D00D8C6B9 = 14249F7005FD1C0D00D8C6B9;
+			14249F7105FD34D400D8C6B9 = 14249F7105FD34D400D8C6B9;
 			144BC7AE05EE3A41006397BC = 144BC7AE05EE3A41006397BC;
 			144BC7AF05EE3A41006397BC = 144BC7AF05EE3A41006397BC;
 			1464B41F05EE97B500D21A18 = 1464B41F05EE97B500D21A18;
