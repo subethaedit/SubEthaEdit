@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class XMLParser;
+@class XMLParser, Node;
 
 @interface XMLStream : NSObject {
 
@@ -19,10 +19,16 @@
     NSOutputStream *I_outputStream;
     
     XMLParser *I_parser;
+    Node *I_streamNode;
+    Node *I_stanzaNode;
+    Node *I_node;
+    int I_depth;
+    //NSMutableString *I_foundCharacters;
 }
 
 - (void)writeData:(NSData *)aData;
 - (void)connectToHost:(NSHost *)aHost;
+- (void)disconnect;
 
 - (void)readBytes;
 - (void)writeBytes;

@@ -81,6 +81,8 @@
             fprintf(stdout, "xmpp> ");
             fflush(stdout);
         }
+    } else if ([command isEqualToString:@"disconnect"]) {
+        [I_XMLStream disconnect];
     } else {
         fprintf(stdout, "Unknown command\n");
         fprintf(stdout, "xmpp> ");

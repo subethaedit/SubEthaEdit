@@ -37,6 +37,8 @@ prototype/TCMXMLParser/libexpat.a -text
 prototype/TCMXMLParser/main.m -text
 prototype/xmpp/Controller.h -text
 prototype/xmpp/Controller.m -text
+prototype/xmpp/Node.h -text
+prototype/xmpp/Node.m -text
 prototype/xmpp/XMLParser.h -text
 prototype/xmpp/XMLParser.m -text
 prototype/xmpp/XMLStream.h -text

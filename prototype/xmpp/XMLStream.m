@@ -8,6 +8,7 @@
 
 #import "XMLStream.h"
 #import "XMLParser.h"
+#import "Node.h"
 
 @implementation XMLStream
 
@@ -20,6 +21,8 @@
         I_writeBuffer = [[NSMutableData alloc] init];
         I_parser = [[XMLParser alloc] init];
         [I_parser setDelegate:self];
+        I_node = nil;
+        I_depth = 0;
     }
     
     return self;
@@ -52,6 +55,15 @@
     
     [I_inputStream open];
     [I_outputStream open];
+}
+
+- (void)disconnect
+{
+    NSString *endElement = @"</stream>";
+    [self writeData:[endElement dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [I_outputStream close];
+    [I_inputStream close];
 }
 
 - (void)writeData:(NSData *)aData
@@ -167,12 +179,49 @@
         namespaceURI:(NSString *)namespaceURI attributes:(NSDictionary *)attributeDict
 {
     NSLog(@"streamParser:%@ didStartElement:%@ namespaceURI:%@ attributes:%@", parser, elementName, namespaceURI, attributeDict);
+    
+    if (I_depth == 0) {
+        I_streamNode = [[Node alloc] init];
+        [I_streamNode setName:elementName];
+        [I_streamNode setNamespaceURI:namespaceURI];
+        [I_streamNode setAttributes:attributeDict];
+        [I_streamNode setParent:nil];
+        I_node = I_streamNode;
+    } else if (I_depth == 1) {
+        I_stanzaNode = [[Node alloc] init];
+        [I_stanzaNode setName:elementName];
+        [I_stanzaNode setNamespaceURI:namespaceURI];
+        [I_stanzaNode setAttributes:attributeDict];
+        [I_stanzaNode setParent:nil];
+        I_node = I_stanzaNode;
+    } else if (I_depth > 1) {
+        Node *node = [[Node alloc] init];
+        [node setName:elementName];
+        [node setNamespaceURI:namespaceURI];
+        [node setAttributes:attributeDict];
+        [node setParent:I_node];
+        [I_node addChild:node];
+        I_node = node;
+    }
+    
+    I_depth++;
 }
 
 - (void)streamParser:(XMLParser *)parser didEndElement:(NSString *)elementName 
         namespaceURI:(NSString *)namespaceURI
 {
     NSLog(@"streamParser:%@ didEndElement:%@ namespaceURI:%@", parser, elementName, namespaceURI);
+    
+    if (I_depth > 2) {
+        I_node = [I_node parent];
+    } else if (I_depth == 2) {
+        I_node = I_streamNode;
+        NSLog(@"Parsed stanza: %@", I_stanzaNode);
+    } else if (I_depth == 1) {
+        I_node = nil;
+    }
+    
+    I_depth--;
 }
 
 - (void)streamParser:(XMLParser *)parser didStartMappingPrefix:(NSString *)prefix toURI:(NSString *)namespaceURI
@@ -193,16 +242,6 @@
 - (void)streamParser:(XMLParser *)parser foundCDATA:(NSData *)CDATABlock
 {
     NSLog(@"streamParser:%@ foundCDATA:%@", parser, CDATABlock);
-}
-
-- (void)streamParser:(XMLParser *)parser foundComment:(NSString *)comment
-{
-    NSLog(@"streamParser:%@ foundComment:%@", parser, comment);
-}
-
-- (void)streamParser:(XMLParser *)parser foundProcessingInstructionWithTarget:(NSString *)target data:(NSString *)data
-{
-    NSLog(@"streamParser:%@ foundProcessingInstructionWithTarget:%@ data:%@", parser, target, data);
 }
 
 - (void)streamParser:(XMLParser *)parser didFailWithReason:(NSString *)errorString
