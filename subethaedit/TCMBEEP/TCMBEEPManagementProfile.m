@@ -261,10 +261,10 @@
             CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
             if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
                 if ([@"start" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    DEBUGLOG(@"BEEP",5,@"Was Start... %@",@"blah");
+                    //DEBUGLOG(@"BEEP",5,@"Was Start... %@",@"blah");
                     [self _proccessStartMessage:aMessage XMLSubTree:xmlTree];
                 } else if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    DEBUGLOG(@"BEEP",5,@"Was Profile... %@",@"blah");
+                    //DEBUGLOG(@"BEEP",5,@"Was Profile... %@",@"blah");
                     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
                     NSDictionary *attributes = (NSDictionary *)info->attributes;
                     NSString *URI;

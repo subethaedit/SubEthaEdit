@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "TCMBEEPSession.h"
+#import "TCMBEEPChannel.h"
+#import "TCMBEEPMessage.h"
 
 @class TCMBEEPChannel, TCMBEEPMessage;
 

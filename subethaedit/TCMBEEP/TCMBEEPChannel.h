@@ -54,6 +54,9 @@
 - (TCMBEEPMessage *)currentReadMessage;
 - (id)profile;
 
+#pragma mark ### Convenience for Profiles ###
+- (void)sendMSGMessageWithPayload:(NSData *)aPayload;
+
 #pragma mark ### Accessors for session ###
 
 - (BOOL)hasFramesAvailable;
