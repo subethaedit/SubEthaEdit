@@ -5,7 +5,7 @@
 //  Created by Martin Pittenauer on Thu Mar 04 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
-// blabla
+//
 
 #import "SyntaxHighlighter.h"
 #import "PlainTextDocument.h"
@@ -19,6 +19,7 @@ NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCo
 NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
 NSString * const kSyntaxHighlightingStateName = @"HighlightingState";
 NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
+NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
 
 @implementation SyntaxHighlighter
 /*"A Syntax Highlighter"*/

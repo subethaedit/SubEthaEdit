@@ -63,7 +63,7 @@
     NSString *key=nil;
     NSEnumerator *keys=[I_styleDictionary keyEnumerator];
     while ((key=[keys nextObject])) {
-        [localizedString appendFormat:@"%@ (%@)\n",[self localizedStringForKey:key],key];
+        [localizedString appendFormat:@"%@ (%@): %@\n",[self localizedStringForKey:key],key,[[I_styleDictionary objectForKey:key] description]];
     }
     return [NSString stringWithFormat:@"SyntaxStyle: %@",localizedString];
 }
