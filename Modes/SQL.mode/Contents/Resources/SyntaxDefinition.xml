@@ -819,7 +819,7 @@
                 <string>ZONE</string>
             </keywords>
             <keywords id="Numbers" color="#00f" useforautocomplete="no">
-				<regex>(?&lt;=[^[A-Za-z0-9]]|^)((([0-9]+\.[0-9]*)|(\.[0-9]+)([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]))(([uU][lL]?)|([lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
             </keywords>
             <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
@@ -827,28 +827,28 @@
         </default>
         
         <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><string>/\*</string></begin>
+            <begin><regex>/\*</regex></begin>
             <end><regex>\*/</regex></end>
         </state>
         
         <state id="Single Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><string>--</string></begin>
+            <begin><regex>--</regex></begin>
             <end><regex>[\n\r]</regex></end>
         </state>
         
         <state id="Singleline Comment (mysql)" color="#236E25" font-style="italic">
-            <begin><string>#</string></begin>
+            <begin><regex>#</regex></begin>
             <end><regex>[\n\r]</regex></end>
         </state>
 
         
         <state id="String Singlequoted" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
-            <begin><string>'</string></begin>
+            <begin><regex>'</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
         
         <state id="String Doublequoted" color="#608" background-color="none" font-weight="normal" font-style="normal">
-            <begin><string>"</string></begin>
+            <begin><regex>"</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
     </states>
