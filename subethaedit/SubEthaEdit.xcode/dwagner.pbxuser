@@ -417,7 +417,7 @@
 						PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 							PBXSplitModuleInNavigatorKey = {
 								Split0 = {
-									bookmark = 5E55264206367D8100D1D5F3;
+									bookmark = 5E55264B06369A8400D1D5F3;
 									history = (
 										5E55250A0636682C00D1D5F3,
 										5E5525320636683400D1D5F3,
@@ -472,7 +472,7 @@
 								);
 								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 									(
-										14,
+										15,
 										3,
 										1,
 										0,
@@ -726,6 +726,7 @@
 				{
 					Frame = "{{0, 0}, {258, 671}}";
 					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
+						PBXProjectWorkspaceModule_RunWindowVisible = true;
 					};
 					RubberWindowFrame = "21 119 258 713 0 0 1280 832 ";
 				},
@@ -773,7 +774,7 @@
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXNavigatorGroup" = {
 				Frame = "{{0, 0}, {750, 481}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "499 290 750 502 0 0 1280 832 ";
+				RubberWindowFrame = "38 304 750 502 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectFindModule" = {
 				Frame = "{{0, 0}, {840, 496}}";
@@ -829,6 +830,8 @@
 			5E55262E0636686800D1D5F3 = 5E55262E0636686800D1D5F3;
 			5E55264106367D8100D1D5F3 = 5E55264106367D8100D1D5F3;
 			5E55264206367D8100D1D5F3 = 5E55264206367D8100D1D5F3;
+			5E55264A06369A8300D1D5F3 = 5E55264A06369A8300D1D5F3;
+			5E55264B06369A8400D1D5F3 = 5E55264B06369A8400D1D5F3;
 		};
 		sourceControlManager = 5EEB176305ECDA4F00C17677;
 		userBookmarkGroup = 5ED032560622CCF60016EAB2;
@@ -1343,6 +1346,26 @@
 		vrLen = 351;
 		vrLoc = 1334;
 	};
+	5E55264A06369A8300D1D5F3 = {
+		fRef = 148892A1061869A6005BDDCB;
+		isa = PBXTextBookmark;
+		name = GeneralPreferences;
+		rLen = 18;
+		rLoc = 1507;
+		rType = 0;
+		vrLen = 351;
+		vrLoc = 1334;
+	};
+	5E55264B06369A8400D1D5F3 = {
+		fRef = 148892A1061869A6005BDDCB;
+		isa = PBXTextBookmark;
+		name = GeneralPreferences;
+		rLen = 18;
+		rLoc = 1507;
+		rType = 0;
+		vrLen = 351;
+		vrLoc = 1334;
+	};
 	5E715BDD05F3BC5E00CEA5EF = {
 		isa = PBXSymbolicBreakpoint;
 		state = 1;
@@ -1459,10 +1482,10 @@
 	};
 	5EDB862505F8AA6E0058C44A = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1466.23, 27635}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1466.23, 32731}}";
 			sepNavSelRange = "{70683, 0}";
-			sepNavVisRect = "{{0, 23096}, {946, 190}}";
-			sepNavWindowFrame = "{{61, 227}, {750, 558}}";
+			sepNavVisRect = "{{0, 22651}, {711, 449}}";
+			sepNavWindowFrame = "{{38, 248}, {750, 558}}";
 		};
 	};
 	5EDB862605F8AA6E0058C44A = {

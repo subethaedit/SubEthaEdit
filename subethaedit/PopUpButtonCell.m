@@ -27,8 +27,8 @@
 - (NSRect)titleRectForBounds:(NSRect)cellFrame {
     NSRect blah=[super titleRectForBounds:cellFrame];
     blah.size.width=cellFrame.size.width-blah.origin.x-6.;
-    blah.origin.y=cellFrame.origin.y;
-    blah.size.height=cellFrame.size.height;
+    blah.origin.y=cellFrame.origin.y+1;
+    blah.size.height=cellFrame.size.height-1;
     return blah;
 }
 

@@ -96,15 +96,18 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [style setLineBreakMode:NSLineBreakByTruncatingTail];
     [attributes setObject:style forKey:NSParagraphStyleAttributeName];
     NSFont *font = [NSFont fontWithName:@"ArialMT" size:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
-    if (!font) font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
-    NSFont *italicFont    =[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
+    if (!font || true) font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
     NSFont *boldFont      =[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
+    NSFont *italicFont    =[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
     NSFont *boldItalicFont=[fontManager convertFont:boldFont toHaveTrait:NSItalicFontMask];
     [attributes setObject:font forKey:NSFontAttributeName];
-    plainSymbolAttributes=[attributes copy];
-    [attributes setObject:italicFont forKey:NSFontAttributeName];
     italicSymbolAttributes=[attributes copy];
     [attributes setObject:boldFont forKey:NSFontAttributeName];
+    plainSymbolAttributes=[attributes copy];
+    [attributes setObject:italicFont forKey:NSFontAttributeName];
+    if ([italicFont isEqualTo:font]) {
+        [attributes setObject:[NSNumber numberWithFloat:.2] forKey:NSObliquenessAttributeName];
+    }
     boldSymbolAttributes=[attributes copy];
     [attributes setObject:boldItalicFont forKey:NSFontAttributeName];
     boldItalicSymbolAttributes=[attributes copy];
@@ -324,19 +327,21 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
                 [menuItem setImage:[entry image]];
                 int fontTraitMask=[entry fontTraitMask];
                 NSDictionary *attributes=plainSymbolAttributes;
-                switch (fontTraitMask) {
-                    case (NSBoldFontMask | NSItalicFontMask):
-                        attributes=boldItalicSymbolAttributes;
-                        break;
-                    case NSItalicFontMask :
-                        attributes=italicSymbolAttributes;
-                        break;
-                    case NSBoldFontMask :
-                        attributes=boldSymbolAttributes;
-                        break;
+                if (fontTraitMask) {
+                    switch (fontTraitMask) {
+                        case (NSBoldFontMask | NSItalicFontMask):
+                            attributes=boldItalicSymbolAttributes;
+                            break;
+                        case NSItalicFontMask :
+                            attributes=italicSymbolAttributes;
+                            break;
+                        case NSBoldFontMask :
+                            attributes=boldSymbolAttributes;
+                            break;
+                    }
+                    [menuItem setAttributedTitle:
+                        [[[NSAttributedString alloc] initWithString:[entry name] attributes:attributes] autorelease]];
                 }
-//                [menuItem setAttributedTitle:
-//                    [[[NSAttributedString alloc] initWithString:[entry name] attributes:attributes] autorelease]];
                 [menuItem setTitle:[entry name]];
                 [menuItem setIndentationLevel:[entry indentationLevel]];
                 [I_symbolPopUpMenu addItem:menuItem];
