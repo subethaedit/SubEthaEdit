@@ -89,8 +89,8 @@
         xmlNode = CFXMLTreeGetNode(xmlTree);
         if ((CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) &&
             [@"syntax" isEqualToString:(NSString *)CFXMLNodeGetString(xmlNode)]) {
-            NSLog(@"Top level node: %@", (NSString *)CFXMLNodeGetString(xmlNode));
-            NSLog(@"Childs: %d", CFTreeGetChildCount(xmlTree));
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Top level node: %@", (NSString *)CFXMLNodeGetString(xmlNode));
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Childs: %d", CFTreeGetChildCount(xmlTree));
             break;
         }
     }
@@ -101,7 +101,7 @@
         for (index = 0; index < childCount; index++) {
             CFXMLTreeRef xmlSubTree = CFTreeGetChildAtIndex(xmlTree, index);
             CFXMLNodeRef xmlSubNode = CFXMLTreeGetNode(xmlSubTree);
-            NSLog(@"Found: %@", (NSString *)CFXMLNodeGetString(xmlSubNode));
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", (NSString *)CFXMLNodeGetString(xmlSubNode));
 
             if ([@"head" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)]) {
                 [self parseHeaders:xmlSubTree];
@@ -170,7 +170,7 @@
         CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
         NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
         NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
-        NSLog(@"Found: %@", tag);
+        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", tag);
         if ([@"state" isEqualToString:tag]) {
             NSMutableDictionary *aDictionary = [NSMutableDictionary dictionary];
             [I_states addObject:aDictionary];
@@ -232,7 +232,7 @@
                 if ([OGRegularExpression isValidExpressionString:innerContent]) {
                     if (endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease])
                         [aDictionary setObject:endRegex forKey:@"EndsWithRegex"];
-                } else NSLog(@"%@ is not a valid Regex.", innerContent);
+                } else NSLog(@"ERROR: %@ is not a valid Regex.", innerContent);
                 
             } else if ([innerTag isEqualTo:@"string"]) {
                 DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<end> tag is PlainString");
