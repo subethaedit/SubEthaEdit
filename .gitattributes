@@ -550,6 +550,7 @@ subethaedit/Tools/HTMLTemplate.html -text
 subethaedit/Tools/LaTeXTemplate.latex -text
 subethaedit/Tools/RTFTemplate.rtf -text
 subethaedit/Tools/autodoc -text
+subethaedit/Tools/convertcolor.pl -text
 subethaedit/Tools/serials/attackserial.pl -text
 subethaedit/Tools/serials/checkserial.pl -text
 subethaedit/Tools/serials/makeserial.pl -text
