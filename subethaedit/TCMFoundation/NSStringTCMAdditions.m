@@ -17,7 +17,7 @@
 @implementation NSString (NSStringTCMAdditions) 
 
 + (NSString *)stringWithUUIDData:(NSData *)aData {
-    if (aData!=nil) {
+    if (aData!=nil && [aData length]>= sizeof(CFUUIDBytes)) {
         CFUUIDRef uuid=CFUUIDCreateFromUUIDBytes(NULL,*(CFUUIDBytes *)[aData bytes]);
         NSString *uuidString=(NSString *)CFUUIDCreateString(NULL,uuid);
         CFRelease(uuid);
