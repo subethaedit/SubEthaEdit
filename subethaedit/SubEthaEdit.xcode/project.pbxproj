@@ -3075,6 +3075,20 @@
 			settings = {
 			};
 		};
+		5EA98239063FF3EA00FD5B65 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = StatusReadWrite.tiff;
+			path = artwork/StatusReadWrite.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA9823A063FF3EA00FD5B65 = {
+			fileRef = 5EA98239063FF3EA00FD5B65;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EACED4605F5087E0008743E = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -3502,8 +3516,9 @@
 				5EC0506E062D6C0500292573,
 				5EF3AC4C062C5D4100959FEE,
 				5EF3AC4D062C5D4100959FEE,
-				5E96948C0600B6D3006C2AA4,
 				5E96948D0600B6D3006C2AA4,
+				5E96948C0600B6D3006C2AA4,
+				5EA98239063FF3EA00FD5B65,
 				5EEB176805ECDC1600C17677,
 				5E715A8006346F2800ECE50C,
 				5EA5422306352B1600A06297,
@@ -4201,6 +4216,7 @@
 				5E4AB526063EB11100B67F07,
 				5E4AB7CF063EBD8200B67F07,
 				3138EEB7063FB82400BF5C1F,
+				5EA9823A063FF3EA00FD5B65,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -626,6 +626,7 @@ subethaedit/artwork/SplitClose.tiff -text
 subethaedit/artwork/SplitOpen.tiff -text
 subethaedit/artwork/StatusLock.tiff -text
 subethaedit/artwork/StatusReadOnly.tiff -text
+subethaedit/artwork/StatusReadWrite.tiff -text
 subethaedit/artwork/SubEthaEdit.icns -text
 subethaedit/artwork/Symbol#.tiff -text
 subethaedit/artwork/SymbolC.tiff -text

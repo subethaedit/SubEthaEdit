@@ -10,6 +10,7 @@
 
 
 extern NSString * const TCMMMSessionPendingUsersDidChangeNotification;
+extern NSString * const TCMMMSessionDidChangeNotification;
 
 @class SessionProfile, TCMMMOperation;
 

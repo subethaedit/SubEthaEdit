@@ -209,7 +209,8 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender {
-
+    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+    [session setAccessState:[[aSender selectedItem] tag]];
 }
 
 - (IBAction)pendingUsersTableViewDoubleAction:(id)aSender {

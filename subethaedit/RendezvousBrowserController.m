@@ -196,16 +196,17 @@ static RendezvousBrowserController *sharedInstance=nil;
 }
 
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
-    static NSImage *txtIcon=nil;
     static NSImage *statusLock=nil;
     static NSImage *statusReadOnly=nil;
-    if (!txtIcon) {
-        txtIcon=[[NSWorkspace sharedWorkspace] iconForFileType:@"txt"]; 
-        [txtIcon setSize:NSMakeSize(16,16)];
-        [txtIcon retain];
+    static NSImage *statusReadWrite=nil;
+    static NSMutableDictionary *icons =nil;
+    
+    if (!icons) {
+        icons=[NSMutableDictionary new];
+        statusLock     =[[NSImage imageNamed:@"StatusLock"     ] retain];
+        statusReadOnly =[[NSImage imageNamed:@"StatusReadOnly" ] retain];
+        statusReadWrite=[[NSImage imageNamed:@"StatusReadWrite"] retain];
     }
-    if (!statusLock) statusLock=[[NSImage imageNamed:@"StatusLock"] retain];
-    if (!statusReadOnly) statusReadOnly=[[NSImage imageNamed:@"StatusReadOnly"] retain];
     if (anItemIndex>=0 && anItemIndex<[I_data count]) {
         NSDictionary *item=[I_data objectAtIndex:anItemIndex];
 //        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:[item objectForKey:@"UserID"]];
@@ -215,9 +216,23 @@ static RendezvousBrowserController *sharedInstance=nil;
             if (aTag==TCMMMBrowserChildNameTag) {
                 return [session filename];
             } else if (aTag==TCMMMBrowserChildIconImageTag) {
-                return txtIcon;
+                NSString *extension=[[session filename] pathExtension];
+                NSImage *icon=[icons objectForKey:extension];
+                if (!icon) {
+                    icon = [[[NSWorkspace sharedWorkspace] iconForFileType:extension] copy];
+                    [icon setSize:NSMakeSize(16,16)];
+                    [icons setObject:[icon autorelease] forKey:extension];
+                }
+                return icon;
             } else if (aTag==TCMMMBrowserChildStatusImageTag) {
-                return (anIndex%2?statusLock:statusReadOnly);
+                switch ([session accessState]) {
+                    case TCMMMSessionAccessLockedState:
+                        return statusLock;
+                    case TCMMMSessionAccessReadOnlyState:
+                        return statusReadOnly;
+                    case TCMMMSessionAccessReadWriteState:
+                        return statusReadWrite;
+                }
             }
         }
     }
@@ -272,7 +287,16 @@ static RendezvousBrowserController *sharedInstance=nil;
             [sessions removeAllObjects];
         } else {
             if (session) {
-                [sessions addObject:session];
+                NSString *sessionID=[session sessionID];
+                int i;
+                for (i=0;i<[sessions count];i++) {
+                    if ([sessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
+                        break;
+                    }
+                }
+                if (i==[sessions count]) {
+                    [sessions addObject:session];
+                }
             } else {
                 NSString *concealedSessionID=[userInfo objectForKey:@"ConcealedSessionID"];
                 int i;

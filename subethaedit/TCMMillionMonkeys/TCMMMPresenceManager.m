@@ -135,13 +135,19 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     return I_announcedSessions;
 }
 
+- (void)announcedSessionDidChange:(NSNotification *)aNotification {
+    [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(announceSession:) withObject:[aNotification object]];
+}
+
 - (void)announceSession:(TCMMMSession *)aSession {
     [I_announcedSessions setObject:aSession forKey:[aSession sessionID]];
     [self TCM_validateServiceAnnouncement];
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(announceSession:) withObject:aSession];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionDidChange:) name:TCMMMSessionDidChangeNotification object:aSession];
 }
 
 - (void)concealSession:(TCMMMSession *)aSession {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionDidChangeNotification object:aSession];
     [I_announcedSessions removeObjectForKey:[aSession sessionID]];
     [self TCM_validateServiceAnnouncement];
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(concealSession:) withObject:aSession];
@@ -195,6 +201,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
         // merge
         TCMMMSession *session=[sessionEntry objectForKey:@"Session"];
         [session setFilename:[aSession filename]];
+        [session setAccessState:[aSession accessState]];
         return session;
     } else {
         return aSession;
@@ -250,7 +257,6 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
     NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
-    // TODO: merge session if already existing session is here
     TCMMMSession *session=[self referenceSessionForSession:aSession];
     if (![sessions objectForKey:[session sessionID]]) {
         [self registerSession:session];

@@ -2,7 +2,13 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {changePendingUsersAccess = id; }; 
+            ACTIONS = {
+                changePendingUsersAccess = id; 
+                changeSessionAccessState = id; 
+                closeParticipantsDrawer = id; 
+                openParticipantsDrawer = id; 
+                toggleLineNumbers = id; 
+            }; 
             CLASS = PlainTextWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -14,7 +20,6 @@
                 "O_participantsView" = ParticipantsView; 
                 "O_pendingUsersAccessPopUpButton" = NSPopUpButton; 
                 "O_pendingUsersTableView" = NSTableView; 
-                "O_scrollView" = NSScrollView; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

@@ -2047,6 +2047,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #pragma mark -
 #pragma mark ### Session Interaction ###
+
+- (void)setFileName:(NSString *)fileName {
+    TCMMMSession *session=[self session];
+    if ([session isServer]) {
+        [session setFilename:[fileName lastPathComponent]];
+    }
+    [super setFileName:fileName];
+}
+
 - (void)changeSelectionOfUserWithID:(NSString *)aUserID toRange:(NSRange)aRange {
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:aUserID];
     NSMutableDictionary *properties=[user propertiesForSessionID:[[self session] sessionID]];
@@ -2512,7 +2521,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
 }
-
 
 
 @end

@@ -22,6 +22,8 @@
 
 NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
                @"TCMMMSessionPendingUsersDidChangeNotification";
+NSString * const TCMMMSessionDidChangeNotification = 
+               @"TCMMMSessionDidChangeNotification";
 
 
 @interface TCMMMSession (TCMMMSessionPrivateAdditions)
@@ -34,6 +36,15 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 #pragma mark -
 
 @implementation TCMMMSession
+
+- (void)TCM_sendSessionDidChangeNotification {
+    [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:TCMMMSessionDidChangeNotification object:self]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
+
 
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData
 {
@@ -67,6 +78,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
         [self setFilename:[aDocument displayName]];
         [self setHostID:[TCMMMUserManager myUserID]];
         [I_contributors addObject:[TCMMMUserManager me]];
+        [self setIsServer:YES];
     }
     return self;
 }
@@ -108,7 +120,9 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 - (void)setFilename:(NSString *)aFilename
 {
     [I_filename autorelease];
+    BOOL changed=![I_filename isEqualToString:aFilename];
     I_filename = [aFilename copy];
+    if (changed) [self TCM_sendSessionDidChangeNotification];
 }
 
 - (NSString *)filename
@@ -168,6 +182,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 
 - (void)setAccessState:(TCMMMSessionAccessState)aState {
     I_accessState=aState;
+    [self TCM_sendSessionDidChangeNotification];
 }
 
 - (TCMMMSessionAccessState)accessState {
