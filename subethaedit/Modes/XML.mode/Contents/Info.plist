@@ -24,6 +24,7 @@
 	   <string>plist</string>
 	   <string>rss</string>
 	   <string>rdf</string>
+	   <string>seestyle</string>
 	</array>
 </dict>
 </plist>
