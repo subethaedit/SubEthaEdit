@@ -10,6 +10,7 @@
 #import "TCMPreferenceModule.h"
 
 @class DocumentModePopUpButton;
+@class EncodingPopUpButton;
 
 @interface EditPreferences : TCMPreferenceModule {
     IBOutlet NSTextField   *O_tabWidthTextField;
@@ -23,7 +24,7 @@
     IBOutlet NSTextField   *O_fontTextField;
     IBOutlet NSColorWell   *O_documentForegroundColorWell;
     IBOutlet NSColorWell   *O_documentBackgroundColorWell;
-    
+    IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSObjectController *O_modeController;
 }

@@ -14,6 +14,7 @@
             OUTLETS = {
                 "O_documentBackgroundColorWell" = NSColorWell; 
                 "O_documentForegroundColorWell" = NSColorWell; 
+                "O_encodingPopUpButton" = EncodingPopUpButton; 
                 "O_fontTextField" = NSTextField; 
                 "O_highlightSyntaxButton" = NSButton; 
                 "O_indentNewLinesButton" = NSButton; 
@@ -28,6 +29,26 @@
             }; 
             SUPERCLASS = TCMPreferenceModule; 
         }, 
+        {
+            ACTIONS = {
+                clearAll = id; 
+                encodingListChanged = id; 
+                revertToDefault = id; 
+                selectAll = id; 
+                selectedEncoding = id; 
+                showPanel = id; 
+            }; 
+            CLASS = EncodingManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                encodingAccessory = NSView; 
+                encodingMatrix = NSMatrix; 
+                encodingPopupButton = EncodingPopUpButton; 
+                ignoreRichTextButton = NSButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = EncodingMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
         {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {

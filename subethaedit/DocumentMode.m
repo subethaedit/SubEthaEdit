@@ -10,6 +10,8 @@
 #import "DocumentModeManager.h"
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
+#import "EncodingManager.h"
+
 
 NSString * const DocumentModeEncodingPreferenceKey             = @"Encoding";
 NSString * const DocumentModeFontAttributesPreferenceKey       = @"FontAttributes";
@@ -67,6 +69,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[[self bundle] bundleIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
             [self setDefaults:dictionary];
+            NSNumber *encodingNumber = [dictionary objectForKey:DocumentModeEncodingPreferenceKey];
+            if (encodingNumber) {
+                NSStringEncoding encoding = [encodingNumber unsignedIntValue];
+                [[EncodingManager sharedInstance] registerEncoding:encoding];
+            }
         } else {
             I_defaults = [NSMutableDictionary new];
             [I_defaults setObject:[NSNumber numberWithInt:3] forKey:DocumentModeTabWidthPreferenceKey];
@@ -77,6 +84,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [dict setObject:[NSNumber numberWithFloat:[font pointSize]] 
                      forKey:NSFontSizeAttribute];
             [I_defaults setObject:dict forKey:DocumentModeFontAttributesPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithUnsignedInt:NoStringEncoding] forKey:DocumentModeEncodingPreferenceKey];
+            [[EncodingManager sharedInstance] registerEncoding:NoStringEncoding];
             if (![self isBaseMode]) {
                 // read frome modefile? for now use defaults
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
@@ -89,11 +98,16 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                forKey:DocumentModeUseDefaultFontPreferenceKey];
             }
         }
+        
+        [I_defaults addObserver:self
+                     forKeyPath:DocumentModeEncodingPreferenceKey
+                        options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld)
+                        context:NULL];
     }
     return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_defaults release];
     [I_syntaxHighlighter release];
@@ -137,6 +151,21 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     [[NSUserDefaults standardUserDefaults] setObject:[self defaults] forKey:[[self bundle] bundleIdentifier]];
+}
+
+#pragma mark -
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:DocumentModeEncodingPreferenceKey]) {
+        NSNumber *oldEncodingNumber = [change objectForKey:NSKeyValueChangeOldKey];
+        if (oldEncodingNumber) {
+            [[EncodingManager sharedInstance] unregisterEncoding:[oldEncodingNumber unsignedIntValue]];
+        }
+        NSNumber *newEncodingNumber = [change objectForKey:NSKeyValueChangeNewKey];
+        if (newEncodingNumber) {
+            [[EncodingManager sharedInstance] registerEncoding:[newEncodingNumber unsignedIntValue]];
+        }
+    }
 }
 
 @end

@@ -211,7 +211,12 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 }
 
 - (NSData *)dataRepresentationOfType:(NSString *)aType {
-    // Insert code here to write your document from the given data.  You can also choose to override -fileWrapperRepresentationOfType: or -writeToFile:ofType: instead.
+
+    if ([aType isEqualToString:@"PlainTextType"]) {
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
+        return [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+    }
+
     return nil;
 }
 
@@ -280,7 +285,7 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
         [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
     }
     
-//    [options setObject:[self plainTextAttributes] forKey:@"DefaultAttributes"];
+    //[options setObject:[self plainTextAttributes] forKey:@"DefaultAttributes"];
     
     [[textStorage mutableString] setString:@""]; // Empty the document
     

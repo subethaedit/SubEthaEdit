@@ -8,6 +8,8 @@
 
 #import "EditPreferences.h"
 #import "DocumentModeManager.h"
+#import "EncodingManager.h"
+
 
 @implementation EditPreferences
 
@@ -29,6 +31,7 @@
 
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
+    [O_encodingPopUpButton setEncoding:NoStringEncoding defaultEntry:YES modeEntry:NO lossyEncodings:nil];
     [self changeMode:O_modePopUpButton];
 }
 
