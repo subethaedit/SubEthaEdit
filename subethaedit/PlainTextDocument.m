@@ -22,10 +22,22 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
 
 @implementation PlainTextDocument
 
+- (void)TCM_styleFonts {
+    [I_fonts.boldFont autorelease];
+    [I_fonts.italicFont autorelease];
+    [I_fonts.boldItalicFont autorelease];
+    NSFontManager *manager=[NSFontManager sharedFontManager];
+    I_fonts.boldFont = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSBoldFontMask] retain];
+    I_fonts.italicFont = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSItalicFontMask] retain];
+    I_fonts.boldItalicFont = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSBoldFontMask & NSItalicFontMask] retain];
+}
+
 - (void)TCM_initHelper {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performHighlightSyntax)
         name:PlainTextDocumentSyntaxColorizeNotification object:self];
     I_flags.highlightSyntax = YES;
+    I_fonts.plainFont = [[NSFont fontWithName:@"ArialMT" size:0.] retain];
+    [self TCM_styleFonts];
 }
 
 - (id)init
@@ -71,6 +83,10 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     [I_textStorage release];
     [I_session release];
     [I_plainTextAttributes release];
+    [I_fonts.plainFont release];
+    [I_fonts.boldFont release];
+    [I_fonts.italicFont release];
+    [I_fonts.boldItalicFont release];
 }
 
 - (void)setSession:(TCMMMSession *)aSession
@@ -307,6 +323,20 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     return [super validateMenuItem:anItem];
 }
 
+
+/*"A font trait mask of 0 returns the plain font, otherwise use NSBoldFontMask, NSItalicFontMask"*/
+- (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait {
+    if ((aFontTrait & NSBoldFontMask) && (aFontTrait & NSItalicFontMask)) {
+        return I_fonts.boldItalicFont;
+    } else if (aFontTrait & NSItalicFontMask) {
+        return I_fonts.italicFont;
+    } else if (aFontTrait & NSBoldFontMask) {
+        return I_fonts.boldFont;
+    } else {
+        return I_fonts.plainFont;
+    }
+}
+
 - (NSDictionary *)plainTextAttributes {
     if (!I_plainTextAttributes) {
 //        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -330,7 +360,7 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
         NSColor *foregroundColor=[NSColor blackColor];
 
         NSMutableDictionary *attributes=[NSMutableDictionary new];
-        [attributes setObject:userFont
+        [attributes setObject:[self fontWithTrait:NSBoldFontMask]
                             forKey:NSFontAttributeName];
         [attributes setObject:[NSNumber numberWithInt:0]
                             forKey:NSLigatureAttributeName];
@@ -371,6 +401,7 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
         }
     }
 }
+
 - (void)performHighlightSyntax {
     if (!I_flags.isPerformingSyntaxHighlighting && I_flags.highlightSyntax && 
         [I_documentMode syntaxHighlighter]!=nil) {
@@ -436,6 +467,20 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     if (!I_flags.isRemotelyEditingTextStorage) {
         TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
         [[self session] documentDidApplyOperation:textOp];
+    }
+    if (I_flags.highlightSyntax) {
+        if ([aString length]) {
+            NSRange range=NSMakeRange(aRange.location,[aString length]);
+            [aTextStorage addAttribute:kSyntaxHighlightingIsDirtyAttributeName value:kSyntaxHighlightingIsDirtyAttributeValue range:range];
+            [self highlightSyntaxInRange:range];
+        } else {
+            NSRange range=NSMakeRange(aRange.location!=0?aRange.location-1:aRange.location,1);
+            if ([aTextStorage length]>=NSMaxRange(range)) {
+                [aTextStorage addAttribute:kSyntaxHighlightingIsDirtyAttributeName value:kSyntaxHighlightingIsDirtyAttributeValue range:range];
+            }
+            [self highlightSyntaxInRange:range];
+        }
+        
     }
 }
 

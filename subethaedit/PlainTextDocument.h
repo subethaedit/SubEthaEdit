@@ -22,6 +22,12 @@
     } I_flags;
     DocumentMode  *I_documentMode;
     NSTextStorage *I_textStorage;
+    struct {
+        NSFont *plainFont;
+        NSFont *boldFont;
+        NSFont *italicFont;
+        NSFont *boldItalicFont;
+    } I_fonts;
     NSDictionary  *I_plainTextAttributes;
 }
 
@@ -40,6 +46,7 @@
 
 - (void)handleOperation:(TCMMMOperation *)aOperation;
 
+- (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait;
 - (NSDictionary *)plainTextAttributes;
 
 - (unsigned int)fileEncoding;
