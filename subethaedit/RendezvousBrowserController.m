@@ -162,6 +162,16 @@
 }
 
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+    static NSImage *txtIcon=nil;
+    static NSImage *statusLock=nil;
+    static NSImage *statusReadOnly=nil;
+    if (!txtIcon) {
+        txtIcon=[[NSWorkspace sharedWorkspace] iconForFileType:@"txt"]; 
+        [txtIcon setSize:NSMakeSize(16,16)];
+        [txtIcon retain];
+    }
+    if (!statusLock) statusLock=[[NSImage imageNamed:@"StatusLock"] retain];
+    if (!statusReadOnly) statusReadOnly=[[NSImage imageNamed:@"StatusReadOnly"] retain];
     if (anItemIndex>=0 && anItemIndex<[I_data count]) {
         NSDictionary *item=[I_data objectAtIndex:anItemIndex];
 //        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:[item objectForKey:@"UserID"]];
@@ -171,11 +181,9 @@
             if (aTag==TCMMMBrowserChildNameTag) {
                 return [session filename];
             } else if (aTag==TCMMMBrowserChildIconImageTag) {
-                NSImage *image=[[NSWorkspace sharedWorkspace] iconForFileType:@"txt"];
-                [image setSize:NSMakeSize(16,16)];
-                return image;
+                return txtIcon;
             } else if (aTag==TCMMMBrowserChildStatusImageTag) {
-                return (anIndex%2?[NSImage imageNamed:@"StatusLock"]:[NSImage imageNamed:@"StatusReadOnly"]);
+                return (anIndex%2?statusLock:statusReadOnly);
             }
         }
     }
