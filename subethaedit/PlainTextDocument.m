@@ -521,8 +521,13 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
         [alert addButtonWithTitle:NSLocalizedString(@"Convert", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Reinterpret", nil)];
-        [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:nil contextInfo:nil];
-        // @selector(sheetDidEndShouldConvert:returnCode:contextInfo:)
+        [alert beginSheetModalForWindow:[self windowForSheet]
+                          modalDelegate:self 
+                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                            contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                            @"SelectEncodingAlert", @"Alert",
+                                                            [NSNumber numberWithUnsignedInt:encoding], @"Encoding",
+                                                            nil] retain]];
     }
 }
 
@@ -1208,6 +1213,65 @@ static NSString *tempFileName(NSString *origPath) {
         I_tabWidth=1;
     }
     [self TCM_invalidateDefaultParagraphStyle];
+}
+
+#pragma mark -
+
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    NSDictionary *alertContext = [(NSDictionary *)contextInfo autorelease];
+    if ([[alertContext objectForKey:@"Alert"] isEqualToString:@"SelectEncodingAlert"]) {
+        NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntValue];
+        if (returnCode == NSAlertFirstButtonReturn) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
+            [[alert window] orderOut:self];
+            if (![[I_textStorage string] canBeConvertedToEncoding:encoding]) {
+                NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+                [newAlert setAlertStyle:NSWarningAlertStyle];
+                [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
+                [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not applicable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
+                [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                [newAlert beginSheetModalForWindow:[self windowForSheet]
+                                     modalDelegate:nil 
+                                    didEndSelector:nil
+                                       contextInfo:NULL];            
+            } else {
+                [self setFileEncoding:encoding];
+                [self updateChangeCount:NSChangeDone];
+            }
+        }
+
+        if (returnCode == NSAlertThirdButtonReturn) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
+            [[alert window] orderOut:self];
+            NSData *stringData = [[I_textStorage string] dataUsingEncoding:[self fileEncoding]];
+            NSString *reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
+            if (!reinterpretedString) {
+                NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+                [newAlert setAlertStyle:NSWarningAlertStyle];
+                [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
+                [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
+                [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                [newAlert beginSheetModalForWindow:[self windowForSheet]
+                                     modalDelegate:nil 
+                                    didEndSelector:nil
+                                       contextInfo:NULL];              
+            } else {
+                [I_textStorage beginEditing];
+                [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
+                [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
+                
+                if (I_flags.highlightSyntax) {
+                    [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
+                }
+        
+                [I_textStorage endEditing];
+                
+                [reinterpretedString release];
+                [self setFileEncoding:encoding];
+                [self updateChangeCount:NSChangeDone];            
+            }
+        }
+    }
 }
 
 #pragma mark -
