@@ -12,8 +12,10 @@
 
 @interface TCMPreferenceController : NSWindowController
 {
-    NSMutableDictionary *I_toolbarItems;
+    NSMutableArray *I_toolbarItemIdentifiers;
     NSToolbar *I_toolbar;
+    NSString *I_selectedItemIdentifier;
+    NSView *I_contentView;
 }
 
 + (void)registerPrefModule:(TCMPreferenceModule *)aModule;

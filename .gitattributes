@@ -167,7 +167,12 @@ subethaedit/DebugPreferences.m -text
 subethaedit/DebugPrefs.nib/classes.nib -text
 subethaedit/DebugPrefs.nib/info.nib -text
 subethaedit/DebugPrefs.nib/keyedobjects.nib -text
+subethaedit/EncodingPreferences.h -text
+subethaedit/EncodingPreferences.m -text
 subethaedit/English.lproj/Credits.rtf -text
+subethaedit/English.lproj/EncodingPrefs.nib/classes.nib -text
+subethaedit/English.lproj/EncodingPrefs.nib/info.nib -text
+subethaedit/English.lproj/EncodingPrefs.nib/keyedobjects.nib -text
 subethaedit/English.lproj/InfoPlist.strings -text
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
 subethaedit/English.lproj/MainMenu.nib/info.nib -text

@@ -18,6 +18,7 @@
 #import "TCMPreferenceController.h"
 #import "RendezvousBrowserController.h"
 #import "DebugPreferences.h"
+#import "EncodingPreferences.h"
 
 #define PORTRANGESTART 12347
 #define PORTRANGELENGTH 10
@@ -109,6 +110,9 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     DebugPreferences *debugPrefs = [[DebugPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:debugPrefs];
+    EncodingPreferences *encodingPrefs = [[EncodingPreferences new] autorelease];
+    [TCMPreferenceController registerPrefModule:encodingPrefs];
+    
     [self addMe];
     // set up BEEPListener
     for (I_listeningPort=PORTRANGESTART;I_listeningPort<PORTRANGESTART+PORTRANGELENGTH;I_listeningPort++) {
