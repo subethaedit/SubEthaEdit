@@ -9,6 +9,8 @@
 #import "OgreKit/OgreKit.h"
 #import "FindReplaceController.h"
 #import "PlainTextWindowController.h"
+#import "TextStorage.h"
+#import "FindAllController.h"
 
 static FindReplaceController *sharedInstance=nil;
 
@@ -99,15 +101,15 @@ static FindReplaceController *sharedInstance=nil;
 - (unsigned) currentOgreOptions 
 {
     unsigned options = OgreNoneOption;
-    if ([O_regexSinglelineCheckbox state]==NSOnState) options = options|OgreSingleLineOption;
-    if ([O_regexMultilineCheckbox state]==NSOnState) options = options|OgreMultilineOption;
-    if ([O_ignoreCaseCheckbox state]==NSOnState) options = options|OgreIgnoreCaseOption;
-    if ([O_regexExtendedCheckbox state]==NSOnState) options = options|OgreExtendOption;
-    if ([O_regexFindLongestCheckbox state]==NSOnState) options = options|OgreFindLongestOption;
-    if ([O_regexIgnoreEmptyCheckbox state]==NSOnState) options = options|OgreFindNotEmptyOption;
-    if ([O_regexNegateSinglelineCheckbox state]==NSOnState) options = options|OgreNegateSingleLineOption;
-    if ([O_regexDontCaptureCheckbox state]==NSOnState) options = options|OgreDontCaptureGroupOption;
-    if ([O_regexCaptureGroupsCheckbox state]==NSOnState) options = options|OgreCaptureGroupOption;
+    if ([O_regexSinglelineCheckbox state]==NSOnState) options |= OgreSingleLineOption;
+    if ([O_regexMultilineCheckbox state]==NSOnState) options |= OgreMultilineOption;
+    if ([O_ignoreCaseCheckbox state]==NSOnState) options |= OgreIgnoreCaseOption;
+    if ([O_regexExtendedCheckbox state]==NSOnState) options |= OgreExtendOption;
+    if ([O_regexFindLongestCheckbox state]==NSOnState) options |= OgreFindLongestOption;
+    if ([O_regexIgnoreEmptyCheckbox state]==NSOnState) options |= OgreFindNotEmptyOption;
+    if ([O_regexNegateSinglelineCheckbox state]==NSOnState) options |= OgreNegateSingleLineOption;
+    if ([O_regexDontCaptureCheckbox state]==NSOnState) options |= OgreDontCaptureGroupOption;
+    if ([O_regexCaptureGroupsCheckbox state]==NSOnState) options |= OgreCaptureGroupOption;
     return options;
 }
 
@@ -164,14 +166,28 @@ static FindReplaceController *sharedInstance=nil;
             [O_findComboBox setStringValue:[[target string] substringWithRange:[target selectedRange]]];
         }
     } else if ([sender tag]==TCMFindPanelActionFindAll) {
-        NSLog(@"FindAll");
+        //[self findAll:[O_findComboBox stringValue]];
+        
+        NSTextView *target = [self targetToFindIn];
+        if (target) {
+
+            OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
+                                         options:[self currentOgreOptions]
+                                         syntax:[self currentOgreSyntax]
+                                         escapeCharacter:[self currentOgreEscapeCharacter]];
+            
+            
+            FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andOptions:[self currentOgreOptions]] autorelease];
+            [(PlainTextDocument *)[[[target window] windowController] document] addFindAllController:findall];
+            [findall findAll];
+        }
     }
 }
 
 - (void) findNextAndOrderOut:(id)sender 
 {
-        [self find:[O_findComboBox stringValue] forward:YES];
-        [[self findPanel] orderOut:self];
+    [self find:[O_findComboBox stringValue] forward:YES];
+    [[self findPanel] orderOut:self];
 }
 
 - (void) find:(NSString*)findString forward:(BOOL)forward
@@ -255,7 +271,6 @@ static FindReplaceController *sharedInstance=nil;
     [findPool release];
 }
 
-
 #pragma mark -
 #pragma mark ### Notification handling ###
 
@@ -263,7 +278,7 @@ static FindReplaceController *sharedInstance=nil;
     // take string from find pasteboard
 }
 
-@end
+@end 
 
 @implementation NSString (NSStringTextFinding)
 

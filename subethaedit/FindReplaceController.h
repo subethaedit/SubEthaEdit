@@ -9,12 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
 
-@class OgreAFPCComboBox;
-
 typedef enum {
     TCMFindPanelActionFindAll = 1001,
 } TCMFindPanelAction;
 
+@interface NSString (NSStringTextFinding)
+- (NSRange)findString:(NSString *)string selectedRange:(NSRange)selectedRange options:(unsigned)options wrap:(BOOL)wrap;
+@end
 
 @interface FindReplaceController : NSObject {
     IBOutlet NSPanel *O_findPanel;
@@ -65,6 +66,3 @@ typedef enum {
 @end
 
 
-@interface NSString (NSStringTextFinding)
-- (NSRange)findString:(NSString *)string selectedRange:(NSRange)selectedRange options:(unsigned)options wrap:(BOOL)wrap;
-@end

@@ -11,7 +11,7 @@
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
-       DocumentProxyWindowController;
+       DocumentProxyWindowController, FindAllController;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;
@@ -90,6 +90,7 @@ extern NSString * const ChangedByUserIDAttributeName;
     
     WebPreviewWindowController *I_webPreviewWindowController;
     NSMutableArray *I_rangesToInvalidate;
+    NSMutableArray *I_findAllControllers;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
@@ -199,5 +200,9 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)handleOperation:(TCMMMOperation *)aOperation;
+
+
+- (void)addFindAllController:(FindAllController *)aController;
+
 
 @end

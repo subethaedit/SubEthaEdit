@@ -28,6 +28,8 @@
 #import "ODBEditorSuite.h"
 #import "GeneralPreferences.h"
 
+#import "FindAllController.h"
+
 
 #pragma options align=mac68k
 struct SelectionRange
@@ -663,6 +665,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         I_flags.isRemotelyEditingTextStorage=NO;
         [self setShowsChangeMarks:[[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesAlonePreferenceKey] && [[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]];
         [self TCM_initHelper];
+        I_findAllControllers = [NSMutableArray new];
     }
     return self;
 }
@@ -723,6 +726,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [I_symbolPopUpMenu release];
     [I_symbolPopUpMenuSorted release];
     [I_rangesToInvalidate release];
+    [I_findAllControllers release];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
@@ -1807,6 +1811,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     PlainTextWindowController *windowController=[self topmostWindowController];
     [windowController selectRange:aRange];
     [[windowController window] makeKeyAndOrderFront:self];
+}
+
+- (void)addFindAllController:(FindAllController *)aController
+{
+    [aController setDocument:self];
+    [I_findAllControllers addObject:aController];
 }
 
 #pragma mark -
