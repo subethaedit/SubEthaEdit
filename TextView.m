@@ -48,6 +48,7 @@ static NSColor *nonCommercialColor=nil;
     NSAffineTransform *transform=[NSAffineTransform transform];
     [transform translateXBy:height yBy:0.];
     [transform rotateByDegrees:30.];
+    [transform scaleXBy:1. yBy:1.5];
     [transform concat];
 //    NSFrameRect(rect);
     [text drawAtPoint:NSMakePoint(0.,0.) withAttributes:attributes];
