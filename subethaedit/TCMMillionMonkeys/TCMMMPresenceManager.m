@@ -295,7 +295,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 
 - (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
     [aProfile sendUserDidChangeNotification:[TCMMMUserManager me]];
-    [aProfile sendVisibility:YES];
+    [aProfile sendVisibility:[self isVisible]];
     NSEnumerator *sessions=[[self announcedSessions] objectEnumerator];
     TCMMMSession *session=nil;
     while ((session=[sessions nextObject])) {
