@@ -14,6 +14,7 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "ImagePopUpButtonCell.h"
 #import "PullDownButtonCell.h"
+#import "TexturedButtonCell.h"
 
 #import <netinet/in.h>
 #import <netinet6/in6.h>
@@ -139,10 +140,13 @@ static InternetBrowserController *sharedInstance = nil;
     [super dealloc];
 }
 
+// on application launch (mainmenu.nib)
 - (void)awakeFromNib {
     sharedInstance = self;
 }
 
+
+// on window load (Internet.nib)
 - (void)windowWillLoad {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
 }
@@ -171,6 +175,28 @@ static InternetBrowserController *sharedInstance = nil;
     [[O_scrollView contentView] setDrawsBackground:NO];
     [[O_scrollView contentView] setAutoresizesSubviews:NO];
     [O_browserListView noteEnclosingScrollView];
+
+    TexturedButtonCell *textureCell=[[TexturedButtonCell new] autorelease];
+    [textureCell setTarget:[[O_clearButton cell] target]];
+    [textureCell setAction:[[O_clearButton cell] action]];
+    [O_clearButton setCell:textureCell];
+    [[O_clearButton cell] setButtonType:NSMomentaryLightButton];
+    [O_clearButton setTitle:NSLocalizedString(@"InternetClear",@"Title of Clear Button in InternetBrowser")];
+    [[O_clearButton cell] setTextureImage:[NSImage imageNamed:@"EmptyButton"]];
+    [[O_clearButton cell] setControlSize:NSSmallControlSize];
+    [[O_clearButton cell] setBordered:NO];
+    [[O_clearButton cell] setBezeled:NO];
+    [[O_clearButton cell] setHighlightsBy:NSNoCellMask];
+    [O_clearButton setEnabled:YES];
+    [O_clearButton setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+    NSRect buttonFrame=[O_clearButton frame];
+    [O_clearButton sizeToFit];
+    NSRect newButtonFrame=[O_clearButton frame];
+    float widthdifference=newButtonFrame.size.width-buttonFrame.size.width+8;
+    buttonFrame.origin.x-=widthdifference;
+    buttonFrame.size.width+=widthdifference;
+    [O_clearButton setFrame:buttonFrame];
+    [O_clearButton setEnabled:NO];
     
     [O_actionPullDownButton setCell:[[ImagePopUpButtonCell new] autorelease]];
     [[O_actionPullDownButton cell] setPullsDown:YES];

@@ -19,6 +19,7 @@
     IBOutlet NSComboBox *O_addressComboBox;
     IBOutlet NSPopUpButton *O_actionPullDownButton;
     IBOutlet NSPopUpButton *O_statusPopUpButton;
+    IBOutlet NSButton   *O_clearButton;
 
     NSMutableArray *I_data;
     NSMutableArray *I_comboBoxItems;

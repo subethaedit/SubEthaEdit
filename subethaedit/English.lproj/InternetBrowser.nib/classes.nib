@@ -19,6 +19,7 @@
                 "O_actionPullDownButton" = NSPopUpButton; 
                 "O_addressComboBox" = NSComboBox; 
                 "O_browserListView" = TCMMMBrowserListView; 
+                "O_clearButton" = NSButton; 
                 "O_imageView" = NSImageView; 
                 "O_myNameTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 

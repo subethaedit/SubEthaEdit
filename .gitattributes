@@ -280,7 +280,7 @@ subethaedit/English.lproj/InternetBrowser.nib/classes.nib -text
 subethaedit/English.lproj/InternetBrowser.nib/info.nib -text
 subethaedit/English.lproj/InternetBrowser.nib/keyedobjects.nib -text
 subethaedit/English.lproj/License.rtf -text
-subethaedit/English.lproj/Localizable.strings -text
+subethaedit/English.lproj/Localizable.strings -text svneol=unset#text/plain
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
 subethaedit/English.lproj/MainMenu.nib/info.nib -text
 subethaedit/English.lproj/MainMenu.nib/keyedobjects.nib -text
@@ -729,6 +729,8 @@ subethaedit/TextStorage.h -text
 subethaedit/TextStorage.m -text
 subethaedit/TextView.h -text
 subethaedit/TextView.m -text
+subethaedit/TexturedButtonCell.h -text
+subethaedit/TexturedButtonCell.m -text
 subethaedit/Tools/HTMLTemplate.html -text
 subethaedit/Tools/LaTeXTemplate.latex -text
 subethaedit/Tools/RTFTemplate.rtf -text
