@@ -934,7 +934,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 #define WEBPREVIEWDELAYEDREFRESHINTERVAL 1.2
 
 - (void)triggerDelayedWebPreviewRefresh {
-    if ([[self documentMode] hasSymbols]) {
+    if (I_webPreviewWindowController) {
         if ([I_webPreviewDelayedRefreshTimer isValid]) {
             [I_webPreviewDelayedRefreshTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:WEBPREVIEWDELAYEDREFRESHINTERVAL]];
         } else {
