@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Classes</key>
+	<dict>
+		<key>NSApplication</key>
+		<dict>
+			<key>Name</key>
+			<string>application</string>
+			<key>PluralName</key>
+			<string>applications</string>
+		</dict>
+		<key>PlainTextDocument</key>
+		<dict>
+			<key>Attributes</key>
+			<dict>
+				<key>textStorage</key>
+				<dict>
+					<key>Description</key>
+					<string></string>
+					<key>Name</key>
+					<string>contents</string>
+				</dict>
+			</dict>
+			<key>Name</key>
+			<string>text document</string>
+			<key>PluralName</key>
+			<string>text documents</string>
+		</dict>
+	</dict>
+	<key>Commands</key>
+	<dict>
+		<key>GetUrl</key>
+		<dict>
+			<key>Name</key>
+			<string>get url</string>
+		</dict>
+		<key>OpenUrl</key>
+		<dict>
+			<key>Name</key>
+			<string>open url</string>
+		</dict>
+	</dict>
+	<key>Name</key>
+	<string>SubEthaEdit Suite</string>
+</dict>
+</plist>

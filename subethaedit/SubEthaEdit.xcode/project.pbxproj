@@ -36,6 +36,7 @@
 		1058C7A6FEA54F5311CA2CBB = {
 			children = (
 				5EAD69AA05EE5F5300E75BFF,
+				144DD73B061049D90047D354,
 				1058C7A7FEA54F5311CA2CBB,
 				144BC7C905EE5C84006397BC,
 				14AE9D6B05F610EB0025CADE,
@@ -454,6 +455,29 @@
 			settings = {
 			};
 		};
+		144DD73B061049D90047D354 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AppleScriptKit.framework;
+			path = /System/Library/Frameworks/AppleScriptKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		144DD73C061049D90047D354 = {
+			fileRef = 144DD73B061049D90047D354;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		144DD74906104A760047D354 = {
+			buildActionMask = 2147483647;
+			contextName = "";
+			files = (
+			);
+			isSharedContext = 0;
+			isa = PBXAppleScriptBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1464B3FF05EE793C00D21A18 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -535,18 +559,6 @@
 			isa = PBXAggregateTarget;
 			name = "Process sdef";
 			productName = "Process sdef";
-		};
-		147037FF060C64530087BA25 = {
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 147037FE060C642F0087BA25;
-			remoteInfo = "Process sdef";
-		};
-		14703800060C64530087BA25 = {
-			isa = PBXTargetDependency;
-			target = 147037FE060C642F0087BA25;
-			targetProxy = 147037FF060C64530087BA25;
 		};
 		14703803060C647B0087BA25 = {
 			children = (
@@ -1187,7 +1199,6 @@
 				31DEE028061089D0001EC83E,
 			);
 			buildSettings = {
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -2198,6 +2209,7 @@
 			buildPhases = (
 				8D15AC280486D014006FF6A4,
 				8D15AC2B0486D014006FF6A4,
+				144DD74906104A760047D354,
 				8D15AC300486D014006FF6A4,
 				8D15AC330486D014006FF6A4,
 			);
@@ -2224,7 +2236,6 @@
 				WRAPPER_EXTENSION = app;
 			};
 			dependencies = (
-				14703800060C64530087BA25,
 			);
 			isa = PBXNativeTarget;
 			name = SubEthaEdit;
@@ -2407,6 +2418,7 @@
 				144BC7CA05EE5C84006397BC,
 				5EAD69AB05EE5F5300E75BFF,
 				14AE9D6C05F610EB0025CADE,
+				144DD73C061049D90047D354,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

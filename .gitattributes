@@ -233,6 +233,8 @@ subethaedit/SubEthaEdit.sdef -text
 subethaedit/SubEthaEdit.xcode/dwagner.pbxuser -text
 subethaedit/SubEthaEdit.xcode/mbo.pbxuser -text svneol=unset#application/octet-stream
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
+subethaedit/SubEthaEditSuite.scriptSuite -text
+subethaedit/SubEthaEditSuite.scriptTerminology -text
 subethaedit/SubEthaEdit_Prefix.pch -text
 subethaedit/SyntaxDefinition.h -text
 subethaedit/SyntaxDefinition.m -text

@@ -58,11 +58,19 @@
 
 - (void)setOperation:(TCMMMOperation *)anOperation {
     [I_operation autorelease];
-    I_operation = [anOperation retain];
+    I_operation = [anOperation copy];
 }
 
 - (TCMMMOperation *)operation {
     return I_operation;
+}
+
+- (long long)numberOfClientMessages {
+    return I_numberOfClientMessages;
+}
+
+- (long long)numberOfServerMessages {
+    return I_numberOfServerMessages;
 }
 
 @end

@@ -52,17 +52,48 @@
 - (void)handleMessage:(TCMMMMessage *)aMessage {
 
     // clean up buffer
-    // unwrap message
-    // transform operation
+    unsigned int i;
+    if (I_isServer) {
+        for (i = 0; i < [I_messageBuffer count];) {
+            if ([[I_messageBuffer objectAtIndex:i] numberOfServerMessages]
+                < [aMessage numberOfServerMessages]) {
+                [I_messageBuffer removeObjectAtIndex:i];
+            } else {
+                i++;
+            }
+        }    
+    } else {
+        for (i = 0; i < [I_messageBuffer count];) {
+            if ([[I_messageBuffer objectAtIndex:i] numberOfClientMessages]
+                < [aMessage numberOfClientMessages]) {
+                [I_messageBuffer removeObjectAtIndex:i];
+            } else {
+                i++;
+            }
+        }
+    }
 
-    //if ([[self delegate] respondsToSelector:@selector(state:handleOperation:)]) {
-    //    [[self delegate state:self handleOperation:operation];
-    //}
+    // unwrap message
+    // iterate over message buffer and transform each operation with incoming operation
+
+
+    // apply operation
+    if ([[self delegate] respondsToSelector:@selector(state:handleOperation:)]) {
+        [[self delegate] state:self handleOperation:[aMessage operation]];
+    }
+
+    // update state space
+    if (I_isServer) {
+        I_numberOfClientMessages++;
+    } else {
+        I_numberOfServerMessages++;
+    }
 }
 
 - (void)handleOperation:(TCMMMOperation *)anOperation {
     
     // wrap operation in message and put it in the buffer
+    // operation has to copied !!!
     TCMMMMessage *message = [[[TCMMMMessage alloc] initWithOperation:anOperation numberOfClient:I_numberOfClientMessages numberOfServer:I_numberOfServerMessages] autorelease];
     if ([self isServer]) {
         I_numberOfServerMessages++;

@@ -27,4 +27,7 @@
 - (void)setOperation:(TCMMMOperation *)anOperation;
 - (TCMMMOperation *)operation;
 
+- (long long)numberOfClientMessages;
+- (long long)numberOfServerMessages;
+
 @end

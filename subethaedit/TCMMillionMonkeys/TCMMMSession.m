@@ -15,6 +15,7 @@
 #import "TCMMMState.h"
 #import "TCMMMOperation.h"
 #import "SessionProfile.h"
+#import "PlainTextDocument.h"
 
 
 NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
@@ -357,8 +358,19 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 #pragma ### State interaction ###
 
 - (void)state:(TCMMMState *)aState handleOperation:(TCMMMOperation *)anOperation {
-    // TODO: distribute operations
-    //[[self document] handleOperation:anOperation];
+
+    [(PlainTextDocument *)[self document] handleOperation:anOperation];
+    
+    // distribute operation
+    NSEnumerator *states = [I_statesByClientID objectEnumerator];
+    TCMMMState *state;
+    while ((state = [states nextObject])) {
+        if (state == aState) {
+            continue;
+        }
+        
+        [state handleOperation:anOperation];
+    }
 }
 
 @end

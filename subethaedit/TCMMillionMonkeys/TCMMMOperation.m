@@ -30,6 +30,11 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
     return [super init];
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    TCMMMOperation *copy = [[[self class] allocWithZone:zone] init];
+    return copy;
+}
+
 - (NSDictionary *)dictionaryRepresentation {
     return nil;
 }

@@ -33,6 +33,15 @@
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    id copy = [super copyWithZone:zone];
+    
+    [copy setUserID:[self userID]];
+    [copy setSelectedRange:[self selectedRange]];
+    
+    return copy;
+}
+
 - (void)dealloc {
     [I_userID release];
     [super dealloc];

@@ -12,7 +12,7 @@
 extern NSString * const TCMMMOperationTypeKey;
 
 
-@interface TCMMMOperation : NSObject {
+@interface TCMMMOperation : NSObject <NSCopying> {
 
 }
 

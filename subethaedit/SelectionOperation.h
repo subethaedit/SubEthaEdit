@@ -10,7 +10,7 @@
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 
 
-@interface SelectionOperation : TCMMMOperation {
+@interface SelectionOperation : TCMMMOperation <NSCopying> {
     NSRange I_selectedRange;
     NSString *I_userID;
 }
