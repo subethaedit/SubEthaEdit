@@ -12,10 +12,14 @@
 @implementation NSData (NSDataTCMAdditions)
 
 + dataWithUUIDString:(NSString *)aUUIDString {
-    CFUUIDRef uuid=CFUUIDCreateFromString(NULL,(CFStringRef)aUUIDString);
-    CFUUIDBytes bytes=CFUUIDGetUUIDBytes(uuid);
-    CFRelease(uuid);
-    return [NSData dataWithBytes:&bytes length:sizeof(CFUUIDBytes)];
+    if (aUUIDString!=nil) {
+        CFUUIDRef uuid=CFUUIDCreateFromString(NULL,(CFStringRef)aUUIDString);
+        CFUUIDBytes bytes=CFUUIDGetUUIDBytes(uuid);
+        CFRelease(uuid);
+        return [NSData dataWithBytes:&bytes length:sizeof(CFUUIDBytes)];
+    } else {
+        return nil;
+    }
 }
 
 @end

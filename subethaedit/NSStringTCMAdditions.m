@@ -85,10 +85,14 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 @implementation NSString (NSStringTCMAdditions) 
 
 + (NSString *)stringWithUUIDData:(NSData *)aData {
-    CFUUIDRef uuid=CFUUIDCreateFromUUIDBytes(NULL,*(CFUUIDBytes *)[aData bytes]);
-    NSString *uuidString=(NSString *)CFUUIDCreateString(NULL,uuid);
-    CFRelease(uuid);
-    return [uuidString autorelease];
+    if (aData!=nil) {
+        CFUUIDRef uuid=CFUUIDCreateFromUUIDBytes(NULL,*(CFUUIDBytes *)[aData bytes]);
+        NSString *uuidString=(NSString *)CFUUIDCreateString(NULL,uuid);
+        CFRelease(uuid);
+        return [uuidString autorelease];
+    } else {
+        return nil;
+    }
 }
 
 
