@@ -128,10 +128,22 @@
 - (void)TCM_findModes {
     NSString *file;
     NSString *path;
+    
+    //create Directories
+    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
+    while ((path = [enumerator nextObject])) {
+        NSString *fullPath = [path stringByAppendingPathComponent:MODEPATHCOMPONENT];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:[fullPath stringByDeletingLastPathComponent] attributes:nil];
+            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
+        }
+    }
+
         
     NSMutableArray *allPaths = [NSMutableArray array];
     NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
-    NSEnumerator *enumerator = [allDomainsPaths objectEnumerator];
+    enumerator = [allDomainsPaths objectEnumerator];
     while ((path = [enumerator nextObject])) {
         [allPaths addObject:[path stringByAppendingPathComponent:MODEPATHCOMPONENT]];
     }
