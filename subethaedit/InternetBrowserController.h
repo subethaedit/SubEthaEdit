@@ -21,11 +21,17 @@
     IBOutlet NSPopUpButton *O_visibilityPopUpButton;
 
     NSMutableArray *I_data;
+    NSMutableArray *I_comboBoxItems;
     NSMutableDictionary *I_resolvingHosts;
     NSMutableDictionary *I_resolvedHosts;
 }
 
+- (NSMutableArray *)comboBoxItems;
+- (void)setComboBoxItems:(NSMutableArray *)anArray;
+
 - (IBAction)connect:(id)aSender;
 - (IBAction)setVisibilityByPopUpButton:(id)aSender;
+
+- (void)connectToAddress:(NSString *)address;
 
 @end

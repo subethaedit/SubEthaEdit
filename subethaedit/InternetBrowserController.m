@@ -13,6 +13,9 @@
 #import "ImagePopUpButtonCell.h"
 
 
+#define kMaxNumberOfItems 10
+
+
 @interface InternetBrowserController (InternetBrowserControllerPrivateAdditions)
 
 - (int)indexOfItemWithHostname:(NSString *)name;
@@ -80,6 +83,15 @@
     [[O_actionPullDownButton cell] setUsesItemFromMenu:NO];
     [O_actionPullDownButton addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
 
+    [O_addressComboBox setUsesDataSource:YES];
+    [O_addressComboBox setDataSource:self];
+    [self setComboBoxItems:[[NSUserDefaults standardUserDefaults] objectForKey:AddressHistory]];
+    [O_addressComboBox noteNumberOfItemsChanged];
+    [O_addressComboBox reloadData];
+    if ([[self comboBoxItems] count] > 0) {
+        [O_addressComboBox setObjectValue:[[self comboBoxItems] objectAtIndex:0]];
+    }
+
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
     [defaultCenter addObserver:self 
@@ -96,16 +108,80 @@
                         object:manager];
 }
 
-- (IBAction)connect:(id)aSender {
-    NSString *address = [aSender objectValue];
-    DEBUGLOG(@"Internet", 5, @"connect to peer: %@", address);
+- (void)windowWillClose:(NSNotification *)aNotification {
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"InternetBrowser willClose");
+    [[NSUserDefaults standardUserDefaults] setObject:[self comboBoxItems] forKey:AddressHistory];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
-    TCMHost *host = [TCMHost hostWithName:address port:[[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber]];
-    [I_resolvingHosts setObject:host forKey:[host name]];
-    [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[host name], @"name", @"Resolving", @"status", nil]];
-    [O_browserListView reloadData];
-    [host setDelegate:self];
-    [host resolve];
+- (void)connectToAddress:(NSString *)address {
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"connect to address: %@", address);
+    
+    NSString *unescapedAddress = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)address, CFSTR(""));
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"unescapedAddress: %@", unescapedAddress);
+    
+    NSString *escapedAddress = nil;
+    if (unescapedAddress != nil) {
+        [unescapedAddress autorelease];
+        escapedAddress = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)unescapedAddress, NULL, NULL, CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+        [escapedAddress autorelease];
+    } else {
+        escapedAddress = address;
+    }
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedAddress: %@", escapedAddress);
+    
+    NSURL *url;
+    NSString *schemePrefix = [NSString stringWithFormat:@"%@://", @"hydra"];
+    NSString *lowercaseEscapedAddress = [escapedAddress lowercaseString];
+    if (![lowercaseEscapedAddress hasPrefix:schemePrefix]) {
+        NSString *escapedAddressWithPrefix = [schemePrefix stringByAppendingString:escapedAddress];
+        url = [NSURL URLWithString:escapedAddressWithPrefix];
+    } else {
+        url = [NSURL URLWithString:escapedAddress];
+    }
+    
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"scheme: %@\nhost: %@\nport: %@\npath: %@\nparameterString: %@\nquery: %@", [url scheme], [url host],  [url port], [url path], [url parameterString], [url query]);
+    
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"Connect to: %@", [url description]);
+    
+    if (url != nil && [url host] != nil) {
+        [I_comboBoxItems removeObject:[url absoluteString]];
+        [I_comboBoxItems insertObject:[url absoluteString] atIndex:0];
+        if ([I_comboBoxItems count] >= kMaxNumberOfItems) {
+            [I_comboBoxItems removeLastObject];
+        }
+        [O_addressComboBox noteNumberOfItemsChanged];
+        [O_addressComboBox reloadData];
+        
+        // when I_data entry with URL exists, select entry
+        int index = [self indexOfItemWithHostname:[url host]];
+        if (index != -1) {
+            int row = [O_browserListView rowForItem:index child:-1];
+            [O_browserListView selectRow:row byExtendingSelection:NO];
+        } else {
+            // otherwise add new entry to I_data
+            UInt16 port;
+            if ([url port] != nil) {
+                port = [[url port] unsignedShortValue];
+            } else {
+                port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
+            }
+            TCMHost *host = [TCMHost hostWithName:[url host] port:port];
+            [I_resolvingHosts setObject:host forKey:[host name]];
+            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[host name], @"name", @"Resolving", @"status", nil]];
+            [O_browserListView reloadData];
+            [host setDelegate:self];
+            [host resolve];
+        }
+    } else {
+        NSLog(@"Entered invalid URI");
+    }
+}
+
+- (IBAction)connect:(id)aSender {
+    DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"connect action triggered");
+    NSString *address = [aSender objectValue];
+    [self connectToAddress:address];
 }
 
 - (IBAction)setVisibilityByPopUpButton:(id)aSender {
@@ -150,6 +226,15 @@
         }
     }
     return result;
+}
+ 
+- (NSMutableArray *)comboBoxItems {
+    return I_comboBoxItems;
+}
+
+- (void)setComboBoxItems:(NSMutableArray *)anArray {
+    [I_comboBoxItems autorelease];
+    I_comboBoxItems = [anArray mutableCopy];
 }
 
 #pragma mark -
@@ -382,6 +467,24 @@
         }
     }
     return nil;
+}
+
+#pragma mark -
+
+//
+// NSComboBoxDataSource
+//
+
+- (unsigned int)comboBox:(NSComboBox *)comboBox indexOfItemWithStringValue:(NSString *)string {
+    return [I_comboBoxItems indexOfObject:string];
+}
+
+- (id)comboBox:(NSComboBox *)comboBox objectValueForItemAtIndex:(int)index {
+    return [I_comboBoxItems objectAtIndex:index];
+}
+
+- (int)numberOfItemsInComboBox:(NSComboBox *)comboBox {
+    return [I_comboBoxItems count];
 }
 
 @end

@@ -12,6 +12,7 @@
     
     
     extern NSString * const DefaultPortNumber;
+    extern NSString * const AddressHistory;
 #endif
 
 typedef enum LogLevels {

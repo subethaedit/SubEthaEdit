@@ -48,7 +48,7 @@ int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
 
 NSString * const DefaultPortNumber = @"port";
-
+NSString * const AddressHistory = @"AddressHistory";
 
 @interface AppController (AppControllerPrivateAdditions)
 
@@ -67,6 +67,7 @@ NSString * const DefaultPortNumber = @"port";
     [NSURLProtocol registerClass:[URLDataProtocol class]];
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
     [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
+    [defaults setObject:[NSMutableArray array] forKey:AddressHistory];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
