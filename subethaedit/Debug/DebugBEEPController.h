@@ -13,7 +13,6 @@
 
 
 @interface DebugBEEPController : NSWindowController {
-    IBOutlet NSObjectController *O_sessionManagerController;
     IBOutlet NSArrayController *O_sessionController;
 }
 

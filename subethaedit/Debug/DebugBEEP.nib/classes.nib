@@ -3,10 +3,7 @@
         {
             CLASS = DebugBEEPController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_sessionController" = NSArrayController; 
-                "O_sessionManagerController" = NSObjectController; 
-            }; 
+            OUTLETS = {"O_sessionController" = NSArrayController; }; 
             SUPERCLASS = NSWindowController; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
