@@ -16,6 +16,7 @@
     if (self) {
         I_styleDictionary = [NSMutableDictionary new];
         I_documentMode =nil;
+        I_keyArray = [NSMutableArray new];
     }
     return self;
 }
@@ -37,8 +38,13 @@
 
 
 - (NSArray *)allKeys {
-    return [I_styleDictionary allKeys];
+    return I_keyArray;
 }
+
+- (void)addKey:(NSString *)aKey {
+    [I_keyArray addObject:aKey];
+}
+
 
 - (NSMutableDictionary *)styleForKey:(NSString *)aKey {
     return [I_styleDictionary objectForKey:aKey];
@@ -61,7 +67,7 @@
 - (NSString *)description {
     NSMutableString *localizedString=[NSMutableString string];
     NSString *key=nil;
-    NSEnumerator *keys=[I_styleDictionary keyEnumerator];
+    NSEnumerator *keys=[I_keyArray objectEnumerator];
     while ((key=[keys nextObject])) {
         [localizedString appendFormat:@"%@ (%@): %@\n",[self localizedStringForKey:key],key,[[I_styleDictionary objectForKey:key] description]];
     }

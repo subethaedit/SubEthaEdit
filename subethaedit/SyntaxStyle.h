@@ -12,9 +12,11 @@
 @interface SyntaxStyle : NSObject {
     NSMutableDictionary *I_styleDictionary;
     DocumentMode *I_documentMode;
+    NSMutableArray *I_keyArray;
 }
 
 - (NSArray *)allKeys;
+- (void)addKey:(NSString *)aKey;
 - (NSMutableDictionary *)styleForKey:(NSString *)aKey;
 - (void)setStyle:(NSDictionary *)aDictionary forKey:(NSString *)aKey;
 - (NSString *)localizedStringForKey:(NSString *)aKey;
