@@ -19,22 +19,42 @@
 }
 
 + (TCMMMUser *)userWithDictionaryRepresentation:(NSDictionary *)aRepresentation {
-    TCMMMUser *user=[TCMMMUser new];
+    // bail out for malformed data
+    if (
+        ![[aRepresentation objectForKey:@"name"] isKindOfClass:[NSString class]] ||
+        ![[aRepresentation objectForKey:@"uID" ] isKindOfClass:[NSData class]  ] ||
+        ![[aRepresentation objectForKey:@"cnt" ] isKindOfClass:[NSNumber class]] ||
+        ![[aRepresentation objectForKey:@"PNG" ] isKindOfClass:[NSData class]  ] ||
+        ![[aRepresentation objectForKey:@"hue" ] isKindOfClass:[NSNumber class]]
+    ) {
+        return nil;
+    }
+    
+    TCMMMUser *user=[[TCMMMUser new] autorelease];
     [user setName:[aRepresentation objectForKey:@"name"]];
     [user setUserID:[NSString stringWithUUIDData:[aRepresentation objectForKey:@"uID"]]];
     [user setChangeCount:[[aRepresentation objectForKey:@"cnt"] longLongValue]];
-    NSData *pngData=[aRepresentation objectForKey:@"PNG"];
     NSString *string=[aRepresentation objectForKey:@"AIM"];
-    [[user properties] setObject:string?string:@"" forKey:@"AIM"];
+    if (string==nil) { string=@"";}
+    else if (![string isKindOfClass:[NSString class]]) { return nil;}
+    [[user properties] setObject:string forKey:@"AIM"];
     string=[aRepresentation objectForKey:@"mail"];
-    [[user properties] setObject:string?string:@"" forKey:@"Email"];
-    [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
+    if (string==nil) { string=@"";} 
+    else if (![string isKindOfClass:[NSString class]]) { return nil;}
+    [[user properties] setObject:string forKey:@"Email"];
+    NSData *pngData=[aRepresentation objectForKey:@"PNG"];
     NSImage *image=[[[NSImage alloc] initWithData:[[user properties] objectForKey:@"ImageAsPNG"]] autorelease];
+    if (!image) {
+        image=[[NSImage imageNamed:@"DefaultPerson.tiff"] resizedImageWithSize:NSMakeSize(64.,64.)];
+        pngData=[image TIFFRepresentation];
+        pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
+    }
+    [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
     [[user properties] setObject:image forKey:@"Image"];
     [user prepareImages];
     [user setUserHue:[aRepresentation objectForKey:@"hue"]];
     //NSLog(@"Created User: %@",[user description]);
-    return [user autorelease];
+    return user;
 }
 
 - (void)prepareImages {
