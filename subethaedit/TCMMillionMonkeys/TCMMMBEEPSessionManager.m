@@ -26,12 +26,10 @@ static NSString *kBEEPSessionStatusGotSession = @"GotSession";
 static NSString *kBEEPSessionStatusConnecting = @"Connecting";
 
 
-NSString * const TCMMMBEEPSessionManagerDidAcceptSessionNotification = 
-               @"TCMMMBEEPSessionManagerDidAcceptSessionNotification";
-NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification = 
-               @"TCMMMBEEPSessionManagerSessionDidEndNotification";
-NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification = 
-               @"TCMMMBEEPSessionManagerConnectToHostDidFailNotification";
+NSString * const TCMMMBEEPSessionManagerDidAcceptSessionNotification = @"TCMMMBEEPSessionManagerDidAcceptSessionNotification";
+NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification = @"TCMMMBEEPSessionManagerSessionDidEndNotification";
+NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification = @"TCMMMBEEPSessionManagerConnectToHostDidFailNotification";
+NSString * const TCMMMBEEPSessionManagerConnectToHostCancelledNotification = @"TCMMMBEEPSessionManagerConnectToHostCancelledNotification";
 
 /*"
     SessionInformation:
@@ -74,7 +72,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_sessionInformationByUserID = [NSMutableDictionary new];
         I_pendingSessionProfiles = [NSMutableSet new];
         I_pendingSessions = [NSMutableSet new];
-        I_pendingOutboundSessions = [NSMutableDictionary new];
+        I_outboundInternetSessions = [NSMutableDictionary new];
         I_sessions = [NSMutableArray new];
     }
     return self;
@@ -87,7 +85,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [I_sessionInformationByUserID release];
     [I_pendingSessionProfiles release];
     [I_pendingSessions release];
-    [I_pendingOutboundSessions release];
+    [I_outboundInternetSessions release];
     [I_sessions release];
     [super dealloc];
 }
@@ -111,7 +109,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:%@\npendingSessionProfiles:%@\npendingSessions:%@\npendingOutboundSessions:%@", [I_sessionInformationByUserID descriptionInStringsFileFormat], [I_pendingSessionProfiles description], [I_pendingSessions description], [I_pendingOutboundSessions description]];
+    return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:%@\npendingSessionProfiles:%@\npendingSessions:%@\npendingOutboundSessions:%@", [I_sessionInformationByUserID descriptionInStringsFileFormat], [I_pendingSessionProfiles description], [I_pendingSessions description], [I_outboundInternetSessions description]];
 }
 
 - (BOOL)listen {
@@ -194,20 +192,20 @@ static TCMMMBEEPSessionManager *sharedInstance;
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"connectToHost:");
 
 /*
-    pendingOutboundSessions {
-        <hostname> => {
+    outboundInternetSessions {
+        <URLString> => {
             "host" => TCMHost
-            "sessions" = NSMutableSet
+            "sessions" => NSMutableArray
         }
     }
 */
     NSMutableDictionary *infoDict = [NSMutableDictionary dictionary];
     [infoDict setObject:aHost forKey:@"host"];
-    
+    [infoDict setObject:[NSNumber numberWithBool:YES] forKey:@"pending"];
     NSMutableArray *sessions = [NSMutableArray array];
     [infoDict setObject:sessions forKey:@"sessions"];
     
-    [I_pendingOutboundSessions setObject:infoDict forKey:[[aHost userInfo] objectForKey:@"URLString"]];
+    [I_outboundInternetSessions setObject:infoDict forKey:[[aHost userInfo] objectForKey:@"URLString"]];
     
     NSEnumerator *addresses = [[aHost addresses] objectEnumerator];
     NSData *addressData;
@@ -222,6 +220,16 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
         [session setDelegate:self];
         [session open];
+    }
+}
+
+- (void)cancelConnectToHost:(TCMHost *)aHost
+{
+    NSMutableDictionary *infoDict = [I_outboundInternetSessions objectForKey:[[aHost userInfo] objectForKey:@"URLString"]];
+    if (infoDict) {
+        [infoDict setObject:[NSNumber numberWithBool:YES] forKey:@"cancelled"];
+        NSArray *sessions = [infoDict objectForKey:@"sessions"];
+        [sessions makeObjectsPerformSelector:@selector(terminate)];
     }
 }
 
@@ -258,7 +266,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 }
             } else {
                 NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
-                NSDictionary *info = [I_pendingOutboundSessions objectForKey:URLString];
+                NSDictionary *info = [I_outboundInternetSessions objectForKey:URLString];
                 NSMutableArray *sessions = [info objectForKey:@"sessions"];
                 TCMBEEPSession *session;
                 while ((session = [sessions lastObject])) {
@@ -287,7 +295,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         } else {
             if ([aBEEPSession isInitiator]) {
                 NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
-                NSDictionary *info = [I_pendingOutboundSessions objectForKey:URLString];
+                NSDictionary *info = [I_outboundInternetSessions objectForKey:URLString];
                 [[info objectForKey:@"sessions"] removeObject:aBEEPSession];
             }
         }
@@ -367,20 +375,27 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 }
             }
         } else {
-            [[sessionInformation objectForKey:@"OutboundSessions"] removeObject:aBEEPSession];
+            //[[sessionInformation objectForKey:@"OutboundSessions"] removeObject:aBEEPSession];
             [[sessionInformation objectForKey:@"InboundSessions"] removeObject:aBEEPSession];
             NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
-            NSMutableDictionary *infoDict = [I_pendingOutboundSessions objectForKey:URLString];
-            if (infoDict) {
+            NSMutableDictionary *infoDict = [I_outboundInternetSessions objectForKey:URLString];
+            if (infoDict && [infoDict objectForKey:@"pending"]) {
                 NSMutableArray *sessions = [infoDict objectForKey:@"sessions"];
                 [sessions removeObject:aBEEPSession];
                 if ([sessions count] == 0) {
                     [infoDict removeObjectForKey:@"sessions"];
-                    [[NSNotificationCenter defaultCenter]
-                            postNotificationName:TCMMMBEEPSessionManagerConnectToHostDidFailNotification
-                                          object:self
-                                        userInfo:infoDict];
-                    [I_pendingOutboundSessions removeObjectForKey:URLString];
+                    if ([infoDict objectForKey:@"cancelled"]) {
+                        [[NSNotificationCenter defaultCenter]
+                                postNotificationName:TCMMMBEEPSessionManagerConnectToHostCancelledNotification
+                                              object:self
+                                            userInfo:infoDict];                    
+                    } else {
+                        [[NSNotificationCenter defaultCenter]
+                                postNotificationName:TCMMMBEEPSessionManagerConnectToHostDidFailNotification
+                                              object:self
+                                            userInfo:infoDict];
+                    }
+                    [I_outboundInternetSessions removeObjectForKey:URLString];
                 }
             } else {
                 [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
@@ -388,17 +403,24 @@ static TCMMMBEEPSessionManager *sharedInstance;
         }
     } else if (!isRendezvous) {
         NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
-        NSMutableDictionary *infoDict = [I_pendingOutboundSessions objectForKey:URLString];
-        if (infoDict) {
+        NSMutableDictionary *infoDict = [I_outboundInternetSessions objectForKey:URLString];
+        if (infoDict && [infoDict objectForKey:@"pending"]) {
             NSMutableArray *sessions = [infoDict objectForKey:@"sessions"];
             [sessions removeObject:aBEEPSession];
             if ([sessions count] == 0) {
                 [infoDict removeObjectForKey:@"sessions"];
-                [[NSNotificationCenter defaultCenter]
-                        postNotificationName:TCMMMBEEPSessionManagerConnectToHostDidFailNotification
-                                      object:self
-                                    userInfo:infoDict];
-                [I_pendingOutboundSessions removeObjectForKey:URLString];
+                if ([infoDict objectForKey:@"cancelled"]) {
+                    [[NSNotificationCenter defaultCenter]
+                            postNotificationName:TCMMMBEEPSessionManagerConnectToHostCancelledNotification
+                                          object:self
+                                        userInfo:infoDict];                    
+                } else {
+                    [[NSNotificationCenter defaultCenter]
+                            postNotificationName:TCMMMBEEPSessionManagerConnectToHostDidFailNotification
+                                          object:self
+                                        userInfo:infoDict];
+                }
+                [I_outboundInternetSessions removeObjectForKey:URLString];
             }
         } else {
             [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
@@ -511,12 +533,16 @@ static TCMMMBEEPSessionManager *sharedInstance;
             return YES;
         }
     } else {
-        [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
-        [[information objectForKey:@"OutboundSessions"] addObject:session];
-        NSDictionary *infoDict = [I_pendingOutboundSessions objectForKey:[[session userInfo] objectForKey:@"URLString"]];
-        [[session userInfo] setObject:[infoDict objectForKey:@"host"] forKey:@"host"];
-        [I_pendingOutboundSessions removeObjectForKey:[[session userInfo] objectForKey:@"URLString"]];
+        if ([aUserID isEqualToString:[TCMMMUserManager myUserID]]) {
+            return NO;
+        }
         
+        [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
+        //[[information objectForKey:@"OutboundSessions"] addObject:session];
+        NSDictionary *infoDict = [I_outboundInternetSessions objectForKey:[[session userInfo] objectForKey:@"URLString"]];
+        [[session userInfo] setObject:[infoDict objectForKey:@"host"] forKey:@"host"];
+        //[I_outboundInternetSessions removeObjectForKey:[[session userInfo] objectForKey:@"URLString"]];
+        [[I_outboundInternetSessions objectForKey:[[session userInfo] objectForKey:@"URLString"]] removeObjectForKey:@"pending"];
         return YES;
     }
 }

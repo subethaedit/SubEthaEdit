@@ -57,6 +57,9 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 - (void)dealloc
 {
     I_delegate = nil;
+    CFHostUnscheduleFromRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    CFHostSetClient(I_host, NULL, NULL);
+    CFRelease(I_host);
     [I_name release];
     [I_addresses release];
     [I_userInfo release];
@@ -108,6 +111,11 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 - (void)resolve
 {
     CFHostStartInfoResolution(I_host, kCFHostAddresses, NULL);
+}
+
+- (void)cancel
+{
+    CFHostCancelInfoResolution(I_host, kCFHostAddresses);
 }
 
 - (void)TCM_handleHostCallback:(CFHostRef)host typeInfo:(CFHostInfoType)typeInfo error:(const CFStreamError *)error

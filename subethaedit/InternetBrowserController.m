@@ -15,11 +15,22 @@
 
 #define kMaxNumberOfItems 10
 
+NSString * const HostEntryStatusResolving = @"HostEntryStatusResolving";
+NSString * const HostEntryStatusResolveFailed = @"HostEntryStatusResolveFailed";
+NSString * const HostEntryStatusContacting = @"HostEntryStatusContacting";
+NSString * const HostEntryStatusContactFailed = @"HostEntryStatusContactFailed";
+NSString * const HostEntryStatusSessionOpen = @"HostEntryStatusSessionOpen";
+NSString * const HostEntryStatusSessionAtEnd = @"HostEntryStatusSessionAtEnd";
+NSString * const HostEntryStatusCancelling = @"HostEntryStatusCancelling";
+NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
+
 
 @interface InternetBrowserController (InternetBrowserControllerPrivateAdditions)
 
 - (int)indexOfItemWithURLString:(NSString *)URLString;
 - (int)indexOfItemWithUserID:(NSString *)userID;
+- (NSMutableIndexSet *)indexesOfItemsWithUserID:(NSString *)userID;
+- (void)connectToURL:(NSURL *)url retry:(BOOL)isRetrying;
 
 @end
 
@@ -66,6 +77,7 @@
     [O_browserListView setDataSource:self];
     [O_browserListView setDelegate:self];
     [O_browserListView setTarget:self];
+    [O_browserListView setAction:@selector(actionTriggered:)];
     [O_browserListView setDoubleAction:@selector(joinSession:)];
     [O_scrollView setHasVerticalScroller:YES];
     [[O_scrollView verticalScroller] setControlSize:NSSmallControlSize];
@@ -106,6 +118,10 @@
                       selector:@selector(TCM_connectToHostDidFail:)
                           name:TCMMMBEEPSessionManagerConnectToHostDidFailNotification
                         object:manager];
+    [defaultCenter addObserver:self
+                      selector:@selector(TCM_connectToHostCancelled:)
+                          name:TCMMMBEEPSessionManagerConnectToHostCancelledNotification
+                        object:manager];
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
@@ -142,8 +158,6 @@
     
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"scheme: %@\nhost: %@\nport: %@\npath: %@\nparameterString: %@\nquery: %@", [url scheme], [url host],  [url port], [url path], [url parameterString], [url query]);
     
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"Connect to: %@", [url description]);
-    
     if (url != nil && [url host] != nil) {
         [I_comboBoxItems removeObject:[url absoluteString]];
         [I_comboBoxItems insertObject:[url absoluteString] atIndex:0];
@@ -153,6 +167,18 @@
         [O_addressComboBox noteNumberOfItemsChanged];
         [O_addressComboBox reloadData];
         
+        [self connectToURL:url retry:NO];
+    } else {
+        NSLog(@"Entered invalid URI");
+        NSBeep();
+    }
+}
+
+- (void)connectToURL:(NSURL *)url retry:(BOOL)isRetrying {
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"Connect to URL: %@", [url description]);
+    NSParameterAssert(url != nil && [url host] != nil);
+    
+    if (url != nil && [url host] != nil) {
         UInt16 port;
         if ([url port] != nil) {
             port = [[url port] unsignedShortValue];
@@ -165,21 +191,34 @@
         // when I_data entry with URL exists, select entry
         int index = [self indexOfItemWithURLString:URLString];
         if (index != -1) {
-            int row = [O_browserListView rowForItem:index child:-1];
-            [O_browserListView selectRow:row byExtendingSelection:NO];
+            if (!isRetrying) {
+                int row = [O_browserListView rowForItem:index child:-1];
+                [O_browserListView selectRow:row byExtendingSelection:NO];
+            } else {
+                [I_resolvingHosts removeObjectForKey:URLString];
+                [I_resolvedHosts removeObjectForKey:URLString];
+                
+                TCMHost *host = [TCMHost hostWithName:[url host] port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
+                [I_resolvingHosts setObject:host forKey:URLString];
+                NSMutableDictionary *item = [I_data objectAtIndex:index];
+                [item setObject:HostEntryStatusResolving forKey:@"status"];
+                [item setObject:URLString forKey:@"URLString"];
+                [host setDelegate:self];
+                [host resolve];
+            }
         } else {
             // otherwise add new entry to I_data
             TCMHost *host = [TCMHost hostWithName:[url host] port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
             [I_resolvingHosts setObject:host forKey:URLString];
-            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:URLString, @"URLString", @"Resolving", @"status", nil]];
-            [O_browserListView reloadData];
+            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:URLString, @"URLString", HostEntryStatusResolving, @"status", url, @"URL", nil]];
             [host setDelegate:self];
             [host resolve];
         }
     } else {
-        NSLog(@"Entered invalid URI");
-        NSBeep();
+        NSLog(@"Invalid URI");
     }
+    
+    [O_browserListView reloadData];
 }
 
 - (IBAction)connect:(id)aSender {
@@ -190,6 +229,25 @@
 
 - (IBAction)setVisibilityByPopUpButton:(id)aSender {
     [[TCMMMPresenceManager sharedInstance] setVisible:([aSender indexOfSelectedItem] == 0)];
+}
+
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"alertDidEnd:");
+    
+    NSDictionary *alertContext = (NSDictionary *)contextInfo;
+    if (returnCode == NSAlertSecondButtonReturn) {
+        NSLog(@"abort connection");
+        NSMutableDictionary *item = [alertContext objectForKey:@"item"];
+        [item removeObjectForKey:@"UserID"];
+        [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+        [item setObject:HostEntryStatusCancelling forKey:@"status"];
+        [O_browserListView reloadData];
+        TCMBEEPSession *session = [alertContext objectForKey:@"session"];
+        [session terminate];
+        [O_browserListView reloadData];
+    }
+    
+    [alertContext autorelease];
 }
 
 - (IBAction)joinSession:(id)aSender {
@@ -205,6 +263,82 @@
         DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join on session: %@, using BEEPSession: %@", session, BEEPSession);
         [session joinUsingBEEPSession:BEEPSession];
     }
+}
+
+- (IBAction)actionTriggered:(id)aSender {
+    int row = [aSender actionRow];
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"actionTriggerd in row: %d", row);
+    ItemChildPair pair = [aSender itemChildPairAtRow:row];
+    if (pair.childIndex != -1) {
+        return;
+    }
+    int index = pair.itemIndex;
+    NSMutableDictionary *item = [I_data objectAtIndex:index];
+    if ([item objectForKey:@"failed"]) {
+        NSLog(@"trying to reconnect");
+        [item removeObjectForKey:@"BEEPSession"];
+        [item removeObjectForKey:@"UserID"];
+        [item removeObjectForKey:@"Sessions"];
+        [item removeObjectForKey:@"failed"];
+        [self connectToURL:[item objectForKey:@"URL"] retry:YES];
+    } else {
+        NSLog(@"cancel");
+        if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusResolving]) {
+            NSLog(@"cancel resolve");
+            [item removeObjectForKey:@"UserID"];
+            [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+            TCMHost *host = [I_resolvingHosts objectForKey:[item objectForKey:@"URLString"]];
+            [host cancel];
+            [host setDelegate:nil];
+            [I_resolvingHosts removeObjectForKey:[item objectForKey:@"URLString"]];
+            [item setObject:HostEntryStatusCancelled forKey:@"status"];
+            [O_browserListView reloadData];
+        } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusContacting]) {
+            NSLog(@"cancel contact");
+            [item removeObjectForKey:@"UserID"];
+            [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+            [item setObject:HostEntryStatusCancelling forKey:@"status"];
+            [O_browserListView reloadData];
+            TCMHost *host = [I_resolvedHosts objectForKey:[item objectForKey:@"URLString"]];
+            [[TCMMMBEEPSessionManager sharedInstance] cancelConnectToHost:host];
+        } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
+            NSLog(@"cancel open session");
+            TCMBEEPSession *session = [item objectForKey:@"BEEPSession"];
+            BOOL abort = NO;
+            NSEnumerator *channels = [[session channels] objectEnumerator];
+            TCMBEEPChannel *channel;
+            while ((channel = [channels nextObject])) {
+                if ([[channel profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]  && [channel channelStatus] == TCMBEEPChannelStatusOpen) {
+                    abort = YES;
+                    break;
+                }
+            }
+            if (abort) {
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setMessageText:NSLocalizedString(@"OpenChannels", nil)];
+                [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"AbortChannels", nil)]];
+                [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Abort", nil)];
+                [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+                [alert beginSheetModalForWindow:[self window]
+                                  modalDelegate:self 
+                                 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                                    contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                            item, @"item",
+                                                            session, @"session",
+                                                            nil] retain]]; 
+
+            } else {
+                [item removeObjectForKey:@"UserID"];
+                [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+                [item setObject:HostEntryStatusCancelling forKey:@"status"];
+                [O_browserListView reloadData];
+                [session terminate];
+            }
+        }
+    }
+    [O_browserListView reloadData];
 }
 
 - (int)indexOfItemWithURLString:(NSString *)URLString {
@@ -231,7 +365,18 @@
     }
     return result;
 }
- 
+
+- (NSMutableIndexSet *)indexesOfItemsWithUserID:(NSString *)userID {
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
+    int i;
+    for (i = 0; i < [I_data count]; i++) {
+        if ([userID isEqualToString:[[I_data objectAtIndex:i] objectForKey:@"UserID"]]) {
+            [indexes addIndex:i];
+        }
+    }
+    return indexes;
+}
+
 - (NSMutableArray *)comboBoxItems {
     return I_comboBoxItems;
 }
@@ -247,7 +392,7 @@
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"hostDidResolveAddress:");
     int index = [self indexOfItemWithURLString:[[sender userInfo] objectForKey:@"URLString"]];
     if (index != -1) {
-        [[I_data objectAtIndex:index] setObject:@"Connecting" forKey:@"status"];
+        [[I_data objectAtIndex:index] setObject:HostEntryStatusContacting forKey:@"status"];
         [O_browserListView reloadData];
     }
     [I_resolvedHosts setObject:sender forKey:[[sender userInfo] objectForKey:@"URLString"]];
@@ -260,7 +405,8 @@
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"host: %@, didNotResolve: %@", sender, error);
     int index = [self indexOfItemWithURLString:[[sender userInfo] objectForKey:@"URLString"]];
     if (index != -1) {
-        [[I_data objectAtIndex:index] setObject:@"Couldn't resolve" forKey:@"status"];
+        [[I_data objectAtIndex:index] setObject:HostEntryStatusResolveFailed forKey:@"status"];
+        [[I_data objectAtIndex:index] setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];        
         [O_browserListView reloadData];
     }
     [sender setDelegate:nil];
@@ -275,10 +421,10 @@
     NSString *URLString = [[session userInfo] objectForKey:@"URLString"];
     int index = [self indexOfItemWithURLString:URLString];
     if (index != -1) {
+        NSString *userID = [[session userInfo] objectForKey:@"peerUserID"];
         NSMutableDictionary *item = [I_data objectAtIndex:index];
         [item setObject:session forKey:@"BEEPSession"];
-        [item setObject:@"BEEP session established" forKey:@"status"];
-        NSString *userID = [[session userInfo] objectForKey:@"peerUserID"];
+        [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
         [item setObject:userID forKey:@"UserID"];
         NSDictionary *infoDict = [[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
         [item setObject:[[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy] forKey:@"Sessions"];
@@ -294,8 +440,14 @@
     int index = [self indexOfItemWithURLString:URLString];
     if (index != -1) {
         NSMutableDictionary *item = [I_data objectAtIndex:index];
-        [item setObject:@"BEEP session ended" forKey:@"status"];
+        if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusCancelling]) {
+            [item setObject:HostEntryStatusCancelled forKey:@"status"];
+        } else {
+            [item setObject:HostEntryStatusSessionAtEnd forKey:@"status"];
+        }
+        [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];        
         [item removeObjectForKey:@"BEEPSession"];
+        [item removeObjectForKey:@"Sessions"];
         [O_browserListView reloadData];
     }
 }
@@ -308,7 +460,23 @@
         [I_resolvedHosts removeObjectForKey:[[host userInfo] objectForKey:@"URLString"]];
         int index = [self indexOfItemWithURLString:[[host userInfo] objectForKey:@"URLString"]];
         if (index != -1) {
-            [[I_data objectAtIndex:index] setObject:@"Connect to host failed" forKey:@"status"];
+            [[I_data objectAtIndex:index] setObject:HostEntryStatusContactFailed forKey:@"status"];
+            [[I_data objectAtIndex:index] setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];        
+            [O_browserListView reloadData];
+        }
+    }
+}
+
+- (void)TCM_connectToHostCancelled:(NSNotification *)notification {
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_connectToHostCancelled: %@", notification);
+    
+    TCMHost *host = [[notification userInfo] objectForKey:@"host"];
+    if (host) {
+        [I_resolvedHosts removeObjectForKey:[[host userInfo] objectForKey:@"URLString"]];
+        int index = [self indexOfItemWithURLString:[[host userInfo] objectForKey:@"URLString"]];
+        if (index != -1) {
+            [[I_data objectAtIndex:index] setObject:HostEntryStatusCancelled forKey:@"status"];
+            [[I_data objectAtIndex:index] setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];        
             [O_browserListView reloadData];
         }
     }
@@ -336,9 +504,13 @@
     BOOL isVisible = [[userInfo objectForKey:@"isVisible"] boolValue];
     
     if (!isVisible) {
-        int index = [self indexOfItemWithUserID:userID];
-        if (index >= 0) {
-            [I_data removeObjectAtIndex:index];
+        NSMutableIndexSet *indexes = [self indexesOfItemsWithUserID:userID];
+        int index;
+        while ((index = [indexes firstIndex]) != NSNotFound) {
+            [indexes removeIndex:[indexes firstIndex]];
+            if (index >= 0) {
+                [I_data removeObjectAtIndex:index];
+            }            
         }
     }
     [O_browserListView reloadData];
@@ -348,27 +520,41 @@
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeAnnouncedDocuments: %@", aNotification);
     NSDictionary *userInfo = [aNotification userInfo];
     NSString * userID = [userInfo objectForKey:@"UserID"];
-    int index = [self indexOfItemWithUserID:userID];
-    if (index >= 0) {
-        NSMutableDictionary *item = [I_data objectAtIndex:index];
-        TCMMMSession *session = [userInfo objectForKey:@"AnnouncedSession"];
-        NSMutableArray *sessions = [item objectForKey:@"Sessions"];
-        if ([[userInfo objectForKey:@"Sessions"] count] == 0) {
-            [sessions removeAllObjects];
-        } else {
-            if (session) {
-                [sessions addObject:session];
+    NSMutableIndexSet *indexes = [self indexesOfItemsWithUserID:userID];
+    int index;
+    while ((index = [indexes firstIndex]) != NSNotFound) {
+        [indexes removeIndex:[indexes firstIndex]];
+        if (index >= 0) {
+            NSMutableDictionary *item = [I_data objectAtIndex:index];
+            TCMMMSession *session = [userInfo objectForKey:@"AnnouncedSession"];
+            NSMutableArray *sessions = [item objectForKey:@"Sessions"];
+            if ([[userInfo objectForKey:@"Sessions"] count] == 0) {
+                [sessions removeAllObjects];
             } else {
-                NSString *concealedSessionID = [userInfo objectForKey:@"ConcealedSessionID"];
-                int i;
-                for (i = 0; i < [sessions count]; i++) {
-                    if ([concealedSessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
-                        [sessions removeObjectAtIndex:i];
+                if (session) {
+                    NSString *sessionID = [session sessionID];
+                    int i;
+                    for (i = 0; i < [sessions count]; i++) {
+                        if ([sessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
+                            break;
+                        }
+                    }
+                    if (i==[sessions count]) {
+                        [sessions addObject:session];
+                    }
+                } else {
+                    NSString *concealedSessionID = [userInfo objectForKey:@"ConcealedSessionID"];
+                    int i;
+                    for (i = 0; i < [sessions count]; i++) {
+                        if ([concealedSessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
+                            [sessions removeObjectAtIndex:i];
+                        }
                     }
                 }
             }
         }
     }
+        
     [O_browserListView reloadData];
 }
 
@@ -405,7 +591,7 @@
     if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
         NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
         
-        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
+        TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
 
         if (user) {
             if (aTag == TCMMMBrowserItemNameTag) {
@@ -421,7 +607,21 @@
             if (aTag == TCMMMBrowserItemNameTag) {
                 return [item objectForKey:@"URLString"];
             } else if (aTag == TCMMMBrowserItemStatusTag) {
-                return [item objectForKey:@"status"];
+                return NSLocalizedString([item objectForKey:@"status"], @"Status message displayed for each host entry in Internet browser.");
+            } else if (aTag == TCMMMBrowserItemImageTag) {
+                return [NSImage imageNamed:@"DefaultPerson"];
+            }
+        }
+        
+        if (aTag == TCMMMBrowserItemActionImageTag) {
+            if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusCancelling]) {
+                return nil;
+            }
+            
+            if ([item objectForKey:@"failed"]) {
+                return [NSImage imageNamed:@"InternetResume"];
+            } else {
+                return [NSImage imageNamed:@"InternetStop"];
             }
         }
     }

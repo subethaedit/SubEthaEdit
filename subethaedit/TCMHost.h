@@ -32,6 +32,7 @@
 
 - (void)checkReachability;
 - (void)resolve;
+- (void)cancel;
 
 @end
 

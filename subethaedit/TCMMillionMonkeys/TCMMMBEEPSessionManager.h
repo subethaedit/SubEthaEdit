@@ -12,7 +12,7 @@
 extern NSString * const TCMMMBEEPSessionManagerDidAcceptSessionNotification;
 extern NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification;
 extern NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification;
-
+extern NSString * const TCMMMBEEPSessionManagerConnectToHostCancelledNotification;
 
 @class TCMBEEPListener, TCMHost, TCMBEEPSession;
 
@@ -25,7 +25,7 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification;
     NSMutableSet *I_pendingSessionProfiles;
     NSMutableArray *I_sessions;
     
-    NSMutableDictionary *I_pendingOutboundSessions;
+    NSMutableDictionary *I_outboundInternetSessions;
 }
 
 + (TCMMMBEEPSessionManager *)sharedInstance;
@@ -34,6 +34,7 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification;
 
 - (void)connectToNetService:(NSNetService *)aNetService;
 - (void)connectToHost:(TCMHost *)aHost;
+- (void)cancelConnectToHost:(TCMHost *)aHost;
 
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID;
 

@@ -107,6 +107,7 @@ enum {
 - (NSMutableDictionary *)activeChannels;
 - (int)maximumFrameSize;
 - (TCMBEEPSessionStatus)sessionStatus;
+- (NSArray *)channels;
 
 - (void)open;
 - (void)terminate;

@@ -311,6 +311,11 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     return I_activeChannels;
 }
 
+- (NSArray *)channels
+{
+    return I_channels;
+}
+
 - (int32_t)nextChannelNumber
 {
     I_nextChannelNumber += 2;
