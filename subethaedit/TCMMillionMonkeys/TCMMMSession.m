@@ -101,7 +101,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         I_closingStates   = [NSMutableArray new];
         I_flags.shouldSendJoinRequest = NO;
         I_flags.isPerformingRoundRobin = NO;
-        I_flags.isPaused = NO;
+        I_flags.pauseCount = 0;
         [self setIsServer:NO];
         [self setClientState:TCMMMSessionClientNoState];
     }
@@ -146,7 +146,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [I_sessionID release];
     [I_hostID release];
     [I_filename release];
-    [[I_profilesByUserID allValues]makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
+    [[I_profilesByUserID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_profilesByUserID release];
     [I_closingProfiles makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_closingProfiles release];
@@ -1068,13 +1068,13 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 }
 
 - (void)pauseProcessing {
-    I_flags.isPaused=YES;
+    I_flags.pauseCount++;
     //NSLog(@"paused");
 }
 
 - (void)startProcessing {
     //NSLog(@"started");
-    I_flags.isPaused=NO;
+    I_flags.pauseCount--;
     [self triggerPerformRoundRobin];
 }
 
@@ -1084,7 +1084,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)triggerPerformRoundRobin {
     if (!I_flags.isPerformingRoundRobin &&
-        !I_flags.isPaused &&
+        !(I_flags.pauseCount>0) &&
         [I_statesByClientID count]>0) {
         I_flags.isPerformingRoundRobin = YES;
         [self performSelector:@selector(performRoundRobinMessageProcessing) withObject:nil afterDelay:kWaitingTime];
@@ -1099,7 +1099,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     BOOL hasMessagesAvailable = YES;
     int count = [I_statesByClientID count];
     NSArray *states=[I_statesByClientID allValues];
-    while (!I_flags.isPaused && hasMessagesAvailable && count && timeSpent<kProcessingTime) {
+    while (!(I_flags.pauseCount>0) && hasMessagesAvailable && count && timeSpent<kProcessingTime) {
         hasMessagesAvailable = NO;
         for (i=0;i<count;i++) {
             TCMMMState *state=[states objectAtIndex:i];
@@ -1111,7 +1111,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         timeSpent=(((double)(clock()-start_time))/CLOCKS_PER_SEC);
     }
     I_flags.isPerformingRoundRobin = NO;
-    if (hasMessagesAvailable && !I_flags.isPaused && count) {
+    if (hasMessagesAvailable && !(I_flags.pauseCount>0) && count) {
         [self triggerPerformRoundRobin];
     }
 }

@@ -56,7 +56,7 @@ typedef enum TCMMMSessionClientState {
         BOOL shouldSendJoinRequest;
         BOOL wasInvited;
         BOOL isPerformingRoundRobin;
-        BOOL isPaused;
+        int pauseCount;
     } I_flags;
     unsigned int I_sessionContentLength;
     unsigned int I_receivedContentLength;
