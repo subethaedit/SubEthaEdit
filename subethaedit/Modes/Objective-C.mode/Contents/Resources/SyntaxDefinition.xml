@@ -872,7 +872,7 @@
             <begin><string>//</string></begin>
             <end><regex>[\n\r]</regex></end>
             
-            <keywords id="Zeug im Comment" color="#f00" background-color="none" font-weight="normal" font-style="normal">
+            <keywords id="Zeug im Comment" color="#f00" background-color="none" font-weight="bold" font-style="italic">
                 <string>blabla</string>
             </keywords>            
         </state>

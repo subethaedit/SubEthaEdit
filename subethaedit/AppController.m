@@ -270,9 +270,9 @@ NSString * const DefaultPortNumber = @"port";
 
 - (void)setupDocumentModeSubmenu {
     DocumentModeManager *manager=[DocumentModeManager sharedInstance];
-    NSLog(@"%@",[manager description]);
+    DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"%@",[manager description]);
     NSDictionary *availableModes=[manager availableModes];
-    NSLog(@"Found modes: %@",[availableModes description]);
+    DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Found modes: %@",[availableModes description]);
 
     NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:MODEMENUTAG] submenu];
     NSMenuItem *switchModesMenuItem=[modeMenu itemWithTag:SWITCHMODEMENUTAG];
