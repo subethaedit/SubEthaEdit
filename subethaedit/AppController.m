@@ -59,6 +59,7 @@ int const WindowMenuTag = 3000;
 NSString * const DefaultPortNumber = @"port";
 NSString * const AddressHistory = @"AddressHistory";
 NSString * const SetupDonePrefKey = @"SetupDone";
+NSString * const SetupVersionPrefKey = @"SetupVersion";
 NSString * const SerialNumberPrefKey = @"SerialNumberPrefKey";
 NSString * const LicenseeNamePrefKey = @"LicenseeNamePrefKey";
 NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
@@ -316,10 +317,9 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // this is acutally after the opening of the first untitled document window!
+    // this is actually after the opening of the first untitled document window!
 
-    BOOL isSetupDone = [[NSUserDefaults standardUserDefaults] boolForKey:SetupDonePrefKey];
-    if (!isSetupDone) {
+    if ([SetupController shouldRun]) {
         SetupController *setupController = [SetupController sharedInstance];
         NSModalSession modalSession = [NSApp beginModalSessionForWindow:[setupController window]];
         for (;;) {
@@ -349,7 +349,8 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 }
 
 -(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
-    BOOL isSetupDone = [[NSUserDefaults standardUserDefaults] boolForKey:SetupDonePrefKey];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL isSetupDone = ([defaults objectForKey:SetupVersionPrefKey] != nil);
     if (!isSetupDone) {
         return NO;
     }

@@ -10,6 +10,7 @@
 
 
 extern NSString * const SetupDonePrefKey;
+extern NSString * const SetupVersionPrefKey;
 extern NSString * const SerialNumberPrefKey;
 extern NSString * const LicenseeNamePrefKey;
 extern NSString * const LicenseeOrganizationPrefKey;
@@ -42,6 +43,7 @@ extern NSString * const LicenseeOrganizationPrefKey;
     IBOutlet NSTabView *O_doneTabView;
 }
 
++ (BOOL)shouldRun;
 + (SetupController *)sharedInstance;
 
 - (IBAction)continueDone:(id)sender;
@@ -51,5 +53,8 @@ extern NSString * const LicenseeOrganizationPrefKey;
 - (IBAction)agreeLicense:(id)sender;
 - (IBAction)disagreeLicense:(id)sender;
 - (IBAction)purchaseNow:(id)sender;
+
+- (void)setItemOrder:(NSArray *)array;
+- (NSArray *)itemOrder;
 
 @end

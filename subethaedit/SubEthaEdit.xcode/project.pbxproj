@@ -1045,6 +1045,20 @@
 			settings = {
 			};
 		};
+		145808E206F5C8B0000905EE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = Setup.plist;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		145808E306F5C8B0000905EE = {
+			fileRef = 145808E206F5C8B0000905EE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		145B01A106A6A60B00160C0E = {
 			children = (
 				145B01A206A6A60B00160C0E,
@@ -2602,6 +2616,7 @@
 				141E287106563B510097DFF8,
 				31944D0806566F620067EAD7,
 				141E287306563B510097DFF8,
+				145808E206F5C8B0000905EE,
 				14FF9F430653915D0021FB60,
 				1469B46806EDBD0400863288,
 				2A37F4B6FDCFA73011CA2CEA,
@@ -5775,6 +5790,7 @@
 				1469B46A06EDBD0400863288,
 				1469B49C06EDBF5400863288,
 				5ED0BC8B06F592B9002E7C81,
+				145808E306F5C8B0000905EE,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

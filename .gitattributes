@@ -809,6 +809,7 @@ subethaedit/SelectionOperation.h -text
 subethaedit/SelectionOperation.m -text
 subethaedit/SessionProfile.h -text
 subethaedit/SessionProfile.m -text
+subethaedit/Setup.plist -text
 subethaedit/SetupController.h -text
 subethaedit/SetupController.m -text
 subethaedit/SplitView.h -text

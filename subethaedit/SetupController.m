@@ -13,6 +13,48 @@ static SetupController *sharedInstance = nil;
 
 @implementation SetupController
 
+- (void)TCM_finishSetup {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [defaults setObject:version forKey:SetupVersionPrefKey];
+    [defaults synchronize];
+}
+
+#pragma mark -
+
+BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
+    BOOL result;
+    NSScanner *scanner = [NSScanner scannerWithString:string];
+    result = ([scanner scanInt:major]
+        && [scanner scanString:@"." intoString:nil]
+        && [scanner scanInt:minor]);
+            
+    //NSLog(@"major: %d, minor: %d", *major, *minor);
+    return result;
+}
+
++ (BOOL)shouldRun {
+    int major = 0;
+    int minor = 0;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *version = [defaults stringForKey:SetupVersionPrefKey];
+    if (version) {
+        NSString *bundleShortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        int bundleMajor = 0;
+        int bundleMinor = 0;
+        if (TCM_scanVersionString(bundleShortVersion, &bundleMajor, &bundleMinor)
+            && TCM_scanVersionString(version, &major, &minor)) {
+            if (bundleMajor == major && bundleMinor > minor) {
+                return YES;
+            }
+        }
+    } else {
+        return YES;
+    }
+    
+    return NO;
+}
+
 + (SetupController *)sharedInstance {
     return sharedInstance;
 }
@@ -30,12 +72,29 @@ static SetupController *sharedInstance = nil;
     hasAgreedToLicense = NO;
     isFirstRun = YES;
 
-    itemOrder = [[NSArray arrayWithObjects:
-                    @"welcome",
-                    @"license",
-                    @"purchase",
-                    @"done",
-                    nil] retain];
+    NSDictionary *setupDict = [NSDictionary dictionaryWithContentsOfFile:
+                                [[NSBundle mainBundle] pathForResource:@"Setup" ofType:@"plist"]];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *version = [defaults stringForKey:SetupVersionPrefKey];
+    if (version) {
+        BOOL isLicensed = NO;
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
+        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
+        if (name && [serial isValidSerial]) {
+            isLicensed = YES;
+        }
+        
+        if (isLicensed) {
+            [self setItemOrder:[setupDict objectForKey:@"UpdateLicensed"]];
+        } else {
+            [self setItemOrder:[setupDict objectForKey:@"Update"]];
+        }
+    } else {
+        [self setItemOrder:[setupDict objectForKey:@"FirstRun"]];
+    }
+
     itemIndex = 0;
     
     [O_goBackButton setEnabled:NO];
@@ -89,9 +148,17 @@ static SetupController *sharedInstance = nil;
         [NSApp terminate:self];
     }
     if (isLastItem) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupDonePrefKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self TCM_finishSetup];
     }
+}
+
+- (void)setItemOrder:(NSArray *)array {
+    [itemOrder autorelease];
+    itemOrder = [array retain];
+}
+
+- (NSArray *)itemOrder {
+    return itemOrder;
 }
 
 - (void)validateContinueButtonInPurchaseTab {
@@ -129,10 +196,9 @@ static SetupController *sharedInstance = nil;
     [self validateContinueButtonInPurchaseTab];
     [O_continueButton setTitle:NSLocalizedString(@"Continue", @"Button title Continue")];
     
-    itemOrder = [[NSArray arrayWithObjects:
-                    @"purchase",
-                    @"done",
-                    nil] retain];
+    NSDictionary *setupDict = [NSDictionary dictionaryWithContentsOfFile:
+                                [[NSBundle mainBundle] pathForResource:@"Setup" ofType:@"plist"]];
+    [self setItemOrder:[setupDict objectForKey:@"EnterSerialNumber"]];
     itemIndex = 0;
     
     [O_tabView selectTabViewItemWithIdentifier:[itemOrder objectAtIndex:0]];
@@ -174,8 +240,7 @@ static SetupController *sharedInstance = nil;
     }
     
     if ([[[O_tabView selectedTabViewItem] identifier] isEqualToString:[itemOrder lastObject]]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupDonePrefKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self TCM_finishSetup];
         [NSApp stopModal];
         [self close];
         if (isFirstRun) {
