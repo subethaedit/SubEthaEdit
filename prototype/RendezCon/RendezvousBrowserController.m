@@ -58,8 +58,14 @@
     if (self) {
         I_foundNetServices   =[NSMutableArray      new];
         I_netServiceBrowsers =[NSMutableDictionary new];
-        I_servicesToBrowseFor=[[[[NSUserDefaultsController sharedUserDefaultsController] values] 
-                                    valueForKeyPath:@"servicesToBrowseFor"] mutableCopy];
+        I_servicesToBrowseFor=[NSMutableArray new];
+        // deep copy the Array to make it and it's contents mutable
+        NSEnumerator *services=[[[[NSUserDefaultsController sharedUserDefaultsController] values] 
+                                    valueForKeyPath:@"servicesToBrowseFor"] objectEnumerator];
+        NSDictionary *entry;
+        while ((entry=[services nextObject])) {
+            [I_servicesToBrowseFor addObject:[[entry mutableCopy] autorelease]];
+        }
     }
     return self;
 }
@@ -134,6 +140,7 @@
 
 - (void)setServicesToBrowseFor:(NSMutableArray *)aArray
 {
+    NSLog(@"set");
     // I don't know exactly if this is the correct indexset,
     // I could not find exact documentation on this
     // But If I Observe myself, than this is the only combination that does not throw exceptions
