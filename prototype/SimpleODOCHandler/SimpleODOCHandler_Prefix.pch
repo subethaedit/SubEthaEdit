@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'SimpleODOCHandler' target in the 'SimpleODOCHandler' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
