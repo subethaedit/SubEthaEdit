@@ -397,6 +397,10 @@
 
 - (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent{
     int changedChars=0;
+    static NSCharacterSet *spaceTabSet=nil;
+    if (!spaceTabSet) {
+        spaceTabSet=[NSCharacterSet whitespaceCharacterSet];
+    }
     NSRange affectedCharRange=NSMakeRange(aLineRange.location,0);
     NSString *replacementString=@"";
     NSTextStorage *textStorage=[aTextView textStorage];
@@ -404,13 +408,71 @@
     int tabWidth=[[self document] tabWidth];
     if ([[self document] usesTabs]) {
          if (aIndent) {
-            replacementString=@"\t";
-            changedChars+=1;
+            // replace spaces with tabs and add one tab
+            unsigned lastCharacter=aLineRange.location;
+            while (lastCharacter<NSMaxRange(aLineRange) && 
+                   [spaceTabSet characterIsMember:[string characterAtIndex:lastCharacter]]) {
+                lastCharacter++;
+            }
+            if (aLineRange.location!=lastCharacter && lastCharacter<NSMaxRange(aLineRange)) {
+                affectedCharRange=NSMakeRange(aLineRange.location,lastCharacter-aLineRange.location);
+                unsigned detabbedLength=[string detabbedLengthForRange:affectedCharRange 
+                                                tabWidth:tabWidth];
+                
+                replacementString=[NSString stringWithFormat:@"\t%@%@",
+                                  [@"" stringByPaddingToLength:(int)detabbedLength/tabWidth
+                                       withString:@"\t" startingAtIndex:0],
+                                  [@"" stringByPaddingToLength:(int)detabbedLength%tabWidth
+                                       withString:@" " startingAtIndex:0]
+                                  ];
+                if (affectedCharRange.length!=[replacementString length]-1) {
+                    changedChars=[replacementString length]-affectedCharRange.length;
+                } else {
+                    affectedCharRange=NSMakeRange(aLineRange.location,0);
+                    replacementString=@"\t";
+                    changedChars=1;
+                }
+            } else {
+                replacementString=@"\t";
+                changedChars=1;
+            }
         } else {
-            if ([string length]>aLineRange.location &&
-            	[string characterAtIndex:aLineRange.location]==[@"\t" characterAtIndex:0]) {
-                affectedCharRange.length=1;
-                changedChars-=1;
+            if ([string length]>aLineRange.location) {
+                // replace spaces with tabs and remove one tab or the remaining whitespace
+                unsigned lastCharacter=aLineRange.location;
+                while (lastCharacter<NSMaxRange(aLineRange) && 
+                       [spaceTabSet characterIsMember:[string characterAtIndex:lastCharacter]]) {
+                    lastCharacter++;
+                }
+                affectedCharRange=NSMakeRange(aLineRange.location,lastCharacter-aLineRange.location);
+                if (aLineRange.location!=lastCharacter && lastCharacter<NSMaxRange(aLineRange)) {
+                    affectedCharRange=NSMakeRange(aLineRange.location,lastCharacter-aLineRange.location);
+                    unsigned detabbedLength=[string detabbedLengthForRange:affectedCharRange 
+                                                    tabWidth:tabWidth];
+                    
+                    replacementString=[NSString stringWithFormat:@"%@%@",
+                                      [@"" stringByPaddingToLength:(int)detabbedLength/tabWidth
+                                           withString:@"\t" startingAtIndex:0],
+                                      [@"" stringByPaddingToLength:(int)detabbedLength%tabWidth
+                                           withString:@" " startingAtIndex:0]
+                                      ];
+                    if ([replacementString length]!=affectedCharRange.length || 
+                        ((int)detabbedLength/tabWidth)==0 ) {
+                        if ((int)detabbedLength/tabWidth > 0) {
+                            replacementString=[replacementString substringWithRange:NSMakeRange(1,[replacementString length]-1)];
+                        } else {
+                            replacementString=@"";
+                        }
+                        changedChars=[replacementString length]-affectedCharRange.length;
+                    } else {
+                        // this if is always true due to the ifs above
+                        // if ([string characterAtIndex:aLineRange.location]==[@"\t" characterAtIndex:0]) {
+                            affectedCharRange=NSMakeRange(aLineRange.location,1);
+                            changedChars=-1;
+                            replacementString=@"";
+                        // }
+                    }
+                }
             }
         }
     } else {
@@ -475,9 +537,9 @@
 }
 
 - (void)dentParagraphsInTextView:(NSTextView *)aTextView in:(BOOL)aIndent{
-//    if (I_blockedit.hasBlockeditRanges) {
-//        NSBeep();
-//    } else {
+    if ([(TextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
+        NSBeep();
+    } else {
 
         NSRange affectedRange=[aTextView selectedRange];
         [aTextView setSelectedRange:NSMakeRange(affectedRange.location,0)];
@@ -537,7 +599,7 @@
             [aTextView setSelectedRange:affectedRange];
         }
         [undoManager endUndoGrouping];
-//    }
+    }
 }
 
 
