@@ -234,6 +234,11 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
+- (BOOL)prepareSavePanel:(NSSavePanel *)savePanel
+{
+    return [super prepareSavePanel:savePanel];
+}
+
 - (NSData *)dataRepresentationOfType:(NSString *)aType {
 
     if ([aType isEqualToString:@"PlainTextType"]) {
