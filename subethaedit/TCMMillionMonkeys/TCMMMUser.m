@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import "TCMBencodingUtilities.h"
 #import "TCMMMUser.h"
 
 
@@ -50,6 +51,10 @@
     return I_name;
 }
 
+- (NSData *)userBencoded {
+    NSDictionary *user=[NSDictionary dictionaryWithObjectsAndKeys:[self name],@"Name",[self ID],@"ID",nil];
+    return TCM_BencodedObject(user);
+}
 
 - (NSMutableDictionary *)properties {
     return I_properties;

@@ -219,6 +219,8 @@ subethaedit/TCMBEEP/TCMBEEPProfile.h -text
 subethaedit/TCMBEEP/TCMBEEPProfile.m -text
 subethaedit/TCMBEEP/TCMBEEPSession.h -text
 subethaedit/TCMBEEP/TCMBEEPSession.m -text
+subethaedit/TCMBencodingUtilities.h -text
+subethaedit/TCMBencodingUtilities.m -text
 subethaedit/TCMMillionMonkeys/TCMMMBEEPSessionManager.h -text
 subethaedit/TCMMillionMonkeys/TCMMMBEEPSessionManager.m -text
 subethaedit/TCMMillionMonkeys/TCMMMPresenceManager.h -text

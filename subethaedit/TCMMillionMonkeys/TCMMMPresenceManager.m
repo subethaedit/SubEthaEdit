@@ -102,6 +102,10 @@ static TCMMMPresenceManager *sharedInstance = nil;
     NSLog(@"%@",[[TCMMMBEEPSessionManager sharedInstance] description]);
 }
 
+- (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError {
+    // remove status profile, and inform the rest
+}
+
 #pragma mark -
 #pragma mark ### TCMMMBEEPSessionManager callbacks ###
 

@@ -15,6 +15,7 @@
     NSString *I_name;
 }
 
+- (NSData *)userBencoded;
 - (NSMutableDictionary *)properties;
 
 - (void)setID:(NSString *)aID;
