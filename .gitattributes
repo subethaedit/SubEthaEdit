@@ -330,6 +330,7 @@ subethaedit/ImagePopUpButtonCell.m -text
 subethaedit/Info.plist -text
 subethaedit/InternetBrowserController.h -text
 subethaedit/InternetBrowserController.m -text
+subethaedit/Invitation.aiff -text
 subethaedit/Knock.wav -text
 subethaedit/LayoutManager.h -text
 subethaedit/LayoutManager.m -text

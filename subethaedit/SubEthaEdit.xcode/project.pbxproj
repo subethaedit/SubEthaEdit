@@ -2233,6 +2233,19 @@
 			settings = {
 			};
 		};
+		319411580655153D0067EAD7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = audio.aiff;
+			path = Invitation.aiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		319411590655153D0067EAD7 = {
+			fileRef = 319411580655153D0067EAD7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		31B738E40611C6330004F28D = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -2848,6 +2861,7 @@
 		5E4AB51D063EA9BD00B67F07 = {
 			children = (
 				5E4AB51E063EA9EF00B67F07,
+				319411580655153D0067EAD7,
 			);
 			isa = PBXGroup;
 			name = sound;
@@ -4895,6 +4909,7 @@
 				31006CE20654FB61004F0094,
 				31006CE50654FC7D004F0094,
 				31006CE60654FC7D004F0094,
+				319411590655153D0067EAD7,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
