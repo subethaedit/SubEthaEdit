@@ -316,7 +316,7 @@ NSString * const TextDocumentSyntaxColorizeNotification=@"TextDocumentSyntaxColo
         
         gettimeofday(&begin, NULL); //Start
 
-        [self syntaxColorizeInRange:NSMakeRange(0,[I_textStorage length])];
+        [self syntaxColorizeInOneGoInRange:NSMakeRange(0,[I_textStorage length])];
 
         gettimeofday(&end, NULL); //Ende
         
@@ -458,6 +458,16 @@ NSString * const TextDocumentSyntaxColorizeNotification=@"TextDocumentSyntaxColo
     }
 }
 
+- (void)syntaxColorizeInOneGoInRange:(NSRange)aRange {
+    // mark range as dirty
+    NSTextStorage *textStorage= I_textStorage?I_textStorage:[I_textView textStorage];
+    [textStorage addAttribute:kSyntaxColoringIsDirtyAttribute 
+                                 value:kSyntaxColoringIsDirtyAttributeValue 
+                                 range:aRange];
+    while (![I_syntaxHighlighter colorizeDirtyRanges:textStorage]) {
+        ;
+    }
+}
 
 #pragma mark ### Symbol Pop Up Handling ###
 

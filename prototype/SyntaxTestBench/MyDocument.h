@@ -49,6 +49,7 @@
 
 /*"Syntax Coloring"*/
 - (void)syntaxColorizeInRange:(NSRange)aRange;
+- (void)syntaxColorizeInOneGoInRange:(NSRange)aRange;
 - (void)syntaxColorize;
 - (void)performSyntaxColorize:(id)aSender;
 - (IBAction)toggleSyntaxColoring:(id)aSender;
