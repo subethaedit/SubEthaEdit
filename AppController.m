@@ -361,7 +361,7 @@ static AppController *sharedInstance = nil;
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 
     [InternetBrowserController sharedInstance];
-    I_idleTimer=[[TCMIdleTimer alloc] initWithBeginInterval:30. repeatInterval:100000000.];
+    I_idleTimer=[[TCMIdleTimer alloc] initWithBeginInterval:60. repeatInterval:100000000.];
     [I_idleTimer setDelegate:self];
 }
 
@@ -412,9 +412,15 @@ static AppController *sharedInstance = nil;
     }
 }
 
+- (void)applicationDidBecomeActive:(NSNotification *)aNotification {
+    if (!abcde()) {
+        [self setNeedsDisplayOnTextViews];
+    }
+}
+
 - (void)idleTimerDidStop:(id)aSender {
     // make all textviews draw their background if not registered
-    if (!abcde()) {
+    if (!abcde() && [NSApp isActive]) {
         [self setNeedsDisplayOnTextViews];
     }
 }

@@ -25,15 +25,20 @@
 static NSMenu *defaultMenu=nil;
 static NSColor *nonCommercialColor=nil;
 
+#define WATERSIZE 38.
+
 + (void)initialize {
     NSRect rect=NSMakeRect(0,0,0,0);
-    NSFont *font=[NSFont boldSystemFontOfSize:25.];
+    NSFont *font=[NSFont fontWithName:@"Helvetica-Bold" size:WATERSIZE];
+    if (!font) {
+        font=[NSFont boldSystemFontOfSize:WATERSIZE];
+    }
     NSString *text=NSLocalizedString(@"Licensed for non-commercial use",@"");
     text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if ([text length] < 3) {
         text = @"non-commercial use only";
     }
-    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:[NSColor colorWithCalibratedWhite:.5 alpha:.35],NSForegroundColorAttributeName,font,NSFontAttributeName,nil];
+    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:[NSColor colorWithCalibratedWhite:.5 alpha:.30],NSForegroundColorAttributeName,font,NSFontAttributeName,nil];
     rect.size=[text sizeWithAttributes:attributes];
     float height=rect.size.height;
     float width=rect.size.width;
@@ -48,7 +53,7 @@ static NSColor *nonCommercialColor=nil;
     NSAffineTransform *transform=[NSAffineTransform transform];
     [transform translateXBy:height yBy:0.];
     [transform rotateByDegrees:30.];
-    [transform scaleXBy:1. yBy:1.5];
+    [transform scaleXBy:1. yBy:1.2];
     [transform concat];
 //    NSFrameRect(rect);
     [text drawAtPoint:NSMakePoint(0.,0.) withAttributes:attributes];
