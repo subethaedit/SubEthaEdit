@@ -52,6 +52,7 @@ enum {
 - (void)connectToURL:(NSURL *)url retry:(BOOL)isRetrying;
 - (void)processDocumentURL:(NSURL *)url;
 - (void)TCM_validateStatusPopUpButton;
+- (void)TCM_validateClearButton;
 
 @end
 
@@ -755,6 +756,24 @@ enum {
     [[[O_statusPopUpButton menu] itemAtIndex:0] setTitle:statusString];
 }
 
+- (void)TCM_validateClearButton {
+    BOOL isValid = NO;
+    int index;
+    int count = [I_data count];
+    for (index = count - 1; index >= 0; index--) {
+        NSDictionary *item = [I_data objectAtIndex:index];
+        NSString *status = [item objectForKey:@"status"];
+        if ([status isEqualToString:HostEntryStatusResolveFailed] ||
+            [status isEqualToString:HostEntryStatusContactFailed] ||
+            [status isEqualToString:HostEntryStatusSessionAtEnd] ||
+            [status isEqualToString:HostEntryStatusCancelled]) {
+            isValid = YES;
+        }
+    }
+    
+    [O_clearButton setEnabled:isValid];
+}
+
 #pragma mark -
 
 - (IBAction)connect:(id)aSender {
@@ -920,6 +939,7 @@ enum {
         [self cancelConnectionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
     }
     [O_browserListView reloadData];
+    [self TCM_validateClearButton];
 }
 
 - (IBAction)clear:(id)aSender {
@@ -943,6 +963,7 @@ enum {
         }
     }
     [O_browserListView reloadData];
+    [self TCM_validateClearButton];
 }
 
 - (IBAction)joinSession:(id)aSender {
@@ -1062,6 +1083,7 @@ enum {
         }
         [O_browserListView reloadData];
     }
+    [self TCM_validateClearButton];
 }
 
 - (void)TCM_connectToHostDidFail:(NSNotification *)notification {
@@ -1077,6 +1099,7 @@ enum {
             [O_browserListView reloadData];
         }
     }
+    [self TCM_validateClearButton];
 }
 
 - (void)TCM_connectToHostCancelled:(NSNotification *)notification {
@@ -1092,6 +1115,7 @@ enum {
             [O_browserListView reloadData];
         }
     }
+    [self TCM_validateClearButton];
 }
 
 #pragma mark -
