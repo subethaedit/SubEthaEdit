@@ -7,11 +7,11 @@
     </blocks>
 
     <symbol id="PHP functions" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="no">
-        <regex>function[ \t]*&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
+        <regex>function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
     </symbol>
 
     <symbol id="PHP classes" font-weight="bold" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="yes">
-        <regex>^[ \t]*class[ \t]*([a-zA-Z0-9_]+)[ \t]*[^{}]*{</regex>
+        <regex>^[ \t]*class[ \t]+([a-zA-Z0-9_]+)[ \t]*[^{}]*{</regex>
     </symbol>
 
 </symbols>
