@@ -71,7 +71,11 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSDictionary *I_ODBParameters;
     
     IBOutlet NSView *O_savePanelAccessoryView;
+    IBOutlet NSView *O_savePanelAccessoryView2;
+    IBOutlet NSButton *O_goIntoBundlesCheckbox;
+    IBOutlet NSButton *O_goIntoBundlesCheckbox2;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
+    NSSavePanel *I_savePanel;
     NSSaveOperationType I_lastSaveOperation;
     NSStringEncoding I_encodingFromLastRunSaveToOperation;
     
@@ -111,6 +115,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (id)initWithSession:(TCMMMSession *)aSession;
 
 - (IBAction)newView:(id)aSender;
+- (IBAction)goIntoBundles:(id)sender;
 
 - (BOOL)isProxyDocument;
 - (void)makeProxyWindowController;

@@ -54,6 +54,12 @@
     [document release];
 }
 
+- (IBAction)goIntoBundles:(id)sender {
+    BOOL flag = ([sender state] == NSOffState) ? NO : YES;
+    [I_openPanel setTreatsFilePackagesAsDirectories:flag];
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
+}
+
 - (int)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions {
     if (![NSBundle loadNibNamed:@"OpenPanelAccessory" owner:self])  {
         NSLog(@"Failed to load OpenPanelAccessory.nib");
@@ -64,8 +70,16 @@
     [O_modePopUpButton setSelectedModeIdentifier:AUTOMATICMODEIDENTIFIER];
     [O_encodingPopUpButton setEncoding:ModeStringEncoding defaultEntry:YES modeEntry:YES lossyEncodings:nil];
     [openPanel setAccessoryView:O_openPanelAccessoryView];
+    [O_openPanelAccessoryView release];
+    O_openPanelAccessoryView = nil;
+
+    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
+    [openPanel setTreatsFilePackagesAsDirectories:flag];
+    [O_goIntoBundlesCheckbox setState:flag ? NSOnState : NSOffState];
     
+    I_openPanel = openPanel;
     int result = [super runModalOpenPanel:openPanel forTypes:extensions];
+    I_openPanel = nil;
     
     [self setModeIdentifierFromLastRunOpenPanel:[O_modePopUpButton selectedModeIdentifier]];
     [self setEncodingFromLastRunOpenPanel:[[O_encodingPopUpButton selectedItem] tag]];

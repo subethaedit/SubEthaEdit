@@ -14,9 +14,11 @@
 
 @interface DocumentController : NSDocumentController {
     IBOutlet NSView *O_openPanelAccessoryView;
+    IBOutlet NSButton *O_goIntoBundlesCheckbox;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSPanel *O_modeHintPanel;
+    NSOpenPanel *I_openPanel;
     
     NSStringEncoding I_encodingFromLastRunOpenPanel;
     NSString *I_modeIdentifierFromLastRunOpenPanel;
@@ -25,6 +27,8 @@
 }
 
 + (DocumentController *)sharedInstance;
+
+- (IBAction)goIntoBundles:(id)sender;
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession;
 

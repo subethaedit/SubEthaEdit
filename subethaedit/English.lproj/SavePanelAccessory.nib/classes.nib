@@ -35,12 +35,24 @@
         {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {announce = id; conceal = id; toggleSyntaxHighlighting = id; }; 
+            ACTIONS = {
+                announce = id; 
+                chooseLineEndings = id; 
+                conceal = id; 
+                convertLineEndings = id; 
+                goIntoBundles = id; 
+                newView = id; 
+                toggleIsAnnounced = id; 
+                toggleSyntaxHighlighting = id; 
+            }; 
             CLASS = PlainTextDocument; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_goIntoBundlesCheckbox" = NSButton; 
+                "O_goIntoBundlesCheckbox2" = NSButton; 
                 "O_savePanelAccessoryView" = NSView; 
+                "O_savePanelAccessoryView2" = NSView; 
             }; 
             SUPERCLASS = NSDocument; 
         }

@@ -7,11 +7,14 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {goIntoBundles = id; }; 
             CLASS = DocumentController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "O_encodingPopUpButton" = NSPopUpButton; 
-                "O_modePopUpButton" = NSPopUpButton; 
+                "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_goIntoBundlesCheckbox" = NSButton; 
+                "O_modeHintPanel" = NSPanel; 
+                "O_modePopUpButton" = DocumentModePopUpButton; 
                 "O_openPanelAccessoryView" = NSView; 
             }; 
             SUPERCLASS = NSDocumentController; 

@@ -1413,13 +1413,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[result dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:htmlFile atomically:YES];
 }
 
-- (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
-    if (I_lastSaveOperation == NSSaveToOperation) {
-        if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
-            NSLog(@"Failed to load SavePanelAccessory.nib");
-            return nil;
-        }
+- (IBAction)goIntoBundles:(id)sender {
+    BOOL flag = ([sender state] == NSOffState) ? NO : YES;
+    [I_savePanel setTreatsFilePackagesAsDirectories:flag];
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
+}
 
+- (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
+    if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
+        NSLog(@"Failed to load SavePanelAccessory.nib");
+        return nil;
+    }
+    
+    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
+    [savePanel setTreatsFilePackagesAsDirectories:flag];
+    I_savePanel = savePanel;
+
+    if (I_lastSaveOperation == NSSaveToOperation) {
         NSArray *encodings = [[EncodingManager sharedInstance] enabledEncodings];
         NSMutableArray *lossyEncodings = [NSMutableArray array];
         unsigned int i;
@@ -1430,9 +1440,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         [[EncodingManager sharedInstance] registerEncoding:[self fileEncoding]];
         [O_encodingPopUpButton setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
+        
         [savePanel setAccessoryView:O_savePanelAccessoryView];
+        [O_goIntoBundlesCheckbox setState:flag ? NSOnState : NSOffState];
+    } else {
+        [savePanel setAccessoryView:O_savePanelAccessoryView2];
+        [O_goIntoBundlesCheckbox2 setState:flag ? NSOnState : NSOffState];
     }
 
+    [O_savePanelAccessoryView release];
+    O_savePanelAccessoryView = nil;
+    
+    [O_savePanelAccessoryView2 release];
+    O_savePanelAccessoryView2 = nil;
+        
     return [super prepareSavePanel:savePanel];
 }
 
@@ -1444,6 +1465,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)saveToFile:(NSString *)fileName saveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
 
+    I_savePanel = nil;
+    
     if (I_flags.shouldSelectModeOnSave) {
         DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
         if (![mode isBaseMode]) {
