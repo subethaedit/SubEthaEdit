@@ -215,6 +215,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (BOOL)isContinuousSpellCheckingEnabled;
 - (void)setContinuousSpellCheckingEnabled:(BOOL)aFlag;
 
+
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
 
@@ -226,6 +227,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 #pragma mark -
 #pragma mark ### Session Interaction ###
 
+- (NSSet *)userIDsOfContributors;
 - (void)sendInitialUserState;
 - (NSDictionary *)sessionInformation;
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;

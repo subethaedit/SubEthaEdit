@@ -2405,6 +2405,18 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 #pragma mark ### Session Interaction ###
 
+- (NSSet *)userIDsOfContributors {
+    NSMutableSet *result=[NSMutableSet set];
+    NSTextStorage *textStorage=[self textStorage];
+    id userID=nil;
+    NSRange attributeRange=NSMakeRange(0,0);
+    while (NSMaxRange(attributeRange)<[textStorage length]) {
+        userID=[textStorage attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(attributeRange) effectiveRange:&attributeRange];
+        if (userID) [result addObject:userID];
+    }
+    return result;
+}
+
 - (void)sendInitialUserState {
     TCMMMSession *session=[self session];
     NSString *sessionID=[session sessionID];

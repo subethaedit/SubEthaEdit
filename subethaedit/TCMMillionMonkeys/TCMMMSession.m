@@ -607,10 +607,16 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     NSMutableDictionary *sessionInformation=[NSMutableDictionary dictionary];
     NSMutableArray *contributorNotifications=[NSMutableArray array];
     NSEnumerator *contributors = [I_contributors objectEnumerator];
+    NSSet *userIDsOfContributors = [(PlainTextDocument *)[self document] userIDsOfContributors];
     TCMMMUser *contributor=nil;
     while ((contributor=[contributors nextObject])) {
-        [contributorNotifications addObject:[contributor notification]];
+        NSString *contributorID=[contributor userID];
+        if (![contributorID isEqualToString:userID] &&
+            [userIDsOfContributors containsObject:contributorID]) {
+            [contributorNotifications addObject:[contributor notification]];
+        }
     }
+    NSLog(@"contributorNotifications: %@",[contributorNotifications description]);
     [sessionInformation setObject:contributorNotifications forKey:@"Contributors"];
     NSMutableDictionary *participantsRepresentation=[NSMutableDictionary dictionary];
     NSEnumerator *groups=[I_participants keyEnumerator];
