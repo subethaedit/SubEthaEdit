@@ -9,6 +9,9 @@
 #import "OgreKit/OgreKit.h"
 #import "FindReplaceController.h"
 #import "PlainTextWindowController.h"
+#import "PlainTextDocument.h"
+#import "PlainTextEditor.h"
+#import "TCMMMSession.h"
 #import "TextStorage.h"
 #import "FindAllController.h"
 #import "UndoManager.h"
@@ -316,6 +319,7 @@ static FindReplaceController *sharedInstance=nil;
 
 - (void) replaceSelection
 {
+    BOOL found = YES;
     NSTextView *target = [self targetToFindIn];
     if (target) {
         if (![target isEditable]) {
@@ -336,10 +340,11 @@ static FindReplaceController *sharedInstance=nil;
         PlainTextDocument *aDocument = (PlainTextDocument *)[[[target window] windowController] document];
         NSDictionary *attributes = [aDocument typingAttributes];
         
-        [[aDocument documentUndoManager] beginUndoGrouping];
+        [[aDocument session] pauseProcessing];
         [[target textStorage] beginEditing];
         
         if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
+            [[aDocument documentUndoManager] beginUndoGrouping];
             [self loadFindStringToPasteboard];
             [text replaceCharactersInRange:selection withString:replaceString];
             [[target textStorage] addAttributes:attributes range:NSMakeRange(selection.location, [replaceString length])];
@@ -351,29 +356,40 @@ static FindReplaceController *sharedInstance=nil;
                                             escapeCharacter:[self currentOgreEscapeCharacter]];
             OGRegularExpressionMatch * aMatch = [regex matchInString:text options:[self currentOgreOptions] range:selection];
             if (aMatch != nil) {
+                [[aDocument documentUndoManager] beginUndoGrouping];
                 OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:replaceString];
                 NSRange matchedRange = [aMatch rangeOfMatchedString];
                 NSString *replaceWith = [repex replaceMatchedStringOf:aMatch];
                 [text replaceCharactersInRange:matchedRange withString:replaceWith];
                 [[target textStorage] addAttributes:attributes range:NSMakeRange(matchedRange.location, [replaceWith length])];
-            } else NSBeep();
+            } else {
+                NSBeep();
+                found=NO;
+            }
         }
         
         [[target textStorage] endEditing];
-        [[aDocument documentUndoManager] endUndoGrouping];
+        if (found) [[aDocument documentUndoManager] endUndoGrouping];
+        [[aDocument session] startProcessing];
     }
 }
 
 - (void) lockDocument:(PlainTextDocument *)aDocument
 {
-
-
+    NSEnumerator *plainTextEditors=[[aDocument plainTextEditors] objectEnumerator];
+    PlainTextEditor *editor=nil;
+    while ((editor=[plainTextEditors nextObject])) {
+        [[editor textView] setEditable:NO];
+    }
 }
 
 - (void) unlockDocument:(PlainTextDocument *)aDocument
 {
-
-
+    NSEnumerator *plainTextEditors=[[aDocument plainTextEditors] objectEnumerator];
+    PlainTextEditor *editor=nil;
+    while ((editor=[plainTextEditors nextObject])) {
+        [[editor textView] setEditable:YES];
+    }
 }
 
 - (void) replaceAFewPlainMatches
@@ -390,7 +406,12 @@ static FindReplaceController *sharedInstance=nil;
         NSRange foundRange = [I_replaceAllText findString:I_replaceAllFindString selectedRange:I_replaceAllPosRange options:I_replaceAllOptions wrap:NO];
         if (foundRange.length) {
             if (foundRange.location < I_replaceAllRange.location) break;
-            if (I_replaceAllReplaced==0) [[(PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document] documentUndoManager] beginUndoGrouping];
+            if (I_replaceAllReplaced==0) {
+                PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
+                [[aDocument session] pauseProcessing];
+                [self lockDocument:aDocument];
+                [[aDocument undoManager] beginUndoGrouping];
+            }
             [I_replaceAllText replaceCharactersInRange:foundRange withString:I_replaceAllReplaceString];
             [[I_replaceAllTarget textStorage] addAttributes:I_replaceAllAttributes range:NSMakeRange(foundRange.location, [I_replaceAllReplaceString length])];
             I_replaceAllReplaced++;
@@ -405,7 +426,10 @@ static FindReplaceController *sharedInstance=nil;
                 [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
                 NSBeep();
             } else {
-                [[(PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document] documentUndoManager] endUndoGrouping];
+                PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
+                [[aDocument undoManager] endUndoGrouping];
+                [[aDocument session] startProcessing];
+                [self unlockDocument:aDocument];
             }
             return;
         }
@@ -428,7 +452,12 @@ static FindReplaceController *sharedInstance=nil;
         NSRange matchedRange = [aMatch rangeOfMatchedString];
         NSString *replaceWith = [I_replaceAllRepex replaceMatchedStringOf:aMatch];
 
-        if (I_replaceAllReplaced==0) [[(PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document] documentUndoManager] beginUndoGrouping];
+        if (I_replaceAllReplaced==0) {
+            PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
+            [[aDocument session] pauseProcessing];
+            [self lockDocument:aDocument];
+            [[aDocument undoManager] beginUndoGrouping];
+        }
 
         [I_replaceAllText replaceCharactersInRange:matchedRange withString:replaceWith];
         
@@ -453,7 +482,10 @@ static FindReplaceController *sharedInstance=nil;
             [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
             NSBeep();
         } else {
-            [[(PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document] documentUndoManager] endUndoGrouping];
+            PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
+            [[aDocument undoManager] endUndoGrouping];
+            [self unlockDocument:aDocument];
+            [[aDocument session] startProcessing];
             [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
         }
         [O_progressIndicatorDet stopAnimation:nil];
