@@ -28,6 +28,7 @@ typedef enum TCMMMSessionAccessState {
     NSString *I_filename;
     NSMutableDictionary *I_profilesByUserID;
     NSMutableDictionary *I_participants;
+    NSMutableDictionary *I_sessionContentForUserID;
     NSMutableSet *I_contributors;
     NSMutableArray *I_pendingUsers;
     NSMutableDictionary *I_groupByUserID;

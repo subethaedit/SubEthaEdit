@@ -62,6 +62,7 @@ NSString * const TCMMMSessionDidChangeNotification =
     self = [super init];
     if (self) {
         I_participants = [NSMutableDictionary new];
+        I_sessionContentForUserID = [NSMutableDictionary new];
         I_profilesByUserID = [NSMutableDictionary new];
         I_pendingUsers = [NSMutableArray new];
         I_groupByUserID = [NSMutableDictionary new];
@@ -84,6 +85,7 @@ NSString * const TCMMMSessionDidChangeNotification =
         TCMMMUser *me=[TCMMMUserManager me];
         [I_contributors addObject:me];
         [I_participants setObject:[NSMutableArray arrayWithObject:me] forKey:@"ReadWrite"];
+        [I_groupByUserID setObject:@"ReadWrite" forKey:[me userID]];
         [self setIsServer:YES];
     }
     return self;
@@ -107,7 +109,8 @@ NSString * const TCMMMSessionDidChangeNotification =
     [I_hostID release];
     [I_filename release];
     [I_profilesByUserID release];
-    [I_participants release];    
+    [I_participants release];
+    [I_sessionContentForUserID release];
     [I_contributors release];
     [I_pendingUsers release];
     [I_groupByUserID release];
@@ -235,6 +238,9 @@ NSString * const TCMMMSessionDidChangeNotification =
             [profile setMMState:state];
             [profile acceptJoin];
             [profile sendSessionInformation:[self TCM_sessionInformation]];
+            PlainTextDocument *document=(PlainTextDocument *)[self document];
+            [I_sessionContentForUserID setObject:[NSDictionary dictionaryWithObject:[(TextStorage *)[document textStorage] dictionaryRepresentation] forKey:@"TextStorage"] forKey:[user userID]];
+            [document sendInitialUserState];
             [state release];
             [user joinSessionID:[self sessionID]];
             NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];
@@ -457,9 +463,9 @@ NSString * const TCMMMSessionDidChangeNotification =
     while ((user=[userRequests nextObject])) {
         [aProfile sendUser:[userManager userForUserID:[user userID]]];
     }
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
-    [aProfile sendSessionContent:[NSDictionary dictionaryWithObject:[(TextStorage *)[document textStorage] dictionaryRepresentation] forKey:@"TextStorage"]];
-    [document sendInitialUserState];
+    NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    [aProfile sendSessionContent:[[[I_sessionContentForUserID objectForKey:peerUserID] retain] autorelease]];
+    [I_sessionContentForUserID removeObjectForKey:peerUserID];
 }
 
 #pragma mark -
