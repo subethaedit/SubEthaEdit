@@ -110,6 +110,7 @@
     [self addMe];
     [DocumentModeManager sharedInstance];
     NSLog(@"%@",[[DocumentModeManager sharedInstance] description]);
+    NSLog(@"Found modes: %@",[[[DocumentModeManager sharedInstance] availableModes] description]);
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {

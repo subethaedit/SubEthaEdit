@@ -7,13 +7,20 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "DocumentMode.h"
 
 @interface DocumentModeManager : NSObject {
     NSMutableDictionary *I_modeBundles;
-    NSMutableDictionary *I_modes;
+    NSMutableDictionary *I_documentModesByIdentifier;
+	NSMutableDictionary *I_modeIdentifiersByExtension;
 }
 
 + (DocumentModeManager *)sharedInstance;
+
+- (DocumentMode *)baseMode;
+- (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier;
+- (DocumentMode *)documentModeForExtension:(NSString *)anExtension;
+- (NSDictionary *)availableModes;
+
 
 @end

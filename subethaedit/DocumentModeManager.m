@@ -29,7 +29,8 @@ static DocumentModeManager *sharedInstance;
     self = [super init];
     if (self) {
         I_modeBundles=[NSMutableDictionary new];
-        I_modes      =[NSMutableDictionary new];
+        I_documentModesByIdentifier =[NSMutableDictionary new];
+		I_modeIdentifiersByExtension=[NSMutableDictionary new];
         [self TCM_findModes];
     }
     return self;
@@ -37,7 +38,8 @@ static DocumentModeManager *sharedInstance;
 
 - (void)dealloc {
     [I_modeBundles release];
-    [I_modes release];
+    [I_documentModesByIdentifier release];
+	[I_modeIdentifiersByExtension release];
     [super dealloc];
 }
 
@@ -56,12 +58,18 @@ static DocumentModeManager *sharedInstance;
     
     enumerator = [allPaths reverseObjectEnumerator];
     while ((path = [enumerator nextObject])) {
-        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];
+        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:path] objectEnumerator];
         while ((file = [dirEnumerator nextObject])) {
+			NSLog(@"%@",file);
             if ([[file pathExtension] isEqualToString:@"mode"]) {
-                NSBundle *bundle = [NSBundle bundleWithPath:file];
+                NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]];
                 if (bundle) {
-                    [I_modeBundles setObject:bundle forKey:[[bundle bundlePath] lastPathComponent]];
+					NSEnumerator *extensions = [[[bundle infoDictionary] objectForKey:@"TCMModeExtensions"] objectEnumerator];
+					NSString *extension = nil;
+					while ((extension = [extensions nextObject])) {
+						[I_modeIdentifiersByExtension setObject:[bundle bundleIdentifier] forKey:extension];
+					}
+                    [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
                 }
             }
         }
@@ -71,5 +79,47 @@ static DocumentModeManager *sharedInstance;
 - (NSString *)description {
     return [NSString stringWithFormat:@"DocumentModeManager, FoundModeBundles:%@",[I_modeBundles description]];
 }
+
+- (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier {
+	NSBundle *bundle=[I_modeBundles objectForKey:anIdentifier];
+	if (bundle) {
+        DocumentMode *mode=[I_documentModesByIdentifier objectForKey:anIdentifier];
+        if (!mode) {
+            mode = [[[DocumentMode alloc] initWithBundle:bundle] autorelease];
+            if (mode)
+                [I_documentModesByIdentifier setObject:mode forKey:anIdentifier];
+        }
+        return mode;
+	} else {
+        return nil;
+    }
+}
+
+- (DocumentMode *)baseMode {
+    return [self documentModeForIdentifier:@"de.codingmonkeys.SubEthaEdit.mode.Base"];
+}
+
+- (DocumentMode *)documentModeForExtension:(NSString *)anExtension {
+    NSString *identifier=[I_modeIdentifiersByExtension objectForKey:anExtension];
+    if (identifier) {
+        return [self documentModeForIdentifier:identifier];
+	} else {
+        return [self baseMode];
+	}
+}
+
+
+/*"Returns an NSDictionary with Key=Identifier, Value=ModeName"*/
+- (NSDictionary *)availableModes {
+    NSMutableDictionary *result=[NSMutableDictionary dictionary];
+    NSEnumerator *modeIdentifiers=[I_modeBundles keyEnumerator];
+    NSString *identifier = nil;
+    while ((identifier=[modeIdentifiers nextObject])) {
+        [result setObject:[[[I_modeBundles objectForKey:identifier] localizedInfoDictionary] objectForKey:@"CFBundleName"] 
+                   forKey:identifier];
+    }
+    return result;
+}
+
 
 @end

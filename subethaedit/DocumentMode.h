@@ -10,7 +10,11 @@
 
 
 @interface DocumentMode : NSObject {
-
+    NSBundle *I_bundle;
 }
+
+- (id)initWithBundle:(NSBundle *)aBundle;
+
+- (NSBundle *)bundle;
 
 @end

@@ -11,4 +11,22 @@
 
 @implementation DocumentMode
 
+- (id)initWithBundle:(NSBundle *)aBundle {
+    self = [super init];
+    if (self) {
+        I_bundle = [aBundle retain];
+    }
+    return self;
+}
+
+- (void) dealloc {
+    [I_bundle release];
+    [super dealloc];
+}
+
+- (NSBundle *)bundle {
+    return I_bundle;
+}
+
+
 @end
