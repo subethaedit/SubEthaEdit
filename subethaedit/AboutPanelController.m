@@ -18,7 +18,6 @@
 
 - (void)windowDidLoad {
     NSBundle *mainBundle = [NSBundle mainBundle];
-    [O_appNameField setObjectValue:[mainBundle objectForInfoDictionaryKey:@"CFBundleName"]];
     NSString *versionString = [NSString stringWithFormat:@"%@ (v%@)", 
                                 [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
                                 [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];

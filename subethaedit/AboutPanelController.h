@@ -11,7 +11,6 @@
 
 @interface AboutPanelController : NSWindowController {
     IBOutlet NSImageView *O_appIconView;
-    IBOutlet NSTextField *O_appNameField;
     IBOutlet NSTextField *O_legalTextField;
     IBOutlet NSTextField *O_versionField;
 }

@@ -4,7 +4,7 @@
 
     <head>
         <name>HTML</name> <!-- The definitions title -->
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@]]></charsintokens> 
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
     </head>
 
     <states>
@@ -375,8 +375,12 @@
             <keywords id="CSS Attributes in Tags" color="#994500" useforautocomplete="no">
                 <regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
             </keywords>
-            <keywords id="Begin and End" color="#881280" useforautocomplete="no">
-                <regex>(&lt;[^&gt;]*&gt;)</regex>
+            <keywords id="CSS Begin and End" color="#881280" useforautocomplete="no">
+                <regex>(&lt;/?style[^&gt;]*&gt;)</regex>
+            </keywords>
+
+            <keywords id="CSS Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+                <regex>("[^"&gt;&lt;]*")(?=[^&lt;]*&gt;)</regex>
             </keywords>
 
         </state>
@@ -431,7 +435,7 @@
             </keywords>
 
             <keywords id="Javascript Begin and End" color="#881280" useforautocomplete="no">
-                <regex>(&lt;[^&gt;]*&gt;)</regex>
+                <regex>(&lt;/?script[^&gt;]*&gt;)</regex>
             </keywords>
 
             <keywords id="Javascript Strings in Tags" color="#1A1AA6" useforautocomplete="no">

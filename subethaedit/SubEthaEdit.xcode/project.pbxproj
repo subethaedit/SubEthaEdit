@@ -1997,6 +1997,20 @@
 //312
 //313
 //314
+		31006A760653F67E004F0094 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			name = myriad.png;
+			path = artwork/myriad.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		31006A770653F67E004F0094 = {
+			fileRef = 31006A760653F67E004F0094;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		3131457D06381AA9003CC762 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -4055,6 +4069,7 @@
 				5EC0506F062D6C0500292573,
 				5E9ABF650648D8D20039DEE0,
 				5E9ABF660648D8D20039DEE0,
+				31006A760653F67E004F0094,
 				5E4AB523063EB11100B67F07,
 				5EB5CB4F063DA4F100762AB7,
 				149A5C1B0600A89C0033510E,
@@ -4798,6 +4813,7 @@
 				3188A36406492AE500AD92E4,
 				14FF9F450653915D0021FB60,
 				14352D2C06539C7300C9685E,
+				31006A770653F67E004F0094,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
