@@ -9,8 +9,13 @@
         {
             ACTIONS = {
                 changeTabWidth = id; 
+                chooseLineEndings = id; 
                 clearChangeMarks = id; 
                 convertLineEndings = id; 
+                jumpToNextChange = id; 
+                jumpToNextSymbol = id; 
+                jumpToPreviousChange = id; 
+                jumpToPreviousSymbol = id; 
                 newView = id; 
                 selectWrapMode = id; 
                 shiftLeft = id; 

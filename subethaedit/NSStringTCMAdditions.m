@@ -34,10 +34,13 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     }
     [newLineEnding getCharacters:newEOLBuf];
 
+    NSMutableArray *changes=[[NSMutableArray alloc] init];
+
     while (curPos < length) {
-        [string getLineStart:&start end:&end contentsEnd:&contentsEnd forRange:NSMakeRange(curPos, 1)];
+        [string getLineStart:&start end:&end contentsEnd:&contentsEnd forRange:NSMakeRange(curPos, 0)];
         if (contentsEnd < end) {
-            int changeInLength = newEOLLen - (end - contentsEnd);
+            int oldLength = (end - contentsEnd);
+            int changeInLength = newEOLLen - oldLength;
             BOOL alreadyNewEOL = YES;
             if (changeInLength == 0) {
                 unsigned i;
@@ -51,13 +54,19 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
                 alreadyNewEOL = NO;
             }
             if (!alreadyNewEOL) {
-                [string replaceCharactersInRange:NSMakeRange(contentsEnd, end - contentsEnd) withString:newLineEnding];
-                end += changeInLength;
-                length += changeInLength;
+                [changes addObject:[NSValue valueWithRange:NSMakeRange(contentsEnd, oldLength)]];
             }
         }
         curPos = end;
     }
+
+    int count=[changes count];
+    while (--count >= 0) {
+        [string replaceCharactersInRange:[[changes objectAtIndex:count] rangeValue] withString:newLineEnding];
+        // TODO: put this change also into the undomanager
+    }
+
+    [changes release];
 
     if (freeNewEOLBuf) {
         NSZoneFree(NSZoneFromPointer(newEOLBuf), newEOLBuf);

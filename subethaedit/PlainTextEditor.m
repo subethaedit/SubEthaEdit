@@ -609,9 +609,32 @@
     return YES;
 }
 
-
 - (IBAction)chooseSymbol:(id)aSender {
     [self TCM_adjustTopStatusBarFrames];
+}
+
+- (IBAction)jumpToNextChange:(id)aSender {
+    TextView *textView = (TextView *)[self textView];
+    NSRange change = [[self document] rangeOfPrevious:NO 
+                                       changeForRange:NSMakeRange(NSMaxRange([textView selectedRange])-1,0)];
+    if (change.location == NSNotFound) {
+        NSBeep();
+    } else {
+        [textView setSelectedRange:change];
+        [textView scrollRangeToVisible:change];
+    }
+}
+
+- (IBAction)jumpToPreviousChange:(id)aSender {
+    TextView *textView = (TextView *)[self textView];
+    NSRange change = [[self document] rangeOfPrevious:YES 
+                                       changeForRange:NSMakeRange([textView selectedRange].location,0)];
+    if (change.location == NSNotFound) {
+        NSBeep();
+    } else {
+        [textView setSelectedRange:change];
+        [textView scrollRangeToVisible:change];
+    }
 }
 
 

@@ -113,6 +113,11 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)selectRange:(NSRange)aRange;
 - (void)handleOpenDocumentEvent;
 
+- (IBAction)convertLineEndings:(id)aSender;
+- (IBAction)chooseLineEndings:(id)aSender;
+
+- (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange;
+
 #pragma mark -
 #pragma mark ### Flag Accessors ###
 

@@ -1205,7 +1205,7 @@ static NSString *tempFileName(NSString *origPath) {
     } else if (selector==@selector(toggleSyntaxHighlighting:)) {
         [anItem setState:(I_flags.highlightSyntax?NSOnState:NSOffState)];
         return YES;
-    } else if (selector == @selector(convertLineEndings:)) {
+    } else if (selector == @selector(chooseLineEndings:)) {
         if ([self lineEnding] == [anItem tag]) {
             [anItem setState:NSOnState];
         } else {
@@ -1298,12 +1298,46 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (IBAction)chooseLineEndings:(id)aSender {
+    [self setLineEnding:[aSender tag]];
+}
+
 - (IBAction)convertLineEndings:(id)aSender {
     [self setLineEnding:[aSender tag]];
     [[[self textStorage] mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
     [[self undoManager] removeAllActions]; 
     // undo is not too easy here... however... we could store a complete copy of the document in the undobuffer
 }
+
+- (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange {
+    NSRange searchRange;
+    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    NSString *userID=nil;
+    unsigned position;
+    NSRange fullRange=NSMakeRange(0,[textStorage length]);   
+    userID=[textStorage attribute:ChangedByUserIDAttributeName atIndex:aRange.location longestEffectiveRange:&searchRange inRange:fullRange];
+    userID=nil;
+    while (!userID) {
+        if (aPrevious) {
+            if (searchRange.location==0) {
+                return NSMakeRange(NSNotFound,0);
+            }
+            position=searchRange.location-1;
+        } else {
+            position=NSMaxRange(searchRange);
+            if (position>=fullRange.length) {
+                return NSMakeRange(NSNotFound,0);
+            }
+        }
+        userID = [textStorage attribute:ChangedByUserIDAttributeName 
+                                atIndex:position 
+                  longestEffectiveRange:&searchRange
+                                inRange:fullRange];
+    }
+    
+    return searchRange;
+}
+
 
 /*"A font trait mask of 0 returns the plain font, otherwise use NSBoldFontMask, NSItalicFontMask"*/
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait {
