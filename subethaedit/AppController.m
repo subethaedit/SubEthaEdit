@@ -183,14 +183,17 @@ static AppController *sharedInstance = nil;
             
             ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
             NSString *primaryIdentifier=[emails primaryIdentifier];
-            [defaults setObject:primaryIdentifier forKey:MyEmailIdentifierPreferenceKey];
-            myEmail=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
+            if (primaryIdentifier) {
+                [defaults setObject:primaryIdentifier forKey:MyEmailIdentifierPreferenceKey];
+                myEmail=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
+            }
 
             ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
             primaryIdentifier=[aims primaryIdentifier];
-            [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
-            myAIM=[aims valueAtIndex:[aims indexForIdentifier:primaryIdentifier]];
-
+            if (primaryIdentifier) {
+                [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
+                myAIM=[aims valueAtIndex:[aims indexForIdentifier:primaryIdentifier]];
+            }
         } else {
             myName=NSFullUserName();
             myEmail=@"";
