@@ -337,6 +337,10 @@ Modes/LaTeX.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 Modes/LaTeX.mode/Contents/Resources/Japanese.lproj/InfoPlist.strings -text
 Modes/LaTeX.mode/Contents/Resources/RegexSymbols.xml -text
 Modes/LaTeX.mode/Contents/Resources/SyntaxDefinition.xml -text
+Modes/Lua.mode/Contents/Info.plist -text
+Modes/Lua.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+Modes/Lua.mode/Contents/Resources/RegexSymbols.xml -text
+Modes/Lua.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/Objective-C.mode/Contents/Info.plist -text
 Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt -text
 Modes/Objective-C.mode/Contents/Resources/English.lproj/InfoPlist.strings -text

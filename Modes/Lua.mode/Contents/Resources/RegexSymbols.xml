@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <symbol id="Functions" image="SymbolF()" indentation="0" ignoreblocks="yes">
+        <regex>^function[ \t]+([\w\d_\.]+[ \t]*\([^\)]*\))</regex>
+    </symbol>
+    <symbol id="Inner Functions" image="SymbolF()" indentation="1" ignoreblocks="yes">
+        <regex>(?:[^\r\n\w]{1,5})function[ \t]+([\w\d_\.]+[ \t]*\([^\)]*\))</regex>
+    </symbol>
+    <symbol id="Even Innerer Functions" image="SymbolF()" indentation="2" ignoreblocks="yes">
+        <regex>(?:[^\r\n\w]{6,})function[ \t]+([\w\d_\.]+[ \t]*\([^\)]*\))</regex>
+    </symbol>
+
+    <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
+        <regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;[^=]*======[^&gt;]*&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
+        <postprocess>
+            <find>.*</find>
+            <replace>Versioning conflict!</replace>
+        </postprocess>
+    </symbol>
+
+</symbols>
