@@ -364,7 +364,7 @@ NSString *ListViewDidChangeSelectionNotification=
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)aEvent {
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
-    NSLog(@"shouldDelay at: %@ - event: %@", NSStringFromPoint(point),[aEvent description]);
+    //NSLog(@"acceptsFirstMouse at: %@ - event: %@", NSStringFromPoint(point),[aEvent description]);
     
     I_clickedRow = [self TCM_indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
@@ -376,7 +376,7 @@ NSString *ListViewDidChangeSelectionNotification=
 
 - (BOOL)shouldDelayWindowOrderingForEvent:(NSEvent *)aEvent {
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
-    NSLog(@"shouldDelay at: %@ - event: %@", NSStringFromPoint(point),[aEvent description]);
+    //NSLog(@"shouldDelay at: %@ - event: %@", NSStringFromPoint(point),[aEvent description]);
     
     I_clickedRow = [self TCM_indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
@@ -457,7 +457,7 @@ NSString *ListViewDidChangeSelectionNotification=
 
 // Dragging Source
 - (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
-    NSLog(@"draggingSourceOperationMaskForLocal: %@", isLocal ? @"YES" : @"NO");
+    //NSLog(@"draggingSourceOperationMaskForLocal: %@", isLocal ? @"YES" : @"NO");
     return NSDragOperationGeneric;
 }
 
@@ -476,7 +476,7 @@ NSString *ListViewDidChangeSelectionNotification=
     return NO;
 }
 
-- (NSImage *)dragImage {
+- (NSImage *)dragImageSelectedRect:(NSRect *)aRect forChild:(int)aChildIndex ofItem:(int)anItemIndex {
     Class myClass=[self class];
     float itemRowHeight   =[myClass itemRowHeight];
     float childRowHeight  =[myClass childRowHeight];
@@ -489,7 +489,11 @@ NSString *ListViewDidChangeSelectionNotification=
     while ([rows count]) {
         rowIndex=[rows firstIndex];
         ItemChildPair pair=[self itemChildPairAtRow:rowIndex];
-        imageSize.height+=pair.childIndex==-1?itemRowHeight:childRowHeight;
+        float heightOfRow=pair.childIndex==-1?itemRowHeight:childRowHeight;
+        if (pair.itemIndex==anItemIndex && pair.childIndex==aChildIndex && aRect!=NULL) {
+            *aRect=NSMakeRect(0,imageSize.height,imageSize.width,heightOfRow);
+        }
+        imageSize.height+=heightOfRow;
         [itemChildPairs addObject:[NSValue valueWithBytes:&pair objCType:@encode(ItemChildPair)]];
         [rows removeIndex:rowIndex];
     }
@@ -524,7 +528,7 @@ NSString *ListViewDidChangeSelectionNotification=
     return resultImage;
 }
 
-- (void)mouseDragged:(NSEvent *)anEvent {
+- (void)mouseDragged:(NSEvent *)aEvent {
 //    NSLog(@"mouseDragged");
         
     NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
@@ -536,7 +540,17 @@ NSString *ListViewDidChangeSelectionNotification=
     }
 
     if (allowDrag) {
-        [self dragImage:[self dragImage] at:[self convertPoint:[anEvent locationInWindow] fromView:nil] offset:NSMakeSize(0.0, 0.0) event:anEvent pasteboard:pboard source:self slideBack:YES];
+        NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
+        
+        I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+        ItemChildPair pair = [self itemChildPairAtRow:I_clickedRow];
+        NSRect rectInImage=NSMakeRect(0,0,10,10);
+        NSImage *image=[self dragImageSelectedRect:&rectInImage forChild:pair.childIndex ofItem:pair.itemIndex];
+        NSRect rowRect=[self rectForRow:I_clickedRow];
+        NSPoint imageOffset=point;
+        imageOffset.x=0;
+        imageOffset.y=rowRect.origin.y+rowRect.size.height+([image size].height-NSMaxY(rectInImage));
+        [self dragImage:image at:imageOffset offset:NSMakeSize(0.,0.) event:aEvent pasteboard:pboard source:self slideBack:YES];
     }
 }
 
