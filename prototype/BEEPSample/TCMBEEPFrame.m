@@ -15,6 +15,7 @@
 {
     self = [super init];
     if (self) {
+        I_answerNumber = -1;
         BOOL error=NO;
         if (sscanf(aHeaderString,"%3s %d %d %1s %d %d\r",
                     I_messageType, &I_channelNumber, &I_messageNumber,
@@ -70,16 +71,21 @@
 -(BOOL)isIntermediate {
     return (I_continuationIndicator[0]=='*');
 }
--(int32_t) sequenceNumber {
+-(uint32_t) sequenceNumber {
     return I_sequenceNumber;
 }
 -(int32_t) length {
     return I_length;
 }
 
+- (int32_t)answerNumber
+{
+    return I_answerNumber;
+}
+
 -(NSString *)description {
-    return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %d %d\n%@",I_messageType, I_channelNumber, I_messageNumber,
-                    I_continuationIndicator, I_sequenceNumber, I_length, [I_content description]];
+    return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %d %d\nData Lenght:%d",I_messageType, I_channelNumber, I_messageNumber,
+                    I_continuationIndicator, I_sequenceNumber, I_length, [I_content length]];
 }
 
 - (void)setContent:(NSData *)aData

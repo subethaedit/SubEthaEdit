@@ -48,6 +48,8 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_currentReadMessage=nil;
             I_messageNumbersWithPendingReplies=[NSMutableIndexSet new];
             I_inboundMessageNumbersWithPendingReplies=[NSMutableIndexSet new];
+            I_defaultReadQueue = [NSMutableArray new];
+            I_answerReadQueues = [NSMutableDictionary new];
         }
     }
     
@@ -62,6 +64,8 @@ static NSMutableDictionary *profileURIToClassMapping;
     [I_currentReadMessage release];
     [I_messageNumbersWithPendingReplies release];
     [I_inboundMessageNumbersWithPendingReplies release];
+    [I_defaultReadQueue release];
+    [I_answerReadQueues release];
     [super dealloc];
 }
 
@@ -175,7 +179,7 @@ static NSMutableDictionary *profileURIToClassMapping;
             strcmp([currentReadFrame messageType],"ANS") == 0 &&
             strcmp([aFrame messageType],"ANS") == 0) {
             if ([aFrame sequenceNumber]!=
-                [currentReadFrame sequenceNumber]+[currentReadFrame length]) {
+                ([currentReadFrame sequenceNumber]+[currentReadFrame length])) {
                 // ERROR
                 NSLog(@"10ter punkt 2.2.1.1 (Check sequence numbers)");
                 accept = NO;
@@ -183,9 +187,37 @@ static NSMutableDictionary *profileURIToClassMapping;
         }
     }
     
-    
-    
+    // QUEUE   
+    NSMutableArray *queue=nil; 
+    if (strcmp([aFrame messageType],"ANS")==0) {
+        NSArray *queue=[I_answerReadQueues objectForLong:[aFrame answerNumber]];
+        if (!queue) {
+            queue=[NSMutableArray array];
+            [I_answerReadQueues setObject:queue forLong:[aFrame answerNumber]];
+        }
+    } else {
+        queue=I_defaultReadQueue;
+    }
+    [queue addObject:aFrame];
+
+    if (![aFrame isIntermediate]) {
+        // FINISH and DISPATCH
+        TCMBEEPMessage *message=[TCMBEEPMessage messageWithQueue:queue];
+        [[self profile] processBEEPMessage:message];
+        if (strcmp([aFrame messageType],"ANS")==0) {
+            [I_answerReadQueues removeObjectForLong:[aFrame answerNumber]];
+        } else {
+            [queue removeAllObjects];
+        }
+        if (strcmp([aFrame messageType],"NUL")==0) {
+            // FEHLER?
+            if ([I_answerReadQueues count]>0) {
+                // FEHLER! bei NUL müssen alle Antworten abgeschlossen sein...
+            }
+        }
+    }
     [self setCurrentReadFrame:aFrame];
+
     return accept;
 }
 

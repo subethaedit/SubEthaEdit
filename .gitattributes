@@ -30,6 +30,7 @@ prototype/BEEPSample/TCMBEEPManagementProfile.h -text
 prototype/BEEPSample/TCMBEEPManagementProfile.m -text
 prototype/BEEPSample/TCMBEEPMessage.h -text
 prototype/BEEPSample/TCMBEEPMessage.m -text
+prototype/BEEPSample/TCMBEEPProfile.h -text
 prototype/BEEPSample/TCMBEEPSession.h -text
 prototype/BEEPSample/TCMBEEPSession.m -text
 prototype/BEEPSample/main.m -text

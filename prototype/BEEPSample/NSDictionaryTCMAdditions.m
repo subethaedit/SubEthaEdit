@@ -20,5 +20,11 @@
 -(void)setObject:(id)aObject forLong:(long)aLong {
     [self setObject:aObject forKey:[NSNumber numberWithLong:aLong]];
 }
+
+- (void)removeObjectForLong:(long)aLong
+{
+    [self removeObjectForKey:[NSNumber numberWithLong:aLong]];
+}
+
 @end
 

@@ -17,6 +17,7 @@
 				146D607E05E3961F00E9FEF0,
 				146D61C505E3E02400E9FEF0,
 				146D61C605E3E02400E9FEF0,
+				14836EC205E4DD2E00F4F24E,
 				145884DE05E261ED000E1387,
 				145884DF05E261ED000E1387,
 			);
@@ -371,6 +372,20 @@
 			settings = {
 			};
 		};
+		14836EC205E4DD2E00F4F24E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMBEEPProfile.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14836EC305E4DD2E00F4F24E = {
+			fileRef = 14836EC205E4DD2E00F4F24E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //140
 //141
 //142
@@ -632,6 +647,7 @@
 				146D614B05E3DDF800E9FEF0,
 				146D615105E3DE1300E9FEF0,
 				146D61C705E3E02400E9FEF0,
+				14836EC305E4DD2E00F4F24E,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

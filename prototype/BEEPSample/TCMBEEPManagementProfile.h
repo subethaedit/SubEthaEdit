@@ -7,13 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TCMBEEPProfile.h"
 
 @class TCMBEEPChannel;
 
-@interface TCMBEEPManagementProfile : NSObject
+@interface TCMBEEPManagementProfile : NSObject <TCMBEEPProfile>
 {
     TCMBEEPChannel *I_channel;
     id I_delegate;
+    BOOL I_firstMessage;
 }
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel;

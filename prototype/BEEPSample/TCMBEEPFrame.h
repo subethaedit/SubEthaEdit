@@ -11,14 +11,14 @@
 
 @interface TCMBEEPFrame : NSObject
 {
-    char    I_messageType[4];
-    int32_t I_channelNumber;
-    int32_t I_messageNumber;
-    char    I_continuationIndicator[2];
-    int32_t I_sequenceNumber;
-    int32_t I_length;
-    int32_t I_answerNumber;
-    NSData *I_content;
+    char     I_messageType[4];
+    int32_t  I_channelNumber;
+    int32_t  I_messageNumber;
+    char     I_continuationIndicator[2];
+    uint32_t I_sequenceNumber;
+    int32_t  I_length;
+    int32_t  I_answerNumber;
+    NSData  *I_content;
 }
 
 - (id)initWithHeader:(char *)aHeaderString;
@@ -31,8 +31,9 @@
 -(int32_t) messageNumber;
 -(char *) continuationIndicator;
 - (BOOL)isIntermediate;
--(int32_t) sequenceNumber;
+-(uint32_t) sequenceNumber;
 -(int32_t) length;
+- (int32_t)answerNumber;
 
 
 @end

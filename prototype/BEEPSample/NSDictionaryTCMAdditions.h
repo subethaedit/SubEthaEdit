@@ -14,6 +14,7 @@
 @end
 
 @interface NSMutableDictionary (NSDictionaryTCMAdditions)
+- (void)removeObjectForLong:(long)aLong;
 -(void)setObject:(id)aObject forLong:(long)aLong;
 @end
 

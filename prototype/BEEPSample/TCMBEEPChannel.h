@@ -21,6 +21,8 @@
     TCMBEEPMessage *I_currentReadMessage;
     NSMutableIndexSet *I_messageNumbersWithPendingReplies;
     NSMutableIndexSet *I_inboundMessageNumbersWithPendingReplies;
+    NSMutableArray *I_defaultReadQueue;
+    NSMutableDictionary *I_answerReadQueues;
 }
 
 + (NSDictionary *)profileURIToClassMapping;
