@@ -379,6 +379,10 @@ subethaedit/Modes/SQL.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/XML.mode/Contents/Info.plist -text
 subethaedit/Modes/XML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/XML.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/bash.mode/Contents/Info.plist -text
+subethaedit/Modes/bash.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/bash.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/bash.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/MoreIsBetter/MoreCFQ.c -text
 subethaedit/MoreIsBetter/MoreCFQ.h -text
 subethaedit/MoreIsBetter/MoreSecurity.c -text
