@@ -195,6 +195,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateViewBecauseOfPreferences:) name:GeneralViewPreferencesDidChangeNotificiation object:nil];
 
+    I_blockeditTextView=nil;
+
     // maybe put this into DocumentMode Setting
     NSString *bracketString=@"{[()]}";
     I_bracketMatching.numberOfBrackets=3;
@@ -2984,16 +2986,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
     TextStorage *textStorage = (TextStorage *)[aTextView textStorage];
-    if (![textStorage isBlockediting] && [textStorage hasBlockeditRanges]) {
+    if (![textStorage isBlockediting] && [textStorage hasBlockeditRanges] && !I_flags.isRemotelyEditingTextStorage && ![[self documentUndoManager] isPerformingGroup]) {
         if ([textStorage length]==0) {
             [textStorage stopBlockedit];
         } else {
-            unsigned positionToCheck=aNewSelectedCharRange.location;
+            unsigned positionToCheck=aOldSelectedCharRange.location;
             if (positionToCheck<[textStorage length] && positionToCheck!=0) {
                 if (positionToCheck>=[textStorage length]) positionToCheck--;
                 NSDictionary *attributes=[textStorage attributesAtIndex:positionToCheck effectiveRange:NULL];
-                if (![attributes objectForKey:BlockeditAttributeName]) {
-                    [textStorage stopBlockedit];
+                if ([attributes objectForKey:BlockeditAttributeName]) {
+                    positionToCheck=aNewSelectedCharRange.location;
+                    if (positionToCheck<[textStorage length] && positionToCheck!=0) {
+                        if (positionToCheck>=[textStorage length]) positionToCheck--;
+                        attributes=[textStorage attributesAtIndex:positionToCheck effectiveRange:NULL];
+                        if (![attributes objectForKey:BlockeditAttributeName]) {
+                            [textStorage stopBlockedit];
+                        }
+                    }
                 }
             }
         }
@@ -3097,6 +3106,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 [textStorage setDidBlockedit:YES];
                 [textStorage setDidBlockeditRange:aAffectedCharRange];
                 [textStorage setDidBlockeditLineRange:NSMakeRange(locationLength,length-locationLength)];
+                I_blockeditTextView=aTextView;
             }
         } else {
             [textStorage stopBlockedit];
@@ -3125,6 +3135,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     // take care for blockedit
 
     if ([textStorage didBlockedit] && ![textStorage isBlockediting] && ![textView hasMarkedText]) {
+        [textStorage beginEditing];
         NSRange lineRange=[textStorage didBlockeditLineRange];
         NSRange selectedRange=[textView selectedRange];
         NSRange didBlockeditRange=[textStorage didBlockeditRange];
@@ -3183,7 +3194,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
         [textStorage setDidBlockedit:NO];
+        I_blockeditTextView=nil;
         [[self documentUndoManager] endUndoGrouping];
+        [textStorage endEditing];
         newSelectedRange.location+=lengthChange;
         if (!NSEqualRanges(newSelectedRange,[textView selectedRange]) && newSelectedRange.location!=NSNotFound) {
             [textView setSelectedRange:newSelectedRange];

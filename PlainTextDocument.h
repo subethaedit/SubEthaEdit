@@ -88,6 +88,7 @@ extern NSString * const ChangedByUserIDAttributeName;
     } I_bracketMatching;
         
     NSDictionary *I_blockeditAttributes;
+    NSTextView   *I_blockeditTextView;
     
     NSArray *I_symbolArray;
     NSMenu *I_symbolPopUpMenu;
