@@ -513,13 +513,13 @@
                 <string>ABS</string>
             </keywords>
             <keywords id="Numbers" color="#00f" useforautocomplete="no">
-				<regex>[0-9]*\.*[0-9]+</regex>
+				<regex>([^[A-Za-z]][0-9]*\.*[0-9]+[^[A-Za-z]]|^[0-9]*\.*[0-9]+[^[A-Za-z]])</regex>
 				<regex>0x[0-9a-fA-F]+</regex>
             </keywords>
             <keywords id="Characters" color="#00f" useforautocomplete="no">
 				<regex>'.'</regex>
             </keywords>
-            <keywords id="Function Regex" color="#003369" useforautocomplete="no">
+            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
             <keywords id="Cocoa Types" color="#400080" font-weight="bold" font-style="italic" useforautocomplete="no">

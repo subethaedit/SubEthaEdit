@@ -51,7 +51,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     SyntaxDefinition *definition = [self syntaxDefinition];
     if (!definition) NSLog(@"ERROR: No defintion for highlighter.");
     NSString *theString = [aString string];
-    aRange = [theString lineRangeForRange:aRange];
+    //aRange = [theString lineRangeForRange:aRange];
     
     NSRange currentRange = aRange;
     int stateNumber;
@@ -79,7 +79,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     */
     
     if (stateStarts) do {
-        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"New loop with Range: %@",NSStringFromRange(currentRange));
+        //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"New loop with Range: %@",NSStringFromRange(currentRange));
         NSAutoreleasePool *syntaxPool = [NSAutoreleasePool new];
 
         // Are we already in a state?
@@ -197,6 +197,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
             style = [regexDict objectForKey:aRegex];
             NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:[aString string] range:aRange] objectEnumerator];
             while ((aMatch = [matchEnumerator nextObject])) {
+                // FIXME: Only color first group!
                 [aString addAttribute:NSForegroundColorAttributeName value:[style objectForKey:@"color"] range:[aMatch rangeOfMatchedString]];
             }
         }
@@ -232,7 +233,12 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
 {
     // just to show when there is colorization
     NSRange textRange=NSMakeRange(0,[aTextStorage length]);
+    double return_after = 0.2;
+    BOOL returnvalue = NO;
+    clock_t start_time = clock();
+    int chunks=0;
     NSRange dirtyRange;
+    NSRange chunkRange;
     id correct;
     BOOL returnValue = NO;
     
@@ -244,8 +250,33 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     while (position<NSMaxRange(textRange)) {
         correct=[aTextStorage attribute:kSyntaxHighlightingIsCorrectAttributeName atIndex:position longestEffectiveRange:&dirtyRange inRange:textRange];
         if (!correct) {
-            [self highlightAttributedString:aTextStorage inRange:dirtyRange];
-            position=NSMaxRange(dirtyRange);
+            while (YES) {
+                chunks++;
+                chunkRange = dirtyRange;
+                if (chunkRange.length > chunkSize) chunkRange.length = chunkSize;
+                chunkRange = [[aTextStorage string] lineRangeForRange:chunkRange];
+
+                DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
+
+
+                [self highlightAttributedString:aTextStorage inRange:chunkRange];
+                
+                
+                if ((((double)(clock()-start_time))/CLOCKS_PER_SEC) > return_after) {
+                    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Coloring took too long, aborting after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
+                    break;
+                }
+                
+                unsigned int lastDirty=NSMaxRange(dirtyRange);
+                if (NSMaxRange(chunkRange) < lastDirty) {
+                    dirtyRange.location = NSMaxRange(chunkRange);
+                    dirtyRange.length = lastDirty-dirtyRange.location;
+                } else {
+                    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished coloring of dirtyRange after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
+                    break;
+                }
+            }
+            position=NSMaxRange(chunkRange);
         } else {
             position=NSMaxRange(dirtyRange);
             if (position>=[aTextStorage length]) {
@@ -253,6 +284,12 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                 break;
             }
         }
+
+        if ((((double)(clock()-start_time))/CLOCKS_PER_SEC) > return_after) {
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Returning control");
+            break;
+        }
+
         // adjust Range
         textRange.length=NSMaxRange(textRange);
         textRange.location=position;
@@ -261,7 +298,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     
     [aTextStorage endEditing];
     
-    return YES;
+    return returnvalue;
 }
 
 /*"Cleans up any attribute it introduced to the textstorage while colorizing it"*/
