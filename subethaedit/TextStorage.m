@@ -446,7 +446,7 @@ NSString * const BlockeditAttributeValue=@"YES";
     return dictionary;
 }
 
-- (void)setContentWithDictionaryRepresentation:(NSDictionary *)aRepresentation {
+- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
     [self beginEditing];
     NSString *string=[aRepresentation objectForKey:@"String"];
     if (string && [string isKindOfClass:[NSString class]]) {

@@ -52,7 +52,7 @@ extern NSString * const BlockeditAttributeValue;
 - (void)stopBlockedit;
 
 - (NSDictionary *)dictionaryRepresentation;
-- (void)setContentWithDictionaryRepresentation:(NSDictionary *)aRepresentation;
+- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 @end
 

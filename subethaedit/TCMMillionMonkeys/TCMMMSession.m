@@ -18,6 +18,7 @@
 #import "SessionProfile.h"
 #import "PlainTextDocument.h"
 #import "DocumentController.h"
+#import "TextStorage.h"
 
 
 NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
@@ -370,10 +371,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 # pragma mark -
 
 - (void)profile:(SessionProfile *)profile didReceiveSessionContent:(id)aContent {
-    NSString *string=[aContent objectForKey:@"Content"];
-    NSTextStorage *textStorage=[(PlainTextDocument *)[self document] textStorage];
-    TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:NSMakeRange(0,[textStorage length]) replacementString:string userID:[TCMMMUserManager myUserID]];
-    [(PlainTextDocument *)[self document] handleOperation:textOp];
+    [[self document] setContentByDictionaryRepresentation:aContent];
 }
 
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)profile
@@ -422,7 +420,7 @@ NSString * const TCMMMSessionDidChangeNotification =
     while ((user=[userRequests nextObject])) {
         [aProfile sendUser:[userManager userForUserID:[user userID]]];
     }
-    [aProfile sendSessionContent:[NSDictionary dictionaryWithObject:[[(PlainTextDocument *)[self document] textStorage] string] forKey:@"Content"]];
+    [aProfile sendSessionContent:[NSDictionary dictionaryWithObject:[(TextStorage *)[(PlainTextDocument *)[self document] textStorage] dictionaryRepresentation] forKey:@"TextStorage"]];
 }
 
 #pragma mark -

@@ -86,5 +86,5 @@ typedef enum TCMMMSessionAccessState {
 - (NSDictionary *)sessionInformation;
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
-
+- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 @end

@@ -2085,6 +2085,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setWrapLines:[[aSessionInformation objectForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
     [self setWrapMode:[[aSessionInformation objectForKey:DocumentModeWrapLinesPreferenceKey] intValue]];
 
+    [self setFileName:[aSession filename]];
+
     [self makeWindowControllers];
     PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
@@ -2121,6 +2123,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     [super setFileName:fileName];
 }
+
+- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
+    I_flags.isRemotelyEditingTextStorage=YES;
+    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    [textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
+    [textStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[textStorage length])];
+    I_flags.isRemotelyEditingTextStorage=NO;
+}
+
 
 - (void)changeSelectionOfUserWithID:(NSString *)aUserID toRange:(NSRange)aRange {
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:aUserID];
