@@ -46,6 +46,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL keepDocumentVersion;
         BOOL isFileWritable;
         BOOL editAnyway;
+        BOOL isReceivingContent;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;

@@ -566,7 +566,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 }
 
 - (void)profile:(SessionProfile *)profile didReceiveSessionContent:(id)aContent {
-    [[self document] setContentByDictionaryRepresentation:aContent];
+    [[self document] session:self didReceiveContent:aContent];
 }
 
 - (void)profileDidDenyJoinRequest:(SessionProfile *)aProfile

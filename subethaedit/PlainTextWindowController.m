@@ -141,6 +141,19 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     [self validateButtons];
 }
 
+- (void)setIsReceivingContent:(BOOL)aFlag {
+    NSWindow *window=[self window];
+    I_flags.isReceivingContent=aFlag;
+    if (aFlag) {
+        [window setContentView:O_receivingContentView];
+        [O_progressIndicator startAnimation:self];
+    } else {
+        [O_progressIndicator stopAnimation:self];
+        [window setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+    }
+}
+
+
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
     NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
     NSWindow *window=[self window];
@@ -167,8 +180,13 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         return YES;
     } else if (selector == @selector(copyDocumentURL:)) {
         return [[(PlainTextDocument *)[self document] session] isServer];
+    } else if (selector == @selector(toggleSplitView:)) {
+        [menuItem setTitle:[I_plainTextEditors count]==1?
+                           NSLocalizedString(@"Split View",@"Split View Menu Entry"):
+                           NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
+        return !I_flags.isReceivingContent;
     }
-    return YES;
+    return [super validateMenuItem:menuItem];
 }
 
 - (NSArray *)plainTextEditors {
@@ -585,56 +603,46 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 #define SPLITMINHEIGHT 46.
 
 -(void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
-    if (aSplitView != O_participantsSplitView) {
-        NSRect frame=[aSplitView bounds];
-        NSArray *subviews=[aSplitView subviews];
-        NSRect frametop=[[subviews objectAtIndex:0] frame];
-        NSRect framebottom=[[subviews objectAtIndex:1] frame];
-        float newHeight1=frame.size.height-[aSplitView dividerThickness];
-        float topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
-        frametop.size.height=(float)((int)(newHeight1*topratio));
-        if (frametop.size.height<SPLITMINHEIGHT) {
-            frametop.size.height=SPLITMINHEIGHT;
-        } else if (newHeight1-frametop.size.height<SPLITMINHEIGHT) {
-            frametop.size.height=newHeight1-SPLITMINHEIGHT;
-        }
-
-        framebottom.size.height=newHeight1-frametop.size.height;
-        framebottom.size.width=frametop.size.width=frame.size.width;
-        
-        frametop.origin.x=framebottom.origin.x=frame.origin.x;
-        frametop.origin.y=frame.origin.y;
-        framebottom.origin.y=frame.origin.y+[aSplitView dividerThickness]+frametop.size.height;
-        
-        [[subviews objectAtIndex:0] setFrame:frametop];
-        [[subviews objectAtIndex:1] setFrame:framebottom];
-    } else {
-        [aSplitView adjustSubviews];
+    NSRect frame=[aSplitView bounds];
+    NSArray *subviews=[aSplitView subviews];
+    NSRect frametop=[[subviews objectAtIndex:0] frame];
+    NSRect framebottom=[[subviews objectAtIndex:1] frame];
+    float newHeight1=frame.size.height-[aSplitView dividerThickness];
+    float topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
+    frametop.size.height=(float)((int)(newHeight1*topratio));
+    if (frametop.size.height<SPLITMINHEIGHT) {
+        frametop.size.height=SPLITMINHEIGHT;
+    } else if (newHeight1-frametop.size.height<SPLITMINHEIGHT) {
+        frametop.size.height=newHeight1-SPLITMINHEIGHT;
     }
+
+    framebottom.size.height=newHeight1-frametop.size.height;
+    framebottom.size.width=frametop.size.width=frame.size.width;
+    
+    frametop.origin.x=framebottom.origin.x=frame.origin.x;
+    frametop.origin.y=frame.origin.y;
+    framebottom.origin.y=frame.origin.y+[aSplitView dividerThickness]+frametop.size.height;
+    
+    [[subviews objectAtIndex:0] setFrame:frametop];
+    [[subviews objectAtIndex:1] setFrame:framebottom];
 }
 
 - (BOOL)splitView:(NSSplitView *)aSplitView canCollapseSubview:(NSView *)aView {
-    if (aSplitView != O_participantsSplitView) {
-        return NO;
-    }
-    
-    return YES;
+    return NO;
 }
 
 - (float)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(float)proposedPosition 
        ofSubviewAt:(int)offset {
-    if (aSplitView != O_participantsSplitView) {
-        float height=[aSplitView frame].size.height;
-        float minHeight=SPLITMINHEIGHT;
-        if (proposedPosition<minHeight) {
-            return minHeight;
-        } else if (proposedPosition+minHeight+[aSplitView dividerThickness]>height) {
-            return height-minHeight-[aSplitView dividerThickness];
-        } else {
-            return proposedPosition;
-        }
+
+    float height=[aSplitView frame].size.height;
+    float minHeight=SPLITMINHEIGHT;
+    if (proposedPosition<minHeight) {
+        return minHeight;
+    } else if (proposedPosition+minHeight+[aSplitView dividerThickness]>height) {
+        return height-minHeight-[aSplitView dividerThickness];
+    } else {
+        return proposedPosition;
     }
-    return proposedPosition;
 }
 
 - (IBAction)toggleSplitView:(id)aSender {

@@ -905,11 +905,13 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 
 - (IBAction)newView:(id)aSender {
-    PlainTextWindowController *controller=[PlainTextWindowController new];
-    [self addWindowController:controller];
-    [controller showWindow:aSender];
-    [controller release];
-    [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
+    if (!I_flags.isReceivingContent) {
+        PlainTextWindowController *controller=[PlainTextWindowController new];
+        [self addWindowController:controller];
+        [controller showWindow:aSender];
+        [controller release];
+        [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
+    }
 }
 
 - (IBAction)clearChangeMarks:(id)aSender {
@@ -1483,13 +1485,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     SEL selector=[anItem action];
-    if (selector==@selector(announce:)) {
-        return !I_flags.isAnnounced;
-    } else if (selector==@selector(conceal:)) {
-        return I_flags.isAnnounced;
-    } else if (selector==@selector(toggleSyntaxHighlighting:)) {
+    if (selector==@selector(toggleSyntaxHighlighting:)) {
         [anItem setState:(I_flags.highlightSyntax?NSOnState:NSOffState)];
-        return YES;
+        return !I_flags.isReceivingContent;
     } else if (selector == @selector(chooseLineEndings:)) {
         if ([self lineEnding] == [anItem tag]) {
             [anItem setState:NSOnState];
@@ -1498,16 +1496,18 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     } else if (selector == @selector(convertLineEndings:)) {
         NSStringEncoding encoding=[self fileEncoding];
-        return ([anItem tag]<LineEndingUnicodeLineSeparator ||
+        return (!I_flags.isReceivingContent && 
+                ([anItem tag]<LineEndingUnicodeLineSeparator ||
                 encoding==NSUnicodeStringEncoding ||
                 encoding==NSUTF8StringEncoding ||
-                encoding==NSNonLossyASCIIStringEncoding);                  
+                encoding==NSNonLossyASCIIStringEncoding));                  
     } else if (selector == @selector(selectEncoding:)) {
         if ([self fileEncoding] == (unsigned int)[anItem tag]) {
             [anItem setState:NSOnState];
         } else {
             [anItem setState:NSOffState];
         }
+        return (!I_flags.isReceivingContent);
     } else if (selector == @selector(chooseMode:)) {
         DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
         NSString *identifier=[modeManager documentModeIdentifierForTag:[anItem tag]];
@@ -1516,17 +1516,19 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         } else {
             [anItem setState:NSOffState];
         }
+        return (!I_flags.isReceivingContent);
     } else if (selector == @selector(toggleUsesTabs:)) {
         [anItem setState:(I_flags.usesTabs?NSOnState:NSOffState)];
-        return YES;
+        return (!I_flags.isReceivingContent);
     } else if (selector == @selector(selectWrapMode:)) {
         [anItem setState:(I_flags.wrapMode==[anItem tag]?NSOnState:NSOffState)];
-        return YES;
+        return (!I_flags.isReceivingContent);
     } else if (selector == @selector(toggleIndentNewLines:)) {
         [anItem setState:(I_flags.indentNewLines?NSOnState:NSOffState)];
         return YES;
     } else if (selector == @selector(changeTabWidth:)) {
         [anItem setState:(I_tabWidth==[[anItem title]intValue]?NSOnState:NSOffState)];
+        return (!I_flags.isReceivingContent);
     } else if (selector == @selector(toggleIsAnnounced:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
@@ -2277,6 +2279,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     [self makeWindowControllers];
     PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+    I_flags.isReceivingContent=YES;
+    [windowController setIsReceivingContent:YES];
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
 }
 
@@ -2317,6 +2321,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
     [textStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[textStorage length])];
     I_flags.isRemotelyEditingTextStorage=NO;
+}
+
+- (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent {
+    [self setContentByDictionaryRepresentation:aContent];
+    I_flags.isReceivingContent = NO;
+    PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+    [windowController setIsReceivingContent:NO];
 }
 
 

@@ -27,8 +27,10 @@
                 "O_participantsSplitView" = NSSplitView; 
                 "O_participantsView" = ParticipantsView; 
                 "O_pendingUsersAccessPopUpButton" = NSPopUpButton; 
+                "O_progressIndicator" = NSProgressIndicator; 
                 "O_readOnlyButton" = NSButton; 
                 "O_readWriteButton" = NSButton; 
+                "O_receivingContentView" = NSView; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
