@@ -755,129 +755,113 @@ static InternetBrowserController *sharedInstance = nil;
 
 #pragma mark -
 
-- (int)numberOfItemsInListView:(TCMMMBrowserListView *)aListView {
-    return [I_data count];
-}
-
-- (int)listView:(TCMMMBrowserListView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex {
-    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
-        NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
-        return [[item objectForKey:@"Sessions"] count];
-    }
-    return 0;
-}
-
-- (BOOL)listView:(TCMMMBrowserListView *)aListView isItemExpandedAtIndex:(int)anItemIndex {
-    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
-        NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
-        return [[item objectForKey:@"isExpanded"] boolValue];
-    }
-    return NO;
-}
-
-- (void)listView:(TCMMMBrowserListView *)aListView setExpanded:(BOOL)isExpanded itemAtIndex:(int)anItemIndex {
-    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
-        NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
-        [item setObject:[NSNumber numberWithBool:isExpanded] forKey:@"isExpanded"];
-    }
-}
-
-- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
-    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
-        NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
-        TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
-        
-        BOOL isVisible = NO;
-        if (user) {
-            NSDictionary *userStatus = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
-            isVisible = [userStatus objectForKey:@"isVisible"] == nil ? NO : YES;
+- (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex {
+    if (anItemIndex==-1) {
+        return [I_data count];
+    } else {
+        if (anItemIndex>=0 && anItemIndex<[I_data count]) {
+            NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
+            return [[item objectForKey:@"Sessions"] count];
         }
+        return 0;
+    }
+}
 
-        if (user && isVisible && ![[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionAtEnd]) {
-            if (aTag == TCMMMBrowserItemNameTag) {
-                return [user name];
-            } else if (aTag == TCMMMBrowserItemStatusTag) {
-                return [NSString stringWithFormat:@"%d Document(s)", [[item objectForKey:@"Sessions"] count]];
-            } else if (aTag == TCMMMBrowserItemImageTag) {
-                return [[user properties] objectForKey:@"Image32"];
-            } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
-                return [[user properties] objectForKey:@"ColorImage"];
-            }
-        } else {
-            if (aTag == TCMMMBrowserItemNameTag) {
-                return [item objectForKey:@"URLString"];
-            } else if (aTag == TCMMMBrowserItemStatusTag) {
-                return NSLocalizedString([item objectForKey:@"status"], @"Status message displayed for each host entry in Internet browser.");
-            } else if (aTag == TCMMMBrowserItemImageTag) {
-                return [NSImage imageNamed:@"DefaultPerson"];
-            }
-        }
-        
-        if (aTag == TCMMMBrowserItemActionImageTag) {
-            if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusCancelling]) {
-                return nil;
-            }
+- (id)listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
+    if (aChildIndex == -1) {
+        if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
+            NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
+            TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
             
-            if ([item objectForKey:@"failed"]) {
-                if ([item objectForKey:@"inbound"]) {
-                    return nil;
-                } else {
-                    return [NSImage imageNamed:@"InternetResume"];
+            BOOL isVisible = NO;
+            if (user) {
+                NSDictionary *userStatus = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
+                isVisible = [userStatus objectForKey:@"isVisible"] == nil ? NO : YES;
+            }
+    
+            if (user && isVisible && ![[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionAtEnd]) {
+                if (aTag == TCMMMBrowserItemNameTag) {
+                    return [user name];
+                } else if (aTag == TCMMMBrowserItemStatusTag) {
+                    return [NSString stringWithFormat:@"%d Document(s)", [[item objectForKey:@"Sessions"] count]];
+                } else if (aTag == TCMMMBrowserItemImageTag) {
+                    return [[user properties] objectForKey:@"Image32"];
+                } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
+                    return [[user properties] objectForKey:@"ColorImage"];
                 }
             } else {
-                return [NSImage imageNamed:@"InternetStop"];
-            }
-        }
-    }
-
-    return nil;
-}
-
-- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
-    static NSImage *statusLock = nil;
-    static NSImage *statusReadOnly = nil;
-    static NSImage *statusReadWrite = nil;
-    static NSMutableDictionary *icons = nil;
-    
-    if (!icons) {
-        icons = [NSMutableDictionary new];
-        statusLock = [[NSImage imageNamed:@"StatusLock"] retain];
-        statusReadOnly = [[NSImage imageNamed:@"StatusReadOnly"] retain];
-        statusReadWrite = [[NSImage imageNamed:@"StatusReadWrite"] retain];
-    }
-    
-    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
-        NSDictionary *item = [I_data objectAtIndex:anItemIndex];
-        NSArray *sessions = [item objectForKey:@"Sessions"];
-        if (anIndex >= 0 && anIndex < [sessions count]) {
-            TCMMMSession *session = [sessions objectAtIndex:anIndex];
-            if (aTag == TCMMMBrowserChildNameTag) {
-                return [session filename];
-            } else if (aTag == TCMMMBrowserChildIconImageTag) {
-                NSString *extension = [[session filename] pathExtension];
-                NSImage *icon = [icons objectForKey:extension];
-                if (!icon) {
-                    icon = [[[NSWorkspace sharedWorkspace] iconForFileType:extension] copy];
-                    [icon setSize:NSMakeSize(16, 16)];
-                    [icons setObject:[icon autorelease] forKey:extension];
+                if (aTag == TCMMMBrowserItemNameTag) {
+                    return [item objectForKey:@"URLString"];
+                } else if (aTag == TCMMMBrowserItemStatusTag) {
+                    return NSLocalizedString([item objectForKey:@"status"], @"Status message displayed for each host entry in Internet browser.");
+                } else if (aTag == TCMMMBrowserItemImageTag) {
+                    return [NSImage imageNamed:@"DefaultPerson"];
                 }
-                return icon;
-            } else if (aTag == TCMMMBrowserChildStatusImageTag) {
-                switch ([session accessState]) {
-                    case TCMMMSessionAccessLockedState:
-                        return statusLock;
-                    case TCMMMSessionAccessReadOnlyState:
-                        return statusReadOnly;
-                    case TCMMMSessionAccessReadWriteState:
-                        return statusReadWrite;
-                }            
+            }
+            
+            if (aTag == TCMMMBrowserItemActionImageTag) {
+                if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusCancelling]) {
+                    return nil;
+                }
+                
+                if ([item objectForKey:@"failed"]) {
+                    if ([item objectForKey:@"inbound"]) {
+                        return nil;
+                    } else {
+                        return [NSImage imageNamed:@"InternetResume"];
+                    }
+                } else {
+                    return [NSImage imageNamed:@"InternetStop"];
+                }
             }
         }
+        return nil;
+    } else {
+        static NSImage *statusLock = nil;
+        static NSImage *statusReadOnly = nil;
+        static NSImage *statusReadWrite = nil;
+        static NSMutableDictionary *icons = nil;
+        
+        if (!icons) {
+            icons = [NSMutableDictionary new];
+            statusLock = [[NSImage imageNamed:@"StatusLock"] retain];
+            statusReadOnly = [[NSImage imageNamed:@"StatusReadOnly"] retain];
+            statusReadWrite = [[NSImage imageNamed:@"StatusReadWrite"] retain];
+        }
+        
+        if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
+            NSDictionary *item = [I_data objectAtIndex:anItemIndex];
+            NSArray *sessions = [item objectForKey:@"Sessions"];
+            if (aChildIndex >= 0 && aChildIndex < [sessions count]) {
+                TCMMMSession *session = [sessions objectAtIndex:aChildIndex];
+                if (aTag == TCMMMBrowserChildNameTag) {
+                    return [session filename];
+                } else if (aTag == TCMMMBrowserChildIconImageTag) {
+                    NSString *extension = [[session filename] pathExtension];
+                    NSImage *icon = [icons objectForKey:extension];
+                    if (!icon) {
+                        icon = [[[NSWorkspace sharedWorkspace] iconForFileType:extension] copy];
+                        [icon setSize:NSMakeSize(16, 16)];
+                        [icons setObject:[icon autorelease] forKey:extension];
+                    }
+                    return icon;
+                } else if (aTag == TCMMMBrowserChildStatusImageTag) {
+                    switch ([session accessState]) {
+                        case TCMMMSessionAccessLockedState:
+                            return statusLock;
+                        case TCMMMSessionAccessReadOnlyState:
+                            return statusReadOnly;
+                        case TCMMMSessionAccessReadWriteState:
+                            return statusReadWrite;
+                    }            
+                }
+            }
+        }
+        return nil;
     }
-    return nil;
 }
 
-- (NSString *)listView:(TCMMMBrowserListView *)aListView toolTipStringAtIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
     
     if (anIndex != -1) 
         return nil;
@@ -894,32 +878,6 @@ static InternetBrowserController *sharedInstance = nil;
     }
     
     return nil;
-}
-
-- (BOOL)listView:(TCMMMBrowserListView *)listView writeRows:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pboard {
-    BOOL allowDrag = YES;
-    NSMutableArray *users = [NSMutableArray array];
-    NSMutableIndexSet *set = [indexes mutableCopy];
-    unsigned int index;
-    while ((index = [set firstIndex]) != NSNotFound) {
-        ItemChildPair pair = [listView itemChildPairAtRow:index];
-        NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
-        [users addObject:item];
-        if (pair.childIndex != -1) {
-            allowDrag = NO;
-            break;
-        }
-        [set removeIndex:index];
-    }
-    [set release];
-    
-    if (allowDrag) {
-        [pboard declareTypes:[NSArray arrayWithObject:@"PboardTypeTBD"] owner:nil];
-        NSData *data = [NSArchiver archivedDataWithRootObject:users];
-        [pboard setData:data forType:@"PboardTypeTBD"];
-    }
-    
-    return allowDrag;
 }
 
 #pragma mark -

@@ -10,6 +10,8 @@
 
 extern NSString *ListViewDidChangeSelectionNotification;
 
+#define TCMListViewActionButtonImageTag 9999
+
 @interface TCMListView : NSView
 {
     NSButtonCell *I_disclosureCell;
@@ -19,6 +21,7 @@ extern NSString *ListViewDidChangeSelectionNotification;
     id I_target;
     SEL I_action;
     SEL I_doubleAction;
+    int I_actionRow;
     
     
     // Selection
@@ -39,6 +42,8 @@ extern NSString *ListViewDidChangeSelectionNotification;
 + (float)itemRowHeight;
 + (float)childRowHeight;
 + (float)itemRowGapHeight;
++ (float)actionImagePadding;
++ (NSColor *)alternateRowColor;
 
 - (void)drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground;
 - (void)drawItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground;
@@ -56,6 +61,7 @@ extern NSString *ListViewDidChangeSelectionNotification;
 - (void)setAction:(SEL)anAction;
 - (void)setDoubleAction:(SEL)anAction;
 - (int)clickedRow;
+- (int)actionRow;
 - (ItemChildPair)itemChildPairAtRow:(int)aIndex;
 - (int)rowForItem:(int)anItemIndex child:(int)aChildIndex;
 - (void)reloadData;
@@ -80,6 +86,8 @@ extern NSString *ListViewDidChangeSelectionNotification;
 @interface NSObject(ListViewDataSourceAdditions)
 - (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex;
 - (id) listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex;
+- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex;
+- (BOOL)listView:(TCMListView *)listView writeRows:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pboard;
 @end
 
 

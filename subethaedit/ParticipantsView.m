@@ -23,7 +23,7 @@
     return 38.;
 }
 + (float)itemRowGapHeight {
-    return 22.;
+    return 11.;
 }
 
 - (void)drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground {

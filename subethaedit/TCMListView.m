@@ -34,6 +34,9 @@ NSString *ListViewDidChangeSelectionNotification=
 + (float)itemRowGapHeight {
     return 22.;
 }
++ (float)actionImagePadding {
+    return 4.;
+}
 
 + (NSColor *)alternateRowColor {
     static NSColor *alternateRowColor=nil;
@@ -151,12 +154,14 @@ NSString *ListViewDidChangeSelectionNotification=
                     [childStep concat];
                 }
                 pair.childIndex++;
-                if (itemRowGapHeight>=1. && !(pair.childIndex < I_indexNumberOfChildren[pair.itemIndex])) {
+                if (!(pair.childIndex < I_indexNumberOfChildren[pair.itemIndex])) {
                     pair.itemIndex++;
                     pair.childIndex=-1;
-                    [[NSColor whiteColor] set];
-                    NSRectFill(NSMakeRect(smallRect.origin.x,0,smallRect.size.width,itemRowGapHeight));
-                    [itemGapStep concat];
+                    if (itemRowGapHeight>=1.) {
+                        [[NSColor whiteColor] set];
+                        NSRectFill(NSMakeRect(smallRect.origin.x,0,smallRect.size.width,itemRowGapHeight));
+                        [itemGapStep concat];
+                    }
                 }
                 startRow++;
             }
@@ -364,15 +369,38 @@ NSString *ListViewDidChangeSelectionNotification=
     
     I_clickedRow = [self TCM_indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
-        if ([aEvent modifierFlags] & NSCommandKeyMask) {
-            [self selectRow:I_clickedRow byExtendingSelection:YES];
-        } else {
-            [self selectRow:I_clickedRow byExtendingSelection:NO];
+        ItemChildPair pair=[self itemChildPairAtRow:I_clickedRow];
+        BOOL causedAction=NO;
+        if (pair.childIndex==-1) {
+            NSImage *actionImage=[[self dataSource] listView:self objectValueForTag:TCMListViewActionButtonImageTag atChildIndex:-1 ofItemAtIndex:pair.itemIndex];
+            if (actionImage) {
+                NSRect itemRect=[self rectForItem:pair.itemIndex child:pair.childIndex];
+                NSRect bounds=[self bounds];
+                NSSize size=[actionImage size];
+                float actionImagePadding=[[self class] actionImagePadding];
+                if (point.x>=bounds.size.width-actionImagePadding-size.width && point.x<=bounds.size.width-actionImagePadding) {
+                    float actionImageInset=(int)((itemRect.size.height-size.height)/2.);
+                    if (point.y>=itemRect.origin.y+actionImageInset && point.y<=itemRect.origin.y+itemRect.size.height-actionImageInset) {
+                        causedAction=YES;
+                        I_actionRow = I_clickedRow;
+                        if (I_target && [I_target respondsToSelector:I_action]) {
+                            [I_target performSelector:I_action withObject:self];
+                        }
+                    }
+                }
+            }
         }
-        if ([aEvent clickCount] == 2 && I_target && [I_target respondsToSelector:I_doubleAction]) {
-            [I_target performSelector:I_doubleAction withObject:self];
-        } else if ([aEvent modifierFlags] & NSControlKeyMask) {
-            [self contextMenuMouseDown:aEvent];
+        if (!causedAction) {
+            if ([aEvent modifierFlags] & NSCommandKeyMask) {
+                [self selectRow:I_clickedRow byExtendingSelection:YES];
+            } else {
+                [self selectRow:I_clickedRow byExtendingSelection:NO];
+            }
+            if ([aEvent clickCount] == 2 && I_target && [I_target respondsToSelector:I_doubleAction]) {
+                [I_target performSelector:I_doubleAction withObject:self];
+            } else if ([aEvent modifierFlags] & NSControlKeyMask) {
+                [self contextMenuMouseDown:aEvent];
+            }
         }
     }
     //NSLog(@"indexOfRow: %d", I_clickedRow);
@@ -400,6 +428,93 @@ NSString *ListViewDidChangeSelectionNotification=
     [self setNeedsDisplay:YES];
 }
 
+#pragma mark -
+#pragma mark ### Dragging Source/Destination ###
+
+// Dragging Source
+- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
+    NSLog(@"draggingSourceOperationMaskForLocal: %@", isLocal ? @"YES" : @"NO");
+    return NSDragOperationGeneric;
+}
+
+// Dragging Source
+- (void)draggedImage:(NSImage *)anImage endedAt:(NSPoint)aPoint operation:(NSDragOperation)operation {
+    NSLog(@"draggedImage:endedAt:operation: %d", operation);
+}
+
+// Dragging Destination
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
+    return NSDragOperationNone;
+}
+
+// Dragging Destination
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+    return NO;
+}
+
+- (NSImage *)dragImage {
+    Class myClass=[self class];
+    float itemRowHeight   =[myClass itemRowHeight];
+    float childRowHeight  =[myClass childRowHeight];
+
+    NSMutableIndexSet *rows=[[self selectedRowIndexes] mutableCopy];
+    int rowIndex=-1;
+    NSMutableArray *itemChildPairs=[NSMutableArray array];
+    NSSize imageSize=[self bounds].size;
+    imageSize.height=0;
+    while ([rows count]) {
+        rowIndex=[rows firstIndex];
+        ItemChildPair pair=[self itemChildPairAtRow:rowIndex];
+        imageSize.height+=pair.childIndex==-1?itemRowHeight:childRowHeight;
+        [itemChildPairs addObject:[NSValue valueWithBytes:&pair objCType:@encode(ItemChildPair)]];
+        [rows removeIndex:rowIndex];
+    }
+    [rows release];
+
+    NSImage *resultImage=[[NSImage alloc] initWithSize:imageSize];
+    [resultImage setFlipped:YES];
+    [NSGraphicsContext saveGraphicsState];
+    [resultImage lockFocus];
+    [[NSColor clearColor] set];
+    NSRectFill(NSMakeRect(0,0,imageSize.width,imageSize.height));
+    NSAffineTransform *itemStep=[NSAffineTransform transform];
+    [itemStep translateXBy:0 yBy:itemRowHeight];
+    NSAffineTransform *childStep=[NSAffineTransform transform];
+    [childStep translateXBy:0 yBy:childRowHeight];
+    NSEnumerator *pairValues=[itemChildPairs objectEnumerator];
+    NSValue *value=nil;
+    while ((value=[pairValues nextObject])) {
+        ItemChildPair pair;
+        [value getValue:&pair];
+        if (pair.childIndex==-1) {
+            [self drawItemAtIndex:pair.itemIndex drawBackground:NO];
+            [itemStep concat];
+        } else {
+            [self drawChildWithIndex:pair.childIndex ofItemAtIndex:pair.itemIndex drawBackground:NO];
+            [childStep concat];
+        }
+    }
+    [resultImage unlockFocus];
+    [NSGraphicsContext restoreGraphicsState];
+    [resultImage setFlipped:NO];
+    return resultImage;
+}
+
+- (void)mouseDragged:(NSEvent *)anEvent {
+//    NSLog(@"mouseDragged");
+        
+    NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+
+    BOOL allowDrag = NO;
+    id dataSource = [self dataSource];
+    if ([dataSource respondsToSelector:@selector(listView:writeRows:toPasteboard:)]) {
+        allowDrag = [dataSource listView:self writeRows:[self selectedRowIndexes] toPasteboard:pboard];
+    }
+
+    if (allowDrag) {
+        [self dragImage:[self dragImage] at:[self convertPoint:[anEvent locationInWindow] fromView:nil] offset:NSMakeSize(0.0, 0.0) event:anEvent pasteboard:pboard source:self slideBack:YES];
+    }
+}
 
 #pragma mark ### Scrollview Notification Handling ###
 
@@ -433,6 +548,7 @@ NSString *ListViewDidChangeSelectionNotification=
 
 
 - (void)TCM_rebuildIndices {
+    [self removeAllToolTips];
 
     Class myClass=[self class];
     float itemRowHeight   =[myClass itemRowHeight];
@@ -463,6 +579,11 @@ NSString *ListViewDidChangeSelectionNotification=
         NSRange yRange=NSMakeRange(yPosition,itemRowHeight+numberOfChildren*childRowHeight);
         I_indexYRangesForItem[itemIndex]=yRange;
         yPosition=NSMaxRange(yRange);
+        [self addToolTipRect:NSMakeRect(0,yRange.location,FLT_MAX,itemRowHeight) owner:self userData:nil];
+        int childIndex=0;
+        for (childIndex=0;childIndex<numberOfChildren;childIndex++) {
+            [self addToolTipRect:NSMakeRect(0,yRange.location+itemRowHeight+childIndex*childRowHeight,FLT_MAX,childRowHeight) owner:self userData:nil];
+        }
         row+=numberOfChildren+1;
         yPosition+=itemRowGapHeight;
     }
@@ -481,6 +602,19 @@ NSString *ListViewDidChangeSelectionNotification=
     I_indicesNeedRebuilding = NO;
 }
 
+- (NSString *)view:(NSView *)view stringForToolTip:(NSToolTipTag)tag point:(NSPoint)point userData:(void *)userData {
+    int index=[self TCM_indexOfRowAtPoint:point];
+    if (index!=-1) {
+        ItemChildPair pair=[self itemChildPairAtRow:index];
+        id dataSource=[self dataSource];
+        if ([dataSource respondsToSelector:@selector(listView:toolTipStringAtChildIndex:ofItemAtIndex:)]) {
+            return [dataSource listView:self toolTipStringAtChildIndex:pair.childIndex ofItemAtIndex:pair.itemIndex];
+        }
+    }
+    return nil;
+}
+
+
 #pragma mark -
 - (BOOL)isFlipped {
     return YES;
@@ -497,6 +631,9 @@ NSString *ListViewDidChangeSelectionNotification=
     return I_clickedRow;
 }
 
+- (int)actionRow {
+    return I_actionRow;
+}
 
 - (void)setDelegate:(id)aDelegate
 {

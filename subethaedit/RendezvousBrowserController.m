@@ -204,19 +204,20 @@ static RendezvousBrowserController *sharedInstance=nil;
 #pragma mark -
 #pragma mark ### TCMMMBrowserListViewDataSource methods ###
 
-- (int)numberOfItemsInListView:(TCMMMBrowserListView *)aListView {
-    return [I_data count];
-}
-
-- (int)listView:(TCMMMBrowserListView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex {
-    if (anItemIndex>=0 && anItemIndex<[I_data count]) {
-        NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
-        return [[item objectForKey:@"Sessions"] count];
+- (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex {
+    if (anItemIndex==-1) {
+        return [I_data count];
+    } else {
+        if (anItemIndex>=0 && anItemIndex<[I_data count]) {
+            NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
+            return [[item objectForKey:@"Sessions"] count];
+        }
+        return 0;
     }
-    return 0;
 }
 
-- (BOOL)listView:(TCMMMBrowserListView *)aListView isItemExpandedAtIndex:(int)anItemIndex {
+// not used
+- (BOOL)listView:(TCMListView *)aListView isItemExpandedAtIndex:(int)anItemIndex {
     if (anItemIndex>=0 && anItemIndex<[I_data count]) {
         NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
         return [[item objectForKey:@"isExpanded"] boolValue];
@@ -224,76 +225,79 @@ static RendezvousBrowserController *sharedInstance=nil;
     return YES;
 }
 
-- (void)listView:(TCMMMBrowserListView *)aListView setExpanded:(BOOL)isExpanded itemAtIndex:(int)anItemIndex {
+- (void)listView:(TCMListView *)aListView setExpanded:(BOOL)isExpanded itemAtIndex:(int)anItemIndex {
     if (anItemIndex>=0 && anItemIndex<[I_data count]) {
         NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
         [item setObject:[NSNumber numberWithBool:isExpanded] forKey:@"isExpanded"];
     }
 }
 
-- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
-    if (anItemIndex>=0 && anItemIndex<[I_data count]) {
-        NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
-        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
-    
-        if (aTag==TCMMMBrowserItemNameTag) {
-            return [user name];
-        } else if (aTag==TCMMMBrowserItemStatusTag) {
-            return [NSString stringWithFormat:@"%d Document(s)",[[item objectForKey:@"Sessions"] count]];
-        } else if (aTag==TCMMMBrowserItemImageTag) {
-            return [[user properties] objectForKey:@"Image32"];
-        } else if (aTag==TCMMMBrowserItemImageNextToNameTag) {
-            return [[user properties] objectForKey:@"ColorImage"];
-        } 
-    }
-    return nil;
-}
 
-- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
-    static NSImage *statusLock=nil;
-    static NSImage *statusReadOnly=nil;
-    static NSImage *statusReadWrite=nil;
-    static NSMutableDictionary *icons =nil;
-    
-    if (!icons) {
-        icons=[NSMutableDictionary new];
-        statusLock     =[[NSImage imageNamed:@"StatusLock"     ] retain];
-        statusReadOnly =[[NSImage imageNamed:@"StatusReadOnly" ] retain];
-        statusReadWrite=[[NSImage imageNamed:@"StatusReadWrite"] retain];
-    }
-    if (anItemIndex>=0 && anItemIndex<[I_data count]) {
-        NSDictionary *item=[I_data objectAtIndex:anItemIndex];
-//        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:[item objectForKey:@"UserID"]];
-        NSArray *sessions=[item objectForKey:@"Sessions"];
-        if (anIndex >= 0 && anIndex < [sessions count]) {
-            TCMMMSession *session=[sessions objectAtIndex:anIndex];
-            if (aTag==TCMMMBrowserChildNameTag) {
-                return [session filename];
-            } else if (aTag==TCMMMBrowserChildIconImageTag) {
-                NSString *extension=[[session filename] pathExtension];
-                NSImage *icon=[icons objectForKey:extension];
-                if (!icon) {
-                    icon = [[[NSWorkspace sharedWorkspace] iconForFileType:extension] copy];
-                    [icon setSize:NSMakeSize(16,16)];
-                    [icons setObject:[icon autorelease] forKey:extension];
-                }
-                return icon;
-            } else if (aTag==TCMMMBrowserChildStatusImageTag) {
-                switch ([session accessState]) {
-                    case TCMMMSessionAccessLockedState:
-                        return statusLock;
-                    case TCMMMSessionAccessReadOnlyState:
-                        return statusReadOnly;
-                    case TCMMMSessionAccessReadWriteState:
-                        return statusReadWrite;
+
+- (id)listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
+    if (aChildIndex == -1) {
+        if (anItemIndex>=0 && anItemIndex<[I_data count]) {
+            NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
+            TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
+        
+            if (aTag==TCMMMBrowserItemNameTag) {
+                return [user name];
+            } else if (aTag==TCMMMBrowserItemStatusTag) {
+                return [NSString stringWithFormat:@"%d Document(s)",[[item objectForKey:@"Sessions"] count]];
+            } else if (aTag==TCMMMBrowserItemImageTag) {
+                return [[user properties] objectForKey:@"Image32"];
+            } else if (aTag==TCMMMBrowserItemImageNextToNameTag) {
+                return [[user properties] objectForKey:@"ColorImage"];
+            } 
+        }
+        return nil;
+    } else {
+        static NSImage *statusLock=nil;
+        static NSImage *statusReadOnly=nil;
+        static NSImage *statusReadWrite=nil;
+        static NSMutableDictionary *icons =nil;
+        
+        if (!icons) {
+            icons=[NSMutableDictionary new];
+            statusLock     =[[NSImage imageNamed:@"StatusLock"     ] retain];
+            statusReadOnly =[[NSImage imageNamed:@"StatusReadOnly" ] retain];
+            statusReadWrite=[[NSImage imageNamed:@"StatusReadWrite"] retain];
+        }
+        if (anItemIndex>=0 && anItemIndex<[I_data count]) {
+            NSDictionary *item=[I_data objectAtIndex:anItemIndex];
+    //        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:[item objectForKey:@"UserID"]];
+            NSArray *sessions=[item objectForKey:@"Sessions"];
+            if (aChildIndex >= 0 && aChildIndex < [sessions count]) {
+                TCMMMSession *session=[sessions objectAtIndex:aChildIndex];
+                if (aTag==TCMMMBrowserChildNameTag) {
+                    return [session filename];
+                } else if (aTag==TCMMMBrowserChildIconImageTag) {
+                    NSString *extension=[[session filename] pathExtension];
+                    NSImage *icon=[icons objectForKey:extension];
+                    if (!icon) {
+                        icon = [[[NSWorkspace sharedWorkspace] iconForFileType:extension] copy];
+                        [icon setSize:NSMakeSize(16,16)];
+                        [icons setObject:[icon autorelease] forKey:extension];
+                    }
+                    return icon;
+                } else if (aTag==TCMMMBrowserChildStatusImageTag) {
+                    switch ([session accessState]) {
+                        case TCMMMSessionAccessLockedState:
+                            return statusLock;
+                        case TCMMMSessionAccessReadOnlyState:
+                            return statusReadOnly;
+                        case TCMMMSessionAccessReadWriteState:
+                            return statusReadWrite;
+                    }
                 }
             }
         }
+        return nil;
+    
     }
-    return nil;
 }
 
-- (NSString *)listView:(TCMMMBrowserListView *)aListView toolTipStringAtIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
     if (anItemIndex>=0 && anItemIndex<[I_data count]) {
         NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
         TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
@@ -304,7 +308,7 @@ static RendezvousBrowserController *sharedInstance=nil;
     return nil;
 }
 
-- (BOOL)listView:(TCMMMBrowserListView *)listView writeRows:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pboard {
+- (BOOL)listView:(TCMListView *)listView writeRows:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pboard {
     BOOL allowDrag = YES;
     NSMutableArray *plist = [NSMutableArray array];
     NSMutableIndexSet *set = [indexes mutableCopy];
