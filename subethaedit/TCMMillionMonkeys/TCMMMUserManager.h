@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TCMMMUser.h"
 
 extern NSString * const TCMMMUserManagerUserDidChangeNotification;
 

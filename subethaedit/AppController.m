@@ -35,6 +35,7 @@
 #import "FontAttributesToStringValueTransformer.h"
 #import "HueToColorValueTransformer.h"
 #import "SaturationToColorValueTransformer.h"
+#import "PointsToDisplayValueTransformer.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -100,9 +101,10 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     FontAttributesToStringValueTransformer *fontTrans=[[FontAttributesToStringValueTransformer new] autorelease];
     [NSValueTransformer setValueTransformer:fontTrans
                                     forName:@"FontAttributesToString"];
-    HueToColorValueTransformer *hueTrans=[[HueToColorValueTransformer new] autorelease];
-    [NSValueTransformer setValueTransformer:hueTrans
+    [NSValueTransformer setValueTransformer:[[HueToColorValueTransformer new] autorelease]
                                     forName:@"HueToColor"];
+    [NSValueTransformer setValueTransformer:[[PointsToDisplayValueTransformer new] autorelease]
+                                    forName:@"PointsToDisplay"];
     SaturationToColorValueTransformer *satTrans=[[[SaturationToColorValueTransformer alloc] initWithColor:[NSColor blackColor]] autorelease];
     [NSValueTransformer setValueTransformer:satTrans 
                                     forName:@"SaturationToBlackColor"];
@@ -508,6 +510,16 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 - (IBAction)reportBug:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.codingmonkeys.de/bugs/"]];
+}
+
+- (void)changeFont:(id)aSender {
+    NSEnumerator *orderedWindowEnumerator=[[NSApp orderedWindows] objectEnumerator];
+    NSWindow *window;
+    while ((window=[orderedWindowEnumerator nextObject])) {
+        if ([[window windowController] document]) {
+            [[[window windowController] document] changeFont:aSender];
+        }
+    }
 }
 
 @end

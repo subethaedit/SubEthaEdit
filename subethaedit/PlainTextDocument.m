@@ -200,6 +200,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_initHelper {
+    I_printOperationIsRunning=NO;
     I_suspendedScriptCommands = [NSMutableArray new];
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
@@ -794,6 +795,9 @@ static NSString *tempFileName(NSString *origPath) {
 
     [O_exportSheetController release];
     [O_exportSheet release];
+    
+    [O_printOptionView release];
+    [O_printOptionController release];
 
     [I_documentMode release];
     [I_documentBackgroundColor release];
@@ -1346,7 +1350,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     
         NSString *htmlFile=[aPanel filename];
-        NSString *imageDirectory;
+        NSString *imageDirectory=@"";
         if (shouldSaveImages) {
             NSFileManager *fileManager=[NSFileManager defaultManager];
             imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"img"];
@@ -2862,13 +2866,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return result;
 }
 
+#pragma mark -
+#pragma mark ### Printing ###
+
 - (NSTextView *)printableView {
     // make sure everything is colored if it should be
-    if (I_flags.highlightSyntax) {
-        SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
-        if (highlighter)
-            while (![highlighter colorizeDirtyRanges:I_textStorage ofDocument: self]);
-    }
     MultiPagePrintView *printView=[[MultiPagePrintView alloc] initWithFrame:NSMakeRect(0.,0.,100.,100.) document:self];
 
     return [printView autorelease];
@@ -2886,20 +2888,61 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[self printInfo] setTopMargin:2.*cmToPoints];
     [[self printInfo] setBottomMargin:2.*cmToPoints];
 
+    if (!O_printOptionView) {
+        [NSBundle loadNibNamed:@"PrintOptions" owner:self];
+    }
+
     // Construct the print operation and setup Print panel
     NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:[self printInfo]];
     [op setShowPanels:showPanels];
 
     if (showPanels) {
         // Add accessory view, if needed
+        [op setAccessoryView:O_printOptionView];
+        [O_printOptionController setContent:[op printInfo]];
     }
-
+    I_printOperationIsRunning=YES;
     // Run operation, which shows the Print panel if showPanels was YES
     [self runModalPrintOperation:op
-                        delegate:nil
-                  didRunSelector:NULL
-                     contextInfo:NULL];
+                        delegate:self
+                  didRunSelector:@selector(documentDidRunModalPrintOperation:success:contextInfo:)
+                     contextInfo:[op retain]];
 }
+
+- (void)documentDidRunModalPrintOperation:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
+    I_printOperationIsRunning=NO;
+    NSPrintOperation *op=(NSPrintOperation *)contextInfo;
+    if (success) {
+        [self setPrintInfo:[[NSPrintOperation currentOperation] printInfo]];
+    }
+    [op release];
+}
+
+- (IBAction)changeFontViaPanel:(id)sender {
+    NSDictionary *fontAttributes=[[O_printOptionController content] valueForKeyPath:@"dictionary.SEEFontAttributes"];
+    NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    
+    [[NSFontManager sharedFontManager] 
+        setSelectedFont:newFont 
+             isMultiple:NO];
+    [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
+}
+
+- (void)changeFont:(id)aSender {
+    NSFont *newFont = [aSender convertFont:I_fonts.plainFont];
+    if (I_printOperationIsRunning) {
+        NSMutableDictionary *dict=[NSMutableDictionary dictionary];
+        [dict setObject:[newFont fontName] 
+                 forKey:NSFontNameAttribute];
+        [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
+                 forKey:NSFontSizeAttribute];
+        [[O_printOptionController content] setValue:dict forKeyPath:@"dictionary.SEEFontAttributes"];
+    } else {
+        [self setPlainFont:newFont];
+    }
+}
+
 
 #pragma mark -
 - (UndoManager *)documentUndoManager {
@@ -3216,11 +3259,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [self setDocumentMode:newMode];
         I_flags.shouldSelectModeOnSave=NO;
     }
-}
-
-- (void)changeFont:(id)aSender {
-    NSFont *newFont = [aSender convertFont:I_fonts.plainFont];
-    [self setPlainFont:newFont];
 }
 
 - (void)setHighlightsSyntax:(BOOL)aFlag {

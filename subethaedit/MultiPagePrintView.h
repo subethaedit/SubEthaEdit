@@ -19,8 +19,14 @@
     NSPoint I_textContainerOrigin;
     PlainTextDocument *I_document;
     NSTextView *I_headerTextView;
+    NSString *I_headerFormatString;
+    NSDictionary *I_headerAttributes;
 }
 
+- (void)setHeaderFormatString:(NSString *)aString;
+- (NSString *)headerFormatString;
+- (void)setHeaderAttributes:(NSDictionary *)aHeaderAttributes;
+- (NSDictionary *)headerAttributes;
 - (id)initWithFrame:(NSRect)frame document:(PlainTextDocument *)aDocument;
 
 @end

@@ -69,10 +69,8 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSMutableParagraphStyle *I_defaultParagraphStyle;
     NSDictionary *I_fileAttributes;
     NSDictionary *I_ODBParameters;
+
     NSMutableArray *I_suspendedScriptCommands;
-    
-    IBOutlet NSWindow *O_exportSheet;
-    IBOutlet NSObjectController *O_exportSheetController;
     
     IBOutlet NSView *O_savePanelAccessoryView;
     IBOutlet NSView *O_savePanelAccessoryView2;
@@ -114,6 +112,15 @@ extern NSString * const ChangedByUserIDAttributeName;
     
     UndoManager *I_undoManager;
     TextOperation *I_lastRegisteredUndoOperation;
+    
+    // Print nib
+    IBOutlet NSView *O_printOptionView;
+    IBOutlet NSObjectController *O_printOptionController;
+    BOOL I_printOperationIsRunning;
+
+    // export nib
+    IBOutlet NSWindow *O_exportSheet;
+    IBOutlet NSObjectController *O_exportSheetController;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
@@ -245,6 +252,9 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (IBAction)exportDocument:(id)aSender;
 - (IBAction)cancelExport:(id)aSender;
 - (IBAction)continueExport:(id)aSender;
+
+#pragma mark ### Printing ###
+- (IBAction)changeFontViaPanel:(id)sender;
 
 
 #pragma mark -

@@ -788,6 +788,8 @@ subethaedit/PlainTextEditor.h -text
 subethaedit/PlainTextEditor.m -text
 subethaedit/PlainTextWindowController.h -text
 subethaedit/PlainTextWindowController.m -text
+subethaedit/PointsToDisplayValueTransformer.h -text
+subethaedit/PointsToDisplayValueTransformer.m -text
 subethaedit/PopUpButton.h -text
 subethaedit/PopUpButton.m -text
 subethaedit/PopUpButtonCell.h -text
@@ -795,6 +797,10 @@ subethaedit/PopUpButtonCell.m -text
 subethaedit/Preferences.nib/classes.nib -text
 subethaedit/Preferences.nib/info.nib -text
 subethaedit/Preferences.nib/keyedobjects.nib -text
+subethaedit/PrintTextView.h -text
+subethaedit/PrintTextView.m -text
+subethaedit/PrintTypesetter.h -text
+subethaedit/PrintTypesetter.m -text
 subethaedit/PullDownButton.h -text
 subethaedit/PullDownButton.m -text
 subethaedit/PullDownButtonCell.h -text
