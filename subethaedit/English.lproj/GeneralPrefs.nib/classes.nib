@@ -1,0 +1,17 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = GeneralPreferences; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = TCMPreferenceModule; 
+        }, 
+        {
+            CLASS = TCMPreferenceModule; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"O_window" = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

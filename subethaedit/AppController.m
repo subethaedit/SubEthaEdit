@@ -15,7 +15,8 @@
 #import "RendezvousBrowserController.h"
 #import "InternetController.h"
 #import "DebugPreferences.h"
-#import "EncodingPreferences.h"
+#import "EditPreferences.h"
+#import "GeneralPreferences.h"
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 #import "DocumentModeManager.h"
@@ -136,6 +137,13 @@ int const WindowMenuTag = 3000;
     [self addMe];
     [self setupFileEncodingsSubmenu];
     [self setupScriptMenu];
+
+    GeneralPreferences *generalPrefs = [[GeneralPreferences new] autorelease];
+    [TCMPreferenceController registerPrefModule:generalPrefs];
+    EditPreferences *editPrefs = [[EditPreferences new] autorelease];
+    [TCMPreferenceController registerPrefModule:editPrefs];
+    DebugPreferences *debugPrefs = [[DebugPreferences new] autorelease];
+    [TCMPreferenceController registerPrefModule:debugPrefs];
     
     DocumentModeManager *manager=[DocumentModeManager sharedInstance];
     NSLog(@"%@",[manager description]);
@@ -164,10 +172,7 @@ int const WindowMenuTag = 3000;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is acutally after the opening of the first untitled document window!
-    DebugPreferences *debugPrefs = [[DebugPreferences new] autorelease];
-    [TCMPreferenceController registerPrefModule:debugPrefs];
-    EncodingPreferences *encodingPrefs = [[EncodingPreferences new] autorelease];
-    [TCMPreferenceController registerPrefModule:encodingPrefs];
+
     // set up beep profiles
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
