@@ -713,8 +713,8 @@
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
     PlainTextDocument *document = [self document];
-    
-    if (![document isFileWritable] && ![document editAnyway]) {
+
+    if (document && ![document isFileWritable] && ![document editAnyway]) {
         NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                                     @"EditAnywayAlert", @"Alert",
                                                     aTextView, @"TextView",
