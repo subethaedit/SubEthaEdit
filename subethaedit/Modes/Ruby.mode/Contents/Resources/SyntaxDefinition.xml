@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>Ruby</name>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
+    </head>
+
+    <states>
+    
+        <default id="Base" color="#000">
+            <keywords id="Literals" color="#00f" useforautocomplete="yes">
+				<string>true</string>
+				<string>false</string>
+				<string>nil</string>
+            </keywords>
+            <keywords id="Attribute Definitions" color="#673820" useforautocomplete="yes">
+                <string>attr</string>
+                <string>attr_reader</string>
+                <string>attr_writer</string>
+                <string>attr_accessor</string>
+            </keywords>
+            <keywords id="Definitions" color="#673820" useforautocomplete="yes">
+                <string>alias</string>
+                <string>module</string>
+                <string>class</string>
+                <string>def</string>
+                <string>undef</string>
+            </keywords>
+            <keywords id="Keywords" color="#881350" useforautocomplete="yes">
+                <string>__FILE__</string>
+                <string>__LINE__</string>
+                <string>BEGIN</string>
+                <string>END</string>
+                <string>and</string>
+                <string>begin</string>
+                <string>break</string>
+                <string>case</string>
+                <string>catch</string>
+                <string>defined\?</string>
+                <string>do</string>
+                <string>else</string>
+                <string>elsif</string>
+                <string>end</string>
+                <string>ensure</string>
+                <string>for</string>
+                <string>if</string>
+                <string>in</string>
+                <string>include</string>
+                <string>next</string>
+                <string>not</string>
+                <string>or</string>
+                <string>private</string>
+                <string>protected</string>
+                <string>public</string>
+                <string>redo</string>
+                <string>require</string>
+                <string>rescue</string>
+                <string>retry</string>
+                <string>return</string>
+                <string>super</string>
+                <string>self</string>
+                <string>then</string>
+                <string>throw</string>
+                <string>unless</string>
+                <string>until</string>
+                <string>when</string>
+                <string>while</string>
+                <string>yield</string>
+                <string>nil</string>
+                <string>false</string>
+                <string>true</string>
+            </keywords>
+            <keywords id="Numbers" color="#00f" useforautocomplete="no">
+				<regex>(?&lt;=[^[A-Za-z0-9]]|^)((([0-9]+\.[0-9]*)|(\.[0-9]+)([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]))(([uU][lL]?)|([lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
+            </keywords>
+        </default>
+        
+        <state id="Singleline Comment" color="#236E25" font-style="italic">
+            <begin><regex>#</regex></begin>
+            <end><regex>[\n\r]</regex></end>
+        </state>
+        
+        <state id="String with double quotes" color="#760f15">
+            <begin><regex>"</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+        </state>
+
+        <state id="String with single quotes" color="#760f15">
+            <begin><regex>'</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+        </state>
+
+        <state id="Backticks" color="#760f15">
+            <begin><regex>`</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
+        </state>
+
+    </states>
+
+</syntax>
