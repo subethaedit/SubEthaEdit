@@ -12,6 +12,10 @@
 		<integer>7</integer>
 		<integer>77</integer>
 	</array>
+	<key>IBOpenObjects</key>
+	<array>
+		<integer>5</integer>
+	</array>
 	<key>IBSystem Version</key>
 	<string>7M34</string>
 </dict>
