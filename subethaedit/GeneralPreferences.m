@@ -16,8 +16,8 @@
 
 NSString * const MyColorHuePreferenceKey             = @"MyColorHue";
 NSString * const CustomMyColorHuePreferenceKey       = @"CustomMyColorHue";
-NSString * const SelectionSaturationPreferenceKey    = @"SelectionSaturation";
-NSString * const ChangesSaturationPreferenceKey      = @"ChangesSaturation";
+NSString * const SelectionSaturationPreferenceKey    = @"MySelectionSaturation";
+NSString * const ChangesSaturationPreferenceKey      = @"MyChangesSaturation";
 NSString * const HighlightChangesPreferenceKey       = @"HighlightChanges";
 NSString * const HighlightChangesAlonePreferenceKey  = @"HighlightChangesAlone";
 NSString * const OpenDocumentOnStartPreferenceKey    = @"OpenDocumentOnStart";
