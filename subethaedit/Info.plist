@@ -19,7 +19,7 @@
 			<string>PlainTextType</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
-				<string>????</string>
+				<string>****</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -34,25 +34,11 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>Mode</string>
 			<key>CFBundleTypeName</key>
-			<string>SubEthaEdit Mode</string>
+			<string>SubEthaEditModeType</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<true/>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>see</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>SubEthaEditType</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSTypeIsPackage</key>
-			<true/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>

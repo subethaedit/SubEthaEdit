@@ -7,7 +7,6 @@
 //
 
 #import <Carbon/Carbon.h>
-#import <Security/Security.h>
 
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
@@ -24,18 +23,6 @@
 #import "TextOperation.h"
 #import "SelectionOperation.h"
 #import "ODBEditorSuite.h"
-
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <sys/param.h>
-#include <sys/socket.h>
-#include <sys/mount.h>
-
-#import "MoreSecurity.h"
 
 
 #pragma options align=mac68k
@@ -72,7 +59,6 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_sendPlainTextDocumentDidChangeDisplayNameNotification;
 - (void)TCM_sendODBCloseEvent;
 - (void)TCM_sendODBModifiedEvent;
-- (BOOL)TCM_writeToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType;
 - (BOOL)TCM_validateDocument;
 @end
 
@@ -1010,147 +996,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
     
-    //if (result == NO) {
-    //    result = [self TCM_writeToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
-    //}
-    
     if (saveOperationType != NSSaveToOperation) {
         NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fullDocumentPath traverseLink:YES];
         [self setFileAttributes:fattrs];
         [self setIsFileWritable:[[NSFileManager defaultManager] isWritableFileAtPath:fullDocumentPath]];
-    }
-    
-    return result;
-}
-
-/* Generate a reasonably short temporary unique file, given an original path.
-*/
-static NSString *tempFileName(NSString *origPath) {
-    static int sequenceNumber = 0;
-    NSString *name;
-    do {
-        sequenceNumber++;
-        name = [NSString stringWithFormat:@"%d-%d-%d.%@", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber, [origPath pathExtension]];
-        name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
-    } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
-    return name;
-}
-
-- (BOOL)TCM_writeToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
-    NSLog(@"NSDocument failed to write. Use the force.");
-
-    OSStatus err;
-    CFURLRef tool = NULL;
-    CFDictionaryRef response = NULL;
-    AuthorizationRef auth = NULL;
-    BOOL result = NO;
-    
-    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
-    if (err == noErr) {
-        // If we were doing preauthorization, this is where we'd do it.
-    }
-    
-    // Find our helper tool, possibly restoring it from the template.
-
-    if (err == noErr) {
-        err = MoreSecCopyHelperToolURLAndCheckBundled(CFBundleGetMainBundle(), 
-                                                      CFSTR("SEEHelperTemplate"), 
-                                                      kApplicationSupportFolderType,
-                                                      CFSTR("SubEthaEdit"),
-                                                      CFSTR("SEEHelper"), 
-                                                      &tool);
-    }
-    
-    // If the home directory is on an volume that doesn't support 
-    // setuid root helper tools, ask the user whether they want to use 
-    // a temporary tool.
-
-    if (err == kMoreSecFolderInappropriateErr) {
-        // Ask the user? Well, not really ;-)
-        err = MoreSecCopyHelperToolURLAndCheckBundled(CFBundleGetMainBundle(), 
-                                                      CFSTR("SEEHelperTemplate"), 
-                                                      kTemporaryFolderType,
-                                                      CFSTR("SubEthaEdit"),
-                                                      CFSTR("SEEHelper"), 
-                                                      &tool);        
-    }
-    
-    NSDictionary *curAttributes = nil;
-    
-    NSString *intermediateFileNameToSave;
-    NSString *actualFileNameToSave = [fullDocumentPath stringByResolvingSymlinksInPath]; // Follow links to save
-    curAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:actualFileNameToSave traverseLink:YES];
-
-    // Determine name of intermediate file
-    if (curAttributes) {
-        // Create a unique path in a temporary location.
-        intermediateFileNameToSave = tempFileName(actualFileNameToSave);
-    } else {    // No existing file, just write the final destination
-        intermediateFileNameToSave = actualFileNameToSave;
-    }
-    
-    if (err == noErr) {
-        
-        // use the force to get a root-enabled file descriptor
-        NSDictionary *request = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            @"GetFileDescriptor", @"CommandName",
-                                            intermediateFileNameToSave, @"FileName",
-                                            nil];
-        
-        // Go go gadget helper tool!    
-        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, &response);
-    }
-    
-    if (err == noErr) {
-        NSLog(@"response: %@", (NSDictionary *)response);
-        err = MoreSecGetErrorFromResponse(response);
-        if (err == noErr) {
-            NSArray *descArray = [(NSDictionary *)response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
-            if ([descArray count] > 0) {
-                NSNumber *descNum = [descArray objectAtIndex:0];
-                int desc = [descNum longLongValue];
-                assert(desc >= 0);
-                assert( fcntl(desc, F_GETFD, 0) >= 0 );
-                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:desc closeOnDealloc:YES];
-                NSData *data = [self dataRepresentationOfType:docType];
-                [fileHandle writeData:data];
-                [fileHandle release];
-            }
-        }
-    } 
-    
-    CFRelease(response);
-    response = NULL;
-
-    if (curAttributes) {
-        // use the force to exchange the intermediate and actual file (exchangedata), otherwise use rename
-        NSDictionary *request = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            @"ExchangeFileContents", @"CommandName",
-                                            intermediateFileNameToSave, @"IntermediateFileName",
-                                            actualFileNameToSave, @"ActualFileName",
-                                            curAttributes, @"Attributes",
-                                            nil];
-        
-        // Go go gadget helper tool!    
-        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, &response);
-        if (err == noErr) {
-            NSLog(@"response: %@", (NSDictionary *)response);
-            err = MoreSecGetErrorFromResponse(response);
-            if (err == noErr) {
-                result = YES;
-            }
-        }
-    }
-    
-    CFRelease(response);
-    
-    if (err == noErr) {
-        // set attributes
-    }
-
-    CFRelease(tool);
-    if (auth != NULL) {
-        AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
     }
     
     return result;
