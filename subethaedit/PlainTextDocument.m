@@ -540,8 +540,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         } else {
             [anItem setState:NSOffState];
         }
-    } else if (selector == @selector(toggleUseTabs:)) {
+    } else if (selector == @selector(toggleUsesTabs:)) {
         [anItem setState:(I_flags.usesTabs?NSOnState:NSOffState)];
+        return YES;
+    } else if (selector == @selector(toggleCharacterWrapping:)) {
+        [anItem setState:(I_flags.wrapsCharacters?NSOnState:NSOffState)];
         return YES;
     } else if (selector == @selector(toggleIndentNewLines:)) {
         [anItem setState:(I_flags.indentNewLines?NSOnState:NSOffState)];
@@ -622,6 +625,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (charWidth<=0) {
             charWidth=[font maximumAdvancement].width;
         }
+        [I_defaultParagraphStyle setLineBreakMode:I_flags.wrapsCharacters?NSLineBreakByCharWrapping:NSLineBreakByWordWrapping];
         [I_defaultParagraphStyle setDefaultTabInterval:charWidth*I_tabWidth];
         [I_defaultParagraphStyle addTabStop:[[[NSTextTab alloc] initWithType:NSLeftTabStopType location:charWidth*I_tabWidth] autorelease]];
         [[self textStorage] addAttribute:NSParagraphStyleAttributeName value:I_defaultParagraphStyle range:NSMakeRange(0,[[self textStorage] length])];
@@ -640,6 +644,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                    forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
 
+- (BOOL)wrapsCharacters {
+    return I_flags.wrapsCharacters;
+}
 
 - (BOOL)usesTabs {
     return I_flags.usesTabs;
@@ -668,7 +675,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
-- (IBAction)toggleUseTabs:(id)aSender {
+- (IBAction)toggleCharacterWrapping:(id)aSender {
+    I_flags.wrapsCharacters = !I_flags.wrapsCharacters;
+    [self TCM_invalidateDefaultParagraphStyle];
+}
+
+- (IBAction)toggleUsesTabs:(id)aSender {
     I_flags.usesTabs=!I_flags.usesTabs;
 }
 

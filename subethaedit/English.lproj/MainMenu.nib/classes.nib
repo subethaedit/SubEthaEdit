@@ -12,13 +12,14 @@
                 changeTabWidth = id; 
                 conceal = id; 
                 newView = id; 
+                toggleCharacterWrapping = id; 
                 toggleIndentNewLines = id; 
                 toggleLineNumbers = id; 
                 toggleParticipantsDrawer = id; 
                 toggleShowInvisibles = id; 
                 toggleSplitView = id; 
                 toggleSyntaxHighlighting = id; 
-                toggleUseTabs = id; 
+                toggleUsesTabs = id; 
                 toggleWrap = id; 
             }; 
             CLASS = FirstResponder; 

@@ -14,8 +14,8 @@
 #import "DocumentMode.h"
 
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions) 
--(void)TCM_updateStatusBar;
--(void)TCM_updateBottomStatusBar;
+- (void)TCM_updateStatusBar;
+- (void)TCM_updateBottomStatusBar;
 @end
 
 @implementation PlainTextEditor 
@@ -123,7 +123,7 @@
     NSFont *font=[document fontWithTrait:0];
     float characterWidth=[font widthOfString:@"m"];
     int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
-    [O_windowWidthTextField setStringValue:[NSString stringWithFormat:@"%d%@",charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":@"w"]];
+    [O_windowWidthTextField setStringValue:[NSString stringWithFormat:@"%d%@",charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapsCharacters]?@"c":@"w")]];
 }
 
 - (NSView *)editorView {
@@ -175,10 +175,12 @@
         [I_textView setFrame:frame];
         [I_textView setNeedsDisplay:YES];
     }
+    [self TCM_updateBottomStatusBar];
 }
 
 - (IBAction)toggleLineNumbers:(id)aSender {
     [O_scrollView setRulersVisible:![O_scrollView rulersVisible]];
+    [self TCM_updateBottomStatusBar];
 }
 
 #pragma mark -
@@ -207,6 +209,7 @@
 
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
     [I_textView setDefaultParagraphStyle:[[I_windowController document] defaultParagraphStyle]];
+    [self TCM_updateBottomStatusBar];
 }
 
 
