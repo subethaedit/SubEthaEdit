@@ -714,6 +714,20 @@
 			settings = {
 			};
 		};
+		143BAACF073CF37F00C52549 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = ko.lproj;
+			path = Localizations/ko.lproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143BAB01073CF39100C52549 = {
+			fileRef = 143BAACF073CF37F00C52549;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		143C35DB05ECAC32008C6DFE = {
 			children = (
 				5EEB188005ED1F0500C17677,
@@ -1598,6 +1612,7 @@
 				14B94A9A073BC90E00C6A2EC,
 				1485FF4D0732BCC100A974A2,
 				14B94B97073BE80000C6A2EC,
+				143BAACF073CF37F00C52549,
 				1485FF7F0732BCC100A974A2,
 				148501920732CF3400A974A2,
 			);
@@ -1630,6 +1645,7 @@
 				14B94ACE073BC91700C6A2EC,
 				1485FFB80732BD5800A974A2,
 				14B94D71073BE81200C6A2EC,
+				143BAB01073CF39100C52549,
 				1485FFB90732BD5800A974A2,
 			);
 			isa = PBXCopyFilesBuildPhase;

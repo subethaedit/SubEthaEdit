@@ -1249,6 +1249,7 @@ static NSString *tempFileName(NSString *origPath) {
     
     if (closeTransient) {
         [transientDocument close];
+        transientDocument = nil;
     }
     
     if ([[DocumentController sharedInstance] isOpeningUntitledDocument] && [[AppController sharedInstance] lastShouldOpenUntitledFile]) {
