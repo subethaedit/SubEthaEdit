@@ -98,20 +98,22 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     NSMutableParagraphStyle *style=[NSMutableParagraphStyle new];
     [style setLineBreakMode:NSLineBreakByTruncatingTail];
     [attributes setObject:style forKey:NSParagraphStyleAttributeName];
-    NSFont *font = [NSFont fontWithName:@"ArialMT" size:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
-    if (!font || true) font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
+    NSFont *font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
     NSFont *boldFont      =[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
     NSFont *italicFont    =[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
     NSFont *boldItalicFont=[fontManager convertFont:boldFont toHaveTrait:NSItalicFontMask];
     [attributes setObject:font forKey:NSFontAttributeName];
-    italicSymbolAttributes=[attributes copy];
-    [attributes setObject:boldFont forKey:NSFontAttributeName];
     plainSymbolAttributes=[attributes copy];
+
+    [attributes setObject:boldFont forKey:NSFontAttributeName];
+    boldSymbolAttributes=[attributes copy];
+
     [attributes setObject:italicFont forKey:NSFontAttributeName];
     if ([italicFont isEqualTo:font]) {
         [attributes setObject:[NSNumber numberWithFloat:.2] forKey:NSObliquenessAttributeName];
     }
-    boldSymbolAttributes=[attributes copy];
+    italicSymbolAttributes=[attributes copy];
+
     [attributes setObject:boldItalicFont forKey:NSFontAttributeName];
     boldItalicSymbolAttributes=[attributes copy];
     

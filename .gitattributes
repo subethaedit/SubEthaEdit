@@ -300,6 +300,7 @@ subethaedit/Modes/Objective-C.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Info.plist -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/XML.mode/Contents/Info.plist -text
 subethaedit/Modes/XML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text

@@ -90,7 +90,6 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
 
     if (!cfXMLTree) {
         NSLog(@"Error parsing syntax definition \"%@\":\n%@", aPath, [errorDict description]);
-        CFRelease(cfXMLTree);
         return;
     }        
 

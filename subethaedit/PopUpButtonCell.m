@@ -47,7 +47,7 @@
 }
 
 - (float)desiredWidth {
-    return [self imageWidth]+[self titleWidth]+20.;
+    return [self imageWidth]+[self titleWidth]+22.;
 }
 
 

@@ -3500,6 +3500,7 @@
                 <string>zzip_readdir</string>
             </keywords>
             <keywords id="Keywords" color="#881350" font-weight="bold" useforautocomplete="yes">
+                <string>global</string>
                 <string>print</string>
                 <string>and</string>
                 <string>xor</string>
