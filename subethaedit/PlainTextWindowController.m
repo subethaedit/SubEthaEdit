@@ -130,6 +130,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                                                object:[self document]];
     
     PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
+    [[self window] setInitialFirstResponder:[plainTextEditor textView]];
     [[self window] setContentView:[plainTextEditor editorView]];
     [I_plainTextEditors addObject:plainTextEditor];
     [plainTextEditor release];
