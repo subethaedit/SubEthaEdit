@@ -386,7 +386,7 @@
         </state>
         
         <state id="Inline Javascript" color="#000">
-            <begin><regex>&lt;script</regex></begin>
+            <begin><regex>&lt;script(?:[^"&gt;]|"[^"]*")*(?&lt;!/)&gt;</regex></begin>
             <end><regex>/script&gt;</regex></end>
 
             <keywords id="Javascript Keywords" color="#88134F" useforautocomplete="yes">
