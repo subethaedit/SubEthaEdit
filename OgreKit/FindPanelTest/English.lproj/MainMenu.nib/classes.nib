@@ -2,7 +2,16 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {selectCr = id; selectCrLf = id; selectLf = id; }; 
+            ACTIONS = {
+                newOutlineDocument = id; 
+                newRTFDocument = id; 
+                newTableDocument = id; 
+                newTableDocumentWithCocoaBinding = id; 
+                newTextDocument = id; 
+                selectCr = id; 
+                selectCrLf = id; 
+                selectLf = id; 
+            }; 
             CLASS = MyMenuController; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 

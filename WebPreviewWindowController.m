@@ -6,6 +6,7 @@
 //  Copyright (c) 2003 TheCodingMonkeys. All rights reserved.
 //
 
+#import "TCMMMSession.h"
 #import "WebPreviewWindowController.h"
 #import "PlainTextDocument.h"
 #import "DocumentMode.h"
@@ -34,10 +35,22 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
             _refreshType=refreshType;
         }
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(synchronizeWindowTitleWithDocumentName)
+                                                 name:TCMMMSessionDidChangeNotification 
+                                               object:[(PlainTextDocument *)[self document] session]];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(synchronizeWindowTitleWithDocumentName)
+                                                 name:PlainTextDocumentDidChangeDisplayNameNotification 
+                                               object:[self document]];
     return self;
 }
 
 - (void)dealloc {
+    [oWebView setFrameLoadDelegate:nil];
+    [oWebView setUIDelegate:nil];
+    [oWebView setResourceLoadDelegate:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[self window] orderOut:self];
     [super dealloc];
 }

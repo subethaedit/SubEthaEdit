@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <OgreKit/OgreKit.h>
 #import "DocumentMode.h"
+#import "SyntaxStyle.h"
 
 @interface SyntaxDefinition : NSObject {
     NSString *I_name;               /*"Name (obsolete?)"*/
@@ -21,6 +22,7 @@
     NSMutableArray *I_stylesForRegex;   /*"Chached regexs"*/
     OGRegularExpression *I_combinedStateRegex;     /*"All state-begins in one regex"*/
     BOOL everythingOkay;
+    SyntaxStyle *I_defaultSyntaxStyle;
 }
 
 /*"Initizialisation"*/
@@ -30,7 +32,7 @@
 - (void)parseXMLFile:(NSString *)aPath;
 - (void)parseHeaders:(CFXMLTreeRef)aTree;
 - (void)parseStatesForTreeNode:(CFXMLTreeRef)aTree;
-- (void)stateForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary;
+- (void)stateForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary stateID:(NSString *)aStateID;
 - (void)addKeywordsForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary;
 
 /*"Caching and Precalculation"*/
@@ -45,11 +47,12 @@
 - (NSCharacterSet *)tokenSet;
 - (NSCharacterSet *)invertedTokenSet;
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet;
-- (NSDictionary *)styleForToken:(NSString *)aToken inState:(int)aState;
+- (NSString *)styleForToken:(NSString *)aToken inState:(int)aState;
 - (NSArray *)regularExpressionsInState:(int)aState;
 - (void)setCombinedStateRegex;
 - (OGRegularExpression *)combinedStateRegex;
 - (DocumentMode *)mode;
 - (void)setMode:(DocumentMode *)aMode;
+- (SyntaxStyle *)defaultSyntaxStyle;
 
 @end

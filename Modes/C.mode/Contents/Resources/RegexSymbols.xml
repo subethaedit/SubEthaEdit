@@ -27,7 +27,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Defines" image="Symbol#" indentation="0" ignoreblocks="yes">
+    <symbol id="Defines" indentation="0" ignoreblocks="yes">
         <regex>#define[ \t]*([\w\d()]*)[ \t]+[^\n\r]*[\n\r]</regex>
     </symbol>
 

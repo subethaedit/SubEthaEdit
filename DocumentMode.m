@@ -10,11 +10,11 @@
 #import "DocumentModeManager.h"
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
+#import "SyntaxStyle.h"
 #import "EncodingManager.h"
 #import "SymbolTableEntry.h"
 #import "RegexSymbolParser.h"
 #import "RegexSymbolDefinition.h"
-
 
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
 NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
@@ -37,8 +37,32 @@ NSString * const DocumentModeUseDefaultViewPreferenceKey       = @"UseDefaultVie
 NSString * const DocumentModeUseDefaultEditPreferenceKey       = @"UseDefaultEdit";
 NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFile";
 NSString * const DocumentModeUseDefaultFontPreferenceKey       = @"UseDefaultFont";
+NSString * const DocumentModePrintInfoPreferenceKey            = @"PrintInfo"  ;
+NSString * const DocumentModeUseDefaultPrintPreferenceKey      = @"UseDefaultPrint";
+NSString * const DocumentModeUseDefaultStylePreferenceKey      = @"UseDefaultStyle";
+NSString * const DocumentModeSyntaxStylePreferenceKey          = @"SyntaxStyle";
+
+NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey= @"BackgroundColorIsDark"  ;
+// depricated
 NSString * const DocumentModeForegroundColorPreferenceKey      = @"ForegroundColor"  ;
 NSString * const DocumentModeBackgroundColorPreferenceKey      = @"BackgroundColor"  ;
+
+
+NSString * const DocumentModeExportPreferenceKey               = @"Export";
+NSString * const DocumentModeExportHTMLPreferenceKey           = @"HTML";
+NSString * const DocumentModeHTMLExportAddCurrentDatePreferenceKey   = @"AddCurrentDate"; 
+NSString * const DocumentModeHTMLExportHighlightSyntaxPreferenceKey  = @"HighlightSyntax"; 
+NSString * const DocumentModeHTMLExportShowAIMAndEmailPreferenceKey  = @"ShowAIMAndEmail"; 
+NSString * const DocumentModeHTMLExportShowChangeMarksPreferenceKey  = @"ShowChangeMarks"; 
+NSString * const DocumentModeHTMLExportShowParticipantsPreferenceKey = @"ShowParticipants"; 
+NSString * const DocumentModeHTMLExportShowUserImagesPreferenceKey   = @"ShowUserImages"; 
+NSString * const DocumentModeHTMLExportShowVisitorsPreferenceKey     = @"ShowVisitors"; 
+NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey  = @"WrittenByHovers"; 
+
+NSString * const DocumentModeApplyEditPreferencesNotification  =
+               @"DocumentModeApplyEditPreferencesNotification";
+NSString * const DocumentModeApplyStylePreferencesNotification =
+               @"DocumentModeApplyStylePreferencesNotification";
 
 static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
@@ -81,6 +105,12 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
                                   forKey:DocumentModeFontAttributesPreferenceKey];
+
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultPrintPreferenceKey
+                                  forKey:DocumentModePrintInfoPreferenceKey];
+
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
+                                  forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle {
@@ -109,13 +139,14 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[[self bundle] bundleIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
-            NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
-            NSColor *color=[transformer transformedValue:[dictionary objectForKey:DocumentModeForegroundColorPreferenceKey]];
-            if (!color) color=[NSColor blackColor];
-            [dictionary setObject:color forKey:DocumentModeForegroundColorPreferenceKey];
-            color=[transformer transformedValue:[dictionary objectForKey:DocumentModeBackgroundColorPreferenceKey]];
-            if (!color) color=[NSColor whiteColor];
-            [dictionary setObject:color forKey:DocumentModeBackgroundColorPreferenceKey];
+            // color is depricated since 2.1 - so ignore it
+//            NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
+//            NSColor *color=[transformer transformedValue:[dictionary objectForKey:DocumentModeForegroundColorPreferenceKey]];
+//            if (!color) color=[NSColor blackColor];
+//            [dictionary setObject:color forKey:DocumentModeForegroundColorPreferenceKey];
+//            color=[transformer transformedValue:[dictionary objectForKey:DocumentModeBackgroundColorPreferenceKey]];
+//            if (!color) color=[NSColor whiteColor];
+//            [dictionary setObject:color forKey:DocumentModeBackgroundColorPreferenceKey];
             [self setDefaults:dictionary];
             NSNumber *encodingNumber = [dictionary objectForKey:DocumentModeEncodingPreferenceKey];
             if (encodingNumber) {
@@ -143,8 +174,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeIndentNewLinesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:DocumentModeWrapModeWords] forKey:DocumentModeWrapModePreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:LineEndingLF] forKey:DocumentModeLineEndingPreferenceKey];
-            [I_defaults setObject:[NSColor blackColor] forKey:DocumentModeForegroundColorPreferenceKey];
-            [I_defaults setObject:[NSColor whiteColor] forKey:DocumentModeBackgroundColorPreferenceKey];
+
+			// ignore deprecated color settings, but still set them for backwards compatability
+			NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
+			[I_defaults setObject:[transformer reverseTransformedValue:[NSColor blackColor]] forKey:DocumentModeForegroundColorPreferenceKey];
+            [I_defaults setObject:[transformer reverseTransformedValue:[NSColor whiteColor]] forKey:DocumentModeBackgroundColorPreferenceKey];
             [[EncodingManager sharedInstance] registerEncoding:NoStringEncoding];
             if (![self isBaseMode]) {
                 // read frome modefile? for now use defaults
@@ -156,8 +190,127 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                forKey:DocumentModeUseDefaultFilePreferenceKey];
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
                                forKey:DocumentModeUseDefaultFontPreferenceKey];
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultPrintPreferenceKey];
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultStylePreferenceKey];
             }
         }
+
+        // augment pre 2.1 data if needed
+        if ([self isBaseMode]) {
+            if (![I_defaults objectForKey:DocumentModePrintInfoPreferenceKey]) {
+                NSPrintInfo *printInfo=[NSPrintInfo sharedPrintInfo];
+                NSMutableDictionary *printInfoDictionary=[printInfo dictionary];
+                [printInfoDictionary setObject:[NSNumber numberWithInt:0]
+                                        forKey:@"SEEUseCustomFont"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEResizeDocumentFont"];
+                [printInfoDictionary setObject:[NSNumber numberWithFloat:8]
+                                        forKey:@"SEEResizeDocumentFontTo"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEPageHeader"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEPageHeaderFilename"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEPageHeaderCurrentDate"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEWhiteBackground"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEHighlightSyntax"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEColorizeChangeMarks"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEAnnotateChangeMarks"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:NO]
+                                        forKey:@"SEEColorizeWrittenBy"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEAnnotateWrittenBy"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEParticipants"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEParticipantImages"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEParticipantsAIMAndEmail"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEParticipantsVisitors"];
+                NSFont *font=[NSFont fontWithName:@"Times" size:8];
+                if (!font) font=[NSFont systemFontOfSize:8.5];
+                NSMutableDictionary *dict=[NSMutableDictionary dictionary];
+                [dict setObject:[font fontName] 
+                         forKey:NSFontNameAttribute];
+                [dict setObject:[NSNumber numberWithFloat:8.5] 
+                         forKey:NSFontSizeAttribute];
+                [printInfoDictionary setObject:dict forKey:@"SEEFontAttributes"];
+                float cmToPoints=28.3464567; // google
+                [printInfo   setLeftMargin:2.0*cmToPoints]; // european punchholes are centered 1.2 cm and 0.5cm in diameter
+                [printInfo  setRightMargin:1.0*cmToPoints];
+                [printInfo    setTopMargin:1.0*cmToPoints];
+                [printInfo setBottomMargin:1.0*cmToPoints];
+                [I_defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:printInfo]
+                               forKey:DocumentModePrintInfoPreferenceKey];
+            }
+        } else {
+            if (![I_defaults objectForKey:DocumentModeUseDefaultPrintPreferenceKey]) {
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultPrintPreferenceKey];
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultStylePreferenceKey];
+            }
+        }
+
+        NSMutableDictionary *export=[I_defaults objectForKey:DocumentModeExportPreferenceKey];
+        export = export?[[export mutableCopy] autorelease]:[NSMutableDictionary dictionary];
+        [I_defaults setObject:export forKey:DocumentModeExportPreferenceKey];
+
+        NSMutableDictionary *html=[export objectForKey:DocumentModeExportHTMLPreferenceKey];
+        if (!html) {
+            NSNumber *yes=[NSNumber numberWithBool:YES];
+            html=[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                yes,DocumentModeHTMLExportAddCurrentDatePreferenceKey  ,
+                yes,DocumentModeHTMLExportHighlightSyntaxPreferenceKey ,
+                yes,DocumentModeHTMLExportShowAIMAndEmailPreferenceKey ,
+                yes,DocumentModeHTMLExportShowChangeMarksPreferenceKey ,
+                yes,DocumentModeHTMLExportShowParticipantsPreferenceKey,
+                yes,DocumentModeHTMLExportShowUserImagesPreferenceKey  ,
+                yes,DocumentModeHTMLExportShowVisitorsPreferenceKey    ,
+                yes,DocumentModeHTMLExportWrittenByHoversPreferenceKey ,
+                nil];
+        } else {
+            html=[[html mutableCopy] autorelease];
+        }
+        [export setObject:html forKey:DocumentModeExportHTMLPreferenceKey];
+
+
+        I_defaultSyntaxStyle = [self syntaxHighlighter]?[[[self syntaxHighlighter] defaultSyntaxStyle] copy]:[SyntaxStyle new];
+        [I_defaultSyntaxStyle setDocumentMode:self];
+
+        SyntaxStyle *style=[I_defaultSyntaxStyle copy];
+        NSDictionary *syntaxStyleDictionary=[I_defaults objectForKey:DocumentModeSyntaxStylePreferenceKey];
+        if (syntaxStyleDictionary) {
+            [style takeStylesFromDefaultsDictionary:syntaxStyleDictionary];
+        }        
+
+        if (![I_defaults objectForKey:DocumentModeBackgroundColorIsDarkPreferenceKey]) {
+            [I_defaults setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
+            if ([self isBaseMode] && [I_defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]) {
+                // take old background and foreground color settings
+                NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
+                NSColor *color=nil;
+                
+                color=[transformer transformedValue:[dictionary objectForKey:DocumentModeBackgroundColorPreferenceKey]];
+                if (!color) color=[NSColor whiteColor];
+                BOOL isDark=[color isDark];
+                [I_defaults setObject:[NSNumber numberWithBool:isDark] forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
+                [[style styleForKey:SyntaxStyleBaseIdentifier] setObject:color forKey:isDark?@"inverted-background-color":@"background-color"];
+
+                color=[transformer transformedValue:[I_defaults objectForKey:DocumentModeForegroundColorPreferenceKey]];
+                if (!color) color=[NSColor blackColor];
+                [[style styleForKey:SyntaxStyleBaseIdentifier] setObject:color forKey:isDark?@"inverted-color":@"color"];
+            }
+        }
+
+        [self setSyntaxStyle:style];
         
         [I_defaults addObserver:self
                      forKeyPath:DocumentModeEncodingPreferenceKey
@@ -174,6 +327,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_symbolParser release];
     [I_autocompleteDictionary release];
     [I_bundle release];
+    [I_syntaxStyle release];
+    [I_defaultSyntaxStyle release];
     [super dealloc];
 }
 
@@ -225,10 +380,24 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     if (![self isBaseMode]) {
         NSString *defaultKey=[defaultablePreferenceKeys objectForKey:aKey];
         if (!defaultKey || ![[I_defaults objectForKey:defaultKey] boolValue]) {
-            return [I_defaults objectForKey:aKey];
+            id result=[I_defaults objectForKey:aKey];
+            return result?result:[defaultDefaults objectForKey:aKey];
         }
     }
     return [defaultDefaults objectForKey:aKey];
+}
+
+- (SyntaxStyle *)syntaxStyle {
+    return I_syntaxStyle;
+}
+
+- (void)setSyntaxStyle:(SyntaxStyle *)aStyle {
+    [I_syntaxStyle autorelease];
+    I_syntaxStyle=[aStyle retain];
+}
+
+- (SyntaxStyle *)defaultSyntaxStyle {
+    return I_defaultSyntaxStyle;
 }
 
 - (BOOL)isBaseMode {
@@ -237,13 +406,14 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (void)writeDefaults {
     NSMutableDictionary *defaults=[[self defaults] mutableCopy];
-    NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
-    NSData *data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeForegroundColorPreferenceKey]];
-    if (!data) data=[transformer reverseTransformedValue:[NSColor blackColor]];
-    [defaults setObject:data forKey:DocumentModeForegroundColorPreferenceKey];
-    data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]];
-    if (!data) data=[transformer reverseTransformedValue:[NSColor whiteColor]];
-    [defaults setObject:data forKey:DocumentModeBackgroundColorPreferenceKey];
+//    NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
+//    NSData *data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeForegroundColorPreferenceKey]];
+//    if (!data) data=[transformer reverseTransformedValue:[NSColor blackColor]];
+//    [defaults setObject:data forKey:DocumentModeForegroundColorPreferenceKey];
+//    data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]];
+//    if (!data) data=[transformer reverseTransformedValue:[NSColor whiteColor]];
+//    [defaults setObject:data forKey:DocumentModeBackgroundColorPreferenceKey];
+    [defaults setObject:[[self syntaxStyle] defaultsDictionary] forKey:DocumentModeSyntaxStylePreferenceKey];
     [[NSUserDefaults standardUserDefaults] setObject:defaults forKey:[[self bundle] bundleIdentifier]];
 }
 

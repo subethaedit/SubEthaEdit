@@ -23,7 +23,7 @@
 
 /* constants */
 // version
-#define OgreVersionString	@"1.2.3"
+#define OgreVersionString	@"2.0.0"
 
 // compile time options:
 extern const unsigned	OgreNoneOption;
@@ -90,6 +90,7 @@ extern NSString	* const OgreException;
 {
 	NSString			*_escapeCharacter;				// \の代替文字
 	NSString			*_expressionString;				// 正規表現を表す文字列
+	unichar             *_UTF16ExpressionString;        // 正規表現を表すUTF16文字列
 	unsigned			_options;						// コンパイルオプション
 	OgreSyntax			_syntax;						// 正規表現の構文
 	
@@ -172,6 +173,8 @@ extern NSString	* const OgreException;
 // エスケープ文字 @"\\" の代替文字。変更するにはrecompileが必要。変更すると数割遅くなります。
 - (NSString*)escapeCharacter;
 
+// capture groupの数
+- (unsigned)numberOfGroups;
 // named groupの数
 - (unsigned)numberOfNames;
 // nameの配列
@@ -436,8 +439,8 @@ extern NSString	* const OgreException;
 // Optionsを表す文字列配列
 + (NSArray*)stringsForOptions:(unsigned)options;
 
-// 文字列を正規表現で安全な文字列に変換する。(@"|().?*+{}^$[]-&#:=!<>@"を退避する)
-+ (NSString*)regularizeString:(NSString*)string escapeCharacter:(NSString*)character;
+// 文字列を正規表現で安全な文字列に変換する。(@"|().?*+{}^$[]-&#:=!<>@\\"を退避する)
++ (NSString*)regularizeString:(NSString*)string;
 
 // 改行コードが何か調べる
 + (OgreNewlineCharacter)newlineCharacterInString:(NSString*)aString;

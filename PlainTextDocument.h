@@ -23,6 +23,7 @@ extern NSString * const PlainTextDocumentParticipantsDataDidChangeNotification;
 extern NSString * const PlainTextDocumentUserDidChangeSelectionNotification;
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
+
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
 
@@ -54,6 +55,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL shouldChangeChangeCount;
         BOOL shouldSelectModeOnSave;
         BOOL isHandlingUndoManually;
+        BOOL isWaiting;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -64,14 +66,22 @@ extern NSString * const ChangedByUserIDAttributeName;
         NSFont *italicFont;
         NSFont *boldItalicFont;
     } I_fonts;
+    NSMutableDictionary *I_styleCacheDictionary;
     NSDictionary *I_plainTextAttributes;
     NSDictionary *I_typingAttributes;
     NSMutableParagraphStyle *I_defaultParagraphStyle;
     NSDictionary *I_fileAttributes;
     NSDictionary *I_ODBParameters;
+    NSString *I_jobDescription;
+    NSString *I_temporaryDisplayName;
+    NSString *I_directoryForSavePanel;
     
     IBOutlet NSView *O_savePanelAccessoryView;
+    IBOutlet NSView *O_savePanelAccessoryView2;
+    IBOutlet NSButton *O_goIntoBundlesCheckbox;
+    IBOutlet NSButton *O_goIntoBundlesCheckbox2;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
+    NSSavePanel *I_savePanel;
     NSSaveOperationType I_lastSaveOperation;
     NSStringEncoding I_encodingFromLastRunSaveToOperation;
     
@@ -106,11 +116,21 @@ extern NSString * const ChangedByUserIDAttributeName;
     
     UndoManager *I_undoManager;
     TextOperation *I_lastRegisteredUndoOperation;
+    
+    // Print nib
+    IBOutlet NSView *O_printOptionView;
+    IBOutlet NSObjectController *O_printOptionController;
+    BOOL I_printOperationIsRunning;
+
+    // export nib
+    IBOutlet NSWindow *O_exportSheet;
+    IBOutlet NSObjectController *O_exportSheetController;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
 - (IBAction)newView:(id)aSender;
+- (IBAction)goIntoBundles:(id)sender;
 
 - (BOOL)isProxyDocument;
 - (void)makeProxyWindowController;
@@ -125,6 +145,9 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 - (DocumentMode *)documentMode;
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode;
+- (void)takeStyleSettingsFromDocumentMode;
+- (void)takeEditSettingsFromDocumentMode;
+
 
 - (BOOL)isAnnounced;
 - (void)setIsAnnounced:(BOOL)aFlag;
@@ -155,6 +178,14 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setFileAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)ODBParameters;
 - (void)setODBParameters:(NSDictionary *)aDictionary;
+- (BOOL)isWaiting;
+- (void)setIsWaiting:(BOOL)aFlag;
+- (NSString *)jobDescription;
+- (void)setJobDescription:(NSString *)aString;
+- (NSString *)temporaryDisplayName;
+- (void)setTemporaryDisplayName:(NSString *)name;
+- (void)setDirectoryForSavePanel:(NSString *)path;
+- (NSString *)directoryForSavePanel;
 
 - (void)setHighlightsSyntax:(BOOL)aFlag;
 - (BOOL)highlightsSyntax;
@@ -231,6 +262,16 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)performHighlightSyntax;
 - (void)highlightSyntaxLoop;
 
+#pragma mark ### Export ###
+
+- (IBAction)exportDocument:(id)aSender;
+- (IBAction)cancelExport:(id)aSender;
+- (IBAction)continueExport:(id)aSender;
+
+#pragma mark ### Printing ###
+- (IBAction)changeFontViaPanel:(id)sender;
+
+
 #pragma mark -
 #pragma mark ### Session Interaction ###
 
@@ -244,5 +285,4 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 - (void)addFindAllController:(FindAllController *)aController;
 - (void)removeFindAllController:(FindAllController *)aController;
-
 @end

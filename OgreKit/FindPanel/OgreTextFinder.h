@@ -14,13 +14,11 @@
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OGRegularExpression.h>
 #import <OgreKit/OGReplaceExpression.h>
-#import <OgreKit/OgreTextFindThread.h>
-#import <OgreKit/OgreTextFindThreadCenter.h>
 
 // OgreTextFinderLocalizable.stringsを使用したローカライズ
 #define OgreTextFinderLocalizedString(key)	[[OgreTextFinder ogreKitBundle] localizedStringForKey:(key) value:(key) table:@"OgreTextFinderLocalizable"]
 
-@class OgreTextFinder, OgreFindPanelController, OgreTextFindResult, OgreFindResult, OgreTextFindThread, OgreTextFindThreadCenter;
+@class OgreTextFinder, OgreFindPanelController, OgreTextFindResult, OgreTextFindThread;
 
 @protocol OgreTextFindDataSource
 /* OgreTextFinderが検索対象を知りたいときにresponder chain経由で呼ばれる 
@@ -28,38 +26,30 @@
 - (void)tellMeTargetToFindIn:(id)sender;
 @end
 
-@protocol OgreTextFindThreadClient
-/* OgreTextFindThreadでの処理が完了したときにOgreTextFinderから呼ばれる */
-- (BOOL)didEndFindAll:(id)anObject;
-- (BOOL)didEndReplaceAll:(id)anObject;
-- (BOOL)didEndHighlight:(id)anObject;
-@end
-
-@protocol OgreTextFinderProtocol
-/* OgreTextFindThreadでの処理が完了したときにOgreTextFindThreadCenterから非同期的に通知される */
-- (oneway void)didEndThread;
-@end
-
-@interface OgreTextFinder : NSObject <OgreTextFinderProtocol>
+@interface OgreTextFinder : NSObject 
 {
 	IBOutlet OgreFindPanelController	*findPanelController;	// FindPanelController
     IBOutlet NSMenu						*findMenu;				// Find manu
 	
 	OgreSyntax		_syntax;				// 正規表現の構文
-	NSString		*_escapeCharacter;		// escape character
+	NSString		*_escapeCharacter;		// エスケープ文字
 	
 	id				_targetToFindIn;		// 検索対象
+	Class			_adapterClassForTarget; // 検索対象のアダプタ(ラッパー)
 	NSMutableArray	*_busyTargetArray;		// 使用中ターゲット
-	OgreTextFindThreadCenter	*_threadCenter;	// OgreTextFindThreadCenter
 
 	NSDictionary	*_history;				// 検索履歴等
 	BOOL			_saved;					// 履歴等が保存されたかどうか
+	BOOL			_shouldHackFindMenu;	// FindメニューをOgreKitのものに置き換えるかどうか
+    
+    NSMutableArray  *_targetClassArray,     // 検索可能なクラスを収めた配列
+                    *_adapterClassArray;    // 検索対象クラスのアダプタクラスを収めた配列
 }
 
-/* OgreKit.framework bundle instance */
+/* OgreKit.framework bundle */
 + (NSBundle*)ogreKitBundle;
 
-/* Shared Instance */
+/* Shared instance */
 + (id)sharedTextFinder;
 
 /* nib name of Find Panel/Find Panel Controller */
@@ -71,9 +61,12 @@
 /*************
  * Accessors *
  *************/
-// 検索対象
-- (void)setTargetToFindIn:(id)targe;
+// target to find in
+- (void)setTargetToFindIn:(id)target;
 - (id)targetToFindIn;
+
+- (void)setAdapterClassForTargetToFindIn:(Class)adapterClass;
+- (Class)adapterClassForTargetToFindIn;
 
 // Find Panel Controller
 - (void)setFindPanelController:(OgreFindPanelController*)findPanelController;
@@ -103,6 +96,12 @@
 	withString:(NSString*)replaceString
 	options:(unsigned)options;
 
+- (OgreTextFindResult*)replaceAndFind:(NSString*)expressionString 
+	withString:(NSString*)replaceString
+	options:(unsigned)options 
+    replacingOnly:(BOOL)replacingOnly 
+	wrap:(BOOL)isWrap;
+
 - (OgreTextFindResult*)replaceAll:(NSString*)expressionString 
 	withString:(NSString*)replaceString
 	options:(unsigned)options
@@ -120,8 +119,13 @@
 
 - (BOOL)jumpToSelection;
 
-/* create an alert sheet */
+/* creating an alert sheet */
 - (id)alertSheetOnTarget:(id)aTerget;
+
+/* Getting and registering adapters for targets */
+- (id)adapterForTarget:(id)aTargetToFindIn;
+- (void)registeringAdapterClass:(Class)anAdapterClass forTargetClass:(Class)aTargetClass;
+- (BOOL)hasAdapterClassForObject:(id)anObject;
 
 /*******************
  * Private Methods *
@@ -138,15 +142,11 @@
 // 使用中でなくする
 - (void)makeTargetFree:(id)target;
 
-/* create a thread */
-// OgreTextFindThreadCenterの生成
-- (void)createThreadCenter;
+/* hack Find Menu */
+- (void)setShouldHackFindMenu:(BOOL)hack;
+- (void)hackFindMenu;
 
-/* Undo/Redoについてプリミティブな置換 */
-- (void)undoableReplaceCharactersInRange:(NSRange)aRange 
-	withAttributedString:(NSAttributedString*)aString 
-	inTarget:(id)aTarget 
-	jumpToSelection:(BOOL)jumpToSelection;
+- (void)didEndThread:(OgreTextFindThread*)aTextFindThread;
 
 @end
 

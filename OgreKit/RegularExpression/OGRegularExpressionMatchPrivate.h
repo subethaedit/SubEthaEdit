@@ -14,8 +14,6 @@
 #import <Foundation/Foundation.h>
 #import <OgreKit/OGRegularExpressionMatch.h>
 
-@class OGRegularExpressionMatch;
-
 @interface OGRegularExpressionMatch (Private)
 
 /*********
@@ -24,9 +22,11 @@
 - (id)initWithRegion:(OnigRegion*)region 
 	index:(unsigned)anIndex
 	enumerator:(OGRegularExpressionEnumerator*)enumerator
-	locationCache:(unsigned)locationCache 
-	utf8LocationCache:(unsigned)utf8LocationCache 
-	utf8TerminalOfLastMatch:(unsigned)utf8TerminalOfLastMatch 
-	parentMatch:(OGRegularExpressionMatch*)parentMatch;
+	terminalOfLastMatch:(unsigned)terminalOfLastMatch;
+
+- (NSString*)_targetString;
+- (NSString*)_escapeCharacter;
+- (NSRange)_searchRange;
+- (OnigRegion*)_region;
 
 @end

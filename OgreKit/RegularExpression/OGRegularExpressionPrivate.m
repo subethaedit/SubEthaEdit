@@ -30,7 +30,7 @@
 - (void)dealloc
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-dealloc of OGRegularExpression");
+	NSLog(@"-dealloc of %@", [self className]);
 #endif
 	// named group(逆引き)辞書
 	[_groupIndexForNameDictionary release];
@@ -40,6 +40,7 @@
 	if (_regexBuffer != NULL) onig_free(_regexBuffer);
 	
 	// 正規表現を表す文字列
+    NSZoneFree([self zone], _UTF16ExpressionString);
 	[_expressionString release];
 	
 	// \の代替文字
@@ -72,45 +73,54 @@
 }
 
 // string中の\をcharacterに置き換えた文字列を返す。characterがnilの場合、stringを返す。
-+ (NSString*)swapBackslashInString:(NSString*)string forCharacter:(NSString*)character
++ (NSString*)changeEscapeCharacterInString:(NSString*)string toCharacter:(NSString*)character
 {
 	if ( (character == nil) || (string == nil) || ([character length] == 0) ) {
 		// エラー。例外を発生させる。
 		[NSException raise:OgreException format:@"nil string (or other) argument"];
 	}
+	
 	if ([character isEqualToString:OgreBackslashCharacter]) {
-		// characterが\なら何もしない。
 		return string;
 	}
-
-	unsigned	strLength = [string length];
-	NSRange			scanRange = NSMakeRange(0, strLength);	// スキャンする範囲
-	NSRange			matchRange;					// escapeの発見された範囲(lengthは常に1)
-
-	// 定数の初期化
-	/* escape characters */
-	// @"\\"															// backslash in GUI (default)
-	//NSString	*yenMark = [[NSString alloc] initWithCString:"\\"];		// yen mark in GUI
+	
+	NSString	*plainString = string;
+	unsigned	strLength = [plainString length];
+	NSRange		scanRange = NSMakeRange(0, strLength);	// スキャンする範囲
+	NSRange		matchRange;					// escapeの発見された範囲(lengthは常に1)
+	
 	/* escape character set */
 	NSCharacterSet	*swapCharSet = [NSCharacterSet characterSetWithCharactersInString:
-		[OgreBackslashCharacter stringByAppendingString: character]];
-
-	NSMutableString	*resultString = [NSMutableString stringWithString:string];
+		[OgreBackslashCharacter stringByAppendingString:character]];
 	
-	unsigned	counterOfAutorelease = 0;
+	NSMutableString	*resultString;
+	resultString = [[[NSMutableString alloc] init] autorelease];
+	
+	unsigned			counterOfAutorelease = 0;
 	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
 	
-	while ( 	matchRange = [string rangeOfCharacterFromSet:swapCharSet options:0 range:scanRange], 
+	while ( matchRange = [plainString rangeOfCharacterFromSet:swapCharSet options:0 range:scanRange], 
 			matchRange.length > 0 ) {
-		if ([[string substringWithRange:matchRange] isEqualToString:OgreBackslashCharacter]) {
-			// \の代替文字
-			[resultString replaceCharactersInRange:matchRange withString:character];
+		unsigned	lastMatchLocation = scanRange.location;
+		[resultString appendString:[string substringWithRange:NSMakeRange(lastMatchLocation, matchRange.location - lastMatchLocation)]];
+		
+		if ([[plainString substringWithRange:matchRange] isEqualToString:OgreBackslashCharacter]) {
+			// \ -> \\ .
+			[resultString appendString:[string substringWithRange:matchRange]];
+			[resultString appendString:[string substringWithRange:matchRange]];
+			scanRange.location = matchRange.location + 1;
 		} else {
-			// yen mark
-			[resultString replaceCharactersInRange:matchRange withString:OgreBackslashCharacter];
+			if (matchRange.location + 1 < strLength && [[plainString substringWithRange:NSMakeRange(matchRange.location + 1, 1)] isEqualToString:character]) {
+				// \\ -> \ .
+				[resultString appendString:[string substringWithRange:matchRange]];
+				scanRange.location = matchRange.location + 2;
+			} else {
+				// \(?=[^\]) -> \ .
+				[resultString appendString:OgreBackslashCharacter];
+				scanRange.location = matchRange.location + 1;
+			}
 		}
-		scanRange.location = matchRange.location + 1;
-		scanRange.length   = strLength - matchRange.location - 1;
+		scanRange.length = strLength - scanRange.location;
 		
 		counterOfAutorelease++;
 		if (counterOfAutorelease % 100 == 0) {
@@ -118,10 +128,11 @@
 			pool = [[NSAutoreleasePool alloc] init];
 		}
 	}
+	[resultString appendString:[string substringWithRange:NSMakeRange(scanRange.location, scanRange.length)]];
 	
 	[pool release];
 	
-	//return [NSString stringWithString:resultString];
+	//NSLog(@"%@", resultString);
 	return resultString;
 }
 

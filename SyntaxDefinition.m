@@ -11,28 +11,6 @@
 #import "NSDictionaryTCMAdditions.h"
 
 
-NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
-    static NSDictionary *sEntities;
-    if (!sEntities) sEntities=[[NSDictionary dictionaryWithObjectsAndKeys:@"<",@"lt",@">",@"gt",@"\"",@"quot",@"'",@"apos",@"&",@"amp",nil] retain];
-    NSMutableString *result=[NSMutableString string];
-    int childCount=CFTreeGetChildCount(aTree);
-    int i;
-    for (i=0;i<childCount;i++) {
-        CFXMLTreeRef tree;
-        CFXMLNodeRef node;
-        tree=CFTreeGetChildAtIndex(aTree,i);
-        node=CFXMLTreeGetNode(tree);
-        int typeCode=CFXMLNodeGetTypeCode(node);
-        if ((typeCode == kCFXMLNodeTypeText)||(typeCode == kCFXMLNodeTypeWhitespace)) {
-            [result appendString:(NSString*)CFXMLNodeGetString(node)];
-        } else if (typeCode == kCFXMLNodeTypeEntityReference) {
-            NSString *string=[sEntities objectForKey:(NSString*)CFXMLNodeGetString(node)];
-            if (string) [result appendString:string];
-        }
-    }
-    return result;
-}
-
 @implementation SyntaxDefinition
 /*"A Syntax Definition"*/
 
@@ -55,7 +33,9 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         I_name = [@"Not named" retain];
         [self setMode:aMode];
         everythingOkay = YES;
-                
+        
+        I_defaultSyntaxStyle=[SyntaxStyle new]; 
+        [I_defaultSyntaxStyle setDocumentMode:aMode];               
         // Parse XML File
         [self parseXMLFile:aPath];
         
@@ -63,7 +43,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         I_stylesForToken = [NSMutableArray new];
         I_stylesForRegex = [NSMutableArray new];
         [self cacheStyles];
-        [self setCombinedStateRegex];        
+        [self setCombinedStateRegex];   
     }
     if (everythingOkay) return self;
     else {
@@ -211,6 +191,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
         NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
         NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
+        NSString *stateID=[attributes objectForKey:@"id"];
         DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", tag);
         if ([@"state" isEqualToString:tag]) {
             NSMutableDictionary *aDictionary = [NSMutableDictionary dictionary];
@@ -225,9 +206,10 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             NSFontTraitMask mask = 0;
             if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
             if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-            [aDictionary setObject:[[[NSNumber alloc] initWithUnsignedInt:mask] autorelease] forKey:@"font-trait"];
+            [aDictionary setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
+            [aDictionary setObject:stateID forKey:@"styleID"];
             
-            [self stateForTreeNode:xmlTree toDictionary:aDictionary];
+            [self stateForTreeNode:xmlTree toDictionary:aDictionary stateID:stateID];
         } else if ([@"default" isEqualToString:tag]) {
             [I_defaultState addEntriesFromDictionary:attributes];
             NSColor *aColor;
@@ -239,19 +221,46 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             NSFontTraitMask mask = 0;
             if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
             if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-            [I_defaultState setObject:[[[NSNumber alloc] initWithUnsignedInt:mask] autorelease] forKey:@"font-trait"];
+            [I_defaultState setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
+            [I_defaultState setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
             
-            [self stateForTreeNode:xmlTree toDictionary:I_defaultState];
+            [self stateForTreeNode:xmlTree toDictionary:I_defaultState stateID:SyntaxStyleBaseIdentifier];
         }
     }
 }
 
 /*"Parse <state> and <default> tags"*/
-- (void)stateForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary
+- (void)stateForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary stateID:(NSString *)aStateID
 {
+    NSMutableDictionary *styleDictionary = [NSMutableDictionary dictionary];
+    [styleDictionary setObject:[aDictionary objectForKey:@"color"]      forKey:@"color"];
+    [styleDictionary setObject:[aDictionary objectForKey:@"font-trait"] forKey:@"font-trait"];
+    [styleDictionary setObject:aStateID forKey:@"styleID"];
+    NSColor *color=[aDictionary objectForKey:@"inverted-color"];
+    if (!color) {
+        color = [[aDictionary objectForKey:@"color"] brightnessInvertedColor];
+    }
+    [styleDictionary setObject:color forKey:@"inverted-color"];
+    if ([SyntaxStyleBaseIdentifier isEqualToString:aStateID]) {
+        NSString *colorString=[aDictionary objectForKey:@"background-color"];
+        NSColor *backgroundColor=[NSColor whiteColor];
+        if (colorString) {
+            backgroundColor = [NSColor colorForHTMLString:colorString];
+        }
+        [styleDictionary setObject:backgroundColor forKey:@"background-color"];
+        colorString=[aDictionary objectForKey:@"inverted-background-color"];
+        if (colorString) {
+            backgroundColor = [NSColor colorForHTMLString:colorString];
+        } else {
+            backgroundColor = [backgroundColor brightnessInvertedColor];
+        }
+        [styleDictionary setObject:backgroundColor forKey:@"inverted-background-color"];
+    }
+    [I_defaultSyntaxStyle addKey:aStateID];
+    [I_defaultSyntaxStyle setStyle:styleDictionary forKey:aStateID];
+    
     int childCount;
     int index;
-        
     childCount = CFTreeGetChildCount(aTree);
     for (index = 0; index < childCount; index++) {
         CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
@@ -320,6 +329,26 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             [keywordGroup addEntriesFromDictionary:attributes];
             
             [self addKeywordsForTreeNode:xmlTree toDictionary:keywordGroup];
+
+            NSString *styleID=[NSString stringWithFormat:@"%@.%@",aStateID,keywordName];
+            [keywordGroup setObject:styleID forKey:@"styleID"];
+            NSMutableDictionary *styleDictionary = [NSMutableDictionary dictionary];
+            [styleDictionary setObject:[NSColor colorForHTMLString:[keywordGroup objectForKey:@"color"]] forKey:@"color"];
+
+            NSFontTraitMask mask = 0;
+            if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"])  mask = mask | NSBoldFontMask;
+            if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
+
+            [styleDictionary setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
+
+            [styleDictionary setObject:styleID forKey:@"styleID"];
+            NSColor *color=[NSColor colorForHTMLString:[keywordGroup objectForKey:@"inverted-color"]];
+            if (!color) {
+                color = [[styleDictionary objectForKey:@"color"] brightnessInvertedColor];
+            }
+            [styleDictionary setObject:color forKey:@"inverted-color"];
+            [I_defaultSyntaxStyle addKey:styleID];
+            [I_defaultSyntaxStyle setStyle:styleDictionary forKey:styleID];            
         }
     }
 }
@@ -368,7 +397,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
     if ((aDictionary = [I_defaultState objectForKey:@"KeywordGroups"])) {
         [self addStylesForKeywordGroups:aDictionary];
     } else {
-        [I_stylesForToken addObject:[NSArray arrayWithObjects:[NSMutableDictionary dictionary],[NSMutableDictionary caseInsensitiveDictionary],nil]];
+        [I_stylesForToken addObject:[NSArray arrayWithObjects:[NSMutableDictionary dictionary],
+                                                              [NSMutableDictionary caseInsensitiveDictionary],nil]];
         [I_stylesForRegex addObject:[NSArray array]];
     }
     
@@ -377,7 +407,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         if ((aDictionary = [aDictionary objectForKey:@"KeywordGroups"])) {
             [self addStylesForKeywordGroups:aDictionary];
         } else {
-        [I_stylesForToken addObject:[NSArray arrayWithObjects:[NSMutableDictionary dictionary],[NSMutableDictionary caseInsensitiveDictionary],nil]];
+        [I_stylesForToken addObject:[NSArray arrayWithObjects:[NSMutableDictionary dictionary],
+                                                              [NSMutableDictionary caseInsensitiveDictionary],nil]];
             [I_stylesForRegex addObject:[NSArray array]];
         }
     }
@@ -403,24 +434,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
     [I_stylesForRegex addObject:newRegExArray];
 
     while ((keywordGroup = [groupEnumerator nextObject])) {
-        NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-        NSColor *aColor;
-        NSString *aString;
-        if ((aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"color"]]))
-            [attributes setObject:aColor forKey:@"color"];
-        if ((aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"inverted-color"]]))
-            [attributes setObject:aColor forKey:@"inverted-color"];
-        if ((aString = [keywordGroup objectForKey:@"font-style"]))      
-            [attributes setObject:aString forKey:@"font-style"];
-        if ((aString = [keywordGroup objectForKey:@"font-weight"]))     
-            [attributes setObject:aString forKey:@"font-weight"];
-        if ((aString = [keywordGroup objectForKey:@"casesensitive"]))        
-            [attributes setObject:aString forKey:@"casesensitive"];
-        
-        NSFontTraitMask mask = 0;
-        if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
-        if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-        [attributes setObject:[[[NSNumber alloc] initWithUnsignedInt:mask] autorelease] forKey:@"font-trait"];
+        NSString *styleID=[keywordGroup objectForKey:@"styleID"];
         
         // First do the plainstring stuff
         
@@ -430,9 +444,9 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             NSString *keyword;
             while ((keyword = [keywordEnumerator nextObject])) {
                 if([[keywordGroup objectForKey:@"casesensitive"] isEqualToString:@"no"]) {
-                    [newPlainIncaseDictionary setObject:attributes forKey:keyword];
+                    [newPlainIncaseDictionary setObject:styleID forKey:keyword];
                 } else {
-                    [newPlainCaseDictionary setObject:attributes forKey:keyword];                
+                    [newPlainCaseDictionary setObject:styleID forKey:keyword];                
                 }
             }
         }
@@ -446,14 +460,14 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
                 OGRegularExpression *regex;
                 unsigned regexOptions = OgreFindLongestOption|OgreFindNotEmptyOption;
                 //unsigned regexOptions = OgreFindNotEmptyOption;
-                if ((aString = [attributes objectForKey:@"casesensitive"])) {       
+                if ((aString = [keywordGroup objectForKey:@"casesensitive"])) {       
                     if (([aString isEqualTo:@"no"])) {
                         regexOptions = regexOptions|OgreIgnoreCaseOption;
                     }
                 }
                 if ([OGRegularExpression isValidExpressionString:keyword]) {
                     if ((regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease])) {
-                        [newRegExArray addObject:[NSArray arrayWithObjects:regex, attributes, nil]];
+                        [newRegExArray addObject:[NSArray arrayWithObjects:regex, styleID, nil]];
                     }
                 } else {
                     NSLog(@"ERROR: %@ in \"%@\" is not a valid regular expression", keyword, [keywordGroup objectForKey:@"id"]);
@@ -516,17 +530,18 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
      I_invertedTokenSet = [[aCharacterSet invertedSet] copy];
 }
 
-- (NSDictionary *)styleForToken:(NSString *)aToken inState:(int)aState 
+- (NSString *)styleForToken:(NSString *)aToken inState:(int)aState 
 {
-    NSDictionary *aStyle;
+    NSString *styleID;
     
-    if ((aStyle = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:0] objectForKey:aToken])) {
-        return aStyle;
+    if ((styleID = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:0] objectForKey:aToken])) {
+        return styleID;
     }
-    if ((aStyle = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:1] objectForKey:aToken])){
-        return aStyle;
+    if ((styleID = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:1] objectForKey:aToken])){
+        return styleID;
     }
-    else return nil;
+    
+    return nil;
 }
 
 - (NSArray *)regularExpressionsInState:(int)aState
@@ -594,6 +609,10 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
 
 - (void)setMode:(DocumentMode *)aMode {
     I_mode = aMode;
+}
+
+- (SyntaxStyle *)defaultSyntaxStyle {
+    return I_defaultSyntaxStyle;
 }
 
 

@@ -21,24 +21,19 @@
     IBOutlet NSTextField   *O_matchingBracketTypesTextField;
     IBOutlet NSButton      *O_showLineNumbersButton;
     IBOutlet NSButton      *O_highlightSyntaxButton;
-    IBOutlet NSTextField   *O_fontTextField;
-    IBOutlet NSColorWell   *O_documentForegroundColorWell;
-    IBOutlet NSColorWell   *O_documentBackgroundColorWell;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSObjectController *O_modeController;
     IBOutlet NSObjectController *O_viewController;
     IBOutlet NSObjectController *O_editController;
     IBOutlet NSObjectController *O_fileController;
-    IBOutlet NSObjectController *O_fontController;
     IBOutlet NSButton *O_viewDefaultButton;
     IBOutlet NSButton *O_editDefaultButton;
     IBOutlet NSButton *O_fileDefaultButton;
-    IBOutlet NSButton *O_fontDefaultButton;
 }
 
 - (IBAction)changeMode:(id)aSender;
-- (IBAction)changeFontViaPanel:(id)sender;
 - (IBAction)validateDefaultsState:(id)aSender;
+- (IBAction)applyToOpenDocuments:(id)aSender;
 
 @end

@@ -10,6 +10,8 @@
 
 @class TCMMMStatusProfile, TCMHost, TCMMMSession, TCMRendezvousBrowser;
 
+extern NSString * const VisibilityPrefKey;
+
 extern NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserDidChangeNotification;

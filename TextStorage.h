@@ -47,12 +47,14 @@ extern NSString * const BlockeditAttributeValue;
 - (void)setDidBlockeditLineRange:(NSRange)aRange;
 
 - (NSRange)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
-                   paragraphRange:(NSRange)aParagraphRange inTextView:(NSTextView *)aTextView;
+                   paragraphRange:(NSRange)aParagraphRange inTextView:(NSTextView *)aTextView tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs;
 
 - (void)stopBlockedit;
 
 - (NSDictionary *)dictionaryRepresentation;
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
+
+- (NSMutableAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor backgroundColor:(NSColor *)aBackgroundColor;
 
 @end
 

@@ -103,6 +103,10 @@
     return sharedInstance;
 }
 
++ (DocumentMode *)baseMode {
+    return [[DocumentModeManager sharedInstance] baseMode];
+}
+
 - (id)init {
     self = [super init];
     if (self) {
@@ -175,6 +179,18 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"DocumentModeManager, FoundModeBundles:%@",[I_modeBundles description]];
+}
+
+- (DocumentMode *)documentModeForName:(NSString *)aName {
+    NSString *identifier;
+    if ([aName hasPrefix:@"SEEMode."]) {
+        identifier = aName;
+    } else {
+        identifier = [NSString stringWithFormat:@"SEEMode.%@", aName];
+    }
+    DocumentMode *mode = [self documentModeForIdentifier:identifier];
+    
+    return mode;
 }
 
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier {

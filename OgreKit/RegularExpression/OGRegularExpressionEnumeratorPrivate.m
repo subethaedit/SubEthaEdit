@@ -21,30 +21,39 @@
 
 @implementation OGRegularExpressionEnumerator (Private)
 
-- (id) initWithSwappedString:(NSString*)swappedTargetString 
+- (id) initWithString:(NSString*)targetString 
 	options:(unsigned)searchOptions 
 	range:(NSRange)searchRange 
 	regularExpression:(OGRegularExpression*)regex
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-initWithSwappedString: of OGRegularExpressionEnumerator");
+	NSLog(@"-initWithString: of %@", [self className]);
 #endif
 	self = [super init];
 	if (self) {
 		// 検索対象文字列を保持
-		// target stringをUTF8文字列に変換する。
-		_swappedTargetString = [swappedTargetString retain];
-		
-		// duplicate [_swappedTargetString UTF8String]
-		unsigned char   *tmpUTF8String = (unsigned char*)[_swappedTargetString UTF8String];
-		_utf8lengthOfSwappedTargetString = strlen(tmpUTF8String);
-		_utf8SwappedTargetString = (unsigned char*)NSZoneMalloc([self zone], sizeof(unsigned char) * (_utf8lengthOfSwappedTargetString + 1));
-		if (_utf8SwappedTargetString == NULL) {
-			// メモリを確保できなかった場合、例外を発生させる。
-			[NSException raise:OgreEnumeratorException format:@"fail to duplicate a utf8SwappedTargetString"];
-		}
-		memcpy(_utf8SwappedTargetString, tmpUTF8String, _utf8lengthOfSwappedTargetString + 1);
-		
+		// target stringをUTF16文字列に変換する。
+		_targetString = [targetString retain];
+        _lengthOfTargetString = [_targetString length];
+        
+        _UTF16TargetString = (unichar*)NSZoneMalloc([self zone], sizeof(unichar) * (_lengthOfTargetString + 4));	// +4はonigurumaのmemory access violation問題への対処療法
+        if (_UTF16TargetString == NULL) {
+            // メモリを確保できなかった場合、例外を発生させる。
+            [self release];
+            [NSException raise:OgreEnumeratorException format:@"fail to allocate a memory"];
+        }
+        [_targetString getCharacters:_UTF16TargetString range:NSMakeRange(0, _lengthOfTargetString)];
+            
+        /* DEBUG 
+        {
+            NSLog(@"TargetString: '%@'", _targetString);
+            int     i, count = _lengthOfTargetString;
+            unichar *utf16Chars = _UTF16TargetString;
+            for (i = 0; i < count; i++) {
+                NSLog(@"UTF16: %04x", *(utf16Chars + i));
+            }
+        }*/
+        
 		// 検索範囲
 		_searchRange = searchRange;
 		
@@ -59,11 +68,10 @@
 		// 初期値 0
 		// 値 >=  0 終端位置
 		// 値 == -1 マッチ終了
-		_utf8TerminalOfLastMatch = 0;
+		_terminalOfLastMatch = 0;
 		
 		// マッチ開始位置
 		_startLocation = 0;
-		_utf8StartLocation = 0;
 	
 		// 前回のマッチが空文字列だったかどうか
 		_isLastMatchEmpty = NO;
@@ -78,21 +86,21 @@
 - (void)dealloc
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-dealloc of OGRegularExpressionEnumerator");
+	NSLog(@"-dealloc of %@", [self className]);
 #endif
 	// 開放
 	[_regex release];
-	[_swappedTargetString release];
-        NSZoneFree([self zone], _utf8SwappedTargetString);
+	NSZoneFree([self zone], _UTF16TargetString);
+	[_targetString release];
 	
 	[super dealloc];
 }
 
 /* accessors */
 // private
-- (void)_setUtf8TerminalOfLastMatch:(int)location
+- (void)_setTerminalOfLastMatch:(int)location
 {
-	_utf8TerminalOfLastMatch = location;
+	_terminalOfLastMatch = location;
 }
 
 - (void)_setIsLastMatchEmpty:(BOOL)yesOrNo
@@ -103,11 +111,6 @@
 - (void)_setStartLocation:(unsigned)location
 {
 	_startLocation = location;
-}
-
-- (void)_setUtf8StartLocation:(unsigned)location
-{
-	_utf8StartLocation = location;
 }
 
 - (void)_setNumberOfMatches:(unsigned)aNumber
@@ -128,14 +131,14 @@
 }
 
 // public?
-- (NSString*)swappedTargetString
+- (NSString*)targetString
 {
-	return _swappedTargetString;
+	return _targetString;
 }
 
-- (unsigned char*)utf8SwappedTargetString
+- (unichar*)UTF16TargetString
 {
-	return _utf8SwappedTargetString;
+	return _UTF16TargetString;
 }
 
 - (NSRange)searchRange
@@ -143,56 +146,5 @@
 	return _searchRange;
 }
 
-
-// 破壊的操作
-- (NSString*)input
-{
-	NSString	*aCharacter;
-	unsigned	utf8charlen;
-	
-	if ((_utf8TerminalOfLastMatch == -1) || (_startLocation > _searchRange.length) || (!_isLastMatchEmpty && _startLocation == _searchRange.length)) {
-		// エラー。例外を発生させる。
-		[NSException raise:OgreEnumeratorException format:@"out of range"];
-	}
-	
-	if (!_isLastMatchEmpty) {
-		// 1文字進める。
-		utf8charlen = Ogre_utf8charlen(_utf8SwappedTargetString + _utf8StartLocation);
-		_utf8StartLocation += utf8charlen;
-		_startLocation += ((utf8charlen >= 4)? 2 : 1);   // NSStringで1文字進める (4-octetの場合はなぜか2文字(2文字目は空文字)進めなければならない)
-	}
-	utf8charlen = Ogre_utf8prevcharlen(_utf8SwappedTargetString + _utf8StartLocation);
-	aCharacter = [[_regex class] swapBackslashInString:[_swappedTargetString substringWithRange:NSMakeRange(_searchRange.location + _startLocation - ((utf8charlen >= 4)? 2 : 1), ((utf8charlen >= 4)? 2 : 1))] forCharacter:[_regex escapeCharacter]];
-	_isLastMatchEmpty = NO;
-	_utf8TerminalOfLastMatch = _utf8StartLocation;
-	
-	return aCharacter;
-}
-
-- (void)less:(unsigned)aLength
-{
-	unsigned	i;
-	unsigned	utf8charlen;
-
-	if ((_utf8TerminalOfLastMatch == -1) || (_startLocation < aLength) || (_isLastMatchEmpty && _startLocation <= aLength)) {
-		// エラー。例外を発生させる。
-		[NSException raise:OgreEnumeratorException format:@"out of range"];
-	}
-	
-	if (_isLastMatchEmpty) {
-		// 1文字戻す。
-		utf8charlen = Ogre_utf8prevcharlen(_utf8SwappedTargetString + _utf8TerminalOfLastMatch);
-		_startLocation -= ((utf8charlen >= 4)? 2 : 1);  // NSStringで1文字戻す (4-octetの場合はなぜか2文字(2文字目は空文字)戻さなければならない)
-	}
-	
-	// aLength文字戻す。
-	for (i = 0; i < aLength; i++) {
-		utf8charlen = Ogre_utf8prevcharlen(_utf8SwappedTargetString + _utf8TerminalOfLastMatch);
-		_utf8TerminalOfLastMatch -= utf8charlen;
-		_startLocation -= ((utf8charlen >= 4)? 2 : 1);  // NSStringで1文字戻す (4-octetの場合はなぜか2文字(2文字目は空文字)戻さなければならない)
-	}
-	_isLastMatchEmpty = NO;
-	_utf8StartLocation = _utf8TerminalOfLastMatch;
-}
 
 @end

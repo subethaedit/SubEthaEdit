@@ -22,7 +22,11 @@
             <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
                 <regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
             </keywords>
-            
+
+            <keywords id="Entities" color="#881280" useforautocomplete="no">
+                <regex>(&amp;\w{1,8};)</regex>
+            </keywords>
+                        
         </default>
 
         <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
@@ -37,7 +41,7 @@
         
         <state id="Inline CSS" color="#000" font-style="italic">
             <begin><regex>&lt;style</regex></begin>
-            <end><regex>/style&gt;</regex></end>
+            <end><regex>(?:/style&gt;)|(?:/&gt;)</regex></end>
 
             <keywords id="CSS Attributes" font-style="italic" color="#9B4400" useforautocomplete="yes">
                 <string>inherit</string>
@@ -386,7 +390,7 @@
         </state>
         
         <state id="Inline Javascript" color="#000">
-            <begin><regex>&lt;script</regex></begin>
+            <begin><regex>&lt;script(?:[^"&gt;]|"[^"]*")*(?&lt;!/)&gt;</regex></begin>
             <end><regex>/script&gt;</regex></end>
 
             <keywords id="Javascript Keywords" color="#88134F" useforautocomplete="yes">

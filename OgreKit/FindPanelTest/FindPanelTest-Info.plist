@@ -12,11 +12,59 @@
 				<string>txt</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>MyDocumentType</string>
+			<string>MyTextDocumentType</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>NSDocumentClass</key>
-			<string>MyDocument</string>
+			<string>MyTextDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rtf</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>MyRTFDocumentType</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSDocumentClass</key>
+			<string>MyRTFDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>csv</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>MyTableDocumentType</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSDocumentClass</key>
+			<string>MyTableDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ogreoutline</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>MyOutlineDocumentType</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSDocumentClass</key>
+			<string>MyOutlineDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ogretable</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>MyTableDocumentWithCocoaBindingType</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSDocumentClass</key>
+			<string>MyTableDocumentWithCocoaBinding</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -34,7 +82,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.1.1</string>
+	<string>2.0.0</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

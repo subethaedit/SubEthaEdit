@@ -14,6 +14,7 @@
                 showAcknowledgements = id; 
                 showLicense = id; 
                 showRegExHelp = id; 
+                showReleaseNotes = id; 
                 undo = id; 
                 visitWebsite = id; 
             }; 
@@ -77,12 +78,19 @@
         }, 
         {
             ACTIONS = {
+                blockeditSelection = id; 
                 changePendingUsersAccess = id; 
                 changeTabWidth = id; 
                 chooseLineEndings = id; 
                 clearChangeMarks = id; 
                 convertLineEndings = id; 
+                copyAsXHTML = id; 
                 copyDocumentURL = id; 
+                copyStyled = id; 
+                detab = id; 
+                endBlockedit = id; 
+                entab = id; 
+                exportDocument = id; 
                 jumpToNextChange = id; 
                 jumpToNextSymbol = id; 
                 jumpToPreviousChange = id; 

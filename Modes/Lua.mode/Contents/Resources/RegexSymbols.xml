@@ -6,7 +6,7 @@
         <regex>^function[ \t]+([\w\d_\.]+[ \t]*\([^\)]*\))</regex>
     </symbol>
     <symbol id="Inner Functions" image="SymbolF()" indentation="1" ignoreblocks="yes">
-        <regex>(?:[^\r\n\w]{1,5})function[ \t]+([\w\d_\.]+[ \t]*\([^\)]*\))</regex>
+        <regex>^(?:[^\r\n\w]{1,5})function[ \t]+([\w\d_\.]+[ \t]*\([^\)]*\))</regex>
     </symbol>
     <symbol id="Even Innerer Functions" image="SymbolF()" indentation="2" ignoreblocks="yes">
         <regex>(?:[^\r\n\w]{6,})function[ \t]+([\w\d_\.]+[ \t]*\([^\)]*\))</regex>

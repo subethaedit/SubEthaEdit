@@ -25,37 +25,27 @@
 - (id)initWithRegion:(OnigRegion*)region 
 	index:(unsigned)anIndex
 	enumerator:(OGRegularExpressionEnumerator*)enumerator
-	locationCache:(unsigned)locationCache 
-	utf8LocationCache:(unsigned)utf8LocationCache 
-	utf8TerminalOfLastMatch:(unsigned)utf8TerminalOfLastMatch 
-	parentMatch:(OGRegularExpressionMatch*)parentMatch 
+	terminalOfLastMatch:(unsigned)terminalOfLastMatch 
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-initWithRegion: of OGRegularExpressionMatch");
+	NSLog(@"-initWithRegion: of %@", [self className]);
 #endif
 	self = [super init];
 	if (self) {
-		// parent (A OGRegularExpression instance has a region containing _region)
-		_parentMatch = [parentMatch retain];
-		
 		// match result region
 		_region = region;	// retain
 	
 		// 生成主
 		_enumerator = [enumerator retain];
 		
-		// 既に分かっているNSStringの長さとUTF8Stringの長さの対応
-		_locationCache = locationCache;
-		_utf8LocationCache = utf8LocationCache;		// >= _region->beg[0]が必要条件
 		// 最後にマッチした文字列の終端位置
-		_utf8TerminalOfLastMatch = utf8TerminalOfLastMatch;
+		_terminalOfLastMatch = terminalOfLastMatch;
 		// マッチした順番
 		_index = anIndex;
 		
 		// 頻繁に利用するものはキャッシュする。保持はしない。
 		// 検索対象文字列
-		_swappedTargetString     = [_enumerator swappedTargetString];
-		_utf8SwappedTargetString = [_enumerator utf8SwappedTargetString];
+		_targetString     = [_enumerator targetString];
 		// 検索範囲
 		NSRange	searchRange = [_enumerator searchRange];
 		_searchRange.location = searchRange.location;
@@ -70,19 +60,37 @@
 - (void)dealloc
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-dealloc of OGRegularExpressionMatch");
+	NSLog(@"-dealloc of %@", [self className]);
 #endif
 	// 解放
 	[_enumerator release];
 
 	// リージョンの開放
-	if (_parentMatch != nil) {
-		[_parentMatch release];
-	} else if (_region != NULL) {
+	if (_region != NULL) {
 		onig_region_free(_region, 1 /* free self */);
 	}
 	
 	[super dealloc];
+}
+
+- (NSString*)_targetString
+{
+    return _targetString;
+}
+
+- (NSString*)_escapeCharacter
+{
+    return _escapeCharacter;
+}
+
+- (NSRange)_searchRange
+{
+    return _searchRange;
+}
+
+- (OnigRegion*)_region
+{
+    return _region;
 }
 
 

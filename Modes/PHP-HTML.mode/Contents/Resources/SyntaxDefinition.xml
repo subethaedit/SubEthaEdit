@@ -3550,7 +3550,7 @@
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
             <keywords id="Variables" color="#825900" useforautocomplete="no">
-                <regex>(\$([.]|[^ \n\r\[\]\)\(\.=\+\-\|])+)</regex>
+                <regex>(\$([\w\d])+)</regex>
             </keywords>
             <keywords id="PHP Delimiter 2" color="#D00" font-weight="bold" useforautocomplete="no">
                 <regex>(&lt;\?(?i)php)</regex>
@@ -3595,6 +3595,9 @@
                 <regex>(&lt;\?(?i)php)</regex>
                 <regex>(&lt;\?)(?![\S])</regex>
                 <regex>(\?&gt;)</regex>
+            </keywords>
+            <keywords id="Entities" color="#881280" useforautocomplete="no">
+                <regex>(&amp;\w{1,8};)</regex>
             </keywords>
         </state>
         

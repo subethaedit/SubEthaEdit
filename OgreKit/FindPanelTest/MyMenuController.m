@@ -32,4 +32,46 @@
 	[(MyDocument*)[[NSApp mainWindow] delegate] setNewlineCharacter:OgreLfNewlineCharacter];
 }
 
+/* 新規ドキュメント */
+- (IBAction)newTextDocument:(id)sender
+{
+    [[NSDocumentController sharedDocumentController] openUntitledDocumentOfType:@"MyTextDocumentType" display:YES];
+}
+
+- (IBAction)newRTFDocument:(id)sender
+{
+    [[NSDocumentController sharedDocumentController] openUntitledDocumentOfType:@"MyRTFDocumentType" display:YES];
+}
+
+- (IBAction)newTableDocument:(id)sender
+{
+    [[NSDocumentController sharedDocumentController] openUntitledDocumentOfType:@"MyTableDocumentType" display:YES];
+}
+
+- (IBAction)newOutlineDocument:(id)sender
+{
+    [[NSDocumentController sharedDocumentController] openUntitledDocumentOfType:@"MyOutlineDocumentType" display:YES];
+}
+
+- (IBAction)newTableDocumentWithCocoaBinding:(id)sender
+{
+    [[NSDocumentController sharedDocumentController] openUntitledDocumentOfType:@"MyTableDocumentWithCocoaBindingType" display:YES];
+}
+
+
+- (void)awakeFromNib
+{
+    [NSApp setDelegate:self];
+}
+
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication*)sender
+{
+    return NO;
+}
+
+- (void)ogreKitWillHackFindMenu:(OgreTextFinder*)textFinder
+{
+	[textFinder setShouldHackFindMenu:YES];
+}
+
 @end

@@ -19,9 +19,11 @@
     NSMutableArray *levels;
     
     IBOutlet NSButton *toggleDebugMenuCheckBox;
+	IBOutlet NSButton *toggleBEEPLoggingCheckBox;
 }
 
 - (IBAction)toggleDebugMenu:(id)sender;
+- (IBAction)toggleBEEPLogging:(id)sender;
 
 @end
 

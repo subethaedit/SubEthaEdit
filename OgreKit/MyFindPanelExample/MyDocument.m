@@ -75,6 +75,7 @@
 	} else {
 		_newlineCharacter = OgreUnixNewlineCharacter;	// デフォルトの改行コード
 	}
+    [super windowControllerDidLoadNib:controller];
 }
 
 // 改行コードの変更

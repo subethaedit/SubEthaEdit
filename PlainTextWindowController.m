@@ -282,7 +282,7 @@ enum {
         [menuItem setState:[self showsGutter]?NSOnState:NSOffState];
         return YES;
     } else if (selector == @selector(copyDocumentURL:)) {
-        return [[(PlainTextDocument *)[self document] session] isServer];
+        return [(PlainTextDocument *)[self document] isAnnounced];
     } else if (selector == @selector(toggleSplitView:)) {
         [menuItem setTitle:[I_plainTextEditors count]==1?
                            NSLocalizedString(@"Split View",@"Split View Menu Entry"):
@@ -416,7 +416,7 @@ enum {
 - (void)validateUpperDrawer {
     TCMMMSession *session = [(PlainTextDocument *)[self document] session];
     BOOL isServer=[session isServer];
-    [O_URLImageView setHidden:!isServer];
+    [O_URLImageView setHidden:![(PlainTextDocument *)[self document] isAnnounced]];
     [O_pendingUsersAccessPopUpButton setEnabled:isServer];
     TCMMMSessionAccessState state = [session accessState];
     int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
@@ -890,17 +890,53 @@ enum {
 #pragma mark -
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
-//    if ([[self document] isRemote]) {
-//        displayName=[displayName stringByAppendingFormat:@" (%@)",
-//                        [[[UserManager sharedInstance] userForUserId:[[self document] userIdOfHost]] 
-//                            objectForKey:kUserNameProperty]];
-//    }
+    PlainTextDocument *document = (PlainTextDocument *)[self document];
+    TCMMMSession *session = [document session];
+    
+    NSArray *pathComponents = [[document fileName] pathComponents];
+    int count = [pathComponents count];
+    if (count != 0) {
+        NSMutableString *result = [NSMutableString string];
+        int i = count;
+        int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+        for (i = count-1; i >= 0 && i > count-pathComponentsToShow-1; i--) {
+            if (i != count-1) {
+                [result insertString:@"/" atIndex:0];
+            }
+            [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
+        }
+        
+        displayName = result;
+    } else {
+        if (session && ![session isServer]) {
+            displayName = [session filename];
+        }
+    }
+
+    if (session && [session isServer] && ![[session filename] isEqualToString:[document preparedDisplayName]]) {
+        displayName = [displayName stringByAppendingFormat:@" (%@)", [session filename]];
+    }
+    
+    if (session && ![session isServer]) {
+        displayName = [displayName stringByAppendingFormat:@" - %@", [[[TCMMMUserManager sharedInstance] userForUserID:[session hostID]] name]];
+        if ([document fileName]) {
+            if (![[[session filename] lastPathComponent] isEqualToString:[[document fileName] lastPathComponent]]) {
+                displayName = [displayName stringByAppendingFormat:@" (%@)", [session filename]];
+            }
+            displayName = [displayName stringByAppendingString:@" *"];
+        }
+    }
+    
     int requests;
     if ((requests=[[[(PlainTextDocument *)[self document] session] pendingUsers] count])>0) {
         displayName=[displayName stringByAppendingFormat:@" (%@)", [NSString stringWithFormat:NSLocalizedString(@"%d pending", @"Pending Users Display in Menu Title Bar"), requests]];
     }
 
-
+    NSString *jobDescription = [(PlainTextDocument *)[self document] jobDescription];
+    if (jobDescription && [jobDescription length] > 0) {
+        displayName = [displayName stringByAppendingFormat:@" [%@]", jobDescription];
+    }
+    
     NSArray *windowControllers=[[self document] windowControllers];
     if ([windowControllers count]>1) {
         displayName = [displayName stringByAppendingFormat:@" - %d/%d",

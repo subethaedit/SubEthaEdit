@@ -783,7 +783,9 @@ enum {
 }
 
 - (IBAction)setVisibilityByMenuItem:(id)aSender {
-    [[TCMMMPresenceManager sharedInstance] setVisible:([aSender tag] == 10)];
+    BOOL isVisible = ([aSender tag] == 10);
+    [[TCMMMPresenceManager sharedInstance] setVisible:isVisible];
+    [[NSUserDefaults standardUserDefaults] setBool:isVisible forKey:VisibilityPrefKey];
 }
 
 - (IBAction)toggleProhibitInboundConnections:(id)aSender {
@@ -827,7 +829,8 @@ enum {
     while ((index = [indexSet firstIndex]) != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
-        if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
+        NSString *status = [item objectForKey:@"status"];
+        if ([status isEqualToString:HostEntryStatusSessionOpen] || [status isEqualToString:HostEntryStatusSessionInvisible]) {
             TCMBEEPSession *session = [item objectForKey:@"BEEPSession"];
             NSEnumerator *channels = [[session channels] objectEnumerator];
             TCMBEEPChannel *channel;
@@ -861,7 +864,8 @@ enum {
         NSEnumerator *enumerator= [set objectEnumerator];
         NSMutableDictionary *item;
         while ((item = [enumerator nextObject])) {
-            if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusResolving]) {
+            NSString *status = [item objectForKey:@"status"];
+            if ([status isEqualToString:HostEntryStatusResolving]) {
                 DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel resolve");
                 [item removeObjectForKey:@"UserID"];
                 [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
@@ -871,7 +875,7 @@ enum {
                 [I_resolvingHosts removeObjectForKey:[item objectForKey:@"URLString"]];
                 [item setObject:HostEntryStatusCancelled forKey:@"status"];
                 [O_browserListView reloadData];
-            } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusContacting]) {
+            } else if ([status isEqualToString:HostEntryStatusContacting]) {
                 DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel contact");
                 [item removeObjectForKey:@"UserID"];
                 [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
@@ -879,7 +883,7 @@ enum {
                 [O_browserListView reloadData];
                 TCMHost *host = [I_resolvedHosts objectForKey:[item objectForKey:@"URLString"]];
                 [[TCMMMBEEPSessionManager sharedInstance] cancelConnectToHost:host];
-            } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
+            } else if ([status isEqualToString:HostEntryStatusSessionOpen] || [status isEqualToString:HostEntryStatusSessionInvisible]) {
                 TCMBEEPSession *session = [item objectForKey:@"BEEPSession"];
                 [item removeObjectForKey:@"UserID"];
                 [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
@@ -1030,13 +1034,17 @@ enum {
         NSMutableDictionary *item = [I_data objectAtIndex:index];
         [item removeObjectForKey:@"failed"];
         [item setObject:session forKey:@"BEEPSession"];
-        [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
         [item setObject:userID forKey:@"UserID"];
         NSDictionary *infoDict = [[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
+        BOOL isVisible = [[infoDict objectForKey:@"isVisible"] boolValue];
+        if (isVisible) {
+            [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
+        } else {
+            [item setObject:HostEntryStatusSessionInvisible forKey:@"status"];
+        }
         NSMutableArray *array = [[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy];
         [item setObject:array forKey:@"Sessions"];
         [array release];
-//        [item setObject:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
         [O_browserListView reloadData];
         [self processDocumentURL:[item objectForKey:@"URL"]];
     } else {

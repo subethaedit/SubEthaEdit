@@ -75,6 +75,7 @@ enum {
     NSTimeInterval I_timeout;
         
 #ifndef TCM_NO_DEBUG
+	BOOL isLogging;
     NSFileHandle *I_frameLogHandle;
     NSFileHandle *I_rawLogInHandle;
     NSFileHandle *I_rawLogOutHandle;

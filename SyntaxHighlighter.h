@@ -11,11 +11,11 @@
 
 extern NSString * const kSyntaxHighlightingIsCorrectAttributeName;
 extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
+extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
     id theDocument;
-    BOOL I_theDocumentBackgroundIsDark;
 }
 
 /*"Initizialisation"*/
@@ -24,6 +24,7 @@ extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
 /*"Accessors"*/
 - (SyntaxDefinition *)syntaxDefinition;
 - (void)setSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
+- (SyntaxStyle *)defaultSyntaxStyle;
 
 /*"Highlighting"*/
 -(void)highlightAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange;
@@ -31,8 +32,13 @@ extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
 -(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState;
 
 /*"Document Interaction"*/
+- (void)updateStylesInTextStorage:(NSTextStorage *)aTextStorage ofDocument:(id)aSender;
 - (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage ofDocument:(id)sender;
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage;
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange;
 
+@end
+
+@interface NSObject (SyntaxHighlighterDocument) 
+- (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID;
 @end

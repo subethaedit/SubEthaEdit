@@ -181,15 +181,22 @@
     [self TCM_updateBottomStatusBar];
 
     [self takeSettingsFromDocument];
+    [self takeStyleSettingsFromDocument];
     [self setShowsChangeMarks:[document showsChangeMarks]];
     [self setShowsTopStatusBar:[document showsTopStatusBar]];
     [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
 }
 
-- (void)takeSettingsFromDocument {
+- (void)takeStyleSettingsFromDocument {
     PlainTextDocument *document=[self document];
     if (document) {
         [[self textView] setBackgroundColor:[document documentBackgroundColor]];
+    }
+}
+
+- (void)takeSettingsFromDocument {
+    PlainTextDocument *document=[self document];
+    if (document) {
         [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
         [self setWrapsLines: [document wrapLines]];
         [self setShowsGutter:[document showsGutter]];
@@ -205,11 +212,18 @@
 #define RIGHTINSET 5.
 
 - (void)TCM_adjustTopStatusBarFrames {
+    static float s_initialXPosition=NSNotFound;
+    if (s_initialXPosition==NSNotFound) {
+        s_initialXPosition=[O_positionTextField frame].origin.x;
+    }
     if (I_flags.showTopStatusBar) {
         float symbolWidth=[(PopUpButtonCell *)[O_symbolPopUpButton cell] desiredWidth];
-
+        PlainTextDocument *document=[self document];
         NSRect bounds=[O_topStatusBarView bounds];
         NSRect positionFrame=[O_positionTextField frame];
+        BOOL isWaiting=[[self document] isWaiting];
+        [O_waitPipeStatusImageView setHidden:!isWaiting];
+        positionFrame.origin.x=isWaiting?s_initialXPosition+14.:s_initialXPosition;
         NSPoint position=positionFrame.origin;
         positionFrame.size.width=[[O_positionTextField stringValue]
                         sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_positionTextField font]
@@ -222,7 +236,7 @@
                                                                                        forKey:NSFontAttributeName]].width+5.;
         NSRect newPopUpFrame=[O_symbolPopUpButton frame];
         newPopUpFrame.origin.x=position.x;
-        if (![[[self document] documentMode] hasSymbols]) {
+        if (![[document documentMode] hasSymbols]) {
             newPopUpFrame.size.width=0;
             [O_symbolPopUpButton setHidden:YES];
         } else {
@@ -397,6 +411,10 @@
 
 - (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent{
     int changedChars=0;
+    static NSCharacterSet *spaceTabSet=nil;
+    if (!spaceTabSet) {
+        spaceTabSet=[NSCharacterSet whitespaceCharacterSet];
+    }
     NSRange affectedCharRange=NSMakeRange(aLineRange.location,0);
     NSString *replacementString=@"";
     NSTextStorage *textStorage=[aTextView textStorage];
@@ -404,13 +422,71 @@
     int tabWidth=[[self document] tabWidth];
     if ([[self document] usesTabs]) {
          if (aIndent) {
-            replacementString=@"\t";
-            changedChars+=1;
+            // replace spaces with tabs and add one tab
+            unsigned lastCharacter=aLineRange.location;
+            while (lastCharacter<NSMaxRange(aLineRange) && 
+                   [spaceTabSet characterIsMember:[string characterAtIndex:lastCharacter]]) {
+                lastCharacter++;
+            }
+            if (aLineRange.location!=lastCharacter && lastCharacter<NSMaxRange(aLineRange)) {
+                affectedCharRange=NSMakeRange(aLineRange.location,lastCharacter-aLineRange.location);
+                unsigned detabbedLength=[string detabbedLengthForRange:affectedCharRange 
+                                                tabWidth:tabWidth];
+                
+                replacementString=[NSString stringWithFormat:@"\t%@%@",
+                                  [@"" stringByPaddingToLength:(int)detabbedLength/tabWidth
+                                       withString:@"\t" startingAtIndex:0],
+                                  [@"" stringByPaddingToLength:(int)detabbedLength%tabWidth
+                                       withString:@" " startingAtIndex:0]
+                                  ];
+                if (affectedCharRange.length!=[replacementString length]-1) {
+                    changedChars=[replacementString length]-affectedCharRange.length;
+                } else {
+                    affectedCharRange=NSMakeRange(aLineRange.location,0);
+                    replacementString=@"\t";
+                    changedChars=1;
+                }
+            } else {
+                replacementString=@"\t";
+                changedChars=1;
+            }
         } else {
-            if ([string length]>aLineRange.location &&
-            	[string characterAtIndex:aLineRange.location]==[@"\t" characterAtIndex:0]) {
-                affectedCharRange.length=1;
-                changedChars-=1;
+            if ([string length]>aLineRange.location) {
+                // replace spaces with tabs and remove one tab or the remaining whitespace
+                unsigned lastCharacter=aLineRange.location;
+                while (lastCharacter<NSMaxRange(aLineRange) && 
+                       [spaceTabSet characterIsMember:[string characterAtIndex:lastCharacter]]) {
+                    lastCharacter++;
+                }
+                affectedCharRange=NSMakeRange(aLineRange.location,lastCharacter-aLineRange.location);
+                if (aLineRange.location!=lastCharacter && lastCharacter<NSMaxRange(aLineRange)) {
+                    affectedCharRange=NSMakeRange(aLineRange.location,lastCharacter-aLineRange.location);
+                    unsigned detabbedLength=[string detabbedLengthForRange:affectedCharRange 
+                                                    tabWidth:tabWidth];
+                    
+                    replacementString=[NSString stringWithFormat:@"%@%@",
+                                      [@"" stringByPaddingToLength:(int)detabbedLength/tabWidth
+                                           withString:@"\t" startingAtIndex:0],
+                                      [@"" stringByPaddingToLength:(int)detabbedLength%tabWidth
+                                           withString:@" " startingAtIndex:0]
+                                      ];
+                    if ([replacementString length]!=affectedCharRange.length || 
+                        ((int)detabbedLength/tabWidth)==0 ) {
+                        if ((int)detabbedLength/tabWidth > 0) {
+                            replacementString=[replacementString substringWithRange:NSMakeRange(1,[replacementString length]-1)];
+                        } else {
+                            replacementString=@"";
+                        }
+                        changedChars=[replacementString length]-affectedCharRange.length;
+                    } else {
+                        // this if is always true due to the ifs above
+                        // if ([string characterAtIndex:aLineRange.location]==[@"\t" characterAtIndex:0]) {
+                            affectedCharRange=NSMakeRange(aLineRange.location,1);
+                            changedChars=-1;
+                            replacementString=@"";
+                        // }
+                    }
+                }
             }
         }
     } else {
@@ -475,9 +551,9 @@
 }
 
 - (void)dentParagraphsInTextView:(NSTextView *)aTextView in:(BOOL)aIndent{
-//    if (I_blockedit.hasBlockeditRanges) {
-//        NSBeep();
-//    } else {
+    if ([(TextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
+        NSBeep();
+    } else {
 
         NSRange affectedRange=[aTextView selectedRange];
         [aTextView setSelectedRange:NSMakeRange(affectedRange.location,0)];
@@ -537,9 +613,34 @@
             [aTextView setSelectedRange:affectedRange];
         }
         [undoManager endUndoGrouping];
-//    }
+    }
 }
 
+- (void)tabParagraphsInTextView:(NSTextView *)aTextView de:(BOOL)shouldDetab {
+    if ([(TextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
+        NSBeep();
+    } else {
+        NSRange affectedRange=[aTextView selectedRange];
+        [aTextView setSelectedRange:NSMakeRange(affectedRange.location,0)];
+
+        UndoManager *undoManager=[[self document] documentUndoManager];
+        NSTextStorage *textStorage=[aTextView textStorage];
+        NSString *string=[textStorage string];
+
+        [undoManager beginUndoGrouping];
+        if (affectedRange.length==0) {
+            affectedRange = NSMakeRange(0,[textStorage length]);
+        }
+        affectedRange=[string lineRangeForRange:affectedRange];
+
+        affectedRange=[textStorage detab:shouldDetab inRange:affectedRange 
+                                   tabWidth:[[self document] tabWidth] askingTextView:aTextView];
+
+        [aTextView setSelectedRange:affectedRange];
+
+        [undoManager endUndoGrouping];
+    }
+}
 
 #pragma mark -
 #pragma mark First Responder Actions
@@ -562,8 +663,185 @@
     } else if (selector == @selector(toggleShowInvisibles:)) {
         [menuItem setState:[self showsInvisibleCharacters]?NSOnState:NSOffState];
         return YES;
+    } else if (selector == @selector(blockeditSelection:) || selector==@selector(endBlockedit:)) {
+        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+        NSRange selection=[I_textView selectedRange];
+        if (selection.location<[textStorage length]) {
+            id blockAttribute=[textStorage
+                                attribute:BlockeditAttributeName
+                                  atIndex:selection.location effectiveRange:nil];
+            if (blockAttribute) {
+                [menuItem setTitle:NSLocalizedString(@"MenuBlockeditEnd",@"End Blockedit in edit Menu")];
+                [menuItem setKeyEquivalent:@"\e"];
+                [menuItem setAction:@selector(endBlockedit:)];
+                [menuItem setKeyEquivalentModifierMask:0];
+                return YES;
+            }
+        }
+        [menuItem setTitle:NSLocalizedString(@"MenuBlockeditSelection",@"Blockedit Selection in edit Menu")];
+        [menuItem setKeyEquivalent:@"B"];
+        [menuItem setAction:@selector(blockeditSelection:)];
+        [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask|NSShiftKeyMask];
+        return YES;
+    } else if (selector==@selector(copyAsXHTML:)) {
+        return ([I_textView selectedRange].length>0);
     }
     return YES;
+}
+
+/*" Copies the current selection as XHTML to the pasteboard
+    font is added, background and foreground color is used
+    - if wrapping is off: <pre> is used
+                     on: leading whitespace is fixed via &nbsp;, <br /> is added for line break
+    - if colorize syntax is on: <span style="color: ...;">, <strong> and <em> are used to style the text
+    - if Show Changes is on: background is colored according to user color, <a title="name"> tags are added
+    TODO: detab before exporting
+"*/
+
+- (IBAction)copyAsXHTML:(id)aSender {
+    static NSDictionary *baseAttributeMapping;
+    static NSDictionary *writtenByAttributeMapping;
+    if (baseAttributeMapping==nil) {
+        baseAttributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<strong>",@"openTag",
+                                @"</strong>",@"closeTag",nil], @"Bold",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<em>",@"openTag",
+                                @"</em>",@"closeTag",nil], @"Italic",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<span style=\"color:%@;\">",@"openTag",
+                                @"</span>",@"closeTag",nil], @"ForegroundColor",
+                            nil];
+        [baseAttributeMapping retain];
+        writtenByAttributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<span style=\"background-color:%@;\">",@"openTag",
+                                @"</span>",@"closeTag",nil], @"BackgroundColor",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<a title=\"%@\">",@"openTag",
+                                @"</a>",@"closeTag",nil], @"WrittenBy",
+                            nil];
+        [writtenByAttributeMapping retain];
+
+    }
+    NSRange selectedRange=[I_textView selectedRange];
+    if (selectedRange.location!=NSNotFound && selectedRange.length>0) {
+        NSMutableDictionary *mapping=[[baseAttributeMapping mutableCopy] autorelease];
+        if ([self showsChangeMarks]) {
+            [mapping addEntriesFromDictionary:writtenByAttributeMapping];
+        }
+        PlainTextDocument *document=[self document];
+        NSColor *backgroundColor=[document documentBackgroundColor];
+        NSColor *foregroundColor=[document documentForegroundColor]; 
+        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+        NSMutableAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange foregroundColor:foregroundColor backgroundColor:backgroundColor];
+        [attributedStringForXHTML detab:YES inRange:NSMakeRange(0,[attributedStringForXHTML length]) tabWidth:[document tabWidth] askingTextView:nil];
+        if ([self wrapsLines]) {
+            [attributedStringForXHTML makeLeadingWhitespaceNonBreaking]; 
+        }
+        selectedRange.location=0;
+        
+        NSString *fontString=@"";
+        if ([[[self document] fontWithTrait:0] isFixedPitch] || 
+            [@"Monaco" isEqualToString:[[[self document] fontWithTrait:0] fontName]]) {
+            fontString=@"font-size:small; font-family:monospace; ";
+        } 
+        
+        // pre or div?
+        NSString *topLevelTag=([self wrapsLines]?@"div":@"pre");
+        
+        NSMutableString *result=[[NSMutableString alloc] initWithCapacity:selectedRange.length*2];
+        [result appendFormat:@"<%@ style=\"text-align:left;color:%@; background-color:%@; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;%@\">",topLevelTag, [foregroundColor HTMLString],[backgroundColor HTMLString],fontString];
+        NSMutableString *content=[attributedStringForXHTML XHTMLStringWithAttributeMapping:mapping forUTF8:NO];
+        if ([self wrapsLines]) {
+            [content addBRs];
+        }
+        [result appendString:content];
+        [result appendFormat:@"</%@>",topLevelTag];
+        [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+        [[NSPasteboard generalPasteboard] setString:result forType:NSStringPboardType];
+        [result release];
+    } else {
+        NSBeep();
+    }
+}
+
+
+//- (IBAction)copyAsXHTML:(id)aSender {
+//    NSRange selectedRange=[I_textView selectedRange];
+//    if (selectedRange.location!=NSNotFound && selectedRange.length>0) {
+//        PlainTextDocument *document=[self document];
+//        NSColor *backgroundColor=[document documentBackgroundColor];
+//        NSColor *foregroundColor=[document documentForegroundColor]; 
+//        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+//        NSAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange foregroundColor:foregroundColor];
+//        selectedRange.location=0;
+//        
+//        NSRange foundRange;
+//        NSMutableString *result=[[NSMutableString alloc] initWithCapacity:selectedRange.length*2];
+//        [result appendFormat:@"<pre style=\"color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto;\">",[foregroundColor HTMLString],[backgroundColor HTMLString]];
+//        NSDictionary *attributes=nil;
+//        unsigned int index=selectedRange.location;
+//        do {
+//            NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
+//            attributes=[attributedStringForXHTML attributesAtIndex:index
+//                    longestEffectiveRange:&foundRange inRange:selectedRange];
+//            index=NSMaxRange(foundRange);
+//            NSString *contentString=[[[attributedStringForXHTML string] substringWithRange:foundRange] stringByReplacingEntities];
+//            NSMutableString *styleString=[NSMutableString string];
+//            if (attributes) {
+//                NSString *htmlColor=[attributes objectForKey:@"ForegroundColor"];
+//                if (htmlColor) {
+//                    [styleString appendFormat:@"color:%@;",htmlColor];
+//                }
+//                NSNumber *traitMask=[attributes objectForKey:@"FontTraits"];
+//                if (traitMask) {
+//                    unsigned traits=[traitMask unsignedIntValue];
+//                    if (traits & NSBoldFontMask) {
+//                        [styleString appendString:@"font-weight:bold;"];
+//                    }
+//                    if (traits & NSItalicFontMask) {
+//                        [styleString appendString:@"font-style:oblique;"];
+//                    }
+//                }
+//                if ([styleString length]>0) {
+//                    [result appendFormat:@"<span style=\"%@\">",styleString];
+//                }
+//            }
+//            [result appendString:contentString];
+//            if (attributes && [styleString length]>0) {
+//                [result appendString:@"</span>"];
+//            }
+//
+//            index=NSMaxRange(foundRange);
+//            [pool release];
+//        } while (index<NSMaxRange(selectedRange));
+//        [result appendString:@"</pre>"];
+//        [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+//        [[NSPasteboard generalPasteboard] setString:result forType:NSStringPboardType];
+//        [result release];
+//    } else {
+//        NSBeep();
+//    }
+//}
+
+- (IBAction)blockeditSelection:(id)aSender {
+    NSRange selection=[I_textView selectedRange];
+    TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+    NSRange lineRange=[[textStorage string] lineRangeForRange:selection];
+    NSDictionary *blockeditAttributes=[[I_textView delegate] blockeditAttributesForTextView:I_textView];
+    [textStorage addAttributes:blockeditAttributes
+                 range:lineRange];
+    [I_textView setSelectedRange:NSMakeRange(selection.location,0)];
+    [textStorage setHasBlockeditRanges:YES];
+}
+
+- (IBAction)endBlockedit:(id)aSender {
+    TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+    if ([textStorage hasBlockeditRanges]) {
+        [textStorage stopBlockedit];
+    }
 }
 
 - (void)setShowsChangeMarks:(BOOL)aFlag {
@@ -715,6 +993,14 @@
 
 - (IBAction)shiftLeft:(id)aSender {
     [self dentParagraphsInTextView:I_textView in:NO];
+}
+
+- (IBAction)detab:(id)aSender {
+    [self tabParagraphsInTextView:I_textView de:YES];
+}
+
+- (IBAction)entab:(id)aSender {
+    [self tabParagraphsInTextView:I_textView de:NO];
 }
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {

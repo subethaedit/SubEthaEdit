@@ -10,9 +10,13 @@
 
 
 extern NSString * const SetupDonePrefKey;
+extern NSString * const SetupVersionPrefKey;
 extern NSString * const SerialNumberPrefKey;
 extern NSString * const LicenseeNamePrefKey;
 extern NSString * const LicenseeOrganizationPrefKey;
+
+#define SEE_TOOL_PATH    @"/usr/bin/see"
+#define SEE_MANPAGE_PATH @"/usr/share/man/man1/see.1"
 
 
 @interface SetupController : NSWindowController {
@@ -27,7 +31,11 @@ extern NSString * const LicenseeOrganizationPrefKey;
     
     IBOutlet NSWindow *O_licenseConfirmationSheet;
     BOOL hasAgreedToLicense;
+    BOOL hasInstalledTool;
     BOOL isFirstRun;
+    BOOL shouldMakeNewDocument;
+    NSArray *itemOrder;
+    int itemIndex;
     
     IBOutlet NSButton *O_noncommercialRadioButton;
     IBOutlet NSButton *O_commercialRadioButton;
@@ -38,9 +46,15 @@ extern NSString * const LicenseeOrganizationPrefKey;
     IBOutlet NSTextView *O_licenseTextView;
     
     IBOutlet NSTabView *O_doneTabView;
+    
+    IBOutlet NSButton *O_useCommandLineToolCheckbox;
 }
 
++ (BOOL)shouldRun;
 + (SetupController *)sharedInstance;
+
++ (BOOL)installCommandLineTool;
++ (BOOL)removeCommandLineTool;
 
 - (IBAction)continueDone:(id)sender;
 - (IBAction)goBack:(id)sender;
@@ -49,5 +63,8 @@ extern NSString * const LicenseeOrganizationPrefKey;
 - (IBAction)agreeLicense:(id)sender;
 - (IBAction)disagreeLicense:(id)sender;
 - (IBAction)purchaseNow:(id)sender;
+
+- (void)setItemOrder:(NSArray *)array;
+- (NSArray *)itemOrder;
 
 @end

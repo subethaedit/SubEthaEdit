@@ -12,6 +12,6 @@
  */
 
 CFBundleName = "OgreKit";
-CFBundleShortVersionString = "OgreKit version 1.2.2";
-CFBundleGetInfoString = "OgreKit version 1.2.2, Copyright (c) 2003 Isao Sonobe.";
-NSHumanReadableCopyright = "Copyright (c) 2003 Isao Sonobe.";
+CFBundleShortVersionString = "OgreKit version 2.0.0";
+CFBundleGetInfoString = "OgreKit version 2.0.0, Copyright (c) 2004 Isao Sonobe.";
+NSHumanReadableCopyright = "Copyright (c) 2004 Isao Sonobe.";

@@ -171,6 +171,24 @@
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>seestyle</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>style.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>SubEthaEditSyntaxStyle</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
 		</dict>
@@ -191,14 +209,24 @@
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>SubEthaEdit</string>
+	<key>CFBundleGetInfoString</key>
+	<string>SubEthaEdit 2.1dev, Copyright © 2003-2004, TheCodingMonkeys</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>SubEthaEditHelp</string>
+	<key>CFBundleHelpBookName</key>
+	<string>SubEthaEdit Help</string>
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>de.codingmonkeys.SubEthaEdit</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>SubEthaEdit</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.1dev</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
@@ -218,13 +246,11 @@
 	<string>10.3</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2003-2004, TheCodingMonkeys</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>CFBundleHelpBookFolder</key>
-	<string>SubEthaEdit Help</string>
-	<key>CFBundleHelpBookName</key>
-	<string>SubEthaEdit Help</string>
 </dict>
 </plist>

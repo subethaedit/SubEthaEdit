@@ -69,6 +69,7 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 - (IBAction)findNext:(id)sender
 {
 	if (![self alertIfInvalidRegex]) return;	// 適切な正規表現かどうか判定する。
+    [_findHistory autorelease];
 	_findHistory = [[findTextField stringValue] retain];
 	
 	[[self textFinder] setSyntax:[self syntax]];
@@ -84,6 +85,7 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 - (IBAction)findPrevious:(id)sender
 {
 	if (![self alertIfInvalidRegex]) return;
+    [_findHistory autorelease];
 	_findHistory = [[findTextField stringValue] retain];
 	
 	[[self textFinder] setSyntax:[self syntax]];
@@ -99,7 +101,9 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 - (IBAction)replace:(id)sender
 {
 	if (![self alertIfInvalidRegex]) return;
+    [_findHistory autorelease];
 	_findHistory = [[findTextField stringValue] retain];
+    [_replaceHistory autorelease];
 	_replaceHistory = [[replaceTextField stringValue] retain];
 	
 	[[self textFinder] setSyntax:[self syntax]];
@@ -113,7 +117,9 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 - (IBAction)replaceAll:(id)sender
 {
 	if (![self alertIfInvalidRegex]) return;
+    [_findHistory autorelease];
 	_findHistory = [[findTextField stringValue] retain];
+    [_replaceHistory autorelease];
 	_replaceHistory = [[replaceTextField stringValue] retain];
 		
 	[[self textFinder] setSyntax:[self syntax]];
@@ -133,21 +139,18 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 - (IBAction)replaceAndFind:(id)sender
 {
 	if (![self alertIfInvalidRegex]) return;
+    [_findHistory autorelease];
 	_findHistory = [[findTextField stringValue] retain];
+    [_replaceHistory autorelease];
 	_replaceHistory = [[replaceTextField stringValue] retain];
 	
 	[[self textFinder] setSyntax:[self syntax]];
 	OgreTextFindResult	*result;
-	result = [[self textFinder] replace: _findHistory 
+	result = [[self textFinder] replaceAndFind: _findHistory 
 			withString: _replaceHistory 
-			options: [self options]];
-	if ([result isSuccess]) {
-		result = [[self textFinder] find: [findTextField stringValue] 
-			options: [self options] 
-			fromTop: NO
-			forward: YES
-			wrap: YES];
-	}
+			options: [self options]
+            replacingOnly:NO 
+            wrap:YES]; 
 	
 	if (![result isSuccess]) NSBeep();   // マッチしなかった場合
 }

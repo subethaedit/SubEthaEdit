@@ -94,7 +94,7 @@ NSString	* const OgreFormatterException = @"OGRegularExpressionFormatterExceptio
 - (void)encodeWithCoder:(NSCoder*)encoder
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-encodeWithCoder: of OGRegularExpressionFormatter");
+	NSLog(@"-encodeWithCoder: of %@", [self className]);
 #endif
     [super encodeWithCoder:encoder];
 
@@ -124,7 +124,7 @@ NSString	* const OgreFormatterException = @"OGRegularExpressionFormatterExceptio
 - (id)initWithCoder:(NSCoder*)decoder
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-initWithCoder: of OGRegularExpressionFormatter");
+	NSLog(@"-initWithCoder: of %@", [self className]);
 #endif
 	self = [super initWithCoder:decoder];
 	if (self == nil) return nil;
@@ -187,7 +187,7 @@ NSString	* const OgreFormatterException = @"OGRegularExpressionFormatterExceptio
 - (id)copyWithZone:(NSZone*)zone
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-copyWithZone: of OGRegularExpressionFormatter");
+	NSLog(@"-copyWithZone: of %@", [self className]);
 #endif
 	return [[[self class] allocWithZone:zone]
 		initWithOptions: _options 
@@ -203,7 +203,7 @@ NSString	* const OgreFormatterException = @"OGRegularExpressionFormatterExceptio
 - (id)initWithOptions:(unsigned)options syntax:(OgreSyntax)syntax escapeCharacter:(NSString*)character
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-initWithOptions: of OGRegularExpressionFormatter");
+	NSLog(@"-initWithOptions: of %@", [self className]);
 #endif
 	self = [super init];
 	if (self) {
@@ -218,7 +218,7 @@ NSString	* const OgreFormatterException = @"OGRegularExpressionFormatterExceptio
 - (void)dealloc
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-dealloc of OGRegularExpressionFormatter");
+	NSLog(@"-dealloc of %@", [self className]);
 #endif
 	[_escapeCharacter release];
 	[super dealloc];

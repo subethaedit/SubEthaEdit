@@ -236,10 +236,14 @@ static NSMenu *defaultMenu=nil;
 
 -(BOOL)validateMenuItem:(id <NSMenuItem>)menuItem 
 {
+
     BOOL returnValue = [super validateMenuItem:menuItem];
     if (!returnValue) {
         if ([menuItem tag]==1001) returnValue=YES;
         if ([menuItem tag]==1002) returnValue=YES;
+    }
+    if (returnValue && [menuItem action]==@selector(copyStyled:)) {
+        return [self selectedRange].length>0;
     }
     
     return returnValue;
@@ -292,6 +296,12 @@ static NSMenu *defaultMenu=nil;
             [[self delegate] textView:self didFinishAutocompleteByInsertingCompletion:word forPartialWordRange:charRange movement:movement];
         }
     }
+}
+
+- (IBAction)copyStyled:(id)aSender {
+    [self setRichText:YES];
+    [self copy:aSender];
+    [self setRichText:NO];
 }
 
 #pragma mark -

@@ -22,6 +22,11 @@
 	_compiledReplaceString = [compiledReplaceString retain];
 }
 
+- (void)_setCompiledReplaceStringType:(NSArray*)compiledReplaceStringType
+{
+	_compiledReplaceStringType = [compiledReplaceStringType retain];
+}
+
 - (void)_setNameArray:(NSArray*)nameArray
 {
 	_nameArray = [nameArray retain];

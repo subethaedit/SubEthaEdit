@@ -33,6 +33,8 @@ NSString * const MyAIMIdentifierPreferenceKey  =@"MyAIMIdentifier";
 NSString * const MyEmailIdentifierPreferenceKey=@"MyEmailIdentifier";
 NSString * const MyAIMsPreferenceKey  = @"MyAIMs";
 NSString * const MyEmailsPreferenceKey= @"MyEmails";
+NSString * const SynthesiseFontsPreferenceKey=@"SynthesiseFonts";
+
 
 @implementation GeneralPreferences
 

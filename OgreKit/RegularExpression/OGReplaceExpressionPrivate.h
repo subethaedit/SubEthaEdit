@@ -19,6 +19,7 @@
  * private accessors *
  *********************/
 - (void)_setCompiledReplaceString:(NSArray*)compiledReplaceString;
+- (void)_setCompiledReplaceStringType:(NSArray*)compiledReplaceStringType;
 - (void)_setNameArray:(NSArray*)nameArray;
 
 @end

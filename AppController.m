@@ -18,8 +18,12 @@
 #import "UndoManager.h"
 #import "SetupController.h"
 
+#import "AdvancedPreferences.h"
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
+#import "StylePreferences.h"
+#import "PrintPreferences.h"
+
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 #import "DocumentModeManager.h"
@@ -34,6 +38,7 @@
 #import "FontAttributesToStringValueTransformer.h"
 #import "HueToColorValueTransformer.h"
 #import "SaturationToColorValueTransformer.h"
+#import "PointsToDisplayValueTransformer.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -43,7 +48,10 @@
 int const EditMenuTag   = 1000;
 int const CutMenuItemTag   = 1;
 int const CopyMenuItemTag  = 2;
+int const CopyXHTMLMenuItemTag = 5;
+int const CopyStyledMenuItemTag = 6;
 int const PasteMenuItemTag = 3;
+int const BlockeditMenuItemTag = 4;
 int const SpellingMenuItemTag = 10;
 int const SpeechMenuItemTag   = 11;
 int const FormatMenuTag = 2000;
@@ -54,7 +62,8 @@ int const WindowMenuTag = 3000;
 
 NSString * const DefaultPortNumber = @"port";
 NSString * const AddressHistory = @"AddressHistory";
-NSString * const SetupDonePrefKey = @"SetupDoneAppleEvaluation";
+NSString * const SetupDonePrefKey = @"SetupDone";
+NSString * const SetupVersionPrefKey = @"SetupVersion";
 NSString * const SerialNumberPrefKey = @"SerialNumberPrefKey";
 NSString * const LicenseeNamePrefKey = @"LicenseeNamePrefKey";
 NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
@@ -80,20 +89,27 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [defaults setObject:[NSMutableArray array] forKey:AddressHistory];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
     [defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
+    [defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
+    [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
+#ifdef TCM_NO_DEBUG
+	[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
+#endif
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
     [UserChangeOperation class];
+    [TCMMMNoOperation class];
 }
 
 - (void)registerTransformers {
     FontAttributesToStringValueTransformer *fontTrans=[[FontAttributesToStringValueTransformer new] autorelease];
     [NSValueTransformer setValueTransformer:fontTrans
                                     forName:@"FontAttributesToString"];
-    HueToColorValueTransformer *hueTrans=[[HueToColorValueTransformer new] autorelease];
-    [NSValueTransformer setValueTransformer:hueTrans
+    [NSValueTransformer setValueTransformer:[[HueToColorValueTransformer new] autorelease]
                                     forName:@"HueToColor"];
+    [NSValueTransformer setValueTransformer:[[PointsToDisplayValueTransformer new] autorelease]
+                                    forName:@"PointsToDisplay"];
     SaturationToColorValueTransformer *satTrans=[[[SaturationToColorValueTransformer alloc] initWithColor:[NSColor blackColor]] autorelease];
     [NSValueTransformer setValueTransformer:satTrans 
                                     forName:@"SaturationToBlackColor"];
@@ -126,7 +142,9 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
         CFPreferencesSetValue(CFSTR("UserID"), (CFStringRef)userID, appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
         // Write out the preference data.
         CFPreferencesSynchronize(appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
-                
+    }
+    
+    if ([defaults stringForKey:SelectedMyColorPreferenceKey]==nil) {           
         // select random color
         // set basic user data 
         if (meCard) {
@@ -205,7 +223,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     if (meCard) {
         NSData  *imageData;
         if ((imageData=[meCard imageData])) {
-            myImage=[[NSImage alloc]initWithData:imageData];
+            myImage=[[NSImage alloc] initWithData:imageData];
             [myImage setCacheMode:NSImageCacheNever];
         } 
     }
@@ -218,32 +236,34 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     if (!myAIM)   myAIM  =@"";
     
     // resizing the image
-    [myImage setScalesWhenResized:YES];
-    NSSize originalSize=[myImage size];
-    NSSize newSize=NSMakeSize(64.,64.);
-    if (originalSize.width>originalSize.height) {
-        newSize.height=(int)(originalSize.height/originalSize.width*newSize.width);
-        if (newSize.height<=0) newSize.height=1;
-    } else {
-        newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
-        if (newSize.width <=0) newSize.width=1;
-    }
-    [myImage setSize:newSize];
-    scaledMyImage=[[NSImage alloc] initWithSize:newSize];
-    [scaledMyImage setCacheMode:NSImageCacheNever];
-    [scaledMyImage lockFocus];
-    NSGraphicsContext *context=[NSGraphicsContext currentContext];
-    NSImageInterpolation oldInterpolation=[context imageInterpolation];
-    [context setImageInterpolation:NSImageInterpolationHigh];
-    [NSColor clearColor];
-    NSRectFill(NSMakeRect(0.,0.,newSize.width,newSize.height));
-    [myImage compositeToPoint:NSMakePoint(0.,0.) operation:NSCompositeCopy];
-    [context setImageInterpolation:oldInterpolation];
-    [scaledMyImage unlockFocus];
+    scaledMyImage=[myImage resizedImageWithSize:NSMakeSize(64.,64.)];
+//    [myImage setScalesWhenResized:YES];
+//    NSSize originalSize=[myImage size];
+//    NSSize newSize=NSMakeSize(64.,64.);
+//    if (originalSize.width>originalSize.height) {
+//        newSize.height=(int)(originalSize.height/originalSize.width*newSize.width);
+//        if (newSize.height<=0) newSize.height=1;
+//    } else {
+//        newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
+//        if (newSize.width <=0) newSize.width=1;
+//    }
+//    [myImage setSize:newSize];
+//    scaledMyImage=[[NSImage alloc] initWithSize:newSize];
+//    [scaledMyImage setCacheMode:NSImageCacheNever];
+//    [scaledMyImage lockFocus];
+//    NSGraphicsContext *context=[NSGraphicsContext currentContext];
+//    NSImageInterpolation oldInterpolation=[context imageInterpolation];
+//    [context setImageInterpolation:NSImageInterpolationHigh];
+//    [NSColor clearColor];
+//    NSRectFill(NSMakeRect(0.,0.,newSize.width,newSize.height));
+//    [myImage compositeToPoint:NSMakePoint(0.,0.) operation:NSCompositeCopy];
+//    [context setImageInterpolation:oldInterpolation];
+//    [scaledMyImage unlockFocus];
     
     NSData *pngData=[scaledMyImage TIFFRepresentation];
     pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-
+    // do this because my resized Images don't behave right on setFlipped:, initWithData ones do!
+    scaledMyImage=[[[NSImage alloc] initWithData:pngData] autorelease];
     [me setUserID:userID];
 
     [me setName:myName];
@@ -254,7 +274,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [me setUserHue:[defaults objectForKey:MyColorHuePreferenceKey]];
 
     [myImage       release];
-    [scaledMyImage release];
+//    [scaledMyImage release];
     [me prepareImages];
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     [userManager setMe:[me autorelease]];
@@ -266,8 +286,10 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 
-    if ([[NSDate dateWithString:@"2004-10-01 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
-		NSRunInformationalAlertPanel(@"Licensed for Evaluation", @"Evaluation License has expired on 10/01/2004.", @"OK", nil, nil, NULL);
+    [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
+    
+    //#warning "Termination has to be removed before release!"
+    if ([[NSDate dateWithString:@"2004-11-15 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
         [NSApp terminate:self];
         return;
     }
@@ -276,12 +298,16 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [self addMe];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
-    //[self setupScriptMenu];
+
+    [[[[NSApp mainMenu] itemWithTag:EditMenuTag] submenu] setDelegate:self];
 
     GeneralPreferences *generalPrefs = [[GeneralPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:generalPrefs];
     EditPreferences *editPrefs = [[EditPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:editPrefs];
+    [TCMPreferenceController registerPrefModule:[[StylePreferences new] autorelease]];
+    [TCMPreferenceController registerPrefModule:[[PrintPreferences new] autorelease]];
+    [TCMPreferenceController registerPrefModule:[[AdvancedPreferences new] autorelease]];
     
 #ifndef TCM_NO_DEBUG
     [[DebugController sharedInstance] enableDebugMenu:[[NSUserDefaults standardUserDefaults] boolForKey:@"EnableDebugMenu"]];
@@ -293,18 +319,14 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
                                                        andSelector:@selector(handleAppleEvent:withReplyEvent:)
                                                      forEventClass:kKAHL
                                                         andEventID:kMOD];
+                                                                                                                
     [self setupTextViewContextMenu];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // this is acutally after the opening of the first untitled document window!
-			
-    BOOL isSetupDone = [[NSUserDefaults standardUserDefaults] boolForKey:SetupDonePrefKey];
-    if (!isSetupDone) {
-		NSRunInformationalAlertPanel(@"Licensed for Evaluation", @"Evaluation License expires on 10/01/2004.", @"OK", nil, nil, NULL);
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupDonePrefKey];
-		
-		/*
+    // this is actually after the opening of the first untitled document window!
+
+    if ([SetupController shouldRun]) {
         SetupController *setupController = [SetupController sharedInstance];
         NSModalSession modalSession = [NSApp beginModalSessionForWindow:[setupController window]];
         for (;;) {
@@ -312,7 +334,6 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
             break;
         }
         [NSApp endModalSession:modalSession];
-		*/
     }
     
     // set up beep profiles
@@ -322,7 +343,8 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
     [[TCMMMBEEPSessionManager sharedInstance] listen];
     [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
-    [[TCMMMPresenceManager sharedInstance] setVisible:YES];
+    [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
+
     [InternetBrowserController sharedInstance];
 }
 
@@ -335,7 +357,8 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 }
 
 -(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
-    BOOL isSetupDone = [[NSUserDefaults standardUserDefaults] boolForKey:SetupDonePrefKey];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL isSetupDone = ([defaults objectForKey:SetupVersionPrefKey] != nil);
     if (!isSetupDone) {
         return NO;
     }
@@ -398,7 +421,11 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     NSMenu *defaultMenu=[NSMenu new];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CutMenuItemTag] copy]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyXHTMLMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyStyledMenuItemTag] copy]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy]];
+    [defaultMenu addItem:[NSMenuItem separatorItem]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:BlockeditMenuItemTag] copy]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpellingMenuItemTag] copy]];
     [defaultMenu addItem:[(NSMenuItem *)[FormatMenu itemWithTag:FontMenuItemTag] copy]];
@@ -407,6 +434,12 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [TextView setDefaultMenu:defaultMenu];
 }
 
+
+// trigger update so keyequivalents match the situation
+- (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action {
+    [menu update];
+    return NO;
+}
 #pragma mark ### IBActions ###
 
 - (IBAction)undo:(id)aSender {
@@ -443,16 +476,16 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
             return NO;
         }
     } else if (selector==@selector(purchaseSubEthaEdit:)) {
-        //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *serial = @"";
-        NSString *name = @"";
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
+        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
         if (name && [serial isValidSerial]) {
             return NO;
         }
     } else if (selector==@selector(enterSerialNumber:)) {
-        //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *serial = @"";
-        NSString *name = @"";
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
+        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
         if (name && [serial isValidSerial]) {
             return NO;
         }
@@ -466,10 +499,16 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [[NSWorkspace sharedWorkspace] openFile:path];
 }
 
-- (IBAction)showRegExHelp:(id)sender{
+- (IBAction)showRegExHelp:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RE" ofType:@"txt"];
     [[NSWorkspace sharedWorkspace] openFile:path];
 }
+
+- (IBAction)showReleaseNotes:(id)sender {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"txt"];
+    [[NSWorkspace sharedWorkspace] openFile:path];
+}
+
 - (IBAction)showAcknowledgements:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"rtf"];
     [[NSWorkspace sharedWorkspace] openFile:path];
@@ -481,6 +520,17 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 - (IBAction)reportBug:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.codingmonkeys.de/bugs/"]];
+}
+
+- (void)changeFont:(id)aSender {
+    NSEnumerator *orderedWindowEnumerator=[[NSApp orderedWindows] objectEnumerator];
+    NSWindow *window;
+    while ((window=[orderedWindowEnumerator nextObject])) {
+        if ([[window windowController] document]) {
+            [[[window windowController] document] changeFont:aSender];
+            break;
+        }
+    }
 }
 
 @end

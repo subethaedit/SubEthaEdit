@@ -30,6 +30,7 @@ extern NSString * const MyEmailIdentifierPreferenceKey;
 extern NSString * const MyNamesPreferenceKey ;
 extern NSString * const MyAIMsPreferenceKey  ;
 extern NSString * const MyEmailsPreferenceKey;
+extern NSString * const SynthesiseFontsPreferenceKey;
 
 @class DocumentModePopUpButton;
 

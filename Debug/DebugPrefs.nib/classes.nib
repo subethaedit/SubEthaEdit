@@ -1,10 +1,10 @@
 {
     IBClasses = (
         {
-            ACTIONS = {toggleDebugMenu = id; }; 
+            ACTIONS = {toggleBEEPLogging = id; toggleDebugMenu = id; }; 
             CLASS = DebugPreferences; 
             LANGUAGE = ObjC; 
-            OUTLETS = {toggleDebugMenuCheckBox = NSButton; }; 
+            OUTLETS = {toggleBEEPLoggingCheckBox = NSButton; toggleDebugMenuCheckBox = NSButton; }; 
             SUPERCLASS = TCMPreferenceModule; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 

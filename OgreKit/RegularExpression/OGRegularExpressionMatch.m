@@ -25,6 +25,8 @@
 #import <OgreKit/OGRegularExpressionMatchPrivate.h>
 #import <OgreKit/OGRegularExpressionEnumerator.h>
 #import <OgreKit/OGRegularExpressionEnumeratorPrivate.h>
+#import <OgreKit/OGRegularExpressionCapture.h>
+#import <OgreKit/OGRegularExpressionCapturePrivate.h>
 
 
 NSString	* const OgreMatchException = @"OGRegularExpressionMatchException";
@@ -32,121 +34,123 @@ NSString	* const OgreMatchException = @"OGRegularExpressionMatchException";
 // 自身をencoding/decodingするためのkey
 static NSString	* const OgreRegionKey              = @"OgreMatchRegion";
 static NSString	* const OgreEnumeratorKey          = @"OgreMatchEnumerator";
-static NSString	* const OgreLocationCacheKey       = @"OgreMatchLocationCache";
-static NSString	* const OgreUtf8LocationCacheKey   = @"OgreMatchUtf8LocationCache";
 static NSString	* const OgreTerminalOfLastMatchKey = @"OgreMatchTerminalOfLastMatch";
 static NSString	* const OgreIndexOfMatchKey        = @"OgreMatchIndexOfMatch";
+static NSString	* const OgreCaptureHistoryKey      = @"OgreMatchCaptureHistory";
 
 
-inline unsigned Ogre_utf8strlen(unsigned char *const utf8string, unsigned char *const end)
+inline unsigned Ogre_UTF16strlen(unichar *const aUTF16string, unichar *const end)
 {
-	unsigned		length = 0;
-	unsigned char	*utf8str = utf8string;
-	unsigned char	byte;
-	while ( ((byte = *utf8str) != 0) && (utf8str < end) ) {
-		if ((byte & 0x80) == 0x00) {
-			// 1 byte
-			utf8str++;
-			length++;
-		} else if ((byte & 0xe0) == 0xc0) {
-			// 2 bytes
-			utf8str += 2;
-			length++;
-		} else if ((byte & 0xf0) == 0xe0) {
-			// 3 bytes
-			utf8str += 3;
-			length++;
-		} else if ((byte & 0xf8) == 0xf0) {
-			// 4 bytes
-			utf8str += 4;
-			length += 2;	// 注意! Cocoaではなんでこんな仕様なんだろう?
-		} else if ((byte & 0xfc) == 0xf8) {
-			// 5 bytes
-			utf8str += 5;
-			length += 2;	// 注意! Cocoaではなんでこんな仕様なんだろう?
-		} else if ((byte & 0xfe) == 0xfc) {
-			// 6 bytes
-			utf8str += 6;
-			length += 2;	// 注意! Cocoaではなんでこんな仕様なんだろう?
-		} else {
-			// subsequent byte in a multibyte code
-			// 出会わないはずなので、出会ったら例外を起こす。
-			[NSException raise:OgreMatchException format:@"illegal byte code"];
-		}
-	}
-	
-	return length;
+	return end - aUTF16string;
 }
 
 static NSArray *Ogre_arrayWithOnigRegion(OnigRegion *region)
 {
 	if (region == NULL) return nil;
 	
-	NSMutableArray	*regionArray = [NSMutableArray arrayWithCapacity:0];
-	unsigned	i = 0, n = region->num_regs;
-	OnigRegion  *cap;
+	NSMutableArray      *regionArray = [NSMutableArray arrayWithCapacity:1];
+	unsigned            i = 0, n = region->num_regs;
 	
 	for( i = 0; i < n; i++ ) {
-		if (ONIG_IS_CAPTURE_HISTORY_GROUP(region, i)) {
-			cap = region->list[i];
-		} else {
-			cap = NULL;
-		}
-		
-		[regionArray addObject: [NSArray arrayWithObjects:
+		[regionArray addObject:[NSArray arrayWithObjects:
 			[NSNumber numberWithInt:region->beg[i]], 
 			[NSNumber numberWithInt:region->end[i]], 
-			Ogre_arrayWithOnigRegion(cap), 
 			nil]];
 	}
 	
 	return regionArray;
 }
 
-static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
+static OnigRegion *Ogre_onigRegionWithArray(NSArray *regionArray)
 {
-	if (array == nil) return NULL;
+	if (regionArray == nil) return NULL;
 	
-	NSEnumerator	*enumerator = [array objectEnumerator];
 	OnigRegion		*region = onig_region_new();
 	if (region == NULL) {
 		// メモリを確保できなかった場合、例外を発生させる。
 		[NSException raise:OgreMatchException format:@"fail to memory allocation"];
 	}
-	unsigned		i = 0, j;
+	unsigned		i = 0, n = [regionArray count];
 	NSArray			*anObject;
-	BOOL			hasList = NO;
 	int				r;
 	
-	r = onig_region_resize(region, [array count]);
+	r = onig_region_resize(region, [regionArray count]);
 	if (r != ONIG_NORMAL) {
 		// メモリを確保できなかった場合、例外を発生させる。
 		onig_region_free(region, 1);
 		[NSException raise:OgreMatchException format:@"fail to memory allocation"];
 	}
-	region->list = NULL;
-	while ( (anObject = [enumerator nextObject]) != nil ) {
+
+	for (i = 0; i < n; i++) {
+        anObject = [regionArray objectAtIndex:i];
 		region->beg[i] = [[anObject objectAtIndex:0] unsignedIntValue];
 		region->end[i] = [[anObject objectAtIndex:1] unsignedIntValue];
-		if ([anObject count] > 2) {
-			if (!hasList) {
-				OnigRegion  **list = (OnigRegion**)malloc(sizeof(OnigRegion*) * (ONIG_MAX_CAPTURE_HISTORY_GROUP + 1));
-				if (list == NULL) {
-					// メモリを確保できなかった場合、例外を発生させる。
-					onig_region_free(region, 1);
-					[NSException raise:OgreMatchException format:@"fail to memory allocation"];
-				}
-				region->list = list;
-				for (j = 0; j <= ONIG_MAX_CAPTURE_HISTORY_GROUP; j++) region->list[j] = (OnigRegion*)NULL;
-				hasList = YES;
-			}
-			region->list[i] = Ogre_onigRegionWithArray((NSArray*)[anObject objectAtIndex:2]);
-		}
-		i++;
 	}
+    
+    region->history_root = NULL;
 	
 	return region;
 }
+
+static NSArray *Ogre_arrayWithOnigCaptureTreeNode(OnigCaptureTreeNode *cap)
+{
+	if (cap == NULL) return [NSArray array];
+	
+	unsigned            i, n = cap->num_childs;
+	NSMutableArray      *children = nil;
+    
+    if (n > 0) {
+        children = [NSMutableArray arrayWithCapacity:n];
+        for(i = 0; i < n; i++) [children addObject:Ogre_arrayWithOnigCaptureTreeNode(cap->childs[i])];
+    }
+    
+    return [NSArray arrayWithObjects:
+        [NSNumber numberWithInt:cap->group], 
+        [NSNumber numberWithInt:cap->beg], 
+        [NSNumber numberWithInt:cap->end], 
+        children, 
+        nil];
+}
+
+static OnigCaptureTreeNode *Ogre_onigCaptureTreeNodeWithArray(NSArray *captureArray)
+{
+    if (captureArray == nil || [captureArray count] == 0) return NULL;
+    
+    OnigCaptureTreeNode *capture;
+    
+    capture = (OnigCaptureTreeNode*)malloc(sizeof(OnigCaptureTreeNode));
+	if (capture == NULL) {
+		// メモリを確保できなかった場合、例外を発生させる。
+		[NSException raise:OgreMatchException format:@"fail to memory allocation"];
+	}
+    
+    capture->group     = [[captureArray objectAtIndex:0] unsignedIntValue];
+    capture->beg       = [[captureArray objectAtIndex:1] unsignedIntValue];
+    capture->end       = [[captureArray objectAtIndex:2] unsignedIntValue];
+    
+    
+    if ([captureArray count] >= 4) {
+        NSArray     *children = (NSArray*)[captureArray objectAtIndex:3];
+        unsigned    i, n = [children count];
+        capture->childs = (OnigCaptureTreeNode**)malloc(n * sizeof(OnigCaptureTreeNode*));
+        if (capture->childs == NULL) {
+            // メモリを確保できなかった場合、例外を発生させる。
+            free(capture);
+            [NSException raise:OgreMatchException format:@"fail to memory allocation"];
+        }
+        
+        capture->allocated = n;
+        capture->num_childs = n;
+        for (i = 0; i < n; i++) capture->childs[i] = Ogre_onigCaptureTreeNodeWithArray([children objectAtIndex:i]);
+    } else {
+        capture->allocated = 0;
+        capture->num_childs = 0;
+        capture->childs = NULL;
+    }
+    
+    return capture;
+}
+
 
 @implementation OGRegularExpressionMatch
 
@@ -177,21 +181,13 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 // index番目のsubstringの範囲
 - (NSRange)rangeOfSubstringAtIndex:(unsigned)index
 {
-	int	location, length;
-	
 	if ( (index >= _region->num_regs) || (_region->beg[index] == -1) ) {
 		// index番目のsubstringが存在しない場合
 		return NSMakeRange(-1, 0);
 	}
 	//NSLog(@"%d %d-%d", index, _region->beg[index], _region->end[index]);
 	
-	/* substringよりも前の文字列の長さを得る。 */
-	location = _searchRange.location + _locationCache + Ogre_utf8strlen(_utf8SwappedTargetString + _utf8LocationCache, _utf8SwappedTargetString + _region->beg[index]);
-	
-	/* substringの長さを得る。 */
-	length = Ogre_utf8strlen(_utf8SwappedTargetString + _region->beg[index], _utf8SwappedTargetString + _region->end[index]);
-	
-	return NSMakeRange(location, length);
+	return NSMakeRange(_searchRange.location + (_region->beg[index] / sizeof(unichar)), (_region->end[index] - _region->beg[index]) / sizeof(unichar));
 }
 
 // index番目のsubstring \n
@@ -206,29 +202,13 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 		return @"";
 	}
 	
-	/* substring */
-	unsigned char* utf8Substr;
-	utf8Substr = malloc((_region->end[index] - _region->beg[index] + 1) * sizeof(unsigned char));
-	if ( utf8Substr == NULL ) {
-		// メモリを確保できなかった場合、例外を発生させる。
-		[NSException raise:OgreMatchException format:@"fail to memory allocation"];
-	}
-	// コピー
-	memcpy( utf8Substr, _utf8SwappedTargetString + _region->beg[index], _region->end[index] - _region->beg[index]);
-	*(utf8Substr + (_region->end[index] - _region->beg[index])) = 0;
-	NSString *substr = [NSString stringWithUTF8String:utf8Substr];
-	// 開放
-	free(utf8Substr);
-	
-	// \を入れ替える
-	return [OGRegularExpression swapBackslashInString:substr forCharacter:_escapeCharacter];
+	return [_targetString substringWithRange:NSMakeRange(_region->beg[index] / sizeof(unichar), (_region->end[index] - _region->beg[index]) / sizeof(unichar))];
 }
 
 // マッチの対象になった文字列
 - (NSString*)targetString
 {
-	// \を入れ替える
-	return [OGRegularExpression swapBackslashInString:_swappedTargetString forCharacter:_escapeCharacter];
+	return _targetString;
 }
 
 // マッチした部分より前の文字列 \`
@@ -243,21 +223,7 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 		return @"";
 	}
 	
-	/* マッチした部分より前の文字列 */
-	unsigned char* utf8Substr = malloc((_region->beg[0] + 1) * sizeof(unsigned char));
-	if ( utf8Substr == NULL ) {
-		// メモリを確保できなかった場合、例外を発生させる。
-		[NSException raise:OgreMatchException format:@"fail to memory allocation"];
-	}
-	// コピー
-	memcpy( utf8Substr, _utf8SwappedTargetString, _region->beg[0] );
-	*(utf8Substr + _region->beg[0]) = 0;
-	NSString *substr = [NSString stringWithUTF8String: utf8Substr];
-	// 開放
-	free(utf8Substr);
-	
-	// \を入れ替える
-	return [OGRegularExpression swapBackslashInString:substr forCharacter:_escapeCharacter];
+	return [_targetString substringWithRange:NSMakeRange(0, _region->beg[0] / sizeof(unichar))];
 }
 
 // マッチした部分より前の文字列 \` の範囲
@@ -269,9 +235,7 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 	}
 
 	/* マッチした部分より前の文字列 */
-	unsigned length = _locationCache + Ogre_utf8strlen(_utf8SwappedTargetString + _utf8LocationCache, _utf8SwappedTargetString + _region->beg[0]);
-
-	return NSMakeRange(_searchRange.location, length);
+	return NSMakeRange(_searchRange.location, _region->beg[0] / sizeof(unichar));
 }
 
 // マッチした部分より後ろの文字列 \'
@@ -282,27 +246,13 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 		return nil;
 	}
 
-	unsigned	utf8strlen = strlen(_utf8SwappedTargetString);
-	if (_region->end[0] == utf8strlen) {
+	if ((_region->end[0] / sizeof(unichar)) == [_targetString length]) {
 		// マッチした部分より後ろの文字列が空の場合
 		return @"";
 	}
 	
-	/* マッチした部分より後ろの文字列 */
-	unsigned char* utf8Substr = malloc((utf8strlen - _region->end[0] + 1) * sizeof(unsigned char));
-	if ( utf8Substr == NULL ) {
-		// メモリを確保できなかった場合、例外を発生させる。
-		[NSException raise:OgreMatchException format:@"fail to memory allocation"];
-	}
-	// コピー
-	memcpy( utf8Substr, _utf8SwappedTargetString + _region->end[0], utf8strlen - _region->end[0]);
-	*(utf8Substr + (utf8strlen - _region->end[0])) = 0;
-	NSString *substr = [NSString stringWithUTF8String:utf8Substr];
-	// 開放
-	free(utf8Substr);
-	
-	// \を入れ替える
-	return [OGRegularExpression swapBackslashInString:substr forCharacter:_escapeCharacter];
+    unsigned    location = _region->end[0] / sizeof(unichar);
+	return [_targetString substringWithRange:NSMakeRange(location, [_targetString length] - location)];
 }
 
 // マッチした部分より後ろの文字列 \' の範囲
@@ -313,10 +263,8 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 		return NSMakeRange(-1, 0);
 	}
 	
-	unsigned	utf8strlen = strlen(_utf8SwappedTargetString);
-	unsigned	length = Ogre_utf8strlen(_utf8SwappedTargetString + _region->end[0], _utf8SwappedTargetString + utf8strlen);
-	
-	return NSMakeRange(_searchRange.location + _searchRange.length - length, length);
+	unsigned	length = [_targetString length] - _region->end[0] / sizeof(unichar);
+	return NSMakeRange(_searchRange.location + _region->end[0] / sizeof(unichar), length);
 }
 
 // マッチした文字列と一つ前にマッチした文字列の間の文字列 \-
@@ -326,26 +274,12 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 		// マッチした文字列が存在しない場合
 		return nil;
 	}
-	if (_region->beg[0] == _utf8TerminalOfLastMatch) {
+	if (_region->beg[0] / sizeof(unichar) == _terminalOfLastMatch) {
 		// 間の文字列が空の場合
 		return @"";
 	}
 	
-	/* 間の文字列 */
-	unsigned char* utf8Substr = malloc((_region->beg[0] - _utf8TerminalOfLastMatch + 1) * sizeof(unsigned char));
-	if ( utf8Substr == NULL ) {
-		// メモリを確保できなかった場合、例外を発生させる。
-		[NSException raise:OgreMatchException format:@"fail to memory allocation"];
-	}
-	// コピー
-	memcpy( utf8Substr, _utf8SwappedTargetString + _utf8TerminalOfLastMatch, _region->beg[0] - _utf8TerminalOfLastMatch);
-	*(utf8Substr + (_region->beg[0] - _utf8TerminalOfLastMatch)) = 0;
-	NSString *substr = [NSString stringWithUTF8String: utf8Substr];
-	// 開放
-	free(utf8Substr);
-	
-	// \を入れ替える
-	return [OGRegularExpression swapBackslashInString:substr forCharacter:_escapeCharacter];
+	return [_targetString substringWithRange:NSMakeRange(_terminalOfLastMatch, _region->beg[0] / sizeof(unichar) - _terminalOfLastMatch)];
 }
 
 // マッチした文字列と一つ前にマッチした文字列の間の文字列 \- の範囲
@@ -356,10 +290,7 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 		return NSMakeRange(-1,0);
 	}
 
-	unsigned length = Ogre_utf8strlen(_utf8SwappedTargetString + _utf8TerminalOfLastMatch, _utf8SwappedTargetString + _region->beg[0]);
-	
-	NSRange		rangeOfPrematchString = [self rangeOfPrematchString];
-	return NSMakeRange(rangeOfPrematchString.location + rangeOfPrematchString.length - length, length);
+	return NSMakeRange(_searchRange.location + _terminalOfLastMatch, _region->beg[0] / sizeof(unichar) - _terminalOfLastMatch);
 }
 
 // 最後にマッチした部分文字列 \+
@@ -395,31 +326,29 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 - (void)encodeWithCoder:(NSCoder*)encoder
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-encodeWithCoder: of OGRegularExpressionMatch");
+	NSLog(@"-encodeWithCoder: of %@", [self className]);
 #endif
 	//[super encodeWithCoder:encoder]; NSObject does ont respond to method encodeWithCoder:
 	
    if ([encoder allowsKeyedCoding]) {
 		[encoder encodeObject: Ogre_arrayWithOnigRegion(_region) forKey: OgreRegionKey];
 		[encoder encodeObject: _enumerator forKey: OgreEnumeratorKey];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt: _locationCache] forKey: OgreLocationCacheKey];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt: _utf8LocationCache] forKey: OgreUtf8LocationCacheKey];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt: _utf8TerminalOfLastMatch] forKey: OgreTerminalOfLastMatchKey];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInt: _terminalOfLastMatch] forKey: OgreTerminalOfLastMatchKey];
 		[encoder encodeObject: [NSNumber numberWithUnsignedInt: _index] forKey: OgreIndexOfMatchKey];
+		[encoder encodeObject: Ogre_arrayWithOnigCaptureTreeNode(_region->history_root) forKey: OgreCaptureHistoryKey];
 	} else {
 		[encoder encodeObject: Ogre_arrayWithOnigRegion(_region)];
 		[encoder encodeObject: _enumerator];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt: _locationCache]];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt: _utf8LocationCache]];
-		[encoder encodeObject: [NSNumber numberWithUnsignedInt: _utf8TerminalOfLastMatch]];
+		[encoder encodeObject: [NSNumber numberWithUnsignedInt: _terminalOfLastMatch]];
 		[encoder encodeObject: [NSNumber numberWithUnsignedInt: _index]];
+		[encoder encodeObject: Ogre_arrayWithOnigCaptureTreeNode(_region->history_root)];
 	}
 }
 
 - (id)initWithCoder:(NSCoder*)decoder
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-initWithCoder: of OGRegularExpressionMatch");
+	NSLog(@"-initWithCoder: of %@", [self className]);
 #endif
 	self = [super init];	// NSObject does ont respond to method initWithCoder:
 	if (self == nil) return nil;
@@ -427,15 +356,6 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 	BOOL			allowsKeyedCoding = [decoder allowsKeyedCoding];
 	
 	// OnigRegion		*_region;				// match result region
-	// /* match result region type */
-	// struct re_registers {
-	// int  allocated;
-	// int  num_regs;
-	// int* beg;
-	// int* end;
-	// /* extended */
-	// struct re_registers** list; /* capture history. list[1]-list[31] */
-	// };
 	id  anObject;
 	NSArray	*regionArray;
     if (allowsKeyedCoding) {
@@ -450,6 +370,7 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 	}
 	_region = Ogre_onigRegionWithArray(regionArray);	
 	
+    
 	// OGRegularExpressionEnumerator*	_enumerator;	// 生成主
     if (allowsKeyedCoding) {
 		_enumerator = [[decoder decodeObjectForKey: OgreEnumeratorKey] retain];
@@ -463,35 +384,7 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 	}
 	
 	
-	// unsigned		_locationCache;	// 既に分かっているNSStringの長さとUTF8Stringの長さの対応
-    if (allowsKeyedCoding) {
-		anObject = [decoder decodeObjectForKey: OgreLocationCacheKey];
-	} else {
-		anObject = [decoder decodeObject];
-	}
-	if (anObject == nil) {
-		// エラー。例外を発生させる。
-		[self release];
-		[NSException raise:OgreMatchException format:@"fail to decode"];
-	}
-	_locationCache = [anObject unsignedIntValue];
-	
-	
-	// unsigned		_utf8LocationCache;
-    if (allowsKeyedCoding) {
-		anObject = [decoder decodeObjectForKey: OgreUtf8LocationCacheKey];
-	} else {
-		anObject = [decoder decodeObject];
-	}
-	if (anObject == nil) {
-		// エラー。例外を発生させる。
-		[self release];
-		[NSException raise:OgreMatchException format:@"fail to decode"];
-	}
-	_utf8LocationCache = [anObject unsignedIntValue];
-	
-	
-	// unsigned	_utf8TerminalOfLastMatch;	// 前回にマッチした文字列の終端位置 (_region->end[0])
+	// unsigned	_terminalOfLastMatch;	// 前回にマッチした文字列の終端位置 (_region->end[0] / sizeof(unichar))
     if (allowsKeyedCoding) {
 		anObject = [decoder decodeObjectForKey: OgreTerminalOfLastMatchKey];
 	} else {
@@ -502,7 +395,7 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 		[self release];
 		[NSException raise:OgreMatchException format:@"fail to decode"];
 	}
-	_utf8TerminalOfLastMatch = [anObject unsignedIntValue];
+	_terminalOfLastMatch = [anObject unsignedIntValue];
 
 	
 	// 	unsigned		_index;		// マッチした順番
@@ -519,19 +412,31 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 	_index = [anObject unsignedIntValue];
 
 	
+	// _region->history_root    // capture history
+	NSArray	*captureArray;
+    if (allowsKeyedCoding) {
+		captureArray = [decoder decodeObjectForKey:OgreCaptureHistoryKey];
+	} else {
+		captureArray = [decoder decodeObject];
+	}
+	if (captureArray == nil) {
+		// エラー。例外を発生させる。
+		[self release];
+		[NSException raise:OgreMatchException format:@"fail to decode"];
+	}
+	_region->history_root = Ogre_onigCaptureTreeNodeWithArray(captureArray);
+	
+    
 	// 頻繁に利用するものはキャッシュする。保持はしない。
 	// 検索対象文字列
-	_swappedTargetString     = [_enumerator swappedTargetString];
-	_utf8SwappedTargetString = [_enumerator utf8SwappedTargetString];
+	_targetString        = [_enumerator targetString];
 	// 検索範囲
 	NSRange	searchRange = [_enumerator searchRange];
 	_searchRange.location = searchRange.location;
 	_searchRange.length   = searchRange.length;
 	// 代替\文字を保持
 	_escapeCharacter = [[_enumerator regularExpression] escapeCharacter];
-	// 生成主
-	_parentMatch = nil;
-	
+
 	
 	return self;
 }
@@ -540,7 +445,7 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 - (id)copyWithZone:(NSZone*)zone
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-copyWithZone: of OGRegularExpressionMatch");
+	NSLog(@"-copyWithZone: of %@", [self className]);
 #endif
 	OnigRegion*	newRegion = onig_region_new();
 	onig_region_copy(newRegion, _region);
@@ -549,43 +454,25 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 		initWithRegion: newRegion 
 		index: _index 
 		enumerator: _enumerator
-		locationCache: _locationCache 
-		utf8LocationCache: _utf8LocationCache 
-		utf8TerminalOfLastMatch: _utf8TerminalOfLastMatch
-		parentMatch:nil];
+		terminalOfLastMatch: _terminalOfLastMatch];
 }
 
 
 // description
 - (NSString*)description
 {
-	// OnigRegion		*_region;				// match result region
-	// /* match result region type */
-	// 		struct re_registers {
-	// 		int  allocated;
-	// 		int  num_regs;
-	// 		int* beg;
-	// 		int* end;
-	// 		/* extended */
-	// 		struct re_registers** list; /* capture history. list[1]-list[31] */
-	// };
-	
-	NSRange	aRange = [self rangeOfStringBetweenMatchAndLastMatch];
-	
 	NSDictionary	*dictionary = [NSDictionary 
 		dictionaryWithObjects: [NSArray arrayWithObjects: 
 			Ogre_arrayWithOnigRegion(_region), 
+			Ogre_arrayWithOnigCaptureTreeNode(_region->history_root), 
 			_enumerator, 
-			[NSNumber numberWithUnsignedInt: _locationCache], 
-			[NSNumber numberWithUnsignedInt: _utf8LocationCache], 
-			[NSNumber numberWithUnsignedInt: aRange.location], 
+			[NSNumber numberWithUnsignedInt: _terminalOfLastMatch], 
 			[NSNumber numberWithUnsignedInt: _index], 
 			nil]
 		forKeys:[NSArray arrayWithObjects: 
 			@"Range of Substrings", 
+			@"Capture History", 
 			@"Regular Expression Enumerator", 
-			@"Cache (Length of NSString)", 
-			@"Cache (Length of UTF8String)", 
 			@"Terminal of the Last Match", 
 			@"Index", 
 			nil]
@@ -865,28 +752,18 @@ static OnigRegion *Ogre_onigRegionWithArray(NSArray *array)
 /******************
 * Capture History *
 *******************/
-// index番目のグループの捕獲履歴
+// 捕獲履歴
 // 履歴がない場合はnilを返す。
-- (OGRegularExpressionMatch*)captureHistoryAtIndex:(unsigned)index
+- (OGRegularExpressionCapture*)captureHistory
 {
-	if ((index >= [self count]) || !ONIG_IS_CAPTURE_HISTORY_GROUP(_region, index)) return nil;
+	if (_region->history_root == NULL) return nil;
 	
-	return [[[[self class] allocWithZone:[self zone]] 
-		initWithRegion: _region->list[index] 
-		index: _index 
-		enumerator: _enumerator 
-		locationCache: _locationCache 
-		utf8LocationCache: _utf8LocationCache 
-		utf8TerminalOfLastMatch: _utf8TerminalOfLastMatch 
-		parentMatch:self] autorelease];
-}
-
-- (OGRegularExpressionMatch*)captureHistoryNamed:(NSString*)name
-{
-	int	index = [self indexOfSubstringNamed:name];
-	if (index == -1) return nil;
-	
-	return [self captureHistoryAtIndex:index];
+	return [[[OGRegularExpressionCapture allocWithZone:[self zone]] 
+        initWithTreeNode:_region->history_root 
+        index:0 
+        level:0 
+        parentNode:nil 
+        match:self] autorelease];
 }
 
 @end

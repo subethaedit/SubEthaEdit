@@ -29,11 +29,35 @@ extern NSString * const DocumentModeShowInvisibleCharactersPreferenceKey;
 extern NSString * const DocumentModeWrapModePreferenceKey               ;
 extern NSString * const DocumentModeColumnsPreferenceKey                ;
 extern NSString * const DocumentModeRowsPreferenceKey                   ;
-extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
-extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
 extern NSString * const DocumentModeSpellCheckingPreferenceKey          ;
+extern NSString * const DocumentModePrintInfoPreferenceKey              ;
+
+extern NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey  ;
+extern NSString * const DocumentModeSyntaxStylePreferenceKey            ;
+// depricated
+// extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
+// extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
+
+extern NSString * const DocumentModeExportPreferenceKey                    ;
+extern NSString * const DocumentModeExportHTMLPreferenceKey                ;
+extern NSString * const DocumentModeHTMLExportAddCurrentDatePreferenceKey  ;
+extern NSString * const DocumentModeHTMLExportHighlightSyntaxPreferenceKey ;
+extern NSString * const DocumentModeHTMLExportShowAIMAndEmailPreferenceKey ;
+extern NSString * const DocumentModeHTMLExportShowChangeMarksPreferenceKey ;
+extern NSString * const DocumentModeHTMLExportShowParticipantsPreferenceKey;
+extern NSString * const DocumentModeHTMLExportShowUserImagesPreferenceKey  ;
+extern NSString * const DocumentModeHTMLExportShowVisitorsPreferenceKey    ;
+extern NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey ;
+extern NSString * const DocumentModeUseDefaultPrintPreferenceKey;
+extern NSString * const DocumentModeUseDefaultStylePreferenceKey;
+
+extern NSString * const DocumentModeApplyEditPreferencesNotification;
+extern NSString * const DocumentModeApplyStylePreferencesNotification;
+
+
 @class SyntaxHighlighter;
 @class RegexSymbolParser;
+@class SyntaxStyle;
 
 @interface DocumentMode : NSObject {
     NSBundle *I_bundle;
@@ -41,6 +65,7 @@ extern NSString * const DocumentModeSpellCheckingPreferenceKey          ;
     RegexSymbolParser *I_symbolParser;
     NSMutableArray *I_autocompleteDictionary;
     NSMutableDictionary *I_defaults;
+    SyntaxStyle *I_syntaxStyle,*I_defaultSyntaxStyle;
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle;
@@ -59,7 +84,9 @@ extern NSString * const DocumentModeSpellCheckingPreferenceKey          ;
 - (NSMutableDictionary *)defaults;
 - (void)setDefaults:(NSMutableDictionary *)defaults;
 - (id)defaultForKey:(NSString *)aKey;
-
+- (SyntaxStyle *)syntaxStyle;
+- (void)setSyntaxStyle:(SyntaxStyle *)aStyle;
+- (SyntaxStyle *)defaultSyntaxStyle;
 
 - (BOOL)isBaseMode;
 @end

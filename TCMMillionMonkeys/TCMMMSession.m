@@ -698,6 +698,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             }
             [properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:userID] forKey:@"SelectionOperation"];
             [groupArray addObject:user];
+            [I_contributors addObject:user];
             [I_groupByUserID setObject:group forKey:userID];
         }
     }
@@ -965,6 +966,8 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     I_sessionContentLength = [[sessionInfo objectForKey:@"ContentLength"] unsignedIntValue] + 6;
     I_receivedContentLength = 0;
 
+    [I_contributors addObject:[userManager me]];
+
     [[self document] session:self didReceiveSessionInformation:[sessionInfo objectForKey:@"DocumentSessionInformation"]];
 
     return result;
@@ -1092,6 +1095,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         }
         TCMMMUser *user=[userManager userForUserID:userID];
         [[I_participants objectForKey:group] addObject:user];
+        [I_contributors addObject:user];
         [I_groupByUserID setObject:group forKey:userID];
         [user joinSessionID:[self sessionID]];
         NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];

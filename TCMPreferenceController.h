@@ -20,6 +20,10 @@
     NSView *I_emptyContentView;
 }
 
++ (TCMPreferenceController *)sharedInstance;
 + (void)registerPrefModule:(TCMPreferenceModule *)aModule;
+
+- (BOOL)selectPreferenceModuleWithIdentifier:(NSString *)identifier;
+- (TCMPreferenceModule *)preferenceModuleWithIdentifier:(NSString *)identifier; 
 
 @end

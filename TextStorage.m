@@ -9,6 +9,9 @@
 #import "TextStorage.h"
 #import "EncodingManager.h"
 #import "PlainTextDocument.h"
+#import "TCMMMUserManager.h"
+#import "TCMMMUserSEEAdditions.h"
+#import "GeneralPreferences.h"
 
 NSString * const BlockeditAttributeName =@"Blockedit";
 NSString * const BlockeditAttributeValue=@"YES";
@@ -157,9 +160,9 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 
 - (int)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
-           lineRange:(NSRange)aLineRange inTextView:(NSTextView *)aTextView {
+           lineRange:(NSRange)aLineRange inTextView:(NSTextView *)aTextView tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs{
     int lengthChange=0;
-    int tabWidth=[(PlainTextDocument *)[[[aTextView window] windowController] document] tabWidth];
+    int tabWidth=aTabWidth;
     TextStorage *textStorage=self;
     NSRange aReplacementRange=aRange;
     NSString *string=[textStorage string];
@@ -179,12 +182,30 @@ NSString * const BlockeditAttributeValue=@"YES";
 //        NSLog(@"line to short %u/%u",detabbedLengthOfLine,aRange.location);
         if ([aReplacementString length]>0) {
 //            NSLog(@"no replacment length");
-            // issue: add tabs when tab mode
             if (detabbedLengthOfLine!=aRange.location) {
-                aReplacementString=[NSString stringWithFormat:@"%@%@",
-                                    [@" " stringByPaddingToLength:aRange.location-detabbedLengthOfLine
-                                                     withString:@" " startingAtIndex:0],
-                                    aReplacementString];
+                if (aUseTabs) {
+                    int lengthDifference=aRange.location-detabbedLengthOfLine;
+                    int lengthOfFirstTab=tabWidth-(detabbedLengthOfLine%tabWidth);
+                    if (lengthOfFirstTab>lengthDifference) {
+                        aReplacementString=[NSString stringWithFormat:@"%@%@",
+                                        [@"" stringByPaddingToLength:aRange.location-detabbedLengthOfLine
+                                                         withString:@" " startingAtIndex:0],
+                                        aReplacementString];
+                    } else {
+                        int numberOfTabs=(lengthDifference-lengthOfFirstTab)/tabWidth;
+                        aReplacementString=[NSString stringWithFormat:@"\t%@%@%@",
+                                        [@"" stringByPaddingToLength:numberOfTabs
+                                                         withString:@"\t" startingAtIndex:0],
+                                        [@"" stringByPaddingToLength:(lengthDifference-lengthOfFirstTab-tabWidth*numberOfTabs)
+                                                         withString:@" " startingAtIndex:0],
+                                        aReplacementString];
+                    }
+                } else {
+                    aReplacementString=[NSString stringWithFormat:@"%@%@",
+                                        [@"" stringByPaddingToLength:aRange.location-detabbedLengthOfLine
+                                                         withString:@" " startingAtIndex:0],
+                                        aReplacementString];
+                }
             }
             aReplacementRange.location=NSMaxRange(aLineRange);
             aReplacementRange.length=0;
@@ -259,7 +280,7 @@ NSString * const BlockeditAttributeValue=@"YES";
             lengthChange+=[aReplacementString length]-aReplacementRange.length;
             [textStorage replaceCharactersInRange:aReplacementRange 
                                        withString:aReplacementString];
-            [textStorage setAttributes:[aTextView typingAttributes] 
+            [textStorage addAttributes:[aTextView typingAttributes] 
                                  range:NSMakeRange(aReplacementRange.location,[aReplacementString length])];
         }
     }
@@ -268,7 +289,8 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 - (NSRange)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
-        paragraphRange:(NSRange)aParagraphRange inTextView:(NSTextView *)aTextView {
+        paragraphRange:(NSRange)aParagraphRange inTextView:(NSTextView *)aTextView 
+        tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs {
  
 //    NSLog(@"blockChangeTextInRange: %@",NSStringFromRange(aRange));
     TextStorage *textStorage=self;
@@ -285,7 +307,7 @@ NSString * const BlockeditAttributeValue=@"YES";
     int result=0;
     while (!DisjointRanges(lineRange,aParagraphRange)) {
         result=[self blockChangeTextInRange:aRange replacementString:aReplacementString
-                     lineRange:lineRange inTextView:aTextView];
+                     lineRange:lineRange inTextView:aTextView tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs];
         lengthChange+=result;
         // special case
         if (lineRange.location==0) break;
@@ -491,5 +513,84 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 
+#pragma mark -
+#pragma mark ### XHTML Export ###
+
+
+- (NSMutableAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor backgroundColor:(NSColor *)aBackgroundColor {
+    NSString *htmlForgreoundColor=[aForegroundColor HTMLString];
+    NSMutableAttributedString *result=[[[NSMutableAttributedString alloc] initWithString:[[self string] substringWithRange:aRange]] autorelease];
+    unsigned int index;
+    NSFontManager *fontManager=[NSFontManager sharedFontManager];
+    
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSFont *font=[self attribute:NSFontAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (font) {
+            unsigned traitMask=[fontManager traitsOfFont:font] & (NSBoldFontMask | NSItalicFontMask);
+            if (traitMask) {
+                foundRange.location=foundRange.location-aRange.location;
+                [result addAttribute:@"FontTraits" 
+                    value:[NSNumber numberWithUnsignedInt:traitMask]
+                    range:foundRange];
+                if (traitMask & NSBoldFontMask) {
+                    [result addAttribute:@"Bold" value:[NSNumber numberWithBool:YES] range:foundRange];
+                }
+                if (traitMask & NSItalicFontMask) {
+                    [result addAttribute:@"Italic" value:[NSNumber numberWithBool:YES] range:foundRange];
+                }
+            }
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSColor *color=[self attribute:NSForegroundColorAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (color) {
+            NSString *xhtmlColor=[color HTMLString];
+            if (![xhtmlColor isEqualToString:htmlForgreoundColor]) {
+                foundRange.location=foundRange.location-aRange.location;
+                [result addAttribute:@"ForegroundColor" 
+                    value:xhtmlColor
+                    range:foundRange];
+            }
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSString *author=[self attribute:WrittenByUserIDAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (author) {
+            foundRange.location=foundRange.location-aRange.location;
+            [result addAttribute:@"WrittenBy" value:[[[[TCMMMUserManager sharedInstance] userForUserID:author] name] stringByReplacingEntitiesForUTF8:NO] range:foundRange];
+            [result addAttribute:@"WrittenByUserID" value:author range:foundRange];
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSString *author=[self attribute:ChangedByUserIDAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (author) {
+            foundRange.location=foundRange.location-aRange.location;
+            [result addAttribute:@"ChangedBy" value:author range:foundRange];
+            NSColor *changeColor=[[[TCMMMUserManager sharedInstance] userForUserID:author] changeColor];
+            NSColor *userBackgroundColor=[aBackgroundColor blendedColorWithFraction:
+                                [[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
+                             ofColor:changeColor];
+            [result addAttribute:@"BackgroundColor" value:[userBackgroundColor HTMLString] range:foundRange];
+            [result addAttribute:@"ChangedByUserID" value:author range:foundRange];
+        }
+    } while (index<NSMaxRange(aRange));
+    
+    return result;
+}
 
 @end

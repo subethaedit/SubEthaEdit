@@ -7,8 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MoreUNIX.h"
 
 int main(int argc, const char *argv[])
 {
+    (void)MoreUNIXIgnoreSIGPIPE();
     return NSApplicationMain(argc, argv);
 }

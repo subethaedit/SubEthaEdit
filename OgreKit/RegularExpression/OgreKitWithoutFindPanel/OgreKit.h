@@ -25,6 +25,7 @@
 #import <OgreKit/OGRegularExpression.h>
 #import <OgreKit/OGRegularExpressionEnumerator.h>
 #import <OgreKit/OGRegularExpressionMatch.h>
+#import <OgreKit/OGRegularExpressionCapture.h>
 #import <OgreKit/OGRegularExpressionFormatter.h>
 #import <OgreKit/OGReplaceExpression.h>
 #import <OgreKit/NSString_OgreKitAdditions.h>

@@ -19,6 +19,7 @@ typedef enum _LineEnding {
 @interface NSMutableString (NSStringTCMAdditions)
 
 - (void)convertLineEndingsToLineEndingString:(NSString *)aNewLineEndingString;
+- (NSMutableString *)addBRs;
 
 @end
 
@@ -37,5 +38,20 @@ typedef enum _LineEnding {
 - (BOOL)detabbedLength:(unsigned)aLength fromIndex:(unsigned)aFromIndex 
                 length:(unsigned *)rLength upToCharacterIndex:(unsigned *)rIndex
               tabWidth:(int)aTabWidth;
+- (NSMutableString *)stringByReplacingEntitiesForUTF8:(BOOL)forUTF8;
+@end
+
+@interface NSAttributedString (NSAttributedStringTCMAdditions)
+
+- (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8;
+
+@end
+
+@interface NSMutableAttributedString (NSMutableAttributedStringTCMAdditions) 
+
+/* returns length change */
+- (NSRange)detab:(BOOL)shouldDetab inRange:(NSRange)aRange tabWidth:(int)aTabWidth askingTextView:(NSTextView *)aTextView;
+- (void)makeLeadingWhitespaceNonBreaking;
+- (void)appendString:(NSString *)aString;
 
 @end
