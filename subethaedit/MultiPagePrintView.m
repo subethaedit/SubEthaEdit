@@ -200,6 +200,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         I_headerTextView =[[NSTextView alloc] initWithFrame:NSMakeRect([printInfo leftMargin],[printInfo rightMargin],I_textContainerSize.width,I_textContainerSize.height)];
         [[I_headerTextView textContainer] setLineFragmentPadding:0.];
         [I_headerTextView setTextContainerInset:NSMakeSize(0.,0.)];
+        [I_headerTextView setDrawsBackground:NO];
 
         NSFont *headerFont=[NSFont fontWithName:@"Helvetica" size:10.];
         if (!headerFont) headerFont=[NSFont systemFontOfSize:10.];
@@ -561,30 +562,40 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     }
 
     NSUserDefaults *standardUserDefaults=[NSUserDefaults standardUserDefaults];
+    NSPrintInfo *printInfo = [[NSPrintOperation currentOperation] printInfo];
+    NSDictionary *printInfoDictionary = [printInfo dictionary];
 
 
-    if (!isVisitor) {
+    if (!isVisitor && 
+        ([[printInfoDictionary objectForKey:@"SEEColorizeChangeMarks"] boolValue] ||
+         [[printInfoDictionary objectForKey:@"SEEColorizeWrittenBy"]   boolValue])) {
         NSColor *changeColor=[aUser changeColor];
         NSColor *userBackgroundColor=[[I_document documentBackgroundColor] blendedColorWithFraction:
                             [standardUserDefaults floatForKey:ChangesSaturationPreferenceKey]/100.
                          ofColor:changeColor];
         [userBackgroundColor set];
-        [NSBezierPath fillRect:NSMakeRect(point.x,point.y,(isVisitor?I_measures.visitorNameWidth:I_measures.contributorNameWidth)+LEGENDIMAGEPADDING*2+LEGENDTABLEENTRYHEIGHT,LEGENDTABLEENTRYHEIGHT)];
+        [NSBezierPath fillRect:NSMakeRect(point.x,point.y,(isVisitor?I_measures.visitorNameWidth:I_measures.contributorNameWidth)+LEGENDIMAGEPADDING*2+
+            ([[printInfoDictionary objectForKey:@"SEEParticipantImages"] boolValue]?LEGENDTABLEENTRYHEIGHT:0),
+            LEGENDTABLEENTRYHEIGHT)];
         [S_nameAttributes setObject:[I_document documentForegroundColor] forKey:NSForegroundColorAttributeName];
     } else {
         [S_nameAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     }
-    
-    NSRect myPictureRect=NSMakeRect(point.x+LEGENDIMAGEPADDING,point.y+LEGENDIMAGEPADDING,
-                                    LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING,
-                                    LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING);
-    NSImage *userImage=[[[aUser properties] objectForKey:@"Image"] copy];
-    if (![userImage isFlipped]) [userImage setFlipped:YES];
-    [userImage drawInRect:myPictureRect 
-               fromRect:NSMakeRect(0.,0.,[userImage size].width,[userImage size].height) 
-               operation:NSCompositeSourceOver fraction:1.0];
+
     NSPoint textPoint=point;
-    textPoint.x+=LEGENDTABLEENTRYHEIGHT+LEGENDIMAGEPADDING;
+    if ([[printInfoDictionary objectForKey:@"SEEParticipantImages"] boolValue]) {
+        
+        NSRect myPictureRect=NSMakeRect(point.x+LEGENDIMAGEPADDING,point.y+LEGENDIMAGEPADDING,
+                                        LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING,
+                                        LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING);
+        NSImage *userImage=[[[aUser properties] objectForKey:@"Image"] copy];
+        if (![userImage isFlipped]) [userImage setFlipped:YES];
+        [userImage drawInRect:myPictureRect 
+                   fromRect:NSMakeRect(0.,0.,[userImage size].width,[userImage size].height) 
+                   operation:NSCompositeSourceOver fraction:1.0];
+        textPoint.x+=LEGENDTABLEENTRYHEIGHT;
+    }
+    textPoint.x+=LEGENDIMAGEPADDING;
     
     textPoint.y+=(LEGENDTABLEENTRYHEIGHT-12.)/2;
     
@@ -593,23 +604,26 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     //                textPoint.y+=LEGENDIMAGEPADDING;
     textPoint.x+=(isVisitor?I_measures.visitorNameWidth:I_measures.contributorNameWidth)+LEGENDIMAGEPADDING*2;
     
-    [mutableAttributedString replaceCharactersInRange:NSMakeRange(0,[mutableAttributedString length]) withString:@""];
-    
-    NSString *aim=[[aUser properties] objectForKey:@"AIM"];
-    if ([aim length]>0) {
-        [mutableAttributedString appendAttributedString:aimLabel];
-        [mutableAttributedString appendString:@" "];
-        [mutableAttributedString appendAttributedString:[[[NSAttributedString alloc] initWithString:aim attributes:S_contactAttributes] autorelease]];
+    if ([[printInfoDictionary objectForKey:@"SEEParticipantsAIMAndEmail"] boolValue]) {
+        [mutableAttributedString replaceCharactersInRange:NSMakeRange(0,[mutableAttributedString length]) withString:@""];
+        
+        NSString *aim=[[aUser properties] objectForKey:@"AIM"];
+        if ([aim length]>0) {
+            [S_contactAttributes setObject:[NSURL URLWithString:@"http://www.dasgenie.com/"] forKey:NSLinkAttributeName];
+            [mutableAttributedString appendAttributedString:aimLabel];
+            [mutableAttributedString appendString:@" "];
+            [mutableAttributedString appendAttributedString:[[[NSAttributedString alloc] initWithString:aim attributes:S_contactAttributes] autorelease]];
+        }
+        [mutableAttributedString appendAttributedString:newline];
+        NSString *email=[[aUser properties] objectForKey:@"Email"];
+        if ([email length]>0) {
+            [mutableAttributedString appendAttributedString:emailLabel];
+            [mutableAttributedString appendString:@" "];
+            [mutableAttributedString appendAttributedString:[[[NSAttributedString alloc] initWithString:email attributes:S_contactAttributes] autorelease]];
+        }
+        
+        [mutableAttributedString drawAtPoint:textPoint];
     }
-    [mutableAttributedString appendAttributedString:newline];
-    NSString *email=[[aUser properties] objectForKey:@"Email"];
-    if ([email length]>0) {
-        [mutableAttributedString appendAttributedString:emailLabel];
-        [mutableAttributedString appendString:@" "];
-        [mutableAttributedString appendAttributedString:[[[NSAttributedString alloc] initWithString:email attributes:S_contactAttributes] autorelease]];
-    }
-    
-    [mutableAttributedString drawAtPoint:textPoint];
 }
 
 - (void)strokeLineFromPoint:(NSPoint)from toRelativePoint:(NSPoint)to width:(float)aWidth {
@@ -638,7 +652,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     NSDictionary *printInfoDictionary = [printInfo dictionary];
 
     int currentPage=(int)(rect.origin.y/I_pageSize.height)+1;
-    BOOL leftPage=currentPage%2 && [[printInfoDictionary objectForKey:@"SEEFacingPages"] boolValue];
+    BOOL leftPage=(currentPage-1)%2 && [[printInfoDictionary objectForKey:@"SEEFacingPages"] boolValue];
     float originX=leftPage?[printInfo rightMargin]:[printInfo leftMargin];
     if ([[printInfoDictionary objectForKey:@"SEEPageHeader"] boolValue]) {
 
@@ -662,9 +676,11 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     
         [[NSColor blackColor] set];
         NSPoint basePoint=I_textContainerOrigin;
-        basePoint.y+=rect.origin.y-4;
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(basePoint.x,basePoint.y) 
-                      toPoint:NSMakePoint(basePoint.x+I_textContainerSize.width,basePoint.y)];
+        basePoint.y+=rect.origin.y-5.0;
+        basePoint.x=originX;
+        [self strokeLineFromPoint:basePoint 
+                  toRelativePoint:NSMakePoint(I_textContainerSize.width,0)
+                  width:0.5];
     }
 
     if ([[printInfoDictionary objectForKey:@"SEEParticipants"] boolValue] && currentPage<=I_pagesWithLegend) {
@@ -722,32 +738,36 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                         // rest of page not wide enough
                         break;
                     } else {
-                        [self drawTableHeading:NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print") 
-                                atPoint:cursor width:tableWidth];
-                        cursor.y+=LEGENDTABLEHEADERHEIGHT;
-                        int alternate=0;
-                        while (I_visitorIndex<I_visitorCount && 
-                               maxSize.height-cursor.y>=LEGENDTABLEENTRYHEIGHT) {
-                            TCMMMUser *user=[I_visitorArray objectAtIndex:I_visitorIndex];
-                            
-                            NSRect myRect=NSMakeRect(cursor.x,cursor.y,tableWidth,LEGENDTABLEENTRYHEIGHT);
-                            if (alternate) {
-                                [[NSColor colorWithCalibratedRed:237./255. green:243./255. blue:254./255. alpha:1.] set];
-                                [NSBezierPath fillRect:myRect];
+                        if (cursor.y+LEGENDTABLEHEADERHEIGHT+LEGENDTABLEENTRYHEIGHT>maxSize.height) {
+                            break;
+                        } else {
+                            [self drawTableHeading:NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print") 
+                                    atPoint:cursor width:tableWidth];
+                            cursor.y+=LEGENDTABLEHEADERHEIGHT;
+                            int alternate=0;
+                            while (I_visitorIndex<I_visitorCount && 
+                                   maxSize.height-cursor.y>=LEGENDTABLEENTRYHEIGHT) {
+                                TCMMMUser *user=[I_visitorArray objectAtIndex:I_visitorIndex];
+                                
+                                NSRect myRect=NSMakeRect(cursor.x,cursor.y,tableWidth,LEGENDTABLEENTRYHEIGHT);
+                                if (alternate) {
+                                    [[NSColor colorWithCalibratedRed:237./255. green:243./255. blue:254./255. alpha:1.] set];
+                                    [NSBezierPath fillRect:myRect];
+                                }
+                                [self drawUser:user atPoint:cursor visitor:YES];
+                                [[NSColor blackColor] set];
+                                [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
+                                I_visitorIndex++;
+                                cursor.y+=LEGENDTABLEENTRYHEIGHT;
+                                alternate=1-alternate;
                             }
-                            [self drawUser:user atPoint:cursor visitor:YES];
-                            [[NSColor blackColor] set];
                             [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
-                            I_visitorIndex++;
-                            cursor.y+=LEGENDTABLEENTRYHEIGHT;
-                            alternate=1-alternate;
-                        }
-                        [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
-                        
-                        if (I_visitorIndex<I_visitorCount) {
-                            cursor.x+=MAX(tableWidth,(columnHadContributors?I_measures.contributorWidth:0.))+5.;
-                            cursor.y=origin.y;
-                            continue;
+                            
+                            if (I_visitorIndex<I_visitorCount) {
+                                cursor.x+=MAX(tableWidth,(columnHadContributors?I_measures.contributorWidth:0.))+5.;
+                                cursor.y=origin.y;
+                                continue;
+                            }
                         }
                     }
                 }
@@ -766,43 +786,46 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                         if (I_measures.contributorWidth+2*LEGENDIMAGEPADDING+I_measures.visitorWidth<I_textContainerSize.width) {
                             cursor.x+=I_measures.contributorWidth+2*LEGENDIMAGEPADDING;
                             cursor.y =origin.y;
-                        } else {
-                            cursor.y+=5.;
                         }
                     } else {
                         break;
                     }
                 }
 
-                [self drawTableHeading:(visitors)
-                 ?NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print")
-                 :NSLocalizedString(@"Contributors",@"Title for Visitors in Export and Print") 
-                        atPoint:cursor width:tableWidth];
-                cursor.y+=LEGENDTABLEHEADERHEIGHT;
 
                 int count=visitors?I_visitorCount:I_contributorCount;
                 NSArray *userArray=visitors?I_visitorArray:I_contributorArray;
                 int index=visitors?I_visitorIndex:I_contributorIndex;
                 TCMMMUser *user=nil;
                 int alternate=0;
-                while (index<count) {
-                    user=[userArray objectAtIndex:index];
-                    NSRect myRect=NSMakeRect(cursor.x,cursor.y,tableWidth,LEGENDTABLEENTRYHEIGHT);
-                    if (alternate) {
-                        [[NSColor colorWithCalibratedRed:237./255. green:243./255. blue:254./255. alpha:1.] set];
-                        [NSBezierPath fillRect:myRect];
-                    }
-                    [self drawUser:user atPoint:cursor visitor:visitors];
+                
+                if (index<count) {
+                        [self drawTableHeading:(visitors)
+                         ?NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print")
+                         :NSLocalizedString(@"Contributors",@"Title for Visitors in Export and Print") 
+                                atPoint:cursor width:tableWidth];
+                        cursor.y+=LEGENDTABLEHEADERHEIGHT;
                     
-                    alternate=1-alternate;
+                    while (index<count) {
+                        user=[userArray objectAtIndex:index];
+                        NSRect myRect=NSMakeRect(cursor.x,cursor.y,tableWidth,LEGENDTABLEENTRYHEIGHT);
+                        if (alternate) {
+                            [[NSColor colorWithCalibratedRed:237./255. green:243./255. blue:254./255. alpha:1.] set];
+                            [NSBezierPath fillRect:myRect];
+                        }
+                        [self drawUser:user atPoint:cursor visitor:visitors];
+                        
+                        alternate=1-alternate;
+                        [[NSColor blackColor] set];
+                        [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
+        
+                        cursor.y+=LEGENDTABLEENTRYHEIGHT;
+                        index++;
+                    }
                     [[NSColor blackColor] set];
                     [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
-    
-                    cursor.y+=LEGENDTABLEENTRYHEIGHT;
-                    index++;
+                    cursor.y+=5;
                 }
-                [[NSColor blackColor] set];
-                [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
             }
         }
     }

@@ -2876,6 +2876,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 #pragma mark ### Printing ###
 
+static NSString *S_measurementUnits;
+
 - (NSTextView *)printableView {
     // make sure everything is colored if it should be
     MultiPagePrintView *printView=[[MultiPagePrintView alloc] initWithFrame:NSMakeRect(0.,0.,100.,100.) document:self];
@@ -2884,7 +2886,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)printShowingPrintPanel:(BOOL)showPanels {
-    float cmToPoints=295.3/21.;
+    float cmToPoints=28.3464567; // google;
     // Obtain a custom view that will be printed
     NSView *printView = [self printableView];
     [[self printInfo] setHorizontalPagination:NSFitPagination];
@@ -2897,6 +2899,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     if (!O_printOptionView) {
         [NSBundle loadNibNamed:@"PrintOptions" owner:self];
+        if (!S_measurementUnits) {
+            S_measurementUnits=[[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"] retain];
+        }
+        NSString *labelText=NSLocalizedString(([NSString stringWithFormat:@"Label%@",S_measurementUnits]),@"Centimeters or Inches, short label string for them");
+        int i=996;
+        for (i=996;i<1000;i++) {
+            [[O_printOptionView viewWithTag:i] setStringValue:labelText];
+        }
     }
 
     // Construct the print operation and setup Print panel

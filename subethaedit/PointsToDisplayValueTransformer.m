@@ -11,6 +11,12 @@
 
 @implementation PointsToDisplayValueTransformer
 
+static BOOL S_isCm;
+
++ (void)initialize {
+    S_isCm=[[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"] isEqualToString:@"Centimeters"];
+}
+
 + (Class)transformedValueClass {
     return [NSNumber class];
 }
@@ -21,15 +27,16 @@
 
 - (id)transformedValue:(id)aValue {
     if (![aValue isKindOfClass:[NSNumber class]]) return nil;
-    float cmToPoints=295.3/21.;
-    return [NSNumber numberWithFloat:[aValue floatValue]/cmToPoints];
+    float cmToPoints=28.3464567; // google
+    float inchToPoints=72;
+    return [NSNumber numberWithFloat:[aValue floatValue]/(S_isCm?cmToPoints:inchToPoints)];
 }
 
 - (id)reverseTransformedValue:(id)aValue {
     if (![aValue isKindOfClass:[NSNumber class]]) return nil;
-    float cmToPoints=295.3/21.;
-    return [NSNumber numberWithFloat:[aValue floatValue]*cmToPoints];
+    float cmToPoints=28.3464567; // google
+    float inchToPoints=72;
+    return [NSNumber numberWithFloat:[aValue floatValue]*(S_isCm?cmToPoints:inchToPoints)];
 }
-
 
 @end
