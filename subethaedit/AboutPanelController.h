@@ -1,0 +1,19 @@
+//
+//  AboutPanelController.h
+//  SubEthaEdit
+//
+//  Created by Martin Ott on Thu May 13 2004.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//
+
+#import <AppKit/AppKit.h>
+
+
+@interface AboutPanelController : NSWindowController {
+    IBOutlet NSImageView *O_appIconView;
+    IBOutlet NSTextField *O_appNameField;
+    IBOutlet NSTextField *O_legalTextField;
+    IBOutlet NSTextField *O_versionField;
+}
+
+@end

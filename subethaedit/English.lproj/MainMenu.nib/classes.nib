@@ -1,6 +1,11 @@
 {
     IBClasses = (
         {
+            CLASS = AboutPanelController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
             ACTIONS = {redo = id; undo = id; }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
@@ -103,15 +108,6 @@
                 "O_imageView" = NSImageView; 
                 "O_myNameTextField" = NSTextField; 
                 "O_tableView" = NSTableView; 
-            }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {
-            CLASS = OpenDocumentsController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_arrayController" = NSArrayController; 
-                "O_objectController" = NSObjectController; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

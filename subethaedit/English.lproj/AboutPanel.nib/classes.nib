@@ -1,0 +1,18 @@
+{
+    IBClasses = (
+        {
+            CLASS = AboutPanelController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_appIconView" = NSImageView; 
+                "O_appNameField" = NSTextField; 
+                "O_legalTextField" = NSTextField; 
+                "O_versionField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = "java.lang.Object"; LANGUAGE = Java; }
+    ); 
+    IBVersion = 1; 
+}

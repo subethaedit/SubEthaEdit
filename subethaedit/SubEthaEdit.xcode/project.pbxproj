@@ -220,6 +220,34 @@
 			settings = {
 			};
 		};
+		14352D00065391F800C9685E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = AboutPanelController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14352D01065391F800C9685E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = AboutPanelController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14352D02065391F800C9685E = {
+			fileRef = 14352D00065391F800C9685E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14352D03065391F800C9685E = {
+			fileRef = 14352D01065391F800C9685E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		1439BC550649520E00A5BD0D = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1659,6 +1687,30 @@
 			settings = {
 			};
 		};
+		14FF9F430653915D0021FB60 = {
+			children = (
+				14FF9F440653915D0021FB60,
+			);
+			isa = PBXVariantGroup;
+			name = AboutPanel.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14FF9F440653915D0021FB60 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/AboutPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14FF9F450653915D0021FB60 = {
+			fileRef = 14FF9F430653915D0021FB60;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //140
 //141
 //142
@@ -1732,6 +1784,8 @@
 				5ED305B80601BF6C00C38815,
 				146017110619DC2200E527EC,
 				5E551FBC061883BC00E6B265,
+				14352D00065391F800C9685E,
+				14352D01065391F800C9685E,
 				143C360C05ECCEE8008C6DFE,
 				143C360D05ECCEE8008C6DFE,
 				144C57AB06143E9200D1E8BF,
@@ -1804,6 +1858,7 @@
 				5EEB176705ECDC0C00C17677,
 				5E4AB51D063EA9BD00B67F07,
 				2A37F4B9FDCFA73011CA2CEA,
+				14FF9F430653915D0021FB60,
 				2A37F4B6FDCFA73011CA2CEA,
 				5EA982840641001800FD5B65,
 				14A5B34E06218D2700DC3A93,
@@ -4595,6 +4650,7 @@
 				5E3BE34E064F8BF70081A388,
 				14FF9707065221920021FB60,
 				14FF9947065257E50021FB60,
+				14352D02065391F800C9685E,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4683,6 +4739,7 @@
 				5E9ABF670648D8D20039DEE0,
 				5E9ABF680648D8D20039DEE0,
 				3188A36406492AE500AD92E4,
+				14FF9F450653915D0021FB60,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4791,6 +4848,7 @@
 				5E3BE34F064F8BF70081A388,
 				14FF9708065221920021FB60,
 				14FF9948065257E50021FB60,
+				14352D03065391F800C9685E,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
