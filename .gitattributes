@@ -253,6 +253,12 @@ prototype/XMPP/expat.h -text
 prototype/XMPP/libexpat.a -text
 prototype/XMPP/main.c -text
 prototype/XMPP/version.plist -text
+prototype/addressbookkiller/addressbookkiller.1 -text
+prototype/addressbookkiller/addressbookkiller.m -text
+prototype/addressbookkiller/addressbookkiller.xcode/administrator.mode1 -text
+prototype/addressbookkiller/addressbookkiller.xcode/administrator.pbxuser -text
+prototype/addressbookkiller/addressbookkiller.xcode/project.pbxproj -text
+prototype/addressbookkiller/addressbookkiller_Prefix.pch -text
 prototype/xmpp-cli/Controller.h -text
 prototype/xmpp-cli/Controller.m -text
 prototype/xmpp-cli/main.m -text
