@@ -174,8 +174,8 @@
 		};
 		141E287106563B510097DFF8 = {
 			isa = PBXFileReference;
-			lastKnownFileType = text.rtf;
-			path = Acknowledgements.rtf;
+			lastKnownFileType = text;
+			path = Acknowledgements.txt;
 			refType = 4;
 			sourceTree = "<group>";
 		};

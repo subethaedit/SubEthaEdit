@@ -1,7 +1,7 @@
 * text=auto !eol
 /AboutPanelController.h -text
 /AboutPanelController.m -text
-/Acknowledgements.rtf -text
+/Acknowledgements.txt -text
 /AdvancedPreferences.h -text
 /AdvancedPreferences.m -text
 /AppController.h -text

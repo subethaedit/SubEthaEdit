@@ -573,6 +573,28 @@ static AppController *sharedInstance = nil;
     return YES;
 }
 
+- (void)TCM_showPlainTextFile:(NSString *)fileName {
+
+    NSAppleEventDescriptor *propRecord = [NSAppleEventDescriptor recordDescriptor];
+    [propRecord setDescriptor:[NSAppleEventDescriptor descriptorWithString:@"utf-8"]
+                   forKeyword:'Encd'];                
+
+    ProcessSerialNumber psn = {0, kCurrentProcess};
+    NSAppleEventDescriptor *addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
+    if (addressDescriptor != nil) {
+        NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+
+        [appleEvent setParamDescriptor:propRecord
+                            forKeyword:keyAEPropData];
+        [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:fileName]
+                            forKeyword:'Stdi'];
+        [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:[fileName lastPathComponent]]
+                       forKeyword:'Pipe'];
+        AppleEvent reply;
+        (void)AESendMessage([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
+    }
+}
+
 - (IBAction)showLicense:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"License" ofType:@"rtf"];
     [[NSWorkspace sharedWorkspace] openFile:path];
@@ -580,17 +602,17 @@ static AppController *sharedInstance = nil;
 
 - (IBAction)showRegExHelp:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RE" ofType:@"txt"];
-    [[NSWorkspace sharedWorkspace] openFile:path];
+    [self TCM_showPlainTextFile:path];
 }
 
 - (IBAction)showReleaseNotes:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"txt"];
-    [[NSWorkspace sharedWorkspace] openFile:path];
+    [self TCM_showPlainTextFile:path];
 }
 
 - (IBAction)showAcknowledgements:(id)sender {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"rtf"];
-    [[NSWorkspace sharedWorkspace] openFile:path];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"txt"];
+    [self TCM_showPlainTextFile:path];
 }
 
 - (IBAction)visitWebsite:(id)sender {

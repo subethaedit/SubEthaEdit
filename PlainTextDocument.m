@@ -4228,7 +4228,7 @@ typedef enum {
 }
 
 - (void)setEncoding:(NSString *)name {
-    NSLog(@"setting encoding (AppleScript)");
+    //NSLog(@"setting encoding (AppleScript)");
     CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)name);
     if (cfEncoding != kCFStringEncodingInvalidId) {
         NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
