@@ -1697,6 +1697,7 @@
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				OTHER_CFLAGS = "-DTCM_NO_DEBUG -DNS_BLOCK_ASSERTIONS -DNDEBUG";
+				PREBINDING = NO;
 				UNSTRIPPED_PRODUCT = YES;
 			};
 			isa = PBXBuildStyle;
@@ -3390,6 +3391,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
 				ZERO_LINK = YES;
 			};
 			isa = PBXBuildStyle;
@@ -3401,6 +3403,7 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				OTHER_CFLAGS = "-DTCM_NO_DEBUG -DNS_BLOCK_ASSERTIONS -DNDEBUG";
+				PREBINDING = NO;
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;
@@ -6074,6 +6077,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
 				PRODUCT_NAME = SubEthaEdit;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wall -Wno-four-char-constants -Wno-unknown-pragmas";
