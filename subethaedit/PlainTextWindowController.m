@@ -297,6 +297,13 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         if (pair.childIndex!=-1) {
             if (pair.itemIndex==2) {
                 [[(PlainTextDocument *)[self document] session] setGroup:@"ReadOnly" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
+            } else if (pair.itemIndex==0) {
+                TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+                NSString *userID=[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID];
+                if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
+                    [session setGroup:@"ReadOnly" forParticipantsWithUserIDs:
+                        [NSArray arrayWithObject:userID]];
+                }
             }
         }
     }

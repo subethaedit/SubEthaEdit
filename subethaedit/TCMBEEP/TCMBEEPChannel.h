@@ -78,7 +78,7 @@ typedef enum {
 - (void)close;
 
 // Convenience for Profiles
-- (void)sendMSGMessageWithPayload:(NSData *)aPayload;
+- (int32_t)sendMSGMessageWithPayload:(NSData *)aPayload;
 
 
 // Accessors for session

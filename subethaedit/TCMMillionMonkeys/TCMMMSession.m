@@ -307,6 +307,9 @@ NSString * const TCMMMSessionDidChangeNotification =
         }
         [self TCM_sendParticipantsDidChangeNotification];
     } else {
+        if (![I_participants objectForKey:aGroup]) {
+            [I_participants setObject:[NSMutableArray array] forKey:aGroup];
+        }
         NSEnumerator *userIDs=[aUserIDs objectEnumerator];
         NSString *userID;
         TCMMMUser *user;
@@ -325,6 +328,20 @@ NSString * const TCMMMSessionDidChangeNotification =
                 }
                 if ([self isServer]) {
                     [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeGroupChange userID:userID newGroup:aGroup]];
+                }
+                if ([oldGroup isEqualToString:@"ReadWrite"]) {
+                    SessionProfile *profile=[I_profilesByUserID objectForKey:userID];
+                    TCMMMState *state=[I_statesByClientID objectForKey:userID];
+                    [state setClient:nil];
+                    [state setDelegate:nil];
+                    [I_statesByClientID removeObjectForKey:userID];
+                    [profile setMMState:nil];
+                    [profile sendSessionContent:[NSDictionary dictionaryWithObject:[(TextStorage *)[(PlainTextDocument *)[self document] textStorage] dictionaryRepresentation] forKey:@"TextStorage"]];
+                    state = [[TCMMMState alloc] initAsServer:YES];
+                    [state setDelegate:self];
+                    [state setClient:profile];
+                    [I_statesByClientID setObject:state forKey:userID];
+                    [state release];
                 }
             }
         }
@@ -363,7 +380,7 @@ NSString * const TCMMMSessionDidChangeNotification =
             [state setDelegate:self];
             [state setClient:profile];
             [I_statesByClientID setObject:state forKey:[user userID]];
-            [profile setMMState:state];
+//            [profile setMMState:state];
             [profile acceptJoin];
             [profile sendSessionInformation:[self TCM_sessionInformation]];
             PlainTextDocument *document=(PlainTextDocument *)[self document];
@@ -571,6 +588,20 @@ NSString * const TCMMMSessionDidChangeNotification =
 
 - (void)profile:(SessionProfile *)profile didReceiveSessionContent:(id)aContent {
     [[self document] session:self didReceiveContent:aContent];
+    if (![I_statesByClientID objectForKey:[self hostID]]) {
+        TCMMMState *state=[[TCMMMState alloc] initAsServer:NO];
+        [state setDelegate:self];
+        [state setClient:[I_profilesByUserID objectForKey:[self hostID]]];
+        [profile setMMState:state];
+        [I_statesByClientID setObject:state forKey:[self hostID]];
+        [state release];
+    }
+}
+
+- (void)profileDidAckSessionContent:(SessionProfile *)aProfile {
+    NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    TCMMMState *state=[I_statesByClientID objectForKey:peerUserID];
+    [aProfile setMMState:state];
 }
 
 - (void)profileDidDenyJoinRequest:(SessionProfile *)aProfile
@@ -736,9 +767,14 @@ NSString * const TCMMMSessionDidChangeNotification =
             if ([self isServer]) {
                 NSLog(@"Can't change my group in my document, pah!");
             } else {
-                if ([[anOperation newGroup] isEqualTo:@"ReadWrite"]) {
-                    [(PlainTextDocument *)[self document] validateEditability];
+                if ([[anOperation newGroup] isEqualTo:@"ReadOnly"]) {
+                    
+                    [[aState retain] autorelease];
+                    [aState setDelegate:nil];
+                    [aState setClient:nil];
+                    [I_statesByClientID removeObjectForKey:[self hostID]];
                 }
+                [(PlainTextDocument *)[self document] validateEditability];
             }
         }
         

@@ -450,6 +450,7 @@ NSString * const BlockeditAttributeValue=@"YES";
     [self beginEditing];
     NSString *string=[aRepresentation objectForKey:@"String"];
     if (string && [string isKindOfClass:[NSString class]]) {
+        [self replaceCharactersInRange:NSMakeRange(0,[self length]) withString:@""];
         [self replaceCharactersInRange:NSMakeRange(0,[self length]) withString:string];
         NSRange wholeRange=NSMakeRange(0,[self length]);
         NSNumber *encoding=[aRepresentation objectForKey:@"Encoding"];

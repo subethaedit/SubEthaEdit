@@ -19,6 +19,7 @@
         I_flags.contentHasBeenExchanged=NO;
         I_flags.isClosing=NO;
         I_outgoingMMMessageQueue=[NSMutableArray new];
+        I_numberOfUnacknowledgedSessconMSG=-1;
     }
     return self;
 }
@@ -93,7 +94,7 @@
 - (void)sendSessionContent:(NSDictionary *)aSessionContent {
     NSMutableData *data = [NSMutableData dataWithBytes:"SESCON" length:6];
     [data appendData:TCM_BencodedObject(aSessionContent)];
-    [[self channel] sendMSGMessageWithPayload:data];
+    I_numberOfUnacknowledgedSessconMSG=[[self channel] sendMSGMessageWithPayload:data];
     [self setContentHasBeenExchanged:YES];
 }
 
@@ -212,6 +213,13 @@
         [[self channel] sendMessage:[message autorelease]];
     } else if ([aMessage isRPY]) {
         if ([[aMessage payload] length] == 0) {
+            if (I_numberOfUnacknowledgedSessconMSG==[aMessage messageNumber]) {
+                id delegate = [self delegate];
+                if ([delegate respondsToSelector:@selector(profileDidAckSessionContent:)]) {
+                    [delegate profileDidAckSessionContent:self];
+                }
+                I_numberOfUnacknowledgedSessconMSG=-1;
+            }
             DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"SessionProfile recieved Ack");
             return;
         } else if ([[aMessage payload] length] < 6) {

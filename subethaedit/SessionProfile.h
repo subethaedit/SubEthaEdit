@@ -23,6 +23,7 @@
         BOOL contentHasBeenExchanged;
         BOOL isClosing;
     } I_flags;
+    int32_t I_numberOfUnacknowledgedSessconMSG;
 }
 
 - (void)sendUser:(TCMMMUser *)aUser;
@@ -44,6 +45,7 @@
 @interface NSObject (SessionProfileDelegateAdditions)
 
 - (void)profile:(SessionProfile *)aProfile didReceiveSessionContent:(id)content;
+- (void)profileDidAckSessionContent:(SessionProfile *)aProfile;
 - (void)profile:(SessionProfile *)aProfile didReceiveJoinRequestForSessionID:(NSString *)aSessionID;
 - (void)profile:(SessionProfile *)aProfile didReceiveInvitationForSessionID:(NSString *)aSessionID;
 - (void)profileDidCancelJoinRequest:(SessionProfile *)aProfile;
