@@ -48,7 +48,7 @@ extern NSString *ListViewDidChangeSelectionNotification;
 - (void)drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground;
 - (void)drawItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground;
 
-
+- (int)indexOfRowAtPoint:(NSPoint)aPoint;
 - (NSRect)rectForItem:(int)anItemIndex child:(int)aChildIndex;
 - (NSRect)rectForRow:(int)aRow;
 

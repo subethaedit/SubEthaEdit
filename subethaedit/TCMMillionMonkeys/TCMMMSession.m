@@ -487,6 +487,8 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     //    NSLog(@"BeepSession: %@ forUser:%@",aBEEPSession, aUser);
         [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
         [self TCM_sendParticipantsDidChangeNotification];
+    } else if ([I_pendingUsers containsObject:aUser]) {
+        [self setGroup:aGroup forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers indexOfObject:aUser]]];
     } else {
         NSBeep();
     }

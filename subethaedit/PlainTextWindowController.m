@@ -104,6 +104,7 @@ enum {
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[[self window] toolbar] setDelegate:nil];
+    [O_participantsView setDocument:nil];
     [O_participantsView release];
     [I_plainTextEditors release];
     [super dealloc];
@@ -138,7 +139,7 @@ enum {
     [O_participantsView noteEnclosingScrollView];
     [O_participantsView setDoubleAction:@selector(participantDoubleAction:)];
     [O_participantsView setTarget:self];
-    
+    [O_participantsView setDocument:(PlainTextDocument *)[self document]];
     [O_actionPullDown setCell:[[ImagePopUpButtonCell new] autorelease]];
     [[O_actionPullDown cell] setPullsDown:YES];
     [[O_actionPullDown cell] setImage:[NSImage imageNamed:@"Action"]];
@@ -981,7 +982,7 @@ enum {
                 }
                 return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
             } else if (aTag==ParticipantsChildImageTag) {
-                return [[user properties] objectForKey:@"Image32"];
+                return [[user properties] objectForKey:(status || anItemIndex==2)?@"Image32Dimmed":@"Image32"];
             } else if (aTag==ParticipantsChildImageNextToNameTag) {
                 return [[user properties] objectForKey:@"ColorImage"];
             }

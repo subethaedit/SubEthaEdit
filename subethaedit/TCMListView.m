@@ -15,7 +15,7 @@ NSString *ListViewDidChangeSelectionNotification=
 
 - (void)TCM_rebuildIndices;
 
-- (int)TCM_indexOfRowAtPoint:(NSPoint)aPoint;
+- (int)indexOfRowAtPoint:(NSPoint)aPoint;
 
 @end
 
@@ -125,10 +125,10 @@ NSString *ListViewDidChangeSelectionNotification=
             NSRectFill(NSMakeRect(smallRect.origin.x,I_indexMaxHeight,smallRect.size.width, NSMaxY(smallRect)-I_indexMaxHeight));
         }
     
-        int startRow = [self TCM_indexOfRowAtPoint:smallRect.origin];
+        int startRow = [self indexOfRowAtPoint:smallRect.origin];
     
         if (startRow!=-1 && startRow < I_indexNumberOfRows) {
-            int endRow   = [self TCM_indexOfRowAtPoint:NSMakePoint(1.,NSMaxY(smallRect))];
+            int endRow   = [self indexOfRowAtPoint:NSMakePoint(1.,NSMaxY(smallRect))];
             if (endRow==-1) endRow=I_indexNumberOfRows-1;
         
             [NSGraphicsContext saveGraphicsState];
@@ -203,7 +203,7 @@ NSString *ListViewDidChangeSelectionNotification=
                        child:I_indexItemChildPairAtRow[aRow].childIndex];
 }
 
-- (int)TCM_indexOfRowAtPoint:(NSPoint)aPoint {
+- (int)indexOfRowAtPoint:(NSPoint)aPoint {
 
     Class myClass=[self class];
     float itemRowHeight   =[myClass itemRowHeight];
@@ -346,7 +346,7 @@ NSString *ListViewDidChangeSelectionNotification=
 - (void)contextMenuMouseDown:(NSEvent *)aEvent {
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
     
-    I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+    I_clickedRow = [self indexOfRowAtPoint:point];
     id delegate=[self delegate];
     if ([delegate respondsToSelector:@selector(contextMenuForListView:clickedAtRow:)]) {
         NSMenu *menu=[delegate contextMenuForListView:self clickedAtRow:I_clickedRow];
@@ -360,7 +360,7 @@ NSString *ListViewDidChangeSelectionNotification=
 - (void)rightMouseDown:(NSEvent *)aEvent {
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
     
-    I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+    I_clickedRow = [self indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
         if (![I_selectedRows containsIndex:I_clickedRow]) {
             [self mouseDown:aEvent];
@@ -373,7 +373,7 @@ NSString *ListViewDidChangeSelectionNotification=
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
     //NSLog(@"acceptsFirstMouse at: %@ - event: %@", NSStringFromPoint(point),[aEvent description]);
     
-    I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+    I_clickedRow = [self indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
         return YES;
     } else {
@@ -385,7 +385,7 @@ NSString *ListViewDidChangeSelectionNotification=
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
     //NSLog(@"shouldDelay at: %@ - event: %@", NSStringFromPoint(point),[aEvent description]);
     
-    I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+    I_clickedRow = [self indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
         return YES;
     } else {
@@ -398,7 +398,7 @@ NSString *ListViewDidChangeSelectionNotification=
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
     //NSLog(@"Clicked at: %@", NSStringFromPoint(point));
     
-    I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+    I_clickedRow = [self indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
         ItemChildPair pair=[self itemChildPairAtRow:I_clickedRow];
         BOOL causedAction=NO;
@@ -551,7 +551,7 @@ NSString *ListViewDidChangeSelectionNotification=
         if (allowDrag) {
             NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
             
-            I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+            I_clickedRow = [self indexOfRowAtPoint:point];
             ItemChildPair pair = [self itemChildPairAtRow:I_clickedRow];
             NSRect rectInImage=NSMakeRect(0,0,10,10);
             NSImage *image=[self dragImageSelectedRect:&rectInImage forChild:pair.childIndex ofItem:pair.itemIndex];
@@ -651,7 +651,7 @@ NSString *ListViewDidChangeSelectionNotification=
 }
 
 - (NSString *)view:(NSView *)view stringForToolTip:(NSToolTipTag)tag point:(NSPoint)point userData:(void *)userData {
-    int index=[self TCM_indexOfRowAtPoint:point];
+    int index=[self indexOfRowAtPoint:point];
     if (index!=-1) {
         ItemChildPair pair=[self itemChildPairAtRow:index];
         id dataSource=[self dataSource];

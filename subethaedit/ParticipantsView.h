@@ -18,9 +18,16 @@ enum {
     ParticipantsChildStatusTag
 };
 
+@class PlainTextDocument;
 
 @interface ParticipantsView : TCMListView
 {
+    int I_dragToItem;
+    PlainTextDocument *I_document;
 }
+
+- (void)setDocument:(PlainTextDocument *)aDocument;
+- (PlainTextDocument *)document;
+
 @end
 

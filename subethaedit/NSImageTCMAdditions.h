@@ -12,5 +12,6 @@
 @interface NSImage (NSImageTCMAdditions) 
 
 - (NSImage *)resizedImageWithSize:(NSSize)aSize;
+- (NSImage *)dimmedImage;
 
 @end

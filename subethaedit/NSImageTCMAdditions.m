@@ -44,4 +44,23 @@
     return [image autorelease];
 }
 
+- (NSImage *)dimmedImage {
+    
+    NSImage *image=[[NSImage alloc] initWithSize:[self size]];
+    [image setCacheMode:NSImageCacheNever];
+    [image lockFocus];
+    NSGraphicsContext *context=[NSGraphicsContext currentContext];
+    NSImageInterpolation oldInterpolation=[context imageInterpolation];
+    [context setImageInterpolation:NSImageInterpolationHigh];
+    [NSColor clearColor];
+    [[NSBezierPath bezierPathWithRect:(NSMakeRect(0.,0.,[self size].width,[self size].height))] fill];
+    [self compositeToPoint:NSMakePoint(0.,0.)
+                 operation:NSCompositeSourceIn fraction:.5];
+    [context setImageInterpolation:oldInterpolation];
+    [image unlockFocus];
+    
+    return [image autorelease];
+}
+
+
 @end
