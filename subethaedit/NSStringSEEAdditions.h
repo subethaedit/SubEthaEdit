@@ -25,10 +25,6 @@ typedef enum _LineEnding {
 
 @interface NSString (NSStringSEEAdditions)
 
-+ (NSString *)stringWithUUIDData:(NSData *)aData;
-+ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding;
-+ (NSString *)UUIDString;
-
 - (BOOL)isValidSerial;
 - (long)base36Value;
 
@@ -51,6 +47,5 @@ typedef enum _LineEnding {
 /* returns length change */
 - (NSRange)detab:(BOOL)shouldDetab inRange:(NSRange)aRange tabWidth:(int)aTabWidth askingTextView:(NSTextView *)aTextView;
 - (void)makeLeadingWhitespaceNonBreaking;
-- (void)appendString:(NSString *)aString;
 
 @end

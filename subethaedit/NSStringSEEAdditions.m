@@ -96,33 +96,6 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 @implementation NSString (NSStringSEEAdditions) 
 
-+ (NSString *)stringWithUUIDData:(NSData *)aData {
-    if (aData!=nil) {
-        CFUUIDRef uuid=CFUUIDCreateFromUUIDBytes(NULL,*(CFUUIDBytes *)[aData bytes]);
-        NSString *uuidString=(NSString *)CFUUIDCreateString(NULL,uuid);
-        CFRelease(uuid);
-        return [uuidString autorelease];
-    } else {
-        return nil;
-    }
-}
-
-+ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding
-{
-    return [[[NSString alloc] initWithData:aData encoding:aEncoding] autorelease];
-}
-
-+ (NSString *)UUIDString
-{
-    CFUUIDRef myUUID = CFUUIDCreate(NULL);
-    CFStringRef myUUIDString = CFUUIDCreateString(NULL, myUUID);
-    [(NSString *)myUUIDString retain];
-    CFRelease(myUUIDString);
-    CFRelease(myUUID);
-    
-    return [(NSString *)myUUIDString autorelease];
-}
-
 - (BOOL) isValidSerial 
 {
     NSArray *splitArray = [self componentsSeparatedByString:@"-"];
@@ -774,10 +747,5 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
               withString:[@" " stringByPaddingToLength:matchRange.length withString:hardspaceString startingAtIndex:0]];
     }
 }
-
-- (void)appendString:(NSString *)aString {
-    [self replaceCharactersInRange:NSMakeRange([self length],0) withString:aString];
-}
-
 
 @end
