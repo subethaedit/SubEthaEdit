@@ -167,7 +167,6 @@ Localizations/Catalan.lproj/Export.nib/classes.nib -text
 Localizations/Catalan.lproj/Export.nib/info.nib -text
 Localizations/Catalan.lproj/Export.nib/keyedobjects.nib -text
 Localizations/Catalan.lproj/FindAll.nib/classes.nib -text
-Localizations/Catalan.lproj/FindAll.nib/data.dependency -text
 Localizations/Catalan.lproj/FindAll.nib/info.nib -text
 Localizations/Catalan.lproj/FindAll.nib/keyedobjects.nib -text
 Localizations/Catalan.lproj/FindReplace.nib/classes.nib -text
@@ -370,7 +369,6 @@ Localizations/French.lproj/Setup.nib/classes.nib -text
 Localizations/French.lproj/Setup.nib/info.nib -text
 Localizations/French.lproj/Setup.nib/keyedobjects.nib -text
 Localizations/French.lproj/StylePrefs.nib/classes.nib -text
-Localizations/French.lproj/StylePrefs.nib/data.dependency -text
 Localizations/French.lproj/StylePrefs.nib/info.nib -text
 Localizations/French.lproj/StylePrefs.nib/keyedobjects.nib -text
 Localizations/French.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
@@ -406,7 +404,6 @@ Localizations/German.lproj/Export.nib/classes.nib -text
 Localizations/German.lproj/Export.nib/info.nib -text
 Localizations/German.lproj/Export.nib/keyedobjects.nib -text
 Localizations/German.lproj/FindAll.nib/classes.nib -text
-Localizations/German.lproj/FindAll.nib/data.dependency -text
 Localizations/German.lproj/FindAll.nib/info.nib -text
 Localizations/German.lproj/FindAll.nib/keyedobjects.nib -text
 Localizations/German.lproj/FindReplace.nib/classes.nib -text
@@ -480,15 +477,12 @@ Localizations/Japanese.lproj/DocumentProxy.nib/classes.nib -text
 Localizations/Japanese.lproj/DocumentProxy.nib/info.nib -text
 Localizations/Japanese.lproj/DocumentProxy.nib/keyedobjects.nib -text
 Localizations/Japanese.lproj/EditPrefs.nib/classes.nib -text
-Localizations/Japanese.lproj/EditPrefs.nib/data.dependency -text
 Localizations/Japanese.lproj/EditPrefs.nib/info.nib -text
 Localizations/Japanese.lproj/EditPrefs.nib/keyedobjects.nib -text
 Localizations/Japanese.lproj/Export.nib/classes.nib -text
-Localizations/Japanese.lproj/Export.nib/data.dependency -text
 Localizations/Japanese.lproj/Export.nib/info.nib -text
 Localizations/Japanese.lproj/Export.nib/keyedobjects.nib -text
 Localizations/Japanese.lproj/FindAll.nib/classes.nib -text
-Localizations/Japanese.lproj/FindAll.nib/data.dependency -text
 Localizations/Japanese.lproj/FindAll.nib/info.nib -text
 Localizations/Japanese.lproj/FindAll.nib/keyedobjects.nib -text
 Localizations/Japanese.lproj/FindReplace.nib/classes.nib -text
@@ -515,7 +509,6 @@ Localizations/Japanese.lproj/PlainTextWindow.nib/classes.nib -text
 Localizations/Japanese.lproj/PlainTextWindow.nib/info.nib -text
 Localizations/Japanese.lproj/PlainTextWindow.nib/keyedobjects.nib -text
 Localizations/Japanese.lproj/PrintOptions.nib/classes.nib -text
-Localizations/Japanese.lproj/PrintOptions.nib/data.dependency -text
 Localizations/Japanese.lproj/PrintOptions.nib/info.nib -text
 Localizations/Japanese.lproj/PrintOptions.nib/keyedobjects.nib -text
 Localizations/Japanese.lproj/PrintPrefs.nib/classes.nib -text
@@ -534,7 +527,6 @@ Localizations/Japanese.lproj/Setup.nib/classes.nib -text
 Localizations/Japanese.lproj/Setup.nib/info.nib -text
 Localizations/Japanese.lproj/Setup.nib/keyedobjects.nib -text
 Localizations/Japanese.lproj/StylePrefs.nib/classes.nib -text
-Localizations/Japanese.lproj/StylePrefs.nib/data.dependency -text
 Localizations/Japanese.lproj/StylePrefs.nib/info.nib -text
 Localizations/Japanese.lproj/StylePrefs.nib/keyedobjects.nib -text
 Localizations/Japanese.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
