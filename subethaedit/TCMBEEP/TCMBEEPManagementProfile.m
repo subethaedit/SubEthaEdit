@@ -41,6 +41,7 @@
 
 - (void)dealloc
 {
+    [I_keepBEEPTimer release];
     [I_pendingChannelRequestMessageNumbers release];
     [I_channelNumbersByCloseRequests release];
     [I_messageNumbersOfCloseRequestsByChannelsNumbers release];
@@ -69,6 +70,8 @@
     NSData *payload = [payloadString dataUsingEncoding:NSUTF8StringEncoding];
     TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[[self channel] nextMessageNumber] payload:payload];
     [[self channel] sendMessage:[message autorelease]];
+    
+    I_keepBEEPTimer = [[NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey]/2. target:self selector:@selector(sendKeepBEEP:) userInfo:nil repeats:YES] retain];
 }
 
 - (void)startChannelNumber:(int32_t)aChannelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
@@ -111,6 +114,16 @@
     [[self channel] sendMessage:[message autorelease]];
     [I_messageNumbersOfCloseRequestsByChannelsNumbers removeObjectForLong:aChannelNumber];
     [[self session] closedChannelWithNumber:aChannelNumber];
+}
+
+#pragma mark -
+
+- (void)sendKeepBEEP:(NSTimer *)aTimer {
+    [[self channel] sendSEQFrame];
+}
+
+- (void)cleanup {
+    [I_keepBEEPTimer invalidate];
 }
 
 #pragma mark -

@@ -301,6 +301,17 @@ static NSMutableDictionary *profileURIToClassMapping;
     return I_nextMessageNumber++;
 }
 
+- (void)sendSEQFrame {
+    // prepare SEQ frame
+    I_incomingWindowSize = MAXWINDOWSIZE;
+    I_incomingBufferSize = MAXWINDOWSIZE;
+    TCMBEEPFrame *SEQFrame = [TCMBEEPFrame SEQFrameWithChannelNumber:[self number] acknowledgementNumber:I_incomingSequenceNumber windowSize:I_incomingWindowSize];
+    I_incomingBufferSizeAvailable = I_incomingBufferSize;
+    [I_outgoingFrameQueue addObject:SEQFrame];
+    [[self session] channelHasFramesAvailable:self];
+}
+
+
 - (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame
 {
     if ([aFrame isSEQ]) {
@@ -389,13 +400,7 @@ static NSMutableDictionary *profileURIToClassMapping;
         I_incomingSequenceNumber = [aFrame sequenceNumber];
         I_incomingBufferSizeAvailable -= [aFrame length];
         if (I_incomingBufferSizeAvailable < (int)(I_incomingBufferSize / 2.0)) {
-            // prepare SEQ frame
-            I_incomingWindowSize = MAXWINDOWSIZE;
-            I_incomingBufferSize = MAXWINDOWSIZE;
-            TCMBEEPFrame *SEQFrame = [TCMBEEPFrame SEQFrameWithChannelNumber:[self number] acknowledgementNumber:I_incomingSequenceNumber windowSize:I_incomingWindowSize];
-            I_incomingBufferSizeAvailable = I_incomingBufferSize;
-            [I_outgoingFrameQueue addObject:SEQFrame];
-            [[self session] channelHasFramesAvailable:self];
+            [self sendSEQFrame];
         }
         
         if (I_channelStatus == TCMBEEPChannelStatusCloseRequested) {

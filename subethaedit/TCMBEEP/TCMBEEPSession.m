@@ -17,7 +17,7 @@
 #import <sys/ioctl.h> // ioctl()
 #import <net/if.h> // struct ifreq
 
-
+NSString * const NetworkTimeoutPreferenceKey = @"NetworkTimeout";
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
 
@@ -44,6 +44,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (void)TCM_readBytes;
 - (void)TCM_writeBytes;
 - (void)TCM_cleanup;
+- (void)TCM_triggerTerminator;
 @end
 
 #pragma mark -
@@ -135,6 +136,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     I_frameLogHandle = [[NSFileHandle fileHandleForWritingAtPath:frameLogFileName] retain];
     [I_frameLogHandle writeData:header];
 #endif
+    I_timeout=[[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey];
 }
 
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
@@ -178,6 +180,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     CFRelease(I_readStream);
     CFRelease(I_writeStream);
     [I_userInfo release];
+    [I_managementChannel cleanup];
     [I_managementChannel release];
     [I_activeChannels release];
     [I_peerAddressData release];
@@ -197,6 +200,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [I_rawLogOutHandle release];
     [I_frameLogHandle closeFile];
     [I_frameLogHandle release];
+    [I_terminateTimer release];
 #endif
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"BEEPSession deallocated");
     [super dealloc];
@@ -205,6 +209,26 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (NSString *)description
 {    
     return [NSString stringWithFormat:@"BEEPSession with address: %@ andInfo: %@", [NSString stringWithAddressData:I_peerAddressData], [[self userInfo] description]];
+}
+
+- (void)startTerminator {
+    if (!I_terminateTimer) {
+        I_terminateTimer=[[NSTimer timerWithTimeInterval:I_timeout 
+                                                target:self 
+                                              selector:@selector(terminate)
+                                              userInfo:nil repeats:NO] retain];
+        [[NSRunLoop currentRunLoop] addTimer:I_terminateTimer forMode:NSDefaultRunLoopMode]; //(NSString *)kCFRunLoopCommonModes];
+    } 
+}
+
+- (void)triggerTerminator {
+    if ([I_terminateTimer isValid]) {
+        [I_terminateTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:I_timeout]];
+    } 
+}
+
+- (void)invalidateTerminator {
+    [I_terminateTimer invalidate];
 }
 
 #pragma mark -
@@ -393,6 +417,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)terminate
 {
+    [self invalidateTerminator];
     I_sessionStatus = TCMBEEPSessionStatusError;
     
     //[I_inputStream setDelegate:nil];
@@ -423,6 +448,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         [self removeObjectFromChannelsAtIndex:index];
     }
 
+    [I_managementChannel cleanup];
     [I_managementChannel release];
     I_managementChannel = nil;
         
@@ -601,17 +627,16 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_handleStreamOpenEvent
 {
-    if (CFWriteStreamGetStatus(I_writeStream) == kCFStreamStatusOpen) {
+    if (CFWriteStreamGetStatus(I_writeStream) == kCFStreamStatusOpen &&
+        CFReadStreamGetStatus(I_readStream) == kCFStreamStatusOpen) {
         I_sessionStatus = TCMBEEPSessionStatusOpen;
-    }
-    
-    if (CFReadStreamGetStatus(I_readStream) == kCFStreamStatusOpen) {
-        I_sessionStatus = TCMBEEPSessionStatusOpen;
+        [self startTerminator];
     }   
 }
 
 - (void)TCM_handleStreamHasBytesAvailableEvent
 {
+    [self triggerTerminator];
     [self TCM_readBytes];
 }
 
@@ -630,6 +655,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_handleStreamErrorOccurredEvent:(NSError *)error
 {
+    [self invalidateTerminator];
     //if (I_sessionStatus == TCMBEEPSessionStatusError) {
     //   return;
     //}
@@ -664,6 +690,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         [self removeObjectFromChannelsAtIndex:index];
     }
     
+    [I_managementChannel cleanup];
     [I_managementChannel release];
     I_managementChannel = nil;
         
