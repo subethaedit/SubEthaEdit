@@ -867,6 +867,9 @@
                 <string>WebResourceLoadDelegate</string>
                 <string>WebUIDelegate</string>
             </keywords>
+            <keywords id="Preprocessor" color="#683821" useforautocomplete="no">
+				<regex>(^[ 	]*#([^\n\r])*)</regex>
+            </keywords>
 
         </default>
         
@@ -888,12 +891,6 @@
             <begin><string>@?"</string></begin>
             <end><regex>([^\\]"|^")</regex></end>
         </state>
-
-        <state id="Preprocessor" color="#683821" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>^#</regex></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
-        
     </states>
 
 </syntax>
