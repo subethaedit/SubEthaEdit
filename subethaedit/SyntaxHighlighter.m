@@ -236,6 +236,8 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     NSDictionary *style;
     SyntaxDefinition *definition = [self syntaxDefinition];
 
+    NSMutableDictionary *attributes=[NSMutableDictionary new];
+
     NSScanner *scanner = [NSScanner scannerWithString:[aString string]];
     [scanner setCharactersToBeSkipped:[definition invertedTokenSet]];
     [scanner setScanLocation:aRange.location];
@@ -249,18 +251,19 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                     int tokenlength = [token length];
                     NSRange foundRange = NSMakeRange(location-tokenlength,tokenlength);
                     if (NSMaxRange(foundRange)>aMaxRange) break;
-                    NSFontTraitMask mask = [[style objectForKey:@"font-trait"] unsignedIntValue];
-                    
-                    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                               I_theDocumentBackgroundIsDark?[[style objectForKey:@"color"] brightnessInvertedColor]:[style objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
-                                               [theDocument fontWithTrait: mask], NSFontAttributeName,
-                                                nil];
+
+                    [attributes setObject:I_theDocumentBackgroundIsDark?[[style objectForKey:@"color"] brightnessInvertedColor]:[style objectForKey:@"color"]
+                                   forKey:NSForegroundColorAttributeName];
+                    [attributes setObject:[theDocument fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]]
+                                   forKey:NSFontAttributeName];
                                                 
                     [aString addAttributes:attributes range:foundRange];
                 }
             }
         } else break;
     } while (location < aMaxRange);
+    
+    [attributes release];
 }
 
 -(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState
@@ -273,22 +276,25 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     NSString *theString = [aString string];
     int i;
     int count = [regexArray count];
+
+    NSMutableDictionary *attributes=[NSMutableDictionary new];
     
     for (i=0; i<count; i++) {
         NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
         aRegex = [currentRegexStyle objectAtIndex:0];
         style = [currentRegexStyle objectAtIndex:1];
 
-        NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   I_theDocumentBackgroundIsDark?[[style objectForKey:@"color"] brightnessInvertedColor]:[style objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
-                                   [theDocument fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
-                                    nil];
+        [attributes setObject:I_theDocumentBackgroundIsDark?[[style objectForKey:@"color"] brightnessInvertedColor]:[style objectForKey:@"color"]
+                       forKey:NSForegroundColorAttributeName];
+        [attributes setObject:[theDocument fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]]
+                       forKey:NSFontAttributeName];
         
         NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:aRange] objectEnumerator];
         while ((aMatch = [matchEnumerator nextObject])) {
             [aString addAttributes:attributes range:[aMatch rangeOfSubstringAtIndex:1]]; // Only color first group.
         }
     }
+    [attributes release];
 }
 
 #pragma mark - 
