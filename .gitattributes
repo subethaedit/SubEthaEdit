@@ -1,4 +1,7 @@
 * text=auto !eol
+artwork/icons/Document-b3-128.psd -text
+artwork/icons/Document-b3-16.psd -text
+artwork/icons/Document-b3-32.psd -text
 artwork/icons/Document128-1.icns -text
 artwork/icons/Document128-1.psd -text
 artwork/icons/Document16-1.psd -text
@@ -8,12 +11,29 @@ artwork/icons/HYDRA3b.psd -text
 artwork/icons/HYDRA3b2[!!-~]16x16.psd -text
 artwork/icons/HYDRA3b2[!!-~]32x32.psd -text
 artwork/icons/HYDRA3b2.psd -text
+artwork/icons/HYDRA3b3[!!-~]16x16.psd -text
+artwork/icons/HYDRA3b3[!!-~]32x32.psd -text
+artwork/icons/HYDRA3b3[!!-~]48x48.psd -text
+artwork/icons/HYDRA3b3-bunt.psd -text
+artwork/icons/HYDRA3b3-bunt2.psd -text
 artwork/icons/HYDRA3b3.psd -text
 artwork/icons/Hydra1-1.psd -text
 artwork/icons/Hydra1-2-3.psd -text
 artwork/icons/Hydra2-1.psd -text
 artwork/icons/Hydra2-2.psd -text
+artwork/icons/Hydra3b-2.psd -text
 artwork/icons/HydraFiles.icns -text
+artwork/icons/Symbols/Symbol#.psd -text
+artwork/icons/Symbols/Symbol#.tiff -text
+artwork/icons/Symbols/SymbolC.psd -text
+artwork/icons/Symbols/SymbolC.tiff -text
+artwork/icons/Symbols/SymbolF().psd -text
+artwork/icons/Symbols/SymbolF().tiff -text
+artwork/icons/Symbols/SymbolM.png -text
+artwork/icons/Symbols/SymbolM.psd -text
+artwork/icons/Symbols/SymbolM.tiff -text
+artwork/icons/Symbols/SymbolT.psd -text
+artwork/icons/Symbols/SymbolT.tiff -text
 artwork/icons/txt.icns -text
 artwork/mockups/RendezvousBrowser.psd -text
 artwork/mockups/RendezvousBrowser2.psd -text
