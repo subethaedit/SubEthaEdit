@@ -17,6 +17,7 @@
 #endif
 
 typedef enum LogLevels {
+    AlwaysLogLevel = 0,
     SimpleLogLevel = 1,
     DetailedLogLevel = 2,
     AllLogLevel = 3

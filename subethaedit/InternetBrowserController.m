@@ -793,10 +793,10 @@ enum {
     if (abort) {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSWarningAlertStyle];
-        [alert setMessageText:NSLocalizedString(@"OpenChannels", nil)];
-        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"AbortChannels", nil)]];
-        [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Abort", nil)];
+        [alert setMessageText:NSLocalizedString(@"OpenChannels", @"Sheet message text when user has open document connections")];
+        [alert setInformativeText:NSLocalizedString(@"AbortChannels", @"Sheet informative text when user has open document connections")];
+        [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", @"Button title")];
+        [alert addButtonWithTitle:NSLocalizedString(@"Abort", @"Button title")];
         [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
         [alert beginSheetModalForWindow:[self window]
                           modalDelegate:self 

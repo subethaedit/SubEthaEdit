@@ -291,6 +291,7 @@
 - (void)TCM_updateBottomStatusBar {
     if (I_flags.showBottomStatusBar) {
         PlainTextDocument *document=[self document];
+        #warning "Localize"
         [O_tabStatusTextField setStringValue:[NSString stringWithFormat:@"%@ (%d)",[document usesTabs]?@"TrueTab":@"Spaces",[document tabWidth]]];
         [O_modeTextField setStringValue:[[document documentMode] displayName]];
         
@@ -299,6 +300,7 @@
         NSFont *font=[document fontWithTrait:0];
         float characterWidth=[font widthOfString:@"m"];
         int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
+        #warning "Localize"
         [O_windowWidthTextField setStringValue:[NSString stringWithFormat:@"%d%@",charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapMode]==DocumentModeWrapModeCharacters?@"c":@"w")]];
         NSString *lineEndingStatusString=@"";
         switch ([document lineEnding]) {
