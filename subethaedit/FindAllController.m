@@ -81,7 +81,7 @@
         NSTableColumn* stringCol = [[O_resultsTableView tableColumns] objectAtIndex:1];
         int longestCol = 150;
 
-        [O_findResultsTextField setStringValue:[NSString stringWithFormat:@"%d found.",count]];
+        [O_findResultsTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d found.",@"Entries Found in FindAll Panel"),count]];
         
         for (i=0;i<count;i++) {
             OGRegularExpressionMatch *aMatch = [matchArray objectAtIndex:i];
