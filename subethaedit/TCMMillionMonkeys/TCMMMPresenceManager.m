@@ -293,13 +293,13 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 #pragma mark ### TCMMMBEEPSessionManager callbacks ###
 
 - (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile {
-    NSLog(@"acceptStatusProfile!");
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"acceptStatusProfile!");
     [aProfile setDelegate:self];
     if ([aProfile isServer]) {
         [self sendInitialStatusViaProfile:aProfile];
         [I_statusProfilesInServerRole addObject:aProfile];
     } else {
-        NSLog(@"mist: nicht server");
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"mist: nicht server");
     }
 }
 
@@ -310,7 +310,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     NSString *userID=[[session userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *statusOfUserID=[self statusOfUserID:userID];
     if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"NoStatus"]) {
-        NSLog(@"starting StatusProfile with: %@",userID);
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"starting StatusProfile with: %@", userID);
         [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil sender:self];
     }
     

@@ -406,6 +406,7 @@ subethaedit/Preferences.nib/info.nib -text
 subethaedit/Preferences.nib/keyedobjects.nib -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
+subethaedit/SLA.r -text
 subethaedit/SaturationToColorValueTransformer.h -text
 subethaedit/SaturationToColorValueTransformer.m -text
 subethaedit/SelectionOperation.h -text
@@ -493,6 +494,7 @@ subethaedit/artwork/StatusLock.tiff -text
 subethaedit/artwork/StatusReadOnly.tiff -text
 subethaedit/artwork/SubEthaEdit.icns -text
 subethaedit/artwork/URLIcon.tiff -text
+subethaedit/createDiskImage.sh -text
 subethaedit/debug.tiff -text
 subethaedit/main.m -text
 subethaedit/version.plist -text

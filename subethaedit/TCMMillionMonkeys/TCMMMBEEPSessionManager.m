@@ -17,7 +17,6 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 
-#define PORTRANGESTART 6942
 #define PORTRANGELENGTH 10
 
 static NSString *kBEEPSessionStatusNoSession =@"NoSession";
@@ -96,7 +95,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (BOOL)listen {
     // set up BEEPListener
-    for (I_listeningPort=PORTRANGESTART;I_listeningPort<PORTRANGESTART+PORTRANGELENGTH;I_listeningPort++) {
+    int port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
+    for (I_listeningPort=port;I_listeningPort<port+PORTRANGELENGTH;I_listeningPort++) {
         I_listener=[[TCMBEEPListener alloc] initWithPort:I_listeningPort];
         [I_listener setDelegate:self];
         if ([I_listener listen]) {
@@ -393,9 +393,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
             }
         } else if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusConnecting]) {
             if ([information objectForKey:@"NetService"]) {
-                NSLog(@"Received connection for %@ while I already tried connecting",aUserID);
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received connection for %@ while I already tried connecting", aUserID);
                 BOOL iWin=([[TCMMMUserManager myUserID] compare:aUserID]==NSOrderedDescending);
-                NSLog(@"%@ %@ %@",[TCMMMUserManager myUserID],iWin?@">":@"<=",aUserID);
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@ %@ %@", [TCMMMUserManager myUserID], iWin ? @">" : @"<=", aUserID);
                 if (iWin) {
                     return nil;
                 } else {
@@ -404,7 +404,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 }
             } else {
                 TCMBEEPSession *inboundSession=[information objectForKey:@"InboundRendezvousSession"];
-                NSLog(@"WTF? %@ tries to handshake twice, bad guy: %@",aUserID, inboundSession);
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"WTF? %@ tries to handshake twice, bad guy: %@", aUserID, inboundSession);
                 return nil;
             }
         }
@@ -458,14 +458,14 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [information setObject:session forKey:@"RendezvousSession"];
         [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
         [I_pendingSessions removeObject:session];
-        NSLog(@"received ACK");
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"received ACK");
         [self TCM_sendDidAcceptNotificationForSession:session];
 //        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
     } else {
         NSMutableArray *inboundSessions=[information objectForKey:@"InboundSessions"];
         [inboundSessions addObject:session];
         [I_pendingSessions removeObject:session];
-        NSLog(@"received ACK");
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"received ACK");
         [self TCM_sendDidAcceptNotificationForSession:session];
 //        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
     }
@@ -473,9 +473,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 #pragma mark -
 
-- (void)profile:(SessionProfile *)profile didReceiveJoinRequestForSessionID:(NSString *)sessionID
-{
-    NSLog(@"didReceiveJoinRequest: %@", sessionID);
+- (void)profile:(SessionProfile *)profile didReceiveJoinRequestForSessionID:(NSString *)sessionID {
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"didReceiveJoinRequest: %@", sessionID);
     TCMMMSession *session = [[TCMMMPresenceManager sharedInstance] sessionForSessionID:sessionID];
     if (session) {
         [session joinRequestWithProfile:profile];
@@ -486,24 +485,24 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 }
 
-- (void)profile:(SessionProfile *)profile didReceiveInvitationForSessionID:(NSString *)sessionID
-{
-    NSLog(@"didReceiveInvitation: %@", sessionID);
+- (void)profile:(SessionProfile *)profile didReceiveInvitationForSessionID:(NSString *)sessionID {
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"didReceiveInvitation: %@", sessionID);
 }
 
 #pragma mark -
 #pragma mark ### BEEPListener delegate ###
 
-- (BOOL)BEEPListener:(TCMBEEPListener *)aBEEPListener shouldAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession
-{
-    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"somebody talks to our listener: %@", [aBEEPSession description]);
+- (BOOL)BEEPListener:(TCMBEEPListener *)aBEEPListener shouldAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPListener:shouldAcceptBEEPSession %@", [aBEEPSession description]);
     return YES;
 }
 
-- (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession
-{
-    NSLog(@"Got Session %@", aBEEPSession);
-    [aBEEPSession setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",@"http://www.codingmonkeys.de/BEEP/TCMMMStatus",@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",nil]];
+- (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPListener:didAcceptBEEPSession: %@", aBEEPSession);
+    [aBEEPSession setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
+                                                           @"http://www.codingmonkeys.de/BEEP/TCMMMStatus",
+                                                           @"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",
+                                                           nil]];
     [aBEEPSession setDelegate:self];
     [aBEEPSession open];
     [I_pendingSessions addObject:aBEEPSession];

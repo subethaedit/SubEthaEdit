@@ -32,6 +32,8 @@ int const FormatMenuTag = 2000;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
 
+NSString * const DefaultPortNumber = @"port";
+
 
 @interface AppController (AppControllerPrivateAdditions)
 
@@ -47,9 +49,8 @@ int const WindowMenuTag = 3000;
 
 + (void)initialize {
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-
+    [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
-    
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];

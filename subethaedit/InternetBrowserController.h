@@ -19,6 +19,7 @@
     IBOutlet NSComboBox *O_addressComboBox;
     IBOutlet NSPopUpButton *O_actionPullDownButton;
 
+    NSMutableArray *I_data;
     NSMutableDictionary *I_resolvingHosts;
     NSMutableDictionary *I_resolvedHosts;
 }

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TCMMMUser.h"
+#import "TCMMillionMonkeys/TCMMMUser.h"
 
 @class TCMMMUser;
 

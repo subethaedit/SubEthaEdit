@@ -906,6 +906,58 @@
 			settings = {
 			};
 		};
+		14963A3C061F0CFD009B8E42 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$ACTION\" = \"clean\" ]\nthen\n    echo \"cleaning\"\n    if [ -e ./SubEthaEdit.dmg ]\n    then\n        echo \"removing image\"\n        rm -f ./SubEthaEdit.dmg\n    fi\n    exit 0\nelse\n    ./createDiskImage.sh 10 \"SubEthaEdit\" \"SLA.r\" \"$DSTROOT/*\"\nfi\nexit 0";
+		};
+		14963A3D061F0CFD009B8E42 = {
+			buildPhases = (
+				14963A3C061F0CFD009B8E42,
+			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+				14963A46061F1022009B8E42,
+			);
+			isa = PBXAggregateTarget;
+			name = "Create Disk Image";
+			productName = "Create Disk Image";
+		};
+		14963A44061F0FF6009B8E42 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.script.sh;
+			path = createDiskImage.sh;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14963A45061F1022009B8E42 = {
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
+			remoteInfo = SubEthaEdit;
+		};
+		14963A46061F1022009B8E42 = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4;
+			targetProxy = 14963A45061F1022009B8E42;
+		};
 		149A5C1B0600A89C0033510E = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
@@ -1315,6 +1367,7 @@
 				8D15AC270486D014006FF6A4,
 				147037FE060C642F0087BA25,
 				31DEE029061089D0001EC83E,
+				14963A3D061F0CFD009B8E42,
 			);
 		};
 		2A37F4AAFDCFA73011CA2CEA = {
@@ -1362,6 +1415,7 @@
 				5E4F35BD05EF77C5009D71ED,
 				32DBCF750370BD2300C91783,
 				2A37F4B0FDCFA73011CA2CEA,
+				14963A44061F0FF6009B8E42,
 			);
 			isa = PBXGroup;
 			name = "Other Sources";
@@ -1599,9 +1653,9 @@
 			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				OTHER_CFLAGS = "-DBLOCK_DEBUGLOGS -DNS_BLOCK_ASSERTIONS";
-				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;

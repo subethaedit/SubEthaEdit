@@ -29,3 +29,5 @@ typedef enum LogLevels {
         } \
     } while (0)
 #endif
+
+extern NSString * const DefaultPortNumber;

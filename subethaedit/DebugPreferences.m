@@ -29,6 +29,7 @@
                                         @"MillionMonkeysLogDomain",
                                         @"SyntaxHighlighterDomain",
                                         @"EncodingLogDomain",
+                                        @"InternetLogDomain",
                                         nil] objectEnumerator];
         NSString *domain=nil;
         while ((domain=[domains nextObject])) {

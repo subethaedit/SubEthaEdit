@@ -74,6 +74,7 @@
         } else {
             if ([type isEqualToString:@"ACK"]) {
                 [[self delegate] profile:self receivedAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+                // WARNING: No reply is sent for this message!
             }
         }
     } else if ([aMessage isRPY]) {

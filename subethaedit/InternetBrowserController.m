@@ -13,12 +13,21 @@
 #import "ImagePopUpButtonCell.h"
 
 
+@interface InternetBrowserController (InternetBrowserControllerPrivateAdditions)
+
+- (int)indexOfItemWithHostname:(NSString *)name;
+
+@end
+
+#pragma mark -
+
 @implementation InternetBrowserController
 
 - (id)init
 {
     self = [super initWithWindowNibName:@"InternetBrowser"];
     if (self) {
+        I_data = [NSMutableArray new];
         I_resolvingHosts = [NSMutableDictionary new];
         I_resolvedHosts = [NSMutableDictionary new];
     }
@@ -28,6 +37,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [I_data release];
     [I_resolvingHosts release];
     [I_resolvedHosts release];
     [super dealloc];
@@ -86,8 +96,10 @@
     NSString *address = [aSender objectValue];
     DEBUGLOG(@"Internet", 5, @"connect to peer: %@", address);
 
-    TCMHost *host = [TCMHost hostWithName:address port:6942];
+    TCMHost *host = [TCMHost hostWithName:address port:[[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber]];
     [I_resolvingHosts setObject:host forKey:[host name]];
+    [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[host name], @"name", @"Resolving", @"status", nil]];
+    [O_browserListView reloadData];
     [host setDelegate:self];
     [host resolve];
 }
@@ -96,11 +108,30 @@
 {
 }
 
+- (int)indexOfItemWithHostname:(NSString *)name
+{
+    int index = -1;
+    int i;
+    for (i = 0; i < [I_data count]; i++) {
+        if ([name isEqualToString:[[I_data objectAtIndex:i] objectForKey:@"name"]]) {
+            index = i;
+            break;
+        }
+    }
+    
+    return index;
+}
+
 #pragma mark -
 
 - (void)hostDidResolveAddress:(TCMHost *)sender
 {
-    NSLog(@"hostDidResolveAddress:");
+    DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"hostDidResolveAddress:");
+    int index = [self indexOfItemWithHostname:[sender name]];
+    if (index != -1) {
+        [[I_data objectAtIndex:index] setObject:@"Connecting" forKey:@"status"];
+        [O_browserListView reloadData];
+    }
     [I_resolvedHosts setObject:sender forKey:[sender name]];
     [I_resolvingHosts removeObjectForKey:[sender name]];
     [sender setDelegate:nil];
@@ -109,7 +140,12 @@
 
 - (void)host:(TCMHost *)sender didNotResolve:(NSError *)error
 {
-    DEBUGLOG(@"Internet", 5, @"host: %@, didNotResolve: %@", sender, error);
+    DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"host: %@, didNotResolve: %@", sender, error);
+    int index = [self indexOfItemWithHostname:[sender name]];
+    if (index != -1) {
+        [[I_data objectAtIndex:index] setObject:@"Couldn't resolve" forKey:@"status"];
+        [O_browserListView reloadData];
+    }
     [sender setDelegate:nil];
     [I_resolvingHosts removeObjectForKey:[sender name]];
 }
@@ -118,17 +154,17 @@
 
 - (void)TCM_didAcceptSession:(NSNotification *)notification
 {
-    DEBUGLOG(@"Internet", 5, @"TCM_didAcceptSession: %@", notification);
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
 }
 
 - (void)TCM_sessionDidEnd:(NSNotification *)notification
 {
-    DEBUGLOG(@"Internet", 5, @"TCM_sessionDidEnd: %@", notification);
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
 }
 
 - (void)TCM_connectToHostDidFail:(NSNotification *)notification
 {
-    DEBUGLOG(@"Internet", 5, @"TCM_connectToHostDidFail: %@", notification);
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_connectToHostDidFail: %@", notification);
     
     TCMHost *host = [[notification userInfo] objectForKey:@"host"];
     if (host) {
@@ -140,18 +176,22 @@
 
 - (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
 {
-    DEBUGLOG(@"Internet", 5, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
 }
 
 #pragma mark -
 
 - (int)numberOfItemsInListView:(TCMMMBrowserListView *)aListView
 {
-    return 0;
+    return [I_data count];
 }
 
 - (int)listView:(TCMMMBrowserListView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex
 {
+    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
+        //NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
+    }
+    
     return 0;
 }
 
@@ -166,6 +206,16 @@
 
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex
 {
+    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
+        NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
+        
+        if (aTag == TCMMMBrowserItemNameTag) {
+            return [item objectForKey:@"name"];
+        } else if (aTag == TCMMMBrowserItemStatusTag) {
+            return [item objectForKey:@"status"];
+        }
+    }
+
     return nil;
 }
 
