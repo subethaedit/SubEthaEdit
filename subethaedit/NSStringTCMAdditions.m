@@ -7,6 +7,7 @@
 //
 
 #import "NSStringTCMAdditions.h"
+#import <OgreKit/OgreKit.h>
 
 #import <netinet/in.h>
 #import <netinet6/in6.h>
@@ -705,6 +706,74 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 
 @implementation NSMutableAttributedString (NSMutableAttributedStringTCMAdditions) 
+
+- (NSRange)detab:(BOOL)shouldDetab inRange:(NSRange)aRange tabWidth:(int)aTabWidth askingTextView:(NSTextView *)aTextView {
+    [self beginEditing];
+
+    static OGRegularExpression *tabExpression,*spaceExpression;
+    if (!tabExpression) {
+        tabExpression  =[[OGRegularExpression regularExpressionWithString:@"\t+"] retain];
+        spaceExpression=[[OGRegularExpression regularExpressionWithString:@"  +"] retain];
+    }
+
+    unsigned changeInLength=0;
+    
+    if (shouldDetab) {
+        NSArray *matches=[tabExpression allMatchesInString:[self string] range:aRange];
+        int i=0;
+        int count=[matches count];
+        for (i=0;i<count;i++) {
+            OGRegularExpressionMatch *match=[matches objectAtIndex:i];
+            NSRange matchRange=[match rangeOfMatchedString];
+            matchRange.location+=changeInLength;
+            NSRange lineRange=[[self string] lineRangeForRange:matchRange];
+            int replacementStringLength=(matchRange.length-1)*aTabWidth+
+                                        (aTabWidth-(matchRange.location-lineRange.location)%aTabWidth);
+            NSString *replacementString=[@"" stringByPaddingToLength:replacementStringLength withString:@" " startingAtIndex:0];
+            if ((aTextView && [aTextView shouldChangeTextInRange:matchRange replacementString:replacementString]) 
+                || !aTextView) {
+                [self replaceCharactersInRange:matchRange withString:replacementString];
+                if (aTextView) {
+                    [self addAttributes:[aTextView typingAttributes] 
+                          range:NSMakeRange(matchRange.location,replacementStringLength)];
+                }
+                changeInLength+=replacementStringLength-matchRange.length;
+            }
+        }
+    } else {
+        NSArray *matches=[spaceExpression allMatchesInString:[self string] range:aRange];
+        int i=0;
+        int count=[matches count];
+        for (i=count-1;i>=0;i--) {
+            OGRegularExpressionMatch *match=[matches objectAtIndex:i];
+            NSRange matchRange=[match rangeOfMatchedString];
+            NSRange lineRange=[[self string] lineRangeForRange:matchRange];
+            if (matchRange.length>=(aTabWidth-(matchRange.location-lineRange.location)%aTabWidth)) {
+                // align end of spaces to tab boundary
+                matchRange.length-=(NSMaxRange(matchRange)-lineRange.location)%aTabWidth;
+                int replacementStringLength=matchRange.length/aTabWidth;
+                if ((matchRange.location-lineRange.location)%aTabWidth!=0) replacementStringLength+=1;
+                NSString *replacementString=[@"" stringByPaddingToLength:replacementStringLength withString:@"\t" startingAtIndex:0];
+                if ((aTextView && [aTextView shouldChangeTextInRange:matchRange replacementString:replacementString])
+                    || !aTextView) {
+                    [self replaceCharactersInRange:matchRange withString:replacementString];
+                    if (aTextView) {
+                        [self addAttributes:[aTextView typingAttributes] 
+                              range:NSMakeRange(matchRange.location,replacementStringLength)];
+                    }
+                    changeInLength+=replacementStringLength-matchRange.length;
+                }
+            }
+        }
+    }
+
+    aRange.length+=changeInLength;
+    [self endEditing];
+
+    [aTextView didChangeText];
+    return aRange;
+}
+
 
 - (void)makeLeadingWhitespaceNonBreaking {
     NSString *hardspaceString=nil;

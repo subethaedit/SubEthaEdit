@@ -617,63 +617,10 @@
         if (affectedRange.length==0) {
             affectedRange = NSMakeRange(0,[textStorage length]);
         }
-        int tabWidth=[[self document] tabWidth];
         affectedRange=[string lineRangeForRange:affectedRange];
 
-        [textStorage beginEditing];
-
-        unsigned changeInLength=0;
-        
-        if (shouldDetab) {
-            OGRegularExpression *tabExpression=[OGRegularExpression regularExpressionWithString:@"\t+"];
-            NSArray *matches=[tabExpression allMatchesInString:[textStorage string] range:affectedRange];
-            int i=0;
-            int count=[matches count];
-            for (i=0;i<count;i++) {
-                OGRegularExpressionMatch *match=[matches objectAtIndex:i];
-                NSRange matchRange=[match rangeOfMatchedString];
-                matchRange.location+=changeInLength;
-                NSRange lineRange=[[textStorage string] lineRangeForRange:matchRange];
-                int replacementStringLength=(matchRange.length-1)*tabWidth+
-                                            (tabWidth-(matchRange.location-lineRange.location)%tabWidth);
-                NSString *replacementString=[@"" stringByPaddingToLength:replacementStringLength withString:@" " startingAtIndex:0];
-                if ([aTextView shouldChangeTextInRange:matchRange replacementString:replacementString]) {
-                    [textStorage replaceCharactersInRange:matchRange withString:replacementString];
-                    [textStorage addAttributes:[aTextView typingAttributes] range:NSMakeRange(matchRange.location,replacementStringLength)];
-                    changeInLength+=replacementStringLength-matchRange.length;
-                }
-            }
-        } else {
-            OGRegularExpression *spaceExpression=[OGRegularExpression regularExpressionWithString:@"  +"];
-            NSArray *matches=[spaceExpression allMatchesInString:[textStorage string] range:affectedRange];
-            int i=0;
-            int count=[matches count];
-            for (i=count-1;i>=0;i--) {
-                OGRegularExpressionMatch *match=[matches objectAtIndex:i];
-                NSRange matchRange=[match rangeOfMatchedString];
-                NSRange lineRange=[[textStorage string] lineRangeForRange:matchRange];
-                if (matchRange.length>=(tabWidth-(matchRange.location-lineRange.location)%tabWidth)) {
-                    // align end of spaces to tab boundary
-//                    NSLog(@"MatchRange:%@ lineRange:%@",NSStringFromRange(matchRange),NSStringFromRange(lineRange));
-                    matchRange.length-=(NSMaxRange(matchRange)-lineRange.location)%tabWidth;
-//                    NSLog(@"MatchRangealinged:%@",NSStringFromRange(matchRange));
-                    int replacementStringLength=matchRange.length/tabWidth;
-//                    NSLog(@"ReplacmentStringLneght:%d",replacementStringLength);
-                    if ((matchRange.location-lineRange.location)%tabWidth!=0) replacementStringLength+=1;
-//                    NSLog(@"ReplacmentStringLneght after adjusting:%d",replacementStringLength);
-                    NSString *replacementString=[@"" stringByPaddingToLength:replacementStringLength withString:@"\t" startingAtIndex:0];
-                    if ([aTextView shouldChangeTextInRange:matchRange replacementString:replacementString]) {
-                        [textStorage replaceCharactersInRange:matchRange withString:replacementString];
-                        [textStorage addAttributes:[aTextView typingAttributes] range:NSMakeRange(matchRange.location,replacementStringLength)];
-                        changeInLength+=replacementStringLength-matchRange.length;
-                    }
-                }
-            }
-        }
-
-        affectedRange.length+=changeInLength;
-        [textStorage endEditing];
-        [aTextView didChangeText];
+        affectedRange=[textStorage detab:shouldDetab inRange:affectedRange 
+                                   tabWidth:[[self document] tabWidth] askingTextView:aTextView];
 
         [aTextView setSelectedRange:affectedRange];
 
@@ -775,6 +722,7 @@
         NSColor *foregroundColor=[document documentForegroundColor]; 
         TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
         NSMutableAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange foregroundColor:foregroundColor backgroundColor:backgroundColor];
+        [attributedStringForXHTML detab:YES inRange:NSMakeRange(0,[attributedStringForXHTML length]) tabWidth:[document tabWidth] askingTextView:nil];
         if ([self wrapsLines]) {
             [attributedStringForXHTML makeLeadingWhitespaceNonBreaking]; 
         }
