@@ -35,7 +35,7 @@
         <regex>(?&lt;=[\n\r])class[\t ]([\w0-9_]*)(?=\s*\{)</regex>
     </symbol>
 
-    <symbol id="Pragma Marks" font-weight="bold" image="Symbol#" indentation="0" ignoreblocks="yes">
+    <symbol id="Pragma Marks" font-weight="bold" indentation="0" ignoreblocks="yes">
         <regex>(#pragma mark[	 -]*[^\n]*)\n</regex>
         <postprocess>
             <find>#pragma mark[-	 \n]*</find> <!-- An empty string places a separator -->
