@@ -487,6 +487,8 @@ subethaedit/TCMFoundation/NSDictionaryTCMAdditions.h -text
 subethaedit/TCMFoundation/NSDictionaryTCMAdditions.m -text
 subethaedit/TCMFoundation/NSStringTCMAdditions.h -text
 subethaedit/TCMFoundation/NSStringTCMAdditions.m -text
+subethaedit/TCMFoundation/TCMBencodingUtilities.h -text
+subethaedit/TCMFoundation/TCMBencodingUtilities.m -text
 subethaedit/TCMFoundation/TCMDebug.h -text
 subethaedit/TCMFoundation/TCMFoundation.h -text
 subethaedit/TCMFoundation/TCMFoundation.xcode/project.pbxproj -text

@@ -9,3 +9,4 @@
 #import <TCMFoundation/TCMDebug.h>
 #import <TCMFoundation/NSDictionaryTCMAdditions.h>
 #import <TCMFoundation/NSStringTCMAdditions.h>
+#import <TCMFoundation/TCMBencodingUtilities.h>

@@ -78,6 +78,7 @@
 				5E2286F607FD7D1800413653,
 				14A5A40A07FC4D5D0026D2C9,
 				08FB77AEFE84172EC02AAC07,
+				5EA7F98607FED73A002EE153,
 				32C88DFF0371C24200C91783,
 				089C1665FE841158C02AAC07,
 				0867D69AFE84028FC02AAC07,
@@ -331,6 +332,47 @@
 				);
 			};
 		};
+		5EA7F98607FED73A002EE153 = {
+			children = (
+				5EA7F98707FED757002EE153,
+				5EA7F98807FED757002EE153,
+			);
+			isa = PBXGroup;
+			name = Functions;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA7F98707FED757002EE153 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMBencodingUtilities.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA7F98807FED757002EE153 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMBencodingUtilities.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA7F98907FED757002EE153 = {
+			fileRef = 5EA7F98707FED757002EE153;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		5EA7F98A07FED757002EE153 = {
+			fileRef = 5EA7F98807FED757002EE153;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //5E0
 //5E1
 //5E2
@@ -380,6 +422,7 @@
 				14A5A42A07FC4DF40026D2C9,
 				14A5A44507FC4F410026D2C9,
 				5E2286FB07FD7DAD00413653,
+				5EA7F98907FED757002EE153,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -403,6 +446,7 @@
 			files = (
 				14A5A42907FC4DF40026D2C9,
 				14A5A42B07FC4DF40026D2C9,
+				5EA7F98A07FED757002EE153,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
