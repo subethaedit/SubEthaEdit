@@ -1058,7 +1058,7 @@
 		147883BA062751DA00B6685C = {
 			buildActionMask = 2147483647;
 			files = (
-				147883FF0627538100B6685C,
+				14ED266E062DA9CE00173022,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1067,6 +1067,7 @@
 			buildPhases = (
 				147883B9062751DA00B6685C,
 				147883BA062751DA00B6685C,
+				14ED266F062DAA3B00173022,
 			);
 			buildRules = (
 			);
@@ -1128,20 +1129,11 @@
 		};
 		147883F2062752B700B6685C = {
 			children = (
-				147883FD0627537600B6685C,
+				14ED266D062DA9CE00173022,
 				147883FE0627537700B6685C,
 			);
 			isa = PBXGroup;
 			name = see;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		147883FD0627537600B6685C = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = main.c;
-			path = see/main.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1153,12 +1145,6 @@
 			path = see/see.1;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		147883FF0627538100B6685C = {
-			fileRef = 147883FD0627537600B6685C;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		1482A67705EFC1D200BC7434 = {
 			fileEncoding = 10;
@@ -1830,6 +1816,35 @@
 			settings = {
 			};
 		};
+		14ED266D062DA9CE00173022 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = main.m;
+			path = see/main.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14ED266E062DA9CE00173022 = {
+			fileRef = 14ED266D062DA9CE00173022;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14ED266F062DAA3B00173022 = {
+			buildActionMask = 2147483647;
+			files = (
+				14ED2670062DAA5000173022,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14ED2670062DAA5000173022 = {
+			fileRef = 2A37F4C5FDCFA73011CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //140
 //141
 //142
@@ -2173,7 +2188,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_LOCATION = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				OTHER_CFLAGS = "-DBLOCK_DEBUGLOGS -DNS_BLOCK_ASSERTIONS -DMORE_DEBUG=0";
+				OTHER_CFLAGS = "-DBLOCK_DEBUGLOGS -DNS_BLOCK_ASSERTIONS -DNDEBUG -DMORE_DEBUG=0";
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;
