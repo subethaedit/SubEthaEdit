@@ -29,12 +29,17 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 #endif
 
 
+static void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
+static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
+
+
 @interface TCMBEEPSession (TCMBEEPSessionPrivateAdditions)
 - (void)TCM_initHelper;
-- (void)TCM_handleInputStreamEvent:(NSStreamEvent)streamEvent;
-- (void)TCM_handleOutputStreamEvent:(NSStreamEvent)streamEvent;
-- (void)TCM_handleStreamAtEndEvent;
+- (void)TCM_handleStreamOpenEvent;
+- (void)TCM_handleStreamHasBytesAvailableEvent;
+- (void)TCM_handleStreamCanAcceptBytesEvent;
 - (void)TCM_handleStreamErrorOccurredEvent:(NSError *)error;
+- (void)TCM_handleStreamAtEndEvent;
 - (void)TCM_fillBufferInRoundRobinFashion;
 - (void)TCM_readBytes;
 - (void)TCM_writeBytes;
@@ -47,15 +52,36 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 
 - (void)TCM_initHelper
 {
-    [I_inputStream setDelegate:self];
-    [I_outputStream setDelegate:self];
-    
-    if (!CFReadStreamSetProperty((CFReadStreamRef)I_inputStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue)) {
-        DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Failed to set kCFStreamPropertyShouldCloseNativeSocket on inputStream");
+    CFStreamClientContext context = {0, self, NULL, NULL, NULL};
+    CFOptionFlags readFlags =  kCFStreamEventOpenCompleted |
+        kCFStreamEventHasBytesAvailable |
+        kCFStreamEventErrorOccurred |
+        kCFStreamEventEndEncountered;
+    CFOptionFlags writeFlags = kCFStreamEventOpenCompleted |
+        kCFStreamEventCanAcceptBytes |
+        kCFStreamEventErrorOccurred |
+        kCFStreamEventEndEncountered;
+        
+    if (!CFReadStreamSetClient(I_readStream, readFlags,
+                               (CFReadStreamClientCallBack)&callBackReadStream,
+                               &context)) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Error connecting readStream to callback.");
+        return;
+    }
+
+    if (!CFWriteStreamSetClient(I_writeStream, writeFlags,
+                                (CFWriteStreamClientCallBack)&callBackWriteStream,
+                                &context)) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Error connecting writeStream to callback.");
+        return;
     }
     
-    if (!CFWriteStreamSetProperty((CFWriteStreamRef)I_outputStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue)) {
-        DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Failed to set kCFStreamPropertyShouldCloseNativeSocket on outputStream");
+    if (!CFReadStreamSetProperty(I_readStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue)) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Failed to set kCFStreamPropertyShouldCloseNativeSocket on inputStream");
+    }
+    
+    if (!CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue)) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Failed to set kCFStreamPropertyShouldCloseNativeSocket on outputStream");
     }
     
     I_profileURIs = [NSMutableArray new];
@@ -116,7 +142,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     self = [super init];
     if (self) {
         [self setPeerAddressData:aData];
-        CFStreamCreatePairWithSocket(kCFAllocatorDefault, aSocketHandle, (CFReadStreamRef *)&I_inputStream, (CFWriteStreamRef *)&I_outputStream);
+        CFStreamCreatePairWithSocket(kCFAllocatorDefault, aSocketHandle, &I_readStream, &I_writeStream);
         I_flags.isInitiator = NO;
         I_nextChannelNumber = 0;
         [self TCM_initHelper];        
@@ -131,7 +157,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     if (self) {
         [self setPeerAddressData:aData];
         CFSocketSignature signature = {PF_INET, SOCK_STREAM, IPPROTO_TCP, (CFDataRef)aData};
-        CFStreamCreatePairWithPeerSocketSignature(kCFAllocatorDefault, &signature, (CFReadStreamRef *)&I_inputStream, (CFWriteStreamRef *)&I_outputStream);
+        CFStreamCreatePairWithPeerSocketSignature(kCFAllocatorDefault, &signature, &I_readStream, &I_writeStream);
         I_flags.isInitiator = YES;
         I_nextChannelNumber = -1;
         [self TCM_initHelper];
@@ -143,14 +169,13 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 - (void)dealloc
 {
     I_delegate = nil;
-    [I_inputStream setDelegate:nil];
-    [I_outputStream setDelegate:nil];
-    [[NSRunLoop currentRunLoop] cancelPerformSelectorsWithTarget:self];
+    CFReadStreamSetClient(I_readStream, 0, NULL, NULL);
+    CFWriteStreamSetClient(I_writeStream, 0, NULL, NULL);
     
     [I_readBuffer release];
     [I_writeBuffer release];
-    [I_inputStream release];
-    [I_outputStream release];
+    CFRelease(I_readStream);
+    CFRelease(I_writeStream);
     [I_userInfo release];
     [I_managementChannel release];
     [I_activeChannels release];
@@ -336,13 +361,21 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 
 - (void)open
 {
-    [I_inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-                             forMode:(NSString *)kCFRunLoopCommonModes];
-    [I_outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-                              forMode:(NSString *)kCFRunLoopCommonModes];
+    CFRunLoopRef runLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
+
+    CFReadStreamScheduleWithRunLoop(I_readStream, runLoop, kCFRunLoopCommonModes);
+    CFWriteStreamScheduleWithRunLoop(I_writeStream, runLoop, kCFRunLoopCommonModes);
     
-    [I_inputStream open];
-    [I_outputStream open];
+    if (!CFReadStreamOpen(I_readStream)) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Invalid Read Stream on Open");
+        return;
+    }
+    
+    if (!CFWriteStreamOpen(I_writeStream)) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Invalid Write Stream on Open");
+        return;
+    }
+    
     I_sessionStatus = TCMBEEPSessionStatusOpening;
     
     I_managementChannel = [[TCMBEEPChannel alloc] initWithSession:self number:0 profileURI:kTCMBEEPManagementProfile asInitiator:[self isInitiator]];
@@ -361,15 +394,21 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 {
     I_sessionStatus = TCMBEEPSessionStatusError;
     
-    [I_inputStream setDelegate:nil];
-    [I_outputStream setDelegate:nil];
+    //[I_inputStream setDelegate:nil];
+    //[I_outputStream setDelegate:nil];
     
-    if ([I_outputStream streamStatus] != NSStreamStatusClosed && [I_outputStream streamStatus] != NSStreamStatusError) {
-        [I_outputStream close];
-    }
-    if ([I_inputStream streamStatus] != NSStreamStatusClosed && [I_inputStream streamStatus] != NSStreamStatusError) {
-        [I_inputStream close];
-    }
+    //if ([I_outputStream streamStatus] != NSStreamStatusClosed && [I_outputStream streamStatus] != NSStreamStatusError) {
+    CFReadStreamClose(I_readStream);
+    //}
+    //if ([I_inputStream streamStatus] != NSStreamStatusClosed && [I_inputStream streamStatus] != NSStreamStatusError) {
+    CFWriteStreamClose(I_writeStream);
+    //}
+    
+    CFRunLoopRef runLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
+
+    CFReadStreamUnscheduleFromRunLoop(I_readStream, runLoop, kCFRunLoopCommonModes);
+    CFWriteStreamUnscheduleFromRunLoop(I_writeStream, runLoop, kCFRunLoopCommonModes);
+    
     
     NSEnumerator *activeChannels = [I_activeChannels objectEnumerator];  
     TCMBEEPChannel *channel;
@@ -432,8 +471,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 {
     int8_t buffer[8192];
     int bytesParsed = 0;
-    int bytesRead = [I_inputStream read:buffer maxLength:sizeof(buffer)];
-    
+    CFIndex bytesRead = CFReadStreamRead(I_readStream, buffer, sizeof(buffer));
+     
 #ifdef TCMBEEP_DEBUG
     if (bytesRead > 0) {
         [I_rawLogInHandle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
@@ -549,7 +588,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     if (!([I_writeBuffer length] > 0))
         return;
         
-    int bytesWritten = [I_outputStream write:[I_writeBuffer bytes] maxLength:[I_writeBuffer length]];
+    CFIndex bytesWritten = CFWriteStreamWrite(I_writeStream, [I_writeBuffer bytes], [I_writeBuffer length]);
 
 #ifdef TCMBEEP_DEBUG
     if (bytesWritten > 0) [I_rawLogOutHandle writeData:[NSData dataWithBytesNoCopy:(void *)[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
@@ -565,23 +604,58 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     }
 }
 
+- (void)TCM_handleStreamOpenEvent
+{
+    if (CFWriteStreamGetStatus(I_writeStream) == kCFStreamStatusOpen) {
+        I_sessionStatus = TCMBEEPSessionStatusOpen;
+    }
+    
+    if (CFReadStreamGetStatus(I_readStream) == kCFStreamStatusOpen) {
+        I_sessionStatus = TCMBEEPSessionStatusOpen;
+    }   
+}
+
+- (void)TCM_handleStreamHasBytesAvailableEvent
+{
+    [self TCM_readBytes];
+}
+
+- (void)TCM_handleStreamCanAcceptBytesEvent
+{
+    // fill write buffer
+    [self TCM_fillBufferInRoundRobinFashion];
+
+    // when writeBuffer is not empty write bytes to stream
+    [self TCM_writeBytes];
+}
+
+- (void)TCM_handleStreamAtEndEvent
+{
+}
+
 - (void)TCM_handleStreamErrorOccurredEvent:(NSError *)error
 {
-    if (I_sessionStatus == TCMBEEPSessionStatusError) {
-       return;
-    }
+    //if (I_sessionStatus == TCMBEEPSessionStatusError) {
+    //   return;
+    //}
     
     I_sessionStatus = TCMBEEPSessionStatusError;
     
-    [I_inputStream setDelegate:nil];
-    [I_outputStream setDelegate:nil];
+    //[I_inputStream setDelegate:nil];
+    //[I_outputStream setDelegate:nil];
     
-    if ([I_inputStream streamStatus] == NSStreamStatusAtEnd) {
-        [I_inputStream close];
-    }
-    if ([I_outputStream streamStatus] == NSStreamStatusAtEnd) {
-        [I_outputStream close];
-    }
+    //if ([I_inputStream streamStatus] == NSStreamStatusAtEnd) {
+        CFWriteStreamClose(I_writeStream);
+    //}
+    //if ([I_outputStream streamStatus] == NSStreamStatusAtEnd) {
+        CFReadStreamClose(I_readStream);
+    //}
+    
+    CFRunLoopRef runLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
+
+    CFReadStreamUnscheduleFromRunLoop(I_readStream, runLoop, kCFRunLoopCommonModes);
+    CFWriteStreamUnscheduleFromRunLoop(I_writeStream, runLoop, kCFRunLoopCommonModes);
+    
     
     NSEnumerator *activeChannels = [I_activeChannels objectEnumerator];  
     TCMBEEPChannel *channel;
@@ -611,91 +685,6 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     }
 }
 
-- (void)TCM_handleStreamAtEndEvent
-{
-}
-
-- (void)TCM_handleInputStreamEvent:(NSStreamEvent)streamEvent
-{
-    switch (streamEvent) {
-        case NSStreamEventOpenCompleted:
-            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Input stream open completed.");
-            if ([I_outputStream streamStatus] == NSStreamStatusOpen) {
-                I_sessionStatus = TCMBEEPSessionStatusOpen;
-            }
-            break;
-        case NSStreamEventHasBytesAvailable:
-            [self TCM_readBytes];
-            break;
-        case NSStreamEventErrorOccurred: {
-                NSError *error = [I_inputStream streamError];
-                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"An error occurred on the input stream: %@, Domain: %@, Code: %d", [error localizedDescription], [error domain], [error code]);
-                [self TCM_handleStreamErrorOccurredEvent:error];
-            }
-            break;
-        case NSStreamEventEndEncountered:
-            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Input stream end encountered.");
-            [self TCM_handleStreamErrorOccurredEvent:nil];
-            break;
-        default:
-            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Input stream not handling this event: %d", streamEvent);
-            break;
-    }
-}
-
-- (void)TCM_handleOutputStreamEvent:(NSStreamEvent)streamEvent
-{
-    switch (streamEvent) {
-        case NSStreamEventOpenCompleted: {
-            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Output stream open completed.");
-            if ([I_inputStream streamStatus] == NSStreamStatusOpen) {
-                I_sessionStatus = TCMBEEPSessionStatusOpen;
-            }
-                /*
-                NSData *socketNativeHandleData = [I_inputStream propertyForKey:(NSString *)kCFStreamPropertySocketNativeHandle];
-                if (socketNativeHandleData) {
-                    CFSocketNativeHandle socketNativeHandle;
-                    [socketNativeHandleData getBytes:&socketNativeHandle length:sizeof(CFSocketNativeHandle)];
-                    struct ifreq request;
-                    memset(&request, 0, sizeof( struct ifreq));
-                    strncpy(request.ifr_name, "en0", IFNAMSIZ);
-                    int result = ioctl(socketNativeHandle, SIOCGIFMTU, (char *)&request);
-                    if (result != -1) {
-                        int mtu = request.ifr_mtu;
-                        NSLog(@"MTU: %d", mtu);
-                    } else {
-                        NSLog(@"ioctl failed: %s", strerror(errno));
-                    }
-                }   
-                */         
-            }
-            break;
-        case NSStreamEventHasSpaceAvailable: {
-                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Output stream has space available");
-
-                // fill write buffer
-                [self TCM_fillBufferInRoundRobinFashion];
-    
-                // when writeBuffer is not empty write bytes to stream
-                [self TCM_writeBytes];
-            }
-            break;
-        case NSStreamEventErrorOccurred: {
-                NSError *error = [I_outputStream streamError];
-                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"An error occurred on the output stream: %@, Domain: %@, Code: %d", [error localizedDescription], [error domain], [error code]);
-                [self TCM_handleStreamErrorOccurredEvent:error];
-            }
-            break;
-        case NSStreamEventEndEncountered:
-            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Output stream end encountered.");
-            [self TCM_handleStreamErrorOccurredEvent:nil];
-            break;
-        default:
-            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Output stream not handling this event: %d", streamEvent);
-            break;
-    }
-}
-
 #pragma mark -
 
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel
@@ -707,19 +696,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     
     [self TCM_fillBufferInRoundRobinFashion];
     
-    if ([I_outputStream hasSpaceAvailable]) {
+    if ((CFWriteStreamCanAcceptBytes(I_writeStream) == true) && (CFWriteStreamGetStatus(I_writeStream) == kCFStreamStatusOpen)) {
         [self TCM_writeBytes];
-    }
-}
-
-#pragma mark -
-
-- (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
-{
-    if (theStream == I_inputStream) {
-        [self TCM_handleInputStreamEvent:streamEvent];
-    } else if (theStream == I_outputStream) {
-        [self TCM_handleOutputStreamEvent:streamEvent];
     }
 }
 
@@ -828,3 +806,70 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 }
 
 @end
+
+#pragma mark -
+
+void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
+{
+    TCMBEEPSession *session = (TCMBEEPSession *)clientCallBackInfo;
+
+    switch(type)
+    {
+        case kCFStreamEventOpenCompleted:
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventOpenCompleted");
+            [session TCM_handleStreamOpenEvent];
+            break;
+
+        case kCFStreamEventHasBytesAvailable:
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventHasBytesAvailable");
+            [session TCM_handleStreamHasBytesAvailableEvent];
+            break;
+
+        case kCFStreamEventErrorOccurred:
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventErrorOccurred");
+            [session TCM_handleStreamErrorOccurredEvent:nil];
+            break;
+
+        case kCFStreamEventEndEncountered:
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventEndEncountered");
+            [session TCM_handleStreamErrorOccurredEvent:nil];
+            break;
+
+        default:
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream ??");
+            break;
+    }
+}
+
+void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
+{
+    TCMBEEPSession *session = (TCMBEEPSession *)clientCallBackInfo;
+    
+    switch(type)
+    {
+        case kCFStreamEventOpenCompleted: {
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventOpenCompleted");
+            [session TCM_handleStreamOpenEvent];
+        } break;
+
+        case kCFStreamEventCanAcceptBytes: {
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventCanAcceptBytes");
+            [session TCM_handleStreamCanAcceptBytesEvent];
+        } break;
+
+        case kCFStreamEventErrorOccurred:
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventErrorOccurred");
+            [session TCM_handleStreamErrorOccurredEvent:nil];
+            break;
+
+        case kCFStreamEventEndEncountered:
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventEndEncountered");
+            [session TCM_handleStreamErrorOccurredEvent:nil];
+            break;
+
+        default:
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream ??");
+            break;
+    }
+}
+
