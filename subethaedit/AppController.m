@@ -21,7 +21,20 @@
 #import "DocumentModeManager.h"
 #import "TextOperation.h"
 #import "SelectionOperation.h"
+#import "EncodingManager.h"
 
+
+int const FormatMenuTag = 2000;
+int const FileEncodingsMenuItemTag = 2001;
+
+
+@interface AppController (AppControllerPrivateAdditions)
+
+- (void)setupFileEncodingsSubmenu;
+
+@end
+
+#pragma mark -
 
 @implementation AppController
 
@@ -33,6 +46,10 @@
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
+}
+
+- (void)awakeFromNib {
+    [self setupFileEncodingsSubmenu];
 }
 
 - (void)addMe {
@@ -161,6 +178,16 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     
+}
+
+- (void)setupFileEncodingsSubmenu {
+    NSMenuItem *formatMenu = [[NSApp mainMenu] itemWithTag:FormatMenuTag];
+    NSMenuItem *fileEncodingsMenuItem = [[formatMenu submenu] itemWithTag:FileEncodingsMenuItemTag];
+    
+    EncodingMenu *fileEncodingsSubmenu = [[EncodingMenu new] autorelease];
+    [fileEncodingsMenuItem setSubmenu:fileEncodingsSubmenu];
+
+    [fileEncodingsSubmenu configureWithAction:@selector(chooseEncoding:)];
 }
 
 @end

@@ -375,6 +375,8 @@ subethaedit/DocumentMode.h -text
 subethaedit/DocumentMode.m -text
 subethaedit/DocumentModeManager.h -text
 subethaedit/DocumentModeManager.m -text
+subethaedit/EncodingManager.h -text
+subethaedit/EncodingManager.m -text
 subethaedit/EncodingPreferences.h -text
 subethaedit/EncodingPreferences.m -text
 subethaedit/English.lproj/Credits.rtf -text
@@ -395,6 +397,9 @@ subethaedit/English.lproj/Preferences.strings -text
 subethaedit/English.lproj/RendezvousBrowser.nib/classes.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/info.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
+subethaedit/English.lproj/SelectEncodingsPanel.nib/classes.nib -text
+subethaedit/English.lproj/SelectEncodingsPanel.nib/info.nib -text
+subethaedit/English.lproj/SelectEncodingsPanel.nib/objects.nib -text
 subethaedit/Functions.h -text
 subethaedit/Functions.m -text
 subethaedit/HandshakeProfile.h -text
