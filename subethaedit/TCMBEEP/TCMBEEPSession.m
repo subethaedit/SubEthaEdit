@@ -46,6 +46,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     I_requestedChannels = [NSMutableDictionary new];
     I_activeChannels = [NSMutableDictionary new];
     I_currentReadFrame = nil;
+
+    I_userInfo = nil;
 }
 
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
@@ -107,6 +109,18 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 {
     return I_delegate;
 }
+
+- (void)setUserInfo:(NSDictionary *)aUserInfo
+{
+    [I_userInfo autorelease];
+     I_userInfo = [aUserInfo copy];
+}
+
+- (NSDictionary *)userInfo
+{
+    return I_userInfo;
+}
+
 
 - (void)setProfileURIs:(NSArray *)anArray
 {
@@ -215,8 +229,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     [I_inputStream open];
     [I_outputStream open];
     
-    
-    I_managementChannel = [[TCMBEEPChannel alloc] initWithSession:self number:0 profileURI:kTCMBEEPManagementProfile];
+    I_managementChannel = [[TCMBEEPChannel alloc] initWithSession:self number:0 profileURI:kTCMBEEPManagementProfile asServer:![self isInitiator]];
     TCMBEEPManagementProfile *profile=(TCMBEEPManagementProfile *)[I_managementChannel profile];
     [profile setDelegate:self];
 
@@ -465,15 +478,15 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     // if channel exists 
     if ([I_activeChannels objectForLong:channelNumber]) return nil;
     // delegate fragen, falls er gefragt werden will
-    if ([[self delegate] respondsToSelector:@selector(BEEPSession:willSendReply:forRequests:)]) {
+    if ([[self delegate] respondsToSelector:@selector(BEEPSession:willSendReply:forChannelRequests:)]) {
         preferedAnswer = [[self delegate] BEEPSession:self
-                willSendReply:preferedAnswer forRequests:requestArray];
+                willSendReply:preferedAnswer forChannelRequests:requestArray];
     }
     return preferedAnswer;
 }
 
-- (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI {
-    TCMBEEPChannel *channel=[[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI];
+- (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI asServer:(BOOL)isServer {
+    TCMBEEPChannel *channel=[[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI asServer:isServer];
     [self activateChannel:[channel autorelease]];
     id delegate=[self delegate];
     if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:)])
@@ -487,7 +500,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 - (void)didReceiveAcceptStartRequestForChannel:(int32_t)aNumber withProfileURI:(NSString *)aProfileURI andData:(NSData *)aData
 {
-    [self initiateChannelWithNumber:aNumber profileURI:aProfileURI];
+    [self initiateChannelWithNumber:aNumber profileURI:aProfileURI asServer:NO];
 }
 
 @end

@@ -26,12 +26,17 @@
     NSMutableDictionary *I_answerReadQueues;
     NSMutableArray *I_messageWriteQueue;
     int32_t I_nextMessageNumber;
+    struct {
+        BOOL isServer;
+    }I_flags;
 }
 
 + (NSDictionary *)profileURIToClassMapping;
 + (void)setClass:(Class)aClass forProfileURI:(NSString *)aProfileURI;
 
-- (id)initWithSession:(TCMBEEPSession *)aSession number:(unsigned long)aNumber profileURI:(NSString *)aProfileURI;
+- (id)initWithSession:(TCMBEEPSession *)aSession number:(unsigned long)aNumber profileURI:(NSString *)aProfileURI asServer:(BOOL)isServer;
+
+- (BOOL)isServer;
 
 - (void)setNumber:(unsigned long)aNumber;
 - (unsigned long)number;

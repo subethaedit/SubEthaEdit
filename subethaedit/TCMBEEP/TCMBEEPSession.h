@@ -29,6 +29,8 @@ enum {
     int I_currentReadState;
     int I_currentReadFrameRemainingContentSize;
 
+    NSDictionary *I_userInfo;
+
     TCMBEEPChannel *I_managementChannel;
     NSMutableDictionary *I_requestedChannels;
     NSMutableDictionary *I_activeChannels;
@@ -61,6 +63,8 @@ enum {
 /*"Accessors"*/
 - (void)setDelegate:(id)aDelegate;
 - (id)delegate;
+- (void)setUserInfo:(NSDictionary *)aUserInfo;
+- (NSDictionary *)userInfo;
 - (void)setProfileURIs:(NSArray *)anArray;
 - (NSArray *)profileURIs;
 - (void)setPeerProfileURIs:(NSArray *)anArray;
@@ -85,7 +89,7 @@ enum {
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel;
 - (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray;
 
-- (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI;
+- (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI asServer:(BOOL)isServer;
 
 @end
 
@@ -94,7 +98,7 @@ enum {
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray;
 
-- (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forRequests:(NSArray *)aRequests;
+- (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests;
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *) aProfile;
 
