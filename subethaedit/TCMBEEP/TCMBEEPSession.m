@@ -193,6 +193,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [I_channelRequests release];
     [I_channels release];
     [I_currentReadFrame release];
+    [I_terminateTimer invalidate];
     [I_terminateTimer release];
 #ifdef TCMBEEP_DEBUG
     [I_rawLogInHandle closeFile];
