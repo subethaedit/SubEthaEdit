@@ -178,14 +178,14 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
     
     int i;
     for (i=0;i<(int)[colorNames count];i++) {
-        [O_colorsPopUpButton addItemWithTitle:NSLocalizedStringFromTable([colorNames objectAtIndex:i],@"Preferences",@"Color Names")];
+        [O_colorsPopUpButton addItemWithTitle:NSLocalizedString([colorNames objectAtIndex:i],@"Color Names")];
         NSMenuItem *item=[O_colorsPopUpButton lastItem];
         [item setImage:[self TCM_menuImageWithColor:[NSColor colorWithCalibratedHue:colorHues[i]/100.
                                 saturation:1. brightness:1. alpha:1.]]];
         [item setTag:colorHues[i]];
     }
     [[O_colorsPopUpButton menu] addItem:[NSMenuItem separatorItem]];
-    [O_colorsPopUpButton addItemWithTitle:NSLocalizedStringFromTable(@"ColorCustom",@"Preferences",@"Custom Color Name")];
+    [O_colorsPopUpButton addItemWithTitle:NSLocalizedString(@"ColorCustom",@"Custom Color Name")];
     [[O_colorsPopUpButton lastItem] setImage:[self TCM_menuImageWithColor:[NSColor colorWithCalibratedHue:
                             [[defaults objectForKey:CustomMyColorHuePreferenceKey] floatValue]
                                 saturation:1. brightness:1. alpha:1.]]]; 
@@ -199,7 +199,7 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
 }
 
 - (NSString *)iconLabel {
-    return NSLocalizedStringFromTable(@"GeneralPrefsIconLabel", @"Preferences",Ê@"Label displayed below general icon and used as window title.");
+    return NSLocalizedString(@"GeneralPrefsIconLabel",Ê@"Label displayed below general icon and used as window title.");
 }
 
 - (NSString *)identifier {

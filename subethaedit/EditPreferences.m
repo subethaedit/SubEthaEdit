@@ -18,7 +18,7 @@
 }
 
 - (NSString *)iconLabel {
-    return NSLocalizedStringFromTable(@"EditPrefsIconLabel", @"Preferences",Ê@"Label displayed below edit icon and used as window title.");
+    return NSLocalizedString(@"EditPrefsIconLabel", @"Label displayed below edit icon and used as window title.");
 }
 
 - (NSString *)identifier {

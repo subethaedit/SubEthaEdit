@@ -1106,7 +1106,7 @@ enum {
         item = [menu itemWithTag:ParticipantContextMenuTagAIM];
         [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuAIM %@ ...",@"AIM user entry for Participant context menu"),[[user properties] objectForKey:@"AIM"]]];
         item = [menu itemWithTag:ParticipantContextMenuTagEmail];
-        [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuEmail %@ ...",@"AIM user entry for Participant context menu"),[[user properties] objectForKey:@"Email"]]];
+        [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuEmail %@ ...",@"Email user entry for Participant context menu"),[[user properties] objectForKey:@"Email"]]];
     } else {
         id item = [menu itemWithTag:ParticipantContextMenuTagFollow];
         [item setEnabled:NO];

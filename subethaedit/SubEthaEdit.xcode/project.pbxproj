@@ -991,30 +991,6 @@
 			settings = {
 			};
 		};
-		1482A67705EFC1D200BC7434 = {
-			fileEncoding = 10;
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
-			name = English;
-			path = English.lproj/Preferences.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1482A67905EFC1E100BC7434 = {
-			children = (
-				1482A67705EFC1D200BC7434,
-			);
-			isa = PBXVariantGroup;
-			name = Preferences.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1482A67A05EFC1E100BC7434 = {
-			fileRef = 1482A67905EFC1E100BC7434;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		1482A6D205F0FD9B00BC7434 = {
 			fileRef = 144BC39505EDFF60006397BC;
 			isa = PBXBuildFile;
@@ -1983,9 +1959,9 @@
 				5EA543C706357E3600A06297,
 				14352D2A06539C7300C9685E,
 				144BC39505EDFF60006397BC,
+				3194575B0657A40F0067EAD7,
 				8D15AC360486D014006FF6A4,
 				089C165FFE840EACC02AAC07,
-				1482A67905EFC1E100BC7434,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -2315,6 +2291,30 @@
 		};
 		31944D990656BD640067EAD7 = {
 			fileRef = 31944D980656BD640067EAD7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		319457590657A4010067EAD7 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = English.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3194575B0657A40F0067EAD7 = {
+			children = (
+				319457590657A4010067EAD7,
+			);
+			isa = PBXVariantGroup;
+			name = Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3194575C0657A40F0067EAD7 = {
+			fileRef = 3194575B0657A40F0067EAD7;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4925,7 +4925,6 @@
 				1482A6D205F0FD9B00BC7434,
 				144BC77605EE279B006397BC,
 				144BC7C405EE43B6006397BC,
-				1482A67A05EFC1E100BC7434,
 				5EACEEA105F5388D0008743E,
 				5EDB87EB05F8B1CB0058C44A,
 				149A5C1C0600A89C0033510E,
@@ -5005,6 +5004,7 @@
 				31944D0706565F560067EAD7,
 				31944D0906566F620067EAD7,
 				31944D990656BD640067EAD7,
+				3194575C0657A40F0067EAD7,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
