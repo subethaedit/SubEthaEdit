@@ -880,6 +880,37 @@ static InternetBrowserController *sharedInstance = nil;
     return nil;
 }
 
+- (BOOL)listView:(TCMListView *)listView writeRows:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pboard {
+    BOOL allowDrag = YES;
+    NSMutableArray *plist = [NSMutableArray array];
+    NSMutableIndexSet *set = [indexes mutableCopy];
+    unsigned int index;
+    while ((index = [set firstIndex]) != NSNotFound) {
+        ItemChildPair pair = [listView itemChildPairAtRow:index];
+        NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
+        NSMutableDictionary *entry = [NSMutableDictionary new];
+        [entry setObject:[item objectForKey:@"UserID"] forKey:@"UserID"];
+        if ([item objectForKey:@"URLString"]) {
+            [entry setObject:[item objectForKey:@"URLString"] forKey:@"URLString"];
+        }
+        [plist addObject:entry];
+        [entry release];
+        if (pair.childIndex != -1) {
+            allowDrag = NO;
+            break;
+        }
+        [set removeIndex:index];
+    }
+    [set release];
+    
+    if (allowDrag) {
+        [pboard declareTypes:[NSArray arrayWithObject:@"PboardTypeTBD"] owner:nil];
+        [pboard setPropertyList:plist forType:@"PboardTypeTBD"];
+    }
+    
+    return allowDrag;
+}
+
 #pragma mark -
 
 //
