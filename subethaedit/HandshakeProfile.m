@@ -109,6 +109,7 @@
             }
         } else {
             DEBUGLOG(@"BEEPLogDmain", DetailedLogLevel, @"Got empty reply for ACK message.");
+            [[self channel] close];
         }
     }
 }

@@ -225,7 +225,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                             [sessionInformation setObject:session forKey:@"RendezvousSession"];
                         } else {
                             [session setDelegate:nil];
-                            [session close];
+                            [session terminate];
                         }
                     }
                 }
@@ -238,7 +238,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                     if (session != aBEEPSession) {
                         [[session retain] autorelease];
                         [session setDelegate:nil];
-                        [session close];
+                        [session terminate];
                     }
                 }
             }
@@ -246,7 +246,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         }
     } else {
         [aBEEPSession setDelegate:nil];
-        [aBEEPSession close];
+        [aBEEPSession terminate];
         
         if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
             NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
@@ -373,6 +373,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@", [self description]);
 }
 
+- (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession
+{
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSessionDidClose");
+}
 
 #pragma mark -
 #pragma mark ### notifications ###
@@ -448,7 +452,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             BOOL iWin = ([[TCMMMUserManager myUserID] compare:aUserID] == NSOrderedDescending);
             if (iWin) {
                 [inboundSession setDelegate:nil];
-                [inboundSession close];
+                [inboundSession terminate];
                 [I_pendingSessions removeObject:inboundSession];
                 [information removeObjectForKey:@"InboundRendezvousSession"];
                 [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
