@@ -16,7 +16,7 @@
 #import <OgreKit/OgreFindPanelController.h>
 #import <OgreKit/OgreTextFindThread.h>
 
-@class OgreAFPCEscapeCharacterFormatter;
+@class OgreAFPCEscapeCharacterFormatter, OgreFindResultWindowController;
 
 @interface OgreAdvancedFindPanelController : OgreFindPanelController 
 {
@@ -50,6 +50,8 @@
 	IBOutlet NSButton		*findNextButton;
 	IBOutlet NSButton		*moreOptionsButton;
     
+	OgreFindResultWindowController    *_findResultWindowController;
+	
     BOOL                    _altKeyDown;
     BOOL                    _tmpIsEntire;
 }
@@ -78,9 +80,13 @@
 - (IBAction)updateSyntax:(id)sender;
 - (void)enableDelimitCheckBox:(BOOL)changeToEnable;
 - (void)avoidEmptySelection;
-- (void)findPanelFlagsChanged:(unsigned)modifierFlags;  // delegate method of OgreAdvancedFindPanel
 - (void)setStartFromCursor;
 - (void)setIsEntire:(BOOL)isEntire;
+
+/* delegate methods of OgreAdvancedFindPanel */
+- (void)findPanelFlagsChanged:(unsigned)modifierFlags;
+- (void)findPanelDidAddChildWindow:(NSWindow*)childWindow;
+- (void)findPanelDidRemoveChildWindow:(NSWindow*)childWindow;
 
 /* settings */
 - (NSString*)escapeCharacter;

@@ -50,6 +50,7 @@ typedef enum {
 	id							_alertSheet;
     
     /* display */
+	NSString					*_title;					// target window title
 	int                         _maxMatchedStringLength;	// -matchedStringAtIndex:の返す最大文字数 (-1: 無制限)
 	int                         _maxLeftMargin;				// マッチした文字列の左側の最大文字数 (-1: 無制限)
 	id                          _delegate;                  // 更新連絡先
@@ -75,6 +76,9 @@ typedef enum {
 
 - (unsigned)numberOfMatches;
 - (void)setNumberOfMatches:(unsigned)aNumber;
+
+- (NSString*)title;
+- (void)setTitle:(NSString*)title;
 
 // マッチした文字列の左側の最大文字数 (-1: 無制限)
 - (int)maximumLeftMargin;

@@ -1,6 +1,7 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = OgreAttachableWindowAcceptee; LANGUAGE = ObjC; SUPERCLASS = NSPanel; }, 
         {
             ACTIONS = {updateLiveUpdate = id; }; 
             CLASS = OgreFindResultWindow; 

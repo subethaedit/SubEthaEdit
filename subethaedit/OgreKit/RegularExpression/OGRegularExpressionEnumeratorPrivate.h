@@ -49,7 +49,7 @@ static inline unsigned Ogre_UTF16prevcharlen(unichar *const aUTF16String)
 /*********
  * 初期化 *
  *********/
-- (id)initWithSwappedString:(NSString*)swappedTargetString 
+- (id)initWithString:(NSString*)targetString 
 	options:(unsigned)searchOptions 
 	range:(NSRange)searchRange 
 	regularExpression:(OGRegularExpression*)regex;
@@ -62,8 +62,8 @@ static inline unsigned Ogre_UTF16prevcharlen(unichar *const aUTF16String)
 - (void)_setStartLocation:(unsigned)location;
 - (void)_setNumberOfMatches:(unsigned)aNumber;
 
-- (NSString*)swappedTargetString;
-- (unichar*)UTF16SwappedTargetString;
+- (NSString*)targetString;
+- (unichar*)UTF16TargetString;
 
 - (OGRegularExpression*)regularExpression;
 - (void)setRegularExpression:(OGRegularExpression*)regularExpression;   // 注意! escapeCharacterは変えないように!

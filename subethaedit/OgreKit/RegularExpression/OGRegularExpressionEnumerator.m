@@ -48,8 +48,8 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 		return nil;
 	}
 	
-	start = _UTF16SwappedTargetString + _startLocation; // search start address of target string
-	end = _UTF16SwappedTargetString + _lengthOfSwappedTargetString; // terminate address of target string
+	start = _UTF16TargetString + _startLocation; // search start address of target string
+	end = _UTF16TargetString + _lengthOfTargetString; // terminate address of target string
 	range = end;	// search terminate address of target string
 	if (start > range) {
 		// これ以上検索範囲のない場合
@@ -91,16 +91,16 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 	
 	if (!findNotEmpty) {
 		/* 空文字列へのマッチを許す場合 */
-		r = onig_search(regexBuffer, (unsigned char *)_UTF16SwappedTargetString, (unsigned char *)end, (unsigned char *)start, (unsigned char *)range, region, searchOptions);
+		r = onig_search(regexBuffer, (unsigned char *)_UTF16TargetString, (unsigned char *)end, (unsigned char *)start, (unsigned char *)range, region, searchOptions);
 		
 		// OgreFindEmptyOptionが指定されていない場合で、
 		// 前回空文字列以外にマッチして、今回空文字列にマッチした場合、1文字ずらしてもう1度マッチを試みる。
 		if (!findEmpty && (!_isLastMatchEmpty) && (r >= 0) && (region->beg[0] == region->end[0]) && (_startLocation > 0)) {
 			if (start < range) {
-				UTF16charlen = Ogre_UTF16charlen(_UTF16SwappedTargetString + _startLocation);
+				UTF16charlen = Ogre_UTF16charlen(_UTF16TargetString + _startLocation);
 				_startLocation += UTF16charlen; // 1文字進める
-				start = _UTF16SwappedTargetString + _startLocation;
-				r = onig_search(regexBuffer, (unsigned char *)_UTF16SwappedTargetString, (unsigned char *)end, (unsigned char *)start, (unsigned char *)range, region, searchOptions);
+				start = _UTF16TargetString + _startLocation;
+				r = onig_search(regexBuffer, (unsigned char *)_UTF16TargetString, (unsigned char *)end, (unsigned char *)start, (unsigned char *)range, region, searchOptions);
 			} else {
 				r = ONIG_MISMATCH;
 			}
@@ -109,12 +109,12 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 	} else {
 		/* 空文字列へのマッチを許さない場合 */
 		while (TRUE) {
-			r = onig_search(regexBuffer, (unsigned char *)_UTF16SwappedTargetString, (unsigned char *)end, (unsigned char *)start, (unsigned char *)range, region, searchOptions);
+			r = onig_search(regexBuffer, (unsigned char *)_UTF16TargetString, (unsigned char *)end, (unsigned char *)start, (unsigned char *)range, region, searchOptions);
 			if ((r >= 0) && (region->beg[0] == region->end[0]) && (start < range)) {
 				// 空文字列にマッチした場合
-				UTF16charlen = Ogre_UTF16charlen(_UTF16SwappedTargetString + _startLocation);
+				UTF16charlen = Ogre_UTF16charlen(_UTF16TargetString + _startLocation);
 				_startLocation += UTF16charlen;	// 1文字進める
-				start = _UTF16SwappedTargetString + _startLocation;
+				start = _UTF16TargetString + _startLocation;
 			} else {
 				// これ以上進めない場合・空文字列以外にマッチした場合・マッチに失敗した場合
 				break;
@@ -147,7 +147,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 		_numberOfMatches++;	// マッチ数を増加
 		
 		/* マッチした文字列の終端位置 */
-		if ( (r == _lengthOfSwappedTargetString * sizeof(unichar)) && (r == region->end[0]) ) {
+		if ( (r == _lengthOfTargetString * sizeof(unichar)) && (r == region->end[0]) ) {
 			_terminalOfLastMatch = -1;	// 最後に空文字列にマッチした場合は、これ以上マッチしない。
 			_isLastMatchEmpty = YES;	// いらないだろうが念のため。
 
@@ -163,7 +163,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 		if (r == region->end[0]) {
 			// 空文字列にマッチした場合、次回のマッチ開始位置を1文字先に進める。
 			_isLastMatchEmpty = YES;
-			UTF16charlen = Ogre_UTF16charlen(_UTF16SwappedTargetString + _terminalOfLastMatch);
+			UTF16charlen = Ogre_UTF16charlen(_UTF16TargetString + _terminalOfLastMatch);
 			_startLocation += UTF16charlen;
 		} else {
 			// 空でなかった場合は進めない。
@@ -241,7 +241,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 	//[super encodeWithCoder:encoder]; NSObject does ont respond to method encodeWithCoder:
 	
 	//OGRegularExpression	*_regex;							// 正規表現オブジェクト
-	//NSString				*_swappedTargetString;				// 検索対象文字列。\が入れ替わっている(事がある)ので注意
+	//NSString				*_TargetString;				// 検索対象文字列
 	//NSRange				_searchRange;						// 検索範囲
 	//unsigned              _searchOptions;						// 検索オプション
 	//int					_terminalOfLastMatch;               // 前回にマッチした文字列の終端位置 (_region->end[0] / sizeof(unichar))
@@ -251,7 +251,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
     
     if ([encoder allowsKeyedCoding]) {
 		[encoder encodeObject: _regex forKey: OgreRegexKey];
-		[encoder encodeObject: _swappedTargetString forKey: OgreSwappedTargetStringKey];	// [self targetString]ではない。
+		[encoder encodeObject: _targetString forKey: OgreSwappedTargetStringKey];
 		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_searchRange.location] forKey: OgreStartOffsetKey];
 		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_searchOptions] forKey: OgreOptionsKey];
 		[encoder encodeObject: [NSNumber numberWithInt:_terminalOfLastMatch] forKey: OgreTerminalOfLastMatchKey];
@@ -260,7 +260,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_numberOfMatches] forKey: OgreNumberOfMatchesKey];
 	} else {
 		[encoder encodeObject: _regex];
-		[encoder encodeObject: _swappedTargetString];	// [self targetString]ではない。
+		[encoder encodeObject: _targetString];
 		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_searchRange.location]];
 		[encoder encodeObject: [NSNumber numberWithUnsignedInt:_searchOptions]];
 		[encoder encodeObject: [NSNumber numberWithInt:_terminalOfLastMatch]];
@@ -295,28 +295,28 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 	}
 	
 	
-	//NSString			*_swappedTargetString;				// 検索対象文字列。\が入れ替わっている(事がある)ので注意
-	//unichar           *_UTF16SwappedTargetString;			// UTF16での検索対象文字列
-	//unsigned          _lengthOfSwappedTargetString;       // [_swappedTargetString length]
+	//NSString			*_targetString;				// 検索対象文字列。\が入れ替わっている(事がある)ので注意
+	//unichar           *_UTF16TargetString;			// UTF16での検索対象文字列
+	//unsigned          _lengthOfTargetString;       // [_targetString length]
     if (allowsKeyedCoding) {
-		_swappedTargetString = [[decoder decodeObjectForKey: OgreSwappedTargetStringKey] retain];	// [self targetString]ではない。
+		_targetString = [[decoder decodeObjectForKey: OgreSwappedTargetStringKey] retain];	// [self targetString]ではない。
 	} else {
-		_swappedTargetString = [[decoder decodeObject] retain];
+		_targetString = [[decoder decodeObject] retain];
 	}
-	if (_swappedTargetString == nil) {
+	if (_targetString == nil) {
 		// エラー。例外を発生させる。
 		[self release];
 		[NSException raise:OgreEnumeratorException format:@"fail to decode"];
 	}
-	_lengthOfSwappedTargetString = [_swappedTargetString length];
+	_lengthOfTargetString = [_targetString length];
     
-	_UTF16SwappedTargetString = (unichar*)NSZoneMalloc([self zone], sizeof(unichar) * _lengthOfSwappedTargetString);
-    if (_UTF16SwappedTargetString == NULL) {
+	_UTF16TargetString = (unichar*)NSZoneMalloc([self zone], sizeof(unichar) * _lengthOfTargetString);
+    if (_UTF16TargetString == NULL) {
 		// エラー。例外を発生させる。
         [self release];
         [NSException raise:OgreEnumeratorException format:@"fail to allocate a memory"];
     }
-    [_swappedTargetString getCharacters:_UTF16SwappedTargetString range:NSMakeRange(0, _lengthOfSwappedTargetString)];
+    [_targetString getCharacters:_UTF16TargetString range:NSMakeRange(0, _lengthOfTargetString)];
 	
 	// NSRange				_searchRange;						// 検索範囲
     if (allowsKeyedCoding) {
@@ -330,7 +330,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 		[NSException raise:OgreEnumeratorException format:@"fail to decode"];
 	}
 	_searchRange.location = [anObject unsignedIntValue];
-	_searchRange.length = _lengthOfSwappedTargetString;
+	_searchRange.length = _lengthOfTargetString;
 	
 	
 	
@@ -415,7 +415,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 	NSLog(@"-copyWithZone: of %@", [self className]);
 #endif
 	id	newObject = [[[self class] allocWithZone:zone] 
-			initWithSwappedString: _swappedTargetString 
+			initWithString: _targetString 
 			options: _searchOptions
 			range: _searchRange 
 			regularExpression: _regex];
@@ -435,7 +435,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 	NSDictionary	*dictionary = [NSDictionary 
 		dictionaryWithObjects: [NSArray arrayWithObjects: 
 			_regex, 	// 正規表現オブジェクト
-			[[_regex class] swapBackslashInString:_swappedTargetString forCharacter:[_regex escapeCharacter]],
+			_targetString,
 			[NSString stringWithFormat:@"(%d, %d)", _searchRange.location, _searchRange.length], 	// 検索範囲
 			[[_regex class] stringsForOptions:_searchOptions], 	// 検索オプション
 			[NSNumber numberWithInt:_terminalOfLastMatch],	// 前回にマッチした文字列の終端位置より前の文字列の長さ

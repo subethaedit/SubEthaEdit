@@ -69,4 +69,9 @@
     return NO;
 }
 
+- (void)ogreKitWillHackFindMenu:(OgreTextFinder*)textFinder
+{
+	[textFinder setShouldHackFindMenu:YES];
+}
+
 @end

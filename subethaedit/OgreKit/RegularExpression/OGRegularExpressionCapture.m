@@ -145,8 +145,7 @@ static NSString	* const OgreParentKey = @"OgreCaptureParent";
 		return @"";
 	}
 	
-	// \を入れ替える
-	return [OGRegularExpression swapBackslashInString:[[_match _swappedTargetString] substringWithRange:NSMakeRange(_captureNode->beg / sizeof(unichar), (_captureNode->end - _captureNode->beg) / sizeof(unichar))] forCharacter:[_match _escapeCharacter]];
+	return [[_match _targetString] substringWithRange:NSMakeRange(_captureNode->beg / sizeof(unichar), (_captureNode->end - _captureNode->beg) / sizeof(unichar))];
 }
 
 /*******

@@ -33,7 +33,7 @@ extern NSString	* const OgreMatchException;
 	OGRegularExpressionEnumerator*	_enumerator;	// matcher
 	unsigned		_terminalOfLastMatch;           // 前回にマッチした文字列の終端位置 (_region->end[0] / sizeof(unichar))
 	
-	NSString		*_swappedTargetString;			// 検索対象文字列。\が入れ替わっている(ことがある)ので注意
+	NSString		*_targetString;					// 検索対象文字列
 	NSRange			_searchRange;					// 検索範囲
 	NSString		*_escapeCharacter;				// \の代替文字
 	unsigned		_index;							// マッチした順番

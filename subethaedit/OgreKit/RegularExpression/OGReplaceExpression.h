@@ -21,6 +21,7 @@ extern NSString	* const OgreReplaceException;
 @interface OGReplaceExpression : NSObject <NSCopying, NSCoding>
 {
 	NSMutableArray	*_compiledReplaceString;
+	NSMutableArray	*_compiledReplaceStringType;
 	NSMutableArray	*_nameArray;
 }
 
@@ -44,12 +45,18 @@ extern NSString	* const OgreReplaceException;
   \x{HHHH}		16-bit Unicode character U+HHHH
   \その他の文字	\その他の文字
  */
-- (id)initWithString:(NSString*)replaceString syntax:(OgreSyntax)syntax escapeCharacter:(NSString*)character;
-- (id)initWithString:(NSString*)replaceString escapeCharacter:(NSString*)character;
+- (id)initWithString:(NSString*)replaceString 
+	syntax:(OgreSyntax)syntax 
+	escapeCharacter:(NSString*)character;
+- (id)initWithString:(NSString*)replaceString 
+	escapeCharacter:(NSString*)character;
 - (id)initWithString:(NSString*)replaceString;
 
-+ (id)replaceExpressionWithString:(NSString*)replaceString syntax:(OgreSyntax)syntax escapeCharacter:(NSString*)character;
-+ (id)replaceExpressionWithString:(NSString*)replaceString escapeCharacter:(NSString*)character;
++ (id)replaceExpressionWithString:(NSString*)replaceString 
+	syntax:(OgreSyntax)syntax 
+	escapeCharacter:(NSString*)character;
++ (id)replaceExpressionWithString:(NSString*)replaceString 
+	escapeCharacter:(NSString*)character;
 + (id)replaceExpressionWithString:(NSString*)replaceString;
 
 /*******

@@ -45,7 +45,7 @@
 		
 		// 頻繁に利用するものはキャッシュする。保持はしない。
 		// 検索対象文字列
-		_swappedTargetString     = [_enumerator swappedTargetString];
+		_targetString     = [_enumerator targetString];
 		// 検索範囲
 		NSRange	searchRange = [_enumerator searchRange];
 		_searchRange.location = searchRange.location;
@@ -73,9 +73,9 @@
 	[super dealloc];
 }
 
-- (NSString*)_swappedTargetString
+- (NSString*)_targetString
 {
-    return _swappedTargetString;
+    return _targetString;
 }
 
 - (NSString*)_escapeCharacter

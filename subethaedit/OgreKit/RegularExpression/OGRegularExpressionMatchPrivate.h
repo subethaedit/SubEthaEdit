@@ -24,7 +24,7 @@
 	enumerator:(OGRegularExpressionEnumerator*)enumerator
 	terminalOfLastMatch:(unsigned)terminalOfLastMatch;
 
-- (NSString*)_swappedTargetString;
+- (NSString*)_targetString;
 - (NSString*)_escapeCharacter;
 - (NSRange)_searchRange;
 - (OnigRegion*)_region;

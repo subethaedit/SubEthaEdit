@@ -149,6 +149,7 @@ static NSString	*OgreTextFinderEscapeCharacterKey = @"Escape Character";
 		[NSBundle loadNibNamed:[self findPanelNibName] owner:self];
 		
 		_sharedTextFinder = self;
+		_shouldHackFindMenu = YES;
         
         /* registering adapters for targets */
         _adapterClassArray = [[NSMutableArray alloc] initWithCapacity:1];
@@ -160,6 +161,11 @@ static NSString	*OgreTextFinderEscapeCharacterKey = @"Escape Character";
     return self;
 }
 
+- (void)setShouldHackFindMenu:(BOOL)hack
+{
+	_shouldHackFindMenu = hack;
+}
+
 - (void)appDidFinishLaunching:(NSNotification*)aNotification
 {
 #ifdef DEBUG_OGRE_FIND_PANEL
@@ -168,7 +174,18 @@ static NSString	*OgreTextFinderEscapeCharacterKey = @"Escape Character";
 	[[NSNotificationCenter defaultCenter] removeObserver:self 
 		name: NSApplicationDidFinishLaunchingNotification 
 		object: NSApp];
-
+	
+	/* send 'ogreKitWillHackFindMenu:' message to the responder chain */
+	[NSApp sendAction:@selector(ogreKitWillHackFindMenu:) to:nil from:self];
+	/* if you don't want to use OgreKit's Find Panel, implement the following method in the subclass or delegate of NSApplication.
+		- (void)ogreKitWillHackFindMenu:(OgreTextFinder*)textFinder
+		{
+			[textFinder setShouldHackFindMenu:NO];
+		}
+	*/
+	
+	if (!_shouldHackFindMenu) return;
+	
 	/* Checking the Mac OS X version */
 	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_0) {
 		/* On a 10.0.x or earlier system */

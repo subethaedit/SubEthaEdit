@@ -40,6 +40,7 @@
 
 	NSDictionary	*_history;				// 検索履歴等
 	BOOL			_saved;					// 履歴等が保存されたかどうか
+	BOOL			_shouldHackFindMenu;	// FindメニューをOgreKitのものに置き換えるかどうか
     
     NSMutableArray  *_targetClassArray,     // 検索可能なクラスを収めた配列
                     *_adapterClassArray;    // 検索対象クラスのアダプタクラスを収めた配列
@@ -142,6 +143,7 @@
 - (void)makeTargetFree:(id)target;
 
 /* hack Find Menu */
+- (void)setShouldHackFindMenu:(BOOL)hack;
 - (void)hackFindMenu;
 
 - (void)didEndThread:(OgreTextFindThread*)aTextFindThread;

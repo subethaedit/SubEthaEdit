@@ -17,7 +17,7 @@ if [ -e "RegularExpression/oniguruma" ]; then
 else
 	echo "oniguruma is not found. Extracting oniguruma..."
 	cd RegularExpression
-	tar zxvf onigd20040824.tar.gz
+	tar zxvf onigd20040917.tar.gz
 	
 	if false; then
         echo "Applying patch..."

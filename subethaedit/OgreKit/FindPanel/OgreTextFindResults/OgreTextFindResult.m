@@ -48,6 +48,7 @@
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@" -dealloc of %@", [self className]);
 #endif
+	[_title release];
     [_regex release];
     [_branchStack release];
     [_resultTree release];
@@ -336,6 +337,25 @@
     } else {
         return 16;
     }
+}
+
+- (NSString*)title
+{
+	if (_title == nil) {
+		if ([_target respondsToSelector:@selector(window)]) {
+			return [[_target window] title];
+		} else {
+			return @"Untitled Object";
+		}
+	}
+	
+	return _title;
+}
+
+- (void)setTitle:(NSString*)title
+{
+	[_title autorelease];
+	_title = [title retain];
 }
 
 @end

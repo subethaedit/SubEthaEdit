@@ -14,16 +14,19 @@
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreTextFindResult.h>
 
+@class OgreAttachableWindowMediator;
+
 @interface OgreFindResultWindowController : NSObject
 {
-    IBOutlet NSOutlineView  *grepOutlineView;
-    IBOutlet NSButton       *liveUpdateCheckBox;
-    IBOutlet NSWindow       *window;
-    IBOutlet NSTextField    *findStringField;
-    IBOutlet NSTextField    *messageField;
+    IBOutlet NSOutlineView		*grepOutlineView;
+    IBOutlet NSButton			*liveUpdateCheckBox;
+    IBOutlet NSWindow			*window;
+    IBOutlet NSTextField		*findStringField;
+    IBOutlet NSTextField		*messageField;
     
-    OgreTextFindResult      *_textFindResult;
-    BOOL                    _liveUpdate;
+    OgreTextFindResult			*_textFindResult;
+    BOOL						_liveUpdate;
+	OgreAttachableWindowMediator	*_attachedWindowMediator;
 }
 
 - (id)initWithTextFindResult:(OgreTextFindResult*)textFindResult liveUpdate:(BOOL)liveUpdate;
@@ -32,11 +35,10 @@
 
 - (IBAction)updateLiveUpdate:(id)sender;
 
-- (void)setFrameTopLeftPoint:(NSPoint)aPoint;
 - (void)show;
 - (void)close;
 
 // protected method
-- (void)setupOutlineView;
+- (void)setupFindResultView;
 
 @end

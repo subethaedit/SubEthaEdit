@@ -21,34 +21,34 @@
 
 @implementation OGRegularExpressionEnumerator (Private)
 
-- (id) initWithSwappedString:(NSString*)swappedTargetString 
+- (id) initWithString:(NSString*)targetString 
 	options:(unsigned)searchOptions 
 	range:(NSRange)searchRange 
 	regularExpression:(OGRegularExpression*)regex
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-initWithSwappedString: of %@", [self className]);
+	NSLog(@"-initWithString: of %@", [self className]);
 #endif
 	self = [super init];
 	if (self) {
 		// 検索対象文字列を保持
 		// target stringをUTF16文字列に変換する。
-		_swappedTargetString = [swappedTargetString retain];
-        _lengthOfSwappedTargetString = [_swappedTargetString length];
+		_targetString = [targetString retain];
+        _lengthOfTargetString = [_targetString length];
         
-        _UTF16SwappedTargetString = (unichar*)NSZoneMalloc([self zone], sizeof(unichar) * _lengthOfSwappedTargetString);
-        if (_UTF16SwappedTargetString == NULL) {
+        _UTF16TargetString = (unichar*)NSZoneMalloc([self zone], sizeof(unichar) * (_lengthOfTargetString + 4));	// +4はonigurumaのmemory access violation問題への対処療法
+        if (_UTF16TargetString == NULL) {
             // メモリを確保できなかった場合、例外を発生させる。
             [self release];
             [NSException raise:OgreEnumeratorException format:@"fail to allocate a memory"];
         }
-        [_swappedTargetString getCharacters:_UTF16SwappedTargetString range:NSMakeRange(0, _lengthOfSwappedTargetString)];
+        [_targetString getCharacters:_UTF16TargetString range:NSMakeRange(0, _lengthOfTargetString)];
             
         /* DEBUG 
         {
-            NSLog(@"TargetString: '%@'", _swappedTargetString);
-            int     i, count = _lengthOfSwappedTargetString;
-            unichar *utf16Chars = _UTF16SwappedTargetString;
+            NSLog(@"TargetString: '%@'", _targetString);
+            int     i, count = _lengthOfTargetString;
+            unichar *utf16Chars = _UTF16TargetString;
             for (i = 0; i < count; i++) {
                 NSLog(@"UTF16: %04x", *(utf16Chars + i));
             }
@@ -90,8 +90,8 @@
 #endif
 	// 開放
 	[_regex release];
-	NSZoneFree([self zone], _UTF16SwappedTargetString);
-	[_swappedTargetString release];
+	NSZoneFree([self zone], _UTF16TargetString);
+	[_targetString release];
 	
 	[super dealloc];
 }
@@ -131,14 +131,14 @@
 }
 
 // public?
-- (NSString*)swappedTargetString
+- (NSString*)targetString
 {
-	return _swappedTargetString;
+	return _targetString;
 }
 
-- (unichar*)UTF16SwappedTargetString
+- (unichar*)UTF16TargetString
 {
-	return _UTF16SwappedTargetString;
+	return _UTF16TargetString;
 }
 
 - (NSRange)searchRange

@@ -202,15 +202,13 @@ static OnigCaptureTreeNode *Ogre_onigCaptureTreeNodeWithArray(NSArray *captureAr
 		return @"";
 	}
 	
-	// \を入れ替える
-	return [OGRegularExpression swapBackslashInString:[_swappedTargetString substringWithRange:NSMakeRange(_region->beg[index] / sizeof(unichar), (_region->end[index] - _region->beg[index]) / sizeof(unichar))] forCharacter:_escapeCharacter];
+	return [_targetString substringWithRange:NSMakeRange(_region->beg[index] / sizeof(unichar), (_region->end[index] - _region->beg[index]) / sizeof(unichar))];
 }
 
 // マッチの対象になった文字列
 - (NSString*)targetString
 {
-	// \を入れ替える
-	return [OGRegularExpression swapBackslashInString:_swappedTargetString forCharacter:_escapeCharacter];
+	return _targetString;
 }
 
 // マッチした部分より前の文字列 \`
@@ -225,8 +223,7 @@ static OnigCaptureTreeNode *Ogre_onigCaptureTreeNodeWithArray(NSArray *captureAr
 		return @"";
 	}
 	
-	// \を入れ替える
-	return [OGRegularExpression swapBackslashInString:[_swappedTargetString substringWithRange:NSMakeRange(0, _region->beg[0] / sizeof(unichar))] forCharacter:_escapeCharacter];
+	return [_targetString substringWithRange:NSMakeRange(0, _region->beg[0] / sizeof(unichar))];
 }
 
 // マッチした部分より前の文字列 \` の範囲
@@ -249,14 +246,13 @@ static OnigCaptureTreeNode *Ogre_onigCaptureTreeNodeWithArray(NSArray *captureAr
 		return nil;
 	}
 
-	if ((_region->end[0] / sizeof(unichar)) == [_swappedTargetString length]) {
+	if ((_region->end[0] / sizeof(unichar)) == [_targetString length]) {
 		// マッチした部分より後ろの文字列が空の場合
 		return @"";
 	}
 	
-	// \を入れ替える
     unsigned    location = _region->end[0] / sizeof(unichar);
-	return [OGRegularExpression swapBackslashInString:[_swappedTargetString substringWithRange:NSMakeRange(location, [_swappedTargetString length] - location)] forCharacter:_escapeCharacter];
+	return [_targetString substringWithRange:NSMakeRange(location, [_targetString length] - location)];
 }
 
 // マッチした部分より後ろの文字列 \' の範囲
@@ -267,7 +263,7 @@ static OnigCaptureTreeNode *Ogre_onigCaptureTreeNodeWithArray(NSArray *captureAr
 		return NSMakeRange(-1, 0);
 	}
 	
-	unsigned	length = [_swappedTargetString length] - _region->end[0] / sizeof(unichar);
+	unsigned	length = [_targetString length] - _region->end[0] / sizeof(unichar);
 	return NSMakeRange(_searchRange.location + _region->end[0] / sizeof(unichar), length);
 }
 
@@ -283,8 +279,7 @@ static OnigCaptureTreeNode *Ogre_onigCaptureTreeNodeWithArray(NSArray *captureAr
 		return @"";
 	}
 	
-	// \を入れ替える
-	return [OGRegularExpression swapBackslashInString:[_swappedTargetString substringWithRange:NSMakeRange(_terminalOfLastMatch, _region->beg[0] / sizeof(unichar) - _terminalOfLastMatch)] forCharacter:_escapeCharacter];
+	return [_targetString substringWithRange:NSMakeRange(_terminalOfLastMatch, _region->beg[0] / sizeof(unichar) - _terminalOfLastMatch)];
 }
 
 // マッチした文字列と一つ前にマッチした文字列の間の文字列 \- の範囲
@@ -434,7 +429,7 @@ static OnigCaptureTreeNode *Ogre_onigCaptureTreeNodeWithArray(NSArray *captureAr
     
 	// 頻繁に利用するものはキャッシュする。保持はしない。
 	// 検索対象文字列
-	_swappedTargetString        = [_enumerator swappedTargetString];
+	_targetString        = [_enumerator targetString];
 	// 検索範囲
 	NSRange	searchRange = [_enumerator searchRange];
 	_searchRange.location = searchRange.location;

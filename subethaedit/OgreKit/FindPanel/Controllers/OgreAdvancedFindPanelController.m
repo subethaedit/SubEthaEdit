@@ -17,6 +17,7 @@
 #import <OgreKit/OgreAFPCEscapeCharacterFormatter.h>
 #import <OgreKit/OgreTextFindProgressSheet.h>
 #import <OgreKit/OgreFindResultWindowController.h>
+#import <OgreKit/OgreAttachableWindowMediator.h>
 
 // 諸設定
 static const int  OgreAFPCMaximumLeftMargin = 30;   // 検索結果の左側の最大文字数 (マッチ結果が隠れてしまうことを防ぐ)
@@ -96,6 +97,7 @@ static NSString	*OgreAFPCMaxNumOfReplaceHistoryKey = @"AFPC Maximum Number of Re
 	_findHistory = [[NSMutableArray alloc] initWithCapacity:0];
 	_replaceHistory = [[NSMutableArray alloc] initWithCapacity:0];
 	_isAlertSheetOpen = NO;
+	_findResultWindowController = nil;
 	
 	// 履歴の復元
 	[self restoreHistory:[textFinder history]];
@@ -915,14 +917,22 @@ static NSString	*OgreAFPCMaxNumOfReplaceHistoryKey = @"AFPC Maximum Number of Re
 			// success
 			[textFindResult setMaximumLeftMargin:OgreAFPCMaximumLeftMargin];  // 検索結果の左側の最大文字数
 			[textFindResult setMaximumMatchedStringLength:OgreAFPCMaximumMatchedStringLength];  // 検索結果の最大文字数
-            OgreFindResultWindowController    *findResultWindow = [[OgreFindResultWindowController alloc] initWithTextFindResult:textFindResult liveUpdate:NO];
-            
-            NSRect  aFrame = [findPanel frame];
-            NSPoint aPoint = aFrame.origin;
-            aPoint.x += 23;
-            aPoint.y += aFrame.size.height - 23;
-            [findResultWindow setFrameTopLeftPoint:aPoint];
-            [findResultWindow show];
+			if (_findResultWindowController == nil) {
+				_findResultWindowController = [[OgreFindResultWindowController alloc] initWithTextFindResult:textFindResult liveUpdate:NO];
+				NSWindow	*findResultWindow = [_findResultWindowController window];
+				NSRect		frame = [findResultWindow frame];
+				frame.origin.x = [findPanel frame].origin.x;
+				frame.origin.y = [findPanel frame].origin.y - frame.size.height;
+				frame.size.width = [findPanel frame].size.width;
+				[findResultWindow setFrame:frame display:NO animate:NO];
+				[findPanel addChildWindow:findResultWindow ordered:NSWindowAbove];
+				//[[OgreAttachableWindowMediator sharedMediator] attachAcceptee:findResultWindow toAcceptor:findPanel withAccepteeEdge:NSMaxYEdge];
+            } else {
+				[_findResultWindowController setTextFindResult:textFindResult];
+			}
+			
+			[self showFindPanel:self];
+            [_findResultWindowController show];
 		} else {
 			// failure
 			closeProgressWindow = (([closeWhenDoneCheckBox state] == NSOnState)? YES : NO);
@@ -1052,7 +1062,13 @@ static NSString	*OgreAFPCMaxNumOfReplaceHistoryKey = @"AFPC Maximum Number of Re
 	return NO;
 }
 
-- (void)findPanelFlagsChanged:(unsigned)modifierFlags  // delegate method of OgreAdvancedFindPanel
+- (void)windowDidResignKey:(NSNotification *)aNotification
+{
+    [self findPanelFlagsChanged:0]; // release key
+}
+
+/* delegate method of OgreAdvancedFindPanel */
+- (void)findPanelFlagsChanged:(unsigned)modifierFlags  
 {
     if (modifierFlags & NSAlternateKeyMask) {
         // alt key pressed
@@ -1070,9 +1086,14 @@ static NSString	*OgreAFPCMaxNumOfReplaceHistoryKey = @"AFPC Maximum Number of Re
     }
 }
 
-- (void)windowDidResignKey:(NSNotification *)aNotification
+- (void)findPanelDidAddChildWindow:(NSWindow*)childWindow
 {
-    [self findPanelFlagsChanged:0]; // release key
+	_findResultWindowController = [childWindow delegate];
+}
+
+- (void)findPanelDidRemoveChildWindow:(NSWindow*)childWindow
+{
+	_findResultWindowController = nil;
 }
 
 @end

@@ -515,6 +515,12 @@ subethaedit/OgreKit/FindPanel/Controllers/OgreAdvancedFindPanel.h -text
 subethaedit/OgreKit/FindPanel/Controllers/OgreAdvancedFindPanel.m -text
 subethaedit/OgreKit/FindPanel/Controllers/OgreAdvancedFindPanelController.h -text
 subethaedit/OgreKit/FindPanel/Controllers/OgreAdvancedFindPanelController.m -text
+subethaedit/OgreKit/FindPanel/Controllers/OgreAttachableWindow/OgreAttachableWindowAcceptee.h -text
+subethaedit/OgreKit/FindPanel/Controllers/OgreAttachableWindow/OgreAttachableWindowAcceptee.m -text
+subethaedit/OgreKit/FindPanel/Controllers/OgreAttachableWindow/OgreAttachableWindowAcceptor.h -text
+subethaedit/OgreKit/FindPanel/Controllers/OgreAttachableWindow/OgreAttachableWindowAcceptor.m -text
+subethaedit/OgreKit/FindPanel/Controllers/OgreAttachableWindow/OgreAttachableWindowMediator.h -text
+subethaedit/OgreKit/FindPanel/Controllers/OgreAttachableWindow/OgreAttachableWindowMediator.m -text
 subethaedit/OgreKit/FindPanel/Controllers/OgreFindPanelController.h -text
 subethaedit/OgreKit/FindPanel/Controllers/OgreFindPanelController.m -text
 subethaedit/OgreKit/FindPanel/Controllers/OgreFindResultWindowController.h -text
@@ -605,8 +611,6 @@ subethaedit/OgreKit/FindPanel/Resources/English.lproj/OgreAPFCLocalizable.string
 subethaedit/OgreKit/FindPanel/Resources/English.lproj/OgreAdvancedFindPanel.nib/classes.nib -text
 subethaedit/OgreKit/FindPanel/Resources/English.lproj/OgreAdvancedFindPanel.nib/info.nib -text
 subethaedit/OgreKit/FindPanel/Resources/English.lproj/OgreAdvancedFindPanel.nib/keyedobjects.nib -text
-subethaedit/OgreKit/FindPanel/Resources/English.lproj/OgreFindResultWindow.nib/JavaCompiling.plist -text
-subethaedit/OgreKit/FindPanel/Resources/English.lproj/OgreFindResultWindow.nib/_OgreFindResultWindow_EOArchive_English.java -text
 subethaedit/OgreKit/FindPanel/Resources/English.lproj/OgreFindResultWindow.nib/classes.nib -text
 subethaedit/OgreKit/FindPanel/Resources/English.lproj/OgreFindResultWindow.nib/info.nib -text
 subethaedit/OgreKit/FindPanel/Resources/English.lproj/OgreFindResultWindow.nib/keyedobjects.nib -text
@@ -674,8 +678,6 @@ subethaedit/OgreKit/FindPanelTest/English.lproj/MyOutlineDocument.nib/_MyOutline
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyOutlineDocument.nib/classes.nib -text
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyOutlineDocument.nib/info.nib -text
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyOutlineDocument.nib/keyedobjects.nib -text
-subethaedit/OgreKit/FindPanelTest/English.lproj/MyRTFDocument.nib/JavaCompiling.plist -text
-subethaedit/OgreKit/FindPanelTest/English.lproj/MyRTFDocument.nib/_MyRTFDocument_EOArchive_English.java -text
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyRTFDocument.nib/classes.nib -text
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyRTFDocument.nib/info.nib -text
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyRTFDocument.nib/keyedobjects.nib -text
@@ -692,14 +694,10 @@ subethaedit/OgreKit/FindPanelTest/English.lproj/MyTableDocumentWithCocoaBinding.
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyTableDocumentWithCocoaBinding.nib/classes.nib -text
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyTableDocumentWithCocoaBinding.nib/info.nib -text
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyTableDocumentWithCocoaBinding.nib/keyedobjects.nib -text
-subethaedit/OgreKit/FindPanelTest/English.lproj/MyTextDocument.nib/JavaCompiling.plist -text
-subethaedit/OgreKit/FindPanelTest/English.lproj/MyTextDocument.nib/_MyTextDocument_EOArchive_English.java -text
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyTextDocument.nib/classes.nib -text
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyTextDocument.nib/info.nib -text
 subethaedit/OgreKit/FindPanelTest/English.lproj/MyTextDocument.nib/keyedobjects.nib -text
 subethaedit/OgreKit/FindPanelTest/FindPanelTest-Info.plist -text
-subethaedit/OgreKit/FindPanelTest/Japanese.lproj/MainMenu.nib/JavaCompiling.plist -text
-subethaedit/OgreKit/FindPanelTest/Japanese.lproj/MainMenu.nib/_MainMenu_EOArchive_Japanese.java -text
 subethaedit/OgreKit/FindPanelTest/Japanese.lproj/MainMenu.nib/classes.nib -text
 subethaedit/OgreKit/FindPanelTest/Japanese.lproj/MainMenu.nib/info.nib -text
 subethaedit/OgreKit/FindPanelTest/Japanese.lproj/MainMenu.nib/keyedobjects.nib -text
@@ -760,8 +758,8 @@ subethaedit/OgreKit/OnigurumaTest/OnigurumaTest.h -text
 subethaedit/OgreKit/OnigurumaTest/OnigurumaTest.m -text
 subethaedit/OgreKit/OnigurumaTest/OnigurumaTest_Prefix.h -text
 subethaedit/OgreKit/OnigurumaTest/main.m -text
-subethaedit/OgreKit/RegularExpression/Documentation/History.rtf -text
-subethaedit/OgreKit/RegularExpression/Documentation/License.rtf -text
+subethaedit/OgreKit/RegularExpression/Documentation/History.txt -text
+subethaedit/OgreKit/RegularExpression/Documentation/License.txt -text
 subethaedit/OgreKit/RegularExpression/Documentation/ReadMe.rtf -text
 subethaedit/OgreKit/RegularExpression/English.lproj/InfoPlist.strings -text
 subethaedit/OgreKit/RegularExpression/NSString_OgreKitAdditions.h -text
@@ -793,7 +791,7 @@ subethaedit/OgreKit/RegularExpression/OgreKit.h -text
 subethaedit/OgreKit/RegularExpression/OgreKitWithoutFindPanel/OgreKit.h -text
 subethaedit/OgreKit/RegularExpression/OgreKit_Prefix.pch -text
 subethaedit/OgreKit/RegularExpression/configure.sh -text
-subethaedit/OgreKit/RegularExpression/onigd20040824.tar.gz -text
+subethaedit/OgreKit/RegularExpression/onigd20040917.tar.gz -text
 subethaedit/OgreKit/RegularExpression/version.plist -text
 subethaedit/OgreKit/RegularExpressionTest/Calc.h -text
 subethaedit/OgreKit/RegularExpressionTest/Calc.m -text

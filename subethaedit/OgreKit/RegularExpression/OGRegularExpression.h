@@ -439,8 +439,8 @@ extern NSString	* const OgreException;
 // Optionsを表す文字列配列
 + (NSArray*)stringsForOptions:(unsigned)options;
 
-// 文字列を正規表現で安全な文字列に変換する。(@"|().?*+{}^$[]-&#:=!<>@"を退避する)
-+ (NSString*)regularizeString:(NSString*)string escapeCharacter:(NSString*)character;
+// 文字列を正規表現で安全な文字列に変換する。(@"|().?*+{}^$[]-&#:=!<>@\\"を退避する)
++ (NSString*)regularizeString:(NSString*)string;
 
 // 改行コードが何か調べる
 + (OgreNewlineCharacter)newlineCharacterInString:(NSString*)aString;
