@@ -5,6 +5,8 @@ prototype/ExpatSimple/ExpatSimple_Prefix.pch -text
 prototype/ExpatSimple/expat.h -text
 prototype/ExpatSimple/libexpat.a -text
 prototype/ExpatSimple/main.m -text
+prototype/TCMXMLParser/ParserDelegate.h -text
+prototype/TCMXMLParser/ParserDelegate.m -text
 prototype/TCMXMLParser/TCMXMLParser.1 -text
 prototype/TCMXMLParser/TCMXMLParser.h -text
 prototype/TCMXMLParser/TCMXMLParser.m -text

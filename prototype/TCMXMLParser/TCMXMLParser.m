@@ -10,16 +10,17 @@
 
 
 #pragma mark ### Handler functions ###
-int getElementAndNamespaceFromUTF8String(XML_Char *string,NSString **element, NSString **namespace) {
+int getElementAndNamespaceFromUTF8String(const XML_Char *string,NSString **element, NSString **namespace) {
     NSString *nameString=[[NSString alloc] initWithUTF8String:string];
     NSArray  *elementAndNamespace=[nameString componentsSeparatedByString:@"|"];
     *element  =@"";
     *namespace=@"";
-    if ([elementAndNamespace count]>0) {
+    if ([elementAndNamespace count] == 1) {
        *element=[elementAndNamespace objectAtIndex:0];
     }
-    if ([elementAndNamespace count]>1) {
-       *namespace=[elementAndNamespace objectAtIndex:1];
+    if ([elementAndNamespace count] > 1) {
+       *namespace=[elementAndNamespace objectAtIndex:0];
+       *element=[elementAndNamespace objectAtIndex:1];
     }
     [nameString release];
     return [elementAndNamespace count];
@@ -86,11 +87,18 @@ static void ProcessingInstructionHandler(void *userData, const XML_Char *target,
 {
 }
 
-                                   
+#pragma mark 
 
 @implementation TCMXMLParser
 
 #pragma mark ### Initializers, etc. ###
+
++ (TCMXMLParser *)XMLParser
+{
+    TCMXMLParser *XMLParser = [TCMXMLParser new];
+    return [XMLParser autorelease];
+}
+
 - (id)init {
     self=[super init];
     if (self) {

@@ -63,8 +63,6 @@
 				C6859EA2029092E104C91782,
 				08FB779DFE84155DC02AAC07,
 				1AB674ADFE9D54B511CA2CBB,
-				5ED5BB2A0518A10200A80EDC,
-				5ED5BB2B0518A10200A80EDC,
 			);
 			isa = PBXGroup;
 			name = TCMXMLParser;
@@ -73,8 +71,12 @@
 		};
 		08FB7795FE84155DC02AAC07 = {
 			children = (
+				5ED5BB2A0518A10200A80EDC,
+				5ED5BB2B0518A10200A80EDC,
 				32A70AAB03705E1F00C91783,
 				08FB7796FE84155DC02AAC07,
+				146FDD0E051A15E2008C97E4,
+				146FDD0F051A15E2008C97E4,
 			);
 			isa = PBXGroup;
 			name = Source;
@@ -114,6 +116,44 @@
 //082
 //083
 //084
+//140
+//141
+//142
+//143
+//144
+		146FDD0E051A15E2008C97E4 = {
+			expectedFileType = sourcecode.c.h;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = ParserDelegate.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		146FDD0F051A15E2008C97E4 = {
+			expectedFileType = sourcecode.c.objc;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = ParserDelegate.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		146FDD10051A15E2008C97E4 = {
+			fileRef = 146FDD0E051A15E2008C97E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		146FDD11051A15E2008C97E4 = {
+			fileRef = 146FDD0F051A15E2008C97E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//140
+//141
+//142
+//143
+//144
 //1A0
 //1A1
 //1A2
@@ -266,6 +306,7 @@
 				8DD76F980486AA7600D96B5E,
 				5ED5BB270518A07200A80EDC,
 				5ED5BB2C0518A10200A80EDC,
+				146FDD10051A15E2008C97E4,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,6 +322,7 @@
 			files = (
 				8DD76F9A0486AA7600D96B5E,
 				5ED5BB2D0518A10200A80EDC,
+				146FDD11051A15E2008C97E4,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
