@@ -31,6 +31,15 @@ NSString * const HostEntryStatusSessionAtEnd = @"HostEntryStatusSessionAtEnd";
 NSString * const HostEntryStatusCancelling = @"HostEntryStatusCancelling";
 NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
 
+enum {
+    BrowserContextMenuTagInvite = 0,
+    BrowserContextMenuTagJoin,
+    BrowserContextMenuTagCancelJoin,
+    BrowserContextMenuTagShowDocument,
+    BrowserContextMenuTagCancelConnection,
+    BrowserContextMenuTagReconnect,
+    BrowserContextMenuTagClear
+};
 
 @interface InternetBrowserController (InternetBrowserControllerPrivateAdditions)
 
@@ -59,6 +68,46 @@ static InternetBrowserController *sharedInstance = nil;
         I_data = [NSMutableArray new];
         I_resolvingHosts = [NSMutableDictionary new];
         I_resolvedHosts = [NSMutableDictionary new];
+
+
+        I_contextMenu = [NSMenu new];
+        NSMenuItem *item = nil;
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuInvite", @"Invite user entry for Browser context menu") action:@selector(invite:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagInvite];
+
+        [I_contextMenu addItem:[NSMenuItem separatorItem]];
+
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuJoin", @"Join document entry for Browser context menu") action:@selector(join:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagJoin];
+
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuCancelJoin", @"Cancel join document entry for Browser context menu") action:@selector(cancelJoin:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagCancelJoin];
+
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(showDocument:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagShowDocument];
+
+        [I_contextMenu addItem:[NSMenuItem separatorItem]];
+
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuCancelConnection", @"Cancel connetion entry for Browser context menu") action:@selector(cancelConnection:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagCancelConnection];
+        
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuReconnect", @"Reconnect entry for Browser context menu") action:@selector(reconnect:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagReconnect];        
+
+        [I_contextMenu addItem:[NSMenuItem separatorItem]];
+
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuClear", @"Clear entry for Browser context menu") action:@selector(clear:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagClear];
+        
+        [I_contextMenu setDelegate:self];        
+
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
@@ -124,7 +173,14 @@ static InternetBrowserController *sharedInstance = nil;
     [[O_actionPullDownButton cell] setImage:[NSImage imageNamed:@"Action"]];
     [[O_actionPullDownButton cell] setAlternateImage:[NSImage imageNamed:@"ActionPressed"]];
     [[O_actionPullDownButton cell] setUsesItemFromMenu:NO];
-    [O_actionPullDownButton addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
+    [O_actionPullDownButton addItemWithTitle:@"<do not modify>"];
+    NSMenu *actionMenu = [O_actionPullDownButton menu];
+    [actionMenu setDelegate:self];
+    NSEnumerator *contextMenuItems = [[I_contextMenu itemArray] objectEnumerator];
+    id menuItem = nil;
+    while ((menuItem = [contextMenuItems nextObject])) {
+        [actionMenu addItem:[[menuItem copy] autorelease]];
+    }
 
     PullDownButtonCell *cell = [[[PullDownButtonCell alloc] initTextCell:@"" pullsDown:YES] autorelease];
     NSMenu *oldMenu = [[[O_statusPopUpButton cell] menu] retain];
@@ -176,11 +232,164 @@ static InternetBrowserController *sharedInstance = nil;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)menuNeedsUpdate:(NSMenu *)aMenu {
-    BOOL isVisible = [[TCMMMPresenceManager sharedInstance] isVisible];
-    [[aMenu itemWithTag:10] setState:isVisible ? NSOnState : NSOffState];
-    [[aMenu itemWithTag:11] setState:(!isVisible) ? NSOnState : NSOffState];
-    [[aMenu itemWithTag:12] setState:[[TCMMMBEEPSessionManager sharedInstance] isProhibitingInboundInternetSessions] ? NSOnState : NSOffState];
+- (void)menuNeedsUpdate:(NSMenu *)menu {
+    
+    if ([menu isEqual:[O_statusPopUpButton menu]]) {
+        BOOL isVisible = [[TCMMMPresenceManager sharedInstance] isVisible];
+        [[menu itemWithTag:10] setState:isVisible ? NSOnState : NSOffState];
+        [[menu itemWithTag:11] setState:(!isVisible) ? NSOnState : NSOffState];
+        [[menu itemWithTag:12] setState:[[TCMMMBEEPSessionManager sharedInstance] isProhibitingInboundInternetSessions] ? NSOnState : NSOffState];
+        return;
+    }
+    
+    NSMutableIndexSet *documentSet = [NSMutableIndexSet indexSet];
+    NSMutableIndexSet *userSet = [NSMutableIndexSet indexSet];
+    
+    NSMutableIndexSet *set = [[O_browserListView selectedRowIndexes] mutableCopy];
+    unsigned int index;
+    while ((index = [set firstIndex]) != NSNotFound) {
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        if (pair.childIndex == -1) {
+            [userSet addIndex:index];
+        } else {
+            [documentSet addIndex:index];
+        }
+        [set removeIndex:index];
+    }
+    [set release];
+    
+    id item;
+
+    if ([userSet count] > 0 && [documentSet count] > 0) {
+        DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"Disabling all menu items because of inconsistent selection");
+        item = [menu itemWithTag:BrowserContextMenuTagInvite];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagJoin];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagCancelJoin];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagReconnect];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagClear];
+        [item setEnabled:NO];
+        return;
+    }
+    
+    item = [menu itemWithTag:BrowserContextMenuTagClear];
+    [item setEnabled:NO];
+    
+    if ([userSet count] == 0 && [documentSet count] == 0) {
+        item = [menu itemWithTag:BrowserContextMenuTagInvite];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagJoin];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagCancelJoin];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagReconnect];
+        [item setEnabled:NO];
+        if ([menu isEqual:[O_actionPullDownButton menu]]) {
+            item = [menu itemWithTag:BrowserContextMenuTagClear];
+            [item setEnabled:YES];
+        }
+    }
+    
+    if ([userSet count] > 0) {
+        item = [menu itemWithTag:BrowserContextMenuTagJoin];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagCancelJoin];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagShowDocument];    
+        [item setEnabled:NO];
+
+        NSMutableSet *dataSet = [NSMutableSet set];
+        NSMutableIndexSet *set = [[O_browserListView selectedRowIndexes] mutableCopy];
+        unsigned int index;
+        while ((index = [set firstIndex]) != NSNotFound) {
+            ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+            [dataSet addObject:[I_data objectAtIndex:pair.itemIndex]];
+            [set removeIndex:index];
+        }
+        [set release];
+        
+        
+        int state = 0;
+        static int kCancellableStateMask = 1;
+        static int kReconnectableStateMask = 2;
+        static int kOpenStateMask = 4;
+        NSEnumerator *enumerator = [dataSet objectEnumerator];
+        id dataItem;
+        while ((dataItem = [enumerator nextObject])) {
+            NSString *status = [dataItem objectForKey:@"status"];
+            if ([status isEqualToString:HostEntryStatusContacting] ||
+                [status isEqualToString:HostEntryStatusResolving]) {
+                state |= kCancellableStateMask;
+            }
+            if ([status isEqualToString:HostEntryStatusSessionOpen]) {
+                state |= kOpenStateMask;
+            }
+            if ([dataItem objectForKey:@"failed"]) {
+                state |= kReconnectableStateMask;
+            }
+        }
+        
+        if (!(state == 0 || state == 1 || state == 2 || state == 4)) {
+            state = 0;
+        }
+        item = [menu itemWithTag:BrowserContextMenuTagInvite];
+        [item setEnabled:(state & kOpenStateMask) && YES];
+        item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
+        [item setEnabled:(state & kCancellableStateMask) || (state & kOpenStateMask)];
+        item = [menu itemWithTag:BrowserContextMenuTagReconnect];
+        [item setEnabled:(state & kReconnectableStateMask) && YES]; 
+                
+        return;
+    }
+    
+    
+    if ([documentSet count] > 0) {
+        item = [menu itemWithTag:BrowserContextMenuTagInvite];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagReconnect];
+        [item setEnabled:NO]; 
+    
+        NSMutableSet *sessionSet = [NSMutableSet set];
+        NSMutableIndexSet *set = [[O_browserListView selectedRowIndexes] mutableCopy];
+        unsigned int index;
+        while ((index = [set firstIndex]) != NSNotFound) {
+            ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+            NSDictionary *dataItem = [I_data objectAtIndex:pair.itemIndex];
+            NSArray *sessions = [dataItem objectForKey:@"Sessions"];
+            [sessionSet addObject:[sessions objectAtIndex:pair.childIndex]];
+            [set removeIndex:index];
+        }
+        [set release];        
+        
+        // check for consistent state of selected MMSessions
+        NSEnumerator *enumerator = [sessionSet objectEnumerator];
+        id sessionItem;
+        while ((sessionItem = [enumerator nextObject])) {
+        
+        }
+
+        item = [menu itemWithTag:BrowserContextMenuTagJoin];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagCancelJoin];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagShowDocument];    
+        [item setEnabled:NO];
+        
+        return;
+    }
 }
 
 - (void)connectToAddress:(NSString *)address {
@@ -307,6 +516,19 @@ static InternetBrowserController *sharedInstance = nil;
     NSDictionary *alertContext = (NSDictionary *)contextInfo;
     if (returnCode == NSAlertSecondButtonReturn) {
         DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"abort connection");
+        NSSet *set = [alertContext objectForKey:@"items"];
+        NSEnumerator *enumerator = [set objectEnumerator];
+        NSMutableDictionary *item;
+        while ((item = [enumerator nextObject])) {
+            [item removeObjectForKey:@"UserID"];
+            [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+            [item setObject:HostEntryStatusCancelling forKey:@"status"];
+            [O_browserListView reloadData];
+            TCMBEEPSession *session = [item objectForKey:@"BEEPSession"];
+            [session terminate];
+            [O_browserListView reloadData];
+        }
+        /*
         NSMutableDictionary *item = [alertContext objectForKey:@"item"];
         [item removeObjectForKey:@"UserID"];
         [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
@@ -315,6 +537,7 @@ static InternetBrowserController *sharedInstance = nil;
         TCMBEEPSession *session = [alertContext objectForKey:@"session"];
         [session terminate];
         [O_browserListView reloadData];
+        */
     }
     
     [alertContext autorelease];
@@ -501,6 +724,111 @@ static InternetBrowserController *sharedInstance = nil;
     }
 }
 
+- (void)reconnectWithIndexes:(NSIndexSet *)indexes {
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
+    NSMutableIndexSet *set = [indexes mutableCopy];
+    unsigned int index;
+    while ((index = [set firstIndex]) != NSNotFound) {
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
+        if ([item objectForKey:@"failed"]) {
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
+            [item removeObjectForKey:@"BEEPSession"];
+            [item removeObjectForKey:@"UserID"];
+            [item removeObjectForKey:@"Sessions"];
+            [item removeObjectForKey:@"failed"];
+            [self connectToURL:[item objectForKey:@"URL"] retry:YES];
+        }
+        [set removeIndex:index];
+    }
+    [set release];
+    
+    [O_browserListView reloadData];
+}
+
+- (void)cancelConnectionsWithIndexes:(NSIndexSet *)indexes {
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
+    NSMutableSet *set = [NSMutableSet set];
+    BOOL abort = NO;
+    NSMutableIndexSet *indexSet = [indexes mutableCopy];
+    unsigned int index;
+    while ((index = [indexSet firstIndex]) != NSNotFound) {
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
+        if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
+            TCMBEEPSession *session = [item objectForKey:@"BEEPSession"];
+            NSEnumerator *channels = [[session channels] objectEnumerator];
+            TCMBEEPChannel *channel;
+            while ((channel = [channels nextObject])) {
+                if ([[channel profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]  && [channel channelStatus] == TCMBEEPChannelStatusOpen) {
+                    abort = YES;
+                }
+            }
+        }
+        [set addObject:item];
+        [indexSet removeIndex:index];
+    }
+    [indexSet release];
+    
+    if (abort) {
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"OpenChannels", nil)];
+        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"AbortChannels", nil)]];
+        [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Abort", nil)];
+        [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+        [alert beginSheetModalForWindow:[self window]
+                          modalDelegate:self 
+                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                            contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    //item, @"item",
+                                                    set, @"items",
+                                                    nil] retain]]; 
+    } else {
+        NSEnumerator *enumerator= [set objectEnumerator];
+        NSMutableDictionary *item;
+        while ((item = [enumerator nextObject])) {
+            if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusResolving]) {
+                DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel resolve");
+                [item removeObjectForKey:@"UserID"];
+                [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+                TCMHost *host = [I_resolvingHosts objectForKey:[item objectForKey:@"URLString"]];
+                [host cancel];
+                [host setDelegate:nil];
+                [I_resolvingHosts removeObjectForKey:[item objectForKey:@"URLString"]];
+                [item setObject:HostEntryStatusCancelled forKey:@"status"];
+                [O_browserListView reloadData];
+            } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusContacting]) {
+                DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel contact");
+                [item removeObjectForKey:@"UserID"];
+                [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+                [item setObject:HostEntryStatusCancelling forKey:@"status"];
+                [O_browserListView reloadData];
+                TCMHost *host = [I_resolvedHosts objectForKey:[item objectForKey:@"URLString"]];
+                [[TCMMMBEEPSessionManager sharedInstance] cancelConnectToHost:host];
+            } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
+                TCMBEEPSession *session = [item objectForKey:@"BEEPSession"];
+                [item removeObjectForKey:@"UserID"];
+                [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+                [item setObject:HostEntryStatusCancelling forKey:@"status"];
+                [O_browserListView reloadData];
+                [session terminate];            
+            }
+        }
+    }
+    
+    [O_browserListView reloadData];
+}
+
+- (void)reconnect:(id)sender {
+    [self reconnectWithIndexes:[O_browserListView selectedRowIndexes]];
+}
+
+- (void)cancelConnection:(id)sender {
+    [self cancelConnectionsWithIndexes:[O_browserListView selectedRowIndexes]];
+}
+
 - (IBAction)actionTriggered:(id)aSender {
     int row = [aSender actionRow];
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"actionTriggerd in row: %d", row);
@@ -511,68 +839,9 @@ static InternetBrowserController *sharedInstance = nil;
     int index = pair.itemIndex;
     NSMutableDictionary *item = [I_data objectAtIndex:index];
     if ([item objectForKey:@"failed"]) {
-        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
-        [item removeObjectForKey:@"BEEPSession"];
-        [item removeObjectForKey:@"UserID"];
-        [item removeObjectForKey:@"Sessions"];
-        [item removeObjectForKey:@"failed"];
-        [self connectToURL:[item objectForKey:@"URL"] retry:YES];
+        [self reconnectWithIndexes:[NSIndexSet indexSetWithIndex:row]];
     } else {
-        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
-        if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusResolving]) {
-            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel resolve");
-            [item removeObjectForKey:@"UserID"];
-            [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
-            TCMHost *host = [I_resolvingHosts objectForKey:[item objectForKey:@"URLString"]];
-            [host cancel];
-            [host setDelegate:nil];
-            [I_resolvingHosts removeObjectForKey:[item objectForKey:@"URLString"]];
-            [item setObject:HostEntryStatusCancelled forKey:@"status"];
-            [O_browserListView reloadData];
-        } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusContacting]) {
-            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel contact");
-            [item removeObjectForKey:@"UserID"];
-            [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
-            [item setObject:HostEntryStatusCancelling forKey:@"status"];
-            [O_browserListView reloadData];
-            TCMHost *host = [I_resolvedHosts objectForKey:[item objectForKey:@"URLString"]];
-            [[TCMMMBEEPSessionManager sharedInstance] cancelConnectToHost:host];
-        } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
-            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel open session");
-            TCMBEEPSession *session = [item objectForKey:@"BEEPSession"];
-            BOOL abort = NO;
-            NSEnumerator *channels = [[session channels] objectEnumerator];
-            TCMBEEPChannel *channel;
-            while ((channel = [channels nextObject])) {
-                if ([[channel profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]  && [channel channelStatus] == TCMBEEPChannelStatusOpen) {
-                    abort = YES;
-                    break;
-                }
-            }
-            if (abort) {
-                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-                [alert setAlertStyle:NSWarningAlertStyle];
-                [alert setMessageText:NSLocalizedString(@"OpenChannels", nil)];
-                [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"AbortChannels", nil)]];
-                [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", nil)];
-                [alert addButtonWithTitle:NSLocalizedString(@"Abort", nil)];
-                [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-                [alert beginSheetModalForWindow:[self window]
-                                  modalDelegate:self 
-                                 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                                    contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                            item, @"item",
-                                                            session, @"session",
-                                                            nil] retain]]; 
-
-            } else {
-                [item removeObjectForKey:@"UserID"];
-                [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
-                [item setObject:HostEntryStatusCancelling forKey:@"status"];
-                [O_browserListView reloadData];
-                [session terminate];
-            }
-        }
+        [self cancelConnectionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
     }
     [O_browserListView reloadData];
 }
@@ -694,6 +963,7 @@ static InternetBrowserController *sharedInstance = nil;
             [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];        
             [item removeObjectForKey:@"BEEPSession"];
             [item removeObjectForKey:@"Sessions"];
+            [item removeObjectForKey:@"UserID"];
         }
         [O_browserListView reloadData];
     }
@@ -816,6 +1086,10 @@ static InternetBrowserController *sharedInstance = nil;
 }
 
 #pragma mark -
+
+- (NSMenu *)contextMenuForListView:(TCMListView *)listView clickedAtRow:(int)row {
+    return I_contextMenu;
+}
 
 - (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex {
     if (anItemIndex==-1) {

@@ -25,6 +25,8 @@
     NSMutableDictionary *I_resolvingHosts;
     NSMutableDictionary *I_resolvedHosts;
     NSMutableSet *I_prohibitedInboundSessions;
+    
+    NSMenu *I_contextMenu;
 }
 
 + (InternetBrowserController *)sharedInstance;
