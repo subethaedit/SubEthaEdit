@@ -2079,6 +2079,22 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 #pragma mark ### Session Interaction ###
 
+- (void)sendInitialUserState {
+    TCMMMSession *session=[self session];
+    NSString *sessionID=[session sessionID];
+    NSEnumerator *writingParticipants=[[[session participants] objectForKey:@"ReadWrite"] objectEnumerator];
+    TCMMMUser *user=nil;
+    while ((user=[writingParticipants nextObject])) {
+        SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
+        if (selectionOperation) {
+            [session documentDidApplyOperation:selectionOperation];
+        }
+    }
+    
+    [session documentDidApplyOperation:[SelectionOperation selectionOperationWithRange:[[[[self topmostWindowController] activePlainTextEditor] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
+}
+
+
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession {
 }
 
@@ -2465,6 +2481,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSRange selectedRange = [(NSTextView *)[aNotification object] selectedRange];
         SelectionOperation *selOp = [SelectionOperation selectionOperationWithRange:selectedRange userID:[TCMMMUserManager myUserID]];
         [[self session] documentDidApplyOperation:selOp];
+        [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
     }
 }
 

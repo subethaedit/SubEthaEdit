@@ -18,6 +18,10 @@
 {
     int32_t I_lastMessageNumber;
     TCMMMState *I_MMState;
+    NSMutableArray *I_outgoingMMMessageQueue;
+    struct {
+        BOOL contentHasBeenExchanged;
+    } I_flags;
 }
 
 - (void)sendUser:(TCMMMUser *)aUser;

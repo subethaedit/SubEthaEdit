@@ -13,6 +13,32 @@
 
 @implementation SessionProfile
 
+- (id)initWithChannel:(TCMBEEPChannel *)aChannel {
+    self = [super initWithChannel:aChannel];
+    if (self) {
+        I_flags.contentHasBeenExchanged=NO;
+        I_outgoingMMMessageQueue=[NSMutableArray new];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [I_outgoingMMMessageQueue release];
+    [super dealloc];
+}
+
+- (void)setContentHasBeenExchanged:(BOOL)aFlag {
+    if (aFlag==YES) {
+        NSEnumerator *datas=[I_outgoingMMMessageQueue objectEnumerator];
+        NSData *data=nil;
+        while ((data=[datas nextObject])) {
+            [[self channel] sendMSGMessageWithPayload:data];
+        }
+        [I_outgoingMMMessageQueue removeAllObjects];
+    }
+    I_flags.contentHasBeenExchanged=aFlag;
+}
+
 - (void)sendJoinRequestForSessionID:(NSString *)aSessionID
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel,@"Sending JONJON");
@@ -53,6 +79,7 @@
     NSMutableData *data = [NSMutableData dataWithBytes:"SESCON" length:6];
     [data appendData:TCM_BencodedObject(aSessionContent)];
     [[self channel] sendMSGMessageWithPayload:data];
+    [self setContentHasBeenExchanged:YES];
 }
 
 
@@ -130,6 +157,7 @@
                 [delegate profile:self didReceiveSessionContent:content];
             }
             DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"content: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
+            [self setContentHasBeenExchanged:YES];
         } else if (strncmp(type, "USRFUL", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received full user.");
             // TODO: validate userID
@@ -186,7 +214,11 @@
     // send message via channel
     NSMutableData *data=[NSMutableData dataWithBytes:"DOCMSG" length:6];
     [data appendData:TCM_BencodedObject([aMessage dictionaryRepresentation])];
-    [[self channel] sendMSGMessageWithPayload:data];
+    if (I_flags.contentHasBeenExchanged) {
+        [[self channel] sendMSGMessageWithPayload:data];
+    } else {
+        [I_outgoingMMMessageQueue addObject:data];
+    }
 }
 
 @end

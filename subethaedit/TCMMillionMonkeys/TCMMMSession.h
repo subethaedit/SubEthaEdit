@@ -67,7 +67,6 @@ typedef enum TCMMMSessionAccessState {
 
 - (NSData *)sessionBencoded;
 - (NSDictionary *)dictionaryRepresentation;
-- (void)updateWithDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 

@@ -189,6 +189,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 #pragma mark -
 #pragma mark ### Session Interaction ###
 
+- (void)sendInitialUserState;
 - (NSDictionary *)sessionInformation;
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;

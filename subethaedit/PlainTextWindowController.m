@@ -587,22 +587,22 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 
 - (id)participantsView:(ParticipantsView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
 
-//    static NSImage *statusLock=nil;
+    static NSImage *statusReadWrite=nil;
     static NSImage *statusReadOnly=nil;
 
-//    if (!statusLock) statusLock=[[NSImage imageNamed:@"StatusLock"] retain];
-    if (!statusReadOnly) statusReadOnly=[[NSImage imageNamed:@"StatusReadOnly"] retain];
+    if (!statusReadWrite) statusReadWrite=[[NSImage imageNamed:@"StatusReadWrite"] retain];
+    if (!statusReadOnly)  statusReadOnly=[[NSImage imageNamed:@"StatusReadOnly"] retain];
     if (anItemIndex==0) {
         if (aTag==ParticipantsItemStatusImageTag) {
-            return nil;
+            return statusReadWrite;
         } else if (aTag==ParticipantsItemNameTag) {
-            return @"read/write";
+            return NSLocalizedString(@"read/write",@"Description in Participants view for Read Write access");
         } 
     } else if (anItemIndex==1) {
         if (aTag==ParticipantsItemStatusImageTag) {
             return statusReadOnly;
         } else if (aTag==ParticipantsItemNameTag) {
-            return @"read only";
+            return NSLocalizedString(@"read only",@"Description in Participants view for Read Only access");
         } 
     }
     return nil;
@@ -626,6 +626,9 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
             SelectionOperation *selectionOperation=[properties objectForKey:@"SelectionOperation"];
             if (selectionOperation) {
                 return [(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
+            } else if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
+                return [(TextStorage *)[document textStorage] 
+                        positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
             } else {
                 return @"No Position";
             }

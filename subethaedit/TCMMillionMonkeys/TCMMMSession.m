@@ -19,6 +19,7 @@
 #import "PlainTextDocument.h"
 #import "DocumentController.h"
 #import "TextStorage.h"
+#import "SelectionOperation.h"
 
 
 NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
@@ -236,6 +237,8 @@ NSString * const TCMMMSessionDidChangeNotification =
             [profile sendSessionInformation:[self TCM_sessionInformation]];
             [state release];
             [user joinSessionID:[self sessionID]];
+            NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];
+            [properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[user userID]] forKey:@"SelectionOperation"];
             [set removeIndex:index];
         }
         [set release];
@@ -271,12 +274,6 @@ NSString * const TCMMMSessionDidChangeNotification =
     [sessionDict setObject:[NSNumber numberWithInt:I_accessState] forKey:@"acc"];
     return sessionDict;
 }
-
-- (void)updateWithDictionaryRepresentation:(NSDictionary *)aRepresentation {
-    [self setFilename:[aRepresentation objectForKey:@"name"]];
-    [self setAccessState:[[aRepresentation objectForKey:@"acc"] intValue]];
-}
-
 
 - (void)join
 {
@@ -351,9 +348,16 @@ NSString * const TCMMMSessionDidChangeNotification =
         NSDictionary *userDict=nil;
         while ((userDict=[users nextObject])) {
             TCMMMUser *user=[userManager userForUserID:[[TCMMMUser userWithNotification:[userDict objectForKey:@"User"]] userID]];
-            [user joinSessionID:[self sessionID]];
+            NSString *userID=[user userID];
+            NSString *sessionID=[self sessionID];
+            NSMutableDictionary *properties=[user propertiesForSessionID:sessionID];
+            if (!properties) {
+                [user joinSessionID:sessionID];
+                properties=[user propertiesForSessionID:sessionID];
+            }
+            [properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:userID] forKey:@"SelectionOperation"];
             [groupArray addObject:user];
-            [I_groupByUserID setObject:group forKey:[user userID]];
+            [I_groupByUserID setObject:group forKey:userID];
         }
     }
 }
@@ -434,7 +438,7 @@ NSString * const TCMMMSessionDidChangeNotification =
         if ([userManager sender:profile shouldRequestUser:user]) {
             [result addObject:userNotification];
         }
-        [I_contributors addObject:[userManager userForUserID:[user userID]]];
+        [I_contributors addObject:user];
     }
 
     [self TCM_setSessionParticipants:[sessionInfo objectForKey:@"Participants"]];
@@ -453,7 +457,9 @@ NSString * const TCMMMSessionDidChangeNotification =
     while ((user=[userRequests nextObject])) {
         [aProfile sendUser:[userManager userForUserID:[user userID]]];
     }
-    [aProfile sendSessionContent:[NSDictionary dictionaryWithObject:[(TextStorage *)[(PlainTextDocument *)[self document] textStorage] dictionaryRepresentation] forKey:@"TextStorage"]];
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    [aProfile sendSessionContent:[NSDictionary dictionaryWithObject:[(TextStorage *)[document textStorage] dictionaryRepresentation] forKey:@"TextStorage"]];
+    [document sendInitialUserState];
 }
 
 #pragma mark -
