@@ -474,6 +474,8 @@ subethaedit/TCMMillionMonkeys/TCMMMState.h -text
 subethaedit/TCMMillionMonkeys/TCMMMState.m -text
 subethaedit/TCMMillionMonkeys/TCMMMStatusProfile.h -text
 subethaedit/TCMMillionMonkeys/TCMMMStatusProfile.m -text
+subethaedit/TCMMillionMonkeys/TCMMMTransformator.h -text
+subethaedit/TCMMillionMonkeys/TCMMMTransformator.m -text
 subethaedit/TCMMillionMonkeys/TCMMMUser.h -text
 subethaedit/TCMMillionMonkeys/TCMMMUser.m -text
 subethaedit/TCMMillionMonkeys/TCMMMUserManager.h -text

@@ -173,8 +173,8 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1022, 5277}}";
 			sepNavSelRange = "{11876, 0}";
-			sepNavVisRect = "{{0, 4940}, {584, 211}}";
-			sepNavWindowFrame = "{{468, 67}, {795, 597}}";
+			sepNavVisRect = "{{0, 4828}, {711, 449}}";
+			sepNavWindowFrame = "{{449, 274}, {750, 558}}";
 		};
 	};
 	14249F1B05FC9C9700D8C6B9 = {
@@ -257,11 +257,580 @@
 	};
 	143C360C05ECCEE8008C6DFE = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {711, 449}}";
+			sepNavIntBoundsRect = "{{0, 0}, {559, 343}}";
 			sepNavSelRange = "{153, 0}";
-			sepNavVisRect = "{{0, 0}, {711, 449}}";
+			sepNavVisRect = "{{0, 0}, {559, 343}}";
 			sepNavWindowFrame = "{{107, 185}, {750, 558}}";
 		};
+	};
+	1444315C0611B9E4008FDA2E = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {980, 308}}";
+			sepNavSelRange = "{498, 109}";
+			sepNavVisRect = "{{0, 12}, {603, 296}}";
+		};
+	};
+	1444315D0611B9E4008FDA2E = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {674, 587}}";
+			sepNavSelRange = "{638, 110}";
+			sepNavVisRect = "{{0, 291}, {603, 296}}";
+		};
+	};
+	1444316C0611D462008FDA2E = {
+		fRef = 14A0EF10060B1D9C00A80FA8;
+		isa = PBXTextBookmark;
+		name = "TCMMMState.m: 124";
+		rLen = 0;
+		rLoc = 3354;
+		rType = 0;
+		vrLen = 794;
+		vrLoc = 1712;
+	};
+	1444316D0611D462008FDA2E = {
+		fRef = 144431850611D4A2008FDA2E;
+		isa = PBXBookmark;
+	};
+	1444316E0611D462008FDA2E = {
+		fRef = 14A0EF10060B1D9C00A80FA8;
+		isa = PBXTextBookmark;
+		name = "TCMMMState.m: 124";
+		rLen = 0;
+		rLoc = 3354;
+		rType = 0;
+		vrLen = 794;
+		vrLoc = 1712;
+	};
+	1444316F0611D462008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431810611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431700611D462008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431870611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431710611D463008FDA2E = {
+		anchor = baselocations;
+		fRef = 1444318F0611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431720611D463008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431830611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431730611D463008FDA2E = {
+		anchor = baselocations;
+		fRef = 1444318C0611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431740611D463008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431890611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431750611D464008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431840611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431760611D464008FDA2E = {
+		anchor = baselocations;
+		fRef = 1444318D0611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431770611D473008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431800611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431780611D473008FDA2E = {
+		anchor = baselocations;
+		fRef = 1444318B0611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	1444317B0611D479008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431880611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	1444317C0611D479008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431820611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	1444317D0611D483008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431860611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	1444317E0611D483008FDA2E = {
+		anchor = baselocations;
+		fRef = 1444318E0611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	1444317F0611D484008FDA2E = {
+		anchor = baselocations;
+		fRef = 1444318A0611D4A2008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431800611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431810611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431820611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431830611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431840611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431850611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431860611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431870611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431880611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431890611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	1444318A0611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	1444318B0611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	1444318C0611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	1444318D0611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	1444318E0611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	1444318F0611D4A2008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431900611D543008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431AC0611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431910611D543008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431B20611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431920611D543008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431AE0611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431930611D544008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431AA0611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431940611D544008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431B00611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431950611D545008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431AB0611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431960611D545008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431B10611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431970611D546008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431AD0611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431980611D546008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431B30611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431990611D546008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431AF0611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	1444319A0611D546008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431A90611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431A70611D562008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = TCMMMTransformator.h;
+		path = "/Users/mbo/Documents/TheCodingMonkeys/subethaedit-wc/trunk/subethaedit/TCMMillionMonkeys/TCMMMTransformator.h";
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431A90611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431AA0611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431AB0611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431AC0611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431AD0611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431AE0611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431AF0611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431B00611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431B10611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431B20611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431B30611D564008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431C30611D5FD008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431CC0611D601008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431C40611D5FD008FDA2E = {
+		fRef = 1444315D0611B9E4008FDA2E;
+		isa = PBXTextBookmark;
+		name = "- (void)transformOperation:(TCMMMOperation *)anOperation serverOperation:(TCMMMOperation *)aServerOperation {\n";
+		rLen = 110;
+		rLoc = 638;
+		rType = 0;
+		vrLen = 352;
+		vrLoc = 405;
+	};
+	144431C50611D5FD008FDA2E = {
+		fRef = 144431A70611D562008FDA2E;
+		isa = PBXTextBookmark;
+		rLen = 1;
+		rLoc = 21;
+		rType = 1;
+	};
+	144431C60611D5FD008FDA2E = {
+		anchor = baselocations;
+		fRef = 144431CD0611D601008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	144431C70611D5FD008FDA2E = {
+		fRef = 1444315C0611B9E4008FDA2E;
+		isa = PBXTextBookmark;
+		name = "- (void)transformOperation:(TCMMMOperation *)anOperation serverOperation:(TCMMMOperation *)aServerOperation;\n";
+		rLen = 109;
+		rLoc = 498;
+		rType = 0;
+		vrLen = 612;
+		vrLoc = 0;
+	};
+	144431C80611D5FD008FDA2E = {
+		fRef = 1444315D0611B9E4008FDA2E;
+		isa = PBXTextBookmark;
+		name = "- (void)transformOperation:(TCMMMOperation *)anOperation serverOperation:(TCMMMOperation *)aServerOperation {\n";
+		rLen = 110;
+		rLoc = 638;
+		rType = 0;
+		vrLen = 352;
+		vrLoc = 405;
+	};
+	144431C90611D5FD008FDA2E = {
+		fRef = 1444315C0611B9E4008FDA2E;
+		isa = PBXTextBookmark;
+		name = "TCMMMTransformator.h: 25";
+		rLen = 0;
+		rLoc = 637;
+		rType = 0;
+		vrLen = 523;
+		vrLoc = 0;
+	};
+	144431CA0611D5FD008FDA2E = {
+		fRef = 1444315C0611B9E4008FDA2E;
+		isa = PBXTextBookmark;
+		name = "TCMMMTransformator.h: 25";
+		rLen = 0;
+		rLoc = 637;
+		rType = 0;
+		vrLen = 523;
+		vrLoc = 0;
+	};
+	144431CB0611D5FE008FDA2E = {
+		fRef = 1444315C0611B9E4008FDA2E;
+		isa = PBXTextBookmark;
+		name = "TCMMMTransformator.h: 25";
+		rLen = 0;
+		rLoc = 637;
+		rType = 0;
+		vrLen = 523;
+		vrLoc = 0;
+	};
+	144431CC0611D601008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	144431CD0611D601008FDA2E = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.html.documentation;
+		name = XcodeBuildSettings.html;
+		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
+		refType = 0;
+		sourceTree = "<absolute>";
 	};
 	144BC39005EDFDB1006397BC = {
 		uiCtxt = {
@@ -377,32 +946,32 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {711, 881}}";
 			sepNavSelRange = "{880, 15}";
-			sepNavVisRect = "{{0, 364}, {711, 449}}";
-			sepNavWindowFrame = "{{153, 143}, {750, 558}}";
+			sepNavVisRect = "{{0, 219}, {711, 449}}";
+			sepNavWindowFrame = "{{314, 181}, {750, 558}}";
 		};
 	};
 	14A0EF10060B1D9C00A80FA8 = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1070, 1511}}";
-			sepNavSelRange = "{2253, 0}";
-			sepNavVisRect = "{{0, 1048}, {711, 449}}";
-			sepNavWindowFrame = "{{224, 115}, {750, 558}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1070, 1679}}";
+			sepNavSelRange = "{2122, 0}";
+			sepNavVisRect = "{{0, 896}, {711, 449}}";
+			sepNavWindowFrame = "{{38, 248}, {750, 558}}";
 		};
 	};
 	14A0EF15060B1DC200A80FA8 = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {824, 475}}";
-			sepNavSelRange = "{771, 73}";
-			sepNavVisRect = "{{0, 0}, {711, 449}}";
-			sepNavWindowFrame = "{{347, 274}, {750, 558}}";
+			sepNavIntBoundsRect = "{{0, 0}, {824, 517}}";
+			sepNavSelRange = "{928, 0}";
+			sepNavVisRect = "{{0, 54}, {711, 449}}";
+			sepNavWindowFrame = "{{66, 193}, {750, 558}}";
 		};
 	};
 	14A0EF16060B1DC200A80FA8 = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {914, 1077}}";
-			sepNavSelRange = "{2112, 0}";
-			sepNavVisRect = "{{0, 593}, {711, 449}}";
-			sepNavWindowFrame = "{{254, 274}, {750, 558}}";
+			sepNavIntBoundsRect = "{{0, 0}, {914, 1189}}";
+			sepNavSelRange = "{2457, 0}";
+			sepNavVisRect = "{{0, 740}, {711, 449}}";
+			sepNavWindowFrame = "{{153, 143}, {750, 558}}";
 		};
 	};
 	14A0EF1B060B1DED00A80FA8 = {
@@ -415,10 +984,10 @@
 	};
 	14A0EF1C060B1DED00A80FA8 = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {710, 601}}";
+			sepNavIntBoundsRect = "{{0, 0}, {711, 601}}";
 			sepNavSelRange = "{871, 0}";
-			sepNavVisRect = "{{0, 239}, {584, 211}}";
-			sepNavWindowFrame = "{{470, 158}, {750, 558}}";
+			sepNavVisRect = "{{0, 137}, {711, 449}}";
+			sepNavWindowFrame = "{{305, 99}, {750, 558}}";
 		};
 	};
 	14A0EFB3060B410B00A80FA8 = {
@@ -433,8 +1002,8 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {788, 1161}}";
 			sepNavSelRange = "{1169, 0}";
-			sepNavVisRect = "{{0, 298}, {711, 449}}";
-			sepNavWindowFrame = "{{15, 269}, {750, 558}}";
+			sepNavVisRect = "{{0, 26}, {711, 449}}";
+			sepNavWindowFrame = "{{199, 101}, {750, 558}}";
 		};
 	};
 	14A0F037060B50E400A80FA8 = {
@@ -461,357 +1030,84 @@
 			sepNavVisRect = "{{0, 1484}, {572, 211}}";
 		};
 	};
+	14B42A3B0611FBC8002D0043 = {
+		anchor = baselocations;
+		fRef = 144431A90611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	14B42A3C0611FBC9002D0043 = {
+		anchor = baselocations;
+		fRef = 144431A90611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	14B42A3D0611FBCD002D0043 = {
+		anchor = baselocations;
+		fRef = 144431A90611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	14B42A3E0611FBCD002D0043 = {
+		anchor = baselocations;
+		fRef = 144431A90611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	14B42A3F0611FBCD002D0043 = {
+		anchor = baselocations;
+		fRef = 144431A90611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	14B42A400611FBCF002D0043 = {
+		anchor = baselocations;
+		fRef = 144431A90611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	14B42A7A0611FDCA002D0043 = {
+		anchor = baselocations;
+		fRef = 144431A90611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	14B42A7B0611FDCA002D0043 = {
+		anchor = baselocations;
+		fRef = 144431A90611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
+	14B42A7C0611FDCC002D0043 = {
+		anchor = baselocations;
+		fRef = 144431A90611D564008FDA2E;
+		glyphRangeLength = 0;
+		glyphRangeLocation = 0;
+		isa = PBXDocBookmark;
+		name = "Xcode 1.1 Build Settings Release Note";
+	};
 	14C51C700601C93C0030F488 = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {706, 1581}}";
 			sepNavSelRange = "{1864, 0}";
 			sepNavVisRect = "{{0, 1023}, {706, 183}}";
 		};
-	};
-	14DDA15C061084EA00999314 = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.objc;
-		name = TCMMMSession.m;
-		path = "/Users/mbo/Documents/TheCodingMonkeys/subethaedit-wc/trunk/subethaedit/TCMMillionMonkeys/TCMMMSession.m";
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	14DDA15D0610851300999314 = {
-		fRef = 14DDA15C061084EA00999314;
-		isa = PBXTextBookmark;
-		rLen = 1;
-		rLoc = 361;
-		rType = 1;
-	};
-	14DDA15E0610851300999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "    [[self document] handleOperation:anOperation];\n";
-		rLen = 72;
-		rLoc = 11850;
-		rType = 0;
-		vrLen = 349;
-		vrLoc = 11571;
-	};
-	14DDA15F0610851300999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "    [[self document] handleOperation:anOperation];\n";
-		rLen = 72;
-		rLoc = 11850;
-		rType = 0;
-		vrLen = 349;
-		vrLoc = 11571;
-	};
-	14DDA160061085AF00999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 376;
-		vrLoc = 11595;
-	};
-	14DDA161061085AF00999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 376;
-		vrLoc = 11595;
-	};
-	14DDA162061085B500999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 376;
-		vrLoc = 11595;
-	};
-	14DDA163061085B500999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 376;
-		vrLoc = 11595;
-	};
-	14DDA164061085BB00999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 376;
-		vrLoc = 11595;
-	};
-	14DDA165061085BB00999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 376;
-		vrLoc = 11595;
-	};
-	14DDA2AC0610895100999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2AD0610895100999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2AE0610898000999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2AF0610898000999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2B0061089E600999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2B1061089E600999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2BC0610A69100999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2BD0610A6A100999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2BE0610A6A100999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2C10610A6B600999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2C20610A6B600999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2D10610A77000999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2D20610A77000999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2D30610A77F00999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2D40610A77F00999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2D50610A78100999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2D60610A78100999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2D70610A78700999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2D80610A78700999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2D90610A78D00999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2DA0610A78D00999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2DB0610A79100999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2DC0610A79100999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2DD0610A79400999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
-	};
-	14DDA2DE0610A79400999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
 	};
 	14DDA2DF0610A7B100999314 = {
 		fRef = 14249EFC05FC826400D8C6B9;
@@ -823,10 +1119,6 @@
 		vrLen = 524;
 		vrLoc = 11595;
 	};
-	14DDA2E00610A7B100999314 = {
-		fRef = 14A0EF1C060B1DED00A80FA8;
-		isa = PBXBookmark;
-	};
 	14DDA2E10610A7B100999314 = {
 		fRef = 14249EFC05FC826400D8C6B9;
 		isa = PBXTextBookmark;
@@ -837,36 +1129,6 @@
 		vrLen = 524;
 		vrLoc = 11595;
 	};
-	14DDA2E20610A7B100999314 = {
-		fRef = 14A0EF1C060B1DED00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMOperation.m: 27";
-		rLen = 0;
-		rLoc = 871;
-		rType = 0;
-		vrLen = 607;
-		vrLoc = 400;
-	};
-	14DDA2E30610A7B100999314 = {
-		fRef = 14A0EF1C060B1DED00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMOperation.m: 27";
-		rLen = 0;
-		rLoc = 871;
-		rType = 0;
-		vrLen = 607;
-		vrLoc = 400;
-	};
-	14DDA2E40610A7BD00999314 = {
-		fRef = 14A0EF1C060B1DED00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMOperation.m: 27";
-		rLen = 0;
-		rLoc = 871;
-		rType = 0;
-		vrLen = 607;
-		vrLoc = 400;
-	};
 	14DDA2E50610A7BD00999314 = {
 		fRef = 14A0EF1C060B1DED00A80FA8;
 		isa = PBXTextBookmark;
@@ -875,26 +1137,6 @@
 		rLoc = 871;
 		rType = 0;
 		vrLen = 607;
-		vrLoc = 400;
-	};
-	14DDA35A0610A9A200999314 = {
-		fRef = 14A0EF1C060B1DED00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMOperation.m: 27";
-		rLen = 0;
-		rLoc = 871;
-		rType = 0;
-		vrLen = 571;
-		vrLoc = 400;
-	};
-	14DDA35B0610A9A200999314 = {
-		fRef = 14A0EF1C060B1DED00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMOperation.m: 27";
-		rLen = 0;
-		rLoc = 871;
-		rType = 0;
-		vrLen = 571;
 		vrLoc = 400;
 	};
 	2A37F4A9FDCFA73011CA2CEA = {
@@ -923,8 +1165,8 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXErrorsWarningsDataSource_LocationID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					369.8799,
-					206.2085,
+					352.8799,
+					198.2085,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXErrorsWarningsDataSource_TypeID,
@@ -988,7 +1230,7 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 101754865;
+			PBXPerProjectTemplateStateSaveDate = 101841861;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -1157,18 +1399,28 @@
 			PBXWorkspaceContents = (
 				{
 					PBXProjectWorkspaceModule_StateKey_Rev39 = {
+						PBXProjectWorkspaceModule_DEGV_Geometry = {
+							_collapsingFrameDimension = 0;
+							_indexOfCollapsedView = 0;
+							_percentageOfCollapsedView = 0;
+							isCollapsed = yes;
+							sizes = (
+								"{{0, 0}, {662, 156}}",
+								"{{0, 156}, {662, 414}}",
+							);
+						};
 						PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
-							BoundsStr = "{{0, 0}, {608, 1875}}";
+							BoundsStr = "{{0, 0}, {647, 139}}";
 							Rows = (
 								0,
 							);
-							VisibleRectStr = "{{0, 0}, {608, 471}}";
+							VisibleRectStr = "{{0, 0}, {647, 139}}";
 						};
-						PBXProjectWorkspaceModule_EditorOpen = false;
+						PBXProjectWorkspaceModule_EditorOpen = true;
 						PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 							PBXSplitModuleInNavigatorKey = {
 								Split0 = {
-									bookmark = 14DDA35B0610A9A200999314;
+									bookmark = 1444317C0611D479008FDA2E;
 									history = (
 										1464B41F05EE97B500D21A18,
 										1464B42005EE97B500D21A18,
@@ -1182,6 +1434,8 @@
 										14A0F03A060B9B2D00A80FA8,
 										14DDA2DF0610A7B100999314,
 										14DDA2E50610A7BD00999314,
+										1444316C0611D462008FDA2E,
+										1444316D0611D462008FDA2E,
 									);
 									prevStack = (
 										144BC7AE05EE3A41006397BC,
@@ -1193,6 +1447,7 @@
 										141084D205FE3C0400A4463D,
 										141084D305FE3C0400A4463D,
 										14DDA2E10610A7B100999314,
+										1444316E0611D462008FDA2E,
 									);
 								};
 								SplitCount = 1;
@@ -1204,14 +1459,14 @@
 								_indexOfCollapsedView = 1;
 								_percentageOfCollapsedView = 0.7269545;
 								sizes = (
-									"{{0, 0}, {234, 488}}",
-									"{{234, 0}, {623, 488}}",
+									"{{0, 0}, {234, 570}}",
+									"{{234, 0}, {662, 570}}",
 								);
 							};
 						};
-						PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {623, 488}}";
-						PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 255}, {623, 233}}";
-						PBXProjectWorkspaceModule_OldSuperviewFrame = "{{234, 0}, {623, 488}}";
+						PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {662, 156}}";
+						PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 156}, {662, 414}}";
+						PBXProjectWorkspaceModule_OldSuperviewFrame = "{{234, 0}, {662, 570}}";
 						PBXProjectWorkspaceModule_SGTM = {
 							PBXBottomSmartGroupGIDs = (
 								1C37FBAC04509CD000000102,
@@ -1237,13 +1492,15 @@
 								PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
 									2A37F4AAFDCFA73011CA2CEA,
 									2A37F4ABFDCFA73011CA2CEA,
+									5EEB176D05ECF6DA00C17677,
+									1C08E77C0454961000C914BD,
 								);
 								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 									(
-										0,
+										64,
 									),
 								);
-								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 255}}";
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 949}, {217, 292}}";
 							};
 							PBXSmartGroupTreeModuleSplitView = {
 								_collapsingFrameDimension = 0;
@@ -1251,8 +1508,8 @@
 								_percentageOfCollapsedView = 0;
 								isCollapsed = yes;
 								sizes = (
-									"{{0, 0}, {234, 273}}",
-									"{{0, 273}, {234, 215}}",
+									"{{0, 0}, {234, 310}}",
+									"{{0, 310}, {234, 260}}",
 								);
 							};
 							PBXSmartGroupTreeModuleSplitViewModule = {
@@ -1283,7 +1540,7 @@
 											3,
 										),
 									);
-									PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 197}}";
+									PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 242}}";
 								};
 								PBXTopSmartGroupGIDs = (
 								);
@@ -1334,28 +1591,18 @@
 			};
 			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
 				PBXProjectWorkspaceModule_StateKey_Rev39 = {
-					PBXProjectWorkspaceModule_DEGV_Geometry = {
-						_collapsingFrameDimension = 0;
-						_indexOfCollapsedView = 0;
-						_percentageOfCollapsedView = 0;
-						isCollapsed = yes;
-						sizes = (
-							"{{0, 0}, {623, 245}}",
-							"{{0, 245}, {623, 243}}",
-						);
-					};
 					PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
-						BoundsStr = "{{0, 0}, {608, 228}}";
+						BoundsStr = "{{0, 0}, {583, 499}}";
 						Rows = (
 							0,
 						);
-						VisibleRectStr = "{{0, 0}, {608, 228}}";
+						VisibleRectStr = "{{0, 0}, {583, 499}}";
 					};
-					PBXProjectWorkspaceModule_EditorOpen = true;
+					PBXProjectWorkspaceModule_EditorOpen = false;
 					PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 						PBXSplitModuleInNavigatorKey = {
 							Split0 = {
-								bookmark = 14DDA2BC0610A69100999314;
+								bookmark = 14B42A7C0611FDCC002D0043;
 								history = (
 									1464B41F05EE97B500D21A18,
 									1464B42005EE97B500D21A18,
@@ -1367,7 +1614,11 @@
 									141084D005FE3C0400A4463D,
 									141084D105FE3C0400A4463D,
 									14A0F03A060B9B2D00A80FA8,
-									14DDA15D0610851300999314,
+									14DDA2DF0610A7B100999314,
+									14DDA2E50610A7BD00999314,
+									1444316C0611D462008FDA2E,
+									1444316D0611D462008FDA2E,
+									1444317C0611D479008FDA2E,
 								);
 								prevStack = (
 									144BC7AE05EE3A41006397BC,
@@ -1378,6 +1629,8 @@
 									141084AB05FE345A00A4463D,
 									141084D205FE3C0400A4463D,
 									141084D305FE3C0400A4463D,
+									14DDA2E10610A7B100999314,
+									1444316E0611D462008FDA2E,
 								);
 							};
 							SplitCount = 1;
@@ -1389,14 +1642,14 @@
 							_indexOfCollapsedView = 1;
 							_percentageOfCollapsedView = 0.7269545;
 							sizes = (
-								"{{0, 0}, {234, 488}}",
-								"{{234, 0}, {623, 488}}",
+								"{{0, 0}, {234, 516}}",
+								"{{234, 0}, {598, 516}}",
 							);
 						};
 					};
-					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {623, 245}}";
-					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 245}, {623, 243}}";
-					PBXProjectWorkspaceModule_OldSuperviewFrame = "{{234, 0}, {623, 488}}";
+					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {598, 516}}";
+					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 156}, {662, 414}}";
+					PBXProjectWorkspaceModule_OldSuperviewFrame = "{{234, 0}, {598, 516}}";
 					PBXProjectWorkspaceModule_SGTM = {
 						PBXBottomSmartGroupGIDs = (
 							1C37FBAC04509CD000000102,
@@ -1422,16 +1675,14 @@
 							PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
 								2A37F4AAFDCFA73011CA2CEA,
 								2A37F4ABFDCFA73011CA2CEA,
-								5EEB176D05ECF6DA00C17677,
+								1C08E77C0454961000C914BD,
 							);
 							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								(
-									48,
-									33,
-									0,
+									41,
 								),
 							);
-							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 702}, {217, 257}}";
+							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 560}, {217, 260}}";
 						};
 						PBXSmartGroupTreeModuleSplitView = {
 							_collapsingFrameDimension = 0;
@@ -1439,8 +1690,8 @@
 							_percentageOfCollapsedView = 0;
 							isCollapsed = yes;
 							sizes = (
-								"{{0, 0}, {234, 275}}",
-								"{{0, 275}, {234, 213}}",
+								"{{0, 0}, {234, 278}}",
+								"{{0, 278}, {234, 238}}",
 							);
 						};
 						PBXSmartGroupTreeModuleSplitViewModule = {
@@ -1471,7 +1722,7 @@
 										3,
 									),
 								);
-								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 195}}";
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 220}}";
 							};
 							PBXTopSmartGroupGIDs = (
 							);
@@ -1508,11 +1759,11 @@
 			};
 			PBXWorkspaceGeometries = (
 				{
-					Frame = "{{0, 0}, {857, 488}}";
+					Frame = "{{0, 0}, {896, 570}}";
 					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 						PBXProjectWorkspaceModule_RunWindowVisible = true;
 					};
-					RubberWindowFrame = "194 292 857 530 0 0 1280 832 ";
+					RubberWindowFrame = "16 209 896 612 0 0 1280 832 ";
 				},
 			);
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXBuildResultsModule" = {
@@ -1554,18 +1805,18 @@
 				RubberWindowFrame = "380 463 861 361 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
-				Frame = "{{0, 0}, {857, 488}}";
+				Frame = "{{0, 0}, {832, 516}}";
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "194 292 857 530 0 0 1280 832 ";
+				RubberWindowFrame = "137 269 832 558 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {691, 318}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "571 184 691 339 0 0 1280 832 ";
+				RubberWindowFrame = "585 173 691 339 0 0 1280 832 ";
 			};
-			PBXWorkspaceStateSaveDate = 101754865;
+			PBXWorkspaceStateSaveDate = 101841861;
 		};
 		perUserProjectItems = {
 			141084A905FE345A00A4463D = 141084A905FE345A00A4463D;
@@ -1581,54 +1832,61 @@
 			142496E605F8931D00D8C6B9 = 142496E605F8931D00D8C6B9;
 			14249F1B05FC9C9700D8C6B9 = 14249F1B05FC9C9700D8C6B9;
 			14249F1D05FC9C9700D8C6B9 = 14249F1D05FC9C9700D8C6B9;
+			1444316C0611D462008FDA2E = 1444316C0611D462008FDA2E;
+			1444316D0611D462008FDA2E = 1444316D0611D462008FDA2E;
+			1444316E0611D462008FDA2E = 1444316E0611D462008FDA2E;
+			1444316F0611D462008FDA2E = 1444316F0611D462008FDA2E;
+			144431700611D462008FDA2E = 144431700611D462008FDA2E;
+			144431710611D463008FDA2E = 144431710611D463008FDA2E;
+			144431720611D463008FDA2E = 144431720611D463008FDA2E;
+			144431730611D463008FDA2E = 144431730611D463008FDA2E;
+			144431740611D463008FDA2E = 144431740611D463008FDA2E;
+			144431750611D464008FDA2E = 144431750611D464008FDA2E;
+			144431760611D464008FDA2E = 144431760611D464008FDA2E;
+			144431770611D473008FDA2E = 144431770611D473008FDA2E;
+			144431780611D473008FDA2E = 144431780611D473008FDA2E;
+			1444317B0611D479008FDA2E = 1444317B0611D479008FDA2E;
+			1444317C0611D479008FDA2E = 1444317C0611D479008FDA2E;
+			1444317D0611D483008FDA2E = 1444317D0611D483008FDA2E;
+			1444317E0611D483008FDA2E = 1444317E0611D483008FDA2E;
+			1444317F0611D484008FDA2E = 1444317F0611D484008FDA2E;
+			144431900611D543008FDA2E = 144431900611D543008FDA2E;
+			144431910611D543008FDA2E = 144431910611D543008FDA2E;
+			144431920611D543008FDA2E = 144431920611D543008FDA2E;
+			144431930611D544008FDA2E = 144431930611D544008FDA2E;
+			144431940611D544008FDA2E = 144431940611D544008FDA2E;
+			144431950611D545008FDA2E = 144431950611D545008FDA2E;
+			144431960611D545008FDA2E = 144431960611D545008FDA2E;
+			144431970611D546008FDA2E = 144431970611D546008FDA2E;
+			144431980611D546008FDA2E = 144431980611D546008FDA2E;
+			144431990611D546008FDA2E = 144431990611D546008FDA2E;
+			1444319A0611D546008FDA2E = 1444319A0611D546008FDA2E;
+			144431C30611D5FD008FDA2E = 144431C30611D5FD008FDA2E;
+			144431C40611D5FD008FDA2E = 144431C40611D5FD008FDA2E;
+			144431C50611D5FD008FDA2E = 144431C50611D5FD008FDA2E;
+			144431C60611D5FD008FDA2E = 144431C60611D5FD008FDA2E;
+			144431C70611D5FD008FDA2E = 144431C70611D5FD008FDA2E;
+			144431C80611D5FD008FDA2E = 144431C80611D5FD008FDA2E;
+			144431C90611D5FD008FDA2E = 144431C90611D5FD008FDA2E;
+			144431CA0611D5FD008FDA2E = 144431CA0611D5FD008FDA2E;
+			144431CB0611D5FE008FDA2E = 144431CB0611D5FE008FDA2E;
 			144BC7AE05EE3A41006397BC = 144BC7AE05EE3A41006397BC;
 			144BC7AF05EE3A41006397BC = 144BC7AF05EE3A41006397BC;
 			1464B41F05EE97B500D21A18 = 1464B41F05EE97B500D21A18;
 			1464B42005EE97B500D21A18 = 1464B42005EE97B500D21A18;
 			14A0F03A060B9B2D00A80FA8 = 14A0F03A060B9B2D00A80FA8;
-			14DDA15D0610851300999314 = 14DDA15D0610851300999314;
-			14DDA15E0610851300999314 = 14DDA15E0610851300999314;
-			14DDA15F0610851300999314 = 14DDA15F0610851300999314;
-			14DDA160061085AF00999314 = 14DDA160061085AF00999314;
-			14DDA161061085AF00999314 = 14DDA161061085AF00999314;
-			14DDA162061085B500999314 = 14DDA162061085B500999314;
-			14DDA163061085B500999314 = 14DDA163061085B500999314;
-			14DDA164061085BB00999314 = 14DDA164061085BB00999314;
-			14DDA165061085BB00999314 = 14DDA165061085BB00999314;
-			14DDA2AC0610895100999314 = 14DDA2AC0610895100999314;
-			14DDA2AD0610895100999314 = 14DDA2AD0610895100999314;
-			14DDA2AE0610898000999314 = 14DDA2AE0610898000999314;
-			14DDA2AF0610898000999314 = 14DDA2AF0610898000999314;
-			14DDA2B0061089E600999314 = 14DDA2B0061089E600999314;
-			14DDA2B1061089E600999314 = 14DDA2B1061089E600999314;
-			14DDA2BC0610A69100999314 = 14DDA2BC0610A69100999314;
-			14DDA2BD0610A6A100999314 = 14DDA2BD0610A6A100999314;
-			14DDA2BE0610A6A100999314 = 14DDA2BE0610A6A100999314;
-			14DDA2C10610A6B600999314 = 14DDA2C10610A6B600999314;
-			14DDA2C20610A6B600999314 = 14DDA2C20610A6B600999314;
-			14DDA2D10610A77000999314 = 14DDA2D10610A77000999314;
-			14DDA2D20610A77000999314 = 14DDA2D20610A77000999314;
-			14DDA2D30610A77F00999314 = 14DDA2D30610A77F00999314;
-			14DDA2D40610A77F00999314 = 14DDA2D40610A77F00999314;
-			14DDA2D50610A78100999314 = 14DDA2D50610A78100999314;
-			14DDA2D60610A78100999314 = 14DDA2D60610A78100999314;
-			14DDA2D70610A78700999314 = 14DDA2D70610A78700999314;
-			14DDA2D80610A78700999314 = 14DDA2D80610A78700999314;
-			14DDA2D90610A78D00999314 = 14DDA2D90610A78D00999314;
-			14DDA2DA0610A78D00999314 = 14DDA2DA0610A78D00999314;
-			14DDA2DB0610A79100999314 = 14DDA2DB0610A79100999314;
-			14DDA2DC0610A79100999314 = 14DDA2DC0610A79100999314;
-			14DDA2DD0610A79400999314 = 14DDA2DD0610A79400999314;
-			14DDA2DE0610A79400999314 = 14DDA2DE0610A79400999314;
+			14B42A3B0611FBC8002D0043 = 14B42A3B0611FBC8002D0043;
+			14B42A3C0611FBC9002D0043 = 14B42A3C0611FBC9002D0043;
+			14B42A3D0611FBCD002D0043 = 14B42A3D0611FBCD002D0043;
+			14B42A3E0611FBCD002D0043 = 14B42A3E0611FBCD002D0043;
+			14B42A3F0611FBCD002D0043 = 14B42A3F0611FBCD002D0043;
+			14B42A400611FBCF002D0043 = 14B42A400611FBCF002D0043;
+			14B42A7A0611FDCA002D0043 = 14B42A7A0611FDCA002D0043;
+			14B42A7B0611FDCA002D0043 = 14B42A7B0611FDCA002D0043;
+			14B42A7C0611FDCC002D0043 = 14B42A7C0611FDCC002D0043;
 			14DDA2DF0610A7B100999314 = 14DDA2DF0610A7B100999314;
-			14DDA2E00610A7B100999314 = 14DDA2E00610A7B100999314;
 			14DDA2E10610A7B100999314 = 14DDA2E10610A7B100999314;
-			14DDA2E20610A7B100999314 = 14DDA2E20610A7B100999314;
-			14DDA2E30610A7B100999314 = 14DDA2E30610A7B100999314;
-			14DDA2E40610A7BD00999314 = 14DDA2E40610A7BD00999314;
 			14DDA2E50610A7BD00999314 = 14DDA2E50610A7BD00999314;
-			14DDA35A0610A9A200999314 = 14DDA35A0610A9A200999314;
-			14DDA35B0610A9A200999314 = 14DDA35B0610A9A200999314;
 		};
 		sourceControlManager = 143C358005EBEC0C008C6DFE;
 		userBuildSettings = {
@@ -1679,6 +1937,22 @@
 			sepNavIntBoundsRect = "{{0, 0}, {561, 643}}";
 			sepNavSelRange = "{670, 29}";
 			sepNavVisRect = "{{0, 371}, {561, 141}}";
+		};
+	};
+	5ECFBAEE060F367C000B47E6 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {711, 601}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {711, 449}}";
+			sepNavWindowFrame = "{{84, 206}, {750, 558}}";
+		};
+	};
+	5ECFBAEF060F367C000B47E6 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1196, 5361}}";
+			sepNavSelRange = "{279, 0}";
+			sepNavVisRect = "{{0, 4912}, {711, 449}}";
+			sepNavWindowFrame = "{{107, 185}, {750, 558}}";
 		};
 	};
 	5EDB862505F8AA6E0058C44A = {

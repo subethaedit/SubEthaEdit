@@ -73,4 +73,12 @@
     return I_numberOfServerMessages;
 }
 
+- (void)incrementNumberOfClientMessages {
+    I_numberOfClientMessages++;
+}
+
+- (void)incrementNumberOfServerMessages {
+    I_numberOfServerMessages++;
+}
+
 @end

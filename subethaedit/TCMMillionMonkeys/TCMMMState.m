@@ -9,6 +9,7 @@
 #import "TCMMMState.h"
 #import "TCMMMOperation.h"
 #import "TCMMMMessage.h"
+#import "TCMMMTransformator.h"
 
 
 @implementation TCMMMState
@@ -75,6 +76,22 @@
 
     // unwrap message
     // iterate over message buffer and transform each operation with incoming operation
+    TCMMMTransformator *transformator = [TCMMMTransformator sharedInstance];
+    NSEnumerator *messages = [I_messageBuffer objectEnumerator];
+    TCMMMMessage *message;
+    if (I_isServer) {
+        while ((message = [messages nextObject])) {
+            // transform now
+            [transformator transformOperation:[aMessage operation] serverOperation:[message operation]];
+            [message incrementNumberOfClientMessages];
+        }
+    } else {
+        while ((message = [messages nextObject])) {
+            // transform now
+            [transformator transformOperation:[message operation] serverOperation:[aMessage operation]];
+            [message incrementNumberOfServerMessages];
+        }
+    }
 
 
     // apply operation
@@ -93,7 +110,6 @@
 - (void)handleOperation:(TCMMMOperation *)anOperation {
     
     // wrap operation in message and put it in the buffer
-    // operation has to copied !!!
     TCMMMMessage *message = [[[TCMMMMessage alloc] initWithOperation:anOperation numberOfClient:I_numberOfClientMessages numberOfServer:I_numberOfServerMessages] autorelease];
     if ([self isServer]) {
         I_numberOfServerMessages++;

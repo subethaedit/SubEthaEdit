@@ -26,6 +26,10 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
     return [[[class alloc] initWithDictionaryRepresentation:aDictionary] autorelease];
 }
 
++ (NSString *)operationID {
+    return @"nil";
+}
+
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     return [super init];
 }
@@ -37,6 +41,10 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 
 - (NSDictionary *)dictionaryRepresentation {
     return nil;
+}
+
+- (NSString *)operationID {
+    return [[self class] operationID];
 }
 
 @end

@@ -30,4 +30,7 @@
 - (long long)numberOfClientMessages;
 - (long long)numberOfServerMessages;
 
+- (void)incrementNumberOfClientMessages;
+- (void)incrementNumberOfServerMessages;
+
 @end

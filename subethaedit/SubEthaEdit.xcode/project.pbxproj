@@ -325,6 +325,34 @@
 			settings = {
 			};
 		};
+		1444315C0611B9E4008FDA2E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMMMTransformator.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1444315D0611B9E4008FDA2E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMMMTransformator.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1444315E0611B9E4008FDA2E = {
+			fileRef = 1444315C0611B9E4008FDA2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1444315F0611B9E4008FDA2E = {
+			fileRef = 1444315D0611B9E4008FDA2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		144BC39005EDFDB1006397BC = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1882,6 +1910,8 @@
 				14A0EF10060B1D9C00A80FA8,
 				5E0CFE9005F48F3B008C8191,
 				5E0CFE9105F48F3B008C8191,
+				1444315C0611B9E4008FDA2E,
+				1444315D0611B9E4008FDA2E,
 				5EEB177005ECF6F700C17677,
 				5EEB177105ECF6F700C17677,
 				5EEB177605ECF8D300C17677,
@@ -2308,6 +2338,7 @@
 				5ECFBAEA060F365B000B47E6,
 				5ECFBAF0060F367C000B47E6,
 				31C995A2060F377500E3AB1E,
+				1444315E0611B9E4008FDA2E,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2414,6 +2445,7 @@
 				5ECFBAEB060F365B000B47E6,
 				5ECFBAF1060F367C000B47E6,
 				31C995A3060F377500E3AB1E,
+				1444315F0611B9E4008FDA2E,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

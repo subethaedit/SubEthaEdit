@@ -19,7 +19,10 @@ extern NSString * const TCMMMOperationTypeKey;
 + (void)registerClass:(Class)aClass forOperationType:(NSString *)aType;
 
 + (id)operationWithDictionaryRepresentation:(NSDictionary *)aDictionary;
++ (NSString *)operationID;
+
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 - (NSDictionary *)dictionaryRepresentation;
+- (NSString *)operationID;
 
 @end
