@@ -58,6 +58,7 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_previousReadFrame = nil;
             I_currentReadMessage = nil;
             I_messageNumbersWithPendingReplies = [NSMutableIndexSet new];
+            I_unacknowledgedMessageNumbers = [NSMutableIndexSet new];
             I_inboundMessageNumbersWithPendingReplies = [NSMutableIndexSet new];
             I_defaultReadQueue = [NSMutableArray new];
             I_answerReadQueues = [NSMutableDictionary new];
@@ -86,6 +87,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     [I_previousReadFrame release];
     [I_currentReadMessage release];
     [I_messageNumbersWithPendingReplies release];
+    [I_unacknowledgedMessageNumbers release];
     [I_inboundMessageNumbersWithPendingReplies release];
     [I_defaultReadQueue release];
     [I_answerReadQueues release];
@@ -164,23 +166,37 @@ static NSMutableDictionary *profileURIToClassMapping;
     return I_channelStatus;
 }
 
+// standard conform close
 - (void)close
 {
-    // standard conform close
-    I_channelStatus = TCMBEEPChannelStatusClosing;
-    [[self session] closeChannelWithNumber:[self number] code:200];
-}
-
-- (void)terminate
-{
-    // hardcore close
-    I_channelStatus = TCMBEEPChannelStatusClosing;
-    [[self session] closeChannelWithNumber:[self number] code:200];
+    I_channelStatus = TCMBEEPChannelStatusAtEnd;
+    
+    // comply with requirements before sending close frame
+    BOOL isMSGInQueue = NO;
+    NSEnumerator *messages = [I_messageWriteQueue objectEnumerator];
+    TCMBEEPMessage *message;
+    while ((message == [messages nextObject])) {
+        if ([message isMSG]) {
+            isMSGInQueue = YES;
+            break;
+        }
+    }
+    
+    if (!isMSGInQueue && [I_unacknowledgedMessageNumbers count] == 0) {
+        [[self session] closeChannelWithNumber:[self number] code:200];
+        I_channelStatus = TCMBEEPChannelStatusClosing;
+    }
 }
 
 // Convenience for Profiles
 - (void)sendMSGMessageWithPayload:(NSData *)aPayload
 {
+    if (I_channelStatus == TCMBEEPChannelStatusAtEnd ||
+        I_channelStatus == TCMBEEPChannelStatusClosing ||
+        I_channelStatus == TCMBEEPChannelStatusCloseRequested) {
+        NSLog(@"Trying to send message after telling channel to close");
+        return;
+    }
     [self sendMessage:[[[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[self nextMessageNumber] payload:aPayload] autorelease]];
 }
 
@@ -225,6 +241,14 @@ static NSMutableDictionary *profileURIToClassMapping;
         }
     }
     
+    if (I_channelStatus == TCMBEEPChannelStatusCloseRequested) {
+        if ([I_messageWriteQueue count] == 0 && 
+            [I_messageNumbersWithPendingReplies count] == 0 && 
+            [I_inboundMessageNumbersWithPendingReplies count] == 0) {
+            [[self session] acceptCloseRequestForChannelWithNumber:[self number]];
+        }
+    }
+    
     return frames;
 }
 
@@ -253,7 +277,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     if (accept) {
         // QUEUE   
         NSMutableArray *queue = nil; 
-        if (strcmp([aFrame messageType], "ANS") == 0) {
+        if ([aFrame isANS]) {
             NSArray *queue = [I_answerReadQueues objectForLong:[aFrame answerNumber]];
             if (!queue) {
                 queue = [NSMutableArray array];
@@ -267,18 +291,18 @@ static NSMutableDictionary *profileURIToClassMapping;
         if (![aFrame isIntermediate]) {
             // FINISH and DISPATCH
             TCMBEEPMessage *message = [TCMBEEPMessage messageWithQueue:queue];
-            if (strcmp([aFrame messageType], "MSG") == 0) {
+            if ([aFrame isMSG]) {
                 [I_inboundMessageNumbersWithPendingReplies addIndex:[aFrame messageNumber]];
-            } else if (strcmp([aFrame messageType], "ANS") != 0) {
+            } else if (![aFrame isANS]) {
                 [I_messageNumbersWithPendingReplies removeIndex:[aFrame messageNumber]];
             }
             [[self profile] processBEEPMessage:message];
-            if (strcmp([aFrame messageType], "ANS") == 0) {
+            if ([aFrame isANS]) {
                 [I_answerReadQueues removeObjectForLong:[aFrame answerNumber]];
             } else {
                 [queue removeAllObjects];
             }
-            if (strcmp([aFrame messageType], "NUL") == 0) {
+            if ([aFrame isNUL]) {
                 // FEHLER?
                 if ([I_answerReadQueues count] > 0) {
                     // FEHLER! bei NUL müssen alle Antworten abgeschlossen sein...
@@ -286,6 +310,25 @@ static NSMutableDictionary *profileURIToClassMapping;
             }
         }
         
+
+        if (![aFrame isMSG]) {
+            [I_unacknowledgedMessageNumbers removeIndex:[aFrame messageNumber]];
+            if ([I_unacknowledgedMessageNumbers count] == 0) {
+                if  (I_channelStatus == TCMBEEPChannelStatusAtEnd) {
+                    I_channelStatus = TCMBEEPChannelStatusClosing;
+                    [[self session] closeChannelWithNumber:[self number] code:200];
+                }
+            }
+        }
+        
+        if (I_channelStatus == TCMBEEPChannelStatusCloseRequested) {
+            if ([I_messageWriteQueue count] == 0 && 
+                [I_messageNumbersWithPendingReplies count] == 0 && 
+                [I_inboundMessageNumbersWithPendingReplies count] == 0) {
+                [[self session] acceptCloseRequestForChannelWithNumber:[self number]];
+            }
+        }
+            
         [self setPreviousReadFrame:aFrame];
         I_incomingSequenceNumber = [aFrame sequenceNumber];
         I_incomingBufferSizeAvailable -= [aFrame length];
@@ -398,7 +441,14 @@ static NSMutableDictionary *profileURIToClassMapping;
     // ...
     [aMessage setChannelNumber:[self number]];
     if ([[aMessage messageTypeString] isEqualTo:@"MSG"]) {
+        if (I_channelStatus == TCMBEEPChannelStatusAtEnd || 
+            I_channelStatus == TCMBEEPChannelStatusClosing ||
+            I_channelStatus == TCMBEEPChannelStatusCloseRequested) {
+            NSLog(@"Trying to send message after telling channel to close");
+            return;
+        }
         [I_messageNumbersWithPendingReplies addIndex:[aMessage messageNumber]];
+        [I_unacknowledgedMessageNumbers addIndex:[aMessage messageNumber]];
     } else if (![[aMessage messageTypeString] isEqualTo:@"ANS"]) {
         [I_inboundMessageNumbersWithPendingReplies removeIndex:[aMessage messageNumber]];
     }
@@ -425,6 +475,18 @@ static NSMutableDictionary *profileURIToClassMapping;
 {
     // status?
     [[self profile] channelDidNotCloseWithError:error];
+}
+
+- (void)closeRequested
+{
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"closeRequested");
+    I_channelStatus = TCMBEEPChannelStatusCloseRequested;
+    [[self profile] channelDidReceiveCloseRequest];
+    if ([I_messageWriteQueue count] == 0 && 
+        [I_messageNumbersWithPendingReplies count] == 0 && 
+        [I_inboundMessageNumbersWithPendingReplies count] == 0) {
+        [[self session] acceptCloseRequestForChannelWithNumber:[self number]];
+    }
 }
 
 @end

@@ -56,7 +56,11 @@
 - (int32_t)length;
 - (int32_t)answerNumber;
 
+- (BOOL)isMSG;
+- (BOOL)isRPY;
+- (BOOL)isERR;
 - (BOOL)isANS;
+- (BOOL)isNUL;
 - (BOOL)isSEQ;
 
 - (void)appendToMutableData:(NSMutableData *)aData;

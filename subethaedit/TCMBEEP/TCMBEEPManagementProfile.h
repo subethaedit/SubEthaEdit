@@ -18,6 +18,7 @@
     BOOL I_firstMessage;
     NSMutableDictionary *I_pendingChannelRequestMessageNumbers;
     NSMutableDictionary *I_channelNumbersByCloseRequests;
+    NSMutableDictionary *I_messageNumbersOfCloseRequestsByChannelsNumbers;
 }
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel;
@@ -28,6 +29,7 @@
 
 - (void)startChannelNumber:(int32_t)aChannelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray;
 - (void)closeChannelWithNumber:(int32_t)aChannelNumber code:(int)aReplyCode;
+- (void)acceptCloseRequestForChannelWithNumber:(int32_t)aChannelNumber;
 
 @end
 

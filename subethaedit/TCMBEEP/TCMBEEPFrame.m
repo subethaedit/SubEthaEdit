@@ -207,9 +207,29 @@
     return I_payload;
 }
 
+- (BOOL)isMSG
+{
+    return (strcmp([self messageType], "MSG") == 0);
+}
+
+- (BOOL)isRPY
+{
+    return (strcmp([self messageType], "RPY") == 0);
+}
+
+- (BOOL)isERR
+{
+    return (strcmp([self messageType], "ERR") == 0);
+}
+
 - (BOOL)isANS
 {
     return (strcmp([self messageType], "ANS") == 0);
+}
+
+- (BOOL)isNUL
+{
+    return (strcmp([self messageType], "NUL") == 0);
 }
 
 - (BOOL)isSEQ
