@@ -23,9 +23,9 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         tree=CFTreeGetChildAtIndex(aTree,i);
         node=CFXMLTreeGetNode(tree);
         int typeCode=CFXMLNodeGetTypeCode(node);
-        if (typeCode == kCFXMLNodeTypeText) {
+        if ((typeCode == kCFXMLNodeTypeText)||(typeCode == kCFXMLNodeTypeWhitespace)) {
             [result appendString:(NSString*)CFXMLNodeGetString(node)];
-        } else if (typeCode == kCFXMLNodeTypeEntityReference ) {
+        } else if (typeCode == kCFXMLNodeTypeEntityReference) {
             NSString *string=[sEntities objectForKey:(NSString*)CFXMLNodeGetString(node)];
             if (string) [result appendString:string];
         }

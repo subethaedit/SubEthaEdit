@@ -109,12 +109,14 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
             
             // Replace Stuff!
             NSArray *postprocess = [symbol objectForKey:@"postprocess"];
-            int postprocesscount = [postprocess count];
-            for (j=0;j<postprocesscount;j++) {
-                NSArray *findreplace = [postprocess objectAtIndex:j];
-                OGRegularExpression *find = [findreplace objectAtIndex:0];
-                NSString *replace = [findreplace objectAtIndex:1];
-                name = [find replaceAllMatchesInString:name withString:replace options:OgreNoneOption];
+            if (postprocess) {
+                int postprocesscount = [postprocess count];
+                for (j=0;j<postprocesscount;j++) {
+                    NSArray *findreplace = [postprocess objectAtIndex:j];
+                    OGRegularExpression *find = [findreplace objectAtIndex:0];
+                    NSString *replace = [findreplace objectAtIndex:1];
+                    name = [find replaceAllMatchesInString:name withString:replace options:OgreNoneOption];
+                }
             }
             
             [returnArray addObject:[SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:0 jumpRange:jumprange range:fullrange]];
