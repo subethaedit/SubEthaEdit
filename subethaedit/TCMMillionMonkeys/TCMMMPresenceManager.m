@@ -12,6 +12,7 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMSession.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 
 static TCMMMPresenceManager *sharedInstance = nil;
 
@@ -75,10 +76,15 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     [super dealloc];
 }
 
+- (NSString *)serviceName {
+    return [NSString stringWithFormat:@"%@@%@",NSUserName(),(NSString *)SCDynamicStoreCopyComputerName(NULL,NULL)];
+}
+
 - (void)TCM_validateServiceAnnouncement {
     // Announce ourselves via rendezvous
+    
     if (!I_netService) {
-        I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_see._tcp." name:@"" port:[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+        I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_see._tcp." name:[self serviceName] port:[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
         [I_netService setDelegate:self];
     }
     
@@ -360,9 +366,16 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 // Error handling code
 - (void)handleError:(NSNumber *)error withService:(NSNetService *)service
 {
+    static int count=1;
     NSLog(@"An error occurred with service %@.%@.%@, error code = %@",
         [service name], [service type], [service domain], error);
     // Handle error here
+    if ([error intValue]==NSNetServicesCollisionError) {
+        [I_netService autorelease];
+        I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_see._tcp." name:[NSString stringWithFormat:@"%@ (%d)",[self serviceName],count++] port:[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+        [I_netService setDelegate:self];
+        [self TCM_validateServiceAnnouncement];
+    }
 }
 
 // Sent when the service is about to publish
