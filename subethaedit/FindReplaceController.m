@@ -43,6 +43,7 @@ static FindReplaceController *sharedInstance=nil;
     [I_replaceHistory dealloc];
     [super dealloc];
 }
+
 - (void)loadUI {
     if (!O_findPanel) {
         if (![NSBundle loadNibNamed:@"FindReplace" owner:self]) {
@@ -57,8 +58,13 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 - (NSPanel *)findPanel {
-    if (!O_findPanel) [self loadUI];
-    [O_findPanel setFloatingPanel:NO];
+    if (!O_findPanel) {
+        [self loadUI];
+        [O_findPanel setFloatingPanel:NO];
+        [self loadStateFromPreferences];
+        [O_findComboBox reloadData];
+        [O_replaceComboBox reloadData];
+    }
     return O_findPanel;
 }
 
@@ -206,7 +212,6 @@ static FindReplaceController *sharedInstance=nil;
     [prefs setObject:[NSNumber numberWithInt:[O_regexCaptureGroupsCheckbox state]] forKey:@"Capture"];
     if (I_findHistory) {
         [prefs setObject:I_findHistory forKey:@"FindHistory"];
-        NSLog(@"Saved find history");
     }
     if (I_replaceHistory) [prefs setObject:I_replaceHistory forKey:@"ReplaceHistory"];
     [[NSUserDefaults standardUserDefaults] setObject:prefs forKey:@"Find Panel Preferences"];
@@ -231,14 +236,14 @@ static FindReplaceController *sharedInstance=nil;
         [O_regexNegateSinglelineCheckbox setState:[[prefs objectForKey:@"NegateSingleline"] intValue]];
         [O_regexDontCaptureCheckbox setState:[[prefs objectForKey:@"DontCapture"] intValue]];
         [O_regexCaptureGroupsCheckbox setState:[[prefs objectForKey:@"Capture"] intValue]];
-        if ([prefs objectForKey:@"FindHistory"]) {
-            [I_findHistory autorelease];
-            I_findHistory = [prefs objectForKey:@"FindHistory"];
-        }
-        if ([prefs objectForKey:@"ReplaceHistory"]) {
-            [I_replaceHistory autorelease];
-            I_replaceHistory = [prefs objectForKey:@"ReplaceHistory"];
-        }
+    }
+    if ([prefs objectForKey:@"FindHistory"]) {
+        [I_findHistory autorelease];
+        I_findHistory = [[prefs objectForKey:@"FindHistory"] mutableCopy];
+    }
+    if ([prefs objectForKey:@"ReplaceHistory"]) {
+        [I_replaceHistory autorelease];
+        I_replaceHistory = [[prefs objectForKey:@"ReplaceHistory"] mutableCopy];
     }
 }
 
@@ -248,7 +253,6 @@ static FindReplaceController *sharedInstance=nil;
     [O_statusTextField setHidden:YES];
     [O_statusTextField display];
     [O_findPanel display];
-    NSLog(@"asadsdas");
     NSString *findString = [O_findComboBox stringValue];
     NSRange scope;
     NSTextView *target = [self targetToFindIn];
@@ -257,12 +261,6 @@ static FindReplaceController *sharedInstance=nil;
         else scope = NSMakeRange(0, [[target string] length]);
     }
     
-    if ([sender tag]==NSFindPanelActionShowFindPanel) {
-        [self loadStateFromPreferences];
-    } else {
-        [self saveStateToPreferences];
-    }
-
     if ([sender tag]==NSFindPanelActionShowFindPanel) {
         [self updateRegexDrawer:self];
         [self orderFrontFindPanel:self];
@@ -311,6 +309,8 @@ static FindReplaceController *sharedInstance=nil;
             [findall findAll:self];
         } else NSBeep();
     }
+    
+    [self saveStateToPreferences];
 }
 
 - (void) replaceSelection
@@ -319,6 +319,8 @@ static FindReplaceController *sharedInstance=nil;
     if (target) {
         NSString *findString = [O_findComboBox stringValue];
         NSString *replaceString = [O_replaceComboBox stringValue];
+        [self addString:findString toHistory:I_findHistory];
+        [self addString:replaceString toHistory:I_replaceHistory];
         NSMutableString *text = [[target textStorage] mutableString];
         NSRange selection = [target selectedRange];
         if (selection.length==0) {
@@ -393,6 +395,8 @@ static FindReplaceController *sharedInstance=nil;
     NSTextView *target = [self targetToFindIn];
     NSString *findString = [O_findComboBox stringValue];
     NSString *replaceString = [O_replaceComboBox stringValue];
+    [self addString:findString toHistory:I_findHistory];
+    [self addString:replaceString toHistory:I_replaceHistory];
     [O_progressIndicator startAnimation:nil];
 
     if (target) {
@@ -500,6 +504,7 @@ static FindReplaceController *sharedInstance=nil;
         if([self find:[O_findComboBox stringValue] forward:YES]) [[self findPanel] orderOut:self];
         else [O_findComboBox selectText:nil];
     } else [O_findComboBox selectText:nil];
+    [self saveStateToPreferences];
 }
 
 - (BOOL) find:(NSString*)findString forward:(BOOL)forward
