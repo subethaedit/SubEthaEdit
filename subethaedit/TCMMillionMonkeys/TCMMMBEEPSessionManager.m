@@ -176,7 +176,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSData *addressData;
     while ((addressData = [addresses nextObject])) {
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
-        [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isInternet"];
         [[session userInfo] setObject:[aHost name] forKey:@"name"];
         [sessions addObject:session];
         [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",@"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
@@ -189,52 +188,34 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray
 {
-    NSNumber *flag;
-    if ((flag = [[aBEEPSession userInfo] objectForKey:@"isInternet"])) {
-        if ([flag boolValue]) {
-            if ([[aBEEPSession peerProfileURIs] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
-                if ([aBEEPSession isInitiator]) {
-                    NSString *name = [[aBEEPSession userInfo] objectForKey:@"name"];
-                    NSDictionary *info = [I_pendingOutboundSessions objectForKey:name];
-                    NSMutableArray *sessions = [info objectForKey:@"sessions"];
+    if ([[aBEEPSession peerProfileURIs] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
+        if ([aBEEPSession isInitiator]) {
+            if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
+                NSString *aUserID=[[aBEEPSession userInfo] objectForKey:@"peerUserID"];
+                NSMutableDictionary *sessionInformation=[self sessionInformationForUserID:aUserID];
+                if ([sessionInformation objectForKey:@"NetService"]) {
+                    // rendezvous: close all other sessions
+                    NSMutableArray *outgoingSessions=[sessionInformation objectForKey:@"OutgoingRendezvousSessions"];
                     TCMBEEPSession *session;
-                    while ((session = [sessions lastObject])) {
-                        if (session != aBEEPSession) {
-                            [[session retain] autorelease];
+                    while ((session=[outgoingSessions lastObject])) {
+                        [[session retain] autorelease];
+                        [outgoingSessions removeObjectAtIndex:[outgoingSessions count]-1];
+                        if (session==aBEEPSession) {
+                            [sessionInformation setObject:session forKey:@"RendezvousSession"];
+                        } else {
                             [session setDelegate:nil];
                             [session close];
                         }
                     }
-
-                    NSLog(@"starting handshake channel on internet session.");
-                    [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"] andData:nil];
                 }
             } else {
-                [aBEEPSession setDelegate:nil];
-                [aBEEPSession close];
                 NSString *name = [[aBEEPSession userInfo] objectForKey:@"name"];
                 NSDictionary *info = [I_pendingOutboundSessions objectForKey:name];
-                [[info objectForKey:@"sessions"] removeObject:aBEEPSession];
-            }
-        }
-        return;
-    }
-    
-    
-    if ([[aBEEPSession peerProfileURIs] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
-        if ([aBEEPSession isInitiator]) {
-            NSString *aUserID=[[aBEEPSession userInfo] objectForKey:@"peerUserID"];
-            NSMutableDictionary *sessionInformation=[self sessionInformationForUserID:aUserID];
-            if ([sessionInformation objectForKey:@"NetService"]) {
-                // rendezvous: close all other sessions
-                NSMutableArray *outgoingSessions=[sessionInformation objectForKey:@"OutgoingRendezvousSessions"];
+                NSMutableArray *sessions = [info objectForKey:@"sessions"];
                 TCMBEEPSession *session;
-                while ((session=[outgoingSessions lastObject])) {
-                    [[session retain] autorelease];
-                    [outgoingSessions removeObjectAtIndex:[outgoingSessions count]-1];
-                    if (session==aBEEPSession) {
-                        [sessionInformation setObject:session forKey:@"RendezvousSession"];
-                    } else {
+                while ((session = [sessions lastObject])) {
+                    if (session != aBEEPSession) {
+                        [[session retain] autorelease];
                         [session setDelegate:nil];
                         [session close];
                     }
@@ -245,10 +226,19 @@ static TCMMMBEEPSessionManager *sharedInstance;
     } else {
         [aBEEPSession setDelegate:nil];
         [aBEEPSession close];
-        NSString *aUserID=[[aBEEPSession userInfo] objectForKey:@"peerUserID"];
-        if ([aBEEPSession isInitiator] && aUserID) {
-            NSMutableDictionary *information=[self sessionInformationForUserID:aUserID];
-            [[information objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
+        
+        if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
+            NSString *aUserID=[[aBEEPSession userInfo] objectForKey:@"peerUserID"];
+            if ([aBEEPSession isInitiator] && aUserID) {
+                NSMutableDictionary *information=[self sessionInformationForUserID:aUserID];
+                [[information objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
+            }
+        } else {
+            if ([aBEEPSession isInitiator]) {
+                NSString *name = [[aBEEPSession userInfo] objectForKey:@"name"];
+                NSDictionary *info = [I_pendingOutboundSessions objectForKey:name];
+                [[info objectForKey:@"sessions"] removeObject:aBEEPSession];
+            }
         }
         [I_pendingSessions removeObject:aBEEPSession];
     }
