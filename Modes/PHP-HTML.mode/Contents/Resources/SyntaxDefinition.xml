@@ -3572,7 +3572,7 @@
 
         <state id="HTML" color="#000" background-color="none" font-weight="normal" font-style="normal">
             <begin><regex>(?:&lt;html)|(?:\?&gt;)|(?:&lt;\!DOCTYPE)</regex></begin>
-            <end><regex>(&lt;\?php)|(&lt;\?)</regex></end>
+            <end><regex>(&lt;\?php)|(&lt;\?(?=[\s]))</regex></end>
             <keywords id="Tags" color="#881280" font-weight="bold" useforautocomplete="no">
                 <regex>&lt;/?([^ &gt;\n\r]+)</regex>
             </keywords>
@@ -3584,8 +3584,8 @@
             </keywords>
             <keywords id="PHP Delimiter" color="#D00" font-weight="bold" useforautocomplete="no">
                 <regex>(&lt;\?php)</regex>
-                <regex>(&lt;\?)</regex>
-                <regex>(\?&gt;)</regex>
+                <regex>(&lt;\?)(?![\S])</regex>
+                <regex>^(\?&gt;)</regex>
             </keywords>
         </state>
         
