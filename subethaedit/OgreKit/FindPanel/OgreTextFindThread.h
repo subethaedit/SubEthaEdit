@@ -53,7 +53,7 @@ typedef enum _OgreTextFindThreadType {
 	inSelection:(BOOL)inSelection 
 	progressSheet:(OgreTextFindProgressSheet*)progressSheet;
 /* Cancel */
-- (void)cancel:(id)anObject;
+- (void)cancel:(id)sender;
 /* 完了したことをシートに表示 */
 - (void)showDone:(double)progression count:(int)count time:(NSTimeInterval)processTime cancelled:(BOOL)cancelled;
 /* 完了 */

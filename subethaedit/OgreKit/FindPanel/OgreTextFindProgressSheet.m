@@ -168,4 +168,18 @@
 	}
 }
 
+/* show error alert */
+- (void)showErrorAlert:(NSString*)title message:(NSString*)errorMessage
+{
+	if (progressWindow) {
+		[_parentWindow makeKeyAndOrderFront:self];
+		[titleTextField setStringValue:title];
+		[progressBar setHidden:YES];
+		[progressTextField setStringValue:errorMessage];
+		[button setTitle:OgreTextFinderLocalizedString(@"OK")];
+		[button setKeyEquivalent:@"\r"];
+		[button setKeyEquivalentModifierMask:0];
+	}
+}
+
 @end

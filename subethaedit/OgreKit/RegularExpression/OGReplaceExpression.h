@@ -12,6 +12,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <OgreKit/OGRegularExpression.h>
 
 @class OGRegularExpressionMatch;
 
@@ -43,11 +44,13 @@ extern NSString	* const OgreReplaceException;
   \x{HHHH}		16-bit Unicode character U+HHHH
   \その他の文字	\その他の文字
  */
-- (id)initWithString:(NSString*)expressionString escapeCharacter:(NSString*)character;
-- (id)initWithString:(NSString*)expressionString;
+- (id)initWithString:(NSString*)replaceString syntax:(OgreSyntax)syntax escapeCharacter:(NSString*)character;
+- (id)initWithString:(NSString*)replaceString escapeCharacter:(NSString*)character;
+- (id)initWithString:(NSString*)replaceString;
 
-+ (id)replaceExpressionWithString:(NSString*)expressionString escapeCharacter:(NSString*)character;
-+ (id)replaceExpressionWithString:(NSString*)expressionString;
++ (id)replaceExpressionWithString:(NSString*)replaceString syntax:(OgreSyntax)syntax escapeCharacter:(NSString*)character;
++ (id)replaceExpressionWithString:(NSString*)replaceString escapeCharacter:(NSString*)character;
++ (id)replaceExpressionWithString:(NSString*)replaceString;
 
 /*******
  * 置換 *

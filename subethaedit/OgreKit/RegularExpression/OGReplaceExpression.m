@@ -34,7 +34,7 @@ static OGRegularExpression  *gReplaceRegex = nil;
 #define OgreEscapeQuote					(-4)
 #define OgreEscapeNamedGroup			(-5)
 #define OgreEscapeControlCode			(-6)
-#define OgreEscapeNonescapedCharacters  (-7)
+#define OgreUndefinedEscapeCharacters   (-7)
 #define OgreEscapeNormalCharacters		(-8)
 
 
@@ -55,7 +55,7 @@ static OGRegularExpression  *gReplaceRegex = nil;
 }
 
 // 初期化
-- (id)initWithString:(NSString*)replaceString escapeCharacter:(NSString*)character
+- (id)initWithString:(NSString*)replaceString syntax:(OgreSyntax)syntax escapeCharacter:(NSString*)character
 {
 #ifdef DEBUG_OGRE
 	NSLog(@"-initWithString: of OGReplaceExpression");
@@ -93,99 +93,111 @@ static OGRegularExpression  *gReplaceRegex = nil;
 	//				OgreEscapeQuote: \'
 	//				OgreEscapeNamedGroup: \g
 	//				OgreEscapeControlCode: \t, \n, \r
-	_compiledReplaceString = [[NSMutableArray alloc] initWithCapacity:0];
-	
+	switch (syntax) {
+		case OgreSimpleMatchingSyntax:
+			_compiledReplaceString = [[NSMutableArray alloc] initWithObjects:replaceString, nil];
+			break;
+		default:
+			_compiledReplaceString = [[NSMutableArray alloc] initWithCapacity:0];
+			break;
+	}
+
 	/* named group関連 */
 	_nameArray = [[NSMutableArray alloc] initWithCapacity:0];	// replacedStringで使用されたnames (現れた順)
 	
-	// 置換文字列の\を入れ替える
-	swappedReplaceString = [OGRegularExpression swapBackslashInString:replaceString forCharacter:character];
-	matchEnumerator = [gReplaceRegex matchEnumeratorInString:swappedReplaceString];
-	pool = [[NSAutoreleasePool alloc] init];
+	if (syntax != OgreSimpleMatchingSyntax) {
+		// 置換文字列の\を入れ替える
+		swappedReplaceString = [OGRegularExpression swapBackslashInString:replaceString forCharacter:character];
+		matchEnumerator = [gReplaceRegex matchEnumeratorInString:swappedReplaceString];
+		pool = [[NSAutoreleasePool alloc] init];
+		
+		while ((match = [matchEnumerator nextObject]) != nil) {
+			numberOfMatches++;
+			
+			matchIndex = [match indexOfFirstMatchedSubstring];  // どの部分式にマッチしたのか
+	#ifdef DEBUG_OGRE
+			NSLog(@" matchIndex: %d, %@", matchIndex, [match matchedString]);
+	#endif
+			switch (matchIndex) {
+				case 1: // 通常文字
+					specialKey = OgreEscapeNormalCharacters;
+					break;
+				case 3: // \[0-9]
+					specialKey = [[match substringAtIndex:matchIndex] intValue];
+					break;
+				case 4: // \&
+					specialKey = 0;
+					break;
+				case 5: // \+
+					specialKey = OgreEscapePlus;
+					break;
+				case 6: // \`
+					specialKey = OgreEscapeBackquote;
+					break;
+				case 7: // \'
+					specialKey = OgreEscapeQuote;
+					break;
+				case 8: // \-
+					specialKey = OgreEscapeMinus;
+					break;
+				case 9: // \g<number>
+					specialKey = [[match substringAtIndex:matchIndex] intValue];
+					break;
+				case 10: // \g<name>
+					specialKey = OgreEscapeNamedGroup;
+					[_nameArray addObject:[match substringAtIndex:matchIndex]];
+					break;
+				case 11: // \t
+					specialKey = OgreEscapeControlCode;
+					controlCharacter = [NSString stringWithFormat:@"\x09"];
+					break;
+				case 12: // \n
+					specialKey = OgreEscapeControlCode;
+					controlCharacter = [NSString stringWithFormat:@"\x0a"];
+					break;
+				case 13: // \r
+					specialKey = OgreEscapeControlCode;
+					controlCharacter = [NSString stringWithFormat:@"\x0d"];
+					break;
+				case 14: // Escaped Backslash 
+					specialKey = OgreEscapeControlCode;
+					controlCharacter = [NSString stringWithFormat:@"\\"];
+					break;
+				case 2: // \x{H} or \x{HH}, \x{HHH}, \x{HHHH} (H is a hexadecimal number)
+					specialKey = OgreEscapeControlCode;
+					cap = [match captureHistoryAtIndex:matchIndex];
+					numberOfHistory = [cap count];
+					for (indexOfHistory = 0; indexOfHistory < numberOfHistory; indexOfHistory++) unic[indexOfHistory] = (unichar)strtoul([[cap substringAtIndex:indexOfHistory] cString], NULL, 16);
+					unic[numberOfHistory] = 0;
+					controlCharacter = [NSString stringWithCharacters:unic length:numberOfHistory];
+					break;
+				default: // \.? 
+					specialKey = OgreUndefinedEscapeCharacters;
+					break;
+			}
+			
+			if (specialKey == OgreEscapeNormalCharacters) {
+				// 通常文字列
+				[_compiledReplaceString addObject:[match matchedString]];
+			} else if (specialKey == OgreUndefinedEscapeCharacters) {
+				// \. 
+				[_compiledReplaceString addObject:[OGRegularExpression swapBackslashInString:[match matchedString] forCharacter:character]];
+			} else if (specialKey == OgreEscapeControlCode) {
+				// コントロール文字
+				[_compiledReplaceString addObject:controlCharacter];
+			} else {
+				// その他
+				[_compiledReplaceString addObject:[NSNumber numberWithInt:specialKey]];
+			}
+			
+			if ((numberOfMatches % 100) == 0) {
+				[pool release];
+				pool = [[NSAutoreleasePool alloc] init];
+			}
+		}
 	
-	while ((match = [matchEnumerator nextObject]) != nil) {
-		numberOfMatches++;
-		
-		matchIndex = [match indexOfFirstMatchedSubstring];  // どの部分式にマッチしたのか
-#ifdef DEBUG_OGRE
-		NSLog(@" matchIndex: %d, %@", matchIndex, [match matchedString]);
-#endif
-		switch (matchIndex) {
-			case 1: // 通常文字
-				specialKey = OgreEscapeNormalCharacters;
-				break;
-			case 3: // \[0-9]
-				specialKey = [[match substringAtIndex:matchIndex] intValue];
-				break;
-			case 4: // \&
-				specialKey = 0;
-				break;
-			case 5: // \+
-				specialKey = OgreEscapePlus;
-				break;
-			case 6: // \`
-				specialKey = OgreEscapeBackquote;
-				break;
-			case 7: // \'
-				specialKey = OgreEscapeQuote;
-				break;
-			case 8: // \-
-				specialKey = OgreEscapeMinus;
-				break;
-			case 9: // \g<number>
-				specialKey = [[match substringAtIndex:matchIndex] intValue];
-				break;
-			case 10: // \g<name>
-				specialKey = OgreEscapeNamedGroup;
-				[_nameArray addObject:[match substringAtIndex:matchIndex]];
-				break;
-			case 11: // \t
-				specialKey = OgreEscapeControlCode;
-				controlCharacter = [NSString stringWithFormat:@"\x09"];
-				break;
-			case 12: // \n
-				specialKey = OgreEscapeControlCode;
-				controlCharacter = [NSString stringWithFormat:@"\x0a"];
-				break;
-			case 13: // \r
-				specialKey = OgreEscapeControlCode;
-				controlCharacter = [NSString stringWithFormat:@"\x0d"];
-				break;
-			case 14: // Escaped Backslash 
-				specialKey = OgreEscapeControlCode;
-				controlCharacter = [NSString stringWithFormat:@"\\"];
-				break;
-			case 2: // \x{H} or \x{HH}, \x{HHH}, \x{HHHH} (H is a hexadecimal number)
-				specialKey = OgreEscapeControlCode;
-				cap = [match captureHistoryAtIndex:matchIndex];
-				numberOfHistory = [cap count];
-				for (indexOfHistory = 0; indexOfHistory < numberOfHistory; indexOfHistory++) unic[indexOfHistory] = (unichar)strtoul([[cap substringAtIndex:indexOfHistory] cString], NULL, 16);
-				unic[numberOfHistory] = 0;
-				controlCharacter = [NSString stringWithCharacters:unic length:numberOfHistory];
-				break;
-			default: // \.? 
-				specialKey = OgreEscapeNonescapedCharacters;
-				break;
-		}
-		
-		if (specialKey == OgreEscapeNormalCharacters) {
-			// 通常文字列
-			[_compiledReplaceString addObject:[match matchedString]];
-		} else if (specialKey == OgreEscapeNonescapedCharacters) {
-			// \. 
-			[_compiledReplaceString addObject:[OGRegularExpression swapBackslashInString:[match matchedString] forCharacter:character]];
-		} else if (specialKey == OgreEscapeControlCode) {
-			// コントロール文字
-			[_compiledReplaceString addObject:controlCharacter];
-		} else {
-			// その他
-			[_compiledReplaceString addObject:[NSNumber numberWithInt:specialKey]];
-		}
-		
-		if ((numberOfMatches % 100) == 0) {
-			[pool release];
-			pool = [[NSAutoreleasePool alloc] init];
-		}
+
+		[pool release];
 	}
 	
 	// compileされた結果
@@ -194,24 +206,32 @@ static OGRegularExpression  *gReplaceRegex = nil;
 	NSLog(@"Name Array: %@", [_nameArray description]);
 #endif
 
-	[pool release];
-
 	return self;
 }
 
-- (id)initWithString:(NSString*)expressionString
+- (id)initWithString:(NSString*)replaceString escapeCharacter:(NSString*)character 
 {
-	return [self initWithString:expressionString escapeCharacter:[OGRegularExpression defaultEscapeCharacter]];
+	return [self initWithString:replaceString syntax:[OGRegularExpression defaultSyntax] escapeCharacter:character];
 }
 
-+ (id)replaceExpressionWithString:(NSString*)expressionString escapeCharacter:(NSString*)character
+- (id)initWithString:(NSString*)replaceString
 {
-	return [[[[self class] alloc] initWithString:expressionString escapeCharacter:character] autorelease];
+	return [self initWithString:replaceString syntax:[OGRegularExpression defaultSyntax] escapeCharacter:[OGRegularExpression defaultEscapeCharacter]];
 }
 
-+ (id)replaceExpressionWithString:(NSString*)expressionString;
++ (id)replaceExpressionWithString:(NSString*)replaceString syntax:(OgreSyntax)syntax escapeCharacter:(NSString*)character
 {
-	return [[[[self class] alloc] initWithString:expressionString escapeCharacter:[OGRegularExpression defaultEscapeCharacter]] autorelease];
+	return [[[[self class] alloc] initWithString:replaceString syntax:syntax escapeCharacter:character] autorelease];
+}
+
++ (id)replaceExpressionWithString:(NSString*)replaceString escapeCharacter:(NSString*)character
+{
+	return [[[[self class] alloc] initWithString:replaceString syntax:[OGRegularExpression defaultSyntax] escapeCharacter:character] autorelease];
+}
+
++ (id)replaceExpressionWithString:(NSString*)replaceString;
+{
+	return [[[[self class] alloc] initWithString:replaceString syntax:[OGRegularExpression defaultSyntax] escapeCharacter:[OGRegularExpression defaultEscapeCharacter]] autorelease];
 }
 
 

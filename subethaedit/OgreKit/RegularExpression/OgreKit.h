@@ -34,4 +34,5 @@
 #import <OgreKit/OgreTextFindThreadCenter.h>
 #import <OgreKit/OgreTextFindProgressSheet.h>
 #import <OgreKit/OgreTextFindResult.h>
+#import <OgreKit/OgreFindResult.h>
 #import <OgreKit/OgreFindPanelController.h>

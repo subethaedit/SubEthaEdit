@@ -14,7 +14,9 @@
 #import <OgreKit/OgreAdvancedFindPanelController.h>
 #import <OgreKit/OgreTextFinder.h>
 #import <OgreKit/OgreTextFindResult.h>
+#import <OgreKit/OgreFindResult.h>
 #import <OgreKit/OgreAFPCEscapeCharacterFormatter.h>
+#import <OgreKit/OgreTextFindProgressSheet.h>
 
 // 諸設定
 static const int  OgreAFPCMaximumLeftMargin = 30;   // 検索結果の左側の最大文字数 (マッチ結果が隠れてしまうことを防ぐ)
@@ -667,39 +669,42 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 
 - (IBAction)findNext:(id)sender
 {
-	/*BOOL	found =*/ [self findNextStrategy];
+	[self findNextStrategy];
 }
 
 - (IBAction)findNextAndOrderOut:(id)sender
 {
-	BOOL	found = [self findNextStrategy];
-	if (found) [findPanel orderOut:self];
+	OgreTextFindResult	*result = [self findNextStrategy];
+	if ([result isSuccess]) [findPanel orderOut:self];
 }
 
-- (BOOL)findNextStrategy
+- (OgreTextFindResult*)findNextStrategy
 {
 	if (_isAlertSheetOpen) {
 		NSBeep();
 		[self showFindPanel:self];
-		return NO;
+		return [OgreTextFindResult textFindResultWithType:OgreTextFindResultFailure target:nil resultInfo:nil];
 	}
-	if (![self alertIfInvalidRegex]) return NO;
+	
+	if (![self alertIfInvalidRegex]) return [OgreTextFindResult textFindResultWithType:OgreTextFindResultFailure target:nil resultInfo:nil];
 	
 	[self addFindHistory:[_findComboBoxCell stringValue]];
 	
-	BOOL	found = [[self textFinder] find: [_findComboBoxCell stringValue] 
-		options: [self options]	
-		fromTop: [self isStartFromTop]
-		forward: YES
-		wrap: [self isWrap]];
+	OgreTextFindResult	*result = [[self textFinder] find:[_findComboBoxCell stringValue] 
+		options:[self options]	
+		fromTop:[self isStartFromTop]
+		forward:YES
+		wrap:[self isWrap]];
 	
-	if (found) {
-		[self setStartFromCursor];
-	} else {
-		NSBeep();
+	if (![result alertIfErrorOccurred]) {
+		if ([result isSuccess]) {
+			[self setStartFromCursor];
+		} else {
+			NSBeep();
+		}
 	}
 	
-	return found;
+	return result;
 }
 
 - (IBAction)findPrevious:(id)sender
@@ -713,13 +718,14 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 	
 	[self addFindHistory:[_findComboBoxCell stringValue]];
 	
-	BOOL	found = [[self textFinder] find: [_findComboBoxCell stringValue] 
-		options: [self options] 
-		fromTop: [self isStartFromTop]
-		forward: NO
-		wrap: [self isWrap]];
+	OgreTextFindResult	*result = [[self textFinder] find:[_findComboBoxCell stringValue] 
+		options:[self options] 
+		fromTop:[self isStartFromTop]
+		forward:NO
+		wrap:[self isWrap]];
 		
-	if (found) {
+	if ([result alertIfErrorOccurred]) return;  // error
+	if ([result isSuccess]) {
 		[self setStartFromCursor];
 	} else {
 		NSBeep();
@@ -738,11 +744,12 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 	[self addFindHistory:[_findComboBoxCell stringValue]];
 	[self addReplaceHistory:[_replaceComboBoxCell stringValue]];
 	
-	if (![[self textFinder] replace: [_findComboBoxCell stringValue] 
+	OgreTextFindResult	*result = [[self textFinder] replace: [_findComboBoxCell stringValue] 
 			withString: [_replaceComboBoxCell stringValue] 
-			options: [self options]]) {
-		NSBeep();
-	}
+			options: [self options]];
+			
+	if ([result alertIfErrorOccurred]) return;  // error
+	if (![result isSuccess]) NSBeep();
 }
 
 - (IBAction)replaceAll:(id)sender
@@ -758,13 +765,13 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 	[self addReplaceHistory:[_replaceComboBoxCell stringValue]];
 	
 	[self avoidEmptySelection];
-	BOOL	start = [[self textFinder] replaceAll: [_findComboBoxCell stringValue] 
+	OgreTextFindResult	*result = [[self textFinder] replaceAll: [_findComboBoxCell stringValue] 
 		withString: [_replaceComboBoxCell stringValue]
 		options: [self options] 
 		inSelection: ![self isEntire]];
-	if (!start) {
-		NSBeep();
-	}
+		
+	if ([result alertIfErrorOccurred]) return;  // error
+	if (![result isSuccess]) NSBeep();
 }
 
 - (BOOL)didEndReplaceAll:(id)anObject
@@ -772,9 +779,20 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@"-didEndReplaceAll: of OgreAdvancedFindPanelController");
 #endif
-	//int	numOfReplace = [anObject intValue];
-	//NSLog(@"didEndReplaceAll: %d", numOfReplace);
-	return (([closeWhenDoneCheckBox state] == NSOnState)? YES : NO);
+	BOOL	closeProgressWindow;
+	OgreTextFindResult	*textFindResult = (OgreTextFindResult*)anObject;
+	
+	if ([textFindResult alertIfErrorOccurred]) {
+		// error
+		closeProgressWindow = NO;
+	} else {
+		// success or failure
+		//int	numOfReplace = [[textFindResult resultInfo] intValue];
+		//NSLog(@"didEndReplaceAll: %d", numOfReplace);
+		closeProgressWindow =  (([closeWhenDoneCheckBox state] == NSOnState)? YES : NO);
+	}
+	
+	return closeProgressWindow;
 }
 
 - (IBAction)replaceAndFind:(id)sender
@@ -792,18 +810,25 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 	unsigned	options = [self options];
 	unsigned	notEOLAndBOLDisabledOptions = options & ~(OgreNotBOLOption | OgreNotEOLOption);  // NotBOLオプションが指定されている場合に正しく置換されない問題を避ける。
 	
-	BOOL	found = NO;
-	if ([[self textFinder] replace: [_findComboBoxCell stringValue] 
+	OgreTextFindResult	*findResult = nil, *replaceResult = nil;
+	findResult = [[self textFinder] replace: [_findComboBoxCell stringValue] 
 			withString: [_replaceComboBoxCell stringValue] 
-			options: notEOLAndBOLDisabledOptions]) {
-		found = [[self textFinder] find: [_findComboBoxCell stringValue] 
+			options: notEOLAndBOLDisabledOptions];
+
+	if ([findResult alertIfErrorOccurred]) return;  // error
+	if ([findResult isSuccess]) {
+		replaceResult = [[self textFinder] find: [_findComboBoxCell stringValue] 
 			options: options 
 			fromTop: NO
 			forward: YES
 			wrap: [self isWrap]];
+	} else {
+		NSBeep();
+		return;
 	}
 	
-	if (found) {
+	if ([replaceResult alertIfErrorOccurred]) return;   // error
+	if ([replaceResult isSuccess]) {
 		[self setStartFromCursor];
 	} else {
 		NSBeep();
@@ -822,13 +847,13 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 	[self addFindHistory:[_findComboBoxCell stringValue]];
 	
 	[self avoidEmptySelection];
-	BOOL	start = [[self textFinder] hightlight: [_findComboBoxCell stringValue] 
+	OgreTextFindResult	*result = [[self textFinder] hightlight: [_findComboBoxCell stringValue] 
 		color: [highlightColorWell color] 
 		options: [self options] 
 		inSelection: ![self isEntire]];
-	if (!start) {
-		NSBeep();
-	}
+	
+	if ([result alertIfErrorOccurred]) return;  // error
+	if (![result isSuccess]) NSBeep();
 }
 
 - (BOOL)didEndHighlight:(id)anObject
@@ -836,14 +861,28 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@"-didEndHighlight: of OgreAdvancedFindPanelController");
 #endif
-	//int	numberOfMatch = [anObject intValue];
-	//NSLog(@"didEndHighlight: %d", numberOfMatch);
-	return (([closeWhenDoneCheckBox state] == NSOnState)? YES : NO);
+	BOOL	closeProgressWindow;
+	OgreTextFindResult	*textFindResult = (OgreTextFindResult*)anObject;
+	
+	if ([textFindResult alertIfErrorOccurred]) {
+		// error
+		closeProgressWindow = NO;
+	} else {
+		// success or failure
+		//int	numberOfMatch = [[textFindResult resultInfo] intValue];
+		//NSLog(@"didEndHighlight: %d", numberOfMatch);
+		closeProgressWindow =  (([closeWhenDoneCheckBox state] == NSOnState)? YES : NO);
+	}
+	
+	return closeProgressWindow;
 }
 
 - (IBAction)unhighlight:(id)sender
 {
-	if (![[self textFinder] unhightlight]) NSBeep();
+	OgreTextFindResult	*result = [[self textFinder] unhightlight];
+	
+	if ([result alertIfErrorOccurred]) return;  // error
+	if (![result isSuccess]) NSBeep();
 }
 
 - (IBAction)findAll:(id)sender
@@ -858,19 +897,21 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 	[self addFindHistory:[_findComboBoxCell stringValue]];
 	
 	[self avoidEmptySelection];
-	BOOL	start = [[self textFinder] findAll: [_findComboBoxCell stringValue] 
+	OgreTextFindResult	*result = [[self textFinder] findAll: [_findComboBoxCell stringValue] 
 		color: [highlightColorWell color] 
 		options: [self options] 
 		inSelection: ![self isEntire]];
-	if (!start) {
-		NSBeep();
-	} else {
+		
+	if ([result alertIfErrorOccurred]) return;  // error
+	if ([result isSuccess]) {
 		[_findResult release];
 		_findResult = nil;
 		//[grepTableView reloadData];
 		//[grepStatusTextField setStringValue:@"Processing..."];
 		//[self showFindPanel:self];
 		//[grepDrawer open:self];
+	} else {
+		NSBeep();
 	}
 }
 
@@ -879,24 +920,33 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@"-didEndFindAll: of OgreAdvancedFindPanelController");
 #endif
-	_findResult = [anObject retain];
 	
-	int	numberOfMatches = [_findResult count];
-	//NSLog(@"didEndFindAll: %d", numberOfMatches);
 	BOOL	closeProgressWindow = YES;	// 発見できた場合は常に閉じる
-	if (numberOfMatches > 0) {
-		[_findResult setDelegate:self]; // 検索結果の更新通知を受け取るようにする。
-		[_findResult setMaximumLeftMargin:OgreAFPCMaximumLeftMargin];  // 検索結果の左側の最大文字数
-		[_findResult setMaximumMatchedStringLength:OgreAFPCMaximumMatchedStringLength];  // 検索結果の最大文字数
-		
-		[self showFindPanel:self];
-		[grepDrawer openOnEdge:NSMinYEdge]; //常に下側に引き出す。
-		[grepStatusTextField setStringValue:[NSString stringWithFormat:((numberOfMatches > 1)? 
-			OgreAPFCLocalizedString(@"%d strings found.") : 
-			OgreAPFCLocalizedString(@"%d string found.")), numberOfMatches]];
-		[grepTableView reloadData];
+	OgreTextFindResult	*textFindResult = (OgreTextFindResult*)anObject;
+	
+	if ([textFindResult alertIfErrorOccurred]) {
+		// error
+		closeProgressWindow = NO;
 	} else {
-		closeProgressWindow = (([closeWhenDoneCheckBox state] == NSOnState)? YES : NO);
+		if ([textFindResult isSuccess]) {
+			// success
+			_findResult = [[textFindResult resultInfo] retain];
+			int	numberOfMatches = [_findResult count];
+			//NSLog(@"didEndFindAll: %d", numberOfMatches);
+			[_findResult setDelegate:self]; // 検索結果の更新通知を受け取るようにする。
+			[_findResult setMaximumLeftMargin:OgreAFPCMaximumLeftMargin];  // 検索結果の左側の最大文字数
+			[_findResult setMaximumMatchedStringLength:OgreAFPCMaximumMatchedStringLength];  // 検索結果の最大文字数
+			
+			[self showFindPanel:self];
+			[grepDrawer openOnEdge:NSMinYEdge]; //常に下側に引き出す。
+			[grepStatusTextField setStringValue:[NSString stringWithFormat:((numberOfMatches > 1)? 
+				OgreAPFCLocalizedString(@"%d strings found.") : 
+				OgreAPFCLocalizedString(@"%d string found.")), numberOfMatches]];
+			[grepTableView reloadData];
+		} else {
+			// failure
+			closeProgressWindow = (([closeWhenDoneCheckBox state] == NSOnState)? YES : NO);
+		}
 	}
 	
 	return closeProgressWindow;
@@ -1036,7 +1086,7 @@ static NSString	*OgreAFPCLiveUpdateKey             = @"AFPC Live Update";
 	}
 }
 
-/* delegate method of OgreTextFindResult */
+/* delegate method of OgreFindResult */
 - (void)didUpdateTextFindResult:(id)textFindResult
 {
 #ifdef DEBUG_OGRE_FIND_PANEL

@@ -395,6 +395,8 @@ subethaedit/OgreKit/FindPanel/OgreAdvancedFindPanelController.h -text
 subethaedit/OgreKit/FindPanel/OgreAdvancedFindPanelController.m -text
 subethaedit/OgreKit/FindPanel/OgreFindPanelController.h -text
 subethaedit/OgreKit/FindPanel/OgreFindPanelController.m -text
+subethaedit/OgreKit/FindPanel/OgreFindResult.h -text
+subethaedit/OgreKit/FindPanel/OgreFindResult.m -text
 subethaedit/OgreKit/FindPanel/OgreTextFindProgressSheet.h -text
 subethaedit/OgreKit/FindPanel/OgreTextFindProgressSheet.m -text
 subethaedit/OgreKit/FindPanel/OgreTextFindResult.h -text
@@ -490,7 +492,7 @@ subethaedit/OgreKit/RegularExpression/OgreKit.h -text
 subethaedit/OgreKit/RegularExpression/OgreKitWithoutFindPanel/OgreKit.h -text
 subethaedit/OgreKit/RegularExpression/OgreKit_Prefix.pch -text
 subethaedit/OgreKit/RegularExpression/configure.sh -text
-subethaedit/OgreKit/RegularExpression/onigd20040316.tar.gz -text
+subethaedit/OgreKit/RegularExpression/onigd2_2_8.tar.gz -text
 subethaedit/OgreKit/RegularExpression/version.plist -text
 subethaedit/OgreKit/RegularExpressionTest/English.lproj/InfoPlist.strings -text
 subethaedit/OgreKit/RegularExpressionTest/English.lproj/MainMenu.nib/classes.nib -text

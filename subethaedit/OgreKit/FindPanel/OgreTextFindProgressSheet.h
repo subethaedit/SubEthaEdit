@@ -54,4 +54,7 @@
 - (IBAction)cancel:(id)sender;
 - (void)setCancelSelector:(SEL)aSelector toTarget:(id)aTarget withObject:(id)anObject;
 
+/* show error alert */
+- (void)showErrorAlert:(NSString*)title message:(NSString*)errorMessage;
+
 @end

@@ -5,12 +5,12 @@ if (-e "RegularExpression/oniguruma") then
 else
 	echo "oniguruma is not found. Extracting oniguruma..."
 	cd RegularExpression
-	tar zxvf onigd20040316.tar.gz
-#	echo "Applying patch (ruby-dev:22803)..."
-#	cp 22803.patch oniguruma/.
+	tar zxvf onigd2_2_8.tar.gz
+#	echo "Applying patch..."
+#	cp 20040414.patch oniguruma/.
 #	cd oniguruma
-#	cp Makefile.in Makefile.in.original
-#	patch < 22803.patch
+#	cp regexec.c regexec.c.original
+#	patch < 20040414.patch
 #	cd ..
 	cd ..
 endif

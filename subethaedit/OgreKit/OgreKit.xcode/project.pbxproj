@@ -377,12 +377,12 @@
 				4D43D86A05BEE7DC0082C2BB,
 				4D43D87605BEF4010082C2BB,
 				4DE872FB060F7CFD00F02368,
+				4D071A5C06139B5100BECCDB,
 				4D071A5706139B2900BECCDB,
 				4D071A5806139B3200BECCDB,
 				4D071A5906139B3B00BECCDB,
 				4D071A5A06139B4600BECCDB,
 				4D071A5B06139B4C00BECCDB,
-				4D071A5C06139B5100BECCDB,
 			);
 			isa = PBXVariantGroup;
 			name = OgreTextFinderLocalizable.strings;
@@ -418,12 +418,12 @@
 				4D43D8AD05BF13C70082C2BB,
 				4D43D92305BF17190082C2BB,
 				4DE872FC060F7D0900F02368,
+				4D071A6206139BC500BECCDB,
 				4D071A5D06139B9300BECCDB,
 				4D071A5E06139B9C00BECCDB,
 				4D071A5F06139BA500BECCDB,
 				4D071A6006139BB700BECCDB,
 				4D071A6106139BBD00BECCDB,
-				4D071A6206139BC500BECCDB,
 			);
 			isa = PBXVariantGroup;
 			name = OgreAPFCLocalizable.strings;
@@ -547,12 +547,12 @@
 				4D75320405ADB4EC00C23C3D,
 				4D75323905ADB4FA00C23C3D,
 				4DE872FD060F7D1000F02368,
+				4D071A6806139BF600BECCDB,
 				4D071A6306139BD600BECCDB,
 				4D071A6406139BDF00BECCDB,
 				4D071A6506139BE300BECCDB,
 				4D071A6606139BED00BECCDB,
 				4D071A6706139BF200BECCDB,
-				4D071A6806139BF600BECCDB,
 			);
 			isa = PBXVariantGroup;
 			name = OgreAdvancedFindPanel.nib;
@@ -708,6 +708,8 @@
 				4D8CB37B05720F4A00BE2D09,
 				4D8CB37A05720F4A00BE2D09,
 				4D8CB37D05720F4A00BE2D09,
+				4DC2FE550632858D006AED85,
+				4DC2FE560632858D006AED85,
 				4D8CB37F05720F4A00BE2D09,
 				4D8CB37E05720F4A00BE2D09,
 				4D8CB38105720F4A00BE2D09,
@@ -1176,8 +1178,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			name = OgreTextFindResult.m;
-			path = FindPanel/OgreTextFindResult.m;
+			name = OgreFindResult.m;
+			path = FindPanel/OgreFindResult.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1185,8 +1187,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = OgreTextFindResult.h;
-			path = FindPanel/OgreTextFindResult.h;
+			name = OgreFindResult.h;
+			path = FindPanel/OgreFindResult.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2348,6 +2350,39 @@
 			name = all;
 			passBuildSettingsInEnvironment = 1;
 			productName = all;
+		};
+		4DC2FE550632858D006AED85 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreTextFindResult.h;
+			path = FindPanel/OgreTextFindResult.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		4DC2FE560632858D006AED85 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreTextFindResult.m;
+			path = FindPanel/OgreTextFindResult.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		4DC2FE570632858D006AED85 = {
+			fileRef = 4DC2FE550632858D006AED85;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DC2FE580632858D006AED85 = {
+			fileRef = 4DC2FE560632858D006AED85;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		4DCFE31D059B2E8A008EFF65 = {
 			fileRef = 4DE8E2C0059A76DA00224687;
@@ -3604,6 +3639,7 @@
 				4DE4E2AA05E6ABF100E39312,
 				4DE4E2F305E6C39400E39312,
 				4DF79C5305F331330075DA76,
+				4DC2FE570632858D006AED85,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3642,6 +3678,7 @@
 				4DE4E2A905E6ABF100E39312,
 				4DE4E2F405E6C39400E39312,
 				4DF79C5405F331330075DA76,
+				4DC2FE580632858D006AED85,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

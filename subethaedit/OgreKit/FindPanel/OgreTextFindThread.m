@@ -17,6 +17,7 @@
 #import <OgreKit/OgreTextFindThreadCenter.h>
 #import <OgreKit/OgreTextFindProgressSheet.h>
 #import <OgreKit/OgreTextFindResult.h>
+#import <OgreKit/OgreFindResult.h>
 
 
 @implementation OgreTextFindThread
@@ -98,7 +99,7 @@
 	}
 }
 
-- (void)findAll:(id)anObject
+- (void)findAll:(id)sender
 {
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@" begin -findAll: of OgreTextFindThread");
@@ -110,74 +111,96 @@
 	NSRange		matchRange = NSMakeRange(0, 0);
 	int			matches = 0;
 	double		donePerTotal;
-	OgreTextFindResult	*result = nil;
+	
+	OgreTextFindResult  *textFindResult = nil;
+	OgreFindResult		*result = nil;
 	
 	NSString	*progressMessage, *progressMessagePlural;
-	progressMessage = OgreTextFinderLocalizedString(@"%d string found. (%dsec remaining)");
-	progressMessagePlural = OgreTextFinderLocalizedString(@"%d strings found. (%dsec remaining)");
 	
 	NSRange		selectedRange = [_target selectedRange];
+	
+	NSAutoreleasePool	*pool = nil;
+	NSDate	*periodicTimer = nil;
+	OGRegularExpressionMatch	*match;
 	
 	/* 前方検索 */
 	if (!_inSelection) {
 		selectedRange = NSMakeRange(0, textLength);
 	}
-	NSEnumerator	*enumerator = [_regex matchEnumeratorInString: _text 
-		options: _options 
-		range: selectedRange];
-	//NSLog(@"%@", [enumerator description]);
 	
-	result = [[[OgreTextFindResult alloc] initWithString:_text syntax:[_regex syntax] color:_color] autorelease];
-	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
-	NSDate	*periodicTimer = [[NSDate alloc] init];	// 経過時間
-	OGRegularExpressionMatch	*match;
-	while ((match = [enumerator nextObject]) != nil) {
-		//NSLog(@"%@", [match description]);
-		/* cancelled? */
-		if (_cancelled) {
-			cancelled = YES;
-			break;
+	NS_DURING
+	
+		progressMessage = OgreTextFinderLocalizedString(@"%d string found. (%dsec remaining)");
+		progressMessagePlural = OgreTextFinderLocalizedString(@"%d strings found. (%dsec remaining)");
+	
+		NSEnumerator	*enumerator = [_regex matchEnumeratorInString: _text 
+			options: _options 
+			range: selectedRange];
+		//NSLog(@"%@", [enumerator description]);
+		
+		result = [[[OgreFindResult alloc] initWithString:_text syntax:[_regex syntax] color:_color] autorelease];
+		pool = [[NSAutoreleasePool alloc] init];
+		periodicTimer = [[NSDate alloc] init];	// 経過時間
+		while ((match = [enumerator nextObject]) != nil) {
+			//NSLog(@"%@", [match description]);
+			/* cancelled? */
+			if (_cancelled) {
+				cancelled = YES;
+				break;
+			}
+			
+			matches++;
+			
+			// resultに追加
+			[result addMatch:match];
+			
+			/* show progress (by 1sec) */
+			if ([periodicTimer timeIntervalSinceNow] <= -1.0) {
+				matchRange = [match rangeOfMatchedString];
+				donePerTotal = (double)(matchRange.location + matchRange.length + 1)/(double)(textLength + 1);
+				[(OgreTextFindProgressSheet*)_progressSheet setProgress:donePerTotal 
+					message:[NSString stringWithFormat:((matches > 1)? progressMessagePlural : progressMessage), 
+					matches, 
+					(int)ceil(-[processTime timeIntervalSinceNow] * (1.0 - donePerTotal)/donePerTotal)]];
+				[periodicTimer release];
+				periodicTimer = [[NSDate alloc] init];
+			}
+			
+			/* release autorelease pool */
+			if (matches % 100 == 0) {
+				[pool release];
+				pool = [[NSAutoreleasePool alloc] init];
+			}
 		}
 		
-		matches++;
+		[result finishToFindInTarget:_target];
 		
-		// resultに追加
-		[result addMatch:match];
+		//[NSException raise:@"TestException" format:@"exception was raised at %@.", [[NSDate date] description]];
 		
-		/* show progress (by 1sec) */
-		if ([periodicTimer timeIntervalSinceNow] <= -1.0) {
-			matchRange = [match rangeOfMatchedString];
-			donePerTotal = (double)(matchRange.location + matchRange.length + 1)/(double)(textLength + 1);
-			[(OgreTextFindProgressSheet*)_progressSheet setProgress:donePerTotal 
-				message:[NSString stringWithFormat:((matches > 1)? progressMessagePlural : progressMessage), 
-				matches, 
-				(int)ceil(-[processTime timeIntervalSinceNow] * (1.0 - donePerTotal)/donePerTotal)]];
-			[periodicTimer release];
-			periodicTimer = [[NSDate alloc] init];
-		}
+		textFindResult = [[OgreTextFindResult alloc] initWithType:((matches > 0)? OgreTextFindResultSuccess : OgreTextFindResultFailure) target:_target resultInfo:result];
 		
-		/* release autorelease pool */
-		if (matches % 100 == 0) {
-			[pool release];
-			pool = [[NSAutoreleasePool alloc] init];
-		}
-	}
+	NS_HANDLER
+		
+		textFindResult = [[OgreTextFindResult alloc] initWithType:OgreTextFindResultError target:_target resultInfo:nil];
+		[textFindResult setAlertSheet:_progressSheet exception:localException];
+		
+	NS_ENDHANDLER
+	
 	[periodicTimer release];
 	[pool release];
-	[result finishToFindInTarget:_target];
 	
 	/* 完了 */
 	[self showDone:(double)(matchRange.location + matchRange.length + 1)/(double)(textLength + 1) count:matches time:(-[processTime timeIntervalSinceNow]) cancelled:cancelled];
 	
 	/* 結果をOgreTextFindThreadCenterに送る */
-	[_threadCenter putResult:result command:OgreFindAllThread target:_target progressSheet:_progressSheet];
+	[self sendResult:[textFindResult autorelease]];
 	
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@" end -findAll: of OgreTextFindThread");
 #endif
 }
 
-- (void)replaceAll:(id)anObject
+- (void)replaceAll:(id)sender
 {
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@" begin -replaceAll: of OgreTextFindThread");
@@ -190,143 +213,162 @@
 	BOOL		errorOccurred = NO, cancelled = NO, locked = NO;
 	NSString	*replacedString;
 	double		donePerTotal;
+	OgreTextFindResult  *textFindResult = nil;
 		
 	NSString	*progressMessage, *progressMessagePlural;
 	progressMessage = OgreTextFinderLocalizedString(@"%d string replaced. (%dsec remaining)");
 	progressMessagePlural = OgreTextFinderLocalizedString(@"%d strings replaced. (%dsec remaining)");
 	
-	if (![_target isEditable]) {
-		replaces = -1;
-		errorOccurred = YES;	// 編集不可の場合
-		
-	} else {
-		OGReplaceExpression	*repex = [[OGReplaceExpression alloc] initWithString:_replaceString 
-			escapeCharacter:[_regex escapeCharacter]];
-#ifdef DEBUG_OGRE_FIND_PANEL
-		NSLog(@"%@", [repex description]);
-#endif
-		
-		NSTextStorage	*textStorage = [_target textStorage];
-		NSRange			selectedRange = [_target selectedRange];
-		if (!_inSelection) {
-			selectedRange = NSMakeRange(0, textLength);
-		}
-		
-		NSArray	*matchArray = [_regex allMatchesInString:_text options:_options range:selectedRange];
-		matches = [matchArray count];
-		OGRegularExpressionMatch	*match;
-		unsigned	attrIndex;
-		
-		// Undo操作の登録開始
-		BOOL	allowsUndo = [_target allowsUndo];
-		NSUndoManager	*undoManager = nil;
-		if (allowsUndo) undoManager = [_target undoManager];
-		if (allowsUndo) [undoManager beginUndoGrouping];
-
-		NSDate	*periodicTimer = [[NSDate alloc] init];	// 経過時間
-		NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
-		
-		locked = [_target lockFocusIfCanDraw];
-		//[textStorage beginEditing];
-		
-		while (replaces < matches) {
-			/* cancelled? */
-			if (_cancelled) {
-				cancelled = YES;
-				break;
-			}
-			
-			replaces++;
-			
-			/* replace */
-			// 後ろから置換する
-			match = [matchArray objectAtIndex: (matches - replaces)];
-			matchRange = [match rangeOfMatchedString];
-			// 文字属性のコピー元。置換前の1文字目の文字属性をコピーする
-			if (matchRange.location < textLength) {
-				attrIndex = matchRange.location;
-			} else {
-				// matchRange.location == textLength (> 1) の場合は1文字前にずらす。
-				// @"abc" -> attributesAtIndex:3 -> exception
-				attrIndex = textLength - 1;
-			}
-			
-			replacedString = [repex replaceMatchedStringOf:match];
-			// Undo操作の登録
-			if (allowsUndo) {
-				[_target setSelectedRange:matchRange];
-				replacedRange = NSMakeRange(matchRange.location, [replacedString length]);
-				[[undoManager prepareWithInvocationTarget:[OgreTextFinder sharedTextFinder]] 
-				undoableReplaceCharactersInRange: replacedRange
-				withAttributedString:[[[NSAttributedString alloc] initWithAttributedString:[textStorage attributedSubstringFromRange:matchRange]] autorelease] 
-				inTarget:_target
-				jumpToSelection:NO];
-			}
-			
-			// 置換
-			if (textLength > 0) {
-				[textStorage replaceCharactersInRange:matchRange withAttributedString: [[[NSAttributedString alloc] 
-					initWithString: replacedString
-					attributes: [textStorage attributesAtIndex:attrIndex effectiveRange:nil]] autorelease]];
-			} else {
-				// textLength == 0の場合は属性なしでコピー。
-				[_target setString:replacedString];
-			}
-			if (allowsUndo) [_target setSelectedRange:replacedRange];
-					
-			/* show progress (by 1sec)*/
-			if ([periodicTimer timeIntervalSinceNow] <= -1.0) {
-				donePerTotal = (double)replaces/(double)matches;
-				[(OgreTextFindProgressSheet*)_progressSheet setProgress:donePerTotal 
-					message:[NSString stringWithFormat:((replaces > 1)? progressMessagePlural : progressMessage), 
-					replaces, 
-					(int)ceil(-[processTime timeIntervalSinceNow] * (1.0 - donePerTotal)/donePerTotal)]];
-				[periodicTimer release];
-				periodicTimer = [[NSDate alloc] init];
-				
-				/* upadate screen */
-				//[textStorage endEditing];
-				if (locked) [_target unlockFocus];
-				locked = [_target lockFocusIfCanDraw];
-				//[textStorage beginEditing];
-			}
-			
-			/* release autorelease pool */
-			if (replaces % 100 == 0) {
-				[pool release];
-				pool = [[NSAutoreleasePool alloc] init];
-			}
-			
-		}
-		
-		/* 完了 */
-		[self showDone:((double)replaces/(double)matches) count:replaces time:(-[processTime timeIntervalSinceNow]) cancelled:cancelled];
-		//[textStorage endEditing];
-		if (locked) [_target unlockFocus];
-		
-		[pool release];
-		[periodicTimer release];
-		[repex release];
-		
-		// Undo操作の登録完了
-		if (allowsUndo) [undoManager setActionName:OgreTextFinderLocalizedString(@"Replace All")];
-		if (allowsUndo) [undoManager endUndoGrouping];
-	}
+	OGReplaceExpression	*repex = nil;
+	NSDate	*periodicTimer = nil;
+	NSAutoreleasePool	*pool = nil;
 	
-	if (errorOccurred) {
-		NSBeep();
-		[(OgreTextFindProgressSheet*)_progressSheet done:0.0 message:OgreTextFinderLocalizedString(@"Error! Uneditable.")];
-	}
+	NS_DURING
+	
+		if (![_target isEditable]) {
+			replaces = -1;
+			errorOccurred = YES;	// 編集不可の場合
+			
+		} else {
+			repex = [[OGReplaceExpression alloc] initWithString:_replaceString 
+				syntax:[_regex syntax] 
+				escapeCharacter:[_regex escapeCharacter]];
+	#ifdef DEBUG_OGRE_FIND_PANEL
+			NSLog(@"%@", [repex description]);
+	#endif
+			
+			NSTextStorage	*textStorage = [_target textStorage];
+			NSRange			selectedRange = [_target selectedRange];
+			if (!_inSelection) {
+				selectedRange = NSMakeRange(0, textLength);
+			}
+			
+			NSArray	*matchArray = [_regex allMatchesInString:_text options:_options range:selectedRange];
+			matches = [matchArray count];
+			OGRegularExpressionMatch	*match;
+			unsigned	attrIndex;
+			
+			// Undo操作の登録開始
+			BOOL	allowsUndo = [_target allowsUndo];
+			NSUndoManager	*undoManager = nil;
+			if (allowsUndo) undoManager = [_target undoManager];
+			if (allowsUndo) [undoManager beginUndoGrouping];
+
+			periodicTimer = [[NSDate alloc] init];	// 経過時間
+			pool = [[NSAutoreleasePool alloc] init];
+			
+			locked = [_target lockFocusIfCanDraw];
+			//[textStorage beginEditing];
+			
+			while (replaces < matches) {
+				/* cancelled? */
+				if (_cancelled) {
+					cancelled = YES;
+					break;
+				}
+				
+				replaces++;
+				
+				/* replace */
+				// 後ろから置換する
+				match = [matchArray objectAtIndex: (matches - replaces)];
+				matchRange = [match rangeOfMatchedString];
+				// 文字属性のコピー元。置換前の1文字目の文字属性をコピーする
+				if (matchRange.location < textLength) {
+					attrIndex = matchRange.location;
+				} else {
+					// matchRange.location == textLength (> 1) の場合は1文字前にずらす。
+					// @"abc" -> attributesAtIndex:3 -> exception
+					attrIndex = textLength - 1;
+				}
+				
+				replacedString = [repex replaceMatchedStringOf:match];
+				// Undo操作の登録
+				if (allowsUndo) {
+					[_target setSelectedRange:matchRange];
+					replacedRange = NSMakeRange(matchRange.location, [replacedString length]);
+					[[undoManager prepareWithInvocationTarget:[OgreTextFinder sharedTextFinder]] 
+					undoableReplaceCharactersInRange: replacedRange
+					withAttributedString:[[[NSAttributedString alloc] initWithAttributedString:[textStorage attributedSubstringFromRange:matchRange]] autorelease] 
+					inTarget:_target
+					jumpToSelection:NO];
+				}
+				
+				// 置換
+				if (textLength > 0) {
+					[textStorage replaceCharactersInRange:matchRange withAttributedString: [[[NSAttributedString alloc] 
+						initWithString: replacedString
+						attributes: [textStorage attributesAtIndex:attrIndex effectiveRange:nil]] autorelease]];
+				} else {
+					// textLength == 0の場合は属性なしでコピー。
+					[_target setString:replacedString];
+				}
+				if (allowsUndo) [_target setSelectedRange:replacedRange];
+						
+				/* show progress (by 1sec)*/
+				if ([periodicTimer timeIntervalSinceNow] <= -1.0) {
+					donePerTotal = (double)replaces/(double)matches;
+					[(OgreTextFindProgressSheet*)_progressSheet setProgress:donePerTotal 
+						message:[NSString stringWithFormat:((replaces > 1)? progressMessagePlural : progressMessage), 
+						replaces, 
+						(int)ceil(-[processTime timeIntervalSinceNow] * (1.0 - donePerTotal)/donePerTotal)]];
+					[periodicTimer release];
+					periodicTimer = [[NSDate alloc] init];
+					
+					/* upadate screen */
+					//[textStorage endEditing];
+					if (locked) [_target unlockFocus];
+					locked = [_target lockFocusIfCanDraw];
+					//[textStorage beginEditing];
+				}
+				
+				/* release autorelease pool */
+				if (replaces % 100 == 0) {
+					[pool release];
+					pool = [[NSAutoreleasePool alloc] init];
+				}
+				
+			}
+			
+			/* 完了 */
+			[self showDone:((double)replaces/(double)matches) count:replaces time:(-[processTime timeIntervalSinceNow]) cancelled:cancelled];
+			//[textStorage endEditing];
+			if (locked) [_target unlockFocus];
+			
+			// Undo操作の登録完了
+			if (allowsUndo) [undoManager setActionName:OgreTextFinderLocalizedString(@"Replace All")];
+			if (allowsUndo) [undoManager endUndoGrouping];
+		}
+		
+		if (errorOccurred) {
+			NSBeep();
+			[(OgreTextFindProgressSheet*)_progressSheet done:0.0 message:OgreTextFinderLocalizedString(@"Error! Uneditable.")];
+		}
+		
+		//[NSException raise:@"TestException" format:@"exception was raised at %@.", [[NSDate date] description]];
+		
+		textFindResult = [[OgreTextFindResult alloc] initWithType:((replaces > 0)? OgreTextFindResultSuccess : OgreTextFindResultFailure) target:_target resultInfo:[NSNumber numberWithInt:replaces]];
+		
+	NS_HANDLER
+		
+		textFindResult = [[OgreTextFindResult alloc] initWithType:OgreTextFindResultError target:_target resultInfo:nil];
+		[textFindResult setAlertSheet:_progressSheet exception:localException];
+		
+	NS_ENDHANDLER
+	
+	[pool release];
+	[periodicTimer release];
+	[repex release];
 	
 	/* 結果をOgreTextFindThreadCenterに送る */
-	[self sendResult:[NSNumber numberWithInt:replaces]];
+	[self sendResult:[textFindResult autorelease]];
 	
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@" end -replaceAll: of OgreTextFindThread");
 #endif
 }
 
-- (void)highlight:(id)anObject
+- (void)highlight:(id)sender
 {
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@" begin -highlight: of OgreTextFindThread");
@@ -338,101 +380,119 @@
 	unsigned	textLength = [_text length];
 	double		donePerTotal;
 	
-	NSString	*progressMessage, *progressMessagePlural;
-	progressMessage = OgreTextFinderLocalizedString(@"%d string highlighted. (%dsec remaining)");
-	progressMessagePlural = OgreTextFinderLocalizedString(@"%d strings highlighted. (%dsec remaining)");
-	
-	NSRange		matchRange = NSMakeRange(0, 0), searchRange, aRange;
-	if (_inSelection) {
-		searchRange = [_target selectedRange];
-	} else {
-		searchRange = NSMakeRange(0, textLength);
-	}
-	
-	NSEnumerator	*enumerator = [_regex matchEnumeratorInString: _text 
-		options: _options
-		range: searchRange];
-	
-	/* 色付け */
-	float	hue, saturation, brightness, alpha;
-	[[_color colorUsingColorSpaceName:NSCalibratedRGBColorSpace] 
-		getHue: &hue 
-		saturation: &saturation 
-		brightness: &brightness 
-		alpha: &alpha];
+	OgreTextFindResult  *textFindResult = nil;
+	NSAutoreleasePool	*pool = nil;
+	NSDate	*periodicTimer = nil;
 		
-	BOOL	simple = ([_regex syntax] == OgreSimpleMatchingSyntax);
-	int		i, n;
+	NSString	*progressMessage, *progressMessagePlural;
 	
-	id		layoutManager = [_target layoutManager];
-	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];	// autorelease pool
-	NSDate	*periodicTimer = [[NSDate alloc] init];	// 経過時間
+	NS_DURING
 	
-	// remove temporary background color attribute
-	locked = [_target lockFocusIfCanDraw];
-	[layoutManager removeTemporaryAttribute:NSBackgroundColorAttributeName forCharacterRange:NSMakeRange(0, textLength)];
-	
-	OGRegularExpressionMatch	*match;
-	match = [enumerator nextObject];
-	if (match != nil) {
-		n = [match count];	// 部分文字列の数はどのマッチでも同じ
-		do {
-			/* cancelled? */
-			if (_cancelled) {
-				cancelled = YES;
-				break;
-			}
+		progressMessage = OgreTextFinderLocalizedString(@"%d string highlighted. (%dsec remaining)");
+		progressMessagePlural = OgreTextFinderLocalizedString(@"%d strings highlighted. (%dsec remaining)");
+		
+		NSRange		matchRange = NSMakeRange(0, 0), searchRange, aRange;
+		if (_inSelection) {
+			searchRange = [_target selectedRange];
+		} else {
+			searchRange = NSMakeRange(0, textLength);
+		}
+		
+		NSEnumerator	*enumerator = [_regex matchEnumeratorInString: _text 
+			options: _options
+			range: searchRange];
+		
+		/* 色付け */
+		float	hue, saturation, brightness, alpha;
+		[[_color colorUsingColorSpaceName:NSCalibratedRGBColorSpace] 
+			getHue: &hue 
+			saturation: &saturation 
+			brightness: &brightness 
+			alpha: &alpha];
 			
-			matches++;
-			
-			/* 部分文字列ごとに違う色で色付けする */
-			for(i = 0; i < n; i++) {
-				aRange = [match rangeOfSubstringAtIndex:i];
-				double	dummy;
-				
-				if (aRange.length > 0) {
-					[layoutManager setTemporaryAttributes:[NSDictionary dictionaryWithObject:
-						[NSColor colorWithCalibratedHue: 
-							modf(hue + ((simple)? ((float)(i-1)) : ((float)i)) / ((simple)? ((float)(n-1)) : ((float)n)), &dummy)
-							saturation: saturation 
-							brightness: brightness 
-							alpha: alpha] forKey:NSBackgroundColorAttributeName] forCharacterRange: aRange];
+		BOOL	simple = ([_regex syntax] == OgreSimpleMatchingSyntax);
+		int		i, n;
+		
+		id		layoutManager = [_target layoutManager];
+		pool = [[NSAutoreleasePool alloc] init];	// autorelease pool
+		periodicTimer = [[NSDate alloc] init];	// 経過時間
+		
+		// remove temporary background color attribute
+		locked = [_target lockFocusIfCanDraw];
+		[layoutManager removeTemporaryAttribute:NSBackgroundColorAttributeName forCharacterRange:NSMakeRange(0, textLength)];
+		
+		OGRegularExpressionMatch	*match;
+		match = [enumerator nextObject];
+		if (match != nil) {
+			n = [match count];	// 部分文字列の数はどのマッチでも同じ
+			do {
+				/* cancelled? */
+				if (_cancelled) {
+					cancelled = YES;
+					break;
 				}
-			}
-			
-			/* show progress (by 1sec)*/
-			if ([periodicTimer timeIntervalSinceNow] <= -1.0) {
-				matchRange = [match rangeOfMatchedString];
-				donePerTotal = (double)(matchRange.location + matchRange.length + 1)/(double)(textLength + 1);
-				[(OgreTextFindProgressSheet*)_progressSheet setProgress:donePerTotal 
-					message:[NSString stringWithFormat:((matches > 1)? progressMessagePlural : progressMessage), 
-					matches, 
-					(int)ceil(-[processTime timeIntervalSinceNow] * (1.0 - donePerTotal)/donePerTotal)]];
-				[periodicTimer release];
-				periodicTimer = [[NSDate alloc] init];
 				
-				/* upadate screen */
-				if (locked) [_target unlockFocus];
-				locked = [_target lockFocusIfCanDraw];
-			}
-			
-			/* release autorrelease pool */ 
-			if (matches % 100 == 0) {
-				[pool release];
-				pool = [[NSAutoreleasePool alloc] init];
-			}
-		} while ( (match = [enumerator nextObject]) != nil );
-	}
-	
-	/* 完了 */
-	[self showDone:(double)(matchRange.location + matchRange.length + 1)/(double)(textLength + 1) count:matches time:(-[processTime timeIntervalSinceNow]) cancelled:cancelled];
+				matches++;
+				
+				/* 部分文字列ごとに違う色で色付けする */
+				for(i = 0; i < n; i++) {
+					aRange = [match rangeOfSubstringAtIndex:i];
+					double	dummy;
+					
+					if (aRange.length > 0) {
+						[layoutManager setTemporaryAttributes:[NSDictionary dictionaryWithObject:
+							[NSColor colorWithCalibratedHue: 
+								modf(hue + ((simple)? ((float)(i-1)) : ((float)i)) / ((simple)? ((float)(n-1)) : ((float)n)), &dummy)
+								saturation: saturation 
+								brightness: brightness 
+								alpha: alpha] forKey:NSBackgroundColorAttributeName] forCharacterRange: aRange];
+					}
+				}
+				
+				/* show progress (by 1sec)*/
+				if ([periodicTimer timeIntervalSinceNow] <= -1.0) {
+					matchRange = [match rangeOfMatchedString];
+					donePerTotal = (double)(matchRange.location + matchRange.length + 1)/(double)(textLength + 1);
+					[(OgreTextFindProgressSheet*)_progressSheet setProgress:donePerTotal 
+						message:[NSString stringWithFormat:((matches > 1)? progressMessagePlural : progressMessage), 
+						matches, 
+						(int)ceil(-[processTime timeIntervalSinceNow] * (1.0 - donePerTotal)/donePerTotal)]];
+					[periodicTimer release];
+					periodicTimer = [[NSDate alloc] init];
+					
+					/* upadate screen */
+					if (locked) [_target unlockFocus];
+					locked = [_target lockFocusIfCanDraw];
+				}
+				
+				/* release autorrelease pool */ 
+				if (matches % 100 == 0) {
+					[pool release];
+					pool = [[NSAutoreleasePool alloc] init];
+				}
+			} while ( (match = [enumerator nextObject]) != nil );
+		}
+		
+		/* 完了 */
+		[self showDone:(double)(matchRange.location + matchRange.length + 1)/(double)(textLength + 1) count:matches time:(-[processTime timeIntervalSinceNow]) cancelled:cancelled];
+		if (locked) [_target unlockFocus];
 
-	if (locked) [_target unlockFocus];
+		//[NSException raise:@"TestException" format:@"exception was raised at %@.", [[NSDate date] description]];
+		
+		textFindResult = [[OgreTextFindResult alloc] initWithType:((matches > 0)? OgreTextFindResultSuccess : OgreTextFindResultFailure) target:_target resultInfo:[NSNumber numberWithInt:matches]];
+		
+	NS_HANDLER
+		
+		textFindResult = [[OgreTextFindResult alloc] initWithType:OgreTextFindResultError target:_target resultInfo:nil];
+		[textFindResult setAlertSheet:_progressSheet exception:localException];
+		
+	NS_ENDHANDLER
+	
 	[periodicTimer release];
 	[pool release];
 	
 	/* 結果をOgreTextFindThreadCenterに送る */
-	[self sendResult:[NSNumber numberWithInt:matches]];
+	[self sendResult:[textFindResult autorelease]];
 	
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@" end -highlight: of OgreTextFindThread");
@@ -440,7 +500,7 @@
 }
 
 /* キャンセル (two-phase termination) */
-- (void)cancel:(id)anObject
+- (void)cancel:(id)sender
 {
 #ifdef DEBUG_OGRE_FIND_PANEL
 	NSLog(@" -cancel: of OgreTextFindThread");

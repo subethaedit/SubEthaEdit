@@ -20,7 +20,7 @@
 // OgreTextFinderLocalizable.stringsを使用したローカライズ
 #define OgreTextFinderLocalizedString(key)	[[OgreTextFinder ogreKitBundle] localizedStringForKey:(key) value:(key) table:@"OgreTextFinderLocalizable"]
 
-@class OgreTextFinder, OgreFindPanelController, OgreTextFindResult, OgreTextFindThread, OgreTextFindThreadCenter;
+@class OgreTextFinder, OgreFindPanelController, OgreTextFindResult, OgreFindResult, OgreTextFindThread, OgreTextFindThreadCenter;
 
 @protocol OgreTextFindDataSource
 /* OgreTextFinderが検索対象を知りたいときにresponder chain経由で呼ばれる 
@@ -88,42 +88,44 @@
 - (OgreSyntax)syntax;
 
 /* Find/Replace/Highlight... */
-- (BOOL)find:(NSString*)expressionString 
+- (OgreTextFindResult*)find:(NSString*)expressionString 
 	options:(unsigned)options
 	fromTop:(BOOL)isTop
 	forward:(BOOL)forward
 	wrap:(BOOL)isWrap;
 
-- (BOOL)findAll:(NSString*)expressionString 
+- (OgreTextFindResult*)findAll:(NSString*)expressionString 
 	color:(NSColor*)highlightColor 
 	options:(unsigned)options
 	inSelection:(BOOL)inSelection;
 
-- (BOOL)replace:(NSString*)expressionString 
+- (OgreTextFindResult*)replace:(NSString*)expressionString 
 	withString:(NSString*)replaceString
 	options:(unsigned)options;
 
-- (BOOL)replaceAll:(NSString*)expressionString 
+- (OgreTextFindResult*)replaceAll:(NSString*)expressionString 
 	withString:(NSString*)replaceString
 	options:(unsigned)options
 	inSelection:(BOOL)inSelection;
 
-- (BOOL)hightlight:(NSString*)expressionString 
+- (OgreTextFindResult*)hightlight:(NSString*)expressionString 
 	color:(NSColor*)highlightColor 
 	options:(unsigned)options
 	inSelection:(BOOL)inSelection;
 
-- (BOOL)unhightlight;
+- (OgreTextFindResult*)unhightlight;
 
 - (NSString*)selectedString;
 - (BOOL)isSelectionEmpty;
 
 - (BOOL)jumpToSelection;
 
+/* create an alert sheet */
+- (id)alertSheetOnTarget:(id)aTerget;
 
-/****************
- * 非公開メソッド *
- ****************/
+/*******************
+ * Private Methods *
+ *******************/
 // 前回保存された履歴
 - (NSDictionary*)history;
 // currentを起点に名前がnameのmenu itemを探す。
@@ -136,7 +138,7 @@
 // 使用中でなくする
 - (void)makeTargetFree:(id)target;
 
-/* マルチスレッド関係 */
+/* create a thread */
 // OgreTextFindThreadCenterの生成
 - (void)createThreadCenter;
 

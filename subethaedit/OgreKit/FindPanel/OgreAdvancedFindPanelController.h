@@ -43,7 +43,7 @@
     IBOutlet NSTextField	*maxNumOfReplaceHistoryTextField;
     IBOutlet NSPopUpButton	*syntaxPopUpButton;
 
-	OgreTextFindResult		*_findResult;
+	OgreFindResult		*_findResult;
 	NSMutableArray			*_findHistory;
 	NSMutableArray			*_replaceHistory;
 	int						_delimitChackBoxState;
@@ -63,7 +63,7 @@
 
 - (IBAction)findNext:(id)sender;
 - (IBAction)findNextAndOrderOut:(id)sender;
-- (BOOL)findNextStrategy;
+- (OgreTextFindResult*)findNextStrategy;
 
 - (IBAction)findPrevious:(id)sender;
 - (IBAction)findSelectedText:(id)sender;

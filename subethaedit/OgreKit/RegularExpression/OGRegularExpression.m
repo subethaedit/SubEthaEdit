@@ -614,6 +614,7 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 	numberOfReplacement:(unsigned*)numberOfReplacement 
 {
 	OGReplaceExpression	*repex = [[OGReplaceExpression alloc] initWithString:replaceString 
+		syntax:[self syntax] 
 		escapeCharacter:[self escapeCharacter]];
 	
 	NSEnumerator	*enumerator = [self matchEnumeratorInString:targetString 

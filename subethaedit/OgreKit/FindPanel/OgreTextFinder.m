@@ -16,6 +16,7 @@
 #import <OgreKit/OgreTextFinder.h>
 #import <OgreKit/OgreFindPanelController.h>
 #import <OgreKit/OgreTextFindResult.h>
+#import <OgreKit/OgreFindResult.h>
 #import <OgreKit/OgreTextFindProgressSheet.h>
 
 
@@ -370,52 +371,44 @@ static NSString	*OgreTextFinderEscapeCharacterKey = @"Escape Character";
 
 /* Find/Replace/Highlight... */
 
-- (BOOL)find:(NSString*)expressionString 
+- (OgreTextFindResult*)find:(NSString*)expressionString 
 	options:(unsigned)options
 	fromTop:(BOOL)isFromTop
 	forward:(BOOL)forward
 	wrap:(BOOL)isWrap
 {
 	BOOL	isMatch = NO;
+	OgreTextFindResult  *textFindResult = nil;
 	
 	id	target = [self targetToFindIn];
-	if ((target == nil) || [self isBusyTarget:target]) return NO;
+	if ((target == nil) || [self isBusyTarget:target]) return [OgreTextFindResult textFindResultWithType:OgreTextFindResultFailure target:target resultInfo:nil];
 	[self makeTargetBusy:target];
 	
-	OGRegularExpression	*regex;
-	regex = [OGRegularExpression regularExpressionWithString: expressionString 
-		options: options 
-		syntax: [self syntax] 
-		escapeCharacter: [self escapeCharacter]];
-	
+	OGRegularExpression			*regex;
 	NSString					*text = [target string];
 	NSRange						selectedRange = [target selectedRange];
 	NSEnumerator				*enumerator;
 	OGRegularExpressionMatch	*match;
 	NSArray						*matchArray;
+	NSAutoreleasePool			*pool = nil;
 	
-	if (isFromTop) selectedRange = NSMakeRange(0, 0);
+	NS_DURING
 	
-	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
-	
-	if (forward) {
-		/* 前方検索 */
-		enumerator = [regex matchEnumeratorInString:text 
-			options:options 
-			range:NSMakeRange(NSMaxRange(selectedRange), [text length] - NSMaxRange(selectedRange))];
-		// 最初のマッチ結果を得る。
-		match = [enumerator nextObject];
-		if (match != nil) {
-			// マッチした場合
-			isMatch = YES;
-			NSRange	aRange = [match rangeOfMatchedString];
-			[target setSelectedRange:aRange];
-			[target scrollRangeToVisible:aRange];
-		} else if (isWrap) {
-			// マッチしなかった場合でもwrapする場合は検索範囲を変えてもう一度試みる
+		regex = [OGRegularExpression regularExpressionWithString: expressionString 
+			options: options 
+			syntax: [self syntax] 
+			escapeCharacter: [self escapeCharacter]];
+		
+		if (isFromTop) selectedRange = NSMakeRange(0, 0);
+		
+		pool = [[NSAutoreleasePool alloc] init];
+		
+		if (forward) {
+			/* 前方検索 */
 			enumerator = [regex matchEnumeratorInString:text 
 				options:options 
-				range:NSMakeRange(0, selectedRange.location)];
+				range:NSMakeRange(NSMaxRange(selectedRange), [text length] - NSMaxRange(selectedRange))];
+			// 最初のマッチ結果を得る。
 			match = [enumerator nextObject];
 			if (match != nil) {
 				// マッチした場合
@@ -423,257 +416,343 @@ static NSString	*OgreTextFinderEscapeCharacterKey = @"Escape Character";
 				NSRange	aRange = [match rangeOfMatchedString];
 				[target setSelectedRange:aRange];
 				[target scrollRangeToVisible:aRange];
-			}		
-		}
-	} else {
-		/* 後方検索 */
-		// 最後のマッチ結果を得る
-		match = nil;
-		matchArray = [regex allMatchesInString:text 
-			options:options 
-			range:NSMakeRange(0, selectedRange.location)];
-		if ([matchArray count] > 0) match = [matchArray objectAtIndex:([matchArray count] - 1)];
-		if (match != nil) {
-			// マッチした場合
-			isMatch = YES;
-			NSRange	aRange = [match rangeOfMatchedString];
-			[target setSelectedRange:aRange];
-			[target scrollRangeToVisible:aRange];
-		} else if (isWrap) {
-			// マッチしなかった場合でもwrapする場合は検索範囲を変えてもう一度試みる
+			} else if (isWrap) {
+				// マッチしなかった場合でもwrapする場合は検索範囲を変えてもう一度試みる
+				enumerator = [regex matchEnumeratorInString:text 
+					options:options 
+					range:NSMakeRange(0, selectedRange.location)];
+				match = [enumerator nextObject];
+				if (match != nil) {
+					// マッチした場合
+					isMatch = YES;
+					NSRange	aRange = [match rangeOfMatchedString];
+					[target setSelectedRange:aRange];
+					[target scrollRangeToVisible:aRange];
+				}		
+			}
+		} else {
+			/* 後方検索 */
 			// 最後のマッチ結果を得る
 			match = nil;
 			matchArray = [regex allMatchesInString:text 
 				options:options 
-				range: NSMakeRange(NSMaxRange(selectedRange), [text length] - NSMaxRange(selectedRange))];
-			if ([matchArray count] > 0) match = [matchArray objectAtIndex: ([matchArray count] - 1)];
+				range:NSMakeRange(0, selectedRange.location)];
+			if ([matchArray count] > 0) match = [matchArray objectAtIndex:([matchArray count] - 1)];
 			if (match != nil) {
 				// マッチした場合
 				isMatch = YES;
 				NSRange	aRange = [match rangeOfMatchedString];
 				[target setSelectedRange:aRange];
 				[target scrollRangeToVisible:aRange];
+			} else if (isWrap) {
+				// マッチしなかった場合でもwrapする場合は検索範囲を変えてもう一度試みる
+				// 最後のマッチ結果を得る
+				match = nil;
+				matchArray = [regex allMatchesInString:text 
+					options:options 
+					range: NSMakeRange(NSMaxRange(selectedRange), [text length] - NSMaxRange(selectedRange))];
+				if ([matchArray count] > 0) match = [matchArray objectAtIndex: ([matchArray count] - 1)];
+				if (match != nil) {
+					// マッチした場合
+					isMatch = YES;
+					NSRange	aRange = [match rangeOfMatchedString];
+					[target setSelectedRange:aRange];
+					[target scrollRangeToVisible:aRange];
+				}
 			}
 		}
-	}
+		
+		//[NSException raise:@"TestException" format:@"exception was raised at %@.", [[NSDate date] description]];
+		
+		textFindResult = [[OgreTextFindResult alloc] initWithType:(isMatch? OgreTextFindResultSuccess : OgreTextFindResultFailure) target:target resultInfo:nil];
+		
+	NS_HANDLER
+		
+		textFindResult = [[OgreTextFindResult alloc] initWithType:OgreTextFindResultError target:target resultInfo:nil];
+		[textFindResult setAlertSheet:nil exception:localException];
+		
+	NS_ENDHANDLER
 	
 	[pool release];
-	
 	if (isMatch) [target display];
 	[self makeTargetFree:target];
 	
-	return isMatch;
+	return [textFindResult autorelease];
 }
 
-- (BOOL)findAll:(NSString*)expressionString 
+- (OgreTextFindResult*)findAll:(NSString*)expressionString 
 	color:(NSColor*)highlightColor 
 	options:(unsigned)options
 	inSelection:(BOOL)inSelection
 {
 	id	target = [self targetToFindIn];
-	if ((target == nil) || [self isBusyTarget:target]) return NO;
+	if ((target == nil) || [self isBusyTarget:target]) return [OgreTextFindResult textFindResultWithType:OgreTextFindResultFailure target:target resultInfo:nil];
 	[self makeTargetBusy:target];
 
 	OgreTextFindThread			*newThread;
 	OgreTextFindProgressSheet	*sheet = nil;
+	OgreTextFindResult  *textFindResult = nil;
 	
-	/* 処理状況表示用シートの生成 */
-	sheet = [[OgreTextFindProgressSheet alloc] initWithWindow:[target window] 
-		title:OgreTextFinderLocalizedString(@"Find All") 
-		didEndSelector: @selector(makeTargetFree:) 
-		toTarget: self 
-		withObject: target];
+	NS_DURING
 	
-	OGRegularExpression	*regex = [OGRegularExpression regularExpressionWithString:expressionString
-		options: options
-		syntax:[self syntax] 
-		escapeCharacter:[self escapeCharacter]];
+		/* 処理状況表示用シートの生成 */
+		sheet = [[OgreTextFindProgressSheet alloc] initWithWindow:[target window] 
+			title:OgreTextFinderLocalizedString(@"Find All") 
+			didEndSelector:@selector(makeTargetFree:) 
+			toTarget:self 
+			withObject:target];
+		
+		OGRegularExpression	*regex = [OGRegularExpression regularExpressionWithString:expressionString
+			options:options
+			syntax:[self syntax] 
+			escapeCharacter:[self escapeCharacter]];
+		
+		/* スレッドの生成 */
+		newThread = [[[OgreTextFindThread alloc] initWithCenter:_threadCenter] autorelease];
+		[newThread start:OgreFindAllThread 
+			target:target 
+			regularExpression:regex 
+			options:options 
+			replaceString:nil 
+			color:highlightColor 
+			inSelection:inSelection 
+			progressSheet:sheet];
 	
-	/* スレッドの生成 */
-	newThread = [[[OgreTextFindThread alloc] initWithCenter:_threadCenter] autorelease];
-	[newThread start: OgreFindAllThread 
-		target: target 
-		regularExpression: regex 
-		options: options 
-		replaceString: nil 
-		color: highlightColor 
-		inSelection: inSelection 
-		progressSheet: sheet];
-	
-	return YES;
+		textFindResult = [OgreTextFindResult textFindResultWithType:OgreTextFindResultSuccess target:target resultInfo:nil];
+		
+	NS_HANDLER
+		
+		textFindResult = [OgreTextFindResult textFindResultWithType:OgreTextFindResultError target:target resultInfo:nil];
+		[textFindResult setAlertSheet:sheet exception:localException];
+		
+	NS_ENDHANDLER
+		
+	return textFindResult;
 }
 
-- (BOOL)replace:(NSString*)expressionString 
+- (OgreTextFindResult*)replace:(NSString*)expressionString 
 	withString:(NSString*)replaceString
 	options:(unsigned)options
 {
 	BOOL	isReplaced = NO;
 	
 	id	target = [self targetToFindIn];
-	if ((target == nil) || [self isBusyTarget:target] || ![target isEditable]) return NO;
+	if ((target == nil) || [self isBusyTarget:target] || ![target isEditable]) return [OgreTextFindResult textFindResultWithType:OgreTextFindResultFailure target:target resultInfo:nil];
 	[self makeTargetBusy:target];
 	
 	NSString			*replacedString;
-	OGRegularExpression	*regex = [OGRegularExpression regularExpressionWithString:expressionString 
-		options:options 
-		syntax:[self syntax] 
-		escapeCharacter:[self escapeCharacter]];
-	
+	OGRegularExpression	*regex;
 	NSString	*text = [target string];
 	unsigned	textLength = [text length];
 	NSRange		selectedRange = [target selectedRange];
 	BOOL		locked = NO;
+	OGReplaceExpression	*repex = nil;
+	OgreTextFindResult  *textFindResult = nil;
 		
-	OGRegularExpressionMatch	*match = [regex matchInString:text options:options range:selectedRange];
+	NS_DURING
 	
-	if (match) {
-		isReplaced = YES;
-		OGReplaceExpression	*repex = [[OGReplaceExpression alloc] initWithString:replaceString 
-			escapeCharacter:[regex escapeCharacter]];
+		regex = [OGRegularExpression regularExpressionWithString:expressionString 
+			options:options 
+			syntax:[self syntax] 
+			escapeCharacter:[self escapeCharacter]];
 		
-		NSTextStorage	*textStorage = [target textStorage];
-		locked = [target lockFocusIfCanDraw];
-		[textStorage beginEditing];
+		OGRegularExpressionMatch	*match = [regex matchInString:text options:options range:selectedRange];
 		
-		NSRange		matchRange = [match rangeOfMatchedString];
-		[target setSelectedRange:matchRange];
-		unsigned	attrIndex = matchRange.location;
-		// 文字属性のコピー元。置換前の1文字目の文字属性をコピーする
-		if (matchRange.location < textLength) {
-			attrIndex = matchRange.location;
-		} else {
-			// matchRange.location == textLength (> 1) の場合は1文字前にずらす。
-			// @"abc" -> attributesAtIndex:3 -> exception
-			attrIndex = textLength - 1;
+		if (match) {
+			isReplaced = YES;
+			repex = [[OGReplaceExpression alloc] initWithString:replaceString 
+				syntax:[regex syntax] 
+				escapeCharacter:[regex escapeCharacter]];
+			
+			NSTextStorage	*textStorage = [target textStorage];
+			locked = [target lockFocusIfCanDraw];
+			[textStorage beginEditing];
+			
+			NSRange		matchRange = [match rangeOfMatchedString];
+			[target setSelectedRange:matchRange];
+			unsigned	attrIndex = matchRange.location;
+			// 文字属性のコピー元。置換前の1文字目の文字属性をコピーする
+			if (matchRange.location < textLength) {
+				attrIndex = matchRange.location;
+			} else {
+				// matchRange.location == textLength (> 1) の場合は1文字前にずらす。
+				// @"abc" -> attributesAtIndex:3 -> exception
+				attrIndex = textLength - 1;
+			}
+			
+			replacedString = [repex replaceMatchedStringOf:match];
+			NSRange	newRange = NSMakeRange(matchRange.location, [replacedString length]);
+			// Undo操作の登録
+			if ([target allowsUndo]) {
+				NSUndoManager	*undoManager = [target undoManager];
+				[undoManager beginUndoGrouping];
+				[[undoManager prepareWithInvocationTarget:self] 
+					undoableReplaceCharactersInRange:newRange 
+					withAttributedString:[[[NSAttributedString alloc] initWithAttributedString:[textStorage attributedSubstringFromRange:matchRange]] autorelease] 
+					inTarget:target 
+					jumpToSelection:YES];
+				[undoManager setActionName:OgreTextFinderLocalizedString(@"Replace")];
+				[undoManager endUndoGrouping];
+			}
+			
+			// 置換	
+			if (textLength > 0) {
+				[textStorage replaceCharactersInRange:matchRange withAttributedString: [[[NSAttributedString alloc] 
+					initWithString: replacedString
+					attributes: [textStorage attributesAtIndex:attrIndex effectiveRange:nil]] autorelease]];
+			} else {
+				// textLength == 0の場合は属性なしで置換
+				[target setString:replacedString];
+			}
+					
+			[textStorage endEditing];
+			[target setSelectedRange:newRange];
+			[target scrollRangeToVisible:newRange];
+			if (locked) [target unlockFocus];
+			[target display];
 		}
-		
-		replacedString = [repex replaceMatchedStringOf:match];
-		NSRange	newRange = NSMakeRange(matchRange.location, [replacedString length]);
-		// Undo操作の登録
-		if ([target allowsUndo]) {
-			NSUndoManager	*undoManager = [target undoManager];
-			[undoManager beginUndoGrouping];
-			[[undoManager prepareWithInvocationTarget:self] 
-				undoableReplaceCharactersInRange:newRange 
-				withAttributedString:[[[NSAttributedString alloc] initWithAttributedString:[textStorage attributedSubstringFromRange:matchRange]] autorelease] 
-				inTarget:target 
-				jumpToSelection:YES];
-			[undoManager setActionName:OgreTextFinderLocalizedString(@"Replace")];
-			[undoManager endUndoGrouping];
-		}
-		
-		// 置換	
-		if (textLength > 0) {
-			[textStorage replaceCharactersInRange:matchRange withAttributedString: [[[NSAttributedString alloc] 
-				initWithString: replacedString
-				attributes: [textStorage attributesAtIndex:attrIndex effectiveRange:nil]] autorelease]];
-		} else {
-			// textLength == 0の場合は属性なしで置換
-			[target setString:replacedString];
-		}
-				
-		[textStorage endEditing];
-		[target setSelectedRange:newRange];
-		[target scrollRangeToVisible:newRange];
-		if (locked) [target unlockFocus];
-		[target display];
-		[repex release];
-	}
 	
+		textFindResult = [OgreTextFindResult textFindResultWithType:(isReplaced? OgreTextFindResultSuccess : OgreTextFindResultFailure) target:target resultInfo:nil];
+		
+	NS_HANDLER
+		
+		textFindResult = [OgreTextFindResult textFindResultWithType:OgreTextFindResultError target:target resultInfo:nil];
+		[textFindResult setAlertSheet:nil exception:localException];
+		
+	NS_ENDHANDLER
+	
+	[repex release];
 	[self makeTargetFree:target];
-	return isReplaced;
+	
+	return textFindResult;
 }
 
-- (BOOL)replaceAll:(NSString*)expressionString 
+- (OgreTextFindResult*)replaceAll:(NSString*)expressionString 
 	withString:(NSString*)replaceString
 	options:(unsigned)options
 	inSelection:(BOOL)inSelection
 {
 	id	target = [self targetToFindIn];
-	if ((target == nil) || [self isBusyTarget:target] || ![target isEditable]) return NO;
+	if ((target == nil) || [self isBusyTarget:target] || ![target isEditable]) return [OgreTextFindResult textFindResultWithType:OgreTextFindResultFailure target:target resultInfo:nil];
 	[self makeTargetBusy:target];
 	
 	OgreTextFindThread			*newThread;
 	OgreTextFindProgressSheet	*sheet = nil;
+	OgreTextFindResult  *textFindResult = nil;
 	
-	/* 処理状況表示用シートの生成 */
-	sheet = [[OgreTextFindProgressSheet alloc] initWithWindow:[target window] 
-		title:OgreTextFinderLocalizedString(@"Replace All") 
-		didEndSelector: @selector(makeTargetFree:) 
-		toTarget: self 
-		withObject: target];
+	NS_DURING
+	
+		/* 処理状況表示用シートの生成 */
+		sheet = [[OgreTextFindProgressSheet alloc] initWithWindow:[target window] 
+			title:OgreTextFinderLocalizedString(@"Replace All") 
+			didEndSelector: @selector(makeTargetFree:) 
+			toTarget: self 
+			withObject: target];
+			
+		OGRegularExpression	*regex = [OGRegularExpression regularExpressionWithString:expressionString
+			options: options
+			syntax:[self syntax] 
+			escapeCharacter:[self escapeCharacter]];
 		
-	OGRegularExpression	*regex = [OGRegularExpression regularExpressionWithString:expressionString
-		options: options
-		syntax:[self syntax] 
-		escapeCharacter:[self escapeCharacter]];
+		/* スレッドの生成 */
+		newThread = [[[OgreTextFindThread alloc] initWithCenter:_threadCenter] autorelease];
+		[newThread start: OgreReplaceAllThread 
+			target: target 
+			regularExpression: regex 
+			options: options 
+			replaceString: replaceString 
+			color: nil 
+			inSelection: inSelection 
+			progressSheet: sheet];
 	
-	/* スレッドの生成 */
-	newThread = [[[OgreTextFindThread alloc] initWithCenter:_threadCenter] autorelease];
-	[newThread start: OgreReplaceAllThread 
-		target: target 
-		regularExpression: regex 
-		options: options 
-		replaceString: replaceString 
-		color: nil 
-		inSelection: inSelection 
-		progressSheet: sheet];
+		textFindResult = [OgreTextFindResult textFindResultWithType:OgreTextFindResultSuccess target:target resultInfo:nil];
+		
+	NS_HANDLER
+		
+		textFindResult = [OgreTextFindResult textFindResultWithType:OgreTextFindResultError target:target resultInfo:nil];
+		[textFindResult setAlertSheet:sheet exception:localException];
+		
+	NS_ENDHANDLER
 	
-	return YES;
+	return textFindResult;
 }
 
 
-- (BOOL)unhightlight
+- (OgreTextFindResult*)unhightlight
 {
 	id	target = [self targetToFindIn];
-	if ((target == nil) || [self isBusyTarget:target]) return NO;
+	if ((target == nil) || [self isBusyTarget:target]) return [OgreTextFindResult textFindResultWithType:OgreTextFindResultFailure target:target resultInfo:nil];
 	
 	NSString		*text = [target string];
+	OgreTextFindResult  *textFindResult = nil;
 
-	if ([target lockFocusIfCanDraw]) {
-		[[target layoutManager] removeTemporaryAttribute:NSBackgroundColorAttributeName forCharacterRange:NSMakeRange(0, [text length])];
-		[target unlockFocus];
-	}
+	NS_DURING
 	
-	return YES;
+		if ([target lockFocusIfCanDraw]) {
+			[[target layoutManager] removeTemporaryAttribute:NSBackgroundColorAttributeName forCharacterRange:NSMakeRange(0, [text length])];
+			[target unlockFocus];
+		}
+	
+		textFindResult = [OgreTextFindResult textFindResultWithType:OgreTextFindResultSuccess target:target resultInfo:nil];
+		
+	NS_HANDLER
+		
+		textFindResult = [OgreTextFindResult textFindResultWithType:OgreTextFindResultError target:target resultInfo:nil];
+		[textFindResult setAlertSheet:nil exception:localException];
+		
+	NS_ENDHANDLER
+	
+	return textFindResult;
 }
 
-- (BOOL)hightlight:(NSString*)expressionString 
+- (OgreTextFindResult*)hightlight:(NSString*)expressionString 
 	color:(NSColor*)highlightColor 
 	options:(unsigned)options
 	inSelection:(BOOL)inSelection
 {
 	id	target = [self targetToFindIn];
-	if ((target == nil) || [self isBusyTarget:target]) return NO;
+	if ((target == nil) || [self isBusyTarget:target]) return [OgreTextFindResult textFindResultWithType:OgreTextFindResultFailure target:target resultInfo:nil];
 	[self makeTargetBusy:target];
 	
 	OgreTextFindThread			*newThread;
 	OgreTextFindProgressSheet	*sheet = nil;
+	OgreTextFindResult  *textFindResult = nil;
 	
-	/* 処理状況表示用シートの生成 */
-	sheet = [[OgreTextFindProgressSheet alloc] initWithWindow:[target window] 
-		title:OgreTextFinderLocalizedString(@"Highlight") 
-		didEndSelector: @selector(makeTargetFree:) 
-		toTarget: self 
-		withObject: target];
+	NS_DURING
 	
-	OGRegularExpression	*regex = [OGRegularExpression regularExpressionWithString:expressionString
-		options: options
-		syntax:[self syntax] 
-		escapeCharacter:[self escapeCharacter]];
+		/* 処理状況表示用シートの生成 */
+		sheet = [[OgreTextFindProgressSheet alloc] initWithWindow:[target window] 
+			title:OgreTextFinderLocalizedString(@"Highlight") 
+			didEndSelector: @selector(makeTargetFree:) 
+			toTarget: self 
+			withObject: target];
+		
+		OGRegularExpression	*regex = [OGRegularExpression regularExpressionWithString:expressionString
+			options:options
+			syntax:[self syntax] 
+			escapeCharacter:[self escapeCharacter]];
+		
+		/* スレッドの生成 */
+		newThread = [[[OgreTextFindThread alloc] initWithCenter:_threadCenter] autorelease];
+		[newThread start:OgreHighlightThread 
+			target:				target 
+			regularExpression:  regex 
+			options:			options 
+			replaceString:		nil 
+			color:				highlightColor 
+			inSelection:		inSelection 
+			progressSheet:		sheet];
+		
+		textFindResult = [OgreTextFindResult textFindResultWithType:OgreTextFindResultSuccess target:target resultInfo:nil];
+		
+	NS_HANDLER
+		
+		textFindResult = [OgreTextFindResult textFindResultWithType:OgreTextFindResultError target:target resultInfo:nil];
+		[textFindResult setAlertSheet:sheet exception:localException];
+		
+	NS_ENDHANDLER
 	
-	/* スレッドの生成 */
-	newThread = [[[OgreTextFindThread alloc] initWithCenter:_threadCenter] autorelease];
-	[newThread start: OgreHighlightThread 
-		target: target 
-		regularExpression: regex 
-		options: options 
-		replaceString: nil 
-		color: highlightColor 
-		inSelection: inSelection 
-		progressSheet: sheet];
-	
-	return YES;
+	return textFindResult;
 }
 
 /* selection */
@@ -755,6 +834,23 @@ static NSString	*OgreTextFinderEscapeCharacterKey = @"Escape Character";
 	[textStorage replaceCharactersInRange:aRange withAttributedString:aString];
 	[aTarget setSelectedRange:newRange];
 	if (jumpToSelection) [aTarget scrollRangeToVisible:newRange];
+}
+
+/* alert sheet */
+- (OgreTextFindProgressSheet*)alertSheetOnTarget:(id)aTerget
+{
+	OgreTextFindProgressSheet   *sheet = nil;
+	
+	if ((aTerget != nil) && ![self isBusyTarget:aTerget]) {
+		[self makeTargetBusy:aTerget];
+		sheet = [[OgreTextFindProgressSheet alloc] initWithWindow:[aTerget window] 
+			title:@"" 
+			didEndSelector:@selector(makeTargetFree:) 
+			toTarget:self 
+			withObject:aTerget];
+	}
+	
+	return sheet;
 }
 
 @end

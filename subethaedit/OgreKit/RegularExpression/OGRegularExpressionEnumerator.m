@@ -39,8 +39,8 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 	int					r;
 	unsigned char		*start, *range, *end;
 	OnigRegion			*region;
-	id					match;
-	unsigned			utf8charlen;
+	id					match = nil;
+	unsigned			utf8charlen = 0;
 	
 	/* ‘S–Ê“I‚É‘‚«’¼‚·—\’è */
 	if ( _utf8TerminalOfLastMatch == -1 ) {

@@ -72,13 +72,13 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 	_findHistory = [[findTextField stringValue] retain];
 	
 	[[self textFinder] setSyntax:[self syntax]];
-	BOOL	found = [[self textFinder] find: _findHistory 
+	OgreTextFindResult	*result = [[self textFinder] find: _findHistory 
 		options: [self options]	
 		fromTop: NO
 		forward: YES
 		wrap: YES];
 
-	if (!found) NSBeep();   // マッチしなかった場合
+	if (![result isSuccess]) NSBeep();   // マッチしなかった場合
 }
 
 - (IBAction)findPrevious:(id)sender
@@ -87,13 +87,13 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 	_findHistory = [[findTextField stringValue] retain];
 	
 	[[self textFinder] setSyntax:[self syntax]];
-	BOOL	found = [[self textFinder] find: _findHistory 
+	OgreTextFindResult	*result = [[self textFinder] find: _findHistory 
 		options: [self options] 
 		fromTop: NO
 		forward: NO
 		wrap: YES];
 		
-	if (!found) NSBeep();
+	if (![result isSuccess]) NSBeep();   // マッチしなかった場合
 }
 
 - (IBAction)replace:(id)sender
@@ -103,11 +103,11 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 	_replaceHistory = [[replaceTextField stringValue] retain];
 	
 	[[self textFinder] setSyntax:[self syntax]];
-	if (![[self textFinder] replace: _findHistory 
+	OgreTextFindResult	*result = [[self textFinder] replace: _findHistory 
 			withString: _replaceHistory 
-			options: [self options]]) {
-		NSBeep();
-	}
+			options: [self options]];
+			
+	if (![result isSuccess]) NSBeep();   // マッチしなかった場合
 }
 
 - (IBAction)replaceAll:(id)sender
@@ -117,14 +117,12 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 	_replaceHistory = [[replaceTextField stringValue] retain];
 		
 	[[self textFinder] setSyntax:[self syntax]];
-	BOOL	start = [[self textFinder] replaceAll: _findHistory 
+	OgreTextFindResult	*result = [[self textFinder] replaceAll: _findHistory 
 		withString: _replaceHistory
 		options: [self options] 
 		inSelection: ![self isEntire]];
-	if (!start) {
-		// 開始できなかった場合
-		NSBeep();
-	}
+		
+	if (![result isSuccess]) NSBeep();   // マッチしなかった場合
 }
 
 - (BOOL)didEndReplaceAll:(id)anObject
@@ -139,18 +137,19 @@ static NSString	*MyEntireScopeKey    = @"Entire Scope";
 	_replaceHistory = [[replaceTextField stringValue] retain];
 	
 	[[self textFinder] setSyntax:[self syntax]];
-	BOOL	found = NO;
-	if ([[self textFinder] replace: _findHistory 
+	OgreTextFindResult	*result;
+	result = [[self textFinder] replace: _findHistory 
 			withString: _replaceHistory 
-			options: [self options]]) {
-		found = [[self textFinder] find: [findTextField stringValue] 
+			options: [self options]];
+	if ([result isSuccess]) {
+		result = [[self textFinder] find: [findTextField stringValue] 
 			options: [self options] 
 			fromTop: NO
 			forward: YES
 			wrap: YES];
 	}
 	
-	if (!found) NSBeep();
+	if (![result isSuccess]) NSBeep();   // マッチしなかった場合
 }
 
 - (IBAction)jumpToSelection:(id)sender
