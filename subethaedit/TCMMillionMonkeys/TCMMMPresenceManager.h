@@ -10,6 +10,10 @@
 
 @class TCMMMStatusProfile, TCMHost, TCMMMSession;
 
+extern NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification;
+extern NSString * const TCMMMPresenceManagerUserDidChangeNotification;
+extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
+
 @interface TCMMMPresenceManager : NSObject
 {
     NSNetService *I_netService;
@@ -28,8 +32,9 @@
 
 - (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile;
 
+- (NSDictionary *)announcedSessions;
 - (void)announceSession:(TCMMMSession *)aSession;
 - (void)concealSession:(TCMMMSession *)aSession;
-
+- (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID;
 
 @end

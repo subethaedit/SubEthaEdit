@@ -20,5 +20,6 @@
 
 -(NSMutableArray *)tableData;
 -(void)setTableData:(NSMutableArray *)tableData;
+- (IBAction)setVisibilityByPopUpButton:(id)aSender;
 
 @end

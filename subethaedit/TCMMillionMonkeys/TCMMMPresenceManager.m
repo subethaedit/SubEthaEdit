@@ -15,6 +15,13 @@
 
 static TCMMMPresenceManager *sharedInstance = nil;
 
+NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification=
+               @"TCMMMPresenceManagerUserVisibilityDidChangeNotification";
+NSString * const TCMMMPresenceManagerUserDidChangeNotification=
+               @"TCMMMPresenceManagerUserDidChangeNotification";
+NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
+               @"TCMMMPresenceManagerUserSessionsDidChangeNotification";
+
 @interface TCMMMPresenceManager (TCMMMPresenceManagerPrivateAdditions)
 
 - (void)TCM_validateServiceAnnouncement;
@@ -61,13 +68,18 @@ static TCMMMPresenceManager *sharedInstance = nil;
         [I_netService setDelegate:self];
     }
     
-    if (I_flags.isVisible && !I_flags.serviceIsPublished) {
-        TCMMMUser *me=[[TCMMMUserManager sharedInstance] me];
+    TCMMMUser *me=[[TCMMMUserManager sharedInstance] me];
+    if ((I_flags.isVisible || [I_announcedSessions count]>0) && !I_flags.serviceIsPublished) {
         [I_netService setProtocolSpecificInformation:[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001version=2",[me name],[me ID]]];
         [I_netService publish];
         I_flags.serviceIsPublished = YES;
-    } else if (!I_flags.isVisible && I_flags.serviceIsPublished){
+    } else if (!(I_flags.isVisible || [I_announcedSessions count]>0) && I_flags.serviceIsPublished){
         [I_netService stop];
+    } else if (I_flags.serviceIsPublished) {
+//      causes severe mDNSResponderCrash!
+//        NSString *txtRecord=[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001docs=%d\001version=2",[me name],[me ID],[I_announcedSessions count]];
+//        NSLog(@"Updating record with:%@",txtRecord);
+//        [I_netService setProtocolSpecificInformation:txtRecord];
     }
 }
 
@@ -76,6 +88,11 @@ static TCMMMPresenceManager *sharedInstance = nil;
 {
     I_flags.isVisible = aFlag;
     [self TCM_validateServiceAnnouncement];
+    NSEnumerator *profiles=[I_statusProfilesInServerRole objectEnumerator];
+    TCMMMStatusProfile *profile=nil;
+    while ((profile=[profiles nextObject])) {
+        [profile sendVisibility:aFlag];
+    }
 }
 
 - (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID {
@@ -84,24 +101,46 @@ static TCMMMPresenceManager *sharedInstance = nil;
         statusOfUserID=[NSMutableDictionary dictionary];
         [statusOfUserID setObject:@"NoStatus" forKey:@"Status"];
         [statusOfUserID setObject:aUserID     forKey:@"UserID"];
+        [statusOfUserID setObject:[NSMutableDictionary dictionary] forKey:@"Sessions"];
         [I_statusOfUserIDs setObject:statusOfUserID forKey:aUserID];
     }
     return statusOfUserID;
 }
 
+- (NSDictionary *)announcedSessions {
+    return I_announcedSessions;
+}
+
 - (void)announceSession:(TCMMMSession *)aSession {
     [I_announcedSessions setObject:aSession forKey:[aSession sessionID]];
+    [self TCM_validateServiceAnnouncement];
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(announceSession:) withObject:aSession];
 }
 
 - (void)concealSession:(TCMMMSession *)aSession {
     [I_announcedSessions removeObjectForKey:[aSession sessionID]];
+    [self TCM_validateServiceAnnouncement];
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(concealSession:) withObject:aSession];
 }
 
 
 #pragma mark -
 #pragma mark ### TCMMMStatusProfile interaction
+
+- (void)TCM_validateVisibilityOfUserID:(NSString *)aUserID {
+    NSMutableDictionary *status=[self statusOfUserID:aUserID];
+    BOOL currentVisibility=([status objectForKey:@"isVisible"]!=nil);
+    BOOL newVisibility=(([status objectForKey:@"InternalIsVisible"]!=nil) || ([[status objectForKey:@"Sessions"] count] > 0));
+    if (newVisibility!=currentVisibility) {
+        if (newVisibility) {
+            [status setObject:[NSNumber numberWithBool:YES] forKey:@"isVisible"];
+        } else {
+            [status removeObjectForKey:@"isVisible"];
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:self 
+            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:aUserID,@"UserID",[NSNumber numberWithBool:newVisibility],@"isVisible",nil]];
+    }
+}
 
 - (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
     [aProfile sendMyself:[TCMMMUserManager me]];
@@ -114,17 +153,38 @@ static TCMMMPresenceManager *sharedInstance = nil;
 }
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidChangeVisibility" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[[[[aProfile channel] session] userInfo] objectForKey:@"peerUserID"],@"UserID",[NSNumber numberWithBool:isVisible],@"isVisible",nil]];
+    NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    NSMutableDictionary *status=[self statusOfUserID:userID];
+    if (isVisible) {
+        [status setObject:[NSNumber numberWithBool:YES] forKey:@"InternalIsVisible"];
+    } else {
+        [status removeObjectForKey:@"InternalIsVisible"];
+    }
+    [self TCM_validateVisibilityOfUserID:userID];
 }
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession
 {
     DEBUGLOG(@"Presence",5,@"didReceiveAnnouncedSession: %@",[aSession description]);
+    NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    NSMutableDictionary *status=[self statusOfUserID:userID];
+    NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
+    [sessions setObject:aSession forKey:[aSession sessionID]];
+    [self TCM_validateVisibilityOfUserID:userID];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
+            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil]];
 }
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID
 {
     DEBUGLOG(@"Presence",5,@"didReceiveConcealSessionID: %@",anID);
+    NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    NSMutableDictionary *status=[self statusOfUserID:userID];
+    NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
+    [sessions removeObjectForKey:anID];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
+            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil]];
+    [self TCM_validateVisibilityOfUserID:userID];
 }
 
 - (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError {
@@ -133,9 +193,12 @@ static TCMMMPresenceManager *sharedInstance = nil;
     NSMutableDictionary *status=[self statusOfUserID:userID];
     [status removeObjectForKey:@"StatusProfile"];
     [status setObject:@"NoStatus" forKey:@"Status"];
+    [status setObject:[NSMutableDictionary dictionary] forKey:@"Sessions"];
     [I_statusProfilesInServerRole removeObject:aProfile];
     [aProfile setDelegate:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidChangeVisibility" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSNumber numberWithBool:NO],@"isVisible",nil]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
+            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[status objectForKey:@"Sessions"],@"Sessions",nil]];
+    [self TCM_validateVisibilityOfUserID:userID];
 }
 
 #pragma mark -

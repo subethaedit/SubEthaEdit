@@ -2,6 +2,7 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {setVisibilityByPopUpButton = id; }; 
             CLASS = RendezvousBrowserController; 
             LANGUAGE = ObjC; 
             OUTLETS = {

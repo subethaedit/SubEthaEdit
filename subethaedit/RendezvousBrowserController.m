@@ -21,7 +21,7 @@
         [I_browser setDelegate:self];
         [I_browser startSearch];
         I_foundUserIDs=[NSMutableSet new];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:@"UserDidChangeVisibility" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
     }
     return self;
 }
@@ -49,6 +49,9 @@
     I_tableData=[tableData mutableCopy];
 }
 
+- (IBAction)setVisibilityByPopUpButton:(id)aSender {
+    [[TCMMMPresenceManager sharedInstance] setVisible:([aSender indexOfSelectedItem]==0)];
+}
 
 #pragma mark -
 #pragma mark ### TCMRendezvousBrowser Delegate ###
