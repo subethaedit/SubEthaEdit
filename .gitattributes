@@ -231,6 +231,9 @@ subethaedit/EditPreferences.m -text
 subethaedit/EncodingManager.h -text
 subethaedit/EncodingManager.m -text
 subethaedit/English.lproj/Credits.rtf -text
+subethaedit/English.lproj/DocumentProxy.nib/classes.nib -text
+subethaedit/English.lproj/DocumentProxy.nib/info.nib -text
+subethaedit/English.lproj/DocumentProxy.nib/keyedobjects.nib -text
 subethaedit/English.lproj/EditPrefs.nib/classes.nib -text
 subethaedit/English.lproj/EditPrefs.nib/info.nib -text
 subethaedit/English.lproj/EditPrefs.nib/keyedobjects.nib -text

@@ -1,0 +1,18 @@
+{
+    IBClasses = (
+        {
+            CLASS = DocumentProxyWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_documentImageView" = NSImageView; 
+                "O_documentTitleTextField" = NSTextField; 
+                "O_statusBarTextField" = NSTextField; 
+                "O_userImageView" = NSImageView; 
+                "O_userNameTextField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
