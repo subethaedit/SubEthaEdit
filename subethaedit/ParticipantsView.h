@@ -23,10 +23,11 @@ enum {
 @interface ParticipantsView : TCMListView
 {
     int I_dragToItem;
-    PlainTextDocument *I_document;
+    NSWindowController *I_windowController;
 }
 
-- (void)setDocument:(PlainTextDocument *)aDocument;
+- (void)setWindowController:(NSWindowController *)aWindowController;
+- (NSWindowController *)windowController;
 - (PlainTextDocument *)document;
 
 @end

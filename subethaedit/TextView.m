@@ -15,7 +15,8 @@
 #import "TCMMMSession.h"
 #import "SelectionOperation.h"
 #import "FindReplaceController.h"
-
+#import "ParticipantsView.h"
+#import "PlainTextWindowController.h"
 
 @implementation TextView
 
@@ -276,7 +277,14 @@ static NSMenu *defaultMenu=nil;
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }
-    } 
+    } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
+        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]] && 
+            [[sender draggingSource] windowController]==[[self window] windowController]) {
+            [self setIsDragTarget:YES];
+            return NSDragOperationGeneric;
+        }
+    }
+    [self setIsDragTarget:NO];
     return [super draggingEntered:sender];
 }
 
@@ -293,7 +301,13 @@ static NSMenu *defaultMenu=nil;
         if (shouldDrag) {
             return NSDragOperationGeneric;
         }
+    } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
+        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]]) {
+            [self setIsDragTarget:YES];
+            return NSDragOperationGeneric;
+        }
     } 
+    [self setIsDragTarget:NO];
     return [super draggingUpdated:sender];
 }
 
@@ -304,9 +318,14 @@ static NSMenu *defaultMenu=nil;
         BOOL shouldDrag=[[(PlainTextDocument *)[[[self window] windowController] document] session] isServer];
         [self setIsDragTarget:shouldDrag];
         return shouldDrag;
-    } else {
-        return [super prepareForDragOperation:sender];
+    } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
+        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]] && 
+            [[[sender draggingSource] window] windowController]==[[self window]  windowController]) {
+            return YES;
+        }
     }
+    
+    return [super prepareForDragOperation:sender];
 }
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
@@ -327,20 +346,29 @@ static NSMenu *defaultMenu=nil;
         }
         [self setIsDragTarget:NO];
         return YES;
-    } else {
-        return [super performDragOperation:sender];
+    } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
+        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]] && 
+            [[sender draggingSource] windowController]==[[self window]windowController]) {
+            PlainTextWindowController *controller=[[self window] windowController];
+            [controller performSelector:@selector(followUser:) withObject:self];
+            [self setIsDragTarget:NO];
+            return YES;
+        }
     }
+    [self setIsDragTarget:NO];
+    return [super performDragOperation:sender];
 }
 
 - (NSArray *)acceptableDragTypes {
     NSMutableArray *dragTypes=[[super acceptableDragTypes] mutableCopy];
     [dragTypes addObject:@"PboardTypeTBD"];
+    [dragTypes addObject:@"ParticipantDrag"];
     return [dragTypes autorelease];
 }
 
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+    if ([[pboard types] containsObject:@"PboardTypeTBD"] || [[pboard types] containsObject:@"ParticipantDrag"]) {
         //NSLog(@"concludeDragOperation:");
     } else {
         [super concludeDragOperation:sender];

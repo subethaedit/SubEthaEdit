@@ -22,7 +22,7 @@ extern NSString *ListViewDidChangeSelectionNotification;
     SEL I_action;
     SEL I_doubleAction;
     int I_actionRow;
-    
+    NSPasteboard *I_currentDragPasteboard;
     
     // Selection
     int I_selectedRow;
@@ -69,7 +69,7 @@ extern NSString *ListViewDidChangeSelectionNotification;
 - (int)numberOfChildrenOfItemAtIndex:(int)aIndex;
 - (void)noteEnclosingScrollView;
 - (void)resizeToFit;
-
+- (NSPasteboard *)currentDraggingPasteboard;
 - (int)numberOfRows;
 
 /*"Selection Handling"*/
@@ -80,6 +80,7 @@ extern NSString *ListViewDidChangeSelectionNotification;
 - (int)numberOfSelectedRows;
 - (void)selectRow:(int)aRow byExtendingSelection:(BOOL)extend;
 - (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)extend;
+- (void)reduceSelectionToChildren;
 
 @end
 

@@ -8,6 +8,7 @@
 
 #import "ParticipantsView.h"
 #import "PlainTextDocument.h"
+#import "PlainTextWindowController.h"
 #import "TCMMMSession.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
@@ -31,18 +32,22 @@
     return 11.;
 }
 
-- (void)setDocument:(PlainTextDocument *)aDocument {
-    I_document=aDocument;
+- (void)setWindowController:(NSWindowController *)aWindowController {
+    I_windowController=aWindowController;
+}
+
+- (NSWindowController *)windowController {
+    return I_windowController;
 }
 
 - (PlainTextDocument *)document {
-    return I_document;
+    return (PlainTextDocument *)[I_windowController document];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
     if (self) {
-        [self registerForDraggedTypes:[NSArray arrayWithObject:@"PboardTypeTBD"]];
+        [self registerForDraggedTypes:[NSArray arrayWithObjects:@"PboardTypeTBD",@"ParticipantDrag",nil]];
         I_dragToItem=-1;
     }
     return self;
@@ -141,6 +146,29 @@
 #pragma mark -
 #pragma mark ### drag & drop ###
 
+-(void)dragImage:(NSImage *)anImage at:(NSPoint)imageLoc offset:(NSSize)mouseOffset event:(NSEvent *)theEvent pasteboard:(NSPasteboard *)pboard source:(id)sourceObject slideBack:(BOOL)slideBack {
+    if ([[pboard types] containsObject:@"ParticipantDrag"] && 
+        [[[pboard propertyListForType:@"ParticipantDrag"] objectForKey:@"Kick"] boolValue]) {
+        slideBack=NO;
+    }
+    [super dragImage:anImage at:imageLoc offset:mouseOffset event:theEvent pasteboard:pboard source:sourceObject slideBack:slideBack];
+}
+
+- (void)draggedImage:(NSImage *)anImage endedAt:(NSPoint)aPoint operation:(NSDragOperation)operation {
+    NSPasteboard *pboard=[self currentDraggingPasteboard];
+    if (operation == NSDragOperationNone) {
+        if ([[pboard types] containsObject:@"ParticipantDrag"]) {
+            NSDictionary *plist=[pboard propertyListForType:@"ParticipantDrag"];
+            if ([[plist objectForKey:@"Kick"] boolValue]) {
+                NSSize imageSize=[anImage size];
+                float poofSize=(imageSize.width+imageSize.height)/2.;
+                NSShowAnimationEffect(NSAnimationEffectPoof,NSMakePoint(aPoint.x+imageSize.width/2.,aPoint.y+imageSize.height/2.),NSMakeSize(poofSize,poofSize),nil,NULL,NULL);
+                [(PlainTextWindowController *)[self windowController] kickButtonAction:self];
+            }
+        }
+    }
+}
+
 - (NSRect)highlightRectForItem:(int)itemIndex {
     NSRect itemRect=[self rectForItem:I_dragToItem child:-1];
     float height=1.;
@@ -185,13 +213,30 @@
 
 - (NSDragOperation)validateDrag:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"PboardTypeTBD"] && [[[self document] session] isServer]) {
-        NSPoint draggingLocation=[self convertPoint:[sender draggingLocation] fromView:nil];
-        int itemIndex=[self targetItemForDragPoint:draggingLocation];
-        if (itemIndex<2) {
-            [self highlightItemForDrag:itemIndex];
-            return NSDragOperationGeneric;
-        } 
+    if ([[[self document] session] isServer]) {
+        if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+            NSPoint draggingLocation=[self convertPoint:[sender draggingLocation] fromView:nil];
+            int itemIndex=[self targetItemForDragPoint:draggingLocation];
+            if (itemIndex<2) {
+                [self highlightItemForDrag:itemIndex];
+                return NSDragOperationGeneric;
+            } 
+        } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
+            if ([sender draggingSource]==self) {
+                NSDictionary *plist=[pboard propertyListForType:@"ParticipantDrag"];
+                NSPoint draggingLocation=[self convertPoint:[sender draggingLocation] fromView:nil];
+                int itemIndex=[self targetItemForDragPoint:draggingLocation];
+                if (itemIndex<2) {
+                    NSString *key=(itemIndex==0?@"ReadWrite":@"ReadOnly");
+                    if ([[plist objectForKey:key] boolValue]) {
+                        [self highlightItemForDrag:itemIndex];
+                        return NSDragOperationGeneric;
+                    }
+                }
+            }
+            [self highlightItemForDrag:-1];
+            return NSDragOperationPrivate;
+        }
     }
     [self highlightItemForDrag:-1];
     return NSDragOperationNone;
@@ -213,6 +258,10 @@
     NSPasteboard *pboard = [sender draggingPasteboard];
     BOOL result=NO;
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+        TCMMMSession *session=[[self document] session];
+        //NSLog(@"prepareForDragOperation:");
+        result = [session isServer];
+    } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
         TCMMMSession *session=[[self document] session];
         //NSLog(@"prepareForDragOperation:");
         result = [session isServer];
@@ -240,7 +289,18 @@
         }
         [self highlightItemForDrag:-1];
         return YES;
-    } 
+    } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
+        BOOL result=YES;
+        if (I_dragToItem==0) {
+            [(PlainTextWindowController *)[self windowController] readWriteButtonAction:self];
+            result=YES;
+        } else if (I_dragToItem==1) {
+            [(PlainTextWindowController *)[self windowController] readOnlyButtonAction:self];
+            result=YES;
+        }
+        [self highlightItemForDrag:-1];
+        return result;
+    }
     [self highlightItemForDrag:-1];
     return NO;
 }

@@ -1989,7 +1989,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSArray *pathComponents=[[self fileName] pathComponents];
     int count=[pathComponents count];
     if (!count) {
-        result = [super displayName];
+        result = (NSMutableString *)[super displayName];
     } else {
         int i=count;
         int pathComponentsToShow=[[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
@@ -2007,7 +2007,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSMutableString *result=[NSMutableString string];
     TCMMMSession *session=[self session];
     if (!session || [session isServer] || I_flags.shouldChangeChangeCount) {
-        [result appendString:[self preparedDisplayName]];
+        NSArray *pathComponents=[[self fileName] pathComponents];
+        int count=[pathComponents count];
+        if (!count) {
+            result = (NSMutableString *)[super displayName];
+        } else {
+            int i=count;
+            int pathComponentsToShow=[[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+            for (i=count-1;i>=0 && i>count-pathComponentsToShow-1;i--) {
+                if (i!=count-1) {
+                    [result insertString:@"/" atIndex:0];
+                }
+                [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
+            }
+        }
     } else {
         [result appendString:[session filename]];
     }

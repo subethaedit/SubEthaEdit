@@ -116,7 +116,7 @@ enum {
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[[self window] toolbar] setDelegate:nil];
-    [O_participantsView setDocument:nil];
+    [O_participantsView setWindowController:nil];
     [O_participantsView release];
     [I_plainTextEditors makeObjectsPerformSelector:@selector(setWindowController:) withObject:nil];
     [I_plainTextEditors release];
@@ -153,7 +153,7 @@ enum {
     [O_participantsView noteEnclosingScrollView];
     [O_participantsView setDoubleAction:@selector(participantDoubleAction:)];
     [O_participantsView setTarget:self];
-    [O_participantsView setDocument:(PlainTextDocument *)[self document]];
+    [O_participantsView setWindowController:self];
     [O_actionPullDown setCell:[[ImagePopUpButtonCell new] autorelease]];
     [[O_actionPullDown cell] setPullsDown:YES];
     [[O_actionPullDown cell] setImage:[NSImage imageNamed:@"Action"]];
@@ -281,7 +281,7 @@ enum {
 
 - (PlainTextEditor *)activePlainTextEditor {
     if ([I_plainTextEditors count]!=1) {
-        id responder=[[self window]firstResponder];
+        id responder=[[self window] firstResponder];
         if ([responder isKindOfClass:[NSTextView class]]) {
             if ([[I_plainTextEditors objectAtIndex:1] textView] == responder) {
                 return [I_plainTextEditors objectAtIndex:1];
@@ -538,12 +538,24 @@ enum {
                     NSString *userID=[[participantArray objectAtIndex:pair.childIndex] userID];
                     if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
                         PlainTextEditor *plainTextEditor=[self activePlainTextEditor];
+                        if ([aSender isKindOfClass:[TextView class]]) {
+                            NSEnumerator    *editors=[[self plainTextEditors] objectEnumerator];
+                            PlainTextEditor *editor=nil;
+                            while ((editor=[editors nextObject])) {
+                                if ([editor textView]==aSender) {
+                                    plainTextEditor=editor;
+                                    break;
+                                }
+                            }
+                        } 
                         [plainTextEditor setFollowUserID:userID];
+                        return;
                     }
                 }
             }
         }
     }
+    NSBeep();
 }
 
 - (IBAction)participantDoubleAction:(id)aSender {
@@ -1067,10 +1079,13 @@ enum {
         TCMMMSession *session=[document session];
         NSDictionary *participants=[session participants];
         TCMMMUser *user=nil;
-        if (anItemIndex==0) {
-            user=[[participants objectForKey:@"ReadWrite"] objectAtIndex:aChildIndex];
-        } else if (anItemIndex==1) {
-            user=[[participants objectForKey:@"ReadOnly"] objectAtIndex:aChildIndex];
+        if (anItemIndex<2) {
+            NSString *group = anItemIndex==0?@"ReadWrite":@"ReadOnly";
+            if ([[participants objectForKey:group] count]>aChildIndex) {
+                user=[[participants objectForKey:group] objectAtIndex:aChildIndex];
+            } else {
+                user=[[[session invitedUsers] objectForKey:group] objectAtIndex:aChildIndex-[[participants objectForKey:group] count]];
+            }
         } else if (anItemIndex==2) {
             user=[[session pendingUsers] objectAtIndex:aChildIndex];
         }
@@ -1079,6 +1094,23 @@ enum {
         }
     }
     return nil;
+}
+
+- (BOOL)listView:(TCMListView *)aListView writeRows:(NSIndexSet *)selectedRows toPasteboard:(NSPasteboard *)aPasteBoard {
+    [aListView reduceSelectionToChildren];
+    selectedRows = [aListView selectedRowIndexes];
+    if ([selectedRows count]>0) {
+        int state = [self buttonStateForSelectedRows:selectedRows];
+        NSDictionary *plist=[NSDictionary dictionaryWithObjectsAndKeys:
+            [NSNumber numberWithBool:(state & KickButtonStateMask)],@"Kick",
+            [NSNumber numberWithBool:(state & ReadOnlyButtonStateMask)],@"ReadOnly",
+            [NSNumber numberWithBool:(state & ReadWriteButtonStateMask)],@"ReadWrite",nil];
+        [aPasteBoard declareTypes:[NSArray arrayWithObject:@"ParticipantDrag"] owner:nil];
+        [aPasteBoard setPropertyList:plist forType:@"ParticipantDrag"];
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 -(void)menuNeedsUpdate:(NSMenu *)menu {

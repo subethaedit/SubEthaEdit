@@ -280,6 +280,18 @@ NSString *ListViewDidChangeSelectionNotification=
     }
 }
 
+- (void)reduceSelectionToChildren {
+    NSMutableIndexSet *set=[I_selectedRows mutableCopy];
+    while ([set count]) {
+        int index=[set lastIndex];
+        if (I_indexItemChildPairAtRow[index].childIndex==-1) {
+            [self deselectRow:index];
+        }
+        [set removeIndex:index];
+    }
+    [set release];
+}
+
 - (void)deselectRow:(int)aRow {
     if ([I_selectedRows containsIndex:aRow]) {
         [I_selectedRows removeIndex:aRow];
@@ -537,6 +549,10 @@ NSString *ListViewDidChangeSelectionNotification=
     return [resultImage autorelease];
 }
 
+- (NSPasteboard *)currentDraggingPasteboard {
+    return I_currentDragPasteboard;
+}
+
 - (void)mouseDragged:(NSEvent *)aEvent {
 //    NSLog(@"mouseDragged");
     if (I_clickedRow!=-1 && [I_selectedRows count]>0) {
@@ -549,6 +565,7 @@ NSString *ListViewDidChangeSelectionNotification=
         }
     
         if (allowDrag) {
+            I_currentDragPasteboard=pboard;
             NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
             ItemChildPair pair = [self itemChildPairAtRow:I_clickedRow];
             NSRect rectInImage=NSMakeRect(0,0,10,10);
