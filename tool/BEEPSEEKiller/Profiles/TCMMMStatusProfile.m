@@ -7,14 +7,18 @@
 //
 
 #import "TCMMMStatusProfile.h"
-#import "TCMMMUser.h"
-#import "TCMMMUserSEEAdditions.h"
-#import "TCMMMUserManager.h"
-#import "TCMBencodingUtilities.h"
-#import "TCMMMSession.h"
+#import <TCMFoundation/TCMBencodingUtilities.h>
 
 
 @implementation TCMMMStatusProfile
+
+- (NSDictionary *)notification {
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            @"Strunzenöder Testbenutzer",@"name",
+            [NSNumber numberWithLongLong:(long long)[NSDate timeIntervalSinceReferenceDate]],@"cnt",
+            [NSData dataWithUUIDString:[[AppController sharedInstance] userID]],@"uID",
+        nil];
+}
 
 - (void)sendVisibility:(BOOL)isVisible {
     NSData *data=nil;
@@ -26,9 +30,9 @@
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
-- (void)sendUserDidChangeNotification:(TCMMMUser *)aUser {
+- (void)sendUserDidChangeNotification {
     NSMutableData *data=[NSMutableData dataWithBytes:"USRCHG" length:6];
-    [data appendData:[aUser notificationBencoded]];
+    [data appendData:TCM_BencodedObject([self notification])];
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
@@ -36,6 +40,7 @@
     NSMutableData *data=[NSMutableData dataWithBytes:"USRREQ" length:6];
     [[self channel] sendMSGMessageWithPayload:data];
 }
+/*
 
 - (void)announceSession:(TCMMMSession *)aSession {
     NSMutableData *data=[NSMutableData dataWithBytes:"DOCANN" length:6];
@@ -48,15 +53,14 @@
     [data appendData:TCM_BencodedObject([aSession sessionID])];
     [[self channel] sendMSGMessageWithPayload:data];
 }
-
+*/
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage {
     if ([aMessage isRPY]) {
         if ([[aMessage payload] length]>=6) {
             unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
             if (strncmp(bytes,"USRFUL",6)==0) {
                 // TODO: validate userID
-                TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
-                [[TCMMMUserManager sharedInstance] addUser:user];
+                DEBUGLOG(@"StatusDomain",AlwaysLogLevel,@"USRFUL: %@",TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]) );
             }
         } else if ([[aMessage payload] length]==0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel,@"Status Profile Received Ack");
@@ -69,27 +73,15 @@
         } else {
             unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
             if (strncmp(bytes,"USRCHG",6)==0) {
-                TCMMMUser *user=[TCMMMUser userWithBencodedNotification:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
-                if ([[TCMMMUserManager sharedInstance] sender:self shouldRequestUser:user]) {
-                    [self requestUser];
-                }
+                [self requestUser];
             } else if (strncmp(bytes,"USRREQ",6)==0) {
                 NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
-                [data appendData:[[TCMMMUserManager me] userBencoded]];
+                NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
+                dictionary = [self notification];
+                [data appendData:TCM_BencodedObject(dictionary)];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
                 [[self channel] sendMessage:[message autorelease]];
                 return;
-            } else if (strncmp(bytes,"DOC",3)==0) {
-                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received Document");
-                if (strncmp(&bytes[3],"ANN",3)==0) {
-                    TCMMMSession *session=[TCMMMSession sessionWithBencodedSession:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
-                    [[self delegate] profile:self didReceiveAnnouncedSession:session];
-                } else if (strncmp(&bytes[3],"CON",3)==0) {
-                    NSString *sessionID=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
-                    if (sessionID) {
-                        [[self delegate] profile:self didReceiveConcealedSessionID:sessionID];
-                    }
-                }
             } else if (strncmp(bytes,"STA",3)==0){
                 if (strncmp(&bytes[3],"VIS",3)==0) {
                     [[self delegate] profile:self didReceiveVisibilityChange:YES];

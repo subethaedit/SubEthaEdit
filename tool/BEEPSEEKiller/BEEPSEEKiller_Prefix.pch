@@ -6,4 +6,5 @@
     #import <Cocoa/Cocoa.h>
     #import <TCMBEEP/TCMBEEP.h>
     #import <TCMFoundation/TCMFoundation.h>
+    #import "AppController.h"
 #endif

@@ -1,11 +1,12 @@
 {
     IBClasses = (
         {
-            ACTIONS = {connect = id; }; 
+            ACTIONS = {connect = id; stop = id; }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_addressesController" = NSArrayController; 
+                "O_resultTextView" = NSTextView; 
                 "O_servicesController" = NSArrayController; 
             }; 
             SUPERCLASS = NSObject; 

@@ -7,9 +7,9 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
-				5EB1FB8607FC378E003283FC,
 				5E41CCF007F982D700ACF87D,
 				5E41CCF107F982D700ACF87D,
+				5EB1FB8607FC378E003283FC,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -342,6 +342,18 @@
 			settings = {
 			};
 		};
+		5E5E7A8407FFC18A00A279A8 = {
+			fileRef = 5EB1064107FC4B5B003283FC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E5E7A8507FFC18B00A279A8 = {
+			fileRef = 5EB1064007FC4B5B003283FC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EA63E4B07F0841C009BD76C = {
 			isa = PBXFileReference;
 			lastKnownFileType = "wrapper.pb-project";
@@ -533,6 +545,7 @@
 				8D11072B0486CEB800E47090,
 				5E41CCF207F982D700ACF87D,
 				5EB1FB8A07FC37DE003283FC,
+				5E5E7A8407FFC18A00A279A8,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -555,6 +568,7 @@
 				8D11072D0486CEB800E47090,
 				5E41CCF307F982D700ACF87D,
 				5EB1FB8907FC37DE003283FC,
+				5E5E7A8507FFC18B00A279A8,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

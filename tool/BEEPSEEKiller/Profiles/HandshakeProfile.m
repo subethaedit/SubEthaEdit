@@ -34,21 +34,25 @@
     NSMutableData *payload = [NSMutableData data];
     [payload appendData:[@"GRT" dataUsingEncoding:NSASCIIStringEncoding]];
     
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:aUserID forKey:@"uid"];
-    [dict setObject:@"200" forKey:@"vers"];
-
-    if ([[[[self session] userInfo] objectForKey:@"isRendezvous"] boolValue]) {
-        [dict setObject:@"vous" forKey:@"rendez"];
-    } else {
-        NSString *URLString = [[[self session] userInfo] objectForKey:@"URLString"];
-        if (URLString) {
-            [dict setObject:URLString forKey:@"url"];
-        }    
-    }
+    if ([[AppController sharedInstance] testNumber]!=1) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:aUserID forKey:@"uid"];
+        if ([[AppController sharedInstance] testNumber]==2) {
+            [dict setObject:[NSNumber numberWithBool:YES] forKey:@"uid"];
+        }
+        [dict setObject:@"200" forKey:@"vers"];
     
-    [payload appendData:TCM_BencodedObject(dict)];
-    
+        if ([[[[self session] userInfo] objectForKey:@"isRendezvous"] boolValue]) {
+            [dict setObject:@"vous" forKey:@"rendez"];
+        } else {
+            NSString *URLString = [[[self session] userInfo] objectForKey:@"URLString"];
+            if (URLString) {
+                [dict setObject:URLString forKey:@"url"];
+            }    
+        }
+        
+        [payload appendData:TCM_BencodedObject(dict)];
+    }    
     return payload;
 }
 

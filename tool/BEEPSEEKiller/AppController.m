@@ -8,15 +8,28 @@
 
 #import "AppController.h"
 #import "HandshakeProfile.h"
-// #import "TCMMMStatusProfile.h"
+#import "TCMMMStatusProfile.h"
 // #import "SessionProfile.h"
 
+static AppController *S_sharedAppController=nil;
 
 @implementation AppController
+
++ (id)sharedInstance {
+    return S_sharedAppController;
+}
 
 - (id)init {
     if ((self=[super init])) {
         I_services=[NSMutableArray new];
+        S_sharedAppController = self;
+        I_testDescriptions = [[NSArray alloc] initWithObjects:
+                                @"No Test",
+                                @"Handshake profile: Empty GRT",
+                                @"Handshake profile: Malformed GRT",
+                                nil];
+        I_testNumber = 1;
+        [self setUserID:[NSString UUIDString]];
     }
     return self;
 }
@@ -33,10 +46,30 @@
     [self startRendezvousBrowsing];
 
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
-    [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];    
-    [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];    
+    [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];    
+//    [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];    
 //    [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
 //    [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
+}
+
+
+- (void)appendString:(NSString *)aString {
+    [[O_resultTextView textStorage] appendString:aString];
+}
+
+- (void)endTest:(NSString *)aStatusString {
+    [I_BEEPSession autorelease];
+    I_BEEPSession = nil;
+    [self appendString:[NSString stringWithFormat:@"Test %d ended: %@\n-------------\n\n",[self testNumber],aStatusString]];
+    [self setTestNumber:[self testNumber]+1];
+}
+
+- (IBAction)stop:(id)aSender {
+    [self endTest:@"User requested Stop"];
+}
+
+- (NSArray *)testDescriptions {
+    return I_testDescriptions;
 }
 
 - (void)stopRendezvousBrowsing {
@@ -78,12 +111,33 @@
     NSData *addressData=[[[O_addressesController selectedObjects] objectAtIndex:0] objectForKey:@"address"];
     DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"%@", addressData);
     if (addressData) {
-        TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
-        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
-        [session setDelegate:self];
-        [session open];
+        [self appendString:[NSString stringWithFormat:@"Test %d: %@\nconnecting to:%@\n\n",[self testNumber],[[self testDescriptions] objectAtIndex:[self testNumber]],[NSString stringWithAddressData:addressData]]];
+         I_BEEPSession = [[TCMBEEPSession alloc] initWithAddressData:addressData];
+        [I_BEEPSession setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
+        [I_BEEPSession setDelegate:self];
+        [I_BEEPSession open];
     }
 }
+
+- (void)setTestNumber:(int)aNumber {
+    I_testNumber=aNumber;
+    if (aNumber >= [[self testDescriptions] count]) {
+        I_testNumber = 0;
+    }
+}
+
+- (int)testNumber {
+    return I_testNumber;
+}
+
+- (NSString *)userID {
+    return I_userID;
+}
+- (void)setUserID:(NSString *)aString {
+    [I_userID autorelease];
+     I_userID = [aString retain];
+}
+
 
 #pragma mark -
 #pragma mark ### HandshakeProfile delegate methods ###
@@ -127,7 +181,7 @@
     }
     */
     
-    return [NSString UUIDString]; // should not happen
+    return [self userID]; // should not happen
 }
 
 - (BOOL)profile:(HandshakeProfile *)aProfile shouldAckHandshakeWithUserID:(NSString *)aUserID {
@@ -217,9 +271,15 @@
     if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
         [aProfile setDelegate:self];
         if (![aProfile isServer]) {
-            [(HandshakeProfile *)aProfile shakeHandsWithUserID:[NSString UUIDString]];
+            [(HandshakeProfile *)aProfile shakeHandsWithUserID:[self userID]];
         }
     } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"]) {
+        TCMMMStatusProfile *profile=(TCMMMStatusProfile *)aProfile;
+        [profile setDelegate:self];
+        if ([profile isServer]) {
+            [profile sendUserDidChangeNotification];
+            [profile sendVisibility:YES];
+        }
 //        [[TCMMMPresenceManager sharedInstance] acceptStatusProfile:(TCMMMStatusProfile *)aProfile];
     } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
         DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"Got SubEthaEditSession profile");
@@ -328,11 +388,14 @@
     [I_pendingSessions removeObject:aBEEPSession];
     [self removeSessionFromSessionsArray:aBEEPSession];
 */    
+    [self endTest:@"failed"];
     DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"%@", [self description]);
 }
 
 - (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession
 {
+    [self endTest:@"closed"];
+    [[I_BEEPSession retain] autorelease];
     DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"BEEPSessionDidClose");
 }
 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "../TCMBEEP/TCMBEEP.h"
+#import <TCMBEEP/TCMBEEP.h>
 
 @class TCMMMUser, TCMMMSession;
 
@@ -16,14 +16,6 @@
 }
 
 - (void)requestUser;
-- (void)sendUserDidChangeNotification:(TCMMMUser *)aUser;
-- (void)announceSession:(TCMMMSession *)aSession;
-@end
-
-@interface NSObject (TCMMMStatusProfileDelegateMethods) 
+- (void)sendUserDidChangeNotification;
 - (void)sendVisibility:(BOOL)isVisible;
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible;
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession;
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID;
-
 @end
