@@ -17,7 +17,7 @@
 				<regex> ([A-Za-z0-9_]+:)</regex>
 				<regex> ([A-Za-z0-9_]+)]</regex>
             </keywords>
-            <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="bold" font-style="normal" casesensitive="yes" useforautocomplete="yes">
+            <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes">
 				<string>NSAccessibility</string>
 				<string>NSActionCell</string>
 				<string>NSAffineTransform</string>
@@ -287,6 +287,16 @@
 				<string>NSWindowScripting</string>
 				<string>NSWorkspace</string>
             </keywords>
+            <keywords id="Keywords2" color="#881350" useforautocomplete="yes" font-weight="bold">
+				<string>@class</string>
+				<string>@end</string>
+				<string>@implementation</string>
+				<string>@interface</string>
+				<string>@private</string>
+				<string>@protected</string>
+				<string>@protocol</string>
+				<string>@public</string>
+            </keywords>
             <keywords id="Keywords" color="#881350" useforautocomplete="yes">
 				<string>break</string>
 				<string>case</string>
@@ -310,16 +320,8 @@
 				<string>typedef</string>
 				<string>union</string>
 				<string>while</string>
-				<string>@class</string>
 				<string>@defs</string>
 				<string>@encode</string>
-				<string>@end</string>
-				<string>@implementation</string>
-				<string>@interface</string>
-				<string>@private</string>
-				<string>@protected</string>
-				<string>@protocol</string>
-				<string>@public</string>
 				<string>@selector</string>
 				<string>self</string>
 				<string>super</string>
@@ -519,18 +521,18 @@
                 <string>ABS</string>
             </keywords>
             <keywords id="Numbers" color="#00f" useforautocomplete="no">
-				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
-				<regex>(^[0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
-				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)$</regex>
+				<regex>[^[A-Za-z0-9]](([0-9]*\.?[0-9]+)|([0-9]+\.?[0-9]*))[^[A-Za-z0-9]]</regex>
+				<regex>(^(([0-9]*\.?[0-9]+)|([0-9]+\.?[0-9]*)))[^[A-Za-z0-9]]</regex>
+				<regex>[^[A-Za-z0-9]](([0-9]*\.?[0-9]+)|([0-9]+\.?[0-9]*))$</regex>
 				<regex>(0x[0-9a-fA-F]+)</regex>
             </keywords>
             <keywords id="Characters" color="#00f" useforautocomplete="no">
-				<regex>'.'</regex>
+				<regex>('.')</regex>
             </keywords>
             <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
-            <keywords id="Cocoa Types" color="#400080" font-weight="bold" font-style="italic" useforautocomplete="no">
+            <keywords id="Cocoa Types" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
                 <string>NSAffineTransformStruct</string>
                 <string>NSApplicationTerminateReply</string>
                 <string>NSBackingStoreType</string>
@@ -873,6 +875,11 @@
 
         </default>
         
+        <state id="AutodocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
+            <begin><string>/\*"</string></begin>
+            <end><regex>"\*/</regex></end>
+        </state>
+
         <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
             <begin><string>/\*</string></begin>
             <end><regex>\*/</regex></end>
@@ -881,10 +888,6 @@
         <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
             <begin><string>//</string></begin>
             <end><regex>[\n\r]</regex></end>
-            
-            <keywords id="Zeug im Comment" color="#f00" background-color="none" font-weight="bold" font-style="italic">
-                <string>blabla</string>
-            </keywords>            
         </state>
         
         <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
