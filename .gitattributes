@@ -104,8 +104,8 @@ English.lproj/Setup.nib/keyedobjects.nib -text
 English.lproj/StylePrefs.nib/classes.nib -text
 English.lproj/StylePrefs.nib/info.nib -text
 English.lproj/StylePrefs.nib/keyedobjects.nib -text
-English.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help[!!-~]idx -text
 English.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
+English.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
 English.lproj/SubEthaEditHelp/css/access.css -text
 English.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 English.lproj/SubEthaEditHelp/html/learn.html -text
@@ -214,8 +214,8 @@ Localizations/Catalan.lproj/Setup.nib/keyedobjects.nib -text
 Localizations/Catalan.lproj/StylePrefs.nib/classes.nib -text
 Localizations/Catalan.lproj/StylePrefs.nib/info.nib -text
 Localizations/Catalan.lproj/StylePrefs.nib/keyedobjects.nib -text
-Localizations/Catalan.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help[!!-~]idx -text
 Localizations/Catalan.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
+Localizations/Catalan.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
 Localizations/Catalan.lproj/SubEthaEditHelp/css/access.css -text
 Localizations/Catalan.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 Localizations/Catalan.lproj/SubEthaEditHelp/html/learn.html -text
@@ -293,8 +293,8 @@ Localizations/Danish.lproj/Setup.nib/keyedobjects.nib -text
 Localizations/Danish.lproj/StylePrefs.nib/classes.nib -text
 Localizations/Danish.lproj/StylePrefs.nib/info.nib -text
 Localizations/Danish.lproj/StylePrefs.nib/keyedobjects.nib -text
-Localizations/Danish.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help[!!-~]idx -text
 Localizations/Danish.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
+Localizations/Danish.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
 Localizations/Danish.lproj/SubEthaEditHelp/css/access.css -text
 Localizations/Danish.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 Localizations/Danish.lproj/SubEthaEditHelp/html/learn.html -text
@@ -373,8 +373,8 @@ Localizations/French.lproj/StylePrefs.nib/classes.nib -text
 Localizations/French.lproj/StylePrefs.nib/data.dependency -text
 Localizations/French.lproj/StylePrefs.nib/info.nib -text
 Localizations/French.lproj/StylePrefs.nib/keyedobjects.nib -text
-Localizations/French.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help[!!-~]idx -text
 Localizations/French.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
+Localizations/French.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
 Localizations/French.lproj/SubEthaEditHelp/css/access.css -text
 Localizations/French.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 Localizations/French.lproj/SubEthaEditHelp/html/learn.html -text
@@ -453,8 +453,8 @@ Localizations/German.lproj/Setup.nib/keyedobjects.nib -text
 Localizations/German.lproj/StylePrefs.nib/classes.nib -text
 Localizations/German.lproj/StylePrefs.nib/info.nib -text
 Localizations/German.lproj/StylePrefs.nib/keyedobjects.nib -text
-Localizations/German.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help[!!-~]idx -text
 Localizations/German.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
+Localizations/German.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
 Localizations/German.lproj/SubEthaEditHelp/css/access.css -text
 Localizations/German.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 Localizations/German.lproj/SubEthaEditHelp/html/learn.html -text
@@ -895,8 +895,8 @@ Localizations/ko.lproj/Setup.nib/keyedobjects.nib -text
 Localizations/ko.lproj/StylePrefs.nib/classes.nib -text
 Localizations/ko.lproj/StylePrefs.nib/info.nib -text
 Localizations/ko.lproj/StylePrefs.nib/keyedobjects.nib -text
-Localizations/ko.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help[!!-~]idx -text
 Localizations/ko.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
+Localizations/ko.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
 Localizations/ko.lproj/SubEthaEditHelp/css/access.css -text
 Localizations/ko.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 Localizations/ko.lproj/SubEthaEditHelp/html/learn.html -text
@@ -974,8 +974,8 @@ Localizations/ru.lproj/Setup.nib/keyedobjects.nib -text
 Localizations/ru.lproj/StylePrefs.nib/classes.nib -text
 Localizations/ru.lproj/StylePrefs.nib/info.nib -text
 Localizations/ru.lproj/StylePrefs.nib/keyedobjects.nib -text
-Localizations/ru.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help[!!-~]idx -text
 Localizations/ru.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
+Localizations/ru.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
 Localizations/ru.lproj/SubEthaEditHelp/css/access.css -text
 Localizations/ru.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 Localizations/ru.lproj/SubEthaEditHelp/html/learn.html -text
@@ -1053,8 +1053,8 @@ Localizations/zh_TW.lproj/Setup.nib/keyedobjects.nib -text
 Localizations/zh_TW.lproj/StylePrefs.nib/classes.nib -text
 Localizations/zh_TW.lproj/StylePrefs.nib/info.nib -text
 Localizations/zh_TW.lproj/StylePrefs.nib/keyedobjects.nib -text
-Localizations/zh_TW.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help[!!-~]idx -text
 Localizations/zh_TW.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
+Localizations/zh_TW.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
 Localizations/zh_TW.lproj/SubEthaEditHelp/css/access.css -text
 Localizations/zh_TW.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 Localizations/zh_TW.lproj/SubEthaEditHelp/html/learn.html -text
