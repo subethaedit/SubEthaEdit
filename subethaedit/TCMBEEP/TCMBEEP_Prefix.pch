@@ -4,8 +4,6 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
-    #import "NSDictionaryTCMAdditions.h"
-    #import "NSStringTCMAdditions.h"
 #endif
 
 
