@@ -193,5 +193,6 @@ subethaedit/TCMBEEP/TCMBEEPMessage.m -text
 subethaedit/TCMBEEP/TCMBEEPProfile.h -text
 subethaedit/TCMBEEP/TCMBEEPSession.h -text
 subethaedit/TCMBEEP/TCMBEEPSession.m -text
+subethaedit/artwork/SubEthaEdit.icns -text
 subethaedit/main.m -text
 subethaedit/version.plist -text

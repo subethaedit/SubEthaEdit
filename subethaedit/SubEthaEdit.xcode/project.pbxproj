@@ -521,6 +521,7 @@
 		};
 		2A37F4B8FDCFA73011CA2CEA = {
 			children = (
+				5EEB176705ECDC0C00C17677,
 				2A37F4B9FDCFA73011CA2CEA,
 				2A37F4B6FDCFA73011CA2CEA,
 				2A37F4B4FDCFA73011CA2CEA,
@@ -640,6 +641,39 @@
 //4A2
 //4A3
 //4A4
+//5E0
+//5E1
+//5E2
+//5E3
+//5E4
+		5EEB176705ECDC0C00C17677 = {
+			children = (
+				5EEB176805ECDC1600C17677,
+			);
+			isa = PBXGroup;
+			name = artwork;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EEB176805ECDC1600C17677 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			name = SubEthaEdit.icns;
+			path = artwork/SubEthaEdit.icns;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EEB176905ECDC1600C17677 = {
+			fileRef = 5EEB176805ECDC1600C17677;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//5E0
+//5E1
+//5E2
+//5E3
+//5E4
 //8D0
 //8D1
 //8D2
@@ -721,6 +755,7 @@
 				8D15AC2D0486D014006FF6A4,
 				8D15AC2E0486D014006FF6A4,
 				8D15AC2F0486D014006FF6A4,
+				5EEB176905ECDC1600C17677,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
