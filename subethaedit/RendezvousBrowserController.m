@@ -16,7 +16,7 @@
 @implementation RendezvousBrowserController
 - (id)init {
     if ((self=[super initWithWindowNibName:@"RendezvousBrowser"])) {
-        I_tableData=[NSMutableArray new];
+        I_data=[NSMutableArray new];
         I_browser=[[TCMRendezvousBrowser alloc] initWithServiceType:@"_emac._tcp." domain:@""];
         [I_browser setDelegate:self];
         [I_browser startSearch];
@@ -28,25 +28,28 @@
 
 - (void)dealloc {
     [I_foundUserIDs release];
-    [I_tableData release];
+    [I_data release];
     [super dealloc];
 }
 
 - (void)windowDidLoad {
     [[self window] setFrameAutosaveName:@"RendezvousBrowser"];
     TCMMMUser *me=[TCMMMUserManager me];
-    [I_myNameTextField setStringValue:[me name]];
-    [I_imageView setImage:[[me properties] objectForKey:@"Image"]];
+    [O_myNameTextField setStringValue:[me name]];
+    [O_imageView setImage:[[me properties] objectForKey:@"Image"]];
     [((NSPanel *)[self window]) setFloatingPanel:NO];
     [[self window] setHidesOnDeactivate:NO];
-}
-
--(NSMutableArray *)tableData {
-    return I_tableData;
-}
--(void)setTableData:(NSMutableArray *)tableData {
-    [I_tableData autorelease];
-    I_tableData=[tableData mutableCopy];
+    
+    NSRect frame=[[O_scrollView contentView] frame];
+    O_browserListView=[[TCMMMBrowserListView alloc] initWithFrame:frame];
+    [O_scrollView setBorderType:NSBezelBorder];
+    [O_browserListView setDataSource:self];
+    [O_browserListView   setDelegate:self];
+    [O_scrollView setHasVerticalScroller:YES];
+    [[O_scrollView verticalScroller] setControlSize:NSSmallControlSize];
+    [O_scrollView setDocumentView:O_browserListView];
+    [O_browserListView noteEnclosingScrollView];
+    
 }
 
 - (IBAction)setVisibilityByPopUpButton:(id)aSender {
@@ -70,7 +73,7 @@
 }
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didResolveService:(NSNetService *)aNetService {
-//    [I_tableData addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"resolved %@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
+//    [I_data addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"resolved %@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
     NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
     if (userID && ![userID isEqualTo:[TCMMMUserManager myID]]) {
         [I_foundUserIDs addObject:userID];
@@ -83,6 +86,33 @@
 }
 
 #pragma mark -
+#pragma mark ### TCMMMBrowserListViewDataSource methods ###
+
+- (int)numberOfItemsInListView:(TCMMMBrowserListView *)aListView {
+    return [I_data count];
+}
+
+- (int)listView:(TCMMMBrowserListView *)aListView numberOfChildrenOfItemAtIndex:(int)anIndex {
+    return 0;
+}
+
+- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
+    if (aTag==TCMMMBrowserItemNameTag) {
+        return [[I_data objectAtIndex:anItemIndex] name];
+    } else if (aTag==TCMMMBrowserItemStatusTag) {
+        return [NSString stringWithFormat:@"%d Document(s)",[[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[[I_data objectAtIndex:anItemIndex] ID]] objectForKey:@"Sessions"] count]];
+    } else if (aTag==TCMMMBrowserItemImageTag) {
+        return [[(TCMMMUser *)[I_data objectAtIndex:anItemIndex] properties] objectForKey:@"Image"];
+    }
+    return nil;
+}
+
+- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+    return nil;
+}
+
+
+#pragma mark -
 #pragma mark ### TCMMMPresenceManager Notifications ###
 
 - (void)userDidChangeVisibility:(NSNotification *)aNotification {
@@ -90,11 +120,11 @@
     NSString *userID=[userInfo objectForKey:@"UserID"];
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:userID];
     if ([[userInfo objectForKey:@"isVisible"] boolValue]) {
-        [I_tableData addObject:user];
+        [I_data addObject:user];
     } else {
-        [I_tableData removeObject:user];
+        [I_data removeObject:user];
     }
-    [self setTableData:I_tableData];
+    [O_browserListView reloadData];
 }
 
 - (void)userChangedAnnouncedDocuments:(NSNotification *)aNotification {

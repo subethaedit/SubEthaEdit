@@ -8,9 +8,47 @@
 
 #import <AppKit/AppKit.h>
 
+enum {
+    TCMMMBrowserItemImageTag,
+    TCMMMBrowserItemNameTag,
+    TCMMMBrowserItemStatusTag,
+    TCMMMBrowserItemActionImageTag,
+    TCMMMBrowserChildIconImageTag,
+    TCMMMBrowserChildNameTag,
+    TCMMMBrowserChildStatusImageTag,
+    TCMMMBrowserChildActionImageTag
+};
 
-@interface TCMMMBrowserListView : NSView {
 
+@interface TCMMMBrowserListView : NSView
+{
+    id I_dataSource;
+    id I_delegate;
 }
+
+- (void)setDataSource:(id)aDataSource;
+- (id)dataSource;
+- (void)setDelegate:(id)aDelegate;
+- (id)delegate;
+
+- (void)reloadData;
+- (int)numberOfItems;
+- (void)noteEnclosingScrollView;
+- (void)resizeToFit;
+
+@end
+
+
+@interface NSObject(TCMMMBrowserListViewDataSourceAdditions)
+
+- (int)numberOfItemsInListView:(TCMMMBrowserListView *)aListView;
+- (int)listView:(TCMMMBrowserListView *)aListView numberOfChildrenOfItemAtIndex:(int)anIndex;
+- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex;
+- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex;
+
+@end
+
+
+@interface NSObject (TCMMMBrowserListViewDelegateAdditions)
 
 @end

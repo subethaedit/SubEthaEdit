@@ -6,9 +6,10 @@
             CLASS = RendezvousBrowserController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "I_imageView" = NSImageView; 
-                "I_myNameTextField" = NSTextField; 
-                "I_tableView" = NSTableView; 
+                "O_browserListView" = TCMMMBrowserListView; 
+                "O_imageView" = NSImageView; 
+                "O_myNameTextField" = NSTextField; 
+                "O_scrollView" = NSScrollView; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

@@ -8,18 +8,18 @@
 
 #import <AppKit/AppKit.h>
 #import "TCMRendezvousBrowser.h"
+#import "TCMMMBrowserListView.h"
 
 @interface RendezvousBrowserController : NSWindowController {
-    NSMutableArray *I_tableData;
-    IBOutlet NSTableView *I_tableView;
-    IBOutlet NSImageView *I_imageView;
-    IBOutlet NSTextField *I_myNameTextField;
+    NSMutableArray *I_data;
+    IBOutlet NSScrollView *O_scrollView;
+    IBOutlet TCMMMBrowserListView  *O_browserListView;
+    IBOutlet NSImageView *O_imageView;
+    IBOutlet NSTextField *O_myNameTextField;
     TCMRendezvousBrowser *I_browser;
     NSMutableSet *I_foundUserIDs;
 }
 
--(NSMutableArray *)tableData;
--(void)setTableData:(NSMutableArray *)tableData;
 - (IBAction)setVisibilityByPopUpButton:(id)aSender;
 
 @end
