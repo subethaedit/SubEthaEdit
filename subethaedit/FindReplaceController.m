@@ -171,7 +171,6 @@ static FindReplaceController *sharedInstance=nil;
     } else if ([sender tag]==NSFindPanelActionReplaceAndFind) {
         NSLog(@"ReplaceAndFind");
     } else if ([sender tag]==NSFindPanelActionSetFindString) {
-        NSLog(@"SetFindString");
         [self findPanel];
         NSTextView *target = [self targetToFindIn];
         if (target) {
@@ -195,7 +194,11 @@ static FindReplaceController *sharedInstance=nil;
                                          options:[self currentOgreOptions]
                                          syntax:[self currentOgreSyntax]
                                          escapeCharacter:[self currentOgreEscapeCharacter]];
-            FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andOptions:[self currentOgreOptions]] autorelease];
+            NSRange scope;
+            if ([[O_scopePopup selectedItem] tag]==1) scope = [target selectedRange];
+            else scope = NSMakeRange(0, [[target string] length]);
+
+            FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andRange:scope] autorelease];
             [(PlainTextDocument *)[[[target window] windowController] document] addFindAllController:findall];
             [findall findAll:self];
         } else NSBeep();
@@ -237,9 +240,7 @@ static FindReplaceController *sharedInstance=nil;
     NSTextView *target = [self targetToFindIn];
     if (target) {
         NSString *text = [target string];
-        NSRange selection = [target selectedRange];
-        
-        //if ([O_scopePopup tag]==0)  !!!
+        NSRange selection = [target selectedRange];        
         
         OGRegularExpressionMatch *aMatch = nil;
         NSEnumerator *enumerator;

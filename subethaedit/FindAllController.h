@@ -19,10 +19,10 @@
     IBOutlet NSProgressIndicator *O_progressIndicator;
     PlainTextDocument *I_document;
     OGRegularExpression *I_regularExpression;
-    unsigned I_options;
+    NSRange I_range;
 }
 
-- (id)initWithRegex:(OGRegularExpression*)regex andOptions:(unsigned)options;
+- (id)initWithRegex:(OGRegularExpression*)regex andRange:(NSRange)aRange;
 - (IBAction)findAll:(id)sender;
 - (void)setDocument:(PlainTextDocument *)aDocument;
 

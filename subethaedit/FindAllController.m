@@ -13,11 +13,11 @@
 
 @implementation FindAllController
 
-- (id)initWithRegex:(OGRegularExpression*)regex andOptions:(unsigned)options {
+- (id)initWithRegex:(OGRegularExpression*)regex andRange:(NSRange)aRange {
     self = [super initWithWindowNibName:@"FindAll"];
     if (self) {
         I_regularExpression = [regex copy];
-        I_options = options;
+        I_range = aRange;
     }
     return self;
 }
@@ -46,11 +46,9 @@
     [self showWindow:self];
     [O_resultsController removeObjects:[O_resultsController arrangedObjects]]; //Clear arraycontroller
     OGRegularExpression *regex = I_regularExpression;
-    unsigned options = I_options;
 
     if (I_document) {
         NSString *text = [[I_document textStorage] string];
-        //NSRange selection = [target selectedRange];
                 
         if ([regex syntax]==OgreSimpleMatchingSyntax) {
             OGRegularExpression *simpleregex = [OGRegularExpression regularExpressionWithString:[regex expressionString]
@@ -60,7 +58,7 @@
             regex = simpleregex;
         }
         
-        NSArray *matchArray = [regex allMatchesInString:text options:options range:NSMakeRange(0, [text length])];
+        NSArray *matchArray = [regex allMatchesInString:text options:[regex options] range:I_range];
         
         int i;
         int count = [matchArray count];
@@ -78,18 +76,18 @@
             
             NSMutableAttributedString *aString = [[NSMutableAttributedString alloc] initWithString:[[textStorage string] substringWithRange:lineRange]];
 
-            [aString addAttribute:NSBackgroundColorAttributeName value:[NSColor yellowColor] range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
+            [aString addAttribute:NSBackgroundColorAttributeName value:[[NSColor yellowColor] highlightWithLevel:0.5] range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
             
             int subGroup;
             for(subGroup=1;subGroup<6;subGroup++) {
                 if ([aMatch substringAtIndex:subGroup]) {
                     matchRange = [aMatch rangeOfSubstringAtIndex:subGroup];
-                    NSColor *color;
-                    if (subGroup==1) color = [NSColor orangeColor];
-                    else if (subGroup==2) color = [NSColor greenColor];
-                    else if (subGroup==3) color = [NSColor magentaColor];
-                    else if (subGroup==4) color = [NSColor redColor];
-                    else if (subGroup==5) color = [NSColor purpleColor];
+                    NSColor *color = nil;
+                    if (subGroup==1) color = [[NSColor orangeColor] highlightWithLevel:0.6];
+                    else if (subGroup==2) color = [[NSColor greenColor] highlightWithLevel:0.6];
+                    else if (subGroup==3) color = [[NSColor magentaColor] highlightWithLevel:0.6];
+                    else if (subGroup==4) color = [[NSColor redColor] highlightWithLevel:0.7];
+                    else if (subGroup==5) color = [[NSColor purpleColor] highlightWithLevel:0.7];
                     [aString addAttribute:NSBackgroundColorAttributeName value:color range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
                 } else break;
             }
