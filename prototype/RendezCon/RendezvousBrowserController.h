@@ -39,6 +39,7 @@
     IBOutlet NSArrayController   *O_addressesController;
     IBOutlet NSTableView         *O_addressTableView;
     IBOutlet NSTableView         *O_servicesTableView;
+    IBOutlet NSBox               *O_foundServicesBox;
     NSMutableArray      *I_foundNetServices;
     NSMutableArray      *I_servicesToBrowseFor;
     NSMutableDictionary *I_netServiceBrowsers;
@@ -47,14 +48,13 @@
 #pragma mark -
 #pragma mark ### Accessors ###
 - (NSMutableArray *)foundNetServices;
-- (NSMutableArray *)servicesToBrowseFor;
-- (void)setServicesToBrowseFor:(NSMutableArray *)aArray;
 
 #pragma mark -
 #pragma mark ### Actions ###
 - (IBAction)restartAll:(id)aSender;
 - (IBAction)didChangeStatusOfServiceToBrowse:(id)aSender;
 - (IBAction)simpleURLDoubleAction:(id)aSender;
+- (IBAction)resolveSelectedNetServiceAgain:(id)aSender;
 - (IBAction)showReleaseNotes:(id)aSender;
 
 #pragma mark -

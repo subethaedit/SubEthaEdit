@@ -73,17 +73,23 @@
     // IBAction would be cool (IBBinding?).
     // Or should we provide an additional NSObjectController for this object to bind against, 
     // and this method is purely evil?
-    [O_foundServicesController setContent:I_foundNetServices]; // Is this necessary?
     [O_foundServicesController bind:@"contentArray" toObject:self 
         withKeyPath:@"foundNetServices" options:nil];
     
     // Originally I intended to bind this directly to the NSUserDefaultsController
     // But it turned out that objects that are not on top level of the NSUserDefaults
     // are immutable
-    [O_servicesToBrowseForController setContent:I_servicesToBrowseFor]; // Is this necessary?
     [O_servicesToBrowseForController bind:@"contentArray" toObject:self 
         withKeyPath:@"servicesToBrowseFor" options:nil];
     
+    NSEnumerator *servicesToBrowseFor=[I_servicesToBrowseFor objectEnumerator];
+    NSMutableDictionary *service=nil;
+    while (service=[servicesToBrowseFor nextObject]) {
+        [service addObserver:self forKeyPath:@"shouldSearchFor" options:0 context:nil];
+    }
+
+    [self addObserver:self forKeyPath:@"foundNetServices" options:0 context:nil];
+
     // Now start browsing for the services we should be browsing for
     [self startBrowsing];
 
@@ -117,24 +123,56 @@
     return I_foundNetServices;
 }
 
-- (NSMutableArray *)servicesToBrowseFor {
-    return I_servicesToBrowseFor;
+// Implement the indexed Accessors for better performance
+// if you implement only the set and get Accessors, than on every
+// change the whole Array is set again
+// I'm wondering if there is a more convenient way to do this
+// since the NSMutableArray object itself is quite aware of the 
+// changes that are made to it.
+
+- (unsigned int)countOfServicesToBrowseFor {
+    return [I_servicesToBrowseFor count];
 }
 
-- (void)setServicesToBrowseFor:(NSMutableArray *)aArray {
-    NSLog(@"set");
-    // I don't know exactly if this is the correct indexset,
-    // I could not find detailed documentation on this
-    // If I observe myself, this is the only combination that does not throw exceptions
-    [self willChange:NSKeyValueChangeReplacement 
-        valuesAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_servicesToBrowseFor count])] 
-        forKey:@"servicesToBrowseFor"];
-    [I_servicesToBrowseFor autorelease];
-    I_servicesToBrowseFor=[aArray retain];
-    [self  didChange:NSKeyValueChangeReplacement 
-        valuesAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[aArray count])] 
-        forKey:@"servicesToBrowseFor"];
+- (NSMutableDictionary *)objectInServicesToBrowseForAtIndex:(unsigned int)aIndex {
+    return [I_servicesToBrowseFor objectAtIndex:aIndex];
 }
+
+- (void)insertObject:(NSMutableDictionary *)aObject inServicesToBrowseForAtIndex:(unsigned int)aIndex {
+    NSIndexSet *set=[NSIndexSet indexSetWithIndex:aIndex];
+    [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:set forKey:@"servicesToBrowseFor"];
+    // add us as observer
+    [aObject addObserver:self forKeyPath:@"shouldSearchFor" options:0 context:nil];
+    [I_servicesToBrowseFor insertObject:aObject atIndex:aIndex];
+    [self  didChange:NSKeyValueChangeInsertion valuesAtIndexes:set forKey:@"servicesToBrowseFor"];
+}
+
+- (void)removeObjectFromServicesToBrowseForAtIndex:(unsigned)aIndex {
+    NSIndexSet *set=[NSIndexSet indexSetWithIndex:aIndex];
+    [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:set forKey:@"servicesToBrowseFor"];
+    // remove us as observer
+    [[I_servicesToBrowseFor objectAtIndex:aIndex] removeObserver:self forKeyPath:@"shouldSearchFor"];    
+    [I_servicesToBrowseFor removeObjectAtIndex:aIndex];
+    [self  didChange:NSKeyValueChangeRemoval valuesAtIndexes:set forKey:@"servicesToBrowseFor"];
+}
+
+#pragma mark -
+
+- (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)aObject 
+                        change:(NSDictionary *)aChange context:(void *)aContext {
+
+    if ([aKeyPath isEqualToString:@"shouldSearchFor"]) {
+        NSNumber *shouldSearchFor=[aObject valueForKey:@"shouldSearchFor"];
+        if ([shouldSearchFor boolValue]) {
+            [self searchForServicesOfType:[aObject valueForKey:@"serviceType"]];
+        } else {
+            [self stopSearchingForServicesOfType:[aObject valueForKey:@"serviceType"]];
+        }
+    } else if ([aKeyPath isEqualToString:@"foundNetServices"]) {
+        [O_foundServicesBox setTitle:[NSString stringWithFormat:@"Found Services (%d)",[I_foundNetServices count]]];
+    }
+}
+
 
 #pragma mark -
 
@@ -180,7 +218,7 @@
 }
 
 - (void)searchForServicesOfType:(NSString *)aServiceType {
-    if (![I_netServiceBrowsers objectForKey:aServiceType]) {
+    if (![I_netServiceBrowsers objectForKey:aServiceType] && aServiceType!=nil) {
         NSNetServiceBrowser *browser=[[NSNetServiceBrowser new] autorelease];
         [browser setDelegate:self];
         [browser searchForServicesOfType:aServiceType inDomain:@""];
@@ -190,7 +228,7 @@
 
 - (void)stopSearchingForServicesOfType:(NSString *)aServiceType {
     NSNetServiceBrowser *browser;
-    if ((browser=[I_netServiceBrowsers objectForKey:aServiceType])) {
+    if (aServiceType!=nil && (browser=[I_netServiceBrowsers objectForKey:aServiceType])) {
         [browser stop];
         [browser setDelegate:nil];
         [I_netServiceBrowsers removeObjectForKey:aServiceType];
@@ -209,15 +247,25 @@
                                 objectAtIndex:[O_servicesTableView selectedRow]];
 
     if (dictionary) {
-        if ([dictionary objectForKey:@"serviceType"]) {
-            // This relies on the fact, that the controller changed the value of the 
-            // content already. I don't know if I'm allowed to assume this.
-           if ([[dictionary objectForKey:@"shouldSearchFor"] boolValue]) {
-                [self searchForServicesOfType:[dictionary objectForKey:@"serviceType"]];
-            } else {
-                [self stopSearchingForServicesOfType:[dictionary objectForKey:@"serviceType"]];
+        if ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) {
+            NSNumber *state=[dictionary objectForKey:@"shouldSearchFor"];
+            NSEnumerator *servicesToBrowseFor=[I_servicesToBrowseFor objectEnumerator];
+            NSMutableDictionary *serviceToBrowseFor=nil;
+            while ((serviceToBrowseFor=[servicesToBrowseFor nextObject])) {
+                if (![[serviceToBrowseFor objectForKey:@"shouldSearchFor"] isEqualTo:state]) {
+                    [serviceToBrowseFor setObject:state forKey:@"shouldSearchFor"];
+                }
             }
         }
+//        if ([dictionary objectForKey:@"serviceType"]) {
+//            // This relies on the fact, that the controller changed the value of the 
+//            // content already. I don't know if I'm allowed to assume this.
+//           if ([[dictionary objectForKey:@"shouldSearchFor"] boolValue]) {
+//                [self searchForServicesOfType:[dictionary objectForKey:@"serviceType"]];
+//            } else {
+//                [self stopSearchingForServicesOfType:[dictionary objectForKey:@"serviceType"]];
+//            }
+//        }
     }
 }
 
@@ -236,6 +284,29 @@
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
     }
 }
+
+- (IBAction)resolveSelectedNetServiceAgain:(id)aSender {
+    // This is what you should do, if you connected to a NetService, lost
+    // connection, but the NetService is still around
+
+    NSArray *selectedObjects=[O_foundServicesController selectedObjects];
+    if ([selectedObjects count]) {
+        NSMutableDictionary *entry=[selectedObjects objectAtIndex:0];
+        NSNetService *oldService=[entry objectForKey:@"Service"];
+        [oldService stop];
+        [oldService setDelegate:nil];
+        [entry removeObjectForKey:@"addresses"];
+        [entry removeObjectForKey:@"protocolSpecificInformationForTextView"];
+        [entry removeObjectForKey:@"protocolSpecificInformation"];
+
+        NSNetService *newService=[[NSNetService alloc] initWithDomain:[oldService domain] type:[oldService type] name:[oldService name]];
+        [entry setObject:[newService autorelease] forKey:@"Service"];
+        [newService setDelegate:self];
+        [newService resolve];
+        [newService performSelector:@selector(stop) withObject:nil afterDelay:30.];
+    }
+}
+
 
 - (IBAction)showReleaseNotes:(id)aSender {
     [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"rtf"]];

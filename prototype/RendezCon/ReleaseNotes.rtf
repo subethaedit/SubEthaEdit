@@ -1,6 +1,7 @@
 {\rtf1\mac\ansicpg10000\cocoartf102
-{\fonttbl\f0\fswiss\fcharset77 Helvetica;\f1\fswiss\fcharset77 Helvetica-Bold;}
-{\colortbl;\red255\green255\blue255;\red50\green94\blue174;}
+{\fonttbl\f0\fswiss\fcharset77 Helvetica;\f1\fswiss\fcharset77 Helvetica-Bold;\f2\fmodern\fcharset77 Courier;
+\f3\fmodern\fcharset77 Courier-Bold;\f4\fmodern\fcharset77 Courier-Oblique;}
+{\colortbl;\red255\green255\blue255;\red26\green26\blue255;\red50\green94\blue174;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qr
 
 \f0\fs24 \cf0 \
@@ -36,16 +37,42 @@ Comparision between RendezCon and the "DNS Service Browser" example shipped with
 \f1\b \cf0 Notes:
 \f0\b0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
-\cf0 - A reproducible exception is thrown when the last line is selected and you press "Restart All", while the found services table view is not sorted by any column. However I am not aware of any error I made on this subject, so this may be a bug in the Controller Layer. If you know better, please send me a comment.\
-- The NSTextFields in the detail area are bound to the NSArrayController's selection property and show the correct data. However if you acitvate the textfields to select something, then "No selection" is printed in grey underneath the activated textfield. Bug?\
+\cf0 - The NSTextFields in the detail area are bound to the NSArrayController's selection property and show the correct data. However if you acitvate the textfields to select something, then "No selection" is printed in grey underneath the activated textfield. Bug?\
 - The NSTableView has redraw issues when you saved a table state with columns that are wider than its NSScrollView and you get more entries than rows available\
 - If you doubleclick the resolved addressses in the detail view you get a simple <service type>://<address:port>/ URL opened. In case of ssh terminal sends the :22 as bash command. Doh. \
+\
+- If you implement -set<Key> for a to-many relationship and do manualObserverNotficiation then you have to use two different IndexSets for the willChange and didChange methods, although the documentiation of \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f2\fs20 \cf0 - (void)
+\f3\b willChange:
+\f2\b0 ({\field{\*\fldinst{HYPERLINK "../TypesAndConstants/FoundationTypes.html#//apple_ref/doc/c_ref/NSKeyValueChange"}}{\fldrslt \cf2 \ul \ulc2 NSKeyValueChange}})
+\f4\i change
+\f2\i0  \
+   
+\f3\b valuesAtIndexes:
+\f2\b0 ({\field{\*\fldinst{HYPERLINK "NSIndexSet.html#//apple_ref/doc/c_ref/NSIndexSet"}}{\fldrslt \cf2 \ul \ulc2 NSIndexSet}} *)
+\f4\i indexes
+\f2\i0  
+\f3\b forKey:
+\f2\b0 ({\field{\*\fldinst{HYPERLINK "NSString.html#//apple_ref/doc/c_ref/NSString"}}{\fldrslt \cf2 \ul \ulc2 NSString}} *)
+\f4\i key
+\f0\i0\fs24   \
+says otherwise\
 \
 \pard\tx1440\tx2880\tx4320\tx5760\tx7200\ql\qnatural
 
 \f1\b \cf0 Change Log: \
 
-\f0\b0 v0.1 - 24. November 2003\
+\f0\b0 v0.2 - \
+- Added ResolveAgain to illustrate how this would be done if needed (after e.g. a lost connection). By binding the ResolveAgain Button's "enabled" binding to the selectedObjects.@count of the FoundServicesController i also eliminated the Exception that was thrown on "Restart All" (now "Restart Active")\
+- now I'm using KeyValueObserving for starting and stopping Services, by that I was able to implement activate all / deactivate all by option-clicking on the CheckBoxes easily\
+- added a count of Services to the Found Services Box, also by using KeyValueObserving\
+- added _xserveraid._tcp. (XServe Raid) to the default services\
+- fixed bug where RendezCon would not start up when you add an empty service, turn it on and then restart the app\
+- minor nib changes \
+\
+v0.1 - 24. November 2003\
 - Intitial release\
 - The code has some open points, please review, I want to maintain this code so it could become a reference sample code on controller and rendezvous usage.\
 \
@@ -69,5 +96,5 @@ are permitted provided that the following conditions are met:\
   specific prior written permission.\
 \
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  POSSIBILITY OF SUCH DAMAGE.
-\f1\b \cf2 \
+\f1\b \cf3 \
 }
