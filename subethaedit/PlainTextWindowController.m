@@ -110,7 +110,12 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 }
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
-    [[self window] setContentSize:[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows]];
+    NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
+    NSWindow *window=[self window];
+    NSSize minSize=[window contentMinSize];
+    
+    [[self window] setContentSize:NSMakeSize(MAX(contentSize.width,minSize.width),
+                                             MAX(contentSize.height,minSize.height))];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {

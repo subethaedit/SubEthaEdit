@@ -92,7 +92,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             I_defaults = [NSMutableDictionary new];
             [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModeColumnsPreferenceKey];
-            [I_defaults setObject:[NSNumber numberWithInt:24] forKey:DocumentModeRowsPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithInt:40] forKey:DocumentModeRowsPreferenceKey];
             NSFont *font=[NSFont userFixedPitchFontOfSize:0.0];
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
             [dict setObject:[font fontName] 
