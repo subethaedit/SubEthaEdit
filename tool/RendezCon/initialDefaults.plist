@@ -102,6 +102,12 @@
         </dict>
         <dict>
             <key>serviceType</key>
+            <string>_ica-networking._tcp.</string>
+            <key>shouldSearchFor</key>
+            <false/>
+        </dict>
+        <dict>
+            <key>serviceType</key>
             <string>_tivo_servemedia._tcp.</string>
             <key>shouldSearchFor</key>
             <false/>

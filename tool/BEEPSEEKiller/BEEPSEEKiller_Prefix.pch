@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'BEEPSEEKiller' target in the 'BEEPSEEKiller' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
