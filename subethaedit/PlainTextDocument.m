@@ -830,6 +830,19 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [self setIsAnnounced:![self isAnnounced]];
 }
 
+- (BOOL)isEditable {
+    return [[self session] isEditable];
+}
+
+- (void)validateEditability {
+    BOOL isEditable=[self isEditable];
+    NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+    PlainTextEditor *editor=nil;
+    while ((editor=[plainTextEditors nextObject])) {
+        [[editor textView] setEditable:isEditable];
+    }
+}
+
 - (IBAction)showWebPreview:(id)aSender {
     if (!I_webPreviewWindowController) {
         I_webPreviewWindowController=[[WebPreviewWindowController alloc] initWithPlainTextDocument:self];
@@ -1518,7 +1531,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
                          NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
-        return YES;
+        return [[self session] isServer];
     }
 
     return [super validateMenuItem:anItem];
@@ -1535,7 +1548,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [toolbarItem setLabel:isAnnounced? 
                          NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
                          NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
-        return YES;
+        return [[self session] isServer];
     }
     
     return YES;
@@ -2431,86 +2444,87 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [textStorage stopBlockedit];
             return YES;
         }
-    } else if (aSelector==@selector(deleteBackward:)) {
-        //NSLog(@"AffectedRange=%d,%d",affectedRange.location,affectedRange.length);
-        if (affectedRange.length==0 && affectedRange.location>0) {
-            if (!I_flags.usesTabs) {
-                // when we have a tab we have to find the last linebreak
-                NSString *string=[[self textStorage] string];
-                NSRange lineRange=[string lineRangeForRange:affectedRange];
-                unsigned firstCharacter=0;
-                int position=affectedRange.location;
-                while (--position>=lineRange.location) {
-                    if (!firstCharacter && [string characterAtIndex:position]!=[@"\t" characterAtIndex:0] &&
-                                           [string characterAtIndex:position]!=[@" " characterAtIndex:0]) {
-                        firstCharacter=position+1;
-                        break;
+    } else if ([aTextView isEditable]) {
+        if (aSelector==@selector(deleteBackward:)) {
+            //NSLog(@"AffectedRange=%d,%d",affectedRange.location,affectedRange.length);
+            if (affectedRange.length==0 && affectedRange.location>0) {
+                if (!I_flags.usesTabs) {
+                    // when we have a tab we have to find the last linebreak
+                    NSString *string=[[self textStorage] string];
+                    NSRange lineRange=[string lineRangeForRange:affectedRange];
+                    unsigned firstCharacter=0;
+                    int position=affectedRange.location;
+                    while (--position>=lineRange.location) {
+                        if (!firstCharacter && [string characterAtIndex:position]!=[@"\t" characterAtIndex:0] &&
+                                               [string characterAtIndex:position]!=[@" " characterAtIndex:0]) {
+                            firstCharacter=position+1;
+                            break;
+                        }
                     }
+                    position=lineRange.location;
+                    //NSLog(@"last linebreak, firstcharacter=%d,%d",position,firstCharacter);
+                    if (firstCharacter==affectedRange.location 
+                        || affectedRange.location==lineRange.location 
+                        || firstCharacter) {
+                        return NO;
+                    }
+                    int toDelete=(affectedRange.location-lineRange.location)%I_tabWidth;
+                    if (toDelete==0) {
+                        toDelete=I_tabWidth; 
+                    }
+                    NSRange deleteRange;
+                    deleteRange.location=affectedRange.location-toDelete;
+                    deleteRange.length  =affectedRange.location-deleteRange.location;
+                    if ([aTextView shouldChangeTextInRange:deleteRange replacementString:@""]) {
+                        [[aTextView textStorage] replaceCharactersInRange:deleteRange withString:@""];
+                        [aTextView didChangeText];
+                    }
+                    return YES;
                 }
-                position=lineRange.location;
-                //NSLog(@"last linebreak, firstcharacter=%d,%d",position,firstCharacter);
-                if (firstCharacter==affectedRange.location 
-                    || affectedRange.location==lineRange.location 
-                    || firstCharacter) {
-                    return NO;
+            }    
+        } else if (aSelector==@selector(insertNewline:)) {
+            NSString *indentString=nil;
+            if (I_flags.indentNewLines) {
+                // when we have a newline, we have to find the last linebreak
+                NSString    *string=[[self textStorage] string];
+                NSRange indentRange=[string lineRangeForRange:affectedRange];        
+                indentRange.length=0;
+                while (NSMaxRange(indentRange)<affectedRange.location &&
+                       ([string characterAtIndex:NSMaxRange(indentRange)]==[@" "  characterAtIndex:0] ||
+                        [string characterAtIndex:NSMaxRange(indentRange)]==[@"\t" characterAtIndex:0])) {
+                    indentRange.length++;
                 }
-                int toDelete=(affectedRange.location-lineRange.location)%I_tabWidth;
-                if (toDelete==0) {
-                    toDelete=I_tabWidth; 
+                if (indentRange.length) {
+                    indentString=[string substringWithRange:indentRange];
                 }
-                NSRange deleteRange;
-                deleteRange.location=affectedRange.location-toDelete;
-                deleteRange.length  =affectedRange.location-deleteRange.location;
-                if ([aTextView shouldChangeTextInRange:deleteRange replacementString:@""]) {
-                    [[aTextView textStorage] replaceCharactersInRange:deleteRange withString:@""];
-                    [aTextView didChangeText];
-                }
-                return YES;
             }
-        }    
-    } else if (aSelector==@selector(insertNewline:)) {
-        NSString *indentString=nil;
-        if (I_flags.indentNewLines) {
-            // when we have a newline, we have to find the last linebreak
-            NSString    *string=[[self textStorage] string];
-            NSRange indentRange=[string lineRangeForRange:affectedRange];        
-            indentRange.length=0;
-            while (NSMaxRange(indentRange)<affectedRange.location &&
-                   ([string characterAtIndex:NSMaxRange(indentRange)]==[@" "  characterAtIndex:0] ||
-                    [string characterAtIndex:NSMaxRange(indentRange)]==[@"\t" characterAtIndex:0])) {
-                indentRange.length++;
+            if (indentString) {
+                [aTextView insertText:[NSString stringWithFormat:@"%@%@",[self lineEndingString],indentString]];        
+            } else {
+                [aTextView insertText:[self lineEndingString]];
             }
-            if (indentRange.length) {
-                indentString=[string substringWithRange:indentRange];
+            return YES;
+            
+        } else if (aSelector==@selector(insertTab:) && !I_flags.usesTabs) {
+            // when we have a tab we have to find the last linebreak
+            NSRange lineRange=[[[self textStorage] string] lineRangeForRange:affectedRange];        
+            NSString *replacementString=[@" " stringByPaddingToLength:I_tabWidth-((affectedRange.location-lineRange.location)%I_tabWidth)
+                                                           withString:@" " startingAtIndex:0];
+            [aTextView insertText:replacementString];
+            return YES;
+        } else if ((aSelector==@selector(moveLeft:) || aSelector==@selector(moveRight:)) &&
+                    I_flags.showMatchingBrackets) {
+            unsigned int position=0;
+            if (aSelector==@selector(moveLeft:)) {
+                position=selectedRange.location-1;        
+            } else {
+                position=NSMaxRange(selectedRange);
             }
-        }
-        if (indentString) {
-            [aTextView insertText:[NSString stringWithFormat:@"%@%@",[self lineEndingString],indentString]];        
-        } else {
-            [aTextView insertText:[self lineEndingString]];
-        }
-        return YES;
-        
-    } 
-    else if (aSelector==@selector(insertTab:) && !I_flags.usesTabs) {
-        // when we have a tab we have to find the last linebreak
-        NSRange lineRange=[[[self textStorage] string] lineRangeForRange:affectedRange];        
-        NSString *replacementString=[@" " stringByPaddingToLength:I_tabWidth-((affectedRange.location-lineRange.location)%I_tabWidth)
-                                                       withString:@" " startingAtIndex:0];
-        [aTextView insertText:replacementString];
-        return YES;
-    } else if ((aSelector==@selector(moveLeft:) || aSelector==@selector(moveRight:)) &&
-                I_flags.showMatchingBrackets) {
-        unsigned int position=0;
-        if (aSelector==@selector(moveLeft:)) {
-            position=selectedRange.location-1;        
-        } else {
-            position=NSMaxRange(selectedRange);
-        }
-        NSString *string=[[self textStorage] string];
-        if (position>=0 && position<[string length] && 
-            [self TCM_charIsBracket:[string characterAtIndex:position]]) { 
-            [self TCM_highlightBracketAtPosition:position inTextView:aTextView];
+            NSString *string=[[self textStorage] string];
+            if (position>=0 && position<[string length] && 
+                [self TCM_charIsBracket:[string characterAtIndex:position]]) { 
+                [self TCM_highlightBracketAtPosition:position inTextView:aTextView];
+            }
         }
     }
 //    _flags.controlBlockedit=YES;

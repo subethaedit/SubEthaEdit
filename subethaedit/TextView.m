@@ -136,7 +136,7 @@ static NSMenu *defaultMenu=nil;
         [[self delegate] textView:self mouseDidGoDown:aEvent];
     }
     
-    if ([aEvent modifierFlags] & NSAlternateKeyMask) {
+    if (([aEvent modifierFlags] & NSAlternateKeyMask) && [self isEditable]) {
         [self trackMouseForBlockeditWithEvent:aEvent];
     } else {
         [super mouseDown:aEvent]; 

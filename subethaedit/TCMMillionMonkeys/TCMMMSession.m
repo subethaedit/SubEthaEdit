@@ -271,6 +271,9 @@ NSString * const TCMMMSessionDidChangeNotification =
     return [I_contributors allObjects];
 }
 
+- (BOOL)isEditable {
+    return [[I_groupByUserID objectForKey:[TCMMMUserManager myUserID]] isEqualToString:@"ReadWrite"];
+}
 
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs {
     if ([aGroup isEqualToString:@"PoofGroup"] || [aGroup isEqualToString:@"CloseGroup"]) {
@@ -283,9 +286,11 @@ NSString * const TCMMMSessionDidChangeNotification =
             user = [userManager userForUserID:userID];
             NSString *group=[I_groupByUserID objectForKey:userID];
             if (group) {
-                [I_groupByUserID removeObjectForKey:userID];
                 [[I_participants objectForKey:group] removeObject:user];
-                [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:userID newGroup:aGroup]];
+                [I_groupByUserID removeObjectForKey:userID];
+                if ([self isServer]) {
+                    [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:userID newGroup:aGroup]];
+                }
                 SessionProfile *profile=[I_profilesByUserID objectForKey:userID];
                 [profile close];
                 [self detachStateAndProfileForUserWithID:userID];
@@ -294,6 +299,29 @@ NSString * const TCMMMSessionDidChangeNotification =
                     [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
                 }
                 [user leaveSessionID:sessionID];
+            }
+        }
+        [self TCM_sendParticipantsDidChangeNotification];
+    } else {
+        NSEnumerator *userIDs=[aUserIDs objectEnumerator];
+        NSString *userID;
+        TCMMMUser *user;
+        TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+        NSString *sessionID=[self sessionID];
+        while ((userID=[userIDs nextObject])) {
+            NSString *oldGroup=[[[I_groupByUserID objectForKey:userID] retain] autorelease];
+            if (![oldGroup isEqualToString:aGroup]) {
+                user=[userManager userForUserID:userID];
+                [I_groupByUserID setObject:aGroup forKey:userID];
+                [[I_participants objectForKey:aGroup] addObject:user];
+                [[I_participants objectForKey:oldGroup] removeObject:user];
+                SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
+                if (selectionOperation) {
+                    [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
+                }
+                if ([self isServer]) {
+                    [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeGroupChange userID:userID newGroup:aGroup]];
+                }
             }
         }
         [self TCM_sendParticipantsDidChangeNotification];
@@ -623,8 +651,8 @@ NSString * const TCMMMSessionDidChangeNotification =
         NSString *userID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
         TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
         NSString *group=[I_groupByUserID objectForKey:userID];
-        [I_groupByUserID removeObjectForKey:userID];
         [[I_participants objectForKey:group] removeObject:user];
+        [I_groupByUserID removeObjectForKey:userID];
         [self detachStateAndProfileForUserWithID:userID];
         [self profileDidClose:profile];
         SelectionOperation *selectionOperation=[[user propertiesForSessionID:[self sessionID]] objectForKey:@"SelectionOperation"];
@@ -662,7 +690,6 @@ NSString * const TCMMMSessionDidChangeNotification =
         [user joinSessionID:[self sessionID]];
         NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];
         [properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[user userID]] forKey:@"SelectionOperation"];
-        
         [self TCM_sendParticipantsDidChangeNotification];
     } else if ([anOperation type]==UserChangeTypeLeave) {
         NSString *userID=[anOperation userID];
@@ -685,9 +712,11 @@ NSString * const TCMMMSessionDidChangeNotification =
         } else {
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
             NSString *group=[I_groupByUserID objectForKey:userID];
-            [I_groupByUserID removeObjectForKey:userID];
             [[I_participants objectForKey:group] removeObject:user];
-            [self detachStateAndProfileForUserWithID:userID];
+            [I_groupByUserID removeObjectForKey:userID];
+            if ([self isServer]) {
+                [self detachStateAndProfileForUserWithID:userID];
+            }
             SelectionOperation *selectionOperation=[[user propertiesForSessionID:[self sessionID]] objectForKey:@"SelectionOperation"];
             if (selectionOperation) {
                 [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
@@ -695,6 +724,20 @@ NSString * const TCMMMSessionDidChangeNotification =
             [user leaveSessionID:[self sessionID]];
         }
         [self TCM_sendParticipantsDidChangeNotification];
+    } else if ([anOperation type]==UserChangeTypeGroupChange) {
+        NSString *userID=[anOperation userID];
+        [self setGroup:[anOperation newGroup] forParticipantsWithUserIDs:[NSArray arrayWithObject:userID]];
+        TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+        if ([userID isEqualToString:[userManager myUserID]]) {
+            if ([self isServer]) {
+                NSLog(@"Can't change my group in my document, pah!");
+            } else {
+                if ([[anOperation newGroup] isEqualTo:@"ReadWrite"]) {
+                    [(PlainTextDocument *)[self document] validateEditability];
+                }
+            }
+        }
+        
     } else {
         NSLog(@"Got UserChangeOperation: %@",[anOperation description]);
     }
@@ -721,3 +764,5 @@ NSString * const TCMMMSessionDidChangeNotification =
 }
 
 @end
+
+

@@ -75,6 +75,8 @@ typedef enum TCMMMSessionAccessState {
 - (void)addContributors:(NSArray *)Contributors;
 - (NSArray *)contributors;
 
+- (BOOL)isEditable;
+
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs;
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 

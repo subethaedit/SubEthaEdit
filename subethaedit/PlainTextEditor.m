@@ -159,6 +159,7 @@
     [self updateSymbolPopUpSorted:NO];
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
+    [I_textView setEditable:[document isEditable]];
 }
 
 #define RIGHTINSET 5.

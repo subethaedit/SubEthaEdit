@@ -110,6 +110,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (BOOL)isAnnounced;
 - (void)setIsAnnounced:(BOOL)aFlag;
 - (IBAction)toggleIsAnnounced:(id)aSender;
+- (BOOL)isEditable;
+- (void)validateEditability;
 
 - (NSArray *)plainTextEditors;
 

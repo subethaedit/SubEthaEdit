@@ -266,16 +266,32 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     [O_participantsView reloadData];
     [self validateButtons];
 }
-- (IBAction)readOnlyButtonAction:(id)aSender {
 
+- (IBAction)readOnlyButtonAction:(id)aSender {
+    if ([O_participantsView numberOfSelectedRows] == 1) {
+        int selectedRow=[O_participantsView selectedRow];
+        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
+        if (pair.childIndex!=-1) {
+            if (pair.itemIndex==2) {
+                [[(PlainTextDocument *)[self document] session] setGroup:@"ReadOnly" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
+            }
+        }
+    }
+    [O_participantsView reloadData];
+    [self validateButtons];
 }
 - (IBAction)readWriteButtonAction:(id)aSender {
     if ([O_participantsView numberOfSelectedRows] == 1) {
         int selectedRow=[O_participantsView selectedRow];
         ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
         if (pair.childIndex!=-1) {
+            TCMMMSession *session=[(PlainTextDocument *)[self document] session];
             if (pair.itemIndex==2) {
-                [[(PlainTextDocument *)[self document] session] setGroup:@"ReadWrite" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
+                [session setGroup:@"ReadWrite" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
+            } else if (pair.itemIndex==1) {
+                [session setGroup:@"ReadWrite" forParticipantsWithUserIDs:
+                    [NSArray arrayWithObject:[[[[session participants] objectForKey:@"ReadOnly"] 
+                                                    objectAtIndex:pair.childIndex] userID]]];
             }
         }
     }
@@ -504,6 +520,12 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                                              selector:@selector(pendingUsersDidChange:)
                                                  name:TCMMMSessionPendingUsersDidChangeNotification 
                                                object:[(PlainTextDocument *)[self document] session]];
+    BOOL isEditable=[(PlainTextDocument *)[self document] isEditable];
+    NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+    PlainTextEditor *editor=nil;
+    while ((editor=[plainTextEditors nextObject])) {
+        [[editor textView] setEditable:isEditable];
+    }
 }
 
 - (void)participantsDidChange:(NSNotification *)aNotifcation {
