@@ -86,6 +86,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [defaults setObject:[NSMutableArray array] forKey:AddressHistory];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
     [defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
+    [defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
 #ifdef TCM_NO_DEBUG
 	[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
@@ -335,7 +336,8 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
     [[TCMMMBEEPSessionManager sharedInstance] listen];
     [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
-    [[TCMMMPresenceManager sharedInstance] setVisible:YES];
+    [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
+
     [InternetBrowserController sharedInstance];
 }
 

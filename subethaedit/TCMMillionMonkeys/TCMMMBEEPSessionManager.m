@@ -85,7 +85,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_outboundInternetSessions = [NSMutableDictionary new];
         I_sessions = [NSMutableArray new];
         BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:ProhibitInboundInternetSessions];
-        [self setIsProhibitingInboundInternetSessions:flag];
+        I_isProhibitingInboundInternetSessions = flag;
+        //[self setIsProhibitingInboundInternetSessions:flag];
     }
     return self;
 }
@@ -123,6 +124,18 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:%@\npendingSessionProfiles:%@\npendingSessions:%@\noutboundInternetSessions:%@", [I_sessionInformationByUserID descriptionInStringsFileFormat], [I_pendingSessionProfiles description], [I_pendingSessions description], [I_outboundInternetSessions description]];
+}
+
+- (void)validateListener {
+    BOOL isVisible = [[TCMMMPresenceManager sharedInstance] isVisible];
+    if (!isVisible && [self isProhibitingInboundInternetSessions]) {
+        // stop listening
+        [self stopListening];
+    } else {
+        // start listening
+        [self stopListening];
+        (void)[self listen];
+    }
 }
 
 - (BOOL)listen {
@@ -177,6 +190,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     I_isProhibitingInboundInternetSessions = flag;
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:ProhibitInboundInternetSessions];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [self validateListener];
 }
 
 - (BOOL)isProhibitingInboundInternetSessions {

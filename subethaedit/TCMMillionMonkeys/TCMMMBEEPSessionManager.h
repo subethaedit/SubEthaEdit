@@ -31,6 +31,8 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostCancelledNotificatio
 }
 
 + (TCMMMBEEPSessionManager *)sharedInstance;
+
+- (void)validateListener;
 - (BOOL)listen;
 - (void)stopListening;
 - (int)listeningPort;

@@ -15,6 +15,9 @@
 #import "TCMRendezvousBrowser.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
+
+NSString * const VisibilityPrefKey = @"VisibilityPrefKey";
+
 static TCMMMPresenceManager *sharedInstance = nil;
 
 NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification=
@@ -144,12 +147,14 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 - (void)setVisible:(BOOL)aFlag
 {
     I_flags.isVisible = aFlag;
+    [[NSUserDefaults standardUserDefaults] setBool:aFlag forKey:VisibilityPrefKey];
     [self TCM_validateServiceAnnouncement];
     NSEnumerator *profiles=[I_statusProfilesInServerRole objectEnumerator];
     TCMMMStatusProfile *profile=nil;
     while ((profile=[profiles nextObject])) {
         [profile sendVisibility:aFlag];
     }
+    [[TCMMMBEEPSessionManager sharedInstance] validateListener];
 }
 
 - (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID {
