@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+    
+    <symbol id="Subs" image="SymbolF()" indentation="0" ignoreblocks="yes">
+        <regex>^[ \t]*sub[ \t]*([\w\d_]*)[^{]*\{</regex>
+    </symbol>
+
+    <symbol id="Packages" image="SymbolC" indentation="0" ignoreblocks="yes">
+        <regex>^[ \t]*package[ \t]*([\w\d_]*)\s*;</regex>
+    </symbol>
+
+    <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
+        <regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;[^=]*======[^&gt;]*&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
+        <postprocess>
+            <find>.*</find>
+            <replace>Versioning conflict!</replace>
+        </postprocess>
+    </symbol>
+
+</symbols>
