@@ -12,18 +12,19 @@
 @implementation NoHighlightTextFieldCell
 
 - (void)setHighlighted:(BOOL)flag {
-    NSLog(@"setHighlighted:%@",flag?@"YES":@"NO");
+    //NSLog(@"setHighlighted:%@",flag?@"YES":@"NO");
     [super setHighlighted:NO];
 }
 
 - (void)highlight:(BOOL)flag withFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-    NSLog(@"Do nothing");
+    //NSLog(@"Do nothing");
 }
 
 - (NSColor *)highlightColorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-     NSLog(@"highlightColorWithFrame");
-     return [NSColor whiteColor];
-     return [super highlightColorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView];
+     //NSLog(@"highlightColorWithFrame");
+     //return [NSColor whiteColor];
+     return nil;
+     //return [super highlightColorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView];
  }
 
 //-(void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {

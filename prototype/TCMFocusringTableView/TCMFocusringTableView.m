@@ -12,31 +12,41 @@
 @implementation TCMFocusringTableView
 
 - (void)higlightWithColor:(NSColor *)aColor inset:(float)aInset {
-    [aColor set];
-    NSFrameRect(NSInsetRect([self rectOfRow:[self selectedRow]],aInset,aInset));
+    if ([self selectedRow]>=0) {
+        [NSGraphicsContext saveGraphicsState];
+        NSSetFocusRingStyle (NSFocusRingOnly);
+        [[NSBezierPath bezierPathWithRect:NSInsetRect([self rectOfRow:[self selectedRow]],aInset,aInset)] fill];
+        [NSGraphicsContext restoreGraphicsState];
+    }
+    [self setNeedsDisplay:YES];
 }
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect {
-    NSLog(@"highlightSelectionInClipRect");
-    [self higlightWithColor:[NSColor greenColor] inset:2.];
-//    [super highlightSelectionInClipRect:clipRect];
-    [self higlightWithColor:[NSColor redColor] inset:1.];
+    [self higlightWithColor:nil inset:1.];
+    [self setFocusRingType:NSFocusRingTypeNone];
 }
 
+
+- (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)extend {
+    [super selectRowIndexes:indexes byExtendingSelection:extend];
+    [self setNeedsDisplay:YES];
+}
+/*
 - (void)drawBackgroundInClipRect:(NSRect)clipRect {
-    NSLog(@"drawBackground");
+    //NSLog(@"drawBackground");
     [super drawBackgroundInClipRect:clipRect];
-    [self higlightWithColor:[NSColor greenColor] inset:3.];
+    //[self higlightWithColor:[NSColor greenColor] inset:3.];
 }
 
 - (void)drawGridInClipRect:(NSRect)aRect {
-    NSLog(@"drawGridInClipRect");
+    //NSLog(@"drawGridInClipRect");
     [super drawGridInClipRect:aRect];
 }
 
 - (void)drawRow:(int)rowIndex clipRect:(NSRect)clipRect {
-    NSLog(@"drawRow clipRect");
+    //NSLog(@"drawRow clipRect");
     [super drawRow:(int)rowIndex clipRect:(NSRect)clipRect];
-    [self higlightWithColor:[NSColor blackColor] inset:4.+rowIndex];
+    //[self higlightWithColor:[NSColor blackColor] inset:4.+rowIndex];
 }
+*/
 @end

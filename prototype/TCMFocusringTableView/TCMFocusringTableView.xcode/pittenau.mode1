@@ -297,6 +297,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -316,7 +317,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>83 393 690 397 0 0 1280 832 </string>
+						<string>56 164 690 397 0 0 1280 832 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -353,7 +354,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {481, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>83 393 690 397 0 0 1280 832 </string>
+								<string>56 164 690 397 0 0 1280 832 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -375,7 +376,7 @@
 								<key>Frame</key>
 								<string>{{0, 7}, {481, 348}}</string>
 								<key>RubberWindowFrame</key>
-								<string>83 393 690 397 0 0 1280 832 </string>
+								<string>56 164 690 397 0 0 1280 832 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -399,9 +400,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>3162586B071C1D800010F7FB</string>
+				<string>316CD4D1071E9DD800988818</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>3162586C071C1D800010F7FB</string>
+				<string>316CD4D2071E9DD800988818</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -414,7 +415,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>119284321.36457586</real>
+	<real>119449437.55185562</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -429,12 +430,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>3162587A071C1FD70010F7FB</string>
-		<string>/Users/pittenau/TCMFocusringTableView/TCMFocusringTableView.xcode</string>
+		<string>316CD4DB071EA0C000988818</string>
+		<string>316CD4D8071E9EE600988818</string>
 		<string>1C0AD2B3069F1EA900FABCE6</string>
+		<string>/Users/pittenau/.svn/codingmonkeys/subethaedit/trunk/prototype/TCMFocusringTableView/TCMFocusringTableView.xcode</string>
 	</array>
 	<key>WindowString</key>
-	<string>83 393 690 397 0 0 1280 832 </string>
+	<string>56 164 690 397 0 0 1280 832 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
@@ -520,8 +522,8 @@
 			<true/>
 			<key>TableOfContents</key>
 			<array>
-				<string>3162587A071C1FD70010F7FB</string>
-				<string>3162587B071C1FD70010F7FB</string>
+				<string>316CD4DB071EA0C000988818</string>
+				<string>316CD4DC071EA0C000988818</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -530,7 +532,7 @@
 			<key>WindowString</key>
 			<string>104 267 500 500 0 0 1280 832 </string>
 			<key>WindowToolGUID</key>
-			<string>3162587A071C1FD70010F7FB</string>
+			<string>316CD4DB071EA0C000988818</string>
 			<key>WindowToolIsVisible</key>
 			<false/>
 		</dict>
@@ -740,6 +742,8 @@
 			<string>MENUSEPARATOR</string>
 		</dict>
 		<dict>
+			<key>FirstTimeWindowDisplayed</key>
+			<false/>
 			<key>Identifier</key>
 			<string>windowTool.debuggerConsole</string>
 			<key>Layout</key>
@@ -762,7 +766,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {440, 358}}</string>
 								<key>RubberWindowFrame</key>
-								<string>650 41 440 400 0 0 1280 1002 </string>
+								<string>31 367 440 400 0 0 1280 832 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
@@ -784,12 +788,16 @@
 			<true/>
 			<key>TableOfContents</key>
 			<array>
-				<string>1C78EAAD065D492600B07095</string>
-				<string>1C78EAAE065D492600B07095</string>
+				<string>316CD4D8071E9EE600988818</string>
+				<string>316CD4D9071E9EE600988818</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>WindowString</key>
-			<string>650 41 440 400 0 0 1280 1002 </string>
+			<string>31 367 440 400 0 0 1280 832 </string>
+			<key>WindowToolGUID</key>
+			<string>316CD4D8071E9EE600988818</string>
+			<key>WindowToolIsVisible</key>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -824,8 +832,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {493, 167}}</string>
-											<string>{{0, 176}, {493, 267}}</string>
+											<string>{{0, 0}, {491, 167}}</string>
+											<string>{{0, 176}, {491, 267}}</string>
 										</array>
 									</dict>
 									<key>VerticalSplitView</key>
@@ -849,18 +857,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {458, 143}}</string>
+								<string>{{0, 0}, {521, 434}}</string>
 								<key>RubberWindowFrame</key>
-								<string>104 582 458 185 0 0 1280 832 </string>
+								<string>692 180 521 476 0 0 1280 832 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXRunSessionModule</string>
 							<key>Proportion</key>
-							<string>143pt</string>
+							<string>434pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
-					<string>143pt</string>
+					<string>434pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -874,14 +882,14 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C0AD2B3069F1EA900FABCE6</string>
-				<string>31625877071C1F7C0010F7FB</string>
+				<string>316CD4D3071E9DE100988818</string>
 				<string>1CD0528B0623707200166675</string>
-				<string>31625878071C1F7C0010F7FB</string>
+				<string>316CD4D4071E9DE100988818</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.run</string>
 			<key>WindowString</key>
-			<string>104 582 458 185 0 0 1280 832 </string>
+			<string>692 180 521 476 0 0 1280 832 </string>
 			<key>WindowToolGUID</key>
 			<string>1C0AD2B3069F1EA900FABCE6</string>
 			<key>WindowToolIsVisible</key>
