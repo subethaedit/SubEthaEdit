@@ -744,14 +744,14 @@
         
         NSString *fontString=@"";
         if ([[[self document] fontWithTrait:0] isFixedPitch]) {
-            fontString=@"font-size:small; font-family: monospace; ";
+            fontString=@"font-size:small; font-family:monospace; ";
         } 
         
         // pre or div?
         NSString *topLevelTag=([self wrapsLines]?@"div":@"pre");
         
         NSMutableString *result=[[NSMutableString alloc] initWithCapacity:selectedRange.length*2];
-        [result appendFormat:@"<%@ style=\"color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto;%@\">",topLevelTag, [foregroundColor HTMLString],[backgroundColor HTMLString],fontString];
+        [result appendFormat:@"<%@ style=\"text-align:left;color:%@; background-color:%@; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;%@\">",topLevelTag, [foregroundColor HTMLString],[backgroundColor HTMLString],fontString];
         NSMutableString *content=[attributedStringForXHTML XHTMLStringWithAttributeMapping:mapping];
         if ([self wrapsLines]) {
             [content addBRs];

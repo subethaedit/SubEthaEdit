@@ -1649,7 +1649,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         NSString *fontString=@"";
         if ([[self fontWithTrait:0] isFixedPitch]) {
-            fontString=@"font-size:small; font-family: monospace; ";
+            fontString=@"font-size:small; font-family:monospace; ";
         } 
         [attributedStringForXHTML detab:YES inRange:wholeRange tabWidth:[self tabWidth] askingTextView:nil];
         BOOL wrapsLines=[self wrapLines];
@@ -1668,7 +1668,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (wrapsLines) {
             [innerContent addBRs];
         }
-        [content appendFormat:@"<%@ style=\"color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto;%@\">",topLevelTag, [[self documentForegroundColor] HTMLString],[[self documentBackgroundColor] HTMLString],fontString];
+        [content appendFormat:@"<%@ style=\"text-align:left;color:%@; background-color:%@; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;%@\">",topLevelTag, [[self documentForegroundColor] HTMLString],[[self documentBackgroundColor] HTMLString],fontString];
         [content appendString:innerContent];
         [content appendFormat:@"</%@>",topLevelTag];
     
