@@ -54,6 +54,7 @@
     return width;
 }
 
+
 - (float)desiredWidth {
     return [self titleWidth]+22.;
 }

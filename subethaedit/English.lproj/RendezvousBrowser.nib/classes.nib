@@ -6,6 +6,7 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = PullDownButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
             ACTIONS = {setVisibilityByMenuItem = id; }; 
             CLASS = RendezvousBrowserController; 

@@ -26,7 +26,8 @@
                 "O_statusPopUpButton" = NSPopUpButton; 
             }; 
             SUPERCLASS = NSWindowController; 
-        }
+        }, 
+        {CLASS = PullDownButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }
     ); 
     IBVersion = 1; 
 }
