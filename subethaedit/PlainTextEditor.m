@@ -666,15 +666,12 @@
     NSMenu *popUpMenu=[[self document] symbolPopUpMenuForView:I_textView sorted:aSorted];
     NSPopUpButtonCell *cell=[O_symbolPopUpButton cell];
     [[[cell menu] retain] autorelease];
-    [cell removeAllItems];
     if ([[popUpMenu itemArray] count]) {
         NSMenu *copiedMenu=[popUpMenu copyWithZone:[NSMenu menuZone]];
         [cell setMenu:copiedMenu];
         [copiedMenu release];
         [self updateSelectedSymbol];
-    } else {
-        [cell addItemWithTitle:NSLocalizedString(@"<No selected symbol>", @"Entry for Symbol Pop Up when no Symbol is found")];
-    }
+    } 
     [self TCM_adjustTopStatusBarFrames];
 //    NSLog(@"updated SymbolPopUpSorted");
 }
