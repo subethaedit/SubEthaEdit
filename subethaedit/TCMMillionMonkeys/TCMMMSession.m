@@ -62,9 +62,13 @@ NSString * const TCMMMSessionDidChangeNotification =
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData
 {
     NSDictionary *sessionDict=TCM_BdecodedObjectWithData(aData);
-    TCMMMSession *session = [[TCMMMSession alloc] initWithSessionID:[NSString stringWithUUIDData:[sessionDict objectForKey:@"sID"]] filename:[sessionDict objectForKey:@"name"]];
-    [session setHostID:[NSString stringWithUUIDData:[sessionDict objectForKey:@"hID"]]];
-    [session setAccessState:[[sessionDict objectForKey:@"acc"] intValue]];
+    return [self sessionWithDictionaryRepresentation:sessionDict]; 
+}
+
++ (TCMMMSession *)sessionWithDictionaryRepresentation:(NSDictionary *)aDictionary {
+    TCMMMSession *session = [[TCMMMSession alloc] initWithSessionID:[NSString stringWithUUIDData:[aDictionary objectForKey:@"sID"]] filename:[aDictionary objectForKey:@"name"]];
+    [session setHostID:[NSString stringWithUUIDData:[aDictionary objectForKey:@"hID"]]];
+    [session setAccessState:[[aDictionary objectForKey:@"acc"] intValue]];
     return [session autorelease];
 }
 
@@ -72,6 +76,8 @@ NSString * const TCMMMSessionDidChangeNotification =
 {
     self = [super init];
     if (self) {
+        I_invitedUsers = [NSMutableDictionary new];
+        I_groupOfInvitedUsers = [NSMutableDictionary new];
         I_participants = [NSMutableDictionary new];
         I_sessionContentForUserID = [NSMutableDictionary new];
         I_profilesByUserID = [NSMutableDictionary new];
@@ -170,7 +176,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"sessionID: %@, filename: %@", [self sessionID], [self filename]];
+    return [NSString stringWithFormat:@"sessionID: %@, filename: %@, hostID:%@, isServer:%@", [self sessionID], [self filename],[self hostID],[self isServer]?@"YES":@"NO"];
 }
 
 - (void)setFilename:(NSString *)aFilename
@@ -201,6 +207,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 {
     [I_hostID autorelease];
      I_hostID = [aHostID copy];
+    [self setIsServer:[I_hostID isEqualToString:[TCMMMUserManager myUserID]]];
 }
 
 - (NSString *)hostID
@@ -226,6 +233,14 @@ NSString * const TCMMMSessionDidChangeNotification =
 - (BOOL)isServer
 {
     return I_flags.isServer;
+}
+
+- (void)setWasInvited:(BOOL)wasInvited {
+    I_flags.wasInvited=wasInvited;
+}
+
+- (BOOL)wasInvited {
+    return I_flags.wasInvited;
 }
 
 - (unsigned int)participantCount {
@@ -426,6 +441,16 @@ NSString * const TCMMMSessionDidChangeNotification =
     return sessionDict;
 }
 
+- (void)inviteUser:(TCMMMUser *)aUser intoGroup:(NSString *)aGroup usingBEEPSession:(TCMBEEPSession *)aBEEPSession {
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    
+    if (!aBEEPSession) {
+        aBEEPSession = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[aUser userID]];
+    }
+//    NSLog(@"BeepSession: %@ forUser:%@",aBEEPSession, aUser);
+    [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
+}
+
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession
 {
     PlainTextDocument *document=(PlainTextDocument *)[self document];
@@ -544,14 +569,20 @@ NSString * const TCMMMSessionDidChangeNotification =
 - (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
 {
     // check if invitation or join is happening
-    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
-    if (I_flags.shouldSendJoinRequest) {
-        [I_profilesByUserID setObject:profile forKey:[self hostID]];
-        [profile setDelegate:self];
-        [(SessionProfile *)profile sendJoinRequestForSessionID:[self sessionID]];
-        I_flags.shouldSendJoinRequest=NO;
+    if ([self isServer]) {
+        // send invitation
+        NSString *peerUserID = [[session userInfo] objectForKey:@"peerUserID"];
+        [(SessionProfile *)profile sendInvitationWithSession:self];
     } else {
-        [[profile channel] close];
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
+        if (I_flags.shouldSendJoinRequest) {
+            [I_profilesByUserID setObject:profile forKey:[self hostID]];
+            [profile setDelegate:self];
+            [(SessionProfile *)profile sendJoinRequestForSessionID:[self sessionID]];
+            I_flags.shouldSendJoinRequest=NO;
+        } else {
+            [[profile channel] close];
+        }
     }
 }
 
@@ -572,7 +603,7 @@ NSString * const TCMMMSessionDidChangeNotification =
     [I_profilesByUserID setObject:profile forKey:peerUserID];
 
     [I_pendingUsers addObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
-
+    [profile setDelegate:self];
     // decide if autojoin depending on setting
     if ([self accessState]!=TCMMMSessionAccessLockedState) {
         [self setGroup:[self accessState]==TCMMMSessionAccessReadWriteState?@"ReadWrite":@"ReadOnly"
@@ -586,6 +617,14 @@ NSString * const TCMMMSessionDidChangeNotification =
 
 - (void)invitationWithProfile:(SessionProfile *)profile
 {
+    [self setWasInvited:YES];
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    if (document) {
+        NSLog(@"Mist already having a document...");
+//        [document showWindows];
+    } else {
+        [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
+    }
 }
 
 # pragma mark -

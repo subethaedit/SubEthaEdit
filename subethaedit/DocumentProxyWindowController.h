@@ -18,6 +18,9 @@
     IBOutlet NSTextField *O_userNameTextField;
     IBOutlet NSTextField *O_statusBarTextField;
     IBOutlet NSView *O_containerView;
+    IBOutlet NSView *O_bottomCustomView;
+    IBOutlet NSView *O_bottomStatusView;
+    IBOutlet NSView *O_bottomDecisionView;
 
     NSWindow *I_targetWindow;
     TCMMMSession *I_session;
@@ -26,8 +29,11 @@
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
+- (IBAction)acceptAction:(id)aSender;
+
 - (void)setSession:(TCMMMSession *)aSession;
 - (void)dissolveToWindow:(NSWindow *)aWindow;
 - (void)joinRequestWasDenied;
+
 
 @end

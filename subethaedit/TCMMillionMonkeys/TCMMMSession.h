@@ -13,7 +13,7 @@ extern NSString * const TCMMMSessionParticipantsDidChangeNotification;
 extern NSString * const TCMMMSessionPendingUsersDidChangeNotification;
 extern NSString * const TCMMMSessionDidChangeNotification;
 
-@class SessionProfile, TCMMMOperation, TCMBEEPSession;
+@class SessionProfile, TCMMMOperation, TCMBEEPSession, TCMMMUser;
 
 typedef enum TCMMMSessionAccessState {
     TCMMMSessionAccessLockedState=0,
@@ -29,6 +29,8 @@ typedef enum TCMMMSessionAccessState {
     NSString *I_filename;
     NSMutableDictionary *I_profilesByUserID;
     NSMutableDictionary *I_participants;
+    NSMutableDictionary *I_invitedUsers;
+    NSMutableDictionary *I_groupOfInvitedUsers;
     NSMutableDictionary *I_sessionContentForUserID;
     NSMutableSet *I_contributors;
     NSMutableArray *I_pendingUsers;
@@ -40,10 +42,12 @@ typedef enum TCMMMSessionAccessState {
     struct {
         BOOL isServer;
         BOOL shouldSendJoinRequest;
+        BOOL wasInvited;
     } I_flags;
 }
 
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData;
++ (TCMMMSession *)sessionWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 
 - (id)initWithDocument:(NSDocument *)aDocument;
 - (id)initWithSessionID:(NSString *)aSessionID filename:(NSString *)aFileName;
@@ -63,6 +67,9 @@ typedef enum TCMMMSessionAccessState {
 - (void)setIsServer:(BOOL)isServer;
 - (BOOL)isServer;
 
+- (void)setWasInvited:(BOOL)wasInvited;
+- (BOOL)wasInvited;
+
 - (void)setAccessState:(TCMMMSessionAccessState)aState;
 - (TCMMMSessionAccessState)accessState;
 
@@ -81,6 +88,7 @@ typedef enum TCMMMSessionAccessState {
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs;
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 
+- (void)inviteUser:(TCMMMUser *)aUser intoGroup:(NSString *)aGroup usingBEEPSession:(TCMBEEPSession *)aBEEPSession;
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession;
 - (void)cancelJoin;
 - (void)leave;

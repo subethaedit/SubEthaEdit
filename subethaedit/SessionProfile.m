@@ -49,6 +49,17 @@
     return I_flags.contentHasBeenExchanged;
 }
 
+- (void)sendInvitationWithSession:(TCMMMSession *)aSession {
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel,@"Sending INVINV");
+    NSMutableData *data = [NSMutableData dataWithBytes:"INVINV" length:6];
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                            [[TCMMMUserManager me] notification], @"UserNotification",
+                            [aSession dictionaryRepresentation], @"Session",
+                            nil];
+    [data appendData:TCM_BencodedObject(dict)]; 
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
 - (void)sendJoinRequestForSessionID:(NSString *)aSessionID
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel,@"Sending JONJON");
@@ -163,6 +174,19 @@
             }
         } else if (strncmp(type, "INVINV", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received invitation.");
+            NSData *data = [[aMessage payload] subdataWithRange:NSMakeRange(6, [[aMessage payload] length]-6)];
+            NSDictionary *dict = TCM_BdecodedObjectWithData(data);
+            TCMMMSession *session=[TCMMMSession sessionWithDictionaryRepresentation:[dict objectForKey:@"Session"]];
+            
+            TCMMMUser *user = [TCMMMUser userWithNotification:[dict objectForKey:@"UserNotification"]];
+            if ([[TCMMMUserManager sharedInstance] sender:self shouldRequestUser:user]) {
+                NSMutableData *data = [NSMutableData dataWithBytes:"USRREQ" length:6];
+                [[self channel] sendMSGMessageWithPayload:data];
+            }
+            id delegate = [self delegate];
+            if ([delegate respondsToSelector:@selector(profile:didReceiveInvitationForSession:)]) {
+                [delegate profile:self didReceiveInvitationForSession:session];
+            }
         } else if (strncmp(type, "JONCAN", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received cancel join.");
             id delegate = [self delegate];

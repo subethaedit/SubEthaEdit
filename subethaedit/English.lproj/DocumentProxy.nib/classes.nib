@@ -1,9 +1,13 @@
 {
     IBClasses = (
         {
+            ACTIONS = {acceptAction = id; }; 
             CLASS = DocumentProxyWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "O_bottomCustomView" = NSView; 
+                "O_bottomDecisionView" = NSView; 
+                "O_bottomStatusView" = NSView; 
                 "O_containerView" = NSView; 
                 "O_documentImageView" = NSImageView; 
                 "O_documentTitleTextField" = NSTextField; 

@@ -26,6 +26,7 @@
     int32_t I_numberOfUnacknowledgedSessconMSG;
 }
 
+- (void)sendInvitationWithSession:(TCMMMSession *)aSession;
 - (void)sendUser:(TCMMMUser *)aUser;
 - (void)sendJoinRequestForSessionID:(NSString *)aSessionID;
 - (void)sendUserRequest:(NSDictionary *)aUserNotification;
@@ -51,7 +52,7 @@
 - (void)profile:(SessionProfile *)aProfile didReceiveSessionContent:(id)content;
 - (void)profileDidAckSessionContent:(SessionProfile *)aProfile;
 - (void)profile:(SessionProfile *)aProfile didReceiveJoinRequestForSessionID:(NSString *)aSessionID;
-- (void)profile:(SessionProfile *)aProfile didReceiveInvitationForSessionID:(NSString *)aSessionID;
+- (void)profile:(SessionProfile *)aProfile didReceiveInvitationForSession:(TCMMMSession *)aSession;
 - (void)profileDidCancelJoinRequest:(SessionProfile *)aProfile;
 - (void)profileDidDenyJoinRequest:(SessionProfile *)aProfile;
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)aProfile;

@@ -40,8 +40,18 @@
     NSString *filename=[I_session filename];
     [O_documentTitleTextField setStringValue:filename];
     [O_documentImageView setImage:[[NSWorkspace sharedWorkspace] iconForFileType:[filename pathExtension]]];
-    [window setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ (joining...)",@"Proxy window title for joining documents"),filename]];
+    NSLog(@"Session :%@",[I_session description]);
+    if ([I_session wasInvited]) {
+        [[window contentView] replaceSubview:O_bottomCustomView with:O_bottomDecisionView];
+    } else {
+        [[window contentView] replaceSubview:O_bottomCustomView with:O_bottomStatusView];
+    }
 }
+
+- (IBAction)acceptAction:(id)aSender {
+    [[[self window] contentView] replaceSubview:O_bottomDecisionView with:O_bottomStatusView];
+}
+
 
 - (void)setSession:(TCMMMSession *)aSession {
     [I_session autorelease];
@@ -73,6 +83,15 @@
 
 - (void)windowWillClose:(NSNotification *)aNotification {
     [(PlainTextDocument *)[self document] proxyWindowWillClose];
+}
+
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
+    NSString *filename=[I_session filename];
+    if ([I_session isServer]) {
+        return [NSString stringWithFormat:NSLocalizedString(@"%@ (invited...)",@"Proxy window title for invited documents"),filename];
+    } else {
+        return [NSString stringWithFormat:NSLocalizedString(@"%@ (joining...)",@"Proxy window title for joining documents"),filename];
+    }
 }
 
 @end

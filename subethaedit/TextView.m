@@ -270,6 +270,18 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         NSLog(@"performDragOperation:");
+        NSArray *userArray=[pboard propertyListForType:@"PboardTypeTBD"];
+        PlainTextDocument *document=(PlainTextDocument *)[[[self window] windowController] document];
+        TCMMMSession *session=[document session];
+        NSEnumerator *userDescriptions=[userArray objectEnumerator];
+        NSDictionary *userDescription=nil;
+        while ((userDescription=[userDescriptions nextObject])) {
+            TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[userDescription objectForKey:@"UserID"]];
+            if (user) {
+                TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] URLString:[userDescription objectForKey:@"URLString"]];
+                [session inviteUser:user intoGroup:@"ReadWrite" usingBEEPSession:BEEPSession];
+            }
+        }
         return YES;
     } else {
         return [super performDragOperation:sender];
