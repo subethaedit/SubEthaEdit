@@ -66,9 +66,9 @@ static BOOL launchSubEthaEdit() {
     CFURLRef appURL = NULL;
 
     status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), NULL, NULL, &appURL); // release appURL
-    if (kLSApplicationNotFoundErr == status) {
-        fprintf(stdout, "Couldn't find SubEthaEdit: kLSApplicationNotFoundErr\n");
-        fflush(stdout);
+    if (kLSApplicationNotFoundErr == status || appURL == NULL) {
+        fprintf(stderr, "see: Couldn't locate SubEthaEdit.\n");
+        fflush(stderr);
         return NO;
     } else {
         
@@ -76,7 +76,7 @@ static BOOL launchSubEthaEdit() {
         //NSString *bundleVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
         //NSLog(@"Retrieved bundle version of installed SubEthaEdit: %@", bundleVersion);
         
-        appURL = (CFURLRef)[NSURL URLWithString:@"file:///Users/Shared/BuildProducts/SubEthaEdit.app"];
+        //appURL = (CFURLRef)[NSURL URLWithString:@"file:///Users/Shared/BuildProducts/SubEthaEdit.app"];
         
         LSLaunchURLSpec inLaunchSpec;
         inLaunchSpec.appURL = appURL;
@@ -113,7 +113,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
     if (!launchSubEthaEdit()) {
         return nil;
     }
-    
+        
     NSMutableArray *resultFileNames = [NSMutableArray array];
     AESendMode sendMode = kAENoReply;
     long timeOut = kAEDefaultTimeout;
@@ -200,7 +200,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 }
                 [replyDesc release];
             } else {
-                NSLog(@"Error while sending Apple Event: %d", err);
+                //NSLog(@"Error while sending Apple Event: %d", err);
             }
         }
     }
@@ -245,7 +245,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     NSMutableArray *files = [NSMutableArray array];
     NSMutableArray *newFileNames = [NSMutableArray array];
     
-    if (!isStandardInputATTY) {
+    if ([fileNames count] == 0 || !isStandardInputATTY) {
         NSString *fileName = tempFileName();
         [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
         NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
@@ -261,6 +261,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
         [fdout closeFile];
         stdinFileName = fileName;
     }
+    
     if ([fileNames count] != 0) {
         BOOL isDir;
         count = [fileNames count];
