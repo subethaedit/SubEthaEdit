@@ -18,6 +18,7 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "ButtonScrollView.h"
 #import "PopUpButton.h"
+#import "PopUpButtonCell.h"
 
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions) 
 - (void)TCM_updateStatusBar;
@@ -126,6 +127,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
     O_editorView = view;
     [O_symbolPopUpButton setDelegate:self];
+    [[O_symbolPopUpButton cell] setControlSize:NSSmallControlSize];
+    [O_symbolPopUpButton setBordered:NO];
+    [O_symbolPopUpButton setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+    
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
     
@@ -149,16 +154,7 @@
 
 - (void)TCM_adjustTopStatusBarFrames {
     if (I_flags.showTopStatusBar) {
-        NSAttributedString *title=[[O_symbolPopUpButton selectedItem] attributedTitle];
-        float symbolWidth;
-        if (title) {
-            symbolWidth=[title size].width;
-        } else {
-            symbolWidth=[[[O_symbolPopUpButton selectedItem] title]
-                                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_symbolPopUpButton font] 
-                                                                                       forKey:NSFontAttributeName]].width;
-        }
-        symbolWidth+=50.;
+        float symbolWidth=[(PopUpButtonCell *)[O_symbolPopUpButton cell] desiredWidth];
         
         NSRect bounds=[O_topStatusBarView bounds];
         NSRect positionFrame=[O_positionTextField frame];
@@ -628,10 +624,6 @@
     return YES;
 }
 
-- (IBAction)chooseSymbol:(id)aSender {
-    [self TCM_adjustTopStatusBarFrames];
-}
-
 - (IBAction)jumpToNextChange:(id)aSender {
     TextView *textView = (TextView *)[self textView];
     NSRange change = [[self document] rangeOfPrevious:NO 
@@ -673,6 +665,7 @@
 - (void)updateSymbolPopUpSorted:(BOOL)aSorted {
     NSMenu *popUpMenu=[[self document] symbolPopUpMenuForView:I_textView sorted:aSorted];
     NSPopUpButtonCell *cell=[O_symbolPopUpButton cell];
+    [[[cell menu] retain] autorelease];
     [cell removeAllItems];
     if ([[popUpMenu itemArray] count]) {
         NSMenu *copiedMenu=[popUpMenu copyWithZone:[NSMenu menuZone]];
@@ -683,6 +676,7 @@
         [cell addItemWithTitle:NSLocalizedString(@"<No selected symbol>", @"Entry for Symbol Pop Up when no Symbol is found")];
     }
     [self TCM_adjustTopStatusBarFrames];
+//    NSLog(@"updated SymbolPopUpSorted");
 }
 
 - (void)popUpWillShowMenu:(PopUpButton *)aButton {
@@ -692,6 +686,7 @@
         [self updateSymbolPopUpSorted:sorted];
         I_flags.symbolPopUpIsSorted=sorted;
     }
+//    NSLog(@"popUpWillShowMenu:");
 }
 
 

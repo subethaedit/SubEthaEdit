@@ -63,7 +63,6 @@
 #pragma mark ### Actions ###
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
-- (IBAction)chooseSymbol:(id)aSender;
 
 - (IBAction)jumpToNextChange:(id)aSender;
 - (IBAction)jumpToPreviousChange:(id)aSender;

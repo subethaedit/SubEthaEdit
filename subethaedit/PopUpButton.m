@@ -7,9 +7,25 @@
 //
 
 #import "PopUpButton.h"
-
+#import "PopUpButtonCell.h"
 
 @implementation PopUpButton
+
++ (void)initialize {
+    if (self == [PopUpButton class]) {
+        [self setCellClass:[PopUpButtonCell class]];
+    }
+}
+
++ (Class)cellClass {
+    return [PopUpButtonCell class];
+}
+
+- (id)initWithFrame:(NSRect)frameRect pullsDown:(BOOL)flag {   
+    self=[super initWithFrame:frameRect pullsDown:flag];
+//    NSLog(@"init and my cell is:%@",NSStringFromClass([[self cell] class]));
+    return self;
+}
 
 - (void)dealloc {
     [self setDelegate:nil];
