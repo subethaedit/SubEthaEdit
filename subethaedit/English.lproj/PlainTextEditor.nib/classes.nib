@@ -2,14 +2,22 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {
+                chooseSymbol = id; 
+                toggleLineNumbers = id; 
+                toggleShowsChangeMarks = id; 
+                toggleWrap = id; 
+            }; 
             CLASS = PlainTextEditor; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_bottomStatusBarView" = NSView; 
                 "O_editorView" = NSView; 
+                "O_encodingTextField" = NSTextField; 
                 "O_modeTextField" = NSTextField; 
                 "O_positionTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 
+                "O_symbolPopUpButton" = NSPopUpButton; 
                 "O_tabStatusTextField" = NSTextField; 
                 "O_topStatusBarView" = NSView; 
                 "O_windowWidthTextField" = NSTextField; 

@@ -16,6 +16,8 @@
     IBOutlet NSTextField *O_windowWidthTextField;
     IBOutlet NSTextField *O_writtenByTextField;
     IBOutlet NSTextField *O_modeTextField;
+    IBOutlet NSTextField *O_encodingTextField;
+    IBOutlet NSPopUpButton *O_symbolPopUpButton;
     IBOutlet NSScrollView *O_scrollView;
     IBOutlet NSView       *O_editorView;
     IBOutlet NSView       *O_topStatusBarView;
@@ -57,5 +59,5 @@
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleLineNumbers:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
-
+- (IBAction)chooseSymbol:(id)aSender;
 @end

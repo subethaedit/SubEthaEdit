@@ -132,6 +132,47 @@
     [self TCM_updateBottomStatusBar];
 }
 
+#define RIGHTINSET 5.
+
+- (void)TCM_adjustTopStatusBarFrames {
+    if (I_flags.showTopStatusBar) {
+        float symbolWidth=[[O_symbolPopUpButton titleOfSelectedItem]
+                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_symbolPopUpButton font] 
+                                                                       forKey:NSFontAttributeName]].width+30.;
+        NSRect bounds=[O_topStatusBarView bounds];
+        NSRect positionFrame=[O_positionTextField frame];
+        NSPoint position=positionFrame.origin;
+        positionFrame.size.width=[[O_positionTextField stringValue]
+                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_positionTextField font] 
+                                                                       forKey:NSFontAttributeName]].width+5.;
+        [O_positionTextField setFrame:positionFrame];
+        position.x = NSMaxX(positionFrame);
+        NSRect newWrittenByFrame=[O_writtenByTextField frame];
+        newWrittenByFrame.size.width=[[O_writtenByTextField stringValue]
+                                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_writtenByTextField font] 
+                                                                                       forKey:NSFontAttributeName]].width+5.;
+        NSRect newPopUpFrame=[O_symbolPopUpButton frame];
+        newPopUpFrame.origin.x=position.x;
+        newPopUpFrame.size.width=symbolWidth;
+        int remainingWidth=bounds.size.width-position.x-5.-RIGHTINSET;
+        if (newWrittenByFrame.size.width + newPopUpFrame.size.width > remainingWidth) {
+            if (remainingWidth - newWrittenByFrame.size.width>20.) {
+                newPopUpFrame.size.width=remainingWidth - newWrittenByFrame.size.width;
+            } else {
+                // manage
+                unsigned space=(remainingWidth-20.)/2.;
+                newPopUpFrame.size.width=space+20.;
+                newWrittenByFrame.size.width=space;
+            }
+        } 
+        newWrittenByFrame.origin.x = bounds.origin.x+bounds.size.width-RIGHTINSET-newWrittenByFrame.size.width;
+        [O_writtenByTextField setFrame:newWrittenByFrame];
+        [O_symbolPopUpButton  setFrame:newPopUpFrame];
+        [O_topStatusBarView setNeedsDisplay:YES];
+    }
+}
+
+
 - (void)TCM_updateStatusBar {
     if (I_flags.showTopStatusBar) {
         NSRange selection=[I_textView selectedRange];
@@ -165,19 +206,19 @@
                 if ([userId isEqualToString:[TCMMMUserManager myUserID]]) {
                     userName = NSLocalizedString(@"me", nil);
                 } else {
-                      userName = [[[TCMMMUserManager sharedInstance] userForUserID:userId] name];
-                      if (!userName) userName = @"";
+                    userName = [[[TCMMMUserManager sharedInstance] userForUserID:userId] name];
+                    if (!userName) userName = @"";
                 }
                 
                 if (selection.length>range.length) {
                     string = [NSString stringWithFormat:NSLocalizedString(@"Written by %@ et al", nil), userName];
                 } else {
-                        string = [NSString stringWithFormat:NSLocalizedString(@"Written by %@", nil), userName];
+                    string = [NSString stringWithFormat:NSLocalizedString(@"Written by %@", nil), userName];
                 }
                 [O_writtenByTextField setStringValue:string];
             }
         }
-
+        [self TCM_adjustTopStatusBarFrames];
     }    
 }
 
@@ -186,6 +227,8 @@
         PlainTextDocument *document=[self document];
         [O_tabStatusTextField setStringValue:[NSString stringWithFormat:@"%@ (%d)",[document usesTabs]?@"TrueTab":@"Spaces",[document tabWidth]]];
         [O_modeTextField setStringValue:[[document documentMode] displayName]];
+        
+        [O_encodingTextField setStringValue:[NSString localizedNameOfStringEncoding:[document fileEncoding]]];
         
         NSFont *font=[document fontWithTrait:0];
         float characterWidth=[font widthOfString:@"m"];
@@ -553,6 +596,11 @@
 }
 
 
+- (IBAction)chooseSymbol:(id)aSender {
+    [self TCM_adjustTopStatusBarFrames];
+}
+
+
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
 
@@ -617,11 +665,11 @@
     [self TCM_updateBottomStatusBar];
 }
 
-
 #pragma mark -
 #pragma mark ### notification handling ###
 
 - (void)viewFrameDidChange:(NSNotification *)aNotification {
+    [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
 }
 
