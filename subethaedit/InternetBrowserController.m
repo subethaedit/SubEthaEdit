@@ -33,6 +33,8 @@ NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
 
 enum {
     BrowserContextMenuTagJoin = 1,
+    BrowserContextMenuTagAIM,
+    BrowserContextMenuTagEmail,
     BrowserContextMenuTagShowDocument,
     BrowserContextMenuTagCancelConnection,
     BrowserContextMenuTagReconnect,
@@ -74,13 +76,23 @@ static InternetBrowserController *sharedInstance = nil;
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuJoin", @"Join document entry for Browser context menu") action:@selector(join:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagJoin];
-
+    
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(join:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagShowDocument];
 
         [I_contextMenu addItem:[NSMenuItem separatorItem]];
 
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuAIM", @"AIM user entry for Browser context menu") action:@selector(initiateAIMChat:) keyEquivalent:@""];
+        [item setTarget:[TCMMMUserManager sharedInstance]];
+        [item setTag:BrowserContextMenuTagAIM];
+                
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuEmail", @"Email user entry for Browser context menu") action:@selector(sendEmail:) keyEquivalent:@""];
+        [item setTarget:[TCMMMUserManager sharedInstance]];
+        [item setTag:BrowserContextMenuTagEmail];
+        
+        [I_contextMenu addItem:[NSMenuItem separatorItem]];
+        
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuCancelConnection", @"Cancel connetion entry for Browser context menu") action:@selector(cancelConnection:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagCancelConnection];
@@ -269,6 +281,10 @@ enum {
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
         [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagAIM];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagEmail];
+        [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
@@ -285,6 +301,10 @@ enum {
         item = [menu itemWithTag:BrowserContextMenuTagJoin];
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagAIM];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagEmail];
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
         [item setEnabled:NO];
@@ -316,6 +336,7 @@ enum {
         int state = 0;
         NSEnumerator *enumerator = [dataSet objectEnumerator];
         id dataItem;
+        NSMutableSet *userIDs = [NSMutableSet set];
         while ((dataItem = [enumerator nextObject])) {
             NSString *status = [dataItem objectForKey:@"status"];
             if ([status isEqualToString:HostEntryStatusContacting] ||
@@ -323,6 +344,7 @@ enum {
                 state |= kCancellableStateMask;
             }
             if ([status isEqualToString:HostEntryStatusSessionOpen]) {
+                [userIDs addObject:[dataItem objectForKey:@"UserID"]];
                 state |= kOpenStateMask;
             }
             if ([dataItem objectForKey:@"failed"]) {
@@ -334,6 +356,18 @@ enum {
             state = 0;
         }
 
+        if (state & kOpenStateMask) {
+            item = [menu itemWithTag:BrowserContextMenuTagAIM];
+            [item setRepresentedObject:userIDs];
+            item = [menu itemWithTag:BrowserContextMenuTagEmail];
+            [item setRepresentedObject:userIDs];
+        }
+        TCMMMUserManager *manager = [TCMMMUserManager sharedInstance];
+        item = [menu itemWithTag:BrowserContextMenuTagAIM];
+        [item setEnabled:(state & kOpenStateMask) && [manager validateMenuItem:item]];
+        item = [menu itemWithTag:BrowserContextMenuTagEmail];
+        [item setEnabled:(state & kOpenStateMask) && [manager validateMenuItem:item]];
+        
         item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
         [item setEnabled:(state & kCancellableStateMask) || (state & kOpenStateMask)];
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
@@ -344,6 +378,10 @@ enum {
     
     
     if ([documentSet count] > 0) {
+        item = [menu itemWithTag:BrowserContextMenuTagAIM];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagEmail];
+        [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];

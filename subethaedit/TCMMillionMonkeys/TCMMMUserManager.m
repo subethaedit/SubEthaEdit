@@ -29,7 +29,6 @@ static TCMMMUserManager *sharedInstance=nil;
     return [[self sharedInstance] me];
 }
 
-
 + (NSString *)myUserID {
     return [[self sharedInstance] myUserID];
 }
@@ -158,5 +157,65 @@ static TCMMMUserManager *sharedInstance=nil;
     return [I_usersByID allValues];
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
+    SEL selector = [anItem action];
+    
+    if (selector == @selector(sendEmail:)) {
+    
+        BOOL isValid = NO;
+        NSEnumerator *enumerator = [[anItem representedObject] objectEnumerator];
+        NSString *userID;
+        while ((userID = [enumerator nextObject])) {
+            TCMMMUser *user = [self userForUserID:userID];
+            if ([[user properties] objectForKey:@"Email"]) {
+                isValid = YES;
+            } else {
+                isValid = NO;
+                break;
+            }
+        }
+        return isValid;
+        
+    } else if (selector == @selector(initiateAIMChat:)) {
+
+        BOOL isValid = NO;
+        NSEnumerator *enumerator = [[anItem representedObject] objectEnumerator];
+        NSString *userID;
+        while ((userID = [enumerator nextObject])) {
+            TCMMMUser *user = [self userForUserID:userID];
+            if ([[user properties] objectForKey:@"AIM"]) {
+                isValid = YES;
+            } else {
+                isValid = NO;
+                break;
+            }
+        }
+        return isValid;    
+    }
+    
+    return YES;
+}
+
+- (IBAction)sendEmail:(id)sender {
+    NSEnumerator *enumerator = [[sender representedObject] objectEnumerator];
+    NSString *userID;
+    while ((userID = [enumerator nextObject])) {
+        TCMMMUser *user = [self userForUserID:userID];
+        NSString *email = [[user properties] objectForKey:@"Email"];
+        NSString *URLString = [NSString stringWithFormat:@"mailto:%@", email];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URLString]];
+    }
+}
+
+- (IBAction)initiateAIMChat:(id)sender {
+    NSEnumerator *enumerator = [[sender representedObject] objectEnumerator];
+    NSString *userID;
+    while ((userID = [enumerator nextObject])) {
+        TCMMMUser *user = [self userForUserID:userID];
+        NSString *screenname = [[user properties] objectForKey:@"AIM"];
+        NSString *URLString = [NSString stringWithFormat:@"aim:goim?screenname=%@", screenname];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URLString]];
+    }
+}
 
 @end

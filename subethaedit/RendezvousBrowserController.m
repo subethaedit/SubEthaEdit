@@ -16,7 +16,9 @@
 
 enum {
     BrowserContextMenuTagJoin = 1,
-    BrowserContextMenuTagShowDocument
+    BrowserContextMenuTagShowDocument,
+    BrowserContextMenuTagAIM,
+    BrowserContextMenuTagEmail
 };
 
 static RendezvousBrowserController *sharedInstance=nil;
@@ -51,6 +53,16 @@ static RendezvousBrowserController *sharedInstance=nil;
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(join:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagShowDocument];
+        
+        [I_contextMenu addItem:[NSMenuItem separatorItem]];
+        
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuAIM", @"AIM user entry for Browser context menu") action:@selector(initiateAIMChat:) keyEquivalent:@""];
+        [item setTarget:[TCMMMUserManager sharedInstance]];
+        [item setTag:BrowserContextMenuTagAIM];
+                
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuEmail", @"Email user entry for Browser context menu") action:@selector(sendEmail:) keyEquivalent:@""];
+        [item setTarget:[TCMMMUserManager sharedInstance]];
+        [item setTag:BrowserContextMenuTagEmail];
         
         [I_contextMenu setDelegate:self];    
        
@@ -210,6 +222,10 @@ enum {
         [item setEnabled:NO];
         item = [aMenu itemWithTag:BrowserContextMenuTagShowDocument];
         [item setEnabled:NO];
+        item = [aMenu itemWithTag:BrowserContextMenuTagAIM];
+        [item setEnabled:NO];
+        item = [aMenu itemWithTag:BrowserContextMenuTagEmail];
+        [item setEnabled:NO];
         return;
     }
         
@@ -218,11 +234,36 @@ enum {
         [item setEnabled:NO];
         item = [aMenu itemWithTag:BrowserContextMenuTagShowDocument];    
         [item setEnabled:NO];
+        
+        NSMutableSet *userIDs = [NSMutableSet set];
+        NSMutableIndexSet *set = [[O_browserListView selectedRowIndexes] mutableCopy];
+        unsigned int index;
+        while ((index = [set firstIndex]) != NSNotFound) {
+            ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+            NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
+            [userIDs addObject:[userDict objectForKey:@"UserID"]];
+            [set removeIndex:index];
+        }
+        [set release];
+
+        TCMMMUserManager *manager = [TCMMMUserManager sharedInstance];
+        item = [aMenu itemWithTag:BrowserContextMenuTagAIM];
+        [item setRepresentedObject:userIDs];
+        [item setEnabled:[manager validateMenuItem:item]];
+        item = [aMenu itemWithTag:BrowserContextMenuTagEmail];
+        [item setRepresentedObject:userIDs];
+        [item setEnabled:[manager validateMenuItem:item]];
+       
         return;
     }
     
     
     if ([documentSet count] > 0) {
+        item = [aMenu itemWithTag:BrowserContextMenuTagAIM];
+        [item setEnabled:NO];
+        item = [aMenu itemWithTag:BrowserContextMenuTagEmail];    
+        [item setEnabled:NO];    
+    
         NSMutableSet *sessionSet = [NSMutableSet set];
         NSMutableIndexSet *set = [[O_browserListView selectedRowIndexes] mutableCopy];
         unsigned int index;
