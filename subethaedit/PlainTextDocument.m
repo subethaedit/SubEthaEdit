@@ -1053,7 +1053,7 @@ static NSString *tempFileName(NSString *origPath) {
     I_flags.isPerformingSyntaxHighlighting=NO;
     if (I_flags.highlightSyntax) {
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
-        if (highlighter && ![highlighter colorizeDirtyRanges:I_textStorage]) {
+        if (highlighter && ![highlighter colorizeDirtyRanges:I_textStorage ofDocument: self]) {
             [self performHighlightSyntax];
         }
     }

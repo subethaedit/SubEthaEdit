@@ -14,6 +14,7 @@ extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
+    id theDocument;
 }
 
 /*"Initizialisation"*/
@@ -30,7 +31,7 @@ extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
 -(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState;
 
 /*"Document Interaction"*/
-- (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage;
+- (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage ofDocument:(id)sender;
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage;
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange;
 

@@ -4,13 +4,13 @@
 
     <head>
         <name>Objective-C</name> <!-- The definitions title -->
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]]></charsintokens> <!-- Valid Characters for Variables -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
     </head>
 
     <states>
     
-        <default id="Base" color="#ffccff" background-color="#fff" font-weight="normal" font-style="normal">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
             <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="bold" font-style="normal" casesensitive="no" useforautocomplete="yes">
 				<string>NSAccessibility</string>
 				<string>NSActionCell</string>
@@ -308,7 +308,7 @@
 				<string>@defs</string>
 				<string>@encode</string>
 				<string>@end</string>
-				<string>\@implementation</string>
+				<string>@implementation</string>
 				<string>@interface</string>
 				<string>@private</string>
 				<string>@protected</string>
@@ -336,7 +336,7 @@
 				<string>SEL</string>
 				<string>Class</string>
             </keywords>
-            <keywords id="Memory Management" color="#f00" useforautocomplete="yes">
+            <keywords id="Memory Management" color="#f00" font-weight="bold" font-style="normal" useforautocomplete="yes">
 				<string>new</string>
 				<string>alloc</string>
 				<string>release</string>
@@ -346,7 +346,7 @@
 				<string>mutableCopy</string>
 				<string>retain</string>
             </keywords>
-            <keywords id="Cocoa Functions" color="#400080" useforautocomplete="yes">
+            <keywords id="Cocoa Functions" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
 			    <string>NSBeep</string>
                 <string>NSAccessibilityPostNotification</string>
                 <string>NSAccessibilityUnignoredAncestor</string>
@@ -522,7 +522,7 @@
             <keywords id="Function Regex" color="#003369" useforautocomplete="no">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
-            <keywords id="Cocoa Types" color="#400080" useforautocomplete="no">
+            <keywords id="Cocoa Types" color="#400080" font-weight="bold" font-style="italic" useforautocomplete="no">
                 <string>NSAffineTransformStruct</string>
                 <string>NSApplicationTerminateReply</string>
                 <string>NSBackingStoreType</string>
@@ -869,21 +869,21 @@
         
         <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
             <begin><string>//</string></begin>
-            <end><regex>\n</regex></end>
+            <end><regex>[\n\r]</regex></end>
             
             <keywords id="Zeug im Comment" color="#f00" background-color="none" font-weight="normal" font-style="normal">
                 <string>blabla</string>
             </keywords>            
         </state>
         
-        <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="italic">
+        <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
             <begin><string>@?"</string></begin>
             <end><regex>([^\\]"|^")</regex></end>
         </state>
 
         <state id="Preprocessor" color="#683821" background-color="none" font-weight="normal" font-style="italic">
             <begin><regex>^#</regex></begin>
-            <end><regex>\n</regex></end>
+            <end><regex>[\n\r]</regex></end>
         </state>
         
     </states>

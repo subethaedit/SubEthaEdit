@@ -177,9 +177,26 @@
                 [aDictionary setObject:aColor forKey:@"color"];
             if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"background-color"]]))
                 [aDictionary setObject:aColor forKey:@"background-color"];
+                
+            NSFontTraitMask mask = 0;
+            if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
+            if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
+            [aDictionary setObject:[[[NSNumber alloc] initWithUnsignedInt:mask] autorelease] forKey:@"font-trait"];
+            
             [self stateForTreeNode:xmlTree toDictionary:aDictionary];
         } else if ([@"default" isEqualToString:tag]) {
             [I_defaultState addEntriesFromDictionary:attributes];
+            NSColor *aColor;
+            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
+                [I_defaultState setObject:aColor forKey:@"color"];
+            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"background-color"]]))
+                [I_defaultState setObject:aColor forKey:@"background-color"];
+                
+            NSFontTraitMask mask = 0;
+            if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
+            if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
+            [I_defaultState setObject:[[[NSNumber alloc] initWithUnsignedInt:mask] autorelease] forKey:@"font-trait"];
+            
             [self stateForTreeNode:xmlTree toDictionary:I_defaultState];
         }
     }
@@ -344,6 +361,11 @@
         if ((aString = [keywordGroup objectForKey:@"casesensitive"]))        
             [attributes setObject:aString forKey:@"casesensitive"];
         
+        NSFontTraitMask mask = 0;
+        if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
+        if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
+        [attributes setObject:[[[NSNumber alloc] initWithUnsignedInt:mask] autorelease] forKey:@"font-trait"];
+        
         // First do the plainstring stuff
         
         NSDictionary *keywords;
@@ -408,6 +430,11 @@
 - (NSMutableArray *)states
 {
     return I_states;
+}
+
+- (NSDictionary *)defaultState
+{
+    return I_defaultState;
 }
 
 - (NSCharacterSet *)tokenSet

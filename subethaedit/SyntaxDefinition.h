@@ -38,6 +38,7 @@
 - (NSString *)name;
 - (void)setName:(NSString *)aString;
 - (NSMutableArray *)states;
+- (NSDictionary *)defaultState;
 - (NSCharacterSet *)tokenSet;
 - (NSCharacterSet *)invertedTokenSet;
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet;
