@@ -1,4 +1,20 @@
 * text=auto !eol
+artwork/icons/Document128-1.icns -text
+artwork/icons/Document128-1.psd -text
+artwork/icons/Document16-1.psd -text
+artwork/icons/Document32-1.psd -text
+artwork/icons/HYDRA2a.tif -text
+artwork/icons/HYDRA3b.psd -text
+artwork/icons/HYDRA3b2[!!-~]16x16.psd -text
+artwork/icons/HYDRA3b2[!!-~]32x32.psd -text
+artwork/icons/HYDRA3b2.psd -text
+artwork/icons/HYDRA3b3.psd -text
+artwork/icons/Hydra1-1.psd -text
+artwork/icons/Hydra1-2-3.psd -text
+artwork/icons/Hydra2-1.psd -text
+artwork/icons/Hydra2-2.psd -text
+artwork/icons/HydraFiles.icns -text
+artwork/icons/txt.icns -text
 artwork/mockups/RendezvousBrowser.psd -text
 artwork/mockups/RendezvousBrowser2.psd -text
 documentation/SessionProfile.txt -text
