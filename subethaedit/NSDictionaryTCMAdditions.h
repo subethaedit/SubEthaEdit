@@ -16,7 +16,7 @@
 
 
 @interface NSMutableDictionary (NSDictionaryTCMAdditions)
-
++ (NSMutableDictionary *)caseInsensitiveDictionary;
 - (void)removeObjectForLong:(long)aLong;
 - (void)setObject:(id)anObject forLong:(long)aLong;
 
