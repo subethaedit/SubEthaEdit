@@ -153,7 +153,6 @@ frameworks/OgreKit_1_2_3beta/RegularExpression/oniguruma/enc/mktable.c -text
 frameworks/OgreKit_1_2_3beta/RegularExpression/oniguruma/enc/sjis.c -text
 frameworks/OgreKit_1_2_3beta/RegularExpression/oniguruma/enc/utf8.c -text
 frameworks/OgreKit_1_2_3beta/RegularExpression/oniguruma/index.html -text
-frameworks/OgreKit_1_2_3beta/RegularExpression/oniguruma/libonig.a -text
 frameworks/OgreKit_1_2_3beta/RegularExpression/oniguruma/onigcmpt200.h -text
 frameworks/OgreKit_1_2_3beta/RegularExpression/oniguruma/oniggnu.h -text
 frameworks/OgreKit_1_2_3beta/RegularExpression/oniguruma/onigposix.h -text
