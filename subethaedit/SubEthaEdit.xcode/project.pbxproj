@@ -908,6 +908,19 @@
 			settings = {
 			};
 		};
+		14EA6953060F651A00D02455 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			path = Modes;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14EA6955060F651A00D02455 = {
+			fileRef = 14EA6953060F651A00D02455;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //140
 //141
 //142
@@ -1049,6 +1062,7 @@
 		};
 		2A37F4B8FDCFA73011CA2CEA = {
 			children = (
+				14EA6953060F651A00D02455,
 				14703803060C647B0087BA25,
 				5EEB176705ECDC0C00C17677,
 				2A37F4B9FDCFA73011CA2CEA,
@@ -2271,6 +2285,7 @@
 				14006966060C64F60060F71E,
 				1400696B060C65430060F71E,
 				1400696C060C65430060F71E,
+				14EA6955060F651A00D02455,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
