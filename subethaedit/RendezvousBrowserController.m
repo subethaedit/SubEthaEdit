@@ -8,6 +8,7 @@
 
 #import "RendezvousBrowserController.h"
 #import "TCMRendezvousBrowser.h"
+#import "ImagePopUpButtonCell.h"
 
 
 @interface RendezvousBrowserController (RendezvousBrowserControllerPrivateAdditions)
@@ -69,6 +70,14 @@
 //    NSLog(@"Autoresizes Subviews: %@",([[O_scrollView contentView] autoresizesSubviews]?@"YES":@"NO"));
     [[O_scrollView contentView] setAutoresizesSubviews:NO];
     [O_browserListView noteEnclosingScrollView];
+    
+    [O_actionPullDownButton setCell:[[ImagePopUpButtonCell new] autorelease]];
+    [[O_actionPullDownButton cell] setPullsDown:YES];
+    [[O_actionPullDownButton cell] setImage:[NSImage imageNamed:@"Action"]];
+    [[O_actionPullDownButton cell] setAlternateImage:[NSImage imageNamed:@"ActionPressed"]];
+    [[O_actionPullDownButton cell] setUsesItemFromMenu:NO];
+    [O_actionPullDownButton addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
+
 }
 
 - (IBAction)setVisibilityByPopUpButton:(id)aSender {

@@ -17,6 +17,7 @@
     IBOutlet TCMMMBrowserListView  *O_browserListView;
     IBOutlet NSImageView *O_imageView;
     IBOutlet NSTextField *O_myNameTextField;
+    IBOutlet NSPopUpButton *O_actionPullDownButton;
     TCMRendezvousBrowser *I_browser;
     NSMutableSet *I_foundUserIDs;
 }

@@ -190,9 +190,9 @@ subethaedit/English.lproj/GeneralPrefs.nib/classes.nib -text
 subethaedit/English.lproj/GeneralPrefs.nib/info.nib -text
 subethaedit/English.lproj/GeneralPrefs.nib/keyedobjects.nib -text
 subethaedit/English.lproj/InfoPlist.strings -text
-subethaedit/English.lproj/Internet.nib/classes.nib -text
-subethaedit/English.lproj/Internet.nib/info.nib -text
-subethaedit/English.lproj/Internet.nib/keyedobjects.nib -text
+subethaedit/English.lproj/InternetBrowser.nib/classes.nib -text
+subethaedit/English.lproj/InternetBrowser.nib/info.nib -text
+subethaedit/English.lproj/InternetBrowser.nib/keyedobjects.nib -text
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
 subethaedit/English.lproj/MainMenu.nib/info.nib -text
 subethaedit/English.lproj/MainMenu.nib/keyedobjects.nib -text
@@ -217,8 +217,8 @@ subethaedit/HueToColorValueTransformer.m -text
 subethaedit/ImagePopUpButtonCell.h -text
 subethaedit/ImagePopUpButtonCell.m -text
 subethaedit/Info.plist -text
-subethaedit/InternetController.h -text
-subethaedit/InternetController.m -text
+subethaedit/InternetBrowserController.h -text
+subethaedit/InternetBrowserController.m -text
 subethaedit/Mode.icns -text
 subethaedit/Modes/Base.mode/Contents/Info.plist -text
 subethaedit/Modes/Base.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
