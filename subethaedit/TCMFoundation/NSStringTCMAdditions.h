@@ -11,6 +11,17 @@
 
 @interface NSString (NSStringTCMAdditions)
 
++ (NSString *)stringWithUUIDData:(NSData *)aData;
++ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding;
++ (NSString *)UUIDString;
+
 + (NSString *)stringWithAddressData:(NSData *)aData;
+
+@end
+
+
+@interface NSMutableAttributedString (NSMutableAttributedStringTCMAdditions) 
+
+- (void)appendString:(NSString *)aString;
 
 @end

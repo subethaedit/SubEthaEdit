@@ -75,6 +75,7 @@
 		};
 		0867D691FE84028FC02AAC07 = {
 			children = (
+				5E2286F607FD7D1800413653,
 				14A5A40A07FC4D5D0026D2C9,
 				08FB77AEFE84172EC02AAC07,
 				32C88DFF0371C24200C91783,
@@ -299,6 +300,42 @@
 //322
 //323
 //324
+//5E0
+//5E1
+//5E2
+//5E3
+//5E4
+		5E2286F607FD7D1800413653 = {
+			children = (
+				5E2286FA07FD7DAD00413653,
+			);
+			isa = PBXGroup;
+			name = "Standalone Headers";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E2286FA07FD7DAD00413653 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMDebug.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E2286FB07FD7DAD00413653 = {
+			fileRef = 5E2286FA07FD7DAD00413653;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+//5E0
+//5E1
+//5E2
+//5E3
+//5E4
 //8D0
 //8D1
 //8D2
@@ -342,6 +379,7 @@
 				14A5A42807FC4DF40026D2C9,
 				14A5A42A07FC4DF40026D2C9,
 				14A5A44507FC4F410026D2C9,
+				5E2286FB07FD7DAD00413653,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

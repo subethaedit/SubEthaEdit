@@ -6,5 +6,6 @@
 //  Copyright (c) 2005 TheCodingMonkeys. All rights reserved.
 //
 
+#import <TCMFoundation/TCMDebug.h>
 #import <TCMFoundation/NSDictionaryTCMAdditions.h>
 #import <TCMFoundation/NSStringTCMAdditions.h>

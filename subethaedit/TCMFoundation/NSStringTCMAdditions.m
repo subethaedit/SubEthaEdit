@@ -16,6 +16,35 @@
 
 @implementation NSString (NSStringTCMAdditions) 
 
++ (NSString *)stringWithUUIDData:(NSData *)aData {
+    if (aData!=nil) {
+        CFUUIDRef uuid=CFUUIDCreateFromUUIDBytes(NULL,*(CFUUIDBytes *)[aData bytes]);
+        NSString *uuidString=(NSString *)CFUUIDCreateString(NULL,uuid);
+        CFRelease(uuid);
+        return [uuidString autorelease];
+    } else {
+        return nil;
+    }
+}
+
++ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding
+{
+    return [[[NSString alloc] initWithData:aData encoding:aEncoding] autorelease];
+}
+
++ (NSString *)UUIDString
+{
+    CFUUIDRef myUUID = CFUUIDCreate(NULL);
+    CFStringRef myUUIDString = CFUUIDCreateString(NULL, myUUID);
+    [(NSString *)myUUIDString retain];
+    CFRelease(myUUIDString);
+    CFRelease(myUUID);
+    
+    return [(NSString *)myUUIDString autorelease];
+}
+
+
+
 + (NSString *)stringWithAddressData:(NSData *)aData
 {
     struct sockaddr *socketAddress = (struct sockaddr *)[aData bytes];
@@ -48,6 +77,15 @@
     }
     
     return [[addressAsString copy] autorelease];
+}
+
+@end
+
+
+@implementation NSMutableAttributedString (NSMutableAttributedStringTCMAdditions) 
+
+- (void)appendString:(NSString *)aString {
+    [self replaceCharactersInRange:NSMakeRange([self length],0) withString:aString];
 }
 
 @end
