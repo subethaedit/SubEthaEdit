@@ -9,12 +9,10 @@
 #import <AppKit/AppKit.h>
 
 
-@class ParticipantsView;
+@class ParticipantsView,PlainTextEditor;
 
 
 @interface PlainTextWindowController : NSWindowController {
-    IBOutlet NSScrollView *O_scrollView;
-    NSTextView *I_textView;
 
     // praticipants
     IBOutlet NSDrawer         *O_participantsDrawer;
@@ -25,10 +23,10 @@
     IBOutlet NSPopUpButton    *O_actionPullDown;
     IBOutlet NSPopUpButton    *O_pendingUsersAccessPopUpButton;
     IBOutlet NSTableView      *O_pendingUsersTableView;
-    NSTextContainer *I_textContainer;
+    NSMutableArray *I_plainTextEditors;
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
-- (NSTextView *)textView;
+- (NSArray *)plainTextEditors;
 
 @end

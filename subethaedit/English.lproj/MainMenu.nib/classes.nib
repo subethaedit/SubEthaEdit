@@ -11,9 +11,11 @@
                 announce = id; 
                 changeTabWidth = id; 
                 conceal = id; 
+                newView = id; 
                 toggleIndentNewLines = id; 
                 toggleParticipantsDrawer = id; 
                 toggleShowInvisibles = id; 
+                toggleSplitView = id; 
                 toggleSyntaxHighlighting = id; 
                 toggleUseTabs = id; 
                 toggleWrap = id; 

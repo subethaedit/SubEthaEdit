@@ -7,6 +7,7 @@
 //
 
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
+#import "PlainTextEditor.h"
 #import "DocumentController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
@@ -594,15 +595,25 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 #pragma mark -
 #pragma mark ### Session Interaction ###
 
+- (NSArray *)plainTextEditors {
+    NSMutableArray *result = [NSMutableArray array];
+    NSEnumerator *windowControllers=[[self windowControllers] objectEnumerator];
+    PlainTextWindowController *windowController;
+    while ((windowController=[windowControllers nextObject])) {
+        [result addObjectsFromArray:[windowController plainTextEditors]];
+    }
+    return result;
+}
+
 - (void)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
         // gather selections from all textviews and transform them
-        NSArray *controllers=[self windowControllers];
+        NSArray *editors=[self plainTextEditors];
         NSMutableArray   *oldSelections=[NSMutableArray array];
-        NSEnumerator *windowControllers=[controllers objectEnumerator];
-        PlainTextWindowController *windowController;
-        while ((windowController=[windowControllers nextObject])) {
-            [oldSelections addObject:[SelectionOperation selectionOperationWithRange:[[windowController textView] selectedRange] userID:@"doesn't matter"]];
+        NSEnumerator *editorEnumerator=[editors objectEnumerator];
+        PlainTextEditor *editor;
+        while ((editor=[editorEnumerator nextObject])) {
+            [oldSelections addObject:[SelectionOperation selectionOperationWithRange:[[editor textView] selectedRange] userID:@"doesn't matter"]];
         }
 
 
@@ -619,11 +630,11 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 
         // set selection of all textviews
         int index=0;
-        for (index=0;index<(int)[[self windowControllers] count];index++) {
+        for (index=0;index<(int)[editors count];index++) {
             SelectionOperation *selectionOperation = [oldSelections objectAtIndex:index];
             [[TCMMMTransformator sharedInstance] transformOperation:selectionOperation serverOperation:aOperation];
-            windowController = [controllers objectAtIndex:index];
-            [[windowController textView] setSelectedRange:[selectionOperation selectedRange]];
+            editor = [editors objectAtIndex:index];
+            [[editor textView] setSelectedRange:[selectionOperation selectedRange]];
         }
 
         I_flags.isRemotelyEditingTextStorage=NO;

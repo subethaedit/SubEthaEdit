@@ -9,6 +9,7 @@
 #import "PlainTextWindowController.h"
 #import "ParticipantsView.h"
 #import "PlainTextDocument.h"
+#import "PlainTextEditor.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "SelectionOperation.h"
 #import "ImagePopUpButtonCell.h"
@@ -24,18 +25,15 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 - (id)init {
     if ((self=[super initWithWindowNibName:@"PlainTextWindow"])) {
+        I_plainTextEditors = [NSMutableArray new];
     }
     return self;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:[self document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [I_textView setDelegate:nil];
-    [I_textView release];
     [[[self window] toolbar] setDelegate:nil];
     [O_participantsView release];
-    [I_textContainer release];
+    [I_plainTextEditors release];
     [super dealloc];
 }
 
@@ -46,50 +44,9 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (void)windowDidLoad {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultParagraphStyleDidChange:) name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:[self document]];
 
     [O_pendingUsersTableView setTarget:self];
     [O_pendingUsersTableView setDoubleAction:@selector(pendingUsersTableViewDoubleAction:)];
-
-    [O_scrollView setHasVerticalScroller:YES];
-    NSRect frame;
-    frame.origin=NSMakePoint(0.,0.);
-    frame.size  =[O_scrollView contentSize];
-
-    
-    LayoutManager *layoutManager=[LayoutManager new];
-    [[[self document] textStorage] addLayoutManager:layoutManager];
-    
-    I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width,FLT_MAX)];
-    
-    I_textView=[[TextView alloc] initWithFrame:frame textContainer:I_textContainer];
-    [I_textView setHorizontallyResizable:NO];
-    [I_textView setVerticallyResizable:YES];
-    [I_textView setAutoresizingMask:NSViewWidthSizable];
-    [I_textView setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
-    [I_textView setSelectable:YES];
-    [I_textView setEditable:YES];
-    [I_textView setRichText:NO];
-    [I_textView setImportsGraphics:NO];
-    [I_textView setUsesFontPanel:NO];
-    [I_textView setUsesRuler:YES];
-    [I_textView setAllowsUndo:YES];
-
-    [I_textView setDelegate:self];
-    [I_textContainer setHeightTracksTextView:NO];
-    [I_textContainer setWidthTracksTextView:YES];
-    [layoutManager addTextContainer:I_textContainer];
-    
-    [O_scrollView setDocumentView:I_textView];
-    
-    [layoutManager release];
-    
-    
-    [I_textView setDefaultParagraphStyle:[[self document] defaultParagraphStyle]];
-    
-
-    [[NSNotificationCenter defaultCenter] addObserver:[self document] selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
-
 
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
     [toolbar setAllowsUserCustomization:YES];
@@ -101,11 +58,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     drawerSize.width = 170;
     [O_participantsDrawer setContentSize:drawerSize];
     
-    if ([self document]) {
-        [[self document] windowControllerDidLoadNib:self];
-    }
-    
-    frame = [[O_participantsScrollView contentView] frame];
+    NSRect frame = [[O_participantsScrollView contentView] frame];
     O_participantsView = [[ParticipantsView alloc] initWithFrame:frame];
     [O_participantsScrollView setBorderType:NSBezelBorder];
     [O_participantsView setDelegate:self];
@@ -128,6 +81,14 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
                                              selector:@selector(pendingUsersDidChange:)
                                                  name:TCMMMSessionPendingUsersDidChangeNotification 
                                                object:[(PlainTextDocument *)[self document] session]];
+    
+    PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self];
+    [[self window] setContentView:[plainTextEditor editorView]];
+    [I_plainTextEditors addObject:plainTextEditor];
+    [plainTextEditor release];
+    if ([self document]) {
+        [[self document] windowControllerDidLoadNib:self];
+    }
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -139,44 +100,16 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
             NSLocalizedString(@"Hide Participants", nil) :
             NSLocalizedString(@"Show Participants", nil)];
         return YES;
-    } else if (selector == @selector(togleWrap:)) {
-        [menuItem setState:[O_scrollView hasHorizontalScroller]?NSOffState:NSOnState];
-        return YES;
-    }
+    } 
     return YES;
 }
 
-
-- (NSTextView *)textView {
-    return I_textView;
+- (NSArray *)plainTextEditors {
+    return I_plainTextEditors;
 }
+
 
 #pragma mark -
-
-/*"IBAction to toggle Wrap/NoWrap"*/
-- (IBAction)toggleWrap:(id)aSender {
-    if (![O_scrollView hasHorizontalScroller]) {
-        // turn wrap off
-        [O_scrollView setHasHorizontalScroller:YES];
-        [I_textContainer setWidthTracksTextView:NO];
-        [I_textView setAutoresizingMask:NSViewNotSizable];
-        [I_textContainer setContainerSize:NSMakeSize(FLT_MAX,FLT_MAX)];
-        [I_textView setHorizontallyResizable:YES];
-        [I_textView setNeedsDisplay:YES];
-        [O_scrollView setNeedsDisplay:YES];
-    } else {            
-        // turn wrap on
-        [O_scrollView setHasHorizontalScroller:NO];
-        [O_scrollView setNeedsDisplay:YES];
-        [I_textContainer setWidthTracksTextView:YES];
-        [I_textView setHorizontallyResizable:NO];
-        [I_textView setAutoresizingMask:NSViewWidthSizable];
-        NSRect frame=[I_textView frame];
-        frame.size.width=[O_scrollView contentSize].width;
-        [I_textView setFrame:frame];
-        [I_textView setNeedsDisplay:YES];
-    }
-}
 
 
 - (IBAction)toggleParticipantsDrawer:(id)sender {
@@ -270,11 +203,35 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 //- (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {
 //}
 
-#pragma mark -
+//-(void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
+//    if (aSplitView != O_participantsSplitView) {
+//        NSLog(@"old Size:%@",NSStringFromSize(oldSize));
+//        NSSize newSize=NSMakeSize([aSplitView frame].size.width,[aSplitView frame].size.height/2.);
+//        [[[aSplitView subviews] objectAtIndex:0] setFrameSize:newSize];
+//    }
+//}
 
-- (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
-    [I_textView setDefaultParagraphStyle:[[self document] defaultParagraphStyle]];
+- (void)toggleSplitView:(id)aSender {
+    if ([I_plainTextEditors count]==1) {
+        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self];
+        [I_plainTextEditors addObject:plainTextEditor];
+        [plainTextEditor release];
+        NSSplitView *splitView = [[NSSplitView alloc] initWithFrame:[[[self window] contentView] frame]];
+        [[self window] setContentView:splitView];
+        NSSize splitSize=[splitView frame].size;
+        splitSize.height=splitSize.height/2.;
+        [[[I_plainTextEditors objectAtIndex:0] editorView] setFrameSize:splitSize];
+        [[[I_plainTextEditors objectAtIndex:1] editorView] setFrameSize:splitSize];
+        [splitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView]];
+        [splitView addSubview:[[I_plainTextEditors objectAtIndex:1] editorView]];
+        [splitView setDelegate:self];
+        [splitView release];
+    } else if ([I_plainTextEditors count]==2) {
+        [[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+        [I_plainTextEditors removeObjectAtIndex:1];
+    }
 }
+
 #pragma mark -
 #pragma mark ### ParticipantsView data source methods ###
 
