@@ -14,7 +14,7 @@
             </class>
             <class name="text document" code="pltd" inherits="document">
                 <cocoa class="PlainTextDocument"/>
-                <contents type="text" description="">
+                <contents name="contents" type="text" description="">
                     <cocoa method="textStorage"/>
                 </contents>
                 <properties>
