@@ -8,6 +8,7 @@
 
 #import "PlainTextEditor.h"
 #import "PlainTextDocument.h"
+#import "PlainTextWindowController.h"
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "GutterRulerView.h"
@@ -387,6 +388,11 @@
     }
 }
 
+- (IBAction)toggleShowsChangeMarks:(id)aSender {
+    LayoutManager *layoutManager=(LayoutManager *)[I_textView layoutManager];
+    [layoutManager setShowsChangeMarks:![layoutManager showsChangeMarks]];
+}
+
 - (IBAction)toggleTopStatusBar:(id)aSender {
     [self setShowsTopStatusBar:![self showsTopStatusBar]];
 }
@@ -403,6 +409,23 @@
     [self dentParagraphsInTextView:I_textView in:NO];
 }
 
+- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
+    NSString *itemIdentifier = [toolbarItem itemIdentifier];
+    
+    if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {
+        BOOL showsChangeMarks=[(LayoutManager *)[I_textView layoutManager] showsChangeMarks];
+        [toolbarItem setImage:showsChangeMarks
+                              ?[NSImage imageNamed: @"HideChangeMarks"]
+                              :[NSImage imageNamed: @"ShowChangeMarks"]  ];
+        [toolbarItem setLabel:showsChangeMarks 
+                              ?NSLocalizedString(@"Hide Changes", nil) 
+                              :NSLocalizedString(@"Show Changes", nil)];
+    }
+    
+    return YES;
+}
+
+
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
 
@@ -411,7 +434,7 @@
 }
 
 -(BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
-    [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] plainTextAttributes]];
+    [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] typingAttributes]];
     return YES;
 }
 

@@ -10,6 +10,12 @@
 
 
 @class ParticipantsView,PlainTextEditor;
+extern NSString * const PlainTextWindowToolbarIdentifier;
+extern NSString * const ParticipantsToolbarItemIdentifier;
+extern NSString * const ShiftLeftToolbarItemIdentifier;
+extern NSString * const ShiftRightToolbarItemIdentifier;
+extern NSString * const RendezvousToolbarItemIdentifier;
+extern NSString * const ToggleChangeMarksToolbarItemIdentifier;
 
 @interface PlainTextWindowController : NSWindowController {
 

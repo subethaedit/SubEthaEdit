@@ -19,6 +19,7 @@
 - (void)prepareImages;
 - (NSData *)userBencoded;
 - (void)setUserHue:(NSNumber *)aHue;
+- (NSColor *)changeColor;
 
     
 @end

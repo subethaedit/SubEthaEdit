@@ -56,7 +56,8 @@ enum {
 static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTextDocumentSyntaxColorizeNotification";
 NSString * const PlainTextDocumentDidChangeDisplayNameNotification = @"PlainTextDocumentDidChangeDisplayNameNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
-
+NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
+NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 @interface PlainTextDocument (PlainTextDocumentPrivateAdditions) 
 - (void)TCM_invalidateDefaultParagraphStyle;
@@ -228,6 +229,7 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     [I_textStorage release];
     [I_session release];
     [I_plainTextAttributes release];
+    [I_typingAttributes release];
     [I_fonts.plainFont release];
     [I_fonts.boldFont release];
     [I_fonts.italicFont release];
@@ -881,7 +883,20 @@ static NSString *tempFileName(NSString *origPath) {
     [self TCM_styleFonts];
     [I_plainTextAttributes release];
     I_plainTextAttributes=nil;
+    [I_typingAttributes release];
+    I_typingAttributes=nil;
     [self TCM_invalidateDefaultParagraphStyle];
+}
+
+- (NSDictionary *)typingAttributes {
+    if (!I_typingAttributes) {
+        NSMutableDictionary *attributes=[[self plainTextAttributes] mutableCopy];
+        NSString *myUserID=[TCMMMUserManager myUserID];
+        [attributes setObject:myUserID forKey:WrittenByUserIDAttributeName];
+        [attributes setObject:myUserID forKey:ChangedByUserIDAttributeName];
+        I_typingAttributes=(NSDictionary *)attributes;
+    }
+    return I_typingAttributes;
 }
 
 - (NSDictionary *)plainTextAttributes {
@@ -1090,7 +1105,10 @@ static NSString *tempFileName(NSString *origPath) {
         [textStorage beginEditing];
         [textStorage replaceCharactersInRange:[operation affectedCharRange]
                                    withString:[operation replacementString]];
-        [textStorage addAttribute:@"UserID" value:[operation userID] 
+        [textStorage addAttribute:WrittenByUserIDAttributeName value:[operation userID] 
+                            range:NSMakeRange([operation affectedCharRange].location,
+                                              [[operation replacementString] length])];
+        [textStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID] 
                             range:NSMakeRange([operation affectedCharRange].location,
                                               [[operation replacementString] length])];
         [textStorage endEditing];

@@ -228,11 +228,11 @@ NSString * const DefaultPortNumber = @"port";
 #define MODEMENUNAMETAG 20 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+    [self registerTransformers];
     [self addMe];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
     [self setupScriptMenu];
-    [self registerTransformers];
 
     GeneralPreferences *generalPrefs = [[GeneralPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:generalPrefs];

@@ -13,6 +13,9 @@
 
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
+extern NSString * const WrittenByUserIDAttributeName;
+extern NSString * const ChangedByUserIDAttributeName;
+
 
 @interface PlainTextDocument : NSDocument
 {
@@ -35,7 +38,8 @@ extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
         NSFont *italicFont;
         NSFont *boldItalicFont;
     } I_fonts;
-    NSDictionary  *I_plainTextAttributes;
+    NSDictionary *I_plainTextAttributes;
+    NSDictionary *I_typingAttributes;
     NSMutableParagraphStyle *I_defaultParagraphStyle;
     NSDictionary *I_fileAttributes;
     NSDictionary *I_ODBParameters;
@@ -62,6 +66,7 @@ extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
 - (void)handleOperation:(TCMMMOperation *)aOperation;
 
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait;
+- (NSDictionary *)typingAttributes;
 - (NSDictionary *)plainTextAttributes;
 - (NSParagraphStyle *)defaultParagraphStyle;
 - (void)setPlainFont:(NSFont *)aFont;

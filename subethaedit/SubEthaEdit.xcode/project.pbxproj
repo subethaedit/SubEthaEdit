@@ -2713,6 +2713,34 @@
 			settings = {
 			};
 		};
+		5EC0506E062D6C0500292573 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = ShowChangeMarks.psd;
+			path = artwork/ShowChangeMarks.psd;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EC0506F062D6C0500292573 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = HideChangeMarks.psd;
+			path = artwork/HideChangeMarks.psd;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EC05070062D6C0500292573 = {
+			fileRef = 5EC0506E062D6C0500292573;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EC05071062D6C0500292573 = {
+			fileRef = 5EC0506F062D6C0500292573;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5ECFBADA060F35F7000B47E6 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -2988,9 +3016,11 @@
 				5EACEEA005F5388D0008743E,
 				148892D206186C60005BDDCB,
 				148892CE06186BC3005BDDCB,
+				5EC0506F062D6C0500292573,
 				149A5C1B0600A89C0033510E,
 				5EF3AC50062C5D5E00959FEE,
 				14E3EACA06149C5D0083426B,
+				5EC0506E062D6C0500292573,
 				5EF3AC4C062C5D4100959FEE,
 				5EF3AC4D062C5D4100959FEE,
 				5E96948C0600B6D3006C2AA4,
@@ -3638,6 +3668,8 @@
 				5EF3AC4E062C5D4100959FEE,
 				5EF3AC4F062C5D4100959FEE,
 				5EF3AC51062C5D5E00959FEE,
+				5EC05070062D6C0500292573,
+				5EC05071062D6C0500292573,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

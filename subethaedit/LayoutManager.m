@@ -7,9 +7,72 @@
 //
 
 #import "LayoutManager.h"
-
+#import "PlainTextDocument.h"
+#import "TCMMMUserManager.h"
+#import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
+#import "GeneralPreferences.h"
 
 @implementation LayoutManager
+
+- (id)init {
+    if ((self=[super init])) {
+        I_flags.showsChangeMarks=NO;
+    }
+    return self;
+}
+
+- (BOOL)showsChangeMarks {
+    return I_flags.showsChangeMarks;
+}
+
+- (void)setShowsChangeMarks:(BOOL)showsChangeMarks {
+    if (showsChangeMarks != I_flags.showsChangeMarks) {
+        I_flags.showsChangeMarks=showsChangeMarks;
+        [self invalidateLayoutForCharacterRange:NSMakeRange(0,[[self textStorage] length]) 
+              isSoft:YES actualCharacterRange:NULL];
+    }
+}
+
+- (void)drawBackgroundForGlyphRange:(NSRange)aGlyphRange atPoint:(NSPoint)anOrigin {
+    if (I_flags.showsChangeMarks) {
+        NSRange charRange = [self characterRangeForGlyphRange:aGlyphRange actualGlyphRange:nil];
+        NSTextContainer *container = [self textContainerForGlyphAtIndex:aGlyphRange.location effectiveRange:nil];
+        NSTextStorage *textStorage = [self textStorage];
+        NSString *textStorageString=[textStorage string];
+        unsigned int position = charRange.location;
+        NSRange attributeRange;
+        while (position < NSMaxRange(charRange)) {
+            NSString *userID=[textStorage attribute:ChangedByUserIDAttributeName atIndex:position longestEffectiveRange:&attributeRange inRange:charRange];
+            if (userID) {
+                NSColor *changeColor=[[[TCMMMUserManager sharedInstance] userForUserID:userID] changeColor];
+                NSColor *backgroundColor=[NSColor whiteColor]; // TODO: take from preferences
+                backgroundColor=[backgroundColor blendedColorWithFraction:
+                                    [[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
+                                 ofColor:changeColor];
+                [backgroundColor set];
+                
+                unsigned startIndex, lineEndIndex, contentsEndIndex;
+                unsigned innerPosition = attributeRange.location;
+                while (innerPosition < NSMaxRange(attributeRange)) {
+                    [textStorageString getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(innerPosition,0)];
+                    innerPosition=lineEndIndex+1;
+                    if (startIndex<attributeRange.location) startIndex=attributeRange.location;
+                    if (contentsEndIndex>NSMaxRange(attributeRange)) contentsEndIndex=NSMaxRange(attributeRange);
+                    unsigned rectCount;
+                    NSRectArray rectArray = [self rectArrayForCharacterRange:NSMakeRange(startIndex,contentsEndIndex-startIndex) withinSelectedCharacterRange:NSMakeRange(NSNotFound,0) inTextContainer:container rectCount:&rectCount];
+                    unsigned i;
+                    for (i=0;i<rectCount;i++) {
+                        NSRectFill(rectArray[i]);
+                    }
+                }
+            }
+            position=NSMaxRange(attributeRange);
+        }
+    }
+
+    [super drawBackgroundForGlyphRange:aGlyphRange atPoint:anOrigin];
+}
 
 - (void)drawGlyphsForGlyphRange:(NSRange)glyphRange atPoint:(NSPoint)containerOrigin
 {

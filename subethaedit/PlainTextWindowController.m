@@ -27,6 +27,8 @@ NSString * const ShiftRightToolbarItemIdentifier =
                @"ShiftRightToolbarItemIdentifier";
 NSString * const RendezvousToolbarItemIdentifier = 
                @"RendezvousToolbarItemIdentifier";
+NSString * const ToggleChangeMarksToolbarItemIdentifier = 
+               @"ToggleChangeMarksToolbarItemIdentifier";
 
 
 @implementation PlainTextWindowController
@@ -176,6 +178,13 @@ NSString * const RendezvousToolbarItemIdentifier =
         [toolbarItem setImage:([NSImage imageNamed: @"ShiftLeft"])];
         [toolbarItem setTarget:nil];
         [toolbarItem setAction:@selector(shiftLeft:)];    
+    } else if ([itemIdent isEqual:ToggleChangeMarksToolbarItemIdentifier]) {
+        [toolbarItem setToolTip:NSLocalizedString(@"Toggle Change Marks", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Toggle Changes", nil)];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Toggle Changes", nil)];
+        [toolbarItem setImage:([NSImage imageNamed: @"ShowChangeMarks"])];
+        [toolbarItem setTarget:nil];
+        [toolbarItem setAction:@selector(toggleShowsChangeMarks:)];    
     } else {
         toolbarItem = nil;
     }
@@ -189,6 +198,7 @@ NSString * const RendezvousToolbarItemIdentifier =
                 NSToolbarSeparatorItemIdentifier,
                 ShiftLeftToolbarItemIdentifier,
                 ShiftRightToolbarItemIdentifier,
+                ToggleChangeMarksToolbarItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
                 ParticipantsToolbarItemIdentifier,
                 nil];
@@ -200,6 +210,7 @@ NSString * const RendezvousToolbarItemIdentifier =
                 ShiftLeftToolbarItemIdentifier,
                 ShiftRightToolbarItemIdentifier,
                 ParticipantsToolbarItemIdentifier,
+                ToggleChangeMarksToolbarItemIdentifier,
                 NSToolbarPrintItemIdentifier,
                 NSToolbarCustomizeToolbarItemIdentifier,
                 NSToolbarSeparatorItemIdentifier,

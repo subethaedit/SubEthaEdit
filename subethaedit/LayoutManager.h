@@ -10,7 +10,12 @@
 
 
 @interface LayoutManager : NSLayoutManager {
-
+    struct {
+        BOOL showsChangeMarks;
+    } I_flags;
 }
+
+- (BOOL)showsChangeMarks;
+- (void)setShowsChangeMarks:(BOOL)showsChangeMarks;
 
 @end

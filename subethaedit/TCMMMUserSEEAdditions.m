@@ -71,8 +71,18 @@
         [NSBezierPath strokeRect:rect];
         [image unlockFocus];
         [[self properties] setObject:image forKey:@"ColorImage"];
+        [[self properties] setObject:color forKey:@"ChangeColor"];
     }
 }
+
+- (NSColor *)changeColor {
+    NSColor *changeColor=[[self properties] objectForKey:@"ChangeColor"];
+    if (!changeColor) {
+        changeColor = [NSColor redColor];
+    }
+    return changeColor;
+}
+
 
     
 @end
