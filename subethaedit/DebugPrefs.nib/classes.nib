@@ -1,5 +1,6 @@
 {
     IBClasses = (
+        {CLASS = DebugPreferences; LANGUAGE = ObjC; SUPERCLASS = TCMPreferenceModule; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             CLASS = TCMPreferenceModule; 

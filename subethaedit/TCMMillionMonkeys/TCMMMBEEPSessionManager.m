@@ -100,7 +100,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_listener=[[TCMBEEPListener alloc] initWithPort:I_listeningPort];
         [I_listener setDelegate:self];
         if ([I_listener listen]) {
-            DEBUGLOG(@"Application",3,@"Listening on Port: %d",I_listeningPort);
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Listening on Port: %d",I_listeningPort);
             break;
         } else {
             [I_listener release];
@@ -347,7 +347,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 
     [I_pendingSessions removeObject:aBEEPSession];
-    DEBUGLOG(@"MMBEEPSessions",3,@"%@",[self description]);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@",[self description]);
 }
 
 
@@ -384,7 +384,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             return nil;
         } else if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusNoSession]) {
             if ([[aProfile session] isInitiator]) {
-                DEBUGLOG(@"Network",4,@"As initiator you should not get this callback by: %@",aProfile);
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"As initiator you should not get this callback by: %@",aProfile);
                 return nil;
             } else {
                 [information setObject:[aProfile session] forKey:@"InboundRendezvousSession"];
@@ -496,7 +496,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (BOOL)BEEPListener:(TCMBEEPListener *)aBEEPListener shouldAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession
 {
-    DEBUGLOG(@"Application", 3, @"somebody talks to our listener: %@", [aBEEPSession description]);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"somebody talks to our listener: %@", [aBEEPSession description]);
     return YES;
 }
 

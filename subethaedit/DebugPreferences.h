@@ -12,6 +12,8 @@
 
 @interface DebugPreferences : TCMPreferenceModule
 {
+    NSMutableArray *logDomains;
+    NSMutableArray *levels;
 }
 
 @end

@@ -221,7 +221,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession
 {
-    DEBUGLOG(@"Presence",5,@"didReceiveAnnouncedSession: %@",[aSession description]);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"didReceiveAnnouncedSession: %@",[aSession description]);
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
     NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
@@ -240,7 +240,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID
 {
-    DEBUGLOG(@"Presence",5,@"didReceiveConcealSessionID: %@",anID);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"didReceiveConcealSessionID: %@",anID);
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
     NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
@@ -337,7 +337,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 // Sent when the service is about to publish
 - (void)netServiceWillPublish:(NSNetService *)netService
 {
-    DEBUGLOG(@"Network", 3, @"netServiceWillPublish: %@",netService);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"netServiceWillPublish: %@",netService);
     // You may want to do something here, such as updating a user interface
 }
 
@@ -355,7 +355,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 - (void)netServiceDidStop:(NSNetService *)netService
 {
     I_flags.serviceIsPublished=NO;
-    DEBUGLOG(@"Network", 3, @"netServiceDidStop: %@", netService);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"netServiceDidStop: %@", netService);
     // You may want to do something here, such as updating a user interface
 }
 

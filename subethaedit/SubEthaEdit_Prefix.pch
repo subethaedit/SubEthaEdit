@@ -9,14 +9,26 @@
     #import "NSNetServiceTCMAdditions.h"
 #endif
 
+#define BEEPLogDomain @"BEEPLogDomain"
+#define MillionMonkeysLogDomain @"MillionMonkeysLogDomain"
+
+
+typedef enum LogLevels {
+    SimpleLogLevel = 1,
+    DetailedLogLevel = 2,
+    AllLogLevel = 3
+} LogLevels;
+
 
 #ifdef BLOCK_DEBUGLOGS
 #define DEBUGLOG(domain, level, format, args...)
 #else
 #define DEBUGLOG(domain, level, format, args...) \
     do { \
-        NSString *lineInformation = [NSString stringWithFormat:@"%@:%d, %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __FUNCTION__]; \
-        NSString *expandedInformation = [NSString stringWithFormat:format, ##args]; \
-        NSLog(@"%@ (%@)", expandedInformation, lineInformation); \
+        if (level <= [[NSUserDefaults standardUserDefaults] integerForKey:domain]) { \
+            NSString *lineInformation = [NSString stringWithFormat:@"%@:%d, %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __FUNCTION__]; \
+            NSString *expandedInformation = [NSString stringWithFormat:format, ##args]; \
+            NSLog(@"%@ (%@)", expandedInformation, lineInformation); \
+        } \
     } while (0)
 #endif

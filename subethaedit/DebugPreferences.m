@@ -11,6 +11,47 @@
 
 @implementation DebugPreferences
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        levels = [NSMutableArray new];
+        [levels addObject:[NSMutableDictionary dictionaryWithObject:@"Nix" forKey:@"levelName"]];
+        [levels addObject:[NSMutableDictionary dictionaryWithObject:@"Simple" forKey:@"levelName"]];
+        [levels addObject:[NSMutableDictionary dictionaryWithObject:@"Detailed" forKey:@"levelName"]];
+        [levels addObject:[NSMutableDictionary dictionaryWithObject:@"All" forKey:@"levelName"]];
+
+        logDomains = [NSMutableArray new];
+
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [logDomains addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    BEEPLogDomain, @"domain",
+                                    [levels objectAtIndex:[defaults integerForKey:BEEPLogDomain]], @"level",
+                                    nil]];
+        [logDomains addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    MillionMonkeysLogDomain, @"domain",
+                                    [levels objectAtIndex:[defaults integerForKey:MillionMonkeysLogDomain]], @"level",
+                                    nil]];
+
+        NSEnumerator *domains = [logDomains objectEnumerator];
+        NSMutableDictionary *domain;
+        while ((domain = [domains nextObject])) {
+            [domain addObserver:self
+                     forKeyPath:@"level"
+                        options:NSKeyValueObservingOptionNew
+                        context:NULL];
+        }
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [logDomains release];
+    [levels release];
+    [super dealloc];
+}
+
 - (NSImage *)icon
 {
     return [NSImage imageNamed:@"debug"];
@@ -39,6 +80,17 @@
 - (void)didUnselect
 {
     // Save preferences
+}
+
+#pragma mark -
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"level"]) {
+        NSString *logDomain = [object objectForKey:@"domain"];
+        unsigned levelNumber = [levels indexOfObject:[object objectForKey:@"level"]];
+        [[NSUserDefaults standardUserDefaults] setInteger:levelNumber forKey:logDomain];
+    }
 }
 
 @end

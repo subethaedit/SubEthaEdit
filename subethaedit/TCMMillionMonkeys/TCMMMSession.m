@@ -165,7 +165,7 @@
 - (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
 {
     // check if invitiation or join is happening
-    DEBUGLOG(@"MMSession", 5, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
     [I_profilesByUserID setObject:profile forKey:[self hostID]];
     [profile setDelegate:self];
     [(SessionProfile *)profile sendJoinRequestForSessionID:[self sessionID]];
@@ -175,7 +175,7 @@
 
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)profile
 {
-    DEBUGLOG(@"MMSession", 5, @"profileDidAcceptJoinRequest: %@", profile);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profileDidAcceptJoinRequest: %@", profile);
 }
 
 @end
