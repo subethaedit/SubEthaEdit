@@ -8,8 +8,7 @@
 
 #import "InternetBrowserController.h"
 #import "TCMHost.h"
-#import "TCMBEEP/TCMBEEPSession.h"
-#import "TCMBEEP/TCMBEEPProfile.h"
+#import <TCMBEEP/TCMBEEP.h>
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "ImagePopUpButtonCell.h"

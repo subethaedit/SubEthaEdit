@@ -8,9 +8,7 @@
 
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMPresenceManager.h"
-#import "TCMBEEPListener.h"
-#import "TCMBEEPSession.h"
-#import "TCMBEEPChannel.h"
+#import <TCMBEEP/TCMBEEP.h>
 #import "TCMMMUserManager.h"
 #import "TCMMMSession.h"
 #import "TCMHost.h"

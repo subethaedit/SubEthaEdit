@@ -714,29 +714,6 @@
 			settings = {
 			};
 		};
-		143C35DB05ECAC32008C6DFE = {
-			children = (
-				5EEB188005ED1F0500C17677,
-				5EEB186C05ED1EBE00C17677,
-				5EEB187105ED1EBE00C17677,
-				5EEB186D05ED1EBE00C17677,
-				5EEB186905ED1EBE00C17677,
-				5EEB186F05ED1EBE00C17677,
-				5EEB186605ED1EBE00C17677,
-				5EEB187005ED1EBE00C17677,
-				5EEB186705ED1EBE00C17677,
-				5EEB186805ED1EBE00C17677,
-				5EEB186A05ED1EBE00C17677,
-				5E4F360E05EF90FF009D71ED,
-				5E4F360F05EF90FF009D71ED,
-				5EEB186B05ED1EBE00C17677,
-				5EEB187205ED1EBE00C17677,
-			);
-			isa = PBXGroup;
-			path = TCMBEEP;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		143C360005ECB200008C6DFE = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2243,6 +2220,62 @@
 			settings = {
 			};
 		};
+		14D6771E07F17FDC00FA264D = {
+			isa = PBXFileReference;
+			lastKnownFileType = "wrapper.pb-project";
+			name = TCMBEEP.xcode;
+			path = TCMBEEP/TCMBEEP.xcode;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14D6775007F1821300FA264D = {
+			children = (
+				14D6775107F1821300FA264D,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14D6775107F1821300FA264D = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = TCMBEEP.framework;
+			refType = 3;
+			remoteRef = 14D6775307F1821400FA264D;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14D6775307F1821400FA264D = {
+			containerPortal = 14D6771E07F17FDC00FA264D;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = TCMBEEP;
+		};
+		14D6775C07F1831300FA264D = {
+			containerPortal = 14D6771E07F17FDC00FA264D;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = TCMBEEP;
+		};
+		14D6775D07F1831300FA264D = {
+			isa = PBXTargetDependency;
+			name = "TCMBEEP (from TCMBEEP.xcode)";
+			targetProxy = 14D6775C07F1831300FA264D;
+		};
+		14D6776007F1832500FA264D = {
+			fileRef = 14D6775107F1821300FA264D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14D6776107F1832C00FA264D = {
+			fileRef = 14D6775107F1821300FA264D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14DBD87C06CB6674002450EE = {
 			fileRef = 2A37F4C5FDCFA73011CA2CEA;
 			isa = PBXBuildFile;
@@ -2564,6 +2597,10 @@
 					ProductGroup = 145BFDEC06A5E09B00160C0E;
 					ProjectRef = 145BFDEB06A5E09B00160C0E;
 				},
+				{
+					ProductGroup = 14D6775007F1821300FA264D;
+					ProjectRef = 14D6771E07F17FDC00FA264D;
+				},
 			);
 			targets = (
 				8D15AC270486D014006FF6A4,
@@ -2580,7 +2617,6 @@
 				146C7829063ABA8A00016CD9,
 				146017110619DC2200E527EC,
 				5EEB176D05ECF6DA00C17677,
-				143C35DB05ECAC32008C6DFE,
 				2A37F4AFFDCFA73011CA2CEA,
 				142883F406E33D5000FB57C5,
 				14DC3C2606C3C531000E9E0A,
@@ -2589,6 +2625,7 @@
 				2A37F4C3FDCFA73011CA2CEA,
 				19C28FB0FE9D524F11CA2CBB,
 				145BFDEB06A5E09B00160C0E,
+				14D6771E07F17FDC00FA264D,
 			);
 			isa = PBXGroup;
 			name = SubEthaEdit;
@@ -3630,6 +3667,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				145BFE2506A5E0CF00160C0E,
+				14D6776007F1832500FA264D,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4166,34 +4204,6 @@
 		};
 		5E4F360B05EF8E3F009D71ED = {
 			fileRef = 5E4F360905EF8E3F009D71ED;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E4F360E05EF90FF009D71ED = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = TCMBEEPProfile.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5E4F360F05EF90FF009D71ED = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = TCMBEEPProfile.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5E4F361005EF90FF009D71ED = {
-			fileRef = 5E4F360E05EF90FF009D71ED;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E4F361105EF90FF009D71ED = {
-			fileRef = 5E4F360F05EF90FF009D71ED;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -5908,188 +5918,6 @@
 			settings = {
 			};
 		};
-		5EEB186605ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = TCMBEEPListener.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB186705ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = TCMBEEPManagementProfile.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB186805ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = TCMBEEPMessage.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB186905ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = TCMBEEPFrame.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB186A05ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = TCMBEEPMessage.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB186B05ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = TCMBEEPSession.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB186C05ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = TCMBEEPChannel.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB186D05ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = TCMBEEPFrame.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB186F05ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = TCMBEEPListener.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB187005ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = TCMBEEPManagementProfile.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB187105ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = TCMBEEPChannel.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB187205ED1EBE00C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = TCMBEEPSession.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB187305ED1EBF00C17677 = {
-			fileRef = 5EEB186605ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187405ED1EBF00C17677 = {
-			fileRef = 5EEB186705ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187505ED1EBF00C17677 = {
-			fileRef = 5EEB186805ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187605ED1EBF00C17677 = {
-			fileRef = 5EEB186905ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187705ED1EBF00C17677 = {
-			fileRef = 5EEB186A05ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187805ED1EBF00C17677 = {
-			fileRef = 5EEB186B05ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187905ED1EBF00C17677 = {
-			fileRef = 5EEB186C05ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187A05ED1EBF00C17677 = {
-			fileRef = 5EEB186D05ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187C05ED1EBF00C17677 = {
-			fileRef = 5EEB186F05ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187D05ED1EBF00C17677 = {
-			fileRef = 5EEB187005ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187E05ED1EBF00C17677 = {
-			fileRef = 5EEB187105ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB187F05ED1EBF00C17677 = {
-			fileRef = 5EEB187205ED1EBE00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB188005ED1F0500C17677 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = TCMBEEP.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB188105ED1F0500C17677 = {
-			fileRef = 5EEB188005ED1F0500C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5EF18E0E066495C600957730 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -6253,6 +6081,7 @@
 			};
 			dependencies = (
 				145BFE2706A5E10900160C0E,
+				14D6775D07F1831300FA264D,
 				14F45E9D06DBB84B0048F2F8,
 				142884BE06E33EEB00FB57C5,
 			);
@@ -6274,13 +6103,6 @@
 				5EEB177805ECF8D300C17677,
 				5EEB185705ED0E1600C17677,
 				5EEB186205ED1CBB00C17677,
-				5EEB187505ED1EBF00C17677,
-				5EEB187805ED1EBF00C17677,
-				5EEB187905ED1EBF00C17677,
-				5EEB187A05ED1EBF00C17677,
-				5EEB187C05ED1EBF00C17677,
-				5EEB187D05ED1EBF00C17677,
-				5EEB188105ED1F0500C17677,
 				144BC39205EDFDB1006397BC,
 				144BC76705EE1F21006397BC,
 				144BC77305EE26B0006397BC,
@@ -6288,7 +6110,6 @@
 				5E4F35BB05EF77B6009D71ED,
 				5E4F35EF05EF8000009D71ED,
 				5E4F360A05EF8E3F009D71ED,
-				5E4F361005EF90FF009D71ED,
 				5E0CFE9205F48F3B008C8191,
 				5EACED4805F5087E0008743E,
 				5EACEEA905F545180008743E,
@@ -6518,12 +6339,6 @@
 				5EEB177905ECF8D300C17677,
 				5EEB185805ED0E1600C17677,
 				5EEB186305ED1CBB00C17677,
-				5EEB187305ED1EBF00C17677,
-				5EEB187405ED1EBF00C17677,
-				5EEB187605ED1EBF00C17677,
-				5EEB187705ED1EBF00C17677,
-				5EEB187E05ED1EBF00C17677,
-				5EEB187F05ED1EBF00C17677,
 				144BC39305EDFDB1006397BC,
 				144BC76805EE1F21006397BC,
 				144BC77405EE26B0006397BC,
@@ -6531,7 +6346,6 @@
 				5E4F35BC05EF77B6009D71ED,
 				5E4F35F005EF8000009D71ED,
 				5E4F360B05EF8E3F009D71ED,
-				5E4F361105EF90FF009D71ED,
 				5E0CFE9305F48F3B008C8191,
 				5EACED4905F5087E0008743E,
 				5EACEEAA05F545180008743E,
@@ -6630,6 +6444,7 @@
 		8D15AC330486D014006FF6A4 = {
 			buildActionMask = 2147483647;
 			files = (
+				14D6776107F1832C00FA264D,
 				145BFE2806A5E11C00160C0E,
 				8D15AC340486D014006FF6A4,
 				144BC7CA05EE5C84006397BC,

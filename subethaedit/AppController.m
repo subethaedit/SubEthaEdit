@@ -7,7 +7,7 @@
 //
 
 #import <AddressBook/AddressBook.h>
-#import "TCMBEEP/TCMBEEP.h"
+#import <TCMBEEP/TCMBEEP.h>
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "AppController.h"
