@@ -368,6 +368,13 @@ static NSMenu *defaultMenu=nil;
     return [dragTypes autorelease];
 }
 
+- (void)updateDragTypeRegistration {
+    [super updateDragTypeRegistration];
+    if (![self isEditable]) {
+        [self registerForDraggedTypes:[NSArray arrayWithObject:@"ParticipantDrag"]];
+    }
+}
+
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"] || [[pboard types] containsObject:@"ParticipantDrag"]) {
