@@ -31,6 +31,7 @@ NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
 - (int)indexOfItemWithUserID:(NSString *)userID;
 - (NSMutableIndexSet *)indexesOfItemsWithUserID:(NSString *)userID;
 - (void)connectToURL:(NSURL *)url retry:(BOOL)isRetrying;
+- (void)processDocumentURL:(NSURL *)url;
 
 @end
 
@@ -398,6 +399,90 @@ static InternetBrowserController *sharedInstance = nil;
     I_comboBoxItems = [anArray mutableCopy];
 }
 
+- (void)processDocumentURL:(NSURL *)url {
+    NSString *urlPath = [url path];
+    NSString *path = nil;
+    if (urlPath != nil) {
+        path = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlPath, CFSTR(""));
+        [path autorelease];
+    }
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"path: %@", path);
+
+    if (path != nil && [path length] != 0) {
+        NSString *lastPathComponent = [path lastPathComponent];
+        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join: %@", lastPathComponent);
+        
+        UInt16 port;
+        if ([url port] != nil) {
+            port = [[url port] unsignedShortValue];
+        } else {
+            port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
+        }
+        NSString *URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], [url host], port];
+
+        int index = [self indexOfItemWithURLString:URLString];
+        if (index != -1) {
+            NSDictionary *item = [I_data objectAtIndex:index];
+            TCMBEEPSession *BEEPSession = [item objectForKey:@"BEEPSession"];
+            NSArray *sessions = [item objectForKey:@"Sessions"];
+            NSEnumerator *enumerator = [sessions objectEnumerator];
+            TCMMMSession *session;
+            BOOL found = NO;
+            while ((session = [enumerator nextObject])) {
+                if ([lastPathComponent isEqualToString:[session sessionID]]) {
+                    found = YES;
+                    break;
+                }
+            }
+            if (found) {
+                DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"found id");
+                [session joinUsingBEEPSession:BEEPSession];
+            } else {
+                NSString *urlQuery = [url query];
+                NSString *query;
+                NSString *documentId = nil;
+                if (urlQuery != nil) {
+                    query = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR(""));
+                    [query autorelease];
+                    NSArray *components = [query componentsSeparatedByString:@"&"];
+                    NSEnumerator *enumerator = [components objectEnumerator];
+                    NSString *item;
+                    while ((item = [enumerator nextObject])) {
+                        NSArray *keyValue = [item componentsSeparatedByString:@"="];
+                        if ([keyValue count] == 2) {
+                            if ([[keyValue objectAtIndex:0] isEqualToString:@"sessionID"]) {
+                                documentId = [keyValue objectAtIndex:1];
+                            }
+                            break;
+                        }
+                    }
+                }
+                
+                enumerator = [sessions objectEnumerator];
+                found = NO;
+                while ((session = [enumerator nextObject])) {
+                    if ([documentId isEqualToString:[session sessionID]]) {
+                        found = YES;
+                        break;
+                    }
+                }
+                if (found) {
+                    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"found id in query");
+                    [session joinUsingBEEPSession:BEEPSession];
+                } else {
+                    enumerator = [sessions objectEnumerator];
+                    while ((session = [enumerator nextObject])) {
+                        if ([lastPathComponent compare:[[session filename] lastPathComponent]] == NSOrderedSame) {
+                            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"found title");
+                            [session joinUsingBEEPSession:BEEPSession];
+                        }
+                    }                
+                }
+            }
+        }
+    }
+}
+
 #pragma mark -
 
 - (void)hostDidResolveAddress:(TCMHost *)sender {
@@ -442,6 +527,7 @@ static InternetBrowserController *sharedInstance = nil;
         [item setObject:[[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy] forKey:@"Sessions"];
         [item setObject:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
         [O_browserListView reloadData];
+        [self processDocumentURL:[item objectForKey:@"URL"]];
     }
 }
 

@@ -116,7 +116,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     // set up BEEPListener
     int port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
     for (I_listeningPort = port; I_listeningPort < port + PORTRANGELENGTH; I_listeningPort++) {
-        I_listener=[[TCMBEEPListener alloc] initWithPort:I_listeningPort];
+        I_listener = [[TCMBEEPListener alloc] initWithPort:I_listeningPort];
         [I_listener setDelegate:self];
         if ([I_listener listen]) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Listening on Port: %d", I_listeningPort);
@@ -351,9 +351,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
         NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
         if (isRendezvous) {
         
-            // TEST
+            #warning "release these sessions where it is safe to do so"
             [sessionInformation removeObjectForKey:@"InboundRendezvousSession"];
-            // TEST
         
             NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
             if ([status isEqualToString:kBEEPSessionStatusGotSession]) {

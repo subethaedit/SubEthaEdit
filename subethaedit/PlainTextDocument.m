@@ -1864,6 +1864,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [address appendFormat:@"//%@", escapedHostname];
     }
     
+    int port = [[TCMMMBEEPSessionManager sharedInstance] listeningPort];
+    [address appendFormat:@":%d", port];
+    
     NSString *title = [[self fileName] lastPathComponent];
     if (title == nil) {
         title = [self displayName];
