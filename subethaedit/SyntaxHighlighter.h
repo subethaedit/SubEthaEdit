@@ -1,15 +1,17 @@
 //
 //  SyntaxHighlighter.h
-//  SubEthaEdit
+//  SyntaxTestBench
 //
-//  Created by Dominik Wagner on Mon Mar 22 2004.
+//  Created by Martin Pittenauer on Thu Mar 04 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 
 @interface SyntaxHighlighter : NSObject {
+    NSMutableDictionary *I_keyWords;
+    NSMutableCharacterSet *I_keyWordCharacterSet;
 
 }
 
