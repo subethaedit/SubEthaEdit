@@ -24,9 +24,6 @@
 
 + (TCMMMPresenceManager *)sharedInstance;
 
-- (void)statusConnectToNetService:(NSNetService *)aNetService userID:(NSString *)userID sender:(id)aSender;
-- (void)connectToHost:(TCMHost *)aHost sender:(id)aSender;
-
 - (void)setVisible:(BOOL)aFlag;
 
 - (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile;

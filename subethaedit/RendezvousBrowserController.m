@@ -9,6 +9,7 @@
 #import "RendezvousBrowserController.h"
 #import "TCMRendezvousBrowser.h"
 #import "TCMMMPresenceManager.h"
+#import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 
@@ -70,7 +71,7 @@
     NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
     if (userID && ![userID isEqualTo:[TCMMMUserManager myID]]) {
         [I_foundUserIDs addObject:userID];
-        [[TCMMMPresenceManager sharedInstance] statusConnectToNetService:aNetService userID:userID sender:self];
+        [[TCMMMBEEPSessionManager sharedInstance] connectToNetService:aNetService];
     }
 }
 

@@ -79,29 +79,6 @@ static TCMMMPresenceManager *sharedInstance = nil;
     return statusOfUserID;
 }
 
-- (void)statusConnectToNetService:(NSNetService *)aNetService userID:(NSString *)aUserID sender:(id)aSender
-{
-    DEBUGLOG(@"Presence", 5, @"netservice: %@", aNetService);
-    NSMutableDictionary *statusOfUserID = [self statusOfUserID:aUserID];
-    
-    if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"NoStatus"]) {
-        // machen
-        [statusOfUserID setObject:aNetService forKey:@"NetService"];
-        [statusOfUserID setObject:[NSNumber numberWithBool:YES] forKey:@"ConnectionAttempt"];
-        [[TCMMMBEEPSessionManager sharedInstance] requestStatusProfileForUserID:aUserID netService:aNetService sender:self];
-    } else {
-        // warten
-    }
-}
-
-- (void)connectToHost:(TCMHost *)aHost sender:(id)aSender
-{
-    DEBUGLOG(@"Presence", 5, @"host: %@", aHost);
-    DEBUGLOG(@"Presence", 5, @"foo");
-    // save aHost somewhere
-    // connect to host
-}
-
 #pragma mark -
 #pragma mark ### TCMMMStatusProfile interaction
 

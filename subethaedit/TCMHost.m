@@ -16,9 +16,11 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 @interface TCMHost (TCMHostPrivateAdditions)
 
 - (void)TCM_handleHostCallback:(CFHostRef)host typeInfo:(CFHostInfoType)typeInfo error:(const CFStreamError *)error;
+- (void)setName:(NSString *)name;
 
 @end
 
+#pragma mark -
 
 @implementation TCMHost
 
@@ -37,6 +39,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
             return nil;
         }
         
+        [self setName:name];
         CFHostClientContext context = {0, self, NULL, NULL, NULL};
         CFHostSetClient(I_host, myCallback, &context);
         CFHostScheduleWithRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
@@ -48,6 +51,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 - (void)dealloc
 {
+    [I_name release];
     [I_addresses release];
     [super dealloc];
 }
@@ -67,6 +71,17 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     return I_addresses;
 }
 
+- (void)setName:(NSString *)name
+{
+    [I_name autorelease];
+    I_name = [name copy];
+}
+
+- (NSString *)name
+{
+    return I_name;
+}
+
 - (void)checkReachability
 {
     CFHostStartInfoResolution(I_host, kCFHostReachability, NULL);
@@ -80,9 +95,18 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 - (void)TCM_handleHostCallback:(CFHostRef)host typeInfo:(CFHostInfoType)typeInfo error:(const CFStreamError *)error
 {
     NSLog(@"handleHostCallback");
+    id delegate = [self delegate];
     
     if (error && error->error != 0) {
         NSLog(@"error");
+        if ([delegate respondsToSelector:@selector(host:didNotResolve:)]) {
+            NSString *domain = @"TCMHost";
+            if (error->domain == kCFStreamErrorDomainNetDB) 
+                domain = @"NetDBDomain";
+            else if (error->domain == kCFStreamErrorDomainSystemConfiguration)
+                domain = @"SystemConfigurationDomain";
+            [delegate host:self didNotResolve:[NSError errorWithDomain:domain code:error->error userInfo:nil]];
+        }
     } else if (typeInfo == kCFHostAddresses) {
         Boolean hasBeenResolved;
         CFArrayRef addressArray = CFHostGetAddressing(host, &hasBeenResolved);
@@ -93,7 +117,6 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
             NSLog(@"resolved address: %@", [NSString stringWithAddressData:address]);
             [I_addresses addObject:address];
         }
-        id delegate = [self delegate];
         if ([delegate respondsToSelector:@selector(hostDidResolveAddress:)]) {
             [delegate hostDidResolveAddress:self];
         }
@@ -104,6 +127,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 @end
 
+#pragma mark -
 
 void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *error, void *myInfoPointer)
 {

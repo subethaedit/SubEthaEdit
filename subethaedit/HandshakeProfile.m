@@ -30,8 +30,11 @@
 }
 
 - (NSData *)handshakePayloadWithUserID:(NSString *)aUserID {
-    NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"GRTuserid=%@\001version=2.00\001token=none",aUserID] dataUsingEncoding:NSUTF8StringEncoding]];
-    return payload;
+    NSMutableString *string=[NSMutableString stringWithFormat:@"GRTuserid=%@\001version=2.00",aUserID];
+    if ([[[[[self channel] session] userInfo] objectForKey:@"isRendezvous"] boolValue]){
+        [string appendString:@"\001rendez=vous"];
+    }
+    return [string dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (void)shakeHandsWithUserID:(NSString *)aUserID
@@ -59,6 +62,9 @@
                 }
             }
             NSLog(@"Handshake greeting was: %@",string);
+            if ([I_remoteInfos objectForKey:@"rendez"]) {
+                [[[[self channel] session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
+            }
             NSString *userID=[[self delegate] profile:self shouldProceedHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
             if (userID) {
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[self handshakePayloadWithUserID:userID]];

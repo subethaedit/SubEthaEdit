@@ -8,19 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
-@class TCMBEEPListener;
+@class TCMBEEPListener, TCMHost;
 
-@interface TCMMMBEEPSessionManager : NSObject {
+@interface TCMMMBEEPSessionManager : NSObject
+{
     TCMBEEPListener *I_listener;
     int I_listeningPort;
     NSMutableDictionary *I_sessionInformationByUserID;
     NSMutableDictionary *I_pendingProfileRequestsByUserID;
     NSMutableSet *I_pendingSessions;
+    
+    NSMutableDictionary *I_pendingOutboundSessions;
 }
 
 + (TCMMMBEEPSessionManager *)sharedInstance;
 - (BOOL)listen;
 - (int)listeningPort;
-- (void)requestStatusProfileForUserID:(NSString *)aUserID netService:(NSNetService *)aNetService sender:(id)aSender;
+
+- (void)connectToNetService:(NSNetService *)aNetService;
+- (void)connectToHost:(TCMHost *)aHost;
 
 @end

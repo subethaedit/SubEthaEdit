@@ -10,7 +10,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserManager.h"
 #import "TCMHost.h"
-#import "TCMMMPresenceManager.h"
+#import "TCMMMBEEPSessionManager.h"
 
 
 @implementation InternetController
@@ -19,9 +19,17 @@
 {
     self = [super initWithWindowNibName:@"Internet"];
     if (self) {
-    
+        I_resolvingHosts = [NSMutableDictionary new];
+        I_resolvedHosts = [NSMutableDictionary new];
     }
     return self;    
+}
+
+- (void)dealloc
+{
+    [I_resolvingHosts release];
+    [I_resolvedHosts release];
+    [super dealloc];
 }
 
 - (void)windowDidLoad
@@ -37,9 +45,10 @@
 - (IBAction)connect:(id)aSender
 {
     NSString *address = [aSender objectValue];
-    NSLog(@"connect to peer: %@", address);
+    DEBUGLOG(@"Internet", 5, @"connect to peer: %@", address);
 
-    TCMHost *host = [[TCMHost hostWithName:address] retain];
+    TCMHost *host = [TCMHost hostWithName:address];
+    [I_resolvingHosts setObject:host forKey:[host name]];
     [host setDelegate:self];
     [host resolve];
 }
@@ -48,7 +57,18 @@
 
 - (void)hostDidResolveAddress:(TCMHost *)sender
 {
-    [[TCMMMPresenceManager sharedInstance] connectToHost:sender sender:self];
+    NSLog(@"hostDidResolveAddress:");
+    [I_resolvedHosts setObject:sender forKey:[sender name]];
+    [I_resolvingHosts removeObjectForKey:[sender name]];
+    [sender setDelegate:nil];
+    [[TCMMMBEEPSessionManager sharedInstance] connectToHost:sender];
+}
+
+- (void)host:(TCMHost *)sender didNotResolve:(NSError *)error
+{
+    DEBUGLOG(@"Internet", 5, @"host: %@, didNotResolve: %@", sender, error);
+    [sender setDelegate:nil];
+    [I_resolvingHosts removeObjectForKey:[sender name]];
 }
 
 @end

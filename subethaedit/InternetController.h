@@ -15,6 +15,9 @@
     IBOutlet NSImageView *O_imageView;
     IBOutlet NSTextField *O_myNameTextField;
     IBOutlet NSComboBox *O_addressComboBox;
+    
+    NSMutableDictionary *I_resolvingHosts;
+    NSMutableDictionary *I_resolvedHosts;
 }
 
 - (IBAction)connect:(id)aSender;

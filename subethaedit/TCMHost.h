@@ -13,6 +13,7 @@
 {
     id I_delegate;
     CFHostRef I_host;
+    NSString *I_name;
     NSMutableArray *I_addresses;
 }
 
@@ -24,6 +25,7 @@
 - (id)delegate;
 
 - (NSArray *)addresses;
+- (NSString *)name;
 
 - (void)checkReachability;
 - (void)resolve;
