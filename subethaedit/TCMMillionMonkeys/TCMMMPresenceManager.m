@@ -81,7 +81,8 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 }
 
 - (NSString *)serviceName {
-    return [NSString stringWithFormat:@"%@@%@",NSUserName(),(NSString *)SCDynamicStoreCopyComputerName(NULL,NULL)];
+    NSString *computerName = (NSString *)SCDynamicStoreCopyComputerName(NULL,NULL);
+    return [NSString stringWithFormat:@"%@@%@",NSUserName(),[computerName autorelease]];
 }
 
 - (void)TCM_validateServiceAnnouncement {
