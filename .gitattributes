@@ -694,6 +694,8 @@ subethaedit/URLDataProtocol.h -text
 subethaedit/URLDataProtocol.m -text
 subethaedit/URLImageView.h -text
 subethaedit/URLImageView.m -text
+subethaedit/UndoManager.h -text
+subethaedit/UndoManager.m -text
 subethaedit/UserChangeOperation.h -text
 subethaedit/UserChangeOperation.m -text
 subethaedit/WebPreviewWindowController.h -text
