@@ -343,7 +343,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
                 if (channel) {
                     BOOL didAccept=[channel acceptFrame:[I_currentReadFrame autorelease]];
                     //NSLog(@"channel did Accept: %@", [channel acceptFrame:[I_currentReadFrame autorelease]] ? @"YES" : @"NO");
-                    DEBUGLOG(BEEPLogDomain, AllLogLevel, @"channel did Accept: %@",  didAccept ? @"YES" : @"NO");
+                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did Accept: %@",  didAccept ? @"YES" : @"NO");
                     I_currentReadFrame = nil;
                 } else {
                     // ERRRRRRORR

@@ -57,7 +57,7 @@ static TCMMMUserManager *sharedInstance=nil;
     return [I_usersByID objectForKey:aID];
 }
 - (void)setUser:(TCMMMUser *)aUser forID:(NSString *)aID {
-    NSLog(@"UserManager",5,@"Set user:%@ forID:%@",aUser,aID);
+    DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"Set user:%@ forID:%@",aUser,aID);
     [I_usersByID setObject:aUser forKey:aID];
 }
 

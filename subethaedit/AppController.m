@@ -24,8 +24,6 @@
 
 + (void)initialize {
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-    [defaults setObject:[NSNumber numberWithInt:0] forKey:BEEPLogDomain];
-    [defaults setObject:[NSNumber numberWithInt:0] forKey:MillionMonkeysLogDomain];
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }

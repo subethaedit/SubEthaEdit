@@ -9,10 +9,6 @@
     #import "NSNetServiceTCMAdditions.h"
 #endif
 
-#define BEEPLogDomain @"BEEPLogDomain"
-#define MillionMonkeysLogDomain @"MillionMonkeysLogDomain"
-
-
 typedef enum LogLevels {
     SimpleLogLevel = 1,
     DetailedLogLevel = 2,

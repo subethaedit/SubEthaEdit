@@ -24,22 +24,19 @@
         logDomains = [NSMutableArray new];
 
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [logDomains addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    BEEPLogDomain, @"domain",
-                                    [levels objectAtIndex:[defaults integerForKey:BEEPLogDomain]], @"level",
-                                    nil]];
-        [logDomains addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    MillionMonkeysLogDomain, @"domain",
-                                    [levels objectAtIndex:[defaults integerForKey:MillionMonkeysLogDomain]], @"level",
-                                    nil]];
-
-        NSEnumerator *domains = [logDomains objectEnumerator];
-        NSMutableDictionary *domain;
-        while ((domain = [domains nextObject])) {
-            [domain addObserver:self
-                     forKeyPath:@"level"
-                        options:NSKeyValueObservingOptionNew
-                        context:NULL];
+        NSEnumerator *domains=[[NSArray arrayWithObjects:@"BEEPLogDomain",@"MillionMonkeysLogDomain",@"BlahFaselLogDomain",nil] objectEnumerator];
+        NSString *domain=nil;
+        while ((domain=[domains nextObject])) {
+            NSMutableDictionary *domainDict=
+                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        domain, @"domain",
+                                        [levels objectAtIndex:[defaults integerForKey:domain]], @"level",
+                                        nil];
+            [domainDict addObserver:self
+                         forKeyPath:@"level"
+                            options:NSKeyValueObservingOptionNew
+                            context:NULL];
+            [logDomains addObject:domainDict];
         }
     }
     return self;
