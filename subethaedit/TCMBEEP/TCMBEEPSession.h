@@ -44,7 +44,6 @@ enum {
     NSMutableDictionary *I_userInfo;
 
     TCMBEEPChannel *I_managementChannel;
-    NSMutableDictionary *I_requestedChannels;
     NSMutableDictionary *I_activeChannels;
     NSMutableArray *I_channels;
     

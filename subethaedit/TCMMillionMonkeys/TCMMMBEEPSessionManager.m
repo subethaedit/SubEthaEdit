@@ -109,7 +109,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:%@\npendingSessionProfiles:%@\npendingSessions:%@\npendingOutboundSessions:%@", [I_sessionInformationByUserID descriptionInStringsFileFormat], [I_pendingSessionProfiles description], [I_pendingSessions description], [I_outboundInternetSessions description]];
+    return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:%@\npendingSessionProfiles:%@\npendingSessions:%@\noutboundInternetSessions:%@", [I_sessionInformationByUserID descriptionInStringsFileFormat], [I_pendingSessionProfiles description], [I_pendingSessions description], [I_outboundInternetSessions description]];
 }
 
 - (BOOL)listen {
@@ -176,14 +176,14 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
     NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
 
-    NSMutableDictionary *sessionInformation=[self sessionInformationForUserID:userID];
+    NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:userID];
     NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
     if ([status isEqualToString:kBEEPSessionStatusNoSession]) {
         [sessionInformation setObject:aNetService forKey:@"NetService"];
         [sessionInformation setObject:kBEEPSessionStatusConnecting forKey:@"RendezvousStatus"];
         [self TCM_connectToNetServiceWithInformation:sessionInformation];
     } else {
-//        TCMBEEPSession *session=[sessionInformation objectForKey:@"RendezvousSession"];
+//        TCMBEEPSession *session = [sessionInformation objectForKey:@"RendezvousSession"];
     }
 }
 
@@ -346,8 +346,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
         NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
         if (isRendezvous) {
         
-            #warning "release these sessions where it is safe to do so"
-            [sessionInformation removeObjectForKey:@"InboundRendezvousSession"];
+            if ([sessionInformation objectForKey:@"InboundRendezvousSession"] == aBEEPSession) {
+                [sessionInformation removeObjectForKey:@"InboundRendezvousSession"];
+            }
         
             NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
             if ([status isEqualToString:kBEEPSessionStatusGotSession]) {
@@ -475,7 +476,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             return nil;
         } else if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusNoSession]) {
             if ([[aProfile session] isInitiator]) {
-                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"As initiator you should not get this callback by: %@",aProfile);
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"As initiator you should not get this callback by: %@", aProfile);
                 return nil;
             } else {
                 [information setObject:[aProfile session] forKey:@"InboundRendezvousSession"];
@@ -494,8 +495,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                     return [TCMMMUserManager myUserID]; 
                 }
             } else {
-                TCMBEEPSession *inboundSession = [information objectForKey:@"InboundRendezvousSession"];
-                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"WTF? %@ tries to handshake twice, bad guy: %@", aUserID, inboundSession);
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"WTF? %@ tries to handshake twice, bad guy: %@", aUserID, [information objectForKey:@"InboundRendezvousSession"]);
                 return nil;
             }
         }
@@ -575,7 +575,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [profile setDelegate:session];
         [I_pendingSessionProfiles removeObject:profile];
     } else {
-        #warning "close channel"
+        NSLog(@"WARNING: Closing channel where never a channel was closed before");
+        [[profile channel] close];
     }
 }
 
