@@ -145,6 +145,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious symbolForRange:(NSRange)aRange;
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange;
 
+- (void)invalidateLayoutForRange:(NSRange)aRange;
 - (void)updateSymbolTable;
 - (void)triggerUpdateSymbolTableTimer;
 - (NSMenu *)symbolPopUpMenuForView:(NSTextView *)aTextView sorted:(BOOL)aSorted;

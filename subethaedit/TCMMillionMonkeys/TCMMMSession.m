@@ -142,7 +142,12 @@ NSString * const TCMMMSessionDidChangeNotification =
     NSEnumerator *participantIDs=[[I_groupByUserID allKeys] objectEnumerator];
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     while ((userID=[participantIDs nextObject])) {
-        [[userManager userForUserID:userID] leaveSessionID:sessionID];
+        TCMMMUser *user=[userManager userForUserID:userID];
+        SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
+        if (selectionOperation) {
+            [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
+        }
+        [user leaveSessionID:sessionID];
     }
     [I_participants removeAllObjects];
     [I_groupByUserID removeAllObjects];
@@ -267,6 +272,7 @@ NSString * const TCMMMSessionDidChangeNotification =
         NSString *userID;
         TCMMMUser *user;
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+        NSString *sessionID=[self sessionID];
         while ((userID=[userIDs nextObject])) {
             user = [userManager userForUserID:userID];
             NSString *group=[I_groupByUserID objectForKey:userID];
@@ -277,7 +283,11 @@ NSString * const TCMMMSessionDidChangeNotification =
                 SessionProfile *profile=[I_profilesByUserID objectForKey:userID];
                 [profile close];
                 [self detachStateAndProfileForUserWithID:userID];
-                [user leaveSessionID:[self sessionID]];
+                SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
+                if (selectionOperation) {
+                    [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
+                }
+                [user leaveSessionID:sessionID];
             }
         }
         [self TCM_sendParticipantsDidChangeNotification];
@@ -630,6 +640,10 @@ NSString * const TCMMMSessionDidChangeNotification =
             [I_groupByUserID removeObjectForKey:userID];
             [[I_participants objectForKey:group] removeObject:user];
             [self detachStateAndProfileForUserWithID:userID];
+            SelectionOperation *selectionOperation=[[user propertiesForSessionID:[self sessionID]] objectForKey:@"SelectionOperation"];
+            if (selectionOperation) {
+                [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
+            }
             [user leaveSessionID:[self sessionID]];
         }
         [self TCM_sendParticipantsDidChangeNotification];
