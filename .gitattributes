@@ -74,9 +74,6 @@ English.lproj/Localizable.strings -text svneol=unset#text/plain
 English.lproj/MainMenu.nib/classes.nib -text
 English.lproj/MainMenu.nib/info.nib -text
 English.lproj/MainMenu.nib/keyedobjects.nib -text
-English.lproj/OpenDocuments.nib/classes.nib -text
-English.lproj/OpenDocuments.nib/info.nib -text
-English.lproj/OpenDocuments.nib/keyedobjects.nib -text
 English.lproj/OpenPanelAccessory.nib/classes.nib -text
 English.lproj/OpenPanelAccessory.nib/info.nib -text
 English.lproj/OpenPanelAccessory.nib/keyedobjects.nib -text
@@ -86,7 +83,6 @@ English.lproj/PlainTextEditor.nib/keyedobjects.nib -text
 English.lproj/PlainTextWindow.nib/classes.nib -text
 English.lproj/PlainTextWindow.nib/info.nib -text
 English.lproj/PlainTextWindow.nib/keyedobjects.nib -text
-English.lproj/Preferences.strings -text
 English.lproj/PrintOptions.nib/classes.nib -text
 English.lproj/PrintOptions.nib/info.nib -text
 English.lproj/PrintOptions.nib/keyedobjects.nib -text
@@ -167,7 +163,6 @@ Modes/Applescript.mode/Contents/Resources/RegexSymbols.xml -text
 Modes/Applescript.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/Base.mode/Contents/Info.plist -text
 Modes/Base.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
-Modes/Base.mode/Contents/Resources/English.lproj/Localizable.strings -text
 Modes/C++.mode/Contents/Info.plist -text
 Modes/C++.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 Modes/C++.mode/Contents/Resources/English.lproj/Localizable.strings -text

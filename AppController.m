@@ -328,12 +328,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
     if ([SetupController shouldRun]) {
         SetupController *setupController = [SetupController sharedInstance];
-        NSModalSession modalSession = [NSApp beginModalSessionForWindow:[setupController window]];
-        for (;;) {
-            if ([NSApp runModalSession:modalSession] != NSRunContinuesResponse)
-            break;
-        }
-        [NSApp endModalSession:modalSession];
+        (int)[NSApp runModalForWindow:[setupController window]];
     }
     
     // set up beep profiles
