@@ -35,6 +35,10 @@ echo "Copying contents to ${imageName}..."
 while [ $# -gt 0 ] ; do
     echo "...cleaning ${1}"
     find ${1} -name ".svn" -exec rm -rf {} \;
+    echo "...setting ownership"
+    /usr/sbin/chown -R root:admin ${1}
+    echo "...setting permissions"
+    /bin/chmod -R g+w ${1}
     echo "...copying ${1}"
     /Developer/Tools/CpMac -r ${1} /Volumes/${imageName}
     shift
