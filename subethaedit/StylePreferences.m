@@ -202,6 +202,9 @@
     [[O_boldButton superview] setNeedsDisplay:YES];
 }
 
+#pragma mark -
+#pragma mark IBActions
+
 - (IBAction)changeMode:(id)aSender {
     DocumentMode *newMode=[aSender selectedMode];
     NSDictionary *fontAttributes = [newMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
@@ -267,6 +270,27 @@
 - (IBAction)changeFontTraitBold:(id)aSender {
     [aSender setAllowsMixedState:NO];
     [self setTrait:NSBoldFontMask ofSelectedStylesTo:[aSender state]==NSOnState];
+}
+
+- (IBAction)export:(id)aSender {
+    NSSavePanel *savePanel=[NSSavePanel savePanel];
+    [savePanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
+    [savePanel setCanCreateDirectories:YES];
+    [savePanel setExtensionHidden:NO];
+    [savePanel setAllowsOtherFileTypes:YES];
+    [savePanel setTreatsFilePackagesAsDirectories:YES];
+    [savePanel setRequiredFileType:@"seestyle"];
+    [savePanel beginSheetForDirectory:nil 
+        file:[[[[[I_currentSyntaxStyle documentMode]  documentModeIdentifier] componentsSeparatedByString:@"."] lastObject] stringByAppendingPathExtension:@"seestyle"] 
+        modalForWindow:[O_stylesTableView window] 
+        modalDelegate:self 
+        didEndSelector:@selector(exportSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)exportSheetDidEnd:(NSSavePanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
+    if (aReturnCode==NSOKButton) {
+        [[[I_currentSyntaxStyle xmlFileRepresentation] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:[aPanel filename] atomically:YES];
+    }
 }
 
 - (void)didUnselect {

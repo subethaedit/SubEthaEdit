@@ -37,7 +37,7 @@
         NSRect rowRect=[self rectOfRow:0];
         rowRect=NSIntersectionRect(clipRect,rowRect);
         if (rowRect.size.height>0. || rowRect.size.width >0.) {
-            [[NSColor colorWithCalibratedWhite:.3 alpha:.2] set];
+            [[NSColor colorWithCalibratedWhite:.5 alpha:.2] set];
             [NSBezierPath fillRect:rowRect];
         }
     }

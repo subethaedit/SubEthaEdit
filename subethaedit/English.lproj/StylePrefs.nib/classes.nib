@@ -39,6 +39,7 @@
                 changeLightBackgroundColor = id; 
                 changeLightForegroundColor = id; 
                 changeMode = id; 
+                export = id; 
                 validateDefaultsState = id; 
             }; 
             CLASS = StylePreferences; 
