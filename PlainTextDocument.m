@@ -2597,7 +2597,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     I_flags.isRemotelyEditingTextStorage=YES;
     TextStorage *textStorage=(TextStorage *)[self textStorage];
     [textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
-    [textStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[textStorage length])];
+    NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+    [textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
+    [textStorage addAttribute:NSParagraphStyleAttributeName value:[self defaultParagraphStyle] range:wholeRange];
     I_flags.isRemotelyEditingTextStorage=NO;
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
     [self updateChangeCount:NSChangeCleared];
