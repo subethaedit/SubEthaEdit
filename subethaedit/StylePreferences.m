@@ -84,7 +84,6 @@
                                      [styleBox frame].size.width,[styleBox frame].size.height);
         windowRect=NSInsetRect(windowRect,-2,-2);
     
-        NSRect frame=[[I_overlayWindow contentView] bounds];
         OverlayView *view=[[OverlayView alloc] initWithFrame:[styleBox frame]];
         [view setDelegate:self];
         [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];

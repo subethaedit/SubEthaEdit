@@ -568,7 +568,7 @@ NSString * const BlockeditAttributeValue=@"YES";
         index=NSMaxRange(foundRange);
         if (author) {
             foundRange.location=foundRange.location-aRange.location;
-            [result addAttribute:@"WrittenBy" value:[[[[TCMMMUserManager sharedInstance] userForUserID:author] name] stringByReplacingEntities] range:foundRange];
+            [result addAttribute:@"WrittenBy" value:[[[[TCMMMUserManager sharedInstance] userForUserID:author] name] stringByReplacingEntitiesForUTF8:NO] range:foundRange];
             [result addAttribute:@"WrittenByUserID" value:author range:foundRange];
         }
     } while (index<NSMaxRange(aRange));

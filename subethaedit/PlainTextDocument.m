@@ -1471,7 +1471,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSString *metaFormatString=@"<meta name=\"%@\" content=\"%@\" />\n";
         [metaHeaders appendFormat:metaFormatString,@"last-modified",[now rfc1123Representation]];
         [metaHeaders appendFormat:metaFormatString,@"DC.Date",[now descriptionWithCalendarFormat:@"%Y-%m-%d"]];
-        [metaHeaders appendFormat:metaFormatString,@"DC.Creator",[[[userManager me] name] stringByReplacingEntities]];
+        [metaHeaders appendFormat:metaFormatString,@"DC.Creator",[[[userManager me] name] stringByReplacingEntitiesForUTF8:NO]];
         
       
         NSMutableSet *shortContributorIDs=[[NSMutableSet new] autorelease];
@@ -1497,7 +1497,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         TCMMMUser *contributor=nil;
         NSCharacterSet *validCharacters=[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
         while ((contributor=[contributorEnumerator nextObject])) {
-            [metaHeaders appendFormat:metaFormatString,@"DC.Contributor",[[contributor name] stringByReplacingEntities]];
+            [metaHeaders appendFormat:metaFormatString,@"DC.Contributor",[[contributor name] stringByReplacingEntitiesForUTF8:YES]];
 
             NSScanner *scanner=[NSScanner scannerWithString:[contributor name]];
             [scanner setCharactersToBeSkipped:[validCharacters invertedSet]];
@@ -1555,7 +1555,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         
         // prepare DisplayName
-        NSString *displayName=[[self displayName] stringByReplacingEntities];
+        NSString *displayName=[[self displayName] stringByReplacingEntitiesForUTF8:YES];
         
         // modify TextStorage
         NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
@@ -1591,10 +1591,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
                 NSDictionary *contributorDict=nil;
                 while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
-                    NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntities];
+                    NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
                     NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
-                    NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntities];
-                    NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntities];
+                    NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
+                    NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
                     [legend appendFormat:@"<tr>",shortID];
                     if (shouldSaveImages) {
                         [legend appendFormat:@"<th><img src=\"img/%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",shortID,name, name];
@@ -1621,10 +1621,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 NSDictionary *lurker=nil;
                 int alternateFlag=0;
                 while ((lurker=[lurkers nextObject])) {
-                    NSString *name   =[[lurker valueForKeyPath:@"User.name"] stringByReplacingEntities];
+                    NSString *name   =[[lurker valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
                     NSString *shortID= [lurker valueForKeyPath:@"ShortID"];
-                    NSString *aim    =[[lurker valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntities];
-                    NSString *email  =[[lurker valueForKeyPath:@"User.properties.Email"] stringByReplacingEntities];
+                    NSString *aim    =[[lurker valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
+                    NSString *email  =[[lurker valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
                     [legend appendFormat:@"<tr%@>",alternateFlag?@" class=\"Alternate\"":@""];
                     if (shouldSaveImages) {
                         [legend appendFormat:@"<th><img src=\"img/%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",shortID,name, name];
@@ -1671,7 +1671,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (![[htmlOptions objectForKey:DocumentModeHTMLExportShowChangeMarksPreferenceKey] boolValue]) {
             [mapping removeObjectForKey:@"ChangedByShortUserID"];
         }
-        NSMutableString *innerContent=[attributedStringForXHTML XHTMLStringWithAttributeMapping:mapping];
+        NSMutableString *innerContent=[attributedStringForXHTML XHTMLStringWithAttributeMapping:mapping forUTF8:YES];
         if (wrapsLines) {
             [innerContent addBRs];
         }

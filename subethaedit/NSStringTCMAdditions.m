@@ -311,7 +311,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     }
 }
 
-- (NSMutableString *)stringByReplacingEntities {
+- (NSMutableString *)stringByReplacingEntitiesForUTF8:(BOOL)forUTF8  {
     static NSDictionary *sEntities=nil;
     if (!sEntities) {
         sEntities=[[NSDictionary dictionaryWithObjectsAndKeys:
@@ -575,14 +575,19 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
     while (index < [string length]) {
         unichar c=[string characterAtIndex:index];                         
-        if (c > 128 || c=='&' || c=='<' || c=='>') {                           
+        if ((c > 128 && !forUTF8) || c=='&' || c=='<' || c=='>') {                           
             NSString *encodedString = [NSString stringWithFormat: @"&#%d;", c];
             if ([sEntities objectForKey:encodedString]) {
                 encodedString = [sEntities objectForKey:encodedString];
             }        
             [string replaceCharactersInRange:NSMakeRange(index, 1) withString:encodedString];
             index+=[encodedString length]-1;
-        } 
+        } else if (forUTF8) {
+            if (c==0x00A0) {
+                [string replaceCharactersInRange:NSMakeRange(index, 1) withString:@"&nbsp;"];
+                index+=6-1;
+            }
+        }
 //        else if (c=='\n' || c=='\r') {
 //            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"<br/>\n"];
 //            index+=5;
@@ -619,7 +624,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
                      "closeTag"=> "</em>"};
 "*/
 
-- (NSString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping {
+- (NSString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8 {
     NSMutableString *result=[[[NSMutableString alloc] initWithCapacity:[self length]*2] autorelease];
     NSMutableDictionary *state=[NSMutableDictionary new];
     NSMutableDictionary *toOpen=[NSMutableDictionary new];
@@ -679,7 +684,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         }
         [toOpen removeAllObjects];
         
-        NSString *contentString=[[[self string] substringWithRange:foundRange] stringByReplacingEntities];
+        NSString *contentString=[[[self string] substringWithRange:foundRange] stringByReplacingEntitiesForUTF8:forUTF8];
         [result appendString:contentString];
         
         index=NSMaxRange(foundRange);
