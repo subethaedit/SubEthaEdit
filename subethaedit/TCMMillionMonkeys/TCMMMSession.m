@@ -66,6 +66,8 @@ NSString * const TCMMMSessionDidChangeNotification =
         I_groupByUserID = [NSMutableDictionary new];
         I_contributors = [NSMutableSet new];
         I_statesByClientID = [NSMutableDictionary new];
+        I_flags.shouldSendJoinRequest = NO;
+        I_flags.isServer = NO;
     }
     return self;
 }
@@ -78,7 +80,9 @@ NSString * const TCMMMSessionDidChangeNotification =
         [self setSessionID:[NSString UUIDString]];
         [self setFilename:[aDocument displayName]];
         [self setHostID:[TCMMMUserManager myUserID]];
-        [I_contributors addObject:[TCMMMUserManager me]];
+        TCMMMUser *me=[TCMMMUserManager me];
+        [I_contributors addObject:me];
+        [I_participants setObject:[NSMutableArray arrayWithObject:me] forKey:@"ReadWrite"];
         [self setIsServer:YES];
     }
     return self;
@@ -278,7 +282,16 @@ NSString * const TCMMMSessionDidChangeNotification =
 {
     [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
     TCMBEEPSession *session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
+    I_flags.shouldSendJoinRequest=YES;
     [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
+}
+
+- (void)cancelJoin {
+    SessionProfile *profile = [I_profilesByUserID objectForKey:[self hostID]];
+    [profile cancelJoin];
+    [profile setDelegate:nil];
+    [I_profilesByUserID removeObjectForKey:[self hostID]];
+    I_flags.shouldSendJoinRequest = NO;
 }
 
 - (void)inviteUserWithID:(NSString *)aUserID
@@ -287,22 +300,6 @@ NSString * const TCMMMSessionDidChangeNotification =
     
     TCMBEEPSession *session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
     [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
-}
-
-- (void)joinRequestWithProfile:(SessionProfile *)profile
-{        
-    NSString *peerUserID = [[[profile session] userInfo] objectForKey:@"peerUserID"];
-    [I_profilesByUserID setObject:profile forKey:peerUserID];
-    // decide if autojoin depending on setting
-    
-    // if no autojoin add user to pending users and notify 
-    [I_pendingUsers addObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
-    [[NSSound soundNamed:@"Knock"] play];
-}
-
-- (void)invitationWithProfile:(SessionProfile *)profile
-{
 }
 
 #pragma mark -
@@ -363,12 +360,43 @@ NSString * const TCMMMSessionDidChangeNotification =
 {
     // check if invitation or join is happening
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
-    [I_profilesByUserID setObject:profile forKey:[self hostID]];
-    [profile setDelegate:self];
-    [(SessionProfile *)profile sendJoinRequestForSessionID:[self sessionID]];
+    if (I_flags.shouldSendJoinRequest) {
+        [I_profilesByUserID setObject:profile forKey:[self hostID]];
+        [profile setDelegate:self];
+        [(SessionProfile *)profile sendJoinRequestForSessionID:[self sessionID]];
+        I_flags.shouldSendJoinRequest=NO;
+    } else {
+        [[profile channel] close];
+    }
 }
 
 # pragma mark -
+
+- (void)joinRequestWithProfile:(SessionProfile *)profile
+{        
+    NSString *peerUserID = [[[profile session] userInfo] objectForKey:@"peerUserID"];
+    [I_profilesByUserID setObject:profile forKey:peerUserID];
+    // decide if autojoin depending on setting
+    
+    // if no autojoin add user to pending users and notify 
+    [I_pendingUsers addObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+    [[NSSound soundNamed:@"Knock"] play];
+}
+
+- (void)invitationWithProfile:(SessionProfile *)profile
+{
+}
+
+# pragma mark -
+
+- (void)profileDidCancelJoinRequest:(SessionProfile *)aProfile {
+    NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    [aProfile setDelegate:nil];
+    [I_profilesByUserID removeObjectForKey:peerUserID];
+    [I_pendingUsers removeObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+}
 
 - (void)profile:(SessionProfile *)profile didReceiveSessionContent:(id)aContent {
     [[self document] setContentByDictionaryRepresentation:aContent];

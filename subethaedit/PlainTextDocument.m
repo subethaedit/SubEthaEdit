@@ -888,6 +888,16 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 - (void)killProxyWindowController {
     [I_documentProxyWindowController autorelease];
     I_documentProxyWindowController = nil;
+    if ([[self windowControllers] count]==0) {
+        TCMMMSession *session=[self session];
+        [session setDocument:nil];
+        [session cancelJoin];
+        [[DocumentController sharedInstance] removeDocument:[[self retain] autorelease]];
+    }
+}
+
+- (void)proxyWindowWillClose {
+    [self killProxyWindowController];
 }
 
 - (void)removeWindowController:(NSWindowController *)windowController {

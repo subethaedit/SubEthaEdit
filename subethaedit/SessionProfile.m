@@ -15,7 +15,7 @@
 
 - (void)sendJoinRequestForSessionID:(NSString *)aSessionID
 {
-    NSLog(@"Sending JONJON");
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel,@"Sending JONJON");
     NSMutableData *data = [NSMutableData dataWithBytes:"JONJON" length:6];
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[TCMMMUserManager me] notification], @"UserNotification",
@@ -23,6 +23,12 @@
                             nil];
     [data appendData:TCM_BencodedObject(dict)]; 
     [[self channel] sendMSGMessageWithPayload:data];
+}
+
+- (void)cancelJoin {
+    NSMutableData *data = [NSMutableData dataWithBytes:"JONCAN" length:6];
+    [[self channel] sendMSGMessageWithPayload:data];
+    [[self channel] close];
 }
 
 - (void)acceptInvitation
@@ -88,6 +94,13 @@
             }
         } else if (strncmp(type, "INVINV", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received invitation.");
+        } else if (strncmp(type, "JONCAN", 6) == 0) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received cancel join.");
+            id delegate = [self delegate];
+            if ([delegate respondsToSelector:@selector(profileDidCancelJoinRequest:)]) {
+                [delegate profileDidCancelJoinRequest:self];
+            }
+            [[self channel] close];
         } else if (strncmp(type, "JONACK", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received accepted join.");
             id delegate = [self delegate];

@@ -22,6 +22,7 @@
 
 - (void)sendUser:(TCMMMUser *)aUser;
 - (void)sendJoinRequestForSessionID:(NSString *)aSessionID;
+- (void)cancelJoin;
 - (void)sendSessionContent:(NSDictionary *)aSessionContent;
 - (void)sendSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)acceptInvitation;
@@ -37,6 +38,7 @@
 - (void)profile:(SessionProfile *)aProfile didReceiveSessionContent:(id)content;
 - (void)profile:(SessionProfile *)aProfile didReceiveJoinRequestForSessionID:(NSString *)aSessionID;
 - (void)profile:(SessionProfile *)aProfile didReceiveInvitationForSessionID:(NSString *)aSessionID;
+- (void)profileDidCancelJoinRequest:(SessionProfile *)aProfile;
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)aProfile;
 - (void)profileDidAcceptInvitation:(SessionProfile *)aProfile;
 - (NSArray *)profile:(SessionProfile *)aProfile userRequestsForSessionInformation:(NSDictionary *)sessionInfo;

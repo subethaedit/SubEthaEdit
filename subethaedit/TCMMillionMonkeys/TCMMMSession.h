@@ -35,6 +35,7 @@ typedef enum TCMMMSessionAccessState {
     TCMMMSessionAccessState I_accessState;
     struct {
         BOOL isServer;
+        BOOL shouldSendJoinRequest;
     } I_flags;
 }
 
@@ -71,6 +72,7 @@ typedef enum TCMMMSessionAccessState {
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 
 - (void)join;
+- (void)cancelJoin;
 - (void)inviteUserWithID:(NSString *)aUserID;
 
 - (void)joinRequestWithProfile:(SessionProfile *)profile;

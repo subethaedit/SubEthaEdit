@@ -508,6 +508,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 #pragma mark -
+#pragma mark ### Session Profile delegate methods ###
 
 - (void)profile:(SessionProfile *)profile didReceiveJoinRequestForSessionID:(NSString *)sessionID {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"didReceiveJoinRequest: %@", sessionID);

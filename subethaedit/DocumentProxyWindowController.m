@@ -63,4 +63,8 @@
     }
 }
 
+- (void)windowWillClose:(NSNotification *)aNotification {
+    [(PlainTextDocument *)[self document] proxyWindowWillClose];
+}
+
 @end
