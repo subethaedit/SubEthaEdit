@@ -3144,14 +3144,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 //        DEBUGLOG(@"MillionMonkeysDomain",AlwaysLogLevel,@"start");
     }
 
-    if (I_bracketMatching.matchingBracketPosition!=NSNotFound) {
-        [self TCM_highlightBracketAtPosition:I_bracketMatching.matchingBracketPosition inTextView:textView];
-        I_bracketMatching.matchingBracketPosition=NSNotFound;
-    }
 
     TextStorage *textStorage = (TextStorage *) [textView textStorage];
     // take care for blockedit
 
+    if (![textStorage didBlockedit]) {
+        if (I_bracketMatching.matchingBracketPosition!=NSNotFound) {
+            [self TCM_highlightBracketAtPosition:I_bracketMatching.matchingBracketPosition inTextView:textView];
+            I_bracketMatching.matchingBracketPosition=NSNotFound;
+        }
+    }
+    
     if ([textStorage didBlockedit] && ![textStorage isBlockediting] && ![textView hasMarkedText]) {
         [textStorage beginEditing];
         NSRange lineRange=[textStorage didBlockeditLineRange];
