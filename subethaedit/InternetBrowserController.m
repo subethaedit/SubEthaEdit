@@ -231,12 +231,33 @@ static InternetBrowserController *sharedInstance = nil;
             port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
         }
         
+        NSData *addressData = nil;
         NSString *host = [url host];
-        struct in_addr pin;
-        if(inet_pton(AF_INET6, [[url host] UTF8String], &pin) == 1) {
-            host = [NSString stringWithFormat:@"[%@]", [url host]];
-        }
         
+        struct sockaddr_in6 address6;
+        bzero(&address6, sizeof(struct sockaddr_in6));
+        address6.sin6_len = sizeof(struct sockaddr_in6);
+        address6.sin6_family = AF_INET6;
+        address6.sin6_port = htons(port);
+        
+        struct sockaddr_in address;
+        bzero(&address, sizeof(struct sockaddr_in));
+        address.sin_len = sizeof(struct sockaddr_in);
+        address.sin_family = AF_INET;
+        address.sin_port = htons(port);        
+        
+        if(inet_pton(AF_INET6, [[url host] UTF8String], &(address6.sin6_addr)) == 1) {
+            addressData = [NSData dataWithBytes:&address6 length:sizeof(struct sockaddr_in6)];
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"inet_pton6 succeeded: %@", [NSString stringWithAddressData:addressData]);
+            host = [NSString stringWithFormat:@"[%@]", [url host]];
+        } else if (inet_pton(AF_INET, [[url host] UTF8String], &(address.sin_addr)) == 1) {
+            addressData = [NSData dataWithBytes:&address length:sizeof(struct sockaddr_in6)];
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"inet_pton succeeded: %@", [NSString stringWithAddressData:addressData]);
+            host = [url host];        
+        } else {
+            DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Neither IPv4 nor IPv6 address");
+        }
+                
         NSString *URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], host, port];
 
         // when I_data entry with URL exists, select entry
@@ -249,7 +270,12 @@ static InternetBrowserController *sharedInstance = nil;
                 [I_resolvingHosts removeObjectForKey:URLString];
                 [I_resolvedHosts removeObjectForKey:URLString];
                 
-                TCMHost *host = [TCMHost hostWithName:[url host] port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
+                TCMHost *host;
+                if (addressData) {
+                    host = [TCMHost hostWithAddressData:addressData port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
+                } else {
+                    host = [TCMHost hostWithName:[url host] port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
+                }
                 [I_resolvingHosts setObject:host forKey:URLString];
                 NSMutableDictionary *item = [I_data objectAtIndex:index];
                 [item setObject:HostEntryStatusResolving forKey:@"status"];

@@ -14,20 +14,24 @@
     id I_delegate;
     CFHostRef I_host;
     NSString *I_name;
+    NSMutableArray *I_names;
     unsigned short I_port;
+    NSData *I_address;
     NSMutableArray *I_addresses;
     NSDictionary *I_userInfo;
 }
 
 + (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
++ (TCMHost *)hostWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
 
 - (id)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
+- (id)initWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
 
 - (void)setDelegate:(id)delegate;
 - (id)delegate;
 
 - (NSArray *)addresses;
-- (NSString *)name;
+- (NSArray *)names;
 - (NSDictionary *)userInfo;
 
 - (void)checkReachability;

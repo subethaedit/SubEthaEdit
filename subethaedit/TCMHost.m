@@ -10,6 +10,9 @@
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <netinet/in.h>
+#import <netinet6/in6.h>
+#import <arpa/inet.h>
+#import <sys/socket.h>
 
 
 void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *error, void *myInfoPointer);
@@ -18,8 +21,11 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 @interface TCMHost (TCMHostPrivateAdditions)
 
 - (void)TCM_handleHostCallback:(CFHostRef)host typeInfo:(CFHostInfoType)typeInfo error:(const CFStreamError *)error;
-- (void)setName:(NSString *)name;
 - (void)setUserInfo:(NSDictionary *)userInfo;
+- (NSString *)name;
+- (void)setName:(NSString *)name;
+- (NSData *)address;
+- (void)setAddress:(NSData *)addr;
 
 @end
 
@@ -30,6 +36,11 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 + (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo
 {
     return [[[TCMHost alloc] initWithName:name port:port userInfo:userInfo] autorelease];
+}
+
++ (TCMHost *)hostWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo
+{
+    return [[[TCMHost alloc] initWithAddressData:addr port:port userInfo:userInfo] autorelease];
 }
 
 - (id)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo
@@ -50,6 +61,29 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         CFHostScheduleWithRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
         
         I_addresses = [NSMutableArray new];
+        I_names = [NSMutableArray new];
+    }
+    return self;
+}
+
+- (id)initWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo
+{    self = [super init];
+    if (self) {
+    
+        I_host = CFHostCreateWithAddress(NULL, (CFDataRef)addr);
+        if (I_host == nil) {
+            return nil;
+        }
+        
+        [self setAddress:addr];
+        [self setUserInfo:userInfo];
+        I_port = port;
+        CFHostClientContext context = {0, self, NULL, NULL, NULL};
+        CFHostSetClient(I_host, myCallback, &context);
+        CFHostScheduleWithRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+        
+        I_addresses = [NSMutableArray new];
+        I_names = [NSMutableArray new];
     }
     return self;
 }
@@ -61,6 +95,8 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     CFHostSetClient(I_host, NULL, NULL);
     CFRelease(I_host);
     [I_name release];
+    [I_names release];
+    [I_address release];
     [I_addresses release];
     [I_userInfo release];
     [super dealloc];
@@ -74,6 +110,17 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 - (id)delegate
 {
     return I_delegate;
+}
+
+- (void)setAddress:(NSData *)addr
+{
+    [I_address autorelease];
+    I_address = [addr retain];
+}
+
+- (NSData *)address
+{
+    return I_address;
 }
 
 - (NSArray *)addresses
@@ -90,6 +137,11 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 - (NSString *)name
 {
     return I_name;
+}
+
+- (NSArray *)names
+{
+    return I_names;
 }
 
 - (void)setUserInfo:(NSDictionary *)userInfo
@@ -141,8 +193,12 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         NSData *address;
         while ((address = [addresses nextObject])) {            
             NSMutableData *mutableAddressData = [address mutableCopy];
-            struct sockaddr_in *address = (struct sockaddr_in *)[mutableAddressData mutableBytes];
-            address->sin_port = htons(I_port);
+            struct sockaddr *address = (struct sockaddr *)[mutableAddressData mutableBytes];
+            if (address->sa_family == AF_INET) {
+                ((struct sockaddr_in *)address)->sin_port = htons(I_port);
+            } else if (address->sa_family == AF_INET6) {
+                ((struct sockaddr_in6 *)address)->sin6_port = htons(I_port);
+            }
             //NSLog(@"resolved address: %@", [NSString stringWithAddressData:mutableAddressData]);
             [I_addresses addObject:mutableAddressData];
             [mutableAddressData release];
