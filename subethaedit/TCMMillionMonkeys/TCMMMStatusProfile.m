@@ -54,7 +54,6 @@
         if ([[aMessage payload] length]>=6) {
             unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
             if (strncmp(bytes,"USRFUL",6)==0) {
-                // TODO: validate userID
                 TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
 				if (user && [[user userID] isEqualToString:[[[self session] userInfo] objectForKey:@"peerUserID"]]) {
 					[[TCMMMUserManager sharedInstance] addUser:user];
@@ -74,8 +73,12 @@
             unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
             if (strncmp(bytes,"USRCHG",6)==0) {
                 TCMMMUser *user=[TCMMMUser userWithBencodedNotification:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
-                if ([[TCMMMUserManager sharedInstance] sender:self shouldRequestUser:user]) {
-                    [self requestUser];
+                if (user) {
+                    if ([[TCMMMUserManager sharedInstance] sender:self shouldRequestUser:user]) {
+                        [self requestUser];
+                    }
+                } else {
+                    [[self session] terminate];
                 }
             } else if (strncmp(bytes,"USRREQ",6)==0) {
                 NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];

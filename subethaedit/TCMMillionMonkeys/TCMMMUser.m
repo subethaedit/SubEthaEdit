@@ -33,7 +33,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     [user setName:[aNotificationDict objectForKey:@"name"]];
     [user setUserID:userID];
     [user setChangeCount:[[aNotificationDict objectForKey:@"cnt"] longLongValue]];
-    return [user autorelease];
+    return user;
 }
 
 
