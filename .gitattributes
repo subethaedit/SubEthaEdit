@@ -34,3 +34,15 @@ prototype/TCMXMLParser/TCMXMLParser_Prefix.pch -text
 prototype/TCMXMLParser/expat.h -text
 prototype/TCMXMLParser/libexpat.a -text
 prototype/TCMXMLParser/main.m -text
+prototype/xmpp/Controller.h -text
+prototype/xmpp/Controller.m -text
+prototype/xmpp/XMLParser.h -text
+prototype/xmpp/XMLParser.m -text
+prototype/xmpp/XMLStream.h -text
+prototype/xmpp/XMLStream.m -text
+prototype/xmpp/expat.h -text
+prototype/xmpp/libexpat.a -text
+prototype/xmpp/main.m -text
+prototype/xmpp/xmpp.1 -text
+prototype/xmpp/xmpp.xcode/project.pbxproj -text
+prototype/xmpp/xmpp_Prefix.pch -text

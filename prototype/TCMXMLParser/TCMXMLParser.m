@@ -17,9 +17,11 @@
 
 @end
 
+#pragma mark -
+
 @implementation TCMXMLParser (TCMXMLParserPrivateAdditions)
 
-- (int)CM_parsingCDATA
+- (BOOL)CM_parsingCDATA
 {
     return CM_parsingCDATA;
 }
@@ -42,8 +44,10 @@
 
 @end
 
-#pragma mark ### Handler functions ###
-int getElementAndNamespaceFromUTF8String(const XML_Char *string,NSString **element, NSString **namespace) {
+#pragma mark -
+
+int getElementAndNamespaceFromUTF8String(const XML_Char *string,NSString **element, NSString **namespace)
+{
     NSString *nameString=[[NSString alloc] initWithUTF8String:string];
     NSArray  *elementAndNamespace=[nameString componentsSeparatedByString:@"|"];
     *element  =@"";
@@ -68,10 +72,10 @@ static void StartElementHandler(void *userData, const XML_Char *name, const XML_
         getElementAndNamespaceFromUTF8String(name, &element, &namespaceURI);
         
         NSMutableDictionary *attributeDictionary=[NSMutableDictionary dictionary];
-        int loop=0;
-        for (loop=0;attributes[loop];loop+=2) {
-            [attributeDictionary setValue:[NSString stringWithUTF8String:attributes[loop  ]]
-                                   forKey:[NSString stringWithUTF8String:attributes[loop+1]] ];
+        int loop = 0;
+        for (loop = 0; attributes[loop]; loop += 2) {
+            [attributeDictionary setValue:[NSString stringWithUTF8String:attributes[loop + 1]]
+                                   forKey:[NSString stringWithUTF8String:attributes[loop]]];
         }
         [delegate parser:parser didStartElement:element 
                   namespaceURI:namespaceURI attributes:attributeDictionary]; 
@@ -183,11 +187,10 @@ static void ProcessingInstructionHandler(void *userData, const XML_Char *target,
     }
 }
 
-#pragma mark 
+#pragma mark -
 
 @implementation TCMXMLParser
 
-#pragma mark ### Initializers, etc. ###
 
 + (TCMXMLParser *)XMLParser
 {
@@ -195,8 +198,9 @@ static void ProcessingInstructionHandler(void *userData, const XML_Char *target,
     return [XMLParser autorelease];
 }
 
-- (id)init {
-    self=[super init];
+- (id)init
+{
+    self = [super init];
     if (self) {
         CM_expatParser=XML_ParserCreateNS(nil,(XML_Char) '|');
         XML_SetUserData      (CM_expatParser,(void *)self);
@@ -215,8 +219,10 @@ static void ProcessingInstructionHandler(void *userData, const XML_Char *target,
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     XML_ParserFree(CM_expatParser);
+    [CM_CDATA release];
     [super dealloc];
 }
 
