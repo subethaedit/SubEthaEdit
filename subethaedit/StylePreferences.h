@@ -16,11 +16,13 @@
 @interface StylePreferences : TCMPreferenceModule {
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSObjectController *O_modeController;
-    IBOutlet TableView *O_baseStyleTableView;
-    IBOutlet TableView *O_remainingStylesTableView;
+    IBOutlet TableView *O_stylesTableView;
     NSMutableDictionary *I_baseStyleDictionary;
     NSFont *I_baseFont;
     SyntaxStyle *I_currentSyntaxStyle;
+    IBOutlet NSButton *O_boldButton,*O_italicButton;
+    IBOutlet NSColorWell *O_colorWell, *O_invertedColorWell, 
+                         *O_backgroundColorWell,*O_invertedBackgroundColorWell;
 }
 
 - (IBAction)changeMode:(id)aSender;

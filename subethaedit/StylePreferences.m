@@ -49,10 +49,8 @@
     [self changeMode:O_modePopUpButton];
     
     // Set tableview to non highlighting cells
-    [[[O_baseStyleTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
-    [[[O_baseStyleTableView tableColumns] objectAtIndex:1] setDataCell:[[TextFieldCell new] autorelease]];
-    [[[O_remainingStylesTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
-    [[[O_remainingStylesTableView tableColumns] objectAtIndex:1] setDataCell:[[TextFieldCell new] autorelease]];
+//    [[[O_stylesTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
+//    [[[O_stylesTableView tableColumns] objectAtIndex:1] setDataCell:[[TextFieldCell new] autorelease]];
 
 }
 
@@ -61,23 +59,93 @@
     //DocumentMode *selectedMode=[O_modeController content];
 }
 
+- (void)updateBackgroundColor {
+    NSDictionary *baseStyle=[I_currentSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier];
+    [O_stylesTableView setLightBackgroundColor:[baseStyle objectForKey:@"background-color"]];
+    [O_stylesTableView setDarkBackgroundColor: [baseStyle objectForKey:@"inverted-background-color"]];
+    [O_stylesTableView reloadData];
+}
+
+#define BUFFERSIZE 40
+#define UNITITIALIZED -5
+#define MANY  -4 
+
+- (void)updateInspector {
+    int bold=UNITITIALIZED, italic=UNITITIALIZED, manyColors=NO,manyInvertedColors=NO;
+    unsigned int indexBuffer[BUFFERSIZE];
+    NSColor *color=nil,*invertedColor=nil;
+    NSArray *allKeys=[I_currentSyntaxStyle allKeys];
+    NSIndexSet *selectedRows=[O_stylesTableView selectedRowIndexes];
+    NSRange range=NSMakeRange(0,NSNotFound);
+    int count;
+    while ((count=[selectedRows getIndexes:indexBuffer maxCount:BUFFERSIZE inIndexRange:&range])) {
+        int i=0;
+        for (i=0;i<count;i++) {
+            unsigned int index=indexBuffer[i];
+            NSString *key=[allKeys objectAtIndex:index];
+            NSDictionary *style=[I_currentSyntaxStyle styleForKey:key];
+            if (bold!=MANY) {
+                BOOL innerBold=([[style objectForKey:@"font-trait"] unsignedIntValue] & NSBoldFontMask);
+                if (bold==UNITITIALIZED) {
+                    bold=innerBold;
+                } else {
+                    if (bold!=innerBold) {
+                        bold=MANY;
+                    }
+                }
+            }
+            if (italic!=MANY) {
+                BOOL innerItalic=([[style objectForKey:@"font-trait"] unsignedIntValue] & NSItalicFontMask);
+                if (italic==UNITITIALIZED) {
+                    italic=innerItalic;
+                } else {
+                    if (italic!=innerItalic) {
+                        italic=MANY;
+                    }
+                }
+            }
+            if (!manyColors) {
+                NSColor *innerColor=[style objectForKey:@"color"];
+                if (!color) {
+                    color=innerColor;
+                } else {
+                    if (![[color HTMLString] isEqualToString:[innerColor HTMLString]]) {
+                        manyColors=YES;
+                    }
+                }
+            }
+            if (!manyInvertedColors) {
+                NSColor *innerColor=[style objectForKey:@"inverted-color"];
+                if (!invertedColor) {
+                    invertedColor=innerColor;
+                } else {
+                    if (![[invertedColor HTMLString] isEqualToString:[innerColor HTMLString]]) {
+                        manyInvertedColors=YES;
+                    }
+                }
+            }
+        }
+    }
+    
+    [O_italicButton setAllowsMixedState:italic==MANY];
+    [O_italicButton setState:italic==MANY?NSMixedState:(italic?NSOnState:NSOffState)];
+    [O_boldButton   setAllowsMixedState:bold==MANY];
+    [O_boldButton   setState:bold  ==MANY?NSMixedState:(bold  ?NSOnState:NSOffState)];
+    [O_colorWell setColor:color];
+    [O_invertedColorWell setColor:invertedColor];
+}
+
 - (IBAction)changeMode:(id)aSender {
 
     DocumentMode *newMode=[aSender selectedMode];
     [O_modeController setContent:newMode];
     NSDictionary *fontAttributes = [newMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-    NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:12.];
-    if (!font) font=[NSFont userFixedPitchFontOfSize:12.];
+    NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
+    if (!font) font=[NSFont userFixedPitchFontOfSize:11.];
     [self setBaseFont:font];
     [self validateDefaultsState:aSender];
     I_currentSyntaxStyle=[newMode syntaxStyle];
-    NSDictionary *baseStyle=[I_currentSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier];
-    [O_baseStyleTableView setLightBackgroundColor:[baseStyle objectForKey:@"background-color"]];
-    [O_baseStyleTableView setDarkBackgroundColor: [baseStyle objectForKey:@"inverted-background-color"]];
-    [O_baseStyleTableView reloadData];
-    [O_remainingStylesTableView setLightBackgroundColor:[baseStyle objectForKey:@"background-color"]];
-    [O_remainingStylesTableView setDarkBackgroundColor: [baseStyle objectForKey:@"inverted-background-color"]];
-    [O_remainingStylesTableView reloadData];
+    [self updateBackgroundColor];
 }
 
 - (void)didUnselect {
@@ -96,17 +164,10 @@
 
 #pragma mark TableView DataSource
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {
-    if (aTableView == O_baseStyleTableView) {
-        return 1;
-    } else {
-        return [[I_currentSyntaxStyle allKeys] count]-1;
-    }
+    return [[I_currentSyntaxStyle allKeys] count];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)aRow {
-    if (aTableView == O_remainingStylesTableView) {
-        aRow+=1;
-    }
     NSString *key=[[I_currentSyntaxStyle allKeys] objectAtIndex:aRow];
     NSDictionary *style=[I_currentSyntaxStyle styleForKey:key];
     NSString *localizedString=[I_currentSyntaxStyle localizedStringForKey:key];
@@ -114,6 +175,10 @@
         [[aTableColumn identifier]isEqualToString:@"light"]?[style objectForKey:@"color"]:[style objectForKey:@"inverted-color"],NSForegroundColorAttributeName,
         nil];
     return [[[NSAttributedString alloc] initWithString:localizedString attributes:attributes] autorelease];
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
+    [self updateInspector];
 }
 
 
