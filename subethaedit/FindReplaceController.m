@@ -417,31 +417,42 @@ static FindReplaceController *sharedInstance=nil;
     while (YES) {
         i--;
         if (i<0) break;
+        
+        
         NSRange foundRange = [I_replaceAllText findString:I_replaceAllFindString selectedRange:I_replaceAllPosRange options:I_replaceAllOptions wrap:NO];
+        NSLog(@"%@",NSStringFromRange(foundRange));        
         if (foundRange.length) {
-            if (foundRange.location < I_replaceAllRange.location) break;
+            if (foundRange.location < I_replaceAllRange.location) {
+                I_replaceAllPosRange = NSMakeRange(0,0);
+                break;
+            }
             if (I_replaceAllReplaced==0) {
                 PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
                 [[aDocument session] pauseProcessing];
                 [self lockDocument:aDocument];
-                [[aDocument undoManager] beginUndoGrouping];
+                [[aDocument documentUndoManager] beginUndoGrouping];
             }
             [I_replaceAllText replaceCharactersInRange:foundRange withString:I_replaceAllReplaceString];
             [[I_replaceAllTarget textStorage] addAttributes:I_replaceAllAttributes range:NSMakeRange(foundRange.location, [I_replaceAllReplaceString length])];
             I_replaceAllReplaced++;
             I_replaceAllPosRange.location = foundRange.location;
-        } else {
+        }
+        // second condition is hit if foundRange.location = 0
+        if ((!foundRange.length)||(foundRange.location = I_replaceAllRange.location)) {
             [[I_replaceAllTarget textStorage] endEditing];
             [I_replaceAllFindString release];
             [I_replaceAllReplaceString release];
             [I_replaceAllTarget release];
             [I_replaceAllText release];
+            [I_replaceAllAttributes release];
+            
             if (I_replaceAllReplaced==0) {
                 [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
                 NSBeep();
             } else {
+                [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
                 PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
-                [[aDocument undoManager] endUndoGrouping];
+                [[aDocument documentUndoManager] endUndoGrouping];
                 [[aDocument session] startProcessing];
                 [self unlockDocument:aDocument];
             }
@@ -470,7 +481,7 @@ static FindReplaceController *sharedInstance=nil;
             PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
             [[aDocument session] pauseProcessing];
             [self lockDocument:aDocument];
-            [[aDocument undoManager] beginUndoGrouping];
+            [[aDocument documentUndoManager] beginUndoGrouping];
         }
 
         [I_replaceAllText replaceCharactersInRange:matchedRange withString:replaceWith];
@@ -492,12 +503,13 @@ static FindReplaceController *sharedInstance=nil;
         [I_replaceAllText release];
         [I_replaceAllRepex release];
         [I_replaceAllRegex release];
+        [I_replaceAllAttributes release];
         if (I_replaceAllReplaced==0) {
             [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
             NSBeep();
         } else {
             PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
-            [[aDocument undoManager] endUndoGrouping];
+            [[aDocument documentUndoManager] endUndoGrouping];
             [self unlockDocument:aDocument];
             [[aDocument session] startProcessing];
             [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
@@ -545,7 +557,7 @@ static FindReplaceController *sharedInstance=nil;
             I_replaceAllRange = aRange;
             I_replaceAllText = [text retain];
             I_replaceAllTarget = [target retain];
-            
+
             [O_statusTextField setStringValue:@""];
             [O_statusTextField setHidden:NO];
             [self replaceAFewPlainMatches];
