@@ -2499,7 +2499,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (I_flags.isRemotelyEditingTextStorage) {
             [[self documentUndoManager] transformStacksWithOperation:operation];
         } else {
-            [[[[self topmostWindowController] activePlainTextEditor] textView] setSelectedRange:NSMakeRange([operation affectedCharRange].location+[[operation replacementString] length],0)];
+            NSTextView *textView=[[[self topmostWindowController] activePlainTextEditor] textView];
+            [textView setSelectedRange:NSMakeRange([operation affectedCharRange].location+[[operation replacementString] length],0)];
+            [textView scrollRangeToVisible:[textView selectedRange]];
         }
         I_flags.isRemotelyEditingTextStorage=NO;
     } else if ([[aOperation operationID] isEqualToString:[SelectionOperation operationID]]){

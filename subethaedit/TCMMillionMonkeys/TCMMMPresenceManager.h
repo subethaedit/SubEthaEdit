@@ -37,6 +37,7 @@ extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotifica
 + (TCMMMPresenceManager *)sharedInstance;
 
 - (TCMMMStatusProfile *)statusProfileForUserID:(NSString *)aUserID;
+- (void)stopRendezvousBrowsing;
 - (void)startRendezvousBrowsing;
 - (BOOL)isVisible;
 - (void)setVisible:(BOOL)aFlag;

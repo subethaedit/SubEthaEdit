@@ -32,7 +32,10 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostCancelledNotificatio
 
 + (TCMMMBEEPSessionManager *)sharedInstance;
 - (BOOL)listen;
+- (void)stopListening;
 - (int)listeningPort;
+
+- (void)terminateAllBEEPSessions;
 
 - (void)setIsProhibitingInboundInternetSessions:(BOOL)flag;
 - (BOOL)isProhibitingInboundInternetSessions;
