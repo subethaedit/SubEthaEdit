@@ -1356,6 +1356,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"img"];
             [fileManager createDirectoryAtPath:imageDirectory attributes:nil];
         }
+        
+        TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+        NSMutableString *metaHeaders=[NSMutableString string];
+        NSCalendarDate *now=[NSCalendarDate calendarDate];
+        NSString *metaFormatString=@"<meta name=\"%@\" content=\"%@\" />\n";
+        [metaHeaders appendFormat:metaFormatString,@"last-modified",[now rfc1123Representation]];
+        [metaHeaders appendFormat:metaFormatString,@"DC.Date",[now descriptionWithCalendarFormat:@"%Y-%m-%d"]];
+        [metaHeaders appendFormat:metaFormatString,@"DC.Creator",[[[userManager me] name] stringByReplacingEntities]];
+        
       
         NSMutableSet *shortContributorIDs=[[NSMutableSet new] autorelease];
         
@@ -1380,6 +1389,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         TCMMMUser *contributor=nil;
         NSCharacterSet *validCharacters=[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
         while ((contributor=[contributorEnumerator nextObject])) {
+            [metaHeaders appendFormat:metaFormatString,@"DC.Contributor",[[contributor name] stringByReplacingEntities]];
+
             NSScanner *scanner=[NSScanner scannerWithString:[contributor name]];
             [scanner setCharactersToBeSkipped:[validCharacters invertedSet]];
             NSMutableString *IDBasis=[NSMutableString string];
@@ -1412,7 +1423,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             } else {
                 [lurkerDictionaries addObject:dictionary];
             }
-            
         }
     
         NSSortDescriptor *nameDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"User.name" 
@@ -1562,7 +1572,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     
         // finish creation :-)    
-        NSString *result=[NSString stringWithFormat:documentBase,displayName,styleSheet,legend,content];
+        NSString *result=[NSString stringWithFormat:documentBase,displayName,styleSheet,legend,content,metaHeaders];
         [[result dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:htmlFile atomically:YES];
         if (!I_flags.highlightSyntax && 
             [[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
