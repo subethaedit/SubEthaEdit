@@ -120,7 +120,13 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     if (!userID) {
         // first run
         userID=[NSString UUIDString];
-        [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"UserID"];
+        
+        CFStringRef appID = (CFStringRef)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+        // Set up the preference.
+        CFPreferencesSetValue(CFSTR("UserID"), (CFStringRef)userID, appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+        // Write out the preference data.
+        CFPreferencesSynchronize(appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+                
         // select random color
         // set basic user data 
         if (meCard) {

@@ -2174,6 +2174,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                         didEndSelector:nil
                                            contextInfo:NULL];              
                 } else {
+                    BOOL isEdited = [self isDocumentEdited];
                     [I_textStorage beginEditing];
                     [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
                     [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
@@ -2184,9 +2185,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             
                     [I_textStorage endEditing];
                     
+                    [[self documentUndoManager] removeAllActions];
                     [reinterpretedString release];
                     [self setFileEncoding:encoding];
-                    [self updateChangeCount:NSChangeDone];            
+                    if (!isEdited) {
+                        [self updateChangeCount:NSChangeCleared];
+                    }
                 }
             }
         }
@@ -2200,6 +2204,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSTextView *textView = [alertContext objectForKey:@"TextView"];
             [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
         }
+        [[self documentUndoManager] removeAllActions];
+
     } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {
             [self setKeepDocumentVersion:YES];
