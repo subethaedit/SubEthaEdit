@@ -12,6 +12,7 @@
 #import "SyntaxDefinition.h"
 #import "EncodingManager.h"
 #import "SymbolTableEntry.h"
+#import "RegexSymbolParser.h"
 
 
 NSString * const DocumentModeEncodingPreferenceKey             = @"Encoding";
@@ -150,34 +151,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (NSArray *)symbolArrayForTextStorage:(NSTextStorage *)aTextStorage {
-    NSMutableArray *array=[NSMutableArray array];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"@class MainClass" 
-            fontTraitMask:NSBoldFontMask | NSItalicFontMask image:[NSImage imageNamed:@"SymbolC"] 
-            type:@"Class" jumpRange:NSMakeRange (5,10) range:NSMakeRange(4,100)]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"-blah:" 
-            fontTraitMask:NSItalicFontMask image:[NSImage imageNamed:@"SymbolM"] 
-            type:@"Method" jumpRange:NSMakeRange (14,10) range:NSMakeRange(14,20)]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"-fasel:" 
-            fontTraitMask:NSItalicFontMask image:[NSImage imageNamed:@"SymbolM"] 
-            type:@"Method" jumpRange:NSMakeRange (36,10) range:NSMakeRange(36,20)]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntrySeparator]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"@class MainClass" 
-            fontTraitMask:NSBoldFontMask image:[NSImage imageNamed:@"SymbolC"] 
-            type:@"Class" jumpRange:NSMakeRange (65,10) range:NSMakeRange(64,100)]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"-blah:" 
-            fontTraitMask:0 image:[NSImage imageNamed:@"SymbolM"] 
-            type:@"Method" jumpRange:NSMakeRange (74,10) range:NSMakeRange(74,20)]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"-fasel:" 
-            fontTraitMask:0 image:[NSImage imageNamed:@"SymbolM"] 
-            type:@"Method" jumpRange:NSMakeRange (106,10) range:NSMakeRange(106,20)]];
-    return array;
+    RegexSymbolParser *symbolParser = [[RegexSymbolParser init]alloc];
+    NSArray *returnArray = [symbolParser symbolsForTextStorage:aTextStorage];
+    [RegexSymbolParser release];
+    return returnArray;
 }
 
 
