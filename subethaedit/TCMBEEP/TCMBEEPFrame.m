@@ -84,17 +84,17 @@
     if (self) {
         I_answerNumber = -1;
         BOOL error = NO;
-        if (sscanf(aHeaderString, "%3s %d %d %1s %d %d\r",
+        if (sscanf(aHeaderString, "%3s %d %d %1s %u %d\r",
                     I_messageType, &I_channelNumber, &I_messageNumber,
                     I_continuationIndicator, &I_sequenceNumber, &I_length) == 6) {
             
-        } else if (sscanf(aHeaderString,"%3s %d %d %1s %d %d %d\r",
+        } else if (sscanf(aHeaderString,"%3s %d %d %1s %u %d %d\r",
                     I_messageType, &I_channelNumber, &I_messageNumber,
                     I_continuationIndicator, &I_sequenceNumber, &I_length, &I_answerNumber) == 7) {
             if (!(strcmp(I_messageType, "ANS"))) {
                 error = YES;
             }
-        } else if (sscanf(aHeaderString, "%3s %d %d %d\r", I_messageType, &I_channelNumber, &I_sequenceNumber, &I_length) == 4) {
+        } else if (sscanf(aHeaderString, "%3s %d %u %d\r", I_messageType, &I_channelNumber, &I_sequenceNumber, &I_length) == 4) {
         
         } else {
             error = YES;
@@ -119,7 +119,7 @@
     if ([self isSEQ]) {
         return [NSString stringWithFormat:@"%3s %d %u %d", I_messageType, I_channelNumber, I_sequenceNumber, I_length];
     } else {
-        return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %d %d - Payload length: %d", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length, [I_payload length]];
+        return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %u %d - Payload length: %d", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length, [I_payload length]];
     }
 }
 
@@ -133,7 +133,7 @@
         return data;
     }
     
-    NSString *header = [NSString stringWithFormat:@"%@%3s %d %d %1s %d %d\r\n", prefix, I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length];
+    NSString *header = [NSString stringWithFormat:@"%@%3s %d %d %1s %u %d\r\n", prefix, I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length];
     [data appendData:[header dataUsingEncoding:NSASCIIStringEncoding]];
     NSString *payloadString = [[[NSString alloc] initWithData:I_payload encoding:NSMacOSRomanStringEncoding] autorelease];
     NSArray *components = [payloadString componentsSeparatedByString:@"\r\n"];
