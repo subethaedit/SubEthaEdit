@@ -233,7 +233,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 }
 
 - (void)startTerminator {
-    if (!I_terminateTimer) {
+    if (!I_terminateTimer && I_timeout) {
         I_terminateTimer = [[NSTimer timerWithTimeInterval:I_timeout
                                                     target:self 
                                                   selector:@selector(terminate)

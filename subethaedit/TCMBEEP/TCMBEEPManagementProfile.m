@@ -71,7 +71,9 @@
     TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[[self channel] nextMessageNumber] payload:payload];
     [[self channel] sendMessage:[message autorelease]];
     
-    I_keepBEEPTimer = [[NSTimer timerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey]/3.0 
+    NSTimeInterval timeout=[[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey]/3.0;
+    if (!timeout) timeout=20.;
+    I_keepBEEPTimer = [[NSTimer timerWithTimeInterval:timeout
                                                target:self 
                                              selector:@selector(sendKeepBEEP:)
                                              userInfo:nil
