@@ -1360,6 +1360,10 @@ static NSString *tempFileName(NSString *origPath) {
     if (!I_flags.isRemotelyEditingTextStorage) {
         TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
         [[self session] documentDidApplyOperation:textOp];
+    } else {
+        if ([aTextStorage length]==[aString length]) {
+            [aTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
+        }
     }
     if (I_flags.highlightSyntax) {
         if ([aString length]) {
@@ -1376,6 +1380,7 @@ static NSString *tempFileName(NSString *origPath) {
 
     if (I_flags.showMatchingBrackets &&
         ![[self undoManager] isUndoing] && ![[self undoManager] isRedoing] &&
+        !I_flags.isRemotelyEditingTextStorage &&
 //        !I_blockedit.isBlockediting && !I_blockedit.didBlockedit &&
         [aString length]==1 && 
         [self TCM_charIsBracket:[aString characterAtIndex:0]]) {
