@@ -306,6 +306,9 @@ subethaedit/English.lproj/Preferences.strings -text
 subethaedit/English.lproj/PrintOptions.nib/classes.nib -text
 subethaedit/English.lproj/PrintOptions.nib/info.nib -text
 subethaedit/English.lproj/PrintOptions.nib/keyedobjects.nib -text
+subethaedit/English.lproj/PrintPrefs.nib/classes.nib -text
+subethaedit/English.lproj/PrintPrefs.nib/info.nib -text
+subethaedit/English.lproj/PrintPrefs.nib/keyedobjects.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/classes.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/info.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
@@ -802,6 +805,8 @@ subethaedit/PopUpButtonCell.m -text
 subethaedit/Preferences.nib/classes.nib -text
 subethaedit/Preferences.nib/info.nib -text
 subethaedit/Preferences.nib/keyedobjects.nib -text
+subethaedit/PrintPreferences.h -text
+subethaedit/PrintPreferences.m -text
 subethaedit/PrintTextView.h -text
 subethaedit/PrintTextView.m -text
 subethaedit/PrintTypesetter.h -text
@@ -957,6 +962,7 @@ subethaedit/artwork/PreviousChange.png -text
 subethaedit/artwork/PreviousChange.psd -text
 subethaedit/artwork/PreviousSymbol.png -text
 subethaedit/artwork/PreviousSymbol.tiff -text
+subethaedit/artwork/PrintPrefs.tiff -text
 subethaedit/artwork/Rendezvous.psd -text
 subethaedit/artwork/ScriptMenu.tiff -text
 subethaedit/artwork/ShiftLeft.png -text

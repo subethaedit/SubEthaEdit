@@ -21,6 +21,8 @@
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
+#import "PrintPreferences.h"
+
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 #import "DocumentModeManager.h"
@@ -302,6 +304,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [TCMPreferenceController registerPrefModule:generalPrefs];
     EditPreferences *editPrefs = [[EditPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:editPrefs];
+    [TCMPreferenceController registerPrefModule:[[PrintPreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[AdvancedPreferences new] autorelease]];
     
 #ifndef TCM_NO_DEBUG

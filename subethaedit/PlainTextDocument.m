@@ -2911,7 +2911,7 @@ static NSString *S_measurementUnits;
     if (showPanels) {
         // Add accessory view, if needed
         [op setAccessoryView:O_printOptionView];
-        [O_printOptionController setContent:[op printInfo]];
+        [O_printOptionController setContent:[[op printInfo] dictionary]];
     }
     I_printOperationIsRunning=YES;
     // Run operation, which shows the Print panel if showPanels was YES
@@ -2922,11 +2922,14 @@ static NSString *S_measurementUnits;
 }
 
 - (void)documentDidRunModalPrintOperation:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
+    DEBUGLOG(@"Blah",AlwaysLogLevel,@"blah");
+
     I_printOperationIsRunning=NO;
     NSPrintOperation *op=(NSPrintOperation *)contextInfo;
     if (success) {
         [self setPrintInfo:[[NSPrintOperation currentOperation] printInfo]];
     }
+    [O_printOptionController setContent:nil];
     [op release];
 }
 
