@@ -890,7 +890,7 @@
         
         <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
             <begin><string>@?"</string></begin>
-            <end><regex>([^\\]"|^")</regex></end>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
     </states>
 

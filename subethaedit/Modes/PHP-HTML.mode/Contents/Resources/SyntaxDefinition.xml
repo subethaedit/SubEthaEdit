@@ -3561,12 +3561,12 @@
         
         <state id="String" color="#EB7300" background-color="none" font-weight="normal" font-style="normal">
             <begin><string>"</string></begin>
-            <end><regex>([^\\]"|^")</regex></end>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
 
         <state id="String2" color="#EB7300" background-color="none" font-weight="normal" font-style="normal">
             <begin><string>'</string></begin>
-            <end><regex>([^\\]'|^')</regex></end>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
 
         <state id="HTML" color="#000" background-color="none" font-weight="normal" font-style="normal">
