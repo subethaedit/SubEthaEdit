@@ -405,7 +405,7 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 99512513;
+			PBXPerProjectTemplateStateSaveDate = 99566775;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -702,15 +702,13 @@
 					PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 						PBXSplitModuleInNavigatorKey = {
 							Split0 = {
-								bookmark = 1464B80305EEAF4800D21A18;
 								history = (
 									1464B41F05EE97B500D21A18,
-									1464B43F05EEA99400D21A18,
+									1464B42005EE97B500D21A18,
 								);
 								prevStack = (
 									144BC7AE05EE3A41006397BC,
 									144BC7AF05EE3A41006397BC,
-									1464B42105EE97B500D21A18,
 								);
 							};
 							SplitCount = 1;
@@ -728,7 +726,7 @@
 						};
 					};
 					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {586, 436}}";
-					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 207}, {586, 229}}";
+					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 0}, {750, 480}}";
 					PBXProjectWorkspaceModule_OldSuperviewFrame = "{{241, 0}, {586, 436}}";
 					PBXProjectWorkspaceModule_SGTM = {
 						PBXBottomSmartGroupGIDs = (
@@ -754,11 +752,12 @@
 							PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
 								2A37F4AAFDCFA73011CA2CEA,
 								2A37F4ABFDCFA73011CA2CEA,
+								2A37F4B8FDCFA73011CA2CEA,
 								1C37FBAC04509CD000000102,
 							);
 							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								(
-									14,
+									11,
 									1,
 									0,
 								),
@@ -832,14 +831,14 @@
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "74 304 827 478 0 0 1280 832 ";
+				RubberWindowFrame = "159 342 827 478 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {738, 239}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "526 151 738 260 0 0 1280 832 ";
+				RubberWindowFrame = "529 147 738 260 0 0 1280 832 ";
 			};
-			PBXWorkspaceStateSaveDate = 99512513;
+			PBXWorkspaceStateSaveDate = 99566775;
 		};
 		perUserProjectItems = {
 			144BC78805EE3214006397BC = 144BC78805EE3214006397BC;

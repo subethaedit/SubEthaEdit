@@ -157,6 +157,14 @@ static NSMutableDictionary *registeredPrefModules;
 
 - (void)windowWillClose:(NSNotification *)aNotification
 {
+    id module = [registeredPrefModules objectForKey:[self selectedItemIdentifier]];
+    if (module) {
+        NSPreferencePaneUnselectReply reply = [module shouldUnselect];
+        if (reply == NSUnselectNow) {
+            [module willUnselect];
+            [module didUnselect];
+        }
+    }
 }
 
 #pragma mark -

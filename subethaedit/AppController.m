@@ -8,10 +8,6 @@
 
 #import <AddressBook/AddressBook.h>
 
-#include <stdio.h>
-#include <pwd.h>
-#include <unistd.h>
-
 #import "AppController.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
@@ -51,7 +47,7 @@
         } else if (lastName!=nil) {
             myName=lastName;
         } else {
-            myName=[NSString stringWithUTF8String:getpwnam(getlogin())->pw_gecos];
+            myName=NSFullUserName();
         }
         NSData  *imageData;
         if (imageData=[meCard imageData]) {
@@ -61,7 +57,7 @@
             myImage=[NSImage imageNamed:@"DefaultPerson.tiff"];
         }
     } else {
-        myName=[NSString stringWithUTF8String:getpwnam(getlogin())->pw_gecos];
+        myName=NSFullUserName();
         myImage=[NSImage imageNamed:@"DefaultPerson.tiff"];
     }
     
@@ -127,8 +123,7 @@
         }
     }
     
-    // Announce ourselves via rendevous
-    NSString *serviceName=[[NSHost currentHost] name];
+    // Announce ourselves via rendezvous
     I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_emac._tcp." name:@"" port:I_listeningPort];
     TCMMMUser *me=[[TCMMMUserManager sharedInstance] me];
     [I_netService setProtocolSpecificInformation:[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001version=2",[me name],[me ID]]];
