@@ -1,0 +1,18 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {stopAndRestart = id; }; 
+            CLASS = RendezvousBrowserController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_addressTableView" = NSTableView; 
+                "O_addressesController" = NSArrayController; 
+                "O_serviceController" = NSArrayController; 
+                "O_servicesController" = NSArrayController; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
