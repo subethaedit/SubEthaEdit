@@ -716,18 +716,16 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     unsigned startIndex,lineEndIndex,contentsEndIndex;
     while (index!=0) {
         [[self string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(index-1,0)];
-        if (contentsEndIndex!=lineEndIndex) {
-            unsigned firstNonWhitespace=startIndex;
-            NSString *string=[self string];
-            while (firstNonWhitespace<contentsEndIndex &&
-                   [string characterAtIndex:firstNonWhitespace]==' ') {
-                firstNonWhitespace++;
-            }
-            if (firstNonWhitespace>startIndex) {
-                NSRange replaceRange=NSMakeRange(startIndex,firstNonWhitespace-startIndex);
-                [self replaceCharactersInRange:replaceRange
-                      withString:[@"" stringByPaddingToLength:replaceRange.length withString:hardspaceString startingAtIndex:0]];
-            }
+        unsigned firstNonWhitespace=startIndex;
+        NSString *string=[self string];
+        while (firstNonWhitespace<contentsEndIndex &&
+               [string characterAtIndex:firstNonWhitespace]==' ') {
+            firstNonWhitespace++;
+        }
+        if (firstNonWhitespace>startIndex) {
+            NSRange replaceRange=NSMakeRange(startIndex,firstNonWhitespace-startIndex);
+            [self replaceCharactersInRange:replaceRange
+                  withString:[@"" stringByPaddingToLength:replaceRange.length withString:hardspaceString startingAtIndex:0]];
         }
         index=startIndex;
     }
