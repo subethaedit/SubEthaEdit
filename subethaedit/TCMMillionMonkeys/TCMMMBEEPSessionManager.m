@@ -7,9 +7,14 @@
 //
 
 #import "TCMMMBEEPSessionManager.h"
+#import "TCMBEEPListener.h"
 #import "TCMBEEPSession.h"
 #import "TCMMMUserManager.h"
 #import "HandshakeProfile.h"
+
+
+#define PORTRANGESTART 12347
+#define PORTRANGELENGTH 10
 
 static TCMMMBEEPSessionManager *sharedInstance;
 
@@ -43,10 +48,32 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 - (void)dealloc {
+    [I_listener close];
+    [I_listener release];
     [I_sessionInformationByUserID     release];
     [I_pendingProfileRequestsByUserID release];
     [I_pendingSessions release];
     [super dealloc];
+}
+
+- (BOOL)listen {
+    // set up BEEPListener
+    for (I_listeningPort=PORTRANGESTART;I_listeningPort<PORTRANGESTART+PORTRANGELENGTH;I_listeningPort++) {
+        I_listener=[[TCMBEEPListener alloc] initWithPort:I_listeningPort];
+        [I_listener setDelegate:self];
+        if ([I_listener listen]) {
+            DEBUGLOG(@"Application",3,@"Listening on Port: %d",I_listeningPort);
+            break;
+        } else {
+            [I_listener release];
+            I_listener=nil;
+        }
+    }
+    return (I_listener!=nil);
+}
+
+- (int)listeningPort {
+    return I_listeningPort;
 }
 
 - (void)requestStatusProfileForUserID:(NSString *)aUserID netService:(NSNetService *)aNetService sender:(id)aSender {
@@ -124,10 +151,28 @@ static TCMMMBEEPSessionManager *sharedInstance;
 #pragma mark -
 #pragma mark ### HandshakeProfile delegate methods ###
 
-- (void)profile:(HandshakeProfile *)aProfile didReceiveHandshakeWithUserID:(NSString *)aUserID {
-    NSLog(@"receivedHandshake: %@",aUserID);
+- (void)profile:(HandshakeProfile *)aProfile didReceiveHandshakeWithUserID:(NSString *)aUserID andInformation:(NSDictionary *)aInfo
+{
+    NSLog(@"receivedHandshake: %@, %@",aUserID,aInfo);
     // [I_pendingSessions removeObject:aBEEPSession];
 }
 
+#pragma mark -
+#pragma mark ### BEEPListener delegate ###
+
+- (BOOL)BEEPListener:(TCMBEEPListener *)aBEEPListener shouldAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession
+{
+    DEBUGLOG(@"Application", 3, @"somebody talks to our listener: %@", [aBEEPSession description]);
+    return YES;
+}
+
+- (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession
+{
+    NSLog(@"Got Session %@", aBEEPSession);
+    [aBEEPSession setProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]];
+    [aBEEPSession setDelegate:self];
+    [aBEEPSession open];
+    [I_pendingSessions addObject:aBEEPSession];
+}
 
 @end

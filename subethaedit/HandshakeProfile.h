@@ -12,6 +12,7 @@
 
 @interface HandshakeProfile : TCMBEEPProfile
 {
+    NSMutableDictionary *I_remoteInfos;
 }
 
 - (void)shakeHandsWithUserID:(NSString *)aUserID;
@@ -21,6 +22,6 @@
 
 @interface NSObject (HandshakeProfileDelegateAdditions)
 
-- (void)profile:(HandshakeProfile *)aProfile didReceiveHandshakeWithUserID:(NSString *)aUserID;
+- (void)profile:(HandshakeProfile *)aProfile didReceiveHandshakeWithUserID:(NSString *)aUserID andInformation:(NSDictionary *)aInfo;
 
 @end
