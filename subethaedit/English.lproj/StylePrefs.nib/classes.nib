@@ -33,6 +33,8 @@
             ACTIONS = {
                 changeDarkBackgroundColor = id; 
                 changeDarkForegroundColor = id; 
+                changeFontTraitBold = id; 
+                changeFontTraitItalic = id; 
                 changeLightBackgroundColor = id; 
                 changeLightForegroundColor = id; 
                 changeMode = id; 

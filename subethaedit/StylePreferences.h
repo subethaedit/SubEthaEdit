@@ -25,7 +25,8 @@
                          *O_backgroundColorWell,*O_invertedBackgroundColorWell;
 }
 
-
+- (IBAction)changeFontTraitItalic:(id)aSender;
+- (IBAction)changeFontTraitBold:(id)aSender;
 - (IBAction)changeLightBackgroundColor:(id)aSender;
 - (IBAction)changeDarkBackgroundColor:(id)aSender;
 - (IBAction)changeLightForegroundColor:(id)aSender;

@@ -67,8 +67,26 @@
 }
 
 #define BUFFERSIZE 40
+
+- (NSEnumerator *)selectedStylesEnumerator {
+    NSMutableArray *styleArray=[NSMutableArray array];
+    unsigned int indexBuffer[BUFFERSIZE];
+    NSArray *allKeys=[I_currentSyntaxStyle allKeys];
+    NSIndexSet *selectedRows=[O_stylesTableView selectedRowIndexes];
+    NSRange range=NSMakeRange(0,NSNotFound);
+    int count;
+    while ((count=[selectedRows getIndexes:indexBuffer maxCount:BUFFERSIZE inIndexRange:&range])) {
+        int i=0;
+        for (i=0;i<count;i++) {
+            [styleArray addObject:[I_currentSyntaxStyle styleForKey:[allKeys objectAtIndex:indexBuffer[i]]]];
+        }
+    }
+    
+    return [styleArray objectEnumerator];
+}
+
 #define UNITITIALIZED -5
-#define MANY  -4 
+#define MANY  -4
 
 - (void)updateInspector {
     int bold=UNITITIALIZED, italic=UNITITIALIZED, manyColors=NO,manyInvertedColors=NO;
@@ -162,14 +180,48 @@
     [self updateBackgroundColor];
 }
 
-- (IBAction)changeLightForegroundColor:(id)aSender {
+- (void)setKey:(NSString *)aKey ofSelectedStylesToObject:(id)anObject {
+    NSMutableDictionary *style=nil;
+    NSEnumerator *selectedStyles=[self selectedStylesEnumerator];
+    while ((style=[selectedStyles nextObject])) {
+        [style setObject:anObject forKey:aKey];
+    }
+    [O_stylesTableView reloadData];
+}
 
+- (IBAction)changeLightForegroundColor:(id)aSender {
+    [self setKey:@"color" ofSelectedStylesToObject:[aSender color]];
 }
 
 - (IBAction)changeDarkForegroundColor:(id)aSender {
-
+    [self setKey:@"inverted-color" ofSelectedStylesToObject:[aSender color]];
 }
 
+- (void)setTrait:(NSFontTraitMask)aTrait ofSelectedStylesTo:(BOOL)aState {
+    NSMutableDictionary *style=nil;
+    NSEnumerator *selectedStyles=[self selectedStylesEnumerator];
+    while ((style=[selectedStyles nextObject])) {
+        NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
+        BOOL currentState = traits & aTrait;
+        if (aState && !currentState) {
+            traits = traits | aTrait;
+        } else if (!aState && currentState) {
+            traits = traits & (~aTrait);
+        }
+        [style setObject:[NSNumber numberWithUnsignedInt:traits] forKey:@"font-trait"];
+    }
+    [O_stylesTableView reloadData];
+}
+
+- (IBAction)changeFontTraitItalic:(id)aSender {
+    [aSender setAllowsMixedState:NO];
+    [self setTrait:NSItalicFontMask ofSelectedStylesTo:[aSender state]==NSOnState];
+}
+
+- (IBAction)changeFontTraitBold:(id)aSender {
+    [aSender setAllowsMixedState:NO];
+    [self setTrait:NSBoldFontMask ofSelectedStylesTo:[aSender state]==NSOnState];
+}
 
 - (void)didUnselect {
     // Save preferences
