@@ -122,6 +122,14 @@
 			settings = {
 			};
 		};
+		1407E00F067086ED00B10D47 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = German;
+			path = "German.lproj/SubEthaEdit Help";
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		141080DA05FE2EC800A4463D = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -2210,6 +2218,7 @@
 		31418234065805BA00B39219 = {
 			children = (
 				31418235065805BA00B39219,
+				1407E00F067086ED00B10D47,
 			);
 			isa = PBXVariantGroup;
 			name = "SubEthaEdit Help";
