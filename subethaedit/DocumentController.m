@@ -235,6 +235,55 @@
     return nil;
 }
 
+- (id)handlePrintScriptCommand:(NSScriptCommand *)command {
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"command: %@", [command description]);
+
+    NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+
+    NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
+                                                    classDescriptionWithAppleEventCode:'pltd'];
+    
+    NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];
+    NSEnumerator *enumerator = [evaluatedProperties keyEnumerator];
+    id argumentKey;
+    while ((argumentKey = [enumerator nextObject])) {
+        if ([argumentKey isKindOfClass:[NSNumber class]]) {
+            NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
+            if (key) {
+                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+            }
+        } else if ([argumentKey isKindOfClass:[NSString class]]) {
+            [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
+        }
+    }
+    
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"properties: %@", properties);
+    
+    NSMutableArray *files = [NSMutableArray array];
+    id directParameter = [command directParameter];
+    if ([directParameter isKindOfClass:[NSArray class]]) {
+        [files addObjectsFromArray:directParameter];
+    } else if ([directParameter isKindOfClass:[NSString class]]) {
+        [files addObject:directParameter];
+    } else if ([directParameter isKindOfClass:[NSURL class]]) {
+        [files addObject:[directParameter path]];
+    }
+    
+    enumerator = [files objectEnumerator];
+    NSString *filename;
+    while ((filename = [enumerator nextObject])) {
+        [I_propertiesForOpenedFiles setObject:properties forKey:filename];
+        BOOL shouldClose = ([self documentForFileName:filename] == nil);
+        PlainTextDocument *document = [self openDocumentWithContentsOfFile:filename display:YES];
+        [document printShowingPrintPanel:NO];
+        if (shouldClose) {
+            [document close];
+        }
+    }
+    
+    return nil;
+}
+
 #pragma mark -
 
 #pragma options align=mac68k

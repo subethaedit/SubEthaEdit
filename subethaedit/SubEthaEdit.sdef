@@ -22,6 +22,9 @@
 					<responds-to name="SubEthaEditSuite.Open">
 						<cocoa method="TCM_handleOpenScriptCommand:"/>
 					</responds-to>
+					<responds-to name="SubEthaEditSuite.Print">
+						<cocoa method="TCM_handlePrintScriptCommand:"/>
+					</responds-to>
 				</responds-to-commands>
             </class>
             <class name="text document" code="pltd" inherits="document">
@@ -53,8 +56,19 @@
 					<responds-to name="read">
 						<cocoa method="handleReadFromFileScriptCommand:"/>
 					</responds-to>
+                    <responds-to name="SubEthaEditSuite.Print">
+						<cocoa method="handlePrintScriptCommand:"/>
+					</responds-to>
 				</responds-to-commands>
             </class>
+            <class name="window" code="cwin" inherits="window">
+				<cocoa class="NSWindow"/>
+				<responds-to-commands>
+					<responds-to name="SubEthaEditSuite.Print">
+						<cocoa method="handlePrintScriptCommand:"/>
+					</responds-to>
+                </responds-to-commands>
+            </class>                
             <class name="text" plural="text" code="ctxt" description="Rich (styled) text">
 				<cocoa class="TextStorage"/>
 				<elements>
@@ -112,6 +126,13 @@
                     <cocoa key="WithProperties"/>
                 </parameter>
             </command>
+			<command name="print" description="Print an object." code="aevtpdoc">
+				<!-- type would be better written as "file | document". -->
+				<direct-parameter type="file" description="The file(s) or document(s) to be printed."/>
+                <parameter name="with properties" code="prdt" type="record" optional="optional" description="initial properties">
+                    <cocoa key="WithProperties"/>
+                </parameter>
+			</command>
         </commands>
     </suite>
 </dictionary>

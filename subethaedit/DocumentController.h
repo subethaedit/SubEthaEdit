@@ -39,5 +39,6 @@
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
+- (id)handlePrintScriptCommand:(NSScriptCommand *)command;
 
 @end

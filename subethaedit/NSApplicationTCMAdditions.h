@@ -12,5 +12,6 @@
 @interface NSApplication (NSApplicationTCMAdditions)
 
 - (id)TCM_handleOpenScriptCommand:(NSScriptCommand *)command;
+- (id)TCM_handlePrintScriptCommand:(NSScriptCommand *)command;
 
 @end

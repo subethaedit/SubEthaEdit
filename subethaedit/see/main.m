@@ -261,6 +261,37 @@ static void openDocument(NSString *fileName, NSDictionary *options) {
 }
 
 
+static void printDocument(NSString *fileName, NSDictionary *options) {
+    if (!launchSubEthaEdit()) {
+        return;
+    }
+    
+    OSType creatorCode = 'Hdra';
+    NSAppleEventDescriptor *addressDescriptor;
+    
+    addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:&creatorCode length:sizeof(creatorCode)];
+    if (addressDescriptor != nil) {
+        NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass eventID:kAEPrintDocuments targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+        if (appleEvent != nil) {
+            NSURL *fileURL = [NSURL fileURLWithPath:fileName];
+            FSRef fileRef;
+            CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
+            [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)]
+                           forKeyword:keyDirectObject];
+            NSAppleEventDescriptor *propRecord = propertiesEventDescriptorWithOptions(options);
+            [appleEvent setParamDescriptor:propRecord
+                                forKeyword:keyAEPropData];
+                                
+            AppleEvent reply;
+            OSStatus err = AESendMessage([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
+            if (err != noErr) {
+                NSLog(@"Error while sending Apple Event: %d", err);
+            }
+        }
+    }
+}
+
+
 static void openFiles(NSArray *fileNames, NSDictionary *options) {
 
     OSErr err = noErr;
@@ -269,6 +300,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL wait = [[options objectForKey:@"wait"] boolValue];
     BOOL resume = [[options objectForKey:@"resume"] boolValue];
+    BOOL print = [[options objectForKey:@"print"] boolValue];
     int i = 0;
     int count = 0;
     
@@ -309,7 +341,11 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
                     //fprintf(stdout, "\"%s\" is a directory.\n", fileName);
                     //fflush(stdout);
                 } else {
-                    openDocument(fileName, options);
+                    if (print) {
+                        printDocument(fileName, options);
+                    } else {
+                        openDocument(fileName, options);
+                    }
                 }
             } else {
                 makeUntitledDocument(fileName, options);

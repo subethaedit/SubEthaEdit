@@ -4171,19 +4171,10 @@
 				5E6D9D430700631C003DAE06,
 				5E6D9D440700631C003DAE06,
 				5E6D9D450700631C003DAE06,
-				5E6D9D3D07006303003DAE06,
 				5E6D9D3E07006303003DAE06,
 			);
 			isa = PBXGroup;
 			name = Printing;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5E6D9D3D07006303003DAE06 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MultiPagePrintView.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4194,12 +4185,6 @@
 			path = MultiPagePrintView.h;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		5E6D9D3F07006303003DAE06 = {
-			fileRef = 5E6D9D3D07006303003DAE06;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		5E6D9D4007006303003DAE06 = {
 			fileRef = 5E6D9D3E07006303003DAE06;
@@ -6117,7 +6102,6 @@
 				1428840906E33DA000FB57C5,
 				1469B47406EDBD6200863288,
 				14EBE8A206FEF44F006EFB94,
-				5E6D9D3F07006303003DAE06,
 				5E6D9D460700631C003DAE06,
 				5E6D9D480700631C003DAE06,
 				5E6D9D73070063C6003DAE06,

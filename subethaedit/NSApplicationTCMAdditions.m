@@ -16,4 +16,8 @@
     return [[DocumentController sharedInstance] handleOpenScriptCommand:command];
 }
 
+- (id)TCM_handlePrintScriptCommand:(NSScriptCommand *)command {
+    return [[DocumentController sharedInstance] handlePrintScriptCommand:command];
+}
+
 @end
