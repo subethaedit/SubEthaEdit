@@ -30,6 +30,11 @@
 - (void)setChannel:(TCMBEEPChannel *)aChannel;
 - (TCMBEEPChannel *)channel;
 
+@end
 
+
+@interface TCMBEEPManagementProfile (TCMBEEPManagementProfileDelegateAdditions)
+
+- (void)didReceiveGreetingWithProfileURIs:(NSArray *)profileURIs featuresAttribute:(NSString *)aFeaturesAttribute localizeAttribute:(NSString *)aLocalizeAttribute;
 
 @end

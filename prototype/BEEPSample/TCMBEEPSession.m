@@ -215,13 +215,13 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 
     [profile sendGreetingWithProfileURIs:[self profileURIs] featuresAttribute:@"" localizeAttribute:@""];
     
-    NSString *greeting=@"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
+    NSString *greeting=@"Content-Type: application/beep+xml\r\n\r\n<greeting features=\"token1 token2\" localize=\"de fr cz\" invalid=\"haha\"><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
     greeting=[NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@",[greeting length],greeting,kTCMBEEPFrameTrailer];
     NSData *greetingData=[greeting dataUsingEncoding:NSASCIIStringEncoding];
     [self TCM_writeData:greetingData];
     
     greeting=@"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
-    greeting=[NSString stringWithFormat:@"RPY 0 5 . 0 %d\r\n%@%@",[greeting length],greeting,kTCMBEEPFrameTrailer];
+    greeting=[NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@",[greeting length],greeting,kTCMBEEPFrameTrailer];
     greetingData=[greeting dataUsingEncoding:NSASCIIStringEncoding];
     [self TCM_writeData:greetingData];
 }
@@ -392,6 +392,15 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
     } else if (theStream == I_outputStream) {
         [self TCM_handleOutputStreamEvent:streamEvent];
     }
+}
+
+#pragma mark -
+
+- (void)didReceiveGreetingWithProfileURIs:(NSArray *)profileURIs featuresAttribute:(NSString *)aFeaturesAttribute localizeAttribute:(NSString *)aLocalizeAttribute
+{
+    [self setPeerLocalizeAttribute:aLocalizeAttribute];
+    [self setPeerFeaturesAttribute:aFeaturesAttribute];
+    [self setPeerProfileURIs:profileURIs];
 }
 
 @end

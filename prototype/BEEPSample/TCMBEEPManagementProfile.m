@@ -94,7 +94,34 @@
                 CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(cfXMLTree, index);
                 CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
                 if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
-                    NSLog(@"node: %@",(NSString *)CFXMLNodeGetString(node));
+                    if ([@"greeting" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                        NSLog (@"Was greeting....");
+                        CFXMLElementInfo *info=(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
+                        NSDictionary *attributes=(NSDictionary *)info->attributes;
+                        NSLog (@"Attributes: %@",[attributes description]);
+
+                        NSMutableArray *profileURIs=[NSMutableArray array];
+                        int profileCount=CFTreeGetChildCount(xmlTree);
+                        int profileIndex;
+                        for (profileIndex = 0; profileIndex < profileCount; profileIndex++) {
+                            CFXMLTreeRef profileSubTree=CFTreeGetChildAtIndex(xmlTree,profileIndex);
+                            CFXMLNodeRef profileNode   =CFXMLTreeGetNode(profileSubTree);
+                            if (CFXMLNodeGetTypeCode(profileNode) == kCFXMLNodeTypeElement) {
+                                if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(profileNode)]) {
+                                    CFXMLElementInfo *info=(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(profileNode);
+                                    NSDictionary *attributes=(NSDictionary *)info->attributes;
+                                    NSString *URI;
+                                    if ((URI = [attributes objectForKey:@"uri"]))
+                                        [profileURIs addObject:URI];
+                                }
+                            }
+                        }
+                        NSLog(@"Profiles: %@", profileURIs);
+                        
+                        [[self delegate] didReceiveGreetingWithProfileURIs:profileURIs 
+                            featuresAttribute:[attributes objectForKey:@"features"] 
+                            localizeAttribute:[attributes objectForKey:@"localize"]];
+                    }
                 }
             }
             
