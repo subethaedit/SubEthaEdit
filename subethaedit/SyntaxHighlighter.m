@@ -13,8 +13,8 @@
 
 #define chunkSize              		5000
 
-NSString * const kSyntaxHighlightingIsDirtyAttributeName  = @"HighlightingIsDirtyName";
-NSString * const kSyntaxHighlightingIsDirtyAttributeValue = @"Dirty";
+NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCorrect";
+NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
 NSString * const kSyntaxHighlightingStateName = @"HighlightingState";
 NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
 
@@ -158,7 +158,7 @@ do {
             [self highlightPlainStringsOfAttributedString:aString inRange:defaultStateRange forState:-1];
         }
     } while (currentRange.length>0);
-    [aString removeAttribute:kSyntaxHighlightingIsDirtyAttributeName range:aRange];
+    [aString addAttribute:kSyntaxHighlightingIsCorrectAttributeName value:kSyntaxHighlightingIsCorrectAttributeValue range:aRange];
 }
 
 -(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState
@@ -220,7 +220,7 @@ do {
     // just to show when there is colorization
     NSRange textRange=NSMakeRange(0,[aTextStorage length]);
     NSRange dirtyRange;
-    id dirty;
+    id correct;
     BOOL returnValue = NO;
     
     [aTextStorage beginEditing];
@@ -228,9 +228,8 @@ do {
     unsigned int position;
     position=0;
     while (position<NSMaxRange(textRange)) {
-        dirty=[aTextStorage attribute:kSyntaxHighlightingIsDirtyAttributeName atIndex:position
-                longestEffectiveRange:&dirtyRange inRange:textRange];
-        if (dirty) {
+        correct=[aTextStorage attribute:kSyntaxHighlightingIsCorrectAttributeName atIndex:position longestEffectiveRange:&dirtyRange inRange:textRange];
+        if (!correct) {
             [self highlightAttributedString:aTextStorage inRange:dirtyRange];
             position=NSMaxRange(dirtyRange);
         } else {
@@ -260,7 +259,7 @@ do {
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange
 {
     [aTextStorage beginEditing];
-    [aTextStorage removeAttribute:kSyntaxHighlightingIsDirtyAttributeName range:aRange];
+    [aTextStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:aRange];
     [aTextStorage removeAttribute:kSyntaxHighlightingStateName range:aRange];
     [aTextStorage removeAttribute:kSyntaxHighlightingStateDelimiterName range:aRange];
     [aTextStorage endEditing];

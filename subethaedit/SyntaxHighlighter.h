@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "SyntaxDefinition.h"
 
-extern NSString * const kSyntaxHighlightingIsDirtyAttributeName;
-extern NSString * const kSyntaxHighlightingIsDirtyAttributeValue;
+extern NSString * const kSyntaxHighlightingIsCorrectAttributeName;
+extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;

@@ -902,9 +902,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (I_flags.highlightSyntax) {
         NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[I_textStorage length]));
         if (range.length>0) {
-            [I_textStorage addAttribute:kSyntaxHighlightingIsDirtyAttributeName 
-                                  value:kSyntaxHighlightingIsDirtyAttributeValue 
-                                  range:range];
+            [I_textStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
             [[NSNotificationQueue defaultQueue] 
                 enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentSyntaxColorizeNotification object:self]
                        postingStyle:NSPostWhenIdle 
@@ -993,12 +991,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (I_flags.highlightSyntax) {
         if ([aString length]) {
             NSRange range=NSMakeRange(aRange.location,[aString length]);
-            [aTextStorage addAttribute:kSyntaxHighlightingIsDirtyAttributeName value:kSyntaxHighlightingIsDirtyAttributeValue range:range];
             [self highlightSyntaxInRange:range];
         } else {
             NSRange range=NSMakeRange(aRange.location!=0?aRange.location-1:aRange.location,1);
             if ([aTextStorage length]>=NSMaxRange(range)) {
-                [aTextStorage addAttribute:kSyntaxHighlightingIsDirtyAttributeName value:kSyntaxHighlightingIsDirtyAttributeValue range:range];
+                [aTextStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
             }
             [self highlightSyntaxInRange:range];
         }
