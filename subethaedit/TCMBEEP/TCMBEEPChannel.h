@@ -28,7 +28,7 @@
     int32_t I_nextMessageNumber;
     struct {
         BOOL isServer;
-    }I_flags;
+    } I_flags;
 }
 
 + (NSDictionary *)profileURIToClassMapping;
@@ -66,5 +66,7 @@
 
 - (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame;
 - (void)sendMessage:(TCMBEEPMessage *)aMessage;
+
+- (void)cleanup;
 
 @end
