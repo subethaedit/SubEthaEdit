@@ -18,7 +18,7 @@
 #import <net/if.h> // struct ifreq
 
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
-NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/Management.profile";
+NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
 
 
 #ifdef TCMBEEP_DEBUG
@@ -41,6 +41,17 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 #pragma mark -
 
 @implementation TCMBEEPSession
+
+//+ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
+//{
+//    BOOL automatic;
+//    if ([key isEqualToString:@"channels"]) {
+//        automatic = NO;
+//    } else {
+//        automatic = [super automaticallyNotifiesObserversForKey:key];
+//    }
+//    return automatic;
+//}
 
 - (void)TCM_initHelper
 {
@@ -71,7 +82,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
     I_userInfo = [NSMutableDictionary new];
     I_channelRequests = [NSMutableDictionary new];
-    
+    I_channels = [NSMutableArray new];
     I_sessionStatus = TCMBEEPSessionStatusNotOpen;
     
     // RFC 879 - The TCP Maximum Segment Size and Related Topics
@@ -164,7 +175,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     [I_localizeAttribute release];
     [I_peerFeaturesAttribute release];
     [I_peerLocalizeAttribute release];
-    [I_channelRequests release];    
+    [I_channelRequests release];
+    [I_channels release];
     [I_currentReadFrame release];
 #ifdef TCMBEEP_DEBUG
     [I_rawLogInHandle closeFile];
@@ -184,6 +196,23 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 }
 
 #pragma mark -
+
+- (unsigned int)countOfChannels {
+    return [I_channels count];
+}
+
+- (TCMBEEPChannel *)objectInChannelsAtIndex:(unsigned int)index {
+     return [I_channels objectAtIndex:index];
+}
+
+- (void)insertObject:(TCMBEEPChannel *)channel inChannelsAtIndex:(unsigned int)index {
+    [I_channels insertObject:channel atIndex:index];
+}
+
+
+- (void)removeObjectFromChannelsAtIndex:(unsigned int)index {
+    [I_channels removeObjectAtIndex:index];
+}
 
 - (void)setDelegate:(id)aDelegate
 {
@@ -323,8 +352,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     
     [I_inputStream open];
     [I_outputStream open];
+    I_sessionStatus = TCMBEEPSessionStatusOpening;
     
     I_managementChannel = [[TCMBEEPChannel alloc] initWithSession:self number:0 profileURI:kTCMBEEPManagementProfile asInitiator:[self isInitiator]];
+    
+    [self insertObject:I_managementChannel inChannelsAtIndex:[self countOfChannels]];
+    
     TCMBEEPManagementProfile *profile = (TCMBEEPManagementProfile *)[I_managementChannel profile];
     [profile setDelegate:self];
 
@@ -362,6 +395,11 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     }
     [I_activeChannels removeAllObjects];
     
+    int index;
+    for (index = [self countOfChannels] - 1; index >= 0; index--) {
+        [self removeObjectFromChannelsAtIndex:index];
+    }
+
     [I_managementChannel release];
     I_managementChannel = nil;
 
@@ -540,7 +578,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
         [channel cleanup];
     }
     [I_activeChannels removeAllObjects];
-
+    
+    int index;
+    for (index = [self countOfChannels] - 1; index >= 0; index--) {
+        [self removeObjectFromChannelsAtIndex:index];
+    }
+    
     [I_managementChannel release];
     I_managementChannel = nil;
     
@@ -558,6 +601,9 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Input stream open completed.");
+            if ([I_outputStream streamStatus] == NSStreamStatusOpen) {
+                I_sessionStatus = TCMBEEPSessionStatusOpen;
+            }
             break;
         case NSStreamEventHasBytesAvailable:
             [self TCM_readBytes];
@@ -583,6 +629,9 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     switch (streamEvent) {
         case NSStreamEventOpenCompleted: {
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Output stream open completed.");
+            if ([I_inputStream streamStatus] == NSStreamStatusOpen) {
+                I_sessionStatus = TCMBEEPSessionStatusOpen;
+            }
                 /*
                 NSData *socketNativeHandleData = [I_inputStream propertyForKey:(NSString *)kCFStreamPropertySocketNativeHandle];
                 if (socketNativeHandleData) {
@@ -714,6 +763,9 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 - (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator
 {
     TCMBEEPChannel *channel = [[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI asInitiator:isInitiator];
+    
+    [self insertObject:channel inChannelsAtIndex:[self countOfChannels]];
+
     [self activateChannel:[channel autorelease]];
     if (!isInitiator) {
         id delegate = [self delegate];
@@ -753,6 +805,10 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     TCMBEEPChannel *channel = [I_activeChannels objectForLong:aChannelNumber];
     [channel closed];
     [channel cleanup];
+    
+    int indexOfChannel = [I_channels indexOfObject:channel];
+    [self removeObjectFromChannelsAtIndex:indexOfChannel];
+    
     [I_activeChannels removeObjectForLong:aChannelNumber];
     if (aChannelNumber == 0) {
         [self terminate];

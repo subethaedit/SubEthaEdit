@@ -46,6 +46,7 @@ enum {
     TCMBEEPChannel *I_managementChannel;
     NSMutableDictionary *I_requestedChannels;
     NSMutableDictionary *I_activeChannels;
+    NSMutableArray *I_channels;
     
     int32_t I_nextChannelNumber;
     int I_maximumFrameSize;
@@ -106,6 +107,7 @@ enum {
 - (NSMutableDictionary *)activeChannels;
 - (int)maximumFrameSize;
 - (TCMBEEPSessionStatus)sessionStatus;
+//- (NSMutableArray *)channels;
 
 - (void)open;
 - (void)close;
