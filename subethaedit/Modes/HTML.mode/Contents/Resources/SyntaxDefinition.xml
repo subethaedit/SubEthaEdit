@@ -37,7 +37,7 @@
         
         <state id="Inline CSS" color="#000" font-style="italic">
             <begin><regex>&lt;style</regex></begin>
-            <end><regex>/style&gt;</regex></end>
+            <end><regex>(?:/style&gt;)|(?:/&gt;)</regex></end>
 
             <keywords id="CSS Attributes" font-style="italic" color="#9B4400" useforautocomplete="yes">
                 <string>inherit</string>

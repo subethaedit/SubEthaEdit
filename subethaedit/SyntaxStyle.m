@@ -64,6 +64,27 @@
     }
 }
 
+- (NSString *)xmlRepresentation {
+    NSMutableString *result=[NSMutableString string];
+    NSString *key=nil;
+    NSEnumerator *keys=[I_keyArray objectEnumerator];
+    while ((key=[keys nextObject])) {
+        NSDictionary *style=[I_styleDictionary objectForKey:key];
+        NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
+        [result appendFormat:@"  <style id=\"%@\"\n    color=\"%@\" inverted-color=\"%@\"  font-style=\"%@\" font-weight=\"%@\" />\n",
+            key,[[style objectForKey:@"color"] HTMLString],[[style objectForKey:@"inverted-color"] HTMLString],
+            traits & NSItalicFontMask?@"italic":@"normal",
+            traits & NSBoldFontMask  ?@"bold"  :@"normal"];
+    }
+    return [NSString stringWithFormat:@"<mode id=\"%@\">\n%@</mode>",[[self documentMode] documentModeIdentifier],result];
+
+}
+
+- (NSString *)xmlFileRepresentation {
+    return [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<seestyle>\n%@\n</seestyle>",[self xmlRepresentation]];
+}
+
+
 - (NSString *)description {
     NSMutableString *localizedString=[NSMutableString string];
     NSString *key=nil;
@@ -71,7 +92,8 @@
     while ((key=[keys nextObject])) {
         [localizedString appendFormat:@"%@ (%@): %@\n",[self localizedStringForKey:key],key,[[I_styleDictionary objectForKey:key] description]];
     }
-    return [NSString stringWithFormat:@"SyntaxStyle: %@",localizedString];
+    return [NSString stringWithFormat:@"SyntaxStyle: \n%@",[self xmlFileRepresentation]];
 }
+
 
 @end

@@ -262,7 +262,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
     if (!color) {
         color = [[aDictionary objectForKey:@"color"] brightnessInvertedColor];
     }
-    [styleDictionary setObject:color forKey:@"color"];
+    [styleDictionary setObject:color forKey:@"inverted-color"];
     [I_defaultSyntaxStyle addKey:aStateID];
     [I_defaultSyntaxStyle setStyle:styleDictionary forKey:aStateID];
     
@@ -352,7 +352,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             if (!color) {
                 color = [[styleDictionary objectForKey:@"color"] brightnessInvertedColor];
             }
-            [styleDictionary setObject:color forKey:@"color"];
+            [styleDictionary setObject:color forKey:@"inverted-color"];
             [I_defaultSyntaxStyle addKey:styleID];
             [I_defaultSyntaxStyle setStyle:styleDictionary forKey:styleID];            
         }
