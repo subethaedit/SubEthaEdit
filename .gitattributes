@@ -236,6 +236,8 @@ subethaedit/TCMMMUserSEEAdditions.h -text
 subethaedit/TCMMMUserSEEAdditions.m -text
 subethaedit/TCMMillionMonkeys/TCMMMBEEPSessionManager.h -text
 subethaedit/TCMMillionMonkeys/TCMMMBEEPSessionManager.m -text
+subethaedit/TCMMillionMonkeys/TCMMMBrowserListView.h -text
+subethaedit/TCMMillionMonkeys/TCMMMBrowserListView.m -text
 subethaedit/TCMMillionMonkeys/TCMMMPresenceManager.h -text
 subethaedit/TCMMillionMonkeys/TCMMMPresenceManager.m -text
 subethaedit/TCMMillionMonkeys/TCMMMSession.h -text
