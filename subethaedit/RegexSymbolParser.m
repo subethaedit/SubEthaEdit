@@ -42,7 +42,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
 
 - (void)markBlocks:(NSTextStorage *)aTextStorage
 {
-    [aTextStorage removeAttribute:kSymbolParsingIsInABlock range:NSMakeRange(0,[aTextStorage length])];
+    clock_t start_time = clock();
     OGRegularExpression *blockMark = [[self symbolDefinition] block];
     
     NSEnumerator *matchEnumerator = [[blockMark allMatchesInString:[aTextStorage string]] objectEnumerator];
@@ -68,6 +68,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
             if (depth>0) depth--;
         }
     }
+    NSLog(@"time for marking: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
 }
 
 - (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage 
@@ -75,7 +76,8 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
     RegexSymbolDefinition *definition = [self symbolDefinition];
     NSMutableArray *returnArray =[NSMutableArray array];
 
-    [self markBlocks:aTextStorage];
+    // [self markBlocks:aTextStorage];
+//    clock_t start_time = clock();
 
     NSArray *symbols = [definition symbols];
     
@@ -120,6 +122,8 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
             [returnArray addObject:aSymbolTableEntry];
         }
     }
+    // [aTextStorage removeAttribute:kSymbolParsingIsInABlock range:NSMakeRange(0,[aTextStorage length])];
+//    NSLog(@"time for symbols: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
     return [returnArray sortedArrayUsingSelector:@selector(sortByRange:)];
 }
 
