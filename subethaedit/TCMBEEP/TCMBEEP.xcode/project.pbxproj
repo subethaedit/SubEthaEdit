@@ -286,12 +286,18 @@
 			fileRef = 14176F1B07F07756007E1315;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		14176F2B07F07756007E1315 = {
 			fileRef = 14176F1C07F07756007E1315;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		14176F2C07F07756007E1315 = {
@@ -304,6 +310,9 @@
 			fileRef = 14176F1E07F07756007E1315;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		14176F2E07F07756007E1315 = {
@@ -316,6 +325,9 @@
 			fileRef = 14176F2007F07756007E1315;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		14176F3007F07756007E1315 = {
@@ -328,6 +340,9 @@
 			fileRef = 14176F2207F07756007E1315;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		14176F3207F07756007E1315 = {
@@ -340,6 +355,9 @@
 			fileRef = 14176F2407F07756007E1315;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		14176F3407F07756007E1315 = {
@@ -352,6 +370,9 @@
 			fileRef = 14176F2607F07756007E1315;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		14176F3607F07756007E1315 = {
@@ -364,6 +385,9 @@
 			fileRef = 14176F2807F07756007E1315;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		14176F3807F07756007E1315 = {
