@@ -560,8 +560,36 @@
     return [[I_windowController document] textView:aTextView doCommandBySelector:aSelector];
 }
 
--(BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
-    [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] typingAttributes]];
+- (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
+    PlainTextDocument *document = [self document];
+    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
+        //if (!([self isRemote] || [self isShared])) {
+            NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                            @"ShouldPromoteAlert", @"Alert",
+                                                            aTextView, @"TextView",
+                                                            [[replacementString copy] autorelease], @"ReplacementString",
+                                                            nil];
+            
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:NSLocalizedString(@"Warning", nil)];
+            [alert setInformativeText:NSLocalizedString(@"CancelOrPromote", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
+            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+            [alert beginSheetModalForWindow:[aTextView window]
+                              modalDelegate:document 
+                             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                                contextInfo:[contextInfo retain]];
+        //} else {
+        //    NSBeep();
+        //}      
+        return NO;
+    } else {
+        [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] typingAttributes]];
+    }
+    
     return YES;
 }
 

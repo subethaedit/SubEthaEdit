@@ -644,10 +644,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"lineNum: %d\nstartRange: %d\nendRange: %d", selectionRange->lineNum, selectionRange->startRange, selectionRange->endRange);
                     if (selectionRange->lineNum < 0) {
                         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"selectRange");
-                        //[self selectRange:NSMakeRange(selectionRange->startRange, selectionRange->endRange - selectionRange->startRange) scrollToVisible:YES];
+                        [self selectRange:NSMakeRange(selectionRange->startRange, selectionRange->endRange - selectionRange->startRange)];
                     } else {
                         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"gotoLine");
-                        //[self gotoLine:selectionRange->lineNum + 1 orderFront:YES];
+                        [self gotoLine:selectionRange->lineNum + 1 orderFront:YES];
                     }
                 }
                 
@@ -1338,8 +1338,11 @@ static NSString *tempFileName(NSString *origPath) {
 #pragma mark -
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    NSDictionary *alertContext = [(NSDictionary *)contextInfo autorelease];
-    if ([[alertContext objectForKey:@"Alert"] isEqualToString:@"SelectEncodingAlert"]) {
+    NSDictionary *alertContext = (NSDictionary *)contextInfo;
+    NSString *alertIdentifier = [alertContext objectForKey:@"Alert"];
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"alertDidEnd: %@", alertIdentifier);
+
+    if ([alertIdentifier isEqualToString:@"SelectEncodingAlert"]) {
         NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntValue];
         if (returnCode == NSAlertFirstButtonReturn) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
@@ -1391,7 +1394,19 @@ static NSString *tempFileName(NSString *origPath) {
                 [self updateChangeCount:NSChangeDone];            
             }
         }
+    } else if ([alertIdentifier isEqualToString:@"ShouldPromoteAlert"]) {
+        if (returnCode == NSAlertThirdButtonReturn) {
+            [self setFileEncoding:NSUnicodeStringEncoding];
+            NSTextView *textView = [alertContext objectForKey:@"TextView"];
+            [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+        } else if (returnCode == NSAlertSecondButtonReturn) {
+            [self setFileEncoding:NSUTF8StringEncoding];
+            NSTextView *textView = [alertContext objectForKey:@"TextView"];
+            [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+        }
     }
+    
+    [alertContext autorelease];
 }
 
 #pragma mark -
