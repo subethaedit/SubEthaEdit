@@ -223,6 +223,9 @@
 			fileRef = 14A5A42407FC4DF40026D2C9;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		14A5A42907FC4DF40026D2C9 = {
@@ -235,6 +238,9 @@
 			fileRef = 14A5A42607FC4DF40026D2C9;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		14A5A42B07FC4DF40026D2C9 = {
@@ -255,6 +261,9 @@
 			fileRef = 14A5A44407FC4F410026D2C9;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 //140
