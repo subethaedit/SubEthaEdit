@@ -9,6 +9,8 @@
 			children = (
 				5E73EFC0056FBAA50072B5B6,
 				5E73EFC1056FBAA50072B5B6,
+				5E13135D0596E3FD00DA1DDF,
+				5E13135E0596E3FD00DA1DDF,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -25,9 +27,9 @@
 			sourceTree = "<group>";
 		};
 		089C165DFE840E0CC02AAC07 = {
-			expectedFileType = text.plist.strings;
 			fileEncoding = 10;
 			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
 			name = English;
 			path = English.lproj/InfoPlist.strings;
 			refType = 4;
@@ -53,9 +55,9 @@
 			sourceTree = "<group>";
 		};
 		1058C7A1FEA54F0111CA2CBB = {
-			expectedFileType = wrapper.framework;
 			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = Cocoa.framework;
 			path = /System/Library/Frameworks/Cocoa.framework;
 			refType = 0;
@@ -141,9 +143,9 @@
 			sourceTree = "<group>";
 		};
 		29B97316FDCFA39411CA2CEA = {
-			expectedFileType = sourcecode.c.objc;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
 			path = main.m;
 			refType = 4;
 			sourceTree = "<group>";
@@ -178,8 +180,8 @@
 			sourceTree = "<group>";
 		};
 		29B97319FDCFA39411CA2CEA = {
-			expectedFileType = wrapper.nib;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
 			name = English;
 			path = English.lproj/MainMenu.nib;
 			refType = 4;
@@ -197,18 +199,18 @@
 			sourceTree = "<group>";
 		};
 		29B97324FDCFA39411CA2CEA = {
-			expectedFileType = wrapper.framework;
 			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = AppKit.framework;
 			path = /System/Library/Frameworks/AppKit.framework;
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
 		29B97325FDCFA39411CA2CEA = {
-			expectedFileType = wrapper.framework;
 			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = Foundation.framework;
 			path = /System/Library/Frameworks/Foundation.framework;
 			refType = 0;
@@ -225,9 +227,9 @@
 //323
 //324
 		32CA4F630368D1EE00C91783 = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 4;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = RendezCon_Prefix.pch;
 			refType = 4;
 			sourceTree = "<group>";
@@ -279,18 +281,46 @@
 //5E2
 //5E3
 //5E4
+		5E13135D0596E3FD00DA1DDF = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = AvailableServicesController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E13135E0596E3FD00DA1DDF = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = AvailableServicesController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E13135F0596E3FD00DA1DDF = {
+			fileRef = 5E13135D0596E3FD00DA1DDF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E1313600596E3FD00DA1DDF = {
+			fileRef = 5E13135E0596E3FD00DA1DDF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E73EFC0056FBAA50072B5B6 = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = RendezvousBrowserController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		5E73EFC1056FBAA50072B5B6 = {
-			expectedFileType = sourcecode.c.objc;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
 			path = RendezvousBrowserController.m;
 			refType = 4;
 			sourceTree = "<group>";
@@ -308,15 +338,15 @@
 			};
 		};
 		5E73EFC6056FC1220072B5B6 = {
-			expectedFileType = image.tiff;
 			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
 			path = Remove.tiff;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		5E73EFC7056FC1220072B5B6 = {
-			expectedFileType = image.tiff;
 			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
 			path = Remove_Pressed.tiff;
 			refType = 4;
 			sourceTree = "<group>";
@@ -334,15 +364,15 @@
 			};
 		};
 		5E73EFCA056FC1320072B5B6 = {
-			expectedFileType = image.tiff;
 			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
 			path = Add.tiff;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		5E73EFCB056FC1320072B5B6 = {
-			expectedFileType = image.tiff;
 			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
 			path = Add_Pressed.tiff;
 			refType = 4;
 			sourceTree = "<group>";
@@ -360,9 +390,9 @@
 			};
 		};
 		5E73F7C2056FCCCD0072B5B6 = {
-			expectedFileType = text.plist;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = text.plist;
 			path = initialDefaults.plist;
 			refType = 4;
 			sourceTree = "<group>";
@@ -374,8 +404,8 @@
 			};
 		};
 		5E8C930F0570088600E98043 = {
-			expectedFileType = image.icns;
 			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
 			path = RendezCon.icns;
 			refType = 4;
 			sourceTree = "<group>";
@@ -387,8 +417,8 @@
 			};
 		};
 		5EFE609305727153005C5D2C = {
-			expectedFileType = text.rtf;
 			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
 			path = ReleaseNotes.rtf;
 			refType = 4;
 			sourceTree = "<group>";
@@ -452,6 +482,7 @@
 			files = (
 				8D1107280486CEB800E47090,
 				5E73EFC2056FBAA50072B5B6,
+				5E13135F0596E3FD00DA1DDF,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,6 +526,7 @@
 			files = (
 				8D11072D0486CEB800E47090,
 				5E73EFC3056FBAA50072B5B6,
+				5E1313600596E3FD00DA1DDF,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,15 +554,15 @@
 			};
 		};
 		8D1107310486CEB800E47090 = {
-			expectedFileType = text.plist;
 			fileEncoding = 4;
 			isa = PBXFileReference;
+			lastKnownFileType = text.plist;
 			path = Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		8D1107320486CEB800E47090 = {
-			expectedFileType = wrapper.application;
+			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
 			path = RendezCon.app;

@@ -9,6 +9,8 @@ prototype/ExpatSimple/libexpat.a -text
 prototype/ExpatSimple/main.m -text
 prototype/RendezCon/Add.tiff -text
 prototype/RendezCon/Add_Pressed.tiff -text
+prototype/RendezCon/AvailableServicesController.h -text
+prototype/RendezCon/AvailableServicesController.m -text
 prototype/RendezCon/English.lproj/InfoPlist.strings -text
 prototype/RendezCon/English.lproj/MainMenu.nib/classes.nib -text
 prototype/RendezCon/English.lproj/MainMenu.nib/info.nib -text

@@ -1,5 +1,17 @@
 {
     IBClasses = (
+        {
+            ACTIONS = {addServiceToBrowseFor = id; }; 
+            CLASS = AvailableServicesController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "I_availableServicesArrayController" = NSArrayController; 
+                "I_panel" = NSPanel; 
+                "I_servicesToBrowseForArrayController" = NSArrayController; 
+                "I_tableView" = NSTableView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {
