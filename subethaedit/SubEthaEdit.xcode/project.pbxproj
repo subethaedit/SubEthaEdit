@@ -66,6 +66,289 @@
 //102
 //103
 //104
+//140
+//141
+//142
+//143
+//144
+		143C35DB05ECAC32008C6DFE = {
+			children = (
+				143C35E405ECB016008C6DFE,
+				143C35E505ECB016008C6DFE,
+				143C35E605ECB016008C6DFE,
+				143C35E705ECB016008C6DFE,
+				143C35E805ECB016008C6DFE,
+				143C35E905ECB016008C6DFE,
+				143C35EA05ECB016008C6DFE,
+				143C35EB05ECB016008C6DFE,
+				143C35EC05ECB016008C6DFE,
+				143C35ED05ECB016008C6DFE,
+				143C35EE05ECB016008C6DFE,
+				143C35EF05ECB016008C6DFE,
+				143C35F005ECB016008C6DFE,
+			);
+			isa = PBXGroup;
+			name = TCMBEEP;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35E405ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TCMBEEPChannel.h;
+			path = TCMBEEP/TCMBEEPChannel.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35E505ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = TCMBEEPChannel.m;
+			path = TCMBEEP/TCMBEEPChannel.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35E605ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TCMBEEPFrame.h;
+			path = TCMBEEP/TCMBEEPFrame.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35E705ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = TCMBEEPFrame.m;
+			path = TCMBEEP/TCMBEEPFrame.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35E805ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TCMBEEPListener.h;
+			path = TCMBEEP/TCMBEEPListener.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35E905ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = TCMBEEPListener.m;
+			path = TCMBEEP/TCMBEEPListener.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35EA05ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TCMBEEPManagementProfile.h;
+			path = TCMBEEP/TCMBEEPManagementProfile.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35EB05ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = TCMBEEPManagementProfile.m;
+			path = TCMBEEP/TCMBEEPManagementProfile.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35EC05ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TCMBEEPMessage.h;
+			path = TCMBEEP/TCMBEEPMessage.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35ED05ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = TCMBEEPMessage.m;
+			path = TCMBEEP/TCMBEEPMessage.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35EE05ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TCMBEEPProfile.h;
+			path = TCMBEEP/TCMBEEPProfile.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35EF05ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TCMBEEPSession.h;
+			path = TCMBEEP/TCMBEEPSession.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35F005ECB016008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = TCMBEEPSession.m;
+			path = TCMBEEP/TCMBEEPSession.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C35F105ECB016008C6DFE = {
+			fileRef = 143C35E405ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35F205ECB016008C6DFE = {
+			fileRef = 143C35E505ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35F305ECB016008C6DFE = {
+			fileRef = 143C35E605ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35F405ECB016008C6DFE = {
+			fileRef = 143C35E705ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35F505ECB016008C6DFE = {
+			fileRef = 143C35E805ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35F605ECB016008C6DFE = {
+			fileRef = 143C35E905ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35F705ECB016008C6DFE = {
+			fileRef = 143C35EA05ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35F805ECB016008C6DFE = {
+			fileRef = 143C35EB05ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35F905ECB016008C6DFE = {
+			fileRef = 143C35EC05ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35FA05ECB016008C6DFE = {
+			fileRef = 143C35ED05ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35FB05ECB016008C6DFE = {
+			fileRef = 143C35EE05ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35FC05ECB016008C6DFE = {
+			fileRef = 143C35EF05ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C35FD05ECB016008C6DFE = {
+			fileRef = 143C35F005ECB016008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C360005ECB200008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NSDictionaryTCMAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C360105ECB200008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NSDictionaryTCMAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C360205ECB200008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NSStringTCMAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C360305ECB200008C6DFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NSStringTCMAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		143C360405ECB200008C6DFE = {
+			fileRef = 143C360005ECB200008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C360505ECB200008C6DFE = {
+			fileRef = 143C360105ECB200008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C360605ECB200008C6DFE = {
+			fileRef = 143C360205ECB200008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		143C360705ECB200008C6DFE = {
+			fileRef = 143C360305ECB200008C6DFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//140
+//141
+//142
+//143
+//144
 //190
 //191
 //192
@@ -108,6 +391,7 @@
 		2A37F4AAFDCFA73011CA2CEA = {
 			children = (
 				2A37F4ABFDCFA73011CA2CEA,
+				143C35DB05ECAC32008C6DFE,
 				2A37F4AFFDCFA73011CA2CEA,
 				2A37F4B8FDCFA73011CA2CEA,
 				2A37F4C3FDCFA73011CA2CEA,
@@ -148,6 +432,10 @@
 		};
 		2A37F4AFFDCFA73011CA2CEA = {
 			children = (
+				143C360005ECB200008C6DFE,
+				143C360105ECB200008C6DFE,
+				143C360205ECB200008C6DFE,
+				143C360305ECB200008C6DFE,
 				32DBCF750370BD2300C91783,
 				2A37F4B0FDCFA73011CA2CEA,
 			);
@@ -370,6 +658,15 @@
 			files = (
 				8D15AC290486D014006FF6A4,
 				8D15AC2A0486D014006FF6A4,
+				143C35F105ECB016008C6DFE,
+				143C35F305ECB016008C6DFE,
+				143C35F505ECB016008C6DFE,
+				143C35F705ECB016008C6DFE,
+				143C35F905ECB016008C6DFE,
+				143C35FB05ECB016008C6DFE,
+				143C35FC05ECB016008C6DFE,
+				143C360405ECB200008C6DFE,
+				143C360605ECB200008C6DFE,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,6 +723,14 @@
 			files = (
 				8D15AC310486D014006FF6A4,
 				8D15AC320486D014006FF6A4,
+				143C35F205ECB016008C6DFE,
+				143C35F405ECB016008C6DFE,
+				143C35F605ECB016008C6DFE,
+				143C35F805ECB016008C6DFE,
+				143C35FA05ECB016008C6DFE,
+				143C35FD05ECB016008C6DFE,
+				143C360505ECB200008C6DFE,
+				143C360705ECB200008C6DFE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -4,4 +4,21 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+    #import "NSDictionaryTCMAdditions.h"
+    #import "NSStringTCMAdditions.h"
 #endif
+
+
+#ifdef BLOCK_DEBUGLOGS
+#define _DEBUGLOG(domain, level, format, args)
+#else
+#define _DEBUGLOG(domain, level, format, args) \
+    do { \
+        NSString *lineInformation = [NSString stringWithFormat:@"%@:%d, %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __FUNCTION__]; \
+        NSString *expandedInformation = [NSString stringWithFormat:format, args]; \
+        NSLog(@"%@ (%@)", expandedInformation, lineInformation); \
+    } while (0)
+#endif
+
+#define DEBUGLOG(domain, level, format, args...) \
+    _DEBUGLOG((domain), (level), (format), (args))
