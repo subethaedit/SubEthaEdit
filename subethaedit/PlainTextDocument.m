@@ -1251,7 +1251,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }
 
-
+#pragma mark -
 #pragma mark ### Export ###
 
 - (IBAction)exportDocument:(id)aSender {
@@ -1282,34 +1282,18 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)continueExport:(NSWindow *)aSheet returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
     [aSheet orderOut:self];
     if (aReturnCode == NSOKButton) {
-        NSDictionary *htmlOptions=[[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey] objectForKey:DocumentModeExportHTMLPreferenceKey];
-        if ([[htmlOptions objectForKey:DocumentModeHTMLExportShowUserImagesPreferenceKey] boolValue]) {
-            NSOpenPanel *openPanel=[NSOpenPanel openPanel];
-            [openPanel setCanChooseFiles:NO];
-            [openPanel setCanChooseDirectories:YES];
-            [openPanel setTreatsFilePackagesAsDirectories:YES];
-            [openPanel setCanCreateDirectories:YES];
-            [openPanel setAllowsMultipleSelection:NO];
-            [openPanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
-            [openPanel beginSheetForDirectory:nil 
-                file:nil 
-                modalForWindow:[self windowForSheet] 
-                modalDelegate:self 
-                didEndSelector:@selector(exportPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
-        } else {
-            NSSavePanel *savePanel=[NSSavePanel savePanel];
-            [savePanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
-            [savePanel setCanCreateDirectories:YES];
-            [savePanel setExtensionHidden:NO];
-            [savePanel setAllowsOtherFileTypes:YES];
-            [savePanel setTreatsFilePackagesAsDirectories:YES];
-            [savePanel setRequiredFileType:@"html"];
-            [savePanel beginSheetForDirectory:nil 
-                file:[[[[self fileName] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"] 
-                modalForWindow:[self windowForSheet] 
-                modalDelegate:self 
-                didEndSelector:@selector(exportPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
-        }
+        NSSavePanel *savePanel=[NSSavePanel savePanel];
+        [savePanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
+        [savePanel setCanCreateDirectories:YES];
+        [savePanel setExtensionHidden:NO];
+        [savePanel setAllowsOtherFileTypes:YES];
+        [savePanel setTreatsFilePackagesAsDirectories:YES];
+        [savePanel setRequiredFileType:@"html"];
+        [savePanel beginSheetForDirectory:nil 
+            file:[[[[self fileName] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"] 
+            modalForWindow:[self windowForSheet] 
+            modalDelegate:self 
+            didEndSelector:@selector(exportPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
     }
 }
 
@@ -1347,30 +1331,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [baseAttributeMapping retain];
         }
     
-        NSString *htmlFile;
+        NSString *htmlFile=[aPanel filename];
         NSString *imageDirectory;
         if (shouldSaveImages) {
-            NSString *directory=[aPanel filename];
-            htmlFile=[directory stringByAppendingPathComponent:[[[[self fileName] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"]];
             NSFileManager *fileManager=[NSFileManager defaultManager];
-//            BOOL isDirectory;
-//            if ([fileManager fileExistsAtPath:directory isDirectory:&isDirectory]) {
-//                if (![fileManager removeFileAtPath:directory handler:nil]) {
-//                    [[NSAlert alertWithMessageText:NSLocalizedString(@"ExportCouldNotOverwriteTitle",@"Title of Export error message when file to be overwritten cannot be deleted") 
-//                            defaultButton:NSLocalizedString(@"OK",nil) 
-//                            alternateButton:nil otherButton:nil 
-//                            informativeTextWithFormat:NSLocalizedString(@"ExportCouldNotOverwriteText",
-//                                                                        @"Text of Export error message when file to be overwritten cannot be deleted")] runModal];
-//                    
-//                    return;
-//                }
-//            }
-            imageDirectory=[directory stringByAppendingPathComponent:@"img"];
+            imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"img"];
             [fileManager createDirectoryAtPath:imageDirectory attributes:nil];
-        } else {
-            htmlFile=[aPanel filename];
         }
-        
+      
         NSMutableSet *shortContributorIDs=[[NSMutableSet new] autorelease];
         
         // Load Templates
@@ -1467,31 +1435,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 [attributedStringForXHTML addAttribute:@"ChangedByShortUserID" value:[[contributorDictionary objectForKey:authorID] objectForKey:@"ShortID"] range:foundRange];
             }
         } while (index<NSMaxRange(wholeRange));
-        
-        
-        // Contributors as Cards
-        
-    //    [result appendString:@"<div>"];
-    //    NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
-    //    NSDictionary *contributorDict=nil;
-    //    while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
-    //        NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntities];
-    //        NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
-    //        NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntities];
-    //        NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntities];
-    //        [result appendFormat:@"<div class=\"Card %@\"><img src=\"img/%@.png\" alt=\"%@\"/><h4>%@</h4>",shortID,shortID,name,name];
-    //        if ([aim length]) {
-    //            [result appendFormat:@"aim: <a href=\"aim:goim?screenname=%@\">%@</a>",aim,aim];
-    //        }
-    //        [result appendString:@"<br />"];
-    //        if ([email length]) {
-    //            [result appendFormat:@"email: <a href=\"%@\">%@</a>",email,email];
-    //        }
-    //        [result appendFormat:@"</div>\n"];
-    //    }
-    //    [result appendString:@"</div>\n"];
-    //    [result appendString:@"<div class=\"Clearer\"></div>"];
-    
+            
         // Prepare Legend
         NSMutableString *legend=[NSMutableString string];
         int tableSpan=1;
@@ -1503,6 +1447,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if ([[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue]) {
             [legend appendString:@"<table>"];
             if ([contributorDictionaries count]) {
+                NSString *contributorForegroundColor=@"";
+                if (![[self documentForegroundColor] isDark]) {
+                    contributorForegroundColor=[NSString stringWithFormat:@" style=\"color:%@;\"",[[self documentForegroundColor] HTMLString]];
+                }
                 [legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Contributors",@"Title for Contributors in Export and Print")];
                 NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
                 NSDictionary *contributorDict=nil;
@@ -1511,11 +1459,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
                     NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntities];
                     NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntities];
-                    [legend appendFormat:@"<tr class=\"%@\">",shortID];
+                    [legend appendFormat:@"<tr>",shortID];
                     if (shouldSaveImages) {
                         [legend appendFormat:@"<th><img src=\"img/%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",shortID,name, name];
                     }
-                    [legend appendFormat:@"<td class=\"ContributorName\">%@</td>",name];
+                    [legend appendFormat:@"<td class=\"ContributorName %@\"%@>%@</td>",shortID,contributorForegroundColor,name];
                     if (shouldShowAIMAndEmail) {
                         [legend appendString:@"<td>"];
                         if ([aim length]) {
