@@ -156,7 +156,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     self = [super init];
     if (self) {
         [self setPeerAddressData:aData];
-        CFSocketSignature signature = {PF_INET, SOCK_STREAM, IPPROTO_TCP, (CFDataRef)aData};
+        struct sockaddr *address = (struct sockaddr *)[aData bytes];
+        CFSocketSignature signature = {address->sa_family, SOCK_STREAM, IPPROTO_TCP, (CFDataRef)aData};
         CFStreamCreatePairWithPeerSocketSignature(kCFAllocatorDefault, &signature, &I_readStream, &I_writeStream);
         I_flags.isInitiator = YES;
         I_nextChannelNumber = -1;
