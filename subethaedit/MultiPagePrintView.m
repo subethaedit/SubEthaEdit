@@ -16,8 +16,11 @@
 #import "TCMMMUserSeeAdditions.h"
 #import "PlainTextDocument.h"
 #import "GeneralPreferences.h"
+#import "TCMMMSession.h"
 
 @implementation MultiPagePrintView
+
+static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabelAttributes,*S_tableHeadingAttributes;
 
 - (id)initWithFrame:(NSRect)frame document:(PlainTextDocument *)aDocument {
     self = [super initWithFrame:frame];
@@ -25,6 +28,42 @@
         // Initialization code here.
         I_textStorage=[[aDocument textStorage] retain];
         I_document=[aDocument retain];
+        I_contributorArray=[NSMutableArray new];
+        I_visitorArray=[NSMutableArray new];
+        I_measures.contributorNameWidth  =0;
+        I_measures.contributorAIMWidth   =0;
+        I_measures.contributorEmailWidth =0;
+        I_measures.visitorNameWidth      =0;
+        I_measures.visitorAIMWidth       =0;
+        I_measures.visitorEmailWidth     =0;
+        I_measures.visitorWidth          =0;
+        I_measures.contributorWidth      =0;
+        I_pagesWithLegend                =0;
+        I_pagesWithFullLegend            =0;
+        if (!S_nameAttributes) {
+            NSFontManager *fontManager=[NSFontManager sharedFontManager];
+            NSFont *font=[NSFont fontWithName:@"Helvetica" size:10.];
+            if (!font) font=[NSFont systemFontOfSize:10.];
+            NSFont *boldFont=[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
+            S_nameAttributes =[[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSColor blackColor],NSForegroundColorAttributeName,boldFont,NSFontAttributeName,nil] retain];
+            font=[fontManager convertFont:font toSize:8.];
+            S_contactAttributes     =[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        [NSColor blueColor],NSForegroundColorAttributeName,
+                                        font,NSFontAttributeName,
+                                        nil] retain];
+            S_contactLabelAttributes=[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        [NSColor grayColor],NSForegroundColorAttributeName,
+                                        font,NSFontAttributeName,
+                                        nil] retain];
+            boldFont=[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
+            S_tableHeadingAttributes=[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        [NSColor blackColor],NSForegroundColorAttributeName,
+                                        boldFont,NSFontAttributeName,
+                                        nil] retain];
+        }
+        I_measures.emailAIMLabelWidth   = MAX([NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export") sizeWithAttributes:S_contactLabelAttributes].width,
+                                              [NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export") sizeWithAttributes:S_contactLabelAttributes].width);
+        
     }
     return self;
 }
@@ -37,6 +76,8 @@
     [I_textStorage release];
     [I_headerAttributes release];
     [I_headerFormatString release];
+    [I_contributorArray release];
+    [I_visitorArray release];
     [super dealloc];
 }
 
@@ -66,6 +107,10 @@
 }
 
 #pragma mark -
+
+#define LEGENDTABLEHEADERHEIGHT 12.
+#define LEGENDTABLEENTRYHEIGHT  24.
+#define LEGENDIMAGEPADDING 3.
 
 // Return the number of pages available for printing
 - (BOOL)knowsPageRange:(NSRangePointer)range {
@@ -201,7 +246,132 @@
         
         [self addSubview:I_headerTextView];
     }    
-    
+
+    float legendHeight=0.;    
+    // Contributors and Visitors at the first page
+    if ([[printInfoDictionary objectForKey:@"SEEParticipants"] boolValue]) {
+        NSSet *contributorIDs=[I_document userIDsOfContributors];
+        NSEnumerator *contributorEnumerator=[[[I_document session] contributors] objectEnumerator];
+        TCMMMUser *contributor=nil;
+        while ((contributor=[contributorEnumerator nextObject])) {
+            NSSize nameSize =[[contributor name] sizeWithAttributes:S_nameAttributes];
+            NSSize aimSize  =[[[contributor properties] objectForKey:@"AIM"] sizeWithAttributes:S_contactAttributes];
+            NSSize emailSize=[[[contributor properties] objectForKey:@"Email"] sizeWithAttributes:S_contactAttributes];
+            if ([contributorIDs containsObject:[contributor userID]]) {
+              [I_contributorArray addObject:contributor];
+              I_measures.contributorNameWidth =MAX( nameSize.width,I_measures.contributorNameWidth );
+              I_measures.contributorAIMWidth  =MAX(  aimSize.width,I_measures.contributorAIMWidth  );
+              I_measures.contributorEmailWidth=MAX(emailSize.width,I_measures.contributorEmailWidth);
+            } else {
+              [I_visitorArray addObject:contributor];
+              I_measures.visitorNameWidth     =MAX( nameSize.width,I_measures.visitorNameWidth );
+              I_measures.visitorAIMWidth      =MAX(  aimSize.width,I_measures.visitorAIMWidth  );
+              I_measures.visitorEmailWidth    =MAX(emailSize.width,I_measures.visitorEmailWidth);
+            }
+        }
+        
+        NSSortDescriptor *nameDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"name" 
+                  ascending:YES
+                  selector:@selector(caseInsensitiveCompare:)] autorelease];
+        [I_contributorArray sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
+        [I_visitorArray     sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
+
+        I_measures.contributorWidth=2*LEGENDIMAGEPADDING+I_measures.contributorNameWidth+
+                                    ([[printInfoDictionary objectForKey:@"SEEParticipantImages"] boolValue]?LEGENDTABLEENTRYHEIGHT:0)+
+                                    ([[printInfoDictionary objectForKey:@"SEEParticipantsAIMAndEmail"] boolValue]?MAX(I_measures.contributorAIMWidth,I_measures.contributorEmailWidth)+2*LEGENDIMAGEPADDING+I_measures.emailAIMLabelWidth:0);
+                                    
+
+        I_measures.visitorWidth=2*LEGENDIMAGEPADDING+I_measures.visitorNameWidth+
+                                ([[printInfoDictionary objectForKey:@"SEEParticipantImages"] boolValue]?LEGENDTABLEENTRYHEIGHT:0)+
+                                ([[printInfoDictionary objectForKey:@"SEEParticipantsAIMAndEmail"] boolValue]?MAX(I_measures.visitorAIMWidth,I_measures.visitorEmailWidth)+2*LEGENDIMAGEPADDING+I_measures.emailAIMLabelWidth:0);
+        
+        if ([[printInfoDictionary objectForKey:@"SEEParticipantsVisitors"] boolValue]) {
+            float visitorHeight=LEGENDTABLEHEADERHEIGHT+LEGENDTABLEENTRYHEIGHT*[I_visitorArray count];
+            if (I_measures.contributorWidth+2*LEGENDIMAGEPADDING+I_measures.visitorWidth>I_textContainerSize.width) {
+                legendHeight+=visitorHeight;
+            } else {
+                legendHeight=MAX(legendHeight,visitorHeight);
+            }
+        }
+
+        I_contributorCount=[I_contributorArray count];
+        I_visitorCount = [[printInfoDictionary objectForKey:@"SEEParticipantsVisitors"] boolValue]?[I_visitorArray count]:0;
+        I_contributorIndex=0;
+        I_visitorIndex=0;
+
+        int contributorCount=I_contributorCount;
+        int visitorCount=I_visitorCount;
+        
+
+        while (contributorCount+visitorCount > 0) {
+            NSSize maxSize=I_textContainerSize;
+            legendHeight=0.;
+            if (contributorCount) legendHeight=LEGENDTABLEHEADERHEIGHT+LEGENDTABLEENTRYHEIGHT*contributorCount;
+            if (visitorCount>0) {
+                float visitorHeight=LEGENDTABLEHEADERHEIGHT+LEGENDTABLEENTRYHEIGHT*visitorCount;
+                if (maxSize.width < I_measures.contributorWidth+2*LEGENDIMAGEPADDING+I_measures.visitorWidth) {
+                    legendHeight+=(legendHeight>0?5.:0.)+visitorHeight;
+                } else {
+                    legendHeight=MAX(legendHeight,visitorHeight);
+                }
+            }
+        
+            if (legendHeight < I_textContainerSize.height) {
+                // all did fit
+                contributorCount=0;
+                visitorCount=0;
+            } else {
+                // try to fit all on the page
+                NSPoint cursor=NSMakePoint(0., 0.);
+                while (YES) {
+                    BOOL columnHadContributors;
+                    if (contributorCount>0) {
+                        if (cursor.x+I_measures.contributorWidth>maxSize.width && cursor.x>0) {
+                            // rest of page not wide enough
+                            break;
+                        } else {
+                            cursor.y+=LEGENDTABLEHEADERHEIGHT;
+                            int maxEntries=(maxSize.height-cursor.y)/LEGENDTABLEENTRYHEIGHT;
+                            if (maxEntries > contributorCount) {
+                                cursor.y+=contributorCount*LEGENDTABLEENTRYHEIGHT+5.;
+                                contributorCount=0;
+                                columnHadContributors=YES;
+                            } else {
+                                cursor.y=0;
+                                contributorCount-=maxEntries;
+                                cursor.x+=I_measures.contributorWidth+5.;
+                                continue;
+                            }
+                        }
+                    }
+                    if (visitorCount>0) {
+                        if (cursor.x+I_measures.visitorWidth>maxSize.width && cursor.x>0) {
+                            // rest of page not wide enough
+                            break;
+                        } else {
+                            cursor.y+=LEGENDTABLEHEADERHEIGHT;
+                            int maxEntries=(maxSize.height-cursor.y)/LEGENDTABLEENTRYHEIGHT;
+                            if (maxEntries > visitorCount) {
+                                cursor.y+=visitorCount*LEGENDTABLEENTRYHEIGHT+5.;
+                                visitorCount=0;
+                                break;
+                            } else {
+                                cursor.y=0;
+                                visitorCount-=maxEntries;
+                                cursor.x+=MAX((columnHadContributors?I_measures.contributorWidth:0.),I_measures.visitorWidth);
+                                continue;
+                            }
+                        }
+                    }
+                    break;
+                }
+                I_pagesWithFullLegend++;
+            }
+            I_pagesWithLegend++;
+        }
+        legendHeight+=5.;
+    }
+
     // setup Paragraph Style and add line Numbers
     BOOL lineNumbers=[[printInfoDictionary objectForKey:@"SEELineNumbers"] boolValue];
     
@@ -335,23 +505,34 @@
     do {
         BOOL leftPage=I_pageCount%2 && [[printInfoDictionary objectForKey:@"SEEFacingPages"] boolValue];
         overflew=NO;
-        NSTextContainer *textContainer=[[NSTextContainer alloc] initWithContainerSize:I_textContainerSize];
-        NSTextView *textview= [[PrintTextView alloc] initWithFrame:NSMakeRect(leftPage?[printInfo rightMargin]:origin.x,origin.y,
-                                                                I_textContainerSize.width,I_textContainerSize.height)
-                                                  textContainer:textContainer];
-        [textview setHorizontallyResizable:NO];
-        [textview setVerticallyResizable:NO];
-        [textview setBackgroundColor:[I_document documentBackgroundColor]];
-        [I_layoutManager addTextContainer:textContainer];
-        [self addSubview:textview];
-        NSRange glyphRange=[I_layoutManager glyphRangeForTextContainer:textContainer];
-        if (lastGlyphRange.location!=NSNotFound &&
-            NSMaxRange(glyphRange)!=NSMaxRange(lastGlyphRange)) {
-            overflew=YES;
-        }
-        [textContainer release];
-        [textview release];
-        
+        if (I_pageCount<I_pagesWithLegend-1) {
+            overflew = YES;
+        } else {
+            NSSize containerSize=I_textContainerSize;
+            if (I_pageCount==I_pagesWithLegend-1) {
+                containerSize.height-=legendHeight;
+            }
+            if (containerSize.height>0) { 
+                NSTextContainer *textContainer=[[NSTextContainer alloc] initWithContainerSize:containerSize];
+                NSTextView *textview= [[PrintTextView alloc] initWithFrame:NSMakeRect(leftPage?[printInfo rightMargin]:origin.x,origin.y+((I_pageCount==I_pagesWithLegend-1)?legendHeight:0.),
+                                                                        containerSize.width,containerSize.height)
+                                                          textContainer:textContainer];
+                [textview setHorizontallyResizable:NO];
+                [textview setVerticallyResizable:NO];
+                [textview setBackgroundColor:[I_document documentBackgroundColor]];
+                [I_layoutManager addTextContainer:textContainer];
+                [self addSubview:textview];
+                NSRange glyphRange=[I_layoutManager glyphRangeForTextContainer:textContainer];
+                if (lastGlyphRange.location!=NSNotFound &&
+                    NSMaxRange(glyphRange)!=NSMaxRange(lastGlyphRange)) {
+                    overflew=YES;
+                }
+                [textContainer release];
+                [textview release];
+            } else {
+                overflew = YES;
+            }
+        }        
         origin.y+=I_pageSize.height;
         I_pageCount+=1;
         NSRect frame=[self frame];
@@ -369,23 +550,106 @@
     [super beginPageInRect:aRect atPlacement:NSMakePoint(0.,0.)];
 }
 
+- (void)drawUser:(TCMMMUser*)aUser atPoint:(NSPoint)point visitor:(BOOL)isVisitor {
+    NSAttributedString *emailLabel=[[[NSAttributedString alloc] initWithString:NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export") attributes:S_contactLabelAttributes] autorelease];
+    NSAttributedString *aimLabel=[[[NSAttributedString alloc] initWithString:NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export") attributes:S_contactLabelAttributes] autorelease];
+    NSAttributedString *newline=[[[NSAttributedString alloc] initWithString:@"\n" attributes:S_contactLabelAttributes] autorelease];
+
+    static NSMutableAttributedString *mutableAttributedString=nil;
+    if (!mutableAttributedString) {
+        mutableAttributedString=[NSMutableAttributedString new];
+    }
+
+    NSUserDefaults *standardUserDefaults=[NSUserDefaults standardUserDefaults];
+
+
+    if (!isVisitor) {
+        NSColor *changeColor=[aUser changeColor];
+        NSColor *userBackgroundColor=[[I_document documentBackgroundColor] blendedColorWithFraction:
+                            [standardUserDefaults floatForKey:ChangesSaturationPreferenceKey]/100.
+                         ofColor:changeColor];
+        [userBackgroundColor set];
+        [NSBezierPath fillRect:NSMakeRect(point.x,point.y,(isVisitor?I_measures.visitorNameWidth:I_measures.contributorNameWidth)+LEGENDIMAGEPADDING*2+LEGENDTABLEENTRYHEIGHT,LEGENDTABLEENTRYHEIGHT)];
+        [S_nameAttributes setObject:[I_document documentForegroundColor] forKey:NSForegroundColorAttributeName];
+    } else {
+        [S_nameAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+    }
+    
+    NSRect myPictureRect=NSMakeRect(point.x+LEGENDIMAGEPADDING,point.y+LEGENDIMAGEPADDING,
+                                    LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING,
+                                    LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING);
+    NSImage *userImage=[[[aUser properties] objectForKey:@"Image"] copy];
+    if (![userImage isFlipped]) [userImage setFlipped:YES];
+    [userImage drawInRect:myPictureRect 
+               fromRect:NSMakeRect(0.,0.,[userImage size].width,[userImage size].height) 
+               operation:NSCompositeSourceOver fraction:1.0];
+    NSPoint textPoint=point;
+    textPoint.x+=LEGENDTABLEENTRYHEIGHT+LEGENDIMAGEPADDING;
+    
+    textPoint.y+=(LEGENDTABLEENTRYHEIGHT-12.)/2;
+    
+     [[aUser name] drawAtPoint:textPoint withAttributes:S_nameAttributes];
+    textPoint.y-=(LEGENDTABLEENTRYHEIGHT-12.)/2;
+    //                textPoint.y+=LEGENDIMAGEPADDING;
+    textPoint.x+=(isVisitor?I_measures.visitorNameWidth:I_measures.contributorNameWidth)+LEGENDIMAGEPADDING*2;
+    
+    [mutableAttributedString replaceCharactersInRange:NSMakeRange(0,[mutableAttributedString length]) withString:@""];
+    
+    NSString *aim=[[aUser properties] objectForKey:@"AIM"];
+    if ([aim length]>0) {
+        [mutableAttributedString appendAttributedString:aimLabel];
+        [mutableAttributedString appendString:@" "];
+        [mutableAttributedString appendAttributedString:[[[NSAttributedString alloc] initWithString:aim attributes:S_contactAttributes] autorelease]];
+    }
+    [mutableAttributedString appendAttributedString:newline];
+    NSString *email=[[aUser properties] objectForKey:@"Email"];
+    if ([email length]>0) {
+        [mutableAttributedString appendAttributedString:emailLabel];
+        [mutableAttributedString appendString:@" "];
+        [mutableAttributedString appendAttributedString:[[[NSAttributedString alloc] initWithString:email attributes:S_contactAttributes] autorelease]];
+    }
+    
+    [mutableAttributedString drawAtPoint:textPoint];
+}
+
+- (void)strokeLineFromPoint:(NSPoint)from toRelativePoint:(NSPoint)to width:(float)aWidth {
+    static NSBezierPath *path;
+    if (!path) {
+        path = [NSBezierPath new];
+    }
+    [path removeAllPoints];
+    [path setLineWidth:aWidth];
+    [path moveToPoint:from];
+    [path relativeLineToPoint:to];
+    [path stroke];
+}
+
+- (void)drawTableHeading:(NSString *)aHeading atPoint:(NSPoint)aPoint width:(float)aWidth {
+    [[NSColor colorWithCalibratedWhite:0.8 alpha:1.0] set];
+    [NSBezierPath fillRect:NSMakeRect(aPoint.x,aPoint.y,aWidth,LEGENDTABLEHEADERHEIGHT)];
+    [aHeading drawAtPoint:NSMakePoint(aPoint.x+LEGENDIMAGEPADDING,aPoint.y) 
+              withAttributes:S_tableHeadingAttributes];
+    [[NSColor blackColor] set];
+    [self strokeLineFromPoint:aPoint toRelativePoint:NSMakePoint(aWidth,0.) width:0.3];
+}
+
 - (void)drawRect:(NSRect)rect {
     NSPrintInfo *printInfo = [[NSPrintOperation currentOperation] printInfo];
     NSDictionary *printInfoDictionary = [printInfo dictionary];
 
-
+    int currentPage=(int)(rect.origin.y/I_pageSize.height)+1;
+    BOOL leftPage=currentPage%2 && [[printInfoDictionary objectForKey:@"SEEFacingPages"] boolValue];
+    float originX=leftPage?[printInfo rightMargin]:[printInfo leftMargin];
     if ([[printInfoDictionary objectForKey:@"SEEPageHeader"] boolValue]) {
-        int currentPage=(int)(rect.origin.y/I_pageSize.height)+1;
-        BOOL leftPage=currentPage%2 && [[printInfoDictionary objectForKey:@"SEEFacingPages"] boolValue];
 
         // Drawing code here.
         // NSLog(@"drawRect: %@", NSStringFromRect(rect));
         // move header to current location
         NSRect headerFrame=[I_headerTextView frame];
-        headerFrame.origin.y=rect.origin.y+[printInfo topMargin];
-        headerFrame.origin.x=leftPage?[printInfo rightMargin]:[printInfo leftMargin];
+        headerFrame.origin.y=(currentPage-1)*I_pageSize.height+[printInfo topMargin];
+        headerFrame.origin.x=originX;
         [I_headerTextView setFrame:headerFrame];
-    
+        
         // replace the page text
         NSTextStorage *textStorage=[I_headerTextView textStorage];
         [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:
@@ -395,13 +659,152 @@
             ]
         ];
         [textStorage addAttributes:[self headerAttributes] range:NSMakeRange(0,[textStorage length])];
-
-        
     
         [[NSColor blackColor] set];
         NSPoint basePoint=I_textContainerOrigin;
         basePoint.y+=rect.origin.y-4;
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(basePoint.x,basePoint.y) toPoint:NSMakePoint(basePoint.x+I_textContainerSize.width,basePoint.y)];
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(basePoint.x,basePoint.y) 
+                      toPoint:NSMakePoint(basePoint.x+I_textContainerSize.width,basePoint.y)];
+    }
+
+    if ([[printInfoDictionary objectForKey:@"SEEParticipants"] boolValue] && currentPage<=I_pagesWithLegend) {
+
+        NSPoint origin=NSMakePoint(rect.origin.x+I_textContainerOrigin.x,(currentPage-1)*I_pageSize.height+I_textContainerOrigin.y);
+        origin.x=originX;
+        
+        if (currentPage <= I_pagesWithFullLegend) {
+            NSSize maxSize=NSMakeSize(origin.x+I_textContainerSize.width,origin.y+I_textContainerSize.height);
+            NSPoint cursor=origin;
+            // fill as many legend items in there as you can!
+            while (YES) {
+                BOOL columnHadContributors;
+                if (I_contributorIndex<I_contributorCount) {
+                    float tableWidth=I_measures.contributorWidth;
+                    if (cursor.x+tableWidth>maxSize.width && cursor.x>origin.x) {
+                        // rest of page not wide enough
+                        break;
+                    } else {
+                        [self drawTableHeading:NSLocalizedString(@"Contributors",@"Title for Contributors in Export and Print") 
+                                atPoint:cursor width:tableWidth];
+                        cursor.y+=LEGENDTABLEHEADERHEIGHT;
+                        int alternate=0;
+                        while (I_contributorIndex<I_contributorCount && 
+                               maxSize.height-cursor.y>=LEGENDTABLEENTRYHEIGHT) {
+                            TCMMMUser *user=[I_contributorArray objectAtIndex:I_contributorIndex];
+                            
+                            NSRect myRect=NSMakeRect(cursor.x,cursor.y,tableWidth,LEGENDTABLEENTRYHEIGHT);
+                            if (alternate) {
+                                [[NSColor colorWithCalibratedRed:237./255. green:243./255. blue:254./255. alpha:1.] set];
+                                [NSBezierPath fillRect:myRect];
+                            }
+                            [self drawUser:user atPoint:cursor visitor:NO];
+                            [[NSColor blackColor] set];
+                            [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
+                            I_contributorIndex++;
+                            cursor.y+=LEGENDTABLEENTRYHEIGHT;
+                            alternate=1-alternate;
+                        }
+                        [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
+                        
+                        if (I_contributorIndex<I_contributorCount) {
+                            cursor.x+=tableWidth+5.;
+                            cursor.y=origin.y;
+                            continue;
+                        } else {
+                            cursor.y+=5.;
+                            columnHadContributors=YES;
+                        }
+                    }
+                }
+                if (I_visitorIndex<I_visitorCount) {
+                    float tableWidth=I_measures.visitorWidth;
+                    if (cursor.x+tableWidth>maxSize.width && cursor.x>origin.x) {
+                        // rest of page not wide enough
+                        break;
+                    } else {
+                        [self drawTableHeading:NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print") 
+                                atPoint:cursor width:tableWidth];
+                        cursor.y+=LEGENDTABLEHEADERHEIGHT;
+                        int alternate=0;
+                        while (I_visitorIndex<I_visitorCount && 
+                               maxSize.height-cursor.y>=LEGENDTABLEENTRYHEIGHT) {
+                            TCMMMUser *user=[I_visitorArray objectAtIndex:I_visitorIndex];
+                            
+                            NSRect myRect=NSMakeRect(cursor.x,cursor.y,tableWidth,LEGENDTABLEENTRYHEIGHT);
+                            if (alternate) {
+                                [[NSColor colorWithCalibratedRed:237./255. green:243./255. blue:254./255. alpha:1.] set];
+                                [NSBezierPath fillRect:myRect];
+                            }
+                            [self drawUser:user atPoint:cursor visitor:YES];
+                            [[NSColor blackColor] set];
+                            [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
+                            I_visitorIndex++;
+                            cursor.y+=LEGENDTABLEENTRYHEIGHT;
+                            alternate=1-alternate;
+                        }
+                        [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
+                        
+                        if (I_visitorIndex<I_visitorCount) {
+                            cursor.x+=MAX(tableWidth,(columnHadContributors?I_measures.contributorWidth:0.))+5.;
+                            cursor.y=origin.y;
+                            continue;
+                        }
+                    }
+                }
+                break;
+            }
+        
+        } else if (currentPage==I_pagesWithLegend) {
+
+            NSPoint cursor=origin;
+            int visitors=0;
+            for (visitors=0;visitors<2;visitors++) {
+                float tableWidth=(visitors?I_measures.visitorWidth:I_measures.contributorWidth);
+                
+                if (visitors) {
+                    if ([[printInfoDictionary objectForKey:@"SEEParticipantsVisitors"] boolValue]) {
+                        if (I_measures.contributorWidth+2*LEGENDIMAGEPADDING+I_measures.visitorWidth<I_textContainerSize.width) {
+                            cursor.x+=I_measures.contributorWidth+2*LEGENDIMAGEPADDING;
+                            cursor.y =origin.y;
+                        } else {
+                            cursor.y+=5.;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+
+                [self drawTableHeading:(visitors)
+                 ?NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print")
+                 :NSLocalizedString(@"Contributors",@"Title for Visitors in Export and Print") 
+                        atPoint:cursor width:tableWidth];
+                cursor.y+=LEGENDTABLEHEADERHEIGHT;
+
+                int count=visitors?I_visitorCount:I_contributorCount;
+                NSArray *userArray=visitors?I_visitorArray:I_contributorArray;
+                int index=visitors?I_visitorIndex:I_contributorIndex;
+                TCMMMUser *user=nil;
+                int alternate=0;
+                while (index<count) {
+                    user=[userArray objectAtIndex:index];
+                    NSRect myRect=NSMakeRect(cursor.x,cursor.y,tableWidth,LEGENDTABLEENTRYHEIGHT);
+                    if (alternate) {
+                        [[NSColor colorWithCalibratedRed:237./255. green:243./255. blue:254./255. alpha:1.] set];
+                        [NSBezierPath fillRect:myRect];
+                    }
+                    [self drawUser:user atPoint:cursor visitor:visitors];
+                    
+                    alternate=1-alternate;
+                    [[NSColor blackColor] set];
+                    [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
+    
+                    cursor.y+=LEGENDTABLEENTRYHEIGHT;
+                    index++;
+                }
+                [[NSColor blackColor] set];
+                [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
+            }
+        }
     }
 
 //    [[NSColor redColor] set];

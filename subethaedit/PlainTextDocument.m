@@ -1492,11 +1492,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     if (shouldShowAIMAndEmail) {
                         [legend appendString:@"<td>"];
                         if ([aim length]) {
-                            [legend appendFormat:@"aim: <a href=\"aim:goim?screenname=%@\">%@</a>",aim,aim];
+                            [legend appendFormat:@"%@ <a href=\"aim:goim?screenname=%@\">%@</a>",NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export"),aim,aim];
                         }
                         [legend appendString:@"<br />"];
                         if ([email length]) {
-                            [legend appendFormat:@"email: <a href=\"%@\">%@</a>",email,email];
+                            [legend appendFormat:@"%@ <a href=\"%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
                         }
                         [legend appendString:@"</td>"];
                     }
@@ -1522,11 +1522,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     if (shouldShowAIMAndEmail) {
                         [legend appendString:@"<td>"];
                         if ([aim length]) {
-                            [legend appendFormat:@"aim: <a href=\"aim:goim?screenname=%@\">%@</a>",aim,aim];
+                            [legend appendFormat:@"%@ <a href=\"aim:goim?screenname=%@\">%@</a>",NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export"),aim,aim];
                         }
                         [legend appendString:@"<br />"];
                         if ([email length]) {
-                            [legend appendFormat:@"email: <a href=\"%@\">%@</a>",email,email];
+                            [legend appendFormat:@"%@ <a href=\"%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
                         }
                         [legend appendString:@"</td>"];
                     }

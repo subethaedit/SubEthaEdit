@@ -52,5 +52,6 @@ typedef enum _LineEnding {
 /* returns length change */
 - (NSRange)detab:(BOOL)shouldDetab inRange:(NSRange)aRange tabWidth:(int)aTabWidth askingTextView:(NSTextView *)aTextView;
 - (void)makeLeadingWhitespaceNonBreaking;
+- (void)appendString:(NSString *)aString;
 
 @end

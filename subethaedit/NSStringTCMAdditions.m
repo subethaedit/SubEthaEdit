@@ -800,4 +800,9 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     }
 }
 
+- (void)appendString:(NSString *)aString {
+    [self replaceCharactersInRange:NSMakeRange([self length],0) withString:aString];
+}
+
+
 @end

@@ -21,6 +21,27 @@
     NSTextView *I_headerTextView;
     NSString *I_headerFormatString;
     NSDictionary *I_headerAttributes;
+    NSMutableArray *I_contributorArray,
+                   *I_visitorArray;
+    struct {
+        float contributorNameWidth;
+        float contributorAIMWidth;
+        float contributorEmailWidth;
+        float visitorNameWidth;
+        float visitorAIMWidth;
+        float visitorEmailWidth;
+        float emailAIMLabelWidth;
+        float contributorWidth;
+        float visitorWidth;
+    } I_measures;
+    
+    int I_visitorIndex;
+    int I_contributorIndex;
+    int I_visitorCount;
+    int I_contributorCount;
+    
+    int I_pagesWithLegend;
+    int I_pagesWithFullLegend;
 }
 
 - (void)setHeaderFormatString:(NSString *)aString;
