@@ -15,4 +15,7 @@
 + (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding;
 + (NSString *)UUIDString;
 
+- (BOOL) isValidSerial;
+- (long) base36Value;
+
 @end
