@@ -72,8 +72,8 @@ static NSString			*OgrePrivateUnicodeParagraphSeparator = nil;
 static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int numberOfGroups, int* listOfGroupNumbers, regex_t* reg, void* nameDict)
 {
 	// 名前 -> グループ個数
-	[(NSMutableDictionary*)nameDict setObject:[NSNumber numberWithUnsignedInt:numberOfGroups] forKey:[NSString stringWithUTF8String:name]];
-	
+	[(NSMutableDictionary*)nameDict setObject:[NSNumber numberWithUnsignedInt:numberOfGroups] forKey:[NSString stringWithCharacters:(unichar*)name length:((unichar*)name_end - (unichar*)name)]];
+    
 	return 0;  /* 0: continue, otherwise: stop(break) */
 }
 
@@ -83,7 +83,7 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 + (void)initialize
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"+initialize of OGRegularExpression");
+	NSLog(@"+initialize of %@", [self className]);
 #endif
 	// onigurumaの初期化
 	onig_init();
@@ -178,7 +178,7 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 	escapeCharacter:(NSString*)character
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-initWithString: of OGRegularExpression");
+	NSLog(@"-initWithString: of %@", [self className]);
 #endif
 	self = [super init];
 	if (self == nil) return nil;
@@ -230,25 +230,45 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 	}
 	
 	int 			r;
-	unsigned char	*utf8Str;
 	OnigErrorInfo	einfo;
 	
-	// UTF8文字列に変換する。(OgreSimpleMatchingSyntaxの場合は正規表現に変換してから)
-	NSString	*compileTimeString;
+	// UTF16文字列に変換する。(OgreSimpleMatchingSyntaxの場合は正規表現に変換してから)
+	NSString        *compileTimeString;
+    NSString        *swappedCompTimeString;
+    unsigned int    lengthOfswappedCompTimeString;
+    
 	if (syntax == OgreSimpleMatchingSyntax) {
 		compileTimeString = [[self class] regularizeString:_expressionString escapeCharacter:_escapeCharacter];
 		if (_options & OgreDelimitByWhitespaceOption) compileTimeString = [[self class] delimitByWhitespaceInString:compileTimeString];
 	} else {
 		compileTimeString = _expressionString;
 	}
-	utf8Str = (unsigned char*)[[[self class] swapBackslashInString:compileTimeString 
-		forCharacter:_escapeCharacter] UTF8String];
-	
+    swappedCompTimeString = [[self class] swapBackslashInString:compileTimeString 
+		forCharacter:_escapeCharacter];
+    lengthOfswappedCompTimeString = [swappedCompTimeString length];
+    
+	_UTF16ExpressionString = (unichar*)NSZoneMalloc([self zone], sizeof(unichar) * lengthOfswappedCompTimeString);
+    if (_UTF16ExpressionString == NULL) {
+        [self release];
+        [NSException raise:OgreException format:@"fail to allocate a memory"];
+    }
+    [swappedCompTimeString getCharacters:_UTF16ExpressionString range:NSMakeRange(0, lengthOfswappedCompTimeString)];
+    	
 	// 正規表現オブジェクトの作成
-	r = onig_new(&_regexBuffer, utf8Str, utf8Str + strlen(utf8Str),
-		compileTimeOptions, ONIG_ENCODING_UTF8, 
-			[[self class] onigSyntaxTypeForSyntax:_syntax] 
-		, &einfo);
+    OnigCompileInfo ci;
+    ci.num_of_elements = 5;
+    ci.pattern_enc = ONIG_ENCODING_UTF16_BE;
+    ci.target_enc  = ONIG_ENCODING_UTF16_BE;
+    ci.syntax      = [[self class] onigSyntaxTypeForSyntax:_syntax];
+    ci.option      = compileTimeOptions;
+    ci.ambig_flag  = ONIGENC_AMBIGUOUS_MATCH_DEFAULT;
+    
+	r = onig_new_deluxe(
+        &_regexBuffer, 
+        (unsigned char*)_UTF16ExpressionString, 
+        (unsigned char*)(_UTF16ExpressionString + lengthOfswappedCompTimeString),
+		&ci, 
+        &einfo);
 	if (r != ONIG_NORMAL) {
 		// エラー。例外を発生させる。
 		char s[ONIG_MAX_ERROR_MESSAGE_LEN];
@@ -262,7 +282,7 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 		// named groupを使用する場合
 		// 辞書の作成
 		// 例: /(?<a>a+)(?<b>b+)(?<a>c+)/
-		// 構造 -> {"a" = (1,3), "b" = (2)}
+		// 構造: {"a" = (1,3), "b" = (2)}
 		_groupIndexForNameDictionary = [[NSMutableDictionary alloc] initWithCapacity:[self numberOfNames]];
 		r = onig_foreach_name(_regexBuffer, namedGroupCallback, _groupIndexForNameDictionary);	// nameの一覧を得る
 		
@@ -271,12 +291,20 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 		NSMutableArray	*array;
 		int 			i, maxGroupIndex = 0;
 		while ((name = [keyEnumerator nextObject]) != nil) {
-			unsigned char	*utf8Name = (unsigned char*)[name UTF8String];
+            unsigned int    lengthOfName = [name length];
+			unichar         *UTF16Name = (unichar*)NSZoneMalloc([self zone], sizeof(unichar) * lengthOfName);
+            if (UTF16Name == NULL) {
+                [self release];
+                [NSException raise:OgreException format:@"fail to allocate a memory"];
+            }
+            [name getCharacters:UTF16Name range:NSMakeRange(0, lengthOfName)];
 
 			/* nameに対応する部分文字列のindexを得る */
 			int	*indexList;
-			int n = onig_name_to_group_numbers(_regexBuffer, utf8Name, utf8Name + strlen(utf8Name), &indexList);
+			int n = onig_name_to_group_numbers(_regexBuffer, (unsigned char*)UTF16Name, (unsigned char*)(UTF16Name + lengthOfName), &indexList);
 			
+            NSZoneFree([self zone], UTF16Name);
+            
 			array = [[NSMutableArray alloc] initWithCapacity:n];
 			for (i = 0; i < n; i++) {
 				[array addObject:[NSNumber numberWithUnsignedInt: indexList[i] ]];
@@ -288,7 +316,7 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 		
 		// 逆引き辞書の作成
 		// 例: /(?<a>a+)(?<b>b+)(?<a>c+)/
-		// 構造 -> ("a", "b", "a")
+		// 構造: ("a", "b", "a")
 		_nameForGroupIndexArray = [[NSMutableArray alloc] initWithCapacity:maxGroupIndex];
 		for(i=0; i<maxGroupIndex; i++) {
 			[_nameForGroupIndexArray addObject:@""];
@@ -360,7 +388,8 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 	escapeCharacter:(NSString*)character
 {
 	int 			r;
-	unsigned char	*utf8Str;
+    unsigned int    length;
+	unichar         *UTF16Str;
 	OnigErrorInfo	einfo;
 	regex_t			*regexBuffer;
 	NSString		*escapeChar = nil;
@@ -388,23 +417,34 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 	// オプション(ONIG_OPTION_POSIX_REGIONとOgreFindNotEmptyOptionとOgreDelimitByWhitespaceOptionが立っている場合は下げる)
 	unsigned	compileTimeOptions = OgreCompileTimeOptionMask(options) & ~OgreFindNotEmptyOption & ~OgreDelimitByWhitespaceOption;
 	
-	// UTF8文字列に変換する。(OgreSimpleMatchingSyntaxの場合は正規表現に変換してから)
+	// UTF16文字列に変換する。(OgreSimpleMatchingSyntaxの場合は正規表現に変換してから)
 	NSString	*compileTimeString;
+	NSString	*swappedCompileTimeString;
+    
 	if (syntax == OgreSimpleMatchingSyntax) {
 		compileTimeString = [[self class] regularizeString:expressionString escapeCharacter:escapeChar];
 		if (options & OgreDelimitByWhitespaceOption) compileTimeString = [[self class] delimitByWhitespaceInString:compileTimeString];
 	} else {
 		compileTimeString = expressionString;
 	}
-	utf8Str = (unsigned char*)[[[self class] swapBackslashInString:compileTimeString 
-		forCharacter:escapeChar] UTF8String];
+	swappedCompileTimeString = [[self class] swapBackslashInString:compileTimeString 
+		forCharacter:escapeChar];
+    length = [swappedCompileTimeString length];
+    
+	UTF16Str = (unichar*)NSZoneMalloc([self zone], sizeof(unichar) * length);
+    if (UTF16Str == NULL) {
+        [NSException raise:OgreException format:@"fail to allocate a memory"];
+    }
+    [swappedCompileTimeString getCharacters:UTF16Str range:NSMakeRange(0, length)];
 	
 	// 正規表現オブジェクトの作成・解放
-	r = onig_new(&regexBuffer, utf8Str, utf8Str + strlen(utf8Str),
-		compileTimeOptions, ONIG_ENCODING_UTF8, 
+	r = onig_new(&regexBuffer, (unsigned char*)UTF16Str, (unsigned char*)(UTF16Str + length),
+		compileTimeOptions, ONIG_ENCODING_UTF16_BE, 
 			[[self class] onigSyntaxTypeForSyntax:syntax] 
 		, &einfo);
 	onig_free(regexBuffer);
+    NSZoneFree([self zone], UTF16Str);
+    
 	if (r == ONIG_NORMAL) {
 		// 正しい正規表現
 		return YES;
@@ -929,11 +969,7 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 // onigurumaのバージョン文字列を返す
 + (NSString*)onigurumaVersion
 {
-	return [NSString stringWithFormat:@"%d.%d.%d", 
-		ONIGURUMA_VERSION_MAJOR, ONIGURUMA_VERSION_MINOR, ONIGURUMA_VERSION_TEENY];
-	
-	// こんなコードの言い訳: onig_version()が変な値を返してきたため。なんでだろう。
-	//return [NSString stringWithCString:onig_version()];
+	return [NSString stringWithCString:onig_version()];
 }
 
 
@@ -941,7 +977,7 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 - (void)encodeWithCoder:(NSCoder*)encoder
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-encodeWithCoder: of OGRegularExpression");
+	NSLog(@"-encodeWithCoder: of %@", [self className]);
 #endif
 	//[super encodeWithCoder:encoder]; NSObject does ont respond to method encodeWithCoder:
 
@@ -967,7 +1003,7 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 - (id)initWithCoder:(NSCoder*)decoder
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-initWithCoder: of OGRegularExpression");
+	NSLog(@"-initWithCoder: of %@", [self className]);
 #endif
 	NSString		*escapeCharacter;
 	NSString		*expressionString;
@@ -1036,7 +1072,7 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 - (id)copyWithZone:(NSZone*)zone
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-copyWithZone: of OGRegularExpression");
+	NSLog(@"-copyWithZone: of %@", [self className]);
 #endif
 	return [[[self class] allocWithZone:zone]
 		initWithString: [self expressionString] 
@@ -1054,7 +1090,7 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 			[self expressionString], 
 			[[self class] stringsForOptions:[self options]], 
 			[[self class] stringForSyntax:[self syntax]], 
-			((_groupIndexForNameDictionary)? (_groupIndexForNameDictionary) : ([NSDictionary dictionary])), 
+			((_groupIndexForNameDictionary != nil)? (_groupIndexForNameDictionary) : ([NSDictionary dictionary])), 
 			nil]
 		forKeys: [NSArray arrayWithObjects: 
 			@"Escape Character", 
@@ -1066,6 +1102,12 @@ static int namedGroupCallback(unsigned char *name, unsigned char *name_end, int 
 		];
 
 	return [dictionary description];
+}
+
+// capture groupの数
+- (unsigned)numberOfGroups
+{
+    return onig_number_of_captures(_regexBuffer);
 }
 
 // name groupの数

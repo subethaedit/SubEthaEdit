@@ -30,7 +30,7 @@
 - (void)dealloc
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-dealloc of OGRegularExpression");
+	NSLog(@"-dealloc of %@", [self className]);
 #endif
 	// named group(‹tˆø‚«)«‘
 	[_groupIndexForNameDictionary release];
@@ -40,6 +40,7 @@
 	if (_regexBuffer != NULL) onig_free(_regexBuffer);
 	
 	// ³‹K•\Œ»‚ğ•\‚·•¶š—ñ
+    NSZoneFree([self zone], _UTF16ExpressionString);
 	[_expressionString release];
 	
 	// \‚Ì‘ã‘Ö•¶š

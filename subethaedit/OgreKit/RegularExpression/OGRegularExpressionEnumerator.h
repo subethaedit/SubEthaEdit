@@ -22,13 +22,12 @@ extern NSString	* const OgreEnumeratorException;
 {
 	OGRegularExpression	*_regex;							// 正規表現オブジェクト
 	NSString			*_swappedTargetString;				// 検索対象文字列。\が入れ替わっている(事がある)ので注意
-	unsigned char		*_utf8SwappedTargetString;			// UTF8での検索対象文字列
-	unsigned			_utf8lengthOfSwappedTargetString;	// strlen([_swappedTargetString UTF8String])
+	unichar             *_UTF16SwappedTargetString;			// UTF16での検索対象文字列
+	unsigned			_lengthOfSwappedTargetString;       // [_swappedTargetString length]
 	NSRange				_searchRange;						// 検索範囲
 	unsigned			_searchOptions;						// 検索オプション
-	int					_utf8TerminalOfLastMatch;			// 前回にマッチした文字列の終端位置  (_region->end[0])
+	int					_terminalOfLastMatch;               // 前回にマッチした文字列の終端位置  (_region->end[0] / sizeof(unichar))
 	unsigned			_startLocation;						// マッチ開始位置
-	unsigned			_utf8StartLocation;					// UTF8でのマッチ開始位置
 	BOOL				_isLastMatchEmpty;					// 前回のマッチが空文字列だったかどうか
 	
 	unsigned			_numberOfMatches;					// マッチした数

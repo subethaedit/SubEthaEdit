@@ -13,50 +13,141 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OGRegularExpression.h>
+#import <OgreKit/OGReplaceExpression.h>
+//#import <OgreKit/OgreTextFinder.h>
+#import <OgreKit/OgreTextFindProgressSheet.h>
+#import <OgreKit/OgreTextFindResult.h>
+#import <OgreKit/OgreTextFindComponent.h>
+#import <OgreKit/OgreTextFindLeaf.h>
+#import <OgreKit/OgreTextFindBranch.h>
 
-// スレッドに割り当てられた作業の種類
-typedef enum _OgreTextFindThreadType {
-	OgreFindNothingThread = 0,
-	OgreFindAllThread, 
-	OgreReplaceAllThread, 
-	OgreHighlightThread
-} OgreTextFindThreadType;
 
-@class	OgreTextFindThreadCenter, OgreTextFindProgressSheet;
+@protocol OgreTextFindProgressDelegate 
+// show progress
+- (void)setProgress:(double)progression message:(NSString*)message; // progression < 0: indeterminate
+- (void)setDonePerTotalMessage:(NSString*)message;
+// finish
+- (void)done:(double)progression message:(NSString*)message; // progression < 0: indeterminate
 
-@interface OgreTextFindThread : NSObject
+// close
+- (void)close:(id)sender;
+- (void)setReleaseWhenOKButtonClicked:(BOOL)shouldRelease;
+
+// cancel
+- (void)setCancelSelector:(SEL)aSelector toTarget:(id)aTarget withObject:(id)anObject;
+
+// show error alert
+- (void)showErrorAlert:(NSString*)title message:(NSString*)errorMessage;
+@end
+
+@class OgreTextFindRoot;
+
+@interface OgreTextFindThread : NSObject <OgreTextFindVisitor>
 {
-	OgreTextFindThreadCenter	*_threadCenter;		// 結果の送り先
-	
-	OgreTextFindProgressSheet	*_progressSheet;	// 進歩状況表示用シート
-	BOOL	_cancelled;								// キャンセルされたかどうか。two-phase termination。
-	
-	OgreTextFindThreadType		_command;			// 作業の種類
-	id							_target;			// 検索対象 (今のところNSTextViewのみ)
-	NSString					*_text;				// 検索対象文字列
-	OGRegularExpression			*_regex;			// 検索パターン
-	unsigned					_options;			// 検索オプション
-	NSString					*_replaceString;	// 置換文字列
-	NSColor						*_color;			// ハイライトカラー
-	BOOL						_inSelection;		// 選択範囲内検索かどうか
+    /* implementors */
+    NSObject <OgreTextFindComponent, OgreTextFindTargetAdapter>    *_targetAdapter;
+    OgreTextFindLeaf                    *_leafProcessing;
+    NSEnumerator                        *_enumeratorProcessing;
+    NSMutableArray                      *_enumeratorStack;
+    NSMutableArray                      *_branchStack;
+    OgreTextFindRoot                    *_rootAdapter;
+    
+    /* Parameters */
+    OGRegularExpression *_regex;                // regular expression
+    OGReplaceExpression *_repex;                // replace expression
+    NSColor             *_highlightColor;       // highlight color
+    unsigned            _searchOptions;         // search option
+    BOOL                _inSelection;           // find scope
+    BOOL                _asynchronous;          // synchronous or asynchronous 
+    SEL                 _didEndSelector;        // selector for sending a finish message
+    id                  _didEndTarget;          // target for sending a finish message
+    
+    NSObject <OgreTextFindProgressDelegate> *_progressDelegate;      // progress checker
+    
+    volatile BOOL       _shouldFinish;          // finish flag
+    
+    /* state */
+    volatile BOOL       _terminated;   // two-phase termination
+    BOOL                _exceptionRaised;
+    unsigned            _numberOfMatches;   // number of matches
+    OgreTextFindResult  *_textFindResult;   // result
+    int                 _numberOfDoneLeaves,
+                        _numberOfTotalLeaves;
+    
+    NSDate              *_processTime;      // process time
+    NSDate              *_metronome;        // metronome
 }
 
-/* 初期化 */
-- (id)initWithCenter:(OgreTextFindThreadCenter*)aCenter;
-/* 処理開始 */
-- (void)start:(OgreTextFindThreadType)command 
-	target:(id)target 
-	regularExpression:(OGRegularExpression*)regularExpression 
-	options:(unsigned)options 
-	replaceString:(NSString*)replaceString 
-	color:(NSColor*)highlightColor 
-	inSelection:(BOOL)inSelection 
-	progressSheet:(OgreTextFindProgressSheet*)progressSheet;
-/* Cancel */
-- (void)cancel:(id)sender;
-/* 完了したことをシートに表示 */
-- (void)showDone:(double)progression count:(int)count time:(NSTimeInterval)processTime cancelled:(BOOL)cancelled;
-/* 完了 */
-- (void)sendResult:(id)result;
+/* Creating and initializing */
+- (id)initWithComponent:(NSObject <OgreTextFindComponent>*)aComponent;
+
+/* Running and stopping */
+- (void)detach;
+- (void)terminate;
+- (void)terminate:(id)sender;
+- (void)finish;
+
+/* result */
+- (OgreTextFindResult*)result;
+- (void)addResultLeaf:(id)aResultLeaf;
+- (void)beginGraftingToBranch:(OgreTextFindBranch*)aBranch;
+- (void)endGrafting;
+
+/* Configuration */
+- (void)setRegularExpression:(OGRegularExpression*)regex;
+- (void)setReplaceExpression:(OGReplaceExpression*)repex;
+- (void)setHighlightColor:(NSColor*)highlightColor;
+- (void)setOptions:(unsigned)options;
+- (void)setInSelection:(BOOL)inSelection;
+- (void)setAsynchronous:(BOOL)asynchronou;
+
+- (void)setDidEndSelector:(SEL)aSelector toTarget:(id)aTarget;
+- (void)setProgressDelegate:(id/*<OgreTextFindProgressDelegate>*/)aDelegate;
+
+/* Accessors */
+- (OGRegularExpression*)regularExpression;
+- (OGReplaceExpression*)replaceExpression;
+- (NSColor*)highlightColor;
+- (unsigned)options;
+- (BOOL)inSelection;
+- (NSObject <OgreTextFindProgressDelegate>*)progressDelegate;
+- (BOOL)isTerminated;
+- (NSTimeInterval)processTime;
+
+/* Protected methods */
+- (unsigned)numberOfMatches;         // number of matches
+- (void)incrementNumberOfMatches;    // _numberofMatches++
+- (void)finishingUp:(id)sender;
+- (void)exceptionRaised:(NSException*)exception;
+
+- (void)pushEnumerator:(NSEnumerator*)anEnumerator;
+- (NSEnumerator*)popEnumerator;
+- (NSEnumerator*)topEnumerator;
+
+- (OgreTextFindBranch*)rootAdapter;
+- (NSObject <OgreTextFindComponent, OgreTextFindTargetAdapter>*)targetAdapter;
+- (void)pushBranch:(OgreTextFindBranch*)aBranch;
+- (OgreTextFindBranch*)popBranch;
+- (OgreTextFindBranch*)topBranch;
+
+- (void)_setLeafProcessing:(OgreTextFindLeaf*)aLeaf;
+
+/* Methods implemented by subclasses */
+- (SEL)didEndSelectorForFindPanelController;
+
+- (void)willProcessFindingAll;
+- (void)willProcessFindingInBranch:(OgreTextFindBranch*)aBranch;
+- (void)willProcessFindingInLeaf:(OgreTextFindLeaf*)aLeaf;
+- (BOOL)shouldContinueFindingInLeaf:(OgreTextFindLeaf*)aLeaf;
+- (void)didProcessFindingInLeaf:(OgreTextFindLeaf*)aLeaf;
+- (void)didProcessFindingInBranch:(OgreTextFindBranch*)aBranch;
+- (void)didProcessFindingAll;
+
+- (void)finalizeFindingAll;
+
+- (NSString*)progressMessage;
+- (NSString*)doneMessage;
+- (double)progressPercentage;   // percentage of completion
+- (double)donePercentage;       // percentage of completion
 
 @end

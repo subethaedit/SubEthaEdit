@@ -14,6 +14,7 @@
 #import <OgreKit/OGRegularExpression.h>
 #import <OgreKit/OGRegularExpressionPrivate.h>
 #import <OgreKit/OGRegularExpressionMatch.h>
+#import <OgreKit/OGRegularExpressionCapture.h>
 #import <OgreKit/OGReplaceExpression.h>
 #import <OgreKit/OGReplaceExpressionPrivate.h>
 #import <stdlib.h>
@@ -34,7 +35,6 @@ static OGRegularExpression  *gReplaceRegex = nil;
 #define OgreEscapeQuote					(-4)
 #define OgreEscapeNamedGroup			(-5)
 #define OgreEscapeControlCode			(-6)
-#define OgreUndefinedEscapeCharacters   (-7)
 #define OgreEscapeNormalCharacters		(-8)
 
 
@@ -43,12 +43,12 @@ static OGRegularExpression  *gReplaceRegex = nil;
 + (void)initialize
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"+initialize of OGReplaceExpression");
+	NSLog(@"+initialize of %@", [self className]);
 #endif
 	gReplaceRegex = [[OGRegularExpression alloc] 
 		initWithString:[NSString stringWithFormat:
 		@"([^\\\\]+)|(?:\\\\x\\{(?@[0-9a-fA-F]{1,4})\\}){1,%d}|(?:\\\\(?:([0-9])|(&)|(\\+)|(`)|(')|(\\-)|(?:g<([0-9]+)>)|(?:g<([_a-zA-Z][_0-9a-zA-Z]*)>)|(t)|(n)|(r)|(\\\\)|(.?)))", ONIG_MAX_CAPTURE_HISTORY_GROUP] 
-		/*1						2                                        3		 4   5	   6   7   8          9               10                         11  12  13  14     default */
+		/*1						2                                        3		 4   5	   6   7   8          9               10                         11  12  13  14     15    */
 		options:(OgreCaptureGroupOption) 
 		syntax:OgreRubySyntax 
 		escapeCharacter:OgreBackslashCharacter];
@@ -58,17 +58,18 @@ static OGRegularExpression  *gReplaceRegex = nil;
 - (id)initWithString:(NSString*)replaceString syntax:(OgreSyntax)syntax escapeCharacter:(NSString*)character
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-initWithString: of OGReplaceExpression");
+	NSLog(@"-initWithString: of %@", [self className]);
 #endif
 	self = [super init];
 	if (self == nil) return nil;
 	
-	if ((replaceString == nil) || (character == nil)) {
+	if ((replaceString == nil) || (character == nil) || ([character length] == 0)) {
 		// stringがnilの場合、例外を発生させる。
 		[self release];
 		[NSException raise:OgreReplaceException format: @"nil string (or other) argument"];
 	}
 	
+    NSString    *escCharacter = [NSString stringWithString:character];
 	int			specialKey = 0;
 	unsigned	matchIndex = 0;
 	NSString	*controlCharacter = nil, *swappedReplaceString;
@@ -77,7 +78,8 @@ static OGRegularExpression  *gReplaceRegex = nil;
 	unsigned	numberOfHistory, indexOfHistory;
 	
 	NSEnumerator				*matchEnumerator;
-	OGRegularExpressionMatch	*match, *cap;
+	OGRegularExpressionMatch	*match;
+    OGRegularExpressionCapture  *cap;
 	
 	NSAutoreleasePool   *pool;
 	
@@ -107,7 +109,7 @@ static OGRegularExpression  *gReplaceRegex = nil;
 	
 	if (syntax != OgreSimpleMatchingSyntax) {
 		// 置換文字列の\を入れ替える
-		swappedReplaceString = [OGRegularExpression swapBackslashInString:replaceString forCharacter:character];
+		swappedReplaceString = [OGRegularExpression swapBackslashInString:replaceString forCharacter:escCharacter];
 		matchEnumerator = [gReplaceRegex matchEnumeratorInString:swappedReplaceString];
 		pool = [[NSAutoreleasePool alloc] init];
 		
@@ -120,7 +122,16 @@ static OGRegularExpression  *gReplaceRegex = nil;
 	#endif
 			switch (matchIndex) {
 				case 1: // 通常文字
+				case 15: // \\[^\\]? 
 					specialKey = OgreEscapeNormalCharacters;
+					break;
+				case 2: // \x{H} or \x{HH}, \x{HHH}, \x{HHHH} (H is a hexadecimal number)
+					specialKey = OgreEscapeControlCode;
+					cap = [match captureHistory];
+					numberOfHistory = [cap numberOfChildren];
+					for (indexOfHistory = 0; indexOfHistory < numberOfHistory; indexOfHistory++) unic[indexOfHistory] = (unichar)strtoul([[[cap childAtIndex:indexOfHistory] string] cString], NULL, 16);
+					unic[numberOfHistory] = 0;
+					controlCharacter = [NSString stringWithCharacters:unic length:numberOfHistory];
 					break;
 				case 3: // \[0-9]
 					specialKey = [[match substringAtIndex:matchIndex] intValue];
@@ -159,30 +170,19 @@ static OGRegularExpression  *gReplaceRegex = nil;
 					specialKey = OgreEscapeControlCode;
 					controlCharacter = [NSString stringWithFormat:@"\x0d"];
 					break;
-				case 14: // Escaped Backslash 
+				case 14: // Escape Character
 					specialKey = OgreEscapeControlCode;
-					controlCharacter = [NSString stringWithFormat:@"\\"];
+					controlCharacter = escCharacter;
 					break;
-				case 2: // \x{H} or \x{HH}, \x{HHH}, \x{HHHH} (H is a hexadecimal number)
-					specialKey = OgreEscapeControlCode;
-					cap = [match captureHistoryAtIndex:matchIndex];
-					numberOfHistory = [cap count];
-					for (indexOfHistory = 0; indexOfHistory < numberOfHistory; indexOfHistory++) unic[indexOfHistory] = (unichar)strtoul([[cap substringAtIndex:indexOfHistory] cString], NULL, 16);
-					unic[numberOfHistory] = 0;
-					controlCharacter = [NSString stringWithCharacters:unic length:numberOfHistory];
-					break;
-				default: // \.? 
-					specialKey = OgreUndefinedEscapeCharacters;
+				default: // error
+					[NSException raise:OgreException format: @"undefined replace expression (BUG!)"];
 					break;
 			}
 			
 			if (specialKey == OgreEscapeNormalCharacters) {
 				// 通常文字列
-				[_compiledReplaceString addObject:[match matchedString]];
-			} else if (specialKey == OgreUndefinedEscapeCharacters) {
-				// \. 
-				[_compiledReplaceString addObject:[OGRegularExpression swapBackslashInString:[match matchedString] forCharacter:character]];
-			} else if (specialKey == OgreEscapeControlCode) {
+				[_compiledReplaceString addObject:[OGRegularExpression swapBackslashInString:[match substringAtIndex:matchIndex] forCharacter:character]];
+			}  else if (specialKey == OgreEscapeControlCode) {
 				// コントロール文字
 				[_compiledReplaceString addObject:controlCharacter];
 			} else {
@@ -238,7 +238,7 @@ static OGRegularExpression  *gReplaceRegex = nil;
 - (void)dealloc
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-dealloc of OGReplaceExpression");
+	NSLog(@"-dealloc of %@", [self className]);
 #endif
 	[_compiledReplaceString release];
 	[_nameArray release];
@@ -322,7 +322,7 @@ static OGRegularExpression  *gReplaceRegex = nil;
 - (void)encodeWithCoder:(NSCoder*)encoder
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-encodeWithCoder: of OGReplaceExpression");
+	NSLog(@"-encodeWithCoder: of %@", [self className]);
 #endif
 	if ([encoder allowsKeyedCoding]) {
 		[encoder encodeObject: _compiledReplaceString forKey: OgreCompiledReplaceStringKey];
@@ -336,7 +336,7 @@ static OGRegularExpression  *gReplaceRegex = nil;
 - (id)initWithCoder:(NSCoder*)decoder
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-initWithCoder: of OGReplaceExpression");
+	NSLog(@"-initWithCoder: of %@", [self className]);
 #endif
 	self = [super init];
 	if (self == nil) return nil;
@@ -373,7 +373,7 @@ static OGRegularExpression  *gReplaceRegex = nil;
 - (id)copyWithZone:(NSZone*)zone
 {
 #ifdef DEBUG_OGRE
-	NSLog(@"-copyWithZone: of OGReplaceExpression");
+	NSLog(@"-copyWithZone: of %@", [self className]);
 #endif
 	id	newObject = [[[self class] allocWithZone:zone] init];
 	if (newObject != nil) {

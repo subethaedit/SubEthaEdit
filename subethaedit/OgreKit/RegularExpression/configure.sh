@@ -1,31 +1,36 @@
-#!/bin/csh
+#!/bin/bash
 
-if ($1 == "clean") then
+if [ $1 -eq "clean" ]; then
     rm -rf "RegularExpression/oniguruma"
-endif
+fi
 
-if (-e "RegularExpression/oniguruma") then
+if [ -e "RegularExpression/oniguruma" ]; then
 	echo "oniguruma already exists."
 else
 	echo "oniguruma is not found. Extracting oniguruma..."
 	cd RegularExpression
-	tar zxvf onigd20040514.tar.gz
-#	echo "Applying patch..."
-#	cp 20040414.patch oniguruma/.
-#	cd oniguruma
-#	cp regexec.c regexec.c.original
-#	patch < 20040414.patch
-#	cd ..
+	tar zxvf onigd20040824.tar.gz
+	
+	if false; then
+        echo "Applying patch..."
+        cp 20040720.patch oniguruma/.
+        cd oniguruma
+        cp regparse.c regparse.c.original
+        cp regcomp.c regcomp.c.original
+        patch -p0 < 20040720.patch
+        cd ..
+	fi
+	
 	cd ..
-endif
+fi
 
-if (-e "RegularExpression/oniguruma/config.h") then
+if [ -e "RegularExpression/oniguruma/config.h" ]; then
 	echo "config.h already exists."
 else
 	echo "config.h is not found. Creating config.h..."
 	cd RegularExpression/oniguruma
 	./configure
-endif
+fi
 
 exit
 

@@ -12,8 +12,9 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <OgreKit/OgreKit.h>
 
-@interface OgreTest : NSObject
+@interface OgreTest : NSObject <OGRegularExpressionCaptureVisitor>
 {
     IBOutlet NSTextField *replaceTextField;
     IBOutlet NSTextField *patternTextField;
@@ -26,5 +27,6 @@
 
 - (void)replaceTest;
 - (void)categoryTest;
+- (void)captureTreeTest;
 
 @end

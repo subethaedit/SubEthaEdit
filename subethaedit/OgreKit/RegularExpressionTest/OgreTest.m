@@ -11,9 +11,8 @@
  * Tabsize: 4
  */
 
-#import <OgreKit/OgreKit.h>
 #import "OgreTest.h"
-
+#import "Calc.h"
 
 @implementation OgreTest
 
@@ -38,12 +37,12 @@
 	
 	/*double	sum = 0;
 	NSDate	*processTime;
-	for(i = 0; i < 1000; i++) {
+	for(i = 0; i < 10000; i++) {
 		processTime = [NSDate date];*/
 
 		// 正規表現オブジェクトの作成
 		NS_DURING
-			rx = [OGRegularExpression regularExpressionWithString: pattern options: OgreFindNotEmptyOption | OgreCaptureGroupOption];
+			rx = [OGRegularExpression regularExpressionWithString: pattern options: OgreFindNotEmptyOption | OgreCaptureGroupOption | OgreIgnoreCaseOption];
 		NS_HANDLER
 			// 例外処理
 			[resultTextView insertText: [NSString stringWithFormat: @"%@ caught in 'regularExpressionWithString:'\n", [localException name]]];
@@ -51,19 +50,31 @@
 			return;
 		NS_ENDHANDLER
 		
-		/*match = [rx matchInString:str];
+		match = [rx matchInString:str];
 		if (match == nil) {
 			// マッチしなかった場合
 			[resultTextView insertText:@"search fail\n"];
 			return;
 		}
 
-	sum += -[processTime timeIntervalSinceNow];
+	/*sum += -[processTime timeIntervalSinceNow];
 	}
-	NSLog(@"process time: %fsec/inst", sum/1000);*/
+	NSLog(@"process time: %fsec/inst", sum/10000);*/
 	
+    /*NSLog(@"regex: %@", [rx description]);
+    [NSArchiver archiveRootObject:rx toFile: [@"~/Desktop/rx.archive" stringByExpandingTildeInPath]];
+    OGRegularExpression	*rx2 = [NSUnarchiver unarchiveObjectWithFile: [@"~/Desktop/rx.archive" stringByExpandingTildeInPath]];
+    NSLog(@"regex2: %@", [rx2 description]);
+    rx = rx2;*/
+    
 	/* 検索 */
 	NSEnumerator	*enumerator = [rx matchEnumeratorInString:str];
+
+    /*NSLog(@"enumerator: %@", [enumerator description]);
+    [NSArchiver archiveRootObject:enumerator toFile: [@"~/Desktop/en.archive" stringByExpandingTildeInPath]];
+    NSEnumerator	*enumerator2 = [NSUnarchiver unarchiveObjectWithFile: [@"~/Desktop/en.archive" stringByExpandingTildeInPath]];
+    NSLog(@"enumerator2: %@", [enumerator2 description]);
+    enumerator = enumerator2;*/
 	
 	[resultTextView insertText: [NSString stringWithFormat:@"OgreKit version: %@, OniGuruma version: %@\n", [OGRegularExpression version], [OGRegularExpression onigurumaVersion]]];
 	[resultTextView insertText: [NSString stringWithFormat:@"target string: \"%@\", escape character: \"%@\"\n", str, [OGRegularExpression defaultEscapeCharacter]]];
@@ -92,19 +103,20 @@
 				[resultTextView insertText:[match substringAtIndex:i]];
 				[resultTextView insertText:@"\"\n"];
 			}
-			OGRegularExpressionMatch	*capturehistory = [match captureHistoryAtIndex:i];
-			if (capturehistory != nil) {
-				int index;
-				for (index = 0; index < [capturehistory count]; index++) {
-					[resultTextView insertText:[NSString stringWithFormat:@" capture history#%d.%d.%d: \"%@\"\n", [match index], i, index, [capturehistory substringAtIndex:index]]];
-				}
-			}
 		}
+        
+        OGRegularExpressionCapture  *captureHistory = [match captureHistory];
+        if (captureHistory != nil) {
+            [resultTextView insertText:@"Capture History:\n"];
+            [captureHistory acceptVisitor:self];
+        }
+        
 		/*NSLog(@"match: %@", [match description]);
 		[NSArchiver archiveRootObject:match toFile: [@"~/Desktop/mt.archive" stringByExpandingTildeInPath]];
 		OGRegularExpressionMatch	*match2 = [NSUnarchiver unarchiveObjectWithFile: [@"~/Desktop/mt.archive" stringByExpandingTildeInPath]];
 		NSLog(@"match2: %@", [match2 description]);
 		match = match2;*/
+        
 		matches++;
 		lastMatch = match;
 	}
@@ -166,6 +178,18 @@
 
 	[self replaceTest];
 	[self categoryTest];
+    [self captureTreeTest];
+}
+
+- (void)captureTreeTest
+{
+	NSLog(@"Capture Tree Test");
+    NSString    *expr = @"(1+2)*3+4";
+    Calc        *calc = [[[Calc alloc] init] autorelease];
+    NSLog(@"%@ = %@", expr, [calc eval:expr]);
+    
+    expr = @"36.5*9/5+32";
+    NSLog(@"%@ = %@", expr, [calc eval:expr]);
 }
 
 // デリゲートに処理を委ねた置換／マッチした部分での分割
@@ -215,5 +239,33 @@
 	return YES;	// 全てのウィンドウを閉じたら終了する。
 }
 
+
+/* OGRegularExpressionCaptureVisitor protocol */
+- (void)visitAtFirstCapture:(OGRegularExpressionCapture*)aCapture
+{
+    NSMutableString *indent = [NSMutableString string];
+    int i;
+    for (i = 0; i < [aCapture level]; i++) [indent appendString:@"  "];
+    NSRange matchRange = [aCapture range];
+    
+    /*NSLog(@"capture: %@", [aCapture description]);
+    [NSArchiver archiveRootObject:aCapture toFile: [@"~/Desktop/cap.archive" stringByExpandingTildeInPath]];
+    OGRegularExpressionCapture	*capture2 = [NSUnarchiver unarchiveObjectWithFile: [@"~/Desktop/cap.archive" stringByExpandingTildeInPath]];
+    NSLog(@"capture2: %@", [capture2 description]);
+    aCapture = capture2;*/
+    
+    [resultTextView insertText:[NSString stringWithFormat:@" %@#%d", indent, [aCapture groupIndex]]];
+    if([aCapture groupName] != nil) {
+        [resultTextView insertText:[NSString stringWithFormat:@"(\"%@\")", [aCapture groupName]]];
+    }
+    [resultTextView insertText:[NSString stringWithFormat:@": (%d-%d) \"%@\"\n", 
+        matchRange.location, matchRange.length, 
+        [aCapture string]]];
+}
+
+- (void)visitAtLastCapture:(OGRegularExpressionCapture*)aCapture
+{
+    /* do nothing */
+}
 
 @end

@@ -19,4 +19,12 @@
 - (IBAction)selectCr:(id)sender;
 - (IBAction)selectCrLf:(id)sender;
 - (IBAction)selectLf:(id)sender;
+
+- (IBAction)newTextDocument:(id)sender;
+- (IBAction)newRTFDocument:(id)sender;
+- (IBAction)newTableDocument:(id)sender;
+- (IBAction)newOutlineDocument:(id)sender;
+
+- (IBAction)newTableDocumentWithCocoaBinding:(id)sender;
+
 @end

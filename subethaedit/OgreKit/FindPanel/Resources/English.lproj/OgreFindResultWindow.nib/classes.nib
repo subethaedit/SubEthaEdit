@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {updateLiveUpdate = id; }; 
+            CLASS = OgreFindResultWindow; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                findStringField = NSTextField; 
+                grepOutlineView = NSOutlineView; 
+                liveUpdateCheckBox = NSButton; 
+                messageField = NSTextField; 
+                window = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -21,26 +21,22 @@
 #import <OgreKit/oniguruma.h>
 
 
-// constants
+// constant
 extern NSString	* const OgreMatchException;
 
 
-@class OGRegularExpression, OGRegularExpressionEnumerator;
+@class OGRegularExpression, OGRegularExpressionEnumerator, OGRegularExpressionCapture;
 
 @interface OGRegularExpressionMatch : NSObject <NSCopying, NSCoding>
 {
 	OnigRegion		*_region;						// match result region
-	OGRegularExpressionEnumerator*	_enumerator;	// 生成主
-	unsigned		_locationCache;					// 既に分かっているNSStringの長さとUTF8Stringの長さの対応
-	unsigned		_utf8LocationCache;				// 
-	unsigned		_utf8TerminalOfLastMatch;		// 前回にマッチした文字列の終端位置 (_region->end[0])
+	OGRegularExpressionEnumerator*	_enumerator;	// matcher
+	unsigned		_terminalOfLastMatch;           // 前回にマッチした文字列の終端位置 (_region->end[0] / sizeof(unichar))
 	
 	NSString		*_swappedTargetString;			// 検索対象文字列。\が入れ替わっている(ことがある)ので注意
-	unsigned char	*_utf8SwappedTargetString;		// UTF8での検索対象文字列
 	NSRange			_searchRange;					// 検索範囲
 	NSString		*_escapeCharacter;				// \の代替文字
 	unsigned		_index;							// マッチした順番
-	OGRegularExpressionMatch	*_parentMatch;		// 生成主のOGRegularExpressionMatchオブジェクト
 }
 
 /*********
@@ -198,14 +194,16 @@ extern NSString	* const OgreMatchException;
 /*例:
 	NSString					*target = @"abc de";
 	OGRegularExpression			*regex = [OGRegularExpression regularExpressionWithString:@"(?@[a-z])+"];
-	OGRegularExpressionMatch	*match, *capture;
+	OGRegularExpressionMatch	*match;
+    OGRegularExpressionCapture  *capture;
 	NSEnumerator				*matchEnumerator = [regex matchEnumeratorInString:target];
 	unsigned					i;
 	
 	while ((match = [matchEnumerator nextObject]) != nil) {
-		capture = [match captureHistoryAtIndex:1];
-		NSLog(@"number of capture history: %d", [capture count]);
-		for (i = 0; i < [capture count]; i++) NSLog(@" %@", [capture substringAtIndex:i]);
+		capture = [match captureHistory];
+		NSLog(@"number of capture history: %d", [capture numberOfChildren]);
+		for (i = 0; i < [capture numberOfChildren]; i++) 
+            NSLog(@" %@", [[capture childAtIndex:i] string]);
 	}
 	
 ログ:
@@ -218,15 +216,11 @@ number of capture history: 2
  e
  */
 
-// index番目のグループの捕獲履歴
+// 捕獲履歴
 // 履歴がない場合はnilを返す。
-- (OGRegularExpressionMatch*)captureHistoryAtIndex:(unsigned)index;
-
-// 名前がnameのグループの捕獲履歴
-// 履歴がない場合はnilを返す。
-- (OGRegularExpressionMatch*)captureHistoryNamed:(NSString*)name;
+- (OGRegularExpressionCapture*)captureHistory;
 
 @end
 
-// UTF8文字列の長さを得る
-inline unsigned Ogre_utf8strlen(unsigned char *const utf8string, unsigned char *const end);
+// UTF16文字列の長さを得る
+inline unsigned Ogre_UTF16strlen(unichar *const aUTF16string, unichar *const end);
