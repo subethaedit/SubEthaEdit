@@ -192,15 +192,17 @@ static NSMutableDictionary *profileURIToClassMapping;
 }
 
 // Convenience for Profiles
-- (void)sendMSGMessageWithPayload:(NSData *)aPayload
+- (int32_t)sendMSGMessageWithPayload:(NSData *)aPayload
 {
     if (I_channelStatus == TCMBEEPChannelStatusAtEnd ||
         I_channelStatus == TCMBEEPChannelStatusClosing ||
         I_channelStatus == TCMBEEPChannelStatusCloseRequested) {
         NSLog(@"Trying to send message after telling channel to close");
-        return;
+        return -1;
     }
-    [self sendMessage:[[[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[self nextMessageNumber] payload:aPayload] autorelease]];
+    int32_t number=[self nextMessageNumber];
+    [self sendMessage:[[[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:number payload:aPayload] autorelease]];
+    return number;
 }
 
 // Accessors for session
