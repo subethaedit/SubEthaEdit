@@ -3,7 +3,7 @@
 #include "expat.h"
 
 int Eventcnt = 0;
-char Buff[512];
+char Buff[8];
 
 void
 default_hndl(void *data, const char *s, int len) {
@@ -24,9 +24,13 @@ printcurrent(XML_Parser p) {
 
 void
 start_hndl(void *data, const char *el, const char **attr) {
-  printf("\n%4d: Start tag %s - ", Eventcnt++, el);
-
-  printcurrent((XML_Parser) data);
+    printf("\n%4d: Start tag %s - ", Eventcnt++, el);
+    int loop;
+    int AttributeCount=XML_GetSpecifiedAttributeCount((XML_Parser) data);
+    for (loop=0;loop<AttributeCount;loop+=2) {
+        printf("\n  Attribute:%s - Value:%s",attr[loop],attr[loop+1]);
+    }
+//  printcurrent((XML_Parser) data);
 }  /* End of start_hndl */
 
 
@@ -49,7 +53,7 @@ proc_hndl(void *data, const char *target, const char *pidata) {
 
 void
 main(int argc, char **argv) {
-  XML_Parser p = XML_ParserCreate(NULL);
+  XML_Parser p = XML_ParserCreateNS(NULL,'ö');
   if (! p) {
     fprintf(stderr, "Couldn't allocate memory for parser\n");
     exit(-1);
