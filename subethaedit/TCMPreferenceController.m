@@ -27,7 +27,14 @@ static NSMutableArray *prefModules;
 
 #pragma mark -
 
+static TCMPreferenceController *sharedInstance = nil;
+
 @implementation TCMPreferenceController
+
++ (TCMPreferenceController *)sharedInstance
+{
+    return sharedInstance;
+}
 
 + (void)initialize
 {
@@ -58,7 +65,8 @@ static NSMutableArray *prefModules;
 }
 
 - (void)awakeFromNib
-{
+{    
+    sharedInstance = self;
 }
 
 - (void)windowWillLoad
@@ -154,7 +162,7 @@ static NSMutableArray *prefModules;
 {
     NSString *identifier = [I_toolbar selectedItemIdentifier];
     NSString *previousIdentifier = [self selectedItemIdentifier];
-    
+
     if ([identifier isEqualToString:previousIdentifier]) {
         return;
     }
@@ -204,6 +212,30 @@ static NSMutableArray *prefModules;
     }
     
     return shouldClose;
+}
+
+#pragma mark -
+
+- (BOOL)selectPreferenceModuleWithIdentifier:(NSString *)identifier
+{
+    if (![[self window] attachedSheet]) {
+        [I_toolbar setSelectedItemIdentifier:identifier];
+        [self selectPrefPane:self];
+        if ([[self window] attachedSheet]) {
+            NSBeep();
+            return NO;
+        }
+    } else {
+        NSBeep();
+        return NO;
+    }
+
+    return YES;
+}
+
+- (TCMPreferenceModule *)preferenceModuleWithIdentifier:(NSString *)identifier
+{
+    return [registeredPrefModules objectForKey:identifier];
 }
 
 #pragma mark -

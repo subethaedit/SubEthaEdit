@@ -1731,7 +1731,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (NSData *)dataRepresentationOfType:(NSString *)aType {
 
-    if ([aType isEqualToString:@"PlainTextType"]) {
+    if ([aType isEqualToString:@"PlainTextType"] || [aType isEqualToString:@"SubEthaEditSyntaxStyle"]) {
         if (I_lastSaveOperation == NSSaveToOperation) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
             [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
@@ -1881,7 +1881,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     I_flags.shouldSelectModeOnSave = NO;
     I_flags.isReadingFile = YES;
 
-    if (![docType isEqualToString:@"PlainTextType"]) {
+    if (![docType isEqualToString:@"PlainTextType"] && ![docType isEqualToString:@"SubEthaEditSyntaxStyle"]) {
         I_flags.isReadingFile = NO;
         return NO;
     }

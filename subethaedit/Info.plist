@@ -171,6 +171,24 @@
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>seestyle</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>style.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>SubEthaEditSyntaxStyle</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
 		</dict>
@@ -187,18 +205,6 @@
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<true/>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>seestyle</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>style.icns</string>
-			<key>CFBundleTypeName</key>
-			<string>SubEthaEditSyntaxStyle</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>

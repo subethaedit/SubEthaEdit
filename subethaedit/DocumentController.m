@@ -13,6 +13,9 @@
 #import "DocumentModeManager.h"
 #import "AppController.h"
 #import "TCMMMPresenceManager.h"
+#import "TCMPreferenceController.h"
+#import "TCMPreferenceModule.h"
+#import "StylePreferences.h"
 
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
@@ -156,6 +159,7 @@
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"User tries to open a mode file");
         [O_modeHintPanel center];
         [O_modeHintPanel makeKeyAndOrderFront:self];
+        return nil;
     }
     
     NSDocument *document = [super openDocumentWithContentsOfFile:fileName display:flag];
@@ -257,8 +261,20 @@ static NSString *tempFileName() {
     enumerator = [files objectEnumerator];
     NSString *filename;
     while ((filename = [enumerator nextObject])) {
-        [I_propertiesForOpenedFiles setObject:properties forKey:filename];
-        (void)[self openDocumentWithContentsOfFile:filename display:YES];
+        if ([[filename pathExtension] isEqualToString:@"seestyle"]) {
+            TCMPreferenceController *prefController = [TCMPreferenceController sharedInstance];
+            [prefController showWindow:self];
+            BOOL result = [prefController selectPreferenceModuleWithIdentifier:@"de.codingmonkeys.subethaedit.preferences.style"];
+            if (result) {
+                TCMPreferenceModule *prefModule = [prefController preferenceModuleWithIdentifier:@"de.codingmonkeys.subethaedit.preferences.style"];
+                if (prefModule) {
+                    [(StylePreferences *)prefModule importStyleFile:filename];
+                }
+            }
+        } else {
+            [I_propertiesForOpenedFiles setObject:properties forKey:filename];
+            (void)[self openDocumentWithContentsOfFile:filename display:YES];
+        }
     }
             
     return nil;

@@ -285,11 +285,11 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     
-//    #warning "Termination has to be removed before release!"
-//    if ([[NSDate dateWithString:@"2004-06-18 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
-//        [NSApp terminate:self];
-//        return;
-//    }
+    //#warning "Termination has to be removed before release!"
+    if ([[NSDate dateWithString:@"2004-11-15 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
+        [NSApp terminate:self];
+        return;
+    }
     
     [self registerTransformers];
     [self addMe];
@@ -297,9 +297,6 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [self setupDocumentModeSubmenu];
 
     [[[[NSApp mainMenu] itemWithTag:EditMenuTag] submenu] setDelegate:self];
-
-    
-    //[self setupScriptMenu];
 
     GeneralPreferences *generalPrefs = [[GeneralPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:generalPrefs];
