@@ -353,7 +353,6 @@ subethaedit/Invitation.aiff -text
 subethaedit/Knock.wav -text
 subethaedit/LayoutManager.h -text
 subethaedit/LayoutManager.m -text
-subethaedit/Localizable.strings -text
 subethaedit/Modes/ActionScript.mode/Contents/Info.plist -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/RegexSymbols.xml -text

@@ -679,9 +679,9 @@ enum {
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdent] autorelease];
     
     if ([itemIdent isEqualToString:ParticipantsToolbarItemIdentifier]) {
-        [toolbarItem setLabel:@"Participants"];
-        [toolbarItem setPaletteLabel:@"Participants"];
-        [toolbarItem setToolTip:@"Participants"];
+        [toolbarItem setLabel:NSLocalizedString(@"Participants", @"Participants toolbar label")];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Participants", @"Participants toolbar label")];
+        [toolbarItem setToolTip:NSLocalizedString(@"ParticipantsToolTip", @"Participants tool tip")];
         [toolbarItem setImage:[NSImage imageNamed:@"Participants"]];
         [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(toggleParticipantsDrawer:)];
@@ -1079,7 +1079,9 @@ enum {
                    userColor,NSBackgroundColorAttributeName, nil];
                 NSString *result=@" ";
                 if (status) {
-                    result=NSLocalizedString(status,@"");
+                    // (void)NSLocalizedString(@"AwaitingResponse", @"Awaiting Response");
+                    // (void)NSLocalizedString(@"DeclinedInvitation", @"Declined Invitation");
+                    result=NSLocalizedString(status,@"<do not localize>");
                 } else if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
                     result =[(TextStorage *)[document textStorage] 
                             positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];

@@ -190,7 +190,16 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
     
     int i;
     for (i=0;i<(int)[colorNames count];i++) {
-        [O_colorsPopUpButton addItemWithTitle:NSLocalizedString([colorNames objectAtIndex:i],@"Color Names")];
+        // (void)NSLocalizedString(@"ColorRed", @"Red");
+        // (void)NSLocalizedString(@"ColorOrange", @"Orange");
+        // (void)NSLocalizedString(@"ColorYellow", @"Yellow");
+        // (void)NSLocalizedString(@"ColorGreen", @"Green");
+        // (void)NSLocalizedString(@"ColorTeal", @"Teal");
+        // (void)NSLocalizedString(@"ColorBlue", @"Blue");
+        // (void)NSLocalizedString(@"ColorPurple", @"Purple");
+        // (void)NSLocalizedString(@"ColorPink", @"Pink");
+        // (void)NSLocalizedString(@"ColorCustom", @"Custom Color Name");
+        [O_colorsPopUpButton addItemWithTitle:NSLocalizedString([colorNames objectAtIndex:i],@"<do not localize>")];
         NSMenuItem *item=[O_colorsPopUpButton lastItem];
         [item setImage:[self TCM_menuImageWithColor:[NSColor colorWithCalibratedHue:colorHues[i]/100.
                                 saturation:1. brightness:1. alpha:1.]]];

@@ -1203,7 +1203,16 @@ enum {
                 if (aTag == TCMMMBrowserItemNameTag) {
                     return [item objectForKey:@"URLString"];
                 } else if (aTag == TCMMMBrowserItemStatusTag) {
-                    return NSLocalizedString([item objectForKey:@"status"], @"Status message displayed for each host entry in Internet browser.");
+                    // (void)NSLocalizedString(@"HostEntryStatusResolving", @"Resolving");
+                    // (void)NSLocalizedString(@"HostEntryStatusResolveFailed", @"Could not resolve");
+                    // (void)NSLocalizedString(@"HostEntryStatusContacting", @"Contacting");
+                    // (void)NSLocalizedString(@"HostEntryStatusContactFailed", @"Could not contact");
+                    // (void)NSLocalizedString(@"HostEntryStatusSessionOpen", @"Connected");
+                    // (void)NSLocalizedString(@"HostEntryStatusSessionInvisible", @"Invisible");
+                    // (void)NSLocalizedString(@"HostEntryStatusSessionAtEnd", @"Connection Lost");
+                    // (void)NSLocalizedString(@"HostEntryStatusCancelling", @"Cancelling");
+                    // (void)NSLocalizedString(@"HostEntryStatusCancelled", @"Cancelled");
+                    return NSLocalizedString([item objectForKey:@"status"], @"<do not localize>");
                 } else if (aTag == TCMMMBrowserItemImageTag) {
                     return defaultPerson;
                 }
