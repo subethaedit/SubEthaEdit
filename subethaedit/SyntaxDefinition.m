@@ -8,6 +8,7 @@
 
 #import "SyntaxDefinition.h"
 #import "NSColorTCMAdditions.h"
+#import "NSDictionaryTCMAdditions.h"
 
 
 NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
@@ -335,7 +336,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
     if ((aDictionary = [I_defaultState objectForKey:@"KeywordGroups"])) {
         [self addStylesForKeywordGroups:aDictionary];
     } else {
-        [I_stylesForToken addObject:[NSDictionary dictionary]];
+        [I_stylesForToken addObject:[NSArray arrayWithObjects:[NSMutableDictionary dictionary],[NSMutableDictionary caseInsensitiveDictionary],nil]];
         [I_stylesForRegex addObject:[NSArray array]];
     }
     
@@ -344,7 +345,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         if ((aDictionary = [aDictionary objectForKey:@"KeywordGroups"])) {
             [self addStylesForKeywordGroups:aDictionary];
         } else {
-            [I_stylesForToken addObject:[NSDictionary dictionary]];
+        [I_stylesForToken addObject:[NSArray arrayWithObjects:[NSMutableDictionary dictionary],[NSMutableDictionary caseInsensitiveDictionary],nil]];
             [I_stylesForRegex addObject:[NSArray array]];
         }
     }
@@ -360,9 +361,13 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
     NSEnumerator *groupEnumerator = [aDictionary objectEnumerator];
     NSDictionary *keywordGroup;
     
-    NSMutableDictionary *newPlainDictionary = [NSMutableDictionary dictionary];
+    NSMutableDictionary *newPlainCaseDictionary = [NSMutableDictionary dictionary];
+    NSMutableDictionary *newPlainIncaseDictionary = [NSMutableDictionary caseInsensitiveDictionary];
+    NSMutableArray *newPlainArray = [NSMutableArray array];
     NSMutableArray *newRegExArray = [NSMutableArray array];
-    [I_stylesForToken addObject:newPlainDictionary];
+    [newPlainArray addObject:newPlainCaseDictionary];
+    [newPlainArray addObject:newPlainIncaseDictionary];
+    [I_stylesForToken addObject:newPlainArray];
     [I_stylesForRegex addObject:newRegExArray];
 
     while ((keywordGroup = [groupEnumerator nextObject])) {
@@ -392,7 +397,11 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
             NSString *keyword;
             while ((keyword = [keywordEnumerator nextObject])) {
-                [newPlainDictionary setObject:attributes forKey:keyword];
+                if([[keywordGroup objectForKey:@"casesensitive"] isEqualToString:@"no"]) {
+                    [newPlainIncaseDictionary setObject:attributes forKey:keyword];
+                } else {
+                    [newPlainCaseDictionary setObject:attributes forKey:keyword];                
+                }
             }
         }
         // Then do the regex stuff
@@ -471,7 +480,14 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
 - (NSDictionary *)styleForToken:(NSString *)aToken inState:(int)aState 
 {
     NSDictionary *aStyle;
-    if ((aStyle = [[I_stylesForToken objectAtIndex:aState] objectForKey:aToken])) return aStyle;
+    
+    if ((aStyle = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:0] objectForKey:aToken])) {
+        NSLog(@"foo:%@",aStyle);
+        return aStyle;
+    }
+    if ((aStyle = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:1] objectForKey:aToken])){
+        return aStyle;
+    }
     // FIXME: Handle caseinsensitive Tokens with CFDictionary
     else return nil;
 }

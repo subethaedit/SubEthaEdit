@@ -11,7 +11,7 @@
     <states>
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
-            <keywords id="PHP4 Functions" color="#661AA9" background-color="#fff" font-style="normal" casesensitive="yes" useforautocomplete="yes">
+            <keywords id="PHP4 Functions" color="#661AA9" background-color="#fff" font-style="normal" casesensitive="no" useforautocomplete="yes">
                 <string>_</string>
                 <string>abs</string>
                 <string>accept_connect</string>
