@@ -51,21 +51,13 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     [I_outputStream setDelegate:self];
     
     if (!CFReadStreamSetProperty((CFReadStreamRef)I_inputStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue)) {
-        DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Failed to set kCFStreamPropertyShouldCloseNativeSocket");
+        DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Failed to set kCFStreamPropertyShouldCloseNativeSocket on inputStream");
     }
-        
-    // Enable TCP keep alive
-    NSData *socketNativeHandleData = [I_inputStream propertyForKey:(NSString *)kCFStreamPropertySocketNativeHandle];
-    if (socketNativeHandleData) {
-        CFSocketNativeHandle socketNativeHandle;
-        [socketNativeHandleData getBytes:&socketNativeHandle length:sizeof(CFSocketNativeHandle)];
-        int yes = 1;
-        int result = setsockopt(socketNativeHandle, SOL_SOCKET, SO_KEEPALIVE, &yes, sizeof(int));
-        if (result == -1) {
-            NSLog(@"Failed to enable TCP keep alive!");
-        }
+    
+    if (!CFWriteStreamSetProperty((CFWriteStreamRef)I_outputStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue)) {
+        DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Failed to set kCFStreamPropertyShouldCloseNativeSocket on outputStream");
     }
-                        
+    
     I_profileURIs = [NSMutableArray new];
     I_peerProfileURIs = [NSMutableArray new];
     
