@@ -61,6 +61,15 @@ artwork/icons/style32.psd -text
 artwork/icons/txt.icns -text
 artwork/mockups/RendezvousBrowser.psd -text
 artwork/mockups/RendezvousBrowser2.psd -text
+artwork/website/Autocomplete.psd -text
+artwork/website/BigPicture.psd -text
+artwork/website/HellasInternational.psd -text
+artwork/website/ModeFiles.psd -text
+artwork/website/Printing.psd -text
+artwork/website/RendezvousBrowser.psd -text
+artwork/website/StylePrefs.psd -text
+artwork/website/SubEthaEditImage.psd -text
+artwork/website/TolleProgramme.psd -text
 artwork/website/buynow.psd -text
 artwork/website/codingmonkeys.psd -text
 artwork/website/createdwith.psd -text
