@@ -651,13 +651,16 @@
 - (IBAction)copyAsXHTML:(id)aSender {
     NSRange selectedRange=[I_textView selectedRange];
     if (selectedRange.location!=NSNotFound && selectedRange.length>0) {
+        PlainTextDocument *document=[self document];
+        NSColor *backgroundColor=[document documentBackgroundColor];
+        NSColor *foregroundColor=[document documentForegroundColor]; 
         TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
-        NSAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange];
+        NSAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange foregroundColor:foregroundColor];
         selectedRange.location=0;
         
         NSRange foundRange;
         NSMutableString *result=[[NSMutableString alloc] initWithCapacity:selectedRange.length*2];
-        [result appendString:@"<code>"];
+        [result appendFormat:@"<pre style=\"color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto;\">",[foregroundColor HTMLString],[backgroundColor HTMLString]];
         NSDictionary *attributes=nil;
         unsigned int index=selectedRange.location;
         do {
@@ -666,8 +669,8 @@
                     longestEffectiveRange:&foundRange inRange:selectedRange];
             index=NSMaxRange(foundRange);
             NSString *contentString=[[[attributedStringForXHTML string] substringWithRange:foundRange] stringByReplacingEntities];
+            NSMutableString *styleString=[NSMutableString string];
             if (attributes) {
-                NSMutableString *styleString=[NSMutableString string];
                 NSString *htmlColor=[attributes objectForKey:@"ForegroundColor"];
                 if (htmlColor) {
                     [styleString appendFormat:@"color:%@;",htmlColor];
@@ -682,17 +685,19 @@
                         [styleString appendString:@"font-style:oblique;"];
                     }
                 }
-                [result appendFormat:@"<span style=\"%@\">",styleString];
+                if ([styleString length]>0) {
+                    [result appendFormat:@"<span style=\"%@\">",styleString];
+                }
             }
             [result appendString:contentString];
-            if (attributes) {
+            if (attributes && [styleString length]>0) {
                 [result appendString:@"</span>"];
             }
 
             index=NSMaxRange(foundRange);
             [pool release];
         } while (index<NSMaxRange(selectedRange));
-        [result appendString:@"</code>"];
+        [result appendString:@"</pre>"];
         [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
         [[NSPasteboard generalPasteboard] setString:result forType:NSStringPboardType];
         [result release];

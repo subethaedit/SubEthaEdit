@@ -566,16 +566,17 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
             }        
             [string replaceCharactersInRange:NSMakeRange(index, 1) withString:encodedString];
             index+=[encodedString length]-1;
-        } else if (c=='\n' || c=='\r') {
-            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"<br/>\n"];
-            index+=5;
-        } else if (c=='\t') {
-            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;&nbsp;&nbsp;"];
-            index+=17;
-        } else if (c==' ') {
-            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;"];
-            index+=5;
-        }
+        } 
+//        else if (c=='\n' || c=='\r') {
+//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"<br/>\n"];
+//            index+=5;
+//        } else if (c=='\t') {
+//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;&nbsp;&nbsp;"];
+//            index+=17;
+//        } else if (c==' ') {
+//            [string replaceCharactersInRange:NSMakeRange(index,1) withString:@"&nbsp;"];
+//            index+=5;
+//        }
         index ++; 
         if (index%50==0) {
             [pool release];

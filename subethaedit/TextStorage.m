@@ -514,7 +514,8 @@ NSString * const BlockeditAttributeValue=@"YES";
 #pragma mark ### XHTML Export ###
 
 
-- (NSAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange {
+- (NSAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor {
+    NSString *htmlForgreoundColor=[aForegroundColor HTMLString];
     NSMutableAttributedString *result=[[[NSMutableAttributedString alloc] initWithString:[[self string] substringWithRange:aRange]] autorelease];
     unsigned int index;
     NSFontManager *fontManager=[NSFontManager sharedFontManager];
@@ -541,15 +542,13 @@ NSString * const BlockeditAttributeValue=@"YES";
         NSColor *color=[self attribute:NSForegroundColorAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
         index=NSMaxRange(foundRange);
         if (color) {
-            color=[color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-            NSString *xhtmlColor=[NSString stringWithFormat:@"#%02x%02x%02x",
-                                  (int)([color   redComponent]*255.),
-                                  (int)([color greenComponent]*255.),
-                                  (int)([color  blueComponent]*255.)];
-            foundRange.location=foundRange.location-aRange.location;
-            [result addAttribute:@"ForegroundColor" 
-                value:xhtmlColor
-                range:foundRange];
+            NSString *xhtmlColor=[color HTMLString];
+            if (![xhtmlColor isEqualToString:htmlForgreoundColor]) {
+                foundRange.location=foundRange.location-aRange.location;
+                [result addAttribute:@"ForegroundColor" 
+                    value:xhtmlColor
+                    range:foundRange];
+            }
         }
     } while (index<NSMaxRange(aRange));
     

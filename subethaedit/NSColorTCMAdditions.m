@@ -10,7 +10,7 @@
 
 @implementation NSColor (NSColorTCMAdditions)
 
-+ (NSColor *) colorForHTMLString:(NSString *) htmlString
++ (NSColor *)colorForHTMLString:(NSString *) htmlString
 {
 	NSColor *result = nil;
 	
@@ -41,6 +41,24 @@
                                                alpha:1.0];
         }
     }
+    return result;
+}
+
+- (NSString *)shortHTMLString {
+    NSColor *color=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    NSString *result=[NSString stringWithFormat:@"#%01x%01x%01x",
+                                  (int)([color   redComponent]*15.+.5),
+                                  (int)([color greenComponent]*15.+.5),
+                                  (int)([color  blueComponent]*15.+.5)];    
+    return result;
+}
+
+- (NSString *)HTMLString {
+    NSColor *color=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    NSString *result=[NSString stringWithFormat:@"#%02x%02x%02x",
+                                  (int)([color   redComponent]*255.+.5),
+                                  (int)([color greenComponent]*255.+.5),
+                                  (int)([color  blueComponent]*255.+.5)];    
     return result;
 }
 
