@@ -10,6 +10,7 @@
 #import <OgreKit/OgreKit.h>
 #import "TextStorage.h"
 #import "PlainTextDocument.h"
+#import "SelectionOperation.h"
 
 @implementation FindAllController
 
@@ -17,7 +18,7 @@
     self = [super initWithWindowNibName:@"FindAll"];
     if (self) {
         I_regularExpression = [regex copy];
-        I_range = aRange;
+        //I_range = aRange;
     }
     return self;
 }
@@ -27,6 +28,11 @@
     [[self window] orderOut:self];
     [I_regularExpression release];
     [super dealloc];
+}
+
+- (NSArray*) arrangedObjects
+{
+    return [O_resultsController arrangedObjects];
 }
 
 - (void)setDocument:(PlainTextDocument *)aDocument {
@@ -60,7 +66,7 @@
             regex = simpleregex;
         }
         
-        NSArray *matchArray = [regex allMatchesInString:text options:[regex options] range:I_range];
+        NSArray *matchArray = [regex allMatchesInString:text options:[regex options] range:NSMakeRange(0,[text length])];
         
         int i;
         int count = [matchArray count];
@@ -80,6 +86,7 @@
             NSMutableAttributedString *aString = [[NSMutableAttributedString alloc] initWithString:[[textStorage string] substringWithRange:lineRange]];
 
             [aString addAttribute:NSBackgroundColorAttributeName value:[[NSColor yellowColor] highlightWithLevel:0.5] range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
+            [aString addAttribute:NSForegroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(matchRange.location - lineRange.location, matchRange.length)];
             
             int subGroup;
             for(subGroup=1;subGroup<6;subGroup++) {
@@ -95,11 +102,13 @@
                 } else break;
             }
             
-            NSValue *aRange = [NSValue valueWithRange:[aMatch rangeOfMatchedString]]; 
+            //NSValue *aRange = [NSValue valueWithRange:[aMatch rangeOfMatchedString]]; 
+            SelectionOperation *selOp = [[SelectionOperation new] autorelease];
+            [selOp setSelectedRange:matchRange];
             
             [O_resultsController addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                 aString,@"foundString",
-                                aRange,@"range",
+                                selOp,@"selectionOperation",
                                 line,@"line",nil]];
 
             NSSize stringSize = [aString size];
@@ -121,7 +130,7 @@
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
 {
     if(I_document) {
-        NSRange range = [[[[O_resultsController arrangedObjects] objectAtIndex:rowIndex] objectForKey:@"range"] rangeValue];
+        NSRange range = [[[[O_resultsController arrangedObjects] objectAtIndex:rowIndex] objectForKey:@"selectionOperation"] selectedRange];
         [I_document selectRange:range];   
     } 
     return NO;

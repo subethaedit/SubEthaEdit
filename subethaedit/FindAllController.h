@@ -25,5 +25,6 @@
 - (id)initWithRegex:(OGRegularExpression*)regex andRange:(NSRange)aRange;
 - (IBAction)findAll:(id)sender;
 - (void)setDocument:(PlainTextDocument *)aDocument;
+- (NSArray*)arrangedObjects;
 
 @end

@@ -2601,6 +2601,19 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
 
+// transform FindAllTables if there
+    NSEnumerator *findAllWindows = [I_findAllControllers objectEnumerator];
+    FindAllController *findAllWindow = nil;
+    while ((findAllWindow = [findAllWindows nextObject])) {
+        NSEnumerator *operations = [[findAllWindow arrangedObjects] objectEnumerator];
+        NSDictionary *dictionary = nil;
+        while ((dictionary = [operations nextObject])) {
+            TCMMMOperation *operation = [dictionary objectForKey:@"selectionOperation"];
+            [transformator transformOperation:operation serverOperation:textOp];
+        }
+    }
+
+
 // WebPreview    
     if (I_webPreviewWindowController && 
         [[I_webPreviewWindowController window] isVisible] &&
