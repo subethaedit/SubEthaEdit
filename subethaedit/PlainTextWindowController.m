@@ -19,6 +19,7 @@
 #import "TextView.h"
 #import "SplitView.h"
 #import "RendezvousBrowserController.h"
+#import "InternetBrowserController.h"
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
 
@@ -40,6 +41,8 @@ NSString * const PreviousChangeToolbarItemIdentifier =
                @"PreviousChangeToolbarItemIdentifier";
 NSString * const RendezvousToolbarItemIdentifier = 
                @"RendezvousToolbarItemIdentifier";
+NSString * const InternetToolbarItemIdentifier = 
+               @"InternetToolbarItemIdentifier";
 NSString * const ToggleChangeMarksToolbarItemIdentifier = 
                @"ToggleChangeMarksToolbarItemIdentifier";
 NSString * const ToggleAnnouncementToolbarItemIdentifier = 
@@ -619,6 +622,13 @@ enum {
         [toolbarItem setImage:[NSImage imageNamed: @"Rendezvous"]];
         [toolbarItem setTarget:[RendezvousBrowserController sharedInstance]];
         [toolbarItem setAction:@selector(showWindow:)];
+    } else if ([itemIdent isEqual:InternetToolbarItemIdentifier]) { 
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Internet", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Internet", nil)];
+        [toolbarItem setToolTip:NSLocalizedString(@"Open Internet Browser", nil)];
+        [toolbarItem setImage:[NSImage imageNamed: @"Internet"]];
+        [toolbarItem setTarget:[InternetBrowserController sharedInstance]];
+        [toolbarItem setAction:@selector(showWindow:)];
     } else if ([itemIdent isEqual:ShiftRightToolbarItemIdentifier]) {
         [toolbarItem setToolTip:NSLocalizedString(@"Shift Selection Right", nil)];
         [toolbarItem setLabel:NSLocalizedString(@"Shift Right", nil)];
@@ -684,23 +694,23 @@ enum {
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
     return [NSArray arrayWithObjects:
-                RendezvousToolbarItemIdentifier,
+                ParticipantsToolbarItemIdentifier,
                 ToggleAnnouncementToolbarItemIdentifier,
                 NSToolbarSeparatorItemIdentifier,
-                ShiftLeftToolbarItemIdentifier,
-                ShiftRightToolbarItemIdentifier,
                 PreviousSymbolToolbarItemIdentifier,
                 NextSymbolToolbarItemIdentifier,
                 PreviousChangeToolbarItemIdentifier,
                 NextChangeToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
-                ParticipantsToolbarItemIdentifier,
+                RendezvousToolbarItemIdentifier,
+                InternetToolbarItemIdentifier,
                 nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
     return [NSArray arrayWithObjects:
+                InternetToolbarItemIdentifier,
                 RendezvousToolbarItemIdentifier,
                 ShiftLeftToolbarItemIdentifier,
                 ShiftRightToolbarItemIdentifier,

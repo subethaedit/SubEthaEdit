@@ -740,6 +740,7 @@ subethaedit/WebPreviewWindowController.m -text
 subethaedit/artwork/Action.tiff -text
 subethaedit/artwork/ActionPressed.tiff -text
 subethaedit/artwork/Announce.tiff -text
+subethaedit/artwork/Conceal.png -text
 subethaedit/artwork/Conceal.tiff -text
 subethaedit/artwork/DefaultPerson.tiff -text
 subethaedit/artwork/EditPrefs.tiff -text
@@ -747,6 +748,7 @@ subethaedit/artwork/EmptyButton.tiff -text
 subethaedit/artwork/GeneralPrefs.tiff -text
 subethaedit/artwork/HideChangeMarks.png -text
 subethaedit/artwork/HideChangeMarks.psd -text
+subethaedit/artwork/Internet.tiff -text
 subethaedit/artwork/InternetResume.tiff -text
 subethaedit/artwork/InternetStop.tiff -text
 subethaedit/artwork/NamedLogo2.tiff -text
