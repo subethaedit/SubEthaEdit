@@ -3,7 +3,7 @@
         {
             CLASS = Controller; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"o_ArrayController" = id; }; 
+            OUTLETS = {"o_ArrayController" = id; "o_tableView" = NSTableView; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 

@@ -192,10 +192,9 @@ prototype/TCMFocusringTableView/English.lproj/InfoPlist.strings -text
 prototype/TCMFocusringTableView/English.lproj/MainMenu.nib/classes.nib -text
 prototype/TCMFocusringTableView/English.lproj/MainMenu.nib/info.nib -text
 prototype/TCMFocusringTableView/English.lproj/MainMenu.nib/keyedobjects.nib -text
-prototype/TCMFocusringTableView/English.lproj/MainMenu~.nib/classes.nib -text
-prototype/TCMFocusringTableView/English.lproj/MainMenu~.nib/info.nib -text
-prototype/TCMFocusringTableView/English.lproj/MainMenu~.nib/keyedobjects.nib -text
 prototype/TCMFocusringTableView/Info.plist -text
+prototype/TCMFocusringTableView/NoHighlightTextFieldCell.h -text
+prototype/TCMFocusringTableView/NoHighlightTextFieldCell.m -text
 prototype/TCMFocusringTableView/TCMFocusringTableView.h -text
 prototype/TCMFocusringTableView/TCMFocusringTableView.m -text
 prototype/TCMFocusringTableView/TCMFocusringTableView.xcode/pittenau.mode1 -text

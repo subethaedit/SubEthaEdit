@@ -7,6 +7,12 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
+				31625872071C1F720010F7FB,
+				31625873071C1F720010F7FB,
+				5E7A2936071C2605000DAA4A,
+				5E7A2937071C2605000DAA4A,
+				31625866071C1D790010F7FB,
+				31625867071C1D790010F7FB,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -114,15 +120,11 @@
 		};
 		29B97314FDCFA39411CA2CEA = {
 			children = (
-				31625866071C1D790010F7FB,
-				31625867071C1D790010F7FB,
 				080E96DDFE201D6D7F000001,
 				29B97315FDCFA39411CA2CEA,
 				29B97317FDCFA39411CA2CEA,
 				29B97323FDCFA39411CA2CEA,
 				19C28FACFE9D520D11CA2CBB,
-				31625872071C1F720010F7FB,
-				31625873071C1F720010F7FB,
 			);
 			isa = PBXGroup;
 			name = TCMFocusringTableView;
@@ -326,6 +328,44 @@
 //4A2
 //4A3
 //4A4
+//5E0
+//5E1
+//5E2
+//5E3
+//5E4
+		5E7A2936071C2605000DAA4A = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NoHighlightTextFieldCell.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E7A2937071C2605000DAA4A = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NoHighlightTextFieldCell.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E7A2938071C2605000DAA4A = {
+			fileRef = 5E7A2936071C2605000DAA4A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E7A2939071C2605000DAA4A = {
+			fileRef = 5E7A2937071C2605000DAA4A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//5E0
+//5E1
+//5E2
+//5E3
+//5E4
 //8D0
 //8D1
 //8D2
@@ -364,6 +404,7 @@
 				8D11072B0486CEB800E47090,
 				31625868071C1D790010F7FB,
 				31625874071C1F720010F7FB,
+				5E7A2938071C2605000DAA4A,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,6 +427,7 @@
 				8D11072D0486CEB800E47090,
 				31625869071C1D790010F7FB,
 				31625875071C1F720010F7FB,
+				5E7A2939071C2605000DAA4A,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
