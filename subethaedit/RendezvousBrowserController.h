@@ -7,11 +7,12 @@
 //
 
 #import <AppKit/AppKit.h>
-
+#import "TCMRendezvousBrowser.h"
 
 @interface RendezvousBrowserController : NSWindowController {
     NSMutableArray *I_tableData;
     IBOutlet NSTableView *I_tableView;
+    TCMRendezvousBrowser *I_browser;
 }
 
 -(NSMutableArray *)tableData;
