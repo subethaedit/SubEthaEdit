@@ -6,7 +6,16 @@
             SUPERCLASS = NSWindowController; 
         }, 
         {
-            ACTIONS = {enterSerialNumber = id; purchaseSubEthaEdit = id; redo = id; undo = id; }; 
+            ACTIONS = {
+                enterSerialNumber = id; 
+                purchaseSubEthaEdit = id; 
+                redo = id; 
+                reportBug = id; 
+                showAcknowledgements = id; 
+                showLicense = id; 
+                undo = id; 
+                visitWebsite = id; 
+            }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 

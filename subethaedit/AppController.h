@@ -23,4 +23,9 @@
 - (IBAction)purchaseSubEthaEdit:(id)sender;
 - (IBAction)enterSerialNumber:(id)sender;
 
+- (IBAction)showLicense:(id)sender;
+- (IBAction)showAcknowledgements:(id)sender;
+- (IBAction)visitWebsite:(id)sender;
+- (IBAction)reportBug:(id)sender;
+
 @end
