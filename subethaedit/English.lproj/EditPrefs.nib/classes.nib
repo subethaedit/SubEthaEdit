@@ -1,6 +1,7 @@
 {
     IBClasses = (
         {CLASS = EditPreferences; LANGUAGE = ObjC; SUPERCLASS = TCMPreferenceModule; }, 
+        {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             CLASS = TCMPreferenceModule; 
