@@ -14,12 +14,13 @@
     id I_delegate;
     CFHostRef I_host;
     NSString *I_name;
+    unsigned short I_port;
     NSMutableArray *I_addresses;
 }
 
-+ (TCMHost *)hostWithName:(NSString *)name;
++ (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port;
 
-- (id)initWithName:(NSString *)name;
+- (id)initWithName:(NSString *)name port:(unsigned short)port;
 
 - (void)setDelegate:(id)delegate;
 - (id)delegate;

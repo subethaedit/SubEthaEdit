@@ -15,8 +15,6 @@
 #import "TCMHost.h"
 #import "HandshakeProfile.h"
 
-#import <netinet/in.h>
-
 #define PORTRANGESTART 12347
 #define PORTRANGELENGTH 10
 
@@ -35,18 +33,6 @@ static NSString *kBEEPSessionStatusConnecting=@"Connecting";
         @"InboundRendezvousSession" => RendezvousSession that came from listener
         @"OutboundSessions" => Active Outbound Internet Sessions 
         @"InboundSessions"  => Active Inbound Internet Sessions
-        
-    Internet:
-        pendingOutboundSessions {
-            <hostname> => {
-                "host" => TCMHost
-                "sessions" = NSMutableSet
-            }
-        }
-        
-        inboundPendingSessions:
-    
-        (outbound|inbound)sessions:
 */
 
 
@@ -185,23 +171,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSEnumerator *addresses = [[aHost addresses] objectEnumerator];
     NSData *addressData;
     while ((addressData = [addresses nextObject])) {
-        NSLog(@"trying addressData: %@", [NSString stringWithAddressData:addressData]);
-        int i;
-        for (i = PORTRANGESTART; i < PORTRANGESTART + PORTRANGELENGTH; i++) {
-            NSMutableData *mutableAddressData = [addressData mutableCopy];
-            struct sockaddr_in *address = (struct sockaddr_in *)[mutableAddressData mutableBytes];
-            address->sin_port = htons(i);
-            NSLog(@"trying mutableAddressData: %@", [NSString stringWithAddressData:mutableAddressData]);
-
-            TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:mutableAddressData];
-            [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isInternet"];
-            [[session userInfo] setObject:[aHost name] forKey:@"name"];
-            [sessions addObject:session];
-            [session setDelegate:self];
-            [session open];
-            
-            [mutableAddressData autorelease];
-        }
+        TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
+        [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isInternet"];
+        [[session userInfo] setObject:[aHost name] forKey:@"name"];
+        [sessions addObject:session];
+        [session setDelegate:self];
+        [session open];
     }
 }
 

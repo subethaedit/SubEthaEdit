@@ -47,7 +47,7 @@
     NSString *address = [aSender objectValue];
     DEBUGLOG(@"Internet", 5, @"connect to peer: %@", address);
 
-    TCMHost *host = [TCMHost hostWithName:address];
+    TCMHost *host = [TCMHost hostWithName:address port:12347];
     [I_resolvingHosts setObject:host forKey:[host name]];
     [host setDelegate:self];
     [host resolve];

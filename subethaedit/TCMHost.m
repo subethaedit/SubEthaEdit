@@ -7,7 +7,9 @@
 //
 
 #import "TCMHost.h"
+
 #import <CoreFoundation/CoreFoundation.h>
+#import <netinet/in.h>
 
 
 void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *error, void *myInfoPointer);
@@ -24,12 +26,12 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 @implementation TCMHost
 
-+ (TCMHost *)hostWithName:(NSString *)name
++ (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port
 {
-    return [[[TCMHost alloc] initWithName:name] autorelease];
+    return [[[TCMHost alloc] initWithName:name port:port] autorelease];
 }
 
-- (id)initWithName:(NSString *)name
+- (id)initWithName:(NSString *)name port:(unsigned short)port
 {
     self = [super init];
     if (self) {
@@ -40,6 +42,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         }
         
         [self setName:name];
+        I_port = port;
         CFHostClientContext context = {0, self, NULL, NULL, NULL};
         CFHostSetClient(I_host, myCallback, &context);
         CFHostScheduleWithRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
@@ -113,9 +116,13 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         NSLog(@"hasBeenResolved: %@", (hasBeenResolved ? @"YES" : @"NO"));
         NSEnumerator *addresses = [(NSArray *)addressArray objectEnumerator];
         NSData *address;
-        while ((address = [addresses nextObject])) {
-            NSLog(@"resolved address: %@", [NSString stringWithAddressData:address]);
-            [I_addresses addObject:address];
+        while ((address = [addresses nextObject])) {            
+            NSMutableData *mutableAddressData = [address mutableCopy];
+            struct sockaddr_in *address = (struct sockaddr_in *)[mutableAddressData mutableBytes];
+            address->sin_port = htons(I_port);
+            NSLog(@"resolved address: %@", [NSString stringWithAddressData:mutableAddressData]);
+            [I_addresses addObject:mutableAddressData];
+            [mutableAddressData release];
         }
         if ([delegate respondsToSelector:@selector(hostDidResolveAddress:)]) {
             [delegate hostDidResolveAddress:self];
