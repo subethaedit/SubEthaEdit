@@ -18,6 +18,7 @@
     IBOutlet NSTextField *O_myNameTextField;
     IBOutlet NSComboBox *O_addressComboBox;
     IBOutlet NSPopUpButton *O_actionPullDownButton;
+    IBOutlet NSPopUpButton *O_visibilityPopUpButton;
 
     NSMutableArray *I_data;
     NSMutableDictionary *I_resolvingHosts;
@@ -25,5 +26,6 @@
 }
 
 - (IBAction)connect:(id)aSender;
+- (IBAction)setVisibilityByPopUpButton:(id)aSender;
 
 @end

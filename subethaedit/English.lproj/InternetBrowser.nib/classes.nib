@@ -2,15 +2,17 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {connect = id; }; 
+            ACTIONS = {connect = id; setVisibilityByPopUpButton = id; }; 
             CLASS = InternetBrowserController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_actionPullDownButton" = NSPopUpButton; 
                 "O_addressComboBox" = NSComboBox; 
+                "O_browserListView" = TCMMMBrowserListView; 
                 "O_imageView" = NSImageView; 
                 "O_myNameTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 
+                "O_visibilityPopUpButton" = NSPopUpButton; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

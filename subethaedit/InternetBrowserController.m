@@ -16,6 +16,7 @@
 @interface InternetBrowserController (InternetBrowserControllerPrivateAdditions)
 
 - (int)indexOfItemWithHostname:(NSString *)name;
+- (int)indexOfItemWithUserID:(NSString *)userID;
 
 @end
 
@@ -23,19 +24,20 @@
 
 @implementation InternetBrowserController
 
-- (id)init
-{
+- (id)init {
     self = [super initWithWindowNibName:@"InternetBrowser"];
     if (self) {
         I_data = [NSMutableArray new];
         I_resolvingHosts = [NSMutableDictionary new];
         I_resolvedHosts = [NSMutableDictionary new];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
     }
     return self;    
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_data release];
     [I_resolvingHosts release];
@@ -43,8 +45,11 @@
     [super dealloc];
 }
 
-- (void)windowDidLoad
-{
+- (void)windowWillLoad {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
+}
+
+- (void)windowDidLoad {
     [[self window] setFrameAutosaveName:@"InternetBrowser"];
     TCMMMUser *me = [TCMMMUserManager me];
     [O_myNameTextField setStringValue:[me name]];
@@ -91,8 +96,7 @@
                         object:manager];
 }
 
-- (IBAction)connect:(id)aSender
-{
+- (IBAction)connect:(id)aSender {
     NSString *address = [aSender objectValue];
     DEBUGLOG(@"Internet", 5, @"connect to peer: %@", address);
 
@@ -104,12 +108,14 @@
     [host resolve];
 }
 
-- (IBAction)joinSession:(id)aSender
-{
+- (IBAction)setVisibilityByPopUpButton:(id)aSender {
+    [[TCMMMPresenceManager sharedInstance] setVisible:([aSender indexOfSelectedItem] == 0)];
 }
 
-- (int)indexOfItemWithHostname:(NSString *)name
-{
+- (IBAction)joinSession:(id)aSender {
+}
+
+- (int)indexOfItemWithHostname:(NSString *)name {
     int index = -1;
     int i;
     for (i = 0; i < [I_data count]; i++) {
@@ -122,10 +128,21 @@
     return index;
 }
 
+- (int)indexOfItemWithUserID:(NSString *)userID {
+    int result = -1;
+    int i;
+    for (i = 0; i < [I_data count]; i++) {
+        if ([userID isEqualToString:[[I_data objectAtIndex:i] objectForKey:@"UserID"]]) {
+            result = i;
+            break;
+        }
+    }
+    return result;
+}
+
 #pragma mark -
 
-- (void)hostDidResolveAddress:(TCMHost *)sender
-{
+- (void)hostDidResolveAddress:(TCMHost *)sender {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"hostDidResolveAddress:");
     int index = [self indexOfItemWithHostname:[sender name]];
     if (index != -1) {
@@ -138,8 +155,7 @@
     [[TCMMMBEEPSessionManager sharedInstance] connectToHost:sender];
 }
 
-- (void)host:(TCMHost *)sender didNotResolve:(NSError *)error
-{
+- (void)host:(TCMHost *)sender didNotResolve:(NSError *)error {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"host: %@, didNotResolve: %@", sender, error);
     int index = [self indexOfItemWithHostname:[sender name]];
     if (index != -1) {
@@ -152,18 +168,33 @@
 
 #pragma mark -
 
-- (void)TCM_didAcceptSession:(NSNotification *)notification
-{
+- (void)TCM_didAcceptSession:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
+    TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];    
+    int index = [self indexOfItemWithHostname:[[session userInfo] objectForKey:@"name"]];
+    if (index != -1) {
+        NSMutableDictionary *item = [I_data objectAtIndex:index];
+        [item setObject:@"BEEP session established" forKey:@"status"];
+        NSString *userID = [[session userInfo] objectForKey:@"peerUserID"];
+        [item setObject:userID forKey:@"UserID"];
+        NSDictionary *infoDict = [[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
+        [item setObject:[[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy] forKey:@"Sessions"];
+        [item setObject:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
+        [O_browserListView reloadData];
+    }
 }
 
-- (void)TCM_sessionDidEnd:(NSNotification *)notification
-{
+- (void)TCM_sessionDidEnd:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
+    TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
+    int index = [self indexOfItemWithHostname:[[session userInfo] objectForKey:@"name"]];
+    if (index != -1) {
+        [[I_data objectAtIndex:index] setObject:@"BEEP session ended" forKey:@"status"];
+        [O_browserListView reloadData];
+    }
 }
 
-- (void)TCM_connectToHostDidFail:(NSNotification *)notification
-{
+- (void)TCM_connectToHostDidFail:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_connectToHostDidFail: %@", notification);
     
     TCMHost *host = [[notification userInfo] objectForKey:@"host"];
@@ -174,53 +205,130 @@
 
 #pragma mark -
 
-- (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
-{
+- (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
 }
 
 #pragma mark -
 
-- (int)numberOfItemsInListView:(TCMMMBrowserListView *)aListView
-{
+- (void)userDidChange:(NSNotification *)aNotification {
+    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
+    [O_browserListView reloadData];
+}
+
+#pragma mark -
+
+- (void)userDidChangeVisibility:(NSNotification *)aNotification {
+    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeVisibility: %@", aNotification);
+    NSDictionary *userInfo = [aNotification userInfo];
+    NSString *userID = [userInfo objectForKey:@"UserID"];
+    BOOL isVisible = [[userInfo objectForKey:@"isVisible"] boolValue];
+    
+    if (!isVisible) {
+        int index = [self indexOfItemWithUserID:userID];
+        if (index >= 0) {
+            [I_data removeObjectAtIndex:index];
+        }
+    }
+    [O_browserListView reloadData];
+}
+
+- (void)userDidChangeAnnouncedDocuments:(NSNotification *)aNotification {
+    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeAnnouncedDocuments: %@", aNotification);
+    NSDictionary *userInfo = [aNotification userInfo];
+    NSString * userID = [userInfo objectForKey:@"UserID"];
+    int index = [self indexOfItemWithUserID:userID];
+    if (index >= 0) {
+        NSMutableDictionary *item = [I_data objectAtIndex:index];
+        TCMMMSession *session = [userInfo objectForKey:@"AnnouncedSession"];
+        NSMutableArray *sessions = [item objectForKey:@"Sessions"];
+        if ([[userInfo objectForKey:@"Sessions"] count] == 0) {
+            [sessions removeAllObjects];
+        } else {
+            if (session) {
+                [sessions addObject:session];
+            } else {
+                NSString *concealedSessionID = [userInfo objectForKey:@"ConcealedSessionID"];
+                int i;
+                for (i = 0; i < [sessions count]; i++) {
+                    if ([concealedSessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
+                        [sessions removeObjectAtIndex:i];
+                    }
+                }
+            }
+        }
+    }
+    [O_browserListView reloadData];
+}
+
+#pragma mark -
+
+- (int)numberOfItemsInListView:(TCMMMBrowserListView *)aListView {
     return [I_data count];
 }
 
-- (int)listView:(TCMMMBrowserListView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex
-{
+- (int)listView:(TCMMMBrowserListView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex {
     if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
-        //NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
+        NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
+        return [[item objectForKey:@"Sessions"] count];
     }
-    
     return 0;
 }
 
-- (BOOL)listView:(TCMMMBrowserListView *)aListView isItemExpandedAtIndex:(int)anItemIndex
-{
+- (BOOL)listView:(TCMMMBrowserListView *)aListView isItemExpandedAtIndex:(int)anItemIndex {
+    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
+        NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
+        return [[item objectForKey:@"isExpanded"] boolValue];
+    }
     return NO;
 }
 
-- (void)listView:(TCMMMBrowserListView *)aListView setExpanded:(BOOL)isExpanded itemAtIndex:(int)anItemIndex
-{
+- (void)listView:(TCMMMBrowserListView *)aListView setExpanded:(BOOL)isExpanded itemAtIndex:(int)anItemIndex {
+    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
+        NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
+        [item setObject:[NSNumber numberWithBool:isExpanded] forKey:@"isExpanded"];
+    }
 }
 
-- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex
-{
+- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
     if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
         NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
         
-        if (aTag == TCMMMBrowserItemNameTag) {
-            return [item objectForKey:@"name"];
-        } else if (aTag == TCMMMBrowserItemStatusTag) {
-            return [item objectForKey:@"status"];
+        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
+
+        if (user) {
+            if (aTag == TCMMMBrowserItemNameTag) {
+                return [user name];
+            } else if (aTag == TCMMMBrowserItemStatusTag) {
+                return [NSString stringWithFormat:@"%d Document(s)", [[item objectForKey:@"Sessions"] count]];
+            } else if (aTag == TCMMMBrowserItemImageTag) {
+                return [[user properties] objectForKey:@"Image32"];
+            } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
+                return [[user properties] objectForKey:@"ColorImage"];
+            }
+        } else {
+            if (aTag == TCMMMBrowserItemNameTag) {
+                return [item objectForKey:@"name"];
+            } else if (aTag == TCMMMBrowserItemStatusTag) {
+                return [item objectForKey:@"status"];
+            }
         }
     }
 
     return nil;
 }
 
-- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex
-{
+- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
+        NSDictionary *item = [I_data objectAtIndex:anItemIndex];
+        NSArray *sessions = [item objectForKey:@"Sessions"];
+        if (anIndex >= 0 && anIndex < [sessions count]) {
+            TCMMMSession *session = [sessions objectAtIndex:anIndex];
+            if (aTag == TCMMMBrowserChildNameTag) {
+                return [session filename];
+            }
+        }
+    }
     return nil;
 }
 
