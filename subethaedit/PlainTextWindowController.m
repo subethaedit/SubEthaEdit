@@ -1120,7 +1120,6 @@ enum {
     int row;
     TCMMMSession *session=[(PlainTextDocument *)[self document] session];
     for (row=[selectedRows firstIndex];[selectedRows count]>0;[selectedRows removeIndex:row],row=[selectedRows firstIndex]) {
-        NSLog(@"%d",row);
         ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
         TCMMMUser *user=nil;
         if (pair.childIndex!=-1) {
