@@ -109,10 +109,32 @@ static void EndCdataSectionHandler(void *userData)
 
 static void CommentHandler(void *userData, const XML_Char *data)
 {
+    TCMXMLParser *parser = (TCMXMLParser *)userData;
+    id delegate = [parser delegate];
+    if ([delegate respondsToSelector:@selector(parser:foundComment:)]) {
+        NSString *comment = @"";
+        if (data != nil) {
+            comment = [NSString stringWithUTF8String:data];
+        }
+        [delegate parser:parser foundComment:comment];
+    }
 }
 
 static void ProcessingInstructionHandler(void *userData, const XML_Char *target, const XML_Char *data)
 {
+    TCMXMLParser *parser = (TCMXMLParser *)userData;
+    id delegate = [parser delegate];
+    if ([delegate respondsToSelector:@selector(parser:foundProcessingInstructionWithTarget:data:)]) {
+        NSString *targetString = @"";
+        if (target != nil) {
+            targetString = [NSString stringWithUTF8String:target];
+        }
+        NSString *dataString = @"";
+        if (data != nil) {
+            dataString = [NSString stringWithUTF8String:data];
+        }
+        [delegate parser:parser foundProcessingInstructionWithTarget:targetString data:dataString];
+    }
 }
 
 #pragma mark 

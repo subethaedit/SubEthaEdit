@@ -45,7 +45,7 @@
 
 - (void)parser:(TCMXMLParser *)parser foundComment:(NSString *)comment
 {
-    NSLog(@"parser:%@ foundComment:%@", comment);
+    NSLog(@"parser:%@ foundComment:%@", parser, comment);
 }
 
 - (void)parser:(TCMXMLParser *)parser foundProcessingInstructionWithTarget:(NSString *)target data:(NSString *)data
