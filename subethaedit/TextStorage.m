@@ -59,6 +59,15 @@ NSString * const BlockeditAttributeValue=@"YES";
 #pragma mark -
 #pragma mark ### Line Numbers ###
 
+- (NSString *)positionStringForRange:(NSRange)aRange {
+    int lineNumber=[self lineNumberForLocation:aRange.location];
+    unsigned lineStartLocation=[[[self lineStarts] objectAtIndex:lineNumber-1] intValue];
+    NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, aRange.location-lineStartLocation];
+    if (aRange.length>0) string=[string stringByAppendingFormat:@" (%d)",aRange.length];
+    return string;
+}
+
+
 - (int)lineNumberForLocation:(unsigned)aLocation {
 
     // validate I_lineStarts array

@@ -82,7 +82,6 @@
 }
 
 - (void)dealloc {
-    [I_userID release];
     [super dealloc];
 }
 
@@ -103,15 +102,6 @@
 
 - (void)setSelectedRange:(NSRange)aRange {
     I_selectedRange = aRange;
-}
-
-- (NSString *)userID {
-    return I_userID;
-}
-
-- (void)setUserID:(NSString *)aUserID {
-    [I_userID autorelease];
-    I_userID = [aUserID copy];
 }
 
 - (NSString *)description {

@@ -202,10 +202,7 @@
         
         // findLine
         TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
-        int lineNumber=[textStorage lineNumberForLocation:selection.location];
-        unsigned lineStartLocation=[[[textStorage lineStarts] objectAtIndex:lineNumber-1] intValue];
-        NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, selection.location-lineStartLocation];
-        if (selection.length>0) string=[string stringByAppendingFormat:@" (%d)",selection.length]; 
+        NSString *string=[textStorage positionStringForRange:selection];
         if (selection.location<[textStorage length]) { 
             id blockAttribute=[textStorage 
                                 attribute:BlockeditAttributeName 

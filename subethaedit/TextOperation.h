@@ -13,7 +13,6 @@
 @interface TextOperation : TCMMMOperation <NSCopying> {
     NSRange I_affectedCharRange;
     NSString *I_replacementString;
-    NSString *I_userID;
 }
 
 + (TextOperation *)textOperationWithAffectedCharRange:(NSRange)aRange replacementString:(NSString *)aString userID:(NSString *)aUserID;
@@ -22,7 +21,5 @@
 - (NSRange)affectedCharRange;
 - (void)setReplacementString:(NSString *)aString;
 - (NSString *)replacementString;
-- (void)setUserID:(NSString *)aUserID;
-- (NSString *)userID;
 
 @end

@@ -27,6 +27,7 @@ extern NSString * const BlockeditAttributeValue;
 }
 
 - (int)lineNumberForLocation:(unsigned)location;
+- (NSString *)positionStringForRange:(NSRange)aRange;
 - (NSMutableArray *)lineStarts;
 - (NSRange)findLine:(int)aLineNumber;
 - (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation;

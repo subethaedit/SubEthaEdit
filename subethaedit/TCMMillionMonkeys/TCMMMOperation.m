@@ -39,6 +39,13 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
     return copy;
 }
 
+- (void)dealloc {
+    [I_userID release];
+    [super dealloc];
+}
+
+
+
 - (NSDictionary *)dictionaryRepresentation {
     return nil;
 }
@@ -46,5 +53,15 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 - (NSString *)operationID {
     return [[self class] operationID];
 }
+
+- (void)setUserID:(NSString *)aUserID {
+    [I_userID autorelease];
+    I_userID = [aUserID copy];
+}
+
+- (NSString *)userID {
+    return I_userID;
+}
+
 
 @end

@@ -64,6 +64,8 @@ NSString * const PlainTextDocumentDidChangeSymbolsNotification =
                @"PlainTextDocumentDidChangeSymbolsNotification";
 NSString * const PlainTextDocumentDidChangeEditStatusNotification =
                @"PlainTextDocumentDidChangeEditStatusNotification";
+NSString * const PlainTextDocumentParticipantsDidChangeNotification =
+               @"PlainTextDocumentParticipantsDidChangeNotification";
 NSString * const PlainTextDocumentDidChangeDisplayNameNotification = 
                @"PlainTextDocumentDidChangeDisplayNameNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = 
@@ -132,6 +134,15 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
            coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
+
+- (void)TCM_sendPlainTextDocumentParticipantsDidChangeNotification {
+    [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentParticipantsDidChangeNotification object:self]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
+
 
 - (void)TCM_styleFonts {
     [I_fonts.boldFont autorelease];
@@ -1969,6 +1980,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #pragma mark -
 #pragma mark ### Session Interaction ###
+- (void)changeSelectionOfUserWithID:(NSString *)aUserID toRange:(NSRange)aRange {
+    TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:aUserID];
+    NSMutableDictionary *properties=[user propertiesForSessionID:[[self session] sessionID]];
+    if (!properties) {
+        NSLog(@"Tried to change selection of user for session in which he isnt");
+    } else {
+        NSValue *oldRangeValue=[properties objectForKey:@"SelectedRange"];
+        if (oldRangeValue) {
+            NSRange range=[oldRangeValue rangeValue];
+        }
+        [properties setObject:[NSValue valueWithRange:aRange] forKey:@"SelectedRange"];
+    }
+    [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
+}
+
 
 - (NSArray *)plainTextEditors {
     NSMutableArray *result = [NSMutableArray array];
@@ -2017,7 +2043,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         I_flags.isRemotelyEditingTextStorage=NO;
 
-    }   
+    } else if ([[aOperation operationID] isEqualToString:[SelectionOperation operationID]]){
+        [self changeSelectionOfUserWithID:[aOperation userID] 
+              toRange:[(SelectionOperation *)aOperation selectedRange]];
+    }
 }
 
 #pragma mark -

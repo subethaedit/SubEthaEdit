@@ -466,7 +466,7 @@ static NSColor *alternateRowColor=nil;
         yPosition+=ITEMROWHEIGHT;
     }
     I_indexNumberOfRows=row;
-    I_indexMaxHeight=yPosition;
+    I_indexMaxHeight=yPosition-ITEMROWHEIGHT;
     
     I_indexItemChildPairAtRow = (ItemChildPair *)malloc(sizeof(ItemChildPair)*row);
     row=0;

@@ -14,6 +14,7 @@
 
 extern NSString * const PlainTextDocumentDidChangeSymbolsNotification;
 extern NSString * const PlainTextDocumentDidChangeEditStatusNotification;
+extern NSString * const PlainTextDocumentParticipantsDidChangeNotification;
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
 extern NSString * const WrittenByUserIDAttributeName;

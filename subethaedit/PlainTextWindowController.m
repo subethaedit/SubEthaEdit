@@ -91,6 +91,11 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     //[O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(participantsDidChange:)
+                                                 name:PlainTextDocumentParticipantsDidChangeNotification 
+                                               object:[self document]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(pendingUsersDidChange:)
                                                  name:TCMMMSessionPendingUsersDidChangeNotification 
                                                object:[(PlainTextDocument *)[self document] session]];
@@ -347,6 +352,10 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     return nil;
 }
 
+- (void)participantsDidChange:(NSNotification *)aNotifcation {
+    [O_participantsView reloadData];
+}
+
 - (void)pendingUsersDidChange:(NSNotification *)aNotifcation {
     [O_pendingUsersTableView reloadData];
 }
@@ -515,7 +524,9 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 }
 
 - (id)participantsView:(ParticipantsView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
-    NSDictionary *participants=[[(PlainTextDocument *)[self document] session] participants];
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    TCMMMSession *session=[document session];
+    NSDictionary *participants=[session participants];
     TCMMMUser *user=nil;
     if (anItemIndex==0) {
         user=[[participants objectForKey:@"ReadWrite"] objectAtIndex:anIndex];
@@ -526,7 +537,13 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         if (aTag==ParticipantsChildNameTag) {
             return [user name];
         } else if (aTag==ParticipantsChildStatusTag) {
-            return @"status";
+            NSMutableDictionary *properties=[user propertiesForSessionID:[session sessionID]];
+            NSValue *rangeValue=[properties objectForKey:@"SelectedRange"];
+            if (rangeValue) {
+                return [(TextStorage *)[document textStorage] positionStringForRange:[rangeValue rangeValue]];
+            } else {
+                return @"No Position";
+            }
         } else if (aTag==ParticipantsChildImageTag) {
             return [[user properties] objectForKey:@"Image32"];
         } else if (aTag==ParticipantsChildImageNextToNameTag) {

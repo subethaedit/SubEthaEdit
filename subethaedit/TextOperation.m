@@ -161,7 +161,6 @@
  
 - (void)dealloc {
     [I_replacementString release];
-    [I_userID release];
     [super dealloc];
 }
 
@@ -192,15 +191,6 @@
 
 - (NSString *)replacementString {
     return I_replacementString;
-}
-
-- (void)setUserID:(NSString *)aUserID {
-    [I_userID autorelease];
-    I_userID = [aUserID copy];
-}
-
-- (NSString *)userID {
-    return I_userID;
 }
 
 - (NSString *)description {

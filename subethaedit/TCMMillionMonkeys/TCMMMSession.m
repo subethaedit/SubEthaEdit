@@ -203,6 +203,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
             [profile acceptJoin];
             [profile sendSessionInformation:[self TCM_sessionInformation]];
             [state release];
+            [user joinSessionID:[self sessionID]];
             [set removeIndex:index];
         }
         [set release];

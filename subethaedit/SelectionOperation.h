@@ -12,14 +12,11 @@
 
 @interface SelectionOperation : TCMMMOperation <NSCopying> {
     NSRange I_selectedRange;
-    NSString *I_userID;
 }
 
 + (SelectionOperation *)selectionOperationWithRange:(NSRange)aRange userID:(NSString *)aUserID;
 
 - (NSRange)selectedRange;
 - (void)setSelectedRange:(NSRange)aRange;
-- (NSString *)userID;
-- (void)setUserID:(NSString *)aUserID;
 
 @end
