@@ -434,6 +434,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [aBEEPSession setDelegate:nil];
     [[aBEEPSession retain] autorelease];
     
+    [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
+
     NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
     BOOL isRendezvous = [[aBEEPSession userInfo] objectForKey:@"isRendezvous"] != nil;
     if (aUserID) {
@@ -525,8 +527,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
     [I_pendingSessions removeObject:aBEEPSession];
     [self removeSessionFromSessionsArray:aBEEPSession];
-    
-    [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
     
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@", [self description]);
 }

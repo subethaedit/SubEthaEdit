@@ -324,6 +324,10 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 }
 
 -(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
+    BOOL isSetupDone = [[NSUserDefaults standardUserDefaults] boolForKey:SetupDonePrefKey];
+    if (!isSetupDone) {
+        return NO;
+    }
     return [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
 }
 

@@ -733,6 +733,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [I_rangesToInvalidate release];
     [I_findAllControllers release];
     [I_lastRegisteredUndoOperation release];
+    [I_undoManager release];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];

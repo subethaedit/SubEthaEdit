@@ -136,6 +136,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [[I_profilesByUserID allValues]makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_profilesByUserID release];
     [I_closingProfiles makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
+    [I_closingProfiles release];
     [I_participants release];
     [I_closingStates makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_closingStates release];

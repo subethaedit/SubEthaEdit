@@ -534,7 +534,7 @@ NSString *ListViewDidChangeSelectionNotification=
     [resultImage unlockFocus];
     [NSGraphicsContext restoreGraphicsState];
     [resultImage setFlipped:NO];
-    return resultImage;
+    return [resultImage autorelease];
 }
 
 - (void)mouseDragged:(NSEvent *)aEvent {

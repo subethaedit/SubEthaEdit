@@ -157,6 +157,9 @@ static SetupController *sharedInstance = nil;
         [[NSUserDefaults standardUserDefaults] synchronize];
         [NSApp stopModal];
         [self close];
+        if (isFirstRun) {
+            [[NSDocumentController sharedDocumentController] newDocument:self];
+        }
     } else {
         [O_tabView selectNextTabViewItem:self];
     }
