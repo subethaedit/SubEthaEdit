@@ -47,43 +47,96 @@
     return self;
 }
 
+- (void)stateMachineOnAttributedString:(NSMutableAttributedString *)aString inRange:(NSRange)aRange {
+    NSRange range;
+    NSString *state=[aString attribute:@"StateMachineState" atIndex:aRange.location effectiveRange:&range];
+    unsigned stateStart=aRange.location;
+    range=aRange;
+    while (range.length>0) {
+        NSRange foundRange;
+        if (!state) {
+            foundRange=[[aString string] rangeOfString:@"//" options:nil range:range];
+            if (foundRange.location!=NSNotFound) {
+                state=@"Comment";
+                range.length-=NSMaxRange(foundRange)-range.location;
+                [aString removeAttribute:@"StateMachineState" range:NSMakeRange(stateStart,foundRange.location-stateStart)];
+                stateStart=foundRange.location;
+                range.location=NSMaxRange(foundRange);
+            } else {
+                break;
+            }
+        } else if ([state isEqualToString:@"Comment"]) {
+            foundRange=[[aString string] rangeOfString:@"\n" options:nil range:range];
+            if (foundRange.location!=NSNotFound) {
+                state=nil;
+                range.length-=NSMaxRange(foundRange)-range.location;
+                [aString addAttribute:@"StateMachineState" value:@"Comment" range:NSMakeRange(stateStart,foundRange.location-stateStart)];
+                [aString addAttribute:NSForegroundColorAttributeName value:[NSColor grayColor] range:NSMakeRange(stateStart,foundRange.location-stateStart)];
+                stateStart=foundRange.location;
+                range.location=NSMaxRange(foundRange);
+                
+            } else {
+                break;
+            }
+        }
+    }
+    if (state) {
+        [aString addAttribute:@"StateMachineState" value:state range:range];
+    } else {
+        [aString removeAttribute:@"StateMachineState" range:range];
+    }
+}
+
 -(void)colorize:(NSMutableAttributedString *)aString inRange:(NSRange)aLineRange {
-    NSScanner *scanner=[NSScanner scannerWithString:[aString string]];
-    [scanner setCharactersToBeSkipped:[I_keyWordCharacterSet invertedSet]];
-    [scanner setScanLocation:aLineRange.location];
-    NSString *foundString=nil;
-    NSRange lastFoundRange=NSMakeRange(aLineRange.location,0);
     NSRange ignoreRange;
     NSFontManager *fontManager=[NSFontManager sharedFontManager];
     NSFont *font=[aString attribute:NSFontAttributeName atIndex:aLineRange.location effectiveRange:&ignoreRange];
     NSFont *boldFont=[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
-    do {
-        if ([scanner scanCharactersFromSet:I_keyWordCharacterSet intoString:&foundString]) {
-            //NSLog(@"FoundString: %@ at location:%d",foundString,[scanner scanLocation]);
-            if (foundString) {
-                NSRange foundRange=NSMakeRange([scanner scanLocation]-[foundString length],[foundString length]);
-                if (foundRange.location<aLineRange.location) {
-                    NSLog(@"wtf?");
-                } else if (NSMaxRange(foundRange)>NSMaxRange(aLineRange)) {
-                    // NSLog(@"range to long: %@, %@",NSStringFromRange(foundRange),NSStringFromRange(aLineRange));
-                    break;
-                } else {
-                    NSColor *color=[I_keyWords objectForKey:foundString];
-                    if (color) {    
-                        [aString addAttribute:NSForegroundColorAttributeName value:color range:foundRange];
-                        if (boldFont) {
-                            [aString addAttribute:NSFontAttributeName value:boldFont range:foundRange];
-                        } 
-                    } else {
-                        [aString removeAttribute:NSForegroundColorAttributeName range:NSMakeRange(NSMaxRange(lastFoundRange),NSMaxRange(aLineRange)-NSMaxRange(lastFoundRange))];
+
+    [self stateMachineOnAttributedString:aString inRange:aLineRange];
+    NSScanner *scanner=[NSScanner scannerWithString:[aString string]];
+    [scanner setCharactersToBeSkipped:[I_keyWordCharacterSet invertedSet]];
+    NSRange subRange;
+    NSString *state=nil;
+    while (aLineRange.length) {
+        state=[aString attribute:@"StateMachineState" atIndex:aLineRange.location longestEffectiveRange:&subRange inRange:aLineRange];
+        if (!state) {
+            [scanner setScanLocation:subRange.location];
+            NSString *foundString=nil;
+            NSRange lastFoundRange=NSMakeRange(subRange.location,0);
+            do {
+                if ([scanner scanCharactersFromSet:I_keyWordCharacterSet intoString:&foundString]) {
+                    //NSLog(@"FoundString: %@ at location:%d",foundString,[scanner scanLocation]);
+                    if (foundString) {
+                        NSRange foundRange=NSMakeRange([scanner scanLocation]-[foundString length],[foundString length]);
+                        if (foundRange.location<subRange.location) {
+                            NSLog(@"wtf?");
+                        } else if (NSMaxRange(foundRange)>NSMaxRange(subRange)) {
+                            // NSLog(@"range to long: %@, %@",NSStringFromRange(foundRange),NSStringFromRange(aLineRange));
+                            break;
+                        } else {
+                            NSColor *color=[I_keyWords objectForKey:foundString];
+                            if (color) {    
+                                [aString addAttribute:NSForegroundColorAttributeName value:color range:foundRange];
+                                if (boldFont) {
+                                    [aString addAttribute:NSFontAttributeName value:boldFont range:foundRange];
+                                } 
+                            } else {
+                                [aString removeAttribute:NSForegroundColorAttributeName range:NSMakeRange(NSMaxRange(lastFoundRange),NSMaxRange(subRange)-NSMaxRange(lastFoundRange))];
+                            }
+                        }
+                        lastFoundRange=foundRange;
                     }
+                } else {
+                    break;
                 }
-                lastFoundRange=foundRange;
-            }
-        } else {
-            break;
+            } while ([scanner scanLocation]< NSMaxRange(subRange));
+        
         }
-    } while ([scanner scanLocation]< NSMaxRange(aLineRange));
+        if (aLineRange.length<=subRange.length) break;
+        aLineRange.location+=subRange.length;
+        aLineRange.length-=subRange.length;
+    }
     //NSLog(@"tried my best");
 }
 
