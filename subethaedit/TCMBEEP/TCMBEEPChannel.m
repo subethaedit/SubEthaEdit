@@ -166,6 +166,14 @@ static NSMutableDictionary *profileURIToClassMapping;
 
 - (void)close
 {
+    // standard conform close
+    I_channelStatus = TCMBEEPChannelStatusClosing;
+    [[self session] closeChannelWithNumber:[self number] code:200];
+}
+
+- (void)terminate
+{
+    // hardcore close
     I_channelStatus = TCMBEEPChannelStatusClosing;
     [[self session] closeChannelWithNumber:[self number] code:200];
 }
@@ -405,6 +413,18 @@ static NSMutableDictionary *profileURIToClassMapping;
     [[self profile] setChannel:nil];
     [I_profile release];
     I_profile = nil;
+}
+
+- (void)closed
+{
+    I_channelStatus = TCMBEEPChannelStatusClosed;
+    [[self profile] channelDidClose];
+}
+
+- (void)closeFailedWithError:(NSError *)error
+{
+    // status?
+    [[self profile] channelDidNotCloseWithError:error];
 }
 
 @end

@@ -73,6 +73,7 @@ typedef enum {
 - (id)profile;
 - (TCMBEEPChannelStatus)channelStatus;
 - (void)close;
+- (void)terminate;
 
 // Convenience for Profiles
 - (void)sendMSGMessageWithPayload:(NSData *)aPayload;
@@ -81,12 +82,11 @@ typedef enum {
 // Accessors for session
 - (BOOL)hasFramesAvailable;
 - (NSArray *)availableFramesFittingInCurrentWindow;
-
 - (int32_t)nextMessageNumber;
-
 - (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame;
 - (void)sendMessage:(TCMBEEPMessage *)aMessage;
-
 - (void)cleanup;
+- (void)closed;
+- (void)closeFailedWithError:(NSError *)error;
 
 @end

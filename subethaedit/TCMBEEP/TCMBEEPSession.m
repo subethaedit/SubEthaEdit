@@ -751,6 +751,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 - (void)closedChannelWithNumber:(int32_t)aChannelNumber
 {
     TCMBEEPChannel *channel = [I_activeChannels objectForLong:aChannelNumber];
+    [channel closed];
     [channel cleanup];
     [I_activeChannels removeObjectForLong:aChannelNumber];
     if (aChannelNumber == 0) {
