@@ -13,10 +13,9 @@
 
 
 extern const char *gToolVersion;
-extern const char *gToolVersionString;
+extern const int gToolVersionMajor;
+extern const int gToolVersionMinor;
 
-#define SUBETHAEDIT_REQUIRED_MAJOR_VERSION 2
-#define SUBETHAEDIT_REQUIRED_MINOR_VERSION 1
 
 /*
 
@@ -40,7 +39,6 @@ static struct option longopts[] = {
     { "mode",       required_argument,      0,  'm' }, // option
     { "pipe-title", required_argument,      0,  't' }, // option
     { "job-description", required_argument, 0,  'j' }, // option
-    { "short-version", no_argument,         0,  'V' }, // command
     { 0,            0,                      0,  0 }
 };
 
@@ -77,8 +75,8 @@ BOOL meetsRequiredVersion(NSString *string) {
         && [scanner scanInt:&minor]);
     
     if (result) {
-        if (major > SUBETHAEDIT_REQUIRED_MAJOR_VERSION
-            || (major == SUBETHAEDIT_REQUIRED_MAJOR_VERSION && minor >= SUBETHAEDIT_REQUIRED_MINOR_VERSION)) {
+        if (major < gToolVersionMajor
+            || (major == gToolVersionMajor && minor <= gToolVersionMinor)) {
             return YES;
         }
     }
@@ -104,9 +102,8 @@ CFURLRef URLRefForSubEthaEdit() {
                 NSString *bundlePath = [(NSDictionary *)dict objectForKey:@"BundlePath"];
                 NSBundle *appBundle = [NSBundle bundleWithPath:bundlePath];
                 int version = [[[appBundle infoDictionary] objectForKey:@"CFBundleVersion"] intValue];
-                NSString *versionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-                NSString *localizedVersionString = [[appBundle localizedInfoDictionary] objectForKey:@"CFBundleShortVersionString"];
-                if (version > bundleVersion && (meetsRequiredVersion(versionString) || meetsRequiredVersion(localizedVersionString))) {
+                NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
+                if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString)) {
                     bundleVersion = version;
                     appURL = (CFURLRef)[NSURL fileURLWithPath:bundlePath];
                 }
@@ -123,9 +120,8 @@ CFURLRef URLRefForSubEthaEdit() {
     status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), CFSTR("SubEthaEdit.app"), NULL, &appURL); // release appURL
     if (status == kLSApplicationNotFoundErr) {
         NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
-        NSString *versionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        NSString *localizedVersionString = [[appBundle localizedInfoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        if (meetsRequiredVersion(versionString) || meetsRequiredVersion(localizedVersionString)) {
+        NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
+        if (meetsRequiredVersion(minimumSeeToolVersionString)) {
             return appURL;
         }
         
@@ -140,9 +136,8 @@ CFURLRef URLRefForSubEthaEdit() {
     while ((url = [urlEnumerator nextObject])) {
         NSBundle *appBundle = [NSBundle bundleWithPath:[url path]];
         int version = [[[appBundle infoDictionary] objectForKey:@"CFBundleVersion"] intValue];
-        NSString *versionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        NSString *localizedVersionString = [[appBundle localizedInfoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        if (version > bundleVersion && (meetsRequiredVersion(versionString) || meetsRequiredVersion(localizedVersionString))) {
+        NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
+        if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString)) {
             bundleVersion = version;
             if (appURL) CFRelease(appURL);
             appURL = (CFURLRef)url;
@@ -154,11 +149,6 @@ CFURLRef URLRefForSubEthaEdit() {
     return appURL;
 }
 
-static void printShortVersion() {
-    fprintf(stdout, "%s\n", gToolVersion);
-    fflush(stdout);
-}
-
 static void printVersion() {
     OSStatus status = noErr;
     CFURLRef appURL = NULL;
@@ -166,26 +156,49 @@ static void printVersion() {
     NSString *versionString = nil;
     NSString *localizedVersionString = nil;
     NSString *appShortVersionString = @"n/a";
+    NSString *bundledSeeToolVersionString = nil;
     
     appURL = URLRefForSubEthaEdit();
     if (appURL != NULL) {
         NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
-         appVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
-         versionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-         localizedVersionString = [[appBundle localizedInfoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        appVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
+        versionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        bundledSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMBundledSeeToolVersion"];
+        localizedVersionString = [[appBundle localizedInfoDictionary] objectForKey:@"CFBundleShortVersionString"];
         CFRelease(appURL);
-    } 
-    
+    }
+        
     if (versionString) {
         appShortVersionString = versionString;
     } else if (localizedVersionString) {
         appShortVersionString = localizedVersionString;
     }
-        
-    fprintf(stdout, "see %s (v%s)\n", gToolVersionString, gToolVersion);
+
+    fprintf(stdout, "see %d.%d (v%s)\n", gToolVersionMajor, gToolVersionMinor, gToolVersion);
     if (appURL != NULL) {
         NSString *path = [(NSURL *)appURL path];
         fprintf(stdout, "%s %s (v%s)\n", [path fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
+        if (bundledSeeToolVersionString) {
+            BOOL result;
+            BOOL newerBundledVersion = NO;
+            int major = 0;
+            int minor = 0;
+            NSScanner *scanner = [NSScanner scannerWithString:bundledSeeToolVersionString];
+            result = ([scanner scanInt:&major]
+                && [scanner scanString:@"." intoString:nil]
+                && [scanner scanInt:&minor]);
+            
+            if (result) {
+                if (major > gToolVersionMajor
+                    || (major == gToolVersionMajor && minor > gToolVersionMinor)) {
+                    newerBundledVersion = YES;
+                }
+            }
+
+            if (newerBundledVersion) {
+                fprintf(stdout, "\nA newer version of the see command line tool is available.\nThe found SubEthaEdit bundles version %s of the see command.\n\n", [bundledSeeToolVersionString UTF8String]);
+            }
+        }
     }
     fflush(stdout);
     
@@ -501,7 +514,6 @@ int main (int argc, const char * argv[]) {
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     BOOL launch = NO;
     BOOL version = NO;
-    BOOL short_version = NO;
     BOOL help = NO;
     NSMutableArray *fileNames = [NSMutableArray array];
     int i;
@@ -512,7 +524,7 @@ int main (int argc, const char * argv[]) {
     //
     
     int ch;
-    while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvVwe:m:t:j:", longopts, NULL)) != -1) {
+    while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvwe:m:t:j:", longopts, NULL)) != -1) {
         switch(ch) {
             case 'b':
                 [options setObject:[NSNumber numberWithBool:YES] forKey:@"background"];
@@ -553,9 +565,6 @@ int main (int argc, const char * argv[]) {
                     NSString *jobDesc = [NSString stringWithUTF8String:optarg];
                     [options setObject:jobDesc forKey:@"job-description"];
                 } break;
-            case 'V': {
-                    short_version = YES;
-                } break;
             case ':': // missing option argument
             case '?': // invalid option
             default:
@@ -593,8 +602,6 @@ int main (int argc, const char * argv[]) {
         printHelp();
     } else if (version) {
         printVersion();
-    } else if (short_version) {
-        printShortVersion();
     } else if (launch && ([fileNames count] == 0)) {
         (void)launchSubEthaEdit(options);
     } else {
