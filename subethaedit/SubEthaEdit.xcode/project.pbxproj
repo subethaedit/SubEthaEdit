@@ -2248,7 +2248,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-DTCMBEEP_DEBUG";
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
 			name = Development;
@@ -2645,6 +2645,20 @@
 		};
 		5E43E0A10639771800DF31A0 = {
 			fileRef = 5E43E09F0639771800DF31A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E46B56F065453A100C16EA9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = NamedLogo2.tiff;
+			path = artwork/NamedLogo2.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E46B570065453A100C16EA9 = {
+			fileRef = 5E46B56F065453A100C16EA9;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4105,6 +4119,7 @@
 		};
 		5EEB176705ECDC0C00C17677 = {
 			children = (
+				5E46B56F065453A100C16EA9,
 				14C51C98060213490030F488,
 				14C51C99060213490030F488,
 				14C51E4306026F820030F488,
@@ -4863,6 +4878,7 @@
 				14352D2C06539C7300C9685E,
 				31006A770653F67E004F0094,
 				5E04C35E065401B300075366,
+				5E46B570065453A100C16EA9,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
