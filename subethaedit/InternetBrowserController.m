@@ -650,14 +650,18 @@ static InternetBrowserController *sharedInstance = nil;
     int index = [self indexOfItemWithURLString:URLString];
     if (index != -1) {
         NSMutableDictionary *item = [I_data objectAtIndex:index];
-        if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusCancelling]) {
-            [item setObject:HostEntryStatusCancelled forKey:@"status"];
+        if ([item objectForKey:@"inbound"]) {
+            [I_data removeObjectAtIndex:index];
         } else {
-            [item setObject:HostEntryStatusSessionAtEnd forKey:@"status"];
+            if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusCancelling]) {
+                [item setObject:HostEntryStatusCancelled forKey:@"status"];
+            } else {
+                [item setObject:HostEntryStatusSessionAtEnd forKey:@"status"];
+            }
+            [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];        
+            [item removeObjectForKey:@"BEEPSession"];
+            [item removeObjectForKey:@"Sessions"];
         }
-        [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];        
-        [item removeObjectForKey:@"BEEPSession"];
-        [item removeObjectForKey:@"Sessions"];
         [O_browserListView reloadData];
     }
 }
