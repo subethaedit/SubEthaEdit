@@ -67,10 +67,10 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_styleFonts;
 - (void)TCM_initHelper;
 - (void)TCM_sendPlainTextDocumentDidChangeDisplayNameNotification;
-- (void)TCM_handleOpenDocumentEvent;
 - (void)TCM_sendODBCloseEvent;
 - (void)TCM_sendODBModifiedEvent;
 - (BOOL)TCM_writeToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType;
+- (void)TCM_validateDocument;
 @end
 
 #pragma mark -
@@ -565,7 +565,6 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
-    [self TCM_handleOpenDocumentEvent];
 }
 
 static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
@@ -593,8 +592,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return theURLRef;
 }
 
-- (void)TCM_handleOpenDocumentEvent {
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"TCM_handleOpenDocumentEvent");
+- (void)handleOpenDocumentEvent {
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"handleOpenDocumentEvent");
     NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
     if (!([eventDesc eventClass] == kCoreEventClass && [eventDesc eventID] == kAEOpenDocuments)) {
         return;
@@ -652,7 +651,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                         [self selectRange:NSMakeRange(selectionRange->startRange, selectionRange->endRange - selectionRange->startRange)];
                     } else {
                         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"gotoLine");
-                        [self gotoLine:selectionRange->lineNum + 1 orderFront:YES];
+                        [self gotoLine:selectionRange->lineNum + 1 orderFront:NO];
                     }
                 }
                 
@@ -1052,7 +1051,48 @@ static NSString *tempFileName(NSString *origPath) {
     
     return result;
 }
-        
+
+- (void)TCM_validateDocument {
+    NSWindow *window = [self windowForSheet];
+    if (!window) {
+        return;
+    }
+    
+    NSString *fileName = [self fileName];
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Validate document: %@", fileName);
+    
+    //NSFileManager *fileManager = [NSFileManager defaultManager];
+    //BOOL fileExists = [fileManager fileExistsAtPath:[fileName stringByExpandingTildeInPath]];
+    //BOOL isWritable = [fileManager isWritableFileAtPath:fileName];
+    
+    NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
+    if ([[fattrs fileModificationDate] compare:[[self fileAttributes] fileModificationDate]] != NSOrderedSame) {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
+        // FIXME: What to do when we are in collaboration mode and hosting the document?
+        if ([self isDocumentEdited]) {
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:NSLocalizedString(@"Warning", nil)];
+            [alert setInformativeText:NSLocalizedString(@"Document changed externally", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Keep SubEthaEdit Version", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
+            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+            [alert beginSheetModalForWindow:window
+                              modalDelegate:self 
+                             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                                contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                @"DocumentChangedExternallyAlert", @"Alert",
+                                                                nil] retain]];
+        } else {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+            BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
+            if (successful) {
+                [self updateChangeCount:NSChangeCleared];
+            }
+        }
+    }
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     SEL selector=[anItem action];
     if (selector==@selector(announce:)) {
@@ -1429,44 +1469,12 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)aNotification {
-    NSString *fileName = [self fileName];
-    if (!fileName) {
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"applicationDidBecomeActive: %@", [self fileName]);
+    if (![self fileName]) {
         return;
     }
     
-    NSWindow *window = [self windowForSheet];
-    if (!window) {
-        return;
-    }
-    
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Validate document: %@", fileName);
-    
-    NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
-    if ([[fattrs fileModificationDate] compare:[[self fileAttributes] fileModificationDate]] != NSOrderedSame) {
-        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
-        // FIXME: What to do when we are in collaboration mode and hosting the document?
-        if ([self isDocumentEdited]) {
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
-            [alert setMessageText:NSLocalizedString(@"Warning", nil)];
-            [alert setInformativeText:NSLocalizedString(@"Document changed externally", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Keep SubEthaEdit Version", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
-            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [alert beginSheetModalForWindow:window
-                              modalDelegate:self 
-                             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                                contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                @"DocumentChangedExternallyAlert", @"Alert",
-                                                                nil] retain]];
-        } else {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-            BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
-            if (successful) {
-                [self updateChangeCount:NSChangeCleared];
-            }
-        }
-    }
+    [self TCM_validateDocument];
 }
 
 #pragma mark -

@@ -127,6 +127,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setShowsTopStatusBar:(BOOL)aFlag;
 - (BOOL)showsBottomStatusBar;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
+- (void)handleOpenDocumentEvent;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

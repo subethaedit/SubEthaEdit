@@ -117,6 +117,15 @@
     return YES;
 }
 
+- (id)openDocumentWithContentsOfFile:(NSString *)fileName display:(BOOL)flag {
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
+    NSDocument *document = [super openDocumentWithContentsOfFile:fileName display:flag];
+    if (document && flag) {
+        [(PlainTextDocument *)document handleOpenDocumentEvent];
+    }
+    return document;
+}
+
 #pragma mark -
 
 #pragma options align=mac68k
