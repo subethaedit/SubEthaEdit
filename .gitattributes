@@ -172,6 +172,10 @@ subethaedit/DebugPreferences.m -text
 subethaedit/DebugPrefs.nib/classes.nib -text
 subethaedit/DebugPrefs.nib/info.nib -text
 subethaedit/DebugPrefs.nib/keyedobjects.nib -text
+subethaedit/DocumentMode.h -text
+subethaedit/DocumentMode.m -text
+subethaedit/DocumentModeManager.h -text
+subethaedit/DocumentModeManager.m -text
 subethaedit/EncodingPreferences.h -text
 subethaedit/EncodingPreferences.m -text
 subethaedit/English.lproj/Credits.rtf -text
@@ -225,6 +229,10 @@ subethaedit/SubEthaEdit.xcode/dwagner.pbxuser -text
 subethaedit/SubEthaEdit.xcode/mbo.pbxuser -text svneol=unset#application/octet-stream
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
 subethaedit/SubEthaEdit_Prefix.pch -text
+subethaedit/SyntaxDefinition.h -text
+subethaedit/SyntaxDefinition.m -text
+subethaedit/SyntaxHighlighter.h -text
+subethaedit/SyntaxHighlighter.m -text
 subethaedit/TCMBEEP/TCMBEEP.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.m -text

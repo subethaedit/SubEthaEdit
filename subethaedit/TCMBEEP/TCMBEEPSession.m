@@ -396,7 +396,7 @@ static int sListenLogCount=0;
         return;
         
     int bytesWritten = [I_outputStream write:[I_writeBuffer bytes] maxLength:[I_writeBuffer length]];
-    if (bytesWritten) [I_logHandleOut writeData:[NSData dataWithBytesNoCopy:[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
+    if (bytesWritten) [I_logHandleOut writeData:[NSData dataWithBytesNoCopy:(void *)[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
 
     if (bytesWritten > 0) {
         [I_writeBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];

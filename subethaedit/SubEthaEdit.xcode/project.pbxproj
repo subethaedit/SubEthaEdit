@@ -974,6 +974,10 @@
 				5ED305B80601BF6C00C38815,
 				143C360C05ECCEE8008C6DFE,
 				143C360D05ECCEE8008C6DFE,
+				5ECFBADA060F35F7000B47E6,
+				5ECFBADB060F35F7000B47E6,
+				5ECFBAE0060F3623000B47E6,
+				5ECFBAE1060F3623000B47E6,
 				5E4F360805EF8E3F009D71ED,
 				5E4F360905EF8E3F009D71ED,
 				14AE9CAA05F5E8F00025CADE,
@@ -990,6 +994,10 @@
 				14A0EFB4060B410B00A80FA8,
 				141080DA05FE2EC800A4463D,
 				141080DB05FE2EC800A4463D,
+				5ECFBAEE060F367C000B47E6,
+				5ECFBAEF060F367C000B47E6,
+				5ECFBAE8060F365B000B47E6,
+				5ECFBAE9060F365B000B47E6,
 				14AE9ED505F618100025CADE,
 				14AE9ED605F618100025CADE,
 				5EEB186005ED1CBB00C17677,
@@ -1498,6 +1506,118 @@
 		};
 		5EAD69AB05EE5F5300E75BFF = {
 			fileRef = 5EAD69AA05EE5F5300E75BFF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5ECFBADA060F35F7000B47E6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = DocumentMode.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5ECFBADB060F35F7000B47E6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = DocumentMode.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5ECFBADC060F35F7000B47E6 = {
+			fileRef = 5ECFBADA060F35F7000B47E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5ECFBADD060F35F7000B47E6 = {
+			fileRef = 5ECFBADB060F35F7000B47E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5ECFBAE0060F3623000B47E6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = DocumentModeManager.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5ECFBAE1060F3623000B47E6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = DocumentModeManager.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5ECFBAE2060F3623000B47E6 = {
+			fileRef = 5ECFBAE0060F3623000B47E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5ECFBAE3060F3623000B47E6 = {
+			fileRef = 5ECFBAE1060F3623000B47E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5ECFBAE8060F365B000B47E6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SyntaxHighlighter.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5ECFBAE9060F365B000B47E6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SyntaxHighlighter.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5ECFBAEA060F365B000B47E6 = {
+			fileRef = 5ECFBAE8060F365B000B47E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5ECFBAEB060F365B000B47E6 = {
+			fileRef = 5ECFBAE9060F365B000B47E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5ECFBAEE060F367C000B47E6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SyntaxDefinition.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5ECFBAEF060F367C000B47E6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SyntaxDefinition.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5ECFBAF0060F367C000B47E6 = {
+			fileRef = 5ECFBAEE060F367C000B47E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5ECFBAF1060F367C000B47E6 = {
+			fileRef = 5ECFBAEF060F367C000B47E6;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2070,6 +2190,10 @@
 				14A0EF17060B1DC200A80FA8,
 				14A0EF1D060B1DED00A80FA8,
 				14A0EFB5060B410B00A80FA8,
+				5ECFBADC060F35F7000B47E6,
+				5ECFBAE2060F3623000B47E6,
+				5ECFBAEA060F365B000B47E6,
+				5ECFBAF0060F367C000B47E6,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2170,6 +2294,10 @@
 				14A0EF18060B1DC200A80FA8,
 				14A0EF1E060B1DED00A80FA8,
 				14A0EFB6060B410B00A80FA8,
+				5ECFBADD060F35F7000B47E6,
+				5ECFBAE3060F3623000B47E6,
+				5ECFBAEB060F365B000B47E6,
+				5ECFBAF1060F367C000B47E6,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
