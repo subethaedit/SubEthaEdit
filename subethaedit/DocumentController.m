@@ -120,6 +120,15 @@
 
 - (id)openDocumentWithContentsOfFile:(NSString *)fileName display:(BOOL)flag {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
+    
+    BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:fileName];
+    NSString *extension = [fileName pathExtension];
+    if (isFilePackage && [extension isEqualToString:@"mode"]) {
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"User tries to open a mode file");
+        [O_modeHintPanel center];
+        [O_modeHintPanel makeKeyAndOrderFront:self];
+    }
+    
     NSDocument *document = [super openDocumentWithContentsOfFile:fileName display:flag];
     if (document && flag) {
         [(PlainTextDocument *)document handleOpenDocumentEvent];

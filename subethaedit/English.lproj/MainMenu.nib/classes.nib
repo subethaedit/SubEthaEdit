@@ -26,6 +26,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_modeHintPanel" = NSPanel; 
                 "O_modePopUpButton" = DocumentModePopUpButton; 
                 "O_openPanelAccessoryView" = NSView; 
             }; 

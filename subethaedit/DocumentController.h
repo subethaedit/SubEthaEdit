@@ -16,6 +16,7 @@
     IBOutlet NSView *O_openPanelAccessoryView;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
+    IBOutlet NSPanel *O_modeHintPanel;
     
     NSStringEncoding I_encodingFromLastRunOpenPanel;
     NSString *I_modeIdentifierFromLastRunOpenPanel;
