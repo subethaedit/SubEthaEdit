@@ -30,6 +30,10 @@ NSString * const NextSymbolToolbarItemIdentifier =
                @"NextSymbolToolbarItemIdentifier";
 NSString * const PreviousSymbolToolbarItemIdentifier = 
                @"PreviousSymbolToolbarItemIdentifier";
+NSString * const NextChangeToolbarItemIdentifier = 
+               @"NextChangeToolbarItemIdentifier";
+NSString * const PreviousChangeToolbarItemIdentifier = 
+               @"PreviousChangeToolbarItemIdentifier";
 NSString * const RendezvousToolbarItemIdentifier = 
                @"RendezvousToolbarItemIdentifier";
 NSString * const ToggleChangeMarksToolbarItemIdentifier = 
@@ -264,6 +268,15 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 }
 
 
+- (IBAction)jumpToNextChange:(id)aSender {
+    [[self activePlainTextEditor] jumpToNextChange:aSender];
+}
+
+- (IBAction)jumpToPreviousChange:(id)aSender {
+    [[self activePlainTextEditor] jumpToPreviousChange:aSender];
+}
+
+
 
 #pragma mark -
 #pragma mark ### Toolbar ###
@@ -321,6 +334,20 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         [toolbarItem setImage:[NSImage imageNamed:@"NextSymbol"]];
         [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(jumpToNextSymbol:)];    
+    } else if ([itemIdent isEqual:PreviousChangeToolbarItemIdentifier]) {
+        [toolbarItem setToolTip:NSLocalizedString(@"Goto Previous Change", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Previous Change", nil)];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Previous Change", nil)];
+        [toolbarItem setImage:[NSImage imageNamed: @"PreviousChange"]];
+        [toolbarItem setTarget:self];
+        [toolbarItem setAction:@selector(jumpToPreviousChange:)];    
+    } else if ([itemIdent isEqual:NextChangeToolbarItemIdentifier]) {
+        [toolbarItem setToolTip:NSLocalizedString(@"Goto Next Change", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Next Change", nil)];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Next Change", nil)];
+        [toolbarItem setImage:[NSImage imageNamed:@"NextChange"]];
+        [toolbarItem setTarget:self];
+        [toolbarItem setAction:@selector(jumpToNextChange:)];    
     } else if ([itemIdent isEqual:ToggleAnnouncementToolbarItemIdentifier]) {
         [toolbarItem setToolTip:NSLocalizedString(@"Announce/Conceal Document", nil)];
         [toolbarItem setLabel:NSLocalizedString(@"Announce/Conceal", nil)];
@@ -344,6 +371,8 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                 ShiftRightToolbarItemIdentifier,
                 PreviousSymbolToolbarItemIdentifier,
                 NextSymbolToolbarItemIdentifier,
+                PreviousChangeToolbarItemIdentifier,
+                NextChangeToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
                 ParticipantsToolbarItemIdentifier,
@@ -358,6 +387,8 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                 PreviousSymbolToolbarItemIdentifier,
                 NextSymbolToolbarItemIdentifier,
                 ParticipantsToolbarItemIdentifier,
+                PreviousChangeToolbarItemIdentifier,
+                NextChangeToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
                 ToggleAnnouncementToolbarItemIdentifier,
                 NSToolbarPrintItemIdentifier,

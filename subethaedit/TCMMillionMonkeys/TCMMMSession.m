@@ -254,6 +254,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
     // if no autojoin add user to pending users and notify 
     [I_pendingUsers addObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+    [[NSSound soundNamed:@"Knock"] play];
 }
 
 - (void)invitationWithProfile:(SessionProfile *)profile

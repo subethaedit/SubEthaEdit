@@ -1551,7 +1551,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     TextStorage *textStorage=(TextStorage *)[self textStorage];
     NSString *userID=nil;
     unsigned position;
-    NSRange fullRange=NSMakeRange(0,[textStorage length]);   
+    NSRange fullRange=NSMakeRange(0,[textStorage length]);
+    if (aRange.location>=fullRange.length) {
+        if (aRange.location>0) aRange.location-=1;
+        else return NSMakeRange(NSNotFound,0);
+    }  
     userID=[textStorage attribute:ChangedByUserIDAttributeName atIndex:aRange.location longestEffectiveRange:&searchRange inRange:fullRange];
     userID=nil;
     while (!userID) {

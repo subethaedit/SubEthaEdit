@@ -285,6 +285,7 @@ subethaedit/ImagePopUpButtonCell.m -text
 subethaedit/Info.plist -text
 subethaedit/InternetBrowserController.h -text
 subethaedit/InternetBrowserController.m -text
+subethaedit/Knock.wav -text
 subethaedit/LayoutManager.h -text
 subethaedit/LayoutManager.m -text
 subethaedit/Mode.icns -text
@@ -604,8 +605,10 @@ subethaedit/artwork/DefaultPerson.tiff -text
 subethaedit/artwork/EditPrefs.tiff -text
 subethaedit/artwork/GeneralPrefs.tiff -text
 subethaedit/artwork/HideChangeMarks.psd -text
+subethaedit/artwork/NextChange.psd -text
 subethaedit/artwork/NextSymbol.tiff -text
 subethaedit/artwork/Participants.icns -text
+subethaedit/artwork/PreviousChange.psd -text
 subethaedit/artwork/PreviousSymbol.tiff -text
 subethaedit/artwork/Rendezvous.psd -text
 subethaedit/artwork/ScriptMenu.tiff -text

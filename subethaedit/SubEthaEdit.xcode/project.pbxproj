@@ -1627,6 +1627,7 @@
 				14EA6953060F651A00D02455,
 				14703803060C647B0087BA25,
 				5EEB176705ECDC0C00C17677,
+				5E4AB51D063EA9BD00B67F07,
 				2A37F4B9FDCFA73011CA2CEA,
 				2A37F4B6FDCFA73011CA2CEA,
 				14A5B34E06218D2700DC3A93,
@@ -2258,6 +2259,57 @@
 		};
 		5E4AABDA063E825800B67F07 = {
 			fileRef = 5E4AABD8063E825800B67F07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4AB51D063EA9BD00B67F07 = {
+			children = (
+				5E4AB51E063EA9EF00B67F07,
+			);
+			isa = PBXGroup;
+			name = sound;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4AB51E063EA9EF00B67F07 = {
+			isa = PBXFileReference;
+			lastKnownFileType = audio.wav;
+			path = Knock.wav;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4AB51F063EA9EF00B67F07 = {
+			fileRef = 5E4AB51E063EA9EF00B67F07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4AB523063EB11100B67F07 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = NextChange.psd;
+			path = artwork/NextChange.psd;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4AB524063EB11100B67F07 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = PreviousChange.psd;
+			path = artwork/PreviousChange.psd;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4AB525063EB11100B67F07 = {
+			fileRef = 5E4AB523063EB11100B67F07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4AB526063EB11100B67F07 = {
+			fileRef = 5E4AB524063EB11100B67F07;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3370,8 +3422,10 @@
 				148892D206186C60005BDDCB,
 				148892CE06186BC3005BDDCB,
 				5EC0506F062D6C0500292573,
+				5E4AB523063EB11100B67F07,
 				5EB5CB4F063DA4F100762AB7,
 				149A5C1B0600A89C0033510E,
+				5E4AB524063EB11100B67F07,
 				5EB5CB4E063DA4F100762AB7,
 				5EF3AC50062C5D5E00959FEE,
 				14E3EACA06149C5D0083426B,
@@ -4072,6 +4126,9 @@
 				5E4CCE29063BE3A400D03B71,
 				5EB5CB50063DA4F100762AB7,
 				5EB5CB51063DA4F100762AB7,
+				5E4AB51F063EA9EF00B67F07,
+				5E4AB525063EB11100B67F07,
+				5E4AB526063EB11100B67F07,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
