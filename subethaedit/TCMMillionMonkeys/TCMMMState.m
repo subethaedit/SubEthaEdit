@@ -36,6 +36,7 @@
     [I_timer release];
     [I_messageBuffer release];
     [I_incomingMessages release];
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"MMState deallocated");
     [super dealloc];
 }
 

@@ -738,6 +738,11 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [I_findAllControllers release];
     [I_lastRegisteredUndoOperation release];
     [I_undoManager release];
+    
+    [I_documentMode release];
+    [I_documentBackgroundColor release];
+    [I_documentForegroundColor release];
+    
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
@@ -1300,7 +1305,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
     }
     
-    NSData *fileData;
+    NSData *fileData = nil;
     NSString *extension = [[fileName pathExtension] lowercaseString];
     BOOL isHTML = [extension isEqual:@"htm"] || [extension isEqual:@"html"];
     if (isHTML) {

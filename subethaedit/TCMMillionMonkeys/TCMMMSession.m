@@ -159,6 +159,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [I_groupByUserID release];
     [[I_statesByClientID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_statesByClientID release];
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"MMSession deallocated");
     [super dealloc];
 }
 

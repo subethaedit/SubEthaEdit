@@ -83,6 +83,7 @@
 	// ŠJ•ú
 	[_regex release];
 	[_swappedTargetString release];
+        NSZoneFree([self zone], _utf8SwappedTargetString);
 	
 	[super dealloc];
 }

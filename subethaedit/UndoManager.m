@@ -540,7 +540,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     if (actions != nil) {
         unsigned i = [actions count];
         [[_document textStorage] beginEditing];
-        TextOperation *operation;
+        TextOperation *operation = nil;
         while (i-- > 0) {
             operation = [actions objectAtIndex:i];
             [_document handleOperation:operation];
