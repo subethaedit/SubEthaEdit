@@ -393,6 +393,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             return YES;
         }
     } else {
+        [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
         [[information objectForKey:@"OutboundSessions"] addObject:session];
         NSDictionary *infoDict = [I_pendingOutboundSessions objectForKey:[[session userInfo] objectForKey:@"name"]];
         [[session userInfo] setObject:[infoDict objectForKey:@"host"] forKey:@"host"];
