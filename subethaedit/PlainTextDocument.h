@@ -19,7 +19,7 @@ extern NSString * const PlainTextDocumentSessionDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeTextStorageNotification;
 extern NSString * const PlainTextDocumentDidChangeSymbolsNotification;
 extern NSString * const PlainTextDocumentDidChangeEditStatusNotification;
-extern NSString * const PlainTextDocumentParticipantsDidChangeNotification;
+extern NSString * const PlainTextDocumentParticipantsDataDidChangeNotification;
 extern NSString * const PlainTextDocumentUserDidChangeSelectionNotification;
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;

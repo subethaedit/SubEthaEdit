@@ -192,8 +192,8 @@ enum {
                                                object:[self document]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(participantsDidChange:)
-                                                 name:PlainTextDocumentParticipantsDidChangeNotification 
+                                             selector:@selector(participantsDataDidChange:)
+                                                 name:PlainTextDocumentParticipantsDataDidChangeNotification 
                                                object:[self document]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -850,6 +850,11 @@ enum {
 - (void)MMSessionDidChange:(NSNotification *)aNotifcation {
     [self validateUpperDrawer];
     [self synchronizeWindowTitleWithDocumentName];
+}
+
+
+- (void)participantsDataDidChange:(NSNotification *)aNotifcation {
+    [O_participantsView setNeedsDisplay:YES];
 }
 
 - (void)participantsDidChange:(NSNotification *)aNotifcation {

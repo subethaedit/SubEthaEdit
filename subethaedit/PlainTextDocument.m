@@ -78,8 +78,8 @@ NSString * const PlainTextDocumentDidChangeSymbolsNotification =
                @"PlainTextDocumentDidChangeSymbolsNotification";
 NSString * const PlainTextDocumentDidChangeEditStatusNotification =
                @"PlainTextDocumentDidChangeEditStatusNotification";
-NSString * const PlainTextDocumentParticipantsDidChangeNotification =
-               @"PlainTextDocumentParticipantsDidChangeNotification";
+NSString * const PlainTextDocumentParticipantsDataDidChangeNotification =
+               @"PlainTextDocumentParticipantsDataDidChangeNotification";
 NSString * const PlainTextDocumentUserDidChangeSelectionNotification =
                @"PlainTextDocumentUserDidChangeSelectionNotification";
 NSString * const PlainTextDocumentDidChangeDisplayNameNotification = 
@@ -156,9 +156,9 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
 
-- (void)TCM_sendPlainTextDocumentParticipantsDidChangeNotification {
+- (void)TCM_sendPlainTextDocumentParticipantsDataDidChangeNotification {
     [[NSNotificationQueue defaultQueue] 
-    enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentParticipantsDidChangeNotification object:self]
+    enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentParticipantsDataDidChangeNotification object:self]
            postingStyle:NSPostWhenIdle 
            coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
@@ -2636,7 +2636,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
            coalesceMask:0
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
     
-    [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
+    [self TCM_sendPlainTextDocumentParticipantsDataDidChangeNotification];
 }
 
 
@@ -2777,7 +2777,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
     if (didChangeAParticipant) {
-        [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
+        [self TCM_sendPlainTextDocumentParticipantsDataDidChangeNotification];
     }
 
 // transform SymbolTable if there
@@ -3003,7 +3003,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSRange selectedRange = [textView selectedRange];
         SelectionOperation *selOp = [SelectionOperation selectionOperationWithRange:selectedRange userID:[TCMMMUserManager myUserID]];
         [[self session] documentDidApplyOperation:selOp];
-        [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
+        [self TCM_sendPlainTextDocumentParticipantsDataDidChangeNotification];
     }
 }
 

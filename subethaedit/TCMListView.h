@@ -64,6 +64,10 @@ extern NSString *ListViewDidChangeSelectionNotification;
 - (int)actionRow;
 - (ItemChildPair)itemChildPairAtRow:(int)aIndex;
 - (int)rowForItem:(int)anItemIndex child:(int)aChildIndex;
+
+- (void)setNeedsDisplayForItem:(int)aItemIndex;
+- (void)setNeedsDisplayForItem:(int)aItemIndex child:(int)aChildIndex;
+
 - (void)reloadData;
 - (int)numberOfItems;
 - (int)numberOfChildrenOfItemAtIndex:(int)aIndex;

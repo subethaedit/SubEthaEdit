@@ -505,6 +505,20 @@ NSString *ListViewDidChangeSelectionNotification=
     [self setNeedsDisplay:YES];
 }
 
+- (void)setNeedsDisplayForItem:(int)aItemIndex {
+    if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
+    NSRect rect=[self bounds];
+    NSRange heightRange=I_indexYRangesForItem[aItemIndex];
+    rect.origin.y=heightRange.location;
+    rect.size.height = heightRange.length;
+    [self setNeedsDisplayInRect:rect];
+}
+
+- (void)setNeedsDisplayForItem:(int)aItemIndex child:(int)aChildIndex {
+    [self setNeedsDisplayInRect:[self rectForItem:aItemIndex child:aChildIndex]];
+}
+
+
 #pragma mark -
 #pragma mark ### Dragging Source/Destination ###
 
