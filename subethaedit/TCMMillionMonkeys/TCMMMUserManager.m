@@ -13,22 +13,40 @@ static TCMMMUserManager *sharedInstance=nil;
 
 @implementation TCMMMUserManager
 
-+(TCMMMUserManager *)sharedInstance {
++ (TCMMMUserManager *)sharedInstance {
     if (!sharedInstance) {
         sharedInstance = [self new];
     }
     return sharedInstance;
 }
 
--(id)init {
+- (id)init {
     if ((self=[super init])) {
         I_usersByID=[NSMutableDictionary new];
     }
     return self;
 }
 
--(void)dealloc {
+- (void)dealloc {
+    [I_usersByID release];
+    [I_me release];
     [super dealloc];
 }
+
+- (void)setMe:(TCMMMUser *)aUser {
+    [I_me autorelease];
+     I_me = [aUser retain];
+    [self setUser:I_me forID:[I_me ID]];
+}
+- (TCMMMUser *)me {
+    return I_me;
+}
+- (TCMMMUser *)userForID:(NSString *)aID {
+    return [I_usersByID objectForKey:aID];
+}
+- (void)setUser:(TCMMMUser *)aUser forID:(NSString *)aID {
+    [I_usersByID setObject:aUser forKey:aID];
+}
+
 
 @end

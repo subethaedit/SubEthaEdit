@@ -6,8 +6,15 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import <AddressBook/AddressBook.h>
+
+#include <stdio.h>
+#include <pwd.h>
+#include <unistd.h>
+
 #import "AppController.h"
 #import "TCMMMUserManager.h"
+#import "TCMMMUser.h"
 #import "TCMPreferenceController.h"
 #import "RendezvousBrowserController.h"
 #import "DebugPreferences.h"
@@ -23,14 +30,86 @@
     [super dealloc];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (void)addMe {
+    ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
 
+    // add self as user 
+    TCMMMUser *me=[TCMMMUser new];
+    
+    NSString *myName;            
+    NSImage *myImage;
+    NSImage *scaledMyImage;
+    if (meCard) {
+        NSString *firstName = [meCard valueForProperty:kABFirstNameProperty];
+        NSString *lastName = [meCard valueForProperty:kABLastNameProperty];            
+
+        if ((firstName!=nil) && (lastName!=nil)) {
+            myName=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
+        } else if (firstName!=nil) {
+            myName=firstName;
+        } else if (lastName!=nil) {
+            myName=lastName;
+        } else {
+            myName=[NSString stringWithUTF8String:getpwnam(getlogin())->pw_gecos];
+        }
+        NSData  *imageData;
+        if (imageData=[meCard imageData]) {
+            myImage=[[NSImage alloc]initWithData:imageData];
+            [myImage setCacheMode:NSImageCacheNever];
+        } else {
+            myImage=[NSImage imageNamed:@"DefaultPerson.tiff"];
+        }
+    } else {
+        myName=[NSString stringWithUTF8String:getpwnam(getlogin())->pw_gecos];
+        myImage=[NSImage imageNamed:@"DefaultPerson.tiff"];
+    }
+    
+    // resizing the image
+    [myImage setScalesWhenResized:YES];
+    NSSize originalSize=[myImage size];
+    NSSize newSize=NSMakeSize(64.,64.);
+    if (originalSize.width>originalSize.height) {
+        newSize.height=(int)(originalSize.height/originalSize.width*newSize.width);
+        if (newSize.height<=0) newSize.height=1;
+    } else {
+        newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
+        if (newSize.width <=0) newSize.width=1;
+    }
+    [myImage setSize:newSize];
+    scaledMyImage=[[NSImage alloc] initWithSize:newSize];
+    [scaledMyImage lockFocus];
+    NSGraphicsContext *context=[NSGraphicsContext currentContext];
+    NSImageInterpolation oldInterpolation=[context imageInterpolation];
+    [context setImageInterpolation:NSImageInterpolationHigh];
+    [NSColor clearColor];
+    NSRectFill(NSMakeRect(0.,0.,newSize.width,newSize.height));
+    [myImage compositeToPoint:NSMakePoint(0.,0.) operation:NSCompositeCopy];
+    [context setImageInterpolation:oldInterpolation];
+    [scaledMyImage unlockFocus];
+
+    NSString *userID=[[NSUserDefaults standardUserDefaults] stringForKey:@"UserID"];
+    if (!userID) {
+        CFUUIDRef myUUID = CFUUIDCreate(NULL);
+        CFStringRef myUUIDString = CFUUIDCreateString(NULL, myUUID);
+        userID=[[(NSString *)myUUIDString retain] autorelease];
+        CFRelease(myUUIDString);
+        CFRelease(myUUID);
+        [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"UserID"];
+    }
+    [me setID:userID];
+
+    [me setName:myName];
+    [[me properties] setObject:scaledMyImage forKey:@"Image"];
+    [myImage       release];
+    [scaledMyImage release];
+    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+    [userManager setMe:[me autorelease]];
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     DebugPreferences *debugPrefs = [[DebugPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:debugPrefs];
-    
-    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
-    // add self as user - now just to kill the warning: nothing
-    [userManager description];
+    [self addMe];
     // set up BEEPListener
     for (I_listeningPort=PORTRANGESTART;I_listeningPort<PORTRANGESTART+PORTRANGELENGTH;I_listeningPort++) {
         I_listener=[[TCMBEEPListener alloc] initWithPort:I_listeningPort];
@@ -43,9 +122,12 @@
             I_listener=nil;
         }
     }
+    
     // Announce ourselves via rendevous
     NSString *serviceName=[[NSHost currentHost] name];
-    I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_emac._tcp." name:serviceName port:I_listeningPort];
+    I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_emac._tcp." name:@"" port:I_listeningPort];
+    TCMMMUser *me=[[TCMMMUserManager sharedInstance] me];
+    [I_netService setProtocolSpecificInformation:[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001version=2",[me name],[me ID]]];
     [I_netService setDelegate: self];
     [I_netService publish];
     

@@ -35,6 +35,7 @@
 //104
 		1058C7A6FEA54F5311CA2CBB = {
 			children = (
+				5EAD69AA05EE5F5300E75BFF,
 				1058C7A7FEA54F5311CA2CBB,
 				144BC7C905EE5C84006397BC,
 			);
@@ -614,6 +615,20 @@
 //5E2
 //5E3
 //5E4
+		5EAD69AA05EE5F5300E75BFF = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AddressBook.framework;
+			path = /System/Library/Frameworks/AddressBook.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5EAD69AB05EE5F5300E75BFF = {
+			fileRef = 5EAD69AA05EE5F5300E75BFF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EEB176705ECDC0C00C17677 = {
 			children = (
 				5EEB176805ECDC1600C17677,
@@ -1155,6 +1170,7 @@
 			files = (
 				8D15AC340486D014006FF6A4,
 				144BC7CA05EE5C84006397BC,
+				5EAD69AB05EE5F5300E75BFF,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
