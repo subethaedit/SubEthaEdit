@@ -10,7 +10,11 @@
 
 
 @implementation SymbolTableEntry
-+ symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType jumpRange:(NSRange)aJumpRange range:(NSRange)aRange {
+- (void)setIsSeparator:(BOOL)aFlag {
+    I_isSeparator=aFlag;  
+}
+
++ (SymbolTableEntry *)symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType jumpRange:(NSRange)aJumpRange range:(NSRange)aRange {
     SymbolTableEntry *result=[[SymbolTableEntry new] autorelease];
     [result setName:aName];
     [result setFontTraitMask:aMask];
@@ -18,6 +22,13 @@
     [result setType:aType];
     [result setJumpRange:aJumpRange];
     [result setRange:aRange];
+    [result setIsSeparator:NO];
+    return result;
+}
+
++ (SymbolTableEntry *)symbolTableEntrySeparator {
+    SymbolTableEntry *result=[[SymbolTableEntry new] autorelease];
+    [result setIsSeparator:YES];
     return result;
 }
 
@@ -67,6 +78,10 @@
 }
 - (void)setRange:(NSRange)aRange {
     I_range=aRange;
+}
+
+- (BOOL)isSeparator {
+    return I_isSeparator;
 }
 
 @end

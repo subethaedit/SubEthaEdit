@@ -8,7 +8,7 @@
 
 #import <AppKit/AppKit.h>
 
-@class PlainTextDocument;
+@class PlainTextDocument,PopUpButton;
 
 @interface PlainTextEditor : NSResponder {
     IBOutlet NSTextField *O_positionTextField;
@@ -18,7 +18,7 @@
     IBOutlet NSTextField *O_modeTextField;
     IBOutlet NSTextField *O_encodingTextField;
     IBOutlet NSTextField *O_lineEndingTextField;
-    IBOutlet NSPopUpButton *O_symbolPopUpButton;
+    IBOutlet PopUpButton *O_symbolPopUpButton;
     IBOutlet NSScrollView *O_scrollView;
     IBOutlet NSView       *O_editorView;
     IBOutlet NSView       *O_topStatusBarView;
@@ -30,6 +30,7 @@
         BOOL showTopStatusBar;
         BOOL showBottomStatusBar;
         BOOL hasSplitButton;
+        BOOL symbolPopUpIsSorted;
     } I_flags;
 }
 
@@ -54,6 +55,9 @@
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 
 - (void)takeSettingsFromDocument;
+
+- (void)updateSelectedSymbol;
+- (void)updateSymbolPopUpSorted:(BOOL)aSorted;
 
 #pragma mark -
 #pragma mark ### Actions ###

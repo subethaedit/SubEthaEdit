@@ -11,6 +11,7 @@
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, PlainTextWindowController;
 
+extern NSString * const PlainTextDocumentDidChangeSymbolsNotification;
 extern NSString * const PlainTextDocumentDidChangeEditStatusNotification;
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
@@ -69,7 +70,12 @@ extern NSString * const ChangedByUserIDAttributeName;
         unsigned matchingBracketPosition;
     } I_bracketMatching;
         
-    NSDictionary *I_blockeditAttributes;    
+    NSDictionary *I_blockeditAttributes;
+    
+    NSArray *I_symbolArray;
+    NSMenu *I_symbolPopUpMenu;
+    NSMenu *I_symbolPopUpMenuSorted;
+    NSTimer *I_symbolUpdateTimer;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
@@ -122,6 +128,10 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange;
 
+- (void)updateSymbolTable;
+- (void)triggerUpdateSymbolTableTimer;
+- (NSMenu *)symbolPopUpMenuForView:(NSTextView *)aTextView sorted:(BOOL)aSorted;
+- (int)selectedSymbolForRange:(NSRange)aRange;
 #pragma mark -
 #pragma mark ### Flag Accessors ###
 

@@ -16,9 +16,11 @@
     NSString *I_type;
     NSRange  I_jumpRange;
     NSRange  I_range;
+    BOOL I_isSeparator;
 }
 
-+ symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType jumpRange:(NSRange)aJumpRange range:(NSRange)aRange;
++ (SymbolTableEntry *)symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType jumpRange:(NSRange)aJumpRange range:(NSRange)aRange;
++ (SymbolTableEntry *)symbolTableEntrySeparator;
 
 - (NSString *)name;
 - (void)setName:(NSString *)name;
@@ -32,4 +34,5 @@
 - (void)setJumpRange:(NSRange)aJumpRange;
 - (NSRange)range;
 - (void)setRange:(NSRange)aRange;
+- (BOOL)isSeparator;
 @end

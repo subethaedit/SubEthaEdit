@@ -17,6 +17,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "ButtonScrollView.h"
+#import "PopUpButton.h"
 
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions) 
 - (void)TCM_updateStatusBar;
@@ -50,8 +51,15 @@
 - (void)awakeFromNib {
     PlainTextDocument *document=[self document];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultParagraphStyleDidChange:) name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:[I_windowController document]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(plainTextDocumentDidChangeEditStatus:) name:PlainTextDocumentDidChangeEditStatusNotification object:[I_windowController document]];
+    [[NSNotificationCenter defaultCenter] 
+            addObserver:self selector:@selector(defaultParagraphStyleDidChange:) 
+            name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:[I_windowController document]];
+    [[NSNotificationCenter defaultCenter] 
+            addObserver:self selector:@selector(plainTextDocumentDidChangeEditStatus:) 
+            name:PlainTextDocumentDidChangeEditStatusNotification object:[I_windowController document]];
+    [[NSNotificationCenter defaultCenter] 
+            addObserver:self selector:@selector(plainTextDocumentDidChangeSymbols:) 
+            name:PlainTextDocumentDidChangeSymbolsNotification object:[I_windowController document]];
 
     if (I_flags.hasSplitButton) {
         NSRect scrollviewFrame=[O_scrollView frame];
@@ -117,6 +125,7 @@
     [self setNextResponder:view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
     O_editorView = view;
+    [O_symbolPopUpButton setDelegate:self];
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
     
@@ -124,7 +133,6 @@
     [self setShowsChangeMarks:[document showsChangeMarks]];
     [self setShowsTopStatusBar:[document showsTopStatusBar]];
     [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
-    
 }
 
 - (void)takeSettingsFromDocument {
@@ -132,6 +140,8 @@
     [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
     [self setWrapsLines: [document wrapLines]];
     [self setShowsGutter:[document showsGutter]];
+    [self updateSymbolPopUpSorted:NO];
+    [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
 }
 
@@ -139,9 +149,8 @@
 
 - (void)TCM_adjustTopStatusBarFrames {
     if (I_flags.showTopStatusBar) {
-        float symbolWidth=[[O_symbolPopUpButton titleOfSelectedItem]
-                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_symbolPopUpButton font] 
-                                                                       forKey:NSFontAttributeName]].width+30.;
+        float symbolWidth=[[[O_symbolPopUpButton selectedItem] attributedTitle] size].width+50.;
+
         NSRect bounds=[O_topStatusBarView bounds];
         NSRect positionFrame=[O_positionTextField frame];
         NSPoint position=positionFrame.origin;
@@ -156,7 +165,13 @@
                                                                                        forKey:NSFontAttributeName]].width+5.;
         NSRect newPopUpFrame=[O_symbolPopUpButton frame];
         newPopUpFrame.origin.x=position.x;
-        newPopUpFrame.size.width=symbolWidth;
+        if (![[[self document] documentMode] hasSymbols]) {
+            newPopUpFrame.size.width=0;
+            [O_symbolPopUpButton setHidden:YES];
+        } else {
+            newPopUpFrame.size.width=symbolWidth;
+            [O_symbolPopUpButton setHidden:NO];
+        }
         int remainingWidth=bounds.size.width-position.x-5.-RIGHTINSET;
         if (newWrittenByFrame.size.width + newPopUpFrame.size.width > remainingWidth) {
             if (remainingWidth - newWrittenByFrame.size.width>20.) {
@@ -645,6 +660,44 @@
     }
 }
 
+#pragma mark -
+#pragma mark ### PopUpButton delegate methods ###
+- (void)updateSelectedSymbol {
+    PlainTextDocument *document=[self document];
+    if ([[document documentMode] hasSymbols]) {
+        int symbolTag = [document selectedSymbolForRange:[I_textView selectedRange]];
+        if (symbolTag == -1) {
+            [O_symbolPopUpButton selectItemAtIndex:0];
+        } else {
+            [O_symbolPopUpButton selectItem:[[O_symbolPopUpButton menu] itemWithTag:symbolTag]];
+        }
+    }
+}
+
+- (void)updateSymbolPopUpSorted:(BOOL)aSorted {
+    NSMenu *popUpMenu=[[self document] symbolPopUpMenuForView:I_textView sorted:aSorted];
+    NSPopUpButtonCell *cell=[O_symbolPopUpButton cell];
+    [cell removeAllItems];
+    if ([[popUpMenu itemArray] count]) {
+        NSMenu *copiedMenu=[popUpMenu copyWithZone:[NSMenu menuZone]];
+        [cell setMenu:copiedMenu];
+        [copiedMenu release];
+        [self updateSelectedSymbol];
+    } else {
+        [cell addItemWithTitle:NSLocalizedString(@"<No selected symbol>", @"Entry for Symbol Pop Up when no Symbol is found")];
+    }
+}
+
+- (void)popUpWillShowMenu:(PopUpButton *)aButton {
+    NSEvent *currentEvent=[NSApp currentEvent];
+    BOOL sorted=([currentEvent type]==NSLeftMouseDown && ([currentEvent modifierFlags]&NSAlternateKeyMask));
+    if (sorted != I_flags.symbolPopUpIsSorted) {
+        [self updateSymbolPopUpSorted:sorted];
+        I_flags.symbolPopUpIsSorted=sorted;
+    }
+}
+
+
 
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
@@ -723,7 +776,9 @@
              willChangeSelectionFromCharacterRange:aOldSelectedCharRange 
                                   toCharacterRange:aNewSelectedCharRange];
 }
+
 - (void)textViewDidChangeSelection:(NSNotification *)aNotification {
+    [self updateSelectedSymbol];
     [self TCM_updateStatusBar];
 }
 
@@ -741,6 +796,11 @@
 - (void)plainTextDocumentDidChangeEditStatus:(NSNotification *)aNotification {
     [self TCM_updateBottomStatusBar];
 }
+
+- (void)plainTextDocumentDidChangeSymbols:(NSNotification *)aNotification {
+    [self updateSymbolPopUpSorted:NO];
+}
+
 
 #pragma mark -
 #pragma mark ### notification handling ###

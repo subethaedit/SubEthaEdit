@@ -17,6 +17,7 @@
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
 #import "SyntaxHighlighter.h"
+#import "SymbolTableEntry.h"
 
 #import "TextStorage.h"
 #import "EncodingManager.h"
@@ -43,8 +44,20 @@ enum {
     SmallestCustomStringEncoding = 0xFFFFFFF0
 };
 
+@interface NSMenuItem (Sorting)
+- (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aNotherMenuItem;
+@end
+
+@implementation NSMenuItem (Sorting)
+- (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aMenuItem {
+    return [[self title] caseInsensitiveCompare:[aMenuItem title]];
+}
+@end
+
 static NSString * const PlainTextDocumentSyntaxColorizeNotification = 
                       @"PlainTextDocumentSyntaxColorizeNotification";
+NSString * const PlainTextDocumentDidChangeSymbolsNotification =
+               @"PlainTextDocumentDidChangeSymbolsNotification";
 NSString * const PlainTextDocumentDidChangeEditStatusNotification =
                @"PlainTextDocumentDidChangeEditStatusNotification";
 NSString * const PlainTextDocumentDidChangeDisplayNameNotification = 
@@ -90,9 +103,9 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [I_fonts.italicFont autorelease];
     [I_fonts.boldItalicFont autorelease];
     NSFontManager *manager=[NSFontManager sharedFontManager];
-    I_fonts.boldFont = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSBoldFontMask] retain];
-    I_fonts.italicFont = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSItalicFontMask] retain];
-    I_fonts.boldItalicFont = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSBoldFontMask & NSItalicFontMask] retain];
+    I_fonts.boldFont       = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSBoldFontMask] retain];
+    I_fonts.italicFont     = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSItalicFontMask] retain];
+    I_fonts.boldItalicFont = [[manager convertFont:I_fonts.boldFont  toHaveTrait:NSItalicFontMask] retain];
 }
 
 - (void)TCM_initHelper {
@@ -245,6 +258,138 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     return (unichar)0;
 }
 
+- (void)updateSymbolTable {
+
+    NSLog(@"updating SymbolTable");
+
+    static NSFont *plainFont=nil,*italicFont=nil,*boldFont=nil,*boldItalicFont=nil;
+    if (!italicFont) {
+        NSFontManager *fontManager=[NSFontManager sharedFontManager];
+        plainFont = [NSFont fontWithName:@"ArialMT" size:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
+        if (!plainFont) plainFont=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
+        [plainFont retain];
+        italicFont    =[[fontManager convertFont:plainFont toHaveTrait:NSItalicFontMask] retain];
+        boldFont      =[[fontManager convertFont:plainFont toHaveTrait:NSBoldFontMask] retain];
+        boldItalicFont=[[fontManager convertFont:boldFont  toHaveTrait:NSItalicFontMask] retain];
+    }
+
+    DocumentMode *mode=[self documentMode];
+    [I_symbolArray release];
+    I_symbolArray=nil;
+    if ([mode hasSymbols]) {
+        I_symbolArray = [[mode symbolArrayForTextStorage:[self textStorage]] copy];
+    
+        [I_symbolPopUpMenu release];
+        I_symbolPopUpMenu = [NSMenu new];
+        [I_symbolPopUpMenuSorted release];
+        I_symbolPopUpMenuSorted = [NSMenu new];
+        
+        NSEnumerator *symbolTableEntries=[I_symbolArray objectEnumerator];
+        NSMenuItem *prototypeMenuItem=[[NSMenuItem alloc] initWithTitle:@"" 
+                                                                 action:@selector(chooseGotoSymbolMenuItem:) 
+                                                          keyEquivalent:@""];
+        [prototypeMenuItem setTarget:nil];
+        NSMutableArray *itemsToSort=[NSMutableArray array];
+    
+        SymbolTableEntry *entry;
+        int i=0;
+        NSMenuItem *menuItem;
+        while ((entry=[symbolTableEntries nextObject])) {
+            if ([entry isSeparator]) {
+                [I_symbolPopUpMenu addItem:[NSMenuItem separatorItem]];
+            } else {
+                menuItem=[prototypeMenuItem copy];
+                [menuItem setTag:i];
+                [menuItem setImage:[entry image]];
+                int fontTraitMask=[entry fontTraitMask];
+                NSFont *font=plainFont;
+                switch (fontTraitMask) {
+                    case (NSBoldFontMask | NSItalicFontMask):
+                        font=boldItalicFont;
+                        break;
+                    case NSItalicFontMask :
+                        font=italicFont;
+                        break;
+                    case NSBoldFontMask :
+                        font=boldFont;
+                        break;
+                }
+                [menuItem setAttributedTitle:[[[NSAttributedString alloc] initWithString:[entry name] attributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]] autorelease]];
+                [I_symbolPopUpMenu addItem:menuItem];
+                [itemsToSort addObject:[[menuItem copy] autorelease]];
+                [menuItem release];
+            }
+            i++;
+        }
+        [prototypeMenuItem release];
+        
+        [itemsToSort sortUsingSelector:@selector(compareAlphabetically:)];
+        NSEnumerator *menuItems=[itemsToSort objectEnumerator];
+        while ((menuItem=[menuItems nextObject])) {
+            [I_symbolPopUpMenuSorted addItem:menuItem];
+        }
+        
+    } else {
+        I_symbolArray=[NSArray new];
+    }
+    [[NSNotificationCenter defaultCenter] 
+        postNotificationName:PlainTextDocumentDidChangeSymbolsNotification 
+        object:self];
+}
+
+#define SYMBOLUPDATEINTERVAL 2.5
+
+- (void)triggerUpdateSymbolTableTimer {
+    if ([[self documentMode] hasSymbols]) {
+        if ([I_symbolUpdateTimer isValid]) {
+            [I_symbolUpdateTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:SYMBOLUPDATEINTERVAL]];
+        } else {
+            [I_symbolUpdateTimer release];
+            I_symbolUpdateTimer=[[NSTimer scheduledTimerWithTimeInterval:SYMBOLUPDATEINTERVAL 
+                                                    target:self 
+                                                  selector:@selector(symbolTimerAction:)
+                                                  userInfo:nil repeats:NO] retain];
+        }
+    }
+}
+
+- (void)symbolTimerAction:(NSTimer *)aTimer {
+    [self updateSymbolTable];
+}
+
+
+- (NSMenu *)symbolPopUpMenuForView:(NSTextView *)aTextView sorted:(BOOL)aSorted {
+    NSMenu *menu=aSorted?I_symbolPopUpMenuSorted:I_symbolPopUpMenu;
+    NSEnumerator *menuItems=[[menu itemArray] objectEnumerator];    
+    NSMenuItem *item;
+
+    while ((item=[menuItems nextObject])) {
+        if (![item isSeparatorItem]) {
+            [item setRepresentedObject:aTextView];
+        }
+    } 
+    return menu; 
+}
+
+- (int)selectedSymbolForRange:(NSRange)aRange {
+    if (aRange.length==0) aRange.length=1;
+    int count=[I_symbolArray count];
+    while (--count>=0) {
+        if (!DisjointRanges(aRange,[[I_symbolArray objectAtIndex:count] range])) {
+            return count;
+        }
+    }
+    return -1;
+}
+
+
+- (IBAction)chooseGotoSymbolMenuItem:(NSMenuItem *)aMenuItem {
+    NSRange symbolRange=[[I_symbolArray objectAtIndex:[aMenuItem tag]] jumpRange];
+    NSTextView *textView=[aMenuItem representedObject];
+    [textView setSelectedRange:symbolRange];
+    [textView scrollRangeToVisible:symbolRange];   
+}
+
 #define STACKLIMIT 100
 #define BUFFERSIZE 500
 
@@ -363,9 +508,6 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (id)init {
     self = [super init];
     if (self) {
-    
-        // Add your subclass-specific initialization here.
-        // If an error occurs here, send a [self release] message and return nil.
         [self setSession:[[TCMMMSession alloc] initWithDocument:self]];
         [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
         I_textStorage = [TextStorage new];
@@ -420,6 +562,9 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [I_fileAttributes release];
     [I_ODBParameters release];
     [I_lineEndingString release];
+    [I_symbolArray release];
+    [I_symbolPopUpMenu release];
+    [I_symbolPopUpMenuSorted release];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
@@ -468,6 +613,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     if (I_flags.highlightSyntax) {
         [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
     }
+    [self updateSymbolTable];
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
@@ -1776,6 +1922,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [self TCM_charIsBracket:[aString characterAtIndex:0]]) {
         I_bracketMatching.matchingBracketPosition=aRange.location;
     }
+    [self triggerUpdateSymbolTableTimer];
 }
 
 - (NSDictionary *)blockeditAttributesForTextStorage:(TextStorage *)aTextStorage {
