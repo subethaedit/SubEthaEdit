@@ -170,6 +170,7 @@
         [self setShowsGutter:[document showsGutter]];
     }
     [self updateSymbolPopUpSorted:NO];
+    [self setShowsTopStatusBar:[document showsTopStatusBar]];
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
     [I_textView setEditable:[document isEditable]];
@@ -607,10 +608,10 @@
         I_flags.showTopStatusBar=!I_flags.showTopStatusBar;
         NSRect frame=[O_scrollView frame];
         if (!I_flags.showTopStatusBar) {
-            frame.size.height+=STATUSBARSIZE;
+            frame.size.height+=STATUSBARSIZE+1;
         } else {
-            frame.size.height-=STATUSBARSIZE;
-            [O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x,NSMaxY(frame),frame.size.width,STATUSBARSIZE)];
+            frame.size.height-=STATUSBARSIZE+1;
+            [O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x,NSMaxY(frame),frame.size.width,STATUSBARSIZE+1)];
             [self TCM_updateStatusBar];
         }
         [O_scrollView setFrame:frame];

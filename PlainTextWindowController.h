@@ -63,6 +63,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)didLoseConnection;
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows;
+- (void)setShowsBottomStatusBar:(BOOL)aFlag;
 
 - (BOOL)showsGutter;
 - (void)setShowsGutter:(BOOL)aFlag;

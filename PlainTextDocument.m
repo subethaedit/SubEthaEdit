@@ -816,7 +816,11 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
     }
     [self updateSymbolTable];
-    [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
+    NSNumber *aFlag=[[aDocumentMode defaults] objectForKey:DocumentModeShowBottomStatusBarPreferenceKey];
+    [self setShowsBottomStatusBar:!aFlag || [aFlag boolValue]];
+    aFlag=[[aDocumentMode defaults] objectForKey:DocumentModeShowTopStatusBarPreferenceKey];
+    [self setShowsTopStatusBar:!aFlag || [aFlag boolValue]];
+    [[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
 - (unsigned int)fileEncoding {
@@ -2237,6 +2241,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 - (void)setShowsTopStatusBar:(BOOL)aFlag {
     I_flags.showsTopStatusBar=aFlag;
+    DocumentMode *mode=[self documentMode];
+    NSMutableDictionary *defaults=[mode defaults];
+    [defaults setObject:[NSNumber numberWithBool:aFlag] forKey:DocumentModeShowTopStatusBarPreferenceKey];
 }
 
 - (BOOL)showsBottomStatusBar {
@@ -2244,6 +2251,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 - (void)setShowsBottomStatusBar:(BOOL)aFlag {
     I_flags.showsBottomStatusBar=aFlag;
+    DocumentMode *mode=[self documentMode];
+    NSMutableDictionary *defaults=[mode defaults];
+    [defaults setObject:[NSNumber numberWithBool:aFlag] forKey:DocumentModeShowBottomStatusBarPreferenceKey];
 }
 
 - (BOOL)keepDocumentVersion {
