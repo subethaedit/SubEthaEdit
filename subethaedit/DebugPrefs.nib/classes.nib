@@ -1,11 +1,11 @@
 {
     IBClasses = (
-        {CLASS = AppController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            CLASS = TCMPreferenceController; 
+            CLASS = TCMPreferenceModule; 
             LANGUAGE = ObjC; 
-            SUPERCLASS = NSWindowController; 
+            OUTLETS = {"O_window" = NSWindow; }; 
+            SUPERCLASS = NSObject; 
         }
     ); 
     IBVersion = 1; 

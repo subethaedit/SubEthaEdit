@@ -1,0 +1,37 @@
+//
+//  TCMPreferenceModule.h
+//  SubEthaEdit
+//
+//  Created by Martin Ott on Thu Feb 26 2004.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <PreferencePanes/PreferencePanes.h>
+
+@interface TCMPreferenceModule : NSObject
+{
+    IBOutlet NSWindow *O_window;
+    NSView *O_mainView;
+}
+
+- (NSImage *)icon;
+- (NSString *)iconLabel;
+
+/*"Setting up the main view"*/
+- (NSView *)assignMainView;
+- (NSView *)loadMainView;
+- (NSString *)mainNibName;
+- (NSView *)mainView;
+- (void)mainViewDidLoad;
+- (void)setMainView:(NSView *)aView;
+
+/*"Handling preference module selection"*/
+- (void)didSelect;
+- (void)willSelect;
+- (void)didUnselect;
+- (void)replyToShouldUnselect:(BOOL)shouldUnselect;
+- (NSPreferencePaneUnselectReply)shouldUnselect;
+- (void)willUnselect;
+
+@end

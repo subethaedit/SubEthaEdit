@@ -30,7 +30,7 @@
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.apple.myApp</string>
+	<string>de.codingmonkeys.Zaphod</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>

@@ -162,6 +162,11 @@ prototype/xmpp-cli/xmpp.xcode/project.pbxproj -text
 prototype/xmpp-cli/xmpp_Prefix.pch -text
 subethaedit/AppController.h -text
 subethaedit/AppController.m -text
+subethaedit/DebugPreferences.h -text
+subethaedit/DebugPreferences.m -text
+subethaedit/DebugPrefs.nib/classes.nib -text
+subethaedit/DebugPrefs.nib/info.nib -text
+subethaedit/DebugPrefs.nib/keyedobjects.nib -text
 subethaedit/English.lproj/Credits.rtf -text
 subethaedit/English.lproj/InfoPlist.strings -text
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
@@ -170,6 +175,9 @@ subethaedit/English.lproj/MainMenu.nib/keyedobjects.nib -text
 subethaedit/English.lproj/MyDocument.nib/classes.nib -text
 subethaedit/English.lproj/MyDocument.nib/info.nib -text
 subethaedit/English.lproj/MyDocument.nib/keyedobjects.nib -text
+subethaedit/English.lproj/Preferences.nib/classes.nib -text
+subethaedit/English.lproj/Preferences.nib/info.nib -text
+subethaedit/English.lproj/Preferences.nib/keyedobjects.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/classes.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/info.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
@@ -203,8 +211,13 @@ subethaedit/TCMMillionMonkeys/TCMMMUser.h -text
 subethaedit/TCMMillionMonkeys/TCMMMUser.m -text
 subethaedit/TCMMillionMonkeys/TCMMMUserManager.h -text
 subethaedit/TCMMillionMonkeys/TCMMMUserManager.m -text
+subethaedit/TCMPreferenceController.h -text
+subethaedit/TCMPreferenceController.m -text
+subethaedit/TCMPreferenceModule.h -text
+subethaedit/TCMPreferenceModule.m -text
 subethaedit/TCMRendezvousBrowser.h -text
 subethaedit/TCMRendezvousBrowser.m -text
 subethaedit/artwork/SubEthaEdit.icns -text
+subethaedit/debug.tiff -text
 subethaedit/main.m -text
 subethaedit/version.plist -text

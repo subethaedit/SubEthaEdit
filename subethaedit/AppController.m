@@ -8,7 +8,9 @@
 
 #import "AppController.h"
 #import "TCMMMUserManager.h"
+#import "TCMPreferenceController.h"
 #import "RendezvousBrowserController.h"
+#import "DebugPreferences.h"
 
 #define PORTRANGESTART 12347
 #define PORTRANGELENGTH 10
@@ -22,6 +24,10 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+
+    DebugPreferences *debugPrefs = [[DebugPreferences new] autorelease];
+    [TCMPreferenceController registerPrefModule:debugPrefs];
+    
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     // add self as user - now just to kill the warning: nothing
     [userManager description];
