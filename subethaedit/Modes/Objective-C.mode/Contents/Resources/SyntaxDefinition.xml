@@ -12,7 +12,6 @@
     
         <default id="Base" color="#ffccff" background-color="#fff" font-weight="normal" font-style="normal">
             <keywords id="Functions" color="#602290" background-color="#fff" font-weight="bold" font-style="normal" casesensitive="no" useforautocomplete="yes">
-                <regex>fo+bar</regex>
 				<string>NSAccessibility</string>
 				<string>NSActionCell</string>
 				<string>NSAffineTransform</string>
@@ -290,12 +289,12 @@
             <begin><string>/\*</string></begin>
             <end><regex>\*/</regex></end>
             
-            <keywords id="Zeug im Comment" color="#f00" background-color="none" font-weight="normal" font-style="normal">
+            <keywords id="Zeug im Comment" color="#236E25" background-color="none" font-weight="normal" font-style="normal">
                 <string>blabla</string>
             </keywords>            
         </state>
         
-        <state id="SingleComment" color="#777" background-color="none" font-weight="normal" font-style="italic">
+        <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
             <begin><string>//</string></begin>
             <end><regex>\n</regex></end>
             

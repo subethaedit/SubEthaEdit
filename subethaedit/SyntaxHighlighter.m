@@ -15,7 +15,8 @@
 
 NSString * const kSyntaxHighlightingIsDirtyAttributeName  = @"HighlightingIsDirtyName";
 NSString * const kSyntaxHighlightingIsDirtyAttributeValue = @"Dirty";
-NSString * const kSyntaxHighlightingStateName = @"State";
+NSString * const kSyntaxHighlightingStateName = @"HighlightingState";
+NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
 
 
 @implementation SyntaxHighlighter
@@ -36,7 +37,7 @@ NSString * const kSyntaxHighlightingStateName = @"State";
     return self;
 }
 
-- (id)init 
+/*- (id)init 
 {
     SyntaxDefinition *foo = [[SyntaxDefinition alloc] initWithFile:@"/Users/pittenau/Desktop/syntax.xml"];
 
@@ -46,7 +47,7 @@ NSString * const kSyntaxHighlightingStateName = @"State";
     }
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Initiated new SyntaxHighlighter:%@",[self description]);
     return self;
-}
+}*/
 
 
 #pragma mark - 
@@ -63,6 +64,10 @@ NSString * const kSyntaxHighlightingStateName = @"State";
 {
     SyntaxDefinition *definition = [self syntaxDefinition];
     if (!definition) NSLog(@"ERROR: No defintion for highlighter.");
+    
+    NSString *theString = [aString string];
+    aRange = [theString lineRangeForRange:aRange];
+    
     int lastEnd = aRange.location;
     NSRange currentRange = aRange;
     
@@ -71,10 +76,11 @@ NSString * const kSyntaxHighlightingStateName = @"State";
     OGRegularExpressionMatch *startMatch;
     OGRegularExpressionMatch *endMatch;
     if (stateStarts) do {
-        startMatch = [stateStarts matchInString:[aString string] range:currentRange];
+        startMatch = [stateStarts matchInString:theString range:currentRange];
         if (startMatch) {
             //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Old Range: %@",NSStringFromRange(currentRange));            
-            NSRange matchRange = [startMatch rangeOfMatchedString];       
+            NSRange matchRange = [startMatch rangeOfMatchedString];
+            [aString addAttribute:kSyntaxHighlightingStateDelimiterName value:@"Start" range:matchRange];  
             
             //FIXME: Wrong place to color defaultState
             if (matchRange.location>aRange.location)
@@ -84,32 +90,40 @@ NSString * const kSyntaxHighlightingStateName = @"State";
                 }
             
             //FIXME: Empty states are not recognized     
-            int stateNumber = [startMatch indexOfFirstMatchedSubstring]-1;
+            int stateNumber = [startMatch indexOfFirstMatchedSubstring] - 1;
             NSDictionary *foundState = [[definition states] objectAtIndex:stateNumber];
             if (foundState) {
                 //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found State: %@ at %d",[foundState objectForKey:@"id"], matchRange.location);
+                
                 if (stateEnd = [foundState objectForKey:@"EndsWithRegex"]) {
                     currentRange.length -= NSMaxRange(matchRange) - currentRange.location;
                     currentRange.location = NSMaxRange(matchRange);
-                    endMatch = [stateEnd matchInString:[aString string] range:currentRange];
-                    NSRange secondMatchRange = [endMatch rangeOfMatchedString];
+                    NSRange secondMatchRange;
+                    NSRange stateRange;
+                    if (endMatch = [stateEnd matchInString:theString range:currentRange]) { // Search for end of state
+                        secondMatchRange = [endMatch rangeOfMatchedString];
+                        [aString addAttribute:kSyntaxHighlightingStateDelimiterName value:@"End" range:secondMatchRange];
+                        stateRange = NSMakeRange(matchRange.location, NSMaxRange(secondMatchRange) - matchRange.location);
+                    } else {  // No end found in chunk, so mark the whole chunk
+                        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"State %@ does not end in chunk",[foundState objectForKey:@"id"]);
+                        stateRange = NSMakeRange(matchRange.location, NSMaxRange(aRange) - matchRange.location);
+                    }
                     
-                    NSRange stateRange = NSMakeRange(matchRange.location, NSMaxRange(secondMatchRange) - matchRange.location);
                     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                 [foundState objectForKey:@"color"], NSForegroundColorAttributeName,
                                                 [NSNumber numberWithInt:stateNumber],kSyntaxHighlightingStateName,
                                                 nil];
+                                                
                     [aString addAttributes:attributes range:stateRange];
                     [self highlightPlainStringsOfAttributedString:aString inRange:stateRange forState:stateNumber];
-                    matchRange = secondMatchRange;
-                    lastEnd = NSMaxRange(secondMatchRange);
+                    lastEnd = NSMaxRange(stateRange);
                 }
             } else {
-                NSLog(@"ERROR: Can't lookup state.");
+                NSLog(@"ERROR: Can't lookup state or missing EndsWithRegex attribute.");
             }
             
-            currentRange.length -= NSMaxRange(matchRange) - currentRange.location;
-            currentRange.location = NSMaxRange(matchRange);
+            currentRange.length -= lastEnd - currentRange.location;
+            currentRange.location = lastEnd;
             //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"New Range: %@",NSStringFromRange(currentRange));
         }
     } while (startMatch);
