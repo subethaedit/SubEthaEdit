@@ -212,6 +212,7 @@
                 <string>visible</string>
                 <string>wider</string>
                 <string>break</string>
+                <string>url</string>
             </keywords>
 
             <keywords id="CSS Keywords" color="#88134F" font-style="italic" useforautocomplete="yes">
@@ -339,6 +340,15 @@
                 <string>pause</string>
                 <string>konq_bgpos_x</string>
                 <string>konq_bgpos_y</string>
+            </keywords>
+
+            <keywords id="CSS Digits" color="#00f" font-style="bold" useforautocomplete="yes">
+                <regex>(?&lt;![#\d\w])([\d]+[ \t]*(?:px|pt|em|ex|cm|in|mm|pc|%)?)</regex>
+            </keywords>
+            
+            <keywords id="CSS Colors" color="#760f15" font-style="bold" useforautocomplete="yes">
+                <regex>(#[\da-fA-F]{3})</regex>
+                <regex>(#[\da-fA-F]{6})</regex>
             </keywords>
 
             <keywords id="Begin and End" color="#881280" useforautocomplete="no">
