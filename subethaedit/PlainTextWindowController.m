@@ -87,12 +87,12 @@ enum {
         [item setTarget:self];
         [item setTag:ParticipantContextMenuTagFollow];
 
-        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuAIM %@ ...",@"AIM user entry for Participant context menu") action:@selector(openAIMTextChat:) keyEquivalent:@""];
-        [item setTarget:self];
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuAIM", @"AIM user entry for Browser context menu") action:@selector(initiateAIMChat:) keyEquivalent:@""];
+        [item setTarget:[TCMMMUserManager sharedInstance]];
         [item setTag:ParticipantContextMenuTagAIM];
-
-        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuEmail %@ ...",@"Email user entry for Participant context menu") action:@selector(sendEmail:) keyEquivalent:@""];
-        [item setTarget:self];
+                
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuEmail", @"Email user entry for Browser context menu") action:@selector(sendEmail:) keyEquivalent:@""];
+        [item setTarget:[TCMMMUserManager sharedInstance]];
         [item setTag:ParticipantContextMenuTagEmail];
 
         [I_contextMenu addItem:[NSMenuItem separatorItem]];
@@ -1115,12 +1115,15 @@ enum {
 
 -(void)menuNeedsUpdate:(NSMenu *)menu {
     int state = [self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
-    if ([O_participantsView numberOfSelectedRows] == 1) {
+    NSMutableSet *userset=[NSMutableSet set];
+    NSMutableIndexSet *selectedRows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
+    int row;
+    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+    for (row=[selectedRows firstIndex];[selectedRows count]>0;[selectedRows removeIndex:row],row=[selectedRows firstIndex]) {
+        NSLog(@"%d",row);
+        ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
         TCMMMUser *user=nil;
-        int selectedRow=[O_participantsView selectedRow];
-        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
         if (pair.childIndex!=-1) {
-            TCMMMSession *session=[(PlainTextDocument *)[self document] session];
             if (pair.itemIndex==2) {
                 user=[[session pendingUsers] objectAtIndex:pair.childIndex];
             } else {
@@ -1132,18 +1135,19 @@ enum {
                 }
             }
         }
-        id item;
-        item = [menu itemWithTag:ParticipantContextMenuTagFollow];
-        [item setEnabled:(state & FollowUserStateMask)];
-        item = [menu itemWithTag:ParticipantContextMenuTagAIM];
-        [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuAIM %@ ...",@"AIM user entry for Participant context menu"),[[user properties] objectForKey:@"AIM"]]];
-        item = [menu itemWithTag:ParticipantContextMenuTagEmail];
-        [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuEmail %@ ...",@"Email user entry for Participant context menu"),[[user properties] objectForKey:@"Email"]]];
-    } else {
-        id item = [menu itemWithTag:ParticipantContextMenuTagFollow];
-        [item setEnabled:NO];
+        if (user) {
+            [userset addObject:[user userID]];
+        }
     }
     id item;
+    item = [menu itemWithTag:ParticipantContextMenuTagAIM];
+    [item setRepresentedObject:userset];
+    item = [menu itemWithTag:ParticipantContextMenuTagEmail];
+    [item setRepresentedObject:userset];
+    
+    item = [menu itemWithTag:ParticipantContextMenuTagFollow];
+    [item setEnabled:[userset count]==1 && (state & FollowUserStateMask)!=0];
+    
     item = [menu itemWithTag:ParticipantContextMenuTagReadWrite];
     [item setEnabled:(state & ReadWriteButtonStateMask)];
     item = [menu itemWithTag:ParticipantContextMenuTagReadOnly];
@@ -1157,6 +1161,12 @@ enum {
         string=NSLocalizedString(@"ParticipantContextMenuDeny",@"KickDeny user entry for Participant context menu");
     }
     [item setTitle:string];
+
+    item = [menu itemWithTag:ParticipantContextMenuTagAIM];
+    [item setEnabled:[[item target] validateMenuItem:item]];
+    item = [menu itemWithTag:ParticipantContextMenuTagEmail];
+    [item setEnabled:[[item target] validateMenuItem:item]];
+
 }
 
 
