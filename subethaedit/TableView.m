@@ -30,12 +30,14 @@
     [I_lightBackgroundColor set];
     NSRectFill([self rectOfColumn:0]);
     [I_darkBackgroundColor set];
-    NSRectFill([self rectOfColumn:1]);
+    NSRect darkRect=[self rectOfColumn:1];
+    darkRect.size.width+=10.;
+    NSRectFill(darkRect);
     if (I_disableFirstRow) {
         NSRect rowRect=[self rectOfRow:0];
         rowRect=NSIntersectionRect(clipRect,rowRect);
         if (rowRect.size.height>0. || rowRect.size.width >0.) {
-            [[NSColor colorWithCalibratedWhite:.5 alpha:.3] set];
+            [[NSColor colorWithCalibratedWhite:.3 alpha:.2] set];
             [NSBezierPath fillRect:rowRect];
         }
     }
@@ -81,6 +83,11 @@
 
 - (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)extend {
     [super selectRowIndexes:indexes byExtendingSelection:extend];
+    [self setNeedsDisplay:YES];
+}
+
+- (void)deselectAll:(id)aSender {
+    [super deselectAll:aSender];
     [self setNeedsDisplay:YES];
 }
 

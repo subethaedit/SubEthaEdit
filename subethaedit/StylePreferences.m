@@ -44,6 +44,15 @@
     return @"StylePrefs";
 }
 
+- (void)adjustTableViewColumns:(NSNotification *)aNotification {
+    float width=[[[O_stylesTableView enclosingScrollView] contentView] frame].size.width;
+    width-=[O_stylesTableView intercellSpacing].width*3;
+    float width2=width/2.;
+    NSArray *columns=[O_stylesTableView tableColumns];
+    [[columns objectAtIndex:0] setWidth:width2];
+    [[columns objectAtIndex:1] setWidth:width2];
+}
+
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
     [self changeMode:O_modePopUpButton];
@@ -57,14 +66,7 @@
     NSMutableAttributedString *string=[[O_italicButton attributedTitle] mutableCopy];
     [string addAttribute:NSObliquenessAttributeName value:[NSNumber numberWithFloat:.2] range:NSMakeRange(0,[[string string] length])];
     [O_italicButton setAttributedTitle:[string autorelease]];
-}
-
-- (void)adjustTableViewColumns:(NSNotification *)aNotification {
-    float width=[[[O_stylesTableView enclosingScrollView] contentView] frame].size.width;
-    float width2=width/2.;
-    NSArray *columns=[O_stylesTableView tableColumns];
-    [[columns objectAtIndex:0] setWidth:width2];
-    [[columns objectAtIndex:1] setWidth:width2];
+    [self adjustTableViewColumns:nil];
 }
 
 - (void)updateBackgroundColor {
@@ -287,8 +289,9 @@
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)aRow {
+    BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
     NSString *key=[[I_currentSyntaxStyle allKeys] objectAtIndex:aRow];
-    NSDictionary *style=[I_currentSyntaxStyle styleForKey:key];
+    NSDictionary *style=[(useDefault && aRow==0)?([[DocumentModeManager baseMode] syntaxStyle]):I_currentSyntaxStyle styleForKey:key];
     NSString *localizedString=[I_currentSyntaxStyle localizedStringForKey:key];
     NSFont *font=[self baseFont];
     NSFontManager *fontManager=[NSFontManager sharedFontManager];
