@@ -34,7 +34,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 @implementation DocumentMode
 
-+ (void) initialize {
++ (void)initialize {
     defaultablePreferenceKeys=[NSMutableDictionary new];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeHighlightSyntaxPreferenceKey];
@@ -97,6 +97,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeShowMatchingBracketsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeWrapLinesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:DocumentModeWrapModeWords] forKey:DocumentModeWrapModePreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithInt:LineEndingLF] forKey:DocumentModeLineEndingPreferenceKey];
             [[EncodingManager sharedInstance] registerEncoding:NoStringEncoding];
             if (![self isBaseMode]) {
                 // read frome modefile? for now use defaults

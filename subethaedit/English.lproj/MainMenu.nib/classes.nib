@@ -10,6 +10,7 @@
             ACTIONS = {
                 changeTabWidth = id; 
                 clearChangeMarks = id; 
+                convertLineEndings = id; 
                 newView = id; 
                 selectWrapMode = id; 
                 shiftLeft = id; 

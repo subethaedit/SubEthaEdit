@@ -81,6 +81,7 @@
         NSRange charRange = [self characterRangeForGlyphRange:glyphRange actualGlyphRange:NULL];
         NSString *characters = [[self textStorage] string];
         unsigned i;
+        unichar previousChar=0;
         for (i=charRange.location;i<NSMaxRange(charRange);i++) {
             unichar c = [characters characterAtIndex: i];
             unichar draw = 0;
@@ -90,8 +91,14 @@
                 draw = 0x2192; // "Arrow right"
             } else if (c == 0x21e4 || c == 0x21e5) {	// not "correct" indentation (leftward tab, rightward tab)
                 draw = 0x2192; // "Arrow right"
+            } else if (c == '\r') {	// mac line feed
+                draw = 0x204b; // "reversed Pilcrow"
             } else if (c == '\n') {	// unix line feed
-                draw = 0x00b6; // "Pilcrow sign"
+                if (previousChar == '\r') {
+                    draw = 0x2014; // m-dash 
+                } else {
+                    draw = 0x00b6; // "Pilcrow sign"
+                }
             } else if (c == 0x0c) {	// page break
                 draw = 0x21cb; // leftwards harpoon over rightwards harpoon
             } else if (c < 0x20 || (0x007f <= c && c <= 0x009f) || [[NSCharacterSet illegalCharacterSet] characterIsMember: c]) {	// some other mystery control character
@@ -121,6 +128,7 @@
                 [glyphString release];
                 [attributes release];
             }
+            previousChar=c;
         }
     }
 

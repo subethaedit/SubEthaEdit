@@ -56,9 +56,12 @@ enum {
     SmallestCustomStringEncoding = 0xFFFFFFF0
 };
 
-static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTextDocumentSyntaxColorizeNotification";
-NSString * const PlainTextDocumentDidChangeDisplayNameNotification = @"PlainTextDocumentDidChangeDisplayNameNotification";
-NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
+static NSString * const PlainTextDocumentSyntaxColorizeNotification = 
+                      @"PlainTextDocumentSyntaxColorizeNotification";
+NSString * const PlainTextDocumentDidChangeDisplayNameNotification = 
+               @"PlainTextDocumentDidChangeDisplayNameNotification";
+NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = 
+               @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
@@ -369,6 +372,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
         [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
         I_textStorage = [TextStorage new];
         [I_textStorage setDelegate:self];
+        [self setLineEnding:LineEndingLF];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] modeForNewDocuments]];
         NSStringEncoding encoding = [[[self documentMode] defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         if (encoding < SmallestCustomStringEncoding) {
@@ -416,6 +420,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [I_defaultParagraphStyle release];
     [I_fileAttributes release];
     [I_ODBParameters release];
+    [I_lineEndingString release];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
@@ -460,6 +465,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [self setShowInvisibleCharacters:[[aDocumentMode defaultForKey:DocumentModeShowInvisibleCharactersPreferenceKey] boolValue]];
     [self setShowsGutter:[[aDocumentMode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] intValue]];
     [self setShowsMatchingBrackets:[[aDocumentMode defaultForKey:DocumentModeShowMatchingBracketsPreferenceKey] boolValue]];
+    [self setLineEnding:[[aDocumentMode defaultForKey:DocumentModeLineEndingPreferenceKey] intValue]];
     if (I_flags.highlightSyntax) {
         [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
     }
@@ -1182,6 +1188,12 @@ static NSString *tempFileName(NSString *origPath) {
     } else if (selector==@selector(toggleSyntaxHighlighting:)) {
         [anItem setState:(I_flags.highlightSyntax?NSOnState:NSOffState)];
         return YES;
+    } else if (selector == @selector(convertLineEndings:)) {
+        if ([self lineEnding] == [anItem tag]) {
+            [anItem setState:NSOnState];
+        } else {
+            [anItem setState:NSOffState];
+        }
     } else if (selector == @selector(selectEncoding:)) {
         if ([self fileEncoding] == (unsigned int)[anItem tag]) {
             [anItem setState:NSOnState];
@@ -1234,7 +1246,47 @@ static NSString *tempFileName(NSString *origPath) {
     return YES;
 }
 
+- (NSString *)lineEndingString {
+    return I_lineEndingString;
+}
 
+- (LineEnding)lineEnding {
+    return I_lineEnding;
+}
+
+- (void)setLineEnding:(LineEnding)newLineEnding {
+    if (I_lineEnding !=newLineEnding) {
+        I_lineEnding = newLineEnding;
+        switch(I_lineEnding) {
+            case LineEndingLF:
+                I_lineEndingString=@"\n";
+                break;
+            case LineEndingCR:
+                I_lineEndingString=@"\r";
+                break;
+            case LineEndingCRLF:
+                I_lineEndingString=@"\r\n";
+                break;
+            case LineEndingUnicodeLineSeparator:
+                I_lineEndingString=@"\n";
+                break;
+            case LineEndingUnicodeParagraphSeparator:
+                I_lineEndingString=@"\r\n";
+                break;
+            default:
+                I_lineEnding=LineEndingLF;
+                I_lineEndingString=@"\n";
+                break;      
+        }
+    }
+}
+
+- (IBAction)convertLineEndings:(id)aSender {
+    [self setLineEnding:[aSender tag]];
+    [[[self textStorage] mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
+    [[self undoManager] removeAllActions]; 
+    // undo is not too easy here... however... we could store a complete copy of the document in the undobuffer
+}
 
 /*"A font trait mask of 0 returns the plain font, otherwise use NSBoldFontMask, NSItalicFontMask"*/
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait {
@@ -1825,11 +1877,10 @@ static NSString *tempFileName(NSString *origPath) {
                 indentString=[string substringWithRange:indentRange];
             }
         }
-        NSString *_lineEndingString=@"\n";
         if (indentString) {
-            [aTextView insertText:[NSString stringWithFormat:@"%@%@",_lineEndingString,indentString]];        
+            [aTextView insertText:[NSString stringWithFormat:@"%@%@",[self lineEndingString],indentString]];        
         } else {
-            [aTextView insertText:_lineEndingString];
+            [aTextView insertText:[self lineEndingString]];
         }
         return YES;
         

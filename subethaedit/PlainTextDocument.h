@@ -57,6 +57,9 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSSaveOperationType I_lastSaveOperation;
     NSStringEncoding I_encodingFromLastRunSaveToOperation;
     
+    int I_lineEnding;
+    NSString *I_lineEndingString;
+    
     struct {
         int numberOfBrackets;
         unichar *closingBracketsArray;
@@ -82,6 +85,10 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (NSArray *)plainTextEditors;
 
 - (void)handleOperation:(TCMMMOperation *)aOperation;
+
+- (NSString *)lineEndingString;
+- (LineEnding)lineEnding;
+- (void)setLineEnding:(LineEnding)newLineEnding;
 
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait;
 - (NSDictionary *)typingAttributes;

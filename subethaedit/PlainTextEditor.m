@@ -235,6 +235,19 @@
         float characterWidth=[font widthOfString:@"m"];
         int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
         [O_windowWidthTextField setStringValue:[NSString stringWithFormat:@"%d%@",charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapMode]==DocumentModeWrapModeCharacters?@"c":@"w")]];
+        NSString *lineEndingStatusString=@"";
+        switch ([document lineEnding]) {
+            case LineEndingLF:
+                lineEndingStatusString=@"(LF)";
+                break;
+            case LineEndingCR:
+                lineEndingStatusString=@"(CR)";
+                break;
+            case LineEndingCRLF:
+                lineEndingStatusString=@"(CRLF)";
+                break;
+        }
+        [O_lineEndingTextField setStringValue:lineEndingStatusString];
     }
 }
 

@@ -11,6 +11,12 @@
     <states>
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+            <keywords id="Messages" color="#6C0540" casesensitive="yes">
+				<regex>[^:]\([^)]*\)[ 	]*([A-Za-z0-9_]+)[ 	]*[{;]</regex>
+				<regex>\)[ 	]*([A-Za-z0-9_]+:)</regex>
+				<regex> ([A-Za-z0-9_]+:)</regex>
+				<regex> ([A-Za-z0-9_]+)]</regex>
+            </keywords>
             <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="bold" font-style="normal" casesensitive="no" useforautocomplete="yes">
 				<string>NSAccessibility</string>
 				<string>NSActionCell</string>

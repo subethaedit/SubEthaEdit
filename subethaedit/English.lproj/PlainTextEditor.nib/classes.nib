@@ -14,6 +14,7 @@
                 "O_bottomStatusBarView" = NSView; 
                 "O_editorView" = NSView; 
                 "O_encodingTextField" = NSTextField; 
+                "O_lineEndingTextField" = NSTextField; 
                 "O_modeTextField" = NSTextField; 
                 "O_positionTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 

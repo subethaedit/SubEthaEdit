@@ -13,6 +13,80 @@
 #import <arpa/inet.h>
 #import <sys/socket.h>
 
+static void convertLineEndingsInString(NSMutableString *string, NSString *newLineEnding)
+{
+    unsigned newEOLLen;
+    unichar newEOLStackBuf[2];
+    unichar *newEOLBuf;
+    BOOL freeNewEOLBuf = NO;
+
+    unsigned length = [string length];
+    unsigned curPos = 0;
+    unsigned start, end, contentsEnd;
+
+
+    newEOLLen = [newLineEnding length];
+    if (newEOLLen > 2) {
+        newEOLBuf = NSZoneMalloc(NULL, sizeof(unichar) * newEOLLen);
+        freeNewEOLBuf = YES;
+    } else {
+        newEOLBuf = newEOLStackBuf;
+    }
+    [newLineEnding getCharacters:newEOLBuf];
+
+    while (curPos < length) {
+        [string getLineStart:&start end:&end contentsEnd:&contentsEnd forRange:NSMakeRange(curPos, 1)];
+        if (contentsEnd < end) {
+            int changeInLength = newEOLLen - (end - contentsEnd);
+            BOOL alreadyNewEOL = YES;
+            if (changeInLength == 0) {
+                unsigned i;
+                for (i = 0; i < newEOLLen; i++) {
+                    if ([string characterAtIndex:contentsEnd + i] != newEOLBuf[i]) {
+                        alreadyNewEOL = NO;
+                        break;
+                    }
+                }
+            } else {
+                alreadyNewEOL = NO;
+            }
+            if (!alreadyNewEOL) {
+                [string replaceCharactersInRange:NSMakeRange(contentsEnd, end - contentsEnd) withString:newLineEnding];
+                end += changeInLength;
+                length += changeInLength;
+            }
+        }
+        curPos = end;
+    }
+
+    if (freeNewEOLBuf) {
+        NSZoneFree(NSZoneFromPointer(newEOLBuf), newEOLBuf);
+    }
+}
+
+@implementation NSMutableString (NSStringTCMAdditions)
+
+- (void)convertLineEndingsToLineEndingString:(NSString *)aNewLineEndingString {
+    convertLineEndingsInString(self,aNewLineEndingString);
+}
+
+- (void)convertLineEndingsToLF
+{
+    convertLineEndingsInString(self, @"\n");
+}
+
+- (void)convertLineEndingsToCR
+{
+    convertLineEndingsInString(self, @"\r");
+}
+
+- (void)convertLineEndingsToCRLF
+{
+    convertLineEndingsInString(self, @"\r\n");
+}
+
+@end
+
 
 @implementation NSString (NSStringTCMAdditions) 
 
@@ -122,6 +196,88 @@
     }
     
     return result;
+}
+
+- (BOOL)isWhiteSpace {
+    unsigned int i=0;
+    BOOL result=YES;
+    for (i=0;i<[self length];i++) {
+        if ([self characterAtIndex:i]!=[@" " characterAtIndex:0] &&
+            [self characterAtIndex:i]!=[@"\t" characterAtIndex:0] &&
+            [self characterAtIndex:i]!=[@"\n" characterAtIndex:0] &&
+            [self characterAtIndex:i]!=[@"\r" characterAtIndex:0]) {
+            result=NO;
+            break;    
+        }
+    }
+    return result;
+}
+
+- (unsigned) detabbedLengthForRange:(NSRange)aRange tabWidth:(int)aTabWidth {
+    NSRange foundRange=[self rangeOfString:@"\t" options:0 range:aRange];
+    if (foundRange.location==NSNotFound) {
+        return aRange.length;
+    } else {
+        unsigned additionalLength=0;
+        NSRange searchRange=aRange;
+        while (foundRange.location!=NSNotFound) {
+            additionalLength+=aTabWidth-((foundRange.location-aRange.location+additionalLength)%aTabWidth+1);
+            searchRange.length-=foundRange.location-searchRange.location+1;
+            searchRange.location=foundRange.location+1;
+            foundRange=[self rangeOfString:@"\t" options:0 range:searchRange];
+        }
+        return aRange.length+additionalLength;
+    }
+}
+
+- (BOOL)detabbedLength:(unsigned)aLength fromIndex:(unsigned)aFromIndex 
+                length:(unsigned *)rLength upToCharacterIndex:(unsigned *)rIndex
+              tabWidth:(int)aTabWidth {
+    NSRange searchRange=NSMakeRange(aFromIndex,aLength);
+    if (NSMaxRange(searchRange)>[self length]) {
+        searchRange.length=[self length]-searchRange.location;
+    }
+    NSRange foundRange=[self rangeOfString:@"\t" options:0 range:searchRange];
+    if (foundRange.location==NSNotFound) {
+        *rLength=searchRange.length;
+        *rIndex=aFromIndex+searchRange.length;
+        return (searchRange.length==aLength);
+    } else {
+        NSRange lineRange=[self lineRangeForRange:NSMakeRange(aFromIndex,0)];
+        *rLength=0;
+        while (foundRange.location!=NSNotFound) {
+            if (aLength<foundRange.location-searchRange.location) {
+                *rLength+=aLength;
+                *rIndex=searchRange.location+aLength;
+                return YES;
+            } else {
+                int movement=foundRange.location-searchRange.location;
+                *rLength+=movement;
+                aLength -=movement;
+                int spacesTabTakes=aTabWidth-(aFromIndex-lineRange.location+(*rLength))%aTabWidth;
+                if (spacesTabTakes>(int)aLength) {
+                    *rIndex=foundRange.location;
+                    return NO;
+                } else {
+                    *rLength+=spacesTabTakes;
+                    aLength -=spacesTabTakes;
+                    searchRange.location+=movement+1;
+                    searchRange.length  -=movement+1;
+                }
+            }
+            foundRange=[self rangeOfString:@"\t" options:0 range:searchRange];
+        }
+        
+        if (aLength<=searchRange.length) {
+            *rLength+=aLength;
+            *rIndex  =searchRange.location+aLength;
+            return YES;
+        } else {
+            *rLength+=searchRange.length;
+            *rIndex  =NSMaxRange(searchRange);
+            return NO;
+        }
+    }
 }
 
 @end
