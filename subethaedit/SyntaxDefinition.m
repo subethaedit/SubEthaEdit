@@ -54,6 +54,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         I_states = [NSMutableArray new];
         I_name = [@"Not named" retain];
         [self setMode:aMode];
+        everythingOkay = YES;
                 
         // Parse XML File
         [self parseXMLFile:aPath];
@@ -64,7 +65,12 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         [self cacheStyles];
         [self setCombinedStateRegex];        
     }
-    return self;
+    if (everythingOkay) return self;
+    else {
+        NSLog(@"Critical errors while loading syntax definition. Not loading syntax highlighter.");
+        [self dealloc];
+        return nil;
+    }
 }
 
 - (void)dealloc {
@@ -84,7 +90,10 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
 -(void)parseXMLFile:(NSString *)aPath {
     CFXMLTreeRef cfXMLTree;
     CFDataRef xmlData;
-    if (!(aPath)) NSLog(@"ERROR: Can't parse nil syntax definition.");
+    if (!(aPath)) {
+        NSLog(@"ERROR: Can't parse nil syntax definition.");
+        everythingOkay = NO;
+    }
     CFURLRef sourceURL = (CFURLRef)[NSURL fileURLWithPath:aPath];
     NSDictionary *errorDict;
 
@@ -94,6 +103,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
 
     if (!cfXMLTree) {
         NSLog(@"Error parsing syntax definition \"%@\":\n%@", aPath, [errorDict description]);
+        everythingOkay = NO;
         return;
     }        
 
@@ -269,7 +279,10 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
                     //if (endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease])
                     if ((endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindNotEmptyOption] autorelease]))
                         [aDictionary setObject:endRegex forKey:@"EndsWithRegex"];
-                } else NSLog(@"ERROR: %@ is not a valid Regex.", innerContent);
+                } else {
+                    NSLog(@"ERROR: %@ is not a valid Regex.", innerContent);
+                    everythingOkay = NO;
+                }
                 
             } else if ([innerTag isEqualTo:@"string"]) {
                 DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<end> tag is PlainString");
@@ -430,6 +443,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
                     }
                 } else {
                     NSLog(@"ERROR: %@ in \"%@\" is not a valid regular expression", keyword, [attributes objectForKey:@"id"]);
+                    everythingOkay = NO;
                 }
             }
         }
@@ -514,7 +528,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         } else if ((beginString = [aDictionary objectForKey:@"BeginsWithPlainString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found plain string state start:%@",beginString);
         } else {
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"ERROR: State without begin:%@",[aDictionary description]);
+            NSLog(@"ERROR: State without begin:%@",[aDictionary description]);
+            everythingOkay = NO;
         }
         if (beginString) {
             [combinedString appendString:[NSString stringWithFormat:@"(%@)|",beginString]];
@@ -529,6 +544,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
         } else {
             NSLog(@"ERROR: %@ (begins of all states) is not a valid regular expression", combinedString);
+            everythingOkay = NO;
         }
     }
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"CombinedStateRegex:%@",[self combinedStateRegex]);

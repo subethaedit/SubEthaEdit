@@ -16,6 +16,7 @@
     NSMutableDictionary *I_currentSymbol;
     NSMutableArray *I_currentPostprocess;
     NSMutableArray *I_symbols;
+    BOOL everythingOkay;
 }
 
 /*"Initizialisation"*/

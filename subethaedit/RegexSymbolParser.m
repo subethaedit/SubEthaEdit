@@ -42,39 +42,32 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
 
 - (void)markBlocks:(NSTextStorage *)aTextStorage
 {
-    // NSArray of NSRanges faster??
-
-/*    [aTextStorage removeAttribute:kSymbolParsingIsInABlock range:NSMakeRange(0,[[aTextStorage string] length])];
-    NSCharacterSet *brackets = [NSCharacterSet characterSetWithCharactersInString:@"{"];
-    NSScanner *scanner = [NSScanner scannerWithString:[aTextStorage string]];
-    [scanner setCharactersToBeSkipped:[brackets invertedSet]];
-    [scanner setScanLocation:0];
+    [aTextStorage removeAttribute:kSymbolParsingIsInABlock range:NSMakeRange(0,[aTextStorage length])];
+    OGRegularExpression *blockMark = [[self symbolDefinition] block];
     
-    NSString *bracket = nil;
-    int level = 0;
-    NSRange currentBlock;
-    currentBlock.location = 0;
-    currentBlock.length = 0;
-    
-    while ([scanner scanCharactersFromSet:brackets intoString:&bracket]) {
-        // Ignore States
-        if (![aTextStorage attribute:@"HighlightingState" atIndex:[scanner scanLocation] effectiveRange:nil]) {
-            NSLog(@"Ping: %@",bracket);
-            BOOL opener = [bracket isEqualToString:@"{"];
-            if (!opener) level--;
-            if (level==0) { // New block starts
-                if (opener) {
-                    level++;
-                    currentBlock.location = [scanner scanLocation];
-                    NSLog(@"Block at: %@",NSStringFromRange(currentBlock));
-                } else { // Block ends
-                    currentBlock.length = [scanner scanLocation] - currentBlock.location;
-                    NSLog(@"Block: %@",NSStringFromRange(currentBlock));
-                    [aTextStorage addAttribute:kSymbolParsingIsInABlock value:@"YES" range:currentBlock];
-                }
-            }   
+    NSEnumerator *matchEnumerator = [[blockMark allMatchesInString:[aTextStorage string]] objectEnumerator];
+    OGRegularExpressionMatch *aMatch;
+    int depth = 0;
+    int blockStart=0;
+    while ((aMatch = [matchEnumerator nextObject])) {
+        if ([aMatch indexOfFirstMatchedSubstring]==1) {
+            //Found start
+            if (depth == 0) {
+                NSRange foundRange = [aMatch rangeOfMatchedString];
+                blockStart = foundRange.location;
+            }
+            depth++;
+        } else if ([aMatch indexOfFirstMatchedSubstring]==2) {
+            //Found end
+            if (depth==1) {
+                // Mark block
+                NSRange foundRange = [aMatch rangeOfMatchedString];
+                NSRange blockRange = NSMakeRange(blockStart, foundRange.location - blockStart);
+                [aTextStorage addAttribute:kSymbolParsingIsInABlock value:@"YES" range:blockRange];
+            } 
+            if (depth>0) depth--;
         }
-    } */
+    }
 }
 
 - (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage 
@@ -94,7 +87,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
     for (i=0;i<count;i++) {
         NSDictionary *symbol = [symbols objectAtIndex:i];
         OGRegularExpression *regex = [symbol objectForKey:@"regex"];
-        NSString *type = @"bar";
+        NSString *type = [symbol objectForKey:@"id"];
         int mask = [[symbol objectForKey:@"font-trait"] unsignedIntValue];
         int indent = [[symbol objectForKey:@"indentation"] intValue];
         NSImage *image = [symbol objectForKey:@"image"];
@@ -104,11 +97,10 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
         while ((aMatch = [matchEnumerator nextObject])) {
             NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
             if (![aMatch substringAtIndex:1]) jumprange = [aMatch rangeOfMatchedString];
+            if ([aTextStorage attribute:kSymbolParsingIsInABlock atIndex:jumprange.location effectiveRange:nil]) continue;
             NSRange fullrange = [aMatch rangeOfMatchedString];
-            if ([aTextStorage attribute:kSymbolParsingIsInABlock atIndex:jumprange.location effectiveRange:nil]) break;
             NSString *name = [aMatch substringAtIndex:1];
             if (!name) name = [aMatch matchedString];
-            // Replace Stuff!
             
             NSArray *postprocess = [symbol objectForKey:@"postprocess"];
             if (postprocess) {

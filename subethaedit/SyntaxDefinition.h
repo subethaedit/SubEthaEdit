@@ -20,6 +20,7 @@
     NSMutableArray *I_stylesForToken;   /*"Chached plainstrings"*/
     NSMutableArray *I_stylesForRegex;   /*"Chached regexs"*/
     OGRegularExpression *I_combinedStateRegex;     /*"All state-begins in one regex"*/
+    BOOL everythingOkay;
 }
 
 /*"Initizialisation"*/

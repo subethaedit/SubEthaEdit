@@ -17,8 +17,8 @@ my $calc36 = new Math::BaseCalc(digits=>[0..9,'A'..'Z']);
 # 0-50000 reserved
 # 50000-60000 eSellerate
 
-for (my $i=50000;$i<60000;$i++) {
-    print "$i: ".serialnumber($i)."\n";
+for (my $i=50000;$i<51000;$i++) {
+    print serialnumber($i)."\n";
 }
 
 sub serialnumber {

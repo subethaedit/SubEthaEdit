@@ -20,6 +20,7 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
             [self dealloc];
             return nil;
         }
+        everythingOkay = YES;
         [self setMode:aMode];
         I_symbols = [NSMutableArray new];
         I_block = nil;
@@ -27,7 +28,12 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
         [self parseXMLFile:aPath];
     }
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Initiated new SyntaxDefinition:%@",[self description]);
-    return self;
+    if (everythingOkay) return self;
+    else {
+        NSLog(@"Critical errors while loading symbol definition. Not loading symbol parser.");
+        [self dealloc];
+        return nil;
+    }
 }
 
 - (void)dealloc {
@@ -53,6 +59,7 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
 
     if (!cfXMLTree) {
         NSLog(@"Error parsing syntax definition \"%@\":\n%@", aPath, [errorDict description]);
+        everythingOkay = NO;
         return;
     }        
 
@@ -109,6 +116,7 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                     }
                 }
                 
+                if ([attributes objectForKey:@"id"]) [I_currentSymbol setObject:[attributes objectForKey:@"id"] forKey:@"id"];
                 if ([attributes objectForKey:@"indentation"]) [I_currentSymbol setObject:[attributes objectForKey:@"indentation"] forKey:@"indentation"];
                 if ([attributes objectForKey:@"ignoreblocks"]) [I_currentSymbol setObject:[attributes objectForKey:@"ignoreblocks"] forKey:@"ignoreblocks"];
                 if ([attributes objectForKey:@"font-weight"]||[attributes objectForKey:@"font-weight"]) {
@@ -130,8 +138,8 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
 {
     int childCount;
     int index;
-    NSString *blockStart=nil;
-    NSString *blockEnd  =nil;
+    NSString *blockStart = nil;
+    NSString *blockEnd   = nil;
 
     childCount = CFTreeGetChildCount(aTree);
     for (index = 0; index < childCount; index++) {
@@ -145,10 +153,13 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                 blockEnd = extractStringWithEntitiesFromTree(xmlTree);
             }  
             if (blockStart && blockEnd) {
-                NSString *combined = [NSString stringWithFormat:@"(%@)|(%@)",blockStart,blockEnd];
+                NSString *combined = [NSString stringWithFormat:@"(%@(?!%@))|((?<!%@)%@)",blockStart,blockEnd,blockStart,blockEnd];
                 if ([OGRegularExpression isValidExpressionString:combined]) {
                     I_block = [[OGRegularExpression alloc] initWithString:combined options:OgreFindNotEmptyOption];
-                } else NSLog(@"ERROR: %@ is not a valid Regex.", combined);
+                } else {
+                    NSLog(@"ERROR: %@ is not a valid Regex.", combined);
+                    everythingOkay = NO;
+                }
             }
         }
     }
@@ -173,7 +184,10 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                 if ([OGRegularExpression isValidExpressionString:theString]) {
                     OGRegularExpression *aRegex = [[[OGRegularExpression alloc] initWithString:theString options:OgreFindNotEmptyOption] autorelease];
                     [I_currentSymbol setObject:aRegex forKey:@"regex"];
-                } else NSLog(@"ERROR: %@ is not a valid Regex.", theString);
+                } else {
+                    NSLog(@"ERROR: %@ is not a valid Regex.", theString);
+                    everythingOkay = NO;
+                }
             }  else if ([@"postprocess" isEqualToString:tag]) {
                 I_currentPostprocess = [NSMutableArray array];
                 [I_currentSymbol setObject:I_currentPostprocess forKey:@"postprocess"];
@@ -202,7 +216,10 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                     NSString *aString = extractStringWithEntitiesFromTree(xmlTree);
                     if ([OGRegularExpression isValidExpressionString:aString]) {
                         findRegex = [[[OGRegularExpression alloc] initWithString:aString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
-                    } else NSLog(@"ERROR: %@ is not a valid Regex.", aString);
+                    } else {
+                        NSLog(@"ERROR: %@ is not a valid Regex.", aString);
+                        everythingOkay = NO;
+                    }
             }  else if ([@"replace" isEqualToString:tag]) {
                     replaceString = extractStringWithEntitiesFromTree(xmlTree);
                     if (findRegex && replaceString) {
