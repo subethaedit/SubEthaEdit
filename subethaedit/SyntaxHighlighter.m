@@ -33,6 +33,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     self=[super init];
     if (self) {
         [self setSyntaxDefinition:aSyntaxDefinition];
+        //NSLog(@"Using onigruma %@",[OGRegularExpression onigurumaVersion]);
     }
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Initiated new SyntaxHighlighter:%@",[self description]);
     return self;
@@ -59,7 +60,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     SyntaxDefinition *definition = [self syntaxDefinition];
     if (!definition) NSLog(@"ERROR: No defintion for highlighter.");
     NSString *theString = [aString string];
-    //aRange = [theString lineRangeForRange:aRange];
+    //NSLog(NSStringFromRange(aRange));
     
     NSRange currentRange = aRange;
     int stateNumber;
@@ -84,25 +85,20 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
             (stateName = [aString attribute:kSyntaxHighlightingStateName atIndex:currentRange.location-1 effectiveRange:nil]) && 
             (!([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil] isEqualTo:@"End"]))) {
             stateNumber = [stateName intValue];
-            
-            // Add start to currentRange
-            //NSLog(@"Old:%@ (%@)",NSStringFromRange(currentRange),[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil]);
-            NSRange startRange = NSMakeRange(currentRange.location, 0);
-            if([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 longestEffectiveRange:&startRange inRange:aRange] isEqualToString:@"Start"]){
-                //NSLog(@"Start:%@",NSStringFromRange(startRange));
-                if (currentRange.location > startRange.location) {
-                    currentRange=NSUnionRange(startRange,currentRange);
-                }
-            }
-            //NSLog(@"New:%@",NSStringFromRange(currentRange));
-            
+                        
             if ((foundState = [[definition states] objectAtIndex:stateNumber])) {
             // Search for the end
-                    @try{
                     if ((stateEnd = [foundState objectForKey:@"EndsWithRegex"])) {    
                         NSRange endRange;
                         NSRange stateRange;
-                        //NSLog(@"Trying to search '%@' in '%@'",stateEnd, [theString substringWithRange:currentRange]);
+                        NSRange startRange = NSMakeRange(0,0);
+
+                        // Add start to colorRange
+                        NSRange attRange;
+                        if([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 longestEffectiveRange:&attRange inRange:aRange] isEqualToString:@"Start"]){
+                            startRange = attRange;
+                        }
+
                         if ((endMatch = [stateEnd matchInString:theString range:currentRange])) { // Search for end of state
                             endRange = [endMatch rangeOfMatchedString];
                             [aString addAttribute:kSyntaxHighlightingStateDelimiterName value:@"End" range:endRange];
@@ -119,17 +115,20 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                                                     [NSNumber numberWithInt:stateNumber],kSyntaxHighlightingStateName,
                                                     nil];
                                                     
+                        //stateRange = NSUnionRange(startRange,stateRange);                    
                         [aString addAttributes:attributes range:stateRange];
                         [self highlightRegularExpressionsOfAttributedString:aString inRange:stateRange forState:stateNumber];
                         [self highlightPlainStringsOfAttributedString:aString inRange:stateRange forState:stateNumber];
+                        currentRange.length = NSMaxRange(currentRange) - NSMaxRange(stateRange);
                         currentRange.location = NSMaxRange(stateRange);
-                        currentRange.length = currentRange.length - stateRange.length;
+                        //currentRange.length = currentRange.length - stateRange.length;
                     } else {
                         NSLog(@"ERROR: Missing EndsWithRegex tag.");
+                        return;
                     }
-                    } @catch ( NSException *e ) {NSLog(@"Exception %@  in '%@', string '%@'",[e description], stateEnd, [theString substringWithRange:aRange]); break;}
                 }  else {
                     NSLog(@"ERROR: Can't lookup state. This is very fishy.");
+                    return;
                 }
         } else { // Currently not in a state -> Search next.
             NSRange defaultStateRange = currentRange;
