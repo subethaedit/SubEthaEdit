@@ -146,6 +146,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         }
     }
     CFRelease(cfXMLTree);
+    CFRelease(xmlData);
 }
 
 /*"Parse the <head> tag"*/

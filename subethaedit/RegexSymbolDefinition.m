@@ -131,6 +131,7 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
         }
     }
     CFRelease(cfXMLTree);
+    CFRelease(xmlData);
 }
 
 /*"Parse the <blocks> tag"*/
