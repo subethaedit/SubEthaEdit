@@ -11,6 +11,7 @@
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, PlainTextWindowController;
 
+extern NSString * const PlainTextDocumentDidChangeEditStatusNotification;
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
 extern NSString * const WrittenByUserIDAttributeName;
@@ -67,6 +68,8 @@ extern NSString * const ChangedByUserIDAttributeName;
         unichar *openingBracketsArray;
         unsigned matchingBracketPosition;
     } I_bracketMatching;
+        
+    NSDictionary *I_blockeditAttributes;    
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
@@ -94,6 +97,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait;
 - (NSDictionary *)typingAttributes;
 - (NSDictionary *)plainTextAttributes;
+- (NSDictionary *)blockeditAttributes;
 - (NSParagraphStyle *)defaultParagraphStyle;
 - (void)setPlainFont:(NSFont *)aFont;
 

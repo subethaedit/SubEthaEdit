@@ -8,9 +8,13 @@
 
 #import <AppKit/AppKit.h>
 
-
 @interface TextView : NSTextView {
 
 }
 
+@end
+
+@interface NSObject (TextViewDelegateMethods) 
+- (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent;
+- (NSDictionary *)blockeditAttributesForTextView:(NSTextView *)aTextView;
 @end

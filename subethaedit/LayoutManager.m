@@ -93,12 +93,16 @@
                 draw = 0x2192; // "Arrow right"
             } else if (c == '\r') {	// mac line feed
                 draw = 0x204b; // "reversed Pilcrow"
-            } else if (c == '\n') {	// unix line feed
+            } else if (c == 0x0a) {	// unix line feed
                 if (previousChar == '\r') {
                     draw = 0x2014; // m-dash 
                 } else {
                     draw = 0x00b6; // "Pilcrow sign"
                 }
+            } else if (c == 0x2028) { // unicode line separator
+                draw = 0x2761;
+            } else if (c == 0x2029) { // unicode paragraph separator
+                draw = 0x21ab;
             } else if (c == 0x0c) {	// page break
                 draw = 0x21cb; // leftwards harpoon over rightwards harpoon
             } else if (c < 0x20 || (0x007f <= c && c <= 0x009f) || [[NSCharacterSet illegalCharacterSet] characterIsMember: c]) {	// some other mystery control character

@@ -8,6 +8,10 @@
 
 #import "TextStorage.h"
 #import "EncodingManager.h"
+#import "PlainTextDocument.h"
+
+NSString * const BlockeditAttributeName =@"Blockedit";
+NSString * const BlockeditAttributeValue=@"YES";
 
 
 @implementation TextStorage
@@ -15,6 +19,13 @@
 - (id)init {
     self=[super init];
     if (self) {
+        I_blockedit.hasBlockeditRanges=NO;
+        I_blockedit.isBlockediting    =NO;
+        I_blockedit.didBlockedit      =NO;
+        I_blockedit.didBlockeditRange = NSMakeRange(NSNotFound,0);
+        I_blockedit.didBlockeditLineRange = NSMakeRange(NSNotFound,0);
+
+
         I_contents=[NSMutableAttributedString new];
         I_lineStarts=[NSMutableArray new];
         [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:0]];
@@ -112,29 +123,239 @@
 }
 
 - (void)fixParagraphStyleAttributeInRange:(NSRange)aRange {
-//    [super fixParagraphStyleAttributeInRange:aRange];
-//
-//    NSDictionary *blockeditAttributes=[[PreferenceController sharedInstance] blockeditAttributes];
-//
-//    NSString *string=[self string];
-//    NSRange lineRange=[string lineRangeForRange:aRange];
-//    NSRange blockeditRange;
-//    id value;
-//    unsigned position=lineRange.location;
-//    while (position<NSMaxRange(lineRange)) {
-//        value=[self attribute:kBlockeditAttributeName atIndex:position
-//                            longestEffectiveRange:&blockeditRange inRange:lineRange];
-//        if (value) {
-//            NSRange blockLineRange=[string lineRangeForRange:blockeditRange];
-//            if (!NSEqualRanges(blockLineRange,blockeditRange)) {
-//                blockeditRange=blockLineRange;
-//                [self addAttributes:blockeditAttributes range:blockeditRange];
-//            }
-//        }
-//        position=NSMaxRange(blockeditRange);
-//    }
+    [super fixParagraphStyleAttributeInRange:aRange];
+
+    NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextStorage:self];
+
+    NSString *string=[self string];
+    NSRange lineRange=[string lineRangeForRange:aRange];
+    NSRange blockeditRange;
+    id value;
+    unsigned position=lineRange.location;
+    while (position<NSMaxRange(lineRange)) {
+        value=[self attribute:BlockeditAttributeName atIndex:position
+                            longestEffectiveRange:&blockeditRange inRange:lineRange];
+        if (value) {
+            NSRange blockLineRange=[string lineRangeForRange:blockeditRange];
+            if (!NSEqualRanges(blockLineRange,blockeditRange)) {
+                blockeditRange=blockLineRange;
+                [self addAttributes:blockeditAttributes range:blockeditRange];
+            }
+        }
+        position=NSMaxRange(blockeditRange);
+    }
 }
 
+
+- (int)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
+           lineRange:(NSRange)aLineRange inTextView:(NSTextView *)aTextView {
+    int lengthChange=0;
+    int tabWidth=[(PlainTextDocument *)[[[aTextView window] windowController] document] tabWidth];
+    TextStorage *textStorage=self;
+    NSRange aReplacementRange=aRange;
+    NSString *string=[textStorage string];
+    aReplacementRange.location+=aLineRange.location;
+    // don't touch newlines
+    {
+        unsigned lineEnd,contentsEnd;
+        [[textStorage string]  getLineStart:nil 
+                                        end:&lineEnd 
+                                contentsEnd:&contentsEnd 
+                                   forRange:aLineRange];
+        aLineRange.length-=lineEnd-contentsEnd;
+    }
+    unsigned detabbedLengthOfLine=[string detabbedLengthForRange:aLineRange tabWidth:tabWidth];
+    if (detabbedLengthOfLine<=aRange.location) {
+        // the line is to short, so just add whitespace
+//        NSLog(@"line to short %u/%u",detabbedLengthOfLine,aRange.location);
+        if ([aReplacementString length]>0) {
+//            NSLog(@"no replacment length");
+            // issue: add tabs when tab mode
+            if (detabbedLengthOfLine!=aRange.location) {
+                aReplacementString=[NSString stringWithFormat:@"%@%@",
+                                    [@" " stringByPaddingToLength:aRange.location-detabbedLengthOfLine
+                                                     withString:@" " startingAtIndex:0],
+                                    aReplacementString];
+            }
+            aReplacementRange.location=NSMaxRange(aLineRange);
+            aReplacementRange.length=0;
+        } else {
+            aReplacementRange.location=NSNotFound;
+        }
+    } else { // detabbedLengthOfLine>aRange.location
+        // check if our location is character aligned
+//        NSLog(@"line long enough %u/%u",detabbedLengthOfLine,aRange.location);
+        unsigned length,index;
+        if ([string detabbedLength:aRange.location fromIndex:aLineRange.location 
+                            length:&length upToCharacterIndex:&index tabWidth:tabWidth]) {
+            // we were character aligned
+//            NSLog(@"location is aligned: %u - in line: %u",index,index-aLineRange.location);
+            aReplacementRange.location=index;
+            if (aReplacementRange.length>0) {
+                if (NSMaxRange(aRange)>=detabbedLengthOfLine) {
+                    //line is shorter than what we wanted to replace, so replace everything
+                    aReplacementRange.length=NSMaxRange(aLineRange)-index;
+                } else {
+                    unsigned toIndex,toLength;
+                    if ([string detabbedLength:NSMaxRange(aRange) fromIndex:aLineRange.location
+                                        length:&toLength upToCharacterIndex:&toIndex tabWidth:tabWidth]) {
+                        aReplacementRange.length=toIndex-index;
+                    } else {
+                    	aReplacementRange.length=toIndex-index+1;
+                        int spacesTheTabTakes=tabWidth-(toLength)%tabWidth;
+		                aReplacementString=[NSString stringWithFormat:@"%@%@",
+		                                    aReplacementString,
+		                                    [@" " stringByPaddingToLength:spacesTheTabTakes-(NSMaxRange(aRange)-toLength)
+		                                                     withString:@" " startingAtIndex:0]];
+                    }
+                }
+            }
+        } else {
+//            NSLog(@"location is not aligned: %u - in line: %u",index,index-aLineRange.location);
+            // our location is not character aligned
+            // so index points to a tab and length is shorter than wanted
+            aReplacementRange.location=index;
+            // apply padding spaces to the beginning and ending of your replacementString, 
+            // according to the tab
+            // aReplacementRange.length=0; // we don't replace the tab
+            aReplacementString=[NSString stringWithFormat:@"%@%@",
+                                [@" " stringByPaddingToLength:(aRange.location-length)
+                                                 withString:@" " startingAtIndex:0],
+                                aReplacementString];
+            if (aReplacementRange.length!=0) {
+                unsigned toIndex,toLength;
+                if ([string detabbedLength:NSMaxRange(aRange) fromIndex:aLineRange.location
+                                    length:&toLength upToCharacterIndex:&toIndex tabWidth:tabWidth]) {
+                    aReplacementRange.length=toIndex-index;
+                } else {           
+                    	aReplacementRange.length=toIndex-index+1;
+                        int spacesTheTabTakes=tabWidth-(toLength)%tabWidth;
+		                aReplacementString=[NSString stringWithFormat:@"%@%@",
+		                                    aReplacementString,
+		                                    [@" " stringByPaddingToLength:spacesTheTabTakes-(NSMaxRange(aRange)-toLength)
+		                                                     withString:@" " startingAtIndex:0]];
+                }
+            }
+        }
+    }
+
+
+// change the stuff
+    if (aReplacementRange.location!=NSNotFound) {
+        if (NSMaxRange(aReplacementRange)>NSMaxRange(aLineRange)) {
+            aReplacementRange.length=NSMaxRange(aLineRange)-aReplacementRange.location;
+        }
+        if ([aTextView shouldChangeTextInRange:aReplacementRange 
+                             replacementString:aReplacementString]) {
+            lengthChange+=[aReplacementString length]-aReplacementRange.length;
+            [textStorage replaceCharactersInRange:aReplacementRange 
+                                       withString:aReplacementString];
+            [textStorage setAttributes:[aTextView typingAttributes] 
+                                 range:NSMakeRange(aReplacementRange.location,[aReplacementString length])];
+        }
+    }
+
+    return lengthChange;
+}
+
+- (NSRange)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
+        paragraphRange:(NSRange)aParagraphRange inTextView:(NSTextView *)aTextView {
+ 
+//    NSLog(@"blockChangeTextInRange: %@",NSStringFromRange(aRange));
+    TextStorage *textStorage=self;
+    NSString *string=[textStorage string];
+    NSRange lineRange;
+        
+    aParagraphRange=[string lineRangeForRange:aParagraphRange];
+    int lengthChange=0;
+    
+    [textStorage beginEditing];
+    lineRange.location=NSMaxRange(aParagraphRange)-1;
+    lineRange.length  =1;
+    lineRange=[string lineRangeForRange:lineRange];        
+    int result=0;
+    while (!DisjointRanges(lineRange,aParagraphRange)) {
+        result=[self blockChangeTextInRange:aRange replacementString:aReplacementString
+                     lineRange:lineRange inTextView:aTextView];
+        lengthChange+=result;
+        // special case
+        if (lineRange.location==0) break;
+        
+        lineRange=[string lineRangeForRange:NSMakeRange(lineRange.location-1,1)];  
+    }
+    [textStorage endEditing];
+    [aTextView didChangeText];
+
+    return NSMakeRange(aParagraphRange.location,aParagraphRange.length+lengthChange);
+}
+
+
+- (BOOL)hasBlockeditRanges {
+    return I_blockedit.hasBlockeditRanges;
+}
+- (void)setHasBlockeditRanges:(BOOL)aFlag {
+    if (aFlag != I_blockedit.hasBlockeditRanges) {
+        I_blockedit.hasBlockeditRanges=aFlag;
+        id delegate=[self delegate];
+        SEL selector=I_blockedit.hasBlockeditRanges?
+                     @selector(textStorageDidStartBlockedit:):
+                     @selector(textStorageDidStopBlockedit:);
+        if ([delegate respondsToSelector:selector]) {
+            [delegate performSelector:selector withObject:self];
+        }
+    }
+}
+
+- (BOOL)isBlockediting {
+    return I_blockedit.isBlockediting;
+}
+- (void)setIsBlockediting:(BOOL)aFlag {
+    I_blockedit.isBlockediting=aFlag;
+}
+
+- (BOOL)didBlockedit {
+    return I_blockedit.didBlockedit;
+}
+- (void)setDidBlockedit:(BOOL)aFlag {
+    I_blockedit.didBlockedit=aFlag;
+}
+
+- (NSRange)didBlockeditRange {
+    return I_blockedit.didBlockeditRange;
+}
+- (void)setDidBlockeditRange:(NSRange)aRange {
+    I_blockedit.didBlockeditRange=aRange;
+}
+
+- (NSRange)didBlockeditLineRange {
+    return I_blockedit.didBlockeditLineRange;
+}
+- (void)setDidBlockeditLineRange:(NSRange)aRange {
+    I_blockedit.didBlockeditLineRange=aRange;
+}
+
+- (void)stopBlockedit {
+    NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextStorage:self];
+    NSArray *attributeNameArray=[blockeditAttributes allKeys];
+    NSRange range;
+    NSRange wholeRange=NSMakeRange(0,[self length]);
+    [self beginEditing];
+    unsigned position=wholeRange.location;
+    while (position<wholeRange.length) {
+        id value=[self attribute:BlockeditAttributeName atIndex:position 
+                       longestEffectiveRange:&range inRange:wholeRange];
+        if (value) {
+            int i=0;
+            for (i=0;i<[attributeNameArray count];i++) {
+                [self removeAttribute:[attributeNameArray objectAtIndex:i]
+                                range:range];
+            }
+        }
+        position=NSMaxRange(range);
+    }
+    [self endEditing];
+    [self setHasBlockeditRanges:NO];
+}
 
 #pragma mark -
 #pragma mark ### Abstract Primitives of NSTextStorage ###

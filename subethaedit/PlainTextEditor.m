@@ -51,6 +51,7 @@
     PlainTextDocument *document=[self document];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultParagraphStyleDidChange:) name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:[I_windowController document]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(plainTextDocumentDidChangeEditStatus:) name:PlainTextDocumentDidChangeEditStatusNotification object:[I_windowController document]];
 
     if (I_flags.hasSplitButton) {
         NSRect scrollviewFrame=[O_scrollView frame];
@@ -185,12 +186,12 @@
         unsigned lineStartLocation=[[[textStorage lineStarts] objectAtIndex:lineNumber-1] intValue];
         NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, selection.location-lineStartLocation];
         if (selection.length>0) string=[string stringByAppendingFormat:@" (%d)",selection.length]; 
-    //    if (selection.location<[textStorage length]) { 
-    //        id blockAttribute=[textStorage 
-    //                            attribute:kBlockeditAttributeName 
-    //                              atIndex:selection.location effectiveRange:nil];
-    //        if (blockAttribute) string=[string stringByAppendingFormat:@" %@",NSLocalizedString(@"[Blockediting]", nil)];        
-    //    }
+        if (selection.location<[textStorage length]) { 
+            id blockAttribute=[textStorage 
+                                attribute:BlockeditAttributeName 
+                                  atIndex:selection.location effectiveRange:nil];
+            if (blockAttribute) string=[string stringByAppendingFormat:@" %@",NSLocalizedString(@"[Blockediting]", nil)];        
+        }
         [O_positionTextField setStringValue:string];        
 
         [O_writtenByTextField setStringValue:@""];
@@ -246,6 +247,12 @@
                 break;
             case LineEndingCRLF:
                 lineEndingStatusString=@"(CRLF)";
+                break;
+            case LineEndingUnicodeLineSeparator:
+                lineEndingStatusString=@"(LSEP)";
+                break;
+            case LineEndingUnicodeParagraphSeparator:
+                lineEndingStatusString=@"(PSEP)";
                 break;
         }
         [O_lineEndingTextField setStringValue:lineEndingStatusString];
@@ -699,7 +706,7 @@
         [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] typingAttributes]];
     }
     
-    return YES;
+    return [document textView:aTextView shouldChangeTextInRange:affectedCharRange replacementString:replacementString];
 }
 
 - (void)textDidChange:(NSNotification *)aNotification {
@@ -711,6 +718,7 @@
 - (NSRange)textView:(NSTextView *)aTextView 
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange 
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
+    
     return [[I_windowController document] textView:aTextView 
              willChangeSelectionFromCharacterRange:aOldSelectedCharRange 
                                   toCharacterRange:aNewSelectedCharRange];
@@ -719,10 +727,18 @@
     [self TCM_updateStatusBar];
 }
 
+- (NSDictionary *)blockeditAttributesForTextView:(NSTextView *)aTextView {
+    return [[self document] blockeditAttributes];
+}
+
+
 #pragma mark -
 
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
     [I_textView setDefaultParagraphStyle:[[I_windowController document] defaultParagraphStyle]];
+}
+
+- (void)plainTextDocumentDidChangeEditStatus:(NSNotification *)aNotification {
     [self TCM_updateBottomStatusBar];
 }
 

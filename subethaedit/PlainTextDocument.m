@@ -45,6 +45,8 @@ enum {
 
 static NSString * const PlainTextDocumentSyntaxColorizeNotification = 
                       @"PlainTextDocumentSyntaxColorizeNotification";
+NSString * const PlainTextDocumentDidChangeEditStatusNotification =
+               @"PlainTextDocumentDidChangeEditStatusNotification";
 NSString * const PlainTextDocumentDidChangeDisplayNameNotification = 
                @"PlainTextDocumentDidChangeDisplayNameNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = 
@@ -57,6 +59,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_styleFonts;
 - (void)TCM_initHelper;
 - (void)TCM_sendPlainTextDocumentDidChangeDisplayNameNotification;
+- (void)TCM_sendPlainTextDocumentDidChangeEditStatusNotification;
 - (void)TCM_sendODBCloseEvent;
 - (void)TCM_sendODBModifiedEvent;
 - (BOOL)TCM_validateDocument;
@@ -69,6 +72,14 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_sendPlainTextDocumentDidChangeDisplayNameNotification {
     [[NSNotificationQueue defaultQueue] 
     enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidChangeDisplayNameNotification object:self]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
+
+- (void)TCM_sendPlainTextDocumentDidChangeEditStatusNotification {
+    [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidChangeEditStatusNotification object:self]
            postingStyle:NSPostWhenIdle 
            coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
@@ -400,6 +411,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
+    [I_blockeditAttributes release];
     [I_fonts.plainFont release];
     [I_fonts.boldFont release];
     [I_fonts.italicFont release];
@@ -465,6 +477,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 - (void)setFileEncoding:(unsigned int)anEncoding {
     [(TextStorage *)[self textStorage] setEncoding:anEncoding];
+    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
 - (NSDictionary *)fileAttributes {
@@ -554,7 +567,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [super removeWindowController:windowController];
     [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
     if ([[self windowControllers] count]==0) {
-        NSLog(@"Last window closed");
+//        NSLog(@"Last window closed");
         // terminate syntax coloring
         I_flags.highlightSyntax = NO;
     }
@@ -1065,6 +1078,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         } else {
             [anItem setState:NSOffState];
         }
+    } else if (selector == @selector(convertLineEndings:)) {
+        NSStringEncoding encoding=[self fileEncoding];
+        return ([anItem tag]<LineEndingUnicodeLineSeparator ||
+                encoding==NSUnicodeStringEncoding ||
+                encoding==NSUTF8StringEncoding ||
+                encoding==NSNonLossyASCIIStringEncoding);                  
     } else if (selector == @selector(selectEncoding:)) {
         if ([self fileEncoding] == (unsigned int)[anItem tag]) {
             [anItem setState:NSOnState];
@@ -1125,7 +1144,19 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return I_lineEnding;
 }
 
+// http://developer.apple.com/documentation/Carbon/Conceptual/ATSUI_Concepts/atsui_chap4/chapter_4_section_5.html
+
 - (void)setLineEnding:(LineEnding)newLineEnding {
+    static NSString *sUnicodeLSEP=nil;
+    static NSString *sUnicodePSEP=nil;
+    if (sUnicodeLSEP==nil) {
+        unichar seps[2];
+        seps[0]=0x2028;
+        seps[1]=0x2029;
+        sUnicodeLSEP=[[NSString stringWithCharacters:seps length:1] retain];
+        sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
+    }
+
     if (I_lineEnding !=newLineEnding) {
         I_lineEnding = newLineEnding;
         switch(I_lineEnding) {
@@ -1139,17 +1170,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 I_lineEndingString=@"\r\n";
                 break;
             case LineEndingUnicodeLineSeparator:
-                I_lineEndingString=@"\n";
+                I_lineEndingString=sUnicodeLSEP;
                 break;
             case LineEndingUnicodeParagraphSeparator:
-                I_lineEndingString=@"\r\n";
+                I_lineEndingString=sUnicodePSEP;
                 break;
             default:
-                I_lineEnding=LineEndingLF;
                 I_lineEndingString=@"\n";
                 break;      
         }
     }
+    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
 - (IBAction)chooseLineEndings:(id)aSender {
@@ -1265,6 +1296,22 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 }
 
+/*"This method returns the blockeditTextAttributes that the textview uses. If you make background colors customizeable you want to change these too"*/
+- (NSDictionary *)blockeditAttributes {
+    if (!I_blockeditAttributes) {
+        float backgroundBrightness=1.0;
+        if (backgroundBrightness>.5) backgroundBrightness-=.1;
+        else backgroundBrightness+=.1;
+        NSColor *blockeditColor=[NSColor colorWithCalibratedWhite:backgroundBrightness alpha:1.];
+        I_blockeditAttributes=[[NSDictionary dictionaryWithObjectsAndKeys:
+                            blockeditColor,NSBackgroundColorAttributeName,
+                            BlockeditAttributeValue,BlockeditAttributeName,
+                            nil] retain];
+    }
+    return I_blockeditAttributes;
+}
+
+
 - (NSParagraphStyle *)defaultParagraphStyle {
     if (!I_defaultParagraphStyle) {
         I_defaultParagraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -1342,7 +1389,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)setWrapLines:(BOOL)aFlag {
-    I_flags.wrapLines=aFlag;
+    if (I_flags.wrapLines!=aFlag) {
+        I_flags.wrapLines=aFlag;
+        [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+    }
 }
 
 - (int)wrapMode {
@@ -1353,12 +1403,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (I_flags.wrapMode!=newMode) {
         I_flags.wrapMode=newMode;
         [self TCM_invalidateDefaultParagraphStyle];
+        [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
     }
 }
 
 - (void)setUsesTabs:(BOOL)aFlag {
     if (I_flags.usesTabs!=aFlag) {
         I_flags.usesTabs=aFlag;
+        [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
     }
 }
 
@@ -1376,6 +1428,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         I_tabWidth=1;
     }
     [self TCM_invalidateDefaultParagraphStyle];
+    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
 - (BOOL)showsGutter {
@@ -1725,6 +1778,18 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
+- (NSDictionary *)blockeditAttributesForTextStorage:(TextStorage *)aTextStorage {
+    return [self blockeditAttributes];
+}
+
+- (void)textStorageDidStartBlockedit:(TextStorage *)aTextStorage {
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
+}
+
+- (void)textStorageDidStopBlockedit:(TextStorage *)aTextStorage {
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
+}
+
 #pragma mark -
 #pragma mark ### TextView Notifications / Extended Delegate ###
 
@@ -1732,14 +1797,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 //    NSLog(@"TextDocument textView doCommandBySelector:%@",NSStringFromSelector(aSelector));
     NSRange affectedRange=[aTextView rangeForUserTextChange];
     NSRange selectedRange=[aTextView selectedRange];
-//    if (aSelector==@selector(cancel:)) {
-//        if (_flags.hasBlockeditRanges) {
-//            [self stopBlockedit];
-//            [(TextDocumentWindowController *)[[aTextView window] windowController] updatePositionTextField];
-//            return YES;
-//        }
-//    } else 
-    if (aSelector==@selector(deleteBackward:)) {
+    if (aSelector==@selector(cancel:)) {
+        TextStorage *textStorage=(TextStorage *)[self textStorage];
+        if ([textStorage hasBlockeditRanges]) {
+            [textStorage stopBlockedit];
+            return YES;
+        }
+    } else if (aSelector==@selector(deleteBackward:)) {
         //NSLog(@"AffectedRange=%d,%d",affectedRange.location,affectedRange.length);
         if (affectedRange.length==0 && affectedRange.location>0) {
             if (!I_flags.usesTabs) {
@@ -1828,17 +1892,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (NSRange)textView:(NSTextView *)aTextView 
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange 
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
-//    NSTextStorage *textStorage = [aTextView textStorage];
-//    if (!I_blockedit.isBlockediting && I_blockedit.hasBlockeditRanges) {
-//        unsigned positionToCheck=aNewSelectedCharRange.location;
-//        if (positionToCheck<[textStorage length] || positionToCheck!=0) {
-//            if (positionToCheck>=[textStorage length]) positionToCheck--;
-//            NSDictionary *attributes=[textStorage attributesAtIndex:positionToCheck effectiveRange:NULL];
-//            if (![attributes objectForKey:kBlockeditAttributeName]) {
-//                [self stopBlockedit];
-//            }
-//        }
-//    }
+    TextStorage *textStorage = (TextStorage *)[aTextView textStorage];
+    if (![textStorage isBlockediting] && [textStorage hasBlockeditRanges]) {
+        unsigned positionToCheck=aNewSelectedCharRange.location;
+        if (positionToCheck<[textStorage length] || positionToCheck!=0) {
+            if (positionToCheck>=[textStorage length]) positionToCheck--;
+            NSDictionary *attributes=[textStorage attributesAtIndex:positionToCheck effectiveRange:NULL];
+            if (![attributes objectForKey:BlockeditAttributeName]) {
+                [textStorage stopBlockedit];
+            }
+        }
+    }
     
     if (([[NSApp currentEvent] type] == NSLeftMouseUp) && 
         ([[NSApp currentEvent] clickCount] == 2)) {
@@ -1877,12 +1941,146 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
+- (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)aAffectedCharRange replacementString:(NSString *)aReplacementString {
+
+    TextStorage *textStorage=(TextStorage *)[aTextView textStorage];
+
+    if ([textStorage hasBlockeditRanges] && ![textStorage isBlockediting] &&
+        ![[self undoManager] isRedoing] && ![[self undoManager] isUndoing]) {
+        if ([[NSApp currentEvent] type]==NSLeftMouseUp) {
+            NSBeep();
+            return NO;
+        }
+        static NSMutableCharacterSet *lineEndingSet=nil;
+        if (!lineEndingSet) {
+            unichar seps[2];
+            seps[0]=0x2028;
+            seps[1]=0x2029;
+            NSString *unicodeLSEP=[NSString stringWithCharacters:seps   length:1];
+            NSString *unicodePSEP=[NSString stringWithCharacters:seps+1 length:1];
+            lineEndingSet=[[NSMutableCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"\n\r%@%@",unicodeLSEP,unicodePSEP]] retain];
+        }
+        
+        NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+        NSString *string=[textStorage string];
+        id value=[textStorage attribute:BlockeditAttributeName 
+                    atIndex:(aAffectedCharRange.location < wholeRange.length)?
+                            aAffectedCharRange.location : wholeRange.length-1 
+                    longestEffectiveRange:nil inRange:wholeRange];
+        if (value) {
+            NSRange foundRange=[string rangeOfCharacterFromSet:lineEndingSet options:0 range:aAffectedCharRange];
+            if (foundRange.location!=NSNotFound) {
+                NSBeep();
+                return NO;
+            }
+            foundRange=[aReplacementString rangeOfCharacterFromSet:lineEndingSet];
+            if (foundRange.location!=NSNotFound) {
+                NSBeep();
+                return NO;
+            }
+
+            if (![textStorage didBlockedit]) {
+                [[self undoManager] beginUndoGrouping];
+
+                int tabWidth=[self tabWidth];
+                NSRange lineRange=[string lineRangeForRange:aAffectedCharRange];
+                unsigned locationLength=[string
+                    detabbedLengthForRange:NSMakeRange(lineRange.location,aAffectedCharRange.location-lineRange.location) 
+                                  tabWidth:tabWidth];
+                unsigned length=[string
+                    detabbedLengthForRange:NSMakeRange(lineRange.location,NSMaxRange(aAffectedCharRange)-lineRange.location) 
+                                  tabWidth:tabWidth];
+        //        lineRange.location=_flags.didBlockeditRange.location-lineRange.location;
+                [textStorage setDidBlockedit:YES];
+                [textStorage setDidBlockeditRange:aAffectedCharRange];
+                [textStorage setDidBlockeditLineRange:NSMakeRange(locationLength,length-locationLength)];
+            }
+        } else {
+            [textStorage stopBlockedit];
+        }
+        
+    }
+    
+    return YES;
+}
+
 - (void)textDidChange:(NSNotification *)aNotification {
     NSTextView *textView=[aNotification object];
     if (I_bracketMatching.matchingBracketPosition!=NSNotFound) {
         [self TCM_highlightBracketAtPosition:I_bracketMatching.matchingBracketPosition inTextView:textView];
         I_bracketMatching.matchingBracketPosition=NSNotFound;
     }
+
+
+    TextStorage *textStorage = (TextStorage *) [textView textStorage];
+    // take care for blockedit
+    
+    if ([textStorage didBlockedit] && ![textStorage isBlockediting] && ![textView hasMarkedText]) {
+        NSRange lineRange=[textStorage didBlockeditLineRange];
+        NSRange selectedRange=[textView selectedRange];
+        NSRange didBlockeditRange=[textStorage didBlockeditRange];
+        NSString *replacementString=[[textStorage string] 
+                                        substringWithRange:NSMakeRange(didBlockeditRange.location,
+                                                                       selectedRange.location-didBlockeditRange.location)];
+        NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+        NSRange blockeditRange=NSMakeRange(wholeRange.length,0);
+        NSRange newSelectedRange=NSMakeRange(NSNotFound,0);
+        int lengthChange=0;
+        NSRange tempRange;
+        while (blockeditRange.location!=0) {
+            id value=[textStorage attribute:BlockeditAttributeName atIndex:blockeditRange.location-1 
+                              longestEffectiveRange:&blockeditRange inRange:wholeRange];
+ 
+            if (value) {
+                if ((!DisjointRanges(blockeditRange,selectedRange) ||
+                           selectedRange.location==blockeditRange.location ||
+                       NSMaxRange(blockeditRange)==selectedRange.location)) {
+                    [textStorage setIsBlockediting:YES];
+                    NSRange lineRangeToExclude=[[textStorage string] lineRangeForRange:NSMakeRange(selectedRange.location,0)];
+                    if (NSMaxRange(blockeditRange)>NSMaxRange(lineRangeToExclude)) {
+                        [textStorage blockChangeTextInRange:lineRange
+                                          replacementString:replacementString
+                                             paragraphRange:NSMakeRange(NSMaxRange(lineRangeToExclude),
+                                                                 NSMaxRange(blockeditRange)-NSMaxRange(lineRangeToExclude)) 
+                                          inTextView:textView];
+//                        NSLog(@"Edited Block after");
+                    }
+                    newSelectedRange=[textView selectedRange];
+                    if (blockeditRange.location<lineRangeToExclude.location) {
+                        NSRange otherRange;
+                        tempRange=
+                        [textStorage blockChangeTextInRange:lineRange
+                                          replacementString:replacementString
+                                             paragraphRange:(otherRange=NSMakeRange(blockeditRange.location,
+                                                                 lineRangeToExclude.location-blockeditRange.location)) 
+                                                 inTextView:textView];
+//                        NSLog(@"Edited Block before");
+                        lengthChange+=tempRange.length-otherRange.length;
+                    }
+                    [textStorage setIsBlockediting:NO];
+                } else {
+                    [textStorage setIsBlockediting:YES];
+                    tempRange=
+                    [textStorage blockChangeTextInRange:lineRange
+                                      replacementString:replacementString
+                                         paragraphRange:blockeditRange 
+                                             inTextView:textView];
+    //                        NSLog(@"Edited Block");
+                    if (newSelectedRange.location!=NSNotFound) {
+                        lengthChange+=tempRange.length-blockeditRange.length;
+                    }
+                    [textStorage setIsBlockediting:NO];
+                } 
+            }
+        }
+        [textStorage setDidBlockedit:NO];
+        [[self undoManager] endUndoGrouping];
+        newSelectedRange.location+=lengthChange;
+        if (!NSEqualRanges(newSelectedRange,[textView selectedRange])) {
+            [textView setSelectedRange:newSelectedRange];
+        }
+    }
+
 }
 
 @end

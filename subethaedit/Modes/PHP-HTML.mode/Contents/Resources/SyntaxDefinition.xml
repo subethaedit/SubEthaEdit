@@ -4,7 +4,7 @@
 
     <head>
         <name>PHP-HTML</name> <!-- The definitions title -->
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<>]]></charsintokens> <!-- Valid Characters for Variables -->
+        <charsintokens><![CDATA[$_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<>]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
     </head>
 
