@@ -1541,7 +1541,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
             NSString *IDString=IDBasis;
             int i;
-            for (i=1;[shortContributorIDs containsObject:IDBasis];i++) {
+            for (i=1;[shortContributorIDs containsObject:IDString];i++) {
                 IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
             }
             [shortContributorIDs addObject:IDString];

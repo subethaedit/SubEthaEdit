@@ -38,7 +38,7 @@ static NSColor *nonCommercialColor=nil;
     if ([text length] < 3) {
         text = @"non-commercial use only";
     }
-    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:[NSColor colorWithCalibratedWhite:.5 alpha:.30],NSForegroundColorAttributeName,font,NSFontAttributeName,nil];
+    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:[NSColor colorWithCalibratedWhite:.5 alpha:.20],NSForegroundColorAttributeName,font,NSFontAttributeName,nil];
     rect.size=[text sizeWithAttributes:attributes];
     float height=rect.size.height;
     float width=rect.size.width;
