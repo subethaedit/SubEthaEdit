@@ -10,6 +10,7 @@
 #import "ParticipantsView.h"
 #import "PlainTextDocument.h"
 #import "PlainTextEditor.h"
+#import "TextStorage.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "SelectionOperation.h"
 #import "ImagePopUpButtonCell.h"
@@ -125,7 +126,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     return I_plainTextEditors;
 }
 
-- (PlainTextEditor *)activePlainTextEdtior {
+- (PlainTextEditor *)activePlainTextEditor {
     if ([I_plainTextEditors count]!=1) {
         id responder=[[self window]firstResponder];
         if ([responder isKindOfClass:[NSTextView class]]) {
@@ -135,6 +136,22 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         }
     }
     return [I_plainTextEditors objectAtIndex:0];
+}
+
+#pragma mark -
+
+- (void)gotoLine:(unsigned)aLine {
+    NSRange range=[(TextStorage *)[[self document] textStorage] findLine:aLine];
+    [self selectRange:range];
+}
+
+- (void)selectRange:(NSRange)aRange {
+    NSTextView *aTextView=[[self activePlainTextEditor] textView];
+    NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[[aTextView textStorage] length]));
+    if (range.length>0) {
+        [aTextView setSelectedRange:range];
+    }
+    [aTextView scrollRangeToVisible:range];
 }
 
 #pragma mark -
@@ -254,14 +271,14 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     if ([itemIdentifier isEqualToString:ParticipantsToolbarItemIdentifier]) {
         return YES;
     } else if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {
-        return [[self activePlainTextEdtior] validateToolbarItem:toolbarItem];
+        return [[self activePlainTextEditor] validateToolbarItem:toolbarItem];
     }
     
     return YES;
 }
 
 - (IBAction)toggleShowsChangeMarks:(id)aSender {
-    [[self activePlainTextEdtior] toggleShowsChangeMarks:aSender];
+    [[self activePlainTextEditor] toggleShowsChangeMarks:aSender];
 }
 
 #pragma mark -

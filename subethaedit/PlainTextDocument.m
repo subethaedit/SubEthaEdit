@@ -1205,7 +1205,39 @@ static NSString *tempFileName(NSString *origPath) {
                    forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
 
+- (PlainTextWindowController *)topmostWindowController {
+    NSEnumerator *orderedWindowEnumerator=[[NSApp orderedWindows] objectEnumerator];
+    NSWindow *window;
+    PlainTextWindowController *result=nil;
+    while ((window=[orderedWindowEnumerator nextObject])) {
+        if ([[window windowController] document]==self) {
+            result=[window windowController];
+            break;
+        }
+    }
+    if (!result) result=[[self windowControllers] objectAtIndex:0];
+    return result;
+}
 
+
+- (void)gotoLine:(unsigned)aLine {
+    [self gotoLine:aLine orderFront:NO];
+}
+
+- (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag {
+    PlainTextWindowController *windowController=[self topmostWindowController];
+    [windowController gotoLine:aLine];
+    if (aFlag) [[windowController window] makeKeyAndOrderFront:self];
+}
+
+- (void)selectRange:(NSRange)aRange {
+    PlainTextWindowController *windowController=[self topmostWindowController];
+    [windowController selectRange:aRange];
+    [[windowController window] makeKeyAndOrderFront:self];
+}
+
+#pragma mark -
+#pragma mark ### Flag Accessors ###
 // wrapline setting is only for book keeping - editor scope
 - (BOOL)showInvisibleCharacters {
     return I_flags.showInvisibleCharacters;

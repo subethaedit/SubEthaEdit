@@ -64,7 +64,7 @@
     if (!(aLocation<=I_lineStartsValidUpTo)) {
         NSString *string=[self string];
         i=[I_lineStarts count]-1;
-        unsigned lineStart=[[I_lineStarts objectAtIndex:i] intValue];
+        unsigned lineStart=[[I_lineStarts objectAtIndex:i] unsignedIntValue];
         NSRange lineRange=[string lineRangeForRange:NSMakeRange(lineStart,0)];
         I_lineStartsValidUpTo=NSMaxRange(lineRange)-1;
         while (NSMaxRange(lineRange)<[string length] && I_lineStartsValidUpTo<aLocation) {
@@ -90,6 +90,25 @@
     if (aLocation<I_lineStartsValidUpTo) {
         I_lineStartsValidUpTo=aLocation;
     }
+}
+
+- (NSRange)findLine:(int)aLineNumber {
+    NSParameterAssert(aLineNumber>0);
+    NSString *string=[self string];
+    NSRange lineRange=NSMakeRange(NSNotFound,0);
+    if ([I_lineStarts count]<aLineNumber) {
+        int lineNumber=[I_lineStarts count];
+        lineRange=[string lineRangeForRange:NSMakeRange([[I_lineStarts objectAtIndex:lineNumber-1] unsignedIntValue],0)];
+        while (lineNumber<aLineNumber && NSMaxRange(lineRange)<[string length]) {
+            lineRange=[string lineRangeForRange:NSMakeRange(NSMaxRange(lineRange),0)];
+            [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:lineRange.location]];
+            I_lineStartsValidUpTo=NSMaxRange(lineRange)-1;
+            lineNumber++;
+        }
+    } else {
+        lineRange=[string lineRangeForRange:NSMakeRange([[I_lineStarts objectAtIndex:aLineNumber-1] unsignedIntValue],0)];
+    }
+    return lineRange;
 }
 
 - (void)fixParagraphStyleAttributeInRange:(NSRange)aRange {

@@ -18,6 +18,7 @@
 
 - (int)lineNumberForLocation:(unsigned)location;
 - (NSMutableArray *)lineStarts;
+- (NSRange)findLine:(int)aLineNumber;
 - (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation;
 
 - (unsigned int)encoding;

@@ -9,13 +9,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton;
+@class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, PlainTextWindowController;
 
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
-
 
 @interface PlainTextDocument : NSDocument
 {
@@ -98,6 +97,13 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setHighlightsSyntax:(BOOL)aFlag;
 - (BOOL)highlightsSyntax;
 
+- (PlainTextWindowController *)topmostWindowController;
+- (void)gotoLine:(unsigned)aLine;
+- (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag;
+- (void)selectRange:(NSRange)aRange;
+
+#pragma mark -
+#pragma mark ### Flag Accessors ###
 
 - (BOOL)wrapLines;
 - (void)setWrapLines:(BOOL)aFlag;
