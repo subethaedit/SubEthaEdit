@@ -23,6 +23,7 @@
 	   <string>cp</string>
 	   <string>cxx</string>
 	   <string>C</string>
+	   <string>cc</string>
 	</array>
 </dict>
 </plist>

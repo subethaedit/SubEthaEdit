@@ -424,6 +424,10 @@ static NSString *tempFileName() {
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
+            if (![properties objectForKey:@"mode"]) {
+                DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+                [properties setObject:[mode documentModeIdentifier] forKey:@"mode"];
+            }
             [document setScriptingProperties:properties];
             [(PlainTextDocument *)document setTemporaryDisplayName:[fileName lastPathComponent]];
             [(PlainTextDocument *)document setDirectoryForSavePanel:[fileName stringByDeletingLastPathComponent]];

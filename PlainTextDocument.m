@@ -1973,35 +1973,39 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     NSTextStorage *textStorage = [self textStorage];
-
+    BOOL isReverting = ([textStorage length] != 0);
 
     BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
 
-    // Determine mode
     DocumentMode *mode = nil;
-    if ([properties objectForKey:@"mode"]) {
-        NSString *modeName = [properties objectForKey:@"mode"];
-        mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
-        if (!mode) {
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode name invalid: %@", modeName);
-        }
-    } else {
-        if (isDocumentFromOpenPanel) {
-            NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
-            if ([identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
-                NSString *extension = [fileName pathExtension];
-                mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
-            } else {
-                mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
+    if (!isReverting) {
+        // Determine mode
+        if ([properties objectForKey:@"mode"]) {
+            NSString *modeName = [properties objectForKey:@"mode"];
+            mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
+            if (!mode) {
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode name invalid: %@", modeName);
+            }
+        } else {
+            if (isDocumentFromOpenPanel) {
+                NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
+                if ([identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
+                    NSString *extension = [fileName pathExtension];
+                    mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
+                } else {
+                    mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
+                }
             }
         }
-    }
 
-    if (!mode) {
-        // get default mode (may be automatic)
-        // currently following workaround is used
-        mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+        if (!mode) {
+            // get default mode (may be automatic)
+            // currently following workaround is used
+            mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+        }
+    } else {
+        mode = [self documentMode];
     }
 
 
