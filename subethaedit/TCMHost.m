@@ -120,11 +120,11 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 - (void)TCM_handleHostCallback:(CFHostRef)host typeInfo:(CFHostInfoType)typeInfo error:(const CFStreamError *)error
 {
-    NSLog(@"handleHostCallback");
+    //NSLog(@"handleHostCallback");
     id delegate = [self delegate];
     
     if (error && error->error != 0) {
-        NSLog(@"error");
+        //NSLog(@"error");
         if ([delegate respondsToSelector:@selector(host:didNotResolve:)]) {
             NSString *domain = @"TCMHost";
             if (error->domain == kCFStreamErrorDomainNetDB) 
@@ -136,14 +136,14 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     } else if (typeInfo == kCFHostAddresses) {
         Boolean hasBeenResolved;
         CFArrayRef addressArray = CFHostGetAddressing(host, &hasBeenResolved);
-        NSLog(@"hasBeenResolved: %@", (hasBeenResolved ? @"YES" : @"NO"));
+        //NSLog(@"hasBeenResolved: %@", (hasBeenResolved ? @"YES" : @"NO"));
         NSEnumerator *addresses = [(NSArray *)addressArray objectEnumerator];
         NSData *address;
         while ((address = [addresses nextObject])) {            
             NSMutableData *mutableAddressData = [address mutableCopy];
             struct sockaddr_in *address = (struct sockaddr_in *)[mutableAddressData mutableBytes];
             address->sin_port = htons(I_port);
-            NSLog(@"resolved address: %@", [NSString stringWithAddressData:mutableAddressData]);
+            //NSLog(@"resolved address: %@", [NSString stringWithAddressData:mutableAddressData]);
             [I_addresses addObject:mutableAddressData];
             [mutableAddressData release];
         }

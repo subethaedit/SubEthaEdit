@@ -13,6 +13,11 @@
 #import "ImagePopUpButtonCell.h"
 #import "PullDownButtonCell.h"
 
+#import <netinet/in.h>
+#import <netinet6/in6.h>
+#import <arpa/inet.h>
+#import <sys/socket.h>
+
 
 #define kMaxNumberOfItems 10
 
@@ -182,35 +187,25 @@ static InternetBrowserController *sharedInstance = nil;
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"connect to address: %@", address);
     
     [self showWindow:nil];
-        
-    NSString *unescapedAddress = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)address, CFSTR(""));
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"unescapedAddress: %@", unescapedAddress);
     
-    NSString *escapedAddress = nil;
-    if (unescapedAddress != nil) {
-        [unescapedAddress autorelease];
-        escapedAddress = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)unescapedAddress, NULL, NULL, CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-        [escapedAddress autorelease];
-    } else {
-        escapedAddress = address;
-    }
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedAddress: %@", escapedAddress);
-    
-    NSURL *url;
+    NSString *URLString = nil;
     NSString *schemePrefix = [NSString stringWithFormat:@"%@://", @"see"];
-    NSString *lowercaseEscapedAddress = [escapedAddress lowercaseString];
-    if (![lowercaseEscapedAddress hasPrefix:schemePrefix]) {
-        NSString *escapedAddressWithPrefix = [schemePrefix stringByAppendingString:escapedAddress];
-        url = [NSURL URLWithString:escapedAddressWithPrefix];
+    NSString *lowercaseAddress = [address lowercaseString];
+    if (![lowercaseAddress hasPrefix:schemePrefix]) {
+        NSString *addressWithPrefix = [schemePrefix stringByAppendingString:address];
+        URLString = addressWithPrefix;
     } else {
-        url = [NSURL URLWithString:escapedAddress];
+        URLString = address;
     }
     
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"URLString: %@", URLString);
+    NSURL *url = [NSURL URLWithString:URLString];
+
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"scheme: %@\nhost: %@\nport: %@\npath: %@\nparameterString: %@\nquery: %@", [url scheme], [url host],  [url port], [url path], [url parameterString], [url query]);
     
     if (url != nil && [url host] != nil) {
-        [I_comboBoxItems removeObject:[url absoluteString]];
-        [I_comboBoxItems insertObject:[url absoluteString] atIndex:0];
+        [I_comboBoxItems removeObject:URLString];
+        [I_comboBoxItems insertObject:URLString atIndex:0];
         if ([I_comboBoxItems count] >= kMaxNumberOfItems) {
             [I_comboBoxItems removeLastObject];
         }
@@ -236,7 +231,13 @@ static InternetBrowserController *sharedInstance = nil;
             port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
         }
         
-        NSString *URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], [url host], port];
+        NSString *host = [url host];
+        struct in_addr pin;
+        if(inet_pton(AF_INET6, [[url host] UTF8String], &pin) == 1) {
+            host = [NSString stringWithFormat:@"[%@]", [url host]];
+        }
+        
+        NSString *URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], host, port];
 
         // when I_data entry with URL exists, select entry
         int index = [self indexOfItemWithURLString:URLString];
@@ -897,8 +898,17 @@ static InternetBrowserController *sharedInstance = nil;
    
     if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
         NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
+        TCMBEEPSession *BEEPSession = [item objectForKey:@"BEEPSession"];
+        NSString *addressDataString = nil;
+        if (BEEPSession) {
+            addressDataString = [NSString stringWithAddressData:[BEEPSession peerAddressData]];
+        }
         if ([item objectForKey:@"inbound"]) {
-            return NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip");
+            if (addressDataString) {
+                return [NSString stringWithFormat:NSLocalizedString(@"Inbound Connection from %@", @"Inbound Connection ToolTip With Address"), addressDataString];
+            } else {
+                return NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip");
+            }
         }
         
         if (![item objectForKey:@"failed"]) {
@@ -917,6 +927,10 @@ static InternetBrowserController *sharedInstance = nil;
     while ((index = [set firstIndex]) != NSNotFound) {
         ItemChildPair pair = [listView itemChildPairAtRow:index];
         NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
+        if (![[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
+            allowDrag = NO;
+            break;        
+        }
         NSMutableDictionary *entry = [NSMutableDictionary new];
         [entry setObject:[item objectForKey:@"UserID"] forKey:@"UserID"];
         if ([item objectForKey:@"URLString"]) {

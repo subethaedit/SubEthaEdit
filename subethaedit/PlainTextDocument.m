@@ -1926,12 +1926,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     	hostname = @"localhost";
     }
     
-    NSString *escapedHostname = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)hostname, NULL, CFSTR(";:@?/"), kCFStringEncodingUTF8);
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedHostname: %@", escapedHostname);
-    if (escapedHostname != nil) {
-        [escapedHostname autorelease];
-        [address appendFormat:@"//%@", escapedHostname];
-    }
+    [address appendFormat:@"//%@", hostname];
     
     int port = [[TCMMMBEEPSessionManager sharedInstance] listeningPort];
     [address appendFormat:@":%d", port];
