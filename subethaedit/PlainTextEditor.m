@@ -25,12 +25,12 @@
 #import "UndoManager.h"
 #import <OgreKit/OgreKit.h>
 
-@interface PlainTextEditor (PlainTextEditorPrivateAdditions) 
+@interface PlainTextEditor (PlainTextEditorPrivateAdditions)
 - (void)TCM_updateStatusBar;
 - (void)TCM_updateBottomStatusBar;
 @end
 
-@implementation PlainTextEditor 
+@implementation PlainTextEditor
 
 - (id)initWithWindowController:(NSWindowController *)aWindowController splitButton:(BOOL)aFlag {
     self = [super init];
@@ -42,8 +42,8 @@
         I_flags.pausedProcessing = NO;
         [self setFollowUserID:nil];
         [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
-    }   
-    return self; 
+    }
+    return self;
 }
 
 - (void)dealloc {
@@ -61,20 +61,20 @@
 - (void)awakeFromNib {
     PlainTextDocument *document=[self document];
     if (document) {
-        [[NSNotificationCenter defaultCenter] 
-                addObserver:self selector:@selector(defaultParagraphStyleDidChange:) 
+        [[NSNotificationCenter defaultCenter]
+                addObserver:self selector:@selector(defaultParagraphStyleDidChange:)
                 name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:document];
-        [[NSNotificationCenter defaultCenter] 
-                addObserver:self selector:@selector(userDidChangeSelection:) 
+        [[NSNotificationCenter defaultCenter]
+                addObserver:self selector:@selector(userDidChangeSelection:)
                 name:PlainTextDocumentUserDidChangeSelectionNotification object:document];
-        [[NSNotificationCenter defaultCenter] 
-                addObserver:self selector:@selector(plainTextDocumentDidChangeEditStatus:) 
+        [[NSNotificationCenter defaultCenter]
+                addObserver:self selector:@selector(plainTextDocumentDidChangeEditStatus:)
                 name:PlainTextDocumentDidChangeEditStatusNotification object:document];
-        [[NSNotificationCenter defaultCenter] 
-                addObserver:self selector:@selector(plainTextDocumentDidChangeSymbols:) 
+        [[NSNotificationCenter defaultCenter]
+                addObserver:self selector:@selector(plainTextDocumentDidChangeSymbols:)
                 name:PlainTextDocumentDidChangeSymbolsNotification object:document];
-    [[NSNotificationCenter defaultCenter] 
-                addObserver:self selector:@selector(plainTextDocumentUserDidChangeSelection:) 
+    [[NSNotificationCenter defaultCenter]
+                addObserver:self selector:@selector(plainTextDocumentUserDidChangeSelection:)
                 name:PlainTextDocumentUserDidChangeSelectionNotification object:document];
     }
 
@@ -94,12 +94,12 @@
     frame.origin=NSMakePoint(0.,0.);
     frame.size  =[O_scrollView contentSize];
 
-    
+
     LayoutManager *layoutManager=[LayoutManager new];
     [[document textStorage] addLayoutManager:layoutManager];
-    
+
     I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width,FLT_MAX)];
-    
+
     I_textView=[[TextView alloc] initWithFrame:frame textContainer:I_textContainer];
     [I_textView setHorizontallyResizable:NO];
     [I_textView setVerticallyResizable:YES];
@@ -119,7 +119,7 @@
     [I_textContainer setHeightTracksTextView:NO];
     [I_textContainer setWidthTracksTextView:YES];
     [layoutManager addTextContainer:I_textContainer];
-    
+
     [O_scrollView setVerticalRulerView:[[[GutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
     [O_scrollView setHasVerticalRuler:YES];
     [[O_scrollView verticalRulerView] setRuleThickness:32.];
@@ -127,11 +127,11 @@
     [O_scrollView setDocumentView:[I_textView autorelease]];
     [[O_scrollView verticalRulerView] setClientView:I_textView];
 
-    
+
     [layoutManager release];
-    
+
     [I_textView setDefaultParagraphStyle:[document defaultParagraphStyle]];
-    
+
 
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
@@ -151,10 +151,10 @@
     [[O_symbolPopUpButton cell] setControlSize:NSSmallControlSize];
     [O_symbolPopUpButton setBordered:NO];
     [O_symbolPopUpButton setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-    
+
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
-    
+
     [self takeSettingsFromDocument];
     [self setShowsChangeMarks:[document showsChangeMarks]];
     [self setShowsTopStatusBar:[document showsTopStatusBar]];
@@ -181,18 +181,18 @@
 - (void)TCM_adjustTopStatusBarFrames {
     if (I_flags.showTopStatusBar) {
         float symbolWidth=[(PopUpButtonCell *)[O_symbolPopUpButton cell] desiredWidth];
-        
+
         NSRect bounds=[O_topStatusBarView bounds];
         NSRect positionFrame=[O_positionTextField frame];
         NSPoint position=positionFrame.origin;
         positionFrame.size.width=[[O_positionTextField stringValue]
-                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_positionTextField font] 
+                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_positionTextField font]
                                                                        forKey:NSFontAttributeName]].width+5.;
         [O_positionTextField setFrame:positionFrame];
         position.x = (float)(int)NSMaxX(positionFrame);
         NSRect newWrittenByFrame=[O_writtenByTextField frame];
         newWrittenByFrame.size.width=[[O_writtenByTextField stringValue]
-                                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_writtenByTextField font] 
+                                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_writtenByTextField font]
                                                                                        forKey:NSFontAttributeName]].width+5.;
         NSRect newPopUpFrame=[O_symbolPopUpButton frame];
         newPopUpFrame.origin.x=position.x;
@@ -213,7 +213,7 @@
                 newPopUpFrame.size.width=space+20.;
                 newWrittenByFrame.size.width=space;
             }
-        } 
+        }
         newWrittenByFrame.origin.x = bounds.origin.x+bounds.size.width-RIGHTINSET-newWrittenByFrame.size.width;
         [O_writtenByTextField setFrame:newWrittenByFrame];
         [O_symbolPopUpButton  setFrame:newPopUpFrame];
@@ -225,20 +225,20 @@
 - (void)TCM_updateStatusBar {
     if (I_flags.showTopStatusBar) {
         NSRange selection=[I_textView selectedRange];
-        
+
         // findLine
         TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
         NSString *string=[textStorage positionStringForRange:selection];
-        if (selection.location<[textStorage length]) { 
-            id blockAttribute=[textStorage 
-                                attribute:BlockeditAttributeName 
+        if (selection.location<[textStorage length]) {
+            id blockAttribute=[textStorage
+                                attribute:BlockeditAttributeName
                                   atIndex:selection.location effectiveRange:nil];
-            if (blockAttribute) string=[string stringByAppendingFormat:@" %@",NSLocalizedString(@"[Blockediting]", nil)];        
+            if (blockAttribute) string=[string stringByAppendingFormat:@" %@",NSLocalizedString(@"[Blockediting]", nil)];
         }
-        [O_positionTextField setStringValue:string];        
+        [O_positionTextField setStringValue:string];
 
         [O_writtenByTextField setStringValue:@""];
-        
+
         NSString *followUserID=[self followUserID];
         if (followUserID) {
             NSString *userName=[[[TCMMMUserManager sharedInstance] userForUserID:followUserID] name];
@@ -263,7 +263,7 @@
                         userName = [[[TCMMMUserManager sharedInstance] userForUserID:userId] name];
                         if (!userName) userName = @"";
                     }
-                    
+
                     if (selection.length>range.length) {
                         string = [NSString stringWithFormat:NSLocalizedString(@"Written by %@ et al", nil), userName];
                     } else {
@@ -274,16 +274,16 @@
             }
         }
         [self TCM_adjustTopStatusBarFrames];
-    }    
+    }
 }
 
 - (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows {
     NSSize result;
     NSFont *font=[[self document] fontWithTrait:0];
-    float characterWidth=[font widthOfString:@"m"];
+    float characterWidth=[font widthOfString:@"n"];
     result.width = characterWidth*aColumns + [[I_textView textContainer] lineFragmentPadding]*2 + [I_textView textContainerInset].width*2 + ([O_editorView bounds].size.width - [I_textView bounds].size.width);
-    result.height = [font defaultLineHeightForFont]*aRows + 
-                    ([self showsBottomStatusBar]?18.:0) + 
+    result.height = [font defaultLineHeightForFont]*aRows +
+                    ([self showsBottomStatusBar]?18.:0) +
                     ([self showsTopStatusBar]?18.:0) +
                     [I_textView textContainerInset].height * 2;
     return result;
@@ -294,11 +294,11 @@
         PlainTextDocument *document=[self document];
         [O_tabStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%@ (%d)",@"arrangement of Tab setting and tab width in Bottm Status Bar"),[document usesTabs]?NSLocalizedString(@"TrueTab",@"Bottom status bar text for TrueTab setting"):NSLocalizedString(@"Spaces",@"Bottom status bar text for use Spaces (instead of Tab) setting"),[document tabWidth]]];
         [O_modeTextField setStringValue:[[document documentMode] displayName]];
-        
+
         [O_encodingTextField setStringValue:[NSString localizedNameOfStringEncoding:[document fileEncoding]]];
-        
+
         NSFont *font=[document fontWithTrait:0];
-        float characterWidth=[font widthOfString:@"m"];
+        float characterWidth=[font widthOfString:@"n"];
         int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
         [O_windowWidthTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"WindowWidth%d%@",@"WindowWidthArangementString"),charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapMode]==DocumentModeWrapModeCharacters?NSLocalizedString(@"CharacterWrap",@"As shown in bottom status bar"):NSLocalizedString(@"WordWrap",@"As shown in bottom status bar"))]];
         NSString *lineEndingStatusString=@"";
@@ -360,7 +360,7 @@
     if ([[self document] usesTabs]) {
          if (aIndent) {
             replacementString=@"\t";
-            changedChars+=1;        
+            changedChars+=1;
         } else {
             if ([string length]>aLineRange.location &&
             	[string characterAtIndex:aLineRange.location]==[@"\t" characterAtIndex:0]) {
@@ -381,21 +381,21 @@
                 firstCharacter++;
             } else {
                 break;
-            }   
+            }
         }
         if (changedChars!=0) {
             NSRange affectedRange=NSMakeRange(aLineRange.location,firstCharacter-aLineRange.location);
-            NSString *replacementString=[@" " stringByPaddingToLength:firstCharacter-aLineRange.location+changedChars 
+            NSString *replacementString=[@" " stringByPaddingToLength:firstCharacter-aLineRange.location+changedChars
                                                        withString:@" " startingAtIndex:0];
-            if ([aTextView shouldChangeTextInRange:affectedRange 
+            if ([aTextView shouldChangeTextInRange:affectedRange
                                  replacementString:replacementString]) {
-                NSAttributedString *attributedReplaceString=[[NSAttributedString alloc] 
-                                                                initWithString:replacementString 
+                NSAttributedString *attributedReplaceString=[[NSAttributedString alloc]
+                                                                initWithString:replacementString
                                                                     attributes:[aTextView typingAttributes]];
-                
-                [textStorage replaceCharactersInRange:affectedRange 
-                                  withAttributedString:attributedReplaceString];                    
-                firstCharacter+=changedChars;  
+
+                [textStorage replaceCharactersInRange:affectedRange
+                                  withAttributedString:attributedReplaceString];
+                firstCharacter+=changedChars;
                 [attributedReplaceString release];
             }
         }
@@ -411,18 +411,19 @@
             } else {
                 affectedCharRange.length=firstCharacter-affectedCharRange.location;
                 changedChars-=affectedCharRange.length;
-            }                 
+            }
         }
     }
-    if (affectedCharRange.length>0 || [replacementString length]>0) {
-        if ([aTextView  shouldChangeTextInRange:affectedCharRange 
+    NSRange newRange=NSMakeRange(affectedCharRange.location,[replacementString length]);
+    if (affectedCharRange.length>0 || newRange.length>0) {
+        if ([aTextView  shouldChangeTextInRange:affectedCharRange
                               replacementString:replacementString]) {
-            NSAttributedString *attributedReplaceString=[[NSAttributedString alloc] 
-                                                            initWithString:replacementString 
-                                                                attributes:[aTextView typingAttributes]];
-            [textStorage replaceCharactersInRange:affectedCharRange 
-                              withAttributedString:attributedReplaceString];                    
-            [attributedReplaceString release];
+            [textStorage replaceCharactersInRange:affectedCharRange
+                                       withString:replacementString];
+            if (newRange.length>0) {
+//                [textStorage addAttribute:NSParagraphStyleAttributeName value:[aTextView defaultParagraphStyle] range:newRange];
+                [textStorage addAttributes:[aTextView typingAttributes] range:newRange];
+            }
         }
     }
     return changedChars;
@@ -432,14 +433,14 @@
 //    if (I_blockedit.hasBlockeditRanges) {
 //        NSBeep();
 //    } else {
-    
+
         NSRange affectedRange=[aTextView selectedRange];
         [aTextView setSelectedRange:NSMakeRange(affectedRange.location,0)];
         NSRange lineRange;
         UndoManager *undoManager=[[self document] documentUndoManager];
         NSTextStorage *textStorage=[aTextView textStorage];
         NSString *string=[textStorage string];
-        
+
         [undoManager beginUndoGrouping];
         if (affectedRange.length==0) {
             [textStorage beginEditing];
@@ -461,22 +462,22 @@
             [textStorage beginEditing];
             lineRange.location=NSMaxRange(affectedRange)-1;
             lineRange.length=1;
-            lineRange=[string lineRangeForRange:lineRange];        
+            lineRange=[string lineRangeForRange:lineRange];
             int result=0;
             int changedLength=0;
             while (!DisjointRanges(lineRange,affectedRange)) {
                 result=[self dentLineInTextView:aTextView withRange:lineRange in:aIndent];
-    
+
                 changedLength+=result;
                 // special case
                 if (lineRange.location==0) break;
-                
-                lineRange=[string lineRangeForRange:NSMakeRange(lineRange.location-1,1)];  
+
+                lineRange=[string lineRangeForRange:NSMakeRange(lineRange.location-1,1)];
             }
             affectedRange.length+=changedLength;
             [textStorage endEditing];
             [aTextView didChangeText];
-            
+
             if (affectedRange.location<0 || NSMaxRange(affectedRange)>[textStorage length]) {
                 if (affectedRange.length>0) {
                     affectedRange=NSIntersectionRange(affectedRange,NSMakeRange(0,[textStorage length]));
@@ -489,7 +490,7 @@
                 }
             }
             [aTextView setSelectedRange:affectedRange];
-        } 
+        }
         [undoManager endUndoGrouping];
 //    }
 }
@@ -500,7 +501,7 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
-    
+
     if (selector == @selector(toggleWrap:)) {
         [menuItem setState:[O_scrollView hasHorizontalScroller]?NSOffState:NSOnState];
         return YES;
@@ -509,14 +510,14 @@
         return YES;
     } else if (selector == @selector(toggleShowsChangeMarks:)) {
         BOOL showsChangeMarks=[self showsChangeMarks];
-        [menuItem setTitle:showsChangeMarks 
-                              ?NSLocalizedString(@"Hide Changes", nil) 
+        [menuItem setTitle:showsChangeMarks
+                              ?NSLocalizedString(@"Hide Changes", nil)
                               :NSLocalizedString(@"Show Changes", nil)];
         return YES;
     } else if (selector == @selector(toggleShowInvisibles:)) {
         [menuItem setState:[self showsInvisibleCharacters]?NSOnState:NSOffState];
         return YES;
-    } 
+    }
     return YES;
 }
 
@@ -570,7 +571,7 @@
         [I_textView setHorizontallyResizable:YES];
         [I_textView setNeedsDisplay:YES];
         [O_scrollView setNeedsDisplay:YES];
-    } else {            
+    } else {
         // turn wrap on
         [O_scrollView setHasHorizontalScroller:NO];
         [O_scrollView setNeedsDisplay:YES];
@@ -673,24 +674,24 @@
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
     NSString *itemIdentifier = [toolbarItem itemIdentifier];
-    
+
     if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {
         BOOL showsChangeMarks=[(LayoutManager *)[I_textView layoutManager] showsChangeMarks];
         [toolbarItem setImage:showsChangeMarks
                               ?[NSImage imageNamed: @"HideChangeMarks"]
                               :[NSImage imageNamed: @"ShowChangeMarks"]  ];
-        [toolbarItem setLabel:showsChangeMarks 
-                              ?NSLocalizedString(@"Hide Changes", nil) 
+        [toolbarItem setLabel:showsChangeMarks
+                              ?NSLocalizedString(@"Hide Changes", nil)
                               :NSLocalizedString(@"Show Changes", nil)];
     }
-    
+
     return YES;
 }
 
 - (IBAction)jumpToNextChange:(id)aSender {
     TextView *textView = (TextView *)[self textView];
     unsigned maxrange=NSMaxRange([textView selectedRange]);
-    NSRange change = [[self document] rangeOfPrevious:NO 
+    NSRange change = [[self document] rangeOfPrevious:NO
                                        changeForRange:NSMakeRange(maxrange>0?maxrange-1:maxrange,0)];
     if (change.location == NSNotFound) {
         NSBeep();
@@ -702,7 +703,7 @@
 
 - (IBAction)jumpToPreviousChange:(id)aSender {
     TextView *textView = (TextView *)[self textView];
-    NSRange change = [[self document] rangeOfPrevious:YES 
+    NSRange change = [[self document] rangeOfPrevious:YES
                                        changeForRange:NSMakeRange([textView selectedRange].location,0)];
     if (change.location == NSNotFound) {
         NSBeep();
@@ -735,7 +736,7 @@
         [cell setMenu:copiedMenu];
         [copiedMenu release];
         [self updateSelectedSymbol];
-    } 
+    }
     [self TCM_adjustTopStatusBarFrames];
 }
 
@@ -768,7 +769,7 @@
                                                     aTextView, @"TextView",
                                                     [[replacementString copy] autorelease], @"ReplacementString",
                                                     nil];
-                                                    
+
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSWarningAlertStyle];
         [alert setMessageText:NSLocalizedString(@"Warning", nil)];
@@ -777,13 +778,13 @@
         [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
         [alert beginSheetModalForWindow:[aTextView window]
-                          modalDelegate:document 
+                          modalDelegate:document
                          didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                            contextInfo:[contextInfo retain]];   
-    
+                            contextInfo:[contextInfo retain]];
+
         return NO;
     }
-    
+
     if (![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
         TCMMMSession *session=[document session];
         if ([session isServer] && [session participantCount]<=1) {
@@ -792,7 +793,7 @@
                                                             aTextView, @"TextView",
                                                             [[replacementString copy] autorelease], @"ReplacementString",
                                                             nil];
-            
+
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
             [alert setMessageText:NSLocalizedString(@"Warning", nil)];
@@ -802,35 +803,35 @@
             [alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
             [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
             [alert beginSheetModalForWindow:[aTextView window]
-                              modalDelegate:document 
+                              modalDelegate:document
                              didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
                                 contextInfo:[contextInfo retain]];
         } else {
             NSBeep();
-        }      
+        }
         return NO;
     } else {
         [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] typingAttributes]];
     }
-    
+
     return [document textView:aTextView shouldChangeTextInRange:affectedCharRange replacementString:replacementString];
 }
 
 - (void)textDidChange:(NSNotification *)aNotification {
     if ([O_scrollView rulersVisible]) {
-        [[O_scrollView verticalRulerView] setNeedsDisplay:YES];     
+        [[O_scrollView verticalRulerView] setNeedsDisplay:YES];
     }
 }
 
-- (NSRange)textView:(NSTextView *)aTextView 
-           willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange 
+- (NSRange)textView:(NSTextView *)aTextView
+           willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
     PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
     if (![document isRemotelyEditingTextStorage]) {
         [self setFollowUserID:nil];
     }
-    return [document textView:aTextView 
-             willChangeSelectionFromCharacterRange:aOldSelectedCharRange 
+    return [document textView:aTextView
+             willChangeSelectionFromCharacterRange:aOldSelectedCharRange
                                   toCharacterRange:aNewSelectedCharRange];
 }
 
@@ -907,26 +908,26 @@
 - (void)setRadarMarkForUser:(TCMMMUser *)aUser {
     NSString *sessionID=[[[self document] session] sessionID];
     NSColor *changeColor=[aUser changeColor];
-    
+
     SelectionOperation *selectionOperation=[[aUser propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
     if (selectionOperation) {
         int rectCount;
         NSRange range=[selectionOperation selectedRange];
         NSRectArray rects=[[I_textView layoutManager]
                             rectArrayForCharacterRange:range
-                          withinSelectedCharacterRange:range 
-                                       inTextContainer:[I_textView textContainer] 
+                          withinSelectedCharacterRange:range
+                                       inTextContainer:[I_textView textContainer]
                                              rectCount:&rectCount];
         if (rectCount>0) {
-            NSRect rect=rects[0]; 
+            NSRect rect=rects[0];
             int i;
             for (i=1; i<rectCount;i++) {
                 rect=NSUnionRect(rect,rects[i]);
-            }                                    
-            [I_radarScroller setMarkFor:[aUser userID] 
+            }
+            [I_radarScroller setMarkFor:[aUser userID]
                             withColor:changeColor
-                        forMinLocation:(float)rect.origin.y 
-                        andMaxLocation:(float)NSMaxY(rect)];            
+                        forMinLocation:(float)rect.origin.y
+                        andMaxLocation:(float)NSMaxY(rect)];
         }
     } else {
         [I_radarScroller removeMarkFor:[aUser userID]];
@@ -951,7 +952,7 @@
     NSString *textString=[[textView textStorage] string];
     // Get the current partial word being completed.
     partialWord = [textString substringWithRange:charRange];
-    
+
     // Find all known names.
     completionSource = [NSMutableArray array];
 
@@ -994,7 +995,7 @@
         if (([completionEntry hasPrefix:partialWord])&&(![completions containsObject:completionEntry])) [completions addObject:completionEntry];
     }
 
-    
+
     //DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"Finished autocomplete");
 
     return completions;
