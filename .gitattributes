@@ -1,4 +1,5 @@
 * text=auto !eol
+artwork/LogoGreenFullSize.psd -text
 artwork/icons/Document-b3-128.psd -text
 artwork/icons/Document-b3-16.psd -text
 artwork/icons/Document-b3-32.psd -text
@@ -36,6 +37,11 @@ artwork/icons/Symbols/SymbolM.psd -text
 artwork/icons/Symbols/SymbolM.tiff -text
 artwork/icons/Symbols/SymbolT.psd -text
 artwork/icons/Symbols/SymbolT.tiff -text
+artwork/icons/ToolbarItems/StabiloClosed.psd -text
+artwork/icons/ToolbarItems/StabiloOpen.psd -text
+artwork/icons/ToolbarItems/nextSymbol.psd -text
+artwork/icons/ToolbarItems/previousSymbol.psd -text
+artwork/icons/ToolbarItems/test.psd -text
 artwork/icons/txt.icns -text
 artwork/mockups/RendezvousBrowser.psd -text
 artwork/mockups/RendezvousBrowser2.psd -text
