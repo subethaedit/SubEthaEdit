@@ -31,12 +31,34 @@
 
 - (void)higlightWithColor:(NSColor *)aColor inset:(float)aInset {
     if ([self selectedRow]>=0) {
+
+        NSMutableIndexSet *rows = [[[self selectedRowIndexes] mutableCopy] autorelease];
+    
+        int index;
+        int fromindex;
+        int lastindex = -42;
+        
+        while ((index = [rows firstIndex]) != NSNotFound) {
+            [rows removeIndex:[rows firstIndex]];
+            
+            if (lastindex != index-1) {  
+                
+                [NSGraphicsContext saveGraphicsState];
+                NSSetFocusRingStyle (NSFocusRingOnly);
+                [[NSBezierPath bezierPathWithRect:NSUnionRect(NSInsetRect([self rectOfRow:fromindex],aInset,aInset),NSInsetRect([self rectOfRow:lastindex],aInset,aInset))] fill];
+                [NSGraphicsContext restoreGraphicsState];
+        
+                fromindex = index;
+            } 
+            
+            lastindex = index;
+        }
+        
         [NSGraphicsContext saveGraphicsState];
         NSSetFocusRingStyle (NSFocusRingOnly);
-        [[NSBezierPath bezierPathWithRect:NSInsetRect([self rectOfRow:[self selectedRow]],aInset,aInset)] fill];
+        [[NSBezierPath bezierPathWithRect:NSUnionRect(NSInsetRect([self rectOfRow:fromindex],aInset,aInset),NSInsetRect([self rectOfRow:lastindex],aInset,aInset))] fill];
         [NSGraphicsContext restoreGraphicsState];
     }
-    [self setNeedsDisplay:YES];
 }
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect {
@@ -47,8 +69,12 @@
 
 - (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)extend {
     [super selectRowIndexes:indexes byExtendingSelection:extend];
-    [self setNeedsDisplay:YES];
+    [self display];
 }
 
+- (void)deselectRow:(int)rowIndex {
+    [super deselectRow:rowIndex];
+    [self display];
+}
 
 @end

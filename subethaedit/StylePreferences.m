@@ -49,8 +49,8 @@
     [self changeMode:O_modePopUpButton];
     
     // Set tableview to non highlighting cells
-//    [[[O_stylesTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
-//    [[[O_stylesTableView tableColumns] objectAtIndex:1] setDataCell:[[TextFieldCell new] autorelease]];
+    [[[O_stylesTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
+    [[[O_stylesTableView tableColumns] objectAtIndex:1] setDataCell:[[TextFieldCell new] autorelease]];
 
 }
 
