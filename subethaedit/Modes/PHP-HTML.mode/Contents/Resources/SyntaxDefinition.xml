@@ -3596,6 +3596,9 @@
                 <regex>(&lt;\?)(?![\S])</regex>
                 <regex>(\?&gt;)</regex>
             </keywords>
+            <keywords id="Entities" color="#881280" useforautocomplete="no">
+                <regex>(&amp;\w{1,8};)</regex>
+            </keywords>
         </state>
         
 

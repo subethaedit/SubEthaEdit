@@ -22,7 +22,11 @@
             <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
                 <regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
             </keywords>
-            
+
+            <keywords id="Entities" color="#881280" useforautocomplete="no">
+                <regex>(&amp;\w{1,8};)</regex>
+            </keywords>
+                        
         </default>
 
         <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
