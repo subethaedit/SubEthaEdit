@@ -3,8 +3,8 @@
 # createDiskImage
 
 # Requires three or more args
-if [ $# -lt 4 ] ; then
-    echo "usage: $0 <ImageSizeInMegabytes> <NameOfImageWithNoExtension> <LicenseAgreementResource> <FolderToCopyToImage> ..."
+if [ $# -lt 3 ] ; then
+    echo "usage: $0 <ImageSizeInMegabytes> <NameOfImageWithNoExtension> <FolderToCopyToImage> ..."
     exit 1
 fi
 
@@ -12,8 +12,6 @@ fi
 imageSize=$1
 shift
 imageName=$1
-shift
-slaRsrcFile=$1
 shift
 
 # Create the image and format it
@@ -50,15 +48,6 @@ echo "Compressing ${imageName} disk image..."
 mv ${imageName}.dmg ${imageName}.orig.dmg
 hdiutil convert ${imageName}.orig.dmg -format UDCO -o ${imageName}
 rm ${imageName}.orig.dmg
-
-# Adding the SLA
-echo "Unflatten ${imageName} disk image..."
-hdiutil unflatten ${imageName}.dmg
-
-/Developer/Tools/Rez /Developer/Headers/FlatCarbon/*.r ${slaRsrcFile} -a -o ${imageName}.dmg
-
-echo "Flatten ${imageName} disk image..."
-hdiutil flatten ${imageName}.dmg
 
 # Internet-enable the image
 echo "Internet-enabling ${imageName} disk image..."

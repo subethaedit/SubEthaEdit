@@ -977,7 +977,7 @@
 			};
 		};
 		14963A3C061F0CFD009B8E42 = {
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -987,7 +987,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$ACTION\" = \"clean\" ]\nthen\n    echo \"cleaning\"\n    if [ -e ./SubEthaEdit.dmg ]\n    then\n        echo \"removing image\"\n        rm -f ./SubEthaEdit.dmg\n    fi\n    exit 0\nelse\n    ./createDiskImage.sh 10 \"SubEthaEdit\" \"SLA.r\" \"$DSTROOT/*\"\nfi\nexit 0";
+			shellScript = "if [ \"$ACTION\" = \"clean\" ]\nthen\n    echo \"cleaning\"\n    if [ -e ./SubEthaEdit.dmg ]\n    then\n        echo \"removing image\"\n        rm -f ./SubEthaEdit.dmg\n    fi\n    exit 0\nelse\n    ./createDiskImage.sh 10 \"SubEthaEdit\" \"$DSTROOT/*\"\nfi\nexit 0";
 		};
 		14963A3D061F0CFD009B8E42 = {
 			buildPhases = (

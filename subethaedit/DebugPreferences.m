@@ -99,7 +99,6 @@
 
 - (IBAction)toggleDebugMenu:(id)sender
 {
-    NSLog(@"toggleDebugMenu");
     int state = [sender state];
     if (state == NSOnState) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"EnableDebugMenu"];

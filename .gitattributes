@@ -475,7 +475,6 @@ subethaedit/RegexSymbolParser.m -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
 subethaedit/SEEHelperTemplate.m -text
-subethaedit/SLA.r -text
 subethaedit/SaturationToColorValueTransformer.h -text
 subethaedit/SaturationToColorValueTransformer.m -text
 subethaedit/SelectionOperation.h -text

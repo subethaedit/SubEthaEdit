@@ -30,19 +30,15 @@ static DebugController * sharedInstance = nil;
 
 - (void)enableDebugMenu:(BOOL)flag
 {
-    NSLog(@"enableDebugMenu");
     int indexOfDebugMenu = [[NSApp mainMenu] indexOfItemWithTitle:@"Debug"];
     
     if (flag && indexOfDebugMenu == -1) {
-        NSLog(@"adding debug menu");
         NSMenuItem *debugItem = [[NSMenuItem alloc] initWithTitle:@"Debug" action:nil keyEquivalent:@""];
-        //[newItem setSubmenu:oDebugMenu];
-        NSMenu *menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
+        NSMenu *menu = [[[NSMenu alloc] initWithTitle:@"Debug"] autorelease];
         [debugItem setSubmenu:menu];
         [[NSApp mainMenu] addItem:debugItem];
         [debugItem release];
     } else if (flag == NO && indexOfDebugMenu != -1) {
-        NSLog(@"remove debug menu");
         [[NSApp mainMenu] removeItemAtIndex:indexOfDebugMenu];
     }
 }
