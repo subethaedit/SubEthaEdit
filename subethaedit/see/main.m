@@ -31,6 +31,7 @@ static struct option longopts[] = {
     { "encoding",   required_argument,      0,  'e' }, // option
     { "mode",       required_argument,      0,  'm' }, // option
     { "pipe-title", required_argument,      0,  't' }, // option
+    { "job-description", required_argument, 0,  'j' }, // option
     { 0,            0,                      0,  0 }
 };
 
@@ -49,7 +50,7 @@ static NSString *tempFileName() {
 
 
 static void printHelp() {
-    fprintf(stdout, "Usage: see [-hlprvw] [-e encoding_name] [-m mode_name] [-t title] [file ...]\n");
+    fprintf(stdout, "Usage: see [-hlprvw] [-e encoding_name] [-m mode_name] [-t title] [-j description] [file ...]\n");
     fflush(stdout);
 }
 
@@ -64,12 +65,12 @@ static BOOL launchSubEthaEdit() {
     OSStatus status = noErr;
     CFURLRef appURL = NULL;
 
-    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), NULL, NULL, &appURL); // release appURL
-    if (kLSApplicationNotFoundErr == status) {
-        fprintf(stdout, "Couldn't find SubEthaEdit: kLSApplicationNotFoundErr\n");
-        fflush(stdout);
-        return NO;
-    } else {
+    //status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), NULL, NULL, &appURL); // release appURL
+    //if (kLSApplicationNotFoundErr == status) {
+    //    fprintf(stdout, "Couldn't find SubEthaEdit: kLSApplicationNotFoundErr\n");
+    //    fflush(stdout);
+    //    return NO;
+    //} else {
         
         //NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
         //NSString *bundleVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
@@ -86,7 +87,7 @@ static BOOL launchSubEthaEdit() {
         
         status = LSOpenFromURLSpec(&inLaunchSpec, NULL);
         return YES;
-    }
+    //}
 }
 
 
@@ -113,6 +114,7 @@ static NSAppleEventDescriptor *propertiesEventDescriptorWithOptions(NSDictionary
     return propRecord;
 }
 
+/*
 static void makeUntitledDocument(NSString *title, NSDictionary *options) {
     if (!launchSubEthaEdit()) {
         return;
@@ -290,6 +292,91 @@ static void printDocument(NSString *fileName, NSDictionary *options) {
         }
     }
 }
+*/
+
+static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFileName, NSDictionary *options) {
+    if (!launchSubEthaEdit()) {
+        return nil;
+    }
+    
+    NSMutableArray *resultFileNames = [NSMutableArray array];
+    AESendMode sendMode = kAENoReply;
+    long timeOut = kAEDefaultTimeout;
+    OSType creatorCode = 'Hdra';
+    NSAppleEventDescriptor *addressDescriptor;
+    
+    addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:&creatorCode length:sizeof(creatorCode)];
+    if (addressDescriptor != nil) {
+        NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+        if (appleEvent != nil) {
+        
+            int i;
+            int count = [fileNames count];
+            if (count > 0) {
+                NSAppleEventDescriptor *filesDesc = [NSAppleEventDescriptor listDescriptor];
+                for (i = 0; i < count; i++) {
+                    [filesDesc insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[fileNames objectAtIndex:i]]
+                                        atIndex:i + 1];
+                }
+                [appleEvent setParamDescriptor:filesDesc
+                                    forKeyword:'File'];
+            }
+            
+            count = [newFileNames count];
+            if (count > 0) {
+                NSAppleEventDescriptor *newFilesDesc = [NSAppleEventDescriptor listDescriptor];
+                for (i = 0; i < count; i++) {
+                    [newFilesDesc insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[newFileNames objectAtIndex:i]]
+                                           atIndex:i + 1];
+                }
+                [appleEvent setParamDescriptor:newFilesDesc
+                                    forKeyword:'NuFl'];
+            }
+            
+            if (stdinFileName) {
+                sendMode = kAEWaitReply;
+                [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:stdinFileName]
+                                    forKeyword:'Stdi'];
+            }
+
+            NSAppleEventDescriptor *propRecord = propertiesEventDescriptorWithOptions(options);
+            [appleEvent setParamDescriptor:propRecord
+                                forKeyword:keyAEPropData];
+                                
+            // job-description
+            // print
+            
+            if ([options objectForKey:@"wait"]) {
+                sendMode = kAEWaitReply;
+                timeOut = kNoTimeOut;
+                [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
+                                    forKeyword:'Wait'];
+            }
+            
+            AppleEvent reply;
+            OSStatus err = AESendMessage([appleEvent aeDesc], &reply, sendMode, timeOut);
+            if (err == noErr) {
+                NSAppleEventDescriptor *replyDesc = [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&reply];
+                NSAppleEventDescriptor *directObjectDesc = [replyDesc descriptorForKeyword:keyDirectObject];
+                if (directObjectDesc) {
+                    int i;
+                    int count = [directObjectDesc numberOfItems];
+                    for (i = 1; i <= count; i++) {
+                        NSString *item = [[directObjectDesc descriptorAtIndex:i] stringValue];
+                        if (item) {
+                            [resultFileNames addObject:item];
+                        }
+                    }
+                }
+                [replyDesc release];
+            } else {
+                NSLog(@"Error while sending Apple Event: %d", err);
+            }
+        }
+    }
+    
+    return resultFileNames;
+}
 
 
 static void openFiles(NSArray *fileNames, NSDictionary *options) {
@@ -300,7 +387,8 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL wait = [[options objectForKey:@"wait"] boolValue];
     BOOL resume = [[options objectForKey:@"resume"] boolValue];
-    BOOL print = [[options objectForKey:@"print"] boolValue];
+    //BOOL print = [[options objectForKey:@"print"] boolValue];
+    NSMutableDictionary *mutatedOptions = [[options mutableCopy] autorelease];
     int i = 0;
     int count = 0;
     
@@ -310,10 +398,21 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
         psn = noPSN;
     }
     
+    BOOL isStandardOutputATTY = isatty([[NSFileHandle fileHandleWithStandardOutput] fileDescriptor]);
+    if (!isStandardOutputATTY) {
+        [mutatedOptions setObject:[NSNumber numberWithBool:YES] forKey:@"wait"];
+        wait = YES;
+    }
+    NSLog(@"stdout a pipe? %@", isStandardOutputATTY ? @"NO" : @"YES");
+    
     
     //
     // Read from stdin when no file names have been specified
     //
+    
+    NSString *stdinFileName = nil;
+    NSMutableArray *files = [NSMutableArray array];
+    NSMutableArray *newFileNames = [NSMutableArray array];
     
     if ([fileNames count] == 0) {
         NSString *fileName = tempFileName();
@@ -329,8 +428,9 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
             }
         }
         [fdout closeFile];
-        makeUntitledDocumentFromFile(fileName, options);
-        [[NSFileManager defaultManager] removeFileAtPath:fileName handler:nil];
+        //makeUntitledDocumentFromFile(fileName, mutatedOptions);
+        //[[NSFileManager defaultManager] removeFileAtPath:fileName handler:nil];
+        stdinFileName = fileName;
     } else {
         BOOL isDir;
         count = [fileNames count];
@@ -341,27 +441,24 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
                     //fprintf(stdout, "\"%s\" is a directory.\n", fileName);
                     //fflush(stdout);
                 } else {
-                    if (print) {
-                        printDocument(fileName, options);
-                    } else {
-                        openDocument(fileName, options);
-                    }
+                    //if (print) {
+                    //    printDocument(fileName, mutatedOptions);
+                    //} else {
+                    //    openDocument(fileName, mutatedOptions);
+                    //}
+                    [files addObject:fileName];
                 }
             } else {
-                makeUntitledDocument(fileName, options);
+                //makeUntitledDocument(fileName, mutatedOptions);
+                [newFileNames addObject:fileName];
             }
         }
     }
     
-                 
-    /*
-    BOOL isStandardOutputATTY = isatty([[NSFileHandle fileHandleWithStandardOutput] fileDescriptor]);
-    if (!isStandardOutputATTY) {
-        wait = YES;
-    }
-    NSLog(@"stdout a pipe? %@", isStandardOutputATTY ? @"NO" : @"YES");
-    */
-    
+
+    NSArray *resultFileNames = see(files, newFileNames, stdinFileName, mutatedOptions);
+    NSLog(@"resultFileNames: %@", resultFileNames);
+
     //
     // Bring terminal to front when wait and resume was specified
     //
@@ -374,13 +471,16 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
         }
     }
         
-        
-    /*
+
+    //
+    // Write files to stdout when it isn't a terminal
+    //
+    
     if (!isStandardOutputATTY) {
-        int count = [fileURLs count];
+        int count = [resultFileNames count];
         NSFileHandle *fdout = [NSFileHandle fileHandleWithStandardOutput];
         for (i = 0; i < count; i++) {
-            NSString *path = [[fileURLs objectAtIndex:i] path];
+            NSString *path = [resultFileNames objectAtIndex:i];
             NSFileHandle *fdin = [NSFileHandle fileHandleForReadingAtPath:path];
             while (TRUE) {
                 NSData *data = [fdin readDataOfLength:1024];
@@ -393,7 +493,11 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
             [fdin closeFile];
         }
     }
-    */
+    
+    
+    if (stdinFileName) {
+        (void)[[NSFileManager defaultManager] removeFileAtPath:stdinFileName handler:nil];
+    }
 }
 
 
@@ -448,6 +552,10 @@ int main (int argc, const char * argv[]) {
             case 't': {
                     NSString *pipeTitle = [NSString stringWithUTF8String:optarg];
                     [options setObject:pipeTitle forKey:@"pipe-title"];
+                } break;
+            case 'j': {
+                    NSString *jobDesc = [NSString stringWithUTF8String:optarg];
+                    [options setObject:jobDesc forKey:@"job-description"];
                 } break;
             case ':': // missing option argument
             case '?': // invalid option

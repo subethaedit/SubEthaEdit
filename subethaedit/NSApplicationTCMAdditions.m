@@ -20,4 +20,8 @@
     return [[DocumentController sharedInstance] handlePrintScriptCommand:command];
 }
 
+- (id)TCM_handleSeeScriptCommand:(NSScriptCommand *)command {
+    return [[DocumentController sharedInstance] handleSeeScriptCommand:command];
+}
+
 @end

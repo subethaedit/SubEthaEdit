@@ -13,5 +13,6 @@
 
 - (id)TCM_handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)TCM_handlePrintScriptCommand:(NSScriptCommand *)command;
+- (id)TCM_handleSeeScriptCommand:(NSScriptCommand *)command;
 
 @end

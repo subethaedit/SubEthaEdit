@@ -25,6 +25,9 @@
     NSMutableArray *I_fileNamesFromLastRunOpenPanel;
     
     NSMutableDictionary *I_propertiesForOpenedFiles;
+    NSMutableDictionary *I_suspendedSeeScriptCommands;
+    NSMutableDictionary *I_waitingDocuments;
+    NSMutableDictionary *I_resultFileNames;
 }
 
 + (DocumentController *)sharedInstance;
@@ -40,5 +43,6 @@
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)handlePrintScriptCommand:(NSScriptCommand *)command;
+- (id)handleSeeScriptCommand:(NSScriptCommand *)command;
 
 @end

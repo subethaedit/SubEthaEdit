@@ -201,7 +201,6 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)TCM_initHelper {
     I_printOperationIsRunning=NO;
-    I_suspendedScriptCommands = [NSMutableArray new];
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
     [self setUndoManager:nil];
@@ -762,8 +761,6 @@ static NSString *tempFileName(NSString *origPath) {
     } else {
         [I_session abandon];
     }
-
-    [I_suspendedScriptCommands release];
     
     [I_symbolUpdateTimer release];
     [I_webPreviewDelayedRefreshTimer release];
@@ -943,16 +940,6 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (BOOL)isRemotelyEditingTextStorage {
     return I_flags.isRemotelyEditingTextStorage;
-}
-
-- (void)addSuspendedScriptCommand:(NSScriptCommand *)command {
-    [I_suspendedScriptCommands addObject:command];
-}
-
-- (void)resumeSuspendedScriptCommands {
-    NSLog(@"resume suspended commands");
-    [I_suspendedScriptCommands makeObjectsPerformSelector:@selector(resumeExecutionWithResult:) withObject:nil];
-    [I_suspendedScriptCommands removeAllObjects];
 }
 
 - (IBAction)showWebPreview:(id)aSender {
@@ -4146,43 +4133,6 @@ typedef enum {
     NSScriptCommand *command = [NSScriptCommand currentCommand];
     [command setScriptErrorNumber:2];
     [command setScriptErrorString:@"Document is not announced."];
-    return nil;
-}
-
-- (id)handleReadFromFileScriptCommand:(NSScriptCommand *)command {
-    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"command: %@", command);
-    
-    NSMutableDictionary *properties = [NSMutableDictionary dictionary];
-
-    NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
-                                                    classDescriptionWithAppleEventCode:'pltd'];
-    
-    NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];
-    NSEnumerator *enumerator = [evaluatedProperties keyEnumerator];
-    id argumentKey;
-    while ((argumentKey = [enumerator nextObject])) {
-        if ([argumentKey isKindOfClass:[NSNumber class]]) {
-            NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
-            if (key) {
-                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
-            }
-        } else if ([argumentKey isKindOfClass:[NSString class]]) {
-            [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
-        }
-    }
-    
-    (void)[self TCM_readFromFile:[[command evaluatedArguments] objectForKey:@"File"]
-                          ofType:@"PlainTextType"
-                      properties:properties];
-
-    [self updateChangeCount:NSChangeDone];
-    
-    NSAppleEventDescriptor *waitDesc = [[command appleEvent] descriptorForKeyword:'Wait'];
-    if (waitDesc && [waitDesc booleanValue]) {
-        [self addSuspendedScriptCommand:command];
-        [command suspendExecution];
-    }
-                          
     return nil;
 }
 

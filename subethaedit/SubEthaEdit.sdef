@@ -25,6 +25,9 @@
 					<responds-to name="SubEthaEditSuite.Print">
 						<cocoa method="TCM_handlePrintScriptCommand:"/>
 					</responds-to>
+					<responds-to name="see">
+						<cocoa method="TCM_handleSeeScriptCommand:"/>
+					</responds-to>
 				</responds-to-commands>
             </class>
             <class name="text document" code="pltd" inherits="document">
@@ -53,9 +56,6 @@
                     </property>
                 </properties>
 				<responds-to-commands>
-					<responds-to name="read">
-						<cocoa method="handleReadFromFileScriptCommand:"/>
-					</responds-to>
                     <responds-to name="SubEthaEditSuite.Print">
 						<cocoa method="handlePrintScriptCommand:"/>
 					</responds-to>
@@ -109,6 +109,13 @@
                     <cocoa key="WithProperties"/>
                 </parameter>			
             </command>
+			<command name="print" description="Print an object." code="aevtpdoc">
+				<!-- type would be better written as "file | document". -->
+				<direct-parameter type="file" description="The file(s) or document(s) to be printed."/>
+                <parameter name="with properties" code="prdt" type="record" optional="optional" description="initial properties">
+                    <cocoa key="WithProperties"/>
+                </parameter>
+			</command>
             <command name="get url" code="GURLGURL">
                 <cocoa class="GetURLCommand"/>
                 <direct-parameter type="object"/>
@@ -117,22 +124,33 @@
                 <cocoa class="GetURLCommand"/>
                 <direct-parameter type="object"/>
             </command>
-            <command name="read" code="MySuRead" hidden="hidden" description="">
-                <direct-parameter type="object" description=""/>
-                <parameter name="from" code="From" type="file" description="">
-					<cocoa key="File"/>
+            <command name="see" code="HdraSee " hidden="hidden" description="">
+                <result type="file" description=""/>
+                <parameter name="files" code="File" type="string" optional="optional" description="">
+					<cocoa key="Files"/>
+				</parameter>                
+                <parameter name="new files" code="NuFl" type="string" optional="optional" description="">
+					<cocoa key="NewFiles"/>
+				</parameter>                
+                <parameter name="stdin" code="Stdi" type="string" optional="optional" description="">
+					<cocoa key="Stdin"/>
 				</parameter>
+                <parameter name="jobdescription" code="JobD" type="string" optional="optional" description="">
+					<cocoa key="JobDescription"/>                    
+                </parameter>
+                <parameter name="pipetitle" code="Pipe" type="string" optional="optional" description="">
+					<cocoa key="PipeTitle"/>                    
+                </parameter>
+                <parameter name="print" code="Prnt" type="boolean" optional="optional" description="">
+					<cocoa key="ShouldPrint"/>                    
+                </parameter>
+                <parameter name="wait" code="Wait" type="boolean" optional="optional" description="">
+ 					<cocoa key="ShouldWait"/>                   
+                </parameter>
                 <parameter name="with properties" code="prdt" type="record" optional="optional" description="initial properties">
                     <cocoa key="WithProperties"/>
                 </parameter>
             </command>
-			<command name="print" description="Print an object." code="aevtpdoc">
-				<!-- type would be better written as "file | document". -->
-				<direct-parameter type="file" description="The file(s) or document(s) to be printed."/>
-                <parameter name="with properties" code="prdt" type="record" optional="optional" description="initial properties">
-                    <cocoa key="WithProperties"/>
-                </parameter>
-			</command>
         </commands>
     </suite>
 </dictionary>

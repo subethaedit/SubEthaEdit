@@ -311,12 +311,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
                                                        andSelector:@selector(handleAppleEvent:withReplyEvent:)
                                                      forEventClass:kKAHL
                                                         andEventID:kMOD];
-                                                        
-    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:[NSDocumentController sharedDocumentController]
-                                                       andSelector:@selector(handleAppleEvent:withReplyEvent:)
-                                                     forEventClass:'Hdra'
-                                                        andEventID:'See '];
-                                                        
+                                                                                                                
     [self setupTextViewContextMenu];
 }
 

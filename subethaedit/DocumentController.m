@@ -35,6 +35,9 @@
     if (self) {
         I_fileNamesFromLastRunOpenPanel = [NSMutableArray new];
         I_propertiesForOpenedFiles = [NSMutableDictionary new];
+        I_suspendedSeeScriptCommands = [NSMutableDictionary new];
+        I_waitingDocuments = [NSMutableDictionary new];
+        I_resultFileNames = [NSMutableDictionary new];
     }
     return self;
 }
@@ -43,6 +46,9 @@
     [I_modeIdentifierFromLastRunOpenPanel release];
     [I_fileNamesFromLastRunOpenPanel release];
     [I_propertiesForOpenedFiles release];
+    [I_suspendedSeeScriptCommands release];
+    [I_waitingDocuments release];
+    [I_resultFileNames release];
     [super dealloc];
 }
 
@@ -52,18 +58,6 @@
     [self addDocument:document];
     [document showWindows];
     [document release];
-}
-
-- (void)addDocument:(NSDocument *)document {
-    [super addDocument:document];
-    if ([[NSScriptCommand currentCommand] isKindOfClass:[NSCreateCommand class]]) {
-        NSScriptCommand *command = [NSScriptCommand currentCommand];
-        NSAppleEventDescriptor *waitDesc = [[command appleEvent] descriptorForKeyword:'Wait'];
-        if (waitDesc && [waitDesc booleanValue]) {
-            [(PlainTextDocument *)document addSuspendedScriptCommand:command];
-            [command suspendExecution];
-        }
-    }
 }
 
 - (IBAction)goIntoBundles:(id)sender {
@@ -174,7 +168,26 @@
 }
 
 - (void)removeDocument:(NSDocument *)document {
-    [(PlainTextDocument *)document resumeSuspendedScriptCommands];
+    int i;
+    NSArray *keys = [I_waitingDocuments allKeys];
+    int count = [keys count];
+    for (i = count - 1; i >=0; i--) {
+        NSString *key = [keys objectAtIndex:i];
+        NSMutableArray *documents = [I_waitingDocuments objectForKey:key];
+        if ([documents containsObject:document]) {
+            NSMutableArray *fileNames = [I_resultFileNames objectForKey:key];
+            [fileNames addObject:[document fileName]];
+            [documents removeObject:document];
+            if ([documents count] == 0) {
+                NSScriptCommand *command = [I_suspendedSeeScriptCommands objectForKey:key];
+                [command resumeExecutionWithResult:fileNames];
+                [I_suspendedSeeScriptCommands removeObjectForKey:key];
+                [I_waitingDocuments removeObjectForKey:key];
+                [I_resultFileNames removeObjectForKey:key];
+            }
+        }
+    }
+    
     [super removeDocument:document];
 }
 
@@ -212,24 +225,11 @@
         [files addObject:[directParameter path]];
     }
     
-    BOOL shouldWait = NO;
-    NSAppleEventDescriptor *waitDesc = [[command appleEvent] descriptorForKeyword:'Wait'];
-    if (waitDesc && [waitDesc booleanValue]) {
-        shouldWait = YES;
-    }
-    
     enumerator = [files objectEnumerator];
     NSString *filename;
     while ((filename = [enumerator nextObject])) {
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
-        PlainTextDocument *document = [self openDocumentWithContentsOfFile:filename display:YES];
-        if (shouldWait) {
-            [document addSuspendedScriptCommand:command];
-        }
-    }
-
-    if (shouldWait) {
-        [command suspendExecution];
+        (void)[self openDocumentWithContentsOfFile:filename display:YES];
     }
             
     return nil;
@@ -278,6 +278,132 @@
         [document printShowingPrintPanel:NO];
         if (shouldClose) {
             [document close];
+        }
+    }
+
+    return nil;
+}
+
+- (id)handleSeeScriptCommand:(NSScriptCommand *)command {
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"command: %@", [command description]);
+
+    NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
+                                                    classDescriptionWithAppleEventCode:'pltd'];
+    
+    NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+    NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];
+    NSEnumerator *enumerator = [evaluatedProperties keyEnumerator];
+    id argumentKey;
+    while ((argumentKey = [enumerator nextObject])) {
+        if ([argumentKey isKindOfClass:[NSNumber class]]) {
+            NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
+            if (key) {
+                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+            }
+        } else if ([argumentKey isKindOfClass:[NSString class]]) {
+            [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
+        }
+    }
+    
+    
+    NSString *jobDescription = [[command evaluatedArguments] objectForKey:@"JobDescription"];
+    NSLog(@"job-description: %@", jobDescription);
+    
+    BOOL shouldPrint = [[[command evaluatedArguments] objectForKey:@"ShouldPrint"] boolValue];
+    
+    NSMutableArray *documents = [NSMutableArray array];
+    
+    NSMutableArray *files = [NSMutableArray array];
+    id argument = [[command evaluatedArguments] objectForKey:@"Files"];
+    if ([argument isKindOfClass:[NSArray class]]) {
+        [files addObjectsFromArray:argument];
+    } else if ([argument isKindOfClass:[NSString class]]) {
+        [files addObject:argument];
+    } else if ([argument isKindOfClass:[NSURL class]]) {
+        [files addObject:[argument path]];
+    }
+
+    enumerator = [files objectEnumerator];
+    NSString *fileName;
+    while ((fileName = [enumerator nextObject])) {
+        [I_propertiesForOpenedFiles setObject:properties forKey:fileName];
+        NSDocument *document = [self openDocumentWithContentsOfFile:fileName display:YES];
+        if (document && !shouldPrint) {
+            [documents addObject:document];
+        }
+        if (document && shouldPrint) {
+            [document printShowingPrintPanel:NO];
+            [document close];
+        }
+    }
+
+    
+    NSMutableArray *newFiles = [NSMutableArray array];
+    argument = [[command evaluatedArguments] objectForKey:@"NewFiles"];
+    if ([argument isKindOfClass:[NSArray class]]) {
+        [newFiles addObjectsFromArray:argument];
+    } else if ([argument isKindOfClass:[NSString class]]) {
+        [newFiles addObject:argument];
+    } else if ([argument isKindOfClass:[NSURL class]]) {
+        [newFiles addObject:[argument path]];
+    }
+    
+    enumerator = [newFiles objectEnumerator];
+    while ((fileName = [enumerator nextObject])) {
+        NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+        if (document) {
+            [properties setObject:[fileName lastPathComponent] forKey:@"lastComponentOfFileName"];
+            [document setScriptingProperties:properties];
+        }
+        if (document && !shouldPrint) {
+            [documents addObject:document];
+        }
+        if (document && shouldPrint) {
+            [document printShowingPrintPanel:NO];
+            [document close];
+        }
+    }
+        
+    
+    NSString *standardInputFile = nil;
+    argument = [[command evaluatedArguments] objectForKey:@"Stdin"];
+    if ([argument isKindOfClass:[NSString class]]) {
+        standardInputFile = argument;
+    } else if ([argument isKindOfClass:[NSURL class]]) {
+        standardInputFile = [argument path];
+    }
+    
+    if (standardInputFile) {
+        NSString *pipeTitle = [[command evaluatedArguments] objectForKey:@"PipeTitle"];
+        NSLog(@"pipe-title: %@", pipeTitle);
+    
+        NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+        if (document) {
+            if (pipeTitle) {
+                [properties setObject:pipeTitle forKey:@"lastComponentOfFileName"];
+            }
+            [document setScriptingProperties:properties];
+            [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
+            [document readFromFile:standardInputFile ofType:@"PlainTextType"];
+        }
+        if (document && !shouldPrint) {
+            [documents addObject:document];
+        }
+        if (document && shouldPrint) {
+            [document printShowingPrintPanel:NO];
+            [document close];
+        }
+    }
+    
+            
+    BOOL shouldWait = [[[command evaluatedArguments] objectForKey:@"ShouldWait"] boolValue];
+    if (shouldWait) {
+        if ([documents count] > 0) {
+            [command suspendExecution];
+            NSString *identifier = [NSString UUIDString];
+            [I_suspendedSeeScriptCommands setObject:command forKey:identifier];
+            [I_waitingDocuments setObject:documents forKey:identifier];
+            [I_resultFileNames setObject:[NSMutableArray array] forKey:identifier];
         }
     }
     
