@@ -38,7 +38,7 @@ while [ $# -gt 0 ] ; do
     echo "...setting ownership"
     /usr/sbin/chown -R root:admin ${1}
     echo "...setting permissions"
-    /bin/chmod -R g+w ${1}
+    /bin/chmod -R ug+w ${1}
     echo "...copying ${1}"
     /Developer/Tools/CpMac -r ${1} /Volumes/${imageName}
     shift
