@@ -191,6 +191,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         name:PlainTextDocumentInvalidateLayoutNotification object:self];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userWillLeaveSession:) name:TCMMMUserWillLeaveSessionNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateViewBecauseOfPreferences:) name:GeneralViewPreferencesDidChangeNotificiation object:nil];
     
     // maybe put this into DocumentMode Setting
     NSString *bracketString=@"{[()]}";
@@ -213,6 +215,15 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [self setEditAnyway:NO];
     [self setIsFileWritable:YES];
     I_undoManager = [(UndoManager *)[UndoManager alloc] initWithDocument:self];
+}
+
+- (void)updateViewBecauseOfPreferences:(NSNotification *)aNotification {
+    NSEnumerator *wcs = [[self windowControllers] objectEnumerator];
+    PlainTextWindowController *controller=nil;
+    while ((controller=[wcs nextObject])) {
+        [controller synchronizeWindowTitleWithDocumentName];
+        [controller refreshDisplay];
+    }
 }
 
 - (void)TCM_sendODBCloseEvent {

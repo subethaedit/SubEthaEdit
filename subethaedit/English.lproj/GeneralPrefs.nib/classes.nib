@@ -16,6 +16,7 @@
                 changeModeForNewDocuments = id; 
                 changeMyColor = id; 
                 changeName = id; 
+                postGeneralViewPreferencesDidChangeNotificiation = id; 
             }; 
             CLASS = GeneralPreferences; 
             LANGUAGE = ObjC; 

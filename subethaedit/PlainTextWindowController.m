@@ -865,6 +865,15 @@ enum {
     [self synchronizeWindowTitleWithDocumentName];
 }
 
+- (void)refreshDisplay {
+    NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+    PlainTextEditor *editor=nil;
+    while ((editor=[plainTextEditors nextObject])) {
+        [[editor textView] setNeedsDisplay:YES];
+    }
+    [O_participantsView setNeedsDisplay:YES];
+}
+
 #pragma mark -
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {

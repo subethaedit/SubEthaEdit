@@ -411,7 +411,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
                 NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
                 if ([[information objectForKey:@"OutgoingRendezvousSessions"] count]) {
-                    #warning "Can't happen"
                     //NSLog(@"Can't happen");
                 }
             } else {

@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "TCMPreferenceModule.h"
 
+extern NSString * const GeneralViewPreferencesDidChangeNotificiation;
+
+
 extern NSString * const MyColorHuePreferenceKey            ;
 extern NSString * const CustomMyColorHuePreferenceKey      ;
 extern NSString * const SelectionSaturationPreferenceKey   ;
@@ -55,6 +58,7 @@ extern NSString * const MyEmailsPreferenceKey;
     IBOutlet DocumentModePopUpButton *O_modeForNewDocumentsPopUpButton;
 }
 
+- (IBAction)postGeneralViewPreferencesDidChangeNotificiation:(id)aSender;
 - (IBAction)changeName:(id)aSender;
 - (IBAction)changeAIM:(id)aSender;
 - (IBAction)changeEmail:(id)aSender;

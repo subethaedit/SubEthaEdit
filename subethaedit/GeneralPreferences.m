@@ -13,6 +13,8 @@
 #import "DocumentModeManager.h"
 #import <AddressBook/AddressBook.h>
 
+NSString * const GeneralViewPreferencesDidChangeNotificiation =
+               @"GeneralViewPreferencesDidChangeNotificiation";
 
 NSString * const MyColorHuePreferenceKey             = @"MyColorHue";
 NSString * const CustomMyColorHuePreferenceKey       = @"CustomMyColorHue";
@@ -67,6 +69,14 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
 
 #define COLORMENUIMAGEWIDTH 20.
 #define COLORMENUIMAGEHEIGHT 10.
+
+- (void)TCM_sendGeneralViewPreferencesDidChangeNotificiation {
+    [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:GeneralViewPreferencesDidChangeNotificiation object:self]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
 
 - (NSImage *)TCM_menuImageWithColor:(NSColor *)aColor {
     NSRect rect=NSMakeRect(0,0,COLORMENUIMAGEWIDTH,COLORMENUIMAGEHEIGHT);
@@ -237,6 +247,11 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     [defaults setObject:[defaults objectForKey:ChangesSaturationPreferenceKey] forKey:ChangesSaturationPreferenceKey];
     [defaults setObject:[defaults objectForKey:SelectionSaturationPreferenceKey] forKey:SelectionSaturationPreferenceKey];
+    [self TCM_sendGeneralViewPreferencesDidChangeNotificiation];
+}
+
+- (IBAction)postGeneralViewPreferencesDidChangeNotificiation:(id)aSender {
+    [self TCM_sendGeneralViewPreferencesDidChangeNotificiation];
 }
 
 - (IBAction)changeMyCustomColor:(id)aSender {
