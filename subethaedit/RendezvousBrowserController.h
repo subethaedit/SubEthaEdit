@@ -8,7 +8,6 @@
 
 #import <AppKit/AppKit.h>
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
-#import "TCMRendezvousBrowser.h"
 
 
 @interface RendezvousBrowserController : NSWindowController {

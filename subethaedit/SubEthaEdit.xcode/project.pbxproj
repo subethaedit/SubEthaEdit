@@ -1297,8 +1297,6 @@
 				14AE9ED605F618100025CADE,
 				5E92CDA307398083006C0CB3,
 				5E92CDA407398083006C0CB3,
-				5EEB186005ED1CBB00C17677,
-				5EEB186105ED1CBB00C17677,
 				5E3BE34C064F8BF70081A388,
 				5E3BE34D064F8BF70081A388,
 			);
@@ -5904,34 +5902,6 @@
 			settings = {
 			};
 		};
-		5EEB186005ED1CBB00C17677 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = TCMRendezvousBrowser.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB186105ED1CBB00C17677 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = TCMRendezvousBrowser.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5EEB186205ED1CBB00C17677 = {
-			fileRef = 5EEB186005ED1CBB00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EEB186305ED1CBB00C17677 = {
-			fileRef = 5EEB186105ED1CBB00C17677;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5EF18E0E066495C600957730 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -6117,7 +6087,6 @@
 				5EEB177205ECF6F700C17677,
 				5EEB177805ECF8D300C17677,
 				5EEB185705ED0E1600C17677,
-				5EEB186205ED1CBB00C17677,
 				144BC39205EDFDB1006397BC,
 				144BC76705EE1F21006397BC,
 				144BC77305EE26B0006397BC,
@@ -6351,7 +6320,6 @@
 				5EEB177305ECF6F700C17677,
 				5EEB177905ECF8D300C17677,
 				5EEB185805ED0E1600C17677,
-				5EEB186305ED1CBB00C17677,
 				144BC39305EDFDB1006397BC,
 				144BC76805EE1F21006397BC,
 				144BC77405EE26B0006397BC,

@@ -476,8 +476,6 @@ subethaedit/TCMPreferenceController.h -text
 subethaedit/TCMPreferenceController.m -text
 subethaedit/TCMPreferenceModule.h -text
 subethaedit/TCMPreferenceModule.m -text
-subethaedit/TCMRendezvousBrowser.h -text
-subethaedit/TCMRendezvousBrowser.m -text
 subethaedit/TableView.h -text
 subethaedit/TableView.m -text
 subethaedit/Tests/Tests.m -text
