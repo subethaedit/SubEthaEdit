@@ -75,13 +75,15 @@
             if (strncmp(bytes,"USRCHG",6)==0) {
                 [self requestUser];
             } else if (strncmp(bytes,"USRREQ",6)==0) {
-                NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
-                NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
-                dictionary = [self notification];
-                [data appendData:TCM_BencodedObject(dictionary)];
-                TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
-                [[self channel] sendMessage:[message autorelease]];
-                return;
+                if ([[AppController sharedInstance] testNumber]==3) {
+                    NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
+                    NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
+                    dictionary = [self notification];
+                    [data appendData:TCM_BencodedObject(dictionary)];
+                    TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
+                    [[self channel] sendMessage:[message autorelease]];
+                    return;
+                }
             } else if (strncmp(bytes,"STA",3)==0){
                 if (strncmp(&bytes[3],"VIS",3)==0) {
                     [[self delegate] profile:self didReceiveVisibilityChange:YES];

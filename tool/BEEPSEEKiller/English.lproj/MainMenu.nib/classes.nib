@@ -6,6 +6,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_addressesController" = NSArrayController; 
+                "O_popUpButton" = NSPopUpButton; 
                 "O_resultTextView" = NSTextView; 
                 "O_servicesController" = NSArrayController; 
             }; 

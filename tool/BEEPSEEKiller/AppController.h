@@ -19,6 +19,7 @@
     int I_testNumber;
     NSArray *I_testDescriptions;
     NSString *I_userID;
+    IBOutlet NSPopUpButton *O_popUpButton;
 }
 
 + (id)sharedInstance;

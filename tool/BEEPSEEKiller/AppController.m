@@ -27,6 +27,7 @@ static AppController *S_sharedAppController=nil;
                                 @"No Test",
                                 @"Handshake profile: Empty GRT",
                                 @"Handshake profile: Malformed GRT",
+                                @"Status profile: Incomplete USRFUL",
                                 nil];
         I_testNumber = 1;
         [self setUserID:[NSString UUIDString]];
@@ -50,6 +51,19 @@ static AppController *S_sharedAppController=nil;
 //    [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];    
 //    [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
 //    [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
+
+    NSMenu *menu=[O_popUpButton menu];
+    SEL action=[[menu itemAtIndex:0] action];
+    int index=0;
+    while (index<[I_testDescriptions count]) {
+        NSMenuItem *item=[[[NSMenuItem alloc] initWithTitle:[I_testDescriptions objectAtIndex:index] action:action keyEquivalent:@""] autorelease];
+        [item setTag:index];
+        [menu addItem:item];
+        index++;
+    }
+//    [O_popUpButton setMenu:menu];
+
+    [O_popUpButton bind:@"selectedTag" toObject:self withKeyPath:@"testNumber" options:nil];
 }
 
 
