@@ -29,7 +29,7 @@ extern NSString * const DocumentModeColumnsPreferenceKey                ;
 extern NSString * const DocumentModeRowsPreferenceKey                   ;
 extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
 extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
-
+extern NSString * const DocumentModeSpellCheckingPreferenceKey          ;
 @class SyntaxHighlighter;
 @class RegexSymbolParser;
 

@@ -30,6 +30,7 @@ NSString * const DocumentModeWrapLinesPreferenceKey            = @"WrapLines";
 NSString * const DocumentModeWrapModePreferenceKey             = @"WrapMode";
 NSString * const DocumentModeRowsPreferenceKey                 = @"Rows";
 NSString * const DocumentModeColumnsPreferenceKey              = @"Columns";
+NSString * const DocumentModeSpellCheckingPreferenceKey        = @"CheckSpelling";
 NSString * const DocumentModeUseDefaultViewPreferenceKey       = @"UseDefaultView";
 NSString * const DocumentModeUseDefaultEditPreferenceKey       = @"UseDefaultEdit";
 NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFile";

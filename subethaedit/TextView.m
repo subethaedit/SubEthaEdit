@@ -246,6 +246,16 @@ static NSMenu *defaultMenu=nil;
     [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:[aColor isDark]?[[NSColor selectedTextBackgroundColor] brightnessInvertedColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
 }
 
+- (void)toggleContinuousSpellChecking:(id)sender {
+    [super toggleContinuousSpellChecking:sender];
+    if ([[self delegate] respondsToSelector:@selector(textViewDidChangeSpellCheckingSetting:)]) {
+        [[self delegate] textViewDidChangeSpellCheckingSetting:self];
+    }
+}
+
+#pragma mark -
+#pragma mark ### dragging ###
+
 - (void)setIsDragTarget:(BOOL)aFlag {
     if (aFlag != I_isDragTarget) {
         I_isDragTarget=aFlag;

@@ -171,6 +171,7 @@
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
     [I_textView setEditable:[document isEditable]];
+    [I_textView setContinuousSpellCheckingEnabled:[document isContinuousSpellCheckingEnabled]];
 }
 
 #define RIGHTINSET 5.
@@ -840,6 +841,9 @@
     return [[self document] blockeditAttributes];
 }
 
+- (void)textViewDidChangeSpellCheckingSetting:(TextView *)aTextView {
+    [[self document] setContinuousSpellCheckingEnabled:[aTextView isContinuousSpellCheckingEnabled]];
+}
 
 #pragma mark -
 

@@ -43,6 +43,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL showsChangeMarks; // Editor
         BOOL showsTopStatusBar; // Editor
         BOOL showsBottomStatusBar; // Editor
+        BOOL isContinuousSpellCheckingEnabled; // Editor
         BOOL keepDocumentVersion;
         BOOL isFileWritable;
         BOOL editAnyway;
@@ -205,7 +206,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setIsFileWritable:(BOOL)aFlag;
 - (BOOL)editAnyway;
 - (void)setEditAnyway:(BOOL)aFlag;
-
+- (BOOL)isContinuousSpellCheckingEnabled;
+- (void)setContinuousSpellCheckingEnabled:(BOOL)aFlag;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

@@ -786,6 +786,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [self setShowsGutter:[[aDocumentMode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] intValue]];
     [self setShowsMatchingBrackets:[[aDocumentMode defaultForKey:DocumentModeShowMatchingBracketsPreferenceKey] boolValue]];
     [self setLineEnding:[[aDocumentMode defaultForKey:DocumentModeLineEndingPreferenceKey] intValue]];
+    [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
     if (I_flags.highlightSyntax) {
         [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
     }
@@ -2127,6 +2128,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)setEditAnyway:(BOOL)aFlag {
     I_flags.editAnyway = aFlag;
 }
+
+- (BOOL)isContinuousSpellCheckingEnabled {
+    return I_flags.isContinuousSpellCheckingEnabled;
+}
+- (void)setContinuousSpellCheckingEnabled:(BOOL)aFlag {
+    if (aFlag!=I_flags.isContinuousSpellCheckingEnabled) {
+        I_flags.isContinuousSpellCheckingEnabled=aFlag;
+        [[[self documentMode] defaults] setObject:[NSNumber numberWithBool:aFlag] forKey:DocumentModeSpellCheckingPreferenceKey];
+    }
+}
+
 
 #pragma mark -
 

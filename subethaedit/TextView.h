@@ -17,4 +17,5 @@
 @interface NSObject (TextViewDelegateMethods) 
 - (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent;
 - (NSDictionary *)blockeditAttributesForTextView:(NSTextView *)aTextView;
+- (void)textViewDidChangeSpellCheckingSetting:(TextView *)aTextView;
 @end
