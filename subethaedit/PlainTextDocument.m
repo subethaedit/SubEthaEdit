@@ -3288,6 +3288,15 @@ static NSString *S_measurementUnits;
     return I_flags.isReceivingContent;
 }
 
+- (void)setShouldSelectModeOnSave:(BOOL)aFlag {
+    I_flags.shouldSelectModeOnSave = aFlag;
+}
+
+- (BOOL)shouldSelectModeOnSave {
+    return I_flags.shouldSelectModeOnSave;
+}
+
+
 #pragma mark -
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {

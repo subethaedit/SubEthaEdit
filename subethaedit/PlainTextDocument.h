@@ -254,6 +254,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (BOOL)isContinuousSpellCheckingEnabled;
 - (void)setContinuousSpellCheckingEnabled:(BOOL)aFlag;
 - (BOOL)isReceivingContent;
+- (void)setShouldSelectModeOnSave:(BOOL)aFlag;
+- (BOOL)shouldSelectModeOnSave;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
