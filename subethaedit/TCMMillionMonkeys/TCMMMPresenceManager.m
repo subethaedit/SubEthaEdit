@@ -219,7 +219,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     while ((session=[sessions nextObject])) {
         [aProfile announceSession:session];
     }
-    NSLog(@"%@",[[TCMMMBEEPSessionManager sharedInstance] description]);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@",[[TCMMMBEEPSessionManager sharedInstance] description]);
 }
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible {
@@ -324,15 +324,15 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile 
 {
-    NSLog(@"Got status Channel!");
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got status Channel!");
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     [aProfile setDelegate:self];
     NSMutableDictionary *statusOfUserID=[self statusOfUserID:userID];
     
     if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
-        NSLog(@"Got status profile albeit having one for User: %@",userID);
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got status profile albeit having one for User: %@",userID);
     } else {
-        NSLog(@"Got status profile without trying to connect to User: %@",userID);
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got status profile without trying to connect to User: %@",userID);
     }
     [statusOfUserID setObject:@"GotStatus" forKey:@"Status"];
     [statusOfUserID setObject:aProfile forKey:@"StatusProfile"];

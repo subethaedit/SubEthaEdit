@@ -120,7 +120,7 @@ static int sListenLogCount=0;
     [I_logHandleOut release];
     [I_logHandleIn closeFile];
     [I_logHandleIn release];
-    NSLog(@"TCMBEEPSession dealloced");
+    DEBUGLOG(@"BEEPLogDomain",SimpleLogLevel,@"TCMBEEPSession dealloced");
     [super dealloc];
 }
 
@@ -403,7 +403,7 @@ static int sListenLogCount=0;
     } else if (bytesWritten < 0) {
         NSLog(@"Error occurred while writing bytes.");
     } else {
-        NSLog(@"Stream has reached its capacity");
+        DEBUGLOG(@"BEEPLogDomain",SimpleLogLevel,@"Stream has reached its capacity");
     }
 }
 
@@ -424,7 +424,7 @@ static int sListenLogCount=0;
             }
             break;
         case NSStreamEventEndEncountered:
-            NSLog(@"Input stream end encountered.");
+            DEBUGLOG(@"BEEPLogDomain",SimpleLogLevel,@"Input stream end encountered.");
             [self TCM_cleanup];
             break;
         default:
@@ -450,7 +450,7 @@ static int sListenLogCount=0;
             }
             break;
         case NSStreamEventEndEncountered:
-            NSLog(@"Output stream end encountered.");
+            DEBUGLOG(@"BEEPLogDomain",SimpleLogLevel,@"Output stream end encountered.");
             [self TCM_cleanup];
             break;
         default:

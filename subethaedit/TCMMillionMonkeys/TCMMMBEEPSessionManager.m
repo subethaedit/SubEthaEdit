@@ -166,7 +166,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)connectToHost:(TCMHost *)aHost
 {
-    NSLog(@"connectToHost:");
+    DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"connectToHost:");
 
 /*
     pendingOutboundSessions {
@@ -292,7 +292,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             // find the open request
         }
     } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
-        NSLog(@"Got SubEthaEditSession profile");
+        DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"Got SubEthaEditSession profile");
         [aProfile setDelegate:self];
         [I_pendingSessionProfiles addObject:aProfile];
     }

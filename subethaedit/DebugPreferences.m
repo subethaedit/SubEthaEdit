@@ -26,6 +26,7 @@
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSEnumerator *domains = [[NSArray arrayWithObjects:
                                         @"BEEPLogDomain",
+                                        @"RendezvousLogDomain",
                                         @"MillionMonkeysLogDomain",
                                         @"SyntaxHighlighterDomain",
                                         @"FileIOLogDomain",

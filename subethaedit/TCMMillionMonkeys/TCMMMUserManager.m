@@ -83,7 +83,7 @@ static TCMMMUserManager *sharedInstance=nil;
 }
 
 - (void)addUser:(TCMMMUser *)aUser {
-    NSLog(@"AddUser: %@",aUser);
+    DEBUGLOG(@"MillionMonkeysLogDomain",AllLogLevel,@"AddUser: %@",aUser);
     NSString *userID=[aUser userID];
     TCMMMUser *user=[self userForUserID:userID];
     BOOL userDidChange=NO;
@@ -95,7 +95,7 @@ static TCMMMUserManager *sharedInstance=nil;
     } else {
         userDidChange=YES;
         [I_usersByID setObject:aUser forKey:userID];
-        NSLog(@"new user set");
+        DEBUGLOG(@"MillionMonkeysLogDomain",AllLogLevel,@"new user set");
     }
     if (userDidChange) {
         NSMutableDictionary *request=[I_userRequestsByID objectForKey:userID];

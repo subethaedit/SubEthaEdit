@@ -314,7 +314,7 @@
 
         <state id="Preprocessor" color="#6b3c26" background-color="none" font-weight="normal" font-style="italic">
             <begin><regex>^#</regex></begin>
-            <end><regex>\n</regex></end>
+            <end><regex>[\n]</regex></end>
             
             <keywords id="Zeug im Comment" color="#f00" background-color="none" font-weight="normal" font-style="normal">
                 <string>blabla</string>

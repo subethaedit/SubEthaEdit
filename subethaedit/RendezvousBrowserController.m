@@ -87,14 +87,14 @@
 - (IBAction)joinSession:(id)aSender
 {
     int row = [aSender clickedRow];
-    NSLog(@"joinSession in row: %d", row);
+    DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"joinSession in row: %d", row);
 
     ItemChildPair pair = [aSender itemChildPairAtRow:row];
     if (pair.childIndex!=-1) {
         NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
         NSArray *sessions = [userDict objectForKey:@"Sessions"];
         TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
-        NSLog(@"Found session: %@", session);
+        DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Found session: %@", session);
         [session join]; // also specify BEEPSession
     }
 }
@@ -112,7 +112,7 @@
 }
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didFindService:(NSNetService *)aNetService {
-    NSLog(@"foundservice: %@",aNetService);
+    DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"foundservice: %@",aNetService);
 }
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didResolveService:(NSNetService *)aNetService {
@@ -133,7 +133,7 @@
 }
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didRemoveResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
-    NSLog(@"Removed Service: %@",aNetService);
+    DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Removed Service: %@",aNetService);
 }
 
 #pragma mark -
@@ -279,10 +279,10 @@
 #pragma mark ### TCMMMUserManager Notifications ###
 
 - (void)userDidChange:(NSNotification *)aNotification {
-    NSLog(@"userDidChange: %@", aNotification);
+    DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
     TCMMMUser *user = [[aNotification userInfo] objectForKey:@"User"];
     if ([I_foundUserIDs containsObject:[user userID]]) {
-        NSLog(@"reloadData");
+        DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"reloadData");
         [O_browserListView reloadData];
     }
 }
