@@ -20,6 +20,8 @@
     IBOutlet NSPanel *O_modeHintPanel;
     NSOpenPanel *I_openPanel;
     
+    BOOL I_isOpeningUntitledDocument;
+    
     NSStringEncoding I_encodingFromLastRunOpenPanel;
     NSString *I_modeIdentifierFromLastRunOpenPanel;
     NSMutableArray *I_fileNamesFromLastRunOpenPanel;
@@ -41,6 +43,8 @@
 - (NSString *)modeIdentifierFromLastRunOpenPanel;
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument;
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;
+
+- (BOOL)isOpeningUntitledDocument;
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)handlePrintScriptCommand:(NSScriptCommand *)command;

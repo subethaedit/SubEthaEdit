@@ -36,6 +36,7 @@
 - (id)init {
     self = [super init];
     if (self) {
+        I_isOpeningUntitledDocument = NO;
         I_fileNamesFromLastRunOpenPanel = [NSMutableArray new];
         I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
@@ -170,7 +171,14 @@
 }
 
 - (id)openUntitledDocumentOfType:(NSString *)docType display:(BOOL)display {
-    return [super openUntitledDocumentOfType:docType display:display];
+    I_isOpeningUntitledDocument = YES;
+    NSDocument *document = [super openUntitledDocumentOfType:docType display:display];
+    I_isOpeningUntitledDocument = NO;
+    return document;
+}
+
+- (BOOL)isOpeningUntitledDocument {
+    return I_isOpeningUntitledDocument;
 }
 
 static NSString *tempFileName() {

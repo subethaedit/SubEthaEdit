@@ -14,8 +14,12 @@
 
 
 @interface AppController : NSObject {
-
+    BOOL I_lastShouldOpenUntitledFile;
 }
+
++ (AppController *)sharedInstance;
+
+- (BOOL)lastShouldOpenUntitledFile;
 
 - (IBAction)undo:(id)aSender;
 - (IBAction)redo:(id)aSender;

@@ -80,6 +80,8 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 #pragma mark -
 
+static AppController *sharedInstance = nil;
+
 @implementation AppController
 
 + (void)initialize {
@@ -100,6 +102,15 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
     [UserChangeOperation class];
     [TCMMMNoOperation class];
+}
+
++ (AppController *)sharedInstance {
+    return sharedInstance;
+}
+
+- (void)awakeFromNib {
+    sharedInstance = self;
+    I_lastShouldOpenUntitledFile = NO;
 }
 
 - (void)registerTransformers {
@@ -348,16 +359,23 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] setVisible:NO];
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
-//    [[TCMMMBEEPSessionManager sharedInstance] terminateAllBEEPSessions];    
+    //[[TCMMMBEEPSessionManager sharedInstance] terminateAllBEEPSessions];    
 }
 
--(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
+    BOOL result;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL isSetupDone = ([defaults objectForKey:SetupVersionPrefKey] != nil);
     if (!isSetupDone) {
-        return NO;
+        result = NO;
     }
-    return [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+    result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+    I_lastShouldOpenUntitledFile = result;
+    return result;
+}
+
+- (BOOL)lastShouldOpenUntitledFile {
+    return I_lastShouldOpenUntitledFile;
 }
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {

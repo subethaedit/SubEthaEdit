@@ -18,7 +18,7 @@
 #import "UndoManager.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "PrintPreferences.h"
-
+#import "AppController.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -53,6 +53,10 @@ struct SelectionRange
     long theDate; // modification date/time
 };
 #pragma options align=reset
+
+
+static PlainTextDocument *transientDocument = nil;
+static NSRect transientDocumentWindowFrame;
 
 
 enum {
@@ -764,6 +768,9 @@ static NSString *tempFileName(NSString *origPath) {
 - (id)init {
     self = [super init];
     if (self) {
+        if ([[DocumentController sharedInstance] isOpeningUntitledDocument]) {
+            transientDocument = nil;
+        }
         [self TCM_generateNewSession];
         I_textStorage = [TextStorage new];
         [I_textStorage setDelegate:self];
@@ -798,6 +805,10 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)dealloc {
+    if (transientDocument == self) {
+        transientDocument = nil;
+    }
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if (I_flags.isAnnounced) {
         [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
@@ -1222,11 +1233,28 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
-- (void)showWindows {
+- (void)showWindows {    
+    BOOL closeTransient = transientDocument 
+                          && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+                          && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+
     if (I_documentProxyWindowController) {
         [[I_documentProxyWindowController window] orderFront:self];
     } else {
+        if (closeTransient) {
+            NSWindow *window = [[self topmostWindowController] window];
+            [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
+        }
         [[self topmostWindowController] showWindow:self];
+    }
+    
+    if (closeTransient) {
+        [transientDocument close];
+    }
+    
+    if ([[DocumentController sharedInstance] isOpeningUntitledDocument] && [[AppController sharedInstance] lastShouldOpenUntitledFile]) {
+        transientDocument = self;
+        transientDocumentWindowFrame = [[[transientDocument topmostWindowController] window] frame];
     }
 }
 
@@ -3377,6 +3405,10 @@ static NSString *S_measurementUnits;
 }
 
 - (void)updateChangeCount:(NSDocumentChangeType)changeType {
+    if (transientDocument == self) {
+        transientDocument = nil;
+    }
+    
     if (changeType==NSChangeCleared || I_flags.shouldChangeChangeCount) {
         [super updateChangeCount:changeType];
     }
