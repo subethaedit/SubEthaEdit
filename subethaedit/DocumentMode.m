@@ -13,6 +13,7 @@
 #import "EncodingManager.h"
 #import "SymbolTableEntry.h"
 #import "RegexSymbolParser.h"
+#import "RegexSymbolDefinition.h"
 
 
 NSString * const DocumentModeEncodingPreferenceKey             = @"Encoding";
@@ -78,7 +79,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     if (self) {
         I_bundle = [aBundle retain];
         SyntaxDefinition *synDef = [[[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"]] autorelease];
+        RegexSymbolDefinition *symDef = [[[RegexSymbolDefinition alloc] initWithFile:[aBundle pathForResource:@"RegexSymbols" ofType:@"xml"]] autorelease];
         I_syntaxHighlighter = [[SyntaxHighlighter alloc] initWithSyntaxDefinition:synDef];
+        I_symbolParser = [[RegexSymbolParser alloc] initWithSymbolDefinition:symDef];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[[self bundle] bundleIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
@@ -134,6 +138,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_defaults release];
     [I_syntaxHighlighter release];
+    [I_symbolParser release];
     [I_bundle release];
     [super dealloc];
 }
@@ -154,44 +159,18 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_syntaxHighlighter;
 }
 
+- (RegexSymbolParser *)symbolParser {
+    return I_symbolParser;
+}
+
 - (BOOL)hasSymbols {
     return ![self isBaseMode];
 }
 
 - (NSArray *)symbolArrayForTextStorage:(NSTextStorage *)aTextStorage {
-    RegexSymbolParser *symbolParser = [[RegexSymbolParser init]alloc];
+    RegexSymbolParser *symbolParser = [self symbolParser];
     NSArray *returnArray = [symbolParser symbolsForTextStorage:aTextStorage];
-    [RegexSymbolParser release];
     return returnArray;
-
-    /*NSMutableArray *array=[NSMutableArray array];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"@class MainClass" 
-            fontTraitMask:NSBoldFontMask | NSItalicFontMask image:[NSImage imageNamed:@"SymbolC"] 
-            type:@"Class" jumpRange:NSMakeRange (5,10) range:NSMakeRange(4,100)]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"-blah:" 
-            fontTraitMask:NSItalicFontMask image:[NSImage imageNamed:@"SymbolM"] 
-            type:@"Method" jumpRange:NSMakeRange (14,10) range:NSMakeRange(14,20)]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"-fasel:" 
-            fontTraitMask:NSItalicFontMask image:[NSImage imageNamed:@"SymbolM"] 
-            type:@"Method" jumpRange:NSMakeRange (36,10) range:NSMakeRange(36,20)]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntrySeparator]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"@class MainClass" 
-            fontTraitMask:NSBoldFontMask image:[NSImage imageNamed:@"SymbolC"] 
-            type:@"Class" jumpRange:NSMakeRange (65,10) range:NSMakeRange(64,100)]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"-blah:" 
-            fontTraitMask:0 image:[NSImage imageNamed:@"SymbolM"] 
-            type:@"Method" jumpRange:NSMakeRange (74,10) range:NSMakeRange(74,20)]];
-    [array addObject:
-        [SymbolTableEntry symbolTableEntryWithName:@"-fasel:" 
-            fontTraitMask:0 image:[NSImage imageNamed:@"SymbolM"] 
-            type:@"Method" jumpRange:NSMakeRange (106,10) range:NSMakeRange(106,20)]];
-    return array;*/
 }
 
 

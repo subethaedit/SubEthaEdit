@@ -13,7 +13,7 @@
 
 NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
     static NSDictionary *sEntities;
-    if (!sEntities) sEntities=[[NSDictionary dictionaryWithObjectsAndKeys:@"<",@"lt",@">",@"gt",nil] retain];
+    if (!sEntities) sEntities=[[NSDictionary dictionaryWithObjectsAndKeys:@"<",@"lt",@">",@"gt",@"\"",@"quot",@"'",@"apos",@"&",@"amp",nil] retain];
     NSMutableString *result=[NSMutableString string];
     int childCount=CFTreeGetChildCount(aTree);
     int i;
@@ -86,7 +86,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
 
     CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, sourceURL, &xmlData, NULL, NULL, NULL);
 
-    cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,xmlData,sourceURL,kCFXMLParserSkipWhitespace,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
+    cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,xmlData,sourceURL,kCFXMLParserSkipWhitespace|kCFXMLParserSkipMetaData,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
 
     if (!cfXMLTree) {
         NSLog(@"Error parsing syntax definition \"%@\":\n%@", aPath, [errorDict description]);
@@ -194,7 +194,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         if ([@"state" isEqualToString:tag]) {
             NSMutableDictionary *aDictionary = [NSMutableDictionary dictionary];
             [I_states addObject:aDictionary];
-            [aDictionary addEntriesFromDictionary:attributes]; //FIXME: Cache styles
+            [aDictionary addEntriesFromDictionary:attributes];
             NSColor *aColor;
             if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
                 [aDictionary setObject:aColor forKey:@"color"];
@@ -250,7 +250,6 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
                 [aDictionary setObject:innerContent forKey:@"BeginsWithPlainString"];
             }
             DEBUGLOG(@"SyntaxHighlighterDomain",DetailedLogLevel,@"<begin> content is: %@",innerContent);
-        // FIXME: Case insensitivity, strings!
         } else if ([@"end" isEqualToString:tag]) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found <end> tag");
             CFXMLTreeRef firstTree = CFTreeGetFirstChild(xmlTree);
@@ -487,7 +486,6 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
     if ((aStyle = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:1] objectForKey:aToken])){
         return aStyle;
     }
-    // FIXME: Handle caseinsensitive Tokens with CFDictionary
     else return nil;
 }
 

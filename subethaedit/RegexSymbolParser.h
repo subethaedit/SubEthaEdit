@@ -7,11 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "RegexSymbolDefinition.h"
 
 @interface RegexSymbolParser : NSObject {
-
+    RegexSymbolDefinition *I_symbolDefinition;
 }
+- (id)initWithSymbolDefinition:(RegexSymbolDefinition *)aSymbolDefinition;
+
+/*"Accessors"*/
+
+- (RegexSymbolDefinition *)symbolDefinition;
+- (void)setSyntaxDefinition:(RegexSymbolDefinition *)aSymbolDefinition;
 
 /*"Document Interaction"*/
 - (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage;

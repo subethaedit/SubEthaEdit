@@ -93,4 +93,12 @@
     return I_isSeparator;
 }
 
+-(NSComparisonResult)sortByRange:(SymbolTableEntry *)other {
+    NSRange me = [self range];
+    NSRange he = [other range];
+    if (he.location<me.location) return NSOrderedDescending;
+    else if (he.location>me.location) return NSOrderedAscending;
+    else return NSOrderedSame;
+}
+
 @end

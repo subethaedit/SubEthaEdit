@@ -29,16 +29,19 @@ extern NSString * const DocumentModeColumnsPreferenceKey                ;
 extern NSString * const DocumentModeRowsPreferenceKey                   ;
 
 @class SyntaxHighlighter;
+@class RegexSymbolParser;
 
 @interface DocumentMode : NSObject {
     NSBundle *I_bundle;
     SyntaxHighlighter *I_syntaxHighlighter;
+    RegexSymbolParser *I_symbolParser;
     NSMutableDictionary *I_defaults;
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle;
 
 - (SyntaxHighlighter *)syntaxHighlighter;
+- (RegexSymbolParser *)symbolParser;
 
 - (BOOL)hasSymbols;
 - (NSArray *)symbolArrayForTextStorage:(NSTextStorage *)aTextStorage;
