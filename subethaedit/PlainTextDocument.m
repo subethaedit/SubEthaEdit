@@ -31,7 +31,7 @@
 #import "GeneralPreferences.h"
 
 #import "FindAllController.h"
-
+#import "MultiPagePrintView.h"
 
 #pragma options align=mac68k
 struct SelectionRange
@@ -2162,19 +2162,22 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (highlighter)
             while (![highlighter colorizeDirtyRanges:I_textStorage ofDocument: self]);
     }
-
-    NSTextView *printView = [[NSTextView alloc] initWithFrame:[[self printInfo] imageablePageBounds]];
-    [[printView textStorage] appendAttributedString:[self textStorage]];
+    MultiPagePrintView *printView=[[MultiPagePrintView alloc] initWithFrame:NSMakeRect(0.,0.,100.,100.) document:self];
 
     return [printView autorelease];
 }
 
 - (void)printShowingPrintPanel:(BOOL)showPanels {
+    float cmToPoints=295.3/21.;
     // Obtain a custom view that will be printed
     NSView *printView = [self printableView];
     [[self printInfo] setHorizontalPagination:NSFitPagination];
     [[self printInfo] setHorizontallyCentered:NO];
     [[self printInfo] setVerticallyCentered:NO];
+    [[self printInfo] setRightMargin:1.*cmToPoints];
+    [[self printInfo] setLeftMargin: 2.5*cmToPoints];
+    [[self printInfo] setTopMargin:1.*cmToPoints];
+    [[self printInfo] setBottomMargin:1.*cmToPoints];
 
     // Construct the print operation and setup Print panel
     NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:[self printInfo]];

@@ -450,6 +450,8 @@ subethaedit/MoreIsBetter/MoreSecurity.h -text
 subethaedit/MoreIsBetter/MoreSetup.h -text
 subethaedit/MoreIsBetter/MoreUNIX.c -text
 subethaedit/MoreIsBetter/MoreUNIX.h -text
+subethaedit/MultiPagePrintView.h -text
+subethaedit/MultiPagePrintView.m -text
 subethaedit/NSColorTCMAdditions.h -text
 subethaedit/NSColorTCMAdditions.m -text
 subethaedit/NSDataTCMAdditions.h -text
