@@ -35,11 +35,20 @@
     [self changeMode:O_modePopUpButton];
 }
 
+- (IBAction)validateDefaultsState:(id)aSender {
+    DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
+    DocumentMode *selectedMode=[O_modeController content];
+    [O_viewController setContent:([O_viewDefaultButton state]==NSOnState)?baseMode:selectedMode];
+    [O_editController setContent:([O_editDefaultButton state]==NSOnState)?baseMode:selectedMode];
+    [O_fileController setContent:([O_fileDefaultButton state]==NSOnState)?baseMode:selectedMode];
+    [O_fontController setContent:([O_fontDefaultButton state]==NSOnState)?baseMode:selectedMode];
+}
+
 - (IBAction)changeMode:(id)aSender {
     DocumentMode *newMode=[aSender selectedMode];
     [O_modeController setContent:newMode];
+    [self validateDefaultsState:aSender];
 }
-
 
 - (void)didUnselect {
     // Save preferences
@@ -47,8 +56,11 @@
 }
 
 - (IBAction)changeFontViaPanel:(id)sender {
+    NSDictionary *fontAttributes=[[O_modeController content] defaultForKey:DocumentModeFontAttributesPreferenceKey];
+    NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     [[NSFontManager sharedFontManager] 
-        setSelectedFont:[NSFont userFixedPitchFontOfSize:0.0] 
+        setSelectedFont:newFont 
              isMultiple:NO];
     [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
 }

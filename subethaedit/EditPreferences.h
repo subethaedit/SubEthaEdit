@@ -27,10 +27,18 @@
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSObjectController *O_modeController;
+    IBOutlet NSObjectController *O_viewController;
+    IBOutlet NSObjectController *O_editController;
+    IBOutlet NSObjectController *O_fileController;
+    IBOutlet NSObjectController *O_fontController;
+    IBOutlet NSButton *O_viewDefaultButton;
+    IBOutlet NSButton *O_editDefaultButton;
+    IBOutlet NSButton *O_fileDefaultButton;
+    IBOutlet NSButton *O_fontDefaultButton;
 }
 
 - (IBAction)changeMode:(id)aSender;
 - (IBAction)changeFontViaPanel:(id)sender;
-
+- (IBAction)validateDefaultsState:(id)aSender;
 
 @end

@@ -8,13 +8,19 @@
             SUPERCLASS = NSPopUpButton; 
         }, 
         {
-            ACTIONS = {changeFontViaPanel = id; changeMode = id; }; 
+            ACTIONS = {changeFontViaPanel = id; changeMode = id; validateDefaultsState = id; }; 
             CLASS = EditPreferences; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_documentBackgroundColorWell" = NSColorWell; 
                 "O_documentForegroundColorWell" = NSColorWell; 
+                "O_editController" = NSObjectController; 
+                "O_editDefaultButton" = NSButton; 
                 "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_fileController" = NSObjectController; 
+                "O_fileDefaultButton" = NSButton; 
+                "O_fontController" = NSObjectController; 
+                "O_fontDefaultButton" = NSButton; 
                 "O_fontTextField" = NSTextField; 
                 "O_highlightSyntaxButton" = NSButton; 
                 "O_indentNewLinesButton" = NSButton; 
@@ -25,6 +31,8 @@
                 "O_showMatchingBracketsButton" = NSButton; 
                 "O_tabWidthTextField" = NSTextField; 
                 "O_usesTabsButton" = NSButton; 
+                "O_viewController" = NSObjectController; 
+                "O_viewDefaultButton" = NSButton; 
                 "O_wrapLinesButton" = NSButton; 
             }; 
             SUPERCLASS = TCMPreferenceModule; 
