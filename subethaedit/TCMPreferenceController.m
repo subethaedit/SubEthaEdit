@@ -18,12 +18,13 @@ static NSMutableDictionary *registeredPrefModules;
 - (void)switchPrefPane:(id)aSender;
 - (NSString *)selectedItemIdentifier;
 - (void)setSelectedItemIdentifier:(NSString *)anIdentifier;
-- (NSView *)contentView;
-- (void)setContentView:(NSView *)aView;
+- (NSView *)emptyContentView;
+- (void)setEmptyContentView:(NSView *)aView;
 - (void)selectPrefPaneWithIdentifier:(NSString *)anIdentifier;
 
 @end
 
+#pragma mark -
 
 @implementation TCMPreferenceController
 
@@ -34,7 +35,7 @@ static NSMutableDictionary *registeredPrefModules;
 
 + (void)registerPrefModule:(TCMPreferenceModule *)aModule
 {
-    [registeredPrefModules setObject:aModule forKey:[aModule iconLabel]];
+    [registeredPrefModules setObject:aModule forKey:[aModule identifier]];
 }
 
 - (id)init
@@ -50,7 +51,7 @@ static NSMutableDictionary *registeredPrefModules;
 {
     [I_toolbarItemIdentifiers release];
     [I_selectedItemIdentifier release];
-    [super init];
+    [super dealloc];
 }
 
 - (void)awakeFromNib
@@ -62,7 +63,7 @@ static NSMutableDictionary *registeredPrefModules;
     NSEnumerator *modules = [registeredPrefModules objectEnumerator];
     TCMPreferenceModule *module;
     while ((module = [modules nextObject])) {
-        NSString *itemIdent = [module iconLabel];
+        NSString *itemIdent = [module identifier];
         [I_toolbarItemIdentifiers addObject:itemIdent];    
     }
     
@@ -71,15 +72,15 @@ static NSMutableDictionary *registeredPrefModules;
     [I_toolbar setDelegate:self];
 }
 
-- (NSView *)contentView
+- (NSView *)emptyContentView
 {
-    return I_contentView;
+    return I_emptyContentView;
 }
 
-- (void)setContentView:(NSView *)aView
+- (void)setEmptyContentView:(NSView *)aView
 {
-    [I_contentView autorelease];
-    I_contentView = [aView retain];
+    [I_emptyContentView autorelease];
+    I_emptyContentView = [aView retain];
 }
 
 - (void)windowDidLoad
@@ -87,28 +88,33 @@ static NSMutableDictionary *registeredPrefModules;
     [[self window] setToolbar:I_toolbar];
     [I_toolbar autorelease];
         
-    NSString *identifier = [I_toolbarItemIdentifiers objectAtIndex:0];
-    [I_toolbar setSelectedItemIdentifier:identifier];
-    
-    [self setContentView:[[self window] contentView]];
-    [self selectPrefPaneWithIdentifier:identifier];
+    if ([I_toolbarItemIdentifiers count] > 0) {
+        NSString *identifier = [I_toolbarItemIdentifiers objectAtIndex:0];
+        [I_toolbar setSelectedItemIdentifier:identifier];
+        
+        [self setEmptyContentView:[[self window] contentView]];
+        
+        id module = [registeredPrefModules objectForKey:identifier];
+        [module willSelect];
+        [self setSelectedItemIdentifier:identifier];
+        [self selectPrefPaneWithIdentifier:identifier];
+        [module didSelect];
+    }
 }
 
 - (void)selectPrefPaneWithIdentifier:(NSString *)anIdentifier
 {
     NSWindow *window = [self window];
-    [window setContentView:[self contentView]];
+    [window setContentView:[self emptyContentView]];
 
-    [self setSelectedItemIdentifier:anIdentifier];
-    TCMPreferenceModule *module = [registeredPrefModules objectForKey:anIdentifier];
+    id module = [registeredPrefModules objectForKey:anIdentifier];
     if ([module mainView] == nil) {
         if (![module loadMainView]) {
-            DEBUGLOG(@"Preferences", 1, @"loadMainView failed: %@", module);
+            NSLog(@"loadMainView failed: %@", module);
+            return;
         }
     }
     
-    [module willSelect];
-
     [window setTitle:[module iconLabel]];
     
     NSRect frame;
@@ -121,26 +127,27 @@ static NSMutableDictionary *registeredPrefModules;
     [window setFrame:frame display:YES animate:YES];
 
     [[self window] setContentView:[module mainView]];
-
-    [module didSelect];
 }
 
-- (void)switchPrefPane:(id)aSender
+- (void)selectPrefPane:(id)aSender
 {
     NSString *identifier = [I_toolbar selectedItemIdentifier];
-    
     NSString *previousIdentifier = [self selectedItemIdentifier];
-    if (previousIdentifier) {
-        id prefPane = [registeredPrefModules objectForKey:previousIdentifier];
-        NSPreferencePaneUnselectReply reply = [prefPane shouldUnselect];
-        if (reply == NSUnselectNow) {
-            [prefPane willUnselect];
-            [self selectPrefPaneWithIdentifier:identifier];
-            [prefPane didUnselect];
-        } else {
-            NSLog(@"NOT YET IMPLEMENTED");
-        }
-    } else {
+    
+    if ([identifier isEqualToString:previousIdentifier]) {
+        return;
+    }
+    
+    id prefPane = [registeredPrefModules objectForKey:previousIdentifier];
+    NSPreferencePaneUnselectReply reply = [prefPane shouldUnselect];
+    if (reply == NSUnselectNow) {
+        [prefPane willUnselect];
+        id module = [registeredPrefModules objectForKey:identifier];
+        [module willSelect];
+        [self setSelectedItemIdentifier:identifier];
+        [prefPane didUnselect];
+        [self selectPrefPaneWithIdentifier:identifier];
+        [module didSelect];
     }
 }
 
@@ -155,16 +162,22 @@ static NSMutableDictionary *registeredPrefModules;
     I_selectedItemIdentifier = [anIdentifier copy];   
 }
 
-- (void)windowWillClose:(NSNotification *)aNotification
+- (BOOL)windowShouldClose:(id)sender
 {
+    BOOL shouldClose = YES;
+    
     id module = [registeredPrefModules objectForKey:[self selectedItemIdentifier]];
     if (module) {
         NSPreferencePaneUnselectReply reply = [module shouldUnselect];
         if (reply == NSUnselectNow) {
             [module willUnselect];
             [module didUnselect];
+        } else if (reply == NSUnselectCancel) {
+            shouldClose = NO;
         }
     }
+    
+    return shouldClose;
 }
 
 #pragma mark -
@@ -177,7 +190,7 @@ static NSMutableDictionary *registeredPrefModules;
         [toolbarItem setLabel:[module iconLabel]];
         [toolbarItem setImage:[module icon]];
         [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(switchPrefPane:)];
+        [toolbarItem setAction:@selector(selectPrefPane:)];
         
         return toolbarItem;
     }

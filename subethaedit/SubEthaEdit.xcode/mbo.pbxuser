@@ -3,9 +3,9 @@
 	089C1660FE840EACC02AAC07 = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {711, 449}}";
-			sepNavSelRange = "{244, 0}";
+			sepNavSelRange = "{269, 0}";
 			sepNavVisRect = "{{0, 0}, {711, 449}}";
-			sepNavWindowFrame = "{{38, 248}, {750, 558}}";
+			sepNavWindowFrame = "{{84, 206}, {750, 558}}";
 		};
 	};
 	143C357505EBEC02008C6DFE = {
@@ -317,6 +317,14 @@
 		vrLen = 471;
 		vrLoc = 1866;
 	};
+	1482A67705EFC1D200BC7434 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {711, 449}}";
+			sepNavSelRange = "{50, 0}";
+			sepNavVisRect = "{{0, 0}, {711, 449}}";
+			sepNavWindowFrame = "{{107, 185}, {750, 558}}";
+		};
+	};
 	2A37F4A9FDCFA73011CA2CEA = {
 		activeBuildStyle = 4A9504D0FFE6A4CB11CA0CBA;
 		activeExecutable = 143C357505EBEC02008C6DFE;
@@ -405,7 +413,7 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 99566775;
+			PBXPerProjectTemplateStateSaveDate = 99587486;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -585,7 +593,6 @@
 						PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 							PBXSplitModuleInNavigatorKey = {
 								Split0 = {
-									bookmark = 1464B42305EE97B500D21A18;
 									history = (
 										1464B41F05EE97B500D21A18,
 										1464B42005EE97B500D21A18,
@@ -593,7 +600,6 @@
 									prevStack = (
 										144BC7AE05EE3A41006397BC,
 										144BC7AF05EE3A41006397BC,
-										1464B42105EE97B500D21A18,
 									);
 								};
 								SplitCount = 1;
@@ -611,7 +617,7 @@
 							};
 						};
 						PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {586, 436}}";
-						PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 207}, {586, 229}}";
+						PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 0}, {750, 480}}";
 						PBXProjectWorkspaceModule_OldSuperviewFrame = "{{241, 0}, {586, 436}}";
 						PBXProjectWorkspaceModule_SGTM = {
 							PBXBottomSmartGroupGIDs = (
@@ -642,12 +648,12 @@
 								);
 								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 									(
+										34,
 										23,
-										21,
 										0,
 									),
 								);
-								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 330}, {224, 418}}";
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 381}, {224, 418}}";
 							};
 							PBXTopSmartGroupGIDs = (
 							);
@@ -757,12 +763,12 @@
 							);
 							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								(
-									11,
-									1,
+									29,
+									23,
 									0,
 								),
 							);
-							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {224, 418}}";
+							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 194}, {224, 418}}";
 						};
 						PBXTopSmartGroupGIDs = (
 						);
@@ -800,7 +806,7 @@
 					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 						PBXProjectWorkspaceModule_RunWindowVisible = true;
 					};
-					RubberWindowFrame = "41 263 827 478 0 0 1280 832 ";
+					RubberWindowFrame = "104 286 827 478 0 0 1280 832 ";
 				},
 			);
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXBuildResultsModule" = {
@@ -824,21 +830,21 @@
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXNavigatorGroup" = {
 				Frame = "{{0, 0}, {750, 481}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "38 304 750 502 0 0 1280 832 ";
+				RubberWindowFrame = "107 241 750 502 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
 				Frame = "{{0, 0}, {827, 436}}";
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "159 342 827 478 0 0 1280 832 ";
+				RubberWindowFrame = "86 254 827 478 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {738, 239}}";
 				PBXModuleWindowStatusBarHidden = YES;
 				RubberWindowFrame = "529 147 738 260 0 0 1280 832 ";
 			};
-			PBXWorkspaceStateSaveDate = 99566775;
+			PBXWorkspaceStateSaveDate = 99587486;
 		};
 		perUserProjectItems = {
 			144BC78805EE3214006397BC = 144BC78805EE3214006397BC;

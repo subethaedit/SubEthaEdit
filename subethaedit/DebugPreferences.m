@@ -21,6 +21,11 @@
     return @"Debug";
 }
 
+- (NSString *)identifier
+{
+    return @"de.codingmonkeys.subethaedit.preferences.debug";
+}
+
 - (NSString *)mainNibName
 {
     return @"DebugPrefs";
@@ -28,7 +33,12 @@
 
 - (void)mainViewDidLoad
 {
-    // Initialize state of view's graphical elements
+    // Initialize user interface elements to reflect current preference settings
+}
+
+- (void)didUnselect
+{
+    // Save preferences
 }
 
 @end

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <PreferencePanes/PreferencePanes.h>
 
+
 @interface TCMPreferenceModule : NSObject
 {
     IBOutlet NSWindow *O_window;
@@ -17,6 +18,7 @@
 
 - (NSImage *)icon;
 - (NSString *)iconLabel;
+- (NSString *)identifier;
 
 /*"Setting up the main view"*/
 - (NSView *)assignMainView;

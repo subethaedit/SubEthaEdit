@@ -18,14 +18,18 @@
 
 - (NSString *)iconLabel
 {
-    return @"";
+    return nil;
+}
+
+- (NSString *)identifier
+{
+    return nil;
 }
 
 - (NSView *)assignMainView
 {
     NSView *contentView = [O_window contentView];
     [self setMainView:contentView];
-    //[contentView removeFromSuperview];
     [O_window release];
     O_window = nil;
     

@@ -18,7 +18,12 @@
 
 - (NSString *)iconLabel
 {
-    return @"Encoding";
+    return NSLocalizedStringFromTable(@"EncodingPrefsIconLabel", @"Preferences",Ê@"Label displayed below preference icon and used as window title.");
+}
+
+- (NSString *)identifier
+{
+    return @"de.codingmonkeys.subethaedit.preferences.encoding";
 }
 
 - (NSString *)mainNibName
@@ -28,7 +33,12 @@
 
 - (void)mainViewDidLoad
 {
-    // Initialize state of view's graphical elements
+    // Initialize user interface elements to reflect current preference settings
+}
+
+- (void)didUnselect
+{
+    // Save preferences
 }
 
 @end

@@ -8,14 +8,16 @@
 
 #import <AppKit/AppKit.h>
 
+
 @class TCMPreferenceModule;
+
 
 @interface TCMPreferenceController : NSWindowController
 {
     NSMutableArray *I_toolbarItemIdentifiers;
     NSToolbar *I_toolbar;
     NSString *I_selectedItemIdentifier;
-    NSView *I_contentView;
+    NSView *I_emptyContentView;
 }
 
 + (void)registerPrefModule:(TCMPreferenceModule *)aModule;
