@@ -30,10 +30,28 @@ static SetupController *sharedInstance = nil;
 
 - (void)windowDidLoad {
     hasAgreedToLicense = NO;
+    isFirstRun = YES;
     [O_goBackButton setEnabled:NO];
     [O_tabView selectFirstTabViewItem:self];
     
     [[self window] center];
+}
+
+- (void)windowWillClose:(NSNotification *)aNotification
+{
+    [NSApp stopModal];
+    if (![[O_tabView selectedTabViewItem] isEqual:O_doneTabItem] && isFirstRun) {
+        [NSApp terminate:self];
+    }
+}
+
+- (IBAction)showWindow:(id)sender {
+    hasAgreedToLicense = YES;
+    isFirstRun = NO;
+    [O_goBackButton setEnabled:NO];
+    [O_continueButton setTitle:NSLocalizedString(@"Continue", @"Button title Continue")];
+    [O_tabView selectTabViewItem:O_purchaseTabItem];
+    [super showWindow:self];
 }
 
 - (IBAction)continueDone:(id)sender {
@@ -48,11 +66,7 @@ static SetupController *sharedInstance = nil;
 
         return;
     }
-    
-    if ([[O_tabView selectedTabViewItem] isEqual:O_purchaseTabItem]) {
-    
-    }
-    
+        
     if ([[O_tabView selectedTabViewItem] isEqual:O_doneTabItem]) {
         [NSApp stopModal];
         [self close];
@@ -70,6 +84,10 @@ static SetupController *sharedInstance = nil;
     [O_continueButton setTitle:NSLocalizedString(@"Continue", @"Button title Continue")];
     
     if ([[O_tabView selectedTabViewItem] isEqual:O_welcomeTabItem]) {
+        [O_goBackButton setEnabled:NO];
+    }
+    
+    if (!isFirstRun && [[O_tabView selectedTabViewItem] isEqual:O_purchaseTabItem]) {
         [O_goBackButton setEnabled:NO];
     }
 }

@@ -21,6 +21,7 @@
     
     IBOutlet NSWindow *O_licenseConfirmationSheet;
     BOOL hasAgreedToLicense;
+    BOOL isFirstRun;
 }
 
 + (SetupController *)sharedInstance;
