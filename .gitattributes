@@ -256,6 +256,7 @@ subethaedit/EncodingManager.m -text
 subethaedit/English.lproj/AboutPanel.nib/classes.nib -text
 subethaedit/English.lproj/AboutPanel.nib/info.nib -text
 subethaedit/English.lproj/AboutPanel.nib/keyedobjects.nib -text
+subethaedit/English.lproj/Acknowledgements.rtf -text
 subethaedit/English.lproj/Credits.rtf -text
 subethaedit/English.lproj/DocumentProxy.nib/classes.nib -text
 subethaedit/English.lproj/DocumentProxy.nib/info.nib -text
@@ -276,6 +277,7 @@ subethaedit/English.lproj/InfoPlist.strings -text
 subethaedit/English.lproj/InternetBrowser.nib/classes.nib -text
 subethaedit/English.lproj/InternetBrowser.nib/info.nib -text
 subethaedit/English.lproj/InternetBrowser.nib/keyedobjects.nib -text
+subethaedit/English.lproj/License.rtf -text
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
 subethaedit/English.lproj/MainMenu.nib/info.nib -text
 subethaedit/English.lproj/MainMenu.nib/keyedobjects.nib -text

@@ -7,6 +7,7 @@
 //
 
 #import "AboutPanelController.h"
+#import "SetupController.h"
 #import <OgreKit/OgreKit.h>
 
 
@@ -15,6 +16,22 @@
 - (id)init {
     self = [super initWithWindowNibName:@"AboutPanel"];
     return self;
+}
+
+- (void)fillLicenseInfoField {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
+    NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
+    NSString *organization = [defaults stringForKey:LicenseeOrganizationPrefKey];
+    if (name && [serial isValidSerial]) {
+        [O_licenseeLabel setHidden:NO];
+        [O_licenseeNameField setObjectValue:name];
+        [O_licenseeOrganizationField setObjectValue:organization];
+    } else {
+        [O_licenseeLabel setHidden:YES];
+        [O_licenseeNameField setObjectValue:NSLocalizedString(@"Licensed for non-commercial use", nil)];
+        [O_licenseeOrganizationField setObjectValue:@""];
+    }
 }
 
 - (void)windowDidLoad {
@@ -28,7 +45,14 @@
     [O_ogreVersionField setObjectValue:ogreVersion];
     [O_legalTextField setObjectValue:[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
 
+    [self fillLicenseInfoField];
     [[self window] center];
+}
+
+- (IBAction)showWindow:(id)sender {
+    NSLog(@"showWindow:");
+    [self fillLicenseInfoField];
+    [super showWindow:self];
 }
 
 @end

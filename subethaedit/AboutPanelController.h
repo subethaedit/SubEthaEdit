@@ -14,6 +14,9 @@
     IBOutlet NSTextField *O_legalTextField;
     IBOutlet NSTextField *O_versionField;
     IBOutlet NSTextField *O_ogreVersionField;
+    IBOutlet NSTextField *O_licenseeLabel;
+    IBOutlet NSTextField *O_licenseeNameField;
+    IBOutlet NSTextField *O_licenseeOrganizationField;
 }
 
 @end

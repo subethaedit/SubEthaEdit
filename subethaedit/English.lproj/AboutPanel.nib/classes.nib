@@ -6,6 +6,9 @@
             OUTLETS = {
                 "O_appIconView" = NSImageView; 
                 "O_legalTextField" = NSTextField; 
+                "O_licenseeLabel" = NSTextField; 
+                "O_licenseeNameField" = NSTextField; 
+                "O_licenseeOrganizationField" = NSTextField; 
                 "O_ogreVersionField" = NSTextField; 
                 "O_versionField" = NSTextField; 
             }; 

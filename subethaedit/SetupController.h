@@ -35,6 +35,7 @@ extern NSString * const LicenseeOrganizationPrefKey;
     IBOutlet NSTextField *O_licenseeOrganizationField;
     IBOutlet NSTextField *O_serialNumberField;
     IBOutlet NSTextField *O_purchaseHintField;
+    IBOutlet NSTextView *O_licenseTextView;
     
     IBOutlet NSTabView *O_doneTabView;
 }

@@ -50,7 +50,7 @@ static SetupController *sharedInstance = nil;
         NSString *lastName  = [meCard valueForProperty:kABLastNameProperty];            
     
         if ((firstName != nil) && (lastName != nil)) {
-            myName = [NSString stringWithFormat:@"%@ %@",firstName,lastName];
+            myName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
         } else if (firstName != nil) {
             myName = firstName;
         } else if (lastName!=nil) {
@@ -65,6 +65,9 @@ static SetupController *sharedInstance = nil;
         myName = NSFullUserName();
     }
     [O_licenseeNameField setObjectValue:myName];
+        
+    NSString *licensePath = [[NSBundle mainBundle] pathForResource:@"License" ofType:@"rtf"];
+    [[O_licenseTextView textStorage] readFromURL:[NSURL fileURLWithPath:licensePath] options:nil documentAttributes:nil];
         
     [[self window] center];
 }
