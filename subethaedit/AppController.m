@@ -580,6 +580,15 @@ static AppController *sharedInstance = nil;
 
 - (void)TCM_showPlainTextFile:(NSString *)fileName {
 
+    NSEnumerator *enumerator = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+    NSDocument *doc;
+    while ((doc = [enumerator nextObject])) {
+        if ([[doc displayName] isEqualToString:[fileName lastPathComponent]]) {
+            [doc showWindows];
+            return;
+        }
+    }
+    
     NSAppleEventDescriptor *propRecord = [NSAppleEventDescriptor recordDescriptor];
     [propRecord setDescriptor:[NSAppleEventDescriptor descriptorWithString:@"utf-8"]
                    forKeyword:'Encd'];                
