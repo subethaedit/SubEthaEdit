@@ -531,7 +531,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     int bytesWritten = [I_outputStream write:[I_writeBuffer bytes] maxLength:[I_writeBuffer length]];
 
 #ifdef TCMBEEP_DEBUG
-    if (bytesWritten) [I_rawLogOutHandle writeData:[NSData dataWithBytesNoCopy:(void *)[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
+    if (bytesWritten > 0) [I_rawLogOutHandle writeData:[NSData dataWithBytesNoCopy:(void *)[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
 #endif
 
     if (bytesWritten > 0) {

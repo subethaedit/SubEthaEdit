@@ -17,6 +17,7 @@
 
 - (void)shakeHandsWithUserID:(NSString *)aUserID;
 
+- (void)setRemoteInfos:(NSDictionary *)aDictionary;
 - (NSDictionary *)remoteInfos;
 
 @end

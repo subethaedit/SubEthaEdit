@@ -7,15 +7,12 @@
 //
 
 #import "HandshakeProfile.h"
-
+#import "TCMBencodingUtilities.h"
 
 @implementation HandshakeProfile
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel {
     self = [super initWithChannel:aChannel];
-    if (self) {
-        I_remoteInfos = [NSMutableDictionary new];
-    }
     return self;
 }
 
@@ -24,21 +21,35 @@
     [super dealloc];
 }
 
+- (void)setRemoteInfos:(NSDictionary *)aDictionary {
+    [I_remoteInfos autorelease];
+    I_remoteInfos = [aDictionary retain];
+}
+
 - (NSDictionary *)remoteInfos {
     return I_remoteInfos;
 }
 
 - (NSData *)handshakePayloadWithUserID:(NSString *)aUserID {
-    NSMutableString *string = [NSMutableString stringWithFormat:@"GRTuserid=%@\001version=2.00", aUserID];
-    if ([[[[self session] userInfo] objectForKey:@"isRendezvous"] boolValue]){
-        [string appendString:@"\001rendez=vous"];
+    NSMutableData *payload = [NSMutableData data];
+    [payload appendData:[@"GRT" dataUsingEncoding:NSASCIIStringEncoding]];
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:aUserID forKey:@"uid"];
+    [dict setObject:@"2.0.0" forKey:@"vers"];
+
+    if ([[[[self session] userInfo] objectForKey:@"isRendezvous"] boolValue]) {
+        [dict setObject:@"vous" forKey:@"rendez"];
     } else {
         NSString *URLString = [[[self session] userInfo] objectForKey:@"URLString"];
         if (URLString) {
-            [string appendFormat:@"\001url=%@", URLString];
-        }
+            [dict setObject:URLString forKey:@"url"];
+        }    
     }
-    return [string dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [payload appendData:TCM_BencodedObject(dict)];
+    
+    return payload;
 }
 
 - (void)shakeHandsWithUserID:(NSString *)aUserID
@@ -50,70 +61,59 @@
 {
     // simple message reply model
     if ([aMessage isMSG]) {
-        NSString *string = [NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding];
-        NSString *type = [string substringToIndex:3];
-        if ([type isEqualToString:@"GRT"]) {
-            string = [string substringFromIndex:3];
-            NSArray *pairsArray = [string componentsSeparatedByString:@"\001"];
-            NSEnumerator *pairs = [pairsArray objectEnumerator];
-            NSString *pair;
-            while ((pair = [pairs nextObject])) {
-                NSRange foundRange = [pair rangeOfString:@"="];
-                if (foundRange.location != NSNotFound) {
-                    NSString *key = [[pair substringToIndex:foundRange.location] lowercaseString];
-                    NSString *value = [pair substringFromIndex:NSMaxRange(foundRange)];
-                    [I_remoteInfos setObject:value forKey:key];
-                }
-            }
-            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Handshake greeting was: %@", string);
-            if ([I_remoteInfos objectForKey:@"rendez"]) {
+        if ([[aMessage payload] length] < 3) {
+            NSLog(@"Invalid message format. Payload less than 3 bytes.");
+            [[self session] terminate];
+            return;
+        }
+        
+        unsigned char *type = (unsigned char *)[[aMessage payload] bytes];
+        if (strncmp(type, "GRT", 3) == 0) {    
+            NSDictionary *dict = TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(3, [[aMessage payload] length] - 3)]);
+            [self setRemoteInfos:dict];
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Handshake greeting was: %@", [dict descriptionInStringsFileFormat]);
+            if ([[self remoteInfos] objectForKey:@"rendez"]) {
                 [[[self session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
             }
-            if ([I_remoteInfos objectForKey:@"url"]) {
-                [[[self session] userInfo] setObject:[I_remoteInfos objectForKey:@"url"] forKey:@"URLString"];                
+            if ([[self remoteInfos] objectForKey:@"url"]) {
+                [[[self session] userInfo] setObject:[[self remoteInfos] objectForKey:@"url"] forKey:@"URLString"];                
             }
-            NSString *userID = [[self delegate] profile:self shouldProceedHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+            if (![[self remoteInfos] objectForKey:@"uid"]) {
+                [[self session] terminate];
+                return;
+            }
+            
+            NSString *userID = [[self delegate] profile:self shouldProceedHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];
             if (userID) {
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[self handshakePayloadWithUserID:userID]];
                 [[self channel] sendMessage:[message autorelease]];        
             } else {
-                // brich ab
                 [[self session] terminate];
             }
-        } else {
-            if ([type isEqualToString:@"ACK"]) {
-                [[self delegate] profile:self receivedAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
-                TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
-                [[self channel] sendMessage:[message autorelease]];
-            }
-        }
+        } else if (strncmp(type, "ACK", 3) == 0) {
+            [[self delegate] profile:self receivedAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];
+            TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
+            [[self channel] sendMessage:[message autorelease]];        
+        } 
     } else if ([aMessage isRPY]) {
         if ([[aMessage payload] length] > 0) {
-            NSString *string = [NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding];
-            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"ShakeHandRPY was: %@", string);
-            string = [string substringFromIndex:3];
-            NSArray *pairsArray = [string componentsSeparatedByString: @"\001"];
-            NSEnumerator *pairs = [pairsArray objectEnumerator];
-            NSString *pair;
-            while ((pair = [pairs nextObject])) {
-                NSRange foundRange = [pair rangeOfString:@"="];
-                if (foundRange.location != NSNotFound) {
-                    NSString *key = [[pair substringToIndex:foundRange.location] lowercaseString];
-                    NSString *value = [pair substringFromIndex:NSMaxRange(foundRange)];
-                    [I_remoteInfos setObject:value forKey:key];
-                }
+            NSDictionary *dict = TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(3, [[aMessage payload] length] - 3)]);
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"ShakeHandRPY was: %@", [dict descriptionInStringsFileFormat]);
+            [self setRemoteInfos:dict];
+            if (![[self remoteInfos] objectForKey:@"uid"]) {
+                [[self session] terminate];
+                return;
             }
             BOOL shouldAck = NO;
             if ([[self delegate] respondsToSelector:@selector(profile:shouldAckHandshakeWithUserID:)]) {
-                shouldAck = [[self delegate] profile:self shouldAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+                shouldAck = [[self delegate] profile:self shouldAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];
             }
             if (shouldAck) {
                 NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"ACK"] dataUsingEncoding:NSUTF8StringEncoding]];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[[self channel] nextMessageNumber] payload:payload];
                 [[self channel] sendMessage:[message autorelease]];
-                [[self delegate] profile:self didAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+                [[self delegate] profile:self didAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];            
             } else {
-                // brich ab
                 [[self session] terminate];
             }
         } else {
