@@ -654,7 +654,6 @@ subethaedit/RegexSymbolParser.h -text
 subethaedit/RegexSymbolParser.m -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
-subethaedit/SEEHelperTemplate.m -text
 subethaedit/SaturationToColorValueTransformer.h -text
 subethaedit/SaturationToColorValueTransformer.m -text
 subethaedit/SelectionOperation.h -text
@@ -667,6 +666,7 @@ subethaedit/SplitView.h -text
 subethaedit/SplitView.m -text
 subethaedit/SubEthaEdit.sdef -text
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
+subethaedit/SubEthaEditHelperTool.m -text
 subethaedit/SubEthaEdit_Prefix.pch -text
 subethaedit/SymbolTableEntry.h -text
 subethaedit/SymbolTableEntry.m -text

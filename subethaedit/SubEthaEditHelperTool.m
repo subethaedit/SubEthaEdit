@@ -1,5 +1,5 @@
 //
-//  SEEHelperTemplate.m
+//  SubEthaEditHelperTool.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Apr 13 2004.
@@ -57,12 +57,14 @@ static OSStatus ExchangeFileContents(CFStringRef path1, CFStringRef path2, CFDic
     
     if (![(NSString *)path1 getFileSystemRepresentation:cPath1 maxLength:MAXPATHLEN] || ![(NSString *)path2 getFileSystemRepresentation:cPath2 maxLength:MAXPATHLEN]) return paramErr;
 
+    NSLog(@"trying MoreSecSetPrivilegedEUID");
     status = MoreSecSetPrivilegedEUID();
     if (status == noErr) {
-        
+        NSLog(@"MoreSecSetPrivilegedEUID succeeded");
         err = exchangedata(cPath1, cPath2, 0) ? errno : 0;
 
         if (err == EACCES || err == EPERM) {	// Seems to be a write-protected or locked file; try temporarily changing
+            NSLog(@" Seems to be a write-protected or locked file; try temporarily changing");
             NSDictionary *attrs = (NSDictionary *)path2Attrs ? (NSDictionary *)path2Attrs : [fileManager fileAttributesAtPath:(NSString *)path2 traverseLink:YES];
             NSNumber *curPerms = [attrs objectForKey:NSFilePosixPermissions];
             BOOL curImmutable = [attrs fileIsImmutable];
@@ -74,12 +76,17 @@ static OSStatus ExchangeFileContents(CFStringRef path1, CFStringRef path2, CFDic
             if (curImmutable) [fileManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSFileImmutable, nil] atPath:(NSString *)path2];
         }
         if (err == 0) {
+            NSLog(@"first or second call to exchangedata succeeded");
             [fileManager removeFileAtPath:(NSString *)path1 handler:nil];
         } else {
+            NSLog(@"exchangedata failed, try to move file");
             BOOL success = [fileManager movePath:(NSString *)path1 toPath:(NSString *)path2 handler:nil];
             if (!success) {
-                [fileManager removeFileAtPath:(NSString *)path1 handler:nil];
+                NSLog(@"move failed");
+                (void)[fileManager removeFileAtPath:(NSString *)path1 handler:nil];
                 status = paramErr;
+            } else {
+                (void)[fileManager changeFileAttributes:(NSDictionary *)path2Attrs atPath:(NSString *)path2];
             }
         }
         
