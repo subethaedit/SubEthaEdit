@@ -59,6 +59,31 @@ static void printHelp() {
     fflush(stdout);
 }
 
+CFURLRef URLRefForSubEthaEdit() {
+
+    OSStatus status = noErr;
+    CFURLRef appURL = NULL;
+    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), CFSTR("SubEthaEdit.app"), NULL, &appURL); // release appURL
+    if (status == noErr) {
+        return appURL;
+    } else {
+        int bundleVersion=0;
+        CFURLRef testURL=CFURLCreateWithString(NULL,CFSTR("see://egal"),NULL);
+        CFArrayRef array = LSCopyApplicationURLsForURL(testURL,kLSRolesAll);
+        NSEnumerator *urlEnumerator=[(NSArray *)array objectEnumerator];
+        NSURL *url=nil;
+        while ((url=[urlEnumerator nextObject])) {
+            NSBundle *appBundle=[NSBundle bundleWithPath:[url path]];
+            int version=[[[appBundle infoDictionary] objectForKey:@"CFBundleVersion"] intValue];
+            if (version>bundleVersion) {
+                if (appURL) CFRelease(appURL);
+                appURL=(CFURLRef)url;
+                CFRetain(appURL);
+            }
+        }
+        return appURL;
+    }
+}
 
 static void printVersion() {
     OSStatus status = noErr;
@@ -66,11 +91,12 @@ static void printVersion() {
     NSString *appVersion = @"";
     NSString *appShortVersionString = @"n/a";
     
-    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), CFSTR("SubEthaEdit.app"), NULL, &appURL); // release appURL
-    if (status == noErr) {
+    appURL = URLRefForSubEthaEdit(); 
+    if (appURL != NULL) {
         NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
          appVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
          appShortVersionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        CFRelease(appURL);
     } 
     
     fprintf(stdout, "see %s (v%s)\n", gToolVersionString, gToolVersion);
@@ -88,8 +114,8 @@ static BOOL launchSubEthaEdit(NSDictionary *options) {
     OSStatus status = noErr;
     CFURLRef appURL = NULL;
 
-    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), CFSTR("SubEthaEdit.app"), NULL, &appURL); // release appURL
-    if (kLSApplicationNotFoundErr == status || appURL == NULL) {
+    appURL = URLRefForSubEthaEdit(); 
+    if (appURL == NULL) {
         fprintf(stderr, "see: LaunchServices couldn't find SubEthaEdit.\n");
         fflush(stderr);
         return NO;
@@ -113,6 +139,7 @@ static BOOL launchSubEthaEdit(NSDictionary *options) {
         inLaunchSpec.asyncRefCon = NULL;
         
         status = LSOpenFromURLSpec(&inLaunchSpec, NULL);
+        CFRelease(appURL);
         return YES;
     }
 }

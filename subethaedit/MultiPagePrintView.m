@@ -119,7 +119,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     I_pageCount=0;
     NSPrintInfo *printInfo = [[NSPrintOperation currentOperation] printInfo];
     NSDictionary *printInfoDictionary = [printInfo dictionary];
-    NSLog(@"PrintInfo: %@",[[[[printInfo dictionary] mutableCopy] autorelease] description]);
+    //NSLog(@"PrintInfo: %@",[[[[printInfo dictionary] mutableCopy] autorelease] description]);
 
     BOOL copyFirst=([[printInfoDictionary objectForKey:@"SEEColorizeSyntax"] boolValue] != [I_document highlightsSyntax]);
     

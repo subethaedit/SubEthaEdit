@@ -894,6 +894,14 @@ static NSString *tempFileName(NSString *origPath) {
     [[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
+// only because the original implementation updates the changecount
+- (void)setPrintInfo:(NSPrintInfo *)aPrintInfo {
+    BOOL oldState=I_flags.shouldChangeChangeCount;
+    I_flags.shouldChangeChangeCount=NO;
+    [super setPrintInfo:aPrintInfo];
+    I_flags.shouldChangeChangeCount=oldState;
+}
+
 - (unsigned int)fileEncoding {
     return [(TextStorage *)[self textStorage] encoding];
 }
@@ -2959,15 +2967,14 @@ static NSString *S_measurementUnits;
 }
 
 - (void)documentDidRunModalPrintOperation:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
-    DEBUGLOG(@"Blah",AlwaysLogLevel,@"blah");
-
     I_printOperationIsRunning=NO;
     NSPrintOperation *op=(NSPrintOperation *)contextInfo;
     if (success) {
         [self setPrintInfo:[[NSPrintOperation currentOperation] printInfo]];
     }
-    [O_printOptionController setContent:nil];
-    [op release];
+    [O_printOptionController setContent:[NSMutableDictionary dictionary]];
+    // very ugly... but otherwise we get an exception when the printinfo is autoreleased
+    [op performSelector:@selector(autorelease) withObject:nil afterDelay:3.];
 }
 
 - (IBAction)changeFontViaPanel:(id)sender {
