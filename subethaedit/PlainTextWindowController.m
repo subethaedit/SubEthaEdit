@@ -136,6 +136,7 @@ enum {
     [toolbar setAutosavesConfiguration:YES];
     [toolbar setDelegate:self];
     [[self window] setToolbar:toolbar];
+    [self validateUpperDrawer];
     
     NSSize drawerSize = [O_participantsDrawer contentSize];
     drawerSize.width = 170;
@@ -194,6 +195,11 @@ enum {
                                                  name:TCMMMSessionPendingUsersDidChangeNotification 
                                                object:[(PlainTextDocument *)[self document] session]];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(MMSessionDidChange:)
+                                                 name:TCMMMSessionDidChangeNotification 
+                                               object:[(PlainTextDocument *)[self document] session]];
+                                               
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(displayNameDidChange:)
                                                  name:PlainTextDocumentDidChangeDisplayNameNotification 
@@ -384,6 +390,9 @@ enum {
     } else {
         [O_URLImageView setHidden:YES];
         [O_pendingUsersAccessPopUpButton setEnabled:NO];
+        TCMMMSessionAccessState state = [session accessState];
+        int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
+        [O_pendingUsersAccessPopUpButton selectItemAtIndex:index];
     }
 }
 
@@ -772,6 +781,7 @@ enum {
 - (void)sessionWillChange:(NSNotification *)aNotification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionParticipantsDidChangeNotification object:[(PlainTextDocument *)[self document] session]];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionPendingUsersDidChangeNotification object:[(PlainTextDocument *)[self document] session]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionDidChangeNotification object:[(PlainTextDocument *)[self document] session]];
 }
 
 - (void)sessionDidChange:(NSNotification *)aNotification {
@@ -785,12 +795,21 @@ enum {
                                              selector:@selector(pendingUsersDidChange:)
                                                  name:TCMMMSessionPendingUsersDidChangeNotification 
                                                object:[(PlainTextDocument *)[self document] session]];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(MMSessionDidChange:)
+                                                 name:TCMMMSessionDidChangeNotification 
+                                               object:[(PlainTextDocument *)[self document] session]];
+                                                       
     BOOL isEditable=[(PlainTextDocument *)[self document] isEditable];
     NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
     PlainTextEditor *editor=nil;
     while ((editor=[plainTextEditors nextObject])) {
         [[editor textView] setEditable:isEditable];
     }
+}
+
+- (void)MMSessionDidChange:(NSNotification *)aNotifcation {
+    [self validateUpperDrawer];
 }
 
 - (void)participantsDidChange:(NSNotification *)aNotifcation {
