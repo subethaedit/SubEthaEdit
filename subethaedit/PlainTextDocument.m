@@ -3965,10 +3965,11 @@ static NSString *S_measurementUnits;
                                                            withString:@" " startingAtIndex:0];
             [aTextView insertText:replacementString];
             return YES;
-        } else if ((aSelector==@selector(moveLeft:) || aSelector==@selector(moveRight:)) &&
+        } else if ((aSelector==@selector(moveLeft:)    || aSelector==@selector(moveRight:) || 
+                    aSelector==@selector(moveForward:) || aSelector==@selector(moveBackward:)) &&
                     I_flags.showMatchingBrackets) {
             unsigned int position=0;
-            if (aSelector==@selector(moveLeft:)) {
+            if (aSelector==@selector(moveLeft:) || aSelector==@selector(moveBackward:)) {
                 position=selectedRange.location-1;
             } else {
                 position=NSMaxRange(selectedRange);
