@@ -1,6 +1,7 @@
 * text=auto !eol
 artwork/mockups/RendezvousBrowser.psd -text
 artwork/mockups/RendezvousBrowser2.psd -text
+documentation/autodoc/HTMLTemplate.html -text
 documentation/connection-channel-bla.jpg -text
 documentation/session-lifcycle.jpg -text
 documentation/whiteboard-1411.jpg -text
