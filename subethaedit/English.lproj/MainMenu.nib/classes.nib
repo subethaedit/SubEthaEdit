@@ -85,9 +85,11 @@
                 convertLineEndings = id; 
                 copyAsXHTML = id; 
                 copyDocumentURL = id; 
+                copyStyled = id; 
                 detab = id; 
                 endBlockedit = id; 
                 entab = id; 
+                exportDocument = id; 
                 jumpToNextChange = id; 
                 jumpToNextSymbol = id; 
                 jumpToPreviousChange = id; 

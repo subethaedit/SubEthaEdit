@@ -1245,6 +1245,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }
 
+- (IBAction)exportDocument:(id)aSender {
+    /*  Sheet with options
+        then sheet with save panel
+        finish
+    */
+}
+
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
     if (I_lastSaveOperation == NSSaveToOperation) {
         if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
