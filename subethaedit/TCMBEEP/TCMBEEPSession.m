@@ -177,7 +177,6 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 }
 
 #pragma mark -
-#pragma mark ### Accessors ####
 
 - (void)setDelegate:(id)aDelegate
 {
@@ -399,6 +398,10 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
                     if (channel) {
                         BOOL didAccept = [channel acceptFrame:[I_currentReadFrame autorelease]];
                         DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
+                        if (!didAccept) {
+                            [self close];
+                            break;
+                        }
                     } else {
                         [self close];
                         break;
@@ -454,6 +457,10 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
                     BOOL didAccept = [channel acceptFrame:[I_currentReadFrame autorelease]];
                     DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
                     I_currentReadFrame = nil;
+                    if (!didAccept) {
+                        [self close];
+                        break;
+                    }
                 } else {
                     [self close];
                     break;

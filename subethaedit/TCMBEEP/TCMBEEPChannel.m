@@ -215,8 +215,11 @@ static NSMutableDictionary *profileURIToClassMapping;
     if ([aFrame isSEQ]) {
         // validate SEQ frame;
         uint32_t ackno = [aFrame sequenceNumber];
+        if (ackno > I_sequenceNumber) {
+            NSLog(@"ERROR! More bytes received by peer than sent to him.");
+            return NO;
+        }
         int32_t window = [aFrame length];
-        NSLog(@"Received SEQ, ackno: %d, window: %d", ackno, window);
         I_outgoingWindowSize += window;
         return YES;
     }
@@ -265,7 +268,6 @@ static NSMutableDictionary *profileURIToClassMapping;
             // prepare SEQ frame
             TCMBEEPFrame *SEQFrame = [TCMBEEPFrame SEQFrameWithChannelNumber:[self number] acknowledgementNumber:I_incomingSequenceNumber windowSize:4096];
             I_incomingBufferSizeAvailable = 4096;
-            NSLog(@"send SEQ frame: %@", SEQFrame);
             [I_outgoingFrameQueue addObject:SEQFrame];
             [[self session] channelHasFramesAvailable:self];
         }
