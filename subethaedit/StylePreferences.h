@@ -20,9 +20,11 @@
     NSMutableDictionary *I_baseStyleDictionary;
     NSFont *I_baseFont;
     SyntaxStyle *I_currentSyntaxStyle;
+    IBOutlet NSButton *O_lightBackgroundButton,*O_darkBackgroundButton;
     IBOutlet NSButton *O_boldButton,*O_italicButton;
     IBOutlet NSColorWell *O_colorWell, *O_invertedColorWell, 
                          *O_backgroundColorWell,*O_invertedBackgroundColorWell;
+    IBOutlet NSButton *O_defaultStyleButton;
 }
 
 - (IBAction)changeFontTraitItalic:(id)aSender;
@@ -33,6 +35,7 @@
 - (IBAction)changeDarkForegroundColor:(id)aSender;
 - (IBAction)changeMode:(id)aSender;
 - (IBAction)validateDefaultsState:(id)aSender;
+- (IBAction)changeDefaultState:(id)aSender;
 
 - (void)setBaseFont:(NSFont *)aFont;
 - (NSFont *)baseFont;

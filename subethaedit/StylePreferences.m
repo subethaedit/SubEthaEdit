@@ -51,19 +51,54 @@
     // Set tableview to non highlighting cells
     [[[O_stylesTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
     [[[O_stylesTableView tableColumns] objectAtIndex:1] setDataCell:[[TextFieldCell new] autorelease]];
-
+    
+    [[O_stylesTableView enclosingScrollView] setPostsFrameChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustTableViewColumns:) name:NSViewFrameDidChangeNotification object:[O_stylesTableView enclosingScrollView]];
+    NSMutableAttributedString *string=[[O_italicButton attributedTitle] mutableCopy];
+    [string addAttribute:NSObliquenessAttributeName value:[NSNumber numberWithFloat:.2] range:NSMakeRange(0,[[string string] length])];
+    [O_italicButton setAttributedTitle:[string autorelease]];
 }
 
-- (IBAction)validateDefaultsState:(id)aSender {
-    //DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
-    //DocumentMode *selectedMode=[O_modeController content];
+- (void)adjustTableViewColumns:(NSNotification *)aNotification {
+    float width=[[[O_stylesTableView enclosingScrollView] contentView] frame].size.width/2.;
+    NSArray *columns=[O_stylesTableView tableColumns];
+    [[columns objectAtIndex:0] setWidth:width];
+    [[columns objectAtIndex:1] setWidth:width];
 }
 
 - (void)updateBackgroundColor {
-    NSDictionary *baseStyle=[I_currentSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier];
+    NSDictionary *baseStyle=[[[O_modeController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
     [O_stylesTableView setLightBackgroundColor:[baseStyle objectForKey:@"background-color"]];
     [O_stylesTableView setDarkBackgroundColor: [baseStyle objectForKey:@"inverted-background-color"]];
     [O_stylesTableView reloadData];
+}
+
+- (IBAction)validateDefaultsState:(id)aSender {
+    BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
+    [O_defaultStyleButton setHidden:[[I_currentSyntaxStyle documentMode] isBaseMode]];
+    if (O_defaultStyleButton !=aSender) {
+        [O_defaultStyleButton setState:useDefault?NSOnState:NSOffState];
+    }
+    
+    if (useDefault) {
+        [O_modeController setContent:[DocumentModeManager baseMode]];
+    } else {
+        [O_modeController setContent:[O_modePopUpButton selectedMode]];
+    }
+    NSDictionary *baseStyle=[[[O_modeController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
+    [O_backgroundColorWell         setColor:[baseStyle objectForKey:@"background-color"]         ];
+    [O_invertedBackgroundColorWell setColor:[baseStyle objectForKey:@"inverted-background-color"]]; 
+    [self updateBackgroundColor];
+    [O_lightBackgroundButton       setEnabled:!useDefault];
+    [O_darkBackgroundButton        setEnabled:!useDefault];
+    [O_backgroundColorWell         setEnabled:!useDefault];
+    [O_invertedBackgroundColorWell setEnabled:!useDefault];
+}
+
+- (IBAction)changeDefaultState:(id)aSender {
+    BOOL useDefault = ([aSender state]==NSOnState);
+    [[[O_modePopUpButton selectedMode] defaults] setObject:[NSNumber numberWithBool:useDefault] forKey:DocumentModeUseDefaultStylePreferenceKey];
+    [self validateDefaultsState:aSender];
 }
 
 #define BUFFERSIZE 40
@@ -157,14 +192,12 @@
 
 - (IBAction)changeMode:(id)aSender {
     DocumentMode *newMode=[aSender selectedMode];
-    [O_modeController setContent:newMode];
     NSDictionary *fontAttributes = [newMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
     NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
     if (!font) font=[NSFont userFixedPitchFontOfSize:11.];
     [self setBaseFont:font];
-    [self validateDefaultsState:aSender];
     I_currentSyntaxStyle=[newMode syntaxStyle];
-    [self updateBackgroundColor];
+    [self validateDefaultsState:aSender];
     [O_stylesTableView selectRow:0 byExtendingSelection:NO];
 }
 

@@ -33,6 +33,7 @@
             ACTIONS = {
                 changeDarkBackgroundColor = id; 
                 changeDarkForegroundColor = id; 
+                changeDefaultState = id; 
                 changeFontTraitBold = id; 
                 changeFontTraitItalic = id; 
                 changeLightBackgroundColor = id; 
@@ -46,9 +47,12 @@
                 "O_backgroundColorWell" = NSColorWell; 
                 "O_boldButton" = NSButton; 
                 "O_colorWell" = NSColorWell; 
+                "O_darkBackgroundButton" = NSButton; 
+                "O_defaultStyleButton" = NSButton; 
                 "O_invertedBackgroundColorWell" = NSColorWell; 
                 "O_invertedColorWell" = NSColorWell; 
                 "O_italicButton" = NSButton; 
+                "O_lightBackgroundButton" = NSButton; 
                 "O_modeController" = NSObjectController; 
                 "O_modePopUpButton" = DocumentModePopUpButton; 
                 "O_stylesTableView" = TableView; 
