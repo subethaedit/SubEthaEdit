@@ -22,6 +22,19 @@
 #import "SelectionOperation.h"
 
 
+#pragma options align=mac68k
+struct SelectionRange
+{
+    short unused1; // 0 (not used)
+    short lineNum; // line to select (<0 to specify range)
+    long startRange; // start of selection range (if line < 0)
+    long endRange; // end of selection range (if line < 0)
+    long unused2; // 0 (not used)
+    long theDate; // modification date/time
+};
+#pragma options align=reset
+
+
 enum {
     UnknownStringEncoding = NoStringEncoding,
     SmallestCustomStringEncoding = 0xFFFFFFF0
@@ -37,6 +50,7 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 - (void)TCM_styleFonts;
 - (void)TCM_initHelper;
 - (void)TCM_sendPlainTextDocumentDidChangeDisplayNameNotification;
+- (void)TCM_handleOpenDocumentEvent;
 @end
 
 #pragma mark -
@@ -230,10 +244,70 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
-    DEBUGLOG(@"blah",5,@"didload");
-    // Add any code here that needs to be executed once the windowController has loaded the document's window.
+    [self TCM_handleOpenDocumentEvent];
 }
 
+static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
+    OSErr err;
+    AliasHandle localAlias;
+    long length;
+    CFURLRef theURLRef;
+            /* init result */
+    theURLRef = NULL;
+            /* get alias */
+    length = AEGetDescDataSize(theDesc);
+    localAlias = (AliasHandle)NewHandle(length);
+    if (localAlias != NULL) {
+        err = AEGetDescData(theDesc, *localAlias, length);
+        if (err == noErr) {
+            FSRef target;
+            Boolean wasChanged;
+            err = FSResolveAlias(NULL, localAlias, &target, &wasChanged);
+            if (err == noErr) {
+                theURLRef = CFURLCreateFromFSRef(NULL, &target);
+            }
+        }
+        DisposeHandle((Handle)localAlias);
+    }
+    return theURLRef;
+}
+
+- (void)TCM_handleOpenDocumentEvent {
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"TCM_handleOpenDocumentEvent");
+    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+    if (!([eventDesc eventClass] == kCoreEventClass && [eventDesc eventID] == kAEOpenDocuments)) {
+        return;
+    }
+    
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%@", [eventDesc description]);
+    NSAppleEventDescriptor *aliasesDesc = [[eventDesc descriptorForKeyword:keyDirectObject] coerceToDescriptorType:typeAEList];
+    int numberOfItems = [aliasesDesc numberOfItems];
+    int i;
+    for (i = 1; i <= numberOfItems; i++) {
+        NSAppleEventDescriptor *aliasDesc = [[aliasesDesc descriptorAtIndex:i] coerceToDescriptorType:typeAlias];
+        if (aliasDesc) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"alias: %@", [aliasDesc description]);
+            NSURL *fileURL = (NSURL *)CFURLFromAEDescAlias([aliasDesc aeDesc]);
+            NSString *filePath = [[fileURL path] stringByStandardizingPath];
+            if ([filePath isEqualToString:[[self fileName] stringByStandardizingPath]]) {
+                NSAppleEventDescriptor *selectionDesc = [[eventDesc paramDescriptorForKeyword:keyAEPosition] coerceToDescriptorType:typeChar];
+                if (selectionDesc) {
+                    struct SelectionRange *selectionRange = nil;
+                    selectionRange = (struct SelectionRange *)[[selectionDesc data] bytes];
+                    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"lineNum: %d\nstartRange: %d\nendRange: %d", selectionRange->lineNum, selectionRange->startRange, selectionRange->endRange);
+                    if (selectionRange->lineNum < 0) {
+                        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"selectRange");
+                        //[self selectRange:NSMakeRange(selectionRange->startRange, selectionRange->endRange - selectionRange->startRange) scrollToVisible:YES];
+                    } else {
+                        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"gotoLine");
+                        //[self gotoLine:selectionRange->lineNum + 1 orderFront:YES];
+                    }
+                }
+            }
+            [fileURL release];
+        }
+    }
+}
 
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     I_lastSaveOperation = saveOperation;
@@ -288,12 +362,9 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 
 
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
-    return [self readFromURL:[NSURL fileURLWithPath:fileName] ofType:docType];
-}
 
-- (BOOL)readFromURL:(NSURL *)aURL ofType:(NSString *)docType {
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromFile:%@ ofType:%@", fileName, docType);
 
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromURL:%@ ofType:%@", aURL, docType);
     if (![docType isEqualToString:@"PlainTextType"]) {
         return NO;
     }
@@ -302,15 +373,13 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
     
     BOOL isDir, fileExists;
-    fileExists = [[NSFileManager defaultManager] fileExistsAtPath:[aURL path] isDirectory:&isDir];
+    fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
     if (!fileExists || isDir) {
         return NO;
     }
     
-    if ([aURL isFileURL]) {
-        NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:[aURL path] traverseLink:YES];
-        [self setFileAttributes:fattrs];
-    }
+    NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
+    [self setFileAttributes:fattrs];
     
     NSTextStorage *textStorage = [self textStorage];
 
@@ -322,7 +391,7 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     if (isDocumentFromOpenPanel) {
         NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
         if ([identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
-            NSString *extension = [[aURL path] pathExtension];
+            NSString *extension = [fileName pathExtension];
             mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
         } else {
             mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
@@ -332,7 +401,7 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     if (!mode) {
         // get default mode (may be automatic)
         // currently following workaround is used
-        mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[[aURL path] pathExtension]];
+        mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
     }
     
     
@@ -360,11 +429,13 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     
     [[textStorage mutableString] setString:@""]; // Empty the document
     
+    NSURL *fileURL = [NSURL fileURLWithPath:[fileName stringByExpandingTildeInPath]];
+    
     while (TRUE) {
         BOOL success;
         
         [textStorage beginEditing];
-        success = [textStorage readFromURL:aURL options:options documentAttributes:&docAttrs];
+        success = [textStorage readFromURL:fileURL options:options documentAttributes:&docAttrs];
         [textStorage endEditing];
         
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
@@ -442,6 +513,9 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     return YES;
 }
 
+- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)docType {
+    return [super writeToFile:fileName ofType:docType];
+}
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     SEL selector=[anItem action];
