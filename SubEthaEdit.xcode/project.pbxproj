@@ -122,13 +122,64 @@
 			settings = {
 			};
 		};
-		1407E00F067086ED00B10D47 = {
-			isa = PBXFileReference;
-			lastKnownFileType = folder;
-			name = German;
-			path = "German.lproj/SubEthaEdit Help";
+		1407F34F06750AD100B10D47 = {
+			children = (
+				1407F37506750D2800B10D47,
+				1407F35606750B6C00B10D47,
+			);
+			isa = PBXGroup;
+			name = Localizations;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		1407F35606750B6C00B10D47 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			path = Japanese.lproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1407F36E06750B6C00B10D47 = {
+			fileRef = 1407F35606750B6C00B10D47;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1407F37106750B8D00B10D47 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				1407F3A806750D3D00B10D47,
+				1407F37206750B9600B10D47,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1407F37206750B9600B10D47 = {
+			fileRef = 1407F35606750B6C00B10D47;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1407F37506750D2800B10D47 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			path = German.lproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1407F3A706750D2800B10D47 = {
+			fileRef = 1407F37506750D2800B10D47;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1407F3A806750D3D00B10D47 = {
+			fileRef = 1407F37506750D2800B10D47;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		141080DA05FE2EC800A4463D = {
 			fileEncoding = 4;
@@ -905,7 +956,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" -name .svn | xargs rm -rf\n\n#MAJ_VER=\"2.0dev\"\nREV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n#/usr/bin/perl -spi -e \"s/VERSION_NUMBER_PLACEHOLDER/$MAJ_VER/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"\n\nif [ \"$ACTION\" = \"install\" ]\nthen\n    find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" | xargs rm -rf\nfi";
+			shellScript = "find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" -name .svn -exec rm -rf \"{}\" \\;\nREV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n#/usr/bin/perl -spi -e \"s/VERSION_NUMBER_PLACEHOLDER/$MAJ_VER/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"\n\nif [ \"$ACTION\" = \"install\" ]\nthen\n    find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" | xargs rm -rf\nfi";
 		};
 		146C7829063ABA8A00016CD9 = {
 			children = (
@@ -1868,6 +1919,7 @@
 				143C35DB05ECAC32008C6DFE,
 				2A37F4AFFDCFA73011CA2CEA,
 				2A37F4B8FDCFA73011CA2CEA,
+				1407F34F06750AD100B10D47,
 				2A37F4C3FDCFA73011CA2CEA,
 				19C28FB0FE9D524F11CA2CBB,
 			);
@@ -2218,7 +2270,6 @@
 		31418234065805BA00B39219 = {
 			children = (
 				31418235065805BA00B39219,
-				1407E00F067086ED00B10D47,
 			);
 			isa = PBXVariantGroup;
 			name = "SubEthaEdit Help";
@@ -4894,6 +4945,7 @@
 			buildPhases = (
 				8D15AC280486D014006FF6A4,
 				8D15AC2B0486D014006FF6A4,
+				1407F37106750B8D00B10D47,
 				1463F043062D2C9500C422F5,
 				144DD74906104A760047D354,
 				8D15AC300486D014006FF6A4,
@@ -5131,6 +5183,8 @@
 				5ED5526B065A86A300EA1663,
 				5ED5526D065A86C700EA1663,
 				5EF18E0F066495C600957730,
+				1407F36E06750B6C00B10D47,
+				1407F3A706750D2800B10D47,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

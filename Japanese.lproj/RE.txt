@@ -1,0 +1,342 @@
+‹SŽÔ ³‹K•\Œ»     2004/05/06
+
+Žg—p•¶–@: ONIG_SYNTAX_RUBY (Šù’è’l)
+
+
+1. Šî–{—v‘f
+
+  €       ‘Þ”ðCü (ƒGƒXƒP[ƒv)  ³‹K•\Œ»‹L†‚Ì—LŒø/–³Œø‚Ì§Œä
+  |       ‘I‘ðŽq
+  (...)   Ž®W‡   (ƒOƒ‹[ƒv)
+  [...]   •¶ŽšW‡ (•¶ŽšƒNƒ‰ƒX)
+
+
+2. •¶Žš
+
+  €t           …•½ƒ^ƒu         (0x09)
+  €v           ‚’¼ƒ^ƒu         (0x0B)
+  €n           ‰üs             (0x0A)
+  €r           •œ‹A             (0x0D)
+  €b           Œã‘Þ‹ó”’         (0x08)
+  €f           ‰ü•Å             (0x0C)
+  €a           à               (0x07)
+  €e           ‘Þ”ðCü         (0x1B)
+  €nnn         ”ªi”•\Œ»        •„†‰»ƒoƒCƒg’l(‚Ìˆê•”)
+  €xHH         \˜Zi”•\Œ»      •„†‰»ƒoƒCƒg’l(‚Ìˆê•”)
+  €x{7HHHHHHH} Šg’£\˜Zi”•\Œ»  ƒR[ƒhƒ|ƒCƒ“ƒg’l
+  €cx          §Œä•¶Žš•\Œ»      ƒR[ƒhƒ|ƒCƒ“ƒg’l
+  €C-x         §Œä•¶Žš•\Œ»      ƒR[ƒhƒ|ƒCƒ“ƒg’l
+  €M-x         ’´  (x|0x80)      ƒR[ƒhƒ|ƒCƒ“ƒg’l
+  €M-€C-x      ’´ + §Œä•¶Žš•\Œ» ƒR[ƒhƒ|ƒCƒ“ƒg’l
+
+  ¦ €b‚ÍA•¶ŽšW‡“à‚Å‚Ì‚Ý—LŒø
+
+
+3. •¶ŽšŽí
+
+  .        ”CˆÓ•¶Žš (‰üs‚ðœ‚­)
+  €w       ’PŒê\¬•¶Žš
+           (‰p”Žš, "_" ‚¨‚æ‚Ñ ‘½ƒoƒCƒg•¶ŽšBu•â‹L 6. –â‘è“_v‚ðŽQÆ)
+  €W       ”ñ’PŒê\¬•¶Žš
+  €s       ‹ó”’•¶Žš (€t, €n, €v, €f, €r, €x20)
+  €S       ”ñ‹ó”’•¶Žš
+  €d       ”Žš
+  €D       ”ñ”Žš
+
+
+4. —ÊŽw’èŽq
+
+  —~’£‚è
+
+    ?       ˆê‰ñ‚Ü‚½‚Í—ë‰ñ
+    *       —ë‰ñˆÈã
+    +       ˆê‰ñˆÈã
+    {n,m}   n‰ñˆÈãm‰ñˆÈ‰º
+    {n,}    n‰ñˆÈã
+    {,n}    —ë‰ñˆÈãn‰ñˆÈ‰º ({0,n})
+    {n}     n‰ñ
+
+  –³—~
+
+    ??      ˆê‰ñ‚Ü‚½‚Í—ë‰ñ
+    *?      —ë‰ñˆÈã
+    +?      ˆê‰ñˆÈã
+    {n,m}?  n‰ñˆÈãm‰ñˆÈ‰º
+    {n,}?   n‰ñˆÈã
+    {,n}?   —ë‰ñˆÈãn‰ñˆÈ‰º ({0,n}?)
+    {n}?    n‰ñ
+
+  ‹­—~ (—~’£‚è‚ÅAŒJ‚è•Ô‚µ‚É¬Œ÷‚µ‚½Œã‚Í‰ñ”‚ðŒ¸‚ç‚·‚æ‚¤‚ÈŒã‘ÞÄŽŽs‚ð‚µ‚È‚¢)
+
+    ?+      ˆê‰ñ‚Ü‚½‚Í—ë‰ñ
+    *+      —ë‰ñˆÈã
+    ++      ˆê‰ñˆÈã
+
+    ({n,m}+, {n,}+, {n}+ ‚ÍAONIG_SYNTAX_JAVA‚Å‚Ì‚Ý‹­—~‚ÈŽw’èŽq)
+
+    —á. /a*+/ === /(?>a*)/
+
+
+5. •d
+
+  ^       s“ª
+  $       s––
+  €b      ’PŒê‹«ŠE
+  €B      ”ñ’PŒê‹«ŠE
+  €A      •¶Žš—ñæ“ª
+  €Z      •¶Žš—ñ––”öA‚Ü‚½‚Í•¶Žš—ñ––”ö‚Ì‰üs‚Ì’¼‘O
+  €z      •¶Žš—ñ––”ö
+  €G      ‘O‰ñÆ‡¬Œ÷––”öˆÊ’u
+
+
+6. •¶ŽšW‡
+
+  ^...    ”Û’è   (Å’á—Dæ“x‰‰ŽZŽq)
+  x-y     ”ÍˆÍ   (x‚©‚çy‚Ü‚Å)
+  [...]   W‡   (•¶ŽšW‡“à•¶ŽšW‡)
+  ..&&..  Ï‰‰ŽZ (^‚ÌŽŸ‚É—Dæ“x‚ª’á‚¢‰‰ŽZŽq)
+
+     —á. [a-w&&[^c-g]z] ==> ([a-w] and ([^c-g] or z)) ==> [abh-w]
+
+  ¦ '[', '-', ']'‚ðA•¶ŽšW‡“à‚Å’Êí•¶Žš‚ÌˆÓ–¡‚ÅŽg—p‚µ‚½‚¢ê‡‚É‚ÍA
+     ‚±‚ê‚ç‚Ì•¶Žš‚ð'€'‚Å‘Þ”ðCü‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+
+
+  POSIXƒuƒ‰ƒPƒbƒg ([:xxxxx:], ”Û’è [:^xxxxx:])
+
+    alnum    ‰p”Žš
+    alpha    ‰pŽš
+    ascii    0 - 127
+    blank    €t, €x20
+    cntrl
+    digit    0-9
+    graph
+    lower
+    print
+    punct
+    space    €t, €n, €v, €f, €r, €x20
+    upper
+    xdigit   0-9, a-f, A-F
+
+
+7. Šg’£Ž®W‡
+
+  (?#...)           ’Žß
+  (?imx-imx)        ŒÇ—§ƒIƒvƒVƒ‡ƒ“
+                      i: ‘å•¶Žš¬•¶ŽšÆ‡
+                      m: •¡”s
+                      x: Šg’£Œ`Ž®
+  (?imx-imx:Ž®)     Ž®ƒIƒvƒVƒ‡ƒ“
+
+  (Ž®)              •ßŠlŽ®W‡
+  (?:Ž®)            ”ñ•ßŠlŽ®W‡
+
+  (?=Ž®)            æ“Ç‚Ý
+  (?!Ž®)            ”Û’èæ“Ç‚Ý
+  (?<=Ž®)           –ß‚è“Ç‚Ý
+  (?<!Ž®)           ”Û’è–ß‚è“Ç‚Ý
+
+                    –ß‚è“Ç‚Ý‚ÌŽ®‚ÍŒÅ’è•¶Žš’·‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+                    ‚µ‚©‚µAÅãˆÊ‚Ì‘I‘ðŽq‚¾‚¯‚ÍˆÙ‚È‚Á‚½•¶Žš’·‚ª‹–‚³‚ê‚éB
+                    —á. (?<=a|bc) ‚Í‹–‰Â. (?<=aaa(?:b|cd)) ‚Í•s‹–‰Â
+
+                    ”Û’è–ß‚è“Ç‚Ý‚Å‚ÍA•ßŠlŽ®W‡‚Í‹–‚³‚ê‚È‚¢‚ªA
+                    ”ñ•ßŠlŽ®W‡‚Í‹–‚³‚ê‚éB
+
+  (?>Ž®)            Œ´Žq“IŽ®W‡
+                    Ž®‘S‘Ì‚ð’Ê‰ß‚µ‚½‚Æ‚«AŽ®‚Ì’†‚Å‚ÌŒã‘ÞÄŽŽs‚ðs‚È‚í‚È‚¢
+
+  (?<name>Ž®)       –¼‘O•t‚«•ßŠlŽ®W‡
+                    Ž®W‡‚É–¼‘O‚ðŠ„‚è“–‚Ä‚é(’è‹`‚·‚é)B
+                    (–¼‘O‚Í’PŒê\¬•¶Žš‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÅ‰‚Ì•¶Žš‚Í
+                     ‰p‘å•¶Žš‚Å‚ ‚Á‚Ä‚Í‚¢‚¯‚È‚¢B)
+
+                    –¼‘O‚¾‚¯‚Å‚È‚­A•ßŠlŽ®W‡‚Æ“¯—l‚É”Ô†‚àŠ„‚è“–‚Ä‚ç‚ê‚éB
+                    ”Ô†Žw’è‚ª‹ÖŽ~‚³‚ê‚Ä‚¢‚È‚¢ó‘Ô (10. •ßŠlŽ®W‡ ‚ðŽQÆ)
+                    ‚Ì‚Æ‚«‚ÍA–¼‘O‚ðŽg‚í‚È‚¢‚Å”Ô†‚Å‚àŽQÆ‚Å‚«‚éB
+
+                    •¡”‚ÌŽ®W‡‚É“¯‚¶–¼‘O‚ð—^‚¦‚é‚±‚Æ‚Í‹–‚³‚ê‚Ä‚¢‚éB
+                    ‚±‚Ìê‡‚É‚ÍA‚±‚Ì–¼‘O‚ðŽg—p‚µ‚½Œã•ûŽQÆ‚Í‰Â”\‚Å‚ ‚é‚ªA
+                    •”•ªŽ®ŒÄo‚µ‚Í‚Å‚«‚È‚¢B
+
+
+8. Œã•ûŽQÆ
+
+  €n          ”Ô†Žw’èŽQÆ (n >= 1)
+  €k<name>    –¼‘OŽw’èŽQÆ
+
+  –¼‘OŽw’èŽQÆ‚ÅA‚»‚Ì–¼‘O‚ª•¡”‚ÌŽ®W‡‚Å‘½d’è‹`‚³‚ê‚Ä‚¢‚éê‡‚É‚ÍA
+  ”Ô†‚Ì‘å‚«‚¢Ž®W‡‚©‚ç—Dæ“I‚ÉŽQÆ‚³‚ê‚éB
+  (ƒ}ƒbƒ`‚µ‚È‚¢‚Æ‚«‚É‚Í”Ô†‚Ì¬‚³‚¢Ž®W‡‚ªŽQÆ‚³‚ê‚é)
+
+  ¦ ”Ô†Žw’èŽQÆ‚ÍA–¼‘O•t‚«•ßŠlŽ®W‡‚ªŽg—p‚³‚êA
+     ‚©‚Â ONIG_OPTION_CAPTURE_GROUP‚ªŽw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚É‚ÍA
+     ‹ÖŽ~‚³‚ê‚éB(10. •ßŠlŽ®W‡ ‚ðŽQÆ)
+
+
+9. •”•ªŽ®ŒÄo‚µ ("“c’†“NƒXƒyƒVƒƒƒ‹")
+
+  €g<name>    –¼‘OŽw’èŒÄo‚µ
+  €g<n>       ”Ô†Žw’èŒÄo‚µ (n >= 1)
+
+  ¦ Å¶ˆÊ’u‚Å‚ÌÄ‹AŒÄo‚µ‚Í‹ÖŽ~‚³‚ê‚éB
+     —á. (?<name>a|€g<name>b)   => error
+         (?<name>a|b€g<name>c)  => OK
+
+  ¦ ”Ô†Žw’èŒÄo‚µ‚ÍA–¼‘O•t‚«•ßŠlŽ®W‡‚ªŽg—p‚³‚êA
+     ‚©‚Â ONIG_OPTION_CAPTURE_GROUP‚ªŽw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚É‚ÍA
+     ‹ÖŽ~‚³‚ê‚éB (10. •ßŠlŽ®W‡ ‚ðŽQÆ)
+
+  ¦ ŒÄ‚Ño‚³‚ê‚½Ž®W‡‚ÌƒIƒvƒVƒ‡ƒ“ó‘Ô‚ªŒÄo‚µ‘¤‚ÌƒIƒvƒVƒ‡ƒ“ó‘Ô‚ÆˆÙ‚È‚Á‚Ä‚¢‚é
+     ‚Æ‚«AŒÄ‚Ño‚³‚ê‚½‘¤‚ÌƒIƒvƒVƒ‡ƒ“ó‘Ô‚ª—LŒø‚Å‚ ‚éB
+
+     —á. (?-i:€g<name>)(?i:(?<name>a)){0} ‚Í "A" ‚ÉÆ‡¬Œ÷‚·‚éB
+
+
+10. •ßŠlŽ®W‡
+
+  •ßŠlŽ®W‡(...)‚ÍAˆÈ‰º‚ÌðŒ‚É‰ž‚¶‚ÄU•‘‚ª•Ï‰»‚·‚éB
+  (–¼‘O•t‚«•ßŠlŽ®W‡‚Í•Ï‰»‚µ‚È‚¢)
+
+  case 1. /.../     (–¼‘O•t‚«•ßŠlŽ®W‡‚Í•sŽg—pAƒIƒvƒVƒ‡ƒ“‚È‚µ)
+
+     (...) ‚ÍA•ßŠlŽ®W‡‚Æ‚µ‚Äˆµ‚í‚ê‚éB
+
+  case 2. /.../g    (–¼‘O•t‚«•ßŠlŽ®W‡‚Í•sŽg—pAƒIƒvƒVƒ‡ƒ“ 'g'‚ðŽw’è)
+
+     (...) ‚ÍA”ñ•ßŠlŽ®W‡‚Æ‚µ‚Äˆµ‚í‚ê‚éB
+
+  case 3. /..(?<name>..)../   (–¼‘O•t‚«•ßŠlŽ®W‡‚ÍŽg—pAƒIƒvƒVƒ‡ƒ“‚È‚µ)
+
+     (...) ‚ÍA”ñ•ßŠlŽ®W‡‚Æ‚µ‚Äˆµ‚í‚ê‚éB
+     ”Ô†Žw’èŽQÆ/ŒÄ‚Ño‚µ‚Í•s‹–‰ÂB
+
+  case 4. /..(?<name>..)../G  (–¼‘O•t‚«•ßŠlŽ®W‡‚ÍŽg—pAƒIƒvƒVƒ‡ƒ“ 'G'‚ðŽw’è)
+
+     (...) ‚ÍA•ßŠlŽ®W‡‚Æ‚µ‚Äˆµ‚í‚ê‚éB
+     ”Ô†Žw’èŽQÆ/ŒÄ‚Ño‚µ‚Í‹–‰ÂB
+
+  ’A‚µ
+    g: ONIG_OPTION_DONT_CAPTURE_GROUP
+    G: ONIG_OPTION_CAPTURE_GROUP
+    ('g'‚Æ'G'ƒIƒvƒVƒ‡ƒ“‚ÍAruby-dev ML‚Å‹c˜_‚³‚ê‚½B)
+
+  ‚±‚ê‚ç‚ÌU•‘‚ÌˆÓ–¡‚ÍA
+  –¼‘O•t‚«•ßŠl‚Æ–¼‘O–³‚µ•ßŠl‚ð“¯Žž‚ÉŽg—p‚·‚é•K‘R«‚Ì‚ ‚éê–Ê‚Í­‚È‚¢‚Å‚ ‚ë‚¤
+  ‚Æ‚¢‚¤——R‚©‚çl‚¦‚ç‚ê‚½‚à‚Ì‚Å‚ ‚éB
+  ‚±‚ê‚ç‚ÌƒIƒvƒVƒ‡ƒ“‚É‚Â‚¢‚Ä‚ÍARuby‚Å‚ÍŒ»ÝŽÀ‘•‚µ‚Ä‚¢‚È‚¢B
+
+
+-----------------------------
+•â‹L 1. •¶–@ˆË‘¶ƒIƒvƒVƒ‡ƒ“
+
+   + ONIG_SYNTAX_RUBY
+     (?m): IŽ~•„‹L†(.)‚Í‰üs‚ÆÆ‡¬Œ÷
+
+   + ONIG_SYNTAX_PERL ‚Æ ONIG_SYNTAX_JAVA
+     (?s): IŽ~•„‹L†(.)‚Í‰üs‚ÆÆ‡¬Œ÷
+     (?m): ^ ‚Í‰üs‚Ì’¼Œã‚ÉÆ‡‚·‚éA$ ‚Í‰üs‚Ì’¼‘O‚ÉÆ‡‚·‚é
+
+
+•â‹L 2. “ÆŽ©Šg’£‹@”\
+
+   + –¼‘O•t‚«•ßŠlŽ®W‡   (?<name>...)
+   + –¼‘OŽw’èŽQÆ         €k<name>
+   + •”•ªŽ®ŒÄo‚µ         €g<name>, €g<group-num>
+
+
+•â‹L 3. Perl 5.8.0‚Æ”äŠr‚µ‚Ä‘¶Ý‚µ‚È‚¢‹@”\
+
+   + [:word:]
+   + €N{name}
+   + €l,€u,€L,€U, €X, €C
+   + (?{code})
+   + (??{code})
+   + (?(condition)yes-pat|no-pat)
+
+   * €Q...€E
+     ’A‚µONIG_SYNTAX_PERL‚ÆONIG_SYNTAX_JAVA‚Å‚Í—LŒø
+
+   * €p{property}, €P{property}
+     ’A‚µONIG_SYNTAX_PERL‚ÆONIG_SYNTAX_JAVA‚Å‚Í—LŒø
+     Alnum, Alpha, Blank, Cntrl, Digit, Graph, Lower,
+     Print, Punct, Space, Upper, XDigit, ASCII‚ªŽw’è‚Å‚«‚éB
+
+     “Á«–¼‚Ì‘O‚É 'Is'‘O’uŽŒ‚ðŽg—p‚·‚é‚±‚Æ‚ÍAONIG_SYNTAX_PERL‚Å‚Ì‚Ý
+     ‹–‚³‚ê‚Ä‚¢‚éB
+     ex. €p{IsXDigit}.
+
+     “Á«‚Ì”Û’è‰‰ŽZŽq‚ÍAONIG_SYNTAX_PERL‚Å‚Ì‚Ý‹–‚³‚ê‚Ä‚¢‚éB
+     €p{^...}, €P{^...}
+
+
+•â‹L 4. Ruby‚Ì“ú–{Œê‰» GNU regex(version 0.12)‚Æ‚Ìˆá‚¢
+
+   + –ß‚è“Ç‚Ý‹@”\‚ð’Ç‰Á
+   + ‹­—~‚ÈŒJ‚è•Ô‚µŽw’èŽq‚ð’Ç‰Á (?+, *+, ++)
+   + •¶ŽšW‡‚Ì’†‚Ì‰‰ŽZŽq‚ð’Ç‰Á ([...], &&)
+     ('[' ‚ÍA•¶ŽšW‡‚Ì’†‚Å’Êí‚Ì•¶Žš‚Æ‚µ‚ÄŽg—p‚·‚é‚Æ‚«‚É‚Í
+      ‘Þ”ðCü‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢)
+   + –¼‘O•t‚«•ßŠlŽ®W‡‚ÆA•”•ªŽ®ŒÄo‚µ‹@”\’Ç‰Á
+   + ‘½ƒoƒCƒg•¶ŽšƒR[ƒh‚ªŽw’è‚³‚ê‚Ä‚¢‚é‚Æ‚«A
+     •¶ŽšW‡‚Ì’†‚Å”ªi”‚Ü‚½‚Í\˜Zi”•\Œ»‚Ì˜A‘±‚ÍA‘½ƒoƒCƒg•„‡‚Å•\Œ»‚³‚ê‚½
+     ˆêŒÂ‚Ì•¶Žš‚Æ‰ðŽß‚³‚ê‚é
+     (—á. [€xa1€xa2], [€xa1€xa7-€xa4€xa1])
+   + •¶ŽšW‡‚Ì’†‚ÅAˆêƒoƒCƒg•¶Žš‚Æ‘½ƒoƒCƒg•¶Žš‚Ì”ÍˆÍŽw’è‚Í‹–‚³‚ê‚éB
+     ex. /[a-‚ ]/
+   + ŒÇ—§ƒIƒvƒVƒ‡ƒ“‚Ì—LŒø”ÍˆÍ‚ÍA‚»‚ÌŒÇ—§ƒIƒvƒVƒ‡ƒ“‚ðŠÜ‚ñ‚Å‚¢‚éŽ®W‡‚Ì
+     I‚í‚è‚Ü‚Å‚Å‚ ‚é
+     —á. (?:(?i)a|b) ‚Í (?:(?i:a|b)) ‚Æ‰ðŽß‚³‚ê‚éA(?:(?i:a)|b)‚Å‚Í‚È‚¢
+   + ŒÇ—§ƒIƒvƒVƒ‡ƒ“‚Í‚»‚Ì‘O‚ÌŽ®‚É‘Î‚µ‚Ä“§‰ß“I‚Å‚Í‚È‚¢
+     —á. /a(?i)*/ ‚Í•¶–@ƒGƒ‰[‚Æ‚È‚é
+   + •sŠ®‘S‚ÈŒJ‚è•Ô‚µ”ÍˆÍŽw’èŽq‚Í’Êí‚Ì•¶Žš—ñ‚Æ‚µ‚Ä‹–‰Â‚³‚ê‚é
+     —á. /{/, /({)/, /a{2,3/
+   + ”Û’è“IPOSIXƒuƒ‰ƒPƒbƒg [:^xxxx:] ‚ð’Ç‰Á
+   + POSIXƒuƒ‰ƒPƒbƒg [:ascii:] ‚ð’Ç‰Á
+   + æ“Ç‚Ý‚ÌŒJ‚è•Ô‚µ‚Í•s‹–‰Â
+     —á. /(?=a)*/, /(?!b){5}/
+   + ”’l‚ÅŽw’è‚³‚ê‚½•¶Žš‚É‘Î‚µ‚Ä‚àA‘å•¶Žš¬•¶ŽšÆ‡ƒIƒvƒVƒ‡ƒ“‚Í—LŒø
+     —á. /€x61/i =~ "A"
+   + ŒJ‚è•Ô‚µ‰ñ”Žw’è‚ÅAÅ’á‰ñ”‚ÌÈ—ª(0‰ñ)‚ª‚Å‚«‚é
+     /a{,n}/ == /a{0,n}/
+     Å’á‰ñ”‚ÆÅ‘å‰ñ”‚Ì“¯ŽžÈ—ª‚Í‹–‚³‚ê‚È‚¢B(/a{,}/)
+   + –³ŒÀŒJ‚è•Ô‚µ‚Ì’†‚ÅA’·‚³—ë‚Å‚ÌÆ‡¬Œ÷‚ÍŒJ‚è•Ô‚µ‚ð’†’f‚³‚¹‚é‚ªA
+     ‚±‚Ì‚Æ‚«A’†’f‚·‚×‚«‚©‚Ç‚¤‚©‚Ì”»’è‚Æ‚µ‚ÄA•ßŠlŽ®W‡‚Ì•ßŠló‘Ô‚Ì
+     •Ï‰»‚Ü‚Ål—¶‚µ‚Ä‚¢‚é
+     /(?:()|())*€1€2/ =~ ""
+     /(?:€1a|())*/ =~ "a"
+
+
+
+•â‹L 5. ŽÀ‘•‚³‚ê‚Ä‚¢‚é‚ªAŠù’è’l‚Å‚Í—LŒø‚É‚µ‚Ä‚¢‚È‚¢‹@”\
+
+   + •ßŠl—š—ðŽQÆ
+
+     (?@...) ‚Æ (?@<name>...)
+
+     —á. /(?@a)*/.match("aaa") ==> [<0-1>, <1-2>, <2-3>]
+
+     Žg—p•û–@‚ÍAsample/listcap.c‚ðŽQÆ
+
+     —LŒø‚É‚µ‚Ä‚¢‚È‚¢——R‚ÍA‚Ç‚Ì’ö“x–ð‚É—§‚Â‚©‚Í‚Á‚«‚è‚µ‚È‚¢‚½‚ßB
+
+
+•â‹L 6. –â‘è“_
+
+   + UTF-8‚ÅAæ“ªƒoƒCƒg‚Æ‚µ‚Ä•s³‚ÈƒoƒCƒg‚ðˆê•¶Žš‚Æ‚Ý‚È‚·B
+     (‚±‚ê‚Í Ruby GNU regex‚Æ“¯‚¶)
+
+       /./u =~ "€xa3"
+
+     ‚±‚ê‚ð’²‚×‚é‚±‚Æ‚Í‰Â”\‚Å‚Í‚ ‚é‚ªA’x‚­‚È‚é‚Ì‚Ås‚È‚í‚È‚¢B
+
+
+   + •¶ŽšŽí‚Ì”»’è‚ÍA‘½ƒoƒCƒg•¶Žš‚Ì”ÍˆÍ‚Å‚Í³‚µ‚­‚È‚¢B
+
+     ‘½ƒoƒCƒg•¶Žš‚ÍAŽÀÛ‚Ì•¶Žš‚ÉŠÖŒW‚È‚­’PŒê\¬•¶Žš(€w)‚Æ
+     ‚Ý‚È‚µ‚Ä‚¢‚éB(‚³‚ç‚ÉA[:graph:], [:print:]‚É‚àŠÜ‚Ü‚ê‚é)
+
+     UTF-8‚ÆUTF-16‚Ìê‡‚ÍA[U+0080 - U+00FF]‚Ì”ÍˆÍ‚¾‚¯³‚µ‚­•¶ŽšŽí‚ð
+     ”»’è‚·‚é‚ªAU+0100ˆÈ~‚É‚Â‚¢‚Ä‚Í’PŒê\¬•¶Žš‚Æ‚Ý‚È‚·B
+
+I‚è
