@@ -5,6 +5,7 @@
             CLASS = AdvancedPreferences; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "O_commandLineToolStatusTextField" = NSTextField; 
                 "O_installCommandLineToolButton" = NSButton; 
                 "O_removeCommandLineToolButton" = NSButton; 
             }; 

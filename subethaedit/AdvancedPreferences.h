@@ -12,6 +12,7 @@
 @interface AdvancedPreferences : TCMPreferenceModule {
     IBOutlet NSButton *O_installCommandLineToolButton;
     IBOutlet NSButton *O_removeCommandLineToolButton;
+    IBOutlet NSTextField *O_commandLineToolStatusTextField;
 }
 
 - (IBAction)installCommandLineTool:(id)sender;
