@@ -34,6 +34,7 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
         unsigned int redoing;
         unsigned int internal;
         int automaticGroupLevel;
+        BOOL isPerformingGroup;
     } _flags;
 }
 
@@ -90,6 +91,7 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
 - (BOOL)canRedo;
     // returns whether or not the UndoManager has anything to undo or redo
 
+- (BOOL)isPerformingGroup; // mainly to decide when to take changes seriously for state changes like blockedit and stuff
 - (BOOL)isUndoing;
 - (BOOL)isRedoing;
     // returns whether or not the undo manager is currently in the process

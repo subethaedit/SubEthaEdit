@@ -52,6 +52,8 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL isReadingFile;
         BOOL didPauseBecauseOfMarkedText;
         BOOL shouldChangeChangeCount;
+        BOOL shouldSelectModeOnSave;
+        BOOL isHandlingUndoManually;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -87,6 +89,7 @@ extern NSString * const ChangedByUserIDAttributeName;
     } I_bracketMatching;
         
     NSDictionary *I_blockeditAttributes;
+    NSTextView   *I_blockeditTextView;
     
     NSArray *I_symbolArray;
     NSMenu *I_symbolPopUpMenu;
@@ -182,6 +185,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 #pragma mark -
 #pragma mark ### Flag Accessors ###
+- (BOOL)isHandlingUndoManually;
+- (void)setIsHandlingUndoManually:(BOOL)aFlag;
 - (BOOL)shouldChangeChangeCount;
 - (void)setShouldChangeChangeCount:(BOOL)aFlag;
 

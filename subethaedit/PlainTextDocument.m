@@ -176,6 +176,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 - (void)TCM_initHelper {
+    I_flags.isHandlingUndoManually=NO;
+    I_flags.shouldSelectModeOnSave=YES;
     [self setUndoManager:nil];
     I_rangesToInvalidate = [NSMutableArray new];
     I_findAllControllers = [NSMutableArray new];
@@ -193,6 +195,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userWillLeaveSession:) name:TCMMMUserWillLeaveSessionNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateViewBecauseOfPreferences:) name:GeneralViewPreferencesDidChangeNotificiation object:nil];
+
+    I_blockeditTextView=nil;
 
     // maybe put this into DocumentMode Setting
     NSString *bracketString=@"{[()]}";
@@ -538,6 +542,15 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         }
         [textView setSelectedRange:symbolRange];
         [textView scrollRangeToVisible:symbolRange];
+        PlainTextWindowController *controller=(PlainTextWindowController *)[[textView window] windowController];
+        NSArray *plainTextEditors=[controller plainTextEditors];
+        int i=0;
+        for (i=0;i<[plainTextEditors count]; i++) {
+            if ([[plainTextEditors objectAtIndex:i] textView]==textView) {
+                [[plainTextEditors objectAtIndex:i] setFollowUserID:nil];
+                break;
+            }
+        }
     } else {
         NSBeep();
     }
@@ -815,7 +828,11 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
     }
     [self updateSymbolTable];
-    [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
+    NSNumber *aFlag=[[aDocumentMode defaults] objectForKey:DocumentModeShowBottomStatusBarPreferenceKey];
+    [self setShowsBottomStatusBar:!aFlag || [aFlag boolValue]];
+    aFlag=[[aDocumentMode defaults] objectForKey:DocumentModeShowTopStatusBarPreferenceKey];
+    [self setShowsTopStatusBar:!aFlag || [aFlag boolValue]];
+    [[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
 - (unsigned int)fileEncoding {
@@ -1239,6 +1256,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)saveToFile:(NSString *)fileName saveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
+
+    if (I_flags.shouldSelectModeOnSave) {
+        DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+        if (![mode isBaseMode]) {
+            [self setDocumentMode:mode];
+        }
+        I_flags.shouldSelectModeOnSave=NO;
+    }
+
     if (saveOperation == NSSaveToOperation) {
         I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
     }
@@ -1270,6 +1296,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
+    I_flags.shouldSelectModeOnSave=NO;
 
     I_flags.isReadingFile=YES;
 
@@ -1880,10 +1907,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 
 - (NSParagraphStyle *)defaultParagraphStyle {
+    static NSLayoutManager *sLayoutManager = nil;
+    if (!sLayoutManager) {
+        sLayoutManager=[NSLayoutManager new];
+    }
     if (!I_defaultParagraphStyle) {
         I_defaultParagraphStyle = [[NSMutableParagraphStyle alloc] init];
         [I_defaultParagraphStyle setTabStops:[NSArray array]];
-        NSFont *font=[self fontWithTrait:nil];
+        NSFont *font=[sLayoutManager substituteFontForFont:[self fontWithTrait:nil]];
         float charWidth = [font widthOfString:@" "];
         if (charWidth<=0) {
             charWidth=[font maximumAdvancement].width;
@@ -2118,6 +2149,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 #pragma mark ### Flag Accessors ###
 
+- (BOOL)isHandlingUndoManually {
+    return I_flags.isHandlingUndoManually;
+}
+
+- (void)setIsHandlingUndoManually:(BOOL)aFlag {
+    I_flags.isHandlingUndoManually=aFlag;
+}
+
 - (BOOL)shouldChangeChangeCount {
     return I_flags.shouldChangeChangeCount;
 }
@@ -2222,6 +2261,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 - (void)setShowsTopStatusBar:(BOOL)aFlag {
     I_flags.showsTopStatusBar=aFlag;
+    DocumentMode *mode=[self documentMode];
+    NSMutableDictionary *defaults=[mode defaults];
+    [defaults setObject:[NSNumber numberWithBool:aFlag] forKey:DocumentModeShowTopStatusBarPreferenceKey];
 }
 
 - (BOOL)showsBottomStatusBar {
@@ -2229,6 +2271,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 - (void)setShowsBottomStatusBar:(BOOL)aFlag {
     I_flags.showsBottomStatusBar=aFlag;
+    DocumentMode *mode=[self documentMode];
+    NSMutableDictionary *defaults=[mode defaults];
+    [defaults setObject:[NSNumber numberWithBool:aFlag] forKey:DocumentModeShowBottomStatusBarPreferenceKey];
 }
 
 - (BOOL)keepDocumentVersion {
@@ -2409,6 +2454,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (identifier) {
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
         [self setDocumentMode:newMode];
+        I_flags.shouldSelectModeOnSave=NO;
     }
 }
 
@@ -2597,10 +2643,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     I_flags.isRemotelyEditingTextStorage=YES;
     TextStorage *textStorage=(TextStorage *)[self textStorage];
     [textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
-    [textStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[textStorage length])];
+    NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+    [textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
+    [textStorage addAttribute:NSParagraphStyleAttributeName value:[self defaultParagraphStyle] range:wholeRange];
     I_flags.isRemotelyEditingTextStorage=NO;
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
     [self updateChangeCount:NSChangeCleared];
+    I_flags.shouldSelectModeOnSave=NO;
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent {
@@ -2703,7 +2752,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
 - (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
-    if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile) {
+//    NSLog(@"textStorage:%@ willReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
+    if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile && !I_flags.isHandlingUndoManually) {
         TextOperation *operation=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:(NSString *)[TCMMMUserManager myUserID]];
         UndoManager *undoManager=[self documentUndoManager];
         BOOL shouldGroup=YES;
@@ -2718,17 +2768,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
-    //NSLog(@"textStorage:%@ didReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
+//    NSLog(@"textStorage:%@ didReplaceCharactersInRange:%@ withString:%@\n\n%d==%d?",aTextStorage,NSStringFromRange(aRange),aString, [aTextStorage length], [aString length]);
     TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
     if (!I_flags.isRemotelyEditingTextStorage) {
         [[self session] documentDidApplyOperation:textOp];
-    }
+    } 
     
-//    else {
-//        if ([aTextStorage length]==[aString length]) {
-//            [aTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
-//        }
-//    }
+    if ([aTextStorage length]==[aString length]) {
+        [aTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
+    }
+
     if (I_flags.highlightSyntax) {
         if ([aString length]) {
             NSRange range=NSMakeRange(aRange.location,[aString length]);
@@ -2955,16 +3004,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
     TextStorage *textStorage = (TextStorage *)[aTextView textStorage];
-    if (![textStorage isBlockediting] && [textStorage hasBlockeditRanges]) {
+    if (![textStorage isBlockediting] && [textStorage hasBlockeditRanges] && !I_flags.isRemotelyEditingTextStorage && ![[self documentUndoManager] isPerformingGroup]) {
         if ([textStorage length]==0) {
             [textStorage stopBlockedit];
         } else {
-            unsigned positionToCheck=aNewSelectedCharRange.location;
+            unsigned positionToCheck=aOldSelectedCharRange.location;
             if (positionToCheck<[textStorage length] && positionToCheck!=0) {
                 if (positionToCheck>=[textStorage length]) positionToCheck--;
                 NSDictionary *attributes=[textStorage attributesAtIndex:positionToCheck effectiveRange:NULL];
-                if (![attributes objectForKey:BlockeditAttributeName]) {
-                    [textStorage stopBlockedit];
+                if ([attributes objectForKey:BlockeditAttributeName]) {
+                    positionToCheck=aNewSelectedCharRange.location;
+                    if (positionToCheck<[textStorage length] && positionToCheck!=0) {
+                        if (positionToCheck>=[textStorage length]) positionToCheck--;
+                        attributes=[textStorage attributesAtIndex:positionToCheck effectiveRange:NULL];
+                        if (![attributes objectForKey:BlockeditAttributeName]) {
+                            [textStorage stopBlockedit];
+                        }
+                    }
                 }
             }
         }
@@ -3068,6 +3124,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 [textStorage setDidBlockedit:YES];
                 [textStorage setDidBlockeditRange:aAffectedCharRange];
                 [textStorage setDidBlockeditLineRange:NSMakeRange(locationLength,length-locationLength)];
+                I_blockeditTextView=aTextView;
             }
         } else {
             [textStorage stopBlockedit];
@@ -3096,6 +3153,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     // take care for blockedit
 
     if ([textStorage didBlockedit] && ![textStorage isBlockediting] && ![textView hasMarkedText]) {
+        [textStorage beginEditing];
         NSRange lineRange=[textStorage didBlockeditLineRange];
         NSRange selectedRange=[textView selectedRange];
         NSRange didBlockeditRange=[textStorage didBlockeditRange];
@@ -3154,7 +3212,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
         [textStorage setDidBlockedit:NO];
+        I_blockeditTextView=nil;
         [[self documentUndoManager] endUndoGrouping];
+        [textStorage endEditing];
         newSelectedRange.location+=lengthChange;
         if (!NSEqualRanges(newSelectedRange,[textView selectedRange]) && newSelectedRange.location!=NSNotFound) {
             [textView setSelectedRange:newSelectedRange];

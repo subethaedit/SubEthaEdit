@@ -86,7 +86,6 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     _actions = nil;
     _actionName = @"";
     _parent = [parent retain];
-    
     return self;
 }
 
@@ -384,6 +383,10 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 }
     // returns whether or not the UndoManager has anything to undo or redo
 
+- (BOOL)isPerformingGroup {
+    return _flags.isPerformingGroup;
+}
+
 - (BOOL)isUndoing {
     return _flags.undoing;
 }
@@ -527,6 +530,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         _flags.redoing = 0;
         _flags.internal = 0;
         _flags.automaticGroupLevel = -1;
+        _flags.isPerformingGroup=NO;
         _undoStack = [NSMutableArray new];
         _redoStack = [NSMutableArray new];
         _undoGroup = nil;
@@ -539,6 +543,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     NSArray *actions = [group actions];
     
     if (actions != nil) {
+        _flags.isPerformingGroup=YES;
         unsigned i = [actions count];
         [[_document textStorage] beginEditing];
         TextOperation *operation = nil;
@@ -547,6 +552,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             [_document handleOperation:operation];
         }
         [[_document textStorage] endEditing];
+        _flags.isPerformingGroup=NO;
         if (operation) {
             NSTextView *textView=[[[_document topmostWindowController] activePlainTextEditor] textView];
             [textView setSelectedRange:NSMakeRange([operation affectedCharRange].location+[[operation replacementString] length],0)];

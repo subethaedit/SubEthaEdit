@@ -19,6 +19,10 @@
             <keywords id="Strings in Tags" color="#1A1AA6" useforautocomplete="no">
                 <regex>("[^"&gt;&lt;]*")(?=[^&lt;]*&gt;)</regex>
             </keywords>
+
+            <keywords id="Single Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+                <regex>('[^'&gt;&lt;]*')(?=[^&lt;]*&gt;)</regex>
+            </keywords>
             
             <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
                 <regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>

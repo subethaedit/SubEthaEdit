@@ -3,25 +3,22 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>SEEMode.Ruby</string>
+	<string>SEEMode.Lua</string>
 	<key>CFBundleName</key>
-	<string>Ruby</string>
+	<string>Lua</string>
     <key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>2.1</string>
+	<string>1.0</string>
     <key>CFBundleGetInfoString</key>
-	<string>2.1.1, Copyright Jeff Reinecke 2004, based on the original Ruby mode by The Coding Monkeys.</string>
+	<string>1.0, Copyright TheCodingMonkeys 2004</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>TCMModeExtensions</key>
 	<array>
-	   <string>rb</string>
-	   <string>ruby</string>
-	   <string>rbx</string>
-	   <string>rhtml</string>
+	   <string>lua</string>
 	</array>
 </dict>
 </plist>

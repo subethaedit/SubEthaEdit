@@ -25,6 +25,31 @@
 #import "UndoManager.h"
 #import <OgreKit/OgreKit.h>
 
+@interface NSMenu (UndefinedStuff)
+- (NSMenu *)bottomPart;
+@end
+
+@implementation NSMenu (UndefinedStuff)
+- (NSMenu *)bottomPart {
+    NSMenu *newMenu=[[NSMenu new] autorelease];
+    NSArray *items=[self itemArray];
+    int count=[items count];
+    int index=count-1;
+    while (index>=0) {
+        if ([[items objectAtIndex:index] isSeparatorItem]) {
+            index++; break;
+        }
+        index--;
+    }
+    while (index<count) {
+        [newMenu addItem:[[[items objectAtIndex:index] copy] autorelease]];
+        index++;
+    }
+    return newMenu;
+}
+@end
+
+
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions)
 - (void)TCM_updateStatusBar;
 - (void)TCM_updateBottomStatusBar;
@@ -170,6 +195,7 @@
         [self setShowsGutter:[document showsGutter]];
     }
     [self updateSymbolPopUpSorted:NO];
+    [self setShowsTopStatusBar:[document showsTopStatusBar]];
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
     [I_textView setEditable:[document isEditable]];
@@ -289,6 +315,24 @@
     return result;
 }
 
+- (void)TCM_adjustVisibilityInBottomStatusBar {
+    if (I_flags.showBottomStatusBar) {
+        float windowWidthPosition=NSMaxX([O_windowWidthTextField frame])-[[O_windowWidthTextField font] widthOfString:[O_windowWidthTextField stringValue]]-3.;
+        float testPosition=MIN(NSMaxX([O_encodingTextField frame]),[O_encodingTextField frame].origin.x+[[O_encodingTextField font] widthOfString:[O_encodingTextField stringValue]]+3.);
+        [O_encodingTextField setHidden:testPosition>windowWidthPosition];
+
+        testPosition=MIN(NSMaxX([O_lineEndingTextField frame]),[O_lineEndingTextField frame].origin.x+[[O_lineEndingTextField font] widthOfString:[O_lineEndingTextField stringValue]]+3.);
+        [O_lineEndingTextField setHidden:testPosition>windowWidthPosition];
+
+        testPosition=MIN(NSMaxX([O_tabStatusTextField frame]),[O_tabStatusTextField frame].origin.x+[[O_tabStatusTextField font] widthOfString:[O_tabStatusTextField stringValue]]+3.);
+        [O_tabStatusTextField setHidden:testPosition>windowWidthPosition];
+
+        testPosition=MIN(NSMaxX([O_modeTextField frame]),[O_modeTextField frame].origin.x+[[O_modeTextField font] widthOfString:[O_modeTextField stringValue]]+3.);
+        [O_modeTextField setHidden:testPosition>windowWidthPosition];
+
+    }
+}
+
 - (void)TCM_updateBottomStatusBar {
     if (I_flags.showBottomStatusBar) {
         PlainTextDocument *document=[self document];
@@ -320,6 +364,7 @@
                 break;
         }
         [O_lineEndingTextField setStringValue:lineEndingStatusString];
+        [self TCM_adjustVisibilityInBottomStatusBar];
     }
 }
 
@@ -607,10 +652,10 @@
         I_flags.showTopStatusBar=!I_flags.showTopStatusBar;
         NSRect frame=[O_scrollView frame];
         if (!I_flags.showTopStatusBar) {
-            frame.size.height+=STATUSBARSIZE;
+            frame.size.height+=STATUSBARSIZE+1;
         } else {
-            frame.size.height-=STATUSBARSIZE;
-            [O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x,NSMaxY(frame),frame.size.width,STATUSBARSIZE)];
+            frame.size.height-=STATUSBARSIZE+1;
+            [O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x,NSMaxY(frame),frame.size.width,STATUSBARSIZE+1)];
             [self TCM_updateStatusBar];
         }
         [O_scrollView setFrame:frame];
@@ -713,6 +758,28 @@
     }
 }
 
+- (void)keyDown:(NSEvent *)aEvent {
+//    NSLog(@"aEvent: %@",[aEvent description]);
+    int flags=[aEvent modifierFlags];
+    if ((flags & NSControlKeyMask) && 
+        !(flags & NSCommandKeyMask) && 
+        [[aEvent characters] length]==1) {
+        if ([[aEvent characters] isEqualToString:@"2"] &&
+            [self showsTopStatusBar]) {
+            [O_symbolPopUpButton performClick:self];
+            return;
+        } else if ([[aEvent characters] isEqualToString:@"1"]) {
+            
+            [NSMenu popUpContextMenu:[[NSApp windowsMenu] bottomPart] withEvent:aEvent forView:[self textView] withFont:[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+            return;
+        }
+    }
+    
+    
+    
+    [super keyDown:aEvent];
+}
+
 #pragma mark -
 #pragma mark ### PopUpButton delegate methods ###
 - (void)updateSelectedSymbol {
@@ -754,7 +821,11 @@
 #pragma mark ### NSTextView delegate methods ###
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
-    return [[I_windowController document] textView:aTextView doCommandBySelector:aSelector];
+    PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
+    if (![document isRemotelyEditingTextStorage]) {
+        [self setFollowUserID:nil];
+    }
+    return [document textView:aTextView doCommandBySelector:aSelector];
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
@@ -827,9 +898,6 @@
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
     PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
-    if (![document isRemotelyEditingTextStorage]) {
-        [self setFollowUserID:nil];
-    }
     return [document textView:aTextView
              willChangeSelectionFromCharacterRange:aOldSelectedCharRange
                                   toCharacterRange:aNewSelectedCharRange];
@@ -853,6 +921,7 @@
 }
 
 - (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent {
+    [self setFollowUserID:nil];
     if (!I_flags.pausedProcessing) {
         I_flags.pausedProcessing=YES;
         [[[self document] session] pauseProcessing];
@@ -874,6 +943,7 @@
 
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
     [I_textView setDefaultParagraphStyle:[[I_windowController document] defaultParagraphStyle]];
+    [self textDidChange:aNotification];
 }
 
 - (void)plainTextDocumentDidChangeEditStatus:(NSNotification *)aNotification {
@@ -1001,5 +1071,24 @@
     return completions;
 }
 
+- (void)textViewWillStartAutocomplete:(TextView *)aTextView {
+//    NSLog(@"Start");
+    PlainTextDocument *document=[self document];
+    [document setIsHandlingUndoManually:YES];
+    [document setShouldChangeChangeCount:NO];
+}
+
+- (void)textView:(TextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement {
+//    NSLog(@"textView: didFinishAutocompleteByInsertingCompletion:%@ forPartialWordRange:%@ movement:%d",aWord,NSStringFromRange(aCharRange),aMovement);
+    PlainTextDocument *document=[self document];
+    UndoManager *undoManager=[document documentUndoManager];
+    [undoManager registerUndoChangeTextInRange:NSMakeRange(aCharRange.location,[aWord length])
+                 replacementString:[[[aTextView textStorage] string] substringWithRange:aCharRange] shouldGroupWithPriorOperation:NO];
+
+    [document setIsHandlingUndoManually:NO];
+    [document setShouldChangeChangeCount:YES];
+    [document updateChangeCount:NSChangeDone];
+
+}
 
 @end

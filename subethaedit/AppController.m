@@ -266,11 +266,11 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 
-    #warning "Termination has to be removed before release!"
-    if ([[NSDate dateWithString:@"2004-06-18 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
-        [NSApp terminate:self];
-        return;
-    }
+//    #warning "Termination has to be removed before release!"
+//    if ([[NSDate dateWithString:@"2004-06-18 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
+//        [NSApp terminate:self];
+//        return;
+//    }
     
     [self registerTransformers];
     [self addMe];
@@ -475,24 +475,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 }
 
 - (IBAction)reportBug:(id)sender {
-    NSString *first, *second, *third, *fourth;
-    NSMutableString *os, *version; // Needs to be mutable for escaping spaces.
-        
-    first = @"mailto:bugs@codingmonkeys.de?subject=SubEthaEdit%20Bug%20Report&body=%0dMac%20OS%20X%20";
-    second = @"%0dSubEthaEdit%20Build%20";
-    third = [@"%0d%0d" stringByAppendingString:[NSString stringWithString:NSLocalizedString(@"BugReport", nil)]];
-    fourth = [@"%0d%0d" stringByAppendingString:[NSString stringWithString:NSLocalizedString(@"%0A%0AIf%20you%20report%20a%20crash%2C%20please%20attach%20the%20crash%20log%20found%20in%20%3CHome%3E/Library/Logs/CrashReporter/SubEthaEdit.crash.log.%0A%0A", nil)]];
-    
-    // Get Mac OS X Version and replace spaces for %20
-    os = [NSMutableString stringWithString:[[NSProcessInfo processInfo] operatingSystemVersionString]];
-    [os replaceOccurrencesOfString:@" " withString:@"%20" options:nil range:NSMakeRange(0, [os length])];
-
-    // Get SubEthaEdit Version and replace spaces for %20
-    version = [NSMutableString stringWithString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
-    [version replaceOccurrencesOfString:@" " withString:@"%20" options:nil range:NSMakeRange(0, [version length])];
-    
-    // Call the URL
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@%@%@%@", first, os, second, version, third, fourth]]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.codingmonkeys.de/bugs/"]];
 }
 
 @end

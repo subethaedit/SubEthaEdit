@@ -275,7 +275,7 @@
         // sort
         NSArray *sortedEntries=[menuEntries sortedArrayUsingDescriptors:
                         [NSArray arrayWithObjects:
-                            [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES] autorelease],
+                            [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease],
                             [[[NSSortDescriptor alloc] initWithKey:@"Identifier" ascending:YES] autorelease],nil]];
         
         int index=0;

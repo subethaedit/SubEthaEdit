@@ -229,6 +229,11 @@ enum {
     [self validateButtons];
 }
 
+- (void)takeSettingsFromDocument {
+    [self setShowsBottomStatusBar:[(PlainTextDocument *)[self document] showsBottomStatusBar]];
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
+}
+
 - (void)setIsReceivingContent:(BOOL)aFlag {
     NSWindow *window=[self window];
     I_flags.isReceivingContent=aFlag;

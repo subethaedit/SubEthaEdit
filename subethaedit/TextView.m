@@ -17,6 +17,7 @@
 #import "FindReplaceController.h"
 #import "ParticipantsView.h"
 #import "PlainTextWindowController.h"
+#import "PlainTextEditor.h"
 
 @implementation TextView
 
@@ -257,6 +258,42 @@ static NSMenu *defaultMenu=nil;
     }
 }
 
+- (void)complete:(id)sender {
+    I_flags.shouldCheckCompleteStart=YES;
+    [super complete:sender];
+}
+
+- (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index {
+    NSArray *result=[super completionsForPartialWordRange:charRange indexOfSelectedItem:index];
+    if (I_flags.shouldCheckCompleteStart) {
+        if ([result count]) {
+            if ([[self delegate] respondsToSelector:@selector(textViewWillStartAutocomplete:)]) {
+                [[self delegate] textViewWillStartAutocomplete:self];
+            }
+        }
+        I_flags.shouldCheckCompleteStart=NO;
+    }
+    return result;
+}
+
+#define APPKIT10_3 743
+
+- (void)insertCompletion:(NSString *)word forPartialWordRange:(NSRange)charRange movement:(int)movement isFinal:(BOOL)flag {
+    [super insertCompletion:word forPartialWordRange:charRange movement:movement isFinal:flag];
+    if (flag) {
+        //NSLog(@"%f",NSAppKitVersionNumber);
+        if (floor(NSAppKitVersionNumber) <= APPKIT10_3 && charRange.length==1) {
+            // Documented bug in 10.3.x so work around it
+            [self setSelectedRange:charRange];
+            [self insertText:word];
+            [self setSelectedRange:NSMakeRange(charRange.location,[word length])];
+        }
+        if ([[self delegate] respondsToSelector:@selector(textView:didFinishAutocompleteByInsertingCompletion:forPartialWordRange:movement:)]) {
+            [[self delegate] textView:self didFinishAutocompleteByInsertingCompletion:word forPartialWordRange:charRange movement:movement];
+        }
+    }
+}
+
 #pragma mark -
 #pragma mark ### dragging ###
 
@@ -303,7 +340,8 @@ static NSMenu *defaultMenu=nil;
             return NSDragOperationGeneric;
         }
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]]) {
+        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]] && 
+            [[sender draggingSource] windowController]==[[self window] windowController]) {
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }
@@ -367,6 +405,13 @@ static NSMenu *defaultMenu=nil;
     return [dragTypes autorelease];
 }
 
+- (void)updateDragTypeRegistration {
+    [super updateDragTypeRegistration];
+    if (![self isEditable]) {
+        [self registerForDraggedTypes:[NSArray arrayWithObject:@"ParticipantDrag"]];
+    }
+}
+
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"] || [[pboard types] containsObject:@"ParticipantDrag"]) {
@@ -376,6 +421,29 @@ static NSMenu *defaultMenu=nil;
     }
 }
 
+- (void)keyDown:(NSEvent *)aEvent {
+    static NSCharacterSet *passThroughCharacterSet=nil;
+    if (passThroughCharacterSet==nil) {
+        passThroughCharacterSet=[[NSCharacterSet characterSetWithCharactersInString:@"123"] retain];
+    }
+    int flags=[aEvent modifierFlags];
+    if ((flags & NSControlKeyMask) && !(flags & NSCommandKeyMask) && 
+        [[aEvent characters] length]==1 &&
+        [passThroughCharacterSet characterIsMember:[[aEvent characters] characterAtIndex:0]]) {
+        id nextResponder=[self nextResponder];
+        while (nextResponder) {
+            if ([nextResponder isKindOfClass:[PlainTextEditor class]] &&
+                [nextResponder respondsToSelector:@selector(keyDown:)]) {
+//                NSLog(@"Weiter mit dir: %@, %@",nextResponder, aEvent);
+                [[self nextResponder] keyDown:aEvent];
+                return;
+            }
+            nextResponder=[nextResponder nextResponder];
+        }
+    }
+        
+    [super keyDown:aEvent];
+}
 
 
 @end

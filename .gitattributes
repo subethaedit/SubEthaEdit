@@ -398,6 +398,10 @@ subethaedit/Modes/LaTeX.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/Lua.mode/Contents/Info.plist -text
+subethaedit/Modes/Lua.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/Lua.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Lua.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Info.plist -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
@@ -423,6 +427,7 @@ subethaedit/Modes/Python.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Python.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Ruby.mode/Contents/Info.plist -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/Ruby.mode/Contents/Resources/README.txt -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/SQL.mode/Contents/Info.plist -text

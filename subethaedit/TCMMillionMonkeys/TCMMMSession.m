@@ -988,6 +988,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     SessionProfile *profile=(SessionProfile *)aProfile;
     NSString *peerUserID = [[[profile session] userInfo] objectForKey:@"peerUserID"];
     TCMMMState *state=[profile MMState];
+    if (!state) {
+        state=[I_statesByClientID objectForKey:peerUserID];
+        UserChangeOperation *heLeft=[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:peerUserID newGroup:@"LostConnection"];
+        [state appendOperationToIncomingMessageQueue:heLeft]; 
+        
+    }
     if (state) {
         [I_statesWithRemainingMessages addObject:state];
         //NSLog(@"states: %@",[I_statesWithRemainingMessages description]);

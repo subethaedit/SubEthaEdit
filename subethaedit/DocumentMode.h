@@ -13,6 +13,8 @@ enum {
     DocumentModeWrapModeCharacters
 };
 
+extern NSString * const DocumentModeShowTopStatusBarPreferenceKey       ;
+extern NSString * const DocumentModeShowBottomStatusBarPreferenceKey    ;
 extern NSString * const DocumentModeEncodingPreferenceKey               ;
 extern NSString * const DocumentModeFontAttributesPreferenceKey         ;
 extern NSString * const DocumentModeHighlightSyntaxPreferenceKey        ;

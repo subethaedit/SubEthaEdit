@@ -16,6 +16,8 @@
 #import "RegexSymbolDefinition.h"
 
 
+NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
+NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
 NSString * const DocumentModeEncodingPreferenceKey             = @"Encoding";
 NSString * const DocumentModeFontAttributesPreferenceKey       = @"FontAttributes";
 NSString * const DocumentModeHighlightSyntaxPreferenceKey      = @"HighlightSyntax";

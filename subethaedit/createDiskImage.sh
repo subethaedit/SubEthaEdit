@@ -34,7 +34,7 @@ sleep 4 # This sleep is needed and there seems to be no way to know when the ima
 echo "Copying contents to ${imageName}..."
 while [ $# -gt 0 ] ; do
     echo "...cleaning ${1}"
-    find ${1} -name ".svn" -exec rm -rf {} \;
+    find ${1} -name ".svn" -exec rm -rf "{}" \;
     echo "...setting ownership"
     /usr/sbin/chown -R root:admin ${1}
     echo "...setting permissions"
