@@ -212,6 +212,8 @@ subethaedit/Preferences.nib/info.nib -text
 subethaedit/Preferences.nib/keyedobjects.nib -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
+subethaedit/SessionProfile.h -text
+subethaedit/SessionProfile.m -text
 subethaedit/SubEthaEdit.xcode/dwagner.pbxuser -text
 subethaedit/SubEthaEdit.xcode/mbo.pbxuser -text svneol=unset#application/octet-stream
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
@@ -251,6 +253,7 @@ subethaedit/TCMMillionMonkeys/TCMMMUser.h -text
 subethaedit/TCMMillionMonkeys/TCMMMUser.m -text
 subethaedit/TCMMillionMonkeys/TCMMMUserManager.h -text
 subethaedit/TCMMillionMonkeys/TCMMMUserManager.m -text
+subethaedit/TCMMillionMonkeys/TCMMillionMonkeys.h -text
 subethaedit/TCMPreferenceController.h -text
 subethaedit/TCMPreferenceController.m -text
 subethaedit/TCMPreferenceModule.h -text

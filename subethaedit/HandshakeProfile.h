@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TCMBEEPProfile.h"
+#import "TCMBEEP/TCMBEEP.h"
 
 
 @interface HandshakeProfile : TCMBEEPProfile

@@ -8,11 +8,6 @@
 
 #import "RendezvousBrowserController.h"
 #import "TCMRendezvousBrowser.h"
-#import "TCMMMPresenceManager.h"
-#import "TCMMMBEEPSessionManager.h"
-#import "TCMMMUserManager.h"
-#import "TCMMMUser.h"
-#import "TCMMMSession.h"
 
 
 @interface RendezvousBrowserController (RendezvousBrowserControllerPrivateAdditions)

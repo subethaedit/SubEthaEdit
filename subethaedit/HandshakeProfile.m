@@ -7,8 +7,7 @@
 //
 
 #import "HandshakeProfile.h"
-#import "TCMBEEPMessage.h"
-#import "TCMBEEPChannel.h"
+
 
 @implementation HandshakeProfile
 

@@ -7,21 +7,17 @@
 //
 
 #import <AddressBook/AddressBook.h>
-
-#import "AppController.h"
-#import "TCMMMBEEPSessionManager.h"
-#import "TCMMMPresenceManager.h"
-#import "TCMMMStatusProfile.h"
-#import "TCMMMUserManager.h"
-#import "TCMMMUser.h"
+#import "TCMBEEP/TCMBEEP.h"
+#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "AppController.h"
 #import "TCMPreferenceController.h"
 #import "RendezvousBrowserController.h"
 #import "InternetController.h"
 #import "DebugPreferences.h"
 #import "EncodingPreferences.h"
 #import "HandshakeProfile.h"
-#import "TCMBEEPChannel.h"
+#import "SessionProfile.h"
 
 
 @implementation AppController
@@ -115,7 +111,8 @@
     [TCMPreferenceController registerPrefModule:encodingPrefs];
     // set up beep profiles
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
-    [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];    
+    [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
+    [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
 
     [self addMe];
     

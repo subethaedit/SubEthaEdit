@@ -7,8 +7,8 @@
 //
 
 #import <AppKit/AppKit.h>
+#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMRendezvousBrowser.h"
-#import "TCMMMBrowserListView.h"
 
 @interface RendezvousBrowserController : NSWindowController {
     NSMutableArray *I_data;

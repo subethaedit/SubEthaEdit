@@ -6,10 +6,9 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
-#import "TCMMMSession.h"
-#import "TCMMMPresenceManager.h"
 
 
 @implementation PlainTextDocument
