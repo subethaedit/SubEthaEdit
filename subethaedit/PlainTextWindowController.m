@@ -125,6 +125,17 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     return I_plainTextEditors;
 }
 
+- (PlainTextEditor *)activePlainTextEdtior {
+    if ([I_plainTextEditors count]!=1) {
+        id responder=[[self window]firstResponder];
+        if ([responder isKindOfClass:[NSTextView class]]) {
+            if ([[I_plainTextEditors objectAtIndex:1] textView] == responder) {
+                return [I_plainTextEditors objectAtIndex:1];
+            }
+        }
+    }
+    return [I_plainTextEditors objectAtIndex:0];
+}
 
 #pragma mark -
 
@@ -192,14 +203,14 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         [toolbarItem setLabel:NSLocalizedString(@"Toggle Changes", nil)];
         [toolbarItem setPaletteLabel:NSLocalizedString(@"Toggle Changes", nil)];
         [toolbarItem setImage:([NSImage imageNamed: @"ShowChangeMarks"])];
-        [toolbarItem setTarget:nil];
+        [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(toggleShowsChangeMarks:)];    
     } else if ([itemIdent isEqual:ToggleAnnouncementToolbarItemIdentifier]) {
         [toolbarItem setToolTip:NSLocalizedString(@"Announce/Conceal Document", nil)];
         [toolbarItem setLabel:NSLocalizedString(@"Announce/Conceal", nil)];
         [toolbarItem setPaletteLabel:NSLocalizedString(@"Announce/Conceal", nil)];
         [toolbarItem setImage:([NSImage imageNamed: @"Announce"])];
-        [toolbarItem setTarget:nil];
+        [toolbarItem setTarget:[self document]];
         [toolbarItem setAction:@selector(toggleIsAnnounced:)];    
     } else {
         toolbarItem = nil;
@@ -242,9 +253,15 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     
     if ([itemIdentifier isEqualToString:ParticipantsToolbarItemIdentifier]) {
         return YES;
+    } else if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {
+        return [[self activePlainTextEdtior] validateToolbarItem:toolbarItem];
     }
     
     return YES;
+}
+
+- (IBAction)toggleShowsChangeMarks:(id)aSender {
+    [[self activePlainTextEdtior] toggleShowsChangeMarks:aSender];
 }
 
 #pragma mark -
@@ -376,6 +393,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         [I_plainTextEditors removeObjectAtIndex:1];
     }
     [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];
+    [[self window] makeFirstResponder:[[I_plainTextEditors objectAtIndex:0] textView]];
 }
 
 #pragma mark -

@@ -20,10 +20,12 @@ NSString * const DocumentModeIndentNewLinesPreferenceKey       = @"IndentNewLine
 NSString * const DocumentModeLineEndingPreferenceKey           = @"LineEnding";
 NSString * const DocumentModeShowLineNumbersPreferenceKey      = @"ShowLineNumbers";
 NSString * const DocumentModeShowMatchingBracketsPreferenceKey = @"ShowMatchingBrackets";
+NSString * const DocumentModeShowInvisibleCharactersPreferenceKey = @"ShowInvisibleCharacters";
 NSString * const DocumentModeTabWidthPreferenceKey             = @"TabWidth";
 NSString * const DocumentModeUseTabsPreferenceKey              = @"UseTabs";
 NSString * const DocumentModeWrapLinesPreferenceKey            = @"WrapLines";
-NSString * const DocumentModeUseDefaultSyntaxPreferenceKey     = @"UseDefaultSyntax";
+NSString * const DocumentModeWrapModePreferenceKey             = @"WrapMode";
+NSString * const DocumentModeUseDefaultViewPreferenceKey       = @"UseDefaultView";
 NSString * const DocumentModeUseDefaultEditPreferenceKey       = @"UseDefaultEdit";
 NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFile";
 NSString * const DocumentModeUseDefaultFontPreferenceKey       = @"UseDefaultFont";
@@ -34,19 +36,21 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 + (void) initialize {
     defaultablePreferenceKeys=[NSMutableDictionary new];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultSyntaxPreferenceKey
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeHighlightSyntaxPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeShowMatchingBracketsPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeWrapLinesPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeWrapModePreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeShowLineNumbersPreferenceKey];
                                   
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
                                   forKey:DocumentModeUseTabsPreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
                                   forKey:DocumentModeIndentNewLinesPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
-                                  forKey:DocumentModeShowMatchingBracketsPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
-                                  forKey:DocumentModeWrapLinesPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
-                                  forKey:DocumentModeShowLineNumbersPreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
                                   forKey:DocumentModeTabWidthPreferenceKey];
 
@@ -85,11 +89,16 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                      forKey:NSFontSizeAttribute];
             [I_defaults setObject:dict forKey:DocumentModeFontAttributesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:NoStringEncoding] forKey:DocumentModeEncodingPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeShowLineNumbersPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeShowMatchingBracketsPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeWrapLinesPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithUnsignedInt:DocumentModeWrapModeWords] forKey:DocumentModeWrapModePreferenceKey];
             [[EncodingManager sharedInstance] registerEncoding:NoStringEncoding];
             if (![self isBaseMode]) {
                 // read frome modefile? for now use defaults
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
-                               forKey:DocumentModeUseDefaultSyntaxPreferenceKey];
+                               forKey:DocumentModeUseDefaultViewPreferenceKey];
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
                                forKey:DocumentModeUseDefaultEditPreferenceKey];
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 

@@ -34,6 +34,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (NSArray *)plainTextEditors;
+- (PlainTextEditor *)activePlainTextEdtior;
 
 - (IBAction)openParticipantsDrawer:(id)aSender;
 - (IBAction)closeParticipantsDrawer:(id)aSender;

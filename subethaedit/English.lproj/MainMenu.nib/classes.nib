@@ -11,6 +11,7 @@
                 changeTabWidth = id; 
                 clearChangeMarks = id; 
                 newView = id; 
+                selectWrapMode = id; 
                 shiftLeft = id; 
                 shiftRight = id; 
                 toggleBottomStatusBar = id; 

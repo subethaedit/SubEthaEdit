@@ -47,6 +47,8 @@
 }
 
 - (void)awakeFromNib {
+    PlainTextDocument *document=[self document];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultParagraphStyleDidChange:) name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:[I_windowController document]];
 
     if (I_flags.hasSplitButton) {
@@ -65,7 +67,7 @@
 
     
     LayoutManager *layoutManager=[LayoutManager new];
-    [[[I_windowController document] textStorage] addLayoutManager:layoutManager];
+    [[document textStorage] addLayoutManager:layoutManager];
     
     I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width,FLT_MAX)];
     
@@ -80,6 +82,7 @@
     [I_textView setImportsGraphics:NO];
     [I_textView setUsesFontPanel:NO];
     [I_textView setUsesRuler:YES];
+    [I_textView setUsesFindPanel:YES];
     [I_textView setAllowsUndo:YES];
 
     [I_textView setDelegate:self];
@@ -97,11 +100,11 @@
     
     [layoutManager release];
     
-    [I_textView setDefaultParagraphStyle:[[I_windowController document] defaultParagraphStyle]];
+    [I_textView setDefaultParagraphStyle:[document defaultParagraphStyle]];
     
 
-    [[NSNotificationCenter defaultCenter] addObserver:[I_windowController document] selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] addObserver:[I_windowController document] selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
     NSView *view=[[NSView alloc] initWithFrame:[O_editorView frame]];
     [view setAutoresizesSubviews:YES];
     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -112,6 +115,20 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
     O_editorView = view;
     [self TCM_updateStatusBar];
+    [self TCM_updateBottomStatusBar];
+    
+    [self takeSettingsFromDocument];
+    [self setShowsChangeMarks:[document showsChangeMarks]];
+    [self setShowsTopStatusBar:[document showsTopStatusBar]];
+    [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
+    
+}
+
+- (void)takeSettingsFromDocument {
+    PlainTextDocument *document=[self document];
+    [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
+    [self setWrapsLines: [document wrapLines]];
+    [self setShowsGutter:[document showsGutter]];
     [self TCM_updateBottomStatusBar];
 }
 
@@ -173,7 +190,7 @@
         NSFont *font=[document fontWithTrait:0];
         float characterWidth=[font widthOfString:@"m"];
         int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
-        [O_windowWidthTextField setStringValue:[NSString stringWithFormat:@"%d%@",charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapsCharacters]?@"c":@"w")]];
+        [O_windowWidthTextField setStringValue:[NSString stringWithFormat:@"%d%@",charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapMode]==DocumentModeWrapModeCharacters?@"c":@"w")]];
     }
 }
 
@@ -341,6 +358,7 @@
 
 
 #pragma mark -
+#pragma mark First Responder Actions
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
@@ -358,13 +376,55 @@
         [menuItem setState:[self showsBottomStatusBar]?NSOnState:NSOffState];
         return YES;
     } else if (selector == @selector(toggleShowsChangeMarks:)) {
-        BOOL showsChangeMarks=[(LayoutManager *)[I_textView layoutManager] showsChangeMarks];
+        BOOL showsChangeMarks=[self showsChangeMarks];
         [menuItem setTitle:showsChangeMarks 
                               ?NSLocalizedString(@"Hide Changes", nil) 
                               :NSLocalizedString(@"Show Changes", nil)];
         return YES;
-    }
+    } else if (selector == @selector(toggleShowInvisibles:)) {
+        [menuItem setState:[self showsInvisibleCharacters]?NSOnState:NSOffState];
+        return YES;
+    } 
     return YES;
+}
+
+- (void)setShowsChangeMarks:(BOOL)aFlag {
+    LayoutManager *layoutManager =(LayoutManager *)[I_textView layoutManager];
+    if ([layoutManager showsChangeMarks]!=aFlag) {
+        [layoutManager setShowsChangeMarks:aFlag];
+        [[self document] setShowsChangeMarks:aFlag];
+    }
+}
+
+- (BOOL)showsChangeMarks {
+    return [(LayoutManager *)[I_textView layoutManager] showsChangeMarks];
+}
+
+- (void)setShowsInvisibleCharacters:(BOOL)aFlag {
+    LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
+    [layoutManager   setShowsInvisibleCharacters:aFlag];
+    [[self document] setShowInvisibleCharacters:aFlag];
+}
+
+- (BOOL)showsInvisibleCharacters {
+    return [[I_textView layoutManager] showsInvisibleCharacters];
+}
+
+- (IBAction)toggleShowInvisibles:(id)aSender {
+    LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
+    BOOL newSetting=![layoutManager showsInvisibleCharacters];
+    [layoutManager   setShowsInvisibleCharacters:newSetting];
+    [[self document] setShowInvisibleCharacters:newSetting];
+}
+
+- (void)setWrapsLines:(BOOL)aFlag {
+    if (aFlag!=[self wrapsLines]) {
+        [self toggleWrap:self];
+    }
+}
+
+- (BOOL)wrapsLines {
+    return ![O_scrollView hasHorizontalScroller];
 }
 
 /*"IBAction to toggle Wrap/NoWrap"*/
@@ -390,12 +450,22 @@
         [I_textView setFrame:frame];
         [I_textView setNeedsDisplay:YES];
     }
+    [[self document] setWrapLines:[self wrapsLines]];
+    [self TCM_updateBottomStatusBar];
+}
+
+- (BOOL)showsGutter {
+    return [O_scrollView rulersVisible];
+}
+
+- (void)setShowsGutter:(BOOL)aFlag {
+    [O_scrollView setRulersVisible:aFlag];
+    [[self document] setShowsGutter:aFlag];
     [self TCM_updateBottomStatusBar];
 }
 
 - (IBAction)toggleLineNumbers:(id)aSender {
-    [O_scrollView setRulersVisible:![O_scrollView rulersVisible]];
-    [self TCM_updateBottomStatusBar];
+    [self setShowsGutter:![self showsGutter]];
 }
 
 #define STATUSBARSIZE 18.
@@ -418,6 +488,7 @@
         [O_scrollView setFrame:frame];
         [O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
         [O_topStatusBarView setNeedsDisplay:YES];
+        [[self document] setShowsTopStatusBar:aFlag];
     }
 }
 
@@ -441,12 +512,12 @@
         [O_scrollView setFrame:frame];
         [O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
         [O_bottomStatusBarView setNeedsDisplay:YES];
+        [[self document] setShowsBottomStatusBar:aFlag];
     }
 }
 
 - (IBAction)toggleShowsChangeMarks:(id)aSender {
-    LayoutManager *layoutManager=(LayoutManager *)[I_textView layoutManager];
-    [layoutManager setShowsChangeMarks:![layoutManager showsChangeMarks]];
+    [self setShowsChangeMarks:![self showsChangeMarks]];
 }
 
 - (IBAction)toggleTopStatusBar:(id)aSender {

@@ -24,11 +24,17 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL isAnnounced;
         BOOL isRemotelyEditingTextStorage;
         BOOL isPerformingSyntaxHighlighting;
-        BOOL highlightSyntax;
-        BOOL usesTabs;
-        BOOL indentNewLines;
-        BOOL wrapsCharacters;
-        BOOL showMatchingBrackets;
+        BOOL highlightSyntax; // Document 
+        BOOL usesTabs; // Document 
+        BOOL indentNewLines; // Document 
+        BOOL wrapLines; // Editor 
+        BOOL wrapMode; // Document 
+        BOOL showMatchingBrackets; // Document, mode specific
+        BOOL showInvisibleCharacters; // Editor
+        BOOL showGutter; //Editor
+        BOOL showsChangeMarks; // Editor
+        BOOL showsTopStatusBar; // Editor
+        BOOL showsBottomStatusBar; // Editor
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -72,6 +78,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setIsAnnounced:(BOOL)aFlag;
 - (IBAction)toggleIsAnnounced:(id)aSender;
 
+- (NSArray *)plainTextEditors;
+
 - (void)handleOperation:(TCMMMOperation *)aOperation;
 
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait;
@@ -87,10 +95,32 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (NSDictionary *)ODBParameters;
 - (void)setODBParameters:(NSDictionary *)aDictionary;
 
-- (BOOL)wrapsCharacters;
+- (void)setHighlightsSyntax:(BOOL)aFlag;
+- (BOOL)highlightsSyntax;
+
+
+- (BOOL)wrapLines;
+- (void)setWrapLines:(BOOL)aFlag;
+- (void)setWrapMode:(int)newMode;
+- (int)wrapMode;
+- (void)setUsesTabs:(BOOL)aFlag;
 - (BOOL)usesTabs;
 - (int)tabWidth;
 - (void)setTabWidth:(int)aTabWidth;
+- (BOOL)showInvisibleCharacters;
+- (void)setShowInvisibleCharacters:(BOOL)aFlag;
+- (BOOL)showsGutter;
+- (void)setShowsGutter:(BOOL)aFlag;
+- (BOOL)showsMatchingBrackets;
+- (void)setShowsMatchingBrackets:(BOOL)aFlag;
+- (BOOL)showsChangeMarks;
+- (void)setShowsChangeMarks:(BOOL)aFlag;
+- (BOOL)indentsNewLines;
+- (void)setIndentsNewLines:(BOOL)aFlag;
+- (BOOL)showsTopStatusBar;
+- (void)setShowsTopStatusBar:(BOOL)aFlag;
+- (BOOL)showsBottomStatusBar;
+- (void)setShowsBottomStatusBar:(BOOL)aFlag;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

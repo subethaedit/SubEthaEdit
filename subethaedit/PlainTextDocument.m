@@ -112,6 +112,8 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     }
     I_flags.showMatchingBrackets=YES;
     I_bracketMatching.matchingBracketPosition=NSNotFound;
+    [self setShowsTopStatusBar:YES];
+    [self setShowsBottomStatusBar:YES];
 }
 
 - (void)TCM_sendODBCloseEvent {
@@ -430,19 +432,27 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
     [highlighter cleanUpTextStorage:[self textStorage]];
      I_documentMode = [aDocumentMode retain];
-    I_flags.highlightSyntax = [[aDocumentMode defaultForKey:DocumentModeHighlightSyntaxPreferenceKey] boolValue];
+    [self setHighlightsSyntax:[[aDocumentMode defaultForKey:DocumentModeHighlightSyntaxPreferenceKey] boolValue]];
+
     NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    I_flags.indentNewLines=[[aDocumentMode defaultForKey:DocumentModeIndentNewLinesPreferenceKey] boolValue];
-    I_flags.usesTabs=[[aDocumentMode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue];
+
+    [self setIndentsNewLines:[[aDocumentMode defaultForKey:DocumentModeIndentNewLinesPreferenceKey] boolValue]];
+    [self setUsesTabs:[[aDocumentMode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue]];
     [self setTabWidth:[[aDocumentMode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue]];
     [self setPlainFont:newFont];
     [I_textStorage addAttributes:[self plainTextAttributes]
                                range:NSMakeRange(0,[I_textStorage length])];
+    [self setWrapLines:[[aDocumentMode defaultForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
+    [self setWrapMode: [[aDocumentMode defaultForKey:DocumentModeWrapModePreferenceKey] intValue]];
+    [self setShowInvisibleCharacters:[[aDocumentMode defaultForKey:DocumentModeShowInvisibleCharactersPreferenceKey] boolValue]];
+    [self setShowsGutter:[[aDocumentMode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] intValue]];
+    [self setShowsMatchingBrackets:[[aDocumentMode defaultForKey:DocumentModeShowMatchingBracketsPreferenceKey] boolValue]];
     if (I_flags.highlightSyntax) {
         [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
     }
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
 - (unsigned int)fileEncoding {
@@ -1058,8 +1068,8 @@ static NSString *tempFileName(NSString *origPath) {
     } else if (selector == @selector(toggleUsesTabs:)) {
         [anItem setState:(I_flags.usesTabs?NSOnState:NSOffState)];
         return YES;
-    } else if (selector == @selector(toggleCharacterWrapping:)) {
-        [anItem setState:(I_flags.wrapsCharacters?NSOnState:NSOffState)];
+    } else if (selector == @selector(selectWrapMode:)) {
+        [anItem setState:(I_flags.wrapMode==[anItem tag]?NSOnState:NSOffState)];
         return YES;
     } else if (selector == @selector(toggleIndentNewLines:)) {
         [anItem setState:(I_flags.indentNewLines?NSOnState:NSOffState)];
@@ -1176,7 +1186,7 @@ static NSString *tempFileName(NSString *origPath) {
         if (charWidth<=0) {
             charWidth=[font maximumAdvancement].width;
         }
-        [I_defaultParagraphStyle setLineBreakMode:I_flags.wrapsCharacters?NSLineBreakByCharWrapping:NSLineBreakByWordWrapping];
+        [I_defaultParagraphStyle setLineBreakMode:I_flags.wrapMode==DocumentModeWrapModeCharacters?NSLineBreakByCharWrapping:NSLineBreakByWordWrapping];
         [I_defaultParagraphStyle setDefaultTabInterval:charWidth*I_tabWidth];
         [I_defaultParagraphStyle addTabStop:[[[NSTextTab alloc] initWithType:NSLeftTabStopType location:charWidth*I_tabWidth] autorelease]];
         [[self textStorage] addAttribute:NSParagraphStyleAttributeName value:I_defaultParagraphStyle range:NSMakeRange(0,[[self textStorage] length])];
@@ -1195,8 +1205,41 @@ static NSString *tempFileName(NSString *origPath) {
                    forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
 
-- (BOOL)wrapsCharacters {
-    return I_flags.wrapsCharacters;
+
+// wrapline setting is only for book keeping - editor scope
+- (BOOL)showInvisibleCharacters {
+    return I_flags.showInvisibleCharacters;
+}
+
+- (void)setShowInvisibleCharacters:(BOOL)aFlag {
+    I_flags.showInvisibleCharacters=aFlag;
+}
+
+
+// wrapline setting is only for book keeping - editor scope
+- (BOOL)wrapLines {
+    return I_flags.wrapLines;
+}
+
+- (void)setWrapLines:(BOOL)aFlag {
+    I_flags.wrapLines=aFlag;
+}
+
+- (int)wrapMode {
+    return I_flags.wrapMode;
+}
+
+- (void)setWrapMode:(int)newMode {
+    if (I_flags.wrapMode!=newMode) {
+        I_flags.wrapMode=newMode;
+        [self TCM_invalidateDefaultParagraphStyle];
+    }
+}
+
+- (void)setUsesTabs:(BOOL)aFlag {
+    if (I_flags.usesTabs!=aFlag) {
+        I_flags.usesTabs=aFlag;
+    }
 }
 
 - (BOOL)usesTabs {
@@ -1214,6 +1257,51 @@ static NSString *tempFileName(NSString *origPath) {
     }
     [self TCM_invalidateDefaultParagraphStyle];
 }
+
+- (BOOL)showsGutter {
+    return I_flags.showGutter;
+}
+
+- (void)setShowsGutter:(BOOL)aFlag {
+    I_flags.showGutter=aFlag;
+}
+
+- (BOOL)showsMatchingBrackets {
+    return I_flags.showMatchingBrackets;
+}
+- (void)setShowsMatchingBrackets:(BOOL)aFlag {
+    I_flags.showMatchingBrackets = aFlag;
+}
+
+- (BOOL)showsChangeMarks {
+    return I_flags.showsChangeMarks;
+}
+
+- (void)setShowsChangeMarks:(BOOL)aFlag {
+    I_flags.showsChangeMarks=aFlag;
+}
+
+- (BOOL)indentsNewLines {
+    return I_flags.indentNewLines;
+}
+- (void)setIndentsNewLines:(BOOL)aFlag {
+    I_flags.indentNewLines=aFlag;
+}
+
+- (BOOL)showsTopStatusBar {
+    return I_flags.showsTopStatusBar;
+}
+- (void)setShowsTopStatusBar:(BOOL)aFlag {
+    I_flags.showsTopStatusBar=aFlag;
+}
+
+- (BOOL)showsBottomStatusBar {
+    return I_flags.showsBottomStatusBar;
+}
+- (void)setShowsBottomStatusBar:(BOOL)aFlag {
+    I_flags.showsBottomStatusBar=aFlag;
+}
+
 
 #pragma mark -
 
@@ -1277,21 +1365,12 @@ static NSString *tempFileName(NSString *origPath) {
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
 
-- (IBAction)toggleShowInvisibles:(id)aSender {
-    NSEnumerator *layoutManagers = [[[self textStorage] layoutManagers] objectEnumerator];
-    NSLayoutManager *layoutManager = nil;
-    while ((layoutManager = [layoutManagers nextObject])) {
-        [layoutManager setShowsInvisibleCharacters:![layoutManager showsInvisibleCharacters]];
-    }
-}
-
-- (IBAction)toggleCharacterWrapping:(id)aSender {
-    I_flags.wrapsCharacters = !I_flags.wrapsCharacters;
-    [self TCM_invalidateDefaultParagraphStyle];
+- (IBAction)selectWrapMode:(id)aSender {
+    [self setWrapMode:[aSender tag]];
 }
 
 - (IBAction)toggleUsesTabs:(id)aSender {
-    I_flags.usesTabs=!I_flags.usesTabs;
+    [self setUsesTabs:![self usesTabs]];
 }
 
 - (IBAction)toggleIndentNewLines:(id)aSender {
@@ -1322,14 +1401,24 @@ static NSString *tempFileName(NSString *origPath) {
 
 }
 
-- (IBAction)toggleSyntaxHighlighting:(id)aSender {
-    I_flags.highlightSyntax = !I_flags.highlightSyntax;
-    if (I_flags.highlightSyntax) {
-        [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
-    } else {
-        [I_textStorage addAttributes:[self plainTextAttributes]
-                               range:NSMakeRange(0,[I_textStorage length])];
+- (void)setHighlightsSyntax:(BOOL)aFlag {
+    if (I_flags.highlightSyntax != aFlag) {
+        I_flags.highlightSyntax = aFlag;
+        if (I_flags.highlightSyntax) {
+            [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
+        } else {
+            [I_textStorage addAttributes:[self plainTextAttributes]
+                                   range:NSMakeRange(0,[I_textStorage length])];
+        }
     }
+}
+
+- (BOOL)highlightsSyntax {
+    return I_flags.highlightSyntax;
+}
+
+- (IBAction)toggleSyntaxHighlighting:(id)aSender {
+    [self setHighlightsSyntax:![self highlightsSyntax]];
 }
 
 - (void)highlightSyntaxInRange:(NSRange)aRange {

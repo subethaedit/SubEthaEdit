@@ -8,16 +8,23 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString * const DocumentModeEncodingPreferenceKey             ;
-extern NSString * const DocumentModeFontAttributesPreferenceKey       ;
-extern NSString * const DocumentModeHighlightSyntaxPreferenceKey      ;
-extern NSString * const DocumentModeIndentNewLinesPreferenceKey       ;
-extern NSString * const DocumentModeLineEndingPreferenceKey           ;
-extern NSString * const DocumentModeShowLineNumbersPreferenceKey      ;
-extern NSString * const DocumentModeShowMatchingBracketsPreferenceKey ;
-extern NSString * const DocumentModeTabWidthPreferenceKey             ;
-extern NSString * const DocumentModeUseTabsPreferenceKey              ;
-extern NSString * const DocumentModeWrapLinesPreferenceKey            ;
+enum {
+    DocumentModeWrapModeWords = 0,
+    DocumentModeWrapModeCharacters
+};
+
+extern NSString * const DocumentModeEncodingPreferenceKey               ;
+extern NSString * const DocumentModeFontAttributesPreferenceKey         ;
+extern NSString * const DocumentModeHighlightSyntaxPreferenceKey        ;
+extern NSString * const DocumentModeIndentNewLinesPreferenceKey         ;
+extern NSString * const DocumentModeLineEndingPreferenceKey             ;
+extern NSString * const DocumentModeShowLineNumbersPreferenceKey        ;
+extern NSString * const DocumentModeShowMatchingBracketsPreferenceKey   ;
+extern NSString * const DocumentModeTabWidthPreferenceKey               ;
+extern NSString * const DocumentModeUseTabsPreferenceKey                ;
+extern NSString * const DocumentModeWrapLinesPreferenceKey              ;
+extern NSString * const DocumentModeShowInvisibleCharactersPreferenceKey;
+extern NSString * const DocumentModeWrapModePreferenceKey               ;
 
 @class SyntaxHighlighter;
 

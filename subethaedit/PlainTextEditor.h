@@ -37,9 +37,25 @@
 - (PlainTextDocument *)document;
 - (void)setIsSplit:(BOOL)aFlag;
 
+- (void)setShowsChangeMarks:(BOOL)aFlag;
+- (BOOL)showsChangeMarks;
+- (void)setWrapsLines:(BOOL)aFlag;
+- (BOOL)wrapsLines;
+- (void)setShowsInvisibleCharacters:(BOOL)aFlag;
+- (BOOL)showsInvisibleCharacters;
+- (BOOL)showsGutter;
+- (void)setShowsGutter:(BOOL)aFlag;
 - (BOOL)showsTopStatusBar;
 - (void)setShowsTopStatusBar:(BOOL)aFlag;
 - (BOOL)showsBottomStatusBar;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
+
+- (void)takeSettingsFromDocument;
+
+#pragma mark -
+#pragma mark ### Actions ###
+- (IBAction)toggleWrap:(id)aSender;
+- (IBAction)toggleLineNumbers:(id)aSender;
+- (IBAction)toggleShowsChangeMarks:(id)aSender;
 
 @end
