@@ -7,7 +7,11 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {connect = id; setVisibilityByMenuItem = id; }; 
+            ACTIONS = {
+                connect = id; 
+                setVisibilityByMenuItem = id; 
+                toggleProhibitInboundConnections = id; 
+            }; 
             CLASS = InternetBrowserController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
