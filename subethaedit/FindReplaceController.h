@@ -81,6 +81,7 @@ typedef enum {
 - (void) addString:(NSString*)aString toHistory:(NSMutableArray *)anArray;
 - (void) replaceSelection;
 - (void) replaceAllInRange:(NSRange)aRange;
+- (void)loadStateFromPreferences;
 
 @end
 

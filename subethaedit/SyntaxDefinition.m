@@ -291,8 +291,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
                     NSLog(@"ERROR: %@ is not a valid Regex.", innerContent);
                     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
                     [alert setAlertStyle:NSWarningAlertStyle];
-                    [alert setMessageText:NSLocalizedString(@"Regluar Expression Error",@"Regluar Expression Error Title")];
-                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" within tag \"<%@>\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Regluar Expression Error Informative Text"),innerContent, tag]];
+                    [alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
+                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" within tag \"<%@>\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Regular Expression Error Informative Text"),innerContent, tag]];
                     [alert addButtonWithTitle:@"OK"];
                     [alert runModal];
                     everythingOkay = NO;
@@ -459,8 +459,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
                     NSLog(@"ERROR: %@ in \"%@\" is not a valid regular expression", keyword, [keywordGroup objectForKey:@"id"]);
                     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
                     [alert setAlertStyle:NSWarningAlertStyle];
-                    [alert setMessageText:NSLocalizedString(@"Regluar Expression Error",@"Regluar Expression Error Title")];
-                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" within state \"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regluar Expression Error Informative Text"),keyword, [keywordGroup objectForKey:@"id"]]];
+                    [alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
+                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" within state \"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),keyword, [keywordGroup objectForKey:@"id"]]];
                     [alert addButtonWithTitle:@"OK"];
                     [alert runModal];
                     everythingOkay = NO;
@@ -572,8 +572,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             NSLog(@"ERROR: %@ (begins of all states) is not a valid regular expression", combinedString);
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
-            [alert setMessageText:NSLocalizedString(@"Regluar Expression Error",@"Regluar Expression Error Title")];
-            [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"One of the specified state <begin>'s is not a valid regular expression. Therefore the combined start regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regluar Expression Error Informative Text"),combinedString]];
+            [alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
+            [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"One of the specified state <begin>'s is not a valid regular expression. Therefore the combined start regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),combinedString]];
             [alert addButtonWithTitle:@"OK"];
             [alert runModal];
             everythingOkay = NO;

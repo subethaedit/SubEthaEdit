@@ -16,8 +16,8 @@
 
 static FindReplaceController *sharedInstance=nil;
 
-
 @implementation FindReplaceController
+
 
 + (FindReplaceController *)sharedInstance {
     return sharedInstance;

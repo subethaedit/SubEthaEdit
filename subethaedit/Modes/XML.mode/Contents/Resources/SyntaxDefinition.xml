@@ -32,8 +32,8 @@
         </state>
 
         <state id="CDATA" color="#f00" font-style="italic">
-            <begin><regex>&lt;!\[CDATA</regex></begin>
-            <end><regex>&gt;</regex></end>
+            <begin><regex>&lt;!\s*\[CDATA\s*\[</regex></begin>
+            <end><regex>\]\s*\]\s*&gt;</regex></end>
         </state>
         
         <state id="Doctype" color="#236E25" font-style="italic">

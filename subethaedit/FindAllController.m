@@ -102,7 +102,6 @@
                 } else break;
             }
             
-            //NSValue *aRange = [NSValue valueWithRange:[aMatch rangeOfMatchedString]]; 
             SelectionOperation *selOp = [[SelectionOperation new] autorelease];
             [selOp setSelectedRange:matchRange];
             

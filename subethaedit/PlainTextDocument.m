@@ -175,7 +175,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 - (void)TCM_initHelper {
     [self setUndoManager:nil];
-    I_rangesToInvalidate=[NSMutableArray new];
+    I_rangesToInvalidate = [NSMutableArray new];
+    I_findAllControllers = [NSMutableArray new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_webPreviewRefreshNotification:)
         name:PlainTextDocumentRefreshWebPreviewNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performHighlightSyntax)
@@ -670,7 +671,6 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         I_flags.isRemotelyEditingTextStorage=NO;
         [self setShowsChangeMarks:[[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesAlonePreferenceKey] && [[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]];
         [self TCM_initHelper];
-        I_findAllControllers = [NSMutableArray new];
     }
     return self;
 }
@@ -1898,7 +1898,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)addFindAllController:(FindAllController *)aController
 {
     [aController setDocument:self];
-    [I_findAllControllers addObject:aController];
+    if (I_findAllControllers) [I_findAllControllers addObject:aController];
+    else NSLog(@"Something has gone terribly wrong: No FindAllController array");
 }
 
 - (NSURL *)documentURL {
