@@ -76,7 +76,7 @@
                 [[[self session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
             }
             if ([[self remoteInfos] objectForKey:@"url"]) {
-                [[[self session] userInfo] setObject:[[self remoteInfos] objectForKey:@"url"] forKey:@"URLString"];                
+                [[[self session] userInfo] setObject:[NSString stringWithAddressData:[[self session] peerAddressData]] forKey:@"URLString"];
             }
             if (![[self remoteInfos] objectForKey:@"uid"]) {
                 [[self session] terminate];
