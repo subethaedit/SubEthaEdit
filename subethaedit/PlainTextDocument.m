@@ -994,6 +994,14 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     }
 }
 
+- (NSWindow *)windowForSheet {
+    NSWindow *result=[super windowForSheet];
+    if (!result && I_documentProxyWindowController) {
+        result = [I_documentProxyWindowController window];
+    }
+    return result;
+}
+
 - (void)windowControllerWillLoadNib:(NSWindowController *)aController {
     [super windowControllerWillLoadNib:aController];
     DEBUGLOG(@"blah",5,@"Willload");

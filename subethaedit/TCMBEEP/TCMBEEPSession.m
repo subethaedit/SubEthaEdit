@@ -10,6 +10,7 @@
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPFrame.h"
 #import "TCMBEEPManagementProfile.h"
+#import "time.h"
 
 #import <netinet/in.h>
 #import <sys/socket.h>
@@ -665,28 +666,40 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 - (void)sendRoundRobin
 {
     //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"sendRoundRobin");
-    NSEnumerator *channels = [[self activeChannels] objectEnumerator];
-    TCMBEEPChannel *channel = nil;
+    clock_t start_time = clock();
     BOOL didSend = NO;
-    while ((channel = [channels nextObject])) {
-        if ([channel hasFramesAvailable]) {
-            didSend = YES;
-            NSEnumerator *frames = [[channel availableFramesFittingInCurrentWindow] objectEnumerator];
-            TCMBEEPFrame *frame;
-            while ((frame = [frames nextObject])) {
-                [frame appendToMutableData:I_writeBuffer];
-#ifdef TCMBEEP_DEBUG
-                [I_frameLogHandle writeData:[frame descriptionInLogFileFormatIncoming:NO]];
-#endif
-                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Sending Frame: %@", [frame description]);
+    BOOL didSendAtAll = NO;
+    do {
+        int i;
+        for (i=0;i<10;i++) {
+            didSend = NO;
+            NSEnumerator *channels = [[self activeChannels] objectEnumerator];
+            TCMBEEPChannel *channel = nil;
+            while ((channel = [channels nextObject])) {
+                if ([channel hasFramesAvailable]) {
+                    didSend = YES;
+                    didSendAtAll = YES;
+                    NSEnumerator *frames = [[channel availableFramesFittingInCurrentWindow] objectEnumerator];
+                    TCMBEEPFrame *frame;
+                    while ((frame = [frames nextObject])) {
+                        [frame appendToMutableData:I_writeBuffer];
+        #ifdef TCMBEEP_DEBUG
+                        [I_frameLogHandle writeData:[frame descriptionInLogFileFormatIncoming:NO]];
+        #endif
+                        DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Sending Frame: %@", [frame description]);
+                    }
+                }
             }
+            if (!didSend) break;
+        }
+    } while (didSend && ((((double)(clock()-start_time))/CLOCKS_PER_SEC) < 0.1));
+    if (didSendAtAll) {
+        if ([I_outputStream hasSpaceAvailable]) {
+            [self TCM_writeBytes];
         }
     }
     if (didSend) {
         [self performSelector:@selector(sendRoundRobin) withObject:nil afterDelay:0.1];
-        if ([I_outputStream hasSpaceAvailable]) {
-            [self TCM_writeBytes];
-        }
     } else {
         I_flags.isSending = NO;
     }

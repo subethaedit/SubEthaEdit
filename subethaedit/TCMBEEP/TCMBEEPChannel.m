@@ -14,6 +14,7 @@
 
 #import <netinet/tcp_seq.h> // sequence number comparison
 
+#define MAXWINDOWSIZE 4096
 
 static NSMutableDictionary *profileURIToClassMapping;
 
@@ -337,9 +338,9 @@ static NSMutableDictionary *profileURIToClassMapping;
         [self setPreviousReadFrame:aFrame];
         I_incomingSequenceNumber = [aFrame sequenceNumber];
         I_incomingBufferSizeAvailable -= [aFrame length];
-        if (I_incomingBufferSizeAvailable < 2048) {
+        if (I_incomingBufferSizeAvailable < MAXWINDOWSIZE / 2.) {
             // prepare SEQ frame
-            TCMBEEPFrame *SEQFrame = [TCMBEEPFrame SEQFrameWithChannelNumber:[self number] acknowledgementNumber:I_incomingSequenceNumber windowSize:4096];
+            TCMBEEPFrame *SEQFrame = [TCMBEEPFrame SEQFrameWithChannelNumber:[self number] acknowledgementNumber:I_incomingSequenceNumber windowSize:MAXWINDOWSIZE];
             I_incomingBufferSizeAvailable = I_incomingBufferSize;
             [I_outgoingFrameQueue addObject:SEQFrame];
             [[self session] channelHasFramesAvailable:self];
