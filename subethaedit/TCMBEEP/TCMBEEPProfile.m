@@ -68,7 +68,7 @@
 
 - (void)cleanup
 {
-    NSLog(@"cleanup profile");
+    DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"cleanup profile");
     id delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(profile:didFailWithError:)]) {
         NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
