@@ -14,10 +14,11 @@ use Math::BaseCalc;
 my $calc36 = new Math::BaseCalc(digits=>[0..9,'A'..'Z']);
 
 
-# 0-50000 reserved
+# 0-50000 reserved :
+# 49979-49999
 # 50000-60000 eSellerate
 
-for (my $i=51000;$i<60000;$i++) {
+for (my $i=49969;$i<50000;$i++) {
     print serialnumber($i)."\n";
 }
 
