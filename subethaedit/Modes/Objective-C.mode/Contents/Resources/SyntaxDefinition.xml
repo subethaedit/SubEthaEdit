@@ -17,7 +17,7 @@
 				<regex> ([A-Za-z0-9_]+:)</regex>
 				<regex> ([A-Za-z0-9_]+)]</regex>
             </keywords>
-            <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="bold" font-style="normal" casesensitive="no" useforautocomplete="yes">
+            <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="bold" font-style="normal" casesensitive="yes" useforautocomplete="yes">
 				<string>NSAccessibility</string>
 				<string>NSActionCell</string>
 				<string>NSAffineTransform</string>
