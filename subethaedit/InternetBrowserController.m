@@ -32,9 +32,7 @@ NSString * const HostEntryStatusCancelling = @"HostEntryStatusCancelling";
 NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
 
 enum {
-    BrowserContextMenuTagInvite = 0,
-    BrowserContextMenuTagJoin,
-    BrowserContextMenuTagCancelJoin,
+    BrowserContextMenuTagJoin = 1,
     BrowserContextMenuTagShowDocument,
     BrowserContextMenuTagCancelConnection,
     BrowserContextMenuTagReconnect,
@@ -72,21 +70,12 @@ static InternetBrowserController *sharedInstance = nil;
 
         I_contextMenu = [NSMenu new];
         NSMenuItem *item = nil;
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuInvite", @"Invite user entry for Browser context menu") action:@selector(invite:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:BrowserContextMenuTagInvite];
-
-        [I_contextMenu addItem:[NSMenuItem separatorItem]];
-
+        
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuJoin", @"Join document entry for Browser context menu") action:@selector(join:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagJoin];
 
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuCancelJoin", @"Cancel join document entry for Browser context menu") action:@selector(cancelJoin:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:BrowserContextMenuTagCancelJoin];
-
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(showDocument:) keyEquivalent:@""];
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(join:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagShowDocument];
 
@@ -233,6 +222,19 @@ static InternetBrowserController *sharedInstance = nil;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+
+enum {
+    kCancellableStateMask = 1,
+    kReconnectableStateMask = 2,
+    kOpenStateMask = 4
+};
+
+enum {
+    kNoStateMask = 1,
+    kJoiningStateMask = 2,
+    kParticipantStateMask = 4
+};
+
 - (void)menuNeedsUpdate:(NSMenu *)menu {
     
     if ([menu isEqual:[O_statusPopUpButton menu]]) {
@@ -263,11 +265,7 @@ static InternetBrowserController *sharedInstance = nil;
 
     if ([userSet count] > 0 && [documentSet count] > 0) {
         DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"Disabling all menu items because of inconsistent selection");
-        item = [menu itemWithTag:BrowserContextMenuTagInvite];
-        [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagJoin];
-        [item setEnabled:NO];
-        item = [menu itemWithTag:BrowserContextMenuTagCancelJoin];
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
         [item setEnabled:NO];
@@ -284,11 +282,7 @@ static InternetBrowserController *sharedInstance = nil;
     [item setEnabled:NO];
     
     if ([userSet count] == 0 && [documentSet count] == 0) {
-        item = [menu itemWithTag:BrowserContextMenuTagInvite];
-        [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagJoin];
-        [item setEnabled:NO];
-        item = [menu itemWithTag:BrowserContextMenuTagCancelJoin];
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
         [item setEnabled:NO];
@@ -305,8 +299,6 @@ static InternetBrowserController *sharedInstance = nil;
     if ([userSet count] > 0) {
         item = [menu itemWithTag:BrowserContextMenuTagJoin];
         [item setEnabled:NO];
-        item = [menu itemWithTag:BrowserContextMenuTagCancelJoin];
-        [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagShowDocument];    
         [item setEnabled:NO];
 
@@ -322,9 +314,6 @@ static InternetBrowserController *sharedInstance = nil;
         
         
         int state = 0;
-        static int kCancellableStateMask = 1;
-        static int kReconnectableStateMask = 2;
-        static int kOpenStateMask = 4;
         NSEnumerator *enumerator = [dataSet objectEnumerator];
         id dataItem;
         while ((dataItem = [enumerator nextObject])) {
@@ -344,8 +333,7 @@ static InternetBrowserController *sharedInstance = nil;
         if (!(state == 0 || state == 1 || state == 2 || state == 4)) {
             state = 0;
         }
-        item = [menu itemWithTag:BrowserContextMenuTagInvite];
-        [item setEnabled:(state & kOpenStateMask) && YES];
+
         item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
         [item setEnabled:(state & kCancellableStateMask) || (state & kOpenStateMask)];
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
@@ -356,8 +344,6 @@ static InternetBrowserController *sharedInstance = nil;
     
     
     if ([documentSet count] > 0) {
-        item = [menu itemWithTag:BrowserContextMenuTagInvite];
-        [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
@@ -376,18 +362,28 @@ static InternetBrowserController *sharedInstance = nil;
         [set release];        
         
         // check for consistent state of selected MMSessions
+        int state = 0;
         NSEnumerator *enumerator = [sessionSet objectEnumerator];
         id sessionItem;
         while ((sessionItem = [enumerator nextObject])) {
-        
+            if ([sessionItem clientState] == TCMMMSessionClientNoState) {
+                state |= kNoStateMask;
+            }
+            if ([sessionItem clientState] == TCMMMSessionClientJoiningState) {
+                state |= kJoiningStateMask;
+            }
+            if ([sessionItem clientState] == TCMMMSessionClientParticipantState) {
+                state |= kParticipantStateMask;
+            }        
         }
 
+        if (!(state == 0 || state == 1 || state == 2 || state == 4)) {
+            state = 0;
+        }
         item = [menu itemWithTag:BrowserContextMenuTagJoin];
-        [item setEnabled:NO];
-        item = [menu itemWithTag:BrowserContextMenuTagCancelJoin];
-        [item setEnabled:NO];
+        [item setEnabled:(state & kNoStateMask) && YES];
         item = [menu itemWithTag:BrowserContextMenuTagShowDocument];    
-        [item setEnabled:NO];
+        [item setEnabled:(state & kParticipantStateMask) || (state & kJoiningStateMask)];
         
         return;
     }
@@ -710,21 +706,6 @@ static InternetBrowserController *sharedInstance = nil;
     }
 }
 
-- (IBAction)joinSession:(id)aSender {
-    int row = [aSender clickedRow];
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
-    
-    ItemChildPair pair = [aSender itemChildPairAtRow:row];
-    if (pair.childIndex != -1) {
-        NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
-        NSArray *sessions = [userDict objectForKey:@"Sessions"];
-        TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
-        TCMBEEPSession *BEEPSession = [userDict objectForKey:@"BEEPSession"];
-        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join on session: %@, using BEEPSession: %@", session, BEEPSession);
-        [session joinUsingBEEPSession:BEEPSession];
-    }
-}
-
 - (void)reconnectWithIndexes:(NSIndexSet *)indexes {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
     NSMutableIndexSet *set = [indexes mutableCopy];
@@ -822,6 +803,29 @@ static InternetBrowserController *sharedInstance = nil;
     [O_browserListView reloadData];
 }
 
+- (void)joinSessionsWithIndexes:(NSIndexSet *)indexes {
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join");
+    NSMutableIndexSet *indexSet = [indexes mutableCopy];
+    unsigned int index;
+    while ((index = [indexSet firstIndex]) != NSNotFound) {
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
+        if (pair.childIndex != -1) {
+            NSArray *sessions = [item objectForKey:@"Sessions"];
+            TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
+            TCMBEEPSession *BEEPSession = [item objectForKey:@"BEEPSession"];
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join on session: %@, using BEEPSession: %@", session, BEEPSession);
+            [session joinUsingBEEPSession:BEEPSession];
+        }
+        [indexSet removeIndex:index];
+    }
+    [indexSet release];
+}
+
+- (void)join:(id)sender {
+    [self joinSessionsWithIndexes:[O_browserListView selectedRowIndexes]];
+}
+
 - (void)reconnect:(id)sender {
     [self reconnectWithIndexes:[O_browserListView selectedRowIndexes]];
 }
@@ -868,6 +872,25 @@ static InternetBrowserController *sharedInstance = nil;
         }
     }
     [O_browserListView reloadData];
+}
+
+- (IBAction)joinSession:(id)aSender {
+    int row = [aSender clickedRow];
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
+    
+    ItemChildPair pair = [aSender itemChildPairAtRow:row];
+    if (pair.childIndex != -1) {
+        [self joinSessionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
+
+        /*
+        NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
+        NSArray *sessions = [userDict objectForKey:@"Sessions"];
+        TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
+        TCMBEEPSession *BEEPSession = [userDict objectForKey:@"BEEPSession"];
+        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join on session: %@, using BEEPSession: %@", session, BEEPSession);
+        [session joinUsingBEEPSession:BEEPSession];
+        */
+    }
 }
 
 #pragma mark -

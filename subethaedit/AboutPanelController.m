@@ -50,7 +50,6 @@
 }
 
 - (IBAction)showWindow:(id)sender {
-    NSLog(@"showWindow:");
     [self fillLicenseInfoField];
     [super showWindow:self];
 }

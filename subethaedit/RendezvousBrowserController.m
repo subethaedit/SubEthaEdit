@@ -15,9 +15,7 @@
 #import "TCMMMUserSEEAdditions.h"
 
 enum {
-    BrowserContextMenuTagInvite = 0,
-    BrowserContextMenuTagJoin,
-    BrowserContextMenuTagCancelJoin,
+    BrowserContextMenuTagJoin = 1,
     BrowserContextMenuTagShowDocument
 };
 
@@ -45,19 +43,10 @@ static RendezvousBrowserController *sharedInstance=nil;
         
         I_contextMenu = [NSMenu new];
         NSMenuItem *item = nil;
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuInvite", @"Invite user entry for Browser context menu") action:@selector(invite:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:BrowserContextMenuTagInvite];
-
-        [I_contextMenu addItem:[NSMenuItem separatorItem]];
 
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuJoin", @"Join document entry for Browser context menu") action:@selector(join:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagJoin];
-
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuCancelJoin", @"Cancel join document entry for Browser context menu") action:@selector(cancelJoin:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:BrowserContextMenuTagCancelJoin];
 
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(showDocument:) keyEquivalent:@""];
         [item setTarget:self];
@@ -181,6 +170,13 @@ static RendezvousBrowserController *sharedInstance=nil;
     [self TCM_validateStatusPopUpButton];
 }
 
+
+enum {
+    kNoStateMask = 1,
+    kJoiningStateMask = 2,
+    kParticipantStateMask = 4
+};
+
 - (void)menuNeedsUpdate:(NSMenu *)aMenu {
    if ([aMenu isEqual:[O_statusPopUpButton menu]]) {
         BOOL isVisible=[[TCMMMPresenceManager sharedInstance] isVisible];
@@ -188,10 +184,109 @@ static RendezvousBrowserController *sharedInstance=nil;
         [[aMenu itemWithTag:11] setState:(!isVisible)?NSOnState:NSOffState];
         return;
     }
+    
+    NSMutableIndexSet *documentSet = [NSMutableIndexSet indexSet];
+    NSMutableIndexSet *userSet = [NSMutableIndexSet indexSet];
+    
+    NSMutableIndexSet *set = [[O_browserListView selectedRowIndexes] mutableCopy];
+    unsigned int index;
+    while ((index = [set firstIndex]) != NSNotFound) {
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        if (pair.childIndex == -1) {
+            [userSet addIndex:index];
+        } else {
+            [documentSet addIndex:index];
+        }
+        [set removeIndex:index];
+    }
+    [set release];
+    
+    id item;
+
+    if (([userSet count] > 0 && [documentSet count] > 0) || 
+        ([userSet count] == 0 && [documentSet count] == 0)) {
+        DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"Disabling all menu items because of inconsistent selection");
+        item = [aMenu itemWithTag:BrowserContextMenuTagJoin];
+        [item setEnabled:NO];
+        item = [aMenu itemWithTag:BrowserContextMenuTagShowDocument];
+        [item setEnabled:NO];
+        return;
+    }
+        
+    if ([userSet count] > 0) {
+        item = [aMenu itemWithTag:BrowserContextMenuTagJoin];
+        [item setEnabled:NO];
+        item = [aMenu itemWithTag:BrowserContextMenuTagShowDocument];    
+        [item setEnabled:NO];
+        return;
+    }
+    
+    
+    if ([documentSet count] > 0) {
+        NSMutableSet *sessionSet = [NSMutableSet set];
+        NSMutableIndexSet *set = [[O_browserListView selectedRowIndexes] mutableCopy];
+        unsigned int index;
+        while ((index = [set firstIndex]) != NSNotFound) {
+            ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+            NSDictionary *dataItem = [I_data objectAtIndex:pair.itemIndex];
+            NSArray *sessions = [dataItem objectForKey:@"Sessions"];
+            [sessionSet addObject:[sessions objectAtIndex:pair.childIndex]];
+            [set removeIndex:index];
+        }
+        [set release];        
+        
+        // check for consistent state of selected MMSessions
+        int state = 0;
+        NSEnumerator *enumerator = [sessionSet objectEnumerator];
+        id sessionItem;
+        while ((sessionItem = [enumerator nextObject])) {
+            if ([sessionItem clientState] == TCMMMSessionClientNoState) {
+                state |= kNoStateMask;
+            }
+            if ([sessionItem clientState] == TCMMMSessionClientJoiningState) {
+                state |= kJoiningStateMask;
+            }
+            if ([sessionItem clientState] == TCMMMSessionClientParticipantState) {
+                state |= kParticipantStateMask;
+            }        
+        }
+
+        if (!(state == 0 || state == 1 || state == 2 || state == 4)) {
+            state = 0;
+        }
+        item = [aMenu itemWithTag:BrowserContextMenuTagJoin];
+        [item setEnabled:(state & kNoStateMask) && YES];
+        item = [aMenu itemWithTag:BrowserContextMenuTagShowDocument];    
+        [item setEnabled:(state & kParticipantStateMask) || (state & kJoiningStateMask)];
+        
+        return;
+    }
 }
 
 - (IBAction)setVisibilityByMenuItem:(id)aSender {
     [[TCMMMPresenceManager sharedInstance] setVisible:([aSender tag]==10)];
+}
+
+- (void)joinSessionsWithIndexes:(NSIndexSet *)indexes {
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join");
+    NSMutableIndexSet *indexSet = [indexes mutableCopy];
+    unsigned int index;
+    while ((index = [indexSet firstIndex]) != NSNotFound) {
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        if (pair.childIndex!=-1) {
+            NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
+            NSArray *sessions = [userDict objectForKey:@"Sessions"];
+            TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
+            DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Found session: %@", session);
+            [session joinUsingBEEPSession:nil];
+        }    
+        [indexSet removeIndex:index];
+    }
+    [indexSet release];
+}
+
+- (void)join:(id)sender {
+    [self joinSessionsWithIndexes:[O_browserListView selectedRowIndexes]];
 }
 
 - (IBAction)joinSession:(id)aSender
@@ -201,11 +296,14 @@ static RendezvousBrowserController *sharedInstance=nil;
 
     ItemChildPair pair = [aSender itemChildPairAtRow:row];
     if (pair.childIndex!=-1) {
+        [self joinSessionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
+        /*
         NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
         NSArray *sessions = [userDict objectForKey:@"Sessions"];
         TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
         DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Found session: %@", session);
         [session joinUsingBEEPSession:nil];
+        */
     }
 }
 
