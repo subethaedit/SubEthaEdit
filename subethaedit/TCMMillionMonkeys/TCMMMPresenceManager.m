@@ -130,6 +130,8 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 - (void)TCM_validateVisibilityOfUserID:(NSString *)aUserID {
     NSMutableDictionary *status=[self statusOfUserID:aUserID];
     BOOL currentVisibility=([status objectForKey:@"isVisible"]!=nil);
+    if ([[status objectForKey:@"Status"] isEqualToString:@"NoStatus"])
+        [status removeObjectForKey:@"InternalIsVisible"];
     BOOL newVisibility=(([status objectForKey:@"InternalIsVisible"]!=nil) || ([[status objectForKey:@"Sessions"] count] > 0));
     if (newVisibility!=currentVisibility) {
         if (newVisibility) {

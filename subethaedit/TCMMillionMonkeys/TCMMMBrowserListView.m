@@ -18,7 +18,7 @@ static NSColor *alternateRowColor=nil;
 @interface TCMMMBrowserListView (TCMBrowserListViewPrivateAdditions)
 
 - (void)TCM_drawItemAtIndex:(int)aIndex;
-- (int)TCM_indexOfItemAtPoint:(NSPoint)aPoint isChild:(BOOL *)isChild;
+- (int)TCM_indexOfRowAtPoint:(NSPoint)aPoint isChild:(BOOL *)isChild;
 - (void)TCM_drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aIndex;
 
 @end
@@ -128,8 +128,6 @@ static NSColor *alternateRowColor=nil;
 
 - (void)drawRect:(NSRect)rect
 {
-    int numberOfItems=[self numberOfItems];
-    int i;
     
     [[NSColor whiteColor] set];
     NSRectFill(rect);
@@ -142,6 +140,10 @@ static NSColor *alternateRowColor=nil;
     [itemStep translateXBy:0 yBy:-1*ITEMROWHEIGHT];
     NSAffineTransform *childStep=[NSAffineTransform transform];
     [childStep translateXBy:0 yBy:-1*CHILDROWHEIGHT];
+
+    int numberOfItems=[self numberOfItems];
+    int i;
+
     for (i=0;i<numberOfItems;i++) {
         [itemStep concat];
         [self TCM_drawItemAtIndex:i];
@@ -156,8 +158,39 @@ static NSColor *alternateRowColor=nil;
     [NSGraphicsContext restoreGraphicsState];
 }
 
-- (int)TCM_indexOfItemAtPoint:(NSPoint)aPoint isChild:(BOOL *)isChild {
+- (int)TCM_indexOfRowAtPoint:(NSPoint)aPoint isChild:(BOOL *)isChild {
+    NSRect bounds=[self bounds];
+    float verticalPosition=bounds.size.height+bounds.origin.y-aPoint.y;
     
+    int numberOfItems=[self numberOfItems];
+    int i;
+    int result=0;
+
+    for (i=0;i<numberOfItems;i++) {
+        if (verticalPosition<=ITEMROWHEIGHT) {
+            *isChild = NO;
+            return result;
+        }
+        result++;
+        verticalPosition-=ITEMROWHEIGHT;
+        
+        int j;
+        int numberOfChildren=[[self dataSource] listView:self numberOfChildrenOfItemAtIndex:i];
+        if (verticalPosition<=CHILDROWHEIGHT*numberOfChildren) {
+            for (j=0;j<numberOfChildren;j++) {
+                if (verticalPosition<=CHILDROWHEIGHT) {
+                    *isChild = YES;
+                    return result;
+                }
+                result++;
+                verticalPosition-=CHILDROWHEIGHT;
+            }
+        } else {
+            verticalPosition-=CHILDROWHEIGHT*numberOfChildren;
+            result+=numberOfChildren;
+        }
+    }
+
     *isChild = NO;
     
     return -1;
@@ -169,8 +202,11 @@ static NSColor *alternateRowColor=nil;
     NSLog(@"Clicked at: %@", NSStringFromPoint(point));
     
     BOOL isChild;
-    int indexOfItem = [self TCM_indexOfItemAtPoint:point isChild:&isChild];
-    NSLog(@"indexOfItem: %d, isChild: %@", indexOfItem, isChild ? @"YES" : @"NO");
+    I_clickedRow = [self TCM_indexOfRowAtPoint:point isChild:&isChild];
+    if ([aEvent clickCount]==2 && I_target && [I_target respondsToSelector:I_doubleAction]) {
+        [I_target performSelector:I_doubleAction withObject:self];
+    }
+    NSLog(@"indexOfItem: %d, isChild: %@", I_clickedRow, isChild ? @"YES" : @"NO");
 }
 
 - (int)numberOfItems {
@@ -212,6 +248,11 @@ static NSColor *alternateRowColor=nil;
 #pragma mark -
 #pragma mark ### Accessors ###
 
+- (int)clickedRow {
+    return I_clickedRow;
+}
+
+
 - (void)setDelegate:(id)aDelegate
 {
     I_delegate = aDelegate;
@@ -230,6 +271,21 @@ static NSColor *alternateRowColor=nil;
 - (id)dataSource
 {
     return I_dataSource;
+}
+
+- (void)setTarget:(id)aTarget
+{
+    I_target = aTarget;
+}
+
+- (void)setAction:(SEL)anAction
+{
+    I_action = anAction;
+}
+
+- (void)setDoubleAction:(SEL)anAction
+{
+    I_doubleAction = anAction;
 }
 
 @end

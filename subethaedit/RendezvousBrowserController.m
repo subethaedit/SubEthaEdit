@@ -56,15 +56,21 @@
     [O_scrollView setBorderType:NSBezelBorder];
     [O_browserListView setDataSource:self];
     [O_browserListView   setDelegate:self];
+    [O_browserListView setTarget:self];
+    [O_browserListView setDoubleAction:@selector(joinSession:)];
     [O_scrollView setHasVerticalScroller:YES];
     [[O_scrollView verticalScroller] setControlSize:NSSmallControlSize];
     [O_scrollView setDocumentView:O_browserListView];
     [O_browserListView noteEnclosingScrollView];
-    
 }
 
 - (IBAction)setVisibilityByPopUpButton:(id)aSender {
     [[TCMMMPresenceManager sharedInstance] setVisible:([aSender indexOfSelectedItem]==0)];
+}
+
+- (IBAction)joinSession:(id)aSender
+{
+    NSLog(@"joinSession in row: %d", [aSender clickedRow]);
 }
 
 #pragma mark -
@@ -109,6 +115,21 @@
         return [[item objectForKey:@"Sessions"] count];
     }
     return 0;
+}
+
+- (BOOL)listView:(TCMMMBrowserListView *)aListView isItemExpandedAtIndex:(int)anItemIndex {
+    if (anItemIndex>=0 && anItemIndex<[I_data count]) {
+        NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
+        return [[item objectForKey:@"isExpanded"] boolValue];
+    }
+    return YES;
+}
+
+- (void)listView:(TCMMMBrowserListView *)aListView setExpanded:(BOOL)isExpanded itemAtIndex:(int)anItemIndex {
+    if (anItemIndex>=0 && anItemIndex<[I_data count]) {
+        NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
+        [item setObject:[NSNumber numberWithBool:isExpanded] forKey:@"isExpanded"];
+    }
 }
 
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
@@ -166,7 +187,7 @@
     BOOL isVisible=[[userInfo objectForKey:@"isVisible"] boolValue];
     // TODO: handle Selection
     if (isVisible) {
-        [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",nil]];
+        [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",[NSNumber numberWithBool:YES],@"isExpanded",nil]];
     } else {
         int index=[self TCM_indexOfItemWithUserID:userID];
         if (index >= 0) {
@@ -184,15 +205,19 @@
         NSMutableDictionary *item=[I_data objectAtIndex:index];
         TCMMMSession *session=[userInfo objectForKey:@"AnnouncedSession"];
         NSMutableArray *sessions=[item objectForKey:@"Sessions"];
-        if (session) {
-            [sessions addObject:session];
+        if ([[userInfo objectForKey:@"Sessions"] count] == 0) {
+            [sessions removeAllObjects];
         } else {
-            NSString *concealedSessionID=[userInfo objectForKey:@"ConcealedSessionID"];
-            int i;
-            for (i = 0; i < [sessions count]; i++) {
-                if ([concealedSessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
-                    [sessions removeObjectAtIndex:i];
-                    break;
+            if (session) {
+                [sessions addObject:session];
+            } else {
+                NSString *concealedSessionID=[userInfo objectForKey:@"ConcealedSessionID"];
+                int i;
+                for (i = 0; i < [sessions count]; i++) {
+                    if ([concealedSessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
+                        [sessions removeObjectAtIndex:i];
+                        break;
+                    }
                 }
             }
         }
