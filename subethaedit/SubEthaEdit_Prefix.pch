@@ -6,6 +6,7 @@
     #import <Cocoa/Cocoa.h>
     #import "NSColorTCMAdditions.h"
     #import "NSDataTCMAdditions.h"
+    #import "NSImageTCMAdditions.h"
     #import "NSDictionaryTCMAdditions.h"
     #import "NSStringTCMAdditions.h"
     #import "NSNetServiceTCMAdditions.h"

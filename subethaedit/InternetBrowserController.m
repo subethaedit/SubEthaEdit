@@ -1173,6 +1173,11 @@ enum {
 }
 
 - (id)listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
+    static NSImage *defaultPerson = nil;
+    if (!defaultPerson) {
+        defaultPerson = [[[NSImage imageNamed:@"DefaultPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
+    }
+    
     if (aChildIndex == -1) {
         if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
             NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
@@ -1200,7 +1205,7 @@ enum {
                 } else if (aTag == TCMMMBrowserItemStatusTag) {
                     return NSLocalizedString([item objectForKey:@"status"], @"Status message displayed for each host entry in Internet browser.");
                 } else if (aTag == TCMMMBrowserItemImageTag) {
-                    return [NSImage imageNamed:@"DefaultPerson"];
+                    return defaultPerson;
                 }
             }
             
