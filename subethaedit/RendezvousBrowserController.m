@@ -20,6 +20,7 @@
         [I_browser setDelegate:self];
         [I_browser startSearch];
         I_foundUserIDs=[NSMutableSet new];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:@"UserDidChangeVisibility" object:nil];
     }
     return self;
 }
@@ -84,8 +85,16 @@
 #pragma mark -
 #pragma mark ### TCMMMPresenceManager Notifications ###
 
-- (void)userChangedAvailability:(NSNotification *)aNotification {
-
+- (void)userDidChangeVisibility:(NSNotification *)aNotification {
+    NSDictionary *userInfo=[aNotification userInfo];
+    NSString *userID=[userInfo objectForKey:@"UserID"];
+    TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:userID];
+    if ([[userInfo objectForKey:@"isVisible"] boolValue]) {
+        [I_tableData addObject:user];
+    } else {
+        [I_tableData removeObject:user];
+    }
+    [self setTableData:I_tableData];
 }
 
 - (void)userChangedAnnouncedDocuments:(NSNotification *)aNotification {

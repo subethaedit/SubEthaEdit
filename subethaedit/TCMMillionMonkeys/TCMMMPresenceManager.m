@@ -99,11 +99,21 @@ static TCMMMPresenceManager *sharedInstance = nil;
 
 - (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
     [aProfile sendMyself:[TCMMMUserManager me]];
+    [aProfile sendVisibility:YES];
     NSLog(@"%@",[[TCMMMBEEPSessionManager sharedInstance] description]);
+}
+
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveUser:(TCMMMUser *)aUser {
+    [[TCMMMUserManager sharedInstance] setUser:aUser forID:[aUser ID]];
+}
+
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidChangeVisibility" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[[[[aProfile channel] session] userInfo] objectForKey:@"peerUserID"],@"UserID",[NSNumber numberWithBool:isVisible],@"isVisible",nil]];
 }
 
 - (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError {
     // remove status profile, and inform the rest
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidChangeVisibility" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[[[[aProfile channel] session] userInfo] objectForKey:@"peerUserID"],@"UserID",[NSNumber numberWithBool:NO],@"isVisible",nil]];
 }
 
 #pragma mark -

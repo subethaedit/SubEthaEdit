@@ -27,6 +27,9 @@ NSData *TCM_BencodedObject(id aObject) {
         NSData *data=[aObject dataUsingEncoding:NSUTF8StringEncoding];
         [result appendData:[[NSString stringWithFormat:@"%d:",[data length]] dataUsingEncoding:NSUTF8StringEncoding]];
         [result appendData:data];
+    } else if ([aObject isKindOfClass:[NSData class]]) {
+        [result appendData:[[NSString stringWithFormat:@"%d.",[(NSData *)aObject length]] dataUsingEncoding:NSUTF8StringEncoding]];
+        [result appendData:aObject];
     } else if ([aObject isKindOfClass:[NSDictionary class]]) {
         [result appendBytes:"d" length:1];
         NSEnumerator *keys=[aObject keyEnumerator];
@@ -90,6 +93,10 @@ id TCM_BdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
         if (aBytes[*aPosition]==':') {
             (*aPosition)++;
             result=[[[NSString alloc] initWithBytes:&aBytes[*aPosition] length:length encoding:NSUTF8StringEncoding] autorelease];
+            *aPosition=(*aPosition)+length;
+        } else if (aBytes[*aPosition]=='.') {
+            (*aPosition)++;
+            result=[[[NSData alloc] initWithBytes:&aBytes[*aPosition] length:length] autorelease];
             *aPosition=(*aPosition)+length;
         }
     }

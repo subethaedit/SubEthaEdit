@@ -17,3 +17,9 @@
 
 - (void)sendMyself:(TCMMMUser *)aUser;
 @end
+
+@interface NSObject (TCMMMStatusProfileDelegateMethods) 
+- (void)sendVisibility:(BOOL)isVisible;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveUser:(TCMMMUser *)aUser;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible;
+@end

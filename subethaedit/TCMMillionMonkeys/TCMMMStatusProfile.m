@@ -8,10 +8,21 @@
 
 #import "TCMMMStatusProfile.h"
 #import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
 #import "TCMBencodingUtilities.h"
 
 
 @implementation TCMMMStatusProfile
+
+- (void)sendVisibility:(BOOL)isVisible {
+    NSData *data=nil;
+    if (isVisible) {
+        data=[NSData dataWithBytes:"STAVIS" length:6];
+    } else {
+        data=[NSData dataWithBytes:"STAINV" length:6];
+    }
+    [[self channel] sendMSGMessageWithPayload:data];
+}
 
 - (void)sendMyself:(TCMMMUser *)aUser {
     NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
@@ -21,12 +32,24 @@
 
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage {
     if ([aMessage isMSG]) {
-        NSString *string=[NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding];
-        NSLog(@"got remote user: %@",string);
-        NSLog(@"result is: %@",[TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]) description]);
-        // ACK
-        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
-        [[self channel] sendMessage:[message autorelease]];
+        if ([[aMessage payload] length]<6) {
+            NSLog(@"Status MSG with payload less then 6 bytes is not allowed");
+        } else {
+            unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
+            if (strncmp(bytes,"USRFUL",6)==0) {
+                TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
+                [[self delegate] profile:self didReceiveUser:user];
+            } else if (strncmp(bytes,"DOC",3)==0){
+                NSLog(@"Received Document");
+            } else if (strncmp(bytes,"STA",3)==0){
+                [[self delegate] profile:self didReceiveVisibilityChange:(strncmp(&bytes[3],"VIS",3)==0)];
+                NSLog(@"Received Status");
+            }
+
+            // ACK
+            TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
+            [[self channel] sendMessage:[message autorelease]];
+        }
     }
 }
 
