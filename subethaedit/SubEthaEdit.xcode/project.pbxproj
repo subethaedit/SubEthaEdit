@@ -96,7 +96,7 @@
 		14006969060C65430060F71E = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
+			lastKnownFileType = text.plist.xml;
 			path = SubEthaEditSuite.scriptSuite;
 			refType = 4;
 			sourceTree = "<group>";
@@ -104,7 +104,7 @@
 		1400696A060C65430060F71E = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
+			lastKnownFileType = text.plist.xml;
 			path = SubEthaEditSuite.scriptTerminology;
 			refType = 4;
 			sourceTree = "<group>";
@@ -1609,6 +1609,142 @@
 			settings = {
 			};
 		};
+		14C946C3069F4E6C002EB45F = {
+			isa = PBXFileReference;
+			lastKnownFileType = "wrapper.pb-project";
+			name = OgreKit.xcode;
+			path = OgreKit/OgreKit.xcode;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14C946C4069F4E6C002EB45F = {
+			children = (
+				14C946C6069F4E6D002EB45F,
+				14C946C7069F4E6D002EB45F,
+				14C946C8069F4E6D002EB45F,
+				14C946C9069F4E6D002EB45F,
+				14C946CA069F4E6D002EB45F,
+				14C946CB069F4E6D002EB45F,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14C946C6069F4E6D002EB45F = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = OgreKit.framework;
+			refType = 3;
+			remoteRef = 14C946CE069F4EA3002EB45F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14C946C7069F4E6D002EB45F = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = OgreKit.framework;
+			refType = 3;
+			remoteRef = 14C946CF069F4EA3002EB45F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14C946C8069F4E6D002EB45F = {
+			fileType = wrapper.application;
+			isa = PBXReferenceProxy;
+			path = OgreTest.app;
+			refType = 3;
+			remoteRef = 14C946D0069F4EA3002EB45F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14C946C9069F4E6D002EB45F = {
+			fileType = wrapper.application;
+			isa = PBXReferenceProxy;
+			path = OgreFindPanelTest.app;
+			refType = 3;
+			remoteRef = 14C946D1069F4EA3002EB45F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14C946CA069F4E6D002EB45F = {
+			fileType = wrapper.application;
+			isa = PBXReferenceProxy;
+			path = MyFindPanelExample.app;
+			refType = 3;
+			remoteRef = 14C946D2069F4EA3002EB45F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14C946CB069F4E6D002EB45F = {
+			fileType = wrapper.application;
+			isa = PBXReferenceProxy;
+			path = Wildcard.app;
+			refType = 3;
+			remoteRef = 14C946D3069F4EA3002EB45F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		14C946CE069F4EA3002EB45F = {
+			containerPortal = 14C946C3069F4E6C002EB45F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = "OgreKit (Full Set)";
+		};
+		14C946CF069F4EA3002EB45F = {
+			containerPortal = 14C946C3069F4E6C002EB45F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4DA6B48305E699D000A3AEC6;
+			remoteInfo = "OgreKit (without Find Panel)";
+		};
+		14C946D0069F4EA3002EB45F = {
+			containerPortal = 14C946C3069F4E6C002EB45F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4DE2695905721B2800A25078;
+			remoteInfo = "Regular Expression Test";
+		};
+		14C946D1069F4EA3002EB45F = {
+			containerPortal = 14C946C3069F4E6C002EB45F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4D8CB4A4057216A500BE2D09;
+			remoteInfo = "Find Panel Test";
+		};
+		14C946D2069F4EA3002EB45F = {
+			containerPortal = 14C946C3069F4E6C002EB45F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4DE269A805721DB400A25078;
+			remoteInfo = "My Find Panel Example";
+		};
+		14C946D3069F4EA3002EB45F = {
+			containerPortal = 14C946C3069F4E6C002EB45F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4DAC47D20572204C0011832E;
+			remoteInfo = "Wildcard (Practical Example)";
+		};
+		14C946D4069F4EEF002EB45F = {
+			containerPortal = 14C946C3069F4E6C002EB45F;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 4DA6B44605E699D000A3AEC6;
+			remoteInfo = "OgreKit (without Find Panel)";
+		};
+		14C946D5069F4EEF002EB45F = {
+			isa = PBXTargetDependency;
+			name = "OgreKit (without Find Panel) (from OgreKit.xcode)";
+			targetProxy = 14C946D4069F4EEF002EB45F;
+		};
+		14C946D8069F4F24002EB45F = {
+			fileRef = 14C946C6069F4E6D002EB45F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14C946D9069F4F29002EB45F = {
+			fileRef = 14C946C6069F4E6D002EB45F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14CF2C4506428E7000D430AA = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1841,6 +1977,12 @@
 			isa = PBXProject;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 14C946C4069F4E6C002EB45F;
+					ProjectRef = 14C946C3069F4E6C002EB45F;
+				},
+			);
 			targets = (
 				8D15AC270486D014006FF6A4,
 				147037FE060C642F0087BA25,
@@ -1859,6 +2001,7 @@
 				2A37F4B8FDCFA73011CA2CEA,
 				2A37F4C3FDCFA73011CA2CEA,
 				19C28FB0FE9D524F11CA2CBB,
+				14C946C3069F4E6C002EB45F,
 			);
 			isa = PBXGroup;
 			name = SubEthaEdit;
@@ -2477,12 +2620,6 @@
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
-		31B738E50611C6330004F28D = {
-			fileRef = 31B738E40611C6330004F28D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		31C995A0060F377500E3AB1E = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -2816,16 +2953,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5E2A5BAB0613217C006242F9,
+				14C946D9069F4F29002EB45F,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5E2A5BAB0613217C006242F9 = {
-			fileRef = 31B738E40611C6330004F28D;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		5E2D1909062E93FD00A0EB85 = {
 			fileEncoding = 4;
@@ -4908,6 +5039,7 @@
 				WRAPPER_EXTENSION = app;
 			};
 			dependencies = (
+				14C946D5069F4EEF002EB45F,
 			);
 			isa = PBXNativeTarget;
 			name = SubEthaEdit;
@@ -5238,9 +5370,9 @@
 				8D15AC340486D014006FF6A4,
 				144BC7CA05EE5C84006397BC,
 				5EAD69AB05EE5F5300E75BFF,
+				14C946D8069F4F24002EB45F,
 				14AE9D6C05F610EB0025CADE,
 				144DD73C061049D90047D354,
-				31B738E50611C6330004F28D,
 				14497AB9062C380000E1C9F1,
 				5EA543F90635862900A06297,
 			);
