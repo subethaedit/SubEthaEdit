@@ -11,6 +11,7 @@
 #import "PlainTextDocument.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "SelectionOperation.h"
+#import "ImagePopUpButtonCell.h"
 
 
 NSString * const PlainTextWindowToolbarIdentifier = @"PlainTextWindowToolbarIdentifier";
@@ -72,19 +73,12 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     [O_participantsScrollView setDocumentView:O_participantsView];
     [O_participantsView noteEnclosingScrollView];
     
-    
-    [[O_actionPullDown cell] setArrowPosition:NSPopUpNoArrow];
+    [O_actionPullDown setCell:[[ImagePopUpButtonCell new] autorelease]];
+    [[O_actionPullDown cell] setPullsDown:YES];
+    [[O_actionPullDown cell] setImage:[NSImage imageNamed:@"Action"]];
+    [[O_actionPullDown cell] setAlternateImage:[NSImage imageNamed:@"ActionPressed"]];
     [[O_actionPullDown cell] setUsesItemFromMenu:NO];
-    NSMenuItem *item = [[NSMenuItem allocWithZone:[self zone]] initWithTitle:@"" action:NULL keyEquivalent:@"'"];
-    [item setImage:[NSImage imageNamed:@"Action"]];
-    [item setOnStateImage:nil];
-    [item setMixedStateImage:nil];
-    [[O_actionPullDown cell] setMenuItem:item];
-    [item release];
-    [O_actionPullDown setPreferredEdge:NSMinXEdge];
-    [[[O_actionPullDown menu] menuRepresentation] setHorizontalEdgePadding:0.0];
-    [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
-    //[O_actionPullDown sizeToFit];
+    [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
     
     [O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
     
