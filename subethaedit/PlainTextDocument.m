@@ -13,6 +13,7 @@
 #import "DocumentController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
+#import "WebPreviewWindowController.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -56,6 +57,8 @@ enum {
 
 static NSString * const PlainTextDocumentSyntaxColorizeNotification = 
                       @"PlainTextDocumentSyntaxColorizeNotification";
+NSString * const PlainTextDocumentRefreshWebPreviewNotification = 
+               @"PlainTextDocumentRefreshWebPreviewNotification";
 NSString * const PlainTextDocumentDidChangeSymbolsNotification =
                @"PlainTextDocumentDidChangeSymbolsNotification";
 NSString * const PlainTextDocumentDidChangeEditStatusNotification =
@@ -109,6 +112,8 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 }
 
 - (void)TCM_initHelper {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWebPreview:)
+        name:PlainTextDocumentRefreshWebPreviewNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performHighlightSyntax)
         name:PlainTextDocumentSyntaxColorizeNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -568,6 +573,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
     [I_textStorage setDelegate:nil];
     [I_textStorage release];
+    [I_webPreviewWindowController release];
     [I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
@@ -683,6 +689,36 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (IBAction)toggleIsAnnounced:(id)aSender {
     [self setIsAnnounced:![self isAnnounced]];
 }
+
+- (IBAction)showWebPreview:(id)aSender {
+    if (!I_webPreviewWindowController) {
+        I_webPreviewWindowController=[[WebPreviewWindowController alloc] initWithPlainTextDocument:self];
+    }
+    if (![[I_webPreviewWindowController window] isVisible]) {
+        [I_webPreviewWindowController showWindow:self];
+        [I_webPreviewWindowController refresh:self];
+    } else {
+        [[I_webPreviewWindowController window] orderFront:self];
+    }
+}
+
+- (IBAction)refreshWebPreview:(id)aSender {
+    if (!I_webPreviewWindowController) {
+        [self showWebPreview:self];
+    } else {
+        [I_webPreviewWindowController refresh:self];
+    }
+}
+
+- (void)TCM_webPreviewOnSaveRefresh {
+    if (I_webPreviewWindowController) {
+        if ([[I_webPreviewWindowController window] isVisible] &&
+            [I_webPreviewWindowController refreshType] == kWebPreviewRefreshOnSave) {
+            [I_webPreviewWindowController refreshAndEmptyCache:self];
+        }
+    }
+}
+
 
 - (IBAction)newView:(id)aSender {
     PlainTextWindowController *controller=[PlainTextWindowController new];
@@ -1171,6 +1207,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 [self setODBParameters:nil];
             }
         }
+        [self TCM_webPreviewOnSaveRefresh];
     }
     
     if (saveOperationType != NSSaveToOperation) {
@@ -1941,6 +1978,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         I_bracketMatching.matchingBracketPosition=aRange.location;
     }
     [self triggerUpdateSymbolTableTimer];
+    
+    if (I_webPreviewWindowController && 
+        [[I_webPreviewWindowController window] isVisible] &&
+        [I_webPreviewWindowController refreshType]==kWebPreviewRefreshAutomatic) {
+        [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentRefreshWebPreviewNotification object:self]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+
+    }
 }
 
 - (NSDictionary *)blockeditAttributesForTextStorage:(TextStorage *)aTextStorage {
@@ -2176,7 +2224,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         I_bracketMatching.matchingBracketPosition=NSNotFound;
     }
 
-
     TextStorage *textStorage = (TextStorage *) [textView textStorage];
     // take care for blockedit
     
@@ -2245,7 +2292,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [textView setSelectedRange:newSelectedRange];
         }
     }
-
 }
+
+
 
 @end

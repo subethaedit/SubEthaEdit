@@ -42,6 +42,7 @@
 				1058C7A7FEA54F5311CA2CBB,
 				144BC7C905EE5C84006397BC,
 				14AE9D6B05F610EB0025CADE,
+				5EA543F80635862900A06297,
 			);
 			isa = PBXGroup;
 			name = "Linked Frameworks";
@@ -659,6 +660,10 @@
 				5ED033030622E1C00016EAB2,
 				5E3E6D68062C1A1E006EB7A1,
 				5E3E6D69062C1A1E006EB7A1,
+				5EA543C206357E0D00A06297,
+				5EA543C106357E0D00A06297,
+				5EA543C006357E0D00A06297,
+				5EA543BF06357E0D00A06297,
 			);
 			isa = PBXGroup;
 			name = Document;
@@ -1575,6 +1580,7 @@
 				5EDB87E905F8B1CB0058C44A,
 				5E0462F80623270400D94C08,
 				144C57C00614404400D1E8BF,
+				5EA543C706357E3600A06297,
 				144BC39505EDFF60006397BC,
 				144BC7C305EE43B6006397BC,
 				8D15AC360486D014006FF6A4,
@@ -2603,6 +2609,114 @@
 			settings = {
 			};
 		};
+		5EA543BF06357E0D00A06297 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = WebPreviewWindowController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA543C006357E0D00A06297 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = WebPreviewWindowController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA543C106357E0D00A06297 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = URLDataProtocol.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA543C206357E0D00A06297 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = URLDataProtocol.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA543C306357E0D00A06297 = {
+			fileRef = 5EA543BF06357E0D00A06297;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EA543C406357E0D00A06297 = {
+			fileRef = 5EA543C006357E0D00A06297;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EA543C506357E0D00A06297 = {
+			fileRef = 5EA543C106357E0D00A06297;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EA543C606357E0D00A06297 = {
+			fileRef = 5EA543C206357E0D00A06297;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EA543C706357E3600A06297 = {
+			children = (
+				5EA543C806357E3600A06297,
+			);
+			isa = PBXVariantGroup;
+			name = WebPreview.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA543C806357E3600A06297 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/WebPreview.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA543C906357E3600A06297 = {
+			fileRef = 5EA543C706357E3600A06297;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EA543CA06357EC800A06297 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = WebReload.tiff;
+			path = artwork/WebReload.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EA543CB06357EC800A06297 = {
+			fileRef = 5EA543CA06357EC800A06297;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EA543F80635862900A06297 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = WebKit.framework;
+			path = /System/Library/Frameworks/WebKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5EA543F90635862900A06297 = {
+			fileRef = 5EA543F80635862900A06297;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EACED4605F5087E0008743E = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -3018,6 +3132,7 @@
 				5EA5422E06352B1600A06297,
 				5EA5422F06352B1600A06297,
 				14C51E3706026BC70030F488,
+				5EA543CA06357EC800A06297,
 			);
 			isa = PBXGroup;
 			name = artwork;
@@ -3608,6 +3723,8 @@
 				5E54DD91063011CE00BB86CD,
 				31DAE2C70630185B0048C41B,
 				5EA5421C063523F800A06297,
+				5EA543C406357E0D00A06297,
+				5EA543C606357E0D00A06297,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3675,6 +3792,8 @@
 				5EA5423A06352B1700A06297,
 				5EA5423B06352B1700A06297,
 				5EA5423C06352B1700A06297,
+				5EA543C906357E3600A06297,
+				5EA543CB06357EC800A06297,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3764,6 +3883,8 @@
 				5E54DD92063011CE00BB86CD,
 				31DAE2C80630185B0048C41B,
 				5EA5421D063523F800A06297,
+				5EA543C306357E0D00A06297,
+				5EA543C506357E0D00A06297,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3786,6 +3907,7 @@
 				144DD73C061049D90047D354,
 				31B738E50611C6330004F28D,
 				14497AB9062C380000E1C9F1,
+				5EA543F90635862900A06297,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

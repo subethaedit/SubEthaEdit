@@ -24,6 +24,8 @@
 #import "SelectionOperation.h"
 #import "EncodingManager.h"
 
+#import "URLDataProtocol.h"
+
 #import "FontAttributesToStringValueTransformer.h"
 #import "HueToColorValueTransformer.h"
 #import "SaturationToColorValueTransformer.h"
@@ -48,6 +50,7 @@ NSString * const DefaultPortNumber = @"port";
 @implementation AppController
 
 + (void)initialize {
+    [NSURLProtocol registerClass:[URLDataProtocol class]];
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
     [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];

@@ -9,7 +9,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, PlainTextWindowController;
+@class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
+       PlainTextWindowController, WebPreviewWindowController;
 
 extern NSString * const PlainTextDocumentDidChangeSymbolsNotification;
 extern NSString * const PlainTextDocumentDidChangeEditStatusNotification;
@@ -76,6 +77,8 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSMenu *I_symbolPopUpMenu;
     NSMenu *I_symbolPopUpMenuSorted;
     NSTimer *I_symbolUpdateTimer;
+    
+    WebPreviewWindowController *I_webPreviewWindowController;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;

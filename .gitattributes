@@ -233,6 +233,9 @@ subethaedit/English.lproj/SavePanelAccessory.nib/keyedobjects.nib -text
 subethaedit/English.lproj/SelectEncodingsPanel.nib/classes.nib -text
 subethaedit/English.lproj/SelectEncodingsPanel.nib/info.nib -text
 subethaedit/English.lproj/SelectEncodingsPanel.nib/objects.nib -text
+subethaedit/English.lproj/WebPreview.nib/classes.nib -text
+subethaedit/English.lproj/WebPreview.nib/info.nib -text
+subethaedit/English.lproj/WebPreview.nib/keyedobjects.nib -text
 subethaedit/FontAttributesToStringValueTransformer.h -text
 subethaedit/FontAttributesToStringValueTransformer.m -text
 subethaedit/Functions.h -text
@@ -547,6 +550,10 @@ subethaedit/Tools/autodoc -text
 subethaedit/Tools/serials/attackserial.pl -text
 subethaedit/Tools/serials/checkserial.pl -text
 subethaedit/Tools/serials/makeserial.pl -text
+subethaedit/URLDataProtocol.h -text
+subethaedit/URLDataProtocol.m -text
+subethaedit/WebPreviewWindowController.h -text
+subethaedit/WebPreviewWindowController.m -text
 subethaedit/artwork/Action.tiff -text
 subethaedit/artwork/ActionPressed.tiff -text
 subethaedit/artwork/Announce.tiff -text
@@ -580,6 +587,7 @@ subethaedit/artwork/SymbolS.tiff -text
 subethaedit/artwork/SymbolT.tiff -text
 subethaedit/artwork/SymbolV.tiff -text
 subethaedit/artwork/URLIcon.tiff -text
+subethaedit/artwork/WebReload.tiff -text
 subethaedit/createDiskImage.sh -text
 subethaedit/debug.tiff -text
 subethaedit/main.m -text
