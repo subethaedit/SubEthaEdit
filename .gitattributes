@@ -1,5 +1,6 @@
 * text=auto !eol
 artwork/mockups/RendezvousBrowser.psd -text
+artwork/mockups/RendezvousBrowser2.psd -text
 documentation/whiteboard-1411.jpg -text
 prototype/ExpatSimple/ExpatSimple.1 -text
 prototype/ExpatSimple/ExpatSimple.xcode/project.pbxproj -text
