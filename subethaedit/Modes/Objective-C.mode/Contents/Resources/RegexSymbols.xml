@@ -19,15 +19,23 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Objective-C Directives" font-weight="normal" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="yes">
-        <regex>(@implementation[^[:cntrl:]{]*|@interface[^[:cntrl:]{]*|@protocol[^[:cntrl:]{]*)</regex>
+    <symbol id="Objective-C Directives" font-weight="bold" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="yes">
+        <regex>(@implementation[^[:cntrl:]{]*)</regex>
         <postprocess>
             <find>([\n\r]| +)</find>
             <replace> </replace>
         </postprocess>
     </symbol>
     
-    <symbol id="Pragma Mark Separators" font-weight="normal" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="yes">
+    <symbol id="Objective-C Declarations" font-weight="bold" font-style="italic" image="SymbolC" indentation="0" ignoreblocks="yes">
+        <regex>(@interface[^[:cntrl:]{]*|@protocol[^[:cntrl:]{]*)</regex>
+        <postprocess>
+            <find>([\n\r]| +)</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Pragma Mark Separators" font-weight="bold" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="yes">
         <regex>(#pragma mark[	 -]*[^\n]*)\n</regex>
         <postprocess>
             <find>#pragma mark[-	 \n]*</find>
