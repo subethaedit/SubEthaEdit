@@ -49,6 +49,7 @@ static FindReplaceController *sharedInstance=nil;
     if (!O_findPanel) [self loadUI];
     return O_findPanel;
 }
+
 - (NSPanel *)gotoPanel {
     if (!O_findPanel) [self loadUI];
     return O_gotoPanel;
@@ -69,8 +70,8 @@ static FindReplaceController *sharedInstance=nil;
 
 - (IBAction)orderFrontFindPanel:(id)aSender {
     NSPanel *panel = [self findPanel];
+    [O_findComboBox selectText:nil];
     [panel makeKeyAndOrderFront:nil];
-    NSLog(@"orderFrontFindPanel");    
 }
 
 - (IBAction)gotoLine:(id)aSender {
@@ -112,22 +113,22 @@ static FindReplaceController *sharedInstance=nil;
 
 - (OgreSyntax) currentOgreSyntax
 {
-    NSString *aString = [O_regexSyntaxPopup title];
+    int syntax = [O_regexSyntaxPopup tag];
     if([O_regexCheckbox state]==NSOffState) return OgreSimpleMatchingSyntax;
-    else if([aString isEqualToString:@"POSIX Basic"]) return OgrePOSIXBasicSyntax;
-    else if([aString isEqualToString:@"POSIX Extended"]) return OgrePOSIXExtendedSyntax;
-    else if([aString isEqualToString:@"Emacs"]) return OgreEmacsSyntax;
-    else if([aString isEqualToString:@"grep"]) return OgreGrepSyntax;
-    else if([aString isEqualToString:@"GNU"]) return OgreGNURegexSyntax;
-    else if([aString isEqualToString:@"Java"]) return OgreJavaSyntax;
-    else if([aString isEqualToString:@"Perl"]) return OgrePerlSyntax;
+    else if(syntax==1) return OgrePOSIXBasicSyntax;
+    else if(syntax==2) return OgrePOSIXExtendedSyntax;
+    else if(syntax==3) return OgreEmacsSyntax;
+    else if(syntax==4) return OgreGrepSyntax;
+    else if(syntax==5) return OgreGNURegexSyntax;
+    else if(syntax==6) return OgreJavaSyntax;
+    else if(syntax==7) return OgrePerlSyntax;
     else return OgreRubySyntax;
 }
 
 - (NSString*)currentOgreEscapeCharacter
 {
-    if ([[O_regexSyntaxPopup title] isEqualToString:@"\\"]) return OgreBackslashCharacter;
-    else return OgreGUIYenCharacter;
+    if ([O_regexSyntaxPopup tag]==1) return OgreGUIYenCharacter;
+    else return OgreBackslashCharacter;
 }
 
 - (void)performFindPanelAction:(id)sender forTextView:(NSTextView *)aTextView {
@@ -144,7 +145,6 @@ static FindReplaceController *sharedInstance=nil;
 - (void)performFindPanelAction:(id)sender 
 {
     if ([sender tag]==NSFindPanelActionShowFindPanel) {
-        NSLog(@"Show find panel");
         [self orderFrontFindPanel:self];
     } else if ([sender tag]==NSFindPanelActionNext) {
         [self find:[O_findComboBox stringValue] forward:YES];
@@ -166,6 +166,12 @@ static FindReplaceController *sharedInstance=nil;
     } else if ([sender tag]==TCMFindPanelActionFindAll) {
         NSLog(@"FindAll");
     }
+}
+
+- (void) findNextAndOrderOut:(id)sender 
+{
+        [self find:[O_findComboBox stringValue] forward:YES];
+        [[self findPanel] orderOut:self];
 }
 
 - (void) find:(NSString*)findString forward:(BOOL)forward
@@ -207,8 +213,8 @@ static FindReplaceController *sharedInstance=nil;
                     [target setSelectedRange:foundRange];
                     [target scrollRangeToVisible:foundRange];
                     [target display];
-                }
-            }
+                } else {NSBeep();}
+            } else {NSBeep();}
         } else { // backwards
             if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
                 // If we are just simple searching, use NSBackwardsSearch because Regex Searching is sloooow backwards.
@@ -220,7 +226,7 @@ static FindReplaceController *sharedInstance=nil;
                     [target setSelectedRange:foundRange];
                     [target scrollRangeToVisible:foundRange];
                     [target display];
-                }
+                } else {NSBeep();}
             } else {
                 NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:NSMakeRange(0, selection.location)];
                 if ([matchArray count] > 0) aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
@@ -237,8 +243,8 @@ static FindReplaceController *sharedInstance=nil;
                         [target setSelectedRange:foundRange];
                         [target scrollRangeToVisible:foundRange];
                         [target display];
-                    }
-                }
+                    } else {NSBeep();}
+                } else {NSBeep();}
             }
         }
     } else {

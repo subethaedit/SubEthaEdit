@@ -2,6 +2,7 @@
     IBClasses = (
         {
             ACTIONS = {
+                findNextAndOrderOut = id; 
                 gotoLine = id; 
                 gotoLineAndClosePanel = id; 
                 orderFrontFindPanel = id; 
@@ -12,7 +13,7 @@
             CLASS = FindReplaceController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "O_findComboBox" = OgreAFPCComboBox; 
+                "O_findComboBox" = NSComboBox; 
                 "O_findPanel" = NSPanel; 
                 "O_gotoLineTextField" = NSTextField; 
                 "O_gotoPanel" = NSPanel; 
@@ -31,7 +32,7 @@
                 "O_regexOptionsView" = NSView; 
                 "O_regexSinglelineCheckbox" = NSButton; 
                 "O_regexSyntaxPopup" = NSPopUpButton; 
-                "O_replaceComboBox" = OgreAFPCComboBox; 
+                "O_replaceComboBox" = NSComboBox; 
                 "O_scopePopup" = NSPopUpButton; 
                 "O_statusTextField" = NSTextField; 
                 "O_wrapAroundCheckbox" = NSButton; 
