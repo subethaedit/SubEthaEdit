@@ -425,13 +425,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
     [I_managementChannel release];
     I_managementChannel = nil;
-    
-    NSEnumerator *requestedChannels = [I_channelRequests objectEnumerator];  
-    while ((channel = [requestedChannels nextObject])) {
-        [channel cleanup];
-    }
-    [I_channelRequests removeAllObjects];
-    
+        
     id delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(BEEPSession:didFailWithError:)]) {
         NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
@@ -664,12 +658,6 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         [channel cleanup];
     }
     [I_activeChannels removeAllObjects];
-    
-    NSEnumerator *requestedChannels = [I_channelRequests objectEnumerator];  
-    while ((channel = [requestedChannels nextObject])) {
-        [channel cleanup];
-    }
-    [I_channelRequests removeAllObjects];
     
     int index;
     for (index = [self countOfChannels] - 1; index >= 0; index--) {

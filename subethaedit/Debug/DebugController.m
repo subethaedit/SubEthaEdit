@@ -13,7 +13,7 @@
 #import "DebugBEEPController.h"
 #import "DebugUserController.h"
 #import "DebugPresenceController.h"
-
+#import "TCMMMBEEPSessionManager.h"
 
 static DebugController * sharedInstance = nil;
 
@@ -55,6 +55,11 @@ static DebugController * sharedInstance = nil;
         NSMenuItem *BEEPItem = [[NSMenuItem alloc] initWithTitle:@"Show Sessions & Channels" action:@selector(showBEEP:) keyEquivalent:@""];
         [BEEPItem setTarget:self];
         [menu addItem:BEEPItem];
+
+        NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Retain Counts" action:@selector(printMist) keyEquivalent:@""];
+        [blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
+        [menu addItem:blahItem];
+        [blahItem release];
                 
         [debugItem setSubmenu:menu];
         [[NSApp mainMenu] addItem:debugItem];

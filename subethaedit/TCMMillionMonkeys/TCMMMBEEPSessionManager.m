@@ -67,6 +67,14 @@ static TCMMMBEEPSessionManager *sharedInstance;
     return sharedInstance;
 }
 
+- (void)printMist {
+    NSEnumerator *sessions=[I_sessions objectEnumerator];
+    TCMBEEPSession *session=nil;
+    while ((session=[sessions nextObject])) {
+        NSLog(@"Session: %@, %@, retainCount:%d",[session description],NSStringFromClass([session class]),[session retainCount]);
+    }
+}
+
 - (id)init
 {
     self = [super init];
@@ -341,6 +349,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                         if (session == aBEEPSession) {
                             [sessionInformation setObject:session forKey:@"RendezvousSession"];
                         } else {
+                            [self removeSessionFromSessionsArray:session];
                             [session setDelegate:nil];
                             [session terminate];
                         }
@@ -355,6 +364,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                     [[session retain] autorelease];
                     [sessions removeObjectAtIndex:[sessions count]-1];
                     if (session != aBEEPSession) {
+                        [self removeSessionFromSessionsArray:session];
                         [session setDelegate:nil];
                         [session terminate];
                     } else {
@@ -365,6 +375,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"] andData:nil sender:self];
         }
     } else {
+        [self removeSessionFromSessionsArray:aBEEPSession];
         [aBEEPSession setDelegate:nil];
         [aBEEPSession terminate];
         
@@ -379,6 +390,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
                 NSDictionary *info = [I_outboundInternetSessions objectForKey:URLString];
                 [[info objectForKey:@"sessions"] removeObject:aBEEPSession];
+                [self TCM_sendDidEndNotificationForSession:aBEEPSession error:nil];
             }
         }
         [I_pendingSessions removeObject:aBEEPSession];
@@ -418,7 +430,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didFailWithError:(NSError *)anError
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSession:didFailWithError: %@", anError);
-    
     [aBEEPSession setDelegate:nil];
     [[aBEEPSession retain] autorelease];
     
@@ -438,7 +449,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 if ([sessionInformation objectForKey:@"RendezvousSession"] == aBEEPSession) {
                     [sessionInformation removeObjectForKey:@"RendezvousSession"];
                     [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
-                    [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
                 } else {
                     if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] containsObject:aBEEPSession]) {
                         [[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
@@ -487,8 +497,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
                     }
                     [I_outboundInternetSessions removeObjectForKey:URLString];
                 }
-            } else {
-                [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
             }
         }
     } else if (!isRendezvous) {
@@ -512,23 +520,26 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 }
                 [I_outboundInternetSessions removeObjectForKey:URLString];
             }
-        } else {
-            [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
-        }  
+        }
     }
     [I_pendingSessions removeObject:aBEEPSession];
+    [self removeSessionFromSessionsArray:aBEEPSession];
     
+    [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
+    
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@", [self description]);
+}
+
+- (void)removeSessionFromSessionsArray:(TCMBEEPSession *)aBEEPSession {
     int index = 0;
     int count = [self countOfSessions];
-    for (index = 0; index < count; index++) {
+    for (index = count-1; index >= 0 ; index--) {
         TCMBEEPSession *session = [self objectInSessionsAtIndex:index];
         if ([session isEqual:aBEEPSession]) {
             [self removeObjectFromSessionsAtIndex:index];
-            break;
         }
     }
-    
-    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@", [self description]);
+
 }
 
 - (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession
