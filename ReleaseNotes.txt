@@ -1,4 +1,19 @@
 
+SubEthaEdit 2.1.1
+=================
+
+Changes:
+- Changed export dialog to disable according checkboxes, if "Participants" is 
+  not selected.
+
+Fixes:
+- Fixed a security issue where a user could receive permanent authorization for 
+  privileged SubEthaEdit operations after successfully aquiring authorization 
+  as an administrator in SubEthaEdit.
+- Printing panel now displays localized separators for margins.
+- Python mode now recognizes abbreviated class declarations.
+
+
 SubEthaEdit 2.1
 ===============
 
