@@ -9,8 +9,8 @@
 #import "TCMMMBrowserListView.h"
 
 
-#define ITEMROWHEIGHT 36.
-#define CHILDROWHEIGHT 18.
+#define ITEMROWHEIGHT 38.
+#define CHILDROWHEIGHT 20.
 
 static NSColor *alternateRowColor=nil;
 
@@ -34,12 +34,30 @@ static NSColor *alternateRowColor=nil;
         if (!alternateRowColor) {
             alternateRowColor=[[NSColor colorWithCalibratedRed:0.93 green:0.95 blue:1.0 alpha:1.0] retain];
         }
+        I_itemSelectionPath = [NSBezierPath new];
+        [I_itemSelectionPath moveToPoint:NSMakePoint(0.,0.)];
+        [I_itemSelectionPath lineToPoint:NSMakePoint(4000.,0.)];
+        [I_itemSelectionPath lineToPoint:NSMakePoint(4000.,ITEMROWHEIGHT/2.)];
+        [I_itemSelectionPath lineToPoint:NSMakePoint(32.+10.,ITEMROWHEIGHT/2.)];
+        [I_itemSelectionPath lineToPoint:NSMakePoint(32.+6.,ITEMROWHEIGHT)];
+        [I_itemSelectionPath lineToPoint:NSMakePoint(0.,ITEMROWHEIGHT)];
+        [I_itemSelectionPath closePath];
+        
+        I_disclosureCell=[NSButtonCell new];
+        [I_disclosureCell setButtonType:NSOnOffButton];
+        [I_disclosureCell setBezelStyle:NSDisclosureBezelStyle];
+        [I_disclosureCell setControlSize:NSSmallControlSize];
+        [I_disclosureCell setTitle:@""];
+        [I_disclosureCell setState:NSOnState];
+        NSLog(@"Cell: %@, %@",I_disclosureCell, NSStringFromSize([I_disclosureCell cellSize]));
     }
     return self;
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [I_disclosureCell release];
+    [I_itemSelectionPath release];
     [super dealloc];
 }
 
@@ -70,15 +88,21 @@ static NSColor *alternateRowColor=nil;
     
     id dataSource=[self dataSource];
     
-    NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserChildIconImageTag atIndex:aChildIndex ofItemAtIndex:aItemIndex];
+    NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserChildStatusImageTag atIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(32.+5,1) 
+        [image compositeToPoint:NSMakePoint(32.+9-(16+2),2+16) 
+                      operation:NSCompositeSourceOver];
+    }
+
+    image=[dataSource listView:self objectValueForTag:TCMMMBrowserChildIconImageTag atIndex:aChildIndex ofItemAtIndex:aItemIndex];
+    if (image) {
+        [image compositeToPoint:NSMakePoint(32.+9,2+16) 
                       operation:NSCompositeSourceOver];
     }
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserChildNameTag atIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];
     if (string) {
-        [string drawAtPoint:NSMakePoint(32.+5+16.+2.,2.)
+        [string drawAtPoint:NSMakePoint(32.+9+16.+3.,4.)
                withAttributes:mNameAttributes];
     }
 }
@@ -105,23 +129,28 @@ static NSColor *alternateRowColor=nil;
         [[NSColor whiteColor] set];
     }
     NSRectFill(itemRect);
+
+    [[NSColor selectedTextBackgroundColor] set];
+    [I_itemSelectionPath fill];
     
     id dataSource=[self dataSource];
     
     NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageTag ofItemAtIndex:aIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(2,2) 
+        [image compositeToPoint:NSMakePoint(4,32+3) 
                       operation:NSCompositeSourceOver];
     }
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemNameTag ofItemAtIndex:aIndex];
     [[NSColor blackColor] set];
     if (string) {
-        [string drawAtPoint:NSMakePoint(32.+5.,18.)
+        [string drawAtPoint:NSMakePoint(32.+11.,1.)
                withAttributes:mNameAttributes];
     }
+    NSSize cellSize=[I_disclosureCell cellSize];
+    [I_disclosureCell drawWithFrame:NSMakeRect(32.+10,20.,cellSize.width,cellSize.height) inView:self];
     string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusTag ofItemAtIndex:aIndex];
     if (string) {
-        [string drawAtPoint:NSMakePoint(32.+5,4.)
+        [string drawAtPoint:NSMakePoint(32.+27,20.)
                withAttributes:mStatusAttributes];
     }
 }
@@ -131,27 +160,24 @@ static NSColor *alternateRowColor=nil;
     
     [[NSColor whiteColor] set];
     NSRectFill(rect);
+
     [NSGraphicsContext saveGraphicsState];
-    NSRect bounds=[self bounds];
-    NSAffineTransform *transform=[NSAffineTransform transform];
-    [transform translateXBy:0 yBy:bounds.origin.y+bounds.size.height];
-    [transform concat];
     NSAffineTransform *itemStep=[NSAffineTransform transform];
-    [itemStep translateXBy:0 yBy:-1*ITEMROWHEIGHT];
+    [itemStep translateXBy:0 yBy:ITEMROWHEIGHT];
     NSAffineTransform *childStep=[NSAffineTransform transform];
-    [childStep translateXBy:0 yBy:-1*CHILDROWHEIGHT];
+    [childStep translateXBy:0 yBy:CHILDROWHEIGHT];
 
     int numberOfItems=[self numberOfItems];
     int i;
 
     for (i=0;i<numberOfItems;i++) {
-        [itemStep concat];
         [self TCM_drawItemAtIndex:i];
+        [itemStep concat];
         int j;
         int numberOfChildren=[self numberOfChildrenOfItemAtIndex:i];
         for (j=0;j<numberOfChildren;j++) {
-            [childStep concat];
             [self TCM_drawChildWithIndex:j ofItemAtIndex:i];
+            [childStep concat];
         }
     }
     
@@ -246,6 +272,11 @@ static NSColor *alternateRowColor=nil;
 
 - (void)enclosingScrollViewFrameDidChange:(NSNotification *)aNotification {
     [self resizeToFit];
+}
+
+#pragma mark -
+- (BOOL)isFlipped {
+    return YES;
 }
 
 #pragma mark -

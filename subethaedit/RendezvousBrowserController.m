@@ -55,7 +55,7 @@
     [O_browserListView setDoubleAction:@selector(joinSession:)];
     [O_scrollView setHasVerticalScroller:YES];
     [[O_scrollView verticalScroller] setControlSize:NSSmallControlSize];
-    [O_scrollView setAutohidesScrollers:YES];
+//    [O_scrollView setAutohidesScrollers:YES];
     [O_scrollView setDocumentView:O_browserListView];
     [O_browserListView noteEnclosingScrollView];
 }
@@ -173,14 +173,18 @@
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
     if (anItemIndex>=0 && anItemIndex<[I_data count]) {
         NSDictionary *item=[I_data objectAtIndex:anItemIndex];
-        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:[item objectForKey:@"UserID"]];
+//        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:[item objectForKey:@"UserID"]];
         NSArray *sessions=[item objectForKey:@"Sessions"];
         if (anIndex >= 0 && anIndex < [sessions count]) {
             TCMMMSession *session=[sessions objectAtIndex:anIndex];
             if (aTag==TCMMMBrowserChildNameTag) {
                 return [session filename];
-            } if (aTag==TCMMMBrowserChildIconImageTag) {
-                return [[user properties] objectForKey:@"Image16"];
+            } else if (aTag==TCMMMBrowserChildIconImageTag) {
+                NSImage *image=[[NSWorkspace sharedWorkspace] iconForFileType:@"txt"];
+                [image setSize:NSMakeSize(16,16)];
+                return image;
+            } else if (aTag==TCMMMBrowserChildStatusImageTag) {
+                return (anIndex%2?[NSImage imageNamed:@"StatusLock"]:[NSImage imageNamed:@"StatusReadOnly"]);
             }
         }
     }

@@ -22,6 +22,8 @@ enum {
 
 @interface TCMMMBrowserListView : NSView
 {
+    NSBezierPath *I_itemSelectionPath;
+    NSButtonCell *I_disclosureCell;
     id I_dataSource;
     id I_delegate;
     int I_clickedRow;
