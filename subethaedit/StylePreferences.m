@@ -10,6 +10,7 @@
 #import "SyntaxStyle.h"
 #import "DocumentModeManager.h"
 #import "TableView.h"
+#import "TextFieldCell.h"
 
 
 @implementation StylePreferences
@@ -46,6 +47,13 @@
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
     [self changeMode:O_modePopUpButton];
+    
+    // Set tableview to non highlighting cells
+    [[[O_baseStyleTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
+    [[[O_baseStyleTableView tableColumns] objectAtIndex:1] setDataCell:[[TextFieldCell new] autorelease]];
+    [[[O_remainingStylesTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
+    [[[O_remainingStylesTableView tableColumns] objectAtIndex:1] setDataCell:[[TextFieldCell new] autorelease]];
+
 }
 
 - (IBAction)validateDefaultsState:(id)aSender {
@@ -54,6 +62,7 @@
 }
 
 - (IBAction)changeMode:(id)aSender {
+
     DocumentMode *newMode=[aSender selectedMode];
     [O_modeController setContent:newMode];
     NSDictionary *fontAttributes = [newMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
