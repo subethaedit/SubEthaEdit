@@ -103,18 +103,18 @@
 			sourceTree = "<group>";
 		};
 		0867D69BFE84028FC02AAC07 = {
-			expectedFileType = wrapper.framework;
 			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = Foundation.framework;
 			path = /System/Library/Frameworks/Foundation.framework;
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
 		0867D6A5FE840307C02AAC07 = {
-			expectedFileType = wrapper.framework;
 			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = AppKit.framework;
 			path = /System/Library/Frameworks/AppKit.framework;
 			refType = 0;
@@ -140,9 +140,9 @@
 			sourceTree = "<group>";
 		};
 		089C1667FE841158C02AAC07 = {
-			expectedFileType = text.plist.strings;
 			fileEncoding = 10;
 			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
 			name = English;
 			path = English.lproj/InfoPlist.strings;
 			refType = 4;
@@ -163,9 +163,9 @@
 			sourceTree = "<group>";
 		};
 		08FB77B4FE84181DC02AAC07 = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 4;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = main.c;
 			refType = 4;
 			sourceTree = "<group>";
@@ -190,9 +190,9 @@
 			sourceTree = "<group>";
 		};
 		1058C7B1FEA5585E11CA2CBB = {
-			expectedFileType = wrapper.framework;
 			fallbackIsa = PBXFileReference;
 			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
 			name = Cocoa.framework;
 			path = /System/Library/Frameworks/Cocoa.framework;
 			refType = 0;
@@ -219,49 +219,49 @@
 //143
 //144
 		1485ADBF057396D600C9B70B = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = Node.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		1485ADC0057396D600C9B70B = {
-			expectedFileType = sourcecode.c.objc;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
 			path = Node.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		1485ADC1057396D600C9B70B = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = XMLParser.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		1485ADC2057396D600C9B70B = {
-			expectedFileType = sourcecode.c.objc;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
 			path = XMLParser.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		1485ADC3057396D600C9B70B = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = XMLStream.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		1485ADC4057396D600C9B70B = {
-			expectedFileType = sourcecode.c.objc;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
 			path = XMLStream.m;
 			refType = 4;
 			sourceTree = "<group>";
@@ -309,16 +309,16 @@
 			};
 		};
 		1485ADCB057396F800C9B70B = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = expat.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		1485ADCC057396F800C9B70B = {
-			expectedFileType = archive.ar;
 			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
 			path = libexpat.a;
 			refType = 4;
 			sourceTree = "<group>";
@@ -362,9 +362,9 @@
 			sourceTree = "<group>";
 		};
 		32DBCF5E0370ADEE00C91783 = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 4;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			path = XMPP_Prefix.pch;
 			refType = 4;
 			sourceTree = "<group>";
@@ -403,12 +403,12 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				LIBRARY_STYLE = Dynamic;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = XMPP;
-				SECTORDER_FLAGS = "";
+				SECTORDER_FLAGS = "-seg1addr 0x11000000";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -489,15 +489,15 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8DC2EF5A0486A6940098B216 = {
-			expectedFileType = text.plist;
 			fileEncoding = 4;
 			isa = PBXFileReference;
+			lastKnownFileType = text.plist;
 			path = Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		8DC2EF5B0486A6940098B216 = {
-			expectedFileType = wrapper.framework;
+			explicitFileType = wrapper.framework;
 			includeInIndex = 0;
 			isa = PBXFileReference;
 			path = XMPP.framework;

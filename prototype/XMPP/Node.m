@@ -90,4 +90,14 @@
     [I_children addObject:child];
 }
 
+- (NSString *)characters
+{
+    return I_characters;
+}
+
+- (NSArray *)children
+{
+    return I_children;
+}
+
 @end

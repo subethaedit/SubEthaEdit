@@ -29,4 +29,7 @@
 - (void)setParent:(Node *)parent;
 - (Node *)parent;
 - (void)addChild:(Node *)child;
+- (NSString *)characters;
+- (NSArray *)children;
+
 @end
