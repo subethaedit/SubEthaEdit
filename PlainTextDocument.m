@@ -1807,6 +1807,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return nil;
 }
 
+- (BOOL)revertToSavedFromFile:(NSString *)fileName ofType:(NSString *)type {
+    BOOL success = [super revertToSavedFromFile:fileName ofType:type];
+    if (success) {
+        [self setFileName:fileName];
+    }
+    return success;
+}
+
 - (BOOL)readFromURL:(NSURL *)aURL ofType:(NSString *)docType {
     if ([aURL isFileURL]) {
         return [self readFromFile:[aURL path] ofType:docType];
@@ -2013,30 +2021,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (encoding == NoStringEncoding) {
         encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
     }
-        
-    /*
-    NSDictionary *arguments = [self TCM_propertiesOfCurrentSeeEvent];
-    if (arguments) {
-        NSString *modeName = [arguments objectForKey:@"ModeName"];
-        if (modeName) {
-            mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
-            if (!mode) {
-                mode = [[DocumentModeManager sharedInstance] baseMode];
-            }
-            encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
-        }
-        
-        NSString *IANACharSetName = [arguments objectForKey:@"IANACharSetName"];
-        if (IANACharSetName) {
-            CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)IANACharSetName);
-            if (cfEncoding != kCFStringEncodingInvalidId) {
-                encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
-            } else {
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"IANACharSetName invalid: %@", IANACharSetName);
-            }
-        }
-    }
-    */
     
     
     NSDictionary *docAttrs = nil;
@@ -2462,36 +2446,19 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
             return YES;
         }
-        //if ([self isDocumentEdited]) {
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
-            [alert setMessageText:NSLocalizedString(@"Warning", nil)];
-            [alert setInformativeText:NSLocalizedString(@"Document changed externally", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Keep SubEthaEdit Version", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
-            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [alert beginSheetModalForWindow:window
-                              modalDelegate:self
-                             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                                contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                @"DocumentChangedExternallyAlert", @"Alert",
-                                                                nil] retain]];
-        //} else {
-        //    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-        //    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        //    [alert setAlertStyle:NSWarningAlertStyle];
-        //    [alert setMessageText:@"Debug"];
-        //    [alert setInformativeText:@"Document will be reverted"];
-        //    [alert addButtonWithTitle:@"OK"];
-        //    [alert beginSheetModalForWindow:window
-        //                      modalDelegate:nil
-        //                     didEndSelector:NULL
-        //                        contextInfo:nil];
-        //    BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
-        //    if (successful) {
-        //        [self updateChangeCount:NSChangeCleared];
-        //    }
-        //}
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"Warning", nil)];
+        [alert setInformativeText:NSLocalizedString(@"Document changed externally", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Keep SubEthaEdit Version", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
+        [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+        [alert beginSheetModalForWindow:window
+                          modalDelegate:self
+                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                            contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                            @"DocumentChangedExternallyAlert", @"Alert",
+                                                            nil] retain]];
 
         return NO;
     }
