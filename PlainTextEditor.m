@@ -1214,6 +1214,7 @@
 
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
     [I_textView setDefaultParagraphStyle:[[I_windowController document] defaultParagraphStyle]];
+    [self TCM_updateBottomStatusBar];;
     [self textDidChange:aNotification];
 }
 
