@@ -156,6 +156,13 @@ static FindReplaceController *sharedInstance=nil;
 {
     [O_statusTextField setHidden:YES];
     NSString *findString = [O_findComboBox stringValue];
+    NSRange scope;
+    NSTextView *target = [self targetToFindIn];
+    if (target) {
+        if ([[O_scopePopup selectedItem] tag]==1) scope = [target selectedRange];
+        else scope = NSMakeRange(0, [[target string] length]);
+    }
+    
     if ([sender tag]==NSFindPanelActionShowFindPanel) {
         [self orderFrontFindPanel:self];
     } else if ([sender tag]==NSFindPanelActionNext) {
@@ -165,11 +172,13 @@ static FindReplaceController *sharedInstance=nil;
         if ((![findString isEqualToString:@""])&&(findString)) [self find:findString forward:NO];
         else NSBeep();
     } else if ([sender tag]==NSFindPanelActionReplaceAll) {
-        NSLog(@"ReplaceAll");
+        [self replaceAllInRange:scope];
     } else if ([sender tag]==NSFindPanelActionReplace) {
-        NSLog(@"Replace");
+        [self replaceSelection];
     } else if ([sender tag]==NSFindPanelActionReplaceAndFind) {
-        NSLog(@"ReplaceAndFind");
+        [self replaceSelection];
+        if (![findString isEqualToString:@""]) [self find:findString forward:YES];
+        else NSBeep();
     } else if ([sender tag]==NSFindPanelActionSetFindString) {
         [self findPanel];
         NSTextView *target = [self targetToFindIn];
@@ -194,14 +203,90 @@ static FindReplaceController *sharedInstance=nil;
                                          options:[self currentOgreOptions]
                                          syntax:[self currentOgreSyntax]
                                          escapeCharacter:[self currentOgreEscapeCharacter]];
-            NSRange scope;
-            if ([[O_scopePopup selectedItem] tag]==1) scope = [target selectedRange];
-            else scope = NSMakeRange(0, [[target string] length]);
 
             FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andRange:scope] autorelease];
             [(PlainTextDocument *)[[[target window] windowController] document] addFindAllController:findall];
             [findall findAll:self];
         } else NSBeep();
+    }
+}
+
+- (void) replaceSelection
+{
+    NSTextView *target = [self targetToFindIn];
+    if (target) {
+        NSMutableString *text = [[target textStorage] mutableString];
+        NSRange selection = [target selectedRange];
+        if (selection.length==0) {
+            NSBeep();
+            return;
+        }
+        if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
+            [text replaceCharactersInRange:selection withString:[O_replaceComboBox stringValue]];
+        } else {
+            // This might not work for lookahead etc.
+            OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
+                                     options:[self currentOgreOptions]
+                                     syntax:[self currentOgreSyntax]
+                                     escapeCharacter:[self currentOgreEscapeCharacter]];
+            OGRegularExpressionMatch * aMatch = [regex matchInString:text options:[self currentOgreOptions] range:selection];
+            if (aMatch != nil) {
+                OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:[O_replaceComboBox stringValue]];
+                [text replaceCharactersInRange:[aMatch rangeOfMatchedString] withString:[repex replaceMatchedStringOf:aMatch]];
+            } else NSBeep();
+        }
+    }
+}
+
+- (void) replaceAllInRange:(NSRange)aRange
+{
+    int replaced = 0;
+    NSTextView *target = [self targetToFindIn];
+    if (target) {
+        NSMutableString *text = [[target textStorage] mutableString];
+        if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
+            unsigned options = NSLiteralSearch|NSBackwardsSearch;
+            if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
+            BOOL wrap = ([O_wrapAroundCheckbox state]==NSOnState); 
+            
+            NSRange posRange = NSMakeRange(NSMaxRange(aRange),0);
+            
+            while (YES) {
+                NSRange foundRange = [text findString:[O_findComboBox stringValue] selectedRange:posRange options:options wrap:wrap];
+                if (foundRange.length) {
+                    if (foundRange.location < aRange.location) break;
+                    [text replaceCharactersInRange:foundRange withString:[O_replaceComboBox stringValue]];
+                    replaced++;
+                    posRange.location = foundRange.location;
+                } else break;
+            } 
+            
+        } else {
+            OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
+                                     options:[self currentOgreOptions]
+                                     syntax:[self currentOgreSyntax]
+                                     escapeCharacter:[self currentOgreEscapeCharacter]];
+    
+            OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:[O_replaceComboBox stringValue]];
+            
+            OGRegularExpressionMatch *aMatch;            
+            NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:aRange];
+            
+            int count = [matchArray count];
+            int i;
+            for(i=count-1;i>=0;i--) {
+                aMatch = [matchArray objectAtIndex:i];
+                if (aMatch != nil) {
+                    [text replaceCharactersInRange:[aMatch rangeOfMatchedString] withString:[repex replaceMatchedStringOf:aMatch]];
+                    replaced++;
+                }
+            }
+        }
+    }
+    if (replaced==0) NSBeep();
+    else {
+        [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), replaced]];
+        [O_statusTextField setHidden:NO];
     }
 }
 
@@ -329,7 +414,7 @@ static FindReplaceController *sharedInstance=nil;
 #pragma mark ### Notification handling ###
 
 - (void)applicationDidActivate:(NSNotification *)notification {
-    [self loadFindStringFromPasteboard];
+    if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self loadFindStringFromPasteboard];
 }
 
 - (void)loadFindStringFromPasteboard {
