@@ -15,7 +15,7 @@
                 <regex>(\\\\)</regex>
             </keywords>
             <keywords id="Functions" color="#408" useforautocomplete="yes">
-                <regex>((\[[\w\d,\. ]*\])?({[^}]*})+)</regex>
+                <regex>((\[[\w\d,\. ]*\])?({[^}]*(?=})[^{]*})+)</regex>
             </keywords>
         </default>
         
