@@ -41,6 +41,7 @@
 				14497AB8062C380000E1C9F1,
 				1058C7A7FEA54F5311CA2CBB,
 				144BC7C905EE5C84006397BC,
+				1463F214062D768600C422F5,
 				14AE9D6B05F610EB0025CADE,
 			);
 			isa = PBXGroup;
@@ -399,7 +400,7 @@
 				14499F88062C864400E1C9F1,
 				14499F89062C864400E1C9F1,
 				14499F8A062C864400E1C9F1,
-				14499F7E062C719B00E1C9F1,
+				1463F0E1062D6BF500C422F5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -559,20 +560,6 @@
 			settings = {
 			};
 		};
-		14499F7C062C719B00E1C9F1 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			path = SEEHelperTemplate.c;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		14499F7E062C719B00E1C9F1 = {
-			fileRef = 14499F7C062C719B00E1C9F1;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		14499F82062C71E100E1C9F1 = {
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA;
 			isa = PBXContainerItemProxy;
@@ -589,6 +576,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				14499F87062C863500E1C9F1,
+				1463F0D2062D611400C422F5,
+				1463F215062D768600C422F5,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -948,6 +937,46 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" -name .svn | xargs rm -rf\n\n#MAJ_VER=\"2.0dev\"\nREV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n#/usr/bin/perl -spi -e \"s/VERSION_NUMBER_PLACEHOLDER/$MAJ_VER/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"";
+		};
+		1463F0D2062D611400C422F5 = {
+			fileRef = 2A37F4C5FDCFA73011CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1463F0D9062D61FE00C422F5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SEEHelperTemplate.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1463F0E1062D6BF500C422F5 = {
+			fileRef = 1463F0D9062D61FE00C422F5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1463F214062D768600C422F5 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Security.framework;
+			path = /System/Library/Frameworks/Security.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		1463F215062D768600C422F5 = {
+			fileRef = 1463F214062D768600C422F5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1463F216062D768600C422F5 = {
+			fileRef = 1463F214062D768600C422F5;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		147037FD060C642F0087BA25 = {
 			buildActionMask = 2147483647;
@@ -1901,7 +1930,7 @@
 				32DBCF750370BD2300C91783,
 				2A37F4B0FDCFA73011CA2CEA,
 				14963A44061F0FF6009B8E42,
-				14499F7C062C719B00E1C9F1,
+				1463F0D9062D61FE00C422F5,
 			);
 			isa = PBXGroup;
 			name = "Other Sources";
@@ -2144,7 +2173,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_LOCATION = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				OTHER_CFLAGS = "-DBLOCK_DEBUGLOGS -DNS_BLOCK_ASSERTIONS";
+				OTHER_CFLAGS = "-DBLOCK_DEBUGLOGS -DNS_BLOCK_ASSERTIONS -DMORE_DEBUG=0";
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;
@@ -3780,6 +3809,7 @@
 				144DD73C061049D90047D354,
 				31B738E50611C6330004F28D,
 				14497AB9062C380000E1C9F1,
+				1463F216062D768600C422F5,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

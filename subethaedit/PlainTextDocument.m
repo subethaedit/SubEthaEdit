@@ -7,6 +7,7 @@
 //
 
 #import <Carbon/Carbon.h>
+#import <Security/Security.h>
 
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
@@ -24,15 +25,17 @@
 #import "SelectionOperation.h"
 #import "ODBEditorSuite.h"
 
-#include <Carbon/Carbon.h>
-#include "MoreUNIX.h"
-#include "MoreSecurity.h"
-#include "MoreCFQ.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <fcntl.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <sys/param.h>
+#include <sys/socket.h>
+#include <sys/mount.h>
+
+#import "MoreSecurity.h"
 
 
 #pragma options align=mac68k
@@ -728,12 +731,9 @@ static NSString *tempFileName(NSString *origPath) {
     NSLog(@"NSDocument failed to write. Use the force.");
 
     OSStatus err;
-    CFURLRef tool;
-    CFDictionaryRef response;
-    AuthorizationRef auth;
-    
-    tool = NULL;
-    response = NULL;
+    CFURLRef tool = NULL;
+    CFDictionaryRef response = NULL;
+    AuthorizationRef auth = NULL;
     
     err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
     if (err == noErr) {
@@ -741,59 +741,60 @@ static NSString *tempFileName(NSString *origPath) {
     }
     
     // Find our helper tool, possibly restoring it from the template.
-	
-    if (err == noErr) {
-        err = MoreSecCopyHelperToolURLAndCheckBundled(
-			CFBundleGetMainBundle(), 
-			CFSTR("SEEHelperTemplate"), 
-			kApplicationSupportFolderType, 
-			CFSTR("SubEthaEdit"), 
-			CFSTR("SEEHelper"), 
-			&tool);
-                        
-        // If the home directory is on an volume that doesn't support 
-        // setuid root helper tools, ask the user whether they want to use 
-        // a temporary tool.
-		
-        if (err == kMoreSecFolderInappropriateErr) {
-            // Asking the user? Well, not really ;-)
-            err = MoreSecCopyHelperToolURLAndCheckBundled(
-                            CFBundleGetMainBundle(), 
-                            CFSTR("SEEHelperTemplate"), 
-                            kTemporaryFolderType, 
-                            CFSTR("SubEthaEdit"), 
-                            CFSTR("SEEHelper"), 
-                            &tool);
-        }
-    }
-    
-    if (err != noErr) {
-        return NO;
-    }
-    
-    
-    NSString *intermediateFileNameToSave;
-    NSString *actualFileNameToSave = [fullDocumentPath stringByResolvingSymlinksInPath]; // Follow links to save
-    NSDictionary *curAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:actualFileNameToSave traverseLink:YES];
 
-    // Determine name of intermediate file
-    if (curAttributes) {
-        // Create a unique path in a temporary location.
-        intermediateFileNameToSave = tempFileName(actualFileNameToSave);
-    } else {    // No existing file, just write the final destination
-        intermediateFileNameToSave = actualFileNameToSave;
+    if (err == noErr) {
+        err = MoreSecCopyHelperToolURLAndCheckBundled(CFBundleGetMainBundle(), 
+                                                      CFSTR("SEEHelperTemplate"), 
+                                                      kApplicationSupportFolderType,
+                                                      CFSTR("SubEthaEdit"),
+                                                      CFSTR("SEEHelper"), 
+                                                      &tool);
     }
     
-    // use the force to get a root-enabled file descriptor
-    NSDictionary *request = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        @"GetFileDescriptor", @"CommandName",
-                                        intermediateFileNameToSave, @"FileName",
-                                        nil];
+    // If the home directory is on an volume that doesn't support 
+    // setuid root helper tools, ask the user whether they want to use 
+    // a temporary tool.
+
+    if (err == kMoreSecFolderInappropriateErr) {
+        // Ask the user? Well, not really ;-)
+        err = MoreSecCopyHelperToolURLAndCheckBundled(CFBundleGetMainBundle(), 
+                                                      CFSTR("SEEHelperTemplate"), 
+                                                      kTemporaryFolderType,
+                                                      CFSTR("SubEthaEdit"),
+                                                      CFSTR("SEEHelper"), 
+                                                      &tool);        
+    }
     
-    // Go go gadget helper tool!
-    err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, &response);
+    NSDictionary *curAttributes = nil;
+    
     if (err == noErr) {
-        CFShow(response);
+
+        NSString *intermediateFileNameToSave;
+        NSString *actualFileNameToSave = [fullDocumentPath stringByResolvingSymlinksInPath]; // Follow links to save
+        curAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:actualFileNameToSave traverseLink:YES];
+
+        // Determine name of intermediate file
+        if (curAttributes) {
+            // Create a unique path in a temporary location.
+            intermediateFileNameToSave = tempFileName(actualFileNameToSave);
+        } else {    // No existing file, just write the final destination
+            intermediateFileNameToSave = actualFileNameToSave;
+        }
+        
+        // use the force to get a root-enabled file descriptor
+        NSDictionary *request = [NSDictionary dictionaryWithObjectsAndKeys:
+                                            @"GetFileDescriptor", @"CommandName",
+                                            intermediateFileNameToSave, @"FileName",
+                                            nil];
+        
+
+    
+        // Go go gadget helper tool!    
+        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, &response);
+    }
+    
+    if (err == noErr) {
+        NSLog(@"response: %@", (NSDictionary *)response);
         err = MoreSecGetErrorFromResponse(response);
         if (err == noErr) {
             NSArray *descArray = [(NSDictionary *)response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
@@ -809,7 +810,7 @@ static NSString *tempFileName(NSString *origPath) {
                 close(desc);
             }
         }
-    }
+    } 
     
     // set attributes
     
@@ -819,6 +820,12 @@ static NSString *tempFileName(NSString *origPath) {
         //   use the force to remove intermediate file
         // if exchange files
         //   use the force to rename intermediate file over actual file
+    }
+    
+    CFRelease(tool);
+    CFRelease(response);
+    if (auth != NULL) {
+        AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
     }
     
     return NO;
