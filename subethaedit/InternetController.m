@@ -10,6 +10,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserManager.h"
 #import "TCMHost.h"
+#import "TCMMMPresenceManager.h"
 
 
 @implementation InternetController
@@ -39,7 +40,15 @@
     NSLog(@"connect to peer: %@", address);
 
     TCMHost *host = [[TCMHost hostWithName:address] retain];
+    [host setDelegate:self];
     [host resolve];
+}
+
+#pragma mark -
+
+- (void)hostDidResolveAddress:(TCMHost *)sender
+{
+    [[TCMMMPresenceManager sharedInstance] connectToHost:sender sender:self];
 }
 
 @end

@@ -87,7 +87,16 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         Boolean hasBeenResolved;
         CFArrayRef addressArray = CFHostGetAddressing(host, &hasBeenResolved);
         NSLog(@"hasBeenResolved: %@", (hasBeenResolved ? @"YES" : @"NO"));
-        NSLog(@"addresses: %@", [(NSArray *)addressArray description]);
+        NSEnumerator *addresses = [(NSArray *)addressArray objectEnumerator];
+        NSData *address;
+        while ((address = [addresses nextObject])) {
+            NSLog(@"resolved address: %@", [NSString stringWithAddressData:address]);
+            [I_addresses addObject:address];
+        }
+        id delegate = [self delegate];
+        if ([delegate respondsToSelector:@selector(hostDidResolveAddress:)]) {
+            [delegate hostDidResolveAddress:self];
+        }
     } else if (typeInfo == kCFHostReachability) {
         
     }

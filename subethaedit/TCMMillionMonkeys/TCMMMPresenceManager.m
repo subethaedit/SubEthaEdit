@@ -81,8 +81,8 @@ static TCMMMPresenceManager *sharedInstance = nil;
 
 - (void)statusConnectToNetService:(NSNetService *)aNetService userID:(NSString *)aUserID sender:(id)aSender
 {
-    DEBUGLOG(@"Presence",5,@"netservice: %@",aNetService);
-    NSMutableDictionary *statusOfUserID=[self statusOfUserID:aUserID];
+    DEBUGLOG(@"Presence", 5, @"netservice: %@", aNetService);
+    NSMutableDictionary *statusOfUserID = [self statusOfUserID:aUserID];
     
     if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"NoStatus"]) {
         // machen
@@ -92,6 +92,14 @@ static TCMMMPresenceManager *sharedInstance = nil;
     } else {
         // warten
     }
+}
+
+- (void)connectToHost:(TCMHost *)aHost sender:(id)aSender
+{
+    DEBUGLOG(@"Presence", 5, @"host: %@", aHost);
+    DEBUGLOG(@"Presence", 5, @"foo");
+    // save aHost somewhere
+    // connect to host
 }
 
 #pragma mark -

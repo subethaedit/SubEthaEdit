@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class TCMMMStatusProfile;
+@class TCMMMStatusProfile, TCMHost;
 
-@interface TCMMMPresenceManager : NSObject {
+@interface TCMMMPresenceManager : NSObject
+{
     NSNetService *I_netService;
     NSMutableDictionary *I_statusOfUserIDs;
     NSMutableDictionary *I_statusProfilesInServerRole;
@@ -24,6 +25,7 @@
 + (TCMMMPresenceManager *)sharedInstance;
 
 - (void)statusConnectToNetService:(NSNetService *)aNetService userID:(NSString *)userID sender:(id)aSender;
+- (void)connectToHost:(TCMHost *)aHost sender:(id)aSender;
 
 - (void)setVisible:(BOOL)aFlag;
 
