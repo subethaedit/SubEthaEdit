@@ -88,6 +88,17 @@
 						<cocoa method="attachments"/>
 					</element> -->
 				</elements>
+                <properties>
+					<property name="color" code="colr" type="color" access="r" description="The color of the first character.">
+						<cocoa method="foregroundColor"/>
+					</property>
+					<property name="font" code="font" type="string" access="r" description="The name of the font of the first character.">
+						<cocoa method="fontName"/>
+					</property>
+					<!-- <property name="size" code="ptsz" type="number" description="The size in points of the first character.">
+						<cocoa method="fontSize"/>
+					</property> -->
+				</properties>
 			</class>
             <class name="paragraph" code="cpar" inherits="text" description="This subdivides the text into paragraphs.">
 				<cocoa class="TextStorage"/>
