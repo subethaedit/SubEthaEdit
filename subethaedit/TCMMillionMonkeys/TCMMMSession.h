@@ -81,6 +81,7 @@ typedef enum TCMMMSessionAccessState {
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession;
 - (void)cancelJoin;
 - (void)leave;
+- (void)abandon;
 - (void)inviteUserWithID:(NSString *)aUserID;
 
 - (void)joinRequestWithProfile:(SessionProfile *)profile;

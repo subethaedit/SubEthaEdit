@@ -691,11 +691,13 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     
     [self TCM_sendODBCloseEvent];
 
+    [I_session setDocument:nil];
+
     if (![I_session isServer]) {
         [I_session leave];
+    } else {
+        [I_session abandon];
     }
-
-    [I_session setDocument:nil];
 
     [I_symbolUpdateTimer release];
     [I_webPreviewDelayedRefreshTimer release];
@@ -705,7 +707,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [I_textStorage release];
     [I_webPreviewWindowController release];
     [I_documentProxyWindowController release];
-    [I_session release];
+    //[I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
     [I_blockeditAttributes release];

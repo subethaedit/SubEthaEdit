@@ -53,7 +53,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 - (void)TCM_sendParticipantsDidChangeNotification {
     [[NSNotificationQueue defaultQueue] 
     enqueueNotification:[NSNotification notificationWithName:TCMMMSessionParticipantsDidChangeNotification object:self]
-           postingStyle:NSPostWhenIdle 
+           postingStyle:NSPostWhenIdle
            coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
@@ -238,6 +238,12 @@ NSString * const TCMMMSessionDidChangeNotification =
 
 - (void)setAccessState:(TCMMMSessionAccessState)aState {
     I_accessState=aState;
+    if (aState != TCMMMSessionAccessLockedState) {
+        if ([I_pendingUsers count]) {
+            [self setGroup:aState==TCMMMSessionAccessReadWriteState?@"ReadWrite":@"ReadOnly"
+                  forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
+        }
+    }
     [self TCM_sendSessionDidChangeNotification];
 }
 
@@ -408,6 +414,13 @@ NSString * const TCMMMSessionDidChangeNotification =
     }
 }
 
+- (void)abandon {
+    NSMutableSet *userIDs=[NSMutableSet setWithArray:[I_groupByUserID allKeys]];
+    [userIDs removeObject:[TCMMMUserManager myUserID]];
+    [self setGroup:@"PoofGroup" forParticipantsWithUserIDs:[userIDs allObjects]];
+    [self setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
+}
+
 - (void)inviteUserWithID:(NSString *)aUserID
 {
     // merk invited userID
@@ -501,8 +514,13 @@ NSString * const TCMMMSessionDidChangeNotification =
     
     // if no autojoin add user to pending users and notify 
     [I_pendingUsers addObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
-    [[NSSound soundNamed:@"Knock"] play];
+    if ([self accessState]!=TCMMMSessionAccessLockedState) {
+        [self setGroup:[self accessState]==TCMMMSessionAccessReadWriteState?@"ReadWrite":@"ReadOnly"
+              forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers count]-1]];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+        [[NSSound soundNamed:@"Knock"] play];
+    }
 }
 
 - (void)invitationWithProfile:(SessionProfile *)profile
