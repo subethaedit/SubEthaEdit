@@ -994,6 +994,10 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [self addWindowController:[[PlainTextWindowController new] autorelease]];
 }
 
+- (BOOL)isProxyDocument {
+    return ((I_documentProxyWindowController != nil) || I_flags.isReceivingContent);
+}
+
 - (void)makeProxyWindowController {
     I_documentProxyWindowController = 
         [[DocumentProxyWindowController alloc] initWithSession:[self session]];
@@ -1552,7 +1556,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     SEL selector=[anItem action];
     if (selector==@selector(toggleSyntaxHighlighting:)) {
         [anItem setState:(I_flags.highlightSyntax?NSOnState:NSOffState)];
-        return !I_flags.isReceivingContent;
+        return ![self isProxyDocument];
     } else if (selector == @selector(chooseLineEndings:)) {
         if ([self lineEnding] == [anItem tag]) {
             [anItem setState:NSOnState];
@@ -1561,7 +1565,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     } else if (selector == @selector(convertLineEndings:)) {
         NSStringEncoding encoding=[self fileEncoding];
-        return (!I_flags.isReceivingContent && 
+        return (![self isProxyDocument] && 
                 ([anItem tag]<LineEndingUnicodeLineSeparator ||
                 encoding==NSUnicodeStringEncoding ||
                 encoding==NSUTF8StringEncoding ||
@@ -1573,7 +1577,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [anItem setState:NSOffState];
         }
         TCMMMSession *session=[self session];
-        return (!I_flags.isReceivingContent && [session isServer] && [session participantCount]<=1);
+        return (![self isProxyDocument] && [session isServer] && [session participantCount]<=1);
     } else if (selector == @selector(chooseMode:)) {
         DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
         NSString *identifier=[modeManager documentModeIdentifierForTag:[anItem tag]];
@@ -1582,25 +1586,43 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         } else {
             [anItem setState:NSOffState];
         }
-        return (!I_flags.isReceivingContent);
+        return ![self isProxyDocument];
     } else if (selector == @selector(toggleUsesTabs:)) {
         [anItem setState:(I_flags.usesTabs?NSOnState:NSOffState)];
-        return (!I_flags.isReceivingContent);
+        return ![self isProxyDocument];
     } else if (selector == @selector(selectWrapMode:)) {
         [anItem setState:(I_flags.wrapMode==[anItem tag]?NSOnState:NSOffState)];
-        return (!I_flags.isReceivingContent);
+        return ![self isProxyDocument];
     } else if (selector == @selector(toggleIndentNewLines:)) {
         [anItem setState:(I_flags.indentNewLines?NSOnState:NSOffState)];
-        return YES;
+        return ![self isProxyDocument];
     } else if (selector == @selector(changeTabWidth:)) {
         [anItem setState:(I_tabWidth==[[anItem title]intValue]?NSOnState:NSOffState)];
-        return (!I_flags.isReceivingContent);
+        return ![self isProxyDocument];
     } else if (selector == @selector(toggleIsAnnounced:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
                          NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
         return [[self session] isServer];
-    } 
+    } else if (selector == @selector(saveDocument:)) {
+        return ![self isProxyDocument];
+    } else if (selector == @selector(saveDocumentAs:)) {
+        return ![self isProxyDocument];
+    } else if (selector == @selector(saveDocumentTo:)) {
+        return ![self isProxyDocument];
+    } else if (selector == @selector(printDocument:)) {
+        return ![self isProxyDocument];
+    } else if (selector == @selector(runPageLayout:)) {
+        return ![self isProxyDocument];
+    } else if (selector == @selector(showWebPreview:)) {
+        return ![self isProxyDocument];
+    } else if (selector == @selector(newView:)) {
+        return ![self isProxyDocument];
+    } else if (selector == @selector(refreshWebPreview:)) {
+        return ![self isProxyDocument];
+    } else if (selector == @selector(clearChangeMarks:)) {
+        return ![self isProxyDocument];
+    }
     
 //    if (selector==@selector(undo:)) {
 //        return [[self documentUndoManager] canUndo];

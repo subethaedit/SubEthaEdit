@@ -108,6 +108,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 - (IBAction)newView:(id)aSender;
 
+- (BOOL)isProxyDocument;
 - (void)makeProxyWindowController;
 - (void)killProxyWindowController;
 - (void)proxyWindowWillClose;

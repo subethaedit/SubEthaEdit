@@ -59,6 +59,7 @@
 
 - (void)dealloc {
     [I_newGroup release];
+    [I_user release];
     [super dealloc];
 }
 
