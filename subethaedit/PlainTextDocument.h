@@ -215,7 +215,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setEditAnyway:(BOOL)aFlag;
 - (BOOL)isContinuousSpellCheckingEnabled;
 - (void)setContinuousSpellCheckingEnabled:(BOOL)aFlag;
-
+- (BOOL)isReceivingContent;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

@@ -2251,6 +2251,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
+- (BOOL)isReceivingContent {
+    return I_flags.isReceivingContent;
+}
 
 #pragma mark -
 
@@ -2336,7 +2339,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [self setKeepDocumentVersion:YES];
         } else if (returnCode == NSAlertSecondButtonReturn) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-            #warning "Fix revert for collaboration mode"
             BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
             if (successful) {
                 [self updateChangeCount:NSChangeCleared];

@@ -975,12 +975,17 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         if (state==[I_statesByClientID objectForKey:peerUserID]) {
             [I_statesByClientID removeObjectForKey:peerUserID];
         }
+        if ([(PlainTextDocument *)[self document] isReceivingContent]) {
+            [[self document] sessionDidLoseConnection:self];
+        }
         [state setClient:nil];
     } else if (![self isServer]) {
         if ([self clientState]==TCMMMSessionClientInvitedState) {
             [[self document] sessionDidCancelInvitation:self];
         } else if ([self clientState]==TCMMMSessionClientJoiningState) {
             [[self document] sessionDidDenyJoinRequest:self];
+        } else {
+            [[self document] sessionDidLoseConnection:self];
         }
         [self setClientState:TCMMMSessionClientNoState];
     }
