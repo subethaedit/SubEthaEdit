@@ -17,6 +17,7 @@
 #import "DocumentProxyWindowController.h"
 #import "UndoManager.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "PrintPreferences.h"
 
 
 #import "DocumentModeManager.h"
@@ -206,20 +207,22 @@ static NSString *tempFileName(NSString *origPath) {
     [self setUndoManager:nil];
     I_rangesToInvalidate = [NSMutableArray new];
     I_findAllControllers = [NSMutableArray new];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_webPreviewRefreshNotification:)
+    NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(TCM_webPreviewRefreshNotification:)
         name:PlainTextDocumentRefreshWebPreviewNotification object:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performHighlightSyntax)
+    [center addObserver:self selector:@selector(performHighlightSyntax)
         name:PlainTextDocumentSyntaxColorizeNotification object:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self
+    [center addObserver:self
                                              selector:@selector(applicationDidBecomeActive:)
                                                  name:NSApplicationDidBecomeActiveNotification
                                                object:NSApp];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(executeInvalidateLayout:)
+    [center addObserver:self selector:@selector(executeInvalidateLayout:)
         name:PlainTextDocumentInvalidateLayoutNotification object:self];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userWillLeaveSession:) name:TCMMMUserWillLeaveSessionNotification object:nil];
+    [center addObserver:self selector:@selector(userWillLeaveSession:) name:TCMMMUserWillLeaveSessionNotification object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateViewBecauseOfPreferences:) name:GeneralViewPreferencesDidChangeNotificiation object:nil];
+    [center addObserver:self selector:@selector(updateViewBecauseOfPreferences:) name:GeneralViewPreferencesDidChangeNotificiation object:nil];
+    [center addObserver:self selector:@selector(printPreferencesDidChange:) name:PrintPreferencesDidChangeNotification object:nil];
 
     I_blockeditTextView=nil;
 
@@ -250,6 +253,22 @@ static NSString *tempFileName(NSString *origPath) {
     while ((controller=[wcs nextObject])) {
         [controller synchronizeWindowTitleWithDocumentName];
         [controller refreshDisplay];
+    }
+}
+
+- (void)printPreferencesDidChange:(NSNotification *)aNotification {
+    if ([[aNotification object] isEqualTo:[self documentMode]]) {
+        NSPrintInfo *printInfo=[self printInfo];
+        NSPrintInfo *defaultPrintInfo=[NSKeyedUnarchiver unarchiveObjectWithData:[[self documentMode] defaultForKey:DocumentModePrintInfoPreferenceKey]];
+        NSEnumerator *keyPaths=[[PrintPreferences relevantPrintOptionKeys] objectEnumerator];
+        NSString     *keyPath=nil;
+        while ((keyPath=[keyPaths nextObject])) {
+            id value=[[defaultPrintInfo dictionary] objectForKey:keyPath];
+            if (value) {
+                [[printInfo dictionary] setObject:value forKey:keyPath];
+            }
+        }
+        [self setPrintInfo:printInfo];
     }
 }
 

@@ -138,11 +138,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 NSStringEncoding encoding = [encodingNumber unsignedIntValue];
                 [[EncodingManager sharedInstance] registerEncoding:encoding];
             }
-            // retrofit preferences for pre 2.1
-            if (![dictionary objectForKey:DocumentModeUseDefaultPrintPreferenceKey]) {
-                [I_defaults setObject:[NSNumber numberWithBool:YES] 
-                               forKey:DocumentModeUseDefaultPrintPreferenceKey];
-            }
         } else {
             I_defaults = [NSMutableDictionary new];
             [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
@@ -232,6 +227,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 [printInfo setBottomMargin:1.0*cmToPoints];
                 [I_defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:printInfo]
                                forKey:DocumentModePrintInfoPreferenceKey];
+            }
+        } else {
+            if (![I_defaults objectForKey:DocumentModeUseDefaultPrintPreferenceKey]) {
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultPrintPreferenceKey];
             }
         }
 
@@ -323,7 +323,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     if (![self isBaseMode]) {
         NSString *defaultKey=[defaultablePreferenceKeys objectForKey:aKey];
         if (!defaultKey || ![[I_defaults objectForKey:defaultKey] boolValue]) {
-            return [I_defaults objectForKey:aKey];
+            id result=[I_defaults objectForKey:aKey];
+            return result?result:[defaultDefaults objectForKey:aKey];
         }
     }
     return [defaultDefaults objectForKey:aKey];

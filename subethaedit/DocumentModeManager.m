@@ -103,6 +103,10 @@
     return sharedInstance;
 }
 
++ (DocumentMode *)baseMode {
+    return [[DocumentModeManager sharedInstance] baseMode];
+}
+
 - (id)init {
     self = [super init];
     if (self) {

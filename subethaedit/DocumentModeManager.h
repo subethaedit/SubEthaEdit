@@ -39,6 +39,7 @@
 }
 
 + (DocumentModeManager *)sharedInstance;
++ (DocumentMode *)baseMode;
 
 - (DocumentMode *)baseMode;
 - (DocumentMode *)modeForNewDocuments;

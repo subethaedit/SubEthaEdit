@@ -10,6 +10,8 @@
 
 #import "TCMPreferenceModule.h"
 
+extern NSString * PrintPreferencesDidChangeNotification;
+
 @class DocumentModePopUpButton;
 @class DocumentMode;
 
@@ -24,6 +26,7 @@
     
     DocumentMode *I_currentMode;
     NSMutableDictionary  *I_printDictionary;
+    NSMutableDictionary  *I_defaultModeDictionary;
 }
 
 + (NSArray *)relevantPrintOptionKeys;

@@ -44,6 +44,7 @@ extern NSString * const DocumentModeHTMLExportShowParticipantsPreferenceKey;
 extern NSString * const DocumentModeHTMLExportShowUserImagesPreferenceKey  ;
 extern NSString * const DocumentModeHTMLExportShowVisitorsPreferenceKey    ;
 extern NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey ;
+extern NSString * const DocumentModeUseDefaultPrintPreferenceKey;
 
 @class SyntaxHighlighter;
 @class RegexSymbolParser;

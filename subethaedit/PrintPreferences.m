@@ -10,6 +10,8 @@
 #import "DocumentMode.h"
 #import "DocumentModeManager.h"
 
+NSString * PrintPreferencesDidChangeNotification=@"PrintPreferencesDidChangeNotification";
+
 @implementation PrintPreferences
 static NSArray *S_relevantPrintOptionKeys=nil;
 
@@ -30,14 +32,19 @@ static NSArray *S_relevantPrintOptionKeys=nil;
     return S_relevantPrintOptionKeys;
 }
 
-// - (id)init {
-//     self=[super init];
-//     if (self) {
-//         I_currentMode=nil;
-//         I_printInfo=nil;
-//     }
-//     return self;
-// }
+- (id)init {
+    self=[super init];
+    if (self) {
+        I_defaultModeDictionary=[NSMutableDictionary new];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [I_printDictionary release];
+    [I_defaultModeDictionary release];
+    [super dealloc];
+}
 
 - (NSImage *)icon {
     return [NSImage imageNamed:@"PrintPrefs"];
@@ -53,6 +60,31 @@ static NSArray *S_relevantPrintOptionKeys=nil;
 
 - (NSString *)mainNibName {
     return @"PrintPrefs";
+}
+
+- (void)setSubviewsOfView:(NSView *)aView enabled:(BOOL)aBool {
+    id subview=nil;
+    NSEnumerator *subviews=[[aView subviews] objectEnumerator];
+    while ((subview=[subviews nextObject])) {
+        if ([subview respondsToSelector:@selector(setEnabled:)]) {
+            [subview setEnabled:aBool];
+        } else {
+            [self setSubviewsOfView:subview enabled:aBool];
+        }
+    }
+}
+
+- (void)validateDefaultState {
+    if ([[I_currentMode defaultForKey:DocumentModeUseDefaultPrintPreferenceKey] boolValue]) {
+        [I_defaultModeDictionary removeAllObjects];
+        [I_defaultModeDictionary setDictionary:[[NSKeyedUnarchiver unarchiveObjectWithData:[[DocumentModeManager baseMode] defaultForKey:DocumentModePrintInfoPreferenceKey]] dictionary]];
+        [O_printOptionController setContent:I_defaultModeDictionary];
+        [self setSubviewsOfView:O_printOptionView enabled:NO];
+    } else{
+        [self setSubviewsOfView:O_printOptionView enabled:YES];
+        [O_printOptionController setContent:I_printDictionary];
+    }
+    
 }
 
 static NSString *S_measurementUnits;
@@ -92,12 +124,15 @@ static NSString *S_measurementUnits;
         [myDictionary   removeObserver:self forKeyPath:keyPath];
         [I_printDictionary addObserver:self forKeyPath:keyPath options:NULL context:nil];
     }
-    [O_printOptionController setContent:I_printDictionary];
+    [O_printOptionController setContent:nil];
     I_currentMode=newMode;
+    [O_defaultButton setHidden:[I_currentMode isBaseMode]];
+    [O_defaultButton setState:[[I_currentMode defaultForKey:DocumentModeUseDefaultPrintPreferenceKey] boolValue]?NSOnState:NSOffState];
+    [self validateDefaultState];
 }
 
 - (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)anObject change:(NSDictionary *)aChange context:(void *)aContext {
-    DEBUGLOG(@"Blah",AlwaysLogLevel,@"%@ %@ %@",aKeyPath,anObject,aChange);
+//    DEBUGLOG(@"Blah",AlwaysLogLevel,@"%@ %@ %@",aKeyPath,anObject,aChange);
     NSPrintInfo *printInfo=[NSKeyedUnarchiver unarchiveObjectWithData:[I_currentMode defaultForKey:DocumentModePrintInfoPreferenceKey]];
     NSEnumerator *keyPaths=[[PrintPreferences relevantPrintOptionKeys] objectEnumerator];
     NSString     *keyPath=nil;
@@ -109,6 +144,7 @@ static NSString *S_measurementUnits;
     }
     [[I_currentMode defaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:printInfo] 
                                  forKey:DocumentModePrintInfoPreferenceKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:PrintPreferencesDidChangeNotification object:I_currentMode];
 }
 
 - (IBAction)changeFontViaPanel:(id)sender {
@@ -123,18 +159,20 @@ static NSString *S_measurementUnits;
 }
 
 - (void)changeFont:(id)aSender {
-    NSFont *newFont = [aSender convertFont:[NSFont systemFontOfSize:0.]];
-    NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-    [dict setObject:[newFont fontName] 
-             forKey:NSFontNameAttribute];
-    [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
-             forKey:NSFontSizeAttribute];
-    [[O_printOptionController content] setValue:dict forKeyPath:@"SEEFontAttributes"];
-    // meaningless ugly content update triggering of controller layer bullshit
+    if (![[I_currentMode defaultForKey:DocumentModeUseDefaultPrintPreferenceKey] boolValue]) {
+        NSFont *newFont = [aSender convertFont:[NSFont systemFontOfSize:0.]];
+        NSMutableDictionary *dict=[NSMutableDictionary dictionary];
+        [dict setObject:[newFont fontName] 
+                 forKey:NSFontNameAttribute];
+        [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
+                 forKey:NSFontSizeAttribute];
+        [[O_printOptionController content] setValue:dict forKeyPath:@"SEEFontAttributes"];
+    }
 }
 
 - (IBAction)changeUseDefault:(id)aSender {
-
+    [[I_currentMode defaults] setObject:[NSNumber numberWithBool:[aSender state]==NSOnState] forKey:DocumentModeUseDefaultPrintPreferenceKey];
+    [self validateDefaultState];
 }
 
 @end

@@ -325,7 +325,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                 // try to fit all on the page
                 NSPoint cursor=NSMakePoint(0., 0.);
                 while (YES) {
-                    BOOL columnHadContributors;
+                    BOOL columnHadContributors=NO;
                     if (contributorCount>0) {
                         if (cursor.x+I_measures.contributorWidth>maxSize.width && cursor.x>0) {
                             // rest of page not wide enough
@@ -697,7 +697,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
             NSPoint cursor=origin;
             // fill as many legend items in there as you can!
             while (YES) {
-                BOOL columnHadContributors;
+                BOOL columnHadContributors=NO;
                 if (I_contributorIndex<I_contributorCount) {
                     float tableWidth=I_measures.contributorWidth;
                     if (cursor.x+tableWidth>maxSize.width && cursor.x>origin.x) {
