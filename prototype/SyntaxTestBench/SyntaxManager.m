@@ -7,7 +7,8 @@
 //
 
 #import "SyntaxManager.h"
-#import "SyntaxHighlighter.h"
+#import "SEESyntaxHighlighter.h"
+#import "DOMSyntaxHighlighter.h"
 
 static SyntaxManager *sharedInstance;
 
@@ -27,6 +28,8 @@ static SyntaxManager *sharedInstance;
     self=[super init];
     if (self) {
         [self reloadSyntaxDefinitions];
+//        I_highlighterClass = [SEESyntaxHighlighter class];
+        I_highlighterClass = [DOMSyntaxHighlighter class];
     }
     return self;
 }
@@ -114,5 +117,14 @@ static SyntaxManager *sharedInstance;
     }
     return nil;
 }
+
+- (NSObject <SyntaxHighlighter>*)syntaxHighlighterForExtension:(NSString *)anExtension {
+    return [[I_highlighterClass alloc] initWithFile:[self syntaxDefinitionForExtension:anExtension]];
+}
+
+- (NSObject <SyntaxHighlighter>*)syntaxHighlighterForName:(NSString *)aName {
+    return [[I_highlighterClass alloc] initWithFile:[self syntaxDefinitionForName:aName]];
+}
+
 
 @end

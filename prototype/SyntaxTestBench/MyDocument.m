@@ -205,15 +205,11 @@ NSString * const TextDocumentSyntaxColorizeNotification=@"TextDocumentSyntaxColo
 - (void)setSyntaxName:(NSString *)aSyntaxName {
     [I_syntaxName autorelease];
     I_syntaxName=[aSyntaxName copy];
-    NSString *syntaxFile=[[SyntaxManager sharedInstance] syntaxDefinitionForName:I_syntaxName];
     [[NSRunLoop currentRunLoop] cancelPerformSelectorsWithTarget:self];
     [I_syntaxHighlighter cleanup:[I_textView textStorage]];
     [I_syntaxHighlighter release];
-    if (syntaxFile) {
-        I_syntaxHighlighter=[[SyntaxHighlighter alloc] initWithFile:syntaxFile];
-    } else {
-        I_syntaxHighlighter=nil;
-    }   
+    
+    I_syntaxHighlighter=[[SyntaxManager sharedInstance] syntaxHighlighterForName:I_syntaxName];
 //    I_flags.symbolListNeedsUpdate=YES; 
 }
 
@@ -334,8 +330,23 @@ NSString * const TextDocumentSyntaxColorizeNotification=@"TextDocumentSyntaxColo
     
     int i;
     double totaltime=0;
-    for(i=0;i<10;i++) {
+    for(i=0;i<5;i++) {
         [self readFromFile:[[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Tests/"] stringByAppendingPathComponent:[aSender title]] ofType:@"DocumentType"];
+        totaltime+=lasttime;
+    }
+
+    for(i=0;i<5;i++) {
+        struct timeval begin, end;
+        
+        gettimeofday(&begin, NULL); //Start
+
+        [self syntaxColorizeInOneGoInRange:NSMakeRange(0,[I_textStorage length])];
+
+        gettimeofday(&end, NULL); //Ende
+        
+        lasttime = (double)((end.tv_sec - begin.tv_sec)*1000000 + (end.tv_usec-begin.tv_usec))/1000;
+        NSLog(@"Syntax coloring upon recoloring: %f mSecs", lasttime);
+
         totaltime+=lasttime;
     }
     

@@ -85,6 +85,8 @@ prototype/SimpleODOCHandler/main.m -text
 prototype/SimpleODOCHandler/version.plist -text
 prototype/SyntaxTestBench/AppController.h -text
 prototype/SyntaxTestBench/AppController.m -text
+prototype/SyntaxTestBench/DOMSyntaxHighlighter.h -text
+prototype/SyntaxTestBench/DOMSyntaxHighlighter.m -text
 prototype/SyntaxTestBench/English.lproj/InfoPlist.strings -text
 prototype/SyntaxTestBench/English.lproj/MainMenu.nib/classes.nib -text
 prototype/SyntaxTestBench/English.lproj/MainMenu.nib/info.nib -text
@@ -97,6 +99,8 @@ prototype/SyntaxTestBench/LineNumberRulerView.h -text
 prototype/SyntaxTestBench/LineNumberRulerView.m -text
 prototype/SyntaxTestBench/MyDocument.h -text
 prototype/SyntaxTestBench/MyDocument.m -text
+prototype/SyntaxTestBench/SEESyntaxHighlighter.h -text
+prototype/SyntaxTestBench/SEESyntaxHighlighter.m -text
 prototype/SyntaxTestBench/SmallPopUpArrows.tiff -text
 prototype/SyntaxTestBench/SubEthaHighlighter_Prefix.pch -text
 prototype/SyntaxTestBench/Syntax[!!-~]Definitions/c.plist -text
@@ -115,8 +119,6 @@ prototype/SyntaxTestBench/Syntax[!!-~]Definitions/ruby.plist -text
 prototype/SyntaxTestBench/Syntax[!!-~]Definitions/sql.plist -text
 prototype/SyntaxTestBench/Syntax[!!-~]Definitions/tcsh.plist -text
 prototype/SyntaxTestBench/Syntax[!!-~]Definitions/xml.plist -text
-prototype/SyntaxTestBench/SyntaxHighlighter.h -text
-prototype/SyntaxTestBench/SyntaxHighlighter.m -text
 prototype/SyntaxTestBench/SyntaxManager.h -text
 prototype/SyntaxTestBench/SyntaxManager.m -text
 prototype/SyntaxTestBench/SyntaxTestBench.xcode/pittenau.pbxuser -text

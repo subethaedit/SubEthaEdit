@@ -8,13 +8,13 @@
 
 #define chunkSize              		5000
 
-#import "SyntaxHighlighter.h"
+#import "SEESyntaxHighlighter.h"
 #import "SyntaxManager.h"
 #import <regex.h>
 #import <time.h>
 
 
-@interface SyntaxHighlighter (PrivateAdditions) 
+@interface SEESyntaxHighlighter (PrivateAdditions) 
 // Private
 - (regex_t *)regexTPointerForString:(NSString *)aString;
 - (void) colorize:(NSMutableAttributedString*)aString;
@@ -25,7 +25,7 @@
 
 @end
 
-@implementation SyntaxHighlighter
+@implementation SEESyntaxHighlighter
 
 - (id)init{ 		// No Syntax, no Highlight.
     [super dealloc];
@@ -148,7 +148,7 @@
                 //[self colorize:aString inRange:lineRange];
                 [aString removeAttribute:kCommentAttribute range:lineRange];
 
-                [self doMultilines:aString inRange:lineRange];
+                //[self doMultilines:aString inRange:lineRange];
                 
                 unsigned int multilinePosition=lineRange.location;
                 while (multilinePosition<NSMaxRange(lineRange)) {

@@ -8,11 +8,14 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import "SyntaxHighlighter.h"
 #import "SyntaxManager.h"
 #import "LineNumberRulerView.h"
 #import "TextStorage.h"
 #import "TextPopUpControl.h"
+
+#define kInsertedByUserAttribute		@"InsertedByUser"
+#define kHighlightFromUserAttribute		@"HighlightFromUser"
+
 
 @interface MyDocument : NSDocument
 {
@@ -26,7 +29,7 @@
     NSTextContainer *I_textContainer;
     NSMutableDictionary *I_textAttributes; /*"Base text Attributes used by the Highlighter to reset attributation"*/
     NSString *I_syntaxName;
-    SyntaxHighlighter *I_syntaxHighlighter;
+    NSObject <SyntaxHighlighter> *I_syntaxHighlighter;
     struct {
         BOOL colorizeSyntax; /*"Syntax Highlighting on?"*/
         BOOL performingSyntaxColorize; /*"Syntax Highlighting NSTimer Loop on?"*/
