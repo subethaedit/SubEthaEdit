@@ -16,9 +16,17 @@
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "SplitView.h"
+#import "RendezvousBrowserController.h"
 
 NSString * const PlainTextWindowToolbarIdentifier = @"PlainTextWindowToolbarIdentifier";
-NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemIdentifier";
+NSString * const ParticipantsToolbarItemIdentifier = 
+               @"ParticipantsToolbarItemIdentifier";
+NSString * const ShiftLeftToolbarItemIdentifier = 
+               @"ShiftLeftToolbarItemIdentifier";
+NSString * const ShiftRightToolbarItemIdentifier = 
+               @"ShiftRightToolbarItemIdentifier";
+NSString * const RendezvousToolbarItemIdentifier = 
+               @"RendezvousToolbarItemIdentifier";
 
 
 @implementation PlainTextWindowController
@@ -147,6 +155,27 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
         [toolbarItem setImage:[NSImage imageNamed:@"Participants"]];
         [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(toggleParticipantsDrawer:)];
+    } else if ([itemIdent isEqual:RendezvousToolbarItemIdentifier]) { 
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Rendezvous", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Rendezvous", nil)];
+        [toolbarItem setToolTip:NSLocalizedString(@"Open Rendezvous Browser", nil)];
+        [toolbarItem setImage:[NSImage imageNamed: @"Rendezvous"]];
+        [toolbarItem setTarget:[RendezvousBrowserController sharedInstance]];
+        [toolbarItem setAction:@selector(showWindow:)];
+    } else if ([itemIdent isEqual:ShiftRightToolbarItemIdentifier]) {
+        [toolbarItem setToolTip:NSLocalizedString(@"Shift Selection Right", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Shift Right", nil)];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Shift Right", nil)];
+        [toolbarItem setImage:([NSImage imageNamed: @"ShiftRight"])];
+        [toolbarItem setTarget:nil];
+        [toolbarItem setAction:@selector(shiftRight:)];    
+    } else if ([itemIdent isEqual:ShiftLeftToolbarItemIdentifier]) {
+        [toolbarItem setToolTip:NSLocalizedString(@"Shift Selection Left", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Shift Left", nil)];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Shift Left", nil)];
+        [toolbarItem setImage:([NSImage imageNamed: @"ShiftLeft"])];
+        [toolbarItem setTarget:nil];
+        [toolbarItem setAction:@selector(shiftLeft:)];    
     } else {
         toolbarItem = nil;
     }
@@ -156,6 +185,10 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
     return [NSArray arrayWithObjects:
+                RendezvousToolbarItemIdentifier,
+                NSToolbarSeparatorItemIdentifier,
+                ShiftLeftToolbarItemIdentifier,
+                ShiftRightToolbarItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
                 ParticipantsToolbarItemIdentifier,
                 nil];
@@ -163,6 +196,9 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
     return [NSArray arrayWithObjects:
+                RendezvousToolbarItemIdentifier,
+                ShiftLeftToolbarItemIdentifier,
+                ShiftRightToolbarItemIdentifier,
                 ParticipantsToolbarItemIdentifier,
                 NSToolbarPrintItemIdentifier,
                 NSToolbarCustomizeToolbarItemIdentifier,

@@ -528,7 +528,10 @@ subethaedit/artwork/DefaultPerson.tiff -text
 subethaedit/artwork/EditPrefs.tiff -text
 subethaedit/artwork/GeneralPrefs.tiff -text
 subethaedit/artwork/Participants.icns -text
+subethaedit/artwork/Rendezvous.psd -text
 subethaedit/artwork/ScriptMenu.tiff -text
+subethaedit/artwork/ShiftLeft.tiff -text
+subethaedit/artwork/ShiftRight.tiff -text
 subethaedit/artwork/StatusLock.tiff -text
 subethaedit/artwork/StatusReadOnly.tiff -text
 subethaedit/artwork/SubEthaEdit.icns -text

@@ -22,6 +22,8 @@
     NSMutableSet *I_foundUserIDs;
 }
 
++ (RendezvousBrowserController *)sharedInstance;
+
 - (IBAction)setVisibilityByPopUpButton:(id)aSender;
 
 @end

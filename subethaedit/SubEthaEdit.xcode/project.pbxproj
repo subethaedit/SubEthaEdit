@@ -2706,7 +2706,10 @@
 				148892D206186C60005BDDCB,
 				148892CE06186BC3005BDDCB,
 				149A5C1B0600A89C0033510E,
+				5EF3AC50062C5D5E00959FEE,
 				14E3EACA06149C5D0083426B,
+				5EF3AC4C062C5D4100959FEE,
+				5EF3AC4D062C5D4100959FEE,
 				5E96948C0600B6D3006C2AA4,
 				5E96948D0600B6D3006C2AA4,
 				5EEB176805ECDC1600C17677,
@@ -3080,6 +3083,48 @@
 			settings = {
 			};
 		};
+		5EF3AC4C062C5D4100959FEE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = ShiftRight.tiff;
+			path = artwork/ShiftRight.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EF3AC4D062C5D4100959FEE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = ShiftLeft.tiff;
+			path = artwork/ShiftLeft.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EF3AC4E062C5D4100959FEE = {
+			fileRef = 5EF3AC4C062C5D4100959FEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EF3AC4F062C5D4100959FEE = {
+			fileRef = 5EF3AC4D062C5D4100959FEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EF3AC50062C5D5E00959FEE = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = Rendezvous.psd;
+			path = artwork/Rendezvous.psd;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EF3AC51062C5D5E00959FEE = {
+			fileRef = 5EF3AC50062C5D5E00959FEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EF941D90612E31600C2EBFE = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -3301,6 +3346,9 @@
 				14A5B35006218D2700DC3A93,
 				5E0462FA0623270400D94C08,
 				1498F2CA062572650021FF8C,
+				5EF3AC4E062C5D4100959FEE,
+				5EF3AC4F062C5D4100959FEE,
+				5EF3AC51062C5D5E00959FEE,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,7 +11,6 @@
 
 @class ParticipantsView,PlainTextEditor;
 
-
 @interface PlainTextWindowController : NSWindowController {
 
     // praticipants

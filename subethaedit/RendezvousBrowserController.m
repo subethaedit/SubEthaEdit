@@ -11,6 +11,8 @@
 #import "ImagePopUpButtonCell.h"
 
 
+static RendezvousBrowserController *sharedInstance=nil;
+
 @interface RendezvousBrowserController (RendezvousBrowserControllerPrivateAdditions)
 
 - (int)TCM_indexOfItemWithUserID:(NSString *)aUserID;
@@ -20,6 +22,11 @@
 #pragma mark -
 
 @implementation RendezvousBrowserController
+
++ (RendezvousBrowserController *)sharedInstance {
+    return sharedInstance;
+}
+
 - (id)init {
     if ((self=[super initWithWindowNibName:@"RendezvousBrowser"])) {
         I_data=[NSMutableArray new];
@@ -31,6 +38,10 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
     }
     return self;
+}
+
+- (void)awakeFromNib {
+    sharedInstance=self;
 }
 
 - (void)dealloc {
