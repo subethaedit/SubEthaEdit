@@ -304,7 +304,9 @@ enum {
 }
 
 - (IBAction)setVisibilityByMenuItem:(id)aSender {
-    [[TCMMMPresenceManager sharedInstance] setVisible:([aSender tag]==10)];
+    BOOL isVisible = ([aSender tag]==10);
+    [[TCMMMPresenceManager sharedInstance] setVisible:isVisible];
+    [[NSUserDefaults standardUserDefaults] setBool:isVisible forKey:VisibilityPrefKey];
 }
 
 - (void)joinSessionsWithIndexes:(NSIndexSet *)indexes {

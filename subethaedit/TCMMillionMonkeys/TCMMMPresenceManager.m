@@ -147,7 +147,6 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 - (void)setVisible:(BOOL)aFlag
 {
     I_flags.isVisible = aFlag;
-    [[NSUserDefaults standardUserDefaults] setBool:aFlag forKey:VisibilityPrefKey];
     [self TCM_validateServiceAnnouncement];
     NSEnumerator *profiles=[I_statusProfilesInServerRole objectEnumerator];
     TCMMMStatusProfile *profile=nil;

@@ -172,6 +172,38 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		141F8922070C3C7C00DBC8D9 = {
+			explicitFileType = text;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = see.vers;
+			path = see/see.vers;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		141F8924070C3C8800DBC8D9 = {
+			fileRef = 141F8922070C3C7C00DBC8D9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		141F892A070C3C8E00DBC8D9 = {
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.vers";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE)_vers.c",
+			);
+			script = "#!/bin/bash\n\nREV=`/usr/local/bin/svnversion \"$SRCROOT\"`\nsed \"s/#PLACEHOLDER#/$REV/g\" $(INPUT_FILE_PATH) > $(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE)_vers.c\n";
+		};
+		141F8943070C3F8C00DBC8D9 = {
+			fileRef = 145F24DD0709DB61008EF752;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14249EFB05FC826400D8C6B9 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1188,36 +1220,6 @@
 			settings = {
 			};
 		};
-		145F24B50709DA1B008EF752 = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				see/main.m,
-			);
-			isa = PBXShellScriptBuildPhase;
-			outputPaths = (
-				see/main_derived.m,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\nsed \"s/#VERSION#/$REV/g\" see/main.m > see/main_derived.m";
-		};
-		145F24D90709DB32008EF752 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = main_derived.m;
-			path = see/main_derived.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		145F24DA0709DB32008EF752 = {
-			fileRef = 145F24D90709DB32008EF752;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		145F24DD0709DB61008EF752 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2195,7 +2197,7 @@
 		14DC3C2606C3C531000E9E0A = {
 			children = (
 				145F24DD0709DB61008EF752,
-				145F24D90709DB32008EF752,
+				141F8922070C3C7C00DBC8D9,
 				14DC3C3906C3C717000E9E0A,
 			);
 			isa = PBXGroup;
@@ -2207,7 +2209,8 @@
 		14DC3C3106C3C6CB000E9E0A = {
 			buildActionMask = 2147483647;
 			files = (
-				145F24DA0709DB32008EF752,
+				141F8943070C3F8C00DBC8D9,
+				141F8924070C3C8800DBC8D9,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2223,13 +2226,14 @@
 		};
 		14DC3C3306C3C6CB000E9E0A = {
 			buildPhases = (
-				145F24B50709DA1B008EF752,
 				14DC3C3106C3C6CB000E9E0A,
 				14DC3C3206C3C6CB000E9E0A,
 			);
 			buildRules = (
+				141F892A070C3C8E00DBC8D9,
 			);
 			buildSettings = {
+				GCC_PFE_FILE_C_DIALECTS = "objective-c";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INSTALL_PATH = /usr/local/bin;

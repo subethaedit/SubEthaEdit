@@ -11,8 +11,9 @@
 #import <getopt.h>
 #import <stdio.h>
 
-#define TOOL_VERSION_STRING "1.0"
-#define TOOL_VERSION "#VERSION#"
+
+extern const char *gToolVersion;
+extern const char *gToolVersionString;
 
 /*
 
@@ -65,14 +66,14 @@ static void printVersion() {
     NSString *appVersion = @"";
     NSString *appShortVersionString = @"n/a";
     
-    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), NULL, NULL, &appURL); // release appURL
+    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), CFSTR("SubEthaEdit.app"), NULL, &appURL); // release appURL
     if (status == noErr) {
         NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
          appVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
          appShortVersionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     } 
     
-    fprintf(stdout, "see %s (v%s)\n", TOOL_VERSION_STRING, TOOL_VERSION);
+    fprintf(stdout, "see %s (v%s)\n", gToolVersionString, gToolVersion);
     fprintf(stdout, "SubEthaEdit %s (v%s)\n", [appShortVersionString UTF8String], [appVersion UTF8String]);
     fflush(stdout);
     
@@ -87,7 +88,7 @@ static BOOL launchSubEthaEdit(NSDictionary *options) {
     OSStatus status = noErr;
     CFURLRef appURL = NULL;
 
-    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), NULL, NULL, &appURL); // release appURL
+    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), CFSTR("SubEthaEdit.app"), NULL, &appURL); // release appURL
     if (kLSApplicationNotFoundErr == status || appURL == NULL) {
         fprintf(stderr, "see: LaunchServices couldn't find SubEthaEdit.\n");
         fflush(stderr);
@@ -97,9 +98,7 @@ static BOOL launchSubEthaEdit(NSDictionary *options) {
         //NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
         //NSString *bundleVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
         //NSLog(@"Retrieved bundle version of installed SubEthaEdit: %@", bundleVersion);
-        
-        //appURL = (CFURLRef)[NSURL URLWithString:@"file:///Users/Shared/BuildProducts/SubEthaEdit.app"];
-        
+                
         BOOL dontSwitch = [[options objectForKey:@"background"] boolValue];
         
         LSLaunchURLSpec inLaunchSpec;
