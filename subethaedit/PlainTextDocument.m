@@ -1235,9 +1235,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     NSTextStorage *textStorage = [self textStorage];
 
-//    int oldLength = [textStorage length];
-//    [self setIsNew:NO];
-
     // Determine mode
     DocumentMode *mode = nil;
     if (isDocumentFromOpenPanel) {
@@ -1277,9 +1274,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
     }
     
-    //[options setObject:[self plainTextAttributes] forKey:@"DefaultAttributes"];
+    NSData *fileData;
+    NSString *extension = [[fileName pathExtension] lowercaseString];
+    BOOL isHTML = [extension isEqual:@"htm"] || [extension isEqual:@"html"];
+    if (isHTML) {
+        fileData = [[NSData alloc] initWithContentsOfFile:[fileName stringByExpandingTildeInPath]];
+    }
     
     [[textStorage mutableString] setString:@""]; // Empty the document
+    [options setObject:[NSNumber numberWithInt:1] forKey:@"UseWebKit"];
     
     NSURL *fileURL = [NSURL fileURLWithPath:[fileName stringByExpandingTildeInPath]];
     
@@ -1287,7 +1290,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         BOOL success;
         
         [textStorage beginEditing];
-        success = [textStorage readFromURL:fileURL options:options documentAttributes:&docAttrs];
+        if (isHTML) {
+            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs];
+        } else {
+            success = [textStorage readFromURL:fileURL options:options documentAttributes:&docAttrs];
+        }
         [textStorage endEditing];
         
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
@@ -1316,6 +1323,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
     
+    if (isHTML) {
+        [fileData release];
+    }
+    
     [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
     
@@ -1325,36 +1336,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL isWritable = [[NSFileManager defaultManager] isWritableFileAtPath:fileName];
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"isWritable: %@", isWritable ? @"YES" : @"NO");
     [self setIsFileWritable:isWritable];
-    
-    // guess lineEnding and set instance variable
-//    unsigned startIndex = 0;
-//    unsigned lineEndIndex = 0;
-//    unsigned contentsEndIndex = 0;
-//    [[_textStorage string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(0, 0)];
-//    
-//    unsigned length = lineEndIndex - contentsEndIndex;
-//    if (LOGLEVEL(2)) NSLog(@"lineEnding, lineEndIndex: %u, contentsEndIndex: %u, length: %u", lineEndIndex, contentsEndIndex, length);
-//    if (length == 1) {
-//        unichar character = [[_textStorage string] characterAtIndex:contentsEndIndex];
-//        if (character == [@"\n" characterAtIndex:0]) {
-//            [self setLineEnding:LineEndingLF];
-//        } else if (character == [@"\r" characterAtIndex:0]) {
-//            [self setLineEnding:LineEndingCR];
-//        }
-//    } else if (length == 2) {
-//        unichar character1 = [[_textStorage string] characterAtIndex:contentsEndIndex];
-//        unichar character2 = [[_textStorage string] characterAtIndex:contentsEndIndex + 1];
-//        if ((character1 == [@"\r" characterAtIndex:0]) && (character2 == [@"\n" characterAtIndex:0])) {
-//            [self setLineEnding:LineEndingCRLF];
-//        }
-//    }
-//    
-//    if (LOGLEVEL(1)) NSLog(@"lineEnding: %u", [self lineEnding]);
-    
-
-//    if (_colorizeSyntax) {
-//        [self syntaxColorizeInRange:NSMakeRange(0,[_textStorage length])];
-//    }
 
 //    if (oldLength > 0) {
 //        // inform other about revert
