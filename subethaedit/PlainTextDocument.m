@@ -98,6 +98,20 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_initHelper {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performHighlightSyntax)
         name:PlainTextDocumentSyntaxColorizeNotification object:self];
+    // maybe put this into DocumentMode Setting
+    NSString *bracketString=@"{[()]}";
+    I_bracketMatching.numberOfBrackets=3;
+    I_bracketMatching.openingBracketsArray=
+        (unichar *)malloc(sizeof(unichar)*I_bracketMatching.numberOfBrackets);
+    I_bracketMatching.closingBracketsArray=
+        (unichar *)malloc(sizeof(unichar)*I_bracketMatching.numberOfBrackets);
+    int i;
+    for (i=0;i<I_bracketMatching.numberOfBrackets;i++) {
+        I_bracketMatching.openingBracketsArray[i]=[bracketString characterAtIndex:i];
+        I_bracketMatching.closingBracketsArray[i]=[bracketString characterAtIndex:(I_bracketMatching.numberOfBrackets*2-1)-i];
+    }
+    I_flags.showMatchingBrackets=YES;
+    I_bracketMatching.matchingBracketPosition=NSNotFound;
 }
 
 - (void)TCM_sendODBCloseEvent {
@@ -187,6 +201,155 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     }
 }
 
+- (BOOL)TCM_charIsClosingBracket:(unichar)aPossibleBracket {
+    int i;
+    for (i=0;i<I_bracketMatching.numberOfBrackets;i++) {
+        if (aPossibleBracket==I_bracketMatching.closingBracketsArray[i]) 
+            return YES;
+    }
+    return NO;
+}
+
+- (BOOL)TCM_charIsOpeningBracket:(unichar)aPossibleBracket {
+    int i;
+    for (i=0;i<I_bracketMatching.numberOfBrackets;i++) {
+        if (aPossibleBracket==I_bracketMatching.openingBracketsArray[i]) 
+            return YES;
+    }
+    return NO;
+}
+
+- (BOOL)TCM_charIsBracket:(unichar)aPossibleBracket {
+    return ([self TCM_charIsOpeningBracket:aPossibleBracket] ||
+            [self TCM_charIsClosingBracket:aPossibleBracket]);
+}
+
+- (unichar)TCM_matchingBracketForChar:(unichar)bracket {
+    int i;
+    for (i=0;i<I_bracketMatching.numberOfBrackets;i++) {
+        if (bracket==I_bracketMatching.openingBracketsArray[i]) 
+            return I_bracketMatching.closingBracketsArray[i];
+        if (bracket==I_bracketMatching.closingBracketsArray[i]) 
+            return I_bracketMatching.openingBracketsArray[i]; 
+    }
+    return (unichar)0;
+}
+
+#define STACKLIMIT 100
+#define BUFFERSIZE 500
+
+- (unsigned int)TCM_positionOfMatchingBracketToPosition:(unsigned int)position {
+    NSString *aString = [[self textStorage] string];
+    unsigned int result=NSNotFound;
+    unichar possibleBracket=[aString characterAtIndex:position];
+    BOOL forward=YES;
+    if ([self TCM_charIsOpeningBracket:possibleBracket]) {
+        forward=YES;
+    } else if ([self TCM_charIsClosingBracket:possibleBracket]) {
+        forward=NO;
+    } else {
+        return result;
+    }
+    // extra block to only be initialized when thing was a bracket
+    {
+        unichar stack[STACKLIMIT];
+        int stackPosition=0;
+        NSRange searchRange,bufferRange;
+        unichar buffer[BUFFERSIZE];
+        int i;
+        BOOL stop=NO;
+        
+        stack[stackPosition]=[self TCM_matchingBracketForChar:possibleBracket];
+        
+        if (forward) {
+            searchRange=NSMakeRange(position+1,[aString length]-(position+1));
+        } else {
+            searchRange=NSMakeRange(0,position);
+        }
+        while (searchRange.length>0 && !stop) {
+            if (searchRange.length<=BUFFERSIZE) {
+                bufferRange=searchRange;
+            } else {
+                if (forward) {
+                    bufferRange=NSMakeRange(searchRange.location,BUFFERSIZE);
+                } else {
+                    bufferRange=NSMakeRange(NSMaxRange(searchRange)-BUFFERSIZE,BUFFERSIZE);
+                }
+            }
+            [aString getCharacters:buffer range:bufferRange];
+            // go through the buffer
+            if (forward) {
+                for (i=0;i<(int)bufferRange.length && !stop;i++) {
+                    if ([self TCM_charIsOpeningBracket:buffer[i]]) {
+                        if (++stackPosition>=STACKLIMIT) {
+                            stop=YES;
+                        } else {
+                            stack[stackPosition]=[self TCM_matchingBracketForChar:buffer[i]];
+                        }
+                    } else if ([self TCM_charIsClosingBracket:buffer[i]]) {
+                        if (buffer[i]!=stack[stackPosition]) {
+                            stop=YES;
+                        } else {
+                            if (--stackPosition<0) {
+                                result=bufferRange.location+i;
+                                stop=YES;
+                            }
+                        }
+                    }
+                }
+            } else { // backward
+                for (i=bufferRange.length-1;i>=0 && !stop;i--) {
+                    if ([self TCM_charIsClosingBracket:buffer[i]]) {
+                        if (++stackPosition>=STACKLIMIT) {
+                            stop=YES;
+                        } else {
+                            stack[stackPosition]=[self TCM_matchingBracketForChar:buffer[i]];
+                        }
+                    } else if ([self TCM_charIsOpeningBracket:buffer[i]]) {
+                        if (buffer[i]!=stack[stackPosition]) {
+                            NSBeep(); // do it like project builder :-
+                            stop=YES;
+                        } else {
+                            if (--stackPosition<0) {
+                                result=bufferRange.location+i;
+                                stop=YES;
+                            }
+                        }
+                    }
+                }
+            }
+            if (forward) {
+                searchRange.location+=bufferRange.length;
+            }
+            searchRange.length-=bufferRange.length;
+        }
+    }
+    return result;
+}
+
+- (void)TCM_highlightBracketAtPosition:(unsigned)aPosition inTextView:(NSTextView *)aTextView {
+    static NSDictionary *mBracketAttributes=nil;
+    if (!mBracketAttributes) mBracketAttributes=[[NSDictionary dictionaryWithObject:[[NSColor redColor] highlightWithLevel:0.3] 
+                                                    forKey:NSBackgroundColorAttributeName] retain];
+    unsigned int matchingBracketPosition=[self TCM_positionOfMatchingBracketToPosition:aPosition];
+    if (matchingBracketPosition!=NSNotFound) {
+        NSLayoutManager *layoutManager=[aTextView layoutManager];
+        [layoutManager addTemporaryAttributes:mBracketAttributes
+                            forCharacterRange:NSMakeRange(matchingBracketPosition,1)];
+        // Force layout
+        (void)[layoutManager textContainerForGlyphAtIndex:
+                [layoutManager glyphRangeForCharacterRange:NSMakeRange(matchingBracketPosition,1)
+                                      actualCharacterRange:NULL].location effectiveRange:NULL];
+        [aTextView displayIfNeeded];
+        [[aTextView window] flushWindow];
+        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.08]];
+        [layoutManager removeTemporaryAttribute:NSBackgroundColorAttributeName
+                              forCharacterRange:NSMakeRange(matchingBracketPosition,1)];
+    }
+
+}
+
+
 - (id)init {
     self = [super init];
     if (self) {
@@ -240,6 +403,8 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [I_defaultParagraphStyle release];
     [I_fileAttributes release];
     [I_ODBParameters release];
+    free(I_bracketMatching.openingBracketsArray);
+    free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
 }
 
@@ -1168,8 +1333,15 @@ static NSString *tempFileName(NSString *origPath) {
                 [aTextStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
             }
             [self highlightSyntaxInRange:range];
-        }
-        
+        }        
+    }
+
+    if (I_flags.showMatchingBrackets &&
+        ![[self undoManager] isUndoing] && ![[self undoManager] isRedoing] &&
+//        !I_blockedit.isBlockediting && !I_blockedit.didBlockedit &&
+        [aString length]==1 && 
+        [self TCM_charIsBracket:[aString characterAtIndex:0]]) {
+        I_bracketMatching.matchingBracketPosition=aRange.location;
     }
 }
 
@@ -1179,7 +1351,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
     // NSLog(@"TextDocument textView doCommandBySelector:%@",NSStringFromSelector(aSelector));
     NSRange affectedRange=[aTextView rangeForUserTextChange];
-//    NSRange selectedRange=[aTextView selectedRange];
+    NSRange selectedRange=[aTextView selectedRange];
 //    if (aSelector==@selector(cancel:)) {
 //        if (_flags.hasBlockeditRanges) {
 //            [self stopBlockedit];
@@ -1254,23 +1426,65 @@ static NSString *tempFileName(NSString *origPath) {
                                                        withString:@" " startingAtIndex:0];
         [aTextView insertText:replacementString];
         return YES;
-    } 
-//    else if ((aSelector==@selector(moveLeft:) || aSelector==@selector(moveRight:)) &&
-//                [defaults boolForKey:ShowMatchingBracketsPreferenceKey]) {
-//        unsigned int position=0;
-//        if (aSelector==@selector(moveLeft:)) {
-//            position=selectedRange.location-1;        
-//        } else {
-//            position=NSMaxRange(selectedRange);
-//        }
-//        NSString *string=[_textStorage string];
-//        if (position>=0 && position<[_textStorage length] && 
-//            isBracket([string characterAtIndex:position]) ) { 
-//            [self highlightBracketAtPosition:position inTextView:aTextView];
-//        }
-//    }
+    } else if ((aSelector==@selector(moveLeft:) || aSelector==@selector(moveRight:)) &&
+                I_flags.showMatchingBrackets) {
+        unsigned int position=0;
+        if (aSelector==@selector(moveLeft:)) {
+            position=selectedRange.location-1;        
+        } else {
+            position=NSMaxRange(selectedRange);
+        }
+        NSString *string=[[self textStorage] string];
+        if (position>=0 && position<[string length] && 
+            [self TCM_charIsBracket:[string characterAtIndex:position]]) { 
+            [self TCM_highlightBracketAtPosition:position inTextView:aTextView];
+        }
+    }
 //    _flags.controlBlockedit=YES;
     return NO;
+}
+
+- (NSRange)textView:(NSTextView *)aTextView 
+           willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange 
+                                toCharacterRange:(NSRange)aNewSelectedCharRange {
+//    NSTextStorage *textStorage = [aTextView textStorage];
+//    if (!I_blockedit.isBlockediting && I_blockedit.hasBlockeditRanges) {
+//        unsigned positionToCheck=aNewSelectedCharRange.location;
+//        if (positionToCheck<[textStorage length] || positionToCheck!=0) {
+//            if (positionToCheck>=[textStorage length]) positionToCheck--;
+//            NSDictionary *attributes=[textStorage attributesAtIndex:positionToCheck effectiveRange:NULL];
+//            if (![attributes objectForKey:kBlockeditAttributeName]) {
+//                [self stopBlockedit];
+//            }
+//        }
+//    }
+    
+    if (([[NSApp currentEvent] type] == NSLeftMouseUp) && 
+        ([[NSApp currentEvent] clickCount] == 2)) {
+        
+        NSLayoutManager *layoutManager=[aTextView layoutManager];
+        NSPoint point = [aTextView convertPoint:[[NSApp currentEvent] locationInWindow] fromView:nil];
+        point.x -= [aTextView textContainerOrigin].x;
+        point.y -= [aTextView textContainerOrigin].y;
+        unsigned glyphIndex=[layoutManager glyphIndexForPoint:point 
+                                              inTextContainer:[aTextView textContainer]];
+        NSRect    glyphRect=[layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
+                                                     inTextContainer:[aTextView textContainer]];
+        if (NSPointInRect(point, glyphRect)) {
+            // Convert the glyph index to a character index
+            unsigned charIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+            NSString *string=[[self textStorage] string];
+            if ([self TCM_charIsBracket:[string characterAtIndex:charIndex]]) {
+                unsigned matchingPosition=[self TCM_positionOfMatchingBracketToPosition:charIndex];
+                if (matchingPosition!=NSNotFound) {
+                   aNewSelectedCharRange = NSUnionRange(NSMakeRange(charIndex,1),
+                                                        NSMakeRange(matchingPosition,1));
+                }
+            }
+        }
+    }
+
+    return aNewSelectedCharRange;
 }
 
 
@@ -1279,6 +1493,14 @@ static NSString *tempFileName(NSString *origPath) {
         NSRange selectedRange = [(NSTextView *)[aNotification object] selectedRange];
         SelectionOperation *selOp = [SelectionOperation selectionOperationWithRange:selectedRange userID:[TCMMMUserManager myUserID]];
         [[self session] documentDidApplyOperation:selOp];
+    }
+}
+
+- (void)textDidChange:(NSNotification *)aNotification {
+    NSTextView *textView=[aNotification object];
+    if (I_bracketMatching.matchingBracketPosition!=NSNotFound) {
+        [self TCM_highlightBracketAtPosition:I_bracketMatching.matchingBracketPosition inTextView:textView];
+        I_bracketMatching.matchingBracketPosition=NSNotFound;
     }
 }
 

@@ -34,6 +34,7 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowController document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowController document] name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_textView setDelegate:nil];
     [O_editorView release];
@@ -86,6 +87,7 @@
     
 
     [[NSNotificationCenter defaultCenter] addObserver:[I_windowController document] selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] addObserver:[I_windowController document] selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
     NSView *view=[[NSView alloc] initWithFrame:[O_editorView frame]];
     [view setAutoresizesSubviews:YES];
     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -444,6 +446,13 @@
     }
 }
 
+- (NSRange)textView:(NSTextView *)aTextView 
+           willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange 
+                                toCharacterRange:(NSRange)aNewSelectedCharRange {
+    return [[I_windowController document] textView:aTextView 
+             willChangeSelectionFromCharacterRange:aOldSelectedCharRange 
+                                  toCharacterRange:aNewSelectedCharRange];
+}
 - (void)textViewDidChangeSelection:(NSNotification *)aNotification {
     [self TCM_updateStatusBar];
 }

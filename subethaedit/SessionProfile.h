@@ -34,6 +34,7 @@
 
 @interface NSObject (SessionProfileDelegateAdditions)
 
+- (void)profile:(SessionProfile *)aProfile didReceiveSessionContent:(id)content;
 - (void)profile:(SessionProfile *)aProfile didReceiveJoinRequestForSessionID:(NSString *)aSessionID;
 - (void)profile:(SessionProfile *)aProfile didReceiveInvitationForSessionID:(NSString *)aSessionID;
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)aProfile;

@@ -28,6 +28,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL usesTabs;
         BOOL indentNewLines;
         BOOL wrapsCharacters;
+        BOOL showMatchingBrackets;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -48,6 +49,13 @@ extern NSString * const ChangedByUserIDAttributeName;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
     NSSaveOperationType I_lastSaveOperation;
     NSStringEncoding I_encodingFromLastRunSaveToOperation;
+    
+    struct {
+        int numberOfBrackets;
+        unichar *closingBracketsArray;
+        unichar *openingBracketsArray;
+        unsigned matchingBracketPosition;
+    } I_bracketMatching;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
