@@ -269,7 +269,7 @@
         [[self session] terminate];
     } else {
         // invalid close request
-        NSLog(@"Received invalid close request");
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received invalid close request");
         return NO;
     }
     
@@ -318,7 +318,7 @@
                                 kCFXMLNodeCurrentVersion,
                                 (CFDictionaryRef *)&errorDict);
     if (!contentTree) {
-        NSLog(@"nixe baum: %@", [errorDict description]);
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"nixe baum: %@", [errorDict description]);
         CFRelease(contentTree);
         [[self session] terminate]; 
         return;

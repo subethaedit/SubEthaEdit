@@ -114,7 +114,7 @@ static NSMutableArray *prefModules;
     id module = [registeredPrefModules objectForKey:anIdentifier];
     if ([module mainView] == nil) {
         if (![module loadMainView]) {
-            NSLog(@"loadMainView failed: %@", module);
+            //NSLog(@"loadMainView failed: %@", module);
             return;
         }
     }

@@ -62,7 +62,7 @@
     // simple message reply model
     if ([aMessage isMSG]) {
         if ([[aMessage payload] length] < 3) {
-            NSLog(@"Invalid message format. Payload less than 3 bytes.");
+            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Invalid message format. Payload less than 3 bytes.");
             [[self session] terminate];
             return;
         }

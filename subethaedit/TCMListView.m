@@ -472,7 +472,7 @@ NSString *ListViewDidChangeSelectionNotification=
 
 // Dragging Source
 - (void)draggedImage:(NSImage *)anImage endedAt:(NSPoint)aPoint operation:(NSDragOperation)operation {
-    NSLog(@"draggedImage:endedAt:operation: %d", operation);
+    //NSLog(@"draggedImage:endedAt:operation: %d", operation);
 }
 
 // Dragging Destination

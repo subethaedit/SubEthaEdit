@@ -458,7 +458,7 @@ enum {
         
         [self connectToURL:url retry:NO];
     } else {
-        NSLog(@"Entered invalid URI");
+        DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Entered invalid URI");
         NSBeep();
     }
 }
@@ -539,7 +539,7 @@ enum {
             [host resolve];
         }
     } else {
-        NSLog(@"Invalid URI");
+        DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Invalid URI");
     }
     
     [O_browserListView reloadData];

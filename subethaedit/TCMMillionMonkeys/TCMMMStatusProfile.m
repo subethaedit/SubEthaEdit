@@ -65,7 +65,7 @@
         }
     } else if ([aMessage isMSG]) {
         if ([[aMessage payload] length]<6) {
-            NSLog(@"StatusProfile MSG with payload less than 6 bytes is not allowed");
+            DEBUGLOG(@"MillionMonkeysLogDomain", SimpleLogLevel, @"StatusProfile MSG with payload less than 6 bytes is not allowed");
         } else {
             unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
             if (strncmp(bytes,"USRCHG",6)==0) {

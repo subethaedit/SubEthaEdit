@@ -68,7 +68,7 @@
         I_continuationIndicator[1] = 0;
         
         if ([aMessage payloadLength] < aLength) {
-            NSLog(@"ERROR! Absurd length");
+            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"ERROR! Absurd length");
         }
         [self setPayload:[[aMessage payload] subdataWithRange:NSMakeRange(0, aLength)]];
         I_length = aLength;

@@ -312,7 +312,7 @@ static NSMenu *defaultMenu=nil;
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
-        NSLog(@"performDragOperation:");
+        //NSLog(@"performDragOperation:");
         NSArray *userArray=[pboard propertyListForType:@"PboardTypeTBD"];
         PlainTextDocument *document=(PlainTextDocument *)[[[self window] windowController] document];
         TCMMMSession *session=[document session];
@@ -341,7 +341,7 @@ static NSMenu *defaultMenu=nil;
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
-        NSLog(@"concludeDragOperation:");
+        //NSLog(@"concludeDragOperation:");
     } else {
         [super concludeDragOperation:sender];
     }

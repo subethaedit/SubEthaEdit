@@ -146,7 +146,7 @@
     if ([aMessage isMSG]) {
         I_lastMessageNumber = [aMessage messageNumber];
         if ([[aMessage payload] length] < 6) {
-            NSLog(@"Invalid message format. Payload less than 6 bytes.");
+            DEBUGLOG(@"MillionMonkeysLogDomain", SimpleLogLevel, @"Invalid message format. Payload less than 6 bytes.");
             return;
         }
         
@@ -288,7 +288,7 @@
             DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"SessionProfile recieved Ack");
             return;
         } else if ([[aMessage payload] length] < 6) {
-            NSLog(@"SessionProfile: Invalid message format. Payload less than 6 bytes.");
+            DEBUGLOG(@"MillionMonkeysLogDomain", SimpleLogLevel, @"SessionProfile: Invalid message format. Payload less than 6 bytes.");
             return;
         }
         
