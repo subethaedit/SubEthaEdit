@@ -234,6 +234,8 @@
                 draw = 0x2761;
             } else if (c == 0x2029) { // unicode paragraph separator
                 draw = 0x21ab;
+            } else if (c == 0x00a0) { // nbsp
+                draw = 0x2038;
             } else if (c == 0x0c) {	// page break
                 draw = 0x21cb; // leftwards harpoon over rightwards harpoon
             } else if (c < 0x20 || (0x007f <= c && c <= 0x009f) || [[NSCharacterSet illegalCharacterSet] characterIsMember: c]) {	// some other mystery control character
