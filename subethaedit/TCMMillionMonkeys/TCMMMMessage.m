@@ -18,12 +18,12 @@
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super init];
     if (self) {
-        NSLog(@"initWithDictionary: %@",aDictionary);
+        //NSLog(@"initWithDictionary: %@",aDictionary);
         I_numberOfClientMessages = [[aDictionary objectForKey:@"#C"] longLongValue];
         I_numberOfServerMessages = [[aDictionary objectForKey:@"#S"] longLongValue];
 
         I_operation = [[TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]] retain];
-        NSLog(@"message: %@",[self description]);
+        //NSLog(@"message: %@",[self description]);
     }
     return self;
 }

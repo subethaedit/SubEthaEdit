@@ -22,6 +22,8 @@
     NSTextStorage *I_textStorage;
 }
 
+- (id)initWithSession:(TCMMMSession *)aSession;
+
 - (void)setSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)session;
 

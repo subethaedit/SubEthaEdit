@@ -36,6 +36,19 @@
     return self;
 }
 
+- (id)initWithSession:(TCMMMSession *)aSession {
+    self = [super init];
+    if (self) {
+        [self setSession:aSession];
+        I_textStorage = [TextStorage new];
+        [I_textStorage setDelegate:self];
+        [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
+        I_flags.isRemotelyEditingTextStorage=NO;
+        [aSession setDocument:self];
+    }
+    return self;
+}
+
 - (void)dealloc {
     if (I_flags.isAnnounced) {
         [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];

@@ -16,6 +16,7 @@
 #import "TCMMMOperation.h"
 #import "SessionProfile.h"
 #import "PlainTextDocument.h"
+#import "DocumentController.h"
 
 
 NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
@@ -196,7 +197,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
             [profile setMMState:state];
             [profile acceptJoin];
             [profile sendSessionInformation:[self TCM_sessionInformation]];
-
+            [state release];
             [set removeIndex:index];
         }
         [set release];
@@ -317,6 +318,13 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)profile
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profileDidAcceptJoinRequest: %@", profile);
+    [[DocumentController sharedInstance] addDocumentWithSession:self];
+    TCMMMState *state=[[TCMMMState alloc] initAsServer:NO];
+    [state setDelegate:self];
+    [state setClient:profile];
+    [profile setMMState:state];
+    [I_statesByClientID setObject:state forKey:[[[profile session] userInfo] objectForKey:@"peerUserID"]];
+    [state release];
 }
 
 - (NSArray *)profile:(SessionProfile *)profile userRequestsForSessionInformation:(NSDictionary *)sessionInfo
@@ -358,6 +366,8 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 #pragma ### State interaction ###
 
 - (void)state:(TCMMMState *)aState handleOperation:(TCMMMOperation *)anOperation {
+
+    // NSLog(@"state:%@ handleOperation:%@",aState,anOperation);
 
     [(PlainTextDocument *)[self document] handleOperation:anOperation];
     

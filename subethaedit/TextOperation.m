@@ -34,7 +34,7 @@
         I_affectedCharRange.length = [[aDictionary objectForKey:@"len"] unsignedIntValue];
         [self setReplacementString:[aDictionary objectForKey:@"str"]];
         [self setUserID:[aDictionary objectForKey:@"uid"]];
-        NSLog(@"operation: %@", [self description]);
+        //NSLog(@"operation: %@", [self description]);
     }
     return self;
 }

@@ -32,7 +32,7 @@
         I_selectedRange.location = [[aDictionary objectForKey:@"loc"] unsignedIntValue];
         I_selectedRange.length = [[aDictionary objectForKey:@"len"] unsignedIntValue];
         [self setUserID:[aDictionary objectForKey:@"uid"]];
-        NSLog(@"operation: %@", [self description]);
+        //NSLog(@"operation: %@", [self description]);
     }
     return self;
 }

@@ -2,6 +2,11 @@
     IBClasses = (
         {CLASS = AppController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            CLASS = DocumentController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSDocumentController; 
+        }, 
+        {
             ACTIONS = {announce = id; conceal = id; toggleParticipantsDrawer = id; }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 

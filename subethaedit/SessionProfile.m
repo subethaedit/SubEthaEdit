@@ -121,7 +121,7 @@
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received MMMessage.");
             NSDictionary *dict=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
             TCMMMMessage *message=[TCMMMMessage messageWithDictionaryRepresentation:dict];
-            NSLog(@"Received: %@",[message description]);
+            [I_MMState handleMessage:message];
         }
         
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];

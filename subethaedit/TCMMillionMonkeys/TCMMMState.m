@@ -51,7 +51,6 @@
 }
 
 - (void)handleMessage:(TCMMMMessage *)aMessage {
-
     // clean up buffer
     unsigned int i;
     if (I_isServer) {

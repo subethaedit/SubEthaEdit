@@ -42,7 +42,7 @@
 		activeExec = 0;
 	};
 	2A37F4A9FDCFA73011CA2CEA = {
-		activeBuildStyle = 4A9504D1FFE6A4CB11CA0CBA;
+		activeBuildStyle = 4A9504D0FFE6A4CB11CA0CBA;
 		activeExecutable = 5EEB175805ECDA2E00C17677;
 		activeTarget = 8D15AC270486D014006FF6A4;
 		addToTargets = (
@@ -564,8 +564,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {493, 167}}",
-							"{{0, 176}, {493, 267}}",
+							"{{0, 0}, {365, 167}}",
+							"{{0, 176}, {365, 267}}",
 						);
 					};
 					VerticalSplitView = {
@@ -627,8 +627,8 @@
 				RubberWindowFrame = "107 241 750 502 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectFindModule" = {
-				Frame = "{{0, 0}, {840, 470}}";
-				RubberWindowFrame = "330 221 840 512 0 0 1280 832 ";
+				Frame = "{{0, 0}, {840, 496}}";
+				RubberWindowFrame = "321 50 840 538 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
 				Frame = "{{0, 0}, {600, 301}}";
@@ -639,7 +639,7 @@
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {827, 390}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "491 413 827 411 0 0 1280 832 ";
+				RubberWindowFrame = "126 223 827 411 0 0 1280 832 ";
 			};
 			PBXWorkspaceStateSaveDate = 101901026;
 		};
