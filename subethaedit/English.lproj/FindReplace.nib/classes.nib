@@ -2,11 +2,13 @@
     IBClasses = (
         {
             ACTIONS = {
+                chooseTabWidth = id; 
                 findNextAndOrderOut = id; 
                 gotoLine = id; 
                 gotoLineAndClosePanel = id; 
                 orderFrontFindPanel = id; 
                 orderFrontGotoPanel = id; 
+                orderFrontTabWidthPanel = id; 
                 performFindPanelAction = id; 
                 updateRegexDrawer = id; 
             }; 
@@ -35,6 +37,8 @@
                 "O_replaceComboBox" = NSComboBox; 
                 "O_scopePopup" = NSPopUpButton; 
                 "O_statusTextField" = NSTextField; 
+                "O_tabWidthPanel" = NSPanel; 
+                "O_tabWidthTextField" = NSTextField; 
                 "O_wrapAroundCheckbox" = NSButton; 
             }; 
             SUPERCLASS = NSObject; 

@@ -65,9 +65,42 @@ static FindReplaceController *sharedInstance=nil;
     return O_gotoPanel;
 }
 
+- (NSPanel *)tabWidthPanel {
+    if (!O_tabWidthPanel) [self loadUI];
+    return O_tabWidthPanel;
+}
+
 - (NSTextView *)textViewToSearchIn {
     id obj = [[NSApp mainWindow] firstResponder];
     return (obj && [obj isKindOfClass:[NSTextView class]]) ? obj : nil;
+}
+
+- (IBAction)orderFrontTabWidthPanel:(id)aSender {
+    PlainTextDocument *document=(PlainTextDocument *)[[[[self textViewToSearchIn] window] windowController] document];
+    if (document) {
+        NSPanel *panel = [self tabWidthPanel];
+        [O_tabWidthTextField setIntValue:[document tabWidth]];
+        [O_tabWidthTextField selectText:nil];
+        [panel makeKeyAndOrderFront:nil];
+    }
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
+    SEL selector=[anItem action];
+    if (selector==@selector(orderFrontTabWidthPanel:) || 
+        selector==@selector(orderFrontGotoPanel:)) {
+        return [[[[self textViewToSearchIn] window] windowController] document]!=nil;
+    }
+    return YES;
+}
+
+- (IBAction)chooseTabWidth:(id)aSender {
+    PlainTextDocument *document=(PlainTextDocument *)[[[[self textViewToSearchIn] window] windowController] document];
+    int tabWidth=[O_tabWidthTextField intValue];
+    if (tabWidth>0) {
+        [document setTabWidth:tabWidth];
+        [[self tabWidthPanel] orderOut:self];   
+    }
 }
 
 - (IBAction)orderFrontGotoPanel:(id)aSender {

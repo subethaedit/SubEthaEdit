@@ -20,6 +20,8 @@ typedef enum {
 @interface FindReplaceController : NSObject {
     IBOutlet NSPanel *O_findPanel;
     IBOutlet NSPanel *O_gotoPanel;
+    IBOutlet NSPanel *O_tabWidthPanel;
+    IBOutlet NSTextField *O_tabWidthTextField;
     IBOutlet NSTextField *O_gotoLineTextField;
     IBOutlet NSComboBox *O_findComboBox;
     IBOutlet NSComboBox *O_replaceComboBox;
@@ -50,9 +52,12 @@ typedef enum {
 
 - (NSPanel *)findPanel;
 - (NSPanel *)gotoPanel;
+- (NSPanel *)tabWidthPanel;
 
 - (NSTextView *)textViewToSearchIn;
 
+- (IBAction)orderFrontTabWidthPanel:(id)aSender;
+- (IBAction)chooseTabWidth:(id)aSender;
 - (IBAction)orderFrontGotoPanel:(id)aSender;
 - (IBAction)orderFrontFindPanel:(id)aSender;
 - (IBAction)gotoLine:(id)aSender;
