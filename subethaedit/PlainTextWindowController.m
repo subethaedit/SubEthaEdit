@@ -327,17 +327,4 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     return nil;
 }
 
-
-#pragma mark -
-#pragma mark ### NSTextView delegate methods ###
-
-- (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
-    return [[self document] textView:aTextView doCommandBySelector:aSelector];
-}
-
--(BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
-    [aTextView setTypingAttributes:[(PlainTextDocument *)[self document] plainTextAttributes]];
-    return YES;
-}
-
 @end

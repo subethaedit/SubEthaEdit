@@ -10,6 +10,7 @@
 #import "PlainTextDocument.h"
 #import "LayoutManager.h"
 #import "TextView.h"
+#import "GutterRulerView.h"
 
 @implementation PlainTextEditor 
 
@@ -62,7 +63,13 @@
     [I_textContainer setWidthTracksTextView:YES];
     [layoutManager addTextContainer:I_textContainer];
     
+    [O_scrollView setVerticalRulerView:[[[GutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
+    [O_scrollView setHasVerticalRuler:YES];
+    [[O_scrollView verticalRulerView] setRuleThickness:32.];
+
     [O_scrollView setDocumentView:[I_textView autorelease]];
+    [[O_scrollView verticalRulerView] setClientView:I_textView];
+
     
     [layoutManager release];
     
@@ -79,6 +86,25 @@
     O_editorView = view;
 }
 
+- (void)TCM_updateStatusBar {
+    NSRange selection=[I_textView selectedRange];
+    
+    // findLine
+    TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+    int lineNumber=[textStorage lineNumberForLocation:selection.location];
+    unsigned lineStartLocation=[[[textStorage lineStarts] objectAtIndex:lineNumber-1] intValue];
+    NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, selection.location-lineStartLocation];
+    if (selection.length>0) string=[string stringByAppendingFormat:@" (%d)",selection.length]; 
+//    if (selection.location<[textStorage length]) { 
+//        id blockAttribute=[textStorage 
+//                            attribute:kBlockeditAttributeName 
+//                              atIndex:selection.location effectiveRange:nil];
+//        if (blockAttribute) string=[string stringByAppendingFormat:@" %@",NSLocalizedString(@"[Blockediting]", nil)];        
+//    }
+    [O_positionTextField setStringValue:string];        
+    
+}
+
 - (NSView *)editorView {
     return O_editorView;
 }
@@ -92,6 +118,9 @@
     
     if (selector == @selector(toggleWrap:)) {
         [menuItem setState:[O_scrollView hasHorizontalScroller]?NSOffState:NSOnState];
+        return YES;
+    } else if (selector == @selector(toggleLineNumbers:)) {
+        [menuItem setState:[O_scrollView rulersVisible]?NSOnState:NSOffState];
         return YES;
     }
     return YES;
@@ -122,6 +151,31 @@
     }
 }
 
+- (IBAction)toggleLineNumbers:(id)aSender {
+    [O_scrollView setRulersVisible:![O_scrollView rulersVisible]];
+}
+
+#pragma mark -
+#pragma mark ### NSTextView delegate methods ###
+
+- (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
+    return [[I_windowController document] textView:aTextView doCommandBySelector:aSelector];
+}
+
+-(BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
+    [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] plainTextAttributes]];
+    return YES;
+}
+
+- (void)textDidChange:(NSNotification *)aNotification {
+    if ([O_scrollView rulersVisible]) {
+        [[O_scrollView verticalRulerView] setNeedsDisplay:YES];     
+    }
+}
+
+- (void)textViewDidChangeSelection:(NSNotification *)aNotification {
+    [self TCM_updateStatusBar];
+}
 
 #pragma mark -
 

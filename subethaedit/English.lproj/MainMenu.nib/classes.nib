@@ -13,6 +13,7 @@
                 conceal = id; 
                 newView = id; 
                 toggleIndentNewLines = id; 
+                toggleLineNumbers = id; 
                 toggleParticipantsDrawer = id; 
                 toggleShowInvisibles = id; 
                 toggleSplitView = id; 

@@ -4,7 +4,11 @@
         {
             CLASS = PlainTextEditor; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"O_editorView" = NSView; "O_scrollView" = NSScrollView; }; 
+            OUTLETS = {
+                "O_editorView" = NSView; 
+                "O_positionTextField" = NSTextField; 
+                "O_scrollView" = NSScrollView; 
+            }; 
             SUPERCLASS = NSResponder; 
         }
     ); 

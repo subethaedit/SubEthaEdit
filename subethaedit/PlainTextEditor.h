@@ -10,6 +10,7 @@
 
 
 @interface PlainTextEditor : NSResponder {
+    IBOutlet NSTextField *O_positionTextField;
     IBOutlet NSScrollView *O_scrollView;
     IBOutlet NSView       *O_editorView;
     NSTextView      *I_textView;

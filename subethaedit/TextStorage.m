@@ -138,6 +138,7 @@
     if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
         [delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
     }
+    [self setLineStartsOnlyValidUpTo:aRange.location];
 }
 
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange {
