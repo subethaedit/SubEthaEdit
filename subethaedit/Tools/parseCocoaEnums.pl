@@ -1,5 +1,5 @@
 
-# cat `find . -name "*.h"` | perl parseenums.pl > ~/Desktop/cocoaenums.txt
+# cat `find . -name "*.h"` | perl ~/.svn/subethaedit/subethaedit/Tools/parseCocoaEnums.pl | sort | uniq > ~/Desktop/cocoaenums.txt
 $enum = 0;
 
 while (<>) {
@@ -18,7 +18,7 @@ while (<>) {
             }
         }
     }
-    if (/typedef enum/) {
+    if (/enum/) {
         $enum = 1;
     }
 }
