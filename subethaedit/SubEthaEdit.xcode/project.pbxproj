@@ -1711,6 +1711,18 @@
 			settings = {
 			};
 		};
+		14F35FCC0657BAD700013758 = {
+			buildRules = (
+			);
+			buildSettings = {
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				OTHER_CFLAGS = "-DTCM_NO_DEBUG -DNS_BLOCK_ASSERTIONS -DNDEBUG";
+				UNSTRIPPED_PRODUCT = YES;
+			};
+			isa = PBXBuildStyle;
+			name = "Deployment Unstripped";
+		};
 		14FF9705065221920021FB60 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1826,6 +1838,7 @@
 			buildStyles = (
 				4A9504D0FFE6A4CB11CA0CBA,
 				4A9504D1FFE6A4CB11CA0CBA,
+				14F35FCC0657BAD700013758,
 			);
 			hasScannedForEncodings = 1;
 			isa = PBXProject;
@@ -2296,7 +2309,7 @@
 			};
 		};
 		319457590657A4010067EAD7 = {
-			fileEncoding = 30;
+			fileEncoding = 10;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = English;
@@ -2460,7 +2473,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-DTCMBEEP_DEBUG";
-				ZERO_LINK = NO;
+				ZERO_LINK = YES;
 			};
 			isa = PBXBuildStyle;
 			name = Development;
@@ -2469,7 +2482,6 @@
 			buildRules = (
 			);
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_LOCATION = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				OTHER_CFLAGS = "-DTCM_NO_DEBUG -DNS_BLOCK_ASSERTIONS -DNDEBUG";

@@ -2265,12 +2265,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [self setFileEncoding:NSUnicodeStringEncoding];
             NSTextView *textView = [alertContext objectForKey:@"TextView"];
             [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+            [[self documentUndoManager] removeAllActions];
         } else if (returnCode == NSAlertSecondButtonReturn) {
             [self setFileEncoding:NSUTF8StringEncoding];
             NSTextView *textView = [alertContext objectForKey:@"TextView"];
             [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+            [[self documentUndoManager] removeAllActions];
         }
-        [[self documentUndoManager] removeAllActions];
 
     } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {

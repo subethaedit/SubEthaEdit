@@ -480,7 +480,6 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
         
     first = @"mailto:bugs@codingmonkeys.de?subject=SubEthaEdit%20Bug%20Report&body=%0dMac%20OS%20X%20";
     second = @"%0dSubEthaEdit%20Build%20";
-    #warning "Localize"
     third = [@"%0d%0d" stringByAppendingString:[NSString stringWithString:NSLocalizedString(@"BugReport", nil)]];
     fourth = [@"%0d%0d" stringByAppendingString:[NSString stringWithString:NSLocalizedString(@"%0A%0AIf%20you%20report%20a%20crash%2C%20please%20attach%20the%20crash%20log%20found%20in%20%3CHome%3E/Library/Logs/CrashReporter/SubEthaEdit.crash.log.%0A%0A", nil)]];
     
