@@ -4,6 +4,7 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+    #import <TCMBEEP/TCMBEEP.h>
 #endif
 
 #ifdef TCM_NO_DEBUG

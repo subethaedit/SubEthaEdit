@@ -112,6 +112,234 @@
     }
 }
 
+- (IBAction)connect:(id)aSender {
+    NSData *addressData=[[[O_addressesController selectedObjects] objectAtIndex:0] objectForKey:@"address"];
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"%@", addressData);
+    if (addressData) {
+        TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
+        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
+        [session setDelegate:self];
+        [session open];
+    }
+}
+
+#pragma mark -
+#pragma mark ### BEEPSession delegate ###
+
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray
+{
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"didReceiveGreetingWithProfileURIs: %@",aProfileURIArray);
+    /*
+    if ([[aBEEPSession peerProfileURIs] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
+        if ([aBEEPSession isInitiator]) {
+            if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
+                NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
+                NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
+                if ([sessionInformation objectForKey:@"NetService"]) {
+                    // rendezvous: close all other sessions
+                    NSMutableArray *outgoingSessions = [sessionInformation objectForKey:@"OutgoingRendezvousSessions"];
+                    TCMBEEPSession *session;
+                    while ((session = [outgoingSessions lastObject])) {
+                        [[session retain] autorelease];
+                        [outgoingSessions removeObjectAtIndex:[outgoingSessions count]-1];
+                        if (session == aBEEPSession) {
+                            [sessionInformation setObject:session forKey:@"RendezvousSession"];
+                        } else {
+                            [self removeSessionFromSessionsArray:session];
+                            [session setDelegate:nil];
+                            [session terminate];
+                        }
+                    }
+                }
+            } else {
+                NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
+                NSDictionary *info = [I_outboundInternetSessions objectForKey:URLString];
+                NSMutableArray *sessions = [info objectForKey:@"sessions"];
+                TCMBEEPSession *session;
+                while ((session = [sessions lastObject])) {
+                    [[session retain] autorelease];
+                    [sessions removeObjectAtIndex:[sessions count]-1];
+                    if (session != aBEEPSession) {
+                        [self removeSessionFromSessionsArray:session];
+                        [session setDelegate:nil];
+                        [session terminate];
+                    } else {
+                        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"retain this session somewhere: %@", session);
+                    }
+                }
+            }
+            [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"] andData:nil sender:self];
+        }
+    } else {
+        [self removeSessionFromSessionsArray:aBEEPSession];
+        [aBEEPSession setDelegate:nil];
+        [aBEEPSession terminate];
+        
+        if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
+            NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
+            if ([aBEEPSession isInitiator] && aUserID) {
+                NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
+                [[information objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
+            }
+        } else {
+            if ([aBEEPSession isInitiator]) {
+                NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
+                NSDictionary *info = [I_outboundInternetSessions objectForKey:URLString];
+                [[info objectForKey:@"sessions"] removeObject:aBEEPSession];
+                [self TCM_sendDidEndNotificationForSession:aBEEPSession error:nil];
+            }
+        }
+        [I_pendingSessions removeObject:aBEEPSession];
+    }
+    */
+}
+
+- (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests
+{
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"%@",aReply);
+    return aReply;
+}
+
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile
+{
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"didOpenChannel");
+    /*
+    if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
+        [aProfile setDelegate:self];
+        if (![aProfile isServer]) {
+            if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
+                NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
+                NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
+                if ([[information objectForKey:@"OutgoingRendezvousSessions"] count]) {
+                    //NSLog(@"Can't happen");
+                }
+            } else {
+                // Do something here for internet sessions
+            }
+            [(HandshakeProfile *)aProfile shakeHandsWithUserID:[TCMMMUserManager myUserID]];
+        }
+    } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"]) {
+        [[TCMMMPresenceManager sharedInstance] acceptStatusProfile:(TCMMMStatusProfile *)aProfile];
+    } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got SubEthaEditSession profile");
+        [aProfile setDelegate:self];
+        [I_pendingSessionProfiles addObject:aProfile];
+    }
+    */
+}
+
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didFailWithError:(NSError *)anError
+{
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"BEEPSession:didFailWithError: %@", anError);
+/*    [aBEEPSession setDelegate:nil];
+    [[aBEEPSession retain] autorelease];
+    
+    [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
+
+    NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
+    BOOL isRendezvous = [[aBEEPSession userInfo] objectForKey:@"isRendezvous"] != nil;
+    if (aUserID) {
+        NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
+        if (isRendezvous) {
+        
+            if ([sessionInformation objectForKey:@"InboundRendezvousSession"] == aBEEPSession) {
+                [sessionInformation removeObjectForKey:@"InboundRendezvousSession"];
+            }
+        
+            NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
+            if ([status isEqualToString:kBEEPSessionStatusGotSession]) {
+                DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"beepsession didFail while connected: %@",[aBEEPSession description]);
+                if ([sessionInformation objectForKey:@"RendezvousSession"] == aBEEPSession) {
+                    [sessionInformation removeObjectForKey:@"RendezvousSession"];
+                    [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
+                } else {
+                    if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] containsObject:aBEEPSession]) {
+                        [[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
+                    }
+                }
+            } else if ([status isEqualToString:kBEEPSessionStatusConnecting]) {
+                DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"beepsession didFail while connecting: %@",[aBEEPSession description]);
+                if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] containsObject:aBEEPSession]) {
+                    [[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
+                    if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] count] == 0 && 
+                        ![sessionInformation objectForKey:@"InboundRendezvousSession"]) {
+                        DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"sessions information look this way: %@",[sessionInformation description]);
+                        if ([[sessionInformation objectForKey:@"TriedNetServiceAddresses"] intValue]<[[[sessionInformation objectForKey:@"NetService"] addresses] count]) {
+                            [self TCM_connectToNetServiceWithInformation:sessionInformation];
+                        } else {
+                            [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
+                        }
+                    }
+                } else if ([sessionInformation objectForKey:@"RendezvousSession"] == aBEEPSession) {
+                    [sessionInformation removeObjectForKey:@"RendezvousSession"];
+                    [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
+                }
+            } else {
+                DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"beepsession didFail while whatever: %@",[aBEEPSession description]);
+            }
+        } else {
+            [[sessionInformation objectForKey:@"OutboundSessions"] removeObject:aBEEPSession];
+            [[sessionInformation objectForKey:@"InboundSessions"] removeObject:aBEEPSession];
+            NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
+            NSMutableDictionary *infoDict = [I_outboundInternetSessions objectForKey:URLString];
+            if (infoDict && [infoDict objectForKey:@"pending"]) {
+                NSMutableArray *sessions = [infoDict objectForKey:@"sessions"];
+                [sessions removeObject:aBEEPSession];
+                if ([sessions count] == 0) {
+                    [infoDict removeObjectForKey:@"sessions"];
+                    if ([infoDict objectForKey:@"cancelled"]) {
+                        [[NSNotificationCenter defaultCenter]
+                                postNotificationName:TCMMMBEEPSessionManagerConnectToHostCancelledNotification
+                                              object:self
+                                            userInfo:infoDict];                    
+                    } else {
+                        [[NSNotificationCenter defaultCenter]
+                                postNotificationName:TCMMMBEEPSessionManagerConnectToHostDidFailNotification
+                                              object:self
+                                            userInfo:infoDict];
+                    }
+                    [I_outboundInternetSessions removeObjectForKey:URLString];
+                }
+            }
+        }
+    } else if (!isRendezvous) {
+        NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
+        NSMutableDictionary *infoDict = [I_outboundInternetSessions objectForKey:URLString];
+        if (infoDict && [infoDict objectForKey:@"pending"]) {
+            NSMutableArray *sessions = [infoDict objectForKey:@"sessions"];
+            [sessions removeObject:aBEEPSession];
+            if ([sessions count] == 0) {
+                [infoDict removeObjectForKey:@"sessions"];
+                if ([infoDict objectForKey:@"cancelled"]) {
+                    [[NSNotificationCenter defaultCenter]
+                            postNotificationName:TCMMMBEEPSessionManagerConnectToHostCancelledNotification
+                                          object:self
+                                        userInfo:infoDict];                    
+                } else {
+                    [[NSNotificationCenter defaultCenter]
+                            postNotificationName:TCMMMBEEPSessionManagerConnectToHostDidFailNotification
+                                          object:self
+                                        userInfo:infoDict];
+                }
+                [I_outboundInternetSessions removeObjectForKey:URLString];
+            }
+        }
+    }
+    [I_pendingSessions removeObject:aBEEPSession];
+    [self removeSessionFromSessionsArray:aBEEPSession];
+*/    
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"%@", [self description]);
+}
+
+- (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession
+{
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"BEEPSessionDidClose");
+}
+
+
+#pragma mark -
+#pragma mark ### NSNetService Delegate ###
+
 - (void)netServiceDidResolveAddress:(NSNetService *)aNetService  {
     [self updateService:aNetService];
 }

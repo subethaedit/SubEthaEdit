@@ -13,8 +13,10 @@
     TCMRendezvousBrowser *I_browser;
     NSMutableArray *I_services;
     IBOutlet NSArrayController *O_servicesController;
+    IBOutlet NSArrayController *O_addressesController;
 }
 
+- (IBAction)connect:(id)aSender;
 - (void)stopRendezvousBrowsing;
 - (void)startRendezvousBrowsing;
 

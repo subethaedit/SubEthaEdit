@@ -1,9 +1,13 @@
 {
     IBClasses = (
         {
+            ACTIONS = {connect = id; }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"O_servicesController" = NSArrayController; }; 
+            OUTLETS = {
+                "O_addressesController" = NSArrayController; 
+                "O_servicesController" = NSArrayController; 
+            }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
