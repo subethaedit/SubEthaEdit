@@ -28,11 +28,11 @@ static struct option longopts[] = {
 
 static NSString *tempFileName() {
     static int sequenceNumber = 0;
-    NSString *origPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"tmp"];
+    NSString *origPath = [@"/tmp" stringByAppendingPathComponent:@"see"];
     NSString *name;
     do {
         sequenceNumber++;
-        name = [NSString stringWithFormat:@"%d-%d-%d.%@", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber, [origPath pathExtension]];
+        name = [NSString stringWithFormat:@"see-%d-%d-%d", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber];
         name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
     } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
     return name;
@@ -48,6 +48,7 @@ int main (int argc, const char * argv[]) {
     AESendMode sendMode = kAENoReply;
     NSString *IANACharSetName = nil;
     NSString *modeName = nil;
+    NSString *pipeTitle = nil;
     NSMutableArray *fileNames = [NSMutableArray array];
     NSMutableArray *fileURLs = [NSMutableArray array];
     OSStatus status = noErr;
@@ -59,7 +60,7 @@ int main (int argc, const char * argv[]) {
     //
     
     int ch;
-    while ((ch = getopt_long(argc, (char * const *)argv, "hvwre:m:t:", longopts, NULL)) != -1) {
+    while ((ch = getopt_long(argc, (char * const *)argv, "hvwrlpe:m:t:", longopts, NULL)) != -1) {
         switch(ch) {
             case 'h':
                 NSLog(@"help");
@@ -85,6 +86,7 @@ int main (int argc, const char * argv[]) {
                 modeName = [NSString stringWithUTF8String:optarg];
                 break;
             case 't':
+                pipeTitle = [NSString stringWithUTF8String:optarg];
                 break;
             case '?':
             default:
@@ -100,7 +102,6 @@ int main (int argc, const char * argv[]) {
         char *path = realpath(argv[i], resolved_path);
 
         if (path) {
-            NSLog(@"resolved path: %s", path);
             NSString *fileName = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
             [fileNames addObject:fileName];
             [fileURLs addObject:[NSURL fileURLWithPath:fileName]];
@@ -108,10 +109,7 @@ int main (int argc, const char * argv[]) {
             NSLog(@"Error occurred while resolving path: %s", argv[i]);
         }
     }
-    
-    NSLog(@"fileNames: %@", fileNames);
-    NSLog(@"fileURLs: %@", fileURLs);
-    
+        
     /*
     BOOL isStandardOutputATTY = isatty([[NSFileHandle fileHandleWithStandardOutput] fileDescriptor]);
     if (!isStandardOutputATTY) {
@@ -121,11 +119,13 @@ int main (int argc, const char * argv[]) {
     NSLog(@"stdout a pipe? %@", isStandardOutputATTY ? @"NO" : @"YES");
     */
     
+    BOOL isTempFile = NO;
     if ([fileNames count] > 0) {
     
     } else {
+        isTempFile = YES;
+        
         NSString *fileName = tempFileName();
-        NSLog(@"write to file: %@", fileName);
         [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
         NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
         NSFileHandle *fdin = [NSFileHandle fileHandleWithStandardInput];
@@ -138,59 +138,65 @@ int main (int argc, const char * argv[]) {
             }
         }
         [fdout closeFile];
-        //[fileManager removeFileAtPath:fileName handler:nil];
         [fileURLs addObject:[NSURL fileURLWithPath:fileName]];
     }
     
-    //OSStatus status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), NULL, NULL, &appURL); // release appURL
-    //if (kLSApplicationNotFoundErr == status) {
-    //    NSLog(@"kLSApplicationNotFoundErr");
-    //} else {
-    
-    appURL = (CFURLRef)[NSURL URLWithString:@"file:///Users/Shared/BuildProducts/SubEthaEdit.app"];
-    
-    LSLaunchURLSpec inLaunchSpec;
-    inLaunchSpec.appURL = appURL;
-    inLaunchSpec.itemURLs = NULL;
-    inLaunchSpec.passThruParams = NULL;
-    inLaunchSpec.launchFlags = kLSLaunchNoParams;
-    inLaunchSpec.asyncRefCon = NULL;
-    
-    status = LSOpenFromURLSpec(&inLaunchSpec, NULL);
-    NSLog(@"LSOpenFromURLSpec? %d", status);  
-            
-    OSType creatorCode = 'Hdra';
-    NSAppleEventDescriptor *addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:&creatorCode length:sizeof(creatorCode)];
-    if (addressDescriptor != nil) {
-        NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-        if (appleEvent != nil) {
-            NSAppleEventDescriptor *listDesc = [NSAppleEventDescriptor listDescriptor];
-            for (i = 1; i <= [fileURLs count]; i++) {
-                NSString *URLString = [[fileURLs objectAtIndex:i-1] absoluteString];
-                [listDesc insertDescriptor:[NSAppleEventDescriptor descriptorWithString:URLString]
-                                   atIndex:i];
-            }
-            [appleEvent setDescriptor:listDesc forKeyword:keyDirectObject];
-            if (shouldWait) {
-                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
-                               forKeyword:'Wait'];
-            }
-            if (IANACharSetName) {
-                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:IANACharSetName]
-                               forKeyword:'Enc '];
-            }
-            if (modeName) {
-                [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:modeName]
-                               forKeyword:'Mode'];
-            }
-            AppleEvent reply;
-            OSErr err = AESend([appleEvent aeDesc], &reply, sendMode, kAEHighPriority, kAEDefaultTimeout, NULL, NULL);
-            if (err != noErr) {
-                NSLog(@"Error while sending Apple Event");
+    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), NULL, NULL, &appURL); // release appURL
+    if (kLSApplicationNotFoundErr == status) {
+        NSLog(@"kLSApplicationNotFoundErr");
+    } else {
+        
+        //appURL = (CFURLRef)[NSURL URLWithString:@"file:///Users/Shared/BuildProducts/SubEthaEdit.app"];
+        
+        LSLaunchURLSpec inLaunchSpec;
+        inLaunchSpec.appURL = appURL;
+        inLaunchSpec.itemURLs = NULL;
+        inLaunchSpec.passThruParams = NULL;
+        inLaunchSpec.launchFlags = kLSLaunchNoParams;
+        inLaunchSpec.asyncRefCon = NULL;
+        
+        status = LSOpenFromURLSpec(&inLaunchSpec, NULL);
+                
+        OSType creatorCode = 'Hdra';
+        NSAppleEventDescriptor *addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:&creatorCode length:sizeof(creatorCode)];
+        if (addressDescriptor != nil) {
+            NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+            if (appleEvent != nil) {
+                NSAppleEventDescriptor *listDesc = [NSAppleEventDescriptor listDescriptor];
+                for (i = 1; i <= [fileURLs count]; i++) {
+                    NSString *URLString = [[fileURLs objectAtIndex:i-1] absoluteString];
+                    [listDesc insertDescriptor:[NSAppleEventDescriptor descriptorWithString:URLString]
+                                       atIndex:i];
+                }
+                [appleEvent setDescriptor:listDesc forKeyword:keyDirectObject];
+                if (shouldWait) {
+                    [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
+                                   forKeyword:'Wait'];
+                }
+                if (IANACharSetName) {
+                    [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:IANACharSetName]
+                                   forKeyword:'Enc '];
+                }
+                if (modeName) {
+                    [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:modeName]
+                                   forKeyword:'Mode'];
+                }
+                if (isTempFile) {
+                    [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
+                                   forKeyword:'Temp'];
+                }
+                if (pipeTitle) {
+                    [appleEvent setDescriptor:[NSAppleEventDescriptor descriptorWithString:pipeTitle]
+                                   forKeyword:'Name'];
+                }
+                AppleEvent reply;
+                OSErr err = AESend([appleEvent aeDesc], &reply, sendMode, kAEHighPriority, kAEDefaultTimeout, NULL, NULL);
+                if (err != noErr) {
+                    NSLog(@"Error while sending Apple Event");
+                }
             }
         }
     }
-
     
     /*
     if (!isStandardOutputATTY) {
