@@ -21,7 +21,11 @@
     IBOutlet NSSplitView      *O_participantsSplitView;
     IBOutlet NSView           *O_newUserView;
     IBOutlet ParticipantsView *O_participantsView;
-    IBOutlet NSPopUpButton    *O_actionPullDown;    
+    IBOutlet NSPopUpButton    *O_actionPullDown;
+    IBOutlet NSPopUpButton    *O_pendingUsersAccessPopUpButton;
+    IBOutlet NSTableView      *O_pendingUsersTableView;
 }
+
+- (IBAction)changePendingUsersAccess:(id)aSender;
 
 @end

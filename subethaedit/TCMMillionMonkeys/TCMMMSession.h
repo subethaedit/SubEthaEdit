@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 
+extern NSString * const TCMMMSessionPendingUsersDidChangeNotification;
+
 typedef enum TCMMMSessionState {
     TCMMMSessionStartingChannelForJoin = 0,
     TCMMMSessionStartingChannelForInvite = 1,
@@ -27,6 +29,8 @@ typedef enum TCMMMSessionState {
     NSMutableDictionary *I_profilesByUserID;
     TCMMMSessionState *I_state;
     NSMutableDictionary *I_participants;
+    NSMutableArray *I_pendingUsers;
+    NSMutableDictionary *I_stateByUserID;
     
     struct {
         BOOL isServer;
@@ -53,7 +57,11 @@ typedef enum TCMMMSessionState {
 - (void)setIsServer:(BOOL)isServer;
 - (BOOL)isServer;
 
+- (NSArray *)pendingUsers;
+
 - (NSData *)sessionBencoded;
+
+- (void)setState:(NSString *)aState forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 
 - (void)join;
 - (void)inviteUserWithID:(NSString *)aUserID;

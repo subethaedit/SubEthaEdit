@@ -11,8 +11,12 @@
 #import "TCMBencodingUtilities.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMBEEPSessionManager.h"
+#import "TCMMMUser.h"
 #import "SessionProfile.h"
 
+
+NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
+               @"TCMMMSessionPendingUsersDidChangeNotification";
 
 @implementation TCMMMSession
 
@@ -30,6 +34,8 @@
     if (self) {
         I_participants = [NSMutableDictionary new];
         I_profilesByUserID = [NSMutableDictionary new];
+        I_pendingUsers = [NSMutableArray new];
+        I_stateByUserID = [NSMutableDictionary new];
     }
     return self;
 }
@@ -62,6 +68,8 @@
     [I_filename release];
     [I_sessionID release];
     [I_profilesByUserID release];
+    [I_pendingUsers release];
+    [I_stateByUserID release];
     [super dealloc];
 }
 
@@ -123,6 +131,45 @@
     return I_flags.isServer;
 }
 
+- (NSArray *)pendingUsers {
+    return I_pendingUsers;
+}
+
+- (void)setState:(NSString *)aState forPendingUsersWithIndexes:(NSIndexSet *)aSet {
+    if ([aState isEqualToString:@"PoofState"]) {
+        NSMutableIndexSet *set = [aSet mutableCopy];
+        unsigned index;
+        while ((index = [set firstIndex]) != NSNotFound) {
+            TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
+            // deny
+        }
+        [set release];
+    } else {
+        NSMutableIndexSet *set = [aSet mutableCopy];
+        unsigned index;
+        while ((index = [set firstIndex]) != NSNotFound) {
+            TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
+            [I_stateByUserID setObject:aState forKey:[user userID]];
+            if (![I_participants objectForKey:aState]) {
+                [I_participants setObject:[NSMutableArray array] forKey:aState];
+            }
+            [[I_participants objectForKey:aState] addObject:user];
+            [[I_profilesByUserID objectForKey:[user userID]] acceptJoin];
+            [set removeIndex:index];
+        }
+        [set release];
+    }
+    
+    NSMutableIndexSet *set = [aSet mutableCopy];
+    unsigned index;
+    while ((index = [set lastIndex]) != NSNotFound) {
+        [I_pendingUsers removeObjectAtIndex:index];
+        [set removeIndex:index];
+    }
+    [set release];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+}
+
 - (NSData *)sessionBencoded
 {
     NSMutableDictionary *sessionDict = [NSMutableDictionary dictionary];
@@ -150,9 +197,11 @@
 {        
     NSString *peerUserID = [[[profile session] userInfo] objectForKey:@"peerUserID"];
     [I_profilesByUserID setObject:profile forKey:peerUserID];
+    // decide if autojoin depending on setting
     
-    // ask someone, but for now auto-accept joins
-    [profile acceptJoin];
+    // if no autojoin add user to pending users and notify 
+    [I_pendingUsers addObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
 }
 
 - (void)invitationWithProfile:(SessionProfile *)profile
@@ -164,7 +213,7 @@
 // When you request a profile you have to implement BEEPSession:didOpenChannelWithProfile: to receive the profile
 - (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
 {
-    // check if invitiation or join is happening
+    // check if invitation or join is happening
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
     [I_profilesByUserID setObject:profile forKey:[self hostID]];
     [profile setDelegate:self];

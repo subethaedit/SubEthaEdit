@@ -15,6 +15,7 @@
 
 - (void)sendJoinRequestForSessionID:(NSString *)aSessionID
 {
+    NSLog(@"Sending JONJON");
     NSMutableData *data = [NSMutableData dataWithBytes:"JONJON" length:6];
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[TCMMMUserManager me] notification], @"UserNotification",

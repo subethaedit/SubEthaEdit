@@ -2,6 +2,7 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {changePendingUsersAccess = id; }; 
             CLASS = PlainTextWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -11,6 +12,8 @@
                 "O_participantsScrollView" = NSScrollView; 
                 "O_participantsSplitView" = NSSplitView; 
                 "O_participantsView" = ParticipantsView; 
+                "O_pendingUsersAccessPopUpButton" = NSPopUpButton; 
+                "O_pendingUsersTableView" = NSTableView; 
                 "O_textView" = NSTextView; 
             }; 
             SUPERCLASS = NSWindowController; 

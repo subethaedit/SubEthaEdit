@@ -476,7 +476,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)profile:(SessionProfile *)profile didReceiveJoinRequestForSessionID:(NSString *)sessionID
 {
     NSLog(@"didReceiveJoinRequest: %@", sessionID);
-    TCMMMSession *session = [[TCMMMPresenceManager sharedInstance] sessionWithID:sessionID];
+    TCMMMSession *session = [[TCMMMPresenceManager sharedInstance] sessionForSessionID:sessionID];
     if (session) {
         [session joinRequestWithProfile:profile];
         [profile setDelegate:session];
@@ -503,7 +503,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession
 {
     NSLog(@"Got Session %@", aBEEPSession);
-    [aBEEPSession setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",@"http://www.codingmonkeys.de/BEEP/TCMMMStatus",nil]];
+    [aBEEPSession setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",@"http://www.codingmonkeys.de/BEEP/TCMMMStatus",@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",nil]];
     [aBEEPSession setDelegate:self];
     [aBEEPSession open];
     [I_pendingSessions addObject:aBEEPSession];

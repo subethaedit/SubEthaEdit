@@ -8,6 +8,8 @@
 
 #import "PlainTextWindowController.h"
 #import "ParticipantsView.h"
+#import "PlainTextDocument.h"
+#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 
 
 NSString * const PlainTextWindowToolbarIdentifier = @"PlainTextWindowToolbarIdentifier";
@@ -24,6 +26,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [O_participantsView release];
     [super dealloc];
 }
@@ -35,6 +38,8 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (void)windowDidLoad {
+    [O_pendingUsersTableView setTarget:self];
+    [O_pendingUsersTableView setDoubleAction:@selector(pendingUsersTableViewDoubleAction:)];
     [[O_textView layoutManager] replaceTextStorage:[[self document] textStorage]];
 
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
@@ -76,6 +81,11 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     //[O_actionPullDown sizeToFit];
     
     [O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(pendingUsersDidChange:)
+                                                 name:TCMMMSessionPendingUsersDidChangeNotification 
+                                               object:[(PlainTextDocument *)[self document] session]];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -96,6 +106,18 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 - (IBAction)toggleParticipantsDrawer:(id)sender {
     [O_participantsDrawer toggle:sender];
+}
+
+- (IBAction)changePendingUsersAccess:(id)aSender {
+
+}
+
+- (IBAction)pendingUsersTableViewDoubleAction:(id)aSender {
+    NSLog(@"pendingUsersTableViewDoubleAction");
+    NSIndexSet *set = [aSender selectedRowIndexes];
+    if ([set count] > 0) {
+        [[(PlainTextDocument *)[self document] session] setState:@"NixPoofState" forPendingUsersWithIndexes:set];
+    }
 }
 
 #pragma mark -
@@ -144,6 +166,27 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     }
     
     return YES;
+}
+
+#pragma mark -
+
+- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+    return [[[(PlainTextDocument *)[self document] session] pendingUsers] count];
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+    TCMMMUser *user = [[[(PlainTextDocument *)[self document] session] pendingUsers] objectAtIndex:row];
+    if ([[tableColumn identifier] isEqualToString:@"image"]) {
+        return [[user properties] objectForKey:@"Image16"];
+    } else if ([[tableColumn identifier] isEqualToString:@"name"]) {
+        return [user name];
+    }
+    
+    return nil;
+}
+
+- (void)pendingUsersDidChange:(NSNotification *)aNotifcation {
+    [O_pendingUsersTableView reloadData];
 }
 
 #pragma mark -
