@@ -10,6 +10,7 @@
                 "O_addressesController" = NSArrayController; 
                 "O_serviceController" = NSArrayController; 
                 "O_servicesController" = NSArrayController; 
+                "O_servicesTableView" = NSTableView; 
             }; 
             SUPERCLASS = NSObject; 
         }
