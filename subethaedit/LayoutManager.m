@@ -14,6 +14,7 @@
 #import "TCMMMSession.h"
 #import "GeneralPreferences.h"
 #import "TextStorage.h"
+#import "SelectionOperation.h"
 
 @implementation LayoutManager
 
@@ -184,9 +185,9 @@
 //    float saturation=[[[NSUserDefaults standardUserDefaults] objectForKey:SelectionSaturationPreferenceKey] floatValue];
 //    NSColor *backgroundColor=[NSColor documentBackgroundColor];
     while ((user = [participants nextObject])) {
-        NSValue *selectedRangeValue= [[user propertiesForSessionID:sessionID] objectForKey:@"SelectedRange"];
-        if (selectedRangeValue) {
-            NSRange selectionRange = NSIntersectionRange(charRange, [selectedRangeValue rangeValue]);
+        SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
+        if (selectionOperation) {
+            NSRange selectionRange = NSIntersectionRange(charRange, [selectionOperation selectedRange]);
             if (selectionRange.length !=0) {
                 NSColor *changeColor=[user changeColor];
                 NSColor *backgroundColor=[NSColor whiteColor]; // TODO: take from preferences

@@ -13,6 +13,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMSession.h"
+#import "SelectionOperation.h"
 
 
 @implementation TextView
@@ -179,9 +180,9 @@ static NSMenu *defaultMenu=nil;
     TCMMMUser *user;
     if (document) {
         while ((user=[participants nextObject])) {
-            NSValue *selectedRangeValue= [[user propertiesForSessionID:sessionID] objectForKey:@"SelectedRange"];
-            if (selectedRangeValue) {
-                NSRange selectionRange = [selectedRangeValue rangeValue];
+            SelectionOperation *selectionOperation= [[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
+            if (selectionOperation) {
+                NSRange selectionRange = [selectionOperation selectedRange];
                 if (selectionRange.length==0) {
                     // now we have to paint a caret at position
     //                NSRange selection = NSMakeRange((unsigned)[(NSNumber *)[selection objectAtIndex:0] unsignedIntValue],0);

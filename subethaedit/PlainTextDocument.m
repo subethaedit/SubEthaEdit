@@ -2047,12 +2047,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (!properties) {
         NSLog(@"Tried to change selection of user for session in which he isnt");
     } else {
-        NSValue *oldRangeValue=[properties objectForKey:@"SelectedRange"];
-        if (oldRangeValue) {
-            NSRange range=[oldRangeValue rangeValue];
-            [self invalidateLayoutForRange:range];
+        SelectionOperation *selectionOperation=[properties objectForKey:@"SelectionOperation"];
+        if (selectionOperation) {
+            [self invalidateLayoutForRange:[selectionOperation selectedRange]];
+            [selectionOperation setSelectedRange:aRange];
+        } else {
+            [properties setObject:[SelectionOperation selectionOperationWithRange:aRange userID:aUserID] forKey:@"SelectionOperation"];
         }
-        [properties setObject:[NSValue valueWithRange:aRange] forKey:@"SelectedRange"];
         [self invalidateLayoutForRange:aRange];
     }
     [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
@@ -2096,10 +2097,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [textStorage endEditing];
 
         // set selection of all textviews
+        TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
         int index=0;
         for (index=0;index<(int)[editors count];index++) {
             SelectionOperation *selectionOperation = [oldSelections objectAtIndex:index];
-            [[TCMMMTransformator sharedInstance] transformOperation:selectionOperation serverOperation:aOperation];
+            [transformator transformOperation:selectionOperation serverOperation:aOperation];
             editor = [editors objectAtIndex:index];
             [[editor textView] setSelectedRange:[selectionOperation selectedRange]];
         }
@@ -2116,8 +2118,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark ### TextStorage Delegate Methods ###
 - (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
     //NSLog(@"textStorage:%@ didReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
+    TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
     if (!I_flags.isRemotelyEditingTextStorage) {
-        TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
         [[self session] documentDidApplyOperation:textOp];
     } else {
         if ([aTextStorage length]==[aString length]) {
@@ -2147,6 +2149,29 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         I_bracketMatching.matchingBracketPosition=aRange.location;
     }
     [self triggerUpdateSymbolTableTimer];
+
+// transform all selectedRanges
+    TCMMMSession *session=[self session];
+    NSString *sessionID=[session sessionID];
+    NSEnumerator *participants=[[[session participants] objectForKey:@"ReadWrite"] objectEnumerator];
+    BOOL didChangeAParticipant=NO;
+    TCMMMUser *user=nil;
+    TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
+    while ((user=[participants nextObject])) {
+        SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
+        if (selectionOperation) {
+            NSRange oldRange=[selectionOperation selectedRange];
+            [transformator transformOperation:selectionOperation serverOperation:textOp];
+            if (!NSEqualRanges(oldRange,[selectionOperation selectedRange])) {
+                [self invalidateLayoutForRange:oldRange];
+                [self invalidateLayoutForRange:[selectionOperation selectedRange]];
+                didChangeAParticipant=YES;
+            }
+        }
+    }
+    if (didChangeAParticipant) {
+        [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
+    }
     
     if (I_webPreviewWindowController && 
         [[I_webPreviewWindowController window] isVisible] &&

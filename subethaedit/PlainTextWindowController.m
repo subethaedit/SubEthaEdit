@@ -587,9 +587,9 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
             return [user name];
         } else if (aTag==ParticipantsChildStatusTag) {
             NSMutableDictionary *properties=[user propertiesForSessionID:[session sessionID]];
-            NSValue *rangeValue=[properties objectForKey:@"SelectedRange"];
-            if (rangeValue) {
-                return [(TextStorage *)[document textStorage] positionStringForRange:[rangeValue rangeValue]];
+            SelectionOperation *selectionOperation=[properties objectForKey:@"SelectionOperation"];
+            if (selectionOperation) {
+                return [(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
             } else {
                 return @"No Position";
             }
