@@ -734,6 +734,7 @@ static NSString *tempFileName(NSString *origPath) {
     CFURLRef tool = NULL;
     CFDictionaryRef response = NULL;
     AuthorizationRef auth = NULL;
+    BOOL result = NO;
     
     err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
     if (err == noErr) {
@@ -767,19 +768,19 @@ static NSString *tempFileName(NSString *origPath) {
     
     NSDictionary *curAttributes = nil;
     
+    NSString *intermediateFileNameToSave;
+    NSString *actualFileNameToSave = [fullDocumentPath stringByResolvingSymlinksInPath]; // Follow links to save
+    curAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:actualFileNameToSave traverseLink:YES];
+
+    // Determine name of intermediate file
+    if (curAttributes) {
+        // Create a unique path in a temporary location.
+        intermediateFileNameToSave = tempFileName(actualFileNameToSave);
+    } else {    // No existing file, just write the final destination
+        intermediateFileNameToSave = actualFileNameToSave;
+    }
+    
     if (err == noErr) {
-
-        NSString *intermediateFileNameToSave;
-        NSString *actualFileNameToSave = [fullDocumentPath stringByResolvingSymlinksInPath]; // Follow links to save
-        curAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:actualFileNameToSave traverseLink:YES];
-
-        // Determine name of intermediate file
-        if (curAttributes) {
-            // Create a unique path in a temporary location.
-            intermediateFileNameToSave = tempFileName(actualFileNameToSave);
-        } else {    // No existing file, just write the final destination
-            intermediateFileNameToSave = actualFileNameToSave;
-        }
         
         // use the force to get a root-enabled file descriptor
         NSDictionary *request = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -787,8 +788,6 @@ static NSString *tempFileName(NSString *origPath) {
                                             intermediateFileNameToSave, @"FileName",
                                             nil];
         
-
-    
         // Go go gadget helper tool!    
         err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, &response);
     }
@@ -803,32 +802,49 @@ static NSString *tempFileName(NSString *origPath) {
                 int desc = [descNum longLongValue];
                 assert(desc >= 0);
                 assert( fcntl(desc, F_GETFD, 0) >= 0 );
-                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:desc];
+                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:desc closeOnDealloc:YES];
                 NSData *data = [self dataRepresentationOfType:docType];
                 [fileHandle writeData:data];
                 [fileHandle release];
-                close(desc);
             }
         }
     } 
     
-    // set attributes
-    
+    CFRelease(response);
+    response = NULL;
+
     if (curAttributes) {
-        // use the force to exchange the intermediate and actual file (exchangedata)
-        // if exchange succeeds
-        //   use the force to remove intermediate file
-        // if exchange files
-        //   use the force to rename intermediate file over actual file
+        // use the force to exchange the intermediate and actual file (exchangedata), otherwise use rename
+        NSDictionary *request = [NSDictionary dictionaryWithObjectsAndKeys:
+                                            @"ExchangeFileContents", @"CommandName",
+                                            intermediateFileNameToSave, @"IntermediateFileName",
+                                            actualFileNameToSave, @"ActualFileName",
+                                            curAttributes, @"Attributes",
+                                            nil];
+        
+        // Go go gadget helper tool!    
+        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, &response);
+        if (err == noErr) {
+            NSLog(@"response: %@", (NSDictionary *)response);
+            err = MoreSecGetErrorFromResponse(response);
+            if (err == noErr) {
+                result = YES;
+            }
+        }
     }
     
-    CFRelease(tool);
     CFRelease(response);
+    
+    if (err == noErr) {
+        // set attributes
+    }
+
+    CFRelease(tool);
     if (auth != NULL) {
         AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
     }
     
-    return NO;
+    return result;
 }
         
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {

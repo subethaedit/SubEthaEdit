@@ -9,8 +9,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import <string.h>	// For memcmp()...
+#import <unistd.h>	// For exchangedata()
+#import <sys/param.h>	// For MAXPATHLEN
 #include <stdio.h>
-#include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -46,6 +48,46 @@ static OSStatus GetFileDescriptor(CFStringRef fileName, CFDictionaryRef *result)
     return noErr;
 }
 
+static OSStatus ExchangeFileContents(CFStringRef path1, CFStringRef path2, CFDictionaryRef path2Attrs, CFDictionaryRef *result) {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    char cPath1[MAXPATHLEN+1];
+    char cPath2[MAXPATHLEN+1];
+    int err;
+    OSStatus status;
+    
+    if (![(NSString *)path1 getFileSystemRepresentation:cPath1 maxLength:MAXPATHLEN] || ![(NSString *)path2 getFileSystemRepresentation:cPath2 maxLength:MAXPATHLEN]) return paramErr;
+
+    status = MoreSecSetPrivilegedEUID();
+    if (status == noErr) {
+        
+        err = exchangedata(cPath1, cPath2, 0) ? errno : 0;
+
+        if (err == EACCES || err == EPERM) {	// Seems to be a write-protected or locked file; try temporarily changing
+            NSDictionary *attrs = (NSDictionary *)path2Attrs ? (NSDictionary *)path2Attrs : [fileManager fileAttributesAtPath:(NSString *)path2 traverseLink:YES];
+            NSNumber *curPerms = [attrs objectForKey:NSFilePosixPermissions];
+            BOOL curImmutable = [attrs fileIsImmutable];
+            if (curPerms) [fileManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedLong:[curPerms unsignedLongValue] | 0200], NSFilePosixPermissions, nil] atPath:(NSString *)path2];
+            if (curImmutable) [fileManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], NSFileImmutable, nil] atPath:(NSString *)path2];
+            err = exchangedata(cPath1, cPath2, 0) ? errno : 0;
+            // Restore original values
+            if (curPerms) [fileManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:curPerms, NSFilePosixPermissions, nil] atPath:(NSString *)path2];
+            if (curImmutable) [fileManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSFileImmutable, nil] atPath:(NSString *)path2];
+        }
+        if (err == 0) {
+            [fileManager removeFileAtPath:(NSString *)path1 handler:nil];
+        } else {
+            BOOL success = [fileManager movePath:(NSString *)path1 toPath:(NSString *)path2 handler:nil];
+            if (!success) {
+                [fileManager removeFileAtPath:(NSString *)path1 handler:nil];
+                status = paramErr;
+            }
+        }
+        
+        (void)MoreSecTemporarilySetNonPrivilegedEUID();
+    }
+    
+    return status;
+}
 
 static OSStatus TestToolCommandProc(AuthorizationRef auth, CFDictionaryRef request, CFDictionaryRef *result)
 	// Our command callback for MoreSecHelperToolMain.  Extracts 
@@ -53,35 +95,32 @@ static OSStatus TestToolCommandProc(AuthorizationRef auth, CFDictionaryRef reque
 	// through to the appropriate command handler (in this case 
 	// there's only one).
 {
-	OSStatus 	err;
-	CFStringRef command;
-        CFStringRef fileName;
-	
-	assert(auth != NULL);
-	assert(request != NULL);
-	assert( result != NULL);
-	assert(*result == NULL);
-	assert(geteuid() == getuid());
-	
-	err = noErr;
-	command = (CFStringRef)CFDictionaryGetValue(request, CFSTR("CommandName"));
-        fileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("FileName"));
-	if (   (command == NULL) 
-		|| (CFGetTypeID(command) != CFStringGetTypeID()) ) {
-		err = paramErr;
-	}
-	if (err == noErr) {
-                if (CFEqual(command, CFSTR("GetFileDescriptor"))) {
-			// On the other hand, in this example, opening these low-numbered ports is 
-			// not considered a privileged operation, and so we don't acquire a right 
-			// before doing it.
-			
-			err = GetFileDescriptor(fileName, result);
-		} else {
-			err = paramErr;
-		}
-	}
-	return err;
+    OSStatus 	err;
+    CFStringRef command;
+
+    assert(auth != NULL);
+    assert(request != NULL);
+    assert( result != NULL);
+    assert(*result == NULL);
+    assert(geteuid() == getuid());
+
+    err = noErr;
+    command = (CFStringRef)CFDictionaryGetValue(request, CFSTR("CommandName"));
+    if ((command == NULL) || (CFGetTypeID(command) != CFStringGetTypeID())) {
+        err = paramErr;
+    }
+    if (err == noErr) {
+        if (CFEqual(command, CFSTR("GetFileDescriptor"))) {
+            CFStringRef fileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("FileName"));
+            err = GetFileDescriptor(fileName, result);
+        } else if (CFEqual(command, CFSTR("ExchangeFileContents"))) {
+            CFStringRef intermediateFileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("IntermediateFileName"));
+            CFStringRef actualFileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("ActualFileName"));
+            CFDictionaryRef attributes = (CFDictionaryRef)CFDictionaryGetValue(request, CFSTR("Attributes"));
+            err = ExchangeFileContents(intermediateFileName, actualFileName, attributes, result);
+        }
+    }
+    return err;
 }
 
 
