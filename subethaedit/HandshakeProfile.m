@@ -91,9 +91,15 @@
                 [[self session] terminate];
             }
         } else if (strncmp(type, "ACK", 3) == 0) {
-            [[self delegate] profile:self receivedAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];
-            TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
-            [[self channel] sendMessage:[message autorelease]];        
+            BOOL isRendezvous = [[[self session] userInfo] objectForKey:@"isRendezvous"] != nil ? YES : NO;
+            BOOL isProhibitingInboundInternetSessions = [[TCMMMBEEPSessionManager sharedInstance] isProhibitingInboundInternetSessions];
+            if (!isProhibitingInboundInternetSessions || isRendezvous) {
+                [[self delegate] profile:self receivedAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];
+                TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
+                [[self channel] sendMessage:[message autorelease]];   
+            } else {
+                [[self session] terminate];
+            }     
         } 
     } else if ([aMessage isRPY]) {
         if ([[aMessage payload] length] > 0) {

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const ProhibitInboundInternetSessions;
 
 extern NSString * const TCMMMBEEPSessionManagerDidAcceptSessionNotification;
 extern NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification;
@@ -26,11 +27,15 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostCancelledNotificatio
     NSMutableArray *I_sessions;
     
     NSMutableDictionary *I_outboundInternetSessions;
+    BOOL I_isProhibitingInboundInternetSessions;
 }
 
 + (TCMMMBEEPSessionManager *)sharedInstance;
 - (BOOL)listen;
 - (int)listeningPort;
+
+- (void)setIsProhibitingInboundInternetSessions:(BOOL)flag;
+- (BOOL)isProhibitingInboundInternetSessions;
 
 - (void)connectToNetService:(NSNetService *)aNetService;
 - (void)connectToHost:(TCMHost *)aHost;

@@ -24,6 +24,7 @@
     NSMutableArray *I_comboBoxItems;
     NSMutableDictionary *I_resolvingHosts;
     NSMutableDictionary *I_resolvedHosts;
+    NSMutableSet *I_prohibitedInboundSessions;
 }
 
 + (InternetBrowserController *)sharedInstance;
@@ -33,6 +34,7 @@
 
 - (IBAction)connect:(id)aSender;
 - (IBAction)setVisibilityByMenuItem:(id)aSender;
+- (IBAction)toggleProhibitInboundConnections:(id)aSender;
 
 - (void)connectToAddress:(NSString *)address;
 

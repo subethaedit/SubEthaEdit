@@ -69,6 +69,7 @@ NSString * const AddressHistory = @"AddressHistory";
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
     [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
     [defaults setObject:[NSMutableArray array] forKey:AddressHistory];
+    [defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];

@@ -20,6 +20,8 @@
 
 #define PORTRANGELENGTH 10
 
+NSString * const ProhibitInboundInternetSessions = @"ProhibitInboundInternetSessions";
+
 
 static NSString *kBEEPSessionStatusNoSession  = @"NoSession";
 static NSString *kBEEPSessionStatusGotSession = @"GotSession";
@@ -74,6 +76,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_pendingSessions = [NSMutableSet new];
         I_outboundInternetSessions = [NSMutableDictionary new];
         I_sessions = [NSMutableArray new];
+        BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:ProhibitInboundInternetSessions];
+        [self setIsProhibitingInboundInternetSessions:flag];
     }
     return self;
 }
@@ -131,6 +135,16 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (int)listeningPort {
     return I_listeningPort;
+}
+
+- (void)setIsProhibitingInboundInternetSessions:(BOOL)flag {
+    I_isProhibitingInboundInternetSessions = flag;
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:ProhibitInboundInternetSessions];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)isProhibitingInboundInternetSessions {
+    return I_isProhibitingInboundInternetSessions;
 }
 
 - (NSMutableDictionary *)sessionInformationForUserID:(NSString *)aUserID {

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TCMBEEP/TCMBEEP.h"
+#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 
 
 @interface HandshakeProfile : TCMBEEPProfile

@@ -54,7 +54,7 @@ static InternetBrowserController *sharedInstance = nil;
         I_data = [NSMutableArray new];
         I_resolvingHosts = [NSMutableDictionary new];
         I_resolvedHosts = [NSMutableDictionary new];
-        
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
     
@@ -175,6 +175,7 @@ static InternetBrowserController *sharedInstance = nil;
     BOOL isVisible = [[TCMMMPresenceManager sharedInstance] isVisible];
     [[aMenu itemWithTag:10] setState:isVisible ? NSOnState : NSOffState];
     [[aMenu itemWithTag:11] setState:(!isVisible) ? NSOnState : NSOffState];
+    [[aMenu itemWithTag:12] setState:[[TCMMMBEEPSessionManager sharedInstance] isProhibitingInboundInternetSessions] ? NSOnState : NSOffState];
 }
 
 - (void)connectToAddress:(NSString *)address {
@@ -281,6 +282,16 @@ static InternetBrowserController *sharedInstance = nil;
 
 - (IBAction)setVisibilityByMenuItem:(id)aSender {
     [[TCMMMPresenceManager sharedInstance] setVisible:([aSender tag] == 10)];
+}
+
+- (IBAction)toggleProhibitInboundConnections:(id)aSender {
+    if ([aSender state] == NSOffState) {
+        [aSender setState:NSOnState];
+        [[TCMMMBEEPSessionManager sharedInstance] setIsProhibitingInboundInternetSessions:YES];
+    } else if ([aSender state] == NSOnState) {
+        [aSender setState:NSOffState];
+        [[TCMMMBEEPSessionManager sharedInstance] setIsProhibitingInboundInternetSessions:NO];    
+    }
 }
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -570,6 +581,11 @@ static InternetBrowserController *sharedInstance = nil;
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
     NSString *URLString = [[session userInfo] objectForKey:@"URLString"];
+    BOOL isRendezvous = [[session userInfo] objectForKey:@"isRendezvous"] != nil ? YES : NO;
+    if (isRendezvous) {
+        return;
+    }
+    
     int index = [self indexOfItemWithURLString:URLString];
     if (index != -1) {
         NSString *userID = [[session userInfo] objectForKey:@"peerUserID"];
@@ -587,20 +603,17 @@ static InternetBrowserController *sharedInstance = nil;
         [self processDocumentURL:[item objectForKey:@"URL"]];
     } else {
         // Inbound session
-        BOOL isRendezvous = [[session userInfo] objectForKey:@"isRendezvous"] != nil ? YES : NO;
-        if (!isRendezvous) {
-            NSString *userID = [[session userInfo] objectForKey:@"peerUserID"];
-            NSDictionary *infoDict = [[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
-            NSMutableArray *sessions = [[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy];
-            NSString *URLString = [[session userInfo] objectForKey:@"URLString"];
-            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                        userID, @"UserID",
-                                                        URLString, @"URLString",
-                                                        session, @"BEEPSession",
-                                                        [NSNumber numberWithBool:YES], @"inbound",
-                                                        sessions, @"Sessions",
-                                                        HostEntryStatusSessionOpen, @"status", nil]];
-        }
+        NSString *userID = [[session userInfo] objectForKey:@"peerUserID"];
+        NSDictionary *infoDict = [[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
+        NSMutableArray *sessions = [[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy];
+        NSString *URLString = [[session userInfo] objectForKey:@"URLString"];
+        [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                    userID, @"UserID",
+                                                    URLString, @"URLString",
+                                                    session, @"BEEPSession",
+                                                    [NSNumber numberWithBool:YES], @"inbound",
+                                                    sessions, @"Sessions",
+                                                    HostEntryStatusSessionOpen, @"status", nil]];
     }
     [O_browserListView reloadData];
 }
@@ -881,6 +894,32 @@ static InternetBrowserController *sharedInstance = nil;
     }
     
     return nil;
+}
+
+- (BOOL)listView:(TCMMMBrowserListView *)listView writeRows:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pboard {
+    BOOL allowDrag = YES;
+    NSMutableArray *users = [NSMutableArray array];
+    NSMutableIndexSet *set = [indexes mutableCopy];
+    unsigned int index;
+    while ((index = [set firstIndex]) != NSNotFound) {
+        ItemChildPair pair = [listView itemChildPairAtRow:index];
+        NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
+        [users addObject:item];
+        if (pair.childIndex != -1) {
+            allowDrag = NO;
+            break;
+        }
+        [set removeIndex:index];
+    }
+    [set release];
+    
+    if (allowDrag) {
+        [pboard declareTypes:[NSArray arrayWithObject:@"PboardTypeTBD"] owner:nil];
+        NSData *data = [NSArchiver archivedDataWithRootObject:users];
+        [pboard setData:data forType:@"PboardTypeTBD"];
+    }
+    
+    return allowDrag;
 }
 
 #pragma mark -
