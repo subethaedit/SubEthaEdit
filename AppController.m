@@ -54,7 +54,7 @@ int const WindowMenuTag = 3000;
 
 NSString * const DefaultPortNumber = @"port";
 NSString * const AddressHistory = @"AddressHistory";
-NSString * const SetupDonePrefKey = @"SetupDone";
+NSString * const SetupDonePrefKey = @"SetupDoneAppleEvaluation";
 NSString * const SerialNumberPrefKey = @"SerialNumberPrefKey";
 NSString * const LicenseeNamePrefKey = @"LicenseeNamePrefKey";
 NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
@@ -266,11 +266,11 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 
-//    #warning "Termination has to be removed before release!"
-//    if ([[NSDate dateWithString:@"2004-06-18 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
-//        [NSApp terminate:self];
-//        return;
-//    }
+    if ([[NSDate dateWithString:@"2004-10-01 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
+		NSRunInformationalAlertPanel(@"Licensed for Evaluation", @"Evaluation License has expired on 10/01/2004.", @"OK", nil, nil, NULL);
+        [NSApp terminate:self];
+        return;
+    }
     
     [self registerTransformers];
     [self addMe];
@@ -298,9 +298,13 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is acutally after the opening of the first untitled document window!
-
+			
     BOOL isSetupDone = [[NSUserDefaults standardUserDefaults] boolForKey:SetupDonePrefKey];
     if (!isSetupDone) {
+		NSRunInformationalAlertPanel(@"Licensed for Evaluation", @"Evaluation License expires on 10/01/2004.", @"OK", nil, nil, NULL);
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupDonePrefKey];
+		
+		/*
         SetupController *setupController = [SetupController sharedInstance];
         NSModalSession modalSession = [NSApp beginModalSessionForWindow:[setupController window]];
         for (;;) {
@@ -308,6 +312,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
             break;
         }
         [NSApp endModalSession:modalSession];
+		*/
     }
     
     // set up beep profiles
@@ -438,16 +443,16 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
             return NO;
         }
     } else if (selector==@selector(purchaseSubEthaEdit:)) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
+        //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *serial = @"";
+        NSString *name = @"";
         if (name && [serial isValidSerial]) {
             return NO;
         }
     } else if (selector==@selector(enterSerialNumber:)) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
+        //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *serial = @"";
+        NSString *name = @"";
         if (name && [serial isValidSerial]) {
             return NO;
         }

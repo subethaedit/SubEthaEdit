@@ -148,6 +148,8 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 - (BOOL) isValidSerial 
 {
+	return YES;
+/*
     NSArray *splitArray = [self componentsSeparatedByString:@"-"];
     if ([splitArray count]==4) {
         NSString *zero = [splitArray objectAtIndex:0];
@@ -181,6 +183,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         }
     }
     return NO;
+*/
 }
 
 - (long) base36Value 

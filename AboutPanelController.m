@@ -19,10 +19,10 @@
 }
 
 - (void)fillLicenseInfoField {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-    NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
-    NSString *organization = [defaults stringForKey:LicenseeOrganizationPrefKey];
+    //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *serial = @"";
+    NSString *name = @"Apple Computer, Inc.";
+    NSString *organization = @"Evaluation License expires on 10/01/2004";
     if (name && [serial isValidSerial]) {
         [O_licenseeLabel setHidden:NO];
         [O_licenseeNameField setObjectValue:name];
