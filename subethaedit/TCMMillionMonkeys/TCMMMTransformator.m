@@ -58,8 +58,8 @@ static TCMMMTransformator *sharedInstance = nil;
 - (void)transformOperation:(TCMMMOperation *)anOperation serverOperation:(TCMMMOperation *)aServerOperation {
     NSInvocation *invocation = [[I_registeredTransformations objectForKey:[anOperation operationID]] objectForKey:[aServerOperation operationID]];
     if (invocation) {
-        [invocation setArgument:anOperation atIndex:2];
-        [invocation setArgument:aServerOperation atIndex:3];
+        [invocation setArgument:&anOperation atIndex:2];
+        [invocation setArgument:&aServerOperation atIndex:3];
         [invocation invoke];
     }
 }

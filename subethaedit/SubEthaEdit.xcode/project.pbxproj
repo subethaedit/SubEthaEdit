@@ -1411,6 +1411,22 @@
 			settings = {
 			};
 		};
+		5E2A5BA806132149006242F9 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5E2A5BAB0613217C006242F9,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5E2A5BAB0613217C006242F9 = {
+			fileRef = 31B738E40611C6330004F28D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E4F35B305EF7530009D71ED = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -2377,6 +2393,7 @@
 				144DD74906104A760047D354,
 				8D15AC300486D014006FF6A4,
 				8D15AC330486D014006FF6A4,
+				5E2A5BA806132149006242F9,
 			);
 			buildRules = (
 			);
