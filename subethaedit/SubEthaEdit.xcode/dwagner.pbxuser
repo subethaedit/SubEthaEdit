@@ -508,8 +508,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {484, 176}}",
-							"{{484, 0}, {426, 176}}",
+							"{{0, 0}, {484, 175}}",
+							"{{484, 0}, {426, 175}}",
 						);
 					};
 					VerticalSplitView = {
@@ -518,8 +518,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {910, 176}}",
-							"{{0, 176}, {910, 272}}",
+							"{{0, 0}, {910, 175}}",
+							"{{0, 175}, {910, 273}}",
 						);
 					};
 				};
@@ -685,7 +685,7 @@
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectFindModule" = {
 				Frame = "{{0, 0}, {840, 496}}";
-				RubberWindowFrame = "321 50 840 538 0 0 1280 832 ";
+				RubberWindowFrame = "67 238 840 538 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
 				Frame = "{{0, 0}, {600, 301}}";
@@ -1072,7 +1072,7 @@
 	5EDB87E605F8AFE30058C44A = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1220.19, 4018}}";
-			sepNavSelRange = "{10517, 0}";
+			sepNavSelRange = "{10518, 0}";
 			sepNavVisRect = "{{0, 0}, {561, 141}}";
 		};
 	};

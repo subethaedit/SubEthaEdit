@@ -216,7 +216,6 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 - (int)participantsView:(ParticipantsView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex {
     NSDictionary *participants=[[(PlainTextDocument *)[self document] session] participants];
-    NSLog(@"Participants: %@",[participants description]);
     if (anItemIndex==0) {
         return [[participants objectForKey:@"ReadWrite"] count];
     } else if (anItemIndex==1) {

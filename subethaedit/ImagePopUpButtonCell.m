@@ -12,8 +12,8 @@
 @implementation ImagePopUpButtonCell
 
 - (void)dealloc {
-    [I_image release];
-    [I_alternateImage release];
+    [self setImage:nil];
+    [self setAlternateImage:nil];
     [super dealloc];
 }
 
