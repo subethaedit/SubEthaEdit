@@ -379,13 +379,13 @@ static AppController *sharedInstance = nil;
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
-    BOOL result;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL isSetupDone = ([defaults objectForKey:SetupVersionPrefKey] != nil);
     if (!isSetupDone) {
-        result = NO;
+        I_lastShouldOpenUntitledFile = NO;
+        return NO;
     }
-    result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+    BOOL result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
     I_lastShouldOpenUntitledFile = result;
     return result;
 }
