@@ -910,6 +910,8 @@ TCMBEEP/TCMBEEPSession.m -text
 /TCMBencodingUtilities.m -text
 /TCMHost.h -text
 /TCMHost.m -text
+/TCMIdleTimer.h -text
+/TCMIdleTimer.m -text
 /TCMListView.h -text
 /TCMListView.m -text
 /TCMMMUserSEEAdditions.h -text

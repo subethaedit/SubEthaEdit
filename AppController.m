@@ -17,6 +17,7 @@
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
 #import "SetupController.h"
+#import "TCMIdleTimer.h"
 
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
@@ -27,6 +28,8 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 #import "DocumentModeManager.h"
+#import "DocumentController.h"
+#import "PlainTextEditor.h"
 #import "TextOperation.h"
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
@@ -358,6 +361,8 @@ static AppController *sharedInstance = nil;
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 
     [InternetBrowserController sharedInstance];
+    I_idleTimer=[[TCMIdleTimer alloc] initWithBeginInterval:30. repeatInterval:100000000.];
+    [I_idleTimer setDelegate:self];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -383,6 +388,37 @@ static AppController *sharedInstance = nil;
 - (BOOL)lastShouldOpenUntitledFile {
     return I_lastShouldOpenUntitledFile;
 }
+
+- (BOOL)applicationIsIdling {
+    return [I_idleTimer isIdling];
+}
+
+- (void)setNeedsDisplayOnTextViews {
+    NSEnumerator *documents=[[[DocumentController sharedInstance] documents] objectEnumerator];
+    PlainTextDocument *document=nil;
+    while ((document=[documents nextObject])) {
+        NSEnumerator *editors=[[document plainTextEditors] objectEnumerator];
+        PlainTextEditor *editor=nil;
+        while ((editor=[editors nextObject])) {
+            [[editor textView] setNeedsDisplay:YES];
+        }
+    }
+}
+
+- (void)idleTimerDidFire:(id)aSender {
+    // make all textviews draw their background if not registered
+    if (!abcde()) {
+        [self setNeedsDisplayOnTextViews];
+    }
+}
+
+- (void)idleTimerDidStop:(id)aSender {
+    // make all textviews draw their background if not registered
+    if (!abcde()) {
+        [self setNeedsDisplayOnTextViews];
+    }
+}
+
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {
     static NSMenu *dockMenu=nil;

@@ -33,7 +33,7 @@ static NSColor *nonCommercialColor=nil;
     if ([text length] < 3) {
         text = @"non-commercial use only";
     }
-    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:[NSColor colorWithCalibratedWhite:.5 alpha:.25],NSForegroundColorAttributeName,font,NSFontAttributeName,nil];
+    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:[NSColor colorWithCalibratedWhite:.5 alpha:.35],NSForegroundColorAttributeName,font,NSFontAttributeName,nil];
     rect.size=[text sizeWithAttributes:attributes];
     float height=rect.size.height;
     float width=rect.size.width;
@@ -212,7 +212,7 @@ static NSColor *nonCommercialColor=nil;
 
 - (void)drawViewBackgroundInRect:(NSRect)rect {
     [super drawViewBackgroundInRect:rect];
-    if (!abcde()) {
+    if (!abcde() && [[AppController sharedInstance] applicationIsIdling]) {
         NSGraphicsContext *context=[NSGraphicsContext currentContext];
         NSPoint phase=[context patternPhase];
         [context setPatternPhase:NSMakePoint(phase.x+[[self superview] frame].origin.x,phase.y)];
