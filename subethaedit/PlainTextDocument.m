@@ -1242,6 +1242,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return nil;
 }
 
+- (BOOL)readFromURL:(NSURL *)aURL ofType:(NSString *)docType {
+    if ([aURL isFileURL]) {
+        return [self readFromFile:[aURL path] ofType:docType];
+    } else {
+        return NO;
+    }
+}
 
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
 

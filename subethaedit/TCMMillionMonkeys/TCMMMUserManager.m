@@ -184,7 +184,12 @@ static TCMMMUserManager *sharedInstance=nil;
         while ((userID = [enumerator nextObject])) {
             TCMMMUser *user = [self userForUserID:userID];
             if ([[user properties] objectForKey:@"AIM"]) {
-                isValid = YES;
+                if ([userID isEqualToString:[TCMMMUserManager myUserID]]) {
+                    isValid = NO;
+                    break;
+                } else {
+                    isValid = YES;
+                }
             } else {
                 isValid = NO;
                 break;
@@ -197,12 +202,20 @@ static TCMMMUserManager *sharedInstance=nil;
 }
 
 - (IBAction)sendEmail:(id)sender {
+    NSMutableString *URLString = [NSMutableString stringWithString:@"mailto:"];
     NSEnumerator *enumerator = [[sender representedObject] objectEnumerator];
     NSString *userID;
+    BOOL hasRecipient = NO;
     while ((userID = [enumerator nextObject])) {
         TCMMMUser *user = [self userForUserID:userID];
         NSString *email = [[user properties] objectForKey:@"Email"];
-        NSString *URLString = [NSString stringWithFormat:@"mailto:%@", email];
+        [URLString appendFormat:@"%@,", email];
+        hasRecipient = YES;
+    }
+    
+    if (hasRecipient) {
+        [URLString deleteCharactersInRange:NSMakeRange([URLString length] - 1, 1)];
+        NSLog(@"URLString: %@", URLString);
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URLString]];
     }
 }
