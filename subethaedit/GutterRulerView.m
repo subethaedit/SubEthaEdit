@@ -107,6 +107,11 @@
                                                       -(boundingRect.size.height-sizeOfZero.height)/2.-1.) 
                            withAttributes:attributes];
         }
+        
+        float potentialNewWidth=8.+sizeOfZero.width*cardinality;
+        if ([self ruleThickness]<potentialNewWidth) {
+            [self setRuleThickness:potentialNewWidth];
+        }
     }
 }
 
