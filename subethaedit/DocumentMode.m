@@ -77,6 +77,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 - (id)initWithBundle:(NSBundle *)aBundle {
     self = [super init];
     if (self) {
+        I_autocompleteDictionary = [NSMutableArray new];
         I_bundle = [aBundle retain];
         SyntaxDefinition *synDef = [[[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"] forMode:self] autorelease];
         RegexSymbolDefinition *symDef = [[[RegexSymbolDefinition alloc] initWithFile:[aBundle pathForResource:@"RegexSymbols" ofType:@"xml"] forMode:self] autorelease];
@@ -142,6 +143,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_defaults release];
     [I_syntaxHighlighter release];
     [I_symbolParser release];
+    [I_autocompleteDictionary release];
     [I_bundle release];
     [super dealloc];
 }
@@ -164,6 +166,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (RegexSymbolParser *)symbolParser {
     return I_symbolParser;
+}
+
+- (NSMutableArray *) autocompleteDictionary {
+    return I_autocompleteDictionary;
 }
 
 - (BOOL)hasSymbols {

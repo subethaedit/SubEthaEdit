@@ -298,10 +298,12 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
 }
 
 /*"Parse <string> and <regex> tags for keyword groups"*/
-- (void)addKeywordsForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary
+- (void)addKeywordsForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary 
 {
     int childCount;
     int index;
+    NSMutableArray *autocompleteDictionary = [[self mode] autocompleteDictionary];
+    BOOL autocomplete = [[aDictionary objectForKey:@"useforautocomplete"] isEqualToString:@"yes"];
     
     childCount = CFTreeGetChildCount(aTree);
     for (index = 0; index < childCount; index++) {
@@ -323,6 +325,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
                 plainStrings = [aDictionary objectForKey:@"PlainStrings"];
             }
             [plainStrings addObject:content];
+            if (autocomplete) [autocompleteDictionary addObject:content];
         }
     }
 }

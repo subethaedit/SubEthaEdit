@@ -35,6 +35,7 @@ extern NSString * const DocumentModeRowsPreferenceKey                   ;
     NSBundle *I_bundle;
     SyntaxHighlighter *I_syntaxHighlighter;
     RegexSymbolParser *I_symbolParser;
+    NSMutableArray *I_autocompleteDictionary;
     NSMutableDictionary *I_defaults;
 }
 
@@ -42,6 +43,7 @@ extern NSString * const DocumentModeRowsPreferenceKey                   ;
 
 - (SyntaxHighlighter *)syntaxHighlighter;
 - (RegexSymbolParser *)symbolParser;
+- (NSMutableArray *) autocompleteDictionary;
 
 - (BOOL)hasSymbols;
 - (NSArray *)symbolArrayForTextStorage:(NSTextStorage *)aTextStorage;

@@ -816,7 +816,7 @@
     partialWord = [[[textView textStorage] string] substringWithRange:charRange];
     
     // Find all known names.
-    completionSource = [NSMutableArray arrayWithObjects:@"foo",@"foobar",@"bar",nil];
+    completionSource = [NSMutableArray arrayWithArray:[[[self document] documentMode] autocompleteDictionary]];
     [completionSource addObjectsFromArray:words]; // The whole stuff: spellchecker, all words in text
     count = [completionSource count];
     
