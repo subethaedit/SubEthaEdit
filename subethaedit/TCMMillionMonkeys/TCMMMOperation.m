@@ -23,7 +23,7 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 
 + (id)operationWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     Class class = [sClassForOperationTypeDictionary objectForKey:[aDictionary objectForKey:TCMMMOperationTypeKey]];
-    TCMMMOperation *operation=[[[class alloc] initWithDictionaryRepresentation:aDictionary] autorelease];
+    TCMMMOperation *operation = [[[class alloc] initWithDictionaryRepresentation:aDictionary] autorelease];
     return operation;
 }
 
@@ -52,8 +52,8 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 
 - (NSDictionary *)dictionaryRepresentation {
     return [NSDictionary dictionaryWithObjectsAndKeys:
-                [self operationID],TCMMMOperationTypeKey,
-                [NSData dataWithUUIDString:[self userID]],@"uid",nil];
+                [self operationID], TCMMMOperationTypeKey,
+                [NSData dataWithUUIDString:[self userID]], @"uid", nil];
 }
 
 - (NSString *)operationID {

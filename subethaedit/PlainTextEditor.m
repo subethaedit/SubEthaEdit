@@ -22,6 +22,7 @@
 #import "PopUpButtonCell.h"
 #import "RadarScroller.h"
 #import "SelectionOperation.h"
+#import "UndoManager.h"
 #import <OgreKit/OgreKit.h>
 
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions) 

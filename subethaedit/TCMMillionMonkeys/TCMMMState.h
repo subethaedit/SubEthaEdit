@@ -24,12 +24,16 @@
     long long I_numberOfServerMessages;
     NSMutableArray *I_messageBuffer;
     BOOL I_isServer;
+    BOOL I_isSendingNoOps;
     NSObject <TCMMMStateClientProtocol> *I_client;
+    NSTimer *I_timer;
     id I_delegate;
 }
 
 - (id)initAsServer:(BOOL)isServer;
 
+- (BOOL)isSendingNoOps;
+- (void)setIsSendingNoOps:(BOOL)aFlag;
 - (BOOL)isServer;
 - (void)setClient:(NSObject <TCMMMStateClientProtocol> *)aClient;
 - (NSObject <TCMMMStateClientProtocol> *)client;

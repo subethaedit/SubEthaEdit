@@ -651,6 +651,8 @@ subethaedit/TCMMillionMonkeys/TCMMMBrowserListView.h -text
 subethaedit/TCMMillionMonkeys/TCMMMBrowserListView.m -text
 subethaedit/TCMMillionMonkeys/TCMMMMessage.h -text
 subethaedit/TCMMillionMonkeys/TCMMMMessage.m -text
+subethaedit/TCMMillionMonkeys/TCMMMNoOperation.h -text
+subethaedit/TCMMillionMonkeys/TCMMMNoOperation.m -text
 subethaedit/TCMMillionMonkeys/TCMMMOperation.h -text
 subethaedit/TCMMillionMonkeys/TCMMMOperation.m -text
 subethaedit/TCMMillionMonkeys/TCMMMPresenceManager.h -text

@@ -8,8 +8,10 @@
 
 #import "TCMMMState.h"
 #import "TCMMMOperation.h"
+#import "TCMMMNoOperation.h"
 #import "TCMMMMessage.h"
 #import "TCMMMTransformator.h"
+#import "TCMMMUserManager.h"
 
 
 @implementation TCMMMState
@@ -21,6 +23,7 @@
         I_isServer = isServer;
         I_numberOfClientMessages = 0;
         I_numberOfServerMessages = 0;
+        I_isSendingNoOps = NO;
     }
     return self;
 }
@@ -28,8 +31,31 @@
 - (void)dealloc {
     I_client = nil;
     I_delegate = nil;
+    [I_timer invalidate];
+    [I_timer release];
     [I_messageBuffer release];
     [super dealloc];
+}
+
+- (BOOL)isSendingNoOps {
+    return I_isSendingNoOps;
+}
+
+- (void)setIsSendingNoOps:(BOOL)aFlag {
+    if (aFlag) {
+        if (!I_isSendingNoOps) {
+            I_timer = [[NSTimer timerWithTimeInterval:60 target:self selector:@selector(sendNoOperation:) userInfo:nil repeats:YES] retain];
+            [[NSRunLoop currentRunLoop] addTimer:I_timer forMode:NSDefaultRunLoopMode];
+        }
+    } else {
+        if (I_isSendingNoOps) {
+            [I_timer invalidate];
+            [I_timer release];
+            I_timer = nil;
+        }
+    }
+        
+    I_isSendingNoOps = aFlag;
 }
 
 - (BOOL)isServer {
@@ -53,6 +79,9 @@
 }
 
 - (void)handleMessage:(TCMMMMessage *)aMessage {
+    
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"handleMessage: %@", aMessage);
+    
     // clean up buffer
     unsigned int i;
     if (I_isServer) {
@@ -119,6 +148,19 @@
     }
     [I_messageBuffer addObject:message];
     [I_client state:self handleMessage:message];
+}
+
+#pragma mark -
+
+- (void)sendNoOperation:(NSTimer *)timer {
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Send nop");
+    if (!I_delegate || !I_client) {
+        [I_timer invalidate];
+        return;
+    }
+    TCMMMNoOperation *operation = [[TCMMMNoOperation alloc] init];
+    [operation setUserID:[TCMMMUserManager myUserID]];
+    [self handleOperation:[operation autorelease]];
 }
 
 @end

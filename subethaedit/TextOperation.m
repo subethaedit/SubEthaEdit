@@ -28,7 +28,7 @@
 }
 
 + (void)transformTextOperation:(TextOperation *)aClientOperation serverTextOperation:(TextOperation *)aServerOperation {
-   DEBUGLOG(@"MillionMonkeysLogDomain",AllLogLevel,@"transformText: %@, %@", [aClientOperation description], [aServerOperation description]);
+   DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"transformText: %@, %@", [aClientOperation description], [aServerOperation description]);
     
     if (DisjointRanges([aClientOperation affectedCharRange], [aServerOperation affectedCharRange])) {
         // non-conflicting operations

@@ -728,6 +728,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [state setDelegate:self];
         [state setClient:[I_profilesByUserID objectForKey:[self hostID]]];
         [profile setMMState:state];
+        [state setIsSendingNoOps:YES];
         [I_statesByClientID setObject:state forKey:[self hostID]];
         [state release];
     }
@@ -737,6 +738,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     TCMMMState *state=[I_statesByClientID objectForKey:peerUserID];
     [aProfile setMMState:state];
+    [state setIsSendingNoOps:YES];
 }
 
 - (void)profileDidDenyJoinRequest:(SessionProfile *)aProfile
