@@ -455,6 +455,7 @@ NSString * const TCMMMSessionDidChangeNotification =
         SessionProfile *profile = [I_profilesByUserID objectForKey:[self hostID]];
         if (profile) {
             [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[TCMMMUserManager myUserID] newGroup:@""]];
+            [profile abortIncomingMessages];
             [profile close];
             [self detachStateAndProfileForUserWithID:[self hostID]];
             [self cleanupParticipants];

@@ -74,6 +74,7 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_outgoingWindowSize = 4096;
             I_flags.isInitiator = isInitiator;
             I_channelStatus = TCMBEEPChannelStatusOpen;
+            I_preemptedMessageNumbers = [NSMutableIndexSet new];
         } else {
             [super dealloc];
             return nil;
@@ -97,6 +98,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     [I_answerReadQueues release];
     [I_messageWriteQueue release];
     [I_outgoingFrameQueue release];
+    [I_preemptedMessageNumbers release];
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Channel deallocated");
     [super dealloc];
 }
@@ -210,12 +212,25 @@ static NSMutableDictionary *profileURIToClassMapping;
     if (I_channelStatus == TCMBEEPChannelStatusAtEnd ||
         I_channelStatus == TCMBEEPChannelStatusClosing ||
         I_channelStatus == TCMBEEPChannelStatusCloseRequested) {
-        NSLog(@"Trying to send message after telling channel to close");
+        DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Trying to send message after telling channel to close");
         return -1;
     }
-    int32_t number=[self nextMessageNumber];
+    int32_t number = [self nextMessageNumber];
     [self sendMessage:[[[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:number payload:aPayload] autorelease]];
     return number;
+}
+
+- (BOOL)preemptFrame:(TCMBEEPFrame *)aFrame
+{
+    int32_t messageNumber = [aFrame messageNumber];
+    if ([aFrame isMSG] && [aFrame isIntermediate] && ![I_preemptedMessageNumbers containsIndex:messageNumber]) {
+        [I_preemptedMessageNumbers addIndex:messageNumber];
+        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"ERR" messageNumber:messageNumber payload:[NSData data]];
+        [self sendMessage:[message autorelease]];
+        return YES;
+    }
+    
+    return NO;
 }
 
 // Accessors for session
@@ -317,6 +332,8 @@ static NSMutableDictionary *profileURIToClassMapping;
         }
         [queue addObject:aFrame];
     
+        [[self profile] channelDidReceiveFrame:aFrame];
+        
         if (![aFrame isIntermediate]) {
             // FINISH and DISPATCH
             TCMBEEPMessage *message = [TCMBEEPMessage messageWithQueue:queue];
@@ -325,7 +342,14 @@ static NSMutableDictionary *profileURIToClassMapping;
             } else if (![aFrame isANS]) {
                 [I_messageNumbersWithPendingReplies removeIndex:[aFrame messageNumber]];
             }
-            [[self profile] processBEEPMessage:message];
+            
+            if ([I_preemptedMessageNumbers containsIndex:[aFrame messageNumber]]) {
+                [I_preemptedMessageNumbers removeIndex:[aFrame messageNumber]];
+                [[self profile] channelDidReceivePreemptedMessage:message];
+            } else {
+                [[self profile] processBEEPMessage:message];
+            }
+            
             if ([aFrame isANS]) {
                 [I_answerReadQueues removeObjectForLong:[aFrame answerNumber]];
             } else {
@@ -335,6 +359,17 @@ static NSMutableDictionary *profileURIToClassMapping;
                 // FEHLER?
                 if ([I_answerReadQueues count] > 0) {
                     // FEHLER! bei NUL mŸssen alle Antworten abgeschlossen sein...
+                }
+            }
+            if ([aFrame isERR]) {
+                int32_t messageNumber = [aFrame messageNumber];
+                if ([I_messageWriteQueue count] > 0) {
+                    TCMBEEPMessage *messageToSend = [I_messageWriteQueue objectAtIndex:0];
+                    if ([messageToSend messageNumber] == messageNumber) {
+                        DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Received pre-emptive reply!");
+                        [messageToSend setPayload:[NSData data]];
+                        [[self profile] channelDidReceivePreemptiveReplyForMessageWithNumber:messageNumber];
+                    }
                 }
             }
         }
@@ -350,14 +385,6 @@ static NSMutableDictionary *profileURIToClassMapping;
             }
         }
         
-        if (I_channelStatus == TCMBEEPChannelStatusCloseRequested) {
-            if ([I_messageWriteQueue count] == 0 && 
-                [I_messageNumbersWithPendingReplies count] == 0 && 
-                [I_inboundMessageNumbersWithPendingReplies count] == 0) {
-                [[self session] acceptCloseRequestForChannelWithNumber:[self number]];
-            }
-        }
-            
         [self setPreviousReadFrame:aFrame];
         I_incomingSequenceNumber = [aFrame sequenceNumber];
         I_incomingBufferSizeAvailable -= [aFrame length];
@@ -369,6 +396,14 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_incomingBufferSizeAvailable = I_incomingBufferSize;
             [I_outgoingFrameQueue addObject:SEQFrame];
             [[self session] channelHasFramesAvailable:self];
+        }
+        
+        if (I_channelStatus == TCMBEEPChannelStatusCloseRequested) {
+            if ([I_messageWriteQueue count] == 0 && 
+                [I_messageNumbersWithPendingReplies count] == 0 && 
+                [I_inboundMessageNumbersWithPendingReplies count] == 0) {
+                [[self session] acceptCloseRequestForChannelWithNumber:[self number]];
+            }
         }
     } else {
         NSLog(@"NOT ACCEPTED: %@", aFrame);
@@ -412,7 +447,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     //  number for which a reply has already been completely received;
     if ((strcmp(messageType, "MSG") != 0)) {
         if (![I_messageNumbersWithPendingReplies containsIndex:[aFrame messageNumber]]
-            && !([aFrame channelNumber] == 0 && strcmp(messageType, "RPY") == 0 &&
+            && !([aFrame channelNumber] == 0 && strcmp(messageType, "RPY") == 0 && 
                  [aFrame messageNumber] == 0)) {
             NSLog(@"5ter punkt 2.2.1.1");
             result = NO;
@@ -476,7 +511,7 @@ static NSMutableDictionary *profileURIToClassMapping;
         if (I_channelStatus == TCMBEEPChannelStatusAtEnd || 
             I_channelStatus == TCMBEEPChannelStatusClosing ||
             I_channelStatus == TCMBEEPChannelStatusCloseRequested) {
-            NSLog(@"Trying to send message after telling channel to close");
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Trying to send message after telling channel to close");
             return;
         }
         [I_messageNumbersWithPendingReplies addIndex:[aMessage messageNumber]];

@@ -17,6 +17,7 @@
     if (self) {
         [self setChannel:aChannel];
         I_isClosing = NO;
+        I_isAbortingIncomingMessages = NO;
     }
     return self;
 }
@@ -75,8 +76,9 @@
     NSLog(@"You should have overridden this!");
 }
 
-- (void)close {
-    I_isClosing=YES;
+- (void)close
+{
+    I_isClosing = YES;
     [[self channel] close];
 }
 
@@ -88,7 +90,7 @@
 - (void)channelDidClose
 {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidClose: %@", NSStringFromClass([self class]));
-    id delegate=[self delegate];
+    id delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(profileDidClose:)]) {
         [delegate profileDidClose:self];
     }
@@ -108,5 +110,28 @@
         [delegate profile:self didFailWithError:error];
     }
 }
+
+- (void)abortIncomingMessages
+{
+    I_isAbortingIncomingMessages = YES;
+}
+
+- (void)channelDidReceivePreemptiveReplyForMessageWithNumber:(int32_t)aMessageNumber
+{
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidReceivePreemptiveReplyForMessageWithNumber: %d", aMessageNumber);
+}
+
+- (void)channelDidReceivePreemptedMessage:(TCMBEEPMessage *)aMessage
+{
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidReceivePreemptedMessage: %@", aMessage);
+}
+
+- (void)channelDidReceiveFrame:(TCMBEEPFrame *)aFrame
+{
+    if (I_isAbortingIncomingMessages) {
+        [[self channel] preemptFrame:aFrame];
+    }
+}
+
 
 @end

@@ -18,9 +18,11 @@
 @interface TCMBEEPProfile : NSObject
 {
     TCMBEEPChannel *I_channel;
-    NSString *I_profileURI;
-    BOOL I_isClosing;
     id I_delegate;
+    NSString *I_profileURI;
+    
+    BOOL I_isClosing;
+    BOOL I_isAbortingIncomingMessages;
 }
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel;
@@ -40,6 +42,10 @@
 - (void)channelDidNotCloseWithError:(NSError *)error;
 - (void)cleanup;
 - (void)close;
+- (void)abortIncomingMessages;
+- (void)channelDidReceivePreemptiveReplyForMessageWithNumber:(int32_t)aMessageNumber;
+- (void)channelDidReceivePreemptedMessage:(TCMBEEPMessage *)aMessage;
+- (void)channelDidReceiveFrame:(TCMBEEPFrame *)aFrame;
 
 @end
 
