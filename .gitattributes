@@ -643,7 +643,11 @@ subethaedit/artwork/ShiftRight.tiff -text
 subethaedit/artwork/ShowChangeMarks.psd -text
 subethaedit/artwork/SplitClose.tiff -text
 subethaedit/artwork/SplitOpen.tiff -text
+subethaedit/artwork/StatusButtonKick.tiff -text
+subethaedit/artwork/StatusButtonReadOnly.tiff -text
+subethaedit/artwork/StatusButtonReadWrite.tiff -text
 subethaedit/artwork/StatusLock.tiff -text
+subethaedit/artwork/StatusPending.tiff -text
 subethaedit/artwork/StatusReadOnly.tiff -text
 subethaedit/artwork/StatusReadWrite.tiff -text
 subethaedit/artwork/SubEthaEdit.icns -text

@@ -9,22 +9,26 @@
         {
             ACTIONS = {
                 changePendingUsersAccess = id; 
-                changeSessionAccessState = id; 
                 closeParticipantsDrawer = id; 
+                kickButtonAction = id; 
                 openParticipantsDrawer = id; 
+                readOnlyButtonAction = id; 
+                readWriteButtonAction = id; 
                 toggleLineNumbers = id; 
             }; 
             CLASS = PlainTextWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_actionPullDown" = NSPopUpButton; 
+                "O_kickButton" = NSButton; 
                 "O_newUserView" = NSView; 
                 "O_participantsDrawer" = NSDrawer; 
                 "O_participantsScrollView" = NSScrollView; 
                 "O_participantsSplitView" = NSSplitView; 
                 "O_participantsView" = ParticipantsView; 
                 "O_pendingUsersAccessPopUpButton" = NSPopUpButton; 
-                "O_pendingUsersTableView" = NSTableView; 
+                "O_readOnlyButton" = NSButton; 
+                "O_readWriteButton" = NSButton; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

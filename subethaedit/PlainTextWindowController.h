@@ -28,7 +28,9 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet ParticipantsView *O_participantsView;
     IBOutlet NSPopUpButton    *O_actionPullDown;
     IBOutlet NSPopUpButton    *O_pendingUsersAccessPopUpButton;
-    IBOutlet NSTableView      *O_pendingUsersTableView;
+    IBOutlet NSButton         *O_kickButton;
+    IBOutlet NSButton         *O_readOnlyButton;
+    IBOutlet NSButton         *O_readWriteButton;
     NSMutableArray *I_plainTextEditors;
 }
 
@@ -38,6 +40,12 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (IBAction)openParticipantsDrawer:(id)aSender;
 - (IBAction)closeParticipantsDrawer:(id)aSender;
+
+- (void)validateButtons;
+
+- (IBAction)kickButtonAction:(id)aSender;
+- (IBAction)readOnlyButtonAction:(id)aSender;
+- (IBAction)readWriteButtonAction:(id)aSender;
 
 - (void)gotoLine:(unsigned)aLine;
 - (void)selectRange:(NSRange)aRange;

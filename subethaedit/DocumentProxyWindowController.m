@@ -54,6 +54,10 @@
     [[self window] setFrame:[I_targetWindow frame] display:YES animate:YES];
 }
 
+- (void)joinRequestWasDenied {
+    [O_statusBarTextField setStringValue:NSLocalizedString(@"Join Request was denied!",@"Text in Proxy window")];
+}
+
 - (void)windowDidResize:(NSNotification *)aNotification {
     if (I_targetWindow && NSEqualRects([[self window] frame],[I_targetWindow frame])) {
         [I_targetWindow orderWindow:NSWindowBelow relativeTo:[[self window] windowNumber]];

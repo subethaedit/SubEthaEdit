@@ -63,7 +63,7 @@
 - (void)cancelJoin {
     NSMutableData *data = [NSMutableData dataWithBytes:"JONCAN" length:6];
     [[self channel] sendMSGMessageWithPayload:data];
-    [[self channel] close];
+    [self close];
 }
 
 - (void)acceptInvitation
@@ -76,6 +76,12 @@
 {
     NSMutableData *data = [NSMutableData dataWithBytes:"JONACK" length:6];
     [[self channel] sendMSGMessageWithPayload:data];
+}
+
+- (void)denyJoin {
+    NSMutableData *data = [NSMutableData dataWithBytes:"JONDNY" length:6];
+    [[self channel] sendMSGMessageWithPayload:data];
+    [self close];
 }
 
 - (void)sendSessionInformation:(NSDictionary *)aSessionInformation {
@@ -154,7 +160,12 @@
             if ([delegate respondsToSelector:@selector(profileDidCancelJoinRequest:)]) {
                 [delegate profileDidCancelJoinRequest:self];
             }
-            //[[self channel] close];
+        } else if (strncmp(type, "JONDNY", 6) == 0) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received cancel join.");
+            id delegate = [self delegate];
+            if ([delegate respondsToSelector:@selector(profileDidDenyJoinRequest:)]) {
+                [delegate profileDidDenyJoinRequest:self];
+            }
         } else if (strncmp(type, "JONACK", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received accepted join.");
             id delegate = [self delegate];

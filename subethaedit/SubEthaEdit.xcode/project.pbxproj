@@ -2786,6 +2786,62 @@
 			settings = {
 			};
 		};
+		5E5FC53F0647B92600DCB7AE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = StatusPending.tiff;
+			path = artwork/StatusPending.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E5FC5400647B92600DCB7AE = {
+			fileRef = 5E5FC53F0647B92600DCB7AE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E5FC5410647BC2900DCB7AE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = StatusButtonReadWrite.tiff;
+			path = artwork/StatusButtonReadWrite.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E5FC5420647BC2900DCB7AE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = StatusButtonReadOnly.tiff;
+			path = artwork/StatusButtonReadOnly.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E5FC5430647BC2900DCB7AE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = StatusButtonKick.tiff;
+			path = artwork/StatusButtonKick.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E5FC5440647BC2900DCB7AE = {
+			fileRef = 5E5FC5410647BC2900DCB7AE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E5FC5450647BC2900DCB7AE = {
+			fileRef = 5E5FC5420647BC2900DCB7AE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E5FC5460647BC2900DCB7AE = {
+			fileRef = 5E5FC5430647BC2900DCB7AE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E715A8006346F2800ECE50C = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
@@ -3723,9 +3779,13 @@
 				5EC0506E062D6C0500292573,
 				5EF3AC4C062C5D4100959FEE,
 				5EF3AC4D062C5D4100959FEE,
+				5E5FC5410647BC2900DCB7AE,
+				5E5FC5420647BC2900DCB7AE,
+				5E5FC5430647BC2900DCB7AE,
 				5E96948D0600B6D3006C2AA4,
 				5E96948C0600B6D3006C2AA4,
 				5EA98239063FF3EA00FD5B65,
+				5E5FC53F0647B92600DCB7AE,
 				5EEB176805ECDC1600C17677,
 				5E715A8006346F2800ECE50C,
 				5EA5422306352B1600A06297,
@@ -4432,6 +4492,10 @@
 				5EA982860641001800FD5B65,
 				14CF2C4A06428EA900D430AA,
 				5E5FC5300647A36D00DCB7AE,
+				5E5FC5400647B92600DCB7AE,
+				5E5FC5440647BC2900DCB7AE,
+				5E5FC5450647BC2900DCB7AE,
+				5E5FC5460647BC2900DCB7AE,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

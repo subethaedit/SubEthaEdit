@@ -14,6 +14,8 @@
 
 static NSColor *alternateRowColor=nil;
 
+NSString *ParticipantsViewDidChangeSelectionNotification=
+        @"ParticipantsViewDidChangeSelectionNotification";
 
 @interface ParticipantsView (ParticipantsViewPrivateAdditions)
 
@@ -30,6 +32,14 @@ static NSColor *alternateRowColor=nil;
 #pragma mark -
 
 @implementation ParticipantsView
+
+- (void)TCM_sendParticipantsViewDidChangeSelectionNotification {
+    [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:ParticipantsViewDidChangeSelectionNotification object:self]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -64,7 +74,7 @@ static NSColor *alternateRowColor=nil;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-        
+    [self setDelegate:nil];
     if (I_indexNumberOfChildren != NULL) {
         free(I_indexNumberOfChildren);
         free(I_indexRowAtItem);
@@ -328,6 +338,7 @@ static NSColor *alternateRowColor=nil;
 - (void)deselectRow:(int)aRow {
     if ([I_selectedRows containsIndex:aRow]) {
         [I_selectedRows removeIndex:aRow];
+        [self TCM_sendParticipantsViewDidChangeSelectionNotification];
         [self setNeedsDisplayInRect:[self TCM_rectForRow:aRow]];
         if (I_selectedRow == aRow) {
             I_selectedRow = [I_selectedRows firstIndex];
@@ -351,6 +362,7 @@ static NSColor *alternateRowColor=nil;
     I_selectedRow = aRow;
     [I_selectedRows addIndex:aRow];
     [self setNeedsDisplayInRect:[self TCM_rectForRow:aRow]];
+    [self TCM_sendParticipantsViewDidChangeSelectionNotification];
 }
 
 - (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)extend {
@@ -365,6 +377,7 @@ static NSColor *alternateRowColor=nil;
     } else {
         I_selectedRow = -1;
     }
+    [self TCM_sendParticipantsViewDidChangeSelectionNotification];
 }
 
 #pragma mark -
@@ -439,9 +452,9 @@ static NSColor *alternateRowColor=nil;
 
 - (void)TCM_rebuildIndices {
 
-    id delegate=[self delegate];
+    id dataSource=[self dataSource];
     
-    I_indexNumberOfItems=[delegate numberOfItemsInParticipantsView:self];
+    I_indexNumberOfItems=[dataSource numberOfItemsInParticipantsView:self];
     
     if (I_indexNumberOfChildren!=NULL) {
         free(I_indexNumberOfChildren  );
@@ -457,7 +470,7 @@ static NSColor *alternateRowColor=nil;
     int row=0;
     float yPosition=0;
     for (itemIndex=0;itemIndex<I_indexNumberOfItems;itemIndex++) {
-        int numberOfChildren=[delegate participantsView:self numberOfChildrenOfItemAtIndex:itemIndex];
+        int numberOfChildren=[dataSource participantsView:self numberOfChildrenOfItemAtIndex:itemIndex];
         I_indexNumberOfChildren[itemIndex]=numberOfChildren;
         I_indexRowAtItem[itemIndex]=row;
         NSRange yRange=NSMakeRange(yPosition,ITEMROWHEIGHT+numberOfChildren*CHILDROWHEIGHT);
@@ -500,7 +513,12 @@ static NSColor *alternateRowColor=nil;
 
 - (void)setDelegate:(id)aDelegate
 {
+    NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
+    [center removeObserver:I_delegate name:ParticipantsViewDidChangeSelectionNotification object:self];
     I_delegate = aDelegate;
+    if ([aDelegate respondsToSelector:@selector(participantsViewDidChangeSelection:)]) {
+        [center addObserver:aDelegate selector:@selector(participantsViewDidChangeSelection:) name:ParticipantsViewDidChangeSelectionNotification object:self];
+    }
 }
 
 - (id)delegate

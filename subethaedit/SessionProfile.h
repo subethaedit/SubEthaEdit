@@ -33,6 +33,7 @@
 - (void)sendSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)acceptInvitation;
 - (void)acceptJoin;
+- (void)denyJoin;
 
 - (void)setMMState:(TCMMMState *)aState;
 - (TCMMMState *)MMState;
@@ -46,6 +47,7 @@
 - (void)profile:(SessionProfile *)aProfile didReceiveJoinRequestForSessionID:(NSString *)aSessionID;
 - (void)profile:(SessionProfile *)aProfile didReceiveInvitationForSessionID:(NSString *)aSessionID;
 - (void)profileDidCancelJoinRequest:(SessionProfile *)aProfile;
+- (void)profileDidDenyJoinRequest:(SessionProfile *)aProfile;
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)aProfile;
 - (void)profileDidAcceptInvitation:(SessionProfile *)aProfile;
 - (NSArray *)profile:(SessionProfile *)aProfile userRequestsForSessionInformation:(NSDictionary *)sessionInfo;

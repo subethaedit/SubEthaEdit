@@ -121,12 +121,17 @@ NSString * const TCMMMSessionDidChangeNotification =
     [I_sessionID release];
     [I_hostID release];
     [I_filename release];
+    [[I_profilesByUserID allValues]makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_profilesByUserID release];
+    [I_closingProfiles makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_participants release];
+    [I_closingStates makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
+    [I_closingStates release];
     [I_sessionContentForUserID release];
     [I_contributors release];
     [I_pendingUsers release];
     [I_groupByUserID release];
+    [[I_statesByClientID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_statesByClientID release];
     [super dealloc];
 }
@@ -228,8 +233,12 @@ NSString * const TCMMMSessionDidChangeNotification =
         NSMutableIndexSet *set = [aSet mutableCopy];
         unsigned index;
         while ((index = [set firstIndex]) != NSNotFound) {
-            //TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
-            // deny
+            TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
+            SessionProfile *profile=[I_profilesByUserID objectForKey:[user userID]];
+            [profile denyJoin];
+            [I_closingProfiles addObject:profile];
+            [I_profilesByUserID removeObjectForKey:[user userID]];
+            [set removeIndex:index];
         }
         [set release];
     } else {
@@ -453,6 +462,15 @@ NSString * const TCMMMSessionDidChangeNotification =
     [[self document] setContentByDictionaryRepresentation:aContent];
 }
 
+- (void)profileDidDenyJoinRequest:(SessionProfile *)aProfile
+{
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profileDidAcceptJoinRequest: %@", aProfile);
+    NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    [[self document] sessionDidDenyJoinRequest:self];
+    [I_closingProfiles addObject:aProfile];
+    [I_profilesByUserID removeObjectForKey:peerUserID];
+}
+
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)profile
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profileDidAcceptJoinRequest: %@", profile);
@@ -507,11 +525,16 @@ NSString * const TCMMMSessionDidChangeNotification =
 - (void)profileDidClose:(TCMBEEPProfile *)aProfile {
     SessionProfile *profile=(SessionProfile *)aProfile;
     TCMMMState *state=[profile MMState];
-    [[state retain] autorelease];
-    [I_closingStates removeObject:state];
-    [state setClient:nil];
+    if (state) {
+        [[state retain] autorelease];
+        [I_closingStates removeObject:state];
+        [state setClient:nil];
+    }
     [profile setDelegate:nil];
     [I_closingProfiles removeObject:profile];
+    if ([[I_profilesByUserID allValues] containsObject:aProfile]) {
+        // handle well
+    }
 }
 
 

@@ -20,7 +20,8 @@
 #import "RendezvousBrowserController.h"
 #import "TCMMMSession.h"
 
-NSString * const PlainTextWindowToolbarIdentifier = @"PlainTextWindowToolbarIdentifier";
+NSString * const PlainTextWindowToolbarIdentifier = 
+               @"PlainTextWindowToolbarIdentifier";
 NSString * const ParticipantsToolbarItemIdentifier = 
                @"ParticipantsToolbarItemIdentifier";
 NSString * const ShiftLeftToolbarItemIdentifier = 
@@ -67,9 +68,6 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 
 - (void)windowDidLoad {
 
-    [O_pendingUsersTableView setTarget:self];
-    [O_pendingUsersTableView setDoubleAction:@selector(pendingUsersTableViewDoubleAction:)];
-
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
     [toolbar setAllowsUserCustomization:YES];
     [toolbar setAutosavesConfiguration:YES];
@@ -89,6 +87,8 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     [[O_participantsScrollView verticalScroller] setControlSize:NSSmallControlSize];
     [O_participantsScrollView setDocumentView:O_participantsView];
     [O_participantsView noteEnclosingScrollView];
+    [O_participantsView setDoubleAction:@selector(participantDoubleAction:)];
+    [O_participantsView setTarget:self];
     
     [O_actionPullDown setCell:[[ImagePopUpButtonCell new] autorelease]];
     [[O_actionPullDown cell] setPullsDown:YES];
@@ -126,6 +126,8 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     if ([self document]) {
         [[self document] windowControllerDidLoadNib:self];
     }
+    
+    [self validateButtons];
 }
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
@@ -214,18 +216,64 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     [O_participantsDrawer toggle:sender];
 }
 
+- (void)validateButtons {
+    [O_kickButton setEnabled:NO];
+    [O_readOnlyButton setEnabled:NO];
+    [O_readWriteButton setEnabled:NO];
+    if ([O_participantsView numberOfSelectedRows] == 1) {
+        int selectedRow=[O_participantsView selectedRow];
+        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
+        if (pair.childIndex!=-1) {
+            if (pair.itemIndex==0) {
+                [O_readOnlyButton setEnabled:YES];
+            } else if (pair.itemIndex==1) {
+                [O_readWriteButton setEnabled:YES];
+            } else if (pair.itemIndex==2) {
+                [O_readOnlyButton setEnabled:YES];
+                [O_readWriteButton setEnabled:YES];
+            }
+            [O_kickButton setEnabled:YES];
+        }
+    }
+}
+
+- (IBAction)kickButtonAction:(id)aSender {
+    if ([O_participantsView numberOfSelectedRows] == 1) {
+        int selectedRow=[O_participantsView selectedRow];
+        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
+        if (pair.childIndex!=-1) {
+            if (pair.itemIndex==2) {
+                [[(PlainTextDocument *)[self document] session] setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
+            }
+        }
+    }
+    [O_participantsView reloadData];
+    [self validateButtons];
+}
+- (IBAction)readOnlyButtonAction:(id)aSender {
+
+}
+- (IBAction)readWriteButtonAction:(id)aSender {
+    if ([O_participantsView numberOfSelectedRows] == 1) {
+        int selectedRow=[O_participantsView selectedRow];
+        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
+        if (pair.childIndex!=-1) {
+            if (pair.itemIndex==2) {
+                [[(PlainTextDocument *)[self document] session] setGroup:@"ReadWrite" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
+            }
+        }
+    }
+    [O_participantsView reloadData];
+    [self validateButtons];
+}
+
+- (IBAction)participantDoubleAction:(id)aSender {
+    [self readWriteButtonAction:(id)aSender];
+}
+
 - (IBAction)changePendingUsersAccess:(id)aSender {
     TCMMMSession *session=[(PlainTextDocument *)[self document] session];
     [session setAccessState:[[aSender selectedItem] tag]];
-}
-
-- (IBAction)pendingUsersTableViewDoubleAction:(id)aSender {
-    NSLog(@"pendingUsersTableViewDoubleAction");
-    NSIndexSet *set = [aSender selectedRowIndexes];
-    if ([set count] > 0) {
-        [[(PlainTextDocument *)[self document] session] setGroup:@"ReadWrite" forPendingUsersWithIndexes:set];
-    }
-    [O_participantsView reloadData];
 }
 
 - (IBAction)toggleBottomStatusBar:(id)aSender {
@@ -424,31 +472,12 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 
 #pragma mark -
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView {
-    return [[[(PlainTextDocument *)[self document] session] pendingUsers] count];
-}
-
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
-    TCMMMUser *user = [[[(PlainTextDocument *)[self document] session] pendingUsers] objectAtIndex:row];
-    if ([[tableColumn identifier] isEqualToString:@"image"]) {
-        return [[user properties] objectForKey:@"Image16"];
-    } else if ([[tableColumn identifier] isEqualToString:@"name"]) {
-        return [user name];
-    }
-    
-    return nil;
-}
-
-- (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard {
-    return YES;
-}
-
 - (void)participantsDidChange:(NSNotification *)aNotifcation {
     [O_participantsView reloadData];
 }
 
 - (void)pendingUsersDidChange:(NSNotification *)aNotifcation {
-    [O_pendingUsersTableView reloadData];
+    [O_participantsView reloadData];
 }
 
 - (void)displayNameDidChange:(NSNotification *)aNotification {
@@ -578,15 +607,22 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 #pragma mark ### ParticipantsView data source methods ###
 
 - (int)numberOfItemsInParticipantsView:(ParticipantsView *)aListView {
-    return 2;
+    if ([[[(PlainTextDocument *)[self document] session] pendingUsers] count] >0) {
+        return 3;
+    } else {
+        return 2;
+    }
 }
 
 - (int)participantsView:(ParticipantsView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex {
-    NSDictionary *participants=[[(PlainTextDocument *)[self document] session] participants];
+    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+    NSDictionary *participants=[session participants];
     if (anItemIndex==0) {
         return [[participants objectForKey:@"ReadWrite"] count];
     } else if (anItemIndex==1) {
         return [[participants objectForKey:@"ReadOnly"] count];
+    } else if (anItemIndex==2) {
+        return [[session pendingUsers] count];
     }
     return 0;
 }
@@ -595,9 +631,11 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 
     static NSImage *statusReadWrite=nil;
     static NSImage *statusReadOnly=nil;
+    static NSImage *statusPending=nil;
 
     if (!statusReadWrite) statusReadWrite=[[NSImage imageNamed:@"StatusReadWrite"] retain];
     if (!statusReadOnly)  statusReadOnly=[[NSImage imageNamed:@"StatusReadOnly"] retain];
+    if (!statusPending)   statusPending=[[NSImage imageNamed:@"StatusPending"] retain];
     if (anItemIndex==0) {
         if (aTag==ParticipantsItemStatusImageTag) {
             return statusReadWrite;
@@ -609,6 +647,12 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
             return statusReadOnly;
         } else if (aTag==ParticipantsItemNameTag) {
             return NSLocalizedString(@"read only",@"Description in Participants view for Read Only access");
+        } 
+    } else if (anItemIndex==2) {
+        if (aTag==ParticipantsItemStatusImageTag) {
+            return statusPending;
+        } else if (aTag==ParticipantsItemNameTag) {
+            return NSLocalizedString(@"pending users",@"Description in Participants view for pending users");
         } 
     }
     return nil;
@@ -623,8 +667,10 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         user=[[participants objectForKey:@"ReadWrite"] objectAtIndex:anIndex];
     } else if (anItemIndex==1) {
         user=[[participants objectForKey:@"ReadOnly"] objectAtIndex:anIndex];
+    } else if (anItemIndex==2) {
+        user=[[session pendingUsers] objectAtIndex:anIndex];
     }
-    if (anItemIndex>=0 && anItemIndex<2) {
+    if (anItemIndex>=0 && anItemIndex<3) {
         if (aTag==ParticipantsChildNameTag) {
             return [user name];
         } else if (aTag==ParticipantsChildStatusTag) {
@@ -636,7 +682,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
             } else if (selectionOperation) {
                 return [(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
             } else {
-                return @"No Position";
+                return @"";
             }
         } else if (aTag==ParticipantsChildImageTag) {
             return [[user properties] objectForKey:@"Image32"];
@@ -645,6 +691,10 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         }
     }
     return nil;
+}
+
+- (void)participantsViewDidChangeSelection:(ParticipantsView *)aListView {
+    [self validateButtons];
 }
 
 @end

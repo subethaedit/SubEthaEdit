@@ -2123,6 +2123,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [session documentDidApplyOperation:[SelectionOperation selectionOperationWithRange:[[[[self topmostWindowController] activePlainTextEditor] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
 }
 
+- (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession {
+    [I_documentProxyWindowController joinRequestWasDenied];
+}
 
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession {
 }
