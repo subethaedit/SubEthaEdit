@@ -48,7 +48,7 @@ enum {
 
 - (int)indexOfItemWithURLString:(NSString *)URLString;
 - (int)indexOfItemWithUserID:(NSString *)userID;
-- (NSMutableIndexSet *)indexesOfItemsWithUserID:(NSString *)userID;
+- (NSIndexSet *)indexesOfItemsWithUserID:(NSString *)userID;
 - (void)connectToURL:(NSURL *)url retry:(BOOL)isRetrying;
 - (void)processDocumentURL:(NSURL *)url;
 - (void)TCM_validateStatusPopUpButton;
@@ -294,18 +294,17 @@ enum {
     NSMutableIndexSet *documentSet = [NSMutableIndexSet indexSet];
     NSMutableIndexSet *userSet = [NSMutableIndexSet indexSet];
     
-    NSMutableIndexSet *set = [[O_browserListView selectedRowIndexes] mutableCopy];
-    unsigned int index;
-    while ((index = [set firstIndex]) != NSNotFound) {
+    NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
+    unsigned int index = [indexes firstIndex];
+    while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex == -1) {
             [userSet addIndex:index];
         } else {
             [documentSet addIndex:index];
         }
-        [set removeIndex:index];
+        index = [indexes indexGreaterThanIndex:index];
     }
-    [set release];
     
     id item;
 
@@ -357,14 +356,13 @@ enum {
         [item setEnabled:NO];
 
         NSMutableSet *dataSet = [NSMutableSet set];
-        NSMutableIndexSet *set = [[O_browserListView selectedRowIndexes] mutableCopy];
-        unsigned int index;
-        while ((index = [set firstIndex]) != NSNotFound) {
+        NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
+        unsigned int index = [indexes firstIndex];
+        while (index != NSNotFound) {
             ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
             [dataSet addObject:[I_data objectAtIndex:pair.itemIndex]];
-            [set removeIndex:index];
+            index = [indexes indexGreaterThanIndex:index];
         }
-        [set release];
         
         
         int state = 0;
@@ -422,16 +420,15 @@ enum {
         [item setEnabled:NO]; 
     
         NSMutableSet *sessionSet = [NSMutableSet set];
-        NSMutableIndexSet *set = [[O_browserListView selectedRowIndexes] mutableCopy];
-        unsigned int index;
-        while ((index = [set firstIndex]) != NSNotFound) {
+        NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
+        unsigned int index = [indexes firstIndex];
+        while (index != NSNotFound) {
             ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
             NSDictionary *dataItem = [I_data objectAtIndex:pair.itemIndex];
             NSArray *sessions = [dataItem objectForKey:@"Sessions"];
             [sessionSet addObject:[sessions objectAtIndex:pair.childIndex]];
-            [set removeIndex:index];
+            index = [indexes indexGreaterThanIndex:index];
         }
-        [set release];        
         
         // check for consistent state of selected MMSessions
         int state = 0;
@@ -637,7 +634,7 @@ enum {
     return result;
 }
 
-- (NSMutableIndexSet *)indexesOfItemsWithUserID:(NSString *)userID {
+- (NSIndexSet *)indexesOfItemsWithUserID:(NSString *)userID {
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
     int i;
     for (i = 0; i < [I_data count]; i++) {
@@ -800,9 +797,8 @@ enum {
 
 - (void)reconnectWithIndexes:(NSIndexSet *)indexes {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
-    NSMutableIndexSet *set = [indexes mutableCopy];
-    unsigned int index;
-    while ((index = [set firstIndex]) != NSNotFound) {
+    unsigned int index = [indexes firstIndex];
+    while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
         if ([item objectForKey:@"failed"]) {
@@ -813,9 +809,8 @@ enum {
             [item removeObjectForKey:@"failed"];
             [self connectToURL:[item objectForKey:@"URL"] retry:YES];
         }
-        [set removeIndex:index];
+        index = [indexes indexGreaterThanIndex:index];
     }
-    [set release];
     
     [O_browserListView reloadData];
 }
@@ -824,9 +819,8 @@ enum {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
     NSMutableSet *set = [NSMutableSet set];
     BOOL abort = NO;
-    NSMutableIndexSet *indexSet = [indexes mutableCopy];
-    unsigned int index;
-    while ((index = [indexSet firstIndex]) != NSNotFound) {
+    unsigned int index = [indexes firstIndex];
+    while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
         NSString *status = [item objectForKey:@"status"];
@@ -841,9 +835,8 @@ enum {
             }
         }
         [set addObject:item];
-        [indexSet removeIndex:index];
+        index = [indexes indexGreaterThanIndex:index];
     }
-    [indexSet release];
     
     if (abort) {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -899,9 +892,8 @@ enum {
 
 - (void)joinSessionsWithIndexes:(NSIndexSet *)indexes {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join");
-    NSMutableIndexSet *indexSet = [indexes mutableCopy];
-    unsigned int index;
-    while ((index = [indexSet firstIndex]) != NSNotFound) {
+    unsigned int index = [indexes firstIndex];
+    while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
         if (pair.childIndex != -1) {
@@ -911,9 +903,8 @@ enum {
             DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join on session: %@, using BEEPSession: %@", session, BEEPSession);
             [session joinUsingBEEPSession:BEEPSession];
         }
-        [indexSet removeIndex:index];
+        index = [indexes indexGreaterThanIndex:index];
     }
-    [indexSet release];
 }
 
 - (void)join:(id)sender {
@@ -1153,19 +1144,17 @@ enum {
     BOOL isVisible = [[userInfo objectForKey:@"isVisible"] boolValue];
     
     //if (!isVisible) {
-        NSMutableIndexSet *indexes = [self indexesOfItemsWithUserID:userID];
-        int index;
-        while ((index = [indexes firstIndex]) != NSNotFound) {
-            [indexes removeIndex:[indexes firstIndex]];
-            if (index >= 0) {
-                //[I_data removeObjectAtIndex:index];
-                NSMutableDictionary *item = [I_data objectAtIndex:index];
-                if (isVisible) {
-                    [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
-                } else {
-                    [item setObject:HostEntryStatusSessionInvisible forKey:@"status"];
-                }
-            }            
+        NSIndexSet *indexes = [self indexesOfItemsWithUserID:userID];
+        unsigned int index = [indexes firstIndex];
+        while (index != NSNotFound) {
+            //[I_data removeObjectAtIndex:index];
+            NSMutableDictionary *item = [I_data objectAtIndex:index];
+            if (isVisible) {
+                [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
+            } else {
+                [item setObject:HostEntryStatusSessionInvisible forKey:@"status"];
+            }
+            index = [indexes indexGreaterThanIndex:index];           
         }
     //}
     [O_browserListView reloadData];
@@ -1175,39 +1164,37 @@ enum {
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeAnnouncedDocuments: %@", aNotification);
     NSDictionary *userInfo = [aNotification userInfo];
     NSString * userID = [userInfo objectForKey:@"UserID"];
-    NSMutableIndexSet *indexes = [self indexesOfItemsWithUserID:userID];
-    int index;
-    while ((index = [indexes firstIndex]) != NSNotFound) {
-        [indexes removeIndex:[indexes firstIndex]];
-        if (index >= 0) {
-            NSMutableDictionary *item = [I_data objectAtIndex:index];
-            TCMMMSession *session = [userInfo objectForKey:@"AnnouncedSession"];
-            NSMutableArray *sessions = [item objectForKey:@"Sessions"];
-            if ([[userInfo objectForKey:@"Sessions"] count] == 0) {
-                [sessions removeAllObjects];
+    NSIndexSet *indexes = [self indexesOfItemsWithUserID:userID];
+    unsigned int index = [indexes firstIndex];
+    while (index != NSNotFound) {
+        NSMutableDictionary *item = [I_data objectAtIndex:index];
+        TCMMMSession *session = [userInfo objectForKey:@"AnnouncedSession"];
+        NSMutableArray *sessions = [item objectForKey:@"Sessions"];
+        if ([[userInfo objectForKey:@"Sessions"] count] == 0) {
+            [sessions removeAllObjects];
+        } else {
+            if (session) {
+                NSString *sessionID = [session sessionID];
+                int i;
+                for (i = 0; i < [sessions count]; i++) {
+                    if ([sessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
+                        break;
+                    }
+                }
+                if (i == [sessions count]) {
+                    [sessions addObject:session];
+                }
             } else {
-                if (session) {
-                    NSString *sessionID = [session sessionID];
-                    int i;
-                    for (i = 0; i < [sessions count]; i++) {
-                        if ([sessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
-                            break;
-                        }
-                    }
-                    if (i == [sessions count]) {
-                        [sessions addObject:session];
-                    }
-                } else {
-                    NSString *concealedSessionID = [userInfo objectForKey:@"ConcealedSessionID"];
-                    int i;
-                    for (i = 0; i < [sessions count]; i++) {
-                        if ([concealedSessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
-                            [sessions removeObjectAtIndex:i];
-                        }
+                NSString *concealedSessionID = [userInfo objectForKey:@"ConcealedSessionID"];
+                int i;
+                for (i = 0; i < [sessions count]; i++) {
+                    if ([concealedSessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
+                        [sessions removeObjectAtIndex:i];
                     }
                 }
             }
         }
+        index = [indexes indexGreaterThanIndex:index];
     }
         
     [O_browserListView reloadData];
@@ -1372,11 +1359,10 @@ enum {
 - (BOOL)listView:(TCMListView *)listView writeRows:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pboard {
     BOOL allowDrag = YES;
     NSMutableArray *plist = [NSMutableArray array];
-    NSMutableIndexSet *set = [indexes mutableCopy];
     NSMutableString *vcfString= [NSMutableString string];
-    unsigned int index;
-    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
-    while ((index = [set firstIndex]) != NSNotFound) {
+    TCMMMUserManager *userManager = [TCMMMUserManager sharedInstance];
+    unsigned int index = [indexes firstIndex];
+    while (index != NSNotFound) {
         ItemChildPair pair = [listView itemChildPairAtRow:index];
         NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
         if (![[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
@@ -1388,7 +1374,7 @@ enum {
         if ([item objectForKey:@"URLString"]) {
             [entry setObject:[item objectForKey:@"URLString"] forKey:@"URLString"];
         }
-        NSString *vcf=[[userManager userForUserID:[item objectForKey:@"UserID"]] vcfRepresentation];
+        NSString *vcf = [[userManager userForUserID:[item objectForKey:@"UserID"]] vcfRepresentation];
         if (vcf) {
             [vcfString appendString:vcf];
         }
@@ -1398,12 +1384,11 @@ enum {
             allowDrag = NO;
             break;
         }
-        [set removeIndex:index];
+        index = [indexes indexGreaterThanIndex:index];
     }
-    [set release];
     
     if (allowDrag) {
-        [pboard declareTypes:[NSArray arrayWithObjects:@"PboardTypeTBD",NSVCardPboardType,nil] owner:nil];
+        [pboard declareTypes:[NSArray arrayWithObjects:@"PboardTypeTBD", NSVCardPboardType, nil] owner:nil];
         [pboard setPropertyList:plist forType:@"PboardTypeTBD"];
         [pboard setData:[vcfString dataUsingEncoding:NSUnicodeStringEncoding] forType:NSVCardPboardType];
     }
