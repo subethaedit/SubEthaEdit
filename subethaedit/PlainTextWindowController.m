@@ -58,6 +58,22 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     [[O_participantsScrollView verticalScroller] setControlSize:NSSmallControlSize];
     [O_participantsScrollView setDocumentView:O_participantsView];
     [O_participantsView noteEnclosingScrollView];
+    
+    
+    [[O_actionPullDown cell] setArrowPosition:NSPopUpNoArrow];
+    [[O_actionPullDown cell] setUsesItemFromMenu:NO];
+    NSMenuItem *item = [[NSMenuItem allocWithZone:[self zone]] initWithTitle:@"" action:NULL keyEquivalent:@"'"];
+    [item setImage:[NSImage imageNamed:@"Action"]];
+    [item setOnStateImage:nil];
+    [item setMixedStateImage:nil];
+    [[O_actionPullDown cell] setMenuItem:item];
+    [item release];
+    [O_actionPullDown setPreferredEdge:NSMinXEdge];
+    [[[O_actionPullDown menu] menuRepresentation] setHorizontalEdgePadding:0.0];
+    [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
+    //[O_actionPullDown sizeToFit];
+    
+    [O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -127,5 +143,10 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     
     return YES;
 }
+
+#pragma mark -
+
+//- (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {
+//}
 
 @end

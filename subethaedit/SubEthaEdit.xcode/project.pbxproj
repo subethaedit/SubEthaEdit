@@ -672,6 +672,34 @@
 			settings = {
 			};
 		};
+		14C51E3706026BC70030F488 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = URLIcon.tiff;
+			path = artwork/URLIcon.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14C51E3806026BC70030F488 = {
+			fileRef = 14C51E3706026BC70030F488;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14C51E4306026F820030F488 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = Announce.tiff;
+			path = artwork/Announce.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14C51E4406026F820030F488 = {
+			fileRef = 14C51E4306026F820030F488;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //140
 //141
 //142
@@ -1362,12 +1390,14 @@
 			children = (
 				14C51C98060213490030F488,
 				14C51C99060213490030F488,
-				5E96948C0600B6D3006C2AA4,
-				5E96948D0600B6D3006C2AA4,
+				14C51E4306026F820030F488,
 				144BC77505EE279B006397BC,
 				5EACEEA005F5388D0008743E,
 				149A5C1B0600A89C0033510E,
+				5E96948C0600B6D3006C2AA4,
+				5E96948D0600B6D3006C2AA4,
 				5EEB176805ECDC1600C17677,
+				14C51E3706026BC70030F488,
 			);
 			isa = PBXGroup;
 			name = artwork;
@@ -1848,6 +1878,8 @@
 				5E96948F0600B6D3006C2AA4,
 				14C51C9A060213490030F488,
 				14C51C9B060213490030F488,
+				14C51E3806026BC70030F488,
+				14C51E4406026F820030F488,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,7 +14,7 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        I_categories = [[NSArray arrayWithObjects:@"Authors", @"Lurkers", @"Invited", @"Pending", nil] retain];
+        I_categories = [[NSArray arrayWithObjects:@"Read/Write", @"Read-Only", nil] retain];
     }
     return self;
 }

@@ -265,11 +265,13 @@ subethaedit/TCMRendezvousBrowser.h -text
 subethaedit/TCMRendezvousBrowser.m -text
 subethaedit/artwork/Action.tiff -text
 subethaedit/artwork/ActionPressed.tiff -text
+subethaedit/artwork/Announce.tiff -text
 subethaedit/artwork/DefaultPerson.tiff -text
 subethaedit/artwork/Participants.icns -text
 subethaedit/artwork/StatusLock.tiff -text
 subethaedit/artwork/StatusReadOnly.tiff -text
 subethaedit/artwork/SubEthaEdit.icns -text
+subethaedit/artwork/URLIcon.tiff -text
 subethaedit/debug.tiff -text
 subethaedit/main.m -text
 subethaedit/version.plist -text
