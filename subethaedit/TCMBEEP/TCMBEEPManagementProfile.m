@@ -248,7 +248,7 @@
         NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
         [[self channel] sendMessage:[message autorelease]];
-        [[self session] close];
+        [[self session] terminate];
     } else {
         // invalid close request
         NSLog(@"Received invalid close request");
