@@ -85,6 +85,8 @@ enum {
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel;
 - (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray;
 
+- (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI;
+
 @end
 
 

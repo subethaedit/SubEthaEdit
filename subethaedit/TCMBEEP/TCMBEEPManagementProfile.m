@@ -9,6 +9,7 @@
 #import "TCMBEEPManagementProfile.h"
 #import "TCMBEEPMessage.h"
 #import "TCMBEEPChannel.h"
+#import "TCMBEEPSession.h"
 #import <CoreFoundation/CoreFoundation.h>
 
 @implementation TCMBEEPManagementProfile

@@ -481,6 +481,7 @@ subethaedit/SyntaxStyle.h -text
 subethaedit/SyntaxStyle.m -text
 subethaedit/TCMApplication.h -text
 subethaedit/TCMApplication.m -text
+subethaedit/TCMBEEP/TCMBEEP.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.m -text
 subethaedit/TCMBEEP/TCMBEEPFrame.h -text
