@@ -27,5 +27,6 @@
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
+- (NSTextView *)textView;
 
 @end

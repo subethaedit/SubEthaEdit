@@ -16,6 +16,7 @@
 
 #import "TextStorage.h"
 #import "TextOperation.h"
+#import "SelectionOperation.h"
 
 @implementation PlainTextDocument
 
@@ -40,6 +41,7 @@
     self = [super init];
     if (self) {
         [self setSession:aSession];
+        [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
         I_textStorage = [TextStorage new];
         [I_textStorage setDelegate:self];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
@@ -286,9 +288,19 @@
 
 - (void)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
+        // gather selections from all textviews and transform them
+        NSArray *controllers=[self windowControllers];
+        NSMutableArray   *oldSelections=[NSMutableArray array];
+        NSEnumerator *windowControllers=[controllers objectEnumerator];
+        PlainTextWindowController *windowController;
+        while ((windowController=[windowControllers nextObject])) {
+            [oldSelections addObject:[SelectionOperation selectionOperationWithRange:[[windowController textView] selectedRange] userID:@"doesn't matter"]];
+        }
+
+
+        I_flags.isRemotelyEditingTextStorage=YES;
         TextOperation *operation=(TextOperation *)aOperation;
         NSTextStorage *textStorage=[self textStorage];
-        I_flags.isRemotelyEditingTextStorage=YES;
         [textStorage beginEditing];
         [textStorage replaceCharactersInRange:[operation affectedCharRange]
                                    withString:[operation replacementString]];
@@ -296,7 +308,18 @@
                             range:NSMakeRange([operation affectedCharRange].location,
                                               [[operation replacementString] length])];
         [textStorage endEditing];
+
+        // set selection of all textviews
+        int index=0;
+        for (index=0;index<(int)[[self windowControllers] count];index++) {
+            SelectionOperation *selectionOperation = [oldSelections objectAtIndex:index];
+            [[TCMMMTransformator sharedInstance] transformOperation:selectionOperation serverOperation:aOperation];
+            windowController = [controllers objectAtIndex:index];
+            [[windowController textView] setSelectedRange:[selectionOperation selectedRange]];
+        }
+
         I_flags.isRemotelyEditingTextStorage=NO;
+
     }   
 }
 
@@ -310,6 +333,15 @@
     }
 }
 
+#pragma mark -
+#pragma mark ### TextView Notifications ###
 
+- (void)textViewDidChangeSelection:(NSNotification *)aNotification {
+    if (!I_flags.isRemotelyEditingTextStorage) {
+        NSRange selectedRange = [(NSTextView *)[aNotification object] selectedRange];
+        SelectionOperation *selOp = [SelectionOperation selectionOperationWithRange:selectedRange userID:[TCMMMUserManager myUserID]];
+        [[self session] documentDidApplyOperation:selOp];
+    }
+}
 
 @end

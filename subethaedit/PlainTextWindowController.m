@@ -27,6 +27,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:[self document] name:NSTextViewDidChangeSelectionNotification object:O_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [O_textView setDelegate:nil];
     [[[self window] toolbar] setDelegate:nil];
@@ -41,6 +42,8 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (void)windowDidLoad {
+    [[NSNotificationCenter defaultCenter] addObserver:[self document] selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:O_textView];
+
     [O_pendingUsersTableView setTarget:self];
     [O_pendingUsersTableView setDoubleAction:@selector(pendingUsersTableViewDoubleAction:)];
     [[O_textView layoutManager] replaceTextStorage:[[self document] textStorage]];
@@ -103,6 +106,11 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     }
     
     return YES;
+}
+
+
+- (NSTextView *)textView {
+    return O_textView;
 }
 
 #pragma mark -
@@ -200,10 +208,5 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
 
-- (void)textViewDidChangeSelection:(NSNotification *)aNotification {
-    NSRange selectedRange = [(NSTextView *)[aNotification object] selectedRange];
-    SelectionOperation *selOp = [SelectionOperation selectionOperationWithRange:selectedRange userID:[TCMMMUserManager myUserID]];
-    [[(PlainTextDocument *)[self document] session] documentDidApplyOperation:selOp];
-}
 
 @end

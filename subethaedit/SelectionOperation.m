@@ -7,7 +7,7 @@
 //
 
 #import "SelectionOperation.h"
-
+#import "TextOperation.h"
 
 @implementation SelectionOperation
 
@@ -20,6 +20,41 @@
     [result setSelectedRange:aRange];
     [result setUserID:aUserID];
     return result;
+}
+
++ (void)transformOperation:(TCMMMOperation *)aClientOperation serverOperation:(TCMMMOperation *)aServerOperation {
+    TextOperation *textOperation=nil;
+    SelectionOperation *selectionOperation=nil;
+    if ([[aClientOperation operationID] isEqualToString:[TextOperation operationID]]) {
+        textOperation     =(TextOperation *)aClientOperation;
+        selectionOperation=(SelectionOperation *)aServerOperation;
+    } else {
+        textOperation     =(TextOperation *)aServerOperation;
+        selectionOperation=(SelectionOperation *)aClientOperation;
+    }
+    
+    NSRange selectedRange=[selectionOperation selectedRange];
+    if (DisjointRanges([textOperation affectedCharRange], selectedRange)) {
+        if ([textOperation affectedCharRange].location < selectedRange.location) {
+            selectedRange.location += [[textOperation replacementString] length] - [textOperation affectedCharRange].length;
+        }
+    } else {
+        NSRange intersectionRange = NSIntersectionRange([textOperation affectedCharRange], selectedRange);
+        if (intersectionRange.length == [textOperation affectedCharRange].length) {
+            selectedRange.length += [[textOperation replacementString] length] - [textOperation affectedCharRange].length;
+        } else if (intersectionRange.length == selectedRange.length) {
+            selectedRange.location = [textOperation affectedCharRange].location + [[textOperation replacementString] length];
+            selectedRange.length = 0;
+        } else if (selectedRange.location < [textOperation affectedCharRange].location) {
+            selectedRange.length = [textOperation affectedCharRange].location - selectedRange.location;
+        } else if (selectedRange.location > [textOperation affectedCharRange].location) {
+            selectedRange.location = [textOperation affectedCharRange].location + [[textOperation replacementString] length];
+            selectedRange.length -= intersectionRange.length;
+        }
+    }
+    if (!NSEqualRanges(selectedRange,[selectionOperation selectedRange])) {
+        [selectionOperation setSelectedRange:selectedRange];
+    }
 }
 
 + (NSString *)operationID {
