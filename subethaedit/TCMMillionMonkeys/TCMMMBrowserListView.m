@@ -9,7 +9,8 @@
 #import "TCMMMBrowserListView.h"
 
 
-#define ITEMROWHEIGHT 35.
+#define ITEMROWHEIGHT 36.
+#define CHILDROWHEIGHT 18.
 
 static NSColor *alternateRowColor=nil;
 
@@ -18,6 +19,7 @@ static NSColor *alternateRowColor=nil;
 
 - (void)TCM_drawItemAtIndex:(int)aIndex;
 - (int)TCM_indexOfItemAtPoint:(NSPoint)aPoint isChild:(BOOL *)isChild;
+- (void)TCM_drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aIndex;
 
 @end
 
@@ -51,6 +53,36 @@ static NSColor *alternateRowColor=nil;
     [self resizeToFit];
 }
 
+- (void)TCM_drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aItemIndex {
+    static NSMutableDictionary *mNameAttributes=nil;
+    if (!mNameAttributes) {
+        mNameAttributes = [[NSMutableDictionary dictionaryWithObject:
+            [NSFont systemFontOfSize:[NSFont smallSystemFontSize]] forKey:NSFontAttributeName] retain];
+    }
+    NSRect bounds=[self bounds];
+    NSRect childRect=NSMakeRect(0, 0,bounds.size.width, CHILDROWHEIGHT);
+    if (aItemIndex%2) {
+        [alternateRowColor set];
+    } else {
+        [[NSColor whiteColor] set];
+    }
+    NSRectFill(childRect);
+    
+    id dataSource=[self dataSource];
+    
+    NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserChildIconImageTag atIndex:aChildIndex ofItemAtIndex:aItemIndex];
+    if (image) {
+        [image compositeToPoint:NSMakePoint(32.+5,1) 
+                      operation:NSCompositeSourceOver];
+    }
+    NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserChildNameTag atIndex:aChildIndex ofItemAtIndex:aItemIndex];
+    [[NSColor blackColor] set];
+    if (string) {
+        [string drawAtPoint:NSMakePoint(32.+5+16.+2.,2.)
+               withAttributes:mNameAttributes];
+    }
+}
+
 - (void)TCM_drawItemAtIndex:(int)aIndex {
 
     static NSMutableDictionary *mNameAttributes=nil;
@@ -78,7 +110,7 @@ static NSColor *alternateRowColor=nil;
     
     NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageTag ofItemAtIndex:aIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(2,1) 
+        [image compositeToPoint:NSMakePoint(2,2) 
                       operation:NSCompositeSourceOver];
     }
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemNameTag ofItemAtIndex:aIndex];
@@ -104,13 +136,21 @@ static NSColor *alternateRowColor=nil;
     [NSGraphicsContext saveGraphicsState];
     NSRect bounds=[self bounds];
     NSAffineTransform *transform=[NSAffineTransform transform];
-    [transform translateXBy:0 yBy:bounds.origin.y+bounds.size.height-ITEMROWHEIGHT];
+    [transform translateXBy:0 yBy:bounds.origin.y+bounds.size.height];
     [transform concat];
-    transform=[NSAffineTransform transform];
-    [transform translateXBy:0 yBy:-1*ITEMROWHEIGHT];
+    NSAffineTransform *itemStep=[NSAffineTransform transform];
+    [itemStep translateXBy:0 yBy:-1*ITEMROWHEIGHT];
+    NSAffineTransform *childStep=[NSAffineTransform transform];
+    [childStep translateXBy:0 yBy:-1*CHILDROWHEIGHT];
     for (i=0;i<numberOfItems;i++) {
+        [itemStep concat];
         [self TCM_drawItemAtIndex:i];
-        [transform concat];
+        int j;
+        int numberOfChildren=[[self dataSource] listView:self numberOfChildrenOfItemAtIndex:i];
+        for (j=0;j<numberOfChildren;j++) {
+            [childStep concat];
+            [self TCM_drawChildWithIndex:j ofItemAtIndex:i];
+        }
     }
     
     [NSGraphicsContext restoreGraphicsState];

@@ -12,6 +12,16 @@
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+#import "TCMMMSession.h"
+
+
+@interface RendezvousBrowserController (RendezvousBrowserControllerPrivateAdditions)
+
+- (int)TCM_indexOfItemWithUserID:(NSString *)aUserID;
+
+@end
+
+#pragma mark -
 
 @implementation RendezvousBrowserController
 - (id)init {
@@ -22,6 +32,7 @@
         [I_browser startSearch];
         I_foundUserIDs=[NSMutableSet new];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
     }
     return self;
 }
@@ -92,22 +103,44 @@
     return [I_data count];
 }
 
-- (int)listView:(TCMMMBrowserListView *)aListView numberOfChildrenOfItemAtIndex:(int)anIndex {
+- (int)listView:(TCMMMBrowserListView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex {
+    if (anItemIndex>=0 && anItemIndex<[I_data count]) {
+        NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
+        return [[item objectForKey:@"Sessions"] count];
+    }
     return 0;
 }
 
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
-    if (aTag==TCMMMBrowserItemNameTag) {
-        return [[I_data objectAtIndex:anItemIndex] name];
-    } else if (aTag==TCMMMBrowserItemStatusTag) {
-        return [NSString stringWithFormat:@"%d Document(s)",[[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[[I_data objectAtIndex:anItemIndex] ID]] objectForKey:@"Sessions"] count]];
-    } else if (aTag==TCMMMBrowserItemImageTag) {
-        return [[(TCMMMUser *)[I_data objectAtIndex:anItemIndex] properties] objectForKey:@"Image32"];
+    if (anItemIndex>=0 && anItemIndex<[I_data count]) {
+        NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
+        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:[item objectForKey:@"UserID"]];
+    
+        if (aTag==TCMMMBrowserItemNameTag) {
+            return [user name];
+        } else if (aTag==TCMMMBrowserItemStatusTag) {
+            return [NSString stringWithFormat:@"%d Document(s)",[[item objectForKey:@"Sessions"] count]];
+        } else if (aTag==TCMMMBrowserItemImageTag) {
+            return [[user properties] objectForKey:@"Image32"];
+        }
     }
     return nil;
 }
 
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+    if (anItemIndex>=0 && anItemIndex<[I_data count]) {
+        NSDictionary *item=[I_data objectAtIndex:anItemIndex];
+        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:[item objectForKey:@"UserID"]];
+        NSArray *sessions=[item objectForKey:@"Sessions"];
+        if (anIndex >= 0 && anIndex < [sessions count]) {
+            TCMMMSession *session=[sessions objectAtIndex:anIndex];
+            if (aTag==TCMMMBrowserChildNameTag) {
+                return [session filename];
+            } if (aTag==TCMMMBrowserChildIconImageTag) {
+                return [[user properties] objectForKey:@"Image16"];
+            }
+        }
+    }
     return nil;
 }
 
@@ -115,20 +148,56 @@
 #pragma mark -
 #pragma mark ### TCMMMPresenceManager Notifications ###
 
+- (int)TCM_indexOfItemWithUserID:(NSString *)aUserID {
+    int result=-1;
+    int i;
+    for (i = 0; i < [I_data count]; i++) {
+        if ([aUserID isEqualToString:[[I_data objectAtIndex:i] objectForKey:@"UserID"]]) {
+            result=i;
+            break;
+        }
+    }
+    return result;
+}
+
 - (void)userDidChangeVisibility:(NSNotification *)aNotification {
     NSDictionary *userInfo=[aNotification userInfo];
     NSString *userID=[userInfo objectForKey:@"UserID"];
-    TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForID:userID];
-    if ([[userInfo objectForKey:@"isVisible"] boolValue]) {
-        [I_data addObject:user];
+    BOOL isVisible=[[userInfo objectForKey:@"isVisible"] boolValue];
+    // TODO: handle Selection
+    if (isVisible) {
+        [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",nil]];
     } else {
-        [I_data removeObject:user];
+        int index=[self TCM_indexOfItemWithUserID:userID];
+        if (index >= 0) {
+            [I_data removeObjectAtIndex:index];
+        }
     }
     [O_browserListView reloadData];
 }
 
-- (void)userChangedAnnouncedDocuments:(NSNotification *)aNotification {
-
+- (void)userDidChangeAnnouncedDocuments:(NSNotification *)aNotification {
+    NSDictionary *userInfo=[aNotification userInfo];
+    NSString *userID=[userInfo objectForKey:@"UserID"];
+    int index=[self TCM_indexOfItemWithUserID:userID];
+    if (index >= 0) {
+        NSMutableDictionary *item=[I_data objectAtIndex:index];
+        TCMMMSession *session=[userInfo objectForKey:@"AnnouncedSession"];
+        NSMutableArray *sessions=[item objectForKey:@"Sessions"];
+        if (session) {
+            [sessions addObject:session];
+        } else {
+            NSString *concealedSessionID=[userInfo objectForKey:@"ConcealedSessionID"];
+            int i;
+            for (i = 0; i < [sessions count]; i++) {
+                if ([concealedSessionID isEqualToString:[[sessions objectAtIndex:i] sessionID]]) {
+                    [sessions removeObjectAtIndex:i];
+                    break;
+                }
+            }
+        }
+    }
+    [O_browserListView reloadData];
 }
 
 @end

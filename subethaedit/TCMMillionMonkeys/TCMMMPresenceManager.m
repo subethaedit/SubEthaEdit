@@ -145,6 +145,11 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 - (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
     [aProfile sendMyself:[TCMMMUserManager me]];
     [aProfile sendVisibility:YES];
+    NSEnumerator *sessions=[[self announcedSessions] objectEnumerator];
+    TCMMMSession *session=nil;
+    while ((session=[sessions nextObject])) {
+        [aProfile announceSession:session];
+    }
     NSLog(@"%@",[[TCMMMBEEPSessionManager sharedInstance] description]);
 }
 
@@ -169,10 +174,13 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
     NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
+    // TODO: merge session if already existing session is here
     [sessions setObject:aSession forKey:[aSession sessionID]];
     [self TCM_validateVisibilityOfUserID:userID];
+    NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil];
+    [userInfo setObject:aSession forKey:@"AnnouncedSession"];
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
-            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil]];
+            userInfo:userInfo];
 }
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID
@@ -182,8 +190,10 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     NSMutableDictionary *status=[self statusOfUserID:userID];
     NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
     [sessions removeObjectForKey:anID];
+    NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil];
+    [userInfo setObject:anID forKey:@"ConcealedSessionID"];
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
-            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil]];
+            userInfo:userInfo];
     [self TCM_validateVisibilityOfUserID:userID];
 }
 
@@ -230,7 +240,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 
 - (void)TCM_didEndSession:(NSNotification *)aNotification 
 {
-    TCMBEEPSession *session=[[aNotification userInfo] objectForKey:@"Session"];
+//    TCMBEEPSession *session=[[aNotification userInfo] objectForKey:@"Session"];
     
 }
 
