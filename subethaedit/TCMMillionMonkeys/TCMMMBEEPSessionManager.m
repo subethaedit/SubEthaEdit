@@ -33,7 +33,7 @@ NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification =
 NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification = 
                @"TCMMMBEEPSessionManagerConnectToHostDidFailNotification";
 
-/*
+/*"
     SessionInformation:
         @"RendezvousStatus" => kBEEPSessionStatusNoSession | kBEEPSessionStatusGotSession | kBEEPSessionStatusConnecting
         @"OutgoingRendezvousSessions" => NSArray with Session Attempts
@@ -43,7 +43,7 @@ NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification =
         @"InboundRendezvousSession" => RendezvousSession that came from listener
         @"OutboundSessions" => Active Outbound Internet Sessions 
         @"InboundSessions"  => Active Inbound Internet Sessions
-*/
+"*/
 
 
 static TCMMMBEEPSessionManager *sharedInstance;

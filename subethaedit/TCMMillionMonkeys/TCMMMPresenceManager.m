@@ -67,7 +67,7 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
 - (void)TCM_validateServiceAnnouncement {
     // Announce ourselves via rendezvous
     if (!I_netService) {
-        I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_emac._tcp." name:@"" port:[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+        I_netService=[[NSNetService alloc] initWithDomain:@"" type:@"_see._tcp." name:@"" port:[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
         [I_netService setDelegate:self];
     }
     

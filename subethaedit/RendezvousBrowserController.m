@@ -30,7 +30,7 @@ static RendezvousBrowserController *sharedInstance=nil;
 - (id)init {
     if ((self=[super initWithWindowNibName:@"RendezvousBrowser"])) {
         I_data=[NSMutableArray new];
-        I_browser=[[TCMRendezvousBrowser alloc] initWithServiceType:@"_emac._tcp." domain:@""];
+        I_browser=[[TCMRendezvousBrowser alloc] initWithServiceType:@"_see._tcp." domain:@""];
         [I_browser setDelegate:self];
         [I_browser startSearch];
         I_foundUserIDs=[NSMutableSet new];
@@ -133,7 +133,7 @@ static RendezvousBrowserController *sharedInstance=nil;
         [I_foundUserIDs addObject:userID];
         NSDictionary *status=[[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
         if ([[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
-            if ([[status objectForKey:@"isVisible"] boolValue]) {
+            if ([[status objectForKey:@"isVisible"] boolValue] && [self TCM_indexOfItemWithUserID:userID]==-1) {
                 [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",[NSNumber numberWithBool:YES],@"isExpanded",nil]];
                 [O_browserListView reloadData];
             }
@@ -247,7 +247,9 @@ static RendezvousBrowserController *sharedInstance=nil;
     // TODO: handle Selection
     if (isVisible) {
         if ([I_foundUserIDs containsObject:userID]) {
-            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",[NSNumber numberWithBool:YES],@"isExpanded",nil]];
+            if ([self TCM_indexOfItemWithUserID:userID]==-1) {
+                [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",[NSNumber numberWithBool:YES],@"isExpanded",nil]];
+            }
         }
     } else {
         int index=[self TCM_indexOfItemWithUserID:userID];
