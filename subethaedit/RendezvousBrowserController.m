@@ -102,7 +102,7 @@
     } else if (aTag==TCMMMBrowserItemStatusTag) {
         return [NSString stringWithFormat:@"%d Document(s)",[[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[[I_data objectAtIndex:anItemIndex] ID]] objectForKey:@"Sessions"] count]];
     } else if (aTag==TCMMMBrowserItemImageTag) {
-        return [[(TCMMMUser *)[I_data objectAtIndex:anItemIndex] properties] objectForKey:@"Image"];
+        return [[(TCMMMUser *)[I_data objectAtIndex:anItemIndex] properties] objectForKey:@"Image32"];
     }
     return nil;
 }

@@ -68,7 +68,7 @@ static NSColor *alternateRowColor=nil;
     
     NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageTag ofItemAtIndex:aIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(1.5,0.5) 
+        [image compositeToPoint:NSMakePoint(2,1) 
                       operation:NSCompositeSourceOver];
     }
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemNameTag ofItemAtIndex:aIndex];

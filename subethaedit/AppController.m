@@ -14,6 +14,7 @@
 #import "TCMMMStatusProfile.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
 #import "TCMPreferenceController.h"
 #import "RendezvousBrowserController.h"
 #import "InternetController.h"
@@ -102,6 +103,7 @@
     [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
     [myImage       release];
     [scaledMyImage release];
+    [me prepareImages];
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     [userManager setMe:[me autorelease]];
 }

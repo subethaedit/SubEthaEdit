@@ -14,6 +14,7 @@
 @interface TCMMMUser (TCMMMUserSEEAdditions) 
 
 + (TCMMMUser *)userWithBencodedUser:(NSData *)aData;
+- (void)prepareImages;
 - (NSData *)userBencoded;
     
 @end

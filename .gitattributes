@@ -197,6 +197,8 @@ subethaedit/InternetController.h -text
 subethaedit/InternetController.m -text
 subethaedit/NSDictionaryTCMAdditions.h -text
 subethaedit/NSDictionaryTCMAdditions.m -text
+subethaedit/NSImageTCMAdditions.h -text
+subethaedit/NSImageTCMAdditions.m -text
 subethaedit/NSNetServiceTCMAdditions.h -text
 subethaedit/NSNetServiceTCMAdditions.m -text
 subethaedit/NSStringTCMAdditions.h -text
@@ -210,6 +212,7 @@ subethaedit/Preferences.nib/info.nib -text
 subethaedit/Preferences.nib/keyedobjects.nib -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
+subethaedit/SubEthaEdit.xcode/dwagner.pbxuser -text
 subethaedit/SubEthaEdit.xcode/mbo.pbxuser -text svneol=unset#application/octet-stream
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
 subethaedit/SubEthaEdit_Prefix.pch -text
