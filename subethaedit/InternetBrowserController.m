@@ -1034,13 +1034,17 @@ enum {
         NSMutableDictionary *item = [I_data objectAtIndex:index];
         [item removeObjectForKey:@"failed"];
         [item setObject:session forKey:@"BEEPSession"];
-        [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
         [item setObject:userID forKey:@"UserID"];
         NSDictionary *infoDict = [[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
+        BOOL isVisible = [[infoDict objectForKey:@"isVisible"] boolValue];
+        if (isVisible) {
+            [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
+        } else {
+            [item setObject:HostEntryStatusSessionInvisible forKey:@"status"];
+        }
         NSMutableArray *array = [[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy];
         [item setObject:array forKey:@"Sessions"];
         [array release];
-//        [item setObject:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
         [O_browserListView reloadData];
         [self processDocumentURL:[item objectForKey:@"URL"]];
     } else {
