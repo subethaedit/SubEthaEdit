@@ -27,6 +27,10 @@
 	</dict>
 	<key>IBLastGroupID</key>
 	<string>1</string>
+	<key>IBOpenObjects</key>
+	<array>
+		<integer>8</integer>
+	</array>
 	<key>IBSystem Version</key>
 	<string>7F44</string>
 	<key>IBUserGuides</key>

@@ -283,6 +283,7 @@ static FindReplaceController *sharedInstance=nil;
         NSTextView *target = [self targetToFindIn];
         if (target) {
             [O_findComboBox setStringValue:[[target string] substringWithRange:[target selectedRange]]];
+            [self loadFindStringToPasteboard];
         } else NSBeep();
     } else if ([sender tag]==TCMFindPanelActionFindAll) {
         if ([findString isEqualToString:@""]) {
