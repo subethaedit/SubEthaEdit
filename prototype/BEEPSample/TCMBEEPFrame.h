@@ -17,6 +17,7 @@
     char    I_continuationIndicator[2];
     int32_t I_sequenceNumber;
     int32_t I_length;
+    int32_t I_answerNumber;
     NSData *I_content;
 }
 
@@ -28,7 +29,8 @@
 -(char  *) messageType;
 -(int32_t) channelNumber;
 -(int32_t) messageNumber;
--(char  *) continuationIndicator;
+-(char *) continuationIndicator;
+- (BOOL)isIntermediate;
 -(int32_t) sequenceNumber;
 -(int32_t) length;
 

@@ -8,6 +8,8 @@
 
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPSession.h"
+#import "TCMBEEPFrame.h"
+#import "TCMBEEPMessage.h"
 #import "TCMBEEPManagementProfile.h"
 
 static NSMutableDictionary *profileURIToClassMapping;
@@ -42,11 +44,45 @@ static NSMutableDictionary *profileURIToClassMapping;
             [self setSession:aSession];
             [self setNumber:aNumber];
             [self setProfileURI:aProfileURI];
+            I_currentReadFrame=nil;
+            I_currentReadMessage=nil;
+            I_messageNumbersWithPendingReplies=[NSMutableIndexSet new];
+            I_inboundMessageNumbersWithPendingReplies=[NSMutableIndexSet new];
         }
     }
     
     return self;
 }
+
+- (void)dealloc
+{
+    [I_profileURI release];
+    [I_profile release];
+    [I_currentReadFrame   release];
+    [I_currentReadMessage release];
+    [I_messageNumbersWithPendingReplies release];
+    [I_inboundMessageNumbersWithPendingReplies release];
+    [super dealloc];
+}
+
+- (void)setCurrentReadFrame:(TCMBEEPFrame *)aFrame {
+    [I_currentReadFrame autorelease];
+     I_currentReadFrame = [aFrame retain];
+}
+
+- (TCMBEEPFrame *)currentReadFrame {
+    return I_currentReadFrame;
+}
+
+- (void)setCurrentReadMessage:(TCMBEEPMessage *)aMessage {
+    [I_currentReadMessage autorelease];
+     I_currentReadMessage = [aMessage retain];
+}
+
+- (TCMBEEPMessage *)currentReadMessage {
+    return I_currentReadMessage;
+}
+
 
 /*""*/
 - (void)setNumber:(unsigned long)aNumber
@@ -88,6 +124,69 @@ static NSMutableDictionary *profileURIToClassMapping;
 /*""*/
 - (id)profile {
     return I_profile;
+}
+
+- (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame
+{
+    char *messageType=[aFrame messageType];
+    TCMBEEPFrame *currentReadFrame=[self currentReadFrame];
+    
+    BOOL accept=YES;
+    
+    
+    // 4ter Punkt 2.2.1.1
+    if (strcmp([aFrame messageType],"MSG")==0 &&
+        [I_inboundMessageNumbersWithPendingReplies containsIndex:[aFrame messageNumber]]) {
+        NSLog(@"4ter punkt 2.2.1.1");
+        accept = NO;
+    }
+    
+    // 5ter punkt 2.2.1.1
+    if ((strcmp(messageType,"MSG")!=0)) {
+        if (![I_messageNumbersWithPendingReplies containsIndex:[aFrame messageNumber]]
+            && !([aFrame channelNumber]==0 && strcmp([aFrame messageType],"RPY")==0 &&
+                 [aFrame messageNumber]==0)) {
+            NSLog(@"5ter punkt 2.2.1.1");
+            accept = NO;
+        }
+        
+    }
+    
+    // 8ter punkt 2.2.1.1
+    if (strcmp(messageType,"NUL")==0) {
+        if ([self currentReadFrame] && !(strcmp([[self currentReadFrame] messageType],"ANS")==0)) {
+            // ERROR
+            NSLog(@"8ter punkt 2.2.1.1");
+            accept = NO;
+        }
+    }
+
+    // 9ter punkt 2.2.1.1
+    if (currentReadFrame && [currentReadFrame isIntermediate]) {
+        if ([aFrame messageNumber]!=[currentReadFrame messageNumber])  {
+            NSLog(@"9ter punkt 2.2.1.1");
+            accept = NO;
+        }
+    }
+
+    // 10ter punkt 2.2.1.1 (Check sequence numbers)
+    if (currentReadFrame) {
+        if ([currentReadFrame isIntermediate] ||
+            strcmp([currentReadFrame messageType],"ANS") == 0 &&
+            strcmp([aFrame messageType],"ANS") == 0) {
+            if ([aFrame sequenceNumber]!=
+                [currentReadFrame sequenceNumber]+[currentReadFrame length]) {
+                // ERROR
+                NSLog(@"10ter punkt 2.2.1.1 (Check sequence numbers)");
+                accept = NO;
+            }
+        }
+    }
+    
+    
+    
+    [self setCurrentReadFrame:aFrame];
+    return accept;
 }
 
 @end

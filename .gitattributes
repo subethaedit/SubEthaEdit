@@ -14,6 +14,10 @@ prototype/BEEPSample/English.lproj/MainMenu.nib/classes.nib -text
 prototype/BEEPSample/English.lproj/MainMenu.nib/info.nib -text
 prototype/BEEPSample/English.lproj/MainMenu.nib/objects.nib -text
 prototype/BEEPSample/Info.plist -text
+prototype/BEEPSample/NSDictionaryTCMAdditions.h -text
+prototype/BEEPSample/NSDictionaryTCMAdditions.m -text
+prototype/BEEPSample/NSMutableDictionaryTCMAdditions.h -text
+prototype/BEEPSample/NSMutableDictionaryTCMAdditions.m -text
 prototype/BEEPSample/NSStringTCMAdditions.h -text
 prototype/BEEPSample/NSStringTCMAdditions.m -text
 prototype/BEEPSample/TCMBEEPChannel.h -text
@@ -24,6 +28,8 @@ prototype/BEEPSample/TCMBEEPListener.h -text
 prototype/BEEPSample/TCMBEEPListener.m -text
 prototype/BEEPSample/TCMBEEPManagementProfile.h -text
 prototype/BEEPSample/TCMBEEPManagementProfile.m -text
+prototype/BEEPSample/TCMBEEPMessage.h -text
+prototype/BEEPSample/TCMBEEPMessage.m -text
 prototype/BEEPSample/TCMBEEPSession.h -text
 prototype/BEEPSample/TCMBEEPSession.m -text
 prototype/BEEPSample/main.m -text

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@class TCMBEEPSession;
+@class TCMBEEPSession, TCMBEEPFrame, TCMBEEPMessage;
 
 @interface TCMBEEPChannel : NSObject
 {
@@ -17,6 +17,10 @@
     TCMBEEPSession *I_session;
     NSString *I_profileURI;
     id I_profile;
+    TCMBEEPFrame   *I_currentReadFrame;
+    TCMBEEPMessage *I_currentReadMessage;
+    NSMutableIndexSet *I_messageNumbersWithPendingReplies;
+    NSMutableIndexSet *I_inboundMessageNumbersWithPendingReplies;
 }
 
 + (NSDictionary *)profileURIToClassMapping;
@@ -33,6 +37,13 @@
 - (void)setProfileURI:(NSString *)aProfileURI;
 - (NSString *)profileURI;
 
+- (void)setCurrentReadFrame:(TCMBEEPFrame *)aFrame;
+- (TCMBEEPFrame *)currentReadFrame;
+
+- (void)setCurrentReadMessage:(TCMBEEPMessage *)aMessage;
+- (TCMBEEPMessage *)currentReadMessage;
 - (id)profile;
+
+- (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame;
 
 @end

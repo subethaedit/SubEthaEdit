@@ -39,12 +39,12 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
     I_profileURIs     = [NSMutableArray new];
     I_peerProfileURIs = [NSMutableArray new];
     
-    I_readHeaderBuffer  = [NSMutableData new];
-    I_readContentBuffer = [NSMutableData new];
+    I_readBuffer  = [NSMutableData new];
     I_currentReadState=frameHeaderState;
     I_writeBuffer = [NSMutableData new];
     I_requestedChannels = [NSMutableDictionary new];
     I_activeChannels    = [NSMutableDictionary new];
+    I_currentReadFrame  =nil;
 }
 
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
@@ -77,13 +77,13 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 
 - (void)dealloc
 {
-    [I_readHeaderBuffer release];
-    [I_readContentBuffer release];
+    [I_readBuffer release];
     [I_writeBuffer release];
     [I_inputStream release];
     [I_outputStream release];
     [I_profileURIs release];
     [I_peerProfileURIs release];
+    [I_currentReadFrame release];
     [super dealloc];
 }
 
@@ -187,6 +187,11 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
     return I_isInitiator;
 }
 
+- (NSMutableDictionary *)activeChannels
+{
+    return I_activeChannels;
+}
+
 - (void)activateChannel:(TCMBEEPChannel *)aChannel {
     [I_activeChannels setObject:aChannel forKey:[NSNumber numberWithUnsignedLong:[aChannel number]]];
 }
@@ -216,7 +221,7 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
     [self TCM_writeData:greetingData];
     
     greeting=@"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
-    greeting=[NSString stringWithFormat:@"RPY 1 5 . 0 %d\r\n%@%@",[greeting length],greeting,kTCMBEEPFrameTrailer];
+    greeting=[NSString stringWithFormat:@"RPY 0 5 . 0 %d\r\n%@%@",[greeting length],greeting,kTCMBEEPFrameTrailer];
     greetingData=[greeting dataUsingEncoding:NSASCIIStringEncoding];
     [self TCM_writeData:greetingData];
 }
@@ -248,7 +253,6 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
     
     while (bytesRead > 0 && bytesRead-bytesParsed > 0) {
         int remainingBytes=bytesRead-bytesParsed;
-        NSLog(@"While Loop %d: remainingBytes %d, bytesParsed: %d, bytesRead: %d",I_currentReadState,remainingBytes,bytesParsed,bytesRead);
         if (I_currentReadState==frameHeaderState) {
             int i;
             // search for 0x0a (LF)
@@ -260,62 +264,56 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
             }
             if (i<bytesRead) {
                 // found LF
-                [I_readHeaderBuffer appendBytes:&buffer[bytesParsed] length:i-bytesParsed+1];
-                I_currentReadFrame=[[TCMBEEPFrame alloc] initWithHeader:(char *)[I_readHeaderBuffer bytes]];
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:i-bytesParsed+1];
+                I_currentReadFrame=[[TCMBEEPFrame alloc] initWithHeader:(char *)[I_readBuffer bytes]];
                 if (!I_currentReadFrame) {
                     // ERRRRRRRRRROR
                 } else {
                     I_currentReadState=frameContentState;
                     I_currentReadFrameRemainingContentSize=[I_currentReadFrame length];
-                    [I_readHeaderBuffer setLength:0];
+                    [I_readBuffer setLength:0];
                     bytesParsed=i+1;
-                    NSLog(@"remainingBytes %d, bytesParsed: %d, bytesRead: %d",remainingBytes,bytesParsed,bytesRead);
                     continue;
                 }
             } else {
                 // didn't find LF
-                [I_readHeaderBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
                 bytesParsed=bytesRead;
             }
         } else if (I_currentReadState==frameContentState) {
             if (remainingBytes < I_currentReadFrameRemainingContentSize) {
-                [I_readContentBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
                 I_currentReadFrameRemainingContentSize-=remainingBytes;
                 bytesParsed=bytesRead;
             } else {
-                [I_readContentBuffer appendBytes:&buffer[bytesParsed] length:I_currentReadFrameRemainingContentSize];
-                [I_currentReadFrame setContent:I_readContentBuffer];
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:I_currentReadFrameRemainingContentSize];
+                [I_currentReadFrame setContent:I_readBuffer];
                 NSLog(@"Found Frame: %@",[I_currentReadFrame description]);
-                NSLog(@"remainingBytes %d, bytesParsed: %d, bytesRead: %d",remainingBytes,bytesParsed,bytesRead);
-                [I_readContentBuffer setLength:0];
+                [I_readBuffer setLength:0];
                 bytesParsed+=I_currentReadFrameRemainingContentSize;
                 I_currentReadState=frameEndState;
                 continue;
             }
         } else if (I_currentReadState==frameEndState) {
-            if (remainingBytes + [I_readHeaderBuffer length] >= 5) {
-                [I_readHeaderBuffer appendBytes:&buffer[bytesParsed] length:5-[I_readHeaderBuffer length]];
-                // I_readHeaderbuffer == "END\r\n" ?
-                NSLog(@"found end");
+            if (remainingBytes + [I_readBuffer length] >= 5) {
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:5-[I_readBuffer length]];
+                // I_readBuffer == "END\r\n" ?
                 // dispatch frame!
-                [I_readHeaderBuffer setLength:0];
+                TCMBEEPChannel *channel=[[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
+                if (channel) {
+                    NSLog(@"channel did Accept: %@",[channel acceptFrame:[I_currentReadFrame autorelease]]?@"YES":@"NO");
+                    I_currentReadFrame=nil;
+                } else {
+                    // ERRRRRRORR
+                }
+                [I_readBuffer setLength:0];
                 I_currentReadState=frameHeaderState;
-                bytesParsed+=5-[I_readHeaderBuffer length];
+                bytesParsed+=5-[I_readBuffer length];
             } else {
-                [I_readHeaderBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
                 bytesParsed=bytesRead;
             }
         }
-        
-        /*
-        [I_readBuffer setLength:0];
-        NSString *string = [[NSString alloc] initWithBytes:&buffer length:bytesRead encoding:NSUTF8StringEncoding];
-        [string autorelease];
-        if (string) {
-            fprintf(stdout, [string UTF8String]);
-            fflush(stdout);
-        }
-        */
     }
 }
 

@@ -15,13 +15,38 @@
 {
     self = [super init];
     if (self) {
+        BOOL error=NO;
         if (sscanf(aHeaderString,"%3s %d %d %1s %d %d\r",
                     I_messageType, &I_channelNumber, &I_messageNumber,
                     I_continuationIndicator, &I_sequenceNumber, &I_length) == 6) {
             
+            // 1ter punkt 2.2.1.1
+            if (!(strcmp(I_messageType, "MSG") == 0 ||
+                  strcmp(I_messageType, "RPY") == 0 ||
+                  strcmp(I_messageType, "ERR") == 0 ||
+                  strcmp(I_messageType, "ANS") == 0 ||
+                  strcmp(I_messageType, "NUL") == 0)) {
+                error = YES;
+                
+            // 11ter punkt 2.2.1.1
+            } else if (strcmp(I_messageType, "NUL") && [self isIntermediate]) {
+                error = YES;
+            }
+        } else if (sscanf(aHeaderString,"%3s %d %d %1s %d %d %d\r",
+                    I_messageType, &I_channelNumber, &I_messageNumber,
+                    I_continuationIndicator, &I_sequenceNumber, &I_length, &I_answerNumber) == 7){
+            if (!(strcmp(I_messageType,"ANS"))) {
+                error = YES;
+            }
+        } else if (sscanf(aHeaderString, "%3s %d %d %d\r", I_messageType, &I_channelNumber, &I_sequenceNumber, &I_length) == 4) {
+        
         } else {
+            error = YES;
+        }
+        
+        if (error) {
             [super dealloc];
-            self=nil;
+            self = nil;
         }
     }
     return self;
@@ -41,6 +66,9 @@
 }
 -(char  *) continuationIndicator {
     return I_continuationIndicator;
+}
+-(BOOL)isIntermediate {
+    return (I_continuationIndicator[0]=='*');
 }
 -(int32_t) sequenceNumber {
     return I_sequenceNumber;
