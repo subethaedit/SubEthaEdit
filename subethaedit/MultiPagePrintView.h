@@ -23,6 +23,8 @@
     NSDictionary *I_headerAttributes;
     NSMutableArray *I_contributorArray,
                    *I_visitorArray;
+    NSFont *I_baseFont;
+    NSMutableDictionary *I_styleCacheDictionary;
     struct {
         float contributorNameWidth;
         float contributorAIMWidth;

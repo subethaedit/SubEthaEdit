@@ -27,6 +27,7 @@ static NSArray *S_relevantPrintOptionKeys=nil;
                                    @"SEEPageHeaderFilename",@"SEEPageHeaderCurrentDate", 
                                    @"SEEColorizeChangeMarks", @"SEEColorizeWrittenBy",
                                    @"SEEAnnotateChangeMarks", @"SEEAnnotateWrittenBy",
+                                   @"SEEWhiteBackground",
                                    nil] retain];
     }
     return S_relevantPrintOptionKeys;

@@ -210,6 +210,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
                                         forKey:@"SEEPageHeaderCurrentDate"];
                 [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEWhiteBackground"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
                                         forKey:@"SEEHighlightSyntax"];
                 [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
                                         forKey:@"SEEColorizeChangeMarks"];

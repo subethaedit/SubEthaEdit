@@ -32,6 +32,7 @@ extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 -(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState;
 
 /*"Document Interaction"*/
+- (void)updateStylesInTextStorage:(NSTextStorage *)aTextStorage ofDocument:(id)aSender;
 - (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage ofDocument:(id)sender;
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage;
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange;

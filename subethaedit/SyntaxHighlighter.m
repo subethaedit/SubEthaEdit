@@ -286,9 +286,25 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
 #pragma mark - Document Interaction
 #pragma mark - 
 
+- (void)updateStylesInTextStorage:(NSTextStorage *)aTextStorage ofDocument:(id)aSender {
+    NSString *styleID;
+    NSRange wholeRange=NSMakeRange(0,[aTextStorage length]);
+    [aTextStorage beginEditing];
+    NSRange foundRange;
+    unsigned int position=0;
+    while (position<NSMaxRange(wholeRange)) {
+        styleID=[aTextStorage attribute:@"styleID" atIndex:position longestEffectiveRange:&foundRange inRange:wholeRange];
+        if (!styleID) styleID=SyntaxStyleBaseIdentifier;
+        NSDictionary *styleAttributes=[aSender styleAttributesForStyleID:styleID];
+        if (!styleAttributes) styleAttributes=[aSender styleAttributesForStyleID:SyntaxStyleBaseIdentifier];
+        [aTextStorage addAttributes:styleAttributes range:foundRange];
+        position=NSMaxRange(foundRange);
+    }
+    [aTextStorage endEditing];
+}
+
 /*"Colorizes at least one chunk of the TextStorage, returns NO if there is still work to do
     document must provide the following methods:
-    -(NSDictionary *)styleAttributesForStyleID:(NSString *)styleID;
 "*/
 - (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage ofDocument:(id)sender
 {

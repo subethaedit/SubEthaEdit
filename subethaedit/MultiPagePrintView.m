@@ -17,6 +17,7 @@
 #import "PlainTextDocument.h"
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
+#import "DocumentModeManager.h"
 
 @implementation MultiPagePrintView
 
@@ -78,6 +79,8 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     [I_headerFormatString release];
     [I_contributorArray release];
     [I_visitorArray release];
+    [I_baseFont release];
+    [I_styleCacheDictionary release];
     [super dealloc];
 }
 
@@ -112,6 +115,42 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
 #define LEGENDTABLEENTRYHEIGHT  24.
 #define LEGENDIMAGEPADDING 3.
 
+- (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID {
+    NSMutableDictionary *result=[I_styleCacheDictionary objectForKey:aStyleID];
+    if (!result) {
+        NSFontManager *fontManager=[NSFontManager sharedFontManager];
+        DocumentMode *documentMode=[I_document documentMode];
+        NSDictionary *style=nil;
+        result=[NSMutableDictionary dictionary];
+        if ([aStyleID isEqualToString:SyntaxStyleBaseIdentifier] && 
+            [[documentMode defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue]) {
+            style=[[[DocumentModeManager baseMode] syntaxStyle] styleForKey:aStyleID];
+        } else {
+            style=[[documentMode syntaxStyle] styleForKey:aStyleID];
+        }
+        NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
+        NSFont *font=I_baseFont;
+        if (traits & NSItalicFontMask) {
+            font=[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
+            if (!([fontManager traitsOfFont:font] & NSItalicFontMask)) {
+                [result setObject:[NSNumber numberWithFloat:.2] forKey:NSObliquenessAttributeName];
+            }
+        }
+        if (traits & NSBoldFontMask) {
+            font=[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
+            if (!([fontManager traitsOfFont:font] & NSBoldFontMask)) {
+                [result setObject:[NSNumber numberWithFloat:-3.] forKey:NSStrokeWidthAttributeName];
+            }
+        }
+        [result setObject:font     forKey:NSFontAttributeName];
+        [result setObject:aStyleID forKey:@"styleID"];
+        [result setObject:[style objectForKey:@"color"] forKey:NSForegroundColorAttributeName];
+        [I_styleCacheDictionary setObject:result forKey:aStyleID];
+    }
+    return result;
+}
+
+
 // Return the number of pages available for printing
 - (BOOL)knowsPageRange:(NSRangePointer)range {
 
@@ -121,6 +160,11 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     NSDictionary *printInfoDictionary = [printInfo dictionary];
     //NSLog(@"PrintInfo: %@",[[[[printInfo dictionary] mutableCopy] autorelease] description]);
 
+    SyntaxHighlighter *highlighter=nil;
+    if ([[printInfoDictionary objectForKey:@"SEEHighlightSyntax"] boolValue]) {
+        highlighter=[[I_document documentMode] syntaxHighlighter];
+    }
+
     BOOL copyFirst=([[printInfoDictionary objectForKey:@"SEEColorizeSyntax"] boolValue] != [I_document highlightsSyntax]);
     
     int i=0;
@@ -128,52 +172,71 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         if (copyFirst) {
             I_textStorage = [[NSTextStorage alloc] initWithAttributedString:[I_textStorage autorelease]];
         } else {
-            if ([[printInfoDictionary objectForKey:@"SEEHighlightSyntax"] boolValue]) {
-                SyntaxHighlighter *highlighter=[[I_document documentMode] syntaxHighlighter];
-                    if (highlighter)
-                        while (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:I_document]);
+            if (highlighter) {
+                while (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:I_document]);
             }
         }
         copyFirst=!copyFirst;
     }
 
+    BOOL needToEnforceWhiteBackground=
+        ([[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue] && 
+         [[[I_document documentMode] defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue]);
+
     if (![[printInfoDictionary objectForKey:@"SEEHighlightSyntax"] boolValue]) {
-        [I_textStorage addAttribute:NSForegroundColorAttributeName value:[I_document documentForegroundColor] range:NSMakeRange(0,[I_textStorage length])];
+        [I_textStorage addAttribute:NSForegroundColorAttributeName value:needToEnforceWhiteBackground?[NSColor blackColor]:[I_document documentForegroundColor] range:NSMakeRange(0,[I_textStorage length])];
         [I_textStorage addAttribute:NSFontAttributeName value:[I_document fontWithTrait:0] 
             range:NSMakeRange(0,[I_textStorage length])];
     }
 
     float lineNumberSize=8.;
-
-    if (![[printInfoDictionary objectForKey:@"SEEUseCustomFont"] boolValue]) {
-        if ([[printInfoDictionary objectForKey:@"SEEResizeDocumentFont"] boolValue]) {
+    
+    
+    if (needToEnforceWhiteBackground && highlighter) {
+        if ([[printInfoDictionary objectForKey:@"SEEUseCustomFont"] boolValue]) {
+            NSDictionary *fontAttributes=[printInfoDictionary objectForKey:@"SEEFontAttributes"];
+            NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+            if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+            I_baseFont=[newFont retain];
+        } else {
+            NSFont *newFont=[I_document fontWithTrait:0];
+            if ([[printInfoDictionary objectForKey:@"SEEResizeDocumentFont"] boolValue]) {
+                newFont=[[NSFontManager sharedFontManager] convertFont:newFont toSize:[[printInfoDictionary objectForKey:@"SEEResizeDocumentFontTo"] floatValue]];
+            }
+            I_baseFont=[newFont retain];
+        }
+        [highlighter updateStylesInTextStorage:I_textStorage ofDocument:self];
+    } else {
+        if (![[printInfoDictionary objectForKey:@"SEEUseCustomFont"] boolValue]) {
+            if ([[printInfoDictionary objectForKey:@"SEEResizeDocumentFont"] boolValue]) {
+                NSFontManager *fontManager=[NSFontManager sharedFontManager];
+                float newSize=[[printInfoDictionary objectForKey:@"SEEResizeDocumentFontTo"] floatValue];
+                if (newSize<=0.) newSize=4.;
+                if (lineNumberSize > newSize) lineNumberSize=newSize;
+                NSRange wholeRange=NSMakeRange(0,[I_textStorage length]);
+                if (NSMaxRange(wholeRange)>0) {
+                    NSRange foundRange=NSMakeRange(0,0);
+                    while (NSMaxRange(wholeRange)>NSMaxRange(foundRange)) {
+                        NSFont *font=[I_textStorage attribute:NSFontAttributeName atIndex:NSMaxRange(foundRange) longestEffectiveRange:&foundRange inRange:wholeRange];
+                        font=[fontManager convertFont:font toSize:newSize];
+                        [I_textStorage addAttribute:NSFontAttributeName value:font range:foundRange];
+                    }
+                }
+            }
+        } else {
             NSFontManager *fontManager=[NSFontManager sharedFontManager];
-            float newSize=[[printInfoDictionary objectForKey:@"SEEResizeDocumentFontTo"] floatValue];
-            if (newSize<=0.) newSize=4.;
-            if (lineNumberSize > newSize) lineNumberSize=newSize;
+            NSDictionary *fontAttributes=[printInfoDictionary objectForKey:@"SEEFontAttributes"];
+            NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+            if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+            if (lineNumberSize > [newFont pointSize]) lineNumberSize=[newFont pointSize];
             NSRange wholeRange=NSMakeRange(0,[I_textStorage length]);
             if (NSMaxRange(wholeRange)>0) {
                 NSRange foundRange=NSMakeRange(0,0);
                 while (NSMaxRange(wholeRange)>NSMaxRange(foundRange)) {
                     NSFont *font=[I_textStorage attribute:NSFontAttributeName atIndex:NSMaxRange(foundRange) longestEffectiveRange:&foundRange inRange:wholeRange];
-                    font=[fontManager convertFont:font toSize:newSize];
+                    font=[fontManager convertFont:newFont toHaveTrait:[fontManager traitsOfFont:font]];
                     [I_textStorage addAttribute:NSFontAttributeName value:font range:foundRange];
                 }
-            }
-        }
-    } else {
-        NSFontManager *fontManager=[NSFontManager sharedFontManager];
-        NSDictionary *fontAttributes=[printInfoDictionary objectForKey:@"SEEFontAttributes"];
-        NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-        if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-        if (lineNumberSize > [newFont pointSize]) lineNumberSize=[newFont pointSize];
-        NSRange wholeRange=NSMakeRange(0,[I_textStorage length]);
-        if (NSMaxRange(wholeRange)>0) {
-            NSRange foundRange=NSMakeRange(0,0);
-            while (NSMaxRange(wholeRange)>NSMaxRange(foundRange)) {
-                NSFont *font=[I_textStorage attribute:NSFontAttributeName atIndex:NSMaxRange(foundRange) longestEffectiveRange:&foundRange inRange:wholeRange];
-                font=[fontManager convertFont:newFont toHaveTrait:[fontManager traitsOfFont:font]];
-                [I_textStorage addAttribute:NSFontAttributeName value:font range:foundRange];
             }
         }
     }
@@ -455,7 +518,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                     if ([[printInfoDictionary objectForKey:@"SEEColorizeChangeMarks"] boolValue]) {
                         TCMMMUser *user=[userManager userForUserID:userID];
                         NSColor *changeColor=[user changeColor];
-                        NSColor *userBackgroundColor=[[I_document documentBackgroundColor] blendedColorWithFraction:
+                        NSColor *userBackgroundColor=[[[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor] blendedColorWithFraction:
                                             [standardUserDefaults floatForKey:ChangesSaturationPreferenceKey]/100.
                                          ofColor:changeColor];
                         [I_textStorage addAttribute:@"PrintBackgroundColour" value:userBackgroundColor range:foundRange];
@@ -479,7 +542,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                     if ([[printInfoDictionary objectForKey:@"SEEColorizeWrittenBy"] boolValue]) {
                         TCMMMUser *user=[userManager userForUserID:userID];
                         NSColor *changeColor=[user changeColor];
-                        NSColor *userBackgroundColor=[[I_document documentBackgroundColor] blendedColorWithFraction:
+                        NSColor *userBackgroundColor=[[[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor] blendedColorWithFraction:
                                             [standardUserDefaults floatForKey:ChangesSaturationPreferenceKey]/100.
                                          ofColor:changeColor];
                         [I_textStorage addAttribute:@"PrintBackgroundColour" value:userBackgroundColor range:foundRange];
@@ -520,7 +583,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                                                           textContainer:textContainer];
                 [textview setHorizontallyResizable:NO];
                 [textview setVerticallyResizable:NO];
-                [textview setBackgroundColor:[I_document documentBackgroundColor]];
+                [textview setBackgroundColor:[[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor]];
                 [I_layoutManager addTextContainer:textContainer];
                 [self addSubview:textview];
                 NSRange glyphRange=[I_layoutManager glyphRangeForTextContainer:textContainer];
@@ -570,14 +633,14 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         ([[printInfoDictionary objectForKey:@"SEEColorizeChangeMarks"] boolValue] ||
          [[printInfoDictionary objectForKey:@"SEEColorizeWrittenBy"]   boolValue])) {
         NSColor *changeColor=[aUser changeColor];
-        NSColor *userBackgroundColor=[[I_document documentBackgroundColor] blendedColorWithFraction:
+        NSColor *userBackgroundColor=[[[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor whiteColor]:[I_document documentBackgroundColor] blendedColorWithFraction:
                             [standardUserDefaults floatForKey:ChangesSaturationPreferenceKey]/100.
                          ofColor:changeColor];
         [userBackgroundColor set];
         [NSBezierPath fillRect:NSMakeRect(point.x,point.y,(isVisitor?I_measures.visitorNameWidth:I_measures.contributorNameWidth)+LEGENDIMAGEPADDING*2+
             ([[printInfoDictionary objectForKey:@"SEEParticipantImages"] boolValue]?LEGENDTABLEENTRYHEIGHT:0),
             LEGENDTABLEENTRYHEIGHT)];
-        [S_nameAttributes setObject:[I_document documentForegroundColor] forKey:NSForegroundColorAttributeName];
+        [S_nameAttributes setObject:[[printInfoDictionary objectForKey:@"SEEWhiteBackground"] boolValue]?[NSColor blackColor]:[I_document documentForegroundColor] forKey:NSForegroundColorAttributeName];
     } else {
         [S_nameAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     }
