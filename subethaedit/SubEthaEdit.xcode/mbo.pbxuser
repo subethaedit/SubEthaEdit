@@ -883,7 +883,7 @@
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXDebugSessionModule" = {
 				DebugConsoleDrawerSize = "{100, 120}";
-				DebugConsoleVisible = None;
+				DebugConsoleVisible = Drawer;
 				DebugConsoleWindowFrame = "{{200, 200}, {500, 300}}";
 				DebugSTDIOWindowFrame = "{{200, 200}, {500, 300}}";
 				Frame = "{{0, 0}, {745, 422}}";
@@ -951,6 +951,13 @@
 			sepNavWindowFrame = "{{38, 248}, {750, 558}}";
 		};
 	};
+	5E4F35EE05EF8000009D71ED = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {2168, 6229}}";
+			sepNavSelRange = "{18003, 0}";
+			sepNavVisRect = "{{0, 5446}, {706, 182}}";
+		};
+	};
 	5EEB176805ECDC1600C17677 = {
 		uiCtxt = {
 			sepNavWindowFrame = "{{15, 269}, {750, 558}}";
@@ -961,6 +968,13 @@
 			sepNavIntBoundsRect = "{{0, 0}, {1100, 1427}}";
 			sepNavSelRange = "{3283, 0}";
 			sepNavVisRect = "{{0, 1218}, {706, 182}}";
+		};
+	};
+	5EEB187205ED1EBE00C17677 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1076, 7475}}";
+			sepNavSelRange = "{13988, 0}";
+			sepNavVisRect = "{{0, 6496}, {706, 182}}";
 		};
 	};
 	8D15AC270486D014006FF6A4 = {

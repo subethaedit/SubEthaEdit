@@ -170,6 +170,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSMutableSet *sessions = [NSMutableSet set];
     [infoDict setObject:sessions forKey:@"host"];
     
+    [I_pendingOutboundSessions setObject:infoDict forKey:[aHost name]];
+    
     NSEnumerator *addresses = [[aHost addresses] objectEnumerator];
     NSData *addressData;
     while ((addressData = [addresses nextObject])) {
@@ -177,6 +179,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isInternet"];
         [[session userInfo] setObject:[aHost name] forKey:@"name"];
         [sessions addObject:session];
+        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",@"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
         [session setDelegate:self];
         [session open];
     }
