@@ -220,6 +220,7 @@ subethaedit/SelectionOperation.h -text
 subethaedit/SelectionOperation.m -text
 subethaedit/SessionProfile.h -text
 subethaedit/SessionProfile.m -text
+subethaedit/SubEthaEdit.sdef -text
 subethaedit/SubEthaEdit.xcode/dwagner.pbxuser -text
 subethaedit/SubEthaEdit.xcode/mbo.pbxuser -text svneol=unset#application/octet-stream
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text

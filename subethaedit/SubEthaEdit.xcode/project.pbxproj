@@ -76,6 +76,48 @@
 //142
 //143
 //144
+		14006965060C64F60060F71E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = SubEthaEdit.sdef;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14006966060C64F60060F71E = {
+			fileRef = 14006965060C64F60060F71E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14006969060C65430060F71E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = SubEthaEditSuite.scriptSuite;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1400696A060C65430060F71E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = SubEthaEditSuite.scriptTerminology;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1400696B060C65430060F71E = {
+			fileRef = 14006969060C65430060F71E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1400696C060C65430060F71E = {
+			fileRef = 1400696A060C65430060F71E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		141080DA05FE2EC800A4463D = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -462,6 +504,60 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		147037FD060C642F0087BA25 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/Developer/Tools/sdp -f st -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -i /Developer/Examples/Scripting\\ Definitions/NSTextSuite.sdef -o . SubEthaEdit.sdef\nexit 0";
+		};
+		147037FE060C642F0087BA25 = {
+			buildPhases = (
+				147037FD060C642F0087BA25,
+			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Process sdef";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+			);
+			isa = PBXAggregateTarget;
+			name = "Process sdef";
+			productName = "Process sdef";
+		};
+		147037FF060C64530087BA25 = {
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 147037FE060C642F0087BA25;
+			remoteInfo = "Process sdef";
+		};
+		14703800060C64530087BA25 = {
+			isa = PBXTargetDependency;
+			target = 147037FE060C642F0087BA25;
+			targetProxy = 147037FF060C64530087BA25;
+		};
+		14703803060C647B0087BA25 = {
+			children = (
+				14006965060C64F60060F71E,
+				14006969060C65430060F71E,
+				1400696A060C65430060F71E,
+			);
+			isa = PBXGroup;
+			name = AppleScript;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		1482A67705EFC1D200BC7434 = {
 			fileEncoding = 10;
@@ -854,6 +950,7 @@
 			projectDirPath = "";
 			targets = (
 				8D15AC270486D014006FF6A4,
+				147037FE060C642F0087BA25,
 			);
 		};
 		2A37F4AAFDCFA73011CA2CEA = {
@@ -944,6 +1041,7 @@
 		};
 		2A37F4B8FDCFA73011CA2CEA = {
 			children = (
+				14703803060C647B0087BA25,
 				5EEB176705ECDC0C00C17677,
 				2A37F4B9FDCFA73011CA2CEA,
 				2A37F4B6FDCFA73011CA2CEA,
@@ -1919,6 +2017,7 @@
 				WRAPPER_EXTENSION = app;
 			};
 			dependencies = (
+				14703800060C64530087BA25,
 			);
 			isa = PBXNativeTarget;
 			name = SubEthaEdit;
@@ -2004,6 +2103,9 @@
 				14C51C9B060213490030F488,
 				14C51E3806026BC70030F488,
 				14C51E4406026F820030F488,
+				14006966060C64F60060F71E,
+				1400696B060C65430060F71E,
+				1400696C060C65430060F71E,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<dictionary>
+    <suite name="SubEthaEdit Suite" code="Hdra">
+        <classes>
+            <class name="application" code="capp" inherits="application">
+                <cocoa class="NSApplication"/>
+                <elements>
+                    <element type="text document">
+                        <cocoa method="orderedDocuments"/>
+                    </element>
+                </elements>
+            </class>
+            <class name="text document" code="pltd" inherits="document">
+                <cocoa class="PlainTextDocument"/>
+                <properties>
+                    <property name="text" code="ctxt" type="text" description="">
+                        <cocoa method="textStorage"/>
+                    </property>
+                </properties>
+            </class>
+        </classes>
+        <commands>
+            <command name="get url" code="GURLGURL">
+                <cocoa class="GetURLCommand"/>
+                <direct-parameter type="object"/>
+            </command>
+            <command name="open url" code="WWW!OURL">
+                <cocoa class="GetURLCommand"/>
+                <direct-parameter type="object"/>
+            </command>
+        </commands>
+    </suite>
+</dictionary>
