@@ -20,8 +20,11 @@
 #import "DocumentController.h"
 #import "TextStorage.h"
 #import "SelectionOperation.h"
+#import "UserChangeOperation.h"
 
 
+NSString * const TCMMMSessionParticipantsDidChangeNotification = 
+               @"TCMMMSessionParticipantsDidChangeNotification";
 NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
                @"TCMMMSessionPendingUsersDidChangeNotification";
 NSString * const TCMMMSessionDidChangeNotification = 
@@ -42,6 +45,14 @@ NSString * const TCMMMSessionDidChangeNotification =
 - (void)TCM_sendSessionDidChangeNotification {
     [[NSNotificationQueue defaultQueue] 
     enqueueNotification:[NSNotification notificationWithName:TCMMMSessionDidChangeNotification object:self]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
+
+- (void)TCM_sendParticipantsDidChangeNotification {
+    [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:TCMMMSessionParticipantsDidChangeNotification object:self]
            postingStyle:NSPostWhenIdle 
            coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
@@ -230,6 +241,7 @@ NSString * const TCMMMSessionDidChangeNotification =
             }
             [[I_participants objectForKey:aGroup] addObject:user];
             [I_contributors addObject:user];
+            [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeJoin user:user newGroup:aGroup]];
             SessionProfile *profile = [I_profilesByUserID objectForKey:[user userID]];
             TCMMMState *state = [[TCMMMState alloc] initAsServer:YES];
             [state setDelegate:self];
@@ -471,12 +483,35 @@ NSString * const TCMMMSessionDidChangeNotification =
 #pragma mark -
 #pragma ### State interaction ###
 
+- (void)handleUserChangeOperation:(UserChangeOperation *)anOperation fromState:(TCMMMState *)aState {
+    if ([anOperation type]==UserChangeTypeJoin) {
+        NSString *group=[anOperation newGroup];
+        NSString *userID=[anOperation userID];
+        TCMMMUser *userNotification=[anOperation user];
+        TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+        if ([userManager sender:self shouldRequestUser:userNotification]) {
+            SessionProfile *profile=(SessionProfile *)[aState client];
+            [profile sendUserRequest:[userNotification notification]];
+        }
+        TCMMMUser *user=[userManager userForUserID:userID];
+        [[I_participants objectForKey:group] addObject:user];
+        [I_groupByUserID setObject:group forKey:userID];
+        [user joinSessionID:[self sessionID]];
+        NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];
+        [properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[user userID]] forKey:@"SelectionOperation"];
+        
+        [self TCM_sendParticipantsDidChangeNotification];
+    }
+}
+
 - (void)state:(TCMMMState *)aState handleOperation:(TCMMMOperation *)anOperation {
 
     // NSLog(@"state:%@ handleOperation:%@",aState,anOperation);
-
-    [(PlainTextDocument *)[self document] handleOperation:anOperation];
-    
+    if ([[[anOperation class] operationID] isEqualToString:[UserChangeOperation operationID]]) {
+        [self handleUserChangeOperation:(UserChangeOperation *)anOperation fromState:aState];
+    } else {
+        [(PlainTextDocument *)[self document] handleOperation:anOperation];
+    }
     // distribute operation
     NSEnumerator *states = [I_statesByClientID objectEnumerator];
     TCMMMState *state;

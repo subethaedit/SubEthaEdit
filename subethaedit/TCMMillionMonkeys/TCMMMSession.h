@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
+extern NSString * const TCMMMSessionParticipantsDidChangeNotification;
 extern NSString * const TCMMMSessionPendingUsersDidChangeNotification;
 extern NSString * const TCMMMSessionDidChangeNotification;
 

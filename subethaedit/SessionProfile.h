@@ -26,6 +26,7 @@
 
 - (void)sendUser:(TCMMMUser *)aUser;
 - (void)sendJoinRequestForSessionID:(NSString *)aSessionID;
+- (void)sendUserRequest:(NSDictionary *)aUserNotification;
 - (void)cancelJoin;
 - (void)sendSessionContent:(NSDictionary *)aSessionContent;
 - (void)sendSessionInformation:(NSDictionary *)aSessionInformation;

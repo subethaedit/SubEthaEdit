@@ -12,7 +12,7 @@
 @implementation TextOperation
 
 + (void)initialize {
-    [TCMMMOperation registerClass:self forOperationType:@"txt"];
+    [TCMMMOperation registerClass:self forOperationType:[self operationID]];
 }
 
 + (TextOperation *)textOperationWithAffectedCharRange:(NSRange)aRange replacementString:(NSString *)aString userID:(NSString *)aUserID {

@@ -618,6 +618,8 @@ subethaedit/Tools/serials/checkserial.pl -text
 subethaedit/Tools/serials/makeserial.pl -text
 subethaedit/URLDataProtocol.h -text
 subethaedit/URLDataProtocol.m -text
+subethaedit/UserChangeOperation.h -text
+subethaedit/UserChangeOperation.m -text
 subethaedit/WebPreviewWindowController.h -text
 subethaedit/WebPreviewWindowController.m -text
 subethaedit/artwork/Action.tiff -text

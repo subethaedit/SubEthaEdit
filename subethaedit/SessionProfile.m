@@ -51,6 +51,14 @@
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
+- (void)sendUserRequest:(NSDictionary *)aUserNotification {
+    NSMutableData *data = [NSMutableData dataWithBytes:"USRREQ" length:6];
+    if (aUserNotification) {
+        [data appendData:TCM_BencodedObject(aUserNotification)];
+    }
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
 - (void)cancelJoin {
     NSMutableData *data = [NSMutableData dataWithBytes:"JONCAN" length:6];
     [[self channel] sendMSGMessageWithPayload:data];
@@ -100,11 +108,26 @@
         
         unsigned char *type = (unsigned char *)[[aMessage payload] bytes];
         if (strncmp(type,"USRREQ",6)==0) {
-                NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
-                [data appendData:[[TCMMMUserManager me] userBencoded]];
-                TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
-                [[self channel] sendMessage:[message autorelease]];
-                return;
+            TCMMMUser *user=nil;
+            if ([[aMessage payload] length]>6) {
+                NSDictionary *notification=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6, [[aMessage payload] length]-6)]);
+                if (notification) {
+                    user=[TCMMMUser userWithNotification:notification];
+                    user=[[TCMMMUserManager sharedInstance] userForUserID:[user userID]];
+                }
+            } else {
+                user=[TCMMMUserManager me];
+            }
+            NSMutableData *data;
+            if (user) {
+                data=[NSMutableData dataWithBytes:"USRFUL" length:6];
+                [data appendData:[user userBencoded]];
+            } else {
+                data=[NSMutableData data];
+            }
+            TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
+            [[self channel] sendMessage:[message autorelease]];
+            return;
         } else if (strncmp(type, "JONJON", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received join request.");
             NSData *data = [[aMessage payload] subdataWithRange:NSMakeRange(6, [[aMessage payload] length]-6)];

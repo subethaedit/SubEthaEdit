@@ -18,6 +18,7 @@
 #import "TextView.h"
 #import "SplitView.h"
 #import "RendezvousBrowserController.h"
+#import "TCMMMSession.h"
 
 NSString * const PlainTextWindowToolbarIdentifier = @"PlainTextWindowToolbarIdentifier";
 NSString * const ParticipantsToolbarItemIdentifier = 
@@ -102,6 +103,11 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                                              selector:@selector(participantsDidChange:)
                                                  name:PlainTextDocumentParticipantsDidChangeNotification 
                                                object:[self document]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(participantsDidChange:)
+                                                 name:TCMMMSessionParticipantsDidChangeNotification 
+                                               object:[(PlainTextDocument *)[self document] session]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(pendingUsersDidChange:)

@@ -12,7 +12,7 @@
 @implementation SelectionOperation
 
 + (void)initialize {
-    [TCMMMOperation registerClass:self forOperationType:@"sel"];
+    [TCMMMOperation registerClass:self forOperationType:[self operationID]];
 }
 
 + (SelectionOperation *)selectionOperationWithRange:(NSRange)aRange userID:(NSString *)aUserID {
@@ -66,7 +66,6 @@
     if (self) {
         I_selectedRange.location = [[aDictionary objectForKey:@"loc"] unsignedIntValue];
         I_selectedRange.length = [[aDictionary objectForKey:@"len"] unsignedIntValue];
-        [self setUserID:[NSString stringWithUUIDData:[aDictionary objectForKey:@"uid"]]];
         //NSLog(@"operation: %@", [self description]);
     }
     return self;
