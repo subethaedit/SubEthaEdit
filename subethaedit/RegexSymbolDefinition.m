@@ -188,7 +188,7 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
 {
     int childCount;
     int index;
-    OGRegularExpression *findRegex;
+    OGRegularExpression *findRegex = nil;
     NSString *replaceString;
 
     childCount = CFTreeGetChildCount(aTree);

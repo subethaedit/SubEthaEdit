@@ -861,30 +861,35 @@
     partialWord = [[[textView textStorage] string] substringWithRange:charRange];
     
     // Find all known names.
-    completionSource = [NSMutableArray arrayWithArray:[[[self document] documentMode] autocompleteDictionary]];
-    [completionSource addObjectsFromArray:words]; // The whole stuff: spellchecker, all words in text
-    count = [completionSource count];
-    
-    // Examine the names one by one.
-    for (i = 0; i < count; i++) {
-        completionEntry = [completionSource objectAtIndex:i];
-        // Add those that match the current partial word to the list of completions.
-        if ([completionEntry hasPrefix:partialWord]) [completions addObject:completionEntry];
-    }
-    
-    // This does not work, because [NSTextStorage words] sometimes don't gives all words ?!
-    /*
-    NSArray *attributedWords = [[[self document] textStorage] words];
+    completionSource = [NSMutableArray array];
 
-    count = [attributedWords count];
+// Too slow unfortunatly.
+/*    NSArray *paras = [[[self document] textStorage] paragraphs];
+
+    count = [paras count];
     for (i = 0; i < count; i++) {
-        completionEntry = [[attributedWords objectAtIndex:i] string];
-        DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"Word:%@ (%d of %d)",completionEntry,i,count);
-        if ([completionEntry hasPrefix:partialWord]) {
-            if (![completions containsObject:completionEntry]) [completions addObject:completionEntry];
+        NSArray *words = [[paras objectAtIndex:i] words];
+        int wordcount = [words count];
+        int j;
+        for (j = 0; j < wordcount; j++) {
+            completionEntry = [[words objectAtIndex:j] string];
+            if ([completionEntry hasPrefix:partialWord]) {
+              if (![completions containsObject:completionEntry]) [completions addObject:completionEntry];
+            }
         }
     }
 */
+    [completionSource addObjectsFromArray:[[[self document] documentMode] autocompleteDictionary]];
+    [completionSource addObjectsFromArray:words]; // The whole stuff: spellchecker + all words in text
+
+    // Examine the names one by one.
+    count = [completionSource count];
+    for (i = 0; i < count; i++) {
+        completionEntry = [completionSource objectAtIndex:i];
+        // Add those that match the current partial word to the list of completions.
+        if (([completionEntry hasPrefix:partialWord])&&(![completions containsObject:completionEntry])) [completions addObject:completionEntry];
+    }
+    
     //DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"Finished autocomplete");
 
     return completions;

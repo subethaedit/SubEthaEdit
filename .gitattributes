@@ -293,7 +293,10 @@ subethaedit/Modes/Base.mode/Contents/Resources/English.lproj/InfoPlist.strings -
 subethaedit/Modes/HTML.mode/Contents/Info.plist -text
 subethaedit/Modes/HTML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/HTML.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/HTML.mode/Contents/Resources/Symbol!.png -text
+subethaedit/Modes/HTML.mode/Contents/Resources/SymbolD.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/SymbolH.png -text
+subethaedit/Modes/HTML.mode/Contents/Resources/Symbola.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Info.plist -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
