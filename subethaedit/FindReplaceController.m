@@ -30,19 +30,23 @@ static FindReplaceController *sharedInstance=nil;
     self = [super init];
     if (self) {
         sharedInstance = self;
+        I_findHistory = [NSMutableArray new];
+        I_replaceHistory = [NSMutableArray new];
     }
     return self;
 }
 
+- (void) dealloc {
+    [I_findHistory dealloc];
+    [I_replaceHistory dealloc];
+    [super dealloc];
+}
 - (void)loadUI {
     if (!O_findPanel) {
         if (![NSBundle loadNibNamed:@"FindReplace" owner:self]) {
             NSLog(@"Failed to load FindReplace.nib");
             NSBeep();
         }
-    } else {
-        [O_findPanel setFloatingPanel:NO];
-        [O_findPanel setHidesOnDeactivate:NO];
     }
 }
 
@@ -52,7 +56,8 @@ static FindReplaceController *sharedInstance=nil;
 
 - (NSPanel *)findPanel {
     if (!O_findPanel) [self loadUI];
-
+    [O_findPanel setFloatingPanel:NO];
+    [O_findPanel setHidesOnDeactivate:NO];
     return O_findPanel;
 }
 
@@ -158,7 +163,7 @@ static FindReplaceController *sharedInstance=nil;
         if (![findString isEqualToString:@""]) [self find:findString forward:YES];
         else NSBeep();
     } else if ([sender tag]==NSFindPanelActionPrevious) {
-        if (![findString isEqualToString:@""]) [self find:findString forward:NO];
+        if ((![findString isEqualToString:@""])&&(findString)) [self find:findString forward:NO];
         else NSBeep();
     } else if ([sender tag]==NSFindPanelActionReplaceAll) {
         NSLog(@"ReplaceAll");
@@ -186,6 +191,7 @@ static FindReplaceController *sharedInstance=nil;
         }
         NSTextView *target = [self targetToFindIn];
         if (target) {
+            [self addString:findString toHistory:I_findHistory];
             OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
                                          options:[self currentOgreOptions]
                                          syntax:[self currentOgreSyntax]
@@ -206,13 +212,12 @@ static FindReplaceController *sharedInstance=nil;
 - (BOOL) find:(NSString*)findString forward:(BOOL)forward
 {
     BOOL found = NO;
+    [self addString:findString toHistory:I_findHistory];
     NSAutoreleasePool *findPool = [NSAutoreleasePool new];     
-    [O_progressIndicator setHidden:NO];
     [O_progressIndicator startAnimation:nil];
         
     if ((![OGRegularExpression isValidExpressionString:findString])&&(![self currentOgreSyntax]==OgreSimpleMatchingSyntax)) {
         [O_progressIndicator stopAnimation:nil];
-        [O_progressIndicator setHidden:YES];
         [O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
         [O_statusTextField setHidden:NO];
         NSBeep();
@@ -236,6 +241,9 @@ static FindReplaceController *sharedInstance=nil;
         NSEnumerator *enumerator;
         
         if (forward) {
+            if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
+                [self loadFindStringToPasteboard];
+            }
             enumerator=[regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection))];
             aMatch = [enumerator nextObject];
             if (aMatch != nil) {
@@ -258,6 +266,7 @@ static FindReplaceController *sharedInstance=nil;
         } else { // backwards
             if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
                 // If we are just simple searching, use NSBackwardsSearch because Regex Searching is sloooow backwards.
+                [self loadFindStringToPasteboard];
                 unsigned options = NSLiteralSearch|NSBackwardsSearch;
                 if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
                 BOOL wrap = ([O_wrapAroundCheckbox state]==NSOnState); 
@@ -295,7 +304,6 @@ static FindReplaceController *sharedInstance=nil;
     }
                                  
     [O_progressIndicator stopAnimation:nil];
-    [O_progressIndicator setHidden:YES];
     [findPool release];
     return found;
 }
@@ -303,9 +311,66 @@ static FindReplaceController *sharedInstance=nil;
 #pragma mark -
 #pragma mark ### Notification handling ###
 
-- (void)applicationDidActivate:(NSNotification *)aNotification {
-    // take string from find pasteboard
+- (void)applicationDidActivate:(NSNotification *)notification {
+    [self loadFindStringFromPasteboard];
 }
+
+- (void)loadFindStringFromPasteboard {
+    NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+    if ([[pasteboard types] containsObject:NSStringPboardType]) {
+        NSString *string = [pasteboard stringForType:NSStringPboardType];
+        if (string && [string length]) {
+            [self findPanel];
+            [O_findComboBox setStringValue:string];
+        }
+    }
+}
+
+- (void)loadFindStringToPasteboard {
+    NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+    [pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+    [pasteboard setString:[O_findComboBox stringValue] forType:NSStringPboardType];
+}
+
+#pragma mark -
+#pragma mark ### NSComboBox data source ###
+
+- (int)numberOfItemsInComboBox:(NSComboBox*)aComboBox
+{
+	if (aComboBox == O_replaceComboBox) {
+		return [I_replaceHistory count];
+	}
+	return [I_findHistory count];
+}
+
+- (id)comboBox:(NSComboBox*)aComboBox objectValueForItemAtIndex:(int)index
+{
+	if (aComboBox == O_replaceComboBox) {
+		return [I_replaceHistory objectAtIndex:index];
+	}
+	return [I_findHistory objectAtIndex:index];
+}
+
+- (unsigned)comboBox:(NSComboBox*)aComboBox indexOfItemWithStringValue:(NSString*)string
+{
+	if (aComboBox == O_replaceComboBox) {
+		return [I_replaceHistory indexOfObject:string];
+	}
+	return [I_findHistory indexOfObject:string];
+}
+
+- (void)addString:(NSString*)aString toHistory:(NSMutableArray *)anArray
+{
+    [anArray insertObject:aString atIndex:0];
+    int count = [anArray count];
+    int i;
+    for (i=count;i>25;i--) {
+        [anArray removeObjectAtIndex:i];
+    }
+    [O_findComboBox reloadData];
+    [O_replaceComboBox reloadData];
+}
+
 
 @end 
 

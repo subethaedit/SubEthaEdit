@@ -42,6 +42,7 @@
 
 - (void)findAll:(id)sender
 {
+    [O_progressIndicator startAnimation:nil];
     [self showWindow:self];
     [O_resultsController removeObjects:[O_resultsController arrangedObjects]]; //Clear arraycontroller
     OGRegularExpression *regex = I_regularExpression;
@@ -102,6 +103,7 @@
         }
             [O_resultsTableView tile];
     }
+    [O_progressIndicator stopAnimation:nil];
 }
 
 #pragma mark -

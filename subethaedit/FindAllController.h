@@ -16,6 +16,7 @@
     IBOutlet NSTextField *O_findResultsTextField;
     IBOutlet NSTextField *O_findRegexTextField;
     IBOutlet NSTableView *O_resultsTableView;
+    IBOutlet NSProgressIndicator *O_progressIndicator;
     PlainTextDocument *I_document;
     OGRegularExpression *I_regularExpression;
     unsigned I_options;

@@ -41,6 +41,8 @@ typedef enum {
     IBOutlet NSPopUpButton *O_scopePopup;
     IBOutlet NSTextField *O_statusTextField;
     IBOutlet NSButton *O_wrapAroundCheckbox;
+    NSMutableArray *I_findHistory;
+    NSMutableArray *I_replaceHistory;    
 }
 
 + (FindReplaceController *)sharedInstance;
@@ -62,6 +64,9 @@ typedef enum {
 - (IBAction)updateRegexDrawer:(id)aSender;
 - (BOOL) find:(NSString*)findString forward:(BOOL)forward;
 - (void) findNextAndOrderOut:(id)sender;
+- (void)loadFindStringFromPasteboard;
+- (void)loadFindStringToPasteboard;
+- (void) addString:(NSString*)aString toHistory:(NSMutableArray *)anArray;
 
 @end
 
