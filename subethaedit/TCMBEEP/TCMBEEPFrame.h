@@ -23,6 +23,10 @@
     NSData *I_payload;
 }
 
++ (TCMBEEPFrame *)SEQFrameWithChannelNumber:(int32_t)channelNumber
+                      acknowledgementNumber:(uint32_t)acknowledgementNumber
+                                 windowSize:(int32_t)windowSize;
+                                 
 + (TCMBEEPFrame *)frameWithMessage:(TCMBEEPMessage *)aMessage 
                     sequenceNumber:(uint32_t)aSequenceNumber
                      payloadLength:(uint32_t)aLength
@@ -33,6 +37,10 @@
         payloadLength:(uint32_t)aLength
          intermediate:(BOOL)aFlag;
          
+- (id)initWithChannelNumber:(int32_t)channelNumber
+      acknowledgementNumber:(uint32_t)acknowledgementNumber
+                 windowSize:(int32_t)windowSize;
+                 
 - (id)initWithHeader:(char *)aHeaderString;
 
 - (void)setPayload:(NSData *)aData;
@@ -49,6 +57,7 @@
 - (int32_t)answerNumber;
 
 - (BOOL)isANS;
+- (BOOL)isSEQ;
 
 - (void)appendToMutableData:(NSMutableData *)aData;
 

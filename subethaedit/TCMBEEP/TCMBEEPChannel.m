@@ -61,8 +61,12 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_answerReadQueues = [NSMutableDictionary new];
             I_nextMessageNumber = 0;
             I_messageWriteQueue = [NSMutableArray new];
+            I_outgoingFrameQueue = [NSMutableArray new];
             I_sequenceNumber = 0;
             I_incomingWindowSize = 4096;
+            I_incomingBufferSize = 4096;
+            I_incomingBufferSizeAvailable = 4096;
+            I_incomingSequenceNumber = 0;
             I_outgoingWindowSize = 4096;
             I_flags.isInitiator = isInitiator;
         }
@@ -82,6 +86,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     [I_defaultReadQueue release];
     [I_answerReadQueues release];
     [I_messageWriteQueue release];
+    [I_outgoingFrameQueue release];
     [super dealloc];
 }
 
@@ -159,16 +164,19 @@ static NSMutableDictionary *profileURIToClassMapping;
 - (BOOL)hasFramesAvailable
 {
     DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"frames available? %d", ([I_messageWriteQueue count] > 0));
-    return ([I_messageWriteQueue count] > 0);
+    return ([I_messageWriteQueue count] > 0 || [I_outgoingFrameQueue count] > 0);
 }
 
 - (NSArray *)availableFramesFittingInCurrentWindow;
 {
-    if ([I_messageWriteQueue count] == 0) {
+    if ([I_messageWriteQueue count] == 0 && [I_outgoingFrameQueue count] == 0) {
         return [NSArray array];
     }
     
     NSMutableArray *frames = [NSMutableArray array];
+    [frames addObjectsFromArray:I_outgoingFrameQueue];
+    [I_outgoingFrameQueue removeAllObjects];
+    
     int bytesAllowedToSend = MIN([[self session] maximumFrameSize], I_outgoingWindowSize);
     while (bytesAllowedToSend > 0 && [I_messageWriteQueue count] > 0) {
         TCMBEEPMessage *message = [I_messageWriteQueue objectAtIndex:0];
@@ -176,6 +184,7 @@ static NSMutableDictionary *profileURIToClassMapping;
         if (payloadLength <= bytesAllowedToSend) {
             // convert message to frame and send frame
             TCMBEEPFrame *frame = [TCMBEEPFrame frameWithMessage:message sequenceNumber:I_sequenceNumber payloadLength:payloadLength intermediate:NO];
+            I_outgoingWindowSize -= payloadLength;
             [frames addObject:frame];
             [I_messageWriteQueue removeObjectAtIndex:0];
             I_sequenceNumber += payloadLength;
@@ -186,6 +195,7 @@ static NSMutableDictionary *profileURIToClassMapping;
             TCMBEEPFrame *frame = [TCMBEEPFrame frameWithMessage:message sequenceNumber:I_sequenceNumber payloadLength:framePayload intermediate:YES];
             [message setPayload:[[message payload] subdataWithRange:NSMakeRange(framePayload, payloadLength - framePayload)]];
             [frames addObject:frame];
+            I_outgoingWindowSize -= framePayload;
             I_sequenceNumber += framePayload;
             bytesAllowedToSend -= framePayload;
         }
@@ -202,6 +212,15 @@ static NSMutableDictionary *profileURIToClassMapping;
 
 - (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame
 {
+    if ([aFrame isSEQ]) {
+        // validate SEQ frame;
+        uint32_t ackno = [aFrame sequenceNumber];
+        int32_t window = [aFrame length];
+        NSLog(@"Received SEQ, ackno: %d, window: %d", ackno, window);
+        I_outgoingWindowSize += window;
+        return YES;
+    }
+    
     BOOL accept = [self TCM_validateFrame:aFrame];
     if (accept) {
         // QUEUE   
@@ -240,6 +259,16 @@ static NSMutableDictionary *profileURIToClassMapping;
         }
         
         [self setPreviousReadFrame:aFrame];
+        I_incomingSequenceNumber = [aFrame sequenceNumber];
+        I_incomingBufferSizeAvailable -= [aFrame length];
+        if (I_incomingBufferSizeAvailable < 2048) {
+            // prepare SEQ frame
+            TCMBEEPFrame *SEQFrame = [TCMBEEPFrame SEQFrameWithChannelNumber:[self number] acknowledgementNumber:I_incomingSequenceNumber windowSize:4096];
+            I_incomingBufferSizeAvailable = 4096;
+            NSLog(@"send SEQ frame: %@", SEQFrame);
+            [I_outgoingFrameQueue addObject:SEQFrame];
+            [[self session] channelHasFramesAvailable:self];
+        }
     } else {
         NSLog(@"NOT ACCEPTED: %@", aFrame);
     }

@@ -16,6 +16,9 @@
 {
     unsigned long I_number;
     uint32_t I_sequenceNumber;
+    unsigned int I_incomingBufferSize;
+    unsigned int I_incomingBufferSizeAvailable;
+    unsigned int I_incomingSequenceNumber;
     uint32_t I_incomingWindowSize;
     uint32_t I_outgoingWindowSize;
     TCMBEEPSession *I_session;
@@ -28,6 +31,7 @@
     NSMutableArray *I_defaultReadQueue;
     NSMutableDictionary *I_answerReadQueues;
     NSMutableArray *I_messageWriteQueue;
+    NSMutableArray *I_outgoingFrameQueue;
     int32_t I_nextMessageNumber;
     struct {
         BOOL isInitiator;
