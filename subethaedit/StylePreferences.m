@@ -76,8 +76,18 @@
     [O_stylesTableView reloadData];
 }
 
+- (void)takeFontFromMode:(DocumentMode *)aMode {
+    NSDictionary *fontAttributes = [aMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
+    NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
+    if (!font) font=[NSFont userFixedPitchFontOfSize:11.];
+    [self setBaseFont:font];
+}
+
 - (IBAction)validateDefaultsState:(id)aSender {
     BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
+    DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
+    DocumentMode *selectedMode=[O_modePopUpButton selectedMode];
+    [O_fontController setContent:([O_fontDefaultButton state]==NSOnState)?baseMode:selectedMode];
     [O_defaultStyleButton setHidden:[[I_currentSyntaxStyle documentMode] isBaseMode]];
     if (O_defaultStyleButton !=aSender) {
         [O_defaultStyleButton setState:useDefault?NSOnState:NSOffState];
@@ -86,7 +96,7 @@
     [O_stylesTableView setDisableFirstRow:useDefault];
     
     if (useDefault) {
-        [O_modeController setContent:[DocumentModeManager baseMode]];
+        [O_modeController setContent:baseMode];
         [O_stylesTableView deselectRow:0];
     } else {
         [O_modeController setContent:[O_modePopUpButton selectedMode]];
@@ -94,6 +104,7 @@
     NSDictionary *baseStyle=[[[O_modeController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
     [O_backgroundColorWell         setColor:[baseStyle objectForKey:@"background-color"]         ];
     [O_invertedBackgroundColorWell setColor:[baseStyle objectForKey:@"inverted-background-color"]]; 
+    [self takeFontFromMode:selectedMode];
     [self updateBackgroundColor];
     [O_lightBackgroundButton       setEnabled:!useDefault];
     [O_darkBackgroundButton        setEnabled:!useDefault];
@@ -207,14 +218,11 @@
 
 - (IBAction)changeMode:(id)aSender {
     DocumentMode *newMode=[aSender selectedMode];
-    NSDictionary *fontAttributes = [newMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-    NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
-    if (!font) font=[NSFont userFixedPitchFontOfSize:11.];
-    [self setBaseFont:font];
     I_currentSyntaxStyle=[newMode syntaxStyle];
     [O_stylesTableView reloadData];
     [O_stylesTableView selectRow:0 byExtendingSelection:NO];
     [self validateDefaultsState:aSender];
+    [self updateInspector];
 }
 
 - (IBAction)changeLightBackgroundColor:(id)aSender {
@@ -331,9 +339,43 @@
     [self changeMode:O_modePopUpButton];
 }
 
+- (IBAction)revertSelectionToMode:(id)aSender {
+    NSMutableDictionary *style=nil;
+    NSEnumerator *selectedStyles=[self selectedStylesEnumerator];
+    SyntaxStyle *defaultStyle=[[O_modePopUpButton selectedMode] defaultSyntaxStyle];
+    while ((style=[selectedStyles nextObject])) {
+        [style addEntriesFromDictionary:[defaultStyle styleForKey:[style objectForKey:@"styleID"]]];
+    }
+    [O_stylesTableView reloadData];
+}
+
 
 - (void)didUnselect {
     // Save preferences
+    [[[NSFontManager sharedFontManager] fontPanel:NO] orderOut:self];
+}
+
+- (IBAction)changeFontViaPanel:(id)sender {
+    NSDictionary *fontAttributes=[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeFontAttributesPreferenceKey];
+    NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    [[NSFontManager sharedFontManager] 
+        setSelectedFont:newFont 
+             isMultiple:NO];
+    [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
+}
+
+- (void)changeFont:(id)fontManager {
+    if ([O_fontDefaultButton state]!=NSOnState) {
+        NSFont *newFont = [fontManager convertFont:[NSFont userFixedPitchFontOfSize:0.0]]; // could be any font here
+        NSMutableDictionary *dict=[NSMutableDictionary dictionary];
+        [dict setObject:[newFont fontName] 
+                 forKey:NSFontNameAttribute];
+        [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
+                 forKey:NSFontSizeAttribute];
+        [[O_modePopUpButton selectedMode] setValue:dict forKeyPath:@"defaults.FontAttributes"];
+        [self changeMode:O_modePopUpButton];
+    }
 }
 
 - (void)setBaseFont:(NSFont *)aFont {

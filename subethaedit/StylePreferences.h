@@ -16,6 +16,7 @@
 @interface StylePreferences : TCMPreferenceModule {
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSObjectController *O_modeController;
+    IBOutlet NSObjectController *O_fontController;
     IBOutlet TableView *O_stylesTableView;
     NSMutableDictionary *I_baseStyleDictionary;
     NSFont *I_baseFont;
@@ -25,6 +26,8 @@
     IBOutlet NSColorWell *O_colorWell, *O_invertedColorWell, 
                          *O_backgroundColorWell,*O_invertedBackgroundColorWell;
     IBOutlet NSButton *O_defaultStyleButton;
+    IBOutlet NSButton *O_fontDefaultButton;
+    IBOutlet NSButton *O_revertSelectionToModeButton;
 }
 
 - (IBAction)changeFontTraitItalic:(id)aSender;
@@ -38,7 +41,9 @@
 - (IBAction)changeDefaultState:(id)aSender;
 - (IBAction)import:(id)aSender;
 - (IBAction)export:(id)aSender;
+- (IBAction)revertSelectionToMode:(id)aSender;
 - (IBAction)revertToMode:(id)aSender;
+- (IBAction)changeFontViaPanel:(id)sender;
 
 - (void)setBaseFont:(NSFont *)aFont;
 - (NSFont *)baseFont;
