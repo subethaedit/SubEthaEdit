@@ -367,9 +367,83 @@
                 <regex>(#[\da-fA-F]{3})</regex>
                 <regex>(#[\da-fA-F]{6})</regex>
             </keywords>
-
+            
+            <keywords id="CSS Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+                <regex>("[^"&gt;&lt;]*")(?=[^&lt;]*&gt;)</regex>
+            </keywords>
+            
+            <keywords id="CSS Attributes in Tags" color="#994500" useforautocomplete="no">
+                <regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
+            </keywords>
             <keywords id="Begin and End" color="#881280" useforautocomplete="no">
                 <regex>(&lt;[^&gt;]*&gt;)</regex>
+            </keywords>
+
+        </state>
+        
+        <state id="Inline Javascript" color="#000">
+            <begin><regex>&lt;script</regex></begin>
+            <end><regex>/script&gt;</regex></end>
+
+            <keywords id="Javascript Keywords" color="#88134F" useforautocomplete="yes">
+                <string>if</string>
+                <string>else</string>
+                <string>for</string>
+                <string>in</string>
+                <string>while</string>
+                <string>do</string>
+                <string>continue</string>
+                <string>break</string>
+                <string>with</string>
+                <string>try</string>
+                <string>catch</string>
+                <string>switch</string>
+                <string>case</string>
+                <string>new</string>
+                <string>var</string>
+                <string>function</string>
+                <string>return</string>
+                <string>this</string>
+                <string>delete</string>
+                <string>true</string>
+                <string>false</string>
+                <string>void</string>
+                <string>throw</string>
+                <string>typeof</string>
+                <string>const</string>
+                <string>default</string>
+            </keywords>
+
+            <keywords id="Javascript Numbers" color="#00f" useforautocomplete="no">
+				<regex>(?&lt;=[^[A-Za-z0-9]]|^)((([0-9]+\.[0-9]*)|(\.[0-9]+)([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]))(([uU][lL]?)|([lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
+            </keywords>
+            
+            <keywords id="Javascript Characters" color="#00f" useforautocomplete="no">
+				<regex>('.')</regex>
+            </keywords>
+
+            <keywords id="Javascript String" color="#760f15" useforautocomplete="no">
+				<regex>("[^"]*")</regex>
+            </keywords>
+
+            <keywords id="Javascript FunctionRegex" color="#003369" useforautocomplete="no">
+				<regex>([A-Za-z0-9_]+ *)\(</regex>
+            </keywords>
+
+            <keywords id="Javascript Begin and End" color="#881280" useforautocomplete="no">
+                <regex>(&lt;[^&gt;]*&gt;)</regex>
+            </keywords>
+
+            <keywords id="Javascript Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+                <regex>("[^"&gt;&lt;]*")(?=[^&lt;]*&gt;)</regex>
+            </keywords>
+
+            <keywords id="Javascript Single Comments" font-style="italic" color="#236E25" useforautocomplete="no">
+				<regex>(//[^\n\r]*[\n\r])</regex>
+            </keywords>
+
+            <keywords id="Javascript Attributes in Tags" color="#994500" useforautocomplete="no">
+                <regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
             </keywords>
 
         </state>

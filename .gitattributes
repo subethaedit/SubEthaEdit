@@ -344,6 +344,10 @@ subethaedit/Modes/Java.mode/Contents/Info.plist -text
 subethaedit/Modes/Java.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Java.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Java.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/Javascript.mode/Contents/Info.plist -text
+subethaedit/Modes/Javascript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/Javascript.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Javascript.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/LaTeX.mode/Contents/Info.plist -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
@@ -382,6 +386,9 @@ subethaedit/Modes/SQL.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/SQL.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/XML.mode/Contents/Info.plist -text
 subethaedit/Modes/XML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/XML.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/XML.mode/Contents/Resources/Symbol!.png -text
+subethaedit/Modes/XML.mode/Contents/Resources/SymbolID.png -text
 subethaedit/Modes/XML.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/bash.mode/Contents/Info.plist -text
 subethaedit/Modes/bash.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
