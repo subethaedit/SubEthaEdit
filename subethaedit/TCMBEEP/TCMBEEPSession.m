@@ -48,7 +48,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     I_activeChannels = [NSMutableDictionary new];
     I_currentReadFrame = nil;
 
-    I_userInfo = nil;
+    I_userInfo = [NSMutableDictionary new];
 }
 
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
@@ -111,13 +111,13 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     return I_delegate;
 }
 
-- (void)setUserInfo:(NSDictionary *)aUserInfo
+- (void)setUserInfo:(NSMutableDictionary *)aUserInfo
 {
     [I_userInfo autorelease];
      I_userInfo = [aUserInfo copy];
 }
 
-- (NSDictionary *)userInfo
+- (NSMutableDictionary *)userInfo
 {
     return I_userInfo;
 }

@@ -29,7 +29,7 @@ enum {
     int I_currentReadState;
     int I_currentReadFrameRemainingContentSize;
 
-    NSDictionary *I_userInfo;
+    NSMutableDictionary *I_userInfo;
 
     TCMBEEPChannel *I_managementChannel;
     NSMutableDictionary *I_requestedChannels;
@@ -63,8 +63,8 @@ enum {
 /*"Accessors"*/
 - (void)setDelegate:(id)aDelegate;
 - (id)delegate;
-- (void)setUserInfo:(NSDictionary *)aUserInfo;
-- (NSDictionary *)userInfo;
+- (void)setUserInfo:(NSMutableDictionary *)aUserInfo;
+- (NSMutableDictionary *)userInfo;
 - (void)setProfileURIs:(NSArray *)anArray;
 - (NSArray *)profileURIs;
 - (void)setPeerProfileURIs:(NSArray *)anArray;
