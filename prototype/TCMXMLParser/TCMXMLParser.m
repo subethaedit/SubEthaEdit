@@ -58,17 +58,45 @@ static void EndElementHandler(void *userData, const XML_Char *name)
 
 static void StartNamespaceDeclarationHandler(void *userData,const XML_Char *prefix,const XML_Char *uri)
 {
-    
+    TCMXMLParser *parser = (TCMXMLParser *)userData;
+    id delegate = [parser delegate];
+    if ([delegate respondsToSelector:@selector(parser:didStartMappingPrefix:toURI:)]) {
+        NSString *prefixString = @"";
+        if (prefix != nil) {
+            prefixString = [NSString stringWithUTF8String:prefix];
+        }
+        NSString *uriString = @"";
+        if (uri != nil) {
+            uriString = [NSString stringWithUTF8String:uri];
+        }
+        [delegate parser:parser didStartMappingPrefix:prefixString toURI:uriString];
+    }
 }
 
 static void EndNamespaceDeclarationHandler(void *userData,const XML_Char *prefix)
 {
-
+    TCMXMLParser *parser = (TCMXMLParser *)userData;
+    id delegate = [parser delegate];
+    if ([delegate respondsToSelector:@selector(parser:didEndMappingPrefix:)]) {
+        NSString *prefixString = @"";
+        if (prefix != nil) {
+            prefixString = [NSString stringWithUTF8String:prefix];
+        }
+        [delegate parser:parser didEndMappingPrefix:prefixString];
+    }
 }
 
 static void CharacterHandler(void *userData, const XML_Char *s, int len)
 {
-
+    TCMXMLParser *parser = (TCMXMLParser *)userData;
+    id delegate = [parser delegate];
+    if ([delegate respondsToSelector:@selector(parser:foundCharacters:)]) {
+        NSString *characters = @"";
+        if (s != nil) {
+            characters = [[[NSString alloc]initWithBytes:s length:len encoding:NSUTF8StringEncoding] autorelease];
+        }
+        [delegate parser:parser foundCharacters:characters];
+    }
 } 
 
 static void StartCdataSectionHandler(void *userData)
