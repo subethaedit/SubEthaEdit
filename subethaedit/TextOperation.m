@@ -27,6 +27,116 @@
     return @"txt";
 }
 
++ (void)transformTextOperation:(TextOperation *)aClientOperation serverTextOperation:(TextOperation *)aServerOperation {
+   DEBUGLOG(@"MillionMonkeysLogDomain",AllLogLevel,@"transformText: %@, %@", [aClientOperation description], [aServerOperation description]);
+    
+    if (DisjointRanges([aClientOperation affectedCharRange], [aServerOperation affectedCharRange])) {
+        // non-conflicting operations
+
+        if ([aServerOperation affectedCharRange].location > [aClientOperation affectedCharRange].location) {
+            // server operation range after local operation range
+            NSRange newRange = [aServerOperation affectedCharRange];
+            newRange.location -= [aClientOperation affectedCharRange].length;
+            newRange.location += [[aClientOperation replacementString] length];
+            NSAssert2(newRange.location >= 0, @"Must be positive. LocalOp: %@, RemoteOp: %@", [aClientOperation description], [aServerOperation description]);
+            [aServerOperation setAffectedCharRange:newRange];
+            
+        } else if ([aServerOperation affectedCharRange].location < [aClientOperation affectedCharRange].location) {
+            // server operation range before local operation range
+            NSRange newRange = [aClientOperation affectedCharRange];
+            newRange.location -= [aServerOperation affectedCharRange].length;
+            newRange.location += [[aServerOperation replacementString] length];
+            NSAssert2(newRange.location >= 0, @"Must be positive. LocalOp: %@, RemoteOp: %@", [aClientOperation description], [aServerOperation description]);
+            [aClientOperation setAffectedCharRange:newRange];
+            
+        } else {
+            if (([aClientOperation affectedCharRange].length == 0) && ([aServerOperation affectedCharRange].length == 0)) {
+                NSRange newRange = [aClientOperation affectedCharRange];
+                newRange.location += [[aServerOperation replacementString] length];
+                [aClientOperation setAffectedCharRange:newRange];
+            } else if ([aClientOperation affectedCharRange].length < [aServerOperation affectedCharRange].length) {
+                NSRange newRange = [aServerOperation affectedCharRange];
+                newRange.location += [[aClientOperation replacementString] length];
+                [aServerOperation setAffectedCharRange:newRange];
+            } else if ([aClientOperation affectedCharRange].length > [aServerOperation affectedCharRange].length) {
+                NSRange newRange = [aClientOperation affectedCharRange];
+                newRange.location += [[aServerOperation replacementString] length];
+                [aClientOperation setAffectedCharRange:newRange];
+            } else {
+                NSLog(@"ERROR! This case shouldn't even exist.");
+            }
+        }
+        
+    } else {
+        // conflicting operations
+
+        NSRange intersectionRange = NSIntersectionRange([aClientOperation affectedCharRange], [aServerOperation affectedCharRange]);
+
+        if ([aServerOperation affectedCharRange].location == [aClientOperation affectedCharRange].location
+           && NSMaxRange([aServerOperation affectedCharRange]) == NSMaxRange([aClientOperation affectedCharRange])) {
+        
+            NSRange newClientRange = [aClientOperation affectedCharRange];
+            NSRange newServerRange = [aServerOperation affectedCharRange];
+            
+            newClientRange.length = 0;
+            newClientRange.location += [[aServerOperation replacementString] length];
+            
+            newServerRange.length = 0;
+            
+            [aClientOperation setAffectedCharRange:newClientRange];
+            [aServerOperation setAffectedCharRange:newServerRange];
+        
+        } else if ([aServerOperation affectedCharRange].location <= [aClientOperation affectedCharRange].location
+           && NSMaxRange([aServerOperation affectedCharRange]) <= NSMaxRange([aClientOperation affectedCharRange])) {
+            // server operation location before client operation location
+            NSRange newClientRange = [aClientOperation affectedCharRange];
+            NSRange newServerRange = [aServerOperation affectedCharRange];
+
+            newServerRange.length -= intersectionRange.length;
+
+            newClientRange.length -= intersectionRange.length;
+            newClientRange.location = [aServerOperation affectedCharRange].location + [[aServerOperation replacementString] length];
+
+            [aServerOperation setAffectedCharRange:newServerRange];
+		   [aClientOperation setAffectedCharRange:newClientRange];
+
+        } else if ([aServerOperation affectedCharRange].location >= [aClientOperation affectedCharRange].location
+                   && NSMaxRange([aServerOperation affectedCharRange]) >= NSMaxRange([aClientOperation affectedCharRange])) {
+            // server operation location after client operation location
+            NSRange newClientRange = [aClientOperation affectedCharRange];
+            NSRange newServerRange = [aServerOperation affectedCharRange];
+
+            newClientRange.length -= intersectionRange.length;
+
+            newServerRange.length -= intersectionRange.length;
+            newServerRange.location = [aClientOperation affectedCharRange].location + [[aClientOperation replacementString] length];
+
+            [aServerOperation setAffectedCharRange:newServerRange];
+            [aClientOperation setAffectedCharRange:newClientRange];
+
+        } else {
+            if ([aServerOperation affectedCharRange].length > [aClientOperation affectedCharRange].length) {
+                NSRange newRange = [aServerOperation affectedCharRange];
+                newRange.length += [[aClientOperation replacementString] length] - [aClientOperation affectedCharRange].length;
+                [aServerOperation setAffectedCharRange:newRange];
+
+                [aClientOperation setAffectedCharRange:NSMakeRange(0, 0)];
+                [aClientOperation setReplacementString:@""];
+                
+            } else if ([aServerOperation affectedCharRange].length < [aClientOperation affectedCharRange].length) {
+                NSRange newRange = [aClientOperation affectedCharRange];
+                newRange.length += [[aServerOperation replacementString] length] - [aServerOperation affectedCharRange].length;
+                [aClientOperation setAffectedCharRange:newRange];
+
+                [aServerOperation setAffectedCharRange:NSMakeRange(0, 0)];
+                [aServerOperation setReplacementString:@""];
+            } else {
+                NSLog(@"ERROR! This case shouldn't even exist.");
+            }
+        }
+    }
+}
+
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super init];
     if (self) {

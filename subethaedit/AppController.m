@@ -19,6 +19,9 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 #import "DocumentModeManager.h"
+#import "TextOperation.h"
+#import "SelectionOperation.h"
+
 
 @implementation AppController
 
@@ -26,6 +29,10 @@
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    
+    
+    [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
+    [SelectionOperation operationID]; // initalize selectionOperation
 }
 
 - (void)addMe {

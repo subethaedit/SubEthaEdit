@@ -42,9 +42,10 @@
 	};
 	141080DB05FE2EC800A4463D = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {561, 532}}";
+			sepNavIntBoundsRect = "{{0, 0}, {980, 2449}}";
 			sepNavSelRange = "{933, 0}";
-			sepNavVisRect = "{{0, 390}, {561, 141}}";
+			sepNavVisRect = "{{0, 1327}, {711, 449}}";
+			sepNavWindowFrame = "{{365, 123}, {750, 558}}";
 		};
 	};
 	141084A905FE345A00A4463D = {
@@ -166,8 +167,8 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {711, 1077}}";
 			sepNavSelRange = "{906, 18}";
-			sepNavVisRect = "{{0, 263}, {711, 449}}";
-			sepNavWindowFrame = "{{61, 111}, {750, 558}}";
+			sepNavVisRect = "{{0, 620}, {711, 449}}";
+			sepNavWindowFrame = "{{61, 227}, {750, 558}}";
 		};
 	};
 	14249EFC05FC826400D8C6B9 = {
@@ -175,7 +176,7 @@
 			sepNavIntBoundsRect = "{{0, 0}, {1022, 5277}}";
 			sepNavSelRange = "{11876, 0}";
 			sepNavVisRect = "{{0, 4828}, {711, 449}}";
-			sepNavWindowFrame = "{{449, 274}, {750, 558}}";
+			sepNavWindowFrame = "{{369, 274}, {750, 558}}";
 		};
 	};
 	14249F1B05FC9C9700D8C6B9 = {
@@ -274,9 +275,9 @@
 	1444315D0611B9E4008FDA2E = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {986, 951}}";
-			sepNavSelRange = "{1029, 0}";
+			sepNavSelRange = "{218, 0}";
 			sepNavVisRect = "{{0, 0}, {711, 449}}";
-			sepNavWindowFrame = "{{61, 227}, {750, 558}}";
+			sepNavWindowFrame = "{{130, 164}, {750, 558}}";
 		};
 	};
 	1444316C0611D462008FDA2E = {
@@ -941,7 +942,7 @@
 		fileReference = 5EDB87E605F8AFE30058C44A;
 		functionName = "-pendingUsersTableViewDoubleAction:";
 		isa = PBXFileBreakpoint;
-		lineNumber = 115;
+		lineNumber = 121;
 		state = 1;
 	};
 	14A0EF0F060B1D9C00A80FA8 = {
@@ -957,7 +958,7 @@
 			sepNavIntBoundsRect = "{{0, 0}, {1070, 1735}}";
 			sepNavSelRange = "{1702, 0}";
 			sepNavVisRect = "{{0, 1019}, {559, 343}}";
-			sepNavWindowFrame = "{{38, 248}, {750, 558}}";
+			sepNavWindowFrame = "{{199, 101}, {750, 558}}";
 		};
 	};
 	14A0EF15060B1DC200A80FA8 = {
@@ -989,7 +990,7 @@
 			sepNavIntBoundsRect = "{{0, 0}, {711, 601}}";
 			sepNavSelRange = "{871, 0}";
 			sepNavVisRect = "{{0, 137}, {711, 449}}";
-			sepNavWindowFrame = "{{305, 99}, {750, 558}}";
+			sepNavWindowFrame = "{{153, 143}, {750, 558}}";
 		};
 	};
 	14A0EFB3060B410B00A80FA8 = {
@@ -1008,19 +1009,12 @@
 			sepNavWindowFrame = "{{38, 248}, {750, 558}}";
 		};
 	};
-	14A0F037060B50E400A80FA8 = {
-		fileReference = 14A0EF16060B1DC200A80FA8;
-		functionName = "-initWithDictionaryRepresentation:";
-		isa = PBXFileBreakpoint;
-		lineNumber = 18;
-		state = 1;
-	};
 	14A0F03A060B9B2D00A80FA8 = {
 		fRef = 5EDB87E605F8AFE30058C44A;
 		isa = PBXTextBookmark;
 		name = "PlainTextWindowController.m: 210";
 		rLen = 0;
-		rLoc = 7413;
+		rLoc = 7786;
 		rType = 0;
 		vrLen = 548;
 		vrLoc = 6865;
@@ -1134,10 +1128,10 @@
 	};
 	14B42A8C06120339002D0043 = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1040, 1413}}";
-			sepNavSelRange = "{2135, 34}";
-			sepNavVisRect = "{{0, 816}, {559, 343}}";
-			sepNavWindowFrame = "{{222, 80}, {750, 558}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1040, 2953}}";
+			sepNavSelRange = "{954, 0}";
+			sepNavVisRect = "{{0, 347}, {772, 217}}";
+			sepNavWindowFrame = "{{347, 274}, {750, 558}}";
 		};
 	};
 	14B42A8F0612033C002D0043 = {
@@ -1429,6 +1423,446 @@
 		vrLen = 451;
 		vrLoc = 1782;
 	};
+	14B42BE6061237DC002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BE7061237DD002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BE8061237F9002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BE9061237F9002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BEA06123A07002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BEB06123A07002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BEC06123A0E002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BED06123A0E002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BEE06123A14002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BEF06123A14002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BF506123B6F002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BF606123B6F002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BF906124015002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BFA06124015002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BFB0612402E002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BFC0612402E002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BFD06124154002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42BFE06124154002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C030612D9A6002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C040612DF5E002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C050612DF5E002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C060612DF64002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C070612DF64002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C080612DF65002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C090612DF66002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C0A0612DF66002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C0B0612DF66002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C0E0612DFF4002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C0F0612DFF4002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C100612E5D9002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C110612E5D9002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C120612E5DB002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C130612E6C9002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C140612E6C9002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C150612E6CA002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C160612E6CA002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C170612E77A002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C180612E77A002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C190612E78A002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C1A0612E78A002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C1B0612E924002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C1C0612E924002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C1D0612EB42002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
+	14B42C1E0612EB42002D0043 = {
+		fRef = 14A0EFB4060B410B00A80FA8;
+		isa = PBXTextBookmark;
+		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
+		rLen = 159;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 1782;
+	};
 	14C51C700601C93C0030F488 = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {706, 1581}}";
@@ -1480,7 +1914,6 @@
 			144BC7A505EE3584006397BC,
 			14660F3D05F76435000CB76F,
 			14A0E6020608BF2F00A80FA8,
-			14A0F037060B50E400A80FA8,
 		);
 		codeSenseManager = 143C358105EBEC0C008C6DFE;
 		executables = (
@@ -1492,8 +1925,8 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXErrorsWarningsDataSource_LocationID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					352.8799,
-					198.2085,
+					335.8799,
+					189.2085,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXErrorsWarningsDataSource_TypeID,
@@ -1518,9 +1951,9 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					344,
+					322,
 					20,
-					65,
+					61,
 					43,
 					43,
 					20,
@@ -1557,7 +1990,7 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 101841861;
+			PBXPerProjectTemplateStateSaveDate = 101910198;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -1737,7 +2170,6 @@
 						PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 							PBXSplitModuleInNavigatorKey = {
 								Split0 = {
-									bookmark = 14B42BE5061208EA002D0043;
 									history = (
 										1464B41F05EE97B500D21A18,
 										1464B42005EE97B500D21A18,
@@ -1784,7 +2216,7 @@
 							};
 						};
 						PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {598, 516}}";
-						PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 141}, {598, 375}}";
+						PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 0}, {750, 480}}";
 						PBXProjectWorkspaceModule_OldSuperviewFrame = "{{234, 0}, {598, 516}}";
 						PBXProjectWorkspaceModule_SGTM = {
 							PBXBottomSmartGroupGIDs = (
@@ -1812,15 +2244,16 @@
 									2A37F4AAFDCFA73011CA2CEA,
 									2A37F4ABFDCFA73011CA2CEA,
 									5EEB176D05ECF6DA00C17677,
+									1C08E77C0454961000C914BD,
 								);
 								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 									(
-										54,
-										35,
+										24,
+										1,
 										0,
 									),
 								);
-								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 746}, {217, 260}}";
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 271}, {217, 258}}";
 							};
 							PBXSmartGroupTreeModuleSplitView = {
 								_collapsingFrameDimension = 0;
@@ -1828,8 +2261,8 @@
 								_percentageOfCollapsedView = 0;
 								isCollapsed = yes;
 								sizes = (
-									"{{0, 0}, {234, 278}}",
-									"{{0, 278}, {234, 238}}",
+									"{{0, 0}, {234, 276}}",
+									"{{0, 276}, {234, 240}}",
 								);
 							};
 							PBXSmartGroupTreeModuleSplitViewModule = {
@@ -1860,7 +2293,7 @@
 											3,
 										),
 									);
-									PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 220}}";
+									PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 222}}";
 								};
 								PBXTopSmartGroupGIDs = (
 								);
@@ -1885,8 +2318,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {304, 221}}",
-							"{{304, 0}, {507, 221}}",
+							"{{0, 0}, {304, 220}}",
+							"{{304, 0}, {507, 220}}",
 						);
 					};
 					VerticalSplitView = {
@@ -1895,8 +2328,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {811, 221}}",
-							"{{0, 221}, {811, 248}}",
+							"{{0, 0}, {811, 220}}",
+							"{{0, 220}, {811, 249}}",
 						);
 					};
 				};
@@ -1912,17 +2345,16 @@
 			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
 				PBXProjectWorkspaceModule_StateKey_Rev39 = {
 					PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
-						BoundsStr = "{{0, 0}, {583, 499}}";
+						BoundsStr = "{{0, 0}, {557, 499}}";
 						Rows = (
 							0,
 						);
-						VisibleRectStr = "{{0, 0}, {583, 499}}";
+						VisibleRectStr = "{{0, 0}, {557, 499}}";
 					};
 					PBXProjectWorkspaceModule_EditorOpen = false;
 					PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 						PBXSplitModuleInNavigatorKey = {
 							Split0 = {
-								bookmark = 14B42BE30612080B002D0043;
 								history = (
 									1464B41F05EE97B500D21A18,
 									1464B42005EE97B500D21A18,
@@ -1963,14 +2395,14 @@
 							_indexOfCollapsedView = 1;
 							_percentageOfCollapsedView = 0.7269545;
 							sizes = (
-								"{{0, 0}, {234, 516}}",
-								"{{234, 0}, {598, 516}}",
+								"{{0, 0}, {260, 516}}",
+								"{{260, 0}, {572, 516}}",
 							);
 						};
 					};
-					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {598, 516}}";
-					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 141}, {598, 375}}";
-					PBXProjectWorkspaceModule_OldSuperviewFrame = "{{234, 0}, {598, 516}}";
+					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {572, 516}}";
+					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 266}, {598, 250}}";
+					PBXProjectWorkspaceModule_OldSuperviewFrame = "{{260, 0}, {572, 516}}";
 					PBXProjectWorkspaceModule_SGTM = {
 						PBXBottomSmartGroupGIDs = (
 							1C37FBAC04509CD000000102,
@@ -1985,7 +2417,7 @@
 						);
 						PBXSmartGroupTreeModuleColumnData = {
 							PBXSmartGroupTreeModuleColumnWidthsKey = (
-								217,
+								243,
 							);
 							PBXSmartGroupTreeModuleColumnsKey_v4 = (
 								MainColumn,
@@ -1997,13 +2429,15 @@
 								2A37F4AAFDCFA73011CA2CEA,
 								2A37F4ABFDCFA73011CA2CEA,
 								5EEB176D05ECF6DA00C17677,
+								2A37F4AFFDCFA73011CA2CEA,
+								1C08E77C0454961000C914BD,
 							);
 							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								(
-									66,
+									73,
 								),
 							);
-							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 981}, {217, 260}}";
+							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 1121}, {243, 256}}";
 						};
 						PBXSmartGroupTreeModuleSplitView = {
 							_collapsingFrameDimension = 0;
@@ -2011,8 +2445,8 @@
 							_percentageOfCollapsedView = 0;
 							isCollapsed = yes;
 							sizes = (
-								"{{0, 0}, {234, 278}}",
-								"{{0, 278}, {234, 238}}",
+								"{{0, 0}, {260, 274}}",
+								"{{0, 274}, {260, 242}}",
 							);
 						};
 						PBXSmartGroupTreeModuleSplitViewModule = {
@@ -2029,7 +2463,7 @@
 							);
 							PBXSmartGroupTreeModuleColumnData = {
 								PBXSmartGroupTreeModuleColumnWidthsKey = (
-									217,
+									243,
 								);
 								PBXSmartGroupTreeModuleColumnsKey_v4 = (
 									MainColumn,
@@ -2037,13 +2471,15 @@
 							};
 							PBXSmartGroupTreeModuleOutlineStateKey_v7 = {
 								PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
+									2A37F4AAFDCFA73011CA2CEA,
 								);
 								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 									(
-										3,
+										6,
+										0,
 									),
 								);
-								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 220}}";
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {243, 224}}";
 							};
 							PBXTopSmartGroupGIDs = (
 							);
@@ -2084,7 +2520,7 @@
 					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 						PBXProjectWorkspaceModule_RunWindowVisible = true;
 					};
-					RubberWindowFrame = "102 266 832 558 0 0 1280 832 ";
+					RubberWindowFrame = "69 244 832 558 0 0 1280 832 ";
 				},
 			);
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXBuildResultsModule" = {
@@ -2114,12 +2550,12 @@
 				DebugConsoleWindowFrame = "{{200, 200}, {500, 300}}";
 				DebugSTDIOWindowFrame = "{{200, 200}, {500, 300}}";
 				Frame = "{{0, 0}, {811, 469}}";
-				RubberWindowFrame = "366 321 811 511 0 0 1280 832 ";
+				RubberWindowFrame = "397 298 811 511 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXNavigatorGroup" = {
 				Frame = "{{0, 0}, {750, 481}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "61 283 750 502 0 0 1280 832 ";
+				RubberWindowFrame = "365 179 750 502 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectFindModule" = {
 				Frame = "{{0, 0}, {861, 319}}";
@@ -2130,14 +2566,14 @@
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "102 266 832 558 0 0 1280 832 ";
+				RubberWindowFrame = "99 238 832 558 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {691, 318}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "585 173 691 339 0 0 1280 832 ";
+				RubberWindowFrame = "298 303 691 339 0 0 1280 832 ";
 			};
-			PBXWorkspaceStateSaveDate = 101841861;
+			PBXWorkspaceStateSaveDate = 101910198;
 		};
 		perUserProjectItems = {
 			141084A905FE345A00A4463D = 141084A905FE345A00A4463D;
@@ -2236,6 +2672,50 @@
 			14B42BE30612080B002D0043 = 14B42BE30612080B002D0043;
 			14B42BE4061208EA002D0043 = 14B42BE4061208EA002D0043;
 			14B42BE5061208EA002D0043 = 14B42BE5061208EA002D0043;
+			14B42BE6061237DC002D0043 = 14B42BE6061237DC002D0043;
+			14B42BE7061237DD002D0043 = 14B42BE7061237DD002D0043;
+			14B42BE8061237F9002D0043 = 14B42BE8061237F9002D0043;
+			14B42BE9061237F9002D0043 = 14B42BE9061237F9002D0043;
+			14B42BEA06123A07002D0043 = 14B42BEA06123A07002D0043;
+			14B42BEB06123A07002D0043 = 14B42BEB06123A07002D0043;
+			14B42BEC06123A0E002D0043 = 14B42BEC06123A0E002D0043;
+			14B42BED06123A0E002D0043 = 14B42BED06123A0E002D0043;
+			14B42BEE06123A14002D0043 = 14B42BEE06123A14002D0043;
+			14B42BEF06123A14002D0043 = 14B42BEF06123A14002D0043;
+			14B42BF506123B6F002D0043 = 14B42BF506123B6F002D0043;
+			14B42BF606123B6F002D0043 = 14B42BF606123B6F002D0043;
+			14B42BF906124015002D0043 = 14B42BF906124015002D0043;
+			14B42BFA06124015002D0043 = 14B42BFA06124015002D0043;
+			14B42BFB0612402E002D0043 = 14B42BFB0612402E002D0043;
+			14B42BFC0612402E002D0043 = 14B42BFC0612402E002D0043;
+			14B42BFD06124154002D0043 = 14B42BFD06124154002D0043;
+			14B42BFE06124154002D0043 = 14B42BFE06124154002D0043;
+			14B42C030612D9A6002D0043 = 14B42C030612D9A6002D0043;
+			14B42C040612DF5E002D0043 = 14B42C040612DF5E002D0043;
+			14B42C050612DF5E002D0043 = 14B42C050612DF5E002D0043;
+			14B42C060612DF64002D0043 = 14B42C060612DF64002D0043;
+			14B42C070612DF64002D0043 = 14B42C070612DF64002D0043;
+			14B42C080612DF65002D0043 = 14B42C080612DF65002D0043;
+			14B42C090612DF66002D0043 = 14B42C090612DF66002D0043;
+			14B42C0A0612DF66002D0043 = 14B42C0A0612DF66002D0043;
+			14B42C0B0612DF66002D0043 = 14B42C0B0612DF66002D0043;
+			14B42C0E0612DFF4002D0043 = 14B42C0E0612DFF4002D0043;
+			14B42C0F0612DFF4002D0043 = 14B42C0F0612DFF4002D0043;
+			14B42C100612E5D9002D0043 = 14B42C100612E5D9002D0043;
+			14B42C110612E5D9002D0043 = 14B42C110612E5D9002D0043;
+			14B42C120612E5DB002D0043 = 14B42C120612E5DB002D0043;
+			14B42C130612E6C9002D0043 = 14B42C130612E6C9002D0043;
+			14B42C140612E6C9002D0043 = 14B42C140612E6C9002D0043;
+			14B42C150612E6CA002D0043 = 14B42C150612E6CA002D0043;
+			14B42C160612E6CA002D0043 = 14B42C160612E6CA002D0043;
+			14B42C170612E77A002D0043 = 14B42C170612E77A002D0043;
+			14B42C180612E77A002D0043 = 14B42C180612E77A002D0043;
+			14B42C190612E78A002D0043 = 14B42C190612E78A002D0043;
+			14B42C1A0612E78A002D0043 = 14B42C1A0612E78A002D0043;
+			14B42C1B0612E924002D0043 = 14B42C1B0612E924002D0043;
+			14B42C1C0612E924002D0043 = 14B42C1C0612E924002D0043;
+			14B42C1D0612EB42002D0043 = 14B42C1D0612EB42002D0043;
+			14B42C1E0612EB42002D0043 = 14B42C1E0612EB42002D0043;
 			14DDA2DF0610A7B100999314 = 14DDA2DF0610A7B100999314;
 			14DDA2E10610A7B100999314 = 14DDA2E10610A7B100999314;
 			14DDA2E50610A7BD00999314 = 14DDA2E50610A7BD00999314;
@@ -2312,7 +2792,7 @@
 			sepNavIntBoundsRect = "{{0, 0}, {1022, 3541}}";
 			sepNavSelRange = "{9163, 55}";
 			sepNavVisRect = "{{0, 3078}, {711, 449}}";
-			sepNavWindowFrame = "{{394, 161}, {750, 558}}";
+			sepNavWindowFrame = "{{67, 274}, {750, 558}}";
 		};
 	};
 	5EDB862605F8AA6E0058C44A = {
@@ -2323,12 +2803,20 @@
 			sepNavWindowFrame = "{{199, 101}, {750, 558}}";
 		};
 	};
+	5EDB87E505F8AFE30058C44A = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {711, 449}}";
+			sepNavSelRange = "{310, 10}";
+			sepNavVisRect = "{{0, 0}, {711, 449}}";
+			sepNavWindowFrame = "{{38, 248}, {750, 558}}";
+		};
+	};
 	5EDB87E605F8AFE30058C44A = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {860, 2940}}";
+			sepNavIntBoundsRect = "{{0, 0}, {860, 2939}}";
 			sepNavSelRange = "{7413, 0}";
-			sepNavVisRect = "{{0, 2729}, {584, 211}}";
-			sepNavWindowFrame = "{{61, 227}, {750, 558}}";
+			sepNavVisRect = "{{0, 2490}, {711, 449}}";
+			sepNavWindowFrame = "{{457, 274}, {750, 558}}";
 		};
 	};
 	5EEB176805ECDC1600C17677 = {
@@ -2342,6 +2830,13 @@
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRect = "{{0, 408}, {711, 449}}";
 			sepNavWindowFrame = "{{137, 89}, {750, 558}}";
+		};
+	};
+	5EEB177705ECF8D300C17677 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {824, 1791}}";
+			sepNavSelRange = "{2683, 0}";
+			sepNavVisRect = "{{0, 1397}, {772, 217}}";
 		};
 	};
 	5EEB185605ED0E1600C17677 = {
