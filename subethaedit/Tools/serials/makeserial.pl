@@ -16,6 +16,10 @@ my $calc36 = new Math::BaseCalc(digits=>[0..9,'A'..'Z']);
 
 # 0-50000 reserved :
 # 40000 ADA
+# 49938-45 localizers
+# 49946 wayne smallman (esellerate sucks)
+# 49947 Volker Weber (gmail Account)
+# 49948-49963 Laminierte Pappkameraden
 # 49964 Aaron Hilton (Paypal)
 # 49965 Atlassian (site)
 # 49966 Panic
@@ -23,7 +27,7 @@ my $calc36 = new Math::BaseCalc(digits=>[0..9,'A'..'Z']);
 # 49969-49999 Donations
 # 50000-60000 eSellerate
 
-for (my $i=49964;$i<49966;$i++) {
+for (my $i=49938;$i<49946;$i++) {
     print serialnumber($i)."\n";
 }
 
