@@ -3,18 +3,18 @@
         {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {changeMyColor = id; }; 
+            ACTIONS = {changeAIM = id; changeEmail = id; changeMyColor = id; changeName = id; }; 
             CLASS = GeneralPreferences; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "O_aimTextField" = NSTextField; 
+                "O_aimComboBox" = NSComboBox; 
                 "O_alsoInLocalDocumentsButton" = NSButton; 
                 "O_changeSaturationSlider" = NSSlider; 
                 "O_changesDarkColorWell" = NSColorWell; 
                 "O_changesLightColorWell" = NSColorWell; 
                 "O_colorsPopUpButton" = NSPopUpButton; 
                 "O_defaultModePopUpButton" = NSPopUpButton; 
-                "O_emailTextField" = NSTextField; 
+                "O_emailComboBox" = NSComboBox; 
                 "O_higlightChangesButton" = NSButton; 
                 "O_nameTextField" = NSTextField; 
                 "O_openNewDocumentAtStartupButton" = NSButton; 

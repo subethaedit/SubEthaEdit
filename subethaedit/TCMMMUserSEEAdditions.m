@@ -27,6 +27,7 @@
     [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
     [[user properties] setObject:[[[NSImage alloc] initWithData:[[user properties] objectForKey:@"ImageAsPNG"]] autorelease] forKey:@"Image"];
     [user prepareImages];
+    [user setUserHue:[aRepresentation objectForKey:@"Hue"]];
     //NSLog(@"Created User: %@",[user description]);
     return [user autorelease];
 }
@@ -42,14 +43,21 @@
     return [NSDictionary dictionaryWithObjectsAndKeys:
         [self name],@"Name",
         [self userID],@"UserID",
-        [I_properties objectForKey:@"ImageAsPNG"],@"ImageAsPNG",
+        [[self properties] objectForKey:@"ImageAsPNG"],@"ImageAsPNG",
         [NSNumber numberWithLong:[self changeCount]],@"ChangeCount",
+        [[self properties] objectForKey:@"Hue"],@"Hue",
         nil];
 }
 
 - (NSData *)userBencoded {
     NSDictionary *user=[self dictionaryRepresentation];
     return TCM_BencodedObject(user);
+}
+
+- (void)setUserHue:(NSNumber *)aHue {
+    if (aHue) {
+        [[self properties] setObject:aHue forKey:@"Hue"];
+    }
 }
 
     

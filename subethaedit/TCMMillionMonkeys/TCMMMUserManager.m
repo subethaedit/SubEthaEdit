@@ -34,6 +34,16 @@ static TCMMMUserManager *sharedInstance=nil;
     return [[self sharedInstance] myUserID];
 }
 
++ (void)didChangeMe {
+    [[self sharedInstance] didChangeMe];
+}
+
+- (void)didChangeMe {
+    // alter change count
+    // announce change via notification
+    // announce change via status channels
+}
+
 - (id)init {
     if ((self=[super init])) {
         I_usersByID=[NSMutableDictionary new];

@@ -63,43 +63,116 @@ int const WindowMenuTag = 3000;
     satTrans=[[[SaturationToColorValueTransformer alloc] initWithColor:[NSColor whiteColor]] autorelease];
     [NSValueTransformer setValueTransformer:satTrans 
                                     forName:@"SaturationToWhiteColor"];
-    NSLog(@"Transforms: %@",[[NSValueTransformer valueTransformerNames] description]);
-
 }
 
 - (void)addMe {
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+
     ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
 
     // add self as user 
     TCMMMUser *me=[TCMMMUser new];
-    
-    NSString *myName;            
+    NSString *myName;
+    NSString *myAIM;
+    NSString *myEmail;
     NSImage *myImage;
     NSImage *scaledMyImage;
-    if (meCard) {
-        NSString *firstName = [meCard valueForProperty:kABFirstNameProperty];
-        NSString *lastName = [meCard valueForProperty:kABLastNameProperty];            
 
-        if ((firstName!=nil) && (lastName!=nil)) {
-            myName=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
-        } else if (firstName!=nil) {
-            myName=firstName;
-        } else if (lastName!=nil) {
-            myName=lastName;
+    
+    NSString *userID=[[NSUserDefaults standardUserDefaults] stringForKey:@"UserID"];
+    if (!userID) {
+        // first run
+        userID=[NSString UUIDString];
+        [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"UserID"];
+        // select random color
+        // set basic user data 
+        if (meCard) {
+            NSString *firstName = [meCard valueForProperty:kABFirstNameProperty];
+            NSString *lastName  = [meCard valueForProperty:kABLastNameProperty];            
+    
+            if ((firstName!=nil) && (lastName!=nil)) {
+                myName=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
+            } else if (firstName!=nil) {
+                myName=firstName;
+            } else if (lastName!=nil) {
+                myName=lastName;
+            } else {
+                myName=NSFullUserName();
+            }
+            
+            ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
+            NSString *primaryIdentifier=[emails primaryIdentifier];
+            [defaults setObject:primaryIdentifier forKey:MyEmailIdentifierPreferenceKey];
+            myEmail=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
+
+            ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
+            primaryIdentifier=[aims primaryIdentifier];
+            [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
+            myAIM=[aims valueAtIndex:[aims indexForIdentifier:primaryIdentifier]];
+
         } else {
             myName=NSFullUserName();
         }
+        [defaults setObject:myEmail forKey:MyEmailPreferenceKey];
+        [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
+        
+        int colorHues[]={0,3300/360,6600/360,10900/360,18000/360,22800/360,26400/360,31700/360};
+        sranddev();
+        int selectedNumber=(int)((double)rand() / ((double)RAND_MAX + 1) * 8);
+        [defaults setObject:[NSNumber numberWithInt:selectedNumber]
+                     forKey:SelectedMyColorPreferenceKey];
+        [defaults setObject:[NSNumber numberWithFloat:colorHues[selectedNumber]] 
+                     forKey:MyColorHuePreferenceKey];
+    } else {
+        // not first run so fill in the stuff
+        myAIM  =[defaults stringForKey:MyAIMPreferenceKey];
+        myName =[defaults stringForKey:MyNamePreferenceKey];
+        myEmail=[defaults stringForKey:MyEmailPreferenceKey];
+
+        NSString *identifier=[defaults stringForKey:MyAIMIdentifierPreferenceKey];
+        if (identifier) {
+            ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
+            int index=[aims indexForIdentifier:identifier];
+            if (index!=NSNotFound) {
+                if (![myAIM isEqualToString:[aims valueAtIndex:index]]) {
+                    myAIM=[aims valueAtIndex:index];
+                    [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
+                }
+            }
+        }
+
+        identifier=[defaults stringForKey:MyEmailIdentifierPreferenceKey];
+        if (identifier) {
+            ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
+            int index=[emails indexForIdentifier:identifier];
+            if (index!=NSNotFound) {
+                if (![myEmail isEqualToString:[emails valueAtIndex:index]]) {
+                    myEmail=[emails valueAtIndex:index];
+                    [defaults setObject:myEmail forKey:MyEmailPreferenceKey];
+                }
+            }
+        }
+
+    }
+
+    if (!myName) {
+        myName=NSFullUserName();
+    }
+
+    if (meCard) {
         NSData  *imageData;
         if (imageData=[meCard imageData]) {
             myImage=[[NSImage alloc]initWithData:imageData];
             [myImage setCacheMode:NSImageCacheNever];
-        } else {
-            myImage=[NSImage imageNamed:@"DefaultPerson.tiff"];
-        }
-    } else {
-        myName=NSFullUserName();
-        myImage=[NSImage imageNamed:@"DefaultPerson.tiff"];
+        } 
     }
+    
+    if (!myImage) {
+        myImage=[[NSImage imageNamed:@"DefaultPerson.tiff"] retain];
+    }
+    
+    if (!myEmail) myEmail=@"";
+    if (!myAIM)   myAIM  =@"";
     
     // resizing the image
     [myImage setScalesWhenResized:YES];
@@ -128,16 +201,15 @@ int const WindowMenuTag = 3000;
     NSData *pngData=[scaledMyImage TIFFRepresentation];
     pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
 
-    NSString *userID=[[NSUserDefaults standardUserDefaults] stringForKey:@"UserID"];
-    if (!userID) {
-        userID=[NSString UUIDString];
-        [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"UserID"];
-    }
     [me setUserID:userID];
 
     [me setName:myName];
+    [[me properties] setObject:myEmail forKey:@"Email"];
+    [[me properties] setObject:myAIM forKey:@"AIM"];
     [[me properties] setObject:scaledMyImage forKey:@"Image"];
     [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
+    [me setUserHue:[defaults objectForKey:MyColorHuePreferenceKey]];
+
     [myImage       release];
     [scaledMyImage release];
     [me prepareImages];

@@ -9,6 +9,7 @@
 #import "GeneralPreferences.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+#import <AddressBook/AddressBook.h>
 
 
 NSString * const MyColorHuePreferenceKey             = @"MyColorHue";
@@ -19,16 +20,34 @@ NSString * const HighlightChangesPreferenceKey       = @"HighlightChanges";
 NSString * const HighlightChangesAlonePreferenceKey  = @"HighlightChangesAlone";
 NSString * const OpenDocumentOnStartPreferenceKey    = @"OpenDocumentOnStart";
 NSString * const SelectedMyColorPreferenceKey        = @"SelectedMyColor";
+NSString * const MyNamePreferenceKey    = @"MyName";
+NSString * const MyAIMPreferenceKey     = @"MyAIM";
+NSString * const MyEmailPreferenceKey   = @"MyEmail";
+NSString * const MyAIMIdentifierPreferenceKey  =@"MyAIMIdentifier";
+NSString * const MyEmailIdentifierPreferenceKey=@"MyEmailIdentifier";
+NSString * const MyNamesPreferenceKey = @"MyNames";
+NSString * const MyAIMsPreferenceKey  = @"MyAIMs";
+NSString * const MyEmailsPreferenceKey= @"MyEmails";
 
 @implementation GeneralPreferences
 
 + (void)initialize {
     NSMutableDictionary *defaultDict = [NSMutableDictionary dictionary];
     
+    [defaultDict setObject:[NSNumber numberWithFloat:25.0]
+                    forKey:ChangesSaturationPreferenceKey];
+    [defaultDict setObject:[NSNumber numberWithFloat:45.0]
+                    forKey:SelectionSaturationPreferenceKey];
     [defaultDict setObject:[NSNumber numberWithFloat:0.0]
                     forKey:CustomMyColorHuePreferenceKey];
     [defaultDict setObject:[NSNumber numberWithFloat:50.0]
                     forKey:MyColorHuePreferenceKey];
+    [defaultDict setObject:[NSArray array]
+                    forKey:MyNamesPreferenceKey];
+    [defaultDict setObject:[NSArray array]
+                    forKey:MyAIMsPreferenceKey];
+    [defaultDict setObject:[NSArray array]
+                    forKey:MyEmailsPreferenceKey];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultDict];
     
@@ -51,6 +70,82 @@ NSString * const SelectedMyColorPreferenceKey        = @"SelectedMyColor";
     return [image autorelease];
 }
 
+- (void)TCM_setupComboBoxes {
+    ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
+    ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
+    int index=0;
+    int count=[emails count];
+    for (index=0;index<count;index++) {
+        [O_emailComboBox addItemWithObjectValue:[emails valueAtIndex:index]];
+    }
+    ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
+    index=0;
+    count=[aims count];
+    for (index=0;index<count;index++) {
+        [O_aimComboBox addItemWithObjectValue:[aims valueAtIndex:index]];
+    }
+}
+
+- (IBAction)changeName:(id)aSender {
+    TCMMMUser *me=[TCMMMUserManager me];
+    NSString *newValue=[O_nameTextField stringValue];
+    if (![[me name] isEqualTo:newValue]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:newValue forKey:MyNamePreferenceKey];
+        [me setName:newValue];
+        [TCMMMUserManager didChangeMe];
+    }
+}
+
+- (IBAction)changeAIM:(id)aSender {
+    TCMMMUser *me=[TCMMMUserManager me];
+    NSString *newValue=[O_aimComboBox stringValue];
+    if (![[[me properties] objectForKey:@"AIM"] isEqualTo:newValue]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:newValue forKey:MyAIMPreferenceKey];
+        ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
+        ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
+        int index=0;
+        int count=[aims count];
+        for (index=0;index<count;index++) {
+            if ([newValue isEqualToString:[aims valueAtIndex:index]]) {
+                NSString *identifier=[aims identifierAtIndex:index];
+                [defaults setObject:identifier forKey:MyAIMIdentifierPreferenceKey];
+                break;
+            }
+        }
+        if (count==index) {
+            [defaults removeObjectForKey:MyAIMIdentifierPreferenceKey];
+        }
+        [[me properties] setObject:newValue forKey:@"AIM"];
+        [TCMMMUserManager didChangeMe];
+    }
+}
+
+- (IBAction)changeEmail:(id)aSender {
+    TCMMMUser *me=[TCMMMUserManager me];
+    NSString *newValue=[O_emailComboBox stringValue];
+    if (![[[me properties] objectForKey:@"Email"] isEqualTo:newValue]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:newValue forKey:MyEmailPreferenceKey];
+        ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
+        ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
+        int index=0;
+        int count=[emails count];
+        for (index=0;index<count;index++) {
+            if ([newValue isEqualToString:[emails valueAtIndex:index]]) {
+                NSString *identifier=[emails identifierAtIndex:index];
+                [defaults setObject:identifier forKey:MyEmailIdentifierPreferenceKey];
+                break;
+            }
+        }
+        if (count==index) {
+            [defaults removeObjectForKey:MyEmailIdentifierPreferenceKey];
+        }
+        [[me properties] setObject:newValue forKey:@"Email"];
+        [TCMMMUserManager didChangeMe];
+    }
+}
 
 - (void)TCM_setupColorPopUp {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -96,11 +191,14 @@ NSString * const SelectedMyColorPreferenceKey        = @"SelectedMyColor";
 
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
+    [self TCM_setupComboBoxes];
     [self TCM_setupColorPopUp];
     
     TCMMMUser *me=[TCMMMUserManager me];
     [O_pictureImageView setImage:[[me properties] objectForKey:@"Image"]];
     [O_nameTextField setStringValue:[me name]];
+    [O_emailComboBox setStringValue:[[me properties] objectForKey:@"Email"]];
+    [O_aimComboBox   setStringValue:[[me properties] objectForKey:@"AIM"]];
 }
 
 - (void)didUnselect {
@@ -124,6 +222,8 @@ NSString * const SelectedMyColorPreferenceKey        = @"SelectedMyColor";
                  forKey:MyColorHuePreferenceKey];
     [defaults setObject:hue
                  forKey:CustomMyColorHuePreferenceKey];
+    [[TCMMMUserManager me] setUserHue:hue];
+    [TCMMMUserManager didChangeMe];
 
     [self TCM_updateWells];
 }
@@ -152,6 +252,10 @@ NSString * const SelectedMyColorPreferenceKey        = @"SelectedMyColor";
     NSNumber *value=[NSNumber numberWithFloat:(float)tag];
     [defaults setObject:value
                  forKey:MyColorHuePreferenceKey];
+
+    [[TCMMMUserManager me] setUserHue:value];
+    [TCMMMUserManager didChangeMe];
+
     [self TCM_updateWells];
 }
 

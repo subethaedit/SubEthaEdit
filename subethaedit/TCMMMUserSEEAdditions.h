@@ -18,6 +18,7 @@
 - (NSDictionary *)dictionaryRepresentation;
 - (void)prepareImages;
 - (NSData *)userBencoded;
+- (void)setUserHue:(NSNumber *)aHue;
 
     
 @end

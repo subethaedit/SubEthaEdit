@@ -21,7 +21,9 @@ extern NSString * const TCMMMUserManagerUserDidChangeNotification;
 + (TCMMMUserManager *)sharedInstance;
 + (TCMMMUser *)me;
 + (NSString *)myUserID;
++ (void)didChangeMe;
 
+- (void)didChangeMe;
 - (void)setMe:(TCMMMUser *)aUser;
 - (TCMMMUser *)me;
 - (NSString *)myUserID;
