@@ -844,6 +844,8 @@ subethaedit/OgreKit/RegularExpressionTest/OgreTest_Prefix.h -text
 subethaedit/OgreKit/RegularExpressionTest/main.m -text
 subethaedit/OpenDocumentsController.h -text
 subethaedit/OpenDocumentsController.m -text
+subethaedit/OverlayView.h -text
+subethaedit/OverlayView.m -text
 subethaedit/ParticipantsView.h -text
 subethaedit/ParticipantsView.m -text
 subethaedit/PlainTextDocument.h -text

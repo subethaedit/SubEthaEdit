@@ -29,6 +29,7 @@
     IBOutlet NSButton *O_defaultStyleButton;
     IBOutlet NSButton *O_fontDefaultButton;
     IBOutlet NSButton *O_revertSelectionToModeButton;
+    NSWindow *I_overlayWindow;
 }
 
 - (IBAction)changeFontTraitItalic:(id)aSender;

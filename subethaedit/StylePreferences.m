@@ -13,7 +13,7 @@
 #import "TableView.h"
 #import "TextFieldCell.h"
 #import "GeneralPreferences.h"
-
+#import "OverlayView.h"
 
 @implementation StylePreferences
 
@@ -69,6 +69,27 @@
     [string addAttribute:NSObliquenessAttributeName value:[NSNumber numberWithFloat:.2] range:NSMakeRange(0,[[string string] length])];
     [O_italicButton setAttributedTitle:[string autorelease]];
     [self adjustTableViewColumns:nil];
+    
+}
+
+- (void)didSelect {
+    if (!I_overlayWindow) {
+        NSPoint baseOrigin, screenOrigin;
+        NSView *styleBox=[O_defaultStyleButton superview];
+        baseOrigin = [styleBox convertPoint:NSMakePoint([styleBox frame].origin.x,
+                                 [styleBox frame].origin.y) toView:nil];
+        screenOrigin = [[styleBox window] convertBaseToScreen:baseOrigin];
+
+        NSRect windowRect=NSMakeRect(screenOrigin.x,screenOrigin.y,
+                                     [styleBox frame].size.width,[styleBox frame].size.height);
+        windowRect=NSInsetRect(windowRect,-2,-2);
+    
+        NSRect frame=[[I_overlayWindow contentView] bounds];
+        OverlayView *view=[[OverlayView alloc] initWithFrame:[styleBox frame]];
+        [view setDelegate:self];
+        [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [styleBox addSubview:view positioned:NSWindowBelow relativeTo:nil];
+    }
 }
 
 - (void)updateBackgroundColor {
