@@ -6,9 +6,10 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "MyDocument.h"
+#import "PlainTextDocument.h"
+#import "PlainTextWindowController.h"
 
-@implementation MyDocument
+@implementation PlainTextDocument
 
 - (id)init
 {
@@ -22,16 +23,23 @@
     return self;
 }
 
-- (NSString *)windowNibName
-{
-    // Override returning the nib file name of the document
-    // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
-    return @"MyDocument";
+- (void)makeWindowControllers {
+    DEBUGLOG(@"blah",5,@"makeWindowCotrollers");
+    [self addWindowController:[[PlainTextWindowController new] autorelease]];
 }
+
+- (void)windowControllerWillLoadNib:(NSWindowController *) aController
+{
+    [super windowControllerWillLoadNib:aController];
+    DEBUGLOG(@"blah",5,@"Willload");
+    // Add any code here that needs to be executed once the windowController has loaded the document's window.
+}
+
 
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
     [super windowControllerDidLoadNib:aController];
+    DEBUGLOG(@"blah",5,@"didload");
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
