@@ -13,8 +13,8 @@
     NSCharacterSet *I_tokenSet;     /*"Set for tokenizing"*/
     NSMutableArray *I_states;       /*"All states except the default state"*/
     NSMutableDictionary *I_defaultState;    /*"Default state"*/
-    NSMutableDictionary *I_styleForToken;   /*"Chached plainstrings"*/
-    NSMutableDictionary *I_styleForRegex;   /*"Chached regexs"*/
+    NSMutableArray *I_stylesForToken;   /*"Chached plainstrings"*/
+    NSMutableArray *I_stylesForRegex;   /*"Chached regexs"*/
 }
 
 /*"Initizialisation"*/
@@ -36,7 +36,7 @@
 - (void)setName:(NSString *)aString;
 - (NSCharacterSet *)tokenSet;
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet;
-- (NSDictionary *)styleForToken:(NSString *)aToken;
+- (NSDictionary *)styleForToken:(NSString *)aToken inState:(int)aState;
 - (NSDictionary *)regularExpressions;
 
 @end

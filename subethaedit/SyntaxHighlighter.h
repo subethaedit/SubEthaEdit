@@ -7,12 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "SyntaxDefinition.h"
 
 @interface SyntaxHighlighter : NSObject {
-    NSMutableDictionary *I_keyWords;
-    NSMutableCharacterSet *I_keyWordCharacterSet;
-
+    SyntaxDefinition *I_syntaxDefinition;
 }
+
+/*"Initizialisation"*/
+- (id)initWithSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
+
+/*"Accessors"*/
+- (SyntaxDefinition *)syntaxDefinition;
+- (void)setSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
 
 @end

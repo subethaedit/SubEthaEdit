@@ -8,8 +8,11 @@
 
 #import "SyntaxDefinition.h"
 #import "NSColorTCMAdditions.h"
+#import <OgreKit/OgreKit.h>
+
 
 @implementation SyntaxDefinition
+/*"A Syntax Definition"*/
 
 #pragma mark - 
 #pragma mark - Initizialisation
@@ -29,8 +32,8 @@
         [self parseXMLFile:aPath];
         
         // Setup stuff <-> style dictionaries
-        I_styleForToken = [NSMutableDictionary new];
-        I_styleForRegex = [NSMutableDictionary new];
+        I_stylesForToken = [NSMutableArray new];
+        I_stylesForRegex = [NSMutableArray new];
         [self cacheStyles]; 
         
         // Compile RegExs
@@ -44,8 +47,8 @@
     [I_name release];
     [I_states release];
     [I_defaultState release];
-    [I_styleForToken release];
-    [I_styleForRegex release];
+    [I_stylesForToken release];
+    [I_stylesForRegex release];
     [super dealloc];
 }
 
@@ -281,7 +284,9 @@
 -(void)cacheStyles
 {
     NSMutableDictionary *aDictionary;
-    if (aDictionary = [I_defaultState objectForKey:@"KeywordGroups"]) [self addStylesForKeywordGroups:aDictionary];
+    if (aDictionary = [I_defaultState objectForKey:@"KeywordGroups"]) {
+        [self addStylesForKeywordGroups:aDictionary];
+    }
     
     NSEnumerator *statesEnumerator = [I_states objectEnumerator];
     while (aDictionary = [statesEnumerator nextObject]) {
@@ -314,23 +319,29 @@
         NSDictionary *keywords;
         if (keywords = [keywordGroup objectForKey:@"PlainStrings"]) {
             NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
+            NSMutableDictionary *newDictionary;
+            newDictionary = [NSMutableDictionary dictionary];
+            [I_stylesForToken addObject:newDictionary];
             NSString *keyword;
             while (keyword = [keywordEnumerator nextObject]) {
-                [I_styleForToken setObject:attributes forKey:keyword];
+                [newDictionary setObject:attributes forKey:keyword];
             }
         }
-        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching plainstrings:%@",[I_styleForToken description]);
+        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching plainstrings:%@",[I_stylesForToken description]);
         // Then do the regex stuff
         
         if (keywords = [keywordGroup objectForKey:@"RegularExpressions"]) {
             NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
+            NSMutableDictionary *newDictionary;
+            newDictionary = [NSMutableDictionary dictionary];
+            [I_stylesForToken addObject:newDictionary];
             NSString *keyword;
             while (keyword = [keywordEnumerator nextObject]) {
                 //2DO Compile the regex
-                //[I_styleForRegex setObject:attributes forKey:regex];
+                //[newDictionary setObject:attributes forKey:regex];
             }
         }
-        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching regular expressions:%@",[I_styleForRegex description]);
+        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching regular expressions:%@",[I_stylesForRegex description]);
     }
 }
 
@@ -364,17 +375,18 @@
      I_tokenSet = [aCharacterSet copy];
 }
 
-- (NSDictionary *)styleForToken:(NSString *)aToken 
+- (NSDictionary *)styleForToken:(NSString *)aToken inState:(int)aState 
 {
-    NSDictionary *aStyle;
-    if (aStyle = [I_styleForToken objectForKey:aToken]) return aStyle;
+    //NSDictionary *aStyle;
+    //if (aStyle = [I_stylesForToken objectForKey:aToken]) return aStyle;
     // FIXME: Handle caseinsensitive Tokens with CFDictionary
-    else return nil;
+    //else 
+    return nil;
 }
 
 - (NSDictionary *)regularExpressions
 {
-    return I_styleForRegex;
+    return nil;
 }
 
 

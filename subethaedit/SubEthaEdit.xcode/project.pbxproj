@@ -35,6 +35,7 @@
 //104
 		1058C7A6FEA54F5311CA2CBB = {
 			children = (
+				31B738E40611C6330004F28D,
 				5EAD69AA05EE5F5300E75BFF,
 				144DD73B061049D90047D354,
 				1058C7A7FEA54F5311CA2CBB,
@@ -1153,6 +1154,20 @@
 //312
 //313
 //314
+		31B738E40611C6330004F28D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = OgreKit.framework;
+			path = /Library/TCMInternal/Frameworks/OgreKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		31B738E50611C6330004F28D = {
+			fileRef = 31B738E40611C6330004F28D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		31C995A0060F377500E3AB1E = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -2216,7 +2231,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "\"$(LOCAL_LIBRARY_DIR)/TCMInternal/Frameworks\"";
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2419,6 +2434,7 @@
 				5EAD69AB05EE5F5300E75BFF,
 				14AE9D6C05F610EB0025CADE,
 				144DD73C061049D90047D354,
+				31B738E50611C6330004F28D,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
