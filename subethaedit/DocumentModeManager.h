@@ -10,7 +10,10 @@
 
 
 @interface DocumentModeManager : NSObject {
-
+    NSMutableDictionary *I_modeBundles;
+    NSMutableDictionary *I_modes;
 }
+
++ (DocumentModeManager *)sharedInstance;
 
 @end

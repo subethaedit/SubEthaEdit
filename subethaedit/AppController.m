@@ -18,7 +18,7 @@
 #import "EncodingPreferences.h"
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
-
+#import "DocumentModeManager.h"
 
 @implementation AppController
 
@@ -108,6 +108,8 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
     [self addMe];
+    [DocumentModeManager sharedInstance];
+    NSLog(@"%@",[[DocumentModeManager sharedInstance] description]);
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
