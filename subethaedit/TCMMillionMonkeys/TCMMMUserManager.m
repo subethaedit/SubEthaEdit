@@ -167,7 +167,7 @@ static TCMMMUserManager *sharedInstance=nil;
         NSString *userID;
         while ((userID = [enumerator nextObject])) {
             TCMMMUser *user = [self userForUserID:userID];
-            if ([[user properties] objectForKey:@"Email"]) {
+            if ([(NSString *)[[user properties] objectForKey:@"Email"] length] > 0) {
                 isValid = YES;
             } else {
                 isValid = NO;
@@ -183,7 +183,7 @@ static TCMMMUserManager *sharedInstance=nil;
         NSString *userID;
         while ((userID = [enumerator nextObject])) {
             TCMMMUser *user = [self userForUserID:userID];
-            if ([[user properties] objectForKey:@"AIM"]) {
+            if ([(NSString *)[[user properties] objectForKey:@"AIM"] length] > 0) {
                 if ([userID isEqualToString:[TCMMMUserManager myUserID]]) {
                     isValid = NO;
                     break;
