@@ -32,5 +32,6 @@ extern NSString * const kSyntaxHighlightingIsDirtyAttributeValue;
 /*"Document Interaction"*/
 - (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage;
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage;
+- (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange;
 
 @end

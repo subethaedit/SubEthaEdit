@@ -26,7 +26,7 @@
         I_defaultState = [NSMutableDictionary new];
         I_states = [NSMutableArray new];
         I_name = [@"Not named" retain];
-        
+                
         // Parse XML File
         [self parseXMLFile:aPath];
         
@@ -34,10 +34,7 @@
         I_stylesForToken = [NSMutableArray new];
         I_stylesForRegex = [NSMutableArray new];
         [self cacheStyles];
-        [self setCombinedStateRegex];
-        
-        // Compile RegExs
-        
+        [self setCombinedStateRegex];        
     }
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Initiated new SyntaxDefinition:%@",[self description]);
     return self;
