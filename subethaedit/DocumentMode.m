@@ -191,7 +191,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                         forKey:@"SEEUseCustomFont"];
                 [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
                                         forKey:@"SEEResizeDocumentFont"];
-                [printInfoDictionary setObject:[NSNumber numberWithFloat:8.5]
+                [printInfoDictionary setObject:[NSNumber numberWithFloat:8]
                                         forKey:@"SEEResizeDocumentFontTo"];
                 [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
                                         forKey:@"SEEPageHeader"];
@@ -217,7 +217,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                         forKey:@"SEEParticipantsAIMAndEmail"];
                 [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
                                         forKey:@"SEEParticipantsVisitors"];
-                NSFont *font=[NSFont fontWithName:@"Times" size:8.5];
+                NSFont *font=[NSFont fontWithName:@"Times" size:8];
                 if (!font) font=[NSFont systemFontOfSize:8.5];
                 NSMutableDictionary *dict=[NSMutableDictionary dictionary];
                 [dict setObject:[font fontName] 
@@ -226,7 +226,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                          forKey:NSFontSizeAttribute];
                 [printInfoDictionary setObject:dict forKey:@"SEEFontAttributes"];
                 float cmToPoints=28.3464567; // google
-                [printInfo   setLeftMargin:2.5*cmToPoints]; // european punchholes are centered 1.2 cm and 0.5cm in diameter
+                [printInfo   setLeftMargin:2.0*cmToPoints]; // european punchholes are centered 1.2 cm and 0.5cm in diameter
                 [printInfo  setRightMargin:1.0*cmToPoints];
                 [printInfo    setTopMargin:1.0*cmToPoints];
                 [printInfo setBottomMargin:1.0*cmToPoints];

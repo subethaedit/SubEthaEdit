@@ -217,7 +217,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     if (meCard) {
         NSData  *imageData;
         if ((imageData=[meCard imageData])) {
-            myImage=[[NSImage alloc]initWithData:imageData];
+            myImage=[[NSImage alloc] initWithData:imageData];
             [myImage setCacheMode:NSImageCacheNever];
         } 
     }
@@ -230,32 +230,34 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     if (!myAIM)   myAIM  =@"";
     
     // resizing the image
-    [myImage setScalesWhenResized:YES];
-    NSSize originalSize=[myImage size];
-    NSSize newSize=NSMakeSize(64.,64.);
-    if (originalSize.width>originalSize.height) {
-        newSize.height=(int)(originalSize.height/originalSize.width*newSize.width);
-        if (newSize.height<=0) newSize.height=1;
-    } else {
-        newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
-        if (newSize.width <=0) newSize.width=1;
-    }
-    [myImage setSize:newSize];
-    scaledMyImage=[[NSImage alloc] initWithSize:newSize];
-    [scaledMyImage setCacheMode:NSImageCacheNever];
-    [scaledMyImage lockFocus];
-    NSGraphicsContext *context=[NSGraphicsContext currentContext];
-    NSImageInterpolation oldInterpolation=[context imageInterpolation];
-    [context setImageInterpolation:NSImageInterpolationHigh];
-    [NSColor clearColor];
-    NSRectFill(NSMakeRect(0.,0.,newSize.width,newSize.height));
-    [myImage compositeToPoint:NSMakePoint(0.,0.) operation:NSCompositeCopy];
-    [context setImageInterpolation:oldInterpolation];
-    [scaledMyImage unlockFocus];
+    scaledMyImage=[myImage resizedImageWithSize:NSMakeSize(64.,64.)];
+//    [myImage setScalesWhenResized:YES];
+//    NSSize originalSize=[myImage size];
+//    NSSize newSize=NSMakeSize(64.,64.);
+//    if (originalSize.width>originalSize.height) {
+//        newSize.height=(int)(originalSize.height/originalSize.width*newSize.width);
+//        if (newSize.height<=0) newSize.height=1;
+//    } else {
+//        newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
+//        if (newSize.width <=0) newSize.width=1;
+//    }
+//    [myImage setSize:newSize];
+//    scaledMyImage=[[NSImage alloc] initWithSize:newSize];
+//    [scaledMyImage setCacheMode:NSImageCacheNever];
+//    [scaledMyImage lockFocus];
+//    NSGraphicsContext *context=[NSGraphicsContext currentContext];
+//    NSImageInterpolation oldInterpolation=[context imageInterpolation];
+//    [context setImageInterpolation:NSImageInterpolationHigh];
+//    [NSColor clearColor];
+//    NSRectFill(NSMakeRect(0.,0.,newSize.width,newSize.height));
+//    [myImage compositeToPoint:NSMakePoint(0.,0.) operation:NSCompositeCopy];
+//    [context setImageInterpolation:oldInterpolation];
+//    [scaledMyImage unlockFocus];
     
     NSData *pngData=[scaledMyImage TIFFRepresentation];
     pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
-
+    // do this because my resized Images don't behave right on setFlipped:, initWithData ones do!
+    scaledMyImage=[[[NSImage alloc] initWithData:pngData] autorelease];
     [me setUserID:userID];
 
     [me setName:myName];
@@ -266,7 +268,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [me setUserHue:[defaults objectForKey:MyColorHuePreferenceKey]];
 
     [myImage       release];
-    [scaledMyImage release];
+//    [scaledMyImage release];
     [me prepareImages];
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     [userManager setMe:[me autorelease]];
@@ -515,6 +517,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     while ((window=[orderedWindowEnumerator nextObject])) {
         if ([[window windowController] document]) {
             [[[window windowController] document] changeFont:aSender];
+            break;
         }
     }
 }

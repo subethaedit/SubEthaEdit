@@ -2950,6 +2950,10 @@ static NSString *S_measurementUnits;
         [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
                  forKey:NSFontSizeAttribute];
         [[O_printOptionController content] setValue:dict forKeyPath:@"dictionary.SEEFontAttributes"];
+        // meaningless ugly content update triggering of controller layer bullshit
+        NSPrintInfo *printInfo=[O_printOptionController content];
+        [O_printOptionController setContent:[[[O_printOptionController content] copy] autorelease]];
+        [O_printOptionController setContent:printInfo];
     } else {
         [self setPlainFont:newFont];
     }

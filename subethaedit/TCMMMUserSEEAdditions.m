@@ -29,7 +29,8 @@
     string=[aRepresentation objectForKey:@"mail"];
     [[user properties] setObject:string?string:@"" forKey:@"Email"];
     [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
-    [[user properties] setObject:[[[NSImage alloc] initWithData:[[user properties] objectForKey:@"ImageAsPNG"]] autorelease] forKey:@"Image"];
+    NSImage *image=[[[NSImage alloc] initWithData:[[user properties] objectForKey:@"ImageAsPNG"]] autorelease];
+    [[user properties] setObject:image forKey:@"Image"];
     [user prepareImages];
     [user setUserHue:[aRepresentation objectForKey:@"hue"]];
     //NSLog(@"Created User: %@",[user description]);

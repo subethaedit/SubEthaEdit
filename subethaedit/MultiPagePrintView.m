@@ -242,8 +242,8 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                 [layoutManager glyphRangeForCharacterRange:NSMakeRange(0,[textStorage length]) actualCharacterRange:NULL]
              inTextContainer:[[layoutManager textContainers] objectAtIndex:0]];
         [I_headerTextView setFrameSize:NSMakeSize(I_textContainerSize.width,boundingRect.size.height+4.)];
-        I_textContainerOrigin.y   +=boundingRect.size.height+8.;
-        I_textContainerSize.height-=boundingRect.size.height+8.;
+        I_textContainerOrigin.y   +=boundingRect.size.height+10.;
+        I_textContainerSize.height-=boundingRect.size.height+10.;
         
         [self addSubview:I_headerTextView];
     }    
@@ -370,7 +370,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
             }
             I_pagesWithLegend++;
         }
-        legendHeight+=5.;
+        legendHeight+=10.;
     }
 
     // setup Paragraph Style and add line Numbers
@@ -590,6 +590,10 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                                         LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING);
         NSImage *userImage=[[[aUser properties] objectForKey:@"Image"] copy];
         if (![userImage isFlipped]) [userImage setFlipped:YES];
+//        [userImage setScalesWhenResized:YES];
+//        [userImage setSize:myPictureRect.size];
+//        [userImage compositeToPoint:myPictureRect.origin fromRect:NSMakeRect(0.,0.,[userImage size].width,[userImage size].height) 
+//                   operation:NSCompositeSourceOver fraction:1.0];
         [userImage drawInRect:myPictureRect 
                    fromRect:NSMakeRect(0.,0.,[userImage size].width,[userImage size].height) 
                    operation:NSCompositeSourceOver fraction:1.0];
@@ -676,7 +680,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     
         [[NSColor blackColor] set];
         NSPoint basePoint=I_textContainerOrigin;
-        basePoint.y+=rect.origin.y-5.0;
+        basePoint.y+=rect.origin.y-7.0;
         basePoint.x=originX;
         [self strokeLineFromPoint:basePoint 
                   toRelativePoint:NSMakePoint(I_textContainerSize.width,0)
@@ -783,7 +787,8 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                 
                 if (visitors) {
                     if ([[printInfoDictionary objectForKey:@"SEEParticipantsVisitors"] boolValue]) {
-                        if (I_measures.contributorWidth+2*LEGENDIMAGEPADDING+I_measures.visitorWidth<I_textContainerSize.width) {
+                        if (I_measures.contributorWidth+2*LEGENDIMAGEPADDING+I_measures.visitorWidth<I_textContainerSize.width
+                            && I_contributorCount-I_contributorIndex>0) {
                             cursor.x+=I_measures.contributorWidth+2*LEGENDIMAGEPADDING;
                             cursor.y =origin.y;
                         }
@@ -824,7 +829,8 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                     }
                     [[NSColor blackColor] set];
                     [self strokeLineFromPoint:cursor toRelativePoint:NSMakePoint(tableWidth,0.) width:0.3];
-                    cursor.y+=5;
+                    if (I_contributorCount-I_contributorIndex>0)
+                        cursor.y+=5;
                 }
             }
         }
