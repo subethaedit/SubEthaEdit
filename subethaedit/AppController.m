@@ -43,6 +43,7 @@
 int const EditMenuTag   = 1000;
 int const CutMenuItemTag   = 1;
 int const CopyMenuItemTag  = 2;
+int const CopyXHTMLMenuItemTag = 5;
 int const PasteMenuItemTag = 3;
 int const BlockeditMenuItemTag = 4;
 int const SpellingMenuItemTag = 10;
@@ -407,6 +408,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     NSMenu *defaultMenu=[NSMenu new];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CutMenuItemTag] copy]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyXHTMLMenuItemTag] copy]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:BlockeditMenuItemTag] copy]];

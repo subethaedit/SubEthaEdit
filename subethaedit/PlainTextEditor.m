@@ -642,8 +642,63 @@
         [menuItem setKeyEquivalent:@"B"];
         [menuItem setAction:@selector(blockeditSelection:)];
         return YES;
+    } else if (selector==@selector(copyAsXHTML:)) {
+        return ([I_textView selectedRange].length>0);
     }
     return YES;
+}
+
+- (IBAction)copyAsXHTML:(id)aSender {
+    NSRange selectedRange=[I_textView selectedRange];
+    if (selectedRange.location!=NSNotFound && selectedRange.length>0) {
+        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+        NSAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange];
+        selectedRange.location=0;
+        
+        NSRange foundRange;
+        NSMutableString *result=[[NSMutableString alloc] initWithCapacity:selectedRange.length*2];
+        [result appendString:@"<code>"];
+        NSDictionary *attributes=nil;
+        unsigned int index=selectedRange.location;
+        do {
+            NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
+            attributes=[attributedStringForXHTML attributesAtIndex:index
+                    longestEffectiveRange:&foundRange inRange:selectedRange];
+            index=NSMaxRange(foundRange);
+            NSString *contentString=[[[attributedStringForXHTML string] substringWithRange:foundRange] stringByReplacingEntities];
+            if (attributes) {
+                NSMutableString *styleString=[NSMutableString string];
+                NSString *htmlColor=[attributes objectForKey:@"ForegroundColor"];
+                if (htmlColor) {
+                    [styleString appendFormat:@"color:%@;",htmlColor];
+                }
+                NSNumber *traitMask=[attributes objectForKey:@"FontTraits"];
+                if (traitMask) {
+                    unsigned traits=[traitMask unsignedIntValue];
+                    if (traits & NSBoldFontMask) {
+                        [styleString appendString:@"font-weight:bold;"];
+                    }
+                    if (traits & NSItalicFontMask) {
+                        [styleString appendString:@"font-style:oblique;"];
+                    }
+                }
+                [result appendFormat:@"<span style=\"%@\">",styleString];
+            }
+            [result appendString:contentString];
+            if (attributes) {
+                [result appendString:@"</span>"];
+            }
+
+            index=NSMaxRange(foundRange);
+            [pool release];
+        } while (index<NSMaxRange(selectedRange));
+        [result appendString:@"</code>"];
+        [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+        [[NSPasteboard generalPasteboard] setString:result forType:NSStringPboardType];
+        [result release];
+    } else {
+        NSBeep();
+    }
 }
 
 - (IBAction)blockeditSelection:(id)aSender {

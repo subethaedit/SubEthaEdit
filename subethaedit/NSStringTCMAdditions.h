@@ -37,5 +37,5 @@ typedef enum _LineEnding {
 - (BOOL)detabbedLength:(unsigned)aLength fromIndex:(unsigned)aFromIndex 
                 length:(unsigned *)rLength upToCharacterIndex:(unsigned *)rIndex
               tabWidth:(int)aTabWidth;
-
+- (NSString *)stringByReplacingEntities;
 @end

@@ -510,5 +510,50 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 
+#pragma mark -
+#pragma mark ### XHTML Export ###
+
+
+- (NSAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange {
+    NSMutableAttributedString *result=[[[NSMutableAttributedString alloc] initWithString:[[self string] substringWithRange:aRange]] autorelease];
+    unsigned int index;
+    NSFontManager *fontManager=[NSFontManager sharedFontManager];
+    
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSFont *font=[self attribute:NSFontAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (font) {
+            unsigned traitMask=[fontManager traitsOfFont:font] & (NSBoldFontMask | NSItalicFontMask);
+            if (traitMask) {
+                foundRange.location=foundRange.location-aRange.location;
+                [result addAttribute:@"FontTraits" 
+                    value:[NSNumber numberWithUnsignedInt:traitMask]
+                    range:foundRange];
+            }
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSColor *color=[self attribute:NSForegroundColorAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (color) {
+            color=[color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+            NSString *xhtmlColor=[NSString stringWithFormat:@"#%02x%02x%02x",
+                                  (int)([color   redComponent]*255.),
+                                  (int)([color greenComponent]*255.),
+                                  (int)([color  blueComponent]*255.)];
+            foundRange.location=foundRange.location-aRange.location;
+            [result addAttribute:@"ForegroundColor" 
+                value:xhtmlColor
+                range:foundRange];
+        }
+    } while (index<NSMaxRange(aRange));
+    
+    return result;
+}
 
 @end
