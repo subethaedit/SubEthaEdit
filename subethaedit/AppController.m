@@ -267,6 +267,18 @@ NSString * const DefaultPortNumber = @"port";
     return [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
 }
 
+- (NSMenu *)applicationDockMenu:(NSApplication *)sender {
+    static NSMenu *dockMenu=nil;
+    if (!dockMenu) {
+        dockMenu=[NSMenu new];
+        NSMenuItem *item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New File",@"New File Dock Menu Item") action:@selector(newDocument:) keyEquivalent:@""] autorelease];
+        [dockMenu addItem:item];
+        item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openDocument:) keyEquivalent:@""] autorelease];
+        [dockMenu addItem:item];
+    }
+    return dockMenu;
+}
+
 
 - (void)setupDocumentModeSubmenu {
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"%@",[[DocumentModeManager sharedInstance] description]);

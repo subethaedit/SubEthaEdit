@@ -2322,6 +2322,19 @@
 			settings = {
 			};
 		};
+		5E715A8006346F2800ECE50C = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			path = SubEthaEditFiles.icns;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E715A8106346F2800ECE50C = {
+			fileRef = 5E715A8006346F2800ECE50C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E834C0305FD1689004EB5D1 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -2778,6 +2791,7 @@
 				5E96948C0600B6D3006C2AA4,
 				5E96948D0600B6D3006C2AA4,
 				5EEB176805ECDC1600C17677,
+				5E715A8006346F2800ECE50C,
 				14C51E3706026BC70030F488,
 			);
 			isa = PBXGroup;
@@ -3421,6 +3435,7 @@
 				5E2D1459062DB2A200A0EB85,
 				5E2D190F062E97A900A0EB85,
 				5E2D1910062E97A900A0EB85,
+				5E715A8106346F2800ECE50C,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
