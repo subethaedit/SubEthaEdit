@@ -2911,6 +2911,34 @@
 			settings = {
 			};
 		};
+		5E9ABF650648D8D20039DEE0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = InternetResume.tiff;
+			path = artwork/InternetResume.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E9ABF660648D8D20039DEE0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = InternetStop.tiff;
+			path = artwork/InternetStop.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E9ABF670648D8D20039DEE0 = {
+			fileRef = 5E9ABF650648D8D20039DEE0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E9ABF680648D8D20039DEE0 = {
+			fileRef = 5E9ABF660648D8D20039DEE0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EA5421A063523F800A06297 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -3766,6 +3794,8 @@
 				148892D206186C60005BDDCB,
 				148892CE06186BC3005BDDCB,
 				5EC0506F062D6C0500292573,
+				5E9ABF650648D8D20039DEE0,
+				5E9ABF660648D8D20039DEE0,
 				5E4AB523063EB11100B67F07,
 				5EB5CB4F063DA4F100762AB7,
 				149A5C1B0600A89C0033510E,
@@ -4496,6 +4526,8 @@
 				5E5FC5440647BC2900DCB7AE,
 				5E5FC5450647BC2900DCB7AE,
 				5E5FC5460647BC2900DCB7AE,
+				5E9ABF670648D8D20039DEE0,
+				5E9ABF680648D8D20039DEE0,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

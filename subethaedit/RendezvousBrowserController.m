@@ -194,7 +194,7 @@ static RendezvousBrowserController *sharedInstance=nil;
             return [[user properties] objectForKey:@"Image32"];
         } else if (aTag==TCMMMBrowserItemImageNextToNameTag) {
             return [[user properties] objectForKey:@"ColorImage"];
-        }
+        } 
     }
     return nil;
 }

@@ -30,6 +30,7 @@ enum {
     id I_target;
     SEL I_action;
     SEL I_doubleAction;
+    int I_actionRow;
     
     
     // Selection
@@ -53,6 +54,7 @@ enum {
 - (id)delegate;
 - (void)setTarget:(id)aTarget;
 - (void)setAction:(SEL)anAction;
+- (int)actionRow;
 - (void)setDoubleAction:(SEL)anAction;
 - (int)clickedRow;
 - (ItemChildPair)itemChildPairAtRow:(int)aIndex;

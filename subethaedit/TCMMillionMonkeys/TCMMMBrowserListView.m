@@ -11,6 +11,7 @@
 
 #define ITEMROWHEIGHT 38.
 #define CHILDROWHEIGHT 20.
+#define ACTIONIMAGEPADDING 4.
 
 static NSColor *alternateRowColor=nil;
 
@@ -142,18 +143,30 @@ static NSColor *alternateRowColor=nil;
 
     NSRect bounds=[self bounds];
     NSRect itemRect=NSMakeRect(0, 0,bounds.size.width, ITEMROWHEIGHT);
-    if (aIndex%2) {
+    if ([I_selectedRows containsIndex:[self rowForItem:aIndex child:-1]]) {
+        [[NSColor selectedTextBackgroundColor] set];
+    } else if (aIndex%2) {
         [alternateRowColor set];
     } else {
         [[NSColor whiteColor] set];
     }
     NSRectFill(itemRect);
 
-    if ([I_selectedRows containsIndex:[self rowForItem:aIndex child:-1]]) {
-        [[NSColor selectedTextBackgroundColor] set];
-        [I_itemSelectionPath fill];
-    }    
+//    if ([I_selectedRows containsIndex:[self rowForItem:aIndex child:-1]]) {
+//        [[NSColor selectedTextBackgroundColor] set];
+//        [I_itemSelectionPath fill];
+//    }    
     id dataSource=[self dataSource];
+
+    NSImage *actionImage=[dataSource listView:self objectValueForTag:TCMMMBrowserItemActionImageTag ofItemAtIndex:aIndex];
+    if (actionImage) {
+        [NSGraphicsContext saveGraphicsState];
+        NSSize actionSize=[actionImage size];
+        [actionImage compositeToPoint:NSMakePoint(itemRect.size.width-ACTIONIMAGEPADDING-actionSize.width,(int)(ITEMROWHEIGHT-(ITEMROWHEIGHT-actionSize.height)/2.))
+                     operation:NSCompositeSourceOver];
+        itemRect.size.width-=ACTIONIMAGEPADDING+actionSize.width+ACTIONIMAGEPADDING;
+        NSRectClip(itemRect);
+    }
     
     NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageTag ofItemAtIndex:aIndex];
     if (image) {
@@ -181,6 +194,10 @@ static NSColor *alternateRowColor=nil;
     if (string) {
         [string drawAtPoint:NSMakePoint(32.+27,20.)
                withAttributes:mStatusAttributes];
+    }
+    
+    if (actionImage) {
+        [NSGraphicsContext restoreGraphicsState];
     }
 }
 
@@ -384,13 +401,35 @@ static NSColor *alternateRowColor=nil;
     
     I_clickedRow = [self TCM_indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
-        if ([aEvent modifierFlags] & NSCommandKeyMask) {
-            [self selectRow:I_clickedRow byExtendingSelection:YES];
-        } else {
-            [self selectRow:I_clickedRow byExtendingSelection:NO];
+        ItemChildPair pair=[self itemChildPairAtRow:I_clickedRow];
+        BOOL causedAction=NO;
+        if (pair.childIndex==-1) {
+            NSImage *actionImage=[[self dataSource] listView:self objectValueForTag:TCMMMBrowserItemActionImageTag ofItemAtIndex:pair.itemIndex];
+            if (actionImage) {
+                NSRect itemRect=[self TCM_rectForItem:pair.itemIndex child:pair.childIndex];
+                NSRect bounds=[self bounds];
+                NSSize size=[actionImage size];
+                if (point.x>=bounds.size.width-ACTIONIMAGEPADDING-size.width && point.x<=bounds.size.width-ACTIONIMAGEPADDING) {
+                    float actionImageInset=(int)((itemRect.size.height-size.height)/2.);
+                    if (point.y>=itemRect.origin.y+actionImageInset && point.y<=itemRect.origin.y+itemRect.size.height-actionImageInset) {
+                        causedAction=YES;
+                        I_actionRow = I_clickedRow;
+                        if (I_target && [I_target respondsToSelector:I_action]) {
+                            [I_target performSelector:I_action withObject:self];
+                        }
+                    }
+                }
+            }
         }
-        if ([aEvent clickCount] == 2 && I_target && [I_target respondsToSelector:I_doubleAction]) {
-            [I_target performSelector:I_doubleAction withObject:self];
+        if (!causedAction) {
+            if ([aEvent modifierFlags] & NSCommandKeyMask) {
+                [self selectRow:I_clickedRow byExtendingSelection:YES];
+            } else {
+                [self selectRow:I_clickedRow byExtendingSelection:NO];
+            }
+            if ([aEvent clickCount] == 2 && I_target && [I_target respondsToSelector:I_doubleAction]) {
+                [I_target performSelector:I_doubleAction withObject:self];
+            }
         }
     }
     //NSLog(@"indexOfRow: %d", I_clickedRow);
@@ -533,6 +572,11 @@ static NSColor *alternateRowColor=nil;
 {
     I_action = anAction;
 }
+
+- (int)actionRow {
+    return I_actionRow;
+}
+
 
 - (void)setDoubleAction:(SEL)anAction
 {
