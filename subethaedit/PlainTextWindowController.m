@@ -118,6 +118,9 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
             NSLocalizedString(@"Hide Participants", nil) :
             NSLocalizedString(@"Show Participants", nil)];
         return YES;
+    } else if (selector == @selector(toggleBottomStatusBar:)) {
+        [menuItem setState:[[I_plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
+        return YES;
     } 
     return YES;
 }
@@ -156,6 +159,18 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 
 #pragma mark -
 
+- (BOOL)showsBottomStatusBar {
+    return [[I_plainTextEditors lastObject] showsBottomStatusBar];
+}
+
+- (void)setShowsBottomStatusBar:(BOOL)aFlag {
+    BOOL showsBottomStatusBar=[self showsBottomStatusBar];
+    if (showsBottomStatusBar!=aFlag) {
+        [[I_plainTextEditors lastObject] setShowsBottomStatusBar:aFlag];
+        [[self document] setShowsBottomStatusBar:aFlag];
+    }
+}
+
 - (IBAction)openParticipantsDrawer:(id)aSender {
     [O_participantsDrawer open:aSender];
 }
@@ -180,6 +195,28 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     }
     [O_participantsView reloadData];
 }
+
+- (IBAction)toggleBottomStatusBar:(id)aSender {
+    [self setShowsBottomStatusBar:![self showsBottomStatusBar]];
+    [(PlainTextDocument *)[self document] setShowsBottomStatusBar:[self showsBottomStatusBar]];
+}
+
+- (BOOL)showsGutter {
+    return [[I_plainTextEditors objectAtIndex:0] showsGutter];
+}
+
+- (void)setShowsGutter:(BOOL)aFlag {
+    int i;
+    for (i=0;i<[I_plainTextEditors count];i++) {
+        [[I_plainTextEditors objectAtIndex:i] setShowsGutter:aFlag];
+    }
+    [[self document] setShowsGutter:aFlag];
+}
+
+- (IBAction)toggleLineNumbers:(id)aSender {
+    [self setShowsGutter:![self showsGutter]];
+}
+
 
 #pragma mark -
 
@@ -333,8 +370,6 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 #pragma mark -
 
 #define SPLITMINHEIGHT 46.
-//- (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {
-//}
 
 -(void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
     if (aSplitView != O_participantsSplitView) {
@@ -389,7 +424,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     return proposedPosition;
 }
 
-- (void)toggleSplitView:(id)aSender {
+- (IBAction)toggleSplitView:(id)aSender {
     if ([I_plainTextEditors count]==1) {
         PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:NO];
         [I_plainTextEditors addObject:plainTextEditor];
@@ -404,9 +439,17 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         [splitView addSubview:[[I_plainTextEditors objectAtIndex:1] editorView]];
         [splitView setIsPaneSplitter:YES];
         [splitView setDelegate:self];
+        [[I_plainTextEditors objectAtIndex:1] setShowsBottomStatusBar:
+            [[I_plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
+        [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
+        [[I_plainTextEditors objectAtIndex:1] setShowsGutter:
+            [[I_plainTextEditors objectAtIndex:0] showsGutter]];
+        
         [splitView release];
     } else if ([I_plainTextEditors count]==2) {
         [[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+        [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:
+            [[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
         [I_plainTextEditors removeObjectAtIndex:1];
     }
     [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];

@@ -461,9 +461,6 @@
     } else if (selector == @selector(toggleTopStatusBar:)) {
         [menuItem setState:[self showsTopStatusBar]?NSOnState:NSOffState];
         return YES;
-    } else if (selector == @selector(toggleBottomStatusBar:)) {
-        [menuItem setState:[self showsBottomStatusBar]?NSOnState:NSOffState];
-        return YES;
     } else if (selector == @selector(toggleShowsChangeMarks:)) {
         BOOL showsChangeMarks=[self showsChangeMarks];
         [menuItem setTitle:showsChangeMarks 
@@ -549,12 +546,7 @@
 
 - (void)setShowsGutter:(BOOL)aFlag {
     [O_scrollView setRulersVisible:aFlag];
-    [[self document] setShowsGutter:aFlag];
     [self TCM_updateBottomStatusBar];
-}
-
-- (IBAction)toggleLineNumbers:(id)aSender {
-    [self setShowsGutter:![self showsGutter]];
 }
 
 #define STATUSBARSIZE 18.
@@ -601,7 +593,6 @@
         [O_scrollView setFrame:frame];
         [O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
         [O_bottomStatusBarView setNeedsDisplay:YES];
-        [[self document] setShowsBottomStatusBar:aFlag];
     }
 }
 
@@ -611,10 +602,6 @@
 
 - (IBAction)toggleTopStatusBar:(id)aSender {
     [self setShowsTopStatusBar:![self showsTopStatusBar]];
-}
-
-- (IBAction)toggleBottomStatusBar:(id)aSender {
-    [self setShowsBottomStatusBar:![self showsBottomStatusBar]];
 }
 
 - (IBAction)shiftRight:(id)aSender {
