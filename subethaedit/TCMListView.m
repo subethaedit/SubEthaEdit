@@ -362,6 +362,30 @@ NSString *ListViewDidChangeSelectionNotification=
     }
 }
 
+- (BOOL)acceptsFirstMouse:(NSEvent *)aEvent {
+    NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
+    NSLog(@"shouldDelay at: %@ - event: %@", NSStringFromPoint(point),[aEvent description]);
+    
+    I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+    if (I_clickedRow != -1) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (BOOL)shouldDelayWindowOrderingForEvent:(NSEvent *)aEvent {
+    NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
+    NSLog(@"shouldDelay at: %@ - event: %@", NSStringFromPoint(point),[aEvent description]);
+    
+    I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+    if (I_clickedRow != -1) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (void)mouseDown:(NSEvent *)aEvent {
 
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];

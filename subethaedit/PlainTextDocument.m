@@ -2420,10 +2420,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent {
-    [self setContentByDictionaryRepresentation:aContent];
+    if ([[self windowControllers] count]>0) {
+        [self setContentByDictionaryRepresentation:aContent];
+        I_flags.isReceivingContent = NO;
+        PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+        [windowController setIsReceivingContent:NO];
+    }
     I_flags.isReceivingContent = NO;
-    PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
-    [windowController setIsReceivingContent:NO];
 }
 
 
