@@ -100,16 +100,19 @@ do {
         DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"New loop with Range: %@",NSStringFromRange(currentRange));
 
         // Are we already in a state?
-        if ((currentRange.location>0) && (stateName = [aString attribute:kSyntaxHighlightingStateName atIndex:currentRange.location-1 effectiveRange:nil]) && (!([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil] isEqualTo:@"End"]))) {
+        if ((currentRange.location>0) && 
+            (stateName = [aString attribute:kSyntaxHighlightingStateName atIndex:currentRange.location-1 effectiveRange:nil]) && 
+            (!([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil] isEqualTo:@"End"]))) {
             stateNumber = [stateName intValue];
-             if (foundState = [[definition states] objectAtIndex:stateNumber]) {
+            if (foundState = [[definition states] objectAtIndex:stateNumber]) {
             // Search for the end
                     @try{
-                    if (stateEnd = [foundState objectForKey:@"EndsWithRegex"]) {    
+                    if ((stateEnd = [foundState objectForKey:@"EndsWithRegex"])) {    
                         NSRange endRange;
                         NSRange stateRange;
                         //NSLog(@"Trying to search '%@' in '%@'",stateEnd, [theString substringWithRange:currentRange]);
-                        if (endMatch = [stateEnd matchInString:theString range:currentRange]) { // Search for end of state
+                        //stateEnd = [[[OGRegularExpression alloc] initWithString:@"[[:cntrl:]]" options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease];
+                        if ((endMatch = [stateEnd matchInString:theString range:currentRange])) { // Search for end of state
                             endRange = [endMatch rangeOfMatchedString];
                             [aString addAttribute:kSyntaxHighlightingStateDelimiterName value:@"End" range:endRange];
                             stateRange = NSMakeRange(currentRange.location, NSMaxRange(endRange) - currentRange.location);
@@ -131,7 +134,7 @@ do {
                     } else {
                         NSLog(@"ERROR: Missing EndsWithRegex tag.");
                     }
-                    } @catch ( NSException *e ) {NSLog(@"Trying to search '%@' in '%@'",stateEnd, [theString substringWithRange:currentRange]);break;}
+                    } @catch ( NSException *e ) {NSLog(@"Exception %@  in '%@', string '%@'",[e description], stateEnd, [theString substringWithRange:aRange]); break;}
                 }  else {
                     NSLog(@"ERROR: Can't lookup state. This is very fishy.");
                 }

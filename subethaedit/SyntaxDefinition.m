@@ -227,7 +227,8 @@
                 
                 OGRegularExpression *endRegex;
                 if ([OGRegularExpression isValidExpressionString:innerContent]) {
-                    if (endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease])
+                    //if (endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease])
+                    if (endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindNotEmptyOption] autorelease])
                         [aDictionary setObject:endRegex forKey:@"EndsWithRegex"];
                 } else NSLog(@"ERROR: %@ is not a valid Regex.", innerContent);
                 
@@ -297,11 +298,19 @@
     NSMutableDictionary *aDictionary;
     if (aDictionary = [I_defaultState objectForKey:@"KeywordGroups"]) {
         [self addStylesForKeywordGroups:aDictionary];
+    } else {
+        [I_stylesForToken addObject:[NSDictionary dictionary]];
+        [I_stylesForRegex addObject:[NSDictionary dictionary]];
     }
     
     NSEnumerator *statesEnumerator = [I_states objectEnumerator];
     while (aDictionary = [statesEnumerator nextObject]) {
-        if (aDictionary = [aDictionary objectForKey:@"KeywordGroups"]) [self addStylesForKeywordGroups:aDictionary];
+        if (aDictionary = [aDictionary objectForKey:@"KeywordGroups"]) {
+            [self addStylesForKeywordGroups:aDictionary];
+        } else {
+            [I_stylesForToken addObject:[NSDictionary dictionary]];
+            [I_stylesForRegex addObject:[NSDictionary dictionary]];
+        }
     }
     
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching plainstrings:%@",[I_stylesForToken description]);
@@ -314,6 +323,12 @@
 {
     NSEnumerator *groupEnumerator = [aDictionary objectEnumerator];
     NSDictionary *keywordGroup;
+    
+    NSMutableDictionary *newPlainDictionary = [NSMutableDictionary dictionary];
+    NSMutableDictionary *newRegExDictionary = [NSMutableDictionary dictionary];
+    [I_stylesForToken addObject:newPlainDictionary];
+    [I_stylesForRegex addObject:newRegExDictionary];
+
     while (keywordGroup = [groupEnumerator nextObject]) {
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
         NSColor *aColor;
@@ -334,26 +349,27 @@
         NSDictionary *keywords;
         if (keywords = [keywordGroup objectForKey:@"PlainStrings"]) {
             NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-            NSMutableDictionary *newDictionary;
-            newDictionary = [NSMutableDictionary dictionary];
-            [I_stylesForToken addObject:newDictionary];
+            //NSMutableDictionary *newDictionary;
+            //newDictionary = [NSMutableDictionary dictionary];
+            //[I_stylesForToken addObject:newDictionary];
             NSString *keyword;
             while (keyword = [keywordEnumerator nextObject]) {
-                [newDictionary setObject:attributes forKey:keyword];
+                [newPlainDictionary setObject:attributes forKey:keyword];
             }
         }
         // Then do the regex stuff
         
         if (keywords = [keywordGroup objectForKey:@"RegularExpressions"]) {
             NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-            NSMutableDictionary *newDictionary;
-            newDictionary = [NSMutableDictionary dictionary];
-            [I_stylesForRegex addObject:newDictionary];
+            //NSMutableDictionary *newDictionary;
+            //newDictionary = [NSMutableDictionary dictionary];
+            //[I_stylesForRegex addObject:newDictionary];
             NSString *keyword;
             NSString *aString;
             while (keyword = [keywordEnumerator nextObject]) {
                 OGRegularExpression *regex;
-                unsigned regexOptions = OgreFindLongestOption|OgreFindNotEmptyOption;
+                //unsigned regexOptions = OgreFindLongestOption|OgreFindNotEmptyOption;
+                unsigned regexOptions = OgreFindNotEmptyOption;
                 if (aString =[attributes objectForKey:@"casesensitive"]) {       
                     if ([aString isEqualTo:@"no"]) {
                         regexOptions = regexOptions|OgreIgnoreCaseOption;
@@ -361,7 +377,7 @@
                 }
                 if ([OGRegularExpression isValidExpressionString:keyword]) {
                     if (regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease])
-                        [newDictionary setObject:attributes forKey:regex];
+                        [newRegExDictionary setObject:attributes forKey:regex];
                 } else {
                     NSLog(@"ERROR: %@ in \"%@\" is not a valid regular expression", keyword, [attributes objectForKey:@"id"]);
                 }
@@ -449,7 +465,8 @@
         [combinedString deleteCharactersInRange:NSMakeRange(combinedStringLength-1,1)];      
         [I_combinedStateRegex autorelease];
         if ([OGRegularExpression isValidExpressionString:combinedString]) {
-            I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
+            //I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
+            I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
         } else {
             NSLog(@"ERROR: %@ (begins of all states) is not a valid regular expression", combinedString);
         }
