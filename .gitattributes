@@ -16,8 +16,12 @@ prototype/BEEPSample/English.lproj/MainMenu.nib/objects.nib -text
 prototype/BEEPSample/Info.plist -text
 prototype/BEEPSample/NSStringTCMAdditions.h -text
 prototype/BEEPSample/NSStringTCMAdditions.m -text
+prototype/BEEPSample/TCMBEEPChannel.h -text
+prototype/BEEPSample/TCMBEEPChannel.m -text
 prototype/BEEPSample/TCMBEEPListener.h -text
 prototype/BEEPSample/TCMBEEPListener.m -text
+prototype/BEEPSample/TCMBEEPManagementProfile.h -text
+prototype/BEEPSample/TCMBEEPManagementProfile.m -text
 prototype/BEEPSample/TCMBEEPSession.h -text
 prototype/BEEPSample/TCMBEEPSession.m -text
 prototype/BEEPSample/main.m -text

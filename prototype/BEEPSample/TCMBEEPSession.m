@@ -7,14 +7,18 @@
 //
 
 #import "TCMBEEPSession.h"
+#import "TCMBEEPChannel.h"
+#import "TCMBEEPManagementProfile.h"
 
 #import <netinet/in.h>
 #import <sys/socket.h>
 
-NSString * const kBEEPFrameTrailer=@"END\r\n";
+NSString * const kTCMBEEPFrameTrailer=@"END\r\n";
+NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Management.profile";
 
 
 @interface TCMBEEPSession (TCMBEEPSessionPrivateAdditions)
+- (void)TCM_initHelper;
 - (void)TCM_handleInputStreamEvent:(NSStreamEvent)streamEvent;
 - (void)TCM_handleOutputStreamEvent:(NSStreamEvent)streamEvent;
 - (void)TCM_writeData:(NSData *)aData;
@@ -26,6 +30,17 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
 
 @implementation TCMBEEPSession
 
+- (void)TCM_initHelper
+{
+    [I_inputStream  setDelegate:self];
+    [I_outputStream setDelegate:self];
+    
+    I_readBuffer  = [NSMutableData new];
+    I_writeBuffer = [NSMutableData new];
+    I_requestedChannels = [NSMutableDictionary new];
+    I_activeChannels    = [NSMutableDictionary new];
+}
+
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
 {
     self = [super init];
@@ -33,13 +48,10 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
         [self setPeerAddressData:aData];
         
         CFStreamCreatePairWithSocket(kCFAllocatorDefault, aSocketHandle, (CFReadStreamRef *)&I_inputStream, (CFWriteStreamRef *)&I_outputStream);
-        [I_inputStream  setDelegate:self];
-        [I_outputStream setDelegate:self];
         
         TCMLog(@"NETWORK", 5, @"guckstdu");
-                 
-        I_readBuffer  = [[NSMutableData alloc] init];
-        I_writeBuffer = [[NSMutableData alloc] init];
+         
+        [self TCM_initHelper];        
     }
     
     return self;
@@ -52,11 +64,8 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
         [self setPeerAddressData:aData];
         CFSocketSignature signature = {PF_INET, SOCK_STREAM, IPPROTO_TCP, (CFDataRef)aData};
         CFStreamCreatePairWithPeerSocketSignature(kCFAllocatorDefault, &signature, (CFReadStreamRef *)&I_inputStream, (CFWriteStreamRef *)&I_outputStream);
-        [I_inputStream  setDelegate:self];
-        [I_outputStream setDelegate:self];
         
-        I_readBuffer  = [[NSMutableData alloc] init];
-        I_writeBuffer = [[NSMutableData alloc] init];
+        [self TCM_initHelper];
     }
     
     return self;
@@ -146,6 +155,9 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
     return I_isInitiator;
 }
 
+- (void)activateChannel:(TCMBEEPChannel *)aChannel {
+    [I_activeChannels setObject:aChannel forKey:[NSNumber numberWithUnsignedLong:[aChannel number]]];
+}
 
 - (void)open
 {
@@ -157,8 +169,20 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
     [I_inputStream open];
     [I_outputStream open];
     
-    NSString *greeting=@"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>";
-    greeting=[NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@",[greeting length],greeting,kBEEPFrameTrailer];
+    
+    I_managementChannel = [[TCMBEEPChannel alloc] initWithSession:self number:0 profileURI:kTCMBEEPManagementProfile];
+    //TCMBEEPManagementProfile *profile=(TCMBEEPManagementProfile *)[I_managementChannel profile];
+    //[profile setDelegate:self]
+
+    [self activateChannel:I_managementChannel];
+
+    //[profile sendGreetingWithProfileURIs: featuresAttribute: localizeAttribute: ]; 
+
+
+    
+    
+    NSString *greeting=@"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
+    greeting=[NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@",[greeting length],greeting,kTCMBEEPFrameTrailer];
     NSData *greetingData=[greeting dataUsingEncoding:NSASCIIStringEncoding];
     [self TCM_writeData:greetingData];
 }

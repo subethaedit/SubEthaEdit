@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const kTCMBEEPFrameTrailer     ;
+extern NSString * const kTCMBEEPManagementProfile;
 
 @class TCMBEEPChannel;
 
@@ -21,6 +23,8 @@
     BOOL I_isInitiator;
 
     TCMBEEPChannel *I_managementChannel;
+    NSMutableDictionary *I_requestedChannels;
+    NSMutableDictionary *I_activeChannels;
     
     id I_delegate;
     
@@ -56,5 +60,6 @@
 
 - (void)open;
 - (void)close;
+- (void)activateChannel:(TCMBEEPChannel *)aChannel;
 
 @end
