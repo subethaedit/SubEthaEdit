@@ -257,27 +257,26 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID URLString:(NSString *)aURLString
 {
     TCMBEEPSession *fallbackSession = nil;
-    NSDictionary *info = [I_outboundInternetSessions objectForKey:aURLString];
-    if (info) {
-        NSArray *sessions = [info objectForKey:@"sessions"];
-        if (sessions && [sessions count] > 0) {
-            TCMBEEPSession *BEEPSession = [sessions objectAtIndex:0];
-            if ([[[BEEPSession userInfo] objectForKey:@"peerUserID"] isEqualToString:aUserID]) {
-                return BEEPSession;
-            }
+    
+    NSDictionary *info = [self sessionInformationForUserID:aUserID];
+    NSArray *outboundSessions = [info objectForKey:@"outboundSessions"];
+    NSEnumerator *outboundSessionEnumerator = [outboundSessions objectEnumerator];
+    TCMBEEPSession *session = nil;
+    while ((session = [outboundSessionEnumerator nextObject])) {
+        if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
+            return session;
+        } else {
+            if (!fallbackSession) fallbackSession = session;
         }
     }
-    
-    info = [self sessionInformationForUserID:aUserID];
+
     NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
-    if (inboundSessions && [inboundSessions count] > 0) {
-        NSEnumerator *inboundSessionEnumerator = [inboundSessions objectEnumerator];
-        TCMBEEPSession *BEEPSession = nil;
-        while ((BEEPSession = [inboundSessionEnumerator nextObject])) {
-            if (!fallbackSession) fallbackSession = BEEPSession;
-            if (aURLString && [[[BEEPSession userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
-                return BEEPSession;
-            }
+    NSEnumerator *inboundSessionEnumerator = [inboundSessions objectEnumerator];
+    while ((session = [inboundSessionEnumerator nextObject])) {
+        if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
+            return session;
+        } else {
+            if (!fallbackSession) fallbackSession = session;
         }
     }
 
@@ -418,7 +417,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 }
             }
         } else {
-            //[[sessionInformation objectForKey:@"OutboundSessions"] removeObject:aBEEPSession];
+            [[sessionInformation objectForKey:@"OutboundSessions"] removeObject:aBEEPSession];
             [[sessionInformation objectForKey:@"InboundSessions"] removeObject:aBEEPSession];
             NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
             NSMutableDictionary *infoDict = [I_outboundInternetSessions objectForKey:URLString];
@@ -572,6 +571,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 return NO;
             }
         } else {
+            [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
             return YES;
         }
     } else {
@@ -580,7 +580,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         }
         
         [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
-        //[[information objectForKey:@"OutboundSessions"] addObject:session];
+        [[information objectForKey:@"OutboundSessions"] addObject:session];
         NSDictionary *infoDict = [I_outboundInternetSessions objectForKey:[[session userInfo] objectForKey:@"URLString"]];
         [[session userInfo] setObject:[infoDict objectForKey:@"host"] forKey:@"host"];
         //[I_outboundInternetSessions removeObjectForKey:[[session userInfo] objectForKey:@"URLString"]];
