@@ -16,4 +16,7 @@
 @interface AppController : NSObject {
 }
 
+- (IBAction)undo:(id)aSender;
+- (IBAction)redo:(id)aSender;
+
 @end

@@ -11,7 +11,7 @@
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
-       DocumentProxyWindowController, FindAllController;
+       DocumentProxyWindowController, FindAllController, UndoManager;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;
@@ -95,6 +95,8 @@ extern NSString * const ChangedByUserIDAttributeName;
     WebPreviewWindowController *I_webPreviewWindowController;
     NSMutableArray *I_rangesToInvalidate;
     NSMutableArray *I_findAllControllers;
+    
+    UndoManager *I_undoManager;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
@@ -163,6 +165,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (int)selectedSymbolForRange:(NSRange)aRange;
 
 - (NSURL *)documentURL;
+
+- (UndoManager *)documentUndoManager;
 
 #pragma mark -
 #pragma mark ### Flag Accessors ###

@@ -379,9 +379,12 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
+    id delegate = [self delegate];
+    if ([delegate respondsToSelector:@selector(textStorage:willReplaceCharactersInRange:withString:)]) {
+        [delegate textStorage:self willReplaceCharactersInRange:aRange withString:aString];
+    }
     unsigned origLen = [I_contents length];
     [I_contents replaceCharactersInRange:aRange withString:aString];
-    id delegate = [self delegate];
     [self edited:NSTextStorageEditedCharacters range:aRange 
           changeInLength:[I_contents length] - origLen];
     if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {

@@ -421,11 +421,11 @@
         NSRange affectedRange=[aTextView selectedRange];
         [aTextView setSelectedRange:NSMakeRange(affectedRange.location,0)];
         NSRange lineRange;
-//        NSUndoManager *undoManager=[[self document] undoManager];
+        UndoManager *undoManager=[[self document] documentUndoManager];
         NSTextStorage *textStorage=[aTextView textStorage];
         NSString *string=[textStorage string];
         
-//        [undoManager beginUndoGrouping];
+        [undoManager beginUndoGrouping];
         if (affectedRange.length==0) {
             [textStorage beginEditing];
             lineRange=[string lineRangeForRange:affectedRange];
@@ -475,7 +475,7 @@
             }
             [aTextView setSelectedRange:affectedRange];
         } 
-//        [undoManager endUndoGrouping];
+        [undoManager endUndoGrouping];
 //    }
 }
 

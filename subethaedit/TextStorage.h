@@ -63,6 +63,7 @@ extern NSString * const BlockeditAttributeValue;
 - (NSDictionary *)blockeditAttributesForTextStorage:(TextStorage *)aTextStorage;
 - (void)textStorageDidStopBlockedit:(TextStorage *)aTextStorage;
 - (void)textStorageDidStartBlockedit:(TextStorage *)aTextStorage;
+- (void)textStorage:(TextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString;
 - (void)textStorage:(TextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString;
 
 @end

@@ -15,6 +15,8 @@
 #import "PlainTextWindowController.h"
 #import "WebPreviewWindowController.h"
 #import "DocumentProxyWindowController.h"
+#import "UndoManager.h"
+
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -204,6 +206,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [self setKeepDocumentVersion:NO];
     [self setEditAnyway:NO];
     [self setIsFileWritable:YES];
+    I_undoManager = [(UndoManager *)[UndoManager alloc] initWithDocument:self];
 }
 
 - (void)TCM_sendODBCloseEvent {
@@ -643,7 +646,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         [oldSession setDocument:nil];
         [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
     }
-    TCMMMSession *newSession=[[[TCMMMSession alloc] initWithDocument:self] autorelease];
+    TCMMMSession *newSession=[[(TCMMMSession *)[TCMMMSession alloc] initWithDocument:self] autorelease];
     NSArray *contributors=[oldSession contributors];
     if ([contributors count]) {
         [newSession addContributors:contributors];
@@ -927,13 +930,21 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 
 - (IBAction)newView:(id)aSender {
-    if (!I_flags.isReceivingContent) {
+    if (!I_flags.isReceivingContent && [[self windowControllers] count]>0) {
         PlainTextWindowController *controller=[PlainTextWindowController new];
         [self addWindowController:controller];
         [controller showWindow:aSender];
         [controller release];
         [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
     }
+}
+
+- (IBAction)undo:(id)aSender {
+    [[self documentUndoManager] undo];
+}
+
+- (IBAction)redo:(id)aSender {
+    [[self documentUndoManager] redo];
 }
 
 - (IBAction)clearChangeMarks:(id)aSender {
@@ -1560,7 +1571,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                          NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
                          NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
         return [[self session] isServer];
-    }
+    } 
+    
+//    if (selector==@selector(undo:)) {
+//        return [[self documentUndoManager] canUndo];
+//    } else if (selector==@selector(redo:)) {
+//        return [[self documentUndoManager] canRedo];
+//    }
 
     return [super validateMenuItem:anItem];
 }
@@ -1636,7 +1653,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (IBAction)convertLineEndings:(id)aSender {
     [self setLineEnding:[aSender tag]];
     [[[self textStorage] mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
-    [[self undoManager] removeAllActions]; 
+    [[self documentUndoManager] removeAllActions]; 
     // undo is not too easy here... however... we could store a complete copy of the document in the undobuffer
 }
 
@@ -1963,6 +1980,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     
     return result;
+}
+
+#pragma mark -
+- (UndoManager *)documentUndoManager {
+    return I_undoManager;
 }
 
 #pragma mark -
@@ -2470,7 +2492,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
 
         I_flags.isRemotelyEditingTextStorage=NO;
-
+        if ([[aOperation userID] isEqualToString:[TCMMMUserManager myUserID]]) {
+            [[self session] documentDidApplyOperation:aOperation];
+            [[[[self topmostWindowController] activePlainTextEditor] textView] setSelectedRange:NSMakeRange([operation affectedCharRange].location,[[operation replacementString] length])];
+        }
     } else if ([[aOperation operationID] isEqualToString:[SelectionOperation operationID]]){
         [self changeSelectionOfUserWithID:[aOperation userID] 
               toRange:[(SelectionOperation *)aOperation selectedRange]];
@@ -2479,6 +2504,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
+- (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
+    UndoManager *undoManager=[self documentUndoManager];
+    [undoManager beginUndoGrouping];
+    [undoManager registerUndoChangeTextInRange:NSMakeRange(aRange.location,[aString length])
+                 replacementString:[[aTextStorage string] substringWithRange:aRange]];
+    [undoManager endUndoGrouping];
+}
+
 - (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
     //NSLog(@"textStorage:%@ didReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
     TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
@@ -2503,10 +2536,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }        
     }
 
-    if (![[self undoManager] isUndoing]) {
+    UndoManager *undoManager=[self documentUndoManager];
+    if (![undoManager isUndoing]) {
 //        NSLog(@"ChangeDone");
         [self updateChangeCount:NSChangeDone];
-        if (I_flags.showMatchingBrackets && ![[self undoManager] isRedoing] &&
+        if (I_flags.showMatchingBrackets && ![undoManager isRedoing] &&
             !I_flags.isRemotelyEditingTextStorage &&
     //        !I_blockedit.isBlockediting && !I_blockedit.didBlockedit &&
             [aString length]==1 && 
@@ -2735,8 +2769,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     TextStorage *textStorage=(TextStorage *)[aTextView textStorage];
 
+    UndoManager *undoManager=[self documentUndoManager];
     if ([textStorage hasBlockeditRanges] && ![textStorage isBlockediting] &&
-        ![[self undoManager] isRedoing] && ![[self undoManager] isUndoing]) {
+        ![undoManager isRedoing] && ![undoManager isUndoing]) {
         if ([[NSApp currentEvent] type]==NSLeftMouseUp) {
             NSBeep();
             return NO;
@@ -2770,7 +2805,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
 
             if (![textStorage didBlockedit]) {
-                [[self undoManager] beginUndoGrouping];
+                [[self documentUndoManager] beginUndoGrouping];
 
                 int tabWidth=[self tabWidth];
                 NSRange lineRange=[string lineRangeForRange:aAffectedCharRange];
@@ -2863,7 +2898,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
         [textStorage setDidBlockedit:NO];
-        [[self undoManager] endUndoGrouping];
+        [[self documentUndoManager] endUndoGrouping];
         newSelectedRange.location+=lengthChange;
 
         if (!NSEqualRanges(newSelectedRange,[textView selectedRange])) {

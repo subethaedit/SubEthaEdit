@@ -14,6 +14,8 @@
 #import "TCMPreferenceController.h"
 #import "RendezvousBrowserController.h"
 #import "InternetBrowserController.h"
+#import "PlainTextDocument.h"
+#import "UndoManager.h"
 
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
@@ -357,6 +359,38 @@ NSString * const AddressHistory = @"AddressHistory";
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy]];
     
     [TextView setDefaultMenu:defaultMenu];
+}
+
+#pragma mark ### IBActions ###
+
+- (IBAction)undo:(id)aSender {
+    [[[NSDocumentController sharedDocumentController] currentDocument] undo:aSender];
+}
+
+- (IBAction)redo:(id)aSender {
+    [[[NSDocumentController sharedDocumentController] currentDocument] redo:aSender];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL selector = [menuItem action];
+    
+    if (selector==@selector(undo:)) {
+        PlainTextDocument *currentDocument=[[NSDocumentController sharedDocumentController] currentDocument];
+        if (currentDocument) {
+            return [[currentDocument documentUndoManager] canUndo];
+        } else {
+            return NO;
+        }
+    } else if (selector==@selector(redo:)) {
+        PlainTextDocument *currentDocument=[[NSDocumentController sharedDocumentController] currentDocument];
+        if (currentDocument) {
+            return [[currentDocument documentUndoManager] canRedo];
+        } else {
+            return NO;
+        }
+    }
+
+    return YES;
 }
 
 @end

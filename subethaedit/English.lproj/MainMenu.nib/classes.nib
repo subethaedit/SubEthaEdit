@@ -1,6 +1,11 @@
 {
     IBClasses = (
-        {CLASS = AppController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {redo = id; undo = id; }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             CLASS = DocumentController; 
             LANGUAGE = ObjC; 
