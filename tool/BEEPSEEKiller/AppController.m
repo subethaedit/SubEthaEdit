@@ -101,6 +101,21 @@
     return result;
 }
 
+- (void)updateService:(NSNetService *)aNetService {
+    NSMutableArray *services=[self mutableArrayValueForKey:@"I_services"];
+    unsigned count=[services count];
+    while (count--) {
+        NSNetService *service=[[services objectAtIndex:count] objectForKey:@"service"];
+        if (service==aNetService) {
+            [[services objectAtIndex:count] setObject:[self addressArrayForAddressArray:[aNetService addresses]] forKey:@"addresses"];
+        }
+    }
+}
+
+- (void)netServiceDidResolveAddress:(NSNetService *)aNetService  {
+    [self updateService:aNetService];
+}
+
 #pragma mark -
 #pragma mark ### TCMRendezvousBrowser Delegate ###
 - (void)rendezvousBrowserWillSearch:(TCMRendezvousBrowser *)aBrowser {
@@ -125,9 +140,11 @@
             [NSMutableDictionary dictionaryWithObjectsAndKeys:aNetService,@"service",
                 [self addressArrayForAddressArray:[aNetService addresses]],@"addresses",
                 nil]];
+    [aNetService setDelegate:self];
 }
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didChangeCountOfResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
+    [self updateService:aNetService];
 }
 
 
