@@ -12,6 +12,7 @@
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
+#import "SyntaxHighlighter.h"
 
 @implementation PlainTextDocument
 
@@ -119,6 +120,7 @@
     }
     NSTextStorage *textStorage=[self textStorage];
 //    int oldLength = [textStorage length];
+
         
 //    if (oldLength==0) {
 //        // determine Syntaxname
@@ -240,6 +242,15 @@
 //                        replacementString:[_textStorage string]]; 
 //    }
 //    //[self updateMaxYForRadarScroller];
+
+    DocumentMode *mode=[[DocumentModeManager sharedInstance] documentModeForExtension:[[aURL path] pathExtension]];
+    [self setDocumentMode:mode];
+    
+    if ([mode syntaxHighlighter]) {
+        [I_textStorage addAttribute:kSyntaxHighlightingIsDirtyAttributeName value:kSyntaxHighlightingIsDirtyAttributeValue range:NSMakeRange(0,[I_textStorage length])];
+        [[mode syntaxHighlighter] colorizeDirtyRanges:I_textStorage];
+    }
+
     return YES;
 }
 

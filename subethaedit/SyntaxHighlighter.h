@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "SyntaxDefinition.h"
 
+extern NSString * const kSyntaxHighlightingIsDirtyAttributeName;
+extern NSString * const kSyntaxHighlightingIsDirtyAttributeValue;
+
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
 }
@@ -19,5 +22,9 @@
 /*"Accessors"*/
 - (SyntaxDefinition *)syntaxDefinition;
 - (void)setSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
+
+/*"Document Interaction"*/
+- (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage;
+- (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage;
 
 @end

@@ -12,12 +12,15 @@
 
 #define chunkSize              		5000
 
+NSString * const kSyntaxHighlightingIsDirtyAttributeName =@"HighlightingIsDirtyName";
+NSString * const kSyntaxHighlightingIsDirtyAttributeValue=@"Dirty";
+
 
 @implementation SyntaxHighlighter
 /*"A Syntax Highlighter"*/
 
 #pragma mark - 
-#pragma mark - Initizialisation
+#pragma mark - Initizialisation (fizzle televizzle)
 #pragma mark - 
 
 /*"Initiates the Highlighter with a Syntax Definition"*/
@@ -72,6 +75,50 @@
      I_syntaxDefinition = [aSyntaxDefinition copy];
 }
 
+
+#pragma mark - 
+#pragma mark - Document Interaction
+#pragma mark - 
+/*"Colorizes at least one chunk of the TextStorage, returns NO if there is still work to do"*/
+- (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage {
+    // just to show when there is colorization
+    NSRange textRange=NSMakeRange(0,[aTextStorage length]);
+    NSRange dirtyRange;
+    id dirty;
+    BOOL returnValue = NO;
+    
+    [aTextStorage beginEditing];
+    
+    unsigned int position;
+    position=0;
+    while (position<NSMaxRange(textRange)) {
+        dirty=[aTextStorage attribute:kSyntaxHighlightingIsDirtyAttributeName atIndex:position
+                longestEffectiveRange:&dirtyRange inRange:textRange];
+        if (dirty) {
+            [aTextStorage addAttribute:NSForegroundColorAttributeName value:[NSColor redColor] range:dirtyRange];
+            position=NSMaxRange(dirtyRange);
+        } else {
+            position=NSMaxRange(dirtyRange);
+            if (position>=[aTextStorage length]) {
+                returnValue = YES;
+                break;
+            }
+        }
+        // adjust Range
+        textRange.length=NSMaxRange(textRange);
+        textRange.location=position;
+        textRange.length  =textRange.length-position;
+    }
+    
+    [aTextStorage endEditing];
+    
+    return YES;
+}
+
+/*"Cleans up any attribute it introduced to the textstorage while colorizing it"*/
+- (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage {
+
+}
 
 
 @end

@@ -8,13 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class SyntaxHighlighter;
 
 @interface DocumentMode : NSObject {
     NSBundle *I_bundle;
+    SyntaxHighlighter *I_syntaxHighlighter;
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle;
 
+- (SyntaxHighlighter *)syntaxHighlighter;
 - (NSBundle *)bundle;
 
 @end
