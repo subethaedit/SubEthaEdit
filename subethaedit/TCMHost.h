@@ -16,17 +16,19 @@
     NSString *I_name;
     unsigned short I_port;
     NSMutableArray *I_addresses;
+    NSDictionary *I_userInfo;
 }
 
-+ (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port;
++ (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
 
-- (id)initWithName:(NSString *)name port:(unsigned short)port;
+- (id)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo;
 
 - (void)setDelegate:(id)delegate;
 - (id)delegate;
 
 - (NSArray *)addresses;
 - (NSString *)name;
+- (NSDictionary *)userInfo;
 
 - (void)checkReachability;
 - (void)resolve;

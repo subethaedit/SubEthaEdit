@@ -18,7 +18,7 @@
 
 @interface InternetBrowserController (InternetBrowserControllerPrivateAdditions)
 
-- (int)indexOfItemWithHostname:(NSString *)name;
+- (int)indexOfItemWithURLString:(NSString *)URLString;
 - (int)indexOfItemWithUserID:(NSString *)userID;
 
 @end
@@ -131,7 +131,7 @@
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedAddress: %@", escapedAddress);
     
     NSURL *url;
-    NSString *schemePrefix = [NSString stringWithFormat:@"%@://", @"hydra"];
+    NSString *schemePrefix = [NSString stringWithFormat:@"%@://", @"see"];
     NSString *lowercaseEscapedAddress = [escapedAddress lowercaseString];
     if (![lowercaseEscapedAddress hasPrefix:schemePrefix]) {
         NSString *escapedAddressWithPrefix = [schemePrefix stringByAppendingString:escapedAddress];
@@ -153,28 +153,32 @@
         [O_addressComboBox noteNumberOfItemsChanged];
         [O_addressComboBox reloadData];
         
+        UInt16 port;
+        if ([url port] != nil) {
+            port = [[url port] unsignedShortValue];
+        } else {
+            port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
+        }
+        
+        NSString *URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], [url host], port];
+
         // when I_data entry with URL exists, select entry
-        int index = [self indexOfItemWithHostname:[url host]];
+        int index = [self indexOfItemWithURLString:URLString];
         if (index != -1) {
             int row = [O_browserListView rowForItem:index child:-1];
             [O_browserListView selectRow:row byExtendingSelection:NO];
         } else {
             // otherwise add new entry to I_data
-            UInt16 port;
-            if ([url port] != nil) {
-                port = [[url port] unsignedShortValue];
-            } else {
-                port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
-            }
-            TCMHost *host = [TCMHost hostWithName:[url host] port:port];
-            [I_resolvingHosts setObject:host forKey:[host name]];
-            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[host name], @"name", @"Resolving", @"status", nil]];
+            TCMHost *host = [TCMHost hostWithName:[url host] port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
+            [I_resolvingHosts setObject:host forKey:URLString];
+            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:URLString, @"URLString", @"Resolving", @"status", nil]];
             [O_browserListView reloadData];
             [host setDelegate:self];
             [host resolve];
         }
     } else {
         NSLog(@"Entered invalid URI");
+        NSBeep();
     }
 }
 
@@ -203,11 +207,11 @@
     }
 }
 
-- (int)indexOfItemWithHostname:(NSString *)name {
+- (int)indexOfItemWithURLString:(NSString *)URLString {
     int index = -1;
     int i;
     for (i = 0; i < [I_data count]; i++) {
-        if ([name isEqualToString:[[I_data objectAtIndex:i] objectForKey:@"name"]]) {
+        if ([URLString isEqualToString:[[I_data objectAtIndex:i] objectForKey:@"URLString"]]) {
             index = i;
             break;
         }
@@ -241,26 +245,26 @@
 
 - (void)hostDidResolveAddress:(TCMHost *)sender {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"hostDidResolveAddress:");
-    int index = [self indexOfItemWithHostname:[sender name]];
+    int index = [self indexOfItemWithURLString:[[sender userInfo] objectForKey:@"URLString"]];
     if (index != -1) {
         [[I_data objectAtIndex:index] setObject:@"Connecting" forKey:@"status"];
         [O_browserListView reloadData];
     }
-    [I_resolvedHosts setObject:sender forKey:[sender name]];
-    [I_resolvingHosts removeObjectForKey:[sender name]];
+    [I_resolvedHosts setObject:sender forKey:[[sender userInfo] objectForKey:@"URLString"]];
+    [I_resolvingHosts removeObjectForKey:[[sender userInfo] objectForKey:@"URLString"]];
     [sender setDelegate:nil];
     [[TCMMMBEEPSessionManager sharedInstance] connectToHost:sender];
 }
 
 - (void)host:(TCMHost *)sender didNotResolve:(NSError *)error {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"host: %@, didNotResolve: %@", sender, error);
-    int index = [self indexOfItemWithHostname:[sender name]];
+    int index = [self indexOfItemWithURLString:[[sender userInfo] objectForKey:@"URLString"]];
     if (index != -1) {
         [[I_data objectAtIndex:index] setObject:@"Couldn't resolve" forKey:@"status"];
         [O_browserListView reloadData];
     }
     [sender setDelegate:nil];
-    [I_resolvingHosts removeObjectForKey:[sender name]];
+    [I_resolvingHosts removeObjectForKey:[[sender userInfo] objectForKey:@"URLString"]];
 }
 
 #pragma mark -
@@ -268,8 +272,8 @@
 - (void)TCM_didAcceptSession:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
-    NSString *hostname = [[session userInfo] objectForKey:@"name"];
-    int index = [self indexOfItemWithHostname:hostname];
+    NSString *URLString = [[session userInfo] objectForKey:@"URLString"];
+    int index = [self indexOfItemWithURLString:URLString];
     if (index != -1) {
         NSMutableDictionary *item = [I_data objectAtIndex:index];
         [item setObject:session forKey:@"BEEPSession"];
@@ -286,8 +290,8 @@
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
-    NSString *hostname = [[session userInfo] objectForKey:@"name"];
-    int index = [self indexOfItemWithHostname:hostname];
+    NSString *URLString = [[session userInfo] objectForKey:@"URLString"];
+    int index = [self indexOfItemWithURLString:URLString];
     if (index != -1) {
         NSMutableDictionary *item = [I_data objectAtIndex:index];
         [item setObject:@"BEEP session ended" forKey:@"status"];
@@ -301,8 +305,8 @@
     
     TCMHost *host = [[notification userInfo] objectForKey:@"host"];
     if (host) {
-        [I_resolvedHosts removeObjectForKey:[host name]];
-        int index = [self indexOfItemWithHostname:[host name]];
+        [I_resolvedHosts removeObjectForKey:[[host userInfo] objectForKey:@"URLString"]];
+        int index = [self indexOfItemWithURLString:[[host userInfo] objectForKey:@"URLString"]];
         if (index != -1) {
             [[I_data objectAtIndex:index] setObject:@"Connect to host failed" forKey:@"status"];
             [O_browserListView reloadData];
@@ -415,7 +419,7 @@
             }
         } else {
             if (aTag == TCMMMBrowserItemNameTag) {
-                return [item objectForKey:@"name"];
+                return [item objectForKey:@"URLString"];
             } else if (aTag == TCMMMBrowserItemStatusTag) {
                 return [item objectForKey:@"status"];
             }

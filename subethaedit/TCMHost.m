@@ -19,6 +19,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 - (void)TCM_handleHostCallback:(CFHostRef)host typeInfo:(CFHostInfoType)typeInfo error:(const CFStreamError *)error;
 - (void)setName:(NSString *)name;
+- (void)setUserInfo:(NSDictionary *)userInfo;
 
 @end
 
@@ -26,12 +27,12 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 
 @implementation TCMHost
 
-+ (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port
++ (TCMHost *)hostWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo
 {
-    return [[[TCMHost alloc] initWithName:name port:port] autorelease];
+    return [[[TCMHost alloc] initWithName:name port:port userInfo:userInfo] autorelease];
 }
 
-- (id)initWithName:(NSString *)name port:(unsigned short)port
+- (id)initWithName:(NSString *)name port:(unsigned short)port userInfo:(NSDictionary *)userInfo
 {
     self = [super init];
     if (self) {
@@ -42,6 +43,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         }
         
         [self setName:name];
+        [self setUserInfo:userInfo];
         I_port = port;
         CFHostClientContext context = {0, self, NULL, NULL, NULL};
         CFHostSetClient(I_host, myCallback, &context);
@@ -57,6 +59,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     I_delegate = nil;
     [I_name release];
     [I_addresses release];
+    [I_userInfo release];
     [super dealloc];
 }
 
@@ -84,6 +87,17 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 - (NSString *)name
 {
     return I_name;
+}
+
+- (void)setUserInfo:(NSDictionary *)userInfo
+{
+    [I_userInfo autorelease];
+    I_userInfo = [userInfo retain];
+}
+
+- (NSDictionary *)userInfo
+{
+    return I_userInfo;
 }
 
 - (void)checkReachability
