@@ -41,10 +41,9 @@
 #pragma mark -
 #pragma mark ### init, dealloc & co ###
 
-+ (void)initialize
-{
++ (void)initialize {
     // Using the NSUserDefaultsController here has no benefits over the NSUserDefaults
-    // But since this is intended to be Controller Sample Code...
+    // But since this is intended to be Controller sample code...
     NSUserDefaultsController *defaultsController=
         [NSUserDefaultsController sharedUserDefaultsController];
     NSString *path=[[NSBundle mainBundle] pathForResource:@"initialDefaults" ofType:@"plist"];
@@ -52,14 +51,13 @@
     [defaultsController setInitialValues:initialDefaults];
 }
 
-- (id)init
-{
+- (id)init {
     self=[super init];
     if (self) {
         I_foundNetServices   =[NSMutableArray      new];
         I_netServiceBrowsers =[NSMutableDictionary new];
-        I_servicesToBrowseFor=[NSMutableArray new];
-        // deep copy the Array to make it and it's contents mutable
+        I_servicesToBrowseFor=[NSMutableArray      new];
+        // Deep copy the array to make it and its content mutable
         NSEnumerator *services=[[[[NSUserDefaultsController sharedUserDefaultsController] values] 
                                     valueForKeyPath:@"servicesToBrowseFor"] objectEnumerator];
         NSDictionary *entry;
@@ -70,80 +68,64 @@
     return self;
 }
 
-- (void)awakeFromNib
-{
-    // this would have been nice to be done in Interface Builder. An constant like 
-    // IBAction would be nice (IBBinding?)
-    // Or are we to provide an extra Objectcontroller for this object to bind again, 
-    // and this here is pure evil?
-    [O_serviceController setContent:I_foundNetServices];
-    [O_serviceController bind:@"contentArray" toObject:self 
+- (void)awakeFromNib {
+    // It would be nicer if this could be done in Interface Builder. A constant like 
+    // IBAction would be cool (IBBinding?).
+    // Or should we provide an additional NSObjectController for this object to bind against, 
+    // and this method is purely evil?
+    [O_foundServicesController setContent:I_foundNetServices]; // Is this necessary?
+    [O_foundServicesController bind:@"contentArray" toObject:self 
         withKeyPath:@"foundNetServices" options:nil];
     
     // Originally I intended to bind this directly to the NSUserDefaultsController
     // But it turned out that objects that are not on top level of the NSUserDefaults
     // are immutable
-    [O_servicesController setContent:I_servicesToBrowseFor];
-    [O_servicesController bind:@"contentArray" toObject:self 
+    [O_servicesToBrowseForController setContent:I_servicesToBrowseFor]; // Is this necessary?
+    [O_servicesToBrowseForController bind:@"contentArray" toObject:self 
         withKeyPath:@"servicesToBrowseFor" options:nil];
     
-    // now start browsing for the services we should be browsing for
+    // Now start browsing for the services we should be browsing for
     [self startBrowsing];
-//    [self addObserver:self forKeyPath:@"foundNetServices" 
-//              options:(NSKeyValueObservingOptionNew |
-//                       NSKeyValueObservingOptionOld)
-//              context:nil];
 
     [O_addressTableView setTarget:self];
     [O_addressTableView setDoubleAction:@selector(simpleURLDoubleAction:)];
     
-    NSTableColumn *column=[[O_servicesTableView tableColumns] objectAtIndex:0];
-    NSCell *cell=[column dataCell];
+    NSCell *cell=[[O_servicesTableView tableColumnWithIdentifier:@"shouldSearch"] dataCell];
     [cell setTarget:self];
-    [cell setAction:@selector(didChangeStatusOfServiceToBrowse:)];
-    
+    [cell setAction:@selector(didChangeStatusOfServiceToBrowse:)];  
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self stopBrowsing];
     [I_netServiceBrowsers  release];
     [I_foundNetServices    release];
     [I_servicesToBrowseFor release];
+    [super dealloc];
 }
 
 #pragma mark -
 #pragma mark ### KeyValueObserving ###
 
-+ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey
-{
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey {
+    // We do the notifications ourselves because it
+    // a) is better style
+    // b) helps understanding Key Value Observing
     return NO;
 }
 
-// - (void)observeValueForKeyPath:(NSString *)aKeyPath
-//                       ofObject:(id)aObject 
-//                         change:(NSDictionary *)aChange
-//                        context:(void *)aContext
-// {
-//     NSLog(@"Path: %@, value: %@",aKeyPath, [aChange descriptionInStringsFileFormat]);
-// }
-
-- (NSMutableArray *)foundNetServices
-{
+- (NSMutableArray *)foundNetServices {
     return I_foundNetServices;
 }
 
-- (NSMutableArray *)servicesToBrowseFor
-{
+- (NSMutableArray *)servicesToBrowseFor {
     return I_servicesToBrowseFor;
 }
 
-- (void)setServicesToBrowseFor:(NSMutableArray *)aArray
-{
+- (void)setServicesToBrowseFor:(NSMutableArray *)aArray {
     NSLog(@"set");
     // I don't know exactly if this is the correct indexset,
-    // I could not find exact documentation on this
-    // But If I Observe myself, than this is the only combination that does not throw exceptions
+    // I could not find detailed documentation on this
+    // If I observe myself, this is the only combination that does not throw exceptions
     [self willChange:NSKeyValueChangeReplacement 
         valuesAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_servicesToBrowseFor count])] 
         forKey:@"servicesToBrowseFor"];
@@ -156,8 +138,7 @@
 
 #pragma mark -
 
-- (void)startBrowsing
-{
+- (void)startBrowsing {
     NSEnumerator *services=[I_servicesToBrowseFor objectEnumerator];
     NSDictionary *service=nil;
     while ((service=[services nextObject])) {
@@ -167,8 +148,7 @@
     }
 }
 
-- (void)stopBrowsing
-{
+- (void)stopBrowsing {
     [[I_netServiceBrowsers allValues] makeObjectsPerformSelector:@selector(stop)];
     [[I_netServiceBrowsers allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_netServiceBrowsers removeAllObjects];
@@ -178,8 +158,7 @@
     [self  didChange:NSKeyValueChangeRemoval valuesAtIndexes:set forKey:@"foundNetServices"];
 }
 
-- (void)removeServicesOfType:(NSString *)aServiceType
-{
+- (void)removeServicesOfType:(NSString *)aServiceType {
     int serviceIndex;
     NSMutableIndexSet *indexes=[NSMutableIndexSet indexSet];
     for (serviceIndex=[I_foundNetServices count]-1;serviceIndex>=0;serviceIndex--) {
@@ -190,7 +169,7 @@
     }
     if ([indexes count]) {
         [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"foundNetServices"];
-        // why is there no removeObjectsInIndexSet in NSArray?
+        // Why is there no removeObjectsInIndexSet in NSArray?
         unsigned *indexList=malloc(sizeof(unsigned)*[indexes count]);
         NSRange indexRange=NSMakeRange(0,NSNotFound);
         [indexes getIndexes:indexList maxCount:[indexes count] inIndexRange:&indexRange];
@@ -200,8 +179,7 @@
     }
 }
 
-- (void)searchForServicesOfType:(NSString *)aServiceType
-{
+- (void)searchForServicesOfType:(NSString *)aServiceType {
     if (![I_netServiceBrowsers objectForKey:aServiceType]) {
         NSNetServiceBrowser *browser=[[NSNetServiceBrowser new] autorelease];
         [browser setDelegate:self];
@@ -210,8 +188,7 @@
     }
 }
 
-- (void)stopSearchingForServicesOfType:(NSString *)aServiceType
-{
+- (void)stopSearchingForServicesOfType:(NSString *)aServiceType {
     NSNetServiceBrowser *browser;
     if ((browser=[I_netServiceBrowsers objectForKey:aServiceType])) {
         [browser stop];
@@ -224,15 +201,16 @@
 #pragma mark -
 #pragma mark ### Actions ###
 
-- (IBAction)didChangeStatusOfServiceToBrowse:(id)aSender
-{
-    // originally I intended to do
-    // [O_servicesController selectedObjects];
-    // but the array controller changes the selection after the action is sent
-    NSDictionary *dictionary=[[O_servicesController arrangedObjects] objectAtIndex:[O_servicesTableView selectedRow]];
+- (IBAction)didChangeStatusOfServiceToBrowse:(id)aSender {
+    // Originally I intended to do
+    // [O_servicesToBrowseForController selectedObjects];
+    // but the array controller doesn't change the selection until after the action was sent
+    NSDictionary *dictionary=[[O_servicesToBrowseForController arrangedObjects] 
+                                objectAtIndex:[O_servicesTableView selectedRow]];
+
     if (dictionary) {
         if ([dictionary objectForKey:@"serviceType"]) {
-            // this relys on the fact, that the controller changed the value of the 
+            // This relies on the fact, that the controller changed the value of the 
             // content already. I don't know if I'm allowed to assume this.
            if ([[dictionary objectForKey:@"shouldSearchFor"] boolValue]) {
                 [self searchForServicesOfType:[dictionary objectForKey:@"serviceType"]];
@@ -243,52 +221,59 @@
     }
 }
 
-- (IBAction)stopAndRestart:(id)aSender
-{
+- (IBAction)restartAll:(id)aSender {
     [self stopBrowsing];
     [self startBrowsing];
 }
 
-- (IBAction)simpleURLDoubleAction:(id)aSender
-{
-    NSString *address=[[[O_addressesController selectedObjects] objectAtIndex:0] objectForKey:@"addressAsString"];
-    NSString *service=[(NSNetService *)[[[O_serviceController selectedObjects] objectAtIndex:0] objectForKey:@"Service"] type];
-    NSString *scheme =[service substringWithRange:NSMakeRange(1,[service rangeOfString:@"."].location-1)];
-    NSString *url=[NSString stringWithFormat:@"%@://%@/",scheme,address];
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+- (IBAction)simpleURLDoubleAction:(id)aSender {
+    NSArray *selectedObjects=[O_addressesController selectedObjects];
+    if ([selectedObjects count]) {
+        NSString     *address=[[selectedObjects objectAtIndex:0] objectForKey:@"addressAsString"];
+        NSString *serviceType=[(NSNetService *)[[[O_foundServicesController selectedObjects] objectAtIndex:0] objectForKey:@"Service"] type];
+        NSString      *scheme=[serviceType substringWithRange:NSMakeRange(1,[serviceType rangeOfString:@"."].location-1)];
+        NSString         *url=[NSString stringWithFormat:@"%@://%@/",scheme,address];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    }
+}
+
+- (IBAction)showReleaseNotes:(id)aSender {
+    [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"rtf"]];
 }
 
 #pragma mark -
 #pragma mark ### NSNetServiceBrowser delegate methods ###
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
-{
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser 
+           didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
     int serviceIndex=0;
     for (serviceIndex=[I_foundNetServices count]-1;serviceIndex>=0;serviceIndex--) {
         NSMutableDictionary *entryOfLoop=[I_foundNetServices objectAtIndex:serviceIndex];
-        NSNetService *netServiceOfLoop=[entryOfLoop objectForKey:@"Service"];
+        NSNetService   *netServiceOfLoop=[entryOfLoop objectForKey:@"Service"];
         if (([netServiceOfLoop isEqualTo:aNetService])) {
             [entryOfLoop setObject:[NSNumber numberWithInt:[[entryOfLoop objectForKey:@"count"] intValue]+1] 
                             forKey:@"count"];
             break;
         }
     }
+    
+    // Did not find NetService in Array?
     if (serviceIndex<0) {
         [aNetService setDelegate:self];
         [aNetService resolve];
-        // only resolve for 30 seconds, to not harm the network more that it is worth
-        // normally you would resolve until you did connect and start resolving just 
+        // Only resolve for 30 seconds, to not harm the network more than necessary.
+        // "Normally" you would resolve until you did connect and start resolving just 
         // before you want to connect, but as we only browse the
         // network without connecting, we limit the resolve time
         [aNetService performSelector:@selector(stop) withObject:nil afterDelay:30.];
     
-        // since we know nothing about the observability of NSNetService is not actually observable, 
-        // we copy the values we display into the dictionary
+        // Since we don't know if NSNetService is observable, 
+        // we copy the values that we're displaying into the dictionary
         NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
-        [dictionary setObject:aNetService forKey:@"Service"];
-        [dictionary setObject:[aNetService name]   forKey:@"name"];
-        [dictionary setObject:[aNetService type]   forKey:@"type"];
-        [dictionary setObject:[aNetService domain] forKey:@"domain"];
+        [dictionary setObject:aNetService                forKey:@"Service"];
+        [dictionary setObject:[aNetService name]         forKey:@"name"];
+        [dictionary setObject:[aNetService type]         forKey:@"type"];
+        [dictionary setObject:[aNetService domain]       forKey:@"domain"];
         [dictionary setObject:[NSNumber numberWithInt:1] forKey:@"count"];
     
         NSIndexSet *set=[NSIndexSet indexSetWithIndex:[I_foundNetServices count]];
@@ -298,48 +283,42 @@
     }
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
-{
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser 
+         didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
     int serviceIndex;
     for (serviceIndex=[I_foundNetServices count]-1; serviceIndex>=0; serviceIndex--) {
         NSMutableDictionary *entryOfLoop=[I_foundNetServices objectAtIndex:serviceIndex];
         NSNetService *netServiceOfLoop=[entryOfLoop objectForKey:@"Service"];
-        // keep in mind that the NSNetService objects that come through the 
-        // delegate methods of NSNetServiceBrowsers maybe equal to each other
+        // Keep in mind that the NSNetService objects that we receive via the 
+        // delegate methods of NSNetServiceBrowsers may be equal to each other
         // but never are identical / the same objects
         if (([netServiceOfLoop isEqualTo:aNetService])) {
             if ([[[I_foundNetServices objectAtIndex:serviceIndex] objectForKey:@"count"] intValue]==1) {
-                // Keep in mind that you get potentially a netservice reported for every interface you have
-                // so you should only remove the service in your application if your count is at zero again
-                // otherwise you remove services that are still reachable
+                // Keep in mind that you get potentially one NSNetService reported for every interface.
+                // I.e. you should only remove the service in your application if your count is at zero again
+                // otherwise you remove services that are still reachable.
                 [netServiceOfLoop stop];
                 NSIndexSet *set=[NSIndexSet indexSetWithIndex:serviceIndex];
                 [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:set forKey:@"foundNetServices"];
                 [I_foundNetServices removeObjectAtIndex:serviceIndex];
                 [self  didChange:NSKeyValueChangeRemoval valuesAtIndexes:set forKey:@"foundNetServices"];
             } else {
-                [entryOfLoop setObject:[NSNumber numberWithInt:[[entryOfLoop objectForKey:@"count"] intValue]-1] forKey:@"count"];
+                [entryOfLoop setObject:[NSNumber numberWithInt:[[entryOfLoop objectForKey:@"count"] intValue]-1] 
+                                forKey:@"count"];
             }
             break;
         }
     }
 }
 
-- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)aNetServiceBrowser
-{
-    NSLog(@"NetServiceBrowserdidStopSearch");
-}
-
-- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didNotSearch:(NSDictionary *)errorDict
-{
-    NSLog(@"NetServiceBrowser didNotSearch:");
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didNotSearch:(NSDictionary *)errorDict {
+    NSLog(@"netServiceBrowser:%@ didNotSearch:%@",[aNetServiceBrowser description],[errorDict description]);
 }
 
 #pragma mark -
 #pragma mark ### NSNetService delegate methods ###
 
-- (void)netServiceDidResolveAddress:(NSNetService *)aNetService 
-{
+- (void)netServiceDidResolveAddress:(NSNetService *)aNetService  {
     int netServiceIndex;
     for (netServiceIndex=[I_foundNetServices count]-1; netServiceIndex>=0; netServiceIndex--) {
         NSMutableDictionary *entryOfLoop=[I_foundNetServices objectAtIndex:netServiceIndex];
@@ -361,7 +340,7 @@
                 NSString *addressAsString=nil;
                 if (socketAddress->sa_family == AF_INET) {
                     if (inet_ntop(AF_INET,&((struct in_addr)((struct sockaddr_in *)socketAddress)->sin_addr),stringBuffer,40)) {
-                        addressAsString=[NSString stringWithCString:stringBuffer];
+                        addressAsString=[NSString stringWithUTF8String:stringBuffer];
                     } else {
                         addressAsString=@"IPv4 un-ntopable";
                     }
@@ -369,19 +348,20 @@
                     addressAsString=[addressAsString stringByAppendingFormat:@":%d",port];
                 } else if (socketAddress->sa_family == AF_INET6) {
                      if (inet_ntop(AF_INET6,&(((struct sockaddr_in6 *)socketAddress)->sin6_addr),stringBuffer,40)) {
-                        addressAsString=[NSString stringWithCString:stringBuffer];
+                        addressAsString=[NSString stringWithUTF8String:stringBuffer];
                     } else {
                         addressAsString=@"IPv6 un-ntopable";
                     }
                     int port = ((struct sockaddr_in6 *)socketAddress)->sin6_port;
-                    addressAsString=[NSString stringWithFormat:@"[%@]:%d",addressAsString,port];
+                    // Suggested IPv6 format (see http://www.faqs.org/rfcs/rfc2732.html)
+                    addressAsString=[NSString stringWithFormat:@"[%@]:%d",addressAsString,port]; 
                 } else {
                     addressAsString=@"neither IPv6 nor IPv4";
                 }
                 if (addressAsString)
                     [array addObject:[NSDictionary dictionaryWithObject:addressAsString forKey:@"addressAsString"]];
             }
-            // note that the protcolSpecificInformation is also a result of an resolve,
+            // Note that the protcolSpecificInformation is also a result of an resolve,
             // it is not available when you first get the NSNetService from the NSNetServiceBrowser
             if ([[aNetService protocolSpecificInformation] length]>0) {
                 NSMutableString *string=[NSMutableString string];
@@ -393,6 +373,8 @@
                 [entryOfLoop setObject:string forKey:@"protocolSpecificInformationForTextView"];
                 [entryOfLoop setObject:[aNetService protocolSpecificInformation] forKey:@"protocolSpecificInformation"];
             }
+            // Trigger UI update in addresses table view.
+            // Why is this necessary?
             [entryOfLoop setObject:array forKey:@"addresses"];
             break;
         }
@@ -402,22 +384,18 @@
 #pragma mark -
 #pragma mark ### NSWindow delegate methods ###
 
--(void)windowWillClose:(NSNotification *)aNotification
-{
+- (void)windowWillClose:(NSNotification *)aNotification {
     [NSApp terminate:self];
 }
 
 #pragma mark -
 #pragma mark ### NSApplication delegate methods ###
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification
-{
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
     NSUserDefaultsController* defaultsController=[NSUserDefaultsController sharedUserDefaultsController];
     [[defaultsController values] setValue:I_servicesToBrowseFor forKey:@"servicesToBrowseFor"];
-    [defaultsController save:self];
-    // could have gone for 
+    // Could have gone for 
     // [[NSUserDefaults standardUserDefaults] setObject:I_servicesToBrowseFor forKey:@"servicesToBrowseFor"];
-    // which is a bit shorter and actually nicer
 }
 
 @end

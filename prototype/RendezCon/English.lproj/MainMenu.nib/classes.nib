@@ -2,15 +2,20 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {stopAndRestart = id; }; 
+            ACTIONS = {
+                didChangeStatusOfServiceToBrowse = id; 
+                restartAll = id; 
+                showReleaseNotes = id; 
+                simpleURLDoubleAction = id; 
+            }; 
             CLASS = RendezvousBrowserController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_addressTableView" = NSTableView; 
                 "O_addressesController" = NSArrayController; 
-                "O_serviceController" = NSArrayController; 
-                "O_servicesController" = NSArrayController; 
+                "O_foundServicesController" = NSArrayController; 
                 "O_servicesTableView" = NSTableView; 
+                "O_servicesToBrowseForController" = NSArrayController; 
             }; 
             SUPERCLASS = NSObject; 
         }

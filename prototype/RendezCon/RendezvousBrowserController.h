@@ -34,13 +34,13 @@
 
 
 @interface RendezvousBrowserController : NSObject {
-    IBOutlet NSArrayController   *O_serviceController;
-    IBOutlet NSArrayController   *O_servicesController;
+    IBOutlet NSArrayController   *O_foundServicesController;
+    IBOutlet NSArrayController   *O_servicesToBrowseForController;
     IBOutlet NSArrayController   *O_addressesController;
     IBOutlet NSTableView         *O_addressTableView;
     IBOutlet NSTableView         *O_servicesTableView;
     NSMutableArray      *I_foundNetServices;
-    NSMutableArray *I_servicesToBrowseFor;
+    NSMutableArray      *I_servicesToBrowseFor;
     NSMutableDictionary *I_netServiceBrowsers;
 }
 
@@ -52,7 +52,10 @@
 
 #pragma mark -
 #pragma mark ### Actions ###
-- (IBAction)stopAndRestart:(id)aSender;
+- (IBAction)restartAll:(id)aSender;
+- (IBAction)didChangeStatusOfServiceToBrowse:(id)aSender;
+- (IBAction)simpleURLDoubleAction:(id)aSender;
+- (IBAction)showReleaseNotes:(id)aSender;
 
 #pragma mark -
 - (void)startBrowsing;

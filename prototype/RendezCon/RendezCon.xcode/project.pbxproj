@@ -151,6 +151,7 @@
 		29B97317FDCFA39411CA2CEA = {
 			children = (
 				5E8C930F0570088600E98043,
+				5EFE609305727153005C5D2C,
 				5E73EFCA056FC1320072B5B6,
 				5E73EFCB056FC1320072B5B6,
 				5E73EFC6056FC1220072B5B6,
@@ -385,6 +386,19 @@
 			settings = {
 			};
 		};
+		5EFE609305727153005C5D2C = {
+			expectedFileType = text.rtf;
+			isa = PBXFileReference;
+			path = ReleaseNotes.rtf;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EFE609405727153005C5D2C = {
+			fileRef = 5EFE609305727153005C5D2C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //5E0
 //5E1
 //5E2
@@ -459,6 +473,7 @@
 				5E73EFCD056FC1320072B5B6,
 				5E73F7C3056FCCCD0072B5B6,
 				5E8C93100570088600E98043,
+				5EFE609405727153005C5D2C,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
