@@ -284,8 +284,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
                 
                 OGRegularExpression *endRegex;
                 if ([OGRegularExpression isValidExpressionString:innerContent]) {
-                    //if (endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease])
-                    if ((endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindNotEmptyOption] autorelease]))
+                    if ((endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease]))
+                    //if ((endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindNotEmptyOption] autorelease]))
                         [aDictionary setObject:endRegex forKey:@"EndsWithRegex"];
                 } else {
                     NSLog(@"ERROR: %@ is not a valid Regex.", innerContent);
@@ -444,8 +444,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             NSString *aString;
             while ((keyword = [keywordEnumerator nextObject])) {
                 OGRegularExpression *regex;
-                //unsigned regexOptions = OgreFindLongestOption|OgreFindNotEmptyOption;
-                unsigned regexOptions = OgreFindNotEmptyOption;
+                unsigned regexOptions = OgreFindLongestOption|OgreFindNotEmptyOption;
+                //unsigned regexOptions = OgreFindNotEmptyOption;
                 if ((aString = [attributes objectForKey:@"casesensitive"])) {       
                     if (([aString isEqualTo:@"no"])) {
                         regexOptions = regexOptions|OgreIgnoreCaseOption;
@@ -566,8 +566,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         [combinedString deleteCharactersInRange:NSMakeRange(combinedStringLength-1,1)];      
         [I_combinedStateRegex autorelease];
         if ([OGRegularExpression isValidExpressionString:combinedString]) {
-            //I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
-            I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
+            I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
+            //I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
         } else {
             NSLog(@"ERROR: %@ (begins of all states) is not a valid regular expression", combinedString);
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];

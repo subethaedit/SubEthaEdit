@@ -46,13 +46,19 @@ typedef enum {
     NSMutableArray *I_findHistory;
     NSMutableArray *I_replaceHistory;   
     //BOOL ignoreNextComboBoxEvent;
-    //NSArray *I_replaceAllMatchArray;
-   // NSData *I_replaceAllMatchArrayData;
-    //NSMutableString *I_replaceAllText;
-    //OGReplaceExpression *I_replaceAllRepex;
-    //OGRegularExpression *I_replaceAllRegex;
-    //int I_replaceAllReplaced;
-    //int I_replaceAllArrayIndex;
+    NSString *I_replaceAllFindString;
+    NSString *I_replaceAllReplaceString;
+    NSRange I_replaceAllPosRange;
+    NSRange I_replaceAllRange;
+    NSArray *I_replaceAllMatchArray;
+    NSDictionary *I_replaceAllAttributes;
+    NSMutableString *I_replaceAllText;
+    NSTextView *I_replaceAllTarget;
+    OGReplaceExpression *I_replaceAllRepex;
+    OGRegularExpression *I_replaceAllRegex;
+    int I_replaceAllReplaced;
+    int I_replaceAllArrayIndex;
+    unsigned I_replaceAllOptions;
 }
 + (FindReplaceController *)sharedInstance;
 
