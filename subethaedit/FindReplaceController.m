@@ -370,6 +370,7 @@ static FindReplaceController *sharedInstance=nil;
     int i = replacePerCycle;
 
     [[I_replaceAllTarget textStorage] beginEditing];
+    [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
  
     while (YES) {
         i--;
@@ -393,10 +394,7 @@ static FindReplaceController *sharedInstance=nil;
                 NSBeep();
             } else {
                 [[(PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document] documentUndoManager] endUndoGrouping];
-                [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
             }
-            [O_statusTextField setHidden:NO];
-            [O_progressIndicator stopAnimation:nil];
             return;
         }
     }
@@ -425,6 +423,7 @@ static FindReplaceController *sharedInstance=nil;
         NSRange newRange = NSMakeRange(matchedRange.location, [replaceWith length]);
         [[I_replaceAllTarget textStorage] addAttributes:I_replaceAllAttributes range:newRange];
         I_replaceAllReplaced++;
+        [O_progressIndicatorDet setDoubleValue:(double)I_replaceAllReplaced];
     }
     
     I_replaceAllArrayIndex = i;
@@ -445,8 +444,11 @@ static FindReplaceController *sharedInstance=nil;
             [[(PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document] documentUndoManager] endUndoGrouping];
             [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
         }
+        [O_progressIndicatorDet stopAnimation:nil];
+        [O_progressIndicatorDet setHidden:YES];
+        [O_progressIndicatorDet display];
+        [O_findPanel display];
         [O_statusTextField setHidden:NO];
-        [O_progressIndicator stopAnimation:nil];
         return;
     }
     [[I_replaceAllTarget textStorage] endEditing];
@@ -460,7 +462,6 @@ static FindReplaceController *sharedInstance=nil;
     NSString *replaceString = [O_replaceComboBox stringValue];
     [self addString:findString toHistory:I_findHistory];
     [self addString:replaceString toHistory:I_replaceHistory];
-    [O_progressIndicator startAnimation:nil];
 
     if (target) {
         if (![target isEditable]) {
@@ -486,11 +487,17 @@ static FindReplaceController *sharedInstance=nil;
             I_replaceAllRange = aRange;
             I_replaceAllText = [text retain];
             I_replaceAllTarget = [target retain];
-
+            
+            [O_statusTextField setStringValue:@""];
+            [O_statusTextField setHidden:NO];
             [self replaceAFewPlainMatches];
 
         } else {
         
+            [O_progressIndicatorDet setIndeterminate:YES];
+            [O_progressIndicatorDet setHidden:NO];
+            [O_progressIndicatorDet startAnimation:nil];
+    
             BOOL findIsValid = [OGRegularExpression isValidExpressionString:findString];
             BOOL replaceIsValid = [OGRegularExpression isValidExpressionString:replaceString];
             
@@ -505,6 +512,7 @@ static FindReplaceController *sharedInstance=nil;
                 }
                 [O_statusTextField setHidden:NO];
                 [O_progressIndicator stopAnimation:nil];
+                [O_progressIndicatorDet setHidden:YES];
                 NSBeep();
                 return;
             }
@@ -527,6 +535,11 @@ static FindReplaceController *sharedInstance=nil;
             
             int count = [matchArray count];
             I_replaceAllArrayIndex = count - 1;
+            [O_progressIndicatorDet setMaxValue:count];
+            [O_progressIndicatorDet setMinValue:0];
+            [O_progressIndicatorDet setDoubleValue:0];
+            [O_progressIndicatorDet setIndeterminate:NO];
+            
                         
             [self replaceAFewMatches];
             

@@ -27,6 +27,7 @@ typedef enum {
     IBOutlet NSComboBox *O_replaceComboBox;
     IBOutlet NSButton *O_ignoreCaseCheckbox;
     IBOutlet NSProgressIndicator *O_progressIndicator;
+    IBOutlet NSProgressIndicator *O_progressIndicatorDet;
     IBOutlet NSDrawer *O_regexDrawer;
     IBOutlet NSButton *O_regexCheckbox;
     IBOutlet NSButton *O_regexCaptureGroupsCheckbox;
