@@ -158,6 +158,20 @@
 			settings = {
 			};
 		};
+		1413DEB10747F97300A41C3C = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = Catalan.lproj;
+			path = Localizations/Catalan.lproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1413DEE30747F97F00A41C3C = {
+			fileRef = 1413DEB10747F97300A41C3C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		141E287106563B510097DFF8 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.rtf;
@@ -1607,6 +1621,7 @@
 		};
 		1485FF300732BC8200A974A2 = {
 			children = (
+				1413DEB10747F97300A41C3C,
 				14B94A9A073BC90E00C6A2EC,
 				14C73A950740CD24005E6A74,
 				1485FF4D0732BCC100A974A2,
@@ -1642,6 +1657,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
+				1413DEE30747F97F00A41C3C,
 				14B94ACE073BC91700C6A2EC,
 				14C73AC60740CD36005E6A74,
 				1485FFB80732BD5800A974A2,
