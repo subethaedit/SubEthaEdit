@@ -43,12 +43,31 @@
 
 
 - (void)drawRect:(NSRect)rect {
+    NSPrintInfo *printInfo = [[NSPrintOperation currentOperation] printInfo];
+
     // Drawing code here.
     NSLog(@"drawRect: %@", NSStringFromRect(rect));
+    // move header to current location
+    NSRect headerFrame=[I_headerTextView frame];
+    headerFrame.origin.y=rect.origin.y+[printInfo topMargin];
+    [I_headerTextView setFrame:headerFrame];
+
+    // replace the page text
+    NSTextStorage *textStorage=[I_headerTextView textStorage];
+    [textStorage replaceCharactersInRange:[[textStorage string] lineRangeForRange:NSMakeRange(0,1)] 
+                 withString:[NSString stringWithFormat:@"%@\t%@\n",[self printJobTitle],
+            [NSString stringWithFormat:NSLocalizedString(@"PrintPage %d of %d",@"Page Information in Print Header"),
+                    (int)(rect.origin.y/I_pageSize.height)+1,I_pageCount]] ];
+    
+
+    [[NSColor blackColor] set];
+    NSPoint basePoint=I_textContainerOrigin;
+    basePoint.y+=rect.origin.y-4;
+    [NSBezierPath strokeLineFromPoint:NSMakePoint(basePoint.x,basePoint.y) toPoint:NSMakePoint(basePoint.x+I_textContainerSize.width,basePoint.y)];
+
 //    [[NSColor redColor] set];
 //    NSRectFill(rect);
 //    [[NSColor greenColor] set];
-//    NSPrintInfo *printInfo = [[NSPrintOperation currentOperation] printInfo];
 //    NSFrameRect(NSMakeRect(rect.origin.x+[printInfo leftMargin],rect.origin.y+[printInfo topMargin],I_textContainerSize.width,I_textContainerSize.height));
 }
 
@@ -71,18 +90,55 @@
     I_textContainerSize.width  -= [printInfo leftMargin] + [printInfo rightMargin];
     I_textContainerSize.height -= [printInfo topMargin] + [printInfo bottomMargin];
 
+    I_textContainerOrigin.x=[printInfo leftMargin];
+    I_textContainerOrigin.y=[printInfo topMargin];
+
+    I_headerTextView =[[NSTextView alloc] initWithFrame:NSMakeRect([printInfo leftMargin],[printInfo rightMargin],I_textContainerSize.width,I_textContainerSize.height)];
+    [[I_headerTextView textContainer] setLineFragmentPadding:0.];
+    [I_headerTextView setTextContainerInset:NSMakeSize(0.,0.)];
+    
+    NSTextStorage *textStorage=[I_headerTextView textStorage];
+    [textStorage replaceCharactersInRange:NSMakeRange(0,0) withString:
+        [NSString stringWithFormat:@"%@\t%@\n%@",[self printJobTitle],
+            NSLocalizedString(@"PrintPage %d of %d",@"Page Information in Print Header"),
+            [NSString stringWithFormat:NSLocalizedString(@"PrintDate: %@",@"Date Information in Print Header"),[NSCalendarDate date]]] ];
+
+
+    NSFont *headerFont=[NSFont fontWithName:@"Helvetica" size:10.];
+    if (!headerFont) headerFont=[NSFont systemFontOfSize:10.];
+    NSMutableDictionary *headerAttributes=[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSColor blackColor],NSForegroundColorAttributeName,headerFont,NSFontAttributeName,nil];
+    NSMutableParagraphStyle *paragraphStyle=[[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    [paragraphStyle setTabStops:[NSArray array]];
+    NSTextTab *tab=[[NSTextTab alloc] initWithType:NSRightTabStopType location:I_textContainerSize.width-1.];
+    [paragraphStyle addTabStop:tab];
+    [tab release];
+    [headerAttributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
+    [textStorage addAttributes:headerAttributes range:NSMakeRange(0,[textStorage length])];
+    [paragraphStyle release];
+    
+    // determine the space we need
+    NSLayoutManager *layoutManager=[I_headerTextView layoutManager];
+    NSRect boundingRect=
+        [layoutManager boundingRectForGlyphRange:
+            [layoutManager glyphRangeForCharacterRange:NSMakeRange(0,[textStorage length]) actualCharacterRange:NULL]
+         inTextContainer:[[layoutManager textContainers] objectAtIndex:0]];
+    [I_headerTextView setFrameSize:NSMakeSize(I_textContainerSize.width,boundingRect.size.height+4.)];
+    I_textContainerOrigin.y   +=boundingRect.size.height+8.;
+    I_textContainerSize.height-=boundingRect.size.height+8.;
+    
+    [self addSubview:I_headerTextView];
     
     NSRange lastGlyphRange=NSMakeRange(NSNotFound,0);
     if ([I_textStorage length]>0) {
         if (YES) {
             NSMutableParagraphStyle *paragraphStyle=[[I_textStorage attribute:NSParagraphStyleAttributeName atIndex:0 effectiveRange:NULL] mutableCopy];
-            [paragraphStyle setHeadIndent:40.];
+            [paragraphStyle setHeadIndent:30.];
             [paragraphStyle setFirstLineHeadIndent:0.];
             [paragraphStyle setTabStops:[NSArray array]];
-            NSTextTab *tab=[[NSTextTab alloc] initWithType:NSRightTabStopType location:35.];
+            NSTextTab *tab=[[NSTextTab alloc] initWithType:NSRightTabStopType location:25.];
             [paragraphStyle addTabStop:tab];
             [tab release];
-            tab=[[NSTextTab alloc] initWithType:NSLeftTabStopType location:40.];
+            tab=[[NSTextTab alloc] initWithType:NSLeftTabStopType location:30.];
             [paragraphStyle addTabStop:tab];
             [tab release];
             NSLog(@"TabStops: %@",[[paragraphStyle tabStops] description]);
@@ -112,7 +168,7 @@
     }
     BOOL overflew=NO;
     [self setFrame:NSMakeRect(0.,0.,I_pageSize.width,0.)];
-    NSPoint origin=NSMakePoint([printInfo leftMargin],[printInfo topMargin]);
+    NSPoint origin=I_textContainerOrigin;
     do {
         overflew=NO;
         NSTextContainer *textContainer=[[NSTextContainer alloc] initWithContainerSize:I_textContainerSize];

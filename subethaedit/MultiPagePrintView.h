@@ -16,7 +16,9 @@
     NSLayoutManager *I_layoutManager;
     NSSize I_pageSize;
     NSSize I_textContainerSize;
+    NSPoint I_textContainerOrigin;
     PlainTextDocument *I_document;
+    NSTextView *I_headerTextView;
 }
 
 - (id)initWithFrame:(NSRect)frame document:(PlainTextDocument *)aDocument;

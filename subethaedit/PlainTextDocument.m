@@ -2176,8 +2176,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[self printInfo] setVerticallyCentered:NO];
     [[self printInfo] setRightMargin:1.*cmToPoints];
     [[self printInfo] setLeftMargin: 2.5*cmToPoints];
-    [[self printInfo] setTopMargin:1.*cmToPoints];
-    [[self printInfo] setBottomMargin:1.*cmToPoints];
+    [[self printInfo] setTopMargin:2.*cmToPoints];
+    [[self printInfo] setBottomMargin:2.*cmToPoints];
 
     // Construct the print operation and setup Print panel
     NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:[self printInfo]];
