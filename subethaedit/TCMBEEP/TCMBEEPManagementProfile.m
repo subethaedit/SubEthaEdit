@@ -189,9 +189,9 @@
             }
         }
     }                        
-    DEBUGLOG(BEEPLogDomain, AllLogLevel, @"possible profile URIs are:%@",[profileURIs description]);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"possible profile URIs are:%@",[profileURIs description]);
     NSDictionary *reply = [[self delegate] preferedAnswerToAcceptRequestForChannel:channelNumber withProfileURIs:profileURIs andData:dataArray]; 
-    DEBUGLOG(BEEPLogDomain, AllLogLevel, @"reply is:%@",[reply description]);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"reply is:%@",[reply description]);
     if (reply) {
         // juhuh... send accept
         NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -232,7 +232,7 @@
     if (i < [contentData length]) {
         contentData = [NSData dataWithBytesNoCopy:&bytes[i+4] length:[contentData length]-i-4 freeWhenDone:NO];
     }
-    DEBUGLOG(BEEPLogDomain, AllLogLevel, [NSString stringWithCString:[[aMessage payload] bytes] length:[[aMessage payload] length]]);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, [NSString stringWithCString:[[aMessage payload] bytes] length:[[aMessage payload] length]]);
     // Parse XML
     CFXMLTreeRef contentTree = NULL;
     NSDictionary *errorDict;
@@ -261,10 +261,10 @@
             CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
             if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
                 if ([@"start" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    //DEBUGLOG(BEEPLogDomain, AllLogLevel, @"Was Start... %@",@"blah");
+                    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Was Start... %@",@"blah");
                     [self _proccessStartMessage:aMessage XMLSubTree:xmlTree];
                 } else if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    //DEBUGLOG(BEEPLogDomain, AllLogLevel, @"Was Profile... %@",@"blah");
+                    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Was Profile... %@",@"blah");
                     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
                     NSDictionary *attributes = (NSDictionary *)info->attributes;
                     NSString *URI;
@@ -272,7 +272,7 @@
                         [[self delegate] didReceiveAcceptStartRequestForChannel:[[I_pendingChannelRequestMessageNumbers objectForLong:[aMessage messageNumber]] longValue] withProfileURI:URI andData:[NSData data]];
                     }
                 } else {
-                    DEBUGLOG(BEEPLogDomain, SimpleLogLevel, @"WARUM?");
+                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"WARUM?");
                 }
             } else {
                 // kein kCFXMLNodeTypeElement node
