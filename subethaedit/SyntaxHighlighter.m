@@ -5,7 +5,7 @@
 //  Created by Martin Pittenauer on Thu Mar 04 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
-// blabla 
+// blabla
 
 #import "SyntaxHighlighter.h"
 #import "PlainTextDocument.h"
@@ -41,12 +41,19 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
 #pragma mark - Highlighting
 #pragma mark - 
 
--(void)highlightAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange
-{
-    [self stateMachineOnAttributedString:aString inRange:aRange];
-}
+/*"Highlights an NSAttributedString using the Chunky State Machine Algorithm:
 
--(void)stateMachineOnAttributedString:(NSMutableAttributedString *)aString inRange:(NSRange)aRange 
+    do {
+        if (state) 
+            searchEnd
+            color
+        else
+            colorDefaultState
+            searchAndMarkNextState
+    } while (ready)
+
+"*/
+-(void)highlightAttributedString:(NSMutableAttributedString *)aString inRange:(NSRange)aRange 
 {
     SyntaxDefinition *definition = [self syntaxDefinition];
     if (!definition) NSLog(@"ERROR: No defintion for highlighter.");
@@ -63,20 +70,6 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     OGRegularExpression *stateEnd;
     OGRegularExpressionMatch *startMatch;
     OGRegularExpressionMatch *endMatch;
-
-    /*
-    Basic layout of the Chunky State Machine Algorithm:
-    
-    do {
-        if (state) 
-            searchEnd
-            color
-        else
-            colorDefaultState
-            searchAndMarkNextState
-    } while (ready)
-    
-    */
     
     if (stateStarts) do {
         //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"New loop with Range: %@",NSStringFromRange(currentRange));
@@ -177,11 +170,11 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                     int tokenlength = [token length];
                     NSRange foundRange = NSMakeRange(location-tokenlength,tokenlength);
                     if (NSMaxRange(foundRange)>aMaxRange) break;
-                    //NSFontTraitMask mask = [[style objectForKey:@"font-trait"] unsignedIntValue];
+                    NSFontTraitMask mask = [[style objectForKey:@"font-trait"] unsignedIntValue];
                     
                     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                [style objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
-                                               [theDocument fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
+                                               [theDocument fontWithTrait: mask], NSFontAttributeName,
                                                 nil];
                                                 
                     [aString addAttributes:attributes range:foundRange];
@@ -249,7 +242,6 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
 /*"Colorizes at least one chunk of the TextStorage, returns NO if there is still work to do"*/
 - (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage ofDocument:(id)sender
 {
-    // just to show when there is colorization
     NSRange textRange=NSMakeRange(0,[aTextStorage length]);
     double return_after = 0.2;
     BOOL returnvalue = NO;
