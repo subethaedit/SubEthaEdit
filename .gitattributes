@@ -170,6 +170,9 @@ subethaedit/English.lproj/MainMenu.nib/keyedobjects.nib -text
 subethaedit/English.lproj/MyDocument.nib/classes.nib -text
 subethaedit/English.lproj/MyDocument.nib/info.nib -text
 subethaedit/English.lproj/MyDocument.nib/keyedobjects.nib -text
+subethaedit/English.lproj/RendezvousBrowser.nib/classes.nib -text
+subethaedit/English.lproj/RendezvousBrowser.nib/info.nib -text
+subethaedit/English.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
 subethaedit/Info.plist -text
 subethaedit/MyDocument.h -text
 subethaedit/MyDocument.m -text
@@ -177,9 +180,12 @@ subethaedit/NSDictionaryTCMAdditions.h -text
 subethaedit/NSDictionaryTCMAdditions.m -text
 subethaedit/NSStringTCMAdditions.h -text
 subethaedit/NSStringTCMAdditions.m -text
+subethaedit/RendezvousBrowserController.h -text
+subethaedit/RendezvousBrowserController.m -text
 subethaedit/SubEthaEdit.xcode/mbo.pbxuser -text
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
 subethaedit/SubEthaEdit_Prefix.pch -text
+subethaedit/TCMBEEP/TCMBEEP.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.m -text
 subethaedit/TCMBEEP/TCMBEEPFrame.h -text
@@ -193,6 +199,12 @@ subethaedit/TCMBEEP/TCMBEEPMessage.m -text
 subethaedit/TCMBEEP/TCMBEEPProfile.h -text
 subethaedit/TCMBEEP/TCMBEEPSession.h -text
 subethaedit/TCMBEEP/TCMBEEPSession.m -text
+subethaedit/TCMMillionMonkeys/TCMMMUser.h -text
+subethaedit/TCMMillionMonkeys/TCMMMUser.m -text
+subethaedit/TCMMillionMonkeys/TCMMMUserManager.h -text
+subethaedit/TCMMillionMonkeys/TCMMMUserManager.m -text
+subethaedit/TCMRendezvousBrowser.h -text
+subethaedit/TCMRendezvousBrowser.m -text
 subethaedit/artwork/SubEthaEdit.icns -text
 subethaedit/main.m -text
 subethaedit/version.plist -text

@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "TCMBEEP/TCMBEEP.h"
 
 @interface AppController : NSObject {
-
+    TCMBEEPListener *I_listener;
+    NSNetService    *I_netService;
+    int I_listeningPort;
 }
 
 @end
