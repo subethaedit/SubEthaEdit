@@ -31,6 +31,9 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 #pragma mark -
 
+static int sInitLogCount=0;
+static int sListenLogCount=0;
+
 @implementation TCMBEEPSession
 
 - (void)TCM_initHelper
@@ -50,6 +53,27 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
     I_userInfo = [NSMutableDictionary new];
     I_channelRequests = [NSMutableDictionary new];
+    
+    int fileNumber;
+    if ([self isInitiator]) {
+        fileNumber=sInitLogCount++;
+    } else {
+        fileNumber=sListenLogCount++;
+    }
+    NSString *path=[@"~/Library/Logs/Zaphod" stringByExpandingTildeInPath];
+    [[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil];
+    path=[path stringByAppendingString:@"/BEEP"];
+    [[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil];
+    NSString *logBase=[path stringByAppendingFormat:@"/%02d",fileNumber];
+    NSString *logIn =[logBase stringByAppendingString:@"In.log"];
+    [[NSFileManager defaultManager] createFileAtPath:logIn contents:[NSData data] attributes:nil];
+    I_logHandleIn = [[NSFileHandle fileHandleForWritingAtPath:logIn] retain];
+    NSString *logOut=[logBase stringByAppendingString:@"Out.log"];
+    [[NSFileManager defaultManager] createFileAtPath:logOut contents:[NSData data] attributes:nil];
+    I_logHandleOut = [[NSFileHandle fileHandleForWritingAtPath:logOut] retain];
+    NSData *logData=[[[NSString stringWithAddressData:[self peerAddressData]] stringByAppendingString:@"\n"] dataUsingEncoding:NSASCIIStringEncoding];
+    [I_logHandleIn  writeData:logData];
+    [I_logHandleOut writeData:logData];
 }
 
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
@@ -92,6 +116,11 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     [I_peerProfileURIs release];
     [I_currentReadFrame release];
     [I_channelRequests release];
+    [I_logHandleOut closeFile];
+    [I_logHandleOut release];
+    [I_logHandleIn closeFile];
+    [I_logHandleIn release];
+    NSLog(@"TCMBEEPSession dealloced");
     [super dealloc];
 }
 
@@ -290,6 +319,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     int bytesRead = [I_inputStream read:buffer maxLength:sizeof(buffer)];
     int bytesParsed = 0;
     
+    if (bytesRead) [I_logHandleIn writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
+    
     // NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
     while (bytesRead > 0 && bytesRead-bytesParsed > 0) {
         int remainingBytes=bytesRead-bytesParsed;
@@ -365,6 +396,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
         return;
         
     int bytesWritten = [I_outputStream write:[I_writeBuffer bytes] maxLength:[I_writeBuffer length]];
+    if (bytesWritten) [I_logHandleOut writeData:[NSData dataWithBytesNoCopy:[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
 
     if (bytesWritten > 0) {
         [I_writeBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
