@@ -589,6 +589,7 @@ int main (int argc, const char * argv[]) {
             //NSLog(@"fileName after realpath: %@", fileName);
             [fileNames addObject:fileName];
         } else {
+            launch = YES;
             //NSLog(@"Error occurred while resolving path: %s", argv[i]);
         }
     }
