@@ -50,7 +50,6 @@ static FindReplaceController *sharedInstance=nil;
 - (void)loadUI {
     if (!O_findPanel) {
         if (![NSBundle loadNibNamed:@"FindReplace" owner:self]) {
-            NSLog(@"Failed to load FindReplace.nib");
             NSBeep();
         }
     }
@@ -263,7 +262,7 @@ static FindReplaceController *sharedInstance=nil;
     NSTextView *target = [self targetToFindIn];
     if (target) {
         if ([[O_scopePopup selectedItem] tag]==1) scope = [target selectedRange];
-        else scope = NSMakeRange(0, [[target string] length]);
+        else scope = NSMakeRange(0,[[target string] length]);
     }
     
     if ([sender tag]==NSFindPanelActionShowFindPanel) {
@@ -444,8 +443,8 @@ static FindReplaceController *sharedInstance=nil;
             I_replaceAllReplaced++;
             I_replaceAllPosRange.location = foundRange.location;
         }
-        // second condition is hit if foundRange.location = 0
-        if ((!foundRange.length)||(foundRange.location = I_replaceAllRange.location)) {
+
+        if (!foundRange.length) {
             [[I_replaceAllTarget textStorage] endEditing];
             [I_replaceAllFindString release];
             [I_replaceAllReplaceString release];
@@ -564,6 +563,7 @@ static FindReplaceController *sharedInstance=nil;
             I_replaceAllRange = aRange;
             I_replaceAllText = [text retain];
             I_replaceAllTarget = [target retain];
+
 
             [O_statusTextField setStringValue:@""];
             [O_statusTextField setHidden:NO];
