@@ -34,8 +34,8 @@ enum {
 
 @interface TCMBEEPSession : NSObject
 {
-    NSInputStream *I_inputStream;
-    NSOutputStream *I_outputStream;
+    CFReadStreamRef I_readStream;
+    CFWriteStreamRef I_writeStream;
     NSMutableData *I_readBuffer;
     NSMutableData *I_writeBuffer;
     int I_currentReadState;
