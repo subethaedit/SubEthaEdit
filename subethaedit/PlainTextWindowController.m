@@ -81,6 +81,11 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
                                              selector:@selector(pendingUsersDidChange:)
                                                  name:TCMMMSessionPendingUsersDidChangeNotification 
                                                object:[(PlainTextDocument *)[self document] session]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(displayNameDidChange:)
+                                                 name:PlainTextDocumentDidChangeDisplayNameNotification 
+                                               object:[self document]];
     
     PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self];
     [[self window] setContentView:[plainTextEditor editorView]];
@@ -196,6 +201,34 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 - (void)pendingUsersDidChange:(NSNotification *)aNotifcation {
     [O_pendingUsersTableView reloadData];
+}
+
+- (void)displayNameDidChange:(NSNotification *)aNotification {
+    [self synchronizeWindowTitleWithDocumentName];
+}
+
+#pragma mark -
+
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
+//    if ([[self document] isRemote]) {
+//        displayName=[displayName stringByAppendingFormat:@" (%@)",
+//                        [[[UserManager sharedInstance] userForUserId:[[self document] userIdOfHost]] 
+//                            objectForKey:kUserNameProperty]];
+//    }
+    int requests;
+    if ((requests=[[[(PlainTextDocument *)[self document] session] pendingUsers] count])>0) {
+        displayName=[displayName stringByAppendingFormat:@" (%@)", [NSString stringWithFormat:NSLocalizedString(@"%d pending", @"Pending Users Display in Menu Title Bar"), requests]];
+    }
+
+
+    NSArray *windowControllers=[[self document] windowControllers];
+    if ([windowControllers count]>1) {
+        displayName = [displayName stringByAppendingFormat:@" - %d/%d",
+                        [windowControllers indexOfObject:self]+1,
+                        [windowControllers count]];
+    }
+    
+    return displayName;
 }
 
 #pragma mark -

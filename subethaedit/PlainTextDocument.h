@@ -12,6 +12,7 @@
 @class TCMMMSession, TCMMMOperation, DocumentMode;
 
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
+extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
 
 @interface PlainTextDocument : NSDocument
 {

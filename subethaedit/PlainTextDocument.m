@@ -28,6 +28,7 @@ enum {
 };
 
 static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTextDocumentSyntaxColorizeNotification";
+NSString * const PlainTextDocumentDidChangeDisplayNameNotification = @"PlainTextDocumentDidChangeDisplayNameNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
 
 
@@ -35,11 +36,20 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 - (void)TCM_invalidateDefaultParagraphStyle;
 - (void)TCM_styleFonts;
 - (void)TCM_initHelper;
+- (void)TCM_sendPlainTextDocumentDidChangeDisplayNameNotification;
 @end
 
 #pragma mark -
 
 @implementation PlainTextDocument
+
+- (void)TCM_sendPlainTextDocumentDidChangeDisplayNameNotification {
+    [[NSNotificationQueue defaultQueue] 
+    enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidChangeDisplayNameNotification object:self]
+           postingStyle:NSPostWhenIdle 
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
 
 - (void)TCM_styleFonts {
     [I_fonts.boldFont autorelease];
@@ -173,6 +183,14 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     I_flags.isAnnounced=NO;
 }
 
+- (IBAction)newView:(id)aSender {
+    PlainTextWindowController *controller=[PlainTextWindowController new];
+    [self addWindowController:controller];
+    [controller showWindow:aSender];
+    [controller release];
+    [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
+}
+
 - (void)selectEncoding:(id)aSender {
 
     NSStringEncoding encoding = [aSender tag];
@@ -196,6 +214,11 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 - (void)makeWindowControllers {
     DEBUGLOG(@"blah",5,@"makeWindowCotrollers");
     [self addWindowController:[[PlainTextWindowController new] autorelease]];
+}
+
+- (void)removeWindowController:(NSWindowController *)windowController {
+    [super removeWindowController:windowController];
+    [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
 }
 
 - (void)windowControllerWillLoadNib:(NSWindowController *) aController {
