@@ -1,4 +1,18 @@
 {
-    IBClasses = ({CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }); 
+    IBClasses = (
+        {
+            ACTIONS = {connect = id; toggleListener = id; }; 
+            CLASS = Controller; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_connectButton" = NSButton; 
+                "O_listenerControlButton" = NSButton; 
+                "O_peerAddressTextField" = NSTextField; 
+                "O_ports" = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
     IBVersion = 1; 
 }

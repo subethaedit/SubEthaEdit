@@ -13,6 +13,8 @@ prototype/BEEPSample/BEEPSample.xcode/project.pbxproj -text
 prototype/BEEPSample/BEEPSample_Prefix.pch -text
 prototype/BEEPSample/BEEPSession.h -text
 prototype/BEEPSample/BEEPSession.m -text
+prototype/BEEPSample/Categories.h -text
+prototype/BEEPSample/Categories.m -text
 prototype/BEEPSample/Controller.h -text
 prototype/BEEPSample/Controller.m -text
 prototype/BEEPSample/English.lproj/InfoPlist.strings -text

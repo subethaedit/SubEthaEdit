@@ -26,25 +26,20 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
 
 @implementation BEEPSession
 
-- (id)init
+- (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
 {
     self = [super init];
     if (self) {
-        I_readBuffer  = [[NSMutableData alloc] init];
-        I_writeBuffer = [[NSMutableData alloc] init];        
-    }
-    return self;
-}
-
-- (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
-{
-    self = [self init];
-    if (self) {
         [self setPeerAddressData:aData];
         
-        CFStreamCreatePairWithSocket(kCFAllocatorDefault, aSocketHandle, (CFReadStreamRef *)I_inputStream, (CFWriteStreamRef *)I_outputStream);
-        [I_inputStream setDelegate:self];
+        CFStreamCreatePairWithSocket(kCFAllocatorDefault, aSocketHandle, (CFReadStreamRef *)&I_inputStream, (CFWriteStreamRef *)&I_outputStream);
+        [I_inputStream  setDelegate:self];
         [I_outputStream setDelegate:self];
+        
+        NSLog(@"guckst du streams: %@, %@",[I_inputStream description],[I_outputStream description]);
+        
+        I_readBuffer  = [[NSMutableData alloc] init];
+        I_writeBuffer = [[NSMutableData alloc] init];
     }
     
     return self;
@@ -52,13 +47,16 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
 
 - (id)initWithAddressData:(NSData *)aData
 {
-    self = [self init];
+    self = [super init];
     if (self) {
         [self setPeerAddressData:aData];
         CFSocketSignature signature = {PF_INET, SOCK_STREAM, IPPROTO_TCP, (CFDataRef)aData};
-        CFStreamCreatePairWithPeerSocketSignature(kCFAllocatorDefault, &signature, (CFReadStreamRef *)I_inputStream, (CFWriteStreamRef *)I_outputStream);
-        [I_inputStream setDelegate:self];
+        CFStreamCreatePairWithPeerSocketSignature(kCFAllocatorDefault, &signature, (CFReadStreamRef *)&I_inputStream, (CFWriteStreamRef *)&I_outputStream);
+        [I_inputStream  setDelegate:self];
         [I_outputStream setDelegate:self];
+        
+        I_readBuffer  = [[NSMutableData alloc] init];
+        I_writeBuffer = [[NSMutableData alloc] init];
     }
     
     return self;
@@ -71,6 +69,11 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
     [I_inputStream release];
     [I_outputStream release];
     [super dealloc];
+}
+
+- (NSString *)description
+{    
+    return [NSString stringWithFormat:@"BEEPSession with address: %@",[NSString stringWithAddressData:I_peerAddressData]];
 }
 
 - (void)setDelegate:(id)aDelegate
@@ -151,11 +154,11 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
     [I_outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
                               forMode:NSDefaultRunLoopMode];
     
-    [I_inputStream  open];
+    [I_inputStream open];
     [I_outputStream open];
     
     NSString *greeting=@"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>";
-    greeting=[NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%s%s",[greeting length],greeting,kBEEPFrameTrailer];
+    greeting=[NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@",[greeting length],greeting,kBEEPFrameTrailer];
     NSData *greetingData=[greeting dataUsingEncoding:NSASCIIStringEncoding];
     [self writeData:greetingData];
 }
@@ -188,10 +191,10 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
         [I_readBuffer appendBytes:buffer length:bytesRead];
         
         [I_readBuffer setLength:0];
-        //NSString *string = [[NSString alloc] initWithBytes:&buffer length:bytesRead encoding:NSUTF8StringEncoding];
-        //[string autorelease];
-        //fprintf(stdout, [string UTF8String]);
-        //fflush(stdout);
+        NSString *string = [[NSString alloc] initWithBytes:&buffer length:bytesRead encoding:NSUTF8StringEncoding];
+        [string autorelease];
+        fprintf(stdout, [string UTF8String]);
+        fflush(stdout);
     }
 }
 
