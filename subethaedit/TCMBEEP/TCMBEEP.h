@@ -8,6 +8,7 @@
 
 #import "TCMBEEPSession.h"
 #import "TCMBEEPListener.h"
+#import "TCMBEEPFrame.h"
 #import "TCMBEEPMessage.h"
 #import "TCMBEEPProfile.h"
 #import "TCMBEEPChannel.h"
