@@ -2109,7 +2109,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setTabWidth:[[aSessionInformation objectForKey:DocumentModeTabWidthPreferenceKey] intValue]];
     [self setUsesTabs:[[aSessionInformation objectForKey:DocumentModeUseTabsPreferenceKey] boolValue]];
     [self setWrapLines:[[aSessionInformation objectForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
-    [self setWrapMode:[[aSessionInformation objectForKey:DocumentModeWrapLinesPreferenceKey] intValue]];
+    [self setWrapMode:[[aSessionInformation objectForKey:DocumentModeWrapModePreferenceKey] intValue]];
 
     [self setFileName:[aSession filename]];
 
@@ -2137,7 +2137,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [result setObject:[NSNumber numberWithBool:[self wrapLines]] 
             forKey:DocumentModeWrapLinesPreferenceKey];
     [result setObject:[NSNumber numberWithInt:[self wrapMode]] 
-            forKey:DocumentModeWrapLinesPreferenceKey];
+            forKey:DocumentModeWrapModePreferenceKey];
     return result;    
 }
 
