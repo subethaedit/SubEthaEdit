@@ -36,6 +36,7 @@
 - (IBAction)changeMode:(id)aSender;
 - (IBAction)validateDefaultsState:(id)aSender;
 - (IBAction)changeDefaultState:(id)aSender;
+- (IBAction)import:(id)aSender;
 - (IBAction)export:(id)aSender;
 - (IBAction)revertToMode:(id)aSender;
 

@@ -272,6 +272,38 @@
     [self setTrait:NSBoldFontMask ofSelectedStylesTo:[aSender state]==NSOnState];
 }
 
+- (IBAction)import:(id)aSender {
+    NSOpenPanel *openPanel=[NSOpenPanel openPanel];
+    [openPanel setAllowsMultipleSelection:NO];
+    [openPanel setRequiredFileType:@"seestyle"];
+    [openPanel setCanChooseDirectories:NO];
+    [openPanel setCanChooseFiles:YES];
+    [openPanel setExtensionHidden:NO];
+    [openPanel beginSheetForDirectory:nil file:nil 
+               types:[NSArray arrayWithObject:@"seestyle"] 
+               modalForWindow:[O_stylesTableView window] 
+               modalDelegate:self 
+               didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) 
+               contextInfo:nil];
+}
+
+- (void)openPanelDidEnd:(NSOpenPanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)contextInfo {
+    NSString *filename=[aPanel filename];
+    if (aReturnCode==NSOKButton) {
+        NSArray *styleArray=[SyntaxStyle syntaxStylesWithXMLFile:filename];
+        NSEnumerator *styles=[styleArray objectEnumerator];
+        SyntaxStyle *style=nil;
+        while ((style = [styles nextObject])) {
+            [[style documentMode] setSyntaxStyle:style];
+        }
+        style=[styleArray lastObject];
+        if (style) {
+            [O_modePopUpButton setSelectedMode:[style documentMode]];
+            [self changeMode:O_modePopUpButton];
+        }
+    }
+}
+
 - (IBAction)export:(id)aSender {
     NSSavePanel *savePanel=[NSSavePanel savePanel];
     [savePanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
@@ -333,8 +365,14 @@
     if (traits & NSItalicFontMask) {
         font=[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
     }
+    static NSMutableParagraphStyle *s_paragraphStyle=nil;
+    if (!s_paragraphStyle) {
+        s_paragraphStyle=[[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [s_paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+    }
     NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
         [[aTableColumn identifier]isEqualToString:@"light"]?[style objectForKey:@"color"]:[style objectForKey:@"inverted-color"],NSForegroundColorAttributeName,
+        s_paragraphStyle,NSParagraphStyleAttributeName,
         nil];
     return [[[NSAttributedString alloc] initWithString:localizedString attributes:attributes] autorelease];
 }

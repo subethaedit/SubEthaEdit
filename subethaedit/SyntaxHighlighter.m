@@ -288,7 +288,6 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
 
 /*"Colorizes at least one chunk of the TextStorage, returns NO if there is still work to do
     document must provide the following methods:
-    -(NSColor *)documentBackgroundColor;
     -(NSColor *)documentForegroundColor;
     -(NSFont *)fontWithTrait:(NSFontTraitMask *);
     -(NSDictionary *)styleAttributesForStyleID:(NSString *)styleID;
@@ -306,7 +305,6 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
     id correct;
     
     theDocument = sender;
-    I_theDocumentBackgroundIsDark = [[theDocument documentBackgroundColor] isDark];
     [aTextStorage beginEditing];
     
     unsigned int position;

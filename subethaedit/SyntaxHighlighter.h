@@ -16,7 +16,6 @@ extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
     id theDocument;
-    BOOL I_theDocumentBackgroundIsDark;
 }
 
 /*"Initizialisation"*/
@@ -40,7 +39,6 @@ extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 @end
 
 @interface NSObject (SyntaxHighlighterDocument) 
-- (NSColor *)documentBackgroundColor;
 - (NSColor *)documentForegroundColor;
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aMask;
 - (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID;

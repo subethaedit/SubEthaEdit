@@ -11,3 +11,4 @@
 
 extern BOOL DisjointRanges(NSRange range1, NSRange range2);
 extern BOOL TouchingRanges(NSRange range1, NSRange range2);
+NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);

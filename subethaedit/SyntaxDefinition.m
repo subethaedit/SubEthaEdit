@@ -11,28 +11,6 @@
 #import "NSDictionaryTCMAdditions.h"
 
 
-NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
-    static NSDictionary *sEntities;
-    if (!sEntities) sEntities=[[NSDictionary dictionaryWithObjectsAndKeys:@"<",@"lt",@">",@"gt",@"\"",@"quot",@"'",@"apos",@"&",@"amp",nil] retain];
-    NSMutableString *result=[NSMutableString string];
-    int childCount=CFTreeGetChildCount(aTree);
-    int i;
-    for (i=0;i<childCount;i++) {
-        CFXMLTreeRef tree;
-        CFXMLNodeRef node;
-        tree=CFTreeGetChildAtIndex(aTree,i);
-        node=CFXMLTreeGetNode(tree);
-        int typeCode=CFXMLNodeGetTypeCode(node);
-        if ((typeCode == kCFXMLNodeTypeText)||(typeCode == kCFXMLNodeTypeWhitespace)) {
-            [result appendString:(NSString*)CFXMLNodeGetString(node)];
-        } else if (typeCode == kCFXMLNodeTypeEntityReference) {
-            NSString *string=[sEntities objectForKey:(NSString*)CFXMLNodeGetString(node)];
-            if (string) [result appendString:string];
-        }
-    }
-    return result;
-}
-
 @implementation SyntaxDefinition
 /*"A Syntax Definition"*/
 
@@ -66,7 +44,6 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         I_stylesForRegex = [NSMutableArray new];
         [self cacheStyles];
         [self setCombinedStateRegex];   
-        NSLog(@"default Syntax Style: %@",[I_defaultSyntaxStyle description]);     
     }
     if (everythingOkay) return self;
     else {
@@ -215,7 +192,6 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
         NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
         NSString *stateID=[attributes objectForKey:@"id"];
-        NSLog(@"StateID = %@",stateID);
         DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", tag);
         if ([@"state" isEqualToString:tag]) {
             NSMutableDictionary *aDictionary = [NSMutableDictionary dictionary];
