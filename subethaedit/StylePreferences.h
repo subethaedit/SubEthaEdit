@@ -46,6 +46,7 @@
 - (IBAction)revertSelectionToMode:(id)aSender;
 - (IBAction)revertToMode:(id)aSender;
 - (IBAction)changeFontViaPanel:(id)sender;
+- (IBAction)applyToOpenDocuments:(id)aSender;
 
 - (void)setBaseFont:(NSFont *)aFont;
 - (NSFont *)baseFont;

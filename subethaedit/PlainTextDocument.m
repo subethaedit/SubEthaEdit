@@ -223,6 +223,8 @@ static NSString *tempFileName(NSString *origPath) {
 
     [center addObserver:self selector:@selector(updateViewBecauseOfPreferences:) name:GeneralViewPreferencesDidChangeNotificiation object:nil];
     [center addObserver:self selector:@selector(printPreferencesDidChange:) name:PrintPreferencesDidChangeNotification object:nil];
+    [center addObserver:self selector:@selector(applyStylePreferences:) name:DocumentModeApplyStylePreferencesNotification object:nil];
+    [center addObserver:self selector:@selector(applyEditPreferences:) name:DocumentModeApplyEditPreferencesNotification object:nil];
 
     I_blockeditTextView=nil;
 
@@ -271,6 +273,27 @@ static NSString *tempFileName(NSString *origPath) {
         [self setPrintInfo:printInfo];
     }
 }
+
+- (void)applyStylePreferences:(NSNotification *)aNotification {
+    DocumentMode *mode=[self documentMode];
+    if ([[aNotification object] isEqual:mode]) {
+        [self takeStyleSettingsFromDocumentMode:mode];
+        SyntaxHighlighter *highlighter=[mode syntaxHighlighter];
+        if (I_flags.highlightSyntax && highlighter) {
+            [highlighter updateStylesInTextStorage:[self textStorage] ofDocument:self];
+        } else {
+            [I_textStorage addAttributes:[self plainTextAttributes]
+                           range:NSMakeRange(0,[I_textStorage length])];
+        }
+    }
+}
+
+- (void)applyEditPreferences:(NSNotification *)aNotification {
+    if ([[aNotification object] isEqual:[self documentMode]]) {
+        [self takeEditSettingsFromDocumentMode:[self documentMode]];
+    }
+}
+
 
 - (void)TCM_sendODBCloseEvent {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"preparing ODB close event");
@@ -854,43 +877,40 @@ static NSString *tempFileName(NSString *origPath) {
     return I_documentMode;
 }
 
-- (void)takeSettingsFromDocumentMode:(DocumentMode *)aDocumentMode {
-    [self setHighlightsSyntax:[[aDocumentMode defaultForKey:DocumentModeHighlightSyntaxPreferenceKey] boolValue]];
-    BOOL useDefaultStyle=[[aDocumentMode defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
-    BOOL darkBackground=[[aDocumentMode defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
-    NSDictionary *syntaxStyle=[useDefaultStyle?[[DocumentModeManager baseMode] syntaxStyle]:[aDocumentMode syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
-    [self setDocumentBackgroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-background-color":@"background-color"]];
-    [self setDocumentForegroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-color":@"color"]];
-
+- (void)takeStyleSettingsFromDocumentMode:(DocumentMode *)aDocumentMode {
     NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    [self setPlainFont:newFont];
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeStyleSettingsFromDocument)];
+}
 
+- (void)takeEditSettingsFromDocumentMode:(DocumentMode *)aDocumentMode {
+    [self setHighlightsSyntax:[[aDocumentMode defaultForKey:DocumentModeHighlightSyntaxPreferenceKey] boolValue]];
+    
     [self setIndentsNewLines:[[aDocumentMode defaultForKey:DocumentModeIndentNewLinesPreferenceKey] boolValue]];
     [self setUsesTabs:[[aDocumentMode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue]];
     [self setTabWidth:[[aDocumentMode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue]];
-    [self setPlainFont:newFont];
-    [I_textStorage addAttributes:[self plainTextAttributes]
-                               range:NSMakeRange(0,[I_textStorage length])];
     [self setWrapLines:[[aDocumentMode defaultForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
     [self setWrapMode: [[aDocumentMode defaultForKey:DocumentModeWrapModePreferenceKey] intValue]];
     [self setShowInvisibleCharacters:[[aDocumentMode defaultForKey:DocumentModeShowInvisibleCharactersPreferenceKey] boolValue]];
     [self setShowsGutter:[[aDocumentMode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] intValue]];
     [self setShowsMatchingBrackets:[[aDocumentMode defaultForKey:DocumentModeShowMatchingBracketsPreferenceKey] boolValue]];
     [self setLineEnding:[[aDocumentMode defaultForKey:DocumentModeLineEndingPreferenceKey] intValue]];
-    [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
-    if (I_flags.highlightSyntax) {
-        [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
-    }
-    [self updateSymbolTable];
     NSNumber *aFlag=[[aDocumentMode defaults] objectForKey:DocumentModeShowBottomStatusBarPreferenceKey];
     [self setShowsBottomStatusBar:!aFlag || [aFlag boolValue]];
     aFlag=[[aDocumentMode defaults] objectForKey:DocumentModeShowTopStatusBarPreferenceKey];
     [self setShowsTopStatusBar:!aFlag || [aFlag boolValue]];
-    
-    [self setPrintInfo:[NSKeyedUnarchiver unarchiveObjectWithData:[aDocumentMode defaultForKey:DocumentModePrintInfoPreferenceKey]]];
-    
+
     [[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeStyleSettingsFromDocument)];
+}
+
+- (void)takeSettingsFromDocumentMode:(DocumentMode *)aDocumentMode {
+    [self takeStyleSettingsFromDocumentMode:aDocumentMode];
+    [self takeEditSettingsFromDocumentMode:aDocumentMode];
+    
+    [self setPrintInfo:[NSKeyedUnarchiver unarchiveObjectWithData:[aDocumentMode defaultForKey:DocumentModePrintInfoPreferenceKey]]];    
 }
 
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode {
@@ -899,6 +919,13 @@ static NSString *tempFileName(NSString *origPath) {
     [highlighter cleanUpTextStorage:[self textStorage]];
      I_documentMode = [aDocumentMode retain];
     [self takeSettingsFromDocumentMode:aDocumentMode];
+    [I_textStorage addAttributes:[self plainTextAttributes]
+                               range:NSMakeRange(0,[I_textStorage length])];
+    if (I_flags.highlightSyntax) {
+        [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
+    }
+    [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
+    [self updateSymbolTable];
 }
 
 // only because the original implementation updates the changecount
@@ -2676,6 +2703,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)setPlainFont:(NSFont *)aFont {
     [I_styleCacheDictionary autorelease];
     I_styleCacheDictionary = [NSMutableDictionary new];
+    BOOL useDefaultStyle=[[[self documentMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
+    BOOL darkBackground=[[[self documentMode] defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
+    NSDictionary *syntaxStyle=[useDefaultStyle?[[DocumentModeManager baseMode] syntaxStyle]:[[self documentMode] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
+    [self setDocumentBackgroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-background-color":@"background-color"]];
+    [self setDocumentForegroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-color":@"color"]];
     [I_fonts.plainFont autorelease];
     I_fonts.plainFont = [aFont copy];
     [self TCM_styleFonts];

@@ -63,6 +63,7 @@
 - (NSString *)followUserID;
 - (void)setWindowController:(NSWindowController *)aWindowController;
 - (NSWindowController *)windowController;
+- (void)takeStyleSettingsFromDocument;
 - (void)takeSettingsFromDocument;
 
 - (void)updateSelectedSymbol;

@@ -53,4 +53,8 @@
     // Save preferences
 }
 
+- (IBAction)applyToOpenDocuments:(id)aSender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:DocumentModeApplyEditPreferencesNotification object:[O_modeController content]];
+}
+
 @end

@@ -9,6 +9,7 @@
 #import "StylePreferences.h"
 #import "SyntaxStyle.h"
 #import "DocumentModeManager.h"
+#import "DocumentController.h"
 #import "TableView.h"
 #import "TextFieldCell.h"
 
@@ -319,7 +320,7 @@
         [alert beginSheetModalForWindow:[O_stylesTableView window]
                           modalDelegate:self
                          didEndSelector:@selector(importDidEnd:returnCode:contextInfo:)
-                            contextInfo:[styleArray retain]];
+                            contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:aFilename,@"filename",styleArray,@"style",nil] retain]];
     } else {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSWarningAlertStyle];
@@ -333,19 +334,21 @@
     }
 }
 
-- (void)importDidEnd:(NSAlert *)anAlert returnCode:(int)aReturnCode contextInfo:(void *)aStyleArray {
-    NSArray *styleArray=[(NSArray *)aStyleArray autorelease];
+- (void)importDidEnd:(NSAlert *)anAlert returnCode:(int)aReturnCode contextInfo:(void *)aDictionary {
+    NSDictionary *dictionary=[(NSDictionary *)aDictionary autorelease];
     if (aReturnCode == NSAlertFirstButtonReturn) {
-        NSEnumerator *styles=[styleArray objectEnumerator];
+        NSEnumerator *styles=[[dictionary objectForKey:@"style"] objectEnumerator];
         SyntaxStyle *style=nil;
         while ((style = [styles nextObject])) {
             [[style documentMode] setSyntaxStyle:style];
         }
-        style=[styleArray lastObject];
+        style=[[dictionary objectForKey:@"style"] lastObject];
         if (style) {
             [O_modePopUpButton setSelectedMode:[style documentMode]];
             [self changeMode:O_modePopUpButton];
         }
+    } else if (aReturnCode == NSAlertThirdButtonReturn) {
+        [[DocumentController sharedInstance] openDocumentWithContentsOfFile:[dictionary objectForKey:@"filename"] display:YES];
     }
 }
 
@@ -393,6 +396,10 @@
     }
     [O_stylesTableView reloadData];
     [self updateInspector];
+}
+
+- (IBAction)applyToOpenDocuments:(id)aSender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:DocumentModeApplyStylePreferencesNotification object:[O_modeController content]];
 }
 
 

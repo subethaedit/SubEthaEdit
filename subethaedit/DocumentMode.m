@@ -59,6 +59,11 @@ NSString * const DocumentModeHTMLExportShowUserImagesPreferenceKey   = @"ShowUse
 NSString * const DocumentModeHTMLExportShowVisitorsPreferenceKey     = @"ShowVisitors"; 
 NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey  = @"WrittenByHovers"; 
 
+NSString * const DocumentModeApplyEditPreferencesNotification  =
+               @"DocumentModeApplyEditPreferencesNotification";
+NSString * const DocumentModeApplyStylePreferencesNotification =
+               @"DocumentModeApplyStylePreferencesNotification";
+
 static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 @implementation DocumentMode

@@ -181,15 +181,22 @@
     [self TCM_updateBottomStatusBar];
 
     [self takeSettingsFromDocument];
+    [self takeStyleSettingsFromDocument];
     [self setShowsChangeMarks:[document showsChangeMarks]];
     [self setShowsTopStatusBar:[document showsTopStatusBar]];
     [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
 }
 
-- (void)takeSettingsFromDocument {
+- (void)takeStyleSettingsFromDocument {
     PlainTextDocument *document=[self document];
     if (document) {
         [[self textView] setBackgroundColor:[document documentBackgroundColor]];
+    }
+}
+
+- (void)takeSettingsFromDocument {
+    PlainTextDocument *document=[self document];
+    if (document) {
         [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
         [self setWrapsLines: [document wrapLines]];
         [self setShowsGutter:[document showsGutter]];

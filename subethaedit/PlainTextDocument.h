@@ -23,6 +23,7 @@ extern NSString * const PlainTextDocumentParticipantsDataDidChangeNotification;
 extern NSString * const PlainTextDocumentUserDidChangeSelectionNotification;
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
+
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
 
@@ -144,6 +145,9 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 - (DocumentMode *)documentMode;
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode;
+- (void)takeStyleSettingsFromDocumentMode:(DocumentMode *)aDocumentMode;
+- (void)takeEditSettingsFromDocumentMode:(DocumentMode *)aDocumentMode;
+
 
 - (BOOL)isAnnounced;
 - (void)setIsAnnounced:(BOOL)aFlag;
