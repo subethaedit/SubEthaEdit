@@ -1299,40 +1299,43 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     NSMutableString *stylesheet=[NSMutableString stringWithString:@"div.card {\n    float:left;\n    display:inline;\n    border: 1px solid;\n    border-color:#ddd;\n    background-color:#eee;\n    margin:10px;\n    width:250px;\n    height:90px;\n    font-size:12px;\n    color:#555;\n    clear: right;\n}\n\ndiv.card img {\n    float:left;\n    padding-right:10px;\n    width:64px;\n    height:64px;\n    margin:10px;\n}\n\ndiv.Contributors {\n    clear: all;\n}\n\nh4 {\n    padding-bottom:0px;\n    margin-bottom:0.5em;\n    font-size:14px;\n    color:#000;\n    \n}\n"];
     
-    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     NSMutableArray *contributorDictionaries=[NSMutableArray array];
+    NSMutableArray *lurkerDictionaries=[NSMutableArray array];
     NSMutableDictionary *contributorDictionary=[NSMutableDictionary dictionary];
-    NSEnumerator *contributorIDs=[[self userIDsOfContributors] objectEnumerator];
-    NSString *contributorID=nil;
+    NSSet *contributorIDs=[self userIDsOfContributors];
+    NSEnumerator *contributorEnumerator=[[[self session] contributors] objectEnumerator];
+    TCMMMUser *contributor=nil;
     NSCharacterSet *validCharacters=[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
-    while ((contributorID=[contributorIDs nextObject])) {
-        TCMMMUser *contributor=[userManager userForUserID:contributorID];
-        if (contributor) {
-            NSScanner *scanner=[NSScanner scannerWithString:[contributor name]];
-            NSMutableString *IDBasis=[NSMutableString string];
-            while (![scanner isAtEnd]) {
-                NSString *scannedString;
-                if ([scanner scanCharactersFromSet:validCharacters intoString:&scannedString]) {
-                    [IDBasis appendString:scannedString];
-                }
+    while ((contributor=[contributorEnumerator nextObject])) {
+        NSScanner *scanner=[NSScanner scannerWithString:[contributor name]];
+        NSMutableString *IDBasis=[NSMutableString string];
+        while (![scanner isAtEnd]) {
+            NSString *scannedString;
+            if ([scanner scanCharactersFromSet:validCharacters intoString:&scannedString]) {
+                [IDBasis appendString:scannedString];
             }
-            if ([IDBasis length]==0) {
-                [IDBasis appendString:@"u"];
-            }
-            NSString *IDString=IDBasis;
-            int i;
-            for (i=1;[shortContributorIDs containsObject:IDBasis];i++) {
-                IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
-            }
-            [shortContributorIDs addObject:IDString];
-            [[[contributor properties] objectForKey:@"ImageAsPNG"] writeToFile:[directory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
-            NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
+        }
+        if ([IDBasis length]==0) {
+            [IDBasis appendString:@"u"];
+        }
+        NSString *IDString=IDBasis;
+        int i;
+        for (i=1;[shortContributorIDs containsObject:IDBasis];i++) {
+            IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
+        }
+        [shortContributorIDs addObject:IDString];
+        [[[contributor properties] objectForKey:@"ImageAsPNG"] writeToFile:[directory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
+        NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
+        if ([contributorIDs containsObject:[contributor userID]]) {
             [contributorDictionary   setObject:dictionary forKey:[contributor userID]];
             [contributorDictionaries addObject:dictionary];
             NSColor *userColor=[[self documentBackgroundColor] blendedColorWithFraction:[[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
                              ofColor:[contributor changeColor]];
             [stylesheet appendFormat:@".%@ {\n    background-color: %@;\n}\n\n",IDString,[userColor HTMLString]];
+        } else {
+            [lurkerDictionaries addObject:dictionary];
         }
+        
     }
     NSString *displayName=[[self displayName] stringByReplacingEntities];
     [result appendFormat:@"<html><head><title>%@</title><style type=\"text/css\">\n%@\n</style></head><body><h1>%@</h1>\n",displayName,stylesheet,displayName];
@@ -1350,8 +1353,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [attributedStringForXHTML addAttribute:@"ChangedByShortUserID" value:[[contributorDictionary objectForKey:authorID] objectForKey:@"ShortID"] range:foundRange];
         }
     } while (index<NSMaxRange(wholeRange));
-
     
+    
+    // Contributors as Cards
     
     [result appendString:@"<div class=\"Contributors\">"];
     NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
@@ -1365,6 +1369,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     [result appendString:@"</div>\n"];
     [result appendString:@"<br clear=\"all\"/>"];
+    
+    // lurkers as Tables
+    if ([lurkerDictionaries count]) {
+        [result appendString:@"<table><tr><td></td><td>Name</td><td>email</td><td>aim</td></tr>\n"];
+        NSEnumerator *lurkers=[lurkerDictionaries objectEnumerator];
+        NSDictionary *lurker=nil;
+        while ((lurker=[lurkers nextObject])) {
+            NSString *name   =[[lurker valueForKeyPath:@"User.name"] stringByReplacingEntities];
+            NSString *shortID= [lurker valueForKeyPath:@"ShortID"];
+            NSString *aim    =[[lurker valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntities];
+            NSString *email  =[[lurker valueForKeyPath:@"User.properties.Email"] stringByReplacingEntities];
+            [result appendFormat:@"<tr><td><img src=\"%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></td><td>%@</td><td>%@</td><td>%@</td></tr>",shortID,name,name,aim,email];
+        }
+        [result appendString:@"</table>\n"];
+    }
+    
+    
     NSFont *baseFont=[self fontWithTrait:0];
     NSString *fontString=[NSString stringWithFormat:@"%@",[baseFont fontName]];
     if ([baseFont isFixedPitch]) {
