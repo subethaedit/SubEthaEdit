@@ -8,6 +8,7 @@
         }, 
         {
             ACTIONS = {
+                clear = id; 
                 connect = id; 
                 setVisibilityByMenuItem = id; 
                 toggleProhibitInboundConnections = id; 

@@ -35,6 +35,7 @@
 - (IBAction)connect:(id)aSender;
 - (IBAction)setVisibilityByMenuItem:(id)aSender;
 - (IBAction)toggleProhibitInboundConnections:(id)aSender;
+- (IBAction)clear:(id)aSender;
 
 - (void)connectToAddress:(NSString *)address;
 

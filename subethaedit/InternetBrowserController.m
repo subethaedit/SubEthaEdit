@@ -274,26 +274,6 @@ static InternetBrowserController *sharedInstance = nil;
     [O_browserListView reloadData];
 }
 
-- (IBAction)connect:(id)aSender {
-    DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"connect action triggered");
-    NSString *address = [aSender objectValue];
-    [self connectToAddress:address];
-}
-
-- (IBAction)setVisibilityByMenuItem:(id)aSender {
-    [[TCMMMPresenceManager sharedInstance] setVisible:([aSender tag] == 10)];
-}
-
-- (IBAction)toggleProhibitInboundConnections:(id)aSender {
-    if ([aSender state] == NSOffState) {
-        [aSender setState:NSOnState];
-        [[TCMMMBEEPSessionManager sharedInstance] setIsProhibitingInboundInternetSessions:YES];
-    } else if ([aSender state] == NSOnState) {
-        [aSender setState:NSOffState];
-        [[TCMMMBEEPSessionManager sharedInstance] setIsProhibitingInboundInternetSessions:NO];    
-    }
-}
-
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"alertDidEnd:");
     
@@ -311,97 +291,6 @@ static InternetBrowserController *sharedInstance = nil;
     }
     
     [alertContext autorelease];
-}
-
-- (IBAction)joinSession:(id)aSender {
-    int row = [aSender clickedRow];
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
-    
-    ItemChildPair pair = [aSender itemChildPairAtRow:row];
-    if (pair.childIndex != -1) {
-        NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
-        NSArray *sessions = [userDict objectForKey:@"Sessions"];
-        TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
-        TCMBEEPSession *BEEPSession = [userDict objectForKey:@"BEEPSession"];
-        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join on session: %@, using BEEPSession: %@", session, BEEPSession);
-        [session joinUsingBEEPSession:BEEPSession];
-    }
-}
-
-- (IBAction)actionTriggered:(id)aSender {
-    int row = [aSender actionRow];
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"actionTriggerd in row: %d", row);
-    ItemChildPair pair = [aSender itemChildPairAtRow:row];
-    if (pair.childIndex != -1) {
-        return;
-    }
-    int index = pair.itemIndex;
-    NSMutableDictionary *item = [I_data objectAtIndex:index];
-    if ([item objectForKey:@"failed"]) {
-        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
-        [item removeObjectForKey:@"BEEPSession"];
-        [item removeObjectForKey:@"UserID"];
-        [item removeObjectForKey:@"Sessions"];
-        [item removeObjectForKey:@"failed"];
-        [self connectToURL:[item objectForKey:@"URL"] retry:YES];
-    } else {
-        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
-        if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusResolving]) {
-            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel resolve");
-            [item removeObjectForKey:@"UserID"];
-            [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
-            TCMHost *host = [I_resolvingHosts objectForKey:[item objectForKey:@"URLString"]];
-            [host cancel];
-            [host setDelegate:nil];
-            [I_resolvingHosts removeObjectForKey:[item objectForKey:@"URLString"]];
-            [item setObject:HostEntryStatusCancelled forKey:@"status"];
-            [O_browserListView reloadData];
-        } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusContacting]) {
-            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel contact");
-            [item removeObjectForKey:@"UserID"];
-            [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
-            [item setObject:HostEntryStatusCancelling forKey:@"status"];
-            [O_browserListView reloadData];
-            TCMHost *host = [I_resolvedHosts objectForKey:[item objectForKey:@"URLString"]];
-            [[TCMMMBEEPSessionManager sharedInstance] cancelConnectToHost:host];
-        } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
-            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel open session");
-            TCMBEEPSession *session = [item objectForKey:@"BEEPSession"];
-            BOOL abort = NO;
-            NSEnumerator *channels = [[session channels] objectEnumerator];
-            TCMBEEPChannel *channel;
-            while ((channel = [channels nextObject])) {
-                if ([[channel profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]  && [channel channelStatus] == TCMBEEPChannelStatusOpen) {
-                    abort = YES;
-                    break;
-                }
-            }
-            if (abort) {
-                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-                [alert setAlertStyle:NSWarningAlertStyle];
-                [alert setMessageText:NSLocalizedString(@"OpenChannels", nil)];
-                [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"AbortChannels", nil)]];
-                [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", nil)];
-                [alert addButtonWithTitle:NSLocalizedString(@"Abort", nil)];
-                [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-                [alert beginSheetModalForWindow:[self window]
-                                  modalDelegate:self 
-                                 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                                    contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                            item, @"item",
-                                                            session, @"session",
-                                                            nil] retain]]; 
-
-            } else {
-                [item removeObjectForKey:@"UserID"];
-                [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
-                [item setObject:HostEntryStatusCancelling forKey:@"status"];
-                [O_browserListView reloadData];
-                [session terminate];
-            }
-        }
-    }
-    [O_browserListView reloadData];
 }
 
 - (int)indexOfItemWithURLString:(NSString *)URLString {
@@ -546,6 +435,142 @@ static InternetBrowserController *sharedInstance = nil;
         statusString = NSLocalizedString(@"Invisible", @"Status string in vibilitypulldown in Browsers for invisible");
     }
     [[[O_statusPopUpButton menu] itemAtIndex:0] setTitle:statusString];
+}
+
+#pragma mark -
+
+- (IBAction)connect:(id)aSender {
+    DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"connect action triggered");
+    NSString *address = [aSender objectValue];
+    [self connectToAddress:address];
+}
+
+- (IBAction)setVisibilityByMenuItem:(id)aSender {
+    [[TCMMMPresenceManager sharedInstance] setVisible:([aSender tag] == 10)];
+}
+
+- (IBAction)toggleProhibitInboundConnections:(id)aSender {
+    if ([aSender state] == NSOffState) {
+        [aSender setState:NSOnState];
+        [[TCMMMBEEPSessionManager sharedInstance] setIsProhibitingInboundInternetSessions:YES];
+    } else if ([aSender state] == NSOnState) {
+        [aSender setState:NSOffState];
+        [[TCMMMBEEPSessionManager sharedInstance] setIsProhibitingInboundInternetSessions:NO];    
+    }
+}
+
+- (IBAction)joinSession:(id)aSender {
+    int row = [aSender clickedRow];
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
+    
+    ItemChildPair pair = [aSender itemChildPairAtRow:row];
+    if (pair.childIndex != -1) {
+        NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
+        NSArray *sessions = [userDict objectForKey:@"Sessions"];
+        TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
+        TCMBEEPSession *BEEPSession = [userDict objectForKey:@"BEEPSession"];
+        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join on session: %@, using BEEPSession: %@", session, BEEPSession);
+        [session joinUsingBEEPSession:BEEPSession];
+    }
+}
+
+- (IBAction)actionTriggered:(id)aSender {
+    int row = [aSender actionRow];
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"actionTriggerd in row: %d", row);
+    ItemChildPair pair = [aSender itemChildPairAtRow:row];
+    if (pair.childIndex != -1) {
+        return;
+    }
+    int index = pair.itemIndex;
+    NSMutableDictionary *item = [I_data objectAtIndex:index];
+    if ([item objectForKey:@"failed"]) {
+        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
+        [item removeObjectForKey:@"BEEPSession"];
+        [item removeObjectForKey:@"UserID"];
+        [item removeObjectForKey:@"Sessions"];
+        [item removeObjectForKey:@"failed"];
+        [self connectToURL:[item objectForKey:@"URL"] retry:YES];
+    } else {
+        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
+        if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusResolving]) {
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel resolve");
+            [item removeObjectForKey:@"UserID"];
+            [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+            TCMHost *host = [I_resolvingHosts objectForKey:[item objectForKey:@"URLString"]];
+            [host cancel];
+            [host setDelegate:nil];
+            [I_resolvingHosts removeObjectForKey:[item objectForKey:@"URLString"]];
+            [item setObject:HostEntryStatusCancelled forKey:@"status"];
+            [O_browserListView reloadData];
+        } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusContacting]) {
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel contact");
+            [item removeObjectForKey:@"UserID"];
+            [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+            [item setObject:HostEntryStatusCancelling forKey:@"status"];
+            [O_browserListView reloadData];
+            TCMHost *host = [I_resolvedHosts objectForKey:[item objectForKey:@"URLString"]];
+            [[TCMMMBEEPSessionManager sharedInstance] cancelConnectToHost:host];
+        } else if ([[item objectForKey:@"status"] isEqualToString:HostEntryStatusSessionOpen]) {
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel open session");
+            TCMBEEPSession *session = [item objectForKey:@"BEEPSession"];
+            BOOL abort = NO;
+            NSEnumerator *channels = [[session channels] objectEnumerator];
+            TCMBEEPChannel *channel;
+            while ((channel = [channels nextObject])) {
+                if ([[channel profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]  && [channel channelStatus] == TCMBEEPChannelStatusOpen) {
+                    abort = YES;
+                    break;
+                }
+            }
+            if (abort) {
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setMessageText:NSLocalizedString(@"OpenChannels", nil)];
+                [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"AbortChannels", nil)]];
+                [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Abort", nil)];
+                [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+                [alert beginSheetModalForWindow:[self window]
+                                  modalDelegate:self 
+                                 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                                    contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                            item, @"item",
+                                                            session, @"session",
+                                                            nil] retain]]; 
+
+            } else {
+                [item removeObjectForKey:@"UserID"];
+                [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
+                [item setObject:HostEntryStatusCancelling forKey:@"status"];
+                [O_browserListView reloadData];
+                [session terminate];
+            }
+        }
+    }
+    [O_browserListView reloadData];
+}
+
+- (IBAction)clear:(id)aSender {
+    int index;
+    int count = [I_data count];
+    for (index = count - 1; index >= 0; index--) {
+        NSDictionary *item = [I_data objectAtIndex:index];
+        NSString *status = [item objectForKey:@"status"];
+        NSString *URLString = [item objectForKey:@"URLString"];
+        if ([status isEqualToString:HostEntryStatusResolveFailed] ||
+            [status isEqualToString:HostEntryStatusContactFailed] ||
+            [status isEqualToString:HostEntryStatusSessionAtEnd] ||
+            [status isEqualToString:HostEntryStatusCancelled]) {
+            
+            if (URLString) {
+                [I_resolvingHosts removeObjectForKey:URLString];
+                [I_resolvedHosts removeObjectForKey:URLString];
+            }
+            
+            [I_data removeObjectAtIndex:index];   
+        }
+    }
+    [O_browserListView reloadData];
 }
 
 #pragma mark -
