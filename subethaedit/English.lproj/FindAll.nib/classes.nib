@@ -8,6 +8,7 @@
                 "O_findAllPanel" = NSPanel; 
                 "O_findRegexTextField" = NSTextField; 
                 "O_findResultsTextField" = NSTextField; 
+                "O_progressIndicator" = NSProgressIndicator; 
                 "O_resultsController" = NSArrayController; 
                 "O_resultsTableView" = NSTableView; 
             }; 

@@ -220,5 +220,14 @@ static NSMenu *defaultMenu=nil;
     [[FindReplaceController sharedInstance] performFindPanelAction:sender forTextView:self];
 }
 
+-(BOOL)validateMenuItem:(id <NSMenuItem>)menuItem 
+{
+    BOOL returnValue = [super validateMenuItem:menuItem];
+    if (!returnValue) {
+        if ([menuItem tag]==1001) returnValue=YES;
+    }
+    
+    return returnValue;
+}
 
 @end

@@ -205,8 +205,13 @@ static FindReplaceController *sharedInstance=nil;
 
 - (void) findNextAndOrderOut:(id)sender 
 {
-    if([self find:[O_findComboBox stringValue] forward:YES]) [[self findPanel] orderOut:self];
-    else [O_findComboBox selectText:nil];
+    // NSComboBox's action sending behavior is very albern.
+    // Action does get sent on click, but not on pressing enter in history dropdown...
+    NSEvent *currentEvent = [NSApp currentEvent];
+    if ([currentEvent type]==NSKeyDown) {
+        if([self find:[O_findComboBox stringValue] forward:YES]) [[self findPanel] orderOut:self];
+        else [O_findComboBox selectText:nil];
+    } else [O_findComboBox selectText:nil];
 }
 
 - (BOOL) find:(NSString*)findString forward:(BOOL)forward
@@ -243,17 +248,19 @@ static FindReplaceController *sharedInstance=nil;
         if (forward) {
             if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
                 [self loadFindStringToPasteboard];
-            }
-            enumerator=[regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection))];
-            aMatch = [enumerator nextObject];
-            if (aMatch != nil) {
-                found = YES;
-                NSRange foundRange = [aMatch rangeOfMatchedString];
-                [target setSelectedRange:foundRange];
-                [target scrollRangeToVisible:foundRange];
-                [target display];
-            } else if ([O_wrapAroundCheckbox state] == NSOnState){
-                enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,selection.location)];
+                unsigned options = NSLiteralSearch;
+                if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
+                BOOL wrap = ([O_wrapAroundCheckbox state]==NSOnState); 
+                NSRange foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];
+                if (foundRange.length) {
+                    found = YES;
+                    [target setSelectedRange:foundRange];
+                    [target scrollRangeToVisible:foundRange];
+                    [target display];
+                } else {NSBeep();}
+
+            } else {
+                enumerator=[regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection))];
                 aMatch = [enumerator nextObject];
                 if (aMatch != nil) {
                     found = YES;
@@ -261,8 +268,18 @@ static FindReplaceController *sharedInstance=nil;
                     [target setSelectedRange:foundRange];
                     [target scrollRangeToVisible:foundRange];
                     [target display];
+                } else if ([O_wrapAroundCheckbox state] == NSOnState){
+                    enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,selection.location)];
+                    aMatch = [enumerator nextObject];
+                    if (aMatch != nil) {
+                        found = YES;
+                        NSRange foundRange = [aMatch rangeOfMatchedString];
+                        [target setSelectedRange:foundRange];
+                        [target scrollRangeToVisible:foundRange];
+                        [target display];
+                    } else {NSBeep();}
                 } else {NSBeep();}
-            } else {NSBeep();}
+            }
         } else { // backwards
             if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
                 // If we are just simple searching, use NSBackwardsSearch because Regex Searching is sloooow backwards.
@@ -361,7 +378,7 @@ static FindReplaceController *sharedInstance=nil;
 
 - (void)addString:(NSString*)aString toHistory:(NSMutableArray *)anArray
 {
-    [anArray insertObject:aString atIndex:0];
+    if (![anArray containsObject:aString]) [anArray insertObject:aString atIndex:0];
     int count = [anArray count];
     int i;
     for (i=count;i>25;i--) {

@@ -42,7 +42,8 @@ typedef enum {
     IBOutlet NSTextField *O_statusTextField;
     IBOutlet NSButton *O_wrapAroundCheckbox;
     NSMutableArray *I_findHistory;
-    NSMutableArray *I_replaceHistory;    
+    NSMutableArray *I_replaceHistory;   
+    BOOL ignoreNextComboBoxEvent; 
 }
 
 + (FindReplaceController *)sharedInstance;
