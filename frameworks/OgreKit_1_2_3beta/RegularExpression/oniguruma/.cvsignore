@@ -1,0 +1,15 @@
+config.cache
+config.h
+config.h.in
+config.log
+config.status
+configure
+autom4te.cache
+Makefile
+gmon.out
+testc.c
+onigd*.gz
+work
+
+
+

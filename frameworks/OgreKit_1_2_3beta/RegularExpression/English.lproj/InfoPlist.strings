@@ -1,0 +1,17 @@
+/*
+ * Name: InfoPlist.strings
+ * Project: OgreKit
+ *
+ * Creation Date: Sep 6 2003
+ * Author: Isao Sonobe <sonobe@gauge.scphys.kyoto-u.ac.jp>
+ * Copyright: Copyright (c) 2003 Isao Sonobe, All rights reserved.
+ * License: OgreKit License
+ *
+ * Encoding: UTF8
+ * Tabsize: 4
+ */
+
+CFBundleName = "OgreKit";
+CFBundleShortVersionString = "OgreKit version 1.2.2";
+CFBundleGetInfoString = "OgreKit version 1.2.2, Copyright (c) 2003 Isao Sonobe.";
+NSHumanReadableCopyright = "Copyright (c) 2003 Isao Sonobe.";
