@@ -9,10 +9,17 @@
 #import <Cocoa/Cocoa.h>
 #import "DocumentMode.h"
 
+@interface DocumentModeMenu : NSMenu {
+    SEL I_action;
+}
+- (void)configureWithAction:(SEL)aSelector;
+@end
+
 @interface DocumentModeManager : NSObject {
     NSMutableDictionary *I_modeBundles;
     NSMutableDictionary *I_documentModesByIdentifier;
 	NSMutableDictionary *I_modeIdentifiersByExtension;
+	NSMutableArray      *I_modeIdentifiersTagArray;
 }
 
 + (DocumentModeManager *)sharedInstance;
@@ -20,6 +27,8 @@
 - (DocumentMode *)baseMode;
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier;
 - (DocumentMode *)documentModeForExtension:(NSString *)anExtension;
+- (NSString *)documentModeIdentifierForTag:(int)aTag;
+- (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
 - (NSDictionary *)availableModes;
 
 

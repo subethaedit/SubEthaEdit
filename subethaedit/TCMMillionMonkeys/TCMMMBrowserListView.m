@@ -380,7 +380,7 @@ static NSColor *alternateRowColor=nil;
 - (void)mouseDown:(NSEvent *)aEvent {
 
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
-    NSLog(@"Clicked at: %@", NSStringFromPoint(point));
+    //NSLog(@"Clicked at: %@", NSStringFromPoint(point));
     
     I_clickedRow = [self TCM_indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
@@ -393,7 +393,7 @@ static NSColor *alternateRowColor=nil;
             [I_target performSelector:I_doubleAction withObject:self];
         }
     }
-    NSLog(@"indexOfRow: %d", I_clickedRow);
+    //NSLog(@"indexOfRow: %d", I_clickedRow);
 }
 
 - (int)numberOfItems {

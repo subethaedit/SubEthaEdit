@@ -10,15 +10,37 @@
 
 #define MODEPATHCOMPONENT @"Application Support/SubEthaEdit/Modes/"
 
-static DocumentModeManager *sharedInstance;
-
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
+- (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector;
 @end
+
+@implementation DocumentModeMenu
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
+}
+
+- (void)documentModeListChanged:(NSNotification *)notification {
+    //int tag = [[self selectedItem] tag];
+    //if (tag != 0 && tag != NoStringEncoding) defaultEncoding = tag;
+    //[[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry lossyEncodings:[NSArray array]];
+    [[DocumentModeManager sharedInstance] setupMenu:self action:I_action];
+}
+
+- (void)configureWithAction:(SEL)aSelector {
+    I_action = aSelector;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
+    [[DocumentModeManager sharedInstance] setupMenu:self action:I_action];
+}
+@end
+
+#define BASEMODEIDENTIFIER @"de.codingmonkeys.SubEthaEdit.mode.Base"
 
 @implementation DocumentModeManager
 
 + (DocumentModeManager *)sharedInstance {
+    static DocumentModeManager *sharedInstance=nil;
     if (!sharedInstance) {
         sharedInstance = [self new];
     }
@@ -31,6 +53,9 @@ static DocumentModeManager *sharedInstance;
         I_modeBundles=[NSMutableDictionary new];
         I_documentModesByIdentifier =[NSMutableDictionary new];
 		I_modeIdentifiersByExtension=[NSMutableDictionary new];
+		I_modeIdentifiersTagArray   =[NSMutableArray new];
+		[I_modeIdentifiersTagArray addObject:@"-"];
+		[I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
         [self TCM_findModes];
     }
     return self;
@@ -60,7 +85,7 @@ static DocumentModeManager *sharedInstance;
     while ((path = [enumerator nextObject])) {
         NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:path] objectEnumerator];
         while ((file = [dirEnumerator nextObject])) {
-			NSLog(@"%@",file);
+			//NSLog(@"%@",file);
             if ([[file pathExtension] isEqualToString:@"mode"]) {
                 NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]];
                 if (bundle) {
@@ -70,6 +95,9 @@ static DocumentModeManager *sharedInstance;
 						[I_modeIdentifiersByExtension setObject:[bundle bundleIdentifier] forKey:extension];
 					}
                     [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
+                    if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) {
+                        [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];
+                    }
                 }
             }
         }
@@ -96,7 +124,7 @@ static DocumentModeManager *sharedInstance;
 }
 
 - (DocumentMode *)baseMode {
-    return [self documentModeForIdentifier:@"de.codingmonkeys.SubEthaEdit.mode.Base"];
+    return [self documentModeForIdentifier:BASEMODEIDENTIFIER];
 }
 
 - (DocumentMode *)documentModeForExtension:(NSString *)anExtension {
@@ -120,6 +148,72 @@ static DocumentModeManager *sharedInstance;
     }
     return result;
 }
+
+- (NSString *)documentModeIdentifierForTag:(int)aTag {
+    if (aTag>0 && aTag<[I_modeIdentifiersTagArray count]) {
+        return [I_modeIdentifiersTagArray objectAtIndex:aTag];
+    } else {
+        return nil;
+    }
+}
+
+- (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier {
+    return [I_modeIdentifiersTagArray indexOfObject:anIdentifier];
+}
+
+
+- (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector {
+
+    // Remove all menu items
+    int count = [aMenu numberOfItems];
+    while (count) {
+        [aMenu removeItemAtIndex:count - 1];
+        count = [aMenu numberOfItems];
+    }
+    
+    // Add modes
+    DocumentMode *baseMode=[self baseMode];
+    
+    NSMutableArray *menuEntries=[NSMutableArray array];
+    NSEnumerator *modeIdentifiers=[I_modeBundles keyEnumerator];
+    NSString *identifier = nil;
+    while ((identifier=[modeIdentifiers nextObject])) {
+        if (![identifier isEqualToString:BASEMODEIDENTIFIER]) {
+            [menuEntries 
+                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[[[I_modeBundles objectForKey:identifier] localizedInfoDictionary] objectForKey:@"CFBundleName"],@"Name",nil]];
+        }
+    }
+
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[[[baseMode bundle] localizedInfoDictionary] objectForKey:@"CFBundleName"]
+                                                      action:aSelector
+                                               keyEquivalent:@""];
+    [menuItem setTag:[self tagForDocumentModeIdentifier:BASEMODEIDENTIFIER]];
+    [aMenu addItem:menuItem];
+    [menuItem release];
+
+    count=[menuEntries count];
+    if (count > 0) {
+        [aMenu addItem:[NSMenuItem separatorItem]];
+        
+        // sort
+        NSArray *sortedEntries=[menuEntries sortedArrayUsingDescriptors:
+                        [NSArray arrayWithObjects:
+                            [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES] autorelease],
+                            [[[NSSortDescriptor alloc] initWithKey:@"Identifier" ascending:YES] autorelease],nil]];
+        
+        int index=0;
+        for (index=0;index<count;index++) {
+            NSDictionary *entry=[sortedEntries objectAtIndex:index];
+            NSMenuItem *menuItem =[[NSMenuItem alloc] initWithTitle:[entry objectForKey:@"Name"]
+                                                             action:aSelector
+                                                      keyEquivalent:@""];
+            [menuItem setTag:[self tagForDocumentModeIdentifier:[entry objectForKey:@"Identifier"]]];
+            [aMenu addItem:menuItem];
+            [menuItem release];
+        }
+    }
+}
+
 
 
 @end

@@ -36,6 +36,7 @@ int const WindowMenuTag = 3000;
 
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
+- (void)setupDocumentModeSubmenu;
 
 @end
 
@@ -224,6 +225,7 @@ int const WindowMenuTag = 3000;
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
     [self addMe];
     [self setupFileEncodingsSubmenu];
+    [self setupDocumentModeSubmenu];
     [self setupScriptMenu];
     [self registerTransformers];
 
@@ -233,30 +235,6 @@ int const WindowMenuTag = 3000;
     [TCMPreferenceController registerPrefModule:editPrefs];
     DebugPreferences *debugPrefs = [[DebugPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:debugPrefs];
-    
-    DocumentModeManager *manager=[DocumentModeManager sharedInstance];
-    NSLog(@"%@",[manager description]);
-    NSDictionary *availableModes=[manager availableModes];
-    NSLog(@"Found modes: %@",[availableModes description]);
-    NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:MODEMENUTAG] submenu];
-    NSMenu *modesMenu=[[modeMenu itemWithTag:SWITCHMODEMENUTAG] submenu];
-    NSEnumerator *modeIDs=[availableModes keyEnumerator];
-    NSString *modeID=nil;
-    NSString *modeString=nil;
-    while ((modeID=[modeIDs nextObject])) {
-        modeString=[NSString stringWithFormat:@"%@ (%@)",[availableModes objectForKey:modeID],modeID];
-        NSMenuItem *menuItem =[[NSMenuItem alloc] initWithTitle:modeString 
-                                                         action:@selector(chooseMode:)
-                                                  keyEquivalent:@""];
-        [modesMenu addItem:menuItem];
-        [menuItem release];
-    }
-    NSMenuItem *modeNameItem=[modeMenu itemWithTag:MODEMENUNAMETAG];
-//    NSFontManager *fontManager=[NSFontManager sharedFontManager];
-//    NSFont *myFont=[fontManager convertFont:[fontManager convertFont:[NSFont menuBarFontOfSize:0] toHaveTrait:NSBoldFontMask]];
-//    myFont=[fontManager convertFont:myFont toSize:[myFont pointSize]+2.]; 
-//    NSMutableAttributedString *title=[[NSMutableAttributedString alloc] initWithString:modeString attributes:[NSDictionary dictionaryWithObject:myFont forKey:NSFontAttributeName]];
-    [modeNameItem setTitle:modeString];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -279,6 +257,21 @@ int const WindowMenuTag = 3000;
     return [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
 }
 
+
+- (void)setupDocumentModeSubmenu {
+    DocumentModeManager *manager=[DocumentModeManager sharedInstance];
+    NSLog(@"%@",[manager description]);
+    NSDictionary *availableModes=[manager availableModes];
+    NSLog(@"Found modes: %@",[availableModes description]);
+
+    NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:MODEMENUTAG] submenu];
+    NSMenuItem *switchModesMenuItem=[modeMenu itemWithTag:SWITCHMODEMENUTAG];
+
+    DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
+    [switchModesMenuItem setSubmenu:menu];
+    [menu configureWithAction:@selector(chooseMode:)];
+    
+}
 
 - (void)setupFileEncodingsSubmenu {
     NSMenuItem *formatMenu = [[NSApp mainMenu] itemWithTag:FormatMenuTag];

@@ -223,6 +223,9 @@ subethaedit/Mode.icns -text
 subethaedit/Modes/Base.mode/Contents/Info.plist -text
 subethaedit/Modes/Base.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Base.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/Objective-C.mode/Contents/Info.plist -text
+subethaedit/Modes/Objective-C.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/NSColorTCMAdditions.h -text
 subethaedit/NSColorTCMAdditions.m -text
 subethaedit/NSDictionaryTCMAdditions.h -text

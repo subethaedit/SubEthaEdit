@@ -17,7 +17,7 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 
-#define PORTRANGESTART 12347
+#define PORTRANGESTART 6942
 #define PORTRANGELENGTH 10
 
 static NSString *kBEEPSessionStatusNoSession =@"NoSession";

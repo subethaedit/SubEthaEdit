@@ -107,7 +107,12 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
 
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode {
     [I_documentMode autorelease];
+    SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
+    [highlighter cleanUpTextStorage:[self textStorage]];
      I_documentMode = [aDocumentMode retain];
+    if (I_flags.highlightSyntax) {
+        [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
+    }
 }
 
 - (unsigned int)fileEncoding {
@@ -315,10 +320,6 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     DocumentMode *mode=[[DocumentModeManager sharedInstance] documentModeForExtension:[[aURL path] pathExtension]];
     [self setDocumentMode:mode];
     
-    if ([mode syntaxHighlighter]!=nil) {
-        [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
-    }
-
     return YES;
 }
 
@@ -334,6 +335,14 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
         return YES;
     } else if (selector == @selector(selectEncoding:)) {
         if ([self fileEncoding] == (unsigned int)[anItem tag]) {
+            [anItem setState:NSOnState];
+        } else {
+            [anItem setState:NSOffState];
+        }
+    } else if (selector == @selector(chooseMode:)) {
+        DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+        NSString *identifier=[modeManager documentModeIdentifierForTag:[anItem tag]];
+        if (identifier && [[self documentMode] isEqualTo:[modeManager documentModeForIdentifier:identifier]]) {
             [anItem setState:NSOnState];
         } else {
             [anItem setState:NSOffState];
@@ -395,6 +404,16 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
+
+- (IBAction)chooseMode:(id)aSender {
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
+    if (identifier) {
+        DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
+        [self setDocumentMode:newMode];
+    }
+}
+
 - (IBAction)toggleSyntaxHighlighting:(id)aSender {
     I_flags.highlightSyntax = !I_flags.highlightSyntax;
     if (I_flags.highlightSyntax) {
