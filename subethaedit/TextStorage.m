@@ -568,7 +568,8 @@ NSString * const BlockeditAttributeValue=@"YES";
         index=NSMaxRange(foundRange);
         if (author) {
             foundRange.location=foundRange.location-aRange.location;
-            [result addAttribute:@"WrittenBy" value:[[[[TCMMMUserManager sharedInstance] userForUserID:author] name]stringByReplacingEntities] range:foundRange];
+            [result addAttribute:@"WrittenBy" value:[[[[TCMMMUserManager sharedInstance] userForUserID:author] name] stringByReplacingEntities] range:foundRange];
+            [result addAttribute:@"WrittenByUserID" value:author range:foundRange];
         }
     } while (index<NSMaxRange(aRange));
 
@@ -585,6 +586,7 @@ NSString * const BlockeditAttributeValue=@"YES";
                                 [[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
                              ofColor:changeColor];
             [result addAttribute:@"BackgroundColor" value:[userBackgroundColor HTMLString] range:foundRange];
+            [result addAttribute:@"ChangedByUserID" value:author range:foundRange];
         }
     } while (index<NSMaxRange(aRange));
     

@@ -16,6 +16,7 @@
 #import "WebPreviewWindowController.h"
 #import "DocumentProxyWindowController.h"
 #import "UndoManager.h"
+#import "TCMMMUserSEEAdditions.h"
 
 
 #import "DocumentModeManager.h"
@@ -1250,6 +1251,144 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         then sheet with save panel
         finish
     */
+    NSSavePanel *savePanel=[NSSavePanel savePanel];
+    [savePanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
+    [savePanel setNameFieldLabel:NSLocalizedString(@"ExportFilenameLabel",@"NSSavePanel export sheet: string displayed in front of the filename text field")];
+    [savePanel setCanCreateDirectories:YES];
+    [savePanel setExtensionHidden:NO];
+    [savePanel setAllowsOtherFileTypes:YES];
+    [savePanel setTreatsFilePackagesAsDirectories:YES];
+    [savePanel setRequiredFileType:@""];
+    [savePanel beginSheetForDirectory:nil 
+        file:[[[self fileName] lastPathComponent] stringByDeletingPathExtension] modalForWindow:[self windowForSheet] 
+        modalDelegate:self didEndSelector:@selector(exportPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)exportPanelDidEnd:(NSSavePanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
+    NSLog(@"%@",[aPanel filename]);
+
+    static NSDictionary *baseAttributeMapping;
+    if (baseAttributeMapping==nil) {
+        baseAttributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<strong>",@"openTag",
+                                @"</strong>",@"closeTag",nil], @"Bold",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<em>",@"openTag",
+                                @"</em>",@"closeTag",nil], @"Italic",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<span style=\"color:%@;\">",@"openTag",
+                                @"</span>",@"closeTag",nil], @"ForegroundColor",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<span class=\"%@\">",@"openTag",
+                                @"</span>",@"closeTag",nil], @"ChangedByShortUserID",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<a title=\"%@\">",@"openTag",
+                                @"</a>",@"closeTag",nil], @"WrittenBy",
+                            nil];
+        [baseAttributeMapping retain];
+    }
+
+
+    NSString *directory=[aPanel filename];
+    NSString *htmlFile=[directory stringByAppendingPathComponent:[[directory lastPathComponent] stringByAppendingPathExtension:@"html"]];
+    [[NSFileManager defaultManager] createDirectoryAtPath:directory attributes:nil];
+    NSMutableSet *shortContributorIDs=[[NSMutableSet new] autorelease];
+    
+    NSMutableString *result=[NSMutableString string];
+    
+    NSMutableString *stylesheet=[NSMutableString stringWithString:@"div.card {\n    float:left;\n    display:inline;\n    border: 1px solid;\n    border-color:#ddd;\n    background-color:#eee;\n    margin:10px;\n    width:250px;\n    height:90px;\n    font-size:12px;\n    color:#555;\n    clear: right;\n}\n\ndiv.card img {\n    float:left;\n    padding-right:10px;\n    width:64px;\n    height:64px;\n    margin:10px;\n}\n\ndiv.Contributors {\n    clear: all;\n}\n\nh4 {\n    padding-bottom:0px;\n    margin-bottom:0.5em;\n    font-size:14px;\n    color:#000;\n    \n}\n"];
+    
+    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+    NSMutableArray *contributorDictionaries=[NSMutableArray array];
+    NSMutableDictionary *contributorDictionary=[NSMutableDictionary dictionary];
+    NSEnumerator *contributorIDs=[[self userIDsOfContributors] objectEnumerator];
+    NSString *contributorID=nil;
+    NSCharacterSet *validCharacters=[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+    while ((contributorID=[contributorIDs nextObject])) {
+        TCMMMUser *contributor=[userManager userForUserID:contributorID];
+        if (contributor) {
+            NSScanner *scanner=[NSScanner scannerWithString:[contributor name]];
+            NSMutableString *IDBasis=[NSMutableString string];
+            while (![scanner isAtEnd]) {
+                NSString *scannedString;
+                if ([scanner scanCharactersFromSet:validCharacters intoString:&scannedString]) {
+                    [IDBasis appendString:scannedString];
+                }
+            }
+            if ([IDBasis length]==0) {
+                [IDBasis appendString:@"u"];
+            }
+            NSString *IDString=IDBasis;
+            int i;
+            for (i=1;[shortContributorIDs containsObject:IDBasis];i++) {
+                IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
+            }
+            [shortContributorIDs addObject:IDString];
+            [[[contributor properties] objectForKey:@"ImageAsPNG"] writeToFile:[directory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
+            NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
+            [contributorDictionary   setObject:dictionary forKey:[contributor userID]];
+            [contributorDictionaries addObject:dictionary];
+            NSColor *userColor=[[self documentBackgroundColor] blendedColorWithFraction:[[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
+                             ofColor:[contributor changeColor]];
+            [stylesheet appendFormat:@".%@ {\n    background-color: %@;\n}\n\n",IDString,[userColor HTMLString]];
+        }
+    }
+    NSString *displayName=[[self displayName] stringByReplacingEntities];
+    [result appendFormat:@"<html><head><title>%@</title><style type=\"text/css\">\n%@\n</style></head><body><h1>%@</h1>\n",displayName,stylesheet,displayName];
+    
+    NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
+    NSMutableAttributedString *attributedStringForXHTML=[(TextStorage *)[self textStorage] attributedStringForXHTMLExportWithRange:wholeRange foregroundColor:[self documentForegroundColor] backgroundColor:[self documentBackgroundColor]];
+    
+    unsigned index=0;
+    do {
+        NSRange foundRange;
+        NSString *authorID=[attributedStringForXHTML attribute:@"ChangedByUserID" atIndex:index 
+                             longestEffectiveRange:&foundRange inRange:wholeRange];
+        index=NSMaxRange(foundRange);
+        if (authorID) {
+            [attributedStringForXHTML addAttribute:@"ChangedByShortUserID" value:[[contributorDictionary objectForKey:authorID] objectForKey:@"ShortID"] range:foundRange];
+        }
+    } while (index<NSMaxRange(wholeRange));
+
+    
+    
+    [result appendString:@"<div class=\"Contributors\">"];
+    NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
+    NSDictionary *contributorDict=nil;
+    while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
+        NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntities];
+        NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
+        NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntities];
+        NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntities];
+        [result appendFormat:@"<div class=\"Card\"><img src=\"%@.png\" alt=\"%@\"/><h4 class=\"%@\">%@</h4>aim: %@<br />email: %@</div>\n",shortID,name,shortID,name,aim,email];
+    }
+    [result appendString:@"</div>\n"];
+    [result appendString:@"<br clear=\"all\"/>"];
+    NSFont *baseFont=[self fontWithTrait:0];
+    NSString *fontString=[NSString stringWithFormat:@"%@",[baseFont fontName]];
+    if ([baseFont isFixedPitch]) {
+        fontString=[fontString stringByAppendingString:@", monospace"];
+    } else {
+        fontString=[fontString stringByAppendingString:@", serif"];
+    }
+
+    [attributedStringForXHTML detab:YES inRange:wholeRange tabWidth:[self tabWidth] askingTextView:nil];
+    BOOL wrapsLines=[self wrapLines];
+    NSString *topLevelTag=wrapsLines?@"div":@"pre";
+    if (wrapsLines) {
+        [attributedStringForXHTML makeLeadingWhitespaceNonBreaking];
+    }
+    NSMutableString *content=[attributedStringForXHTML XHTMLStringWithAttributeMapping:baseAttributeMapping];
+    if (wrapsLines) {
+        [content addBRs];
+    }
+    [result appendFormat:@"<%@ style=\"font-size:small; color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto; font-family:%@;\">",topLevelTag, [[self documentForegroundColor] HTMLString],[[self documentBackgroundColor] HTMLString],fontString];
+    [result appendString:content];
+    [result appendFormat:@"</%@>",topLevelTag];
+    
+    [result appendString:@"</body></html>"];
+    [[result dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:htmlFile atomically:YES];
 }
 
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
