@@ -22,13 +22,6 @@ NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
 
 
-#ifdef TCMBEEP_DEBUG
-    static int sInitLogCount = 0;
-    static int sListenLogCount = 0;
-    static unsigned sNumberOfLogs = 0;
-#endif
-
-
 static void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
 static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
 
@@ -50,6 +43,11 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 #pragma mark -
 
 @implementation TCMBEEPSession
+
+#ifndef TCM_NO_DEBUG
+    static unsigned numberOfLogs = 0;
+    static NSString *logDirectory = nil;
+#endif
 
 - (void)TCM_initHelper
 {
@@ -103,40 +101,50 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     // MSS: 1500 - 60 - 20 = 1420
     // 2/3 MSS: 946
     I_maximumFrameSize = 946;
-    
-#ifdef TCMBEEP_DEBUG  
-    int fileNumber;
-    if ([self isInitiator]) {
-        fileNumber = sInitLogCount++;
-    } else {
-        fileNumber = sListenLogCount++;
-    }
+    I_timeout = [[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey];
 
-    NSString *appName = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension];
-    NSString *appDir = [[@"~/Library/Logs/" stringByExpandingTildeInPath] stringByAppendingPathComponent:appName];
-    [[NSFileManager defaultManager] createDirectoryAtPath:appDir attributes:nil];
-    NSString *logDir = [appDir stringByAppendingPathComponent:@"TCMBEEP"];
-    [[NSFileManager defaultManager] createDirectoryAtPath:logDir attributes:nil];
-    
-    NSData *header = [[[NSString stringWithAddressData:[self peerAddressData]] stringByAppendingString:@"\n"] dataUsingEncoding:NSASCIIStringEncoding];
+#ifndef TCM_NO_DEBUG
+    if (!logDirectory) {
+        NSString *appName = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension];
+        NSString *appDir = [[@"~/Library/Logs/" stringByExpandingTildeInPath] stringByAppendingPathComponent:appName];
+        [[NSFileManager defaultManager] createDirectoryAtPath:appDir attributes:nil];
+        NSString *beepDir = [appDir stringByAppendingPathComponent:@"TCMBEEP"];
+        [[NSFileManager defaultManager] createDirectoryAtPath:beepDir attributes:nil];
+        NSString *origPath = [beepDir stringByAppendingPathComponent:@"Session"];
         
-    NSString *logBase = [logDir stringByAppendingFormat:@"/%02d", fileNumber];
-    NSString *logIn = [logBase stringByAppendingString:@"In.log"];
+        static int sequenceNumber = 0;
+        NSString *name;
+        do {
+            sequenceNumber++;
+            name = [NSString stringWithFormat:@"%d-%d-%d", (int)[NSDate timeIntervalSinceReferenceDate], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
+            name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
+        } while ([[NSFileManager defaultManager] fileExistsAtPath:logDirectory]);
+
+        logDirectory = [name retain];
+        [[NSFileManager defaultManager] createDirectoryAtPath:logDirectory attributes:nil];    
+    }
+    
+    int fileNumber = numberOfLogs++;
+
+    NSString *headerString = [NSString stringWithFormat:@"[%@] %@\n\n", [[NSCalendarDate calendarDate] description], [NSString stringWithAddressData:[self peerAddressData]]];
+    NSData *headerData = [headerString dataUsingEncoding:NSASCIIStringEncoding];
+    
+    NSString *logBase = [logDirectory stringByAppendingFormat:@"/%02d", fileNumber];
+    NSString *logIn = [logBase stringByAppendingString:@"in.log"];
     [[NSFileManager defaultManager] createFileAtPath:logIn contents:[NSData data] attributes:nil];
     I_rawLogInHandle = [[NSFileHandle fileHandleForWritingAtPath:logIn] retain];
-    [I_rawLogInHandle writeData:header];
+    [I_rawLogInHandle writeData:headerData];
 
-    NSString *logOut = [logBase stringByAppendingString:@"Out.log"];
+    NSString *logOut = [logBase stringByAppendingString:@"out.log"];
     [[NSFileManager defaultManager] createFileAtPath:logOut contents:[NSData data] attributes:nil];
     I_rawLogOutHandle = [[NSFileHandle fileHandleForWritingAtPath:logOut] retain];
-    [I_rawLogOutHandle writeData:header];
+    [I_rawLogOutHandle writeData:headerData];
     
-    NSString *frameLogFileName = [logDir stringByAppendingPathComponent:[NSString stringWithFormat:@"Frames%02d.log", sNumberOfLogs++]];
+    NSString *frameLogFileName = [logBase stringByAppendingString:@"frames.log"];
     [[NSFileManager defaultManager] createFileAtPath:frameLogFileName contents:[NSData data] attributes:nil];
     I_frameLogHandle = [[NSFileHandle fileHandleForWritingAtPath:frameLogFileName] retain];
-    [I_frameLogHandle writeData:header];
+    [I_frameLogHandle writeData:headerData];
 #endif
-    I_timeout=[[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey];
 }
 
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
@@ -195,11 +203,16 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [I_currentReadFrame release];
     [I_terminateTimer invalidate];
     [I_terminateTimer release];
-#ifdef TCMBEEP_DEBUG
+#ifndef TCM_NO_DEBUG
+    NSString *trailerString = [NSString stringWithFormat:@"\n\n[%@] dealloc\n\n", [[NSCalendarDate calendarDate] description]];
+    NSData *trailerData = [trailerString dataUsingEncoding:NSASCIIStringEncoding];
+    [I_rawLogInHandle writeData:trailerData];
     [I_rawLogInHandle closeFile];
     [I_rawLogInHandle release];
+    [I_rawLogOutHandle writeData:trailerData];
     [I_rawLogOutHandle closeFile];
     [I_rawLogOutHandle release];
+    [I_frameLogHandle writeData:trailerData];
     [I_frameLogHandle closeFile];
     [I_frameLogHandle release];
 #endif
@@ -479,7 +492,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                 TCMBEEPFrame *frame;
                 while ((frame = [frames nextObject])) {
                     [frame appendToMutableData:I_writeBuffer];
-#ifdef TCMBEEP_DEBUG
+#ifndef TCM_NO_DEBUG
                     [I_frameLogHandle writeData:[frame descriptionInLogFileFormatIncoming:NO]];
 #endif
                     DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Sending Frame: %@", [frame description]);
@@ -495,7 +508,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     int bytesParsed = 0;
     CFIndex bytesRead = CFReadStreamRead(I_readStream, buffer, sizeof(buffer));
      
-#ifdef TCMBEEP_DEBUG
+#ifndef TCM_NO_DEBUG
     if (bytesRead > 0) {
         [I_rawLogInHandle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
 //        [I_rawLogInHandle writeData:[@"|" dataUsingEncoding:NSASCIIStringEncoding]];
@@ -527,6 +540,10 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                         if (!didAccept) {
                             [self terminate];
                             break;
+                        } else {
+#ifndef TCM_NO_DEBUG
+                        [I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
+#endif  
                         }
                     } else {
                         [self terminate];
@@ -577,7 +594,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                     break;
                 }
 
-#ifdef TCMBEEP_DEBUG
+#ifndef TCM_NO_DEBUG
                 [I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
 #endif                
                 // dispatch frame!
@@ -612,7 +629,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         
     CFIndex bytesWritten = CFWriteStreamWrite(I_writeStream, [I_writeBuffer bytes], [I_writeBuffer length]);
 
-#ifdef TCMBEEP_DEBUG
+#ifndef TCM_NO_DEBUG
     if (bytesWritten > 0) [I_rawLogOutHandle writeData:[NSData dataWithBytesNoCopy:(void *)[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
 #endif
 

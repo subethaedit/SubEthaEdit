@@ -74,7 +74,7 @@ enum {
     NSTimer *I_terminateTimer;
     NSTimeInterval I_timeout;
         
-#ifdef TCMBEEP_DEBUG
+#ifndef TCM_NO_DEBUG
     NSFileHandle *I_frameLogHandle;
     NSFileHandle *I_rawLogInHandle;
     NSFileHandle *I_rawLogOutHandle;
