@@ -12,6 +12,10 @@
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
         </postprocess>
     </symbol>
 
@@ -21,6 +25,10 @@
             <find>#pragma mark[-	 \n]*</find> <!-- An empty string places a separator -->
             <replace></replace>
         </postprocess>
+    </symbol>
+
+    <symbol id="Defines" font-weight="bold" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="yes">
+        <regex>#define[ \t]*([\w\d()]*)[ \t]+[^\n\r]*[\n\r]</regex>
     </symbol>
 
     <symbol id="CVS/SVN conflict" font-weight="bold" font-style="normal" image="SymbolWarn" indentation="0" ignoreblocks="no">
