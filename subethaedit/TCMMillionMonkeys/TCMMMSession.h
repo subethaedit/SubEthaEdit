@@ -72,6 +72,10 @@ typedef enum TCMMMSessionAccessState {
 - (NSData *)sessionBencoded;
 - (NSDictionary *)dictionaryRepresentation;
 
+- (void)addContributors:(NSArray *)Contributors;
+- (NSArray *)contributors;
+
+- (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs;
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession;
@@ -90,6 +94,7 @@ typedef enum TCMMMSessionAccessState {
 @interface NSDocument (TCMMMSessionDocumentAdditions)
 
 - (NSDictionary *)sessionInformation;
+- (void)sessionDidReceiveKick:(TCMMMSession *)aSession;
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
 - (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession;
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;

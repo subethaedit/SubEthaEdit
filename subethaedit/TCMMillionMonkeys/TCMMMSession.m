@@ -136,6 +136,30 @@ NSString * const TCMMMSessionDidChangeNotification =
     [super dealloc];
 }
 
+- (void)cleanupParticipants {
+    NSString *sessionID=[self sessionID];
+    NSString *userID;
+    NSEnumerator *participantIDs=[[I_groupByUserID allKeys] objectEnumerator];
+    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+    while ((userID=[participantIDs nextObject])) {
+        [[userManager userForUserID:userID] leaveSessionID:sessionID];
+    }
+    [I_participants removeAllObjects];
+    [I_groupByUserID removeAllObjects];
+}
+
+- (void)detachStateAndProfileForUserWithID:(NSString *)aUserID {
+    TCMMMState *state=[I_statesByClientID objectForKey:aUserID];
+    if (state) {
+        [state setDelegate:nil];
+        [I_closingStates addObject:state];
+        [I_statesByClientID removeObjectForKey:aUserID];
+    }
+    SessionProfile *profile=[I_profilesByUserID objectForKey:aUserID];
+    [I_closingProfiles addObject:profile];
+    [I_profilesByUserID removeObjectForKey:aUserID];
+}
+
 #pragma mark -
 #pragma ### Accessors ###
 
@@ -228,6 +252,38 @@ NSString * const TCMMMSessionDidChangeNotification =
 
 #pragma mark -
 
+- (void)addContributors:(NSArray *)aContributors {
+    [I_contributors addObjectsFromArray:aContributors];
+}
+
+- (NSArray *)contributors {
+    return [I_contributors allObjects];
+}
+
+
+- (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs {
+    if ([aGroup isEqualToString:@"PoofGroup"]) {
+        NSEnumerator *userIDs=[aUserIDs objectEnumerator];
+        NSString *userID;
+        TCMMMUser *user;
+        TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+        while ((userID=[userIDs nextObject])) {
+            user = [userManager userForUserID:userID];
+            NSString *group=[I_groupByUserID objectForKey:userID];
+            if (group) {
+                [I_groupByUserID removeObjectForKey:userID];
+                [[I_participants objectForKey:group] removeObject:user];
+                [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:userID newGroup:@""]];
+                SessionProfile *profile=[I_profilesByUserID objectForKey:userID];
+                [profile close];
+                [self detachStateAndProfileForUserWithID:userID];
+                [user leaveSessionID:[self sessionID]];
+            }
+        }
+        [self TCM_sendParticipantsDidChangeNotification];
+    }
+}
+
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet {
     if ([aGroup isEqualToString:@"PoofGroup"]) {
         NSMutableIndexSet *set = [aSet mutableCopy];
@@ -236,6 +292,7 @@ NSString * const TCMMMSessionDidChangeNotification =
             TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
             SessionProfile *profile=[I_profilesByUserID objectForKey:[user userID]];
             [profile denyJoin];
+            [profile close];
             [I_closingProfiles addObject:profile];
             [I_profilesByUserID removeObjectForKey:[user userID]];
             [set removeIndex:index];
@@ -332,16 +389,10 @@ NSString * const TCMMMSessionDidChangeNotification =
     if (![self isServer]) {
         SessionProfile *profile = [I_profilesByUserID objectForKey:[self hostID]];
         if (profile) {
-            TCMMMState *state=[I_statesByClientID objectForKey:[self hostID]];
-            [I_closingProfiles addObject:profile];
-            [I_closingStates addObject:state];
-            [state handleOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[TCMMMUserManager myUserID] newGroup:@""]];
-            [state setDelegate:nil];
+            [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[TCMMMUserManager myUserID] newGroup:@""]];
             [profile close];
-            [I_participants removeAllObjects];
-            [I_contributors removeAllObjects];
-            [I_profilesByUserID removeObjectForKey:[self hostID]];
-            [I_statesByClientID removeObjectForKey:[self hostID]];
+            [self detachStateAndProfileForUserWithID:[self hostID]];
+            [self cleanupParticipants];
             [[TCMMMUserManager me] leaveSessionID:[self sessionID]];
         }
     }
@@ -488,7 +539,7 @@ NSString * const TCMMMSessionDidChangeNotification =
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profile:userRequestsForSessionInformation:");
     
     NSArray *contributors=[sessionInfo objectForKey:@"Contributors"];
-    NSMutableArray *result=[NSArray array];
+    NSMutableArray *result=[NSMutableArray array];
     NSEnumerator *users=[contributors objectEnumerator];
     NSDictionary *userNotification;
     TCMMMUser *user=nil;
@@ -561,17 +612,26 @@ NSString * const TCMMMSessionDidChangeNotification =
         [self TCM_sendParticipantsDidChangeNotification];
     } else if ([anOperation type]==UserChangeTypeLeave) {
         NSString *userID=[anOperation userID];
-        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
-        NSString *group=[I_groupByUserID objectForKey:userID];
-        [I_groupByUserID removeObjectForKey:userID];
-        [[I_participants objectForKey:group] removeObject:user];
-        TCMMMState *state=[I_statesByClientID objectForKey:userID];
-        [state setDelegate:nil];
-        [I_closingStates addObject:state];
-        [I_statesByClientID removeObjectForKey:userID];
-        SessionProfile *profile=[I_profilesByUserID objectForKey:userID];
-        [I_closingProfiles addObject:profile];
-        [user leaveSessionID:[self sessionID]];
+        TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+        if ([userID isEqualToString:[userManager myUserID]]) {
+            if ([self isServer]) {
+                NSLog(@"Can't kick me out of my document, pah!");
+            } else {
+                // i was kicked, snief
+                // remove all Users
+                [self cleanupParticipants];
+                [self detachStateAndProfileForUserWithID:[self hostID]];
+                // detach document
+                [[self document] sessionDidReceiveKick:self];
+            }
+        } else {
+            TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
+            NSString *group=[I_groupByUserID objectForKey:userID];
+            [I_groupByUserID removeObjectForKey:userID];
+            [[I_participants objectForKey:group] removeObject:user];
+            [self detachStateAndProfileForUserWithID:userID];
+            [user leaveSessionID:[self sessionID]];
+        }
         [self TCM_sendParticipantsDidChangeNotification];
     } else {
         NSLog(@"Got UserChangeOperation: %@",[anOperation description]);

@@ -63,6 +63,11 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification =
                       @"PlainTextDocumentSyntaxColorizeNotification";
 static NSString * PlainTextDocumentInvalidateLayoutNotification =
                 @"PlainTextDocumentInvalidateLayoutNotification";
+NSString * const PlainTextDocumentSessionWillChangeNotification =
+               @"PlainTextDocumentSessionWillChangeNotification";
+NSString * const PlainTextDocumentSessionDidChangeNotification =
+               @"PlainTextDocumentSessionDidChangeNotification";
+
 NSString * const PlainTextDocumentRefreshWebPreviewNotification = 
                @"PlainTextDocumentRefreshWebPreviewNotification";
 NSString * const PlainTextDocumentDidChangeSymbolsNotification =
@@ -628,12 +633,25 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 }
 
+- (void)TCM_generateNewSession {
+    TCMMMSession *oldSession=[self session];
+    if (oldSession) {
+        [oldSession setDocument:nil];
+        [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
+    }
+    TCMMMSession *newSession=[[[TCMMMSession alloc] initWithDocument:self] autorelease];
+    NSArray *contributors=[oldSession contributors];
+    if ([contributors count]) {
+        [newSession addContributors:contributors];
+    }
+    [self setSession:newSession];
+    [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
+}
 
 - (id)init {
     self = [super init];
     if (self) {
-        [self setSession:[[TCMMMSession alloc] initWithDocument:self]];
-        [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
+        [self TCM_generateNewSession];
         I_textStorage = [TextStorage new];
         [I_textStorage setDelegate:self];
         [self setLineEnding:LineEndingLF];
@@ -709,8 +727,10 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 - (void)setSession:(TCMMMSession *)aSession {
+    [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentSessionWillChangeNotification object:self];
     [I_session autorelease];
     I_session = [aSession retain];
+    [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentSessionDidChangeNotification object:self];
 }
 
 - (TCMMMSession *)session {
@@ -2128,6 +2148,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession {
+}
+
+- (void)sessionDidReceiveKick:(TCMMMSession *)aSession {
+    [self TCM_generateNewSession];
+    NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"Kicked",@"Kick title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"KickedInfo",@"Kick info in Sheet")];
+    [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation {

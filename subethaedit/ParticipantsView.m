@@ -349,6 +349,21 @@ NSString *ParticipantsViewDidChangeSelectionNotification=
     }
 }
 
+- (void)validateSelection {
+    int numberOfRows=[self numberOfRows];
+    if ([I_selectedRows count]>0 && [I_selectedRows lastIndex]>=numberOfRows) {
+        [I_selectedRows removeIndex:[I_selectedRows lastIndex]];
+        while ([I_selectedRows count]>0 && [I_selectedRows lastIndex]>=numberOfRows) {
+            [I_selectedRows removeIndex:[I_selectedRows lastIndex]];
+        }
+        if ([I_selectedRows count]>0) {
+            I_selectedRow=[I_selectedRows lastIndex];
+        } else {
+            I_selectedRow=-1;
+        }
+    }
+}
+
 - (int)numberOfSelectedRows {
     return [I_selectedRows count];
 }
@@ -412,8 +427,14 @@ NSString *ParticipantsViewDidChangeSelectionNotification=
     return I_indexNumberOfChildren[aIndex]; 
 }
 
+- (int)numberOfRows {
+    if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
+    return I_indexNumberOfRows; 
+}
+
 - (void)reloadData {
     I_indicesNeedRebuilding=YES;
+    [self validateSelection];
     [self resizeToFit];
     [self setNeedsDisplay:YES];
 }

@@ -13,6 +13,9 @@
        PlainTextWindowController, WebPreviewWindowController,
        DocumentProxyWindowController;
 
+extern NSString * const PlainTextDocumentSessionWillChangeNotification;
+extern NSString * const PlainTextDocumentSessionDidChangeNotification;
+
 extern NSString * const PlainTextDocumentDidChangeSymbolsNotification;
 extern NSString * const PlainTextDocumentDidChangeEditStatusNotification;
 extern NSString * const PlainTextDocumentParticipantsDidChangeNotification;

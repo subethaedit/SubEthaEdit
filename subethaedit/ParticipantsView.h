@@ -62,6 +62,8 @@ enum {
 - (void)noteEnclosingScrollView;
 - (void)resizeToFit;
 
+- (int)numberOfRows;
+
 /*"Selection Handling"*/
 - (int)selectedRow;
 - (NSIndexSet *)selectedRowIndexes;

@@ -54,6 +54,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[[self window] toolbar] setDelegate:nil];
     [O_participantsView release];
     [I_plainTextEditors release];
@@ -99,6 +100,15 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     
     //[O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(sessionWillChange:)
+                                                 name:PlainTextDocumentSessionWillChangeNotification 
+                                               object:[self document]];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(sessionDidChange:)
+                                                 name:PlainTextDocumentSessionDidChangeNotification 
+                                               object:[self document]];
+
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(participantsDidChange:)
                                                  name:PlainTextDocumentParticipantsDidChangeNotification 
@@ -220,19 +230,21 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     [O_kickButton setEnabled:NO];
     [O_readOnlyButton setEnabled:NO];
     [O_readWriteButton setEnabled:NO];
-    if ([O_participantsView numberOfSelectedRows] == 1) {
-        int selectedRow=[O_participantsView selectedRow];
-        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
-        if (pair.childIndex!=-1) {
-            if (pair.itemIndex==0) {
-                [O_readOnlyButton setEnabled:YES];
-            } else if (pair.itemIndex==1) {
-                [O_readWriteButton setEnabled:YES];
-            } else if (pair.itemIndex==2) {
-                [O_readOnlyButton setEnabled:YES];
-                [O_readWriteButton setEnabled:YES];
+    if ([[(PlainTextDocument *)[self document] session] isServer]) {
+        if ([O_participantsView numberOfSelectedRows] == 1) {
+            int selectedRow=[O_participantsView selectedRow];
+            ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
+            if (pair.childIndex!=-1) {
+                if (pair.itemIndex==0) {
+                    [O_readOnlyButton setEnabled:YES];
+                } else if (pair.itemIndex==1) {
+                    [O_readWriteButton setEnabled:YES];
+                } else if (pair.itemIndex==2) {
+                    [O_readOnlyButton setEnabled:YES];
+                    [O_readWriteButton setEnabled:YES];
+                }
+                [O_kickButton setEnabled:YES];
             }
-            [O_kickButton setEnabled:YES];
         }
     }
 }
@@ -242,8 +254,11 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         int selectedRow=[O_participantsView selectedRow];
         ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
         if (pair.childIndex!=-1) {
+            TCMMMSession *session=[(PlainTextDocument *)[self document] session];
             if (pair.itemIndex==2) {
-                [[(PlainTextDocument *)[self document] session] setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
+                [session setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
+            } else {
+                [session setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID]]];
             }
         }
     }
@@ -471,6 +486,24 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 }
 
 #pragma mark -
+
+- (void)sessionWillChange:(NSNotification *)aNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionParticipantsDidChangeNotification object:[(PlainTextDocument *)[self document] session]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionPendingUsersDidChangeNotification object:[(PlainTextDocument *)[self document] session]];
+}
+
+- (void)sessionDidChange:(NSNotification *)aNotification {
+    [O_participantsView reloadData];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(participantsDidChange:)
+                                                 name:TCMMMSessionParticipantsDidChangeNotification 
+                                               object:[(PlainTextDocument *)[self document] session]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(pendingUsersDidChange:)
+                                                 name:TCMMMSessionPendingUsersDidChangeNotification 
+                                               object:[(PlainTextDocument *)[self document] session]];
+}
 
 - (void)participantsDidChange:(NSNotification *)aNotifcation {
     [O_participantsView reloadData];
