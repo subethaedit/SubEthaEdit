@@ -322,6 +322,12 @@ subethaedit/Modes/C.mode/Contents/Info.plist -text
 subethaedit/Modes/C.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/C.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/C.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/CSS.mode/Contents/Info.plist -text
+subethaedit/Modes/CSS.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/CSS.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/CSS.mode/Contents/Resources/Symbol!.png -text
+subethaedit/Modes/CSS.mode/Contents/Resources/SymbolID.png -text
+subethaedit/Modes/CSS.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/HTML.mode/Contents/Info.plist -text
 subethaedit/Modes/HTML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/HTML.mode/Contents/Resources/RegexSymbols.xml -text
