@@ -1665,7 +1665,7 @@ static NSString *tempFileName(NSString *origPath) {
 #pragma mark ### TextView Notifications / Extended Delegate ###
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
-    // NSLog(@"TextDocument textView doCommandBySelector:%@",NSStringFromSelector(aSelector));
+//    NSLog(@"TextDocument textView doCommandBySelector:%@",NSStringFromSelector(aSelector));
     NSRange affectedRange=[aTextView rangeForUserTextChange];
     NSRange selectedRange=[aTextView selectedRange];
 //    if (aSelector==@selector(cancel:)) {
@@ -1705,8 +1705,10 @@ static NSString *tempFileName(NSString *origPath) {
                 NSRange deleteRange;
                 deleteRange.location=affectedRange.location-toDelete;
                 deleteRange.length  =affectedRange.location-deleteRange.location;
-                [aTextView setSelectedRange:NSMakeRange(deleteRange.location,deleteRange.length)];
-                [aTextView insertText:@""];
+                if ([aTextView shouldChangeTextInRange:deleteRange replacementString:@""]) {
+                    [[aTextView textStorage] replaceCharactersInRange:deleteRange withString:@""];
+                    [aTextView didChangeText];
+                }
                 return YES;
             }
         }    
