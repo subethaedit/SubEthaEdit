@@ -1630,8 +1630,9 @@ static NSString *tempFileName(NSString *origPath) {
             NSRange range=NSMakeRange(aRange.location,[aString length]);
             [self highlightSyntaxInRange:range];
         } else {
-            NSRange range=NSMakeRange(aRange.location!=0?aRange.location-1:aRange.location,1);
-            if ([aTextStorage length]>=NSMaxRange(range)) {
+            unsigned length=[aTextStorage length];
+            NSRange range=NSMakeRange(aRange.location!=0?aRange.location-1:aRange.location,length>=2?2:1);
+            if (length>=NSMaxRange(range)) {
                 [aTextStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
             }
             [self highlightSyntaxInRange:range];
