@@ -89,50 +89,73 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 - (BOOL)listen
 {
-    struct sockaddr_in socketAddress;
+    CFDataRef addressData = NULL;
+    CFDataRef addressData6 = NULL;
     
-    bzero(&socketAddress, sizeof(struct sockaddr_in));
-    socketAddress.sin_len = sizeof(struct sockaddr_in);
-    socketAddress.sin_family = PF_INET;
-    socketAddress.sin_port = htons(I_port);
-    socketAddress.sin_addr.s_addr = htonl(INADDR_ANY);
+    do {
+        struct sockaddr_in socketAddress;
+        
+        bzero(&socketAddress, sizeof(struct sockaddr_in));
+        socketAddress.sin_len = sizeof(struct sockaddr_in);
+        socketAddress.sin_family = PF_INET;
+        socketAddress.sin_port = htons(I_port);
+        socketAddress.sin_addr.s_addr = htonl(INADDR_ANY);
+        
+        addressData = CFDataCreate(kCFAllocatorDefault, (UInt8 *)&socketAddress, sizeof(struct sockaddr_in));
+        if (addressData == NULL)
+            break;
+            
+        CFSocketError err = CFSocketSetAddress(I_listeningSocket, addressData);
+        if (err != kCFSocketSuccess) {
+            break;
+        }
+        
+        CFRelease(addressData);
+        addressData = NULL;
+        
+        
+        struct sockaddr_in6 socketAddress6;
+        
+        bzero(&socketAddress6, sizeof(struct sockaddr_in6));
+        socketAddress6.sin6_len = sizeof(struct sockaddr_in6);
+        socketAddress6.sin6_family = PF_INET6;
+        socketAddress6.sin6_port = htons(I_port);
+        memcpy(&(socketAddress6.sin6_addr), &in6addr_any, sizeof(socketAddress6.sin6_addr));
+        
+        addressData6 = CFDataCreate(kCFAllocatorDefault, (UInt8 *)&socketAddress6, sizeof(struct sockaddr_in6));
+        if (addressData6 == NULL)
+            break;
+        
+        err = CFSocketSetAddress(I_listeningSocket6, addressData6);
+        if (err != kCFSocketSuccess) {
+            break;
+        }
+        
+        CFRelease(addressData6);
+        addressData6 = NULL;
+        
+        
+        CFRunLoopRef currentRunLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
+
+        CFRunLoopSourceRef runLoopSource = CFSocketCreateRunLoopSource(kCFAllocatorDefault, I_listeningSocket, 0);
+        CFRunLoopAddSource(currentRunLoop, runLoopSource, kCFRunLoopCommonModes);
+        CFRelease(runLoopSource);
+        
+        CFRunLoopSourceRef runLoopSource6 = CFSocketCreateRunLoopSource(kCFAllocatorDefault, I_listeningSocket6, 0);
+        CFRunLoopAddSource(currentRunLoop, runLoopSource6, kCFRunLoopCommonModes);
+        CFRelease(runLoopSource6);
+        
+        return YES;
+    } while (0);
     
-    CFDataRef addressData = CFDataCreate(kCFAllocatorDefault, (UInt8 *)&socketAddress, sizeof(struct sockaddr_in));
     
-    CFSocketError err = CFSocketSetAddress(I_listeningSocket, addressData);
-    if (err != kCFSocketSuccess) {
-        return NO;
-    }
+    if (addressData)
+        CFRelease(addressData);
+        
+    if (addressData6)
+        CFRelease(addressData6);
     
-    CFRunLoopSourceRef runLoopSource = CFSocketCreateRunLoopSource(kCFAllocatorDefault, I_listeningSocket, 0);
-    CFRunLoopRef currentRunLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
-    CFRunLoopAddSource(currentRunLoop, runLoopSource, kCFRunLoopCommonModes);
-    CFRelease(runLoopSource);
-    CFRelease(addressData);
-    
-    
-    struct sockaddr_in6 socketAddress6;
-    
-    bzero(&socketAddress, sizeof(struct sockaddr_in6));
-    socketAddress6.sin6_len = sizeof(struct sockaddr_in6);
-    socketAddress6.sin6_family = PF_INET6;
-    socketAddress6.sin6_port = htons(I_port);
-    memcpy(&(socketAddress6.sin6_addr), &in6addr_any, sizeof(socketAddress6.sin6_addr));
-    
-    CFDataRef addressData6 = CFDataCreate(kCFAllocatorDefault, (UInt8 *)&socketAddress6, sizeof(struct sockaddr_in6));
-    
-    err = CFSocketSetAddress(I_listeningSocket6, addressData6);
-    if (err != kCFSocketSuccess) {
-        return NO;
-    }
-    
-    CFRunLoopSourceRef runLoopSource6 = CFSocketCreateRunLoopSource(kCFAllocatorDefault, I_listeningSocket6, 0);
-    currentRunLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
-    CFRunLoopAddSource(currentRunLoop, runLoopSource6, kCFRunLoopCommonModes);
-    CFRelease(runLoopSource6);
-    CFRelease(addressData6);
-    
-    return YES;
+    return NO;
 }
 
 - (void)close
