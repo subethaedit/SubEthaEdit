@@ -5,3 +5,11 @@ prototype/ExpatSimple/ExpatSimple_Prefix.pch -text
 prototype/ExpatSimple/expat.h -text
 prototype/ExpatSimple/libexpat.a -text
 prototype/ExpatSimple/main.m -text
+prototype/TCMXMLParser/TCMXMLParser.1 -text
+prototype/TCMXMLParser/TCMXMLParser.h -text
+prototype/TCMXMLParser/TCMXMLParser.m -text
+prototype/TCMXMLParser/TCMXMLParser.xcode/project.pbxproj -text
+prototype/TCMXMLParser/TCMXMLParser_Prefix.pch -text
+prototype/TCMXMLParser/expat.h -text
+prototype/TCMXMLParser/libexpat.a -text
+prototype/TCMXMLParser/main.m -text
