@@ -11,6 +11,9 @@
 #import <getopt.h>
 #import <stdio.h>
 
+#define TOOL_VERSION_STRING "1.0"
+#define TOOL_VERSION "#VERSION#"
+
 /*
 
 see -h
@@ -50,14 +53,32 @@ static NSString *tempFileName() {
 
 
 static void printHelp() {
-    fprintf(stdout, "Usage: see [-hlprvw] [-e encoding_name] [-m mode_name] [-t title] [-j description] [file ...]\n");
+    fprintf(stdout, "Usage: see [-hlprvw] [-e encoding_name] [-m mode_identifier] [-t title] [-j description] [file ...]\n");
     fflush(stdout);
 }
 
 
 static void printVersion() {
-    fprintf(stdout, "see 1.0 (vXXX)\n");
+    OSStatus status = noErr;
+    CFURLRef appURL = NULL;
+    NSString *appVersion = @"";
+    NSString *appShortVersionString = @"n/a";
+    
+    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), NULL, NULL, &appURL); // release appURL
+    if (status == noErr) {
+        NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
+         appVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
+         appShortVersionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    } 
+    
+    fprintf(stdout, "    see %s (v%s)\n", TOOL_VERSION_STRING, TOOL_VERSION);
+    fprintf(stdout, "    SubEthaEdit %s (v%s)\n", [appShortVersionString UTF8String], [appVersion UTF8String]);
     fflush(stdout);
+    
+    if (kLSApplicationNotFoundErr == status || appURL == NULL) {
+        fprintf(stderr, "\nsee: Couldn't locate SubEthaEdit.\n");
+        fflush(stderr);
+    }
 }
 
 
@@ -424,7 +445,6 @@ int main (int argc, const char * argv[]) {
     } else {
         openFiles(fileNames, options);
     }
-        
         
     [pool release];
     return 0;

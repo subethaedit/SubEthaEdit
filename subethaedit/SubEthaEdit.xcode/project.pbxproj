@@ -1188,6 +1188,45 @@
 			settings = {
 			};
 		};
+		145F24B50709DA1B008EF752 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				see/main.m,
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				see/main_derived.m,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\nsed \"s/#VERSION#/$REV/g\" see/main.m > see/main_derived.m";
+		};
+		145F24D90709DB32008EF752 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = main_derived.m;
+			path = see/main_derived.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		145F24DA0709DB32008EF752 = {
+			fileRef = 145F24D90709DB32008EF752;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		145F24DD0709DB61008EF752 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = main.m;
+			path = see/main.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		146017050619DB0B00E527EC = {
 			children = (
 				14A0EFB3060B410B00A80FA8,
@@ -2155,7 +2194,8 @@
 		};
 		14DC3C2606C3C531000E9E0A = {
 			children = (
-				14DC3C3806C3C717000E9E0A,
+				145F24DD0709DB61008EF752,
+				145F24D90709DB32008EF752,
 				14DC3C3906C3C717000E9E0A,
 			);
 			isa = PBXGroup;
@@ -2167,7 +2207,7 @@
 		14DC3C3106C3C6CB000E9E0A = {
 			buildActionMask = 2147483647;
 			files = (
-				14DC3C3A06C3C720000E9E0A,
+				145F24DA0709DB32008EF752,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2183,6 +2223,7 @@
 		};
 		14DC3C3306C3C6CB000E9E0A = {
 			buildPhases = (
+				145F24B50709DA1B008EF752,
 				14DC3C3106C3C6CB000E9E0A,
 				14DC3C3206C3C6CB000E9E0A,
 			);
@@ -2215,15 +2256,6 @@
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		14DC3C3806C3C717000E9E0A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = main.m;
-			path = see/main.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		14DC3C3906C3C717000E9E0A = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2232,12 +2264,6 @@
 			path = see/see.1;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		14DC3C3A06C3C720000E9E0A = {
-			fileRef = 14DC3C3806C3C717000E9E0A;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		14E3EACA06149C5D0083426B = {
 			isa = PBXFileReference;
