@@ -290,6 +290,24 @@
     return result;
 }
 
+- (void)TCM_adjustVisibilityInBottomStatusBar {
+    if (I_flags.showBottomStatusBar) {
+        float windowWidthPosition=NSMaxX([O_windowWidthTextField frame])-[[O_windowWidthTextField font] widthOfString:[O_windowWidthTextField stringValue]]-3.;
+        float testPosition=MIN(NSMaxX([O_encodingTextField frame]),[O_encodingTextField frame].origin.x+[[O_encodingTextField font] widthOfString:[O_encodingTextField stringValue]]+3.);
+        [O_encodingTextField setHidden:testPosition>windowWidthPosition];
+
+        testPosition=MIN(NSMaxX([O_lineEndingTextField frame]),[O_lineEndingTextField frame].origin.x+[[O_lineEndingTextField font] widthOfString:[O_lineEndingTextField stringValue]]+3.);
+        [O_lineEndingTextField setHidden:testPosition>windowWidthPosition];
+
+        testPosition=MIN(NSMaxX([O_tabStatusTextField frame]),[O_tabStatusTextField frame].origin.x+[[O_tabStatusTextField font] widthOfString:[O_tabStatusTextField stringValue]]+3.);
+        [O_tabStatusTextField setHidden:testPosition>windowWidthPosition];
+
+        testPosition=MIN(NSMaxX([O_modeTextField frame]),[O_modeTextField frame].origin.x+[[O_modeTextField font] widthOfString:[O_modeTextField stringValue]]+3.);
+        [O_modeTextField setHidden:testPosition>windowWidthPosition];
+
+    }
+}
+
 - (void)TCM_updateBottomStatusBar {
     if (I_flags.showBottomStatusBar) {
         PlainTextDocument *document=[self document];
@@ -321,6 +339,7 @@
                 break;
         }
         [O_lineEndingTextField setStringValue:lineEndingStatusString];
+        [self TCM_adjustVisibilityInBottomStatusBar];
     }
 }
 
