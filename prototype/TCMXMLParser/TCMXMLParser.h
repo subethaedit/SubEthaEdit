@@ -21,15 +21,18 @@
     id         CM_delegate;
 }
 
-+ (TCMXMLParser)XMLParser;
++ (TCMXMLParser *)XMLParser;
 
 - (id)init;
 
 - (void)setDelegate:(id)aDelegate;
 - (id)delegate;
 
-- (void)parseData:(NSData *)aData moreComing:(BOOL)moreComing;
+// returns YES if everything is fine, NO if error occurs
+- (BOOL)parseData:(NSData *)aData moreComing:(BOOL)moreComing;
 
+- (int)errorCode;
+- (NSString *)errorString;
 - (int)columnNumber;
 - (int)lineNumber;
 
@@ -47,5 +50,5 @@
 - (void)parser:(TCMXMLParser *)parser foundCDATA:(NSData *)CDATABlock;
 - (void)parser:(TCMXMLParser *)parser foundComment:(NSString *)comment;
 - (void)parser:(TCMXMLParser *)parser foundProcessingInstructionWithTarget:(NSString *)target data:(NSString *)data;
-
+- (void)parser:(TCMXMLParser *)parser didFailWithReason:(NSString *)errorString;
 @end
