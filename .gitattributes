@@ -218,6 +218,8 @@ prototype/xmpp-cli/xmpp_Prefix.pch -text
 subethaedit/AboutPanelController.h -text
 subethaedit/AboutPanelController.m -text
 subethaedit/Acknowledgements.rtf -text
+subethaedit/AdvancedPreferences.h -text
+subethaedit/AdvancedPreferences.m -text
 subethaedit/AppController.h -text
 subethaedit/AppController.m -text
 subethaedit/ButtonScrollView.h -text
@@ -259,6 +261,9 @@ subethaedit/EncodingManager.m -text
 subethaedit/English.lproj/AboutPanel.nib/classes.nib -text
 subethaedit/English.lproj/AboutPanel.nib/info.nib -text
 subethaedit/English.lproj/AboutPanel.nib/keyedobjects.nib -text
+subethaedit/English.lproj/AdvancedPrefs.nib/classes.nib -text
+subethaedit/English.lproj/AdvancedPrefs.nib/info.nib -text
+subethaedit/English.lproj/AdvancedPrefs.nib/keyedobjects.nib -text
 subethaedit/English.lproj/DocumentProxy.nib/classes.nib -text
 subethaedit/English.lproj/DocumentProxy.nib/info.nib -text
 subethaedit/English.lproj/DocumentProxy.nib/keyedobjects.nib -text
@@ -766,6 +771,7 @@ subethaedit/WebPreviewWindowController.h -text
 subethaedit/WebPreviewWindowController.m -text
 subethaedit/artwork/Action.tiff -text
 subethaedit/artwork/ActionPressed.tiff -text
+subethaedit/artwork/AdvancedPrefs.tiff -text
 subethaedit/artwork/Announce.tiff -text
 subethaedit/artwork/Conceal.png -text
 subethaedit/artwork/Conceal.tiff -text

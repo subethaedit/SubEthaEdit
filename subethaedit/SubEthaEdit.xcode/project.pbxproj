@@ -1342,6 +1342,72 @@
 			shellPath = /bin/sh;
 			shellScript = "find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" -name .svn | xargs rm -rf\n\n#MAJ_VER=\"2.0dev\"\nREV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n#/usr/bin/perl -spi -e \"s/VERSION_NUMBER_PLACEHOLDER/$MAJ_VER/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"\n\nif [ \"$ACTION\" = \"install\" ]\nthen\n    find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" | xargs rm -rf\nfi";
 		};
+		1469B46806EDBD0400863288 = {
+			children = (
+				1469B46906EDBD0400863288,
+			);
+			isa = PBXVariantGroup;
+			name = AdvancedPrefs.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1469B46906EDBD0400863288 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/AdvancedPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1469B46A06EDBD0400863288 = {
+			fileRef = 1469B46806EDBD0400863288;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1469B47106EDBD6200863288 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = AdvancedPreferences.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1469B47206EDBD6200863288 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = AdvancedPreferences.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1469B47306EDBD6200863288 = {
+			fileRef = 1469B47106EDBD6200863288;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1469B47406EDBD6200863288 = {
+			fileRef = 1469B47206EDBD6200863288;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1469B49B06EDBF5400863288 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = AdvancedPrefs.tiff;
+			path = artwork/AdvancedPrefs.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1469B49C06EDBF5400863288 = {
+			fileRef = 1469B49B06EDBF5400863288;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		146C7829063ABA8A00016CD9 = {
 			children = (
 				14CF2C4506428E7000D430AA,
@@ -2530,6 +2596,7 @@
 				31944D0806566F620067EAD7,
 				141E287306563B510097DFF8,
 				14FF9F430653915D0021FB60,
+				1469B46806EDBD0400863288,
 				2A37F4B6FDCFA73011CA2CEA,
 				5EA982840641001800FD5B65,
 				14A5B34E06218D2700DC3A93,
@@ -4727,6 +4794,8 @@
 		};
 		5ED305B80601BF6C00C38815 = {
 			children = (
+				1469B47106EDBD6200863288,
+				1469B47206EDBD6200863288,
 				148892A6061869DC005BDDCB,
 				148892A7061869DC005BDDCB,
 				148892A0061869A6005BDDCB,
@@ -4879,6 +4948,7 @@
 		};
 		5EEB176705ECDC0C00C17677 = {
 			children = (
+				1469B49B06EDBF5400863288,
 				5E713F5E065594320062A1AF,
 				5E46B56F065453A100C16EA9,
 				14C51C98060213490030F488,
@@ -5577,6 +5647,7 @@
 				1428840706E33DA000FB57C5,
 				1428840806E33DA000FB57C5,
 				1428840A06E33DA000FB57C5,
+				1469B47306EDBD6200863288,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5680,6 +5751,8 @@
 				145B024306A6A60B00160C0E,
 				1428767C06DFA10B00FB57C5,
 				1428767D06DFA10B00FB57C5,
+				1469B46A06EDBD0400863288,
+				1469B49C06EDBF5400863288,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5791,6 +5864,7 @@
 				1428840406E33DA000FB57C5,
 				1428840606E33DA000FB57C5,
 				1428840906E33DA000FB57C5,
+				1469B47406EDBD6200863288,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
