@@ -282,7 +282,7 @@ enum {
         [menuItem setState:[self showsGutter]?NSOnState:NSOffState];
         return YES;
     } else if (selector == @selector(copyDocumentURL:)) {
-        return [[(PlainTextDocument *)[self document] session] isServer];
+        return [(PlainTextDocument *)[self document] isAnnounced];
     } else if (selector == @selector(toggleSplitView:)) {
         [menuItem setTitle:[I_plainTextEditors count]==1?
                            NSLocalizedString(@"Split View",@"Split View Menu Entry"):
@@ -416,7 +416,7 @@ enum {
 - (void)validateUpperDrawer {
     TCMMMSession *session = [(PlainTextDocument *)[self document] session];
     BOOL isServer=[session isServer];
-    [O_URLImageView setHidden:!isServer];
+    [O_URLImageView setHidden:![(PlainTextDocument *)[self document] isAnnounced]];
     [O_pendingUsersAccessPopUpButton setEnabled:isServer];
     TCMMMSessionAccessState state = [session accessState];
     int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
