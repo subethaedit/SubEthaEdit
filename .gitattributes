@@ -303,6 +303,9 @@ subethaedit/English.lproj/PlainTextWindow.nib/classes.nib -text
 subethaedit/English.lproj/PlainTextWindow.nib/info.nib -text
 subethaedit/English.lproj/PlainTextWindow.nib/keyedobjects.nib -text
 subethaedit/English.lproj/Preferences.strings -text
+subethaedit/English.lproj/PrintOptions.nib/classes.nib -text
+subethaedit/English.lproj/PrintOptions.nib/info.nib -text
+subethaedit/English.lproj/PrintOptions.nib/keyedobjects.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/classes.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/info.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
