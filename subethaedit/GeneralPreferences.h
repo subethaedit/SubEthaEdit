@@ -18,6 +18,7 @@ extern NSString * const HighlightChangesAlonePreferenceKey ;
 extern NSString * const OpenDocumentOnStartPreferenceKey   ;
 extern NSString * const SelectedMyColorPreferenceKey       ;
 extern NSString * const ModeForNewDocumentsPreferenceKey   ;
+extern NSString * const AdditionalShownPathComponentsPreferenceKey;
 extern NSString * const MyNamePreferenceKey ;
 extern NSString * const MyAIMPreferenceKey  ;
 extern NSString * const MyEmailPreferenceKey;

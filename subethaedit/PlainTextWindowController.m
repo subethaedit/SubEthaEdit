@@ -686,6 +686,7 @@ enum {
 
 - (void)pendingUsersDidChange:(NSNotification *)aNotifcation {
     [O_participantsView reloadData];
+    [self synchronizeWindowTitleWithDocumentName];
 }
 
 - (void)displayNameDidChange:(NSNotification *)aNotification {

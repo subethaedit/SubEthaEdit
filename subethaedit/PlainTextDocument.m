@@ -1940,6 +1940,30 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 #pragma mark -
+
+- (NSString *)displayName {
+    NSMutableString *result=[NSMutableString string];
+    TCMMMSession *session=[self session];
+    if (!session || [session isServer]) {
+        NSArray *pathComponents=[[self fileName] pathComponents];
+        int count=[pathComponents count];
+        if (!count) return [super displayName];
+        int i=count;
+        int pathComponentsToShow=[[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+        for (i=count-1;i>=0 && i>count-pathComponentsToShow-1;i--) {
+            if (i!=count-1) {
+                [result insertString:@"/" atIndex:0];
+            }
+            [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
+        }
+    } else {
+        [result appendString:[NSString stringWithFormat:@"%@ - %@",[session filename],[[[TCMMMUserManager sharedInstance] userForUserID:[session hostID]] name]]];
+    }
+    
+    return result;
+}
+
+#pragma mark -
 #pragma mark ### Flag Accessors ###
 // wrapline setting is only for book keeping - editor scope
 - (BOOL)showInvisibleCharacters {
@@ -2347,11 +2371,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)setFileName:(NSString *)fileName {
+    [super setFileName:fileName];
     TCMMMSession *session=[self session];
     if ([session isServer]) {
-        [session setFilename:[fileName lastPathComponent]];
+        NSLog(@"Displayname: %@",[self displayName]);
+        [session setFilename:[self displayName]];
     }
-    [super setFileName:fileName];
 }
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {

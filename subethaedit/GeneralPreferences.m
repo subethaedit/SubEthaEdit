@@ -22,6 +22,7 @@ NSString * const HighlightChangesPreferenceKey       = @"HighlightChanges";
 NSString * const HighlightChangesAlonePreferenceKey  = @"HighlightChangesAlone";
 NSString * const OpenDocumentOnStartPreferenceKey    = @"OpenDocumentOnStart";
 NSString * const ModeForNewDocumentsPreferenceKey    = @"ModeForNewDocuments";
+NSString * const AdditionalShownPathComponentsPreferenceKey = @"AdditionalShownPathComponents";
 NSString * const SelectedMyColorPreferenceKey        = @"SelectedMyColor";
 NSString * const MyNamePreferenceKey    = @"MyName";
 NSString * const MyAIMPreferenceKey     = @"MyAIM";
@@ -53,6 +54,8 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
                     forKey:MyEmailsPreferenceKey];
     [defaultDict setObject:[NSNumber numberWithBool:YES]
                     forKey:OpenDocumentOnStartPreferenceKey];
+    [defaultDict setObject:[NSNumber numberWithInt:0]
+                    forKey:AdditionalShownPathComponentsPreferenceKey];
     [defaultDict setObject:[NSNumber numberWithBool:YES]
                     forKey:HighlightChangesPreferenceKey];
     [defaultDict setObject:[NSNumber numberWithBool:NO]
