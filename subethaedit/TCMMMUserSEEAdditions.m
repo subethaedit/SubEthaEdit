@@ -91,6 +91,26 @@
     return changeColor;
 }
 
+- (NSString *)vcfRepresentation {
+    NSMutableString *result=[NSMutableString stringWithString:@"BEGIN:VCARD\r\nVERSION:3.0\r\n"];
+    //[result appendFormat:@"N:%@;;;;\r\n", [self name]];
+    [result appendFormat:@"FN:%@\r\n", [self name]];
+    NSString *email=[[self properties] objectForKey:@"Email"];
+    if (email && [email length]>0) {
+        [result appendFormat:@"EMAIL;type=INTERNET;type=WORK;type=pref:%@\r\n",email];
+    }
+    NSString *aim=[[self properties] objectForKey:@"AIM"];
+    if (aim && [aim length]>0) {
+        [result appendFormat:@"X-AIM;type=HOME;type=pref:%@\r\n",aim];
+    }
+    NSData *pngImage=[[self properties] objectForKey:@"ImageAsPNG"];
+    if (pngImage && [pngImage length]>0) {
+        [result appendFormat:@"PHOTO;ENCODING=b;TYPE=PNG:\r\n%@\r\n",[pngImage base64EncodedStringWithLineLength:76]];
+    }
+    [result appendString:@"END:VCARD\r\n"];
+    return result;
+}
+
 
     
 @end

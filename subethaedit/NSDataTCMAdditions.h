@@ -12,5 +12,6 @@
 @interface NSData (NSDataTCMAdditions)
 
 + dataWithUUIDString:(NSString *)aUUIDString;
+- base64EncodedStringWithLineLength:(int)lineLength;
 
 @end

@@ -20,6 +20,6 @@
 - (NSData *)userBencoded;
 - (void)setUserHue:(NSNumber *)aHue;
 - (NSColor *)changeColor;
-
+- (NSString *)vcfRepresentation;
     
 @end
