@@ -24,6 +24,8 @@
 	   <string>plist</string>
 	   <string>rss</string>
 	   <string>rdf</string>
+	   <string>ct</string>
+	   <string>cpt</string>
 	</array>
 </dict>
 </plist>
