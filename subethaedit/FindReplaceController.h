@@ -11,6 +11,7 @@
 
 typedef enum {
     TCMFindPanelActionFindAll = 1001,
+    TCMFindPanelSetReplaceString = 1002,
 } TCMFindPanelAction;
 
 @interface NSString (NSStringTextFinding)

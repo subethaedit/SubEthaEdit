@@ -67,6 +67,8 @@ static FindReplaceController *sharedInstance=nil;
         [self loadStateFromPreferences];
         [O_findComboBox reloadData];
         [O_replaceComboBox reloadData];
+        //[O_ReplaceFindButton setKeyEquivalent:@"y"];
+        //[O_ReplaceFindButton setKeyEquivalentModifierMask:NSControlKeyMask|NSCommandKeyMask];
     }
     return O_findPanel;
 }
@@ -287,6 +289,12 @@ static FindReplaceController *sharedInstance=nil;
         if (target) {
             [O_findComboBox setStringValue:[[target string] substringWithRange:[target selectedRange]]];
             [self loadFindStringToPasteboard];
+        } else NSBeep();
+    } else if ([sender tag]==TCMFindPanelSetReplaceString) {
+        [self findPanel];
+        NSTextView *target = [self targetToFindIn];
+        if (target) {
+            [O_replaceComboBox setStringValue:[[target string] substringWithRange:[target selectedRange]]];
         } else NSBeep();
     } else if ([sender tag]==TCMFindPanelActionFindAll) {
         if ([findString isEqualToString:@""]) {

@@ -238,6 +238,7 @@ static NSMenu *defaultMenu=nil;
     BOOL returnValue = [super validateMenuItem:menuItem];
     if (!returnValue) {
         if ([menuItem tag]==1001) returnValue=YES;
+        if ([menuItem tag]==1002) returnValue=YES;
     }
     
     return returnValue;
