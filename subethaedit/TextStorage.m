@@ -104,9 +104,9 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 - (NSRange)findLine:(int)aLineNumber {
-    NSParameterAssert(aLineNumber>0);
     NSString *string=[self string];
     NSRange lineRange=NSMakeRange(NSNotFound,0);
+    if (aLineNumber < 1) return lineRange;
     if ([I_lineStarts count]<aLineNumber) {
         int lineNumber=[I_lineStarts count];
         lineRange=[string lineRangeForRange:NSMakeRange([[I_lineStarts objectAtIndex:lineNumber-1] unsignedIntValue],0)];

@@ -1,0 +1,17 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {gotoLine = id; gotoLineAndClosePanel = id; orderFrontGotoPanel = id; }; 
+            CLASS = FindReplaceController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_findPanel" = NSPanel; 
+                "O_gotoLineTextField" = NSTextField; 
+                "O_gotoPanel" = NSPanel; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

@@ -206,6 +206,9 @@ subethaedit/English.lproj/Credits.rtf -text
 subethaedit/English.lproj/EditPrefs.nib/classes.nib -text
 subethaedit/English.lproj/EditPrefs.nib/info.nib -text
 subethaedit/English.lproj/EditPrefs.nib/keyedobjects.nib -text
+subethaedit/English.lproj/FindReplace.nib/classes.nib -text
+subethaedit/English.lproj/FindReplace.nib/info.nib -text
+subethaedit/English.lproj/FindReplace.nib/keyedobjects.nib -text
 subethaedit/English.lproj/GeneralPrefs.nib/classes.nib -text
 subethaedit/English.lproj/GeneralPrefs.nib/info.nib -text
 subethaedit/English.lproj/GeneralPrefs.nib/keyedobjects.nib -text
@@ -238,6 +241,8 @@ subethaedit/English.lproj/SelectEncodingsPanel.nib/objects.nib -text
 subethaedit/English.lproj/WebPreview.nib/classes.nib -text
 subethaedit/English.lproj/WebPreview.nib/info.nib -text
 subethaedit/English.lproj/WebPreview.nib/keyedobjects.nib -text
+subethaedit/FindReplaceController.h -text
+subethaedit/FindReplaceController.m -text
 subethaedit/FontAttributesToStringValueTransformer.h -text
 subethaedit/FontAttributesToStringValueTransformer.m -text
 subethaedit/Functions.h -text
