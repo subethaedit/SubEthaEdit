@@ -70,11 +70,11 @@
                 [[self channel] sendMessage:[message autorelease]];        
             } else {
                 // brich ab
+                [[self session] terminate];
             }
         } else {
             if ([type isEqualToString:@"ACK"]) {
                 [[self delegate] profile:self receivedAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
-                // WARNING: No reply is sent for this message!
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
                 [[self channel] sendMessage:[message autorelease]];
             }
@@ -106,6 +106,7 @@
                 [[self delegate] profile:self didAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
             } else {
                 // brich ab
+                [[self session] terminate];
             }
         } else {
             DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Got empty reply for ACK message.");
