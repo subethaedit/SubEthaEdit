@@ -10,6 +10,7 @@
 #import "TCMBEEPSession.h"
 
 #import <netinet/in.h>
+#import <netinet6/in6.h>
 #import <sys/socket.h>
 
 
@@ -48,8 +49,21 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
                 DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to reuseaddr: %@ / %s", errno, strerror(errno));
             }
         } else {
-            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Could not create listening socket");
+            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Could not create listening socket for IPv4");
         }
+
+        I_listeningSocket6 = CFSocketCreate(kCFAllocatorDefault, PF_INET6, SOCK_STREAM, IPPROTO_TCP, 
+                                           kCFSocketAcceptCallBack, acceptConnection, &socketContext);
+        if (I_listeningSocket6) {
+            int result = setsockopt(CFSocketGetNative(I_listeningSocket6), SOL_SOCKET, 
+                                    SO_REUSEADDR, &yes, sizeof(int));
+            if (result == -1) {
+                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to reuseaddr: %@ / %s", errno, strerror(errno));
+            }
+        } else {
+            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Could not create listening socket for IPv6");
+        }        
+        
     }
     
     return self;
@@ -59,6 +73,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 {
     I_delegate = nil;
     CFRelease(I_listeningSocket);
+    CFRelease(I_listeningSocket6);
     [super dealloc];
 }
 
@@ -95,12 +110,35 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
     CFRelease(runLoopSource);
     CFRelease(addressData);
     
+    
+    struct sockaddr_in6 socketAddress6;
+    
+    bzero(&socketAddress, sizeof(struct sockaddr_in6));
+    socketAddress6.sin6_len = sizeof(struct sockaddr_in6);
+    socketAddress6.sin6_family = PF_INET6;
+    socketAddress6.sin6_port = htons(I_port);
+    memcpy(&(socketAddress6.sin6_addr), &in6addr_any, sizeof(socketAddress6.sin6_addr));
+    
+    CFDataRef addressData6 = CFDataCreate(kCFAllocatorDefault, (UInt8 *)&socketAddress6, sizeof(struct sockaddr_in6));
+    
+    err = CFSocketSetAddress(I_listeningSocket6, addressData6);
+    if (err != kCFSocketSuccess) {
+        return NO;
+    }
+    
+    CFRunLoopSourceRef runLoopSource6 = CFSocketCreateRunLoopSource(kCFAllocatorDefault, I_listeningSocket6, 0);
+    currentRunLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
+    CFRunLoopAddSource(currentRunLoop, runLoopSource6, kCFRunLoopCommonModes);
+    CFRelease(runLoopSource6);
+    CFRelease(addressData6);
+    
     return YES;
 }
 
 - (void)close
 {
     CFSocketInvalidate(I_listeningSocket);
+    CFSocketInvalidate(I_listeningSocket6);
 }
 
 #pragma mark -
