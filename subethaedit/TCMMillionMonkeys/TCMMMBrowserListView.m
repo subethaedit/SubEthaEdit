@@ -217,7 +217,7 @@ static NSColor *alternateRowColor=nil;
                     [childStep concat];
                 }
                 pair.childIndex++;
-                if (pair.childIndex > I_indexNumberOfChildren[pair.itemIndex]) {
+                if (!(pair.childIndex < I_indexNumberOfChildren[pair.itemIndex])) {
                     pair.itemIndex++;
                     pair.childIndex=-1;
                 }
