@@ -483,6 +483,8 @@ subethaedit/TCMApplication.h -text
 subethaedit/TCMApplication.m -text
 subethaedit/TCMFoundation/English.lproj/InfoPlist.strings -text
 subethaedit/TCMFoundation/Info.plist -text
+subethaedit/TCMFoundation/NSDataTCMAdditions.h -text
+subethaedit/TCMFoundation/NSDataTCMAdditions.m -text
 subethaedit/TCMFoundation/NSDictionaryTCMAdditions.h -text
 subethaedit/TCMFoundation/NSDictionaryTCMAdditions.m -text
 subethaedit/TCMFoundation/NSStringTCMAdditions.h -text
