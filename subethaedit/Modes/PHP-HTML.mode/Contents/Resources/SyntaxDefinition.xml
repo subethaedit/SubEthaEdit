@@ -3573,14 +3573,14 @@
         <state id="HTML" color="#000" background-color="none" font-weight="normal" font-style="normal">
             <begin><string>(&lt;html)|(\?&gt;)</string></begin>
             <end><regex>(&lt;\?php)</regex></end>
-            <keywords id="Tags" color="#0AA" font-weight="bold" useforautocomplete="no">
+            <keywords id="Tags" color="#881280" font-weight="bold" useforautocomplete="no">
                 <regex>&lt;/?([^ &gt;\n\r]+)</regex>
             </keywords>
-            <keywords id="Attributes" color="#088" font-weight="bold" useforautocomplete="no">
+            <keywords id="Attributes" color="#994500" useforautocomplete="no">
                 <regex> ([^ &gt;\n\r]+)=</regex>
             </keywords>
-            <keywords id="Strings" color="#055" font-weight="bold" useforautocomplete="no">
-                <regex>(("(\\"|[^"])*")|('(\\'|[^'])*'))</regex>
+            <keywords id="Strings" color="#1A1AA6" font-style="italic" useforautocomplete="no">
+                <regex>("[^"]*")</regex>
             </keywords>
             <keywords id="PHP Delimiter" color="#D00" font-weight="bold" useforautocomplete="no">
                 <regex>(&lt;\?php)</regex>
