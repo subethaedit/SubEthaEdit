@@ -185,6 +185,23 @@
                 <string>wider</string>
                 <string>break</string>
                 <string>url</string>
+                <string>aqua</string>
+                <string>black</string>
+                <string>blue</string>
+                <string>fuchsia</string>
+                <string>gray</string>
+                <string>green</string>
+                <string>lime</string>
+                <string>maroon</string>
+                <string>navy</string>
+                <string>olive</string>
+                <string>purple</string>
+                <string>red</string>
+                <string>silver</string>
+                <string>teal</string>
+                <string>white</string>
+                <string>yellow</string>
+                <string>never</string>
             </keywords>
 
             <keywords id="CSS Keywords" color="#88134F" font-style="bold" useforautocomplete="yes">

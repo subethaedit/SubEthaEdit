@@ -111,11 +111,23 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                             stateRange = NSMakeRange(currentRange.location, NSMaxRange(aRange) - currentRange.location);
                         }
                         
-                        NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                    I_theDocumentBackgroundIsDark?[[foundState objectForKey:@"color"] brightnessInvertedColor]:[foundState objectForKey:@"color"], NSForegroundColorAttributeName,
+                        NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     [theDocument fontWithTrait:[[foundState objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
                                                     [NSNumber numberWithInt:stateNumber],kSyntaxHighlightingStateName,
                                                     nil];
+                        
+                        NSColor *stateColor;
+                        if ((stateColor = [foundState objectForKey:@"color"])) {
+                            if (I_theDocumentBackgroundIsDark) {
+                                NSColor *stateInvertedColor;
+                                if ((stateInvertedColor = [foundState objectForKey:@"inverted-color"])) {
+                                    stateColor = stateInvertedColor;
+                                } else {
+                                    stateColor = [stateColor brightnessInvertedColor];
+                                }
+                            }
+                            [attributes setObject:stateColor forKey:NSForegroundColorAttributeName];
+                        }
                                                     
                         NSRange colorRange;
                         if (startRange.location!=NSNotFound) {
@@ -158,11 +170,23 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                 currentRange.length = 0;
             }
             // Color defaultState
-            NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+            NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         [theDocument documentForegroundColor], NSForegroundColorAttributeName,
-//                                        I_theDocumentBackgroundIsDark?[[defaultState objectForKey:@"color"] brightnessInvertedColor]:[defaultState objectForKey:@"color"], NSForegroundColorAttributeName,
-                                        [theDocument fontWithTrait:[[defaultState objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
-                                        nil];
+                                        [theDocument fontWithTrait:[[defaultState objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName, nil];
+            
+            NSColor *stateColor;
+            if ((stateColor = [defaultState objectForKey:@"color"])) {
+                if (I_theDocumentBackgroundIsDark) {
+                    NSColor *stateInvertedColor;
+                    if ((stateInvertedColor = [defaultState objectForKey:@"inverted-color"])) {
+                        stateColor = stateInvertedColor;
+                    } else {
+                        stateColor = [stateColor brightnessInvertedColor];
+                    }
+                } 
+                [attributes setObject:stateColor forKey:NSForegroundColorAttributeName];
+            }
+            
             [aString addAttributes:attributes range:defaultStateRange];
             [self highlightRegularExpressionsOfAttributedString:aString inRange:defaultStateRange forState:-1];
             [self highlightPlainStringsOfAttributedString:aString inRange:defaultStateRange forState:-1];

@@ -212,8 +212,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             NSColor *aColor;
             if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
                 [aDictionary setObject:aColor forKey:@"color"];
-            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"background-color"]]))
-                [aDictionary setObject:aColor forKey:@"background-color"];
+            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"inverted-color"]]))
+                [aDictionary setObject:aColor forKey:@"inverted-color"];
                 
             NSFontTraitMask mask = 0;
             if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
@@ -226,8 +226,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             NSColor *aColor;
             if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
                 [I_defaultState setObject:aColor forKey:@"color"];
-            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"background-color"]]))
-                [I_defaultState setObject:aColor forKey:@"background-color"];
+            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"inverted-color"]]))
+                [I_defaultState setObject:aColor forKey:@"inverted-color"];
                 
             NSFontTraitMask mask = 0;
             if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
@@ -395,8 +395,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         NSString *aString;
         if ((aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"color"]]))
             [attributes setObject:aColor forKey:@"color"];
-        if ((aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"background-color"]]))
-            [attributes setObject:aColor forKey:@"background-color"];
+        if ((aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"inverted-color"]]))
+            [attributes setObject:aColor forKey:@"inverted-color"];
         if ((aString = [keywordGroup objectForKey:@"font-style"]))      
             [attributes setObject:aString forKey:@"font-style"];
         if ((aString = [keywordGroup objectForKey:@"font-weight"]))     

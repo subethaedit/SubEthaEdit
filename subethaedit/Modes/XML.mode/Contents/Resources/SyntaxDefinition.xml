@@ -10,7 +10,7 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+        <default id="Base" color="#000" background-color="#fff" font-style="normal">
         
             <keywords id="Tags" color="#881280" useforautocomplete="no">
                 <regex>(&lt;[^&gt;]*&gt;)</regex>
@@ -26,17 +26,22 @@
             
         </default>
 
-        <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+        <state id="Comment" color="#236E25" font-style="italic">
             <begin><regex>&lt;!--</regex></begin>
             <end><regex>--&gt;</regex></end>
         </state>
 
-        <state id="Doctype" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>&lt;!</regex></begin>
+        <state id="CDATA" color="#f00" font-style="italic">
+            <begin><regex>&lt;!\[CDATA</regex></begin>
             <end><regex>&gt;</regex></end>
         </state>
         
-        <state id="Escape" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+        <state id="Doctype" color="#236E25" font-style="italic">
+            <begin><regex>&lt;!</regex></begin>
+            <end><regex>&gt;</regex></end>
+        </state>
+
+        <state id="Escape" color="#236E25" font-style="italic">
             <begin><regex>&lt;\?</regex></begin>
             <end><regex>\?&gt;</regex></end>
         </state>
