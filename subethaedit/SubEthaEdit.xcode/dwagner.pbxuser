@@ -32,9 +32,9 @@
 	};
 	143C360D05ECCEE8008C6DFE = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1490.24, 4325}}";
-			sepNavSelRange = "{8795, 0}";
-			sepNavVisRect = "{{0, 2589}, {560, 220}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1490.24, 4298}}";
+			sepNavSelRange = "{12736, 0}";
+			sepNavVisRect = "{{0, 1045}, {560, 220}}";
 			sepNavWindowFrame = "{{107, 185}, {750, 558}}";
 		};
 	};
@@ -585,7 +585,7 @@
 					PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
 						BoundsStr = "{{0, 0}, {584, 146}}";
 						Rows = (
-							6,
+							2,
 						);
 						VisibleRectStr = "{{0, 0}, {584, 146}}";
 					};
@@ -593,14 +593,14 @@
 					PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 						PBXSplitModuleInNavigatorKey = {
 							Split0 = {
-								bookmark = 5E54DD420630037500BB86CD;
+								bookmark = 5E54DD8C06300BE000BB86CD;
 								history = (
 									5E54DD1B0630035500BB86CD,
-									5E54DD1C0630035500BB86CD,
 									5E54DD1D0630035500BB86CD,
-									5E54DD1E0630035500BB86CD,
 									5E54DD1F0630035500BB86CD,
-									5E54DD200630035500BB86CD,
+									5E54DD8606300BDF00BB86CD,
+									5E54DD8706300BDF00BB86CD,
+									5E54DD8806300BDF00BB86CD,
 								);
 								prevStack = (
 									5E54DD210630035500BB86CD,
@@ -608,6 +608,8 @@
 									5E54DD230630035500BB86CD,
 									5E54DD240630035500BB86CD,
 									5E54DD250630035500BB86CD,
+									5E54DD8906300BDF00BB86CD,
+									5E54DD8A06300BDF00BB86CD,
 								);
 							};
 							SplitCount = 1;
@@ -733,7 +735,7 @@
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "655 354 599 457 0 0 1280 832 ";
+				RubberWindowFrame = "345 365 599 457 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {848, 402}}";
@@ -768,6 +770,13 @@
 			5E54DD250630035500BB86CD = 5E54DD250630035500BB86CD;
 			5E54DD260630035500BB86CD = 5E54DD260630035500BB86CD;
 			5E54DD420630037500BB86CD = 5E54DD420630037500BB86CD;
+			5E54DD8606300BDF00BB86CD = 5E54DD8606300BDF00BB86CD;
+			5E54DD8706300BDF00BB86CD = 5E54DD8706300BDF00BB86CD;
+			5E54DD8806300BDF00BB86CD = 5E54DD8806300BDF00BB86CD;
+			5E54DD8906300BDF00BB86CD = 5E54DD8906300BDF00BB86CD;
+			5E54DD8A06300BDF00BB86CD = 5E54DD8A06300BDF00BB86CD;
+			5E54DD8B06300BDF00BB86CD = 5E54DD8B06300BDF00BB86CD;
+			5E54DD8C06300BE000BB86CD = 5E54DD8C06300BE000BB86CD;
 		};
 		sourceControlManager = 5EEB176305ECDA4F00C17677;
 		userBookmarkGroup = 5ED032560622CCF60016EAB2;
@@ -1145,6 +1154,81 @@
 		vrLen = 451;
 		vrLoc = 16857;
 	};
+	5E54DD7C0630051500BB86CD = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.objc;
+		name = TCMBEEPSession.m;
+		path = /Users/dwagner/Data/Coding/MyStuff/SubEthaEdit/wc/trunk/subethaedit/TCMBEEP/TCMBEEPSession.m;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	5E54DD8606300BDF00BB86CD = {
+		fRef = 14499E55062C6F9B00E1C9F1;
+		isa = PBXTextBookmark;
+		name = "\tCFIndex\t\t\t\tdictSize;\n";
+		rLen = 22;
+		rLoc = 17173;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 16857;
+	};
+	5E54DD8706300BDF00BB86CD = {
+		fRef = 143C360D05ECCEE8008C6DFE;
+		isa = PBXTextBookmark;
+		name = "AppController.m: 307";
+		rLen = 0;
+		rLoc = 12736;
+		rType = 0;
+		vrLen = 496;
+		vrLoc = 2935;
+	};
+	5E54DD8806300BDF00BB86CD = {
+		fRef = 5E54DD7C0630051500BB86CD;
+		isa = PBXTextBookmark;
+		rLen = 1;
+		rLoc = 374;
+		rType = 1;
+	};
+	5E54DD8906300BDF00BB86CD = {
+		fRef = 14499E55062C6F9B00E1C9F1;
+		isa = PBXTextBookmark;
+		name = "\tCFIndex\t\t\t\tdictSize;\n";
+		rLen = 22;
+		rLoc = 17173;
+		rType = 0;
+		vrLen = 451;
+		vrLoc = 16857;
+	};
+	5E54DD8A06300BDF00BB86CD = {
+		fRef = 143C360D05ECCEE8008C6DFE;
+		isa = PBXTextBookmark;
+		name = "AppController.m: 307";
+		rLen = 0;
+		rLoc = 12736;
+		rType = 0;
+		vrLen = 496;
+		vrLoc = 2935;
+	};
+	5E54DD8B06300BDF00BB86CD = {
+		fRef = 5EEB187205ED1EBE00C17677;
+		isa = PBXTextBookmark;
+		name = "                    BOOL didAccept=[channel acceptFrame:[I_currentReadFrame autorelease]];\n";
+		rLen = 91;
+		rLoc = 11175;
+		rType = 0;
+		vrLen = 1017;
+		vrLoc = 10717;
+	};
+	5E54DD8C06300BE000BB86CD = {
+		fRef = 5EEB187205ED1EBE00C17677;
+		isa = PBXTextBookmark;
+		name = "                    BOOL didAccept=[channel acceptFrame:[I_currentReadFrame autorelease]];\n";
+		rLen = 91;
+		rLoc = 11175;
+		rType = 0;
+		vrLen = 1017;
+		vrLoc = 10717;
+	};
 	5E551FB90618839C00E6B265 = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {902.143, 601}}";
@@ -1392,8 +1476,8 @@
 	5EEB187205ED1EBE00C17677 = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1076.17, 8119}}";
-			sepNavSelRange = "{19583, 0}";
-			sepNavVisRect = "{{0, 5270}, {560, 220}}";
+			sepNavSelRange = "{11175, 91}";
+			sepNavVisRect = "{{0, 5133}, {560, 220}}";
 		};
 	};
 	5EF941DA0612E31600C2EBFE = {

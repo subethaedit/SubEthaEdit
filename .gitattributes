@@ -467,6 +467,8 @@ subethaedit/SubEthaEdit.xcode/project.pbxproj -text
 subethaedit/SubEthaEditSuite.scriptSuite -text
 subethaedit/SubEthaEditSuite.scriptTerminology -text
 subethaedit/SubEthaEdit_Prefix.pch -text
+subethaedit/SymbolTableEntry.h -text
+subethaedit/SymbolTableEntry.m -text
 subethaedit/SyntaxDefinition.h -text
 subethaedit/SyntaxDefinition.m -text
 subethaedit/SyntaxHighlighter.h -text
