@@ -31,8 +31,13 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 #pragma mark -
 
-static int sInitLogCount=0;
-static int sListenLogCount=0;
+
+#ifdef TCMBEEP_DEBUG
+    static int sInitLogCount = 0;
+    static int sListenLogCount = 0;
+    static unsigned sNumberOfLogs = 0;
+#endif
+
 
 @implementation TCMBEEPSession
 
@@ -54,26 +59,40 @@ static int sListenLogCount=0;
     I_userInfo = [NSMutableDictionary new];
     I_channelRequests = [NSMutableDictionary new];
     
+
+
+#ifdef TCMBEEP_DEBUG  
     int fileNumber;
     if ([self isInitiator]) {
-        fileNumber=sInitLogCount++;
+        fileNumber = sInitLogCount++;
     } else {
-        fileNumber=sListenLogCount++;
+        fileNumber = sListenLogCount++;
     }
-    NSString *path=[@"~/Library/Logs/Zaphod" stringByExpandingTildeInPath];
-    [[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil];
-    path=[path stringByAppendingString:@"/BEEP"];
-    [[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil];
-    NSString *logBase=[path stringByAppendingFormat:@"/%02d",fileNumber];
-    NSString *logIn =[logBase stringByAppendingString:@"In.log"];
+
+    NSString *appName = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension];
+    NSString *appDir = [[@"~/Library/Logs/" stringByExpandingTildeInPath] stringByAppendingPathComponent:appName];
+    [[NSFileManager defaultManager] createDirectoryAtPath:appDir attributes:nil];
+    NSString *logDir = [appDir stringByAppendingPathComponent:@"TCMBEEP"];
+    [[NSFileManager defaultManager] createDirectoryAtPath:logDir attributes:nil];
+    
+    NSData *header = [[[NSString stringWithAddressData:[self peerAddressData]] stringByAppendingString:@"\n"] dataUsingEncoding:NSASCIIStringEncoding];
+        
+    NSString *logBase = [logDir stringByAppendingFormat:@"/%02d", fileNumber];
+    NSString *logIn = [logBase stringByAppendingString:@"In.log"];
     [[NSFileManager defaultManager] createFileAtPath:logIn contents:[NSData data] attributes:nil];
-    I_logHandleIn = [[NSFileHandle fileHandleForWritingAtPath:logIn] retain];
-    NSString *logOut=[logBase stringByAppendingString:@"Out.log"];
+    I_rawLogInHandle = [[NSFileHandle fileHandleForWritingAtPath:logIn] retain];
+    [I_rawLogInHandle writeData:header];
+
+    NSString *logOut = [logBase stringByAppendingString:@"Out.log"];
     [[NSFileManager defaultManager] createFileAtPath:logOut contents:[NSData data] attributes:nil];
-    I_logHandleOut = [[NSFileHandle fileHandleForWritingAtPath:logOut] retain];
-    NSData *logData=[[[NSString stringWithAddressData:[self peerAddressData]] stringByAppendingString:@"\n"] dataUsingEncoding:NSASCIIStringEncoding];
-    [I_logHandleIn  writeData:logData];
-    [I_logHandleOut writeData:logData];
+    I_rawLogOutHandle = [[NSFileHandle fileHandleForWritingAtPath:logOut] retain];
+    [I_rawLogOutHandle writeData:header];
+    
+    NSString *frameLogFileName = [logDir stringByAppendingPathComponent:[NSString stringWithFormat:@"Frames%02d.log",     sNumberOfLogs++]];
+    [[NSFileManager defaultManager] createFileAtPath:frameLogFileName contents:[NSData data] attributes:nil];
+    I_frameLogHandle = [[NSFileHandle fileHandleForWritingAtPath:frameLogFileName] retain];
+    [I_frameLogHandle writeData:header];
+#endif
 }
 
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
@@ -116,11 +135,15 @@ static int sListenLogCount=0;
     [I_peerProfileURIs release];
     [I_currentReadFrame release];
     [I_channelRequests release];
-    [I_logHandleOut closeFile];
-    [I_logHandleOut release];
-    [I_logHandleIn closeFile];
-    [I_logHandleIn release];
-    DEBUGLOG(@"BEEPLogDomain",SimpleLogLevel,@"TCMBEEPSession dealloced");
+#ifdef TCMBEEP_DEBUG
+    [I_rawLogInHandle closeFile];
+    [I_rawLogInHandle release];
+    [I_rawLogOutHandle closeFile];
+    [I_rawLogOutHandle release];
+    [I_frameLogHandle closeFile];
+    [I_frameLogHandle release];
+#endif
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"TCMBEEPSession dealloced");
     [super dealloc];
 }
 
@@ -319,7 +342,9 @@ static int sListenLogCount=0;
     int bytesRead = [I_inputStream read:buffer maxLength:sizeof(buffer)];
     int bytesParsed = 0;
     
-    if (bytesRead) [I_logHandleIn writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
+#ifdef TCMBEEP_DEBUG
+    if (bytesRead) [I_rawLogInHandle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
+#endif
     
     // NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
     while (bytesRead > 0 && bytesRead-bytesParsed > 0) {
@@ -359,7 +384,7 @@ static int sListenLogCount=0;
             } else {
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:I_currentReadFrameRemainingContentSize];
                 [I_currentReadFrame setPayload:I_readBuffer];
-                DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"Received Frame: %@", [I_currentReadFrame description]);
+                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Received Frame: %@", [I_currentReadFrame description]);
                 [I_readBuffer setLength:0];
                 bytesParsed += I_currentReadFrameRemainingContentSize;
                 I_currentReadState = frameEndState;
@@ -370,6 +395,11 @@ static int sListenLogCount=0;
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:5-[I_readBuffer length]];
                 // I_readBuffer == "END\r\n" ?
                 // dispatch frame!
+
+#ifdef TCMBEEP_DEBUG
+                [I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
+#endif                
+
                 TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
                 if (channel) {
                     BOOL didAccept=[channel acceptFrame:[I_currentReadFrame autorelease]];
@@ -396,7 +426,10 @@ static int sListenLogCount=0;
         return;
         
     int bytesWritten = [I_outputStream write:[I_writeBuffer bytes] maxLength:[I_writeBuffer length]];
-    if (bytesWritten) [I_logHandleOut writeData:[NSData dataWithBytesNoCopy:(void *)[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
+
+#ifdef TCMBEEP_DEBUG
+    if (bytesWritten) [I_rawLogOutHandle writeData:[NSData dataWithBytesNoCopy:(void *)[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
+#endif
 
     if (bytesWritten > 0) {
         [I_writeBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
@@ -474,7 +507,10 @@ static int sListenLogCount=0;
             TCMBEEPFrame *frame;
             while ((frame = [frames nextObject])) {
                 [frame appendToMutableData:I_writeBuffer];
-                DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"Sending Frame: %@",[frame description]);
+#ifdef TCMBEEP_DEBUG
+                [I_frameLogHandle writeData:[frame descriptionInLogFileFormatIncoming:NO]];
+#endif
+                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Sending Frame: %@", [frame description]);
             }
         }
     }
