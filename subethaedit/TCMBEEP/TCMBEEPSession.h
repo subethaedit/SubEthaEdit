@@ -56,6 +56,8 @@ enum {
         BOOL isSending;
         BOOL isInitiator;
     } I_flags;
+    
+    NSFileHandle *I_logHandleIn,*I_logHandleOut;
 }
 
 /*"Initializers"*/
