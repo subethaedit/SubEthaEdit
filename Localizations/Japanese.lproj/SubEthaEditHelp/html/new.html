@@ -1,0 +1,221 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=Shift_JIS">
+		<title>SubEthaEdit の新機能</title>
+		<meta name="copyright" content="Copyright 2004 TheCodingMonkeys. All Rights Reserved.">
+		<meta name="keywords" content="new, overview, changed, changes, 変更点, 新機能">
+		<meta name="description" content="SubEthaEdit 2.0 を使用する事で利用可能な新機能について学びます">
+		<link href="../css/task_tbl_style.css" rel="stylesheet" media="all">
+		<style type="text/css" media="all"><!--
+#mainbox { background-color: #fff; margin-top: 0px; margin-right: 26px; margin-left: 8px; position: absolute; top: 10px; left: 0px; visibility: visible; display: block }
+--></style>
+	</head>
+
+	<body bgcolor="#ffffff">
+		<div id="mainbox" align="left">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr valign="bottom" height="28">
+					<td width="3" height="28"></td>
+				</tr>
+				<tr valign="bottom">
+					<td width="3">&nbsp;</td>
+					<td width="48"><img src="../img/see-small.png" alt="SubEthaEdit Icon" height="48" width="48"></td>
+					<td width="8">&nbsp;</td>
+					<td valign="bottom"><font id="topic" size="4" face="Lucida Grande,Arial, sans-serif"><b>新機能</b></font></td>
+				</tr>
+				<tr height="10">
+					<td colspan="4" height="10">&nbsp;</td>
+				</tr>
+			</table>
+
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="3">
+				<tr>
+					<td>
+						<p><FONT FACE="Lucida Grande,Arial, sans-serif">SubEthaEdit 2.1 で新しくなったもの：</FONT></p>
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>コマンドラインツール</b></font><br>
+									
+									新しいコマンドラインツールは、ターミナルで作業する傾向がある誰にとってもこれ以上ない完璧な仲間になれるでしょう。パイプやウェイト、レジュームをサポートしているので、<tt>curl codingmonkeys.de | see -m HTML</tt> のようにこの種の気の利いた作業ができたり、<tt>$EDITOR</tt> に SubEthaEdit を設定する (<tt>export EDITOR='see -wr'</tt>) 事でたとえばコミットログを書く事もできます。全ての機能の詳細は、コマンドラインで <tt>man see</tt> と打つ事で見る事ができます。
+									
+									
+									</p>
+								</td>
+							</tr>
+						</table>
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>刷新された印刷機能</b></font><br>
+									
+									印刷機能はこのバージョンでとても改善されました。この機能により、環境設定においてモード別のカスタマイズが可能になり、C のコードと通常のテキストでは異なる設定が設定可能です。また、プリントダイアログの SubEthaEdit ペインにて印刷様式をカスタマイズする事も可能です。細かなヘッダ (日付やファイル名) の追加やマージン、フォント、色の設定のような基本的な機能に加え、参加者一覧や著作者の注釈情報、カラー印刷時の背景色を含んだコラボレーションメタデータの印刷を明示的に指定する事もできます。
+									
+									
+									</p>
+								</td>
+							</tr>
+						</table>
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>HTML 書き出し</b></font><br>
+									
+									HTML 書き出しは 2 つの方法で実装されています。文章全体をコラボレーション成果の <b>著作者メタデータ付きで</b> HTML に書き出したり、「編集→XHTML としてコピー」機能を用いる事で、選択したコードの断片を色とインデント付きで HTML へ変換しウェブサイトにペーストする事ができます。
+									
+									
+									</p>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>開く＆保存時の認証</b></font><br>
+									
+									SubEthaEdit 2.1 では、他の方法では編集する許可の無いファイル (たとえば <tt>/etc/httpd/httpd.conf</tt> のようなファイル) を編集するために、管理者権限で認証可能になりました。
+				
+									
+									</p>
+								</td>
+							</tr>
+						</table>
+
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>構文スタイル</b></font><br>
+									
+									構文スタイルはあなたのお好きなどんなモードの色やフォント、フォントスタイルをカスタマイズする力を与えてくれます。スタイルを書き出し、友達同士やコミュニティー内で共有する事も可能です。カスタマイズは、SubEthaEdit→環境設定→スタイルで、親切にしかも便利な WYSIWYG で行う事ができます。
+									
+									
+									</p>
+								</td>
+							</tr>
+						</table>
+
+
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>よりましな AppleScript サポート</b></font><br>
+									
+									共有や書類の公開、アクセス制御等といったコラボレーション機能がスクリプト制御可能になりました。また、基本的な編集機能のスクリプト制御性も改善しました。
+									
+									</p>
+								</td>
+							</tr>
+						</table>
+
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>タブの取り扱いの改善</b></font><br>
+									
+									形式メニューから、タブを空白に、逆もまた同様に変換できるようになりました。また、ブロック編集やインデントのようなタブに起因するいくつかの不具合やさまざまな機能を修正しました。
+									
+									</p>
+								</td>
+							</tr>
+						</table>
+
+
+			<p/>
+
+			
+			<table width="100%" border="0" cellspacing="0" cellpadding="3">
+				<tr>
+					<td>
+						<p><FONT FACE="Lucida Grande,Arial, sans-serif">SubEthaEdit 2.0 の新機能として知られているもの：</FONT></p>
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>正規表現を用いた検索と置換</b></font><br>
+										<FONT FACE="Lucida Grande,Arial, sans-serif">検索と置換に正規表現の力が加わりました。POSIX から Perl や Ruby にいたる 8 つの異なった正規表現形態を選ぶ事ができます。新機能である一括検索機能を用いると、発見した語句の更新可能なリストを表示する事ができます。<FONT FACE="Lucida Grande,Arial, sans-serif"><br>
+										</FONT><FONT FACE="Lucida Grande,Arial, sans-serif"><a href="http://www.regular-expression.info/">正規表現についてもっと学ぶ</a> (<a href="http://www.kt.rim.or.jp/~kbk/regex/regex.html">正規表現メモ</a>)</FONT></p>
+								</td>
+							</tr>
+						</table>
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><FONT FACE="Lucida Grande,Arial, sans-serif"><B>新しいコラボレーション用機能：招待</B></FONT><br>
+										<FONT FACE="Lucida Grande,Arial, sans-serif">あなたが公開している書類に他の誰かが参加してくるのを待っている必要がなくなりました。誰かに助けて欲しければ、その人を書類にドラッグする事で招待することができます。数を数えるように簡単ですね。<br>
+										</FONT></p>
+								</td>
+							</tr>
+						</table>
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>共有書類への読み込み専用アクセス</b></font><br>
+										<FONT FACE="Lucida Grande,Arial, sans-serif">他の人に内容を変更されたくないけれど、ちらりと見せたい場合は、そういった人たちを回覧専用にする事ができます。あなたの文章を見る事は可能ですが、変更する事はできないように。<br>
+										</FONT></p>
+								</td>
+							</tr>
+						</table>
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>300% 以上も効率の向上したネットワークプロトコル<br>
+											</b>新しいネットワークプロトコルは、より高速な転送やよりよいスケーラビリティといった新しい特徴をもたらします。<br>
+										</font></p>
+								</td>
+							</tr>
+						</table>
+						<table border="0" cellspacing="0" cellpadding="4">
+							<tr valign="top">
+								<td width="16">
+									<p><img src="../img/favicon.png" alt="" height="16" width="16" align="absmiddle" border="0"></p>
+								</td>
+								<td>
+									<p><font face="Lucida Grande,Arial, sans-serif"><b>分割可能なビュー</b></font><br>
+										<FONT FACE="Lucida Grande,Arial, sans-serif">快適に編集するために、ウインドウを 2 つに分割できるようになりました！</FONT></p>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+
+</html>

@@ -1597,6 +1597,7 @@
 			children = (
 				14B94A9A073BC90E00C6A2EC,
 				1485FF4D0732BCC100A974A2,
+				14B94B97073BE80000C6A2EC,
 				1485FF7F0732BCC100A974A2,
 				148501920732CF3400A974A2,
 			);
@@ -1628,6 +1629,7 @@
 			files = (
 				14B94ACE073BC91700C6A2EC,
 				1485FFB80732BD5800A974A2,
+				14B94D71073BE81200C6A2EC,
 				1485FFB90732BD5800A974A2,
 			);
 			isa = PBXCopyFilesBuildPhase;
@@ -2156,6 +2158,20 @@
 		};
 		14B94ACE073BC91700C6A2EC = {
 			fileRef = 14B94A9A073BC90E00C6A2EC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14B94B97073BE80000C6A2EC = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = Japanese.lproj;
+			path = Localizations/Japanese.lproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14B94D71073BE81200C6A2EC = {
+			fileRef = 14B94B97073BE80000C6A2EC;
 			isa = PBXBuildFile;
 			settings = {
 			};
