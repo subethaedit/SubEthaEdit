@@ -8,15 +8,15 @@
     </blocks>
     
     <symbol id="Defs" image="SymbolF()" indentation="1" ignoreblocks="yes">
-        <regex>def[ \t]+([\w\d_]+)[ \t]*(:?\([^\)]*\))?</regex>
+        <regex>[\n\r][ \t]*def[ \t]+([\w\d_]+)[ \t]*(:?\([^\)]*\))?</regex>
     </symbol>
 
     <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes">
-        <regex>class[ \t]+([\w\d_]+)</regex>
+        <regex>[\n\r][ \t]*class[ \t]+([\w\d_]+)</regex>
     </symbol>
 
     <symbol id="Modules" image="SymbolM" indentation="0" ignoreblocks="yes">
-        <regex>module[ \t]+([\w\d_]+)</regex>
+        <regex>[\n\r][ \t]*module[ \t]+([\w\d_]+)</regex>
     </symbol>
 
     <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
