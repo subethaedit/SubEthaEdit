@@ -121,8 +121,8 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
 {
     int childCount;
     int index;
-    NSString *blockStart;
-    NSString *blockEnd;
+    NSString *blockStart=nil;
+    NSString *blockEnd  =nil;
 
     childCount = CFTreeGetChildCount(aTree);
     for (index = 0; index < childCount; index++) {
