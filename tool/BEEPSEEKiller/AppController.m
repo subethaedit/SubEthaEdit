@@ -7,53 +7,9 @@
 //
 
 #import "AppController.h"
-#import "sys/socket.h"
-#import "netinet/in.h"
-#import "netinet6/in6.h"
-#import "arpa/inet.h"
-
-#import "dns_sd.h"
-#import "nameser.h"
-
-#pragma mark -
-#pragma mark ### NSString Additions ###
-
-@interface NSString (NSStringNetworkingAdditions)
-+ (NSString *)stringWithAddressData:(NSData *)aAddressData;
-@end
-
-@implementation NSString (NSStringNetworkingAdditions) 
-
-+ (NSString *)stringWithAddressData:(NSData *)aAddressData {
-    struct sockaddr *socketAddress=(struct sockaddr *)[aAddressData bytes];
-    // IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF" at max, which is 40 bytes (0-terminated)
-    // IPv4 Addresses are "255.255.255.255" at max which is smaller
-    char stringBuffer[40];
-    NSString *addressAsString=nil;
-    if (socketAddress->sa_family == AF_INET) {
-        if (inet_ntop(AF_INET,&((struct in_addr)((struct sockaddr_in *)socketAddress)->sin_addr),stringBuffer,40)) {
-            addressAsString=[NSString stringWithUTF8String:stringBuffer];
-        } else {
-            addressAsString=@"IPv4 un-ntopable";
-        }
-        int port = ((struct sockaddr_in *)socketAddress)->sin_port;
-        addressAsString=[addressAsString stringByAppendingFormat:@":%d",port];
-    } else if (socketAddress->sa_family == AF_INET6) {
-         if (inet_ntop(AF_INET6,&(((struct sockaddr_in6 *)socketAddress)->sin6_addr),stringBuffer,40)) {
-            addressAsString=[NSString stringWithUTF8String:stringBuffer];
-        } else {
-            addressAsString=@"IPv6 un-ntopable";
-        }
-        int port = ((struct sockaddr_in6 *)socketAddress)->sin6_port;
-        // Suggested IPv6 format (see http://www.faqs.org/rfcs/rfc2732.html)
-        addressAsString=[NSString stringWithFormat:@"[%@]:%d",addressAsString,port]; 
-    } else {
-        addressAsString=@"neither IPv6 nor IPv4";
-    }
-    return [[addressAsString copy] autorelease];
-}
-
-@end
+#import "HandshakeProfile.h"
+// #import "TCMMMStatusProfile.h"
+// #import "SessionProfile.h"
 
 
 @implementation AppController
@@ -75,6 +31,10 @@
     DEBUGLOG(@"fuckitdomain", AlwaysLogLevel, @"applicationDidFinishLaunching:");    
     [O_servicesController bind:@"contentArray" toObject:self withKeyPath:@"I_services" options:nil];
     [self startRendezvousBrowsing];
+
+    [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
+//    [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
+//    [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
 }
 
 - (void)stopRendezvousBrowsing {
@@ -124,74 +84,123 @@
 }
 
 #pragma mark -
+#pragma mark ### HandshakeProfile delegate methods ###
+
+- (NSString *)profile:(HandshakeProfile *)aProfile shouldProceedHandshakeWithUserID:(NSString *)aUserID {
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"%@", aUserID);
+    /*
+    NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
+    [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
+    if ([[[aProfile session] userInfo] objectForKey:@"isRendezvous"]) {
+        
+        if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusGotSession]) {
+            return nil;
+        } else if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusNoSession]) {
+            if ([[aProfile session] isInitiator]) {
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"As initiator you should not get this callback by: %@", aProfile);
+                return nil;
+            } else {
+                [information setObject:[aProfile session] forKey:@"InboundRendezvousSession"];
+                [information setObject:kBEEPSessionStatusConnecting forKey:@"RendezvousStatus"];
+                return [TCMMMUserManager myUserID];
+            }
+        } else if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusConnecting]) {
+            if ([information objectForKey:@"NetService"]) {
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received connection for %@ while I already tried connecting", aUserID);
+                BOOL iWin = ([[TCMMMUserManager myUserID] compare:aUserID] == NSOrderedDescending);
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@ %@ %@", [TCMMMUserManager myUserID], iWin ? @">" : @"<=", aUserID);
+                if (iWin) {
+                    return nil;
+                } else {
+                    [information setObject:[aProfile session] forKey:@"InboundRendezvousSession"];
+                    return [TCMMMUserManager myUserID]; 
+                }
+            } else {
+                DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"WTF? %@ tries to handshake twice, bad guy: %@", aUserID, [information objectForKey:@"InboundRendezvousSession"]);
+                return nil;
+            }
+        }
+    } else {
+        return [TCMMMUserManager myUserID];
+    }
+    */
+    
+    return [NSString UUIDString]; // should not happen
+}
+
+- (BOOL)profile:(HandshakeProfile *)aProfile shouldAckHandshakeWithUserID:(NSString *)aUserID {
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"%@", aUserID);
+/*    NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
+    TCMBEEPSession *session = [aProfile session];
+    if ([[session userInfo] objectForKey:@"isRendezvous"]) {
+        TCMBEEPSession *inboundSession = [information objectForKey:@"InboundRendezvousSession"];
+        if (inboundSession) {
+            BOOL iWin = ([[TCMMMUserManager myUserID] compare:aUserID] == NSOrderedDescending);
+            if (iWin) {
+                [inboundSession setDelegate:nil];
+                [inboundSession terminate];
+                [I_pendingSessions removeObject:inboundSession];
+                [information removeObjectForKey:@"InboundRendezvousSession"];
+                [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
+                return YES;
+            } else {
+                return NO;
+            }
+        } else {
+            [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
+            return YES;
+        }
+    } else {
+        if ([aUserID isEqualToString:[TCMMMUserManager myUserID]]) {
+            return NO;
+        }
+        
+        [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
+        [[information objectForKey:@"OutboundSessions"] addObject:session];
+        NSDictionary *infoDict = [I_outboundInternetSessions objectForKey:[[session userInfo] objectForKey:@"URLString"]];
+        [[session userInfo] setObject:[infoDict objectForKey:@"host"] forKey:@"host"];
+        //[I_outboundInternetSessions removeObjectForKey:[[session userInfo] objectForKey:@"URLString"]];
+        [[I_outboundInternetSessions objectForKey:[[session userInfo] objectForKey:@"URLString"]] removeObjectForKey:@"pending"];
+        return YES;
+    }
+*/
+    return YES;
+}
+
+- (void)profile:(HandshakeProfile *)aProfile didAckHandshakeWithUserID:(NSString *)aUserID {
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"%@", aUserID);
+    // trigger creating profiles for clients
+    // [self TCM_sendDidAcceptNotificationForSession:[aProfile session]];
+}
+
+- (void)profile:(HandshakeProfile *)aProfile receivedAckHandshakeWithUserID:(NSString *)aUserID {
+    DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"%@", aUserID);
+/*    NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
+    TCMBEEPSession *session = [aProfile session];
+    if ([[session userInfo] objectForKey:@"isRendezvous"]) {
+        [information setObject:session forKey:@"RendezvousSession"];
+        [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
+        [I_pendingSessions removeObject:session];
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"received ACK");
+        [self TCM_sendDidAcceptNotificationForSession:session];
+    } else {
+        NSMutableArray *inboundSessions = [information objectForKey:@"InboundSessions"];
+        [inboundSessions addObject:session];
+        [I_pendingSessions removeObject:session];
+        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"received ACK");
+        [self TCM_sendDidAcceptNotificationForSession:session];
+    }*/
+}
+
+#pragma mark -
 #pragma mark ### BEEPSession delegate ###
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"didReceiveGreetingWithProfileURIs: %@",aProfileURIArray);
-    /*
     if ([[aBEEPSession peerProfileURIs] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
-        if ([aBEEPSession isInitiator]) {
-            if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
-                NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
-                NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
-                if ([sessionInformation objectForKey:@"NetService"]) {
-                    // rendezvous: close all other sessions
-                    NSMutableArray *outgoingSessions = [sessionInformation objectForKey:@"OutgoingRendezvousSessions"];
-                    TCMBEEPSession *session;
-                    while ((session = [outgoingSessions lastObject])) {
-                        [[session retain] autorelease];
-                        [outgoingSessions removeObjectAtIndex:[outgoingSessions count]-1];
-                        if (session == aBEEPSession) {
-                            [sessionInformation setObject:session forKey:@"RendezvousSession"];
-                        } else {
-                            [self removeSessionFromSessionsArray:session];
-                            [session setDelegate:nil];
-                            [session terminate];
-                        }
-                    }
-                }
-            } else {
-                NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
-                NSDictionary *info = [I_outboundInternetSessions objectForKey:URLString];
-                NSMutableArray *sessions = [info objectForKey:@"sessions"];
-                TCMBEEPSession *session;
-                while ((session = [sessions lastObject])) {
-                    [[session retain] autorelease];
-                    [sessions removeObjectAtIndex:[sessions count]-1];
-                    if (session != aBEEPSession) {
-                        [self removeSessionFromSessionsArray:session];
-                        [session setDelegate:nil];
-                        [session terminate];
-                    } else {
-                        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"retain this session somewhere: %@", session);
-                    }
-                }
-            }
-            [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"] andData:nil sender:self];
-        }
-    } else {
-        [self removeSessionFromSessionsArray:aBEEPSession];
-        [aBEEPSession setDelegate:nil];
-        [aBEEPSession terminate];
-        
-        if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
-            NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
-            if ([aBEEPSession isInitiator] && aUserID) {
-                NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
-                [[information objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
-            }
-        } else {
-            if ([aBEEPSession isInitiator]) {
-                NSString *URLString = [[aBEEPSession userInfo] objectForKey:@"URLString"];
-                NSDictionary *info = [I_outboundInternetSessions objectForKey:URLString];
-                [[info objectForKey:@"sessions"] removeObject:aBEEPSession];
-                [self TCM_sendDidEndNotificationForSession:aBEEPSession error:nil];
-            }
-        }
-        [I_pendingSessions removeObject:aBEEPSession];
+        [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"] andData:nil sender:self];
     }
-    */
 }
 
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests
@@ -203,29 +212,18 @@
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"didOpenChannel");
-    /*
     if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
         [aProfile setDelegate:self];
         if (![aProfile isServer]) {
-            if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
-                NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
-                NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
-                if ([[information objectForKey:@"OutgoingRendezvousSessions"] count]) {
-                    //NSLog(@"Can't happen");
-                }
-            } else {
-                // Do something here for internet sessions
-            }
-            [(HandshakeProfile *)aProfile shakeHandsWithUserID:[TCMMMUserManager myUserID]];
+            [(HandshakeProfile *)aProfile shakeHandsWithUserID:[NSString UUIDString]];
         }
     } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"]) {
-        [[TCMMMPresenceManager sharedInstance] acceptStatusProfile:(TCMMMStatusProfile *)aProfile];
+//        [[TCMMMPresenceManager sharedInstance] acceptStatusProfile:(TCMMMStatusProfile *)aProfile];
     } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
-        DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got SubEthaEditSession profile");
+        DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"Got SubEthaEditSession profile");
         [aProfile setDelegate:self];
-        [I_pendingSessionProfiles addObject:aProfile];
+        //[I_pendingSessionProfiles addObject:aProfile];
     }
-    */
 }
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didFailWithError:(NSError *)anError

@@ -5,6 +5,8 @@
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
     #import <TCMBEEP/TCMBEEP.h>
+    #import "TCMBencodingUtilities.h"
+    #import "NSStringTCMAdditions.h"
 #endif
 
 #ifdef TCM_NO_DEBUG
