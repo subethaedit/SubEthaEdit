@@ -6,6 +6,8 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import <Carbon/Carbon.h>
+
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
 #import "DocumentController.h"
@@ -20,6 +22,7 @@
 #import "EncodingManager.h"
 #import "TextOperation.h"
 #import "SelectionOperation.h"
+#import "ODBEditorSuite.h"
 
 
 #pragma options align=mac68k
@@ -51,6 +54,8 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 - (void)TCM_initHelper;
 - (void)TCM_sendPlainTextDocumentDidChangeDisplayNameNotification;
 - (void)TCM_handleOpenDocumentEvent;
+- (void)TCM_sendODBCloseEvent;
+- (void)TCM_sendODBModifiedEvent;
 @end
 
 #pragma mark -
@@ -78,6 +83,93 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 - (void)TCM_initHelper {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performHighlightSyntax)
         name:PlainTextDocumentSyntaxColorizeNotification object:self];
+}
+
+- (void)TCM_sendODBCloseEvent {
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"preparing ODB close event");
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"ODBParameters: %@", [[self ODBParameters] description]);
+    
+    if ([self ODBParameters] == nil || [[self ODBParameters] count] == 0)
+        return;
+        
+    NSString *name = [self fileName];
+    if (name == nil || [name length] == 0)
+        return;
+        
+    OSErr err;
+    NSURL *fileURL = [NSURL fileURLWithPath:name];
+    FSRef fileRef;
+    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
+    FSSpec fsSpec;
+    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
+    if (err == noErr) {
+        NSData *signatureData = [[self ODBParameters] objectForKey:@"keyFileSender"];
+        if (signatureData != nil) {
+            NSAppleEventDescriptor *addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:[signatureData bytes] length:[signatureData length]];
+            if (addressDescriptor != nil) {
+                NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:kODBEditorSuite eventID:kAEClosedFile targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+                NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
+                [appleEvent setParamDescriptor:aliasDescriptor forKeyword:keyDirectObject];
+                NSAppleEventDescriptor *tokenDesc = [[self ODBParameters] objectForKey:@"keyFileSenderToken"];
+                if (tokenDesc != nil) {
+                    [appleEvent setParamDescriptor:tokenDesc forKeyword:keySenderToken];
+                }
+                if (appleEvent != nil) {
+                    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Sending apple event");
+                    AppleEvent reply;
+                    err = AESend([appleEvent aeDesc], &reply, kAENoReply, kAEHighPriority, kAEDefaultTimeout, NULL, NULL);
+                }
+            }
+        }
+    }
+}
+
+- (void)TCM_sendODBModifiedEvent {
+    OSErr err;
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"preparing ODB modified event");
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"ODBParameters: %@", [[self ODBParameters] description]);
+    if ([self ODBParameters] == nil || [[self ODBParameters] count] == 0)
+        return;
+    
+    NSString *fileName = [self fileName];    
+    if (fileName == nil || [fileName length] == 0)
+        return;
+    
+    
+    NSURL *fileURL = [NSURL fileURLWithPath:fileName];
+    FSRef fileRef;
+    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
+    FSSpec fsSpec;
+    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
+    NSAppleEventDescriptor *directObjectDesc = nil;
+    if (err == noErr) {
+        directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
+    } else {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Failed to create fsspec");
+        return;
+    }
+            
+    if (directObjectDesc != nil) {
+        NSData *signatureData = [[self ODBParameters] objectForKey:@"keyFileSender"];
+        if (signatureData != nil) {
+            NSAppleEventDescriptor *addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:[signatureData bytes] length:[signatureData length]];
+            if (addressDescriptor != nil) {
+                NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:kODBEditorSuite eventID:kAEModifiedFile targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+                [appleEvent setParamDescriptor:directObjectDesc forKeyword:keyDirectObject];
+                NSAppleEventDescriptor *tokenDesc = [[self ODBParameters] objectForKey:@"keyFileSenderToken"];
+                if (tokenDesc != nil) {
+                    [appleEvent setParamDescriptor:tokenDesc forKeyword:keySenderToken];
+                }
+                if (appleEvent != nil) {
+                    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Sending apple event");
+                    AppleEvent reply;
+                    err = AESend([appleEvent aeDesc], &reply, kAENoReply, kAEHighPriority, kAEDefaultTimeout, NULL, NULL);
+                }
+            }
+        }
+    } else {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Unable to generate direct parameter.");
+    }
 }
 
 - (id)init {
@@ -117,6 +209,9 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     if (I_flags.isAnnounced) {
         [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
     }
+    
+    [self TCM_sendODBCloseEvent];
+        
     [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
     [I_textStorage setDelegate:nil];
     [I_textStorage release];
@@ -128,6 +223,7 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     [I_fonts.boldItalicFont release];
     [I_defaultParagraphStyle release];
     [I_fileAttributes release];
+    [I_ODBParameters release];
     [super dealloc];
 }
 
@@ -183,6 +279,15 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 - (void)setFileAttributes:(NSDictionary *)attributes {
     [I_fileAttributes autorelease];
     I_fileAttributes = [attributes retain];
+}
+
+- (NSDictionary *)ODBParameters {
+    return I_ODBParameters;
+}
+
+- (void)setODBParameters:(NSDictionary *)aDictionary {
+    [I_ODBParameters autorelease];
+    I_ODBParameters = [aDictionary retain];
 }
 
 - (IBAction)announce:(id)aSender {
@@ -280,6 +385,35 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%@", [eventDesc description]);
+
+    // Retrieve ODB parameters
+    
+    // keyFileSender/typeType
+    NSAppleEventDescriptor *fileSenderDesc = [[eventDesc paramDescriptorForKeyword:keyFileSender] coerceToDescriptorType:typeType];
+
+    // keyFileSenderToken/typeWildCard(typeList)
+    NSAppleEventDescriptor *senderTokenDesc = nil;
+    NSAppleEventDescriptor *senderTokenListDesc = [[eventDesc paramDescriptorForKeyword:keyFileSenderToken] coerceToDescriptorType:typeAEList];
+    if (!senderTokenListDesc) {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"odb token is probably not a list");
+        senderTokenDesc = [[eventDesc paramDescriptorForKeyword:keyFileSenderToken] coerceToDescriptorType:typeWildCard];
+    } else {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"odb tokens were put in a list");
+
+    }
+    
+    // look for AEPropData appended by LaunchServices
+    NSAppleEventDescriptor *propDataAEDesc = [[eventDesc paramDescriptorForKeyword:keyAEPropData] coerceToDescriptorType:typeWildCard];
+    if (propDataAEDesc) {
+        if (fileSenderDesc == nil) {
+            fileSenderDesc = [[propDataAEDesc paramDescriptorForKeyword:keyFileSender] coerceToDescriptorType:typeType];
+        }
+        if (senderTokenListDesc == nil && senderTokenDesc == nil) {
+            senderTokenDesc = [[propDataAEDesc paramDescriptorForKeyword:keyFileSenderToken] coerceToDescriptorType:typeWildCard];
+        }
+    }
+    
+    // coerce the document list into a list of CFURLRefs
     NSAppleEventDescriptor *aliasesDesc = [[eventDesc descriptorForKeyword:keyDirectObject] coerceToDescriptorType:typeAEList];
     int numberOfItems = [aliasesDesc numberOfItems];
     int i;
@@ -290,6 +424,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSURL *fileURL = (NSURL *)CFURLFromAEDescAlias([aliasDesc aeDesc]);
             NSString *filePath = [[fileURL path] stringByStandardizingPath];
             if ([filePath isEqualToString:[[self fileName] stringByStandardizingPath]]) {
+            
+                // selection may be included in Xcode event
                 NSAppleEventDescriptor *selectionDesc = [[eventDesc paramDescriptorForKeyword:keyAEPosition] coerceToDescriptorType:typeChar];
                 if (selectionDesc) {
                     struct SelectionRange *selectionRange = nil;
@@ -303,6 +439,34 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                         //[self gotoLine:selectionRange->lineNum + 1 orderFront:YES];
                     }
                 }
+                
+                // save ODB parameters in case of ODB event
+                NSMutableDictionary *ODBParameters = [NSMutableDictionary dictionary];
+                if (fileSenderDesc) {
+                    [ODBParameters setObject:[fileSenderDesc data] forKey:@"keyFileSender"];
+                }
+                
+                
+                if (senderTokenListDesc) {
+                NSAppleEventDescriptor *tokenDesc = [senderTokenListDesc descriptorAtIndex:i];
+                    if (tokenDesc) {
+                        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"use item in odb list: %d", i);
+                        [ODBParameters setObject:tokenDesc forKey:@"keyFileSenderToken"];
+                    } else {
+                        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"trying first item in odb token list");
+                        tokenDesc = [senderTokenListDesc descriptorAtIndex:1];
+                        if (tokenDesc) {
+                            [ODBParameters setObject:tokenDesc forKey:@"keyFileSenderToken"];
+                        } else {
+                            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"first one in the odb token list didn't work");
+                        }
+                    }
+                } else if (senderTokenDesc) {
+                    [ODBParameters setObject:senderTokenDesc forKey:@"keyFileSenderToken"];
+                }
+                
+                DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"retrieved ODB parameters: %@", [ODBParameters description]);
+                [self setODBParameters:ODBParameters];
             }
             [fileURL release];
         }
@@ -513,8 +677,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return YES;
 }
 
-- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)docType {
-    return [super writeToFile:fileName ofType:docType];
+- (BOOL)writeWithBackupToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
+    BOOL result = [super writeWithBackupToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:saveOperationType];
+    if (result) {
+        if (saveOperationType == NSSaveOperation) {
+            [self TCM_sendODBModifiedEvent];
+        } else if (saveOperationType == NSSaveAsOperation) {
+            if ([fullDocumentPath isEqualToString:[self fileName]]) {
+                [self TCM_sendODBModifiedEvent];
+            } else {
+                [self setODBParameters:nil];
+            }
+        }
+    }
+    return result;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
