@@ -84,6 +84,18 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
             (stateName = [aString attribute:kSyntaxHighlightingStateName atIndex:currentRange.location-1 effectiveRange:nil]) && 
             (!([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil] isEqualTo:@"End"]))) {
             stateNumber = [stateName intValue];
+            
+            // Add start to currentRange
+            //NSLog(@"Old:%@ (%@)",NSStringFromRange(currentRange),[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil]);
+            NSRange startRange = NSMakeRange(currentRange.location, 0);
+            if([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 longestEffectiveRange:&startRange inRange:aRange] isEqualToString:@"Start"]){
+                //NSLog(@"Start:%@",NSStringFromRange(startRange));
+                if (currentRange.location > startRange.location) {
+                    currentRange=NSUnionRange(startRange,currentRange);
+                }
+            }
+            //NSLog(@"New:%@",NSStringFromRange(currentRange));
+            
             if ((foundState = [[definition states] objectAtIndex:stateNumber])) {
             // Search for the end
                     @try{
