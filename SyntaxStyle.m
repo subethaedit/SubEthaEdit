@@ -295,12 +295,12 @@ static NSArray *S_possibleStyleColors;
                 [[style objectForKey:@"inverted-background-color"] HTMLString]];
         }
     }
-    return [NSString stringWithFormat:@"<mode id=\"%@\">\n%@</mode>",[[self documentMode] documentModeIdentifier],result];
+    return [NSString stringWithFormat:@"<mode id=\"%@\">\n%@</mode>\n",[[self documentMode] documentModeIdentifier],result];
 
 }
 
 - (NSString *)xmlFileRepresentation {
-    return [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<seestyle>\n%@\n</seestyle>",[self xmlRepresentation]];
+    return [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<seestyle>\n%@</seestyle>\n",[self xmlRepresentation]];
 }
 
 

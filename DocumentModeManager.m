@@ -8,6 +8,7 @@
 
 #import "DocumentModeManager.h"
 #import "GeneralPreferences.h"
+#import "SyntaxStyle.h"
 
 #define MODEPATHCOMPONENT @"Application Support/SubEthaEdit/Modes/"
 
@@ -105,6 +106,19 @@
 
 + (DocumentMode *)baseMode {
     return [[DocumentModeManager sharedInstance] baseMode];
+}
+
++ (NSString *)xmlFileRepresentationOfAllStyles {
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSMutableString *result=[NSMutableString string];
+    NSDictionary *availableModes=[modeManager availableModes];
+    NSEnumerator *identifiers=[[[availableModes allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] objectEnumerator];
+    NSString *identifier=nil;
+    while ((identifier=[identifiers nextObject])) {
+        DocumentMode *mode=[modeManager documentModeForIdentifier:identifier];
+        [result appendString:[[mode syntaxStyle] xmlRepresentation]];
+    }
+    return [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<seestyle>\n%@</seestyle>\n",result];
 }
 
 - (id)init {

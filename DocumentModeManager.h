@@ -40,6 +40,7 @@
 
 + (DocumentModeManager *)sharedInstance;
 + (DocumentMode *)baseMode;
++ (NSString *)xmlFileRepresentationOfAllStyles;
 
 - (DocumentMode *)baseMode;
 - (DocumentMode *)modeForNewDocuments;

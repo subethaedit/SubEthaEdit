@@ -382,6 +382,7 @@
 }
 
 - (IBAction)export:(id)aSender {
+    I_shouldExportAll = ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) != 0;
     NSSavePanel *savePanel=[NSSavePanel savePanel];
     [savePanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
     [savePanel setCanCreateDirectories:YES];
@@ -390,7 +391,7 @@
     [savePanel setTreatsFilePackagesAsDirectories:YES];
     [savePanel setRequiredFileType:@"seestyle"];
     [savePanel beginSheetForDirectory:nil 
-        file:[[[[[I_currentSyntaxStyle documentMode]  documentModeIdentifier] componentsSeparatedByString:@"."] lastObject] stringByAppendingPathExtension:@"seestyle"] 
+        file:[I_shouldExportAll?NSLocalizedString(@"StylePrefsIconLabel",@""):[[[[I_currentSyntaxStyle documentMode]  documentModeIdentifier] componentsSeparatedByString:@"."] lastObject] stringByAppendingPathExtension:@"seestyle"] 
         modalForWindow:[O_stylesTableView window] 
         modalDelegate:self 
         didEndSelector:@selector(exportSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
@@ -398,7 +399,7 @@
 
 - (void)exportSheetDidEnd:(NSSavePanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
     if (aReturnCode==NSOKButton) {
-        [[[I_currentSyntaxStyle xmlFileRepresentation] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:[aPanel filename] atomically:YES];
+        [[I_shouldExportAll?[DocumentModeManager xmlFileRepresentationOfAllStyles]:[I_currentSyntaxStyle xmlFileRepresentation] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:[aPanel filename] atomically:YES];
     }
 }
 
