@@ -364,6 +364,18 @@ static FindReplaceController *sharedInstance=nil;
     }
 }
 
+- (void) lockDocument:(PlainTextDocument *)aDocument
+{
+
+
+}
+
+- (void) unlockDocument:(PlainTextDocument *)aDocument
+{
+
+
+}
+
 - (void) replaceAFewPlainMatches
 {
     const int replacePerCycle = 100;
