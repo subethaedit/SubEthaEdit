@@ -27,7 +27,7 @@
         </postprocess>
     </symbol>
     
-    <symbol id="Pragma Mark Separators" font-weight="normal" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="yes">
+    <symbol id="Pragma Mark Separators" font-weight="normal" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="yes">
         <regex>(#pragma mark[	 -]*[^\n]*)\n</regex>
         <postprocess>
             <find>#pragma mark[-	 \n]*</find>

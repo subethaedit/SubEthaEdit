@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>&lt;!--</beginregex>
+        <endregex>--&gt;</endregex>
+    </blocks>
+    
+    <symbol id="Headers" font-weight="normal" font-style="normal" image="SymbolT" indentation="1" ignoreblocks="yes">
+        <regex>&lt;[hH][1-6]&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex>
+    </symbol>
+
+</symbols>
