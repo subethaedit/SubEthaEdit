@@ -29,6 +29,7 @@
 - (id)delegate;
 - (void)setChannel:(TCMBEEPChannel *)aChannel;
 - (TCMBEEPChannel *)channel;
+- (TCMBEEPSession *)session;
 - (void)setProfileURI:(NSString *)aProfileURI;
 - (NSString *)profileURI;
 - (void)cleanup;

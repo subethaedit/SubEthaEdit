@@ -40,6 +40,11 @@
     return I_channel;
 }
 
+- (TCMBEEPSession *)session 
+{
+    return [[self channel] session];
+}
+
 - (void)setProfileURI:(NSString *)aProfileURI
 {
     [I_profileURI autorelease];

@@ -14,8 +14,6 @@
 {
     NSNetService *I_netService;
     NSMutableDictionary *I_statusOfUserIDs;
-    NSMutableDictionary *I_statusProfilesInServerRole;
-    NSMutableDictionary *I_statusProfilesInClientRole;
     struct {
         BOOL isVisible;
         BOOL serviceIsPublished;

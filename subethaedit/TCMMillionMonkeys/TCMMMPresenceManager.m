@@ -74,6 +74,7 @@ static TCMMMPresenceManager *sharedInstance = nil;
     if (!statusOfUserID) {
         statusOfUserID=[NSMutableDictionary dictionary];
         [statusOfUserID setObject:@"NoStatus" forKey:@"Status"];
+        [statusOfUserID setObject:aUserID     forKey:@"UserID"];
         [I_statusOfUserIDs setObject:statusOfUserID forKey:aUserID];
     }
     return statusOfUserID;
@@ -98,7 +99,12 @@ static TCMMMPresenceManager *sharedInstance = nil;
 
 - (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError {
     // remove status profile, and inform the rest
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidChangeVisibility" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[[[[aProfile channel] session] userInfo] objectForKey:@"peerUserID"],@"UserID",[NSNumber numberWithBool:NO],@"isVisible",nil]];
+    NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    NSMutableDictionary *status=[self statusOfUserID:userID];
+    [status removeObjectForKey:@"StatusProfile"];
+    [status setObject:@"GotStatus" forKey:@"Status"];
+    [aProfile setDelegate:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidChangeVisibility" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSNumber numberWithBool:NO],@"isVisible",nil]];
 }
 
 #pragma mark -
