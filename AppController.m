@@ -366,8 +366,17 @@ static AppController *sharedInstance = nil;
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 
     [InternetBrowserController sharedInstance];
+
+
     I_idleTimer=[[TCMIdleTimer alloc] initWithBeginInterval:60. repeatInterval:100000000.];
     [I_idleTimer setDelegate:self];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
+    NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
+    if (name && [serial isValidSerial]) {
+        s_isRegistered=YES;
+    }
+
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
