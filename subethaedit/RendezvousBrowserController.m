@@ -14,7 +14,7 @@
 
 @implementation RendezvousBrowserController
 - (id)init {
-    if ((self=[super init])) {
+    if ((self=[super initWithWindowNibName:@"RendezvousBrowser"])) {
         I_tableData=[NSMutableArray new];
         I_browser=[[TCMRendezvousBrowser alloc] initWithServiceType:@"_emac._tcp." domain:@""];
         [I_browser setDelegate:self];
@@ -29,10 +29,6 @@
     [I_foundUserIDs release];
     [I_tableData release];
     [super dealloc];
-}
-
-- (NSString *)windowNibName {
-    return @"RendezvousBrowser";
 }
 
 - (void)windowDidLoad {

@@ -21,7 +21,7 @@
     NSData *pngData=[userDict objectForKey:@"ImageAsPNG"];
     [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
     [[user properties] setObject:[[[NSImage alloc] initWithData:pngData] autorelease] forKey:@"Image"];
-    NSLog(@"Created User: %@",[user description]);
+    //NSLog(@"Created User: %@",[user description]);
     return [user autorelease];
 }
 

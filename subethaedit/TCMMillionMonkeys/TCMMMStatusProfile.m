@@ -33,7 +33,7 @@
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage {
     if ([aMessage isMSG]) {
         if ([[aMessage payload] length]<6) {
-            NSLog(@"Status MSG with payload less then 6 bytes is not allowed");
+            NSLog(@"StatusProfile MSG with payload less then 6 bytes is not allowed");
         } else {
             unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
             if (strncmp(bytes,"USRFUL",6)==0) {
@@ -42,8 +42,11 @@
             } else if (strncmp(bytes,"DOC",3)==0){
                 NSLog(@"Received Document");
             } else if (strncmp(bytes,"STA",3)==0){
-                [[self delegate] profile:self didReceiveVisibilityChange:(strncmp(&bytes[3],"VIS",3)==0)];
-                NSLog(@"Received Status");
+                if (strncmp(&bytes[3],"VIS",3)==0) {
+                    [[self delegate] profile:self didReceiveVisibilityChange:YES];
+                } else if (strncmp(&bytes[3],"INV",3)==0) {
+                    [[self delegate] profile:self didReceiveVisibilityChange:NO];
+                }
             }
 
             // ACK
