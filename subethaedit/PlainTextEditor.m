@@ -611,6 +611,29 @@
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
     PlainTextDocument *document = [self document];
+    
+    if (![document isFileWritable] && ![document editAnyway]) {
+        NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"EditAnywayAlert", @"Alert",
+                                                    aTextView, @"TextView",
+                                                    [[replacementString copy] autorelease], @"ReplacementString",
+                                                    nil];
+                                                    
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"Warning", nil)];
+        [alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+        [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+        [alert beginSheetModalForWindow:[aTextView window]
+                          modalDelegate:document 
+                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                            contextInfo:[contextInfo retain]];   
+    
+        return NO;
+    }
+    
     if (![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
         //if (!([self isRemote] || [self isShared])) {
             NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:

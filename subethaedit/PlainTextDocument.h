@@ -34,6 +34,8 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL showsChangeMarks; // Editor
         BOOL showsTopStatusBar; // Editor
         BOOL showsBottomStatusBar; // Editor
+        BOOL isFileWritable;
+        BOOL editAnyway;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -101,6 +103,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)gotoLine:(unsigned)aLine;
 - (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag;
 - (void)selectRange:(NSRange)aRange;
+- (void)handleOpenDocumentEvent;
 
 #pragma mark -
 #pragma mark ### Flag Accessors ###
@@ -127,7 +130,11 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setShowsTopStatusBar:(BOOL)aFlag;
 - (BOOL)showsBottomStatusBar;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
-- (void)handleOpenDocumentEvent;
+- (BOOL)isFileWritable;
+- (void)setIsFileWritable:(BOOL)aFlag;
+- (BOOL)editAnyway;
+- (void)setEditAnyway:(BOOL)aFlag;
+
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

@@ -119,6 +119,8 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     I_bracketMatching.matchingBracketPosition=NSNotFound;
     [self setShowsTopStatusBar:YES];
     [self setShowsBottomStatusBar:YES];
+    [self setEditAnyway:NO];
+    [self setIsFileWritable:YES];
 }
 
 - (void)TCM_sendODBCloseEvent {
@@ -691,7 +693,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
 }
-
+ 
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     I_lastSaveOperation = saveOperation;
     [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
@@ -760,9 +762,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (!fileExists || isDir) {
         return NO;
     }
-    
-    NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
-    [self setFileAttributes:fattrs];
     
     NSTextStorage *textStorage = [self textStorage];
 
@@ -850,6 +849,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
     
+    NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
+    [self setFileAttributes:fattrs];
+    BOOL isWritable = [[NSFileManager defaultManager] isWritableFileAtPath:fileName];
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"isWritable: %@", isWritable ? @"YES" : @"NO");
+    [self setIsFileWritable:isWritable];
+    
     // guess lineEnding and set instance variable
 //    unsigned startIndex = 0;
 //    unsigned lineEndIndex = 0;
@@ -911,13 +916,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
     
-    if (result == NO) {
-        result = [self TCM_writeToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
-    }
+    //if (result == NO) {
+    //    result = [self TCM_writeToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
+    //}
     
     if (saveOperationType != NSSaveToOperation) {
         NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fullDocumentPath traverseLink:YES];
         [self setFileAttributes:fattrs];
+        [self setIsFileWritable:[[NSFileManager defaultManager] isWritableFileAtPath:fullDocumentPath]];
     }
     
     return result;
@@ -1064,10 +1070,6 @@ static NSString *tempFileName(NSString *origPath) {
     
     NSString *fileName = [self fileName];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Validate document: %@", fileName);
-    
-    //NSFileManager *fileManager = [NSFileManager defaultManager];
-    //BOOL fileExists = [fileManager fileExistsAtPath:[fileName stringByExpandingTildeInPath]];
-    //BOOL isWritable = [fileManager isWritableFileAtPath:fileName];
     
     NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
     if ([[fattrs fileModificationDate] compare:[[self fileAttributes] fileModificationDate]] != NSOrderedSame) {
@@ -1389,6 +1391,21 @@ static NSString *tempFileName(NSString *origPath) {
     I_flags.showsBottomStatusBar=aFlag;
 }
 
+- (BOOL)isFileWritable {
+    return I_flags.isFileWritable;
+}
+
+- (void)setIsFileWritable:(BOOL)aFlag {
+    I_flags.isFileWritable = aFlag;
+}
+
+- (BOOL)editAnyway {
+    return I_flags.editAnyway;
+}
+
+- (void)setEditAnyway:(BOOL)aFlag {
+    I_flags.editAnyway = aFlag;
+}
 
 #pragma mark -
 
@@ -1466,6 +1483,12 @@ static NSString *tempFileName(NSString *origPath) {
             if (successful) {
                 [self updateChangeCount:NSChangeCleared];
             }
+        }
+    } else if ([alertIdentifier isEqualToString:@"EditAnywayAlert"]) {
+        if (returnCode == NSAlertFirstButtonReturn) {
+            [self setEditAnyway:YES];
+            NSTextView *textView = [alertContext objectForKey:@"TextView"];
+            [textView insertText:[alertContext objectForKey:@"ReplacementString"]];        
         }
     }
     
