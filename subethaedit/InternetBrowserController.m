@@ -10,6 +10,8 @@
 #import "TCMHost.h"
 #import "TCMBEEP/TCMBEEPSession.h"
 #import "TCMBEEP/TCMBEEPProfile.h"
+#import "TCMMMUserManager.h"
+#import "TCMMMUserSEEAdditions.h"
 #import "ImagePopUpButtonCell.h"
 #import "PullDownButtonCell.h"
 
@@ -1298,7 +1300,9 @@ enum {
     BOOL allowDrag = YES;
     NSMutableArray *plist = [NSMutableArray array];
     NSMutableIndexSet *set = [indexes mutableCopy];
+    NSMutableString *vcfString= [NSMutableString string];
     unsigned int index;
+    TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     while ((index = [set firstIndex]) != NSNotFound) {
         ItemChildPair pair = [listView itemChildPairAtRow:index];
         NSMutableDictionary *item = [I_data objectAtIndex:pair.itemIndex];
@@ -1311,6 +1315,10 @@ enum {
         if ([item objectForKey:@"URLString"]) {
             [entry setObject:[item objectForKey:@"URLString"] forKey:@"URLString"];
         }
+        NSString *vcf=[[userManager userForUserID:[item objectForKey:@"UserID"]] vcfRepresentation];
+        if (vcf) {
+            [vcfString appendString:vcf];
+        }
         [plist addObject:entry];
         [entry release];
         if (pair.childIndex != -1) {
@@ -1322,8 +1330,9 @@ enum {
     [set release];
     
     if (allowDrag) {
-        [pboard declareTypes:[NSArray arrayWithObject:@"PboardTypeTBD"] owner:nil];
+        [pboard declareTypes:[NSArray arrayWithObjects:@"PboardTypeTBD",NSVCardPboardType,nil] owner:nil];
         [pboard setPropertyList:plist forType:@"PboardTypeTBD"];
+        [pboard setData:[vcfString dataUsingEncoding:NSUnicodeStringEncoding] forType:NSVCardPboardType];
     }
     
     return allowDrag;
