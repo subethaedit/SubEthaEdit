@@ -625,6 +625,8 @@
 				5ECFBAEF060F367C000B47E6,
 				5ECFBAE8060F365B000B47E6,
 				5ECFBAE9060F365B000B47E6,
+				3131457D06381AA9003CC762,
+				3131457E06381AA9003CC762,
 				31DAE2C50630185B0048C41B,
 				31DAE2C60630185B0048C41B,
 			);
@@ -1652,6 +1654,34 @@
 //312
 //313
 //314
+		3131457D06381AA9003CC762 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = RegexSymbolDefinition.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3131457E06381AA9003CC762 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = RegexSymbolDefinition.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3131457F06381AA9003CC762 = {
+			fileRef = 3131457D06381AA9003CC762;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3131458006381AA9003CC762 = {
+			fileRef = 3131457E06381AA9003CC762;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		31B738E40611C6330004F28D = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -3756,6 +3786,7 @@
 				5EA543C406357E0D00A06297,
 				5EA543C606357E0D00A06297,
 				5E192B860635D2CF00363C02,
+				3131457F06381AA9003CC762,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3917,6 +3948,7 @@
 				5EA543C306357E0D00A06297,
 				5EA543C506357E0D00A06297,
 				5E192B870635D2CF00363C02,
+				3131458006381AA9003CC762,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

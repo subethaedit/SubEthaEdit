@@ -461,6 +461,8 @@ subethaedit/PopUpButtonCell.m -text
 subethaedit/Preferences.nib/classes.nib -text
 subethaedit/Preferences.nib/info.nib -text
 subethaedit/Preferences.nib/keyedobjects.nib -text
+subethaedit/RegexSymbolDefinition.h -text
+subethaedit/RegexSymbolDefinition.m -text
 subethaedit/RegexSymbolParser.h -text
 subethaedit/RegexSymbolParser.m -text
 subethaedit/RendezvousBrowserController.h -text
