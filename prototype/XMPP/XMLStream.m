@@ -192,7 +192,7 @@
 - (void)streamParser:(XMLParser *)parser didStartElement:(NSString *)elementName 
         namespaceURI:(NSString *)namespaceURI attributes:(NSDictionary *)attributeDict
 {
-    NSLog(@"streamParser:%@ didStartElement:%@ namespaceURI:%@ attributes:%@", parser, elementName, namespaceURI, attributeDict);
+    //NSLog(@"streamParser:%@ didStartElement:%@ namespaceURI:%@ attributes:%@", parser, elementName, namespaceURI, attributeDict);
     
     if (I_depth == 0) {
         I_streamNode = [[Node alloc] init];
@@ -230,7 +230,7 @@
 - (void)streamParser:(XMLParser *)parser didEndElement:(NSString *)elementName 
         namespaceURI:(NSString *)namespaceURI
 {
-    NSLog(@"streamParser:%@ didEndElement:%@ namespaceURI:%@", parser, elementName, namespaceURI);
+    //NSLog(@"streamParser:%@ didEndElement:%@ namespaceURI:%@", parser, elementName, namespaceURI);
     
     if (I_depth > 2) {
         I_node = [I_node parent];
@@ -249,28 +249,28 @@
 
 - (void)streamParser:(XMLParser *)parser didStartMappingPrefix:(NSString *)prefix toURI:(NSString *)namespaceURI
 {
-    NSLog(@"streamParser:%@ didStartMappingPrefix:%@ toURI:%@", parser, prefix, namespaceURI);
+    //NSLog(@"streamParser:%@ didStartMappingPrefix:%@ toURI:%@", parser, prefix, namespaceURI);
 }
 
 - (void)streamParser:(XMLParser *)parser didEndMappingPrefix:(NSString *)prefix
 {
-    NSLog(@"streamParser:%@ didEndMappingPrefix:%@", parser, prefix);
+    //NSLog(@"streamParser:%@ didEndMappingPrefix:%@", parser, prefix);
 }
 
 - (void)streamParser:(XMLParser *)parser foundCharacters:(NSString *)string
 {
-    NSLog(@"streamParser:%@ foundCharacters:%@", parser, string);
+    //NSLog(@"streamParser:%@ foundCharacters:%@", parser, string);
     [I_node appendString:string];
 }
 
 - (void)streamParser:(XMLParser *)parser foundCDATA:(NSData *)CDATABlock
 {
-    NSLog(@"streamParser:%@ foundCDATA:%@", parser, CDATABlock);
+    //NSLog(@"streamParser:%@ foundCDATA:%@", parser, CDATABlock);
 }
 
 - (void)streamParser:(XMLParser *)parser didFailWithReason:(NSString *)errorString
 {
-    NSLog(@"streamParser:%@ didFailWithReason:%@", parser, errorString);
+    //NSLog(@"streamParser:%@ didFailWithReason:%@", parser, errorString);
 }
 
 @end
