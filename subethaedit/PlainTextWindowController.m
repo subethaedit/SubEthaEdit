@@ -398,6 +398,8 @@ enum {
             }
             [rows removeIndex:row];
         }
+    } else  if (![session isServer] && [selectedRows count]==1) {
+        buttonState |= FollowUserStateMask;
     }
     
     return buttonState;
@@ -1154,7 +1156,7 @@ enum {
                 }
             }
         }
-        if (user) {
+        if (user && ![[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
             [userset addObject:[user userID]];
         }
     }
