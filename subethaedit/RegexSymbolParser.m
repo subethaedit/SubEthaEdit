@@ -96,6 +96,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
         OGRegularExpression *regex = [symbol objectForKey:@"regex"];
         NSString *type = @"bar";
         int mask = [[symbol objectForKey:@"font-trait"] unsignedIntValue];
+        int indent = [[symbol objectForKey:@"indentation"] intValue];
         NSImage *image = [symbol objectForKey:@"image"];
 
         NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string]] objectEnumerator];
@@ -104,7 +105,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
             NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
             NSRange fullrange = [aMatch rangeOfMatchedString];
             if ([aTextStorage attribute:kSymbolParsingIsInABlock atIndex:jumprange.location effectiveRange:nil]) break;
-            NSString *name = [aMatch matchedString];
+            NSString *name = [aMatch substringAtIndex:1];
             //NSString *name = [trim replaceAllMatchesInString:[aMatch matchedString] withString:@"" options:OgreNoneOption];
             
             // Replace Stuff!
@@ -118,8 +119,11 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
                     name = [find replaceAllMatchesInString:name withString:replace options:OgreNoneOption];
                 }
             }
-            
-            [returnArray addObject:[SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:0 jumpRange:jumprange range:fullrange]];
+            SymbolTableEntry *aSymbolTableEntry = [SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:indent jumpRange:jumprange range:fullrange];
+            if ([name isEqualToString:@""]) {
+                [aSymbolTableEntry setIsSeparator:YES];
+            }
+            [returnArray addObject:aSymbolTableEntry];
         }
     }
     return [returnArray sortedArrayUsingSelector:@selector(sortByRange:)];

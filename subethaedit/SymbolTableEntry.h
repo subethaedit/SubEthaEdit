@@ -37,5 +37,6 @@
 - (void)setRange:(NSRange)aRange;
 - (void)setIndentationLevel:(int)aIndentationLevel;
 - (int)indentationLevel;
+- (void)setIsSeparator:(BOOL)aFlag;
 - (BOOL)isSeparator;
 @end
