@@ -35,8 +35,8 @@ extern NSString * const DocumentModePrintInfoPreferenceKey              ;
 extern NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey  ;
 extern NSString * const DocumentModeSyntaxStylePreferenceKey            ;
 // depricated
-extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
-extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
+// extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
+// extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
 
 extern NSString * const DocumentModeExportPreferenceKey                    ;
 extern NSString * const DocumentModeExportHTMLPreferenceKey                ;
