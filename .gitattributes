@@ -493,6 +493,7 @@ subethaedit/TCMBEEP/TCMBEEPManagementProfile.m -text
 subethaedit/TCMBEEP/TCMBEEPMessage.h -text
 subethaedit/TCMBEEP/TCMBEEPMessage.m -text
 subethaedit/TCMBEEP/TCMBEEPProfile.h -text
+subethaedit/TCMBEEP/TCMBEEPProfile.m -text
 subethaedit/TCMBEEP/TCMBEEPSession.h -text
 subethaedit/TCMBEEP/TCMBEEPSession.m -text
 subethaedit/TCMFoundation/CFTreeTCMAdditions.h -text

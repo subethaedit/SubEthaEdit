@@ -96,6 +96,6 @@ enum {
 
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forRequests:(NSArray *)aRequests;
 
-- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(id <TCMBEEPProfile>) aProfile;
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *) aProfile;
 
 @end
