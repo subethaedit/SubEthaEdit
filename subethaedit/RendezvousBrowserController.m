@@ -57,6 +57,8 @@
     [[O_scrollView verticalScroller] setControlSize:NSSmallControlSize];
 //    [O_scrollView setAutohidesScrollers:YES];
     [O_scrollView setDocumentView:O_browserListView];
+    NSLog(@"Copies on Scroll: %@",([[O_scrollView contentView] copiesOnScroll]?@"YES":@"NO"));
+    [[O_scrollView contentView] setCopiesOnScroll:YES];
     [O_browserListView noteEnclosingScrollView];
 }
 
@@ -66,33 +68,17 @@
 
 - (IBAction)joinSession:(id)aSender
 {
-    NSLog(@"joinSession in row: %d", [aSender clickedRow]);
     int row = [aSender clickedRow];
-    
-    int index = 0;
-    int i, j;
-    for (i = 0; i < [I_data count]; i++) {
-        if (index == row) {
-            NSLog(@"found item: %d", i);
-            break;
-        }
-        index++;
-        
-        int numberOfChildren = [[[I_data objectAtIndex:i] objectForKey:@"Sessions"] count];
-        for (j = 0; j < numberOfChildren; j++) {
-            if (index == row) {
-                NSLog(@"found child: %d, item: %d", j, i);
-                break;
-            }
-            index++;
-        }
+    NSLog(@"joinSession in row: %d", row);
+
+    ItemChildPair pair = [aSender itemChildPairAtRow:row];
+    if (pair.childIndex!=-1) {
+        NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
+        NSArray *sessions = [userDict objectForKey:@"Sessions"];
+        TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
+        NSLog(@"Found session: %@", session);
+        [session join]; // also specify BEEPSession
     }
-    
-    NSDictionary *userDict = [I_data objectAtIndex:i-1];
-    NSArray *sessions = [userDict objectForKey:@"Sessions"];
-    TCMMMSession *session = [sessions objectAtIndex:j];
-    NSLog(@"Found session: %@", session);
-    [session join]; // also specify BEEPSession
 }
 
 #pragma mark -

@@ -19,6 +19,12 @@ enum {
     TCMMMBrowserChildActionImageTag
 };
 
+typedef struct _ItemChildPair {
+    int itemIndex;
+    int childIndex;
+} ItemChildPair;
+
+
 
 @interface TCMMMBrowserListView : NSView
 {
@@ -30,6 +36,18 @@ enum {
     id I_target;
     SEL I_action;
     SEL I_doubleAction;
+    
+    NSMutableIndexSet *I_selectedRows;
+    
+    // indices
+    BOOL I_indicesNeedRebuilding;
+    int  I_indexNumberOfItems;
+    int *I_indexNumberOfChildren;
+    int *I_indexRowAtItem;
+    ItemChildPair *I_indexItemChildPairAtRow;
+    float I_indexMaxHeight;
+    NSRange *I_indexYRangesForItem;
+    int I_indexNumberOfRows;
 }
 
 - (void)setDataSource:(id)aDataSource;
@@ -39,9 +57,9 @@ enum {
 - (void)setTarget:(id)aTarget;
 - (void)setAction:(SEL)anAction;
 - (void)setDoubleAction:(SEL)anAction;
-
 - (int)clickedRow;
-
+- (ItemChildPair)itemChildPairAtRow:(int)aIndex;
+- (int)rowForItem:(int)anItemIndex child:(int)aChildIndex;
 - (void)reloadData;
 - (int)numberOfItems;
 - (int)numberOfChildrenOfItemAtIndex:(int)aIndex;
