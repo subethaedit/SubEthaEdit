@@ -9,6 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import "DocumentMode.h"
 
+@interface DocumentModePopUpButton : NSPopUpButton {
+}
+
+- (DocumentMode *)selectedMode;
+- (void)setSelectedMode:(DocumentMode *)aMode;
+@end
+
 @interface DocumentModeMenu : NSMenu {
     SEL I_action;
 }

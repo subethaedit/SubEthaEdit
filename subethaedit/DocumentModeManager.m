@@ -13,7 +13,41 @@
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
 - (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector;
+- (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedMode:(DocumentMode *)aMode;
 @end
+
+@implementation DocumentModePopUpButton
+
+/* Replace the cell, sign up for notifications.
+*/
+- (void)awakeFromNib {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
+    [[DocumentModeManager sharedInstance] setupPopUp:self selectedMode:[[DocumentModeManager sharedInstance] baseMode]];
+}
+
+- (DocumentMode *)selectedMode {
+    DocumentModeManager *manager=[DocumentModeManager sharedInstance];
+    return [manager documentModeForIdentifier:[manager documentModeIdentifierForTag:[[self selectedItem] tag]]];
+}
+
+- (void)setSelectedMode:(DocumentMode *)aMode {
+    int tag=[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[aMode bundle] bundleIdentifier]];
+    [self selectItemAtIndex:[[self menu] indexOfItemWithTag:tag]];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
+}
+
+/* Update contents based on encodings list customization
+*/
+- (void)documentModeListChanged:(NSNotification *)notification {
+    [[DocumentModeManager sharedInstance] setupPopUp:self selectedMode:[self selectedMode]];
+}
+
+@end
+
 
 @implementation DocumentModeMenu
 - (void)dealloc {
@@ -214,6 +248,20 @@
     }
 }
 
-
+- (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedMode:(DocumentMode *)aMode {
+    [aPopUp removeAllItems];
+    NSMenu *tempMenu=[[NSMenu new] autorelease];
+    [self setupMenu:tempMenu action:@selector(none:)];
+    NSEnumerator *menuItems=[[tempMenu itemArray] objectEnumerator];
+    NSMenuItem *item=nil;
+    while ((item=[menuItems nextObject])) {
+        if (![item isSeparatorItem]) {
+            [aPopUp addItemWithTitle:[item title]];
+            [[aPopUp lastItem] setTag:[item tag]];
+            [[aPopUp lastItem] setEnabled:YES];
+        }
+    }
+    [aPopUp setSelectedMode:aMode];
+}
 
 @end

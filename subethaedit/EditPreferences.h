@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "TCMPreferenceModule.h"
 
+@class DocumentModePopUpButton;
 
 @interface EditPreferences : TCMPreferenceModule {
-    IBOutlet NSPopUpButton *O_modePopUpButton;
     IBOutlet NSTextField   *O_tabWidthTextField;
     IBOutlet NSButton      *O_usesTabsButton;
     IBOutlet NSButton      *O_indentNewLinesButton;
@@ -23,6 +23,13 @@
     IBOutlet NSTextField   *O_fontTextField;
     IBOutlet NSColorWell   *O_documentForegroundColorWell;
     IBOutlet NSColorWell   *O_documentBackgroundColorWell;
+    
+    IBOutlet DocumentModePopUpButton *O_modePopUpButton;
+    IBOutlet NSObjectController *O_modeController;
 }
+
+- (IBAction)changeMode:(id)aSender;
+- (IBAction)changeFontViaPanel:(id)sender;
+
 
 @end

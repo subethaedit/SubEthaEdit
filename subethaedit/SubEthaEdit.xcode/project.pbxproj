@@ -1660,6 +1660,34 @@
 			settings = {
 			};
 		};
+		5E49DD8D061D6A20003BE4FB = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = FontAttributesToStringValueTransformer.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E49DD8E061D6A20003BE4FB = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = FontAttributesToStringValueTransformer.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E49DD8F061D6A20003BE4FB = {
+			fileRef = 5E49DD8D061D6A20003BE4FB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E49DD90061D6A20003BE4FB = {
+			fileRef = 5E49DD8E061D6A20003BE4FB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E4F35B305EF7530009D71ED = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1854,10 +1882,12 @@
 		};
 		5E551FBC061883BC00E6B265 = {
 			children = (
-				5E551FB80618839C00E6B265,
-				5E551FB90618839C00E6B265,
+				5E49DD8D061D6A20003BE4FB,
+				5E49DD8E061D6A20003BE4FB,
 				5E551FBF0618842B00E6B265,
 				5E551FC00618842B00E6B265,
+				5E551FB80618839C00E6B265,
+				5E551FB90618839C00E6B265,
 			);
 			isa = PBXGroup;
 			name = ValueTransformers;
@@ -2792,6 +2822,7 @@
 				5E551FC10618842B00E6B265,
 				14C7A97506199F55003F4DDC,
 				14840CFD061AF8CA0082EA0A,
+				5E49DD8F061D6A20003BE4FB,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2913,6 +2944,7 @@
 				5E551FC20618842B00E6B265,
 				14C7A97606199F55003F4DDC,
 				14840D7A061B08D20082EA0A,
+				5E49DD90061D6A20003BE4FB,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

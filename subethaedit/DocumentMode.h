@@ -13,6 +13,7 @@
 @interface DocumentMode : NSObject {
     NSBundle *I_bundle;
     SyntaxHighlighter *I_syntaxHighlighter;
+    NSMutableDictionary *I_defaults;
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle;
@@ -20,4 +21,8 @@
 - (SyntaxHighlighter *)syntaxHighlighter;
 - (NSBundle *)bundle;
 
+- (NSMutableDictionary *)defaults;
+- (void)setDefaults:(NSMutableDictionary *)defaults;
+
+- (BOOL)isBaseMode;
 @end

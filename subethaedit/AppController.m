@@ -24,8 +24,9 @@
 #import "SelectionOperation.h"
 #import "EncodingManager.h"
 
-#import "SaturationToColorValueTransformer.h"
+#import "FontAttributesToStringValueTransformer.h"
 #import "HueToColorValueTransformer.h"
+#import "SaturationToColorValueTransformer.h"
 
 int const FormatMenuTag = 2000;
 int const FileEncodingsMenuItemTag = 2001;
@@ -55,6 +56,9 @@ int const WindowMenuTag = 3000;
 }
 
 - (void)registerTransformers {
+    FontAttributesToStringValueTransformer *fontTrans=[[FontAttributesToStringValueTransformer new] autorelease];
+    [NSValueTransformer setValueTransformer:fontTrans
+                                    forName:@"FontAttributesToString"];
     HueToColorValueTransformer *hueTrans=[[HueToColorValueTransformer new] autorelease];
     [NSValueTransformer setValueTransformer:hueTrans
                                     forName:@"HueToColor"];

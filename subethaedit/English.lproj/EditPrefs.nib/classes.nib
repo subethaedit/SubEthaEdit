@@ -1,6 +1,33 @@
 {
     IBClasses = (
-        {CLASS = EditPreferences; LANGUAGE = ObjC; SUPERCLASS = TCMPreferenceModule; }, 
+        {CLASS = DocumentModeManager; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = DocumentModeMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
+        {
+            CLASS = DocumentModePopUpButton; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPopUpButton; 
+        }, 
+        {
+            ACTIONS = {changeFontViaPanel = id; changeMode = id; }; 
+            CLASS = EditPreferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_documentBackgroundColorWell" = NSColorWell; 
+                "O_documentForegroundColorWell" = NSColorWell; 
+                "O_fontTextField" = NSTextField; 
+                "O_highlightSyntaxButton" = NSButton; 
+                "O_indentNewLinesButton" = NSButton; 
+                "O_matchingBracketTypesTextField" = NSTextField; 
+                "O_modeController" = NSObjectController; 
+                "O_modePopUpButton" = DocumentModePopUpButton; 
+                "O_showLineNumbersButton" = NSButton; 
+                "O_showMatchingBracketsButton" = NSButton; 
+                "O_tabWidthTextField" = NSTextField; 
+                "O_usesTabsButton" = NSButton; 
+                "O_wrapLinesButton" = NSButton; 
+            }; 
+            SUPERCLASS = TCMPreferenceModule; 
+        }, 
         {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {

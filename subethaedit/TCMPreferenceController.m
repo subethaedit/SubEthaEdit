@@ -130,6 +130,12 @@ static NSMutableArray *prefModules;
     [window setFrame:frame display:YES animate:YES];
 
     [window setContentView:[module mainView]];
+    if ([module isKindOfClass:[NSResponder class]]) {
+        [self setNextResponder:module];
+    } else {
+        [self setNextResponder:nil];
+    }
+    
     if ([module isKindOfClass:[TCMPreferenceModule class]]) {
         [window setContentMaxSize:[module maxSize]];
         [window setContentMinSize:[module minSize]];
@@ -163,6 +169,11 @@ static NSMutableArray *prefModules;
         [self selectPrefPaneWithIdentifier:identifier];
         [module didSelect];
     }
+}
+
+- (id)selectedModule 
+{
+    return [registeredPrefModules objectForKey:[self selectedItemIdentifier]];
 }
 
 - (NSString *)selectedItemIdentifier

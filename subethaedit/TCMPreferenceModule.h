@@ -10,7 +10,7 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 
-@interface TCMPreferenceModule : NSObject
+@interface TCMPreferenceModule : NSResponder
 {
     IBOutlet NSWindow *O_window;
     NSView *O_mainView;
