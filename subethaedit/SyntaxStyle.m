@@ -99,6 +99,10 @@ static NSArray *S_possibleStyleColors;
     CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, sourceURL, &xmlData, NULL, NULL, NULL);
 
     cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,xmlData,sourceURL,kCFXMLParserSkipWhitespace|kCFXMLParserSkipMetaData,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
+
+    if (!cfXMLTree) {
+        return result;
+    }
     
     CFXMLTreeRef    xmlTree = NULL;
     CFXMLNodeRef    xmlNode = NULL;

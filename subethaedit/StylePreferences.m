@@ -248,6 +248,7 @@
         [style setObject:anObject forKey:aKey];
     }
     [O_stylesTableView reloadData];
+    [self updateInspector];
 }
 
 - (IBAction)changeLightForegroundColor:(id)aSender {
@@ -272,6 +273,7 @@
         [style setObject:[NSNumber numberWithUnsignedInt:traits] forKey:@"font-trait"];
     }
     [O_stylesTableView reloadData];
+    [self updateInspector];
 }
 
 - (IBAction)changeFontTraitItalic:(id)aSender {
@@ -299,10 +301,41 @@
                contextInfo:nil];
 }
 
-- (void)openPanelDidEnd:(NSOpenPanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)contextInfo {
-    NSString *filename=[aPanel filename];
-    if (aReturnCode==NSOKButton) {
-        NSArray *styleArray=[SyntaxStyle syntaxStylesWithXMLFile:filename];
+- (void)importStyleFile:(NSString *)aFilename {
+    NSArray *styleArray=[SyntaxStyle syntaxStylesWithXMLFile:aFilename];
+    if ([styleArray count]>0) {
+        NSMutableString *modeString=[[[[[styleArray objectAtIndex:0] documentMode] displayName] mutableCopy] autorelease];
+        int i;
+        for (i=1;i<[styleArray count];i++) {
+            [modeString appendFormat:@", %@",[[[styleArray objectAtIndex:i] documentMode] displayName]];
+        }
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"SeeStyleImportMessage", @"Message Text of Style load alert sheet")];
+        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"SeeStyleImportInformative %@",  @"Informative Text of Style load alert sheet"),modeString]];
+        [alert addButtonWithTitle:NSLocalizedString(@"Import", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Open in Editor", nil)];
+        [alert beginSheetModalForWindow:[O_stylesTableView window]
+                          modalDelegate:self
+                         didEndSelector:@selector(importDidEnd:returnCode:contextInfo:)
+                            contextInfo:[styleArray retain]];
+    } else {
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"SeeStyleImportDidFailMessage", @"Message Text of Style load did fail alert sheet")];
+        [alert setInformativeText:NSLocalizedString(@"SeeStyleImportDidFailInformative", @"Informative Text of Style load did fail alert sheet")];
+        [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+        [alert beginSheetModalForWindow:[O_stylesTableView window]
+                          modalDelegate:nil
+                         didEndSelector:nil
+                            contextInfo:NULL];
+    }
+}
+
+- (void)importDidEnd:(NSAlert *)anAlert returnCode:(int)aReturnCode contextInfo:(void *)aStyleArray {
+    NSArray *styleArray=[(NSArray *)aStyleArray autorelease];
+    if (aReturnCode == NSAlertFirstButtonReturn) {
         NSEnumerator *styles=[styleArray objectEnumerator];
         SyntaxStyle *style=nil;
         while ((style = [styles nextObject])) {
@@ -313,6 +346,14 @@
             [O_modePopUpButton setSelectedMode:[style documentMode]];
             [self changeMode:O_modePopUpButton];
         }
+    }
+}
+
+- (void)openPanelDidEnd:(NSOpenPanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)contextInfo {
+    NSString *filename=[aPanel filename];
+    if (aReturnCode==NSOKButton) {
+        [aPanel orderOut:self];
+        [self importStyleFile:filename];
     }
 }
 
@@ -351,6 +392,7 @@
         [style addEntriesFromDictionary:[defaultStyle styleForKey:[style objectForKey:@"styleID"]]];
     }
     [O_stylesTableView reloadData];
+    [self updateInspector];
 }
 
 

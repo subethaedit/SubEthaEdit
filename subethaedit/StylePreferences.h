@@ -41,6 +41,7 @@
 - (IBAction)validateDefaultsState:(id)aSender;
 - (IBAction)changeDefaultState:(id)aSender;
 - (IBAction)import:(id)aSender;
+- (void)importStyleFile:(NSString *)aFilename;
 - (IBAction)export:(id)aSender;
 - (IBAction)revertSelectionToMode:(id)aSender;
 - (IBAction)revertToMode:(id)aSender;

@@ -247,7 +247,7 @@
         if (colorString) {
             backgroundColor = [NSColor colorForHTMLString:colorString];
         }
-        [styleDictionary setObject:color forKey:@"background-color"];
+        [styleDictionary setObject:backgroundColor forKey:@"background-color"];
         colorString=[aDictionary objectForKey:@"inverted-background-color"];
         if (colorString) {
             backgroundColor = [NSColor colorForHTMLString:colorString];
