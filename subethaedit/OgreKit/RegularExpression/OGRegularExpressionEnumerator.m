@@ -196,24 +196,48 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 
 - (NSArray*)allObjects
 {	
-	NSMutableArray	*matchArray = [NSMutableArray arrayWithCapacity:1];
-	id	tmpEnum = [[[[self class] allocWithZone:[self zone]] 
-			initWithSwappedString: _swappedTargetString 
-			options: _searchOptions
-			range: _searchRange 
-			regularExpression: _regex] autorelease];
+#ifdef DEBUG_OGRE
+	NSLog(@"-allObjects of OGRegularExpressionEnumerator");
+#endif
+
+	NSMutableArray	*matchArray = [NSMutableArray arrayWithCapacity:10];
+
+	int			orgUtf8TerminalOfLastMatch = _utf8TerminalOfLastMatch;
+	BOOL		orgIsLastMatchEmpty = _isLastMatchEmpty;
+	unsigned	orgStartLocation = _startLocation;
+	unsigned	orgUtf8StartLocation = _utf8StartLocation;
+	unsigned	orgNumberOfMatches = _numberOfMatches;
+	
+	_utf8TerminalOfLastMatch = 0;
+	_isLastMatchEmpty = NO;
+	_startLocation = 0;
+	_utf8StartLocation = 0;
+	_numberOfMatches = 0;
 			
-	id	match;
+	NSAutoreleasePool   *pool = [[NSAutoreleasePool alloc] init];
+	OGRegularExpressionMatch	*match;
 	int matches = 0;
-	while ( (match = [tmpEnum nextObject]) != nil ) {
+	while ( (match = [self nextObject]) != nil ) {
 		[matchArray addObject:match];
 		matches++;
+		if ((matches % 100) == 0) {
+			[pool release];
+			pool = [[NSAutoreleasePool alloc] init];
+		}
 	}
+	[pool release];
 	
+	_utf8TerminalOfLastMatch = orgUtf8TerminalOfLastMatch;
+	_isLastMatchEmpty = orgIsLastMatchEmpty;
+	_startLocation = orgStartLocation;
+	_utf8StartLocation = orgUtf8StartLocation;
+	_numberOfMatches = orgNumberOfMatches;
+
 	if (matches == 0) {
-		// àÍÇ¬Ç‡É}ÉbÉ`ÇµÇ»Ç©Ç¡ÇΩèÍçá
+		// not found
 		return nil;
 	} else {
+		// found something
 		return matchArray;
 	}
 }

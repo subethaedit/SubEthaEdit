@@ -581,7 +581,7 @@ subethaedit/OgreKit/RegularExpression/OgreKit.h -text
 subethaedit/OgreKit/RegularExpression/OgreKitWithoutFindPanel/OgreKit.h -text
 subethaedit/OgreKit/RegularExpression/OgreKit_Prefix.pch -text
 subethaedit/OgreKit/RegularExpression/configure.sh -text
-subethaedit/OgreKit/RegularExpression/onigd2_2_8.tar.gz -text
+subethaedit/OgreKit/RegularExpression/onigd20040514.tar.gz -text
 subethaedit/OgreKit/RegularExpression/version.plist -text
 subethaedit/OgreKit/RegularExpressionTest/English.lproj/InfoPlist.strings -text
 subethaedit/OgreKit/RegularExpressionTest/English.lproj/MainMenu.nib/classes.nib -text

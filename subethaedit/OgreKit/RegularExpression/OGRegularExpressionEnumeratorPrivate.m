@@ -34,12 +34,19 @@
 		// 検索対象文字列を保持
 		// target stringをUTF8文字列に変換する。
 		_swappedTargetString = [swappedTargetString retain];
-		_utf8SwappedTargetString = (unsigned char*)[_swappedTargetString UTF8String];
-		_utf8lengthOfSwappedTargetString = strlen(_utf8SwappedTargetString);
+		
+		// duplicate [_swappedTargetString UTF8String]
+		unsigned char   *tmpUTF8String = (unsigned char*)[_swappedTargetString UTF8String];
+		_utf8lengthOfSwappedTargetString = strlen(tmpUTF8String);
+		_utf8SwappedTargetString = (unsigned char*)NSZoneMalloc([self zone], sizeof(unsigned char) * (_utf8lengthOfSwappedTargetString + 1));
+		if (_utf8SwappedTargetString == NULL) {
+			// メモリを確保できなかった場合、例外を発生させる。
+			[NSException raise:OgreEnumeratorException format:@"fail to duplicate a utf8SwappedTargetString"];
+		}
+		memcpy(_utf8SwappedTargetString, tmpUTF8String, _utf8lengthOfSwappedTargetString + 1);
 		
 		// 検索範囲
-		_searchRange.location = searchRange.location;
-		_searchRange.length = searchRange.length;
+		_searchRange = searchRange;
 		
 		// 正規表現オブジェクトを保持
 		_regex = [regex retain];

@@ -9,7 +9,7 @@ if (-e "RegularExpression/oniguruma") then
 else
 	echo "oniguruma is not found. Extracting oniguruma..."
 	cd RegularExpression
-	tar zxvf onigd2_2_8.tar.gz
+	tar zxvf onigd20040514.tar.gz
 #	echo "Applying patch..."
 #	cp 20040414.patch oniguruma/.
 #	cd oniguruma
