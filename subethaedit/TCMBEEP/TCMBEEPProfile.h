@@ -19,6 +19,7 @@
 {
     TCMBEEPChannel *I_channel;
     NSString *I_profileURI;
+    BOOL I_isClosing;
     id I_delegate;
 }
 
@@ -37,6 +38,7 @@
 - (void)channelDidClose;
 - (void)channelDidNotCloseWithError:(NSError *)error;
 - (void)cleanup;
+- (void)close;
 
 @end
 
@@ -44,5 +46,6 @@
 @interface NSObject (TCMBEEPProfileDelegateAdditions)
 
 - (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError;
+- (void)profileDidClose:(TCMBEEPProfile *)aProfile;
 
 @end
