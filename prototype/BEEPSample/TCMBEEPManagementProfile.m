@@ -101,6 +101,120 @@
 
 #pragma mark -
 
+- (void)_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef) aContentTree 
+{
+    BOOL malformedGreeting = YES;
+    if ([[aMessage messageTypeString] isEqualTo:@"RPY"] &&
+        [aMessage messageNumber] == 0) {
+                    
+        int childCount = CFTreeGetChildCount(aContentTree);
+        int index;
+        for (index = 0; index < childCount; index++) {
+            CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aContentTree, index);
+            CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
+            if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
+                if ([@"greeting" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                    NSLog (@"Was greeting....");
+                    CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
+                    NSDictionary *attributes = (NSDictionary *)info->attributes;
+                    NSLog (@"Attributes: %@", [attributes description]);
+
+                    NSMutableArray *profileURIs = [NSMutableArray array];
+                    int profileCount = CFTreeGetChildCount(xmlTree);
+                    int profileIndex;
+                    for (profileIndex = 0; profileIndex < profileCount; profileIndex++) {
+                        CFXMLTreeRef profileSubTree = CFTreeGetChildAtIndex(xmlTree,profileIndex);
+                        CFXMLNodeRef profileNode = CFXMLTreeGetNode(profileSubTree);
+                        if (CFXMLNodeGetTypeCode(profileNode) == kCFXMLNodeTypeElement) {
+                            if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(profileNode)]) {
+                                CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(profileNode);
+                                NSDictionary *attributes = (NSDictionary *)info->attributes;
+                                NSString *URI;
+                                if ((URI = [attributes objectForKey:@"uri"]))
+                                    [profileURIs addObject:URI];
+                            }
+                        }
+                    }                        
+                    [[self delegate] didReceiveGreetingWithProfileURIs:profileURIs 
+                        featuresAttribute:[attributes objectForKey:@"features"] 
+                        localizeAttribute:[attributes objectForKey:@"localize"]];
+                    malformedGreeting = NO;
+                }
+            }
+        }            
+    } 
+    if (malformedGreeting) {
+        // teardown session
+        // ERROR
+    }
+}
+
+- (void)_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef) aSubTree {
+    CFXMLNodeRef startNode = CFXMLTreeGetNode(aSubTree);
+    CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(startNode);
+    NSDictionary *attributes = (NSDictionary *)info->attributes;
+    int32_t channelNumber = -1;
+    if ([attributes objectForKey:@"number"]) {
+        channelNumber = [[attributes objectForKey:@"number"] intValue];
+    } else {
+        // nixe number
+    }
+    NSMutableArray *profileURIs = [NSMutableArray array];
+    NSMutableArray *dataArray = [NSMutableArray array];
+    int profileCount = CFTreeGetChildCount(aSubTree);
+    int profileIndex;
+    for (profileIndex = 0; profileIndex < profileCount; profileIndex++) {
+        CFXMLTreeRef profileSubTree = CFTreeGetChildAtIndex(aSubTree,profileIndex);
+        CFXMLNodeRef profileNode = CFXMLTreeGetNode(profileSubTree);
+        if (CFXMLNodeGetTypeCode(profileNode) == kCFXMLNodeTypeElement) {
+            if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(profileNode)]) {
+                CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(profileNode);
+                NSDictionary *attributes = (NSDictionary *)info->attributes;
+                NSString *URI;
+                if ((URI = [attributes objectForKey:@"uri"])) {
+                    [profileURIs addObject:URI];
+                    int profileContentCount = CFTreeGetChildCount(profileSubTree);
+                    int profileContentIndex=0;
+                    NSData *contentData = [NSData data];
+                    for (profileContentIndex = 0; profileContentIndex < profileContentCount; profileContentIndex++) {
+                        CFXMLTreeRef profileContentSubTree = CFTreeGetChildAtIndex(profileSubTree, profileContentIndex);
+                        CFXMLNodeRef profileContentNode    = CFXMLTreeGetNode(profileContentSubTree);
+                        if (CFXMLNodeGetTypeCode(profileContentNode) == kCFXMLNodeTypeCDATASection) {
+                            NSString *profileContent = (NSString *)CFXMLNodeGetString(profileContentNode);
+                            contentData = [profileContent dataUsingEncoding:NSUTF8StringEncoding];
+                        }
+                    }
+                    [dataArray addObject:contentData];
+                }
+            }
+        }
+    }                        
+    DEBUGLOG(@"BEEP",7,@"possible profile URIs are:%@",[profileURIs description]);
+    NSDictionary *reply = [[self delegate] preferedAnswerToAcceptRequestForChannel:channelNumber withProfileURIs:profileURIs andData:dataArray]; 
+    DEBUGLOG(@"BEEP",7,@"reply is:%@",[reply description]);
+    if (reply) {
+        // juhuh... send accept
+        NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        if ([(NSData *)[reply objectForKey:@"Data"] length]) {
+            [payload appendData:[[NSString stringWithFormat:@"<profile uri='%@'><![CDATA[", [reply objectForKey:@"ProfileURI"]] dataUsingEncoding:NSUTF8StringEncoding]];
+            [payload appendData:[reply objectForKey:@"Data"]];
+            [payload appendData:[@"]]></profile>" dataUsingEncoding:NSUTF8StringEncoding]];
+        } else {
+            [payload appendData:[[NSString stringWithFormat:@"<profile uri='%@' />", [reply objectForKey:@"ProfileURI"]] dataUsingEncoding:NSUTF8StringEncoding]];
+        }
+        
+        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
+        [[self channel] sendMessage:[message autorelease]];
+        NSLog(@"juhuhh... sent accept: %@",message);
+        [[self delegate] initiateChannelWithNumber:channelNumber profileURI:[reply objectForKey:@"ProfileURI"]];
+    } else {
+        NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<error code='501'>channel request denied</error>"] dataUsingEncoding:NSUTF8StringEncoding]];
+        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
+        [[self channel] sendMessage:[message autorelease]];
+    }
+}
+
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage
 {
     // remove MIME Header
@@ -136,127 +250,21 @@
     }        
     
     if (I_firstMessage) {
-        BOOL malformedGreeting = YES;
-        if ([[aMessage messageTypeString] isEqualTo:@"RPY"] &&
-            [aMessage messageNumber] == 0) {
-            
-                        
-            int childCount = CFTreeGetChildCount(contentTree);
-            int index;
-            for (index = 0; index < childCount; index++) {
-                CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(contentTree, index);
-                CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
-                if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
-                    if ([@"greeting" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                        NSLog (@"Was greeting....");
-                        CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
-                        NSDictionary *attributes = (NSDictionary *)info->attributes;
-                        NSLog (@"Attributes: %@", [attributes description]);
-
-                        NSMutableArray *profileURIs = [NSMutableArray array];
-                        int profileCount = CFTreeGetChildCount(xmlTree);
-                        int profileIndex;
-                        for (profileIndex = 0; profileIndex < profileCount; profileIndex++) {
-                            CFXMLTreeRef profileSubTree = CFTreeGetChildAtIndex(xmlTree,profileIndex);
-                            CFXMLNodeRef profileNode = CFXMLTreeGetNode(profileSubTree);
-                            if (CFXMLNodeGetTypeCode(profileNode) == kCFXMLNodeTypeElement) {
-                                if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(profileNode)]) {
-                                    CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(profileNode);
-                                    NSDictionary *attributes = (NSDictionary *)info->attributes;
-                                    NSString *URI;
-                                    if ((URI = [attributes objectForKey:@"uri"]))
-                                        [profileURIs addObject:URI];
-                                }
-                            }
-                        }                        
-                        [[self delegate] didReceiveGreetingWithProfileURIs:profileURIs 
-                            featuresAttribute:[attributes objectForKey:@"features"] 
-                            localizeAttribute:[attributes objectForKey:@"localize"]];
-                        malformedGreeting = NO;
-                    }
-                }
-            }            
-        } 
-        if (malformedGreeting) {
-            // teardown session
-            // ERROR
-        }
-    
+        [self _processGreeting:aMessage XMLTree:contentTree];
         I_firstMessage = NO;
     } else {
         // "Normalbetrieb"        
         int childCount = CFTreeGetChildCount(contentTree);
-        DEBUGLOG(@"BEEP",5,@"childCount of contentTree: %d",childCount);
         int index;
         for (index = 0; index < childCount; index++) {
             CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(contentTree, index);
             CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
             if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
                 if ([@"start" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    NSLog (@"Was start....");
-                    CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
-                    NSDictionary *attributes = (NSDictionary *)info->attributes;
-                    NSLog (@"Attributes: %@", [attributes description]);
-                    int32_t channelNumber = -1;
-                    if ([attributes objectForKey:@"number"]) {
-                        channelNumber = [[attributes objectForKey:@"number"] intValue];
-                    } else {
-                        // nixe number
-                    }
-                    NSMutableArray *profileURIs = [NSMutableArray array];
-                    NSMutableArray *dataArray = [NSMutableArray array];
-                    int profileCount = CFTreeGetChildCount(xmlTree);
-                    int profileIndex;
-                    for (profileIndex = 0; profileIndex < profileCount; profileIndex++) {
-                        CFXMLTreeRef profileSubTree = CFTreeGetChildAtIndex(xmlTree,profileIndex);
-                        CFXMLNodeRef profileNode = CFXMLTreeGetNode(profileSubTree);
-                        if (CFXMLNodeGetTypeCode(profileNode) == kCFXMLNodeTypeElement) {
-                            if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(profileNode)]) {
-                                CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(profileNode);
-                                NSDictionary *attributes = (NSDictionary *)info->attributes;
-                                NSString *URI;
-                                if ((URI = [attributes objectForKey:@"uri"])) {
-                                    [profileURIs addObject:URI];
-                                    int profileContentCount = CFTreeGetChildCount(profileSubTree);
-                                    int profileContentIndex=0;
-                                    NSData *contentData = [NSData data];
-                                    for (profileContentIndex = 0; profileContentIndex < profileContentCount; profileContentIndex++) {
-                                        CFXMLTreeRef profileContentSubTree = CFTreeGetChildAtIndex(profileSubTree, profileContentIndex);
-                                        CFXMLNodeRef profileContentNode    = CFXMLTreeGetNode(profileContentSubTree);
-                                        if (CFXMLNodeGetTypeCode(profileContentNode) == kCFXMLNodeTypeCDATASection) {
-                                            NSString *profileContent = (NSString *)CFXMLNodeGetString(profileContentNode);
-                                            contentData = [profileContent dataUsingEncoding:NSUTF8StringEncoding];
-                                        }
-                                    }
-                                    [dataArray addObject:contentData];
-                                }
-                            }
-                        }
-                    }                        
-                    DEBUGLOG(@"BEEP",7,@"possible profile URIs are:%@",[profileURIs description]);
-                    NSDictionary *reply = [[self delegate] preferedAnswerToAcceptRequestForChannel:channelNumber withProfileURIs:profileURIs andData:dataArray]; 
-                    DEBUGLOG(@"BEEP",7,@"reply is:%@",[reply description]);
-                    if (reply) {
-                        // juhuh... send accept
-                        NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-                        
-                        if ([(NSData *)[reply objectForKey:@"Data"] length]) {
-                            [payload appendData:[[NSString stringWithFormat:@"<profile uri='%@'><![CDATA[", [reply objectForKey:@"ProfileURI"]] dataUsingEncoding:NSUTF8StringEncoding]];
-                            [payload appendData:[reply objectForKey:@"Data"]];
-                            [payload appendData:[@"]]></profile>" dataUsingEncoding:NSUTF8StringEncoding]];
-                        } else {
-                            [payload appendData:[[NSString stringWithFormat:@"<profile uri='%@' />", [reply objectForKey:@"ProfileURI"]] dataUsingEncoding:NSUTF8StringEncoding]];
-                        }
-                        
-                        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
-                        [[self channel] sendMessage:[message autorelease]];
-                    } else {
-                        NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<error code='501'>channel request denied</error>"] dataUsingEncoding:NSUTF8StringEncoding]];
-                        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
-                        [[self channel] sendMessage:[message autorelease]];
-                    }
+                    DEBUGLOG(@"BEEP",5,@"Was Start... %@",@"blah");
+                    [self _proccessStartMessage:aMessage XMLSubTree:xmlTree];
                 } else if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    DEBUGLOG(@"BEEP",5,@"found profile... %@",@"blah");
+                    DEBUGLOG(@"BEEP",5,@"Was Profile... %@",@"blah");
                     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
                     NSDictionary *attributes = (NSDictionary *)info->attributes;
                     NSString *URI;

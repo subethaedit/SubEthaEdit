@@ -202,7 +202,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 - (void)activateChannel:(TCMBEEPChannel *)aChannel
 {
-    [I_activeChannels setObject:aChannel forKey:[NSNumber numberWithUnsignedLong:[aChannel number]]];
+    [I_activeChannels setObject:aChannel forLong:[aChannel number]];
 }
 
 - (void)open
@@ -260,7 +260,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     int bytesRead = [I_inputStream read:buffer maxLength:sizeof(buffer)];
     int bytesParsed = 0;
     
-    NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
+    // NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
     while (bytesRead > 0 && bytesRead-bytesParsed > 0) {
         int remainingBytes=bytesRead-bytesParsed;
         if (I_currentReadState==frameHeaderState) {
@@ -298,7 +298,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
             } else {
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:I_currentReadFrameRemainingContentSize];
                 [I_currentReadFrame setPayload:I_readBuffer];
-                NSLog(@"Found Frame: %@", [I_currentReadFrame description]);
+                NSLog(@"Received Frame: %@", [I_currentReadFrame description]);
                 [I_readBuffer setLength:0];
                 bytesParsed += I_currentReadFrameRemainingContentSize;
                 I_currentReadState = frameEndState;
@@ -351,7 +351,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
             NSLog(@"Input stream open completed.");
             break;
         case NSStreamEventHasBytesAvailable:
-            NSLog(@"Input stream has bytes available.");
+            // NSLog(@"Input stream has bytes available.");
             [self TCM_readBytes];
             break;
         case NSStreamEventErrorOccurred: {
@@ -376,7 +376,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
             NSLog(@"Output stream open completed.");
             break;
         case NSStreamEventHasSpaceAvailable:
-            NSLog(@"Output stream has space available.");
+            // NSLog(@"Output stream has space available.");
             [self TCM_writeBytes];
             break;
         case NSStreamEventErrorOccurred: {
@@ -398,6 +398,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 #pragma mark ### Channel interaction ###
 
 - (void)sendRoundRobin {
+    NSLog(@"start sendRoundrobin");
     NSEnumerator *channels = [[self activeChannels] objectEnumerator];
     TCMBEEPChannel *channel=nil;
     BOOL didSend = NO;
@@ -420,10 +421,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     } else {
         I_flags.isSending=NO;
     }
+    NSLog(@"end sendRoundrobin didSend:%@",(didSend?@"YES":@"NO"));
 }
 
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel
 {
+    NSLog(@"TriggeredSending %@",(I_flags.isSending?@"NO":@"YES"));
     if (!I_flags.isSending) {
         [self performSelector:@selector(sendRoundRobin) withObject:nil afterDelay:0.01];
         I_flags.isSending=YES;
@@ -455,9 +458,10 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 - (NSMutableDictionary *)preferedAnswerToAcceptRequestForChannel:(int32_t)channelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
 {
-    // Profile URIs ausdünnen 
+    // Profile URIs ausduennen 
     NSMutableArray *requestArray=[NSMutableArray array];
     NSMutableDictionary *preferedAnswer=nil;
+//    NSLog(@"profileURIs: %@ selfProfileURIs:%@ peerProfileURIs:%@\n\nSession:%@",aProfileURIArray,[self profileURIs],[self peerProfileURIs],self);
     int i;
     for (i = 0; i<[aProfileURIArray count]; i++) {
         if ([[self profileURIs] containsObject:[aProfileURIArray objectAtIndex:i]]) {
@@ -478,6 +482,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     return preferedAnswer;
 }
 
+- (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI {
+    TCMBEEPChannel *channel=[[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI];
+    [self activateChannel:[channel autorelease]];
+    [[self delegate] BEEPSession:self didOpenChannelWithProfile:[channel profile]];
+}
+
 - (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
 {
     [[I_managementChannel profile] startChannelNumber:[self nextChannelNumber] withProfileURIs:aProfileURIArray andData:aDataArray];
@@ -485,7 +495,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 - (void)didReceiveAcceptStartRequestForChannel:(int32_t)aNumber withProfileURI:(NSString *)aProfileURI andData:(NSData *)aData
 {
-    NSLog(@"Established channel: %d", aNumber);
+    [self initiateChannelWithNumber:aNumber profileURI:aProfileURI];
 }
 
 @end

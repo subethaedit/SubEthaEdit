@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TCMBEEPProfile.h"
 
 extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
@@ -87,10 +88,12 @@ enum {
 @end
 
 
-@interface TCMBEEPSession (TCMBEEPSessionDelegateAdditions)
+@interface NSObject (TCMBEEPSessionDelegateAdditions)
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray;
 
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forRequests:(NSArray *)aRequests;
+
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(id <TCMBEEPProfile>) aProfile;
 
 @end

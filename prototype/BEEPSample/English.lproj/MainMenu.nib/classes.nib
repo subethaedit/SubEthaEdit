@@ -1,14 +1,16 @@
 {
     IBClasses = (
         {
-            ACTIONS = {connect = id; toggleListener = id; }; 
+            ACTIONS = {connect = id; sendMessage = id; toggleListener = id; }; 
             CLASS = Controller; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_connectButton" = NSButton; 
                 "O_listenerControlButton" = NSButton; 
+                "O_messageTextField" = NSTextField; 
                 "O_peerAddressTextField" = NSTextField; 
                 "O_ports" = NSTextField; 
+                "O_receivedTextView" = NSTextView; 
             }; 
             SUPERCLASS = NSObject; 
         }, 

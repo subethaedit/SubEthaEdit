@@ -36,7 +36,7 @@
 @end
 
 
-@interface TCMBEEPManagementProfile (TCMBEEPManagementProfileDelegateAdditions)
+@interface NSObject (TCMBEEPManagementProfileDelegateAdditions)
 
 - (void)didReceiveGreetingWithProfileURIs:(NSArray *)profileURIs featuresAttribute:(NSString *)aFeaturesAttribute localizeAttribute:(NSString *)aLocalizeAttribute;
 

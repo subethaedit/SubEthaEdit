@@ -15,6 +15,8 @@
 				145884DD05E261ED000E1387,
 				146D607D05E3961F00E9FEF0,
 				146D607E05E3961F00E9FEF0,
+				5E4E8D4005EBB1D800F95DBC,
+				5E4E8D4105EBB1D800F95DBC,
 				146D61C505E3E02400E9FEF0,
 				146D61C605E3E02400E9FEF0,
 				14836EC205E4DD2E00F4F24E,
@@ -590,6 +592,44 @@
 //4A2
 //4A3
 //4A4
+//5E0
+//5E1
+//5E2
+//5E3
+//5E4
+		5E4E8D4005EBB1D800F95DBC = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMBEEPSimpleSendProfile.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4E8D4105EBB1D800F95DBC = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMBEEPSimpleSendProfile.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4E8D4205EBB1D800F95DBC = {
+			fileRef = 5E4E8D4005EBB1D800F95DBC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4E8D4305EBB1D800F95DBC = {
+			fileRef = 5E4E8D4105EBB1D800F95DBC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//5E0
+//5E1
+//5E2
+//5E3
+//5E4
 //8D0
 //8D1
 //8D2
@@ -648,6 +688,7 @@
 				146D615105E3DE1300E9FEF0,
 				146D61C705E3E02400E9FEF0,
 				14836EC305E4DD2E00F4F24E,
+				5E4E8D4205EBB1D800F95DBC,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -693,6 +734,7 @@
 				146D614C05E3DDF800E9FEF0,
 				146D615205E3DE1300E9FEF0,
 				146D61C805E3E02400E9FEF0,
+				5E4E8D4305EBB1D800F95DBC,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
