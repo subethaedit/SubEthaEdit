@@ -303,8 +303,11 @@ enum {
                 return [I_plainTextEditors objectAtIndex:1];
             }
         }
+    } 
+    if ([I_plainTextEditors count]>0) {
+        return [I_plainTextEditors objectAtIndex:0];
     }
-    return [I_plainTextEditors objectAtIndex:0];
+    return nil;
 }
 
 #pragma mark -
