@@ -289,6 +289,15 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)applyEditPreferences:(NSNotification *)aNotification {
     if ([[aNotification object] isEqual:[self documentMode]]) {
         [self takeEditSettingsFromDocumentMode];
+        NSEnumerator *controllers=[[self windowControllers] objectEnumerator];
+        id controller=nil;
+        while ((controller=[controllers nextObject])) {
+            if ([controller isKindOfClass:[PlainTextWindowController class]]) {
+                [(PlainTextWindowController *)controller 
+                    setSizeByColumns:[[[self documentMode] defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
+                                rows:[[[self documentMode] defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
+            }
+        }
     }
 }
 

@@ -261,9 +261,12 @@ enum {
     NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
     NSWindow *window=[self window];
     NSSize minSize=[window contentMinSize];
-    
-    [[self window] setContentSize:NSMakeSize(MAX(contentSize.width,minSize.width),
-                                             MAX(contentSize.height,minSize.height))];
+    NSRect contentRect=[window contentRectForFrameRect:[window frame]];
+    contentSize=NSMakeSize(MAX(contentSize.width,minSize.width),
+                             MAX(contentSize.height,minSize.height));
+    contentRect.origin.y+=contentRect.size.height-contentSize.height;
+    contentRect.size=contentSize;
+    [[self window] setFrame:[window frameRectForContentRect:contentRect] display:YES];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
