@@ -164,7 +164,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 
 - (BOOL)hasFramesAvailable
 {
-    //DEBUGLOG(@"BEEP",5,@"frames available? %d",([I_messageWriteQueue count] > 0));
+    //DEBUGLOG((BEEPLogDomain, DetailedLogLevel, @"frames available? %d",([I_messageWriteQueue count] > 0));
     return ([I_messageWriteQueue count] > 0);
 }
 
@@ -328,7 +328,7 @@ static NSMutableDictionary *profileURIToClassMapping;
         [I_inboundMessageNumbersWithPendingReplies removeIndex:[aMessage messageNumber]];
     }
     [I_messageWriteQueue addObject:aMessage];
-    //DEBUGLOG(@"BEEP",5,@"sendMessageQueue = %@",I_messageWriteQueue);
+    //DEBUGLOG((BEEPLogDomain, DetailedLogLevel, @"sendMessageQueue = %@",I_messageWriteQueue);
     [[self session] channelHasFramesAvailable:self];
 }
 

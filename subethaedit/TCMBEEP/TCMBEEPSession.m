@@ -342,7 +342,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
                 TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
                 if (channel) {
                     //NSLog(@"channel did Accept: %@", [channel acceptFrame:[I_currentReadFrame autorelease]] ? @"YES" : @"NO");
-                    DEBUGLOG(@"network", 9, @"channel did Accept: %@", [channel acceptFrame:[I_currentReadFrame autorelease]] ? @"YES" : @"NO");
+                    DEBUGLOG(BEEPLogDomain, AllLogLevel, @"channel did Accept: %@", [channel acceptFrame:[I_currentReadFrame autorelease]] ? @"YES" : @"NO");
                     I_currentReadFrame = nil;
                 } else {
                     // ERRRRRRORR
