@@ -319,7 +319,7 @@ static NSMutableDictionary *profileURIToClassMapping;
         uint32_t ackno = [aFrame sequenceNumber];
         //if (ackno > I_sequenceNumber) {
         if (SEQ_GT(ackno, I_sequenceNumber)) {
-            NSLog(@"ERROR! More bytes received by peer than sent to him.");
+            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"ERROR! More bytes received by peer than sent to him.");
             return NO;
         }
         int32_t window = [aFrame length];
@@ -411,7 +411,7 @@ static NSMutableDictionary *profileURIToClassMapping;
             }
         }
     } else {
-        NSLog(@"NOT ACCEPTED: %@", aFrame);
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"NOT ACCEPTED: %@", aFrame);
     }
     
     return accept;
