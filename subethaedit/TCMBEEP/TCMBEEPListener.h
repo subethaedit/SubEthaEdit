@@ -15,6 +15,7 @@
 @interface TCMBEEPListener : NSObject 
 {
     CFSocketRef I_listeningSocket;
+    CFSocketRef I_listeningSocket6;
     id I_delegate;
     unsigned int I_port;
 }
