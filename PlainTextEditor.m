@@ -1004,22 +1004,6 @@
     [self tabParagraphsInTextView:I_textView de:NO];
 }
 
-- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
-    NSString *itemIdentifier = [toolbarItem itemIdentifier];
-
-    if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {
-        BOOL showsChangeMarks=[(LayoutManager *)[I_textView layoutManager] showsChangeMarks];
-        [toolbarItem setImage:showsChangeMarks
-                              ?[NSImage imageNamed: @"HideChangeMarks"]
-                              :[NSImage imageNamed: @"ShowChangeMarks"]  ];
-        [toolbarItem setLabel:showsChangeMarks
-                              ?NSLocalizedString(@"Hide Changes", nil)
-                              :NSLocalizedString(@"Show Changes", nil)];
-    }
-
-    return YES;
-}
-
 - (IBAction)jumpToNextChange:(id)aSender {
     TextView *textView = (TextView *)[self textView];
     unsigned maxrange=NSMaxRange([textView selectedRange]);

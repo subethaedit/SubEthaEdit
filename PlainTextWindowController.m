@@ -807,13 +807,31 @@ enum {
                 nil];
 }
 
+- (void)toolbarWillAddItem:(NSNotification *)aNotification {
+    // to show all items correctly validated
+    NSToolbarItem *item=[[aNotification userInfo] objectForKey:@"item"];
+    id target=[item target];
+    if ([target respondsToSelector:@selector(validateToolbarItem:)]) {
+        [item setEnabled:[target validateToolbarItem:item]];
+    }
+}
+
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
     NSString *itemIdentifier = [toolbarItem itemIdentifier];
     
     if ([itemIdentifier isEqualToString:ParticipantsToolbarItemIdentifier]) {
         return YES;
     } else if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {
-        return [[self activePlainTextEditor] validateToolbarItem:toolbarItem];
+        PlainTextEditor *editor=[self activePlainTextEditor];
+        BOOL showsChangeMarks=[(LayoutManager *)[[editor textView] layoutManager] showsChangeMarks];
+        if (!editor) showsChangeMarks=[[self document] showsChangeMarks];
+        [toolbarItem setImage:showsChangeMarks
+                              ?[NSImage imageNamed: @"HideChangeMarks"]
+                              :[NSImage imageNamed: @"ShowChangeMarks"]  ];
+        [toolbarItem setLabel:showsChangeMarks
+                              ?NSLocalizedString(@"Hide Changes", nil)
+                              :NSLocalizedString(@"Show Changes", nil)];
+        return YES;
     }
     
     return YES;
