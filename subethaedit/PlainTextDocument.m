@@ -901,6 +901,80 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return YES;
 }
 
+
+- (NSDictionary *)fileAttributesToWriteToFile:(NSString *)fullDocumentPath ofType:(NSString *)documentTypeName saveOperation:(NSSaveOperationType)saveOperationType {
+
+    // Preserve HFS Type and Creator code
+    if ([self fileName] && [self fileType]) {
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Preserve HFS Type and Creator Code");
+        NSMutableDictionary *newAttributes = [NSMutableDictionary dictionaryWithDictionary:[super fileAttributesToWriteToFile:fullDocumentPath ofType:documentTypeName saveOperation:saveOperationType]];
+        if ([self fileAttributes] != nil) {
+            [newAttributes setObject:[[self fileAttributes] objectForKey:NSFileHFSTypeCode] forKey:NSFileHFSTypeCode];
+            [newAttributes setObject:[[self fileAttributes] objectForKey:NSFileHFSCreatorCode] forKey:NSFileHFSCreatorCode];
+        } else {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"File is not new, but no fileAttributes are set.");
+        }
+        return newAttributes;
+    }
+    
+    
+    // Otherwise set HFS Type and Creator code with values from bundle
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save our HFS Type and Creator Code");
+
+    NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
+    NSString *creatorCodeString;
+    NSArray *documentTypes;
+    NSNumber *typeCode, *creatorCode;
+    NSMutableDictionary *newAttributes;
+    
+    typeCode = creatorCode = nil;
+    
+    // First, set creatorCode to the HFS creator code for the application,
+    // if it exists.
+    creatorCodeString = [infoPlist objectForKey:@"CFBundleSignature"];
+    if (creatorCodeString) {
+        creatorCode = [NSNumber numberWithUnsignedLong:NSHFSTypeCodeFromFileType([NSString stringWithFormat:@"'%@'", creatorCodeString])];
+    }
+    
+    // Then, find the matching Info.plist dictionary entry for this type.
+    // Use the first associated HFS type code, if any exist.
+    documentTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
+    if (documentTypes) {
+        int i, count = [documentTypes count];
+        
+        for(i = 0; i < count; i++) {
+            NSString *type = [[documentTypes objectAtIndex:i] objectForKey:@"CFBundleTypeName"];
+            if (type && [type isEqualToString:documentTypeName]) {
+                NSArray *typeCodeStrings = [[documentTypes objectAtIndex:i] objectForKey:@"CFBundleTypeOSTypes"];
+                if (typeCodeStrings) {
+                    NSString *firstTypeCodeString = [typeCodeStrings objectAtIndex:0];
+                    if (firstTypeCodeString) {
+                        typeCode = [NSNumber numberWithUnsignedLong:NSHFSTypeCodeFromFileType([NSString stringWithFormat:@"'%@'",firstTypeCodeString])];
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    // If neither type nor creator code exist, use the default implementation.
+    if (!(typeCode || creatorCode)) {
+        return [super fileAttributesToWriteToFile:fullDocumentPath ofType:documentTypeName saveOperation:saveOperationType];
+    }
+    
+    // Otherwise, add the type and/or creator to the dictionary.
+    newAttributes = [NSMutableDictionary dictionaryWithDictionary:[super
+        fileAttributesToWriteToFile:fullDocumentPath ofType:documentTypeName
+        saveOperation:saveOperationType]];
+    if (typeCode)
+        [newAttributes setObject:typeCode forKey:NSFileHFSTypeCode];
+    if (creatorCode)
+        [newAttributes setObject:creatorCode forKey:NSFileHFSCreatorCode];
+        
+    [self setFileAttributes:newAttributes];
+    return newAttributes;
+}
+
 - (BOOL)writeWithBackupToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"writeWithBackupToFile: %@", fullDocumentPath);
     BOOL result = [super writeWithBackupToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
