@@ -39,6 +39,8 @@ NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFil
 NSString * const DocumentModeUseDefaultFontPreferenceKey       = @"UseDefaultFont";
 NSString * const DocumentModeForegroundColorPreferenceKey      = @"ForegroundColor"  ;
 NSString * const DocumentModeBackgroundColorPreferenceKey      = @"BackgroundColor"  ;
+NSString * const DocumentModePrintInfoPreferenceKey            = @"PrintInfo"  ;
+NSString * const DocumentModeUseDefaultPrintPreferenceKey      = @"UseDefaultPrint";
 
 NSString * const DocumentModeExportPreferenceKey               = @"Export";
 NSString * const DocumentModeExportHTMLPreferenceKey           = @"HTML";
@@ -92,6 +94,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
                                   forKey:DocumentModeFontAttributesPreferenceKey];
+
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultPrintPreferenceKey
+                                  forKey:DocumentModePrintInfoPreferenceKey];
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle {
@@ -133,6 +138,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 NSStringEncoding encoding = [encodingNumber unsignedIntValue];
                 [[EncodingManager sharedInstance] registerEncoding:encoding];
             }
+            // retrofit preferences for pre 2.1
+            if (![dictionary objectForKey:DocumentModeUseDefaultPrintPreferenceKey]) {
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultPrintPreferenceKey];
+            }
         } else {
             I_defaults = [NSMutableDictionary new];
             [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
@@ -167,6 +177,61 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                forKey:DocumentModeUseDefaultFilePreferenceKey];
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
                                forKey:DocumentModeUseDefaultFontPreferenceKey];
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultPrintPreferenceKey];
+            }
+        }
+
+        // augment pre 2.1 data if needed
+        if ([self isBaseMode]) {
+            if (![I_defaults objectForKey:DocumentModePrintInfoPreferenceKey]) {
+                NSPrintInfo *printInfo=[NSPrintInfo sharedPrintInfo];
+                NSMutableDictionary *printInfoDictionary=[printInfo dictionary];
+                [printInfoDictionary setObject:[NSNumber numberWithInt:0]
+                                        forKey:@"SEEUseCustomFont"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEResizeDocumentFont"];
+                [printInfoDictionary setObject:[NSNumber numberWithFloat:8.5]
+                                        forKey:@"SEEResizeDocumentFontTo"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEPageHeader"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEPageHeaderFilename"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEPageHeaderCurrentDate"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEHighlightSyntax"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEColorizeChangeMarks"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEAnnotateChangeMarks"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:NO]
+                                        forKey:@"SEEColorizeWrittenBy"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEAnnotateWrittenBy"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEParticipants"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEParticipantImages"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEParticipantsAIMAndEmail"];
+                [printInfoDictionary setObject:[NSNumber numberWithBool:YES]
+                                        forKey:@"SEEParticipantsVisitors"];
+                NSFont *font=[NSFont fontWithName:@"Times" size:8.5];
+                if (!font) font=[NSFont systemFontOfSize:8.5];
+                NSMutableDictionary *dict=[NSMutableDictionary dictionary];
+                [dict setObject:[font fontName] 
+                         forKey:NSFontNameAttribute];
+                [dict setObject:[NSNumber numberWithFloat:8.5] 
+                         forKey:NSFontSizeAttribute];
+                [printInfoDictionary setObject:dict forKey:@"SEEFontAttributes"];
+                float cmToPoints=28.3464567; // google
+                [printInfo   setLeftMargin:2.5*cmToPoints]; // european punchholes are centered 1.2 cm and 0.5cm in diameter
+                [printInfo  setRightMargin:1.0*cmToPoints];
+                [printInfo    setTopMargin:1.0*cmToPoints];
+                [printInfo setBottomMargin:1.0*cmToPoints];
+                [I_defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:printInfo]
+                               forKey:DocumentModePrintInfoPreferenceKey];
             }
         }
 

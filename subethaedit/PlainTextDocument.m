@@ -863,6 +863,9 @@ static NSString *tempFileName(NSString *origPath) {
     [self setShowsBottomStatusBar:!aFlag || [aFlag boolValue]];
     aFlag=[[aDocumentMode defaults] objectForKey:DocumentModeShowTopStatusBarPreferenceKey];
     [self setShowsTopStatusBar:!aFlag || [aFlag boolValue]];
+    
+    [self setPrintInfo:[NSKeyedUnarchiver unarchiveObjectWithData:[aDocumentMode defaultForKey:DocumentModePrintInfoPreferenceKey]]];
+    
     [[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
@@ -2886,16 +2889,8 @@ static NSString *S_measurementUnits;
 }
 
 - (void)printShowingPrintPanel:(BOOL)showPanels {
-    float cmToPoints=28.3464567; // google;
     // Obtain a custom view that will be printed
     NSView *printView = [self printableView];
-    [[self printInfo] setHorizontalPagination:NSFitPagination];
-    [[self printInfo] setHorizontallyCentered:NO];
-    [[self printInfo] setVerticallyCentered:NO];
-    [[self printInfo] setRightMargin:1.*cmToPoints];
-    [[self printInfo] setLeftMargin: 2.5*cmToPoints];
-    [[self printInfo] setTopMargin:2.*cmToPoints];
-    [[self printInfo] setBottomMargin:2.*cmToPoints];
 
     if (!O_printOptionView) {
         [NSBundle loadNibNamed:@"PrintOptions" owner:self];

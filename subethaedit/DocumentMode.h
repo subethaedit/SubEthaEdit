@@ -32,6 +32,7 @@ extern NSString * const DocumentModeRowsPreferenceKey                   ;
 extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
 extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
 extern NSString * const DocumentModeSpellCheckingPreferenceKey          ;
+extern NSString * const DocumentModePrintInfoPreferenceKey              ;
 
 extern NSString * const DocumentModeExportPreferenceKey                    ;
 extern NSString * const DocumentModeExportHTMLPreferenceKey                ;
