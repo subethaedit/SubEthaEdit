@@ -41,6 +41,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeShowMatchingBracketsPreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeWrapLinesPreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeWrapModePreferenceKey];
@@ -80,7 +82,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             }
         } else {
             I_defaults = [NSMutableDictionary new];
-            [I_defaults setObject:[NSNumber numberWithInt:3] forKey:DocumentModeTabWidthPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
             NSFont *font=[NSFont userFixedPitchFontOfSize:0.0];
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
             [dict setObject:[font fontName] 
@@ -89,6 +91,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                      forKey:NSFontSizeAttribute];
             [I_defaults setObject:dict forKey:DocumentModeFontAttributesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:NoStringEncoding] forKey:DocumentModeEncodingPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeHighlightSyntaxPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeShowLineNumbersPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeShowMatchingBracketsPreferenceKey];

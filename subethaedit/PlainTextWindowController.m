@@ -410,7 +410,13 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         [I_plainTextEditors removeObjectAtIndex:1];
     }
     [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];
-    [[self window] makeFirstResponder:[[I_plainTextEditors objectAtIndex:0] textView]];
+    NSTextView *textView=[[I_plainTextEditors objectAtIndex:0] textView];
+    NSRange selectedRange=[textView selectedRange];
+    [textView scrollRangeToVisible:selectedRange];
+    if ([I_plainTextEditors count]==2) {
+        [[[I_plainTextEditors objectAtIndex:1] textView] scrollRangeToVisible:selectedRange];
+    }
+    [[self window] makeFirstResponder:textView];
 }
 
 #pragma mark -

@@ -239,8 +239,6 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found <begin> tag");
             CFXMLTreeRef firstTree = CFTreeGetFirstChild(xmlTree);
             CFXMLNodeRef firstNode = CFXMLTreeGetNode(firstTree);
-            CFXMLTreeRef secondTree = CFTreeGetFirstChild(firstTree);
-            CFXMLNodeRef secondNode = CFXMLTreeGetNode(secondTree);
             NSString *innerTag = (NSString *)CFXMLNodeGetString(firstNode);
             NSString *innerContent = extractStringWithEntitiesFromTree(firstTree);
             if ([innerTag isEqualTo:@"regex"]) {
@@ -256,8 +254,6 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found <end> tag");
             CFXMLTreeRef firstTree = CFTreeGetFirstChild(xmlTree);
             CFXMLNodeRef firstNode = CFXMLTreeGetNode(firstTree);
-            CFXMLTreeRef secondTree = CFTreeGetFirstChild(firstTree);
-            CFXMLNodeRef secondNode = CFXMLTreeGetNode(secondTree);
             NSString *innerTag = (NSString *)CFXMLNodeGetString(firstNode);
             NSString *innerContent = extractStringWithEntitiesFromTree(firstTree);
             
