@@ -62,6 +62,21 @@
     [super dealloc];
 }
 
+- (NSString *)description {
+    NSMutableString *string=[NSMutableString stringWithFormat:@"UserChangeOperation %@",[self userID]];
+    NSString *type=nil;
+    switch ([self type]) {
+        case UserChangeTypeJoin:
+            type=@"Join"; break;
+        case UserChangeTypeLeave:
+            type=@"Leave"; break;
+        case UserChangeTypeGroupChange:
+            type=@"GroupChange"; break;
+    }
+    [string appendFormat:@" %@ %@",type,[self newGroup]];
+    return string;
+}
+
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super initWithDictionaryRepresentation:aDictionary];
     if (self) {

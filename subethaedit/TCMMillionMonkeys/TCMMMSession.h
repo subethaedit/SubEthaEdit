@@ -34,6 +34,8 @@ typedef enum TCMMMSessionAccessState {
     NSMutableArray *I_pendingUsers;
     NSMutableDictionary *I_groupByUserID;
     NSMutableDictionary *I_statesByClientID;
+    NSMutableArray *I_closingProfiles;
+    NSMutableArray *I_closingStates;
     TCMMMSessionAccessState I_accessState;
     struct {
         BOOL isServer;
@@ -74,6 +76,7 @@ typedef enum TCMMMSessionAccessState {
 
 - (void)join;
 - (void)cancelJoin;
+- (void)leave;
 - (void)inviteUserWithID:(NSString *)aUserID;
 
 - (void)joinRequestWithProfile:(SessionProfile *)profile;

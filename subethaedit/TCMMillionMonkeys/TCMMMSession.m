@@ -79,6 +79,8 @@ NSString * const TCMMMSessionDidChangeNotification =
         I_groupByUserID = [NSMutableDictionary new];
         I_contributors = [NSMutableSet new];
         I_statesByClientID = [NSMutableDictionary new];
+        I_closingProfiles = [NSMutableArray new];
+        I_closingStates   = [NSMutableArray new];
         I_flags.shouldSendJoinRequest = NO;
         I_flags.isServer = NO;
     }
@@ -314,6 +316,25 @@ NSString * const TCMMMSessionDidChangeNotification =
     I_flags.shouldSendJoinRequest = NO;
 }
 
+- (void)leave {
+    if (![self isServer]) {
+        SessionProfile *profile = [I_profilesByUserID objectForKey:[self hostID]];
+        if (profile) {
+            TCMMMState *state=[I_statesByClientID objectForKey:[self hostID]];
+            [I_closingProfiles addObject:profile];
+            [I_closingStates addObject:state];
+            [state handleOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[TCMMMUserManager myUserID] newGroup:@""]];
+            [state setDelegate:nil];
+            //[profile close];
+            [I_participants removeAllObjects];
+            [I_contributors removeAllObjects];
+            [I_profilesByUserID removeObjectForKey:[self hostID]];
+            [I_statesByClientID removeObjectForKey:[self hostID]];
+            [[TCMMMUserManager me] leaveSessionID:[self sessionID]];
+        }
+    }
+}
+
 - (void)inviteUserWithID:(NSString *)aUserID
 {
     // merk invited userID
@@ -381,7 +402,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 }
 
 #pragma mark -
-
+#pragma mark ### profile interaction ###
 // When you request a profile you have to implement BEEPSession:didOpenChannelWithProfile: to receive the profile
 - (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
 {
@@ -480,6 +501,17 @@ NSString * const TCMMMSessionDidChangeNotification =
     [I_sessionContentForUserID removeObjectForKey:peerUserID];
 }
 
+- (void)profileDidClose:(TCMBEEPProfile *)aProfile {
+    SessionProfile *profile=(SessionProfile *)aProfile;
+    TCMMMState *state=[profile MMState];
+    [[state retain] autorelease];
+    [I_closingStates removeObject:state];
+    [state setClient:nil];
+    [profile setDelegate:nil];
+    [I_closingProfiles removeObject:profile];
+}
+
+
 #pragma mark -
 #pragma ### State interaction ###
 
@@ -501,6 +533,22 @@ NSString * const TCMMMSessionDidChangeNotification =
         [properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[user userID]] forKey:@"SelectionOperation"];
         
         [self TCM_sendParticipantsDidChangeNotification];
+    } else if ([anOperation type]==UserChangeTypeLeave) {
+        NSString *userID=[anOperation userID];
+        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:userID];
+        NSString *group=[I_groupByUserID objectForKey:userID];
+        [I_groupByUserID removeObjectForKey:userID];
+        [[I_participants objectForKey:group] removeObject:user];
+        TCMMMState *state=[I_statesByClientID objectForKey:userID];
+        [state setDelegate:nil];
+        [I_closingStates addObject:state];
+        [I_statesByClientID removeObjectForKey:userID];
+        SessionProfile *profile=[I_profilesByUserID objectForKey:userID];
+        [I_closingProfiles addObject:profile];
+        [user leaveSessionID:[self sessionID]];
+        [self TCM_sendParticipantsDidChangeNotification];
+    } else {
+        NSLog(@"Got UserChangeOperation: %@",[anOperation description]);
     }
 }
 

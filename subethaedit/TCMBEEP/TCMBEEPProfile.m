@@ -16,6 +16,7 @@
     self = [super init];
     if (self) {
         [self setChannel:aChannel];
+        I_isClosing = NO;
     }
     return self;
 }
@@ -74,9 +75,18 @@
     NSLog(@"You should have overridden this!");
 }
 
+- (void)close {
+    I_isClosing=YES;
+    [[self channel] close];
+}
+
 - (void)channelDidClose
 {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidClose: %@", NSStringFromClass([self class]));
+    id delegate=[self delegate];
+    if ([delegate respondsToSelector:@selector(profileDidClose:)]) {
+        [delegate profileDidClose:self];
+    }
 }
 
 - (void)channelDidNotCloseWithError:(NSError *)error

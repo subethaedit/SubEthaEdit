@@ -17,6 +17,7 @@
     self = [super initWithChannel:aChannel];
     if (self) {
         I_flags.contentHasBeenExchanged=NO;
+        I_flags.isClosing=NO;
         I_outgoingMMMessageQueue=[NSMutableArray new];
     }
     return self;
@@ -96,6 +97,9 @@
     [data appendData:[aUser userBencoded]];
     [[self channel] sendMSGMessageWithPayload:data];
 }
+
+#pragma mark -
+#pragma mark ### Channel methods ###
 
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage
 {
@@ -230,6 +234,10 @@
 
 - (void)setMMState:(TCMMMState *)aState {
     I_MMState = aState;
+}
+
+- (TCMMMState *)MMState {
+    return I_MMState;
 }
 
 - (void)state:(TCMMMState *)aState handleMessage:(TCMMMMessage *)aMessage {

@@ -651,6 +651,12 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     
     [self TCM_sendODBCloseEvent];
 
+    if (![I_session isServer]) {
+        [I_session leave];
+    }
+
+    [I_session setDocument:nil];
+
     [I_symbolUpdateTimer release];
     [I_webPreviewDelayedRefreshTimer release];
         

@@ -21,6 +21,7 @@
     NSMutableArray *I_outgoingMMMessageQueue;
     struct {
         BOOL contentHasBeenExchanged;
+        BOOL isClosing;
     } I_flags;
 }
 
@@ -34,6 +35,7 @@
 - (void)acceptJoin;
 
 - (void)setMMState:(TCMMMState *)aState;
+- (TCMMMState *)MMState;
 
 @end
 
