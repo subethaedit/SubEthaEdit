@@ -10,6 +10,10 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>*</string>
+				<string>php</string>
+				<string>m</string>
+				<string>c</string>
+				<string>h</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>

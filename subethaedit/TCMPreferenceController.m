@@ -72,6 +72,7 @@ static NSMutableArray *prefModules;
     
     I_toolbar = [[NSToolbar alloc] initWithIdentifier:@"Preferences Toolbar Identifier"];
     [I_toolbar setAutosavesConfiguration:NO];
+    [I_toolbar setAllowsUserCustomization:NO];
     [I_toolbar setDelegate:self];
 }
 
