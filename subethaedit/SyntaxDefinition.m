@@ -366,7 +366,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             [styleDictionary setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
 
             [styleDictionary setObject:styleID forKey:@"styleID"];
-            NSColor *color=[keywordGroup objectForKey:@"inverted-color"];
+            NSColor *color=[NSColor colorForHTMLString:[keywordGroup objectForKey:@"inverted-color"]];
             if (!color) {
                 color = [[styleDictionary objectForKey:@"color"] brightnessInvertedColor];
             }
