@@ -7,6 +7,7 @@
 //
 
 #import "PlainTextWindowController.h"
+#import "ParticipantsView.h"
 
 
 NSString * const PlainTextWindowToolbarIdentifier = @"PlainTextWindowToolbarIdentifier";
@@ -23,6 +24,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (void)dealloc {
+    [O_participantsView release];
     [super dealloc];
 }
 
@@ -46,6 +48,16 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     if ([self document]) {
         [[self document] windowControllerDidLoadNib:self];
     }
+    
+    NSRect frame = [[O_participantsScrollView contentView] frame];
+    O_participantsView = [[ParticipantsView alloc] initWithFrame:frame];
+    [O_participantsScrollView setBorderType:NSBezelBorder];
+    [O_participantsView setDelegate:self];
+    [O_participantsView setDataSource:self];
+    [O_participantsScrollView setHasVerticalScroller:YES];
+    [[O_participantsScrollView verticalScroller] setControlSize:NSSmallControlSize];
+    [O_participantsScrollView setDocumentView:O_participantsView];
+    [O_participantsView noteEnclosingScrollView];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {

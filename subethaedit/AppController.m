@@ -91,11 +91,7 @@
 
     NSString *userID=[[NSUserDefaults standardUserDefaults] stringForKey:@"UserID"];
     if (!userID) {
-        CFUUIDRef myUUID = CFUUIDCreate(NULL);
-        CFStringRef myUUIDString = CFUUIDCreateString(NULL, myUUID);
-        userID=[[(NSString *)myUUIDString retain] autorelease];
-        CFRelease(myUUIDString);
-        CFRelease(myUUID);
+        userID=[NSString UUIDString];
         [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"UserID"];
     }
     [me setID:userID];

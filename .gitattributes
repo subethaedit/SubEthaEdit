@@ -204,6 +204,8 @@ subethaedit/NSNetServiceTCMAdditions.h -text
 subethaedit/NSNetServiceTCMAdditions.m -text
 subethaedit/NSStringTCMAdditions.h -text
 subethaedit/NSStringTCMAdditions.m -text
+subethaedit/ParticipantsView.h -text
+subethaedit/ParticipantsView.m -text
 subethaedit/PlainTextDocument.h -text
 subethaedit/PlainTextDocument.m -text
 subethaedit/PlainTextWindowController.h -text
@@ -261,6 +263,8 @@ subethaedit/TCMPreferenceModule.h -text
 subethaedit/TCMPreferenceModule.m -text
 subethaedit/TCMRendezvousBrowser.h -text
 subethaedit/TCMRendezvousBrowser.m -text
+subethaedit/artwork/Action.tiff -text
+subethaedit/artwork/ActionPressed.tiff -text
 subethaedit/artwork/DefaultPerson.tiff -text
 subethaedit/artwork/Participants.icns -text
 subethaedit/artwork/StatusLock.tiff -text

@@ -4,7 +4,11 @@
         {
             CLASS = PlainTextWindowController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"O_participantsDrawer" = NSDrawer; }; 
+            OUTLETS = {
+                "O_participantsDrawer" = NSDrawer; 
+                "O_participantsScrollView" = NSScrollView; 
+                "O_participantsView" = ParticipantsView; 
+            }; 
             SUPERCLASS = NSWindowController; 
         }
     ); 

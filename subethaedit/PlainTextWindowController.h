@@ -9,8 +9,13 @@
 #import <AppKit/AppKit.h>
 
 
+@class ParticipantsView;
+
+
 @interface PlainTextWindowController : NSWindowController {
     IBOutlet NSDrawer *O_participantsDrawer;
+    IBOutlet NSScrollView *O_participantsScrollView;
+    IBOutlet ParticipantsView *O_participantsView;
 }
 
 @end

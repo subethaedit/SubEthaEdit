@@ -24,10 +24,13 @@
         logDomains = [NSMutableArray new];
 
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSEnumerator *domains=[[NSArray arrayWithObjects:@"BEEPLogDomain",@"MillionMonkeysLogDomain",@"BlahFaselLogDomain",nil] objectEnumerator];
+        NSEnumerator *domains = [[NSArray arrayWithObjects:
+                                        @"BEEPLogDomain",
+                                        @"MillionMonkeysLogDomain",
+                                        nil] objectEnumerator];
         NSString *domain=nil;
         while ((domain=[domains nextObject])) {
-            NSMutableDictionary *domainDict=
+            NSMutableDictionary *domainDict =
                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         domain, @"domain",
                                         [levels objectAtIndex:[defaults integerForKey:domain]], @"level",

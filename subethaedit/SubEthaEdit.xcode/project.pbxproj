@@ -616,6 +616,62 @@
 			settings = {
 			};
 		};
+		14C51C6F0601C93C0030F488 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = ParticipantsView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14C51C700601C93C0030F488 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = ParticipantsView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14C51C710601C93C0030F488 = {
+			fileRef = 14C51C6F0601C93C0030F488;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14C51C720601C93C0030F488 = {
+			fileRef = 14C51C700601C93C0030F488;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14C51C98060213490030F488 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = Action.tiff;
+			path = artwork/Action.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14C51C99060213490030F488 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = ActionPressed.tiff;
+			path = artwork/ActionPressed.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14C51C9A060213490030F488 = {
+			fileRef = 14C51C98060213490030F488;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14C51C9B060213490030F488 = {
+			fileRef = 14C51C99060213490030F488;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //140
 //141
 //142
@@ -685,6 +741,8 @@
 				5E4F360905EF8E3F009D71ED,
 				14AE9CAA05F5E8F00025CADE,
 				14AE9CAB05F5E8F00025CADE,
+				14C51C6F0601C93C0030F488,
+				14C51C700601C93C0030F488,
 				5EDB862605F8AA6E0058C44A,
 				5EDB862505F8AA6E0058C44A,
 				5EDB87E505F8AFE30058C44A,
@@ -1302,6 +1360,8 @@
 		};
 		5EEB176705ECDC0C00C17677 = {
 			children = (
+				14C51C98060213490030F488,
+				14C51C99060213490030F488,
 				5E96948C0600B6D3006C2AA4,
 				5E96948D0600B6D3006C2AA4,
 				144BC77505EE279B006397BC,
@@ -1756,6 +1816,7 @@
 				5E834C0505FD1689004EB5D1,
 				141080DC05FE2EC800A4463D,
 				141084A805FE345800A4463D,
+				14C51C710601C93C0030F488,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1785,6 +1846,8 @@
 				149A5C1C0600A89C0033510E,
 				5E96948E0600B6D3006C2AA4,
 				5E96948F0600B6D3006C2AA4,
+				14C51C9A060213490030F488,
+				14C51C9B060213490030F488,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1844,6 +1907,7 @@
 				14249F6005FCEF6000D8C6B9,
 				5E834C0605FD1689004EB5D1,
 				141080DD05FE2EC800A4463D,
+				14C51C720601C93C0030F488,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
