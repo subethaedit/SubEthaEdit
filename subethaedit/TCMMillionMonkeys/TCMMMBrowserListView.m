@@ -176,57 +176,58 @@ static NSColor *alternateRowColor=nil;
 
 - (void)drawRect:(NSRect)rect
 {
-    [[NSColor whiteColor] set];
-    NSRectFill(rect);
+    if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
 
-    int startRow = [self TCM_indexOfRowAtPoint:rect.origin];
-
-    if (startRow!=-1) {
-        int endRow   = [self TCM_indexOfRowAtPoint:NSMakePoint(1.,NSMaxY(rect))];
-        if (endRow==-1) endRow=I_indexNumberOfRows-1;
-    
-        [NSGraphicsContext saveGraphicsState];
-        ItemChildPair pair=[self itemChildPairAtRow:startRow];
-        NSRect startRect=[self TCM_rectForItem:pair.itemIndex child:pair.childIndex];
-    
-        NSAffineTransform *toStart=[NSAffineTransform transform];
-        [toStart translateXBy:0 yBy:startRect.origin.y];
-        [toStart concat];
-    
-        NSAffineTransform *itemStep=[NSAffineTransform transform];
-        [itemStep translateXBy:0 yBy:ITEMROWHEIGHT];
-        NSAffineTransform *childStep=[NSAffineTransform transform];
-        [childStep translateXBy:0 yBy:CHILDROWHEIGHT];
-        while (startRow<=endRow) {
-            if (pair.childIndex==-1) {
-                [self TCM_drawItemAtIndex:pair.itemIndex];
-                [itemStep concat];
-            } else {
-                [self TCM_drawChildWithIndex:pair.childIndex ofItemAtIndex:pair.itemIndex];
-                [childStep concat];
-            }
-            pair.childIndex++;
-            if (pair.childIndex > I_indexNumberOfChildren[pair.itemIndex]) {
-                pair.itemIndex++;
-                pair.childIndex=-1;
-            }
-            startRow++;
-        }
-    
-        [NSGraphicsContext restoreGraphicsState];
-    }
-
-    [[NSColor redColor] set];
-    NSFrameRect(NSInsetRect(rect,2.,2.));
-
-    [[NSColor greenColor] set];
     const NSRect *rects;
     int count;
     [self getRectsBeingDrawn:&rects count:&count];
     while (count-->0) {
-        NSFrameRect(NSInsetRect(rects[count],2.,2.));
+        NSRect smallRect=rects[count];
+        
+        if (NSMaxY(smallRect)>=I_indexMaxHeight) {
+            [[NSColor whiteColor] set];
+            NSRectFill(NSMakeRect(smallRect.origin.x,I_indexMaxHeight,smallRect.size.width, NSMaxY(smallRect)-I_indexMaxHeight));
+        }
+    
+        int startRow = [self TCM_indexOfRowAtPoint:smallRect.origin];
+    
+        if (startRow!=-1 && startRow < I_indexNumberOfRows) {
+            int endRow   = [self TCM_indexOfRowAtPoint:NSMakePoint(1.,NSMaxY(smallRect))];
+            if (endRow==-1) endRow=I_indexNumberOfRows-1;
+        
+            [NSGraphicsContext saveGraphicsState];
+            ItemChildPair pair=[self itemChildPairAtRow:startRow];
+            NSRect startRect=[self TCM_rectForItem:pair.itemIndex child:pair.childIndex];
+        
+            NSAffineTransform *toStart=[NSAffineTransform transform];
+            [toStart translateXBy:0 yBy:startRect.origin.y];
+            [toStart concat];
+        
+            NSAffineTransform *itemStep=[NSAffineTransform transform];
+            [itemStep translateXBy:0 yBy:ITEMROWHEIGHT];
+            NSAffineTransform *childStep=[NSAffineTransform transform];
+            [childStep translateXBy:0 yBy:CHILDROWHEIGHT];
+            while (startRow<=endRow) {
+                if (pair.childIndex==-1) {
+                    [self TCM_drawItemAtIndex:pair.itemIndex];
+                    [itemStep concat];
+                } else {
+                    [self TCM_drawChildWithIndex:pair.childIndex ofItemAtIndex:pair.itemIndex];
+                    [childStep concat];
+                }
+                pair.childIndex++;
+                if (pair.childIndex > I_indexNumberOfChildren[pair.itemIndex]) {
+                    pair.itemIndex++;
+                    pair.childIndex=-1;
+                }
+                startRow++;
+            }
+        
+            [NSGraphicsContext restoreGraphicsState];
+//            [[NSColor greenColor] set];
+//            NSFrameRect(NSInsetRect(rects[count],1.,1.));
+        }
     }
-
 }
 
 - (NSRect)TCM_rectForItem:(int)anItemIndex child:(int)aChildIndex
@@ -337,6 +338,7 @@ static NSColor *alternateRowColor=nil;
 - (void)reloadData {
     I_indicesNeedRebuilding=YES;
     [self resizeToFit];
+    [self setNeedsDisplay:YES];
 }
 
 
@@ -399,7 +401,7 @@ static NSColor *alternateRowColor=nil;
         yPosition=NSMaxRange(yRange);
         row+=numberOfChildren+1;
     }
-    I_indexNumberOfRows=row+1;
+    I_indexNumberOfRows=row;
     I_indexMaxHeight=yPosition;
     
     I_indexItemChildPairAtRow = (ItemChildPair *)malloc(sizeof(ItemChildPair)*row);
@@ -416,6 +418,10 @@ static NSColor *alternateRowColor=nil;
 
 #pragma mark -
 - (BOOL)isFlipped {
+    return YES;
+}
+
+- (BOOL)isOpaque {
     return YES;
 }
 
