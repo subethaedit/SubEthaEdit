@@ -39,6 +39,9 @@ artwork/icons/Symbols/SymbolT.tiff -text
 artwork/icons/txt.icns -text
 artwork/mockups/RendezvousBrowser.psd -text
 artwork/mockups/RendezvousBrowser2.psd -text
+artwork/website/createdwith.psd -text
+artwork/website/download.psd -text
+artwork/website/splash.psd -text
 documentation/SessionCreation.txt -text
 documentation/SessionProfile.txt -text
 documentation/autodoc/HTMLTemplate.html -text
