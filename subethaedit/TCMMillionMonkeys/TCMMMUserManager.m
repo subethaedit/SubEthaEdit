@@ -20,6 +20,11 @@ static TCMMMUserManager *sharedInstance=nil;
     return sharedInstance;
 }
 
++ (TCMMMUser *)me {
+    return [[self sharedInstance] me];
+}
+
+
 + (NSString *)myID {
     return [[self sharedInstance] myID];
 }
@@ -52,6 +57,7 @@ static TCMMMUserManager *sharedInstance=nil;
     return [I_usersByID objectForKey:aID];
 }
 - (void)setUser:(TCMMMUser *)aUser forID:(NSString *)aID {
+    NSLog(@"UserManager",5,@"Set user:%@ forID:%@",aUser,aID);
     [I_usersByID setObject:aUser forKey:aID];
 }
 

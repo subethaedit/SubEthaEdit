@@ -69,23 +69,36 @@ static TCMMMPresenceManager *sharedInstance = nil;
     [self TCM_validateServiceAnnouncement];
 }
 
-- (void)statusConnectToNetService:(NSNetService *)aNetService userID:(NSString *)aUserID sender:(id)aSender
-{
-    DEBUGLOG(@"Presence",5,@"netservice: %@",aNetService);
+- (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID {
     NSMutableDictionary *statusOfUserID=[I_statusOfUserIDs objectForKey:aUserID];
     if (!statusOfUserID) {
         statusOfUserID=[NSMutableDictionary dictionary];
+        [statusOfUserID setObject:@"NoStatus" forKey:@"Status"];
         [I_statusOfUserIDs setObject:statusOfUserID forKey:aUserID];
     }
+    return statusOfUserID;
+}
+
+- (void)statusConnectToNetService:(NSNetService *)aNetService userID:(NSString *)aUserID sender:(id)aSender
+{
+    DEBUGLOG(@"Presence",5,@"netservice: %@",aNetService);
+    NSMutableDictionary *statusOfUserID=[self statusOfUserID:aUserID];
     
-    if ([statusOfUserID objectForKey:@"ConnectionAttempt"]) {
-    
-    } else {
+    if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"NoStatus"]) {
         // machen
         [statusOfUserID setObject:aNetService forKey:@"NetService"];
         [statusOfUserID setObject:[NSNumber numberWithBool:YES] forKey:@"ConnectionAttempt"];
         [[TCMMMBEEPSessionManager sharedInstance] requestStatusProfileForUserID:aUserID netService:aNetService sender:self];
+    } else {
+        // warten
     }
+}
+
+#pragma mark -
+#pragma mark ### TCMMMStatusProfile interaction
+
+- (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
+    [aProfile sendMyself:[TCMMMUserManager me]];
 }
 
 #pragma mark -
@@ -93,12 +106,18 @@ static TCMMMPresenceManager *sharedInstance = nil;
 
 - (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile {
     NSString *userID=[[[[aProfile channel] session] userInfo] objectForKey:@"peerUserID"];
-    BOOL isServer = [[aProfile channel] isServer];
-    if (isServer) {
-        NSLog(@"Received status profile for user: %@ as Server",userID);
+    
+    NSMutableDictionary *statusOfUserID=[self statusOfUserID:userID];
+    
+    if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
+        NSLog(@"Got status profile albeit having one for User: %@",userID);
     } else {
-        NSLog(@"Received status profile for user: %@ as Client",userID);
+        NSLog(@"Got status profile without trying to connect to User: %@",userID);
     }
+    [statusOfUserID setObject:@"GotStatus" forKey:@"Status"];
+    [statusOfUserID setObject:aProfile forKey:@"StatusProfile"];
+    [aProfile setDelegate:self];
+    [self sendInitialStatusViaProfile:aProfile];
 }
 
 

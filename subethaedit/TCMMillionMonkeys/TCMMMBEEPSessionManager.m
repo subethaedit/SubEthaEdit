@@ -260,6 +260,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     
     return nil; // should not happen
 }
+
 - (BOOL)profile:(HandshakeProfile *)aProfile shouldAckHandshakeWithUserID:(NSString *)aUserID {
     NSMutableDictionary *information=[self sessionInformationForUserID:aUserID];
     TCMBEEPSession *inboundSession=[information objectForKey:@"inboundSession"];
@@ -281,7 +282,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 - (void)profile:(HandshakeProfile *)aProfile didAckHandshakeWithUserID:(NSString *)aUserID {
-    [[[aProfile channel] session] startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil];
     // trigger creating profiles for clients
 }
 

@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "../TCMBEEP/TCMBEEP.h"
 
+@class TCMMMUser;
+
 @interface TCMMMStatusProfile : TCMBEEPProfile {
 
 }
 
+- (void)sendMyself:(TCMMMUser *)aUser;
 @end

@@ -18,7 +18,7 @@ enum {
     frameEndState
 };
 
-@class TCMBEEPChannel, TCMBEEPFrame;
+@class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile;
 
 @interface TCMBEEPSession : NSObject
 {

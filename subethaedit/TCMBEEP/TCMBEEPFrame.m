@@ -67,7 +67,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %d %d\nPayload length: %d", I_messageType, I_channelNumber, I_messageNumber,
+    return [NSString stringWithFormat:@"TCMBEEPFrame: %3s %d %d %1s %d %d - Payload length: %d", I_messageType, I_channelNumber, I_messageNumber,
                     I_continuationIndicator, I_sequenceNumber, I_length, [I_payload length]];
 }
 

@@ -401,7 +401,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 #pragma mark ### Channel interaction ###
 
 - (void)sendRoundRobin {
-    NSLog(@"start sendRoundrobin");
+    // NSLog(@"start sendRoundrobin");
     NSEnumerator *channels = [[self activeChannels] objectEnumerator];
     TCMBEEPChannel *channel=nil;
     BOOL didSend = NO;
@@ -429,7 +429,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel
 {
-    NSLog(@"TriggeredSending %@",(I_flags.isSending?@"NO":@"YES"));
+    //NSLog(@"TriggeredSending %@",(I_flags.isSending?@"NO":@"YES"));
     if (!I_flags.isSending) {
         [self performSelector:@selector(sendRoundRobin) withObject:nil afterDelay:0.01];
         I_flags.isSending=YES;

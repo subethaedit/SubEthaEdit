@@ -23,6 +23,10 @@
     [super dealloc];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"TCMMMUser <ID:%@,properties:%@>",[self ID],[self properties]];
+}
+
 - (void)setID:(NSString *)aID {
     [I_ID autorelease];
      I_ID=[aID copy];
