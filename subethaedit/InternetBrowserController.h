@@ -1,5 +1,5 @@
 //
-//  InternetController.h
+//  InternetBrowserController.h
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Mar 03 2004.
@@ -9,13 +9,14 @@
 #import <AppKit/AppKit.h>
 
 
-@interface InternetController : NSWindowController
+@interface InternetBrowserController : NSWindowController
 {
     IBOutlet NSTableView *O_tableView;
     IBOutlet NSImageView *O_imageView;
     IBOutlet NSTextField *O_myNameTextField;
     IBOutlet NSComboBox *O_addressComboBox;
-    
+    IBOutlet NSPopUpButton *O_actionPullDownButton;
+
     NSMutableDictionary *I_resolvingHosts;
     NSMutableDictionary *I_resolvedHosts;
 }

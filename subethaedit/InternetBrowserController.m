@@ -1,25 +1,26 @@
 //
-//  InternetController.m
+//  InternetBrowserController.m
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Mar 03 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "InternetController.h"
+#import "InternetBrowserController.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserManager.h"
 #import "TCMHost.h"
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMBEEPSession.h"
 #import "TCMBEEPProfile.h"
+#import "ImagePopUpButtonCell.h"
 
 
-@implementation InternetController
+@implementation InternetBrowserController
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"Internet"];
+    self = [super initWithWindowNibName:@"InternetBrowser"];
     if (self) {
         I_resolvingHosts = [NSMutableDictionary new];
         I_resolvedHosts = [NSMutableDictionary new];
@@ -44,6 +45,13 @@
     [((NSPanel *)[self window]) setFloatingPanel:NO];
     [[self window] setHidesOnDeactivate:NO];
     
+    [O_actionPullDownButton setCell:[[ImagePopUpButtonCell new] autorelease]];
+    [[O_actionPullDownButton cell] setPullsDown:YES];
+    [[O_actionPullDownButton cell] setImage:[NSImage imageNamed:@"Action"]];
+    [[O_actionPullDownButton cell] setAlternateImage:[NSImage imageNamed:@"ActionPressed"]];
+    [[O_actionPullDownButton cell] setUsesItemFromMenu:NO];
+    [O_actionPullDownButton addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
+
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
     [defaultCenter addObserver:self 

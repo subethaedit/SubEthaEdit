@@ -19,7 +19,7 @@
         }, 
         {
             ACTIONS = {connect = id; }; 
-            CLASS = InternetController; 
+            CLASS = InternetBrowserController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_addressComboBox" = NSComboBox; 
