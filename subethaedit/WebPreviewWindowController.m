@@ -24,7 +24,7 @@ static NSString *WebPreviewWindowSizePreferenceKey=@"WebPreviewWindowSize";
     [self updateBaseURL];
     _hasSavedVisibleRect=NO;
     _shallCache=YES;
-    _refreshType=kWebPreviewRefreshAutomatic;
+    _refreshType=kWebPreviewRefreshDelayed;
     return self;
 }
 
@@ -231,6 +231,37 @@ NSScrollView * firstScrollView(NSView *aView) {
         if (![[oStatusTextField stringValue] isEqualToString:@""]) {
             [oStatusTextField setStringValue:@""];
         }
+    }
+}
+
+- (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems {
+    NSMutableArray *returnArray = [NSMutableArray array];
+    int i;
+    for (i=0;i<[defaultMenuItems count];i++) {
+        NSMenuItem *defaultItem=[defaultMenuItems objectAtIndex:i];
+        int tag=[defaultItem tag];
+        if (tag == WebMenuItemTagOpenLinkInNewWindow) {
+            NSMenuItem *item=[[defaultItem copy] autorelease];
+            [item setTitle:NSLocalizedString(@"Open Link in Browser",@"Web preview open link in browser contextual menu item")];
+            [item setAction:@selector(openInBrowser:)];
+            [item setTarget:nil];
+            [item setRepresentedObject:element];
+            [returnArray addObject:item];
+        } else if (tag == WebMenuItemTagCopyLinkToClipboard ||
+                   tag == WebMenuItemTagCopyImageToClipboard ||
+                   tag == WebMenuItemTagCopy) {
+            [returnArray addObject:defaultItem];
+        }
+    }
+    return returnArray;
+}
+
+- (IBAction)openInBrowser:(id)aSender {
+    NSMenuItem *item=(NSMenuItem *)aSender;
+    NSDictionary *element=[item representedObject];
+    NSURL *url = [element objectForKey:WebElementLinkURLKey];
+    if (url) {
+        [[NSWorkspace sharedWorkspace] openURL:url];
     }
 }
 

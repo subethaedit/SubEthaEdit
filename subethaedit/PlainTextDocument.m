@@ -753,7 +753,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     }
 }
 
-#define WEBPREVIEWDELAYEDREFRESHINTERVAL 1.5
+#define WEBPREVIEWDELAYEDREFRESHINTERVAL 1.2
 
 - (void)triggerDelayedWebPreviewRefresh {
     if ([[self documentMode] hasSymbols]) {
