@@ -21,9 +21,14 @@
     return self;
 }
 
+- (void)windowDidLoad
+{
+    [O_sessionController bind:@"contentArray" toObject:[TCMMMBEEPSessionManager sharedInstance] withKeyPath:@"sessions" options:nil];
+}
+
 - (void)showWindow:(id)aSender {
     [super showWindow:aSender];
-    [O_sessionController setContent:[[TCMMMBEEPSessionManager sharedInstance] sessions]];
+    //[O_sessionController setContent:[[TCMMMBEEPSessionManager sharedInstance] sessions]];
 }
 
 @end

@@ -15,10 +15,10 @@
 
 @interface TCMBEEPManagementProfile (TCMBEEPManagementProfilePrivateAdditions)
 
-- (void)TCM_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef)aContentTree;
-- (void)TCM_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree;
-- (void)TCM_proccessCloseMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree;
-- (void)TCM_processOKMessage:(TCMBEEPMessage *)aMessage;
+- (BOOL)TCM_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef)aContentTree;
+- (BOOL)TCM_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree;
+- (BOOL)TCM_proccessCloseMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree;
+- (BOOL)TCM_processOKMessage:(TCMBEEPMessage *)aMessage;
 
 @end
 
@@ -103,55 +103,50 @@
 
 #pragma mark -
 
-- (void)TCM_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef)aContentTree 
+- (BOOL)TCM_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef)aContentTree 
 {
-    BOOL malformedGreeting = YES;
-    if ([[aMessage messageTypeString] isEqualTo:@"RPY"] &&
-        [aMessage messageNumber] == 0) {
+    BOOL result = NO;
                     
-        int childCount = CFTreeGetChildCount(aContentTree);
-        int index;
-        for (index = 0; index < childCount; index++) {
-            CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aContentTree, index);
-            CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
-            if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
-                if ([@"greeting" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Was greeting....");
-                    CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
-                    NSDictionary *attributes = (NSDictionary *)info->attributes;
-                    //NSLog (@"Attributes: %@", [attributes description]);
+    int childCount = CFTreeGetChildCount(aContentTree);
+    int index;
+    for (index = 0; index < childCount; index++) {
+        CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aContentTree, index);
+        CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
+        if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
+            if ([@"greeting" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Was greeting....");
+                CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
+                NSDictionary *attributes = (NSDictionary *)info->attributes;
+                //NSLog (@"Attributes: %@", [attributes description]);
 
-                    NSMutableArray *profileURIs = [NSMutableArray array];
-                    int profileCount = CFTreeGetChildCount(xmlTree);
-                    int profileIndex;
-                    for (profileIndex = 0; profileIndex < profileCount; profileIndex++) {
-                        CFXMLTreeRef profileSubTree = CFTreeGetChildAtIndex(xmlTree,profileIndex);
-                        CFXMLNodeRef profileNode = CFXMLTreeGetNode(profileSubTree);
-                        if (CFXMLNodeGetTypeCode(profileNode) == kCFXMLNodeTypeElement) {
-                            if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(profileNode)]) {
-                                CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(profileNode);
-                                NSDictionary *attributes = (NSDictionary *)info->attributes;
-                                NSString *URI;
-                                if ((URI = [attributes objectForKey:@"uri"]))
-                                    [profileURIs addObject:URI];
-                            }
+                NSMutableArray *profileURIs = [NSMutableArray array];
+                int profileCount = CFTreeGetChildCount(xmlTree);
+                int profileIndex;
+                for (profileIndex = 0; profileIndex < profileCount; profileIndex++) {
+                    CFXMLTreeRef profileSubTree = CFTreeGetChildAtIndex(xmlTree,profileIndex);
+                    CFXMLNodeRef profileNode = CFXMLTreeGetNode(profileSubTree);
+                    if (CFXMLNodeGetTypeCode(profileNode) == kCFXMLNodeTypeElement) {
+                        if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(profileNode)]) {
+                            CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(profileNode);
+                            NSDictionary *attributes = (NSDictionary *)info->attributes;
+                            NSString *URI;
+                            if ((URI = [attributes objectForKey:@"uri"]))
+                                [profileURIs addObject:URI];
                         }
-                    }                        
-                    [[self delegate] didReceiveGreetingWithProfileURIs:profileURIs 
-                        featuresAttribute:[attributes objectForKey:@"features"] 
-                        localizeAttribute:[attributes objectForKey:@"localize"]];
-                    malformedGreeting = NO;
-                }
+                    }
+                }                        
+                [[self delegate] didReceiveGreetingWithProfileURIs:profileURIs 
+                    featuresAttribute:[attributes objectForKey:@"features"] 
+                    localizeAttribute:[attributes objectForKey:@"localize"]];
+                result = YES;
             }
-        }            
+        }
     } 
-    if (malformedGreeting) {
-        // teardown session
-        // ERROR
-    }
+                   
+    return result;
 }
 
-- (void)TCM_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree
+- (BOOL)TCM_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree
 {
     CFXMLNodeRef startNode = CFXMLTreeGetNode(aSubTree);
     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(startNode);
@@ -160,7 +155,7 @@
     if ([attributes objectForKey:@"number"]) {
         channelNumber = [[attributes objectForKey:@"number"] intValue];
     } else {
-        // nixe number
+        return NO;
     }
     NSMutableArray *profileURIs = [NSMutableArray array];
     NSMutableArray *dataArray = [NSMutableArray array];
@@ -216,9 +211,11 @@
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
         [[self channel] sendMessage:[message autorelease]];
     }
+    
+    return YES;
 }
 
-- (void)TCM_proccessCloseMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree
+- (BOOL)TCM_proccessCloseMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree
 {
     CFXMLNodeRef closeNode = CFXMLTreeGetNode(aSubTree);
     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(closeNode);
@@ -232,34 +229,38 @@
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Close requested for channel number: %d", channelNumber);
         NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
-        [[self channel] sendMessage:[message autorelease]];        
+        [[self channel] sendMessage:[message autorelease]];
+        [[self session] closedChannelWithNumber:channelNumber];
     } else if ((number == nil || [number intValue] == 0) && code) {
         // close request for the session
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Close requested for session");
         NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
         [[self channel] sendMessage:[message autorelease]];
-        [[[self channel] session] close];
+        [[self session] close];
     } else {
         // invalid close request
         NSLog(@"Received invalid close request");
+        return NO;
     }
+    
+    return YES;
 }
 
-- (void)TCM_processOKMessage:(TCMBEEPMessage *)aMessage
+- (BOOL)TCM_processOKMessage:(TCMBEEPMessage *)aMessage
 {
     int32_t channelNumber = [[I_channelNumbersByCloseRequests objectForLong:[aMessage messageNumber]] longValue];
     [[self delegate] closedChannelWithNumber:channelNumber];
+    return YES;
 }
 
-- (void)TCM_processErrorMessage:(TCMBEEPMessage *)aMessage
+- (BOOL)TCM_processErrorMessage:(TCMBEEPMessage *)aMessage
 {
+    return YES;
 }
 
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage
 {
-    #warning "check for message types MSG, RPY and ERR"
-    
     // remove MIME Header
     NSData *contentData = [aMessage payload];
     // find "\r\n\r\n"
@@ -280,6 +281,7 @@
     CFXMLTreeRef contentTree = NULL;
     NSDictionary *errorDict;
     
+    // create XML tree from payload
     contentTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,
                                 (CFDataRef)contentData,
                                 NULL, //sourceURL
@@ -289,48 +291,88 @@
     if (!contentTree) {
         NSLog(@"nixe baum: %@", [errorDict description]);
         CFRelease(contentTree);
+        [[self session] terminate]; 
         return;
     }        
     
-    if (I_firstMessage) {
-        [self TCM_processGreeting:aMessage XMLTree:contentTree];
-        I_firstMessage = NO;
-    } else {
-        // "Normalbetrieb"        
-        int childCount = CFTreeGetChildCount(contentTree);
-        int index;
-        for (index = 0; index < childCount; index++) {
-            CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(contentTree, index);
-            CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
-            if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
-                if ([@"start" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found start element...");
-                    [self TCM_proccessStartMessage:aMessage XMLSubTree:xmlTree];
-                } else if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found profile element...");
-                    CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
-                    NSDictionary *attributes = (NSDictionary *)info->attributes;
-                    NSString *URI;
-                    if ((URI = [attributes objectForKey:@"uri"])) {
-                        [[self delegate] didReceiveAcceptStartRequestForChannel:[[I_pendingChannelRequestMessageNumbers objectForLong:[aMessage messageNumber]] longValue] withProfileURI:URI andData:[NSData data]];
-                    }
-                } else if ([@"close" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found close element...");
-                    [self TCM_proccessCloseMessage:aMessage XMLSubTree:xmlTree];
-                } else if ([@"ok" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found ok element...");
-                    [self TCM_processOKMessage:aMessage];
-                } else if ([@"error" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found error element...");
-                    [self TCM_processErrorMessage:aMessage];
-                } else {
-                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"No valid element was found!");
-                }
-            } else {
-                // kein kCFXMLNodeTypeElement node
-            }
+    // extract top level element from tree
+    CFXMLNodeRef node = NULL;
+    CFXMLTreeRef xmlTree = NULL;
+    int childCount = CFTreeGetChildCount(contentTree);
+    int index;
+    for (index = 0; index < childCount; index++) {
+        xmlTree = CFTreeGetChildAtIndex(contentTree, index);
+        node = CFXMLTreeGetNode(xmlTree);
+        if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
+            break;
         }
     }
+    if (!xmlTree || !node || CFXMLNodeGetTypeCode(node) != kCFXMLNodeTypeElement) {
+        [[self session] terminate];
+        return;
+    }
+
+
+    if ([aMessage isMSG]) {
+        if (I_firstMessage) {
+            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Error: First message was from type MSG");
+            [[self session] terminate];
+        } else {
+            if ([@"start" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found start element...");
+                [self TCM_proccessStartMessage:aMessage XMLSubTree:xmlTree];
+            } else if ([@"close" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found close element...");
+                [self TCM_proccessCloseMessage:aMessage XMLSubTree:xmlTree];
+            } else {
+                [[self session] terminate];
+            }
+        }
+    } else if ([aMessage isRPY]) {
+        if (I_firstMessage) {
+            if ([aMessage messageNumber] == 0) { 
+                if (![self TCM_processGreeting:aMessage XMLTree:contentTree]) {
+                    [[self session] terminate];
+                }
+            } else {
+                [[self session] terminate];
+            }
+            I_firstMessage = NO;
+        } else {
+            if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found profile element...");
+                CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
+                NSDictionary *attributes = (NSDictionary *)info->attributes;
+                NSString *URI;
+                if ((URI = [attributes objectForKey:@"uri"])) {
+                    [[self delegate] didReceiveAcceptStartRequestForChannel:[[I_pendingChannelRequestMessageNumbers objectForLong:[aMessage messageNumber]] longValue] withProfileURI:URI andData:[NSData data]];
+                }
+            } else if ([@"ok" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found ok element...");
+                if (![self TCM_processOKMessage:aMessage]) {
+                    [[self session] terminate];
+                }
+            }  else {
+                [[self session] terminate];
+            }
+        }
+    } else if ([aMessage isERR]) {
+        if ([@"error" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found error element...");
+            if (![self TCM_processErrorMessage:aMessage]) {
+                [[self session] terminate];
+            }
+        } else {
+            [[self session] terminate];
+        }
+        
+        if (I_firstMessage) {
+            [[self session] terminate];
+        }
+    } else {
+        [[self session] terminate];
+    }
+
     CFRelease(contentTree);
 }
 

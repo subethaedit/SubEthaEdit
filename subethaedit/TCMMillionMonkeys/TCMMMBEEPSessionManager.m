@@ -92,6 +92,23 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [super dealloc];
 }
 
+- (unsigned int)countOfSessions {
+    return [I_sessions count];
+}
+
+- (TCMBEEPSession *)objectInSessionsAtIndex:(unsigned int)index {
+     return [I_sessions objectAtIndex:index];
+}
+
+- (void)insertObject:(TCMBEEPSession *)session inSessionsAtIndex:(unsigned int)index {
+    [I_sessions insertObject:session atIndex:index];
+}
+
+
+- (void)removeObjectFromSessionsAtIndex:(unsigned int)index {
+    [I_sessions removeObjectAtIndex:index];
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:%@\npendingSessionProfiles:%@\npendingSessions:%@\npendingOutboundSessions:%@", [I_sessionInformationByUserID descriptionInStringsFileFormat], [I_pendingSessionProfiles description], [I_pendingSessions description], [I_pendingOutboundSessions description]];
@@ -143,7 +160,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
     for (i = 0; i < [addresses count]; i++) {
         NSData *addressData = [addresses objectAtIndex:i];
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
-        [I_sessions addObject:session];
+    
+        [self insertObject:session inSessionsAtIndex:[self countOfSessions]];
+        
         [outgoingSessions addObject:session];
         [session release];
         [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
@@ -195,7 +214,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
     while ((addressData = [addresses nextObject])) {
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
         [[session userInfo] setObject:[aHost name] forKey:@"name"];
-        [I_sessions addObject:session];
+ 
+        [self insertObject:session inSessionsAtIndex:[self countOfSessions]];
+
         [sessions addObject:session];
         [session release];
         [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
@@ -209,11 +230,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSDictionary *sessionInfo = [I_sessionInformationByUserID objectForKey:aUserID];
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"sessionInfo: %@", sessionInfo);
     return [sessionInfo objectForKey:@"RendezvousSession"];
-}
-
-- (NSArray *)sessions
-{
-    return I_sessions;
 }
 
 #pragma mark -
@@ -552,7 +568,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [aBEEPSession setDelegate:self];
     [aBEEPSession open];
     [I_pendingSessions addObject:aBEEPSession];
-    [I_sessions addObject:aBEEPSession];
+    [self insertObject:aBEEPSession inSessionsAtIndex:[self countOfSessions]];
 }
 
 @end

@@ -36,6 +36,5 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification;
 - (void)connectToHost:(TCMHost *)aHost;
 
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID;
-- (NSArray *)sessions;
 
 @end

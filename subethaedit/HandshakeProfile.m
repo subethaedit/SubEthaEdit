@@ -108,7 +108,7 @@
                 // brich ab
             }
         } else {
-            DEBUGLOG(@"BEEPLogDmain", DetailedLogLevel, @"Got empty reply for ACK message.");
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Got empty reply for ACK message.");
             [[self channel] close];
         }
     }
