@@ -44,6 +44,7 @@
     [I_textView setDelegate:nil];
     [O_editorView release];
     [I_textContainer release];
+    [super dealloc];
 }
 
 - (void)awakeFromNib {

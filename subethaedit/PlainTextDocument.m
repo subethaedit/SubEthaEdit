@@ -567,6 +567,11 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)removeWindowController:(NSWindowController *)windowController {
     [super removeWindowController:windowController];
     [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
+    if ([[self windowControllers] count]==0) {
+        NSLog(@"Last window closed");
+        // terminate syntax coloring
+        I_flags.highlightSyntax = NO;
+    }
 }
 
 - (void)windowControllerWillLoadNib:(NSWindowController *)aController {
