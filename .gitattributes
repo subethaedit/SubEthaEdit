@@ -201,6 +201,8 @@ subethaedit/HandshakeProfile.m -text
 subethaedit/Info.plist -text
 subethaedit/InternetController.h -text
 subethaedit/InternetController.m -text
+subethaedit/NSColorTCMAdditions.h -text
+subethaedit/NSColorTCMAdditions.m -text
 subethaedit/NSDictionaryTCMAdditions.h -text
 subethaedit/NSDictionaryTCMAdditions.m -text
 subethaedit/NSImageTCMAdditions.h -text

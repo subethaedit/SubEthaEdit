@@ -1121,6 +1121,44 @@
 //2A2
 //2A3
 //2A4
+//310
+//311
+//312
+//313
+//314
+		31C995A0060F377500E3AB1E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NSColorTCMAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		31C995A1060F377500E3AB1E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NSColorTCMAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		31C995A2060F377500E3AB1E = {
+			fileRef = 31C995A0060F377500E3AB1E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		31C995A3060F377500E3AB1E = {
+			fileRef = 31C995A1060F377500E3AB1E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//310
+//311
+//312
+//313
+//314
 //320
 //321
 //322
@@ -1268,6 +1306,8 @@
 		};
 		5E4F35BD05EF77C5009D71ED = {
 			children = (
+				31C995A0060F377500E3AB1E,
+				31C995A1060F377500E3AB1E,
 				143C360005ECB200008C6DFE,
 				143C360105ECB200008C6DFE,
 				5E834C0305FD1689004EB5D1,
@@ -2194,6 +2234,7 @@
 				5ECFBAE2060F3623000B47E6,
 				5ECFBAEA060F365B000B47E6,
 				5ECFBAF0060F367C000B47E6,
+				31C995A2060F377500E3AB1E,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2298,6 +2339,7 @@
 				5ECFBAE3060F3623000B47E6,
 				5ECFBAEB060F365B000B47E6,
 				5ECFBAF1060F367C000B47E6,
+				31C995A3060F377500E3AB1E,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
