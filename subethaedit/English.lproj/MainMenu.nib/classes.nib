@@ -77,12 +77,14 @@
         }, 
         {
             ACTIONS = {
+                blockeditSelection = id; 
                 changePendingUsersAccess = id; 
                 changeTabWidth = id; 
                 chooseLineEndings = id; 
                 clearChangeMarks = id; 
                 convertLineEndings = id; 
                 copyDocumentURL = id; 
+                endBlockedit = id; 
                 jumpToNextChange = id; 
                 jumpToNextSymbol = id; 
                 jumpToPreviousChange = id; 

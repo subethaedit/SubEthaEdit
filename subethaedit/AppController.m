@@ -44,6 +44,7 @@ int const EditMenuTag   = 1000;
 int const CutMenuItemTag   = 1;
 int const CopyMenuItemTag  = 2;
 int const PasteMenuItemTag = 3;
+int const BlockeditMenuItemTag = 4;
 int const SpellingMenuItemTag = 10;
 int const SpeechMenuItemTag   = 11;
 int const FormatMenuTag = 2000;
@@ -279,6 +280,10 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [self addMe];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
+
+    [[[[NSApp mainMenu] itemWithTag:EditMenuTag] submenu] setDelegate:self];
+
+    
     //[self setupScriptMenu];
 
     GeneralPreferences *generalPrefs = [[GeneralPreferences new] autorelease];
@@ -398,6 +403,8 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyMenuItemTag] copy]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:BlockeditMenuItemTag] copy]];
+    [defaultMenu addItem:[NSMenuItem separatorItem]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpellingMenuItemTag] copy]];
     [defaultMenu addItem:[(NSMenuItem *)[FormatMenu itemWithTag:FontMenuItemTag] copy]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy]];
@@ -405,6 +412,12 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [TextView setDefaultMenu:defaultMenu];
 }
 
+
+// trigger update so keyequivalents match the situation
+- (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action {
+    [menu update];
+    return NO;
+}
 #pragma mark ### IBActions ###
 
 - (IBAction)undo:(id)aSender {

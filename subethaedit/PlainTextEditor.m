@@ -624,8 +624,44 @@
     } else if (selector == @selector(toggleShowInvisibles:)) {
         [menuItem setState:[self showsInvisibleCharacters]?NSOnState:NSOffState];
         return YES;
+    } else if (selector == @selector(blockeditSelection:) || selector==@selector(endBlockedit:)) {
+        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+        NSRange selection=[I_textView selectedRange];
+        if (selection.location<[textStorage length]) {
+            id blockAttribute=[textStorage
+                                attribute:BlockeditAttributeName
+                                  atIndex:selection.location effectiveRange:nil];
+            if (blockAttribute) {
+                [menuItem setTitle:NSLocalizedString(@"MenuBlockeditEnd",@"End Blockedit in edit Menu")];
+                [menuItem setKeyEquivalent:@""];
+                [menuItem setAction:@selector(endBlockedit:)];
+                return YES;
+            }
+        }
+        [menuItem setTitle:NSLocalizedString(@"MenuBlockeditSelection",@"Blockedit Selection in edit Menu")];
+        [menuItem setKeyEquivalent:@"B"];
+        [menuItem setAction:@selector(blockeditSelection:)];
+        return YES;
     }
     return YES;
+}
+
+- (IBAction)blockeditSelection:(id)aSender {
+    NSRange selection=[I_textView selectedRange];
+    TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+    NSRange lineRange=[[textStorage string] lineRangeForRange:selection];
+    NSDictionary *blockeditAttributes=[[I_textView delegate] blockeditAttributesForTextView:I_textView];
+    [textStorage addAttributes:blockeditAttributes
+                 range:lineRange];
+    [I_textView setSelectedRange:NSMakeRange(selection.location,0)];
+    [textStorage setHasBlockeditRanges:YES];
+}
+
+- (IBAction)endBlockedit:(id)aSender {
+    TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+    if ([textStorage hasBlockeditRanges]) {
+        [textStorage stopBlockedit];
+    }
 }
 
 - (void)setShowsChangeMarks:(BOOL)aFlag {
