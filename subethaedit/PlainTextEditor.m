@@ -650,10 +650,20 @@
     return YES;
 }
 
+/*" Copies the current selection as XHTML to the pasteboard
+    font is added, background and foreground color is used
+    - if wrapping is off: <pre> is used
+                     on: leading whitespace is fixed via &nbsp;, <br /> is added for line break
+    - if colorize syntax is on: <span style="color: ...;">, <strong> and <em> are used to style the text
+    - if Show Changes is on: background is colored according to user color, <a title="name"> tags are added
+    TODO: detab before exporting
+"*/
+
 - (IBAction)copyAsXHTML:(id)aSender {
-    static NSDictionary *attributeMapping;
-    if (attributeMapping==nil) {
-        attributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
+    static NSDictionary *baseAttributeMapping;
+    static NSDictionary *writtenByAttributeMapping;
+    if (baseAttributeMapping==nil) {
+        baseAttributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"<strong>",@"openTag",
                                 @"</strong>",@"closeTag",nil], @"Bold",
@@ -663,6 +673,9 @@
                             [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"<span style=\"color:%@;\">",@"openTag",
                                 @"</span>",@"closeTag",nil], @"ForegroundColor",
+                            nil];
+        [baseAttributeMapping retain];
+        writtenByAttributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
                             [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"<span style=\"background-color:%@;\">",@"openTag",
                                 @"</span>",@"closeTag",nil], @"BackgroundColor",
@@ -670,23 +683,44 @@
                                 @"<a title=\"%@\">",@"openTag",
                                 @"</a>",@"closeTag",nil], @"WrittenBy",
                             nil];
-        [attributeMapping retain];
+        [writtenByAttributeMapping retain];
+
     }
     NSRange selectedRange=[I_textView selectedRange];
     if (selectedRange.location!=NSNotFound && selectedRange.length>0) {
+        NSMutableDictionary *mapping=[[baseAttributeMapping mutableCopy] autorelease];
+        if ([self showsChangeMarks]) {
+            [mapping addEntriesFromDictionary:writtenByAttributeMapping];
+        }
         PlainTextDocument *document=[self document];
         NSColor *backgroundColor=[document documentBackgroundColor];
         NSColor *foregroundColor=[document documentForegroundColor]; 
         TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
         NSMutableAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange foregroundColor:foregroundColor backgroundColor:backgroundColor];
-        [attributedStringForXHTML makeLeadingWhitespaceNonBreaking]; 
+        if ([self wrapsLines]) {
+            [attributedStringForXHTML makeLeadingWhitespaceNonBreaking]; 
+        }
         selectedRange.location=0;
         
+        NSFont *baseFont=[[self document] fontWithTrait:0];
+        NSString *fontString=[NSString stringWithFormat:@"%@",[baseFont fontName]];
+        if ([baseFont isFixedPitch]) {
+            fontString=[fontString stringByAppendingString:@", monospace"];
+        } else {
+            fontString=[fontString stringByAppendingString:@", serif"];
+        }
+        
+        // pre or div?
+        NSString *topLevelTag=([self wrapsLines]?@"div":@"pre");
+        
         NSMutableString *result=[[NSMutableString alloc] initWithCapacity:selectedRange.length*2];
-        [result appendFormat:@"<div style=\"font-family:monaco, monospace; font-size:small; color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto;\">",[foregroundColor HTMLString],[backgroundColor HTMLString]];
-        [result appendString:[[attributedStringForXHTML XHTMLStringWithAttributeMapping:
-            attributeMapping] addBRs]];
-        [result appendString:@"</div>"];
+        [result appendFormat:@"<%@ style=\"font-size:small; color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto; font-family:%@;\">",topLevelTag, [foregroundColor HTMLString],[backgroundColor HTMLString],fontString];
+        NSMutableString *content=[attributedStringForXHTML XHTMLStringWithAttributeMapping:mapping];
+        if ([self wrapsLines]) {
+            [content addBRs];
+        }
+        [result appendString:content];
+        [result appendFormat:@"</%@>",topLevelTag];
         [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
         [[NSPasteboard generalPasteboard] setString:result forType:NSStringPboardType];
         [result release];
