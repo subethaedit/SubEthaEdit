@@ -7,6 +7,7 @@
 //
 
 #import "SetupController.h"
+#import "GeneralPreferences.h"
 #import <AddressBook/AddressBook.h>
 
 #import "MoreUNIX.h"
@@ -295,6 +296,7 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *version = [defaults stringForKey:SetupVersionPrefKey];
     if (version || [defaults boolForKey:SetupDonePrefKey]) {
+        shouldMakeNewDocument = NO;
         BOOL isLicensed = NO;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
@@ -309,6 +311,7 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
             [self setItemOrder:[setupDict objectForKey:@"Update"]];
         }
     } else {
+        shouldMakeNewDocument = YES;
         [self setItemOrder:[setupDict objectForKey:@"FirstRun"]];
     }
 
@@ -402,6 +405,7 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
 - (IBAction)showWindow:(id)sender {
     [[self window] center];
     hasAgreedToLicense = YES;
+    shouldMakeNewDocument = NO;
     isFirstRun = NO;
     [O_goBackButton setEnabled:NO];
     
@@ -429,13 +433,8 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
         if ([O_useCommandLineToolCheckbox state] == NSOnState) {
              (void)[SetupController installCommandLineTool];
              hasInstalledTool = YES;
+             [O_useCommandLineToolCheckbox setEnabled:NO];
         }
-    }
-    if ([[[O_tabView selectedTabViewItem] identifier] isEqualToString:@"installtool"] && hasInstalledTool) {
-        if ([O_useCommandLineToolCheckbox state] == NSOffState) {
-             (void)[SetupController removeCommandLineTool];
-             hasInstalledTool = NO;
-        }        
     }
     
     if ([[[O_tabView selectedTabViewItem] identifier] isEqualToString:@"license"] && !hasAgreedToLicense) {
@@ -473,7 +472,8 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
         [self TCM_finishSetup];
         [NSApp stopModal];
         [self close];
-        if (isFirstRun) {
+        if ((isFirstRun && shouldMakeNewDocument)
+            || [[NSUserDefaults standardUserDefaults] boolForKey:OpenDocumentOnStartPreferenceKey]) {
             [[NSDocumentController sharedDocumentController] newDocument:self];
         }
     } else {

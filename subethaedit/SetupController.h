@@ -33,6 +33,7 @@ extern NSString * const LicenseeOrganizationPrefKey;
     BOOL hasAgreedToLicense;
     BOOL hasInstalledTool;
     BOOL isFirstRun;
+    BOOL shouldMakeNewDocument;
     NSArray *itemOrder;
     int itemIndex;
     
