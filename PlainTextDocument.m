@@ -2852,6 +2852,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)TCM_invalidateDefaultParagraphStyle {
     [I_defaultParagraphStyle autorelease];
     I_defaultParagraphStyle=nil;
+    [I_plainTextAttributes autorelease];
+    I_plainTextAttributes=nil;
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:self]
                postingStyle:NSPostWhenIdle
