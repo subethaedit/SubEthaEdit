@@ -686,6 +686,7 @@ NSString * const TCMMMSessionDidChangeNotification =
     [I_closingProfiles removeObject:profile];
     if ([[I_profilesByUserID allValues] containsObject:aProfile]) {
         // handle well
+        NSLog(@"TCMMMSession: undetached profile didClose");
     }
 }
 

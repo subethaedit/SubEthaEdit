@@ -784,105 +784,104 @@ enum {
 #pragma mark -
 #pragma mark ### ParticipantsView data source methods ###
 
-- (int)numberOfItemsInParticipantsView:(ParticipantsView *)aListView {
-    if ([[[(PlainTextDocument *)[self document] session] pendingUsers] count] >0) {
-        return 3;
-    } else {
-        return 2;
-    }
-}
-
-- (int)participantsView:(ParticipantsView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex {
-    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-    NSDictionary *participants=[session participants];
-    if (anItemIndex==0) {
-        return [[participants objectForKey:@"ReadWrite"] count];
-    } else if (anItemIndex==1) {
-        return [[participants objectForKey:@"ReadOnly"] count];
-    } else if (anItemIndex==2) {
-        return [[session pendingUsers] count];
-    }
-    return 0;
-}
-
-- (id)participantsView:(ParticipantsView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex {
-
-    static NSImage *statusReadWrite=nil;
-    static NSImage *statusReadOnly=nil;
-    static NSImage *statusPending=nil;
-
-    if (!statusReadWrite) statusReadWrite=[[NSImage imageNamed:@"StatusReadWrite"] retain];
-    if (!statusReadOnly)  statusReadOnly=[[NSImage imageNamed:@"StatusReadOnly"] retain];
-    if (!statusPending)   statusPending=[[NSImage imageNamed:@"StatusPending"] retain];
-    if (anItemIndex==0) {
-        if (aTag==ParticipantsItemStatusImageTag) {
-            return statusReadWrite;
-        } else if (aTag==ParticipantsItemNameTag) {
-            return NSLocalizedString(@"read/write",@"Description in Participants view for Read Write access");
-        } 
-    } else if (anItemIndex==1) {
-        if (aTag==ParticipantsItemStatusImageTag) {
-            return statusReadOnly;
-        } else if (aTag==ParticipantsItemNameTag) {
-            return NSLocalizedString(@"read only",@"Description in Participants view for Read Only access");
-        } 
-    } else if (anItemIndex==2) {
-        if (aTag==ParticipantsItemStatusImageTag) {
-            return statusPending;
-        } else if (aTag==ParticipantsItemNameTag) {
-            return NSLocalizedString(@"pending users",@"Description in Participants view for pending users");
-        } 
-    }
-    return nil;
-}
-
-- (id)participantsView:(ParticipantsView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
-    TCMMMSession *session=[document session];
-    NSDictionary *participants=[session participants];
-    TCMMMUser *user=nil;
-    if (anItemIndex==0) {
-        user=[[participants objectForKey:@"ReadWrite"] objectAtIndex:anIndex];
-    } else if (anItemIndex==1) {
-        user=[[participants objectForKey:@"ReadOnly"] objectAtIndex:anIndex];
-    } else if (anItemIndex==2) {
-        user=[[session pendingUsers] objectAtIndex:anIndex];
-    }
-    if (anItemIndex>=0 && anItemIndex<3) {
-        if (aTag==ParticipantsChildNameTag) {
-            return [user name];
-        } else if (aTag==ParticipantsChildStatusTag) {
-            NSMutableDictionary *properties=[user propertiesForSessionID:[session sessionID]];
-            SelectionOperation *selectionOperation=[properties objectForKey:@"SelectionOperation"];
-            NSColor *userColor=[[document documentBackgroundColor] blendedColorWithFraction:
-                                    [[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
-                                 ofColor:[user changeColor]];
-            NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:
-			   [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName, 
-			   [document documentForegroundColor],NSForegroundColorAttributeName,
-			   userColor,NSBackgroundColorAttributeName, nil];
-            NSString *result=@" ";
-            if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
-                result =[(TextStorage *)[document textStorage] 
-                        positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
-            } else if (selectionOperation) {
-                result =[(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
-            }
-            return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
-        } else if (aTag==ParticipantsChildImageTag) {
-            return [[user properties] objectForKey:@"Image32"];
-        } else if (aTag==ParticipantsChildImageNextToNameTag) {
-            return [[user properties] objectForKey:@"ColorImage"];
+- (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex {
+    if (anItemIndex==-1) {
+        if ([[[(PlainTextDocument *)[self document] session] pendingUsers] count] >0) {
+            return 3;
+        } else {
+            return 2;
         }
+    } else {
+        TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+        NSDictionary *participants=[session participants];
+        if (anItemIndex==0) {
+            return [[participants objectForKey:@"ReadWrite"] count];
+        } else if (anItemIndex==1) {
+            return [[participants objectForKey:@"ReadOnly"] count];
+        } else if (anItemIndex==2) {
+            return [[session pendingUsers] count];
+        }
+        return 0;
     }
-    return nil;
 }
 
-- (void)participantsViewDidChangeSelection:(ParticipantsView *)aListView {
+- (id)listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
+    if (aChildIndex == -1) {
+        static NSImage *statusReadWrite=nil;
+        static NSImage *statusReadOnly=nil;
+        static NSImage *statusPending=nil;
+    
+        if (!statusReadWrite) statusReadWrite=[[NSImage imageNamed:@"StatusReadWrite"] retain];
+        if (!statusReadOnly)  statusReadOnly=[[NSImage imageNamed:@"StatusReadOnly"] retain];
+        if (!statusPending)   statusPending=[[NSImage imageNamed:@"StatusPending"] retain];
+        if (anItemIndex==0) {
+            if (aTag==ParticipantsItemStatusImageTag) {
+                return statusReadWrite;
+            } else if (aTag==ParticipantsItemNameTag) {
+                return NSLocalizedString(@"read/write",@"Description in Participants view for Read Write access");
+            } 
+        } else if (anItemIndex==1) {
+            if (aTag==ParticipantsItemStatusImageTag) {
+                return statusReadOnly;
+            } else if (aTag==ParticipantsItemNameTag) {
+                return NSLocalizedString(@"read only",@"Description in Participants view for Read Only access");
+            } 
+        } else if (anItemIndex==2) {
+            if (aTag==ParticipantsItemStatusImageTag) {
+                return statusPending;
+            } else if (aTag==ParticipantsItemNameTag) {
+                return NSLocalizedString(@"pending users",@"Description in Participants view for pending users");
+            } 
+        }
+        return nil;
+    } else {
+        PlainTextDocument *document=(PlainTextDocument *)[self document];
+        TCMMMSession *session=[document session];
+        NSDictionary *participants=[session participants];
+        TCMMMUser *user=nil;
+        if (anItemIndex==0) {
+            user=[[participants objectForKey:@"ReadWrite"] objectAtIndex:aChildIndex];
+        } else if (anItemIndex==1) {
+            user=[[participants objectForKey:@"ReadOnly"] objectAtIndex:aChildIndex];
+        } else if (anItemIndex==2) {
+            user=[[session pendingUsers] objectAtIndex:aChildIndex];
+        }
+        if (anItemIndex>=0 && anItemIndex<3) {
+            if (aTag==ParticipantsChildNameTag) {
+                return [user name];
+            } else if (aTag==ParticipantsChildStatusTag) {
+                NSMutableDictionary *properties=[user propertiesForSessionID:[session sessionID]];
+                SelectionOperation *selectionOperation=[properties objectForKey:@"SelectionOperation"];
+                NSColor *userColor=[[document documentBackgroundColor] blendedColorWithFraction:
+                                        [[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
+                                     ofColor:[user changeColor]];
+                NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:
+                   [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName, 
+                   [document documentForegroundColor],NSForegroundColorAttributeName,
+                   userColor,NSBackgroundColorAttributeName, nil];
+                NSString *result=@" ";
+                if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
+                    result =[(TextStorage *)[document textStorage] 
+                            positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
+                } else if (selectionOperation) {
+                    result =[(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
+                }
+                return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
+            } else if (aTag==ParticipantsChildImageTag) {
+                return [[user properties] objectForKey:@"Image32"];
+            } else if (aTag==ParticipantsChildImageNextToNameTag) {
+                return [[user properties] objectForKey:@"ColorImage"];
+            }
+        }
+        return nil;
+    }
+}
+
+- (void)listViewDidChangeSelection:(TCMListView *)aListView {
     [self validateButtons];
 }
 
-- (NSMenu *)contextMenuForParticipantsView:(ParticipantsView *)aListView clickedAtRow:(int)aRow {
+- (NSMenu *)contextMenuForListView:(TCMListView *)aListView clickedAtRow:(int)aRow {
     ItemChildPair pair=[O_participantsView itemChildPairAtRow:aRow];
     if (pair.childIndex!=-1) {
         return I_contextMenu;
