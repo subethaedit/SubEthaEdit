@@ -14,16 +14,12 @@ prototype/SimpleODOCHandler/English.lproj/InfoPlist.strings -text
 prototype/SimpleODOCHandler/English.lproj/MainMenu.nib/classes.nib -text
 prototype/SimpleODOCHandler/English.lproj/MainMenu.nib/info.nib -text
 prototype/SimpleODOCHandler/English.lproj/MainMenu.nib/objects.nib -text
-prototype/SimpleODOCHandler/English.lproj/MainMenu~.nib/classes.nib -text
-prototype/SimpleODOCHandler/English.lproj/MainMenu~.nib/info.nib -text
-prototype/SimpleODOCHandler/English.lproj/MainMenu~.nib/objects.nib -text
 prototype/SimpleODOCHandler/English.lproj/MyDocument.nib/classes.nib -text
 prototype/SimpleODOCHandler/English.lproj/MyDocument.nib/info.nib -text
 prototype/SimpleODOCHandler/English.lproj/MyDocument.nib/objects.nib -text
 prototype/SimpleODOCHandler/Info.plist -text
 prototype/SimpleODOCHandler/MyDocument.h -text
 prototype/SimpleODOCHandler/MyDocument.m -text
-prototype/SimpleODOCHandler/SimpleODOCHandler.xcode/mbo.pbxuser -text
 prototype/SimpleODOCHandler/SimpleODOCHandler.xcode/project.pbxproj -text
 prototype/SimpleODOCHandler/SimpleODOCHandler_Prefix.pch -text
 prototype/SimpleODOCHandler/main.m -text
