@@ -414,7 +414,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
-    [dictionary setObject:[self string] forKey:@"String"];
+    [dictionary setObject:[[[self string] copy] autorelease] forKey:@"String"];
     [dictionary setObject:[NSNumber numberWithUnsignedInt:[self encoding]] forKey:@"Encoding"];
     NSMutableDictionary *attributeDictionary=[NSMutableDictionary new];
     NSEnumerator *attributeNames=[[NSArray arrayWithObjects:WrittenByUserIDAttributeName,ChangedByUserIDAttributeName,nil] objectEnumerator];

@@ -877,14 +877,34 @@ enum {
     }
 }
 
-- (void)listViewDidChangeSelection:(TCMListView *)aListView {
+-(void)listViewDidChangeSelection:(TCMListView *)aListView {
     [self validateButtons];
 }
 
-- (NSMenu *)contextMenuForListView:(TCMListView *)aListView clickedAtRow:(int)aRow {
+-(NSMenu *)contextMenuForListView:(TCMListView *)aListView clickedAtRow:(int)aRow {
     ItemChildPair pair=[O_participantsView itemChildPairAtRow:aRow];
     if (pair.childIndex!=-1) {
         return I_contextMenu;
+    }
+    return nil;
+}
+
+- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
+    if (aChildIndex!=-1) {
+        PlainTextDocument *document=(PlainTextDocument *)[self document];
+        TCMMMSession *session=[document session];
+        NSDictionary *participants=[session participants];
+        TCMMMUser *user=nil;
+        if (anItemIndex==0) {
+            user=[[participants objectForKey:@"ReadWrite"] objectAtIndex:aChildIndex];
+        } else if (anItemIndex==1) {
+            user=[[participants objectForKey:@"ReadOnly"] objectAtIndex:aChildIndex];
+        } else if (anItemIndex==2) {
+            user=[[session pendingUsers] objectAtIndex:aChildIndex];
+        }
+        if (user) {
+            return [NSString stringWithFormat:@"AIM:%@\nEmail:%@",[[user properties] objectForKey:@"AIM"],[[user properties] objectForKey:@"Email"]];
+        }
     }
     return nil;
 }
