@@ -10,7 +10,7 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal"> "   ss"
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
         
             <keywords id="Tags" color="#881280" useforautocomplete="no">
                 <regex>(&lt;[^&gt;]*&gt;)</regex>
@@ -21,7 +21,7 @@
             </keywords>
             
             <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
-                <regex>([A-Za-z-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
+                <regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
             </keywords>
             
         </default>

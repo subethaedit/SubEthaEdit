@@ -115,7 +115,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                                                     [NSNumber numberWithInt:stateNumber],kSyntaxHighlightingStateName,
                                                     nil];
                                                     
-                        //stateRange = NSUnionRange(startRange,stateRange);                    
+                        stateRange = NSUnionRange(startRange,stateRange);                    
                         [aString addAttributes:attributes range:stateRange];
                         [self highlightRegularExpressionsOfAttributedString:aString inRange:stateRange forState:stateNumber];
                         [self highlightPlainStringsOfAttributedString:aString inRange:stateRange forState:stateNumber];

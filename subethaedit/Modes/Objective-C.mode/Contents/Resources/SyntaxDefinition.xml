@@ -344,6 +344,10 @@
 				<string>BOOL</string>
 				<string>SEL</string>
 				<string>Class</string>
+                <string>auto</string>
+                <string>register</string>
+                <string>short</string>
+                <string>volatile</string>
             </keywords>
             <keywords id="Memory Management" color="#f00" font-weight="bold" font-style="normal" useforautocomplete="yes">
 				<string>new</string>
