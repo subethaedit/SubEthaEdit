@@ -25,7 +25,7 @@ static OSStatus GetFileDescriptor(CFStringRef fileName, CFDictionaryRef *result)
 {
     OSStatus err;
     NSMutableArray *descArray;
-    int desc;
+    int desc = NULL;
     NSNumber *descNum;
     
     NSLog(@"converting fileName: %@", (NSString *)fileName);

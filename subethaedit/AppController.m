@@ -78,10 +78,10 @@ NSString * const DefaultPortNumber = @"port";
 
     // add self as user 
     TCMMMUser *me=[TCMMMUser new];
-    NSString *myName;
-    NSString *myAIM;
-    NSString *myEmail;
-    NSImage *myImage;
+    NSString *myName =nil;
+    NSString *myAIM  =nil;
+    NSString *myEmail=nil;
+    NSImage *myImage =nil;
     NSImage *scaledMyImage;
 
     
@@ -269,10 +269,8 @@ NSString * const DefaultPortNumber = @"port";
 
 
 - (void)setupDocumentModeSubmenu {
-    DocumentModeManager *manager=[DocumentModeManager sharedInstance];
-    DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"%@",[manager description]);
-    NSDictionary *availableModes=[manager availableModes];
-    DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Found modes: %@",[availableModes description]);
+    DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"%@",[[DocumentModeManager sharedInstance] description]);
+    DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Found modes: %@",[[[DocumentModeManager sharedInstance] availableModes] description]);
 
     NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:MODEMENUTAG] submenu];
     NSMenuItem *switchModesMenuItem=[modeMenu itemWithTag:SWITCHMODEMENUTAG];
