@@ -4,7 +4,11 @@
         {
             CLASS = RendezvousBrowserController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"I_tableView" = NSTableView; }; 
+            OUTLETS = {
+                "I_imageView" = NSImageView; 
+                "I_myNameTextField" = NSTextField; 
+                "I_tableView" = NSTableView; 
+            }; 
             SUPERCLASS = NSWindowController; 
         }
     ); 

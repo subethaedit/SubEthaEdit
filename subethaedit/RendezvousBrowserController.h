@@ -12,6 +12,8 @@
 @interface RendezvousBrowserController : NSWindowController {
     NSMutableArray *I_tableData;
     IBOutlet NSTableView *I_tableView;
+    IBOutlet NSImageView *I_imageView;
+    IBOutlet NSTextField *I_myNameTextField;
     TCMRendezvousBrowser *I_browser;
     NSMutableSet *I_foundUserIDs;
 }

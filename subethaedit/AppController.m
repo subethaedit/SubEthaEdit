@@ -71,6 +71,7 @@
     }
     [myImage setSize:newSize];
     scaledMyImage=[[NSImage alloc] initWithSize:newSize];
+    [scaledMyImage setCacheMode:NSImageCacheNever];
     [scaledMyImage lockFocus];
     NSGraphicsContext *context=[NSGraphicsContext currentContext];
     NSImageInterpolation oldInterpolation=[context imageInterpolation];
@@ -80,6 +81,9 @@
     [myImage compositeToPoint:NSMakePoint(0.,0.) operation:NSCompositeCopy];
     [context setImageInterpolation:oldInterpolation];
     [scaledMyImage unlockFocus];
+    
+    NSData *pngData=[scaledMyImage TIFFRepresentation];
+    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
 
     NSString *userID=[[NSUserDefaults standardUserDefaults] stringForKey:@"UserID"];
     if (!userID) {
@@ -94,6 +98,7 @@
 
     [me setName:myName];
     [[me properties] setObject:scaledMyImage forKey:@"Image"];
+    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
     [myImage       release];
     [scaledMyImage release];
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];

@@ -10,6 +10,7 @@
 #import "TCMRendezvousBrowser.h"
 #import "TCMMMPresenceManager.h"
 #import "TCMMMUserManager.h"
+#import "TCMMMUser.h"
 
 @implementation RendezvousBrowserController
 - (id)init {
@@ -31,6 +32,15 @@
 
 - (NSString *)windowNibName {
     return @"RendezvousBrowser";
+}
+
+- (void)windowDidLoad {
+    [[self window] setFrameAutosaveName:@"RendezvousBrowser"];
+    TCMMMUser *me=[TCMMMUserManager me];
+    [I_myNameTextField setStringValue:[me name]];
+    [I_imageView setImage:[[me properties] objectForKey:@"Image"]];
+    [((NSPanel *)[self window]) setFloatingPanel:NO];
+    [[self window] setHidesOnDeactivate:NO];
 }
 
 -(NSMutableArray *)tableData {

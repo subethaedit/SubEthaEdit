@@ -237,6 +237,7 @@ subethaedit/TCMPreferenceModule.h -text
 subethaedit/TCMPreferenceModule.m -text
 subethaedit/TCMRendezvousBrowser.h -text
 subethaedit/TCMRendezvousBrowser.m -text
+subethaedit/artwork/DefaultPerson.tiff -text
 subethaedit/artwork/SubEthaEdit.icns -text
 subethaedit/debug.tiff -text
 subethaedit/main.m -text

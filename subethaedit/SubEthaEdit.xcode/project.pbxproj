@@ -895,6 +895,20 @@
 			settings = {
 			};
 		};
+		5EACEEA005F5388D0008743E = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = DefaultPerson.tiff;
+			path = artwork/DefaultPerson.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EACEEA105F5388D0008743E = {
+			fileRef = 5EACEEA005F5388D0008743E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EAD69AA05EE5F5300E75BFF = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -911,8 +925,9 @@
 		};
 		5EEB176705ECDC0C00C17677 = {
 			children = (
-				5EEB176805ECDC1600C17677,
 				144BC77505EE279B006397BC,
+				5EACEEA005F5388D0008743E,
+				5EEB176805ECDC1600C17677,
 			);
 			isa = PBXGroup;
 			name = artwork;
@@ -1377,6 +1392,7 @@
 				144BC7C405EE43B6006397BC,
 				1464B40605EE79E100D21A18,
 				1482A67A05EFC1E100BC7434,
+				5EACEEA105F5388D0008743E,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
