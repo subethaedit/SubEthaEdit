@@ -157,18 +157,29 @@ static void printVersion() {
     OSStatus status = noErr;
     CFURLRef appURL = NULL;
     NSString *appVersion = @"";
+    NSString *versionString = nil;
+    NSString *localizedVersionString = nil;
     NSString *appShortVersionString = @"n/a";
     
-    appURL = URLRefForSubEthaEdit(); 
+    appURL = URLRefForSubEthaEdit();
     if (appURL != NULL) {
         NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
          appVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
-         appShortVersionString = [[appBundle localizedInfoDictionary] objectForKey:@"CFBundleShortVersionString"];
+         versionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+         localizedVersionString = [[appBundle localizedInfoDictionary] objectForKey:@"CFBundleShortVersionString"];
         CFRelease(appURL);
     } 
     
+    if (versionString) {
+        appShortVersionString = versionString;
+    } else if (localizedVersionString) {
+        appShortVersionString = localizedVersionString;
+    }
+        
     fprintf(stdout, "see %s (v%s)\n", gToolVersionString, gToolVersion);
-    fprintf(stdout, "SubEthaEdit %s (v%s)\n", [appShortVersionString UTF8String], [appVersion UTF8String]);
+    if (appURL != NULL) {
+        fprintf(stdout, "SubEthaEdit %s (v%s)\n", [appShortVersionString UTF8String], [appVersion UTF8String]);
+    }
     fflush(stdout);
     
     if (kLSApplicationNotFoundErr == status || appURL == NULL) {

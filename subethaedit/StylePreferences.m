@@ -34,8 +34,8 @@
 }
 
 - (IBAction)validateDefaultsState:(id)aSender {
-    DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
-    DocumentMode *selectedMode=[O_modeController content];
+    //DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
+    //DocumentMode *selectedMode=[O_modeController content];
 }
 
 - (IBAction)changeMode:(id)aSender {

@@ -4205,9 +4205,6 @@ typedef enum {
         return [[self documentURL] absoluteString];
     }
     
-    NSScriptCommand *command = [NSScriptCommand currentCommand];
-    [command setScriptErrorNumber:2];
-    [command setScriptErrorString:@"Document is not announced."];
     return nil;
 }
 
