@@ -42,9 +42,9 @@
     [I_fileNamesFromLastRunOpenPanel release];
 }
 
-- (void)addDocumentWithSession:(TCMMMSession *)aSession {
+- (void)addProxyDocumentWithSession:(TCMMMSession *)aSession {
     PlainTextDocument *document = [[PlainTextDocument alloc] initWithSession:aSession];
-    [document makeWindowControllers];
+    [document makeProxyWindowController];
     [self addDocument:document];
     [document showWindows];
     [document release];

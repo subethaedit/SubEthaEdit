@@ -24,7 +24,7 @@
 
 + (DocumentController *)sharedInstance;
 
-- (void)addDocumentWithSession:(TCMMMSession *)aSession;
+- (void)addProxyDocumentWithSession:(TCMMMSession *)aSession;
 
 - (NSStringEncoding)encodingFromLastRunOpenPanel;
 - (NSString *)modeIdentifierFromLastRunOpenPanel;

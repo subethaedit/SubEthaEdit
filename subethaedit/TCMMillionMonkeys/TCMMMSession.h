@@ -79,3 +79,12 @@ typedef enum TCMMMSessionAccessState {
 - (void)documentDidApplyOperation:(TCMMMOperation *)anOperation;
 
 @end
+
+
+@interface NSDocument (TCMMMSessionDocumentAdditions)
+
+- (NSDictionary *)sessionInformation;
+- (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
+- (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
+
+@end

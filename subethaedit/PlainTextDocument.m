@@ -14,6 +14,7 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "WebPreviewWindowController.h"
+#import "DocumentProxyWindowController.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -657,6 +658,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [I_textStorage setDelegate:nil];
     [I_textStorage release];
     [I_webPreviewWindowController release];
+    [I_documentProxyWindowController release];
     [I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
@@ -877,6 +879,17 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [self addWindowController:[[PlainTextWindowController new] autorelease]];
 }
 
+- (void)makeProxyWindowController {
+    I_documentProxyWindowController = 
+        [[DocumentProxyWindowController alloc] initWithSession:[self session]];
+    [I_documentProxyWindowController setDocument:self];
+}
+
+- (void)killProxyWindowController {
+    [I_documentProxyWindowController autorelease];
+    I_documentProxyWindowController = nil;
+}
+
 - (void)removeWindowController:(NSWindowController *)windowController {
     [super removeWindowController:windowController];
     [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
@@ -886,6 +899,14 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         I_flags.highlightSyntax = NO;
         [I_symbolUpdateTimer invalidate];
         [I_webPreviewDelayedRefreshTimer invalidate];
+    }
+}
+
+- (void)showWindows {
+    if (I_documentProxyWindowController) {
+        [[I_documentProxyWindowController window] orderFront:self];
+    } else {
+        [[self topmostWindowController] showWindow:self];
     }
 }
 
@@ -2047,6 +2068,51 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #pragma mark -
 #pragma mark ### Session Interaction ###
+
+- (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession {
+}
+
+- (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation {
+    DocumentModeManager *manager=[DocumentModeManager sharedInstance];
+    DocumentMode *mode=[manager documentModeForIdentifier:[aSessionInformation objectForKey:@"DocumentMode"]];
+    if (!mode) {
+        mode = [manager documentModeForExtension:[[aSession filename] pathExtension]];
+    }
+    [self setDocumentMode:mode];
+    [self setLineEnding:[[aSessionInformation objectForKey:DocumentModeLineEndingPreferenceKey] intValue]];
+    [self setTabWidth:[[aSessionInformation objectForKey:DocumentModeTabWidthPreferenceKey] intValue]];
+    [self setUsesTabs:[[aSessionInformation objectForKey:DocumentModeUseTabsPreferenceKey] boolValue]];
+    [self setWrapLines:[[aSessionInformation objectForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
+    [self setWrapMode:[[aSessionInformation objectForKey:DocumentModeWrapLinesPreferenceKey] intValue]];
+
+    [self makeWindowControllers];
+    PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+    [I_documentProxyWindowController dissolveToWindow:[windowController window]];
+    [self showWindows];
+}
+
+- (NSDictionary *)sessionInformation {
+    NSMutableDictionary *result=[NSMutableDictionary dictionary];
+    [result setObject:[[self documentMode] documentModeIdentifier] forKey:@"DocumentMode"];
+
+//    DocumentModeLineEndingPreferenceKey = @"LineEnding";
+//    DocumentModeTabWidthPreferenceKey   = @"TabWidth";
+//    DocumentModeUseTabsPreferenceKey    = @"UseTabs";
+//    DocumentModeWrapLinesPreferenceKey  = @"WrapLines";
+//    DocumentModeWrapModePreferenceKey   = @"WrapMode";
+
+    [result setObject:[NSNumber numberWithUnsignedInt:[self lineEnding]] 
+            forKey:DocumentModeLineEndingPreferenceKey];
+    [result setObject:[NSNumber numberWithInt:[self tabWidth]] 
+            forKey:DocumentModeTabWidthPreferenceKey];
+    [result setObject:[NSNumber numberWithBool:[self usesTabs]] 
+            forKey:DocumentModeUseTabsPreferenceKey];
+    [result setObject:[NSNumber numberWithBool:[self wrapLines]] 
+            forKey:DocumentModeWrapLinesPreferenceKey];
+    [result setObject:[NSNumber numberWithInt:[self wrapMode]] 
+            forKey:DocumentModeWrapLinesPreferenceKey];
+    return result;    
+}
 
 - (void)setFileName:(NSString *)fileName {
     TCMMMSession *session=[self session];

@@ -10,7 +10,8 @@
 #import <Cocoa/Cocoa.h>
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
-       PlainTextWindowController, WebPreviewWindowController;
+       PlainTextWindowController, WebPreviewWindowController,
+       DocumentProxyWindowController;
 
 extern NSString * const PlainTextDocumentDidChangeSymbolsNotification;
 extern NSString * const PlainTextDocumentDidChangeEditStatusNotification;
@@ -82,10 +83,15 @@ extern NSString * const ChangedByUserIDAttributeName;
     
     NSTimer *I_webPreviewDelayedRefreshTimer;
     
+    DocumentProxyWindowController *I_documentProxyWindowController;
+    
     WebPreviewWindowController *I_webPreviewWindowController;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
+
+- (void)makeProxyWindowController;
+- (void)killProxyWindowController;
 
 - (void)setSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)session;
@@ -100,8 +106,6 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (IBAction)toggleIsAnnounced:(id)aSender;
 
 - (NSArray *)plainTextEditors;
-
-- (void)handleOperation:(TCMMMOperation *)aOperation;
 
 - (NSString *)lineEndingString;
 - (LineEnding)lineEnding;
@@ -180,5 +184,13 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)highlightSyntaxInRange:(NSRange)aRange;
 - (void)performHighlightSyntax;
 - (void)highlightSyntaxLoop;
+
+#pragma mark -
+#pragma mark ### Session Interaction ###
+
+- (NSDictionary *)sessionInformation;
+- (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
+- (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
+- (void)handleOperation:(TCMMMOperation *)aOperation;
 
 @end

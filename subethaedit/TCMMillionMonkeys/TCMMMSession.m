@@ -275,6 +275,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 
 - (void)join
 {
+    [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
     TCMBEEPSession *session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
     [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
 }
@@ -328,6 +329,7 @@ NSString * const TCMMMSessionDidChangeNotification =
         [participantsRepresentation setObject:userRepresentations forKey:group];
     }
     [sessionInformation setObject:participantsRepresentation forKey:@"Participants"];
+    [sessionInformation setObject:[[self document] sessionInformation] forKey:@"DocumentSessionInformation"];
     return sessionInformation;
 }
 
@@ -377,7 +379,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)profile
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profileDidAcceptJoinRequest: %@", profile);
-    [[DocumentController sharedInstance] addDocumentWithSession:self];
+    [[self document] sessionDidAcceptJoinRequest:self];
     TCMMMState *state=[[TCMMMState alloc] initAsServer:NO];
     [state setDelegate:self];
     [state setClient:profile];
@@ -405,6 +407,8 @@ NSString * const TCMMMSessionDidChangeNotification =
     }
 
     [self TCM_setSessionParticipants:[sessionInfo objectForKey:@"Participants"]];
+
+    [[self document] session:self didReceiveSessionInformation:[sessionInfo objectForKey:@"DocumentSessionInformation"]];
 
     return result;
 }

@@ -224,6 +224,8 @@ subethaedit/DocumentMode.h -text
 subethaedit/DocumentMode.m -text
 subethaedit/DocumentModeManager.h -text
 subethaedit/DocumentModeManager.m -text
+subethaedit/DocumentProxyWindowController.h -text
+subethaedit/DocumentProxyWindowController.m -text
 subethaedit/EditPreferences.h -text
 subethaedit/EditPreferences.m -text
 subethaedit/EncodingManager.h -text
