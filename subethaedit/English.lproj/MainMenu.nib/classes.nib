@@ -14,6 +14,7 @@
                 showAcknowledgements = id; 
                 showLicense = id; 
                 showRegExHelp = id; 
+                showReleaseNotes = id; 
                 undo = id; 
                 visitWebsite = id; 
             }; 

@@ -497,10 +497,15 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [[NSWorkspace sharedWorkspace] openFile:path];
 }
 
-- (IBAction)showRegExHelp:(id)sender{
+- (IBAction)showRegExHelp:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RE" ofType:@"txt"];
     [[NSWorkspace sharedWorkspace] openFile:path];
 }
+
+- (IBAction)showReleaseNotes:(id)sender {
+
+}
+
 - (IBAction)showAcknowledgements:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"rtf"];
     [[NSWorkspace sharedWorkspace] openFile:path];
