@@ -191,6 +191,24 @@
     return ((I_affectedCharRange.length == 0) && ([I_replacementString length] == 0));
 }
 
+- (BOOL)shouldBeGroupedWithTextOperation:(TextOperation *)priorOperation {
+    if (!priorOperation) return NO;
+    BOOL result=NO;
+    NSRange myRange=[self affectedCharRange];
+    NSRange priorRange=[priorOperation affectedCharRange];
+    NSString *priorString=[priorOperation replacementString];
+    NSString *myString=[self replacementString];
+    if (myRange.location == (priorRange.location+[priorString length])) {
+        if (myRange.length==0 && priorRange.length==0 && 
+            [priorString length]==1 && [myString length] == 1 && 
+            ([priorString isWhiteSpace]==[myString isWhiteSpace])) {
+            result = YES;
+        }
+    }
+//    NSLog(@"%@ shouldBeGroupedWithTextOperation: %@ ? %@",self,priorOperation,result?@"YES":@"NO");
+    return result;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"affectedRange: %@; string: %@; byUser: %@", NSStringFromRange([self affectedCharRange]), [self replacementString], [self userID]];
 }

@@ -201,13 +201,18 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 }
 
 - (BOOL)isWhiteSpace {
+    static unichar s_space=0,s_tab;
+    if (s_space==0) {
+        s_space=[@" " characterAtIndex:0];
+        s_tab=[@"\t" characterAtIndex:0];
+    }
+
     unsigned int i=0;
     BOOL result=YES;
     for (i=0;i<[self length];i++) {
-        if ([self characterAtIndex:i]!=[@" " characterAtIndex:0] &&
-            [self characterAtIndex:i]!=[@"\t" characterAtIndex:0] &&
-            [self characterAtIndex:i]!=[@"\n" characterAtIndex:0] &&
-            [self characterAtIndex:i]!=[@"\r" characterAtIndex:0]) {
+        unichar character=[self characterAtIndex:i];
+        if (character!=s_space &&
+            character!=s_tab) {
             result=NO;
             break;    
         }

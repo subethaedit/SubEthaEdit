@@ -22,5 +22,7 @@
 - (void)setReplacementString:(NSString *)aString;
 - (NSString *)replacementString;
 - (BOOL)isIrrelevant;
+- (BOOL)shouldBeGroupedWithTextOperation:(TextOperation *)priorOperation;
+
 
 @end

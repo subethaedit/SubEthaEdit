@@ -732,6 +732,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [I_symbolPopUpMenuSorted release];
     [I_rangesToInvalidate release];
     [I_findAllControllers release];
+    [I_lastRegisteredUndoOperation release];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
@@ -1230,9 +1231,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
 
+    I_flags.isReadingFile=YES;
+
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromFile:%@ ofType:%@", fileName, docType);
 
     if (![docType isEqualToString:@"PlainTextType"]) {
+        I_flags.isReadingFile=NO;
         return NO;
     }
     
@@ -1242,6 +1246,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
     if (!fileExists || isDir) {
+        I_flags.isReadingFile=NO;
         return NO;
     }
     
@@ -1362,6 +1367,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     [self setDocumentMode:mode];
     [self updateChangeCount:NSChangeCleared];    
+
+    I_flags.isReadingFile=NO;
 
     return YES;
 }
@@ -2494,7 +2501,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (I_flags.isRemotelyEditingTextStorage) {
             [[self documentUndoManager] transformStacksWithOperation:operation];
         } else {
-            [[[[self topmostWindowController] activePlainTextEditor] textView] setSelectedRange:NSMakeRange([operation affectedCharRange].location,[[operation replacementString] length])];
+            [[[[self topmostWindowController] activePlainTextEditor] textView] setSelectedRange:NSMakeRange([operation affectedCharRange].location+[[operation replacementString] length],0)];
         }
         I_flags.isRemotelyEditingTextStorage=NO;
     } else if ([[aOperation operationID] isEqualToString:[SelectionOperation operationID]]){
@@ -2506,12 +2513,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
 - (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
-    if (!I_flags.isRemotelyEditingTextStorage) {
+    if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile) {
+        TextOperation *operation=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:(NSString *)[TCMMMUserManager myUserID]];
         UndoManager *undoManager=[self documentUndoManager];
-        [undoManager beginUndoGrouping];
+        BOOL shouldGroup=YES;
+        if (![undoManager isRedoing] && ![undoManager isUndoing]) {
+            shouldGroup=[operation shouldBeGroupedWithTextOperation:I_lastRegisteredUndoOperation];
+        }
         [undoManager registerUndoChangeTextInRange:NSMakeRange(aRange.location,[aString length])
-                     replacementString:[[aTextStorage string] substringWithRange:aRange]];
-        [undoManager endUndoGrouping];
+                     replacementString:[[aTextStorage string] substringWithRange:aRange] shouldGroupWithPriorOperation:shouldGroup];
+        [I_lastRegisteredUndoOperation release];
+        I_lastRegisteredUndoOperation = [operation retain];
     }
 }
 

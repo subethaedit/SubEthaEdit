@@ -32,6 +32,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 - (NSMutableArray *)actions;
 - (NSString *)actionName;
 - (void)addOperation:(TCMMMOperation *)operation;
+- (TCMMMOperation *)lastOperation;
 - (id)initWithParent:(UndoGroup *)parent;
 - (UndoGroup *)parent;
 - (void)setActionName:(NSString *)newName;
@@ -58,6 +59,10 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         _actions = [NSMutableArray new];
     }
     [_actions addObject:operation];
+}
+
+- (TCMMMOperation *)lastOperation {
+    return [_actions lastObject];
 }
 
 - (void)dealloc
@@ -128,6 +133,10 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             _undoGroup = newGroup;
         }
     } else {
+        if (_flags.automaticGroupLevel == [self groupingLevel]) {
+            [self endUndoGrouping];
+            _flags.automaticGroupLevel = -1;
+        }
         UndoGroup *newGroup = [[UndoGroup alloc] initWithParent:_undoGroup];
         [_undoGroup release];
         _undoGroup = newGroup;
@@ -274,6 +283,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 
     if (_undoGroup != nil) {
         [self endUndoGrouping];
+        _flags.automaticGroupLevel=-1;
     }
     
     if ([self groupingLevel] == 1) {
@@ -514,6 +524,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         _flags.undoing = 0;
         _flags.redoing = 0;
         _flags.internal = 0;
+        _flags.automaticGroupLevel = -1;
         _undoStack = [NSMutableArray new];
         _redoStack = [NSMutableArray new];
         _undoGroup = nil;
@@ -536,21 +547,32 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 }
 
 - (void)registerUndoChangeTextInRange:(NSRange)aAffectedCharRange
-                    replacementString:(NSString *)aReplacementString {
+                    replacementString:(NSString *)aReplacementString shouldGroupWithPriorOperation:(BOOL)shouldGroup {
     TextOperation *operation = [TextOperation textOperationWithAffectedCharRange:aAffectedCharRange
                                                                replacementString:aReplacementString
                                                                           userID:[TCMMMUserManager myUserID]];
 
     if ([self isUndoing]) {
         if (_redoGroup == nil) {
-            [NSException raise:NSInternalInconsistencyException
-                        format:@"endUndoGrouping without beginUndoGrouping"];
+                [NSException raise:NSInternalInconsistencyException
+                            format:@"endUndoGrouping without beginUndoGrouping"];
         }
         [_redoGroup addOperation:operation];
     } else {
         if (_undoGroup == nil) {
+            if (_flags.automaticGroupLevel != -1) {
             [NSException raise:NSInternalInconsistencyException
                         format:@"endUndoGrouping without beginUndoGrouping"];
+            } else {
+                [self beginUndoGrouping];
+                _flags.automaticGroupLevel = [self groupingLevel];
+            }
+        } else if (_flags.automaticGroupLevel == [self groupingLevel]) {
+            TCMMMOperation *lastOperation = [_undoGroup lastOperation];
+            if (lastOperation && !shouldGroup) {
+                [self endUndoGrouping];
+                [self beginUndoGrouping];
+            }
         }
         [_undoGroup addOperation:operation];
         if (![self isRedoing]) {

@@ -33,6 +33,7 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
         unsigned int undoing;
         unsigned int redoing;
         unsigned int internal;
+        int automaticGroupLevel;
     } _flags;
 }
 
@@ -148,7 +149,7 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
 - (id)initWithDocument:(PlainTextDocument *)document;
 - (void)performUndoGroup:(UndoGroup *)group;
 - (void)registerUndoChangeTextInRange:(NSRange)aAffectedCharRange
-                    replacementString:(NSString *)aReplacementString;
+                    replacementString:(NSString *)aReplacementString  shouldGroupWithPriorOperation:(BOOL)shouldGroup;
 - (void)transformStacksWithOperation:(TCMMMOperation *)anOperation;
 
 @end

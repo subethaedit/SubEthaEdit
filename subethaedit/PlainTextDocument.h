@@ -11,7 +11,7 @@
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
-       DocumentProxyWindowController, FindAllController, UndoManager;
+       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;
@@ -47,6 +47,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL isFileWritable;
         BOOL editAnyway;
         BOOL isReceivingContent;
+        BOOL isReadingFile;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -97,6 +98,7 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSMutableArray *I_findAllControllers;
     
     UndoManager *I_undoManager;
+    TextOperation *I_lastRegisteredUndoOperation;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
