@@ -37,7 +37,7 @@
         I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
         I_waitingDocuments = [NSMutableDictionary new];
-        I_resultFileNames = [NSMutableDictionary new];
+        I_refCountsOfSeeScriptCommands = [NSMutableDictionary new];
     }
     return self;
 }
@@ -48,7 +48,7 @@
     [I_propertiesForOpenedFiles release];
     [I_suspendedSeeScriptCommands release];
     [I_waitingDocuments release];
-    [I_resultFileNames release];
+    [I_refCountsOfSeeScriptCommands release];
     [super dealloc];
 }
 
@@ -167,6 +167,18 @@
     return [super openUntitledDocumentOfType:docType display:display];
 }
 
+static NSString *tempFileName() {
+    static int sequenceNumber = 0;
+    NSString *origPath = [@"/tmp" stringByAppendingPathComponent:@"see"];
+    NSString *name;
+    do {
+        sequenceNumber++;
+        name = [NSString stringWithFormat:@"see-%d-%d-%d", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber];
+        name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
+    } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
+    return name;
+}
+
 - (void)removeDocument:(NSDocument *)document {
     int i;
     NSArray *keys = [I_waitingDocuments allKeys];
@@ -175,15 +187,26 @@
         NSString *key = [keys objectAtIndex:i];
         NSMutableArray *documents = [I_waitingDocuments objectForKey:key];
         if ([documents containsObject:document]) {
-            NSMutableArray *fileNames = [I_resultFileNames objectForKey:key];
-            [fileNames addObject:[document fileName]];
-            [documents removeObject:document];
-            if ([documents count] == 0) {
+            int refCount = [[I_refCountsOfSeeScriptCommands objectForKey:key] intValue];
+            refCount--;
+            if (refCount < 1) {
+                NSMutableArray *fileNames = [NSMutableArray array];
+                NSEnumerator *enumerator = [documents objectEnumerator];
+                NSDocument *doc;
+                while ((doc = [enumerator nextObject])) {
+                    NSString *fileName = tempFileName();
+                    BOOL result = [doc writeToFile:fileName ofType:@"PlainTextType"];
+                    if (result) {
+                        [fileNames addObject:fileName];
+                    }                
+                }
                 NSScriptCommand *command = [I_suspendedSeeScriptCommands objectForKey:key];
                 [command resumeExecutionWithResult:fileNames];
                 [I_suspendedSeeScriptCommands removeObjectForKey:key];
                 [I_waitingDocuments removeObjectForKey:key];
-                [I_resultFileNames removeObjectForKey:key];
+                [I_refCountsOfSeeScriptCommands removeObjectForKey:key];
+            } else {
+                [I_refCountsOfSeeScriptCommands setObject:[NSNumber numberWithInt:refCount] forKey:key];
             }
         }
     }
@@ -306,10 +329,9 @@
     }
     
     
-    NSString *jobDescription = [[command evaluatedArguments] objectForKey:@"JobDescription"];
-    NSLog(@"job-description: %@", jobDescription);
-    
+    NSString *jobDescription = [[command evaluatedArguments] objectForKey:@"JobDescription"];    
     BOOL shouldPrint = [[[command evaluatedArguments] objectForKey:@"ShouldPrint"] boolValue];
+    BOOL isPipingOut = [[[command evaluatedArguments] objectForKey:@"PipeOut"] boolValue];
     
     NSMutableArray *documents = [NSMutableArray array];
     
@@ -328,12 +350,16 @@
     while ((fileName = [enumerator nextObject])) {
         [I_propertiesForOpenedFiles setObject:properties forKey:fileName];
         NSDocument *document = [self openDocumentWithContentsOfFile:fileName display:YES];
-        if (document && !shouldPrint) {
-            [documents addObject:document];
-        }
-        if (document && shouldPrint) {
-            [document printShowingPrintPanel:NO];
-            [document close];
+        if (document) {
+            if (jobDescription) {
+                [(PlainTextDocument *)document setJobDescription:jobDescription];
+            }
+            if (shouldPrint) {
+                [document printShowingPrintPanel:NO];
+                [document close];            
+            } else {
+                [documents addObject:document];
+            }
         }
     }
 
@@ -354,13 +380,16 @@
         if (document) {
             [properties setObject:[fileName lastPathComponent] forKey:@"lastComponentOfFileName"];
             [document setScriptingProperties:properties];
-        }
-        if (document && !shouldPrint) {
-            [documents addObject:document];
-        }
-        if (document && shouldPrint) {
-            [document printShowingPrintPanel:NO];
-            [document close];
+            [properties removeObjectForKey:@"lastComponentOfFileName"];
+            if (jobDescription) {
+                [(PlainTextDocument *)document setJobDescription:jobDescription];
+            }
+            if (shouldPrint) {
+                [document printShowingPrintPanel:NO];
+                [document close];
+            } else {
+                [documents addObject:document];
+            }
         }
     }
         
@@ -375,35 +404,42 @@
     
     if (standardInputFile) {
         NSString *pipeTitle = [[command evaluatedArguments] objectForKey:@"PipeTitle"];
-        NSLog(@"pipe-title: %@", pipeTitle);
     
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
+            if (isPipingOut) {
+                [(PlainTextDocument *)document setShouldChangeChangeCount:NO];
+            }
             if (pipeTitle) {
                 [properties setObject:pipeTitle forKey:@"lastComponentOfFileName"];
             }
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [document readFromFile:standardInputFile ofType:@"PlainTextType"];
-        }
-        if (document && !shouldPrint) {
-            [documents addObject:document];
-        }
-        if (document && shouldPrint) {
-            [document printShowingPrintPanel:NO];
-            [document close];
+            
+            if (jobDescription) {
+                [(PlainTextDocument *)document setJobDescription:jobDescription];
+            }
+            
+            if (shouldPrint) {
+                [document printShowingPrintPanel:NO];
+                [document close];            
+            } else {
+                [documents addObject:document];
+            }
         }
     }
     
             
     BOOL shouldWait = [[[command evaluatedArguments] objectForKey:@"ShouldWait"] boolValue];
     if (shouldWait) {
-        if ([documents count] > 0) {
+        int count = [documents count];
+        if (count > 0) {
             [command suspendExecution];
             NSString *identifier = [NSString UUIDString];
             [I_suspendedSeeScriptCommands setObject:command forKey:identifier];
             [I_waitingDocuments setObject:documents forKey:identifier];
-            [I_resultFileNames setObject:[NSMutableArray array] forKey:identifier];
+            [I_refCountsOfSeeScriptCommands setObject:[NSNumber numberWithInt:count] forKey:identifier];
         }
     }
     

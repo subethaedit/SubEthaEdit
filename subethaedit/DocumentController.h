@@ -26,8 +26,8 @@
     
     NSMutableDictionary *I_propertiesForOpenedFiles;
     NSMutableDictionary *I_suspendedSeeScriptCommands;
+    NSMutableDictionary *I_refCountsOfSeeScriptCommands;
     NSMutableDictionary *I_waitingDocuments;
-    NSMutableDictionary *I_resultFileNames;
 }
 
 + (DocumentController *)sharedInstance;

@@ -900,7 +900,11 @@ enum {
         displayName=[displayName stringByAppendingFormat:@" (%@)", [NSString stringWithFormat:NSLocalizedString(@"%d pending", @"Pending Users Display in Menu Title Bar"), requests]];
     }
 
-
+    NSString *jobDescription = [(PlainTextDocument *)[self document] jobDescription];
+    if (jobDescription && [jobDescription length] > 0) {
+        displayName = [displayName stringByAppendingFormat:@" [%@]", jobDescription];
+    }
+    
     NSArray *windowControllers=[[self document] windowControllers];
     if ([windowControllers count]>1) {
         displayName = [displayName stringByAppendingFormat:@" - %d/%d",

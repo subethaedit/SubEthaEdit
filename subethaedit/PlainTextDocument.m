@@ -781,6 +781,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_defaultParagraphStyle release];
     [I_fileAttributes release];
     [I_ODBParameters release];
+    [I_jobDescription release];
     [I_lineEndingString release];
     [I_symbolArray release];
     [I_symbolPopUpMenu release];
@@ -890,6 +891,15 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)setODBParameters:(NSDictionary *)aDictionary {
     [I_ODBParameters autorelease];
     I_ODBParameters = [aDictionary retain];
+}
+
+- (NSString *)jobDescription {
+    return I_jobDescription;
+}
+
+- (void)setJobDescription:(NSString *)aString {
+    [I_jobDescription autorelease];
+    I_jobDescription = [aString copy];
 }
 
 - (BOOL)isAnnounced {

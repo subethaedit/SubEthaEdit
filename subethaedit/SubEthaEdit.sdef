@@ -147,6 +147,9 @@
                 <parameter name="wait" code="Wait" type="boolean" optional="optional" description="">
  					<cocoa key="ShouldWait"/>                   
                 </parameter>
+                <parameter name="pipeout" code="Wait" type="boolean" optional="optional" description="">
+ 					<cocoa key="PipeOut"/>                   
+                </parameter>
                 <parameter name="with properties" code="prdt" type="record" optional="optional" description="initial properties">
                     <cocoa key="WithProperties"/>
                 </parameter>

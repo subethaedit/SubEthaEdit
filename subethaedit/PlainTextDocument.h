@@ -69,6 +69,7 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSMutableParagraphStyle *I_defaultParagraphStyle;
     NSDictionary *I_fileAttributes;
     NSDictionary *I_ODBParameters;
+    NSString *I_jobDescription;
     
     IBOutlet NSView *O_savePanelAccessoryView;
     IBOutlet NSView *O_savePanelAccessoryView2;
@@ -169,6 +170,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setFileAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)ODBParameters;
 - (void)setODBParameters:(NSDictionary *)aDictionary;
+- (NSString *)jobDescription;
+- (void)setJobDescription:(NSString *)aString;
 
 - (void)setHighlightsSyntax:(BOOL)aFlag;
 - (BOOL)highlightsSyntax;
