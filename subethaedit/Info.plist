@@ -223,7 +223,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleHelpBookFolder</key>
-	<string>SubEthaEdit Help</string>
+	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
 	<string>SubEthaEdit Help</string>
 </dict>

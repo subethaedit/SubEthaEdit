@@ -774,6 +774,30 @@
 			isa = PBXAppleScriptBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		145B01A106A6A60B00160C0E = {
+			children = (
+				145B01A206A6A60B00160C0E,
+			);
+			isa = PBXVariantGroup;
+			name = SubEthaEditHelp;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		145B01A206A6A60B00160C0E = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = English;
+			path = English.lproj/SubEthaEditHelp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		145B024306A6A60B00160C0E = {
+			fileRef = 145B01A106A6A60B00160C0E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		145BFDEB06A5E09B00160C0E = {
 			isa = PBXFileReference;
 			lastKnownFileType = "wrapper.pb-project";
@@ -2097,7 +2121,7 @@
 		};
 		2A37F4B8FDCFA73011CA2CEA = {
 			children = (
-				31418234065805BA00B39219,
+				145B01A106A6A60B00160C0E,
 				14EA6953060F651A00D02455,
 				14703803060C647B0087BA25,
 				5EEB176705ECDC0C00C17677,
@@ -2346,30 +2370,6 @@
 		};
 		3138EEB7063FB82400BF5C1F = {
 			fileRef = 3138EEB6063FB82400BF5C1F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		31418234065805BA00B39219 = {
-			children = (
-				31418235065805BA00B39219,
-			);
-			isa = PBXVariantGroup;
-			name = "SubEthaEdit Help";
-			path = "";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		31418235065805BA00B39219 = {
-			isa = PBXFileReference;
-			lastKnownFileType = folder;
-			name = English;
-			path = "English.lproj/SubEthaEdit Help";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		31418236065805BA00B39219 = {
-			fileRef = 31418234065805BA00B39219;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -5229,7 +5229,6 @@
 				31944D0706565F560067EAD7,
 				31944D0906566F620067EAD7,
 				3194575C0657A40F0067EAD7,
-				31418236065805BA00B39219,
 				3141839F06582C0F00B39219,
 				314183A006582C0F00B39219,
 				314183A106582C0F00B39219,
@@ -5242,6 +5241,7 @@
 				5ED5526B065A86A300EA1663,
 				5ED5526D065A86C700EA1663,
 				5EF18E0F066495C600957730,
+				145B024306A6A60B00160C0E,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
