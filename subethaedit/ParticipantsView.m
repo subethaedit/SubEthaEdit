@@ -112,11 +112,12 @@ NSString *ParticipantsViewDidChangeSelectionNotification=
 
     NSRect bounds=[self bounds];
     NSRect childRect=NSMakeRect(0, 0,bounds.size.width, CHILDROWHEIGHT);
-    if (aItemIndex%2) {
-        [alternateRowColor set];
-    } else {
-        [[NSColor whiteColor] set];
-    }
+//    if (aItemIndex%2) {
+//        [alternateRowColor set];
+//    } else {
+//        [[NSColor whiteColor] set];
+//    }
+    [[NSColor whiteColor] set];
     BOOL selected=[I_selectedRows containsIndex:[self rowForItem:aItemIndex child:aChildIndex]];
     if (selected) {
         [[NSColor selectedTextBackgroundColor] set];

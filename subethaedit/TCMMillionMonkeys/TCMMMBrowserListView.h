@@ -65,6 +65,8 @@ enum {
 - (void)noteEnclosingScrollView;
 - (void)resizeToFit;
 
+- (int)numberOfRows;
+
 /*"Selection Handling"*/
 - (int)selectedRow;
 - (NSIndexSet *)selectedRowIndexes;
@@ -91,5 +93,5 @@ enum {
 
 
 @interface NSObject (TCMMMBrowserListViewDelegateAdditions)
-
+- (void)listViewDidChangeSelection:(TCMMMBrowserListView *)alistView;
 @end
