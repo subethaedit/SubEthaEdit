@@ -33,10 +33,10 @@ find "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}" -name ".svn" -exec rm -rvf "{}"
 echo "...done"
 echo
 echo "Setting ownership..."
-/usr/sbin/chgrp -R admin "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}"
+chgrp -R admin "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}"
 echo "...done"
 echo "Setting permissions..."
-/bin/chmod -R g+w "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}"
+chmod -R g+w "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}"
 echo "...done"
 echo
 echo "Copying contents to ${dmgBasePath}..."

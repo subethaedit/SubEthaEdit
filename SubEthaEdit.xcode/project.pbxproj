@@ -1844,7 +1844,7 @@
 			);
 			buildSettings = {
 				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 10;
+				DiskImageSizeInMB = 15;
 				DiskImageVolumeName = "$(PROJECT_NAME)";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
