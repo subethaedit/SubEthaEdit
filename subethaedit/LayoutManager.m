@@ -42,40 +42,28 @@
             }
             if (draw) {
                 // where is that one?
+                NSString *glyphString=[[NSString alloc] initWithCharactersNoCopy:&draw length:1 freeWhenDone:NO];
+                NSMutableDictionary *attributes = [[[self textStorage] attributesAtIndex:i effectiveRange:NULL] mutableCopy];
+                [attributes setObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName];
+                NSSize glyphSize=[glyphString sizeWithAttributes:attributes];
                 NSRange glyphRange = [self glyphRangeForCharacterRange:NSMakeRange(i,1) actualCharacterRange:NULL];
-                NSPoint where = [self locationForGlyphAtIndex: glyphRange.location];
-                NSRect fragment = [self lineFragmentRectForGlyphAtIndex: glyphRange.location effectiveRange: NULL];
-                where.x += /*containerOrigin.x +*/ fragment.origin.x;
-                where.y += /*containerOrigin.y +*/ fragment.origin.y - fragment.size.height;
-                where.y = /*containerOrigin.y +*/ fragment.origin.y; //- fragment.size.height;
+                NSPoint where = [self locationForGlyphAtIndex:glyphRange.location];
+                NSRect fragment = [self lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:NULL];
+                where.x += containerOrigin.x + fragment.origin.x;
+                where.y = containerOrigin.y + fragment.origin.y + (fragment.size.height-glyphSize.height)/2.;
                 //NSLog(@"Drawing invisible %C at %g,%g",draw,where.x,where.y);
                 // now draw the thing in the right font/size, attributes, etc...
                 //c = '*';
-                NSDictionary *attributes = [[self textStorage] attributesAtIndex: i effectiveRange: NULL];
-                [[NSString stringWithCharacters: &draw length: 1] drawAtPoint: where withAttributes: attributes];
+                [glyphString drawAtPoint:where withAttributes:attributes];
+                [glyphString release];
+                [attributes release];
             }
         }
     }
-    // we should also see if we are at the start of a line that is indendent
-    unsigned index = glyphRange.location;
-    while (index < glyphRange.location + glyphRange.length) {
-        NSRange totalRange;
-        NSRect fragmentUsed = [self lineFragmentUsedRectForGlyphAtIndex: index effectiveRange: &totalRange]; // start at beginning
-        NSRect fragment = [self lineFragmentRectForGlyphAtIndex: index effectiveRange: NULL]; // start at beginning
-        //NSPoint where = [self locationForGlyphAtIndex: index];
-        //NSLog(@"glpyh %d, point is %@, fragRect %@, fragRectUsed %@",index, NSStringFromPoint(where), NSStringFromRect(fragment), NSStringFromRect(fragmentUsed));
-        if (fragmentUsed.origin.x != fragment.origin.x) {
-            NSPoint where = [self locationForGlyphAtIndex: index];
-            where.x = /*containerOrigin.x +*/ (fragment.origin.x + fragmentUsed.origin.x) / 2;
-            where.y = /*containerOrigin.y +*/ fragment.origin.y; //- fragment.size.height;
-            NSDictionary *attributes = [[self textStorage] attributesAtIndex: index effectiveRange: NULL];
-            // 0x2025 - two dot leader
-            [[NSString stringWithFormat: @"%C",0x2025] drawAtPoint: where withAttributes: attributes];
-        }
-        index = totalRange.location + totalRange.length + 1;
-    }
+
     // draw the real glyphs
     [super drawGlyphsForGlyphRange: glyphRange atPoint: containerOrigin];
 }
+
 
 @end
