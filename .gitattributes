@@ -1,5 +1,6 @@
 * text=auto !eol
 prototype/ExpatSimple/ExpatSimple.1 -text
+prototype/ExpatSimple/ExpatSimple.xcode/dwagner.pbxuser -text
 prototype/ExpatSimple/ExpatSimple.xcode/project.pbxproj -text
 prototype/ExpatSimple/ExpatSimple_Prefix.pch -text
 prototype/ExpatSimple/expat.h -text
