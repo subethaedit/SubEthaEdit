@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>Ruby</name>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$]]></charsintokens>
+    </head>
+    
+    <states>
+    
+        <default id="Base" color="#000">
+            <keywords id="Literals" color="#0000CC" useforautocomplete="yes">
+                <string>true</string>
+                <string>false</string>
+                <string>nil</string>
+            </keywords>
+            <keywords id="Attribute Definitions" color="#0000CC" useforautocomplete="yes">
+                <string>attr</string>
+                <string>attr_reader</string>
+                <string>attr_writer</string>
+                <string>attr_accessor</string>
+            </keywords>
+            <keywords id="Definitions" color="#0000CC" useforautocomplete="yes">
+                <string>alias</string>
+                <string>module</string>
+                <string>class</string>
+                <string>def</string>
+                <string>undef</string>
+            </keywords>
+            <keywords id="Keywords" color="#0000CC" useforautocomplete="yes">
+                <string>__FILE__</string>
+                <string>__LINE__</string>
+                <string>BEGIN</string>
+                <string>END</string>
+                <string>and</string>
+                <string>begin</string>
+                <string>break</string>
+                <string>case</string>
+                <string>defined\?</string>
+                <string>do</string>
+                <string>else</string>
+                <string>elsif</string>
+                <string>end</string>
+                <string>ensure</string>
+                <string>for</string>
+                <string>if</string>
+                <string>in</string>
+                <string>include</string>
+                <string>next</string>
+                <string>not</string>
+                <string>or</string>
+                <string>redo</string>
+                <string>rescue</string>
+                <string>retry</string>
+                <string>return</string>
+                <string>super</string>
+                <string>self</string>
+                <string>then</string>
+                <string>unless</string>
+                <string>until</string>
+                <string>when</string>
+                <string>while</string>
+                <string>yield</string>
+            </keywords>
+            <keywords id="Builtin Functions" color="#7D00FF" useforautocomplete="yes">
+                <string>abort</string>
+                <string>at_exit</string>
+                <string>autoload</string>
+                <string>binding</string>
+                <string>block_given?</string>
+                <string>callcc</string>
+                <string>caller</string>
+                <string>catch</string>
+                <string>chomp</string>
+                <string>chomp!</string>
+                <string>chop</string>
+                <string>chop!</string>
+                <string>eval</string>
+                <string>exec</string>
+                <string>exit</string>
+                <string>exit!</string>
+                <string>fail</string>
+                <string>fork</string>
+                <string>format</string>
+                <string>gets</string>
+                <string>global_variables</string>
+                <string>gsub</string>
+                <string>gsub!</string>
+                <string>lambda</string>
+                <string>proc</string>
+                <string>load</string>
+                <string>local_variables</string>
+                <string>loop</string>
+                <string>open</string>
+                <string>p</string>
+                <string>print</string>
+                <string>proc</string>
+                <string>putc</string>
+                <string>puts</string>
+                <string>raise</string>
+                <string>fail</string>
+                <string>rand</string>
+                <string>readline</string>
+                <string>readlines</string>
+                <string>require</string>
+                <string>scan</string>
+                <string>select</string>
+                <string>set_trace_func</string>
+                <string>sleep</string>
+                <string>split</string>
+                <string>sprintf</string>
+                <string>format</string>
+                <string>srand</string>
+                <string>syscall</string>
+                <string>system</string>
+                <string>sub</string>
+                <string>sub!</string>
+                <string>test</string>
+                <string>throw</string>
+                <string>trace_var</string>
+                <string>trap</string>
+                <string>untrace_var</string>
+            </keywords>
+            <keywords id="Builtin Globals" color="#A1617A" useforautocomplete="yes">
+            	<!--Ones with chars not defined as variable parse chars won't work-->
+            	<!--Need a clever way around this as adding them makes things not parse right everywhere else-->
+            	<string>$!</string>
+				<string>$@</string>
+				<string>$0</string>
+				<string>$1</string>
+				<string>$2</string>
+				<string>$3</string>
+				<string>$4</string>
+				<string>$5</string>
+				<string>$6</string>
+				<string>$7</string>
+				<string>$8</string>
+				<string>$9</string>
+				<string>$$</string>
+				<string>$?</string>
+				<string>$DEBUG</string>
+				<string>$defout</string>
+				<string>$F</string>
+				<string>$FILENAME</string>
+				<string>$LOAD_PATH</string>
+				<string>$SAFE</string>
+				<string>$stdin</string>
+				<string>$stdout</string>
+				<string>$stderr</string>
+				<string>$VERBOSE</string>
+				<string>TRUE</string>
+				<string>FALSE</string>
+				<string>NIL</string>
+				<string>ARGF</string>
+				<string>ARGV</string>
+				<string>DATA</string>
+				<string>ENV</string>
+				<string>RUBY_PLATFORM</string>
+				<string>RUBY_RELEASE_DATE</string>
+				<string>RUBY_VERSION</string>
+				<string>STDERR</string>
+				<string>STDIN</string>
+				<string>STDOUT</string>
+				<string>TOPLEVEL_BINDING</string>
+				
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$/)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$\\)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$,)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$;)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$\.)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$&lt;)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$&gt;)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$:)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$-x)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$_)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$~)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$&amp;)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$`)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$')(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$\+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            </keywords>
+            <keywords id="Numbers" color="#03B514" useforautocomplete="no">
+            	<!-- Integers that can have a leading +/- and underscores -->
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?([0-9]*_)*[0-9]+)(?=[^[_A-Za-z0-9.]]|$)</regex>
+            	<!-- Floating point, NOT sci notation.  The two lines differ so that +,-, and . don't get hilighted as numbers -->
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+\.[0-9]*)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?\.[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<!-- Floating point, sci notation -->
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]*\.[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<!-- Numbers in a different base -->
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(0[xX][0-9a-fA-F]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(0[bB][01]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<!-- Numbers generated by looking at character constants, like ?d and ?\n -->
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\?(\\)?[!-~])(?=[^[-_A-Za-z0-9]]|$)</regex>
+			</keywords>
+            <keywords id="Instance Variables" color="#336699" useforautocomplete="no">
+            	<regex>(?&lt;=[^[_A-Za-z0-9@]]|^)(@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            </keywords>
+            <keywords id="Class Variables" color="#008C8C" useforautocomplete="no">
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(@@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            </keywords>
+            <keywords id="Global Variables" color="#8A578F" useforautocomplete="no">
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            </keywords>
+        </default>
+        
+        <state id="String with double quotes" color="#8C8C8C">
+            <begin><regex>"</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            <!-- (see line above) This is for the escape codes -->
+            <keywords id="test" color="#669999" useforautocomplete="no">
+            	<regex>(#\{[^{]*\})</regex>
+            	<!-- regexp above *needs* the parens around the part to color change -->
+            </keywords>
+        </state>
+
+        <state id="String with single quotes" color="#8C8C8C">
+            <begin><regex>(?&lt;!\$)(?:')</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+        </state>
+
+        <state id="Backticks" color="#8C8C8C">
+            <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
+        </state>
+        
+        <state id="Singleline Comment" color="#B50000">
+            <begin><regex>#</regex></begin>
+            <end><regex>[\n\r]|(?:.(?=%&gt;))</regex></end>
+        </state>
+        
+        <state id="Regexp" color="#C700C2">
+        	<begin><regex>(?:\/)(?=[^/\r\n]*\/)</regex></begin>
+        	<end><regex>(((?&lt;!\\)(\\\\)*)|^)\/</regex></end>
+        </state>
+        
+        <state id="POD Comments" color="#800000">
+        	<begin><regex>(?:^=begin)</regex></begin>
+        	<end><regex>^=end</regex></end>
+        </state>
+        
+        <state id="HTML" color="#000000" background-color="none" font-weight="normal" font-style="normal">
+            <begin><string>(?:&lt;html)|(?:&lt;HTML)|(?:%&gt;)</string></begin>
+            <end><regex>(?:&lt;%)|(?:&lt;%=)</regex></end>
+            <keywords id="Tags" color="#881280" useforautocomplete="no">
+                <regex>&lt;/?([^ =&gt;\n\r]+)</regex>
+            </keywords>
+            <keywords id="Attributes" color="#994500" useforautocomplete="no">
+                <regex> ([^ &gt;\n\r]+)=</regex>
+            </keywords>
+            <keywords id="Strings" color="#1A1AA6" useforautocomplete="no">
+                <regex>("[^"]*")</regex>
+                <regex>('[^']*')</regex>
+            </keywords>
+            <keywords id="PHP Delimiter" color="#D00000" font-weight="bold" useforautocomplete="no">
+                <regex>(&lt;%)</regex>
+                <regex>(%&gt;)</regex>
+                <regex>(&lt;%=)</regex>
+            </keywords>
+        </state>
+
+    </states>
+
+</syntax>

@@ -376,6 +376,13 @@ Modes/Python.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 Modes/Python.mode/Contents/Resources/Japanese.lproj/InfoPlist.strings -text
 Modes/Python.mode/Contents/Resources/RegexSymbols.xml -text
 Modes/Python.mode/Contents/Resources/SyntaxDefinition.xml -text
+Modes/Ruby.mode/Contents/Info.plist -text
+Modes/Ruby.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+Modes/Ruby.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
+Modes/Ruby.mode/Contents/Resources/Japanese.lproj/InfoPlist.strings -text
+Modes/Ruby.mode/Contents/Resources/README.txt -text
+Modes/Ruby.mode/Contents/Resources/RegexSymbols.xml -text
+Modes/Ruby.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/SQL.mode/Contents/Info.plist -text
 Modes/SQL.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 Modes/SQL.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
