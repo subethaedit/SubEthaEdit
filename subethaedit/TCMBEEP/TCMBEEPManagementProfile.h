@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "TCMBEEPProfile.h"
 
+
 @class TCMBEEPChannel;
+
 
 @interface TCMBEEPManagementProfile : TCMBEEPProfile
 {

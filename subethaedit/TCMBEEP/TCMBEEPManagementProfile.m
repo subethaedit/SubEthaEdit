@@ -12,13 +12,14 @@
 #import "TCMBEEPSession.h"
 #import <CoreFoundation/CoreFoundation.h>
 
+
 @implementation TCMBEEPManagementProfile
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel
 {
     self = [super initWithChannel:aChannel];
     if (self) {
-        DEBUGLOG(@"BEEPLogDomain",SimpleLogLevel,@"Initialized TCMBEEPManagmentProfile");
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Initialized TCMBEEPManagmentProfile");
         I_firstMessage = YES;
         I_pendingChannelRequestMessageNumbers = [NSMutableDictionary new];
     }
@@ -59,8 +60,8 @@
 {
     // compose start message
     NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<start number='%d'>", aChannelNumber] dataUsingEncoding:NSUTF8StringEncoding]];
-    int i=0;
-    for (i=0; i<[aProfileURIArray count]; i++) {
+    int i = 0;
+    for (i = 0; i < [aProfileURIArray count]; i++) {
         if (aDataArray && i<[aDataArray count] && [(NSData *)[aDataArray objectAtIndex:i] length]) {
             [payload appendData:[[NSString stringWithFormat:@"<profile uri='%@'><![CDATA[", [aProfileURIArray objectAtIndex:i]] dataUsingEncoding:NSUTF8StringEncoding]];
             [payload appendData:[aDataArray objectAtIndex:i]];
@@ -79,29 +80,7 @@
 
 #pragma mark -
 
-- (void)setDelegate:(id)aDelegate
-{
-    I_delegate = aDelegate;
-}
-
-- (id)delegate
-{
-    return I_delegate;
-}
-
-- (void)setChannel:(TCMBEEPChannel *)aChannel
-{
-    I_channel = aChannel;
-}
-
-- (TCMBEEPChannel *)channel
-{
-    return I_channel;
-}
-
-#pragma mark -
-
-- (void)_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef) aContentTree 
+- (void)_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef)aContentTree 
 {
     BOOL malformedGreeting = YES;
     if ([[aMessage messageTypeString] isEqualTo:@"RPY"] &&
@@ -114,7 +93,7 @@
             CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
             if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
                 if ([@"greeting" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"Was greeting....");
+                    DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Was greeting....");
                     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
                     NSDictionary *attributes = (NSDictionary *)info->attributes;
                     //NSLog (@"Attributes: %@", [attributes description]);
@@ -149,7 +128,8 @@
     }
 }
 
-- (void)_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef) aSubTree {
+- (void)_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree
+{
     CFXMLNodeRef startNode = CFXMLTreeGetNode(aSubTree);
     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(startNode);
     NSDictionary *attributes = (NSDictionary *)info->attributes;
@@ -189,7 +169,7 @@
             }
         }
     }                        
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"possible profile URIs are:%@",[profileURIs description]);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"possible profile URIs are: %@", [profileURIs description]);
     NSDictionary *reply = [[self delegate] preferedAnswerToAcceptRequestForChannel:channelNumber withProfileURIs:profileURIs andData:dataArray]; 
     DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"reply is:%@",[reply description]);
     if (reply) {
@@ -206,7 +186,7 @@
         
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
         [[self channel] sendMessage:[message autorelease]];
-        DEBUGLOG(@"BEEPLogDomain",SimpleLogLevel,@"juhuhh... sent accept: %@",message);
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"juhuhh... sent accept: %@",message);
         [[self delegate] initiateChannelWithNumber:channelNumber profileURI:[reply objectForKey:@"ProfileURI"] asInitiator:NO];
     } else {
         NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<error code='501'>channel request denied</error>"] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -261,10 +241,10 @@
             CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
             if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
                 if ([@"start" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Was Start... %@",@"blah");
+                    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Was Start... %@", @"blah");
                     [self _proccessStartMessage:aMessage XMLSubTree:xmlTree];
                 } else if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Was Profile... %@",@"blah");
+                    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Was Profile... %@", @"blah");
                     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
                     NSDictionary *attributes = (NSDictionary *)info->attributes;
                     NSString *URI;

@@ -45,10 +45,10 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
             int result = setsockopt(CFSocketGetNative(I_listeningSocket), SOL_SOCKET, 
                                     SO_REUSEADDR, &yes, sizeof(int));
             if (result == -1) {
-                NSLog(@"Could not setsockopt to reuseaddr: %@ / %s", errno, strerror(errno));
+                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to reuseaddr: %@ / %s", errno, strerror(errno));
             }
         } else {
-            NSLog(@"Could not create listening socket");
+            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Could not create listening socket");
         }
     }
     
@@ -57,6 +57,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 - (void)dealloc
 {
+    I_delegate = nil;
     CFRelease(I_listeningSocket);
     [super dealloc];
 }

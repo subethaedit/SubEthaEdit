@@ -13,13 +13,16 @@
 extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
 
+
 enum {
     frameHeaderState = 1,
     frameContentState,
     frameEndState
 };
 
+
 @class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile;
+
 
 @interface TCMBEEPSession : NSObject
 {
@@ -94,10 +97,8 @@ enum {
 - (void)open;
 - (void)close;
 - (void)activateChannel:(TCMBEEPChannel *)aChannel;
-
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel;
 - (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray sender:(id)aSender;
-
 - (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator;
 
 @end
@@ -106,11 +107,8 @@ enum {
 @interface NSObject (TCMBEEPSessionDelegateAdditions)
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray;
-
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests;
-
-- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *) aProfile;
-
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile;
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didFailWithError:(NSError *)anError;
 
 @end

@@ -1,6 +1,6 @@
 //
 //  TCMBEEPProfile.m
-//  SubEthaEdit
+//  TCMBEEP
 //
 //  Created by Dominik Wagner on Fri Feb 27 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
@@ -18,6 +18,14 @@
         [self setChannel:aChannel];
     }
     return self;
+}
+ 
+- (void)dealloc
+{
+    I_delegate = nil;
+    I_channel = nil;
+    [I_profileURI release];
+    [super dealloc];
 }
 
 - (void)setDelegate:(id)aDelegate
@@ -53,7 +61,7 @@
 - (void)setProfileURI:(NSString *)aProfileURI
 {
     [I_profileURI autorelease];
-     I_profileURI = [aProfileURI copy];
+    I_profileURI = [aProfileURI copy];
 }
 
 - (NSString *)profileURI

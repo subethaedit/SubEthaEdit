@@ -10,6 +10,7 @@
 #import "TCMBEEPSession.h"
 #import "TCMBEEPMessage.h"
 
+
 @implementation TCMBEEPFrame
 
 + (TCMBEEPFrame *)frameWithMessage:(TCMBEEPMessage *)aMessage sequenceNumber:(uint32_t)aSequenceNumber
@@ -44,10 +45,9 @@
                     I_messageType, &I_channelNumber, &I_messageNumber,
                     I_continuationIndicator, &I_sequenceNumber, &I_length) == 6) {
             
-
         } else if (sscanf(aHeaderString,"%3s %d %d %1s %d %d %d\r",
                     I_messageType, &I_channelNumber, &I_messageNumber,
-                    I_continuationIndicator, &I_sequenceNumber, &I_length, &I_answerNumber) == 7){
+                    I_continuationIndicator, &I_sequenceNumber, &I_length, &I_answerNumber) == 7) {
             if (!(strcmp(I_messageType, "ANS"))) {
                 error = YES;
             }
@@ -63,6 +63,12 @@
         }
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [I_payload release];
+    [super dealloc];
 }
 
 - (NSString *)description
@@ -91,8 +97,10 @@
 
 #pragma mark -
 
-- (void)setMessageTypeString:(NSString *)aString {
-    [aString getCString:I_messageType maxLength:3];
+- (void)setMessageTypeString:(NSString *)aString
+{
+    const char *UTF8String = [aString UTF8String];
+    strncpy(I_messageType, UTF8String, 4);
 }
 
 - (char *)messageType
