@@ -47,6 +47,9 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 }
 
 - (void)dealloc {
+    [oWebView setFrameLoadDelegate:nil];
+    [oWebView setUIDelegate:nil];
+    [oWebView setResourceLoadDelegate:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[self window] orderOut:self];
     [super dealloc];
