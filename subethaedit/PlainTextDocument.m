@@ -368,6 +368,10 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
         I_textStorage = [TextStorage new];
         [I_textStorage setDelegate:self];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] modeForNewDocuments]];
+        NSStringEncoding encoding = [[[self documentMode] defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+        if (encoding < SmallestCustomStringEncoding) {
+            [self setFileEncoding:encoding];
+        }
         I_flags.isRemotelyEditingTextStorage=NO;
         [self TCM_initHelper];
     }
