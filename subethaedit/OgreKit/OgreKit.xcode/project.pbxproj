@@ -197,6 +197,32 @@
 //102
 //103
 //104
+//140
+//141
+//142
+//143
+//144
+		14601767061AE24700E527EC = {
+			buildActionMask = 2147483647;
+			dstPath = /Library/TCMInternal/Frameworks;
+			dstSubfolderSpec = 0;
+			files = (
+				14601775061AE29800E527EC,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14601775061AE29800E527EC = {
+			fileRef = 8DC2EF5B0486A6940098B216;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//140
+//141
+//142
+//143
+//144
 //4D0
 //4D1
 //4D2
@@ -1634,6 +1660,7 @@
 				4DA6B47705E699D000A3AEC6,
 				4DA6B47805E699D000A3AEC6,
 				4DA6B47C05E699D000A3AEC6,
+				14601767061AE24700E527EC,
 			);
 			buildRules = (
 			);
