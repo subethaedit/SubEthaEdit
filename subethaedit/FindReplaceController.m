@@ -11,6 +11,7 @@
 #import "PlainTextWindowController.h"
 #import "TextStorage.h"
 #import "FindAllController.h"
+#import "UndoManager.h"
 #import "time.h"
 
 static FindReplaceController *sharedInstance=nil;
@@ -203,6 +204,11 @@ static FindReplaceController *sharedInstance=nil;
     [prefs setObject:[NSNumber numberWithInt:[O_regexNegateSinglelineCheckbox state]] forKey:@"NegateSingleline"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexDontCaptureCheckbox state]] forKey:@"DontCapture"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexCaptureGroupsCheckbox state]] forKey:@"Capture"];
+    if (I_findHistory) {
+        [prefs setObject:I_findHistory forKey:@"FindHistory"];
+        NSLog(@"Saved find history");
+    }
+    if (I_replaceHistory) [prefs setObject:I_replaceHistory forKey:@"ReplaceHistory"];
     [[NSUserDefaults standardUserDefaults] setObject:prefs forKey:@"Find Panel Preferences"];
 }
 
@@ -210,27 +216,39 @@ static FindReplaceController *sharedInstance=nil;
 {
     NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"Find Panel Preferences"];
     if (prefs) {
-    [O_regexSyntaxPopup selectItemAtIndex:[[prefs objectForKey:@"Syntax"] intValue]];
-    [O_regexEscapeCharacter selectItemAtIndex:[[prefs objectForKey:@"Escape"] intValue]];
-    [O_scopePopup selectItemAtIndex:[[prefs objectForKey:@"Scope"] intValue]];
-
-    [O_wrapAroundCheckbox setState:[[prefs objectForKey:@"Wrap"] intValue]];
-    [O_regexCheckbox setState:[[prefs objectForKey:@"RegEx"] intValue]];
-    [O_regexSinglelineCheckbox setState:[[prefs objectForKey:@"Singleline"] intValue]];
-    [O_regexMultilineCheckbox setState:[[prefs objectForKey:@"Multiline"] intValue]];
-    [O_ignoreCaseCheckbox setState:[[prefs objectForKey:@"IgnoreCase"] intValue]];
-    [O_regexExtendedCheckbox setState:[[prefs objectForKey:@"Extended"] intValue]];
-    [O_regexFindLongestCheckbox setState:[[prefs objectForKey:@"FindLongest"] intValue]];
-    [O_regexIgnoreEmptyCheckbox setState:[[prefs objectForKey:@"IgnoreEmpty"] intValue]];
-    [O_regexNegateSinglelineCheckbox setState:[[prefs objectForKey:@"NegateSingleline"] intValue]];
-    [O_regexDontCaptureCheckbox setState:[[prefs objectForKey:@"DontCapture"] intValue]];
-    [O_regexCaptureGroupsCheckbox setState:[[prefs objectForKey:@"Capture"] intValue]];
+        [O_regexSyntaxPopup selectItemAtIndex:[[prefs objectForKey:@"Syntax"] intValue]];
+        [O_regexEscapeCharacter selectItemAtIndex:[[prefs objectForKey:@"Escape"] intValue]];
+        [O_scopePopup selectItemAtIndex:[[prefs objectForKey:@"Scope"] intValue]];
+    
+        [O_wrapAroundCheckbox setState:[[prefs objectForKey:@"Wrap"] intValue]];
+        [O_regexCheckbox setState:[[prefs objectForKey:@"RegEx"] intValue]];
+        [O_regexSinglelineCheckbox setState:[[prefs objectForKey:@"Singleline"] intValue]];
+        [O_regexMultilineCheckbox setState:[[prefs objectForKey:@"Multiline"] intValue]];
+        [O_ignoreCaseCheckbox setState:[[prefs objectForKey:@"IgnoreCase"] intValue]];
+        [O_regexExtendedCheckbox setState:[[prefs objectForKey:@"Extended"] intValue]];
+        [O_regexFindLongestCheckbox setState:[[prefs objectForKey:@"FindLongest"] intValue]];
+        [O_regexIgnoreEmptyCheckbox setState:[[prefs objectForKey:@"IgnoreEmpty"] intValue]];
+        [O_regexNegateSinglelineCheckbox setState:[[prefs objectForKey:@"NegateSingleline"] intValue]];
+        [O_regexDontCaptureCheckbox setState:[[prefs objectForKey:@"DontCapture"] intValue]];
+        [O_regexCaptureGroupsCheckbox setState:[[prefs objectForKey:@"Capture"] intValue]];
+        if ([prefs objectForKey:@"FindHistory"]) {
+            [I_findHistory autorelease];
+            I_findHistory = [prefs objectForKey:@"FindHistory"];
+        }
+        if ([prefs objectForKey:@"ReplaceHistory"]) {
+            [I_replaceHistory autorelease];
+            I_replaceHistory = [prefs objectForKey:@"ReplaceHistory"];
+        }
     }
 }
 
 - (void)performFindPanelAction:(id)sender 
 {
+    [O_statusTextField setStringValue:@""];
     [O_statusTextField setHidden:YES];
+    [O_statusTextField display];
+    [O_findPanel display];
+    NSLog(@"asadsdas");
     NSString *findString = [O_findComboBox stringValue];
     NSRange scope;
     NSTextView *target = [self targetToFindIn];
@@ -245,7 +263,6 @@ static FindReplaceController *sharedInstance=nil;
         [self saveStateToPreferences];
     }
 
-    
     if ([sender tag]==NSFindPanelActionShowFindPanel) {
         [self updateRegexDrawer:self];
         [self orderFrontFindPanel:self];
@@ -300,30 +317,46 @@ static FindReplaceController *sharedInstance=nil;
 {
     NSTextView *target = [self targetToFindIn];
     if (target) {
+        NSString *findString = [O_findComboBox stringValue];
+        NSString *replaceString = [O_replaceComboBox stringValue];
         NSMutableString *text = [[target textStorage] mutableString];
         NSRange selection = [target selectedRange];
         if (selection.length==0) {
             NSBeep();
             return;
         }
+        
+        PlainTextDocument *aDocument = (PlainTextDocument *)[[[target window] windowController] document];
+        NSDictionary *attributes = [aDocument typingAttributes];
+        
+        [[aDocument documentUndoManager] beginUndoGrouping];
+        [[target textStorage] beginEditing];
+        
         if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
             [self loadFindStringToPasteboard];
-            [text replaceCharactersInRange:selection withString:[O_replaceComboBox stringValue]];
+            [text replaceCharactersInRange:selection withString:replaceString];
+            [[target textStorage] addAttributes:attributes range:NSMakeRange(selection.location, [replaceString length])];
         } else {
             // This might not work for lookahead etc.
-            OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
-                                     options:[self currentOgreOptions]
-                                     syntax:[self currentOgreSyntax]
-                                     escapeCharacter:[self currentOgreEscapeCharacter]];
+            OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:findString
+                                            options:[self currentOgreOptions]
+                                            syntax:[self currentOgreSyntax]
+                                            escapeCharacter:[self currentOgreEscapeCharacter]];
             OGRegularExpressionMatch * aMatch = [regex matchInString:text options:[self currentOgreOptions] range:selection];
             if (aMatch != nil) {
-                OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:[O_replaceComboBox stringValue]];
-                [text replaceCharactersInRange:[aMatch rangeOfMatchedString] withString:[repex replaceMatchedStringOf:aMatch]];
+                OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:replaceString];
+                NSRange matchedRange = [aMatch rangeOfMatchedString];
+                NSString *replaceWith = [repex replaceMatchedStringOf:aMatch];
+                [text replaceCharactersInRange:matchedRange withString:replaceWith];
+                [[target textStorage] addAttributes:attributes range:NSMakeRange(matchedRange.location, [replaceWith length])];
             } else NSBeep();
         }
+        
+        [[target textStorage] endEditing];
+        [[aDocument documentUndoManager] endUndoGrouping];
     }
 }
-
+/*
 - (void) replaceAFewMatches
 {
     const int replacePerCycle = 50;
@@ -352,11 +385,10 @@ static FindReplaceController *sharedInstance=nil;
         [O_progressIndicator stopAnimation:nil];
     }
 }
-
+*/
 - (void) replaceAllInRange:(NSRange)aRange
 {
     //clock_t start_time = clock();
-    
     int replaced = 0;
     NSTextView *target = [self targetToFindIn];
     NSString *findString = [O_findComboBox stringValue];
@@ -365,22 +397,33 @@ static FindReplaceController *sharedInstance=nil;
 
     if (target) {
         NSMutableString *text = [[target textStorage] mutableString];
+        PlainTextDocument *aDocument = (PlainTextDocument *)[[[target window] windowController] document];
+        NSDictionary *attributes = [aDocument typingAttributes];
+
         if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
             [self loadFindStringToPasteboard];
             unsigned options = NSLiteralSearch|NSBackwardsSearch;
             if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
             
             NSRange posRange = NSMakeRange(NSMaxRange(aRange),0);
-            
+
+            [[aDocument documentUndoManager] beginUndoGrouping];            
+            [[target textStorage] beginEditing];
+
             while (YES) {
                 NSRange foundRange = [text findString:findString selectedRange:posRange options:options wrap:NO];
                 if (foundRange.length) {
                     if (foundRange.location < aRange.location) break;
                     [text replaceCharactersInRange:foundRange withString:replaceString];
+                    [[target textStorage] addAttributes:attributes range:NSMakeRange(foundRange.location, [replaceString length])];
                     replaced++;
                     posRange.location = foundRange.location;
                 } else break;
             }
+
+            [[target textStorage] endEditing];
+            [[aDocument documentUndoManager] endUndoGrouping];
+
         } else {
         
             if (![OGRegularExpression isValidExpressionString:findString]) {
@@ -414,14 +457,24 @@ static FindReplaceController *sharedInstance=nil;
             NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:aRange];
 
             int count = [matchArray count];
-            int i; 
+            int i;
+                        
+            [[aDocument documentUndoManager] beginUndoGrouping];
+            [[target textStorage] beginEditing];
+            
             for (i = count-1; i >= 0; i--) {
-                OGRegularExpressionMatch *aMatch = [I_replaceAllMatchArray objectAtIndex:i];
-                NSLog(@"#%d",i);
-                NSLog(@"%@",NSStringFromRange([aMatch rangeOfMatchedString]));
-                [text replaceCharactersInRange:[aMatch rangeOfMatchedString] withString:[repex replaceMatchedStringOf:aMatch]];
+                OGRegularExpressionMatch *aMatch = [matchArray objectAtIndex:i];
+                NSRange matchedRange = [aMatch rangeOfMatchedString];
+                NSString *replaceWith = [repex replaceMatchedStringOf:aMatch];
+                NSRange newRange = NSMakeRange(matchedRange.location, [replaceWith length]);
+                [text replaceCharactersInRange:matchedRange withString:replaceWith];
+                [[target textStorage] addAttributes:attributes range:newRange];
                 replaced++;
             }
+
+            [[target textStorage] endEditing];
+            [[aDocument documentUndoManager] endUndoGrouping];
+
             // OgreKit + Autorelease Pool = Massives Saugen            
             //[self replaceAFewMatches];
             
@@ -429,7 +482,7 @@ static FindReplaceController *sharedInstance=nil;
         }
         if (replaced==0) {
             NSBeep();
-            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found"), replaced]];
+            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@".",@"Find string not found")]];
         } else {
             [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), replaced]];
         }
@@ -555,6 +608,10 @@ static FindReplaceController *sharedInstance=nil;
     }
                                  
     [O_progressIndicator stopAnimation:nil];
+    if (!found){
+        [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
+        [O_statusTextField setHidden:NO];
+    }
     [findPool release];
     return found;
 }
