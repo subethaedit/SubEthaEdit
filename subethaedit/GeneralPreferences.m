@@ -29,7 +29,6 @@ NSString * const MyAIMPreferenceKey     = @"MyAIM";
 NSString * const MyEmailPreferenceKey   = @"MyEmail";
 NSString * const MyAIMIdentifierPreferenceKey  =@"MyAIMIdentifier";
 NSString * const MyEmailIdentifierPreferenceKey=@"MyEmailIdentifier";
-NSString * const MyNamesPreferenceKey = @"MyNames";
 NSString * const MyAIMsPreferenceKey  = @"MyAIMs";
 NSString * const MyEmailsPreferenceKey= @"MyEmails";
 
@@ -46,8 +45,6 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
                     forKey:CustomMyColorHuePreferenceKey];
     [defaultDict setObject:[NSNumber numberWithFloat:50.0]
                     forKey:MyColorHuePreferenceKey];
-    [defaultDict setObject:[NSArray array]
-                    forKey:MyNamesPreferenceKey];
     [defaultDict setObject:[NSArray array]
                     forKey:MyAIMsPreferenceKey];
     [defaultDict setObject:[NSArray array]
@@ -105,8 +102,13 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
     TCMMMUser *me=[TCMMMUserManager me];
     NSString *newValue=[O_nameTextField stringValue];
     if (![[me name] isEqualTo:newValue]) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:newValue forKey:MyNamePreferenceKey];
+
+        CFStringRef appID = (CFStringRef)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+        // Set up the preference.
+        CFPreferencesSetValue((CFStringRef)MyNamePreferenceKey, (CFStringRef)newValue, appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+        // Write out the preference data.
+        CFPreferencesSynchronize(appID, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+
         [me setName:newValue];
         [TCMMMUserManager didChangeMe];
     }
