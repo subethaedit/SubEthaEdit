@@ -964,6 +964,7 @@
 			targets = (
 				8D15AC270486D014006FF6A4,
 				147037FE060C642F0087BA25,
+				31DEE029061089D0001EC83E,
 			);
 		};
 		2A37F4AAFDCFA73011CA2CEA = {
@@ -1167,6 +1168,38 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		31DEE028061089D0001EC83E = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\nrm ./doc/*\n./Tools/autodoc -force -tree -project . -dest doc -allclasses -combine -format html -template ./Tools/HTMLTemplate.html -copyright \"TheCodingMonkeys\"\nexit 0";
+		};
+		31DEE029061089D0001EC83E = {
+			buildPhases = (
+				31DEE028061089D0001EC83E,
+			);
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Documentation";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+			);
+			isa = PBXAggregateTarget;
+			name = "Create Documentation";
+			productName = "Create Documentation";
 		};
 //310
 //311

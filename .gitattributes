@@ -286,6 +286,10 @@ subethaedit/TCMPreferenceModule.h -text
 subethaedit/TCMPreferenceModule.m -text
 subethaedit/TCMRendezvousBrowser.h -text
 subethaedit/TCMRendezvousBrowser.m -text
+subethaedit/Tools/HTMLTemplate.html -text
+subethaedit/Tools/LaTeXTemplate.latex -text
+subethaedit/Tools/RTFTemplate.rtf -text
+subethaedit/Tools/autodoc -text
 subethaedit/artwork/Action.tiff -text
 subethaedit/artwork/ActionPressed.tiff -text
 subethaedit/artwork/Announce.tiff -text

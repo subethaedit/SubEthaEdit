@@ -1,0 +1,273 @@
+
+<!-- 
+
+Install in ~/Library/AutoDoc
+
+Sample Invocation: 
+autodoc -force -destination docs/ -format html -project see/ -copyright "TheCodingMonkeys"
+
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <style type="text/css">
+        body {font:10pt "Lucida Grande", Verdana, Lucida, sans-serif;margin: 2ex 2.5em;}
+        h1 {color:#006;}
+        h2 {margin: 4ex 0 1ex 0;}
+        h3 {margin: 3ex 0 1ex 0;}
+        h4 {margin: 2.5ex 0 1ex 0;}
+        h5 {margin: 3.5ex 0 0 2em;font-weight:normal;font-size:10pt;}
+        dt {font-weight:bold;margin: 2.5ex 0 1ex 0;}
+        ul {margin: 1ex 0 0 0;list-style:none;}
+        li {padding: 0.5ex 0 0 0;}
+        
+        hr {width:100%;margin: 0ex auto 2ex auto;}
+        hr.short {width:30%;margin: 1ex auto 4ex 0;text-align: left;}
+        hr.footer {margin: 3ex auto 1ex auto;}
+        div.footer {font-size:8pt;text-align:center}
+        .blue {color:#00b;}
+
+        pre, code {font: monaco, courier, monospace} 
+        .indent {margin-left:3em;margin-right:3em;}
+        
+        td {padding:0.5ex 2em 0.5ex 0em}
+    </style>
+    <meta name="Copyright" content="Copyright (c) [[copyrightYear]] [[copyrightOwner]]" />
+    <title>[[mainTitle]]</title>
+  </head>
+<body>
+
+<h1><a name="//apple_ref/occ/[[if mainInterface.interfaceTitle == Protocol]]intf[[else]]cl[[endif]]/[[mainTitle]]">[[mainTitle]]</a></h1>
+
+[[if hasMainInterface == 1]]
+[[if mainInterface.interfaceTitle == Class]]
+<div class="indent">
+	<dl>
+	   <dt>Inherits From:</dt>  
+	   <dd>[[if mainInterface.inheritsString.length > 0]][[mainInterface.inheritsString]][[else]]None<em>([[mainInterface.className]] is a root class)</em>[[endif]]</dd>
+    </dl>
+</div>
+[[endif Class]]
+
+[[if mainInterface.conformedProtocols.count > 0]]
+<div class="indent">
+	<dl>
+	   <dt>Conforms To:</dt>
+	   [[foreach protocolName mainInterface.conformedProtocols prot1]]
+	       <dd>[[protocolName]]</dd>
+	   [[endforeach prot1]]
+    </dl>
+</div>
+[[endif conformedProtocols]]
+[[endif hasMainInterface == 1]]
+<div class="indent">
+	<dl>
+	   <dt>Declared In:</dt>
+	   <dd>[[importString]]</dd>
+	</dl>
+</div>
+
+[[if hasMainInterface == 1]]
+    <h2>[[mainInterface.interfaceTitle]] Description</h2>
+    <hr/>
+    [[mainInterface.entityDescription.formattedCommentString]]
+[[endif hasMainInterface == 1]]
+
+[[if typedefArray.count > 0]]
+	<h2>Defined Types</h2>
+    <hr/>
+    <div class="indent">
+	[[foreach group typedefGroupArray group4]]
+		[[if groupIndex > 0]]<hr/>[[endif]]
+		<h4>Synopsis:</h4>
+		[[foreach typedef group.itemArray typedef1]]
+			<code>
+			     <a name="//apple_ref/c/tdef/[[typedef.name]]">typedef [[typedef.formattedValue]]<strong>[[typedef.name]]</strong>[[typedef.suffixValue]];</a>
+			 </code>
+			 <br/>
+		[[endforeach typedef1]]
+		
+		[[if group.comment.commentString.length > 0]]
+		<h4>Description:</h4>
+		[[group.comment.formattedCommentString]]
+		[[endif commentLength]]
+	[[endforeach group4]]
+	</div>
+[[endif typedefArray]]
+
+[[if constantArray.count > 0]]
+	<h2>Symbolic Constants</h2>
+    <hr/>
+    <div class="indent">
+	[[foreach group constantGroupArray group5]]
+		[[if groupIndex > 0]]<hr/>[[endif]]
+		<h4>Synopsis:</h4>
+		<table summary="Symbolic Constants">
+		[[foreach constant group.itemArray constant1]]
+            <tr>
+                <td><code><strong><a name="//apple_ref/c/econst/[[constant.name]]">[[constant.name]]</a></strong></code></td>
+                <td><code>[[constant.formattedValue]]</code></td>
+            </tr>
+		[[endforeach constant1]]
+		</table>
+		[[if group.comment.commentString.length > 0]]
+		<h4>Description:</h4>
+		[[group.comment.formattedCommentString]]
+		[[endif commentLength]]
+	[[endforeach group5]]
+	</div>
+[[endif constantArray]]
+
+[[if macroArray.count > 0]]
+	<h2>Macro Definitions</h2>
+    <hr/>
+    <div class="indent">
+	[[foreach group macroGroupArray group2]]
+		[[if groupIndex > 0]]<hr/>[[endif]]
+		<h4>Synopsis:</h4>
+		[[foreach macro group.itemArray macro1]]
+			<code><strong><a name="//apple_ref/c/func/[[macro.name]]">[[macro.name]]</a></strong>([[macro.parameterString]])</code><br/>
+		[[endforeach macro1]]
+		[[if group.comment.commentString.length > 0]]
+		<h4>Description:</h4>
+		[[group.comment.formattedCommentString]]
+		[[endif commentLength]]
+	[[endforeach group2]]
+	</div>
+[[endif macroArray]]
+
+[[if functionArray.count > 0]]
+	<h2>Functions</h2>
+    <hr/>
+	<div class="indent">
+	[[foreach group functionGroupArray group3]]
+		[[if groupIndex > 0]]<hr/>[[endif]]
+		<h4>Synopsis:</h4>
+		[[foreach function group.itemArray function1]]
+			<code>[[function.formattedType]]<strong><a name="//apple_ref/c/func/[[function.name]]">[[function.name]]</a></strong>([[function.formattedParameterString]]);</code><br/>
+		[[endforeach function1]]
+		[[if group.comment.commentString.length > 0]]
+		<h4>Description:</h4>
+		[[group.comment.formattedCommentString]]
+		[[endif commentLength]]
+	[[endforeach group3]]
+	</div>
+[[endif functionArray]]
+
+[[if inlineFunctionArray.count > 0]]
+	<h2>Static Inline Functions</h2>
+    <hr/>
+	<div class="indent">
+	[[foreach group inlineFunctionGroupArray group3]]
+		[[if groupIndex > 0]]<hr/>[[endif]]
+		<h4>Synopsis:</h4>
+		[[foreach function group.itemArray function1]]
+			<code>[[function.formattedType]]<strong><a name="//apple_ref/c/func/[[function.name]]">[[function.name]]</a></strong>([[function.formattedParameterString]])</code><br/>
+		[[endforeach function1]]
+		[[if group.comment.commentString.length > 0]]
+		<h4>Description:</h4>
+		[[group.comment.formattedCommentString]]
+		[[endif commentLength]]
+	[[endforeach group3]]
+	</div>
+[[endif inlineFunctionArray]]
+
+[[if variableArray.count > 0]]
+	<h2>Global Variables</h2>
+    <hr/>
+	<div class="indent">
+	[[foreach group variableGroupArray group6]]
+		[[if groupIndex > 0]]<hr/>[[endif]]
+		<h4>Synopsis:</h4>
+		[[foreach global group.itemArray global1]]
+			<code>[[global.formattedType]]<strong><a name="//apple_ref/c/data/[[global.name]]">[[global.name]]</a></strong>[[global.posttype]];</code><br/>
+		[[endforeach global1]]
+		[[if group.comment.commentString.length > 0]]
+		<h4>Description:</h4>
+		[[group.comment.formattedCommentString]]
+		[[endif commentLength]]
+	[[endforeach group6]]
+	</div>
+[[endif variableArray]]
+
+[[if hasMainInterface != 0]][[comment - Everything else is only done if we have an interface]]
+
+[[if mainInterface.interfaceTitle == Class]][[if mainInterface.ivarArray.count > 0]]
+	<h2>Instance Variables</h2>
+    <hr/>
+	<div class="indent">
+	[[foreach ivar mainInterface.ivarArray ivar1]]
+		<code>[[ivar.formattedType]]<strong>[[ivar.name]]</strong>[[ivar.posttype]];</code><br/>
+    [[endforeach ivar1]]
+	   <h4>Description</h4>	
+	   <table summary="Instance Variables">
+        [[foreach ivar mainInterface.fullIvarArray ivar2]]
+            <tr>
+                <td><code>[[ivar.fullName]]</code></td>
+                <td>[[ivar.entityDescription.formattedCommentString]]</td>
+            </tr>
+        [[endforeach ivar2]]
+        </table>
+	</div>
+[[endif ivarArray]][[endif Class]]
+
+[[if mainInterface.declarationArray.count > 0]]
+	<h2>Method Types</h2>
+    <hr/>
+	[[foreach group mainInterface.declarationGroupArray group1]]
+		[[if group.comment.commentString.length > 0]]
+			<h5>[[group.comment.formattedCommentString]]</h5>
+		[[endif]]
+		<ul>
+		  [[foreach method group.methodArray method2]]
+		      <li><a href="#[[method.methodName]]">[[method.methodName]]</a></li>
+		  [[endforeach method2]]
+		</ul>
+	[[endforeach group1]]
+[[endif declArray]]
+
+[[if mainInterface.classMethods.count > 0]]
+	<h2>Class Methods</h2>
+    <hr/>
+	[[foreach method mainInterface.classMethods method1]]
+		[[if methodIndex > 0]]<hr class="short"/>[[endif]]
+		<a name="[[method.methodName]]"></a>
+        <h3><a name="//apple_ref/occ/[[if mainInterface.interfaceTitle ==  
+Protocol]]intfm[[else]]clm[[endif]]/[[mainTitle]]/[[method.selectorName]]">[[method.selectorName]]</a></h3>
+        <p>
+		<code>+ <span class="blue">[[method.formattedReturnType]]</span>[[if method.argumentCount == 0]]<strong>[[method.selectorName]]</strong>[[else]][[foreach arg method.arguments arg1]][[if argIndex > 0]] [[endif]]<strong>[[arg.argName]]:</strong><span class="blue">[[arg.argType]]</span><em>[[arg.varName]]</em>[[endforeach arg1]]
+			[[endif]]
+		</code>
+		</p>
+		[[method.entityDescription.formattedCommentString]]
+	[[endforeach method1]]
+[[endif classMethods]]
+
+[[if mainInterface.instanceMethods.count > 0]] 
+
+	<h2>Instance Methods</h2>
+	<hr/>
+ 
+	[[foreach method mainInterface.instanceMethods method1]]
+		[[if methodIndex > 0]]<hr class="short"/>[[endif]]
+		<a name="[[method.methodName]]"></a><h3><a name="//apple_ref/occ/[[if mainInterface.interfaceTitle ==  
+Protocol]]intfm[[else]]instm[[endif]]/[[mainTitle]]/[[method.selectorName]]">[[method.selectorName]]</a></h3>
+		<p>
+		<code>- <span class="blue">[[method.formattedReturnType]]</span>[[if method.argumentCount == 0]]<strong>[[method.selectorName]]</strong>[[else]][[foreach arg method.arguments arg1]][[if argIndex > 0]] [[endif]]<strong>[[arg.argName]]:</strong><span class="blue">[[arg.argType]]</span><em>[[arg.varName]]</em>[[endforeach arg1]]
+			[[endif]]
+		</code>
+		</p>
+		[[method.entityDescription.formattedCommentString]]
+	[[endforeach method1]]
+[[endif instanceMethods]]
+
+[[endif hasMainInterface]]
+
+<hr class="footer"/>
+<div class="footer">Version [[version]] Copyright &copy;[[copyrightYear]][[if copyrightOwner.length > 0]] by [[copyrightOwner]][[endif]].  All Rights Reserved.  [[timestampString]]</div>
+</body>
+</html>

@@ -1,0 +1,319 @@
+{\rtf0\ansi{\fonttbl\f0\fnil Times;\f1\ftech Symbol;\f2\fswiss Helvetica;\f3\fmodern Courier;\f4\fmodern Ohlfs;}
+\paperw16220
+\paperh9060
+\margl120
+\margr120
+\f0\b0\i0\ulnone\ql\fs24\fi0\li0\gray0\fc0\cf0\up0\dn0 Version <<version>> Copyright 
+\f1 ã
+\f0 <<copyrightYear>><<if copyrightOwner.length > 0>> by <<copyrightOwner>><<endif>>.  All Rights Reserved.  
+\i <<timestampString>>
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+\
+\
+\
+
+\pard\tx4880\fi-2780\li4880\fc0\cf0 \
+
+\pard\f2\b\fs56\li2100\fc0\cf0 <<mainTitle>>\
+
+\pard\tx4880\f0\b0\fs16\fi-2780\li4880\fc0\cf0 \
+\
+\
+
+\fs28 <<if hasMainInterface == 1>><<if mainInterface.interfaceTitle == Class>>\
+
+\f2\b Inherits From:	
+\f0\b0 <<if mainInterface.inheritsString.length > 0>><<mainInterface.inheritsString>><<else>>None 
+\i (<<mainInterface.className>> is a root class)
+\i0 <<endif>>\
+<<endif Class>><<if mainInterface.conformedProtocols.count > 0>>
+\fs20 \
+
+\f2\b\fs28 Conforms To:
+\f0\b0 <<foreach protocolName mainInterface.conformedProtocols prot1>>	<<protocolName>>\
+<<endforeach prot1>><<endif conformedProtocols>><<endif hasMainInterface == 1>>
+\fs20 \
+
+\f2\b\fs28 Declared In:
+\f0\b0 	<<importString>>\
+<<if hasMainInterface == 1>>
+\f2\b\fs16 \
+
+\pard\li1360\fc0\cf0 \
+\
+\
+
+\fs36 <<mainInterface.interfaceTitle>> Description\
+
+\fs16 \
+
+\pard\tx2480\tx2860\tx3240\f0\b0\fs28\li2100\fc0\cf0 <<mainInterface.entityDescription.formattedCommentString>>\
+
+\pard\tx4880\fi-2780\li4880\fc0\cf0 <<endif hasMainInterface == 1>><<if typedefArray.count > 0>>\
+
+\pard\tx6140\tx9660\tx10180\f2\b\fs16\fi-4040\li6140\fc0\cf0 \
+\
+\
+
+\pard\fs36\li1360\fc0\cf0 Defined Types
+\f0\b0\fs28 <<foreach group typedefGroupArray group4>>
+\f2\b\fs36 \
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\fs20\fi-4440\li6140\fc0\cf0 SYNOPSIS
+\f0\b0\fs28 <<foreach typedef group.itemArray typedef1>>
+\f2\b\fs20 \
+
+\pard\tx6780\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\tx11340\f0\fs28\fi-4040\li6140\fc0\cf0 <<typedef.name>>	
+\b0 typedef <<typedef.formattedValue.indentedStringExceptFirstLine>>
+\b <<typedef.name>>
+\b0 <<typedef.suffixValue>>;\
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\tx11340\fi-4040\li6140\fc0\cf0 <<endforeach typedef1>><<if group.comment.commentString.length > 0>>\
+
+\pard\fs16\li1360\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\f2\b\fs20\fi-4440\li6140\fc0\cf0 DESCRIPTION\
+
+\pard\tx2480\tx2860\tx3240\f0\b0\fs28\li2100\fc0\cf0 <<group.comment.formattedCommentString>><<endif commentLength>>\
+
+\pard\tx6140\tx9660\tx10180\fi-4040\li6140\fc0\cf0 <<endforeach group4>><<endif typedefArray>><<if constantArray.count > 0>>\
+
+\f2\b\fs16 \
+\
+\
+
+\pard\fs36\li1360\fc0\cf0 Symbolic Constants
+\f0\b0\fs28 <<foreach group constantGroupArray group5>>
+\f2\b\fs36 \
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\fs20\fi-4440\li6140\fc0\cf0 SYNOPSIS
+\f0\b0\fs28 <<foreach constant group.itemArray constant1>>
+\f2\b\fs20 \
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\f0\fs28\fi-4040\li6140\fc0\cf0 <<constant.name>>	
+\b0 <<constant.formattedValue>><<endforeach constant1>><<if group.comment.commentString.length > 0>>\
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\f2\b\fs20\fi-4440\li6140\fc0\cf0 DESCRIPTION\
+
+\pard\tx2480\tx2860\tx3240\f0\b0\fs28\li2100\fc0\cf0 <<group.comment.formattedCommentString>><<endif commentLength>>\
+
+\pard\tx6140\tx9660\tx10180\fi-4040\li6140\fc0\cf0 <<endforeach group5>><<endif constantArray>><<if macroArray.count > 0>>\
+
+\f2\b\fs16 \
+\
+\
+
+\pard\fs36\li1360\fc0\cf0 Macro Definitions
+\f0\b0\fs28 <<foreach group macroGroupArray group2>>
+\f2\b\fs36 \
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\fs20\fi-4440\li6140\fc0\cf0 SYNOPSIS
+\f0\b0\fs28 <<foreach macro group.itemArray macro1>>
+\f2\b\fs20 \
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\f0\fs28\fi-4040\li6140\fc0\cf0 <<macro.name>>(
+\b0 <<macro.parameterString>>
+\b )
+\b0 <<endforeach macro1>><<if group.comment.commentString.length > 0>>\
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\f2\b\fs20\fi-4440\li6140\fc0\cf0 DESCRIPTION\
+
+\pard\tx2480\tx2860\tx3240\f0\b0\fs28\li2100\fc0\cf0 <<group.comment.formattedCommentString>><<endif commentLength>>\
+
+\pard\tx6140\tx9660\tx10180\fi-4040\li6140\fc0\cf0 <<endforeach group2>><<endif macroArray>><<if functionArray.count > 0>>\
+
+\f2\b\fs16 \
+\
+\
+
+\pard\fs36\li1360\fc0\cf0 Functions
+\f0\b0\fs28 <<foreach group functionGroupArray group3>>
+\f2\b\fs36 \
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\fs20\fi-4440\li6140\fc0\cf0 SYNOPSIS
+\f0\b0\fs28 <<foreach function group.itemArray function1>>
+\f2\b\fs20 \
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\f0\b0\fs28\fi-4040\li6140\fc0\cf0 <<function.formattedType>>
+\b <<function.name>>(
+\b0 <<function.formattedParameterString>>
+\b )
+\b0 ;<<endforeach function1>><<if group.comment.commentString.length > 0>>\
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\f2\b\fs20\fi-4440\li6140\fc0\cf0 DESCRIPTION\
+
+\pard\tx2480\tx2860\tx3240\f0\b0\fs28\li2100\fc0\cf0 <<group.comment.formattedCommentString>><<endif commentLength>>\
+<<endforeach group3>><<endif functionArray>><<if inlineFunctionArray.count > 0>>\
+
+\pard\tx6140\tx9660\tx10180\f2\b\fs16\fi-4040\li6140\fc0\cf0 \
+\
+\
+
+\pard\fs36\li1360\fc0\cf0 Static Inline Functions
+\f0\b0\fs28 <<foreach group inlineFunctionGroupArray group3>>
+\f2\b\fs36 \
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\fs20\fi-4440\li6140\fc0\cf0 SYNOPSIS
+\f0\b0\fs28 <<foreach function group.itemArray function1>>
+\f2\b\fs20 \
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\f0\b0\fs28\fi-4040\li6140\fc0\cf0 <<function.formattedType>>
+\b <<function.name>>(
+\b0 <<function.formattedParameterString>>
+\b )
+\b0 <<endforeach function1>><<if group.comment.commentString.length > 0>>\
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\f2\b\fs20\fi-4440\li6140\fc0\cf0 DESCRIPTION\
+
+\pard\tx2480\tx2860\tx3240\f0\b0\fs28\li2100\fc0\cf0 <<group.comment.formattedCommentString>><<endif commentLength>>\
+<<endforeach group3>><<endif inlineFunctionArray>><<if variableArray.count > 0>>\
+
+\pard\tx6140\tx9660\tx10180\f2\b\fs16\fi-4040\li6140\fc0\cf0 \
+\
+\
+
+\pard\fs36\li1360\fc0\cf0 Global Variables
+\f0\b0\fs28 <<foreach group variableGroupArray group6>>
+\f2\b\fs36 \
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\fs20\fi-4440\li6140\fc0\cf0 SYNOPSIS
+\f0\b0\fs28 <<foreach global group.itemArray global1>>
+\f2\b\fs20 \
+
+\pard\tx2480\tx2860\tx3240\tx3620\tx4000\tx4380\f0\b0\fs28\li2100\fc0\cf0 <<global.formattedType>>
+\b <<global.name>>
+\b0 <<global.posttype>>;<<endforeach global1>><<if group.comment.commentString.length > 0>>\
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\f2\b\fs20\fi-4440\li6140\fc0\cf0 DESCRIPTION\
+
+\pard\tx2480\tx2860\tx3240\f0\b0\fs28\li2100\fc0\cf0 <<group.comment.formattedCommentString>><<endif commentLength>>\
+<<endforeach group6>><<endif variableArray>><<if hasMainInterface != 0>><<if mainInterface.interfaceTitle == Class>>\
+
+\pard\tx6140\tx9660\tx10180\f2\b\fs16\li1360\fc0\cf0 \
+\
+
+\pard\li1360\fc0\cf0 \
+
+\fs36 Instance Variables\
+
+\fs16 \
+
+\pard\tx2480\tx8000\tx10140\f0\b0\fs28\li2100\fc0\cf0 <<if mainInterface.ivarArray.count == 0>>\
+None declared in this class.<<else>><<foreach ivar mainInterface.ivarArray ivar1>>\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 <<ivar.formattedType>>
+\b <<ivar.name>>
+\b0 <<ivar.posttype>>;<<endforeach ivar1>>
+\fs48 \
+
+\pard\tx2100\fs16\fi-400\li2100\fc0\cf0 \
+\
+
+\pard\tx6140\tx9660\tx10180\fs28\fi-4040\li6140\fc0\cf0 <<foreach ivar mainInterface.fullIvarArray ivar2>><<ivar.fullName>>	<<ivar.entityDescription.formattedCommentString>>\
+<<endforeach ivar2>><<endif ivarArray>>
+\pard\tx6120\fi-3840\li5940\fc0\cf0 <<endif Class>><<if mainInterface.declarationArray.count > 0>>
+\f2\b\fs16 \
+
+\pard\li1360\fc0\cf0 \
+\
+\
+
+\fs36 Method Types\
+
+\pard\tx6140\tx9660\tx10180\f0\b0\fs16\fi-4040\li6140\fc0\cf0 <<foreach group mainInterface.declarationGroupArray group1>>\
+
+\pard\tx6120\fs28\fi-3840\li5940\fc0\cf0 <<if group.comment.commentString.length > 0>><<group.comment.formattedCommentString>><<endif>><<foreach method group.methodArray method2>>	<<method.methodName>>\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 <<endforeach method2>><<endforeach group1>><<endif declArray>><<if mainInterface.classMethods.count > 0>>\
+
+\pard\tx6120\f2\b\fs16\fi-3840\li5940\fc0\cf0 \
+\
+\
+
+\pard\fs36\li1360\fc0\cf0 Class Methods\
+
+\fs16 \
+
+\pard\tx6140\tx9660\tx10180\f0\b0\fs28\fi-4040\li6140\fc0\cf0 <<foreach method mainInterface.classMethods method1>>
+\f2\b <<method.selectorName>>\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 +
+\f0  <<method.formattedReturnType>><<if method.argumentCount == 0>>
+\b <<method.selectorName>>
+\b0 <<else>><<foreach arg method.arguments arg1>><<if argIndex > 0>> <<endif>>
+\b <<arg.argName>>:
+\b0 <<arg.argType>>
+\i <<arg.varName>>
+\i0 <<endforeach arg1>><<endif>>\
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 <<method.entityDescription.formattedCommentString>>\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 <<endforeach method1>><<endif classMethods>><<if mainInterface.instanceMethods.count > 0>> \
+
+\pard\f2\b\fs16\li1360\fc0\cf0 \
+\
+
+\fs36 Instance Methods\
+
+\fs16 \
+
+\pard\tx6140\tx9660\tx10180\f0\b0\fs28\fi-4040\li6140\fc0\cf0 <<foreach method mainInterface.instanceMethods method1>>
+\f2\b <<method.selectorName>>\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  <<method.formattedReturnType>><<if method.argumentCount == 0>>
+\b <<method.selectorName>>
+\b0 <<else>><<foreach arg method.arguments arg1>><<if argIndex > 0>> <<endif>>
+\b <<arg.argName>>:
+\b0 <<arg.argType>>
+\i <<arg.varName>>
+\i0 <<endforeach arg1>><<endif>>\
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 <<method.entityDescription.formattedCommentString>>\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 <<endforeach method1>>\
+<<endif intstanceMethods>><<endif hasMainInterface>> <<comment this is here to force use of some 
+\f3\fs24 Courier
+\f0\fs28 >>\
+
+\f2\b\fs16 \
+
+}

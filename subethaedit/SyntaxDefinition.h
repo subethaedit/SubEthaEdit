@@ -9,13 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface SyntaxDefinition : NSObject {
-    NSString *I_name;
-    NSCharacterSet *I_tokenSet;
-    NSMutableArray *I_states;
-    NSMutableDictionary *I_defaultState;
-    NSMutableDictionary *I_styleForToken;
-    NSMutableDictionary *I_styleForRegex;
-
+    NSString *I_name;               /*"Name (obsolete?)"*/
+    NSCharacterSet *I_tokenSet;     /*"Set for tokenizing"*/
+    NSMutableArray *I_states;       /*"All states except the default state"*/
+    NSMutableDictionary *I_defaultState;    /*"Default state"*/
+    NSMutableDictionary *I_styleForToken;   /*"Chached plainstrings"*/
+    NSMutableDictionary *I_styleForRegex;   /*"Chached regexs"*/
 }
 
 /*"Initizialisation"*/

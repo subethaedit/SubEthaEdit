@@ -368,7 +368,7 @@
 {
     NSDictionary *aStyle;
     if (aStyle = [I_styleForToken objectForKey:aToken]) return aStyle;
-    // FIXME: Handle caseinsensitive Tokens wit CFDictionary
+    // FIXME: Handle caseinsensitive Tokens with CFDictionary
     else return nil;
 }
 
