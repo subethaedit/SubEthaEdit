@@ -1,15 +1,10 @@
 {
     IBClasses = (
         {
-            ACTIONS = {commandLineToolCheckNow = id; }; 
+            ACTIONS = {commandLineToolInstall = id; commandLineToolRemove = id; }; 
             CLASS = AdvancedPreferences; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_commandLineToolCheckButton" = NSButton; 
-                "O_commandLineToolLastDateTextField" = NSTextField; 
-                "O_commandLineToolProgressIndicator" = NSProgressIndicator; 
-                "O_commandLineToolStatusTextField" = NSTextField; 
-            }; 
+            OUTLETS = {"O_commandLineToolRemoveButton" = NSButton; }; 
             SUPERCLASS = TCMPreferenceModule; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 

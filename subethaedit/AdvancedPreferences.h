@@ -10,17 +10,10 @@
 #import "TCMPreferenceModule.h"
 
 @interface AdvancedPreferences : TCMPreferenceModule {
-    IBOutlet NSButton *O_commandLineToolCheckButton;
-    IBOutlet NSTextField *O_commandLineToolStatusTextField;
-    IBOutlet NSTextField *O_commandLineToolLastDateTextField;
-    IBOutlet NSProgressIndicator *O_commandLineToolProgressIndicator;
-    
-    NSTask *I_seeCommandTask;
-    NSString *I_toolVersionString;
-    BOOL I_isChecking;
-    BOOL I_hasCancelled;
+    IBOutlet NSButton *O_commandLineToolRemoveButton;
 }
 
-- (IBAction)commandLineToolCheckNow:(id)sender;
+- (IBAction)commandLineToolInstall:(id)sender;
+- (IBAction)commandLineToolRemove:(id)sender;
 
 @end

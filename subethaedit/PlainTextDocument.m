@@ -1377,7 +1377,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [savePanel setTreatsFilePackagesAsDirectories:YES];
         [savePanel setRequiredFileType:@"html"];
         [savePanel beginSheetForDirectory:nil 
-            file:[[[[self fileName] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"] 
+            file:[[[[self displayName] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"] 
             modalForWindow:[self windowForSheet] 
             modalDelegate:self 
             didEndSelector:@selector(exportPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];

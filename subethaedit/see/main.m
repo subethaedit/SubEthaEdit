@@ -184,7 +184,8 @@ static void printVersion() {
         
     fprintf(stdout, "see %s (v%s)\n", gToolVersionString, gToolVersion);
     if (appURL != NULL) {
-        fprintf(stdout, "SubEthaEdit %s (v%s)\n", [appShortVersionString UTF8String], [appVersion UTF8String]);
+        NSString *path = [(NSURL *)appURL path];
+        fprintf(stdout, "%s %s (v%s)\n", [path fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
     }
     fflush(stdout);
     
