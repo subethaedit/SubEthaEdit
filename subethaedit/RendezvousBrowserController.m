@@ -170,7 +170,6 @@ static RendezvousBrowserController *sharedInstance=nil;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
 
-// debug code
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionClientStateDidChange:) name:TCMMMSessionClientStateDidChangeNotification object:nil];
 }
 
@@ -421,7 +420,9 @@ enum {
             if (aChildIndex >= 0 && aChildIndex < [sessions count]) {
                 TCMMMSession *session=[sessions objectAtIndex:aChildIndex];
                 if (aTag==TCMMMBrowserChildNameTag) {
-                    return [NSString stringWithFormat:@"%d:%@",[session clientState],[session filename]];
+                    return [session filename];
+                } else if (aTag==TCMMMBrowserChildClientStatusTag) {
+                    return [NSNumber numberWithInt:[session clientState]];
                 } else if (aTag==TCMMMBrowserChildIconImageTag) {
                     NSString *extension=[[session filename] pathExtension];
                     NSImage *icon=[icons objectForKey:extension];

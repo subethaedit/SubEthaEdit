@@ -61,8 +61,16 @@
 
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserChildIconImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
+        NSNumber *number=[dataSource listView:self objectValueForTag:TCMMMBrowserChildClientStatusTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
+        float fraction=1.0;
+        if (number) {
+            int status=[number intValue];
+            if (status==0) fraction=.5;
+            else if (status<3) fraction=.75;
+            else fraction=1.0;
+        }
         [image compositeToPoint:NSMakePoint(32.+9,2+16) 
-                      operation:NSCompositeSourceOver];
+                      operation:NSCompositeSourceOver fraction:fraction];
     }
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];

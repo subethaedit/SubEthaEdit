@@ -205,6 +205,7 @@ static InternetBrowserController *sharedInstance = nil;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionClientStateDidChange:) name:TCMMMSessionClientStateDidChangeNotification object:nil];
 
     [O_addressComboBox setUsesDataSource:YES];
     [O_addressComboBox setDataSource:self];
@@ -226,6 +227,10 @@ static InternetBrowserController *sharedInstance = nil;
                       selector:@selector(TCM_connectToHostCancelled:)
                           name:TCMMMBEEPSessionManagerConnectToHostCancelledNotification
                         object:manager];
+}
+
+- (void)sessionClientStateDidChange:(NSNotification *)aNotificaiton {
+    [O_browserListView setNeedsDisplay:YES];
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
@@ -1234,7 +1239,9 @@ enum {
                 TCMMMSession *session = [sessions objectAtIndex:aChildIndex];
                 if (aTag == TCMMMBrowserChildNameTag) {
                     return [session filename];
-                } else if (aTag == TCMMMBrowserChildIconImageTag) {
+                } else if (aTag==TCMMMBrowserChildClientStatusTag) {
+                    return [NSNumber numberWithInt:[session clientState]];
+                }else if (aTag == TCMMMBrowserChildIconImageTag) {
                     NSString *extension = [[session filename] pathExtension];
                     NSImage *icon = [icons objectForKey:extension];
                     if (!icon) {
