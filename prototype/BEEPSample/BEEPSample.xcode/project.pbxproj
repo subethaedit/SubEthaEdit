@@ -88,8 +88,8 @@
 		145884DA05E261ED000E1387 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = BEEPChannel.h;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMBEEPChannel.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -97,7 +97,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = BEEPChannel.m;
+			path = TCMBEEPChannel.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -105,7 +105,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = BEEPListener.h;
+			path = TCMBEEPListener.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -121,7 +121,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = BEEPSession.h;
+			path = TCMBEEPSession.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -201,7 +201,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = Categories.h;
+			path = NSStringTCMAdditions.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -209,7 +209,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = Categories.m;
+			path = NSStringTCMAdditions.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};

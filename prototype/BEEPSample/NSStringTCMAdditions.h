@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (NSStringNetworkingAdditions)
+@interface NSString (NSStringTCMAdditions)
 
 + (NSString *)stringWithAddressData:(NSData *)aData;
 

@@ -19,7 +19,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 @interface BEEPListener (BEEPListenerPrivateAdditions)
 
-- (void)acceptSocket:(CFSocketNativeHandle)aSocketHandle withAddressData:(NSData *)inAddress;
+- (void)TCM_acceptSocket:(CFSocketNativeHandle)aSocketHandle withAddressData:(NSData *)inAddress;
 
 @end
 
@@ -104,7 +104,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 #pragma mark -
 
-- (void)acceptSocket:(CFSocketNativeHandle)aSocketHandle withAddressData:(NSData *)inAddress
+- (void)TCM_acceptSocket:(CFSocketNativeHandle)aSocketHandle withAddressData:(NSData *)inAddress
 {
     BEEPSession *session = [[BEEPSession alloc] initWithSocket:aSocketHandle addressData:inAddress];
     
@@ -126,7 +126,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType, CFDataRef anAddress, const void* aData, void* aContext)
 {
     BEEPListener *listener = (BEEPListener *)aContext;
-    [listener acceptSocket:*(CFSocketNativeHandle*)aData withAddressData:(NSData *)anAddress];
+    [listener TCM_acceptSocket:*(CFSocketNativeHandle*)aData withAddressData:(NSData *)anAddress];
 }
 
 @end

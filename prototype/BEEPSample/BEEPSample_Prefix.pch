@@ -6,3 +6,16 @@
     #import <Cocoa/Cocoa.h>
     #import "Categories.h"
 #endif
+
+
+#ifdef BLOCK_LOGS
+#define _TCMLog(domain, level, message)
+#else
+#define _TCMLog(domain, level, message)     \
+    do {                                    \
+        NSLog(@"domain: %@, level: %d, message: %@", (domain), (level), (message)); \
+    } while (0)
+#endif
+
+#define TCMLog(domain, level, message)      \
+    _TCMLog((domain), (level), (message))

@@ -14,7 +14,7 @@
 #import <sys/socket.h>
 
 
-@implementation NSString (NSStringNetworkingAdditions) 
+@implementation NSString (NSStringTCMAdditions) 
 
 +(NSString *)stringWithAddressData:(NSData *)aData {
     struct sockaddr *socketAddress=(struct sockaddr *)[aData bytes];

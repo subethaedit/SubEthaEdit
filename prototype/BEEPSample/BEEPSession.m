@@ -15,11 +15,11 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
 
 
 @interface BEEPSession (BEEPSessionPrivateAdditions)
-- (void)handleInputStreamEvent:(NSStreamEvent)streamEvent;
-- (void)handleOutputStreamEvent:(NSStreamEvent)streamEvent;
-- (void)writeData:(NSData *)aData;
-- (void)readBytes;
-- (void)writeBytes;
+- (void)TCM_handleInputStreamEvent:(NSStreamEvent)streamEvent;
+- (void)TCM_handleOutputStreamEvent:(NSStreamEvent)streamEvent;
+- (void)TCM_writeData:(NSData *)aData;
+- (void)TCM_readBytes;
+- (void)TCM_writeBytes;
 @end
 
 #pragma mark -
@@ -36,8 +36,8 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
         [I_inputStream  setDelegate:self];
         [I_outputStream setDelegate:self];
         
-        NSLog(@"guckst du streams: %@, %@",[I_inputStream description],[I_outputStream description]);
-        
+        TCMLog(@"NETWORK", 5, @"guckstdu");
+                 
         I_readBuffer  = [[NSMutableData alloc] init];
         I_writeBuffer = [[NSMutableData alloc] init];
     }
@@ -160,7 +160,7 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
     NSString *greeting=@"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>";
     greeting=[NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@",[greeting length],greeting,kBEEPFrameTrailer];
     NSData *greetingData=[greeting dataUsingEncoding:NSASCIIStringEncoding];
-    [self writeData:greetingData];
+    [self TCM_writeData:greetingData];
 }
 
 - (void)close
@@ -169,7 +169,7 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
     [I_inputStream close];
 }
 
-- (void)writeData:(NSData *)aData
+- (void)TCM_writeData:(NSData *)aData
 {
     if ([aData length] == 0)
         return;
@@ -177,11 +177,11 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
     [I_writeBuffer appendData:aData];
     
     if ([I_outputStream hasSpaceAvailable]) {
-        [self writeBytes];
+        [self TCM_writeBytes];
     }
 }
 
-- (void)readBytes
+- (void)TCM_readBytes
 {
     UInt8 buffer[8192];
 
@@ -193,12 +193,14 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
         [I_readBuffer setLength:0];
         NSString *string = [[NSString alloc] initWithBytes:&buffer length:bytesRead encoding:NSUTF8StringEncoding];
         [string autorelease];
-        fprintf(stdout, [string UTF8String]);
-        fflush(stdout);
+        if (string) {
+            fprintf(stdout, [string UTF8String]);
+            fflush(stdout);
+        }
     }
 }
 
-- (void)writeBytes
+- (void)TCM_writeBytes
 {
     if (!([I_writeBuffer length] > 0))
         return;
@@ -214,7 +216,7 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
     }
 }
 
-- (void)handleInputStreamEvent:(NSStreamEvent)streamEvent
+- (void)TCM_handleInputStreamEvent:(NSStreamEvent)streamEvent
 {
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
@@ -222,7 +224,7 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
             break;
         case NSStreamEventHasBytesAvailable:
             NSLog(@"Input stream has bytes available.");
-            [self readBytes];
+            [self TCM_readBytes];
             break;
         case NSStreamEventErrorOccurred: {
                 NSError *error = [I_inputStream streamError];
@@ -239,7 +241,7 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
     }
 }
 
-- (void)handleOutputStreamEvent:(NSStreamEvent)streamEvent
+- (void)TCM_handleOutputStreamEvent:(NSStreamEvent)streamEvent
 {
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
@@ -247,7 +249,7 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
             break;
         case NSStreamEventHasSpaceAvailable:
             NSLog(@"Output stream has space available.");
-            [self writeBytes];
+            [self TCM_writeBytes];
             break;
         case NSStreamEventErrorOccurred: {
                 NSError *error = [I_outputStream streamError];
@@ -269,9 +271,9 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
 {
     if (theStream == I_inputStream) {
-        [self handleInputStreamEvent:streamEvent];
+        [self TCM_handleInputStreamEvent:streamEvent];
     } else if (theStream == I_outputStream) {
-        [self handleOutputStreamEvent:streamEvent];
+        [self TCM_handleOutputStreamEvent:streamEvent];
     }
 }
 
