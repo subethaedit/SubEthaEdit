@@ -6,6 +6,9 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#ifndef TCM_NO_DEBUG
+
+
 #import "DebugUserController.h"
 #import "TCMMMUserManager.h"
 
@@ -23,3 +26,6 @@
     [O_allUsersController setContent:[[TCMMMUserManager sharedInstance] allUsers]];
 }
 @end
+
+
+#endif

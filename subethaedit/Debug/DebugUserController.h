@@ -6,6 +6,9 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#ifndef TCM_NO_DEBUG
+
+
 #import <AppKit/AppKit.h>
 
 
@@ -15,3 +18,6 @@
 }
 
 @end
+
+
+#endif
