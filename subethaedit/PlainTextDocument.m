@@ -471,16 +471,26 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     I_ODBParameters = [aDictionary retain];
 }
 
-- (IBAction)announce:(id)aSender {
-    DEBUGLOG(@"Document", 5, @"announce");
-    [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
-    I_flags.isAnnounced=YES;
+- (BOOL)isAnnounced {
+    return I_flags.isAnnounced;
 }
 
-- (IBAction)conceal:(id)aSender {
-    DEBUGLOG(@"Document", 5, @"conceal");
-    [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
-    I_flags.isAnnounced=NO;
+- (void)setIsAnnounced:(BOOL)aFlag {
+    if (I_flags.isAnnounced!=aFlag) {
+        I_flags.isAnnounced=aFlag;
+        if (I_flags.isAnnounced) {
+            DEBUGLOG(@"Document", 5, @"announce");
+            [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
+            [(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0] openParticipantsDrawer:self];
+        } else {
+            DEBUGLOG(@"Document", 5, @"conceal");
+            [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
+        }
+    }
+}
+
+- (IBAction)toggleIsAnnounced:(id)aSender {
+    [self setIsAnnounced:![self isAnnounced]];
 }
 
 - (IBAction)newView:(id)aSender {
@@ -489,6 +499,11 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [controller showWindow:aSender];
     [controller release];
     [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
+}
+
+- (IBAction)clearChangeMarks:(id)aSender {
+    NSTextStorage *textStorage=[self textStorage];
+    [textStorage removeAttribute:ChangedByUserIDAttributeName range:NSMakeRange(0,[textStorage length])];
 }
 
 - (void)selectEncoding:(id)aSender {
@@ -1046,10 +1061,33 @@ static NSString *tempFileName(NSString *origPath) {
         return YES;
     } else if (selector == @selector(changeTabWidth:)) {
         [anItem setState:(I_tabWidth==[[anItem title]intValue]?NSOnState:NSOffState)];
+    } else if (selector == @selector(toggleIsAnnounced:)) {
+        [anItem setTitle:[self isAnnounced]?
+                         NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
+                         NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
+        return YES;
     }
 
     return [super validateMenuItem:anItem];
 }
+
+- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
+    NSString *itemIdentifier = [toolbarItem itemIdentifier];
+    
+    if ([itemIdentifier isEqualToString:ToggleAnnouncementToolbarItemIdentifier]) {
+        BOOL isAnnounced=[self isAnnounced];
+        [toolbarItem setImage:isAnnounced
+                              ?[NSImage imageNamed: @"Conceal"]
+                              :[NSImage imageNamed: @"Announce"]];
+        [toolbarItem setLabel:isAnnounced? 
+                         NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
+                         NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
+        return YES;
+    }
+    
+    return YES;
+}
+
 
 
 /*"A font trait mask of 0 returns the plain font, otherwise use NSBoldFontMask, NSItalicFontMask"*/

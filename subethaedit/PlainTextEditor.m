@@ -13,6 +13,9 @@
 #import "TextView.h"
 #import "GutterRulerView.h"
 #import "DocumentMode.h"
+#import "TCMMMUserManager.h"
+#import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
 
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions) 
 - (void)TCM_updateStatusBar;
@@ -118,6 +121,35 @@
     //        if (blockAttribute) string=[string stringByAppendingFormat:@" %@",NSLocalizedString(@"[Blockediting]", nil)];        
     //    }
         [O_positionTextField setStringValue:string];        
+
+        [O_writtenByTextField setStringValue:@""];
+        if (selection.location<[textStorage length]) {
+            NSRange range;
+            NSString *userId=[textStorage attribute:WrittenByUserIDAttributeName atIndex:selection.location
+                                longestEffectiveRange:&range inRange:selection];
+            if (!userId && selection.length>range.length) {
+                userId=[[[self document] textStorage] attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(range)
+                                longestEffectiveRange:&range inRange:selection];
+            }
+            if (userId) {
+                NSMutableString *string;
+                NSString *userName = nil;
+                if ([userId isEqualToString:[TCMMMUserManager myUserID]]) {
+                    userName = NSLocalizedString(@"me", nil);
+                } else {
+                      userName = [[[TCMMMUserManager sharedInstance] userForUserID:userId] name];
+                      if (!userName) userName = @"";
+                }
+                
+                if (selection.length>range.length) {
+                    string = [NSString stringWithFormat:NSLocalizedString(@"Written by %@ et al", nil), userName];
+                } else {
+                        string = [NSString stringWithFormat:NSLocalizedString(@"Written by %@", nil), userName];
+                }
+                [O_writtenByTextField setStringValue:string];
+            }
+        }
+
     }    
 }
 
@@ -302,14 +334,19 @@
     } else if (selector == @selector(toggleLineNumbers:)) {
         [menuItem setState:[O_scrollView rulersVisible]?NSOnState:NSOffState];
         return YES;
-    }   else if (selector == @selector(toggleTopStatusBar:)) {
+    } else if (selector == @selector(toggleTopStatusBar:)) {
         [menuItem setState:[self showsTopStatusBar]?NSOnState:NSOffState];
         return YES;
-    }   else if (selector == @selector(toggleBottomStatusBar:)) {
+    } else if (selector == @selector(toggleBottomStatusBar:)) {
         [menuItem setState:[self showsBottomStatusBar]?NSOnState:NSOffState];
         return YES;
+    } else if (selector == @selector(toggleShowsChangeMarks:)) {
+        BOOL showsChangeMarks=[(LayoutManager *)[I_textView layoutManager] showsChangeMarks];
+        [menuItem setTitle:showsChangeMarks 
+                              ?NSLocalizedString(@"Hide Changes", nil) 
+                              :NSLocalizedString(@"Show Changes", nil)];
+        return YES;
     }
-
     return YES;
 }
 

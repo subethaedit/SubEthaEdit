@@ -8,18 +8,19 @@
         }, 
         {
             ACTIONS = {
-                announce = id; 
                 changeTabWidth = id; 
-                conceal = id; 
+                clearChangeMarks = id; 
                 newView = id; 
                 shiftLeft = id; 
                 shiftRight = id; 
                 toggleBottomStatusBar = id; 
                 toggleCharacterWrapping = id; 
                 toggleIndentNewLines = id; 
+                toggleIsAnnounced = id; 
                 toggleLineNumbers = id; 
                 toggleParticipantsDrawer = id; 
                 toggleShowInvisibles = id; 
+                toggleShowsChangeMarks = id; 
                 toggleSplitView = id; 
                 toggleSyntaxHighlighting = id; 
                 toggleTopStatusBar = id; 

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.SubEthaEdit.mode.Objective-C</string>
+	<string>SEEMode.Objective-C</string>
 	<key>CFBundleName</key>
 	<string>Objective-C</string>
     <key>CFBundleShortVersionString</key>

@@ -14,6 +14,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMState.h"
 #import "TCMMMOperation.h"
+#import "TextOperation.h"
 #import "SessionProfile.h"
 #import "PlainTextDocument.h"
 #import "DocumentController.h"
@@ -322,7 +323,8 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 - (void)profile:(SessionProfile *)profile didReceiveSessionContent:(id)aContent {
     NSString *string=[aContent objectForKey:@"Content"];
     NSTextStorage *textStorage=[(PlainTextDocument *)[self document] textStorage];
-    [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:string];
+    TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:NSMakeRange(0,[textStorage length]) replacementString:string userID:[TCMMMUserManager myUserID]];
+    [(PlainTextDocument *)[self document] handleOperation:textOp];
 }
 
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)profile

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.SubEthaEdit.mode.Base</string>
+	<string>SEEMode.Base</string>
 	<key>CFBundleName</key>
 	<string>Base</string>
     <key>CFBundleShortVersionString</key>

@@ -29,6 +29,8 @@ NSString * const RendezvousToolbarItemIdentifier =
                @"RendezvousToolbarItemIdentifier";
 NSString * const ToggleChangeMarksToolbarItemIdentifier = 
                @"ToggleChangeMarksToolbarItemIdentifier";
+NSString * const ToggleAnnouncementToolbarItemIdentifier = 
+               @"ToggleAnnouncementToolbarItemIdentifier";
 
 
 @implementation PlainTextWindowController
@@ -126,6 +128,13 @@ NSString * const ToggleChangeMarksToolbarItemIdentifier =
 
 #pragma mark -
 
+- (IBAction)openParticipantsDrawer:(id)aSender {
+    [O_participantsDrawer open:aSender];
+}
+
+- (IBAction)closeParticipantsDrawer:(id)aSender {
+    [O_participantsDrawer close:aSender];
+}
 
 - (IBAction)toggleParticipantsDrawer:(id)sender {
     [O_participantsDrawer toggle:sender];
@@ -185,6 +194,13 @@ NSString * const ToggleChangeMarksToolbarItemIdentifier =
         [toolbarItem setImage:([NSImage imageNamed: @"ShowChangeMarks"])];
         [toolbarItem setTarget:nil];
         [toolbarItem setAction:@selector(toggleShowsChangeMarks:)];    
+    } else if ([itemIdent isEqual:ToggleAnnouncementToolbarItemIdentifier]) {
+        [toolbarItem setToolTip:NSLocalizedString(@"Announce/Conceal Document", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Announce/Conceal", nil)];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Announce/Conceal", nil)];
+        [toolbarItem setImage:([NSImage imageNamed: @"Announce"])];
+        [toolbarItem setTarget:nil];
+        [toolbarItem setAction:@selector(toggleIsAnnounced:)];    
     } else {
         toolbarItem = nil;
     }
@@ -195,6 +211,7 @@ NSString * const ToggleChangeMarksToolbarItemIdentifier =
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
     return [NSArray arrayWithObjects:
                 RendezvousToolbarItemIdentifier,
+                ToggleAnnouncementToolbarItemIdentifier,
                 NSToolbarSeparatorItemIdentifier,
                 ShiftLeftToolbarItemIdentifier,
                 ShiftRightToolbarItemIdentifier,
@@ -211,6 +228,7 @@ NSString * const ToggleChangeMarksToolbarItemIdentifier =
                 ShiftRightToolbarItemIdentifier,
                 ParticipantsToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
+                ToggleAnnouncementToolbarItemIdentifier,
                 NSToolbarPrintItemIdentifier,
                 NSToolbarCustomizeToolbarItemIdentifier,
                 NSToolbarSeparatorItemIdentifier,

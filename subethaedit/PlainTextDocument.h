@@ -68,8 +68,9 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (DocumentMode *)documentMode;
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode;
 
-- (IBAction)announce:(id)aSender;
-- (IBAction)conceal:(id)aSender;
+- (BOOL)isAnnounced;
+- (void)setIsAnnounced:(BOOL)aFlag;
+- (IBAction)toggleIsAnnounced:(id)aSender;
 
 - (void)handleOperation:(TCMMMOperation *)aOperation;
 

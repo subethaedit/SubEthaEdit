@@ -532,6 +532,7 @@ subethaedit/Tools/serials/makeserial.pl -text
 subethaedit/artwork/Action.tiff -text
 subethaedit/artwork/ActionPressed.tiff -text
 subethaedit/artwork/Announce.tiff -text
+subethaedit/artwork/Conceal.tiff -text
 subethaedit/artwork/DefaultPerson.tiff -text
 subethaedit/artwork/EditPrefs.tiff -text
 subethaedit/artwork/GeneralPrefs.tiff -text

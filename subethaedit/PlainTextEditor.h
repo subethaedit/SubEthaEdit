@@ -14,6 +14,7 @@
     IBOutlet NSTextField *O_positionTextField;
     IBOutlet NSTextField *O_tabStatusTextField;
     IBOutlet NSTextField *O_windowWidthTextField;
+    IBOutlet NSTextField *O_writtenByTextField;
     IBOutlet NSTextField *O_modeTextField;
     IBOutlet NSScrollView *O_scrollView;
     IBOutlet NSView       *O_editorView;

@@ -13,6 +13,7 @@
                 "O_tabStatusTextField" = NSTextField; 
                 "O_topStatusBarView" = NSView; 
                 "O_windowWidthTextField" = NSTextField; 
+                "O_writtenByTextField" = NSTextField; 
             }; 
             SUPERCLASS = NSResponder; 
         }

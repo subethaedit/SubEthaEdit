@@ -16,6 +16,7 @@ extern NSString * const ShiftLeftToolbarItemIdentifier;
 extern NSString * const ShiftRightToolbarItemIdentifier;
 extern NSString * const RendezvousToolbarItemIdentifier;
 extern NSString * const ToggleChangeMarksToolbarItemIdentifier;
+extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 @interface PlainTextWindowController : NSWindowController {
 
@@ -33,5 +34,9 @@ extern NSString * const ToggleChangeMarksToolbarItemIdentifier;
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (NSArray *)plainTextEditors;
+
+- (IBAction)openParticipantsDrawer:(id)aSender;
+- (IBAction)closeParticipantsDrawer:(id)aSender;
+
 
 @end
