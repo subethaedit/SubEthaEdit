@@ -7,11 +7,13 @@
 //           
 
 #import <AppKit/AppKit.h>
+#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 
 
 @interface InternetBrowserController : NSWindowController
 {
-    IBOutlet NSTableView *O_tableView;
+    IBOutlet NSScrollView *O_scrollView;
+    IBOutlet TCMMMBrowserListView  *O_browserListView;
     IBOutlet NSImageView *O_imageView;
     IBOutlet NSTextField *O_myNameTextField;
     IBOutlet NSComboBox *O_addressComboBox;

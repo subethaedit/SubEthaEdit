@@ -7,12 +7,9 @@
 //
 
 #import "InternetBrowserController.h"
-#import "TCMMMUser.h"
-#import "TCMMMUserManager.h"
 #import "TCMHost.h"
-#import "TCMMMBEEPSessionManager.h"
-#import "TCMBEEPSession.h"
-#import "TCMBEEPProfile.h"
+#import "TCMBEEP/TCMBEEPSession.h"
+#import "TCMBEEP/TCMBEEPProfile.h"
 #import "ImagePopUpButtonCell.h"
 
 
@@ -38,12 +35,28 @@
 
 - (void)windowDidLoad
 {
-    [[self window] setFrameAutosaveName:@"Internet"];
+    [[self window] setFrameAutosaveName:@"InternetBrowser"];
     TCMMMUser *me = [TCMMMUserManager me];
     [O_myNameTextField setStringValue:[me name]];
     [O_imageView setImage:[[me properties] objectForKey:@"Image"]];
     [((NSPanel *)[self window]) setFloatingPanel:NO];
     [[self window] setHidesOnDeactivate:NO];
+    
+    NSRect frame = [[O_scrollView contentView] frame];
+    O_browserListView = [[TCMMMBrowserListView alloc] initWithFrame:frame];
+    [O_scrollView setBorderType:NSBezelBorder];
+    [O_browserListView setDataSource:self];
+    [O_browserListView setDelegate:self];
+    [O_browserListView setTarget:self];
+    [O_browserListView setDoubleAction:@selector(joinSession:)];
+    [O_scrollView setHasVerticalScroller:YES];
+    [[O_scrollView verticalScroller] setControlSize:NSSmallControlSize];
+    [O_scrollView setDocumentView:O_browserListView];
+    [O_scrollView setDrawsBackground:NO];
+    [[O_scrollView contentView] setCopiesOnScroll:YES];
+    [[O_scrollView contentView] setDrawsBackground:NO];
+    [[O_scrollView contentView] setAutoresizesSubviews:NO];
+    [O_browserListView noteEnclosingScrollView];
     
     [O_actionPullDownButton setCell:[[ImagePopUpButtonCell new] autorelease]];
     [[O_actionPullDownButton cell] setPullsDown:YES];
@@ -77,6 +90,10 @@
     [I_resolvingHosts setObject:host forKey:[host name]];
     [host setDelegate:self];
     [host resolve];
+}
+
+- (IBAction)joinSession:(id)aSender
+{
 }
 
 #pragma mark -
@@ -124,6 +141,37 @@
 - (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
 {
     DEBUGLOG(@"Internet", 5, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
+}
+
+#pragma mark -
+
+- (int)numberOfItemsInListView:(TCMMMBrowserListView *)aListView
+{
+    return 0;
+}
+
+- (int)listView:(TCMMMBrowserListView *)aListView numberOfChildrenOfItemAtIndex:(int)anItemIndex
+{
+    return 0;
+}
+
+- (BOOL)listView:(TCMMMBrowserListView *)aListView isItemExpandedAtIndex:(int)anItemIndex
+{
+    return NO;
+}
+
+- (void)listView:(TCMMMBrowserListView *)aListView setExpanded:(BOOL)isExpanded itemAtIndex:(int)anItemIndex
+{
+}
+
+- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag ofItemAtIndex:(int)anItemIndex
+{
+    return nil;
+}
+
+- (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex
+{
+    return nil;
 }
 
 @end

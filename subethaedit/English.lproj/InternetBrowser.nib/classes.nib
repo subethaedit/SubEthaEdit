@@ -10,7 +10,7 @@
                 "O_addressComboBox" = NSComboBox; 
                 "O_imageView" = NSImageView; 
                 "O_myNameTextField" = NSTextField; 
-                "O_tableView" = NSTableView; 
+                "O_scrollView" = NSScrollView; 
             }; 
             SUPERCLASS = NSWindowController; 
         }
