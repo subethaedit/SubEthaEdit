@@ -1654,7 +1654,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [content appendFormat:@"<p>%@</p>",[[NSCalendarDate calendarDate] descriptionWithCalendarFormat:[standardUserDefaults objectForKey:NSDateFormatString] locale:(id)standardUserDefaults]];
         }
         NSString *fontString=@"";
-        if ([[self fontWithTrait:0] isFixedPitch]) {
+        if ([[self fontWithTrait:0] isFixedPitch] || 
+            [@"Monaco" isEqualToString:[[self fontWithTrait:0] fontName]]) {
             fontString=@"font-size:small; font-family:monospace; ";
         } 
         [attributedStringForXHTML detab:YES inRange:wholeRange tabWidth:[self tabWidth] askingTextView:nil];

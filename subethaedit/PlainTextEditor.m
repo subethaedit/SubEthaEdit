@@ -743,7 +743,8 @@
         selectedRange.location=0;
         
         NSString *fontString=@"";
-        if ([[[self document] fontWithTrait:0] isFixedPitch]) {
+        if ([[[self document] fontWithTrait:0] isFixedPitch] || 
+            [@"Monaco" isEqualToString:[[[self document] fontWithTrait:0] fontName]]) {
             fontString=@"font-size:small; font-family:monospace; ";
         } 
         

@@ -798,6 +798,15 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         }
         index=startIndex;
     }
+    
+    OGRegularExpression *moreThanOneSpace=[[[OGRegularExpression alloc] initWithString:@"  +" options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease];
+    NSEnumerator *matches=[[moreThanOneSpace allMatchesInString:[self string] range:NSMakeRange(0,[self length])] reverseObjectEnumerator];
+    OGRegularExpressionMatch *match=nil;
+    while ((match=[matches nextObject])) {
+        NSRange matchRange=[match rangeOfMatchedString];
+        [self replaceCharactersInRange:matchRange
+              withString:[@" " stringByPaddingToLength:matchRange.length withString:hardspaceString startingAtIndex:0]];
+    }
 }
 
 - (void)appendString:(NSString *)aString {
