@@ -2184,7 +2184,19 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (didChangeAParticipant) {
         [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
     }
-    
+
+// transform SymbolTable if there
+    NSEnumerator *entries=[I_symbolArray objectEnumerator];
+    SymbolTableEntry *entry=nil;
+    while ((entry=[entries nextObject])) {
+        if (![entry isSeparator]) {
+            [transformator transformOperation:[entry jumpRangeSelectionOperation] serverOperation:textOp];
+            [transformator transformOperation:[entry rangeSelectionOperation] serverOperation:textOp];
+        }
+    }
+
+
+// WebPreview    
     if (I_webPreviewWindowController && 
         [[I_webPreviewWindowController window] isVisible] &&
         ([I_webPreviewWindowController refreshType]==kWebPreviewRefreshAutomatic || 

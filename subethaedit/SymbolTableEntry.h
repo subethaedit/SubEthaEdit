@@ -8,14 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class SelectionOperation;
 
 @interface SymbolTableEntry : NSObject {
     NSString *I_name;
     int       I_fontTraitMask;
     NSImage  *I_image;
     NSString *I_type;
-    NSRange  I_jumpRange;
-    NSRange  I_range;
+    SelectionOperation *I_jumpRangeSelectionOperation;
+    SelectionOperation *I_rangeSelectionOperation;
     int      I_indentationLevel;
     BOOL I_isSeparator;
 }
@@ -31,8 +32,10 @@
 - (void)setImage:(NSImage *)anImage;
 - (NSString *)type;
 - (void)setType:(NSString *)aType;
+- (SelectionOperation *)jumpRangeSelectionOperation;
 - (NSRange)jumpRange;
 - (void)setJumpRange:(NSRange)aJumpRange;
+- (SelectionOperation *)rangeSelectionOperation;
 - (NSRange)range;
 - (void)setRange:(NSRange)aRange;
 - (void)setIndentationLevel:(int)aIndentationLevel;

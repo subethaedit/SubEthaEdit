@@ -51,6 +51,9 @@ extern NSString * const BlockeditAttributeValue;
 
 - (void)stopBlockedit;
 
+- (NSDictionary *)dictionaryRepresentation;
+- (void)setContentWithDictionaryRepresentation:(NSDictionary *)aRepresentation;
+
 @end
 
 #pragma mark -

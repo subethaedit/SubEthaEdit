@@ -222,12 +222,20 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
 }
 
+/*"Data needed:
+    Filename - the actual current filename of the session
+    SessionID - the UUID of the session
+    HostID - the userID of the Host of the session
+    Access - "Locked" - "ReadOnly" - "ReadWrite"
+"*/
+
 - (NSData *)sessionBencoded
 {
     NSMutableDictionary *sessionDict = [NSMutableDictionary dictionary];
     [sessionDict setObject:[self filename] forKey:@"Filename"];
     [sessionDict setObject:[self sessionID] forKey:@"SessionID"];
     [sessionDict setObject:[self hostID] forKey:@"HostID"];
+    [sessionDict setObject:@"Locked" forKey:@"Access"];
     return TCM_BencodedObject(sessionDict);
 }
 

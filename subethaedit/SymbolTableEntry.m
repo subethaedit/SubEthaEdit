@@ -7,7 +7,7 @@
 //
 
 #import "SymbolTableEntry.h"
-
+#import "SelectionOperation.h"
 
 @implementation SymbolTableEntry
 - (void)setIsSeparator:(BOOL)aFlag {
@@ -33,7 +33,18 @@
     return result;
 }
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        I_jumpRangeSelectionOperation=[SelectionOperation new];
+        I_rangeSelectionOperation    =[SelectionOperation new];
+    }
+    return self;
+}
+
 - (void)dealloc {
+    [I_jumpRangeSelectionOperation release];
+    [I_rangeSelectionOperation     release];
     [I_name release];
     [I_image release];
     [I_type release];
@@ -68,17 +79,23 @@
     [I_type autorelease];
     I_type = [aType copy];
 }
+- (SelectionOperation *)jumpRangeSelectionOperation {
+    return I_jumpRangeSelectionOperation;
+}
 - (NSRange)jumpRange {
-    return I_jumpRange;
+    return [I_jumpRangeSelectionOperation selectedRange];
 }
 - (void)setJumpRange:(NSRange)aJumpRange {
-    I_jumpRange=aJumpRange;
+    [I_jumpRangeSelectionOperation setSelectedRange:aJumpRange];
+}
+- (SelectionOperation *)rangeSelectionOperation {
+    return I_rangeSelectionOperation;
 }
 - (NSRange)range {
-    return I_range;
+    return [I_rangeSelectionOperation selectedRange];
 }
 - (void)setRange:(NSRange)aRange {
-    I_range=aRange;
+    [I_rangeSelectionOperation setSelectedRange:aRange];
 }
 
 - (void)setIndentationLevel:(int)indentationLevel {

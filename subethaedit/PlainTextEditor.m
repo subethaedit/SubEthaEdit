@@ -22,6 +22,7 @@
 #import "PopUpButtonCell.h"
 #import "RadarScroller.h"
 #import "SelectionOperation.h"
+#import <OgreKit/OgreKit.h>
 
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions) 
 - (void)TCM_updateStatusBar;
@@ -856,13 +857,25 @@
     NSMutableArray *completionSource;
     NSMutableArray *completions = [NSMutableArray array];
     unsigned i, count;
-    
+    NSString *textString=[[textView textStorage] string];
     // Get the current partial word being completed.
-    partialWord = [[[textView textStorage] string] substringWithRange:charRange];
+    partialWord = [textString substringWithRange:charRange];
     
     // Find all known names.
     completionSource = [NSMutableArray array];
 
+    NSMutableDictionary *dictionary=[NSMutableDictionary new];
+
+    // find all matches in the current text for this prefix
+    OGRegularExpression *findExpression=[[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"(?<=\\W)%@\\w+",partialWord] options:OgreFindNotEmptyOption];
+    NSEnumerator *matches=[findExpression matchEnumeratorInString:textString];
+    OGRegularExpressionMatch *match=nil;
+    while ((match=[matches nextObject])) {
+        [dictionary setObject:@"Blah" forKey:[match matchedString]];
+    }
+    [findExpression release];
+    [completions addObjectsFromArray:[[dictionary allKeys] sortedArrayUsingSelector:@selector(compare:)]];
+    [dictionary release];
 // Too slow unfortunatly.
 /*    NSArray *paras = [[[self document] textStorage] paragraphs];
 
@@ -880,7 +893,7 @@
     }
 */
     [completionSource addObjectsFromArray:[[[self document] documentMode] autocompleteDictionary]];
-    [completionSource addObjectsFromArray:words]; // The whole stuff: spellchecker + all words in text
+//    [completionSource addObjectsFromArray:words]; // The whole stuff: spellchecker + all words in text
 
     // Examine the names one by one.
     count = [completionSource count];
@@ -889,6 +902,7 @@
         // Add those that match the current partial word to the list of completions.
         if (([completionEntry hasPrefix:partialWord])&&(![completions containsObject:completionEntry])) [completions addObject:completionEntry];
     }
+
     
     //DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"Finished autocomplete");
 
