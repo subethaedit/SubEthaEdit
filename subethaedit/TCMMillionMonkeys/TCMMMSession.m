@@ -1069,9 +1069,11 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)pauseProcessing {
     I_flags.isPaused=YES;
+    //NSLog(@"paused");
 }
 
 - (void)startProcessing {
+    //NSLog(@"started");
     I_flags.isPaused=NO;
     [self triggerPerformRoundRobin];
 }

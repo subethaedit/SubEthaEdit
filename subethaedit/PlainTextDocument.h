@@ -49,6 +49,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL editAnyway;
         BOOL isReceivingContent;
         BOOL isReadingFile;
+        BOOL didPauseBecauseOfMarkedText;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;

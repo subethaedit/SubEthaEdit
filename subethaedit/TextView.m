@@ -81,6 +81,8 @@ static NSMenu *defaultMenu=nil;
             if ([textStorage length]>0) {
                 [textStorage setHasBlockeditRanges:YES];
                 [NSEvent stopPeriodicEvents];
+                // evil hack for unpause
+                [[self delegate] textViewDidChangeSelection:nil];
             }
             break;
         } else {

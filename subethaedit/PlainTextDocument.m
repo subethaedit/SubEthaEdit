@@ -201,6 +201,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         I_bracketMatching.closingBracketsArray[i]=[bracketString characterAtIndex:(I_bracketMatching.numberOfBrackets*2-1)-i];
     }
     I_flags.showMatchingBrackets=YES;
+    I_flags.didPauseBecauseOfMarkedText=NO;
     I_bracketMatching.matchingBracketPosition=NSNotFound;
     [self setShowsTopStatusBar:YES];
     [self setShowsBottomStatusBar:YES];
@@ -2832,7 +2833,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)textViewDidChangeSelection:(NSNotification *)aNotification {
     if (!I_flags.isRemotelyEditingTextStorage) {
-        NSRange selectedRange = [(NSTextView *)[aNotification object] selectedRange];
+        NSTextView *textView=(NSTextView *)[aNotification object];
+        NSRange selectedRange = [textView selectedRange];
         SelectionOperation *selOp = [SelectionOperation selectionOperationWithRange:selectedRange userID:[TCMMMUserManager myUserID]];
         [[self session] documentDidApplyOperation:selOp];
         [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
@@ -2842,6 +2844,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)aAffectedCharRange replacementString:(NSString *)aReplacementString {
 
     TextStorage *textStorage=(TextStorage *)[aTextView textStorage];
+    if ([aTextView hasMarkedText] && !I_flags.didPauseBecauseOfMarkedText) {
+        //NSLog(@"paused because of marked...");
+        I_flags.didPauseBecauseOfMarkedText=YES;
+        [[self session] pauseProcessing];
+    }
 
     UndoManager *undoManager=[self documentUndoManager];
     if ([textStorage hasBlockeditRanges] && ![textStorage isBlockediting] &&
@@ -2905,6 +2912,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)textDidChange:(NSNotification *)aNotification {
     NSTextView *textView=[aNotification object];
+    if (I_flags.didPauseBecauseOfMarkedText && textView && ![textView hasMarkedText]) {
+        //NSLog(@"started because of marked... in did change");
+        I_flags.didPauseBecauseOfMarkedText=NO;
+        [[self session] startProcessing];
+    }
+    
     if (I_bracketMatching.matchingBracketPosition!=NSNotFound) {
         [self TCM_highlightBracketAtPosition:I_bracketMatching.matchingBracketPosition inTextView:textView];
         I_bracketMatching.matchingBracketPosition=NSNotFound;

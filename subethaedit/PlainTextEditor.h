@@ -33,6 +33,7 @@
         BOOL showBottomStatusBar;
         BOOL hasSplitButton;
         BOOL symbolPopUpIsSorted;
+        BOOL pausedProcessing;
     } I_flags;
 }
 

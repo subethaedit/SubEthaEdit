@@ -39,6 +39,7 @@
         I_flags.hasSplitButton = aFlag;
         I_flags.showTopStatusBar = YES;
         I_flags.showBottomStatusBar = YES;
+        I_flags.pausedProcessing = NO;
         [self setFollowUserID:nil];
         [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
     }   
@@ -833,6 +834,10 @@
 }
 
 - (void)textViewDidChangeSelection:(NSNotification *)aNotification {
+    if (I_flags.pausedProcessing) {
+        I_flags.pausedProcessing=NO;
+        [[[self document] session] startProcessing];
+    }
     [self updateSelectedSymbol];
     [self TCM_updateStatusBar];
 }
@@ -843,6 +848,11 @@
 
 - (void)textViewDidChangeSpellCheckingSetting:(TextView *)aTextView {
     [[self document] setContinuousSpellCheckingEnabled:[aTextView isContinuousSpellCheckingEnabled]];
+}
+
+- (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent {
+    I_flags.pausedProcessing=YES;
+    [[[self document] session] pauseProcessing];
 }
 
 #pragma mark -
