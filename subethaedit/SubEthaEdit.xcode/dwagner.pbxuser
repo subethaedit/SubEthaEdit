@@ -432,13 +432,13 @@
 								);
 								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 									(
-										17,
+										7,
 										3,
 										1,
 										0,
 									),
 								);
-								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {263, 441}}";
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {263, 439}}";
 							};
 							PBXSmartGroupTreeModuleSplitView = {
 								_collapsingFrameDimension = 0;
@@ -446,8 +446,8 @@
 								_percentageOfCollapsedView = 0;
 								isCollapsed = yes;
 								sizes = (
-									"{{0, 0}, {280, 459}}",
-									"{{0, 459}, {280, 204}}",
+									"{{0, 0}, {280, 457}}",
+									"{{0, 457}, {280, 206}}",
 								);
 							};
 							PBXSmartGroupTreeModuleSplitViewModule = {
@@ -480,7 +480,7 @@
 											28,
 										),
 									);
-									PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 409}, {263, 186}}";
+									PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 402}, {263, 188}}";
 								};
 								PBXTopSmartGroupGIDs = (
 								);
@@ -691,10 +691,6 @@
 			};
 			PBXWorkspaceStateSaveDate = 103120593;
 		};
-		perUserProjectItems = {
-			5E046CCC0625716E00D94C08 = 5E046CCC0625716E00D94C08;
-			5E046CCD0625716E00D94C08 = 5E046CCD0625716E00D94C08;
-		};
 		sourceControlManager = 5EEB176305ECDA4F00C17677;
 		userBookmarkGroup = 5ED032560622CCF60016EAB2;
 		userBuildSettings = {
@@ -717,23 +713,6 @@
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRect = "{{0, 0}, {561, 141}}";
 		};
-	};
-	5E046CCC0625716E00D94C08 = {
-		fRef = 5E046CC706256E4600D94C08;
-		isa = PBXTextBookmark;
-		rLen = 0;
-		rLoc = 2147483647;
-		rType = 0;
-	};
-	5E046CCD0625716E00D94C08 = {
-		fRef = 5E046CC706256E4600D94C08;
-		isa = PBXTextBookmark;
-		name = "GutterRulerView.m: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 236;
-		vrLoc = 0;
 	};
 	5E0CFE9005F48F3B008C8191 = {
 		uiCtxt = {

@@ -237,6 +237,8 @@ subethaedit/Functions.h -text
 subethaedit/Functions.m -text
 subethaedit/GeneralPreferences.h -text
 subethaedit/GeneralPreferences.m -text
+subethaedit/GutterRulerView.h -text
+subethaedit/GutterRulerView.m -text
 subethaedit/HandshakeProfile.h -text
 subethaedit/HandshakeProfile.m -text
 subethaedit/HueToColorValueTransformer.h -text
