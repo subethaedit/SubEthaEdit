@@ -23,7 +23,7 @@
 - (void)sendGreetingWithProfileURIs:(NSArray *)anArray featuresAttribute:(NSString *)aFeaturesString localizeAttribute:(NSString *)aLocalizeString;
 
 #pragma mark -
-#pragma mark ### Accessors ####
+
 /*"Accessors"*/
 - (void)setDelegate:(id)aDelegate;
 - (id)delegate;

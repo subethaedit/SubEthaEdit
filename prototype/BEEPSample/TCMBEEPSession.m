@@ -14,8 +14,9 @@
 #import <netinet/in.h>
 #import <sys/socket.h>
 
-NSString * const kTCMBEEPFrameTrailer=@"END\r\n";
-NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Management.profile";
+
+NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
+NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/Management.profile";
 
 
 @interface TCMBEEPSession (TCMBEEPSessionPrivateAdditions)
@@ -33,18 +34,18 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 
 - (void)TCM_initHelper
 {
-    [I_inputStream  setDelegate:self];
+    [I_inputStream setDelegate:self];
     [I_outputStream setDelegate:self];
     
-    I_profileURIs     = [NSMutableArray new];
+    I_profileURIs = [NSMutableArray new];
     I_peerProfileURIs = [NSMutableArray new];
     
-    I_readBuffer  = [NSMutableData new];
+    I_readBuffer = [NSMutableData new];
     I_currentReadState=frameHeaderState;
     I_writeBuffer = [NSMutableData new];
     I_requestedChannels = [NSMutableDictionary new];
-    I_activeChannels    = [NSMutableDictionary new];
-    I_currentReadFrame  =nil;
+    I_activeChannels = [NSMutableDictionary new];
+    I_currentReadFrame = nil;
 }
 
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
@@ -89,7 +90,7 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 
 - (NSString *)description
 {    
-    return [NSString stringWithFormat:@"BEEPSession with address: %@",[NSString stringWithAddressData:I_peerAddressData]];
+    return [NSString stringWithFormat:@"BEEPSession with address: %@", [NSString stringWithAddressData:I_peerAddressData]];
 }
 
 #pragma mark -
@@ -108,7 +109,7 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 - (void)setProfileURIs:(NSArray *)anArray
 {
     [I_profileURIs autorelease];
-     I_profileURIs = [anArray copy];
+    I_profileURIs = [anArray copy];
 }
 
 - (NSArray *)profileURIs
@@ -119,7 +120,7 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 - (void)setPeerProfileURIs:(NSArray *)anArray
 {
     [I_peerProfileURIs autorelease];
-     I_peerProfileURIs = [anArray copy];
+    I_peerProfileURIs = [anArray copy];
 }
 
 - (NSArray *)peerProfileURIs
@@ -141,7 +142,7 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 - (void)setFeaturesAttribute:(NSString *)anAttribute
 {
     [I_featuresAttribute autorelease];
-     I_featuresAttribute = [anAttribute copy];
+    I_featuresAttribute = [anAttribute copy];
 }
 
 - (NSString *)featuresAttribute
@@ -152,7 +153,7 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 - (void)setPeerFeaturesAttribute:(NSString *)anAttribute
 {
     [I_peerFeaturesAttribute autorelease];
-     I_peerFeaturesAttribute = [anAttribute copy];
+    I_peerFeaturesAttribute = [anAttribute copy];
 }
 
 - (NSString *)peerFeaturesAttribute
@@ -163,7 +164,7 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 - (void)setLocalizeAttribute:(NSString *)anAttribute
 {
     [I_localizeAttribute autorelease];
-     I_localizeAttribute = [anAttribute copy];
+    I_localizeAttribute = [anAttribute copy];
 }
 
 - (NSString *)localizeAttribute
@@ -174,7 +175,7 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 - (void)setPeerLocalizeAttribute:(NSString *)anAttribute
 {
     [I_peerLocalizeAttribute autorelease];
-     I_peerLocalizeAttribute = [anAttribute copy];
+    I_peerLocalizeAttribute = [anAttribute copy];
 }
 
 - (NSString *)peerLocalizeAttribute
@@ -192,7 +193,8 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
     return I_activeChannels;
 }
 
-- (void)activateChannel:(TCMBEEPChannel *)aChannel {
+- (void)activateChannel:(TCMBEEPChannel *)aChannel
+{
     [I_activeChannels setObject:aChannel forKey:[NSNumber numberWithUnsignedLong:[aChannel number]]];
 }
 
@@ -215,14 +217,14 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
 
     [profile sendGreetingWithProfileURIs:[self profileURIs] featuresAttribute:@"" localizeAttribute:@""];
     
-    NSString *greeting=@"Content-Type: application/beep+xml\r\n\r\n<greeting features=\"token1 token2\" localize=\"de fr cz\" invalid=\"haha\"><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
-    greeting=[NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@",[greeting length],greeting,kTCMBEEPFrameTrailer];
-    NSData *greetingData=[greeting dataUsingEncoding:NSASCIIStringEncoding];
+    NSString *greeting = @"Content-Type: application/beep+xml\r\n\r\n<greeting features=\"token1 token2\" localize=\"de fr cz\" invalid=\"haha\"><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
+    greeting = [NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@", [greeting length], greeting, kTCMBEEPFrameTrailer];
+    NSData *greetingData = [greeting dataUsingEncoding:NSASCIIStringEncoding];
     [self TCM_writeData:greetingData];
     
-    greeting=@"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
-    greeting=[NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@",[greeting length],greeting,kTCMBEEPFrameTrailer];
-    greetingData=[greeting dataUsingEncoding:NSASCIIStringEncoding];
+    greeting = @"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
+    greeting = [NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@", [greeting length], greeting, kTCMBEEPFrameTrailer];
+    greetingData = [greeting dataUsingEncoding:NSASCIIStringEncoding];
     [self TCM_writeData:greetingData];
 }
 
@@ -257,41 +259,41 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
             int i;
             // search for 0x0a (LF)
             for (i=bytesParsed;i<bytesRead;i++) {
-                if (buffer[i]==0x0a) {
-                    buffer[i]=0x00;
+                if (buffer[i] == 0x0a) {
+                    buffer[i] = 0x00;
                     break;
                 }
             }
-            if (i<bytesRead) {
+            if (i < bytesRead) {
                 // found LF
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:i-bytesParsed+1];
-                I_currentReadFrame=[[TCMBEEPFrame alloc] initWithHeader:(char *)[I_readBuffer bytes]];
+                I_currentReadFrame = [[TCMBEEPFrame alloc] initWithHeader:(char *)[I_readBuffer bytes]];
                 if (!I_currentReadFrame) {
                     // ERRRRRRRRRROR
                 } else {
-                    I_currentReadState=frameContentState;
-                    I_currentReadFrameRemainingContentSize=[I_currentReadFrame length];
+                    I_currentReadState = frameContentState;
+                    I_currentReadFrameRemainingContentSize = [I_currentReadFrame length];
                     [I_readBuffer setLength:0];
-                    bytesParsed=i+1;
+                    bytesParsed = i+1;
                     continue;
                 }
             } else {
                 // didn't find LF
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
-                bytesParsed=bytesRead;
+                bytesParsed = bytesRead;
             }
-        } else if (I_currentReadState==frameContentState) {
+        } else if (I_currentReadState == frameContentState) {
             if (remainingBytes < I_currentReadFrameRemainingContentSize) {
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
-                I_currentReadFrameRemainingContentSize-=remainingBytes;
-                bytesParsed=bytesRead;
+                I_currentReadFrameRemainingContentSize -= remainingBytes;
+                bytesParsed = bytesRead;
             } else {
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:I_currentReadFrameRemainingContentSize];
-                [I_currentReadFrame setContent:I_readBuffer];
-                NSLog(@"Found Frame: %@",[I_currentReadFrame description]);
+                [I_currentReadFrame setPayload:I_readBuffer];
+                NSLog(@"Found Frame: %@", [I_currentReadFrame description]);
                 [I_readBuffer setLength:0];
-                bytesParsed+=I_currentReadFrameRemainingContentSize;
-                I_currentReadState=frameEndState;
+                bytesParsed += I_currentReadFrameRemainingContentSize;
+                I_currentReadState = frameEndState;
                 continue;
             }
         } else if (I_currentReadState==frameEndState) {
@@ -299,19 +301,20 @@ NSString * const kTCMBEEPManagementProfile=@"http://www.codingmonkeys.de/Beep/Ma
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:5-[I_readBuffer length]];
                 // I_readBuffer == "END\r\n" ?
                 // dispatch frame!
-                TCMBEEPChannel *channel=[[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
+                TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
                 if (channel) {
-                    NSLog(@"channel did Accept: %@",[channel acceptFrame:[I_currentReadFrame autorelease]]?@"YES":@"NO");
-                    I_currentReadFrame=nil;
+                    //NSLog(@"channel did Accept: %@", [channel acceptFrame:[I_currentReadFrame autorelease]] ? @"YES" : @"NO");
+                    DEBUGLOG(@"network", 9, @"channel did Accept: %@", [channel acceptFrame:[I_currentReadFrame autorelease]] ? @"YES" : @"NO");
+                    I_currentReadFrame = nil;
                 } else {
                     // ERRRRRRORR
                 }
                 [I_readBuffer setLength:0];
-                I_currentReadState=frameHeaderState;
-                bytesParsed+=5-[I_readBuffer length];
+                I_currentReadState = frameHeaderState;
+                bytesParsed += 5-[I_readBuffer length];
             } else {
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
-                bytesParsed=bytesRead;
+                bytesParsed = bytesRead;
             }
         }
     }

@@ -10,13 +10,14 @@
 
 
 #ifdef BLOCK_LOGS
-#define _TCMLog(domain, level, message)
+#define _DEBUGLOG(domain, level, format, args)
 #else
-#define _TCMLog(domain, level, message)     \
+#define _DEBUGLOG(domain, level, format, args)     \
     do {                                    \
-        NSLog(@"domain: %@, level: %d, message: %@", (domain), (level), (message)); \
+        NSLog(format, args); \
+        NSLog(@"%s:%d, %s", __FILE__, __LINE__, __FUNCTION__); \
     } while (0)
 #endif
 
-#define TCMLog(domain, level, message)      \
-    _TCMLog((domain), (level), (message))
+#define DEBUGLOG(domain, level, format, args...)      \
+    _DEBUGLOG((domain), (level), (format), (args))

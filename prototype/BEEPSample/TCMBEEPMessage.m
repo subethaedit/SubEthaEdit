@@ -20,20 +20,20 @@
 - (id)initWithQueue:(NSArray *)aQueue
 {
     NSParameterAssert(aQueue != nil);
-    self=[super init];
+    self = [super init];
     if (self) {
-        if ([aQueue count]==0) {
+        if ([aQueue count] == 0) {
             [super dealloc];
-            self=nil;
+            self = nil;
         } else {
-            TCMBEEPFrame *frame=[aQueue objectAtIndex:0];
+            TCMBEEPFrame *frame = [aQueue objectAtIndex:0];
             [self setMessageTypeString:[NSString stringWithUTF8String:[frame messageType]]];
             [self setMessageNumber:[frame messageNumber]];
             [self setAnswerNumber:[frame answerNumber]];
-            I_payload=[NSMutableData new];
-            NSEnumerator *frames=[aQueue objectEnumerator];
-            while ((frame=[frames nextObject])) {
-                [I_payload appendData:[frame content]];
+            I_payload = [NSMutableData new];
+            NSEnumerator *frames = [aQueue objectEnumerator];
+            while ((frame = [frames nextObject])) {
+                [I_payload appendData:[frame payload]];
             }
         }
     }

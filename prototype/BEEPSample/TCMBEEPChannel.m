@@ -14,22 +14,32 @@
 
 static NSMutableDictionary *profileURIToClassMapping;
 
+@interface TCMBEEPChannel (TCMBEEPChannelPrivateAdditions)
+
+- (BOOL)TCM_validateFrame:(TCMBEEPFrame *)aFrame;
+
+@end
+
+#pragma mark -
+
 @implementation TCMBEEPChannel
 
 /*"Initializes the class before it’s used. See NSObject."*/
-
-+ (void)initialize {
-    profileURIToClassMapping=[NSMutableDictionary new];
++ (void)initialize
+{
+    profileURIToClassMapping = [NSMutableDictionary new];
     [self setClass:[TCMBEEPManagementProfile class] forProfileURI:kTCMBEEPManagementProfile];
 }
 
 /*""*/
-+ (NSDictionary *)profileURIToClassMapping {
++ (NSDictionary *)profileURIToClassMapping
+{
     return profileURIToClassMapping;
 }
 
 /*""*/
-+ (void)setClass:(Class)aClass forProfileURI:(NSString *)aProfileURI {
++ (void)setClass:(Class)aClass forProfileURI:(NSString *)aProfileURI
+{
     [profileURIToClassMapping setObject:aClass forKey:aProfileURI];
 }
 
@@ -38,16 +48,16 @@ static NSMutableDictionary *profileURIToClassMapping;
 {
     self = [super init];
     if (self) {
-        Class profileClass=nil;
-        if (profileClass=[[TCMBEEPChannel profileURIToClassMapping] objectForKey:aProfileURI]) {
+        Class profileClass = nil;
+        if (profileClass = [[TCMBEEPChannel profileURIToClassMapping] objectForKey:aProfileURI]) {
             I_profile=[[profileClass alloc] initWithChannel:self];
             [self setSession:aSession];
             [self setNumber:aNumber];
             [self setProfileURI:aProfileURI];
-            I_currentReadFrame=nil;
-            I_currentReadMessage=nil;
-            I_messageNumbersWithPendingReplies=[NSMutableIndexSet new];
-            I_inboundMessageNumbersWithPendingReplies=[NSMutableIndexSet new];
+            I_previousReadFrame = nil;
+            I_currentReadMessage = nil;
+            I_messageNumbersWithPendingReplies = [NSMutableIndexSet new];
+            I_inboundMessageNumbersWithPendingReplies = [NSMutableIndexSet new];
             I_defaultReadQueue = [NSMutableArray new];
             I_answerReadQueues = [NSMutableDictionary new];
         }
@@ -60,7 +70,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 {
     [I_profileURI release];
     [I_profile release];
-    [I_currentReadFrame   release];
+    [I_previousReadFrame release];
     [I_currentReadMessage release];
     [I_messageNumbersWithPendingReplies release];
     [I_inboundMessageNumbersWithPendingReplies release];
@@ -69,21 +79,25 @@ static NSMutableDictionary *profileURIToClassMapping;
     [super dealloc];
 }
 
-- (void)setCurrentReadFrame:(TCMBEEPFrame *)aFrame {
-    [I_currentReadFrame autorelease];
-     I_currentReadFrame = [aFrame retain];
+- (void)setPreviousReadFrame:(TCMBEEPFrame *)aFrame
+{
+    [I_previousReadFrame autorelease];
+    I_previousReadFrame = [aFrame retain];
 }
 
-- (TCMBEEPFrame *)currentReadFrame {
-    return I_currentReadFrame;
+- (TCMBEEPFrame *)previousReadFrame
+{
+    return I_previousReadFrame;
 }
 
-- (void)setCurrentReadMessage:(TCMBEEPMessage *)aMessage {
+- (void)setCurrentReadMessage:(TCMBEEPMessage *)aMessage
+{
     [I_currentReadMessage autorelease];
-     I_currentReadMessage = [aMessage retain];
+    I_currentReadMessage = [aMessage retain];
 }
 
-- (TCMBEEPMessage *)currentReadMessage {
+- (TCMBEEPMessage *)currentReadMessage
+{
     return I_currentReadMessage;
 }
 
@@ -126,99 +140,135 @@ static NSMutableDictionary *profileURIToClassMapping;
 }
 
 /*""*/
-- (id)profile {
+- (id)profile
+{
     return I_profile;
 }
 
 - (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame
 {
-    char *messageType=[aFrame messageType];
-    TCMBEEPFrame *currentReadFrame=[self currentReadFrame];
-    
-    BOOL accept=YES;
-    
-    
-    // 4ter Punkt 2.2.1.1
-    if (strcmp([aFrame messageType],"MSG")==0 &&
-        [I_inboundMessageNumbersWithPendingReplies containsIndex:[aFrame messageNumber]]) {
-        NSLog(@"4ter punkt 2.2.1.1");
-        accept = NO;
-    }
-    
-    // 5ter punkt 2.2.1.1
-    if ((strcmp(messageType,"MSG")!=0)) {
-        if (![I_messageNumbersWithPendingReplies containsIndex:[aFrame messageNumber]]
-            && !([aFrame channelNumber]==0 && strcmp([aFrame messageType],"RPY")==0 &&
-                 [aFrame messageNumber]==0)) {
-            NSLog(@"5ter punkt 2.2.1.1");
-            accept = NO;
-        }
-        
-    }
-    
-    // 8ter punkt 2.2.1.1
-    if (strcmp(messageType,"NUL")==0) {
-        if ([self currentReadFrame] && !(strcmp([[self currentReadFrame] messageType],"ANS")==0)) {
-            // ERROR
-            NSLog(@"8ter punkt 2.2.1.1");
-            accept = NO;
-        }
-    }
-
-    // 9ter punkt 2.2.1.1
-    if (currentReadFrame && [currentReadFrame isIntermediate]) {
-        if ([aFrame messageNumber]!=[currentReadFrame messageNumber])  {
-            NSLog(@"9ter punkt 2.2.1.1");
-            accept = NO;
-        }
-    }
-
-    // 10ter punkt 2.2.1.1 (Check sequence numbers)
-    if (currentReadFrame) {
-        if ([currentReadFrame isIntermediate] ||
-            strcmp([currentReadFrame messageType],"ANS") == 0 &&
-            strcmp([aFrame messageType],"ANS") == 0) {
-            if ([aFrame sequenceNumber]!=
-                ([currentReadFrame sequenceNumber]+[currentReadFrame length])) {
-                // ERROR
-                NSLog(@"10ter punkt 2.2.1.1 (Check sequence numbers)");
-                accept = NO;
-            }
-        }
-    }
+    BOOL accept = [self TCM_validateFrame:aFrame];
     
     // QUEUE   
-    NSMutableArray *queue=nil; 
-    if (strcmp([aFrame messageType],"ANS")==0) {
-        NSArray *queue=[I_answerReadQueues objectForLong:[aFrame answerNumber]];
+    NSMutableArray *queue = nil; 
+    if (strcmp([aFrame messageType], "ANS") == 0) {
+        NSArray *queue = [I_answerReadQueues objectForLong:[aFrame answerNumber]];
         if (!queue) {
-            queue=[NSMutableArray array];
+            queue = [NSMutableArray array];
             [I_answerReadQueues setObject:queue forLong:[aFrame answerNumber]];
         }
     } else {
-        queue=I_defaultReadQueue;
+        queue = I_defaultReadQueue;
     }
     [queue addObject:aFrame];
 
     if (![aFrame isIntermediate]) {
         // FINISH and DISPATCH
-        TCMBEEPMessage *message=[TCMBEEPMessage messageWithQueue:queue];
+        TCMBEEPMessage *message = [TCMBEEPMessage messageWithQueue:queue];
         [[self profile] processBEEPMessage:message];
-        if (strcmp([aFrame messageType],"ANS")==0) {
+        if (strcmp([aFrame messageType], "ANS") == 0) {
             [I_answerReadQueues removeObjectForLong:[aFrame answerNumber]];
         } else {
             [queue removeAllObjects];
         }
-        if (strcmp([aFrame messageType],"NUL")==0) {
+        if (strcmp([aFrame messageType], "NUL") == 0) {
             // FEHLER?
-            if ([I_answerReadQueues count]>0) {
+            if ([I_answerReadQueues count] > 0) {
                 // FEHLER! bei NUL müssen alle Antworten abgeschlossen sein...
             }
         }
     }
-    [self setCurrentReadFrame:aFrame];
+    [self setPreviousReadFrame:aFrame];
 
     return accept;
+}
+
+#pragma mark -
+
+- (BOOL)TCM_validateFrame:(TCMBEEPFrame *)aFrame
+{
+    char *messageType = [aFrame messageType];
+    TCMBEEPFrame *previousReadFrame = [self previousReadFrame];
+    
+    BOOL result = YES;
+    
+    
+    //  Checking for poorly-formed frames as stated in section 2.2.1.1 RFC3080.
+
+    //  if the header doesn't start with "MSG", "RPY", "ERR", "ANS", or
+    //  "NUL";
+    if (!(strcmp(messageType, "MSG") == 0 ||
+          strcmp(messageType, "RPY") == 0 ||
+          strcmp(messageType, "ERR") == 0 ||
+          strcmp(messageType, "ANS") == 0 ||
+          strcmp(messageType, "NUL") == 0)) {
+        result = NO;
+    }
+                
+    //  if the header starts with "MSG", and the message number refers to
+    //  a "MSG" message that has been completely received but for which a
+    //  reply has not been completely sent;
+    if (strcmp(messageType, "MSG") == 0 &&
+        [I_inboundMessageNumbersWithPendingReplies containsIndex:[aFrame messageNumber]]) {
+        NSLog(@"4ter punkt 2.2.1.1");
+        result = NO;
+    }
+    
+    //  if the header doesn't start with "MSG", and refers to a message
+    //  number for which a reply has already been completely received;
+    if ((strcmp(messageType, "MSG") != 0)) {
+        if (![I_messageNumbersWithPendingReplies containsIndex:[aFrame messageNumber]]
+            && !([aFrame channelNumber] == 0 && strcmp(messageType, "RPY") == 0 &&
+                 [aFrame messageNumber] == 0)) {
+            NSLog(@"5ter punkt 2.2.1.1");
+            result = NO;
+        }
+        
+    }
+    
+    //  if the header starts with "NUL", and refers to a message number
+    //  for which at least one other frame has been received, and the
+    //  keyword of of the immediately-previous received frame for this
+    //  reply isn't "ANS";
+    if (strcmp(messageType, "NUL") == 0) {
+        if ([self previousReadFrame] && !(strcmp([[self previousReadFrame] messageType], "ANS") == 0)) {
+            NSLog(@"8ter punkt 2.2.1.1");
+            result = NO;
+        }
+    }
+
+    //  if the continuation indicator of the previous frame received on
+    //  the same channel was intermediate ("*"), and its message number
+    //  isn't identical to this frame's message number;
+    if (previousReadFrame && [previousReadFrame isIntermediate]) {
+        if ([aFrame messageNumber] != [previousReadFrame messageNumber])  {
+            NSLog(@"9ter punkt 2.2.1.1");
+            result = NO;
+        }
+    }
+
+    //  if the value of the sequence number doesn't correspond to the
+    //  expected value for the associated channel (c.f., Section 2.2.1.2);
+    //  or,
+    if (previousReadFrame) {
+        if ([previousReadFrame isIntermediate] ||
+            strcmp([previousReadFrame messageType], "ANS") == 0 &&
+            strcmp(messageType, "ANS") == 0) {
+            if ([aFrame sequenceNumber] != 
+                ([previousReadFrame sequenceNumber] + [previousReadFrame length])) {
+                NSLog(@"10ter punkt 2.2.1.1 (Check sequence numbers)");
+                result = NO;
+            }
+        }
+    }
+                
+    //  if the header starts with "NUL", and the continuation indicator is
+    //  intermediate ("*") or the payload size is non-zero.
+    if (strcmp(messageType, "NUL") && [aFrame isIntermediate]) {
+        result = NO;
+    }
+    
+    return result;
 }
 
 @end

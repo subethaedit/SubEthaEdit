@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const kTCMBEEPFrameTrailer     ;
+extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
 
 enum {
@@ -21,10 +21,10 @@ enum {
 
 @interface TCMBEEPSession : NSObject
 {
-    NSInputStream  *I_inputStream;
+    NSInputStream *I_inputStream;
     NSOutputStream *I_outputStream;
-    NSMutableData  *I_readBuffer;
-    NSMutableData  *I_writeBuffer;
+    NSMutableData *I_readBuffer;
+    NSMutableData *I_writeBuffer;
     int I_currentReadState;
     int I_currentReadFrameRemainingContentSize;
     BOOL I_isInitiator;

@@ -10,15 +10,20 @@
 
 
 @implementation NSDictionary (NSDictionaryTCMAdditions)
--(id)objectForLong:(long)aLong {
+
+- (id)objectForLong:(long)aLong
+{
     return [self objectForKey:[NSNumber numberWithLong:aLong]];
 }
+
 @end
 
 
 @implementation NSMutableDictionary (NSDictionaryTCMAdditions)
--(void)setObject:(id)aObject forLong:(long)aLong {
-    [self setObject:aObject forKey:[NSNumber numberWithLong:aLong]];
+
+- (void)setObject:(id)anObject forLong:(long)aLong
+{
+    [self setObject:anObject forKey:[NSNumber numberWithLong:aLong]];
 }
 
 - (void)removeObjectForLong:(long)aLong

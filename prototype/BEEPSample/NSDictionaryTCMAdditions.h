@@ -10,11 +10,15 @@
 
 
 @interface NSDictionary (NSDictionaryTCMAdditions)
--(id)objectForLong:(long)aLong;
+
+- (id)objectForLong:(long)aLong;
 @end
 
+
 @interface NSMutableDictionary (NSDictionaryTCMAdditions)
+
 - (void)removeObjectForLong:(long)aLong;
--(void)setObject:(id)aObject forLong:(long)aLong;
+- (void)setObject:(id)anObject forLong:(long)aLong;
+
 @end
 

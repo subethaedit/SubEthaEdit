@@ -28,7 +28,6 @@
 }
 
 #pragma mark -
-#pragma mark ### Accessors ####
 
 - (void)setDelegate:(id)aDelegate
 {
@@ -56,22 +55,22 @@
 {
     if (I_firstMessage) {
         if ([[aMessage messageTypeString] isEqualTo:@"RPY"] &&
-            [aMessage messageNumber]==0) {
+            [aMessage messageNumber] == 0) {
             // Parse
-            NSData *contentData=[aMessage payload];
-            NSLog(@"Payload of Message was: %@",[[[NSString alloc] initWithData:contentData encoding:NSUTF8StringEncoding] autorelease]);
+            NSData *contentData = [aMessage payload];
+            NSLog(@"Payload of Message was: %@", [[[NSString alloc] initWithData:contentData encoding:NSUTF8StringEncoding] autorelease]);
             // find "\r\n\r\n"
             int i;
-            uint8_t *bytes=(uint8_t *)[contentData bytes];
-            for (i=0;i<[contentData length]-4;i++) {
-                if (bytes[i]=='\r') {
-                    if (strncmp(&bytes[i],"\r\n\r\n",4)==0) {
+            uint8_t *bytes = (uint8_t *)[contentData bytes];
+            for (i=0; i<[contentData length]-4; i++) {
+                if (bytes[i] == '\r') {
+                    if (strncmp(&bytes[i], "\r\n\r\n",4) == 0) {
                         break;
                     }
                 }
             }
-            if (i<[contentData length]) {
-                contentData=[NSData dataWithBytesNoCopy:&bytes[i+4] length:[contentData length]-i-4 freeWhenDone:NO];
+            if (i < [contentData length]) {
+                contentData = [NSData dataWithBytesNoCopy:&bytes[i+4] length:[contentData length]-i-4 freeWhenDone:NO];
             }
             
             CFXMLTreeRef cfXMLTree = NULL;
@@ -89,27 +88,26 @@
             }        
             int childCount = CFTreeGetChildCount(cfXMLTree);
             int index;
-            // Print the data string for each top-level node.
             for (index = 0; index < childCount; index++) {
                 CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(cfXMLTree, index);
                 CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
                 if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
                     if ([@"greeting" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
                         NSLog (@"Was greeting....");
-                        CFXMLElementInfo *info=(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
-                        NSDictionary *attributes=(NSDictionary *)info->attributes;
-                        NSLog (@"Attributes: %@",[attributes description]);
+                        CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
+                        NSDictionary *attributes = (NSDictionary *)info->attributes;
+                        NSLog (@"Attributes: %@", [attributes description]);
 
-                        NSMutableArray *profileURIs=[NSMutableArray array];
-                        int profileCount=CFTreeGetChildCount(xmlTree);
+                        NSMutableArray *profileURIs = [NSMutableArray array];
+                        int profileCount = CFTreeGetChildCount(xmlTree);
                         int profileIndex;
                         for (profileIndex = 0; profileIndex < profileCount; profileIndex++) {
-                            CFXMLTreeRef profileSubTree=CFTreeGetChildAtIndex(xmlTree,profileIndex);
-                            CFXMLNodeRef profileNode   =CFXMLTreeGetNode(profileSubTree);
+                            CFXMLTreeRef profileSubTree = CFTreeGetChildAtIndex(xmlTree,profileIndex);
+                            CFXMLNodeRef profileNode = CFXMLTreeGetNode(profileSubTree);
                             if (CFXMLNodeGetTypeCode(profileNode) == kCFXMLNodeTypeElement) {
                                 if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(profileNode)]) {
-                                    CFXMLElementInfo *info=(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(profileNode);
-                                    NSDictionary *attributes=(NSDictionary *)info->attributes;
+                                    CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(profileNode);
+                                    NSDictionary *attributes = (NSDictionary *)info->attributes;
                                     NSString *URI;
                                     if ((URI = [attributes objectForKey:@"uri"]))
                                         [profileURIs addObject:URI];
@@ -134,7 +132,7 @@
             // ERROR
         }
     
-        I_firstMessage=NO;
+        I_firstMessage = NO;
     } else {
         // teardown session
     }

@@ -12,9 +12,9 @@
 @interface TCMBEEPMessage : NSObject
 {
     NSString *I_messageTypeString;
-    int32_t   I_messageNumber;
-    int32_t   I_channelNumber;
-    int32_t   I_answerNumber;
+    int32_t I_messageNumber;
+    int32_t I_channelNumber;
+    int32_t I_answerNumber;
     NSMutableData *I_payload;
 }
 

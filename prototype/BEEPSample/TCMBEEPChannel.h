@@ -17,7 +17,7 @@
     TCMBEEPSession *I_session;
     NSString *I_profileURI;
     id I_profile;
-    TCMBEEPFrame   *I_currentReadFrame;
+    TCMBEEPFrame *I_previousReadFrame;
     TCMBEEPMessage *I_currentReadMessage;
     NSMutableIndexSet *I_messageNumbersWithPendingReplies;
     NSMutableIndexSet *I_inboundMessageNumbersWithPendingReplies;
@@ -39,8 +39,8 @@
 - (void)setProfileURI:(NSString *)aProfileURI;
 - (NSString *)profileURI;
 
-- (void)setCurrentReadFrame:(TCMBEEPFrame *)aFrame;
-- (TCMBEEPFrame *)currentReadFrame;
+- (void)setPreviousReadFrame:(TCMBEEPFrame *)aFrame;
+- (TCMBEEPFrame *)previousReadFrame;
 
 - (void)setCurrentReadMessage:(TCMBEEPMessage *)aMessage;
 - (TCMBEEPMessage *)currentReadMessage;
