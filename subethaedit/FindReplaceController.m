@@ -420,7 +420,6 @@ static FindReplaceController *sharedInstance=nil;
         
         
         NSRange foundRange = [I_replaceAllText findString:I_replaceAllFindString selectedRange:I_replaceAllPosRange options:I_replaceAllOptions wrap:NO];
-        NSLog(@"%@",NSStringFromRange(foundRange));        
         if (foundRange.length) {
             if (foundRange.location < I_replaceAllRange.location) {
                 I_replaceAllPosRange = NSMakeRange(0,0);
