@@ -1,0 +1,6352 @@
+nullDescriptor
+descriptorWithDescriptorType: bytes: length:
+descriptorWithDescriptorType: data:
+descriptorWithBoolean:
+descriptorWithEnumCode:
+descriptorWithInt32:
+descriptorWithTypeCode:
+descriptorWithString:
+appleEventWithEventClass: eventID: targetDescriptor: returnID: transactionID:
+listDescriptor
+recordDescriptor
+initWithAEDescNoCopy:
+initWithDescriptorType: bytes: length:
+initWithDescriptorType: data:
+initWithEventClass: eventID: targetDescriptor: returnID: transactionID:
+initListDescriptor
+initRecordDescriptor
+aeDesc
+descriptorType
+data
+booleanValue
+enumCodeValue
+int32Value
+typeCodeValue
+stringValue
+eventClass
+eventID
+returnID
+transactionID
+setParamDescriptor: forKeyword:
+paramDescriptorForKeyword:
+removeParamDescriptorWithKeyword:
+setAttributeDescriptor: forKeyword:
+attributeDescriptorForKeyword:
+numberOfItems
+insertDescriptor: atIndex:
+descriptorAtIndex:
+removeDescriptorAtIndex:
+removeDecriptorAtIndex:
+setDescriptor: forKeyword:
+descriptorForKeyword:
+removeDescriptorWithKeyword:
+keywordForDescriptorAtIndex:
+coerceToDescriptorType:
+sharedAppleEventManager
+setEventHandler: andSelector: forEventClass: andEventID:
+removeEventHandlerForEventClass: andEventID:
+dispatchRawAppleEvent: withRawReply: handlerRefCon:
+currentAppleEvent
+currentReplyAppleEvent
+suspendCurrentAppleEvent
+appleEventForSuspensionID:
+replyAppleEventForSuspensionID:
+setCurrentAppleEventAndReplyEventWithSuspensionID:
+resumeWithSuspensionID:
+initWithContentsOfURL: error:
+initWithSource:
+source
+isCompiled
+compileAndReturnError:
+executeAndReturnError:
+executeAppleEvent: error:
+initForWritingWithMutableData:
+archiverData
+encodeRootObject:
+encodeConditionalObject:
+archivedDataWithRootObject:
+archiveRootObject: toFile:
+encodeClassName: intoClassName:
+classNameEncodedForTrueClassName:
+replaceObject: withObject:
+initForReadingWithData:
+setObjectZone:
+objectZone
+isAtEnd
+systemVersion
+unarchiveObjectWithData:
+unarchiveObjectWithFile:
+decodeClassName: asClassName:
+decodeClassName: asClassName:
+classNameDecodedForArchiveClassName:
+classNameDecodedForArchiveClassName:
+replaceObject: withObject:
+classForArchiver
+replacementObjectForArchiver:
+count
+objectAtIndex:
+arrayByAddingObject:
+arrayByAddingObjectsFromArray:
+componentsJoinedByString:
+containsObject:
+description
+descriptionWithLocale:
+descriptionWithLocale: indent:
+firstObjectCommonWithArray:
+getObjects:
+getObjects: range:
+indexOfObject:
+indexOfObject: inRange:
+indexOfObjectIdenticalTo:
+indexOfObjectIdenticalTo: inRange:
+isEqualToArray:
+lastObject
+objectEnumerator
+reverseObjectEnumerator
+sortedArrayHint
+sortedArrayUsingFunction: )comparator context:
+sortedArrayUsingFunction: )comparator context: hint:
+sortedArrayUsingSelector:
+subarrayWithRange:
+writeToFile: atomically:
+writeToURL: atomically:
+makeObjectsPerformSelector:
+makeObjectsPerformSelector: withObject:
+array
+arrayWithContentsOfFile:
+arrayWithContentsOfURL:
+arrayWithObject:
+arrayWithObjects:
+initWithArray:
+initWithArray: copyItems:
+initWithContentsOfFile:
+initWithContentsOfURL:
+initWithObjects: count:
+initWithObjects:
+arrayWithArray:
+arrayWithObjects: count:
+addObject:
+insertObject: atIndex:
+removeLastObject
+removeObjectAtIndex:
+replaceObjectAtIndex: withObject:
+addObjectsFromArray:
+exchangeObjectAtIndex: withObjectAtIndex:
+removeAllObjects
+removeObject: inRange:
+removeObject:
+removeObjectIdenticalTo: inRange:
+removeObjectIdenticalTo:
+removeObjectsFromIndices: numIndices:
+removeObjectsInArray:
+removeObjectsInRange:
+replaceObjectsInRange: withObjectsFromArray: range:
+replaceObjectsInRange: withObjectsFromArray:
+setArray:
+sortUsingFunction: )compare context:
+sortUsingSelector:
+arrayWithCapacity:
+initWithCapacity:
+string
+attributesAtIndex: effectiveRange:
+length
+attribute: atIndex: effectiveRange:
+attributedSubstringFromRange:
+attributesAtIndex: longestEffectiveRange: inRange:
+attribute: atIndex: longestEffectiveRange: inRange:
+isEqualToAttributedString:
+initWithString:
+initWithString: attributes:
+initWithAttributedString:
+replaceCharactersInRange: withString:
+setAttributes: range:
+mutableString
+addAttribute: value: range:
+addAttributes: range:
+removeAttribute: range:
+replaceCharactersInRange: withAttributedString:
+insertAttributedString: atIndex:
+appendAttributedString:
+deleteCharactersInRange:
+setAttributedString:
+beginEditing
+endEditing
+addObject:
+addObject:
+mainBundle
+bundleWithPath:
+initWithPath:
+bundleForClass:
+bundleWithIdentifier:
+allBundles
+allFrameworks
+load
+isLoaded
+bundlePath
+resourcePath
+executablePath
+pathForAuxiliaryExecutable:
+privateFrameworksPath
+sharedFrameworksPath
+sharedSupportPath
+builtInPlugInsPath
+bundleIdentifier
+classNamed:
+principalClass
+pathForResource: ofType: inDirectory:
+pathForResource: ofType:
+pathForResource: ofType: inDirectory:
+pathForResource: ofType: inDirectory: forLocalization:
+pathsForResourcesOfType: inDirectory:
+pathsForResourcesOfType: inDirectory:
+pathsForResourcesOfType: inDirectory: forLocalization:
+localizedStringForKey: value: table:
+infoDictionary
+localizedInfoDictionary
+objectForInfoDictionaryKey:
+localizations
+preferredLocalizations
+developmentLocalization
+preferredLocalizationsFromArray:
+preferredLocalizationsFromArray: forPreferences:
+dateWithYear: month: day: hour: minute: second: timeZone:
+dateWithString: calendarFormat:
+dateWithString: calendarFormat: locale:
+calendarDate
+initWithYear: month: day: hour: minute: second: timeZone:
+initWithString:
+initWithString: calendarFormat:
+initWithString: calendarFormat: locale:
+timeZone
+setTimeZone:
+calendarFormat
+setCalendarFormat:
+yearOfCommonEra
+monthOfYear
+dayOfMonth
+dayOfWeek
+dayOfYear
+dayOfCommonEra
+hourOfDay
+minuteOfHour
+secondOfMinute
+dateByAddingYears: months: days: hours: minutes: seconds:
+years: months: days: hours: minutes: seconds: sinceDate:
+description
+descriptionWithLocale:
+descriptionWithCalendarFormat:
+descriptionWithCalendarFormat: locale:
+dateWithString:
+initWithString:
+dateWithCalendarFormat: timeZone:
+descriptionWithLocale:
+descriptionWithCalendarFormat: timeZone: locale:
+dateWithNaturalLanguageString:
+dateWithNaturalLanguageString: locale:
+controlCharacterSet
+whitespaceCharacterSet
+whitespaceAndNewlineCharacterSet
+decimalDigitCharacterSet
+letterCharacterSet
+lowercaseLetterCharacterSet
+uppercaseLetterCharacterSet
+nonBaseCharacterSet
+alphanumericCharacterSet
+decomposableCharacterSet
+illegalCharacterSet
+punctuationCharacterSet
+capitalizedLetterCharacterSet
+symbolCharacterSet
+characterSetWithRange:
+characterSetWithCharactersInString:
+characterSetWithBitmapRepresentation:
+characterSetWithContentsOfFile:
+characterIsMember:
+bitmapRepresentation
+invertedSet
+longCharacterIsMember:
+isSupersetOfSet:
+hasMemberInPlane:
+addCharactersInRange:
+removeCharactersInRange:
+addCharactersInString:
+removeCharactersInString:
+formUnionWithCharacterSet:
+formIntersectionWithCharacterSet:
+invert
+registerClassDescription: forClass:
+invalidateClassDescriptionCache
+classDescriptionForClass:
+attributeKeys
+toOneRelationshipKeys
+toManyRelationshipKeys
+inverseForRelationshipKey:
+classDescription
+attributeKeys
+toOneRelationshipKeys
+toManyRelationshipKeys
+inverseForRelationshipKey:
+encodeValueOfObjCType: at:
+encodeDataObject:
+decodeValueOfObjCType: at:
+decodeDataObject
+versionForClassName:
+encodeObject:
+encodePropertyList:
+encodeRootObject:
+encodeBycopyObject:
+encodeByrefObject:
+encodeConditionalObject:
+encodeValuesOfObjCTypes:
+encodeArrayOfObjCType: count: at:
+encodeBytes: length:
+decodeObject
+decodePropertyList
+decodeValuesOfObjCTypes:
+decodeArrayOfObjCType: count: at:
+decodeBytesWithReturnedLength:
+setObjectZone:
+objectZone
+systemVersion
+allowsKeyedCoding
+encodeObject: forKey:
+encodeConditionalObject: forKey:
+encodeBool: forKey:
+encodeInt: forKey:
+encodeInt32: forKey:
+encodeInt64: forKey:
+encodeFloat: forKey:
+encodeDouble: forKey:
+encodeBytes: length: forKey:
+containsValueForKey:
+decodeObjectForKey:
+decodeBoolForKey:
+decodeIntForKey:
+decodeInt32ForKey:
+decodeInt64ForKey:
+decodeFloatForKey:
+decodeDoubleForKey:
+decodeBytesForKey: returnedLength:
+encodeNXObject:
+decodeNXObject
+statistics
+allConnections
+defaultConnection
+connectionWithRegisteredName: host:
+connectionWithRegisteredName: host: usingNameServer:
+rootProxyForConnectionWithRegisteredName: host:
+rootProxyForConnectionWithRegisteredName: host: usingNameServer:
+setRequestTimeout:
+requestTimeout
+setReplyTimeout:
+replyTimeout
+setRootObject:
+rootObject
+rootProxy
+setDelegate:
+delegate
+setIndependentConversationQueueing:
+independentConversationQueueing
+isValid
+invalidate
+addRequestMode:
+removeRequestMode:
+requestModes
+registerName:
+registerName: withNameServer:
+connectionWithReceivePort: sendPort:
+currentConversation
+initWithReceivePort: sendPort:
+sendPort
+receivePort
+enableMultipleThreads
+multipleThreadsEnabled
+addRunLoop:
+removeRunLoop:
+runInNewThread
+remoteObjects
+localObjects
+makeNewConnection: sender:
+connection: shouldMakeNewConnection:
+authenticationDataForComponents:
+authenticateComponents: withData:
+createConversationForConnection:
+invocation
+connection
+conversation
+replyWithException:
+connection: handleRequest:
+length
+bytes
+description
+getBytes:
+getBytes: length:
+getBytes: range:
+isEqualToData:
+subdataWithRange:
+writeToFile: atomically:
+writeToURL: atomically:
+data
+dataWithBytes: length:
+dataWithBytesNoCopy: length:
+dataWithBytesNoCopy: length: freeWhenDone:
+dataWithContentsOfFile:
+dataWithContentsOfURL:
+dataWithContentsOfMappedFile:
+initWithBytes: length:
+initWithBytesNoCopy: length:
+initWithBytesNoCopy: length: freeWhenDone:
+initWithContentsOfFile:
+initWithContentsOfURL:
+initWithContentsOfMappedFile:
+initWithData:
+dataWithData:
+mutableBytes
+setLength:
+appendBytes: length:
+appendData:
+increaseLengthBy:
+replaceBytesInRange: withBytes:
+resetBytesInRange:
+setData:
+replaceBytesInRange: withBytes: length:
+dataWithCapacity:
+dataWithLength:
+initWithCapacity:
+initWithLength:
+timeIntervalSinceReferenceDate
+timeIntervalSinceDate:
+timeIntervalSinceNow
+timeIntervalSince1970
+addTimeInterval:
+earlierDate:
+laterDate:
+compare:
+description
+isEqualToDate:
+timeIntervalSinceReferenceDate
+date
+dateWithTimeIntervalSinceNow:
+dateWithTimeIntervalSinceReferenceDate:
+dateWithTimeIntervalSince1970:
+distantFuture
+distantPast
+init
+initWithTimeIntervalSinceReferenceDate:
+initWithTimeInterval: sinceDate:
+initWithTimeIntervalSinceNow:
+initWithDateFormat: allowNaturalLanguage:
+dateFormat
+allowsNaturalLanguage
+enableRelease:
+showPools
+resetTotalAutoreleasedObjects
+totalAutoreleasedObjects
+enableFreedObjectCheck:
+autoreleasedObjectCount
+topAutoreleasePoolCount
+poolCountHighWaterMark
+setPoolCountHighWaterMark:
+poolCountHighWaterResolution
+setPoolCountHighWaterResolution:
+roundingMode
+scale
+exceptionDuringOperation: error: leftOperand: rightOperand:
+initWithMantissa: exponent: isNegative:
+initWithDecimal:
+initWithString:
+initWithString: locale:
+descriptionWithLocale:
+decimalValue
+decimalNumberWithMantissa: exponent: isNegative:
+decimalNumberWithDecimal:
+decimalNumberWithString:
+decimalNumberWithString: locale:
+zero
+one
+minimumDecimalNumber
+maximumDecimalNumber
+notANumber
+decimalNumberByAdding:
+decimalNumberByAdding: withBehavior:
+decimalNumberBySubtracting:
+decimalNumberBySubtracting: withBehavior:
+decimalNumberByMultiplyingBy:
+decimalNumberByMultiplyingBy: withBehavior:
+decimalNumberByDividingBy:
+decimalNumberByDividingBy: withBehavior:
+decimalNumberByRaisingToPower:
+decimalNumberByRaisingToPower: withBehavior:
+decimalNumberByMultiplyingByPowerOf10:
+decimalNumberByMultiplyingByPowerOf10: withBehavior:
+decimalNumberByRoundingAccordingToBehavior:
+compare:
+setDefaultBehavior:
+defaultBehavior
+objCType
+doubleValue
+defaultDecimalNumberHandler
+initWithRoundingMode: scale: raiseOnExactness: raiseOnOverflow: raiseOnUnderflow: raiseOnDivideByZero:
+decimalNumberHandlerWithRoundingMode: scale: raiseOnExactness: raiseOnOverflow: raiseOnUnderflow: raiseOnDivideByZero:
+decimalValue
+scanDecimal:
+count
+keyEnumerator
+objectForKey:
+allKeys
+allKeysForObject:
+allValues
+description
+descriptionInStringsFileFormat
+descriptionWithLocale:
+descriptionWithLocale: indent:
+isEqualToDictionary:
+objectEnumerator
+objectsForKeys: notFoundMarker:
+writeToFile: atomically:
+writeToURL: atomically:
+keysSortedByValueUsingSelector:
+dictionary
+dictionaryWithContentsOfFile:
+dictionaryWithContentsOfURL:
+dictionaryWithObjects: forKeys:
+dictionaryWithObjects: forKeys: count:
+dictionaryWithObjectsAndKeys:
+initWithContentsOfFile:
+initWithContentsOfURL:
+initWithObjects: forKeys:
+initWithObjects: forKeys: count:
+initWithObjectsAndKeys:
+initWithDictionary:
+dictionaryWithDictionary:
+dictionaryWithObject: forKey:
+initWithDictionary: copyItems:
+removeObjectForKey:
+setObject: forKey:
+addEntriesFromDictionary:
+removeAllObjects
+removeObjectsForKeys:
+setDictionary:
+dictionaryWithCapacity:
+initWithCapacity:
+proxyWithTarget: connection:
+initWithTarget: connection:
+proxyWithLocal: connection:
+initWithLocal: connection:
+setProtocolForProxy:
+connectionForProxy
+lockWithPath:
+initWithPath:
+tryLock
+unlock
+breakLock
+lockDate
+notificationCenterForType:
+defaultCenter
+addObserver: selector: name: object: suspensionBehavior:
+postNotificationName: object: userInfo: deliverImmediately:
+postNotificationName: object: userInfo: options:
+setSuspended:
+suspended
+addObserver: selector: name: object:
+postNotificationName: object:
+postNotificationName: object: userInfo:
+removeObserver: name: object:
+nextObject
+allObjects
+initWithDomain: code: userInfo:
+errorWithDomain: code: userInfo:
+domain
+code
+userInfo
+localizedDescription
+exceptionWithName: reason: userInfo:
+initWithName: reason: userInfo:
+name
+reason
+userInfo
+raise
+raise: format:
+raise: format: arguments:
+currentHandler
+handleFailureInMethod: object: file: lineNumber: description:,...
+handleFailureInFunction: file: lineNumber: description:,...
+availableData
+readDataToEndOfFile
+readDataOfLength:
+writeData:
+offsetInFile
+seekToEndOfFile
+seekToFileOffset:
+truncateFileAtOffset:
+synchronizeFile
+closeFile
+fileHandleWithStandardInput
+fileHandleWithStandardOutput
+fileHandleWithStandardError
+fileHandleWithNullDevice
+fileHandleForReadingAtPath:
+fileHandleForWritingAtPath:
+fileHandleForUpdatingAtPath:
+readInBackgroundAndNotifyForModes:
+readInBackgroundAndNotify
+readToEndOfFileInBackgroundAndNotifyForModes:
+readToEndOfFileInBackgroundAndNotify
+acceptConnectionInBackgroundAndNotifyForModes:
+acceptConnectionInBackgroundAndNotify
+waitForDataInBackgroundAndNotifyForModes:
+waitForDataInBackgroundAndNotify
+initWithNativeHandle: closeOnDealloc:
+initWithNativeHandle:
+nativeHandle
+initWithFileDescriptor: closeOnDealloc:
+initWithFileDescriptor:
+fileDescriptor
+fileHandleForReading
+fileHandleForWriting
+init
+pipe
+defaultManager
+currentDirectoryPath
+changeCurrentDirectoryPath:
+fileAttributesAtPath: traverseLink:
+changeFileAttributes: atPath:
+fileExistsAtPath:
+fileExistsAtPath: isDirectory:
+isReadableFileAtPath:
+isWritableFileAtPath:
+isExecutableFileAtPath:
+isDeletableFileAtPath:
+displayNameAtPath:
+contentsEqualAtPath: andPath:
+linkPath: toPath: handler:handler
+copyPath: toPath: handler:handler
+movePath: toPath: handler:handler
+removeFileAtPath: handler:handler
+directoryContentsAtPath:
+enumeratorAtPath:
+subpathsAtPath:
+createDirectoryAtPath: attributes:
+contentsAtPath:
+createFileAtPath: contents: attributes:
+pathContentOfSymbolicLinkAtPath:
+createSymbolicLinkAtPath: pathContent:
+fileSystemAttributesAtPath:
+fileSystemRepresentationWithPath:
+stringWithFileSystemRepresentation: length:
+componentsToDisplayForPath:
+fileManager: shouldProceedAfterError:
+fileManager: willProcessPath:
+fileAttributes
+directoryAttributes
+skipDescendents
+fileSize
+fileModificationDate
+fileType
+filePosixPermissions
+fileOwnerAccountName
+fileGroupOwnerAccountName
+fileSystemNumber
+fileSystemFileNumber
+fileExtensionHidden
+fileHFSCreatorCode
+fileHFSTypeCode
+fileIsImmutable
+fileIsAppendOnly
+fileCreationDate
+fileOwnerAccountID
+fileGroupOwnerAccountID
+stringForObjectValue:
+attributedStringForObjectValue: withDefaultAttributes:
+editingStringForObjectValue:
+getObjectValue: forString: errorDescription:
+isPartialStringValid: newEditingString: errorDescription:
+isPartialStringValid: proposedSelectedRange: originalString: originalSelectedRange: errorDescription:
+valueWithPoint:
+valueWithSize:
+valueWithRect:
+pointValue
+sizeValue
+rectValue
+encodePoint:
+decodePoint
+encodeSize:
+decodeSize
+encodeRect:
+decodeRect
+initWithProperties:
+cookieWithProperties:
+requestHeaderFieldsWithCookies:
+cookiesWithResponseHeaderFields: forURL:
+properties
+version
+name
+value
+expiresDate
+isSessionOnly
+domain
+path
+isSecure
+comment
+commentURL
+portList
+sharedHTTPCookieStorage
+cookies
+setCookie:
+deleteCookie:
+cookiesForURL:
+setCookies: forURL: mainDocumentURL:
+cookieAcceptPolicy
+setCookieAcceptPolicy:
+currentHost
+hostWithName:
+hostWithAddress:
+setHostCacheEnabled:
+isHostCacheEnabled
+flushHostCache
+isEqualToHost:
+name
+names
+address
+addresses
+indexSet
+indexSetWithIndex:
+indexSetWithIndexesInRange:
+init
+initWithIndex:
+initWithIndexesInRange:
+initWithIndexSet:
+isEqualToIndexSet:
+count
+firstIndex
+lastIndex
+indexGreaterThanIndex:
+indexLessThanIndex:
+indexGreaterThanOrEqualToIndex:
+indexLessThanOrEqualToIndex:
+getIndexes: maxCount: inIndexRange:
+containsIndex:
+containsIndexesInRange:
+containsIndexes:
+intersectsIndexesInRange:
+addIndexes:
+removeIndexes:
+removeAllIndexes
+addIndex:
+removeIndex:
+addIndexesInRange:
+removeIndexesInRange:
+shiftIndexesStartingAtIndex: by:
+invocationWithMethodSignature:
+selector
+setSelector:
+target
+setTarget:
+retainArguments
+argumentsRetained
+getReturnValue:
+setReturnValue:
+getArgument: atIndex:
+setArgument: atIndex:
+methodSignature
+invoke
+invokeWithTarget:
+accessInstanceVariablesDirectly
+valueForKey:
+setValue: forKey:
+validateValue: forKey: error:
+mutableArrayValueForKey:
+valueForKeyPath:
+setValue: forKeyPath:
+validateValue: forKeyPath: error:
+mutableArrayValueForKeyPath:
+valueForUndefinedKey:
+setValue: forUndefinedKey:
+setNilValueForKey:
+dictionaryWithValuesForKeys:
+setValuesForKeysWithDictionary:
+useStoredAccessor
+storedValueForKey:
+takeStoredValue: forKey:
+valueForKey:
+setValue: forKey:
+valueForKey:
+setValue: forKey:
+takeValue: forKey:
+takeValue: forKeyPath:
+handleQueryWithUnboundKey:
+handleTakeValue: forUnboundKey:
+unableToSetNilForKey:
+valuesForKeys:
+takeValuesFromDictionary:
+observeValueForKeyPath: ofObject: change: context:
+addObserver: forKeyPath: options: context:
+removeObserver: forKeyPath:
+addObserver: toObjectsAtIndexes: forKeyPath: options: context:
+removeObserver: fromObjectsAtIndexes: forKeyPath:
+willChangeValueForKey:
+didChangeValueForKey:
+willChange: valuesAtIndexes: forKey:
+didChange: valuesAtIndexes: forKey:
+automaticallyNotifiesObserversForKey:
+setKeys: triggerChangeNotificationsForDependentKey:
+setObservationInfo:
+observationInfo
+archivedDataWithRootObject:
+archiveRootObject: toFile:
+initForWritingWithMutableData:
+setDelegate:
+delegate
+setOutputFormat:
+outputFormat
+finishEncoding
+setClassName: forClass:
+setClassName: forClass:
+classNameForClass:
+classNameForClass:
+encodeObject: forKey:
+encodeConditionalObject: forKey:
+encodeBool: forKey:
+encodeInt: forKey:
+encodeInt32: forKey:
+encodeInt64: forKey:
+encodeFloat: forKey:
+encodeDouble: forKey:
+encodeBytes: length: forKey:
+unarchiveObjectWithData:
+unarchiveObjectWithFile:
+initForReadingWithData:
+setDelegate:
+delegate
+finishDecoding
+setClass: forClassName:
+setClass: forClassName:
+classForClassName:
+classForClassName:
+containsValueForKey:
+decodeObjectForKey:
+decodeBoolForKey:
+decodeIntForKey:
+decodeInt32ForKey:
+decodeInt64ForKey:
+decodeFloatForKey:
+decodeDoubleForKey:
+decodeBytesForKey: returnedLength:
+encodePoint: forKey:
+encodeSize: forKey:
+encodeRect: forKey:
+decodePointForKey:
+decodeSizeForKey:
+decodeRectForKey:
+archiver: willEncodeObject:
+archiver: didEncodeObject:
+archiver: willReplaceObject: withObject:
+archiverWillFinish:
+archiverDidFinish:
+unarchiver: cannotDecodeObjectOfClassName: originalClasses:
+unarchiver: didDecodeObject:
+unarchiver: willReplaceObject: withObject:
+unarchiverWillFinish:
+unarchiverDidFinish:
+classForKeyedArchiver
+replacementObjectForKeyedArchiver:
+classForKeyedUnarchiver
+lock
+unlock
+tryLock
+lockBeforeDate:
+initWithCondition:
+condition
+lockWhenCondition:
+tryLock
+tryLockWhenCondition:
+unlockWithCondition:
+lockBeforeDate:
+lockWhenCondition: beforeDate:
+tryLock
+lockBeforeDate:
+numberOfArguments
+getArgumentTypeAtIndex:
+frameLength
+isOneway
+methodReturnType
+methodReturnLength
+initWithDomain: type: name: port:
+initWithDomain: type: name:
+delegate
+setDelegate:
+scheduleInRunLoop: forMode:
+removeFromRunLoop: forMode:
+domain
+type
+name
+protocolSpecificInformation
+setProtocolSpecificInformation:
+addresses
+publish
+resolve
+stop
+init
+delegate
+setDelegate:
+scheduleInRunLoop: forMode:
+removeFromRunLoop: forMode:
+searchForAllDomains
+searchForRegistrationDomains
+searchForServicesOfType: inDomain:
+stop
+netServiceWillPublish:
+netServiceWillResolve:
+netService: didNotPublish:
+netServiceDidResolveAddress:
+netService: didNotResolve:
+netServiceDidStop:
+netServiceBrowserWillSearch:
+netServiceBrowser: didFindDomain: moreComing:
+netServiceBrowser: didFindService: moreComing:
+netServiceBrowser: didNotSearch:
+netServiceBrowserDidStopSearch:
+netServiceBrowser: didRemoveDomain: moreComing:
+netServiceBrowser: didRemoveService: moreComing:
+name
+object
+userInfo
+notificationWithName: object:
+notificationWithName: object: userInfo:
+defaultCenter
+addObserver: selector: name: object:
+postNotification:
+postNotificationName: object:
+postNotificationName: object: userInfo:
+removeObserver:
+removeObserver: name: object:
+defaultQueue
+initWithNotificationCenter:
+enqueueNotification: postingStyle:
+enqueueNotification: postingStyle: coalesceMask: forModes:
+dequeueNotificationsMatching: coalesceMask:
+null
+negativeFormat
+setNegativeFormat:
+textAttributesForNegativeValues
+setTextAttributesForNegativeValues:
+positiveFormat
+setPositiveFormat:
+textAttributesForPositiveValues
+setTextAttributesForPositiveValues:
+attributedStringForZero
+setAttributedStringForZero:
+attributedStringForNil
+setAttributedStringForNil:
+attributedStringForNotANumber
+setAttributedStringForNotANumber:
+format
+setFormat:
+hasThousandSeparators
+setHasThousandSeparators:
+thousandSeparator
+setThousandSeparator:
+decimalSeparator
+setDecimalSeparator:
+localizesFormat
+setLocalizesFormat:
+allowsFloats
+setAllowsFloats:
+roundingBehavior
+setRoundingBehavior:
+minimum
+setMinimum:
+maximum
+setMaximum:
+isEqual:
+hash
+superclass
+class
+self
+zone
+performSelector:
+performSelector: withObject:
+performSelector: withObject: withObject:
+isProxy
+isKindOfClass:
+isMemberOfClass:
+conformsToProtocol:
+respondsToSelector:
+retain
+release
+autorelease
+retainCount
+description
+copyWithZone:
+mutableCopyWithZone:
+encodeWithCoder:
+initWithCoder:
+load
+initialize
+init
+new
+allocWithZone:
+alloc
+dealloc
+copy
+mutableCopy
+copyWithZone:
+mutableCopyWithZone:
+superclass
+class
+poseAsClass:
+instancesRespondToSelector:
+conformsToProtocol:
+methodForSelector:
+instanceMethodForSelector:
+version
+setVersion:
+doesNotRecognizeSelector:
+forwardInvocation:
+methodSignatureForSelector:
+instanceMethodSignatureForSelector:
+isSubclassOfClass:
+description
+classForCoder
+replacementObjectForCoder:
+awakeAfterUsingCoder:
+scriptingProperties
+setScriptingProperties:
+pathWithComponents:
+pathComponents
+isAbsolutePath
+lastPathComponent
+stringByDeletingLastPathComponent
+stringByAppendingPathComponent:
+pathExtension
+stringByDeletingPathExtension
+stringByAppendingPathExtension:
+stringByAbbreviatingWithTildeInPath
+stringByExpandingTildeInPath
+stringByStandardizingPath
+stringByResolvingSymlinksInPath
+stringsByAppendingPaths:
+completePathIntoString: caseSensitive: matchesIntoArray: filterTypes:
+fileSystemRepresentation
+getFileSystemRepresentation: maxLength:
+pathsMatchingExtensions:
+allocWithZone:
+port
+invalidate
+isValid
+setDelegate:
+delegate
+scheduleInRunLoop: forMode:
+removeFromRunLoop: forMode:
+reservedSpaceLength
+sendBeforeDate: components: from: reserved:
+sendBeforeDate: msgid: components: from: reserved:
+addConnection: toRunLoop: forMode:
+removeConnection: fromRunLoop: forMode:
+handlePortMessage:
+portWithMachPort:
+initWithMachPort:
+machPort
+scheduleInRunLoop: forMode:
+removeFromRunLoop: forMode:
+handleMachMessage:
+init
+initWithTCPPort:
+initWithProtocolFamily: socketType: protocol: address:
+initWithProtocolFamily: socketType: protocol: socket:
+initRemoteWithTCPPort: host:
+initRemoteWithProtocolFamily: socketType: protocol: address:
+protocolFamily
+socketType
+protocol
+address
+socket
+isBycopy
+isByref
+connection
+encodePortObject:
+decodePortObject
+portCoderWithReceivePort: sendPort: components:
+initWithReceivePort: sendPort: components:
+dispatch
+classForPortCoder
+replacementObjectForPortCoder:
+initWithSendPort: receivePort: components:
+components
+receivePort
+sendPort
+sendBeforeDate:
+msgid
+setMsgid:
+systemDefaultPortNameServer
+portForName:
+portForName: host:
+registerPort: name:
+removePortForName:
+sharedInstance
+portForName:
+portForName: host:
+registerPort: name:
+sharedInstance
+portForName:
+portForName: host:
+sharedInstance
+portForName:
+portForName: host:
+registerPort: name:
+removePortForName:
+portForName: host: nameServerPortNumber:
+registerPort: name: nameServerPortNumber:
+setDefaultNameServerPortNumber:
+defaultNameServerPortNumber
+processInfo
+environment
+arguments
+hostName
+processName
+processIdentifier
+setProcessName:
+globallyUniqueString
+operatingSystem
+operatingSystemName
+operatingSystemVersionString
+propertyList: isValidForFormat:
+dataFromPropertyList: format: errorDescription:
+propertyListFromData: mutabilityOption: format: errorDescription:
+protocol
+target
+protocolCheckerWithTarget: protocol:
+initWithTarget: protocol:
+alloc
+allocWithZone:
+class
+forwardInvocation:
+methodSignatureForSelector:
+dealloc
+description
+respondsToSelector:
+valueWithRange:
+rangeValue
+currentRunLoop
+currentMode
+getCFRunLoop
+addTimer: forMode:
+addPort: forMode:
+removePort: forMode:
+limitDateForMode:
+acceptInputForMode: beforeDate:
+run
+runUntilDate:
+runMode: beforeDate:
+configureAsServer
+performSelector: withObject: afterDelay: inModes:
+performSelector: withObject: afterDelay:
+cancelPreviousPerformRequestsWithTarget: selector: object:
+cancelPreviousPerformRequestsWithTarget:
+performSelector: target: argument: order: modes:
+cancelPerformSelector: target: argument:
+cancelPerformSelectorsWithTarget:
+string
+scanLocation
+setScanLocation:
+setCharactersToBeSkipped:
+setCaseSensitive:
+setLocale:
+charactersToBeSkipped
+caseSensitive
+locale
+scanInt:
+scanHexInt:
+scanLongLong:
+scanFloat:
+scanDouble:
+scanString: intoString:
+scanCharactersFromSet: intoString:
+scanUpToString: intoString:
+scanUpToCharactersFromSet: intoString:
+isAtEnd
+initWithString:
+scannerWithString:
+localizedScannerWithString:
+initWithSuiteName: className: dictionary:
+suiteName
+className
+superclassDescription
+appleEventCode
+matchesAppleEventCode:
+supportsCommand:
+selectorForCommand:
+typeForKey:
+classDescriptionForKey:
+appleEventCodeForKey:
+isReadOnlyKey:
+keyWithAppleEventCode:
+defaultSubcontainerAttributeKey
+isLocationRequiredToCreateForKey:
+className
+classCode
+sharedCoercionHandler
+coerceValue: toClass:
+registerCoercer: selector: toConvertFromClass: toClass:
+initWithCommandDescription:
+commandDescription
+setDirectParameter:
+directParameter
+setReceiversSpecifier:
+receiversSpecifier
+evaluatedReceivers
+setArguments:
+arguments
+evaluatedArguments
+isWellFormed
+performDefaultImplementation
+executeCommand
+setScriptErrorNumber:
+scriptErrorNumber
+setScriptErrorString:
+scriptErrorString
+currentCommand
+appleEvent
+suspendExecution
+resumeExecutionWithResult:
+initWithSuiteName: commandName: dictionary:
+suiteName
+commandName
+appleEventCode
+appleEventClassCode
+commandClassName
+returnType
+appleEventCodeForReturnType
+argumentNames
+typeForArgumentWithName:
+isOptionalArgumentWithName:
+appleEventCodeForArgumentWithName:
+createCommandInstance
+createCommandInstanceWithZone:
+sharedScriptExecutionContext
+topLevelObject
+setTopLevelObject:
+objectBeingTested
+setObjectBeingTested:
+rangeContainerObject
+setRangeContainerObject:
+valueAtIndex: inPropertyWithKey:
+valueWithName: inPropertyWithKey:
+valueWithUniqueID: inPropertyWithKey:
+replaceValueAtIndex: inPropertyWithKey: withValue:
+insertValue: atIndex: inPropertyWithKey:
+removeValueAtIndex: fromPropertyWithKey:
+insertValue: inPropertyWithKey:
+coerceValue: forKey:
+initWithContainerSpecifier: key:
+initWithContainerClassDescription: containerSpecifier: key:
+childSpecifier
+setChildSpecifier:
+containerSpecifier
+setContainerSpecifier:
+containerIsObjectBeingTested
+setContainerIsObjectBeingTested:
+containerIsRangeContainerObject
+setContainerIsRangeContainerObject:
+key
+setKey:
+containerClassDescription
+setContainerClassDescription:
+keyClassDescription
+indicesOfObjectsByEvaluatingWithContainer: count:
+objectsByEvaluatingWithContainers:
+objectsByEvaluatingSpecifier
+evaluationErrorNumber
+setEvaluationErrorNumber:
+evaluationErrorSpecifier
+objectSpecifier
+indicesOfObjectsByEvaluatingObjectSpecifier:
+initWithContainerClassDescription: containerSpecifier: key: index:
+index
+setIndex:
+initWithContainerClassDescription: containerSpecifier: key: name:
+name
+setName:
+initWithPosition: objectSpecifier:
+setInsertionClassDescription:
+evaluate
+insertionContainer
+insertionKey
+insertionIndex
+insertionReplaces
+initWithContainerClassDescription: containerSpecifier: key: startSpecifier: endSpecifier:
+startSpecifier
+setStartSpecifier:
+endSpecifier
+setEndSpecifier:
+initWithContainerClassDescription: containerSpecifier: key: relativePosition: baseSpecifier:
+relativePosition
+setRelativePosition:
+baseSpecifier
+setBaseSpecifier:
+initWithContainerClassDescription: containerSpecifier: key: uniqueID:
+uniqueID
+setUniqueID:
+initWithContainerClassDescription: containerSpecifier: key: test:
+test
+setTest:
+startSubelementIdentifier
+setStartSubelementIdentifier:
+startSubelementIndex
+setStartSubelementIndex:
+endSubelementIdentifier
+setEndSubelementIdentifier:
+endSubelementIndex
+setEndSubelementIndex:
+setReceiversSpecifier:
+keySpecifier
+saveOptions
+createClassDescription
+resolvedKeyDictionary
+setReceiversSpecifier:
+keySpecifier
+setReceiversSpecifier:
+keySpecifier
+saveOptions
+setReceiversSpecifier:
+keySpecifier
+sharedScriptSuiteRegistry
+setSharedScriptSuiteRegistry:
+suiteNames
+commandDescriptionsInSuite:
+classDescriptionsInSuite:
+appleEventCodeForSuite:
+suiteForAppleEventCode:
+bundleForSuite:
+commandDescriptionWithAppleEventClass: andAppleEventCode:
+classDescriptionWithAppleEventCode:
+registerCommandDescription:
+registerClassDescription:
+loadSuitesFromBundle:
+loadSuiteWithDictionary: fromBundle:
+aeteResource:
+isTrue
+initAndTestWithTests:
+initOrTestWithTests:
+initNotTestWithTest:
+initWithObjectSpecifier: comparisonOperator: testObject:
+isEqualTo:
+isLessThanOrEqualTo:
+isLessThan:
+isGreaterThanOrEqualTo:
+isGreaterThan:
+isNotEqualTo:
+doesContain:
+isLike:
+isCaseInsensitiveLike:
+scriptingIsEqualTo:
+scriptingIsLessThanOrEqualTo:
+scriptingIsLessThan:
+scriptingIsGreaterThanOrEqualTo:
+scriptingIsGreaterThan:
+scriptingBeginsWith:
+scriptingEndsWith:
+scriptingContains:
+serializeInt:
+serializeInts: count:
+serializeInt: atIndex:
+serializeInts: count: atIndex:
+serializeAlignedBytesLength:
+deserializeIntAtIndex:
+deserializeInts: count: atIndex:
+deserializeIntAtCursor:
+deserializeInts: count: atCursor:
+deserializeAlignedBytesLengthAtCursor:
+deserializeBytes: length: atCursor:
+serializeObjectAt: ofObjCType: intoData:
+deserializeObjectAt: ofObjCType: fromData: atCursor:
+serializeDataAt: ofObjCType: context:
+deserializeDataAt: ofObjCType: atCursor: context:
+serializePropertyList: intoData:
+serializePropertyList:
+deserializePropertyListFromData: atCursor: mutableContainers:
+deserializePropertyListLazilyFromData: atCursor: length: mutableContainers:
+deserializePropertyListFromData: mutableContainers:
+count
+member:
+objectEnumerator
+allObjects
+anyObject
+containsObject:
+description
+descriptionWithLocale:
+intersectsSet:
+isEqualToSet:
+isSubsetOfSet:
+makeObjectsPerformSelector:
+makeObjectsPerformSelector: withObject:
+set
+setWithArray:
+setWithObject:
+setWithObjects:
+initWithArray:
+initWithObjects: count:
+initWithObjects:
+initWithSet:
+initWithSet: copyItems:
+setWithSet:
+setWithObjects: count:
+addObject:
+removeObject:
+addObjectsFromArray:
+intersectSet:
+minusSet:
+removeAllObjects
+unionSet:
+setSet:
+setWithCapacity:
+initWithCapacity:
+initWithCapacity:
+initWithArray:
+initWithSet:
+countForObject:
+objectEnumerator
+addObject:
+removeObject:
+initWithKey: ascending:
+initWithKey: ascending: selector:
+key
+ascending
+selector
+compareObject: toObject:
+reversedSortDescriptor
+sortedArrayUsingDescriptors:
+sortUsingDescriptors:
+setDelegate:
+delegate
+registerLanguage: byVendor:
+isWordInUserDictionaries: caseSensitive:
+run
+spellServer: findMisspelledWordInString: language: wordCount: countOnly:
+spellServer: suggestGuessesForWord: inLanguage:
+spellServer: didLearnWord: inLanguage:
+spellServer: didForgetWord: inLanguage:
+spellServer: suggestCompletionsForPartialWordRange: inString: language:
+open
+close
+delegate
+setDelegate:
+propertyForKey:
+setProperty: forKey:
+scheduleInRunLoop: forMode:
+removeFromRunLoop: forMode:
+streamStatus
+streamError
+read: maxLength:
+getBuffer: length:
+hasBytesAvailable
+write: maxLength:
+hasSpaceAvailable
+getStreamsToHost: port: inputStream: outputStream:
+initWithData:
+initWithFileAtPath:
+inputStreamWithData:
+inputStreamWithFileAtPath:
+initToMemory
+initToBuffer: capacity:
+initToFileAtPath: append:
+outputStreamToMemory
+outputStreamToBuffer: capacity:
+outputStreamToFileAtPath: append:
+stream: handleEvent:
+length
+characterAtIndex:
+getCharacters:
+getCharacters: range:
+substringFromIndex:
+substringToIndex:
+substringWithRange:
+compare:
+compare: options:
+compare: options: range:
+compare: options: range: locale:
+caseInsensitiveCompare:
+localizedCompare:
+localizedCaseInsensitiveCompare:
+isEqualToString:
+hasPrefix:
+hasSuffix:
+rangeOfString:
+rangeOfString: options:
+rangeOfString: options: range:
+rangeOfCharacterFromSet:
+rangeOfCharacterFromSet: options:
+rangeOfCharacterFromSet: options: range:
+rangeOfComposedCharacterSequenceAtIndex:
+stringByAppendingString:
+stringByAppendingFormat:
+doubleValue
+floatValue
+intValue
+componentsSeparatedByString:
+commonPrefixWithString: options:
+uppercaseString
+lowercaseString
+capitalizedString
+stringByTrimmingCharactersInSet:
+stringByPaddingToLength: withString: startingAtIndex:
+getLineStart: end: contentsEnd: forRange:
+lineRangeForRange:
+getParagraphStart: end: contentsEnd: forRange:
+paragraphRangeForRange:
+description
+hash
+fastestEncoding
+smallestEncoding
+dataUsingEncoding: allowLossyConversion:
+dataUsingEncoding:
+canBeConvertedToEncoding:
+decomposedStringWithCanonicalMapping
+precomposedStringWithCanonicalMapping
+decomposedStringWithCompatibilityMapping
+precomposedStringWithCompatibilityMapping
+UTF8String
+cString
+lossyCString
+cStringLength
+getCString:
+getCString: maxLength:
+getCString: maxLength: range: remainingRange:
+defaultCStringEncoding
+writeToFile: atomically:
+writeToURL: atomically:
+availableStringEncodings
+localizedNameOfStringEncoding:
+string
+stringWithString:
+stringWithCharacters: length:
+stringWithCString: length:
+stringWithCString:
+stringWithUTF8String:
+stringWithFormat:
+stringWithContentsOfFile:
+stringWithContentsOfURL:
+localizedStringWithFormat:
+init
+initWithCharactersNoCopy: length: freeWhenDone:
+initWithCharacters: length:
+initWithBytes: length: encoding:
+initWithBytesNoCopy: length: encoding: freeWhenDone:
+initWithUTF8String:
+initWithString:
+initWithFormat:
+initWithFormat: arguments:
+initWithFormat: locale:
+initWithFormat: locale: arguments:
+initWithData: encoding:
+initWithContentsOfFile:
+initWithContentsOfURL:
+initWithCStringNoCopy: length: freeWhenDone:
+initWithCString: length:
+initWithCString:
+replaceCharactersInRange: withString:
+insertString: atIndex:
+deleteCharactersInRange:
+appendString:
+appendFormat:
+setString:
+stringWithCapacity:
+initWithCapacity:
+replaceOccurrencesOfString: withString: options: range:
+propertyList
+propertyListFromStringsFileFormat
+init
+setLaunchPath:
+setArguments:
+setEnvironment:
+setCurrentDirectoryPath:
+setStandardInput:
+setStandardOutput:
+setStandardError:
+launchPath
+arguments
+environment
+currentDirectoryPath
+standardInput
+standardOutput
+standardError
+launch
+interrupt
+terminate
+suspend
+resume
+processIdentifier
+isRunning
+terminationStatus
+launchedTaskWithLaunchPath: arguments:
+waitUntilExit
+currentThread
+detachNewThreadSelector: toTarget: withObject:
+isMultiThreaded
+threadDictionary
+sleepUntilDate:
+exit
+threadPriority
+setThreadPriority:
+performSelectorOnMainThread: withObject: waitUntilDone: modes:
+performSelectorOnMainThread: withObject: waitUntilDone:
+name
+data
+secondsFromGMTForDate:
+abbreviationForDate:
+isDaylightSavingTimeForDate:
+systemTimeZone
+resetSystemTimeZone
+defaultTimeZone
+setDefaultTimeZone:
+localTimeZone
+knownTimeZoneNames
+abbreviationDictionary
+secondsFromGMT
+abbreviation
+isDaylightSavingTime
+description
+isEqualToTimeZone:
+timeZoneWithName:
+timeZoneWithName: data:
+initWithName:
+initWithName: data:
+timeZoneForSecondsFromGMT:
+timeZoneWithAbbreviation:
+timerWithTimeInterval: invocation: repeats:
+scheduledTimerWithTimeInterval: invocation: repeats:
+timerWithTimeInterval: target: selector: userInfo: repeats:
+scheduledTimerWithTimeInterval: target: selector: userInfo: repeats:
+initWithFireDate: interval: target: selector: userInfo: repeats:
+fire
+fireDate
+setFireDate:
+timeInterval
+invalidate
+isValid
+userInfo
+initWithScheme: host: path:
+initFileURLWithPath:
+fileURLWithPath:
+initWithString:
+initWithString: relativeToURL:
+URLWithString:
+URLWithString: relativeToURL:
+absoluteString
+relativeString
+baseURL
+absoluteURL
+scheme
+resourceSpecifier
+host
+port
+user
+password
+path
+fragment
+parameterString
+query
+relativePath
+isFileURL
+standardizedURL
+resourceDataUsingCache:
+loadResourceDataNotifyingClient: usingCache:
+propertyForKey:
+setResourceData:
+setProperty: forKey:
+URLHandleUsingCache:
+URL: resourceDataDidBecomeAvailable:
+URLResourceDidFinishLoading:
+URLResourceDidCancelLoading:
+URL: resourceDidFailLoadingWithReason:
+stringByAddingPercentEscapesUsingEncoding:
+stringByReplacingPercentEscapesUsingEncoding:
+useCredential: forAuthenticationChallenge:
+continueWithoutCredentialForAuthenticationChallenge:
+cancelAuthenticationChallenge:
+initWithProtectionSpace: proposedCredential: previousFailureCount: failureResponse: error: sender:
+initWithAuthenticationChallenge: sender:
+protectionSpace
+proposedCredential
+previousFailureCount
+failureResponse
+error
+sender
+initWithResponse: data:
+initWithResponse: data: userInfo: storagePolicy:
+response
+data
+userInfo
+storagePolicy
+sharedURLCache
+setSharedURLCache:
+initWithMemoryCapacity: diskCapacity: diskPath:
+cachedResponseForRequest:
+storeCachedResponse: forRequest:
+removeCachedResponseForRequest:
+removeAllCachedResponses
+memoryCapacity
+diskCapacity
+setMemoryCapacity:
+setDiskCapacity:
+currentMemoryUsage
+currentDiskUsage
+canHandleRequest:
+connectionWithRequest: delegate:
+initWithRequest: delegate:
+cancel
+connection: willSendRequest: redirectResponse:
+connection: didReceiveAuthenticationChallenge:
+connection: didCancelAuthenticationChallenge:
+connection: didReceiveResponse:
+connection: didReceiveData:
+connectionDidFinishLoading:
+connection: didFailWithError:
+connection: willCacheResponse:
+sendSynchronousRequest: returningResponse: error:
+initWithUser: password: persistence:
+credentialWithUser: password: persistence:
+user
+password
+hasPassword
+persistence
+sharedCredentialStorage
+credentialsForProtectionSpace:
+allCredentials
+setCredential: forProtectionSpace:
+removeCredential: forProtectionSpace:
+defaultCredentialForProtectionSpace:
+setDefaultCredential: forProtectionSpace:
+initWithRequest: delegate:
+cancel
+setDestination: allowOverwrite:
+request
+downloadDidBegin:
+download: willSendRequest: redirectResponse:
+download: didReceiveAuthenticationChallenge:
+download: didCancelAuthenticationChallenge:
+download: didReceiveResponse:
+download: didReceiveDataOfLength:
+download: shouldDecodeSourceDataOfMIMEType:
+download: decideDestinationWithSuggestedFilename:
+download: didCreateDestination:
+downloadDidFinish:
+download: didFailWithError:
+URLHandle: resourceDataDidBecomeAvailable:
+URLHandleResourceDidBeginLoading:
+URLHandleResourceDidFinishLoading:
+URLHandleResourceDidCancelLoading:
+URLHandle: resourceDidFailLoadingWithReason:
+registerURLHandleClass:
+URLHandleClassForURL:
+status
+failureReason
+addClient:
+removeClient:
+loadInBackground
+cancelLoadInBackground
+resourceData
+availableResourceData
+expectedResourceDataSize
+flushCachedData
+backgroundLoadDidFailWithReason:
+didLoadBytes: loadComplete:
+canInitWithURL:
+cachedHandleForURL:
+initWithURL: cached:
+propertyForKey:
+propertyForKeyIfAvailable:
+writeProperty: forKey:
+writeData:
+loadInForeground
+beginLoadInBackground
+endLoadInBackground
+initWithHost: port: protocol: realm: authenticationMethod:
+initWithProxyHost: port: type: realm: authenticationMethod:
+realm
+receivesCredentialSecurely
+isProxy
+host
+port
+proxyType
+protocol
+authenticationMethod
+URLProtocol: wasRedirectedToRequest: redirectResponse:
+URLProtocol: cachedResponseIsValid:
+URLProtocol: didReceiveResponse: cacheStoragePolicy:
+URLProtocol: didLoadData:
+URLProtocolDidFinishLoading:
+URLProtocol: didFailWithError:
+URLProtocol: didReceiveAuthenticationChallenge:
+URLProtocol: didCancelAuthenticationChallenge:
+initWithRequest: cachedResponse: client:
+client
+request
+cachedResponse
+canInitWithRequest:
+canonicalRequestForRequest:
+requestIsCacheEquivalent: toRequest:
+startLoading
+stopLoading
+propertyForKey: inRequest:
+setProperty: forKey: inRequest:
+registerClass:
+unregisterClass:
+requestWithURL:
+requestWithURL: cachePolicy: timeoutInterval:
+initWithURL:
+initWithURL: cachePolicy: timeoutInterval:
+URL
+cachePolicy
+timeoutInterval
+mainDocumentURL
+setURL:
+setCachePolicy:
+setTimeoutInterval:
+setMainDocumentURL:
+HTTPMethod
+allHTTPHeaderFields
+valueForHTTPHeaderField:
+HTTPBody
+HTTPShouldHandleCookies
+setHTTPMethod:
+setAllHTTPHeaderFields:
+setValue: forHTTPHeaderField:
+addValue: forHTTPHeaderField:
+setHTTPBody:
+setHTTPShouldHandleCookies:
+initWithURL: MIMEType: expectedContentLength: textEncodingName:
+URL
+MIMEType
+expectedContentLength
+textEncodingName
+suggestedFilename
+statusCode
+allHeaderFields
+localizedStringForStatusCode:
+beginUndoGrouping
+endUndoGrouping
+groupingLevel
+disableUndoRegistration
+enableUndoRegistration
+isUndoRegistrationEnabled
+groupsByEvent
+setGroupsByEvent:
+setLevelsOfUndo:
+levelsOfUndo
+setRunLoopModes:
+runLoopModes
+undo
+redo
+undoNestedGroup
+canUndo
+canRedo
+isUndoing
+isRedoing
+removeAllActions
+removeAllActionsWithTarget:
+registerUndoWithTarget: selector: object:
+prepareWithInvocationTarget:
+forwardInvocation:
+undoActionName
+redoActionName
+setActionName:
+undoMenuItemTitle
+redoMenuItemTitle
+undoMenuTitleForUndoActionName:
+redoMenuTitleForUndoActionName:
+standardUserDefaults
+resetStandardUserDefaults
+init
+initWithUser:
+objectForKey:
+setObject: forKey:
+removeObjectForKey:
+stringForKey:
+arrayForKey:
+dictionaryForKey:
+dataForKey:
+stringArrayForKey:
+integerForKey:
+floatForKey:
+boolForKey:
+setInteger: forKey:
+setFloat: forKey:
+setBool: forKey:
+registerDefaults:
+addSuiteNamed:
+removeSuiteNamed:
+dictionaryRepresentation
+volatileDomainNames
+volatileDomainForName:
+setVolatileDomain: forName:
+removeVolatileDomainForName:
+persistentDomainNames
+persistentDomainForName:
+setPersistentDomain: forName:
+removePersistentDomainForName:
+synchronize
+objectIsForcedForKey:
+objectIsForcedForKey: inDomain:
+getValue:
+objCType
+initWithBytes: objCType:
+valueWithBytes: objCType:
+value: withObjCType:
+valueWithNonretainedObject:
+nonretainedObjectValue
+valueWithPointer:
+pointerValue
+isEqualToValue:
+charValue
+unsignedCharValue
+shortValue
+unsignedShortValue
+intValue
+unsignedIntValue
+longValue
+unsignedLongValue
+longLongValue
+unsignedLongLongValue
+floatValue
+doubleValue
+boolValue
+stringValue
+compare:
+isEqualToNumber:
+descriptionWithLocale:
+initWithChar:
+initWithUnsignedChar:
+initWithShort:
+initWithUnsignedShort:
+initWithInt:
+initWithUnsignedInt:
+initWithLong:
+initWithUnsignedLong:
+initWithLongLong:
+initWithUnsignedLongLong:
+initWithFloat:
+initWithDouble:
+initWithBool:
+numberWithChar:
+numberWithUnsignedChar:
+numberWithShort:
+numberWithUnsignedShort:
+numberWithInt:
+numberWithUnsignedInt:
+numberWithLong:
+numberWithUnsignedLong:
+numberWithLongLong:
+numberWithUnsignedLongLong:
+numberWithFloat:
+numberWithDouble:
+numberWithBool:
+setValueTransformer: forName:
+valueTransformerForName:
+valueTransformerNames
+transformedValueClass
+allowsReverseTransformation
+transformedValue:
+reverseTransformedValue:
+initWithContentsOfURL:
+initWithData:
+delegate
+setDelegate:
+setShouldProcessNamespaces:
+setShouldReportNamespacePrefixes:
+setShouldResolveExternalEntities:
+shouldProcessNamespaces
+shouldReportNamespacePrefixes
+shouldResolveExternalEntities
+parse
+abortParsing
+parserError
+publicID
+systemID
+lineNumber
+columnNumber
+parserDidStartDocument:
+parserDidEndDocument:
+parser: foundNotationDeclarationWithName: publicID: systemID:
+parser: foundUnparsedEntityDeclarationWithName: publicID: systemID: notationName:
+parser: foundAttributeDeclarationWithName: forElement: type: defaultValue:
+parser: foundElementDeclarationWithName: model:
+parser: foundInternalEntityDeclarationWithName: value:
+parser: foundExternalEntityDeclarationWithName: publicID: systemID:
+parser: didStartElement: namespaceURI: qualifiedName: attributes:
+parser: didEndElement: namespaceURI: qualifiedName:
+parser: didStartMappingPrefix: toURI:
+parser: didEndMappingPrefix:
+parser: foundCharacters:
+parser: foundIgnorableWhitespace:
+parser: foundProcessingInstructionWithTarget: data:
+parser: foundComment:
+parser: foundCDATA:
+parser: resolveExternalEntityName: systemID:
+parser: parseErrorOccurred:
+parser: validationErrorOccurred:
+usesFontLeading
+setUsesFontLeading:
+typesetterBehavior
+setTypesetterBehavior:
+hyphenationFactor
+setHyphenationFactor:
+lineFragmentPadding
+setLineFragmentPadding:
+substituteFontForFont:
+textTabForGlyphLocation: writingDirection: maxLocation:
+bidiProcessingEnabled
+setBidiProcessingEnabled:
+setAttributedString:
+attributedString
+setParagraphGlyphRange: separatorGlyphRange:
+paragraphGlyphRange
+paragraphSeparatorGlyphRange
+layoutParagraphAtPoint:
+lineSpacingAfterGlyphAtIndex: withProposedLineFragmentRect:
+paragraphSpacingBeforeGlyphAtIndex: withProposedLineFragmentRect:
+paragraphSpacingAfterGlyphAtIndex: withProposedLineFragmentRect:
+sharedTypesetter
+layoutManager
+currentTextContainer
+setHardInvalidation: forGlyphRange:
+getLineFragmentRect: usedRect: forParagraphSeparatorGlyphRange: atProposedOrigin:
+willSetLineFragmentRect: forGlyphRange: usedRect: baselineOffset:
+shouldBreakLineByWordBeforeCharacterAtIndex:
+shouldBreakLineByHyphenatingBeforeCharacterAtIndex:
+hyphenationFactorForGlyphAtIndex:
+hyphenCharacterForGlyphAtIndex:
+boundingBoxForControlGlyphAtIndex: forTextContainer: proposedLineFragment: glyphPosition: characterIndex:
+characterRangeForGlyphRange: actualGlyphRange:
+glyphRangeForCharacterRange: actualCharacterRange:
+getGlyphsInRange: glyphs: characterIndexes: glyphInscriptions: elasticBits:
+lineFragmentRectForProposedRect: remainingRect:
+setLineFragmentRect: forGlyphRange: usedRect: baselineOffset:
+substituteGlyphsInRange: withGlyphs:
+insertGlyph: atGlyphIndex: characterIndex:
+deleteGlyphsInRange:
+setNotShownAttribute: forGlyphRange:
+setDrawsOutsideLineFragment: forGlyphRange:
+setLocation: withAdvancements: forStartOfGlyphRange:
+setAttachmentSize: forGlyphRange:
+setBidiLevels: forGlyphRange:
+accessibilityAttributeNames
+accessibilityAttributeValue:
+accessibilityIsAttributeSettable:
+accessibilitySetValue: forAttribute:
+accessibilityParameterizedAttributeNames
+accessibilityAttributeValue: forParameter:
+accessibilityActionNames
+accessibilityActionDescription:
+accessibilityPerformAction:
+accessibilityIsIgnored
+accessibilityHitTest:
+accessibilityFocusedUIElement
+controlView
+setFont:
+setAlignment:
+setBordered:
+setBezeled:
+setEnabled:
+setFloatingPointFormat: left: right:
+setImage:
+target
+setTarget:
+action
+setAction:
+tag
+setTag:
+stringValue
+intValue
+floatValue
+doubleValue
+setObjectValue:
+transform
+initWithTransform:
+translateXBy: yBy:
+rotateByDegrees:
+rotateByRadians:
+scaleBy:
+scaleXBy: yBy:
+invert
+appendTransform:
+prependTransform:
+transformPoint:
+transformSize:
+transformBezierPath:
+set
+concat
+transformStruct
+setTransformStruct:
+alertWithMessageText: defaultButton: alternateButton: otherButton: informativeTextWithFormat:
+setMessageText:
+setInformativeText:
+messageText
+informativeText
+setIcon:
+icon
+addButtonWithTitle:
+buttons
+setShowsHelp:
+showsHelp
+setHelpAnchor:
+helpAnchor
+setAlertStyle:
+alertStyle
+setDelegate:
+delegate
+runModal
+beginSheetModalForWindow: modalDelegate: didEndSelector: contextInfo:
+window
+alertShowHelp:
+richTextSource
+sharedApplication
+setDelegate:
+delegate
+context
+hide:
+unhide:
+unhideWithoutActivation
+windowWithWindowNumber:
+mainWindow
+keyWindow
+isActive
+isHidden
+isRunning
+deactivate
+activateIgnoringOtherApps:
+hideOtherApplications:
+unhideAllApplications:
+finishLaunching
+run
+runModalForWindow:
+stop:
+stopModal
+stopModalWithCode:
+abortModal
+modalWindow
+beginModalSessionForWindow:
+runModalSession:
+endModalSession:
+terminate:
+requestUserAttention:
+cancelUserAttentionRequest:
+beginSheet: modalForWindow: modalDelegate: didEndSelector: contextInfo:
+endSheet:
+endSheet: returnCode:
+runModalForWindow: relativeToWindow:
+beginModalSessionForWindow: relativeToWindow:
+nextEventMatchingMask: untilDate: inMode: dequeue:
+discardEventsMatchingMask: beforeEvent:
+postEvent: atStart:
+currentEvent
+sendEvent:
+preventWindowOrdering
+makeWindowsPerform: inOrder:
+windows
+setWindowsNeedUpdate:
+updateWindows
+setMainMenu:
+mainMenu
+setApplicationIconImage:
+applicationIconImage
+sendAction: to: from:
+targetForAction:
+targetForAction: to: from:
+tryToPerform: with:
+validRequestorForSendType: returnType:
+reportException:
+detachDrawingThread: toTarget: withObject:
+replyToApplicationShouldTerminate:
+replyToOpenOrPrint:
+orderFrontCharacterPalette:
+setWindowsMenu:
+windowsMenu
+arrangeInFront:
+removeWindowsItem:
+addWindowsItem: title: filename:
+changeWindowsItem: title: filename:
+updateWindowsItem:
+miniaturizeAll:
+applicationWillFinishLaunching:
+applicationDidFinishLaunching:
+applicationWillHide:
+applicationDidHide:
+applicationWillUnhide:
+applicationDidUnhide:
+applicationWillBecomeActive:
+applicationDidBecomeActive:
+applicationWillResignActive:
+applicationDidResignActive:
+applicationWillUpdate:
+applicationDidUpdate:
+applicationWillTerminate:
+applicationDidChangeScreenParameters:
+applicationShouldTerminate:
+application: openFile:
+application: openFiles:
+application: openTempFile:
+applicationShouldOpenUntitledFile:
+applicationOpenUntitledFile:
+application: openFileWithoutUI:
+application: printFile:
+application: printFiles:
+applicationShouldTerminateAfterLastWindowClosed:
+applicationShouldHandleReopen: hasVisibleWindows:
+applicationDockMenu:
+setAppleMenu:
+setServicesMenu:
+servicesMenu
+registerServicesMenuSendTypes: returnTypes:
+writeSelectionToPasteboard: types:
+readSelectionFromPasteboard:
+setServicesProvider:
+servicesProvider
+orderFrontStandardAboutPanel:
+orderFrontStandardAboutPanelWithOptions:
+setApplicationHandle: previousHandle: commandLine: show:
+useRunningCopyOfApplication
+applicationHandle
+windowWithWindowHandle:
+orderedDocuments
+orderedWindows
+application: delegateHandlesKey:
+rearrangeObjects
+setSortDescriptors:
+sortDescriptors
+arrangeObjects:
+arrangedObjects
+setAvoidsEmptySelection:
+avoidsEmptySelection
+setPreservesSelection:
+preservesSelection
+setSelectsInsertedObjects:
+selectsInsertedObjects
+setSelectionIndexes:
+selectionIndexes
+setSelectionIndex:
+selectionIndex
+addSelectionIndexes:
+removeSelectionIndexes:
+setSelectedObjects:
+selectedObjects
+addSelectedObjects:
+removeSelectedObjects:
+insert:
+canInsert
+selectNext:
+selectPrevious:
+canSelectNext
+canSelectPrevious
+addObject:
+addObjects:
+insertObject: atArrangedObjectIndex:
+insertObjects: atArrangedObjectIndexes:
+removeObjectAtArrangedObjectIndex:
+removeObjectsAtArrangedObjectIndexes:
+removeObject:
+removeObjects:
+fontAttributesInRange:
+rulerAttributesInRange:
+containsAttachments
+lineBreakBeforeIndex: withinRange:
+lineBreakByHyphenatingBeforeIndex: withinRange:
+doubleClickAtIndex:
+nextWordFromIndex: forward:
+textUnfilteredFileTypes
+textUnfilteredPasteboardTypes
+textFileTypes
+textPasteboardTypes
+initWithPath: documentAttributes:
+initWithURL: documentAttributes:
+initWithRTF: documentAttributes:
+initWithRTFD: documentAttributes:
+initWithRTFDFileWrapper: documentAttributes:
+initWithHTML: documentAttributes:
+initWithHTML: baseURL: documentAttributes:
+initWithDocFormat: documentAttributes:
+initWithHTML: options: documentAttributes:
+RTFFromRange: documentAttributes:
+RTFDFromRange: documentAttributes:
+RTFDFileWrapperFromRange: documentAttributes:
+docFormatFromRange: documentAttributes:
+readFromURL: options: documentAttributes:
+readFromData: options: documentAttributes:
+superscriptRange:
+subscriptRange:
+unscriptRange:
+applyFontTraits: range:
+setAlignment: range:
+fixAttributesInRange:
+fixFontAttributeInRange:
+fixParagraphStyleAttributeInRange:
+fixAttachmentAttributeInRange:
+bezierPath
+bezierPathWithRect:
+bezierPathWithOvalInRect:
+fillRect:
+strokeRect:
+clipRect:
+strokeLineFromPoint: toPoint:
+drawPackedGlyphs: atPoint:
+setDefaultMiterLimit:
+defaultMiterLimit
+setDefaultFlatness:
+defaultFlatness
+setDefaultWindingRule:
+defaultWindingRule
+setDefaultLineCapStyle:
+defaultLineCapStyle
+setDefaultLineJoinStyle:
+defaultLineJoinStyle
+setDefaultLineWidth:
+defaultLineWidth
+moveToPoint:
+lineToPoint:
+curveToPoint:
+closePath
+removeAllPoints
+relativeMoveToPoint:
+relativeLineToPoint:
+relativeCurveToPoint:
+lineWidth
+setLineWidth:
+lineCapStyle
+setLineCapStyle:
+lineJoinStyle
+setLineJoinStyle:
+windingRule
+setWindingRule:
+miterLimit
+setMiterLimit:
+flatness
+setFlatness:
+getLineDash: count: phase:
+setLineDash: count: phase:
+stroke
+fill
+addClip
+setClip
+bezierPathByFlatteningPath
+bezierPathByReversingPath
+transformUsingAffineTransform:
+isEmpty
+currentPoint
+controlPointBounds
+bounds
+elementCount
+elementAtIndex:
+elementAtIndex:
+setAssociatedPoints: atIndex:
+appendBezierPath:
+appendBezierPathWithRect:
+appendBezierPathWithPoints: count:
+appendBezierPathWithOvalInRect:
+appendBezierPathWithArcWithCenter: radius:
+appendBezierPathWithArcWithCenter: radius:
+appendBezierPathWithArcFromPoint:
+appendBezierPathWithGlyph: inFont:
+appendBezierPathWithGlyphs: count:
+appendBezierPathWithPackedGlyphs:
+containsPoint:
+cachesBezierPath
+setCachesBezierPath:
+initWithFocusedViewRect:
+initWithBitmapDataPlanes: pixelsWide: pixelsHigh: bitsPerSample: samplesPerPixel: hasAlpha: isPlanar: colorSpaceName: bytesPerRow: bitsPerPixel:
+imageRepsWithData:
+imageRepWithData:
+initWithData:
+bitmapData
+getBitmapDataPlanes:
+isPlanar
+samplesPerPixel
+bitsPerPixel
+bytesPerRow
+bytesPerPlane
+numberOfPlanes
+getCompression: factor:
+setCompression: factor:
+TIFFRepresentation
+TIFFRepresentationUsingCompression: factor:
+TIFFRepresentationOfImageRepsInArray:
+TIFFRepresentationOfImageRepsInArray: usingCompression: factor:
+getTIFFCompressionTypes: count:
+localizedNameForTIFFCompressionType:
+canBeCompressedUsing:
+colorizeByMappingGray: toColor: blackMapping: whiteMapping:
+initForIncrementalLoad
+incrementalLoadFromData: complete:
+initWithIconHandle:
+initWithBitmapHandle:
+representationOfImageRepsInArray: usingType: properties:
+representationUsingType: properties:
+setProperty: withValue:
+valueForProperty:
+borderType
+titlePosition
+setBorderType:
+setBoxType:
+boxType
+setTitlePosition:
+title
+setTitle:
+titleFont
+setTitleFont:
+borderRect
+titleRect
+titleCell
+sizeToFit
+contentViewMargins
+setContentViewMargins:
+setFrameFromContentFrame:
+contentView
+setContentView:
+setTitleWithMnemonic:
+cellClass
+loadColumnZero
+isLoaded
+setDoubleAction:
+doubleAction
+setMatrixClass:
+matrixClass
+setCellClass:
+setCellPrototype:
+cellPrototype
+setDelegate:
+delegate
+setReusesColumns:
+reusesColumns
+setHasHorizontalScroller:
+hasHorizontalScroller
+setSeparatesColumns:
+separatesColumns
+setTitled:
+isTitled
+setMinColumnWidth:
+minColumnWidth
+setMaxVisibleColumns:
+maxVisibleColumns
+setAllowsMultipleSelection:
+allowsMultipleSelection
+setAllowsBranchSelection:
+allowsBranchSelection
+setAllowsEmptySelection:
+allowsEmptySelection
+setTakesTitleFromPreviousColumn:
+takesTitleFromPreviousColumn
+setAcceptsArrowKeys:
+acceptsArrowKeys
+setSendsActionOnArrowKeys:
+sendsActionOnArrowKeys
+setTitle: ofColumn:
+titleOfColumn:
+setPathSeparator:
+pathSeparator
+setPath:
+path
+pathToColumn:
+selectedColumn
+selectedCell
+selectedCellInColumn:
+selectedCells
+selectRow: inColumn:
+selectedRowInColumn:
+reloadColumn:
+validateVisibleColumns
+scrollColumnsRightBy:
+scrollColumnsLeftBy:
+scrollColumnToVisible:
+setLastColumn:
+lastColumn
+addColumn
+numberOfVisibleColumns
+firstVisibleColumn
+lastVisibleColumn
+columnOfMatrix:
+matrixInColumn:
+loadedCellAtRow: column:
+selectAll:
+tile
+doClick:
+doDoubleClick:
+sendAction
+titleFrameOfColumn:
+drawTitleOfColumn: inRect:
+titleHeight
+frameOfColumn:
+frameOfInsideOfColumn:
+columnWidthForColumnContentWidth:
+columnContentWidthForColumnWidth:
+setColumnResizingType:
+columnResizingType
+setPrefersAllColumnUserResizing:
+prefersAllColumnUserResizing
+setWidth: ofColumn:
+widthOfColumn:
+setColumnsAutosaveName:
+columnsAutosaveName
+removeSavedColumnsWithAutosaveName:
+displayColumn:
+displayAllColumns
+scrollViaScroller:
+updateScroller
+browser: numberOfRowsInColumn:
+browser: createRowsForColumn: inMatrix:
+browser: willDisplayCell: atRow: column:
+browser: titleOfColumn:
+browser: selectCellWithString: inColumn:
+browser: selectRow: inColumn:
+browser: isColumnValid:
+browserWillScroll:
+browserDidScroll:
+browser: shouldSizeColumn: forUserResize: toWidth:
+browser: sizeToFitWidthOfColumn:
+browserColumnConfigurationDidChange:
+branchImage
+highlightedBranchImage
+highlightColorInView:
+isLeaf
+setLeaf:
+isLoaded
+setLoaded:
+reset
+set
+setImage:
+image
+setAlternateImage:
+alternateImage
+title
+setTitle:
+alternateTitle
+setAlternateTitle:
+image
+setImage:
+alternateImage
+setAlternateImage:
+imagePosition
+setImagePosition:
+setButtonType:
+state
+setState:
+isBordered
+setBordered:
+isTransparent
+setTransparent:
+setPeriodicDelay: interval:
+getPeriodicDelay: interval:
+keyEquivalent
+setKeyEquivalent:
+keyEquivalentModifierMask
+setKeyEquivalentModifierMask:
+highlight:
+performKeyEquivalent:
+setTitleWithMnemonic:
+attributedTitle
+setAttributedTitle:
+attributedAlternateTitle
+setAttributedAlternateTitle:
+setBezelStyle:
+bezelStyle
+setAllowsMixedState:
+allowsMixedState
+setNextState
+setShowsBorderOnlyWhileMouseInside:
+showsBorderOnlyWhileMouseInside
+setSound:
+sound
+title
+setTitle:
+alternateTitle
+setAlternateTitle:
+alternateImage
+setAlternateImage:
+imagePosition
+setImagePosition:
+highlightsBy
+setHighlightsBy:
+showsStateBy
+setShowsStateBy:
+setButtonType:
+isOpaque
+setFont:
+isTransparent
+setTransparent:
+setPeriodicDelay: interval:
+getPeriodicDelay: interval:
+keyEquivalent
+setKeyEquivalent:
+keyEquivalentModifierMask
+setKeyEquivalentModifierMask:
+keyEquivalentFont
+setKeyEquivalentFont:
+setKeyEquivalentFont: size:
+performClick:
+setTitleWithMnemonic:
+setAlternateTitleWithMnemonic:
+setAlternateMnemonicLocation:
+alternateMnemonicLocation
+alternateMnemonic
+gradientType
+setGradientType:
+setImageDimsWhenDisabled:
+imageDimsWhenDisabled
+setShowsBorderOnlyWhileMouseInside:
+showsBorderOnlyWhileMouseInside
+mouseEntered:
+mouseExited:
+attributedTitle
+setAttributedTitle:
+attributedAlternateTitle
+setAttributedAlternateTitle:
+setBezelStyle:
+bezelStyle
+setSound:
+sound
+initWithWindow: rect:
+initWithSize: depth: separate: alpha:
+window
+rect
+prefersTrackingUntilMouseUp
+initTextCell:
+initImageCell:
+controlView
+type
+setType:
+state
+setState:
+target
+setTarget:
+action
+setAction:
+tag
+setTag:
+title
+setTitle:
+isOpaque
+isEnabled
+setEnabled:
+sendActionOn:
+isContinuous
+setContinuous:
+isEditable
+setEditable:
+isSelectable
+setSelectable:
+isBordered
+setBordered:
+isBezeled
+setBezeled:
+isScrollable
+setScrollable:
+isHighlighted
+setHighlighted:
+alignment
+setAlignment:
+wraps
+setWraps:
+font
+setFont:
+entryType
+setEntryType:
+isEntryAcceptable:
+setFloatingPointFormat: left: right:
+keyEquivalent
+setFormatter:
+formatter
+objectValue
+setObjectValue:
+hasValidObjectValue
+stringValue
+setStringValue:
+compare:
+intValue
+setIntValue:
+floatValue
+setFloatValue:
+doubleValue
+setDoubleValue:
+takeIntValueFrom:
+takeFloatValueFrom:
+takeDoubleValueFrom:
+takeStringValueFrom:
+takeObjectValueFrom:
+image
+setImage:
+setControlTint:
+controlTint
+setControlSize:
+controlSize
+representedObject
+setRepresentedObject:
+cellAttribute:
+setCellAttribute: to:
+imageRectForBounds:
+titleRectForBounds:
+drawingRectForBounds:
+cellSize
+cellSizeForBounds:
+highlightColorWithFrame: inView:
+calcDrawInfo:
+setUpFieldEditorAttributes:
+drawInteriorWithFrame: inView:
+drawWithFrame: inView:
+highlight: withFrame: inView:
+mouseDownFlags
+getPeriodicDelay: interval:
+startTrackingAt: inView:
+continueTracking: at: inView:
+stopTracking: at: inView: mouseIsUp:
+trackMouse: inRect: ofView: untilMouseUp:
+editWithFrame: inView: editor: delegate: event:
+selectWithFrame: inView: editor: delegate: start: length:
+endEditing:
+resetCursorRect: inView:
+setMenu:
+menu
+menuForEvent: inRect: ofView:
+defaultMenu
+setSendsActionOnEndEditing:
+sendsActionOnEndEditing
+setRefusesFirstResponder:
+refusesFirstResponder
+acceptsFirstResponder
+setShowsFirstResponder:
+showsFirstResponder
+setMnemonicLocation:
+mnemonicLocation
+mnemonic
+setTitleWithMnemonic:
+performClick:
+setFocusRingType:
+focusRingType
+defaultFocusRingType
+attributedStringValue
+setAttributedStringValue:
+allowsEditingTextAttributes
+setAllowsEditingTextAttributes:
+importsGraphics
+setImportsGraphics:
+setAllowsMixedState:
+allowsMixedState
+nextState
+setNextState
+setBackgroundColor:
+backgroundColor
+setDrawsBackground:
+drawsBackground
+setDocumentView:
+documentView
+documentRect
+setDocumentCursor:
+documentCursor
+documentVisibleRect
+viewFrameChanged:
+viewBoundsChanged:
+setCopiesOnScroll:
+copiesOnScroll
+autoscroll:
+constrainScrollPoint:
+scrollToPoint:
+reflectScrolledClipView:
+scrollClipView: toPoint:
+colorWithCalibratedWhite: alpha:
+colorWithCalibratedHue: saturation: brightness: alpha:
+colorWithCalibratedRed: green: blue: alpha:
+colorWithDeviceWhite: alpha:
+colorWithDeviceHue: saturation: brightness: alpha:
+colorWithDeviceRed: green: blue: alpha:
+colorWithDeviceCyan: magenta: yellow: black: alpha:
+colorWithCatalogName: colorName:
+blackColor
+darkGrayColor
+lightGrayColor
+whiteColor
+grayColor
+redColor
+greenColor
+blueColor
+cyanColor
+yellowColor
+magentaColor
+orangeColor
+purpleColor
+brownColor
+clearColor
+controlShadowColor
+controlDarkShadowColor
+controlColor
+controlHighlightColor
+controlLightHighlightColor
+controlTextColor
+controlBackgroundColor
+selectedControlColor
+secondarySelectedControlColor
+selectedControlTextColor
+disabledControlTextColor
+textColor
+textBackgroundColor
+selectedTextColor
+selectedTextBackgroundColor
+gridColor
+keyboardFocusIndicatorColor
+windowBackgroundColor
+scrollBarColor
+knobColor
+selectedKnobColor
+windowFrameColor
+windowFrameTextColor
+selectedMenuItemColor
+selectedMenuItemTextColor
+highlightColor
+shadowColor
+headerColor
+headerTextColor
+alternateSelectedControlColor
+alternateSelectedControlTextColor
+controlAlternatingRowBackgroundColors
+highlightWithLevel:
+shadowWithLevel:
+colorForControlTint:
+currentControlTint
+set
+setFill
+setStroke
+colorSpaceName
+colorUsingColorSpaceName:
+colorUsingColorSpaceName: device:
+blendedColorWithFraction: ofColor:
+colorWithAlphaComponent:
+catalogNameComponent
+colorNameComponent
+localizedCatalogNameComponent
+localizedColorNameComponent
+redComponent
+greenComponent
+blueComponent
+getRed: green: blue: alpha:
+hueComponent
+saturationComponent
+brightnessComponent
+getHue: saturation: brightness: alpha:
+whiteComponent
+getWhite: alpha:
+cyanComponent
+magentaComponent
+yellowComponent
+blackComponent
+getCyan: magenta: yellow: black: alpha:
+alphaComponent
+colorFromPasteboard:
+writeToPasteboard:
+colorWithPatternImage:
+patternImage
+drawSwatchInRect:
+setIgnoresAlpha:
+ignoresAlpha
+decodeNXColor
+availableColorLists
+colorListNamed:
+initWithName:
+initWithName: fromFile:
+name
+setColor: forKey:
+insertColor: key: atIndex:
+removeColorWithKey:
+colorWithKey:
+allKeys
+isEditable
+writeToFile:
+removeFile
+sharedColorPanel
+sharedColorPanelExists
+dragColor: withEvent: fromView:
+setPickerMask:
+setPickerMode:
+setAccessoryView:
+accessoryView
+setContinuous:
+isContinuous
+setShowsAlpha:
+showsAlpha
+setMode:
+mode
+setColor:
+color
+alpha
+setAction:
+setTarget:
+attachColorList:
+detachColorList:
+orderFrontColorPanel:
+changeColor:
+initWithPickerMask: colorPanel:
+colorPanel
+provideNewButtonImage
+insertNewButtonImage: in:
+viewSizeChanged:
+attachColorList:
+detachColorList:
+setMode:
+initWithPickerMask: colorPanel:
+provideNewButtonImage
+insertNewButtonImage: in:
+viewSizeChanged:
+alphaControlAddedOrRemoved:
+attachColorList:
+detachColorList:
+setMode:
+supportsMode:
+currentMode
+provideNewView:
+setColor:
+deactivate
+activate:
+isActive
+drawWellInside:
+isBordered
+setBordered:
+takeColorFrom:
+setColor:
+color
+hasVerticalScroller
+setHasVerticalScroller:
+intercellSpacing
+setIntercellSpacing:
+itemHeight
+setItemHeight:
+numberOfVisibleItems
+setNumberOfVisibleItems:
+setButtonBordered:
+isButtonBordered
+reloadData
+noteNumberOfItemsChanged
+setUsesDataSource:
+usesDataSource
+scrollItemAtIndexToTop:
+scrollItemAtIndexToVisible:
+selectItemAtIndex:
+deselectItemAtIndex:
+indexOfSelectedItem
+numberOfItems
+completes
+setCompletes:
+dataSource
+setDataSource:
+addItemWithObjectValue:
+addItemsWithObjectValues:
+insertItemWithObjectValue: atIndex:
+removeItemWithObjectValue:
+removeItemAtIndex:
+removeAllItems
+selectItemWithObjectValue:
+itemObjectValueAtIndex:
+objectValueOfSelectedItem
+indexOfItemWithObjectValue:
+objectValues
+numberOfItemsInComboBox:
+comboBox: objectValueForItemAtIndex:
+comboBox: indexOfItemWithStringValue:
+comboBox: completedString:
+comboBoxWillPopUp:
+comboBoxWillDismiss:
+comboBoxSelectionDidChange:
+comboBoxSelectionIsChanging:
+hasVerticalScroller
+setHasVerticalScroller:
+intercellSpacing
+setIntercellSpacing:
+itemHeight
+setItemHeight:
+numberOfVisibleItems
+setNumberOfVisibleItems:
+setButtonBordered:
+isButtonBordered
+reloadData
+noteNumberOfItemsChanged
+setUsesDataSource:
+usesDataSource
+scrollItemAtIndexToTop:
+scrollItemAtIndexToVisible:
+selectItemAtIndex:
+deselectItemAtIndex:
+indexOfSelectedItem
+numberOfItems
+completes
+setCompletes:
+completedString:
+dataSource
+setDataSource:
+addItemWithObjectValue:
+addItemsWithObjectValues:
+insertItemWithObjectValue: atIndex:
+removeItemWithObjectValue:
+removeItemAtIndex:
+removeAllItems
+selectItemWithObjectValue:
+itemObjectValueAtIndex:
+objectValueOfSelectedItem
+indexOfItemWithObjectValue:
+objectValues
+numberOfItemsInComboBoxCell:
+comboBoxCell: objectValueForItemAtIndex:
+comboBoxCell: indexOfItemWithStringValue:
+comboBoxCell: completedString:
+setCellClass:
+cellClass
+initWithFrame:
+sizeToFit
+calcSize
+cell
+setCell:
+selectedCell
+target
+setTarget:
+action
+setAction:
+tag
+setTag:
+selectedTag
+setIgnoresMultiClick:
+ignoresMultiClick
+sendActionOn:
+isContinuous
+setContinuous:
+isEnabled
+setEnabled:
+setFloatingPointFormat: left: right:
+alignment
+setAlignment:
+font
+setFont:
+setFormatter:
+formatter
+setObjectValue:
+setStringValue:
+setIntValue:
+setFloatValue:
+setDoubleValue:
+objectValue
+stringValue
+intValue
+floatValue
+doubleValue
+setNeedsDisplay
+updateCell:
+updateCellInside:
+drawCellInside:
+drawCell:
+selectCell:
+sendAction: to:
+takeIntValueFrom:
+takeFloatValueFrom:
+takeDoubleValueFrom:
+takeStringValueFrom:
+takeObjectValueFrom:
+currentEditor
+abortEditing
+validateEditing
+mouseDown:
+performClick:sender
+setRefusesFirstResponder:
+refusesFirstResponder
+controlTextDidBeginEditing:
+controlTextDidEndEditing:
+controlTextDidChange:
+control: textShouldBeginEditing:
+control: textShouldEndEditing:
+control: didFailToFormatString: errorDescription:
+control: didFailToValidatePartialString: errorDescription:
+control: isValidObject:
+control: textView: doCommandBySelector:
+control: textView: completions: forPartialWordRange: indexOfSelectedItem:
+attributedStringValue
+setAttributedStringValue:
+objectDidBeginEditing:
+objectDidEndEditing:
+discardEditing
+commitEditing
+isEditing
+currentCursor
+arrowCursor
+IBeamCursor
+pointingHandCursor
+closedHandCursor
+openHandCursor
+resizeLeftCursor
+resizeRightCursor
+resizeLeftRightCursor
+resizeUpCursor
+resizeDownCursor
+resizeUpDownCursor
+crosshairCursor
+disappearingItemCursor
+initWithImage: hotSpot:
+initWithImage: foregroundColorHint: backgroundColorHint: hotSpot:
+hide
+unhide
+setHiddenUntilMouseMoves:
+pop
+image
+hotSpot
+push
+pop
+set
+setOnMouseExited:
+setOnMouseEntered:
+isSetOnMouseExited
+isSetOnMouseEntered
+mouseEntered:
+mouseExited:
+initWithDrawSelector: delegate:
+drawSelector
+delegate
+init
+initWithContentsOfFile: ofType:
+initWithContentsOfURL: ofType:
+windowControllers
+addWindowController:
+removeWindowController:
+windowNibName
+makeWindowControllers
+showWindows
+shouldCloseWindowController:
+shouldCloseWindowController: delegate: shouldCloseSelector: contextInfo:
+setWindow:
+windowControllerWillLoadNib:
+windowControllerDidLoadNib:
+windowForSheet
+isDocumentEdited
+updateChangeCount:
+canCloseDocument
+canCloseDocumentWithDelegate: shouldCloseSelector: contextInfo:
+close
+undoManager
+setUndoManager:
+hasUndoManager
+setHasUndoManager:
+fileName
+setFileName:
+fileType
+setFileType:
+displayName
+dataRepresentationOfType:
+loadDataRepresentation: ofType:
+fileWrapperRepresentationOfType:
+loadFileWrapperRepresentation: ofType:
+writeToFile: ofType:
+writeToURL: ofType:
+readFromFile: ofType:
+readFromURL: ofType:
+keepBackupFile
+writeWithBackupToFile: ofType: saveOperation:
+writeToFile: ofType: originalFile: saveOperation:
+fileAttributesToWriteToFile: ofType: saveOperation:
+revertToSavedFromFile: ofType:
+revertToSavedFromURL: ofType:
+saveDocument:
+saveDocumentAs:
+saveDocumentTo:
+revertDocumentToSaved:
+fileNameFromRunningSavePanelForSaveOperation:
+saveDocumentWithDelegate: didSaveSelector: contextInfo:
+saveToFile: saveOperation: delegate: didSaveSelector: contextInfo:
+fileTypeFromLastRunSavePanel
+fileNameExtensionWasHiddenInLastRunSavePanel
+shouldRunSavePanelWithAccessoryView
+runModalSavePanel: withAccessoryView:
+runModalSavePanelForSaveOperation: delegate: didSaveSelector: contextInfo:
+prepareSavePanel:
+printInfo
+setPrintInfo:
+runModalPageLayoutWithPrintInfo:
+runModalPageLayoutWithPrintInfo: delegate: didRunSelector: contextInfo:
+shouldChangePrintInfo:
+runPageLayout:
+preparePageLayout:
+runModalPrintOperation: delegate: didRunSelector: contextInfo:
+printShowingPrintPanel:
+printDocument:
+validateUserInterfaceItem:
+validateMenuItem:
+readableTypes
+writableTypes
+isNativeType:
+sharedDocumentController
+init
+documents
+currentDocument
+currentDirectory
+documentForWindow:
+documentForFileName:
+addDocument:
+removeDocument:
+makeUntitledDocumentOfType:
+makeDocumentWithContentsOfFile: ofType:
+makeDocumentWithContentsOfURL: ofType:
+openUntitledDocumentOfType: display:
+openDocumentWithContentsOfFile: display:
+openDocumentWithContentsOfURL: display:
+shouldCreateUI
+setShouldCreateUI:
+saveAllDocuments:
+openDocument:
+newDocument:
+validateUserInterfaceItem:
+validateMenuItem:
+fileNamesFromRunningOpenPanel
+URLsFromRunningOpenPanel
+runModalOpenPanel: forTypes:
+closeAllDocuments
+closeAllDocumentsWithDelegate: didCloseAllSelector: contextInfo:
+reviewUnsavedDocumentsWithAlertTitle: cancellable:
+reviewUnsavedDocumentsWithAlertTitle: cancellable: delegate: didReviewAllSelector: contextInfo:
+hasEditedDocuments
+displayNameForType:
+typeFromFileExtension:
+fileExtensionsFromType:
+documentClassForType:
+recentDocumentURLs
+noteNewRecentDocumentURL:
+noteNewRecentDocument:
+clearRecentDocuments:
+lastComponentOfFileName
+setLastComponentOfFileName:
+handleSaveScriptCommand:
+handleCloseScriptCommand:
+handlePrintScriptCommand:
+objectSpecifier
+draggingDestinationWindow
+draggingSourceOperationMask
+draggingLocation
+draggedImageLocation
+draggedImage
+draggingPasteboard
+draggingSource
+draggingSequenceNumber
+slideDraggedImageTo:
+namesOfPromisedFilesDroppedAtDestination:
+draggingEntered:
+draggingUpdated:
+draggingExited:
+prepareForDragOperation:
+performDragOperation:
+concludeDragOperation:
+draggingEnded:
+draggingSourceOperationMaskForLocal:
+namesOfPromisedFilesDroppedAtDestination:
+draggedImage: beganAt:
+draggedImage: endedAt: operation:
+draggedImage: movedTo:
+ignoreModifierKeysWhileDragging
+draggedImage: endedAt: deposited:
+initWithContentSize: preferredEdge:
+setParentWindow:
+parentWindow
+setContentView:
+contentView
+setPreferredEdge:
+preferredEdge
+setDelegate:
+delegate
+open
+openOnEdge:
+close
+open:
+close:
+toggle:
+state
+edge
+setContentSize:
+contentSize
+setMinContentSize:
+minContentSize
+setMaxContentSize:
+maxContentSize
+setLeadingOffset:
+leadingOffset
+setTrailingOffset:
+trailingOffset
+drawers
+drawerWillOpen:
+drawerDidOpen:
+drawerWillClose:
+drawerDidClose:
+drawerShouldOpen:
+drawerShouldClose:
+drawerWillResizeContents: toSize:
+imageRepWithData:
+initWithData:
+prepareGState
+EPSRepresentation
+boundingBox
+type
+locationInWindow
+modifierFlags
+timestamp
+window
+windowNumber
+context
+clickCount
+pressure
+buttonNumber
+eventNumber
+deltaX
+deltaY
+deltaZ
+characters
+charactersIgnoringModifiers
+isARepeat
+keyCode
+trackingNumber
+userData
+subtype
+data1
+data2
+startPeriodicEventsAfterDelay: withPeriod:
+stopPeriodicEvents
+mouseEventWithType: location: modifierFlags: timestamp: windowNumber: context: eventNumber: clickCount: pressure:
+keyEventWithType: location: modifierFlags: timestamp: windowNumber: context: characters: charactersIgnoringModifiers: isARepeat: keyCode:
+enterExitEventWithType: location: modifierFlags: timestamp: windowNumber: context: eventNumber: trackingNumber: userData:
+otherEventWithType: location: modifierFlags: timestamp: windowNumber: context: subtype: data1: data2:
+mouseLocation
+initDirectoryWithFileWrappers:
+initRegularFileWithContents:
+initSymbolicLinkWithDestination:
+initWithPath:
+initWithSerializedRepresentation:
+writeToFile: atomically: updateFilenames:
+serializedRepresentation
+setFilename:
+filename
+setPreferredFilename:
+preferredFilename
+setFileAttributes:
+fileAttributes
+isRegularFile
+isDirectory
+isSymbolicLink
+setIcon:
+icon
+needsToBeUpdatedFromPath:
+updateFromPath:
+addFileWrapper:
+removeFileWrapper:
+fileWrappers
+keyForFileWrapper:
+addFileWithPath:
+addRegularFileWithContents: preferredFilename:
+addSymbolicLinkWithDestination: preferredFilename:
+regularFileContents
+symbolicLinkDestination
+fontWithName: size:
+fontWithName: matrix:
+useFont:
+userFontOfSize:
+userFixedPitchFontOfSize:
+setUserFont:
+setUserFixedPitchFont:
+systemFontOfSize:
+boldSystemFontOfSize:
+labelFontOfSize:
+systemFontSize
+smallSystemFontSize
+labelFontSize
+systemFontSizeForControlSize:
+titleBarFontOfSize:
+menuFontOfSize:
+menuBarFontOfSize:
+messageFontOfSize:
+paletteFontOfSize:
+toolTipsFontOfSize:
+controlContentFontOfSize:
+pointSize
+fontName
+familyName
+displayName
+fontDescriptor
+matrix
+set
+widthOfString:
+screenFont
+printerFont
+isBaseFont
+boundingRectForFont
+defaultLineHeightForFont
+boundingRectForGlyph:
+advancementForGlyph:
+afmDictionary
+glyphIsEncoded:
+preferredFontNames
+setPreferredFontNames:
+maximumAdvancement
+mostCompatibleStringEncoding
+numberOfGlyphs
+underlinePosition
+underlineThickness
+italicAngle
+capHeight
+xHeight
+ascender
+descender
+isFixedPitch
+encodingScheme
+glyphWithName:
+positionOfGlyph: precededByGlyph: isNominal:
+positionsForCompositeSequence: numberOfGlyphs: pointArray:
+positionOfGlyph: struckOverGlyph: metricsExist:
+positionOfGlyph: struckOverRect: metricsExist:
+positionOfGlyph: forCharacter: struckOverRect:
+positionOfGlyph: withRelation: toBaseGlyph: totalAdvancement: metricsExist:
+glyphPacking
+coveredCharacterSet
+initWithFontAttributes:
+fontDescriptorWithFontAttributes:
+fontDescriptorWithName: size:
+fontAttributes
+setFontPanelFactory:
+setFontManagerFactory:
+sharedFontManager
+isMultiple
+selectedFont
+setSelectedFont: isMultiple:
+setFontMenu:
+fontMenu:
+fontPanel:
+fontWithFamily: traits: weight: size:
+traitsOfFont:
+weightOfFont:
+availableFonts
+availableFontFamilies
+availableMembersOfFontFamily:
+convertFont:
+convertFont: toSize:
+convertFont: toFace:
+convertFont: toFamily:
+convertFont: toHaveTrait:
+convertFont: toNotHaveTrait:
+convertWeight: ofFont:
+isEnabled
+setEnabled:
+action
+setAction:
+sendAction
+setDelegate:
+delegate
+localizedNameForFamily: face:
+setSelectedAttributes: isMultiple:
+convertAttributes:
+availableFontNamesMatchingFontDescriptor:
+collectionNames
+fontDescriptorsInCollection:
+addCollection: options:
+removeCollection:
+addFontDescriptors: toCollection:
+removeFontDescriptor: fromCollection:
+fontNamed: hasTraits:
+availableFontNamesWithTraits:
+addFontTrait:
+removeFontTrait:
+modifyFontViaPanel:
+modifyFont:
+orderFrontFontPanel:
+orderFrontStylesPanel:
+fontManager: willIncludeFont:
+changeFont:
+validModesForFontPanel:
+sharedFontPanel
+sharedFontPanelExists
+accessoryView
+setAccessoryView:
+setPanelFont: isMultiple:
+panelConvertFont:
+worksWhenModal
+isEnabled
+setEnabled:
+reloadDefaultFontFamilies
+indexOfSelectedItem
+setEntryWidth:
+setInterlineSpacing:
+setBordered:
+setBezeled:
+setTitleAlignment:
+setTextAlignment:
+setTitleFont:
+setTextFont:
+cellAtIndex:
+drawCellAtIndex:
+addEntry:
+insertEntry: atIndex:
+removeEntryAtIndex:
+indexOfCellWithTag:
+selectTextAtIndex:
+setFrameSize:
+initTextCell:
+titleWidth:
+titleWidth
+setTitleWidth:
+title
+setTitle:
+titleFont
+setTitleFont:
+titleAlignment
+setTitleAlignment:
+isOpaque
+setTitleWithMnemonic:
+attributedTitle
+setAttributedTitle:
+insertGlyphs: length: forStartingGlyphAtIndex: characterIndex:
+setIntAttribute: value: forGlyphAtIndex:
+attributedString
+layoutOptions
+generateGlyphsForGlyphStorage: desiredNumberOfCharacters: glyphIndex: characterIndex:
+sharedGlyphGenerator
+glyphInfoWithGlyphName: forFont: baseString:
+glyphInfoWithGlyph: forFont: baseString:
+glyphInfoWithCharacterIdentifier: collection: baseString:
+glyphName
+characterIdentifier
+characterCollection
+graphicsContextWithAttributes:
+graphicsContextWithWindow:
+currentContext
+setCurrentContext:
+currentContextDrawingToScreen
+saveGraphicsState
+restoreGraphicsState
+setGraphicsState:
+attributes
+isDrawingToScreen
+saveGraphicsState
+restoreGraphicsState
+flushGraphics
+focusStack
+setFocusStack:
+graphicsPort
+setShouldAntialias:
+shouldAntialias
+setImageInterpolation:
+imageInterpolation
+setPatternPhase:
+patternPhase
+sharedHelpManager
+setContextHelpModeActive:
+isContextHelpModeActive
+setContextHelp: forObject:
+removeContextHelpForObject:
+contextHelpForObject:
+showContextHelpForObject: locationHint:
+openHelpAnchor: inBook:
+findString: inBook:
+contextHelpForKey:
+activateContextHelpMode:
+showHelp:
+imageNamed:
+initWithSize:
+initWithData:
+initWithContentsOfFile:
+initWithContentsOfURL:
+initByReferencingFile:
+initByReferencingURL:
+initWithPasteboard:
+setSize:
+size
+setName:
+name
+setScalesWhenResized:
+scalesWhenResized
+setDataRetained:
+isDataRetained
+setCachedSeparately:
+isCachedSeparately
+setCacheDepthMatchesImageDepth:
+cacheDepthMatchesImageDepth
+setBackgroundColor:
+backgroundColor
+setUsesEPSOnResolutionMismatch:
+usesEPSOnResolutionMismatch
+setPrefersColorMatch:
+prefersColorMatch
+setMatchesOnMultipleResolution:
+matchesOnMultipleResolution
+dissolveToPoint: fraction:
+dissolveToPoint: fromRect: fraction:
+compositeToPoint: operation:
+compositeToPoint: fromRect: operation:
+compositeToPoint: operation: fraction:
+compositeToPoint: fromRect: operation: fraction:
+drawAtPoint: fromRect: operation: fraction:
+drawInRect: fromRect: operation: fraction:
+drawRepresentation: inRect:
+recache
+TIFFRepresentation
+TIFFRepresentationUsingCompression: factor:
+representations
+addRepresentations:
+addRepresentation:
+removeRepresentation:
+isValid
+lockFocus
+lockFocusOnRepresentation:
+unlockFocus
+bestRepresentationForDevice:
+setDelegate:
+delegate
+imageUnfilteredFileTypes
+imageUnfilteredPasteboardTypes
+imageFileTypes
+imagePasteboardTypes
+canInitWithPasteboard:
+setFlipped:
+isFlipped
+cancelIncrementalLoad
+setCacheMode:
+cacheMode
+initWithIconHandle:
+initWithBitmapHandle:
+imageDidNotDraw: inRect:
+image: willLoadRepresentation:
+image: didLoadRepresentationHeader:
+image: didLoadPartOfRepresentation: withValidRows:
+image: didLoadRepresentation: withStatus:
+pathForImageResource:
+imageAlignment
+setImageAlignment:
+imageScaling
+setImageScaling:
+imageFrameStyle
+setImageFrameStyle:
+draw
+drawAtPoint:
+drawInRect:
+setSize:
+size
+setAlpha:
+hasAlpha
+setOpaque:
+isOpaque
+setColorSpaceName:
+colorSpaceName
+setBitsPerSample:
+bitsPerSample
+setPixelsWide:
+pixelsWide
+setPixelsHigh:
+pixelsHigh
+registerImageRepClass:
+unregisterImageRepClass:
+registeredImageRepClasses
+imageRepClassForFileType:
+imageRepClassForPasteboardType:
+imageRepClassForData:
+canInitWithData:
+imageUnfilteredFileTypes
+imageUnfilteredPasteboardTypes
+imageFileTypes
+imagePasteboardTypes
+canInitWithPasteboard:
+imageRepsWithContentsOfFile:
+imageRepWithContentsOfFile:
+imageRepsWithContentsOfURL:
+imageRepWithContentsOfURL:
+imageRepsWithPasteboard:
+imageRepWithPasteboard:
+image
+setImage:
+imageAlignment
+setImageAlignment:
+imageScaling
+setImageScaling:
+imageFrameStyle
+setImageFrameStyle:
+setEditable:
+isEditable
+setAnimates:
+animates
+insertText:
+doCommandBySelector:
+setMarkedText: selectedRange:
+unmarkText
+hasMarkedText
+conversationIdentifier
+attributedSubstringFromRange:
+markedRange
+selectedRange
+firstRectForCharacterRange:
+characterIndexForPoint:
+validAttributesForMarkedText
+currentInputManager
+cycleToNextInputLanguage:
+cycleToNextInputServerInLanguage:
+initWithName: host:
+localizedInputManagerName
+markedTextAbandoned:
+markedTextSelectionChanged: client:
+wantsToInterpretAllKeystrokes
+language
+image
+server
+wantsToHandleMouseEvents
+handleMouseEvent:
+wantsToDelayTextChangeNotifications
+insertText: client:
+doCommandBySelector: client:
+markedTextAbandoned:
+markedTextSelectionChanged: client:
+terminate:
+canBeDisabled
+wantsToInterpretAllKeystrokes
+wantsToHandleMouseEvents
+wantsToDelayTextChangeNotifications
+inputClientBecomeActive:
+inputClientResignActive:
+inputClientEnabled:
+inputClientDisabled:
+activeConversationWillChange: fromOldConversation:
+activeConversationChanged: toNewConversation:
+mouseDownOnCharacterIndex: atCoordinate: withModifier: client:
+mouseDraggedOnCharacterIndex: atCoordinate: withModifier: client:
+mouseUpOnCharacterIndex: atCoordinate: withModifier: client:
+initWithDelegate: name:
+interfaceStyle
+setInterfaceStyle:
+exposeBinding:
+exposedBindings
+valueClassForBinding:
+bind: toObject: withKeyPath: options:
+unbind:
+setDefaultPlaceholder: forMarker: withBinding:
+defaultPlaceholderForMarker: withBinding:
+objectDidBeginEditing:
+objectDidEndEditing:
+discardEditing
+commitEditing
+init
+textStorage
+setTextStorage:
+replaceTextStorage:
+typesetter
+setTypesetter:
+delegate
+setDelegate:
+textContainers
+addTextContainer:
+insertTextContainer: atIndex:
+removeTextContainerAtIndex:
+textContainerChangedGeometry:
+textContainerChangedTextView:
+invalidateGlyphsForCharacterRange: changeInLength: actualCharacterRange:
+invalidateLayoutForCharacterRange: isSoft: actualCharacterRange:
+invalidateDisplayForGlyphRange:
+invalidateDisplayForCharacterRange:
+textStorage: edited: range: changeInLength: invalidatedRange:
+setBackgroundLayoutEnabled:
+backgroundLayoutEnabled
+setShowsInvisibleCharacters:
+showsInvisibleCharacters
+setShowsControlCharacters:
+showsControlCharacters
+setHyphenationFactor:
+hyphenationFactor
+setDefaultAttachmentScaling:
+defaultAttachmentScaling
+insertGlyph: atGlyphIndex: characterIndex:
+replaceGlyphAtIndex: withGlyph:
+deleteGlyphsInRange:
+setCharacterIndex: forGlyphAtIndex:
+numberOfGlyphs
+glyphAtIndex:
+glyphAtIndex: isValidIndex:
+isValidGlyphIndex:
+getGlyphs: range:
+characterIndexForGlyphAtIndex:
+setIntAttribute: value: forGlyphAtIndex:
+intAttribute: forGlyphAtIndex:
+setTextContainer: forGlyphRange:
+setLineFragmentRect: forGlyphRange: usedRect:
+setExtraLineFragmentRect: usedRect: textContainer:
+setDrawsOutsideLineFragment: forGlyphAtIndex:
+setLocation: forStartOfGlyphRange:
+setNotShownAttribute: forGlyphAtIndex:
+setAttachmentSize: forGlyphRange:
+textContainerForGlyphAtIndex: effectiveRange:
+usedRectForTextContainer:
+lineFragmentRectForGlyphAtIndex: effectiveRange:
+lineFragmentUsedRectForGlyphAtIndex: effectiveRange:
+attachmentSizeForGlyphAtIndex:
+extraLineFragmentRect
+extraLineFragmentUsedRect
+extraLineFragmentTextContainer
+drawsOutsideLineFragmentForGlyphAtIndex:
+locationForGlyphAtIndex:
+notShownAttributeForGlyphAtIndex:
+glyphRangeForCharacterRange: actualCharacterRange:
+characterRangeForGlyphRange: actualGlyphRange:
+glyphRangeForTextContainer:
+rangeOfNominallySpacedGlyphsContainingIndex:
+rectArrayForCharacterRange: withinSelectedCharacterRange: inTextContainer: rectCount:
+rectArrayForGlyphRange: withinSelectedGlyphRange: inTextContainer: rectCount:
+boundingRectForGlyphRange: inTextContainer:
+glyphRangeForBoundingRect: inTextContainer:
+glyphRangeForBoundingRectWithoutAdditionalLayout: inTextContainer:
+glyphIndexForPoint: inTextContainer: fractionOfDistanceThroughGlyph:
+glyphIndexForPoint: inTextContainer:
+fractionOfDistanceThroughGlyphForPoint: inTextContainer:
+getFirstUnlaidCharacterIndex: glyphIndex:
+firstUnlaidCharacterIndex
+firstUnlaidGlyphIndex
+usesScreenFonts
+setUsesScreenFonts:
+substituteFontForFont:
+temporaryAttributesAtCharacterIndex: effectiveRange:
+setTemporaryAttributes: forCharacterRange:
+addTemporaryAttributes: forCharacterRange:
+removeTemporaryAttribute: forCharacterRange:
+getGlyphsInRange: glyphs: characterIndexes: glyphInscriptions: elasticBits: bidiLevels:
+getGlyphsInRange: glyphs: characterIndexes: glyphInscriptions: elasticBits:
+typesetterBehavior
+setTypesetterBehavior:
+defaultLineHeightForFont:
+rulerMarkersForTextView: paragraphStyle: ruler:
+rulerAccessoryViewForTextView: paragraphStyle: ruler: enabled:
+layoutManagerOwnsFirstResponderInWindow:
+firstTextView
+textViewForBeginningOfSelection
+drawBackgroundForGlyphRange: atPoint:
+drawGlyphsForGlyphRange: atPoint:
+showPackedGlyphs: length: glyphRange: atPoint: font: color: printingAdjustment:
+showAttachmentCell: inRect: characterIndex:
+drawUnderlineForGlyphRange: underlineType: baselineOffset: lineFragmentRect: lineFragmentGlyphRange: containerOrigin:
+underlineGlyphRange: underlineType: lineFragmentRect: lineFragmentGlyphRange: containerOrigin:
+drawStrikethroughForGlyphRange: strikethroughType: baselineOffset: lineFragmentRect: lineFragmentGlyphRange: containerOrigin:
+strikethroughGlyphRange: strikethroughType: lineFragmentRect: lineFragmentGlyphRange: containerOrigin:
+layoutManagerDidInvalidateLayout:
+layoutManager: didCompleteLayoutForTextContainer: atEnd:
+initWithFrame:
+initWithFrame: mode: prototype: numberOfRows: numberOfColumns:
+initWithFrame: mode: cellClass: numberOfRows: numberOfColumns:
+setCellClass:
+cellClass
+prototype
+setPrototype:
+makeCellAtRow: column:
+mode
+setMode:
+setAllowsEmptySelection:
+allowsEmptySelection
+sendAction: to: forAllCells:
+cells
+sortUsingSelector:
+sortUsingFunction: )compare context:
+selectedCell
+selectedCells
+selectedRow
+selectedColumn
+setSelectionByRect:
+isSelectionByRect
+setSelectionFrom: to: anchor: highlight:
+deselectSelectedCell
+deselectAllCells
+selectCellAtRow: column:
+selectAll:
+selectCellWithTag:
+cellSize
+setCellSize:
+intercellSpacing
+setIntercellSpacing:
+setScrollable:
+setBackgroundColor:
+backgroundColor
+setCellBackgroundColor:
+cellBackgroundColor
+setDrawsCellBackground:
+drawsCellBackground
+setDrawsBackground:
+drawsBackground
+setState: atRow: column:
+getNumberOfRows: columns:
+numberOfRows
+numberOfColumns
+cellAtRow: column:
+cellFrameAtRow: column:
+getRow: column: ofCell:
+getRow: column: forPoint:
+renewRows: columns:
+putCell: atRow: column:
+addRow
+addRowWithCells:
+insertRow:
+insertRow: withCells:
+removeRow:
+addColumn
+addColumnWithCells:
+insertColumn:
+insertColumn: withCells:
+removeColumn:
+cellWithTag:
+doubleAction
+setDoubleAction:
+setAutosizesCells:
+autosizesCells
+sizeToCells
+setValidateSize:
+drawCellAtRow: column:
+highlightCell: atRow: column:
+setAutoscroll:
+isAutoscroll
+scrollCellToVisibleAtRow: column:
+mouseDownFlags
+mouseDown:
+performKeyEquivalent:
+sendAction
+sendDoubleAction
+delegate
+setDelegate:
+textShouldBeginEditing:
+textShouldEndEditing:
+textDidBeginEditing:
+textDidEndEditing:
+textDidChange:
+selectText:
+selectTextAtRow: column:
+acceptsFirstMouse:
+resetCursorRects
+setToolTip: forCell:
+toolTipForCell:
+setTabKeyTraversesCells:
+tabKeyTraversesCells
+setKeyCell:
+keyCell
+setMenuZone:
+menuZone
+popUpContextMenu: withEvent: forView:
+popUpContextMenu: withEvent: forView: withFont:
+setMenuBarVisible:
+menuBarVisible
+initWithTitle:
+setTitle:
+title
+setSupermenu:
+supermenu
+insertItem: atIndex:
+addItem:
+insertItemWithTitle: action: keyEquivalent: atIndex:
+addItemWithTitle: action: keyEquivalent:
+removeItemAtIndex:
+removeItem:
+setSubmenu: forItem:
+itemArray
+numberOfItems
+indexOfItem:
+indexOfItemWithTitle:
+indexOfItemWithTag:
+indexOfItemWithRepresentedObject:
+indexOfItemWithSubmenu:
+indexOfItemWithTarget: andAction:
+itemAtIndex:
+itemWithTitle:
+itemWithTag:
+setAutoenablesItems:
+autoenablesItems
+performKeyEquivalent:
+update
+setMenuChangedMessagesEnabled:
+menuChangedMessagesEnabled
+itemChanged:
+helpRequested:
+setMenuRepresentation:
+menuRepresentation
+setContextMenuRepresentation:
+contextMenuRepresentation
+setTearOffMenuRepresentation:
+tearOffMenuRepresentation
+isTornOff
+attachedMenu
+isAttached
+sizeToFit
+locationForSubmenu:
+performActionForItemAtIndex:
+setDelegate:
+delegate
+submenuAction:
+validateMenuItem:
+menuNeedsUpdate:
+numberOfItemsInMenu:
+menu: updateItem: atIndex: shouldCancel:
+menuHasKeyEquivalent: forEvent: target: action:
+setUsesUserKeyEquivalents:
+usesUserKeyEquivalents
+separatorItem
+initWithTitle: action: keyEquivalent:
+setMenu:
+menu
+hasSubmenu
+setSubmenu:
+submenu
+setTitle:
+title
+setAttributedTitle:
+attributedTitle
+isSeparatorItem
+setKeyEquivalent:
+keyEquivalent
+setKeyEquivalentModifierMask:
+keyEquivalentModifierMask
+userKeyEquivalent
+userKeyEquivalentModifierMask
+setMnemonicLocation:
+mnemonicLocation
+mnemonic
+setTitleWithMnemonic:
+setImage:
+image
+setState:
+state
+setOnStateImage:
+onStateImage
+setOffStateImage:
+offStateImage
+setMixedStateImage:
+mixedStateImage
+setEnabled:
+isEnabled
+setAlternate:
+isAlternate
+setIndentationLevel:
+indentationLevel
+setTarget:
+target
+setAction:
+action
+setTag:
+tag
+setRepresentedObject:
+representedObject
+setToolTip:
+toolTip
+setUsesUserKeyEquivalents:
+usesUserKeyEquivalents
+separatorItem
+initWithTitle: action: keyEquivalent:
+setMenu:
+menu
+hasSubmenu
+setSubmenu:
+submenu
+setTitle:
+title
+setAttributedTitle:
+attributedTitle
+isSeparatorItem
+setKeyEquivalent:
+keyEquivalent
+setKeyEquivalentModifierMask:
+keyEquivalentModifierMask
+userKeyEquivalent
+setMnemonicLocation:
+mnemonicLocation
+mnemonic
+setTitleWithMnemonic:
+setImage:
+image
+setState:
+state
+setOnStateImage:
+onStateImage
+setOffStateImage:
+offStateImage
+setMixedStateImage:
+mixedStateImage
+setEnabled:
+isEnabled
+setAlternate:
+isAlternate
+setIndentationLevel:
+indentationLevel
+setTarget:
+target
+setAction:
+action
+setTag:
+tag
+setRepresentedObject:
+representedObject
+setToolTip:
+toolTip
+setMenuItem:
+menuItem
+setMenuView:
+menuView
+setHighlighted:
+isHighlighted
+setNeedsSizing:
+needsSizing
+calcSize
+setNeedsDisplay:
+needsDisplay
+stateImageWidth
+imageWidth
+titleWidth
+keyEquivalentWidth
+stateImageRectForBounds:
+imageRectForBounds:
+titleRectForBounds:
+keyEquivalentRectForBounds:
+drawSeparatorItemWithFrame: inView:
+drawStateImageWithFrame: inView:
+drawImageWithFrame: inView:
+drawTitleWithFrame: inView:
+drawKeyEquivalentWithFrame: inView:
+drawBorderAndBackgroundWithFrame: inView:
+menuBarHeight
+initWithFrame:
+initAsTearOff
+setMenu:
+menu
+itemChanged:
+itemAdded:
+itemRemoved:
+update
+setHorizontal:
+isHorizontal
+setFont:
+font
+innerRect
+rectOfItemAtIndex:
+indexOfItemAtPoint:
+setNeedsDisplayForItemAtIndex:
+setHighlightedItemIndex:
+highlightedItemIndex
+stateImageOffset
+stateImageWidth
+imageAndTitleOffset
+imageAndTitleWidth
+keyEquivalentOffset
+keyEquivalentWidth
+setMenuItemCell: forItemAtIndex:
+menuItemCellForItemAtIndex:
+attachedMenuView
+setNeedsSizing:
+needsSizing
+sizeToFit
+attachedMenu
+isAttached
+isTornOff
+locationForSubmenu:
+setWindowFrameForAttachingToRect: onScreen: preferredEdge: popUpSelectedItem:
+detachSubmenu
+attachSubmenuForItemAtIndex:
+performActionWithHighlightingForItemAtIndex:
+trackWithEvent:
+horizontalEdgePadding
+setHorizontalEdgePadding:
+initWithMovie:
+initWithURL: byReference:
+initWithPasteboard:
+QTMovie
+URL
+movieUnfilteredFileTypes
+movieUnfilteredPasteboardTypes
+canInitWithPasteboard:
+setMovie:
+movie
+movieController
+movieRect
+start:
+stop:
+isPlaying
+gotoPosterFrame:
+gotoBeginning:
+gotoEnd:
+stepForward:
+stepBack:
+setRate:
+rate
+setVolume:
+volume
+setMuted:
+isMuted
+setLoopMode:
+loopMode
+setPlaysSelectionOnly:
+playsSelectionOnly
+setPlaysEveryFrame:
+playsEveryFrame
+showController: adjustingSize:
+isControllerVisible
+resizeWithMagnification:
+sizeForMagnification:
+setEditable:
+isEditable
+cut:
+copy:
+paste:
+delete:
+selectAll:
+clear:
+initWithContentsOfURL:
+initWithNibNamed: bundle:
+instantiateNibWithExternalNameTable:
+instantiateNibWithOwner: topLevelObjects:
+source
+setSource:
+destination
+setDestination:
+label
+setLabel:
+replaceObject: withObject:
+establishConnection
+establishConnection
+loadNibFile: externalNameTable: withZone:
+loadNibNamed: owner:
+loadNibFile: externalNameTable: withZone:
+awakeFromNib
+establishConnection
+initWithContent:
+setContent:
+content
+selection
+selectedObjects
+setAutomaticallyPreparesContent:
+automaticallyPreparesContent
+prepareContent
+setObjectClass:
+objectClass
+newObject
+addObject:
+removeObject:
+setEditable:
+isEditable
+add:
+canAdd
+remove:
+canRemove
+validateMenuItem:
+initWithAttributes:
+initWithData:
+attributes
+setAttributes:
+getValues: forAttribute: forVirtualScreen:
+numberOfVirtualScreens
+CGLPixelFormatObj
+initWithTextureTarget: textureInternalFormat: textureMaxMipMapLevel: pixelsWide: pixelsHigh:
+pixelsWide
+pixelsHigh
+textureTarget
+textureInternalFormat
+textureMaxMipMapLevel
+initWithFormat: shareContext:
+setView:
+view
+setFullScreen
+setOffScreen: width: height: rowbytes:
+clearDrawable
+update
+flushBuffer
+makeCurrentContext
+clearCurrentContext
+currentContext
+copyAttributesFromContext: withMask:
+setValues: forParameter:
+getValues: forParameter:
+setCurrentVirtualScreen:
+currentVirtualScreen
+createTexture: fromView: internalFormat:
+CGLContextObj
+setPixelBuffer: cubeMapFace: mipMapLevel: currentVirtualScreen:
+pixelBuffer
+pixelBufferCubeMapFace
+pixelBufferMipMapLevel
+setTextureImageToPixelBuffer: colorBuffer:
+defaultPixelFormat
+initWithFrame: pixelFormat:
+setOpenGLContext:
+openGLContext
+clearGLContext
+update
+reshape
+setPixelFormat:
+pixelFormat
+prepareOpenGL
+openPanel
+URLs
+filenames
+resolvesAliases
+setResolvesAliases:
+canChooseDirectories
+setCanChooseDirectories:
+allowsMultipleSelection
+setAllowsMultipleSelection:
+canChooseFiles
+setCanChooseFiles:
+beginSheetForDirectory: file: types: modalForWindow: modalDelegate: didEndSelector: contextInfo:
+beginForDirectory: file: types: modelessDelegate: didEndSelector: contextInfo:
+runModalForDirectory: file: types:
+runModalForTypes:
+setOutlineTableColumn:
+outlineTableColumn
+isExpandable:
+expandItem: expandChildren:
+expandItem:
+collapseItem: collapseChildren:
+collapseItem:
+reloadItem: reloadChildren:
+reloadItem:
+itemAtRow:
+rowForItem:
+levelForItem:
+levelForRow:
+isItemExpanded:
+setIndentationPerLevel:
+indentationPerLevel
+setIndentationMarkerFollowsCell:
+indentationMarkerFollowsCell
+setAutoresizesOutlineColumn:
+autoresizesOutlineColumn
+setDropItem: dropChildIndex:
+shouldCollapseAutoExpandedItemsForDeposited:
+autosaveExpandedItems
+setAutosaveExpandedItems:
+outlineView: child: ofItem:
+outlineView: isItemExpandable:
+outlineView: numberOfChildrenOfItem:
+outlineView: objectValueForTableColumn: byItem:
+outlineView: setObjectValue: forTableColumn: byItem:
+outlineView: itemForPersistentObject:
+outlineView: persistentObjectForItem:
+outlineView: sortDescriptorsDidChange:
+outlineView: writeItems: toPasteboard:
+outlineView: validateDrop: proposedItem: proposedChildIndex:
+outlineView: acceptDrop: item: childIndex:
+outlineView: willDisplayCell: forTableColumn: item:
+outlineView: shouldEditTableColumn: item:
+selectionShouldChangeInOutlineView:
+outlineView: shouldSelectItem:
+outlineView: shouldSelectTableColumn:
+outlineView: shouldExpandItem:
+outlineView: shouldCollapseItem:
+outlineView: willDisplayOutlineCell: forTableColumn: item:
+outlineView: mouseDownInHeaderOfTableColumn:
+outlineView: didClickTableColumn:
+outlineView: didDragTableColumn:
+outlineViewSelectionDidChange:
+outlineViewColumnDidMove:
+outlineViewColumnDidResize:
+outlineViewSelectionIsChanging:
+outlineViewItemWillExpand:
+outlineViewItemDidExpand:
+outlineViewItemWillCollapse:
+outlineViewItemDidCollapse:
+imageRepWithData:
+initWithData:
+PDFRepresentation
+bounds
+setCurrentPage:
+currentPage
+pageCount
+imageRepWithData:
+initWithData:
+PICTRepresentation
+boundingBox
+pageLayout
+beginSheetWithPrintInfo: modalForWindow: delegate: didEndSelector: contextInfo:
+runModal
+runModalWithPrintInfo:
+accessoryView
+setAccessoryView:
+printInfo
+readPrintInfo
+writePrintInfo
+convertOldFactor: newFactor:
+pickedButton:
+pickedOrientation:
+pickedPaperSize:
+pickedUnits:
+runPageLayout:
+pageLayout
+setAccessoryView:
+accessoryView
+readPrintInfo
+writePrintInfo
+printInfo
+runModalWithPrintInfo:
+runModal
+runPageLayout:
+isFloatingPanel
+setFloatingPanel:
+becomesKeyOnlyIfNeeded
+setBecomesKeyOnlyIfNeeded:
+worksWhenModal
+setWorksWhenModal:
+initWithTextAlignment: location: options:
+alignment
+options
+initWithType: location:
+location
+tabStopType
+defaultParagraphStyle
+defaultWritingDirectionForLanguage:
+lineSpacing
+paragraphSpacing
+alignment
+headIndent
+tailIndent
+firstLineHeadIndent
+tabStops
+minimumLineHeight
+maximumLineHeight
+lineBreakMode
+baseWritingDirection
+lineHeightMultiple
+paragraphSpacingBefore
+defaultTabInterval
+setLineSpacing:
+setParagraphSpacing:
+setAlignment:
+setFirstLineHeadIndent:
+setHeadIndent:
+setTailIndent:
+setLineBreakMode:
+setMinimumLineHeight:
+setMaximumLineHeight:
+addTabStop:
+removeTabStop:
+setTabStops:
+setParagraphStyle:
+setBaseWritingDirection:
+setLineHeightMultiple:
+setParagraphSpacingBefore:
+setDefaultTabInterval:
+generalPasteboard
+pasteboardWithName:
+pasteboardWithUniqueName
+typesFilterableTo:
+pasteboardByFilteringFile:
+pasteboardByFilteringData: ofType:
+pasteboardByFilteringTypesInPasteboard:
+name
+releaseGlobally
+declareTypes: owner:
+addTypes: owner:
+changeCount
+types
+availableTypeFromArray:
+setData: forType:
+dataForType:
+setPropertyList: forType:
+propertyListForType:
+setString: forType:
+stringForType:
+writeFileContents:
+readFileContentsType: toFile:
+writeFileWrapper:
+readFileWrapper
+URLFromPasteboard:
+writeToPasteboard:
+pasteboard: provideDataForType:
+pasteboardChangedOwner:
+initWithFrame: pullsDown:
+setMenu:
+menu
+setPullsDown:
+pullsDown
+setAutoenablesItems:
+autoenablesItems
+setPreferredEdge:
+preferredEdge
+addItemWithTitle:
+addItemsWithTitles:
+insertItemWithTitle: atIndex:
+removeItemWithTitle:
+removeItemAtIndex:
+removeAllItems
+itemArray
+numberOfItems
+indexOfItem:
+indexOfItemWithTitle:
+indexOfItemWithTag:
+indexOfItemWithRepresentedObject:
+indexOfItemWithTarget: andAction:
+itemAtIndex:
+itemWithTitle:
+lastItem
+selectItem:
+selectItemAtIndex:
+selectItemWithTitle:
+setTitle:
+selectedItem
+indexOfSelectedItem
+synchronizeTitleAndSelectedItem
+itemTitleAtIndex:
+itemTitles
+titleOfSelectedItem
+initTextCell: pullsDown:
+setMenu:
+menu
+setPullsDown:
+pullsDown
+setAutoenablesItems:
+autoenablesItems
+setPreferredEdge:
+preferredEdge
+setUsesItemFromMenu:
+usesItemFromMenu
+setAltersStateOfSelectedItem:
+altersStateOfSelectedItem
+addItemWithTitle:
+addItemsWithTitles:
+insertItemWithTitle: atIndex:
+removeItemWithTitle:
+removeItemAtIndex:
+removeAllItems
+itemArray
+numberOfItems
+indexOfItem:
+indexOfItemWithTitle:
+indexOfItemWithTag:
+indexOfItemWithRepresentedObject:
+indexOfItemWithTarget: andAction:
+itemAtIndex:
+itemWithTitle:
+lastItem
+selectItem:
+selectItemAtIndex:
+selectItemWithTitle:
+setTitle:
+selectedItem
+indexOfSelectedItem
+synchronizeTitleAndSelectedItem
+itemTitleAtIndex:
+itemTitles
+titleOfSelectedItem
+attachPopUpWithFrame: inView:
+dismissPopUp
+performClickWithFrame: inView:
+arrowPosition
+setArrowPosition:
+objectValue
+setObjectValue:
+setSharedPrintInfo:
+sharedPrintInfo
+initWithDictionary:
+dictionary
+setPaperName:
+setPaperSize:
+setOrientation:
+paperName
+paperSize
+orientation
+setLeftMargin:
+setRightMargin:
+setTopMargin:
+setBottomMargin:
+leftMargin
+rightMargin
+topMargin
+bottomMargin
+setHorizontallyCentered:
+setVerticallyCentered:
+isHorizontallyCentered
+isVerticallyCentered
+setHorizontalPagination:
+setVerticalPagination:
+horizontalPagination
+verticalPagination
+setJobDisposition:
+jobDisposition
+setPrinter:
+printer
+setUpPrintOperationDefaultValues
+imageablePageBounds
+localizedPaperName
+defaultPrinter
+setDefaultPrinter:
+sizeForPaperName:
+printOperationWithView:
+printOperationWithView: printInfo:
+EPSOperationWithView: insideRect: toData:
+EPSOperationWithView: insideRect: toData: printInfo:
+EPSOperationWithView: insideRect: toPath: printInfo:
+PDFOperationWithView: insideRect: toData:
+PDFOperationWithView: insideRect: toData: printInfo:
+PDFOperationWithView: insideRect: toPath: printInfo:
+currentOperation
+setCurrentOperation:
+isCopyingOperation
+runOperation
+printOperationDidRun: success: contextInfo:
+runOperationModalForWindow: delegate: didRunSelector: contextInfo:
+setCanSpawnSeparateThread:
+canSpawnSeparateThread
+setShowPanels:
+showPanels
+setPrintPanel:
+printPanel
+setAccessoryView:
+accessoryView
+setJobStyleHint:
+jobStyleHint
+setPrintInfo:
+printInfo
+view
+currentPage
+setPageOrder:
+pageOrder
+context
+createContext
+destroyContext
+deliverResult
+cleanUpOperation
+printPanel
+beginSheetWithPrintInfo: modalForWindow: delegate: didEndSelector: contextInfo:
+runModal
+accessoryView
+setAccessoryView:
+setJobStyleHint:
+jobStyleHint
+updateFromPrintInfo
+finalWritePrintInfo
+pickedAllPages:
+pickedButton:
+pickedLayoutList:
+printerNames
+printerTypes
+printerWithName:
+printerWithType:
+name
+type
+languageLevel
+pageSizeForPaper:
+statusForTable:
+isKey: inTable:
+booleanForKey: inTable:
+floatForKey: inTable:
+intForKey: inTable:
+rectForKey: inTable:
+sizeForKey: inTable:
+stringForKey: inTable:
+stringListForKey: inTable:
+deviceDescription
+imageRectForPaper:
+acceptsBinary
+isColor
+isFontAvailable:
+isOutputStackInReverseOrder
+printerWithName: domain: includeUnavailable:
+domain
+host
+note
+isIndeterminate
+setIndeterminate:
+isBezeled
+setBezeled:
+controlTint
+setControlTint:
+controlSize
+setControlSize:
+doubleValue
+setDoubleValue:
+incrementBy:
+minValue
+maxValue
+setMinValue:
+setMaxValue:
+animationDelay
+setAnimationDelay:
+usesThreadedAnimation
+setUsesThreadedAnimation:
+startAnimation:
+stopAnimation:
+animate:
+setStyle:
+style
+sizeToFit
+isDisplayedWhenStopped
+setDisplayedWhenStopped:
+qdPort
+nextResponder
+setNextResponder:
+tryToPerform: with:
+performKeyEquivalent:
+validRequestorForSendType: returnType:
+mouseDown:
+rightMouseDown:
+otherMouseDown:
+mouseUp:
+rightMouseUp:
+otherMouseUp:
+mouseMoved:
+mouseDragged:
+scrollWheel:
+rightMouseDragged:
+otherMouseDragged:
+mouseEntered:
+mouseExited:
+keyDown:
+keyUp:
+flagsChanged:
+noResponderFor:
+acceptsFirstResponder
+becomeFirstResponder
+resignFirstResponder
+interpretKeyEvents:
+flushBufferedKeyEvents
+setMenu:
+menu
+showContextHelp:
+helpRequested:
+shouldBeTreatedAsInkEvent:
+performMnemonic:
+insertText:
+doCommandBySelector:
+moveForward:
+moveRight:
+moveBackward:
+moveLeft:
+moveUp:
+moveDown:
+moveWordForward:
+moveWordBackward:
+moveToBeginningOfLine:
+moveToEndOfLine:
+moveToBeginningOfParagraph:
+moveToEndOfParagraph:
+moveToEndOfDocument:
+moveToBeginningOfDocument:
+pageDown:
+pageUp:
+centerSelectionInVisibleArea:
+moveBackwardAndModifySelection:
+moveForwardAndModifySelection:
+moveWordForwardAndModifySelection:
+moveWordBackwardAndModifySelection:
+moveUpAndModifySelection:
+moveDownAndModifySelection:
+moveWordRight:
+moveWordLeft:
+moveRightAndModifySelection:
+moveLeftAndModifySelection:
+moveWordRightAndModifySelection:
+moveWordLeftAndModifySelection:
+scrollPageUp:
+scrollPageDown:
+scrollLineUp:
+scrollLineDown:
+transpose:
+transposeWords:
+selectAll:
+selectParagraph:
+selectLine:
+selectWord:
+indent:
+insertTab:
+insertBacktab:
+insertNewline:
+insertParagraphSeparator:
+insertNewlineIgnoringFieldEditor:
+insertTabIgnoringFieldEditor:
+changeCaseOfLetter:
+uppercaseWord:
+lowercaseWord:
+capitalizeWord:
+deleteForward:
+deleteBackward:
+deleteBackwardByDecomposingPreviousCharacter:
+deleteWordForward:
+deleteWordBackward:
+deleteToBeginningOfLine:
+deleteToEndOfLine:
+deleteToBeginningOfParagraph:
+deleteToEndOfParagraph:
+yank:
+complete:
+setMark:
+deleteToMark:
+selectToMark:
+swapWithMark:
+cancelOperation:
+undoManager
+initWithRulerView: markerLocation: image: imageOrigin:
+ruler
+setMarkerLocation:
+markerLocation
+setImage:
+image
+setImageOrigin:
+imageOrigin
+setMovable:
+setRemovable:
+isMovable
+isRemovable
+isDragging
+setRepresentedObject:
+representedObject
+imageRectInRuler
+thicknessRequiredInRuler
+drawRect:
+trackMouse: adding:
+registerUnitWithName: abbreviation: unitToPointsConversionFactor: stepUpCycle: stepDownCycle:
+initWithScrollView: orientation:
+setScrollView:
+scrollView
+setOrientation:
+orientation
+baselineLocation
+requiredThickness
+setRuleThickness:
+ruleThickness
+setReservedThicknessForMarkers:
+reservedThicknessForMarkers
+setReservedThicknessForAccessoryView:
+reservedThicknessForAccessoryView
+setMeasurementUnits:
+measurementUnits
+setOriginOffset:
+originOffset
+setClientView:
+clientView
+setMarkers:
+addMarker:
+removeMarker:
+markers
+trackMarker: withMouseEvent:
+setAccessoryView:
+accessoryView
+moveRulerlineFromLocation: toLocation:
+invalidateHashMarks
+drawHashMarksAndLabelsInRect:
+drawMarkersInRect:
+isFlipped
+rulerView: shouldMoveMarker:
+rulerView: willMoveMarker: toLocation:
+rulerView: didMoveMarker:
+rulerView: shouldRemoveMarker:
+rulerView: didRemoveMarker:
+rulerView: shouldAddMarker:
+rulerView: willAddMarker: atLocation:
+rulerView: didAddMarker:
+rulerView: handleMouseDown:
+rulerView: willSetClientView:
+savePanel
+URL
+filename
+directory
+setDirectory:
+requiredFileType
+setRequiredFileType:
+allowedFileTypes
+setAllowedFileTypes:
+allowsOtherFileTypes
+setAllowsOtherFileTypes:
+accessoryView
+setAccessoryView:
+delegate
+setDelegate:
+isExpanded
+canCreateDirectories
+setCanCreateDirectories:
+canSelectHiddenExtension
+setCanSelectHiddenExtension:
+isExtensionHidden
+setExtensionHidden:
+treatsFilePackagesAsDirectories
+setTreatsFilePackagesAsDirectories:
+prompt
+setPrompt:
+title
+setTitle:
+nameFieldLabel
+setNameFieldLabel:
+message
+setMessage:
+validateVisibleColumns
+selectText:
+ok:
+cancel:
+beginSheetForDirectory: file: modalForWindow: modalDelegate: didEndSelector: contextInfo:
+runModalForDirectory: file:
+runModal
+panel: shouldShowFilename:
+panel: compareFilename: with: caseSensitive:
+panel: isValidFilename:
+panel: userEnteredFilename: confirmed:
+panel: willExpand:
+panel: directoryDidChange:
+panelSelectionDidChange:
+screens
+mainScreen
+deepestScreen
+depth
+frame
+visibleFrame
+deviceDescription
+supportedWindowDepths
+frameSizeForContentSize: hasHorizontalScroller: hasVerticalScroller: borderType:
+contentSizeForFrameSize: hasHorizontalScroller: hasVerticalScroller: borderType:
+documentVisibleRect
+contentSize
+setDocumentView:
+documentView
+setContentView:
+contentView
+setDocumentCursor:
+documentCursor
+setBorderType:
+borderType
+setBackgroundColor:
+backgroundColor
+setDrawsBackground:
+drawsBackground
+setHasVerticalScroller:
+hasVerticalScroller
+setHasHorizontalScroller:
+hasHorizontalScroller
+setVerticalScroller:
+verticalScroller
+setHorizontalScroller:
+horizontalScroller
+autohidesScrollers
+setAutohidesScrollers:
+setHorizontalLineScroll:
+setVerticalLineScroll:
+setLineScroll:
+horizontalLineScroll
+verticalLineScroll
+lineScroll
+setHorizontalPageScroll:
+setVerticalPageScroll:
+setPageScroll:
+horizontalPageScroll
+verticalPageScroll
+pageScroll
+setScrollsDynamically:
+scrollsDynamically
+tile
+reflectScrolledClipView:
+scrollWheel:
+setRulerViewClass:
+rulerViewClass
+setRulersVisible:
+rulersVisible
+setHasHorizontalRuler:
+hasHorizontalRuler
+setHasVerticalRuler:
+hasVerticalRuler
+setHorizontalRulerView:
+horizontalRulerView
+setVerticalRulerView:
+verticalRulerView
+scrollerWidth
+scrollerWidthForControlSize:
+drawParts
+rectForPart:
+checkSpaceForParts
+usableParts
+setArrowsPosition:
+arrowsPosition
+setControlTint:
+controlTint
+setControlSize:
+controlSize
+drawArrow: highlight:
+drawKnob
+highlight:
+testPart:
+trackKnob:
+trackScrollButtons:
+hitPart
+setFloatValue: knobProportion:
+knobProportion
+setRecentSearches:
+recentSearches
+setRecentsAutosaveName:
+recentsAutosaveName
+searchButtonCell
+setSearchButtonCell:
+cancelButtonCell
+setCancelButtonCell:
+resetSearchButtonCell
+resetCancelButtonCell
+searchTextRectForBounds:
+searchButtonRectForBounds:
+cancelButtonRectForBounds:
+setSearchMenuTemplate:
+searchMenuTemplate
+setSendsWholeSearchString:
+sendsWholeSearchString
+setMaximumRecents:
+maximumRecents
+setRecentSearches:
+recentSearches
+setRecentsAutosaveName:
+recentsAutosaveName
+setEchosBullets:
+echosBullets
+setSegmentCount:
+segmentCount
+setSelectedSegment:
+selectedSegment
+makeNextSegmentKey
+makePreviousSegmentKey
+setTrackingMode:
+trackingMode
+setWidth: forSegment:
+widthForSegment:
+setImage: forSegment:
+imageForSegment:
+setLabel: forSegment:
+labelForSegment:
+setSelected: forSegment:
+isSelectedForSegment:
+setEnabled: forSegment:
+isEnabledForSegment:
+setMenu: forSegment:
+menuForSegment:
+setToolTip: forSegment:
+toolTipForSegment:
+setTag: forSegment:
+tagForSegment:
+drawSegment: inFrame: withView:
+setSegmentCount:
+segmentCount
+setSelectedSegment:
+selectedSegment
+setWidth: forSegment:
+widthForSegment:
+setImage: forSegment:
+imageForSegment:
+setLabel: forSegment:
+labelForSegment:
+setMenu: forSegment:
+menuForSegment:
+setSelected: forSegment:
+isSelectedForSegment:
+setEnabled: forSegment:
+isEnabledForSegment:
+init
+shadowOffset
+setShadowOffset:
+shadowBlurRadius
+setShadowBlurRadius:
+shadowColor
+setShadowColor:
+set
+minValue
+setMinValue:
+maxValue
+setMaxValue:
+setAltIncrementValue:
+altIncrementValue
+setTitleCell:
+titleCell
+setTitleColor:
+titleColor
+setTitleFont:
+titleFont
+title
+setTitle:
+setKnobThickness:
+knobThickness
+setImage:
+image
+isVertical
+acceptsFirstMouse:
+setNumberOfTickMarks:
+numberOfTickMarks
+setTickMarkPosition:
+tickMarkPosition
+setAllowsTickMarkValuesOnly:
+allowsTickMarkValuesOnly
+tickMarkValueAtIndex:
+rectOfTickMarkAtIndex:
+indexOfTickMarkAtPoint:
+closestTickMarkValueToValue:
+prefersTrackingUntilMouseUp
+minValue
+setMinValue:
+maxValue
+setMaxValue:
+setAltIncrementValue:
+altIncrementValue
+isVertical
+setTitleColor:
+titleColor
+setTitleFont:
+titleFont
+title
+setTitle:
+setTitleCell:
+titleCell
+setKnobThickness:
+knobThickness
+knobRectFlipped:
+drawKnob:
+drawKnob
+drawBarInside: flipped:
+trackRect
+setSliderType:
+sliderType
+setNumberOfTickMarks:
+numberOfTickMarks
+setTickMarkPosition:
+tickMarkPosition
+setAllowsTickMarkValuesOnly:
+allowsTickMarkValuesOnly
+tickMarkValueAtIndex:
+rectOfTickMarkAtIndex:
+indexOfTickMarkAtPoint:
+closestTickMarkValueToValue:
+soundNamed:
+initWithContentsOfURL: byReference:
+initWithContentsOfFile: byReference:
+initWithData:
+setName:
+name
+canInitWithPasteboard:
+soundUnfilteredFileTypes
+soundUnfilteredPasteboardTypes
+initWithPasteboard:
+writeToPasteboard:
+play
+pause
+resume
+stop
+isPlaying
+delegate
+setDelegate:
+sound: didFinishPlaying:
+pathForSoundResource:
+init
+startListening
+stopListening
+delegate
+setDelegate:
+commands
+setCommands:
+displayedCommandsTitle
+setDisplayedCommandsTitle:
+listensInForegroundOnly
+setListensInForegroundOnly:
+blocksOtherRecognizers
+setBlocksOtherRecognizers:
+speechRecognizer: didRecognizeCommand:
+initWithVoice:
+startSpeakingString:
+startSpeakingString: toURL:
+stopSpeaking
+isSpeaking
+delegate
+setDelegate:
+voice
+setVoice:
+usesFeedbackWindow
+setUsesFeedbackWindow:
+isAnyApplicationSpeaking
+defaultVoice
+availableVoices
+attributesForVoice:
+speechSynthesizer: didFinishSpeaking:
+speechSynthesizer: willSpeakWord: ofString:
+speechSynthesizer: willSpeakPhoneme:
+sharedSpellChecker
+sharedSpellCheckerExists
+uniqueSpellDocumentTag
+checkSpellingOfString: startingAt: language: wrap: inSpellDocumentWithTag: wordCount:
+checkSpellingOfString: startingAt:
+countWordsInString: language:
+updateSpellingPanelWithMisspelledWord:
+spellingPanel
+accessoryView
+setAccessoryView:
+ignoreWord: inSpellDocumentWithTag:
+ignoredWordsInSpellDocumentWithTag:
+setIgnoredWords: inSpellDocumentWithTag:
+guessesForWord:
+completionsForPartialWordRange: inString: language: inSpellDocumentWithTag:
+closeSpellDocumentWithTag:
+language
+setLanguage:
+setWordFieldStringValue:
+changeSpelling:
+ignoreSpelling:
+setDelegate:
+delegate
+adjustSubviews
+dividerThickness
+drawDividerInRect:
+setVertical:
+isVertical
+setIsPaneSplitter:
+isPaneSplitter
+isSubviewCollapsed:
+splitView: resizeSubviewsWithOldSize:
+splitView: constrainMinCoordinate: ofSubviewAt:
+splitView: constrainMaxCoordinate: ofSubviewAt:
+splitViewWillResizeSubviews:
+splitViewDidResizeSubviews:
+splitView: canCollapseSubview:
+splitView: constrainSplitPosition: ofSubviewAt:
+systemStatusBar
+statusItemWithLength:
+removeStatusItem:
+isVertical
+thickness
+statusBar
+length
+setLength:
+action
+setAction:
+target
+setTarget:
+title
+setTitle:
+attributedTitle
+setAttributedTitle:
+image
+setImage:
+alternateImage
+setAlternateImage:
+menu
+setMenu:
+isEnabled
+setEnabled:
+toolTip
+setToolTip:
+setHighlightMode:
+highlightMode
+sendActionOn:
+popUpStatusItemMenu:
+drawStatusBarBackgroundInRect: withHighlight:
+view
+setView:
+minValue
+setMinValue:
+maxValue
+setMaxValue:
+increment
+setIncrement:
+valueWraps
+setValueWraps:
+autorepeat
+setAutorepeat:
+minValue
+setMinValue:
+maxValue
+setMaxValue:
+increment
+setIncrement:
+valueWraps
+setValueWraps:
+autorepeat
+setAutorepeat:
+sizeWithAttributes:
+drawAtPoint: withAttributes:
+drawInRect: withAttributes:
+size
+drawAtPoint:
+drawInRect:
+selectTabViewItem:
+selectTabViewItemAtIndex:
+selectTabViewItemWithIdentifier:
+takeSelectedTabViewItemFromSender:
+selectFirstTabViewItem:
+selectLastTabViewItem:
+selectNextTabViewItem:
+selectPreviousTabViewItem:
+selectedTabViewItem
+font
+tabViewType
+tabViewItems
+allowsTruncatedLabels
+minimumSize
+drawsBackground
+controlTint
+controlSize
+setFont:
+setTabViewType:
+setAllowsTruncatedLabels:
+setDrawsBackground:
+setControlTint:
+setControlSize:
+addTabViewItem:
+insertTabViewItem: atIndex:
+removeTabViewItem:
+setDelegate:
+delegate
+tabViewItemAtPoint:
+contentRect
+numberOfTabViewItems
+indexOfTabViewItem:
+tabViewItemAtIndex:
+indexOfTabViewItemWithIdentifier:
+tabView: shouldSelectTabViewItem:
+tabView: willSelectTabViewItem:
+tabView: didSelectTabViewItem:
+tabViewDidChangeNumberOfTabViewItems:
+initWithIdentifier:
+identifier
+view
+initialFirstResponder
+label
+color
+tabState
+tabView
+setIdentifier:
+setLabel:
+setColor:
+setView:
+setInitialFirstResponder:
+drawLabel: inRect:
+sizeOfLabel:
+initWithIdentifier:
+setIdentifier:
+identifier
+setTableView:
+tableView
+setWidth:
+width
+setMinWidth:
+minWidth
+setMaxWidth:
+maxWidth
+setHeaderCell:
+headerCell
+setDataCell:
+dataCell
+dataCellForRow:
+setResizable:
+isResizable
+setEditable:
+isEditable
+sizeToFit
+setSortDescriptorPrototype:
+sortDescriptorPrototype
+drawSortIndicatorWithFrame: inView: ascending: priority:
+sortIndicatorRectForBounds:
+setTableView:
+tableView
+draggedColumn
+draggedDistance
+resizedColumn
+headerRectOfColumn:
+columnAtPoint:
+setDataSource:
+dataSource
+setDelegate:
+delegate
+setHeaderView:
+headerView
+setCornerView:
+cornerView
+setAllowsColumnReordering:
+allowsColumnReordering
+setAllowsColumnResizing:
+allowsColumnResizing
+setAutoresizesAllColumnsToFit:
+autoresizesAllColumnsToFit
+setGridStyleMask:
+gridStyleMask
+setDrawsGrid:
+drawsGrid
+setIntercellSpacing:
+intercellSpacing
+setUsesAlternatingRowBackgroundColors:
+usesAlternatingRowBackgroundColors
+setBackgroundColor:
+backgroundColor
+setGridColor:
+gridColor
+setRowHeight:
+rowHeight
+tableColumns
+numberOfColumns
+numberOfRows
+addTableColumn:
+removeTableColumn:
+columnWithIdentifier:
+tableColumnWithIdentifier:
+tile
+sizeToFit
+sizeLastColumnToFit
+scrollRowToVisible:
+scrollColumnToVisible:
+moveColumn: toColumn:
+reloadData
+noteNumberOfRowsChanged
+editedColumn
+editedRow
+clickedColumn
+clickedRow
+setDoubleAction:
+doubleAction
+setSortDescriptors:
+sortDescriptors
+setIndicatorImage: inTableColumn:
+indicatorImageInTableColumn:
+setHighlightedTableColumn:
+highlightedTableColumn
+setVerticalMotionCanBeginDrag:
+verticalMotionCanBeginDrag
+dragImageForRows: event: dragImageOffset:
+setDropRow: dropOperation:
+setAllowsMultipleSelection:
+allowsMultipleSelection
+setAllowsEmptySelection:
+allowsEmptySelection
+setAllowsColumnSelection:
+allowsColumnSelection
+selectAll:
+deselectAll:
+selectColumn: byExtendingSelection:
+selectRow: byExtendingSelection:
+selectedColumnEnumerator
+selectedRowEnumerator
+selectColumnIndexes: byExtendingSelection:
+selectRowIndexes: byExtendingSelection:
+selectedColumnIndexes
+selectedRowIndexes
+deselectColumn:
+deselectRow:
+selectedColumn
+selectedRow
+isColumnSelected:
+isRowSelected:
+numberOfSelectedColumns
+numberOfSelectedRows
+rectOfColumn:
+rectOfRow:
+columnsInRect:
+rowsInRect:
+columnAtPoint:
+rowAtPoint:
+frameOfCellAtColumn: row:
+textShouldBeginEditing:
+textShouldEndEditing:
+textDidBeginEditing:
+textDidEndEditing:
+textDidChange:
+setAutosaveName:
+autosaveName
+setAutosaveTableColumns:
+autosaveTableColumns
+editColumn: row: withEvent: select:
+drawRow: clipRect:
+highlightSelectionInClipRect:
+drawGridInClipRect:
+drawBackgroundInClipRect:
+tableView: willDisplayCell: forTableColumn: row:
+tableView: shouldEditTableColumn: row:
+selectionShouldChangeInTableView:
+tableView: shouldSelectRow:
+tableView: shouldSelectTableColumn:
+tableView: mouseDownInHeaderOfTableColumn:
+tableView: didClickTableColumn:
+tableView: didDragTableColumn:
+tableViewSelectionDidChange:
+tableViewColumnDidMove:
+tableViewColumnDidResize:
+tableViewSelectionIsChanging:
+numberOfRowsInTableView:
+tableView: objectValueForTableColumn: row:
+tableView: setObjectValue: forTableColumn: row:
+tableView: sortDescriptorsDidChange:
+tableView: writeRows: toPasteboard:
+tableView: validateDrop: proposedRow: proposedDropOperation:
+tableView: acceptDrop: row: dropOperation:
+string
+setString:
+replaceCharactersInRange: withString:
+replaceCharactersInRange: withRTF:
+replaceCharactersInRange: withRTFD:
+RTFFromRange:
+RTFDFromRange:
+writeRTFDToFile: atomically:
+readRTFDFromFile:
+delegate
+setDelegate:
+isEditable
+setEditable:
+isSelectable
+setSelectable:
+isRichText
+setRichText:
+importsGraphics
+setImportsGraphics:
+setBackgroundColor:
+backgroundColor
+setDrawsBackground:
+drawsBackground
+setFont:
+font
+setTextColor:
+textColor
+alignment
+setAlignment:
+setFieldEditor:
+isFieldEditor
+setTextColor: range:
+setFont: range:
+usesFontPanel
+setUsesFontPanel:
+maxSize
+setMaxSize:
+minSize
+setMinSize:
+isHorizontallyResizable
+setHorizontallyResizable:
+isVerticallyResizable
+setVerticallyResizable:
+sizeToFit
+copy:
+copyFont:
+copyRuler:
+cut:
+delete:
+paste:
+pasteFont:
+pasteRuler:
+selectAll:
+changeFont:
+alignLeft:
+alignRight:
+alignCenter:
+subscript:
+superscript:
+underline:
+unscript:
+showGuessPanel:
+checkSpelling:
+toggleRuler:
+isRulerVisible
+selectedRange
+setSelectedRange:
+scrollRangeToVisible:
+textShouldBeginEditing:
+textShouldEndEditing:
+textDidBeginEditing:
+textDidEndEditing:
+textDidChange:
+drawWithFrame: inView:
+wantsToTrackMouse
+highlight: withFrame: inView:
+trackMouse: inRect: ofView: untilMouseUp:
+cellSize
+cellBaselineOffset
+setAttachment:
+attachment
+drawWithFrame: inView: characterIndex:
+drawWithFrame: inView: characterIndex: layoutManager:
+wantsToTrackMouseForEvent: inRect: ofView: atCharacterIndex:
+trackMouse: inRect: ofView: atCharacterIndex: untilMouseUp:
+cellFrameForTextContainer: proposedLineFragment: glyphPosition: characterIndex:
+initWithFileWrapper:
+setFileWrapper:
+fileWrapper
+attachmentCell
+setAttachmentCell:
+attributedStringWithAttachment:
+updateAttachmentsFromPath:
+initWithContainerSize:
+layoutManager
+setLayoutManager:
+replaceLayoutManager:
+textView
+setTextView:
+setWidthTracksTextView:
+widthTracksTextView
+setHeightTracksTextView:
+heightTracksTextView
+setContainerSize:
+containerSize
+setLineFragmentPadding:
+lineFragmentPadding
+lineFragmentRectForProposedRect: sweepDirection: movementDirection: remainingRect:
+isSimpleRectangularTextContainer
+containsPoint:
+setBackgroundColor:
+backgroundColor
+setDrawsBackground:
+drawsBackground
+setTextColor:
+textColor
+isBordered
+setBordered:
+isBezeled
+setBezeled:
+isEditable
+setEditable:
+isSelectable
+setSelectable:
+selectText:
+delegate
+setDelegate:
+textShouldBeginEditing:
+textShouldEndEditing:
+textDidBeginEditing:
+textDidEndEditing:
+textDidChange:
+acceptsFirstResponder
+setBezelStyle:
+bezelStyle
+setTitleWithMnemonic:
+allowsEditingTextAttributes
+setAllowsEditingTextAttributes:
+importsGraphics
+setImportsGraphics:
+setBackgroundColor:
+backgroundColor
+setDrawsBackground:
+drawsBackground
+setTextColor:
+textColor
+setUpFieldEditorAttributes:
+setBezelStyle:
+bezelStyle
+setPlaceholderString:
+placeholderString
+setPlaceholderAttributedString:
+placeholderAttributedString
+addLayoutManager:
+removeLayoutManager:
+layoutManagers
+edited: range: changeInLength:
+processEditing
+invalidateAttributesInRange:
+ensureAttributesAreFixedInRange:
+fixesAttributesLazily
+editedMask
+editedRange
+changeInLength
+setDelegate:
+delegate
+textStorageWillProcessEditing:
+textStorageDidProcessEditing:
+attributeRuns
+setAttributeRuns:
+paragraphs
+setParagraphs:
+words
+setWords:
+characters
+setCharacters:
+font
+setFont:
+foregroundColor
+setForegroundColor:
+initWithFrame: textContainer:
+initWithFrame:
+textContainer
+setTextContainer:
+replaceTextContainer:
+setTextContainerInset:
+textContainerInset
+textContainerOrigin
+invalidateTextContainerOrigin
+layoutManager
+textStorage
+insertText:
+setConstrainedFrameSize:
+setAlignment: range:
+turnOffKerning:
+tightenKerning:
+loosenKerning:
+useStandardKerning:
+turnOffLigatures:
+useStandardLigatures:
+useAllLigatures:
+raiseBaseline:
+lowerBaseline:
+toggleTraditionalCharacterShape:
+outline:
+performFindPanelAction:
+alignJustified:
+changeColor:
+changeAttributes:
+changeDocumentBackgroundColor:
+toggleBaseWritingDirection:
+rulerView: didMoveMarker:
+rulerView: didRemoveMarker:
+rulerView: didAddMarker:
+rulerView: shouldMoveMarker:
+rulerView: shouldAddMarker:
+rulerView: willMoveMarker: toLocation:
+rulerView: shouldRemoveMarker:
+rulerView: willAddMarker: atLocation:
+rulerView: handleMouseDown:
+setNeedsDisplayInRect: avoidAdditionalLayout:
+shouldDrawInsertionPoint
+drawInsertionPointInRect: color: turnedOn:
+drawViewBackgroundInRect:
+updateRuler
+updateFontPanel
+updateDragTypeRegistration
+selectionRangeForProposedRange: granularity:
+clickedOnLink: atIndex:
+startSpeaking:
+stopSpeaking:
+complete:
+rangeForUserCompletion
+completionsForPartialWordRange: indexOfSelectedItem:
+insertCompletion: forPartialWordRange: movement: isFinal:
+writablePasteboardTypes
+writeSelectionToPasteboard: type:
+writeSelectionToPasteboard: types:
+readablePasteboardTypes
+preferredPasteboardTypeFromArray: restrictedToTypesFromArray:
+readSelectionFromPasteboard: type:
+readSelectionFromPasteboard:
+registerForServices
+validRequestorForSendType: returnType:
+pasteAsPlainText:
+pasteAsRichText:
+dragSelectionWithEvent: offset: slideBack:
+dragImageForSelectionWithEvent: origin:
+acceptableDragTypes
+dragOperationForDraggingInfo: type:
+cleanUpAfterDragOperation
+acceptsGlyphInfo
+setAcceptsGlyphInfo:
+setSelectedRange: affinity: stillSelecting:
+selectionAffinity
+selectionGranularity
+setSelectionGranularity:
+setSelectedTextAttributes:
+selectedTextAttributes
+setInsertionPointColor:
+insertionPointColor
+updateInsertionPointStateAndRestartTimer:
+setMarkedTextAttributes:
+markedTextAttributes
+setLinkTextAttributes:
+linkTextAttributes
+setRulerVisible:
+usesRuler
+setUsesRuler:
+setContinuousSpellCheckingEnabled:
+isContinuousSpellCheckingEnabled
+toggleContinuousSpellChecking:
+spellCheckerDocumentTag
+typingAttributes
+setTypingAttributes:
+shouldChangeTextInRange: replacementString:
+didChangeText
+rangeForUserTextChange
+rangeForUserCharacterAttributeChange
+rangeForUserParagraphAttributeChange
+setUsesFindPanel:
+usesFindPanel
+setAllowsDocumentBackgroundColorChange:
+allowsDocumentBackgroundColorChange
+setDefaultParagraphStyle:
+defaultParagraphStyle
+isSelectable
+setSelectable:
+isEditable
+setEditable:
+isRichText
+setRichText:
+importsGraphics
+setImportsGraphics:
+delegate
+setDelegate:
+isFieldEditor
+setFieldEditor:
+usesFontPanel
+setUsesFontPanel:
+isRulerVisible
+setBackgroundColor:
+backgroundColor
+setDrawsBackground:
+drawsBackground
+setSelectedRange:
+allowsUndo
+setAllowsUndo:
+resignFirstResponder
+becomeFirstResponder
+smartInsertDeleteEnabled
+setSmartInsertDeleteEnabled:
+smartDeleteRangeForProposedRange:
+smartInsertForString: replacingRange: beforeString: afterString:
+smartInsertBeforeStringForString: replacingRange:
+smartInsertAfterStringForString: replacingRange:
+textView: clickedOnLink: atIndex:
+textView: clickedOnCell: inRect: atIndex:
+textView: doubleClickedOnCell: inRect: atIndex:
+textView: draggedCell: inRect: event: atIndex:
+textView: writablePasteboardTypesForCell: atIndex:
+textView: writeCell: atIndex: toPasteboard: type: 
+textView: willChangeSelectionFromCharacterRange: toCharacterRange:
+textViewDidChangeSelection:
+textViewDidChangeTypingAttributes:
+textView: willDisplayToolTip: forCharacterAtIndex:
+textView: completions: forPartialWordRange: indexOfSelectedItem:
+textView: shouldChangeTextInRange: replacementString:
+textView: doCommandBySelector:
+textView: clickedOnLink:
+textView: clickedOnCell: inRect:
+textView: doubleClickedOnCell: inRect:
+textView: draggedCell: inRect: event:
+undoManagerForTextView:
+initWithIdentifier:
+insertItemWithItemIdentifier: atIndex:
+removeItemAtIndex:
+setDelegate:
+delegate
+setVisible:
+isVisible
+runCustomizationPalette:
+customizationPaletteIsRunning
+setDisplayMode:
+displayMode
+setSelectedItemIdentifier:
+selectedItemIdentifier
+setSizeMode:
+sizeMode
+setAllowsUserCustomization:
+allowsUserCustomization
+identifier
+items
+visibleItems
+setAutosavesConfiguration:
+autosavesConfiguration
+setConfigurationFromDictionary:
+configurationDictionary
+validateVisibleItems
+toolbar: itemForItemIdentifier: willBeInsertedIntoToolbar:
+toolbarDefaultItemIdentifiers:
+toolbarAllowedItemIdentifiers:
+toolbarSelectableItemIdentifiers:
+toolbarWillAddItem:
+toolbarDidRemoveItem:
+initWithItemIdentifier:
+itemIdentifier
+toolbar
+setLabel:
+label
+setPaletteLabel:
+paletteLabel
+setToolTip:
+toolTip
+setMenuFormRepresentation:
+menuFormRepresentation
+setTag:
+tag
+setTarget:
+target
+setAction:
+action
+setEnabled:
+isEnabled
+setImage:
+image
+setView:
+view
+setMinSize:
+minSize
+setMaxSize:
+maxSize
+validate
+allowsDuplicatesInToolbar
+validateToolbarItem:
+sharedSystemTypesetter
+layoutGlyphsInLayoutManager: startingAtGlyphIndex: maxNumberOfLineFragments: nextGlyphIndex:
+printingAdjustmentInLayoutManager: forNominallySpacedGlyphRange: packedGlyphs: count:
+baselineOffsetInLayoutManager: glyphIndex:
+defaultTypesetterBehavior
+sharedSystemTypesetterForBehavior:
+sharedInstance
+currentLayoutManager
+currentContainer
+currentParagraphStyle
+currentTextStorage
+baseOfTypesetterGlyphInfo
+sizeOfTypesetterGlyphInfo
+capacityOfTypesetterGlyphInfo
+firstGlyphIndexOfCurrentLineFragment
+layoutGlyphsInLayoutManager: startingAtGlyphIndex: maxNumberOfLineFragments: nextGlyphIndex:
+layoutGlyphsInHorizontalLineFragment: baseline:
+clearGlyphCache
+fillAttributesCache
+clearAttributesCache
+growGlyphCaches: fillGlyphInfo:
+updateCurGlyphOffset
+insertGlyph: atGlyphIndex: characterIndex:
+layoutControlGlyphForLineFragment:
+layoutTab
+breakLineAtIndex:
+glyphIndexToBreakLineByHyphenatingWordAtIndex:
+glyphIndexToBreakLineByWordWrappingAtIndex:
+layoutTab
+layoutControlGlyphForLineFragment:
+fullJustifyLineAtGlyphIndex:
+typesetterLaidOneGlyph:
+willSetLineFragmentRect: forGlyphRange: usedRect:
+sharedUserDefaultsController
+initWithDefaults: initialValues:
+defaults
+setInitialValues:
+initialValues
+setAppliesImmediately:
+appliesImmediately
+values
+revert:
+save:
+revertToInitialValues:
+action
+tag
+validateUserInterfaceItem:
+initWithFrame:
+window
+superview
+subviews
+isDescendantOf:
+ancestorSharedWithView:
+opaqueAncestor
+setHidden:
+isHidden
+isHiddenOrHasHiddenAncestor
+getRectsBeingDrawn: count:
+needsToDrawRect:
+wantsDefaultClipping
+addSubview:
+addSubview: positioned: relativeTo:
+sortSubviewsUsingFunction: )compare context:
+viewWillMoveToWindow:
+viewDidMoveToWindow
+viewWillMoveToSuperview:
+viewDidMoveToSuperview
+didAddSubview:
+willRemoveSubview:
+removeFromSuperview
+replaceSubview: with:
+removeFromSuperviewWithoutNeedingDisplay
+setPostsFrameChangedNotifications:
+postsFrameChangedNotifications
+resizeSubviewsWithOldSize:
+resizeWithOldSuperviewSize:
+setAutoresizesSubviews:
+autoresizesSubviews
+setAutoresizingMask:
+autoresizingMask
+setFrameOrigin:
+setFrameSize:
+setFrame:
+frame
+setFrameRotation:
+frameRotation
+setBoundsOrigin:
+setBoundsSize:
+setBoundsRotation:
+boundsRotation
+translateOriginToPoint:
+scaleUnitSquareToSize:
+rotateByAngle:
+setBounds:
+bounds
+isFlipped
+isRotatedFromBase
+isRotatedOrScaledFromBase
+isOpaque
+convertPoint: fromView:
+convertPoint: toView:
+convertSize: fromView:
+convertSize: toView:
+convertRect: fromView:
+convertRect: toView:
+centerScanRect:
+canDraw
+setNeedsDisplay:
+setNeedsDisplayInRect:
+needsDisplay
+lockFocus
+unlockFocus
+lockFocusIfCanDraw
+focusView
+visibleRect
+display
+displayIfNeeded
+displayIfNeededIgnoringOpacity
+displayRect:
+displayIfNeededInRect:
+displayRectIgnoringOpacity:
+displayIfNeededInRectIgnoringOpacity:
+drawRect:
+gState
+allocateGState
+releaseGState
+setUpGState
+renewGState
+scrollPoint:
+scrollRectToVisible:
+autoscroll:
+adjustScroll:
+scrollRect: by:
+hitTest:
+mouse: inRect:
+viewWithTag:
+tag
+performKeyEquivalent:
+acceptsFirstMouse:
+shouldDelayWindowOrderingForEvent:
+needsPanelToBecomeKey
+mouseDownCanMoveWindow
+addCursorRect: cursor:
+removeCursorRect: cursor:
+discardCursorRects
+resetCursorRects
+addTrackingRect: owner: userData: assumeInside:
+removeTrackingRect:
+shouldDrawColor
+setPostsBoundsChangedNotifications:
+postsBoundsChangedNotifications
+enclosingScrollView
+menuForEvent:
+defaultMenu
+setToolTip:
+toolTip
+addToolTipRect: owner: userData:
+removeToolTip:
+removeAllToolTips
+viewWillStartLiveResize
+viewDidEndLiveResize
+inLiveResize
+view: stringForToolTip: point: userData:
+performMnemonic:
+setNextKeyView:
+nextKeyView
+previousKeyView
+nextValidKeyView
+previousValidKeyView
+canBecomeKeyView
+setKeyboardFocusRingNeedsDisplayInRect:
+setFocusRingType:
+focusRingType
+defaultFocusRingType
+writeEPSInsideRect: toPasteboard:
+dataWithEPSInsideRect:
+writePDFInsideRect: toPasteboard:
+dataWithPDFInsideRect:
+print:
+knowsPageRange:
+heightAdjustLimit
+widthAdjustLimit
+adjustPageWidthNew: left: right: limit:
+adjustPageHeightNew: top: bottom: limit:
+rectForPage:
+locationOfPrintRect:
+drawPageBorderWithSize:
+drawSheetBorderWithSize:
+printJobTitle
+beginDocument
+endDocument
+beginPageInRect: atPlacement:
+endPage
+dragImage: at: offset: event: pasteboard: source: slideBack:
+registerForDraggedTypes:
+unregisterDraggedTypes
+dragFile: fromRect: slideBack: event:
+dragPromisedFilesOfTypes: fromRect: source: slideBack: event:
+frameRectForContentRect: styleMask:
+contentRectForFrameRect: styleMask:
+minFrameWidthWithTitle: styleMask:
+defaultDepthLimit
+frameRectForContentRect:
+contentRectForFrameRect:
+initWithContentRect: styleMask: backing: defer:
+initWithContentRect: styleMask: backing: defer: screen:
+title
+setTitle:
+representedFilename
+setRepresentedFilename:
+setTitleWithRepresentedFilename:
+setExcludedFromWindowsMenu:
+isExcludedFromWindowsMenu
+setContentView:
+contentView
+setDelegate:
+delegate
+windowNumber
+styleMask
+fieldEditor: forObject:
+endEditingFor:
+constrainFrameRect: toScreen:
+setFrame: display:
+setContentSize:
+setFrameOrigin:
+setFrameTopLeftPoint:
+cascadeTopLeftFromPoint:
+frame
+animationResizeTime:
+setFrame: display: animate:
+setShowsResizeIndicator:
+showsResizeIndicator
+setResizeIncrements:
+resizeIncrements
+setAspectRatio:
+aspectRatio
+setContentResizeIncrements:
+contentResizeIncrements
+setContentAspectRatio:
+contentAspectRatio
+useOptimizedDrawing:
+disableFlushWindow
+enableFlushWindow
+isFlushWindowDisabled
+flushWindow
+flushWindowIfNeeded
+setViewsNeedDisplay:
+viewsNeedDisplay
+displayIfNeeded
+display
+setAutodisplay:
+isAutodisplay
+update
+makeFirstResponder:
+firstResponder
+resizeFlags
+keyDown:
+close
+setReleasedWhenClosed:
+isReleasedWhenClosed
+miniaturize:
+deminiaturize:
+isZoomed
+zoom:
+isMiniaturized
+tryToPerform: with:
+validRequestorForSendType: returnType:
+setBackgroundColor:
+backgroundColor
+setMovableByWindowBackground:
+isMovableByWindowBackground
+setHidesOnDeactivate:
+hidesOnDeactivate
+setCanHide:
+canHide
+center
+makeKeyAndOrderFront:
+orderFront:
+orderBack:
+orderOut:
+orderWindow: relativeTo:
+orderFrontRegardless
+setMiniwindowImage:
+setMiniwindowTitle:
+miniwindowImage
+miniwindowTitle
+setDocumentEdited:
+isDocumentEdited
+isVisible
+isKeyWindow
+isMainWindow
+canBecomeKeyWindow
+canBecomeMainWindow
+makeKeyWindow
+makeMainWindow
+becomeKeyWindow
+resignKeyWindow
+becomeMainWindow
+resignMainWindow
+worksWhenModal
+convertBaseToScreen:
+convertScreenToBase:
+performClose:
+performMiniaturize:
+performZoom:
+gState
+setOneShot:
+isOneShot
+dataWithEPSInsideRect:
+dataWithPDFInsideRect:
+print:
+disableCursorRects
+enableCursorRects
+discardCursorRects
+areCursorRectsEnabled
+invalidateCursorRectsForView:
+resetCursorRects
+setAllowsToolTipsWhenApplicationIsInactive:
+allowsToolTipsWhenApplicationIsInactive
+setBackingType:
+backingType
+setLevel:
+level
+setDepthLimit:
+depthLimit
+setDynamicDepthLimit:
+hasDynamicDepthLimit
+screen
+deepestScreen
+canStoreColor
+setHasShadow:
+hasShadow
+invalidateShadow
+setAlphaValue:
+alphaValue
+setOpaque:
+isOpaque
+stringWithSavedFrame
+setFrameFromString:
+saveFrameUsingName:
+setFrameUsingName: force:
+setFrameUsingName:
+setFrameAutosaveName:
+frameAutosaveName
+removeFrameUsingName:
+cacheImageInRect:
+restoreCachedImage
+discardCachedImage
+minSize
+maxSize
+setMinSize:
+setMaxSize:
+contentMinSize
+contentMaxSize
+setContentMinSize:
+setContentMaxSize:
+nextEventMatchingMask:
+nextEventMatchingMask: untilDate: inMode: dequeue:
+discardEventsMatchingMask: beforeEvent:
+postEvent: atStart:
+currentEvent
+setAcceptsMouseMovedEvents:
+acceptsMouseMovedEvents
+setIgnoresMouseEvents:
+ignoresMouseEvents
+deviceDescription
+sendEvent:
+mouseLocationOutsideOfEventStream
+menuChanged:
+windowController
+setWindowController:
+isSheet
+attachedSheet
+standardWindowButton: forStyleMask:
+standardWindowButton:
+addChildWindow: ordered:
+removeChildWindow:
+childWindows
+parentWindow
+setParentWindow:
+setInitialFirstResponder:
+initialFirstResponder
+selectNextKeyView:
+selectPreviousKeyView:
+selectKeyViewFollowingView:
+selectKeyViewPrecedingView:
+keyViewSelectionDirection
+setDefaultButtonCell:
+defaultButtonCell
+disableKeyEquivalentForDefaultButtonCell
+enableKeyEquivalentForDefaultButtonCell
+setToolbar:
+toolbar
+toggleToolbarShown:
+runToolbarCustomizationPalette:
+dragImage: at: offset: event: pasteboard: source: slideBack:
+registerForDraggedTypes:
+unregisterDraggedTypes
+windowHandle
+initWithWindowRef:
+windowRef
+windowDidResize:
+windowDidExpose:
+windowWillMove:
+windowDidMove:
+windowDidBecomeKey:
+windowDidResignKey:
+windowDidBecomeMain:
+windowDidResignMain:
+windowWillClose:
+windowWillMiniaturize:
+windowDidMiniaturize:
+windowDidDeminiaturize:
+windowDidUpdate:
+windowDidChangeScreen:
+windowWillBeginSheet:
+windowDidEndSheet:
+windowShouldClose:
+windowWillReturnFieldEditor: toObject:
+windowWillResize: toSize:
+windowWillUseStandardFrame: defaultFrame:
+windowShouldZoom: toFrame:
+windowWillReturnUndoManager:
+window: willPositionSheet: usingRect:
+initWithWindow:
+initWithWindowNibName:
+initWithWindowNibName: owner:
+initWithWindowNibPath: owner:
+windowNibName
+windowNibPath
+owner
+setWindowFrameAutosaveName:
+windowFrameAutosaveName
+setShouldCascadeWindows:
+shouldCascadeWindows
+document
+setDocument:
+setDocumentEdited:
+setShouldCloseDocument:
+shouldCloseDocument
+setWindow:
+window
+synchronizeWindowTitleWithDocumentName
+windowTitleForDocumentDisplayName:
+close
+showWindow:
+isWindowLoaded
+windowDidLoad
+windowWillLoad
+loadWindow
+hasCloseBox
+hasTitleBar
+isFloatingPanel
+isMiniaturizable
+isModalPanel
+isResizable
+isZoomable
+orderedIndex
+setIsMiniaturized:
+setIsVisible:
+setIsZoomed:
+setOrderedIndex:
+handleCloseScriptCommand:
+handlePrintScriptCommand:
+handleSaveScriptCommand:
+sharedWorkspace
+notificationCenter
+openFile:
+openFile: withApplication:
+openFile: withApplication: andDeactivate:
+openTempFile:
+openFile: fromImage: at: inView:
+openURL:
+launchApplication:
+launchApplication: showIcon: autolaunch:
+fullPathForApplication:
+selectFile: inFileViewerRootedAtPath:
+findApplications
+noteFileSystemChanged
+noteFileSystemChanged:
+fileSystemChanged
+noteUserDefaultsChanged
+userDefaultsChanged
+getInfoForFile: application: type:
+isFilePackageAtPath:
+iconForFile:
+iconForFiles:
+iconForFileType:
+getFileSystemInfoForPath: isRemovable: isWritable: isUnmountable: description: type:
+performFileOperation: source: destination: files: tag:
+unmountAndEjectDeviceAtPath:
+extendPowerOffBy:
+slideImage: from: to:
+hideOtherApplications
+mountedLocalVolumePaths
+mountedRemovableMedia
+mountNewRemovableMedia
+checkForRemovableMedia
+absolutePathForAppBundleWithIdentifier:
+launchAppWithBundleIdentifier: options: additionalEventParamDescriptor: launchIdentifier:
+openURLs: withAppBundleIdentifier: options: additionalEventParamDescriptor: launchIdentifiers:
+launchedApplications
+activeApplication

@@ -87,6 +87,16 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         if (symDef)
             I_symbolParser = [[RegexSymbolParser alloc] initWithSymbolDefinition:symDef];
         
+        // Add autocomplete additions
+        NSString *autocompleteAdditionsPath = [aBundle pathForResource:@"AutocompleteAdditions" ofType:@"txt"];
+        if (autocompleteAdditionsPath) {
+            NSString *autocompleteAdditions = [NSString stringWithContentsOfFile:autocompleteAdditionsPath];
+            [[self autocompleteDictionary] addObjectsFromArray:[autocompleteAdditions componentsSeparatedByString:@"\n"]];
+        }
+        
+        // Sort the autocomplete dictionary
+        [[self autocompleteDictionary] sortUsingSelector:@selector(caseInsensitiveCompare:)];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[[self bundle] bundleIdentifier]] mutableCopy] autorelease];
         if (dictionary) {

@@ -304,6 +304,7 @@ subethaedit/Modes/HTML.mode/Contents/Resources/SymbolH.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Symbola.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Info.plist -text
+subethaedit/Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml -text
@@ -597,6 +598,7 @@ subethaedit/Tools/LaTeXTemplate.latex -text
 subethaedit/Tools/RTFTemplate.rtf -text
 subethaedit/Tools/autodoc -text
 subethaedit/Tools/convertcolor.pl -text
+subethaedit/Tools/parseObjCHeadersForAutocomplete.pl -text
 subethaedit/Tools/serials/attackserial.pl -text
 subethaedit/Tools/serials/checkserial.pl -text
 subethaedit/Tools/serials/makeserial.pl -text
