@@ -710,7 +710,10 @@
 				14E92E2B06396E210099D67B,
 				144BC77105EE26B0006397BC,
 				144BC77205EE26B0006397BC,
+				5E4CCE24063BE22D00D03B71,
+				5E4CCE25063BE22D00D03B71,
 				144BC7C305EE43B6006397BC,
+				5E4CCE28063BE3A400D03B71,
 			);
 			isa = PBXGroup;
 			name = Debug;
@@ -2225,6 +2228,50 @@
 		};
 		5E49DD90061D6A20003BE4FB = {
 			fileRef = 5E49DD8E061D6A20003BE4FB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CCE24063BE22D00D03B71 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = DebugUserController.h;
+			path = Debug/DebugUserController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4CCE25063BE22D00D03B71 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = DebugUserController.m;
+			path = Debug/DebugUserController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4CCE26063BE22D00D03B71 = {
+			fileRef = 5E4CCE24063BE22D00D03B71;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CCE27063BE22D00D03B71 = {
+			fileRef = 5E4CCE25063BE22D00D03B71;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4CCE28063BE3A400D03B71 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = DebugUsers.nib;
+			path = Debug/DebugUsers.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4CCE29063BE3A400D03B71 = {
+			fileRef = 5E4CCE28063BE3A400D03B71;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3890,6 +3937,7 @@
 				3131457F06381AA9003CC762,
 				14E92E2C06396E210099D67B,
 				5E43E09D0639770200DF31A0,
+				5E4CCE26063BE22D00D03B71,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3960,6 +4008,7 @@
 				5EA543C906357E3600A06297,
 				5EA543CB06357EC800A06297,
 				5E43E0A10639771800DF31A0,
+				5E4CCE29063BE3A400D03B71,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4055,6 +4104,7 @@
 				3131458006381AA9003CC762,
 				14E92E2D06396E210099D67B,
 				5E43E09E0639770200DF31A0,
+				5E4CCE27063BE22D00D03B71,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

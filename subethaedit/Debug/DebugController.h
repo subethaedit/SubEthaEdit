@@ -11,14 +11,18 @@
 
 #import <Foundation/Foundation.h>
 
+@class DebugUserController;
 
 @interface DebugController : NSObject
 {
+    DebugUserController *I_debugUserController;
 }
 
 + (DebugController *)sharedInstance;
 
 - (void)enableDebugMenu:(BOOL)flag;
+
+- (IBAction)showUsers:(id)aSender;
 
 @end
 

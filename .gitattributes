@@ -212,6 +212,11 @@ subethaedit/Debug/DebugPreferences.m -text
 subethaedit/Debug/DebugPrefs.nib/classes.nib -text
 subethaedit/Debug/DebugPrefs.nib/info.nib -text
 subethaedit/Debug/DebugPrefs.nib/keyedobjects.nib -text
+subethaedit/Debug/DebugUserController.h -text
+subethaedit/Debug/DebugUserController.m -text
+subethaedit/Debug/DebugUsers.nib/classes.nib -text
+subethaedit/Debug/DebugUsers.nib/info.nib -text
+subethaedit/Debug/DebugUsers.nib/keyedobjects.nib -text
 subethaedit/DocumentController.h -text
 subethaedit/DocumentController.m -text
 subethaedit/DocumentMode.h -text

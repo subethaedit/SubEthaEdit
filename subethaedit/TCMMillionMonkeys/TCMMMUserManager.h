@@ -33,4 +33,6 @@ extern NSString * const TCMMMUserManagerUserDidChangeNotification;
 - (void)addUser:(TCMMMUser *)aUser;
 - (BOOL)sender:(id)aSender shouldRequestUser:(TCMMMUser *)aUser;
 
+// for debugging only
+- (NSArray *)allUsers;
 @end

@@ -154,4 +154,9 @@ static TCMMMUserManager *sharedInstance=nil;
     }
 }
 
+- (NSArray *)allUsers {
+    return [I_usersByID allValues];
+}
+
+
 @end
