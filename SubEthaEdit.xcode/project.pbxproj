@@ -127,6 +127,7 @@
 				145E5C000683260F007FAC48,
 				1407F37506750D2800B10D47,
 				1407F35606750B6C00B10D47,
+				145E6D7406833BAF007FAC48,
 			);
 			isa = PBXGroup;
 			name = Localizations;
@@ -154,6 +155,7 @@
 				145E6D6106832FA8007FAC48,
 				1407F3A806750D3D00B10D47,
 				1407F37206750B9600B10D47,
+				145E6E8A06833BC1007FAC48,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -852,6 +854,25 @@
 		};
 		145E6D6106832FA8007FAC48 = {
 			fileRef = 145E5C000683260F007FAC48;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		145E6D7406833BAF007FAC48 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			path = zh_TW.lproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		145E6DA306833BAF007FAC48 = {
+			fileRef = 145E6D7406833BAF007FAC48;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		145E6E8A06833BC1007FAC48 = {
+			fileRef = 145E6D7406833BAF007FAC48;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -5207,6 +5228,7 @@
 				1407F36E06750B6C00B10D47,
 				1407F3A706750D2800B10D47,
 				145E5C2F06832610007FAC48,
+				145E6DA306833BAF007FAC48,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

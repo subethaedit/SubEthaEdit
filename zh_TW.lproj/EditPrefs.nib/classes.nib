@@ -1,0 +1,70 @@
+{
+    IBClasses = (
+        {CLASS = DocumentModeManager; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = DocumentModeMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
+        {
+            CLASS = DocumentModePopUpButton; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPopUpButton; 
+        }, 
+        {
+            ACTIONS = {changeFontViaPanel = id; changeMode = id; validateDefaultsState = id; }; 
+            CLASS = EditPreferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_documentBackgroundColorWell" = NSColorWell; 
+                "O_documentForegroundColorWell" = NSColorWell; 
+                "O_editController" = NSObjectController; 
+                "O_editDefaultButton" = NSButton; 
+                "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_fileController" = NSObjectController; 
+                "O_fileDefaultButton" = NSButton; 
+                "O_fontController" = NSObjectController; 
+                "O_fontDefaultButton" = NSButton; 
+                "O_fontTextField" = NSTextField; 
+                "O_highlightSyntaxButton" = NSButton; 
+                "O_indentNewLinesButton" = NSButton; 
+                "O_matchingBracketTypesTextField" = NSTextField; 
+                "O_modeController" = NSObjectController; 
+                "O_modePopUpButton" = DocumentModePopUpButton; 
+                "O_showLineNumbersButton" = NSButton; 
+                "O_showMatchingBracketsButton" = NSButton; 
+                "O_tabWidthTextField" = NSTextField; 
+                "O_usesTabsButton" = NSButton; 
+                "O_viewController" = NSObjectController; 
+                "O_viewDefaultButton" = NSButton; 
+                "O_wrapLinesButton" = NSButton; 
+            }; 
+            SUPERCLASS = TCMPreferenceModule; 
+        }, 
+        {
+            ACTIONS = {
+                clearAll = id; 
+                encodingListChanged = id; 
+                revertToDefault = id; 
+                selectAll = id; 
+                selectedEncoding = id; 
+                showPanel = id; 
+            }; 
+            CLASS = EncodingManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                encodingAccessory = NSView; 
+                encodingMatrix = NSMatrix; 
+                encodingPopupButton = EncodingPopUpButton; 
+                ignoreRichTextButton = NSButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = EncodingMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
+        {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = TCMPreferenceModule; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"O_window" = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
