@@ -22,6 +22,8 @@
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
 #import "time.h"
+#import "PlainTextEditor.h"
+#import "GeneralPreferences.h"
 
 
 #define kProcessingTime 0.5
@@ -502,6 +504,16 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 }
 
 - (void)inviteUser:(TCMMMUser *)aUser intoGroup:(NSString *)aGroup usingBEEPSession:(TCMBEEPSession *)aBEEPSession {
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
+        NSEnumerator *plainTextEditors=[[(PlainTextDocument *)[self document] plainTextEditors] objectEnumerator];
+        PlainTextEditor *editor=nil;
+        while ((editor=[plainTextEditors nextObject])) {
+            [editor setShowsChangeMarks:YES];
+        }
+    }
+    
+
     if (![I_invitedUsers objectForKey:aGroup]) {
         [I_invitedUsers setObject:[NSMutableArray array] forKey:aGroup];
     }
