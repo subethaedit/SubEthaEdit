@@ -4145,6 +4145,9 @@
 			fileRef = 4DC1ABC0068AFD1100E7815F;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		4DC1ABC5068AFD1100E7815F = {
