@@ -7,6 +7,7 @@
 //
 
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
+#import "DocumentController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 
@@ -15,17 +16,27 @@
 #import "SyntaxHighlighter.h"
 
 #import "TextStorage.h"
+#import "EncodingManager.h"
 #import "TextOperation.h"
 #import "SelectionOperation.h"
 
+
+enum {
+    UnknownStringEncoding = NoStringEncoding,
+    SmallestCustomStringEncoding = 0xFFFFFFF0
+};
+
 static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTextDocumentSyntaxColorizeNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
+
 
 @interface PlainTextDocument (PlainTextDocumentPrivateAdditions) 
 - (void)TCM_invalidateDefaultParagraphStyle;
 - (void)TCM_styleFonts;
 - (void)TCM_initHelper;
 @end
+
+#pragma mark -
 
 @implementation PlainTextDocument
 
@@ -91,6 +102,8 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     [I_fonts.italicFont release];
     [I_fonts.boldItalicFont release];
     [I_defaultParagraphStyle release];
+    [I_fileAttributes release];
+    [super dealloc];
 }
 
 - (void)setSession:(TCMMMSession *)aSession {
@@ -138,6 +151,15 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     [(TextStorage *)[self textStorage] setEncoding:anEncoding];
 }
 
+- (NSDictionary *)fileAttributes {
+    return I_fileAttributes;
+}
+
+- (void)setFileAttributes:(NSDictionary *)attributes {
+    [I_fileAttributes autorelease];
+    I_fileAttributes = [attributes retain];
+}
+
 - (IBAction)announce:(id)aSender {
     DEBUGLOG(@"Document", 5, @"announce");
     [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
@@ -154,7 +176,7 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 
     NSStringEncoding encoding = [aSender tag];
     
-    DEBUGLOG(@"EncodingLogDomain", DetailedLogLevel, [NSString localizedNameOfStringEncoding:encoding]);
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, [NSString localizedNameOfStringEncoding:encoding]);
     
     if ([self fileEncoding] != encoding) {
 
@@ -198,61 +220,69 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 }
 
 - (BOOL)readFromURL:(NSURL *)aURL ofType:(NSString *)docType {
-
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromURL:%@ ofType:%@", aURL, docType);
+    
+    BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
+    
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:[aURL path] isDirectory:&isDir];
     if (!fileExists || isDir) {
         return NO;
     }
-    NSTextStorage *textStorage=[self textStorage];
-//    int oldLength = [textStorage length];
-
-        
-//    if (oldLength==0) {
-//        // determine Syntaxname
-//        NSString *extension=[[aURL path] pathExtension];
-//        NSString *syntaxDefinitionFile=[[SyntaxManager sharedInstance] syntaxDefinitionForExtension:extension];
-//        if (syntaxDefinitionFile) {
-//            NSDictionary *syntaxNames=[[SyntaxManager sharedInstance] availableSyntaxNames];
-//            NSArray *keys=[syntaxNames allKeysForObject:syntaxDefinitionFile];
-//            if ([keys count]>0) {
-//                [self setSyntaxName:[keys objectAtIndex:0]];
-//            }
-//        } else {
-//            [self setSyntaxName:@""];
-//        }
-//    }
     
+    if ([aURL isFileURL]) {
+        NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:[aURL path] traverseLink:YES];
+        [self setFileAttributes:fattrs];
+    }
+    
+    NSTextStorage *textStorage = [self textStorage];
+
+//    int oldLength = [textStorage length];
 //    [self setIsNew:NO];
-//    if ([aURL isFileURL]) {
-//        NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:[aURL path] traverseLink:YES];
-//        [self setFileAttributes:fattrs];
-//    }
+
+    // Determine mode
+    DocumentMode *mode = nil;
+    if (isDocumentFromOpenPanel) {
+        NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
+        if ([identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
+            NSString *extension = [[aURL path] pathExtension];
+            mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
+        } else {
+            mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
+        }
+    }
+    
+    if (!mode) {
+        // get default mode (may be automatic)
+        // currently following workaround is used
+        mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[[aURL path] pathExtension]];
+    }
+    
+    
+    // Determine encoding
+    NSStringEncoding encoding;
+    if (isDocumentFromOpenPanel) {
+        DocumentController *documentController = (DocumentController *)[NSDocumentController sharedDocumentController];
+        encoding = [documentController encodingFromLastRunOpenPanel];
+        if (encoding == ModeStringEncoding) {
+            encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+        }
+    } else {
+        encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+    }
     
     NSDictionary *docAttrs = nil;
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     
-//    NSStringEncoding encoding;
-//    NSNumber *encodingFromRunningOpenPanel = [[DocumentController sharedDocumentController] encodingFromRunningOpenPanel];
-//    if (encodingFromRunningOpenPanel != nil) {
-//        encoding = [encodingFromRunningOpenPanel unsignedIntValue];
-//    } else {
-//        encoding = [[[NSUserDefaults standardUserDefaults] objectForKey:DefaultEncodingPreferenceKey] unsignedIntValue];
-//    }
-//    [[DocumentController sharedDocumentController] setEncodingFromRunningOpenPanel:nil];
-
-//    if (encoding < SmallestCustomStringEncoding) {
-//        if (LOGLEVEL(1)) {
-//            NSLog(@"Setting \"CharacterEncoding\" option");
-//            NSLog(@"trying encoding: %@", [NSString localizedNameOfStringEncoding:encoding]);
-//        }
-//        [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
-//    }
+    if (encoding < SmallestCustomStringEncoding) {
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Setting \"CharacterEncoding\" option: %@", [NSString localizedNameOfStringEncoding:encoding]);
+        [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
+    }
     
-    //[options setObject:NSPlainTextDocumentType forKey:@"DocumentType"];
 //    [options setObject:[self plainTextAttributes] forKey:@"DefaultAttributes"];
     
-    [[textStorage mutableString] setString:@""];	// Empty the document
+    [[textStorage mutableString] setString:@""]; // Empty the document
     
     while (TRUE) {
         BOOL success;
@@ -260,13 +290,17 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
         [textStorage beginEditing];
         success = [textStorage readFromURL:aURL options:options documentAttributes:&docAttrs];
         [textStorage endEditing];
+        
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"documentAttributes: %@", [docAttrs description]);
+        
         if (!success) {
             NSNumber *encodingNumber = [options objectForKey:@"CharacterEncoding"];
             if (encodingNumber != nil) {
                 NSStringEncoding systemEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
                 NSStringEncoding triedEncoding = [encodingNumber unsignedIntValue];
                 if (triedEncoding == NSUTF8StringEncoding && triedEncoding != systemEncoding) {
-                    [[textStorage mutableString] setString:@""];	// Empty the document, and reload
+                    [[textStorage mutableString] setString:@""]; // Empty the document, and reload
                     [options setObject:[NSNumber numberWithUnsignedInt:systemEncoding] forKey:@"CharacterEncoding"];
                     continue;
                 }
@@ -276,21 +310,16 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
         
         if (![[docAttrs objectForKey:@"DocumentType"] isEqualToString:NSPlainTextDocumentType] &&
             ![[options objectForKey:@"DocumentType"] isEqualToString:NSPlainTextDocumentType]) {
-            [[textStorage mutableString] setString:@""];	// Empty the document, and reload
+            [[textStorage mutableString] setString:@""]; // Empty the document, and reload
             [options setObject:NSPlainTextDocumentType forKey:@"DocumentType"];
         } else {
             break;
         }
     }
     
-//    [_textStorage beginEditing];
-//    [_textStorage addAttributes:[self plainTextAttributes]
-//                          range:NSMakeRange(0, [_textStorage length])];
-//    [_textStorage endEditing];
+    [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
     
-//    [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] intValue]];
-//    if (LOGLEVEL(1)) NSLog(@"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
-
     // guess lineEnding and set instance variable
 //    unsigned startIndex = 0;
 //    unsigned lineEndIndex = 0;
@@ -330,9 +359,8 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 //    //[self updateMaxYForRadarScroller];
 
     [I_textStorage addAttributes:[self plainTextAttributes]
-                           range:NSMakeRange(0,[I_textStorage length])];
+                           range:NSMakeRange(0, [I_textStorage length])];
 
-    DocumentMode *mode=[[DocumentModeManager sharedInstance] documentModeForExtension:[[aURL path] pathExtension]];
     [self setDocumentMode:mode];
     
     return YES;

@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 enum {
+    ModeStringEncoding = 0xFFFFFFFE,
     NoStringEncoding = 0xFFFFFFFF
 };
 
@@ -9,11 +10,12 @@ enum {
     NSStringEncoding defaultEncoding;
     NSStringEncoding selectedEncoding;
     BOOL hasDefaultEntry;
+    BOOL hasModeEntry;
 }
 
 - (NSStringEncoding)selectedEncoding;
 - (void)setSelectedEncoding:(NSStringEncoding)newEncoding;
-- (void)setEncoding:(NSStringEncoding)encoding defaultEntry:(BOOL)flag lossyEncodings:(NSArray *)encodings;
+- (void)setEncoding:(NSStringEncoding)encoding defaultEntry:(BOOL)flag modeEntry:(BOOL)modeFlag lossyEncodings:(NSArray *)encodings;
 @end
 
 
@@ -49,7 +51,7 @@ enum {
 
 /* Empties then initializes the supplied popup with the supported encodings.
 */
-- (void)setupPopUp:(NSPopUpButton *)button selectedEncoding:(unsigned)selectedEncoding withDefaultEntry:(BOOL)flag lossyEncodings:(NSArray *)listOfEncodings;
+- (void)setupPopUp:(NSPopUpButton *)button selectedEncoding:(unsigned)selectedEncoding withDefaultEntry:(BOOL)flag withModeEntry:(BOOL)modeFlag lossyEncodings:(NSArray *)listOfEncodings;
 
 - (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector;
 

@@ -10,13 +10,19 @@
 #import "DocumentMode.h"
 
 #define BASEMODEIDENTIFIER @"de.codingmonkeys.SubEthaEdit.mode.Base"
+#define AUTOMATICMODEIDENTIFIER @"de.codingmonkeys.SubEthaEdit.mode.Automatic"
 
 
 @interface DocumentModePopUpButton : NSPopUpButton {
+    BOOL I_automaticMode;
 }
 
+- (void)setHasAutomaticMode:(BOOL)aFlag;
 - (DocumentMode *)selectedMode;
 - (void)setSelectedMode:(DocumentMode *)aMode;
+- (NSString *)selectedModeIdentifier;
+- (void)setSelectedModeIdentifier:(NSString *)aModeIdentifier;
+- (void)documentModeListChanged:(NSNotification *)notification;
 @end
 
 @interface DocumentModeMenu : NSMenu {
@@ -40,6 +46,5 @@
 - (NSString *)documentModeIdentifierForTag:(int)aTag;
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
 - (NSDictionary *)availableModes;
-
 
 @end

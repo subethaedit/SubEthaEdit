@@ -88,11 +88,12 @@
     selectedEncoding = newEncoding;
 }
 
-- (void)setEncoding:(NSStringEncoding)encoding defaultEntry:(BOOL)flag lossyEncodings:(NSArray *)encodings {
+- (void)setEncoding:(NSStringEncoding)encoding defaultEntry:(BOOL)flag modeEntry:(BOOL)modeFlag lossyEncodings:(NSArray *)encodings {
     defaultEncoding = encoding;
     selectedEncoding = encoding;
     hasDefaultEntry = flag;
-    [[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry lossyEncodings:encodings];
+    hasModeEntry = modeFlag;
+    [[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry withModeEntry:hasModeEntry lossyEncodings:encodings];
 }
 
 - (void)dealloc {
@@ -105,7 +106,7 @@
 - (void)encodingsListChanged:(NSNotification *)notification {
     unsigned int tag = (unsigned int)[[self selectedItem] tag];
     if (tag != 0 && tag != NoStringEncoding) defaultEncoding = tag;
-    [[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry lossyEncodings:[NSArray array]];
+    [[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry withModeEntry:hasModeEntry lossyEncodings:[NSArray array]];
 }
 
 @end
@@ -227,17 +228,24 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 
 /* This method initializes the provided popup with list of encodings; it also sets up the selected encoding as indicated and if includeDefaultItem is YES, includes an initial item for selecting "Automatic" choice.  These non-encoding items all have NoStringEncoding as their tags. Otherwise the tags are set to the NSStringEncoding value for the encoding.
 */
-- (void)setupPopUp:(NSPopUpButton *)popup selectedEncoding:(unsigned)selectedEncoding withDefaultEntry:(BOOL)includeDefaultItem lossyEncodings:(NSArray *)listOfEncodings {
+- (void)setupPopUp:(NSPopUpButton *)popup selectedEncoding:(unsigned)selectedEncoding withDefaultEntry:(BOOL)includeDefaultItem withModeEntry:(BOOL)includeModeItem lossyEncodings:(NSArray *)listOfEncodings {
     NSArray *encs = [self enabledEncodings];
     unsigned cnt, numEncodings, itemToSelect = 0;
         
     // Put the encodings in the popup
     [popup removeAllItems];
 
+    // Put the "Mode" item item, if desired
+    if (includeModeItem) {
+        [popup addItemWithTitle:NSLocalizedString(@"Recommended by Mode", @"Encoding popup entry indicating mode choice of encoding")];
+        [[popup lastItem] setTag:ModeStringEncoding];
+        [[popup menu] addItem:[NSMenuItem separatorItem]];
+    }
+    
     // Put the initial "Automatic" item, if desired
     if (includeDefaultItem) {
         [popup addItemWithTitle:NSLocalizedString(@"Automatic", @"Encoding popup entry indicating automatic choice of encoding")];
-        [[popup itemAtIndex:0] setTag:NoStringEncoding];
+        [[popup lastItem] setTag:NoStringEncoding];
     }
 
     // Make sure the initial selected encoding appears in the list
@@ -375,6 +383,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 */
 - (NSView *)encodingAccessory:(unsigned)encoding includeDefaultEntry:(BOOL)includeDefaultItem enableIgnoreRichTextButton:(BOOL)includeRichTextButton encodingPopUp:(NSPopUpButton **)popup ignoreRichTextButton:(NSButton **)button lossyEncodings:(NSArray *)listOfEncodings{
     // For now rather than caching, load the accessory view everytime, as it might appear in multiple panels simultaneously.
+    NSLog(@"WARNING! Method is deprecated");
     if (![NSBundle loadNibNamed:@"EncodingAccessory" owner:self])  {
         NSLog(@"Failed to load EncodingAccessory.nib");
         return nil;
@@ -383,7 +392,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
     if (button) *button = ignoreRichTextButton;
 
     [ignoreRichTextButton setEnabled:includeRichTextButton];
-    [encodingPopupButton setEncoding:encoding defaultEntry:includeDefaultItem lossyEncodings:listOfEncodings];
+    //[encodingPopupButton setEncoding:encoding defaultEntry:includeDefaultItem lossyEncodings:listOfEncodings];
     [encodingAccessory retain];			// Hang on to the view we want, and
     [[encodingAccessory window] release];	// ...get rid of the dummy window (should switch to custom top level view for this)
     return [encodingAccessory autorelease];

@@ -28,7 +28,7 @@
                                         @"BEEPLogDomain",
                                         @"MillionMonkeysLogDomain",
                                         @"SyntaxHighlighterDomain",
-                                        @"EncodingLogDomain",
+                                        @"FileIOLogDomain",
                                         @"InternetLogDomain",
                                         nil] objectEnumerator];
         NSString *domain=nil;

@@ -1088,6 +1088,30 @@
 			settings = {
 			};
 		};
+		14A5B34E06218D2700DC3A93 = {
+			children = (
+				14A5B34F06218D2700DC3A93,
+			);
+			isa = PBXVariantGroup;
+			name = OpenPanelAccessory.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A5B34F06218D2700DC3A93 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/OpenPanelAccessory.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A5B35006218D2700DC3A93 = {
+			fileRef = 14A5B34E06218D2700DC3A93;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14AE9CAA05F5E8F00025CADE = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1460,6 +1484,7 @@
 				5EEB176705ECDC0C00C17677,
 				2A37F4B9FDCFA73011CA2CEA,
 				2A37F4B6FDCFA73011CA2CEA,
+				14A5B34E06218D2700DC3A93,
 				5EEB185B05ED0F3700C17677,
 				148892DF06186D94005BDDCB,
 				148892D806186C76005BDDCB,
@@ -2981,6 +3006,7 @@
 				148892DA06186C76005BDDCB,
 				148892E006186D94005BDDCB,
 				14840CF9061AF8640082EA0A,
+				14A5B35006218D2700DC3A93,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,16 +13,39 @@
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
 - (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector;
-- (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedMode:(DocumentMode *)aMode;
+- (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode;
 @end
 
 @implementation DocumentModePopUpButton
 
 /* Replace the cell, sign up for notifications.
 */
+- (id)initWithFrame:(NSRect)frameRect {
+    self = [super initWithFrame:frameRect];
+    if (self) {
+        I_automaticMode = NO;
+    }
+    return self;
+}
+
 - (void)awakeFromNib {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
-    [[DocumentModeManager sharedInstance] setupPopUp:self selectedMode:[[DocumentModeManager sharedInstance] baseMode]];
+    [[DocumentModeManager sharedInstance] setupPopUp:self selectedModeIdentifier:BASEMODEIDENTIFIER automaticMode:I_automaticMode];
+}
+
+- (void)setHasAutomaticMode:(BOOL)aFlag {
+    I_automaticMode = aFlag;
+    [self documentModeListChanged:[NSNotification notificationWithName:@"DocumentModeListChanged" object:self]];
+}
+
+- (NSString *)selectedModeIdentifier {
+    DocumentModeManager *manager=[DocumentModeManager sharedInstance];
+    return [manager documentModeIdentifierForTag:[[self selectedItem] tag]];
+}
+
+- (void)setSelectedModeIdentifier:(NSString *)aModeIdentifier {
+    int tag=[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:aModeIdentifier];
+    [self selectItemAtIndex:[[self menu] indexOfItemWithTag:tag]];
 }
 
 - (DocumentMode *)selectedMode {
@@ -43,7 +66,7 @@
 /* Update contents based on encodings list customization
 */
 - (void)documentModeListChanged:(NSNotification *)notification {
-    [[DocumentModeManager sharedInstance] setupPopUp:self selectedMode:[self selectedMode]];
+    [[DocumentModeManager sharedInstance] setupPopUp:self selectedModeIdentifier:[self selectedModeIdentifier] automaticMode:I_automaticMode];
 }
 
 @end
@@ -87,6 +110,7 @@
 		I_modeIdentifiersByExtension=[NSMutableDictionary new];
 		I_modeIdentifiersTagArray   =[NSMutableArray new];
 		[I_modeIdentifiersTagArray addObject:@"-"];
+		[I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
 		[I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
         [self TCM_findModes];
     }
@@ -246,10 +270,17 @@
     }
 }
 
-- (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedMode:(DocumentMode *)aMode {
+- (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode {
     [aPopUp removeAllItems];
     NSMenu *tempMenu=[[NSMenu new] autorelease];
     [self setupMenu:tempMenu action:@selector(none:)];
+    if (hasAutomaticMode) {
+        NSMenuItem *menuItem=[[[tempMenu itemArray] objectAtIndex:0] copy];
+        [menuItem setTag:[self tagForDocumentModeIdentifier:AUTOMATICMODEIDENTIFIER]];
+        [menuItem setTitle:NSLocalizedString(@"Automatic Mode", @"Foo")];
+        [tempMenu insertItem:menuItem atIndex:0];
+        [menuItem release];
+    }
     NSEnumerator *menuItems=[[tempMenu itemArray] objectEnumerator];
     NSMenuItem *item=nil;
     while ((item=[menuItems nextObject])) {
@@ -257,9 +288,12 @@
             [aPopUp addItemWithTitle:[item title]];
             [[aPopUp lastItem] setTag:[item tag]];
             [[aPopUp lastItem] setEnabled:YES];
-        }
+        }     
     }
-    [aPopUp setSelectedMode:aMode];
+    if (hasAutomaticMode) {
+        [[aPopUp menu] insertItem:[NSMenuItem separatorItem] atIndex:1];
+    }
+    [aPopUp setSelectedModeIdentifier:aModeIdentifier];
 }
 
 @end

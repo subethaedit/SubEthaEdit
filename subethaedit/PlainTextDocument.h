@@ -35,6 +35,7 @@ extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotificat
     } I_fonts;
     NSDictionary  *I_plainTextAttributes;
     NSMutableParagraphStyle *I_defaultParagraphStyle;
+    NSDictionary *I_fileAttributes;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
@@ -59,6 +60,8 @@ extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotificat
 
 - (unsigned int)fileEncoding;
 - (void)setFileEncoding:(unsigned int)anEncoding;
+- (NSDictionary *)fileAttributes;
+- (void)setFileAttributes:(NSDictionary *)attributes;
 
 - (void)setTabWidth:(int)aTabWidth;
 
