@@ -4,6 +4,7 @@
         {
             CLASS = PlainTextWindowController; 
             LANGUAGE = ObjC; 
+            OUTLETS = {"O_participantsDrawer" = NSDrawer; }; 
             SUPERCLASS = NSWindowController; 
         }
     ); 

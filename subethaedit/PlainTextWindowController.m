@@ -34,30 +34,45 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 - (void)windowDidLoad {
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
-    
     [toolbar setAllowsUserCustomization:YES];
     //[toolbar setAutosavesConfiguration:YES];
     [toolbar setDelegate:self];
-    
-    // Attach the toolbar to the document window 
     [[self window] setToolbar:toolbar];
+    
+    NSSize drawerSize = [O_participantsDrawer contentSize];
+    drawerSize.width = 170;
+    [O_participantsDrawer setContentSize:drawerSize];
     
     if ([self document]) {
         [[self document] windowControllerDidLoadNib:self];
     }
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL action = [menuItem action];
+    
+    if (action == @selector(toggleParticipantsDrawer:)) {
+        [menuItem setTitle:
+            [(NSDrawer *)[[[self window] drawers] objectAtIndex:0] state] == NSDrawerOpenState ?
+            NSLocalizedString(@"Hide Participants", nil) :
+            NSLocalizedString(@"Show Participants", nil)];
+        return YES;
+    }
+    
+    return YES;
+}
+
 #pragma mark -
 
-- (IBAction)toggleDrawer:(id)sender {
-    //[oPeopleDrawer toggle:aSender];
+- (IBAction)toggleParticipantsDrawer:(id)sender {
+    [O_participantsDrawer toggle:sender];
 }
 
 #pragma mark -
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
 
-    NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+    NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdent] autorelease];
     
     if ([itemIdent isEqualToString:ParticipantsToolbarItemIdentifier]) {
         [toolbarItem setLabel:@"Participants"];
@@ -65,7 +80,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
         [toolbarItem setToolTip:@"Participants"];
         [toolbarItem setImage:[NSImage imageNamed:@"Participants"]];
         [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(toggleDrawer:)];
+        [toolbarItem setAction:@selector(toggleParticipantsDrawer:)];
     } else {
         toolbarItem = nil;
     }
@@ -92,6 +107,12 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
+    NSString *itemIdentifier = [toolbarItem itemIdentifier];
+    
+    if ([itemIdentifier isEqualToString:ParticipantsToolbarItemIdentifier]) {
+        return YES;
+    }
+    
     return YES;
 }
 

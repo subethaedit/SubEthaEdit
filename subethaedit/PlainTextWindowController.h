@@ -9,9 +9,8 @@
 #import <AppKit/AppKit.h>
 
 
-@interface PlainTextWindowController : NSWindowController
-{
-
+@interface PlainTextWindowController : NSWindowController {
+    IBOutlet NSDrawer *O_participantsDrawer;
 }
 
 @end
