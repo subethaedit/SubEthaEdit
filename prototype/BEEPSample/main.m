@@ -1,10 +1,14 @@
-#import <Foundation/Foundation.h>
+//
+//  main.m
+//  BEEPSample
+//
+//  Created by Martin Ott on Tue Feb 17 2004.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//
 
-int main (int argc, const char * argv[]) {
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+#import <Cocoa/Cocoa.h>
 
-    // insert code here...
-    NSLog(@"Hello, World!");
-    [pool release];
-    return 0;
+int main(int argc, const char *argv[])
+{
+    return NSApplicationMain(argc, argv);
 }
