@@ -16,7 +16,7 @@ my $calc36 = new Math::BaseCalc(digits=>[0..9,'A'..'Z']);
 
 # 0-50000 reserved :
 # 40000 ADA
-# 49899 Omni cross-licencing
+# 49899 Omni cross-licencing (20 seats)
 # 49900 iDive cross-licencing
 # 49945 technorati (20 seats)
 # 49946 wayne smallman (esellerate sucks)
