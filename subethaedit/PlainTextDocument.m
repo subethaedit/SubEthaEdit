@@ -2067,6 +2067,35 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return result;
 }
 
+- (NSTextView *)printableView {
+    NSTextView *printView = [[NSTextView alloc] initWithFrame:[[self printInfo] imageablePageBounds]];
+    [[printView textStorage] appendAttributedString:[self textStorage]];
+    
+    return [printView autorelease];
+}
+
+- (void)printShowingPrintPanel:(BOOL)showPanels {
+    // Obtain a custom view that will be printed
+    NSView *printView = [self printableView];
+    [[self printInfo] setHorizontalPagination:NSFitPagination];
+    [[self printInfo] setHorizontallyCentered:NO];
+    [[self printInfo] setVerticallyCentered:NO];
+    
+    // Construct the print operation and setup Print panel
+    NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:[self printInfo]];
+    [op setShowPanels:showPanels];
+
+    if (showPanels) {
+        // Add accessory view, if needed
+    }
+
+    // Run operation, which shows the Print panel if showPanels was YES
+    [self runModalPrintOperation:op
+                        delegate:nil
+                  didRunSelector:NULL
+                     contextInfo:NULL];
+}
+
 #pragma mark -
 - (UndoManager *)documentUndoManager {
     return I_undoManager;
