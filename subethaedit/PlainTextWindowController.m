@@ -271,7 +271,11 @@ enum {
                            NSLocalizedString(@"Split View",@"Split View Menu Entry"):
                            NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
         return !I_flags.isReceivingContent;
-    } 
+    } else if (selector == @selector(changePendingUsersAccess:)) {
+        TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+        [menuItem setState:([menuItem tag]==[session accessState])?NSOnState:NSOffState];
+        return [session isServer];
+    }
     return YES;
 }
 
@@ -389,16 +393,12 @@ enum {
 
 - (void)validateUpperDrawer {
     TCMMMSession *session = [(PlainTextDocument *)[self document] session];
-    if ([session isServer]) {
-        [O_URLImageView setHidden:NO];
-        [O_pendingUsersAccessPopUpButton setEnabled:YES];
-    } else {
-        [O_URLImageView setHidden:YES];
-        [O_pendingUsersAccessPopUpButton setEnabled:NO];
-        TCMMMSessionAccessState state = [session accessState];
-        int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
-        [O_pendingUsersAccessPopUpButton selectItemAtIndex:index];
-    }
+    BOOL isServer=[session isServer];
+    [O_URLImageView setHidden:!isServer];
+    [O_pendingUsersAccessPopUpButton setEnabled:isServer];
+    TCMMMSessionAccessState state = [session accessState];
+    int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
+    [O_pendingUsersAccessPopUpButton selectItemAtIndex:index];
 }
 
 - (void)validateButtons {
@@ -574,8 +574,16 @@ enum {
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender {
-    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-    [session setAccessState:[[aSender selectedItem] tag]];
+    int newState=-1;
+    if ([aSender isKindOfClass:[NSPopUpButton class]]) {
+        newState=[[aSender selectedItem] tag];
+    } else {
+        newState=[aSender tag];;
+    }
+    if (newState!=-1) {
+        TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+        [session setAccessState:newState];
+    }
 }
 
 - (IBAction)toggleBottomStatusBar:(id)aSender {
