@@ -22,7 +22,6 @@
     if (![aValue isKindOfClass:[NSDictionary class]]) return nil;
     NSDictionary *attributes=(NSDictionary  *)aValue;
     NSFont *font=[NSFont fontWithName:[attributes objectForKey:NSFontNameAttribute] size:[[attributes objectForKey:NSFontSizeAttribute] floatValue]];
-    NSLog(@"ha");
     return [NSString stringWithFormat:@"%@, %.0f",[font displayName],[font pointSize]];
 }
 

@@ -48,6 +48,7 @@
 
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait;
 - (NSDictionary *)plainTextAttributes;
+- (void)setPlainFont:(NSFont *)aFont;
 
 - (unsigned int)fileEncoding;
 - (void)setFileEncoding:(unsigned int)anEncoding;

@@ -69,8 +69,6 @@
 }
 @end
 
-#define BASEMODEIDENTIFIER @"de.codingmonkeys.SubEthaEdit.mode.Base"
-
 @implementation DocumentModeManager
 
 + (DocumentModeManager *)sharedInstance {

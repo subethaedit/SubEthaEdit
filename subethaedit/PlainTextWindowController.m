@@ -202,5 +202,9 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
 
+-(BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
+    [aTextView setTypingAttributes:[(PlainTextDocument *)[self document] plainTextAttributes]];
+    return YES;
+}
 
 @end

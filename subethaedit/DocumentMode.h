@@ -8,6 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern NSString * const DocumentModeEncodingPreferenceKey             ;
+extern NSString * const DocumentModeFontAttributesPreferenceKey       ;
+extern NSString * const DocumentModeHighlightSyntaxPreferenceKey      ;
+extern NSString * const DocumentModeIndentNewLinesPreferenceKey       ;
+extern NSString * const DocumentModeLineEndingPreferenceKey           ;
+extern NSString * const DocumentModeShowLineNumbersPreferenceKey      ;
+extern NSString * const DocumentModeShowMatchingBracketsPreferenceKey ;
+extern NSString * const DocumentModeTabWidthPreferenceKey             ;
+extern NSString * const DocumentModeUseTabsPreferenceKey              ;
+extern NSString * const DocumentModeWrapLinesPreferenceKey            ;
+
 @class SyntaxHighlighter;
 
 @interface DocumentMode : NSObject {
@@ -23,6 +34,8 @@
 
 - (NSMutableDictionary *)defaults;
 - (void)setDefaults:(NSMutableDictionary *)defaults;
+- (id)defaultForKey:(NSString *)aKey;
+
 
 - (BOOL)isBaseMode;
 @end

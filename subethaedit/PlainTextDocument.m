@@ -35,9 +35,6 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
 - (void)TCM_initHelper {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performHighlightSyntax)
         name:PlainTextDocumentSyntaxColorizeNotification object:self];
-    I_flags.highlightSyntax = YES;
-    I_fonts.plainFont = [[NSFont fontWithName:@"ArialMT" size:0.] retain];
-    [self TCM_styleFonts];
 }
 
 - (id)init {
@@ -110,6 +107,13 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
     [highlighter cleanUpTextStorage:[self textStorage]];
      I_documentMode = [aDocumentMode retain];
+    I_flags.highlightSyntax = [[aDocumentMode defaultForKey:DocumentModeHighlightSyntaxPreferenceKey] boolValue];
+    NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
+    NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    [self setPlainFont:newFont];
+    [I_textStorage addAttributes:[self plainTextAttributes]
+                               range:NSMakeRange(0,[I_textStorage length])];
     if (I_flags.highlightSyntax) {
         [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
     }
@@ -365,6 +369,14 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     }
 }
 
+- (void)setPlainFont:(NSFont *)aFont {
+    [I_fonts.plainFont autorelease];
+    I_fonts.plainFont = [aFont copy];
+    [self TCM_styleFonts];
+    [I_plainTextAttributes release];
+    I_plainTextAttributes=nil;
+}
+
 - (NSDictionary *)plainTextAttributes {
     if (!I_plainTextAttributes) {
 //        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -388,7 +400,7 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
         NSColor *foregroundColor=[NSColor blackColor];
 
         NSMutableDictionary *attributes=[NSMutableDictionary new];
-        [attributes setObject:[self fontWithTrait:NSBoldFontMask]
+        [attributes setObject:[self fontWithTrait:0]
                             forKey:NSFontAttributeName];
         [attributes setObject:[NSNumber numberWithInt:0]
                             forKey:NSLigatureAttributeName];

@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import "DocumentMode.h"
 
+#define BASEMODEIDENTIFIER @"de.codingmonkeys.SubEthaEdit.mode.Base"
+
+
 @interface DocumentModePopUpButton : NSPopUpButton {
 }
 

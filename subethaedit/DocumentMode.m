@@ -11,8 +11,51 @@
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
 
+NSString * const DocumentModeEncodingPreferenceKey             = @"Encoding";
+NSString * const DocumentModeFontAttributesPreferenceKey       = @"FontAttributes";
+NSString * const DocumentModeHighlightSyntaxPreferenceKey      = @"HighlightSyntax";
+NSString * const DocumentModeIndentNewLinesPreferenceKey       = @"IndentNewLines";
+NSString * const DocumentModeLineEndingPreferenceKey           = @"LineEnding";
+NSString * const DocumentModeShowLineNumbersPreferenceKey      = @"ShowLineNumbers";
+NSString * const DocumentModeShowMatchingBracketsPreferenceKey = @"ShowMatchingBrackets";
+NSString * const DocumentModeTabWidthPreferenceKey             = @"TabWidth";
+NSString * const DocumentModeUseTabsPreferenceKey              = @"UseTabs";
+NSString * const DocumentModeWrapLinesPreferenceKey            = @"WrapLines";
+NSString * const DocumentModeUseDefaultSyntaxPreferenceKey     = @"UseDefaultSyntax";
+NSString * const DocumentModeUseDefaultEditPreferenceKey       = @"UseDefaultEdit";
+NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFile";
+NSString * const DocumentModeUseDefaultFontPreferenceKey       = @"UseDefaultFont";
+
+static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 @implementation DocumentMode
+
++ (void) initialize {
+    defaultablePreferenceKeys=[NSMutableDictionary new];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultSyntaxPreferenceKey
+                                  forKey:DocumentModeHighlightSyntaxPreferenceKey];
+                                  
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+                                  forKey:DocumentModeUseTabsPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+                                  forKey:DocumentModeIndentNewLinesPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+                                  forKey:DocumentModeShowMatchingBracketsPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+                                  forKey:DocumentModeWrapLinesPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+                                  forKey:DocumentModeShowLineNumbersPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+                                  forKey:DocumentModeTabWidthPreferenceKey];
+
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
+                                  forKey:DocumentModeEncodingPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
+                                  forKey:DocumentModeLineEndingPreferenceKey];
+
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
+                                  forKey:DocumentModeFontAttributesPreferenceKey];
+}
 
 - (id)initWithBundle:(NSBundle *)aBundle {
     self = [super init];
@@ -26,14 +69,25 @@
             [self setDefaults:dictionary];
         } else {
             I_defaults = [NSMutableDictionary new];
-            [I_defaults setObject:[NSNumber numberWithInt:3] forKey:@"TabWidth"];
+            [I_defaults setObject:[NSNumber numberWithInt:3] forKey:DocumentModeTabWidthPreferenceKey];
             NSFont *font=[NSFont userFixedPitchFontOfSize:0.0];
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
             [dict setObject:[font fontName] 
                      forKey:NSFontNameAttribute];
             [dict setObject:[NSNumber numberWithFloat:[font pointSize]] 
                      forKey:NSFontSizeAttribute];
-            [I_defaults setObject:dict forKey:@"FontAttributes"];
+            [I_defaults setObject:dict forKey:DocumentModeFontAttributesPreferenceKey];
+            if (![self isBaseMode]) {
+                // read frome modefile? for now use defaults
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultSyntaxPreferenceKey];
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultEditPreferenceKey];
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultFilePreferenceKey];
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultFontPreferenceKey];
+            }
         }
     }
     return self;
@@ -63,8 +117,19 @@
     I_defaults=[defaults retain];
 }
 
+- (id)defaultForKey:(NSString *)aKey {
+    NSDictionary *defaultDefaults=[[[DocumentModeManager sharedInstance] baseMode] defaults];
+    if (![self isBaseMode]) {
+        NSString *defaultKey=[defaultablePreferenceKeys objectForKey:aKey];
+        if (!defaultKey || ![[I_defaults objectForKey:defaultKey] boolValue]) {
+            return [I_defaults objectForKey:aKey];
+        }
+    }
+    return [defaultDefaults objectForKey:aKey];
+}
+
 - (BOOL)isBaseMode {
-    return [self isEqualTo:[[DocumentModeManager sharedInstance] baseMode]];
+    return [BASEMODEIDENTIFIER isEqualToString:[[self bundle] bundleIdentifier]];
 }
 
 #pragma mark -
