@@ -287,561 +287,6 @@
 			sepNavWindowFrame = "{{130, 164}, {750, 558}}";
 		};
 	};
-	1444316C0611D462008FDA2E = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 124";
-		rLen = 0;
-		rLoc = 3354;
-		rType = 0;
-		vrLen = 794;
-		vrLoc = 1712;
-	};
-	1444316D0611D462008FDA2E = {
-		fRef = 144431850611D4A2008FDA2E;
-		isa = PBXBookmark;
-	};
-	1444316E0611D462008FDA2E = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 124";
-		rLen = 0;
-		rLoc = 3354;
-		rType = 0;
-		vrLen = 794;
-		vrLoc = 1712;
-	};
-	1444316F0611D462008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431810611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431700611D462008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431870611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431710611D463008FDA2E = {
-		anchor = baselocations;
-		fRef = 1444318F0611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431720611D463008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431830611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431730611D463008FDA2E = {
-		anchor = baselocations;
-		fRef = 1444318C0611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431740611D463008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431890611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431750611D464008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431840611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431760611D464008FDA2E = {
-		anchor = baselocations;
-		fRef = 1444318D0611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431770611D473008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431800611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431780611D473008FDA2E = {
-		anchor = baselocations;
-		fRef = 1444318B0611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	1444317B0611D479008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431880611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	1444317C0611D479008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431820611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	1444317D0611D483008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431860611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	1444317E0611D483008FDA2E = {
-		anchor = baselocations;
-		fRef = 1444318E0611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	1444317F0611D484008FDA2E = {
-		anchor = baselocations;
-		fRef = 1444318A0611D4A2008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431800611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431810611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431820611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431830611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431840611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431850611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431860611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431870611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431880611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431890611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	1444318A0611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	1444318B0611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	1444318C0611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	1444318D0611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	1444318E0611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	1444318F0611D4A2008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431900611D543008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431AC0611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431910611D543008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431B20611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431920611D543008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431AE0611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431930611D544008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431AA0611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431940611D544008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431B00611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431950611D545008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431AB0611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431960611D545008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431B10611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431970611D546008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431AD0611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431980611D546008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431B30611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431990611D546008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431AF0611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	1444319A0611D546008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431A90611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431A70611D562008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = TCMMMTransformator.h;
-		path = "/Users/mbo/Documents/TheCodingMonkeys/subethaedit-wc/trunk/subethaedit/TCMMillionMonkeys/TCMMMTransformator.h";
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431A90611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431AA0611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431AB0611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431AC0611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431AD0611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431AE0611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431AF0611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431B00611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431B10611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431B20611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431B30611D564008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431C30611D5FD008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431CC0611D601008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431C40611D5FD008FDA2E = {
-		fRef = 1444315D0611B9E4008FDA2E;
-		isa = PBXTextBookmark;
-		name = "- (void)transformOperation:(TCMMMOperation *)anOperation serverOperation:(TCMMMOperation *)aServerOperation {\n";
-		rLen = 110;
-		rLoc = 638;
-		rType = 0;
-		vrLen = 352;
-		vrLoc = 405;
-	};
-	144431C50611D5FD008FDA2E = {
-		fRef = 144431A70611D562008FDA2E;
-		isa = PBXTextBookmark;
-		rLen = 1;
-		rLoc = 21;
-		rType = 1;
-	};
-	144431C60611D5FD008FDA2E = {
-		anchor = baselocations;
-		fRef = 144431CD0611D601008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	144431C70611D5FD008FDA2E = {
-		fRef = 1444315C0611B9E4008FDA2E;
-		isa = PBXTextBookmark;
-		name = "- (void)transformOperation:(TCMMMOperation *)anOperation serverOperation:(TCMMMOperation *)aServerOperation;\n";
-		rLen = 109;
-		rLoc = 498;
-		rType = 0;
-		vrLen = 612;
-		vrLoc = 0;
-	};
-	144431C80611D5FD008FDA2E = {
-		fRef = 1444315D0611B9E4008FDA2E;
-		isa = PBXTextBookmark;
-		name = "- (void)transformOperation:(TCMMMOperation *)anOperation serverOperation:(TCMMMOperation *)aServerOperation {\n";
-		rLen = 110;
-		rLoc = 638;
-		rType = 0;
-		vrLen = 352;
-		vrLoc = 405;
-	};
-	144431C90611D5FD008FDA2E = {
-		fRef = 1444315C0611B9E4008FDA2E;
-		isa = PBXTextBookmark;
-		name = "TCMMMTransformator.h: 25";
-		rLen = 0;
-		rLoc = 637;
-		rType = 0;
-		vrLen = 523;
-		vrLoc = 0;
-	};
-	144431CA0611D5FD008FDA2E = {
-		fRef = 1444315C0611B9E4008FDA2E;
-		isa = PBXTextBookmark;
-		name = "TCMMMTransformator.h: 25";
-		rLen = 0;
-		rLoc = 637;
-		rType = 0;
-		vrLen = 523;
-		vrLoc = 0;
-	};
-	144431CB0611D5FE008FDA2E = {
-		fRef = 1444315C0611B9E4008FDA2E;
-		isa = PBXTextBookmark;
-		name = "TCMMMTransformator.h: 25";
-		rLen = 0;
-		rLoc = 637;
-		rType = 0;
-		vrLen = 523;
-		vrLoc = 0;
-	};
-	144431CC0611D601008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	144431CD0611D601008FDA2E = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.html.documentation;
-		name = XcodeBuildSettings.html;
-		path = /Developer/Documentation/ReleaseNotes/Xcode/XcodeBuildSettings.html;
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
 	144BC39005EDFDB1006397BC = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {547, 321}}";
@@ -981,7 +426,7 @@
 		vrLen = 555;
 		vrLoc = 0;
 	};
-	144C57CA061440C200D1E8BF = {
+	144C57D606146E3900D1E8BF = {
 		fRef = 143C360D05ECCEE8008C6DFE;
 		isa = PBXTextBookmark;
 		name = "AppController.m: 184";
@@ -1120,98 +565,6 @@
 			sepNavVisRect = "{{0, 1484}, {572, 211}}";
 		};
 	};
-	14B42A3B0611FBC8002D0043 = {
-		anchor = baselocations;
-		fRef = 144431A90611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	14B42A3C0611FBC9002D0043 = {
-		anchor = baselocations;
-		fRef = 144431A90611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	14B42A3D0611FBCD002D0043 = {
-		anchor = baselocations;
-		fRef = 144431A90611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	14B42A3E0611FBCD002D0043 = {
-		anchor = baselocations;
-		fRef = 144431A90611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	14B42A3F0611FBCD002D0043 = {
-		anchor = baselocations;
-		fRef = 144431A90611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	14B42A400611FBCF002D0043 = {
-		anchor = baselocations;
-		fRef = 144431A90611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	14B42A7A0611FDCA002D0043 = {
-		anchor = baselocations;
-		fRef = 144431A90611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	14B42A7B0611FDCA002D0043 = {
-		anchor = baselocations;
-		fRef = 144431A90611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	14B42A7C0611FDCC002D0043 = {
-		anchor = baselocations;
-		fRef = 144431A90611D564008FDA2E;
-		glyphRangeLength = 0;
-		glyphRangeLocation = 0;
-		isa = PBXDocBookmark;
-		name = "Xcode 1.1 Build Settings Release Note";
-	};
-	14B42A87061202F2002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42A88061202F3002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
 	14B42A8B06120339002D0043 = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {830, 449}}";
@@ -1228,154 +581,6 @@
 			sepNavWindowFrame = "{{347, 274}, {750, 558}}";
 		};
 	};
-	14B42A8F0612033C002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42A900612033C002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BC006120370002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BC106120370002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BC4061206E2002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BC5061206E2002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BC6061206F2002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BC7061206F2002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BC8061206F4002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BC9061206F4002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BCA061206F5002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BCB061206F5002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BCC0612070F002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BCD06120710002D0043 = {
-		fRef = 14A0EF10060B1D9C00A80FA8;
-		isa = PBXTextBookmark;
-		name = "TCMMMState.m: 77";
-		rLen = 0;
-		rLoc = 1702;
-		rType = 0;
-		vrLen = 960;
-		vrLoc = 1659;
-	};
-	14B42BD006120723002D0043 = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.objc;
-		name = TextOperation.m;
-		path = "/Users/mbo/Documents/TheCodingMonkeys/subethaedit-wc/trunk/subethaedit/TextOperation.m";
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
 	14B42BD406120731002D0043 = {
 		fRef = 14A0EF10060B1D9C00A80FA8;
 		isa = PBXTextBookmark;
@@ -1386,13 +591,6 @@
 		vrLen = 960;
 		vrLoc = 1659;
 	};
-	14B42BD506120731002D0043 = {
-		fRef = 14B42BD006120723002D0043;
-		isa = PBXTextBookmark;
-		rLen = 1;
-		rLoc = 70;
-		rType = 1;
-	};
 	14B42BD606120731002D0043 = {
 		fRef = 14A0EF10060B1D9C00A80FA8;
 		isa = PBXTextBookmark;
@@ -1402,26 +600,6 @@
 		rType = 0;
 		vrLen = 960;
 		vrLoc = 1659;
-	};
-	14B42BD706120731002D0043 = {
-		fRef = 14B42A8C06120339002D0043;
-		isa = PBXTextBookmark;
-		name = "    I_affectedCharRange = aRange;\n";
-		rLen = 34;
-		rLoc = 2135;
-		rType = 0;
-		vrLen = 815;
-		vrLoc = 1592;
-	};
-	14B42BD806120731002D0043 = {
-		fRef = 14B42A8C06120339002D0043;
-		isa = PBXTextBookmark;
-		name = "    I_affectedCharRange = aRange;\n";
-		rLen = 34;
-		rLoc = 2135;
-		rType = 0;
-		vrLen = 815;
-		vrLoc = 1592;
 	};
 	14B42BDC0612075B002D0043 = {
 		fRef = 14B42A8C06120339002D0043;
@@ -1447,532 +625,12 @@
 		vrLen = 815;
 		vrLoc = 1592;
 	};
-	14B42BDF0612075B002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BE00612075B002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BE106120760002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BE206120760002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BE30612080B002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BE4061208EA002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BE5061208EA002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BE6061237DC002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BE7061237DD002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BE8061237F9002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BE9061237F9002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BEA06123A07002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BEB06123A07002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BEC06123A0E002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BED06123A0E002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BEE06123A14002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BEF06123A14002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BF506123B6F002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BF606123B6F002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BF906124015002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BFA06124015002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BFB0612402E002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BFC0612402E002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BFD06124154002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42BFE06124154002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C030612D9A6002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C040612DF5E002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C050612DF5E002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C060612DF64002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C070612DF64002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C080612DF65002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C090612DF66002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C0A0612DF66002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C0B0612DF66002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C0E0612DFF4002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C0F0612DFF4002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C100612E5D9002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C110612E5D9002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C120612E5DB002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C130612E6C9002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C140612E6C9002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C150612E6CA002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C160612E6CA002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C170612E77A002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C180612E77A002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C190612E78A002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C1A0612E78A002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C1B0612E924002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C1C0612E924002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C1D0612EB42002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
-	14B42C1E0612EB42002D0043 = {
-		fRef = 14A0EFB4060B410B00A80FA8;
-		isa = PBXTextBookmark;
-		name = "- (NSString *)description {\n    return [NSString stringWithFormat:@\"selectedRange: %@; byUser: %@\", NSStringFromRange([self selectedRange]), [self userID]];\n}\n";
-		rLen = 159;
-		rLoc = 2068;
-		rType = 0;
-		vrLen = 451;
-		vrLoc = 1782;
-	};
 	14C51C700601C93C0030F488 = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {706, 1581}}";
 			sepNavSelRange = "{1864, 0}";
 			sepNavVisRect = "{{0, 1023}, {706, 183}}";
 		};
-	};
-	14DDA2DF0610A7B100999314 = {
-		fRef = 14249EFC05FC826400D8C6B9;
-		isa = PBXTextBookmark;
-		name = "TCMMMSession.m: 362";
-		rLen = 0;
-		rLoc = 11876;
-		rType = 0;
-		vrLen = 524;
-		vrLoc = 11595;
 	};
 	14DDA2E10610A7B100999314 = {
 		fRef = 14249EFC05FC826400D8C6B9;
@@ -2096,7 +754,7 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 101927773;
+			PBXPerProjectTemplateStateSaveDate = 102003661;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -2276,6 +934,7 @@
 						PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 							PBXSplitModuleInNavigatorKey = {
 								Split0 = {
+									bookmark = 144C57D606146E3900D1E8BF;
 									history = (
 										1464B41F05EE97B500D21A18,
 										1464B42005EE97B500D21A18,
@@ -2287,11 +946,13 @@
 										141084D005FE3C0400A4463D,
 										141084D105FE3C0400A4463D,
 										14A0F03A060B9B2D00A80FA8,
-										14DDA2DF0610A7B100999314,
 										14DDA2E50610A7BD00999314,
 										14B42BD406120731002D0043,
 										14B42BDC0612075B002D0043,
 										14B42BDD0612075B002D0043,
+										144C57C3061440C200D1E8BF,
+										144C57C4061440C200D1E8BF,
+										144C57C5061440C200D1E8BF,
 									);
 									prevStack = (
 										144BC7AE05EE3A41006397BC,
@@ -2305,6 +966,10 @@
 										14DDA2E10610A7B100999314,
 										14B42BD606120731002D0043,
 										14B42BDE0612075B002D0043,
+										144C57C6061440C200D1E8BF,
+										144C57C7061440C200D1E8BF,
+										144C57C8061440C200D1E8BF,
+										144C57C9061440C200D1E8BF,
 									);
 								};
 								SplitCount = 1;
@@ -2322,7 +987,7 @@
 							};
 						};
 						PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {598, 516}}";
-						PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 0}, {750, 480}}";
+						PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 144}, {598, 372}}";
 						PBXProjectWorkspaceModule_OldSuperviewFrame = "{{234, 0}, {598, 516}}";
 						PBXProjectWorkspaceModule_SGTM = {
 							PBXBottomSmartGroupGIDs = (
@@ -2349,17 +1014,16 @@
 								PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
 									2A37F4AAFDCFA73011CA2CEA,
 									2A37F4ABFDCFA73011CA2CEA,
-									5EEB176D05ECF6DA00C17677,
 									1C08E77C0454961000C914BD,
 								);
 								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 									(
-										24,
+										3,
 										1,
 										0,
 									),
 								);
-								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 271}, {217, 258}}";
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 256}}";
 							};
 							PBXSmartGroupTreeModuleSplitView = {
 								_collapsingFrameDimension = 0;
@@ -2367,8 +1031,8 @@
 								_percentageOfCollapsedView = 0;
 								isCollapsed = yes;
 								sizes = (
-									"{{0, 0}, {234, 276}}",
-									"{{0, 276}, {234, 240}}",
+									"{{0, 0}, {234, 274}}",
+									"{{0, 274}, {234, 242}}",
 								);
 							};
 							PBXSmartGroupTreeModuleSplitViewModule = {
@@ -2395,11 +1059,8 @@
 									PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
 									);
 									PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
-										(
-											3,
-										),
 									);
-									PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 222}}";
+									PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 224}}";
 								};
 								PBXTopSmartGroupGIDs = (
 								);
@@ -2450,27 +1111,17 @@
 			};
 			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
 				PBXProjectWorkspaceModule_StateKey_Rev39 = {
-					PBXProjectWorkspaceModule_DEGV_Geometry = {
-						_collapsingFrameDimension = 0;
-						_indexOfCollapsedView = 0;
-						_percentageOfCollapsedView = 0;
-						isCollapsed = yes;
-						sizes = (
-							"{{0, 0}, {598, 144}}",
-							"{{0, 144}, {598, 372}}",
-						);
-					};
 					PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
-						BoundsStr = "{{0, 0}, {583, 127}}";
+						BoundsStr = "{{0, 0}, {583, 499}}";
 						Rows = (
+							0,
 						);
-						VisibleRectStr = "{{0, 0}, {583, 127}}";
+						VisibleRectStr = "{{0, 0}, {583, 499}}";
 					};
-					PBXProjectWorkspaceModule_EditorOpen = true;
+					PBXProjectWorkspaceModule_EditorOpen = false;
 					PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 						PBXSplitModuleInNavigatorKey = {
 							Split0 = {
-								bookmark = 144C57CA061440C200D1E8BF;
 								history = (
 									1464B41F05EE97B500D21A18,
 									1464B42005EE97B500D21A18,
@@ -2503,8 +1154,6 @@
 									14B42BD606120731002D0043,
 									14B42BDE0612075B002D0043,
 									144C57C6061440C200D1E8BF,
-									144C57C7061440C200D1E8BF,
-									144C57C8061440C200D1E8BF,
 									144C57C9061440C200D1E8BF,
 								);
 							};
@@ -2522,8 +1171,8 @@
 							);
 						};
 					};
-					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {598, 144}}";
-					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 144}, {598, 372}}";
+					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {598, 516}}";
+					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 0}, {750, 480}}";
 					PBXProjectWorkspaceModule_OldSuperviewFrame = "{{234, 0}, {598, 516}}";
 					PBXProjectWorkspaceModule_SGTM = {
 						PBXBottomSmartGroupGIDs = (
@@ -2550,13 +1199,16 @@
 							PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
 								2A37F4AAFDCFA73011CA2CEA,
 								2A37F4ABFDCFA73011CA2CEA,
+								1C08E77C0454961000C914BD,
 							);
 							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								(
-									49,
+									39,
+									1,
+									0,
 								),
 							);
-							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 696}, {217, 256}}";
+							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 541}, {217, 254}}";
 						};
 						PBXSmartGroupTreeModuleSplitView = {
 							_collapsingFrameDimension = 0;
@@ -2564,8 +1216,8 @@
 							_percentageOfCollapsedView = 0;
 							isCollapsed = yes;
 							sizes = (
-								"{{0, 0}, {234, 274}}",
-								"{{0, 274}, {234, 242}}",
+								"{{0, 0}, {234, 272}}",
+								"{{0, 272}, {234, 244}}",
 							);
 						};
 						PBXSmartGroupTreeModuleSplitViewModule = {
@@ -2593,7 +1245,7 @@
 								);
 								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								);
-								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 224}}";
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {217, 226}}";
 							};
 							PBXTopSmartGroupGIDs = (
 							);
@@ -2634,7 +1286,7 @@
 					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 						PBXProjectWorkspaceModule_RunWindowVisible = true;
 					};
-					RubberWindowFrame = "69 244 832 558 0 0 1280 832 ";
+					RubberWindowFrame = "110 264 832 558 0 0 1280 832 ";
 				},
 			);
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXBuildResultsModule" = {
@@ -2680,14 +1332,14 @@
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "117 251 832 558 0 0 1280 832 ";
+				RubberWindowFrame = "90 242 832 558 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {691, 318}}";
 				PBXModuleWindowStatusBarHidden = YES;
 				RubberWindowFrame = "566 134 691 339 0 0 1280 832 ";
 			};
-			PBXWorkspaceStateSaveDate = 101927773;
+			PBXWorkspaceStateSaveDate = 102003661;
 		};
 		perUserProjectItems = {
 			141084A905FE345A00A4463D = 141084A905FE345A00A4463D;
@@ -2703,44 +1355,6 @@
 			142496E605F8931D00D8C6B9 = 142496E605F8931D00D8C6B9;
 			14249F1B05FC9C9700D8C6B9 = 14249F1B05FC9C9700D8C6B9;
 			14249F1D05FC9C9700D8C6B9 = 14249F1D05FC9C9700D8C6B9;
-			1444316C0611D462008FDA2E = 1444316C0611D462008FDA2E;
-			1444316D0611D462008FDA2E = 1444316D0611D462008FDA2E;
-			1444316E0611D462008FDA2E = 1444316E0611D462008FDA2E;
-			1444316F0611D462008FDA2E = 1444316F0611D462008FDA2E;
-			144431700611D462008FDA2E = 144431700611D462008FDA2E;
-			144431710611D463008FDA2E = 144431710611D463008FDA2E;
-			144431720611D463008FDA2E = 144431720611D463008FDA2E;
-			144431730611D463008FDA2E = 144431730611D463008FDA2E;
-			144431740611D463008FDA2E = 144431740611D463008FDA2E;
-			144431750611D464008FDA2E = 144431750611D464008FDA2E;
-			144431760611D464008FDA2E = 144431760611D464008FDA2E;
-			144431770611D473008FDA2E = 144431770611D473008FDA2E;
-			144431780611D473008FDA2E = 144431780611D473008FDA2E;
-			1444317B0611D479008FDA2E = 1444317B0611D479008FDA2E;
-			1444317C0611D479008FDA2E = 1444317C0611D479008FDA2E;
-			1444317D0611D483008FDA2E = 1444317D0611D483008FDA2E;
-			1444317E0611D483008FDA2E = 1444317E0611D483008FDA2E;
-			1444317F0611D484008FDA2E = 1444317F0611D484008FDA2E;
-			144431900611D543008FDA2E = 144431900611D543008FDA2E;
-			144431910611D543008FDA2E = 144431910611D543008FDA2E;
-			144431920611D543008FDA2E = 144431920611D543008FDA2E;
-			144431930611D544008FDA2E = 144431930611D544008FDA2E;
-			144431940611D544008FDA2E = 144431940611D544008FDA2E;
-			144431950611D545008FDA2E = 144431950611D545008FDA2E;
-			144431960611D545008FDA2E = 144431960611D545008FDA2E;
-			144431970611D546008FDA2E = 144431970611D546008FDA2E;
-			144431980611D546008FDA2E = 144431980611D546008FDA2E;
-			144431990611D546008FDA2E = 144431990611D546008FDA2E;
-			1444319A0611D546008FDA2E = 1444319A0611D546008FDA2E;
-			144431C30611D5FD008FDA2E = 144431C30611D5FD008FDA2E;
-			144431C40611D5FD008FDA2E = 144431C40611D5FD008FDA2E;
-			144431C50611D5FD008FDA2E = 144431C50611D5FD008FDA2E;
-			144431C60611D5FD008FDA2E = 144431C60611D5FD008FDA2E;
-			144431C70611D5FD008FDA2E = 144431C70611D5FD008FDA2E;
-			144431C80611D5FD008FDA2E = 144431C80611D5FD008FDA2E;
-			144431C90611D5FD008FDA2E = 144431C90611D5FD008FDA2E;
-			144431CA0611D5FD008FDA2E = 144431CA0611D5FD008FDA2E;
-			144431CB0611D5FE008FDA2E = 144431CB0611D5FE008FDA2E;
 			144BC7AE05EE3A41006397BC = 144BC7AE05EE3A41006397BC;
 			144BC7AF05EE3A41006397BC = 144BC7AF05EE3A41006397BC;
 			144C57C3061440C200D1E8BF = 144C57C3061440C200D1E8BF;
@@ -2750,95 +1364,15 @@
 			144C57C7061440C200D1E8BF = 144C57C7061440C200D1E8BF;
 			144C57C8061440C200D1E8BF = 144C57C8061440C200D1E8BF;
 			144C57C9061440C200D1E8BF = 144C57C9061440C200D1E8BF;
-			144C57CA061440C200D1E8BF = 144C57CA061440C200D1E8BF;
+			144C57D606146E3900D1E8BF = 144C57D606146E3900D1E8BF;
 			1464B41F05EE97B500D21A18 = 1464B41F05EE97B500D21A18;
 			1464B42005EE97B500D21A18 = 1464B42005EE97B500D21A18;
 			14A0F03A060B9B2D00A80FA8 = 14A0F03A060B9B2D00A80FA8;
-			14B42A3B0611FBC8002D0043 = 14B42A3B0611FBC8002D0043;
-			14B42A3C0611FBC9002D0043 = 14B42A3C0611FBC9002D0043;
-			14B42A3D0611FBCD002D0043 = 14B42A3D0611FBCD002D0043;
-			14B42A3E0611FBCD002D0043 = 14B42A3E0611FBCD002D0043;
-			14B42A3F0611FBCD002D0043 = 14B42A3F0611FBCD002D0043;
-			14B42A400611FBCF002D0043 = 14B42A400611FBCF002D0043;
-			14B42A7A0611FDCA002D0043 = 14B42A7A0611FDCA002D0043;
-			14B42A7B0611FDCA002D0043 = 14B42A7B0611FDCA002D0043;
-			14B42A7C0611FDCC002D0043 = 14B42A7C0611FDCC002D0043;
-			14B42A87061202F2002D0043 = 14B42A87061202F2002D0043;
-			14B42A88061202F3002D0043 = 14B42A88061202F3002D0043;
-			14B42A8F0612033C002D0043 = 14B42A8F0612033C002D0043;
-			14B42A900612033C002D0043 = 14B42A900612033C002D0043;
-			14B42BC006120370002D0043 = 14B42BC006120370002D0043;
-			14B42BC106120370002D0043 = 14B42BC106120370002D0043;
-			14B42BC4061206E2002D0043 = 14B42BC4061206E2002D0043;
-			14B42BC5061206E2002D0043 = 14B42BC5061206E2002D0043;
-			14B42BC6061206F2002D0043 = 14B42BC6061206F2002D0043;
-			14B42BC7061206F2002D0043 = 14B42BC7061206F2002D0043;
-			14B42BC8061206F4002D0043 = 14B42BC8061206F4002D0043;
-			14B42BC9061206F4002D0043 = 14B42BC9061206F4002D0043;
-			14B42BCA061206F5002D0043 = 14B42BCA061206F5002D0043;
-			14B42BCB061206F5002D0043 = 14B42BCB061206F5002D0043;
-			14B42BCC0612070F002D0043 = 14B42BCC0612070F002D0043;
-			14B42BCD06120710002D0043 = 14B42BCD06120710002D0043;
 			14B42BD406120731002D0043 = 14B42BD406120731002D0043;
-			14B42BD506120731002D0043 = 14B42BD506120731002D0043;
 			14B42BD606120731002D0043 = 14B42BD606120731002D0043;
-			14B42BD706120731002D0043 = 14B42BD706120731002D0043;
-			14B42BD806120731002D0043 = 14B42BD806120731002D0043;
 			14B42BDC0612075B002D0043 = 14B42BDC0612075B002D0043;
 			14B42BDD0612075B002D0043 = 14B42BDD0612075B002D0043;
 			14B42BDE0612075B002D0043 = 14B42BDE0612075B002D0043;
-			14B42BDF0612075B002D0043 = 14B42BDF0612075B002D0043;
-			14B42BE00612075B002D0043 = 14B42BE00612075B002D0043;
-			14B42BE106120760002D0043 = 14B42BE106120760002D0043;
-			14B42BE206120760002D0043 = 14B42BE206120760002D0043;
-			14B42BE30612080B002D0043 = 14B42BE30612080B002D0043;
-			14B42BE4061208EA002D0043 = 14B42BE4061208EA002D0043;
-			14B42BE5061208EA002D0043 = 14B42BE5061208EA002D0043;
-			14B42BE6061237DC002D0043 = 14B42BE6061237DC002D0043;
-			14B42BE7061237DD002D0043 = 14B42BE7061237DD002D0043;
-			14B42BE8061237F9002D0043 = 14B42BE8061237F9002D0043;
-			14B42BE9061237F9002D0043 = 14B42BE9061237F9002D0043;
-			14B42BEA06123A07002D0043 = 14B42BEA06123A07002D0043;
-			14B42BEB06123A07002D0043 = 14B42BEB06123A07002D0043;
-			14B42BEC06123A0E002D0043 = 14B42BEC06123A0E002D0043;
-			14B42BED06123A0E002D0043 = 14B42BED06123A0E002D0043;
-			14B42BEE06123A14002D0043 = 14B42BEE06123A14002D0043;
-			14B42BEF06123A14002D0043 = 14B42BEF06123A14002D0043;
-			14B42BF506123B6F002D0043 = 14B42BF506123B6F002D0043;
-			14B42BF606123B6F002D0043 = 14B42BF606123B6F002D0043;
-			14B42BF906124015002D0043 = 14B42BF906124015002D0043;
-			14B42BFA06124015002D0043 = 14B42BFA06124015002D0043;
-			14B42BFB0612402E002D0043 = 14B42BFB0612402E002D0043;
-			14B42BFC0612402E002D0043 = 14B42BFC0612402E002D0043;
-			14B42BFD06124154002D0043 = 14B42BFD06124154002D0043;
-			14B42BFE06124154002D0043 = 14B42BFE06124154002D0043;
-			14B42C030612D9A6002D0043 = 14B42C030612D9A6002D0043;
-			14B42C040612DF5E002D0043 = 14B42C040612DF5E002D0043;
-			14B42C050612DF5E002D0043 = 14B42C050612DF5E002D0043;
-			14B42C060612DF64002D0043 = 14B42C060612DF64002D0043;
-			14B42C070612DF64002D0043 = 14B42C070612DF64002D0043;
-			14B42C080612DF65002D0043 = 14B42C080612DF65002D0043;
-			14B42C090612DF66002D0043 = 14B42C090612DF66002D0043;
-			14B42C0A0612DF66002D0043 = 14B42C0A0612DF66002D0043;
-			14B42C0B0612DF66002D0043 = 14B42C0B0612DF66002D0043;
-			14B42C0E0612DFF4002D0043 = 14B42C0E0612DFF4002D0043;
-			14B42C0F0612DFF4002D0043 = 14B42C0F0612DFF4002D0043;
-			14B42C100612E5D9002D0043 = 14B42C100612E5D9002D0043;
-			14B42C110612E5D9002D0043 = 14B42C110612E5D9002D0043;
-			14B42C120612E5DB002D0043 = 14B42C120612E5DB002D0043;
-			14B42C130612E6C9002D0043 = 14B42C130612E6C9002D0043;
-			14B42C140612E6C9002D0043 = 14B42C140612E6C9002D0043;
-			14B42C150612E6CA002D0043 = 14B42C150612E6CA002D0043;
-			14B42C160612E6CA002D0043 = 14B42C160612E6CA002D0043;
-			14B42C170612E77A002D0043 = 14B42C170612E77A002D0043;
-			14B42C180612E77A002D0043 = 14B42C180612E77A002D0043;
-			14B42C190612E78A002D0043 = 14B42C190612E78A002D0043;
-			14B42C1A0612E78A002D0043 = 14B42C1A0612E78A002D0043;
-			14B42C1B0612E924002D0043 = 14B42C1B0612E924002D0043;
-			14B42C1C0612E924002D0043 = 14B42C1C0612E924002D0043;
-			14B42C1D0612EB42002D0043 = 14B42C1D0612EB42002D0043;
-			14B42C1E0612EB42002D0043 = 14B42C1E0612EB42002D0043;
-			14DDA2DF0610A7B100999314 = 14DDA2DF0610A7B100999314;
 			14DDA2E10610A7B100999314 = 14DDA2E10610A7B100999314;
 			14DDA2E50610A7BD00999314 = 14DDA2E50610A7BD00999314;
 		};

@@ -42,8 +42,12 @@
 
 - (NSDictionary *)plainTextAttributes;
 
+- (unsigned int)fileEncoding;
+- (void)setFileEncoding:(unsigned int)anEncoding;
+
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
+
 - (IBAction)toggleSyntaxHighlighting:(id)aSender;
 - (void)highlightSyntaxInRange:(NSRange)aRange;
 - (void)performHighlightSyntax;

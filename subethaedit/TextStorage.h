@@ -10,19 +10,25 @@
 
 
 @interface TextStorage : NSTextStorage {
-    // MetaData on lineStarts
     NSMutableArray *I_lineStarts;
     unsigned int I_lineStartsValidUpTo;
     NSMutableAttributedString *I_contents;
+    unsigned int I_encoding;
 }
 
 - (int)lineNumberForLocation:(unsigned)location;
 - (NSMutableArray *)lineStarts;
 - (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation;
 
+- (unsigned int)encoding;
+- (void)setEncoding:(unsigned int)anEncoding;
+
 @end
 
+#pragma mark -
 
 @interface NSObject (TextStorageDelegateAdditions)
+
 - (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString;
+
 @end

@@ -97,6 +97,13 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
      I_documentMode = [aDocumentMode retain];
 }
 
+- (unsigned int)fileEncoding {
+    return [(TextStorage *)[self textStorage] encoding];
+}
+
+- (void)setFileEncoding:(unsigned int)anEncoding {
+    [(TextStorage *)[self textStorage] setEncoding:anEncoding];
+}
 
 - (IBAction)announce:(id)aSender {
     DEBUGLOG(@"Document", 5, @"announce");

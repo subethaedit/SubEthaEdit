@@ -7,6 +7,7 @@
 //
 
 #import "TextStorage.h"
+#import "EncodingManager.h"
 
 
 @implementation TextStorage
@@ -30,6 +31,17 @@
     [super dealloc];
 }
 
+- (unsigned int)encoding {
+    return I_encoding;
+}
+
+- (void)setEncoding:(unsigned int)anEncoding {
+    [[EncodingManager sharedInstance] unregisterEncoding:I_encoding];
+    I_encoding = anEncoding;
+    [[EncodingManager sharedInstance] registerEncoding:anEncoding];
+}
+
+#pragma mark -
 #pragma mark ### Line Numbers ###
 
 - (int)lineNumberForLocation:(unsigned)aLocation {
@@ -103,6 +115,7 @@
 
 #pragma mark -
 #pragma mark ### Abstract Primitives of NSTextStorage ###
+
 - (NSString *)string {
     return [I_contents string];
 }
@@ -116,11 +129,11 @@
     unsigned origLen = [I_contents length];
     [I_contents replaceCharactersInRange:aRange withString:aString];
     id delegate = [self delegate];
+    [self edited:NSTextStorageEditedCharacters range:aRange 
+          changeInLength:[I_contents length] - origLen];
     if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
         [delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
     }
-    [self edited:NSTextStorageEditedCharacters range:aRange 
-          changeInLength:[I_contents length] - origLen];
 }
 
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange {
