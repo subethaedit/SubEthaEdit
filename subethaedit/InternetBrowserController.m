@@ -36,7 +36,13 @@ NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
 
 #pragma mark -
 
+static InternetBrowserController *sharedInstance = nil;
+
 @implementation InternetBrowserController
+
++ (InternetBrowserController *)sharedInstance {
+    return sharedInstance;
+}
 
 - (id)init {
     self = [super initWithWindowNibName:@"InternetBrowser"];
@@ -57,6 +63,10 @@ NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
     [I_resolvingHosts release];
     [I_resolvedHosts release];
     [super dealloc];
+}
+
+- (void)awakeFromNib {
+    sharedInstance = self;
 }
 
 - (void)windowWillLoad {
@@ -133,6 +143,8 @@ NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
 - (void)connectToAddress:(NSString *)address {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"connect to address: %@", address);
     
+    [self showWindow:nil];
+        
     NSString *unescapedAddress = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)address, CFSTR(""));
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"unescapedAddress: %@", unescapedAddress);
     

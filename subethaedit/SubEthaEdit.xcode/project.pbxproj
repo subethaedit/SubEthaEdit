@@ -220,6 +220,34 @@
 			settings = {
 			};
 		};
+		1439BC550649520E00A5BD0D = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GetURLCommand.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1439BC560649520E00A5BD0D = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GetURLCommand.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1439BC570649520E00A5BD0D = {
+			fileRef = 1439BC550649520E00A5BD0D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1439BC580649520E00A5BD0D = {
+			fileRef = 1439BC560649520E00A5BD0D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		143C35DB05ECAC32008C6DFE = {
 			children = (
 				5EEB188005ED1F0500C17677,
@@ -1656,6 +1684,8 @@
 				144C57AC06143E9200D1E8BF,
 				5E43E09B0639770200DF31A0,
 				5E43E09C0639770200DF31A0,
+				1439BC550649520E00A5BD0D,
+				1439BC560649520E00A5BD0D,
 				14840CFC061AF8CA0082EA0A,
 				14AE9CAA05F5E8F00025CADE,
 				5EEB185505ED0E1600C17677,
@@ -4496,6 +4526,7 @@
 				14CF2C4706428E7100D430AA,
 				5ED411E00646259D0045202E,
 				3188A35806492AD000AD92E4,
+				1439BC570649520E00A5BD0D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4689,6 +4720,7 @@
 				14CF2C4806428E7100D430AA,
 				5ED411E10646259D0045202E,
 				3188A35906492AD000AD92E4,
+				1439BC580649520E00A5BD0D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -26,6 +26,8 @@
     NSMutableDictionary *I_resolvedHosts;
 }
 
++ (InternetBrowserController *)sharedInstance;
+
 - (NSMutableArray *)comboBoxItems;
 - (void)setComboBoxItems:(NSMutableArray *)anArray;
 
