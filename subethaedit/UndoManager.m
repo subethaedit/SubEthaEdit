@@ -12,6 +12,7 @@
 #import "PlainTextDocument.h"
 #import "TextOperation.h"
 #import "PlainTextWindowController.h"
+#import "PlainTextEditor.h"
 
 NSString * const UndoManagerCheckpointNotification = @"UndoManagerCheckpointNotification";
 NSString * const UndoManagerDidOpenUndoGroupNotification = @"UndoManagerDidOpenUndoGroupNotification";

@@ -2744,12 +2744,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
     TextStorage *textStorage = (TextStorage *)[aTextView textStorage];
     if (![textStorage isBlockediting] && [textStorage hasBlockeditRanges]) {
-        unsigned positionToCheck=aNewSelectedCharRange.location;
-        if (positionToCheck<[textStorage length] || positionToCheck!=0) {
-            if (positionToCheck>=[textStorage length]) positionToCheck--;
-            NSDictionary *attributes=[textStorage attributesAtIndex:positionToCheck effectiveRange:NULL];
-            if (![attributes objectForKey:BlockeditAttributeName]) {
-                [textStorage stopBlockedit];
+        if ([textStorage length]==0) {
+            [textStorage stopBlockedit];
+        } else {
+            unsigned positionToCheck=aNewSelectedCharRange.location;
+            if (positionToCheck<[textStorage length] && positionToCheck!=0) {
+                if (positionToCheck>=[textStorage length]) positionToCheck--;
+                NSDictionary *attributes=[textStorage attributesAtIndex:positionToCheck effectiveRange:NULL];
+                if (![attributes objectForKey:BlockeditAttributeName]) {
+                    [textStorage stopBlockedit];
+                }
             }
         }
     }
@@ -2798,7 +2802,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     UndoManager *undoManager=[self documentUndoManager];
     if ([textStorage hasBlockeditRanges] && ![textStorage isBlockediting] &&
-        ![undoManager isRedoing] && ![undoManager isUndoing]) {
+        ![undoManager isRedoing] && ![undoManager isUndoing] && [textStorage length]>0) {
         if ([[NSApp currentEvent] type]==NSLeftMouseUp) {
             NSBeep();
             return NO;
@@ -2927,8 +2931,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [textStorage setDidBlockedit:NO];
         [[self documentUndoManager] endUndoGrouping];
         newSelectedRange.location+=lengthChange;
-
-        if (!NSEqualRanges(newSelectedRange,[textView selectedRange])) {
+        if (!NSEqualRanges(newSelectedRange,[textView selectedRange]) && newSelectedRange.location!=NSNotFound) {
             [textView setSelectedRange:newSelectedRange];
         }
     }

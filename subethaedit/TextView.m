@@ -78,8 +78,10 @@ static NSMenu *defaultMenu=nil;
         } 
         
         if ([aEvent type] == NSLeftMouseUp) {
-            [textStorage setHasBlockeditRanges:YES];
-            [NSEvent stopPeriodicEvents];
+            if ([textStorage length]>0) {
+                [textStorage setHasBlockeditRanges:YES];
+                [NSEvent stopPeriodicEvents];
+            }
             break;
         } else {
             currentPoint = [self convertPoint:[leftMouseDraggedEvent locationInWindow] fromView:nil];
