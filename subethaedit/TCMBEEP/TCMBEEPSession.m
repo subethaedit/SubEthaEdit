@@ -10,13 +10,13 @@
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPFrame.h"
 #import "TCMBEEPManagementProfile.h"
-#import "time.h"
 
 #import <netinet/in.h>
 #import <sys/socket.h>
 #import <sys/sockio.h>  // SIOCGIFMTU
 #import <sys/ioctl.h> // ioctl()
 #import <net/if.h> // struct ifreq
+
 
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
@@ -33,7 +33,9 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 - (void)TCM_initHelper;
 - (void)TCM_handleInputStreamEvent:(NSStreamEvent)streamEvent;
 - (void)TCM_handleOutputStreamEvent:(NSStreamEvent)streamEvent;
-- (void)TCM_writeData:(NSData *)aData;
+- (void)TCM_handleStreamAtEndEvent;
+- (void)TCM_handleStreamErrorOccurredEvent:(NSError *)error;
+- (void)TCM_fillBufferInRoundRobinFashion;
 - (void)TCM_readBytes;
 - (void)TCM_writeBytes;
 - (void)TCM_cleanup;
@@ -366,7 +368,6 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 {
     I_sessionStatus = TCMBEEPSessionStatusError;
     
-    [[NSRunLoop currentRunLoop] cancelPerformSelector:@selector(sendRoundRobin) target:self argument:nil];
     [I_inputStream setDelegate:nil];
     [I_outputStream setDelegate:nil];
     
@@ -392,6 +393,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     [I_managementChannel release];
     I_managementChannel = nil;
     
+    NSEnumerator *requestedChannels = [I_channelRequests objectEnumerator];  
+    while ((channel = [requestedChannels nextObject])) {
+        [channel cleanup];
+    }
+    [I_channelRequests removeAllObjects];
+    
     id delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(BEEPSession:didFailWithError:)]) {
         NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
@@ -399,15 +406,32 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     }
 }
 
-- (void)TCM_writeData:(NSData *)aData
+#define kWriteBufferThreshold 81920
+
+- (void)TCM_fillBufferInRoundRobinFashion
 {
-    if ([aData length] == 0)
-        return;
-        
-    [I_writeBuffer appendData:aData];
+    // ask each channel to write frames in writeBuffer until maximumFrameSize or windowSize is reached
+    // repeat until writeBufferThreshold has been reached or no more frames are available
     
-    if ([I_outputStream hasSpaceAvailable]) {
-        [self TCM_writeBytes];
+    BOOL hasFramesAvailable = YES;
+    while ([I_writeBuffer length] < kWriteBufferThreshold && hasFramesAvailable) {
+        hasFramesAvailable = NO;
+        NSEnumerator *channels = [[self activeChannels] objectEnumerator];
+        TCMBEEPChannel *channel = nil;
+        while ((channel = [channels nextObject])) {
+            if ([channel hasFramesAvailable]) {
+                hasFramesAvailable = YES;
+                NSEnumerator *frames = [[channel availableFramesFittingInCurrentWindow] objectEnumerator];
+                TCMBEEPFrame *frame;
+                while ((frame = [frames nextObject])) {
+                    [frame appendToMutableData:I_writeBuffer];
+#ifdef TCMBEEP_DEBUG
+                    [I_frameLogHandle writeData:[frame descriptionInLogFileFormatIncoming:NO]];
+#endif
+                    DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Sending Frame: %@", [frame description]);
+                }
+            }
+        }
     }
 }
 
@@ -539,6 +563,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 #endif
 
     if (bytesWritten > 0) {
+        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"bytesWritten: %d", bytesWritten);
         [I_writeBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
     } else if (bytesWritten < 0) {
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Error occurred while writing bytes.");
@@ -555,7 +580,6 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     
     I_sessionStatus = TCMBEEPSessionStatusError;
     
-    [[NSRunLoop currentRunLoop] cancelPerformSelector:@selector(sendRoundRobin) target:self argument:nil];
     [I_inputStream setDelegate:nil];
     [I_outputStream setDelegate:nil];
     
@@ -573,6 +597,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     }
     [I_activeChannels removeAllObjects];
     
+    NSEnumerator *requestedChannels = [I_channelRequests objectEnumerator];  
+    while ((channel = [requestedChannels nextObject])) {
+        [channel cleanup];
+    }
+    [I_channelRequests removeAllObjects];
+    
     int index;
     for (index = [self countOfChannels] - 1; index >= 0; index--) {
         [self removeObjectFromChannelsAtIndex:index];
@@ -580,9 +610,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     
     [I_managementChannel release];
     I_managementChannel = nil;
-    
-    // cleanup requested channels
-    
+        
     id delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(BEEPSession:didFailWithError:)]) {
         NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
@@ -649,8 +677,15 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
                 */         
             }
             break;
-        case NSStreamEventHasSpaceAvailable:
-            [self TCM_writeBytes];
+        case NSStreamEventHasSpaceAvailable: {
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Output stream has space available");
+
+                // fill write buffer
+                [self TCM_fillBufferInRoundRobinFashion];
+    
+                // when writeBuffer is not empty write bytes to stream
+                [self TCM_writeBytes];
+            }
             break;
         case NSStreamEventErrorOccurred: {
                 NSError *error = [I_outputStream streamError];
@@ -670,55 +705,17 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 
 #pragma mark -
 
-- (void)sendRoundRobin
-{
-    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"sendRoundRobin");
-    clock_t start_time = clock();
-    BOOL didSend = NO;
-    BOOL didSendAtAll = NO;
-    do {
-        int i;
-        for (i = 0; i < 10; i++) {
-            didSend = NO;
-            NSEnumerator *channels = [[self activeChannels] objectEnumerator];
-            TCMBEEPChannel *channel = nil;
-            while ((channel = [channels nextObject])) {
-                if ([channel hasFramesAvailable]) {
-                    didSend = YES;
-                    didSendAtAll = YES;
-                    NSEnumerator *frames = [[channel availableFramesFittingInCurrentWindow] objectEnumerator];
-                    TCMBEEPFrame *frame;
-                    while ((frame = [frames nextObject])) {
-                        [frame appendToMutableData:I_writeBuffer];
-        #ifdef TCMBEEP_DEBUG
-                        [I_frameLogHandle writeData:[frame descriptionInLogFileFormatIncoming:NO]];
-        #endif
-                        DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Sending Frame: %@", [frame description]);
-                    }
-                }
-            }
-            if (!didSend) break;
-        }
-    } while (didSend && ((((double)(clock() - start_time)) / CLOCKS_PER_SEC) < 0.1));
-    if (didSendAtAll) {
-        if ([I_outputStream hasSpaceAvailable]) {
-            [self TCM_writeBytes];
-        }
-    }
-    if (didSend) {
-        [self performSelector:@selector(sendRoundRobin) withObject:nil afterDelay:0.1];
-    } else {
-        I_flags.isSending = NO;
-    }
-    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"sendRoundrobin didSend: %@", (didSend ? @"YES" : @"NO"));
-}
-
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel
 {
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"TriggeredSending %@", (I_flags.isSending ? @"NO" : @"YES"));
-    if (!I_flags.isSending) {
-        [self performSelector:@selector(sendRoundRobin) withObject:nil afterDelay:0.01];
-        I_flags.isSending = YES;
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channelHasFramesAvailable: %@", aChannel);
+    
+    // fill writeBuffer in round robin fashion until threshold is reached or no more frames are to sent
+    // when flag is set and stream hasSpaceAvailable write bytes to stream when it has space available
+    
+    [self TCM_fillBufferInRoundRobinFashion];
+    
+    if ([I_outputStream hasSpaceAvailable]) {
+        [self TCM_writeBytes];
     }
 }
 

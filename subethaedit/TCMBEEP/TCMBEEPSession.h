@@ -66,7 +66,6 @@ enum {
     
     TCMBEEPFrame *I_currentReadFrame;
     struct {
-        BOOL isSending;
         BOOL isInitiator;
     } I_flags;
     
