@@ -19,6 +19,7 @@
                 "O_goBackButton" = NSButton; 
                 "O_licenseConfirmationSheet" = NSWindow; 
                 "O_licenseTabItem" = NSTabViewItem; 
+                "O_licenseTextView" = NSTextView; 
                 "O_licenseeNameField" = NSTextField; 
                 "O_licenseeOrganizationField" = NSTextField; 
                 "O_noncommercialRadioButton" = NSButton; 
