@@ -497,9 +497,9 @@ static FindReplaceController *sharedInstance=nil;
 - (void)addString:(NSString*)aString toHistory:(NSMutableArray *)anArray
 {
     if (![anArray containsObject:aString]) [anArray insertObject:aString atIndex:0];
-    int count = [anArray count];
+    int count = [anArray count]-1;
     int i;
-    for (i=count;i>25;i--) {
+    for (i=count;i>15;i--) {
         [anArray removeObjectAtIndex:i];
     }
     [O_findComboBox reloadData];
