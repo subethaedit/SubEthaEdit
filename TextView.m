@@ -17,6 +17,7 @@
 #import "FindReplaceController.h"
 #import "ParticipantsView.h"
 #import "PlainTextWindowController.h"
+#import "PlainTextEditor.h"
 
 @implementation TextView
 
@@ -420,6 +421,29 @@ static NSMenu *defaultMenu=nil;
     }
 }
 
+- (void)keyDown:(NSEvent *)aEvent {
+    static NSCharacterSet *passThroughCharacterSet=nil;
+    if (passThroughCharacterSet==nil) {
+        passThroughCharacterSet=[[NSCharacterSet characterSetWithCharactersInString:@"123"] retain];
+    }
+    int flags=[aEvent modifierFlags];
+    if ((flags & NSControlKeyMask) && !(flags & NSCommandKeyMask) && 
+        [[aEvent characters] length]==1 &&
+        [passThroughCharacterSet characterIsMember:[[aEvent characters] characterAtIndex:0]]) {
+        id nextResponder=[self nextResponder];
+        while (nextResponder) {
+            if ([nextResponder isKindOfClass:[PlainTextEditor class]] &&
+                [nextResponder respondsToSelector:@selector(keyDown:)]) {
+//                NSLog(@"Weiter mit dir: %@, %@",nextResponder, aEvent);
+                [[self nextResponder] keyDown:aEvent];
+                return;
+            }
+            nextResponder=[nextResponder nextResponder];
+        }
+    }
+        
+    [super keyDown:aEvent];
+}
 
 
 @end

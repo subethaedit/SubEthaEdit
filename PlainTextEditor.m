@@ -25,6 +25,31 @@
 #import "UndoManager.h"
 #import <OgreKit/OgreKit.h>
 
+@interface NSMenu (UndefinedStuff)
+- (NSMenu *)bottomPart;
+@end
+
+@implementation NSMenu (UndefinedStuff)
+- (NSMenu *)bottomPart {
+    NSMenu *newMenu=[[NSMenu new] autorelease];
+    NSArray *items=[self itemArray];
+    int count=[items count];
+    int index=count-1;
+    while (index>=0) {
+        if ([[items objectAtIndex:index] isSeparatorItem]) {
+            index++; break;
+        }
+        index--;
+    }
+    while (index<count) {
+        [newMenu addItem:[[[items objectAtIndex:index] copy] autorelease]];
+        index++;
+    }
+    return newMenu;
+}
+@end
+
+
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions)
 - (void)TCM_updateStatusBar;
 - (void)TCM_updateBottomStatusBar;
@@ -731,6 +756,28 @@
         [textView setSelectedRange:change];
         [textView scrollRangeToVisible:change];
     }
+}
+
+- (void)keyDown:(NSEvent *)aEvent {
+//    NSLog(@"aEvent: %@",[aEvent description]);
+    int flags=[aEvent modifierFlags];
+    if ((flags & NSControlKeyMask) && 
+        !(flags & NSCommandKeyMask) && 
+        [[aEvent characters] length]==1) {
+        if ([[aEvent characters] isEqualToString:@"2"] &&
+            [self showsTopStatusBar]) {
+            [O_symbolPopUpButton performClick:self];
+            return;
+        } else if ([[aEvent characters] isEqualToString:@"1"]) {
+            
+            [NSMenu popUpContextMenu:[[NSApp windowsMenu] bottomPart] withEvent:aEvent forView:[self textView] withFont:[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+            return;
+        }
+    }
+    
+    
+    
+    [super keyDown:aEvent];
 }
 
 #pragma mark -
