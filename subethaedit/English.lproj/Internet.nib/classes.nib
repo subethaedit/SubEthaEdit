@@ -2,9 +2,11 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {connect = id; }; 
             CLASS = InternetController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "O_addressComboBox" = NSComboBox; 
                 "O_imageView" = NSImageView; 
                 "O_myNameTextField" = NSTextField; 
                 "O_tableView" = NSTableView; 

@@ -9,6 +9,7 @@
 #import "InternetController.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserManager.h"
+#import "TCMHost.h"
 
 
 @implementation InternetController
@@ -31,5 +32,15 @@
     [((NSPanel *)[self window]) setFloatingPanel:NO];
     [[self window] setHidesOnDeactivate:NO];
 }
-    
+
+- (IBAction)connect:(id)aSender
+{
+    NSString *address = [aSender objectValue];
+    NSLog(@"connect to peer: %@", address);
+
+    TCMHost *host = [[TCMHost hostWithName:address] retain];
+    [host resolve];
+}
+
 @end
+
