@@ -42,17 +42,6 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 
 @implementation TCMBEEPSession
 
-//+ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
-//{
-//    BOOL automatic;
-//    if ([key isEqualToString:@"channels"]) {
-//        automatic = NO;
-//    } else {
-//        automatic = [super automaticallyNotifiesObserversForKey:key];
-//    }
-//    return automatic;
-//}
-
 - (void)TCM_initHelper
 {
     [I_inputStream setDelegate:self];
