@@ -26,6 +26,10 @@ NSString * const ShiftLeftToolbarItemIdentifier =
                @"ShiftLeftToolbarItemIdentifier";
 NSString * const ShiftRightToolbarItemIdentifier = 
                @"ShiftRightToolbarItemIdentifier";
+NSString * const NextSymbolToolbarItemIdentifier = 
+               @"NextSymbolToolbarItemIdentifier";
+NSString * const PreviousSymbolToolbarItemIdentifier = 
+               @"PreviousSymbolToolbarItemIdentifier";
 NSString * const RendezvousToolbarItemIdentifier = 
                @"RendezvousToolbarItemIdentifier";
 NSString * const ToggleChangeMarksToolbarItemIdentifier = 
@@ -235,7 +239,34 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 }
 
 
+- (IBAction)jumpToNextSymbol:(id)aSender {
+    TextView *textView = (TextView *)[[self activePlainTextEditor] textView];
+    NSRange change = [[self document] rangeOfPrevious:NO 
+                                       symbolForRange:NSMakeRange(NSMaxRange([textView selectedRange]),0)];
+    if (change.location == NSNotFound) {
+        NSBeep();
+    } else {
+        [textView setSelectedRange:change];
+        [textView scrollRangeToVisible:change];
+    }
+}
+
+- (IBAction)jumpToPreviousSymbol:(id)aSender {
+    TextView *textView = (TextView *)[[self activePlainTextEditor] textView];
+    NSRange change = [[self document] rangeOfPrevious:YES 
+                                       symbolForRange:NSMakeRange([textView selectedRange].location,0)];
+    if (change.location == NSNotFound) {
+        NSBeep();
+    } else {
+        [textView setSelectedRange:change];
+        [textView scrollRangeToVisible:change];
+    }
+}
+
+
+
 #pragma mark -
+#pragma mark ### Toolbar ###
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
 
@@ -276,6 +307,20 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         [toolbarItem setImage:([NSImage imageNamed: @"ShowChangeMarks"])];
         [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(toggleShowsChangeMarks:)];    
+    } else if ([itemIdent isEqual:PreviousSymbolToolbarItemIdentifier]) {
+        [toolbarItem setToolTip:NSLocalizedString(@"Goto Previous Symbol", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Previous Symbol", nil)];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Previous Symbol", nil)];
+        [toolbarItem setImage:[NSImage imageNamed: @"PreviousSymbol"]];
+        [toolbarItem setTarget:self];
+        [toolbarItem setAction:@selector(jumpToPreviousSymbol:)];    
+    } else if ([itemIdent isEqual:NextSymbolToolbarItemIdentifier]) {
+        [toolbarItem setToolTip:NSLocalizedString(@"Goto Next Symbol", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Next Symbol", nil)];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Next Symbol", nil)];
+        [toolbarItem setImage:[NSImage imageNamed:@"NextSymbol"]];
+        [toolbarItem setTarget:self];
+        [toolbarItem setAction:@selector(jumpToNextSymbol:)];    
     } else if ([itemIdent isEqual:ToggleAnnouncementToolbarItemIdentifier]) {
         [toolbarItem setToolTip:NSLocalizedString(@"Announce/Conceal Document", nil)];
         [toolbarItem setLabel:NSLocalizedString(@"Announce/Conceal", nil)];
@@ -297,6 +342,8 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                 NSToolbarSeparatorItemIdentifier,
                 ShiftLeftToolbarItemIdentifier,
                 ShiftRightToolbarItemIdentifier,
+                PreviousSymbolToolbarItemIdentifier,
+                NextSymbolToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
                 ParticipantsToolbarItemIdentifier,
@@ -308,6 +355,8 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                 RendezvousToolbarItemIdentifier,
                 ShiftLeftToolbarItemIdentifier,
                 ShiftRightToolbarItemIdentifier,
+                PreviousSymbolToolbarItemIdentifier,
+                NextSymbolToolbarItemIdentifier,
                 ParticipantsToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
                 ToggleAnnouncementToolbarItemIdentifier,

@@ -632,8 +632,9 @@
 
 - (IBAction)jumpToNextChange:(id)aSender {
     TextView *textView = (TextView *)[self textView];
+    unsigned maxrange=NSMaxRange([textView selectedRange]);
     NSRange change = [[self document] rangeOfPrevious:NO 
-                                       changeForRange:NSMakeRange(NSMaxRange([textView selectedRange])-1,0)];
+                                       changeForRange:NSMakeRange(maxrange>0?maxrange-1:maxrange,0)];
     if (change.location == NSNotFound) {
         NSBeep();
     } else {

@@ -16,3 +16,12 @@ BOOL DisjointRanges(NSRange range1, NSRange range2) {
         return YES;
     }
 }
+
+BOOL TouchingRanges(NSRange range1, NSRange range2) {
+    if (range1.location <= NSMaxRange(range2)
+        && NSMaxRange(range1) >= range2.location) {
+        return YES;
+    } else {
+        return NO;
+    }
+}

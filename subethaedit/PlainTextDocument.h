@@ -132,6 +132,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (IBAction)convertLineEndings:(id)aSender;
 - (IBAction)chooseLineEndings:(id)aSender;
 
+- (NSRange)rangeOfPrevious:(BOOL)aPrevious symbolForRange:(NSRange)aRange;
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange;
 
 - (void)updateSymbolTable;

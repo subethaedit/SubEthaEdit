@@ -3009,6 +3009,34 @@
 			settings = {
 			};
 		};
+		5EB5CB4E063DA4F100762AB7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = PreviousSymbol.tiff;
+			path = artwork/PreviousSymbol.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EB5CB4F063DA4F100762AB7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = NextSymbol.tiff;
+			path = artwork/NextSymbol.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EB5CB50063DA4F100762AB7 = {
+			fileRef = 5EB5CB4E063DA4F100762AB7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EB5CB51063DA4F100762AB7 = {
+			fileRef = 5EB5CB4F063DA4F100762AB7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EC0506E062D6C0500292573 = {
 			isa = PBXFileReference;
 			lastKnownFileType = file;
@@ -3312,7 +3340,9 @@
 				148892D206186C60005BDDCB,
 				148892CE06186BC3005BDDCB,
 				5EC0506F062D6C0500292573,
+				5EB5CB4F063DA4F100762AB7,
 				149A5C1B0600A89C0033510E,
+				5EB5CB4E063DA4F100762AB7,
 				5EF3AC50062C5D5E00959FEE,
 				14E3EACA06149C5D0083426B,
 				5E2D190D062E97A900A0EB85,
@@ -4009,6 +4039,8 @@
 				5EA543CB06357EC800A06297,
 				5E43E0A10639771800DF31A0,
 				5E4CCE29063BE3A400D03B71,
+				5EB5CB50063DA4F100762AB7,
+				5EB5CB51063DA4F100762AB7,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

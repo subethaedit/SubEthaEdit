@@ -431,12 +431,12 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 - (int)selectedSymbolForRange:(NSRange)aRange {
-    if (aRange.length==0) aRange.length=1;
+//    if (aRange.length==0) aRange.length=1;
     int count=[I_symbolArray count];
     int nearest=-1;
     while (--count>=0) {
         NSRange symbolRange=[[I_symbolArray objectAtIndex:count] range];
-        if (!DisjointRanges(aRange,symbolRange)) {
+        if (TouchingRanges(aRange,symbolRange)) {
             return count;
         }
         if (nearest==-1 && aRange.location > NSMaxRange(symbolRange)) {
@@ -1483,6 +1483,39 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[[self textStorage] mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
     [[self undoManager] removeAllActions]; 
     // undo is not too easy here... however... we could store a complete copy of the document in the undobuffer
+}
+
+- (NSRange)rangeOfPrevious:(BOOL)aPrevious symbolForRange:(NSRange)aRange {
+    if ([[self documentMode] hasSymbols] && [I_symbolArray count]) {
+        int position=[self selectedSymbolForRange:aRange];
+        if (aPrevious) {
+            if (position==-1) return NSMakeRange(NSNotFound,0);
+            NSRange symbolRange=[[I_symbolArray objectAtIndex:position] jumpRange];
+            if (DisjointRanges(aRange,symbolRange) && symbolRange.location<aRange.location) { 
+                return symbolRange;
+            } else {
+                while (position-->0) {
+                    SymbolTableEntry *entry=[I_symbolArray objectAtIndex:position];
+                    if (![entry isSeparator]) {
+                        return [entry jumpRange];
+                    }
+                }
+            }
+        } else {
+            if (position==-1) position=0;
+            while (position<[I_symbolArray count]) {
+                SymbolTableEntry *entry=[I_symbolArray objectAtIndex:position];
+                if (![entry isSeparator]) {
+                    NSRange symbolRange=[[I_symbolArray objectAtIndex:position] jumpRange];
+                    if (DisjointRanges(aRange,symbolRange) && NSMaxRange(symbolRange)>NSMaxRange(aRange)) { 
+                        return symbolRange;
+                    } 
+                }
+                position++;
+            }
+        }
+    }
+    return NSMakeRange(NSNotFound,0);
 }
 
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange {
