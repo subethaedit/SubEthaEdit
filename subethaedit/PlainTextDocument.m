@@ -73,7 +73,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_sendODBCloseEvent;
 - (void)TCM_sendODBModifiedEvent;
 - (BOOL)TCM_writeToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType;
-- (void)TCM_validateDocument;
+- (BOOL)TCM_validateDocument;
 @end
 
 #pragma mark -
@@ -122,6 +122,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     I_bracketMatching.matchingBracketPosition=NSNotFound;
     [self setShowsTopStatusBar:YES];
     [self setShowsBottomStatusBar:YES];
+    [self setKeepDocumentVersion:NO];
     [self setEditAnyway:NO];
     [self setIsFileWritable:YES];
 }
@@ -728,6 +729,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return [super prepareSavePanel:savePanel];
 }
 
+- (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
+    if ([self TCM_validateDocument]) {
+        [super saveDocumentWithDelegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
+    }
+}
+
 - (void)saveToFile:(NSString *)fileName saveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     if (saveOperation == NSSaveToOperation) {
         I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
@@ -855,6 +862,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
     
+    [self setKeepDocumentVersion:NO];
     NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
     [self setFileAttributes:fattrs];
     BOOL isWritable = [[NSFileManager defaultManager] isWritableFileAtPath:fileName];
@@ -987,6 +995,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (result) {
         if (saveOperationType == NSSaveOperation) {
             [self TCM_sendODBModifiedEvent];
+            [self setKeepDocumentVersion:NO];
         } else if (saveOperationType == NSSaveAsOperation) {
             if ([fullDocumentPath isEqualToString:[self fileName]]) {
                 [self TCM_sendODBModifiedEvent];
@@ -1142,10 +1151,10 @@ static NSString *tempFileName(NSString *origPath) {
     return result;
 }
 
-- (void)TCM_validateDocument {
+- (BOOL)TCM_validateDocument {
     NSWindow *window = [self windowForSheet];
     if (!window) {
-        return;
+        return YES;
     }
     
     NSString *fileName = [self fileName];
@@ -1154,6 +1163,10 @@ static NSString *tempFileName(NSString *origPath) {
     NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
     if ([[fattrs fileModificationDate] compare:[[self fileAttributes] fileModificationDate]] != NSOrderedSame) {
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
+        if ([self keepDocumentVersion]) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
+            return YES;
+        }
         // FIXME: What to do when we are in collaboration mode and hosting the document?
         if ([self isDocumentEdited]) {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -1176,7 +1189,11 @@ static NSString *tempFileName(NSString *origPath) {
                 [self updateChangeCount:NSChangeCleared];
             }
         }
+        
+        return NO;
     }
+    
+    return YES;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
@@ -1517,6 +1534,14 @@ static NSString *tempFileName(NSString *origPath) {
     I_flags.showsBottomStatusBar=aFlag;
 }
 
+- (BOOL)keepDocumentVersion {
+    return I_flags.keepDocumentVersion;
+}
+
+- (void)setKeepDocumentVersion:(BOOL)aFlag {
+    I_flags.keepDocumentVersion = aFlag;
+}
+
 - (BOOL)isFileWritable {
     return I_flags.isFileWritable;
 }
@@ -1603,7 +1628,9 @@ static NSString *tempFileName(NSString *origPath) {
             [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
         }
     } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyAlert"]) {
-        if (returnCode == NSAlertSecondButtonReturn) {
+        if (returnCode == NSAlertFirstButtonReturn) {
+            [self setKeepDocumentVersion:YES];
+        } else if (returnCode == NSAlertSecondButtonReturn) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
             BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
             if (successful) {
@@ -1627,7 +1654,7 @@ static NSString *tempFileName(NSString *origPath) {
         return;
     }
     
-    [self TCM_validateDocument];
+    (void)[self TCM_validateDocument];
 }
 
 #pragma mark -

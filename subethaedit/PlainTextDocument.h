@@ -34,6 +34,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL showsChangeMarks; // Editor
         BOOL showsTopStatusBar; // Editor
         BOOL showsBottomStatusBar; // Editor
+        BOOL keepDocumentVersion;
         BOOL isFileWritable;
         BOOL editAnyway;
     } I_flags;
@@ -137,6 +138,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setShowsTopStatusBar:(BOOL)aFlag;
 - (BOOL)showsBottomStatusBar;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
+- (BOOL)keepDocumentVersion;
+- (void)setKeepDocumentVersion:(BOOL)aFlag;
 - (BOOL)isFileWritable;
 - (void)setIsFileWritable:(BOOL)aFlag;
 - (BOOL)editAnyway;

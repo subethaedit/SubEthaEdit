@@ -2022,6 +2022,36 @@
 		vrLen = 1419;
 		vrLoc = 32729;
 	};
+	14A80D5406319F9B0007FCA7 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 1923";
+		rLen = 0;
+		rLoc = 83754;
+		rType = 0;
+		vrLen = 1419;
+		vrLoc = 32729;
+	};
+	14A80D5506319F9B0007FCA7 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 1923";
+		rLen = 0;
+		rLoc = 83754;
+		rType = 0;
+		vrLen = 1419;
+		vrLoc = 32729;
+	};
+	14A80D5606319F9E0007FCA7 = {
+		fRef = 5EDB862505F8AA6E0058C44A;
+		isa = PBXTextBookmark;
+		name = "PlainTextDocument.m: 1923";
+		rLen = 0;
+		rLoc = 83754;
+		rType = 0;
+		vrLen = 1419;
+		vrLoc = 32729;
+	};
 	14A8EE3C062F005F0007FCA7 = {
 		fRef = 5EDB862505F8AA6E0058C44A;
 		isa = PBXTextBookmark;
@@ -3561,9 +3591,8 @@
 				{
 					PBXProjectWorkspaceModule_StateKey_Rev39 = {
 						PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
-							BoundsStr = "{{0, 0}, {525, 2790}}";
+							BoundsStr = "{{0, 0}, {525, 547}}";
 							Rows = (
-								0,
 							);
 							VisibleRectStr = "{{0, 0}, {525, 547}}";
 						};
@@ -3571,7 +3600,7 @@
 						PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 							PBXSplitModuleInNavigatorKey = {
 								Split0 = {
-									bookmark = 14A80D4906319A120007FCA7;
+									bookmark = 14A80D5506319F9B0007FCA7;
 									history = (
 										1464B42005EE97B500D21A18,
 										141084D005FE3C0400A4463D,
@@ -3850,9 +3879,8 @@
 			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
 				PBXProjectWorkspaceModule_StateKey_Rev39 = {
 					PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
-						BoundsStr = "{{0, 0}, {525, 2790}}";
+						BoundsStr = "{{0, 0}, {525, 547}}";
 						Rows = (
-							0,
 						);
 						VisibleRectStr = "{{0, 0}, {525, 547}}";
 					};
@@ -3860,7 +3888,7 @@
 					PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 						PBXSplitModuleInNavigatorKey = {
 							Split0 = {
-								bookmark = 14A80D5306319A510007FCA7;
+								bookmark = 14A80D5606319F9E0007FCA7;
 								history = (
 									1464B42005EE97B500D21A18,
 									141084D005FE3C0400A4463D,
@@ -4033,6 +4061,7 @@
 								2A37F4AAFDCFA73011CA2CEA,
 								2A37F4ABFDCFA73011CA2CEA,
 								1460170E0619DBCA00E527EC,
+								1C08E77C0454961000C914BD,
 							);
 							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								(
@@ -4122,7 +4151,7 @@
 					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 						PBXProjectWorkspaceModule_RunWindowVisible = true;
 					};
-					RubberWindowFrame = "22 218 792 606 0 0 1280 832 ";
+					RubberWindowFrame = "88 223 792 606 0 0 1280 832 ";
 				},
 			);
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXBuildResultsModule" = {
@@ -4183,7 +4212,7 @@
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXNavigatorGroup" = {
 				Frame = "{{0, 0}, {750, 481}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "176 178 750 502 0 0 1280 832 ";
+				RubberWindowFrame = "199 157 750 502 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectFindModule" = {
 				Frame = "{{0, 0}, {861, 319}}";
@@ -4194,7 +4223,7 @@
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "88 223 792 606 0 0 1280 832 ";
+				RubberWindowFrame = "72 219 792 606 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {691, 318}}";
@@ -4362,6 +4391,9 @@
 			14A80D4806319A120007FCA7 = 14A80D4806319A120007FCA7;
 			14A80D4906319A120007FCA7 = 14A80D4906319A120007FCA7;
 			14A80D5306319A510007FCA7 = 14A80D5306319A510007FCA7;
+			14A80D5406319F9B0007FCA7 = 14A80D5406319F9B0007FCA7;
+			14A80D5506319F9B0007FCA7 = 14A80D5506319F9B0007FCA7;
+			14A80D5606319F9E0007FCA7 = 14A80D5606319F9E0007FCA7;
 			14A8EE3C062F005F0007FCA7 = 14A8EE3C062F005F0007FCA7;
 			14A8EE3D062F00600007FCA7 = 14A8EE3D062F00600007FCA7;
 			14A8EE48062F03D90007FCA7 = 14A8EE48062F03D90007FCA7;
