@@ -86,6 +86,7 @@ extern NSString * const ChangedByUserIDAttributeName;
     DocumentProxyWindowController *I_documentProxyWindowController;
     
     WebPreviewWindowController *I_webPreviewWindowController;
+    NSMutableArray *I_rangesToInvalidate;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;

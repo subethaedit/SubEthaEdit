@@ -178,27 +178,30 @@ static NSMenu *defaultMenu=nil;
     NSDictionary *sessionParticipants=[session participants];
     NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
     TCMMMUser *user;
+    TCMMMUser *me=[TCMMMUserManager me];
     if (document) {
         while ((user=[participants nextObject])) {
-            SelectionOperation *selectionOperation= [[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
-            if (selectionOperation) {
-                NSRange selectionRange = [selectionOperation selectedRange];
-                if (selectionRange.length==0) {
-                    // now we have to paint a caret at position
-    //                NSRange selection = NSMakeRange((unsigned)[(NSNumber *)[selection objectAtIndex:0] unsignedIntValue],0);
-    
-                    unsigned rectCount;
-                    NSRectArray rectArray=[[self layoutManager] 
-                                                rectArrayForCharacterRange:selectionRange 
-                                                withinSelectedCharacterRange:selectionRange 
-                                                inTextContainer:[self textContainer] rectCount:&rectCount];
-                    NSColor *changeColor=[[user changeColor] shadowWithLevel:0.1];
-                                            
-                    if (rectCount>0) {
-                        NSPoint myPoint = rectArray[0].origin;
-                        myPoint.x -= 0.5;
-                        myPoint.y += rectArray[0].size.height - 0.5;
-                        [self drawInsertionPointWithColor:changeColor atPoint:myPoint];
+            if (user != me) {
+                SelectionOperation *selectionOperation= [[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
+                if (selectionOperation) {
+                    NSRange selectionRange = [selectionOperation selectedRange];
+                    if (selectionRange.length==0) {
+                        // now we have to paint a caret at position
+        //                NSRange selection = NSMakeRange((unsigned)[(NSNumber *)[selection objectAtIndex:0] unsignedIntValue],0);
+        
+                        unsigned rectCount;
+                        NSRectArray rectArray=[[self layoutManager] 
+                                                    rectArrayForCharacterRange:selectionRange 
+                                                    withinSelectedCharacterRange:selectionRange 
+                                                    inTextContainer:[self textContainer] rectCount:&rectCount];
+                        NSColor *changeColor=[[user changeColor] shadowWithLevel:0.1];
+                                                
+                        if (rectCount>0) {
+                            NSPoint myPoint = rectArray[0].origin;
+                            myPoint.x -= 0.5;
+                            myPoint.y += rectArray[0].size.height - 0.5;
+                            [self drawInsertionPointWithColor:changeColor atPoint:myPoint];
+                        }
                     }
                 }
             }

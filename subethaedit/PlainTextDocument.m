@@ -61,6 +61,8 @@ enum {
 
 static NSString * const PlainTextDocumentSyntaxColorizeNotification = 
                       @"PlainTextDocumentSyntaxColorizeNotification";
+static NSString * PlainTextDocumentInvalidateLayoutNotification =
+                @"PlainTextDocumentInvalidateLayoutNotification";
 NSString * const PlainTextDocumentRefreshWebPreviewNotification = 
                @"PlainTextDocumentRefreshWebPreviewNotification";
 NSString * const PlainTextDocumentDidChangeSymbolsNotification =
@@ -162,6 +164,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 - (void)TCM_initHelper {
+    I_rangesToInvalidate=[NSMutableArray new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_webPreviewRefreshNotification:)
         name:PlainTextDocumentRefreshWebPreviewNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performHighlightSyntax)
@@ -170,6 +173,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
                                              selector:@selector(applicationDidBecomeActive:)
                                                  name:NSApplicationDidBecomeActiveNotification
                                                object:NSApp];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(executeInvalidateLayout:)
+        name:PlainTextDocumentInvalidateLayoutNotification object:self];
     
     // maybe put this into DocumentMode Setting
     NSString *bracketString=@"{[()]}";
@@ -314,25 +319,42 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 
+- (void)executeInvalidateLayout:(NSNotification *)aNotification {
+    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+    NSEnumerator *rangeValues=[I_rangesToInvalidate objectEnumerator];
+    NSValue *rangeValue=nil;
+    [textStorage beginEditing];
+    while ((rangeValue=[rangeValues nextObject])) {
+        NSRange changeRange=NSIntersectionRange(wholeRange,[rangeValue rangeValue]);
+        if (changeRange.length!=0) {
+            [textStorage edited:NSTextStorageEditedAttributes range:changeRange changeInLength:0];
+        }
+    }
+    [textStorage endEditing];
+    [I_rangesToInvalidate removeAllObjects];
+}
+
 - (void)invalidateLayoutForRange:(NSRange)aRange {
+    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    NSRange wholeRange=NSMakeRange(0,[textStorage length]);
     if (aRange.length==0) {
         if (aRange.location>0) {
             aRange.location-=1;
             aRange.length=1;
         } else {
-            if ([[self textStorage] length]>0) {
+            if (wholeRange.length>0) {
                 aRange.length=1;
             }
         }
     }
 
-    NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
-    PlainTextEditor *editor=nil;
-    while ((editor=[plainTextEditors nextObject])) {
-        [[[editor textView] layoutManager] 
-            invalidateLayoutForCharacterRange:aRange 
-            isSoft:NO actualCharacterRange:NULL];
-    }
+    [I_rangesToInvalidate addObject:[NSValue valueWithRange:aRange]];
+    [[NSNotificationQueue defaultQueue] 
+        enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentInvalidateLayoutNotification object:self]
+               postingStyle:NSPostASAP 
+               coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+                   forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
 
 - (void)updateSymbolTable {
@@ -680,6 +702,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [I_symbolArray release];
     [I_symbolPopUpMenu release];
     [I_symbolPopUpMenuSorted release];
+    [I_rangesToInvalidate release];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
@@ -2625,6 +2648,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [textStorage setDidBlockedit:NO];
         [[self undoManager] endUndoGrouping];
         newSelectedRange.location+=lengthChange;
+
         if (!NSEqualRanges(newSelectedRange,[textView selectedRange])) {
             [textView setSelectedRange:newSelectedRange];
         }
