@@ -891,6 +891,8 @@ SubEthaEdit.xcode/project.pbxproj -text
 /SyntaxHighlighter.m -text
 /SyntaxStyle.h -text
 /SyntaxStyle.m -text
+/TCMApplication.h -text
+/TCMApplication.m -text
 TCMBEEP/TCMBEEP.h -text
 TCMBEEP/TCMBEEPChannel.h -text
 TCMBEEP/TCMBEEPChannel.m -text

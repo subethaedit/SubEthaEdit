@@ -251,10 +251,10 @@
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-    <key>TCMMinimumSeeToolVersion</key>
+	<string>TCMApplication</string>
+	<key>TCMBundledSeeToolVersion</key>
 	<string>1.0</string>
-    <key>TCMBundledSeeToolVersion</key>
-    <string>1.0</string>
+	<key>TCMMinimumSeeToolVersion</key>
+	<string>1.0</string>
 </dict>
 </plist>
