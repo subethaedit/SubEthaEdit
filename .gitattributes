@@ -690,8 +690,13 @@ subethaedit/Tools/convertcolor.pl -text
 subethaedit/Tools/parseObjCHeadersForAutocomplete.pl -text
 subethaedit/Tools/serials/attackserial.pl -text
 subethaedit/Tools/serials/checkserial.pl -text
+subethaedit/Tools/serials/checkserial/checkserial.xcode/pittenau.pbxuser -text
+subethaedit/Tools/serials/checkserial/checkserial.xcode/project.pbxproj -text
+subethaedit/Tools/serials/checkserial/checkserial_Prefix.pch -text
+subethaedit/Tools/serials/checkserial/main.m -text
 subethaedit/Tools/serials/makeserial.pl -text
 subethaedit/Tools/serials/serials1.txt -text
+subethaedit/Tools/serials/serials2.txt -text
 subethaedit/URLDataProtocol.h -text
 subethaedit/URLDataProtocol.m -text
 subethaedit/URLImageView.h -text

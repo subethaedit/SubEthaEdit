@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'checkserial' target in the 'checkserial' project.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
