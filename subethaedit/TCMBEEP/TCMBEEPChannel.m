@@ -163,7 +163,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 // Accessors for session
 - (BOOL)hasFramesAvailable
 {
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"frames available? %d", ([I_messageWriteQueue count] > 0));
+    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"frames available? %d", ([I_messageWriteQueue count] > 0));
     return ([I_messageWriteQueue count] > 0 || [I_outgoingFrameQueue count] > 0);
 }
 
@@ -267,7 +267,7 @@ static NSMutableDictionary *profileURIToClassMapping;
         if (I_incomingBufferSizeAvailable < 2048) {
             // prepare SEQ frame
             TCMBEEPFrame *SEQFrame = [TCMBEEPFrame SEQFrameWithChannelNumber:[self number] acknowledgementNumber:I_incomingSequenceNumber windowSize:4096];
-            I_incomingBufferSizeAvailable = 4096;
+            I_incomingBufferSizeAvailable = I_incomingBufferSize;
             [I_outgoingFrameQueue addObject:SEQFrame];
             [[self session] channelHasFramesAvailable:self];
         }

@@ -568,7 +568,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 - (void)sendRoundRobin
 {
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"sendRoundRobin");
+    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"sendRoundRobin");
     NSEnumerator *channels = [[self activeChannels] objectEnumerator];
     TCMBEEPChannel *channel = nil;
     BOOL didSend = NO;
@@ -594,7 +594,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     } else {
         I_flags.isSending=NO;
     }
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"sendRoundrobin didSend: %@", (didSend ? @"YES" : @"NO"));
+    //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"sendRoundrobin didSend: %@", (didSend ? @"YES" : @"NO"));
 }
 
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel
