@@ -332,7 +332,7 @@ static NSMutableDictionary *profileURIToClassMapping;
         }
         [queue addObject:aFrame];
     
-        [[self profile] channelDidReceiveFrame:aFrame];
+        [[self profile] channelDidReceiveFrame:aFrame startingMessage:([queue count] == 1)];
         
         if (![aFrame isIntermediate]) {
             // FINISH and DISPATCH

@@ -126,7 +126,7 @@
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidReceivePreemptedMessage: %@", aMessage);
 }
 
-- (void)channelDidReceiveFrame:(TCMBEEPFrame *)aFrame
+- (void)channelDidReceiveFrame:(TCMBEEPFrame *)aFrame startingMessage:(BOOL)aFlag
 {
     if (I_isAbortingIncomingMessages) {
         [[self channel] preemptFrame:aFrame];

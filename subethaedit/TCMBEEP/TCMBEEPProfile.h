@@ -45,7 +45,7 @@
 - (void)abortIncomingMessages;
 - (void)channelDidReceivePreemptiveReplyForMessageWithNumber:(int32_t)aMessageNumber;
 - (void)channelDidReceivePreemptedMessage:(TCMBEEPMessage *)aMessage;
-- (void)channelDidReceiveFrame:(TCMBEEPFrame *)aFrame;
+- (void)channelDidReceiveFrame:(TCMBEEPFrame *)aFrame startingMessage:(BOOL)aFlag;
 
 @end
 
