@@ -1488,8 +1488,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
             return YES;
         }
-        // FIXME: What to do when we are in collaboration mode and hosting the document?
-        if ([self isDocumentEdited]) {
+        //if ([self isDocumentEdited]) {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
             [alert setMessageText:NSLocalizedString(@"Warning", nil)];
@@ -1503,22 +1502,22 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                 contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
                                                                 @"DocumentChangedExternallyAlert", @"Alert",
                                                                 nil] retain]];
-        } else {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
-            [alert setMessageText:@"Debug"];
-            [alert setInformativeText:@"Document will be reverted"];
-            [alert addButtonWithTitle:@"OK"];
-            [alert beginSheetModalForWindow:window
-                              modalDelegate:nil
-                             didEndSelector:NULL
-                                contextInfo:nil];
-            BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
-            if (successful) {
-                [self updateChangeCount:NSChangeCleared];
-            }
-        }
+        //} else {
+        //    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+        //    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        //    [alert setAlertStyle:NSWarningAlertStyle];
+        //    [alert setMessageText:@"Debug"];
+        //    [alert setInformativeText:@"Document will be reverted"];
+        //    [alert addButtonWithTitle:@"OK"];
+        //    [alert beginSheetModalForWindow:window
+        //                      modalDelegate:nil
+        //                     didEndSelector:NULL
+        //                        contextInfo:nil];
+        //    BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
+        //    if (successful) {
+        //        [self updateChangeCount:NSChangeCleared];
+        //    }
+        //}
         
         return NO;
     }
@@ -2164,6 +2163,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [self setKeepDocumentVersion:YES];
         } else if (returnCode == NSAlertSecondButtonReturn) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+            #warning "Fix revert for collaboration mode"
             BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
             if (successful) {
                 [self updateChangeCount:NSChangeCleared];
