@@ -54,6 +54,7 @@ static NSColor *alternateRowColor=nil;
         [I_disclosureCell setTitle:@""];
         [I_disclosureCell setState:NSOnState];
         
+        I_selectedRow  = -1;
         I_selectedRows = [NSMutableIndexSet new];
         
         I_indicesNeedRebuilding = YES;
@@ -297,20 +298,75 @@ static NSColor *alternateRowColor=nil;
     return I_indexRowAtItem[anItemIndex]+(aChildIndex==-1?0:aChildIndex+1);
 }
 
-- (void)selectRow:(int)aRow byExtendingSelection:(BOOL)shouldExtend {
-    
-    int index;
-    while ((index=[I_selectedRows firstIndex])!=NSNotFound) {
-        if (index < I_indexNumberOfRows) {
-            [self setNeedsDisplayInRect:[self TCM_rectForRow:index]];
+#pragma mark -
+#pragma mark ### Selection Handling ###
+
+- (void)TCM_setNeedsDisplayForIndexes:(NSIndexSet *)indexes {
+    unsigned int indexBuffer[40];
+    int indexCount;
+    NSRange range=NSMakeRange([indexes firstIndex],[indexes lastIndex]-[indexes firstIndex]+1);
+    while (YES) {
+        indexCount=[indexes getIndexes:indexBuffer maxCount:40 inIndexRange:&range];
+        int i;
+        for (i=0;i<indexCount;i++) {
+            [self setNeedsDisplayInRect:[self TCM_rectForRow:indexBuffer[i]]];
         }
-        [I_selectedRows removeIndex:index];
-    }
-    if (aRow>=0 && aRow < I_indexNumberOfRows) {
-        [I_selectedRows addIndex:aRow];
-        [self setNeedsDisplayInRect:[self TCM_rectForRow:aRow]];
+        if (indexCount < 40 || range.length) break;
     }
 }
+
+- (int)selectedRow {
+    return I_selectedRow;
+}
+
+- (NSIndexSet *)selectedRowIndexes {
+    return I_selectedRows;
+}
+
+- (void)deselectRow:(int)aRow {
+    if ([I_selectedRows containsIndex:aRow]) {
+        [I_selectedRows removeIndex:aRow];
+        [self setNeedsDisplayInRect:[self TCM_rectForRow:aRow]];
+        if (I_selectedRow == aRow) {
+            I_selectedRow = [I_selectedRows firstIndex];
+            if (I_selectedRow==NSNotFound) {
+                I_selectedRow = -1;
+            }
+        }
+    }
+}
+
+- (int)numberOfSelectedRows {
+    return [I_selectedRows count];
+}
+
+- (void)selectRow:(int)aRow byExtendingSelection:(BOOL)shouldExtend {
+    
+    if (!shouldExtend) {
+        [self TCM_setNeedsDisplayForIndexes:I_selectedRows];
+        [I_selectedRows removeAllIndexes];
+    }
+    I_selectedRow = aRow;
+    [I_selectedRows addIndex:aRow];
+    [self setNeedsDisplayInRect:[self TCM_rectForRow:aRow]];
+}
+
+- (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)extend {
+    if (!extend) {
+        [self TCM_setNeedsDisplayForIndexes:I_selectedRows];
+        [I_selectedRows removeAllIndexes];
+    }
+    [I_selectedRows addIndexes:indexes];
+    [self TCM_setNeedsDisplayForIndexes:I_selectedRows];
+    if ([indexes count]) {
+        I_selectedRow = [indexes firstIndex];
+    } else {
+        I_selectedRow = -1;
+    }
+}
+
+#pragma mark -
+#pragma mark ### Event Handling ###
 
 - (void)mouseDown:(NSEvent *)aEvent {
 
@@ -318,9 +374,15 @@ static NSColor *alternateRowColor=nil;
     NSLog(@"Clicked at: %@", NSStringFromPoint(point));
     
     I_clickedRow = [self TCM_indexOfRowAtPoint:point];
-    [self selectRow:I_clickedRow byExtendingSelection:NO];
-    if ([aEvent clickCount] == 2 && I_target && [I_target respondsToSelector:I_doubleAction]) {
-        [I_target performSelector:I_doubleAction withObject:self];
+    if (I_clickedRow != -1) {
+        if ([aEvent modifierFlags] & NSCommandKeyMask) {
+            [self selectRow:I_clickedRow byExtendingSelection:YES];
+        } else {
+            [self selectRow:I_clickedRow byExtendingSelection:NO];
+        }
+        if ([aEvent clickCount] == 2 && I_target && [I_target respondsToSelector:I_doubleAction]) {
+            [I_target performSelector:I_doubleAction withObject:self];
+        }
     }
     NSLog(@"indexOfRow: %d", I_clickedRow);
 }

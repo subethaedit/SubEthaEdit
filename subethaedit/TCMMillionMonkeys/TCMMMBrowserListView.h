@@ -37,6 +37,9 @@ typedef struct _ItemChildPair {
     SEL I_action;
     SEL I_doubleAction;
     
+    
+    // Selection
+    int I_selectedRow;
     NSMutableIndexSet *I_selectedRows;
     
     // indices
@@ -65,6 +68,16 @@ typedef struct _ItemChildPair {
 - (int)numberOfChildrenOfItemAtIndex:(int)aIndex;
 - (void)noteEnclosingScrollView;
 - (void)resizeToFit;
+
+/*"Selection Handling"*/
+- (int)selectedRow;
+- (NSIndexSet *)selectedRowIndexes;
+- (void)deselectRow:(int)aRow;
+- (int)numberOfSelectedRows;
+- (void)selectRow:(int)aRow byExtendingSelection:(BOOL)extend;
+- (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)extend;
+
+
 
 @end
 
