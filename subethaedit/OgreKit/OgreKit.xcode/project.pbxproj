@@ -1,0 +1,3649 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 39;
+	objects = {
+		014CEA440018CDF011CA2923 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		014CEA450018CDF011CA2923 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//010
+//011
+//012
+//013
+//014
+//030
+//031
+//032
+//033
+//034
+		034768DFFF38A50411DB9C8B = {
+			children = (
+				8DC2EF5B0486A6940098B216,
+				4D8CB4A4057216A500BE2D09,
+				4DE2695905721B2800A25078,
+				4DE269A805721DB400A25078,
+				4DAC47D20572204C0011832E,
+				4DA6B48305E699D000A3AEC6,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//030
+//031
+//032
+//033
+//034
+//080
+//081
+//082
+//083
+//084
+		0867D690FE84028FC02AAC07 = {
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA440018CDF011CA2923,
+				014CEA450018CDF011CA2923,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				Dutch,
+				Italian,
+				Portuguese,
+				Romanian,
+				Spanish,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07;
+			productRefGroup = 034768DFFF38A50411DB9C8B;
+			projectDirPath = "";
+			targets = (
+				4DAC481F057223790011832E,
+				4DAC4801057221BB0011832E,
+				4D84996D05E694C2008103EA,
+				8DC2EF4F0486A6940098B216,
+				4DA6B44605E699D000A3AEC6,
+				4DE2695805721B2800A25078,
+				4D8CB4A3057216A500BE2D09,
+				4DE269A705721DB400A25078,
+				4DAC47D10572204C0011832E,
+			);
+		};
+		0867D691FE84028FC02AAC07 = {
+			children = (
+				4D8CAFDA05720C0D00BE2D09,
+				4DE2696E05721BD400A25078,
+				4D8CB4990572164400BE2D09,
+				4DE269AC05721E1A00A25078,
+				4DAC47D8057220DA0011832E,
+				0867D69AFE84028FC02AAC07,
+				034768DFFF38A50411DB9C8B,
+			);
+			isa = PBXGroup;
+			name = OgreKit;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 = {
+			children = (
+				1058C7B0FEA5585E11CA2CBB,
+				1058C7B2FEA5585E11CA2CBB,
+			);
+			isa = PBXGroup;
+			name = "External Frameworks and Libraries";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0867D69BFE84028FC02AAC07 = {
+			fallbackIsa = PBXFileReference;
+			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
+			name = Foundation.framework;
+			path = /System/Library/Frameworks/Foundation.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0867D6A5FE840307C02AAC07 = {
+			fallbackIsa = PBXFileReference;
+			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		089C1665FE841158C02AAC07 = {
+			children = (
+				4D8CB37405720F1500BE2D09,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//080
+//081
+//082
+//083
+//084
+//100
+//101
+//102
+//103
+//104
+		1058C7B0FEA5585E11CA2CBB = {
+			children = (
+				1058C7B1FEA5585E11CA2CBB,
+			);
+			isa = PBXGroup;
+			name = "Linked Frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1058C7B1FEA5585E11CA2CBB = {
+			fallbackIsa = PBXFileReference;
+			isa = PBXFrameworkReference;
+			lastKnownFileType = wrapper.framework;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		1058C7B2FEA5585E11CA2CBB = {
+			children = (
+				0867D69BFE84028FC02AAC07,
+				0867D6A5FE840307C02AAC07,
+			);
+			isa = PBXGroup;
+			name = "Other Frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//100
+//101
+//102
+//103
+//104
+//4D0
+//4D1
+//4D2
+//4D3
+//4D4
+		4D071A5706139B2900BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Dutch;
+			path = FindPanel/Dutch.lproj/OgreTextFinderLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A5806139B3200BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = French;
+			path = FindPanel/French.lproj/OgreTextFinderLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A5906139B3B00BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Italian;
+			path = FindPanel/Italian.lproj/OgreTextFinderLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A5A06139B4600BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Portuguese;
+			path = FindPanel/Portuguese.lproj/OgreTextFinderLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A5B06139B4C00BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Romanian;
+			path = FindPanel/Romanian.lproj/OgreTextFinderLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A5C06139B5100BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Spanish;
+			path = FindPanel/Spanish.lproj/OgreTextFinderLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A5D06139B9300BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Dutch;
+			path = FindPanel/Dutch.lproj/OgreAPFCLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A5E06139B9C00BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = French;
+			path = FindPanel/French.lproj/OgreAPFCLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A5F06139BA500BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Italian;
+			path = FindPanel/Italian.lproj/OgreAPFCLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A6006139BB700BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Portuguese;
+			path = FindPanel/Portuguese.lproj/OgreAPFCLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A6106139BBD00BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Romanian;
+			path = FindPanel/Romanian.lproj/OgreAPFCLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A6206139BC500BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Spanish;
+			path = FindPanel/Spanish.lproj/OgreAPFCLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A6306139BD600BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Dutch;
+			path = FindPanel/Dutch.lproj/OgreAdvancedFindPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A6406139BDF00BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = French;
+			path = FindPanel/French.lproj/OgreAdvancedFindPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A6506139BE300BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = FindPanel/Italian.lproj/OgreAdvancedFindPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A6606139BED00BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Portuguese;
+			path = FindPanel/Portuguese.lproj/OgreAdvancedFindPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A6706139BF200BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Romanian;
+			path = FindPanel/Romanian.lproj/OgreAdvancedFindPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D071A6806139BF600BECCDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Spanish;
+			path = FindPanel/Spanish.lproj/OgreAdvancedFindPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D43D86905BEE7DC0082C2BB = {
+			children = (
+				4D43D86A05BEE7DC0082C2BB,
+				4D43D87605BEF4010082C2BB,
+				4DE872FB060F7CFD00F02368,
+				4D071A5706139B2900BECCDB,
+				4D071A5806139B3200BECCDB,
+				4D071A5906139B3B00BECCDB,
+				4D071A5A06139B4600BECCDB,
+				4D071A5B06139B4C00BECCDB,
+				4D071A5C06139B5100BECCDB,
+			);
+			isa = PBXVariantGroup;
+			name = OgreTextFinderLocalizable.strings;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D43D86A05BEE7DC0082C2BB = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = FindPanel/English.lproj/OgreTextFinderLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D43D86B05BEE7DC0082C2BB = {
+			fileRef = 4D43D86905BEE7DC0082C2BB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D43D87605BEF4010082C2BB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Japanese;
+			path = FindPanel/Japanese.lproj/OgreTextFinderLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D43D8AC05BF13C70082C2BB = {
+			children = (
+				4D43D8AD05BF13C70082C2BB,
+				4D43D92305BF17190082C2BB,
+				4DE872FC060F7D0900F02368,
+				4D071A5D06139B9300BECCDB,
+				4D071A5E06139B9C00BECCDB,
+				4D071A5F06139BA500BECCDB,
+				4D071A6006139BB700BECCDB,
+				4D071A6106139BBD00BECCDB,
+				4D071A6206139BC500BECCDB,
+			);
+			isa = PBXVariantGroup;
+			name = OgreAPFCLocalizable.strings;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D43D8AD05BF13C70082C2BB = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = FindPanel/English.lproj/OgreAPFCLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D43D8AE05BF13C70082C2BB = {
+			fileRef = 4D43D8AC05BF13C70082C2BB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D43D92305BF17190082C2BB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Japanese;
+			path = FindPanel/Japanese.lproj/OgreAPFCLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D725116057223D100ABFCA7 = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = OgreKit;
+		};
+		4D725117057223D100ABFCA7 = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216;
+			targetProxy = 4D725116057223D100ABFCA7;
+		};
+		4D725118057223D100ABFCA7 = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 4D8CB4A3057216A500BE2D09;
+			remoteInfo = "Find Panel Test";
+		};
+		4D725119057223D100ABFCA7 = {
+			isa = PBXTargetDependency;
+			target = 4D8CB4A3057216A500BE2D09;
+			targetProxy = 4D725118057223D100ABFCA7;
+		};
+		4D72511A057223D100ABFCA7 = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 4DE2695805721B2800A25078;
+			remoteInfo = "Regular Expression Test";
+		};
+		4D72511B057223D100ABFCA7 = {
+			isa = PBXTargetDependency;
+			target = 4DE2695805721B2800A25078;
+			targetProxy = 4D72511A057223D100ABFCA7;
+		};
+		4D72511C057223D100ABFCA7 = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 4DE269A705721DB400A25078;
+			remoteInfo = "My Find Panel Example";
+		};
+		4D72511D057223D100ABFCA7 = {
+			isa = PBXTargetDependency;
+			target = 4DE269A705721DB400A25078;
+			targetProxy = 4D72511C057223D100ABFCA7;
+		};
+		4D72511E057223D100ABFCA7 = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 4DAC47D10572204C0011832E;
+			remoteInfo = "Wildcard (Practical Example)";
+		};
+		4D72511F057223D100ABFCA7 = {
+			isa = PBXTargetDependency;
+			target = 4DAC47D10572204C0011832E;
+			targetProxy = 4D72511E057223D100ABFCA7;
+		};
+		4D725120057224B800ABFCA7 = {
+			fileRef = 1058C7B1FEA5585E11CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D725124057224BA00ABFCA7 = {
+			fileRef = 8DC2EF5B0486A6940098B216;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D725138057224C200ABFCA7 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4D725139057224CD00ABFCA7,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D725139057224CD00ABFCA7 = {
+			fileRef = 8DC2EF5B0486A6940098B216;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D75320305ADB4EC00C23C3D = {
+			children = (
+				4D75320405ADB4EC00C23C3D,
+				4D75323905ADB4FA00C23C3D,
+				4DE872FD060F7D1000F02368,
+				4D071A6306139BD600BECCDB,
+				4D071A6406139BDF00BECCDB,
+				4D071A6506139BE300BECCDB,
+				4D071A6606139BED00BECCDB,
+				4D071A6706139BF200BECCDB,
+				4D071A6806139BF600BECCDB,
+			);
+			isa = PBXVariantGroup;
+			name = OgreAdvancedFindPanel.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D75320405ADB4EC00C23C3D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = FindPanel/English.lproj/OgreAdvancedFindPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D75320505ADB4EC00C23C3D = {
+			fileRef = 4D75320305ADB4EC00C23C3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D75323905ADB4FA00C23C3D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = FindPanel/Japanese.lproj/OgreAdvancedFindPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D84996D05E694C2008103EA = {
+			buildArgumentsString = "$(ACTION)";
+			buildPhases = (
+			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = oniguruma;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = RegularExpression/oniguruma;
+			dependencies = (
+				4D8499AD05E69727008103EA,
+			);
+			isa = PBXLegacyTarget;
+			name = oniguruma;
+			passBuildSettingsInEnvironment = 1;
+			productName = oniguruma;
+		};
+		4D8499A005E69717008103EA = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 4D84996D05E694C2008103EA;
+			remoteInfo = oniguruma;
+		};
+		4D8499A105E69717008103EA = {
+			isa = PBXTargetDependency;
+			target = 4D84996D05E694C2008103EA;
+			targetProxy = 4D8499A005E69717008103EA;
+		};
+		4D8499AC05E69727008103EA = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 4DAC4801057221BB0011832E;
+			remoteInfo = configure;
+		};
+		4D8499AD05E69727008103EA = {
+			isa = PBXTargetDependency;
+			target = 4DAC4801057221BB0011832E;
+			targetProxy = 4D8499AC05E69727008103EA;
+		};
+		4D8CAFDA05720C0D00BE2D09 = {
+			children = (
+				4D8CB0EA05720C3200BE2D09,
+				4D8CB0E705720C2700BE2D09,
+				4D8CB0F505720C5D00BE2D09,
+				4DE8E2B8059A76DA00224687,
+				089C1665FE841158C02AAC07,
+				4D8CB34505720E7F00BE2D09,
+				4DE4E33405E6D22700E39312,
+				4D8CB34605720E7F00BE2D09,
+				4D8CB33C05720E1A00BE2D09,
+				4DE8E2A2059A731400224687,
+			);
+			isa = PBXGroup;
+			name = OgreKit;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CAFDE05720C1D00BE2D09 = {
+			fileRef = 0867D69BFE84028FC02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB04E05720C1E00BE2D09 = {
+			fileRef = 0867D6A5FE840307C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB0E705720C2700BE2D09 = {
+			children = (
+				4D8CB35A05720EAF00BE2D09,
+				4D8CB35B05720EAF00BE2D09,
+				4D8CB35605720EAF00BE2D09,
+				4D8CB34D05720EAF00BE2D09,
+				4D8CB35105720EAF00BE2D09,
+				4D8CB34E05720EAF00BE2D09,
+				4D8CB35005720EAF00BE2D09,
+				4D8CB34C05720EAF00BE2D09,
+				4D8CB35505720EAF00BE2D09,
+				4D8CB35405720EAF00BE2D09,
+				4D8CB35305720EAF00BE2D09,
+				4D8CB35805720EAF00BE2D09,
+				4D8CB34B05720EAF00BE2D09,
+				4D8CB35905720EAF00BE2D09,
+				4D8CB34F05720EAF00BE2D09,
+				4D8CB35205720EAF00BE2D09,
+				4D8CB35705720EAF00BE2D09,
+				4D8CB34A05720EAF00BE2D09,
+				4DF79C5105F331330075DA76,
+				4DF79C5205F331330075DA76,
+			);
+			isa = PBXGroup;
+			name = "Regular Expressions";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB0EA05720C3200BE2D09 = {
+			children = (
+				4D8CB34105720E3C00BE2D09,
+				4D8CB34005720E3C00BE2D09,
+				4D8CB33F05720E3C00BE2D09,
+			);
+			isa = PBXGroup;
+			name = Documentation;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB0F505720C5D00BE2D09 = {
+			children = (
+				4D8CB37905720F4A00BE2D09,
+				4D8CB37805720F4A00BE2D09,
+				4D8CB38305720F4A00BE2D09,
+				4D8CB38205720F4A00BE2D09,
+				4D8CB37C05720F4A00BE2D09,
+				4D8CB37B05720F4A00BE2D09,
+				4D8CB37A05720F4A00BE2D09,
+				4D8CB37D05720F4A00BE2D09,
+				4D8CB37F05720F4A00BE2D09,
+				4D8CB37E05720F4A00BE2D09,
+				4D8CB38105720F4A00BE2D09,
+				4D8CB38005720F4A00BE2D09,
+				4D8CB38405720F4A00BE2D09,
+				4D8CB37705720F4A00BE2D09,
+				4DE4E2A805E6ABF100E39312,
+				4DE4E2A705E6ABF100E39312,
+				4DE4E2F105E6C39400E39312,
+				4DE4E2F205E6C39400E39312,
+				4D8CB39505720F5100BE2D09,
+			);
+			isa = PBXGroup;
+			name = "Find Panel";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB33C05720E1A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist;
+			name = version.plist;
+			path = RegularExpression/version.plist;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB33F05720E3C00BE2D09 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
+			name = History.rtf;
+			path = RegularExpression/Documentation/History.rtf;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB34005720E3C00BE2D09 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
+			name = License.rtf;
+			path = RegularExpression/Documentation/License.rtf;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB34105720E3C00BE2D09 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
+			name = ReadMe.rtf;
+			path = RegularExpression/Documentation/ReadMe.rtf;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB34505720E7F00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreKit.h;
+			path = RegularExpression/OgreKit.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB34605720E7F00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreKit_Prefix.pch;
+			path = RegularExpression/OgreKit_Prefix.pch;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB34705720E7F00BE2D09 = {
+			fileRef = 4D8CB34505720E7F00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB34805720E7F00BE2D09 = {
+			fileRef = 4D8CB34605720E7F00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB34A05720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OGRegularExpressionFormatter.m;
+			path = RegularExpression/OGRegularExpressionFormatter.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB34B05720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OGReplaceExpression.h;
+			path = RegularExpression/OGReplaceExpression.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB34C05720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OGRegularExpressionEnumeratorPrivate.m;
+			path = RegularExpression/OGRegularExpressionEnumeratorPrivate.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB34D05720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OGRegularExpressionPrivate.m;
+			path = RegularExpression/OGRegularExpressionPrivate.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB34E05720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OGRegularExpressionEnumerator.m;
+			path = RegularExpression/OGRegularExpressionEnumerator.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB34F05720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OGReplaceExpressionPrivate.h;
+			path = RegularExpression/OGReplaceExpressionPrivate.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35005720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OGRegularExpressionEnumeratorPrivate.h;
+			path = RegularExpression/OGRegularExpressionEnumeratorPrivate.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35105720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OGRegularExpressionEnumerator.h;
+			path = RegularExpression/OGRegularExpressionEnumerator.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35205720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OGReplaceExpressionPrivate.m;
+			path = RegularExpression/OGReplaceExpressionPrivate.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35305720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OGRegularExpressionMatchPrivate.h;
+			path = RegularExpression/OGRegularExpressionMatchPrivate.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35405720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OGRegularExpressionMatch.m;
+			path = RegularExpression/OGRegularExpressionMatch.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35505720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OGRegularExpressionMatch.h;
+			path = RegularExpression/OGRegularExpressionMatch.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35605720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OGRegularExpressionPrivate.h;
+			path = RegularExpression/OGRegularExpressionPrivate.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35705720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OGRegularExpressionFormatter.h;
+			path = RegularExpression/OGRegularExpressionFormatter.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35805720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OGRegularExpressionMatchPrivate.m;
+			path = RegularExpression/OGRegularExpressionMatchPrivate.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35905720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OGReplaceExpression.m;
+			path = RegularExpression/OGReplaceExpression.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35A05720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OGRegularExpression.h;
+			path = RegularExpression/OGRegularExpression.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35B05720EAF00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OGRegularExpression.m;
+			path = RegularExpression/OGRegularExpression.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB35C05720EAF00BE2D09 = {
+			fileRef = 4D8CB34A05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB35D05720EAF00BE2D09 = {
+			fileRef = 4D8CB34B05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB35E05720EAF00BE2D09 = {
+			fileRef = 4D8CB34C05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB35F05720EAF00BE2D09 = {
+			fileRef = 4D8CB34D05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB36005720EAF00BE2D09 = {
+			fileRef = 4D8CB34E05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB36105720EAF00BE2D09 = {
+			fileRef = 4D8CB34F05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		4D8CB36205720EAF00BE2D09 = {
+			fileRef = 4D8CB35005720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		4D8CB36305720EAF00BE2D09 = {
+			fileRef = 4D8CB35105720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB36405720EAF00BE2D09 = {
+			fileRef = 4D8CB35205720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB36505720EAF00BE2D09 = {
+			fileRef = 4D8CB35305720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		4D8CB36605720EAF00BE2D09 = {
+			fileRef = 4D8CB35405720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB36705720EAF00BE2D09 = {
+			fileRef = 4D8CB35505720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB36805720EAF00BE2D09 = {
+			fileRef = 4D8CB35605720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		4D8CB36905720EAF00BE2D09 = {
+			fileRef = 4D8CB35705720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB36A05720EAF00BE2D09 = {
+			fileRef = 4D8CB35805720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB36B05720EAF00BE2D09 = {
+			fileRef = 4D8CB35905720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB36C05720EAF00BE2D09 = {
+			fileRef = 4D8CB35A05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB36D05720EAF00BE2D09 = {
+			fileRef = 4D8CB35B05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB37405720F1500BE2D09 = {
+			children = (
+				4D8CB37505720F1500BE2D09,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB37505720F1500BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = RegularExpression/English.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB37605720F1500BE2D09 = {
+			fileRef = 4D8CB37405720F1500BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB37705720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreAdvancedFindPanelController.m;
+			path = FindPanel/OgreAdvancedFindPanelController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB37805720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreTextFinder.m;
+			path = FindPanel/OgreTextFinder.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB37905720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreTextFinder.h;
+			path = FindPanel/OgreTextFinder.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB37A05720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreTextFindProgressSheet.h;
+			path = FindPanel/OgreTextFindProgressSheet.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB37B05720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreTextFindThreadCenter.m;
+			path = FindPanel/OgreTextFindThreadCenter.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB37C05720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreTextFindThreadCenter.h;
+			path = FindPanel/OgreTextFindThreadCenter.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB37D05720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreTextFindProgressSheet.m;
+			path = FindPanel/OgreTextFindProgressSheet.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB37E05720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreTextFindResult.m;
+			path = FindPanel/OgreTextFindResult.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB37F05720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreTextFindResult.h;
+			path = FindPanel/OgreTextFindResult.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB38005720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreFindPanelController.m;
+			path = FindPanel/OgreFindPanelController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB38105720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreFindPanelController.h;
+			path = FindPanel/OgreFindPanelController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB38205720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreTextFindThread.m;
+			path = FindPanel/OgreTextFindThread.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB38305720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreTextFindThread.h;
+			path = FindPanel/OgreTextFindThread.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB38405720F4A00BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreAdvancedFindPanelController.h;
+			path = FindPanel/OgreAdvancedFindPanelController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB38505720F4A00BE2D09 = {
+			fileRef = 4D8CB37705720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB38605720F4A00BE2D09 = {
+			fileRef = 4D8CB37805720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB38705720F4A00BE2D09 = {
+			fileRef = 4D8CB37905720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB38805720F4A00BE2D09 = {
+			fileRef = 4D8CB37A05720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB38905720F4A00BE2D09 = {
+			fileRef = 4D8CB37B05720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB38A05720F4A00BE2D09 = {
+			fileRef = 4D8CB37C05720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB38B05720F4A00BE2D09 = {
+			fileRef = 4D8CB37D05720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB38C05720F4A00BE2D09 = {
+			fileRef = 4D8CB37E05720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB38D05720F4A00BE2D09 = {
+			fileRef = 4D8CB37F05720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB38E05720F4A00BE2D09 = {
+			fileRef = 4D8CB38005720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB38F05720F4A00BE2D09 = {
+			fileRef = 4D8CB38105720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB39005720F4A00BE2D09 = {
+			fileRef = 4D8CB38205720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB39105720F4A00BE2D09 = {
+			fileRef = 4D8CB38305720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4D8CB39205720F4A00BE2D09 = {
+			fileRef = 4D8CB38405720F4A00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		4D8CB39505720F5100BE2D09 = {
+			children = (
+				4D43D86905BEE7DC0082C2BB,
+				4D43D8AC05BF13C70082C2BB,
+				4D75320305ADB4EC00C23C3D,
+				4D95943F05ADB56D00EE247F,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB40B0572120A00BE2D09 = {
+			fileRef = 1058C7B1FEA5585E11CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB45D0572124B00BE2D09 = {
+			buildActionMask = 2147483647;
+			dstPath = Documentation/OgreKit;
+			dstSubfolderSpec = 7;
+			files = (
+				4D8CB45E0572127600BE2D09,
+				4D8CB45F0572127600BE2D09,
+				4D8CB4600572127600BE2D09,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D8CB45E0572127600BE2D09 = {
+			fileRef = 4D8CB33F05720E3C00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB45F0572127600BE2D09 = {
+			fileRef = 4D8CB34005720E3C00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB4600572127600BE2D09 = {
+			fileRef = 4D8CB34105720E3C00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB4670572128600BE2D09 = {
+			buildActionMask = 2147483647;
+			dstPath = Documentation/OniGuruma;
+			dstSubfolderSpec = 7;
+			files = (
+				4DCFE31D059B2E8A008EFF65,
+				4DCFE31E059B2E8A008EFF65,
+				4DCFE31F059B2E8A008EFF65,
+				4DCFE320059B2E8A008EFF65,
+				4DCFE321059B2E8A008EFF65,
+				4DCFE322059B2E8A008EFF65,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D8CB4990572164400BE2D09 = {
+			children = (
+				4D8CB4A6057216C100BE2D09,
+				4D8CB4A7057216C100BE2D09,
+				4D8CB4A8057216C100BE2D09,
+				4D8CB4A9057216C100BE2D09,
+				4D8CB4AA057216C100BE2D09,
+				4D8CB4AB057216C100BE2D09,
+				4D8CB49C0572167100BE2D09,
+			);
+			isa = PBXGroup;
+			name = "Find Panel Test";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB49C0572167100BE2D09 = {
+			children = (
+				4DE26943057218F200A25078,
+				4DE26945057218F200A25078,
+				4DE26947057218F200A25078,
+				4DE26949057218F200A25078,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB49F057216A500BE2D09 = {
+			buildActionMask = 2147483647;
+			files = (
+				4D8CB4AC057216C100BE2D09,
+				4D8CB4AF057216C100BE2D09,
+				4D8CB4B1057216C100BE2D09,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D8CB4A0057216A500BE2D09 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DE2694B057218F200A25078,
+				4DE2694C057218F200A25078,
+				4DE2694D057218F200A25078,
+				4DE2694E057218F200A25078,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D8CB4A1057216A500BE2D09 = {
+			buildActionMask = 2147483647;
+			files = (
+				4D8CB4AD057216C100BE2D09,
+				4D8CB4AE057216C100BE2D09,
+				4D8CB4B0057216C100BE2D09,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D8CB4A2057216A500BE2D09 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DE269200572187F00A25078,
+				4DE269390572189400A25078,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D8CB4A3057216A500BE2D09 = {
+			buildPhases = (
+				4D8CB49F057216A500BE2D09,
+				4D8CB4A0057216A500BE2D09,
+				4D8CB4A1057216A500BE2D09,
+				4D8CB4A2057216A500BE2D09,
+				4DE269370572188800A25078,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = OgreFindPanelTest;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+				4DE2693E057218AA00A25078,
+			);
+			isa = PBXNativeTarget;
+			name = "Find Panel Test";
+			productName = FindPanelTest;
+			productReference = 4D8CB4A4057216A500BE2D09;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>ﾇPRODUCTNAMEﾈ</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.MySoftwareCompany.ﾇTARGETNAMEASIDENTIFIERﾈ</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string></string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0d1</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
+		};
+		4D8CB4A4057216A500BE2D09 = {
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = OgreFindPanelTest.app;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4D8CB4A6057216C100BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreFindPanelTest_Prefix.h;
+			path = FindPanelTest/OgreFindPanelTest_Prefix.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB4A7057216C100BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = main.m;
+			path = FindPanelTest/main.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB4A8057216C100BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = MyDocument.m;
+			path = FindPanelTest/MyDocument.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB4A9057216C100BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MyMenuController.h;
+			path = FindPanelTest/MyMenuController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB4AA057216C100BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = MyMenuController.m;
+			path = FindPanelTest/MyMenuController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB4AB057216C100BE2D09 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MyDocument.h;
+			path = FindPanelTest/MyDocument.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D8CB4AC057216C100BE2D09 = {
+			fileRef = 4D8CB4A6057216C100BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB4AD057216C100BE2D09 = {
+			fileRef = 4D8CB4A7057216C100BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB4AE057216C100BE2D09 = {
+			fileRef = 4D8CB4A8057216C100BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB4AF057216C100BE2D09 = {
+			fileRef = 4D8CB4A9057216C100BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB4B0057216C100BE2D09 = {
+			fileRef = 4D8CB4AA057216C100BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D8CB4B1057216C100BE2D09 = {
+			fileRef = 4D8CB4AB057216C100BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D95943F05ADB56D00EE247F = {
+			children = (
+				4D95944005ADB56D00EE247F,
+			);
+			isa = PBXVariantGroup;
+			name = OgreTextFindProgressSheet.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D95944005ADB56D00EE247F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = FindPanel/English.lproj/OgreTextFindProgressSheet.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4D95944105ADB56D00EE247F = {
+			fileRef = 4D95943F05ADB56D00EE247F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B44605E699D000A3AEC6 = {
+			buildPhases = (
+				4DA6B44805E699D000A3AEC6,
+				4DA6B45C05E699D000A3AEC6,
+				4DA6B46205E699D000A3AEC6,
+				4DA6B47305E699D000A3AEC6,
+				4DA6B47705E699D000A3AEC6,
+				4DA6B47805E699D000A3AEC6,
+				4DA6B47C05E699D000A3AEC6,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = RegularExpression/oniguruma;
+				LIBRARY_STYLE = Dynamic;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_LDFLAGS = "-seg1addr 0x32000000 -lonig";
+				PRODUCT_NAME = OgreKit;
+				SECTORDER_FLAGS = "";
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = framework;
+			};
+			dependencies = (
+				4DA6B44705E699D000A3AEC6,
+			);
+			isa = PBXNativeTarget;
+			name = "OgreKit (without Find Panel)";
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = OgreKit;
+			productReference = 4DA6B48305E699D000A3AEC6;
+			productType = "com.apple.product-type.framework";
+		};
+		4DA6B44705E699D000A3AEC6 = {
+			isa = PBXTargetDependency;
+			target = 4D84996D05E694C2008103EA;
+			targetProxy = 4D8499A005E69717008103EA;
+		};
+		4DA6B44805E699D000A3AEC6 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DA6B44905E699D000A3AEC6,
+				4DA6B44B05E699D000A3AEC6,
+				4DA6B44C05E699D000A3AEC6,
+				4DA6B44D05E699D000A3AEC6,
+				4DA6B44E05E699D000A3AEC6,
+				4DA6B44F05E699D000A3AEC6,
+				4DA6B45005E699D000A3AEC6,
+				4DA6B45105E699D000A3AEC6,
+				4DA6B45205E699D000A3AEC6,
+				4DA6B45305E699D000A3AEC6,
+				4DA6B45B05E699D000A3AEC6,
+				4DE4E33505E6D22700E39312,
+				4DF79C5505F331330075DA76,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DA6B44905E699D000A3AEC6 = {
+			fileRef = 4D8CB34605720E7F00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B44B05E699D000A3AEC6 = {
+			fileRef = 4D8CB34B05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DA6B44C05E699D000A3AEC6 = {
+			fileRef = 4D8CB34F05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		4DA6B44D05E699D000A3AEC6 = {
+			fileRef = 4D8CB35005720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		4DA6B44E05E699D000A3AEC6 = {
+			fileRef = 4D8CB35105720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DA6B44F05E699D000A3AEC6 = {
+			fileRef = 4D8CB35305720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		4DA6B45005E699D000A3AEC6 = {
+			fileRef = 4D8CB35505720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DA6B45105E699D000A3AEC6 = {
+			fileRef = 4D8CB35605720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		4DA6B45205E699D000A3AEC6 = {
+			fileRef = 4D8CB35705720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DA6B45305E699D000A3AEC6 = {
+			fileRef = 4D8CB35A05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DA6B45B05E699D000A3AEC6 = {
+			fileRef = 4DE8E2D2059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DA6B45C05E699D000A3AEC6 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DA6B45D05E699D000A3AEC6,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DA6B45D05E699D000A3AEC6 = {
+			fileRef = 4D8CB37405720F1500BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B46205E699D000A3AEC6 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DA6B46305E699D000A3AEC6,
+				4DA6B46405E699D000A3AEC6,
+				4DA6B46505E699D000A3AEC6,
+				4DA6B46605E699D000A3AEC6,
+				4DA6B46705E699D000A3AEC6,
+				4DA6B46805E699D000A3AEC6,
+				4DA6B46905E699D000A3AEC6,
+				4DA6B46A05E699D000A3AEC6,
+				4DA6B46B05E699D000A3AEC6,
+				4DF79C5605F331330075DA76,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DA6B46305E699D000A3AEC6 = {
+			fileRef = 4D8CB34A05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B46405E699D000A3AEC6 = {
+			fileRef = 4D8CB34C05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B46505E699D000A3AEC6 = {
+			fileRef = 4D8CB34D05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B46605E699D000A3AEC6 = {
+			fileRef = 4D8CB34E05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B46705E699D000A3AEC6 = {
+			fileRef = 4D8CB35205720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B46805E699D000A3AEC6 = {
+			fileRef = 4D8CB35405720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B46905E699D000A3AEC6 = {
+			fileRef = 4D8CB35805720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B46A05E699D000A3AEC6 = {
+			fileRef = 4D8CB35905720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B46B05E699D000A3AEC6 = {
+			fileRef = 4D8CB35B05720EAF00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B47305E699D000A3AEC6 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DA6B47405E699D000A3AEC6,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DA6B47405E699D000A3AEC6 = {
+			fileRef = 0867D69BFE84028FC02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B47705E699D000A3AEC6 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXRezBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DA6B47805E699D000A3AEC6 = {
+			buildActionMask = 2147483647;
+			dstPath = Documentation/OgreKit;
+			dstSubfolderSpec = 7;
+			files = (
+				4DA6B47905E699D000A3AEC6,
+				4DA6B47A05E699D000A3AEC6,
+				4DA6B47B05E699D000A3AEC6,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DA6B47905E699D000A3AEC6 = {
+			fileRef = 4D8CB33F05720E3C00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B47A05E699D000A3AEC6 = {
+			fileRef = 4D8CB34005720E3C00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B47B05E699D000A3AEC6 = {
+			fileRef = 4D8CB34105720E3C00BE2D09;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B47C05E699D000A3AEC6 = {
+			buildActionMask = 2147483647;
+			dstPath = Documentation/OniGuruma;
+			dstSubfolderSpec = 7;
+			files = (
+				4DA6B47D05E699D000A3AEC6,
+				4DA6B47E05E699D000A3AEC6,
+				4DA6B47F05E699D000A3AEC6,
+				4DA6B48005E699D000A3AEC6,
+				4DA6B48105E699D000A3AEC6,
+				4DA6B48205E699D000A3AEC6,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DA6B47D05E699D000A3AEC6 = {
+			fileRef = 4DE8E2C0059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B47E05E699D000A3AEC6 = {
+			fileRef = 4DE8E2C2059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B47F05E699D000A3AEC6 = {
+			fileRef = 4DE8E2C3059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B48005E699D000A3AEC6 = {
+			fileRef = 4DE8E2C4059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B48105E699D000A3AEC6 = {
+			fileRef = 4DE8E2CD059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B48205E699D000A3AEC6 = {
+			fileRef = 4DE8E2D5059A76DB00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA6B48305E699D000A3AEC6 = {
+			explicitFileType = wrapper.framework;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = OgreKit.framework;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DAC47CD0572204C0011832E = {
+			buildActionMask = 2147483647;
+			files = (
+				4DAC47EE057221620011832E,
+				4DAC47F1057221690011832E,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DAC47CE0572204C0011832E = {
+			buildActionMask = 2147483647;
+			files = (
+				4DAC47E6057221350011832E,
+				4DAC47F90572217C0011832E,
+				4DAC47FA0572217C0011832E,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DAC47CF0572204C0011832E = {
+			buildActionMask = 2147483647;
+			files = (
+				4DAC47ED057221620011832E,
+				4DAC47F2057221690011832E,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DAC47D00572204C0011832E = {
+			buildActionMask = 2147483647;
+			files = (
+				4D725120057224B800ABFCA7,
+				4D725124057224BA00ABFCA7,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DAC47D10572204C0011832E = {
+			buildPhases = (
+				4DAC47CD0572204C0011832E,
+				4DAC47CE0572204C0011832E,
+				4DAC47CF0572204C0011832E,
+				4DAC47D00572204C0011832E,
+				4D725138057224C200ABFCA7,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Wildcard/Wildcard_Prefix.h;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = "Wildcard/Wildcard-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Wildcard;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+				4DE4E33905E6D2F500E39312,
+			);
+			isa = PBXNativeTarget;
+			name = "Wildcard (Practical Example)";
+			productName = "Wildcard (Practical Example)";
+			productReference = 4DAC47D20572204C0011832E;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>ﾇPRODUCTNAMEﾈ</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.MySoftwareCompany.ﾇTARGETNAMEASIDENTIFIERﾈ</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string></string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0d1</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
+		};
+		4DAC47D20572204C0011832E = {
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Wildcard.app;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DAC47D8057220DA0011832E = {
+			children = (
+				4DAC47DB057221010011832E,
+				4DAC47DE0572210B0011832E,
+				4DAC47E1057221140011832E,
+				4DAC47E40572211D0011832E,
+			);
+			isa = PBXGroup;
+			name = "Wildcard (Practical Example)";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47DB057221010011832E = {
+			children = (
+				4DAC47E5057221350011832E,
+			);
+			isa = PBXGroup;
+			name = Documentation;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47DE0572210B0011832E = {
+			children = (
+				4DAC47EF057221690011832E,
+				4DAC47F0057221690011832E,
+			);
+			isa = PBXGroup;
+			name = Classes;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47E1057221140011832E = {
+			children = (
+				4DAC47EB057221620011832E,
+				4DAC47EC057221620011832E,
+			);
+			isa = PBXGroup;
+			name = "Other Sources";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47E40572211D0011832E = {
+			children = (
+				4DAC47F50572217C0011832E,
+				4DAC47F70572217C0011832E,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47E5057221350011832E = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
+			name = ReadMe.ja.rtf;
+			path = Wildcard/ReadMe.ja.rtf;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47E6057221350011832E = {
+			fileRef = 4DAC47E5057221350011832E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DAC47E7057221410011832E = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = OgreKit;
+		};
+		4DAC47E8057221410011832E = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216;
+			targetProxy = 4DAC47E7057221410011832E;
+		};
+		4DAC47EB057221620011832E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = main.m;
+			path = Wildcard/main.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47EC057221620011832E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Wildcard_Prefix.h;
+			path = Wildcard/Wildcard_Prefix.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47ED057221620011832E = {
+			fileRef = 4DAC47EB057221620011832E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DAC47EE057221620011832E = {
+			fileRef = 4DAC47EC057221620011832E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DAC47EF057221690011832E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = WildcardController.h;
+			path = Wildcard/WildcardController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47F0057221690011832E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = WildcardController.m;
+			path = Wildcard/WildcardController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47F1057221690011832E = {
+			fileRef = 4DAC47EF057221690011832E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DAC47F2057221690011832E = {
+			fileRef = 4DAC47F0057221690011832E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DAC47F50572217C0011832E = {
+			children = (
+				4DAC47F60572217C0011832E,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47F60572217C0011832E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = Wildcard/English.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47F70572217C0011832E = {
+			children = (
+				4DAC47F80572217C0011832E,
+			);
+			isa = PBXVariantGroup;
+			name = MainMenu.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47F80572217C0011832E = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = Wildcard/English.lproj/MainMenu.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DAC47F90572217C0011832E = {
+			fileRef = 4DAC47F50572217C0011832E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DAC47FA0572217C0011832E = {
+			fileRef = 4DAC47F70572217C0011832E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DAC4801057221BB0011832E = {
+			buildArgumentsString = RegularExpression/configure.sh;
+			buildPhases = (
+			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = configure;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			buildToolPath = /bin/csh;
+			dependencies = (
+			);
+			isa = PBXLegacyTarget;
+			name = configure;
+			passBuildSettingsInEnvironment = 1;
+			productName = all;
+		};
+		4DAC481F057223790011832E = {
+			buildArgumentsString = "";
+			buildPhases = (
+			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = all;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			buildToolPath = "";
+			buildWorkingDirectory = "";
+			dependencies = (
+				4D725117057223D100ABFCA7,
+				4D725119057223D100ABFCA7,
+				4D72511B057223D100ABFCA7,
+				4D72511D057223D100ABFCA7,
+				4D72511F057223D100ABFCA7,
+			);
+			isa = PBXLegacyTarget;
+			name = all;
+			passBuildSettingsInEnvironment = 1;
+			productName = all;
+		};
+		4DCFE31D059B2E8A008EFF65 = {
+			fileRef = 4DE8E2C0059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DCFE31E059B2E8A008EFF65 = {
+			fileRef = 4DE8E2C2059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DCFE31F059B2E8A008EFF65 = {
+			fileRef = 4DE8E2C3059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DCFE320059B2E8A008EFF65 = {
+			fileRef = 4DE8E2C4059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DCFE321059B2E8A008EFF65 = {
+			fileRef = 4DE8E2CD059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DCFE322059B2E8A008EFF65 = {
+			fileRef = 4DE8E2D5059A76DB00224687;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269200572187F00A25078 = {
+			fileRef = 8DC2EF5B0486A6940098B216;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269370572188800A25078 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4DE269380572188E00A25078,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE269380572188E00A25078 = {
+			fileRef = 8DC2EF5B0486A6940098B216;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269390572189400A25078 = {
+			fileRef = 1058C7B1FEA5585E11CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2693D057218AA00A25078 = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = OgreKit;
+		};
+		4DE2693E057218AA00A25078 = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216;
+			targetProxy = 4DE2693D057218AA00A25078;
+		};
+		4DE26943057218F200A25078 = {
+			children = (
+				4DE26944057218F200A25078,
+			);
+			isa = PBXVariantGroup;
+			name = Credits.rtf;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE26944057218F200A25078 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
+			name = English;
+			path = FindPanelTest/English.lproj/Credits.rtf;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE26945057218F200A25078 = {
+			children = (
+				4DE26946057218F200A25078,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE26946057218F200A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = FindPanelTest/English.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE26947057218F200A25078 = {
+			children = (
+				4DE26948057218F200A25078,
+				4DE269510572190A00A25078,
+			);
+			isa = PBXVariantGroup;
+			name = MainMenu.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE26948057218F200A25078 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = FindPanelTest/English.lproj/MainMenu.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE26949057218F200A25078 = {
+			children = (
+				4DE2694A057218F200A25078,
+			);
+			isa = PBXVariantGroup;
+			name = MyDocument.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2694A057218F200A25078 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = FindPanelTest/English.lproj/MyDocument.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2694B057218F200A25078 = {
+			fileRef = 4DE26943057218F200A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2694C057218F200A25078 = {
+			fileRef = 4DE26945057218F200A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2694D057218F200A25078 = {
+			fileRef = 4DE26947057218F200A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2694E057218F200A25078 = {
+			fileRef = 4DE26949057218F200A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269510572190A00A25078 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = FindPanelTest/Japanese.lproj/MainMenu.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2695405721B2800A25078 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DE2697E05721C3300A25078,
+				4DE2698005721C3400A25078,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE2695505721B2800A25078 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DE2698805721CA400A25078,
+				4DE2698905721CA400A25078,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE2695605721B2800A25078 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DE2697F05721C3400A25078,
+				4DE2698105721C3500A25078,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE2695705721B2800A25078 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DE2697105721BF900A25078,
+				4DE2697205721BFA00A25078,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE2695805721B2800A25078 = {
+			buildPhases = (
+				4DE2695405721B2800A25078,
+				4DE2695505721B2800A25078,
+				4DE2695605721B2800A25078,
+				4DE2695705721B2800A25078,
+				4DE2698C05721D1B00A25078,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RegularExpressionTest/OgreTest_Prefix.h;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = "RegularExpressionTest/OgreTest-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = OgreTest;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+				4DE4E33705E6D2EA00E39312,
+			);
+			isa = PBXNativeTarget;
+			name = "Regular Expression Test";
+			productName = RegularExpressionTest;
+			productReference = 4DE2695905721B2800A25078;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>ﾇPRODUCTNAMEﾈ</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.MySoftwareCompany.ﾇTARGETNAMEASIDENTIFIERﾈ</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string></string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0d1</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
+		};
+		4DE2695905721B2800A25078 = {
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = OgreTest.app;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DE2696E05721BD400A25078 = {
+			children = (
+				4DE2697905721C2400A25078,
+				4DE2697605721C2400A25078,
+				4DE2697705721C2400A25078,
+				4DE2697805721C2400A25078,
+				4DE2697505721C0300A25078,
+			);
+			isa = PBXGroup;
+			name = "Regular Expression Test";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2697105721BF900A25078 = {
+			fileRef = 1058C7B1FEA5585E11CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2697205721BFA00A25078 = {
+			fileRef = 8DC2EF5B0486A6940098B216;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2697505721C0300A25078 = {
+			children = (
+				4DE2698405721CA400A25078,
+				4DE2698605721CA400A25078,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2697605721C2400A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreTest.m;
+			path = RegularExpressionTest/OgreTest.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2697705721C2400A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreTest_Prefix.h;
+			path = RegularExpressionTest/OgreTest_Prefix.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2697805721C2400A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = main.m;
+			path = RegularExpressionTest/main.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2697905721C2400A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreTest.h;
+			path = RegularExpressionTest/OgreTest.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2697E05721C3300A25078 = {
+			fileRef = 4DE2697905721C2400A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2697F05721C3400A25078 = {
+			fileRef = 4DE2697805721C2400A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2698005721C3400A25078 = {
+			fileRef = 4DE2697705721C2400A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2698105721C3500A25078 = {
+			fileRef = 4DE2697605721C2400A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2698405721CA400A25078 = {
+			children = (
+				4DE2698505721CA400A25078,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2698505721CA400A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = RegularExpressionTest/English.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2698605721CA400A25078 = {
+			children = (
+				4DE2698705721CA400A25078,
+			);
+			isa = PBXVariantGroup;
+			name = MainMenu.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2698705721CA400A25078 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = RegularExpressionTest/English.lproj/MainMenu.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE2698805721CA400A25078 = {
+			fileRef = 4DE2698405721CA400A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2698905721CA400A25078 = {
+			fileRef = 4DE2698605721CA400A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE2698C05721D1B00A25078 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4DE2698D05721D2900A25078,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE2698D05721D2900A25078 = {
+			fileRef = 8DC2EF5B0486A6940098B216;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269A305721DB400A25078 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DE269B905721E7B00A25078,
+				4DE269C905721E9D00A25078,
+				4DE269CA05721E9D00A25078,
+				4DE269D005721E9D00A25078,
+				4DE269D105721E9D00A25078,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE269A405721DB400A25078 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DE269D605721EE300A25078,
+				4DE269DF05721EF300A25078,
+				4DE269E005721EF300A25078,
+				4DE269E105721EF300A25078,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE269A505721DB400A25078 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DE269CB05721E9D00A25078,
+				4DE269CC05721E9D00A25078,
+				4DE269CD05721E9D00A25078,
+				4DE269CE05721E9D00A25078,
+				4DE269CF05721E9D00A25078,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE269A605721DB400A25078 = {
+			buildActionMask = 2147483647;
+			files = (
+				4DE269E205721EF900A25078,
+				4DE269E305721EFA00A25078,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE269A705721DB400A25078 = {
+			buildPhases = (
+				4DE269A305721DB400A25078,
+				4DE269A405721DB400A25078,
+				4DE269A505721DB400A25078,
+				4DE269A605721DB400A25078,
+				4DE269E605721F0200A25078,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MyFindPanelExample;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+				4DAC47E8057221410011832E,
+			);
+			isa = PBXNativeTarget;
+			name = "My Find Panel Example";
+			productName = MyFindPanelExample;
+			productReference = 4DE269A805721DB400A25078;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>ﾇPRODUCTNAMEﾈ</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.MySoftwareCompany.ﾇTARGETNAMEASIDENTIFIERﾈ</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string></string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0d1</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
+		};
+		4DE269A805721DB400A25078 = {
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = MyFindPanelExample.app;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DE269AC05721E1A00A25078 = {
+			children = (
+				4DE269AF05721E3500A25078,
+				4DE269B205721E4700A25078,
+			);
+			isa = PBXGroup;
+			name = "My Find Panel Example";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269AF05721E3500A25078 = {
+			children = (
+				4DE269C005721E9D00A25078,
+				4DE269C405721E9D00A25078,
+				4DE269C105721E9D00A25078,
+				4DE269C305721E9D00A25078,
+				4DE269BC05721E8000A25078,
+			);
+			isa = PBXGroup;
+			name = "My Find Panel";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269B205721E4700A25078 = {
+			children = (
+				4DE269C805721E9D00A25078,
+				4DE269C605721E9D00A25078,
+				4DE269C705721E9D00A25078,
+				4DE269C505721E9D00A25078,
+				4DE269C205721E9D00A25078,
+				4DE269B805721E7B00A25078,
+				4DE269BF05721E8800A25078,
+			);
+			isa = PBXGroup;
+			name = Test;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269B805721E7B00A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MyFindPanelExample_Prefix.h;
+			path = MyFindPanelExample/MyFindPanelExample_Prefix.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269B905721E7B00A25078 = {
+			fileRef = 4DE269B805721E7B00A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269BC05721E8000A25078 = {
+			children = (
+				4DE269D405721EE300A25078,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269BF05721E8800A25078 = {
+			children = (
+				4DE269D905721EF300A25078,
+				4DE269DB05721EF300A25078,
+				4DE269DD05721EF300A25078,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269C005721E9D00A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MyTextFinder.h;
+			path = MyFindPanelExample/MyTextFinder.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269C105721E9D00A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MyFindPanelController.h;
+			path = MyFindPanelExample/MyFindPanelController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269C205721E9D00A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = main.m;
+			path = MyFindPanelExample/main.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269C305721E9D00A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = MyFindPanelController.m;
+			path = MyFindPanelExample/MyFindPanelController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269C405721E9D00A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = MyTextFinder.m;
+			path = MyFindPanelExample/MyTextFinder.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269C505721E9D00A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = MyMenuController.m;
+			path = MyFindPanelExample/MyMenuController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269C605721E9D00A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = MyDocument.m;
+			path = MyFindPanelExample/MyDocument.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269C705721E9D00A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MyMenuController.h;
+			path = MyFindPanelExample/MyMenuController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269C805721E9D00A25078 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MyDocument.h;
+			path = MyFindPanelExample/MyDocument.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269C905721E9D00A25078 = {
+			fileRef = 4DE269C005721E9D00A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269CA05721E9D00A25078 = {
+			fileRef = 4DE269C105721E9D00A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269CB05721E9D00A25078 = {
+			fileRef = 4DE269C205721E9D00A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269CC05721E9D00A25078 = {
+			fileRef = 4DE269C305721E9D00A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269CD05721E9D00A25078 = {
+			fileRef = 4DE269C405721E9D00A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269CE05721E9D00A25078 = {
+			fileRef = 4DE269C505721E9D00A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269CF05721E9D00A25078 = {
+			fileRef = 4DE269C605721E9D00A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269D005721E9D00A25078 = {
+			fileRef = 4DE269C705721E9D00A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269D105721E9D00A25078 = {
+			fileRef = 4DE269C805721E9D00A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269D405721EE300A25078 = {
+			children = (
+				4DE269D505721EE300A25078,
+			);
+			isa = PBXVariantGroup;
+			name = MyFindPanel.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269D505721EE300A25078 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = MyFindPanelExample/English.lproj/MyFindPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269D605721EE300A25078 = {
+			fileRef = 4DE269D405721EE300A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269D905721EF300A25078 = {
+			children = (
+				4DE269DA05721EF300A25078,
+			);
+			isa = PBXVariantGroup;
+			name = Credits.rtf;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269DA05721EF300A25078 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
+			name = English;
+			path = MyFindPanelExample/English.lproj/Credits.rtf;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269DB05721EF300A25078 = {
+			children = (
+				4DE269DC05721EF300A25078,
+			);
+			isa = PBXVariantGroup;
+			name = MainMenu.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269DC05721EF300A25078 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = MyFindPanelExample/English.lproj/MainMenu.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269DD05721EF300A25078 = {
+			children = (
+				4DE269DE05721EF300A25078,
+			);
+			isa = PBXVariantGroup;
+			name = MyDocument.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269DE05721EF300A25078 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = MyFindPanelExample/English.lproj/MyDocument.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE269DF05721EF300A25078 = {
+			fileRef = 4DE269D905721EF300A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269E005721EF300A25078 = {
+			fileRef = 4DE269DB05721EF300A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269E105721EF300A25078 = {
+			fileRef = 4DE269DD05721EF300A25078;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269E205721EF900A25078 = {
+			fileRef = 8DC2EF5B0486A6940098B216;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269E305721EFA00A25078 = {
+			fileRef = 1058C7B1FEA5585E11CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE269E605721F0200A25078 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4DE269E705721F0F00A25078,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE269E705721F0F00A25078 = {
+			fileRef = 8DC2EF5B0486A6940098B216;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE4E2A705E6ABF100E39312 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreAFPCEscapeCharacterFormatter.m;
+			path = FindPanel/OgreAFPCEscapeCharacterFormatter.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE4E2A805E6ABF100E39312 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreAFPCEscapeCharacterFormatter.h;
+			path = FindPanel/OgreAFPCEscapeCharacterFormatter.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE4E2A905E6ABF100E39312 = {
+			fileRef = 4DE4E2A705E6ABF100E39312;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE4E2AA05E6ABF100E39312 = {
+			fileRef = 4DE4E2A805E6ABF100E39312;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE4E2F105E6C39400E39312 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreAFPCComboBox.h;
+			path = FindPanel/OgreAFPCComboBox.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE4E2F205E6C39400E39312 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = OgreAFPCComboBox.m;
+			path = FindPanel/OgreAFPCComboBox.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE4E2F305E6C39400E39312 = {
+			fileRef = 4DE4E2F105E6C39400E39312;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE4E2F405E6C39400E39312 = {
+			fileRef = 4DE4E2F205E6C39400E39312;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DE4E33405E6D22700E39312 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OgreKit.h;
+			path = RegularExpression/OgreKitWithoutFindPanel/OgreKit.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE4E33505E6D22700E39312 = {
+			fileRef = 4DE4E33405E6D22700E39312;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DE4E33605E6D2EA00E39312 = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = "OgreKit (Full Set)";
+		};
+		4DE4E33705E6D2EA00E39312 = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216;
+			targetProxy = 4DE4E33605E6D2EA00E39312;
+		};
+		4DE4E33805E6D2F500E39312 = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = "OgreKit (Full Set)";
+		};
+		4DE4E33905E6D2F500E39312 = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216;
+			targetProxy = 4DE4E33805E6D2F500E39312;
+		};
+		4DE872FB060F7CFD00F02368 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = German;
+			path = FindPanel/German.lproj/OgreTextFinderLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE872FC060F7D0900F02368 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = German;
+			path = FindPanel/German.lproj/OgreAPFCLocalizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE872FD060F7D1000F02368 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = FindPanel/German.lproj/OgreAdvancedFindPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2A2059A731400224687 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.script.sh;
+			name = configure.sh;
+			path = RegularExpression/configure.sh;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2B8059A76DA00224687 = {
+			children = (
+				4DE8E2D5059A76DB00224687,
+				4DE8E2C0059A76DA00224687,
+				4DE8E2CD059A76DA00224687,
+				4DE8E2CE059A76DA00224687,
+				4DE8E2C1059A76DA00224687,
+				4DE8E2D2059A76DA00224687,
+			);
+			isa = PBXGroup;
+			name = oniguruma;
+			path = RegularExpression/oniguruma;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2C0059A76DA00224687 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = COPYING;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2C1059A76DA00224687 = {
+			children = (
+				4DE8E2C2059A76DA00224687,
+				4DE8E2C3059A76DA00224687,
+				4DE8E2C4059A76DA00224687,
+			);
+			isa = PBXGroup;
+			path = doc;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2C2059A76DA00224687 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = API;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2C3059A76DA00224687 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = RE;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2C4059A76DA00224687 = {
+			fileEncoding = 3;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = RE.ja;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2CD059A76DA00224687 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = HISTORY;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2CE059A76DA00224687 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = "INSTALL-RUBY";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2D2059A76DA00224687 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = oniguruma.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E2D5059A76DB00224687 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = README;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DE8E307059A76DB00224687 = {
+			fileRef = 4DE8E2D2059A76DA00224687;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DF79C5105F331330075DA76 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NSString_OgreKitAdditions.h;
+			path = RegularExpression/NSString_OgreKitAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DF79C5205F331330075DA76 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = NSString_OgreKitAdditions.m;
+			path = RegularExpression/NSString_OgreKitAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4DF79C5305F331330075DA76 = {
+			fileRef = 4DF79C5105F331330075DA76;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DF79C5405F331330075DA76 = {
+			fileRef = 4DF79C5205F331330075DA76;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DF79C5505F331330075DA76 = {
+			fileRef = 4DF79C5105F331330075DA76;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		4DF79C5605F331330075DA76 = {
+			fileRef = 4DF79C5205F331330075DA76;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//4D0
+//4D1
+//4D2
+//4D3
+//4D4
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+		8DC2EF4F0486A6940098B216 = {
+			buildPhases = (
+				8DC2EF500486A6940098B216,
+				8DC2EF520486A6940098B216,
+				8DC2EF540486A6940098B216,
+				8DC2EF560486A6940098B216,
+				8DC2EF580486A6940098B216,
+				4D8CB45D0572124B00BE2D09,
+				4D8CB4670572128600BE2D09,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = RegularExpression/oniguruma;
+				LIBRARY_STYLE = Dynamic;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_LDFLAGS = "-seg1addr 0x32000000 -lonig";
+				PRODUCT_NAME = OgreKit;
+				SECTORDER_FLAGS = "";
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = framework;
+			};
+			dependencies = (
+				4D8499A105E69717008103EA,
+			);
+			isa = PBXNativeTarget;
+			name = "OgreKit (Full Set)";
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = OgreKit;
+			productReference = 8DC2EF5B0486A6940098B216;
+			productType = "com.apple.product-type.framework";
+		};
+		8DC2EF500486A6940098B216 = {
+			buildActionMask = 2147483647;
+			files = (
+				4D8CB34805720E7F00BE2D09,
+				4D8CB34705720E7F00BE2D09,
+				4D8CB35D05720EAF00BE2D09,
+				4D8CB36105720EAF00BE2D09,
+				4D8CB36205720EAF00BE2D09,
+				4D8CB36305720EAF00BE2D09,
+				4D8CB36505720EAF00BE2D09,
+				4D8CB36705720EAF00BE2D09,
+				4D8CB36805720EAF00BE2D09,
+				4D8CB36905720EAF00BE2D09,
+				4D8CB36C05720EAF00BE2D09,
+				4D8CB38705720F4A00BE2D09,
+				4D8CB38805720F4A00BE2D09,
+				4D8CB38A05720F4A00BE2D09,
+				4D8CB38D05720F4A00BE2D09,
+				4D8CB38F05720F4A00BE2D09,
+				4D8CB39105720F4A00BE2D09,
+				4D8CB39205720F4A00BE2D09,
+				4DE8E307059A76DB00224687,
+				4DE4E2AA05E6ABF100E39312,
+				4DE4E2F305E6C39400E39312,
+				4DF79C5305F331330075DA76,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DC2EF520486A6940098B216 = {
+			buildActionMask = 2147483647;
+			files = (
+				4D8CB37605720F1500BE2D09,
+				4D75320505ADB4EC00C23C3D,
+				4D95944105ADB56D00EE247F,
+				4D43D86B05BEE7DC0082C2BB,
+				4D43D8AE05BF13C70082C2BB,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DC2EF540486A6940098B216 = {
+			buildActionMask = 2147483647;
+			files = (
+				4D8CB35C05720EAF00BE2D09,
+				4D8CB35E05720EAF00BE2D09,
+				4D8CB35F05720EAF00BE2D09,
+				4D8CB36005720EAF00BE2D09,
+				4D8CB36405720EAF00BE2D09,
+				4D8CB36605720EAF00BE2D09,
+				4D8CB36A05720EAF00BE2D09,
+				4D8CB36B05720EAF00BE2D09,
+				4D8CB36D05720EAF00BE2D09,
+				4D8CB38505720F4A00BE2D09,
+				4D8CB38605720F4A00BE2D09,
+				4D8CB38905720F4A00BE2D09,
+				4D8CB38B05720F4A00BE2D09,
+				4D8CB38C05720F4A00BE2D09,
+				4D8CB38E05720F4A00BE2D09,
+				4D8CB39005720F4A00BE2D09,
+				4DE4E2A905E6ABF100E39312,
+				4DE4E2F405E6C39400E39312,
+				4DF79C5405F331330075DA76,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DC2EF560486A6940098B216 = {
+			buildActionMask = 2147483647;
+			files = (
+				4D8CAFDE05720C1D00BE2D09,
+				4D8CB04E05720C1E00BE2D09,
+				4D8CB40B0572120A00BE2D09,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DC2EF580486A6940098B216 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXRezBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DC2EF5B0486A6940098B216 = {
+			explicitFileType = wrapper.framework;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = OgreKit.framework;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+	};
+	rootObject = 0867D690FE84028FC02AAC07;
+}

@@ -1,0 +1,201 @@
+{\rtf1\mac\ansicpg10001\cocoartf102
+{\fonttbl\f0\fswiss\fcharset77 Helvetica;\f1\fnil\fcharset78 HiraKakuPro-W3;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f0\fs24 \cf0 Update History\
+\
+2004/3/26:	ver.1.2.3beta2\
+		added fully localized resources (German.lproj). (Thanks Mr.Martin Kerz!)\
+		added partially localized resources (Dutch.lproj, French.lproj, Italian.lproj, Portuguese.lproj, Romanian.lproj, Spanish.lproj). (Thanks Mr.Richard Koch!)\
+		\
+		added "Use Selection for Replace" to the Find menu. (Thanks Mr.Koichi Mori!)\
+		added -[OgreAdvancedFindPanelController useSelectionForReplace:].\
+		\
+		if you type a word and push return in the find text field, the word will be found immiately. (Thanks Mr.Richard Koch!)\
+		added -findNextAndOrderOut:, -findNextStrategy and -control:textView:doCommandBySelector:(a delegate method of the Find/ReplaceComboBox) to OgreAdvancedFindPanelController.\
+		changed -findNext: of OgreAdvancedFindPanelController.\
+		added an instance variables findNextButton to OgreAdvancedFindPanelController.\
+		\
+		the "More Options" button will be toggle. (Thanks Mr.Juan Manuel Palacios!)\
+		added an instance variable moreOptionsButton to OgreAdvancedFindPanelController.\
+		added delegate methods (-drawerWillOpen:, -drawerDidClose:) of the moreOptionsDrawer to OgreAdvancedFindPanelController.\
+		added "More/Less Options" keys to OgreAFPCLocalizable.strings.\
+		\
+		When the find panel order front the cursor will be located at the "Find" field, regardless of where it was before. (Thanks Mr.Juan Manuel Palacios!)\
+		changed -[OgreAdvancedFindPanelController showFindPanel:].\
+		\
+2004/3/20:	ver.1.2.3beta1\
+		updated attached OniGuruma library (ver.2.2.5).\
+		added a code ckecking the Mac OS X version to -[OgreTextFinder appDidFinishLaunching:].\
+		(Thanks Mr.Seiji Zenitani and Mr.Richard Koch!)\
+\
+2004/3/4:	ver.1.2.2\
+		updated attached OniGuruma library (ver.2.2.3).\
+		fixed -[OGReplaceExpression initWithString:escapeCharacter:]. (Thanks Mr.Kino!)\
+		\
+2004/3/2:	ver.1.2.2beta9\
+		updated attached OniGuruma library (ver.2.2.2).\
+		\
+		enabled capturing history (?@...).\
+		changes in  OGRegularExpression\
+			changed +initialize and +onigSyntaxForSyntax:.\
+		changes in OGRegularExpressionMatch\
+			added -captureHistoryAtIndex:, etc.\
+			added Ogre_arrayWithOnigRegion() and Ogre_onigRegionWithArray().\
+			changed -encodeWithCoder:, -initWithCoder:, -copyWithZone:, -description, \
+				-substringNamed:, -rengeOfSubstringNamed: and -indexOfSubstringNamed:.\
+			renamed -initWithRegion:... to -initWithRegion:...parentMatch:.\
+		\
+		enabled to use an escape sequence of 16-bit Unicode character \\x\{HHHH\} in replace expression. \
+		(Thanks Mr.Kino!)\
+		changed and fixed +initialize and -initWithString:escapeCharacter: of OGReplaceExpression.\
+		\
+		added NSString (OgreKitAdditions) category:\
+			-rangeOfRegularExpressionString:, etc.\
+			-componentsSeparatedByRegularExpressionString:.\
+			-newlineCharacter.\
+		added NSMutableString (OgreKitAdditions) category:\
+			-replaceOccurrencesOfRegularExpressionString:withString:options:range:.\
+			-replaceNewlineCharacterWithCharacter:.\
+			-chomp.\
+		added -[OGRegularExpression replaceString:withString:options:range:replaceAll:numberOfReplacement:], etc. \
+		(Thanks Mr.Goichi Hirakawa!)\
+		\
+2004/2/21:	ver.1.2.2beta8\
+		cleared up build targets. (Thanks Mr.Goichi Hirakawa!)\
+		fixed memory leaks in -initXXX of OGRegularExpression, OGRegularExpressionEnumerator, \
+			OGRegularExpressionMatch, OGReplaceExpression and OGRegularExpressionFormatter. \
+			(Thanks Mr.Goichi Hirakawa!)\
+		changed Ogre_utf8charlen(), Ogre_utf8prevcharlen() and Ogre_utf8strlen() for supprting undefined groups of UCS-4.\
+		added -[OGRegularExpressionMatch indexOfFirstMatchedSubstring], etc.\
+		simplified -[OGReplaceExpression initWithString:escapeCharacter:].\
+		renamed OGEscapeCharacterFormatter to OgreAFPCEscapeCharacterFormatter.\
+		renamed OGEscapeCharacterFormatterDelegate to OgreAFPCEscapeCharacterFormatterDelegate.\
+		added OgreAFPCComboBox.\
+		\
+2004/2/16:	ver.1.2.2beta7\
+		updated attached OniGuruma library (ver.2.1.0 + patch(ruby-dev:22803)).\
+		regXXX is obsoleted, so renamed regXXX to onigXXX. \
+		regex_XXX is obsoleted, so renamed regex_XXX to onig_XXX.\
+		renamed -[OGRegularExpression regSyntaxTypeForSyntax:] to -[OGRegularExpression onigSyntaxTypeForSyntax:].\
+		\
+2004/1/24:	ver.1.2.2beta6\
+		fixed a bug of +[replaceNewlineCharactersInString:withCharacter: OGRegularExpression] (spilt the last line.). (Thanks Mr.Zenitani.)\
+		\
+2004/1/22:	ver.1.2.2beta5\
+		made the find panel localizable.\
+		added OgreTextFinderLocalizable.strings and OgreAPFCLocalizable.strings.\
+		changes in OgreTextFinder:\
+			added +ogreKitBundle, OgreTextFinderLocalizedString().\
+			changed -appDidFinishLaunching:, -findAll:color:options:inSelection:, -replace:withString:options:, -replaceAll:withString:options:inSelection: and -highlight:color:options:inSelection:.\
+		changes in OgreTextFindThread:\
+			changed -findAll:, -replaceAll:, -highlight: and -showDone:count:time:cancelled:.\
+		changes in OgreFindProgressSheet:\
+			changed -awakeFromNib, -cancel: and -done:message:.\
+		changed -showFindPanel: of OgreFindPanelController.\
+		changes in OgreAdvancedFindPanelController:\
+			added OgreAPFCLocalizedString().\
+			changed -clearFindReplaceHistories:, -alertIfInvalidRegex, -showErrorAlert:message:, -didEndFindAll:, -grepTableViewDoubleClicked and -tableViewSelectionDidChange.\
+		\
+		changed the behavior of -useSelectionForFind: of OgreAdvancedFindPanelController. (Thanks Mr. Kino.)\
+		\
+2004/1/20:	ver.1.2.2beta4\
+		changed update timing of the Window menu.\
+			changed -appDidFinishLaunching: of OgreTextFinder.\
+			changed -showFindPanel: of OgreFindPanelController.\
+		\
+2004/1/12:	ver.1.2.2beta3\
+		fixed a bug (incorrect matching for characters in the Supplementary Ideographic Plane). (Thanks Mr. Kino.)\
+		[MEMO]\
+			[[NSString stringWithUTF8String:"\\xf0\\xa8\\xb3\\x9d" /*a character in the Supplementary Ideographic Plane*/ ] length] -> 2! (specification? or bug?)\
+		\
+		changes in OGRegularExpressionEnumerator:\
+			changed -nextObject, Ogre_utf8charlen(), Ogre_utf8prevcharlen(), -input and -less:.\
+		changed Ogre_utf8strlen() of OGRegularExpressionMatch.\
+		\
+2004/1/9:	ver.1.2.2beta2\
+		changed OgreGUIYenCharacter to [NSString stringWithUTF8String:"\\xc2\\xa5"].\
+		(Thanks Mr. seiji Zenitani and Mr. Kino.)\
+		\
+2004/1/9:	ver.1.2.2beta\
+		added a function that equates yen character with backslash character in the Find/Replace TextField.\
+		changes in OgreAdvancedFindPanelController:\
+			removed escapeCharacterTextField.\
+			added escapeCharacterPopUpButton.\
+			changed -escapeCharacter, -updateEscapeCharacter.\
+			added -shouldEquateYenWithBackslash.\
+			changed OGEscapeCharacterFormatter.\
+			added OGEscapeCharacterFormatterDelegate protocol.\
+		removed FormatterPalette.obsolete.\
+		\
+2003/12/26:	ver.1.2.1\
+		updated attached OniGuruma library (ver.2.0.0).\
+		changes in OGRegularExpression:\
+			REGCODE_XXX is obsoleted, so renamed to REG_ENCODING_XXX.\
+		changes in OgreTextFindThread:\
+			coordinate display of the progress bar of -replaceAll: more precisely. (Thanks Mr. Satoshi Matsumoto.)\
+		changes in OgreAdvancedFindPanelController:\
+			fixed a bug of -replaceAndFind: (failed to replace with OgreNotBOLOption and/or OgreNotEOLOption). (Thanks Mr. Satoshi Matsumoto.)\
+		\
+2003/12/12:	ver.1.2.0\
+		changed to Xcode native.\
+		\
+		added auto-update function of OgreTextFindResult:\
+			-updateOldRange:newRange:, etc...\
+		added two configuration methods to OgreTextFindResult:\
+			-setMaximumLeftMargin:,\
+			-setMaximumMatchedStringLength:.\
+			\
+		added some methods to OgreAdvancedFindPanelController:\
+			-avoidEmptySelection,\
+			-updateLiveUpdate.\
+		fixed a mismanagement of EOL option ckeckbox of OgreAdvancedFindPanelController.\
+		\
+		added a method to OgreTextFinder:\
+			-isSelectionEmpty.\
+		\
+		fixed a bug of -initWithString:escapeCharacter: of OGReplaceExpression.\
+		(replaceString == @"\\" -> exception raised)\
+		\
+2003/11/21:	ver.1.1.2\
+		updated attached OniGuruma library (ver.1.9.5 + patch(ruby-dev:21973)).\
+		changed arguments of namedGroupCallback() in OGRegularExpression.m.\
+		\
+		added private methods to OGRegularExpressionEnumerator:\
+			-less:,\
+			-input,\
+			-setRegularExpression:.\
+		added a search time option OgreFindEmptyOption (see OGRegularExpression.h).\
+		added the FindEmptyOption in OgreAdvancedFindPanel.\
+		\
+		added an example MyFindPanelExample (How to make original find panel).\
+		\
+2003/10/26:	ver.1.1.1	(in the transition to Mac OS 10.3)\
+		disabled -windowWillClose: of OgreAdvancedFindPanelController.\
+		added Japanese resources:\
+			OgreKit/Find Panel/Resources/OgreAdvanceFindPanel.nib,\
+			Find Panel Test/Resources/MainMenu.nib.\
+		anded quick-and-dirty localization of -appDidFinishLaunching: of OgreTextFinder.\
+		fixed -findAll: of OgreTextFindThread (search options had been OgreNoneOption at all times...).\
+		\
+2003/10/16:	ver.1.1.0\
+		added methods to OGRegularExpression:\
+			-replaceAllMatchesInString:delegate:replaceSelector:contextInfo: etc...,\
+			-splitString: etc...,\
+			+newlineCharacterInString:,\
+			+replaceNewlineCharactersInString:withCharacter:,\
+			+chomp:.\
+		added methods to OGRegularExpressionMatch:\
+			-index.\
+			\
+2003/10/12:	updated attached OniGuruma library (ver.1.9.4 + patch(ruby-dev:21477)).\
+\
+2003/10/09:	fixed minor typos errors in the documents. (Yen 
+\f1 \'81\'8f
+\f0  <-> Backslash 
+\f1 \'81\'5f
+\f0 )\
+\
+2003/10/08:	ver.1.0.0\
+}
