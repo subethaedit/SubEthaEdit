@@ -26,6 +26,7 @@ static FindReplaceController *sharedInstance=nil;
     
     self = [super init];
     if (self) {
+        sharedInstance = self;
     }
     return self;
 }
@@ -65,6 +66,12 @@ static FindReplaceController *sharedInstance=nil;
     [[O_gotoLineTextField cell] setSendsActionOnEndEditing:YES];
 }
 
+- (IBAction)orderFrontFindPanel:(id)aSender {
+    NSPanel *panel = [self findPanel];
+    [panel makeKeyAndOrderFront:nil];
+    NSLog(@"orderFrontFindPanel");    
+}
+
 - (IBAction)gotoLine:(id)aSender {
     NSTextView *textView = [self textViewToSearchIn];
     [(PlainTextWindowController *)[[textView window] windowController] gotoLine:[O_gotoLineTextField intValue]];
@@ -76,6 +83,16 @@ static FindReplaceController *sharedInstance=nil;
     [[self gotoPanel] orderOut:self];   
 }
 
+
+- (IBAction)updateRegexDrawer:(id)aSender
+{
+    if ([O_regexCheckbox state]==NSOnState) {
+        [O_regexDrawer openOnEdge:NSMinYEdge];
+    } else {
+        [O_regexDrawer close];
+    }
+
+}
 
 #pragma mark -
 #pragma mark ### Notification handling ###
