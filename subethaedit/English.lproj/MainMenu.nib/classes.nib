@@ -1,7 +1,12 @@
 {
     IBClasses = (
         {CLASS = AppController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {announce = id; conceal = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             CLASS = TCMPreferenceController; 
             LANGUAGE = ObjC; 

@@ -238,6 +238,8 @@ subethaedit/TCMMillionMonkeys/TCMMMBEEPSessionManager.h -text
 subethaedit/TCMMillionMonkeys/TCMMMBEEPSessionManager.m -text
 subethaedit/TCMMillionMonkeys/TCMMMPresenceManager.h -text
 subethaedit/TCMMillionMonkeys/TCMMMPresenceManager.m -text
+subethaedit/TCMMillionMonkeys/TCMMMSession.h -text
+subethaedit/TCMMillionMonkeys/TCMMMSession.m -text
 subethaedit/TCMMillionMonkeys/TCMMMStatusProfile.h -text
 subethaedit/TCMMillionMonkeys/TCMMMStatusProfile.m -text
 subethaedit/TCMMillionMonkeys/TCMMMUser.h -text

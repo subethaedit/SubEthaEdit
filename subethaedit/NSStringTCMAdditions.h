@@ -13,5 +13,6 @@
 
 + (NSString *)stringWithAddressData:(NSData *)aData;
 + (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding;
++ (NSString *)UUIDString;
 
 @end

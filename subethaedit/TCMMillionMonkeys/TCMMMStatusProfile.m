@@ -10,6 +10,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMBencodingUtilities.h"
+#import "TCMMMSession.h"
 
 
 @implementation TCMMMStatusProfile
@@ -30,6 +31,18 @@
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
+- (void)announceSession:(TCMMMSession *)aSession {
+    NSMutableData *data=[NSMutableData dataWithBytes:"DOCANN" length:6];
+    [data appendData:[aSession sessionBencoded]];
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
+- (void)concealSession:(TCMMMSession *)aSession {
+    NSMutableData *data=[NSMutableData dataWithBytes:"DOCCON" length:6];
+    [data appendData:TCM_BencodedObject([aSession sessionID])];
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage {
     if ([aMessage isMSG]) {
         if ([[aMessage payload] length]<6) {
@@ -39,8 +52,17 @@
             if (strncmp(bytes,"USRFUL",6)==0) {
                 TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
                 [[self delegate] profile:self didReceiveUser:user];
-            } else if (strncmp(bytes,"DOC",3)==0){
+            } else if (strncmp(bytes,"DOC",3)==0) {
                 NSLog(@"Received Document");
+                if (strncmp(&bytes[3],"ANN",3)==0) {
+                    TCMMMSession *session=[TCMMMSession sessionWithBencodedSession:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
+                    [[self delegate] profile:self didReceiveAnnouncedSession:session];
+                } else if (strncmp(&bytes[3],"CON",3)==0) {
+                    NSString *sessionID=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
+                    if (sessionID) {
+                        [[self delegate] profile:self didReceiveConcealedSessionID:sessionID];
+                    }
+                }
             } else if (strncmp(bytes,"STA",3)==0){
                 if (strncmp(&bytes[3],"VIS",3)==0) {
                     [[self delegate] profile:self didReceiveVisibilityChange:YES];

@@ -50,8 +50,20 @@
     return [[addressAsString copy] autorelease];
 }
 
-+ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding {
++ (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding
+{
     return [[[NSString alloc] initWithData:aData encoding:aEncoding] autorelease];
+}
+
++ (NSString *)UUIDString
+{
+    CFUUIDRef myUUID = CFUUIDCreate(NULL);
+    CFStringRef myUUIDString = CFUUIDCreateString(NULL, myUUID);
+    [(NSString *)myUUIDString retain];
+    CFRelease(myUUIDString);
+    CFRelease(myUUID);
+    
+    return [(NSString *)myUUIDString autorelease];
 }
 
 @end

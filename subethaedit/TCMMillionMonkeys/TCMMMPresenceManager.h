@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class TCMMMStatusProfile, TCMHost;
+@class TCMMMStatusProfile, TCMHost, TCMMMSession;
 
 @interface TCMMMPresenceManager : NSObject
 {
     NSNetService *I_netService;
     NSMutableDictionary *I_statusOfUserIDs;
     NSMutableSet        *I_statusProfilesInServerRole;
+    NSMutableDictionary *I_announcedSessions;
     struct {
         BOOL isVisible;
         BOOL serviceIsPublished;
@@ -26,5 +27,9 @@
 - (void)setVisible:(BOOL)aFlag;
 
 - (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile;
+
+- (void)announceSession:(TCMMMSession *)aSession;
+- (void)concealSession:(TCMMMSession *)aSession;
+
 
 @end

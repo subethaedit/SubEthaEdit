@@ -9,7 +9,20 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class TCMMMSession;
+
 @interface PlainTextDocument : NSDocument
 {
+    TCMMMSession *I_session;
+    struct {
+        BOOL isAnnounced;
+    } I_flags;
 }
+
+- (void)setSession:(TCMMMSession *)aSession;
+- (TCMMMSession *)session;
+
+- (IBAction)announce:(id)aSender;
+- (IBAction)conceal:(id)aSender;
+
 @end

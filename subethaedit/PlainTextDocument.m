@@ -8,6 +8,9 @@
 
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
+#import "TCMMMSession.h"
+#import "TCMMMPresenceManager.h"
+
 
 @implementation PlainTextDocument
 
@@ -18,9 +21,37 @@
     
         // Add your subclass-specific initialization here.
         // If an error occurs here, send a [self release] message and return nil.
+        [self setSession:[[TCMMMSession alloc] initWithDocument:self]];
     
     }
     return self;
+}
+
+- (void)dealloc {
+    [I_session release];
+}
+
+- (void)setSession:(TCMMMSession *)aSession
+{
+    [I_session autorelease];
+    I_session = [aSession retain];
+}
+
+- (TCMMMSession *)session
+{
+    return I_session;
+}
+
+- (IBAction)announce:(id)aSender {
+    DEBUGLOG(@"Document", 5, @"announce");
+    [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
+    I_flags.isAnnounced=YES;
+}
+
+- (IBAction)conceal:(id)aSender {
+    DEBUGLOG(@"Document", 5, @"conceal");
+    [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
+    I_flags.isAnnounced=NO;
 }
 
 - (void)makeWindowControllers {
@@ -53,6 +84,16 @@
 {
     // Insert code here to read your document from the given data.  You can also choose to override -loadFileWrapperRepresentation:ofType: or -readFromFile:ofType: instead.
     return YES;
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
+    SEL selector=[anItem action];
+    if (selector==@selector(announce:)) {
+        return !I_flags.isAnnounced;
+    } else if (selector==@selector(conceal:)) {
+        return I_flags.isAnnounced;
+    }
+    return [super validateMenuItem:anItem];
 }
 
 @end

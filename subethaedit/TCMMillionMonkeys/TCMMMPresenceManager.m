@@ -11,6 +11,7 @@
 #import "TCMMMStatusProfile.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+#import "TCMMMSession.h"
 
 static TCMMMPresenceManager *sharedInstance = nil;
 
@@ -37,6 +38,7 @@ static TCMMMPresenceManager *sharedInstance = nil;
     if (self) {
         I_statusOfUserIDs = [NSMutableDictionary new];
         I_statusProfilesInServerRole = [NSMutableSet new];
+        I_announcedSessions = [NSMutableDictionary new];
         I_flags.serviceIsPublished=NO;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didEndSession:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
@@ -87,6 +89,17 @@ static TCMMMPresenceManager *sharedInstance = nil;
     return statusOfUserID;
 }
 
+- (void)announceSession:(TCMMMSession *)aSession {
+    [I_announcedSessions setObject:aSession forKey:[aSession sessionID]];
+    [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(announceSession:) withObject:aSession];
+}
+
+- (void)concealSession:(TCMMMSession *)aSession {
+    [I_announcedSessions removeObjectForKey:[aSession sessionID]];
+    [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(concealSession:) withObject:aSession];
+}
+
+
 #pragma mark -
 #pragma mark ### TCMMMStatusProfile interaction
 
@@ -102,6 +115,16 @@ static TCMMMPresenceManager *sharedInstance = nil;
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidChangeVisibility" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[[[[aProfile channel] session] userInfo] objectForKey:@"peerUserID"],@"UserID",[NSNumber numberWithBool:isVisible],@"isVisible",nil]];
+}
+
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession
+{
+    DEBUGLOG(@"Presence",5,@"didReceiveAnnouncedSession: %@",[aSession description]);
+}
+
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID
+{
+    DEBUGLOG(@"Presence",5,@"didReceiveConcealSessionID: %@",anID);
 }
 
 - (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError {

@@ -9,17 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "../TCMBEEP/TCMBEEP.h"
 
-@class TCMMMUser;
+@class TCMMMUser, TCMMMSession;
 
 @interface TCMMMStatusProfile : TCMBEEPProfile {
 
 }
 
 - (void)sendMyself:(TCMMMUser *)aUser;
+- (void)announceSession:(TCMMMSession *)aSession;
 @end
 
 @interface NSObject (TCMMMStatusProfileDelegateMethods) 
 - (void)sendVisibility:(BOOL)isVisible;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveUser:(TCMMMUser *)aUser;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID;
+
 @end
