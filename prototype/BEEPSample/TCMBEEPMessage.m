@@ -17,6 +17,19 @@
     return [message autorelease];
 }
 
+- (id)initWithTypeString:(NSString *)aType messageNumber:(int32_t)aMessageNumber payload:(NSData *)aPayload
+{
+    self = [super init];
+    if (self) {
+        [self setMessageTypeString:aType];
+        [self setMessageNumber:aMessageNumber];
+        [self setPayload:aPayload];
+        I_channelNumber = -1;
+        I_answerNumber = -1;
+    }
+    return self;
+}
+
 - (id)initWithQueue:(NSArray *)aQueue
 {
     NSParameterAssert(aQueue != nil);
@@ -90,6 +103,11 @@
 - (NSData *)payload
 {
     return I_payload;
+}
+
+- (unsigned)payloadLength
+{
+    return [I_payload length];
 }
 
 @end

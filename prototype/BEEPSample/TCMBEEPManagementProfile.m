@@ -8,6 +8,7 @@
 
 #import "TCMBEEPManagementProfile.h"
 #import "TCMBEEPMessage.h"
+#import "TCMBEEPChannel.h"
 #import <CoreFoundation/CoreFoundation.h>
 
 @implementation TCMBEEPManagementProfile
@@ -25,6 +26,26 @@
 
 - (void)sendGreetingWithProfileURIs:(NSArray *)anArray featuresAttribute:(NSString *)aFeaturesString localizeAttribute:(NSString *)aLocalizeString
 {
+    // compose Greeting
+    
+    NSMutableString *payloadString = [NSMutableString stringWithString:@"Content-Type: application/beep+xml\r\n\r\n<greeting"];
+    
+    if (aFeaturesString) {
+        [payloadString appendFormat:@" features=\"%@\"", aFeaturesString];
+    }
+    if (aLocalizeString) {
+        [payloadString appendFormat:@" localize=\"%@\"", aLocalizeString];
+    }
+    [payloadString appendString:@">"];
+    NSEnumerator *profileURIs = [anArray objectEnumerator];
+    NSString *profileURI = nil;
+    while ((profileURI = [profileURIs nextObject])) {
+        [payloadString appendFormat:@"<profile uri=\"%@\" />", profileURI];
+    }
+    [payloadString appendString:@"</greeting>\r\n"];
+    NSData *payload = [payloadString dataUsingEncoding:NSUTF8StringEncoding];
+    TCMBEEPMessage *message=[[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:0 payload:payload];
+    [[self channel] sendMessage:[message autorelease]];
 }
 
 #pragma mark -

@@ -46,6 +46,9 @@ enum {
     NSString *I_peerLocalizeAttribute;
     
     TCMBEEPFrame *I_currentReadFrame;
+    struct {
+        BOOL isSending;
+    } I_flags;
 }
 
 /*"Initializers"*/
@@ -75,5 +78,7 @@ enum {
 - (void)open;
 - (void)close;
 - (void)activateChannel:(TCMBEEPChannel *)aChannel;
+
+- (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel;
 
 @end

@@ -7,9 +7,32 @@
 //
 
 #import "TCMBEEPFrame.h"
-
+#import "TCMBEEPSession.h"
+#import "TCMBEEPMessage.h"
 
 @implementation TCMBEEPFrame
+
++ (TCMBEEPFrame *)frameWithMessage:(TCMBEEPMessage *)aMessage sequenceNumber:(uint32_t)aSequenceNumber
+{
+    return [[[TCMBEEPFrame alloc] initWithMessage:aMessage sequenceNumber:aSequenceNumber] autorelease];
+}
+
+- (id)initWithMessage:(TCMBEEPMessage *)aMessage sequenceNumber:(uint32_t)aSequenceNumber
+{
+    self = [super init];
+    if (self) {
+        [self setMessageTypeString:[aMessage messageTypeString]];
+        I_channelNumber = [aMessage channelNumber];
+        I_messageNumber = [aMessage messageNumber];
+        I_answerNumber = [aMessage answerNumber];
+        I_continuationIndicator[0] = '.';
+        I_continuationIndicator[1] = 0;
+        I_length = [aMessage payloadLength];
+        [self setPayload:[aMessage payload]];
+        I_sequenceNumber = aSequenceNumber;
+    }
+    return self;
+}
 
 - (id)initWithHeader:(char *)aHeaderString
 {
@@ -49,6 +72,10 @@
 }
 
 #pragma mark -
+
+- (void)setMessageTypeString:(NSString *)aString {
+    [aString getCString:I_messageType maxLength:3];
+}
 
 - (char *)messageType
 {
@@ -100,5 +127,24 @@
 {
     return I_payload;
 }
+
+- (BOOL)isANS
+{
+    return (strcmp([self messageType], "ANS") == 0);
+}
+
+- (void)appendToMutableData:(NSMutableData *)aData {
+    NSString *headerString = nil;
+    if ([self isANS]) {
+        headerString = [NSString stringWithFormat:@"%s %d %d %s %u %d %d\r\n", I_messageType, I_channelNumber,I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length, I_answerNumber];    
+    } else {
+        headerString = [NSString stringWithFormat:@"%s %d %d %s %u %d\r\n", I_messageType, I_channelNumber, I_messageNumber, I_continuationIndicator, I_sequenceNumber, I_length];
+    }
+    
+    [aData appendData:[headerString dataUsingEncoding:NSASCIIStringEncoding]];
+    [aData appendData:[self payload]];
+    [aData appendData:[kTCMBEEPFrameTrailer dataUsingEncoding:NSASCIIStringEncoding]];
+}
+
 
 @end

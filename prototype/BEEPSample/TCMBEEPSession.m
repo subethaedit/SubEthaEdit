@@ -215,17 +215,17 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
     [self activateChannel:I_managementChannel];
 
-    [profile sendGreetingWithProfileURIs:[self profileURIs] featuresAttribute:@"" localizeAttribute:@""];
+    [profile sendGreetingWithProfileURIs:[self profileURIs] featuresAttribute:nil localizeAttribute:nil];
     
-    NSString *greeting = @"Content-Type: application/beep+xml\r\n\r\n<greeting features=\"token1 token2\" localize=\"de fr cz\" invalid=\"haha\"><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
-    greeting = [NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@", [greeting length], greeting, kTCMBEEPFrameTrailer];
-    NSData *greetingData = [greeting dataUsingEncoding:NSASCIIStringEncoding];
-    [self TCM_writeData:greetingData];
-    
-    greeting = @"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
-    greeting = [NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@", [greeting length], greeting, kTCMBEEPFrameTrailer];
-    greetingData = [greeting dataUsingEncoding:NSASCIIStringEncoding];
-    [self TCM_writeData:greetingData];
+//    NSString *greeting = @"Content-Type: application/beep+xml\r\n\r\n<greeting features=\"token1 token2\" localize=\"de fr cz\" invalid=\"haha\"><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
+//    greeting = [NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@", [greeting length], greeting, kTCMBEEPFrameTrailer];
+//    NSData *greetingData = [greeting dataUsingEncoding:NSASCIIStringEncoding];
+//    [self TCM_writeData:greetingData];
+//    
+//    greeting = @"Content-Type: application/beep+xml\r\n\r\n<greeting><profile uri='http://codingmonkeys.de/beep/BEEPBLEEP' /></greeting>\r\n";
+//    greeting = [NSString stringWithFormat:@"RPY 0 0 . 0 %d\r\n%@%@", [greeting length], greeting, kTCMBEEPFrameTrailer];
+//    greetingData = [greeting dataUsingEncoding:NSASCIIStringEncoding];
+//    [self TCM_writeData:greetingData];
 }
 
 - (void)close
@@ -253,6 +253,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     int bytesRead = [I_inputStream read:buffer maxLength:sizeof(buffer)];
     int bytesParsed = 0;
     
+    NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
     while (bytesRead > 0 && bytesRead-bytesParsed > 0) {
         int remainingBytes=bytesRead-bytesParsed;
         if (I_currentReadState==frameHeaderState) {
@@ -383,6 +384,42 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
         default:
             NSLog(@"Output stream not handling this event: %d", streamEvent);
             break;
+    }
+}
+
+#pragma mark - 
+#pragma mark ### Channel interaction ###
+
+- (void)sendRoundRobin {
+    NSEnumerator *channels = [[self activeChannels] objectEnumerator];
+    TCMBEEPChannel *channel=nil;
+    BOOL didSend = NO;
+    while ((channel = [channels nextObject])) {
+        if ([channel hasFramesAvailable]) {
+            didSend = YES;
+            NSEnumerator *frames = [[channel availableFramesFittingInCurrentWindow] objectEnumerator];
+            TCMBEEPFrame *frame;
+            while ((frame = [frames nextObject])) {
+                [frame appendToMutableData:I_writeBuffer];
+                NSLog(@"Sending Frame: %@",[frame description]);
+            }
+        }
+    }
+    if (didSend) {
+        [self performSelector:@selector(sendRoundRobin) withObject:nil afterDelay:0.1];
+        if ([I_outputStream hasSpaceAvailable]) {
+            [self TCM_writeBytes];
+        }
+    } else {
+        I_flags.isSending=NO;
+    }
+}
+
+- (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel
+{
+    if (!I_flags.isSending) {
+        [self performSelector:@selector(sendRoundRobin) withObject:nil afterDelay:0.01];
+        I_flags.isSending=YES;
     }
 }
 

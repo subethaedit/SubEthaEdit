@@ -60,6 +60,9 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_inboundMessageNumbersWithPendingReplies = [NSMutableIndexSet new];
             I_defaultReadQueue = [NSMutableArray new];
             I_answerReadQueues = [NSMutableDictionary new];
+            I_nextMessageNumber = 0;
+            I_messageWriteQueue = [NSMutableArray new];
+            I_sequenceNumber = 0;
         }
     }
     
@@ -76,6 +79,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     [I_inboundMessageNumbersWithPendingReplies release];
     [I_defaultReadQueue release];
     [I_answerReadQueues release];
+    [I_messageWriteQueue release];
     [super dealloc];
 }
 
@@ -145,41 +149,69 @@ static NSMutableDictionary *profileURIToClassMapping;
     return I_profile;
 }
 
+- (BOOL)hasFramesAvailable
+{
+    return ([I_messageWriteQueue count] > 0);
+}
+
+- (NSArray *)availableFramesFittingInCurrentWindow;
+{
+    if ([I_messageWriteQueue count] == 0) {
+        return [NSArray array];
+    }
+    
+    TCMBEEPFrame *frame = [TCMBEEPFrame frameWithMessage:[I_messageWriteQueue objectAtIndex:0] sequenceNumber:I_sequenceNumber];
+    I_sequenceNumber += [[I_messageWriteQueue objectAtIndex:0] payloadLength];
+    [I_messageWriteQueue removeObjectAtIndex:0];
+    return [NSArray arrayWithObject:frame];
+}
+
+- (int32_t)nextMessageNumber
+{
+    if (I_nextMessageNumber < 0) I_nextMessageNumber = 0;
+    return I_nextMessageNumber++;
+}
+
 - (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame
 {
     BOOL accept = [self TCM_validateFrame:aFrame];
-    
-    // QUEUE   
-    NSMutableArray *queue = nil; 
-    if (strcmp([aFrame messageType], "ANS") == 0) {
-        NSArray *queue = [I_answerReadQueues objectForLong:[aFrame answerNumber]];
-        if (!queue) {
-            queue = [NSMutableArray array];
-            [I_answerReadQueues setObject:queue forLong:[aFrame answerNumber]];
-        }
-    } else {
-        queue = I_defaultReadQueue;
-    }
-    [queue addObject:aFrame];
-
-    if (![aFrame isIntermediate]) {
-        // FINISH and DISPATCH
-        TCMBEEPMessage *message = [TCMBEEPMessage messageWithQueue:queue];
-        [[self profile] processBEEPMessage:message];
+    if (accept) {
+        // QUEUE   
+        NSMutableArray *queue = nil; 
         if (strcmp([aFrame messageType], "ANS") == 0) {
-            [I_answerReadQueues removeObjectForLong:[aFrame answerNumber]];
+            NSArray *queue = [I_answerReadQueues objectForLong:[aFrame answerNumber]];
+            if (!queue) {
+                queue = [NSMutableArray array];
+                [I_answerReadQueues setObject:queue forLong:[aFrame answerNumber]];
+            }
         } else {
-            [queue removeAllObjects];
+            queue = I_defaultReadQueue;
         }
-        if (strcmp([aFrame messageType], "NUL") == 0) {
-            // FEHLER?
-            if ([I_answerReadQueues count] > 0) {
-                // FEHLER! bei NUL müssen alle Antworten abgeschlossen sein...
+        [queue addObject:aFrame];
+    
+        if (![aFrame isIntermediate]) {
+            // FINISH and DISPATCH
+            TCMBEEPMessage *message = [TCMBEEPMessage messageWithQueue:queue];
+            if (strcmp([aFrame messageType],"MSG")==0) {
+                [I_inboundMessageNumbersWithPendingReplies addIndex:[aFrame messageNumber]];
+            } else if (strcmp([aFrame messageType],"ANS")!=0) {
+                [I_messageNumbersWithPendingReplies removeIndex:[aFrame messageNumber]];
+            }
+            [[self profile] processBEEPMessage:message];
+            if (strcmp([aFrame messageType], "ANS") == 0) {
+                [I_answerReadQueues removeObjectForLong:[aFrame answerNumber]];
+            } else {
+                [queue removeAllObjects];
+            }
+            if (strcmp([aFrame messageType], "NUL") == 0) {
+                // FEHLER?
+                if ([I_answerReadQueues count] > 0) {
+                    // FEHLER! bei NUL müssen alle Antworten abgeschlossen sein...
+                }
             }
         }
+        [self setPreviousReadFrame:aFrame];
     }
-    [self setPreviousReadFrame:aFrame];
-
     return accept;
 }
 
@@ -269,6 +301,20 @@ static NSMutableDictionary *profileURIToClassMapping;
     }
     
     return result;
+}
+
+- (void)sendMessage:(TCMBEEPMessage *)aMessage
+{
+    // validate message, return NSError
+    // ...
+    [aMessage setChannelNumber:[self number]];
+    if ([[aMessage messageTypeString] isEqualTo:@"MSG"]) {
+        [I_messageNumbersWithPendingReplies addIndex:[aMessage messageNumber]];
+    } else if (![[aMessage messageTypeString] isEqualTo:@"ANS"]) {
+        [I_inboundMessageNumbersWithPendingReplies removeIndex:[aMessage messageNumber]];
+    }
+    [I_messageWriteQueue addObject:aMessage];
+    [[self session] channelHasFramesAvailable:self];
 }
 
 @end

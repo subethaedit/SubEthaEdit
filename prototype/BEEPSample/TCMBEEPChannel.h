@@ -14,6 +14,7 @@
 @interface TCMBEEPChannel : NSObject
 {
     unsigned long I_number;
+    uint32_t I_sequenceNumber;
     TCMBEEPSession *I_session;
     NSString *I_profileURI;
     id I_profile;
@@ -23,6 +24,8 @@
     NSMutableIndexSet *I_inboundMessageNumbersWithPendingReplies;
     NSMutableArray *I_defaultReadQueue;
     NSMutableDictionary *I_answerReadQueues;
+    NSMutableArray *I_messageWriteQueue;
+    int32_t I_nextMessageNumber;
 }
 
 + (NSDictionary *)profileURIToClassMapping;
@@ -46,6 +49,14 @@
 - (TCMBEEPMessage *)currentReadMessage;
 - (id)profile;
 
+#pragma mark ### Accessors for session ###
+
+- (BOOL)hasFramesAvailable;
+- (NSArray *)availableFramesFittingInCurrentWindow;
+
+- (int32_t)nextMessageNumber;
+
 - (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame;
+- (void)sendMessage:(TCMBEEPMessage *)aMessage;
 
 @end

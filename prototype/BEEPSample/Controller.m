@@ -78,6 +78,7 @@
 }
 - (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
     NSLog(@"Got Session");
+    [aBEEPSession setProfileURIs:[NSArray arrayWithObjects:@"http://blah.net", @"http://BEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEP", nil]];
     [aBEEPSession open];
     [aBEEPSession setDelegate:self];
     [aBEEPSession retain];

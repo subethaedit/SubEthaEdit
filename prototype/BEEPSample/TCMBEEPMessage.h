@@ -20,6 +20,7 @@
 
 + (TCMBEEPMessage *)messageWithQueue:(NSArray *)aQueue;
 
+- (id)initWithTypeString:(NSString *)aType messageNumber:(int32_t)aMessageNumber payload:(NSData *)aPayload;
 - (id)initWithQueue:(NSArray *)aQueue;
 
 - (void)setMessageTypeString:(NSString *)aString;
@@ -32,5 +33,6 @@
 - (int32_t)answerNumber;
 - (void)setPayload:(NSData *)aData;
 - (NSData *)payload;
+- (unsigned)payloadLength;
 
 @end
