@@ -684,4 +684,19 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     [self initiateChannelWithNumber:aNumber profileURI:aProfileURI asInitiator:YES];
 }
 
+- (void)closeChannelWithNumber:(int32_t)aChannelNumber code:(int)aReplyCode
+{
+    // verify existance of the referenced channel
+    
+    
+    [[I_managementChannel profile] closeChannelWithNumber:aChannelNumber code:aReplyCode];
+}
+
+- (void)closedChannelWithNumber:(int32_t)aChannelNumber
+{
+    TCMBEEPChannel *channel = [I_activeChannels objectForLong:aChannelNumber];
+    [channel cleanup];
+    [I_activeChannels removeObjectForLong:aChannelNumber];
+}
+
 @end

@@ -75,34 +75,40 @@
             if ([type isEqualToString:@"ACK"]) {
                 [[self delegate] profile:self receivedAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
                 // WARNING: No reply is sent for this message!
+                TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
+                [[self channel] sendMessage:[message autorelease]];
             }
         }
     } else if ([aMessage isRPY]) {
-        NSString *string=[NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding];
-        DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"ShakeHandRPY was: %@",string);
-        string=[string substringFromIndex:3];
-		NSArray *pairsArray=[string componentsSeparatedByString: @"\001"];
-        NSEnumerator *pairs=[pairsArray objectEnumerator];
-        NSString *pair;
-        while ((pair = [pairs nextObject])) {
-            NSRange foundRange=[pair rangeOfString:@"="];
-            if (foundRange.location!=NSNotFound) {
-                NSString *key = [[pair substringToIndex:foundRange.location] lowercaseString];
-                NSString *value=[pair substringFromIndex:NSMaxRange(foundRange)];
-                [I_remoteInfos setObject:value forKey:key];
+        if ([[aMessage payload] length] > 0) {
+            NSString *string = [NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding];
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"ShakeHandRPY was: %@", string);
+            string = [string substringFromIndex:3];
+            NSArray *pairsArray = [string componentsSeparatedByString: @"\001"];
+            NSEnumerator *pairs = [pairsArray objectEnumerator];
+            NSString *pair;
+            while ((pair = [pairs nextObject])) {
+                NSRange foundRange = [pair rangeOfString:@"="];
+                if (foundRange.location != NSNotFound) {
+                    NSString *key = [[pair substringToIndex:foundRange.location] lowercaseString];
+                    NSString *value = [pair substringFromIndex:NSMaxRange(foundRange)];
+                    [I_remoteInfos setObject:value forKey:key];
+                }
             }
-        }
-        BOOL shouldAck=NO;
-        if ([[self delegate] respondsToSelector:@selector(profile:shouldAckHandshakeWithUserID:)]) {
-            shouldAck=[[self delegate] profile:self shouldAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
-        }
-        if (shouldAck) {
-            NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"ACK"] dataUsingEncoding:NSUTF8StringEncoding]];
-            TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[[self channel] nextMessageNumber] payload:payload];
-            [[self channel] sendMessage:[message autorelease]];
-            [[self delegate] profile:self didAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+            BOOL shouldAck = NO;
+            if ([[self delegate] respondsToSelector:@selector(profile:shouldAckHandshakeWithUserID:)]) {
+                shouldAck = [[self delegate] profile:self shouldAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+            }
+            if (shouldAck) {
+                NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"ACK"] dataUsingEncoding:NSUTF8StringEncoding]];
+                TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[[self channel] nextMessageNumber] payload:payload];
+                [[self channel] sendMessage:[message autorelease]];
+                [[self delegate] profile:self didAckHandshakeWithUserID:[I_remoteInfos objectForKey:@"userid"]];
+            } else {
+                // brich ab
+            }
         } else {
-            // brich ab
+            DEBUGLOG(@"BEEPLogDmain", DetailedLogLevel, @"Got empty reply for ACK message.");
         }
     }
 }

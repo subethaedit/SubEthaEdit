@@ -69,6 +69,7 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_incomingSequenceNumber = 0;
             I_outgoingWindowSize = 4096;
             I_flags.isInitiator = isInitiator;
+            I_channelStatus = TCMBEEPChannelStatusOpen;
         }
     }
     
@@ -77,6 +78,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 
 - (void)dealloc
 {
+    I_session = nil;
     [I_profileURI release];
     [I_profile release];
     [I_previousReadFrame release];
@@ -87,6 +89,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     [I_answerReadQueues release];
     [I_messageWriteQueue release];
     [I_outgoingFrameQueue release];
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Channel deallocated");
     [super dealloc];
 }
 
@@ -152,6 +155,17 @@ static NSMutableDictionary *profileURIToClassMapping;
 - (id)profile
 {
     return I_profile;
+}
+
+- (TCMBEEPChannelStatus)channelStatus
+{
+    return I_channelStatus;
+}
+
+- (void)close
+{
+    I_channelStatus = TCMBEEPChannelStatusClosing;
+    [[self session] closeChannelWithNumber:[self number] code:200];
 }
 
 // Convenience for Profiles
