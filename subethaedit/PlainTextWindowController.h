@@ -32,6 +32,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSButton            *O_readWriteButton;
     IBOutlet NSView              *O_receivingContentView;
     IBOutlet NSProgressIndicator *O_progressIndicator;
+    IBOutlet NSImageView         *O_URLImageView;
     NSMutableArray *I_plainTextEditors;
     NSMenu *I_contextMenu;
     struct {

@@ -67,6 +67,15 @@ enum {
     ParticipantContextMenuTagKickDeny
 };
 
+
+@interface PlainTextWindowController (PlainTextWindowControllerPrivateAdditions)
+
+- (void)validateUpperDrawer;
+
+@end
+
+#pragma mark -
+
 @implementation PlainTextWindowController
 
 - (id)init {
@@ -302,6 +311,7 @@ enum {
 }
 
 - (IBAction)openParticipantsDrawer:(id)aSender {
+    [self validateUpperDrawer];
     [O_participantsDrawer open:aSender];
 }
 
@@ -310,6 +320,7 @@ enum {
 }
 
 - (IBAction)toggleParticipantsDrawer:(id)sender {
+    [self validateUpperDrawer];
     [O_participantsDrawer toggle:sender];
 }
 
@@ -363,6 +374,17 @@ enum {
     }
     
     return buttonState;
+}
+
+- (void)validateUpperDrawer {
+    TCMMMSession *session = [(PlainTextDocument *)[self document] session];
+    if ([session isServer]) {
+        [O_URLImageView setHidden:NO];
+        [O_pendingUsersAccessPopUpButton setEnabled:YES];
+    } else {
+        [O_URLImageView setHidden:YES];
+        [O_pendingUsersAccessPopUpButton setEnabled:NO];
+    }
 }
 
 - (void)validateButtons {

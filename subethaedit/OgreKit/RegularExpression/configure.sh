@@ -1,5 +1,9 @@
 #!/bin/csh
 
+if ($1 == "clean") then
+    rm -rf "RegularExpression/oniguruma"
+endif
+
 if (-e "RegularExpression/oniguruma") then
 	echo "oniguruma already exists."
 else

@@ -5,8 +5,8 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_appIconView" = NSImageView; 
-                "O_appNameField" = NSTextField; 
                 "O_legalTextField" = NSTextField; 
+                "O_ogreVersionField" = NSTextField; 
                 "O_versionField" = NSTextField; 
             }; 
             SUPERCLASS = NSWindowController; 

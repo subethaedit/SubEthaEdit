@@ -2307,7 +2307,7 @@
 			};
 		};
 		4DAC4801057221BB0011832E = {
-			buildArgumentsString = RegularExpression/configure.sh;
+			buildArgumentsString = "RegularExpression/configure.sh $(ACTION)";
 			buildPhases = (
 			);
 			buildSettings = {

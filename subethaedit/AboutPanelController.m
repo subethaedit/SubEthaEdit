@@ -7,6 +7,7 @@
 //
 
 #import "AboutPanelController.h"
+#import <OgreKit/OgreKit.h>
 
 
 @implementation AboutPanelController
@@ -21,7 +22,10 @@
     NSString *versionString = [NSString stringWithFormat:@"%@ (v%@)", 
                                 [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
                                 [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+    NSString *ogreVersion = [NSString stringWithFormat:@"OgreKit v%@, Oniguruma v%@", [OGRegularExpression version], [OGRegularExpression onigurumaVersion]];
+
     [O_versionField setObjectValue:versionString];
+    [O_ogreVersionField setObjectValue:ogreVersion];
     [O_legalTextField setObjectValue:[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
 
     [[self window] center];
