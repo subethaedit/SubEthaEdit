@@ -12,6 +12,16 @@
 
 @implementation TextView
 
+static NSMenu *defaultMenu=nil;
+
++ (NSMenu *)defaultMenu {
+    return defaultMenu;
+}
+
++ (void)setDefaultMenu:(NSMenu *)aMenu {
+    defaultMenu=[aMenu copy];
+}
+
 - (void)trackMouseForBlockeditWithEvent:(NSEvent *)aEvent {
     NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextView:self];
     BOOL outside=NO;

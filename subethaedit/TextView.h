@@ -9,9 +9,8 @@
 #import <AppKit/AppKit.h>
 
 @interface TextView : NSTextView {
-
 }
-
++ (void)setDefaultMenu:(NSMenu *)aMenu;
 @end
 
 @interface NSObject (TextViewDelegateMethods) 

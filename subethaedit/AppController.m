@@ -23,6 +23,7 @@
 #import "TextOperation.h"
 #import "SelectionOperation.h"
 #import "EncodingManager.h"
+#import "TextView.h"
 
 #import "URLDataProtocol.h"
 
@@ -35,7 +36,14 @@
 #import "Debug/DebugController.h"
 #endif
 
+int const EditMenuTag   = 1000;
+int const CutMenuItemTag   = 1;
+int const CopyMenuItemTag  = 2;
+int const PasteMenuItemTag = 3;
+int const SpellingMenuItemTag = 10;
+int const SpeechMenuItemTag   = 11;
 int const FormatMenuTag = 2000;
+int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
 
@@ -47,6 +55,7 @@ NSString * const DefaultPortNumber = @"port";
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
 - (void)setupDocumentModeSubmenu;
+- (void)setupTextViewContextMenu;
 
 @end
 
@@ -257,6 +266,7 @@ NSString * const DefaultPortNumber = @"port";
                                                        andSelector:@selector(handleAppleEvent:withReplyEvent:)
                                                      forEventClass:kKAHL
                                                         andEventID:kMOD];
+    [self setupTextViewContextMenu];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -325,6 +335,23 @@ NSString * const DefaultPortNumber = @"port";
         [[NSApp mainMenu] insertItem:scriptMenuItem atIndex:indexOfWindowMenu + 1];
         [scriptMenuItem release];
     }
+}
+
+- (void)setupTextViewContextMenu {
+    NSMenu *mainMenu=[NSApp mainMenu];
+    NSMenu *EditMenu=[[mainMenu itemWithTag:EditMenuTag] submenu];
+    NSMenu *FormatMenu=[[mainMenu itemWithTag:FormatMenuTag] submenu];
+
+    NSMenu *defaultMenu=[NSMenu new];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CutMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy]];
+    [defaultMenu addItem:[NSMenuItem separatorItem]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpellingMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[FormatMenu itemWithTag:FontMenuItemTag] copy]];
+    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy]];
+    
+    [TextView setDefaultMenu:defaultMenu];
 }
 
 @end
