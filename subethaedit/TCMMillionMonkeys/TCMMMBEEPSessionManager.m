@@ -402,6 +402,17 @@ static TCMMMBEEPSessionManager *sharedInstance;
         }  
     }
     [I_pendingSessions removeObject:aBEEPSession];
+    
+    int index = 0;
+    int count = [self countOfSessions];
+    for (index = 0; index < count; index++) {
+        TCMBEEPSession *session = [self objectInSessionsAtIndex:index];
+        if ([session isEqual:aBEEPSession]) {
+            [self removeObjectFromSessionsAtIndex:index];
+            break;
+        }
+    }
+    
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@", [self description]);
 }
 

@@ -355,13 +355,6 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     [profile sendGreetingWithProfileURIs:[self profileURIs] featuresAttribute:nil localizeAttribute:nil];
 }
 
-- (void)close
-{
-    // how to cleanup channels?
-    // send queued messages of channel 0
-    // finish like old SubEtha
-}
-
 - (void)terminate
 {
     I_sessionStatus = TCMBEEPSessionStatusError;
@@ -542,7 +535,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     }
 }
 
-- (void)TCM_handleErrorOccurredOrAtEndEvent
+- (void)TCM_handleStreamErrorOccurredEvent
 {
     if (I_sessionStatus == TCMBEEPSessionStatusError) {
        return;
@@ -585,6 +578,10 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     }
 }
 
+- (void)TCM_handleStreamAtEndEvent
+{
+}
+
 - (void)TCM_handleInputStreamEvent:(NSStreamEvent)streamEvent
 {
     switch (streamEvent) {
@@ -600,12 +597,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
         case NSStreamEventErrorOccurred: {
                 NSError *error = [I_inputStream streamError];
                 DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"An error occurred on the input stream: %@, Domain: %@, Code: %d", [error localizedDescription], [error domain], [error code]);
-                [self TCM_handleErrorOccurredOrAtEndEvent];
+                [self TCM_handleStreamErrorOccurredEvent];
             }
             break;
         case NSStreamEventEndEncountered:
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Input stream end encountered.");
-            [self TCM_handleErrorOccurredOrAtEndEvent];
+            [self TCM_handleStreamErrorOccurredEvent];
             break;
         default:
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Input stream not handling this event: %d", streamEvent);
@@ -646,12 +643,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
         case NSStreamEventErrorOccurred: {
                 NSError *error = [I_outputStream streamError];
                 DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"An error occurred on the output stream: %@, Domain: %@, Code: %d", [error localizedDescription], [error domain], [error code]);
-                [self TCM_handleErrorOccurredOrAtEndEvent];
+                [self TCM_handleStreamErrorOccurredEvent];
             }
             break;
         case NSStreamEventEndEncountered:
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Output stream end encountered.");
-            [self TCM_handleErrorOccurredOrAtEndEvent];
+            [self TCM_handleStreamErrorOccurredEvent];
             break;
         default:
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Output stream not handling this event: %d", streamEvent);

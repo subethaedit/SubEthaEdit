@@ -174,8 +174,8 @@ static NSMutableDictionary *profileURIToClassMapping;
     // comply with requirements before sending close frame
     BOOL isMSGInQueue = NO;
     NSEnumerator *messages = [I_messageWriteQueue objectEnumerator];
-    TCMBEEPMessage *message;
-    while ((message == [messages nextObject])) {
+    TCMBEEPMessage *message = nil;
+    while ((message = [messages nextObject])) {
         if ([message isMSG]) {
             isMSGInQueue = YES;
             break;
