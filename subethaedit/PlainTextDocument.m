@@ -980,9 +980,14 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [I_documentProxyWindowController autorelease];
     I_documentProxyWindowController = nil;
     if ([[self windowControllers] count]==0) {
+        NSLog(@"away...");
         TCMMMSession *session=[self session];
         [session setDocument:nil];
-        [session cancelJoin];
+        if ([session wasInvited]) {
+            [session declineInvitation];
+        } else {
+            [session cancelJoin];
+        }
         [[DocumentController sharedInstance] removeDocument:[[self retain] autorelease]];
     }
 }

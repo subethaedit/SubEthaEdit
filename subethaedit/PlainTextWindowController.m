@@ -327,10 +327,14 @@ enum {
             int selectedRow=[O_participantsView selectedRow];
             ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
             if (pair.childIndex!=-1) {
-                if (pair.itemIndex==0) {
-                    [O_readOnlyButton setEnabled:YES];
-                } else if (pair.itemIndex==1) {
-                    [O_readWriteButton setEnabled:YES];
+                if (pair.itemIndex<2) {
+                    NSString *group=(pair.itemIndex==0?@"ReadWrite":@"ReadOnly");
+                    BOOL isParticipant=[[[[(PlainTextDocument *)[self document] session] participants] objectForKey:group] count]>pair.childIndex;
+                    if (pair.itemIndex==0 && isParticipant) {
+                        [O_readOnlyButton setEnabled:YES];
+                    } else if (pair.itemIndex==1 && isParticipant) {
+                        [O_readWriteButton setEnabled:YES];
+                    }
                 } else if (pair.itemIndex==2) {
                     [O_readOnlyButton setEnabled:YES];
                     [O_readWriteButton setEnabled:YES];
@@ -350,9 +354,19 @@ enum {
             if (pair.itemIndex==2) {
                 [session setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
             } else {
-                NSString *userID=[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID];
-                if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
-                    [session setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:userID]];
+                NSDictionary *participants=[session participants];
+                NSString *group=(pair.itemIndex==0?@"ReadWrite":@"ReadOnly");
+                NSArray *groupParticipants=[participants objectForKey:group];
+                if (pair.childIndex<[groupParticipants count]) {
+                    NSString *userID=[[groupParticipants objectAtIndex:pair.childIndex] userID];
+                    if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
+                        [session setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:userID]];
+                    }
+                } else {
+                    NSString *userID=[[[[session invitedUsers] objectForKey:group] objectAtIndex:pair.childIndex-[groupParticipants count]] userID];
+                    if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
+                        [session cancelInvitationForUserWithID:userID];
+                    }
                 }
             }
         }
@@ -794,10 +808,13 @@ enum {
     } else {
         TCMMMSession *session=[(PlainTextDocument *)[self document] session];
         NSDictionary *participants=[session participants];
+        NSDictionary *invitedUsers=[session invitedUsers];
         if (anItemIndex==0) {
-            return [[participants objectForKey:@"ReadWrite"] count];
+            return [[participants objectForKey:@"ReadWrite"] count] + 
+                   [[invitedUsers objectForKey:@"ReadWrite"] count];
         } else if (anItemIndex==1) {
-            return [[participants objectForKey:@"ReadOnly"] count];
+            return [[participants objectForKey:@"ReadOnly"] count] + 
+                   [[invitedUsers objectForKey:@"ReadOnly"] count];
         } else if (anItemIndex==2) {
             return [[session pendingUsers] count];
         }
@@ -838,11 +855,19 @@ enum {
         PlainTextDocument *document=(PlainTextDocument *)[self document];
         TCMMMSession *session=[document session];
         NSDictionary *participants=[session participants];
+        NSDictionary *invitedUsers=[session invitedUsers];
+        NSString *status=nil;
         TCMMMUser *user=nil;
-        if (anItemIndex==0) {
-            user=[[participants objectForKey:@"ReadWrite"] objectAtIndex:aChildIndex];
-        } else if (anItemIndex==1) {
-            user=[[participants objectForKey:@"ReadOnly"] objectAtIndex:aChildIndex];
+        int participantCount=0;
+        if (anItemIndex==0 || anItemIndex==1) {
+            NSString *group=(anItemIndex==0)?@"ReadWrite":@"ReadOnly";
+            participantCount=[[participants objectForKey:group] count];
+            if (aChildIndex < participantCount) {
+                user=[[participants objectForKey:group] objectAtIndex:aChildIndex];
+            } else {
+                user=[[invitedUsers objectForKey:group] objectAtIndex:aChildIndex-participantCount];
+                status=[session stateOfInvitedUserById:[user userID]];
+            }
         } else if (anItemIndex==2) {
             user=[[session pendingUsers] objectAtIndex:aChildIndex];
         }
@@ -860,7 +885,9 @@ enum {
                    [document documentForegroundColor],NSForegroundColorAttributeName,
                    userColor,NSBackgroundColorAttributeName, nil];
                 NSString *result=@" ";
-                if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
+                if (status) {
+                    result=status;
+                } else if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
                     result =[(TextStorage *)[document textStorage] 
                             positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
                 } else if (selectionOperation) {

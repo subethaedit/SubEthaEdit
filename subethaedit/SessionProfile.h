@@ -34,6 +34,7 @@
 - (void)sendSessionContent:(NSDictionary *)aSessionContent;
 - (void)sendSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)acceptInvitation;
+- (void)declineInvitation;
 - (void)acceptJoin;
 - (void)denyJoin;
 
@@ -57,6 +58,7 @@
 - (void)profileDidDenyJoinRequest:(SessionProfile *)aProfile;
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)aProfile;
 - (void)profileDidAcceptInvitation:(SessionProfile *)aProfile;
+- (void)profileDidDeclineInvitation:(SessionProfile *)aProfile;
 - (NSArray *)profile:(SessionProfile *)aProfile userRequestsForSessionInformation:(NSDictionary *)sessionInfo;
 - (void)profile:(SessionProfile *)aProfile didReceiveUserRequests:(NSArray *)aUserRequestArray;
 

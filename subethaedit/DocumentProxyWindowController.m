@@ -50,6 +50,8 @@
 
 - (IBAction)acceptAction:(id)aSender {
     [[[self window] contentView] replaceSubview:O_bottomDecisionView with:O_bottomStatusView];
+    [O_statusBarTextField setStringValue:@"...."];
+    [[(PlainTextDocument *)[self document] session] acceptInvitation];
 }
 
 

@@ -86,12 +86,6 @@
     [self close];
 }
 
-- (void)acceptInvitation
-{
-    NSMutableData *data = [NSMutableData dataWithBytes:"INVACK" length:6];
-    [[self channel] sendMSGMessageWithPayload:data];
-}
-
 - (void)acceptJoin
 {
     NSMutableData *data = [NSMutableData dataWithBytes:"JONACK" length:6];
@@ -103,6 +97,26 @@
     [[self channel] sendMSGMessageWithPayload:data];
     [self close];
 }
+
+- (void)acceptInvitation
+{
+    NSMutableData *data = [NSMutableData dataWithBytes:"INVACK" length:6];
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
+- (void)declineInvitation 
+{
+    NSMutableData *data = [NSMutableData dataWithBytes:"INVDNY" length:6];
+    [[self channel] sendMSGMessageWithPayload:data];
+    [self close];
+}
+
+- (void)cancelInvitation {
+    NSMutableData *data = [NSMutableData dataWithBytes:"INVCAN" length:6];
+    [[self channel] sendMSGMessageWithPayload:data];
+    [self close];
+}
+
 
 - (void)sendSessionInformation:(NSDictionary *)aSessionInformation {
     NSMutableData *data = [NSMutableData dataWithBytes:"SESINF" length:6];
@@ -205,8 +219,18 @@
             if ([delegate respondsToSelector:@selector(profileDidAcceptJoinRequest:)]) {
                 [delegate profileDidAcceptJoinRequest:self];
             }
+        } else if (strncmp(type, "INVDNY", 6) == 0) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received decline Invitation.");
+            id delegate = [self delegate];
+            if ([delegate respondsToSelector:@selector(profileDidDeclineInvitation:)]) {
+                [delegate profileDidDeclineInvitation:self];
+            }
         } else if (strncmp(type, "INVACK", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Receive accepted invitation.");
+            id delegate=[self delegate];
+            if ([delegate respondsToSelector:@selector(profileDidAcceptInvitation:)]) {
+                [delegate profileDidAcceptInvitation:self];
+            }
         } else if (strncmp(type, "SESINF", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received session information.");
             NSData *data = [[aMessage payload] subdataWithRange:NSMakeRange(6, [[aMessage payload] length]-6)];

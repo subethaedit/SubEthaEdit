@@ -31,6 +31,7 @@ typedef enum TCMMMSessionAccessState {
     NSMutableDictionary *I_participants;
     NSMutableDictionary *I_invitedUsers;
     NSMutableDictionary *I_groupOfInvitedUsers;
+    NSMutableDictionary *I_stateOfInvitedUsers;
     NSMutableDictionary *I_sessionContentForUserID;
     NSMutableSet *I_contributors;
     NSMutableArray *I_pendingUsers;
@@ -73,6 +74,8 @@ typedef enum TCMMMSessionAccessState {
 - (void)setAccessState:(TCMMMSessionAccessState)aState;
 - (TCMMMSessionAccessState)accessState;
 
+- (NSDictionary *)invitedUsers;
+- (NSString *)stateOfInvitedUserById:(NSString *)aUserID;
 - (unsigned int)participantCount;
 - (NSDictionary *)participants;
 - (NSArray *)pendingUsers;
@@ -88,9 +91,14 @@ typedef enum TCMMMSessionAccessState {
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs;
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 
-- (void)inviteUser:(TCMMMUser *)aUser intoGroup:(NSString *)aGroup usingBEEPSession:(TCMBEEPSession *)aBEEPSession;
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession;
 - (void)cancelJoin;
+
+- (void)inviteUser:(TCMMMUser *)aUser intoGroup:(NSString *)aGroup usingBEEPSession:(TCMBEEPSession *)aBEEPSession;
+- (void)cancelInvitationForUserWithID:(NSString *)aUserID;
+- (void)acceptInvitation;
+- (void)declineInvitation;
+
 - (void)leave;
 - (void)abandon;
 - (void)inviteUserWithID:(NSString *)aUserID;
