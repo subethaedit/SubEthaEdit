@@ -303,7 +303,8 @@ static NSMenu *defaultMenu=nil;
             return NSDragOperationGeneric;
         }
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]]) {
+        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]] && 
+            [[sender draggingSource] windowController]==[[self window] windowController]) {
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }
