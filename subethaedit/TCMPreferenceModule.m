@@ -29,6 +29,8 @@
 - (NSView *)assignMainView
 {
     NSView *contentView = [O_window contentView];
+    I_minSize = [O_window contentMinSize];
+    I_maxSize = [O_window contentMaxSize];
     [self setMainView:contentView];
     [O_window release];
     O_window = nil;
@@ -97,6 +99,18 @@
 
 - (void)willUnselect
 {
+}
+
+- (NSSize)maxSize
+{
+    NSLog(@"maxSize: %@", NSStringFromSize(I_maxSize));
+    return I_maxSize;
+}
+
+- (NSSize)minSize
+{
+    NSLog(@"minSize: %@", NSStringFromSize(I_minSize));
+    return I_minSize;
 }
 
 @end

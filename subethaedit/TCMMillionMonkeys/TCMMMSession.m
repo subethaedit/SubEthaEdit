@@ -174,7 +174,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
         NSMutableIndexSet *set = [aSet mutableCopy];
         unsigned index;
         while ((index = [set firstIndex]) != NSNotFound) {
-            TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
+            //TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
             // deny
         }
         [set release];

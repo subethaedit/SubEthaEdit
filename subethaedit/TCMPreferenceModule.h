@@ -14,6 +14,8 @@
 {
     IBOutlet NSWindow *O_window;
     NSView *O_mainView;
+    NSSize I_maxSize;
+    NSSize I_minSize;
 }
 
 - (NSImage *)icon;
@@ -35,5 +37,8 @@
 - (void)replyToShouldUnselect:(BOOL)shouldUnselect;
 - (NSPreferencePaneUnselectReply)shouldUnselect;
 - (void)willUnselect;
+
+- (NSSize)maxSize;
+- (NSSize)minSize;
 
 @end

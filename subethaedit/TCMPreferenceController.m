@@ -126,7 +126,18 @@ static NSMutableDictionary *registeredPrefModules;
     frame = [window frameRectForContentRect:frame];
     [window setFrame:frame display:YES animate:YES];
 
-    [[self window] setContentView:[module mainView]];
+    [window setContentView:[module mainView]];
+    if ([module isKindOfClass:[TCMPreferenceModule class]]) {
+        [window setContentMaxSize:[module maxSize]];
+        [window setContentMinSize:[module minSize]];
+        if (NSEqualSizes([module maxSize], [module minSize])) {
+            [window setShowsResizeIndicator:NO];
+        } else {
+            [window setShowsResizeIndicator:YES];
+        }
+    } else {
+        [window setShowsResizeIndicator:YES];
+    }
 }
 
 - (void)selectPrefPane:(id)aSender
