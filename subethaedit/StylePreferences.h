@@ -17,6 +17,7 @@
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSObjectController *O_modeController;
     IBOutlet NSObjectController *O_fontController;
+    IBOutlet NSObjectController *O_styleController;
     IBOutlet TableView *O_stylesTableView;
     NSMutableDictionary *I_baseStyleDictionary;
     NSFont *I_baseFont;

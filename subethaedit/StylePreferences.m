@@ -70,7 +70,7 @@
 }
 
 - (void)updateBackgroundColor {
-    NSDictionary *baseStyle=[[[O_modeController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
+    NSDictionary *baseStyle=[[[O_styleController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
     [O_stylesTableView setLightBackgroundColor:[baseStyle objectForKey:@"background-color"]];
     [O_stylesTableView setDarkBackgroundColor: [baseStyle objectForKey:@"inverted-background-color"]];
     [O_stylesTableView reloadData];
@@ -88,6 +88,7 @@
     DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
     DocumentMode *selectedMode=[O_modePopUpButton selectedMode];
     [O_fontController setContent:([O_fontDefaultButton state]==NSOnState)?baseMode:selectedMode];
+    [O_styleController setContent:useDefault?baseMode:selectedMode];
     [O_defaultStyleButton setHidden:[[I_currentSyntaxStyle documentMode] isBaseMode]];
     if (O_defaultStyleButton !=aSender) {
         [O_defaultStyleButton setState:useDefault?NSOnState:NSOffState];
@@ -96,12 +97,9 @@
     [O_stylesTableView setDisableFirstRow:useDefault];
     
     if (useDefault) {
-        [O_modeController setContent:baseMode];
         [O_stylesTableView deselectRow:0];
-    } else {
-        [O_modeController setContent:[O_modePopUpButton selectedMode]];
     }
-    NSDictionary *baseStyle=[[[O_modeController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
+    NSDictionary *baseStyle=[[[O_styleController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
     [O_backgroundColorWell         setColor:[baseStyle objectForKey:@"background-color"]         ];
     [O_invertedBackgroundColorWell setColor:[baseStyle objectForKey:@"inverted-background-color"]]; 
     [self takeFontFromMode:selectedMode];
@@ -141,12 +139,13 @@
 #define MANY  -4
 
 - (void)updateInspector {
-    int bold=UNITITIALIZED, italic=UNITITIALIZED, manyColors=NO,manyInvertedColors=NO;
+    int bold=UNITITIALIZED, italic=UNITITIALIZED, manyColors=NO,manyInvertedColors=NO,revertable=NO;
     unsigned int indexBuffer[BUFFERSIZE];
     NSColor *color=nil,*invertedColor=nil;
     NSArray *allKeys=[I_currentSyntaxStyle allKeys];
     NSIndexSet *selectedRows=[O_stylesTableView selectedRowIndexes];
     NSRange range=NSMakeRange(0,NSNotFound);
+    SyntaxStyle *defaultStyle=[[I_currentSyntaxStyle documentMode] defaultSyntaxStyle];
     int count;
     while ((count=[selectedRows getIndexes:indexBuffer maxCount:BUFFERSIZE inIndexRange:&range])) {
         int i=0;
@@ -194,6 +193,9 @@
                     }
                 }
             }
+            if (![SyntaxStyle style:style isEqualToStyle:[defaultStyle styleForKey:key]]) {
+                revertable=YES;
+            }
         }
     }
     
@@ -209,6 +211,7 @@
         [O_colorWell setColor:color];
         [O_invertedColorWell setColor:invertedColor];
     }
+    [O_revertSelectionToModeButton setEnabled:revertable];
     // sad but needed...
     [[O_boldButton superview] setNeedsDisplay:YES];
 }
@@ -218,6 +221,7 @@
 
 - (IBAction)changeMode:(id)aSender {
     DocumentMode *newMode=[aSender selectedMode];
+    [O_modeController setContent:newMode];
     I_currentSyntaxStyle=[newMode syntaxStyle];
     [O_stylesTableView reloadData];
     [O_stylesTableView selectRow:0 byExtendingSelection:NO];
@@ -412,9 +416,20 @@
         s_paragraphStyle=[[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         [s_paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
     }
+//    float obliquenessFactor=.0;
+//    if ((traits & NSItalicFontMask) && !([fontManager traitsOfFont:font] & NSItalicFontMask)) {
+//        obliquenessFactor=.2;
+//    }
+//    float strokeWidth=.0;
+//    if ((traits & NSBoldFontMask) && !([fontManager traitsOfFont:font] & NSBoldFontMask)) {
+//        strokeWidth=-3.;
+//    }
+//    
     NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
         [[aTableColumn identifier]isEqualToString:@"light"]?[style objectForKey:@"color"]:[style objectForKey:@"inverted-color"],NSForegroundColorAttributeName,
         s_paragraphStyle,NSParagraphStyleAttributeName,
+//        [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
+//        [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
         nil];
     return [[[NSAttributedString alloc] initWithString:localizedString attributes:attributes] autorelease];
 }

@@ -39,7 +39,5 @@ extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 @end
 
 @interface NSObject (SyntaxHighlighterDocument) 
-- (NSColor *)documentForegroundColor;
-- (NSFont *)fontWithTrait:(NSFontTraitMask)aMask;
 - (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID;
 @end

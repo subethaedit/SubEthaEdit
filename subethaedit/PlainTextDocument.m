@@ -2695,11 +2695,22 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         } else {
             style=[[documentMode syntaxStyle] styleForKey:aStyleID];
         }
-        NSFont *font=[self fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]];
+        NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
+        NSFont *font=[self fontWithTrait:traits];
+//        float obliquenessFactor=0.;
+//        if ((traits & NSItalicFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSItalicFontMask)) {
+//            obliquenessFactor=.2;
+//        }
+//        float strokeWidth=.0;
+//        if ((traits & NSBoldFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSBoldFontMask)) {
+//            strokeWidth=-3.;
+//        }
         NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
         result=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
             foregroundColor,NSForegroundColorAttributeName,
             aStyleID,@"styleID",
+//            [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
+//            [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
             nil];
         [I_styleCacheDictionary setObject:result forKey:aStyleID];
     }

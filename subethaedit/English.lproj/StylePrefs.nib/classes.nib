@@ -63,6 +63,7 @@
                 "O_modeController" = NSObjectController; 
                 "O_modePopUpButton" = DocumentModePopUpButton; 
                 "O_revertSelectionToModeButton" = NSButton; 
+                "O_styleController" = NSObjectController; 
                 "O_stylesTableView" = TableView; 
             }; 
             SUPERCLASS = TCMPreferenceModule; 
