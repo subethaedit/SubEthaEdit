@@ -97,8 +97,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
             NSLocalizedString(@"Hide Participants", nil) :
             NSLocalizedString(@"Show Participants", nil)];
         return YES;
-    }
-    
+    }    
     return YES;
 }
 
@@ -201,6 +200,10 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
+
+- (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
+    return [[self document] textView:aTextView doCommandBySelector:aSelector];
+}
 
 -(BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
     [aTextView setTypingAttributes:[(PlainTextDocument *)[self document] plainTextAttributes]];

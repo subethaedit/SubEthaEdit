@@ -9,9 +9,12 @@
         {
             ACTIONS = {
                 announce = id; 
+                changeTabWidth = id; 
                 conceal = id; 
+                toggleIndentNewLines = id; 
                 toggleParticipantsDrawer = id; 
                 toggleSyntaxHighlighting = id; 
+                toggleUseTabs = id; 
             }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 

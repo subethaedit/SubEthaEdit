@@ -19,7 +19,10 @@
         BOOL isRemotelyEditingTextStorage;
         BOOL isPerformingSyntaxHighlighting;
         BOOL highlightSyntax;
+        BOOL useTabs;
+        BOOL indentNewLines;
     } I_flags;
+    int I_tabWidth;
     DocumentMode  *I_documentMode;
     NSTextStorage *I_textStorage;
     struct {

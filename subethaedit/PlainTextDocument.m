@@ -111,6 +111,12 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
+    I_flags.indentNewLines=[[aDocumentMode defaultForKey:DocumentModeIndentNewLinesPreferenceKey] boolValue];
+    I_flags.useTabs=[[aDocumentMode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue];
+    I_tabWidth=[[aDocumentMode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue];
+    if (I_tabWidth<1) {
+        I_tabWidth=1;
+    }
     [self setPlainFont:newFont];
     [I_textStorage addAttributes:[self plainTextAttributes]
                                range:NSMakeRange(0,[I_textStorage length])];
@@ -351,7 +357,16 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
         } else {
             [anItem setState:NSOffState];
         }
+    } else if (selector == @selector(toggleUseTabs:)) {
+        [anItem setState:(I_flags.useTabs?NSOnState:NSOffState)];
+        return YES;
+    } else if (selector == @selector(toggleIndentNewLines:)) {
+        [anItem setState:(I_flags.indentNewLines?NSOnState:NSOffState)];
+        return YES;
+    } else if (selector == @selector(changeTabWidth:)) {
+        [anItem setState:(I_tabWidth==[[anItem title]intValue]?NSOnState:NSOffState)];
     }
+
     return [super validateMenuItem:anItem];
 }
 
@@ -416,6 +431,18 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
+
+- (IBAction)toggleUseTabs:(id)aSender {
+    I_flags.useTabs=!I_flags.useTabs;
+}
+
+- (IBAction)toggleIndentNewLines:(id)aSender {
+    I_flags.indentNewLines=!I_flags.indentNewLines;
+}
+
+- (IBAction)changeTabWidth:(id)aSender {
+    I_tabWidth=[[aSender title] intValue];
+}
 
 - (IBAction)chooseMode:(id)aSender {
     DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
@@ -535,7 +562,105 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
 }
 
 #pragma mark -
-#pragma mark ### TextView Notifications ###
+#pragma mark ### TextView Notifications / Extended Delegate ###
+
+- (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
+    // NSLog(@"TextDocument textView doCommandBySelector:%@",NSStringFromSelector(aSelector));
+    NSRange affectedRange=[aTextView rangeForUserTextChange];
+//    NSRange selectedRange=[aTextView selectedRange];
+//    if (aSelector==@selector(cancel:)) {
+//        if (_flags.hasBlockeditRanges) {
+//            [self stopBlockedit];
+//            [(TextDocumentWindowController *)[[aTextView window] windowController] updatePositionTextField];
+//            return YES;
+//        }
+//    } else 
+    if (aSelector==@selector(deleteBackward:)) {
+        //NSLog(@"AffectedRange=%d,%d",affectedRange.location,affectedRange.length);
+        if (affectedRange.length==0 && affectedRange.location>0) {
+            if (!I_flags.useTabs) {
+                // when we have a tab we have to find the last linebreak
+                NSString *string=[[self textStorage] string];
+                NSRange lineRange=[string lineRangeForRange:affectedRange];
+                unsigned firstCharacter=0;
+                int position=affectedRange.location;
+                while (--position>=lineRange.location) {
+                    if (!firstCharacter && [string characterAtIndex:position]!=[@"\t" characterAtIndex:0] &&
+                                           [string characterAtIndex:position]!=[@" " characterAtIndex:0]) {
+                        firstCharacter=position+1;
+                        break;
+                    }
+                }
+                position=lineRange.location;
+                //NSLog(@"last linebreak, firstcharacter=%d,%d",position,firstCharacter);
+                if (firstCharacter==affectedRange.location 
+                    || affectedRange.location==lineRange.location 
+                    || firstCharacter) {
+                    return NO;
+                }
+                int toDelete=(affectedRange.location-lineRange.location)%I_tabWidth;
+                if (toDelete==0) {
+                    toDelete=I_tabWidth; 
+                }
+                NSRange deleteRange;
+                deleteRange.location=affectedRange.location-toDelete;
+                deleteRange.length  =affectedRange.location-deleteRange.location;
+                [aTextView setSelectedRange:NSMakeRange(deleteRange.location,deleteRange.length)];
+                [aTextView insertText:@""];
+                return YES;
+            }
+        }    
+    } else if (aSelector==@selector(insertNewline:)) {
+        NSString *indentString=nil;
+        if (I_flags.indentNewLines) {
+            // when we have a newline, we have to find the last linebreak
+            NSString    *string=[[self textStorage] string];
+            NSRange indentRange=[string lineRangeForRange:affectedRange];        
+            indentRange.length=0;
+            while (NSMaxRange(indentRange)<affectedRange.location &&
+                   ([string characterAtIndex:NSMaxRange(indentRange)]==[@" "  characterAtIndex:0] ||
+                    [string characterAtIndex:NSMaxRange(indentRange)]==[@"\t" characterAtIndex:0])) {
+                indentRange.length++;
+            }
+            if (indentRange.length) {
+                indentString=[string substringWithRange:indentRange];
+            }
+        }
+        NSString *_lineEndingString=@"\n";
+        if (indentString) {
+            [aTextView insertText:[NSString stringWithFormat:@"%@%@",_lineEndingString,indentString]];        
+        } else {
+            [aTextView insertText:_lineEndingString];
+        }
+        return YES;
+        
+    } 
+    else if (aSelector==@selector(insertTab:) && !I_flags.useTabs) {
+        // when we have a tab we have to find the last linebreak
+        NSRange lineRange=[[[self textStorage] string] lineRangeForRange:affectedRange];        
+        NSString *replacementString=[@" " stringByPaddingToLength:I_tabWidth-((affectedRange.location-lineRange.location)%I_tabWidth)
+                                                       withString:@" " startingAtIndex:0];
+        [aTextView insertText:replacementString];
+        return YES;
+    } 
+//    else if ((aSelector==@selector(moveLeft:) || aSelector==@selector(moveRight:)) &&
+//                [defaults boolForKey:ShowMatchingBracketsPreferenceKey]) {
+//        unsigned int position=0;
+//        if (aSelector==@selector(moveLeft:)) {
+//            position=selectedRange.location-1;        
+//        } else {
+//            position=NSMaxRange(selectedRange);
+//        }
+//        NSString *string=[_textStorage string];
+//        if (position>=0 && position<[_textStorage length] && 
+//            isBracket([string characterAtIndex:position]) ) { 
+//            [self highlightBracketAtPosition:position inTextView:aTextView];
+//        }
+//    }
+//    _flags.controlBlockedit=YES;
+    return NO;
+}
+
 
 - (void)textViewDidChangeSelection:(NSNotification *)aNotification {
     if (!I_flags.isRemotelyEditingTextStorage) {
