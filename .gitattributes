@@ -217,6 +217,7 @@ prototype/xmpp-cli/xmpp.xcode/project.pbxproj -text
 prototype/xmpp-cli/xmpp_Prefix.pch -text
 subethaedit/AboutPanelController.h -text
 subethaedit/AboutPanelController.m -text
+subethaedit/Acknowledgements.rtf -text
 subethaedit/AppController.h -text
 subethaedit/AppController.m -text
 subethaedit/ButtonScrollView.h -text
@@ -258,8 +259,6 @@ subethaedit/EncodingManager.m -text
 subethaedit/English.lproj/AboutPanel.nib/classes.nib -text
 subethaedit/English.lproj/AboutPanel.nib/info.nib -text
 subethaedit/English.lproj/AboutPanel.nib/keyedobjects.nib -text
-subethaedit/English.lproj/Acknowledgements.rtf -text
-subethaedit/English.lproj/Credits.rtf -text
 subethaedit/English.lproj/DocumentProxy.nib/classes.nib -text
 subethaedit/English.lproj/DocumentProxy.nib/info.nib -text
 subethaedit/English.lproj/DocumentProxy.nib/keyedobjects.nib -text
@@ -279,7 +278,6 @@ subethaedit/English.lproj/InfoPlist.strings -text svneol=unset#text/plain
 subethaedit/English.lproj/InternetBrowser.nib/classes.nib -text
 subethaedit/English.lproj/InternetBrowser.nib/info.nib -text
 subethaedit/English.lproj/InternetBrowser.nib/keyedobjects.nib -text
-subethaedit/English.lproj/License.rtf -text
 subethaedit/English.lproj/Localizable.strings -text svneol=unset#text/plain
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
 subethaedit/English.lproj/MainMenu.nib/info.nib -text
@@ -353,6 +351,7 @@ subethaedit/Invitation.aiff -text
 subethaedit/Knock.wav -text
 subethaedit/LayoutManager.h -text
 subethaedit/LayoutManager.m -text
+subethaedit/License.rtf -text
 subethaedit/Modes/ActionScript.mode/Contents/Info.plist -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/RegexSymbols.xml -text

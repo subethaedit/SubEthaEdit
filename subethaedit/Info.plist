@@ -222,6 +222,14 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CFBundleName</key>
+	<string>SubEthaEdit</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.0.1</string>
+	<key>CFBundleGetInfoString</key>
+	<string>SubEthaEdit 2.0.1, Copyright © 2003-2004, TheCodingMonkeys</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2003-2004, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>

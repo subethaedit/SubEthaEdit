@@ -162,53 +162,19 @@
 			settings = {
 			};
 		};
-		141E287006563B510097DFF8 = {
-			children = (
-				141E287106563B510097DFF8,
-			);
-			isa = PBXVariantGroup;
-			name = Acknowledgements.rtf;
-			path = "";
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		141E287106563B510097DFF8 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.rtf;
-			name = English;
-			path = English.lproj/Acknowledgements.rtf;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		141E287206563B510097DFF8 = {
-			children = (
-				141E287306563B510097DFF8,
-			);
-			isa = PBXVariantGroup;
-			name = License.rtf;
-			path = "";
+			path = Acknowledgements.rtf;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		141E287306563B510097DFF8 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.rtf;
-			name = English;
-			path = English.lproj/License.rtf;
+			path = License.rtf;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		141E287406563B510097DFF8 = {
-			fileRef = 141E287006563B510097DFF8;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		141E287506563B510097DFF8 = {
-			fileRef = 141E287206563B510097DFF8;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		14249EFB05FC826400D8C6B9 = {
 			fileEncoding = 4;
@@ -794,6 +760,18 @@
 		};
 		145B024306A6A60B00160C0E = {
 			fileRef = 145B01A106A6A60B00160C0E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		145B0C7206A6A94B00160C0E = {
+			fileRef = 141E287106563B510097DFF8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		145B0C7306A6A95100160C0E = {
+			fileRef = 141E287306563B510097DFF8;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2126,9 +2104,9 @@
 				14703803060C647B0087BA25,
 				5EEB176705ECDC0C00C17677,
 				5E4AB51D063EA9BD00B67F07,
-				141E287006563B510097DFF8,
+				141E287106563B510097DFF8,
 				31944D0806566F620067EAD7,
-				141E287206563B510097DFF8,
+				141E287306563B510097DFF8,
 				14FF9F430653915D0021FB60,
 				2A37F4B6FDCFA73011CA2CEA,
 				5EA982840641001800FD5B65,
@@ -5224,8 +5202,8 @@
 				319411590655153D0067EAD7,
 				5E713F5F065594320062A1AF,
 				5E713F61065599280062A1AF,
-				141E287406563B510097DFF8,
-				141E287506563B510097DFF8,
+				145B0C7206A6A94B00160C0E,
+				145B0C7306A6A95100160C0E,
 				31944D0706565F560067EAD7,
 				31944D0906566F620067EAD7,
 				3194575C0657A40F0067EAD7,
