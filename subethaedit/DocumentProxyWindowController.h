@@ -17,6 +17,7 @@
     IBOutlet NSTextField *O_documentTitleTextField;
     IBOutlet NSTextField *O_userNameTextField;
     IBOutlet NSTextField *O_statusBarTextField;
+    IBOutlet NSView *O_containerView;
 
     NSWindow *I_targetWindow;
     TCMMMSession *I_session;

@@ -50,6 +50,7 @@
 
 - (void)dissolveToWindow:(NSWindow *)aWindow {
     I_targetWindow=[aWindow retain];
+    [O_containerView setAutoresizingMask:([O_containerView autoresizingMask] & ~NSViewWidthSizable) | NSViewMinXMargin | NSViewMaxXMargin ];
     [[self window] setFrame:[I_targetWindow frame] display:YES animate:YES];
 }
 

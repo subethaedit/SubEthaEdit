@@ -145,6 +145,10 @@ static RendezvousBrowserController *sharedInstance=nil;
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didRemoveResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
     DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Removed Service: %@",aNetService);
+    if (wasResolved) {
+        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
+        [I_foundUserIDs removeObject:userID];
+    }
 }
 
 #pragma mark -

@@ -4,6 +4,7 @@
             CLASS = DocumentProxyWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "O_containerView" = NSView; 
                 "O_documentImageView" = NSImageView; 
                 "O_documentTitleTextField" = NSTextField; 
                 "O_statusBarTextField" = NSTextField; 

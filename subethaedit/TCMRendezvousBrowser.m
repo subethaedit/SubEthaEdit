@@ -159,6 +159,8 @@ static NSString *kServiceKey=@"Service";
                 [delegate rendezvousBrowser:self didRemoveResolved:([serviceEntry objectForKey:kDidResolveKey]!=nil) service:netService];
             }
             [self removeEntryForService:aNetService];
+        } else {
+            [serviceEntry setObject:[NSNumber numberWithInt:newCount] forKey:kServiceCountKey];
         }
     }
 }
