@@ -322,6 +322,9 @@ subethaedit/English.lproj/SelectEncodingsPanel.nib/objects.nib -text
 subethaedit/English.lproj/Setup.nib/classes.nib -text
 subethaedit/English.lproj/Setup.nib/info.nib -text
 subethaedit/English.lproj/Setup.nib/keyedobjects.nib -text
+subethaedit/English.lproj/StylePrefs.nib/classes.nib -text
+subethaedit/English.lproj/StylePrefs.nib/info.nib -text
+subethaedit/English.lproj/StylePrefs.nib/keyedobjects.nib -text
 subethaedit/English.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help[!!-~]idx -text
 subethaedit/English.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
 subethaedit/English.lproj/SubEthaEditHelp/css/access.css -text
@@ -836,6 +839,8 @@ subethaedit/SetupController.h -text
 subethaedit/SetupController.m -text
 subethaedit/SplitView.h -text
 subethaedit/SplitView.m -text
+subethaedit/StylePreferences.h -text
+subethaedit/StylePreferences.m -text
 subethaedit/SubEthaEdit.sdef -text
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
 subethaedit/SubEthaEditHelperTool.m -text
@@ -981,6 +986,7 @@ subethaedit/artwork/StatusLock.tiff -text
 subethaedit/artwork/StatusPending.tiff -text
 subethaedit/artwork/StatusReadOnly.tiff -text
 subethaedit/artwork/StatusReadWrite.tiff -text
+subethaedit/artwork/StylePrefs.tiff -text
 subethaedit/artwork/SubEthaEdit.icns -text
 subethaedit/artwork/SubEthaEditFiles.icns -text
 subethaedit/artwork/SubEthaEdit_Splash.png -text

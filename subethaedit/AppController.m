@@ -21,6 +21,7 @@
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
+#import "StylePreferences.h"
 #import "PrintPreferences.h"
 
 #import "HandshakeProfile.h"
@@ -304,6 +305,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [TCMPreferenceController registerPrefModule:generalPrefs];
     EditPreferences *editPrefs = [[EditPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:editPrefs];
+    [TCMPreferenceController registerPrefModule:[[StylePreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[PrintPreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[AdvancedPreferences new] autorelease]];
     
