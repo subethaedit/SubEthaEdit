@@ -125,6 +125,9 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     } else if (selector == @selector(toggleBottomStatusBar:)) {
         [menuItem setState:[[I_plainTextEditors lastObject] showsBottomStatusBar]?NSOnState:NSOffState];
         return YES;
+    } else if (selector == @selector(toggleLineNumbers:)) {
+        [menuItem setState:[self showsGutter]?NSOnState:NSOffState];
+        return YES;
     } 
     return YES;
 }

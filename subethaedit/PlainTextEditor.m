@@ -463,9 +463,6 @@
     if (selector == @selector(toggleWrap:)) {
         [menuItem setState:[O_scrollView hasHorizontalScroller]?NSOffState:NSOnState];
         return YES;
-    } else if (selector == @selector(toggleLineNumbers:)) {
-        [menuItem setState:[O_scrollView rulersVisible]?NSOnState:NSOffState];
-        return YES;
     } else if (selector == @selector(toggleTopStatusBar:)) {
         [menuItem setState:[self showsTopStatusBar]?NSOnState:NSOffState];
         return YES;

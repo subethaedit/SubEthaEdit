@@ -44,4 +44,8 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows;
 
+- (BOOL)showsGutter;
+- (void)setShowsGutter:(BOOL)aFlag;
+- (IBAction)toggleLineNumbers:(id)aSender;
+
 @end
