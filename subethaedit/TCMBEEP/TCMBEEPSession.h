@@ -40,6 +40,7 @@ enum {
     NSMutableDictionary *I_activeChannels;
     
     int32_t I_nextChannelNumber;
+    int I_maximumFrameSize;
     
     id I_delegate;
     
@@ -93,6 +94,7 @@ enum {
 - (NSString *)peerLocalizeAttribute;
 - (BOOL)isInitiator;
 - (NSMutableDictionary *)activeChannels;
+- (int)maximumFrameSize;
 
 - (void)open;
 - (void)close;

@@ -16,6 +16,8 @@
 {
     unsigned long I_number;
     uint32_t I_sequenceNumber;
+    uint32_t I_incomingWindowSize;
+    uint32_t I_outgoingWindowSize;
     TCMBEEPSession *I_session;
     NSString *I_profileURI;
     id I_profile;

@@ -13,7 +13,9 @@
 
 #import <netinet/in.h>
 #import <sys/socket.h>
-
+#import <sys/sockio.h>  // SIOCGIFMTU
+#import <sys/ioctl.h> // ioctl()
+#import <net/if.h> // struct ifreq
 
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/Management.profile";
@@ -57,6 +59,11 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
     I_userInfo = [NSMutableDictionary new];
     I_channelRequests = [NSMutableDictionary new];
+    
+    // RFC 879 - The TCP Maximum Segment Size and Related Topics
+    // MSS: 1500 - 60 - 20 = 1420
+    // 2/3 MSS: 946
+    I_maximumFrameSize = 946;
     
 #ifdef TCMBEEP_DEBUG  
     int fileNumber;
@@ -274,6 +281,11 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     return I_nextChannelNumber;
 }
 
+- (int)maximumFrameSize
+{
+    return I_maximumFrameSize;
+}
+
 - (void)activateChannel:(TCMBEEPChannel *)aChannel
 {
     [I_activeChannels setObject:aChannel forLong:[aChannel number]];
@@ -477,8 +489,26 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 - (void)TCM_handleOutputStreamEvent:(NSStreamEvent)streamEvent
 {
     switch (streamEvent) {
-        case NSStreamEventOpenCompleted:
+        case NSStreamEventOpenCompleted: {
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Output stream open completed.");
+                /*
+                NSData *socketNativeHandleData = [I_inputStream propertyForKey:(NSString *)kCFStreamPropertySocketNativeHandle];
+                if (socketNativeHandleData) {
+                    CFSocketNativeHandle socketNativeHandle;
+                    [socketNativeHandleData getBytes:&socketNativeHandle length:sizeof(CFSocketNativeHandle)];
+                    struct ifreq request;
+                    memset(&request, 0, sizeof( struct ifreq));
+                    strncpy(request.ifr_name, "en0", IFNAMSIZ);
+                    int result = ioctl(socketNativeHandle, SIOCGIFMTU, (char *)&request);
+                    if (result != -1) {
+                        int mtu = request.ifr_mtu;
+                        NSLog(@"MTU: %d", mtu);
+                    } else {
+                        NSLog(@"ioctl failed: %s", strerror(errno));
+                    }
+                }   
+                */         
+            }
             break;
         case NSStreamEventHasSpaceAvailable:
             [self TCM_writeBytes];
