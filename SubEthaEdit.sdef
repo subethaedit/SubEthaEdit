@@ -33,11 +33,11 @@
             <class name="text document" code="pltd" inherits="document">
                 <cocoa class="PlainTextDocument"/>
                 <contents name="contents" code="ctxt" type="text" description="the text of the document">
-                    <cocoa method="textStorage"/>
+                    <cocoa method="text"/>
                 </contents>
                 <properties>
                     <property name="text" code="ctxt" type="text" description="the text of the document">
-                        <cocoa method="textStorage"/>
+                        <cocoa method="text"/>
                     </property>
                     <property name="encoding" code="Encd" type="string" description="the internet name of the document's encoding">
                         <cocoa method="encoding"/>

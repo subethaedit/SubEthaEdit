@@ -2770,15 +2770,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (NSDictionary *)plainTextAttributes {
     if (!I_plainTextAttributes) {
-        NSColor *foregroundColor=[self documentForegroundColor];
-
         NSMutableDictionary *attributes=[NSMutableDictionary new];
-        [attributes setObject:[self fontWithTrait:0]
-                            forKey:NSFontAttributeName];
+        [attributes addEntriesFromDictionary:[self styleAttributesForStyleID:SyntaxStyleBaseIdentifier]];
         [attributes setObject:[NSNumber numberWithInt:0]
-                            forKey:NSLigatureAttributeName];
-        [attributes setObject:foregroundColor
-                            forKey:NSForegroundColorAttributeName];
+                       forKey:NSLigatureAttributeName];
+        [attributes setObject:[self defaultParagraphStyle]
+                       forKey:NSParagraphStyleAttributeName];
         I_plainTextAttributes=attributes;
     }
     return I_plainTextAttributes;
@@ -4199,6 +4196,8 @@ typedef enum {
 - (AccessOptions)accessOption;
 - (void)setAccessOption:(AccessOptions)option;
 - (NSString *)announcementURL;
+- (NSTextStorage *)text;
+- (void)setText:(NSString *)aString;
 
 @end
 
@@ -4288,6 +4287,28 @@ typedef enum {
     }
     
     return nil;
+}
+
+- (NSTextStorage *)text {
+    return I_textStorage;
+}
+
+- (void)setText:(NSString *)aString {
+    if ([aString isKindOfClass:[NSString class]]) {
+        [[self textStorage] replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withAttributedString:[[[NSAttributedString alloc] initWithString:aString attributes:[self plainTextAttributes]] autorelease]];
+        if (I_flags.highlightSyntax) {
+            [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
+        }
+    }
+}
+
+- (id)coerceValueForText:(id)value {
+    // We want to just get Strings unchanged.  We will detect this and do the right thing in setTextStorage().  We do this because, this way, we will do more reasonable things about attributes when we are receiving plain text.
+    if ([value isKindOfClass:[NSString class]]) {
+        return value;
+    } else {
+        return [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:value toClass:[NSString class]];
+    }
 }
 
 @end
