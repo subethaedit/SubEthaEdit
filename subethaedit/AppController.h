@@ -25,6 +25,7 @@
 
 - (IBAction)showLicense:(id)sender;
 - (IBAction)showAcknowledgements:(id)sender;
+- (IBAction)showRegExHelp:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
 - (IBAction)reportBug:(id)sender;
 

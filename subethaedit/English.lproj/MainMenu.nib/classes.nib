@@ -13,6 +13,7 @@
                 reportBug = id; 
                 showAcknowledgements = id; 
                 showLicense = id; 
+                showRegExHelp = id; 
                 undo = id; 
                 visitWebsite = id; 
             }; 
