@@ -117,7 +117,7 @@
                     NSLog (@"Was greeting....");
                     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
                     NSDictionary *attributes = (NSDictionary *)info->attributes;
-                    NSLog (@"Attributes: %@", [attributes description]);
+                    //NSLog (@"Attributes: %@", [attributes description]);
 
                     NSMutableArray *profileURIs = [NSMutableArray array];
                     int profileCount = CFTreeGetChildCount(xmlTree);
