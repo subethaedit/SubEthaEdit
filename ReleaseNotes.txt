@@ -1,11 +1,66 @@
-SubEthaEdit 2.1 Release Notes
------------------------------
+SubEthaEdit 2.1 Release Notes (r754:r961)
 
-New Features:
-<TBD>
+Additions/New Features: (verbose)
+- HYR-360 (r773)
+- see command line tool
+- "Copy as XHTML"
+- "Copy with Styles" (r795)
+- Improved AppleScript terminology 
+- Highly improved printing
+- Open and save files as root (SEE-12, SEE-13)
+- Entab/Detab (r792)
+- HTML-Export (SEE-135)
+- "Go into bundles" in all open and save dialogs (r805)
+- Syntax Styles
+- Added more keywords/functions/constants/enums to Objective-C mode
+- "Apply to open Documents"
+- Advanced prefs for "Screen Fonts" and "Synthesise Bold and Italic"
+- Added release notes menu item (r909)
+- Added watermark to documents which show up after 2 minutes of inactivity on non-commercial licensed copies.
+- Autocompletion now works by taking into account all open documents of a mode
+- New localizations: French, Korean
+
+- Human readable state names (goes along with syntax styles)
 
 Changes:
-<TBD>
+- Moved font prefs from editing to style prefs (r894)
+- Setup show new features and allows for command line tool installation (r807)
+- Renamed menu item to from "Highlight Syntax" to "Colorize Syntax" (r765)
+- Updated OrgeKit
 
-Bug Fixes:
-<TBD>
+Fixes:
+- Fixed comment escaping in LaTeX mode. (r961)
+- Added qq qr qx qw and q operators with {}, //, || to fix some stuff. (r958)
+- Perl array counter ($#foo) is no longer recognized as comment in Perl mode. (r957)
+- SEE-166 (r955)
+- SEE-165 (r953)
+- Fixed crash on "server" (r950)
+- More consistent display of the status of toolbar items (r945)
+- SEE-136 (r930)
+- Setup now longer consumes 100% CPU (r921)
+- Fixed initial color selection (r920)
+- SEE-160 (r908)
+- Fixed ODB bug where a close event is not send when SEE is quitted (r893)
+- Added coloring for entities in XML and related modes (r883)
+- HYR-413 (r882)
+- HYR-356 (r880, reopened around r919)
+- HYR-359 (r879)
+- Fixed several issues regarding coloring of regular expressions in Perl mode (r878)
+- Fixed several "location of file cannot be determined" issues
+- SEE-156 (r837)
+- Visibility preference is now stored persistently (r837)
+- SEE-122 (r826)
+- SEE-155 (r809)
+- Fixed a crash occurred with web preview (r772)
+- Removed Symbol# image for pragma marks in Objective-C mode and for comment lines in PHP mode(r802)
+- SEE-117 (r771)
+- HYR-411 (r771)
+- Fixed shift left shift right when using tabs. now its greedy (converts
+  all leading whitespace to tabs) and works when only spaces are leading
+  whitespace (r769)
+- Web preview window now keeps its title in sync with the main edit window (r768)
+- Fixed a bug where delayed web preview did not work in modes without symbols (r767)
+- SEE-124 (r766)
+- HYR-383 (r765)
+- Fixed symbols that appeared twice in Lua mode (r757)
+- Fixed coloring of variables in PHP mode (r756)
