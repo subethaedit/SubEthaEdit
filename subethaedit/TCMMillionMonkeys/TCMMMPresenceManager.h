@@ -30,6 +30,8 @@ extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
 
 + (TCMMMPresenceManager *)sharedInstance;
 
+- (TCMMMStatusProfile *)statusProfileForUserID:(NSString *)aUserID;
+
 - (void)setVisible:(BOOL)aFlag;
 
 - (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile;

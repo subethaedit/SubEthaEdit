@@ -16,8 +16,10 @@
     long long I_changeCount;
 }
 
++ (id)userWithNotification:(NSDictionary *)aNotificationDict;
 + (id)userWithBencodedNotification:(NSData *)aData;
 - (NSData *)notificationBencoded;
+- (NSDictionary *)notification;
 
 - (NSMutableDictionary *)properties;
 

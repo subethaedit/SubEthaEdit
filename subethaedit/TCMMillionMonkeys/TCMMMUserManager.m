@@ -8,6 +8,8 @@
 
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+#import "TCMMMStatusProfile.h"
+#import "TCMMMPresenceManager.h"
 
 
 NSString * const TCMMMUserManagerUserDidChangeNotification = @"TCMMMUserManagerUserDidChangeNotification";
@@ -101,24 +103,37 @@ static TCMMMUserManager *sharedInstance=nil;
         [user setUserID:userID];
         [user setName:[aUser name]];
         [self setUser:[user autorelease] forUserID:userID];
-        return YES;
     } 
     if ([user changeCount]<[aUser changeCount]) {
         NSMutableDictionary *request=[I_userRequestsByID objectForKey:userID];
         if (request) {
             if ([aUser changeCount] > [(TCMMMUser *)[request objectForKey:@"User"] changeCount]) {
                 [request setObject:aUser forKey:@"User"];
-                [request setObject:[NSValue valueWithPointer:(const void *)aSender] forKey:@"Sender"];
-                return YES;
+                TCMMMStatusProfile *statusProfile=[[TCMMMPresenceManager sharedInstance] statusProfileForUserID:userID];
+                if (statusProfile && statusProfile!=aSender) {
+                    [request setObject:[NSValue valueWithPointer:(const void *)statusProfile] forKey:@"Sender"];
+                    [statusProfile requestUser];
+                    return NO;
+                } else {
+                    [request setObject:[NSValue valueWithPointer:(const void *)aSender] forKey:@"Sender"];
+                    return YES;
+                }
             } else {
                 return NO;
             }
         } else {
             request=[NSMutableDictionary dictionary];
-            [request setObject:aUser forKey:@"User"];
-            [request setObject:[NSValue valueWithPointer:(const void *)aSender] forKey:@"Sender"];
             [I_userRequestsByID setObject:request forKey:userID];
-            return YES;
+            [request setObject:aUser forKey:@"User"];
+            TCMMMStatusProfile *statusProfile=[[TCMMMPresenceManager sharedInstance] statusProfileForUserID:userID];
+            if (statusProfile && statusProfile!=aSender) {
+                [request setObject:[NSValue valueWithPointer:(const void *)statusProfile] forKey:@"Sender"];
+                [statusProfile requestUser];
+                return NO;
+            } else {
+                [request setObject:[NSValue valueWithPointer:(const void *)aSender] forKey:@"Sender"];
+                return YES;
+            }
         }
     } else {
         return NO;

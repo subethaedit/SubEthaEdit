@@ -17,20 +17,29 @@
 
 @implementation TCMMMUser
 
-+ (id)userWithBencodedNotification:(NSData *)aData {
-    NSDictionary *notificationDict=TCM_BdecodedObjectWithData(aData);
++ (id)userWithNotification:(NSDictionary *)aNotificationDict {
     TCMMMUser *user=[TCMMMUser new];
-    [user setName:[notificationDict objectForKey:@"Name"]];
-    [user setUserID:[notificationDict objectForKey:@"UserID"]];
-    [user setChangeCount:[[notificationDict objectForKey:@"ChangeCount"] longLongValue]];
+    [user setName:[aNotificationDict objectForKey:@"Name"]];
+    [user setUserID:[aNotificationDict objectForKey:@"UserID"]];
+    [user setChangeCount:[[aNotificationDict objectForKey:@"ChangeCount"] longLongValue]];
     return [user autorelease];
 }
 
+
++ (id)userWithBencodedNotification:(NSData *)aData {
+    NSDictionary *notificationDict=TCM_BdecodedObjectWithData(aData);
+    return notificationDict?[self userWithNotification:notificationDict]:nil;
+}
+
 - (NSData *)notificationBencoded {
-    return TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:
+    return TCM_BencodedObject([self notification]);
+}
+
+- (NSDictionary *)notification {
+    return [NSDictionary dictionaryWithObjectsAndKeys:
         [self name],@"Name",
         [self userID],@"UserID",
-        [NSNumber numberWithLongLong:[self changeCount]],@"ChangeCount", nil]);
+        [NSNumber numberWithLongLong:[self changeCount]],@"ChangeCount", nil];
 }
 
 - (id)init {
@@ -50,7 +59,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"TCMMMUser <ID:%@,properties:%@>",[self userID],[self properties]];
+    return [NSString stringWithFormat:@"TCMMMUser <ID:%@,Name:%@,properties:%d>",[self userID],[self name],[[self properties] count]];
 }
 
 - (void)setUserID:(NSString *)aID {

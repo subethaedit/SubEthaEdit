@@ -38,6 +38,10 @@
     [super dealloc];
 }
 
+- (void)windowWillLoad {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
+}
+
 - (void)windowDidLoad {
     [[self window] setFrameAutosaveName:@"RendezvousBrowser"];
     TCMMMUser *me=[TCMMMUserManager me];
@@ -65,8 +69,6 @@
     NSLog(@"Autoresizes Subviews: %@",([[O_scrollView contentView] autoresizesSubviews]?@"YES":@"NO"));
     [[O_scrollView contentView] setAutoresizesSubviews:NO];
     [O_browserListView noteEnclosingScrollView];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
 }
 
 - (IBAction)setVisibilityByPopUpButton:(id)aSender {
@@ -109,7 +111,15 @@
     NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
     if (userID && ![userID isEqualTo:[TCMMMUserManager myUserID]]) {
         [I_foundUserIDs addObject:userID];
-        [[TCMMMBEEPSessionManager sharedInstance] connectToNetService:aNetService];
+        NSDictionary *status=[[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
+        if ([[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
+            if ([[status objectForKey:@"isVisible"] boolValue]) {
+                [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",[NSNumber numberWithBool:YES],@"isExpanded",nil]];
+                [O_browserListView reloadData];
+            }
+        } else {
+            [[TCMMMBEEPSessionManager sharedInstance] connectToNetService:aNetService];
+        }
     }
 }
 
@@ -214,7 +224,9 @@
     BOOL isVisible=[[userInfo objectForKey:@"isVisible"] boolValue];
     // TODO: handle Selection
     if (isVisible) {
-        [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",[NSNumber numberWithBool:YES],@"isExpanded",nil]];
+        if ([I_foundUserIDs containsObject:userID]) {
+            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",[NSNumber numberWithBool:YES],@"isExpanded",nil]];
+        }
     } else {
         int index=[self TCM_indexOfItemWithUserID:userID];
         if (index >= 0) {
@@ -256,8 +268,10 @@
 #pragma mark ### TCMMMUserManager Notifications ###
 
 - (void)userDidChange:(NSNotification *)aNotification {
+    NSLog(@"userDidChange: %@", aNotification);
     TCMMMUser *user = [[aNotification userInfo] objectForKey:@"User"];
     if ([I_foundUserIDs containsObject:[user userID]]) {
+        NSLog(@"reloadData");
         [O_browserListView reloadData];
     }
 }

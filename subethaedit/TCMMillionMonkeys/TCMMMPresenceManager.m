@@ -110,6 +110,16 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     return statusOfUserID;
 }
 
+- (TCMMMStatusProfile *)statusProfileForUserID:(NSString *)aUserID {
+    NSDictionary *status=[self statusOfUserID:aUserID];
+    if ([[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
+        return [status objectForKey:@"StatusProfile"];
+    } else {
+        return nil;
+    }
+}
+
+
 - (NSDictionary *)announcedSessions {
     return I_announcedSessions;
 }
