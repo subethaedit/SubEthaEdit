@@ -3,6 +3,13 @@
 
 <dictionary>
     <suite name="SubEthaEdit Suite" code="Hdra">
+        <types>
+			<enumeration name="access options" code="Acco">
+                <enumerator name="read write" code="RdWr" description="read/write"/>
+                <enumerator name="read only" code="RdOn" description="read only"/>
+                <enumerator name="locked" code="Lock" description="locked"/>
+			</enumeration>        
+		</types>
         <classes>
             <class name="application" code="capp" inherits="application">
                 <cocoa class="NSApplication"/>
@@ -29,6 +36,15 @@
                     </property>
                     <property name="mode" code="Mode" type="string" description="Mode name">
                         <cocoa method="mode"/>
+                    </property>
+                    <property name="access control" code="Actl" type="access options" description="access control for users">
+                        <cocoa method="accessOption"/>
+                    </property>
+                    <property name="announced" code="Anno" type="boolean" description="is announced">
+                        <cocoa method="isAnnounced"/>
+                    </property>
+                    <property name="URL" code="DURL" type="string" access="r" description="Document URL">
+                        <cocoa method="announcementURL"/>
                     </property>
                 </properties>
             </class>

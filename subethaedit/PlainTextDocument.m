@@ -3950,12 +3950,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #pragma mark -
 
+typedef enum {
+    kAccessOptionReadWrite = 'RdWr',
+    kAccessOptionReadOnly = 'RdOn',
+    kAccessOptionLocked = 'Lock'
+} AccessOptions;
+
 @interface PlainTextDocument (PlainTextDocumentScriptingAdditions)
 
 - (NSString *)encoding;
 - (void)setEncoding:(NSString *)name;
 - (NSString *)mode;
 - (void)setMode:(NSString *)identifier;
+- (AccessOptions)accessOption;
+- (void)setAccessOption:(AccessOptions)option;
+- (NSString *)announcementURL;
 
 @end
 
@@ -3972,7 +3981,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     NSScriptCommand *command = [NSScriptCommand currentCommand];
     [command setScriptErrorNumber:1];
-    [command setScriptErrorString:@"Couldn't determine encoding of document ..."];
+    [command setScriptErrorString:@"Couldn't determine encoding of document."];
     return nil;
 }
 
@@ -3991,8 +4000,47 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     } else {
         NSScriptCommand *command = [NSScriptCommand currentCommand];
         [command setScriptErrorNumber:2];
-        [command setScriptErrorString:@"Couldn't find specified mode"];    
+        [command setScriptErrorString:@"Couldn't find specified mode."];    
     }
+}
+
+- (AccessOptions)accessOption {
+    TCMMMSessionAccessState state = [[self session] accessState];
+    if (state == TCMMMSessionAccessLockedState) {
+        return kAccessOptionLocked;
+    } else if (state == TCMMMSessionAccessReadOnlyState) {
+        return kAccessOptionReadOnly;
+    } else if (state == TCMMMSessionAccessReadWriteState) {
+        return kAccessOptionReadWrite;
+    }
+    
+    return 0;
+}
+
+- (void)setAccessOption:(AccessOptions)option {
+    TCMMMSession *session = [self session];
+    if (option == kAccessOptionLocked) {
+        [session setAccessState:TCMMMSessionAccessLockedState];
+    } else if (option == kAccessOptionReadOnly) {
+        [session setAccessState:TCMMMSessionAccessReadOnlyState];
+    } else if (option == kAccessOptionReadWrite) {
+        [session setAccessState:TCMMMSessionAccessReadWriteState];
+    } else {
+        NSScriptCommand *command = [NSScriptCommand currentCommand];
+        [command setScriptErrorNumber:1];
+        [command setScriptErrorString:@"Unknown access option."];     
+    }
+}
+
+- (NSString *)announcementURL {
+    if ([self isAnnounced]) {
+        return [[self documentURL] absoluteString];
+    }
+    
+    NSScriptCommand *command = [NSScriptCommand currentCommand];
+    [command setScriptErrorNumber:2];
+    [command setScriptErrorString:@"Document is not announced."];
+    return nil;
 }
 
 @end
