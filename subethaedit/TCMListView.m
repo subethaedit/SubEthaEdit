@@ -325,6 +325,26 @@ NSString *ListViewDidChangeSelectionNotification=
     return [I_selectedRows count];
 }
 
+- (void)shiftClickSelectoToRow:(int)aRow {
+    int lesserIndex=[I_selectedRows indexLessThanOrEqualToIndex:aRow];
+    int greaterIndex=[I_selectedRows indexGreaterThanOrEqualToIndex:aRow];
+    NSIndexSet *set=nil;
+    if (lesserIndex==NSNotFound && greaterIndex==NSNotFound) {
+        [self selectRow:aRow byExtendingSelection:YES];
+    } else if (lesserIndex!=NSNotFound && greaterIndex!=NSNotFound) {
+        if (aRow-lesserIndex<greaterIndex-aRow) {
+            set=[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(aRow,greaterIndex-aRow)];
+        } else {
+            set=[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(lesserIndex+1,aRow-lesserIndex)];
+        }
+    } else if (greaterIndex!=NSNotFound) {
+        set=[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(aRow,greaterIndex-aRow)];
+    } else if (lesserIndex!=NSNotFound) {
+        set=[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(lesserIndex+1,aRow-lesserIndex)];
+    }
+    if (set) [self selectRowIndexes:set byExtendingSelection:YES];
+}
+
 - (void)selectRow:(int)aRow byExtendingSelection:(BOOL)shouldExtend {
     
     if (!shouldExtend) {
@@ -409,6 +429,8 @@ NSString *ListViewDidChangeSelectionNotification=
 
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
     //NSLog(@"Clicked at: %@", NSStringFromPoint(point));
+    NSEvent *nextEvent=[[self window] nextEventMatchingMask:NSLeftMouseDraggedMask|NSLeftMouseUpMask untilDate:[NSDate dateWithTimeIntervalSinceNow:.1] inMode:NSEventTrackingRunLoopMode dequeue:NO];
+    BOOL willBeADrag=(!nextEvent || (nextEvent && [nextEvent type]!=NSLeftMouseUp));
     
     I_clickedRow = [self indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
@@ -434,10 +456,20 @@ NSString *ListViewDidChangeSelectionNotification=
             }
         }
         if (!causedAction) {
-            if ([aEvent modifierFlags] & NSCommandKeyMask) {
-                [self selectRow:I_clickedRow byExtendingSelection:YES];
+            if ([aEvent modifierFlags] & NSShiftKeyMask) {
+                [self shiftClickSelectoToRow:I_clickedRow];
+            } else if ([aEvent modifierFlags] & NSCommandKeyMask) {
+                if ([I_selectedRows containsIndex:I_clickedRow] && !willBeADrag) {
+                    [self deselectRow:I_clickedRow];
+                } else {
+                    [self selectRow:I_clickedRow byExtendingSelection:YES];
+                }
             } else {
-                [self selectRow:I_clickedRow byExtendingSelection:NO];
+                if ([I_selectedRows containsIndex:I_clickedRow] && willBeADrag) {
+                    // nix
+                } else {
+                    [self selectRow:I_clickedRow byExtendingSelection:NO];
+                }
             }
             if ([aEvent clickCount] == 2 && I_target && [I_target respondsToSelector:I_doubleAction]) {
                 [I_target performSelector:I_doubleAction withObject:self];
