@@ -148,7 +148,7 @@ static EncodingManager *sharedInstance = nil;
 - (id)init {
     if (sharedInstance) {		// We just have one instance of the EncodingManager class, return that one instead
         [self release];
-    } else if (self = [super init]) {
+    } else if ((self = [super init])) {
         sharedInstance = self;
         registeredEncodings = [[NSCountedSet alloc] init];
     }

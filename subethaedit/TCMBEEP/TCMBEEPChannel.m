@@ -49,7 +49,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     self = [super init];
     if (self) {
         Class profileClass = nil;
-        if (profileClass = [[TCMBEEPChannel profileURIToClassMapping] objectForKey:aProfileURI]) {
+        if ((profileClass = [[TCMBEEPChannel profileURIToClassMapping] objectForKey:aProfileURI])) {
             I_profile=[[profileClass alloc] initWithChannel:self];
             [I_profile setProfileURI:aProfileURI];
             [self setSession:aSession];
@@ -298,8 +298,8 @@ static NSMutableDictionary *profileURIToClassMapping;
     //  or,
     if (previousReadFrame) {
         if ([previousReadFrame isIntermediate] ||
-            strcmp([previousReadFrame messageType], "ANS") == 0 &&
-            strcmp(messageType, "ANS") == 0) {
+            (strcmp([previousReadFrame messageType], "ANS") == 0 &&
+             strcmp(messageType, "ANS") == 0)) {
             if ([aFrame sequenceNumber] != 
                 ([previousReadFrame sequenceNumber] + [previousReadFrame length])) {
                 NSLog(@"10ter punkt 2.2.1.1 (Check sequence numbers)");

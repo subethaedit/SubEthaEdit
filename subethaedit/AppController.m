@@ -167,7 +167,7 @@ NSString * const DefaultPortNumber = @"port";
 
     if (meCard) {
         NSData  *imageData;
-        if (imageData=[meCard imageData]) {
+        if ((imageData=[meCard imageData])) {
             myImage=[[NSImage alloc]initWithData:imageData];
             [myImage setCacheMode:NSImageCacheNever];
         } 
