@@ -774,7 +774,11 @@
 #pragma mark ### NSTextView delegate methods ###
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
-    return [[I_windowController document] textView:aTextView doCommandBySelector:aSelector];
+    PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
+    if (![document isRemotelyEditingTextStorage]) {
+        [self setFollowUserID:nil];
+    }
+    return [document textView:aTextView doCommandBySelector:aSelector];
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
@@ -847,9 +851,6 @@
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
     PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
-    if (![document isRemotelyEditingTextStorage]) {
-        [self setFollowUserID:nil];
-    }
     return [document textView:aTextView
              willChangeSelectionFromCharacterRange:aOldSelectedCharRange
                                   toCharacterRange:aNewSelectedCharRange];
@@ -873,6 +874,7 @@
 }
 
 - (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent {
+    [self setFollowUserID:nil];
     if (!I_flags.pausedProcessing) {
         I_flags.pausedProcessing=YES;
         [[[self document] session] pauseProcessing];
