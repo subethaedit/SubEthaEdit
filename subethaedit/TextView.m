@@ -8,6 +8,11 @@
 
 #import "TextView.h"
 #import "TextStorage.h"
+#import "PlaintextDocument.h"
+#import "TCMMMUserManager.h"
+#import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
+#import "TCMMMSession.h"
 
 
 @implementation TextView
@@ -140,6 +145,64 @@ static NSMenu *defaultMenu=nil;
 // make sure our document gets the font change
 - (void)changeFont:(id)aSender {
     [[[[self window] windowController] document] changeFont:aSender];
+}
+
+
+- (void)drawInsertionPointWithColor:(NSColor *)aColor atPoint:(NSPoint)aPoint {
+    //NSLog(@"draw ins point (%f,%f)", aPoint.x, aPoint.y);
+    aPoint.x = round(aPoint.x) + .5 ; aPoint.y = round(aPoint.y) - .5;
+    NSBezierPath *caretPath = [NSBezierPath bezierPath];
+    [caretPath moveToPoint:NSMakePoint(aPoint.x,aPoint.y-2)];
+    [caretPath lineToPoint:NSMakePoint(aPoint.x+2,aPoint.y)];
+    [caretPath lineToPoint:NSMakePoint(aPoint.x+3,aPoint.y-1)];
+    [caretPath lineToPoint:NSMakePoint(aPoint.x,aPoint.y-4)];
+    [caretPath lineToPoint:NSMakePoint(aPoint.x-3,aPoint.y-1)];
+    [caretPath lineToPoint:NSMakePoint(aPoint.x-2,aPoint.y)];
+    [caretPath closePath];
+    [aColor set];
+
+    BOOL shouldAntialias = [[NSGraphicsContext currentContext] shouldAntialias];
+    [[NSGraphicsContext currentContext] setShouldAntialias:NO];
+    [caretPath fill];
+    //[caretPath stroke];
+    [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
+}
+
+- (void)drawRect:(NSRect)aRect {
+    [super drawRect:aRect];
+    // now paint Cursors if there are any
+    PlainTextDocument *document=(PlainTextDocument *)[[[self window] windowController] document];
+    TCMMMSession *session=[document session];
+    NSString *sessionID=[session sessionID];
+    NSDictionary *sessionParticipants=[session participants];
+    NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
+    TCMMMUser *user;
+    if (document) {
+        while ((user=[participants nextObject])) {
+            NSValue *selectedRangeValue= [[user propertiesForSessionID:sessionID] objectForKey:@"SelectedRange"];
+            if (selectedRangeValue) {
+                NSRange selectionRange = [selectedRangeValue rangeValue];
+                if (selectionRange.length==0) {
+                    // now we have to paint a caret at position
+    //                NSRange selection = NSMakeRange((unsigned)[(NSNumber *)[selection objectAtIndex:0] unsignedIntValue],0);
+    
+                    unsigned rectCount;
+                    NSRectArray rectArray=[[self layoutManager] 
+                                                rectArrayForCharacterRange:selectionRange 
+                                                withinSelectedCharacterRange:selectionRange 
+                                                inTextContainer:[self textContainer] rectCount:&rectCount];
+                    NSColor *changeColor=[[user changeColor] shadowWithLevel:0.1];
+                                            
+                    if (rectCount>0) {
+                        NSPoint myPoint = rectArray[0].origin;
+                        myPoint.x -= 0.5;
+                        myPoint.y += rectArray[0].size.height - 0.5;
+                        [self drawInsertionPointWithColor:changeColor atPoint:myPoint];
+                    }
+                }
+            }
+        }
+    }
 }
 
 

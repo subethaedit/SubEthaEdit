@@ -19,7 +19,7 @@
 }
 
 - (void)showWindow:(id)aSender {
-    [O_allUsersController setContent:[[TCMMMUserManager sharedInstance] allUsers]];
     [super showWindow:(id)aSender];
+    [O_allUsersController setContent:[[TCMMMUserManager sharedInstance] allUsers]];
 }
 @end

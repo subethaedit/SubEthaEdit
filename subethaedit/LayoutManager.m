@@ -11,6 +11,7 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMMMSession.h"
 #import "GeneralPreferences.h"
 #import "TextStorage.h"
 
@@ -22,6 +23,97 @@
     }
     return self;
 }
+
+- (void)drawBorderedMarksWithColor:(NSColor *)aColor atRects:(NSRectArray)aRectArray rectCount:(unsigned int)rectCount {
+
+    if (rectCount == 0) return;
+    NSBezierPath *markPath = [NSBezierPath bezierPath];
+    NSRect topRect = aRectArray[0];
+    float left;
+    float x;
+    float y;
+    unsigned i = 0;
+    if ((rectCount > 1) && topRect.origin.x != aRectArray[1].origin.x) {
+        if (topRect.origin.x >= aRectArray[1].origin.x + aRectArray[1].size.width) {
+            [markPath appendBezierPathWithRect:NSMakeRect(topRect.origin.x+1, topRect.origin.y, topRect.size.width-1, topRect.size.height-1)];
+            x = aRectArray[1].origin.x + 1;
+            y = aRectArray[1].origin.y;
+            [markPath moveToPoint:NSMakePoint(x, y)];
+            i = 1;
+            left = aRectArray[1].origin.x + 1;
+        } else {
+            left = aRectArray[1].origin.x + 1;
+            x = left;
+            y = topRect.origin.y + topRect.size.height;
+            [markPath moveToPoint:NSMakePoint(x, y)];
+            x = topRect.origin.x + 1;
+            [markPath lineToPoint:NSMakePoint(x, y)];
+            y = topRect.origin.y;
+            [markPath lineToPoint:NSMakePoint(x, y)];
+        }
+    } else {
+        left = topRect.origin.x + 1;
+        x = topRect.origin.x + 1;
+        y = topRect.origin.y;
+        [markPath moveToPoint:NSMakePoint(x, y)];
+    }
+
+    for (; i < rectCount; i++) {
+        NSRect rect = aRectArray[i];
+
+
+        x = rect.origin.x + rect.size.width;
+
+        float nextX = (i < rectCount)?aRectArray[i+1].origin.x + aRectArray[i+1].size.width:left;
+
+        [markPath lineToPoint:NSMakePoint(x, y)];
+        if (x < nextX && (i != 0)) {
+            y = rect.origin.y + rect.size.height;
+            [markPath lineToPoint:NSMakePoint(x, y)];
+        } else {
+            y = rect.origin.y + rect.size.height - 1;
+            [markPath lineToPoint:NSMakePoint(x, y)];
+        }
+    }
+
+    x = left;
+    [markPath lineToPoint:NSMakePoint(x, y)];
+
+    [markPath closePath];
+
+    NSAffineTransform *transform = [NSAffineTransform transform];
+    [transform translateXBy:-0.5 yBy:0.5];
+    [markPath transformUsingAffineTransform: transform];
+
+    //[markPath addClip];
+
+    [aColor set];
+    [markPath fill];
+
+    NSColor *borderColor = [aColor shadowWithLevel:0.3];
+    [borderColor set];
+    [markPath stroke];
+}
+
+
+- (void)drawCaretWithColor:(NSColor *)aColor atPoint:(NSPoint)aPoint {
+    NSBezierPath *caretPath = [NSBezierPath bezierPath];
+    [caretPath moveToPoint:NSMakePoint(aPoint.x,aPoint.y-2)];
+    [caretPath lineToPoint:NSMakePoint(aPoint.x+2,aPoint.y)];
+    [caretPath lineToPoint:NSMakePoint(aPoint.x+3,aPoint.y-1)];
+    [caretPath lineToPoint:NSMakePoint(aPoint.x,aPoint.y-4)];
+    [caretPath lineToPoint:NSMakePoint(aPoint.x-3,aPoint.y-1)];
+    [caretPath lineToPoint:NSMakePoint(aPoint.x-2,aPoint.y)];
+    [caretPath closePath];
+    [aColor set];
+
+    BOOL shouldAntialias = [[NSGraphicsContext currentContext] shouldAntialias];
+//    [[NSGraphicsContext currentContext] setShouldAntialias:NO];
+    [caretPath fill];
+//    [caretPath stroke];
+    [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
+}
+
 
 - (BOOL)showsChangeMarks {
     return I_flags.showsChangeMarks;
@@ -46,9 +138,9 @@
 }
 
 - (void)drawBackgroundForGlyphRange:(NSRange)aGlyphRange atPoint:(NSPoint)anOrigin {
+    NSTextContainer *container = [self textContainerForGlyphAtIndex:aGlyphRange.location effectiveRange:nil];
+    NSRange charRange = [self characterRangeForGlyphRange:aGlyphRange actualGlyphRange:nil];
     if (I_flags.showsChangeMarks) {
-        NSRange charRange = [self characterRangeForGlyphRange:aGlyphRange actualGlyphRange:nil];
-        NSTextContainer *container = [self textContainerForGlyphAtIndex:aGlyphRange.location effectiveRange:nil];
         NSTextStorage *textStorage = [self textStorage];
         NSString *textStorageString=[textStorage string];
         unsigned int position = charRange.location;
@@ -81,6 +173,33 @@
             position=NSMaxRange(attributeRange);
         }
     }
+
+    // selections and carets
+    PlainTextDocument *document = (PlainTextDocument *)[[[[container textView] window] windowController] document];
+    TCMMMSession *session=[document session];
+    NSString *sessionID=[session sessionID];
+    NSDictionary *sessionParticipants=[session participants];
+    NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
+    TCMMMUser *user;
+//    float saturation=[[[NSUserDefaults standardUserDefaults] objectForKey:SelectionSaturationPreferenceKey] floatValue];
+//    NSColor *backgroundColor=[NSColor documentBackgroundColor];
+    while ((user = [participants nextObject])) {
+        NSValue *selectedRangeValue= [[user propertiesForSessionID:sessionID] objectForKey:@"SelectedRange"];
+        if (selectedRangeValue) {
+            NSRange selectionRange = NSIntersectionRange(charRange, [selectedRangeValue rangeValue]);
+            if (selectionRange.length !=0) {
+                NSColor *changeColor=[user changeColor];
+                NSColor *backgroundColor=[NSColor whiteColor]; // TODO: take from preferences
+                backgroundColor=[backgroundColor blendedColorWithFraction:
+                                    [[NSUserDefaults standardUserDefaults] floatForKey:SelectionSaturationPreferenceKey]/100.
+                                 ofColor:changeColor];
+                unsigned rectCount;
+                NSRectArray selectionRectArray = [self rectArrayForCharacterRange:selectionRange withinSelectedCharacterRange:selectionRange inTextContainer:container rectCount:&rectCount];
+                [self drawBorderedMarksWithColor:changeColor atRects:selectionRectArray rectCount:rectCount];
+            }
+        }
+    }
+
 
     [super drawBackgroundForGlyphRange:aGlyphRange atPoint:anOrigin];
 }

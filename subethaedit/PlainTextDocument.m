@@ -311,6 +311,27 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 
+- (void)invalidateLayoutForRange:(NSRange)aRange {
+    if (aRange.length==0) {
+        if (aRange.location>0) {
+            aRange.location-=1;
+            aRange.length=1;
+        } else {
+            if ([[self textStorage] length]>0) {
+                aRange.length=1;
+            }
+        }
+    }
+
+    NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+    PlainTextEditor *editor=nil;
+    while ((editor=[plainTextEditors nextObject])) {
+        [[[editor textView] layoutManager] 
+            invalidateLayoutForCharacterRange:aRange 
+            isSoft:NO actualCharacterRange:NULL];
+    }
+}
+
 - (void)updateSymbolTable {
 
     DocumentMode *mode=[self documentMode];
@@ -2029,8 +2050,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSValue *oldRangeValue=[properties objectForKey:@"SelectedRange"];
         if (oldRangeValue) {
             NSRange range=[oldRangeValue rangeValue];
+            [self invalidateLayoutForRange:range];
         }
         [properties setObject:[NSValue valueWithRange:aRange] forKey:@"SelectedRange"];
+        [self invalidateLayoutForRange:aRange];
     }
     [self TCM_sendPlainTextDocumentParticipantsDidChangeNotification];
 }
