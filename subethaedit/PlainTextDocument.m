@@ -172,6 +172,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 - (void)TCM_initHelper {
+    [self setUndoManager:nil];
     I_rangesToInvalidate=[NSMutableArray new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_webPreviewRefreshNotification:)
         name:PlainTextDocumentRefreshWebPreviewNotification object:self];
@@ -1349,7 +1350,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                            range:NSMakeRange(0, [I_textStorage length])];
 
     [self setDocumentMode:mode];
-    
+    [self updateChangeCount:NSChangeCleared];    
+
     return YES;
 }
 
@@ -2374,7 +2376,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [super setFileName:fileName];
     TCMMMSession *session=[self session];
     if ([session isServer]) {
-        NSLog(@"Displayname: %@",[self displayName]);
         [session setFilename:[self displayName]];
     }
 }
@@ -2386,6 +2387,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [textStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[textStorage length])];
     I_flags.isRemotelyEditingTextStorage=NO;
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+    [self updateChangeCount:NSChangeCleared];
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent {
@@ -2501,13 +2503,18 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }        
     }
 
-    if (I_flags.showMatchingBrackets &&
-        ![[self undoManager] isUndoing] && ![[self undoManager] isRedoing] &&
-        !I_flags.isRemotelyEditingTextStorage &&
-//        !I_blockedit.isBlockediting && !I_blockedit.didBlockedit &&
-        [aString length]==1 && 
-        [self TCM_charIsBracket:[aString characterAtIndex:0]]) {
-        I_bracketMatching.matchingBracketPosition=aRange.location;
+    if (![[self undoManager] isUndoing]) {
+//        NSLog(@"ChangeDone");
+        [self updateChangeCount:NSChangeDone];
+        if (I_flags.showMatchingBrackets && ![[self undoManager] isRedoing] &&
+            !I_flags.isRemotelyEditingTextStorage &&
+    //        !I_blockedit.isBlockediting && !I_blockedit.didBlockedit &&
+            [aString length]==1 && 
+            [self TCM_charIsBracket:[aString characterAtIndex:0]]) {
+            I_bracketMatching.matchingBracketPosition=aRange.location;
+        }
+    } else {
+        [self updateChangeCount:NSChangeUndone];
     }
     [self triggerUpdateSymbolTableTimer];
 
@@ -2864,6 +2871,5 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
 }
-
 
 @end

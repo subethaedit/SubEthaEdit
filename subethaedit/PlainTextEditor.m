@@ -110,7 +110,7 @@
     [I_textView setUsesFontPanel:NO];
     [I_textView setUsesRuler:YES];
     [I_textView setUsesFindPanel:YES];
-    [I_textView setAllowsUndo:YES];
+    [I_textView setAllowsUndo:NO];
     [I_textView setSmartInsertDeleteEnabled:NO];
 
     [I_textView setDelegate:self];
@@ -421,11 +421,11 @@
         NSRange affectedRange=[aTextView selectedRange];
         [aTextView setSelectedRange:NSMakeRange(affectedRange.location,0)];
         NSRange lineRange;
-        NSUndoManager *undoManager=[[self document] undoManager];
+//        NSUndoManager *undoManager=[[self document] undoManager];
         NSTextStorage *textStorage=[aTextView textStorage];
         NSString *string=[textStorage string];
         
-        [undoManager beginUndoGrouping];
+//        [undoManager beginUndoGrouping];
         if (affectedRange.length==0) {
             [textStorage beginEditing];
             lineRange=[string lineRangeForRange:affectedRange];
@@ -475,7 +475,7 @@
             }
             [aTextView setSelectedRange:affectedRange];
         } 
-        [undoManager endUndoGrouping];
+//        [undoManager endUndoGrouping];
 //    }
 }
 
