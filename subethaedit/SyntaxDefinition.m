@@ -7,6 +7,7 @@
 //
 
 #import "SyntaxDefinition.h"
+#import "NSColorTCMAdditions.h"
 
 @implementation SyntaxDefinition
 
@@ -14,6 +15,8 @@
 #pragma mark - Initizialisation
 #pragma mark - 
 
+
+/*"Initiates the Syntax Definition with an XML file"*/
 - (id)initWithFile:(NSString *)aPath {
     self=[super init];
     if (self) {
@@ -24,6 +27,11 @@
         
         // Parse XML File
         [self parseXMLFile:aPath];
+        
+        // Setup stuff <-> style dictionaries
+        I_styleForToken = [NSMutableDictionary new];
+        I_styleForRegex = [NSMutableDictionary new];
+        [self cacheStyles]; 
         
         // Compile RegExs
         
@@ -36,6 +44,8 @@
     [I_name release];
     [I_states release];
     [I_defaultState release];
+    [I_styleForToken release];
+    [I_styleForRegex release];
     [super dealloc];
 }
 
@@ -43,6 +53,7 @@
 #pragma mark - XML parsing
 #pragma mark - 
 
+/*"Entry point for XML parsing, branches to according node functions"*/
 -(void)parseXMLFile:(NSString *)aPath {
     CFXMLTreeRef cfXMLTree;
     CFDataRef xmlData;
@@ -100,6 +111,7 @@
     CFRelease(cfXMLTree);
 }
 
+/*"Parse the <head> tag"*/
 - (void)parseHeaders:(CFXMLTreeRef)aTree
 {
     int childCount;
@@ -141,6 +153,7 @@
     }
 }
 
+/*"Parse the <states> tag"*/
 - (void)parseStatesForTreeNode:(CFXMLTreeRef)aTree
 {
     int childCount;
@@ -167,6 +180,7 @@
     }
 }
 
+/*"Parse <state> and <default> tags"*/
 - (void)stateForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary
 {
     int childCount;
@@ -229,6 +243,7 @@
     }
 }
 
+/*"Parse <string> and <regex> tags for keyword groups"*/
 - (void)addKeywordsForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary
 {
     int childCount;
@@ -249,12 +264,73 @@
             [regexs addObject:content];
         } else if ([@"string" isEqualToString:tag]) {
             NSMutableSet *plainStrings;
-            if (!(plainStrings = [aDictionary objectForKey:@"RegularExpressions"])) {
-                [aDictionary setObject:[NSMutableSet set] forKey:@"RegularExpressions"];
-                plainStrings = [aDictionary objectForKey:@"RegularExpressions"];
+            if (!(plainStrings = [aDictionary objectForKey:@"PlainStrings"])) {
+                [aDictionary setObject:[NSMutableSet set] forKey:@"PlainStrings"];
+                plainStrings = [aDictionary objectForKey:@"PlainStrings"];
             }
             [plainStrings addObject:content];
         }
+    }
+}
+
+#pragma mark - 
+#pragma mark - Caching and precalculating
+#pragma mark - 
+
+/*"calls addStylesForKeywordGroups: for defaultState and states"*/
+-(void)cacheStyles
+{
+    NSMutableDictionary *aDictionary;
+    if (aDictionary = [I_defaultState objectForKey:@"KeywordGroups"]) [self addStylesForKeywordGroups:aDictionary];
+    
+    NSEnumerator *statesEnumerator = [I_states objectEnumerator];
+    while (aDictionary = [statesEnumerator nextObject]) {
+        if (aDictionary = [aDictionary objectForKey:@"KeywordGroups"]) [self addStylesForKeywordGroups:aDictionary];
+    }
+}
+
+/*"Creates dictionaries which match styles (color, font, etc.) to plainstrings or regexs"*/
+-(void)addStylesForKeywordGroups:(NSDictionary *)aDictionary
+{
+    NSEnumerator *groupEnumerator = [aDictionary objectEnumerator];
+    NSDictionary *keywordGroup;
+    while (keywordGroup = [groupEnumerator nextObject]) {
+        NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+        NSColor *aColor;
+        NSString *aString;
+        if (aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"color"]])
+            [attributes setObject:aColor forKey:@"color"];
+        if (aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"background-color"]])        
+            [attributes setObject:aColor forKey:@"background-color"];
+        if (aString = [keywordGroup objectForKey:@"font-style"])        
+            [attributes setObject:aString forKey:@"font-style"];
+        if (aString = [keywordGroup objectForKey:@"font-weight"])        
+            [attributes setObject:aString forKey:@"font-weight"];
+        if (aString = [keywordGroup objectForKey:@"casesensitive"])        
+            [attributes setObject:aString forKey:@"casesensitive"];
+        
+        // First do the plainstring stuff
+        
+        NSDictionary *keywords;
+        if (keywords = [keywordGroup objectForKey:@"PlainStrings"]) {
+            NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
+            NSString *keyword;
+            while (keyword = [keywordEnumerator nextObject]) {
+                [I_styleForToken setObject:attributes forKey:keyword];
+            }
+        }
+        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching plainstrings:%@",[I_styleForToken description]);
+        // Then do the regex stuff
+        
+        if (keywords = [keywordGroup objectForKey:@"RegularExpressions"]) {
+            NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
+            NSString *keyword;
+            while (keyword = [keywordEnumerator nextObject]) {
+                //2DO Compile the regex
+                //[I_styleForRegex setObject:attributes forKey:regex];
+            }
+        }
+        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching regular expressions:%@",[I_styleForRegex description]);
     }
 }
 
@@ -286,6 +362,19 @@
 {
     [I_tokenSet autorelease];
      I_tokenSet = [aCharacterSet copy];
+}
+
+- (NSDictionary *)styleForToken:(NSString *)aToken 
+{
+    NSDictionary *aStyle;
+    if (aStyle = [I_styleForToken objectForKey:aToken]) return aStyle;
+    // FIXME: Handle caseinsensitive Tokens wit CFDictionary
+    else return nil;
+}
+
+- (NSDictionary *)regularExpressions
+{
+    return I_styleForRegex;
 }
 
 
