@@ -482,7 +482,6 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
     NSDictionary *aStyle;
     
     if ((aStyle = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:0] objectForKey:aToken])) {
-        NSLog(@"foo:%@",aStyle);
         return aStyle;
     }
     if ((aStyle = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:1] objectForKey:aToken])){
