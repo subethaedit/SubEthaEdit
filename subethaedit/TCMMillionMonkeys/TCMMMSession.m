@@ -38,8 +38,9 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData
 {
     NSDictionary *sessionDict=TCM_BdecodedObjectWithData(aData);
-    TCMMMSession *session = [[TCMMMSession alloc] initWithSessionID:[sessionDict objectForKey:@"SessionID"] filename:[sessionDict objectForKey:@"Filename"]];
-    [session setHostID:[sessionDict objectForKey:@"HostID"]];
+    TCMMMSession *session = [[TCMMMSession alloc] initWithSessionID:[sessionDict objectForKey:@"sID"] filename:[sessionDict objectForKey:@"name"]];
+    [session setHostID:[sessionDict objectForKey:@"hID"]];
+    [session setAccessState:[[sessionDict objectForKey:@"acc"] intValue]];
     return [session autorelease];
 }
 
@@ -76,6 +77,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
     if (self) {
         [self setSessionID:aSessionID];
         [self setFilename:aFileName];
+        [self setAccessState:TCMMMSessionAccessLockedState];
     }
     return self;
 }
@@ -87,7 +89,6 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
     [I_hostID release];
     [I_filename release];
     [I_profilesByUserID release];
-    //[I_state release];
     [I_participants release];    
     [I_contributors release];
     [I_pendingUsers release];
@@ -165,6 +166,14 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
     return I_pendingUsers;
 }
 
+- (void)setAccessState:(TCMMMSessionAccessState)aState {
+    I_accessState=aState;
+}
+
+- (TCMMMSessionAccessState)accessState {
+    return I_accessState;
+}
+
 #pragma mark -
 
 - (void)documentDidApplyOperation:(TCMMMOperation *)anOperation {
@@ -226,18 +235,28 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
     Filename - the actual current filename of the session
     SessionID - the UUID of the session
     HostID - the userID of the Host of the session
-    Access - "Locked" - "ReadOnly" - "ReadWrite"
+    Access - NSNumber with TCMMMSessionAccessState
 "*/
 
 - (NSData *)sessionBencoded
 {
-    NSMutableDictionary *sessionDict = [NSMutableDictionary dictionary];
-    [sessionDict setObject:[self filename] forKey:@"Filename"];
-    [sessionDict setObject:[self sessionID] forKey:@"SessionID"];
-    [sessionDict setObject:[self hostID] forKey:@"HostID"];
-    [sessionDict setObject:@"Locked" forKey:@"Access"];
-    return TCM_BencodedObject(sessionDict);
+    return TCM_BencodedObject([self dictionaryRepresentation]);
 }
+
+- (NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *sessionDict = [NSMutableDictionary dictionary];
+    [sessionDict setObject:[self filename] forKey:@"name"];
+    [sessionDict setObject:[self sessionID] forKey:@"sID"];
+    [sessionDict setObject:[self hostID] forKey:@"hID"];
+    [sessionDict setObject:[NSNumber numberWithInt:I_accessState] forKey:@"acc"];
+    return sessionDict;
+}
+
+- (void)updateWithDictionaryRepresentation:(NSDictionary *)aRepresentation {
+    [self setFilename:[aRepresentation objectForKey:@"name"]];
+    [self setAccessState:[[aRepresentation objectForKey:@"acc"] intValue]];
+}
+
 
 - (void)join
 {
