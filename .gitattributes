@@ -978,6 +978,7 @@ subethaedit/Tools/RTFTemplate.rtf -text
 subethaedit/Tools/autodoc -text
 subethaedit/Tools/convertcolor.pl -text
 subethaedit/Tools/customers2vcf.pl -text
+subethaedit/Tools/parseCocoaEnums.pl -text
 subethaedit/Tools/parseObjCHeadersForAutocomplete.pl -text
 subethaedit/Tools/serials/attackserial.pl -text
 subethaedit/Tools/serials/checkserial.pl -text
