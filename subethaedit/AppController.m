@@ -104,7 +104,7 @@
     [userManager setMe:[me autorelease]];
 }
 
-- (void)awakeFromNib {
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
     [self addMe];
 }
 
@@ -121,9 +121,6 @@
 
     [[TCMMMBEEPSessionManager sharedInstance] listen];
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];
-    
-    [[RendezvousBrowserController new] showWindow:self];
-    [[InternetController new] showWindow:self];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

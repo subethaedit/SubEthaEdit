@@ -49,7 +49,6 @@ static NSColor *alternateRowColor=nil;
         [I_disclosureCell setControlSize:NSSmallControlSize];
         [I_disclosureCell setTitle:@""];
         [I_disclosureCell setState:NSOnState];
-        NSLog(@"Cell: %@, %@",I_disclosureCell, NSStringFromSize([I_disclosureCell cellSize]));
     }
     return self;
 }

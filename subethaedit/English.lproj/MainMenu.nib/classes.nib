@@ -8,6 +8,30 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {connect = id; }; 
+            CLASS = InternetController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_addressComboBox" = NSComboBox; 
+                "O_imageView" = NSImageView; 
+                "O_myNameTextField" = NSTextField; 
+                "O_tableView" = NSTableView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {setVisibilityByPopUpButton = id; }; 
+            CLASS = RendezvousBrowserController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_browserListView" = TCMMMBrowserListView; 
+                "O_imageView" = NSImageView; 
+                "O_myNameTextField" = NSTextField; 
+                "O_scrollView" = NSScrollView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
             CLASS = TCMPreferenceController; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSWindowController; 
