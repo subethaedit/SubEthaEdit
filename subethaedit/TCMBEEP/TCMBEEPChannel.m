@@ -73,6 +73,9 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_outgoingWindowSize = 4096;
             I_flags.isInitiator = isInitiator;
             I_channelStatus = TCMBEEPChannelStatusOpen;
+        } else {
+            [super dealloc];
+            return nil;
         }
     }
     
