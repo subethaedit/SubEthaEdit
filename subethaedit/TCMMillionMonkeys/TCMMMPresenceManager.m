@@ -109,7 +109,7 @@ static TCMMMPresenceManager *sharedInstance = nil;
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
     [status removeObjectForKey:@"StatusProfile"];
-    [status setObject:@"GotStatus" forKey:@"Status"];
+    [status setObject:@"NoStatus" forKey:@"Status"];
     [I_statusProfilesInServerRole removeObject:aProfile];
     [aProfile setDelegate:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidChangeVisibility" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSNumber numberWithBool:NO],@"isVisible",nil]];
@@ -152,6 +152,7 @@ static TCMMMPresenceManager *sharedInstance = nil;
 {
     NSLog(@"Got status Channel!");
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    [aProfile setDelegate:self];
     NSMutableDictionary *statusOfUserID=[self statusOfUserID:userID];
     
     if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
