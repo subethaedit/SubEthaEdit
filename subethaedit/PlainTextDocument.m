@@ -2379,6 +2379,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
     [textStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[textStorage length])];
     I_flags.isRemotelyEditingTextStorage=NO;
+    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent {

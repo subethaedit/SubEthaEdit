@@ -477,7 +477,7 @@ NSString * const TCMMMSessionDidChangeNotification =
     if (!aBEEPSession) {
         aBEEPSession = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:userID];
     }
-    if (![I_profilesByUserID objectForKey:userID]) {
+    if ([self isServer] && ![I_profilesByUserID objectForKey:userID]) {
         [I_groupOfInvitedUsers setObject:aGroup forKey:userID];
         [I_stateOfInvitedUsers setObject:@"AwaitingResponse" forKey:userID];
         [[I_invitedUsers objectForKey:@"ReadWrite"] removeObject:aUser];

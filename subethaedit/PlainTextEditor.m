@@ -112,7 +112,6 @@
     [I_textView setUsesFindPanel:YES];
     [I_textView setAllowsUndo:YES];
     [I_textView setSmartInsertDeleteEnabled:NO];
-    [I_textView registerForDraggedTypes:[NSArray arrayWithObject:@"PboardTypeTBD"]];
 
     [I_textView setDelegate:self];
     [I_textContainer setHeightTracksTextView:NO];

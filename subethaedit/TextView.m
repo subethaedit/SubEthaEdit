@@ -239,7 +239,12 @@ static NSMenu *defaultMenu=nil;
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
-        NSLog(@"draggingEntered:");
+        //NSLog(@"draggingEntered:");
+        PlainTextDocument *document=(PlainTextDocument *)[[[self window] windowController] document];
+        TCMMMSession *session=[document session];
+        if ([session isServer]) {
+            [[[self window] drawers] makeObjectsPerformSelector:@selector(open)];
+        }
         return NSDragOperationGeneric;
     } else {
         return [super draggingEntered:sender];
@@ -249,7 +254,7 @@ static NSMenu *defaultMenu=nil;
 - (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
-        NSLog(@"draggingUpdated:");
+        //NSLog(@"draggingUpdated:");
         return NSDragOperationGeneric;
     } else {
         return [super draggingUpdated:sender];
@@ -259,8 +264,10 @@ static NSMenu *defaultMenu=nil;
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
-        NSLog(@"prepareForDragOperation:");
-        return YES;
+        PlainTextDocument *document=(PlainTextDocument *)[[[self window] windowController] document];
+        TCMMMSession *session=[document session];
+        //NSLog(@"prepareForDragOperation:");
+        return [session isServer];
     } else {
         return [super prepareForDragOperation:sender];
     }
@@ -286,6 +293,12 @@ static NSMenu *defaultMenu=nil;
     } else {
         return [super performDragOperation:sender];
     }
+}
+
+- (NSArray *)acceptableDragTypes {
+    NSMutableArray *dragTypes=[[super acceptableDragTypes] mutableCopy];
+    [dragTypes addObject:@"PboardTypeTBD"];
+    return [dragTypes autorelease];
 }
 
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender {
