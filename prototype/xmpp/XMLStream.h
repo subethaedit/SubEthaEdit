@@ -23,7 +23,6 @@
     Node *I_stanzaNode;
     Node *I_node;
     int I_depth;
-    //NSMutableString *I_foundCharacters;
 }
 
 - (void)writeData:(NSData *)aData;

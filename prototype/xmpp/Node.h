@@ -14,6 +14,7 @@
     NSString *I_name;
     NSString *I_namespaceURI;
     NSDictionary *I_attributes;
+    NSMutableString *I_characters;
     Node *I_parent;
     NSMutableArray *I_children;
 }
@@ -24,6 +25,7 @@
 - (NSString *)namespaceURI;
 - (void)setAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)attributes;
+- (void)appendString:(NSString *)string;
 - (void)setParent:(Node *)parent;
 - (Node *)parent;
 - (void)addChild:(Node *)child;

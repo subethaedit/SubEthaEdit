@@ -16,6 +16,7 @@
     self = [super init];
     if (self) {
         I_children = [[NSMutableArray array] retain];
+        I_characters = [[NSMutableString string] retain];
     }
     
     return self;
@@ -27,12 +28,13 @@
     [I_namespaceURI release];
     [I_attributes release];
     [I_children release];
+    [I_characters release];
     [super dealloc];
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"\nname: %@\nnamespaceURI: %@\nattributes: %@\nchildren: %@", I_name, I_namespaceURI, [I_attributes descriptionInStringsFileFormat], I_children];
+    return [NSString stringWithFormat:@"\nname: %@\nnamespaceURI: %@\nattributes: %@\ncharacters: %@\nchildren: %@", I_name, I_namespaceURI, [I_attributes descriptionInStringsFileFormat], I_characters, I_children];
 }
 
 - (void)setName:(NSString *)name
@@ -66,6 +68,11 @@
 - (NSDictionary *)attributes
 {
     return I_attributes;
+}
+
+- (void)appendString:(NSString *)string
+{
+    [I_characters appendString:string];
 }
 
 - (void)setParent:(Node *)parent

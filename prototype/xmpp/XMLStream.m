@@ -237,6 +237,7 @@
 - (void)streamParser:(XMLParser *)parser foundCharacters:(NSString *)string
 {
     NSLog(@"streamParser:%@ foundCharacters:%@", parser, string);
+    [I_node appendString:string];
 }
 
 - (void)streamParser:(XMLParser *)parser foundCDATA:(NSData *)CDATABlock
