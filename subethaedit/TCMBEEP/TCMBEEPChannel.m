@@ -198,9 +198,9 @@ static NSMutableDictionary *profileURIToClassMapping;
         if (![aFrame isIntermediate]) {
             // FINISH and DISPATCH
             TCMBEEPMessage *message = [TCMBEEPMessage messageWithQueue:queue];
-            if (strcmp([aFrame messageType],"MSG")==0) {
+            if (strcmp([aFrame messageType],"MSG") == 0) {
                 [I_inboundMessageNumbersWithPendingReplies addIndex:[aFrame messageNumber]];
-            } else if (strcmp([aFrame messageType],"ANS")!=0) {
+            } else if (strcmp([aFrame messageType],"ANS") != 0) {
                 [I_messageNumbersWithPendingReplies removeIndex:[aFrame messageNumber]];
             }
             [[self profile] processBEEPMessage:message];
