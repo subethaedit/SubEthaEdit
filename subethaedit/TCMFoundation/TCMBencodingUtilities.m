@@ -62,6 +62,7 @@ id TCM_BdecodedObjectWithData(NSData *data) {
 }
 
 id TCM_BdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
+    if (aLength==0) return nil;
     id result=nil;
     if (aBytes[*aPosition]=='d') {
         result=[NSMutableDictionary dictionary];
