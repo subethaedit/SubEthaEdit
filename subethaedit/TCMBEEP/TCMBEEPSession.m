@@ -809,9 +809,11 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [channel cleanup];
     
     int indexOfChannel = [I_channels indexOfObject:channel];
-    [self removeObjectFromChannelsAtIndex:indexOfChannel];
+    if (indexOfChannel!=NSNotFound) {
+        [self removeObjectFromChannelsAtIndex:indexOfChannel];
     
-    [I_activeChannels removeObjectForLong:aChannelNumber];
+        [I_activeChannels removeObjectForLong:aChannelNumber];
+    }
     if (aChannelNumber == 0) {
         [self terminate];
     }
