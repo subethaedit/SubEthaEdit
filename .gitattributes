@@ -12,6 +12,7 @@ prototype/BEEPSample/Controller.m -text
 prototype/BEEPSample/English.lproj/InfoPlist.strings -text
 prototype/BEEPSample/English.lproj/MainMenu.nib/classes.nib -text
 prototype/BEEPSample/English.lproj/MainMenu.nib/info.nib -text
+prototype/BEEPSample/English.lproj/MainMenu.nib/keyedobjects.nib -text
 prototype/BEEPSample/Info.plist -text
 prototype/BEEPSample/NSDictionaryTCMAdditions.h -text
 prototype/BEEPSample/NSDictionaryTCMAdditions.m -text
