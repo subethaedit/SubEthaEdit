@@ -30,7 +30,14 @@
         {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {changeMode = id; validateDefaultsState = id; }; 
+            ACTIONS = {
+                changeDarkBackgroundColor = id; 
+                changeDarkForegroundColor = id; 
+                changeLightBackgroundColor = id; 
+                changeLightForegroundColor = id; 
+                changeMode = id; 
+                validateDefaultsState = id; 
+            }; 
             CLASS = StylePreferences; 
             LANGUAGE = ObjC; 
             OUTLETS = {

@@ -25,6 +25,11 @@
                          *O_backgroundColorWell,*O_invertedBackgroundColorWell;
 }
 
+
+- (IBAction)changeLightBackgroundColor:(id)aSender;
+- (IBAction)changeDarkBackgroundColor:(id)aSender;
+- (IBAction)changeLightForegroundColor:(id)aSender;
+- (IBAction)changeDarkForegroundColor:(id)aSender;
 - (IBAction)changeMode:(id)aSender;
 - (IBAction)validateDefaultsState:(id)aSender;
 

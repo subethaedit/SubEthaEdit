@@ -195,11 +195,11 @@ static NSArray *S_possibleStyleColors;
 
 
 - (NSString *)description {
-    NSMutableString *localizedString=[NSMutableString string];
+    NSMutableString *result=[NSMutableString string];
     NSString *key=nil;
     NSEnumerator *keys=[I_keyArray objectEnumerator];
     while ((key=[keys nextObject])) {
-        [localizedString appendFormat:@"%@ (%@): %@\n",[self localizedStringForKey:key],key,[[I_styleDictionary objectForKey:key] description]];
+        [result appendFormat:@"%@ (%@): %@\n",[self localizedStringForKey:key],key,[[I_styleDictionary objectForKey:key] description]];
     }
     return [NSString stringWithFormat:@"SyntaxStyle: \n%@",[self xmlFileRepresentation]];
 }

@@ -133,10 +133,11 @@
     [O_boldButton   setState:bold  ==MANY?NSMixedState:(bold  ?NSOnState:NSOffState)];
     [O_colorWell setColor:color];
     [O_invertedColorWell setColor:invertedColor];
+    // sad but needed...
+    [[O_boldButton superview] setNeedsDisplay:YES];
 }
 
 - (IBAction)changeMode:(id)aSender {
-
     DocumentMode *newMode=[aSender selectedMode];
     [O_modeController setContent:newMode];
     NSDictionary *fontAttributes = [newMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
@@ -146,7 +147,29 @@
     [self validateDefaultsState:aSender];
     I_currentSyntaxStyle=[newMode syntaxStyle];
     [self updateBackgroundColor];
+    [O_stylesTableView selectRow:0 byExtendingSelection:NO];
 }
+
+- (IBAction)changeLightBackgroundColor:(id)aSender {
+    NSMutableDictionary *baseStyle=[I_currentSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier];
+    [baseStyle setObject:[aSender color] forKey:@"background-color"];
+    [self updateBackgroundColor];
+}
+
+- (IBAction)changeDarkBackgroundColor:(id)aSender {
+    NSMutableDictionary *baseStyle=[I_currentSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier];
+    [baseStyle setObject:[aSender color] forKey:@"inverted-background-color"];
+    [self updateBackgroundColor];
+}
+
+- (IBAction)changeLightForegroundColor:(id)aSender {
+
+}
+
+- (IBAction)changeDarkForegroundColor:(id)aSender {
+
+}
+
 
 - (void)didUnselect {
     // Save preferences
@@ -161,7 +184,7 @@
     return I_baseFont;
 }
 
-
+#pragma mark -
 #pragma mark TableView DataSource
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {
     return [[I_currentSyntaxStyle allKeys] count];
@@ -171,7 +194,16 @@
     NSString *key=[[I_currentSyntaxStyle allKeys] objectAtIndex:aRow];
     NSDictionary *style=[I_currentSyntaxStyle styleForKey:key];
     NSString *localizedString=[I_currentSyntaxStyle localizedStringForKey:key];
-    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:[[NSFontManager sharedFontManager] convertFont:[self baseFont] toHaveTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]],NSFontAttributeName,
+    NSFont *font=[self baseFont];
+    NSFontManager *fontManager=[NSFontManager sharedFontManager];
+    NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
+    if (traits & NSBoldFontMask) {
+        font=[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
+    }
+    if (traits & NSItalicFontMask) {
+        font=[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
+    }
+    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
         [[aTableColumn identifier]isEqualToString:@"light"]?[style objectForKey:@"color"]:[style objectForKey:@"inverted-color"],NSForegroundColorAttributeName,
         nil];
     return [[[NSAttributedString alloc] initWithString:localizedString attributes:attributes] autorelease];
