@@ -51,8 +51,10 @@
         NSString *text = [[I_document textStorage] string];
                 
         if ([regex syntax]==OgreSimpleMatchingSyntax) {
+            unsigned options = OgreNoneOption;
+            if ([regex options]&OgreIgnoreCaseOption) options = options | OgreIgnoreCaseOption;
             OGRegularExpression *simpleregex = [OGRegularExpression regularExpressionWithString:[regex expressionString]
-                                                 options:OgreNoneOption
+                                                 options:options
                                                  syntax:OgreSimpleMatchingSyntax
                                                  escapeCharacter:[regex escapeCharacter]];
             regex = simpleregex;
