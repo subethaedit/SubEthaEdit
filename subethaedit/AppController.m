@@ -276,7 +276,7 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
     [self addMe];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
-    [self setupScriptMenu];
+    //[self setupScriptMenu];
 
     GeneralPreferences *generalPrefs = [[GeneralPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:generalPrefs];
