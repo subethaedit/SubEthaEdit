@@ -7,7 +7,7 @@
 //
 
 #import "HandshakeProfile.h"
-#import "TCMBencodingUtilities.h"
+#import <TCMFoundation/TCMBencodingUtilities.h>
 
 @implementation HandshakeProfile
 

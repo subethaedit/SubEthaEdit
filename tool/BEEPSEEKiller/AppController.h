@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "TCMRendezvousBrowser.h"
+#import <TCMFoundation/TCMRendezvousBrowser.h>
 
 @interface AppController : NSObject {
     TCMRendezvousBrowser *I_browser;
