@@ -964,6 +964,30 @@
 			target = 8D15AC270486D014006FF6A4;
 			targetProxy = 14963A45061F1022009B8E42;
 		};
+		1498F2C8062572650021FF8C = {
+			children = (
+				1498F2C9062572650021FF8C,
+			);
+			isa = PBXVariantGroup;
+			name = SavePanelAccessory.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1498F2C9062572650021FF8C = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/SavePanelAccessory.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1498F2CA062572650021FF8C = {
+			fileRef = 1498F2C8062572650021FF8C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		149A5C1B0600A89C0033510E = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
@@ -1487,6 +1511,7 @@
 				2A37F4B9FDCFA73011CA2CEA,
 				2A37F4B6FDCFA73011CA2CEA,
 				14A5B34E06218D2700DC3A93,
+				1498F2C8062572650021FF8C,
 				5EEB185B05ED0F3700C17677,
 				148892DF06186D94005BDDCB,
 				148892D806186C76005BDDCB,
@@ -3064,6 +3089,7 @@
 				14840CF9061AF8640082EA0A,
 				14A5B35006218D2700DC3A93,
 				5E0462FA0623270400D94C08,
+				1498F2CA062572650021FF8C,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

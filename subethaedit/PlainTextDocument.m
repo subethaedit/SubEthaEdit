@@ -221,40 +221,82 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
 }
 
-- (void)windowControllerWillLoadNib:(NSWindowController *) aController {
+- (void)windowControllerWillLoadNib:(NSWindowController *)aController {
     [super windowControllerWillLoadNib:aController];
     DEBUGLOG(@"blah",5,@"Willload");
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
 
-- (void)windowControllerDidLoadNib:(NSWindowController *) aController {
+- (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
     DEBUGLOG(@"blah",5,@"didload");
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
-- (BOOL)prepareSavePanel:(NSSavePanel *)savePanel
-{
+
+- (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
+    I_lastSaveOperation = saveOperation;
+    [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
+}
+
+- (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
+    if (I_lastSaveOperation == NSSaveToOperation) {
+        if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
+            NSLog(@"Failed to load SavePanelAccessory.nib");
+            return nil;
+        }
+
+        NSArray *encodings = [[EncodingManager sharedInstance] enabledEncodings];
+        NSMutableArray *lossyEncodings = [NSMutableArray array];
+        unsigned int i;
+        for (i = 0; i < [encodings count]; i++) {
+            if (![[I_textStorage string] canBeConvertedToEncoding:[[encodings objectAtIndex:i] unsignedIntValue]]) {
+                [lossyEncodings addObject:[encodings objectAtIndex:i]];
+            }
+        }
+        [[EncodingManager sharedInstance] registerEncoding:[self fileEncoding]];
+        [O_encodingPopUpButton setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
+        [savePanel setAccessoryView:O_savePanelAccessoryView];
+    }
+    
     return [super prepareSavePanel:savePanel];
+}
+
+- (void)saveToFile:(NSString *)fileName saveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
+    if (saveOperation == NSSaveToOperation) {
+        I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
+    }
+    [super saveToFile:fileName saveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }
 
 - (NSData *)dataRepresentationOfType:(NSString *)aType {
 
     if ([aType isEqualToString:@"PlainTextType"]) {
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
-        return [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+        if (I_lastSaveOperation == NSSaveToOperation) {
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
+            [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
+            return [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+        } else {
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
+            return [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+        }
     }
 
     return nil;
 }
+
 
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
     return [self readFromURL:[NSURL fileURLWithPath:fileName] ofType:docType];
 }
 
 - (BOOL)readFromURL:(NSURL *)aURL ofType:(NSString *)docType {
+
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromURL:%@ ofType:%@", aURL, docType);
+    if (![docType isEqualToString:@"PlainTextType"]) {
+        return NO;
+    }
     
     BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");

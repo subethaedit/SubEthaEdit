@@ -9,7 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TCMMMSession, TCMMMOperation, DocumentMode;
+@class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton;
 
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
@@ -37,6 +37,11 @@ extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
     NSDictionary  *I_plainTextAttributes;
     NSMutableParagraphStyle *I_defaultParagraphStyle;
     NSDictionary *I_fileAttributes;
+    
+    IBOutlet NSView *O_savePanelAccessoryView;
+    IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
+    NSSaveOperationType I_lastSaveOperation;
+    NSStringEncoding I_encodingFromLastRunSaveToOperation;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;

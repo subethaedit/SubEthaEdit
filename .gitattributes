@@ -225,6 +225,9 @@ subethaedit/English.lproj/Preferences.strings -text
 subethaedit/English.lproj/RendezvousBrowser.nib/classes.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/info.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
+subethaedit/English.lproj/SavePanelAccessory.nib/classes.nib -text
+subethaedit/English.lproj/SavePanelAccessory.nib/info.nib -text
+subethaedit/English.lproj/SavePanelAccessory.nib/keyedobjects.nib -text
 subethaedit/English.lproj/SelectEncodingsPanel.nib/classes.nib -text
 subethaedit/English.lproj/SelectEncodingsPanel.nib/info.nib -text
 subethaedit/English.lproj/SelectEncodingsPanel.nib/objects.nib -text
