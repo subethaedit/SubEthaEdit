@@ -28,9 +28,9 @@
     self = [super init];
     if (self) {
         I_windowController = aWindowController;
-        [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
         I_flags.showTopStatusBar = YES;
         I_flags.showBottomStatusBar = YES;
+        [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
     }   
     return self; 
 }
