@@ -9,7 +9,8 @@
 #import <AppKit/AppKit.h>
 
 
-@interface PlainTextWindowController : NSWindowController {
+@interface PlainTextWindowController : NSWindowController
+{
 
 }
 

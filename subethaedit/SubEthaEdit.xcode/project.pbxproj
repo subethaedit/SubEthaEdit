@@ -493,6 +493,20 @@
 			settings = {
 			};
 		};
+		149A5C1B0600A89C0033510E = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			name = Participants.icns;
+			path = artwork/Participants.icns;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		149A5C1C0600A89C0033510E = {
+			fileRef = 149A5C1B0600A89C0033510E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14AE9CAA05F5E8F00025CADE = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -742,13 +756,13 @@
 				2A37F4B6FDCFA73011CA2CEA,
 				5EEB185B05ED0F3700C17677,
 				14AE9CB205F5EA050025CADE,
-				144BC39505EDFF60006397BC,
 				1464B40505EE79E100D21A18,
+				5EDB87E905F8B1CB0058C44A,
+				144BC39505EDFF60006397BC,
 				144BC7C305EE43B6006397BC,
 				8D15AC360486D014006FF6A4,
 				089C165FFE840EACC02AAC07,
 				1482A67905EFC1E100BC7434,
-				5EDB87E905F8B1CB0058C44A,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -1253,6 +1267,7 @@
 			children = (
 				144BC77505EE279B006397BC,
 				5EACEEA005F5388D0008743E,
+				149A5C1B0600A89C0033510E,
 				5EEB176805ECDC1600C17677,
 			);
 			isa = PBXGroup;
@@ -1728,6 +1743,7 @@
 				5EACEEA105F5388D0008743E,
 				14AE9CB305F5EA050025CADE,
 				5EDB87EB05F8B1CB0058C44A,
+				149A5C1C0600A89C0033510E,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

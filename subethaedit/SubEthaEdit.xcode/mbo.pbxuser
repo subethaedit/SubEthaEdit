@@ -413,7 +413,7 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 100480373;
+			PBXPerProjectTemplateStateSaveDate = 100703787;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -727,7 +727,6 @@
 					PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
 						PBXSplitModuleInNavigatorKey = {
 							Split0 = {
-								bookmark = 14108A8E0600992C00A4463D;
 								history = (
 									1464B41F05EE97B500D21A18,
 									1464B42005EE97B500D21A18,
@@ -765,7 +764,7 @@
 						};
 					};
 					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {611, 488}}";
-					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 245}, {611, 243}}";
+					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 0}, {750, 480}}";
 					PBXProjectWorkspaceModule_OldSuperviewFrame = "{{246, 0}, {611, 488}}";
 					PBXProjectWorkspaceModule_SGTM = {
 						PBXBottomSmartGroupGIDs = (
@@ -791,19 +790,16 @@
 							PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
 								2A37F4AAFDCFA73011CA2CEA,
 								2A37F4ABFDCFA73011CA2CEA,
-								5EEB176D05ECF6DA00C17677,
-								143C35DB05ECAC32008C6DFE,
-								2A37F4AFFDCFA73011CA2CEA,
-								5E4F35BD05EF77C5009D71ED,
+								2A37F4B8FDCFA73011CA2CEA,
 							);
 							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								(
+									34,
 									31,
-									28,
 									0,
 								),
 							);
-							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 785}, {229, 470}}";
+							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 326}, {229, 470}}";
 						};
 						PBXTopSmartGroupGIDs = (
 						);
@@ -887,14 +883,14 @@
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "201 219 857 530 0 0 1280 832 ";
+				RubberWindowFrame = "37 264 857 530 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {691, 318}}";
 				PBXModuleWindowStatusBarHidden = YES;
 				RubberWindowFrame = "586 126 691 339 0 0 1280 832 ";
 			};
-			PBXWorkspaceStateSaveDate = 100480373;
+			PBXWorkspaceStateSaveDate = 100703787;
 		};
 		perUserProjectItems = {
 			141084A905FE345A00A4463D = 141084A905FE345A00A4463D;
