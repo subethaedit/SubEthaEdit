@@ -28,6 +28,7 @@
         // Compile RegExs
         
     }
+    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Initiated new SyntaxDefinition:%@",[self description]);
     return self;
 }
 
@@ -170,30 +171,40 @@
 {
     int childCount;
     int index;
-    
+        
     childCount = CFTreeGetChildCount(aTree);
     for (index = 0; index < childCount; index++) {
         CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
         CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
         NSString *tag = (NSString *)CFXMLNodeGetString(node);
-        if ([@"begins" isEqualToString:tag]) {
+        if ([@"begin" isEqualToString:tag]) {
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found <begin> tag");
             CFXMLTreeRef firstTree = CFTreeGetFirstChild(xmlTree);
             CFXMLNodeRef firstNode = CFXMLTreeGetNode(firstTree);
-            NSString *innerTag = (NSString *)CFXMLNodeGetString(node);
-            NSString *innerContent = (NSString *)CFXMLNodeGetString(firstNode);
+            CFXMLTreeRef secondTree = CFTreeGetFirstChild(firstTree);
+            CFXMLNodeRef secondNode = CFXMLTreeGetNode(secondTree);
+            NSString *innerTag = (NSString *)CFXMLNodeGetString(firstNode);
+            NSString *innerContent = (NSString *)CFXMLNodeGetString(secondNode);
             if ([innerTag isEqualTo:@"regex"]) {
+                DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<begin> tag is RegEx");
                 [aDictionary setObject:innerContent forKey:@"BeginsWithRegexString"];
             } else if ([innerTag isEqualTo:@"string"]) {
+                DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<begin> tag is PlainString");
                 [aDictionary setObject:innerContent forKey:@"BeginsWithPlainString"];
             }
-        } else if ([@"ends" isEqualToString:tag]) {
+        } else if ([@"end" isEqualToString:tag]) {
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found <end> tag");
             CFXMLTreeRef firstTree = CFTreeGetFirstChild(xmlTree);
             CFXMLNodeRef firstNode = CFXMLTreeGetNode(firstTree);
-            NSString *innerTag = (NSString *)CFXMLNodeGetString(node);
-            NSString *innerContent = (NSString *)CFXMLNodeGetString(firstNode);
+            CFXMLTreeRef secondTree = CFTreeGetFirstChild(firstTree);
+            CFXMLNodeRef secondNode = CFXMLTreeGetNode(secondTree);
+            NSString *innerTag = (NSString *)CFXMLNodeGetString(firstNode);
+            NSString *innerContent = (NSString *)CFXMLNodeGetString(secondNode);
             if ([innerTag isEqualTo:@"regex"]) {
+                DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<end> tag is RegEx");
                 [aDictionary setObject:innerContent forKey:@"EndsWithRegexString"];
             } else if ([innerTag isEqualTo:@"string"]) {
+                DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<end> tag is PlainString");
                 [aDictionary setObject:innerContent forKey:@"EndsWithPlainString"];
             }
         } else if ([@"keywords" isEqualToString:tag]) {

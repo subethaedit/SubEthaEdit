@@ -27,6 +27,7 @@
         NSEnumerator *domains = [[NSArray arrayWithObjects:
                                         @"BEEPLogDomain",
                                         @"MillionMonkeysLogDomain",
+                                        @"SyntaxHighlighterDomain",
                                         nil] objectEnumerator];
         NSString *domain=nil;
         while ((domain=[domains nextObject])) {
