@@ -92,7 +92,7 @@ static RendezvousBrowserController *sharedInstance=nil;
     int announcedCount=[[pm announcedSessions] count];
     NSString *statusString=@"";
     if (announcedCount>0) {
-        statusString=[NSString stringWithFormat:NSLocalizedString(@"%d Document(s)","Status string in visibility pull down in Rendezvous and Internet browser"),announcedCount];
+        statusString=[NSString stringWithFormat:NSLocalizedString(@"%d Document(s)",@"Status string showing the number of documents in Rendezvous and Internet browser"),announcedCount];
     } else if (isVisible) {
         statusString=NSLocalizedString(@"Visible",@"Status string in vibilitypulldown in Browsers for visible");
     } else {
@@ -393,7 +393,7 @@ enum {
             if (aTag==TCMMMBrowserItemNameTag) {
                 return [user name];
             } else if (aTag==TCMMMBrowserItemStatusTag) {
-                return [NSString stringWithFormat:@"%d Document(s)",[[item objectForKey:@"Sessions"] count]];
+                return [NSString stringWithFormat:NSLocalizedString(@"%d Document(s)",@"Status string showing the number of documents in Rendezvous and Internet browser"),[[item objectForKey:@"Sessions"] count]];
             } else if (aTag==TCMMMBrowserItemImageTag) {
                 return [[user properties] objectForKey:@"Image32"];
             } else if (aTag==TCMMMBrowserItemImageNextToNameTag) {
