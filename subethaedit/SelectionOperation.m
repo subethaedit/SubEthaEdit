@@ -26,16 +26,16 @@
     TextOperation *textOperation=nil;
     SelectionOperation *selectionOperation=nil;
     if ([[aClientOperation operationID] isEqualToString:[TextOperation operationID]]) {
-        textOperation     =(TextOperation *)aClientOperation;
-        selectionOperation=(SelectionOperation *)aServerOperation;
+        textOperation = (TextOperation *)aClientOperation;
+        selectionOperation = (SelectionOperation *)aServerOperation;
     } else {
-        textOperation     =(TextOperation *)aServerOperation;
-        selectionOperation=(SelectionOperation *)aClientOperation;
+        textOperation = (TextOperation *)aServerOperation;
+        selectionOperation = (SelectionOperation *)aClientOperation;
     }
     
-    NSRange selectedRange=[selectionOperation selectedRange];
+    NSRange selectedRange = [selectionOperation selectedRange];
     if (DisjointRanges([textOperation affectedCharRange], selectedRange)) {
-        if ([textOperation affectedCharRange].location <= selectedRange.location) {
+        if ([textOperation affectedCharRange].location < selectedRange.location) {
             selectedRange.location += [[textOperation replacementString] length] - [textOperation affectedCharRange].length;
         }
     } else {
