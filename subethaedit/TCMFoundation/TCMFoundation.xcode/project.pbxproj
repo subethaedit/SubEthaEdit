@@ -1,0 +1,389 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 39;
+	objects = {
+		014CEA440018CDF011CA2923 = {
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PREBINDING = NO;
+				ZERO_LINK = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		014CEA450018CDF011CA2923 = {
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PREBINDING = NO;
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//010
+//011
+//012
+//013
+//014
+//030
+//031
+//032
+//033
+//034
+		034768DFFF38A50411DB9C8B = {
+			children = (
+				8DC2EF5B0486A6940098B216,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//030
+//031
+//032
+//033
+//034
+//080
+//081
+//082
+//083
+//084
+		0867D690FE84028FC02AAC07 = {
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA440018CDF011CA2923,
+				014CEA450018CDF011CA2923,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			mainGroup = 0867D691FE84028FC02AAC07;
+			productRefGroup = 034768DFFF38A50411DB9C8B;
+			projectDirPath = "";
+			targets = (
+				8DC2EF4F0486A6940098B216,
+			);
+		};
+		0867D691FE84028FC02AAC07 = {
+			children = (
+				14A5A40A07FC4D5D0026D2C9,
+				08FB77AEFE84172EC02AAC07,
+				32C88DFF0371C24200C91783,
+				089C1665FE841158C02AAC07,
+				0867D69AFE84028FC02AAC07,
+				034768DFFF38A50411DB9C8B,
+			);
+			isa = PBXGroup;
+			name = TCMFoundation;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 = {
+			children = (
+				1058C7B0FEA5585E11CA2CBB,
+			);
+			isa = PBXGroup;
+			name = "External Frameworks and Libraries";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0867D69BFE84028FC02AAC07 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Foundation.framework;
+			path = /System/Library/Frameworks/Foundation.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		089C1665FE841158C02AAC07 = {
+			children = (
+				8DC2EF5A0486A6940098B216,
+				089C1666FE841158C02AAC07,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		089C1666FE841158C02AAC07 = {
+			children = (
+				089C1667FE841158C02AAC07,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		089C1667FE841158C02AAC07 = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = English.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 = {
+			children = (
+			);
+			isa = PBXGroup;
+			name = Classes;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//080
+//081
+//082
+//083
+//084
+//100
+//101
+//102
+//103
+//104
+		1058C7B0FEA5585E11CA2CBB = {
+			children = (
+				0867D69BFE84028FC02AAC07,
+			);
+			isa = PBXGroup;
+			name = "Linked Frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//100
+//101
+//102
+//103
+//104
+//140
+//141
+//142
+//143
+//144
+		14A5A08D07FC4AC70026D2C9 = {
+			fileRef = 0867D69BFE84028FC02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A5A40A07FC4D5D0026D2C9 = {
+			children = (
+				14A5A42407FC4DF40026D2C9,
+				14A5A42507FC4DF40026D2C9,
+				14A5A42607FC4DF40026D2C9,
+				14A5A42707FC4DF40026D2C9,
+			);
+			isa = PBXGroup;
+			name = Categories;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A5A42407FC4DF40026D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NSDictionaryTCMAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A5A42507FC4DF40026D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NSDictionaryTCMAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A5A42607FC4DF40026D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NSStringTCMAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A5A42707FC4DF40026D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NSStringTCMAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A5A42807FC4DF40026D2C9 = {
+			fileRef = 14A5A42407FC4DF40026D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A5A42907FC4DF40026D2C9 = {
+			fileRef = 14A5A42507FC4DF40026D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A5A42A07FC4DF40026D2C9 = {
+			fileRef = 14A5A42607FC4DF40026D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A5A42B07FC4DF40026D2C9 = {
+			fileRef = 14A5A42707FC4DF40026D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A5A44407FC4F410026D2C9 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMFoundation.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A5A44507FC4F410026D2C9 = {
+			fileRef = 14A5A44407FC4F410026D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//140
+//141
+//142
+//143
+//144
+//320
+//321
+//322
+//323
+//324
+		32C88DFF0371C24200C91783 = {
+			children = (
+				14A5A44407FC4F410026D2C9,
+				32DBCF5E0370ADEE00C91783,
+			);
+			isa = PBXGroup;
+			name = "Other Sources";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		32DBCF5E0370ADEE00C91783 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMFoundation_Prefix.pch;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//320
+//321
+//322
+//323
+//324
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+		8DC2EF4F0486A6940098B216 = {
+			buildPhases = (
+				8DC2EF500486A6940098B216,
+				8DC2EF520486A6940098B216,
+				8DC2EF540486A6940098B216,
+				8DC2EF560486A6940098B216,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMFoundation_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMFoundation;
+				WRAPPER_EXTENSION = framework;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = TCMFoundation;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = TCMFoundation;
+			productReference = 8DC2EF5B0486A6940098B216;
+			productType = "com.apple.product-type.framework";
+		};
+		8DC2EF500486A6940098B216 = {
+			buildActionMask = 2147483647;
+			files = (
+				14A5A42807FC4DF40026D2C9,
+				14A5A42A07FC4DF40026D2C9,
+				14A5A44507FC4F410026D2C9,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DC2EF520486A6940098B216 = {
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DC2EF530486A6940098B216 = {
+			fileRef = 089C1666FE841158C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8DC2EF540486A6940098B216 = {
+			buildActionMask = 2147483647;
+			files = (
+				14A5A42907FC4DF40026D2C9,
+				14A5A42B07FC4DF40026D2C9,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DC2EF560486A6940098B216 = {
+			buildActionMask = 2147483647;
+			files = (
+				14A5A08D07FC4AC70026D2C9,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DC2EF5A0486A6940098B216 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist;
+			path = Info.plist;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		8DC2EF5B0486A6940098B216 = {
+			explicitFileType = wrapper.framework;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = TCMFoundation.framework;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+	};
+	rootObject = 0867D690FE84028FC02AAC07;
+}

@@ -481,6 +481,17 @@ subethaedit/SyntaxStyle.h -text
 subethaedit/SyntaxStyle.m -text
 subethaedit/TCMApplication.h -text
 subethaedit/TCMApplication.m -text
+subethaedit/TCMFoundation/English.lproj/InfoPlist.strings -text
+subethaedit/TCMFoundation/Info.plist -text
+subethaedit/TCMFoundation/NSDictionaryTCMAdditions.h -text
+subethaedit/TCMFoundation/NSDictionaryTCMAdditions.m -text
+subethaedit/TCMFoundation/NSStringTCMAdditions.h -text
+subethaedit/TCMFoundation/NSStringTCMAdditions.m -text
+subethaedit/TCMFoundation/TCMFoundation.h -text
+subethaedit/TCMFoundation/TCMFoundation.xcode/project.pbxproj -text
+subethaedit/TCMFoundation/TCMFoundation_Prefix.pch -text
+subethaedit/TCMFoundation/main.c -text
+subethaedit/TCMFoundation/version.plist -text
 subethaedit/TCMHost.h -text
 subethaedit/TCMHost.m -text
 subethaedit/TCMIdleTimer.h -text
