@@ -111,6 +111,11 @@
             }
         } else if (strncmp(type, "SESCON", 6) == 0) {
             NSData *data = [[aMessage payload] subdataWithRange:NSMakeRange(6, [[aMessage payload] length]-6)];
+            id content=TCM_BdecodedObjectWithData(data);
+            id delegate = [self delegate];
+            if ([delegate respondsToSelector:@selector(profile:didReceiveSessionContent:)]) {
+                [delegate profile:self didReceiveSessionContent:content];
+            }
             DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"content: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
         } else if (strncmp(type, "USRFUL", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received full user.");

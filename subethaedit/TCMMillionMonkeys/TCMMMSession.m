@@ -319,6 +319,12 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
 
 # pragma mark -
 
+- (void)profile:(SessionProfile *)profile didReceiveSessionContent:(id)aContent {
+    NSString *string=[aContent objectForKey:@"Content"];
+    NSTextStorage *textStorage=[(PlainTextDocument *)[self document] textStorage];
+    [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:string];
+}
+
 - (void)profileDidAcceptJoinRequest:(SessionProfile *)profile
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profileDidAcceptJoinRequest: %@", profile);
@@ -363,7 +369,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
     while ((user=[userRequests nextObject])) {
         [aProfile sendUser:[userManager userForUserID:[user userID]]];
     }
-    [aProfile sendSessionContent:[NSDictionary dictionaryWithObject:@"Ich bin der Content" forKey:@"Content"]];
+    [aProfile sendSessionContent:[NSDictionary dictionaryWithObject:[[(PlainTextDocument *)[self document] textStorage] string] forKey:@"Content"]];
 }
 
 #pragma mark -

@@ -680,7 +680,7 @@
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectFindModule" = {
 				Frame = "{{0, 0}, {840, 496}}";
-				RubberWindowFrame = "291 239 840 538 0 0 1280 832 ";
+				RubberWindowFrame = "577 123 840 538 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
 				Frame = "{{0, 0}, {600, 301}}";
@@ -693,7 +693,7 @@
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {848, 402}}";
 				PBXModuleWindowStatusBarHidden = YES;
-				RubberWindowFrame = "283 117 848 423 0 0 1280 832 ";
+				RubberWindowFrame = "588 89 848 423 0 0 1280 832 ";
 			};
 			PBXWorkspaceStateSaveDate = 103625365;
 		};
@@ -824,7 +824,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {902.143, 601}}";
 			sepNavSelRange = "{686, 0}";
-			sepNavVisRect = "{{0, 362}, {871, 239}}";
+			sepNavVisRect = "{{0, 359}, {871, 242}}";
 			sepNavWindowFrame = "{{107, 259}, {750, 558}}";
 		};
 	};
