@@ -30,6 +30,7 @@
 - (void)setChannel:(TCMBEEPChannel *)aChannel;
 - (TCMBEEPChannel *)channel;
 - (TCMBEEPSession *)session;
+- (BOOL)isServer;
 - (void)setProfileURI:(NSString *)aProfileURI;
 - (NSString *)profileURI;
 - (void)cleanup;

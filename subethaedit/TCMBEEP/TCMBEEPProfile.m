@@ -45,6 +45,11 @@
     return [[self channel] session];
 }
 
+- (BOOL)isServer
+{
+    return [[self channel] isServer];
+}
+
 - (void)setProfileURI:(NSString *)aProfileURI
 {
     [I_profileURI autorelease];
