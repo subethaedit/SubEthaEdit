@@ -424,6 +424,7 @@ subethaedit/Modes/Lua.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Info.plist -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/Objective-C.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Info.plist -text
@@ -852,6 +853,8 @@ subethaedit/SyntaxDefinition.h -text
 subethaedit/SyntaxDefinition.m -text
 subethaedit/SyntaxHighlighter.h -text
 subethaedit/SyntaxHighlighter.m -text
+subethaedit/SyntaxStyle.h -text
+subethaedit/SyntaxStyle.m -text
 subethaedit/TCMBEEP/TCMBEEP.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.m -text

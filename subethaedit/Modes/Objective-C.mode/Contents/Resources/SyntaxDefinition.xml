@@ -287,7 +287,7 @@
 				<string>NSWindowScripting</string>
 				<string>NSWorkspace</string>
             </keywords>
-            <keywords id="Keywords2" color="#881350" useforautocomplete="yes" font-weight="bold">
+            <keywords id="Objective-C Keywords" color="#881350" useforautocomplete="yes" font-weight="bold">
 				<string>@class</string>
 				<string>@end</string>
 				<string>@implementation</string>
@@ -672,7 +672,7 @@
                 <string>NSStringEncoding</string>
                 <string>NSCompositingOperation</string>
             </keywords>
-            <keywords id="Cocoa Stuff new in Panther" color="#400080" useforautocomplete="yes">
+            <keywords id="Cocoa Stuff (Panther)" color="#400080" useforautocomplete="yes">
                 <string>ABActionDelegate</string>
                 <string>ABAddressBook</string>
                 <string>ABGroup</string>
@@ -882,7 +882,7 @@
             </keywords>
         </state>
 
-        <state id="AutodocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
+        <state id="Autodoc Comment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
             <begin><regex>/\*"</regex></begin>
             <end><regex>"\*/</regex></end>
         </state>
@@ -892,7 +892,7 @@
             <end><regex>\*/</regex></end>
         </state>
         
-        <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+        <state id="Singleline Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
             <begin><regex>//</regex></begin>
             <end><regex>[\n\r]</regex></end>
         </state>

@@ -55,7 +55,9 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         I_name = [@"Not named" retain];
         [self setMode:aMode];
         everythingOkay = YES;
-                
+        
+        I_defaultSyntaxStyle=[SyntaxStyle new]; 
+        [I_defaultSyntaxStyle setDocumentMode:aMode];               
         // Parse XML File
         [self parseXMLFile:aPath];
         
@@ -63,7 +65,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         I_stylesForToken = [NSMutableArray new];
         I_stylesForRegex = [NSMutableArray new];
         [self cacheStyles];
-        [self setCombinedStateRegex];        
+        [self setCombinedStateRegex];   
+        NSLog(@"default Syntax Style: %@",[I_defaultSyntaxStyle description]);     
     }
     if (everythingOkay) return self;
     else {
@@ -211,6 +214,8 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
         NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
         NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
+        NSString *stateID=[attributes objectForKey:@"id"];
+        NSLog(@"StateID = %@",stateID);
         DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", tag);
         if ([@"state" isEqualToString:tag]) {
             NSMutableDictionary *aDictionary = [NSMutableDictionary dictionary];
@@ -227,7 +232,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
             [aDictionary setObject:[[[NSNumber alloc] initWithUnsignedInt:mask] autorelease] forKey:@"font-trait"];
             
-            [self stateForTreeNode:xmlTree toDictionary:aDictionary];
+            [self stateForTreeNode:xmlTree toDictionary:aDictionary stateID:stateID];
         } else if ([@"default" isEqualToString:tag]) {
             [I_defaultState addEntriesFromDictionary:attributes];
             NSColor *aColor;
@@ -241,17 +246,17 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
             [I_defaultState setObject:[[[NSNumber alloc] initWithUnsignedInt:mask] autorelease] forKey:@"font-trait"];
             
-            [self stateForTreeNode:xmlTree toDictionary:I_defaultState];
+            [self stateForTreeNode:xmlTree toDictionary:I_defaultState stateID:stateID];
         }
     }
 }
 
 /*"Parse <state> and <default> tags"*/
-- (void)stateForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary
+- (void)stateForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary stateID:(NSString *)aStateID
 {
+    [I_defaultSyntaxStyle setStyle:aDictionary forKey:aStateID];
     int childCount;
     int index;
-        
     childCount = CFTreeGetChildCount(aTree);
     for (index = 0; index < childCount; index++) {
         CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
@@ -313,9 +318,12 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
             NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
 
+
             NSString *keywordName = [attributes objectForKey:@"id"];
             [groups setObject:[NSMutableDictionary dictionary] forKey:keywordName];
-
+            NSLog(@" KeywordGroupID = %@",keywordName);
+            [I_defaultSyntaxStyle setStyle:[NSDictionary dictionary] forKey:[NSString stringWithFormat:@"%@.%@",aStateID,keywordName]];
+            
             NSMutableDictionary *keywordGroup = [groups objectForKey:keywordName];
             [keywordGroup addEntriesFromDictionary:attributes];
             
