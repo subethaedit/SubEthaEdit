@@ -50,6 +50,10 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     [I_inputStream setDelegate:self];
     [I_outputStream setDelegate:self];
     
+    if (!CFReadStreamSetProperty((CFReadStreamRef)I_inputStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue)) {
+        DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Failed to set kCFStreamPropertyShouldCloseNativeSocket");
+    }
+        
     // Enable TCP keep alive
     NSData *socketNativeHandleData = [I_inputStream propertyForKey:(NSString *)kCFStreamPropertySocketNativeHandle];
     if (socketNativeHandleData) {
@@ -121,9 +125,6 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
     if (self) {
         [self setPeerAddressData:aData];
         CFStreamCreatePairWithSocket(kCFAllocatorDefault, aSocketHandle, (CFReadStreamRef *)&I_inputStream, (CFWriteStreamRef *)&I_outputStream);
-        if (!CFReadStreamSetProperty((CFReadStreamRef)I_inputStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue)) {
-            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Failed to set kCFStreamPropertyShouldCloseNativeSocket");
-        }
         I_flags.isInitiator = NO;
         I_nextChannelNumber = 0;
         [self TCM_initHelper];        
