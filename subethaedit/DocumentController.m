@@ -332,6 +332,7 @@ static NSString *tempFileName() {
     NSString *jobDescription = [[command evaluatedArguments] objectForKey:@"JobDescription"];    
     BOOL shouldPrint = [[[command evaluatedArguments] objectForKey:@"ShouldPrint"] boolValue];
     BOOL isPipingOut = [[[command evaluatedArguments] objectForKey:@"PipeOut"] boolValue];
+    BOOL shouldWait = [[[command evaluatedArguments] objectForKey:@"ShouldWait"] boolValue];
     
     NSMutableArray *documents = [NSMutableArray array];
     
@@ -351,6 +352,7 @@ static NSString *tempFileName() {
         [I_propertiesForOpenedFiles setObject:properties forKey:fileName];
         NSDocument *document = [self openDocumentWithContentsOfFile:fileName display:YES];
         if (document) {
+            [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
             if (jobDescription) {
                 [(PlainTextDocument *)document setJobDescription:jobDescription];
             }
@@ -378,8 +380,10 @@ static NSString *tempFileName() {
     while ((fileName = [enumerator nextObject])) {
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
+            [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
             [document setScriptingProperties:properties];
             [(PlainTextDocument *)document setTemporaryDisplayName:[fileName lastPathComponent]];
+            [(PlainTextDocument *)document setDirectoryForSavePanel:[fileName stringByDeletingLastPathComponent]];
             if (jobDescription) {
                 [(PlainTextDocument *)document setJobDescription:jobDescription];
             }
@@ -406,6 +410,7 @@ static NSString *tempFileName() {
     
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
+            [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
             if (isPipingOut) {
                 [(PlainTextDocument *)document setShouldChangeChangeCount:NO];
             }
@@ -429,8 +434,6 @@ static NSString *tempFileName() {
         }
     }
     
-            
-    BOOL shouldWait = [[[command evaluatedArguments] objectForKey:@"ShouldWait"] boolValue];
     if (shouldWait) {
         int count = [documents count];
         if (count > 0) {

@@ -72,6 +72,7 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSDictionary *I_ODBParameters;
     NSString *I_jobDescription;
     NSString *I_temporaryDisplayName;
+    NSString *I_directoryForSavePanel;
     
     IBOutlet NSView *O_savePanelAccessoryView;
     IBOutlet NSView *O_savePanelAccessoryView2;
@@ -178,6 +179,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setJobDescription:(NSString *)aString;
 - (NSString *)temporaryDisplayName;
 - (void)setTemporaryDisplayName:(NSString *)name;
+- (void)setDirectoryForSavePanel:(NSString *)path;
+- (NSString *)directoryForSavePanel;
 
 - (void)setHighlightsSyntax:(BOOL)aFlag;
 - (BOOL)highlightsSyntax;

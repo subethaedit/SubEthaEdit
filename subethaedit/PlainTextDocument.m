@@ -805,6 +805,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_fileAttributes release];
     [I_ODBParameters release];
     [I_jobDescription release];
+    [I_directoryForSavePanel release];
     [I_temporaryDisplayName release];
     [I_lineEndingString release];
     [I_symbolArray release];
@@ -937,9 +938,16 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)setJobDescription:(NSString *)aString {
     [I_jobDescription autorelease];
     I_jobDescription = [aString copy];
-    // ISSUE: faulty, just for now
-    [self setIsWaiting:YES];
     [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
+}
+
+- (void)setDirectoryForSavePanel:(NSString *)path {
+    [I_directoryForSavePanel autorelease];
+    I_directoryForSavePanel = [path copy];
+}
+
+- (NSString *)directoryForSavePanel {
+    return I_directoryForSavePanel;
 }
 
 - (NSString *)temporaryDisplayName {
@@ -1644,6 +1652,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
     [savePanel setTreatsFilePackagesAsDirectories:flag];
     I_savePanel = savePanel;
+
+    if (![self fileName] && [self directoryForSavePanel]) {
+        [savePanel setDirectory:[self directoryForSavePanel]];
+    }
 
     if (I_lastSaveOperation == NSSaveToOperation) {
         NSArray *encodings = [[EncodingManager sharedInstance] enabledEncodings];
