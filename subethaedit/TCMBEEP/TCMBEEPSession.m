@@ -185,7 +185,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/
 
 - (NSString *)description
 {    
-    return [NSString stringWithFormat:@"BEEPSession with address: %@", [NSString stringWithAddressData:I_peerAddressData]];
+    return [NSString stringWithFormat:@"BEEPSession with address: %@ andInfo: %@", [NSString stringWithAddressData:I_peerAddressData], [[self userInfo] description]];
 }
 
 #pragma mark -
