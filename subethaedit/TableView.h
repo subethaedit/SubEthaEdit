@@ -12,8 +12,11 @@
 @interface TableView : NSTableView {
     NSColor *I_lightBackgroundColor;
     NSColor *I_darkBackgroundColor;
+    BOOL I_disableFirstRow;
 }
 
 -(void)setLightBackgroundColor:(NSColor *)aColor;
 -(void)setDarkBackgroundColor:(NSColor *)aColor;
+-(void)setDisableFirstRow:(BOOL)aFlag;
+
 @end

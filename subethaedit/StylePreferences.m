@@ -60,10 +60,11 @@
 }
 
 - (void)adjustTableViewColumns:(NSNotification *)aNotification {
-    float width=[[[O_stylesTableView enclosingScrollView] contentView] frame].size.width/2.;
+    float width=[[[O_stylesTableView enclosingScrollView] contentView] frame].size.width;
+    float width2=width/2.;
     NSArray *columns=[O_stylesTableView tableColumns];
-    [[columns objectAtIndex:0] setWidth:width];
-    [[columns objectAtIndex:1] setWidth:width];
+    [[columns objectAtIndex:0] setWidth:width2];
+    [[columns objectAtIndex:1] setWidth:width2];
 }
 
 - (void)updateBackgroundColor {
@@ -79,9 +80,12 @@
     if (O_defaultStyleButton !=aSender) {
         [O_defaultStyleButton setState:useDefault?NSOnState:NSOffState];
     }
+
+    [O_stylesTableView setDisableFirstRow:useDefault];
     
     if (useDefault) {
         [O_modeController setContent:[DocumentModeManager baseMode]];
+        [O_stylesTableView deselectRow:0];
     } else {
         [O_modeController setContent:[O_modePopUpButton selectedMode]];
     }
@@ -180,12 +184,18 @@
         }
     }
     
-    [O_italicButton setAllowsMixedState:italic==MANY];
-    [O_italicButton setState:italic==MANY?NSMixedState:(italic?NSOnState:NSOffState)];
-    [O_boldButton   setAllowsMixedState:bold==MANY];
-    [O_boldButton   setState:bold  ==MANY?NSMixedState:(bold  ?NSOnState:NSOffState)];
-    [O_colorWell setColor:color];
-    [O_invertedColorWell setColor:invertedColor];
+    [O_italicButton      setEnabled:(bold!=UNITITIALIZED)];
+    [O_boldButton        setEnabled:(bold!=UNITITIALIZED)];
+    [O_colorWell         setEnabled:(bold!=UNITITIALIZED)];
+    [O_invertedColorWell setEnabled:(bold!=UNITITIALIZED)];
+    if (bold!=UNITITIALIZED) {
+        [O_italicButton setAllowsMixedState:italic==MANY];
+        [O_italicButton setState:italic==MANY?NSMixedState:(italic?NSOnState:NSOffState)];
+        [O_boldButton   setAllowsMixedState:bold==MANY];
+        [O_boldButton   setState:bold  ==MANY?NSMixedState:(bold  ?NSOnState:NSOffState)];
+        [O_colorWell setColor:color];
+        [O_invertedColorWell setColor:invertedColor];
+    }
     // sad but needed...
     [[O_boldButton superview] setNeedsDisplay:YES];
 }
@@ -197,8 +207,9 @@
     if (!font) font=[NSFont userFixedPitchFontOfSize:11.];
     [self setBaseFont:font];
     I_currentSyntaxStyle=[newMode syntaxStyle];
-    [self validateDefaultsState:aSender];
+    [O_stylesTableView reloadData];
     [O_stylesTableView selectRow:0 byExtendingSelection:NO];
+    [self validateDefaultsState:aSender];
 }
 
 - (IBAction)changeLightBackgroundColor:(id)aSender {
@@ -298,5 +309,14 @@
     [self updateInspector];
 }
 
+#pragma mark TableView Delegate
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+    BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
+    if (rowIndex==0 && useDefault) {
+        return NO;
+    }
+    return YES;
+}
 
 @end

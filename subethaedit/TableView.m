@@ -20,22 +20,36 @@
      I_darkBackgroundColor=[aColor retain];
 }
 
+-(void)setDisableFirstRow:(BOOL)aFlag {
+    I_disableFirstRow=aFlag;
+    [self setNeedsDisplay:YES];
+}
+
+
 - (void)drawBackgroundInClipRect:(NSRect)clipRect {
     [I_lightBackgroundColor set];
     NSRectFill([self rectOfColumn:0]);
     [I_darkBackgroundColor set];
     NSRectFill([self rectOfColumn:1]);
+    if (I_disableFirstRow) {
+        NSRect rowRect=[self rectOfRow:0];
+        rowRect=NSIntersectionRect(clipRect,rowRect);
+        if (rowRect.size.height>0. || rowRect.size.width >0.) {
+            [[NSColor colorWithCalibratedWhite:.5 alpha:.3] set];
+            [NSBezierPath fillRect:rowRect];
+        }
+    }
 }
 
 // Focus Ring methods
 
-- (void)higlightWithColor:(NSColor *)aColor inset:(float)aInset {
+- (void)highlightWithColor:(NSColor *)aColor inset:(float)aInset {
     if ([self selectedRow]>=0) {
 
         NSMutableIndexSet *rows = [[[self selectedRowIndexes] mutableCopy] autorelease];
     
         int index;
-        int fromindex;
+        int fromindex = -42;
         int lastindex = -42;
         
         while ((index = [rows firstIndex]) != NSNotFound) {
@@ -59,22 +73,25 @@
         [[NSBezierPath bezierPathWithRect:NSUnionRect(NSInsetRect([self rectOfRow:fromindex],aInset,aInset),NSInsetRect([self rectOfRow:lastindex],aInset,aInset))] fill];
         [NSGraphicsContext restoreGraphicsState];
     }
-}
-
-- (void)highlightSelectionInClipRect:(NSRect)clipRect {
-    [self higlightWithColor:nil inset:1.];
     [self setFocusRingType:NSFocusRingTypeNone];
 }
 
+- (void)highlightSelectionInClipRect:(NSRect)clipRect {
+}
 
 - (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)extend {
     [super selectRowIndexes:indexes byExtendingSelection:extend];
-    [self display];
+    [self setNeedsDisplay:YES];
 }
 
 - (void)deselectRow:(int)rowIndex {
     [super deselectRow:rowIndex];
-    [self display];
+    [self setNeedsDisplay:YES];
+}
+
+- (void)drawRect:(NSRect)aRect {
+    [super drawRect:aRect];
+    [self highlightWithColor:nil inset:1.];
 }
 
 @end

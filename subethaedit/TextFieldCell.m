@@ -23,5 +23,8 @@
      return nil;
  }
 
+- (NSRect)drawingRectForBounds:(NSRect)aRect {
+    return NSInsetRect([super drawingRectForBounds:aRect],3,0);
+}
 
 @end
