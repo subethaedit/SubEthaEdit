@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                clearAll = id; 
+                encodingListChanged = id; 
+                revertToDefault = id; 
+                selectAll = id; 
+                showEncodingsPanel = id; 
+            }; 
+            CLASS = EncodingManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {encodingMatrix = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

@@ -124,6 +124,7 @@
 		};
 		1407F34F06750AD100B10D47 = {
 			children = (
+				146F9D6F06877F52000BA2A4,
 				145E6F33068479F5007FAC48,
 				145E5C000683260F007FAC48,
 				1407F37506750D2800B10D47,
@@ -154,6 +155,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
+				146F9D9F06877F5E000BA2A4,
 				145E6F9006847A04007FAC48,
 				145E6D6106832FA8007FAC48,
 				1407F3A806750D3D00B10D47,
@@ -1063,6 +1065,25 @@
 			name = Debug;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		146F9D6F06877F52000BA2A4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			path = Catalan.lproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		146F9D9E06877F52000BA2A4 = {
+			fileRef = 146F9D6F06877F52000BA2A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		146F9D9F06877F5E000BA2A4 = {
+			fileRef = 146F9D6F06877F52000BA2A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		147037FD060C642F0087BA25 = {
 			buildActionMask = 2147483647;
@@ -5273,6 +5294,7 @@
 				145E6DA306833BAF007FAC48,
 				145E6F8E068479F6007FAC48,
 				145E6F8F068479F6007FAC48,
+				146F9D9E06877F52000BA2A4,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
