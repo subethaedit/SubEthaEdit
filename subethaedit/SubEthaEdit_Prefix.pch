@@ -6,7 +6,6 @@
     #import <Cocoa/Cocoa.h>
     #import <TCMFoundation/TCMFoundation.h>
     #import "NSColorTCMAdditions.h"
-    #import "NSDataTCMAdditions.h"
     #import "NSImageTCMAdditions.h"
     #import "NSStringSEEAdditions.h"
     #import "NSCalendarDateTCMAdditions.h"

@@ -361,8 +361,6 @@ subethaedit/NSCalendarDateTCMAdditions.h -text
 subethaedit/NSCalendarDateTCMAdditions.m -text
 subethaedit/NSColorTCMAdditions.h -text
 subethaedit/NSColorTCMAdditions.m -text
-subethaedit/NSDataTCMAdditions.h -text
-subethaedit/NSDataTCMAdditions.m -text
 subethaedit/NSImageTCMAdditions.h -text
 subethaedit/NSImageTCMAdditions.m -text
 subethaedit/NSNetServiceTCMAdditions.h -text
