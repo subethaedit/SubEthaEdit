@@ -406,19 +406,14 @@ static FindReplaceController *sharedInstance=nil;
             }
         
 
-            I_replaceAllRegex = [[OGRegularExpression alloc] initWithString:findString
+            OGReplaceExpression *regex = [OGRegularExpression regularExpressionWithString:findString
                                      options:[self currentOgreOptions]
                                      syntax:[self currentOgreSyntax]
                                      escapeCharacter:[self currentOgreEscapeCharacter]];
     
-            I_replaceAllRepex = [[OGReplaceExpression alloc] initWithString:replaceString];
-            I_replaceAllText = [text retain];
+            OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:replaceString];
             
-            I_replaceAllMatchArray = [I_replaceAllRegex allMatchesInString:text options:[self currentOgreOptions] range:aRange];
-
-
-
-            [I_replaceAllMatchArray retain];
+            NSArray *matchArray = [I_replaceAllRegex allMatchesInString:text options:[self currentOgreOptions] range:aRange];
 
             int count = [I_replaceAllMatchArray count];
             I_replaceAllArrayIndex = count-1;
@@ -427,8 +422,23 @@ static FindReplaceController *sharedInstance=nil;
                 [O_progressIndicator stopAnimation:nil];
                 return;
             }
-                        
-            [self replaceAFewMatches];
+            
+            for (i = count-1; i >= 0; i--) {
+                OGRegularExpressionMatch *aMatch = [I_replaceAllMatchArray objectAtIndex:i];
+                //NSLog(@"#%d",i);
+                //NSLog(@"%@",NSStringFromRange([aMatch rangeOfMatchedString]));
+                [I_replaceAllText replaceCharactersInRange:[aMatch rangeOfMatchedString] withString:[I_replaceAllRepex replaceMatchedStringOf:aMatch]];
+                replaced++;
+            }
+    
+    
+        [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), replaced]];
+        [O_statusTextField setHidden:NO];
+        [O_progressIndicator stopAnimation:nil];
+
+            
+            // OgreKit + Autorelease Pool = Massives Saugen            
+            //[self replaceAFewMatches];
             
             
             //NSLog(@"After replace: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
