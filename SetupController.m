@@ -78,7 +78,15 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
 
     err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
     if (err == noErr) {
-        // If we were doing preauthorization, this is where we'd do it.
+        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                                   | kAuthorizationFlagInteractionAllowed
+                                                   | kAuthorizationFlagExtendRights
+                                                   | kAuthorizationFlagPreAuthorize;
+        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+        AuthorizationRights rights = { 1, &right };
+
+        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
     }
     
     if (err == noErr) {
@@ -209,7 +217,15 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
 
     err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
     if (err == noErr) {
-        // If we were doing preauthorization, this is where we'd do it.
+        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                                   | kAuthorizationFlagInteractionAllowed
+                                                   | kAuthorizationFlagExtendRights
+                                                   | kAuthorizationFlagPreAuthorize;
+        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+        AuthorizationRights rights = { 1, &right };
+
+        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
     }
     
     if (err == noErr) {

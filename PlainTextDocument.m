@@ -1865,7 +1865,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
     if (err == noErr) {
-        // If we were doing preauthorization, this is where we'd do it.
+        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                                   | kAuthorizationFlagInteractionAllowed
+                                                   | kAuthorizationFlagExtendRights
+                                                   | kAuthorizationFlagPreAuthorize;
+        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+        AuthorizationRights rights = { 1, &right };
+
+        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
     }
     
     if (err == noErr) {
@@ -2221,7 +2229,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
     if (err == noErr) {
-        // If we were doing preauthorization, this is where we'd do it.
+        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                                   | kAuthorizationFlagInteractionAllowed
+                                                   | kAuthorizationFlagExtendRights
+                                                   | kAuthorizationFlagPreAuthorize;
+        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+        AuthorizationRights rights = { 1, &right };
+
+        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
     }
     
     if (err == noErr) {
