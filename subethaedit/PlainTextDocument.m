@@ -304,7 +304,7 @@ static NSString *tempFileName(NSString *origPath) {
                 if (appleEvent != nil) {
                     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Sending apple event");
                     AppleEvent reply;
-                    err = AESend([appleEvent aeDesc], &reply, kAENoReply, kAEHighPriority, kAEDefaultTimeout, NULL, NULL);
+                    err = AESendMessage ([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
                 }
             }
         }
@@ -350,7 +350,7 @@ static NSString *tempFileName(NSString *origPath) {
                 if (appleEvent != nil) {
                     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Sending apple event");
                     AppleEvent reply;
-                    err = AESend([appleEvent aeDesc], &reply, kAENoReply, kAEHighPriority, kAEDefaultTimeout, NULL, NULL);
+                    err = AESendMessage ([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
                 }
             }
         }
@@ -776,8 +776,6 @@ static NSString *tempFileName(NSString *origPath) {
         [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
     }
 
-    [self TCM_sendODBCloseEvent];
-
     [I_session setDocument:nil];
 
     if (![I_session isServer]) {
@@ -1182,12 +1180,12 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)removeWindowController:(NSWindowController *)windowController {
     [super removeWindowController:windowController];
     [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
-    if ([[self windowControllers] count]==0) {
-//        NSLog(@"Last window closed");
+    if ([[self windowControllers] count] == 0) {
         // terminate syntax coloring
         I_flags.highlightSyntax = NO;
         [I_symbolUpdateTimer invalidate];
         [I_webPreviewDelayedRefreshTimer invalidate];
+        [self TCM_sendODBCloseEvent];
     }
 }
 
