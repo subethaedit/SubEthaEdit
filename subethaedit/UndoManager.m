@@ -102,6 +102,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 @implementation UndoManager
 
 - (void)dealloc {
+    _document = nil;
     [_undoGroup release];
     [_undoStack release];
     [_redoGroup release];
@@ -529,8 +530,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         
         while (i-- > 0) {
             TextOperation *operation = [actions objectAtIndex:i];
-            #warning "We need applyOperation:fromUser:"
-            //[_document applyOperation:operation fromUser:[TCMMMUserManager myUserID]];
+            [_document handleOperation:operation]
         }
     }
 }
@@ -570,8 +570,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         int i, k;
         UndoGroup *group;
         NSMutableArray *actions;
-        #warning "Determine whether we are running as server or client"
-        BOOL isServer = YES; //[[_document jupiterObject] isKindOfClass:[JupiterServer class]];
+        BOOL isServer = [[_document session] isServer]; 
         
         TextOperation *operation = [anOperation copy];
         
