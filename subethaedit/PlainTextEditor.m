@@ -903,34 +903,39 @@
     [self TCM_updateBottomStatusBar];
 }
 
+- (void)setRadarMarkForUser:(TCMMMUser *)aUser {
+    NSString *sessionID=[[[self document] session] sessionID];
+    NSColor *changeColor=[aUser changeColor];
+    
+    SelectionOperation *selectionOperation=[[aUser propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
+    if (selectionOperation) {
+        int rectCount;
+        NSRange range=[selectionOperation selectedRange];
+        NSRectArray rects=[[I_textView layoutManager]
+                            rectArrayForCharacterRange:range
+                          withinSelectedCharacterRange:range 
+                                       inTextContainer:[I_textView textContainer] 
+                                             rectCount:&rectCount];
+        if (rectCount>0) {
+            NSRect rect=rects[0]; 
+            int i;
+            for (i=1; i<rectCount;i++) {
+                rect=NSUnionRect(rect,rects[i]);
+            }                                    
+            [I_radarScroller setMarkFor:[aUser userID] 
+                            withColor:changeColor
+                        forMinLocation:(float)rect.origin.y 
+                        andMaxLocation:(float)NSMaxY(rect)];            
+        }
+    } else {
+        [I_radarScroller removeMarkFor:[aUser userID]];
+    }
+}
+
 - (void)userDidChangeSelection:(NSNotification *)aNotification {
     TCMMMUser *user=[[aNotification userInfo] objectForKey:@"User"];
     if (user) {
-        NSString *sessionID=[[[self document] session] sessionID];
-        NSColor *changeColor=[user changeColor];
-        
-        
-        SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
-        if (selectionOperation) {
-            int rectCount;
-            NSRange range=[selectionOperation selectedRange];
-            NSRectArray rects=[[I_textView layoutManager]
-                                rectArrayForCharacterRange:range
-                              withinSelectedCharacterRange:range 
-                                           inTextContainer:[I_textView textContainer] 
-                                                 rectCount:&rectCount];
-            if (rectCount>0) {
-                NSRect rect=rects[0]; 
-                int i;
-                for (i=1; i<rectCount;i++) {
-                    rect=NSUnionRect(rect,rects[i]);
-                }                                    
-                [I_radarScroller setMarkFor:[user userID] 
-                                withColor:changeColor
-                            forMinLocation:(float)rect.origin.y 
-                            andMaxLocation:(float)NSMaxY(rect)];            
-            }
-        }
+        [self setRadarMarkForUser:user];
     }
 }
 

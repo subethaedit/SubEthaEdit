@@ -9,6 +9,9 @@
 #import "TCMBencodingUtilities.h"
 #import "TCMMMUser.h"
 
+NSString * const TCMMMUserWillLeaveSessionNotification =
+               @"TCMMMUserWillLeaveSessionNotification";
+
 @interface TCMMMUser (TCMMMUserPrivateAdditions) 
 
 - (void)setProperties:(NSMutableDictionary *)aDictionary;
@@ -115,6 +118,7 @@
 }
 
 - (void)leaveSessionID:(NSString *)aSessionID {
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMUserWillLeaveSessionNotification object:self userInfo:[NSDictionary dictionaryWithObject:aSessionID forKey:@"SessionID"]];
     [I_propertiesBySessionID removeObjectForKey:aSessionID];
 }
 

@@ -8,7 +8,7 @@
 
 #import <AppKit/AppKit.h>
 
-@class PlainTextDocument,PopUpButton,RadarScroller;
+@class PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser;
 
 @interface PlainTextEditor : NSResponder {
     IBOutlet NSTextField *O_positionTextField;
@@ -67,6 +67,7 @@
 - (void)updateSelectedSymbol;
 - (void)updateSymbolPopUpSorted:(BOOL)aSorted;
 
+- (void)setRadarMarkForUser:(TCMMMUser *)aUser;
 
 - (void)scrollToUserWithID:(NSString *)aUserID;
 #pragma mark -

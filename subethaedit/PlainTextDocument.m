@@ -187,6 +187,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
                                                object:NSApp];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(executeInvalidateLayout:)
         name:PlainTextDocumentInvalidateLayoutNotification object:self];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userWillLeaveSession:) name:TCMMMUserWillLeaveSessionNotification object:nil];
     
     // maybe put this into DocumentMode Setting
     NSString *bracketString=@"{[()]}";
@@ -2813,6 +2815,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)textStorageDidStopBlockedit:(TextStorage *)aTextStorage {
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
+}
+
+#pragma mark -
+
+- (void)userWillLeaveSession:(NSNotification *)aNotification {
+    NSString *sessionID=[[self session] sessionID];
+    if ([sessionID isEqualToString:[[aNotification userInfo] objectForKey:@"SessionID"]]) {
+        [[NSNotificationQueue defaultQueue] 
+        enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentUserDidChangeSelectionNotification object:self userInfo:[NSDictionary dictionaryWithObject:[aNotification object] forKey:@"User"]]
+               postingStyle:NSPostWhenIdle 
+               coalesceMask:0
+                   forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+        
+    }
 }
 
 #pragma mark -

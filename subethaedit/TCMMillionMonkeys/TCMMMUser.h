@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const TCMMMUserWillLeaveSessionNotification;
+
 @interface TCMMMUser : NSObject {
     NSMutableDictionary *I_properties;
     NSMutableDictionary *I_propertiesBySessionID;

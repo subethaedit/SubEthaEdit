@@ -129,6 +129,17 @@ enum {
     }
 }
 
+- (void)setInitialRadarStatusForPlainTextEditor:(PlainTextEditor *)editor {
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    NSEnumerator *users=[[[[document session] participants] objectForKey:@"ReadWrite"] objectEnumerator];
+    TCMMMUser *user=nil;
+    while ((user=[users nextObject])) {
+        if (user != [TCMMMUserManager me]) {
+            [editor setRadarMarkForUser:user];
+        }
+    }
+}
+
 - (void)windowDidLoad {
 
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
@@ -209,10 +220,11 @@ enum {
     [[self window] setInitialFirstResponder:[plainTextEditor textView]];
     [[self window] setContentView:[plainTextEditor editorView]];
     [I_plainTextEditors addObject:plainTextEditor];
-    [plainTextEditor release];
     if ([self document]) {
         [[self document] windowControllerDidLoadNib:self];
+        [self setInitialRadarStatusForPlainTextEditor:plainTextEditor];;
     }
+    [plainTextEditor release];
     
     [self validateButtons];
 }
@@ -942,7 +954,7 @@ enum {
         [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
         [[I_plainTextEditors objectAtIndex:1] setShowsGutter:
             [[I_plainTextEditors objectAtIndex:0] showsGutter]];
-        
+        [self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
         [splitView release];
     } else if ([I_plainTextEditors count]==2) {
         [[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
