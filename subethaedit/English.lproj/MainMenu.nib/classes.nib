@@ -7,7 +7,12 @@
             SUPERCLASS = NSDocumentController; 
         }, 
         {
-            ACTIONS = {announce = id; conceal = id; toggleParticipantsDrawer = id; }; 
+            ACTIONS = {
+                announce = id; 
+                conceal = id; 
+                toggleParticipantsDrawer = id; 
+                toggleSyntaxHighlighting = id; 
+            }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 

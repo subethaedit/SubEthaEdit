@@ -17,9 +17,12 @@
     struct {
         BOOL isAnnounced;
         BOOL isRemotelyEditingTextStorage;
+        BOOL isPerformingSyntaxHighlighting;
+        BOOL highlightSyntax;
     } I_flags;
     DocumentMode  *I_documentMode;
     NSTextStorage *I_textStorage;
+    NSDictionary  *I_plainTextAttributes;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
@@ -36,5 +39,14 @@
 - (IBAction)conceal:(id)aSender;
 
 - (void)handleOperation:(TCMMMOperation *)aOperation;
+
+- (NSDictionary *)plainTextAttributes;
+
+#pragma mark -
+#pragma mark ### Syntax Highlighting ###
+- (IBAction)toggleSyntaxHighlighting:(id)aSender;
+- (void)highlightSyntaxInRange:(NSRange)aRange;
+- (void)performHighlightSyntax;
+- (void)highlightSyntaxLoop;
 
 @end

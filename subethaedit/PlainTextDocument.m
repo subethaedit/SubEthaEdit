@@ -18,7 +18,15 @@
 #import "TextOperation.h"
 #import "SelectionOperation.h"
 
+static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTextDocumentSyntaxColorizeNotification";
+
 @implementation PlainTextDocument
+
+- (void)TCM_initHelper {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performHighlightSyntax)
+        name:PlainTextDocumentSyntaxColorizeNotification object:self];
+    I_flags.highlightSyntax = YES;
+}
 
 - (id)init
 {
@@ -33,6 +41,7 @@
         [I_textStorage setDelegate:self];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
         I_flags.isRemotelyEditingTextStorage=NO;
+        [self TCM_initHelper];
     }
     return self;
 }
@@ -47,11 +56,13 @@
         [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
         I_flags.isRemotelyEditingTextStorage=NO;
         [aSession setDocument:self];
+        [self TCM_initHelper];
     }
     return self;
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     if (I_flags.isAnnounced) {
         [[TCMMMPresenceManager sharedInstance] concealSession:[self session]];
     }
@@ -59,6 +70,7 @@
     [I_textStorage setDelegate:nil];
     [I_textStorage release];
     [I_session release];
+    [I_plainTextAttributes release];
 }
 
 - (void)setSession:(TCMMMSession *)aSession
@@ -261,12 +273,14 @@
 //    }
 //    //[self updateMaxYForRadarScroller];
 
+    [I_textStorage addAttributes:[self plainTextAttributes]
+                           range:NSMakeRange(0,[I_textStorage length])];
+
     DocumentMode *mode=[[DocumentModeManager sharedInstance] documentModeForExtension:[[aURL path] pathExtension]];
     [self setDocumentMode:mode];
     
-    if ([mode syntaxHighlighter]) {
-        [I_textStorage addAttribute:kSyntaxHighlightingIsDirtyAttributeName value:kSyntaxHighlightingIsDirtyAttributeValue range:NSMakeRange(0,[I_textStorage length])];
-        [[mode syntaxHighlighter] colorizeDirtyRanges:I_textStorage];
+    if ([mode syntaxHighlighter]!=nil) {
+        [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
     }
 
     return YES;
@@ -279,8 +293,93 @@
         return !I_flags.isAnnounced;
     } else if (selector==@selector(conceal:)) {
         return I_flags.isAnnounced;
-    }
+    } else if (selector==@selector(toggleSyntaxHighlighting:)) {
+        [anItem setState:(I_flags.highlightSyntax?NSOnState:NSOffState)];
+        return YES;
+    } 
     return [super validateMenuItem:anItem];
+}
+
+- (NSDictionary *)plainTextAttributes {
+    if (!I_plainTextAttributes) {
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSFont *userFont = [NSFont userFixedPitchFontOfSize:0.0];
+//        BOOL usesScreenFonts = [[defaults objectForKey:UsesScreenFontsPreferenceKey] boolValue];
+        NSFont *displayFont = nil;
+        if (NO)
+            displayFont = [userFont screenFont];
+        if (displayFont == nil)
+            displayFont = userFont;
+//        NSMutableParagraphStyle *myParagraphStyle = [[NSMutableParagraphStyle new] autorelease];
+//        [myParagraphStyle setParagraphStyle:[NSParagraphStyle defaultParagraphStyle]];
+//        NSArray *tabStops;
+        //float spaceWidth = [userFont widthOfString:@" "];
+//        unsigned spacesPerTab=[defaults integerForKey:TabWidthPreferenceKey];
+        //float tabWidth = spaceWidth*spacesPerTab;
+
+//        tabStops = tabStopArrayForFontAndTabWidth(displayFont, spacesPerTab);
+
+//        [myParagraphStyle setTabStops:tabStops];
+        NSColor *foregroundColor=[NSColor blackColor];
+
+        NSMutableDictionary *attributes=[NSMutableDictionary new];
+        [attributes setObject:userFont
+                            forKey:NSFontAttributeName];
+        [attributes setObject:[NSNumber numberWithInt:0]
+                            forKey:NSLigatureAttributeName];
+//        [I_plainTextAttributes setObject:myParagraphStyle
+//                            forKey:NSParagraphStyleAttributeName];
+        [attributes setObject:foregroundColor
+                            forKey:NSForegroundColorAttributeName];
+        I_plainTextAttributes=attributes;
+    }
+    return I_plainTextAttributes;
+
+}
+
+#pragma mark -
+#pragma mark ### Syntax Highlighting ###
+- (IBAction)toggleSyntaxHighlighting:(id)aSender {
+    I_flags.highlightSyntax = !I_flags.highlightSyntax;
+    if (I_flags.highlightSyntax) {
+        [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
+    } else {
+        [I_textStorage addAttributes:[self plainTextAttributes]
+                               range:NSMakeRange(0,[I_textStorage length])];
+    }
+}
+
+- (void)highlightSyntaxInRange:(NSRange)aRange {
+    if (I_flags.highlightSyntax) {
+        NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[I_textStorage length]));
+        if (range.length>0) {
+            [I_textStorage addAttribute:kSyntaxHighlightingIsDirtyAttributeName 
+                                  value:kSyntaxHighlightingIsDirtyAttributeValue 
+                                  range:range];
+            [[NSNotificationQueue defaultQueue] 
+                enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentSyntaxColorizeNotification object:self]
+                       postingStyle:NSPostWhenIdle 
+                       coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
+                           forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+        }
+    }
+}
+- (void)performHighlightSyntax {
+    if (!I_flags.isPerformingSyntaxHighlighting && I_flags.highlightSyntax && 
+        [I_documentMode syntaxHighlighter]!=nil) {
+        [self performSelector:@selector(highlightSyntaxLoop) withObject:nil afterDelay:0.3];                
+        I_flags.isPerformingSyntaxHighlighting=YES;
+    }
+}
+
+- (void)highlightSyntaxLoop {
+    I_flags.isPerformingSyntaxHighlighting=NO;
+    if (I_flags.highlightSyntax) {
+        SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
+        if (highlighter && ![highlighter colorizeDirtyRanges:I_textStorage]) {
+            [self performHighlightSyntax];
+        }
+    }
 }
 
 #pragma mark -
