@@ -1613,6 +1613,7 @@
 				1485FF4D0732BCC100A974A2,
 				14B94B97073BE80000C6A2EC,
 				143BAACF073CF37F00C52549,
+				14C7CEB6073F8118005E6A74,
 				1485FF7F0732BCC100A974A2,
 				148501920732CF3400A974A2,
 			);
@@ -1646,6 +1647,7 @@
 				1485FFB80732BD5800A974A2,
 				14B94D71073BE81200C6A2EC,
 				143BAB01073CF39100C52549,
+				14C7CED0073F8163005E6A74,
 				1485FFB90732BD5800A974A2,
 			);
 			isa = PBXCopyFilesBuildPhase;
@@ -2313,6 +2315,20 @@
 		};
 		14C7A97606199F55003F4DDC = {
 			fileRef = 14C7A97406199F55003F4DDC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14C7CEB6073F8118005E6A74 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = ru.lproj;
+			path = Localizations/ru.lproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14C7CED0073F8163005E6A74 = {
+			fileRef = 14C7CEB6073F8118005E6A74;
 			isa = PBXBuildFile;
 			settings = {
 			};
