@@ -17,7 +17,9 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 
+
 #define PORTRANGELENGTH 10
+
 
 static NSString *kBEEPSessionStatusNoSession =@"NoSession";
 static NSString *kBEEPSessionStatusGotSession=@"GotSession";
@@ -51,7 +53,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)TCM_connectToNetServiceWithInformation:(NSMutableDictionary *)aInformation;
 - (void)TCM_sendDidAcceptNotificationForSession:(TCMBEEPSession *)aSession;
 - (void)TCM_sendDidEndNotificationForSession:(TCMBEEPSession *)aSession error:(NSError *)anError;
-
 
 @end
 
@@ -89,7 +90,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [super dealloc];
 }
 
-- (NSString *)description {
+- (NSString *)description
+{
     return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:%@\npendingSessionProfiles:%@\npendingSessions:%@\npendingOutboundSessions:%@",[I_sessionInformationByUserID descriptionInStringsFileFormat],[I_pendingSessionProfiles description],[I_pendingSessions description],[I_pendingOutboundSessions description]];
 }
 
@@ -166,7 +168,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)connectToHost:(TCMHost *)aHost
 {
-    DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"connectToHost:");
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"connectToHost:");
 
 /*
     pendingOutboundSessions {
@@ -300,15 +302,15 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didFailWithError:(NSError *)anError
 {
-    NSLog(@"BEEPSession:didFailWithError:%@",anError);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSession:didFailWithError: %@", anError);
     NSString *aUserID=[[aBEEPSession userInfo] objectForKey:@"peerUserID"];
-    NSMutableDictionary *sessionInformation=[self sessionInformationForUserID:aUserID];
+    NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
     [aBEEPSession setDelegate:nil];
     [[aBEEPSession retain] autorelease];
     if ([[aBEEPSession userInfo] objectForKey:@"isRendezvous"]) {
-        NSString *status=[sessionInformation objectForKey:@"RendezvousStatus"];
+        NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
         if ([status isEqualToString:kBEEPSessionStatusGotSession]) {
-            if ([sessionInformation objectForKey:@"RendezvousSession"]==aBEEPSession) {
+            if ([sessionInformation objectForKey:@"RendezvousSession"] == aBEEPSession) {
                 [sessionInformation removeObjectForKey:@"RendezvousSession"];
                 [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
                 [self TCM_sendDidEndNotificationForSession:aBEEPSession error:anError];
@@ -316,18 +318,18 @@ static TCMMMBEEPSessionManager *sharedInstance;
         } else if ([status isEqualToString:kBEEPSessionStatusConnecting]) {
             if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] containsObject:aBEEPSession]) {
                 [[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] removeObject:aBEEPSession];
-                if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] count]==0 && 
+                if ([[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] count] == 0 && 
                     ![sessionInformation objectForKey:@"InboundRendezvousSession"]) {
                     [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
                 }
-            } else if ([sessionInformation objectForKey:@"RendezvousSession"]==aBEEPSession) {
+            } else if ([sessionInformation objectForKey:@"RendezvousSession"] == aBEEPSession) {
                 [sessionInformation removeObjectForKey:@"RendezvousSession"];
                 [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
             }
         }
     } else {
         [[sessionInformation objectForKey:@"OutboundSessions"] removeObject:aBEEPSession];
-        [[sessionInformation objectForKey:@"InboundSessions"]  removeObject:aBEEPSession];
+        [[sessionInformation objectForKey:@"InboundSessions"] removeObject:aBEEPSession];
         NSString *name = [[aBEEPSession userInfo] objectForKey:@"name"];
         NSMutableDictionary *infoDict = [I_pendingOutboundSessions objectForKey:name];
         if (infoDict) {
@@ -347,23 +349,24 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 
     [I_pendingSessions removeObject:aBEEPSession];
-    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@",[self description]);
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@", [self description]);
 }
 
 
 #pragma mark -
 #pragma mark ### notifications ###
 
-- (void)TCM_sendDidAcceptNotificationForSession:(TCMBEEPSession *)aSession {
-
+- (void)TCM_sendDidAcceptNotificationForSession:(TCMBEEPSession *)aSession
+{
     [[NSNotificationCenter defaultCenter] 
         postNotificationName:TCMMMBEEPSessionManagerDidAcceptSessionNotification 
                       object:self
                     userInfo:[NSDictionary dictionaryWithObject:aSession forKey:@"Session"]];
 }
 
-- (void)TCM_sendDidEndNotificationForSession:(TCMBEEPSession *)aSession error:(NSError *)anError {
-    NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObject:aSession forKey:@"Session"];
+- (void)TCM_sendDidEndNotificationForSession:(TCMBEEPSession *)aSession error:(NSError *)anError
+{
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:aSession forKey:@"Session"];
     if (anError) {
         [userInfo setObject:anError forKey:@"Error"];
     }

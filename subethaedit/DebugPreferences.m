@@ -7,6 +7,7 @@
 //
 
 #import "DebugPreferences.h"
+#import "Debug/DebugController.h"
 
 
 @implementation DebugPreferences
@@ -32,8 +33,8 @@
                                         @"FileIOLogDomain",
                                         @"InternetLogDomain",
                                         nil] objectEnumerator];
-        NSString *domain=nil;
-        while ((domain=[domains nextObject])) {
+        NSString *domain = nil;
+        while ((domain = [domains nextObject])) {
             NSMutableDictionary *domainDict =
                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         domain, @"domain",
@@ -79,11 +80,34 @@
 - (void)mainViewDidLoad
 {
     // Initialize user interface elements to reflect current preference settings
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL enableDebugMenu = [defaults boolForKey:@"EnableDebugMenu"];
+    if (enableDebugMenu) {
+        [toggleDebugMenuCheckBox setState:NSOnState];
+    } else {
+        [toggleDebugMenuCheckBox setState:NSOffState];    
+    }
+    [[DebugController sharedInstance] enableDebugMenu:enableDebugMenu];
 }
 
 - (void)didUnselect
 {
     // Save preferences
+}
+
+#pragma mark -
+
+- (IBAction)toggleDebugMenu:(id)sender
+{
+    NSLog(@"toggleDebugMenu");
+    int state = [sender state];
+    if (state == NSOnState) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"EnableDebugMenu"];
+        [[DebugController sharedInstance] enableDebugMenu:YES];
+    } else if (state == NSOffState) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"EnableDebugMenu"];        
+        [[DebugController sharedInstance] enableDebugMenu:NO];
+    }
 }
 
 #pragma mark -

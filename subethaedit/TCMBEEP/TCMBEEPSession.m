@@ -300,8 +300,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 - (void)close
 {
-    [I_outputStream close];
-    [I_inputStream close];
+    if ([I_outputStream streamStatus] != NSStreamStatusClosed) {
+        [I_outputStream close];
+    }
+    if ([I_inputStream streamStatus] != NSStreamStatusClosed) {
+        [I_inputStream close];
+    }
     [self TCM_cleanup];
 }
 
@@ -367,7 +371,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:(i - bytesParsed + 1)];
                 I_currentReadFrame = [[TCMBEEPFrame alloc] initWithHeader:(char *)[I_readBuffer bytes]];
                 if (!I_currentReadFrame) {
-                    // ERRRRRRRRRROR
+                    [self close];
+                    break;
                 } else {
                     I_currentReadState = frameContentState;
                     I_currentReadFrameRemainingContentSize = [I_currentReadFrame length];
@@ -410,7 +415,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
                     DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
                     I_currentReadFrame = nil;
                 } else {
-                    // ERRRRRRORR
+                    [self close];
+                    break;
                 }
                 [I_readBuffer setLength:0];
                 I_currentReadState = frameHeaderState;
@@ -455,6 +461,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
         case NSStreamEventErrorOccurred: {
                 NSError *error = [I_inputStream streamError];
                 DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"An error occurred on the input stream: %@, Domain: %@, Code: %d", [error localizedDescription], [error domain], [error code]);
+                [self TCM_cleanup];
             }
             break;
         case NSStreamEventEndEncountered:
@@ -479,6 +486,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
         case NSStreamEventErrorOccurred: {
                 NSError *error = [I_outputStream streamError];
                 DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"An error occurred on the output stream: %@, Domain: %@, Code: %d", [error localizedDescription], [error domain], [error code]);
+                [self TCM_cleanup];
             }
             break;
         case NSStreamEventEndEncountered:

@@ -185,6 +185,8 @@ subethaedit/AppController.h -text
 subethaedit/AppController.m -text
 subethaedit/ButtonScrollView.h -text
 subethaedit/ButtonScrollView.m -text
+subethaedit/Debug/DebugController.h -text
+subethaedit/Debug/DebugController.m -text
 subethaedit/DebugPreferences.h -text
 subethaedit/DebugPreferences.m -text
 subethaedit/DebugPrefs.nib/classes.nib -text

@@ -1,6 +1,12 @@
 {
     IBClasses = (
-        {CLASS = DebugPreferences; LANGUAGE = ObjC; SUPERCLASS = TCMPreferenceModule; }, 
+        {
+            ACTIONS = {toggleDebugMenu = id; }; 
+            CLASS = DebugPreferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {toggleDebugMenuCheckBox = NSButton; }; 
+            SUPERCLASS = TCMPreferenceModule; 
+        }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             CLASS = TCMPreferenceModule; 

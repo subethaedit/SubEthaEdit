@@ -15,6 +15,7 @@
 #import "RendezvousBrowserController.h"
 #import "InternetBrowserController.h"
 #import "DebugPreferences.h"
+#import "Debug/DebugController.h"
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
 #import "HandshakeProfile.h"
@@ -236,6 +237,8 @@ NSString * const DefaultPortNumber = @"port";
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
     [self setupScriptMenu];
+
+    [[DebugController sharedInstance] enableDebugMenu:[[NSUserDefaults standardUserDefaults] boolForKey:@"EnableDebugMenu"]];
 
     GeneralPreferences *generalPrefs = [[GeneralPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:generalPrefs];

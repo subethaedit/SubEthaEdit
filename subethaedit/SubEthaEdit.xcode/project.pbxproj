@@ -1428,6 +1428,46 @@
 			settings = {
 			};
 		};
+		14E92E2706396E080099D67B = {
+			children = (
+				14E92E2A06396E210099D67B,
+				14E92E2B06396E210099D67B,
+			);
+			isa = PBXGroup;
+			name = Debug;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14E92E2A06396E210099D67B = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = DebugController.h;
+			path = Debug/DebugController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14E92E2B06396E210099D67B = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = DebugController.m;
+			path = Debug/DebugController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14E92E2C06396E210099D67B = {
+			fileRef = 14E92E2A06396E210099D67B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14E92E2D06396E210099D67B = {
+			fileRef = 14E92E2B06396E210099D67B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14EA6953060F651A00D02455 = {
 			isa = PBXFileReference;
 			lastKnownFileType = folder;
@@ -1507,6 +1547,7 @@
 		2A37F4ABFDCFA73011CA2CEA = {
 			children = (
 				146017080619DB3300E527EC,
+				14E92E2706396E080099D67B,
 				1460170E0619DBCA00E527EC,
 				1460170B0619DB8400E527EC,
 				146017050619DB0B00E527EC,
@@ -3787,6 +3828,7 @@
 				5EA543C606357E0D00A06297,
 				5E192B860635D2CF00363C02,
 				3131457F06381AA9003CC762,
+				14E92E2C06396E210099D67B,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3949,6 +3991,7 @@
 				5EA543C506357E0D00A06297,
 				5E192B870635D2CF00363C02,
 				3131458006381AA9003CC762,
+				14E92E2D06396E210099D67B,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,6 +14,10 @@
 {
     NSMutableArray *logDomains;
     NSMutableArray *levels;
+    
+    IBOutlet NSButton *toggleDebugMenuCheckBox;
 }
+
+- (IBAction)toggleDebugMenu:(id)sender;
 
 @end
