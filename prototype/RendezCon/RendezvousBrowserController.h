@@ -43,6 +43,7 @@
     NSMutableArray      *I_foundNetServices;
     NSMutableArray      *I_servicesToBrowseFor;
     NSMutableDictionary *I_netServiceBrowsers;
+    NSMutableDictionary *I_shouldResolveTXTRecordDictionary;
 }
 
 #pragma mark -
@@ -58,6 +59,8 @@
 - (IBAction)showReleaseNotes:(id)aSender;
 
 #pragma mark -
+- (void)startResolvingTXTRecord:(NSMutableDictionary *)aServiceDictionary;
+- (void) stopResolvingTXTRecord:(NSMutableDictionary *)aServiceDictionary;
 - (void)startBrowsing;
 - (void) stopBrowsing;
 - (void)          removeServicesOfType:(NSString *)aServiceType;

@@ -30,11 +30,89 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 //  POSSIBILITY OF SUCH DAMAGE.
 
+
+// Rendezvous reference:
+// http://developer.apple.com/macosx/rendezvous/
+
 #import "RendezvousBrowserController.h"
 #import "sys/socket.h"
 #import "netinet/in.h"
 #import "netinet6/in6.h"
 #import "arpa/inet.h"
+
+#import "dns_sd.h"
+#import "nameser.h"
+#import <CoreFoundation/CoreFoundation.h>
+
+
+#pragma mark -
+#pragma mark ### Utilities ###
+
+void SetProtocolSpecificInformationInServiceDictionary(NSString *aString,NSMutableDictionary *aDictionary) {
+    NSMutableString *string=[NSMutableString string];
+    NSArray *textRecords=[aString componentsSeparatedByString:@"\001"];
+    int loop=0;
+    for (loop=0;loop<[textRecords count];loop++) {
+        [string appendFormat:@"(%d)\t%d: %@\n",[(NSString *)[textRecords objectAtIndex:loop] length],loop+1,[textRecords objectAtIndex:loop]];
+    }
+    [aDictionary setObject:string  forKey:@"protocolSpecificInformationForTextView"];
+    [aDictionary setObject:aString forKey:@"protocolSpecificInformation"];
+
+}
+
+#pragma mark -
+#pragma mark ### Callbacks ###
+
+void dns_service_query_record_callback (
+    DNSServiceRef       DNSServiceRef,
+    DNSServiceFlags     flags,
+    uint32_t            interfaceIndex,
+    DNSServiceErrorType errorCode,
+    const char          *fullname,    
+    uint16_t            rrtype,
+    uint16_t            rrclass,
+    uint16_t            rdlen,
+    const void          *rdata,
+    uint32_t            ttl,
+    void                *context  
+    ) {
+    
+    // this callback works as in browsing and domain enumeration, 
+    // although the header file does not state this
+    
+    if (flags & kDNSServiceFlagsAdd) {
+        char textInCocoaFormat[1400];
+        char *textPosition=textInCocoaFormat;
+        char *txt_record=(char *)rdata;
+        while (rdlen) {
+            unsigned char len=*txt_record;
+            txt_record++; rdlen--;
+            while (rdlen && len) {
+                *textPosition=*txt_record;
+                txt_record++; rdlen--;len--; textPosition++;
+            }
+            if (rdlen) {
+                *textPosition='\001';
+                textPosition++;
+            }
+        }
+        *textPosition=0;
+        NSMutableDictionary *serviceDictionary=(NSMutableDictionary *)context;
+        [serviceDictionary setObject:[NSNumber numberWithInt:[[serviceDictionary objectForKey:@"resolveCount"] intValue]+1]
+                              forKey:@"resolveCount"];
+        NSString *text=[NSString stringWithUTF8String:textInCocoaFormat];
+        SetProtocolSpecificInformationInServiceDictionary(text,serviceDictionary);
+    }
+}
+
+void socket_read_callback (CFSocketRef s, CFSocketCallBackType callbackType, CFDataRef address, 
+                           const void *data, void *info) {
+    DNSServiceErrorType error = DNSServiceProcessResult((DNSServiceRef)info);
+    if (error) {
+        NSLog(@"Error: %d", error);
+    }
+}
+
 
 @implementation RendezvousBrowserController
 
@@ -57,12 +135,21 @@
         I_foundNetServices   =[NSMutableArray      new];
         I_netServiceBrowsers =[NSMutableDictionary new];
         I_servicesToBrowseFor=[NSMutableArray      new];
+        
+        I_shouldResolveTXTRecordDictionary=[NSMutableDictionary new];
+
         // Deep copy the array to make it and its content mutable
         NSEnumerator *services=[[[[NSUserDefaultsController sharedUserDefaultsController] values] 
                                     valueForKeyPath:@"servicesToBrowseFor"] objectEnumerator];
         NSDictionary *entry;
         while ((entry=[services nextObject])) {
             [I_servicesToBrowseFor addObject:[[entry mutableCopy] autorelease]];
+            if ([[entry objectForKey:@"shouldResolveTXTRecord"] boolValue]) {
+                NSString *serviceType=[entry objectForKey:@"serviceType"];
+                if (serviceType && [serviceType length]>0) {
+                    [I_shouldResolveTXTRecordDictionary setObject:[NSNumber numberWithBool:YES] forKey:serviceType]; 
+                }
+            }
         }
     }
     return self;
@@ -86,6 +173,7 @@
     NSMutableDictionary *service=nil;
     while (service=[servicesToBrowseFor nextObject]) {
         [service addObserver:self forKeyPath:@"shouldSearchFor" options:0 context:nil];
+        [service addObserver:self forKeyPath:@"shouldResolveTXTRecord" options:0 context:nil];
     }
 
     [self addObserver:self forKeyPath:@"foundNetServices" options:0 context:nil];
@@ -108,6 +196,7 @@
     [I_servicesToBrowseFor release];
     [super dealloc];
 }
+
 
 #pragma mark -
 #pragma mark ### KeyValueObserving ###
@@ -143,6 +232,7 @@
     [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:set forKey:@"servicesToBrowseFor"];
     // add us as observer
     [aObject addObserver:self forKeyPath:@"shouldSearchFor" options:0 context:nil];
+    [aObject addObserver:self forKeyPath:@"shouldResolveTXTRecord" options:0 context:nil];
     [I_servicesToBrowseFor insertObject:aObject atIndex:aIndex];
     [self  didChange:NSKeyValueChangeInsertion valuesAtIndexes:set forKey:@"servicesToBrowseFor"];
 }
@@ -152,6 +242,7 @@
     [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:set forKey:@"servicesToBrowseFor"];
     // remove us as observer
     [[I_servicesToBrowseFor objectAtIndex:aIndex] removeObserver:self forKeyPath:@"shouldSearchFor"];    
+    [[I_servicesToBrowseFor objectAtIndex:aIndex] removeObserver:self forKeyPath:@"shouldResolveTXTRecord"];    
     [I_servicesToBrowseFor removeObjectAtIndex:aIndex];
     [self  didChange:NSKeyValueChangeRemoval valuesAtIndexes:set forKey:@"servicesToBrowseFor"];
 }
@@ -170,11 +261,84 @@
         }
     } else if ([aKeyPath isEqualToString:@"foundNetServices"]) {
         [O_foundServicesBox setTitle:[NSString stringWithFormat:@"Found Services (%d)",[I_foundNetServices count]]];
+    } else if ([aKeyPath isEqualToString:@"shouldResolveTXTRecord"]) {
+        BOOL shouldResolveTXTRecord=[[aObject valueForKey:@"shouldResolveTXTRecord"] boolValue];
+        NSString *serviceType=[aObject valueForKey:@"serviceType"];
+        if (serviceType && [serviceType length]>0) {
+            if (shouldResolveTXTRecord) {
+                [I_shouldResolveTXTRecordDictionary setObject:[NSNumber numberWithBool:YES]
+                                                       forKey:serviceType];
+            } else {
+                [I_shouldResolveTXTRecordDictionary removeObjectForKey:serviceType];
+            }
+            NSEnumerator *serviceDictionaries=[I_foundNetServices objectEnumerator];
+            NSMutableDictionary *serviceDictionary=nil;
+            while ((serviceDictionary=[serviceDictionaries nextObject])) {
+                if ([serviceType isEqualToString:[serviceDictionary objectForKey:@"type"]]) {
+                    if (shouldResolveTXTRecord) {
+                        [self startResolvingTXTRecord:serviceDictionary];
+                    } else {
+                        [self stopResolvingTXTRecord:serviceDictionary];
+                    }
+                }
+            }
+        }
     }
 }
 
 
 #pragma mark -
+
+- (void)startResolvingTXTRecord:(NSMutableDictionary *)aServiceDictionary {
+    if ([aServiceDictionary objectForKey:@"DNSQueryService"]==nil) {
+        char buffer[kDNSServiceMaxDomainName];
+        DNSServiceErrorType error;
+        NSNetService *netService=[aServiceDictionary objectForKey:@"Service"];
+        error=DNSServiceConstructFullName(buffer,[[netService name] UTF8String],
+                                          [[netService type] UTF8String],[[netService domain] UTF8String]);
+        if (error==kDNSServiceErr_NoError) {
+            DNSServiceRef dnsService=nil;
+                error=DNSServiceQueryRecord(&dnsService,0,0,buffer,
+                                            ns_t_txt,ns_c_in,dns_service_query_record_callback,aServiceDictionary);
+            if (error==kDNSServiceErr_NoError) {                
+                CFSocketNativeHandle fd = DNSServiceRefSockFD(dnsService);
+                CFSocketContext context= {0,dnsService,NULL,NULL,NULL};
+                CFSocketRef   socketRef = CFSocketCreateWithNative(NULL,fd,kCFSocketReadCallBack,
+                                                                   socket_read_callback,&context);
+                CFRunLoopSourceRef socketSource = CFSocketCreateRunLoopSource(NULL,socketRef,0);
+
+                CFRunLoopAddSource (CFRunLoopGetCurrent(),socketSource,kCFRunLoopCommonModes);
+                [aServiceDictionary setObject:[NSValue valueWithPointer:socketRef]    forKey:@"DNSQuerySocketRef"];
+                [aServiceDictionary setObject:[NSValue valueWithPointer:socketSource] forKey:@"DNSQuerySource"];
+                [aServiceDictionary setObject:[NSValue valueWithPointer:dnsService]   forKey:@"DNSQueryService"];
+            }
+        }
+    }
+}
+
+- (void)stopResolvingTXTRecord:(NSMutableDictionary *)aServiceDictionary {
+    if ([aServiceDictionary objectForKey:@"DNSQueryService"]) {
+        DNSServiceRef      dnsService  =(DNSServiceRef)     [[aServiceDictionary objectForKey:@"DNSQueryService"] pointerValue];
+        CFRunLoopSourceRef socketSource=(CFRunLoopSourceRef)[[aServiceDictionary objectForKey:@"DNSQuerySource"]  pointerValue];
+        CFSocketRef        socketRef   =(CFSocketRef)       [[aServiceDictionary objectForKey:@"DNSQuerySocketRef"]    pointerValue];
+
+        CFRunLoopRemoveSource(CFRunLoopGetCurrent(),socketSource,kCFRunLoopCommonModes);
+        CFRelease(socketSource);
+                
+        // if you don't invalidate the socket, then a CFSocketCreateWithNative with a SocketNativeHandle
+        // you already used once won't overwrite the context. Before invalidating we make sure
+        // that invalidating does not close the socket, as the DNSService is responsible for it.
+        CFSocketSetSocketFlags(socketRef,CFSocketGetSocketFlags(socketRef)&(~kCFSocketCloseOnInvalidate));
+        CFSocketInvalidate(socketRef);
+        CFRelease(socketRef);
+
+        DNSServiceRefDeallocate(dnsService);
+
+        [aServiceDictionary removeObjectForKey:@"DNSQueryService"];
+        [aServiceDictionary removeObjectForKey:@"DNSQuerySource"];
+        [aServiceDictionary removeObjectForKey:@"DNSQuerySocketRef"];
+    }
+}
 
 - (void)startBrowsing {
     NSEnumerator *services=[I_servicesToBrowseFor objectEnumerator];
@@ -190,6 +354,11 @@
     [[I_netServiceBrowsers allValues] makeObjectsPerformSelector:@selector(stop)];
     [[I_netServiceBrowsers allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_netServiceBrowsers removeAllObjects];
+    NSEnumerator *serviceDictionaries=[I_foundNetServices objectEnumerator];
+    NSMutableDictionary *serviceDictionary;
+    while ((serviceDictionary=[serviceDictionaries nextObject])) {
+        [self stopResolvingTXTRecord:serviceDictionary];
+    }
     NSIndexSet *set=[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_foundNetServices count])];
     [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:set forKey:@"foundNetServices"];
     [I_foundNetServices removeAllObjects];
@@ -202,6 +371,7 @@
     for (serviceIndex=[I_foundNetServices count]-1;serviceIndex>=0;serviceIndex--) {
         if ([[(NSNetService *)[[I_foundNetServices objectAtIndex:serviceIndex] objectForKey:@"Service"] type] 
                 isEqualToString:aServiceType]) {
+            [self stopResolvingTXTRecord:[I_foundNetServices objectAtIndex:serviceIndex]];
             [indexes addIndex:serviceIndex];
         }
     }
@@ -249,6 +419,8 @@
     if (dictionary) {
         if ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) {
             NSNumber *state=[dictionary objectForKey:@"shouldSearchFor"];
+            // This relies on the fact, that the controller changed the value of the 
+            // content already. I don't know if I'm allowed to assume this.
             NSEnumerator *servicesToBrowseFor=[I_servicesToBrowseFor objectEnumerator];
             NSMutableDictionary *serviceToBrowseFor=nil;
             while ((serviceToBrowseFor=[servicesToBrowseFor nextObject])) {
@@ -257,15 +429,6 @@
                 }
             }
         }
-//        if ([dictionary objectForKey:@"serviceType"]) {
-//            // This relies on the fact, that the controller changed the value of the 
-//            // content already. I don't know if I'm allowed to assume this.
-//           if ([[dictionary objectForKey:@"shouldSearchFor"] boolValue]) {
-//                [self searchForServicesOfType:[dictionary objectForKey:@"serviceType"]];
-//            } else {
-//                [self stopSearchingForServicesOfType:[dictionary objectForKey:@"serviceType"]];
-//            }
-//        }
     }
 }
 
@@ -288,11 +451,11 @@
 - (IBAction)resolveSelectedNetServiceAgain:(id)aSender {
     // This is what you should do, if you connected to a NetService, lost
     // connection, but the NetService is still around
-
     NSArray *selectedObjects=[O_foundServicesController selectedObjects];
     if ([selectedObjects count]) {
         NSMutableDictionary *entry=[selectedObjects objectAtIndex:0];
         NSNetService *oldService=[entry objectForKey:@"Service"];
+                
         [oldService stop];
         [oldService setDelegate:nil];
         [entry removeObjectForKey:@"addresses"];
@@ -351,6 +514,10 @@
         [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:set forKey:@"foundNetServices"];
         [I_foundNetServices addObject:dictionary];
         [self  didChange:NSKeyValueChangeInsertion valuesAtIndexes:set forKey:@"foundNetServices"];
+
+        if ([[I_shouldResolveTXTRecordDictionary objectForKey:[aNetService type]] boolValue]) {
+            [self startResolvingTXTRecord:dictionary];
+        }
     }
 }
 
@@ -395,6 +562,8 @@
         NSMutableDictionary *entryOfLoop=[I_foundNetServices objectAtIndex:netServiceIndex];
         NSNetService   *netServiceOfLoop=[entryOfLoop objectForKey:@"Service"];
         if (([netServiceOfLoop isEqualTo:aNetService])) {
+            [entryOfLoop setObject:[NSNumber numberWithInt:[[entryOfLoop objectForKey:@"resolveCount"] intValue]+1]
+                         forKey:@"resolveCount"];
             NSMutableArray *array=[entryOfLoop objectForKey:@"addresses"];
             if (!array) {
                 array=[NSMutableArray array];
@@ -435,14 +604,7 @@
             // Note that the protcolSpecificInformation is also a result of an resolve,
             // it is not available when you first get the NSNetService from the NSNetServiceBrowser
             if ([[aNetService protocolSpecificInformation] length]>0) {
-                NSMutableString *string=[NSMutableString string];
-                NSArray *textRecords=[[aNetService protocolSpecificInformation] componentsSeparatedByString:@"\001"];
-                int loop=0;
-                for (loop=0;loop<[textRecords count];loop++) {
-                    [string appendFormat:@"(%d)\t%d: %@\n",[(NSString *)[textRecords objectAtIndex:loop] length],loop+1,[textRecords objectAtIndex:loop]];
-                }
-                [entryOfLoop setObject:string forKey:@"protocolSpecificInformationForTextView"];
-                [entryOfLoop setObject:[aNetService protocolSpecificInformation] forKey:@"protocolSpecificInformation"];
+                SetProtocolSpecificInformationInServiceDictionary([aNetService protocolSpecificInformation],entryOfLoop);
             }
             // Trigger UI update in addresses table view.
             // Why is this necessary?
