@@ -142,6 +142,9 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 - (void)dealloc
 {
     I_delegate = nil;
+    [I_inputStream setDelegate:nil];
+    [I_outputStream setDelegate:nil];
+    
     [I_readBuffer release];
     [I_writeBuffer release];
     [I_inputStream release];
@@ -323,6 +326,13 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 - (void)close
 {
+    // how to cleanup channels?
+    // send queued messages of channel 0
+    // finish like old SubEtha
+}
+
+- (void)terminate
+{
     if ([I_outputStream streamStatus] != NSStreamStatusClosed) {
         [I_outputStream close];
     }
@@ -399,11 +409,11 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
                         BOOL didAccept = [channel acceptFrame:[I_currentReadFrame autorelease]];
                         DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
                         if (!didAccept) {
-                            [self close];
+                            [self terminate];
                             break;
                         }
                     } else {
-                        [self close];
+                        [self terminate];
                         break;
                     }
                     I_currentReadFrame = nil;                    
@@ -414,7 +424,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
                 }
                 
                 if (!I_currentReadFrame) {
-                    [self close];
+                    [self terminate];
                     break;
                 } else {
                     I_currentReadState = frameContentState;
@@ -458,11 +468,11 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
                     DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
                     I_currentReadFrame = nil;
                     if (!didAccept) {
-                        [self close];
+                        [self terminate];
                         break;
                     }
                 } else {
-                    [self close];
+                    [self terminate];
                     break;
                 }
                 [I_readBuffer setLength:0];
@@ -564,7 +574,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     }
 }
 
-#pragma mark - 
+#pragma mark -
 
 - (void)sendRoundRobin
 {
@@ -688,7 +698,6 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 {
     // verify existance of the referenced channel
     
-    
     [[I_managementChannel profile] closeChannelWithNumber:aChannelNumber code:aReplyCode];
 }
 
@@ -697,6 +706,9 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     TCMBEEPChannel *channel = [I_activeChannels objectForLong:aChannelNumber];
     [channel cleanup];
     [I_activeChannels removeObjectForLong:aChannelNumber];
+    if (aChannelNumber == 0) {
+        [self terminate];
+    }
 }
 
 @end

@@ -223,27 +223,33 @@
     CFXMLNodeRef closeNode = CFXMLTreeGetNode(aSubTree);
     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(closeNode);
     NSDictionary *attributes = (NSDictionary *)info->attributes;
-    NSAssert([attributes objectForKey:@"number"] != nil, @"No number attribute found.");
-    NSAssert([attributes objectForKey:@"code"] != nil, @"No code attributes found.");
+    NSNumber *number = [attributes objectForKey:@"number"];
+    NSNumber *code = [attributes objectForKey:@"code"];
     
-    int32_t channelNumber = [[attributes objectForKey:@"number"] intValue];
-    int code = [[attributes objectForKey:@"code"] intValue];
-    
-    if (channelNumber == 0) {
-        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Close requested for session");
-    } else {
+    if (number && code) {
+        // close request for a specific channel
+        int32_t channelNumber = [number intValue];
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Close requested for channel number: %d", channelNumber);
-
         NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
         [[self channel] sendMessage:[message autorelease]];        
+    } else if ((number == nil || [number intValue] == 0) && code) {
+        // close request for the session
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Close requested for session");
+        NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<ok />"] dataUsingEncoding:NSUTF8StringEncoding]];
+        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
+        [[self channel] sendMessage:[message autorelease]];
+        [[[self channel] session] close];
+    } else {
+        // invalid close request
+        NSLog(@"Received invalid close request");
     }
 }
 
 - (void)TCM_processOKMessage:(TCMBEEPMessage *)aMessage
 {
     int32_t channelNumber = [[I_channelNumbersByCloseRequests objectForLong:[aMessage messageNumber]] longValue];
-    [[[self channel] session] closedChannelWithNumber:channelNumber];
+    [[self delegate] closedChannelWithNumber:channelNumber];
 }
 
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage

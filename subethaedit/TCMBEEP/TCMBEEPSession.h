@@ -98,12 +98,12 @@ enum {
 
 - (void)open;
 - (void)close;
+- (void)terminate;
 - (void)activateChannel:(TCMBEEPChannel *)aChannel;
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel;
 - (void)startChannelWithProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray sender:(id)aSender;
 - (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator;
 - (void)closeChannelWithNumber:(int32_t)aChannelNumber code:(int)aReplyCode;
-- (void)closedChannelWithNumber:(int32_t)aChannelNumber;
 
 @end
 
@@ -114,5 +114,6 @@ enum {
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests;
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile;
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didFailWithError:(NSError *)anError;
+- (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession;
 
 @end
