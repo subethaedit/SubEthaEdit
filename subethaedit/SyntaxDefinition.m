@@ -246,7 +246,7 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
             if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
             [I_defaultState setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
             
-            [self stateForTreeNode:xmlTree toDictionary:I_defaultState stateID:stateID];
+            [self stateForTreeNode:xmlTree toDictionary:I_defaultState stateID:SyntaxStyleBaseIdentifier];
         }
     }
 }
@@ -263,6 +263,21 @@ NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree) {
         color = [[aDictionary objectForKey:@"color"] brightnessInvertedColor];
     }
     [styleDictionary setObject:color forKey:@"inverted-color"];
+    if ([SyntaxStyleBaseIdentifier isEqualToString:aStateID]) {
+        NSString *colorString=[aDictionary objectForKey:@"background-color"];
+        NSColor *backgroundColor=[NSColor whiteColor];
+        if (colorString) {
+            backgroundColor = [NSColor colorForHTMLString:colorString];
+        }
+        [styleDictionary setObject:color forKey:@"background-color"];
+        colorString=[aDictionary objectForKey:@"inverted-background-color"];
+        if (colorString) {
+            backgroundColor = [NSColor colorForHTMLString:colorString];
+        } else {
+            backgroundColor = [backgroundColor brightnessInvertedColor];
+        }
+        [styleDictionary setObject:backgroundColor forKey:@"inverted-background-color"];
+    }
     [I_defaultSyntaxStyle addKey:aStateID];
     [I_defaultSyntaxStyle setStyle:styleDictionary forKey:aStateID];
     

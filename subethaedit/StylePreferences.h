@@ -10,14 +10,24 @@
 #import "TCMPreferenceModule.h"
 
 @class DocumentModePopUpButton;
+@class SyntaxStyle;
+@class TableView;
 
 @interface StylePreferences : TCMPreferenceModule {
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSObjectController *O_modeController;
+    IBOutlet TableView *O_baseStyleTableView;
+    IBOutlet TableView *O_remainingStylesTableView;
+    NSMutableDictionary *I_baseStyleDictionary;
+    NSFont *I_baseFont;
+    SyntaxStyle *I_currentSyntaxStyle;
 }
 
 - (IBAction)changeMode:(id)aSender;
-- (IBAction)changeFontViaPanel:(id)sender;
 - (IBAction)validateDefaultsState:(id)aSender;
+
+- (void)setBaseFont:(NSFont *)aFont;
+- (NSFont *)baseFont;
+
 
 @end

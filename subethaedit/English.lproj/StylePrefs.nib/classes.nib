@@ -34,8 +34,10 @@
             CLASS = StylePreferences; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "O_baseStyleTableView" = NSTableView; 
                 "O_modeController" = NSObjectController; 
                 "O_modePopUpButton" = DocumentModePopUpButton; 
+                "O_remainingStylesTableView" = NSTableView; 
             }; 
             SUPERCLASS = TCMPreferenceModule; 
         }, 
@@ -44,7 +46,8 @@
             LANGUAGE = ObjC; 
             OUTLETS = {"O_window" = NSWindow; }; 
             SUPERCLASS = NSObject; 
-        }
+        }, 
+        {CLASS = TableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
     ); 
     IBVersion = 1; 
 }

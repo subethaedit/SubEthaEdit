@@ -7,10 +7,25 @@
 //
 
 #import "StylePreferences.h"
+#import "SyntaxStyle.h"
 #import "DocumentModeManager.h"
+#import "TableView.h"
 
 
 @implementation StylePreferences
+
+- (id) init {
+    self = [super init];
+    if (self) {
+        I_baseStyleDictionary=[NSMutableDictionary new];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [I_baseStyleDictionary release];
+    [super dealloc];
+}
 
 - (NSImage *)icon {
     return [NSImage imageNamed:@"StylePrefs"];
@@ -41,32 +56,55 @@
 - (IBAction)changeMode:(id)aSender {
     DocumentMode *newMode=[aSender selectedMode];
     [O_modeController setContent:newMode];
+    NSDictionary *fontAttributes = [newMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
+    NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:12.];
+    if (!font) font=[NSFont userFixedPitchFontOfSize:12.];
+    [self setBaseFont:font];
     [self validateDefaultsState:aSender];
+    I_currentSyntaxStyle=[newMode syntaxStyle];
+    NSDictionary *baseStyle=[I_currentSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier];
+    [O_baseStyleTableView setLightBackgroundColor:[baseStyle objectForKey:@"background-color"]];
+    [O_baseStyleTableView setDarkBackgroundColor: [baseStyle objectForKey:@"inverted-background-color"]];
+    [O_baseStyleTableView reloadData];
+    [O_remainingStylesTableView setLightBackgroundColor:[baseStyle objectForKey:@"background-color"]];
+    [O_remainingStylesTableView setDarkBackgroundColor: [baseStyle objectForKey:@"inverted-background-color"]];
+    [O_remainingStylesTableView reloadData];
 }
 
 - (void)didUnselect {
     // Save preferences
-    [[[NSFontManager sharedFontManager] fontPanel:NO] orderOut:self];
 }
 
-- (IBAction)changeFontViaPanel:(id)sender {
-//    NSDictionary *fontAttributes=[[O_modeController content] defaultForKey:DocumentModeFontAttributesPreferenceKey];
-//    NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-//    if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-//    [[NSFontManager sharedFontManager] 
-//        setSelectedFont:newFont 
-//             isMultiple:NO];
-    [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
+- (void)setBaseFont:(NSFont *)aFont {
+    [I_baseFont autorelease];
+     I_baseFont = [aFont retain];
 }
 
-- (void)changeFont:(id)fontManager {
-//    NSFont *newFont = [fontManager convertFont:[NSFont userFixedPitchFontOfSize:0.0]]; // could be any font here
-//    NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-//    [dict setObject:[newFont fontName] 
-//             forKey:NSFontNameAttribute];
-//    [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
-//             forKey:NSFontSizeAttribute];
-//    [[O_modeController content] setValue:dict forKeyPath:@"defaults.FontAttributes"];
+- (NSFont *)baseFont {
+    return I_baseFont;
+}
+
+
+#pragma mark TableView DataSource
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
+    if (aTableView == O_baseStyleTableView) {
+        return 1;
+    } else {
+        return [[I_currentSyntaxStyle allKeys] count]-1;
+    }
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)aRow {
+    if (aTableView == O_remainingStylesTableView) {
+        aRow+=1;
+    }
+    NSString *key=[[I_currentSyntaxStyle allKeys] objectAtIndex:aRow];
+    NSDictionary *style=[I_currentSyntaxStyle styleForKey:key];
+    NSString *localizedString=[I_currentSyntaxStyle localizedStringForKey:key];
+    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:[[NSFontManager sharedFontManager] convertFont:[self baseFont] toHaveTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]],NSFontAttributeName,
+        [[aTableColumn identifier]isEqualToString:@"light"]?[style objectForKey:@"color"]:[style objectForKey:@"inverted-color"],NSForegroundColorAttributeName,
+        nil];
+    return [[[NSAttributedString alloc] initWithString:localizedString attributes:attributes] autorelease];
 }
 
 

@@ -25,6 +25,7 @@ extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 /*"Accessors"*/
 - (SyntaxDefinition *)syntaxDefinition;
 - (void)setSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition;
+- (SyntaxStyle *)defaultSyntaxStyle;
 
 /*"Highlighting"*/
 -(void)highlightAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange;

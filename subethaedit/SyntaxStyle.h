@@ -9,18 +9,30 @@
 #import <Cocoa/Cocoa.h>
 #import "DocumentMode.h"
 
+extern NSString * const SyntaxStyleBaseIdentifier;
+
+
 @interface SyntaxStyle : NSObject {
     NSMutableDictionary *I_styleDictionary;
     DocumentMode *I_documentMode;
     NSMutableArray *I_keyArray;
 }
 
++ (BOOL)style:(NSDictionary *)aStyle isEqualToStyle:(NSDictionary *)anotherStyle;
+
+- (id)initWithSyntaxStyle:(SyntaxStyle *)aStyle;
+
 - (NSArray *)allKeys;
 - (void)addKey:(NSString *)aKey;
 - (NSMutableDictionary *)styleForKey:(NSString *)aKey;
 - (void)setStyle:(NSDictionary *)aDictionary forKey:(NSString *)aKey;
+- (void)takeStylesFromDefaultsDictionary:(NSDictionary *)aDictionary;
 - (NSString *)localizedStringForKey:(NSString *)aKey;
 - (void)setDocumentMode:(DocumentMode *)aMode;
 - (DocumentMode *)documentMode;
+- (NSDictionary *)defaultsDictionary;
+- (NSString *)xmlRepresentation;
+- (NSString *)xmlFileRepresentation;
+
 
 @end

@@ -317,6 +317,9 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
      I_syntaxDefinition = [aSyntaxDefinition retain];
 }
 
+- (SyntaxStyle *)defaultSyntaxStyle {
+    return [I_syntaxDefinition defaultSyntaxStyle];
+}
 
 #pragma mark - 
 #pragma mark - Document Interaction

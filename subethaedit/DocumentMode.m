@@ -10,11 +10,11 @@
 #import "DocumentModeManager.h"
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
+#import "SyntaxStyle.h"
 #import "EncodingManager.h"
 #import "SymbolTableEntry.h"
 #import "RegexSymbolParser.h"
 #import "RegexSymbolDefinition.h"
-
 
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
 NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
@@ -37,10 +37,16 @@ NSString * const DocumentModeUseDefaultViewPreferenceKey       = @"UseDefaultVie
 NSString * const DocumentModeUseDefaultEditPreferenceKey       = @"UseDefaultEdit";
 NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFile";
 NSString * const DocumentModeUseDefaultFontPreferenceKey       = @"UseDefaultFont";
-NSString * const DocumentModeForegroundColorPreferenceKey      = @"ForegroundColor"  ;
-NSString * const DocumentModeBackgroundColorPreferenceKey      = @"BackgroundColor"  ;
 NSString * const DocumentModePrintInfoPreferenceKey            = @"PrintInfo"  ;
 NSString * const DocumentModeUseDefaultPrintPreferenceKey      = @"UseDefaultPrint";
+NSString * const DocumentModeUseDefaultStylePreferenceKey      = @"UseDefaultStyle";
+NSString * const DocumentModeSyntaxStylePreferenceKey          = @"SyntaxStyle";
+
+NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey= @"BackgroundColorIsDark"  ;
+// depricated
+NSString * const DocumentModeForegroundColorPreferenceKey      = @"ForegroundColor"  ;
+NSString * const DocumentModeBackgroundColorPreferenceKey      = @"BackgroundColor"  ;
+
 
 NSString * const DocumentModeExportPreferenceKey               = @"Export";
 NSString * const DocumentModeExportHTMLPreferenceKey           = @"HTML";
@@ -97,6 +103,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultPrintPreferenceKey
                                   forKey:DocumentModePrintInfoPreferenceKey];
+
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
+                                  forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle {
@@ -174,6 +183,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                forKey:DocumentModeUseDefaultFontPreferenceKey];
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
                                forKey:DocumentModeUseDefaultPrintPreferenceKey];
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultStylePreferenceKey];
             }
         }
 
@@ -256,7 +267,16 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             html=[[html mutableCopy] autorelease];
         }
         [export setObject:html forKey:DocumentModeExportHTMLPreferenceKey];
-        
+
+        I_defaultSyntaxStyle = [self syntaxHighlighter]?[[[self syntaxHighlighter] defaultSyntaxStyle] copy]:[SyntaxStyle new];
+        [I_defaultSyntaxStyle setDocumentMode:self];
+        I_syntaxStyle=[I_defaultSyntaxStyle copy];
+
+        NSDictionary *syntaxStyleDictionary=[I_defaults objectForKey:DocumentModeSyntaxStylePreferenceKey];
+        if (syntaxStyleDictionary) {
+            [I_syntaxStyle takeStylesFromDefaultsDictionary:syntaxStyleDictionary];
+        }        
+
         [I_defaults addObserver:self
                      forKeyPath:DocumentModeEncodingPreferenceKey
                         options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld)
@@ -272,6 +292,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_symbolParser release];
     [I_autocompleteDictionary release];
     [I_bundle release];
+    [I_syntaxStyle release];
+    [I_defaultSyntaxStyle release];
     [super dealloc];
 }
 
@@ -330,6 +352,14 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [defaultDefaults objectForKey:aKey];
 }
 
+- (SyntaxStyle *)syntaxStyle {
+    return I_syntaxStyle;
+}
+
+- (SyntaxStyle *)defaultSyntaxStyle {
+    return I_defaultSyntaxStyle;
+}
+
 - (BOOL)isBaseMode {
     return [BASEMODEIDENTIFIER isEqualToString:[[self bundle] bundleIdentifier]];
 }
@@ -343,6 +373,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]];
     if (!data) data=[transformer reverseTransformedValue:[NSColor whiteColor]];
     [defaults setObject:data forKey:DocumentModeBackgroundColorPreferenceKey];
+    [defaults setObject:[[self syntaxStyle] defaultsDictionary] forKey:DocumentModeSyntaxStylePreferenceKey];
     [[NSUserDefaults standardUserDefaults] setObject:defaults forKey:[[self bundle] bundleIdentifier]];
 }
 

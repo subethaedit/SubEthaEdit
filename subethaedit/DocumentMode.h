@@ -29,10 +29,14 @@ extern NSString * const DocumentModeShowInvisibleCharactersPreferenceKey;
 extern NSString * const DocumentModeWrapModePreferenceKey               ;
 extern NSString * const DocumentModeColumnsPreferenceKey                ;
 extern NSString * const DocumentModeRowsPreferenceKey                   ;
-extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
-extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
 extern NSString * const DocumentModeSpellCheckingPreferenceKey          ;
 extern NSString * const DocumentModePrintInfoPreferenceKey              ;
+
+extern NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey  ;
+extern NSString * const DocumentModeSyntaxStylePreferenceKey            ;
+// depricated
+extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
+extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
 
 extern NSString * const DocumentModeExportPreferenceKey                    ;
 extern NSString * const DocumentModeExportHTMLPreferenceKey                ;
@@ -45,9 +49,13 @@ extern NSString * const DocumentModeHTMLExportShowUserImagesPreferenceKey  ;
 extern NSString * const DocumentModeHTMLExportShowVisitorsPreferenceKey    ;
 extern NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey ;
 extern NSString * const DocumentModeUseDefaultPrintPreferenceKey;
+extern NSString * const DocumentModeUseDefaultStylePreferenceKey;
+
+
 
 @class SyntaxHighlighter;
 @class RegexSymbolParser;
+@class SyntaxStyle;
 
 @interface DocumentMode : NSObject {
     NSBundle *I_bundle;
@@ -55,6 +63,7 @@ extern NSString * const DocumentModeUseDefaultPrintPreferenceKey;
     RegexSymbolParser *I_symbolParser;
     NSMutableArray *I_autocompleteDictionary;
     NSMutableDictionary *I_defaults;
+    SyntaxStyle *I_syntaxStyle,*I_defaultSyntaxStyle;
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle;
@@ -73,7 +82,8 @@ extern NSString * const DocumentModeUseDefaultPrintPreferenceKey;
 - (NSMutableDictionary *)defaults;
 - (void)setDefaults:(NSMutableDictionary *)defaults;
 - (id)defaultForKey:(NSString *)aKey;
-
+- (SyntaxStyle *)syntaxStyle;
+- (SyntaxStyle *)defaultSyntaxStyle;
 
 - (BOOL)isBaseMode;
 @end
