@@ -279,7 +279,10 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
             if (pair.itemIndex==2) {
                 [session setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
             } else {
-                [session setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID]]];
+                NSString *userID=[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID];
+                if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
+                    [session setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:userID]];
+                }
             }
         }
     }
@@ -309,9 +312,11 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
             if (pair.itemIndex==2) {
                 [session setGroup:@"ReadWrite" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
             } else if (pair.itemIndex==1) {
-                [session setGroup:@"ReadWrite" forParticipantsWithUserIDs:
-                    [NSArray arrayWithObject:[[[[session participants] objectForKey:@"ReadOnly"] 
-                                                    objectAtIndex:pair.childIndex] userID]]];
+                NSString *userID=[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID];
+                if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
+                    [session setGroup:@"ReadWrite" forParticipantsWithUserIDs:
+                        [NSArray arrayWithObject:userID]];
+                }
             }
         }
     }

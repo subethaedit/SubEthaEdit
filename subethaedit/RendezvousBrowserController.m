@@ -293,6 +293,17 @@ static RendezvousBrowserController *sharedInstance=nil;
     return nil;
 }
 
+- (NSString *)listView:(TCMMMBrowserListView *)aListView toolTipStringAtIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+    if (anItemIndex>=0 && anItemIndex<[I_data count]) {
+        NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
+        TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
+        if (user) {
+            return [NSString stringWithFormat:@"AIM:%@\nEmail:%@",[[user properties] objectForKey:@"AIM"],[[user properties] objectForKey:@"Email"]];
+        }
+    }
+    return nil;
+}
+
 
 #pragma mark -
 #pragma mark ### TCMMMPresenceManager Notifications ###

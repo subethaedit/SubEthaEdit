@@ -505,6 +505,7 @@ static NSColor *alternateRowColor=nil;
 
 
 - (void)TCM_rebuildIndices {
+    [self removeAllToolTips];
 
     id delegate=[self delegate];
     
@@ -530,6 +531,11 @@ static NSColor *alternateRowColor=nil;
         NSRange yRange=NSMakeRange(yPosition,ITEMROWHEIGHT+numberOfChildren*CHILDROWHEIGHT);
         I_indexYRangesForItem[itemIndex]=yRange;
         yPosition=NSMaxRange(yRange);
+        [self addToolTipRect:NSMakeRect(0,yRange.location,FLT_MAX,ITEMROWHEIGHT) owner:self userData:nil];
+        int childIndex=0;
+        for (childIndex=0;childIndex<numberOfChildren;childIndex++) {
+            [self addToolTipRect:NSMakeRect(0,yRange.location+ITEMROWHEIGHT+childIndex*CHILDROWHEIGHT,FLT_MAX,CHILDROWHEIGHT) owner:self userData:nil];
+        }
         row+=numberOfChildren+1;
     }
     I_indexNumberOfRows=row;
@@ -545,6 +551,18 @@ static NSColor *alternateRowColor=nil;
         }
     }
     I_indicesNeedRebuilding = NO;
+}
+
+- (NSString *)view:(NSView *)view stringForToolTip:(NSToolTipTag)tag point:(NSPoint)point userData:(void *)userData {
+    int index=[self TCM_indexOfRowAtPoint:point];
+    if (index!=-1) {
+        ItemChildPair pair=[self itemChildPairAtRow:index];
+        id dataSource=[self dataSource];
+        if ([dataSource respondsToSelector:@selector(listView:toolTipStringAtIndex:ofItemAtIndex:)]) {
+            return [dataSource listView:self toolTipStringAtIndex:pair.childIndex ofItemAtIndex:pair.itemIndex];
+        }
+    }
+    return nil;
 }
 
 #pragma mark -
