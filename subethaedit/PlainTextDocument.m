@@ -213,8 +213,6 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     I_flags.showMatchingBrackets=YES;
     I_flags.didPauseBecauseOfMarkedText=NO;
     I_bracketMatching.matchingBracketPosition=NSNotFound;
-    [self setShowsTopStatusBar:YES];
-    [self setShowsBottomStatusBar:YES];
     [self setKeepDocumentVersion:NO];
     [self setEditAnyway:NO];
     [self setIsFileWritable:YES];
@@ -2113,6 +2111,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (NSTextView *)printableView {
+    // make sure everything is colored if it should be
+    if (I_flags.highlightSyntax) {
+        SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
+        if (highlighter)
+            while (![highlighter colorizeDirtyRanges:I_textStorage ofDocument: self]);
+    }
+
     NSTextView *printView = [[NSTextView alloc] initWithFrame:[[self printInfo] imageablePageBounds]];
     [[printView textStorage] appendAttributedString:[self textStorage]];
 
