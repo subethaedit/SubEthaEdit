@@ -2,6 +2,11 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            CLASS = PendingParticipantsTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableView; 
+        }, 
+        {
             ACTIONS = {
                 changePendingUsersAccess = id; 
                 changeSessionAccessState = id; 

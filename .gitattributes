@@ -501,6 +501,8 @@ subethaedit/OpenDocumentsController.h -text
 subethaedit/OpenDocumentsController.m -text
 subethaedit/ParticipantsView.h -text
 subethaedit/ParticipantsView.m -text
+subethaedit/PendingParticipantsTableView.h -text
+subethaedit/PendingParticipantsTableView.m -text
 subethaedit/PlainTextDocument.h -text
 subethaedit/PlainTextDocument.m -text
 subethaedit/PlainTextEditor.h -text

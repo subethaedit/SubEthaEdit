@@ -433,6 +433,10 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     return nil;
 }
 
+- (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard {
+    return YES;
+}
+
 - (void)participantsDidChange:(NSNotification *)aNotifcation {
     [O_participantsView reloadData];
 }
