@@ -721,7 +721,8 @@ static NSString *tempFileName(NSString *origPath) {
     TCMMMSession *newSession=[[(TCMMMSession *)[TCMMMSession alloc] initWithDocument:self] autorelease];
     if (oldSession) {
         NSString *name = [oldSession filename];
-        [newSession setFilename:[name lastPathComponent]];
+        [newSession setFilename:name];
+        [self setTemporaryDisplayName:[[self temporaryDisplayName] lastPathComponent]];
     }
     NSArray *contributors=[oldSession contributors];
     if ([contributors count]) {
@@ -965,6 +966,10 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)setTemporaryDisplayName:(NSString *)name {
     [I_temporaryDisplayName autorelease];
     I_temporaryDisplayName = [name copy];
+    TCMMMSession *session = [self session];
+    if ([session isServer]) {
+        [session setFilename:[self preparedDisplayName]];
+    }
     [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
 }
 
@@ -976,8 +981,9 @@ static NSString *tempFileName(NSString *origPath) {
     if (I_flags.isAnnounced!=aFlag) {
         I_flags.isAnnounced=aFlag;
         if (I_flags.isAnnounced) {
-            DEBUGLOG(@"Document", 5, @"announce");
+            DEBUGLOG(@"Document", AllLogLevel, @"announce");
             [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
+            [[self session] setFilename:[self preparedDisplayName]];
             [[self topmostWindowController] openParticipantsDrawer:self];
             if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
                 NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
@@ -987,7 +993,7 @@ static NSString *tempFileName(NSString *origPath) {
                 }
             }
         } else {
-            DEBUGLOG(@"Document", 5, @"conceal");
+            DEBUGLOG(@"Document", AllLogLevel, @"conceal");
             TCMMMSession *session=[self session];
             [[TCMMMPresenceManager sharedInstance] concealSession:session];
             if ([session participantCount]<=1) {
@@ -2360,6 +2366,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [self setShouldChangeChangeCount:YES];
         }
         [self TCM_webPreviewOnSaveRefresh];
+        [self setTemporaryDisplayName:nil];
     }
     
     if (saveOperationType != NSSaveToOperation) {
@@ -2890,11 +2897,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 
 - (NSString *)preparedDisplayName {
-    NSArray *pathComponents = [[self fileName] pathComponents];
-    int count = [pathComponents count];
-    if (count == 0) {
-        return [super displayName];
-    } else {
+    NSArray *pathComponents = nil;
+    if ([self fileName]) {
+        pathComponents = [[self fileName] pathComponents];
+    } else if ([self temporaryDisplayName]) {
+        pathComponents = [[self temporaryDisplayName] pathComponents];
+    } 
+    
+    if (pathComponents) {
+        int count = [pathComponents count];
         NSMutableString *result = [NSMutableString string];
         int i = count;
         int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
@@ -2905,19 +2916,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
         }
         return result;
+    } else {
+        return [super displayName];
     }
 }
 
 - (NSString *)displayName {
-    TCMMMSession *session = [self session];
-    if (session && ![self fileName] && ![self temporaryDisplayName]) {
-        return [[session filename] lastPathComponent];
+    if ([self temporaryDisplayName] && ![self fileName]) {
+        return [[self temporaryDisplayName] lastPathComponent];
     }
- 
-    if ([self temporaryDisplayName]) {
-        return [self temporaryDisplayName];
-    }
-    
+        
     return [super displayName];
 }
 
@@ -3461,6 +3469,7 @@ static NSString *S_measurementUnits;
     [self setWrapMode:[[aSessionInformation objectForKey:DocumentModeWrapModePreferenceKey] intValue]];
 
     //[self setFileName:[aSession filename]];
+    [self setTemporaryDisplayName:[aSession filename]];
 
     [self makeWindowControllers];
     PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
