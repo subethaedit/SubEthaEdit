@@ -47,7 +47,7 @@
 
 - (BOOL)isServer
 {
-    return [[self channel] isServer];
+    return ![[self channel] isInitiator];
 }
 
 - (void)setProfileURI:(NSString *)aProfileURI
