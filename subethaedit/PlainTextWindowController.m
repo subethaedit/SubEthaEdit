@@ -1138,6 +1138,7 @@ enum {
 }
 
 - (BOOL)listView:(TCMListView *)aListView writeRows:(NSIndexSet *)selectedRows toPasteboard:(NSPasteboard *)aPasteBoard {
+    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
     [aListView reduceSelectionToChildren];
     selectedRows = [aListView selectedRowIndexes];
     if ([selectedRows count]>0) {
@@ -1146,8 +1147,37 @@ enum {
             [NSNumber numberWithBool:(state & KickButtonStateMask)],@"Kick",
             [NSNumber numberWithBool:(state & ReadOnlyButtonStateMask)],@"ReadOnly",
             [NSNumber numberWithBool:(state & ReadWriteButtonStateMask)],@"ReadWrite",nil];
-        [aPasteBoard declareTypes:[NSArray arrayWithObject:@"ParticipantDrag"] owner:nil];
+        [aPasteBoard declareTypes:[NSArray arrayWithObjects:@"ParticipantDrag",NSVCardPboardType,nil] owner:nil];
         [aPasteBoard setPropertyList:plist forType:@"ParticipantDrag"];
+        NSMutableString *vcfString=[NSMutableString string];
+        NSMutableIndexSet *selection=[selectedRows mutableCopy];
+        while ([selection count]>0) {
+            int row=[selection firstIndex];
+            ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
+            TCMMMUser *user=nil;
+            if (pair.childIndex!=-1) {
+                if (pair.itemIndex==2) {
+                    user=[[session pendingUsers] objectAtIndex:pair.childIndex];
+                } else {
+                    NSString *group=(pair.itemIndex==0)?@"ReadWrite":@"ReadOnly";
+                    NSArray *array=[[session participants] objectForKey:group];
+                    if ([array count]>pair.childIndex) {
+                        user=[array objectAtIndex:pair.childIndex];
+                    } else {
+                        user=[[[session invitedUsers] objectForKey:group] objectAtIndex:pair.childIndex-[array count]];
+                    }
+                }
+            }
+            if (user) {
+                NSString *vcf=[user vcfRepresentation];
+                if (vcf) {
+                    [vcfString appendString:vcf];
+                }
+            }
+            [selection removeIndex:row];
+        }
+        [selection release];
+        [aPasteBoard setData:[vcfString dataUsingEncoding:NSUnicodeStringEncoding] forType:NSVCardPboardType];
         return YES;
     } else {
         return NO;
