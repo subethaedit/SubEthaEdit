@@ -71,7 +71,7 @@
     TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[[self channel] nextMessageNumber] payload:payload];
     [[self channel] sendMessage:[message autorelease]];
     
-    I_keepBEEPTimer = [[NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey]/2. target:self selector:@selector(sendKeepBEEP:) userInfo:nil repeats:YES] retain];
+    I_keepBEEPTimer = [[NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey]/3. target:self selector:@selector(sendKeepBEEP:) userInfo:nil repeats:YES] retain];
 }
 
 - (void)startChannelNumber:(int32_t)aChannelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
