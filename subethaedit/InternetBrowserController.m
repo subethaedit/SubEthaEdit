@@ -341,6 +341,18 @@
 }
 
 - (id)listView:(TCMMMBrowserListView *)aListView objectValueForTag:(int)aTag atIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+    static NSImage *statusLock = nil;
+    static NSImage *statusReadOnly = nil;
+    static NSImage *statusReadWrite = nil;
+    static NSMutableDictionary *icons = nil;
+    
+    if (!icons) {
+        icons = [NSMutableDictionary new];
+        statusLock = [[NSImage imageNamed:@"StatusLock"] retain];
+        statusReadOnly = [[NSImage imageNamed:@"StatusReadOnly"] retain];
+        statusReadWrite = [[NSImage imageNamed:@"StatusReadWrite"] retain];
+    }
+    
     if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
         NSDictionary *item = [I_data objectAtIndex:anItemIndex];
         NSArray *sessions = [item objectForKey:@"Sessions"];
@@ -348,6 +360,24 @@
             TCMMMSession *session = [sessions objectAtIndex:anIndex];
             if (aTag == TCMMMBrowserChildNameTag) {
                 return [session filename];
+            } else if (aTag == TCMMMBrowserChildIconImageTag) {
+                NSString *extension = [[session filename] pathExtension];
+                NSImage *icon = [icons objectForKey:extension];
+                if (!icon) {
+                    icon = [[[NSWorkspace sharedWorkspace] iconForFileType:extension] copy];
+                    [icon setSize:NSMakeSize(16, 16)];
+                    [icons setObject:[icon autorelease] forKey:extension];
+                }
+                return icon;
+            } else if (aTag == TCMMMBrowserChildStatusImageTag) {
+                switch ([session accessState]) {
+                    case TCMMMSessionAccessLockedState:
+                        return statusLock;
+                    case TCMMMSessionAccessReadOnlyState:
+                        return statusReadOnly;
+                    case TCMMMSessionAccessReadWriteState:
+                        return statusReadWrite;
+                }            
             }
         }
     }
