@@ -13,6 +13,7 @@
 #import <OgreKit/OgreKit.h>
 
 #define chunkSize              		5000
+#define makeDirty              		 100
 
 NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCorrect";
 NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
@@ -70,6 +71,9 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     OGRegularExpression *stateEnd;
     OGRegularExpressionMatch *startMatch;
     OGRegularExpressionMatch *endMatch;
+
+    [aString removeAttribute:kSyntaxHighlightingStateName range:aRange];
+    [aString removeAttribute:kSyntaxHighlightingStateDelimiterName range:aRange];
     
     if (stateStarts) do {
         //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"New loop with Range: %@",NSStringFromRange(currentRange));
@@ -147,6 +151,38 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
         [syntaxPool release];
     } while (currentRange.length>0);
     [aString addAttribute:kSyntaxHighlightingIsCorrectAttributeName value:kSyntaxHighlightingIsCorrectAttributeValue range:aRange];
+    
+    int nextIndex = NSMaxRange(aRange);
+    if ((nextIndex < [theString length])&&([aString attribute:kSyntaxHighlightingIsCorrectAttributeName atIndex:nextIndex effectiveRange:nil])) {
+        BOOL isEnd = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex-1 effectiveRange:nil] isEqualTo:@"End"];
+        BOOL isStart = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex effectiveRange:nil] isEqualTo:@"Start"];
+        BOOL makeItDirty = NO;
+        NSNumber *leftState  = [aString attribute:kSyntaxHighlightingStateName atIndex:nextIndex-1 effectiveRange:nil];
+        NSNumber *rightState = [aString attribute:kSyntaxHighlightingStateName atIndex:nextIndex effectiveRange:nil];
+        if (leftState) {
+            if (rightState) { // Two states clashing
+                if (![leftState isEqualToNumber:rightState]) {
+                    // different States, if not end/start make dirty 
+                    if (!(isEnd&&isStart)) makeItDirty = YES; 
+                } else { 
+                    // Same states -> do nothing
+                }
+            } else {
+                // someState.defaultState -> check for end
+                if (!isEnd) makeItDirty = YES;
+            }
+        } else {
+            if (rightState) {
+                //defaultState.someState -> Check for start
+                if (!isStart) makeItDirty = YES;
+            } else {
+                // both defaultState -> do nothing
+            }
+        }
+        if (makeItDirty) {
+           [aString removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:NSMakeRange(nextIndex,MIN(makeDirty,[theString length]-nextIndex))]; 
+        }
+    }
 }
 
 -(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState
@@ -178,9 +214,6 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                                                 nil];
                                                 
                     [aString addAttributes:attributes range:foundRange];
-
-                    
-                    
                 }
             }
         } else break;

@@ -625,4 +625,47 @@
     [self TCM_updateBottomStatusBar];
 }
 
+#pragma mark -
+#pragma mark ### Auto completion ###
+
+- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index {
+    NSString *partialWord, *completionEntry;
+    NSMutableArray *completionSource;
+    NSMutableArray *completions = [NSMutableArray array];
+    unsigned i, count;
+    
+    // Get the current partial word being completed.
+    partialWord = [[[textView textStorage] string] substringWithRange:charRange];
+    
+    // Find all known names.
+    completionSource = [NSMutableArray arrayWithObjects:@"foo",@"foobar",@"bar",nil];
+    [completionSource addObjectsFromArray:words]; // The whole stuff: spellchecker, all words in text
+    count = [completionSource count];
+    
+    // Examine the names one by one.
+    for (i = 0; i < count; i++) {
+        completionEntry = [completionSource objectAtIndex:i];
+        // Add those that match the current partial word to the list of completions.
+        if ([completionEntry hasPrefix:partialWord]) [completions addObject:completionEntry];
+    }
+    
+    // This does not work, because [NSTextStorage words] sometimes don't gives all words ?!
+    /*
+    NSArray *attributedWords = [[[self document] textStorage] words];
+
+    count = [attributedWords count];
+    for (i = 0; i < count; i++) {
+        completionEntry = [[attributedWords objectAtIndex:i] string];
+        DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"Word:%@ (%d of %d)",completionEntry,i,count);
+        if ([completionEntry hasPrefix:partialWord]) {
+            if (![completions containsObject:completionEntry]) [completions addObject:completionEntry];
+        }
+    }
+*/
+    //DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"Finished autocomplete");
+
+    return completions;
+}
+
+
 @end
