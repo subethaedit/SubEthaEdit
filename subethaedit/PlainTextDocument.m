@@ -2467,7 +2467,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
 
 
-        I_flags.isRemotelyEditingTextStorage=YES;
+        I_flags.isRemotelyEditingTextStorage=![[aOperation userID] isEqualToString:[TCMMMUserManager myUserID]];
         TextOperation *operation=(TextOperation *)aOperation;
         NSTextStorage *textStorage=[self textStorage];
         [textStorage beginEditing];
@@ -2491,11 +2491,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [[editor textView] setSelectedRange:[selectionOperation selectedRange]];
         }
 
-        I_flags.isRemotelyEditingTextStorage=NO;
-        if ([[aOperation userID] isEqualToString:[TCMMMUserManager myUserID]]) {
-            [[self session] documentDidApplyOperation:aOperation];
+        if (I_flags.isRemotelyEditingTextStorage) {
+            [[self documentUndoManager] transformStacksWithOperation:operation];
+        } else {
             [[[[self topmostWindowController] activePlainTextEditor] textView] setSelectedRange:NSMakeRange([operation affectedCharRange].location,[[operation replacementString] length])];
         }
+        I_flags.isRemotelyEditingTextStorage=NO;
     } else if ([[aOperation operationID] isEqualToString:[SelectionOperation operationID]]){
         [self changeSelectionOfUserWithID:[aOperation userID] 
               toRange:[(SelectionOperation *)aOperation selectedRange]];
@@ -2505,11 +2506,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
 - (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
-    UndoManager *undoManager=[self documentUndoManager];
-    [undoManager beginUndoGrouping];
-    [undoManager registerUndoChangeTextInRange:NSMakeRange(aRange.location,[aString length])
-                 replacementString:[[aTextStorage string] substringWithRange:aRange]];
-    [undoManager endUndoGrouping];
+    if (!I_flags.isRemotelyEditingTextStorage) {
+        UndoManager *undoManager=[self documentUndoManager];
+        [undoManager beginUndoGrouping];
+        [undoManager registerUndoChangeTextInRange:NSMakeRange(aRange.location,[aString length])
+                     replacementString:[[aTextStorage string] substringWithRange:aRange]];
+        [undoManager endUndoGrouping];
+    }
 }
 
 - (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
