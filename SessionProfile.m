@@ -328,7 +328,8 @@
                 [[self delegate] profile:self didReceiveUserRequests:neededUsers];
             }
         }
-
+    } else if ([aMessage isERR]) {
+        //NSLog(@"Error occured! %@",[aMessage description]);
     }
 }
 
