@@ -13,12 +13,15 @@
 
 
 @interface PlainTextWindowController : NSWindowController {
-    IBOutlet NSDrawer *O_participantsDrawer;
-    IBOutlet NSScrollView *O_participantsScrollView;
-    IBOutlet NSSplitView *O_participantsSplitView;
-    IBOutlet NSView *O_newUserView;
+    IBOutlet NSTextView *O_textView;
+
+    // praticipants
+    IBOutlet NSDrawer         *O_participantsDrawer;
+    IBOutlet NSScrollView     *O_participantsScrollView;
+    IBOutlet NSSplitView      *O_participantsSplitView;
+    IBOutlet NSView           *O_newUserView;
     IBOutlet ParticipantsView *O_participantsView;
-    IBOutlet NSPopUpButton *O_actionPullDown;
+    IBOutlet NSPopUpButton    *O_actionPullDown;    
 }
 
 @end

@@ -9,10 +9,14 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>????</string>
+				<string>*</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string></string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>text/plain</string>
+			</array>
 			<key>CFBundleTypeName</key>
 			<string>PlainTextType</string>
 			<key>CFBundleTypeOSTypes</key>

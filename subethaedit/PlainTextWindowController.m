@@ -35,6 +35,8 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (void)windowDidLoad {
+    [[O_textView layoutManager] replaceTextStorage:[[self document] textStorage]];
+
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
     [toolbar setAllowsUserCustomization:YES];
     //[toolbar setAutosavesConfiguration:YES];

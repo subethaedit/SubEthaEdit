@@ -11,6 +11,7 @@
                 "O_participantsScrollView" = NSScrollView; 
                 "O_participantsSplitView" = NSSplitView; 
                 "O_participantsView" = ParticipantsView; 
+                "O_textView" = NSTextView; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

@@ -1,5 +1,5 @@
 //
-//  MyDocument.h
+//  PlainTextDocument.h
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Feb 24 2004.
@@ -17,10 +17,14 @@
     struct {
         BOOL isAnnounced;
     } I_flags;
+    
+    NSTextStorage *I_textStorage;
 }
 
 - (void)setSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)session;
+
+- (NSTextStorage *)textStorage;
 
 - (IBAction)announce:(id)aSender;
 - (IBAction)conceal:(id)aSender;
