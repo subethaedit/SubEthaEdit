@@ -176,6 +176,8 @@ NSString * const TextDocumentSyntaxColorizeNotification=@"TextDocumentSyntaxColo
     if (!I_textAttributes) {
 //        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSFont *userFont = [NSFont userFixedPitchFontOfSize:0.0];
+        userFont = [NSFont fontWithName:@"Lucida Sans Typewriter" size:0.0];
+        
         NSFont *displayFont = nil;
         if (displayFont == nil)
             displayFont = userFont;
@@ -301,7 +303,9 @@ NSString * const TextDocumentSyntaxColorizeNotification=@"TextDocumentSyntaxColo
     }
     
     [I_textStorage beginEditing];
-    [I_textStorage addAttributes:[self plainTextAttributes]
+    [I_textStorage setAttributes:[self plainTextAttributes]
+                          range:NSMakeRange(0,[I_textStorage length])];
+    [I_textStorage addAttribute:kSyntaxColoringIsDirtyAttribute value:kSyntaxColoringIsDirtyAttributeValue
                           range:NSMakeRange(0,[I_textStorage length])];
     [I_textStorage endEditing];
     
@@ -338,8 +342,12 @@ NSString * const TextDocumentSyntaxColorizeNotification=@"TextDocumentSyntaxColo
     for(i=0;i<5;i++) {
         struct timeval begin, end;
         
+        [I_textStorage setAttributes:[self plainTextAttributes]
+                              range:NSMakeRange(0,[I_textStorage length])];
+        [I_textStorage addAttribute:kSyntaxColoringIsDirtyAttribute 
+                                 value:kSyntaxColoringIsDirtyAttributeValue 
+                                 range:NSMakeRange(0,[I_textStorage length])];
         gettimeofday(&begin, NULL); //Start
-
         [self syntaxColorizeInOneGoInRange:NSMakeRange(0,[I_textStorage length])];
 
         gettimeofday(&end, NULL); //Ende
@@ -472,9 +480,9 @@ NSString * const TextDocumentSyntaxColorizeNotification=@"TextDocumentSyntaxColo
 - (void)syntaxColorizeInOneGoInRange:(NSRange)aRange {
     // mark range as dirty
     NSTextStorage *textStorage= I_textStorage?I_textStorage:[I_textView textStorage];
-    [textStorage addAttribute:kSyntaxColoringIsDirtyAttribute 
-                                 value:kSyntaxColoringIsDirtyAttributeValue 
-                                 range:aRange];
+//    [textStorage addAttribute:kSyntaxColoringIsDirtyAttribute 
+//                                 value:kSyntaxColoringIsDirtyAttributeValue 
+//                                 range:aRange];
     while (![I_syntaxHighlighter colorizeDirtyRanges:textStorage]) {
         ;
     }

@@ -53,6 +53,10 @@
     [scanner setScanLocation:aLineRange.location];
     NSString *foundString=nil;
     NSRange lastFoundRange=NSMakeRange(aLineRange.location,0);
+    NSRange ignoreRange;
+    NSFontManager *fontManager=[NSFontManager sharedFontManager];
+    NSFont *font=[aString attribute:NSFontAttributeName atIndex:aLineRange.location effectiveRange:&ignoreRange];
+    NSFont *boldFont=[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
     do {
         if ([scanner scanCharactersFromSet:I_keyWordCharacterSet intoString:&foundString]) {
             //NSLog(@"FoundString: %@ at location:%d",foundString,[scanner scanLocation]);
@@ -67,6 +71,9 @@
                     NSColor *color=[I_keyWords objectForKey:foundString];
                     if (color) {    
                         [aString addAttribute:NSForegroundColorAttributeName value:color range:foundRange];
+                        if (boldFont) {
+                            [aString addAttribute:NSFontAttributeName value:boldFont range:foundRange];
+                        } 
                     } else {
                         [aString removeAttribute:NSForegroundColorAttributeName range:NSMakeRange(NSMaxRange(lastFoundRange),NSMaxRange(aLineRange)-NSMaxRange(lastFoundRange))];
                     }
