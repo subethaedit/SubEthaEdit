@@ -31,6 +31,7 @@ extern NSString * const DocumentModeWrapLinesPreferenceKey            ;
 
 - (SyntaxHighlighter *)syntaxHighlighter;
 - (NSBundle *)bundle;
+- (NSString *)displayName;
 
 - (NSMutableDictionary *)defaults;
 - (void)setDefaults:(NSMutableDictionary *)defaults;

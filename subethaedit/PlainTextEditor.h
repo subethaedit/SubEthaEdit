@@ -8,9 +8,13 @@
 
 #import <AppKit/AppKit.h>
 
+@class PlainTextDocument;
 
 @interface PlainTextEditor : NSResponder {
     IBOutlet NSTextField *O_positionTextField;
+    IBOutlet NSTextField *O_tabStatusTextField;
+    IBOutlet NSTextField *O_windowWidthTextField;
+    IBOutlet NSTextField *O_modeTextField;
     IBOutlet NSScrollView *O_scrollView;
     IBOutlet NSView       *O_editorView;
     NSTextView      *I_textView;
@@ -21,5 +25,6 @@
 - (id)initWithWindowController:(NSWindowController *)aWindowController;
 - (NSView *)editorView;
 - (NSTextView *)textView;
+- (PlainTextDocument *)document;
 
 @end

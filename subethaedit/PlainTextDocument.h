@@ -22,7 +22,7 @@ extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
         BOOL isRemotelyEditingTextStorage;
         BOOL isPerformingSyntaxHighlighting;
         BOOL highlightSyntax;
-        BOOL useTabs;
+        BOOL usesTabs;
         BOOL indentNewLines;
     } I_flags;
     int I_tabWidth;
@@ -69,6 +69,8 @@ extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
 - (NSDictionary *)fileAttributes;
 - (void)setFileAttributes:(NSDictionary *)attributes;
 
+- (BOOL)usesTabs;
+- (int)tabWidth;
 - (void)setTabWidth:(int)aTabWidth;
 
 #pragma mark -

@@ -11,6 +11,12 @@
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "GutterRulerView.h"
+#import "DocumentMode.h"
+
+@interface PlainTextEditor (PlainTextEditorPrivateAdditions) 
+-(void)TCM_updateStatusBar;
+-(void)TCM_updateBottomStatusBar;
+@end
 
 @implementation PlainTextEditor 
 
@@ -81,9 +87,13 @@
     [view setAutoresizesSubviews:YES];
     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [view addSubview:[O_editorView autorelease]];
+    [view setPostsFrameChangedNotifications:YES];
     [O_editorView setNextResponder:self];
     [self setNextResponder:view];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
     O_editorView = view;
+    [self TCM_updateStatusBar];
+    [self TCM_updateBottomStatusBar];
 }
 
 - (void)TCM_updateStatusBar {
@@ -105,6 +115,17 @@
     
 }
 
+- (void)TCM_updateBottomStatusBar {
+    PlainTextDocument *document=[self document];
+    [O_tabStatusTextField setStringValue:[NSString stringWithFormat:@"%@ (%d)",[document usesTabs]?@"TrueTab":@"Spaces",[document tabWidth]]];
+    [O_modeTextField setStringValue:[[document documentMode] displayName]];
+    
+    NSFont *font=[document fontWithTrait:0];
+    float characterWidth=[font widthOfString:@"m"];
+    int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
+    [O_windowWidthTextField setStringValue:[NSString stringWithFormat:@"%d%@",charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":@"w"]];
+}
+
 - (NSView *)editorView {
     return O_editorView;
 }
@@ -112,6 +133,11 @@
 - (NSTextView *)textView {
     return I_textView;
 }
+
+- (PlainTextDocument *)document {
+    return (PlainTextDocument *)[I_windowController document];
+}
+
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
@@ -183,5 +209,12 @@
     [I_textView setDefaultParagraphStyle:[[I_windowController document] defaultParagraphStyle]];
 }
 
+
+#pragma mark -
+#pragma mark ### notification handling ###
+
+- (void)viewFrameDidChange:(NSNotification *)aNotification {
+    [self TCM_updateBottomStatusBar];
+}
 
 @end

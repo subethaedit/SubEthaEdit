@@ -158,7 +158,7 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     I_flags.indentNewLines=[[aDocumentMode defaultForKey:DocumentModeIndentNewLinesPreferenceKey] boolValue];
-    I_flags.useTabs=[[aDocumentMode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue];
+    I_flags.usesTabs=[[aDocumentMode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue];
     [self setTabWidth:[[aDocumentMode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue]];
     [self setPlainFont:newFont];
     [I_textStorage addAttributes:[self plainTextAttributes]
@@ -541,7 +541,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [anItem setState:NSOffState];
         }
     } else if (selector == @selector(toggleUseTabs:)) {
-        [anItem setState:(I_flags.useTabs?NSOnState:NSOffState)];
+        [anItem setState:(I_flags.usesTabs?NSOnState:NSOffState)];
         return YES;
     } else if (selector == @selector(toggleIndentNewLines:)) {
         [anItem setState:(I_flags.indentNewLines?NSOnState:NSOffState)];
@@ -641,6 +641,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 
+- (BOOL)usesTabs {
+    return I_flags.usesTabs;
+}
+
+- (int)tabWidth {
+    return I_tabWidth;
+}
+
 - (void)setTabWidth:(int)aTabWidth {
     I_tabWidth=aTabWidth;
     if (I_tabWidth<1) {
@@ -661,7 +669,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (IBAction)toggleUseTabs:(id)aSender {
-    I_flags.useTabs=!I_flags.useTabs;
+    I_flags.usesTabs=!I_flags.usesTabs;
 }
 
 - (IBAction)toggleIndentNewLines:(id)aSender {
@@ -827,7 +835,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (aSelector==@selector(deleteBackward:)) {
         //NSLog(@"AffectedRange=%d,%d",affectedRange.location,affectedRange.length);
         if (affectedRange.length==0 && affectedRange.location>0) {
-            if (!I_flags.useTabs) {
+            if (!I_flags.usesTabs) {
                 // when we have a tab we have to find the last linebreak
                 NSString *string=[[self textStorage] string];
                 NSRange lineRange=[string lineRangeForRange:affectedRange];
@@ -884,7 +892,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return YES;
         
     } 
-    else if (aSelector==@selector(insertTab:) && !I_flags.useTabs) {
+    else if (aSelector==@selector(insertTab:) && !I_flags.usesTabs) {
         // when we have a tab we have to find the last linebreak
         NSRange lineRange=[[[self textStorage] string] lineRangeForRange:affectedRange];        
         NSString *replacementString=[@" " stringByPaddingToLength:I_tabWidth-((affectedRange.location-lineRange.location)%I_tabWidth)

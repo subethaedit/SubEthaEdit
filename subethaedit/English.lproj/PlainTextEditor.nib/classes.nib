@@ -6,8 +6,11 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_editorView" = NSView; 
+                "O_modeTextField" = NSTextField; 
                 "O_positionTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 
+                "O_tabStatusTextField" = NSTextField; 
+                "O_windowWidthTextField" = NSTextField; 
             }; 
             SUPERCLASS = NSResponder; 
         }
