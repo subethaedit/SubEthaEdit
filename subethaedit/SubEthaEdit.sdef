@@ -21,13 +21,10 @@
             </class>
             <class name="text document" code="pltd" inherits="document">
                 <cocoa class="PlainTextDocument"/>
-                <!--<contents name="contents" type="text" description="">
+                <contents name="contents" code="ctxt" type="text" description="">
                     <cocoa method="textStorage"/>
-                </contents>-->
+                </contents>
                 <properties>
-                    <!--<property name="contents" code="pcnt" type="text" description="">
-                        <cocoa method="textStorage"/>
-                    </property>-->
                     <property name="text" code="ctxt" type="text" description="">
                         <cocoa method="textStorage"/>
                     </property>
@@ -67,17 +64,6 @@
 						<cocoa method="attachments"/>
 					</element> -->
 				</elements>
-				<!--<properties>
-					<property name="color" code="colr" type="color" description="The color of the first character.">
-						<cocoa method="foregroundColor"/>
-					</property>
-					<property name="font" code="font" type="string" description="The name of the font of the first character.">
-						<cocoa method="fontName"/>
-					</property>
-					<property name="size" code="ptsz" type="number" description="The size in points of the first character.">
-						<cocoa method="fontSize"/>
-					</property>
-				</properties>-->
 			</class>
             <class name="paragraph" code="cpar" inherits="text" description="This subdivides the text into paragraphs.">
 				<cocoa class="TextStorage"/>

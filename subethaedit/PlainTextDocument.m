@@ -3986,7 +3986,23 @@ typedef enum {
 }
 
 - (void)setEncoding:(NSString *)name {
-
+    NSLog(@"setting encoding (AppleScript)");
+    CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)name);
+    if (cfEncoding != kCFStringEncodingInvalidId) {
+        NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+        if ([[I_textStorage string] canBeConvertedToEncoding:encoding]) {
+            [self setFileEncoding:encoding];
+            [self updateChangeCount:NSChangeDone];             
+        } else {
+            NSScriptCommand *command = [NSScriptCommand currentCommand];
+            [command setScriptErrorNumber:2];
+            [command setScriptErrorString:@"The text can not be represented in the given encoding."]; 
+        }
+    } else {
+        NSScriptCommand *command = [NSScriptCommand currentCommand];
+        [command setScriptErrorNumber:2];
+        [command setScriptErrorString:@"Unknown encoding."];        
+    }
 }
 
 - (NSString *)mode {
