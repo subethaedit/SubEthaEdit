@@ -317,7 +317,12 @@
             NSEnumerator *notifications=[neededUserNotifications objectEnumerator];
             NSDictionary *notificationDict=nil;
             while ((notificationDict = [notifications nextObject])) {
-                [neededUsers addObject:[TCMMMUser userWithNotification:notificationDict]];
+                // backwards compatibility
+                if ([notificationDict objectForKey:@"uID"]) {
+                    [neededUsers addObject:[TCMMMUser userWithNotification:notificationDict]];
+                } else if ([notificationDict objectForKey:@"User"]) {
+                    [neededUsers addObject:[TCMMMUser userWithNotification:[notificationDict objectForKey:@"User"]]];
+                }
             }
             if ([[self delegate] respondsToSelector:@selector(profile:didReceiveUserRequests:)]) {
                 [[self delegate] profile:self didReceiveUserRequests:neededUsers];

@@ -678,8 +678,10 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         NSDictionary *userDict=nil;
         while ((userDict=[users nextObject])) {
             TCMMMUser *user=[TCMMMUser userWithNotification:[userDict objectForKey:@"User"]];
-            if ([userManager sender:profile shouldRequestUser:user]) {
-                [result addObject:userDict];
+            if (![[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
+                if ([userManager sender:profile shouldRequestUser:user]) {
+                    [result addObject:[userDict objectForKey:@"User"]];
+                }
             }
             NSString *userID=[user userID];
             user=[userManager userForUserID:userID];
