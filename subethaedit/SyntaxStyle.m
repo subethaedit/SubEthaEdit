@@ -127,7 +127,7 @@ static NSArray *S_possibleStyleColors;
 
 - (NSString *)localizedStringForKey:(NSString *)aKey {
     if ([aKey isEqualToString:SyntaxStyleBaseIdentifier]) {
-        return NSLocalizedString(@"BaseColorName",@"Name of base color appearing in Style Preferences");
+        return NSLocalizedString(@"BaseStyleName",@"Name of base style appearing in Style Preferences");
     }
     NSBundle *bundle = [I_documentMode bundle];
     if (bundle) {
