@@ -865,6 +865,34 @@
 			settings = {
 			};
 		};
+		14B42A8B06120339002D0043 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TextOperation.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14B42A8C06120339002D0043 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TextOperation.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14B42A8D06120339002D0043 = {
+			fileRef = 14B42A8B06120339002D0043;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14B42A8E06120339002D0043 = {
+			fileRef = 14B42A8C06120339002D0043;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14C51C6F0601C93C0030F488 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1057,6 +1085,8 @@
 				14AE9ED605F618100025CADE,
 				5EEB186005ED1CBB00C17677,
 				5EEB186105ED1CBB00C17677,
+				14B42A8B06120339002D0043,
+				14B42A8C06120339002D0043,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -2339,6 +2369,7 @@
 				5ECFBAF0060F367C000B47E6,
 				31C995A2060F377500E3AB1E,
 				1444315E0611B9E4008FDA2E,
+				14B42A8D06120339002D0043,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2446,6 +2477,7 @@
 				5ECFBAF1060F367C000B47E6,
 				31C995A3060F377500E3AB1E,
 				1444315F0611B9E4008FDA2E,
+				14B42A8E06120339002D0043,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -487,6 +487,8 @@ subethaedit/TCMPreferenceModule.h -text
 subethaedit/TCMPreferenceModule.m -text
 subethaedit/TCMRendezvousBrowser.h -text
 subethaedit/TCMRendezvousBrowser.m -text
+subethaedit/TextOperation.h -text
+subethaedit/TextOperation.m -text
 subethaedit/Tools/HTMLTemplate.html -text
 subethaedit/Tools/LaTeXTemplate.latex -text
 subethaedit/Tools/RTFTemplate.rtf -text
