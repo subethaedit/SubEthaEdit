@@ -818,7 +818,14 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
         if (I_flags.isAnnounced) {
             DEBUGLOG(@"Document", 5, @"announce");
             [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
-            [(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0] openParticipantsDrawer:self];
+            [[self topmostWindowController] openParticipantsDrawer:self];
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
+                NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+                PlainTextEditor *editor=nil;
+                while ((editor=[plainTextEditors nextObject])) {
+                    [editor setShowsChangeMarks:YES];
+                }
+            }
         } else {
             DEBUGLOG(@"Document", 5, @"conceal");
             TCMMMSession *session=[self session];
