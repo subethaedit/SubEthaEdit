@@ -45,6 +45,14 @@ NSString * const ToggleChangeMarksToolbarItemIdentifier =
 NSString * const ToggleAnnouncementToolbarItemIdentifier = 
                @"ToggleAnnouncementToolbarItemIdentifier";
 
+static int KickButtonStateMask=1;
+static int ReadOnlyButtonStateMask=2;
+static int ReadWriteButtonStateMask=4;
+static int DenyStateMask=8;
+static int KickStateMask=16;
+static int ReadWriteButtonForcedOffMask=32;
+static int ReadOnlyButtonForcedOffMask=64;
+static int FollowUserStateMask=128;
 
 enum {
     ParticipantContextMenuTagFollow = 1,
@@ -77,15 +85,15 @@ enum {
 
         [I_contextMenu addItem:[NSMenuItem separatorItem]];
 
-        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuReadWrite %@ ...",@"ReadWrite user entry for Participant context menu") action:@selector(readWriteButtonAction:) keyEquivalent:@""];
+        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuReadWrite",@"ReadWrite user entry for Participant context menu") action:@selector(readWriteButtonAction:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:ParticipantContextMenuTagReadWrite];
 
-        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuReadOnly %@ ...",@"ReadWrite user entry for Participant context menu") action:@selector(readOnlyButtonAction:) keyEquivalent:@""];
+        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuReadOnly",@"ReadWrite user entry for Participant context menu") action:@selector(readOnlyButtonAction:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:ParticipantContextMenuTagReadOnly];
 
-        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuKickDeny %@ ...",@"KickDeny user entry for Participant context menu") action:@selector(kickButtonAction:) keyEquivalent:@""];
+        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuKickDeny",@"KickDeny user entry for Participant context menu") action:@selector(kickButtonAction:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:ParticipantContextMenuTagKickDeny];
         [I_contextMenu setDelegate:self];
@@ -123,7 +131,7 @@ enum {
     O_participantsView = [[ParticipantsView alloc] initWithFrame:frame];
     [O_participantsScrollView setBorderType:NSBezelBorder];
     [O_participantsView setDelegate:self];
-    [O_participantsView setDataSource:self];
+[O_participantsView setDataSource:self];
     [O_participantsScrollView setHasVerticalScroller:YES];
     [[O_participantsScrollView verticalScroller] setControlSize:NSSmallControlSize];
     [O_participantsScrollView setDocumentView:O_participantsView];
@@ -136,7 +144,15 @@ enum {
     [[O_actionPullDown cell] setImage:[NSImage imageNamed:@"Action"]];
     [[O_actionPullDown cell] setAlternateImage:[NSImage imageNamed:@"ActionPressed"]];
     [[O_actionPullDown cell] setUsesItemFromMenu:NO];
-    [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
+    [O_actionPullDown addItemWithTitle:@"<do not modify>"];
+    NSMenu *menu=[O_actionPullDown menu];
+    [menu setDelegate:self];
+    NSEnumerator *menuItems=[[I_contextMenu itemArray] objectEnumerator];
+    id menuItem = nil;
+    while ((menuItem = [menuItems nextObject])) {
+        [menu addItem:[[menuItem copy] autorelease]];
+    }
+//    [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
     
     //[O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
     
@@ -230,39 +246,7 @@ enum {
                            NSLocalizedString(@"Split View",@"Split View Menu Entry"):
                            NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
         return !I_flags.isReceivingContent;
-    } else if (selector == @selector(kickButtonAction:)) {
-        return [O_participantsView numberOfSelectedRows]!=0;
-    } else if (selector == @selector(readOnlyButtonAction:)) {
-        if ([O_participantsView numberOfSelectedRows]==0) {
-            return NO;
-        } else {
-            NSMutableIndexSet *indexSet=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
-            int row;
-            ItemChildPair pair;
-            while ([indexSet count]) {
-                row=[indexSet lastIndex];
-                pair=[O_participantsView itemChildPairAtRow:row];
-                if (pair.itemIndex==1) break;
-                [indexSet removeIndex:row];
-            }
-            return [indexSet count];
-        }
-    } else if (selector == @selector(kickButtonAction:)) {
-        if ([O_participantsView numberOfSelectedRows]==0) {
-            return NO;
-        } else {
-            NSMutableIndexSet *indexSet=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
-            int row;
-            ItemChildPair pair;
-            while ([indexSet count]) {
-                row=[indexSet lastIndex];
-                pair=[O_participantsView itemChildPairAtRow:row];
-                if (pair.itemIndex==1) break;
-                [indexSet removeIndex:row];
-            }
-            return [indexSet count];
-        }
-    }
+    } 
     return YES;
 }
 
@@ -324,102 +308,201 @@ enum {
     [O_participantsDrawer toggle:sender];
 }
 
-- (void)validateButtons {
-    [O_kickButton setEnabled:NO];
-    [O_readOnlyButton setEnabled:NO];
-    [O_readWriteButton setEnabled:NO];
-    if ([[(PlainTextDocument *)[self document] session] isServer]) {
-        if ([O_participantsView numberOfSelectedRows] == 1) {
-            int selectedRow=[O_participantsView selectedRow];
-            ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
+- (int)buttonStateForSelectedRows:(NSIndexSet *)selectedRows {
+    int buttonState=0;
+    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+    if ([session isServer] && [selectedRows count]>0) {
+        buttonState = KickButtonStateMask;
+        if ([selectedRows count]==1) {
+            buttonState |= FollowUserStateMask;
+        }
+        NSMutableIndexSet *rows=[[selectedRows mutableCopy] autorelease];
+        unsigned int row=NSNotFound;
+        NSDictionary *participants=[session participants];
+        for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
+            ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
             if (pair.childIndex!=-1) {
-                if (pair.itemIndex<2) {
-                    NSString *group=(pair.itemIndex==0?@"ReadWrite":@"ReadOnly");
-                    BOOL isParticipant=[[[[(PlainTextDocument *)[self document] session] participants] objectForKey:group] count]>pair.childIndex;
-                    if (pair.itemIndex==0 && isParticipant) {
-                        [O_readOnlyButton setEnabled:YES];
-                    } else if (pair.itemIndex==1 && isParticipant) {
-                        [O_readWriteButton setEnabled:YES];
+                if (pair.itemIndex==0) {
+                    if (pair.childIndex<[[participants objectForKey:@"ReadWrite"] count]) {
+                        if ([[[[participants objectForKey:@"ReadWrite"] objectAtIndex:pair.childIndex] userID] isEqualToString:[TCMMMUserManager myUserID]]) {
+                            return 0;
+                        } else {
+                            buttonState = buttonState | ReadOnlyButtonStateMask;
+                        }
+                    } else {
+                        buttonState &= ~FollowUserStateMask;
+                        buttonState = ( buttonState & (~ReadOnlyButtonStateMask) ) | ReadOnlyButtonForcedOffMask;
                     }
+                    buttonState |= KickStateMask;
+                } else if (pair.itemIndex==1) {
+                    if (pair.childIndex<[[participants objectForKey:@"ReadOnly"] count]) {
+                        buttonState = buttonState | ReadWriteButtonStateMask;
+                    } else {
+                        buttonState &= ~FollowUserStateMask;
+                        buttonState = (buttonState & (~ReadWriteButtonStateMask)) | ReadWriteButtonForcedOffMask;
+                    }
+                    buttonState |= KickStateMask;
                 } else if (pair.itemIndex==2) {
-                    [O_readOnlyButton setEnabled:YES];
-                    [O_readWriteButton setEnabled:YES];
+                    if (!(buttonState & ReadWriteButtonForcedOffMask)) {
+                        buttonState |= ReadWriteButtonStateMask;
+                    }
+                    if (!(buttonState & ReadOnlyButtonForcedOffMask)) {
+                        buttonState |= ReadOnlyButtonStateMask;
+                    }
+                    buttonState |= DenyStateMask;
+                    buttonState &= ~FollowUserStateMask;
                 }
-                [O_kickButton setEnabled:YES];
             }
+            [rows removeIndex:row];
         }
     }
+    
+    return buttonState;
+}
+
+- (void)validateButtons {
+    int state=[self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
+    [O_kickButton setEnabled:(state & KickButtonStateMask)];
+    [O_readOnlyButton setEnabled:(state & ReadOnlyButtonStateMask)];
+    [O_readWriteButton setEnabled:(state & ReadWriteButtonStateMask)];
 }
 
 - (IBAction)kickButtonAction:(id)aSender {
-    if ([O_participantsView numberOfSelectedRows] == 1) {
-        int selectedRow=[O_participantsView selectedRow];
-        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
-        if (pair.childIndex!=-1) {
-            TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-            if (pair.itemIndex==2) {
-                [session setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
-            } else {
-                NSDictionary *participants=[session participants];
-                NSString *group=(pair.itemIndex==0?@"ReadWrite":@"ReadOnly");
-                NSArray *groupParticipants=[participants objectForKey:group];
-                if (pair.childIndex<[groupParticipants count]) {
-                    NSString *userID=[[groupParticipants objectAtIndex:pair.childIndex] userID];
-                    if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
-                        [session setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:userID]];
+    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+    if ([session isServer]) {
+        NSMutableIndexSet *pendingUsersIndexSet=[NSMutableIndexSet indexSet];
+        NSMutableArray *userIDsToKick=[NSMutableArray array];
+        NSMutableArray *userIDsToCancelInvitation=[NSMutableArray array];
+        NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
+        unsigned int row=NSNotFound;
+        NSDictionary *participants=[session participants];
+        NSDictionary *invitedUsers=[session invitedUsers];
+        for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
+            ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
+            if (pair.childIndex!=-1) {
+                if (pair.itemIndex!=2) {
+                    NSString *group=(pair.itemIndex==0)?@"ReadWrite":@"ReadOnly";
+                    if ([[participants objectForKey:group] count]>pair.childIndex) {
+                        NSString *userID=[[[participants objectForKey:group] objectAtIndex:pair.childIndex] userID];
+                        if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
+                            [userIDsToKick addObject:userID];
+                        }
+                    } else {
+                        [userIDsToCancelInvitation addObject:[[[invitedUsers objectForKey:group] objectAtIndex:pair.childIndex-[[participants objectForKey:group] count]] userID]];
                     }
                 } else {
-                    NSString *userID=[[[[session invitedUsers] objectForKey:group] objectAtIndex:pair.childIndex-[groupParticipants count]] userID];
-                    if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
-                        [session cancelInvitationForUserWithID:userID];
-                    }
+                    [pendingUsersIndexSet addIndex:pair.childIndex];
                 }
             }
+            [rows removeIndex:row];
         }
+        if ([pendingUsersIndexSet count]>0) {
+            [session setGroup:@"PoofGroup" forPendingUsersWithIndexes:pendingUsersIndexSet];
+        }
+        if ([userIDsToKick count]>0) {
+            [session setGroup:@"PoofGroup" forParticipantsWithUserIDs:userIDsToKick];
+        }
+        if ([userIDsToCancelInvitation count]>0) {
+            NSEnumerator *userIDs=[userIDsToCancelInvitation objectEnumerator];
+            NSString *userID=nil;
+            while ((userID=[userIDs nextObject])) {
+                [session cancelInvitationForUserWithID:userID];
+            }
+        }
+    
+        [O_participantsView reloadData];
+        [self validateButtons];
     }
-    [O_participantsView reloadData];
-    [self validateButtons];
 }
 
 - (IBAction)readOnlyButtonAction:(id)aSender {
-    if ([O_participantsView numberOfSelectedRows] == 1) {
-        int selectedRow=[O_participantsView selectedRow];
-        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
-        if (pair.childIndex!=-1) {
-            if (pair.itemIndex==2) {
-                [[(PlainTextDocument *)[self document] session] setGroup:@"ReadOnly" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
-            } else if (pair.itemIndex==0) {
-                TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-                NSString *userID=[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID];
-                if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
-                    [session setGroup:@"ReadOnly" forParticipantsWithUserIDs:
-                        [NSArray arrayWithObject:userID]];
+    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+    if ([session isServer]) {
+        NSMutableIndexSet *pendingUsersIndexSet=[NSMutableIndexSet indexSet];
+        NSMutableArray *userIDsToChangeGroup=[NSMutableArray array];
+        NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
+        unsigned int row=NSNotFound;
+        NSDictionary *participants=[session participants];
+        NSArray *readWriteArray=[participants objectForKey:@"ReadWrite"];
+        for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
+            ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
+            if (pair.childIndex!=-1) {
+                if (pair.itemIndex==0) {
+                    if ([readWriteArray count]>pair.childIndex) {
+                        NSString *userID=[[readWriteArray objectAtIndex:pair.childIndex] userID];
+                        if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
+                            [userIDsToChangeGroup addObject:userID];
+                        }
+                    } 
+                } else if (pair.itemIndex==2) {
+                    [pendingUsersIndexSet addIndex:pair.childIndex];
                 }
             }
+            [rows removeIndex:row];
         }
+        if ([pendingUsersIndexSet count]>0) {
+            [session setGroup:@"ReadOnly" forPendingUsersWithIndexes:pendingUsersIndexSet];
+        }
+        if ([userIDsToChangeGroup count]>0) {
+            [session setGroup:@"ReadOnly" forParticipantsWithUserIDs:userIDsToChangeGroup];
+        }
+    
+        [O_participantsView reloadData];
+        [self validateButtons];
     }
-    [O_participantsView reloadData];
-    [self validateButtons];
 }
+
 - (IBAction)readWriteButtonAction:(id)aSender {
+    TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+    if ([session isServer]) {
+        NSMutableIndexSet *pendingUsersIndexSet=[NSMutableIndexSet indexSet];
+        NSMutableArray *userIDsToChangeGroup=[NSMutableArray array];
+        NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
+        unsigned int row=NSNotFound;
+        NSDictionary *participants=[session participants];
+        NSArray *readOnlyArray=[participants objectForKey:@"ReadOnly"];
+        for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
+            ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
+            if (pair.childIndex!=-1) {
+                if (pair.itemIndex==1) {
+                    if ([readOnlyArray count]>pair.childIndex) {
+                        [userIDsToChangeGroup addObject:[[readOnlyArray objectAtIndex:pair.childIndex] userID]];
+                    } 
+                } else if (pair.itemIndex==2) {
+                    [pendingUsersIndexSet addIndex:pair.childIndex];
+                }
+            }
+            [rows removeIndex:row];
+        }
+        if ([pendingUsersIndexSet count]>0) {
+            [session setGroup:@"ReadWrite" forPendingUsersWithIndexes:pendingUsersIndexSet];
+        }
+        if ([userIDsToChangeGroup count]>0) {
+            [session setGroup:@"ReadWrite" forParticipantsWithUserIDs:userIDsToChangeGroup];
+        }
+    
+        [O_participantsView reloadData];
+        [self validateButtons];
+    }
+}
+
+- (IBAction)followUser:(id)aSender {
     if ([O_participantsView numberOfSelectedRows] == 1) {
         int selectedRow=[O_participantsView selectedRow];
         ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
         if (pair.childIndex!=-1) {
-            TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-            if (pair.itemIndex==2) {
-                [session setGroup:@"ReadWrite" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
-            } else if (pair.itemIndex==1) {
-                NSString *userID=[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID];
-                if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
-                    [session setGroup:@"ReadWrite" forParticipantsWithUserIDs:
-                        [NSArray arrayWithObject:userID]];
+            if (pair.itemIndex!=2) {
+                NSArray *participantArray=[[[(PlainTextDocument *)[self document] session] participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")];
+                if ([participantArray count]>pair.childIndex) {
+                    NSString *userID=[[participantArray objectAtIndex:pair.childIndex] userID];
+                    if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
+                        PlainTextEditor *plainTextEditor=[self activePlainTextEditor];
+                        [plainTextEditor setFollowUserID:userID];
+                    }
                 }
             }
         }
     }
-    [O_participantsView reloadData];
-    [self validateButtons];
 }
 
 - (IBAction)participantDoubleAction:(id)aSender {
@@ -431,11 +514,7 @@ enum {
             if (pair.itemIndex==2) {
                 [session setGroup:@"ReadWrite" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
             } else {
-                NSString *userID=[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID];
-                if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
-                    PlainTextEditor *plainTextEditor=[self activePlainTextEditor];
-                    [plainTextEditor setFollowUserID:userID];
-                }
+                [self followUser:aSender];
             }
         }
     }
@@ -944,27 +1023,49 @@ enum {
 }
 
 -(void)menuNeedsUpdate:(NSMenu *)menu {
-    if (menu==I_contextMenu) {
-        if ([O_participantsView numberOfSelectedRows] == 1) {
-            TCMMMUser *user=nil;
-            int selectedRow=[O_participantsView selectedRow];
-            ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
-            if (pair.childIndex!=-1) {
-                TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-                if (pair.itemIndex==2) {
-                    user=[[session pendingUsers] objectAtIndex:pair.childIndex];
+    int state = [self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
+    if ([O_participantsView numberOfSelectedRows] == 1) {
+        TCMMMUser *user=nil;
+        int selectedRow=[O_participantsView selectedRow];
+        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
+        if (pair.childIndex!=-1) {
+            TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+            if (pair.itemIndex==2) {
+                user=[[session pendingUsers] objectAtIndex:pair.childIndex];
+            } else {
+                NSArray *participantArray=[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")];
+                if ([participantArray count]>pair.childIndex) {
+                    user=[participantArray objectAtIndex:pair.childIndex];
                 } else {
-                    NSString *userID=[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID];
-                    user=[[TCMMMUserManager sharedInstance]userForUserID:userID];
+                    user=[[[session invitedUsers] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex-[participantArray count]];
                 }
             }
-            id item;
-            item = [menu itemWithTag:ParticipantContextMenuTagAIM];
-            [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuAIM %@ ...",@"AIM user entry for Participant context menu"),[[user properties] objectForKey:@"AIM"]]];
-            item = [menu itemWithTag:ParticipantContextMenuTagEmail];
-            [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuEmail %@ ...",@"AIM user entry for Participant context menu"),[[user properties] objectForKey:@"Email"]]];
         }
+        id item;
+        item = [menu itemWithTag:ParticipantContextMenuTagFollow];
+        [item setEnabled:(state & FollowUserStateMask)];
+        item = [menu itemWithTag:ParticipantContextMenuTagAIM];
+        [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuAIM %@ ...",@"AIM user entry for Participant context menu"),[[user properties] objectForKey:@"AIM"]]];
+        item = [menu itemWithTag:ParticipantContextMenuTagEmail];
+        [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuEmail %@ ...",@"AIM user entry for Participant context menu"),[[user properties] objectForKey:@"Email"]]];
+    } else {
+        id item = [menu itemWithTag:ParticipantContextMenuTagFollow];
+        [item setEnabled:NO];
     }
+    id item;
+    item = [menu itemWithTag:ParticipantContextMenuTagReadWrite];
+    [item setEnabled:(state & ReadWriteButtonStateMask)];
+    item = [menu itemWithTag:ParticipantContextMenuTagReadOnly];
+    [item setEnabled:(state & ReadOnlyButtonStateMask)];
+    item = [menu itemWithTag:ParticipantContextMenuTagKickDeny];
+    [item setEnabled:(state & KickButtonStateMask)];
+    NSString *string=NSLocalizedString(@"ParticipantContextMenuKick",@"KickDeny user entry for Participant context menu");
+    if ((state & KickStateMask) && (state & DenyStateMask)) {
+        string=NSLocalizedString(@"ParticipantContextMenuKickDeny",@"KickDeny user entry for Participant context menu");
+    } else if (state & DenyStateMask) {
+        string=NSLocalizedString(@"ParticipantContextMenuDeny",@"KickDeny user entry for Participant context menu");
+    }
+    [item setTitle:string];
 }
 
 

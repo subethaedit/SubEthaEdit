@@ -705,6 +705,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         NSLog(@"Mist already having a document...");
 //        [document showWindows];
     } else {
+        [[NSSound soundNamed:@"Invitation"] play];
         [profile setDelegate:self];
         [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
         [I_profilesByUserID setObject:profile forKey:[self hostID]];
