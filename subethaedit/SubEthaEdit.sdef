@@ -32,26 +32,26 @@
             </class>
             <class name="text document" code="pltd" inherits="document">
                 <cocoa class="PlainTextDocument"/>
-                <contents name="contents" code="ctxt" type="text" description="">
+                <contents name="contents" code="ctxt" type="text" description="the text of the document">
                     <cocoa method="textStorage"/>
                 </contents>
                 <properties>
-                    <property name="text" code="ctxt" type="text" description="">
+                    <property name="text" code="ctxt" type="text" description="the text of the document">
                         <cocoa method="textStorage"/>
                     </property>
-                    <property name="encoding" code="Encd" type="string" description="IANA charset name">
+                    <property name="encoding" code="Encd" type="string" description="the internet name of the document's encoding">
                         <cocoa method="encoding"/>
                     </property>
-                    <property name="mode" code="Mode" type="string" description="Mode name">
+                    <property name="mode" code="Mode" type="string" description="the name of the document's mode">
                         <cocoa method="mode"/>
                     </property>
-                    <property name="access control" code="Actl" type="access options" description="access control for users">
+                    <property name="access control" code="Actl" type="access options" description="the access right of the document">
                         <cocoa method="accessOption"/>
                     </property>
-                    <property name="announced" code="Anno" type="boolean" description="is announced">
+                    <property name="announced" code="Anno" type="boolean" description="is the document announced?">
                         <cocoa method="isAnnounced"/>
                     </property>
-                    <property name="URL" code="DURL" type="string" access="r" description="Document URL">
+                    <property name="URL" code="DURL" type="string" access="r" description="the URL of the document">
                         <cocoa method="announcementURL"/>
                     </property>
                 </properties>
@@ -69,7 +69,7 @@
 					</responds-to>
                 </responds-to-commands>
             </class>                
-            <class name="text" plural="text" code="ctxt" description="Rich (styled) text">
+            <class name="text" plural="text" code="ctxt" description="Text">
 				<cocoa class="TextStorage"/>
 				<elements>
 					<element type="paragraph">
@@ -105,24 +105,30 @@
         <commands>
 			<command name="open" code="aevtodoc" description="Open an object.">
 				<direct-parameter type="file" description="The file(s) to be opened."/>
-                <parameter name="with properties" code="prdt" type="record" optional="optional" description="initial properties">
+                <parameter name="with properties" code="prdt" type="record" optional="optional" description="the initial values for the properties, to be applied to the document when opening">
                     <cocoa key="WithProperties"/>
                 </parameter>			
             </command>
 			<command name="print" description="Print an object." code="aevtpdoc">
 				<!-- type would be better written as "file | document". -->
 				<direct-parameter type="file" description="The file(s) or document(s) to be printed."/>
-                <parameter name="with properties" code="prdt" type="record" optional="optional" description="initial properties">
+                <parameter name="with properties" code="prdt" type="record" optional="optional" description="the initial values for the properties, to be applied to the document when printing">
                     <cocoa key="WithProperties"/>
                 </parameter>
 			</command>
-            <command name="get url" code="GURLGURL">
+            <command name="get URL" code="GURLGURL" description="Open a URL.">
+                <synonyms>
+					<synonym name="get url"/>
+				</synonyms>
                 <cocoa class="GetURLCommand"/>
-                <direct-parameter type="object"/>
+                <direct-parameter type="object" description="The URL to open."/>
             </command>
-            <command name="open url" code="WWW!OURL">
+            <command name="open URL" code="WWW!OURL" description="Open a URL.">
+                <synonyms>
+					<synonym name="open url"/>
+				</synonyms>
                 <cocoa class="GetURLCommand"/>
-                <direct-parameter type="object"/>
+                <direct-parameter type="object" description="The URL to open."/>
             </command>
             <command name="see" code="HdraSee " hidden="hidden" description="">
                 <result type="file" description=""/>
