@@ -548,6 +548,26 @@ NSString * const BlockeditAttributeValue=@"YES";
     index=aRange.location;
     do {
         NSRange foundRange;
+        NSNumber *number=[self attribute:NSObliquenessAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (number && [number floatValue] != 0.0) {
+            [result addAttribute:@"Italic" value:[NSNumber numberWithBool:YES] range:foundRange];
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSNumber *number=[self attribute:NSStrokeWidthAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (number && [number floatValue] != 0.0) {
+            [result addAttribute:@"Bold" value:[NSNumber numberWithBool:YES] range:foundRange];
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
         NSColor *color=[self attribute:NSForegroundColorAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
         index=NSMaxRange(foundRange);
         if (color) {
