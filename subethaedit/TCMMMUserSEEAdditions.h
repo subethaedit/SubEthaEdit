@@ -14,7 +14,10 @@
 @interface TCMMMUser (TCMMMUserSEEAdditions) 
 
 + (TCMMMUser *)userWithBencodedUser:(NSData *)aData;
++ (TCMMMUser *)userWithDictionaryRepresentation:(NSDictionary *)aRepresentation;
+- (NSDictionary *)dictionaryRepresentation;
 - (void)prepareImages;
 - (NSData *)userBencoded;
+
     
 @end

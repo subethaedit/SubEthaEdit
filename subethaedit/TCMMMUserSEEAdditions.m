@@ -15,11 +15,15 @@
 
 + (TCMMMUser *)userWithBencodedUser:(NSData *)aData {
     NSDictionary *userDict=TCM_BdecodedObjectWithData(aData);
+    return [self userWithDictionaryRepresentation:userDict];
+}
+
++ (TCMMMUser *)userWithDictionaryRepresentation:(NSDictionary *)aRepresentation {
     TCMMMUser *user=[TCMMMUser new];
-    [user setName:[userDict objectForKey:@"Name"]];
-    [user setUserID:[userDict objectForKey:@"UserID"]];
-    [user setChangeCount:[[userDict objectForKey:@"ChangeCount"] longLongValue]];
-    NSData *pngData=[userDict objectForKey:@"ImageAsPNG"];
+    [user setName:[aRepresentation objectForKey:@"Name"]];
+    [user setUserID:[aRepresentation objectForKey:@"UserID"]];
+    [user setChangeCount:[[aRepresentation objectForKey:@"ChangeCount"] longLongValue]];
+    NSData *pngData=[aRepresentation objectForKey:@"ImageAsPNG"];
     [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
     [[user properties] setObject:[[[NSImage alloc] initWithData:[[user properties] objectForKey:@"ImageAsPNG"]] autorelease] forKey:@"Image"];
     [user prepareImages];
@@ -34,14 +38,17 @@
     [properties setObject:[image resizedImageWithSize:NSMakeSize(16.,16.)] forKey:@"Image16"];
 }
 
-
-- (NSData *)userBencoded {
-    NSDictionary *user=[NSDictionary dictionaryWithObjectsAndKeys:
+- (NSDictionary *)dictionaryRepresentation {
+    return [NSDictionary dictionaryWithObjectsAndKeys:
         [self name],@"Name",
         [self userID],@"UserID",
         [I_properties objectForKey:@"ImageAsPNG"],@"ImageAsPNG",
         [NSNumber numberWithLong:[self changeCount]],@"ChangeCount",
         nil];
+}
+
+- (NSData *)userBencoded {
+    NSDictionary *user=[self dictionaryRepresentation];
     return TCM_BencodedObject(user);
 }
 
