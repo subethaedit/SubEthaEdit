@@ -7,8 +7,8 @@
 //
 
 #import "Controller.h"
-#import "BEEPListener.h"
-#import "BEEPSession.h"
+#import "TCMBEEPListener.h"
+#import "TCMBEEPSession.h"
 
 #import <netdb.h>
 #import <netinet/in.h>
@@ -43,7 +43,7 @@
     
     NSLog(@"Generated addressdata: %@",[NSString stringWithAddressData:addressData]);
     
-    BEEPSession *session = [[BEEPSession alloc] initWithAddressData:addressData];
+    TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
     [session open];
     if (session) {
         NSLog(@"Session opened: %@",[session description]);
@@ -52,7 +52,7 @@
 
 - (IBAction)toggleListener:(id)aSender {
     if (!I_listener) {
-        I_listener=[[BEEPListener alloc]initWithPort:12347];
+        I_listener=[[TCMBEEPListener alloc]initWithPort:12347];
         [I_listener setDelegate:self];
         if ([I_listener listen]) {
             [O_listenerControlButton setTitle:@"stop listening"];
@@ -72,11 +72,11 @@
 }
 
 
-- (BOOL)BEEPListener:(BEEPListener *)aBEEPListener shouldAcceptBEEPSession:(BEEPSession *)aBEEPSession {
+- (BOOL)BEEPListener:(TCMBEEPListener *)aBEEPListener shouldAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
     NSLog(@"somebody talks to our listener: %@",[aBEEPSession description]);
     return YES;
 }
-- (void)BEEPListener:(BEEPListener *)aBEEPListener didAcceptBEEPSession:(BEEPSession *)aBEEPSession {
+- (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
     NSLog(@"Got Session");
     [aBEEPSession open];
     [aBEEPSession setDelegate:self];

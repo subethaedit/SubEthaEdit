@@ -1,12 +1,12 @@
 //
-//  BEEPSession.m
+//  TCMBEEPSession.m
 //  BEEPSample
 //
 //  Created by Martin Ott on Mon Feb 16 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "BEEPSession.h"
+#import "TCMBEEPSession.h"
 
 #import <netinet/in.h>
 #import <sys/socket.h>
@@ -14,7 +14,7 @@
 NSString * const kBEEPFrameTrailer=@"END\r\n";
 
 
-@interface BEEPSession (BEEPSessionPrivateAdditions)
+@interface TCMBEEPSession (TCMBEEPSessionPrivateAdditions)
 - (void)TCM_handleInputStreamEvent:(NSStreamEvent)streamEvent;
 - (void)TCM_handleOutputStreamEvent:(NSStreamEvent)streamEvent;
 - (void)TCM_writeData:(NSData *)aData;
@@ -24,7 +24,7 @@ NSString * const kBEEPFrameTrailer=@"END\r\n";
 
 #pragma mark -
 
-@implementation BEEPSession
+@implementation TCMBEEPSession
 
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData
 {

@@ -4,12 +4,9 @@ artwork/mockups/RendezvousBrowser2.psd -text
 documentation/connection-channel-bla.jpg -text
 documentation/session-lifcycle.jpg -text
 documentation/whiteboard-1411.jpg -text
-prototype/BEEPSample/BEEPChannel.m -text
-prototype/BEEPSample/BEEPListener.m -text
 prototype/BEEPSample/BEEPSample.xcode/mbo.pbxuser -text
 prototype/BEEPSample/BEEPSample.xcode/project.pbxproj -text
 prototype/BEEPSample/BEEPSample_Prefix.pch -text
-prototype/BEEPSample/BEEPSession.m -text
 prototype/BEEPSample/Controller.h -text
 prototype/BEEPSample/Controller.m -text
 prototype/BEEPSample/English.lproj/InfoPlist.strings -text
@@ -19,10 +16,10 @@ prototype/BEEPSample/English.lproj/MainMenu.nib/objects.nib -text
 prototype/BEEPSample/Info.plist -text
 prototype/BEEPSample/NSStringTCMAdditions.h -text
 prototype/BEEPSample/NSStringTCMAdditions.m -text
-prototype/BEEPSample/TCMBEEPChannel.h -text
-prototype/BEEPSample/TCMBEEPChannel.m -text
 prototype/BEEPSample/TCMBEEPListener.h -text
+prototype/BEEPSample/TCMBEEPListener.m -text
 prototype/BEEPSample/TCMBEEPSession.h -text
+prototype/BEEPSample/TCMBEEPSession.m -text
 prototype/BEEPSample/main.m -text
 prototype/ExpatSimple/ExpatSimple.1 -text
 prototype/ExpatSimple/ExpatSimple.xcode/project.pbxproj -text

@@ -1,5 +1,5 @@
 //
-//  Categories.h
+//  NSStringTCMAdditions.h
 //  BEEPSample
 //
 //  Created by Martin Ott on Tue Feb 17 2004.

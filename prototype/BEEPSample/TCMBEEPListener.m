@@ -1,13 +1,13 @@
 //
-//  BEEPListener.m
+//  TCMBEEPListener.m
 //  BEEPSample
 //
 //  Created by Martin Ott on Mon Feb 16 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "BEEPListener.h"
-#import "BEEPSession.h"
+#import "TCMBEEPListener.h"
+#import "TCMBEEPSession.h"
 
 #import <netinet/in.h>
 #import <sys/socket.h>
@@ -17,7 +17,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 #pragma mark -
 
-@interface BEEPListener (BEEPListenerPrivateAdditions)
+@interface TCMBEEPListener (TCMBEEPListenerPrivateAdditions)
 
 - (void)TCM_acceptSocket:(CFSocketNativeHandle)aSocketHandle withAddressData:(NSData *)inAddress;
 
@@ -25,7 +25,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 #pragma mark -
 
-@implementation BEEPListener
+@implementation TCMBEEPListener
 
 - (id)initWithPort:(unsigned int)aPort
 {
@@ -106,7 +106,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 - (void)TCM_acceptSocket:(CFSocketNativeHandle)aSocketHandle withAddressData:(NSData *)inAddress
 {
-    BEEPSession *session = [[BEEPSession alloc] initWithSocket:aSocketHandle addressData:inAddress];
+    TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithSocket:aSocketHandle addressData:inAddress];
     
     if ([I_delegate respondsToSelector:@selector(BEEPListener:shouldAcceptBEEPSession:)]) {
         BOOL shouldAccept = [I_delegate BEEPListener:self shouldAcceptBEEPSession:session];
@@ -125,7 +125,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType, CFDataRef anAddress, const void* aData, void* aContext)
 {
-    BEEPListener *listener = (BEEPListener *)aContext;
+    TCMBEEPListener *listener = (TCMBEEPListener *)aContext;
     [listener TCM_acceptSocket:*(CFSocketNativeHandle*)aData withAddressData:(NSData *)anAddress];
 }
 

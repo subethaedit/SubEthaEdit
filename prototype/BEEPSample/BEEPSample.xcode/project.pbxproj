@@ -7,8 +7,6 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
-				145884DA05E261ED000E1387,
-				145884DB05E261ED000E1387,
 				145884DC05E261ED000E1387,
 				145884DD05E261ED000E1387,
 				145884DE05E261ED000E1387,
@@ -85,22 +83,6 @@
 //142
 //143
 //144
-		145884DA05E261ED000E1387 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = TCMBEEPChannel.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		145884DB05E261ED000E1387 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = TCMBEEPChannel.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		145884DC05E261ED000E1387 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -113,7 +95,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = BEEPListener.m;
+			path = TCMBEEPListener.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -129,21 +111,9 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = BEEPSession.m;
+			path = TCMBEEPSession.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		145884E005E261ED000E1387 = {
-			fileRef = 145884DA05E261ED000E1387;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		145884E105E261ED000E1387 = {
-			fileRef = 145884DB05E261ED000E1387;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		145884E205E261ED000E1387 = {
 			fileRef = 145884DC05E261ED000E1387;
@@ -472,7 +442,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D1107280486CEB800E47090,
-				145884E005E261ED000E1387,
 				145884E205E261ED000E1387,
 				145884E405E261ED000E1387,
 				145884E805E261F8000E1387,
@@ -512,7 +481,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090,
-				145884E105E261ED000E1387,
 				145884E305E261ED000E1387,
 				145884E505E261ED000E1387,
 				145884E905E261F8000E1387,

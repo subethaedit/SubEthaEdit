@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@class BEEPListener;
+@class TCMBEEPListener;
 
 @interface Controller : NSObject {
 
@@ -19,7 +19,7 @@
     IBOutlet NSButton *O_connectButton;
     IBOutlet NSButton *O_listenerControlButton;
     
-    BEEPListener *I_listener;
+    TCMBEEPListener *I_listener;
 }
 
 - (IBAction)connect:(id)aSender;

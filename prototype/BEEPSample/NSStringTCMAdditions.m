@@ -1,12 +1,12 @@
 //
-//  Categories.m
+//  NSStringTCMAdditions.m
 //  BEEPSample
 //
 //  Created by Martin Ott on Tue Feb 17 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "Categories.h"
+#import "NSStringTCMAdditions.h"
 
 #import <netinet/in.h>
 #import <netinet6/in6.h>

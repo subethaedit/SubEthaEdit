@@ -1,5 +1,5 @@
 //
-//  BEEPListener.h
+//  TCMBEEPListener.h
 //  BEEPSample
 //
 //  Created by Martin Ott on Mon Feb 16 2004.
@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 
-@class BEEPSession;
+@class TCMBEEPSession;
 
-@interface BEEPListener : NSObject 
+@interface TCMBEEPListener : NSObject 
 {
     CFSocketRef I_listeningSocket;
     id I_delegate;
@@ -29,9 +29,9 @@
 @end
 
 
-@interface NSObject (BEEPListenerDelegateAdditions)
+@interface NSObject (TCMBEEPListenerDelegateAdditions)
 
-- (BOOL)BEEPListener:(BEEPListener *)aBEEPListener shouldAcceptBEEPSession:(BEEPSession *)aBEEPSession;
-- (void)BEEPListener:(BEEPListener *)aBEEPListener didAcceptBEEPSession:(BEEPSession *)aBEEPSession;
+- (BOOL)BEEPListener:(TCMBEEPListener *)aBEEPListener shouldAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession;
+- (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession;
 
 @end

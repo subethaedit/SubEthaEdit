@@ -1,5 +1,5 @@
 //
-//  BEEPSession.h
+//  TCMBEEPSession.h
 //  BEEPSample
 //
 //  Created by Martin Ott on Mon Feb 16 2004.
@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 
-@class BEEPChannel;
+@class TCMBEEPChannel;
 
-@interface BEEPSession : NSObject
+@interface TCMBEEPSession : NSObject
 {
     NSInputStream  *I_inputStream;
     NSOutputStream *I_outputStream;
@@ -20,7 +20,7 @@
     
     BOOL I_isInitiator;
 
-    BEEPChannel *I_managementChannel;
+    TCMBEEPChannel *I_managementChannel;
     
     id I_delegate;
     
