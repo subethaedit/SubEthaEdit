@@ -27,6 +27,8 @@ extern NSString * const DocumentModeShowInvisibleCharactersPreferenceKey;
 extern NSString * const DocumentModeWrapModePreferenceKey               ;
 extern NSString * const DocumentModeColumnsPreferenceKey                ;
 extern NSString * const DocumentModeRowsPreferenceKey                   ;
+extern NSString * const DocumentModeForegroundColorPreferenceKey        ;
+extern NSString * const DocumentModeBackgroundColorPreferenceKey        ;
 
 @class SyntaxHighlighter;
 @class RegexSymbolParser;

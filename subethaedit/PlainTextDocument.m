@@ -89,6 +89,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 @interface PlainTextDocument (PlainTextDocumentPrivateAdditions) 
 - (void)TCM_invalidateDefaultParagraphStyle;
+- (void)TCM_invalidateTextAttributes;
 - (void)TCM_styleFonts;
 - (void)TCM_initHelper;
 - (void)TCM_sendPlainTextDocumentDidChangeDisplayNameNotification;
@@ -732,6 +733,9 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark ### accessors ###
+
 - (void)setSession:(TCMMMSession *)aSession {
     [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentSessionWillChangeNotification object:self];
     [I_session autorelease];
@@ -757,6 +761,8 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [highlighter cleanUpTextStorage:[self textStorage]];
      I_documentMode = [aDocumentMode retain];
     [self setHighlightsSyntax:[[aDocumentMode defaultForKey:DocumentModeHighlightSyntaxPreferenceKey] boolValue]];
+    [self setDocumentBackgroundColor:[aDocumentMode defaultForKey:DocumentModeBackgroundColorPreferenceKey]];
+    [self setDocumentForegroundColor:[aDocumentMode defaultForKey:DocumentModeForegroundColorPreferenceKey]];
 
     NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
@@ -1722,10 +1728,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [I_fonts.plainFont autorelease];
     I_fonts.plainFont = [aFont copy];
     [self TCM_styleFonts];
-    [I_plainTextAttributes release];
-    I_plainTextAttributes=nil;
-    [I_typingAttributes release];
-    I_typingAttributes=nil;
+    [self TCM_invalidateTextAttributes];
     [self TCM_invalidateDefaultParagraphStyle];
 }
 
@@ -1742,33 +1745,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (NSDictionary *)plainTextAttributes {
     if (!I_plainTextAttributes) {
-//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSFont *userFont = [NSFont userFixedPitchFontOfSize:0.0];
-//        BOOL usesScreenFonts = [[defaults objectForKey:UsesScreenFontsPreferenceKey] boolValue];
-        NSFont *displayFont = nil;
-        if (NO)
-            displayFont = [userFont screenFont];
-        if (displayFont == nil)
-            displayFont = userFont;
-//        NSMutableParagraphStyle *myParagraphStyle = [[NSMutableParagraphStyle new] autorelease];
-//        [myParagraphStyle setParagraphStyle:[NSParagraphStyle defaultParagraphStyle]];
-//        NSArray *tabStops;
-        //float spaceWidth = [userFont widthOfString:@" "];
-//        unsigned spacesPerTab=[defaults integerForKey:TabWidthPreferenceKey];
-        //float tabWidth = spaceWidth*spacesPerTab;
-
-//        tabStops = tabStopArrayForFontAndTabWidth(displayFont, spacesPerTab);
-
-//        [myParagraphStyle setTabStops:tabStops];
-        NSColor *foregroundColor=[NSColor blackColor];
+        NSColor *foregroundColor=[self documentForegroundColor];
 
         NSMutableDictionary *attributes=[NSMutableDictionary new];
         [attributes setObject:[self fontWithTrait:0]
                             forKey:NSFontAttributeName];
         [attributes setObject:[NSNumber numberWithInt:0]
                             forKey:NSLigatureAttributeName];
-//        [I_plainTextAttributes setObject:myParagraphStyle
-//                            forKey:NSParagraphStyleAttributeName];
         [attributes setObject:foregroundColor
                             forKey:NSForegroundColorAttributeName];
         I_plainTextAttributes=attributes;
@@ -1777,10 +1760,35 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 }
 
+- (NSColor *)documentForegroundColor {
+    return I_documentForegroundColor;
+}
+
+- (void)setDocumentForegroundColor:(NSColor *)aColor {
+    [I_documentForegroundColor autorelease];
+    I_documentForegroundColor=[aColor retain];
+    [self TCM_invalidateDefaultParagraphStyle];
+}
+
+
+- (NSColor *)documentBackgroundColor {
+    return I_documentBackgroundColor;
+}
+
+- (void)setDocumentBackgroundColor:(NSColor *)aColor {
+    [I_documentBackgroundColor autorelease];
+    I_documentBackgroundColor=[aColor retain];
+    NSEnumerator *editors=[[self plainTextEditors] objectEnumerator];
+    PlainTextEditor *editor=nil;
+    while ((editor=[editors nextObject])) {
+        [[editor textView] setBackgroundColor:aColor];
+    }
+}
 /*"This method returns the blockeditTextAttributes that the textview uses. If you make background colors customizeable you want to change these too"*/
 - (NSDictionary *)blockeditAttributes {
     if (!I_blockeditAttributes) {
-        float backgroundBrightness=1.0;
+        float backgroundBrightness=[[[self documentBackgroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace] brightnessComponent];
+;
         if (backgroundBrightness>.5) backgroundBrightness-=.1;
         else backgroundBrightness+=.1;
         NSColor *blockeditColor=[NSColor colorWithCalibratedWhite:backgroundBrightness alpha:1.];
@@ -1819,6 +1827,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                postingStyle:NSPostWhenIdle 
                coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
                    forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
+
+- (void)TCM_invalidateTextAttributes {
+      [I_plainTextAttributes release];
+       I_plainTextAttributes=nil;
+    [I_typingAttributes release];
+       I_typingAttributes=nil;
+    [I_blockeditAttributes release];
+     I_blockeditAttributes=nil;
+    NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
+    [I_textStorage addAttributes:[self plainTextAttributes]
+                           range:wholeRange];
+    if (I_flags.highlightSyntax) {
+        [self highlightSyntaxInRange:wholeRange];
+    }
 }
 
 - (PlainTextWindowController *)topmostWindowController {
@@ -2183,12 +2206,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)changeFont:(id)aSender {
     NSFont *newFont = [aSender convertFont:I_fonts.plainFont];
     [self setPlainFont:newFont];
-        [I_textStorage addAttributes:[self plainTextAttributes]
-                               range:NSMakeRange(0,[I_textStorage length])];
-    if (I_flags.highlightSyntax) {
-        [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
-    }
-
 }
 
 - (void)setHighlightsSyntax:(BOOL)aFlag {

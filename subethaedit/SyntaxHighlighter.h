@@ -15,6 +15,7 @@ extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
     id theDocument;
+    BOOL I_theDocumentBackgroundIsDark;
 }
 
 /*"Initizialisation"*/

@@ -160,6 +160,7 @@
 
 - (void)takeSettingsFromDocument {
     PlainTextDocument *document=[self document];
+    [[self textView] setBackgroundColor:[document documentBackgroundColor]];
     [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
     [self setWrapsLines: [document wrapLines]];
     [self setShowsGutter:[document showsGutter]];

@@ -89,4 +89,5 @@ enum {
 
 @interface NSObject (ParticipantsViewDelegateAdditions)
 - (void)participantsViewDidChangeSelection:(ParticipantsView *)alistView;
+- (NSMenu *)contextMenuForParticipantsView:(ParticipantsView *)aListView clickedAtRow:(int)aRow;
 @end

@@ -32,7 +32,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSView              *O_receivingContentView;
     IBOutlet NSProgressIndicator *O_progressIndicator;
     NSMutableArray *I_plainTextEditors;
-    
+    NSMenu *I_contextMenu;
     struct {
         BOOL isReceivingContent;
     } I_flags;

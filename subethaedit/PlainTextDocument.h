@@ -68,6 +68,9 @@ extern NSString * const ChangedByUserIDAttributeName;
     NSSaveOperationType I_lastSaveOperation;
     NSStringEncoding I_encodingFromLastRunSaveToOperation;
     
+    NSColor *I_documentBackgroundColor;
+    NSColor *I_documentForegroundColor;
+    
     int I_lineEnding;
     NSString *I_lineEndingString;
     
@@ -126,6 +129,10 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (NSDictionary *)blockeditAttributes;
 - (NSParagraphStyle *)defaultParagraphStyle;
 - (void)setPlainFont:(NSFont *)aFont;
+- (NSColor *)documentBackgroundColor;
+- (void)setDocumentBackgroundColor:(NSColor *)aColor;
+- (NSColor *)documentForegroundColor;
+- (void)setDocumentForegroundColor:(NSColor *)aColor;
 
 - (unsigned int)fileEncoding;
 - (void)setFileEncoding:(unsigned int)anEncoding;

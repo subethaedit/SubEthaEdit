@@ -142,6 +142,8 @@
     NSTextContainer *container = [self textContainerForGlyphAtIndex:aGlyphRange.location effectiveRange:nil];
     NSRange charRange = [self characterRangeForGlyphRange:aGlyphRange actualGlyphRange:nil];
     if (I_flags.showsChangeMarks) {
+        PlainTextDocument *document = (PlainTextDocument *)[[[[container textView] window] windowController] document];
+        NSColor *backgroundColor=[document documentBackgroundColor];
         NSTextStorage *textStorage = [self textStorage];
         NSString *textStorageString=[textStorage string];
         unsigned int position = charRange.location;
@@ -150,11 +152,10 @@
             NSString *userID=[textStorage attribute:ChangedByUserIDAttributeName atIndex:position longestEffectiveRange:&attributeRange inRange:charRange];
             if (userID) {
                 NSColor *changeColor=[[[TCMMMUserManager sharedInstance] userForUserID:userID] changeColor];
-                NSColor *backgroundColor=[NSColor whiteColor]; // TODO: take from preferences
-                backgroundColor=[backgroundColor blendedColorWithFraction:
+                NSColor *userBackgroundColor=[backgroundColor blendedColorWithFraction:
                                     [[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
                                  ofColor:changeColor];
-                [backgroundColor set];
+                [userBackgroundColor set];
                 
                 unsigned startIndex, lineEndIndex, contentsEndIndex;
                 unsigned innerPosition = attributeRange.location;
@@ -183,20 +184,19 @@
     NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
     TCMMMUser *user;
 //    float saturation=[[[NSUserDefaults standardUserDefaults] objectForKey:SelectionSaturationPreferenceKey] floatValue];
-//    NSColor *backgroundColor=[NSColor documentBackgroundColor];
+    NSColor *backgroundColor=[document documentBackgroundColor];
     while ((user = [participants nextObject])) {
         SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
         if (selectionOperation) {
             NSRange selectionRange = NSIntersectionRange(charRange, [selectionOperation selectedRange]);
             if (selectionRange.length !=0) {
                 NSColor *changeColor=[user changeColor];
-                NSColor *backgroundColor=[NSColor whiteColor]; // TODO: take from preferences
-                backgroundColor=[backgroundColor blendedColorWithFraction:
+                NSColor *selectionColor=[backgroundColor blendedColorWithFraction:
                                     [[NSUserDefaults standardUserDefaults] floatForKey:SelectionSaturationPreferenceKey]/100.
                                  ofColor:changeColor];
                 unsigned rectCount;
                 NSRectArray selectionRectArray = [self rectArrayForCharacterRange:selectionRange withinSelectedCharacterRange:selectionRange inTextContainer:container rectCount:&rectCount];
-                [self drawBorderedMarksWithColor:changeColor atRects:selectionRectArray rectCount:rectCount];
+                [self drawBorderedMarksWithColor:selectionColor atRects:selectionRectArray rectCount:rectCount];
             }
         }
     }

@@ -8,7 +8,6 @@
 
 #import "NSColorTCMAdditions.h"
 
-
 @implementation NSColor (NSColorTCMAdditions)
 
 + (NSColor *) colorForHTMLString:(NSString *) htmlString
@@ -45,5 +44,16 @@
     return result;
 }
 
+- (BOOL)isDark {
+    float brightness=[[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace] brightnessComponent];
+    return (brightness<.5);
+}
+
+- (NSColor *)brightnessInvertedColor {
+    NSColor *color=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    NSColor *invertedColor=[NSColor colorWithCalibratedRed:1.0-[color redComponent] green:1.0-[color greenComponent] blue:1.0-[color blueComponent] alpha:1.0];
+    return [NSColor colorWithCalibratedHue:[color hueComponent] saturation:[invertedColor saturationComponent] brightness:[invertedColor brightnessComponent] alpha:1.0];
+    
+}
 
 @end

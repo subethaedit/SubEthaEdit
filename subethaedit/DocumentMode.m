@@ -34,6 +34,8 @@ NSString * const DocumentModeUseDefaultViewPreferenceKey       = @"UseDefaultVie
 NSString * const DocumentModeUseDefaultEditPreferenceKey       = @"UseDefaultEdit";
 NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFile";
 NSString * const DocumentModeUseDefaultFontPreferenceKey       = @"UseDefaultFont";
+NSString * const DocumentModeForegroundColorPreferenceKey      = @"ForegroundColor"  ;
+NSString * const DocumentModeBackgroundColorPreferenceKey      = @"BackgroundColor"  ;
 
 static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
@@ -57,6 +59,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                   forKey:DocumentModeRowsPreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeColumnsPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeForegroundColorPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeBackgroundColorPreferenceKey];
                                   
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
                                   forKey:DocumentModeUseTabsPreferenceKey];
@@ -100,6 +106,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[[self bundle] bundleIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
+            NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
+            NSColor *color=[transformer transformedValue:[dictionary objectForKey:DocumentModeForegroundColorPreferenceKey]];
+            if (!color) color=[NSColor blackColor];
+            [dictionary setObject:color forKey:DocumentModeForegroundColorPreferenceKey];
+            color=[transformer transformedValue:[dictionary objectForKey:DocumentModeBackgroundColorPreferenceKey]];
+            if (!color) color=[NSColor whiteColor];
+            [dictionary setObject:color forKey:DocumentModeBackgroundColorPreferenceKey];
             [self setDefaults:dictionary];
             NSNumber *encodingNumber = [dictionary objectForKey:DocumentModeEncodingPreferenceKey];
             if (encodingNumber) {
@@ -126,6 +139,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeWrapLinesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:DocumentModeWrapModeWords] forKey:DocumentModeWrapModePreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:LineEndingLF] forKey:DocumentModeLineEndingPreferenceKey];
+            [I_defaults setObject:[NSColor blackColor] forKey:DocumentModeForegroundColorPreferenceKey];
+            [I_defaults setObject:[NSColor whiteColor] forKey:DocumentModeBackgroundColorPreferenceKey];
             [[EncodingManager sharedInstance] registerEncoding:NoStringEncoding];
             if (![self isBaseMode]) {
                 // read frome modefile? for now use defaults
@@ -216,11 +231,23 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [BASEMODEIDENTIFIER isEqualToString:[[self bundle] bundleIdentifier]];
 }
 
+- (void)writeDefaults {
+    NSMutableDictionary *defaults=[[self defaults] mutableCopy];
+    NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
+    NSData *data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeForegroundColorPreferenceKey]];
+    if (!data) data=[transformer reverseTransformedValue:[NSColor blackColor]];
+    [defaults setObject:data forKey:DocumentModeForegroundColorPreferenceKey];
+    data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]];
+    if (!data) data=[transformer reverseTransformedValue:[NSColor whiteColor]];
+    [defaults setObject:data forKey:DocumentModeBackgroundColorPreferenceKey];
+    [[NSUserDefaults standardUserDefaults] setObject:defaults forKey:[[self bundle] bundleIdentifier]];
+}
+
 #pragma mark -
 #pragma mark ### Notification Handling ###
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [[NSUserDefaults standardUserDefaults] setObject:[self defaults] forKey:[[self bundle] bundleIdentifier]];
+    [self writeDefaults];
 }
 
 #pragma mark -

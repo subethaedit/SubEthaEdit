@@ -12,5 +12,6 @@
 @interface NSColor (NSColorTCMAdditions)
 
 + (NSColor *) colorForHTMLString:(NSString *) htmlString;
-
+- (BOOL)isDark;
+- (NSColor *)brightnessInvertedColor;
 @end

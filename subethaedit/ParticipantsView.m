@@ -145,10 +145,9 @@ NSString *ParticipantsViewDidChangeSelectionNotification=
                       operation:NSCompositeSourceOver];
     }
     
-    string=[dataSource participantsView:self objectValueForTag:ParticipantsChildStatusTag atIndex:aChildIndex ofItemAtIndex:aItemIndex];
-    if (string) {
-        [string drawAtPoint:NSMakePoint(32.+11,20.)
-               withAttributes:mStatusAttributes];
+    NSAttributedString *attributedString=[dataSource participantsView:self objectValueForTag:ParticipantsChildStatusTag atIndex:aChildIndex ofItemAtIndex:aItemIndex];
+    if (attributedString) {
+        [attributedString drawAtPoint:NSMakePoint(32.+11,20.)];
     }
 }
 
@@ -399,6 +398,32 @@ NSString *ParticipantsViewDidChangeSelectionNotification=
 #pragma mark -
 #pragma mark ### Event Handling ###
 
+- (void)contextMenuMouseDown:(NSEvent *)aEvent {
+    NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
+    
+    I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+    id delegate=[self delegate];
+    if ([delegate respondsToSelector:@selector(contextMenuForParticipantsView:clickedAtRow:)]) {
+        NSMenu *menu=[delegate contextMenuForParticipantsView:self clickedAtRow:I_clickedRow];
+        if (menu) {
+            [NSMenu popUpContextMenu:menu withEvent:aEvent forView:self];
+        }
+    }
+
+}
+
+- (void)rightMouseDown:(NSEvent *)aEvent {
+    NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
+    
+    I_clickedRow = [self TCM_indexOfRowAtPoint:point];
+    if (I_clickedRow != -1) {
+        if (![I_selectedRows containsIndex:I_clickedRow]) {
+            [self mouseDown:aEvent];
+        }
+        [self contextMenuMouseDown:aEvent];
+    }
+}
+
 - (void)mouseDown:(NSEvent *)aEvent {
 
     NSPoint point = [self convertPoint:[aEvent locationInWindow] fromView:nil];
@@ -413,6 +438,8 @@ NSString *ParticipantsViewDidChangeSelectionNotification=
         }
         if ([aEvent clickCount] == 2 && I_target && [I_target respondsToSelector:I_doubleAction]) {
             [I_target performSelector:I_doubleAction withObject:self];
+        } else if ([aEvent modifierFlags] & NSControlKeyMask) {
+            [self contextMenuMouseDown:aEvent];
         }
     }
     //NSLog(@"indexOfRow: %d", I_clickedRow);

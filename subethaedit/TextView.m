@@ -230,4 +230,10 @@ static NSMenu *defaultMenu=nil;
     return returnValue;
 }
 
+- (void)setBackgroundColor:(NSColor *)aColor {
+    [super setBackgroundColor:aColor];
+    [self setInsertionPointColor:[aColor isDark]?[NSColor whiteColor]:[NSColor blackColor]];
+    [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:[aColor isDark]?[[NSColor selectedTextBackgroundColor] brightnessInvertedColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
+}
+
 @end

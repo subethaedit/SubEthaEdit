@@ -12,13 +12,14 @@
 #import "PlainTextEditor.h"
 #import "TextStorage.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
+#import "TCMMMUserSEEAdditions.h"
 #import "SelectionOperation.h"
 #import "ImagePopUpButtonCell.h"
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "SplitView.h"
 #import "RendezvousBrowserController.h"
-#import "TCMMMSession.h"
+#import "GeneralPreferences.h"
 
 NSString * const PlainTextWindowToolbarIdentifier = 
                @"PlainTextWindowToolbarIdentifier";
@@ -44,11 +45,49 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                @"ToggleAnnouncementToolbarItemIdentifier";
 
 
+enum {
+    ParticipantContextMenuTagFollow = 1,
+    ParticipantContextMenuTagAIM,
+    ParticipantContextMenuTagEmail,
+    ParticipantContextMenuTagAddToAddressBook,
+    ParticipantContextMenuTagReadWrite,
+    ParticipantContextMenuTagReadOnly,
+    ParticipantContextMenuTagKickDeny
+};
+
 @implementation PlainTextWindowController
 
 - (id)init {
     if ((self=[super initWithWindowNibName:@"PlainTextWindow"])) {
         I_plainTextEditors = [NSMutableArray new];
+        I_contextMenu = [NSMenu new];
+        NSMenuItem *item=nil;
+        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuFollow",@"Follow user entry for Participant context menu") action:@selector(followUser:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:ParticipantContextMenuTagFollow];
+
+        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuAIM %@ ...",@"AIM user entry for Participant context menu") action:@selector(openAIMTextChat:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:ParticipantContextMenuTagAIM];
+
+        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuEmail %@ ...",@"Email user entry for Participant context menu") action:@selector(sendEmail:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:ParticipantContextMenuTagEmail];
+
+        [I_contextMenu addItem:[NSMenuItem separatorItem]];
+
+        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuReadWrite %@ ...",@"ReadWrite user entry for Participant context menu") action:@selector(readWriteButtonAction:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:ParticipantContextMenuTagReadWrite];
+
+        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuReadOnly %@ ...",@"ReadWrite user entry for Participant context menu") action:@selector(readOnlyButtonAction:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:ParticipantContextMenuTagReadOnly];
+
+        item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuKickDeny %@ ...",@"KickDeny user entry for Participant context menu") action:@selector(kickButtonAction:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:ParticipantContextMenuTagKickDeny];
+        [I_contextMenu setDelegate:self];
     }
     return self;
 }
@@ -185,6 +224,38 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                            NSLocalizedString(@"Split View",@"Split View Menu Entry"):
                            NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
         return !I_flags.isReceivingContent;
+    } else if (selector == @selector(kickButtonAction:)) {
+        return [O_participantsView numberOfSelectedRows]!=0;
+    } else if (selector == @selector(readOnlyButtonAction:)) {
+        if ([O_participantsView numberOfSelectedRows]==0) {
+            return NO;
+        } else {
+            NSMutableIndexSet *indexSet=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
+            int row;
+            ItemChildPair pair;
+            while ([indexSet count]) {
+                row=[indexSet lastIndex];
+                pair=[O_participantsView itemChildPairAtRow:row];
+                if (pair.itemIndex==1) break;
+                [indexSet removeIndex:row];
+            }
+            return [indexSet count];
+        }
+    } else if (selector == @selector(kickButtonAction:)) {
+        if ([O_participantsView numberOfSelectedRows]==0) {
+            return NO;
+        } else {
+            NSMutableIndexSet *indexSet=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
+            int row;
+            ItemChildPair pair;
+            while ([indexSet count]) {
+                row=[indexSet lastIndex];
+                pair=[O_participantsView itemChildPairAtRow:row];
+                if (pair.itemIndex==1) break;
+                [indexSet removeIndex:row];
+            }
+            return [indexSet count];
+        }
     }
     return YES;
 }
@@ -783,14 +854,21 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
         } else if (aTag==ParticipantsChildStatusTag) {
             NSMutableDictionary *properties=[user propertiesForSessionID:[session sessionID]];
             SelectionOperation *selectionOperation=[properties objectForKey:@"SelectionOperation"];
+            NSColor *userColor=[[document documentBackgroundColor] blendedColorWithFraction:
+                                    [[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
+                                 ofColor:[user changeColor]];
+            NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:
+			   [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName, 
+			   [document documentForegroundColor],NSForegroundColorAttributeName,
+			   userColor,NSBackgroundColorAttributeName, nil];
+            NSString *result=@" ";
             if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
-                return [(TextStorage *)[document textStorage] 
+                result =[(TextStorage *)[document textStorage] 
                         positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
             } else if (selectionOperation) {
-                return [(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
-            } else {
-                return @"";
+                result =[(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
             }
+            return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
         } else if (aTag==ParticipantsChildImageTag) {
             return [[user properties] objectForKey:@"Image32"];
         } else if (aTag==ParticipantsChildImageNextToNameTag) {
@@ -803,5 +881,38 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 - (void)participantsViewDidChangeSelection:(ParticipantsView *)aListView {
     [self validateButtons];
 }
+
+- (NSMenu *)contextMenuForParticipantsView:(ParticipantsView *)aListView clickedAtRow:(int)aRow {
+    ItemChildPair pair=[O_participantsView itemChildPairAtRow:aRow];
+    if (pair.childIndex!=-1) {
+        return I_contextMenu;
+    }
+    return nil;
+}
+
+-(void)menuNeedsUpdate:(NSMenu *)menu {
+    if (menu==I_contextMenu) {
+        if ([O_participantsView numberOfSelectedRows] == 1) {
+            TCMMMUser *user=nil;
+            int selectedRow=[O_participantsView selectedRow];
+            ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
+            if (pair.childIndex!=-1) {
+                TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+                if (pair.itemIndex==2) {
+                    user=[[session pendingUsers] objectAtIndex:pair.childIndex];
+                } else {
+                    NSString *userID=[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID];
+                    user=[[TCMMMUserManager sharedInstance]userForUserID:userID];
+                }
+            }
+            id item;
+            item = [menu itemWithTag:ParticipantContextMenuTagAIM];
+            [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuAIM %@ ...",@"AIM user entry for Participant context menu"),[[user properties] objectForKey:@"AIM"]]];
+            item = [menu itemWithTag:ParticipantContextMenuTagEmail];
+            [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"ParticipantContextMenuEmail %@ ...",@"AIM user entry for Participant context menu"),[[user properties] objectForKey:@"Email"]]];
+        }
+    }
+}
+
 
 @end

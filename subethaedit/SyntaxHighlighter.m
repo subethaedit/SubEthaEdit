@@ -112,7 +112,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                         }
                         
                         NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                    [foundState objectForKey:@"color"], NSForegroundColorAttributeName,
+                                                    I_theDocumentBackgroundIsDark?[[foundState objectForKey:@"color"] brightnessInvertedColor]:[foundState objectForKey:@"color"], NSForegroundColorAttributeName,
                                                     [theDocument fontWithTrait:[[foundState objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
                                                     [NSNumber numberWithInt:stateNumber],kSyntaxHighlightingStateName,
                                                     nil];
@@ -145,7 +145,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                 stateNumber = [startMatch indexOfFirstMatchedSubstring] - 1;
                 foundState = [[definition states] objectAtIndex:stateNumber];
                 NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            [foundState objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
+                                            I_theDocumentBackgroundIsDark?[[foundState objectForKey:@"color"] brightnessInvertedColor]:[foundState objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
                                             [theDocument fontWithTrait:[[foundState objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
                                             [NSNumber numberWithInt:stateNumber],kSyntaxHighlightingStateName,
                                             @"Start",kSyntaxHighlightingStateDelimiterName,
@@ -159,7 +159,8 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
             }
             // Color defaultState
             NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [defaultState objectForKey:@"color"], NSForegroundColorAttributeName,
+                                        [theDocument documentForegroundColor], NSForegroundColorAttributeName,
+//                                        I_theDocumentBackgroundIsDark?[[defaultState objectForKey:@"color"] brightnessInvertedColor]:[defaultState objectForKey:@"color"], NSForegroundColorAttributeName,
                                         [theDocument fontWithTrait:[[defaultState objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
                                         nil];
             [aString addAttributes:attributes range:defaultStateRange];
@@ -227,7 +228,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
                     NSFontTraitMask mask = [[style objectForKey:@"font-trait"] unsignedIntValue];
                     
                     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                               [style objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
+                                               I_theDocumentBackgroundIsDark?[[style objectForKey:@"color"] brightnessInvertedColor]:[style objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
                                                [theDocument fontWithTrait: mask], NSFontAttributeName,
                                                 nil];
                                                 
@@ -255,7 +256,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
         style = [currentRegexStyle objectAtIndex:1];
 
         NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [style objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
+                                   I_theDocumentBackgroundIsDark?[[style objectForKey:@"color"] brightnessInvertedColor]:[style objectForKey:@"color"], NSForegroundColorAttributeName,                                                    
                                    [theDocument fontWithTrait:[[style objectForKey:@"font-trait"] unsignedIntValue]], NSFontAttributeName,
                                     nil];
         
@@ -305,6 +306,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
     BOOL returnValue = NO;
     
     theDocument = sender;
+    I_theDocumentBackgroundIsDark = [[theDocument documentBackgroundColor] isDark];
     [aTextStorage beginEditing];
     
     unsigned int position;
