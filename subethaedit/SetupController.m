@@ -29,10 +29,18 @@ static SetupController *sharedInstance = nil;
 - (void)windowDidLoad {
     hasAgreedToLicense = NO;
     isFirstRun = YES;
+
+    itemOrder = [[NSArray arrayWithObjects:
+                    @"welcome",
+                    @"license",
+                    @"purchase",
+                    @"done",
+                    nil] retain];
+    itemIndex = 0;
+    
     [O_goBackButton setEnabled:NO];
     [O_commercialRadioButton setState:NSOffState];
     [O_noncommercialRadioButton setState:NSOffState];
-    [O_tabView selectFirstTabViewItem:self];
     
     [O_licenseeNameField setDelegate:self];
     [O_licenseeOrganizationField setDelegate:self];
@@ -69,16 +77,18 @@ static SetupController *sharedInstance = nil;
     NSString *licensePath = [[NSBundle mainBundle] pathForResource:@"License" ofType:@"rtf"];
     [[O_licenseTextView textStorage] readFromURL:[NSURL fileURLWithPath:licensePath] options:nil documentAttributes:nil];
         
+    [O_tabView selectTabViewItemWithIdentifier:[itemOrder objectAtIndex:0]];
     [[self window] center];
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification
 {
     [NSApp stopModal];
-    if (![[O_tabView selectedTabViewItem] isEqual:O_doneTabItem] && isFirstRun) {
+    BOOL isLastItem = [[[O_tabView selectedTabViewItem] identifier] isEqualToString:[itemOrder lastObject]];
+    if (!isLastItem && isFirstRun) {
         [NSApp terminate:self];
     }
-    if ([[O_tabView selectedTabViewItem] isEqual:O_doneTabItem]) {
+    if (isLastItem) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupDonePrefKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
@@ -118,13 +128,21 @@ static SetupController *sharedInstance = nil;
     
     [self validateContinueButtonInPurchaseTab];
     [O_continueButton setTitle:NSLocalizedString(@"Continue", @"Button title Continue")];
-    [O_tabView selectTabViewItem:O_purchaseTabItem];
+    
+    itemOrder = [[NSArray arrayWithObjects:
+                    @"purchase",
+                    @"done",
+                    nil] retain];
+    itemIndex = 0;
+    
+    [O_tabView selectTabViewItemWithIdentifier:[itemOrder objectAtIndex:0]];
     [super showWindow:self];
 }
 
 - (IBAction)continueDone:(id)sender {
 
-    if ([[O_tabView selectedTabViewItem] isEqual:O_licenseTabItem] && !hasAgreedToLicense) {
+    
+    if ([[[O_tabView selectedTabViewItem] identifier] isEqualToString:@"license"] && !hasAgreedToLicense) {
         [NSApp beginSheet:O_licenseConfirmationSheet 
            modalForWindow:[self window] 
             modalDelegate:self 
@@ -134,7 +152,7 @@ static SetupController *sharedInstance = nil;
         return;
     }
     
-    if ([[O_tabView selectedTabViewItem] isEqual:O_purchaseTabItem] && [O_commercialRadioButton state] == NSOnState) {
+    if ([[[O_tabView selectedTabViewItem] identifier] isEqualToString:@"purchase"] && [O_commercialRadioButton state] == NSOnState) {
         NSString *serial = [O_serialNumberField stringValue];
         NSString *name = [O_licenseeNameField stringValue];
         NSString *organization = [O_licenseeOrganizationField stringValue];
@@ -155,7 +173,7 @@ static SetupController *sharedInstance = nil;
         }
     }
     
-    if ([[O_tabView selectedTabViewItem] isEqual:O_doneTabItem]) {
+    if ([[[O_tabView selectedTabViewItem] identifier] isEqualToString:[itemOrder lastObject]]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SetupDonePrefKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [NSApp stopModal];
@@ -164,7 +182,7 @@ static SetupController *sharedInstance = nil;
             [[NSDocumentController sharedDocumentController] newDocument:self];
         }
     } else {
-        [O_tabView selectNextTabViewItem:self];
+        [O_tabView selectTabViewItemWithIdentifier:[itemOrder objectAtIndex:++itemIndex]];
     }
     
     [O_goBackButton setEnabled:YES];
@@ -173,7 +191,7 @@ static SetupController *sharedInstance = nil;
         [self validateContinueButtonInPurchaseTab];
     }
     
-    if ([[O_tabView selectedTabViewItem] isEqual:O_doneTabItem]) {
+    if ([[[O_tabView selectedTabViewItem] identifier] isEqualToString:@"done"]) {
         [O_continueButton setTitle:NSLocalizedString(@"Done", @"Button Title Done")];
         if ([O_commercialRadioButton state] == NSOnState) {
             [O_doneTabView selectTabViewItemWithIdentifier:@"commercial"];
@@ -186,14 +204,14 @@ static SetupController *sharedInstance = nil;
 
 - (IBAction)goBack:(id)sender {
     [O_continueButton setEnabled:YES];
-    [O_tabView selectPreviousTabViewItem:self];
+    [O_tabView selectTabViewItemWithIdentifier:[itemOrder objectAtIndex:--itemIndex]];
     [O_continueButton setTitle:NSLocalizedString(@"Continue", @"Button title Continue")];
     
-    if ([[O_tabView selectedTabViewItem] isEqual:O_welcomeTabItem]) {
+    if ([[[O_tabView selectedTabViewItem] identifier] isEqualToString:[itemOrder objectAtIndex:0]]) {
         [O_goBackButton setEnabled:NO];
     }
 
-    if (!isFirstRun && [[O_tabView selectedTabViewItem] isEqual:O_purchaseTabItem]) {
+    if (!isFirstRun && [[[O_tabView selectedTabViewItem] identifier] isEqualToString:@"purchase"]) {
         [O_goBackButton setEnabled:NO];
     }
 }
@@ -253,7 +271,7 @@ static SetupController *sharedInstance = nil;
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (kAgreeLicenseReturnCode == returnCode) {
-        [O_tabView selectNextTabViewItem:self];
+        [O_tabView selectTabViewItemWithIdentifier:[itemOrder objectAtIndex:++itemIndex]];
     }
     if ([[O_tabView selectedTabViewItem] isEqual:O_purchaseTabItem]) {
         [self validateContinueButtonInPurchaseTab];

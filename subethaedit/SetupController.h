@@ -28,6 +28,8 @@ extern NSString * const LicenseeOrganizationPrefKey;
     IBOutlet NSWindow *O_licenseConfirmationSheet;
     BOOL hasAgreedToLicense;
     BOOL isFirstRun;
+    NSArray *itemOrder;
+    int itemIndex;
     
     IBOutlet NSButton *O_noncommercialRadioButton;
     IBOutlet NSButton *O_commercialRadioButton;

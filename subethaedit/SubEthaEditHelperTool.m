@@ -64,14 +64,12 @@ static OSStatus RemoveFiles(CFArrayRef files, CFDictionaryRef *result)
     return err;
 }
 
-static OSStatus GetFileDescriptor(CFStringRef fileName, CFDictionaryRef *result)
-{
+static OSStatus GetReadOnlyFileDescriptor(CFStringRef fileName, CFDictionaryRef *result) {
     OSStatus err;
     NSMutableArray *descArray;
     int desc = NULL;
     NSNumber *descNum;
     
-    //NSLog(@"converting fileName: %@", (NSString *)fileName);
     const char *path = [[NSFileManager defaultManager] fileSystemRepresentationWithPath:(NSString *)fileName];
     
     descNum = NULL;
@@ -79,6 +77,32 @@ static OSStatus GetFileDescriptor(CFStringRef fileName, CFDictionaryRef *result)
     descArray = [NSMutableArray new];
     err = MoreSecSetPrivilegedEUID();
     if (err == noErr) {
+        desc = open(path, O_RDONLY, 0);
+        (void)MoreSecTemporarilySetNonPrivilegedEUID();
+    }
+    descNum = [NSNumber numberWithInt:desc];
+    [descArray addObject:descNum];
+    *result = (CFDictionaryRef)[[NSDictionary dictionaryWithObject:descArray forKey:(NSString *)kMoreSecFileDescriptorsKey] retain];
+    [descArray release];
+    
+    return err;
+}
+
+static OSStatus GetFileDescriptor(CFStringRef fileName, CFDictionaryRef *result)
+{
+    OSStatus err;
+    NSMutableArray *descArray;
+    int desc = NULL;
+    NSNumber *descNum;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    
+    descNum = NULL;
+    
+    descArray = [NSMutableArray new];
+    err = MoreSecSetPrivilegedEUID();
+    if (err == noErr) {
+        const char *path = [fileManager fileSystemRepresentationWithPath:(NSString *)fileName];
         desc = open(path, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         (void)MoreSecTemporarilySetNonPrivilegedEUID();
     }
@@ -88,7 +112,7 @@ static OSStatus GetFileDescriptor(CFStringRef fileName, CFDictionaryRef *result)
     //NSLog(@"result dictionary: %@", (NSDictionary *)*result);
     [descArray release];
     
-    return noErr;
+    return err;
 }
 
 static OSStatus ExchangeFileContents(CFStringRef path1, CFStringRef path2, CFDictionaryRef path2Attrs, CFDictionaryRef *result) {
@@ -123,13 +147,18 @@ static OSStatus ExchangeFileContents(CFStringRef path1, CFStringRef path2, CFDic
             [fileManager removeFileAtPath:(NSString *)path1 handler:nil];
         } else {
             //NSLog(@"exchangedata failed, try to move file");
+            NSDictionary *curAttrs = [fileManager fileAttributesAtPath:(NSString *)path2 traverseLink:YES];
             BOOL success = [fileManager movePath:(NSString *)path1 toPath:(NSString *)path2 handler:nil];
             if (!success) {
                 //NSLog(@"move failed");
                 (void)[fileManager removeFileAtPath:(NSString *)path1 handler:nil];
                 status = paramErr;
             } else {
-                (void)[fileManager changeFileAttributes:(NSDictionary *)path2Attrs atPath:(NSString *)path2];
+                NSDictionary *attrs = (NSDictionary *)path2Attrs;
+                if (curAttrs) {
+                    attrs = curAttrs;
+                }
+                (void)[fileManager changeFileAttributes:attrs atPath:(NSString *)path2];
             }
         }
         
@@ -176,6 +205,9 @@ static OSStatus TestToolCommandProc(AuthorizationRef auth, CFDictionaryRef reque
         } else if (CFEqual(command, CFSTR("RemoveFiles"))) {
             CFArrayRef files = (CFArrayRef)CFDictionaryGetValue(request, CFSTR("Files"));
             err = RemoveFiles(files, result);
+        } else if (CFEqual(command, CFSTR("GetReadOnlyFileDescriptor"))) {
+            CFStringRef fileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("FileName"));
+            err = GetReadOnlyFileDescriptor(fileName, result);
         }
     }
     return err;

@@ -38,6 +38,7 @@
 #import "MoreSecurity.h"
 #import "MoreCFQ.h"
 #import <fcntl.h>
+#import <sys/stat.h>
 
 
 #pragma options align=mac68k
@@ -1504,6 +1505,105 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return parameters;
 }
 
+- (NSData *)TCM_dataWitContentsOfFileReadUsingAuthorizedHelper:(NSString *)fileName {
+    OSStatus err;
+    CFURLRef tool = NULL;
+    AuthorizationRef auth = NULL;
+    NSDictionary *request = nil;
+    NSDictionary *response = nil;
+    NSData *fileData = nil;
+
+    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+    if (err == noErr) {
+        // If we were doing preauthorization, this is where we'd do it.
+    }
+    
+    if (err == noErr) {
+        err = MoreSecCopyHelperToolURLAndCheckBundled(
+            CFBundleGetMainBundle(), 
+            CFSTR("SubEthaEditHelperToolTemplate"), 
+            kApplicationSupportFolderType, 
+            CFSTR("SubEthaEdit"), 
+            CFSTR("SubEthaEditHelperTool"), 
+            &tool);
+
+        // If the home directory is on an volume that doesn't support 
+        // setuid root helper tools, ask the user whether they want to use 
+        // a temporary tool.
+        
+        if (err == kMoreSecFolderInappropriateErr) {
+            err = MoreSecCopyHelperToolURLAndCheckBundled(
+                CFBundleGetMainBundle(), 
+                CFSTR("SubEthaEditHelperToolTemplate"), 
+                kTemporaryFolderType, 
+                CFSTR("SubEthaEdit"), 
+                CFSTR("SubEthaEditHelperTool"), 
+                &tool);
+        }
+    }
+    
+    // Create the request dictionary for a file descriptor
+
+    if (err == noErr) {
+        request = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"GetReadOnlyFileDescriptor", @"CommandName",
+                            fileName, @"FileName",
+                            nil];
+    }
+
+    // Go go gadget helper tool!
+
+    if (err == noErr) {
+        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+    }
+    
+    // Extract information from the response.
+
+    if (err == noErr) {
+        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
+
+        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+        if (err == noErr) {
+            NSArray *descArray;
+            int descIndex;
+            int descCount;
+            
+            descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
+            descCount = [descArray count];
+            for (descIndex = 0; descIndex < descCount; descIndex++) {
+                NSNumber *thisDescNum;
+                int thisDesc;
+                
+                thisDescNum = [descArray objectAtIndex:descIndex];
+                thisDesc = [thisDescNum intValue];
+                fcntl(thisDesc, F_GETFD, 0);
+                
+                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
+                fileData = [fileHandle readDataToEndOfFile];
+                [fileHandle release];
+            }
+        }
+    }
+    
+    // Clean up after call of helper tool
+        
+    if (response) {
+        [response release];
+        response = nil;
+    }
+    
+    CFQRelease(tool);
+    if (auth != NULL) {
+        (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+    }
+    
+    if (err == noErr) {
+        return fileData;
+    } else {
+        return nil;
+    }
+}
+
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
     I_flags.shouldSelectModeOnSave=NO;
 
@@ -1588,13 +1688,25 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
     }
 
+
+    BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
     NSData *fileData = nil;
+    if (!isReadable) {
+        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
+        fileData = [self TCM_dataWitContentsOfFileReadUsingAuthorizedHelper:fileName];
+        if (fileData == nil) {
+            I_flags.isReadingFile = NO;
+            return NO;
+        }
+    }
+    
     NSString *extension = [[fileName pathExtension] lowercaseString];
     BOOL isHTML = [extension isEqual:@"htm"] || [extension isEqual:@"html"];
-    if (isHTML) {
+    
+    if (isHTML && isReadable) {
         fileData = [[NSData alloc] initWithContentsOfFile:[fileName stringByExpandingTildeInPath]];
     }
-
+    
     [[textStorage mutableString] setString:@""]; // Empty the document
 
     NSURL *fileURL = [NSURL fileURLWithPath:[fileName stringByExpandingTildeInPath]];
@@ -1603,7 +1715,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         BOOL success;
 
         [textStorage beginEditing];
-        if (isHTML) {
+        if (isHTML || !isReadable) {
             success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs];
         } else {
             success = [textStorage readFromURL:fileURL options:options documentAttributes:&docAttrs];
@@ -1636,7 +1748,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
 
-    if (isHTML) {
+    if (isHTML && isReadable) {
         [fileData release];
     }
 
@@ -1649,14 +1761,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL isWritable = [[NSFileManager defaultManager] isWritableFileAtPath:fileName];
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"isWritable: %@", isWritable ? @"YES" : @"NO");
     [self setIsFileWritable:isWritable];
-
-//    if (oldLength > 0) {
-//        // inform other about revert
-//        [_jupiterUndoManager removeAllActions];
-//        [_jupiterObject changeTextInRange:NSMakeRange(0, oldLength)
-//                        replacementString:[_textStorage string]];
-//    }
-//    //[self updateMaxYForRadarScroller];
 
     [I_textStorage addAttributes:[self plainTextAttributes]
                            range:NSMakeRange(0, [I_textStorage length])];
@@ -1745,6 +1849,148 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return newAttributes;
 }
 
+- (BOOL)TCM_writeUsingAuthorizedHelperToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
+    OSStatus err;
+    CFURLRef tool = NULL;
+    AuthorizationRef auth = NULL;
+    NSDictionary *request = nil;
+    NSDictionary *response = nil;
+    NSString *intermediateFileName = tempFileName(fullDocumentPath);
+
+
+    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+    if (err == noErr) {
+        // If we were doing preauthorization, this is where we'd do it.
+    }
+    
+    if (err == noErr) {
+        err = MoreSecCopyHelperToolURLAndCheckBundled(
+            CFBundleGetMainBundle(), 
+            CFSTR("SubEthaEditHelperToolTemplate"), 
+            kApplicationSupportFolderType, 
+            CFSTR("SubEthaEdit"), 
+            CFSTR("SubEthaEditHelperTool"), 
+            &tool);
+
+        // If the home directory is on an volume that doesn't support 
+        // setuid root helper tools, ask the user whether they want to use 
+        // a temporary tool.
+        
+        if (err == kMoreSecFolderInappropriateErr) {
+            err = MoreSecCopyHelperToolURLAndCheckBundled(
+                CFBundleGetMainBundle(), 
+                CFSTR("SubEthaEditHelperToolTemplate"), 
+                kTemporaryFolderType, 
+                CFSTR("SubEthaEdit"), 
+                CFSTR("SubEthaEditHelperTool"), 
+                &tool);
+        }
+    }
+        
+    // Create the request dictionary for a file descriptor
+
+    if (err == noErr) {
+        request = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"GetFileDescriptor", @"CommandName",
+                            intermediateFileName, @"FileName",
+                            nil];
+    }
+
+    // Go go gadget helper tool!
+
+    if (err == noErr) {
+        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+    }
+    
+    // Extract information from the response.
+
+    if (err == noErr) {
+        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
+
+        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+        if (err == noErr) {
+            NSArray *descArray;
+            int descIndex;
+            int descCount;
+            
+            descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
+            descCount = [descArray count];
+            for (descIndex = 0; descIndex < descCount; descIndex++) {
+                NSNumber *thisDescNum;
+                int thisDesc;
+                
+                thisDescNum = [descArray objectAtIndex:descIndex];
+                thisDesc = [thisDescNum intValue];
+                fcntl(thisDesc, F_GETFD, 0);
+                
+                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
+                NSData *data = [self dataRepresentationOfType:docType];
+                @try {
+                    [fileHandle writeData:data];
+                }
+                @catch (id exception) {
+                    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
+                    err = writErr;
+                }
+                [fileHandle release];
+            }
+        }
+    }
+    
+    // Clean up after first call of helper tool
+        
+    if (response) {
+        [response release];
+        response = nil;
+    }
+
+
+    // Create the request dictionary for exchanging file contents
+
+    if (err == noErr) {
+        NSMutableDictionary *attrs = [[self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType] mutableCopy];
+        if (![attrs objectForKey:NSFilePosixPermissions]) {
+            [attrs setObject:[NSNumber numberWithUnsignedShort:S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH] forKey:NSFilePosixPermissions];
+        }
+        request = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"ExchangeFileContents", @"CommandName",
+                            fullDocumentPath, @"ActualFileName",
+                            intermediateFileName, @"IntermediateFileName",
+                            [attrs autorelease], @"Attributes",
+                            nil];
+    }
+
+    // Go go gadget helper tool!
+
+    if (err == noErr) {
+        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+    }
+    
+    // Extract information from the response.
+    
+    if (err == noErr) {
+        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
+
+        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+        if (err == noErr) {
+        }
+    }
+    
+    // Clean up after second call of helper tool.
+    if (response) {
+        [response release];
+    }
+
+
+    CFQRelease(tool);
+    if (auth != NULL) {
+        (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+    }
+    
+    
+    return ((err == noErr) ? YES : NO);
+}
+
 - (BOOL)writeWithBackupToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"writeWithBackupToFile: %@", fullDocumentPath);
     BOOL hasBeenWritten = [super writeWithBackupToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
@@ -1758,25 +2004,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
             [alert setMessageText:NSLocalizedString(@"Save", nil)];
-            [alert setInformativeText:NSLocalizedString(@"Do you want to overwrite the file?", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+            [alert setInformativeText:NSLocalizedString(@"SaveDialogInformativeText: Save or Replace", @"Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file")];
+            [alert addButtonWithTitle:NSLocalizedString(@"Save", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Replace", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-            /*
-            [alert beginSheetModalForWindow:[self windowForSheet]
-                              modalDelegate:self
-                             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                                contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                @"OverwriteFileAlert", @"Alert",
-                                                                fullDocumentPath, @"FullDocumentPath",
-                                                                docType, @"DocType",
-                                                                [NSValue value:&saveOperationType withObjCType:@encode(NSSaveOperationType)], @"SaveOperationType",
-                                                                nil] retain]];
-            */
             int returnCode = [alert runModal];
-            
+            [[alert window] orderOut:self];
+
             if (returnCode == NSAlertFirstButtonReturn) {
-                [[alert window] orderOut:self];
-                
+                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
+                hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
+            } else if (returnCode == NSAlertSecondButtonReturn) {
                 NSFileManager *fileManager = [NSFileManager defaultManager];
                 NSString *tempFilePath = tempFileName(fullDocumentPath);
                 hasBeenWritten = [self writeToFile:tempFilePath ofType:docType];
@@ -1791,7 +2029,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                             NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
                             [newAlert setAlertStyle:NSWarningAlertStyle];
                             [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
-                            [newAlert setInformativeText:NSLocalizedString(@"Error while overwriting file", nil)];
+                            [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")];
                             [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
                             [newAlert beginSheetModalForWindow:[self windowForSheet]
                                                  modalDelegate:nil
@@ -1803,7 +2041,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                         NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
                         [newAlert setAlertStyle:NSWarningAlertStyle];
                         [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
-                        [newAlert setInformativeText:NSLocalizedString(@"Couldn't overwrite file", nil)];
+                        [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
                         [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
                         [newAlert beginSheetModalForWindow:[self windowForSheet]
                                              modalDelegate:nil
@@ -1815,144 +2053,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         } else {
             DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-        
-            OSStatus err;
-            CFURLRef tool = NULL;
-            AuthorizationRef auth = NULL;
-            NSDictionary *request = nil;
-            NSDictionary *response = nil;
-            NSString *intermediateFileName = tempFileName(fullDocumentPath);
-
-        
-            err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
-            if (err == noErr) {
-                // If we were doing preauthorization, this is where we'd do it.
-            }
-            
-            if (err == noErr) {
-                err = MoreSecCopyHelperToolURLAndCheckBundled(
-                    CFBundleGetMainBundle(), 
-                    CFSTR("SubEthaEditHelperToolTemplate"), 
-                    kApplicationSupportFolderType, 
-                    CFSTR("SubEthaEdit"), 
-                    CFSTR("SubEthaEditHelperTool"), 
-                    &tool);
-
-                // If the home directory is on an volume that doesn't support 
-                // setuid root helper tools, ask the user whether they want to use 
-                // a temporary tool.
-                
-                if (err == kMoreSecFolderInappropriateErr) {
-                    err = MoreSecCopyHelperToolURLAndCheckBundled(
-                        CFBundleGetMainBundle(), 
-                        CFSTR("SubEthaEditHelperToolTemplate"), 
-                        kTemporaryFolderType, 
-                        CFSTR("SubEthaEdit"), 
-                        CFSTR("SubEthaEditHelperTool"), 
-                        &tool);
-                }
-            }
-            
-            // Create the request dictionary for a file descriptor
-	
-            if (err == noErr) {
-                request = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"GetFileDescriptor", @"CommandName",
-                                    intermediateFileName, @"FileName",
-                                    nil];
-            }
-
-            // Go go gadget helper tool!
-
-            if (err == noErr) {
-                err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-            }
-            
-            // Extract information from the response.
-	
-            if (err == noErr) {
-                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
-
-                err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-                if (err == noErr) {
-                    NSArray *descArray;
-                    int descIndex;
-                    int descCount;
-                    
-                    descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
-                    descCount = [descArray count];
-                    for (descIndex = 0; descIndex < descCount; descIndex++) {
-                        NSNumber *thisDescNum;
-                        int thisDesc;
-                        
-                        thisDescNum = [descArray objectAtIndex:descIndex];
-                        thisDesc = [thisDescNum intValue];
-                        fcntl(thisDesc, F_GETFD, 0);
-                        
-                        NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
-                        NSData *data = [self dataRepresentationOfType:docType];
-                        @try {
-                            [fileHandle writeData:data];
-                        }
-                        @catch (id exception) {
-                            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
-                            err = writErr;
-                        }
-                        [fileHandle release];
-                    }
-                }
-            }
-            
-            // Clean up after first call of helper tool
-                
-            if (response) {
-                [response release];
-                response = nil;
-            }
-
-
-        	// Create the request dictionary for exchanging file contents
-	
-            if (err == noErr) {
-                request = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"ExchangeFileContents", @"CommandName",
-                                    fullDocumentPath, @"ActualFileName",
-                                    intermediateFileName, @"IntermediateFileName",
-                                    [self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType], @"Attributes",
-                                    nil];
-            }
-
-            // Go go gadget helper tool!
-
-            if (err == noErr) {
-                err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-            }
-            
-            // Extract information from the response.
-            
-            if (err == noErr) {
-                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
-
-                err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-                if (err == noErr) {
-                }
-            }
-            
-            // Clean up after second call of helper tool.
-            if (response) {
-                [response release];
-            }
-
-
-            CFQRelease(tool);
-            if (auth != NULL) {
-                (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
-            }
-            
-            
-            hasBeenWritten = ((err == noErr) ? YES : NO);
+            hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
         }
-    }
+     }
 
     if (hasBeenWritten) {
         if (saveOperationType == NSSaveOperation) {
@@ -2857,55 +2960,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSTextView *textView = [alertContext objectForKey:@"TextView"];
             [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
         }
-    } else if ([alertIdentifier isEqualToString:@"OverwriteFileAlert"]) {
-        /*
-        if (returnCode == NSAlertFirstButtonReturn) {
-            NSString *fullDocumentPath = [alertContext objectForKey:@"FullDocumentPath"];
-            NSString *docType = [alertContext objectForKey:@"DocType"];
-            NSSaveOperationType saveOperationType;
-            [[alertContext objectForKey:@"SaveOperationType"] getValue:&saveOperationType];
-            NSLog(@"SaveOperationType: %d", saveOperationType);
-
-            [[alert window] orderOut:self];
-            
-            NSFileManager *fileManager = [NSFileManager defaultManager];
-            NSString *tempFilePath = tempFileName(fullDocumentPath);
-            BOOL hasBeenWritten = [self writeToFile:tempFilePath ofType:docType];
-            if (hasBeenWritten) {
-                BOOL result = [fileManager removeFileAtPath:fullDocumentPath handler:nil];
-                if (result) {
-                    hasBeenWritten = [fileManager movePath:tempFilePath toPath:fullDocumentPath handler:nil];
-                    if (hasBeenWritten) {
-                        NSDictionary *fattrs = [self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
-                        (void)[fileManager changeFileAttributes:fattrs atPath:fullDocumentPath];
-                    } else {
-                        NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                        [newAlert setAlertStyle:NSWarningAlertStyle];
-                        [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
-                        [newAlert setInformativeText:NSLocalizedString(@"Error while overwriting file", nil)];
-                        [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                        [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                             modalDelegate:nil
-                                            didEndSelector:nil
-                                               contextInfo:NULL];
-                    }
-                } else {
-                    (void)[fileManager removeFileAtPath:tempFilePath handler:nil];
-                    NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                    [newAlert setAlertStyle:NSWarningAlertStyle];
-                    [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
-                    [newAlert setInformativeText:NSLocalizedString(@"Couldn't overwrite file", nil)];
-                    [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                    [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                         modalDelegate:nil
-                                        didEndSelector:nil
-                                           contextInfo:NULL];
-
-                }
-            }
-
-        }
-        */
     }
 
     [alertContext autorelease];
