@@ -90,7 +90,7 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
             CFXMLNodeRef xmlSubNode = CFXMLTreeGetNode(xmlSubTree);
 
             if ([@"blocks" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)]) {
-                [self parseBlocks:xmlSubTree];
+                //[self parseBlocks:xmlSubTree]; //Next version
 
             } else if ([@"symbol" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)]) {
             
@@ -159,6 +159,12 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                     I_block = [[OGRegularExpression alloc] initWithString:combined options:OgreFindNotEmptyOption];
                 } else {
                     NSLog(@"ERROR: %@ is not a valid Regex.", combined);
+                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                    [alert setAlertStyle:NSWarningAlertStyle];
+                    [alert setMessageText:NSLocalizedString(@"Regluar Expression Error",@"Regluar Expression Error Title")];
+                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"One of the specified <block> elements is not a valid regular expression. Therefore the combined start regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode.",@"Symbol Regluar Expression Error Informative Text"),combined]];
+                    [alert addButtonWithTitle:@"OK"];
+                    [alert runModal];
                     everythingOkay = NO;
                 }
             }
@@ -187,6 +193,12 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                     [I_currentSymbol setObject:aRegex forKey:@"regex"];
                 } else {
                     NSLog(@"ERROR: %@ is not a valid Regex.", theString);
+                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                    [alert setAlertStyle:NSWarningAlertStyle];
+                    [alert setMessageText:NSLocalizedString(@"Regluar Expression Error",@"Regluar Expression Error Title")];
+                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Symbol Regluar Expression Error Informative Text"),theString]];
+                    [alert addButtonWithTitle:@"OK"];
+                    [alert runModal];
                     everythingOkay = NO;
                 }
             }  else if ([@"postprocess" isEqualToString:tag]) {
@@ -219,6 +231,12 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                         findRegex = [[[OGRegularExpression alloc] initWithString:aString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
                     } else {
                         NSLog(@"ERROR: %@ is not a valid Regex.", aString);
+                        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                        [alert setAlertStyle:NSWarningAlertStyle];
+                        [alert setMessageText:NSLocalizedString(@"Regluar Expression Error",@"Regluar Expression Error Title")];
+                        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Symbol Regluar Expression Error Informative Text"),aString]];
+                        [alert addButtonWithTitle:@"OK"];
+                        [alert runModal];
                         everythingOkay = NO;
                     }
             }  else if ([@"replace" isEqualToString:tag]) {
