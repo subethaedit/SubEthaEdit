@@ -181,6 +181,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (BOOL)showsTopStatusBar;
 - (void)setShowsTopStatusBar:(BOOL)aFlag;
 - (BOOL)showsBottomStatusBar;
+- (BOOL)isRemotelyEditingTextStorage;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 - (BOOL)keepDocumentVersion;
 - (void)setKeepDocumentVersion:(BOOL)aFlag;

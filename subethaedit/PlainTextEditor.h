@@ -27,6 +27,7 @@
     NSTextView      *I_textView;
     NSTextContainer *I_textContainer;
     NSWindowController *I_windowController;
+    NSString *I_followUserID;
     struct {
         BOOL showTopStatusBar;
         BOOL showBottomStatusBar;
@@ -56,12 +57,16 @@
 - (void)setShowsTopStatusBar:(BOOL)aFlag;
 - (BOOL)showsBottomStatusBar;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
+- (void)setFollowUserID:(NSString *)userID;
+- (NSString *)followUserID;
 
 - (void)takeSettingsFromDocument;
 
 - (void)updateSelectedSymbol;
 - (void)updateSymbolPopUpSorted:(BOOL)aSorted;
 
+
+- (void)scrollToUserWithID:(NSString *)aUserID;
 #pragma mark -
 #pragma mark ### Actions ###
 - (IBAction)toggleWrap:(id)aSender;

@@ -38,6 +38,7 @@
         I_flags.hasSplitButton = aFlag;
         I_flags.showTopStatusBar = YES;
         I_flags.showBottomStatusBar = YES;
+        [self setFollowUserID:nil];
         [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
     }   
     return self; 
@@ -51,6 +52,7 @@
     [O_editorView release];
     [I_textContainer release];
     [I_radarScroller release];
+    [I_followUserID release];
     [super dealloc];
 }
 
@@ -69,6 +71,11 @@
     [[NSNotificationCenter defaultCenter] 
             addObserver:self selector:@selector(plainTextDocumentDidChangeSymbols:) 
             name:PlainTextDocumentDidChangeSymbolsNotification object:[I_windowController document]];
+[[NSNotificationCenter defaultCenter] 
+            addObserver:self selector:@selector(plainTextDocumentUserDidChangeSelection:) 
+            name:PlainTextDocumentUserDidChangeSelectionNotification object:[I_windowController document]];
+
+
 
     if (I_flags.hasSplitButton) {
         NSRect scrollviewFrame=[O_scrollView frame];
@@ -224,30 +231,39 @@
         [O_positionTextField setStringValue:string];        
 
         [O_writtenByTextField setStringValue:@""];
-        if (selection.location<[textStorage length]) {
-            NSRange range;
-            NSString *userId=[textStorage attribute:WrittenByUserIDAttributeName atIndex:selection.location
-                                longestEffectiveRange:&range inRange:selection];
-            if (!userId && selection.length>range.length) {
-                userId=[[[self document] textStorage] attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(range)
-                                longestEffectiveRange:&range inRange:selection];
+        
+        NSString *followUserID=[self followUserID];
+        if (followUserID) {
+            NSString *userName=[[[TCMMMUserManager sharedInstance] userForUserID:followUserID] name];
+            if (userName) {
+                [O_writtenByTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Following %@","Status bar text when following"),userName]];
             }
-            if (userId) {
-                NSMutableString *string;
-                NSString *userName = nil;
-                if ([userId isEqualToString:[TCMMMUserManager myUserID]]) {
-                    userName = NSLocalizedString(@"me", nil);
-                } else {
-                    userName = [[[TCMMMUserManager sharedInstance] userForUserID:userId] name];
-                    if (!userName) userName = @"";
+        } else {
+            if (selection.location<[textStorage length]) {
+                NSRange range;
+                NSString *userId=[textStorage attribute:WrittenByUserIDAttributeName atIndex:selection.location
+                                    longestEffectiveRange:&range inRange:selection];
+                if (!userId && selection.length>range.length) {
+                    userId=[[[self document] textStorage] attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(range)
+                                    longestEffectiveRange:&range inRange:selection];
                 }
-                
-                if (selection.length>range.length) {
-                    string = [NSString stringWithFormat:NSLocalizedString(@"Written by %@ et al", nil), userName];
-                } else {
-                    string = [NSString stringWithFormat:NSLocalizedString(@"Written by %@", nil), userName];
+                if (userId) {
+                    NSMutableString *string;
+                    NSString *userName = nil;
+                    if ([userId isEqualToString:[TCMMMUserManager myUserID]]) {
+                        userName = NSLocalizedString(@"me", nil);
+                    } else {
+                        userName = [[[TCMMMUserManager sharedInstance] userForUserID:userId] name];
+                        if (!userName) userName = @"";
+                    }
+                    
+                    if (selection.length>range.length) {
+                        string = [NSString stringWithFormat:NSLocalizedString(@"Written by %@ et al", nil), userName];
+                    } else {
+                        string = [NSString stringWithFormat:NSLocalizedString(@"Written by %@", nil), userName];
+                    }
+                    [O_writtenByTextField setStringValue:string];
                 }
-                [O_writtenByTextField setStringValue:string];
             }
         }
         [self TCM_adjustTopStatusBarFrames];
@@ -610,6 +626,19 @@
     }
 }
 
+- (void)setFollowUserID:(NSString *)userID {
+    if (!(I_followUserID==nil && userID==nil)) {
+        [I_followUserID autorelease];
+        I_followUserID = [userID copy];
+        [self scrollToUserWithID:userID];
+        [self TCM_updateStatusBar];
+    }
+}
+
+- (NSString *)followUserID {
+    return I_followUserID;
+}
+
 - (IBAction)toggleShowsChangeMarks:(id)aSender {
     [self setShowsChangeMarks:![self showsChangeMarks]];
 }
@@ -713,6 +742,9 @@
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
     PlainTextDocument *document = [self document];
+    if (![document isRemotelyEditingTextStorage]) {
+        [self setFollowUserID:nil];
+    }
 
     if (document && ![document isFileWritable] && ![document editAnyway]) {
         NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -777,8 +809,11 @@
 - (NSRange)textView:(NSTextView *)aTextView 
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange 
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
-    
-    return [[I_windowController document] textView:aTextView 
+    PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
+    if (![document isRemotelyEditingTextStorage]) {
+        [self setFollowUserID:nil];
+    }
+    return [document textView:aTextView 
              willChangeSelectionFromCharacterRange:aOldSelectedCharRange 
                                   toCharacterRange:aNewSelectedCharRange];
 }
@@ -795,6 +830,17 @@
 
 #pragma mark -
 
+- (void)scrollToUserWithID:(NSString *)aUserID {
+    TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:aUserID];
+    if (user) {
+        NSDictionary *sessionProperties=[user propertiesForSessionID:[[[self document] session] sessionID]];
+        SelectionOperation *selectionOperation=[sessionProperties objectForKey:@"SelectionOperation"];
+        if (selectionOperation) {
+            [I_textView scrollRangeToVisible:[selectionOperation selectedRange]];
+        }
+    }
+}
+
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
     [I_textView setDefaultParagraphStyle:[[I_windowController document] defaultParagraphStyle]];
 }
@@ -807,6 +853,14 @@
     [self updateSymbolPopUpSorted:NO];
 }
 
+- (void)plainTextDocumentUserDidChangeSelection:(NSNotification *)aNotification {
+    NSString *followUserID=[self followUserID];
+    if (followUserID) {
+        if ([[[[aNotification userInfo] objectForKey:@"User"] userID] isEqualToString:followUserID]) {
+            [self scrollToUserWithID:followUserID];
+        }
+    }
+}
 
 #pragma mark -
 #pragma mark ### notification handling ###

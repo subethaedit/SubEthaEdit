@@ -172,7 +172,7 @@ NSString *ParticipantsViewDidChangeSelectionNotification=
     
     NSImage *image=[dataSource participantsView:self objectValueForTag:ParticipantsItemStatusImageTag ofItemAtIndex:aItemIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(9,2+16) 
+        [image compositeToPoint:NSMakePoint(12,2+16) 
                       operation:NSCompositeSourceOver];
     }
 

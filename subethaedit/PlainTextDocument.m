@@ -854,6 +854,10 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     }
 }
 
+- (BOOL)isRemotelyEditingTextStorage {
+    return I_flags.isRemotelyEditingTextStorage;
+}
+
 - (IBAction)showWebPreview:(id)aSender {
     if (!I_webPreviewWindowController) {
         I_webPreviewWindowController=[[WebPreviewWindowController alloc] initWithPlainTextDocument:self];

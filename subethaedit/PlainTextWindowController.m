@@ -332,7 +332,22 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 }
 
 - (IBAction)participantDoubleAction:(id)aSender {
-    [self readWriteButtonAction:(id)aSender];
+    if ([O_participantsView numberOfSelectedRows] == 1) {
+        int selectedRow=[O_participantsView selectedRow];
+        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
+        if (pair.childIndex!=-1) {
+            TCMMMSession *session=[(PlainTextDocument *)[self document] session];
+            if (pair.itemIndex==2) {
+                [session setGroup:@"ReadWrite" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
+            } else {
+                NSString *userID=[[[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex] userID];
+                if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
+                    PlainTextEditor *plainTextEditor=[self activePlainTextEditor];
+                    [plainTextEditor setFollowUserID:userID];
+                }
+            }
+        }
+    }
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender {
