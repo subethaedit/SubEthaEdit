@@ -633,14 +633,16 @@
                                   atIndex:selection.location effectiveRange:nil];
             if (blockAttribute) {
                 [menuItem setTitle:NSLocalizedString(@"MenuBlockeditEnd",@"End Blockedit in edit Menu")];
-                [menuItem setKeyEquivalent:@""];
+                [menuItem setKeyEquivalent:@"\e"];
                 [menuItem setAction:@selector(endBlockedit:)];
+                [menuItem setKeyEquivalentModifierMask:0];
                 return YES;
             }
         }
         [menuItem setTitle:NSLocalizedString(@"MenuBlockeditSelection",@"Blockedit Selection in edit Menu")];
         [menuItem setKeyEquivalent:@"B"];
         [menuItem setAction:@selector(blockeditSelection:)];
+        [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask|NSShiftKeyMask];
         return YES;
     } else if (selector==@selector(copyAsXHTML:)) {
         return ([I_textView selectedRange].length>0);
