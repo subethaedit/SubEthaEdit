@@ -11,6 +11,7 @@
 
 
 static NSMutableDictionary *registeredPrefModules;
+static NSMutableArray *prefModules;
 
 
 @interface TCMPreferenceController (TCMPreferenceControllerPrivateAdditions)
@@ -30,11 +31,13 @@ static NSMutableDictionary *registeredPrefModules;
 
 + (void)initialize
 {
+    prefModules = [NSMutableArray new];
     registeredPrefModules = [NSMutableDictionary new];
 }
 
 + (void)registerPrefModule:(TCMPreferenceModule *)aModule
 {
+    [prefModules addObject:aModule];
     [registeredPrefModules setObject:aModule forKey:[aModule identifier]];
 }
 
@@ -60,7 +63,7 @@ static NSMutableDictionary *registeredPrefModules;
 
 - (void)windowWillLoad
 {
-    NSEnumerator *modules = [registeredPrefModules objectEnumerator];
+    NSEnumerator *modules = [prefModules objectEnumerator];
     TCMPreferenceModule *module;
     while ((module = [modules nextObject])) {
         NSString *itemIdent = [module identifier];

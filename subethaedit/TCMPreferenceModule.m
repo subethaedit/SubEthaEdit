@@ -103,13 +103,11 @@
 
 - (NSSize)maxSize
 {
-    NSLog(@"maxSize: %@", NSStringFromSize(I_maxSize));
     return I_maxSize;
 }
 
 - (NSSize)minSize
 {
-    NSLog(@"minSize: %@", NSStringFromSize(I_minSize));
     return I_minSize;
 }
 
