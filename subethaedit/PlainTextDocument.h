@@ -16,6 +16,7 @@
     TCMMMSession *I_session;
     struct {
         BOOL isAnnounced;
+        BOOL isRemotelyEditingTextStorage;
     } I_flags;
     DocumentMode  *I_documentMode;
     NSTextStorage *I_textStorage;

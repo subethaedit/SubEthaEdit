@@ -14,6 +14,9 @@
 #import "DocumentMode.h"
 #import "SyntaxHighlighter.h"
 
+#import "TextStorage.h"
+#import "TextOperation.h"
+
 @implementation PlainTextDocument
 
 - (id)init
@@ -25,10 +28,10 @@
         // If an error occurs here, send a [self release] message and return nil.
         [self setSession:[[TCMMMSession alloc] initWithDocument:self]];
         [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
-        I_textStorage = [NSTextStorage new];
+        I_textStorage = [TextStorage new];
         [I_textStorage setDelegate:self];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
-    
+        I_flags.isRemotelyEditingTextStorage=NO;
     }
     return self;
 }
@@ -269,7 +272,31 @@
 #pragma mark ### Session Interaction ###
 
 - (void)handleOperation:(TCMMMOperation *)aOperation {
-    
+    if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
+        TextOperation *operation=(TextOperation *)aOperation;
+        NSTextStorage *textStorage=[self textStorage];
+        I_flags.isRemotelyEditingTextStorage=YES;
+        [textStorage beginEditing];
+        [textStorage replaceCharactersInRange:[operation affectedCharRange]
+                                   withString:[operation replacementString]];
+        [textStorage addAttribute:@"UserID" value:[operation userID] 
+                            range:NSMakeRange([operation affectedCharRange].location,
+                                              [[operation replacementString] length])];
+        [textStorage endEditing];
+        I_flags.isRemotelyEditingTextStorage=NO;
+    }   
 }
+
+#pragma mark -
+#pragma mark ### TextStorage Delegate Methods ###
+- (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
+    //NSLog(@"textStorage:%@ didReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
+    if (!I_flags.isRemotelyEditingTextStorage) {
+        TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
+        [[self session] documentDidApplyOperation:textOp];
+    }
+}
+
+
 
 @end
