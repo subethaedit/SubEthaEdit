@@ -7,9 +7,12 @@
 //
 
 #import "RendezvousBrowserController.h"
-#import "TCMRendezvousBrowser.h"
 #import "ImagePopUpButtonCell.h"
 #import "PullDownButtonCell.h"
+#import "TCMMMPresenceManager.h"
+#import "TCMMMUserManager.h"
+#import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
 
 
 static RendezvousBrowserController *sharedInstance=nil;
@@ -31,12 +34,10 @@ static RendezvousBrowserController *sharedInstance=nil;
 - (id)init {
     if ((self=[super initWithWindowNibName:@"RendezvousBrowser"])) {
         I_data=[NSMutableArray new];
-        I_browser=[[TCMRendezvousBrowser alloc] initWithServiceType:@"_see._tcp." domain:@""];
-        [I_browser setDelegate:self];
-        [I_browser startSearch];
-        I_foundUserIDs=[NSMutableSet new];
+        I_userIDsInRendezvous=[NSMutableSet new];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeRendezvousStatus:) name:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:nil];
     }
     return self;
 }
@@ -47,7 +48,7 @@ static RendezvousBrowserController *sharedInstance=nil;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [I_foundUserIDs release];
+    [I_userIDsInRendezvous release];
     [I_data release];
     [super dealloc];
 }
@@ -157,47 +158,6 @@ static RendezvousBrowserController *sharedInstance=nil;
         TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
         DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Found session: %@", session);
         [session joinUsingBEEPSession:nil];
-    }
-}
-
-#pragma mark -
-#pragma mark ### TCMRendezvousBrowser Delegate ###
-- (void)rendezvousBrowserWillSearch:(TCMRendezvousBrowser *)aBrowser {
-
-}
-- (void)rendezvousBrowserDidStopSearch:(TCMRendezvousBrowser *)aBrowser {
-
-}
-- (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didNotSearch:(NSError *)anError {
-    NSLog(@"Mist: %@",anError);
-}
-
-- (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didFindService:(NSNetService *)aNetService {
-    DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"foundservice: %@",aNetService);
-}
-
-- (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didResolveService:(NSNetService *)aNetService {
-//    [I_data addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"resolved %@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
-    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
-    if (userID && ![userID isEqualTo:[TCMMMUserManager myUserID]]) {
-        [I_foundUserIDs addObject:userID];
-        NSDictionary *status=[[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
-        if ([[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
-            if ([[status objectForKey:@"isVisible"] boolValue] && [self TCM_indexOfItemWithUserID:userID]==-1) {
-                [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",[NSNumber numberWithBool:YES],@"isExpanded",nil]];
-                [O_browserListView reloadData];
-            }
-        } else {
-            [[TCMMMBEEPSessionManager sharedInstance] connectToNetService:aNetService];
-        }
-    }
-}
-
-- (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didRemoveResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
-    DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Removed Service: %@",aNetService);
-    if (wasResolved) {
-        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
-        [I_foundUserIDs removeObject:userID];
     }
 }
 
@@ -354,30 +314,66 @@ static RendezvousBrowserController *sharedInstance=nil;
     return result;
 }
 
+- (void)addUserWithID:(NSString *)aUserID {
+    if ([self TCM_indexOfItemWithUserID:aUserID]==-1) {
+        // todo: handleSelection
+        NSMutableDictionary *status=[[TCMMMPresenceManager sharedInstance] statusOfUserID:aUserID];
+        NSMutableArray *sessions=[NSMutableArray array];
+        if ([status objectForKey:@"Sessions"]) {
+            [sessions addObjectsFromArray:[[status objectForKey:@"Sessions"] allValues]];
+        }
+        [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:aUserID,@"UserID",sessions,@"Sessions",[NSNumber numberWithBool:YES],@"isExpanded",nil]];
+        [O_browserListView reloadData];
+    }
+}
+
+- (void)removeUserWithID:(NSString *)aUserID {
+    int index=[self TCM_indexOfItemWithUserID:aUserID];
+    if (index!=-1) {
+        // todo: handleSelection
+        [I_data removeObjectAtIndex:index];
+        [O_browserListView reloadData];
+    }
+}
+
+- (void)userDidChangeRendezvousStatus:(NSNotification *)aNotification {
+    NSEnumerator *userIDs=[[[aNotification userInfo] objectForKey:@"UserIDs"] objectEnumerator];
+    NSString *userID=nil;
+    TCMMMPresenceManager *pm=[TCMMMPresenceManager sharedInstance];
+    while ((userID=[userIDs nextObject])) {
+        NSMutableDictionary *status=[pm statusOfUserID:userID];
+        if ([status objectForKey:@"NetService"]) {
+            [I_userIDsInRendezvous addObject:userID];
+            if ([[status objectForKey:@"Status"] isEqualToString:@"GotStatus"] &&
+                [status objectForKey:@"isVisible"]!=nil) {
+                [self addUserWithID:userID];
+            }
+        } else {
+            [I_userIDsInRendezvous removeObject:userID];
+            [self removeUserWithID:userID];
+        }
+    }
+}
+
 - (void)userDidChangeVisibility:(NSNotification *)aNotification {
     NSDictionary *userInfo=[aNotification userInfo];
     NSString *userID=[userInfo objectForKey:@"UserID"];
     BOOL isVisible=[[userInfo objectForKey:@"isVisible"] boolValue];
     // TODO: handle Selection
     if (isVisible) {
-        if ([I_foundUserIDs containsObject:userID]) {
-            if ([self TCM_indexOfItemWithUserID:userID]==-1) {
-                [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[NSMutableArray array],@"Sessions",[NSNumber numberWithBool:YES],@"isExpanded",nil]];
-            }
+        if ([I_userIDsInRendezvous containsObject:userID]) {
+            [self addUserWithID:userID];
         }
     } else {
-        int index=[self TCM_indexOfItemWithUserID:userID];
-        if (index >= 0) {
-            [I_data removeObjectAtIndex:index];
-        }
+        [self removeUserWithID:userID];
     }
-    [O_browserListView reloadData];
 }
 
 - (void)userDidChangeAnnouncedDocuments:(NSNotification *)aNotification {
     NSDictionary *userInfo=[aNotification userInfo];
     NSString *userID=[userInfo objectForKey:@"UserID"];
     int index=[self TCM_indexOfItemWithUserID:userID];
+    // TODO: handle Selection
     if (index >= 0) {
         NSMutableDictionary *item=[I_data objectAtIndex:index];
         TCMMMSession *session=[userInfo objectForKey:@"AnnouncedSession"];
@@ -417,7 +413,7 @@ static RendezvousBrowserController *sharedInstance=nil;
 - (void)userDidChange:(NSNotification *)aNotification {
     DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
     TCMMMUser *user = [[aNotification userInfo] objectForKey:@"User"];
-    if ([I_foundUserIDs containsObject:[user userID]]) {
+    if ([I_userIDsInRendezvous containsObject:[user userID]]) {
         DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"reloadData");
         [O_browserListView reloadData];
     }

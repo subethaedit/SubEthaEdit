@@ -263,25 +263,32 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSEnumerator *outboundSessionEnumerator = [outboundSessions objectEnumerator];
     TCMBEEPSession *session = nil;
     while ((session = [outboundSessionEnumerator nextObject])) {
-        if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
-            return session;
-        } else {
-            if (!fallbackSession) fallbackSession = session;
+        if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
+            if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
+                return session;
+            } else {
+                if (!fallbackSession) fallbackSession = session;
+            }
         }
     }
 
     NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
     NSEnumerator *inboundSessionEnumerator = [inboundSessions objectEnumerator];
     while ((session = [inboundSessionEnumerator nextObject])) {
-        if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
-            return session;
-        } else {
-            if (!fallbackSession) fallbackSession = session;
+        if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
+            if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
+                return session;
+            } else {
+                if (!fallbackSession) fallbackSession = session;
+            }
         }
     }
 
     if ([[info objectForKey:@"RendezvousStatus"] isEqualToString:kBEEPSessionStatusGotSession]) {
-        return [info objectForKey:@"RendezvousSession"];
+        session=[info objectForKey:@"RendezvousSession"];
+        if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
+            return session;
+        }
     }
     
     return fallbackSession;

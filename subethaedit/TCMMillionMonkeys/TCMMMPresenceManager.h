@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class TCMMMStatusProfile, TCMHost, TCMMMSession;
+@class TCMMMStatusProfile, TCMHost, TCMMMSession, TCMRendezvousBrowser;
 
 extern NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification;
+extern NSString * const TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification;
@@ -28,12 +29,15 @@ extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotifica
         BOOL isVisible;
         BOOL serviceIsPublished;
     } I_flags;
+
+    TCMRendezvousBrowser *I_browser;
+    NSMutableSet *I_foundUserIDs;
 }
 
 + (TCMMMPresenceManager *)sharedInstance;
 
 - (TCMMMStatusProfile *)statusProfileForUserID:(NSString *)aUserID;
-
+- (void)startRendezvousBrowsing;
 - (BOOL)isVisible;
 - (void)setVisible:(BOOL)aFlag;
 

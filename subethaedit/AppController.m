@@ -284,6 +284,7 @@ NSString * const AddressHistory = @"AddressHistory";
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
 
     [[TCMMMBEEPSessionManager sharedInstance] listen];
+    [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];
     [InternetBrowserController sharedInstance];
 }

@@ -19,8 +19,7 @@
     IBOutlet NSTextField *O_myNameTextField;
     IBOutlet NSPopUpButton *O_actionPullDownButton;
     IBOutlet NSPopUpButton *O_statusPopUpButton;
-    TCMRendezvousBrowser *I_browser;
-    NSMutableSet *I_foundUserIDs;
+    NSMutableSet *I_userIDsInRendezvous;
 }
 
 + (RendezvousBrowserController *)sharedInstance;

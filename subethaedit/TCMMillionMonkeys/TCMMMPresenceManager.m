@@ -12,12 +12,15 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMSession.h"
+#import "TCMRendezvousBrowser.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 static TCMMMPresenceManager *sharedInstance = nil;
 
 NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification=
                @"TCMMMPresenceManagerUserVisibilityDidChangeNotification";
+NSString * const TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification=
+               @"TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification";
 NSString * const TCMMMPresenceManagerUserDidChangeNotification=
                @"TCMMMPresenceManagerUserDidChangeNotification";
 NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
@@ -66,6 +69,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         I_flags.serviceIsPublished=NO;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didEndSession:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
+        I_foundUserIDs=[NSMutableSet new];
     }
     return self;
 }
@@ -73,11 +77,29 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 - (void)dealloc 
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [I_foundUserIDs release];
     [I_announcedSessions release];
     [I_registeredSessions release];
     [I_statusOfUserIDs release];
     [I_netService release];
     [super dealloc];
+}
+
+- (void)startRendezvousBrowsing {
+    [I_browser setDelegate:nil];
+    [I_browser stopSearch];
+    [I_browser release];
+    NSString *userID=nil;
+    NSEnumerator *userIDs=[I_foundUserIDs objectEnumerator];
+    while ((userID=[userIDs nextObject])) {
+        NSMutableDictionary *status=[self statusOfUserID:userID];
+        [status removeObjectForKey:@"NetService"];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[I_foundUserIDs allObjects] forKey:@"UserIDs"]];
+    
+    I_browser=[[TCMRendezvousBrowser alloc] initWithServiceType:@"_see._tcp." domain:@""];
+    [I_browser setDelegate:self];
+    [I_browser startSearch];
 }
 
 - (NSString *)serviceName {
@@ -316,19 +338,32 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 - (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError {
     // remove status profile, and inform the rest
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
-    NSMutableDictionary *status=[self statusOfUserID:userID];
-    [status removeObjectForKey:@"StatusProfile"];
-    [status setObject:@"NoStatus" forKey:@"Status"];
-    NSEnumerator *sessions=[[status objectForKey:@"Sessions"] objectEnumerator];
-    TCMMMSession *session=nil;
-    while ((session=[sessions nextObject])) {
-        [self unregisterSession:session];
-    }
-    [status setObject:[NSMutableDictionary dictionary] forKey:@"Sessions"];
-    [I_statusProfilesInServerRole removeObject:aProfile];
+    
     [aProfile setDelegate:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
-            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[status objectForKey:@"Sessions"],@"Sessions",nil]];
+    if ([I_statusProfilesInServerRole containsObject:aProfile]) {
+        [I_statusProfilesInServerRole removeObject:aProfile];
+    } else {
+        NSMutableDictionary *status=[self statusOfUserID:userID];
+        [status removeObjectForKey:@"StatusProfile"];
+        [status setObject:@"NoStatus" forKey:@"Status"];
+        NSEnumerator *sessions=[[status objectForKey:@"Sessions"] objectEnumerator];
+        TCMMMSession *session=nil;
+        while ((session=[sessions nextObject])) {
+            [self unregisterSession:session];
+        }
+        [status setObject:[NSMutableDictionary dictionary] forKey:@"Sessions"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
+                userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[status objectForKey:@"Sessions"],@"Sessions",nil]];
+        TCMBEEPSession *beepSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:userID];
+        if (beepSession) {
+            [beepSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil sender:self];
+        } else {
+            NSNetService *netService=[status objectForKey:@"NetService"];
+            if (netService) {
+                [[TCMMMBEEPSessionManager sharedInstance] connectToNetService:netService];
+            }
+        }
+    }
     [self TCM_validateVisibilityOfUserID:userID];
 }
 
@@ -380,6 +415,53 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     [statusOfUserID setObject:@"GotStatus" forKey:@"Status"];
     [statusOfUserID setObject:aProfile forKey:@"StatusProfile"];
 }
+
+
+#pragma mark -
+#pragma mark ### TCMRendezvousBrowser Delegate ###
+- (void)rendezvousBrowserWillSearch:(TCMRendezvousBrowser *)aBrowser {
+
+}
+
+- (void)rendezvousBrowserDidStopSearch:(TCMRendezvousBrowser *)aBrowser {
+
+}
+
+- (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didNotSearch:(NSError *)anError {
+    NSLog(@"Mist: %@",anError);
+}
+
+- (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didFindService:(NSNetService *)aNetService {
+    DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"foundservice: %@",aNetService);
+}
+
+- (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didResolveService:(NSNetService *)aNetService {
+//    [I_data addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"resolved %@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
+    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
+    if (userID && ![userID isEqualTo:[TCMMMUserManager myUserID]]) {
+        [I_foundUserIDs addObject:userID];
+        NSMutableDictionary *status=[self statusOfUserID:userID];
+        [status setObject:aNetService forKey:@"NetService"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:userID] forKey:@"UserIDs"]];
+        if (![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
+            [[TCMMMBEEPSessionManager sharedInstance] connectToNetService:aNetService];
+        }
+    }
+}
+
+- (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didRemoveResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
+    DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Removed Service: %@",aNetService);
+    if (wasResolved) {
+        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
+        [I_foundUserIDs removeObject:userID];
+        NSMutableDictionary *status=[self statusOfUserID:userID];
+        [status removeObjectForKey:@"NetService"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:userID] forKey:@"UserIDs"]];
+        }
+}
+
+
+
 #pragma mark -
 #pragma mark ### Published NetService Delegate ###
 
