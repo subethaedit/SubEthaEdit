@@ -1,8 +1,13 @@
 {
     IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {connect = id; setVisibilityByPopUpButton = id; }; 
+            ACTIONS = {concealAllDocuments = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {connect = id; setVisibilityByMenuItem = id; }; 
             CLASS = InternetBrowserController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -12,7 +17,7 @@
                 "O_imageView" = NSImageView; 
                 "O_myNameTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 
-                "O_visibilityPopUpButton" = NSPopUpButton; 
+                "O_statusPopUpButton" = NSPopUpButton; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

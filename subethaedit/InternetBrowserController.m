@@ -11,6 +11,7 @@
 #import "TCMBEEP/TCMBEEPSession.h"
 #import "TCMBEEP/TCMBEEPProfile.h"
 #import "ImagePopUpButtonCell.h"
+#import "PullDownButtonCell.h"
 
 
 #define kMaxNumberOfItems 10
@@ -33,6 +34,7 @@ NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
 - (NSMutableIndexSet *)indexesOfItemsWithUserID:(NSString *)userID;
 - (void)connectToURL:(NSURL *)url retry:(BOOL)isRetrying;
 - (void)processDocumentURL:(NSURL *)url;
+- (void)TCM_validateStatusPopUpButton;
 
 @end
 
@@ -119,6 +121,28 @@ static InternetBrowserController *sharedInstance = nil;
     [[O_actionPullDownButton cell] setUsesItemFromMenu:NO];
     [O_actionPullDownButton addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
 
+    PullDownButtonCell *cell = [[[PullDownButtonCell alloc] initTextCell:@"" pullsDown:YES] autorelease];
+    NSMenu *oldMenu = [[[O_statusPopUpButton cell] menu] retain];
+    [cell setPullsDown:NO];
+    NSMenu *menu = [cell menu];
+    NSEnumerator *menuItems = [[oldMenu itemArray] objectEnumerator];
+    NSMenuItem *item=nil;
+    while ((item = [menuItems nextObject])) {
+        [menu addItem:[item copy]];
+    }
+    [oldMenu release];
+    [O_statusPopUpButton setCell:cell];
+    [cell setControlSize:NSSmallControlSize];
+    [O_statusPopUpButton setPullsDown:YES];
+    [O_statusPopUpButton setBordered:NO];
+    [cell setUsesItemFromMenu:YES];
+    [O_statusPopUpButton setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+    [[O_statusPopUpButton menu] setDelegate:self];
+    [self TCM_validateStatusPopUpButton];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
+
+
     [O_addressComboBox setUsesDataSource:YES];
     [O_addressComboBox setDataSource:self];
     [O_addressComboBox setCompletes:YES];
@@ -145,6 +169,12 @@ static InternetBrowserController *sharedInstance = nil;
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"InternetBrowser willClose");
     [[NSUserDefaults standardUserDefaults] setObject:[self comboBoxItems] forKey:AddressHistory];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)menuNeedsUpdate:(NSMenu *)aMenu {
+    BOOL isVisible = [[TCMMMPresenceManager sharedInstance] isVisible];
+    [[aMenu itemWithTag:10] setState:isVisible ? NSOnState : NSOffState];
+    [[aMenu itemWithTag:11] setState:(!isVisible) ? NSOnState : NSOffState];
 }
 
 - (void)connectToAddress:(NSString *)address {
@@ -249,8 +279,8 @@ static InternetBrowserController *sharedInstance = nil;
     [self connectToAddress:address];
 }
 
-- (IBAction)setVisibilityByPopUpButton:(id)aSender {
-    [[TCMMMPresenceManager sharedInstance] setVisible:([aSender indexOfSelectedItem] == 0)];
+- (IBAction)setVisibilityByMenuItem:(id)aSender {
+    [[TCMMMPresenceManager sharedInstance] setVisible:([aSender tag] == 10)];
 }
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -492,6 +522,21 @@ static InternetBrowserController *sharedInstance = nil;
     }
 }
 
+- (void)TCM_validateStatusPopUpButton {
+    TCMMMPresenceManager *pm = [TCMMMPresenceManager sharedInstance];
+    BOOL isVisible = [pm isVisible];
+    int announcedCount = [[pm announcedSessions] count];
+    NSString *statusString = @"";
+    if (announcedCount > 0) {
+        statusString = [NSString stringWithFormat:NSLocalizedString(@"%d Document(s)", "Status string in visibility pull down in Rendezvous and Internet browser"), announcedCount];
+    } else if (isVisible) {
+        statusString = NSLocalizedString(@"Visible", @"Status string in vibilitypulldown in Browsers for visible");
+    } else {
+        statusString = NSLocalizedString(@"Invisible", @"Status string in vibilitypulldown in Browsers for invisible");
+    }
+    [[[O_statusPopUpButton menu] itemAtIndex:0] setTitle:statusString];
+}
+
 #pragma mark -
 
 - (void)hostDidResolveAddress:(TCMHost *)sender {
@@ -618,6 +663,10 @@ static InternetBrowserController *sharedInstance = nil;
 - (void)userDidChange:(NSNotification *)aNotification {
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
     [O_browserListView reloadData];
+}
+
+- (void)announcedSessionsDidChange:(NSNotification *)aNotification {
+    [self TCM_validateStatusPopUpButton];
 }
 
 #pragma mark -
@@ -810,6 +859,25 @@ static InternetBrowserController *sharedInstance = nil;
             }
         }
     }
+    return nil;
+}
+
+- (NSString *)listView:(TCMMMBrowserListView *)aListView toolTipStringAtIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+    
+    if (anIndex != -1) 
+        return nil;
+   
+    if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
+        NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
+        if ([item objectForKey:@"inbound"]) {
+            return NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip");
+        }
+        
+        if (![item objectForKey:@"failed"]) {
+            return [item objectForKey:@"URLString"];
+        }
+    }
+    
     return nil;
 }
 

@@ -60,9 +60,9 @@ static RendezvousBrowserController *sharedInstance=nil;
     if (announcedCount>0) {
         statusString=[NSString stringWithFormat:NSLocalizedString(@"%d Document(s)","Status string in visibility pull down in Rendezvous and Internet browser"),announcedCount];
     } else if (isVisible) {
-        statusString=NSLocalizedString(@"visible",@"Status string in vibilitypulldown in Browsers for visible");
+        statusString=NSLocalizedString(@"Visible",@"Status string in vibilitypulldown in Browsers for visible");
     } else {
-        statusString=NSLocalizedString(@"invisible",@"Status string in vibilitypulldown in Browsers for invisible");
+        statusString=NSLocalizedString(@"Invisible",@"Status string in vibilitypulldown in Browsers for invisible");
     }
     [[[O_statusPopUpButton menu] itemAtIndex:0] setTitle:statusString];
 }

@@ -18,7 +18,7 @@
     IBOutlet NSTextField *O_myNameTextField;
     IBOutlet NSComboBox *O_addressComboBox;
     IBOutlet NSPopUpButton *O_actionPullDownButton;
-    IBOutlet NSPopUpButton *O_visibilityPopUpButton;
+    IBOutlet NSPopUpButton *O_statusPopUpButton;
 
     NSMutableArray *I_data;
     NSMutableArray *I_comboBoxItems;
@@ -32,7 +32,7 @@
 - (void)setComboBoxItems:(NSMutableArray *)anArray;
 
 - (IBAction)connect:(id)aSender;
-- (IBAction)setVisibilityByPopUpButton:(id)aSender;
+- (IBAction)setVisibilityByMenuItem:(id)aSender;
 
 - (void)connectToAddress:(NSString *)address;
 
