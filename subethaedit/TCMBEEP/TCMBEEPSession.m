@@ -359,7 +359,7 @@ static int sListenLogCount=0;
             } else {
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:I_currentReadFrameRemainingContentSize];
                 [I_currentReadFrame setPayload:I_readBuffer];
-                NSLog(@"Received Frame: %@", [I_currentReadFrame description]);
+                DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"Received Frame: %@", [I_currentReadFrame description]);
                 [I_readBuffer setLength:0];
                 bytesParsed += I_currentReadFrameRemainingContentSize;
                 I_currentReadState = frameEndState;
@@ -411,7 +411,7 @@ static int sListenLogCount=0;
 {
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
-            NSLog(@"Input stream open completed.");
+            DEBUGLOG(@"BEEPLogDomain",SimpleLogLevel,@"Input stream open completed.");
             break;
         case NSStreamEventHasBytesAvailable:
             // NSLog(@"Input stream has bytes available.");
@@ -437,7 +437,7 @@ static int sListenLogCount=0;
 {
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
-            NSLog(@"Output stream open completed.");
+            DEBUGLOG(@"BEEPLogDomain",SimpleLogLevel,@"Output stream open completed.");
             break;
         case NSStreamEventHasSpaceAvailable:
             // NSLog(@"Output stream has space available.");
@@ -474,7 +474,7 @@ static int sListenLogCount=0;
             TCMBEEPFrame *frame;
             while ((frame = [frames nextObject])) {
                 [frame appendToMutableData:I_writeBuffer];
-                NSLog(@"Sending Frame: %@",[frame description]);
+                DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"Sending Frame: %@",[frame description]);
             }
         }
     }
@@ -486,7 +486,7 @@ static int sListenLogCount=0;
     } else {
         I_flags.isSending=NO;
     }
-    NSLog(@"end sendRoundrobin didSend:%@",(didSend?@"YES":@"NO"));
+    DEBUGLOG(@"BEEPLogDomain",AllLogLevel,@"end sendRoundrobin didSend:%@",(didSend?@"YES":@"NO"));
 }
 
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel

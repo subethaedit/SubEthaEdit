@@ -62,11 +62,11 @@
 //    [O_scrollView setAutohidesScrollers:YES];
     [O_scrollView setDocumentView:O_browserListView];
     [O_scrollView setDrawsBackground:NO];
-    NSLog(@"Copies on Scroll: %@",([[O_scrollView contentView] copiesOnScroll]?@"YES":@"NO"));
+//    NSLog(@"Copies on Scroll: %@",([[O_scrollView contentView] copiesOnScroll]?@"YES":@"NO"));
     [[O_scrollView contentView] setCopiesOnScroll:YES];
     [[O_scrollView contentView] setDrawsBackground:NO];
 //    NSLog(@"Draws background: %@",([O_scrollView drawsBackground]?@"YES":@"NO"));
-    NSLog(@"Autoresizes Subviews: %@",([[O_scrollView contentView] autoresizesSubviews]?@"YES":@"NO"));
+//    NSLog(@"Autoresizes Subviews: %@",([[O_scrollView contentView] autoresizesSubviews]?@"YES":@"NO"));
     [[O_scrollView contentView] setAutoresizesSubviews:NO];
     [O_browserListView noteEnclosingScrollView];
 }

@@ -114,7 +114,7 @@
             CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
             if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
                 if ([@"greeting" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    NSLog (@"Was greeting....");
+                    DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"Was greeting....");
                     CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
                     NSDictionary *attributes = (NSDictionary *)info->attributes;
                     //NSLog (@"Attributes: %@", [attributes description]);

@@ -60,7 +60,7 @@
                     [I_remoteInfos setObject:value forKey:key];
                 }
             }
-            NSLog(@"Handshake greeting was: %@",string);
+            DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"Handshake greeting was: %@",string);
             if ([I_remoteInfos objectForKey:@"rendez"]) {
                 [[[[self channel] session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
             }
@@ -78,9 +78,9 @@
         }
     } else if ([aMessage isRPY]) {
         NSString *string=[NSString stringWithData:[aMessage payload] encoding:NSUTF8StringEncoding];
-        NSLog(@"ShakeHandRPY was: %@",string);
+        DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"ShakeHandRPY was: %@",string);
         string=[string substringFromIndex:3];
-        NSArray *pairsArray=[string componentsSeparatedByString: @"\001"];
+		NSArray *pairsArray=[string componentsSeparatedByString: @"\001"];
         NSEnumerator *pairs=[pairsArray objectEnumerator];
         NSString *pair;
         while ((pair = [pairs nextObject])) {

@@ -199,7 +199,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID
 {
     NSDictionary *sessionInfo = [I_sessionInformationByUserID objectForKey:aUserID];
-    NSLog(@"sessionInfo: %@", sessionInfo);
+    DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"sessionInfo: %@", sessionInfo);
     return [sessionInfo objectForKey:@"RendezvousSession"];
 }
 
