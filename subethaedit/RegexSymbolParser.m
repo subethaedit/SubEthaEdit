@@ -70,7 +70,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
 
     regex = [[[OGRegularExpression alloc] initWithString:@"([-+][^(-;]*\\([A-Za-z0-9 *_]*\\)[A-Za-z0-9_ ]+[^{;]*)" options:OgreFindNotEmptyOption] autorelease];
     
-    trim = [[[OGRegularExpression alloc] initWithString:@"([\\n\\r]| +|:( *\\([^\\)]*\\) *[a-zA-Z0-9]*))" options:OgreFindNotEmptyOption] autorelease];
+    trim = [[[OGRegularExpression alloc] initWithString:@"([\\n\\r]| +|:( *\\([^\\)]*\\) *[a-zA-Z0-9]*)|\\([^\\)]*\\))" options:OgreFindNotEmptyOption] autorelease];
     
     NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string]] objectEnumerator];
     while ((aMatch = [matchEnumerator nextObject])) {
@@ -78,13 +78,13 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
         NSRange fullrange = [aMatch rangeOfMatchedString];
         if ([aTextStorage attribute:kSymbolParsingIsInABlock atIndex:jumprange.location effectiveRange:nil]) break;
         
-        NSString *name = [trim replaceAllMatchesInString:[aMatch matchedString] withString:@" " options:OgreNoneOption];
+        NSString *name = [trim replaceAllMatchesInString:[aMatch matchedString] withString:@"" options:OgreNoneOption];
         //NSLog(@"Symbol:%@",name);
         NSString *type = @"bar";
         int mask = 0;
         NSImage *image = [NSImage imageNamed:@"SymbolM"];
         
-        [returnArray addObject:[SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:rand()%5 jumpRange:jumprange range:fullrange]];
+        [returnArray addObject:[SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:nil type:type indentationLevel:0 jumpRange:jumprange range:fullrange]];
     }
 
     return returnArray;
