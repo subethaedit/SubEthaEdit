@@ -7,7 +7,7 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Defs" image="SymbolF()" indentation="0" ignoreblocks="yes">
+    <symbol id="Defs" image="SymbolF()" indentation="1" ignoreblocks="yes">
         <regex>def[ \t]+([\w\d_]+)[ \t]*(:?\([^\)]*\))?</regex>
     </symbol>
 

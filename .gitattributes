@@ -354,6 +354,12 @@ subethaedit/Modes/PHP-HTML.mode/Contents/Info.plist -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/Pascal.mode/Contents/Info.plist -text
+subethaedit/Modes/Pascal.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/Pascal.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Pascal.mode/Contents/Resources/SymbolD.png -text
+subethaedit/Modes/Pascal.mode/Contents/Resources/SymbolO.png -text
+subethaedit/Modes/Pascal.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Perl.mode/Contents/Info.plist -text
 subethaedit/Modes/Perl.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Perl.mode/Contents/Resources/RegexSymbols.xml -text
