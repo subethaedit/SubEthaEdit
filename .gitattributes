@@ -312,6 +312,10 @@ subethaedit/Knock.wav -text
 subethaedit/LayoutManager.h -text
 subethaedit/LayoutManager.m -text
 subethaedit/Mode.icns -text
+subethaedit/Modes/ActionScript.mode/Contents/Info.plist -text
+subethaedit/Modes/ActionScript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/ActionScript.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/ActionScript.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Applescript.mode/Contents/Info.plist -text
 subethaedit/Modes/Applescript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Applescript.mode/Contents/Resources/RegexSymbols.xml -text

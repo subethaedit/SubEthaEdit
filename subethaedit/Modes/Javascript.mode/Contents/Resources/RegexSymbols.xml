@@ -7,7 +7,7 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Funtions" image="SymbolF()" indentation="1" ignoreblocks="yes">
+    <symbol id="Funtions" image="SymbolF()" indentation="0" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r])\s*function\s+([^{]*)(?=\s*\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
