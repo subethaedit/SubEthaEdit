@@ -44,6 +44,14 @@ typedef enum {
     IBOutlet NSPopUpButton *O_scopePopup;
     IBOutlet NSTextField *O_statusTextField;
     IBOutlet NSButton *O_wrapAroundCheckbox;
+
+    IBOutlet NSButton *O_FindAllButton;
+    IBOutlet NSButton *O_NextButton;
+    IBOutlet NSButton *O_PrevButton;
+    IBOutlet NSButton *O_ReplaceButton;
+    IBOutlet NSButton *O_ReplaceAllButton;
+    IBOutlet NSButton *O_ReplaceFindButton;
+
     NSMutableArray *I_findHistory;
     NSMutableArray *I_replaceHistory;   
     //BOOL ignoreNextComboBoxEvent;

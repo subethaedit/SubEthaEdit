@@ -15,6 +15,12 @@
             CLASS = FindReplaceController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "O_FindAllButton" = NSButton; 
+                "O_NextButton" = NSButton; 
+                "O_PrevButton" = NSButton; 
+                "O_ReplaceAllButton" = NSButton; 
+                "O_ReplaceButton" = NSButton; 
+                "O_ReplaceFindButton" = NSButton; 
                 "O_findComboBox" = NSComboBox; 
                 "O_findPanel" = NSPanel; 
                 "O_gotoLineTextField" = NSTextField; 

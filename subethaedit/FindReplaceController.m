@@ -381,6 +381,13 @@ static FindReplaceController *sharedInstance=nil;
     while ((editor=[plainTextEditors nextObject])) {
         [[editor textView] setEditable:NO];
     }
+    
+    [O_FindAllButton setEnabled:NO];
+    [O_NextButton setEnabled:NO];
+    [O_PrevButton setEnabled:NO];
+    [O_ReplaceButton setEnabled:NO];
+    [O_ReplaceAllButton setEnabled:NO];
+    [O_ReplaceFindButton setEnabled:NO];
 }
 
 - (void) unlockDocument:(PlainTextDocument *)aDocument
@@ -390,6 +397,13 @@ static FindReplaceController *sharedInstance=nil;
     while ((editor=[plainTextEditors nextObject])) {
         [[editor textView] setEditable:YES];
     }
+
+    [O_FindAllButton setEnabled:YES];
+    [O_NextButton setEnabled:YES];
+    [O_PrevButton setEnabled:YES];
+    [O_ReplaceButton setEnabled:YES];
+    [O_ReplaceAllButton setEnabled:YES];
+    [O_ReplaceFindButton setEnabled:YES];
 }
 
 - (void) replaceAFewPlainMatches
@@ -542,18 +556,11 @@ static FindReplaceController *sharedInstance=nil;
             [O_progressIndicatorDet setHidden:NO];
             [O_progressIndicatorDet startAnimation:nil];
     
-            BOOL findIsValid = [OGRegularExpression isValidExpressionString:findString];
-            BOOL replaceIsValid = [OGRegularExpression isValidExpressionString:replaceString];
             
-            if ((!findIsValid)||(!replaceIsValid)) {
+            if (![OGRegularExpression isValidExpressionString:findString]) {
                 [O_progressIndicator stopAnimation:nil];
-                if (!findIsValid) {
-                    [O_findComboBox selectText:nil];
-                    [O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
-                } else {
-                    [O_replaceComboBox selectText:nil];
-                    [O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
-                }
+                [O_findComboBox selectText:nil];
+                [O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
                 [O_statusTextField setHidden:NO];
                 [O_progressIndicator stopAnimation:nil];
                 [O_progressIndicatorDet setHidden:YES];
