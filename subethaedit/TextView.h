@@ -9,6 +9,7 @@
 #import <AppKit/AppKit.h>
 
 @interface TextView : NSTextView {
+    BOOL I_isDragTarget;
 }
 + (void)setDefaultMenu:(NSMenu *)aMenu;
 @end

@@ -185,7 +185,7 @@
 
 - (NSDragOperation)validateDrag:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
+    if ([[pboard types] containsObject:@"PboardTypeTBD"] && [[[self document] session] isServer]) {
         NSPoint draggingLocation=[self convertPoint:[sender draggingLocation] fromView:nil];
         int itemIndex=[self targetItemForDragPoint:draggingLocation];
         if (itemIndex<2) {
@@ -249,13 +249,12 @@
 - (void)drawRect:(NSRect)rect {
     [super drawRect:rect];
     if (I_dragToItem!=-1) {
-        [[NSColor selectedTextBackgroundColor] set];
+        [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];
         NSRect niceRect=[self highlightRectForItem:I_dragToItem];
         NSBezierPath *path=[NSBezierPath bezierPathWithRect:NSInsetRect(niceRect,2,2)];
         [path setLineWidth:4.];
         [path setLineJoinStyle:NSRoundLineCapStyle];
         [path stroke];
-        NSFrameRect(niceRect);
     }
 }
 

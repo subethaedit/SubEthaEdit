@@ -208,6 +208,14 @@ static NSMenu *defaultMenu=nil;
             }
         }
     }
+
+    if (I_isDragTarget) {
+        [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];
+        NSBezierPath *path=[NSBezierPath bezierPathWithRect:NSInsetRect([self bounds],2,2)];
+        [path setLineWidth:4.];
+        [path setLineJoinStyle:NSRoundLineCapStyle];
+        [path stroke];
+    }
 }
 
 - (BOOL)usesFindPanel 
@@ -236,6 +244,13 @@ static NSMenu *defaultMenu=nil;
     [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:[aColor isDark]?[[NSColor selectedTextBackgroundColor] brightnessInvertedColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
 }
 
+- (void)setIsDragTarget:(BOOL)aFlag {
+    if (aFlag != I_isDragTarget) {
+        I_isDragTarget=aFlag;
+        [self setNeedsDisplay:YES];
+    }
+}
+
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
@@ -244,30 +259,37 @@ static NSMenu *defaultMenu=nil;
         TCMMMSession *session=[document session];
         if ([session isServer]) {
             [[[self window] drawers] makeObjectsPerformSelector:@selector(open)];
+            [self setIsDragTarget:YES];
+            return NSDragOperationGeneric;
         }
-        return NSDragOperationGeneric;
-    } else {
-        return [super draggingEntered:sender];
-    }
+    } 
+    return [super draggingEntered:sender];
+}
+
+- (void)draggingExited:(id <NSDraggingInfo>)sender {
+    [self setIsDragTarget:NO];
 }
 
 - (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingUpdated:");
-        return NSDragOperationGeneric;
-    } else {
-        return [super draggingUpdated:sender];
-    }
+        BOOL shouldDrag=[[(PlainTextDocument *)[[[self window] windowController] document] session] isServer];
+        [self setIsDragTarget:shouldDrag];
+        if (shouldDrag) {
+            return NSDragOperationGeneric;
+        }
+    } 
+    return [super draggingUpdated:sender];
 }
 
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
-        PlainTextDocument *document=(PlainTextDocument *)[[[self window] windowController] document];
-        TCMMMSession *session=[document session];
         //NSLog(@"prepareForDragOperation:");
-        return [session isServer];
+        BOOL shouldDrag=[[(PlainTextDocument *)[[[self window] windowController] document] session] isServer];
+        [self setIsDragTarget:shouldDrag];
+        return shouldDrag;
     } else {
         return [super prepareForDragOperation:sender];
     }
@@ -309,5 +331,7 @@ static NSMenu *defaultMenu=nil;
         [super concludeDragOperation:sender];
     }
 }
+
+
 
 @end
