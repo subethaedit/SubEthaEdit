@@ -12,6 +12,8 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUser.h"
+#import "TCMMMState.h"
+#import "TCMMMOperation.h"
 #import "SessionProfile.h"
 
 
@@ -45,8 +47,9 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
         I_participants = [NSMutableDictionary new];
         I_profilesByUserID = [NSMutableDictionary new];
         I_pendingUsers = [NSMutableArray new];
-        I_stateByUserID = [NSMutableDictionary new];
+        I_groupByUserID = [NSMutableDictionary new];
         I_contributors = [NSMutableSet new];
+        I_statesByClientID = [NSMutableDictionary new];
     }
     return self;
 }
@@ -82,9 +85,13 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
     [I_sessionID release];
     [I_profilesByUserID release];
     [I_pendingUsers release];
-    [I_stateByUserID release];
+    [I_groupByUserID release];
+    [I_statesByClientID release];
     [super dealloc];
 }
+
+#pragma mark -
+#pragma ### Accessors ###
 
 - (NSString *)description
 {
@@ -148,8 +155,20 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
     return I_pendingUsers;
 }
 
-- (void)setState:(NSString *)aState forPendingUsersWithIndexes:(NSIndexSet *)aSet {
-    if ([aState isEqualToString:@"PoofState"]) {
+#pragma mark -
+
+- (void)documentDidApplyOperation:(TCMMMOperation *)anOperation {
+    NSEnumerator *states = [I_statesByClientID objectEnumerator];
+    TCMMMState *state;
+    while ((state = [states nextObject])) {
+        [state handleOperation:anOperation];
+    }
+}
+
+#pragma mark -
+
+- (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet {
+    if ([aGroup isEqualToString:@"PoofGroup"]) {
         NSMutableIndexSet *set = [aSet mutableCopy];
         unsigned index;
         while ((index = [set firstIndex]) != NSNotFound) {
@@ -162,13 +181,18 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
         unsigned index;
         while ((index = [set firstIndex]) != NSNotFound) {
             TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
-            [I_stateByUserID setObject:aState forKey:[user userID]];
-            if (![I_participants objectForKey:aState]) {
-                [I_participants setObject:[NSMutableArray array] forKey:aState];
+            [I_groupByUserID setObject:aGroup forKey:[user userID]];
+            if (![I_participants objectForKey:aGroup]) {
+                [I_participants setObject:[NSMutableArray array] forKey:aGroup];
             }
-            [[I_participants objectForKey:aState] addObject:user];
+            [[I_participants objectForKey:aGroup] addObject:user];
             [I_contributors addObject:user];
             SessionProfile *profile = [I_profilesByUserID objectForKey:[user userID]];
+            TCMMMState *state = [[TCMMMState alloc] initAsServer:YES];
+            [state setDelegate:self];
+            [state setClient:profile];
+            [I_statesByClientID setObject:state forKey:[user userID]];
+            [profile setMMState:state];
             [profile acceptJoin];
             [profile sendSessionInformation:[self TCM_sessionInformation]];
 
@@ -270,7 +294,7 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
             TCMMMUser *user=[userManager userForUserID:[[TCMMMUser userWithNotification:[userDict objectForKey:@"User"]] userID]];
             [user joinSessionID:[self sessionID]];
             [groupArray addObject:user];
-            [I_stateByUserID setObject:group forKey:[user userID]];
+            [I_groupByUserID setObject:group forKey:[user userID]];
         }
     }
 }
@@ -327,6 +351,14 @@ NSString * const TCMMMSessionPendingUsersDidChangeNotification =
         [aProfile sendUser:[userManager userForUserID:[user userID]]];
     }
     [aProfile sendSessionContent:[NSDictionary dictionaryWithObject:@"Ich bin der Content" forKey:@"Content"]];
+}
+
+#pragma mark -
+#pragma ### State interaction ###
+
+- (void)state:(TCMMMState *)aState handleOperation:(TCMMMOperation *)anOperation {
+    // TODO: distribute operations
+    //[[self document] handleOperation:anOperation];
 }
 
 @end

@@ -8,14 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "TCMBEEP/TCMBEEP.h"
+#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 
 
-@class TCMMMUser;
+@class TCMMMUser, TCMMMState;
 
 
-@interface SessionProfile : TCMBEEPProfile
+@interface SessionProfile : TCMBEEPProfile <TCMMMStateClientProtocol>
 {
     int32_t I_lastMessageNumber;
+    TCMMMState *I_MMState;
 }
 
 - (void)sendUser:(TCMMMUser *)aUser;
@@ -24,6 +26,8 @@
 - (void)sendSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)acceptInvitation;
 - (void)acceptJoin;
+
+- (void)setMMState:(TCMMMState *)aState;
 
 @end
 
@@ -36,5 +40,7 @@
 - (void)profileDidAcceptInvitation:(SessionProfile *)aProfile;
 - (NSArray *)profile:(SessionProfile *)aProfile userRequestsForSessionInformation:(NSDictionary *)sessionInfo;
 - (void)profile:(SessionProfile *)aProfile didReceiveUserRequests:(NSArray *)aUserRequestArray;
+
+- (void)state:(TCMMMState *)aState handleMessage:(TCMMMMessage *)aMessage;
 
 @end

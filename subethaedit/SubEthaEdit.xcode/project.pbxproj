@@ -507,6 +507,118 @@
 			settings = {
 			};
 		};
+		14A0EF0F060B1D9C00A80FA8 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMMMState.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A0EF10060B1D9C00A80FA8 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMMMState.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A0EF11060B1D9C00A80FA8 = {
+			fileRef = 14A0EF0F060B1D9C00A80FA8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A0EF12060B1D9C00A80FA8 = {
+			fileRef = 14A0EF10060B1D9C00A80FA8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A0EF15060B1DC200A80FA8 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMMMMessage.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A0EF16060B1DC200A80FA8 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMMMMessage.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A0EF17060B1DC200A80FA8 = {
+			fileRef = 14A0EF15060B1DC200A80FA8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A0EF18060B1DC200A80FA8 = {
+			fileRef = 14A0EF16060B1DC200A80FA8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A0EF1B060B1DED00A80FA8 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TCMMMOperation.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A0EF1C060B1DED00A80FA8 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TCMMMOperation.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A0EF1D060B1DED00A80FA8 = {
+			fileRef = 14A0EF1B060B1DED00A80FA8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A0EF1E060B1DED00A80FA8 = {
+			fileRef = 14A0EF1C060B1DED00A80FA8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A0EFB3060B410B00A80FA8 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SelectionOperation.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A0EFB4060B410B00A80FA8 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SelectionOperation.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14A0EFB5060B410B00A80FA8 = {
+			fileRef = 14A0EFB3060B410B00A80FA8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14A0EFB6060B410B00A80FA8 = {
+			fileRef = 14A0EFB4060B410B00A80FA8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14AE9CAA05F5E8F00025CADE = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -777,6 +889,8 @@
 				5EDB87E605F8AFE30058C44A,
 				5EEB185505ED0E1600C17677,
 				5EEB185605ED0E1600C17677,
+				14A0EFB3060B410B00A80FA8,
+				14A0EFB4060B410B00A80FA8,
 				141080DA05FE2EC800A4463D,
 				141080DB05FE2EC800A4463D,
 				14AE9ED505F618100025CADE,
@@ -1427,8 +1541,14 @@
 				14249F5E05FCEF6000D8C6B9,
 				5E4F35B305EF7530009D71ED,
 				5E4F35B405EF7530009D71ED,
+				14A0EF15060B1DC200A80FA8,
+				14A0EF16060B1DC200A80FA8,
+				14A0EF1B060B1DED00A80FA8,
+				14A0EF1C060B1DED00A80FA8,
 				14249EFB05FC826400D8C6B9,
 				14249EFC05FC826400D8C6B9,
+				14A0EF0F060B1D9C00A80FA8,
+				14A0EF10060B1D9C00A80FA8,
 				5E0CFE9005F48F3B008C8191,
 				5E0CFE9105F48F3B008C8191,
 				5EEB177005ECF6F700C17677,
@@ -1847,6 +1967,10 @@
 				141080DC05FE2EC800A4463D,
 				141084A805FE345800A4463D,
 				14C51C710601C93C0030F488,
+				14A0EF11060B1D9C00A80FA8,
+				14A0EF17060B1DC200A80FA8,
+				14A0EF1D060B1DED00A80FA8,
+				14A0EFB5060B410B00A80FA8,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1940,6 +2064,10 @@
 				5E834C0605FD1689004EB5D1,
 				141080DD05FE2EC800A4463D,
 				14C51C720601C93C0030F488,
+				14A0EF12060B1D9C00A80FA8,
+				14A0EF18060B1DC200A80FA8,
+				14A0EF1E060B1DED00A80FA8,
+				14A0EFB6060B410B00A80FA8,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

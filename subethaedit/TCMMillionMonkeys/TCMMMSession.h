@@ -18,7 +18,7 @@ typedef enum TCMMMSessionState {
     TCMMMSessionRequestingInvite = 3
 } TCMMMSessionState;
 
-@class SessionProfile;
+@class SessionProfile, TCMMMOperation;
 
 @interface TCMMMSession : NSObject
 {
@@ -31,7 +31,8 @@ typedef enum TCMMMSessionState {
     NSMutableDictionary *I_participants;
     NSMutableSet *I_contributors;
     NSMutableArray *I_pendingUsers;
-    NSMutableDictionary *I_stateByUserID;
+    NSMutableDictionary *I_groupByUserID;
+    NSMutableDictionary *I_statesByClientID;
     
     struct {
         BOOL isServer;
@@ -62,12 +63,14 @@ typedef enum TCMMMSessionState {
 
 - (NSData *)sessionBencoded;
 
-- (void)setState:(NSString *)aState forPendingUsersWithIndexes:(NSIndexSet *)aSet;
+- (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 
 - (void)join;
 - (void)inviteUserWithID:(NSString *)aUserID;
 
 - (void)joinRequestWithProfile:(SessionProfile *)profile;
 - (void)invitationWithProfile:(SessionProfile *)profile;
+
+- (void)documentDidApplyOperation:(TCMMMOperation *)anOperation;
 
 @end

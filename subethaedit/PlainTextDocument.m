@@ -242,4 +242,10 @@
     return [super validateMenuItem:anItem];
 }
 
+#pragma mark -
+#pragma mark ### Session Interaction ###
+- (void)handleOperation:(TCMMMOperation *)aOperation {
+    
+}
+
 @end

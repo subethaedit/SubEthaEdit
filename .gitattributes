@@ -216,6 +216,8 @@ subethaedit/Preferences.nib/info.nib -text
 subethaedit/Preferences.nib/keyedobjects.nib -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
+subethaedit/SelectionOperation.h -text
+subethaedit/SelectionOperation.m -text
 subethaedit/SessionProfile.h -text
 subethaedit/SessionProfile.m -text
 subethaedit/SubEthaEdit.xcode/dwagner.pbxuser -text
@@ -247,10 +249,16 @@ subethaedit/TCMMillionMonkeys/TCMMMBEEPSessionManager.h -text
 subethaedit/TCMMillionMonkeys/TCMMMBEEPSessionManager.m -text
 subethaedit/TCMMillionMonkeys/TCMMMBrowserListView.h -text
 subethaedit/TCMMillionMonkeys/TCMMMBrowserListView.m -text
+subethaedit/TCMMillionMonkeys/TCMMMMessage.h -text
+subethaedit/TCMMillionMonkeys/TCMMMMessage.m -text
+subethaedit/TCMMillionMonkeys/TCMMMOperation.h -text
+subethaedit/TCMMillionMonkeys/TCMMMOperation.m -text
 subethaedit/TCMMillionMonkeys/TCMMMPresenceManager.h -text
 subethaedit/TCMMillionMonkeys/TCMMMPresenceManager.m -text
 subethaedit/TCMMillionMonkeys/TCMMMSession.h -text
 subethaedit/TCMMillionMonkeys/TCMMMSession.m -text
+subethaedit/TCMMillionMonkeys/TCMMMState.h -text
+subethaedit/TCMMillionMonkeys/TCMMMState.m -text
 subethaedit/TCMMillionMonkeys/TCMMMStatusProfile.h -text
 subethaedit/TCMMillionMonkeys/TCMMMStatusProfile.m -text
 subethaedit/TCMMillionMonkeys/TCMMMUser.h -text

@@ -117,6 +117,11 @@
             // TODO: validate userID
             TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
             [[TCMMMUserManager sharedInstance] addUser:user];
+        } else if (strncmp(type, "DOCMSG", 6) == 0) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received MMMessage.");
+            NSDictionary *dict=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
+            TCMMMMessage *message=[TCMMMMessage messageWithDictionaryRepresentation:dict];
+            NSLog(@"Received: %@",[message description]);
         }
         
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
@@ -152,6 +157,18 @@
         }
 
     }
+}
+
+- (void)setMMState:(TCMMMState *)aState {
+    I_MMState = aState;
+}
+
+- (void)state:(TCMMMState *)aState handleMessage:(TCMMMMessage *)aMessage {
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"handleMessage");
+    // send message via channel
+    NSMutableData *data=[NSMutableData dataWithBytes:"DOCMSG" length:6];
+    [data appendData:TCM_BencodedObject([aMessage dictionaryRepresentation])];
+    [[self channel] sendMSGMessageWithPayload:data];
 }
 
 @end

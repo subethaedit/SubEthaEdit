@@ -5,3 +5,6 @@
 #import "TCMMMStatusProfile.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+#import "TCMMMOperation.h"
+#import "TCMMMMessage.h"
+#import "TCMMMState.h"

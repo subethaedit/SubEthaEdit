@@ -43,8 +43,10 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>0.1</string>
+        <key>LSMinimumSystemVersion</key>
+	<string>10.3</string>
         <key>NSAppleScriptEnabled</key>
-	<true/>
+	<string>YES</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

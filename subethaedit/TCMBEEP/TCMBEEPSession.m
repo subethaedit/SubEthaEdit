@@ -254,9 +254,9 @@ static int sListenLogCount=0;
 - (void)open
 {
     [I_inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-                             forMode:NSDefaultRunLoopMode];
+                             forMode:(NSString *)kCFRunLoopCommonModes];
     [I_outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-                              forMode:NSDefaultRunLoopMode];
+                              forMode:(NSString *)kCFRunLoopCommonModes];
     
     [I_inputStream open];
     [I_outputStream open];

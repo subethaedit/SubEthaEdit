@@ -9,7 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TCMMMSession;
+@class TCMMMSession, TCMMMOperation;
 
 @interface PlainTextDocument : NSDocument
 {
@@ -28,5 +28,7 @@
 
 - (IBAction)announce:(id)aSender;
 - (IBAction)conceal:(id)aSender;
+
+- (void)handleOperation:(TCMMMOperation *)aOperation;
 
 @end

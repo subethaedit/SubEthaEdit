@@ -10,6 +10,7 @@
 #import "ParticipantsView.h"
 #import "PlainTextDocument.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
+#import "SelectionOperation.h"
 
 
 NSString * const PlainTextWindowToolbarIdentifier = @"PlainTextWindowToolbarIdentifier";
@@ -27,6 +28,8 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [O_textView setDelegate:nil];
+    [[[self window] toolbar] setDelegate:nil];
     [O_participantsView release];
     [super dealloc];
 }
@@ -41,7 +44,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     [O_pendingUsersTableView setTarget:self];
     [O_pendingUsersTableView setDoubleAction:@selector(pendingUsersTableViewDoubleAction:)];
     [[O_textView layoutManager] replaceTextStorage:[[self document] textStorage]];
-
+    [O_textView setDelegate:self];
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
     [toolbar setAllowsUserCustomization:YES];
     //[toolbar setAutosavesConfiguration:YES];
@@ -116,7 +119,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
     NSLog(@"pendingUsersTableViewDoubleAction");
     NSIndexSet *set = [aSender selectedRowIndexes];
     if ([set count] > 0) {
-        [[(PlainTextDocument *)[self document] session] setState:@"NixPoofState" forPendingUsersWithIndexes:set];
+        [[(PlainTextDocument *)[self document] session] setGroup:@"NixPoofState" forPendingUsersWithIndexes:set];
     }
 }
 
@@ -193,5 +196,14 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 //- (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {
 //}
+
+#pragma mark -
+#pragma mark ### NSTextView delegate methods ###
+
+- (void)textViewDidChangeSelection:(NSNotification *)aNotification {
+    NSRange selectedRange = [(NSTextView *)[aNotification object] selectedRange];
+    SelectionOperation *selOp = [SelectionOperation selectionOperationWithRange:selectedRange userID:[TCMMMUserManager myUserID]];
+    [[(PlainTextDocument *)[self document] session] documentDidApplyOperation:selOp];
+}
 
 @end
