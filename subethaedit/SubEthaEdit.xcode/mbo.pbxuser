@@ -72,23 +72,6 @@
 			sepNavVisRect = "{{0, 1064}, {547, 197}}";
 		};
 	};
-	144BC78805EE3214006397BC = {
-		fRef = 144BC39005EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		rLen = 0;
-		rLoc = 2147483647;
-		rType = 0;
-	};
-	144BC78905EE3214006397BC = {
-		fRef = 144BC39005EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 219;
-		vrLoc = 0;
-	};
 	144BC79605EE3539006397BC = {
 		fileReference = 144BC39105EDFDB1006397BC;
 		functionName = "-windowDidLoad";
@@ -117,26 +100,6 @@
 		lineNumber = 86;
 		state = 1;
 	};
-	144BC7AC05EE3A41006397BC = {
-		fRef = 144BC39105EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.m: 100";
-		rLen = 0;
-		rLoc = 2472;
-		rType = 0;
-		vrLen = 643;
-		vrLoc = 1784;
-	};
-	144BC7AD05EE3A41006397BC = {
-		fRef = 144BC39005EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.h: 21";
-		rLen = 0;
-		rLoc = 387;
-		rType = 0;
-		vrLen = 289;
-		vrLoc = 98;
-	};
 	144BC7AE05EE3A41006397BC = {
 		fRef = 144BC39005EDFDB1006397BC;
 		isa = PBXTextBookmark;
@@ -156,46 +119,6 @@
 		rType = 0;
 		vrLen = 643;
 		vrLoc = 1784;
-	};
-	144BC7B005EE3A41006397BC = {
-		fRef = 144BC39005EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.h: 22";
-		rLen = 0;
-		rLoc = 413;
-		rType = 0;
-		vrLen = 413;
-		vrLoc = 0;
-	};
-	144BC7C505EE5A52006397BC = {
-		fRef = 144BC39005EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.h: 22";
-		rLen = 0;
-		rLoc = 413;
-		rType = 0;
-		vrLen = 413;
-		vrLoc = 0;
-	};
-	144BC7C605EE5A52006397BC = {
-		fRef = 144BC39005EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.h: 22";
-		rLen = 0;
-		rLoc = 413;
-		rType = 0;
-		vrLen = 413;
-		vrLoc = 0;
-	};
-	144BC7D305EE5F42006397BC = {
-		fRef = 144BC39005EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.h: 22";
-		rLen = 0;
-		rLoc = 413;
-		rType = 0;
-		vrLen = 413;
-		vrLoc = 0;
 	};
 	1464B40B05EE8F9800D21A18 = {
 		isa = PBXFileReference;
@@ -221,101 +144,6 @@
 		rLen = 1;
 		rLoc = 93;
 		rType = 1;
-	};
-	1464B42105EE97B500D21A18 = {
-		fRef = 144BC39005EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.h: 20";
-		rLen = 0;
-		rLoc = 413;
-		rType = 0;
-		vrLen = 354;
-		vrLoc = 98;
-	};
-	1464B42205EE97B500D21A18 = {
-		fRef = 144BC39105EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.m: 200";
-		rLen = 0;
-		rLoc = 5936;
-		rType = 0;
-		vrLen = 716;
-		vrLoc = 2190;
-	};
-	1464B42305EE97B500D21A18 = {
-		fRef = 144BC39105EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.m: 200";
-		rLen = 0;
-		rLoc = 5936;
-		rType = 0;
-		vrLen = 716;
-		vrLoc = 2190;
-	};
-	1464B42B05EE97EC00D21A18 = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.objc;
-		name = TCMPreferenceController.m;
-		path = "/Users/mbo/Documents/TheCodingMonkeys/subethaedit-wc/trunk/subethaedit/TCMPreferenceController.m";
-		refType = 0;
-		sourceTree = "<absolute>";
-	};
-	1464B43F05EEA99400D21A18 = {
-		fRef = 1464B42B05EE97EC00D21A18;
-		isa = PBXTextBookmark;
-		rLen = 1;
-		rLoc = 90;
-		rType = 1;
-	};
-	1464B44005EEA99400D21A18 = {
-		fRef = 144BC39105EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.m: 191";
-		rLen = 0;
-		rLoc = 5082;
-		rType = 0;
-		vrLen = 471;
-		vrLoc = 1904;
-	};
-	1464B80005EEAF3400D21A18 = {
-		fRef = 144BC39105EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.m: 196";
-		rLen = 0;
-		rLoc = 5073;
-		rType = 0;
-		vrLen = 471;
-		vrLoc = 1866;
-	};
-	1464B80105EEAF3400D21A18 = {
-		fRef = 144BC39105EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.m: 196";
-		rLen = 0;
-		rLoc = 5073;
-		rType = 0;
-		vrLen = 471;
-		vrLoc = 1866;
-	};
-	1464B80205EEAF3500D21A18 = {
-		fRef = 144BC39105EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.m: 196";
-		rLen = 0;
-		rLoc = 5073;
-		rType = 0;
-		vrLen = 471;
-		vrLoc = 1866;
-	};
-	1464B80305EEAF4800D21A18 = {
-		fRef = 144BC39105EDFDB1006397BC;
-		isa = PBXTextBookmark;
-		name = "TCMPreferenceController.m: 196";
-		rLen = 0;
-		rLoc = 5073;
-		rType = 0;
-		vrLen = 471;
-		vrLoc = 1866;
 	};
 	1482A67705EFC1D200BC7434 = {
 		uiCtxt = {
@@ -396,10 +224,10 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					301,
-					67,
+					287,
+					65,
 					20,
-					67,
+					65,
 					43,
 					43,
 				);
@@ -413,7 +241,7 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 99587486;
+			PBXPerProjectTemplateStateSaveDate = 99997770;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -643,17 +471,15 @@
 								PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
 									2A37F4AAFDCFA73011CA2CEA,
 									2A37F4ABFDCFA73011CA2CEA,
-									2A37F4B8FDCFA73011CA2CEA,
 									1C37FBAC04509CD000000102,
 								);
 								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 									(
-										34,
 										23,
 										0,
 									),
 								);
-								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 381}, {224, 418}}";
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 194}, {224, 418}}";
 							};
 							PBXTopSmartGroupGIDs = (
 							);
@@ -763,12 +589,12 @@
 							);
 							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
 								(
-									29,
-									23,
+									33,
+									25,
 									0,
 								),
 							);
-							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 194}, {224, 418}}";
+							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 318}, {224, 418}}";
 						};
 						PBXTopSmartGroupGIDs = (
 						);
@@ -804,9 +630,8 @@
 				{
 					Frame = "{{0, 0}, {827, 436}}";
 					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
-						PBXProjectWorkspaceModule_RunWindowVisible = true;
 					};
-					RubberWindowFrame = "104 286 827 478 0 0 1280 832 ";
+					RubberWindowFrame = "86 254 827 478 0 0 1280 832 ";
 				},
 			);
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXBuildResultsModule" = {
@@ -837,37 +662,20 @@
 				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
 					PBXProjectWorkspaceModule_RunWindowVisible = true;
 				};
-				RubberWindowFrame = "86 254 827 478 0 0 1280 832 ";
+				RubberWindowFrame = "185 297 827 478 0 0 1280 832 ";
 			};
 			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
 				Frame = "{{0, 0}, {738, 239}}";
 				PBXModuleWindowStatusBarHidden = YES;
 				RubberWindowFrame = "529 147 738 260 0 0 1280 832 ";
 			};
-			PBXWorkspaceStateSaveDate = 99587486;
+			PBXWorkspaceStateSaveDate = 99997770;
 		};
 		perUserProjectItems = {
-			144BC78805EE3214006397BC = 144BC78805EE3214006397BC;
-			144BC78905EE3214006397BC = 144BC78905EE3214006397BC;
-			144BC7AC05EE3A41006397BC = 144BC7AC05EE3A41006397BC;
-			144BC7AD05EE3A41006397BC = 144BC7AD05EE3A41006397BC;
 			144BC7AE05EE3A41006397BC = 144BC7AE05EE3A41006397BC;
 			144BC7AF05EE3A41006397BC = 144BC7AF05EE3A41006397BC;
-			144BC7B005EE3A41006397BC = 144BC7B005EE3A41006397BC;
-			144BC7C505EE5A52006397BC = 144BC7C505EE5A52006397BC;
-			144BC7C605EE5A52006397BC = 144BC7C605EE5A52006397BC;
-			144BC7D305EE5F42006397BC = 144BC7D305EE5F42006397BC;
 			1464B41F05EE97B500D21A18 = 1464B41F05EE97B500D21A18;
 			1464B42005EE97B500D21A18 = 1464B42005EE97B500D21A18;
-			1464B42105EE97B500D21A18 = 1464B42105EE97B500D21A18;
-			1464B42205EE97B500D21A18 = 1464B42205EE97B500D21A18;
-			1464B42305EE97B500D21A18 = 1464B42305EE97B500D21A18;
-			1464B43F05EEA99400D21A18 = 1464B43F05EEA99400D21A18;
-			1464B44005EEA99400D21A18 = 1464B44005EEA99400D21A18;
-			1464B80005EEAF3400D21A18 = 1464B80005EEAF3400D21A18;
-			1464B80105EEAF3400D21A18 = 1464B80105EEAF3400D21A18;
-			1464B80205EEAF3500D21A18 = 1464B80205EEAF3500D21A18;
-			1464B80305EEAF4800D21A18 = 1464B80305EEAF4800D21A18;
 		};
 		sourceControlManager = 143C358005EBEC0C008C6DFE;
 		userBuildSettings = {

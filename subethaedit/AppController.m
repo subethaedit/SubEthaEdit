@@ -16,6 +16,7 @@
 #import "TCMMMUser.h"
 #import "TCMPreferenceController.h"
 #import "RendezvousBrowserController.h"
+#import "InternetController.h"
 #import "DebugPreferences.h"
 #import "EncodingPreferences.h"
 #import "HandshakeProfile.h"
@@ -120,6 +121,7 @@
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];
     
     [[RendezvousBrowserController new] showWindow:self];
+    [[InternetController new] showWindow:self];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

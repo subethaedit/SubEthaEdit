@@ -175,6 +175,9 @@ subethaedit/English.lproj/EncodingPrefs.nib/classes.nib -text
 subethaedit/English.lproj/EncodingPrefs.nib/info.nib -text
 subethaedit/English.lproj/EncodingPrefs.nib/keyedobjects.nib -text
 subethaedit/English.lproj/InfoPlist.strings -text
+subethaedit/English.lproj/Internet.nib/classes.nib -text
+subethaedit/English.lproj/Internet.nib/info.nib -text
+subethaedit/English.lproj/Internet.nib/keyedobjects.nib -text
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
 subethaedit/English.lproj/MainMenu.nib/info.nib -text
 subethaedit/English.lproj/MainMenu.nib/keyedobjects.nib -text
@@ -188,6 +191,8 @@ subethaedit/English.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
 subethaedit/HandshakeProfile.h -text
 subethaedit/HandshakeProfile.m -text
 subethaedit/Info.plist -text
+subethaedit/InternetController.h -text
+subethaedit/InternetController.m -text
 subethaedit/MyDocument.h -text
 subethaedit/MyDocument.m -text
 subethaedit/NSDictionaryTCMAdditions.h -text
@@ -201,7 +206,7 @@ subethaedit/Preferences.nib/info.nib -text
 subethaedit/Preferences.nib/keyedobjects.nib -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
-subethaedit/SubEthaEdit.xcode/mbo.pbxuser -text
+subethaedit/SubEthaEdit.xcode/mbo.pbxuser -text svneol=unset#application/octet-stream
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
 subethaedit/SubEthaEdit_Prefix.pch -text
 subethaedit/TCMBEEP/TCMBEEP.h -text

@@ -392,6 +392,57 @@
 			settings = {
 			};
 		};
+		14AE9CAA05F5E8F00025CADE = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = InternetController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14AE9CAB05F5E8F00025CADE = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = InternetController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14AE9CAC05F5E8F00025CADE = {
+			fileRef = 14AE9CAA05F5E8F00025CADE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14AE9CAD05F5E8F00025CADE = {
+			fileRef = 14AE9CAB05F5E8F00025CADE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14AE9CB005F5E94C0025CADE = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/Internet.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14AE9CB205F5EA050025CADE = {
+			children = (
+				14AE9CB005F5E94C0025CADE,
+			);
+			isa = PBXVariantGroup;
+			name = Internet.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14AE9CB305F5EA050025CADE = {
+			fileRef = 14AE9CB205F5EA050025CADE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //140
 //141
 //142
@@ -462,6 +513,8 @@
 				1464B40005EE793C00D21A18,
 				5E4F360805EF8E3F009D71ED,
 				5E4F360905EF8E3F009D71ED,
+				14AE9CAA05F5E8F00025CADE,
+				14AE9CAB05F5E8F00025CADE,
 				2A37F4AEFDCFA73011CA2CEA,
 				2A37F4ACFDCFA73011CA2CEA,
 				5EEB185505ED0E1600C17677,
@@ -557,6 +610,7 @@
 				2A37F4B9FDCFA73011CA2CEA,
 				2A37F4B6FDCFA73011CA2CEA,
 				5EEB185B05ED0F3700C17677,
+				14AE9CB205F5EA050025CADE,
 				2A37F4B4FDCFA73011CA2CEA,
 				144BC39505EDFF60006397BC,
 				1464B40505EE79E100D21A18,
@@ -1393,6 +1447,7 @@
 				5E0CFE9205F48F3B008C8191,
 				5EACED4805F5087E0008743E,
 				5EACEEA905F545180008743E,
+				14AE9CAC05F5E8F00025CADE,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1424,6 +1479,7 @@
 				1464B40605EE79E100D21A18,
 				1482A67A05EFC1E100BC7434,
 				5EACEEA105F5388D0008743E,
+				14AE9CB305F5EA050025CADE,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1482,6 +1538,7 @@
 				5E0CFE9305F48F3B008C8191,
 				5EACED4905F5087E0008743E,
 				5EACEEAA05F545180008743E,
+				14AE9CAD05F5E8F00025CADE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
