@@ -6,6 +6,7 @@
                 gotoLineAndClosePanel = id; 
                 orderFrontFindPanel = id; 
                 orderFrontGotoPanel = id; 
+                performFindPanelAction = id; 
                 updateRegexDrawer = id; 
             }; 
             CLASS = FindReplaceController; 

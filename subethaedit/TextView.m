@@ -215,36 +215,10 @@ static NSMenu *defaultMenu=nil;
     return YES;
 }
 
-/* In progress
 - (void)performFindPanelAction:(id)sender 
 {
-    FindReplaceController *findReplace = [FindReplaceController sharedInstance];
-    
-    
-    NSLog(@"performFindPanelAction:%@",findReplace);
-    if ([sender tag]==NSFindPanelActionShowFindPanel) {
-        NSLog(@"Show find panel");
-        [findReplace orderFrontFindPanel:self];
-    } else if ([sender tag]==NSFindPanelActionNext) {
-        NSLog(@"Next");
-    } else if ([sender tag]==NSFindPanelActionPrevious) {
-        NSLog(@"Previous");
-    } else if ([sender tag]==NSFindPanelActionReplaceAll) {
-        NSLog(@"ReplaceAll");
-    } else if ([sender tag]==NSFindPanelActionReplace) {
-        NSLog(@"Replace");
-    } else if ([sender tag]==NSFindPanelActionReplaceAndFind) {
-        NSLog(@"ReplaceAndFind");
-    } else if ([sender tag]==NSFindPanelActionSetFindString) {
-        NSLog(@"SetFindString");
-    } else if ([sender tag]==NSFindPanelActionReplaceAllInSelection) {
-        NSLog(@"ReplaceAllInSelection");
-    }
-    
-    
-    
+    [[FindReplaceController sharedInstance] performFindPanelAction:sender forTextView:self];
 }
 
-*/
 
 @end

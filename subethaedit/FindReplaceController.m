@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import "OgreKit/OgreKit.h"
 #import "FindReplaceController.h"
 #import "PlainTextWindowController.h"
 
@@ -94,6 +95,161 @@ static FindReplaceController *sharedInstance=nil;
 
 }
 
+- (unsigned) currentOgreOptions 
+{
+    unsigned options = OgreNoneOption;
+    if ([O_regexSinglelineCheckbox state]==NSOnState) options = options|OgreSingleLineOption;
+    if ([O_regexMultilineCheckbox state]==NSOnState) options = options|OgreMultilineOption;
+    if ([O_ignoreCaseCheckbox state]==NSOnState) options = options|OgreIgnoreCaseOption;
+    if ([O_regexExtendedCheckbox state]==NSOnState) options = options|OgreExtendOption;
+    if ([O_regexFindLongestCheckbox state]==NSOnState) options = options|OgreFindLongestOption;
+    if ([O_regexIgnoreEmptyCheckbox state]==NSOnState) options = options|OgreFindNotEmptyOption;
+    if ([O_regexNegateSinglelineCheckbox state]==NSOnState) options = options|OgreNegateSingleLineOption;
+    if ([O_regexDontCaptureCheckbox state]==NSOnState) options = options|OgreDontCaptureGroupOption;
+    if ([O_regexCaptureGroupsCheckbox state]==NSOnState) options = options|OgreCaptureGroupOption;
+    return options;
+}
+
+- (OgreSyntax) currentOgreSyntax
+{
+    NSString *aString = [O_regexSyntaxPopup title];
+    if([O_regexCheckbox state]==NSOffState) return OgreSimpleMatchingSyntax;
+    else if([aString isEqualToString:@"POSIX Basic"]) return OgrePOSIXBasicSyntax;
+    else if([aString isEqualToString:@"POSIX Extended"]) return OgrePOSIXExtendedSyntax;
+    else if([aString isEqualToString:@"Emacs"]) return OgreEmacsSyntax;
+    else if([aString isEqualToString:@"grep"]) return OgreGrepSyntax;
+    else if([aString isEqualToString:@"GNU"]) return OgreGNURegexSyntax;
+    else if([aString isEqualToString:@"Java"]) return OgreJavaSyntax;
+    else if([aString isEqualToString:@"Perl"]) return OgrePerlSyntax;
+    else return OgreRubySyntax;
+}
+
+- (NSString*)currentOgreEscapeCharacter
+{
+    if ([[O_regexSyntaxPopup title] isEqualToString:@"\\"]) return OgreBackslashCharacter;
+    else return OgreGUIYenCharacter;
+}
+
+- (void)performFindPanelAction:(id)sender forTextView:(NSTextView *)aTextView {
+    [self performFindPanelAction:sender];
+}
+
+- (id)targetToFindIn
+{
+    id obj = [[NSApp mainWindow] firstResponder];
+    return (obj && [obj isKindOfClass:[NSTextView class]]) ? obj : nil;
+}
+
+
+- (void)performFindPanelAction:(id)sender 
+{
+    if ([sender tag]==NSFindPanelActionShowFindPanel) {
+        NSLog(@"Show find panel");
+        [self orderFrontFindPanel:self];
+    } else if ([sender tag]==NSFindPanelActionNext) {
+        [self find:[O_findComboBox stringValue] forward:YES];
+    } else if ([sender tag]==NSFindPanelActionPrevious) {
+        [self find:[O_findComboBox stringValue] forward:NO];
+    } else if ([sender tag]==NSFindPanelActionReplaceAll) {
+        NSLog(@"ReplaceAll");
+    } else if ([sender tag]==NSFindPanelActionReplace) {
+        NSLog(@"Replace");
+    } else if ([sender tag]==NSFindPanelActionReplaceAndFind) {
+        NSLog(@"ReplaceAndFind");
+    } else if ([sender tag]==NSFindPanelActionSetFindString) {
+        NSLog(@"SetFindString");
+        [self findPanel];
+        NSTextView *target = [self targetToFindIn];
+        if (target) {
+            [O_findComboBox setStringValue:[[target string] substringWithRange:[target selectedRange]]];
+        }
+    } else if ([sender tag]==TCMFindPanelActionFindAll) {
+        NSLog(@"FindAll");
+    }
+}
+
+- (void) find:(NSString*)findString forward:(BOOL)forward
+{
+    NSAutoreleasePool *findPool = [NSAutoreleasePool new];     
+    [O_progressIndicator startAnimation:nil];
+        
+    //if (![OGRegularExpression isValidRegularExpression:findString]) return;
+    
+    OGRegularExpression *regex;
+    regex = [OGRegularExpression regularExpressionWithString:findString
+                                 options:[self currentOgreOptions]
+                                 syntax:[self currentOgreSyntax]
+                                 escapeCharacter:[self currentOgreEscapeCharacter]];
+
+    NSTextView *target = [self targetToFindIn];
+    if (target) {
+        NSString *text = [target string];
+        NSRange selection = [target selectedRange];
+        
+        //if ([O_scopePopup tag]==0)  !!!
+        
+        OGRegularExpressionMatch *aMatch = nil;
+        NSEnumerator *enumerator;
+        
+        if (forward) {
+            enumerator=[regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection))];
+            aMatch = [enumerator nextObject];
+            if (aMatch != nil) {
+                NSRange foundRange = [aMatch rangeOfMatchedString];
+                [target setSelectedRange:foundRange];
+                [target scrollRangeToVisible:foundRange];
+                [target display];
+            } else if ([O_wrapAroundCheckbox state] == NSOnState){
+                enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,selection.location)];
+                aMatch = [enumerator nextObject];
+                if (aMatch != nil) {
+                    NSRange foundRange = [aMatch rangeOfMatchedString];
+                    [target setSelectedRange:foundRange];
+                    [target scrollRangeToVisible:foundRange];
+                    [target display];
+                }
+            }
+        } else { // backwards
+            if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
+                // If we are just simple searching, use NSBackwardsSearch because Regex Searching is sloooow backwards.
+                unsigned options = NSLiteralSearch|NSBackwardsSearch;
+                if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
+                BOOL wrap = ([O_wrapAroundCheckbox state]==NSOnState); 
+                NSRange foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];
+                if (foundRange.length) {
+                    [target setSelectedRange:foundRange];
+                    [target scrollRangeToVisible:foundRange];
+                    [target display];
+                }
+            } else {
+                NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:NSMakeRange(0, selection.location)];
+                if ([matchArray count] > 0) aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
+                if (aMatch != nil) {
+                    NSRange foundRange = [aMatch rangeOfMatchedString];
+                    [target setSelectedRange:foundRange];
+                    [target scrollRangeToVisible:foundRange];
+                    [target display];
+                } else if ([O_wrapAroundCheckbox state] == NSOnState){
+                    NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection))];
+                    if ([matchArray count] > 0) aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
+                    if (aMatch != nil) {
+                        NSRange foundRange = [aMatch rangeOfMatchedString];
+                        [target setSelectedRange:foundRange];
+                        [target scrollRangeToVisible:foundRange];
+                        [target display];
+                    }
+                }
+            }
+        }
+    } else {
+        NSBeep(); // No target
+    }
+                                 
+    [O_progressIndicator stopAnimation:nil];
+    [findPool release];
+}
+
+
 #pragma mark -
 #pragma mark ### Notification handling ###
 
@@ -102,3 +258,35 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 @end
+
+@implementation NSString (NSStringTextFinding)
+
+- (NSRange)findString:(NSString *)string selectedRange:(NSRange)selectedRange options:(unsigned)options wrap:(BOOL)wrap {
+    BOOL forwards = (options & NSBackwardsSearch) == 0;
+    unsigned length = [self length];
+    NSRange searchRange, range;
+
+    if (forwards) {
+	searchRange.location = NSMaxRange(selectedRange);
+	searchRange.length = length - searchRange.location;
+	range = [self rangeOfString:string options:options range:searchRange];
+        if ((range.length == 0) && wrap) {	/* If not found look at the first part of the string */
+	    searchRange.location = 0;
+            searchRange.length = selectedRange.location;
+            range = [self rangeOfString:string options:options range:searchRange];
+        }
+    } else {
+	searchRange.location = 0;
+	searchRange.length = selectedRange.location;
+        range = [self rangeOfString:string options:options range:searchRange];
+        if ((range.length == 0) && wrap) {
+            searchRange.location = NSMaxRange(selectedRange);
+            searchRange.length = length - searchRange.location;
+            range = [self rangeOfString:string options:options range:searchRange];
+        }
+    }
+    return range;
+}    
+
+@end
+

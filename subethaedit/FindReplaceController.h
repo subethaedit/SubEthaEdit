@@ -7,15 +7,21 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <OgreKit/OgreKit.h>
 
 @class OgreAFPCComboBox;
+
+typedef enum {
+    TCMFindPanelActionFindAll = 1001,
+} TCMFindPanelAction;
+
 
 @interface FindReplaceController : NSObject {
     IBOutlet NSPanel *O_findPanel;
     IBOutlet NSPanel *O_gotoPanel;
     IBOutlet NSTextField *O_gotoLineTextField;
-    IBOutlet OgreAFPCComboBox *O_findComboBox;
-    IBOutlet OgreAFPCComboBox *O_replaceComboBox;
+    IBOutlet NSComboBox *O_findComboBox;
+    IBOutlet NSComboBox *O_replaceComboBox;
     IBOutlet NSButton *O_ignoreCaseCheckbox;
     IBOutlet NSProgressIndicator *O_progressIndicator;
     IBOutlet NSDrawer *O_regexDrawer;
@@ -47,8 +53,17 @@
 - (IBAction)orderFrontFindPanel:(id)aSender;
 - (IBAction)gotoLine:(id)aSender;
 - (IBAction)gotoLineAndClosePanel:(id)aSender;
-
+- (unsigned) currentOgreOptions;
+- (OgreSyntax) currentOgreSyntax;
+- (NSString*)currentOgreEscapeCharacter;
+- (void)performFindPanelAction:(id)sender forTextView:(NSTextView *)aTextView;
+- (void)performFindPanelAction:(id)sender;
 - (IBAction)updateRegexDrawer:(id)aSender;
+- (void) find:(NSString*)findString forward:(BOOL)forward;
+
+@end
 
 
+@interface NSString (NSStringTextFinding)
+- (NSRange)findString:(NSString *)string selectedRange:(NSRange)selectedRange options:(unsigned)options wrap:(BOOL)wrap;
 @end
