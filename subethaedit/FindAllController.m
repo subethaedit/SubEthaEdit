@@ -50,6 +50,8 @@
     [[self window] setHidesOnDeactivate:NO];
     [[self window] setDelegate:self];
     [O_findRegexTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Find: %@",@"FindRegexPrefix"),[I_regularExpression expressionString]]];
+    [O_resultsTableView setDoubleAction:@selector(jumpToSelection:)];
+    [O_resultsTableView setTarget:self];
 }
 
 - (void)findAll:(id)sender
@@ -129,16 +131,15 @@
     [O_progressIndicator stopAnimation:nil];
 }
 
-#pragma mark -
-#pragma mark ### Delegate methods ###
-
-- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)jumpToSelection:(id)sender
 {
     if(I_document) {
-        NSRange range = [[[[O_resultsController arrangedObjects] objectAtIndex:rowIndex] objectForKey:@"selectionOperation"] selectedRange];
+        NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
+        if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
+            [I_document newView:self];
+        }
         [I_document selectRange:range];   
     } 
-    return NO;
 }
 
 @end
