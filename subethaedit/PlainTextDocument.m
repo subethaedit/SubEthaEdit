@@ -40,8 +40,7 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     [self TCM_styleFonts];
 }
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
     
@@ -89,14 +88,12 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     [I_fonts.boldItalicFont release];
 }
 
-- (void)setSession:(TCMMMSession *)aSession
-{
+- (void)setSession:(TCMMMSession *)aSession {
     [I_session autorelease];
     I_session = [aSession retain];
 }
 
-- (TCMMMSession *)session
-{
+- (TCMMMSession *)session {
     return I_session;
 }
 
@@ -133,34 +130,50 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     I_flags.isAnnounced=NO;
 }
 
+- (void)selectEncoding:(id)aSender {
+
+    NSStringEncoding encoding = [aSender tag];
+    
+    DEBUGLOG(@"EncodingLogDomain", DetailedLogLevel, [NSString localizedNameOfStringEncoding:encoding]);
+    
+    if ([self fileEncoding] != encoding) {
+
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"File Encoding", nil)];
+        [alert setInformativeText:NSLocalizedString(@"ConvertOrReinterpret", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Convert", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Reinterpret", nil)];
+        [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+        // @selector(sheetDidEndShouldConvert:returnCode:contextInfo:)
+    }
+}
+
 - (void)makeWindowControllers {
     DEBUGLOG(@"blah",5,@"makeWindowCotrollers");
     [self addWindowController:[[PlainTextWindowController new] autorelease]];
 }
 
-- (void)windowControllerWillLoadNib:(NSWindowController *) aController
-{
+- (void)windowControllerWillLoadNib:(NSWindowController *) aController {
     [super windowControllerWillLoadNib:aController];
     DEBUGLOG(@"blah",5,@"Willload");
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
 
-- (void)windowControllerDidLoadNib:(NSWindowController *) aController
-{
+- (void)windowControllerDidLoadNib:(NSWindowController *) aController {
     [super windowControllerDidLoadNib:aController];
     DEBUGLOG(@"blah",5,@"didload");
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
-- (NSData *)dataRepresentationOfType:(NSString *)aType
-{
+- (NSData *)dataRepresentationOfType:(NSString *)aType {
     // Insert code here to write your document from the given data.  You can also choose to override -fileWrapperRepresentationOfType: or -writeToFile:ofType: instead.
     return nil;
 }
 
-- (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType
-{
+- (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
     return [self readFromURL:[NSURL fileURLWithPath:fileName] ofType:docType];
 }
 
@@ -319,7 +332,13 @@ static NSString * const PlainTextDocumentSyntaxColorizeNotification = @"PlainTex
     } else if (selector==@selector(toggleSyntaxHighlighting:)) {
         [anItem setState:(I_flags.highlightSyntax?NSOnState:NSOffState)];
         return YES;
-    } 
+    } else if (selector == @selector(selectEncoding:)) {
+        if ([self fileEncoding] == (unsigned int)[anItem tag]) {
+            [anItem setState:NSOnState];
+        } else {
+            [anItem setState:NSOffState];
+        }
+    }
     return [super validateMenuItem:anItem];
 }
 

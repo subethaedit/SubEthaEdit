@@ -1057,6 +1057,20 @@
 			settings = {
 			};
 		};
+		14E3EACA06149C5D0083426B = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = ScriptMenu.tiff;
+			path = artwork/ScriptMenu.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		14E3EACB06149C5D0083426B = {
+			fileRef = 14E3EACA06149C5D0083426B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		14EA6953060F651A00D02455 = {
 			isa = PBXFileReference;
 			lastKnownFileType = folder;
@@ -2002,6 +2016,7 @@
 				144BC77505EE279B006397BC,
 				5EACEEA005F5388D0008743E,
 				149A5C1B0600A89C0033510E,
+				14E3EACA06149C5D0083426B,
 				5E96948C0600B6D3006C2AA4,
 				5E96948D0600B6D3006C2AA4,
 				5EEB176805ECDC1600C17677,
@@ -2574,6 +2589,7 @@
 				1400696C060C65430060F71E,
 				14EA6955060F651A00D02455,
 				144C57C20614404400D1E8BF,
+				14E3EACB06149C5D0083426B,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

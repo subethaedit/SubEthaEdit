@@ -26,11 +26,13 @@
 
 int const FormatMenuTag = 2000;
 int const FileEncodingsMenuItemTag = 2001;
+int const WindowMenuTag = 3000;
 
 
 @interface AppController (AppControllerPrivateAdditions)
 
 - (void)setupFileEncodingsSubmenu;
+- (void)setupScriptMenu;
 
 @end
 
@@ -46,10 +48,6 @@ int const FileEncodingsMenuItemTag = 2001;
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
-}
-
-- (void)awakeFromNib {
-    [self setupFileEncodingsSubmenu];
 }
 
 - (void)addMe {
@@ -136,6 +134,9 @@ int const FileEncodingsMenuItemTag = 2001;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
     [self addMe];
+    [self setupFileEncodingsSubmenu];
+    [self setupScriptMenu];
+    
     DocumentModeManager *manager=[DocumentModeManager sharedInstance];
     NSLog(@"%@",[manager description]);
     NSDictionary *availableModes=[manager availableModes];
@@ -187,7 +188,19 @@ int const FileEncodingsMenuItemTag = 2001;
     EncodingMenu *fileEncodingsSubmenu = [[EncodingMenu new] autorelease];
     [fileEncodingsMenuItem setSubmenu:fileEncodingsSubmenu];
 
-    [fileEncodingsSubmenu configureWithAction:@selector(chooseEncoding:)];
+    [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
+}
+
+- (void)setupScriptMenu {
+    int indexOfWindowMenu = [[NSApp mainMenu] indexOfItemWithTag:WindowMenuTag];
+    if (indexOfWindowMenu != -1) {
+        NSMenuItem *scriptMenuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
+        [scriptMenuItem setImage:[NSImage imageNamed:@"ScriptMenu"]];
+        NSMenu *menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
+        [scriptMenuItem setSubmenu:menu];
+        [[NSApp mainMenu] insertItem:scriptMenuItem atIndex:indexOfWindowMenu + 1];
+        [scriptMenuItem release];
+    }
 }
 
 @end

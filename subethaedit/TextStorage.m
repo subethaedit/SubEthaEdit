@@ -19,6 +19,8 @@
         I_lineStarts=[NSMutableArray new];
         [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:0]];
         I_lineStartsValidUpTo=0;
+        I_encoding=CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
+        [[EncodingManager sharedInstance] registerEncoding:I_encoding];
     }
     return self;
 }
