@@ -15,7 +15,7 @@
 #import "ImagePopUpButtonCell.h"
 #import "LayoutManager.h"
 #import "TextView.h"
-
+#import "SplitView.h"
 
 NSString * const PlainTextWindowToolbarIdentifier = @"PlainTextWindowToolbarIdentifier";
 NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemIdentifier";
@@ -233,7 +233,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 #pragma mark -
 
-#define SPLITMINHEIGHT 54.
+#define SPLITMINHEIGHT 48.
 //- (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {
 //}
 
@@ -281,8 +281,8 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
         float minHeight=SPLITMINHEIGHT;
         if (proposedPosition<minHeight) {
             return minHeight;
-        } else if (proposedPosition+minHeight>height) {
-            return height-minHeight;
+        } else if (proposedPosition+minHeight+[aSplitView dividerThickness]>height) {
+            return height-minHeight-[aSplitView dividerThickness];
         } else {
             return proposedPosition;
         }
@@ -295,7 +295,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
         PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self];
         [I_plainTextEditors addObject:plainTextEditor];
         [plainTextEditor release];
-        NSSplitView *splitView = [[NSSplitView alloc] initWithFrame:[[[self window] contentView] frame]];
+        NSSplitView *splitView = [[SplitView alloc] initWithFrame:[[[self window] contentView] frame]];
         [[self window] setContentView:splitView];
         NSSize splitSize=[splitView frame].size;
         splitSize.height=splitSize.height/2.;
