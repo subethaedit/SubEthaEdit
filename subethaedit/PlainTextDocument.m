@@ -2667,14 +2667,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         TextOperation *operation=(TextOperation *)aOperation;
         NSTextStorage *textStorage=[self textStorage];
         [textStorage beginEditing];
+        NSRange newRange=NSMakeRange([operation affectedCharRange].location,
+                                     [[operation replacementString] length]);
         [textStorage replaceCharactersInRange:[operation affectedCharRange]
                                    withString:[operation replacementString]];
         [textStorage addAttribute:WrittenByUserIDAttributeName value:[operation userID]
-                            range:NSMakeRange([operation affectedCharRange].location,
-                                              [[operation replacementString] length])];
+                            range:newRange];
         [textStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID]
-                            range:NSMakeRange([operation affectedCharRange].location,
-                                              [[operation replacementString] length])];
+                            range:newRange];
+        [textStorage addAttributes:[self plainTextAttributes] range:newRange];
         [textStorage endEditing];
 
 
@@ -2722,11 +2723,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
     if (!I_flags.isRemotelyEditingTextStorage) {
         [[self session] documentDidApplyOperation:textOp];
-    } else {
-        if ([aTextStorage length]==[aString length]) {
-            [aTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
-        }
     }
+    
+//    else {
+//        if ([aTextStorage length]==[aString length]) {
+//            [aTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
+//        }
+//    }
     if (I_flags.highlightSyntax) {
         if ([aString length]) {
             NSRange range=NSMakeRange(aRange.location,[aString length]);
