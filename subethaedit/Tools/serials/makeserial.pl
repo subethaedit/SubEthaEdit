@@ -16,8 +16,10 @@ my $calc36 = new Math::BaseCalc(digits=>[0..9,'A'..'Z']);
 
 # 0-50000 reserved :
 # 40000 ADA
+# 48000-48999 : direct customers (see direct.txt)
 # 49899 Omni cross-licencing (20 seats)
 # 49900 iDive cross-licencing
+# 49944 tommy
 # 49945 technorati (20 seats)
 # 49946 wayne smallman (esellerate sucks)
 # 49947 Volker Weber (gmail Account)
