@@ -73,12 +73,6 @@
 			children = (
 				14EDD9BB05617C5900F2CFA9,
 				14EDD9BC05617C5900F2CFA9,
-				14CE106F056B9E570032D4DF,
-				14CE1070056B9E570032D4DF,
-				14EDFC110563829800F2CFA9,
-				14EDFC120563829800F2CFA9,
-				14EDE1FC056223D600F2CFA9,
-				14EDE1FD056223D600F2CFA9,
 				32A70AAB03705E1F00C91783,
 				08FB7796FE84155DC02AAC07,
 			);
@@ -97,9 +91,8 @@
 		};
 		08FB779DFE84155DC02AAC07 = {
 			children = (
-				14EDFC22056384D900F2CFA9,
-				14EDFC23056384D900F2CFA9,
 				08FB779EFE84155DC02AAC07,
+				1485AE5A05739DD500C9B70B,
 			);
 			isa = PBXGroup;
 			name = "External Frameworks and Libraries";
@@ -125,30 +118,15 @@
 //142
 //143
 //144
-		14CE106F056B9E570032D4DF = {
-			expectedFileType = sourcecode.c.h;
-			fileEncoding = 4;
+		1485AE5A05739DD500C9B70B = {
+			expectedFileType = wrapper.framework;
 			isa = PBXFileReference;
-			path = Node.h;
+			path = XMPP.framework;
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		14CE1070056B9E570032D4DF = {
-			expectedFileType = sourcecode.c.objc;
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			path = Node.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		14CE1071056B9E570032D4DF = {
-			fileRef = 14CE106F056B9E570032D4DF;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		14CE1072056B9E570032D4DF = {
-			fileRef = 14CE1070056B9E570032D4DF;
+		1485AE5B05739DD500C9B70B = {
+			fileRef = 1485AE5A05739DD500C9B70B;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -177,89 +155,6 @@
 		};
 		14EDD9BE05617C5900F2CFA9 = {
 			fileRef = 14EDD9BC05617C5900F2CFA9;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		14EDE1FC056223D600F2CFA9 = {
-			expectedFileType = sourcecode.c.h;
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			path = XMLStream.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		14EDE1FD056223D600F2CFA9 = {
-			expectedFileType = sourcecode.c.objc;
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			path = XMLStream.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		14EDE1FE056223D600F2CFA9 = {
-			fileRef = 14EDE1FC056223D600F2CFA9;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		14EDE1FF056223D600F2CFA9 = {
-			fileRef = 14EDE1FD056223D600F2CFA9;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		14EDFC110563829800F2CFA9 = {
-			expectedFileType = sourcecode.c.h;
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = XMLParser.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		14EDFC120563829800F2CFA9 = {
-			expectedFileType = sourcecode.c.objc;
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = XMLParser.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		14EDFC130563829800F2CFA9 = {
-			fileRef = 14EDFC110563829800F2CFA9;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		14EDFC140563829800F2CFA9 = {
-			fileRef = 14EDFC120563829800F2CFA9;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		14EDFC22056384D900F2CFA9 = {
-			expectedFileType = sourcecode.c.h;
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			path = expat.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		14EDFC23056384D900F2CFA9 = {
-			expectedFileType = archive.ar;
-			isa = PBXFileReference;
-			path = libexpat.a;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		14EDFC24056384D900F2CFA9 = {
-			fileRef = 14EDFC22056384D900F2CFA9;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		14EDFC25056384D900F2CFA9 = {
-			fileRef = 14EDFC23056384D900F2CFA9;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -322,8 +217,8 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_ENABLE_TRIGRAPHS = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				GCC_ENABLE_TRIGRAPHS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = xmpp_Prefix.pch;
@@ -332,7 +227,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "$(HOME)/bin";
-				LIBRARY_SEARCH_PATHS = /Users/mbo/Documents/SubEthaEdit/wc/trunk/prototype/xmpp;
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -355,10 +250,6 @@
 			files = (
 				8DD76F980486AA7600D96B5E,
 				14EDD9BD05617C5900F2CFA9,
-				14EDE1FE056223D600F2CFA9,
-				14EDFC130563829800F2CFA9,
-				14EDFC24056384D900F2CFA9,
-				14CE1071056B9E570032D4DF,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,9 +265,6 @@
 			files = (
 				8DD76F9A0486AA7600D96B5E,
 				14EDD9BE05617C5900F2CFA9,
-				14EDE1FF056223D600F2CFA9,
-				14EDFC140563829800F2CFA9,
-				14CE1072056B9E570032D4DF,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -393,7 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F9C0486AA7600D96B5E,
-				14EDFC25056384D900F2CFA9,
+				1485AE5B05739DD500C9B70B,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
