@@ -122,6 +122,10 @@
 					ProductGroup = 5EA63E4C07F0841D009BD76C;
 					ProjectRef = 5EA63E4B07F0841C009BD76C;
 				},
+				{
+					ProductGroup = 5E2286DE07FD7B4900413653;
+					ProjectRef = 5E2286DD07FD7B4900413653;
+				},
 			);
 			targets = (
 				8D1107260486CEB800E47090,
@@ -135,6 +139,7 @@
 				29B97323FDCFA39411CA2CEA,
 				19C28FACFE9D520D11CA2CBB,
 				5EA63E4B07F0841C009BD76C,
+				5E2286DD07FD7B4900413653,
 			);
 			isa = PBXGroup;
 			name = BEEPSEEKiller;
@@ -277,6 +282,44 @@
 //5E2
 //5E3
 //5E4
+		5E2286DD07FD7B4900413653 = {
+			isa = PBXFileReference;
+			lastKnownFileType = "wrapper.pb-project";
+			name = TCMFoundation.xcode;
+			path = TCMFoundation/TCMFoundation.xcode;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E2286DE07FD7B4900413653 = {
+			children = (
+				5E2286E007FD7B4900413653,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E2286E007FD7B4900413653 = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = TCMFoundation.framework;
+			refType = 3;
+			remoteRef = 5E2286E507FD7B6900413653;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5E2286E107FD7B4B00413653 = {
+			fileRef = 5E2286E007FD7B4900413653;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E2286E507FD7B6900413653 = {
+			containerPortal = 5E2286DD07FD7B4900413653;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = TCMFoundation;
+		};
 		5E41CCEA07F982AC00ACF87D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -523,18 +566,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		5EB1FB9607FC39CA003283FC = {
-			fileRef = 5EB1FB9407FC39CA003283FC;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EB1FB9707FC39CA003283FC = {
-			fileRef = 5EB1FB9507FC39CA003283FC;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 //5E0
 //5E1
 //5E2
@@ -582,7 +613,6 @@
 				5E41CCF207F982D700ACF87D,
 				5EB1FB8A07FC37DE003283FC,
 				5EB1FB9107FC3900003283FC,
-				5EB1FB9707FC39CA003283FC,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -607,7 +637,6 @@
 				5E41CCF307F982D700ACF87D,
 				5EB1FB8907FC37DE003283FC,
 				5EB1FB9207FC3900003283FC,
-				5EB1FB9607FC39CA003283FC,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -623,6 +652,7 @@
 		8D11072E0486CEB800E47090 = {
 			buildActionMask = 2147483647;
 			files = (
+				5E2286E107FD7B4B00413653,
 				5EA63E4F07F0842D009BD76C,
 				8D11072F0486CEB800E47090,
 			);
