@@ -8,6 +8,39 @@
 
 #import "TCMXMLParser.h"
 
+@interface TCMXMLParser (TCMXMLParserPrivateAdditions)
+
+- (BOOL)CM_parsingCDATA;
+- (void)CM_setParsingCDATA:(BOOL)state;
+- (NSMutableData *)CM_CDATA;
+- (void)CM_setCDATA:(NSMutableData *)data;
+
+@end
+
+@implementation TCMXMLParser (TCMXMLParserPrivateAdditions)
+
+- (int)CM_parsingCDATA
+{
+    return CM_parsingCDATA;
+}
+
+- (void)CM_setParsingCDATA:(BOOL)state
+{
+    CM_parsingCDATA = state;
+}
+
+- (NSMutableData *)CM_CDATA
+{
+    return CM_CDATA;
+}
+
+- (void)CM_setCDATA:(NSMutableData *)data
+{
+    [CM_CDATA autorelease];
+    CM_CDATA = [data mutableCopy];
+}
+
+@end
 
 #pragma mark ### Handler functions ###
 int getElementAndNamespaceFromUTF8String(const XML_Char *string,NSString **element, NSString **namespace) {
@@ -90,21 +123,34 @@ static void CharacterHandler(void *userData, const XML_Char *s, int len)
 {
     TCMXMLParser *parser = (TCMXMLParser *)userData;
     id delegate = [parser delegate];
-    if ([delegate respondsToSelector:@selector(parser:foundCharacters:)]) {
-        NSString *characters = @"";
-        if (s != nil) {
-            characters = [[[NSString alloc]initWithBytes:s length:len encoding:NSUTF8StringEncoding] autorelease];
+    if ([parser CM_parsingCDATA]) {
+        [[parser CM_CDATA] appendBytes:s length:len];
+    } else {
+        if ([delegate respondsToSelector:@selector(parser:foundCharacters:)]) {
+            NSString *characters = @"";
+            if (s != nil) {
+                characters = [[[NSString alloc]initWithBytes:s length:len encoding:NSUTF8StringEncoding] autorelease];
+            }
+            [delegate parser:parser foundCharacters:characters];
         }
-        [delegate parser:parser foundCharacters:characters];
     }
 } 
 
 static void StartCdataSectionHandler(void *userData)
 {
+    TCMXMLParser *parser = (TCMXMLParser *)userData;
+    [parser CM_setParsingCDATA:YES];
+    [parser CM_setCDATA:[NSMutableData new]];
 }
 
 static void EndCdataSectionHandler(void *userData)
 {
+    TCMXMLParser *parser = (TCMXMLParser *)userData;
+    id delegate = [parser delegate];
+    [parser CM_setParsingCDATA:NO];
+    if ([delegate respondsToSelector:@selector(parser:foundCDATA:)]) {
+        [delegate parser:parser foundCDATA:[[parser CM_CDATA] autorelease]];
+    }
 }
 
 static void CommentHandler(void *userData, const XML_Char *data)
@@ -163,6 +209,8 @@ static void ProcessingInstructionHandler(void *userData, const XML_Char *target,
             EndCdataSectionHandler);
         XML_SetCommentHandler(CM_expatParser, CommentHandler);
         XML_SetProcessingInstructionHandler(CM_expatParser, ProcessingInstructionHandler);
+        
+        CM_parsingCDATA = NO;
     } 
     return self;
 }

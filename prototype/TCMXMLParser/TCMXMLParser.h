@@ -17,8 +17,11 @@
 */
 
 @interface TCMXMLParser : NSObject {
+@private
     XML_Parser CM_expatParser;
     id         CM_delegate;
+    BOOL       CM_parsingCDATA;
+    NSMutableData *CM_CDATA;
 }
 
 + (TCMXMLParser *)XMLParser;
