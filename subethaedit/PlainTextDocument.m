@@ -2090,7 +2090,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self makeWindowControllers];
     PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
-    [self showWindows];
 }
 
 - (NSDictionary *)sessionInformation {
