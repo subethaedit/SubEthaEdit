@@ -9,7 +9,7 @@
 
     <states>
     
-        <default id="Base" color="#000" inverted-color="#f00">
+        <default id="Base" color="#000">
             <keywords id="Keywords" color="#881350" useforautocomplete="yes">
                 <string>if</string>
                 <string>unless</string>
@@ -262,10 +262,7 @@
             <keywords id="Numbers" color="#00f" useforautocomplete="no">
 				<regex>(?&lt;=[^[A-Za-z0-9]]|^)((([0-9]+\.[0-9]*)|(\.[0-9]+)([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]))(([uU][lL]?)|([lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
             </keywords>
-            <keywords id="Characters" color="#00f" useforautocomplete="no">
-				<regex>('.')</regex>
-            </keywords>
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" font-style="italic">
+            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" font-weight="bold">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
         </default>

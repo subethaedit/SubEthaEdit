@@ -353,6 +353,10 @@ subethaedit/Modes/Perl.mode/Contents/Info.plist -text
 subethaedit/Modes/Perl.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Perl.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Perl.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/Python.mode/Contents/Info.plist -text
+subethaedit/Modes/Python.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/Python.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Python.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/XML.mode/Contents/Info.plist -text
 subethaedit/Modes/XML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/XML.mode/Contents/Resources/SyntaxDefinition.xml -text
