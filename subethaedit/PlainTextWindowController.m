@@ -12,6 +12,8 @@
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "SelectionOperation.h"
 #import "ImagePopUpButtonCell.h"
+#import "LayoutManager.h"
+#import "TextView.h"
 
 
 NSString * const PlainTextWindowToolbarIdentifier = @"PlainTextWindowToolbarIdentifier";
@@ -27,11 +29,13 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:[self document] name:NSTextViewDidChangeSelectionNotification object:O_textView];
+    [[NSNotificationCenter defaultCenter] removeObserver:[self document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [O_textView setDelegate:nil];
+    [I_textView setDelegate:nil];
+    [I_textView release];
     [[[self window] toolbar] setDelegate:nil];
     [O_participantsView release];
+    [I_textContainer release];
     [super dealloc];
 }
 
@@ -42,15 +46,50 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (void)windowDidLoad {
-    [[NSNotificationCenter defaultCenter] addObserver:[self document] selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:O_textView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultParagraphStyleDidChange:) name:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:[self document]];
 
     [O_pendingUsersTableView setTarget:self];
     [O_pendingUsersTableView setDoubleAction:@selector(pendingUsersTableViewDoubleAction:)];
-    [[O_textView layoutManager] replaceTextStorage:[[self document] textStorage]];
-    [O_textView setDelegate:self];
 
-    [O_textView setDefaultParagraphStyle:[[self document] defaultParagraphStyle]];
+    [O_scrollView setHasVerticalScroller:YES];
+    NSRect frame;
+    frame.origin=NSMakePoint(0.,0.);
+    frame.size  =[O_scrollView contentSize];
+
+    
+    LayoutManager *layoutManager=[LayoutManager new];
+    [[[self document] textStorage] addLayoutManager:layoutManager];
+    
+    I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width,FLT_MAX)];
+    
+    I_textView=[[TextView alloc] initWithFrame:frame textContainer:I_textContainer];
+    [I_textView setHorizontallyResizable:NO];
+    [I_textView setVerticallyResizable:YES];
+    [I_textView setAutoresizingMask:NSViewWidthSizable];
+    [I_textView setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+    [I_textView setSelectable:YES];
+    [I_textView setEditable:YES];
+    [I_textView setRichText:NO];
+    [I_textView setImportsGraphics:NO];
+    [I_textView setUsesFontPanel:NO];
+    [I_textView setUsesRuler:YES];
+    [I_textView setAllowsUndo:YES];
+
+    [I_textView setDelegate:self];
+    [I_textContainer setHeightTracksTextView:NO];
+    [I_textContainer setWidthTracksTextView:YES];
+    [layoutManager addTextContainer:I_textContainer];
+    
+    [O_scrollView setDocumentView:I_textView];
+    
+    [layoutManager release];
+    
+    
+    [I_textView setDefaultParagraphStyle:[[self document] defaultParagraphStyle]];
+    
+
+    [[NSNotificationCenter defaultCenter] addObserver:[self document] selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
+
 
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
     [toolbar setAllowsUserCustomization:YES];
@@ -66,7 +105,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
         [[self document] windowControllerDidLoadNib:self];
     }
     
-    NSRect frame = [[O_participantsScrollView contentView] frame];
+    frame = [[O_participantsScrollView contentView] frame];
     O_participantsView = [[ParticipantsView alloc] initWithFrame:frame];
     [O_participantsScrollView setBorderType:NSBezelBorder];
     [O_participantsView setDelegate:self];
@@ -92,24 +131,53 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-    SEL action = [menuItem action];
+    SEL selector = [menuItem action];
     
-    if (action == @selector(toggleParticipantsDrawer:)) {
+    if (selector == @selector(toggleParticipantsDrawer:)) {
         [menuItem setTitle:
             [(NSDrawer *)[[[self window] drawers] objectAtIndex:0] state] == NSDrawerOpenState ?
             NSLocalizedString(@"Hide Participants", nil) :
             NSLocalizedString(@"Show Participants", nil)];
         return YES;
-    }    
+    } else if (selector == @selector(togleWrap:)) {
+        [menuItem setState:[O_scrollView hasHorizontalScroller]?NSOffState:NSOnState];
+        return YES;
+    }
     return YES;
 }
 
 
 - (NSTextView *)textView {
-    return O_textView;
+    return I_textView;
 }
 
 #pragma mark -
+
+/*"IBAction to toggle Wrap/NoWrap"*/
+- (IBAction)toggleWrap:(id)aSender {
+    if (![O_scrollView hasHorizontalScroller]) {
+        // turn wrap off
+        [O_scrollView setHasHorizontalScroller:YES];
+        [I_textContainer setWidthTracksTextView:NO];
+        [I_textView setAutoresizingMask:NSViewNotSizable];
+        [I_textContainer setContainerSize:NSMakeSize(FLT_MAX,FLT_MAX)];
+        [I_textView setHorizontallyResizable:YES];
+        [I_textView setNeedsDisplay:YES];
+        [O_scrollView setNeedsDisplay:YES];
+    } else {            
+        // turn wrap on
+        [O_scrollView setHasHorizontalScroller:NO];
+        [O_scrollView setNeedsDisplay:YES];
+        [I_textContainer setWidthTracksTextView:YES];
+        [I_textView setHorizontallyResizable:NO];
+        [I_textView setAutoresizingMask:NSViewWidthSizable];
+        NSRect frame=[I_textView frame];
+        frame.size.width=[O_scrollView contentSize].width;
+        [I_textView setFrame:frame];
+        [I_textView setNeedsDisplay:YES];
+    }
+}
+
 
 - (IBAction)toggleParticipantsDrawer:(id)sender {
     [O_participantsDrawer toggle:sender];
@@ -205,7 +273,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 #pragma mark -
 
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
-    [O_textView setDefaultParagraphStyle:[[self document] defaultParagraphStyle]];
+    [I_textView setDefaultParagraphStyle:[[self document] defaultParagraphStyle]];
 }
 #pragma mark -
 #pragma mark ### ParticipantsView data source methods ###

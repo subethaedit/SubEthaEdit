@@ -13,8 +13,10 @@
                 conceal = id; 
                 toggleIndentNewLines = id; 
                 toggleParticipantsDrawer = id; 
+                toggleShowInvisibles = id; 
                 toggleSyntaxHighlighting = id; 
                 toggleUseTabs = id; 
+                toggleWrap = id; 
             }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 

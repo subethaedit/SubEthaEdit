@@ -14,7 +14,7 @@
                 "O_participantsView" = ParticipantsView; 
                 "O_pendingUsersAccessPopUpButton" = NSPopUpButton; 
                 "O_pendingUsersTableView" = NSTableView; 
-                "O_textView" = NSTextView; 
+                "O_scrollView" = NSScrollView; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

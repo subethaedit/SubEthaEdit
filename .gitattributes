@@ -221,6 +221,8 @@ subethaedit/ImagePopUpButtonCell.m -text
 subethaedit/Info.plist -text
 subethaedit/InternetBrowserController.h -text
 subethaedit/InternetBrowserController.m -text
+subethaedit/LayoutManager.h -text
+subethaedit/LayoutManager.m -text
 subethaedit/Mode.icns -text
 subethaedit/Modes/Base.mode/Contents/Info.plist -text
 subethaedit/Modes/Base.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
@@ -478,6 +480,8 @@ subethaedit/TextOperation.h -text
 subethaedit/TextOperation.m -text
 subethaedit/TextStorage.h -text
 subethaedit/TextStorage.m -text
+subethaedit/TextView.h -text
+subethaedit/TextView.m -text
 subethaedit/Tools/HTMLTemplate.html -text
 subethaedit/Tools/LaTeXTemplate.latex -text
 subethaedit/Tools/RTFTemplate.rtf -text

@@ -13,7 +13,8 @@
 
 
 @interface PlainTextWindowController : NSWindowController {
-    IBOutlet NSTextView *O_textView;
+    IBOutlet NSScrollView *O_scrollView;
+    NSTextView *I_textView;
 
     // praticipants
     IBOutlet NSDrawer         *O_participantsDrawer;
@@ -24,6 +25,7 @@
     IBOutlet NSPopUpButton    *O_actionPullDown;
     IBOutlet NSPopUpButton    *O_pendingUsersAccessPopUpButton;
     IBOutlet NSTableView      *O_pendingUsersTableView;
+    NSTextContainer *I_textContainer;
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;

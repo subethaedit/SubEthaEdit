@@ -474,6 +474,14 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
 
+- (IBAction)toggleShowInvisibles:(id)aSender {
+    NSEnumerator *layoutManagers = [[[self textStorage] layoutManagers] objectEnumerator];
+    NSLayoutManager *layoutManager = nil;
+    while ((layoutManager = [layoutManagers nextObject])) {
+        [layoutManager setShowsInvisibleCharacters:![layoutManager showsInvisibleCharacters]];
+    }
+}
+
 - (IBAction)toggleUseTabs:(id)aSender {
     I_flags.useTabs=!I_flags.useTabs;
 }
@@ -493,6 +501,17 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
         [self setDocumentMode:newMode];
     }
+}
+
+- (void)changeFont:(id)aSender {
+    NSFont *newFont = [aSender convertFont:I_fonts.plainFont];
+    [self setPlainFont:newFont];
+        [I_textStorage addAttributes:[self plainTextAttributes]
+                               range:NSMakeRange(0,[I_textStorage length])];
+    if (I_flags.highlightSyntax) {
+        [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
+    }
+
 }
 
 - (IBAction)toggleSyntaxHighlighting:(id)aSender {
