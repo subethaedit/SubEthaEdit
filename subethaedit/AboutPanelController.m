@@ -51,6 +51,7 @@
 
 - (IBAction)showWindow:(id)sender {
     [self fillLicenseInfoField];
+    [[self window] center];
     [super showWindow:self];
 }
 

@@ -265,12 +265,6 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 #define MODEMENUNAMETAG 20 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
-    
-#warning Remove before SubEthaEdit Release!!!    
-    if ([[NSDate dateWithString:@"2004-05-17 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
-        [NSApp terminate:self];
-        return;
-    }
 
     [self registerTransformers];
     [self addMe];
