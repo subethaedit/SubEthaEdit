@@ -37,6 +37,24 @@ static NSArray *S_possibleStyleColors;
     return YES;
 }
 
++ (NSIndexSet *)indexesWhereStyle:(SyntaxStyle *)aStyle isNotEqualToStyle:(SyntaxStyle *)anotherStyle {
+    if ([[aStyle documentMode] isEqual:[anotherStyle documentMode]]) {
+        NSMutableIndexSet *result=[NSMutableIndexSet indexSet];
+        NSArray *allKeys=[aStyle allKeys];
+        unsigned int i=0;
+        unsigned int count=[allKeys count];
+        for (i=0;i<count;i++) {
+            NSString *styleID=[allKeys objectAtIndex:i];
+            if (![SyntaxStyle style:[aStyle styleForKey:styleID] isEqualToStyle:[anotherStyle styleForKey:styleID]]) {
+                [result addIndex:i];
+            }
+        }
+        return result;
+    } else {
+        return nil;
+    }
+}
+
 - (void)takeValuesFromModeSubtree:(CFXMLTreeRef)aModeTree {
     int childCount;
     int index;

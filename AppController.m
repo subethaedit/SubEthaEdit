@@ -456,11 +456,23 @@ static AppController *sharedInstance = nil;
 #pragma mark ### IBActions ###
 
 - (IBAction)undo:(id)aSender {
-    [[[NSDocumentController sharedDocumentController] currentDocument] undo:aSender];
+    id document=[[NSDocumentController sharedDocumentController] currentDocument];
+    if (document) {
+        [document undo:aSender];
+    } else {
+        NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+        [undoManager undo];
+    }
 }
 
 - (IBAction)redo:(id)aSender {
-    [[[NSDocumentController sharedDocumentController] currentDocument] redo:aSender];
+    id document=[[NSDocumentController sharedDocumentController] currentDocument];
+    if (document) {
+        [document redo:aSender];
+    } else {
+        NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+        [undoManager redo];
+    }
 }
 
 - (IBAction)purchaseSubEthaEdit:(id)sender {
@@ -479,14 +491,16 @@ static AppController *sharedInstance = nil;
         if (currentDocument) {
             return [[currentDocument documentUndoManager] canUndo];
         } else {
-            return NO;
+            NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+            return [undoManager canUndo];
         }
     } else if (selector==@selector(redo:)) {
         PlainTextDocument *currentDocument=[[NSDocumentController sharedDocumentController] currentDocument];
         if (currentDocument) {
             return [[currentDocument documentUndoManager] canRedo];
         } else {
-            return NO;
+            NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+            return [undoManager canRedo];
         }
     } else if (selector==@selector(purchaseSubEthaEdit:)) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

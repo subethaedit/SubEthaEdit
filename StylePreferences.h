@@ -31,6 +31,7 @@
     IBOutlet NSButton *O_revertSelectionToModeButton;
     BOOL I_shouldExportAll;
     NSWindow *I_overlayWindow;
+    NSUndoManager *I_undoManager;
 }
 
 - (IBAction)changeFontTraitItalic:(id)aSender;
