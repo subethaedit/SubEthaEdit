@@ -335,8 +335,9 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
                         attributes=boldSymbolAttributes;
                         break;
                 }
-                [menuItem setAttributedTitle:
-                    [[[NSAttributedString alloc] initWithString:[entry name] attributes:attributes] autorelease]];
+//                [menuItem setAttributedTitle:
+//                    [[[NSAttributedString alloc] initWithString:[entry name] attributes:attributes] autorelease]];
+                [menuItem setTitle:[entry name]];
                 [menuItem setIndentationLevel:[entry indentationLevel]];
                 [I_symbolPopUpMenu addItem:menuItem];
                 [itemsToSort addObject:[[menuItem copy] autorelease]];

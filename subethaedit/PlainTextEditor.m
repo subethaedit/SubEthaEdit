@@ -673,7 +673,6 @@
         [self updateSelectedSymbol];
     } 
     [self TCM_adjustTopStatusBarFrames];
-//    NSLog(@"updated SymbolPopUpSorted");
 }
 
 - (void)popUpWillShowMenu:(PopUpButton *)aButton {
@@ -683,7 +682,6 @@
         [self updateSymbolPopUpSorted:sorted];
         I_flags.symbolPopUpIsSorted=sorted;
     }
-//    NSLog(@"popUpWillShowMenu:");
 }
 
 
