@@ -189,17 +189,6 @@
 			<true/>
 		</dict>
 	</array>
-        <key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>SubEthaEdit</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>see</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleExecutable</key>
 	<string>SubEthaEdit</string>
 	<key>CFBundleIconFile</key>
@@ -212,6 +201,17 @@
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>SubEthaEdit</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>see</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>BUILD_NUMBER_PLACEHOLDER</string>
 	<key>LSMinimumSystemVersion</key>

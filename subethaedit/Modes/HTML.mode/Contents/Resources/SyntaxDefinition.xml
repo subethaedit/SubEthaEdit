@@ -422,7 +422,7 @@
 				<regex>('.')</regex>
             </keywords>
 
-            <keywords id="Javascript String" color="#760f15" useforautocomplete="no">
+            <keywords id="Javascript String" color="#1A1AA6" useforautocomplete="no">
 				<regex>("[^"]*")</regex>
             </keywords>
 
