@@ -168,6 +168,7 @@
 - (void)appendOperationToIncomingMessageQueue:(TCMMMOperation *)anOperation {
     TCMMMMessage *message = [[[TCMMMMessage alloc] initWithOperation:anOperation numberOfClient:I_numberOfClientMessages numberOfServer:I_numberOfServerMessages] autorelease];
     [I_incomingMessages insertObject:message atIndex:0];
+    [[self delegate] stateHasMessagesAvailable:self];
 }
 
 - (void)handleMessage:(TCMMMMessage *)aMessage {
