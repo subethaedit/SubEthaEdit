@@ -9,6 +9,7 @@
 #import "RendezvousBrowserController.h"
 #import "TCMRendezvousBrowser.h"
 #import "ImagePopUpButtonCell.h"
+#import "PullDownButtonCell.h"
 
 
 static RendezvousBrowserController *sharedInstance=nil;
@@ -105,6 +106,24 @@ static RendezvousBrowserController *sharedInstance=nil;
     [[O_actionPullDownButton cell] setUsesItemFromMenu:NO];
     [O_actionPullDownButton addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
     
+    
+    PullDownButtonCell *cell=[[[PullDownButtonCell alloc] initTextCell:@"" pullsDown:YES] autorelease];
+    NSMenu *oldMenu=[[[O_statusPopUpButton cell] menu] retain];
+    [cell setPullsDown:NO];
+    NSMenu *menu=[cell menu];
+    NSEnumerator *menuItems=[[oldMenu itemArray] objectEnumerator];
+    NSMenuItem *item=nil;
+    while ((item=[menuItems nextObject])) {
+        [menu addItem:[item copy]];
+    }
+    [oldMenu release];
+    [O_statusPopUpButton setCell:cell];
+    [cell setControlSize:NSSmallControlSize];
+    [O_statusPopUpButton setPullsDown:YES];
+    [O_statusPopUpButton setBordered:NO];
+    [cell setUsesItemFromMenu:YES];
+//    [O_statusPopUpButton setBezeled:NO];
+    [O_statusPopUpButton setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
     
     [[O_statusPopUpButton menu] setDelegate:self];
     [self TCM_validateStatusPopUpButton];
