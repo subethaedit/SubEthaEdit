@@ -43,4 +43,6 @@ extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
 - (void)unregisterSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)referenceSessionForSession:(TCMMMSession *)aSession;
 
+- (TCMMMSession *)sessionWithID:(NSString *)aSessionID;
+
 @end

@@ -67,6 +67,32 @@
 - (IBAction)joinSession:(id)aSender
 {
     NSLog(@"joinSession in row: %d", [aSender clickedRow]);
+    int row = [aSender clickedRow];
+    
+    int index = 0;
+    int i, j;
+    for (i = 0; i < [I_data count]; i++) {
+        if (index == row) {
+            NSLog(@"found item: %d", i);
+            break;
+        }
+        index++;
+        
+        int numberOfChildren = [[[I_data objectAtIndex:i] objectForKey:@"Sessions"] count];
+        for (j = 0; j < numberOfChildren; j++) {
+            if (index == row) {
+                NSLog(@"found child: %d, item: %d", j, i);
+                break;
+            }
+            index++;
+        }
+    }
+    
+    NSDictionary *userDict = [I_data objectAtIndex:i-1];
+    NSArray *sessions = [userDict objectForKey:@"Sessions"];
+    TCMMMSession *session = [sessions objectAtIndex:j];
+    NSLog(@"Found session: %@", session);
+    [session join]; // also specify BEEPSession
 }
 
 #pragma mark -

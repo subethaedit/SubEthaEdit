@@ -13,15 +13,15 @@ extern NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification;
 extern NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification;
 
 
-@class TCMBEEPListener, TCMHost;
+@class TCMBEEPListener, TCMHost, TCMBEEPSession;
 
 @interface TCMMMBEEPSessionManager : NSObject
 {
     TCMBEEPListener *I_listener;
     int I_listeningPort;
     NSMutableDictionary *I_sessionInformationByUserID;
-    NSMutableDictionary *I_pendingProfileRequestsByUserID;
     NSMutableSet *I_pendingSessions;
+    NSMutableSet *I_pendingSessionProfiles;
     
     NSMutableDictionary *I_pendingOutboundSessions;
 }
@@ -32,5 +32,7 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification;
 
 - (void)connectToNetService:(NSNetService *)aNetService;
 - (void)connectToHost:(TCMHost *)aHost;
+
+- (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID;
 
 @end

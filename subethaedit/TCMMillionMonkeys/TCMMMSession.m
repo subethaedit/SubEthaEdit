@@ -6,9 +6,12 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import "../TCMBEEP/TCMBEEP.h"
 #import "TCMMMSession.h"
 #import "TCMBencodingUtilities.h"
 #import "TCMMMUserManager.h"
+#import "TCMMMBEEPSessionManager.h"
+#import "SessionProfile.h"
 
 
 @implementation TCMMMSession
@@ -26,6 +29,7 @@
     self = [super init];
     if (self) {
         I_participants = [NSMutableDictionary new];
+        I_profilesByUserID = [NSMutableDictionary new];
     }
     return self;
 }
@@ -57,6 +61,7 @@
     [I_participants release];
     [I_filename release];
     [I_sessionID release];
+    [I_profilesByUserID release];
     [super dealloc];
 }
 
@@ -79,7 +84,7 @@
 - (void)setSessionID:(NSString *)aSessionID
 {
     [I_sessionID autorelease];
-     I_sessionID = [aSessionID copy];
+    I_sessionID = [aSessionID copy];
 }
 
 - (NSString *)sessionID
@@ -125,6 +130,52 @@
     [sessionDict setObject:[self sessionID] forKey:@"SessionID"];
     [sessionDict setObject:[self hostID] forKey:@"HostID"];
     return TCM_BencodedObject(sessionDict);
+}
+
+- (void)join
+{
+    TCMBEEPSession *session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
+    [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
+}
+
+- (void)inviteUserWithID:(NSString *)aUserID
+{
+    // merk invited userID
+    
+    TCMBEEPSession *session = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[self hostID]];
+    [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
+}
+
+- (void)joinRequestWithProfile:(SessionProfile *)profile
+{        
+    NSString *peerUserID = [[[profile session] userInfo] objectForKey:@"peerUserID"];
+    [I_profilesByUserID setObject:profile forKey:peerUserID];
+    
+    // ask someone, but for now auto-accept joins
+    [profile acceptJoin];
+}
+
+- (void)invitationWithProfile:(SessionProfile *)profile
+{
+}
+
+#pragma mark -
+
+// When you request a profile you have to implement BEEPSession:didOpenChannelWithProfile: to receive the profile
+- (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
+{
+    // check if invitiation or join is happening
+    DEBUGLOG(@"MMSession", 5, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
+    [I_profilesByUserID setObject:profile forKey:[self hostID]];
+    [profile setDelegate:self];
+    [(SessionProfile *)profile sendJoinRequestForSessionID:[self sessionID]];
+}
+
+# pragma mark -
+
+- (void)profileDidAcceptJoinRequest:(SessionProfile *)profile
+{
+    DEBUGLOG(@"MMSession", 5, @"profileDidAcceptJoinRequest: %@", profile);
 }
 
 @end

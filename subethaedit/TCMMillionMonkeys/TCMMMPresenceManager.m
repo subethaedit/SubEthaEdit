@@ -126,6 +126,11 @@ NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(concealSession:) withObject:aSession];
 }
 
+- (TCMMMSession *)sessionWithID:(NSString *)aSessionID
+{
+    return [[I_registeredSessions objectForKey:aSessionID] objectForKey:@"Session"];
+}
+
 #pragma mark -
 #pragma mark ### Registered Sessions ###
 

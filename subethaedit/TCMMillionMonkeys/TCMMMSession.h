@@ -9,13 +9,23 @@
 #import <Cocoa/Cocoa.h>
 
 
+typedef enum TCMMMSessionState {
+    TCMMMSessionStartingChannelForJoin = 0,
+    TCMMMSessionStartingChannelForInvite = 1,
+    TCMMMSessionRequestingJoin = 2,
+    TCMMMSessionRequestingInvite = 3
+} TCMMMSessionState;
+
+@class SessionProfile;
+
 @interface TCMMMSession : NSObject
 {
     NSDocument *I_document;
     NSString *I_sessionID;
     NSString *I_hostID;
     NSString *I_filename;
-    
+    NSMutableDictionary *I_profilesByUserID;
+    TCMMMSessionState *I_state;
     NSMutableDictionary *I_participants;
     
     struct {
@@ -44,5 +54,11 @@
 - (BOOL)isServer;
 
 - (NSData *)sessionBencoded;
+
+- (void)join;
+- (void)inviteUserWithID:(NSString *)aUserID;
+
+- (void)joinRequestWithProfile:(SessionProfile *)profile;
+- (void)invitationWithProfile:(SessionProfile *)profile;
 
 @end

@@ -12,8 +12,10 @@
 #import "TCMBEEPSession.h"
 #import "TCMBEEPChannel.h"
 #import "TCMMMUserManager.h"
+#import "TCMMMSession.h"
 #import "TCMHost.h"
 #import "HandshakeProfile.h"
+#import "SessionProfile.h"
 
 #define PORTRANGESTART 12347
 #define PORTRANGELENGTH 10
@@ -69,9 +71,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
 {
     self = [super init];
     if (self) {
-        I_sessionInformationByUserID    =[NSMutableDictionary new];
-        I_pendingProfileRequestsByUserID=[NSMutableDictionary new];
-        I_pendingSessions               =[NSMutableSet new];
+        I_sessionInformationByUserID = [NSMutableDictionary new];
+        I_pendingSessionProfiles = [NSMutableSet new];
+        I_pendingSessions = [NSMutableSet new];
         I_pendingOutboundSessions = [NSMutableDictionary new];
     }
     return self;
@@ -82,14 +84,14 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [I_listener close];
     [I_listener release];
     [I_sessionInformationByUserID release];
-    [I_pendingProfileRequestsByUserID release];
+    [I_pendingSessionProfiles release];
     [I_pendingSessions release];
     [I_pendingOutboundSessions release];
     [super dealloc];
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:%@\npendingProfileRequests:%@\npendingSessions:%@\npendingOutboundSessions:%@",[I_sessionInformationByUserID descriptionInStringsFileFormat],[I_pendingProfileRequestsByUserID descriptionInStringsFileFormat],[I_pendingSessions description],[I_pendingOutboundSessions description]];
+    return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:%@\npendingSessionProfiles:%@\npendingSessions:%@\npendingOutboundSessions:%@",[I_sessionInformationByUserID descriptionInStringsFileFormat],[I_pendingSessionProfiles description],[I_pendingSessions description],[I_pendingOutboundSessions description]];
 }
 
 - (BOOL)listen {
@@ -140,7 +142,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [outgoingSessions  addObject:session];
         [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
         [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
-        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",@"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
+        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
         [session setDelegate:self];
         [session open];
     }
@@ -188,10 +190,17 @@ static TCMMMBEEPSessionManager *sharedInstance;
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
         [[session userInfo] setObject:[aHost name] forKey:@"name"];
         [sessions addObject:session];
-        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",@"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
+        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
         [session setDelegate:self];
         [session open];
     }
+}
+
+- (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID
+{
+    NSDictionary *sessionInfo = [I_sessionInformationByUserID objectForKey:aUserID];
+    NSLog(@"sessionInfo: %@", sessionInfo);
+    return [sessionInfo objectForKey:@"RendezvousSession"];
 }
 
 #pragma mark -
@@ -282,6 +291,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
         } else {
             // find the open request
         }
+    } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
+        NSLog(@"Got SubEthaEditSession profile");
+        [aProfile setDelegate:self];
+        [I_pendingSessionProfiles addObject:aProfile];
     }
 }
 
@@ -458,6 +471,25 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 }
 
+#pragma mark -
+
+- (void)profile:(SessionProfile *)profile didReceiveJoinRequestForSessionID:(NSString *)sessionID
+{
+    NSLog(@"didReceiveJoinRequest: %@", sessionID);
+    TCMMMSession *session = [[TCMMMPresenceManager sharedInstance] sessionWithID:sessionID];
+    if (session) {
+        [session joinRequestWithProfile:profile];
+        [profile setDelegate:session];
+        [I_pendingSessionProfiles removeObject:profile];
+    } else {
+        // close channel
+    }
+}
+
+- (void)profile:(SessionProfile *)profile didReceiveInvitationForSessionID:(NSString *)sessionID
+{
+    NSLog(@"didReceiveInvitation: %@", sessionID);
+}
 
 #pragma mark -
 #pragma mark ### BEEPListener delegate ###
