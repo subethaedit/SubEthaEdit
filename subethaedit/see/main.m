@@ -27,6 +27,7 @@ see [options] [files]
 static struct option longopts[] = {
     { "help",       no_argument,            0,  'h' }, // command
     { "version",    no_argument,            0,  'v' }, // command
+    { "background", no_argument,            0,  'b' }, // option
     { "wait",       no_argument,            0,  'w' }, // option
     { "resume",     no_argument,            0,  'r' }, // option
     { "launch",     no_argument,            0,  'l' }, // command
@@ -53,7 +54,7 @@ static NSString *tempFileName() {
 
 
 static void printHelp() {
-    fprintf(stdout, "Usage: see [-hlprvw] [-e encoding_name] [-m mode_identifier] [-t title] [-j description] [file ...]\n");
+    fprintf(stdout, "Usage: see [-bhlprvw] [-e encoding_name] [-m mode_identifier] [-t title] [-j description] [file ...]\n");
     fflush(stdout);
 }
 
@@ -71,24 +72,24 @@ static void printVersion() {
          appShortVersionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     } 
     
-    fprintf(stdout, "    see %s (v%s)\n", TOOL_VERSION_STRING, TOOL_VERSION);
-    fprintf(stdout, "    SubEthaEdit %s (v%s)\n", [appShortVersionString UTF8String], [appVersion UTF8String]);
+    fprintf(stdout, "see %s (v%s)\n", TOOL_VERSION_STRING, TOOL_VERSION);
+    fprintf(stdout, "SubEthaEdit %s (v%s)\n", [appShortVersionString UTF8String], [appVersion UTF8String]);
     fflush(stdout);
     
     if (kLSApplicationNotFoundErr == status || appURL == NULL) {
-        fprintf(stderr, "\nsee: Couldn't locate SubEthaEdit.\n");
+        fprintf(stderr, "see: LaunchServices couldn't find SubEthaEdit.\n");
         fflush(stderr);
     }
 }
 
 
-static BOOL launchSubEthaEdit() {
+static BOOL launchSubEthaEdit(NSDictionary *options) {
     OSStatus status = noErr;
     CFURLRef appURL = NULL;
 
     status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), NULL, NULL, &appURL); // release appURL
     if (kLSApplicationNotFoundErr == status || appURL == NULL) {
-        fprintf(stderr, "see: Couldn't locate SubEthaEdit.\n");
+        fprintf(stderr, "see: LaunchServices couldn't find SubEthaEdit.\n");
         fflush(stderr);
         return NO;
     } else {
@@ -99,11 +100,17 @@ static BOOL launchSubEthaEdit() {
         
         //appURL = (CFURLRef)[NSURL URLWithString:@"file:///Users/Shared/BuildProducts/SubEthaEdit.app"];
         
+        BOOL dontSwitch = [[options objectForKey:@"background"] boolValue];
+        
         LSLaunchURLSpec inLaunchSpec;
         inLaunchSpec.appURL = appURL;
         inLaunchSpec.itemURLs = NULL;
         inLaunchSpec.passThruParams = NULL;
-        inLaunchSpec.launchFlags = kLSLaunchNoParams;
+        if (dontSwitch) {
+            inLaunchSpec.launchFlags = kLSLaunchAsync | kLSLaunchDontSwitch;
+        } else {
+            inLaunchSpec.launchFlags = kLSLaunchNoParams;
+        }
         inLaunchSpec.asyncRefCon = NULL;
         
         status = LSOpenFromURLSpec(&inLaunchSpec, NULL);
@@ -131,7 +138,7 @@ static NSAppleEventDescriptor *propertiesEventDescriptorWithOptions(NSDictionary
 
 
 static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFileName, NSDictionary *options) {
-    if (!launchSubEthaEdit()) {
+    if (!launchSubEthaEdit(options)) {
         return nil;
     }
         
@@ -221,7 +228,8 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 }
                 [replyDesc release];
             } else {
-                //NSLog(@"Error while sending Apple Event: %d", err);
+                fprintf(stderr, "see: Error occurred while sending AppleEvent: %d\n", (int)err);
+                fflush(stderr);
             }
         }
     }
@@ -308,7 +316,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     // Bring terminal to front when wait and resume was specified
     //
     
-    if (wait && resume) {
+    if (resume) {
         Boolean result;
         OSErr err = SameProcess(&psn, &noPSN, &result);
         if (err == noErr && !result) {
@@ -365,8 +373,11 @@ int main (int argc, const char * argv[]) {
     //
     
     int ch;
-    while ((ch = getopt_long(argc, (char * const *)argv, "hlprvwe:m:t:j:", longopts, NULL)) != -1) {
+    while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvwe:m:t:j:", longopts, NULL)) != -1) {
         switch(ch) {
+            case 'b':
+                [options setObject:[NSNumber numberWithBool:YES] forKey:@"background"];
+                break;
             case 'h':
                 help = YES;
                 break;
@@ -440,8 +451,8 @@ int main (int argc, const char * argv[]) {
         printHelp();
     } else if (version) {
         printVersion();
-    } else if (launch) {
-        (void)launchSubEthaEdit();
+    } else if (launch && ([fileNames count] == 0)) {
+        (void)launchSubEthaEdit(options);
     } else {
         openFiles(fileNames, options);
     }

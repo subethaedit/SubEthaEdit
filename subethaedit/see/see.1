@@ -6,7 +6,7 @@
 .\"
 .\" nroff -msafer -mandoc see.1 | less
 .\"
-.Dd September 28, 2004               \" DATE 
+.Dd September 29, 2004               \" DATE 
 .Dt SEE "" "SubEthaEdit Command Line Manual"     \" Program name and manual section number 
 .Os "Mac OS X"
 .Sh NAME                 \" Section Header - required - don't modify 
@@ -19,7 +19,7 @@
 .Nd Command line interface for SubEthaEdit.
 .Sh SYNOPSIS             \" Section Header - required - don't modify
 .Nm
-.Op Fl hlprvw
+.Op Fl bhlprvw
 .Op Fl e Ar encoding_name
 .Op Fl j Ar string
 .Op Fl m Ar mode_identifier
@@ -31,30 +31,44 @@
 .Sh DESCRIPTION          \" Section Header - required - don't modify
 The
 .Nm
-command allows you to open files in SubEthaEdit via the command line.
+command allows you to open files in SubEthaEdit via the command line. You can specify one or more file names as arguments for the
+.Nm
+command to open the corresponding files in SubEthaEdit. It creates a new document for each file name argument that doesn't have a file associated with it and sets the window title to the file name.
+.Pp 
+.Nm
+also reads from stdin when no file name is specified on the command line or it's preceded by a pipe. It writes the contents of the opened files to stdout once you close them in SubEthaEdit and the invoked
+.Nm
+command is followed by a pipe.
 .Pp                      \" Inserts a space
-A list of options and their descriptions:
-.Bl -tag -width -indent  \" Differs from above in tag removed 
+The options are as follows:
+.Bl -tag -width -indent  \" Differs from above in tag removed
+.It Fl b, -background
+Keep SubEthaEdit in the background or launch it in the background if it's not already running.
 .It Fl e, -encoding Ar name
-Specify the internet name of an encoding to open the specified files using that encoding.
+Specify the internet name of an encoding to open the specified file(s) using that encoding.
 .It Fl h, -help
 Display usage information and exit.
 .It Fl j, -job-description Ar string
-Specify ...
+Specify a string describing the context in which the command is used. The string will augment the window titles of all opened documents providing the context of the job in the user interface.
 .It Fl l, -launch
 Launch SubEthaEdit or activate it, if it's already running.
 .It Fl m, -mode Ar identifier
-Specify the identifier of a mode to open the specified files using that mode.
+Specify the identifier of a mode to open the specified file(s) using that mode.
 .It Fl p, -print
-Print the specified files on the default printer.
+Print the specified file(s) on the default printer.
 .It Fl r, -resume
-Description of -r flag
+Bring the application which was in the foreground when the 
+.Nm
+command was invoked to the foreground again.
 .It Fl t, -pipe-title Ar string
-Specify ...
+Specify a string which should be used as the window title for the document containing the text from stdin.
 .It Fl v, -version
 Display version information and exit.
 .It Fl w, -wait
-Description of -w flag
+Wait until all specified files have been closed in SubEthaEdit. Set the EDITOR environment variable to \&"see -w\&" to use
+the 
+.Nm
+command as an external editor for UNIX commands.
 .El                      \" Ends the list
 .Pp
 .\" .Sh ENVIRONMENT      \" May not be needed
@@ -74,7 +88,7 @@ Open a file using XML mode:
 .Pp
 .Dl see --mode XML environment.plist
 .Pp
-Pipe a file listing into see, edit the opened document in SubEthaEdit and after closing it grep the output for a string:
+Pipe a directory listing into see, edit the opened document in SubEthaEdit and after closing it grep the output for a string:
 .Pp
 .Dl ls -l | see | grep \&"foo\&"
 .\" .Sh BUGS              \" Document known, unremedied bugs 
