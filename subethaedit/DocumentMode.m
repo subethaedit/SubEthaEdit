@@ -132,6 +132,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_bundle;
 }
 
+- (NSString *)documentModeIdentifier {
+    return [[I_bundle infoDictionary] objectForKey:@"CFBundleIdentifier"];
+}
+
 - (NSString *)displayName {
     return [[I_bundle localizedInfoDictionary] objectForKey:@"CFBundleName"];
 }

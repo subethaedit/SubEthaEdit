@@ -1203,7 +1203,7 @@ static NSString *tempFileName(NSString *origPath) {
     } else if (selector == @selector(chooseMode:)) {
         DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
         NSString *identifier=[modeManager documentModeIdentifierForTag:[anItem tag]];
-        if (identifier && [[self documentMode] isEqualTo:[modeManager documentModeForIdentifier:identifier]]) {
+        if (identifier && [[[self documentMode] documentModeIdentifier] isEqualToString:identifier]) {
             [anItem setState:NSOnState];
         } else {
             [anItem setState:NSOffState];
