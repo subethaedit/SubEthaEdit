@@ -186,9 +186,10 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
     }
     [[O_colorsPopUpButton menu] addItem:[NSMenuItem separatorItem]];
     [O_colorsPopUpButton addItemWithTitle:NSLocalizedString(@"ColorCustom",@"Custom Color Name")];
-    [[O_colorsPopUpButton lastItem] setImage:[self TCM_menuImageWithColor:[NSColor colorWithCalibratedHue:
-                            [[defaults objectForKey:CustomMyColorHuePreferenceKey] floatValue]
-                                saturation:1. brightness:1. alpha:1.]]]; 
+
+    NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
+    [[O_colorsPopUpButton lastItem] 
+        setImage: [self TCM_menuImageWithColor:[hueTrans transformedValue:[defaults objectForKey:CustomMyColorHuePreferenceKey]]]];
     [[O_colorsPopUpButton lastItem] setTag:-1];
     [O_colorsPopUpButton selectItemAtIndex:[defaults integerForKey:SelectedMyColorPreferenceKey]];
 }
@@ -269,7 +270,7 @@ NSString * const MyEmailsPreferenceKey= @"MyEmails";
         [panel setShowsAlpha:NO];
         [panel orderFront:self];
         [panel setColor:[hueTrans transformedValue:[defaults objectForKey:CustomMyColorHuePreferenceKey]]];
-        tag=(int)([[defaults objectForKey:CustomMyColorHuePreferenceKey] floatValue]*100);
+        tag=(int)([[defaults objectForKey:CustomMyColorHuePreferenceKey] floatValue]);
     } else {
         [[NSColorPanel sharedColorPanel] orderOut:self];
     }
