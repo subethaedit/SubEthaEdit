@@ -2089,7 +2089,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             if (encodingNumber != nil) {
                 NSStringEncoding systemEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
                 NSStringEncoding triedEncoding = [encodingNumber unsignedIntValue];
-                if (triedEncoding == NSUTF8StringEncoding && triedEncoding != systemEncoding) {
+                if (triedEncoding != systemEncoding) {
                     [[textStorage mutableString] setString:@""]; // Empty the document, and reload
                     [options setObject:[NSNumber numberWithUnsignedInt:systemEncoding] forKey:@"CharacterEncoding"];
                     continue;
