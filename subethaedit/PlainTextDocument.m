@@ -56,6 +56,7 @@ NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification = @
 - (void)TCM_handleOpenDocumentEvent;
 - (void)TCM_sendODBCloseEvent;
 - (void)TCM_sendODBModifiedEvent;
+- (BOOL)TCM_writeToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType;
 @end
 
 #pragma mark -
@@ -678,7 +679,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)writeWithBackupToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
-    BOOL result = [super writeWithBackupToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:saveOperationType];
+    BOOL result = [super writeWithBackupToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
     if (result) {
         if (saveOperationType == NSSaveOperation) {
             [self TCM_sendODBModifiedEvent];
@@ -690,9 +691,59 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
     }
+    
+    if (result == NO) {
+        result = [self TCM_writeToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
+    }
+    
     return result;
 }
 
+/* Generate a reasonably short temporary unique file, given an original path.
+*/
+static NSString *tempFileName(NSString *origPath) {
+    static int sequenceNumber = 0;
+    NSString *name;
+    do {
+        sequenceNumber++;
+        name = [NSString stringWithFormat:@"%d-%d-%d.%@", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber, [origPath pathExtension]];
+        name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
+    } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
+    return name;
+}
+
+- (BOOL)TCM_writeToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
+    NSLog(@"Failed to write. Use the force.");
+
+    NSString *intermediateFileNameToSave;
+    NSString *actualFileNameToSave = [fullDocumentPath stringByResolvingSymlinksInPath]; // Follow links to save
+    NSDictionary *curAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:actualFileNameToSave traverseLink:YES];
+
+    // Determine name of intermediate file
+    if (curAttributes) {
+        // Create a unique path in a temporary location.
+        intermediateFileNameToSave = tempFileName(actualFileNameToSave);
+    } else {    // No existing file, just write the final destination
+        intermediateFileNameToSave = actualFileNameToSave;
+    }
+    
+    NSData *data = [self dataRepresentationOfType:docType];
+
+    // use the force to get a root-enabled file descriptor
+    // write data
+    // set attributes
+    
+    if (curAttributes) {
+        // use the force to exchange the intermediate and actual file (exchangedata)
+        // if exchange succeeds
+        //   use the force to remove intermediate file
+        // if exchange files
+        //   use the force to rename intermediate file over actual file
+    }
+    
+    return NO;
+}
+        
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     SEL selector=[anItem action];
     if (selector==@selector(announce:)) {

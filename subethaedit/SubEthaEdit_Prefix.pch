@@ -35,4 +35,6 @@ typedef struct _ItemChildPair {
     } while (0)
 #endif
 
-extern NSString * const DefaultPortNumber;
+#ifdef __OBJC__
+    extern NSString * const DefaultPortNumber;
+#endif
