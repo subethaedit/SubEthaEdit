@@ -31,6 +31,12 @@
                 "O_readWriteButton" = NSButton; 
             }; 
             SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = URLImageView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"O_windowController" = id; }; 
+            SUPERCLASS = NSImageView; 
         }
     ); 
     IBVersion = 1; 

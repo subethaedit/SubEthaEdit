@@ -513,8 +513,6 @@ subethaedit/OpenDocumentsController.h -text
 subethaedit/OpenDocumentsController.m -text
 subethaedit/ParticipantsView.h -text
 subethaedit/ParticipantsView.m -text
-subethaedit/PendingParticipantsTableView.h -text
-subethaedit/PendingParticipantsTableView.m -text
 subethaedit/PlainTextDocument.h -text
 subethaedit/PlainTextDocument.m -text
 subethaedit/PlainTextEditor.h -text
@@ -625,6 +623,8 @@ subethaedit/Tools/serials/checkserial.pl -text
 subethaedit/Tools/serials/makeserial.pl -text
 subethaedit/URLDataProtocol.h -text
 subethaedit/URLDataProtocol.m -text
+subethaedit/URLImageView.h -text
+subethaedit/URLImageView.m -text
 subethaedit/UserChangeOperation.h -text
 subethaedit/UserChangeOperation.m -text
 subethaedit/WebPreviewWindowController.h -text

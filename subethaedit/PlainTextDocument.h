@@ -153,6 +153,9 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)triggerUpdateSymbolTableTimer;
 - (NSMenu *)symbolPopUpMenuForView:(NSTextView *)aTextView sorted:(BOOL)aSorted;
 - (int)selectedSymbolForRange:(NSRange)aRange;
+
+- (NSURL *)documentURL;
+
 #pragma mark -
 #pragma mark ### Flag Accessors ###
 

@@ -1832,6 +1832,67 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [I_findAllControllers addObject:aController];
 }
 
+- (NSURL *)documentURL {
+    if (![[self session] isServer]) {
+        return nil;
+    }
+    
+    NSMutableString *address = [[[NSMutableString alloc] init] autorelease];
+    [address appendFormat:@"%@:", @"see"];
+    
+    NSHost *currentHost = [NSHost currentHost];
+    NSString *hostname = nil;
+    if ([[currentHost name] isEqualToString:@"localhost"]) {
+    	NSEnumerator *enumerator = [[currentHost names] objectEnumerator];
+    	while ((hostname = [enumerator nextObject])) {
+            if (![hostname isEqualToString:@"localhost"]) {
+                    break;
+            }
+    	}
+    } else {
+    	hostname = [currentHost name];
+    }
+    
+    if (hostname == nil) {
+    	hostname = @"localhost";
+    }
+    
+    NSString *escapedHostname = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)hostname, NULL, CFSTR(";:@?/"), kCFStringEncodingUTF8);
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedHostname: %@", escapedHostname);
+    if (escapedHostname != nil) {
+        [escapedHostname autorelease];
+        [address appendFormat:@"//%@", escapedHostname];
+    }
+    
+    NSString *title = [[self fileName] lastPathComponent];
+    if (title == nil) {
+        title = [self displayName];
+    }
+    NSString *escapedTitle = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)title, NULL, CFSTR("/;=?"), kCFStringEncodingUTF8);
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedTitle: %@", escapedTitle);
+    if (escapedTitle != nil) {
+        [escapedTitle autorelease];
+        [address appendFormat:@"/%@", escapedTitle];
+    }
+    
+    NSString *documentId = [[self session] sessionID];
+    NSString *escapedDocumentId = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)documentId, NULL, CFSTR(";/?:@&=+,$"), kCFStringEncodingUTF8);
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedDocumentId: %@", escapedDocumentId);
+    if (escapedDocumentId != nil) {
+        [escapedDocumentId autorelease];
+        [address appendFormat:@"?%@=%@", @"sessionID", escapedDocumentId];
+    }
+
+    DEBUGLOG(@"InternetLogLevel", DetailedLogLevel, @"address: %@", address);
+    if (address != nil && [address length] > 0) {
+        NSURL *url = [NSURL URLWithString:address];
+        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"url: %@", [url description]);
+        return url;
+    }
+    
+    return nil;
+}
+
 #pragma mark -
 #pragma mark ### Flag Accessors ###
 // wrapline setting is only for book keeping - editor scope

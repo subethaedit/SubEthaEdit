@@ -165,7 +165,9 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
     } else if (selector == @selector(toggleLineNumbers:)) {
         [menuItem setState:[self showsGutter]?NSOnState:NSOffState];
         return YES;
-    } 
+    } else if (selector == @selector(copyDocumentURL:)) {
+        return [[(PlainTextDocument *)[self document] session] isServer];
+    }
     return YES;
 }
 
@@ -364,6 +366,20 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 }
 
 
+- (IBAction)copyDocumentURL:(id)aSender {
+
+    NSURL *documentURL = [[self document] documentURL];    
+    
+    NSPasteboard *pboard = [NSPasteboard generalPasteboard];
+    NSArray *pbTypes = [NSArray arrayWithObjects:NSStringPboardType, NSURLPboardType, @"CorePasteboardFlavorType 0x75726C20", @"CorePasteboardFlavorType 0x75726C6E", nil];
+    [pboard declareTypes:pbTypes owner:self];
+    const char *dataUTF8 = [[documentURL absoluteString] UTF8String];
+    [pboard setData:[NSData dataWithBytes:dataUTF8 length:strlen(dataUTF8)] forType:@"CorePasteboardFlavorType 0x75726C20"];
+    dataUTF8 = [[[self document] displayName] UTF8String];
+    [pboard setData:[NSData dataWithBytes:dataUTF8 length:strlen(dataUTF8)] forType:@"CorePasteboardFlavorType 0x75726C6E"];
+    [pboard setString:[documentURL absoluteString] forType:NSStringPboardType];
+    [documentURL writeToPasteboard:pboard];
+}
 
 #pragma mark -
 #pragma mark ### Toolbar ###
