@@ -3370,6 +3370,7 @@ static NSString *S_measurementUnits;
     } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {
             [self setKeepDocumentVersion:YES];
+            [self updateChangeCount:NSChangeDone];
         } else if (returnCode == NSAlertSecondButtonReturn) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
             BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
