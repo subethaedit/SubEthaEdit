@@ -180,8 +180,10 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [I_statesByClientID removeObjectForKey:aUserID];
     }
     SessionProfile *profile=[I_profilesByUserID objectForKey:aUserID];
-    [I_closingProfiles addObject:profile];
-    [I_profilesByUserID removeObjectForKey:aUserID];
+    if (profile) {
+        [I_closingProfiles addObject:profile];
+        [I_profilesByUserID removeObjectForKey:aUserID];
+    }
 }
 
 #pragma mark -
@@ -755,8 +757,8 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         
         [profile setDelegate:self];
         [I_profilesByUserID setObject:profile forKey:[self hostID]];
+        [self setClientState:TCMMMSessionClientInvitedState];
         if (!document) {
-            [self setClientState:TCMMMSessionClientInvitedState];
             [self setWasInvited:YES];
             [[NSSound soundNamed:@"Invitation"] play];
             [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
