@@ -42,6 +42,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
 
 - (void)markBlocks:(NSTextStorage *)aTextStorage
 {
+    // Too fucking slow
     clock_t start_time = clock();
     OGRegularExpression *blockMark = [[self symbolDefinition] block];
     
@@ -76,8 +77,8 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
     RegexSymbolDefinition *definition = [self symbolDefinition];
     NSMutableArray *returnArray =[NSMutableArray array];
 
-    // [self markBlocks:aTextStorage];
-//    clock_t start_time = clock();
+    //[self markBlocks:aTextStorage];
+    //clock_t start_time = clock();
 
     NSArray *symbols = [definition symbols];
     
@@ -99,7 +100,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
         while ((aMatch = [matchEnumerator nextObject])) {
             NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
             if (![aMatch substringAtIndex:1]) jumprange = [aMatch rangeOfMatchedString];
-            if ([aTextStorage attribute:kSymbolParsingIsInABlock atIndex:jumprange.location effectiveRange:nil]) continue;
+            //if ([aTextStorage attribute:kSymbolParsingIsInABlock atIndex:jumprange.location effectiveRange:nil]) continue;
             NSRange fullrange = [aMatch rangeOfMatchedString];
             NSString *name = [aMatch substringAtIndex:1];
             if (!name) name = [aMatch matchedString];
@@ -122,8 +123,8 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
             [returnArray addObject:aSymbolTableEntry];
         }
     }
-    // [aTextStorage removeAttribute:kSymbolParsingIsInABlock range:NSMakeRange(0,[aTextStorage length])];
-//    NSLog(@"time for symbols: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
+    //[aTextStorage removeAttribute:kSymbolParsingIsInABlock range:NSMakeRange(0,[aTextStorage length])];
+    //NSLog(@"time for symbols: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
     return [returnArray sortedArrayUsingSelector:@selector(sortByRange:)];
 }
 

@@ -11,7 +11,8 @@
             }; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = OgreAFPCComboBox; LANGUAGE = ObjC; SUPERCLASS = NSComboBox; }
     ); 
     IBVersion = 1; 
 }
