@@ -124,6 +124,7 @@
 		};
 		1407F34F06750AD100B10D47 = {
 			children = (
+				145E5C000683260F007FAC48,
 				1407F37506750D2800B10D47,
 				1407F35606750B6C00B10D47,
 			);
@@ -150,6 +151,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
+				145E6D6106832FA8007FAC48,
 				1407F3A806750D3D00B10D47,
 				1407F37206750B9600B10D47,
 			);
@@ -834,6 +836,25 @@
 			isSharedContext = 0;
 			isa = PBXAppleScriptBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		145E5C000683260F007FAC48 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			path = Dutch.lproj;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		145E5C2F06832610007FAC48 = {
+			fileRef = 145E5C000683260F007FAC48;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		145E6D6106832FA8007FAC48 = {
+			fileRef = 145E5C000683260F007FAC48;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		146017050619DB0B00E527EC = {
 			children = (
@@ -5185,6 +5206,7 @@
 				5EF18E0F066495C600957730,
 				1407F36E06750B6C00B10D47,
 				1407F3A706750D2800B10D47,
+				145E5C2F06832610007FAC48,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
