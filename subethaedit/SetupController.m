@@ -240,6 +240,10 @@ static SetupController *sharedInstance = nil;
     [NSApp endSheet:O_licenseConfirmationSheet returnCode:kDisagreeLicenseReturnCode];
 }
 
+- (IBAction)purchaseNow:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/purchase/"]];
+}
+
 #pragma mark -
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {

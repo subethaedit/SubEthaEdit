@@ -48,5 +48,6 @@ extern NSString * const LicenseeOrganizationPrefKey;
 
 - (IBAction)agreeLicense:(id)sender;
 - (IBAction)disagreeLicense:(id)sender;
+- (IBAction)purchaseNow:(id)sender;
 
 @end

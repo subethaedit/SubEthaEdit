@@ -8,6 +8,7 @@
                 continueDone = id; 
                 disagreeLicense = id; 
                 goBack = id; 
+                purchaseNow = id; 
             }; 
             CLASS = SetupController; 
             LANGUAGE = ObjC; 
