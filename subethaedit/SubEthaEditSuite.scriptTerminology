@@ -39,7 +39,7 @@
 		<dict>
 			<key>Attributes</key>
 			<dict>
-                                <key>encoding</key>
+                <key>encoding</key>
 				<dict>
 					<key>Description</key>
 					<string>text encoding</string>
@@ -58,14 +58,14 @@
 					<key>Description</key>
 					<string></string>
 					<key>Name</key>
-					<string>color</string>
+					<string>size</string>
 				</dict>
 				<key>foregroundColor</key>
 				<dict>
 					<key>Description</key>
 					<string></string>
 					<key>Name</key>
-					<string>size</string>
+					<string>color</string>
 				</dict>
 			</dict>
 			<key>Description</key>

@@ -31,15 +31,15 @@
 			<string>pltd</string>
 			<key>Attributes</key>
 			<dict>
-                                <key>fileEncoding</key>
-                                <dict>
-                                        <key>AppleEventCode</key>
+                <key>fileEncoding</key>
+                    <dict>
+                    <key>AppleEventCode</key>
 					<string>flen</string>
 					<key>ReadOnly</key>
 					<string>YES</string>
 					<key>Type</key>
 					<string>NSNumber&lt;Int&gt;</string>
-                                </dict>
+                </dict>
 				<key>textStorage</key>
 				<dict>
 					<key>AppleEventCode</key>
@@ -59,11 +59,11 @@
 			<string>ctxt</string>
 			<key>Attributes</key>
 			<dict>
-                                <key>encoding</key>
+                <key>encoding</key>
 				<dict>
 					<key>AppleEventCode</key>
 					<string>txen</string>
-                                        <key>ReadOnly</key>
+                    <key>ReadOnly</key>
 					<string>YES</string>
 					<key>Type</key>
 					<string>NSNumber&lt;Int&gt;</string>
@@ -78,16 +78,16 @@
 				<key>fontSize</key>
 				<dict>
 					<key>AppleEventCode</key>
-					<string>colr</string>
+					<string>ptsz</string>
 					<key>Type</key>
-					<string>NSColor</string>
+					<string>NSCoNSNumber&lt;Double&gt;lor</string>
 				</dict>
 				<key>foregroundColor</key>
 				<dict>
 					<key>AppleEventCode</key>
-					<string>ptsz</string>
+					<string>colr</string>
 					<key>Type</key>
-					<string>NSNumber&lt;Double&gt;</string>
+					<string>NSColor</string>
 				</dict>
 			</dict>
 			<key>Superclass</key>

@@ -4,7 +4,7 @@
 <dictionary>
     <suite name="SubEthaEdit Suite" code="Hdra">
         <classes>
-            <class name="application" code="capp" inherits="application">
+            <class name="application" code="capp" inherits="ASKApplicationSuite.NSApplication">
                 <cocoa class="NSApplication"/>
                 <elements>
                     <element type="text document">
@@ -12,7 +12,7 @@
                     </element>
                 </elements>
             </class>
-            <class name="text document" code="pltd" inherits="document">
+            <class name="text document" code="pltd" inherits="ASKDocumentSuite.NSDocument">
                 <cocoa class="PlainTextDocument"/>
                 <contents name="contents" type="text" description="">
                     <cocoa method="textStorage"/>
@@ -23,6 +23,49 @@
                     </property>
                 </properties>
             </class>
+            <class name="text" plural="text" code="ctxt" inherits="NSTextSuite.NSTextStorage" description="Rich (styled) text">
+				<cocoa class="TextStorage"/>
+				<elements>
+					<element type="paragraph">
+						<cocoa method="paragraphs"/>
+					</element>
+					<element type="word">
+						<cocoa method="words"/>
+					</element>
+					<element type="character">
+						<cocoa method="characters"/>
+					</element>
+					<element type="attribute run">
+						<cocoa method="attributeRuns"/>
+					</element>
+					<!-- <element type="attachment">
+						<cocoa method="attachments"/>
+					</element> -->
+				</elements>
+				<properties>
+					<property name="color" code="colr" type="color" description="The color of the first character.">
+						<cocoa method="foregroundColor"/>
+					</property>
+					<property name="font" code="font" type="string" description="The name of the font of the first character.">
+						<cocoa method="fontName"/>
+					</property>
+					<property name="size" code="ptsz" type="number" description="The size in points of the first character.">
+						<cocoa method="fontSize"/>
+					</property>
+				</properties>
+			</class>
+            <class name="paragraph" code="cpar" inherits="text" description="This subdivides the text into paragraphs.">
+				<cocoa class="TextStorage"/>
+			</class>
+			<class name="word" code="cwor" inherits="text" description="This subdivides the text into words.">
+				<cocoa class="TextStorage"/>
+			</class>
+			<class name="character" code="cha " inherits="text" description="This subdivides the text into characters.">
+				<cocoa class="TextStorage"/>
+			</class>
+			<class name="attribute run" code="catr" inherits="text" description="This subdivides the text into chunks that all have the same attributes.">
+				<cocoa class="TextStorage"/>
+			</class>
         </classes>
         <commands>
             <command name="get url" code="GURLGURL">
