@@ -19,6 +19,7 @@
 	<key>TCMModeExtensions</key>
 	<array>
 	   <string>php</string>
+	   <string>php3</string>
 	   <string>php4</string>
 	   <string>phtml</string>
 	</array>

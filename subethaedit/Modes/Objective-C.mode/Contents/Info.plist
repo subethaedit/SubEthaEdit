@@ -20,6 +20,8 @@
 	<array>
 	   <string>m</string>
 	   <string>h</string>
+	   <string>pch</string>
+	   <string>mm</string>
 	</array>
 </dict>
 </plist>
