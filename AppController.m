@@ -46,7 +46,6 @@
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
 #import "Debug/DebugController.h"
-#import <ExceptionHandling/NSExceptionHandler.h>
 #endif
 
 int const EditMenuTag   = 1000;
@@ -346,10 +345,6 @@ static AppController *sharedInstance = nil;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
-
-#ifndef TCM_NO_DEBUG
-    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSLogAndHandleEveryExceptionMask];
-#endif
 
     if ([SetupController shouldRun]) {
         SetupController *setupController = [SetupController sharedInstance];

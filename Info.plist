@@ -251,7 +251,7 @@
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
-	<string>TCMApplication</string>
+	<string>NSApplication</string>
 	<key>TCMBundledSeeToolVersion</key>
 	<string>1.0</string>
 	<key>TCMMinimumSeeToolVersion</key>
