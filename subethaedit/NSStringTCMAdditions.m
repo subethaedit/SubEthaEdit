@@ -79,6 +79,21 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     convertLineEndingsInString(self,aNewLineEndingString);
 }
 
+- (NSMutableString *)addBRs {
+    unsigned index=[self length];
+    unsigned startIndex,lineEndIndex,contentsEndIndex;
+    while (index!=0) {
+        [self getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(index-1,0)];
+        if (contentsEndIndex!=lineEndIndex) {
+            [self replaceCharactersInRange:NSMakeRange(contentsEndIndex,0)
+                  withString:@"<br />"];
+        }
+        index=startIndex;
+    }
+    return self;
+}
+
+
 @end
 
 
@@ -295,7 +310,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     }
 }
 
-- (NSString *)stringByReplacingEntities {
+- (NSMutableString *)stringByReplacingEntities {
     static NSDictionary *sEntities=nil;
     if (!sEntities) {
         sEntities=[[NSDictionary dictionaryWithObjectsAndKeys:
@@ -554,7 +569,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     }
 
     NSMutableString *string;
-    string = [NSMutableString stringWithString:self];
+    string = [[self mutableCopy] autorelease];
     int index = 0;
     NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
     while (index < [string length]) {
@@ -587,4 +602,135 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     
     return string;
 }
+@end
+
+@implementation NSAttributedString (NSAttributedStringTCMAdditions)
+
+/*"AttributeMapping:
+
+        "WrittenBy" => { "openTag" => "<span class="@%">",
+                             "closeTag" => "</span>"},
+        "ForegroundColor" => {"openTag"=>"<span style="color: %@;">",
+                              "closeTag"=>"</span>" }
+        "Bold" => {"openTag" => "<strong>",
+                   "closeTag" => "</strong>"}
+        "Italic" => {"openTag" => "<em>",
+                     "closeTag"=> "</em>"};
+"*/
+
+- (NSString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping {
+    NSMutableString *result=[[[NSMutableString alloc] initWithCapacity:[self length]*2] autorelease];
+    NSMutableDictionary *state=[NSMutableDictionary new];
+    NSMutableDictionary *toOpen=[NSMutableDictionary new];
+    NSMutableDictionary *toClose=[NSMutableDictionary new];
+    NSMutableArray *stateStack=[NSMutableArray new];
+    
+    
+    NSRange foundRange;
+    NSRange maxRange=NSMakeRange(0,[self length]);
+    NSDictionary *attributes;
+    unsigned int index=0;
+    do {
+        NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
+        attributes=[self attributesAtIndex:index
+                    longestEffectiveRange:&foundRange inRange:maxRange];
+        
+        NSEnumerator *relevantAttributes=[anAttributeMapping keyEnumerator];
+        NSString *key;
+        while ((key=[relevantAttributes nextObject])) {
+            id currentValue=[state      objectForKey:key];
+            id nextValue   =[attributes objectForKey:key];
+            if (currentValue == nil && nextValue == nil) {
+                // nothing
+            } else if (currentValue == nil) {
+                [toOpen setObject:nextValue forKey:key];
+            } else if (nextValue == nil) {
+                [toClose setObject:currentValue forKey:key];
+            } else if (![currentValue isEqual:nextValue]) {
+                [toClose setObject:currentValue forKey:key];
+                [toOpen setObject:nextValue forKey:key];
+            }
+        }
+        int stackPosition=[stateStack count];
+        while ([toClose count] && stackPosition>0) {
+            stackPosition--;
+            NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
+            NSString *attributeName=[pair objectForKey:@"AttributeName"];
+            [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"closeTag"],[pair objectForKey:@"AttributeValue"]];
+            if ([toClose objectForKey:attributeName]) {
+                [toClose removeObjectForKey:attributeName];
+                [stateStack removeObjectAtIndex:stackPosition];
+                [state removeObjectForKey:attributeName];
+            }
+        }
+        while (stackPosition<[stateStack count]) {
+            NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
+            NSString *attributeName=[pair objectForKey:@"AttributeName"];
+            [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"openTag"],[pair objectForKey:@"AttributeValue"]];
+            stackPosition++;
+        }
+        NSEnumerator *openAttributes=[toOpen keyEnumerator];
+        NSString *attributeName;
+        while ((attributeName=[openAttributes nextObject])) {
+            [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"openTag"],[toOpen objectForKey:attributeName]];
+            [state setObject:[toOpen objectForKey:attributeName] forKey:attributeName];
+            [stateStack addObject:[NSDictionary dictionaryWithObjectsAndKeys:attributeName,@"AttributeName",[toOpen objectForKey:attributeName],@"AttributeValue",nil]];
+        }
+        [toOpen removeAllObjects];
+        
+        NSString *contentString=[[[self string] substringWithRange:foundRange] stringByReplacingEntities];
+        [result appendString:contentString];
+        
+        index=NSMaxRange(foundRange);
+        [pool release];
+    } while (index<NSMaxRange(maxRange));
+    // close all remaining open tags
+    int stackPosition=[stateStack count];
+    while (stackPosition>0) {
+        stackPosition--;
+        NSDictionary *pair=[stateStack objectAtIndex:stackPosition];
+        NSString *attributeName=[pair objectForKey:@"AttributeName"];
+        [result appendFormat:[[anAttributeMapping objectForKey:attributeName] objectForKey:@"closeTag"],[pair objectForKey:@"AttributeValue"]];
+    }
+    
+    [toOpen release];
+    [toClose release];
+    [stateStack release];
+    [state release];
+    return result;
+}
+
+@end
+
+
+
+@implementation NSMutableAttributedString (NSMutableAttributedStringTCMAdditions) 
+
+- (void)makeLeadingWhitespaceNonBreaking {
+    NSString *hardspaceString=nil;
+    if (hardspaceString==nil) {
+        unichar hardspace=0x00A0;
+        hardspaceString=[[NSString stringWithCharacters:&hardspace length:1] retain];
+    }
+    unsigned index=[self length];
+    unsigned startIndex,lineEndIndex,contentsEndIndex;
+    while (index!=0) {
+        [[self string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(index-1,0)];
+        if (contentsEndIndex!=lineEndIndex) {
+            unsigned firstNonWhitespace=startIndex;
+            NSString *string=[self string];
+            while (firstNonWhitespace<contentsEndIndex &&
+                   [string characterAtIndex:firstNonWhitespace]==' ') {
+                firstNonWhitespace++;
+            }
+            if (firstNonWhitespace>startIndex) {
+                NSRange replaceRange=NSMakeRange(startIndex,firstNonWhitespace-startIndex);
+                [self replaceCharactersInRange:replaceRange
+                      withString:[@"" stringByPaddingToLength:replaceRange.length withString:hardspaceString startingAtIndex:0]];
+            }
+        }
+        index=startIndex;
+    }
+}
+
 @end

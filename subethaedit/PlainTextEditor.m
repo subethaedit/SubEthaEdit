@@ -651,55 +651,42 @@
 }
 
 - (IBAction)copyAsXHTML:(id)aSender {
+    static NSDictionary *attributeMapping;
+    if (attributeMapping==nil) {
+        attributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<strong>",@"openTag",
+                                @"</strong>",@"closeTag",nil], @"Bold",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<em>",@"openTag",
+                                @"</em>",@"closeTag",nil], @"Italic",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<span style=\"color:%@;\">",@"openTag",
+                                @"</span>",@"closeTag",nil], @"ForegroundColor",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<span style=\"background-color:%@;\">",@"openTag",
+                                @"</span>",@"closeTag",nil], @"BackgroundColor",
+                            [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"<a title=\"%@\">",@"openTag",
+                                @"</a>",@"closeTag",nil], @"WrittenBy",
+                            nil];
+        [attributeMapping retain];
+    }
     NSRange selectedRange=[I_textView selectedRange];
     if (selectedRange.location!=NSNotFound && selectedRange.length>0) {
         PlainTextDocument *document=[self document];
         NSColor *backgroundColor=[document documentBackgroundColor];
         NSColor *foregroundColor=[document documentForegroundColor]; 
         TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
-        NSAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange foregroundColor:foregroundColor];
+        NSMutableAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange foregroundColor:foregroundColor backgroundColor:backgroundColor];
+        [attributedStringForXHTML makeLeadingWhitespaceNonBreaking]; 
         selectedRange.location=0;
         
-        NSRange foundRange;
         NSMutableString *result=[[NSMutableString alloc] initWithCapacity:selectedRange.length*2];
-        [result appendFormat:@"<pre style=\"color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto;\">",[foregroundColor HTMLString],[backgroundColor HTMLString]];
-        NSDictionary *attributes=nil;
-        unsigned int index=selectedRange.location;
-        do {
-            NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
-            attributes=[attributedStringForXHTML attributesAtIndex:index
-                    longestEffectiveRange:&foundRange inRange:selectedRange];
-            index=NSMaxRange(foundRange);
-            NSString *contentString=[[[attributedStringForXHTML string] substringWithRange:foundRange] stringByReplacingEntities];
-            NSMutableString *styleString=[NSMutableString string];
-            if (attributes) {
-                NSString *htmlColor=[attributes objectForKey:@"ForegroundColor"];
-                if (htmlColor) {
-                    [styleString appendFormat:@"color:%@;",htmlColor];
-                }
-                NSNumber *traitMask=[attributes objectForKey:@"FontTraits"];
-                if (traitMask) {
-                    unsigned traits=[traitMask unsignedIntValue];
-                    if (traits & NSBoldFontMask) {
-                        [styleString appendString:@"font-weight:bold;"];
-                    }
-                    if (traits & NSItalicFontMask) {
-                        [styleString appendString:@"font-style:oblique;"];
-                    }
-                }
-                if ([styleString length]>0) {
-                    [result appendFormat:@"<span style=\"%@\">",styleString];
-                }
-            }
-            [result appendString:contentString];
-            if (attributes && [styleString length]>0) {
-                [result appendString:@"</span>"];
-            }
-
-            index=NSMaxRange(foundRange);
-            [pool release];
-        } while (index<NSMaxRange(selectedRange));
-        [result appendString:@"</pre>"];
+        [result appendFormat:@"<div style=\"font-family:monaco, monospace; font-size:small; color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto;\">",[foregroundColor HTMLString],[backgroundColor HTMLString]];
+        [result appendString:[[attributedStringForXHTML XHTMLStringWithAttributeMapping:
+            attributeMapping] addBRs]];
+        [result appendString:@"</div>"];
         [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
         [[NSPasteboard generalPasteboard] setString:result forType:NSStringPboardType];
         [result release];
@@ -707,6 +694,65 @@
         NSBeep();
     }
 }
+
+
+//- (IBAction)copyAsXHTML:(id)aSender {
+//    NSRange selectedRange=[I_textView selectedRange];
+//    if (selectedRange.location!=NSNotFound && selectedRange.length>0) {
+//        PlainTextDocument *document=[self document];
+//        NSColor *backgroundColor=[document documentBackgroundColor];
+//        NSColor *foregroundColor=[document documentForegroundColor]; 
+//        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+//        NSAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange foregroundColor:foregroundColor];
+//        selectedRange.location=0;
+//        
+//        NSRange foundRange;
+//        NSMutableString *result=[[NSMutableString alloc] initWithCapacity:selectedRange.length*2];
+//        [result appendFormat:@"<pre style=\"color:%@; background-color:%@; border: solid black 1px; padding: 0.5em 1em 0.5em 1em; overflow:auto;\">",[foregroundColor HTMLString],[backgroundColor HTMLString]];
+//        NSDictionary *attributes=nil;
+//        unsigned int index=selectedRange.location;
+//        do {
+//            NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
+//            attributes=[attributedStringForXHTML attributesAtIndex:index
+//                    longestEffectiveRange:&foundRange inRange:selectedRange];
+//            index=NSMaxRange(foundRange);
+//            NSString *contentString=[[[attributedStringForXHTML string] substringWithRange:foundRange] stringByReplacingEntities];
+//            NSMutableString *styleString=[NSMutableString string];
+//            if (attributes) {
+//                NSString *htmlColor=[attributes objectForKey:@"ForegroundColor"];
+//                if (htmlColor) {
+//                    [styleString appendFormat:@"color:%@;",htmlColor];
+//                }
+//                NSNumber *traitMask=[attributes objectForKey:@"FontTraits"];
+//                if (traitMask) {
+//                    unsigned traits=[traitMask unsignedIntValue];
+//                    if (traits & NSBoldFontMask) {
+//                        [styleString appendString:@"font-weight:bold;"];
+//                    }
+//                    if (traits & NSItalicFontMask) {
+//                        [styleString appendString:@"font-style:oblique;"];
+//                    }
+//                }
+//                if ([styleString length]>0) {
+//                    [result appendFormat:@"<span style=\"%@\">",styleString];
+//                }
+//            }
+//            [result appendString:contentString];
+//            if (attributes && [styleString length]>0) {
+//                [result appendString:@"</span>"];
+//            }
+//
+//            index=NSMaxRange(foundRange);
+//            [pool release];
+//        } while (index<NSMaxRange(selectedRange));
+//        [result appendString:@"</pre>"];
+//        [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+//        [[NSPasteboard generalPasteboard] setString:result forType:NSStringPboardType];
+//        [result release];
+//    } else {
+//        NSBeep();
+//    }
+//}
 
 - (IBAction)blockeditSelection:(id)aSender {
     NSRange selection=[I_textView selectedRange];

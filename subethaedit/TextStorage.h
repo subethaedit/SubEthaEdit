@@ -54,7 +54,7 @@ extern NSString * const BlockeditAttributeValue;
 - (NSDictionary *)dictionaryRepresentation;
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
-- (NSAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor;
+- (NSMutableAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor backgroundColor:(NSColor *)aBackgroundColor;
 
 @end
 
