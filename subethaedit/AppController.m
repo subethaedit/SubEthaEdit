@@ -51,8 +51,14 @@ int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
 
+
 NSString * const DefaultPortNumber = @"port";
 NSString * const AddressHistory = @"AddressHistory";
+NSString * const SetupDonePrefKey = @"SetupDone";
+NSString * const SerialNumberPrefKey = @"SerialNumberPrefKey";
+NSString * const LicenseeNamePrefKey = @"LicenseeNamePrefKey";
+NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
+
 
 @interface AppController (AppControllerPrivateAdditions)
 
@@ -287,13 +293,16 @@ NSString * const AddressHistory = @"AddressHistory";
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is acutally after the opening of the first untitled document window!
 
-    //SetupController *setupController = [SetupController sharedInstance];
-    //NSModalSession modalSession = [NSApp beginModalSessionForWindow:[setupController window]];
-    //for (;;) {
-    //    if ([NSApp runModalSession:modalSession] != NSRunContinuesResponse)
-    //    break;
-    //}
-    //[NSApp endModalSession:modalSession];
+    BOOL isSetupDone = [[NSUserDefaults standardUserDefaults] boolForKey:SetupDonePrefKey];
+    if (!isSetupDone) {
+        SetupController *setupController = [SetupController sharedInstance];
+        NSModalSession modalSession = [NSApp beginModalSessionForWindow:[setupController window]];
+        for (;;) {
+            if ([NSApp runModalSession:modalSession] != NSRunContinuesResponse)
+            break;
+        }
+        [NSApp endModalSession:modalSession];
+    }
     
     // set up beep profiles
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
@@ -419,9 +428,19 @@ NSString * const AddressHistory = @"AddressHistory";
             return NO;
         }
     } else if (selector==@selector(purchaseSubEthaEdit:)) {
-        return YES;
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
+        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
+        if (name && [serial isValidSerial]) {
+            return NO;
+        }
     } else if (selector==@selector(enterSerialNumber:)) {
-        return YES;
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
+        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
+        if (name && [serial isValidSerial]) {
+            return NO;
+        }
     }
 
     return YES;
