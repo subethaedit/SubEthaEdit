@@ -24,6 +24,16 @@
 #import "SelectionOperation.h"
 #import "ODBEditorSuite.h"
 
+#include <Carbon/Carbon.h>
+#include "MoreUNIX.h"
+#include "MoreSecurity.h"
+#include "MoreCFQ.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 
 #pragma options align=mac68k
 struct SelectionRange
@@ -713,8 +723,53 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (BOOL)TCM_writeToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
-    NSLog(@"Failed to write. Use the force.");
+    NSLog(@"NSDocument failed to write. Use the force.");
 
+    OSStatus err;
+    CFURLRef tool;
+    CFDictionaryRef response;
+    AuthorizationRef auth;
+    
+    tool = NULL;
+    response = NULL;
+    
+    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+    if (err == noErr) {
+        // If we were doing preauthorization, this is where we'd do it.
+    }
+    
+    // Find our helper tool, possibly restoring it from the template.
+	
+    if (err == noErr) {
+        err = MoreSecCopyHelperToolURLAndCheckBundled(
+			CFBundleGetMainBundle(), 
+			CFSTR("SEEHelperTemplate"), 
+			kApplicationSupportFolderType, 
+			CFSTR("SubEthaEdit"), 
+			CFSTR("SEEHelper"), 
+			&tool);
+                        
+        // If the home directory is on an volume that doesn't support 
+        // setuid root helper tools, ask the user whether they want to use 
+        // a temporary tool.
+		
+        if (err == kMoreSecFolderInappropriateErr) {
+            // Asking the user? Well, not really ;-)
+            err = MoreSecCopyHelperToolURLAndCheckBundled(
+                            CFBundleGetMainBundle(), 
+                            CFSTR("SEEHelperTemplate"), 
+                            kTemporaryFolderType, 
+                            CFSTR("SubEthaEdit"), 
+                            CFSTR("SEEHelper"), 
+                            &tool);
+        }
+    }
+    
+    if (err != noErr) {
+        return NO;
+    }
+    
+    
     NSString *intermediateFileNameToSave;
     NSString *actualFileNameToSave = [fullDocumentPath stringByResolvingSymlinksInPath]; // Follow links to save
     NSDictionary *curAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:actualFileNameToSave traverseLink:YES];
@@ -727,10 +782,33 @@ static NSString *tempFileName(NSString *origPath) {
         intermediateFileNameToSave = actualFileNameToSave;
     }
     
-    NSData *data = [self dataRepresentationOfType:docType];
-
     // use the force to get a root-enabled file descriptor
-    // write data
+    NSDictionary *request = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"GetFileDescriptor", @"CommandName",
+                                        intermediateFileNameToSave, @"FileName",
+                                        nil];
+    
+    // Go go gadget helper tool!
+    err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, &response);
+    if (err == noErr) {
+        CFShow(response);
+        err = MoreSecGetErrorFromResponse(response);
+        if (err == noErr) {
+            NSArray *descArray = [(NSDictionary *)response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
+            if ([descArray count] > 0) {
+                NSNumber *descNum = [descArray objectAtIndex:0];
+                int desc = [descNum longLongValue];
+                assert(desc >= 0);
+                assert( fcntl(desc, F_GETFD, 0) >= 0 );
+                NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:desc];
+                NSData *data = [self dataRepresentationOfType:docType];
+                [fileHandle writeData:data];
+                [fileHandle release];
+                close(desc);
+            }
+        }
+    }
+    
     // set attributes
     
     if (curAttributes) {

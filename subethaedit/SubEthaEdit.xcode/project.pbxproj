@@ -385,6 +385,10 @@
 		14499E0C062C6E5600E1C9F1 = {
 			buildActionMask = 2147483647;
 			files = (
+				14499F8B062C864900E1C9F1,
+				14499F8C062C864900E1C9F1,
+				14499F8D062C864900E1C9F1,
+				14499F8E062C864900E1C9F1,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,6 +396,9 @@
 		14499E0D062C6E5600E1C9F1 = {
 			buildActionMask = 2147483647;
 			files = (
+				14499F88062C864400E1C9F1,
+				14499F89062C864400E1C9F1,
+				14499F8A062C864400E1C9F1,
 				14499F7E062C719B00E1C9F1,
 			);
 			isa = PBXSourcesBuildPhase;
@@ -401,6 +408,7 @@
 			buildPhases = (
 				14499E0C062C6E5600E1C9F1,
 				14499E0D062C6E5600E1C9F1,
+				14499F86062C862A00E1C9F1,
 			);
 			buildRules = (
 			);
@@ -408,7 +416,6 @@
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INSTALL_PATH = /usr/local/bin;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -577,6 +584,68 @@
 			isa = PBXTargetDependency;
 			target = 14499E0E062C6E5600E1C9F1;
 			targetProxy = 14499F82062C71E100E1C9F1;
+		};
+		14499F86062C862A00E1C9F1 = {
+			buildActionMask = 2147483647;
+			files = (
+				14499F87062C863500E1C9F1,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14499F87062C863500E1C9F1 = {
+			fileRef = 14497AB8062C380000E1C9F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14499F88062C864400E1C9F1 = {
+			fileRef = 14499E53062C6F9B00E1C9F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14499F89062C864400E1C9F1 = {
+			fileRef = 14499E55062C6F9B00E1C9F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14499F8A062C864400E1C9F1 = {
+			fileRef = 14499E58062C6F9B00E1C9F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14499F8B062C864900E1C9F1 = {
+			fileRef = 14499E54062C6F9B00E1C9F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14499F8C062C864900E1C9F1 = {
+			fileRef = 14499E56062C6F9B00E1C9F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14499F8D062C864900E1C9F1 = {
+			fileRef = 14499E57062C6F9B00E1C9F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14499F8E062C864900E1C9F1 = {
+			fileRef = 14499E59062C6F9B00E1C9F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		14499FAF062C89B200E1C9F1 = {
+			fileRef = 14499E0F062C6E5600E1C9F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		144BC39005EDFDB1006397BC = {
 			fileEncoding = 4;
@@ -867,6 +936,19 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		1463F043062D2C9500C422F5 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" -name .svn | xargs rm -rf\n\n#MAJ_VER=\"2.0dev\"\nREV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n#/usr/bin/perl -spi -e \"s/VERSION_NUMBER_PLACEHOLDER/$MAJ_VER/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"";
+		};
 		147037FD060C642F0087BA25 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -1003,6 +1085,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				14499FAF062C89B200E1C9F1,
 				147883EF0627528400B6685C,
 			);
 			isa = PBXCopyFilesBuildPhase;
@@ -3395,6 +3478,7 @@
 			buildPhases = (
 				8D15AC280486D014006FF6A4,
 				8D15AC2B0486D014006FF6A4,
+				1463F043062D2C9500C422F5,
 				144DD74906104A760047D354,
 				8D15AC300486D014006FF6A4,
 				8D15AC330486D014006FF6A4,
