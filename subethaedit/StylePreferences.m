@@ -12,6 +12,7 @@
 #import "DocumentController.h"
 #import "TableView.h"
 #import "TextFieldCell.h"
+#import "GeneralPreferences.h"
 
 
 @implementation StylePreferences
@@ -465,20 +466,21 @@
         s_paragraphStyle=[[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         [s_paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
     }
-//    float obliquenessFactor=.0;
-//    if ((traits & NSItalicFontMask) && !([fontManager traitsOfFont:font] & NSItalicFontMask)) {
-//        obliquenessFactor=.2;
-//    }
-//    float strokeWidth=.0;
-//    if ((traits & NSBoldFontMask) && !([fontManager traitsOfFont:font] & NSBoldFontMask)) {
-//        strokeWidth=-3.;
-//    }
-//    
+    BOOL synthesise=[[NSUserDefaults standardUserDefaults] boolForKey:SynthesiseFontsPreferenceKey];
+    float obliquenessFactor=.0;
+    if (synthesise && (traits & NSItalicFontMask) && !([fontManager traitsOfFont:font] & NSItalicFontMask)) {
+        obliquenessFactor=.2;
+    }
+    float strokeWidth=.0;
+    if (synthesise && (traits & NSBoldFontMask) && !([fontManager traitsOfFont:font] & NSBoldFontMask)) {
+        strokeWidth=-3.;
+    }
+    
     NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
         [[aTableColumn identifier]isEqualToString:@"light"]?[style objectForKey:@"color"]:[style objectForKey:@"inverted-color"],NSForegroundColorAttributeName,
         s_paragraphStyle,NSParagraphStyleAttributeName,
-//        [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
-//        [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
+        [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
+        [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
         nil];
     return [[[NSAttributedString alloc] initWithString:localizedString attributes:attributes] autorelease];
 }

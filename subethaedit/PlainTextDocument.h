@@ -145,8 +145,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 
 - (DocumentMode *)documentMode;
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode;
-- (void)takeStyleSettingsFromDocumentMode:(DocumentMode *)aDocumentMode;
-- (void)takeEditSettingsFromDocumentMode:(DocumentMode *)aDocumentMode;
+- (void)takeStyleSettingsFromDocumentMode;
+- (void)takeEditSettingsFromDocumentMode;
 
 
 - (BOOL)isAnnounced;

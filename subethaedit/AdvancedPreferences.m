@@ -8,7 +8,8 @@
 
 #import "AdvancedPreferences.h"
 #import "SetupController.h"
-
+#import "DocumentController.h"
+#import "GeneralPreferences.h"
 
 @implementation AdvancedPreferences
 
@@ -26,6 +27,12 @@
 
 - (NSString *)mainNibName {
     return @"AdvancedPrefs";
+}
+
+- (void)mainViewDidLoad {
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    [O_disableScreenFontsButton setState:[[defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] floatValue]<=1.?NSOnState:NSOffState];
+    [O_synthesiseFontsButton setState:[defaults boolForKey:SynthesiseFontsPreferenceKey]?NSOnState:NSOffState];
 }
 
 - (void)didSelect {
@@ -79,5 +86,20 @@
         (void)[alert runModal];
     }
 }
+
+- (IBAction)changeDisableScreenFonts:(id)aSender {
+    if ([aSender state]==NSOnState) {
+        [[NSUserDefaults standardUserDefaults] setFloat:1. forKey:@"AppleScreenAdvanceSizeThreshold"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AppleScreenAdvanceSizeThreshold"];
+    }
+}
+
+- (IBAction)changeSynthesiseFonts:(id)aSender {
+    [[NSUserDefaults standardUserDefaults] setBool:[aSender state]==NSOnState forKey:SynthesiseFontsPreferenceKey];
+    // trigger update
+    [[[DocumentController sharedInstance] documents] makeObjectsPerformSelector:@selector(applyStylePreferences)];
+}
+
 
 @end

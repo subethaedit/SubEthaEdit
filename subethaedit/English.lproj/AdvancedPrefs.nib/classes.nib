@@ -1,10 +1,19 @@
 {
     IBClasses = (
         {
-            ACTIONS = {commandLineToolInstall = id; commandLineToolRemove = id; }; 
+            ACTIONS = {
+                changeDisableScreenFonts = id; 
+                changeSynthesiseFonts = id; 
+                commandLineToolInstall = id; 
+                commandLineToolRemove = id; 
+            }; 
             CLASS = AdvancedPreferences; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"O_commandLineToolRemoveButton" = NSButton; }; 
+            OUTLETS = {
+                "O_commandLineToolRemoveButton" = NSButton; 
+                "O_disableScreenFontsButton" = NSButton; 
+                "O_synthesiseFontsButton" = NSButton; 
+            }; 
             SUPERCLASS = TCMPreferenceModule; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 

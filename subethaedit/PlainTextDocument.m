@@ -274,23 +274,27 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (void)applyStylePreferences {
+    [self takeStyleSettingsFromDocumentMode];
+    SyntaxHighlighter *highlighter=[[self documentMode] syntaxHighlighter];
+    if (I_flags.highlightSyntax && highlighter) {
+        [highlighter updateStylesInTextStorage:[self textStorage] ofDocument:self];
+    } else {
+        [I_textStorage addAttributes:[self plainTextAttributes]
+                       range:NSMakeRange(0,[I_textStorage length])];
+    }
+}
+
 - (void)applyStylePreferences:(NSNotification *)aNotification {
     DocumentMode *mode=[self documentMode];
     if ([[aNotification object] isEqual:mode]) {
-        [self takeStyleSettingsFromDocumentMode:mode];
-        SyntaxHighlighter *highlighter=[mode syntaxHighlighter];
-        if (I_flags.highlightSyntax && highlighter) {
-            [highlighter updateStylesInTextStorage:[self textStorage] ofDocument:self];
-        } else {
-            [I_textStorage addAttributes:[self plainTextAttributes]
-                           range:NSMakeRange(0,[I_textStorage length])];
-        }
+        [self applyStylePreferences];
     }
 }
 
 - (void)applyEditPreferences:(NSNotification *)aNotification {
     if ([[aNotification object] isEqual:[self documentMode]]) {
-        [self takeEditSettingsFromDocumentMode:[self documentMode]];
+        [self takeEditSettingsFromDocumentMode];
     }
 }
 
@@ -877,40 +881,42 @@ static NSString *tempFileName(NSString *origPath) {
     return I_documentMode;
 }
 
-- (void)takeStyleSettingsFromDocumentMode:(DocumentMode *)aDocumentMode {
-    NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
+- (void)takeStyleSettingsFromDocumentMode {
+    DocumentMode *documentMode=[self documentMode];
+    NSDictionary *fontAttributes=[documentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     [self setPlainFont:newFont];
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeStyleSettingsFromDocument)];
 }
 
-- (void)takeEditSettingsFromDocumentMode:(DocumentMode *)aDocumentMode {
-    [self setHighlightsSyntax:[[aDocumentMode defaultForKey:DocumentModeHighlightSyntaxPreferenceKey] boolValue]];
+- (void)takeEditSettingsFromDocumentMode {
+    DocumentMode *documentMode=[self documentMode];
+    [self setHighlightsSyntax:[[documentMode defaultForKey:DocumentModeHighlightSyntaxPreferenceKey] boolValue]];
     
-    [self setIndentsNewLines:[[aDocumentMode defaultForKey:DocumentModeIndentNewLinesPreferenceKey] boolValue]];
-    [self setUsesTabs:[[aDocumentMode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue]];
-    [self setTabWidth:[[aDocumentMode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue]];
-    [self setWrapLines:[[aDocumentMode defaultForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
-    [self setWrapMode: [[aDocumentMode defaultForKey:DocumentModeWrapModePreferenceKey] intValue]];
-    [self setShowInvisibleCharacters:[[aDocumentMode defaultForKey:DocumentModeShowInvisibleCharactersPreferenceKey] boolValue]];
-    [self setShowsGutter:[[aDocumentMode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] intValue]];
-    [self setShowsMatchingBrackets:[[aDocumentMode defaultForKey:DocumentModeShowMatchingBracketsPreferenceKey] boolValue]];
-    [self setLineEnding:[[aDocumentMode defaultForKey:DocumentModeLineEndingPreferenceKey] intValue]];
-    NSNumber *aFlag=[[aDocumentMode defaults] objectForKey:DocumentModeShowBottomStatusBarPreferenceKey];
+    [self setIndentsNewLines:[[documentMode defaultForKey:DocumentModeIndentNewLinesPreferenceKey] boolValue]];
+    [self setUsesTabs:[[documentMode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue]];
+    [self setTabWidth:[[documentMode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue]];
+    [self setWrapLines:[[documentMode defaultForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
+    [self setWrapMode: [[documentMode defaultForKey:DocumentModeWrapModePreferenceKey] intValue]];
+    [self setShowInvisibleCharacters:[[documentMode defaultForKey:DocumentModeShowInvisibleCharactersPreferenceKey] boolValue]];
+    [self setShowsGutter:[[documentMode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] intValue]];
+    [self setShowsMatchingBrackets:[[documentMode defaultForKey:DocumentModeShowMatchingBracketsPreferenceKey] boolValue]];
+    [self setLineEnding:[[documentMode defaultForKey:DocumentModeLineEndingPreferenceKey] intValue]];
+    NSNumber *aFlag=[[documentMode defaults] objectForKey:DocumentModeShowBottomStatusBarPreferenceKey];
     [self setShowsBottomStatusBar:!aFlag || [aFlag boolValue]];
-    aFlag=[[aDocumentMode defaults] objectForKey:DocumentModeShowTopStatusBarPreferenceKey];
+    aFlag=[[documentMode defaults] objectForKey:DocumentModeShowTopStatusBarPreferenceKey];
     [self setShowsTopStatusBar:!aFlag || [aFlag boolValue]];
 
     [[self windowControllers] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeStyleSettingsFromDocument)];
 }
 
-- (void)takeSettingsFromDocumentMode:(DocumentMode *)aDocumentMode {
-    [self takeStyleSettingsFromDocumentMode:aDocumentMode];
-    [self takeEditSettingsFromDocumentMode:aDocumentMode];
+- (void)takeSettingsFromDocumentMode {
+    [self takeStyleSettingsFromDocumentMode];
+    [self takeEditSettingsFromDocumentMode];
     
-    [self setPrintInfo:[NSKeyedUnarchiver unarchiveObjectWithData:[aDocumentMode defaultForKey:DocumentModePrintInfoPreferenceKey]]];    
+    [self setPrintInfo:[NSKeyedUnarchiver unarchiveObjectWithData:[[self documentMode] defaultForKey:DocumentModePrintInfoPreferenceKey]]];    
 }
 
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode {
@@ -918,7 +924,7 @@ static NSString *tempFileName(NSString *origPath) {
     SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
     [highlighter cleanUpTextStorage:[self textStorage]];
      I_documentMode = [aDocumentMode retain];
-    [self takeSettingsFromDocumentMode:aDocumentMode];
+    [self takeSettingsFromDocumentMode];
     [I_textStorage addAttributes:[self plainTextAttributes]
                                range:NSMakeRange(0,[I_textStorage length])];
     if (I_flags.highlightSyntax) {
@@ -2729,20 +2735,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
         NSFont *font=[self fontWithTrait:traits];
-//        float obliquenessFactor=0.;
-//        if ((traits & NSItalicFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSItalicFontMask)) {
-//            obliquenessFactor=.2;
-//        }
-//        float strokeWidth=.0;
-//        if ((traits & NSBoldFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSBoldFontMask)) {
-//            strokeWidth=-3.;
-//        }
+        BOOL synthesise=[[NSUserDefaults standardUserDefaults] boolForKey:SynthesiseFontsPreferenceKey];
+        float obliquenessFactor=0.;
+        if (synthesise && (traits & NSItalicFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSItalicFontMask)) {
+            obliquenessFactor=.2;
+        }
+        float strokeWidth=.0;
+        if (synthesise && (traits & NSBoldFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSBoldFontMask)) {
+            strokeWidth=-3.;
+        }
         NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
         result=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
             foregroundColor,NSForegroundColorAttributeName,
             aStyleID,@"styleID",
-//            [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
-//            [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
+            [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
+            [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
             nil];
         [I_styleCacheDictionary setObject:result forKey:aStyleID];
     }
