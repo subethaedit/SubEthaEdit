@@ -72,6 +72,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     I_userInfo = [NSMutableDictionary new];
     I_channelRequests = [NSMutableDictionary new];
     
+    I_sessionStatus = TCMBEEPSessionStatusNotOpen;
+    
     // RFC 879 - The TCP Maximum Segment Size and Related Topics
     // MSS: 1500 - 60 - 20 = 1420
     // 2/3 MSS: 946
@@ -104,7 +106,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     I_rawLogOutHandle = [[NSFileHandle fileHandleForWritingAtPath:logOut] retain];
     [I_rawLogOutHandle writeData:header];
     
-    NSString *frameLogFileName = [logDir stringByAppendingPathComponent:[NSString stringWithFormat:@"Frames%02d.log",     sNumberOfLogs++]];
+    NSString *frameLogFileName = [logDir stringByAppendingPathComponent:[NSString stringWithFormat:@"Frames%02d.log", sNumberOfLogs++]];
     [[NSFileManager defaultManager] createFileAtPath:frameLogFileName contents:[NSData data] attributes:nil];
     I_frameLogHandle = [[NSFileHandle fileHandleForWritingAtPath:frameLogFileName] retain];
     [I_frameLogHandle writeData:header];
@@ -125,7 +127,8 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     return self;
 }
 
-- (id)initWithAddressData:(NSData *)aData {
+- (id)initWithAddressData:(NSData *)aData
+{
     self = [super init];
     if (self) {
         [self setPeerAddressData:aData];
@@ -144,6 +147,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     I_delegate = nil;
     [I_inputStream setDelegate:nil];
     [I_outputStream setDelegate:nil];
+    [[NSRunLoop currentRunLoop] cancelPerformSelectorsWithTarget:self];
     
     [I_readBuffer release];
     [I_writeBuffer release];
@@ -170,7 +174,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     [I_frameLogHandle closeFile];
     [I_frameLogHandle release];
 #endif
-    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"TCMBEEPSession dealloced");
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"BEEPSession deallocated");
     [super dealloc];
 }
 
@@ -300,6 +304,11 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     return I_maximumFrameSize;
 }
 
+- (TCMBEEPSessionStatus)sessionStatus
+{
+    return I_sessionStatus;
+}
+
 - (void)activateChannel:(TCMBEEPChannel *)aChannel
 {
     [I_activeChannels setObject:aChannel forLong:[aChannel number]];
@@ -316,7 +325,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     [I_outputStream open];
     
     I_managementChannel = [[TCMBEEPChannel alloc] initWithSession:self number:0 profileURI:kTCMBEEPManagementProfile asInitiator:[self isInitiator]];
-    TCMBEEPManagementProfile *profile=(TCMBEEPManagementProfile *)[I_managementChannel profile];
+    TCMBEEPManagementProfile *profile = (TCMBEEPManagementProfile *)[I_managementChannel profile];
     [profile setDelegate:self];
 
     [self activateChannel:I_managementChannel];
@@ -333,36 +342,36 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
 
 - (void)terminate
 {
-    if ([I_outputStream streamStatus] != NSStreamStatusClosed) {
+    I_sessionStatus = TCMBEEPSessionStatusError;
+    
+    [[NSRunLoop currentRunLoop] cancelPerformSelector:@selector(sendRoundRobin) target:self argument:nil];
+    [I_inputStream setDelegate:nil];
+    [I_outputStream setDelegate:nil];
+    
+    if ([I_outputStream streamStatus] != NSStreamStatusClosed && [I_outputStream streamStatus] != NSStreamStatusError) {
         [I_outputStream close];
     }
-    if ([I_inputStream streamStatus] != NSStreamStatusClosed) {
+    if ([I_inputStream streamStatus] != NSStreamStatusClosed && [I_inputStream streamStatus] != NSStreamStatusError) {
         [I_inputStream close];
     }
-    [self TCM_cleanup];
-}
-
-- (void)TCM_cleanup
-{
-    BOOL informDelegate = (I_activeChannels != nil);
+    
     NSEnumerator *activeChannels = [I_activeChannels objectEnumerator];  
     TCMBEEPChannel *channel;
     while ((channel = [activeChannels nextObject])) {
         [channel cleanup];
     }
-    [I_activeChannels release];
-    I_activeChannels = nil;
+    [I_activeChannels removeAllObjects];
     
-    if (informDelegate) {
-        id delegate = [self delegate];
-        if ([delegate respondsToSelector:@selector(BEEPSession:didFailWithError:)]) {
-            NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
-            [delegate BEEPSession:self didFailWithError:error];
-        }
-    }
-    
+    [I_managementChannel release];
+    I_managementChannel = nil;
+
     // cleanup requested channels
-    // cleanup managment channel
+    
+    id delegate = [self delegate];
+    if ([delegate respondsToSelector:@selector(BEEPSession:didFailWithError:)]) {
+        NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
+        [delegate BEEPSession:self didFailWithError:error];
+    }
 }
 
 - (void)TCM_writeData:(NSData *)aData
@@ -506,6 +515,44 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
     }
 }
 
+- (void)TCM_handleErrorOccurredOrAtEndEvent
+{
+    if (I_sessionStatus == TCMBEEPSessionStatusError) {
+       return;
+    }
+    
+    I_sessionStatus = TCMBEEPSessionStatusError;
+    
+    [[NSRunLoop currentRunLoop] cancelPerformSelector:@selector(sendRoundRobin) target:self argument:nil];
+    [I_inputStream setDelegate:nil];
+    [I_outputStream setDelegate:nil];
+    
+    if ([I_inputStream streamStatus] == NSStreamStatusAtEnd) {
+        [I_inputStream close];
+    }
+    if ([I_outputStream streamStatus] == NSStreamStatusAtEnd) {
+        [I_outputStream close];
+    }
+    
+    NSEnumerator *activeChannels = [I_activeChannels objectEnumerator];  
+    TCMBEEPChannel *channel;
+    while ((channel = [activeChannels nextObject])) {
+        [channel cleanup];
+    }
+    [I_activeChannels removeAllObjects];
+
+    [I_managementChannel release];
+    I_managementChannel = nil;
+    
+    // cleanup requested channels
+    
+    id delegate = [self delegate];
+    if ([delegate respondsToSelector:@selector(BEEPSession:didFailWithError:)]) {
+        NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
+        [delegate BEEPSession:self didFailWithError:error];
+    }
+}
+
 - (void)TCM_handleInputStreamEvent:(NSStreamEvent)streamEvent
 {
     switch (streamEvent) {
@@ -518,12 +565,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
         case NSStreamEventErrorOccurred: {
                 NSError *error = [I_inputStream streamError];
                 DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"An error occurred on the input stream: %@, Domain: %@, Code: %d", [error localizedDescription], [error domain], [error code]);
-                [self TCM_cleanup];
+                [self TCM_handleErrorOccurredOrAtEndEvent];
             }
             break;
         case NSStreamEventEndEncountered:
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Input stream end encountered.");
-            [self TCM_cleanup];
+            [self TCM_handleErrorOccurredOrAtEndEvent];
             break;
         default:
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Input stream not handling this event: %d", streamEvent);
@@ -561,12 +608,12 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
         case NSStreamEventErrorOccurred: {
                 NSError *error = [I_outputStream streamError];
                 DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"An error occurred on the output stream: %@, Domain: %@, Code: %d", [error localizedDescription], [error domain], [error code]);
-                [self TCM_cleanup];
+                [self TCM_handleErrorOccurredOrAtEndEvent];
             }
             break;
         case NSStreamEventEndEncountered:
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Output stream end encountered.");
-            [self TCM_cleanup];
+            [self TCM_handleErrorOccurredOrAtEndEvent];
             break;
         default:
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Output stream not handling this event: %d", streamEvent);
@@ -602,7 +649,7 @@ NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/Beep/
             [self TCM_writeBytes];
         }
     } else {
-        I_flags.isSending=NO;
+        I_flags.isSending = NO;
     }
     //DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"sendRoundrobin didSend: %@", (didSend ? @"YES" : @"NO"));
 }

@@ -13,6 +13,14 @@
 extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
 
+typedef enum {
+   TCMBEEPSessionStatusNotOpen = 0,
+   TCMBEEPSessionStatusOpening,
+   TCMBEEPSessionStatusOpen,
+   TCMBEEPSessionStatusClosing,
+   TCMBEEPSessionStatusClosed,
+   TCMBEEPSessionStatusError
+} TCMBEEPSessionStatus;
 
 enum {
     frameHeaderState = 1,
@@ -61,6 +69,8 @@ enum {
         BOOL isSending;
         BOOL isInitiator;
     } I_flags;
+    
+    TCMBEEPSessionStatus I_sessionStatus;
         
 #ifdef TCMBEEP_DEBUG
     NSFileHandle *I_frameLogHandle;
@@ -95,6 +105,7 @@ enum {
 - (BOOL)isInitiator;
 - (NSMutableDictionary *)activeChannels;
 - (int)maximumFrameSize;
+- (TCMBEEPSessionStatus)sessionStatus;
 
 - (void)open;
 - (void)close;

@@ -119,7 +119,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (NSMutableDictionary *)sessionInformationForUserID:(NSString *)aUserID {
     NSMutableDictionary *sessionInformation = [I_sessionInformationByUserID objectForKey:aUserID];
     if (!sessionInformation) {
-        sessionInformation=[NSMutableDictionary dictionary];
+        sessionInformation = [NSMutableDictionary dictionary];
         [I_sessionInformationByUserID setObject:sessionInformation forKey:aUserID];
         [sessionInformation setObject:kBEEPSessionStatusNoSession forKey:@"RendezvousStatus"];
         [sessionInformation setObject:aUserID forKey:@"peerUserID"];
@@ -132,9 +132,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)TCM_connectToNetServiceWithInformation:(NSMutableDictionary *)aInformation {
     NSNetService *service = [aInformation objectForKey:@"NetService"];
     NSArray *addresses = [service addresses]; 
-    NSMutableArray *outgoingSessions=[aInformation objectForKey:@"OutgoingRendezvousSessions"];
+    NSMutableArray *outgoingSessions = [aInformation objectForKey:@"OutgoingRendezvousSessions"];
     if (!outgoingSessions) {
-        outgoingSessions=[NSMutableArray array];
+        outgoingSessions = [NSMutableArray array];
         [aInformation setObject:outgoingSessions forKey:@"OutgoingRendezvousSessions"];
     }
     int i;
@@ -142,6 +142,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         NSData *addressData = [addresses objectAtIndex:i];
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
         [outgoingSessions addObject:session];
+        [session release];
         [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
         [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
         [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
@@ -192,6 +193,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
         [[session userInfo] setObject:[aHost name] forKey:@"name"];
         [sessions addObject:session];
+        [session release];
         [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
         [session setDelegate:self];
         [session open];
@@ -312,6 +314,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
     if (aUserID) {
         NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
         if (isRendezvous) {
+        
+            // TEST
+            [sessionInformation removeObjectForKey:@"InboundRendezvousSession"];
+            // TEST
+        
             NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
             if ([status isEqualToString:kBEEPSessionStatusGotSession]) {
                 if ([sessionInformation objectForKey:@"RendezvousSession"] == aBEEPSession) {
@@ -408,6 +415,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
     [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
     if ([[[aProfile session] userInfo] objectForKey:@"isRendezvous"]) {
+        
         if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusGotSession]) {
             return nil;
         } else if ([[information objectForKey:@"RendezvousStatus"] isEqualTo:kBEEPSessionStatusNoSession]) {

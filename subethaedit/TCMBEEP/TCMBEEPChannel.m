@@ -12,6 +12,8 @@
 #import "TCMBEEPMessage.h"
 #import "TCMBEEPManagementProfile.h"
 
+#import <netinet/tcp_seq.h> // sequence number comparison
+
 
 static NSMutableDictionary *profileURIToClassMapping;
 
@@ -229,7 +231,8 @@ static NSMutableDictionary *profileURIToClassMapping;
     if ([aFrame isSEQ]) {
         // validate SEQ frame;
         uint32_t ackno = [aFrame sequenceNumber];
-        if (ackno > I_sequenceNumber) {
+        //if (ackno > I_sequenceNumber) {
+        if (SEQ_GT(ackno, I_sequenceNumber)) {
             NSLog(@"ERROR! More bytes received by peer than sent to him.");
             return NO;
         }
@@ -362,8 +365,9 @@ static NSMutableDictionary *profileURIToClassMapping;
         if ([previousReadFrame isIntermediate] ||
             (strcmp([previousReadFrame messageType], "ANS") == 0 &&
              strcmp(messageType, "ANS") == 0)) {
-            if ([aFrame sequenceNumber] != 
-                ([previousReadFrame sequenceNumber] + [previousReadFrame length])) {
+            //if ([aFrame sequenceNumber] != 
+            //    ([previousReadFrame sequenceNumber] + [previousReadFrame length])) {
+            if (!SEQ_LEQ([aFrame sequenceNumber], ([previousReadFrame sequenceNumber] + [previousReadFrame length]))) {
                 NSLog(@"10ter punkt 2.2.1.1 (Check sequence numbers)");
                 result = NO;
             }

@@ -28,7 +28,7 @@ typedef enum {
     uint32_t I_sequenceNumber;
     unsigned int I_incomingBufferSize;
     unsigned int I_incomingBufferSizeAvailable;
-    unsigned int I_incomingSequenceNumber;
+    uint32_t I_incomingSequenceNumber;
     uint32_t I_incomingWindowSize;
     uint32_t I_outgoingWindowSize;
     TCMBEEPSession *I_session;
