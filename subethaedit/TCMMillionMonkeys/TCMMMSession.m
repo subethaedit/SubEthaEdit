@@ -602,6 +602,11 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [userIDs removeObject:[TCMMMUserManager myUserID]];
     [self setGroup:@"CloseGroup" forParticipantsWithUserIDs:[userIDs allObjects]];
     [self setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
+    NSEnumerator *invitedUserIDs=[[I_groupOfInvitedUsers allKeys] objectEnumerator];
+    NSString *userID=nil;
+    while ((userID=[invitedUserIDs nextObject])) {
+        [self cancelInvitationForUserWithID:userID];
+    }
 }
 
 #pragma mark -
@@ -971,6 +976,13 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [I_statesByClientID removeObjectForKey:peerUserID];
         }
         [state setClient:nil];
+    } else if (![self isServer]) {
+        if ([self clientState]==TCMMMSessionClientInvitedState) {
+            [[self document] sessionDidCancelInvitation:self];
+        } else if ([self clientState]==TCMMMSessionClientJoiningState) {
+            [[self document] sessionDidDenyJoinRequest:self];
+        }
+        [self setClientState:TCMMMSessionClientNoState];
     }
     [profile setMMState:nil];
     [profile setDelegate:nil];
@@ -1017,6 +1029,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             }
         } else {
             [[self document] sessionDidLoseConnection:self];
+            [self setClientState:TCMMMSessionClientNoState];
         }
     }
 }
@@ -1200,7 +1213,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             state = [statesToDiscard lastObject];
             [I_statesWithRemainingMessages removeObject:state];
             [statesToDiscard removeLastObject];
-            NSLog(@"discarding state: %@",[state description]);
+            //NSLog(@"discarding state: %@",[state description]);
         }
         timeSpent=(((double)(clock()-start_time))/CLOCKS_PER_SEC);
     }
