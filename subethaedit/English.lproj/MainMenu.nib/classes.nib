@@ -4,6 +4,11 @@
         {
             CLASS = DocumentController; 
             LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_modePopUpButton" = DocumentModePopUpButton; 
+                "O_openPanelAccessoryView" = NSView; 
+            }; 
             SUPERCLASS = NSDocumentController; 
         }, 
         {
@@ -60,6 +65,15 @@
                 "O_imageView" = NSImageView; 
                 "O_myNameTextField" = NSTextField; 
                 "O_tableView" = NSTableView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = OpenDocumentsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_arrayController" = NSArrayController; 
+                "O_objectController" = NSObjectController; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

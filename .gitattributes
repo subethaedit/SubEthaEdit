@@ -244,6 +244,9 @@ subethaedit/English.lproj/InternetBrowser.nib/keyedobjects.nib -text
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
 subethaedit/English.lproj/MainMenu.nib/info.nib -text
 subethaedit/English.lproj/MainMenu.nib/keyedobjects.nib -text
+subethaedit/English.lproj/OpenDocuments.nib/classes.nib -text
+subethaedit/English.lproj/OpenDocuments.nib/info.nib -text
+subethaedit/English.lproj/OpenDocuments.nib/keyedobjects.nib -text
 subethaedit/English.lproj/OpenPanelAccessory.nib/classes.nib -text
 subethaedit/English.lproj/OpenPanelAccessory.nib/info.nib -text
 subethaedit/English.lproj/OpenPanelAccessory.nib/keyedobjects.nib -text
@@ -485,6 +488,8 @@ subethaedit/OgreKit/Wildcard/WildcardController.h -text
 subethaedit/OgreKit/Wildcard/WildcardController.m -text
 subethaedit/OgreKit/Wildcard/Wildcard_Prefix.h -text
 subethaedit/OgreKit/Wildcard/main.m -text
+subethaedit/OpenDocumentsController.h -text
+subethaedit/OpenDocumentsController.m -text
 subethaedit/ParticipantsView.h -text
 subethaedit/ParticipantsView.m -text
 subethaedit/PlainTextDocument.h -text

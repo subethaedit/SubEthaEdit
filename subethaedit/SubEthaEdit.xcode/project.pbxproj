@@ -649,6 +649,8 @@
 				5E046CC706256E4600D94C08,
 				5ED032760622CD570016EAB2,
 				5ED032770622CD570016EAB2,
+				5E4AB7C9063EBB1E00B67F07,
+				5E4AB7CA063EBB1E00B67F07,
 				14C51C6F0601C93C0030F488,
 				14C51C700601C93C0030F488,
 				5EDB862605F8AA6E0058C44A,
@@ -1569,8 +1571,8 @@
 				143C360D05ECCEE8008C6DFE,
 				144C57AB06143E9200D1E8BF,
 				144C57AC06143E9200D1E8BF,
-				5E43E09B0639770200DF31A0,
 				5E43E09C0639770200DF31A0,
+				5E43E09B0639770200DF31A0,
 				14840CFC061AF8CA0082EA0A,
 				14AE9CAA05F5E8F00025CADE,
 				5EEB185505ED0E1600C17677,
@@ -1637,6 +1639,7 @@
 				148892D806186C76005BDDCB,
 				14840CF7061AF8640082EA0A,
 				5E43E09F0639771800DF31A0,
+				5E4AB7CD063EBD8200B67F07,
 				5EDB87E905F8B1CB0058C44A,
 				5E0462F80623270400D94C08,
 				144C57C00614404400D1E8BF,
@@ -2310,6 +2313,58 @@
 		};
 		5E4AB526063EB11100B67F07 = {
 			fileRef = 5E4AB524063EB11100B67F07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4AB7C9063EBB1E00B67F07 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = OpenDocumentsController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4AB7CA063EBB1E00B67F07 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = OpenDocumentsController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4AB7CB063EBB1E00B67F07 = {
+			fileRef = 5E4AB7C9063EBB1E00B67F07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4AB7CC063EBB1E00B67F07 = {
+			fileRef = 5E4AB7CA063EBB1E00B67F07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4AB7CD063EBD8200B67F07 = {
+			children = (
+				5E4AB7CE063EBD8200B67F07,
+			);
+			isa = PBXVariantGroup;
+			name = OpenDocuments.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4AB7CE063EBD8200B67F07 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/OpenDocuments.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E4AB7CF063EBD8200B67F07 = {
+			fileRef = 5E4AB7CD063EBD8200B67F07;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4053,6 +4108,7 @@
 				5E43E09D0639770200DF31A0,
 				5E4CCE26063BE22D00D03B71,
 				5E4AABD9063E825800B67F07,
+				5E4AB7CB063EBB1E00B67F07,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4129,6 +4185,7 @@
 				5E4AB51F063EA9EF00B67F07,
 				5E4AB525063EB11100B67F07,
 				5E4AB526063EB11100B67F07,
+				5E4AB7CF063EBD8200B67F07,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4226,6 +4283,7 @@
 				5E43E09E0639770200DF31A0,
 				5E4CCE27063BE22D00D03B71,
 				5E4AABDA063E825800B67F07,
+				5E4AB7CC063EBB1E00B67F07,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
