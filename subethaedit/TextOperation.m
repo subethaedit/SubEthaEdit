@@ -138,12 +138,11 @@
 }
 
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
-    self = [super init];
+    self = [super initWithDictionaryRepresentation:aDictionary];
     if (self) {
         I_affectedCharRange.location = [[aDictionary objectForKey:@"loc"] unsignedIntValue];
         I_affectedCharRange.length = [[aDictionary objectForKey:@"len"] unsignedIntValue];
         [self setReplacementString:[aDictionary objectForKey:@"str"]];
-        [self setUserID:[aDictionary objectForKey:@"uid"]];
         //NSLog(@"operation: %@", [self description]);
     }
     return self;
@@ -154,7 +153,6 @@
     
     [copy setAffectedCharRange:[self affectedCharRange]];
     [copy setReplacementString:[self replacementString]];
-    [copy setUserID:[self userID]];
     
     return copy;
 }
@@ -165,14 +163,10 @@
 }
 
 - (NSDictionary *)dictionaryRepresentation {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:[self operationID] forKey:TCMMMOperationTypeKey];
+    NSMutableDictionary *dict = [[[super dictionaryRepresentation] mutableCopy] autorelease];
     [dict setObject:[NSNumber numberWithUnsignedInt:I_affectedCharRange.location] forKey:@"loc"];
     [dict setObject:[NSNumber numberWithUnsignedInt:I_affectedCharRange.length] forKey:@"len"];
     [dict setObject:[self replacementString] forKey:@"str"];
-    if ([self userID]) {
-        [dict setObject:[self userID] forKey:@"uid"];
-    }
     return dict;
 }
 

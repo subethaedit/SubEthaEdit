@@ -23,7 +23,8 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 
 + (id)operationWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     Class class = [sClassForOperationTypeDictionary objectForKey:[aDictionary objectForKey:TCMMMOperationTypeKey]];
-    return [[[class alloc] initWithDictionaryRepresentation:aDictionary] autorelease];
+    TCMMMOperation *operation=[[[class alloc] initWithDictionaryRepresentation:aDictionary] autorelease];
+    return operation;
 }
 
 + (NSString *)operationID {
@@ -31,11 +32,16 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
 }
 
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
-    return [super init];
+    self = [super init];
+    if (self) {
+        [self setUserID:[NSString stringWithUUIDData:[aDictionary objectForKey:@"uid"]]];
+    }
+    return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
     TCMMMOperation *copy = [[[self class] allocWithZone:zone] init];
+    [copy setUserID:[self userID]];
     return copy;
 }
 
@@ -44,10 +50,10 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
     [super dealloc];
 }
 
-
-
 - (NSDictionary *)dictionaryRepresentation {
-    return nil;
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+                [self operationID],TCMMMOperationTypeKey,
+                [NSData dataWithUUIDString:[self userID]],@"uid",nil];
 }
 
 - (NSString *)operationID {

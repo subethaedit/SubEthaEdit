@@ -405,7 +405,7 @@ NSString * const BlockeditAttributeValue=@"YES";
     "Attributes" => NSDictionary 
         ("<AttributeName>" => NSArray 
             (NSDictionaries 
-                ("val"=>Value
+                ("val"=>Value - this time no change into NSData...
                  "loc"=>location 
                  "len"=>length) 
             )

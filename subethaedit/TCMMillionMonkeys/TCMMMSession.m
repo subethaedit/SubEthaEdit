@@ -49,8 +49,8 @@ NSString * const TCMMMSessionDidChangeNotification =
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData
 {
     NSDictionary *sessionDict=TCM_BdecodedObjectWithData(aData);
-    TCMMMSession *session = [[TCMMMSession alloc] initWithSessionID:[sessionDict objectForKey:@"sID"] filename:[sessionDict objectForKey:@"name"]];
-    [session setHostID:[sessionDict objectForKey:@"hID"]];
+    TCMMMSession *session = [[TCMMMSession alloc] initWithSessionID:[NSString stringWithUUIDData:[sessionDict objectForKey:@"sID"]] filename:[sessionDict objectForKey:@"name"]];
+    [session setHostID:[NSString stringWithUUIDData:[sessionDict objectForKey:@"hID"]]];
     [session setAccessState:[[sessionDict objectForKey:@"acc"] intValue]];
     return [session autorelease];
 }
@@ -261,8 +261,8 @@ NSString * const TCMMMSessionDidChangeNotification =
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *sessionDict = [NSMutableDictionary dictionary];
     [sessionDict setObject:[self filename] forKey:@"name"];
-    [sessionDict setObject:[self sessionID] forKey:@"sID"];
-    [sessionDict setObject:[self hostID] forKey:@"hID"];
+    [sessionDict setObject:[NSData dataWithUUIDString:[self sessionID]] forKey:@"sID"];
+    [sessionDict setObject:[NSData dataWithUUIDString:[self hostID]] forKey:@"hID"];
     [sessionDict setObject:[NSNumber numberWithInt:I_accessState] forKey:@"acc"];
     return sessionDict;
 }

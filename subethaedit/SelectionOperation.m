@@ -62,11 +62,11 @@
 }
 
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
-    self = [super init];
+    self = [super initWithDictionaryRepresentation:aDictionary];
     if (self) {
         I_selectedRange.location = [[aDictionary objectForKey:@"loc"] unsignedIntValue];
         I_selectedRange.length = [[aDictionary objectForKey:@"len"] unsignedIntValue];
-        [self setUserID:[aDictionary objectForKey:@"uid"]];
+        [self setUserID:[NSString stringWithUUIDData:[aDictionary objectForKey:@"uid"]]];
         //NSLog(@"operation: %@", [self description]);
     }
     return self;
@@ -74,8 +74,7 @@
 
 - (id)copyWithZone:(NSZone *)zone {
     id copy = [super copyWithZone:zone];
-    
-    [copy setUserID:[self userID]];
+
     [copy setSelectedRange:[self selectedRange]];
     
     return copy;
@@ -86,13 +85,9 @@
 }
 
 - (NSDictionary *)dictionaryRepresentation {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:[self operationID] forKey:TCMMMOperationTypeKey];
+    NSMutableDictionary *dict = [[[super dictionaryRepresentation] mutableCopy] autorelease];
     [dict setObject:[NSNumber numberWithUnsignedInt:I_selectedRange.location] forKey:@"loc"];
     [dict setObject:[NSNumber numberWithUnsignedInt:I_selectedRange.length] forKey:@"len"];
-    if ([self userID]) {
-        [dict setObject:[self userID] forKey:@"uid"];
-    }
     return dict;
 }
 

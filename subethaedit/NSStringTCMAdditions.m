@@ -79,25 +79,18 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     convertLineEndingsInString(self,aNewLineEndingString);
 }
 
-- (void)convertLineEndingsToLF
-{
-    convertLineEndingsInString(self, @"\n");
-}
-
-- (void)convertLineEndingsToCR
-{
-    convertLineEndingsInString(self, @"\r");
-}
-
-- (void)convertLineEndingsToCRLF
-{
-    convertLineEndingsInString(self, @"\r\n");
-}
-
 @end
 
 
 @implementation NSString (NSStringTCMAdditions) 
+
++ (NSString *)stringWithUUIDData:(NSData *)aData {
+    CFUUIDRef uuid=CFUUIDCreateFromUUIDBytes(NULL,*(CFUUIDBytes *)[aData bytes]);
+    NSString *uuidString=(NSString *)CFUUIDCreateString(NULL,uuid);
+    CFRelease(uuid);
+    return [uuidString autorelease];
+}
+
 
 + (NSString *)stringWithAddressData:(NSData *)aData
 {

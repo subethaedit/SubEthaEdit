@@ -19,9 +19,9 @@
 
 + (id)userWithNotification:(NSDictionary *)aNotificationDict {
     TCMMMUser *user=[TCMMMUser new];
-    [user setName:[aNotificationDict objectForKey:@"Name"]];
-    [user setUserID:[aNotificationDict objectForKey:@"UserID"]];
-    [user setChangeCount:[[aNotificationDict objectForKey:@"ChangeCount"] longLongValue]];
+    [user setName:[aNotificationDict objectForKey:@"name"]];
+    [user setUserID:[NSString stringWithUUIDData:[aNotificationDict objectForKey:@"uID"]]];
+    [user setChangeCount:[[aNotificationDict objectForKey:@"cnt"] longLongValue]];
     return [user autorelease];
 }
 
@@ -37,9 +37,9 @@
 
 - (NSDictionary *)notification {
     return [NSDictionary dictionaryWithObjectsAndKeys:
-        [self name],@"Name",
-        [self userID],@"UserID",
-        [NSNumber numberWithLongLong:[self changeCount]],@"ChangeCount", nil];
+        [self name],@"name",
+        [NSData dataWithUUIDString:[self userID]],@"uID",
+        [NSNumber numberWithLongLong:[self changeCount]],@"cnt", nil];
 }
 
 - (id)init {

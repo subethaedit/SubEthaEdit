@@ -310,6 +310,7 @@
 				<string>goto</string>
 				<string>if</string>
 				<string>id</string>
+				<string>NULL</string>
 				<string>nil</string>
 				<string>Nil</string>
 				<string>void</string>

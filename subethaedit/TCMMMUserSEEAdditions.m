@@ -20,18 +20,18 @@
 
 + (TCMMMUser *)userWithDictionaryRepresentation:(NSDictionary *)aRepresentation {
     TCMMMUser *user=[TCMMMUser new];
-    [user setName:[aRepresentation objectForKey:@"Name"]];
-    [user setUserID:[aRepresentation objectForKey:@"UserID"]];
-    [user setChangeCount:[[aRepresentation objectForKey:@"ChangeCount"] longLongValue]];
-    NSData *pngData=[aRepresentation objectForKey:@"ImageAsPNG"];
+    [user setName:[aRepresentation objectForKey:@"name"]];
+    [user setUserID:[NSString stringWithUUIDData:[aRepresentation objectForKey:@"uID"]]];
+    [user setChangeCount:[[aRepresentation objectForKey:@"cnt"] longLongValue]];
+    NSData *pngData=[aRepresentation objectForKey:@"PNG"];
     NSString *string=[aRepresentation objectForKey:@"AIM"];
     [[user properties] setObject:string?string:@"" forKey:@"AIM"];
-    string=[aRepresentation objectForKey:@"Email"];
+    string=[aRepresentation objectForKey:@"mail"];
     [[user properties] setObject:string?string:@"" forKey:@"Email"];
     [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
     [[user properties] setObject:[[[NSImage alloc] initWithData:[[user properties] objectForKey:@"ImageAsPNG"]] autorelease] forKey:@"Image"];
     [user prepareImages];
-    [user setUserHue:[aRepresentation objectForKey:@"Hue"]];
+    [user setUserHue:[aRepresentation objectForKey:@"hue"]];
     //NSLog(@"Created User: %@",[user description]);
     return [user autorelease];
 }
@@ -46,12 +46,12 @@
 - (NSDictionary *)dictionaryRepresentation {
     return [NSDictionary dictionaryWithObjectsAndKeys:
         [[self properties] objectForKey:@"AIM"],@"AIM",
-        [[self properties] objectForKey:@"Email"],@"Email",
-        [self name],@"Name",
-        [self userID],@"UserID",
-        [[self properties] objectForKey:@"ImageAsPNG"],@"ImageAsPNG",
-        [NSNumber numberWithLong:[self changeCount]],@"ChangeCount",
-        [[self properties] objectForKey:@"Hue"],@"Hue",
+        [[self properties] objectForKey:@"Email"],@"mail",
+        [self name],@"name",
+        [NSData dataWithUUIDString:[self userID]],@"uID",
+        [[self properties] objectForKey:@"ImageAsPNG"],@"PNG",
+        [NSNumber numberWithLong:[self changeCount]],@"cnt",
+        [[self properties] objectForKey:@"Hue"],@"hue",
         nil];
 }
 

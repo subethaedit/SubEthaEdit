@@ -19,14 +19,12 @@ typedef enum _LineEnding {
 @interface NSMutableString (NSStringTCMAdditions)
 
 - (void)convertLineEndingsToLineEndingString:(NSString *)aNewLineEndingString;
-- (void)convertLineEndingsToLF;
-- (void)convertLineEndingsToCR;
-- (void)convertLineEndingsToCRLF;
 
 @end
 
 @interface NSString (NSStringTCMAdditions)
 
++ (NSString *)stringWithUUIDData:(NSData *)aData;
 + (NSString *)stringWithAddressData:(NSData *)aData;
 + (NSString *)stringWithData:(NSData *)aData encoding:(NSStringEncoding)aEncoding;
 + (NSString *)UUIDString;

@@ -4,6 +4,7 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+    #import "NSDataTCMAdditions.h"
     #import "NSDictionaryTCMAdditions.h"
     #import "NSStringTCMAdditions.h"
     #import "NSNetServiceTCMAdditions.h"
