@@ -106,11 +106,35 @@
     [userManager setMe:[me autorelease]];
 }
 
+#define MODEMENUTAG 50
+#define SWITCHMODEMENUTAG 10
+#define MODEMENUNAMETAG 20 
+
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
     [self addMe];
-    [DocumentModeManager sharedInstance];
-    NSLog(@"%@",[[DocumentModeManager sharedInstance] description]);
-    NSLog(@"Found modes: %@",[[[DocumentModeManager sharedInstance] availableModes] description]);
+    DocumentModeManager *manager=[DocumentModeManager sharedInstance];
+    NSLog(@"%@",[manager description]);
+    NSDictionary *availableModes=[manager availableModes];
+    NSLog(@"Found modes: %@",[availableModes description]);
+    NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:MODEMENUTAG] submenu];
+    NSMenu *modesMenu=[[modeMenu itemWithTag:SWITCHMODEMENUTAG] submenu];
+    NSEnumerator *modeIDs=[availableModes keyEnumerator];
+    NSString *modeID=nil;
+    NSString *modeString=nil;
+    while ((modeID=[modeIDs nextObject])) {
+        modeString=[NSString stringWithFormat:@"%@ (%@)",[availableModes objectForKey:modeID],modeID];
+        NSMenuItem *menuItem =[[NSMenuItem alloc] initWithTitle:modeString 
+                                                         action:@selector(chooseMode:)
+                                                  keyEquivalent:@""];
+        [modesMenu addItem:menuItem];
+        [menuItem release];
+    }
+    NSMenuItem *modeNameItem=[modeMenu itemWithTag:MODEMENUNAMETAG];
+//    NSFontManager *fontManager=[NSFontManager sharedFontManager];
+//    NSFont *myFont=[fontManager convertFont:[fontManager convertFont:[NSFont menuBarFontOfSize:0] toHaveTrait:NSBoldFontMask]];
+//    myFont=[fontManager convertFont:myFont toSize:[myFont pointSize]+2.]; 
+//    NSMutableAttributedString *title=[[NSMutableAttributedString alloc] initWithString:modeString attributes:[NSDictionary dictionaryWithObject:myFont forKey:NSFontAttributeName]];
+    [modeNameItem setTitle:modeString];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {

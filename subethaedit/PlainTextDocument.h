@@ -9,7 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TCMMMSession, TCMMMOperation;
+@class TCMMMSession, TCMMMOperation, DocumentMode;
 
 @interface PlainTextDocument : NSDocument
 {
@@ -17,7 +17,7 @@
     struct {
         BOOL isAnnounced;
     } I_flags;
-    
+    DocumentMode  *I_documentMode;
     NSTextStorage *I_textStorage;
 }
 
@@ -25,6 +25,9 @@
 - (TCMMMSession *)session;
 
 - (NSTextStorage *)textStorage;
+
+- (DocumentMode *)documentMode;
+- (void)setDocumentMode:(DocumentMode *)aDocumentMode;
 
 - (IBAction)announce:(id)aSender;
 - (IBAction)conceal:(id)aSender;

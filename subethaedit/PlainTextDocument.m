@@ -10,6 +10,8 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 
+#import "DocumentModeManager.h"
+#import "DocumentMode.h"
 
 @implementation PlainTextDocument
 
@@ -24,6 +26,7 @@
         [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
         I_textStorage = [NSTextStorage new];
         [I_textStorage setDelegate:self];
+        [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
     
     }
     return self;
@@ -52,6 +55,15 @@
 
 - (NSTextStorage *)textStorage {
     return I_textStorage;
+}
+
+- (DocumentMode *)documentMode {
+    return I_documentMode;
+}
+
+- (void)setDocumentMode:(DocumentMode *)aDocumentMode {
+    [I_documentMode autorelease];
+     I_documentMode = [aDocumentMode retain];
 }
 
 
