@@ -55,6 +55,8 @@ typedef enum TCMMMSessionClientState {
         BOOL isServer;
         BOOL shouldSendJoinRequest;
         BOOL wasInvited;
+        BOOL isPerformingRoundRobin;
+        BOOL isPaused;
     } I_flags;
     unsigned int I_sessionContentLength;
     unsigned int I_receivedContentLength;
@@ -125,6 +127,10 @@ typedef enum TCMMMSessionClientState {
 - (void)documentDidApplyOperation:(TCMMMOperation *)anOperation;
 
 - (double)percentOfSessionReceived;
+
+- (void)startProcessing;
+- (void)pauseProcessing;
+
 @end
 
 

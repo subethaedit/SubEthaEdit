@@ -20,6 +20,7 @@
     self = [super init];
     if (self) {
         I_messageBuffer = [NSMutableArray new];
+        I_incomingMessages = [NSMutableArray new];
         I_isServer = isServer;
         I_numberOfClientMessages = 0;
         I_numberOfServerMessages = 0;
@@ -34,6 +35,7 @@
     [I_timer invalidate];
     [I_timer release];
     [I_messageBuffer release];
+    [I_incomingMessages release];
     [super dealloc];
 }
 
@@ -78,63 +80,79 @@
     return I_client;
 }
 
+- (BOOL)hasMessagesAvailable {
+    return ([I_incomingMessages count] > 0);
+}
+
+- (void)processMessage {
+    
+    TCMMMMessage *aMessage = [I_incomingMessages lastObject];
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"process: %@", aMessage);
+    
+    if (aMessage) {
+        
+        // clean up buffer
+        unsigned int i;
+        if (I_isServer) {
+            for (i = 0; i < [I_messageBuffer count];) {
+                if ([[I_messageBuffer objectAtIndex:i] numberOfServerMessages]
+                    < [aMessage numberOfServerMessages]) {
+                    [I_messageBuffer removeObjectAtIndex:i];
+                } else {
+                    i++;
+                }
+            }    
+        } else {
+            for (i = 0; i < [I_messageBuffer count];) {
+                if ([[I_messageBuffer objectAtIndex:i] numberOfClientMessages]
+                    < [aMessage numberOfClientMessages]) {
+                    [I_messageBuffer removeObjectAtIndex:i];
+                } else {
+                    i++;
+                }
+            }
+        }
+    
+        // unwrap message
+        // iterate over message buffer and transform each operation with incoming operation
+        TCMMMTransformator *transformator = [TCMMMTransformator sharedInstance];
+        NSEnumerator *messages = [I_messageBuffer objectEnumerator];
+        TCMMMMessage *message;
+        if (I_isServer) {
+            while ((message = [messages nextObject])) {
+                // transform now
+                [transformator transformOperation:[aMessage operation] serverOperation:[message operation]];
+                [message incrementNumberOfClientMessages];
+            }
+        } else {
+            while ((message = [messages nextObject])) {
+                // transform now
+                [transformator transformOperation:[message operation] serverOperation:[aMessage operation]];
+                [message incrementNumberOfServerMessages];
+            }
+        }
+    
+    
+        // apply operation
+        if ([[self delegate] respondsToSelector:@selector(state:handleOperation:)]) {
+            [[self delegate] state:self handleOperation:[aMessage operation]];
+        }
+    
+        // update state space
+        if (I_isServer) {
+            I_numberOfClientMessages++;
+        } else {
+            I_numberOfServerMessages++;
+        }
+        
+        [I_incomingMessages removeLastObject];
+    }
+}
+
 - (void)handleMessage:(TCMMMMessage *)aMessage {
-    
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"handleMessage: %@", aMessage);
-    
-    // clean up buffer
-    unsigned int i;
-    if (I_isServer) {
-        for (i = 0; i < [I_messageBuffer count];) {
-            if ([[I_messageBuffer objectAtIndex:i] numberOfServerMessages]
-                < [aMessage numberOfServerMessages]) {
-                [I_messageBuffer removeObjectAtIndex:i];
-            } else {
-                i++;
-            }
-        }    
-    } else {
-        for (i = 0; i < [I_messageBuffer count];) {
-            if ([[I_messageBuffer objectAtIndex:i] numberOfClientMessages]
-                < [aMessage numberOfClientMessages]) {
-                [I_messageBuffer removeObjectAtIndex:i];
-            } else {
-                i++;
-            }
-        }
-    }
-
-    // unwrap message
-    // iterate over message buffer and transform each operation with incoming operation
-    TCMMMTransformator *transformator = [TCMMMTransformator sharedInstance];
-    NSEnumerator *messages = [I_messageBuffer objectEnumerator];
-    TCMMMMessage *message;
-    if (I_isServer) {
-        while ((message = [messages nextObject])) {
-            // transform now
-            [transformator transformOperation:[aMessage operation] serverOperation:[message operation]];
-            [message incrementNumberOfClientMessages];
-        }
-    } else {
-        while ((message = [messages nextObject])) {
-            // transform now
-            [transformator transformOperation:[message operation] serverOperation:[aMessage operation]];
-            [message incrementNumberOfServerMessages];
-        }
-    }
-
-
-    // apply operation
-    if ([[self delegate] respondsToSelector:@selector(state:handleOperation:)]) {
-        [[self delegate] state:self handleOperation:[aMessage operation]];
-    }
-
-    // update state space
-    if (I_isServer) {
-        I_numberOfClientMessages++;
-    } else {
-        I_numberOfServerMessages++;
-    }
+    [I_incomingMessages insertObject:aMessage atIndex:0];
+    [[self delegate] stateHasMessagesAvailable:self];
 }
 
 - (void)handleOperation:(TCMMMOperation *)anOperation {

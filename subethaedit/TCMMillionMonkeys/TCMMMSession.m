@@ -21,6 +21,11 @@
 #import "TextStorage.h"
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
+#import "time.h"
+
+
+#define kProcessingTime 0.5
+#define kWaitingTime 0.1
 
 
 NSString * const TCMMMSessionParticipantsDidChangeNotification = 
@@ -39,6 +44,8 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (NSDictionary *)TCM_sessionInformationForUserID:(NSString *)aUserID;
 - (void)TCM_setSessionParticipants:(NSDictionary *)aParticipants;
+- (void)triggerPerformRoundRobin;
+- (void)processRoundRobinMessageProcessing;
 
 @end
 
@@ -93,6 +100,8 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         I_closingProfiles = [NSMutableArray new];
         I_closingStates   = [NSMutableArray new];
         I_flags.shouldSendJoinRequest = NO;
+        I_flags.isPerformingRoundRobin = NO;
+        I_flags.isPaused = NO;
         [self setIsServer:NO];
         [self setClientState:TCMMMSessionClientNoState];
     }
@@ -1055,6 +1064,53 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         }
         
         [state handleOperation:anOperation];
+    }
+}
+
+- (void)pauseProcessing {
+    I_flags.isPaused=YES;
+}
+
+- (void)startProcessing {
+    I_flags.isPaused=NO;
+    [self triggerPerformRoundRobin];
+}
+
+- (void)stateHasMessagesAvailable:(TCMMMState *)aState {
+    [self triggerPerformRoundRobin];
+}
+
+- (void)triggerPerformRoundRobin {
+    if (!I_flags.isPerformingRoundRobin &&
+        !I_flags.isPaused &&
+        [I_statesByClientID count]>0) {
+        I_flags.isPerformingRoundRobin = YES;
+        [self performSelector:@selector(performRoundRobinMessageProcessing) withObject:nil afterDelay:kWaitingTime];
+    }
+}
+
+- (void)performRoundRobinMessageProcessing {
+    int i;
+    clock_t start_time = clock();
+    double timeSpent=0;
+
+    BOOL hasMessagesAvailable = YES;
+    int count = [I_statesByClientID count];
+    NSArray *states=[I_statesByClientID allValues];
+    while (!I_flags.isPaused && hasMessagesAvailable && count && timeSpent<kProcessingTime) {
+        hasMessagesAvailable = NO;
+        for (i=0;i<count;i++) {
+            TCMMMState *state=[states objectAtIndex:i];
+            [state processMessage];
+            if (!hasMessagesAvailable) {
+                hasMessagesAvailable=[state hasMessagesAvailable];
+            }
+        }
+        timeSpent=(((double)(clock()-start_time))/CLOCKS_PER_SEC);
+    }
+    I_flags.isPerformingRoundRobin = NO;
+    if (hasMessagesAvailable && !I_flags.isPaused && count) {
+        [self triggerPerformRoundRobin];
     }
 }
 

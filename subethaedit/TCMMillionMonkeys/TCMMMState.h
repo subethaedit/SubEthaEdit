@@ -23,6 +23,7 @@
     long long I_numberOfClientMessages;
     long long I_numberOfServerMessages;
     NSMutableArray *I_messageBuffer;
+    NSMutableArray *I_incomingMessages;
     BOOL I_isServer;
     BOOL I_isSendingNoOps;
     NSObject <TCMMMStateClientProtocol> *I_client;
@@ -43,12 +44,16 @@
 - (void)handleMessage:(TCMMMMessage *)aMessage;
 - (void)handleOperation:(TCMMMOperation *)anOperation;
 
+- (BOOL)hasMessagesAvailable;
+- (void)processMessage;
+
 @end
 
 
 @interface NSObject (TCMMMStateDelegateAdditions)
 
 - (void)state:(TCMMMState *)aState handleOperation:(TCMMMOperation *)anOperation;
+- (void)stateHasMessagesAvailable:(TCMMMState *)aState;
 
 @end
 
