@@ -92,7 +92,6 @@
 	[_regex release];
 	NSZoneFree([self zone], _UTF16SwappedTargetString);
 	[_swappedTargetString release];
-        NSZoneFree([self zone], _utf8SwappedTargetString);
 	
 	[super dealloc];
 }

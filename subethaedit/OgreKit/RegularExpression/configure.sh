@@ -1,6 +1,9 @@
 #!/bin/bash
 
-if [ $1 -eq "clean" ]; then
+clean="clean"
+echo "argument"
+echo "$1"
+if [ $1 = $clean ]; then
     rm -rf "RegularExpression/oniguruma"
 fi
 

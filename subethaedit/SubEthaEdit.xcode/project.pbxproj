@@ -1095,8 +1095,8 @@
 				145BFDF306A5E09E00160C0E,
 				145BFDF406A5E09E00160C0E,
 				145BFDF506A5E09E00160C0E,
-				145BFDF606A5E09E00160C0E,
 				145BFDF706A5E09E00160C0E,
+				146D09E006F1CFF500D0A7CA,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1135,14 +1135,6 @@
 			remoteRef = 145BFE2206A5E0BF00160C0E;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		145BFDF606A5E09E00160C0E = {
-			fileType = wrapper.application;
-			isa = PBXReferenceProxy;
-			path = Wildcard.app;
-			refType = 3;
-			remoteRef = 145BFE2306A5E0BF00160C0E;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		145BFDF706A5E09E00160C0E = {
 			fileType = wrapper.framework;
 			isa = PBXReferenceProxy;
@@ -1178,13 +1170,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 4DE269A805721DB400A25078;
 			remoteInfo = "My Find Panel Example";
-		};
-		145BFE2306A5E0BF00160C0E = {
-			containerPortal = 145BFDEB06A5E09B00160C0E;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 4DAC47D20572204C0011832E;
-			remoteInfo = "Wildcard (Practical Example)";
 		};
 		145BFE2406A5E0BF00160C0E = {
 			containerPortal = 145BFDEB06A5E09B00160C0E;
@@ -1435,6 +1420,21 @@
 			name = Debug;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		146D09E006F1CFF500D0A7CA = {
+			fileType = wrapper.application;
+			isa = PBXReferenceProxy;
+			path = OnigurumaTest.app;
+			refType = 3;
+			remoteRef = 146D0ACC06F1D00E00D0A7CA;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		146D0ACC06F1D00E00D0A7CA = {
+			containerPortal = 145BFDEB06A5E09B00160C0E;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4D150F91065C7E860057E908;
+			remoteInfo = OnigurumaTest;
 		};
 		14703803060C647B0087BA25 = {
 			children = (
