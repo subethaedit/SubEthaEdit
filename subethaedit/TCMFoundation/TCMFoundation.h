@@ -10,3 +10,4 @@
 #import <TCMFoundation/NSDictionaryTCMAdditions.h>
 #import <TCMFoundation/NSStringTCMAdditions.h>
 #import <TCMFoundation/TCMBencodingUtilities.h>
+#import <TCMFoundation/TCMRendezvousBrowser.h>

@@ -493,6 +493,8 @@ subethaedit/TCMFoundation/TCMDebug.h -text
 subethaedit/TCMFoundation/TCMFoundation.h -text
 subethaedit/TCMFoundation/TCMFoundation.xcode/project.pbxproj -text
 subethaedit/TCMFoundation/TCMFoundation_Prefix.pch -text
+subethaedit/TCMFoundation/TCMRendezvousBrowser.h -text
+subethaedit/TCMFoundation/TCMRendezvousBrowser.m -text
 subethaedit/TCMFoundation/main.c -text
 subethaedit/TCMFoundation/version.plist -text
 subethaedit/TCMHost.h -text
