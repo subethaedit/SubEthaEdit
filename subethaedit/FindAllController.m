@@ -51,7 +51,15 @@
     if (I_document) {
         NSString *text = [[I_document textStorage] string];
         //NSRange selection = [target selectedRange];
-
+                
+        if ([regex syntax]==OgreSimpleMatchingSyntax) {
+            OGRegularExpression *simpleregex = [OGRegularExpression regularExpressionWithString:[regex expressionString]
+                                                 options:OgreNoneOption
+                                                 syntax:OgreSimpleMatchingSyntax
+                                                 escapeCharacter:[regex escapeCharacter]];
+            regex = simpleregex;
+        }
+        
         NSArray *matchArray = [regex allMatchesInString:text options:options range:NSMakeRange(0, [text length])];
         
         int i;

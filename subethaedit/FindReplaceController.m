@@ -57,7 +57,6 @@ static FindReplaceController *sharedInstance=nil;
 - (NSPanel *)findPanel {
     if (!O_findPanel) [self loadUI];
     [O_findPanel setFloatingPanel:NO];
-    [O_findPanel setHidesOnDeactivate:NO];
     return O_findPanel;
 }
 

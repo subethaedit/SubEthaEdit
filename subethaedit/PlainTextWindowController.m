@@ -186,7 +186,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
                            NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
         return !I_flags.isReceivingContent;
     }
-    return [super validateMenuItem:menuItem];
+    return YES;
 }
 
 - (NSArray *)plainTextEditors {
