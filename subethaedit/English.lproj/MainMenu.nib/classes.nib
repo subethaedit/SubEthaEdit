@@ -12,6 +12,7 @@
                 changeTabWidth = id; 
                 conceal = id; 
                 newView = id; 
+                toggleBottomStatusBar = id; 
                 toggleCharacterWrapping = id; 
                 toggleIndentNewLines = id; 
                 toggleLineNumbers = id; 
@@ -19,6 +20,7 @@
                 toggleShowInvisibles = id; 
                 toggleSplitView = id; 
                 toggleSyntaxHighlighting = id; 
+                toggleTopStatusBar = id; 
                 toggleUsesTabs = id; 
                 toggleWrap = id; 
             }; 

@@ -17,14 +17,26 @@
     IBOutlet NSTextField *O_modeTextField;
     IBOutlet NSScrollView *O_scrollView;
     IBOutlet NSView       *O_editorView;
+    IBOutlet NSView       *O_topStatusBarView;
+    IBOutlet NSView       *O_bottomStatusBarView;
     NSTextView      *I_textView;
     NSTextContainer *I_textContainer;
     NSWindowController *I_windowController;
+    struct {
+        BOOL showTopStatusBar;
+        BOOL showBottomStatusBar;
+    } I_flags;
 }
+
 
 - (id)initWithWindowController:(NSWindowController *)aWindowController;
 - (NSView *)editorView;
 - (NSTextView *)textView;
 - (PlainTextDocument *)document;
+
+- (BOOL)showsTopStatusBar;
+- (void)setShowsTopStatusBar:(BOOL)aFlag;
+- (BOOL)showsBottomStatusBar;
+- (void)setShowsBottomStatusBar:(BOOL)aFlag;
 
 @end

@@ -233,7 +233,7 @@ NSString * const ParticipantsToolbarItemIdentifier = @"ParticipantsToolbarItemId
 
 #pragma mark -
 
-#define SPLITMINHEIGHT 48.
+#define SPLITMINHEIGHT 46.
 //- (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {
 //}
 

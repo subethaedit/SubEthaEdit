@@ -25,6 +25,8 @@
     if (self) {
         I_windowController = aWindowController;
         [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
+        I_flags.showTopStatusBar = YES;
+        I_flags.showBottomStatusBar = YES;
     }   
     return self; 
 }
@@ -97,33 +99,36 @@
 }
 
 - (void)TCM_updateStatusBar {
-    NSRange selection=[I_textView selectedRange];
-    
-    // findLine
-    TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
-    int lineNumber=[textStorage lineNumberForLocation:selection.location];
-    unsigned lineStartLocation=[[[textStorage lineStarts] objectAtIndex:lineNumber-1] intValue];
-    NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, selection.location-lineStartLocation];
-    if (selection.length>0) string=[string stringByAppendingFormat:@" (%d)",selection.length]; 
-//    if (selection.location<[textStorage length]) { 
-//        id blockAttribute=[textStorage 
-//                            attribute:kBlockeditAttributeName 
-//                              atIndex:selection.location effectiveRange:nil];
-//        if (blockAttribute) string=[string stringByAppendingFormat:@" %@",NSLocalizedString(@"[Blockediting]", nil)];        
-//    }
-    [O_positionTextField setStringValue:string];        
-    
+    if (I_flags.showTopStatusBar) {
+        NSRange selection=[I_textView selectedRange];
+        
+        // findLine
+        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+        int lineNumber=[textStorage lineNumberForLocation:selection.location];
+        unsigned lineStartLocation=[[[textStorage lineStarts] objectAtIndex:lineNumber-1] intValue];
+        NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, selection.location-lineStartLocation];
+        if (selection.length>0) string=[string stringByAppendingFormat:@" (%d)",selection.length]; 
+    //    if (selection.location<[textStorage length]) { 
+    //        id blockAttribute=[textStorage 
+    //                            attribute:kBlockeditAttributeName 
+    //                              atIndex:selection.location effectiveRange:nil];
+    //        if (blockAttribute) string=[string stringByAppendingFormat:@" %@",NSLocalizedString(@"[Blockediting]", nil)];        
+    //    }
+        [O_positionTextField setStringValue:string];        
+    }    
 }
 
 - (void)TCM_updateBottomStatusBar {
-    PlainTextDocument *document=[self document];
-    [O_tabStatusTextField setStringValue:[NSString stringWithFormat:@"%@ (%d)",[document usesTabs]?@"TrueTab":@"Spaces",[document tabWidth]]];
-    [O_modeTextField setStringValue:[[document documentMode] displayName]];
-    
-    NSFont *font=[document fontWithTrait:0];
-    float characterWidth=[font widthOfString:@"m"];
-    int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
-    [O_windowWidthTextField setStringValue:[NSString stringWithFormat:@"%d%@",charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapsCharacters]?@"c":@"w")]];
+    if (I_flags.showBottomStatusBar) {
+        PlainTextDocument *document=[self document];
+        [O_tabStatusTextField setStringValue:[NSString stringWithFormat:@"%@ (%d)",[document usesTabs]?@"TrueTab":@"Spaces",[document tabWidth]]];
+        [O_modeTextField setStringValue:[[document documentMode] displayName]];
+        
+        NSFont *font=[document fontWithTrait:0];
+        float characterWidth=[font widthOfString:@"m"];
+        int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
+        [O_windowWidthTextField setStringValue:[NSString stringWithFormat:@"%d%@",charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapsCharacters]?@"c":@"w")]];
+    }
 }
 
 - (NSView *)editorView {
@@ -148,7 +153,14 @@
     } else if (selector == @selector(toggleLineNumbers:)) {
         [menuItem setState:[O_scrollView rulersVisible]?NSOnState:NSOffState];
         return YES;
+    }   else if (selector == @selector(toggleTopStatusBar:)) {
+        [menuItem setState:[self showsTopStatusBar]?NSOnState:NSOffState];
+        return YES;
+    }   else if (selector == @selector(toggleBottomStatusBar:)) {
+        [menuItem setState:[self showsBottomStatusBar]?NSOnState:NSOffState];
+        return YES;
     }
+
     return YES;
 }
 
@@ -181,6 +193,60 @@
 - (IBAction)toggleLineNumbers:(id)aSender {
     [O_scrollView setRulersVisible:![O_scrollView rulersVisible]];
     [self TCM_updateBottomStatusBar];
+}
+
+#define STATUSBARSIZE 18.
+
+- (BOOL)showsTopStatusBar {
+    return I_flags.showTopStatusBar;
+}
+
+- (void)setShowsTopStatusBar:(BOOL)aFlag {
+    if (I_flags.showTopStatusBar!=aFlag) {
+        I_flags.showTopStatusBar=!I_flags.showTopStatusBar;
+        NSRect frame=[O_scrollView frame];
+        if (!I_flags.showTopStatusBar) {
+            frame.size.height+=STATUSBARSIZE;
+        } else {
+            frame.size.height-=STATUSBARSIZE;
+            [O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x,NSMaxY(frame),frame.size.width,STATUSBARSIZE)];
+            [self TCM_updateStatusBar];
+        }
+        [O_scrollView setFrame:frame];
+        [O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
+        [O_topStatusBarView setNeedsDisplay:YES];
+    }
+}
+
+- (BOOL)showsBottomStatusBar {
+    return I_flags.showBottomStatusBar;
+}
+
+- (void)setShowsBottomStatusBar:(BOOL)aFlag {
+    if (I_flags.showBottomStatusBar!=aFlag) {
+        I_flags.showBottomStatusBar=!I_flags.showBottomStatusBar;
+        NSRect frame=[O_scrollView frame];
+        if (!I_flags.showBottomStatusBar) {
+            frame.size.height+=STATUSBARSIZE;
+            frame.origin.y   -=STATUSBARSIZE;
+        } else {
+            frame.size.height-=STATUSBARSIZE;
+            frame.origin.y   +=STATUSBARSIZE;
+            [O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x,frame.origin.y-STATUSBARSIZE,frame.size.width,STATUSBARSIZE)];
+            [self TCM_updateBottomStatusBar];
+        }
+        [O_scrollView setFrame:frame];
+        [O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
+        [O_bottomStatusBarView setNeedsDisplay:YES];
+    }
+}
+
+- (IBAction)toggleTopStatusBar:(id)aSender {
+    [self setShowsTopStatusBar:![self showsTopStatusBar]];
+}
+
+- (IBAction)toggleBottomStatusBar:(id)aSender {
+    [self setShowsBottomStatusBar:![self showsBottomStatusBar]];
 }
 
 #pragma mark -
