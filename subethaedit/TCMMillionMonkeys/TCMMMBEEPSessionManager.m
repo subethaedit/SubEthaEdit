@@ -9,6 +9,7 @@
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMPresenceManager.h"
 #import <TCMBEEP/TCMBEEP.h>
+#import <TCMFoundation/TCMFoundation.h>
 #import "TCMMMUserManager.h"
 #import "TCMMMSession.h"
 #import "TCMHost.h"
