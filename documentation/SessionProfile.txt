@@ -1,0 +1,95 @@
+1. Session Exchanges
+
+1.2 Joining a session
+
+When a client (C) decides to join a session hosted on a server (S), it starts a channel with the session profile which will be accepted by the server.
+
+C: MSG 0 1 . 52 135
+C: Content-Type: application/beep+xml
+C:
+C: <start number='3'>
+C:   <profile uri='http://www.codingmonkeys.de/BEEP/SubEthaEditSession' />
+C: </start>
+C: END
+S: RPY 0 1 . 221 105
+S: Content-Type:application/beep+xml
+S:
+S: <profile uri='http://www.codingmonkeys.de/BEEP/SubEthaEditSession' />
+S: END
+
+After successful channel creation the clients sends a join request to the server which will be acknowledged with an empty reply. This allows the server to asynchronously decide wether to accept or deny the join request.
+
+Content of JONJON: 
+{ "UserNotification" = { 
+        "Name" = "Martin Ott"; 
+        "UserID" = "B5E8CFF7-68A8-11D8-BAC5-000A95A55D58";
+        "ChangeCount" = 1023399;
+    };
+  "SessionID" = "95809D1A-6CF2-11D8-9341-000A95A55D58"; 
+};
+
+C: MSG 3 0 . 0 168
+C: JONJONd16:UserNotificationd4:Name10:Martin Ott6:UserID36:B5E8CFF7-68A8-11D8-BAC5-000A95A55D5811:ChangeCounti1023399ee9:SessionID36:95809D1A-6CF2-11D8-9341-000A95A55D58eEND
+S: RPY 3 0 . 0 0
+S: END
+
+When the server needs more information about the user who requests the join the server may ask the client for more information.
+
+Commmand: USRREQ (MSG Server->Client)
+Content: nothing
+Reply:   USRFUL (RPY)
+Content: userDictionary of Client
+
+The server accepts a join request by sending following command which will be acknowledged with an empty reply from the client.
+
+S: MSG 3 1 . 0 9
+S: JONACKEND
+C: RPY 3 1 . 168 0
+C: END
+
+After accepting the session the server send the session information to the client. The client replys to this information with a list of "users" on which more information is needed or with an empty reply.
+
+Content of SESINF:
+{ "Contributors = (
+                    { "Name" = "Martin Ott"; 
+                    "UserID" = "B5E8CFF7-68A8-11D8-BAC5-000A95A55D58";
+                    "ChangeCount" = 1023399; },
+                    ...
+                  );
+  "ParticipantRepresentation" = {
+            "Read-Only" = (
+                    { "User" = { "Name" = "Martin Ott"; 
+                               "UserID" = "B5E8CFF7-68A8-11D8-BAC5-000A95A55D58";
+                               "ChangeCount" = 1023399; };
+                      "SessionProperties" = {};
+                    }
+                    ...
+                )
+        }
+};
+
+S: MSG 3 2 . 9 XXX
+S: SESINFd12:Contributorsld4:Name10:Martin Ott6:UserID36:B5E8CFF7-68A8-11D8-BAC5-000A95A55D5811:ChangeCounti1023399eee25:ParticipantRepresentationdXXXeeEND
+C: RPY 3 2 . 168 97
+C: USRREQl4:Name10:Martin Ott6:UserID36:B5E8CFF7-68A8-11D8-BAC5-000A95A55D5811:ChangeCounti1023399eeEND
+
+When the client requested detailed information on a list of users the server answers the request with a message for each requested user. The client acknowledges the messages with an empty reply.
+
+Content of USRFUL:
+{ "Name" = "Martin Ott"; 
+  "UserID" = "B5E8CFF7-68A8-11D8-BAC5-000A95A55D58";
+  "ImageAsPNG" = <NSData ...>;
+  "ChangeCount" = 1023399;
+}
+
+S: MSG 3 3 . X XXX
+S: USRFULd4:Name10:Martin Ott6:UserID36:B5E8CFF7-68A8-11D8-BAC5-000A95A55D5812:ImageAsPNGX.XXXXX11:ChangeCounti1023399eeEND
+C: RPY 3 3 . 265
+C: END
+
+
+
+Command: SESCON (MSG Server->Client)
+Content: DictionaryRepresentation of Document
+Reply: RPY 0
+
