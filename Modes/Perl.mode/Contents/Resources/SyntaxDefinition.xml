@@ -265,7 +265,7 @@
         </default>
         
         <state id="Singleline Comment" color="#236E25" font-style="italic">
-            <begin><regex>#</regex></begin>
+            <begin><regex>(?&lt;!\$)#</regex></begin>
             <end><regex>[\n\r]</regex></end>
         </state>
         
