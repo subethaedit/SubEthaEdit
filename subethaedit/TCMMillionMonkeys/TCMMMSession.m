@@ -53,7 +53,7 @@ NSString * const TCMMMSessionDidChangeNotification =
 - (void)TCM_sendParticipantsDidChangeNotification {
     [[NSNotificationQueue defaultQueue] 
     enqueueNotification:[NSNotification notificationWithName:TCMMMSessionParticipantsDidChangeNotification object:self]
-           postingStyle:NSPostWhenIdle
+           postingStyle:NSPostASAP
            coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
@@ -454,7 +454,8 @@ NSString * const TCMMMSessionDidChangeNotification =
     if (![self isServer]) {
         SessionProfile *profile = [I_profilesByUserID objectForKey:[self hostID]];
         if (profile) {
-            [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[TCMMMUserManager myUserID] newGroup:@""]];
+            UserChangeOperation *iLeftOperation=[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[TCMMMUserManager myUserID] newGroup:@""];
+            [self documentDidApplyOperation:iLeftOperation]; // note that this only comes through if content was already übermittelt
             [profile abortIncomingMessages];
             [profile close];
             [self detachStateAndProfileForUserWithID:[self hostID]];
@@ -677,6 +678,10 @@ NSString * const TCMMMSessionDidChangeNotification =
 
 - (void)profileDidClose:(TCMBEEPProfile *)aProfile {
     SessionProfile *profile=(SessionProfile *)aProfile;
+    if ([[I_profilesByUserID allValues] containsObject:aProfile]) {
+        // treat as error
+        [self profile:aProfile didFailWithError:nil];
+    }
     TCMMMState *state=[profile MMState];
     if (state) {
         [[state retain] autorelease];
@@ -685,10 +690,6 @@ NSString * const TCMMMSessionDidChangeNotification =
     }
     [profile setDelegate:nil];
     [I_closingProfiles removeObject:profile];
-    if ([[I_profilesByUserID allValues] containsObject:aProfile]) {
-        // handle well
-        NSLog(@"TCMMMSession: undetached profile didClose");
-    }
 }
 
 - (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError {
@@ -700,6 +701,8 @@ NSString * const TCMMMSessionDidChangeNotification =
         NSString *group=[I_groupByUserID objectForKey:userID];
         [[I_participants objectForKey:group] removeObject:user];
         [I_groupByUserID removeObjectForKey:userID];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+        [self TCM_sendParticipantsDidChangeNotification];
         [self detachStateAndProfileForUserWithID:userID];
         [self profileDidClose:profile];
         SelectionOperation *selectionOperation=[[user propertiesForSessionID:[self sessionID]] objectForKey:@"SelectionOperation"];

@@ -39,6 +39,10 @@
 - (void)setMMState:(TCMMMState *)aState;
 - (TCMMMState *)MMState;
 
+- (void)clearOutgoingMMMessageQueue;
+- (void)setContentHasBeenExchanged:(BOOL)aFlag;
+- (BOOL)contentHasBeenExchanged;
+
 @end
 
 

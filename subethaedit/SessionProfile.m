@@ -29,6 +29,10 @@
     [super dealloc];
 }
 
+- (void)clearOutgoingMMMessageQueue {
+    [I_outgoingMMMessageQueue removeAllObjects];
+}
+
 - (void)setContentHasBeenExchanged:(BOOL)aFlag {
     if (aFlag==YES) {
         NSEnumerator *datas=[I_outgoingMMMessageQueue objectEnumerator];
@@ -39,6 +43,10 @@
         [I_outgoingMMMessageQueue removeAllObjects];
     }
     I_flags.contentHasBeenExchanged=aFlag;
+}
+
+- (BOOL)contentHasBeenExchanged {
+    return I_flags.contentHasBeenExchanged;
 }
 
 - (void)sendJoinRequestForSessionID:(NSString *)aSessionID
