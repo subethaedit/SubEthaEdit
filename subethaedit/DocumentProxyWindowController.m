@@ -49,7 +49,7 @@
 //    [((NSPanel *)window) setFloatingPanel:NO];
     [window setHidesOnDeactivate:NO];
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[I_session hostID]];
-    [O_userImageView setImage:[[user properties] objectForKey:@"Image32"]];
+    [O_userImageView setImage:[[user properties] objectForKey:@"Image48"]];
     [O_userNameTextField setStringValue:[user name]];
     NSString *filename=[I_session filename];
     [O_documentTitleTextField setStringValue:filename];
@@ -65,7 +65,7 @@
 
 - (IBAction)acceptAction:(id)aSender {
     [[[self window] contentView] replaceSubview:O_bottomDecisionView with:O_bottomStatusView];
-    [O_statusBarTextField setStringValue:@"...."];
+    [O_statusBarTextField setStringValue:@""];
     [[(PlainTextDocument *)[self document] session] acceptInvitation];
 }
 

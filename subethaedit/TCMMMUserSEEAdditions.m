@@ -39,6 +39,7 @@
 - (void)prepareImages {
     NSImage *image=[[self properties] objectForKey:@"Image"];
     NSMutableDictionary *properties=[self properties];
+    [properties setObject:[image resizedImageWithSize:NSMakeSize(48.,48.)] forKey:@"Image48"];
     [properties setObject:[image resizedImageWithSize:NSMakeSize(32.,32.)] forKey:@"Image32"];
     [properties setObject:[image resizedImageWithSize:NSMakeSize(16.,16.)] forKey:@"Image16"];
     [properties setObject:[[properties objectForKey:@"Image32"] dimmedImage] forKey:@"Image32Dimmed"];

@@ -1043,7 +1043,7 @@ enum {
                    userColor,NSBackgroundColorAttributeName, nil];
                 NSString *result=@" ";
                 if (status) {
-                    result=status;
+                    result=NSLocalizedString(status,@"");
                 } else if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
                     result =[(TextStorage *)[document textStorage] 
                             positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
