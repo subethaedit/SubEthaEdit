@@ -104,7 +104,7 @@ do {
             (stateName = [aString attribute:kSyntaxHighlightingStateName atIndex:currentRange.location-1 effectiveRange:nil]) && 
             (!([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil] isEqualTo:@"End"]))) {
             stateNumber = [stateName intValue];
-            if (foundState = [[definition states] objectAtIndex:stateNumber]) {
+            if ((foundState = [[definition states] objectAtIndex:stateNumber])) {
             // Search for the end
                     @try{
                     if ((stateEnd = [foundState objectForKey:@"EndsWithRegex"])) {    
@@ -140,7 +140,7 @@ do {
                 }
         } else { // Currently not in a state -> Search next.
             NSRange defaultStateRange = currentRange;
-            if (startMatch = [stateStarts matchInString:theString range:currentRange]) { // Found new state
+            if ((startMatch = [stateStarts matchInString:theString range:currentRange])) { // Found new state
                 NSRange startRange = [startMatch rangeOfMatchedString];
                 defaultStateRange.length = startRange.location - currentRange.location;
                 stateNumber = [startMatch indexOfFirstMatchedSubstring] - 1;
@@ -178,7 +178,7 @@ do {
         if ([scanner scanCharactersFromSet:[definition tokenSet] intoString:&token]) {
             if (token) {
                 //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found Token: %@ in State %d",token, aState);
-                if (style = [definition styleForToken:token inState:state]) {
+                if ((style = [definition styleForToken:token inState:state])) {
                     NSRange foundRange = NSMakeRange([scanner scanLocation]-[token length],[token length]);
                     if (NSMaxRange(foundRange)>NSMaxRange(aRange)) break;
                     [aString addAttribute:NSForegroundColorAttributeName value:[style objectForKey:@"color"] range:foundRange];

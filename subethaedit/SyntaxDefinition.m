@@ -173,9 +173,9 @@
             [I_states addObject:aDictionary];
             [aDictionary addEntriesFromDictionary:attributes]; //FIXME: Cache styles
             NSColor *aColor;
-            if (aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]]) 
+            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
                 [aDictionary setObject:aColor forKey:@"color"];
-            if (aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"background-color"]]) 
+            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"background-color"]]))
                 [aDictionary setObject:aColor forKey:@"background-color"];
             [self stateForTreeNode:xmlTree toDictionary:aDictionary];
         } else if ([@"default" isEqualToString:tag]) {
@@ -228,7 +228,7 @@
                 OGRegularExpression *endRegex;
                 if ([OGRegularExpression isValidExpressionString:innerContent]) {
                     //if (endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease])
-                    if (endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindNotEmptyOption] autorelease])
+                    if ((endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindNotEmptyOption] autorelease]))
                         [aDictionary setObject:endRegex forKey:@"EndsWithRegex"];
                 } else NSLog(@"ERROR: %@ is not a valid Regex.", innerContent);
                 
@@ -296,7 +296,7 @@
 -(void)cacheStyles
 {
     NSMutableDictionary *aDictionary;
-    if (aDictionary = [I_defaultState objectForKey:@"KeywordGroups"]) {
+    if ((aDictionary = [I_defaultState objectForKey:@"KeywordGroups"])) {
         [self addStylesForKeywordGroups:aDictionary];
     } else {
         [I_stylesForToken addObject:[NSDictionary dictionary]];
@@ -304,8 +304,8 @@
     }
     
     NSEnumerator *statesEnumerator = [I_states objectEnumerator];
-    while (aDictionary = [statesEnumerator nextObject]) {
-        if (aDictionary = [aDictionary objectForKey:@"KeywordGroups"]) {
+    while ((aDictionary = [statesEnumerator nextObject])) {
+        if ((aDictionary = [aDictionary objectForKey:@"KeywordGroups"])) {
             [self addStylesForKeywordGroups:aDictionary];
         } else {
             [I_stylesForToken addObject:[NSDictionary dictionary]];
@@ -329,54 +329,54 @@
     [I_stylesForToken addObject:newPlainDictionary];
     [I_stylesForRegex addObject:newRegExDictionary];
 
-    while (keywordGroup = [groupEnumerator nextObject]) {
+    while ((keywordGroup = [groupEnumerator nextObject])) {
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
         NSColor *aColor;
         NSString *aString;
-        if (aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"color"]])
+        if ((aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"color"]]))
             [attributes setObject:aColor forKey:@"color"];
-        if (aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"background-color"]])        
+        if ((aColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"background-color"]]))
             [attributes setObject:aColor forKey:@"background-color"];
-        if (aString = [keywordGroup objectForKey:@"font-style"])        
+        if ((aString = [keywordGroup objectForKey:@"font-style"]))      
             [attributes setObject:aString forKey:@"font-style"];
-        if (aString = [keywordGroup objectForKey:@"font-weight"])        
+        if ((aString = [keywordGroup objectForKey:@"font-weight"]))     
             [attributes setObject:aString forKey:@"font-weight"];
-        if (aString = [keywordGroup objectForKey:@"casesensitive"])        
+        if ((aString = [keywordGroup objectForKey:@"casesensitive"]))        
             [attributes setObject:aString forKey:@"casesensitive"];
         
         // First do the plainstring stuff
         
         NSDictionary *keywords;
-        if (keywords = [keywordGroup objectForKey:@"PlainStrings"]) {
+        if ((keywords = [keywordGroup objectForKey:@"PlainStrings"])) {
             NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
             //NSMutableDictionary *newDictionary;
             //newDictionary = [NSMutableDictionary dictionary];
             //[I_stylesForToken addObject:newDictionary];
             NSString *keyword;
-            while (keyword = [keywordEnumerator nextObject]) {
+            while ((keyword = [keywordEnumerator nextObject])) {
                 [newPlainDictionary setObject:attributes forKey:keyword];
             }
         }
         // Then do the regex stuff
         
-        if (keywords = [keywordGroup objectForKey:@"RegularExpressions"]) {
+        if ((keywords = [keywordGroup objectForKey:@"RegularExpressions"])) {
             NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
             //NSMutableDictionary *newDictionary;
             //newDictionary = [NSMutableDictionary dictionary];
             //[I_stylesForRegex addObject:newDictionary];
             NSString *keyword;
             NSString *aString;
-            while (keyword = [keywordEnumerator nextObject]) {
+            while ((keyword = [keywordEnumerator nextObject])) {
                 OGRegularExpression *regex;
                 //unsigned regexOptions = OgreFindLongestOption|OgreFindNotEmptyOption;
                 unsigned regexOptions = OgreFindNotEmptyOption;
-                if (aString =[attributes objectForKey:@"casesensitive"]) {       
-                    if ([aString isEqualTo:@"no"]) {
+                if ((aString = [attributes objectForKey:@"casesensitive"])) {       
+                    if (([aString isEqualTo:@"no"])) {
                         regexOptions = regexOptions|OgreIgnoreCaseOption;
                     }
                 }
                 if ([OGRegularExpression isValidExpressionString:keyword]) {
-                    if (regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease])
+                    if ((regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease]))
                         [newRegExDictionary setObject:attributes forKey:regex];
                 } else {
                     NSLog(@"ERROR: %@ in \"%@\" is not a valid regular expression", keyword, [attributes objectForKey:@"id"]);
@@ -430,7 +430,7 @@
 - (NSDictionary *)styleForToken:(NSString *)aToken inState:(int)aState 
 {
     NSDictionary *aStyle;
-    if (aStyle = [[I_stylesForToken objectAtIndex:aState] objectForKey:aToken]) return aStyle;
+    if ((aStyle = [[I_stylesForToken objectAtIndex:aState] objectForKey:aToken])) return aStyle;
     // FIXME: Handle caseinsensitive Tokens with CFDictionary
     else return nil;
 }
@@ -438,7 +438,7 @@
 - (NSDictionary *)regularExpressionsInState:(int)aState
 {
     NSDictionary *aRegexDictionary;
-    if (aRegexDictionary = [I_stylesForRegex objectAtIndex:aState]) return aRegexDictionary;
+    if ((aRegexDictionary = [I_stylesForRegex objectAtIndex:aState])) return aRegexDictionary;
     else return nil;
 }
 
@@ -447,11 +447,11 @@
     NSMutableString *combinedString = [NSMutableString string];
     NSEnumerator *statesEnumerator = [I_states objectEnumerator];
     NSMutableDictionary *aDictionary;
-    while (aDictionary = [statesEnumerator nextObject]) {
+    while ((aDictionary = [statesEnumerator nextObject])) {
         NSString *beginString;
-        if (beginString = [aDictionary objectForKey:@"BeginsWithRegexString"]) {
+        if ((beginString = [aDictionary objectForKey:@"BeginsWithRegexString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found regex string state start:%@",beginString);
-        } else if (beginString = [aDictionary objectForKey:@"BeginsWithPlainString"]) {
+        } else if ((beginString = [aDictionary objectForKey:@"BeginsWithPlainString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found plain string state start:%@",beginString);
         } else {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"ERROR: State without begin:%@",[aDictionary description]);
