@@ -84,7 +84,7 @@ NSString * const kSymbolParsingIsInABlock  = @"SymbolParsingIsInABlock";
         if ([aTextStorage attribute:kSymbolParsingIsInABlock atIndex:jumprange.location effectiveRange:nil]) break;
         
         NSString *name = [aMatch matchedString];
-        NSLog(@"Symbol:%@",name);
+        //NSLog(@"Symbol:%@",name);
         NSString *type = @"bar";
         int mask = 0;
         NSImage *image = nil;
