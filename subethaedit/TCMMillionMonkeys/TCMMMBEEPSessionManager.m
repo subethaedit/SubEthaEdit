@@ -135,6 +135,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Listening on Port: %d", I_listeningPort);
             break;
         } else {
+            [I_listener close];
             [I_listener release];
             I_listener = nil;
         }
