@@ -7,7 +7,7 @@
 //
 
 #import "DebugPreferences.h"
-#import "Debug/DebugController.h"
+#import "DebugController.h"
 
 
 @implementation DebugPreferences

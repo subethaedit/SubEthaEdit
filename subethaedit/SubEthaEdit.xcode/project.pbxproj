@@ -450,7 +450,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = DebugPreferences.h;
+			name = DebugPreferences.h;
+			path = Debug/DebugPreferences.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -458,7 +459,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = DebugPreferences.m;
+			name = DebugPreferences.m;
+			path = Debug/DebugPreferences.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -490,7 +492,8 @@
 		144BC7C305EE43B6006397BC = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			path = DebugPrefs.nib;
+			name = DebugPrefs.nib;
+			path = Debug/DebugPrefs.nib;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -700,6 +703,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" -name .svn | xargs rm -rf\n\n#MAJ_VER=\"2.0dev\"\nREV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n#/usr/bin/perl -spi -e \"s/VERSION_NUMBER_PLACEHOLDER/$MAJ_VER/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"";
+		};
+		146C7829063ABA8A00016CD9 = {
+			children = (
+				14E92E2A06396E210099D67B,
+				14E92E2B06396E210099D67B,
+				144BC77105EE26B0006397BC,
+				144BC77205EE26B0006397BC,
+				144BC7C305EE43B6006397BC,
+			);
+			isa = PBXGroup;
+			name = Debug;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		147037FD060C642F0087BA25 = {
 			buildActionMask = 2147483647;
@@ -1428,16 +1444,6 @@
 			settings = {
 			};
 		};
-		14E92E2706396E080099D67B = {
-			children = (
-				14E92E2A06396E210099D67B,
-				14E92E2B06396E210099D67B,
-			);
-			isa = PBXGroup;
-			name = Debug;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		14E92E2A06396E210099D67B = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1531,6 +1537,7 @@
 		2A37F4AAFDCFA73011CA2CEA = {
 			children = (
 				2A37F4ABFDCFA73011CA2CEA,
+				146C7829063ABA8A00016CD9,
 				5EEB176D05ECF6DA00C17677,
 				143C35DB05ECAC32008C6DFE,
 				2A37F4AFFDCFA73011CA2CEA,
@@ -1547,7 +1554,6 @@
 		2A37F4ABFDCFA73011CA2CEA = {
 			children = (
 				146017080619DB3300E527EC,
-				14E92E2706396E080099D67B,
 				1460170E0619DBCA00E527EC,
 				1460170B0619DB8400E527EC,
 				146017050619DB0B00E527EC,
@@ -1630,7 +1636,6 @@
 				144C57C00614404400D1E8BF,
 				5EA543C706357E3600A06297,
 				144BC39505EDFF60006397BC,
-				144BC7C305EE43B6006397BC,
 				8D15AC360486D014006FF6A4,
 				089C165FFE840EACC02AAC07,
 				1482A67905EFC1E100BC7434,
@@ -1879,7 +1884,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_LOCATION = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				OTHER_CFLAGS = "-DBLOCK_DEBUGLOGS -DNS_BLOCK_ASSERTIONS -DNDEBUG -DMORE_DEBUG=0";
+				OTHER_CFLAGS = "-DBLOCK_DEBUGLOGS -DNS_BLOCK_ASSERTIONS -DNDEBUG";
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;
@@ -3155,8 +3160,6 @@
 		};
 		5ED305B80601BF6C00C38815 = {
 			children = (
-				144BC77105EE26B0006397BC,
-				144BC77205EE26B0006397BC,
 				148892A6061869DC005BDDCB,
 				148892A7061869DC005BDDCB,
 				148892A0061869A6005BDDCB,

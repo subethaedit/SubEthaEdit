@@ -14,7 +14,7 @@
 #import "TCMPreferenceController.h"
 #import "RendezvousBrowserController.h"
 #import "InternetBrowserController.h"
-#import "DebugPreferences.h"
+#import "Debug/DebugPreferences.h"
 #import "Debug/DebugController.h"
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
