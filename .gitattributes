@@ -481,7 +481,16 @@ subethaedit/SyntaxStyle.h -text
 subethaedit/SyntaxStyle.m -text
 subethaedit/TCMApplication.h -text
 subethaedit/TCMApplication.m -text
+subethaedit/TCMBEEP/English.lproj/InfoPlist.strings -text
+subethaedit/TCMBEEP/Info.plist -text
+subethaedit/TCMBEEP/NSDictionaryTCMAdditions.h -text
+subethaedit/TCMBEEP/NSDictionaryTCMAdditions.m -text
+subethaedit/TCMBEEP/NSStringTCMAdditions.h -text
+subethaedit/TCMBEEP/NSStringTCMAdditions.m -text
 subethaedit/TCMBEEP/TCMBEEP.h -text
+subethaedit/TCMBEEP/TCMBEEP.xcode/mbo.mode1 -text
+subethaedit/TCMBEEP/TCMBEEP.xcode/mbo.pbxuser -text
+subethaedit/TCMBEEP/TCMBEEP.xcode/project.pbxproj -text
 subethaedit/TCMBEEP/TCMBEEPChannel.h -text
 subethaedit/TCMBEEP/TCMBEEPChannel.m -text
 subethaedit/TCMBEEP/TCMBEEPFrame.h -text
@@ -496,6 +505,9 @@ subethaedit/TCMBEEP/TCMBEEPProfile.h -text
 subethaedit/TCMBEEP/TCMBEEPProfile.m -text
 subethaedit/TCMBEEP/TCMBEEPSession.h -text
 subethaedit/TCMBEEP/TCMBEEPSession.m -text
+subethaedit/TCMBEEP/TCMBEEP_Prefix.pch -text
+subethaedit/TCMBEEP/main.c -text
+subethaedit/TCMBEEP/version.plist -text
 subethaedit/TCMFoundation/CFTreeTCMAdditions.h -text
 subethaedit/TCMFoundation/CFTreeTCMAdditions.m -text
 subethaedit/TCMFoundation/Info.plist -text
