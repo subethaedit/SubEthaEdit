@@ -2014,6 +2014,20 @@
 			settings = {
 			};
 		};
+		31006CA70654E98A004F0094 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			name = SubEthaEdit_Splash.png;
+			path = artwork/SubEthaEdit_Splash.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		31006CA80654E98A004F0094 = {
+			fileRef = 31006CA70654E98A004F0094;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		3131457D06381AA9003CC762 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -4139,6 +4153,7 @@
 				5E4AB524063EB11100B67F07,
 				5EB5CB4E063DA4F100762AB7,
 				5EF3AC50062C5D5E00959FEE,
+				31006CA70654E98A004F0094,
 				14E3EACA06149C5D0083426B,
 				5E2D190D062E97A900A0EB85,
 				5E2D190E062E97A900A0EB85,
@@ -4879,6 +4894,7 @@
 				31006A770653F67E004F0094,
 				5E04C35E065401B300075366,
 				5E46B570065453A100C16EA9,
+				31006CA80654E98A004F0094,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
