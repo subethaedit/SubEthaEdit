@@ -88,6 +88,7 @@ typedef enum {
 - (int32_t)nextMessageNumber;
 - (BOOL)acceptFrame:(TCMBEEPFrame *)aFrame;
 - (void)sendMessage:(TCMBEEPMessage *)aMessage;
+- (void)sendSEQFrame;
 - (void)cleanup;
 - (void)closed;
 - (void)closeFailedWithError:(NSError *)error;

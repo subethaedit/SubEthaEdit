@@ -470,10 +470,10 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didChangeCountOfResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
     DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"ChangedCountOfService: %@",aNetService);
     if (wasResolved) {
-        NSLog(@"Was resolved");
+//        NSLog(@"Was resolved");
         NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
         if (userID && ![userID isEqualTo:[TCMMMUserManager myUserID]]) {
-            NSLog(@"has userID:%@",userID);
+//            NSLog(@"has userID:%@",userID);
             NSMutableDictionary *status=[self statusOfUserID:userID];
             if (![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
                 [self performSelector:@selector(connectToRendezvousUserID:) withObject:userID afterDelay:0.3];

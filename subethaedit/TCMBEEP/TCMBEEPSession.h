@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "TCMBEEPProfile.h"
 
-
+extern NSString * const NetworkTimeoutPreferenceKey;
 extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
 
@@ -70,6 +70,9 @@ enum {
     } I_flags;
     
     TCMBEEPSessionStatus I_sessionStatus;
+
+    NSTimer *I_terminateTimer;
+    NSTimeInterval I_timeout;
         
 #ifdef TCMBEEP_DEBUG
     NSFileHandle *I_frameLogHandle;
@@ -81,6 +84,10 @@ enum {
 /*"Initializers"*/
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData;
 - (id)initWithAddressData:(NSData *)aData;
+
+- (void)startTerminator;
+- (void)triggerTerminator;
+- (void)invalidateTerminator;
 
 /*"Accessors"*/
 - (void)setDelegate:(id)aDelegate;

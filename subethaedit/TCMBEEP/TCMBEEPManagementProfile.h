@@ -19,6 +19,7 @@
     NSMutableDictionary *I_pendingChannelRequestMessageNumbers;
     NSMutableDictionary *I_channelNumbersByCloseRequests;
     NSMutableDictionary *I_messageNumbersOfCloseRequestsByChannelsNumbers;
+    NSTimer *I_keepBEEPTimer;
 }
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel;
