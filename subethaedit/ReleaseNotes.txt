@@ -1,4 +1,33 @@
 
+SubEthaEdit 2.1.2
+=================
+
+Changes:
+- Updated to OgreKit 2.0.1. r1013
+
+Additions:
+- Added sty to latex extensions. r994
+
+Fixes:
+- Fixed [#HYR-445]: Failure to save another encoding. r987
+- Fixed [#HYR-420]: Lua syntax highlighting mode. r994
+- Fixed memory leak. r994
+- Fixed [#HYR-517]. r997
+- Fixed [#HYR-540]: SubEthaEdit doesn't start after installing
+problem existed with addressbook and primary identifiers that returned nil. r999
+- Fixed [#HYR-496]: Mode guessing on save does not work with documents created with pipe-in. r1000
+- Fixed [#HYR-508]: see tool mode guessing when creating files guesses again on save. r1000
+- Fixed [#SEE-168]: "Help" Documents (RE.txt ...) can be opened more than once. r1001
+- Fixed [#HYR-543]: Empty .mode directories throw exception at startup
+- Fixed another potential AddressBook issue. r1014
+- Fixed [#SEE-169]: Improved protocol stability. r1029
+- Fixed [#HYR-351]: Show matching brackets only works with arrow keys. r1031
+- Fixed [#HYR-532]: 'Shift Left' Crash with Editor Uses Tabs and Indent New Lines Preferences. r1032
+- Fixed [#HYR-505]: HTML Export does not export style and weight if current font is synthesized. r1033
+- Fixed [#HYR-552]: Autocompletion while Blockediting causes various problems + keybinding of ESC. r1035
+- Fixed [#HYR-520]: Highlight on Print projects to the editor. r1036
+
+
 SubEthaEdit 2.1.1
 =================
 
