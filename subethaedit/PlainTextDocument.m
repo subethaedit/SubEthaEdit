@@ -3452,6 +3452,7 @@ static NSString *S_measurementUnits;
         if (I_flags.highlightSyntax) {
             [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
         } else {
+            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:I_textStorage];
             [I_textStorage addAttributes:[self plainTextAttributes]
                                    range:NSMakeRange(0,[I_textStorage length])];
         }
