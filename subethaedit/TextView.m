@@ -8,7 +8,7 @@
 
 #import "TextView.h"
 #import "TextStorage.h"
-#import "PlaintextDocument.h"
+#import "PlainTextDocument.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
@@ -315,8 +315,14 @@ static NSColor *nonCommercialColor=nil;
 }
 
 - (void)complete:(id)sender {
-    I_flags.shouldCheckCompleteStart=YES;
-    [super complete:sender];
+    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    if ([textStorage hasBlockeditRanges] && 
+        [textStorage attribute:BlockeditAttributeName atIndex:[self selectedRange].location effectiveRange:nil]) {
+        NSBeep();
+    } else {
+        I_flags.shouldCheckCompleteStart=YES;
+        [super complete:sender];
+    }
 }
 
 - (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index {
