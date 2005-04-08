@@ -1,6 +1,6 @@
 //
 //  NSDataTCMAdditions.m
-//  SubEthaEdit
+//  TCMFoundation
 //
 //  Created by Dominik Wagner on Wed Apr 28 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
