@@ -212,8 +212,6 @@ subethaedit/FindReplaceController.h -text
 subethaedit/FindReplaceController.m -text
 subethaedit/FontAttributesToStringValueTransformer.h -text
 subethaedit/FontAttributesToStringValueTransformer.m -text
-subethaedit/Functions.h -text
-subethaedit/Functions.m -text
 subethaedit/GeneralPreferences.h -text
 subethaedit/GeneralPreferences.m -text
 subethaedit/GetURLCommand.h -text
@@ -357,14 +355,10 @@ subethaedit/MultiPagePrintView.h -text
 subethaedit/MultiPagePrintView.m -text
 subethaedit/NSApplicationTCMAdditions.h -text
 subethaedit/NSApplicationTCMAdditions.m -text
-subethaedit/NSCalendarDateTCMAdditions.h -text
-subethaedit/NSCalendarDateTCMAdditions.m -text
 subethaedit/NSColorTCMAdditions.h -text
 subethaedit/NSColorTCMAdditions.m -text
 subethaedit/NSImageTCMAdditions.h -text
 subethaedit/NSImageTCMAdditions.m -text
-subethaedit/NSNetServiceTCMAdditions.h -text
-subethaedit/NSNetServiceTCMAdditions.m -text
 subethaedit/NSStringSEEAdditions.h -text
 subethaedit/NSStringSEEAdditions.m -text
 subethaedit/ODBEditorSuite.h -text

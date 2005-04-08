@@ -1440,34 +1440,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		1473143006130AFC00609A01 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = Functions.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1473143106130AFC00609A01 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = Functions.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1473143206130AFC00609A01 = {
-			fileRef = 1473143006130AFC00609A01;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		1473143306130AFC00609A01 = {
-			fileRef = 1473143106130AFC00609A01;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		1482A6D205F0FD9B00BC7434 = {
 			fileRef = 144BC39505EDFF60006397BC;
 			isa = PBXBuildFile;
@@ -3313,34 +3285,6 @@
 			settings = {
 			};
 		};
-		31C995A0060F377500E3AB1E = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = NSColorTCMAdditions.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		31C995A1060F377500E3AB1E = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = NSColorTCMAdditions.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		31C995A2060F377500E3AB1E = {
-			fileRef = 31C995A0060F377500E3AB1E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		31C995A3060F377500E3AB1E = {
-			fileRef = 31C995A1060F377500E3AB1E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		31DAE2C50630185B0048C41B = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -4147,46 +4091,12 @@
 			settings = {
 			};
 		};
-		5E4F35B905EF77B6009D71ED = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = NSNetServiceTCMAdditions.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5E4F35BA05EF77B6009D71ED = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = NSNetServiceTCMAdditions.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5E4F35BB05EF77B6009D71ED = {
-			fileRef = 5E4F35B905EF77B6009D71ED;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E4F35BC05EF77B6009D71ED = {
-			fileRef = 5E4F35BA05EF77B6009D71ED;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5E4F35BD05EF77C5009D71ED = {
 			children = (
-				1473143006130AFC00609A01,
-				1473143106130AFC00609A01,
-				5E6D9D9A07007B0E003DAE06,
-				5E6D9D9B07007B0E003DAE06,
-				31C995A0060F377500E3AB1E,
-				31C995A1060F377500E3AB1E,
-				5E834C0305FD1689004EB5D1,
-				5E834C0405FD1689004EB5D1,
-				5E4F35B905EF77B6009D71ED,
-				5E4F35BA05EF77B6009D71ED,
+				5E7095D40807433B001FC259,
+				5E7095D50807433B001FC259,
+				5E766DAB0807445700A722F0,
+				5E766DAA0807445700A722F0,
 				143C360205ECB200008C6DFE,
 				143C360305ECB200008C6DFE,
 				5EACEEA705F545180008743E,
@@ -4601,30 +4511,30 @@
 			settings = {
 			};
 		};
-		5E6D9D9A07007B0E003DAE06 = {
-			fileEncoding = 4;
+		5E7095D40807433B001FC259 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = NSCalendarDateTCMAdditions.h;
+			path = NSColorTCMAdditions.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		5E6D9D9B07007B0E003DAE06 = {
-			fileEncoding = 4;
+		5E7095D50807433B001FC259 = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = NSCalendarDateTCMAdditions.m;
+			path = NSColorTCMAdditions.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		5E6D9D9C07007B0E003DAE06 = {
-			fileRef = 5E6D9D9A07007B0E003DAE06;
+		5E7095D60807433B001FC259 = {
+			fileRef = 5E7095D40807433B001FC259;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		5E6D9D9D07007B0E003DAE06 = {
-			fileRef = 5E6D9D9B07007B0E003DAE06;
+		5E7095D70807433B001FC259 = {
+			fileRef = 5E7095D50807433B001FC259;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4657,6 +4567,34 @@
 			settings = {
 			};
 		};
+		5E766DAA0807445700A722F0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NSImageTCMAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E766DAB0807445700A722F0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NSImageTCMAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5E766DAC0807445700A722F0 = {
+			fileRef = 5E766DAA0807445700A722F0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E766DAD0807445700A722F0 = {
+			fileRef = 5E766DAB0807445700A722F0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E7A30AE071EA5C4000DAA4A = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -4681,34 +4619,6 @@
 		};
 		5E7A30B1071EA5C4000DAA4A = {
 			fileRef = 5E7A30AF071EA5C4000DAA4A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E834C0305FD1689004EB5D1 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = NSImageTCMAdditions.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5E834C0405FD1689004EB5D1 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = NSImageTCMAdditions.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5E834C0505FD1689004EB5D1 = {
-			fileRef = 5E834C0305FD1689004EB5D1;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E834C0605FD1689004EB5D1 = {
-			fileRef = 5E834C0405FD1689004EB5D1;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -6061,7 +5971,6 @@
 				144BC76705EE1F21006397BC,
 				144BC77305EE26B0006397BC,
 				5E4F35B505EF7530009D71ED,
-				5E4F35BB05EF77B6009D71ED,
 				5E4F35EF05EF8000009D71ED,
 				5E4F360A05EF8E3F009D71ED,
 				5E0CFE9205F48F3B008C8191,
@@ -6072,7 +5981,6 @@
 				5EDB87E705F8AFE30058C44A,
 				14249EFD05FC826400D8C6B9,
 				14249F5F05FCEF6000D8C6B9,
-				5E834C0505FD1689004EB5D1,
 				141080DC05FE2EC800A4463D,
 				141084A805FE345800A4463D,
 				14C51C710601C93C0030F488,
@@ -6084,12 +5992,10 @@
 				5ECFBAE2060F3623000B47E6,
 				5ECFBAEA060F365B000B47E6,
 				5ECFBAF0060F367C000B47E6,
-				31C995A2060F377500E3AB1E,
 				1444315E0611B9E4008FDA2E,
 				14B42A8D06120339002D0043,
 				5EF941DB0612E31600C2EBFE,
 				5EF941F60612EC5D00C2EBFE,
-				1473143206130AFC00609A01,
 				144C57AD06143E9200D1E8BF,
 				148892A2061869A6005BDDCB,
 				148892A8061869DC005BDDCB,
@@ -6141,7 +6047,6 @@
 				5E6D9D470700631C003DAE06,
 				5E6D9D490700631C003DAE06,
 				5E6D9D72070063C6003DAE06,
-				5E6D9D9C07007B0E003DAE06,
 				5E0FCF41070AEEEF00A3D96D,
 				5E35B5FE071586310093B96A,
 				5E35B9EC071A8CDF0093B96A,
@@ -6149,6 +6054,8 @@
 				316CD4EB071EAB7F00988818,
 				5E9020730727CED9007C2AEE,
 				5E92CDA507398083006C0CB3,
+				5E7095D60807433B001FC259,
+				5E766DAD0807445700A722F0,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6293,7 +6200,6 @@
 				144BC76805EE1F21006397BC,
 				144BC77405EE26B0006397BC,
 				5E4F35B605EF7530009D71ED,
-				5E4F35BC05EF77B6009D71ED,
 				5E4F35F005EF8000009D71ED,
 				5E4F360B05EF8E3F009D71ED,
 				5E0CFE9305F48F3B008C8191,
@@ -6303,7 +6209,6 @@
 				5EDB87E805F8AFE30058C44A,
 				14249EFE05FC826400D8C6B9,
 				14249F6005FCEF6000D8C6B9,
-				5E834C0605FD1689004EB5D1,
 				141080DD05FE2EC800A4463D,
 				14C51C720601C93C0030F488,
 				14A0EF12060B1D9C00A80FA8,
@@ -6314,12 +6219,10 @@
 				5ECFBAE3060F3623000B47E6,
 				5ECFBAEB060F365B000B47E6,
 				5ECFBAF1060F367C000B47E6,
-				31C995A3060F377500E3AB1E,
 				1444315F0611B9E4008FDA2E,
 				14B42A8E06120339002D0043,
 				5EF941DC0612E31600C2EBFE,
 				5EF941F70612EC5D00C2EBFE,
-				1473143306130AFC00609A01,
 				144C57AE06143E9200D1E8BF,
 				148892A3061869A6005BDDCB,
 				148892A9061869DC005BDDCB,
@@ -6369,7 +6272,6 @@
 				5E6D9D460700631C003DAE06,
 				5E6D9D480700631C003DAE06,
 				5E6D9D73070063C6003DAE06,
-				5E6D9D9D07007B0E003DAE06,
 				5E0FCF42070AEEEF00A3D96D,
 				5E35B5FD071586310093B96A,
 				5E35B9ED071A8CDF0093B96A,
@@ -6377,6 +6279,8 @@
 				316CD4EC071EAB7F00988818,
 				5E9020740727CED9007C2AEE,
 				5E92CDA607398084006C0CB3,
+				5E7095D70807433B001FC259,
+				5E766DAC0807445700A722F0,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
