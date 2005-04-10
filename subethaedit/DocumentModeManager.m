@@ -280,6 +280,21 @@
         count = [aMenu numberOfItems];
     }
     
+
+    static NSImage *s_alternateImage=nil;
+    static NSDictionary *s_menuDefaultStyleAttributes, *s_menuSmallStyleAttributes;
+    if (anotherSelector && !s_alternateImage) {
+//        s_alternateImage=[[[NSImage imageNamed:@"Mode.icns"] resizedImageWithSize:NSMakeSize(15,15)] retain];
+        s_alternateImage=[[[[NSImage imageNamed:@"Mode.icns"] copy] retain] autorelease];
+        [s_alternateImage setScalesWhenResized:YES];
+        [s_alternateImage setSize:NSMakeSize(16,16)];
+        s_alternateImage=[[s_alternateImage resizedImageWithSize:NSMakeSize(16,16)] retain];
+        [s_alternateImage setScalesWhenResized:NO];
+        [s_alternateImage setSize:NSMakeSize(15,15)];
+        s_menuDefaultStyleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSFont menuFontOfSize:0],NSFontAttributeName,[NSColor blackColor], NSForegroundColorAttributeName, nil];
+        s_menuSmallStyleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSFont menuFontOfSize:9.],NSFontAttributeName,[NSColor darkGrayColor], NSForegroundColorAttributeName, nil];
+    }
+
     // Add modes
     DocumentMode *baseMode=[self baseMode];
     
@@ -289,17 +304,22 @@
     while ((identifier=[modeIdentifiers nextObject])) {
         if (![identifier isEqualToString:BASEMODEIDENTIFIER]) {
             NSString *bundlePath=[[I_modeBundles objectForKey:identifier] bundlePath];
-            NSString *alternateTitle=[bundlePath lastPathComponent];
+            NSString *additionalText=nil;
+            NSMutableAttributedString *attributedTitle=[[NSMutableAttributedString alloc] initWithString:[[bundlePath lastPathComponent] stringByDeletingPathExtension] attributes:s_menuDefaultStyleAttributes];
             if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) {
-                alternateTitle=[alternateTitle stringByAppendingFormat:@" (SubEthaEdit %@)",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+                additionalText=[NSString stringWithFormat:@" (SEE %@)",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
             } else if ([bundlePath hasPrefix:@"/Library"]) {
-                alternateTitle=[alternateTitle stringByAppendingString:@" (/Library)"];
+                additionalText=@" (/Library)";
             } else if ([bundlePath hasPrefix:NSHomeDirectory()?NSHomeDirectory():@"/Users"]) {
-                alternateTitle=[alternateTitle stringByAppendingString:@" (~/Library)"];
+                additionalText=@" (~/Library)";
+            }
+            
+            if (additionalText) {
+                [attributedTitle appendAttributedString:[[[NSAttributedString alloc] initWithString:additionalText attributes:s_menuSmallStyleAttributes] autorelease]];
             }
             
             [menuEntries 
-                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[[[I_modeBundles objectForKey:identifier] localizedInfoDictionary] objectForKey:@"CFBundleName"],@"Name",alternateTitle,@"AlternateTitle",nil]];
+                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[[[I_modeBundles objectForKey:identifier] localizedInfoDictionary] objectForKey:@"CFBundleName"],@"Name",[attributedTitle autorelease],@"AlternateTitle",nil]];
         }
     }
 
@@ -311,16 +331,6 @@
     [menuItem release];
 
     count=[menuEntries count];
-    static NSImage *s_alternateImage=nil;
-    if (anotherSelector && !s_alternateImage) {
-//        s_alternateImage=[[[NSImage imageNamed:@"Mode.icns"] resizedImageWithSize:NSMakeSize(15,15)] retain];
-        s_alternateImage=[[[[NSImage imageNamed:@"Mode.icns"] copy] retain] autorelease];
-        [s_alternateImage setScalesWhenResized:YES];
-        [s_alternateImage setSize:NSMakeSize(16,16)];
-        s_alternateImage=[[s_alternateImage resizedImageWithSize:NSMakeSize(16,16)] retain];
-        [s_alternateImage setScalesWhenResized:NO];
-        [s_alternateImage setSize:NSMakeSize(15,15)];
-    }
     if (count > 0) {
         [aMenu addItem:[NSMenuItem separatorItem]];
         
@@ -341,13 +351,14 @@
             [menuItem release];
             
             if (anotherSelector) {
-                menuItem =[[NSMenuItem alloc] initWithTitle:[entry objectForKey:@"AlternateTitle"]
+                menuItem =[[NSMenuItem alloc] initWithTitle:[[entry objectForKey:@"AlternateTitle"] string]
                                                                  action:anotherSelector
                                                           keyEquivalent:@""];
                 [menuItem setTag:[self tagForDocumentModeIdentifier:[entry objectForKey:@"Identifier"]]];
                 [menuItem setAlternate:YES];
                 [menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
                 [menuItem setImage:s_alternateImage];
+                [menuItem setAttributedTitle:[entry objectForKey:@"AlternateTitle"]];
                 [aMenu addItem:menuItem];
                 [menuItem release];
             }
