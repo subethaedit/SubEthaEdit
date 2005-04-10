@@ -313,7 +313,13 @@
     count=[menuEntries count];
     static NSImage *s_alternateImage=nil;
     if (anotherSelector && !s_alternateImage) {
-        s_alternateImage=[[[NSImage imageNamed:@"Mode.icns"] resizedImageWithSize:NSMakeSize(15,15)] retain];
+//        s_alternateImage=[[[NSImage imageNamed:@"Mode.icns"] resizedImageWithSize:NSMakeSize(15,15)] retain];
+        s_alternateImage=[[[[NSImage imageNamed:@"Mode.icns"] copy] retain] autorelease];
+        [s_alternateImage setScalesWhenResized:YES];
+        [s_alternateImage setSize:NSMakeSize(16,16)];
+        s_alternateImage=[[s_alternateImage resizedImageWithSize:NSMakeSize(16,16)] retain];
+        [s_alternateImage setScalesWhenResized:NO];
+        [s_alternateImage setSize:NSMakeSize(15,15)];
     }
     if (count > 0) {
         [aMenu addItem:[NSMenuItem separatorItem]];
