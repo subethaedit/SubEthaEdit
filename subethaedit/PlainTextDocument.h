@@ -8,6 +8,14 @@
 
 
 #import <Cocoa/Cocoa.h>
+#import "EncodingManager.h"
+
+enum {
+    UnknownStringEncoding = NoStringEncoding,
+    SmallestCustomStringEncoding = 0xFFFFFFF0
+};
+
+
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,

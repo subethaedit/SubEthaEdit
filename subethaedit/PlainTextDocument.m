@@ -59,11 +59,6 @@ static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
 
 
-enum {
-    UnknownStringEncoding = NoStringEncoding,
-    SmallestCustomStringEncoding = 0xFFFFFFF0
-};
-
 @interface NSMenuItem (Sorting)
 - (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aNotherMenuItem;
 @end

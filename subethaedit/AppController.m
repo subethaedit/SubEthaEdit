@@ -48,7 +48,9 @@
 #import "Debug/DebugController.h"
 #endif
 
+int const FileMenuTag   =  100;
 int const EditMenuTag   = 1000;
+int const FileNewMenuItemTag = 1;
 int const CutMenuItemTag   = 1;
 int const CopyMenuItemTag  = 2;
 int const CopyXHTMLMenuItemTag = 5;
@@ -441,13 +443,27 @@ static AppController *sharedInstance = nil;
     if (!dockMenu) {
         dockMenu=[NSMenu new];
         NSMenuItem *item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New File",@"New File Dock Menu Item") action:@selector(newDocument:) keyEquivalent:@""] autorelease];
+        DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
         [dockMenu addItem:item];
+        [item setSubmenu:menu];
+        [item setTarget:[DocumentController sharedDocumentController]];
+        [item setAction:@selector(newDocument:)];
+        [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateAction:nil];
         item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openDocument:) keyEquivalent:@""] autorelease];
         [dockMenu addItem:item];
     }
     return dockMenu;
 }
 
+
+- (IBAction)showModeBundleContents:(id)aSender {
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
+    if (identifier) {
+        DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
+        [[NSWorkspace sharedWorkspace] selectFile:[[newMode bundle] resourcePath] inFileViewerRootedAtPath:nil];
+    }
+}
 
 - (void)setupDocumentModeSubmenu {
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"%@",[[DocumentModeManager sharedInstance] description]);
@@ -458,7 +474,13 @@ static AppController *sharedInstance = nil;
 
     DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
     [switchModesMenuItem setSubmenu:menu];
-    [menu configureWithAction:@selector(chooseMode:)];
+    [menu configureWithAction:@selector(chooseMode:) alternateAction:@selector(showModeBundleContents:)];
+
+    menu=[[DocumentModeMenu new] autorelease];
+    NSMenu *fileMenu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+    NSMenuItem *fileNewMenuItem=[fileMenu itemWithTag:FileNewMenuItemTag];
+    [fileNewMenuItem setSubmenu:menu];
+    [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateAction:nil];
     
 }
 

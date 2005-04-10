@@ -14,7 +14,7 @@
 
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
-- (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector;
+- (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector alternateAction:(SEL)anotherSelector;
 - (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode;
 @end
 
@@ -84,14 +84,16 @@
     //int tag = [[self selectedItem] tag];
     //if (tag != 0 && tag != NoStringEncoding) defaultEncoding = tag;
     //[[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry lossyEncodings:[NSArray array]];
-    [[DocumentModeManager sharedInstance] setupMenu:self action:I_action];
+    [[DocumentModeManager sharedInstance] setupMenu:self action:I_action alternateAction:I_alternateAction];
 }
 
-- (void)configureWithAction:(SEL)aSelector {
+- (void)configureWithAction:(SEL)aSelector alternateAction:(SEL)anotherSelector {
     I_action = aSelector;
+    I_alternateAction = anotherSelector;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
-    [[DocumentModeManager sharedInstance] setupMenu:self action:I_action];
+    [[DocumentModeManager sharedInstance] setupMenu:self action:I_action alternateAction:anotherSelector];
 }
+
 @end
 
 @implementation DocumentModeManager
@@ -269,7 +271,7 @@
 }
 
 
-- (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector {
+- (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector alternateAction:(SEL)anotherSelector {
 
     // Remove all menu items
     int count = [aMenu numberOfItems];
@@ -286,8 +288,18 @@
     NSString *identifier = nil;
     while ((identifier=[modeIdentifiers nextObject])) {
         if (![identifier isEqualToString:BASEMODEIDENTIFIER]) {
+            NSString *bundlePath=[[I_modeBundles objectForKey:identifier] bundlePath];
+            NSString *alternateTitle=[bundlePath lastPathComponent];
+            if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) {
+                alternateTitle=[alternateTitle stringByAppendingFormat:@" (SubEthaEdit %@)",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+            } else if ([bundlePath hasPrefix:@"/Library"]) {
+                alternateTitle=[alternateTitle stringByAppendingString:@" (/Library)"];
+            } else if ([bundlePath hasPrefix:NSHomeDirectory()?NSHomeDirectory():@"/Users"]) {
+                alternateTitle=[alternateTitle stringByAppendingString:@" (~/Library)"];
+            }
+            
             [menuEntries 
-                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[[[I_modeBundles objectForKey:identifier] localizedInfoDictionary] objectForKey:@"CFBundleName"],@"Name",nil]];
+                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[[[I_modeBundles objectForKey:identifier] localizedInfoDictionary] objectForKey:@"CFBundleName"],@"Name",alternateTitle,@"AlternateTitle",nil]];
         }
     }
 
@@ -299,6 +311,10 @@
     [menuItem release];
 
     count=[menuEntries count];
+    static NSImage *s_alternateImage=nil;
+    if (anotherSelector && !s_alternateImage) {
+        s_alternateImage=[[[NSImage imageNamed:@"Mode.icns"] resizedImageWithSize:NSMakeSize(15,15)] retain];
+    }
     if (count > 0) {
         [aMenu addItem:[NSMenuItem separatorItem]];
         
@@ -317,6 +333,18 @@
             [menuItem setTag:[self tagForDocumentModeIdentifier:[entry objectForKey:@"Identifier"]]];
             [aMenu addItem:menuItem];
             [menuItem release];
+            
+            if (anotherSelector) {
+                menuItem =[[NSMenuItem alloc] initWithTitle:[entry objectForKey:@"AlternateTitle"]
+                                                                 action:anotherSelector
+                                                          keyEquivalent:@""];
+                [menuItem setTag:[self tagForDocumentModeIdentifier:[entry objectForKey:@"Identifier"]]];
+                [menuItem setAlternate:YES];
+                [menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+                [menuItem setImage:s_alternateImage];
+                [aMenu addItem:menuItem];
+                [menuItem release];
+            }
         }
     }
 }
@@ -324,7 +352,7 @@
 - (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode {
     [aPopUp removeAllItems];
     NSMenu *tempMenu=[[NSMenu new] autorelease];
-    [self setupMenu:tempMenu action:@selector(none:)];
+    [self setupMenu:tempMenu action:@selector(none:) alternateAction:nil];
     if (hasAutomaticMode) {
         NSMenuItem *menuItem=[[[tempMenu itemArray] objectAtIndex:0] copy];
         [menuItem setTag:[self tagForDocumentModeIdentifier:AUTOMATICMODEIDENTIFIER]];

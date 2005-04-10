@@ -363,6 +363,20 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_autocompleteDictionary;
 }
 
+- (NSString *)newFileContent {
+    NSString *templateFilename=[[I_bundle infoDictionary] objectForKey:@"TCMModeNewFileTemplate"];
+    if (templateFilename) {
+        NSString *templatePath=[I_bundle pathForResource:templateFilename ofType:nil];
+        if (templatePath) {
+            NSData *data=[NSData dataWithContentsOfFile:templatePath];
+            if (data && [data length]>0) {
+                return [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+            }
+        }
+    }
+    return nil;
+}
+
 - (BOOL)hasSymbols {
     return ![self isBaseMode];
 }

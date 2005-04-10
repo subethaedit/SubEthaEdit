@@ -16,6 +16,7 @@
 #import "TCMPreferenceController.h"
 #import "TCMPreferenceModule.h"
 #import "StylePreferences.h"
+#import "TextStorage.h"
 
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
@@ -508,6 +509,26 @@ static NSString *tempFileName() {
     return nil;
 }
 
+- (void)newDocumentWithModeMenuItem:(id)aSender {
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
+    if (identifier) {
+        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+        DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
+        [document setDocumentMode:newMode];
+        NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+        if (encoding < SmallestCustomStringEncoding) {
+            [document setFileEncoding:encoding];
+            NSString *newFileContent=[newMode newFileContent];
+            if (newFileContent && [newFileContent canBeConvertedToEncoding:encoding]) {
+                TextStorage *textStorage=(TextStorage *)[document textStorage];
+                [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:newFileContent];
+                [document updateChangeCount:NSChangeCleared];
+            }
+        }
+    }
+}
+
 #pragma mark -
 
 #pragma options align=mac68k
@@ -557,6 +578,12 @@ struct ModificationInfo
     
     if (selector == @selector(concealAllDocuments:)) {
         return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
+    } else if (selector == @selector(newDocumentWithModeMenuItem:)) {
+        if ([[[DocumentModeManager sharedInstance] documentModeIdentifierForTag:[menuItem tag]] isEqualTo:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]) {
+            [menuItem setState:NSMixedState];
+        } else {
+            [menuItem setState:NSOffState];
+        }
     }
     return [super validateMenuItem:menuItem];
 }

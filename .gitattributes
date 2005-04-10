@@ -263,6 +263,13 @@ subethaedit/Modes/CSS.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/CSS.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/CSS.mode/Contents/Resources/SymbolID.png -text
 subethaedit/Modes/CSS.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/Conference.mode/Contents/Info.plist -text
+subethaedit/Modes/Conference.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/Conference.mode/Contents/Resources/English.lproj/Localizable.strings -text
+subethaedit/Modes/Conference.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Conference.mode/Contents/Resources/SymbolH.png -text
+subethaedit/Modes/Conference.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/Conference.mode/Contents/Resources/notes_template.notes -text
 subethaedit/Modes/HTML.mode/Contents/Info.plist -text
 subethaedit/Modes/HTML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/HTML.mode/Contents/Resources/English.lproj/Localizable.strings -text
