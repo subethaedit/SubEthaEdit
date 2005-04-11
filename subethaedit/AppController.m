@@ -448,7 +448,7 @@ static AppController *sharedInstance = nil;
         [item setSubmenu:menu];
         [item setTarget:[DocumentController sharedDocumentController]];
         [item setAction:@selector(newDocument:)];
-        [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateAction:nil];
+        [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
         item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openDocument:) keyEquivalent:@""] autorelease];
         [dockMenu addItem:item];
     }
@@ -474,13 +474,25 @@ static AppController *sharedInstance = nil;
 
     DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
     [switchModesMenuItem setSubmenu:menu];
-    [menu configureWithAction:@selector(chooseMode:) alternateAction:@selector(showModeBundleContents:)];
+    [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
+
+    NSMenuItem *menuItem =[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry")
+                                                     action:nil
+                                              keyEquivalent:@""];
+    [menuItem setAlternate:YES];
+    [menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+    menu=[[DocumentModeMenu new] autorelease];
+    [menuItem setSubmenu:menu];
+    [menu configureWithAction:@selector(showModeBundleContents:) alternateDisplay:YES];
+    [modeMenu insertItem:menuItem atIndex:[modeMenu indexOfItem:switchModesMenuItem]+1];
+    [menuItem release];
+
 
     menu=[[DocumentModeMenu new] autorelease];
     NSMenu *fileMenu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
     NSMenuItem *fileNewMenuItem=[fileMenu itemWithTag:FileNewMenuItemTag];
     [fileNewMenuItem setSubmenu:menu];
-    [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateAction:nil];
+    [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
     
 }
 

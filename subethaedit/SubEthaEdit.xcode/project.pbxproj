@@ -5121,18 +5121,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		5EACBCCE080A837B00D34C15 = {
-			fileRef = 5EACBCCC080A837B00D34C15;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5EACBCCF080A837B00D34C15 = {
-			fileRef = 5EACBCCD080A837B00D34C15;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5EACBCDC080A871400D34C15 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -5140,12 +5128,6 @@
 			path = artwork/SeeFolderIcon.tiff;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		5EACBCDD080A871500D34C15 = {
-			fileRef = 5EACBCDC080A871400D34C15;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		5EACEEA005F5388D0008743E = {
 			isa = PBXFileReference;
@@ -6216,9 +6198,6 @@
 				5E35B60507158BB90093B96A,
 				315B39C60722A58C0005BCC3,
 				142D47DC07283ED500B00725,
-				5EACBCCE080A837B00D34C15,
-				5EACBCCF080A837B00D34C15,
-				5EACBCDD080A871500D34C15,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

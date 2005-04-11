@@ -27,9 +27,9 @@
 
 @interface DocumentModeMenu : NSMenu {
     SEL I_action;
-    SEL I_alternateAction;
+    BOOL I_alternateDisplay;
 }
-- (void)configureWithAction:(SEL)aSelector alternateAction:(SEL)anotherSelector;
+- (void)configureWithAction:(SEL)aSelector alternateDisplay:(BOOL)aFlag;
 @end
 
 @interface DocumentModeManager : NSObject {
