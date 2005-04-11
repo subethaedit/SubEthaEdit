@@ -84,6 +84,7 @@
     //int tag = [[self selectedItem] tag];
     //if (tag != 0 && tag != NoStringEncoding) defaultEncoding = tag;
     //[[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry lossyEncodings:[NSArray array]];
+    //preserve command-n shortcut!
     [[DocumentModeManager sharedInstance] setupMenu:self action:I_action alternateDisplay:I_alternateDisplay];
 }
 

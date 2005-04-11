@@ -493,6 +493,10 @@ static AppController *sharedInstance = nil;
     NSMenuItem *fileNewMenuItem=[fileMenu itemWithTag:FileNewMenuItemTag];
     [fileNewMenuItem setSubmenu:menu];
     [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
+    menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+    [menuItem setKeyEquivalentModifierMask:[fileNewMenuItem keyEquivalentModifierMask]];
+    [menuItem setKeyEquivalent:[fileNewMenuItem keyEquivalent]];
+    [fileNewMenuItem setKeyEquivalent:@""];
     
 }
 

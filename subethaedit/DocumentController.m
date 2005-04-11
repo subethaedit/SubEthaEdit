@@ -578,13 +578,7 @@ struct ModificationInfo
     
     if (selector == @selector(concealAllDocuments:)) {
         return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
-    } else if (selector == @selector(newDocumentWithModeMenuItem:)) {
-        if ([[[DocumentModeManager sharedInstance] documentModeIdentifierForTag:[menuItem tag]] isEqualTo:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]) {
-            [menuItem setState:NSMixedState];
-        } else {
-            [menuItem setState:NSOffState];
-        }
-    }
+    } 
     return [super validateMenuItem:menuItem];
 }
 
