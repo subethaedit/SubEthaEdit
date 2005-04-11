@@ -142,7 +142,7 @@
                 <direct-parameter type="object" description="The URL to open."/>
             </command>
             <command name="see" code="HdraSee " hidden="hidden" description="">
-                <result type="file" description=""/>
+                <result type="list of file" description=""/>
                 <parameter name="files" code="File" type="string" optional="optional" description="">
 					<cocoa key="Files"/>
 				</parameter>                
