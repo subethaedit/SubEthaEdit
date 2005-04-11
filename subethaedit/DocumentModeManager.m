@@ -305,7 +305,7 @@
             NSString *bundlePath=[modeBundle bundlePath];
             NSMutableAttributedString *attributedTitle=[[NSMutableAttributedString alloc] initWithString:[bundlePath lastPathComponent] attributes:s_menuDefaultStyleAttributes];
             if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) {
-                additionalText=[NSString stringWithFormat:@" (SEE %@)",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+                additionalText=[NSString stringWithFormat:@"SubEthaEdit %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
             } else if ([bundlePath hasPrefix:@"/Library"]) {
                 additionalText=@"/Library";
             } else if ([bundlePath hasPrefix:NSHomeDirectory()?NSHomeDirectory():@"/Users"]) {
