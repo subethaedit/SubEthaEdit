@@ -281,16 +281,13 @@
     }
     
 
-    static NSImage *s_alternateImage=nil;
+    static NSImage *s_seeImage=nil,*s_homeImage=nil,*s_rootImage=nil;
     static NSDictionary *s_menuDefaultStyleAttributes, *s_menuSmallStyleAttributes;
-    if (anotherSelector && !s_alternateImage) {
+    if (anotherSelector && !s_seeImage) {
 //        s_alternateImage=[[[NSImage imageNamed:@"Mode.icns"] resizedImageWithSize:NSMakeSize(15,15)] retain];
-        s_alternateImage=[[[[NSImage imageNamed:@"Mode.icns"] copy] retain] autorelease];
-        [s_alternateImage setScalesWhenResized:YES];
-        [s_alternateImage setSize:NSMakeSize(16,16)];
-        s_alternateImage=[[s_alternateImage resizedImageWithSize:NSMakeSize(16,16)] retain];
-        [s_alternateImage setScalesWhenResized:NO];
-        [s_alternateImage setSize:NSMakeSize(15,15)];
+        s_seeImage =[NSImage imageNamed:@"SeeFolderIcon"];
+        s_homeImage=[NSImage imageNamed:@"HomeFolderIcon"];
+        s_rootImage=[NSImage imageNamed:@"LibraryFolderIcon"];
         s_menuDefaultStyleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSFont menuFontOfSize:0],NSFontAttributeName,[NSColor blackColor], NSForegroundColorAttributeName, nil];
         s_menuSmallStyleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSFont menuFontOfSize:9.],NSFontAttributeName,[NSColor darkGrayColor], NSForegroundColorAttributeName, nil];
     }
@@ -303,23 +300,20 @@
     NSString *identifier = nil;
     while ((identifier=[modeIdentifiers nextObject])) {
         if (![identifier isEqualToString:BASEMODEIDENTIFIER]) {
-            NSString *bundlePath=[[I_modeBundles objectForKey:identifier] bundlePath];
-            NSString *additionalText=nil;
-            NSMutableAttributedString *attributedTitle=[[NSMutableAttributedString alloc] initWithString:[[bundlePath lastPathComponent] stringByDeletingPathExtension] attributes:s_menuDefaultStyleAttributes];
+            NSBundle *modeBundle=[I_modeBundles objectForKey:identifier];
+            NSString *bundlePath=[modeBundle bundlePath];
+            NSString *alternateTitle=[NSString stringWithFormat:@"%@ (v%@)",[[bundlePath lastPathComponent] stringByDeletingPathExtension],[[modeBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+            NSImage *icon=s_homeImage;
             if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) {
-                additionalText=[NSString stringWithFormat:@" (SEE %@)",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+                icon=s_seeImage;
             } else if ([bundlePath hasPrefix:@"/Library"]) {
-                additionalText=@" (/Library)";
+                icon=s_rootImage;
             } else if ([bundlePath hasPrefix:NSHomeDirectory()?NSHomeDirectory():@"/Users"]) {
-                additionalText=@" (~/Library)";
-            }
-            
-            if (additionalText) {
-                [attributedTitle appendAttributedString:[[[NSAttributedString alloc] initWithString:additionalText attributes:s_menuSmallStyleAttributes] autorelease]];
+                icon=s_homeImage;
             }
             
             [menuEntries 
-                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[[[I_modeBundles objectForKey:identifier] localizedInfoDictionary] objectForKey:@"CFBundleName"],@"Name",[attributedTitle autorelease],@"AlternateTitle",nil]];
+                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[[modeBundle localizedInfoDictionary] objectForKey:@"CFBundleName"],@"Name",alternateTitle,@"AlternateTitle",icon,@"Icon",nil]];
         }
     }
 
@@ -351,14 +345,13 @@
             [menuItem release];
             
             if (anotherSelector) {
-                menuItem =[[NSMenuItem alloc] initWithTitle:[[entry objectForKey:@"AlternateTitle"] string]
+                menuItem =[[NSMenuItem alloc] initWithTitle:[entry objectForKey:@"AlternateTitle"]
                                                                  action:anotherSelector
                                                           keyEquivalent:@""];
                 [menuItem setTag:[self tagForDocumentModeIdentifier:[entry objectForKey:@"Identifier"]]];
                 [menuItem setAlternate:YES];
                 [menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
-                [menuItem setImage:s_alternateImage];
-                [menuItem setAttributedTitle:[entry objectForKey:@"AlternateTitle"]];
+                [menuItem setImage:[entry objectForKey:@"Icon"]];
                 [aMenu addItem:menuItem];
                 [menuItem release];
             }

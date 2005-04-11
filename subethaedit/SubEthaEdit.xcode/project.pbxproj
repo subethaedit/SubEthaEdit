@@ -5105,6 +5105,48 @@
 			settings = {
 			};
 		};
+		5EACBCCC080A837B00D34C15 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = LibraryFolderIcon.tiff;
+			path = artwork/LibraryFolderIcon.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EACBCCD080A837B00D34C15 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = HomeFolderIcon.tiff;
+			path = artwork/HomeFolderIcon.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EACBCCE080A837B00D34C15 = {
+			fileRef = 5EACBCCC080A837B00D34C15;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EACBCCF080A837B00D34C15 = {
+			fileRef = 5EACBCCD080A837B00D34C15;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5EACBCDC080A871400D34C15 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = SeeFolderIcon.tiff;
+			path = artwork/SeeFolderIcon.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5EACBCDD080A871500D34C15 = {
+			fileRef = 5EACBCDC080A871400D34C15;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5EACEEA005F5388D0008743E = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -5560,6 +5602,9 @@
 		};
 		5EEB176705ECDC0C00C17677 = {
 			children = (
+				5EACBCCC080A837B00D34C15,
+				5EACBCCD080A837B00D34C15,
+				5EACBCDC080A871400D34C15,
 				1469B49B06EDBF5400863288,
 				5E713F5E065594320062A1AF,
 				5E46B56F065453A100C16EA9,
@@ -6171,6 +6216,9 @@
 				5E35B60507158BB90093B96A,
 				315B39C60722A58C0005BCC3,
 				142D47DC07283ED500B00725,
+				5EACBCCE080A837B00D34C15,
+				5EACBCCF080A837B00D34C15,
+				5EACBCDD080A871500D34C15,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

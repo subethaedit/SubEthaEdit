@@ -530,9 +530,11 @@ subethaedit/artwork/EmptyButton.tiff -text
 subethaedit/artwork/GeneralPrefs.tiff -text
 subethaedit/artwork/HideChangeMarks.png -text
 subethaedit/artwork/HideChangeMarks.psd -text
+subethaedit/artwork/HomeFolderIcon.tiff -text
 subethaedit/artwork/Internet.tiff -text
 subethaedit/artwork/InternetResume.tiff -text
 subethaedit/artwork/InternetStop.tiff -text
+subethaedit/artwork/LibraryFolderIcon.tiff -text
 subethaedit/artwork/Mode.icns -text
 subethaedit/artwork/NamedLogo2.tiff -text
 subethaedit/artwork/NextChange.png -text
@@ -548,6 +550,7 @@ subethaedit/artwork/PreviousSymbol.tiff -text
 subethaedit/artwork/PrintPrefs.tiff -text
 subethaedit/artwork/Rendezvous.psd -text
 subethaedit/artwork/ScriptMenu.tiff -text
+subethaedit/artwork/SeeFolderIcon.tiff -text
 subethaedit/artwork/ShiftLeft.png -text
 subethaedit/artwork/ShiftLeft.tiff -text
 subethaedit/artwork/ShiftRight.png -text
