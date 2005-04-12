@@ -20,6 +20,8 @@
 	<array>
 	   <string>js</string>
 	   <string>javascript</string>
+	   <string>JS</string>
+	   <string>JAVASCRIPT</string>
 	</array>
 </dict>
 </plist>

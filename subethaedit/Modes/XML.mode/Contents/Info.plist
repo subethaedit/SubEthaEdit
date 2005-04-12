@@ -25,6 +25,13 @@
 	   <string>rss</string>
 	   <string>rdf</string>
 	   <string>seestyle</string>
+	   <string>XML</string>
+	   <string>XSLT</string>
+	   <string>XSL</string>
+	   <string>PLIST</string>
+	   <string>RSS</string>
+	   <string>RDF</string>
+	   <string>SEESTYLE</string>
 	</array>
 </dict>
 </plist>

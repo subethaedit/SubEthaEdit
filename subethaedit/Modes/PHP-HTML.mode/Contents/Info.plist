@@ -22,6 +22,10 @@
 	   <string>php3</string>
 	   <string>php4</string>
 	   <string>phtml</string>
+	   <string>PHP</string>
+	   <string>PHP3</string>
+	   <string>PHP4</string>
+	   <string>PHTML</string>
 	</array>
 </dict>
 </plist>

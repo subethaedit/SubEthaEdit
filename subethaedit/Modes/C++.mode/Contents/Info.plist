@@ -24,6 +24,11 @@
 	   <string>cxx</string>
 	   <string>C</string>
 	   <string>cc</string>
+	   <string>CPP</string>
+	   <string>C++</string>
+	   <string>CP</string>
+	   <string>CXX</string>
+	   <string>CC</string>
 	</array>
 </dict>
 </plist>

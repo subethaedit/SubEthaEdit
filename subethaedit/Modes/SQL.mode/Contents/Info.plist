@@ -21,6 +21,9 @@
 	   <string>sql</string>
 	   <string>mysql</string>
 	   <string>postgresql</string>
+	   <string>SQL</string>
+	   <string>MYSQL</string>
+	   <string>POSTGRESQL</string>
 	</array>
 </dict>
 </plist>

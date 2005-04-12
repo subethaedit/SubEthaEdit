@@ -19,6 +19,7 @@
 	<key>TCMModeExtensions</key>
 	<array>
 	   <string>as</string>
+	   <string>AS</string>
 	</array>
 </dict>
 </plist>

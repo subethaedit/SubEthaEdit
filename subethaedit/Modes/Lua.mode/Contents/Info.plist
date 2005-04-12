@@ -19,6 +19,7 @@
 	<key>TCMModeExtensions</key>
 	<array>
 	   <string>lua</string>
+	   <string>LUA</string>
 	</array>
 </dict>
 </plist>

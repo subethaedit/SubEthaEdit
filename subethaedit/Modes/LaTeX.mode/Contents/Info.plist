@@ -21,6 +21,9 @@
 	   <string>tex</string>
 	   <string>latex</string>
 	   <string>sty</string>
+	   <string>TEX</string>
+	   <string>LATEX</string>
+	   <string>STY</string>
 	</array>
 </dict>
 </plist>

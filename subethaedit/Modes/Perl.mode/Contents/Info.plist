@@ -20,6 +20,8 @@
 	<array>
 	   <string>pl</string>
 	   <string>pm</string>
+	   <string>PL</string>
+	   <string>PM</string>
 	</array>
 </dict>
 </plist>

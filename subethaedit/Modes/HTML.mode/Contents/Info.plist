@@ -23,6 +23,11 @@
 	   <string>htm</string>
 	   <string>xhtml</string>
 	   <string>shtm</string>
+	   <string>HTML</string>
+	   <string>SHTML</string>
+	   <string>HTM</string>
+	   <string>XHTML</string>
+	   <string>SHTM</string>
 	</array>
 </dict>
 </plist>

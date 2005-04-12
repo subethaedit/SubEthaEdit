@@ -19,6 +19,7 @@
 	<key>TCMModeExtensions</key>
 	<array>
 	   <string>css</string>
+	   <string>CSS</string>
 	</array>
 </dict>
 </plist>

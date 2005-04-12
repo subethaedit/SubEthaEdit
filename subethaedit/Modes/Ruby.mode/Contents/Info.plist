@@ -22,6 +22,10 @@
 	   <string>ruby</string>
 	   <string>rbx</string>
 	   <string>rhtml</string>
+	   <string>RB</string>
+	   <string>RUBY</string>
+	   <string>RBX</string>
+	   <string>RHTML</string>
 	</array>
 </dict>
 </plist>
