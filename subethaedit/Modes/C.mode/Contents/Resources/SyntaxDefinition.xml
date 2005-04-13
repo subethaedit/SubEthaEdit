@@ -53,14 +53,16 @@
             <keywords id="Numbers" color="#00f" useforautocomplete="no">
 				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
             </keywords>
-            <keywords id="Characters" color="#00f" useforautocomplete="no">
-				<regex>('.')</regex>
-            </keywords>
             <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
 
         </default>
+
+        <state id="Characters" color="#00f" background-color="none" font-weight="normal" font-style="normal">
+            <begin><regex>'</regex></begin>
+            <end><regex>(\\'')|(.')</regex></end>
+        </state>
 
         <state id="Preprocessor" color="#683821" background-color="none">
             <begin><regex>#</regex></begin>
