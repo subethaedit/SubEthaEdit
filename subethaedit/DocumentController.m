@@ -519,12 +519,18 @@ static NSString *tempFileName() {
         NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         if (encoding < SmallestCustomStringEncoding) {
             [document setFileEncoding:encoding];
-            NSString *newFileContent=[newMode newFileContent];
-            if (newFileContent && [newFileContent canBeConvertedToEncoding:encoding]) {
-                TextStorage *textStorage=(TextStorage *)[document textStorage];
-                [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:newFileContent];
-                [document updateChangeCount:NSChangeCleared];
-            }
+        }
+        NSString *newFileContent=[newMode newFileContent];
+        if (newFileContent && ![newFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
+            newFileContent=[[[NSString alloc] 
+                            initWithData:[newFileContent dataUsingEncoding:[document fileEncoding] allowLossyConversion:YES] 
+                            encoding:[document fileEncoding]] 
+                              autorelease];
+        }
+        if (newFileContent) {
+            TextStorage *textStorage=(TextStorage *)[document textStorage];
+            [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:newFileContent];
+            [document updateChangeCount:NSChangeCleared];
         }
     }
 }
