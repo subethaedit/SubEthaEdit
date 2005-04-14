@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
 #import "PlainTextDocument.h"
+#import "SelectionOperation.h"
 
 @interface FindAllController : NSWindowController {
     IBOutlet NSPanel *O_findAllPanel;
@@ -19,7 +20,7 @@
     IBOutlet NSProgressIndicator *O_progressIndicator;
     PlainTextDocument *I_document;
     OGRegularExpression *I_regularExpression;
-    NSRange I_range;
+    SelectionOperation *I_scopeSelectionOperation;
 }
 
 - (id)initWithRegex:(OGRegularExpression*)regex andRange:(NSRange)aRange;

@@ -10,7 +10,6 @@
 #import <OgreKit/OgreKit.h>
 #import "TextStorage.h"
 #import "PlainTextDocument.h"
-#import "SelectionOperation.h"
 
 @implementation FindAllController
 
@@ -18,7 +17,11 @@
     self = [super initWithWindowNibName:@"FindAll"];
     if (self) {
         I_regularExpression = [regex copy];
-        //I_range = aRange;
+        // A non-scoped search is indicated by NSNotFound
+        if (aRange.location != NSNotFound) {
+            I_scopeSelectionOperation = [SelectionOperation new];
+            [I_scopeSelectionOperation setSelectedRange:aRange];
+        } 
     }
     return self;
 }
@@ -27,6 +30,7 @@
 {
     [[self window] orderOut:self];
     [I_regularExpression release];
+    [I_scopeSelectionOperation release];
     [super dealloc];
 }
 
@@ -74,14 +78,23 @@
             regex = simpleregex;
         }
         
-        NSArray *matchArray = [regex allMatchesInString:text options:[regex options] range:NSMakeRange(0,[text length])];
+        NSRange scope;
+        if (I_scopeSelectionOperation) 
+            scope = [I_scopeSelectionOperation selectedRange];
+        else 
+            scope = NSMakeRange(0,[text length]);
+        
+        NSArray *matchArray = [regex allMatchesInString:text options:[regex options] range:scope];
         
         int i;
         int count = [matchArray count];
         NSTableColumn* stringCol = [[O_resultsTableView tableColumns] objectAtIndex:1];
         int longestCol = 150;
-
-        [O_findResultsTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d found.",@"Entries Found in FindAll Panel"),count]];
+        
+        if (I_scopeSelectionOperation)
+            [O_findResultsTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d found. (Selection)",@"Entries Found in FindAll Panel"),count]];
+        else 
+            [O_findResultsTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d found.",@"Entries Found in FindAll Panel"),count]];
         
         for (i=0;i<count;i++) {
             OGRegularExpressionMatch *aMatch = [matchArray objectAtIndex:i];
