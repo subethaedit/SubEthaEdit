@@ -10,6 +10,8 @@
 #import <OgreKit/OgreKit.h>
 #import "TextStorage.h"
 #import "PlainTextDocument.h"
+#import "FindReplaceController.h"
+
 
 @implementation FindAllController
 
@@ -91,10 +93,11 @@
         NSTableColumn* stringCol = [[O_resultsTableView tableColumns] objectAtIndex:1];
         int longestCol = 150;
         
-        if (I_scopeSelectionOperation)
-            [O_findResultsTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d found. (Selection)",@"Entries Found in FindAll Panel"),count]];
-        else 
-            [O_findResultsTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d found.",@"Entries Found in FindAll Panel"),count]];
+        NSString *statusString = [NSString stringWithFormat:NSLocalizedString(@"%d found.",@"Entries Found in FindAll Panel"),count];
+        
+        NSString *scopeString = [[[[FindReplaceController sharedInstance] scopePopup] itemAtIndex:(I_scopeSelectionOperation)?1:0] title];
+                
+        [O_findResultsTextField setStringValue:[NSString stringWithFormat:@"%@ (%@)",statusString,scopeString]];
         
         for (i=0;i<count;i++) {
             OGRegularExpressionMatch *aMatch = [matchArray objectAtIndex:i];

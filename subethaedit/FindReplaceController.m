@@ -77,6 +77,11 @@ static FindReplaceController *sharedInstance=nil;
     return O_gotoPanel;
 }
 
+- (NSPopUpButton *)scopePopup {
+    if (!O_findPanel) [self loadUI];
+    return O_scopePopup;
+}
+
 - (NSPanel *)tabWidthPanel {
     if (!O_tabWidthPanel) [self loadUI];
     return O_tabWidthPanel;
