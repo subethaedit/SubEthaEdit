@@ -75,6 +75,7 @@ typedef enum {
 - (NSPanel *)findPanel;
 - (NSPanel *)gotoPanel;
 - (NSPanel *)tabWidthPanel;
+- (NSPopUpButton *)scopePopup;
 
 - (NSTextView *)textViewToSearchIn;
 

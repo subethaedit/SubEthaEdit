@@ -8,6 +8,14 @@
 
 
 #import <Cocoa/Cocoa.h>
+#import "EncodingManager.h"
+
+enum {
+    UnknownStringEncoding = NoStringEncoding,
+    SmallestCustomStringEncoding = 0xFFFFFFF0
+};
+
+
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
@@ -254,6 +262,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (BOOL)isContinuousSpellCheckingEnabled;
 - (void)setContinuousSpellCheckingEnabled:(BOOL)aFlag;
 - (BOOL)isReceivingContent;
+- (void)setShouldSelectModeOnSave:(BOOL)aFlag;
+- (BOOL)shouldSelectModeOnSave;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

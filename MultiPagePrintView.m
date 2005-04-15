@@ -165,7 +165,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         highlighter=[[I_document documentMode] syntaxHighlighter];
     }
 
-    BOOL copyFirst=([[printDictionary objectForKey:@"SEEColorizeSyntax"] boolValue] != [I_document highlightsSyntax]);
+    BOOL copyFirst=([[printDictionary objectForKey:@"SEEHighlightSyntax"] boolValue] != [I_document highlightsSyntax]);
     
     int i=0;
     for (i=0;i<2;i++) {
@@ -650,7 +650,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         NSRect myPictureRect=NSMakeRect(point.x+LEGENDIMAGEPADDING,point.y+LEGENDIMAGEPADDING,
                                         LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING,
                                         LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING);
-        NSImage *userImage=[[[aUser properties] objectForKey:@"Image"] copy];
+        NSImage *userImage=[[[[aUser properties] objectForKey:@"Image"] copy] autorelease];
         if (![userImage isFlipped]) [userImage setFlipped:YES];
 //        [userImage setScalesWhenResized:YES];
 //        [userImage setSize:myPictureRect.size];

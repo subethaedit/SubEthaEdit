@@ -7,11 +7,11 @@
 	<key>CFBundleName</key>
 	<string>XML</string>
     <key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
     <key>CFBundleGetInfoString</key>
-	<string>1.0, Copyright TheCodingMonkeys 2004</string>
+	<string>1.1, Copyright TheCodingMonkeys 2004</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -25,6 +25,13 @@
 	   <string>rss</string>
 	   <string>rdf</string>
 	   <string>seestyle</string>
+	   <string>XML</string>
+	   <string>XSLT</string>
+	   <string>XSL</string>
+	   <string>PLIST</string>
+	   <string>RSS</string>
+	   <string>RDF</string>
+	   <string>SEESTYLE</string>
 	</array>
 </dict>
 </plist>

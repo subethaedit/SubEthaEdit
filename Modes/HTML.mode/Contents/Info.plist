@@ -7,11 +7,11 @@
 	<key>CFBundleName</key>
 	<string>HTML</string>
     <key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
     <key>CFBundleGetInfoString</key>
-	<string>1.0, Copyright TheCodingMonkeys 2004</string>
+	<string>1.1, Copyright TheCodingMonkeys 2004</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -23,6 +23,11 @@
 	   <string>htm</string>
 	   <string>xhtml</string>
 	   <string>shtm</string>
+	   <string>HTML</string>
+	   <string>SHTML</string>
+	   <string>HTM</string>
+	   <string>XHTML</string>
+	   <string>SHTM</string>
 	</array>
 </dict>
 </plist>

@@ -7,11 +7,11 @@
 	<key>CFBundleName</key>
 	<string>Pascal</string>
     <key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
     <key>CFBundleGetInfoString</key>
-	<string>1.0, Copyright TheCodingMonkeys 2004</string>
+	<string>1.1, Copyright TheCodingMonkeys 2004</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -21,6 +21,9 @@
 	   <string>pas</string>
 	   <string>p</string>
 	   <string>pp</string>
+	   <string>PAS</string>
+	   <string>P</string>
+	   <string>PP</string>
 	</array>
 </dict>
 </plist>

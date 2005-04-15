@@ -487,6 +487,8 @@
                             replacementString=@"";
                         // }
                     }
+                } else {
+                    changedChars=[replacementString length]-affectedCharRange.length;
                 }
             }
         }

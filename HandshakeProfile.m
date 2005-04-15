@@ -6,8 +6,9 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import <TCMFoundation/TCMFoundation.h>
 #import "HandshakeProfile.h"
-#import "TCMBencodingUtilities.h"
+#import <TCMFoundation/TCMBencodingUtilities.h>
 
 @implementation HandshakeProfile
 
@@ -78,7 +79,7 @@
             if ([[self remoteInfos] objectForKey:@"url"]) {
                 [[[self session] userInfo] setObject:[NSString stringWithAddressData:[[self session] peerAddressData]] forKey:@"URLString"];
             }
-            if (![[self remoteInfos] objectForKey:@"uid"]) {
+            if (![[self remoteInfos] objectForKey:@"uid"] || ![[[self remoteInfos] objectForKey:@"uid"] isKindOfClass:[NSString class]]) {
                 [[self session] terminate];
                 return;
             }

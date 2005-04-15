@@ -8,7 +8,7 @@
 
 #import "../TCMBEEP/TCMBEEP.h"
 #import "TCMMMSession.h"
-#import "TCMBencodingUtilities.h"
+#import <TCMFoundation/TCMBencodingUtilities.h>
 #import "TCMMMUserManager.h"
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUser.h"
@@ -954,10 +954,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     while ((userNotification=[users nextObject])) {
         user=[TCMMMUser userWithNotification:userNotification];
-        if ([userManager sender:profile shouldRequestUser:user]) {
-            [result addObject:userNotification];
+        if (user) {
+            if ([userManager sender:profile shouldRequestUser:user]) {
+                [result addObject:userNotification];
+            }
+            [I_contributors addObject:[userManager userForUserID:[user userID]]];
         }
-        [I_contributors addObject:[userManager userForUserID:[user userID]]];
     }
 
     [result addObjectsFromArray:[self TCM_setSessionParticipants:[sessionInfo objectForKey:@"Participants"] forProfile:profile]];

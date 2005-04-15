@@ -16,6 +16,7 @@
 #import "TCMPreferenceController.h"
 #import "TCMPreferenceModule.h"
 #import "StylePreferences.h"
+#import "TextStorage.h"
 
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
@@ -429,6 +430,7 @@ static NSString *tempFileName() {
                 [properties setObject:[mode documentModeIdentifier] forKey:@"mode"];
             }
             [document setScriptingProperties:properties];
+            [(PlainTextDocument *)document setShouldSelectModeOnSave:NO];
             [(PlainTextDocument *)document setTemporaryDisplayName:[fileName lastPathComponent]];
             [(PlainTextDocument *)document setDirectoryForSavePanel:[fileName stringByDeletingLastPathComponent]];
             if (jobDescription) {
@@ -467,6 +469,13 @@ static NSString *tempFileName() {
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [document readFromFile:standardInputFile ofType:@"PlainTextType"];
+            if (pipeTitle && ![properties objectForKey:@"mode"]) {
+                DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[pipeTitle pathExtension]];
+                [(PlainTextDocument *)document setDocumentMode:mode];
+                [(PlainTextDocument *)document setShouldSelectModeOnSave:NO];
+            } else if (![properties objectForKey:@"mode"]) {
+                [(PlainTextDocument *)document setShouldSelectModeOnSave:YES];
+            }
             
             if (jobDescription) {
                 [(PlainTextDocument *)document setJobDescription:jobDescription];
@@ -498,6 +507,32 @@ static NSString *tempFileName() {
     }
     
     return nil;
+}
+
+- (void)newDocumentWithModeMenuItem:(id)aSender {
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
+    if (identifier) {
+        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+        DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
+        [document setDocumentMode:newMode];
+        NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+        if (encoding < SmallestCustomStringEncoding) {
+            [document setFileEncoding:encoding];
+        }
+        NSString *newFileContent=[newMode newFileContent];
+        if (newFileContent && ![newFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
+            newFileContent=[[[NSString alloc] 
+                            initWithData:[newFileContent dataUsingEncoding:[document fileEncoding] allowLossyConversion:YES] 
+                            encoding:[document fileEncoding]] 
+                              autorelease];
+        }
+        if (newFileContent) {
+            TextStorage *textStorage=(TextStorage *)[document textStorage];
+            [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:newFileContent];
+            [document updateChangeCount:NSChangeCleared];
+        }
+    }
 }
 
 #pragma mark -
@@ -549,7 +584,7 @@ struct ModificationInfo
     
     if (selector == @selector(concealAllDocuments:)) {
         return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
-    }
+    } 
     return [super validateMenuItem:menuItem];
 }
 

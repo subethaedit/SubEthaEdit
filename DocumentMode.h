@@ -72,7 +72,8 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 
 - (SyntaxHighlighter *)syntaxHighlighter;
 - (RegexSymbolParser *)symbolParser;
-- (NSMutableArray *) autocompleteDictionary;
+- (NSString *)newFileContent;
+- (NSMutableArray *)autocompleteDictionary;
 
 - (BOOL)hasSymbols;
 - (NSArray *)symbolArrayForTextStorage:(NSTextStorage *)aTextStorage;

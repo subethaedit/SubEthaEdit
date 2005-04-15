@@ -15,6 +15,23 @@
 int abcde();
 @class TCMIdleTimer;
 
+extern int const FileMenuTag   ;
+extern int const EditMenuTag   ;
+extern int const FileNewMenuItemTag ;
+extern int const CutMenuItemTag   ;
+extern int const CopyMenuItemTag  ;
+extern int const CopyXHTMLMenuItemTag ;
+extern int const CopyStyledMenuItemTag ;
+extern int const PasteMenuItemTag ;
+extern int const BlockeditMenuItemTag ;
+extern int const SpellingMenuItemTag ;
+extern int const SpeechMenuItemTag   ;
+extern int const FormatMenuTag ;
+extern int const FontMenuItemTag ;
+extern int const FileEncodingsMenuItemTag ;
+extern int const WindowMenuTag ;
+
+
 @interface AppController : NSObject {
     BOOL I_lastShouldOpenUntitledFile;
     TCMIdleTimer *I_idleTimer;

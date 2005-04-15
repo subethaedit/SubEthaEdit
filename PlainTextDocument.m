@@ -59,11 +59,6 @@ static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
 
 
-enum {
-    UnknownStringEncoding = NoStringEncoding,
-    SmallestCustomStringEncoding = 0xFFFFFFF0
-};
-
 @interface NSMenuItem (Sorting)
 - (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aNotherMenuItem;
 @end
@@ -1806,7 +1801,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (I_lastSaveOperation == NSSaveToOperation) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
             [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
-            return [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+            return [[I_textStorage string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
         } else {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
             return [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
@@ -3288,6 +3283,15 @@ static NSString *S_measurementUnits;
     return I_flags.isReceivingContent;
 }
 
+- (void)setShouldSelectModeOnSave:(BOOL)aFlag {
+    I_flags.shouldSelectModeOnSave = aFlag;
+}
+
+- (BOOL)shouldSelectModeOnSave {
+    return I_flags.shouldSelectModeOnSave;
+}
+
+
 #pragma mark -
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -3370,6 +3374,7 @@ static NSString *S_measurementUnits;
     } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {
             [self setKeepDocumentVersion:YES];
+            [self updateChangeCount:NSChangeDone];
         } else if (returnCode == NSAlertSecondButtonReturn) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
             BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
@@ -3442,6 +3447,7 @@ static NSString *S_measurementUnits;
         if (I_flags.highlightSyntax) {
             [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
         } else {
+            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:I_textStorage];
             [I_textStorage addAttributes:[self plainTextAttributes]
                                    range:NSMakeRange(0,[I_textStorage length])];
         }
@@ -3955,10 +3961,11 @@ static NSString *S_measurementUnits;
                                                            withString:@" " startingAtIndex:0];
             [aTextView insertText:replacementString];
             return YES;
-        } else if ((aSelector==@selector(moveLeft:) || aSelector==@selector(moveRight:)) &&
+        } else if ((aSelector==@selector(moveLeft:)    || aSelector==@selector(moveRight:) || 
+                    aSelector==@selector(moveForward:) || aSelector==@selector(moveBackward:)) &&
                     I_flags.showMatchingBrackets) {
             unsigned int position=0;
-            if (aSelector==@selector(moveLeft:)) {
+            if (aSelector==@selector(moveLeft:) || aSelector==@selector(moveBackward:)) {
                 position=selectedRange.location-1;
             } else {
                 position=NSMaxRange(selectedRange);

@@ -7,7 +7,7 @@
 //
 
 #import "SessionProfile.h"
-#import "TCMBencodingUtilities.h"
+#import <TCMFoundation/TCMBencodingUtilities.h>
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "UserChangeOperation.h"
@@ -156,9 +156,10 @@
             TCMMMUser *user=nil;
             if ([[aMessage payload] length]>6) {
                 NSDictionary *notification=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6, [[aMessage payload] length]-6)]);
-                if (notification) {
-                    user=[TCMMMUser userWithNotification:notification];
+                if (notification && (user=[TCMMMUser userWithNotification:notification])) {
                     user=[[TCMMMUserManager sharedInstance] userForUserID:[user userID]];
+                } else {
+                    [[self session] terminate];
                 }
             } else {
                 user=[TCMMMUserManager me];
@@ -179,6 +180,10 @@
             NSDictionary *dict = TCM_BdecodedObjectWithData(data);
             NSString *sessionID = [dict objectForKey:@"SessionID"];
             TCMMMUser *user = [TCMMMUser userWithNotification:[dict objectForKey:@"UserNotification"]];
+            if (!user) {
+                [[self session] terminate];
+                return;
+            }
             if ([[TCMMMUserManager sharedInstance] sender:self shouldRequestUser:user]) {
                 NSMutableData *data = [NSMutableData dataWithBytes:"USRREQ" length:6];
                 [[self channel] sendMSGMessageWithPayload:data];
@@ -194,6 +199,10 @@
             TCMMMSession *session=[TCMMMSession sessionWithDictionaryRepresentation:[dict objectForKey:@"Session"]];
             
             TCMMMUser *user = [TCMMMUser userWithNotification:[dict objectForKey:@"UserNotification"]];
+            if (!user) {
+                [[self session] terminate];
+                return;
+            }
             if ([[TCMMMUserManager sharedInstance] sender:self shouldRequestUser:user]) {
                 NSMutableData *data = [NSMutableData dataWithBytes:"USRREQ" length:6];
                 [[self channel] sendMSGMessageWithPayload:data];
@@ -265,9 +274,12 @@
             I_flags.isTrackingSesConFrames=NO;
         } else if (strncmp(type, "USRFUL", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received full user.");
-            // TODO: validate userID
             TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
-            [[TCMMMUserManager sharedInstance] addUser:user];
+            if (user) {
+                [[TCMMMUserManager sharedInstance] addUser:user];
+            } else {
+                [[self session] terminate];
+            }
         } else if (strncmp(type, "DOCMSG", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received MMMessage.");
             NSDictionary *dict=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
@@ -307,7 +319,11 @@
         if (strncmp(type, "USRFUL", 6) == 0) {
             // TODO: validate userID
             TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
-            [[TCMMMUserManager sharedInstance] addUser:user];
+            if (user) {
+                [[TCMMMUserManager sharedInstance] addUser:user];
+            } else {
+                [[self session] terminate];
+            }
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received USRFUL");
         } else if (strncmp(type, "USRREQ", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received USRREQ from Client");
@@ -319,9 +335,11 @@
             while ((notificationDict = [notifications nextObject])) {
                 // backwards compatibility
                 if ([notificationDict objectForKey:@"uID"]) {
-                    [neededUsers addObject:[TCMMMUser userWithNotification:notificationDict]];
+                    TCMMMUser *user=[TCMMMUser userWithNotification:notificationDict];
+                    if (user) [neededUsers addObject:user];
                 } else if ([notificationDict objectForKey:@"User"]) {
-                    [neededUsers addObject:[TCMMMUser userWithNotification:[notificationDict objectForKey:@"User"]]];
+                    TCMMMUser *user=[TCMMMUser userWithNotification:[notificationDict objectForKey:@"User"]];
+                    if (user) [neededUsers addObject:user];
                 }
             }
             if ([[self delegate] respondsToSelector:@selector(profile:didReceiveUserRequests:)]) {

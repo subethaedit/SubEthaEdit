@@ -32,11 +32,11 @@
     NSGraphicsContext *context=[NSGraphicsContext currentContext];
     NSImageInterpolation oldInterpolation=[context imageInterpolation];
     [context setImageInterpolation:NSImageInterpolationHigh];
-    [NSColor clearColor];
+    [[NSColor clearColor] set];
     [[NSBezierPath bezierPathWithRect:(NSMakeRect(0.,0.,newSize.width,newSize.height))] fill];
     [workImage compositeToPoint:NSMakePoint(0.+(aSize.width-newSize.width )/2.,
                                        0.+(aSize.height-newSize.height)/2.)
-                 operation:NSCompositeSourceIn];
+                 operation:NSCompositeSourceOver];
     [context setImageInterpolation:oldInterpolation];
     [image unlockFocus];
     
@@ -46,16 +46,17 @@
 
 - (NSImage *)dimmedImage {
     
-    NSImage *image=[[NSImage alloc] initWithSize:[self size]];
+    NSSize mysize=[self size];
+    NSImage *image=[[NSImage alloc] initWithSize:mysize];
     [image setCacheMode:NSImageCacheNever];
     [image lockFocus];
     NSGraphicsContext *context=[NSGraphicsContext currentContext];
     NSImageInterpolation oldInterpolation=[context imageInterpolation];
     [context setImageInterpolation:NSImageInterpolationHigh];
-    [NSColor clearColor];
-    [[NSBezierPath bezierPathWithRect:(NSMakeRect(0.,0.,[self size].width,[self size].height))] fill];
+    [[NSColor clearColor] set];
+    [[NSBezierPath bezierPathWithRect:(NSMakeRect(0.,0.,mysize.width,mysize.height))] fill];
     [self compositeToPoint:NSMakePoint(0.,0.)
-                 operation:NSCompositeSourceIn fraction:.5];
+                 operation:NSCompositeSourceOver fraction:.5];
     [context setImageInterpolation:oldInterpolation];
     [image unlockFocus];
     

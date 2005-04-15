@@ -8,7 +8,7 @@
 
 #import "TextView.h"
 #import "TextStorage.h"
-#import "PlaintextDocument.h"
+#import "PlainTextDocument.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
@@ -315,6 +315,31 @@ static NSColor *nonCommercialColor=nil;
 }
 
 - (void)complete:(id)sender {
+    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    if ([textStorage hasBlockeditRanges]) {
+        NSEvent *event=[NSApp currentEvent];
+        // 53 is the escape key
+        if ( ([event type]==NSKeyDown || [event type]==NSKeyUp) && [event keyCode]==53 && 
+             !([event modifierFlags] & (NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask | NSShiftKeyMask)) ) {
+//            NSLog(@"keyCode: %d, characters: %@, modifierFlags:%d, %@",
+//                    [event keyCode], [event characters], [event modifierFlags],
+//                    [event description]);
+            [self tryToPerform:@selector(endBlockedit:) with:nil];
+			return;
+        } else {
+            unsigned index=[self selectedRange].location;
+            if (index >= [textStorage length]) {
+                index=[textStorage length];
+                if (index) index--;
+                else return;
+            }
+            if ([textStorage attribute:BlockeditAttributeName atIndex:index effectiveRange:nil]) {
+                NSBeep();
+                return;
+            }
+        }
+    }
+
     I_flags.shouldCheckCompleteStart=YES;
     [super complete:sender];
 }

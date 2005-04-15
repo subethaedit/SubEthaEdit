@@ -7,11 +7,11 @@
 	<key>CFBundleName</key>
 	<string>Ruby</string>
     <key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>CFBundleVersion</key>
-	<string>2.1</string>
+	<string>2.2</string>
     <key>CFBundleGetInfoString</key>
-	<string>2.1.1, Copyright Jeff Reinecke 2004, based on the original Ruby mode by The Coding Monkeys.</string>
+	<string>2.2, Copyright Jeff Reinecke 2004, based on the original Ruby mode by The Coding Monkeys.</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -22,6 +22,10 @@
 	   <string>ruby</string>
 	   <string>rbx</string>
 	   <string>rhtml</string>
+	   <string>RB</string>
+	   <string>RUBY</string>
+	   <string>RBX</string>
+	   <string>RHTML</string>
 	</array>
 </dict>
 </plist>

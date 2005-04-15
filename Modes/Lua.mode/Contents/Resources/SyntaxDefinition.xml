@@ -3,7 +3,7 @@
 <syntax>
 
     <head>
-        <name>Ruby</name>
+        <name>Lua</name>
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]]></charsintokens>
     </head>
 
@@ -244,6 +244,10 @@
 				<regex>(?&lt;=[^[A-Za-z0-9]]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?)|([0-9]*))(?=[^[A-Za-z0-9]]|$)</regex>
             </keywords>
         </default>
+        <state id="Multiline Comment" color="#236E25" font-style="italic">
+			<begin><regex>--\[\[</regex></begin>
+			<end><regex>\]\]</regex></end>
+		</state>
         
         <state id="Singleline Comment" color="#236E25" font-style="italic">
             <begin><regex>--</regex></begin>

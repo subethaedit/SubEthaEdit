@@ -7,7 +7,7 @@
 //
 
 #import <AddressBook/AddressBook.h>
-#import "TCMBEEP/TCMBEEP.h"
+#import <TCMBEEP/TCMBEEP.h>
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "AppController.h"
@@ -48,7 +48,9 @@
 #import "Debug/DebugController.h"
 #endif
 
+int const FileMenuTag   =  100;
 int const EditMenuTag   = 1000;
+int const FileNewMenuItemTag = 1;
 int const CutMenuItemTag   = 1;
 int const CopyMenuItemTag  = 2;
 int const CopyXHTMLMenuItemTag = 5;
@@ -183,17 +185,24 @@ static AppController *sharedInstance = nil;
             
             ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
             NSString *primaryIdentifier=[emails primaryIdentifier];
-            [defaults setObject:primaryIdentifier forKey:MyEmailIdentifierPreferenceKey];
-            myEmail=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
+            if (primaryIdentifier) {
+                [defaults setObject:primaryIdentifier forKey:MyEmailIdentifierPreferenceKey];
+                myEmail=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
+            }
 
             ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
             primaryIdentifier=[aims primaryIdentifier];
-            [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
-            myAIM=[aims valueAtIndex:[aims indexForIdentifier:primaryIdentifier]];
-
+            if (primaryIdentifier) {
+                [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
+                myAIM=[aims valueAtIndex:[aims indexForIdentifier:primaryIdentifier]];
+            }
         } else {
             myName=NSFullUserName();
+            myEmail=@"";
+            myAIM=@"";
         }
+        if (!myEmail) myEmail=@"";
+        if (!myAIM)   myAIM  =@"";
         [defaults setObject:myEmail forKey:MyEmailPreferenceKey];
         [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
         
@@ -434,13 +443,27 @@ static AppController *sharedInstance = nil;
     if (!dockMenu) {
         dockMenu=[NSMenu new];
         NSMenuItem *item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New File",@"New File Dock Menu Item") action:@selector(newDocument:) keyEquivalent:@""] autorelease];
+        DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
         [dockMenu addItem:item];
+        [item setSubmenu:menu];
+        [item setTarget:[DocumentController sharedDocumentController]];
+        [item setAction:@selector(newDocument:)];
+        [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
         item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openDocument:) keyEquivalent:@""] autorelease];
         [dockMenu addItem:item];
     }
     return dockMenu;
 }
 
+
+- (IBAction)showModeBundleContents:(id)aSender {
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
+    if (identifier) {
+        DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
+        [[NSWorkspace sharedWorkspace] selectFile:[[newMode bundle] resourcePath] inFileViewerRootedAtPath:nil];
+    }
+}
 
 - (void)setupDocumentModeSubmenu {
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"%@",[[DocumentModeManager sharedInstance] description]);
@@ -451,7 +474,29 @@ static AppController *sharedInstance = nil;
 
     DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
     [switchModesMenuItem setSubmenu:menu];
-    [menu configureWithAction:@selector(chooseMode:)];
+    [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
+
+    NSMenuItem *menuItem =[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry")
+                                                     action:nil
+                                              keyEquivalent:@""];
+    [menuItem setAlternate:YES];
+    [menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+    menu=[[DocumentModeMenu new] autorelease];
+    [menuItem setSubmenu:menu];
+    [menu configureWithAction:@selector(showModeBundleContents:) alternateDisplay:YES];
+    [modeMenu insertItem:menuItem atIndex:[modeMenu indexOfItem:switchModesMenuItem]+1];
+    [menuItem release];
+
+
+    menu=[[DocumentModeMenu new] autorelease];
+    NSMenu *fileMenu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+    NSMenuItem *fileNewMenuItem=[fileMenu itemWithTag:FileNewMenuItemTag];
+    [fileNewMenuItem setSubmenu:menu];
+    [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
+    menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+    [menuItem setKeyEquivalentModifierMask:[fileNewMenuItem keyEquivalentModifierMask]];
+    [menuItem setKeyEquivalent:[fileNewMenuItem keyEquivalent]];
+    [fileNewMenuItem setKeyEquivalent:@""];
     
 }
 
@@ -575,6 +620,15 @@ static AppController *sharedInstance = nil;
 
 - (void)TCM_showPlainTextFile:(NSString *)fileName {
 
+    NSEnumerator *enumerator = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+    NSDocument *doc;
+    while ((doc = [enumerator nextObject])) {
+        if ([[doc displayName] isEqualToString:[fileName lastPathComponent]]) {
+            [doc showWindows];
+            return;
+        }
+    }
+    
     NSAppleEventDescriptor *propRecord = [NSAppleEventDescriptor recordDescriptor];
     [propRecord setDescriptor:[NSAppleEventDescriptor descriptorWithString:@"utf-8"]
                    forKeyword:'Encd'];                

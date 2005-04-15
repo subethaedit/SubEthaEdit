@@ -77,6 +77,11 @@ static FindReplaceController *sharedInstance=nil;
     return O_gotoPanel;
 }
 
+- (NSPopUpButton *)scopePopup {
+    if (!O_findPanel) [self loadUI];
+    return O_scopePopup;
+}
+
 - (NSPanel *)tabWidthPanel {
     if (!O_tabWidthPanel) [self loadUI];
     return O_tabWidthPanel;
@@ -314,6 +319,7 @@ static FindReplaceController *sharedInstance=nil;
                                          syntax:[self currentOgreSyntax]
                                          escapeCharacter:[self currentOgreEscapeCharacter]];
 
+            if ([[O_scopePopup selectedItem] tag]!=1) scope = NSMakeRange (NSNotFound, 0);
             FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andRange:scope] autorelease];
             [(PlainTextDocument *)[[[target window] windowController] document] addFindAllController:findall];
             if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self loadFindStringToPasteboard];

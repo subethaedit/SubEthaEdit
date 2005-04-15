@@ -11,6 +11,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "DocumentModeManager.h"
+#import "AppController.h"
 #import <AddressBook/AddressBook.h>
 
 NSString * const GeneralViewPreferencesDidChangeNotificiation =
@@ -153,7 +154,16 @@ NSString * const SynthesiseFontsPreferenceKey=@"SynthesiseFonts";
 
 - (IBAction)changeModeForNewDocuments:(id)aSender {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSMenu *newMenu=[[[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu] itemWithTag:FileNewMenuItemTag] submenu];
+    NSMenuItem *menuItem=[newMenu itemWithTag:[modeManager tagForDocumentModeIdentifier:[defaults objectForKey:ModeForNewDocumentsPreferenceKey]]];
+    NSString *keyEquivalent=[[[menuItem keyEquivalent] retain] autorelease];
+    unsigned int modifierMask=[menuItem keyEquivalentModifierMask];
+    [menuItem setKeyEquivalent:@""];
     [defaults setObject:[aSender selectedModeIdentifier] forKey:ModeForNewDocumentsPreferenceKey];
+    menuItem=(NSMenuItem *)[newMenu itemWithTag:[modeManager tagForDocumentModeIdentifier:[defaults objectForKey:ModeForNewDocumentsPreferenceKey]]];
+    [menuItem setKeyEquivalent:keyEquivalent];
+    [menuItem setKeyEquivalentModifierMask:modifierMask];
 }
 
 

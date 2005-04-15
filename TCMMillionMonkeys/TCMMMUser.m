@@ -6,7 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "TCMBencodingUtilities.h"
+#import <TCMFoundation/TCMBencodingUtilities.h>
 #import "TCMMMUser.h"
 
 NSString * const TCMMMUserWillLeaveSessionNotification =
@@ -21,11 +21,19 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 @implementation TCMMMUser
 
 + (id)userWithNotification:(NSDictionary *)aNotificationDict {
-    TCMMMUser *user=[TCMMMUser new];
+	if (![[aNotificationDict objectForKey:@"name"] isKindOfClass:[NSString class]] ||
+		![[aNotificationDict objectForKey:@"cnt"]  isKindOfClass:[NSNumber class]] ||
+		![[aNotificationDict objectForKey:@"uID"]  isKindOfClass:[NSData   class]]
+	) {
+		return nil;
+	}
+	NSString *userID=[NSString stringWithUUIDData:[aNotificationDict objectForKey:@"uID"]];
+	if (!userID) return nil;
+    TCMMMUser *user=[[TCMMMUser new] autorelease];
     [user setName:[aNotificationDict objectForKey:@"name"]];
-    [user setUserID:[NSString stringWithUUIDData:[aNotificationDict objectForKey:@"uID"]]];
+    [user setUserID:userID];
     [user setChangeCount:[[aNotificationDict objectForKey:@"cnt"] longLongValue]];
-    return [user autorelease];
+    return user;
 }
 
 
