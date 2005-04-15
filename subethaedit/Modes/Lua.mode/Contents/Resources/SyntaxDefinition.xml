@@ -245,9 +245,9 @@
             </keywords>
         </default>
         <state id="Multiline Comment" color="#236E25" font-style="italic">
-            <begin><regex>--\[\[</regex></begin>
-            <end><regex>\]\]</regex></end>
-        </state>
+			<begin><regex>--\[\[</regex></begin>
+			<end><regex>\]\]</regex></end>
+		</state>
         
         <state id="Singleline Comment" color="#236E25" font-style="italic">
             <begin><regex>--</regex></begin>
