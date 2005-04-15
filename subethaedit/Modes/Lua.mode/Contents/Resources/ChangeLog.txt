@@ -1,0 +1,4 @@
+Changes with Version 1.1
+    
+    *) EXTENSIONS: Added uppercase variants where appropriate.
+    *) SYNTAX: Fixed HYR-420, adding long comments: --[[ ... ]] 
