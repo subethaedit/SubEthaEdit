@@ -7,25 +7,42 @@ Changes:
 
 Additions:
 - Added sty to latex extensions. r994
+- Added Conference Kit. [#HYR-558] r1039
+- Added support for a mode template file. r1039
+- Alternate menu item for 'Switch to Mode'. r1039
+- Added change logs to the mode bundles. r1052
 
 Fixes:
-- Fixed [#HYR-445]: Failure to save another encoding. r987
+- Fixed a bug in 'Save a Copy As...' where the selected encoding was not used
+  to save the copy. [#HYR-445], r987
+- Fixed a bug where externally changed documents weren't set modified after
+  choosing to keep the SubEthaEdit version. [#HYR-517], r997
+- Fixed an issue where the mode of documents created using see's pipe-in was
+  not guessed on save. [#HYR-496], r1000
+- Fixed a bug where the mode of documents created using the see tool was guessed
+  again on save. [#HYR-508], r1000
+- Fixed a bug where documents which can be opened via the Help menu were opened
+  more than once. [#SEE-168], r1001
+- Fixed a bug where the scope of a 'Find All' operation wasn't respected. [#HYR-463], r1049
+- Fixed an issue where empty mode bundles caused an exception at startup. [#HYR-543]
+- Fixed a bug where the matching brackets were only highlighted when moving the
+  cursor using the arrow keys. [#HYR-351], r1031
+- Fixed a bug where the 'Shift Left' command produced a crash when the editor
+  used tabs and activated indenting new lines. [#HYR-532], r1032
+- Fixed a bug where HTML Export didn't export style and weight if current font
+  was synthesized. [#HYR-505], r1033
+- Fixed an issue where the activiation of syntax highlighting in the print
+  options also activated it in the editor. [#HYR-520], r1036
+- Fixed various issues which occurred while using autocompletion in Blockedit
+  mode. [#HYR-552], r1035
+- Fixed several issues where bad Address Book entries caused crashes or
+  exceptions at startup. [#HYR-540], r999, r1014
+
 - Fixed [#HYR-420]: Lua syntax highlighting mode. r994
 - Fixed memory leak. r994
-- Fixed [#HYR-517]. r997
-- Fixed [#HYR-540]: SubEthaEdit doesn't start after installing
-problem existed with addressbook and primary identifiers that returned nil. r999
-- Fixed [#HYR-496]: Mode guessing on save does not work with documents created with pipe-in. r1000
-- Fixed [#HYR-508]: see tool mode guessing when creating files guesses again on save. r1000
-- Fixed [#SEE-168]: "Help" Documents (RE.txt ...) can be opened more than once. r1001
-- Fixed [#HYR-543]: Empty .mode directories throw exception at startup
-- Fixed another potential AddressBook issue. r1014
 - Fixed [#SEE-169]: Improved protocol stability. r1029
-- Fixed [#HYR-351]: Show matching brackets only works with arrow keys. r1031
-- Fixed [#HYR-532]: 'Shift Left' Crash with Editor Uses Tabs and Indent New Lines Preferences. r1032
-- Fixed [#HYR-505]: HTML Export does not export style and weight if current font is synthesized. r1033
-- Fixed [#HYR-552]: Autocompletion while Blockediting causes various problems + keybinding of ESC. r1035
-- Fixed [#HYR-520]: Highlight on Print projects to the editor. r1036
+- Fixed [#HYR-191]: Added uppercase extension variants to modes where it made sense. r1047
+- Fixed [#HYR-371]: [C++] double-quote symbol which is inside os single-quotes shouldn't be considered as a start of string. r1048
 
 
 SubEthaEdit 2.1.1
