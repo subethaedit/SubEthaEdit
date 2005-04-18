@@ -36,7 +36,7 @@
 
 - (void)windowDidLoad {
     NSBundle *mainBundle = [NSBundle mainBundle];
-    NSString *versionString = [NSString stringWithFormat:@"%@ (v%@)", 
+    NSString *versionString = [NSString stringWithFormat:NSLocalizedString(@"Version %@ (%@)", @"Marketing version followed by build version e.g. Version 2.0 (739)"), 
                                 [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
                                 [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
     NSString *ogreVersion = [NSString stringWithFormat:@"OgreKit v%@, Oniguruma v%@", [OGRegularExpression version], [OGRegularExpression onigurumaVersion]];
