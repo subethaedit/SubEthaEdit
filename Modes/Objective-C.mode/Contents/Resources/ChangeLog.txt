@@ -1,3 +1,4 @@
 Changes with Version 1.1
     
     *) SYNTAX: Changed Character to state to fix HYR-371.
+    *) Adding additional Cocoa classes, constants and functions
