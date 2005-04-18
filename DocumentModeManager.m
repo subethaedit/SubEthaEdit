@@ -318,7 +318,7 @@
             [attributedTitle appendAttributedString:[[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" (v%@, %@)",[[modeBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"], additionalText] attributes:s_menuSmallStyleAttributes] autorelease]];
             
             [menuEntries 
-                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[[modeBundle localizedInfoDictionary] objectForKey:@"CFBundleName"],@"Name",attributedTitle,@"AttributedTitle",nil]];
+                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[modeBundle objectForInfoDictionaryKey:@"CFBundleName"],@"Name",attributedTitle,@"AttributedTitle",nil]];
         }
     }
 
