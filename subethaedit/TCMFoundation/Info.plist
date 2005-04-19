@@ -8,6 +8,8 @@
 	<string>TCMFoundation</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
+	<key>CFBundleName</key>
+	<string>TCMFoundation</string>	
 	<key>CFBundleIdentifier</key>
 	<string>com.codingmonkeys.Foundation</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -16,8 +18,10 @@
 	<string>FMWK</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
+	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>BUILD_NUMBER_PLACEHOLDER</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
 </dict>

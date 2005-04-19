@@ -483,7 +483,6 @@ subethaedit/TCMApplication.h -text
 subethaedit/TCMApplication.m -text
 subethaedit/TCMFoundation/CFTreeTCMAdditions.h -text
 subethaedit/TCMFoundation/CFTreeTCMAdditions.m -text
-subethaedit/TCMFoundation/English.lproj/InfoPlist.strings -text
 subethaedit/TCMFoundation/Info.plist -text
 subethaedit/TCMFoundation/NSCalendarDateTCMAdditions.h -text
 subethaedit/TCMFoundation/NSCalendarDateTCMAdditions.m -text
