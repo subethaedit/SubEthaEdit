@@ -113,28 +113,9 @@
 		089C1665FE841158C02AAC07 = {
 			children = (
 				8DC2EF5A0486A6940098B216,
-				089C1666FE841158C02AAC07,
 			);
 			isa = PBXGroup;
 			name = Resources;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		089C1666FE841158C02AAC07 = {
-			children = (
-				089C1667FE841158C02AAC07,
-			);
-			isa = PBXVariantGroup;
-			name = InfoPlist.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		089C1667FE841158C02AAC07 = {
-			fileEncoding = 10;
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
-			name = English;
-			path = English.lproj/InfoPlist.strings;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -411,6 +392,19 @@
 			settings = {
 			};
 		};
+		1492E62A0815071400B7E1C5 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"";
+		};
 		14A5A46607FC51260026D2C9 = {
 			isa = PBXFileReference;
 			lastKnownFileType = "wrapper.pb-project";
@@ -502,6 +496,7 @@
 			buildPhases = (
 				8DC2EF500486A6940098B216,
 				8DC2EF520486A6940098B216,
+				1492E62A0815071400B7E1C5,
 				8DC2EF540486A6940098B216,
 				8DC2EF560486A6940098B216,
 			);
@@ -551,16 +546,9 @@
 		8DC2EF520486A6940098B216 = {
 			buildActionMask = 2147483647;
 			files = (
-				8DC2EF530486A6940098B216,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8DC2EF530486A6940098B216 = {
-			fileRef = 089C1666FE841158C02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		8DC2EF540486A6940098B216 = {
 			buildActionMask = 2147483647;

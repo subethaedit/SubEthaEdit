@@ -481,7 +481,6 @@ subethaedit/SyntaxStyle.h -text
 subethaedit/SyntaxStyle.m -text
 subethaedit/TCMApplication.h -text
 subethaedit/TCMApplication.m -text
-subethaedit/TCMBEEP/English.lproj/InfoPlist.strings -text
 subethaedit/TCMBEEP/Info.plist -text
 subethaedit/TCMBEEP/TCMBEEP.h -text
 subethaedit/TCMBEEP/TCMBEEP.xcode/project.pbxproj -text
