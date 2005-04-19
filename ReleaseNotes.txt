@@ -2,47 +2,38 @@
 SubEthaEdit 2.1.2
 =================
 
-Changes:
-- Updated to OgreKit 2.0.1. r1013
-
 Additions:
-- Added sty to latex extensions. r994
-- Added Conference Kit. [#HYR-558] r1039
-- Added support for a mode template file. r1039
-- Alternate menu item for 'Switch to Mode'. r1039
-- Added change logs to the mode bundles. r1052
+- Added Conference Kit.
+- Added alternate menu item for 'Switch Mode' called 'Show In Finder', which
+  reveals the choosen mode in the Finder.
+- Added change logs to the mode bundles.
 
 Fixes:
 - Fixed a bug in 'Save a Copy As...' where the selected encoding was not used
-  to save the copy. [#HYR-445], r987
+  to save the copy.
 - Fixed a bug where externally changed documents weren't set modified after
-  choosing to keep the SubEthaEdit version. [#HYR-517], r997
+  choosing to keep the SubEthaEdit version.
 - Fixed an issue where the mode of documents created using see's pipe-in was
-  not guessed on save. [#HYR-496], r1000
+  not guessed on save.
 - Fixed a bug where the mode of documents created using the see tool was guessed
-  again on save. [#HYR-508], r1000
+  again on save.
 - Fixed a bug where documents which can be opened via the Help menu were opened
-  more than once. [#SEE-168], r1001
-- Fixed a bug where the scope of a 'Find All' operation wasn't respected. [#HYR-463], r1049
-- Fixed an issue where empty mode bundles caused an exception at startup. [#HYR-543]
+  more than once.
+- Fixed a bug where the scope of a 'Find All' operation wasn't respected.
+- Fixed an issue where empty mode bundles caused an exception at startup.
 - Fixed a bug where the matching brackets were only highlighted when moving the
-  cursor using the arrow keys. [#HYR-351], r1031
+  cursor using the arrow keys.
 - Fixed a bug where the 'Shift Left' command produced a crash when the editor
-  used tabs and activated indenting new lines. [#HYR-532], r1032
+  used tabs and activated indenting new lines.
 - Fixed a bug where HTML Export didn't export style and weight if current font
-  was synthesized. [#HYR-505], r1033
+  was synthesized.
 - Fixed an issue where the activiation of syntax highlighting in the print
-  options also activated it in the editor. [#HYR-520], r1036
+  options also activated it in the editor.
 - Fixed various issues which occurred while using autocompletion in Blockedit
-  mode. [#HYR-552], r1035
+  mode.
 - Fixed several issues where bad Address Book entries caused crashes or
-  exceptions at startup. [#HYR-540], r999, r1014
-
-- Fixed [#HYR-420]: Lua syntax highlighting mode. r994
-- Fixed memory leak. r994
-- Fixed [#SEE-169]: Improved protocol stability. r1029
-- Fixed [#HYR-191]: Added uppercase extension variants to modes where it made sense. r1047
-- Fixed [#HYR-371]: [C++] double-quote symbol which is inside os single-quotes shouldn't be considered as a start of string. r1048
+  exceptions at startup.
+- Improved overall protocol stability.
 
 
 SubEthaEdit 2.1.1
