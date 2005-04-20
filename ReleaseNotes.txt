@@ -7,8 +7,14 @@ Additions:
 - Added alternate menu item for 'Switch Mode' called 'Show In Finder', which
   reveals the choosen mode in the Finder.
 - Added change logs to the mode bundles.
+- Added submenu to 'New', new files now can be created in a specific mode.
 
 Fixes:
+- Fixed several issues where bad Address Book entries caused crashes or
+  exceptions at startup.
+- Improved overall protocol stability.
+- Fixed an issue where empty mode bundles caused an exception at startup,
+  rendering SubEthaEdit unusable.
 - Fixed a bug in 'Save a Copy As...' where the selected encoding was not used
   to save the copy.
 - Fixed a bug where externally changed documents weren't set modified after
@@ -20,7 +26,6 @@ Fixes:
 - Fixed a bug where documents which can be opened via the Help menu were opened
   more than once.
 - Fixed a bug where the scope of a 'Find All' operation wasn't respected.
-- Fixed an issue where empty mode bundles caused an exception at startup.
 - Fixed a bug where the matching brackets were only highlighted when moving the
   cursor using the arrow keys.
 - Fixed a bug where the 'Shift Left' command produced a crash when the editor
@@ -31,9 +36,6 @@ Fixes:
   options also activated it in the editor.
 - Fixed various issues which occurred while using autocompletion in Blockedit
   mode.
-- Fixed several issues where bad Address Book entries caused crashes or
-  exceptions at startup.
-- Improved overall protocol stability.
 
 
 SubEthaEdit 2.1.1
