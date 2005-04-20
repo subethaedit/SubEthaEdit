@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>SEEMode.Actionscript</string>
+	<string>SEEMode.ActionScript</string>
 	<key>CFBundleName</key>
-	<string>Actionscript</string>
+	<string>ActionScript</string>
     <key>NSHumanReadableCopyright</key>
 	<string>© 2004 TheCodingMonkeys
 http://www.codingmonkeys.de,

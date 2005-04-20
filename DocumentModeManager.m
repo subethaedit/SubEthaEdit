@@ -315,7 +315,7 @@
                 additionalText=@"/Network";
             }
 
-            [attributedTitle appendAttributedString:[[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" (v%@, %@)",[[modeBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"], additionalText] attributes:s_menuSmallStyleAttributes] autorelease]];
+            [attributedTitle appendAttributedString:[[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" (%@ v%@, %@)",identifier,[[modeBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"],additionalText] attributes:s_menuSmallStyleAttributes] autorelease]];
             
             [menuEntries 
                 addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[modeBundle objectForInfoDictionaryKey:@"CFBundleName"],@"Name",attributedTitle,@"AttributedTitle",nil]];
