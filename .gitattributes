@@ -1066,11 +1066,11 @@ Modes/ActionScript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 Modes/ActionScript.mode/Contents/Resources/English.lproj/Localizable.strings -text
 Modes/ActionScript.mode/Contents/Resources/RegexSymbols.xml -text
 Modes/ActionScript.mode/Contents/Resources/SyntaxDefinition.xml -text
-Modes/Applescript.mode/Contents/Info.plist -text
-Modes/Applescript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
-Modes/Applescript.mode/Contents/Resources/English.lproj/Localizable.strings -text
-Modes/Applescript.mode/Contents/Resources/RegexSymbols.xml -text
-Modes/Applescript.mode/Contents/Resources/SyntaxDefinition.xml -text
+Modes/AppleScript.mode/Contents/Info.plist -text
+Modes/AppleScript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+Modes/AppleScript.mode/Contents/Resources/English.lproj/Localizable.strings -text
+Modes/AppleScript.mode/Contents/Resources/RegexSymbols.xml -text
+Modes/AppleScript.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/Base.mode/Contents/Info.plist -text
 Modes/Base.mode/Contents/Resources/ChangeLog.txt -text
 Modes/Base.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
