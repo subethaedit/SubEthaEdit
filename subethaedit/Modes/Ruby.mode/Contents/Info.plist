@@ -6,6 +6,10 @@
 	<string>SEEMode.Ruby</string>
 	<key>CFBundleName</key>
 	<string>Ruby</string>
+    <key>NSHumanReadableCopyright</key>
+	<string>© 2004 Jeff Reinecke
+http://www.paploo.net/~paploo
+Based on the original Coding Monkey's code</string>
     <key>CFBundleShortVersionString</key>
 	<string>2.2</string>
 	<key>CFBundleVersion</key>

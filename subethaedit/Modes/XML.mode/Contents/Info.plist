@@ -8,6 +8,9 @@
 	<string>XML</string>
     <key>CFBundleShortVersionString</key>
 	<string>1.1</string>
+    <key>NSHumanReadableCopyright</key>
+	<string>© 2004 TheCodingMonkeys
+http://www.codingmonkeys.de</string>
 	<key>CFBundleVersion</key>
 	<string>1.1</string>
     <key>CFBundleGetInfoString</key>
