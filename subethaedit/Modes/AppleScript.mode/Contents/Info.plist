@@ -3,32 +3,25 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>SEEMode.PHP-HTML</string>
+	<string>SEEMode.AppleScript</string>
 	<key>CFBundleName</key>
-	<string>PHP-HTML</string>
+	<string>AppleScript</string>
     <key>NSHumanReadableCopyright</key>
 	<string>© 2004 TheCodingMonkeys
 http://www.codingmonkeys.de</string>
     <key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.1</string>
+	<string>1.0</string>
     <key>CFBundleGetInfoString</key>
-	<string>1.1, Copyright TheCodingMonkeys 2004</string>
+	<string>1.0, Copyright TheCodingMonkeys 2004</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>TCMModeExtensions</key>
 	<array>
-	   <string>php</string>
-	   <string>php3</string>
-	   <string>php4</string>
-	   <string>phtml</string>
-	   <string>PHP</string>
-	   <string>PHP3</string>
-	   <string>PHP4</string>
-	   <string>PHTML</string>
+	   <string>applescript</string>
 	</array>
 </dict>
 </plist>

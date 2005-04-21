@@ -253,7 +253,7 @@
     NSEnumerator *modeIdentifiers=[I_modeBundles keyEnumerator];
     NSString *identifier = nil;
     while ((identifier=[modeIdentifiers nextObject])) {
-        [result setObject:[[[I_modeBundles objectForKey:identifier] localizedInfoDictionary] objectForKey:@"CFBundleName"] 
+        [result setObject:[[I_modeBundles objectForKey:identifier] objectForInfoDictionaryKey:@"CFBundleName"] 
                    forKey:identifier];
     }
     return result;
@@ -315,14 +315,14 @@
                 additionalText=@"/Network";
             }
 
-            [attributedTitle appendAttributedString:[[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" (v%@, %@)",[[modeBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"], additionalText] attributes:s_menuSmallStyleAttributes] autorelease]];
+            [attributedTitle appendAttributedString:[[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" (%@ v%@, %@)",identifier,[[modeBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"],additionalText] attributes:s_menuSmallStyleAttributes] autorelease]];
             
             [menuEntries 
-                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[[modeBundle localizedInfoDictionary] objectForKey:@"CFBundleName"],@"Name",attributedTitle,@"AttributedTitle",nil]];
+                addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[modeBundle objectForInfoDictionaryKey:@"CFBundleName"],@"Name",attributedTitle,@"AttributedTitle",nil]];
         }
     }
 
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[[[baseMode bundle] localizedInfoDictionary] objectForKey:@"CFBundleName"]
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[[baseMode bundle] objectForInfoDictionaryKey:@"CFBundleName"]
                                                       action:aSelector
                                                keyEquivalent:@""];
     [menuItem setTag:[self tagForDocumentModeIdentifier:BASEMODEIDENTIFIER]];

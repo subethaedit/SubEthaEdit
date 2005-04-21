@@ -240,6 +240,11 @@ subethaedit/Modes/ActionScript.mode/Contents/Resources/English.lproj/InfoPlist.s
 subethaedit/Modes/ActionScript.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/AppleScript.mode/Contents/Info.plist -text
+subethaedit/Modes/AppleScript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/AppleScript.mode/Contents/Resources/English.lproj/Localizable.strings -text
+subethaedit/Modes/AppleScript.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/AppleScript.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Base.mode/Contents/Info.plist -text
 subethaedit/Modes/Base.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/Base.mode/Contents/Resources/English.lproj/InfoPlist.strings -text

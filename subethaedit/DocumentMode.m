@@ -348,7 +348,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (NSString *)displayName {
-    return [[I_bundle localizedInfoDictionary] objectForKey:@"CFBundleName"];
+    return [I_bundle objectForInfoDictionaryKey:@"CFBundleName"];
 }
 
 - (SyntaxHighlighter *)syntaxHighlighter {

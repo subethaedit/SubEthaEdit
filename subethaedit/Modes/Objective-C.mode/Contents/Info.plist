@@ -6,6 +6,9 @@
 	<string>SEEMode.Objective-C</string>
 	<key>CFBundleName</key>
 	<string>Objective-C</string>
+    <key>NSHumanReadableCopyright</key>
+	<string>© 2004 TheCodingMonkeys
+http://www.codingmonkeys.de</string>
     <key>CFBundleShortVersionString</key>
 	<string>1.1</string>
 	<key>CFBundleVersion</key>

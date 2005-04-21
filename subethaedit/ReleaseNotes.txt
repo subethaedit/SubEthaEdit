@@ -2,30 +2,40 @@
 SubEthaEdit 2.1.2
 =================
 
-Changes:
-- Updated to OgreKit 2.0.1. r1013
-
 Additions:
-- Added sty to latex extensions. r994
+- Added Conference Kit.
+- Added alternate menu item for 'Switch Mode' called 'Show In Finder', which
+  reveals the choosen mode in the Finder.
+- Added change logs to the mode bundles.
+- Added submenu to 'New', new files now can be created in a specific mode.
 
 Fixes:
-- Fixed [#HYR-445]: Failure to save another encoding. r987
-- Fixed [#HYR-420]: Lua syntax highlighting mode. r994
-- Fixed memory leak. r994
-- Fixed [#HYR-517]. r997
-- Fixed [#HYR-540]: SubEthaEdit doesn't start after installing
-problem existed with addressbook and primary identifiers that returned nil. r999
-- Fixed [#HYR-496]: Mode guessing on save does not work with documents created with pipe-in. r1000
-- Fixed [#HYR-508]: see tool mode guessing when creating files guesses again on save. r1000
-- Fixed [#SEE-168]: "Help" Documents (RE.txt ...) can be opened more than once. r1001
-- Fixed [#HYR-543]: Empty .mode directories throw exception at startup
-- Fixed another potential AddressBook issue. r1014
-- Fixed [#SEE-169]: Improved protocol stability. r1029
-- Fixed [#HYR-351]: Show matching brackets only works with arrow keys. r1031
-- Fixed [#HYR-532]: 'Shift Left' Crash with Editor Uses Tabs and Indent New Lines Preferences. r1032
-- Fixed [#HYR-505]: HTML Export does not export style and weight if current font is synthesized. r1033
-- Fixed [#HYR-552]: Autocompletion while Blockediting causes various problems + keybinding of ESC. r1035
-- Fixed [#HYR-520]: Highlight on Print projects to the editor. r1036
+- Fixed several issues where bad Address Book entries caused crashes or
+  exceptions at startup.
+- Improved overall protocol stability.
+- Fixed an issue where empty mode bundles caused an exception at startup,
+  rendering SubEthaEdit unusable.
+- Fixed a bug in 'Save a Copy As...' where the selected encoding was not used
+  to save the copy.
+- Fixed a bug where externally changed documents weren't set modified after
+  choosing to keep the SubEthaEdit version.
+- Fixed an issue where the mode of documents created using see's pipe-in was
+  not guessed on save.
+- Fixed a bug where the mode of documents created using the see tool was guessed
+  again on save.
+- Fixed a bug where documents which can be opened via the Help menu were opened
+  more than once.
+- Fixed a bug where the scope of a 'Find All' operation wasn't respected.
+- Fixed a bug where the matching brackets were only highlighted when moving the
+  cursor using the arrow keys.
+- Fixed a bug where the 'Shift Left' command produced a crash when the editor
+  used tabs and activated indenting new lines.
+- Fixed a bug where HTML Export didn't export style and weight if current font
+  was synthesized.
+- Fixed an issue where the activiation of syntax highlighting in the print
+  options also activated it in the editor.
+- Fixed various issues which occurred while using autocompletion in Blockedit
+  mode.
 
 
 SubEthaEdit 2.1.1
