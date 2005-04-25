@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'VIMode' target in the 'VIMode' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

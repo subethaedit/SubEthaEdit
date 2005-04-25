@@ -1,0 +1,7 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = VIMTextView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }
+    ); 
+    IBVersion = 1; 
+}
