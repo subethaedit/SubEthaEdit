@@ -1313,11 +1313,12 @@
 			inputPaths = (
 			);
 			isa = PBXShellScriptBuildPhase;
+			name = "Run Script (Versioning)";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" -name .svn | xargs rm -rf\n\nREV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"";
+			shellScript = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"";
 		};
 		1469B46806EDBD0400863288 = {
 			children = (
@@ -1497,6 +1498,7 @@
 			inputPaths = (
 			);
 			isa = PBXShellScriptBuildPhase;
+			name = "Run Script (Copy Localizations)";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2056,6 +2058,7 @@
 			inputPaths = (
 			);
 			isa = PBXShellScriptBuildPhase;
+			name = "Run Script (Deployment)";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
@@ -2182,6 +2185,7 @@
 				SubEthaEdit.sdef,
 			);
 			isa = PBXShellScriptBuildPhase;
+			name = "Run Script (sdp)";
 			outputPaths = (
 				SubEthaEditSuite.scriptSuite,
 				SubEthaEditSuite.scriptTerminology,
@@ -2189,7 +2193,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Developer/Tools/sdp -f a -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 SubEthaEdit.sdef\n\nsed s/hidden=\\\"hidden\\\"//g SubEthaEdit.sdef | /Developer/Tools/sdp -f st -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3";
+			shellScript = "/usr/bin/sdp -f a -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 SubEthaEdit.sdef\n\nsed s/hidden=\\\"hidden\\\"//g SubEthaEdit.sdef | /usr/bin/sdp -f st -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3";
 		};
 		14CF2C4506428E7000D430AA = {
 			fileEncoding = 4;
