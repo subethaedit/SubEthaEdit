@@ -544,6 +544,7 @@
 				142884C306E33F2100FB57C5,
 			);
 			isa = PBXCopyFilesBuildPhase;
+			name = "Copy Files (Auxiliary Binaries)";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		142884C206E33F1900FB57C5 = {
@@ -1318,7 +1319,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Info.plist\"";
+			shellScript = "REV=`/usr/local/bin/svn info -R \"$SRCROOT\" | awk '/^Last Changed Rev/ {print $4}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\necho \"Setting Revision $REV$MODIFIED\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV$MODIFIED/g\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"";
 		};
 		1469B46806EDBD0400863288 = {
 			children = (
@@ -3669,6 +3670,7 @@
 				14D6776007F1832500FA264D,
 			);
 			isa = PBXCopyFilesBuildPhase;
+			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5E2D1909062E93FD00A0EB85 = {
