@@ -297,7 +297,7 @@
     NSData *contentData = [aMessage payload];
     // find "\r\n\r\n"
     int i;
-    uint8_t *bytes = (uint8_t *)[contentData bytes];
+    char *bytes = (char *)[contentData bytes];
     for (i = 0; i < [contentData length] - 4; i++) {
         if (bytes[i] == '\r') {
             if (strncmp(&bytes[i], "\r\n\r\n", 4) == 0) {

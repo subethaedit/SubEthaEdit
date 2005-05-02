@@ -515,7 +515,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_readBytes
 {
-    int8_t buffer[8192];
+    uint8_t buffer[8192];
     int bytesParsed = 0;
     CFIndex bytesRead = CFReadStreamRead(I_readStream, buffer, sizeof(buffer));
      
