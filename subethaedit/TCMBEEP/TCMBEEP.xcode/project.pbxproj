@@ -399,11 +399,12 @@
 			inputPaths = (
 			);
 			isa = PBXShellScriptBuildPhase;
+			name = "Run Script (Versioning)";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"";
+			shellScript = "REV=`/usr/local/bin/svn info -R \"$SRCROOT\" | awk '/^Last Changed Rev/ {print $4}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\necho \"Setting Revision $REV$MODIFIED\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV$MODIFIED/g\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"";
 		};
 		14A5A46607FC51260026D2C9 = {
 			isa = PBXFileReference;
