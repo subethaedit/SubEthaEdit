@@ -263,7 +263,7 @@ static FindReplaceController *sharedInstance=nil;
     [O_statusTextField display];
     [O_findPanel display];
     NSString *findString = [O_findComboBox stringValue];
-    NSRange scope;
+    NSRange scope = {NSNotFound, 0};
     NSTextView *target = [self targetToFindIn];
     if (target) {
         if ([[O_scopePopup selectedItem] tag]==1) scope = [target selectedRange];
