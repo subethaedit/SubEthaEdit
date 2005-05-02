@@ -558,7 +558,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
                      "closeTag"=> "</em>"};
 "*/
 
-- (NSString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8 {
+- (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8 {
     NSMutableString *result=[[[NSMutableString alloc] initWithCapacity:[self length]*2] autorelease];
     NSMutableDictionary *state=[NSMutableDictionary new];
     NSMutableDictionary *toOpen=[NSMutableDictionary new];

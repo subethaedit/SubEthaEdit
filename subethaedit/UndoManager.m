@@ -310,7 +310,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     _flags.internal++;
     
     if (_redoGroup != nil) {
-        UndoGroup *parent = [_redoGroup parent];
+        UndoGroup *parent = [(UndoGroup *)_redoGroup parent];
         [self performUndoGroup:_redoGroup];
         [_redoGroup release];
         _redoGroup = parent;
@@ -337,7 +337,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     _flags.internal++;
 
     if (_undoGroup != nil) {
-        UndoGroup *parent = [_undoGroup parent];
+        UndoGroup *parent = [(UndoGroup *)_undoGroup parent];
         [self performUndoGroup:_undoGroup];
         [_undoGroup release];
         _undoGroup = parent;

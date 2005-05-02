@@ -67,7 +67,7 @@ static OSStatus RemoveFiles(CFArrayRef files, CFDictionaryRef *result)
 static OSStatus GetReadOnlyFileDescriptor(CFStringRef fileName, CFDictionaryRef *result) {
     OSStatus err;
     NSMutableArray *descArray;
-    int desc = NULL;
+    int desc = -1;
     NSNumber *descNum;
     
     const char *path = [[NSFileManager defaultManager] fileSystemRepresentationWithPath:(NSString *)fileName];
@@ -92,7 +92,7 @@ static OSStatus GetFileDescriptor(CFStringRef fileName, CFDictionaryRef *result)
 {
     OSStatus err;
     NSMutableArray *descArray;
-    int desc = NULL;
+    int desc = -1;
     NSNumber *descNum;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
