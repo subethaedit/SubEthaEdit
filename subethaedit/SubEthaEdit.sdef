@@ -10,7 +10,7 @@
 			</enumeration>        
 		
         
-            <class name="application" code="capp" inherits="NSCoreSuite.NSApplication">
+            <class name="application" code="capp" inherits="application">
                 <cocoa class="NSApplication"/>
                 
                     <element type="text document">
@@ -62,7 +62,7 @@
 				
             </class>
             
-            <class name="window" code="cwin" inherits="NSCoreSuite.NSWindow">
+            <class name="window" code="cwin" inherits="window">
 				<cocoa class="NSWindow"/>
 				
 					<responds-to name="print">
