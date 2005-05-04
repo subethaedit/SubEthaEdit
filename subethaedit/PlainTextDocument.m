@@ -1251,7 +1251,7 @@ static NSString *tempFileName(NSString *origPath) {
         [[self topmostWindowController] showWindow:self];
     }
     
-    if (closeTransient) {
+    if (closeTransient && ![self isProxyDocument]) {
         [transientDocument close];
         transientDocument = nil;
     }
