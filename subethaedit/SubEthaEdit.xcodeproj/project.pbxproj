@@ -2044,9 +2044,9 @@
 			);
 			name = "Run Script (sdp)";
 			outputPaths = (
-				SubEthaEditSuite.scriptTerminology,
-				SubEthaEditSuite.scriptSuite,
-				SubEthaEditScripting.r,
+				"$(SRCROOT)/SubEthaEditSuite.scriptTerminology",
+				"$(SRCROOT)/SubEthaEditSuite.scriptSuite",
+				"$(SRCROOT)/SubEthaEditScripting.r",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
