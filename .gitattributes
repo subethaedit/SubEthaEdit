@@ -444,6 +444,7 @@ subethaedit/StylePreferences.h -text
 subethaedit/StylePreferences.m -text
 subethaedit/SubEthaEdit.sdef -text
 subethaedit/SubEthaEdit.xcode/project.pbxproj -text
+subethaedit/SubEthaEdit.xcodeproj/project.pbxproj -text
 subethaedit/SubEthaEditHelperTool.m -text
 subethaedit/SubEthaEdit_Prefix.pch -text
 subethaedit/SymbolTableEntry.h -text
