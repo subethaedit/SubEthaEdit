@@ -1,0 +1,467 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		14176F2A07F07756007E1315 /* TCMBEEP.h in Headers */ = {isa = PBXBuildFile; fileRef = 14176F1B07F07756007E1315 /* TCMBEEP.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14176F2B07F07756007E1315 /* TCMBEEPChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 14176F1C07F07756007E1315 /* TCMBEEPChannel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14176F2C07F07756007E1315 /* TCMBEEPChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 14176F1D07F07756007E1315 /* TCMBEEPChannel.m */; };
+		14176F2D07F07756007E1315 /* TCMBEEPFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 14176F1E07F07756007E1315 /* TCMBEEPFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14176F2E07F07756007E1315 /* TCMBEEPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 14176F1F07F07756007E1315 /* TCMBEEPFrame.m */; };
+		14176F2F07F07756007E1315 /* TCMBEEPListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 14176F2007F07756007E1315 /* TCMBEEPListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14176F3007F07756007E1315 /* TCMBEEPListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 14176F2107F07756007E1315 /* TCMBEEPListener.m */; };
+		14176F3107F07756007E1315 /* TCMBEEPManagementProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 14176F2207F07756007E1315 /* TCMBEEPManagementProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14176F3207F07756007E1315 /* TCMBEEPManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14176F2307F07756007E1315 /* TCMBEEPManagementProfile.m */; };
+		14176F3307F07756007E1315 /* TCMBEEPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 14176F2407F07756007E1315 /* TCMBEEPMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14176F3407F07756007E1315 /* TCMBEEPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14176F2507F07756007E1315 /* TCMBEEPMessage.m */; };
+		14176F3507F07756007E1315 /* TCMBEEPProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 14176F2607F07756007E1315 /* TCMBEEPProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14176F3607F07756007E1315 /* TCMBEEPProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14176F2707F07756007E1315 /* TCMBEEPProfile.m */; };
+		14176F3707F07756007E1315 /* TCMBEEPSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 14176F2807F07756007E1315 /* TCMBEEPSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14176F3807F07756007E1315 /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 14176F2907F07756007E1315 /* TCMBEEPSession.m */; };
+		14176FAE07F07783007E1315 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D69BFE84028FC02AAC07 /* Foundation.framework */; };
+		144360C30855FBB600593BE6 /* TCMFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 144360C00855FB8A00593BE6 /* TCMFoundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		014CEA440018CDF011CA2923 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PREBINDING = NO;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		014CEA450018CDF011CA2923 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PREBINDING = NO;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		144360BF0855FB8A00593BE6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 14A5A46607FC51260026D2C9 /* TCMFoundation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* TCMFoundation.framework */;
+			remoteInfo = TCMFoundation;
+		};
+		144360C40855FBC500593BE6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 14A5A46607FC51260026D2C9 /* TCMFoundation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* TCMFoundation */;
+			remoteInfo = TCMFoundation;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		14176F1B07F07756007E1315 /* TCMBEEP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMBEEP.h; sourceTree = "<group>"; };
+		14176F1C07F07756007E1315 /* TCMBEEPChannel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMBEEPChannel.h; sourceTree = "<group>"; };
+		14176F1D07F07756007E1315 /* TCMBEEPChannel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPChannel.m; sourceTree = "<group>"; };
+		14176F1E07F07756007E1315 /* TCMBEEPFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMBEEPFrame.h; sourceTree = "<group>"; };
+		14176F1F07F07756007E1315 /* TCMBEEPFrame.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPFrame.m; sourceTree = "<group>"; };
+		14176F2007F07756007E1315 /* TCMBEEPListener.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMBEEPListener.h; sourceTree = "<group>"; };
+		14176F2107F07756007E1315 /* TCMBEEPListener.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPListener.m; sourceTree = "<group>"; };
+		14176F2207F07756007E1315 /* TCMBEEPManagementProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMBEEPManagementProfile.h; sourceTree = "<group>"; };
+		14176F2307F07756007E1315 /* TCMBEEPManagementProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPManagementProfile.m; sourceTree = "<group>"; };
+		14176F2407F07756007E1315 /* TCMBEEPMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMBEEPMessage.h; sourceTree = "<group>"; };
+		14176F2507F07756007E1315 /* TCMBEEPMessage.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPMessage.m; sourceTree = "<group>"; };
+		14176F2607F07756007E1315 /* TCMBEEPProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMBEEPProfile.h; sourceTree = "<group>"; };
+		14176F2707F07756007E1315 /* TCMBEEPProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPProfile.m; sourceTree = "<group>"; };
+		14176F2807F07756007E1315 /* TCMBEEPSession.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMBEEPSession.h; sourceTree = "<group>"; };
+		14176F2907F07756007E1315 /* TCMBEEPSession.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPSession.m; sourceTree = "<group>"; };
+		14A5A46607FC51260026D2C9 /* TCMFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TCMFoundation.xcodeproj; path = TCMFoundation/TCMFoundation.xcodeproj; sourceTree = "<group>"; };
+		32DBCF5E0370ADEE00C91783 /* TCMBEEP_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMBEEP_Prefix.pch; sourceTree = "<group>"; };
+		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8DC2EF5B0486A6940098B216 /* TCMBEEP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TCMBEEP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				144360C30855FBB600593BE6 /* TCMFoundation.framework in Frameworks */,
+				14176FAE07F07783007E1315 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* TCMBEEP.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* TCMBEEP */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+				14A5A46607FC51260026D2C9 /* TCMFoundation.xcodeproj */,
+			);
+			name = TCMBEEP;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5A0486A6940098B216 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				14176F1B07F07756007E1315 /* TCMBEEP.h */,
+				14176F1C07F07756007E1315 /* TCMBEEPChannel.h */,
+				14176F1D07F07756007E1315 /* TCMBEEPChannel.m */,
+				14176F1E07F07756007E1315 /* TCMBEEPFrame.h */,
+				14176F1F07F07756007E1315 /* TCMBEEPFrame.m */,
+				14176F2007F07756007E1315 /* TCMBEEPListener.h */,
+				14176F2107F07756007E1315 /* TCMBEEPListener.m */,
+				14176F2207F07756007E1315 /* TCMBEEPManagementProfile.h */,
+				14176F2307F07756007E1315 /* TCMBEEPManagementProfile.m */,
+				14176F2407F07756007E1315 /* TCMBEEPMessage.h */,
+				14176F2507F07756007E1315 /* TCMBEEPMessage.m */,
+				14176F2607F07756007E1315 /* TCMBEEPProfile.h */,
+				14176F2707F07756007E1315 /* TCMBEEPProfile.m */,
+				14176F2807F07756007E1315 /* TCMBEEPSession.h */,
+				14176F2907F07756007E1315 /* TCMBEEPSession.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		144360BC0855FB8A00593BE6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				144360C00855FB8A00593BE6 /* TCMFoundation.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF5E0370ADEE00C91783 /* TCMBEEP_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14176F2A07F07756007E1315 /* TCMBEEP.h in Headers */,
+				14176F2B07F07756007E1315 /* TCMBEEPChannel.h in Headers */,
+				14176F2D07F07756007E1315 /* TCMBEEPFrame.h in Headers */,
+				14176F2F07F07756007E1315 /* TCMBEEPListener.h in Headers */,
+				14176F3107F07756007E1315 /* TCMBEEPManagementProfile.h in Headers */,
+				14176F3307F07756007E1315 /* TCMBEEPMessage.h in Headers */,
+				14176F3507F07756007E1315 /* TCMBEEPProfile.h in Headers */,
+				14176F3707F07756007E1315 /* TCMBEEPSession.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* TCMBEEP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1443603108557B9C00593BE6 /* Build configuration list for PBXNativeTarget "TCMBEEP" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				1492E62A0815071400B7E1C5 /* Run Script (Versioning) */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMBEEP_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMBEEP;
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			dependencies = (
+				144360C50855FBC500593BE6 /* PBXTargetDependency */,
+			);
+			name = TCMBEEP;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = TCMBEEP;
+			productReference = 8DC2EF5B0486A6940098B216 /* TCMBEEP.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1443603508557B9C00593BE6 /* Build configuration list for PBXProject "TCMBEEP" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA440018CDF011CA2923 /* Development */,
+				014CEA450018CDF011CA2923 /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* TCMBEEP */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 144360BC0855FB8A00593BE6 /* Products */;
+					ProjectRef = 14A5A46607FC51260026D2C9 /* TCMFoundation.xcodeproj */;
+				},
+			);
+			targets = (
+				8DC2EF4F0486A6940098B216 /* TCMBEEP */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		144360C00855FB8A00593BE6 /* TCMFoundation.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = TCMFoundation.framework;
+			remoteRef = 144360BF0855FB8A00593BE6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1492E62A0815071400B7E1C5 /* Run Script (Versioning) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script (Versioning)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "REV=`/usr/local/bin/svn info -R \"$SRCROOT\" | awk '/^Last Changed Rev/ {print $4}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\necho \"Setting Revision $REV$MODIFIED\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV$MODIFIED/g\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14176F2C07F07756007E1315 /* TCMBEEPChannel.m in Sources */,
+				14176F2E07F07756007E1315 /* TCMBEEPFrame.m in Sources */,
+				14176F3007F07756007E1315 /* TCMBEEPListener.m in Sources */,
+				14176F3207F07756007E1315 /* TCMBEEPManagementProfile.m in Sources */,
+				14176F3407F07756007E1315 /* TCMBEEPMessage.m in Sources */,
+				14176F3607F07756007E1315 /* TCMBEEPProfile.m in Sources */,
+				14176F3807F07756007E1315 /* TCMBEEPSession.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		144360C50855FBC500593BE6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TCMFoundation;
+			targetProxy = 144360C40855FBC500593BE6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1443603208557B9C00593BE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMBEEP_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMBEEP;
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1443603308557B9C00593BE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMBEEP_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMBEEP;
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		1443603408557B9C00593BE6 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMBEEP_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMBEEP;
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Default;
+		};
+		1443603608557B9C00593BE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		1443603708557B9C00593BE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+		1443603808557B9C00593BE6 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1443603108557B9C00593BE6 /* Build configuration list for PBXNativeTarget "TCMBEEP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1443603208557B9C00593BE6 /* Debug */,
+				1443603308557B9C00593BE6 /* Release */,
+				1443603408557B9C00593BE6 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		1443603508557B9C00593BE6 /* Build configuration list for PBXProject "TCMBEEP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1443603608557B9C00593BE6 /* Debug */,
+				1443603708557B9C00593BE6 /* Release */,
+				1443603808557B9C00593BE6 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
