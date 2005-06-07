@@ -57,14 +57,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 14A5A46607FC51260026D2C9 /* TCMFoundation.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* TCMFoundation.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = TCMFoundation;
 		};
 		144360C40855FBC500593BE6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 14A5A46607FC51260026D2C9 /* TCMFoundation.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* TCMFoundation */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = TCMFoundation;
 		};
 /* End PBXContainerItemProxy section */
@@ -365,7 +365,7 @@
 		1443603308557B9C00593BE6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(NATIVE_ARCH)";
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
