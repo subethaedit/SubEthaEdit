@@ -500,6 +500,7 @@ subethaedit/TCMFoundation/TCMBencodingUtilities.m -text
 subethaedit/TCMFoundation/TCMDebug.h -text
 subethaedit/TCMFoundation/TCMFoundation.h -text
 subethaedit/TCMFoundation/TCMFoundation.xcode/project.pbxproj -text
+subethaedit/TCMFoundation/TCMFoundation.xcodeproj/project.pbxproj -text
 subethaedit/TCMFoundation/TCMFoundation_Prefix.pch -text
 subethaedit/TCMFoundation/TCMRendezvousBrowser.h -text
 subethaedit/TCMFoundation/TCMRendezvousBrowser.m -text
