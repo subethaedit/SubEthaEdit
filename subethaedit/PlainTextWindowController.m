@@ -172,13 +172,13 @@ enum {
     [[O_actionPullDown cell] setUsesItemFromMenu:NO];
     [O_actionPullDown addItemWithTitle:@"<do not modify>"];
     NSMenu *menu=[O_actionPullDown menu];
-    [menu setDelegate:self];
     NSEnumerator *menuItems=[[I_contextMenu itemArray] objectEnumerator];
     id menuItem = nil;
     while ((menuItem = [menuItems nextObject])) {
         [menu addItem:[[menuItem copy] autorelease]];
     }
-//    [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
+    [menu setDelegate:self];
+//    [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Men√º", nil]];
     
     //[O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
     
@@ -295,6 +295,11 @@ enum {
         TCMMMSession *session=[(PlainTextDocument *)[self document] session];
         [menuItem setState:([menuItem tag]==[session accessState])?NSOnState:NSOffState];
         return [session isServer];
+    } else if (selector == @selector(readWriteButtonAction:) ||
+               selector == @selector(followUser:) ||
+               selector == @selector(kickButtonAction:) ||
+               selector == @selector(readOnlyButtonAction:)){
+        return [menuItem isEnabled];
     }
     return YES;
 }
@@ -1245,6 +1250,9 @@ enum {
         return NO;
     }
 }
+
+#pragma mark -
+#pragma mark ### menu validation ###
 
 -(void)menuNeedsUpdate:(NSMenu *)menu {
     int state = [self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];

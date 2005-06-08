@@ -443,7 +443,6 @@ subethaedit/SplitView.m -text
 subethaedit/StylePreferences.h -text
 subethaedit/StylePreferences.m -text
 subethaedit/SubEthaEdit.sdef -text
-subethaedit/SubEthaEdit.xcode/project.pbxproj -text
 subethaedit/SubEthaEdit.xcodeproj/project.pbxproj -text
 subethaedit/SubEthaEditHelperTool.m -text
 subethaedit/SubEthaEdit_Prefix.pch -text
@@ -568,7 +567,7 @@ subethaedit/artwork/PreviousChange.psd -text
 subethaedit/artwork/PreviousSymbol.png -text
 subethaedit/artwork/PreviousSymbol.tiff -text
 subethaedit/artwork/PrintPrefs.tiff -text
-subethaedit/artwork/Rendezvous.psd -text
+subethaedit/artwork/Rendezvous.tiff -text
 subethaedit/artwork/ScriptMenu.tiff -text
 subethaedit/artwork/SeeFolderIcon.tiff -text
 subethaedit/artwork/ShiftLeft.png -text

@@ -304,6 +304,7 @@
 		5E92CDA507398083006C0CB3 /* TCMIdleTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E92CDA307398083006C0CB3 /* TCMIdleTimer.h */; };
 		5E92CDA607398084006C0CB3 /* TCMIdleTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E92CDA407398083006C0CB3 /* TCMIdleTimer.m */; };
 		5E93652207140BF800065CA2 /* WaitPipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E93652107140BF800065CA2 /* WaitPipe.png */; };
+		5E9624AB0857A8F5000B0AA3 /* Rendezvous.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E9624AA0857A8F5000B0AA3 /* Rendezvous.tiff */; };
 		5E96530907EDD7A80003D65C /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9652FC07EDD6860003D65C /* Tests.m */; };
 		5E96530B07EDD8060003D65C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		5E96530E07EDD80A0003D65C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14497AB8062C380000E1C9F1 /* Carbon.framework */; };
@@ -368,7 +369,6 @@
 		5EF18E0F066495C600957730 /* EmptyButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EF18E0E066495C600957730 /* EmptyButton.tiff */; };
 		5EF18E30066496E200957730 /* TexturedButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EF18E2E066496E200957730 /* TexturedButtonCell.h */; };
 		5EF18E31066496E200957730 /* TexturedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF18E2F066496E200957730 /* TexturedButtonCell.m */; };
-		5EF3AC51062C5D5E00959FEE /* Rendezvous.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5EF3AC50062C5D5E00959FEE /* Rendezvous.psd */; };
 		5EF941DB0612E31600C2EBFE /* TextStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EF941D90612E31600C2EBFE /* TextStorage.h */; };
 		5EF941DC0612E31600C2EBFE /* TextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF941DA0612E31600C2EBFE /* TextStorage.m */; };
 		5EF941F60612EC5D00C2EBFE /* DocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EF941F40612EC5D00C2EBFE /* DocumentController.h */; };
@@ -825,6 +825,7 @@
 		5E92CDA307398083006C0CB3 /* TCMIdleTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMIdleTimer.h; sourceTree = "<group>"; };
 		5E92CDA407398083006C0CB3 /* TCMIdleTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMIdleTimer.m; sourceTree = "<group>"; };
 		5E93652107140BF800065CA2 /* WaitPipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaitPipe.png; path = artwork/WaitPipe.png; sourceTree = "<group>"; };
+		5E9624AA0857A8F5000B0AA3 /* Rendezvous.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Rendezvous.tiff; path = artwork/Rendezvous.tiff; sourceTree = "<group>"; };
 		5E9652FB07EDD6860003D65C /* Tests_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tests_Prefix.pch; path = Tests/Tests_Prefix.pch; sourceTree = "<group>"; };
 		5E9652FC07EDD6860003D65C /* Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tests.m; path = Tests/Tests.m; sourceTree = "<group>"; };
 		5E96530707EDD7860003D65C /* Tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Tests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -892,7 +893,6 @@
 		5EF18E0E066495C600957730 /* EmptyButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EmptyButton.tiff; path = artwork/EmptyButton.tiff; sourceTree = "<group>"; };
 		5EF18E2E066496E200957730 /* TexturedButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturedButtonCell.h; sourceTree = "<group>"; };
 		5EF18E2F066496E200957730 /* TexturedButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TexturedButtonCell.m; sourceTree = "<group>"; };
-		5EF3AC50062C5D5E00959FEE /* Rendezvous.psd */ = {isa = PBXFileReference; lastKnownFileType = file; name = Rendezvous.psd; path = artwork/Rendezvous.psd; sourceTree = "<group>"; };
 		5EF941D90612E31600C2EBFE /* TextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextStorage.h; sourceTree = "<group>"; };
 		5EF941DA0612E31600C2EBFE /* TextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextStorage.m; sourceTree = "<group>"; };
 		5EF941F40612EC5D00C2EBFE /* DocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentController.h; sourceTree = "<group>"; };
@@ -1434,7 +1434,7 @@
 				31006CE10654FB61004F0094 /* PreviousChange.png */,
 				31006CDF0654FB44004F0094 /* PreviousSymbol.png */,
 				5E0FCF48070AEF8C00A3D96D /* PrintPrefs.tiff */,
-				5EF3AC50062C5D5E00959FEE /* Rendezvous.psd */,
+				5E9624AA0857A8F5000B0AA3 /* Rendezvous.tiff */,
 				31006CA70654E98A004F0094 /* SubEthaEdit_Splash.png */,
 				14E3EACA06149C5D0083426B /* ScriptMenu.tiff */,
 				5E2D190D062E97A900A0EB85 /* SplitClose.tiff */,
@@ -1917,7 +1917,6 @@
 				14A5B35006218D2700DC3A93 /* OpenPanelAccessory.nib in Resources */,
 				5E0462FA0623270400D94C08 /* PlainTextEditor.nib in Resources */,
 				1498F2CA062572650021FF8C /* SavePanelAccessory.nib in Resources */,
-				5EF3AC51062C5D5E00959FEE /* Rendezvous.psd in Resources */,
 				5E2D190F062E97A900A0EB85 /* SplitClose.tiff in Resources */,
 				5E2D1910062E97A900A0EB85 /* SplitOpen.tiff in Resources */,
 				5EA5423006352B1600A06297 /* SymbolC.tiff in Resources */,
@@ -1989,6 +1988,7 @@
 				5E35B60507158BB90093B96A /* StylePrefs.nib in Resources */,
 				315B39C60722A58C0005BCC3 /* style.icns in Resources */,
 				142D47DC07283ED500B00725 /* ReleaseNotes.txt in Resources */,
+				5E9624AB0857A8F5000B0AA3 /* Rendezvous.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
