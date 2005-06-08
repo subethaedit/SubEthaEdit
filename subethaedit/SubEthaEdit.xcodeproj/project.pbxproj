@@ -390,7 +390,7 @@
 			outputFiles = (
 				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE)_vers.c",
 			);
-			script = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\nsed \"s/#PLACEHOLDER#/$REV/g\" $INPUT_FILE_PATH > $DERIVED_FILES_DIR/\"$INPUT_FILE_BASE\"_vers.c";
+			script = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\nsed \"s/#PLACEHOLDER#/$REV/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
 		};
 /* End PBXBuildRule section */
 
