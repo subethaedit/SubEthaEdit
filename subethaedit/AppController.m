@@ -344,6 +344,7 @@ static AppController *sharedInstance = nil;
                                                         andEventID:kMOD];
                                                                                                                 
     [self setupTextViewContextMenu];
+    [NSApp setServicesProvider:[DocumentController sharedDocumentController]];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -687,5 +688,6 @@ static AppController *sharedInstance = nil;
         }
     }
 }
+
 
 @end

@@ -266,7 +266,21 @@ enum {
                              MAX(contentSize.height,minSize.height));
     contentRect.origin.y+=contentRect.size.height-contentSize.height;
     contentRect.size=contentSize;
-    [[self window] setFrame:[window frameRectForContentRect:contentRect] display:YES];
+    NSRect frameRect=[window frameRectForContentRect:contentRect];
+    NSScreen *screen=[[self window] screen];
+    if (screen) {
+        NSRect visibleFrame=[screen visibleFrame];
+        if (NSHeight(frameRect)>NSHeight(visibleFrame)) {
+            float heightDiff=frameRect.size.height-visibleFrame.size.height;
+            frameRect.origin.y+=heightDiff;
+            frameRect.size.height-=heightDiff;
+        }
+        if (NSMinY(frameRect)<NSMinY(visibleFrame)) {
+            float positionDiff=NSMinY(visibleFrame)-NSMinY(frameRect);
+            frameRect.origin.y+=positionDiff;
+        }
+    }
+    [[self window] setFrame:frameRect display:YES];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {

@@ -246,6 +246,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setShowsMatchingBrackets:(BOOL)aFlag;
 - (BOOL)showsChangeMarks;
 - (void)setShowsChangeMarks:(BOOL)aFlag;
+- (IBAction)clearChangeMarks:(id)aSender;
 - (BOOL)indentsNewLines;
 - (void)setIndentsNewLines:(BOOL)aFlag;
 - (BOOL)showsTopStatusBar;
@@ -264,6 +265,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (BOOL)isReceivingContent;
 - (void)setShouldSelectModeOnSave:(BOOL)aFlag;
 - (BOOL)shouldSelectModeOnSave;
+- (void)resizeAccordingToDocumentMode;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

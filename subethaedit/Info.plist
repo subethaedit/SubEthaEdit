@@ -301,5 +301,25 @@
 			</dict>
 		</dict>
 	</array>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>SubEthaEdit/New Document Containing Selection</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>openSelection</string>
+			<key>NSPortName</key>
+			<string>SubEthaEdit</string>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSRTFDPboardType</string>
+				<string>NSRTFPboardType</string>
+				<string>NSStringPboardType</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

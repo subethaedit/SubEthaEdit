@@ -430,6 +430,7 @@ static NSString *tempFileName() {
                 [properties setObject:[mode documentModeIdentifier] forKey:@"mode"];
             }
             [document setScriptingProperties:properties];
+            [(PlainTextDocument *)document resizeAccordingToDocumentMode];
             [(PlainTextDocument *)document setShouldSelectModeOnSave:NO];
             [(PlainTextDocument *)document setTemporaryDisplayName:[fileName lastPathComponent]];
             [(PlainTextDocument *)document setDirectoryForSavePanel:[fileName stringByDeletingLastPathComponent]];
@@ -516,6 +517,7 @@ static NSString *tempFileName() {
         PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
         [document setDocumentMode:newMode];
+        [document resizeAccordingToDocumentMode];
         NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         if (encoding < SmallestCustomStringEncoding) {
             [document setFileEncoding:encoding];
@@ -534,6 +536,18 @@ static NSString *tempFileName() {
         }
     }
 }
+
+#pragma mark -
+#pragma mark ### NServices ###
+
+// note the "setServicesProvider:" in the applicationWillFinishLaunching method
+
+- (void)openSelection:(NSPasteboard *)pboard userData:(NSString *)data error:(NSString **)error {
+    PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+    [[[[document plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
+    [document clearChangeMarks:self];
+}
+
 
 #pragma mark -
 
