@@ -167,6 +167,7 @@
 		14C51C9B060213490030F488 /* ActionPressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14C51C99060213490030F488 /* ActionPressed.tiff */; };
 		14C51E3806026BC70030F488 /* URLIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14C51E3706026BC70030F488 /* URLIcon.tiff */; };
 		14C51E4406026F820030F488 /* Announce.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14C51E4306026F820030F488 /* Announce.tiff */; };
+		14C759180858A9FA00FEDE8C /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 14006965060C64F60060F71E /* SubEthaEdit.sdef */; };
 		14C7A97506199F55003F4DDC /* ImagePopUpButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 14C7A97306199F55003F4DDC /* ImagePopUpButtonCell.h */; };
 		14C7A97606199F55003F4DDC /* ImagePopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C7A97406199F55003F4DDC /* ImagePopUpButtonCell.m */; };
 		14CF2C4706428E7100D430AA /* DebugBEEPController.h in Headers */ = {isa = PBXBuildFile; fileRef = 14CF2C4506428E7000D430AA /* DebugBEEPController.h */; };
@@ -1989,6 +1990,7 @@
 				315B39C60722A58C0005BCC3 /* style.icns in Resources */,
 				142D47DC07283ED500B00725 /* ReleaseNotes.txt in Resources */,
 				5E9624AB0857A8F5000B0AA3 /* Rendezvous.tiff in Resources */,
+				14C759180858A9FA00FEDE8C /* SubEthaEdit.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2050,7 +2052,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 SubEthaEdit.sdef\n\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' SubEthaEditSuite.scriptSuite\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' SubEthaEditSuite.scriptSuite";
+			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -V 10.3 $SRCROOT/SubEthaEdit.sdef\n\n#/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 SubEthaEdit.sdef\n#/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' SubEthaEditSuite.scriptSuite\n#/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' SubEthaEditSuite.scriptSuite";
 		};
 		14963A3C061F0CFD009B8E42 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3132,13 +3134,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Debug;
 		};
 		144C074E0854D2C700F43304 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Release;
 		};
@@ -3146,6 +3155,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = "Release Unstripped";
 		};
@@ -3153,6 +3164,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Default;
 		};
