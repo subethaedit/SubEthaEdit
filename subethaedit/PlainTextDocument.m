@@ -2870,9 +2870,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)TCM_invalidateDefaultParagraphStyle {
     [I_defaultParagraphStyle autorelease];
-    I_defaultParagraphStyle=nil;
+     I_defaultParagraphStyle=nil;
     [I_plainTextAttributes autorelease];
-    I_plainTextAttributes=nil;
+     I_plainTextAttributes=nil;
+    [I_typingAttributes release];
+     I_typingAttributes=nil;
+    [I_styleCacheDictionary removeAllObjects];
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:self]
                postingStyle:NSPostWhenIdle
@@ -2887,6 +2890,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
        I_typingAttributes=nil;
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
+    [I_styleCacheDictionary removeAllObjects];
     NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
     [I_textStorage addAttributes:[self plainTextAttributes]
                            range:wholeRange];

@@ -1215,9 +1215,10 @@
 }
 
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
-    [I_textView setDefaultParagraphStyle:[[I_windowController document] defaultParagraphStyle]];
-    [self TCM_updateBottomStatusBar];;
+    [I_textView setDefaultParagraphStyle:[(PlainTextDocument *)[I_windowController document] defaultParagraphStyle]];
+    [self TCM_updateBottomStatusBar];
     [self textDidChange:aNotification];
+    [I_textView setNeedsDisplay:YES];
 }
 
 - (void)plainTextDocumentDidChangeEditStatus:(NSNotification *)aNotification {
