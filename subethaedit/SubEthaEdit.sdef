@@ -1,395 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
-<dictionary title="SubEthaEdit Terminology">
-    <suite name="Standard Suite" code="????" 
-            description="Common classes and commands for all applications.">
-        <command name="open" code="aevtodoc" 
-                description="Open a document.">
-            <direct-parameter description="The file(s) to be opened.">
-                <type type="file" list="yes"/>
-            </direct-parameter>
-            <parameter name="with properties" code="prdt" type="record" optional="yes" description="the initial values for the properties, to be applied to the document when opening">
-                <cocoa key="WithProperties"/>
-            </parameter>	
-        </command>
-        <enumeration name="save options" code="savo">
-            <enumerator name="yes" code="yes " description="Save the file."/>
-            <enumerator name="no" code="no  " description="Do not save the file."/>
-            <enumerator name="ask" code="ask " 
-                description="Ask the user whether or not to save the file."/>
-        </enumeration>
-        <command name="close" code="coreclos" description="Close a document.">
-            <cocoa class="NSCloseCommand"/>
-            <direct-parameter type="specifier" 
-                description="the document(s) or window(s) to close."/>
-            <parameter name="saving" code="savo" type="save options" optional="yes" 
-                description="Whether or not changes should be saved before closing.">
-                <cocoa key="SaveOptions"/>
-            </parameter>
-            <parameter name="saving in" code="kfil" type="file" optional="yes" 
-                description="The file in which to save the document.">
-                <cocoa key="File"/>
-            </parameter>
-        </command>
-        <command name="save" code="coresave" description="Save a document.">
-            <direct-parameter type="specifier" 
-                description="The document(s) or window(s) to save."/>
-            <parameter name="in" code="kfil" type="file" optional="yes" 
-                description="The file in which to save the document.">
-                <cocoa key="File"/>
-            </parameter>
-            <!-- 
-                <parameter name="as" code="fltp" type="text" optional="yes" 
-                description="The type of file to save.">
-                    <cocoa key="FileType"/>
-                </parameter>
-            -->
-        </command>
-        <enumeration name="printing error handling" code="enum">
-            <enumerator name="standard" code="lwst" 
-                description="Standard PostScript error handling"/>
-            <enumerator name="detailed" code="lwdt" 
-                description="print a detailed report of PostScript errors"/>
-        </enumeration>
-        <record-type name="print settings" code="pset">
-            <property name="copies" code="lwcp" type="integer" 
-                description="the number of copies of a document to be printed">
-                <cocoa key="NSCopies"/>
-            </property>
-            <property name="collating" code="lwcl" type="boolean" 
-                description="Should printed copies be collated?">
-                <cocoa key="NSMustCollate"/>
-            </property>
-            <property name="starting page" code="lwfp" type="integer" 
-                description="the first page of the document to be printed">
-                <cocoa key="NSFirstPage"/>
-            </property>
-            <property name="ending page" code="lwlp" type="integer" 
-                description="the last page of the document to be printed">
-                <cocoa key="NSLastPage"/>
-            </property>
-            <property name="pages across" code="lwla" type="integer" 
-                description="number of logical pages laid across a physical page">
-                <cocoa key="NSPagesAcross"/>
-            </property>
-            <property name="pages down" code="lwld" type="integer" 
-                description="number of logical pages laid out down a physical page">
-                <cocoa key="NSPagesDown"/>
-            </property>
-            <property name="error handling" code="lweh" type="printing error handling" 
-                description="how errors are handled">
-                <cocoa key="NSDetailedErrorReporting"/>
-            </property>
-            <property name="fax number" code="faxn" type="text" 
-                description="for fax number">
-                <cocoa key="NSFaxNumber"/>
-            </property>
-            <property name="target printer" code="trpr" type="text" 
-                description="for target printer">
-                <cocoa key="NSPrinterName"/>
-            </property>
-        </record-type>
-        <command name="print" code="aevtpdoc" 
-                description="Print a document.">
-            <direct-parameter 
-                description="The file(s), document(s), or window(s) to be printed.">
-                <type type="file" list="yes"/>
-                <type type="specifier"/>
-            </direct-parameter>
-            <parameter name="with properties" code="prdt" type="print settings" optional="yes" 
-                description="The print settings to use.">
-                <cocoa key="PrintSettings"/>
-            </parameter>
-            <parameter name="print dialog" code="pdlg" type="boolean" optional="yes" 
-                description="Should the application show the print dialog?">
-                <cocoa key="ShowPrintDialog"/>
-            </parameter>
-        </command>
-        <command name="quit" code="aevtquit" description="Quit the application.">
-            <cocoa class="NSQuitCommand"/>
-            <parameter name="saving" code="savo" type="save options" optional="yes" 
-                description="Whether or not changed documents should be saved before closing.">
-                <cocoa key="SaveOptions"/>
-            </parameter>
-        </command>
-        <command name="count" code="corecnte" 
-                description="Return the number of elements of a particular class within an object.">
-            <cocoa class="NSCountCommand"/>
-            <direct-parameter type="specifier" 
-                description="the object whose elements are to be counted"/>
-            <result type="integer" description="the number of elements"/>
-            <parameter name="each" code="kocl" type="type" optional="yes" 
-                description="The class of objects to be counted.">
-                <cocoa key="ObjectClass"/>
-            </parameter>
-        </command>
-        <command name="delete" code="coredelo" description="Delete an object.">
-            <cocoa class="NSDeleteCommand"/>
-            <direct-parameter type="specifier" description="the object to delete"/>
-        </command>
-        <command name="duplicate" code="coreclon" 
-                description="Copy object(s) and put the copies at a new location.">
-            <cocoa class="NSCloneCommand"/>
-            <direct-parameter type="specifier" 
-                description="the object(s) to duplicate"/>
-            <parameter name="to" code="insh" type="location specifier" 
-                description="The location for the new object(s).">
-                <cocoa key="ToLocation"/>
-            </parameter>
-            <parameter name="with properties" code="prdt" type="record" 
-                description="Properties to be set in the new duplicated object(s)." optional="yes">
-                <cocoa key="WithProperties"/>
-            </parameter>
-        </command>
-        <command name="exists" code="coredoex" description="Verify if an object exists.">
-            <cocoa class="NSExistsCommand"/>
-            <direct-parameter type="any" description="the object in question"/>
-            <result type="boolean" description="true if it exists, false if not"/>
-        </command>
-        <command name="make" code="corecrel" description="Make a new object.">
-            <cocoa class="NSCreateCommand"/>
-            <result type="specifier" description="to the new object"/>
-            <parameter name="new" code="kocl" type="type" 
-                description="The class of the new object.">
-                <cocoa key="ObjectClass"/>
-            </parameter>
-            <parameter name="at" code="insh" type="location specifier" optional="yes" 
-                description="The location at which to insert the object.">
-                <cocoa key="Location"/>
-            </parameter>
-            <parameter name="with data" code="data" type="any" optional="yes" 
-                description="The initial contents of the object.">
-                <cocoa key="ObjectData"/>
-            </parameter>
-            <parameter name="with properties" code="prdt" type="record" optional="yes" 
-                description="The initial values for properties of the object.">
-                <cocoa key="KeyDictionary"/>
-            </parameter>
-        </command>
-        <command name="move" code="coremove" 
-                description="Move object(s) to a new location.">
-            <cocoa class="NSMoveCommand"/>
-            <direct-parameter type="specifier" description="the object(s) to move"/>
-            <parameter name="to" code="insh" type="location specifier" 
-                description="The new location for the object(s).">
-                <cocoa key="ToLocation"/>
-            </parameter>
-        </command>
-        <class name="application" code="capp" 
-                description="The application's top-level scripting object.">
-            <cocoa class="NSApplication"/>
-            <property name="name" code="pnam" type="text" access="r" 
-                description="The name of the application."/>
-            <property name="frontmost" code="pisf" type="boolean" access="r" 
-                description="Is this the frontmost (active) application?">
-                <cocoa key="isActive"/>
-            </property>
-            <property name="version" code="vers" type="text" access="r" 
-                description="The version of the application."/>
-            <element type="text document" access="r">
-                <cocoa key="orderedDocuments"/>
-            </element>
-            <element type="window" access="r">
-                <cocoa key="orderedWindows"/>
-            </element>
-            <responds-to name="open">
-                <cocoa method="TCM_handleOpenScriptCommand:"/>
-            </responds-to>
-            <responds-to name="print">
-                <cocoa method="TCM_handlePrintScriptCommand:"/>
-            </responds-to>
-            <responds-to name="quit">
-                <cocoa method="handleQuitScriptCommand:"/>
-            </responds-to>
-            <responds-to name="see">
-                <cocoa method="TCM_handleSeeScriptCommand:"/>
-            </responds-to>
-        </class>
-        <class name="window" code="cwin" description="A window.">
-            <cocoa class="NSWindow"/>
-            <property name="name" code="pnam" type="text" access="r" 
-                description="The full title of the window.">
-                <cocoa key="title"/>
-            </property>
-            <property name="id" code="ID  " type="integer" access="r" 
-                description="The unique identifier of the window.">
-                <cocoa key="uniqueID"/>
-            </property>
-            <property name="index" code="pidx" type="integer" 
-                description="The index of the window, ordered front to back.">
-                <cocoa key="orderedIndex"/>
-            </property>
-            <property name="bounds" code="pbnd" type="rectangle" 
-                description="The bounding rectangle of the window.">
-                <cocoa key="boundsAsQDRect"/>
-            </property>
-            <property name="closeable" code="hclb" type="boolean" access="r" 
-                description="Whether the window has a close box.">
-                <cocoa key="hasCloseBox"/>
-            </property>
-            <property name="miniaturizable" code="ismn" type="boolean" access="r" 
-                description="Whether the window can be minimized.">
-                <cocoa key="isMiniaturizable"/>
-            </property>
-            <property name="miniaturized" code="pmnd" type="boolean" 
-                description="Whether the window is currently minimized.">
-                <cocoa key="isMiniaturized"/>
-            </property>
-            <property name="resizable" code="prsz" type="boolean" access="r" 
-                description="Whether the window can be resized.">
-                <cocoa key="isResizable"/>
-            </property>
-            <property name="visible" code="pvis" type="boolean" 
-                description="Whether the window is currently visible.">
-                <cocoa key="isVisible"/>
-            </property>
-            <property name="zoomable" code="iszm" type="boolean" access="r" 
-                description="Whether the window can be zoomed.">
-                <cocoa key="isZoomable"/>
-            </property>
-            <property name="zoomed" code="pzum" type="boolean" 
-                description="Whether the window is currently zoomed.">
-                <cocoa key="isZoomed"/>
-            </property>
-            <property name="document" code="docu" type="text document" access="r" 
-            description="The document whose contents are being displayed in the window."/>
-            <responds-to name="close">
-                <cocoa method="handleCloseScriptCommand:"/>
-            </responds-to>
-            <responds-to name="print">
-                <cocoa method="handlePrintScriptCommand:"/>
-            </responds-to>
-            <responds-to name="save">
-                <cocoa method="handleSaveScriptCommand:"/>
-            </responds-to>
-        </class>
-    </suite>
-    <suite name="Text Suite" code="????" 
-            description="A set of basic classes for text processing.">
+<dictionary title="SubEthaEdit Scripting Terminology">
+    <suite name="SubEthaEdit Suite" code="Hdra">
         
-        <value-type name="color" code="cRGB">
-            <cocoa class="NSColor"/>
-        </value-type>
-        <class name="rich text" plural="rich text" code="ctxt" 
-                description="Rich (styled) text">
-            <cocoa class="NSTextStorage"/>
-            <type type="text"/>
-            <property name="color" code="colr" type="color" 
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
-            </property>
-            <property name="font" code="font" type="text" 
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
-            </property>
-            <property name="size" code="ptsz" type="integer" 
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-            <element type="character"/>
-            <element type="paragraph"/>
-            <element type="word"/>
-            <element type="attribute run"/>
-            <element type="attachment"/>
-        </class>
-        <class name="character" code="cha " 
-                description="This subdivides the text into characters.">
-            <cocoa class="NSTextStorage"/>
-            <type type="text"/>
-            <property name="color" code="colr" type="color" 
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
-            </property>
-            <property name="font" code="font" type="text" 
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
-            </property>
-            <property name="size" code="ptsz" type="integer" 
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-            <element type="character"/>
-            <element type="paragraph"/>
-            <element type="word"/>
-            <element type="attribute run"/>
-            <element type="attachment"/>
-        </class>
-        <class name="paragraph" code="cpar" 
-                description="This subdivides the text into paragraphs.">
-            <cocoa class="NSTextStorage"/>
-            <type type="text"/>
-            <property name="color" code="colr" type="color" 
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
-            </property>
-            <property name="font" code="font" type="text" 
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
-            </property>
-            <property name="size" code="ptsz" type="integer" 
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-            <element type="character"/>
-            <element type="paragraph"/>
-            <element type="word"/>
-            <element type="attribute run"/>
-            <element type="attachment"/>
-        </class>
-        <class name="word" code="cwor" 
-                description="This subdivides the text into words.">
-            <cocoa class="NSTextStorage"/>
-            <type type="text"/>
-            <property name="color" code="colr" type="color" 
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
-            </property>
-            <property name="font" code="font" type="text" 
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
-            </property>
-            <property name="size" code="ptsz" type="integer" 
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-            <element type="character"/>
-            <element type="paragraph"/>
-            <element type="word"/>
-            <element type="attribute run"/>
-            <element type="attachment"/>
-        </class>
-        <class name="attribute run" code="catr" 
-                description="This subdivides the text into chunks that all have the same attributes.">
-            <cocoa class="NSTextStorage"/>
-            <type type="text"/>
-            <property name="color" code="colr" type="color" 
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
-            </property>
-            <property name="font" code="font" type="text" 
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
-            </property>
-            <property name="size" code="ptsz" type="integer" 
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-            <element type="character"/>
-            <element type="paragraph"/>
-            <element type="word"/>
-            <element type="attribute run"/>
-            <element type="attachment"/>
-        </class>
-        <class name="attachment" code="atts" inherits="rich text" 
-                description="Represents an inline text attachment. This class is used mainly for make commands.">
-            <cocoa class="NSAttachmentTextStorage"/>
-            <property name="file name" code="atfn" type="text" 
-                description="The path to the file for the attachment">
-                <cocoa key="filename"/>
-            </property>
-        </class>
-            <!--
-                <class name="text" plural="text" code="ctxt" description="Text">
+			<enumeration name="access options" code="Acco">
+                <enumerator name="read write" code="RdWr" description="read/write"/>
+                <enumerator name="read only" code="RdOn" description="read only"/>
+                <enumerator name="locked" code="Lock" description="locked"/>
+			</enumeration>        
+		
+        
+            <class name="application" code="capp" inherits="application">
+                <cocoa class="NSApplication"/>
+                
+                    <element type="text document">
+                        <cocoa key="orderedDocuments"/>
+                    </element>
+                
+				
+					<responds-to name="open">
+						<cocoa method="TCM_handleOpenScriptCommand:"/>
+					</responds-to>
+					<responds-to name="print">
+						<cocoa method="TCM_handlePrintScriptCommand:"/>
+					</responds-to>
+					<responds-to name="see">
+						<cocoa method="TCM_handleSeeScriptCommand:"/>
+					</responds-to>
+				
+            </class>
+            
+            <class name="text document" code="pltd" inherits="document">
+                <cocoa class="PlainTextDocument"/>
+                <contents name="contents" code="ctxt" type="text" description="the text of the document">
+                    <cocoa key="text"/>
+                </contents>
+                
+                    <property name="text" code="ctxt" type="text" description="the text of the document">
+                        <cocoa key="text"/>
+                    </property>
+                    <property name="encoding" code="Encd" type="string" description="the internet name of the document's encoding">
+                        <cocoa key="encoding"/>
+                    </property>
+                    <property name="mode" code="Mode" type="string" description="the name of the document's mode">
+                        <cocoa key="mode"/>
+                    </property>
+                    <property name="access control" code="Actl" type="access options" description="the access right of the document">
+                        <cocoa key="accessOption"/>
+                    </property>
+                    <property name="announced" code="Anno" type="boolean" description="is the document announced?">
+                        <cocoa key="isAnnounced"/>
+                    </property>
+                    <property name="URL" code="DURL" type="string" access="r" description="the URL of the document">
+                        <cocoa key="announcementURL"/>
+                    </property>
+                
+				
+                    <responds-to name="print">
+						<cocoa method="handlePrintScriptCommand:"/>
+					</responds-to>
+				
+            </class>
+            
+            <class name="window" code="cwin" inherits="window">
+				<cocoa class="NSWindow"/>
+				
+					<responds-to name="print">
+						<cocoa method="handlePrintScriptCommand:"/>
+					</responds-to>
+                
+            </class>
+                                   
+            <class name="text" plural="text" code="ctxt" description="Text">
 				<cocoa class="TextStorage"/>
 				
 					<element type="paragraph">
@@ -404,23 +86,21 @@
 					<element type="attribute run">
 						<cocoa key="attributeRuns"/>
 					</element>
-				-->
 					<!-- <element type="attachment">
 						<cocoa method="attachments"/>
 					</element> -->
 				
-                <!--
+                
 					<property name="color" code="colr" type="color" access="r" description="The color of the first character.">
 						<cocoa key="foregroundColor"/>
 					</property>
-					<property name="font" code="font" type="text" access="r" description="The name of the font of the first character.">
+					<property name="font" code="font" type="string" access="r" description="The name of the font of the first character.">
 						<cocoa key="fontName"/>
 					</property>
-				-->
 					<!-- <property name="size" code="ptsz" type="number" description="The size in points of the first character.">
 						<cocoa method="fontSize"/>
 					</property> -->
-        <!--	
+				
 			</class>
             <class name="paragraph" code="cpar" inherits="text" description="This subdivides the text into paragraphs.">
 				<cocoa class="TextStorage"/>
@@ -434,118 +114,65 @@
 			<class name="attribute run" code="catr" inherits="text" description="This subdivides the text into chunks that all have the same attributes.">
 				<cocoa class="TextStorage"/>
 			</class>
-        -->
-    </suite>
-    <suite name="SubEthaEdit Suite" code="Hdra">
-        <enumeration name="access options" code="Acco">
-            <enumerator name="read write" code="RdWr" description="read/write"/>
-            <enumerator name="read only" code="RdOn" description="read only"/>
-            <enumerator name="locked" code="Lock" description="locked"/>
-        </enumeration>        
-        <class name="text document" code="pltd">
-            <cocoa class="PlainTextDocument"/>
-            <contents name="contents" code="ctxt" type="text" description="the text of the document">
-                <cocoa key="text"/>
-            </contents>
-            <property name="name" code="pnam" type="text" access="r" 
-                description="The document's name.">
-                <cocoa key="displayName"/>
-            </property>
-            <property name="modified" code="imod" type="boolean" access="r" 
-                description="Has the document been modified since the last save?">
-                <cocoa key="isDocumentEdited"/>
-            </property>
-            <property name="file" code="file" type="file" access="r" 
-                description="The document's location on disk.">
-                <cocoa key="fileURL"/> <!-- Needs to be fixed -->
-            </property>
-            <property name="text" code="ctxt" type="text" description="the text of the document">
-                <cocoa key="text"/>
-            </property>
-            <property name="encoding" code="Encd" type="text" description="the internet name of the document's encoding">
-                <cocoa key="encoding"/>
-            </property>
-            <property name="mode" code="Mode" type="text" description="the name of the document's mode">
-                <cocoa key="mode"/>
-            </property>
-            <property name="access control" code="Actl" type="access options" description="the access right of the document">
-                <cocoa key="accessOption"/>
-            </property>
-            <property name="announced" code="Anno" type="boolean" description="is the document announced?">
-                <cocoa key="isAnnounced"/>
-            </property>
-            <property name="URL" code="DURL" type="text" access="r" description="the URL of the document">
-                <cocoa key="announcementURL"/>
-            </property>
-            <responds-to name="close">
-                <cocoa method="handleCloseScriptCommand:"/>
-            </responds-to>
-            <responds-to name="print">
-                <cocoa method="handlePrintScriptCommand:"/>
-            </responds-to>
-            <responds-to name="save">
-                <cocoa method="handleSaveScriptCommand:"/>
-            </responds-to>        
-        </class>
-        <command name="get URL" code="GURLGURL" description="Open a URL.">
-            <synonym name="get url"/>
-            <cocoa class="GetURLCommand"/>
-            <direct-parameter type="specifier" description="The URL to open."/>
-        </command>
-        <command name="open URL" code="WWW!OURL" description="Open a URL.">
-            <synonym name="open url"/>
-            <cocoa class="GetURLCommand"/>
-            <direct-parameter type="specifier" description="The URL to open."/>
-        </command>
-        <command name="see" code="HdraSee " hidden="yes" description="">
-            <result description="">
-                <type type="file" list="yes"/>
-            </result>
-            <parameter name="files" code="File" type="text" optional="yes" description="">
-                <cocoa key="Files"/>
-            </parameter>                
-            <parameter name="new files" code="NuFl" type="text" optional="yes" description="">
-                <cocoa key="NewFiles"/>
-            </parameter>                
-            <parameter name="stdin" code="Stdi" type="text" optional="yes" description="">
-                <cocoa key="Stdin"/>
-            </parameter>
-            <parameter name="jobdescription" code="JobD" type="text" optional="yes" description="">
-                <cocoa key="JobDescription"/>                    
-            </parameter>
-            <parameter name="pipetitle" code="Pipe" type="text" optional="yes" description="">
-                <cocoa key="PipeTitle"/>                    
-            </parameter>
-            <parameter name="print" code="Prnt" type="boolean" optional="yes" description="">
-                <cocoa key="ShouldPrint"/>                    
-            </parameter>
-            <parameter name="wait" code="Wait" type="boolean" optional="yes" description="">
-                 <cocoa key="ShouldWait"/>                   
-            </parameter>
-            <parameter name="pipeout" code="PipO" type="boolean" optional="yes" description="">
-                 <cocoa key="PipeOut"/>                   
-            </parameter>
-            <parameter name="with properties" code="prdt" type="record" optional="yes" description="initial properties">
-                <cocoa key="WithProperties"/>
-            </parameter>
-        </command>
-    </suite>
-<!--
-            <class name="window" code="cwin" inherits="window">
-				<cocoa class="NSWindow"/>
-				
-					<responds-to name="print">
-						<cocoa method="handlePrintScriptCommand:"/>
-					</responds-to>
-                
-            </class>
-                                   
-
+        
+        
+			<command name="open" code="aevtodoc" description="Open an object.">
+				<direct-parameter type="file" description="The file(s) to be opened."/>
+                <parameter name="with properties" code="prdt" type="record" optional="yes" description="the initial values for the properties, to be applied to the document when opening">
+                    <cocoa key="WithProperties"/>
+                </parameter>			
+            </command>
 			<command name="print" description="Print an object." code="aevtpdoc">
+				<!-- type would be better written as "file | document". -->
 				<direct-parameter type="file" description="The file(s) or document(s) to be printed."/>
                 <parameter name="with properties" code="prdt" type="record" optional="yes" description="the initial values for the properties, to be applied to the document when printing">
                     <cocoa key="WithProperties"/>
                 </parameter>
 			</command>
--->
+            <command name="get URL" code="GURLGURL" description="Open a URL.">
+                
+					<synonym name="get url"/>
+				
+                <cocoa class="GetURLCommand"/>
+                <direct-parameter type="specifier" description="The URL to open."/>
+            </command>
+            <command name="open URL" code="WWW!OURL" description="Open a URL.">
+                
+					<synonym name="open url"/>
+				
+                <cocoa class="GetURLCommand"/>
+                <direct-parameter type="specifier" description="The URL to open."/>
+            </command>
+            <command name="see" code="HdraSee " hidden="yes" description="">
+                <result description=""><type type="file" list="yes"/></result>
+                <parameter name="files" code="File" type="string" optional="yes" description="">
+					<cocoa key="Files"/>
+				</parameter>                
+                <parameter name="new files" code="NuFl" type="string" optional="yes" description="">
+					<cocoa key="NewFiles"/>
+				</parameter>                
+                <parameter name="stdin" code="Stdi" type="string" optional="yes" description="">
+					<cocoa key="Stdin"/>
+				</parameter>
+                <parameter name="jobdescription" code="JobD" type="string" optional="yes" description="">
+					<cocoa key="JobDescription"/>                    
+                </parameter>
+                <parameter name="pipetitle" code="Pipe" type="string" optional="yes" description="">
+					<cocoa key="PipeTitle"/>                    
+                </parameter>
+                <parameter name="print" code="Prnt" type="boolean" optional="yes" description="">
+					<cocoa key="ShouldPrint"/>                    
+                </parameter>
+                <parameter name="wait" code="Wait" type="boolean" optional="yes" description="">
+ 					<cocoa key="ShouldWait"/>                   
+                </parameter>
+                <parameter name="pipeout" code="PipO" type="boolean" optional="yes" description="">
+ 					<cocoa key="PipeOut"/>                   
+                </parameter>
+                <parameter name="with properties" code="prdt" type="record" optional="yes" description="initial properties">
+                    <cocoa key="WithProperties"/>
+                </parameter>
+            </command>
+        
+    </suite>
 </dictionary>

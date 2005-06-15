@@ -167,7 +167,6 @@
 		14C51C9B060213490030F488 /* ActionPressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14C51C99060213490030F488 /* ActionPressed.tiff */; };
 		14C51E3806026BC70030F488 /* URLIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14C51E3706026BC70030F488 /* URLIcon.tiff */; };
 		14C51E4406026F820030F488 /* Announce.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14C51E4306026F820030F488 /* Announce.tiff */; };
-		14C759180858A9FA00FEDE8C /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 14006965060C64F60060F71E /* SubEthaEdit.sdef */; };
 		14C7A97506199F55003F4DDC /* ImagePopUpButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 14C7A97306199F55003F4DDC /* ImagePopUpButtonCell.h */; };
 		14C7A97606199F55003F4DDC /* ImagePopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C7A97406199F55003F4DDC /* ImagePopUpButtonCell.m */; };
 		14CF2C4706428E7100D430AA /* DebugBEEPController.h in Headers */ = {isa = PBXBuildFile; fileRef = 14CF2C4506428E7000D430AA /* DebugBEEPController.h */; };
@@ -177,10 +176,6 @@
 		14E3EACB06149C5D0083426B /* ScriptMenu.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14E3EACA06149C5D0083426B /* ScriptMenu.tiff */; };
 		14E92E2C06396E210099D67B /* DebugController.h in Headers */ = {isa = PBXBuildFile; fileRef = 14E92E2A06396E210099D67B /* DebugController.h */; };
 		14E92E2D06396E210099D67B /* DebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E92E2B06396E210099D67B /* DebugController.m */; };
-		14E9A6E0086029B200D3A847 /* StandardSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 14E9A6DE086029B200D3A847 /* StandardSuite.scriptSuite */; };
-		14E9A6E1086029B200D3A847 /* StandardSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 14E9A6DF086029B200D3A847 /* StandardSuite.scriptTerminology */; };
-		14E9A6E6086029C400D3A847 /* TextSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 14E9A6E4086029C400D3A847 /* TextSuite.scriptSuite */; };
-		14E9A6E7086029C400D3A847 /* TextSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 14E9A6E5086029C400D3A847 /* TextSuite.scriptTerminology */; };
 		14EA6955060F651A00D02455 /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 14EA6953060F651A00D02455 /* Modes */; };
 		14EAAD6E06CB9F3F0000E12D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14497AB8062C380000E1C9F1 /* Carbon.framework */; };
 		14EBE8A106FEF44F006EFB94 /* NSApplicationTCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 14EBE89F06FEF44F006EFB94 /* NSApplicationTCMAdditions.h */; };
@@ -699,10 +694,6 @@
 		14E3EACA06149C5D0083426B /* ScriptMenu.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ScriptMenu.tiff; path = artwork/ScriptMenu.tiff; sourceTree = "<group>"; };
 		14E92E2A06396E210099D67B /* DebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugController.h; path = Debug/DebugController.h; sourceTree = "<group>"; };
 		14E92E2B06396E210099D67B /* DebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugController.m; path = Debug/DebugController.m; sourceTree = "<group>"; };
-		14E9A6DE086029B200D3A847 /* StandardSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = StandardSuite.scriptSuite; sourceTree = "<group>"; };
-		14E9A6DF086029B200D3A847 /* StandardSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = StandardSuite.scriptTerminology; sourceTree = "<group>"; };
-		14E9A6E4086029C400D3A847 /* TextSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TextSuite.scriptSuite; sourceTree = "<group>"; };
-		14E9A6E5086029C400D3A847 /* TextSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TextSuite.scriptTerminology; sourceTree = "<group>"; };
 		14EA6953060F651A00D02455 /* Modes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Modes; sourceTree = "<group>"; };
 		14EAA84606CB6E7B0000E12D /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		14EBE89F06FEF44F006EFB94 /* NSApplicationTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSApplicationTCMAdditions.h; sourceTree = "<group>"; };
@@ -1153,10 +1144,6 @@
 		14703803060C647B0087BA25 /* AppleScript */ = {
 			isa = PBXGroup;
 			children = (
-				14E9A6DE086029B200D3A847 /* StandardSuite.scriptSuite */,
-				14E9A6DF086029B200D3A847 /* StandardSuite.scriptTerminology */,
-				14E9A6E4086029C400D3A847 /* TextSuite.scriptSuite */,
-				14E9A6E5086029C400D3A847 /* TextSuite.scriptTerminology */,
 				14006965060C64F60060F71E /* SubEthaEdit.sdef */,
 				1428730106DF6BFF00FB57C5 /* SubEthaEditScripting.r */,
 				14006969060C65430060F71E /* SubEthaEditSuite.scriptSuite */,
@@ -2002,11 +1989,6 @@
 				315B39C60722A58C0005BCC3 /* style.icns in Resources */,
 				142D47DC07283ED500B00725 /* ReleaseNotes.txt in Resources */,
 				5E9624AB0857A8F5000B0AA3 /* Rendezvous.tiff in Resources */,
-				14C759180858A9FA00FEDE8C /* SubEthaEdit.sdef in Resources */,
-				14E9A6E0086029B200D3A847 /* StandardSuite.scriptSuite in Resources */,
-				14E9A6E1086029B200D3A847 /* StandardSuite.scriptTerminology in Resources */,
-				14E9A6E6086029C400D3A847 /* TextSuite.scriptSuite in Resources */,
-				14E9A6E7086029C400D3A847 /* TextSuite.scriptTerminology in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2058,7 +2040,7 @@
 			files = (
 			);
 			inputPaths = (
-				SubEthaEdit.sdef,
+				$SRCROOT/SubEthaEdit.sdef,
 			);
 			name = "Run Script (sdp)";
 			outputPaths = (
@@ -2068,7 +2050,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -V 10.3 $SRCROOT/SubEthaEdit.sdef\n\n#/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 SubEthaEdit.sdef\n#/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' SubEthaEditSuite.scriptSuite\n#/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' SubEthaEditSuite.scriptSuite";
+			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 $SRCROOT/SubEthaEdit.sdef\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' $SRCROOT/SubEthaEditSuite.scriptSuite\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' $SRCROOT/SubEthaEditSuite.scriptSuite";
 		};
 		14963A3C061F0CFD009B8E42 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
