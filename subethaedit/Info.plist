@@ -254,6 +254,10 @@
 	<string>10.3</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
+    <!--
+    <key>OSAScriptingDefinition</key>
+    <string>SubEthaEdit.sdef</string>
+    -->
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2003-2005, TheCodingMonkeys</string>
 	<key>NSMainNibFile</key>

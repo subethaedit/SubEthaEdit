@@ -177,6 +177,10 @@
 		14E3EACB06149C5D0083426B /* ScriptMenu.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14E3EACA06149C5D0083426B /* ScriptMenu.tiff */; };
 		14E92E2C06396E210099D67B /* DebugController.h in Headers */ = {isa = PBXBuildFile; fileRef = 14E92E2A06396E210099D67B /* DebugController.h */; };
 		14E92E2D06396E210099D67B /* DebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E92E2B06396E210099D67B /* DebugController.m */; };
+		14E9A6E0086029B200D3A847 /* StandardSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 14E9A6DE086029B200D3A847 /* StandardSuite.scriptSuite */; };
+		14E9A6E1086029B200D3A847 /* StandardSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 14E9A6DF086029B200D3A847 /* StandardSuite.scriptTerminology */; };
+		14E9A6E6086029C400D3A847 /* TextSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 14E9A6E4086029C400D3A847 /* TextSuite.scriptSuite */; };
+		14E9A6E7086029C400D3A847 /* TextSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 14E9A6E5086029C400D3A847 /* TextSuite.scriptTerminology */; };
 		14EA6955060F651A00D02455 /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 14EA6953060F651A00D02455 /* Modes */; };
 		14EAAD6E06CB9F3F0000E12D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14497AB8062C380000E1C9F1 /* Carbon.framework */; };
 		14EBE8A106FEF44F006EFB94 /* NSApplicationTCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 14EBE89F06FEF44F006EFB94 /* NSApplicationTCMAdditions.h */; };
@@ -695,6 +699,10 @@
 		14E3EACA06149C5D0083426B /* ScriptMenu.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ScriptMenu.tiff; path = artwork/ScriptMenu.tiff; sourceTree = "<group>"; };
 		14E92E2A06396E210099D67B /* DebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugController.h; path = Debug/DebugController.h; sourceTree = "<group>"; };
 		14E92E2B06396E210099D67B /* DebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugController.m; path = Debug/DebugController.m; sourceTree = "<group>"; };
+		14E9A6DE086029B200D3A847 /* StandardSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = StandardSuite.scriptSuite; sourceTree = "<group>"; };
+		14E9A6DF086029B200D3A847 /* StandardSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = StandardSuite.scriptTerminology; sourceTree = "<group>"; };
+		14E9A6E4086029C400D3A847 /* TextSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TextSuite.scriptSuite; sourceTree = "<group>"; };
+		14E9A6E5086029C400D3A847 /* TextSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TextSuite.scriptTerminology; sourceTree = "<group>"; };
 		14EA6953060F651A00D02455 /* Modes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Modes; sourceTree = "<group>"; };
 		14EAA84606CB6E7B0000E12D /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		14EBE89F06FEF44F006EFB94 /* NSApplicationTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSApplicationTCMAdditions.h; sourceTree = "<group>"; };
@@ -1145,6 +1153,10 @@
 		14703803060C647B0087BA25 /* AppleScript */ = {
 			isa = PBXGroup;
 			children = (
+				14E9A6DE086029B200D3A847 /* StandardSuite.scriptSuite */,
+				14E9A6DF086029B200D3A847 /* StandardSuite.scriptTerminology */,
+				14E9A6E4086029C400D3A847 /* TextSuite.scriptSuite */,
+				14E9A6E5086029C400D3A847 /* TextSuite.scriptTerminology */,
 				14006965060C64F60060F71E /* SubEthaEdit.sdef */,
 				1428730106DF6BFF00FB57C5 /* SubEthaEditScripting.r */,
 				14006969060C65430060F71E /* SubEthaEditSuite.scriptSuite */,
@@ -1991,6 +2003,10 @@
 				142D47DC07283ED500B00725 /* ReleaseNotes.txt in Resources */,
 				5E9624AB0857A8F5000B0AA3 /* Rendezvous.tiff in Resources */,
 				14C759180858A9FA00FEDE8C /* SubEthaEdit.sdef in Resources */,
+				14E9A6E0086029B200D3A847 /* StandardSuite.scriptSuite in Resources */,
+				14E9A6E1086029B200D3A847 /* StandardSuite.scriptTerminology in Resources */,
+				14E9A6E6086029C400D3A847 /* TextSuite.scriptSuite in Resources */,
+				14E9A6E7086029C400D3A847 /* TextSuite.scriptTerminology in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
