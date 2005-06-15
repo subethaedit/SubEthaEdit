@@ -420,12 +420,13 @@ static NSString *tempFileName() {
         [newFiles addObject:[argument path]];
     }
     
+    NSString *documentModeIdentifierArgument = [properties objectForKey:@"mode"];
     enumerator = [newFiles objectEnumerator];
     while ((fileName = [enumerator nextObject])) {
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
-            if (![properties objectForKey:@"mode"]) {
+            if (!documentModeIdentifierArgument) {
                 DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
                 [properties setObject:[mode documentModeIdentifier] forKey:@"mode"];
             }
