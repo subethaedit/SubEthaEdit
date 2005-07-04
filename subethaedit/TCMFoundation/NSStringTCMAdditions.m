@@ -79,6 +79,24 @@
     return [[addressAsString copy] autorelease];
 }
 
+- (NSData *)UTF8DataWithMaximumLength:(unsigned)aLength {
+    NSData *result=[self dataUsingEncoding:NSUTF8StringEncoding];
+    if ([result length]>aLength) {
+        // truncate at a valid UTF8 boundary
+        // see RFC http://www.ietf.org/rfc/rfc3629.txt
+        unsigned char *bytes=(unsigned char *)[result bytes];
+        unsigned char *end=bytes+aLength;
+        // 0x80 = 1000 0000
+        // 0x40 = 0100 0000
+        // all characters not matching 10xx xxxx are non boundaries
+        while ((*end & 0x80) && !(*end & 0x40) && end > bytes) {
+            end--;
+        }
+        [result subdataWithRange:NSMakeRange(0,bytes - end)];
+    }
+    return result;
+}
+
 @end
 
 

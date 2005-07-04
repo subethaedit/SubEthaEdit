@@ -17,6 +17,8 @@
 
 + (NSString *)stringWithAddressData:(NSData *)aData;
 
+- (NSData *)UTF8DataWithMaximumLength:(unsigned)aLength;
+
 @end
 
 

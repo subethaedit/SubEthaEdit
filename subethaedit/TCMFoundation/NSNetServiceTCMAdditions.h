@@ -10,5 +10,7 @@
 
 
 @interface NSNetService (NSNetServiceTCMAdditions) 
+- (NSArray *)TXTRecordArray;
 - (NSDictionary *)TXTRecordDictionary;
+- (void)setTXTRecordByArray:(NSArray *)anArray;
 @end

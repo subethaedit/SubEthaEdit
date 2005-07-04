@@ -125,8 +125,12 @@ static NSString *kServiceKey=@"Service";
             forKey:kServiceCountKey];
         NSNetService *netService=[serviceEntry objectForKey:kServiceKey];
         if ([self resolvesServices] && [[serviceEntry objectForKey:@"LastResolveStart"] timeIntervalSinceNow] < -60) {
-            [netService resolve];
-            [aNetService performSelector:@selector(stop) withObject:nil afterDelay:30.];
+            if ([netService respondsToSelector:@selector(resolveWithTimeout:)]) {
+                [netService resolveWithTimeout:30.];
+            } else {
+                [netService resolve];
+                [netService performSelector:@selector(stop) withObject:nil afterDelay:30.];
+            }
             [serviceEntry setObject:[NSDate date] forKey:@"LastResolveStart"];
             DEBUGLOG(@"RendezvousLogDomain",DetailedLogLevel,@"resolves again because of different service count");
         }
@@ -140,8 +144,12 @@ static NSString *kServiceKey=@"Service";
         [serviceEntry setObject:[NSNumber numberWithInt:1] forKey:kServiceCountKey];
         if ([self resolvesServices]) {
             [aNetService setDelegate:self];
-            [aNetService resolve];
-            [aNetService performSelector:@selector(stop) withObject:nil afterDelay:30.];
+            if ([aNetService respondsToSelector:@selector(resolveWithTimeout:)]) {
+                [aNetService resolveWithTimeout:30.];
+            } else {
+                [aNetService resolve];
+                [aNetService performSelector:@selector(stop) withObject:nil afterDelay:30.];
+            }
             [serviceEntry setObject:[NSDate date] forKey:@"LastResolveStart"];
         }
         id delegate=[self delegate];
