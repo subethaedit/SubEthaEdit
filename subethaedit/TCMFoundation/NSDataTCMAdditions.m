@@ -18,7 +18,7 @@ static char base64EncodingArray[ 64 ] = {
            'w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/'
             };
 
-+ dataWithUUIDString:(NSString *)aUUIDString {
++ (id)dataWithUUIDString:(NSString *)aUUIDString {
     if (aUUIDString!=nil) {
         CFUUIDRef uuid=CFUUIDCreateFromString(NULL,(CFStringRef)aUUIDString);
         CFUUIDBytes bytes=CFUUIDGetUUIDBytes(uuid);
@@ -29,7 +29,7 @@ static char base64EncodingArray[ 64 ] = {
     }
 }
 
-- base64EncodedStringWithLineLength:(int)lineLength {
+- (NSString *)base64EncodedStringWithLineLength:(int)lineLength {
     const unsigned char	*bytes =[self bytes];
     NSMutableString		*result=nil;
     unsigned long		ixtext;

@@ -92,7 +92,7 @@
         while ((*end & 0x80) && !(*end & 0x40) && end > bytes) {
             end--;
         }
-        [result subdataWithRange:NSMakeRange(0,bytes - end)];
+        result = [result subdataWithRange:NSMakeRange(0,end - bytes)];
     }
     return result;
 }

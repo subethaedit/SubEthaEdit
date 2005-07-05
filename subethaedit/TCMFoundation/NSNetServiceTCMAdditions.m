@@ -61,6 +61,7 @@
 // see http://files.dns-sd.org/draft-cheshire-dnsext-dns-sd.txt
 
 - (void)setTXTRecordByArray:(NSArray *)anArray {
+    DEBUGLOG(@"RendezvousLogDomain",AllLogLevel,@"should set array: \n%@",anArray);
     if ([self respondsToSelector:@selector(setTXTRecordData:)]) {
         NSMutableData *data=[NSMutableData data];
         NSEnumerator *recordStrings=[anArray objectEnumerator];
@@ -73,6 +74,8 @@
                 [data appendData:stringData];
             }
         }
+        DEBUGLOG(@"RendezvousLogDomain",AllLogLevel,@"converted array: \n%@",[NSNetService dictionaryFromTXTRecordData:data]);
+
         [self setTXTRecordData:data];
     } else {
         [self setProtocolSpecificInformation:[anArray componentsJoinedByString:@"\001"]];
