@@ -358,6 +358,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				OTHER_CFLAGS = "-DTCM_NO_DEBUG";
 				PREBINDING = NO;
 				PRODUCT_NAME = TCMFoundation;
 				WRAPPER_EXTENSION = framework;
