@@ -1323,5 +1323,15 @@ enum {
 
 }
 
+#pragma mark -
+#pragma mark ### window delegation  ###
+
+- (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
+    NSRect windowFrame=[[self window] frame];
+    defaultFrame.size.width=windowFrame.size.width;
+    defaultFrame.origin.x=windowFrame.origin.x;
+    return defaultFrame;
+}
+
 
 @end
