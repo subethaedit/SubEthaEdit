@@ -3507,6 +3507,7 @@
                 <string>or</string>
                 <string>echo</string>
                 <string>new</string>
+                <string>clone</string>
                 <string>static</string>
                 <string>var</string>
                 <string>int</string>
@@ -3533,15 +3534,29 @@
                 <string>include</string>
                 <string>include_once</string>
                 <string>function</string>
+                <string>final</string>
                 <string>class</string>
+                <string>public</string>
+                <string>private</string>
+                <string>protected</string>
                 <string>extends</string>
                 <string>parent</string>
-                <string>__sleep</string>
-                <string>__wakeup</string>
                 <string>true</string>
                 <string>false</string>
                 <string>die</string>
                 <string>exit</string>
+            </keywords>
+            <keywords id="Magic Methods" color="#661AA9" font-weight="bold" useforautocomplete="yes">
+                <string>__construct</string>
+                <string>__destruct</string>
+                <string>__call</string>
+                <string>__get</string>
+                <string>__set</string>
+                <string>__sleep</string>
+                <string>__wakeup</string>
+                <string>__toString</string>
+                <string>__clone</string>
+                <string>__autoload</string>
             </keywords>
             <keywords id="Numbers" color="#00f" useforautocomplete="no">
 				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>

@@ -629,6 +629,8 @@ subethaedit/see/main.m -text
 subethaedit/see/see.1 -text
 subethaedit/see/see.vers -text
 subethaedit/version.plist -text
+test/Syntax/PHP-HTML/Classes.php -text
+test/Syntax/PHP-HTML/Library.php -text
 tool/BEEPSEEKiller/AppController.h -text
 tool/BEEPSEEKiller/AppController.m -text
 tool/BEEPSEEKiller/BEEPSEEKiller.xcode/project.pbxproj -text

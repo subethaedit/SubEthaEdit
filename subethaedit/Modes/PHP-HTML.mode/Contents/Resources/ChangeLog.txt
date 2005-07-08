@@ -1,3 +1,7 @@
+Changes with Version 1.2
+    *) added private, public and protected to RegexSymbols as well as SyntaxDefinition.html
+    *) fixed double appeareance of functions if indented 3 spaces
+
 Changes with Version 1.1
     
     *) EXTENSIONS: Added uppercase variants where appropriate.
