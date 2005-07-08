@@ -559,5 +559,16 @@ static NSColor *nonCommercialColor=nil;
     [super keyDown:aEvent];
 }
 
+- (NSRange)rangeForUserCompletion {
+    NSRange result=[super rangeForUserCompletion];
+    NSRange colonRange;
+    NSString *string=[[self textStorage] string];
+    while (((colonRange = [string rangeOfString:@":" options:NSLiteralSearch range:result]).location != NSNotFound)) {
+        result = NSMakeRange(NSMaxRange(colonRange),NSMaxRange(result)-NSMaxRange(colonRange));
+    }
+    // NSLog(@"rangeForUserCompletion: %@",NSStringFromRange(result));
+    return result;
+}
+
 
 @end

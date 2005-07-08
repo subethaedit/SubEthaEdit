@@ -59,9 +59,25 @@ NSString * const BlockeditAttributeValue=@"YES";
     [[EncodingManager sharedInstance] registerEncoding:anEncoding];
 }
 
+- (NSRange)doubleClickAtIndex:(unsigned)index {
+    NSRange result=[super doubleClickAtIndex:index];
+    NSRange colonRange;
+    NSString *string=[self string];
+    while (((colonRange = [string rangeOfString:@":" options:NSLiteralSearch range:result]).location != NSNotFound)) {
+        if (index <= colonRange.location) {
+            result.length = colonRange.location-result.location;
+            break;
+        } else {
+            result = NSMakeRange(NSMaxRange(colonRange),NSMaxRange(result)-NSMaxRange(colonRange));
+        }
+    }
+    // NSLog(@"doubleClickAtIndex:%d returned: %@",index,NSStringFromRange(result));
+    return result;
+}
+
+
 #pragma mark -
 #pragma mark ### Line Numbers ###
-
 - (NSString *)positionStringForRange:(NSRange)aRange {
     int lineNumber=[self lineNumberForLocation:aRange.location];
     unsigned lineStartLocation=[[[self lineStarts] objectAtIndex:lineNumber-1] intValue];
