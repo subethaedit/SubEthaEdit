@@ -1731,6 +1731,7 @@
 				5E2A5BA806132149006242F9 /* Copy Files (Frameworks) */,
 				14BC80DE07290AEB00657A93 /* Run Script (Deployment) */,
 				142884C106E33F0C00FB57C5 /* Copy Files (Auxiliary Binaries) */,
+				5E0E5DC60882EB7A009939FC /* Run Script (lipo check) */,
 			);
 			buildRules = (
 			);
@@ -2094,6 +2095,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# shell script goes here\nrm ./doc/*\n./Tools/autodoc -force -tree -project . -dest doc -allclasses -combine -format html -template ./Tools/HTMLTemplate.html -copyright \"TheCodingMonkeys\"\nexit 0";
+		};
+		5E0E5DC60882EB7A009939FC /* Run Script (lipo check) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script (lipo check)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "lipo -info \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Frameworks/TCMFoundation.framework/TCMFoundation\"\nlipo -info \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Frameworks/TCMBEEP.framework/TCMBEEP\"\nlipo -info \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Frameworks/OgreKit.framework/OgreKit\"\nlipo -info \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/MacOS/$PRODUCT_NAME\"\nlipo -info \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/MacOS/see\"\nlipo -info \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/MacOS/SubEthaEditHelperToolTemplate\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2487,6 +2502,10 @@
 		144C07270854D2C600F43304 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -2712,6 +2731,10 @@
 		144C07310854D2C700F43304 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -2750,6 +2773,10 @@
 		144C07320854D2C700F43304 /* Release Unstripped */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -3152,7 +3179,10 @@
 		144C074F0854D2C700F43304 /* Release Unstripped */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
