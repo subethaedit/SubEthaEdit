@@ -441,7 +441,7 @@
 			};
 			name = Default;
 		};
-		5E0D238B0882E1C40075D14A /* Release unstripped */ = {
+		5E0D238B0882E1C40075D14A /* Release Unstripped */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -467,9 +467,9 @@
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = NO;
 			};
-			name = "Release unstripped";
+			name = "Release Unstripped";
 		};
-		5E0D238C0882E1C40075D14A /* Release unstripped */ = {
+		5E0D238C0882E1C40075D14A /* Release Unstripped */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -479,7 +479,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = "Release unstripped";
+			name = "Release Unstripped";
 		};
 /* End XCBuildConfiguration section */
 
@@ -489,7 +489,7 @@
 			buildConfigurations = (
 				1443603208557B9C00593BE6 /* Debug */,
 				1443603308557B9C00593BE6 /* Release */,
-				5E0D238B0882E1C40075D14A /* Release unstripped */,
+				5E0D238B0882E1C40075D14A /* Release Unstripped */,
 				1443603408557B9C00593BE6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -500,7 +500,7 @@
 			buildConfigurations = (
 				1443603608557B9C00593BE6 /* Debug */,
 				1443603708557B9C00593BE6 /* Release */,
-				5E0D238C0882E1C40075D14A /* Release unstripped */,
+				5E0D238C0882E1C40075D14A /* Release Unstripped */,
 				1443603808557B9C00593BE6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
