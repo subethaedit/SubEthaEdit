@@ -501,11 +501,13 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Removed Service: %@",aNetService);
     if (wasResolved) {
         NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
-        [I_foundUserIDs removeObject:userID];
-        NSMutableDictionary *status=[self statusOfUserID:userID];
-        [status removeObjectForKey:@"NetService"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:userID] forKey:@"UserIDs"]];
+        if (userID){
+            [I_foundUserIDs removeObject:userID];
+            NSMutableDictionary *status=[self statusOfUserID:userID];
+            [status removeObjectForKey:@"NetService"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:userID] forKey:@"UserIDs"]];
         }
+    }
 }
 
 
