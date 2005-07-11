@@ -412,6 +412,41 @@
 			};
 			name = Default;
 		};
+		5E0D23970882E31F0075D14A /* Release unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMFoundation_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				OTHER_CFLAGS = "-DTCM_NO_DEBUG";
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMFoundation;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = "Release unstripped";
+		};
+		5E0D23980882E31F0075D14A /* Release unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				UNSTRIPPED_PRODUCT = YES;
+			};
+			name = "Release unstripped";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -420,6 +455,7 @@
 			buildConfigurations = (
 				14435FE208557A7000593BE6 /* Debug */,
 				14435FE308557A7000593BE6 /* Release */,
+				5E0D23970882E31F0075D14A /* Release unstripped */,
 				14435FE408557A7000593BE6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -430,6 +466,7 @@
 			buildConfigurations = (
 				14435FE608557A7000593BE6 /* Debug */,
 				14435FE708557A7000593BE6 /* Release */,
+				5E0D23980882E31F0075D14A /* Release unstripped */,
 				14435FE808557A7000593BE6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
