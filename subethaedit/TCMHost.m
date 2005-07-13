@@ -67,7 +67,8 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
 }
 
 - (id)initWithAddressData:(NSData *)addr port:(unsigned short)port userInfo:(NSDictionary *)userInfo
-{    self = [super init];
+{    
+    self = [super init];
     if (self) {
     
         I_host = CFHostCreateWithAddress(NULL, (CFDataRef)addr);
@@ -83,6 +84,7 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         CFHostScheduleWithRunLoop(I_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
         
         I_addresses = [NSMutableArray new];
+        [I_addresses addObject:addr];
         I_names = [NSMutableArray new];
     }
     return self;
