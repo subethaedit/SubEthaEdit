@@ -1785,17 +1785,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     I_savePanel = nil;
     
-    if (I_flags.shouldSelectModeOnSave) {
-        DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
-        if (![mode isBaseMode]) {
-            [self setDocumentMode:mode];
+    if (fileName) {
+        if (I_flags.shouldSelectModeOnSave) {
+            DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+            if (![mode isBaseMode]) {
+                [self setDocumentMode:mode];
+            }
+            I_flags.shouldSelectModeOnSave=NO;
         }
-        I_flags.shouldSelectModeOnSave=NO;
-    }
 
-    if (saveOperation == NSSaveToOperation) {
-        I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
+        if (saveOperation == NSSaveToOperation) {
+            I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
+        }
     }
+    
     [super saveToFile:fileName saveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }
 
