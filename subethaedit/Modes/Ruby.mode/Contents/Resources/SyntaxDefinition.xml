@@ -21,7 +21,7 @@
                 <string>attr_writer</string>
                 <string>attr_accessor</string>
             </keywords>
-            <keywords id="Definitions" "#881350" inverted-color="#7d9ffa" font-weight="bold" useforautocomplete="yes">
+            <keywords id="Definitions" color="#881350" inverted-color="#7d9ffa" font-weight="bold" useforautocomplete="yes">
                 <string>alias</string>
                 <string>module</string>
                 <string>class</string>

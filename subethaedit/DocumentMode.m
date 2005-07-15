@@ -351,6 +351,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [I_bundle objectForInfoDictionaryKey:@"CFBundleName"];
 }
 
+- (NSArray *)recognizedExtensions {
+    return [[I_bundle infoDictionary] objectForKey:@"TCMModeExtensions"];
+}
+
+
 - (SyntaxHighlighter *)syntaxHighlighter {
     return I_syntaxHighlighter;
 }

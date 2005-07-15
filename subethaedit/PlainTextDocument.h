@@ -61,6 +61,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL isReadingFile;
         BOOL didPauseBecauseOfMarkedText;
         BOOL shouldChangeChangeCount;
+        BOOL shouldChangeExtensionOnModeChange;
         BOOL shouldSelectModeOnSave;
         BOOL isHandlingUndoManually;
         BOOL isWaiting;
@@ -265,6 +266,8 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (BOOL)isReceivingContent;
 - (void)setShouldSelectModeOnSave:(BOOL)aFlag;
 - (BOOL)shouldSelectModeOnSave;
+- (void)setShouldChangeExtensionOnModeChange:(BOOL)aFlag;
+- (BOOL)shouldChangeExtensionOnModeChange;
 - (void)resizeAccordingToDocumentMode;
 
 #pragma mark -

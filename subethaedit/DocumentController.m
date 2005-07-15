@@ -433,6 +433,7 @@ static NSString *tempFileName() {
             [document setScriptingProperties:properties];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
             [(PlainTextDocument *)document setShouldSelectModeOnSave:NO];
+            [(PlainTextDocument *)document setShouldChangeExtensionOnModeChange:NO];
             [(PlainTextDocument *)document setTemporaryDisplayName:[fileName lastPathComponent]];
             [(PlainTextDocument *)document setDirectoryForSavePanel:[fileName stringByDeletingLastPathComponent]];
             if (jobDescription) {
@@ -467,10 +468,15 @@ static NSString *tempFileName() {
             }
             if (pipeTitle) {
                 [(PlainTextDocument *)document setTemporaryDisplayName:pipeTitle];
-            }
+            } 
+            
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [document readFromFile:standardInputFile ofType:@"PlainTextType"];
+            if (!pipeTitle) {
+                [(PlainTextDocument *)document setShouldChangeExtensionOnModeChange:YES];
+            }
+
             if (pipeTitle && ![properties objectForKey:@"mode"]) {
                 DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[pipeTitle pathExtension]];
                 [(PlainTextDocument *)document setDocumentMode:mode];
