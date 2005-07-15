@@ -350,6 +350,7 @@ subethaedit/Modes/Python.mode/Contents/Resources/English.lproj/Localizable.strin
 subethaedit/Modes/Python.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Python.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Ruby.mode/Contents/Info.plist -text
+subethaedit/Modes/Ruby.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/English.lproj/Localizable.strings -text

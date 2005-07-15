@@ -1,3 +1,8 @@
+Changes with Version 2.3 (by dom)
+
+    *) added AutocompleteAdditions (http://www.ruby-doc.org/ core api and http://rails.rubyonrails.org/)
+    *) added core classes to syntax highlighting
+
 Changes with Version 2.2
     
     *) EXTENSIONS: Added uppercase variants where appropriate.
