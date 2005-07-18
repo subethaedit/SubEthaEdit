@@ -2900,7 +2900,7 @@
                 <string>NSURLRequestReturnCacheDataDontLoad</string>
                 <string>NSURLRequestReturnCacheDataElseLoad</string>
                 <string>NSURLRequestUseProtocolCachePolicy</string>
-                <string>NSUTF</string>
+                <string>NSUTF8StringEncoding</string>
                 <string>NSUnboldFontMask</string>
                 <string>NSUndefinedAttributeType</string>
                 <string>NSUnderlineColorAttributeName</string>
