@@ -200,6 +200,7 @@ addDocument:
 addEntriesFromDictionary:
 addEntry:
 addEventListener: : :
+addException:
 addFileWithPath:
 addFileWrapper:
 addFontDescriptors: toCollection:
@@ -264,6 +265,9 @@ addTabViewItem:
 addTableColumn:
 addTargetHeader: length:
 addTemporaryAttributes: forCharacterRange:
+addTest:
+addTestRun:
+addTestsEnumeratedBy:
 addTextContainer:
 addTime4ByteHeader:
 addTimeISOHeader: length:
@@ -1228,6 +1232,7 @@ containsValue:
 containsValueForKey:
 content
 contentAspectRatio
+contentDescription
 contentDocument
 contentEditable
 contentFrame
@@ -1252,6 +1257,7 @@ contextHelpForObject:
 contextMenuRepresentation
 contextWithCGContext: options:
 contextWithCGLContext:
+continueAfterFailure
 continueTracking: at: inView:
 continueWithoutCredentialForAuthenticationChallenge:
 control: didFailToFormatString: errorDescription:
@@ -1607,6 +1613,7 @@ defaultQueue
 defaultSelected
 defaultSubcontainerAttributeKey
 defaultTabInterval
+defaultTestSuite
 defaultTextEncodingName
 defaultTimeZone
 defaultTokenizingCharacterSet
@@ -2129,12 +2136,14 @@ eventForwardingMask
 eventID
 eventNumber
 eventPhase
+exception
 exceptionDuringOperation: error: leftOperand: rightOperand:
 exceptionHandler: shouldHandleException: mask:
 exceptionHandler: shouldLogException: mask:
 exceptionHandlingMask
 exceptionHangingMask
 exceptionWithName: reason: userInfo:
+exceptions
 exchangeObjectAtIndex: withObjectAtIndex:
 exchangePageAtIndex: withPageAtIndex:
 executablePath
@@ -2174,6 +2183,15 @@ extraLineFragmentUsedRect
 extractContents
 face
 failWithError:
+failWithException:
+failureAction
+failureCount
+failureInCondition: isTrue: inFile: atLine: withDescription:
+failureInEqualityBetweenObject: andObject: inFile: atLine: withDescription:
+failureInEqualityBetweenValue: andValue: withAccuracy: inFile: atLine: withDescription:
+failureInFile: atLine: withDescription:
+failureInRaise: exception: inFile: atLine: withDescription:
+failureInRaise: inFile: atLine: withDescription:
 failureReason
 failureResponse
 familyName
@@ -2205,6 +2223,7 @@ fileDownloadDidBegin:
 fileDownloadDidFinish:
 fileExistsAtPath:
 fileExistsAtPath: isDirectory:
+fileExistsAtPathOrLink:
 fileExtensionHidden
 fileExtensionsFromType:
 fileGroupOwnerAccountID
@@ -2231,6 +2250,7 @@ fileNameFromRunningSavePanelForSaveOperation:
 fileNamesFromRunningOpenPanel
 fileOwnerAccountID
 fileOwnerAccountName
+filePathInProject
 filePosixPermissions
 fileSize
 fileSystemAttributesAtPath:
@@ -2668,7 +2688,9 @@ hasServiceFromArray:
 hasShadow
 hasSpaceAvailable
 hasSubmenu
+hasSucceeded
 hasSuffix:
+hasTestCaseSignature
 hasThousandSeparators
 hasTitleBar
 hasUnappliedChanges
@@ -3086,6 +3108,7 @@ initWithIndexSet:
 initWithIndexes: length:
 initWithIndexesInRange:
 initWithInt:
+initWithInvocation:
 initWithItemIdentifier:
 initWithKey: ascending:
 initWithKey: ascending: selector:
@@ -3173,6 +3196,7 @@ initWithSDPServiceRecord:
 initWithScheme: host: path:
 initWithScrollView: orientation:
 initWithSection:
+initWithSelector:
 initWithSendPort: receivePort: components:
 initWithSerializedRepresentation:
 initWithSet:
@@ -3194,6 +3218,7 @@ initWithTCPPort:
 initWithTable: startingRow: rowSpan: startingColumn: columnSpan:
 initWithTarget: connection:
 initWithTarget: protocol:
+initWithTest:
 initWithTextAlignment: location: options:
 initWithTexture: size: flipped:
 initWithTextureTarget: textureInternalFormat: textureMaxMipMapLevel: pixelsWide: pixelsHigh:
@@ -3258,6 +3283,7 @@ inputClientBecomeActive:
 inputClientDisabled:
 inputClientEnabled:
 inputClientResignActive:
+inputFieldSeparator
 inputKeys
 inputStreamWithData:
 inputStreamWithFileAtPath:
@@ -3568,6 +3594,7 @@ isSupersetOfSet:
 isSupported: :
 isSymbolicLink
 isTemporaryID
+isTesting
 isTestingInterface
 isTitled
 isToMany
@@ -4431,6 +4458,7 @@ outlineViewItemWillExpand:
 outlineViewSelectionDidChange:
 outlineViewSelectionIsChanging:
 outlineWidth
+outputFieldSeparator
 outputFormat
 outputKeys
 outputStreamToBuffer: capacity:
@@ -4614,6 +4642,7 @@ performSelectorOnMainThread: withObject: waitUntilDone: modes:
 performStopAction
 performSubmitJobActionWithJobSpecification: gridIdentifier:
 performSuspendAction
+performTest:
 performZoom:
 permitWithRight: flags:
 permitWithRights: flags: environment: authorizedRights:
@@ -4854,6 +4883,7 @@ quotes
 raise
 raise: format:
 raise: format: arguments:
+raiseAfterFailure
 raiseBaseline:
 rangeContainerObject
 rangeForUserCharacterAttributeChange
@@ -5020,6 +5050,7 @@ reloadData
 reloadDefaultFontFamilies
 reloadItem:
 reloadItem: reloadChildren:
+remapLineEndings
 remoteNameRequest:
 remoteNameRequest: withPageTimeout:
 remoteNameRequestComplete: status:
@@ -5267,6 +5298,7 @@ results
 resume
 resumeData
 resumeExecutionWithResult:
+resumeObservation
 resumeWithSuspensionID:
 retain
 retainArguments
@@ -6115,6 +6147,7 @@ setExponentSymbol:
 setExtensionHidden:
 setExtraLineFragmentRect: usedRect: textContainer:
 setFace:
+setFailureAction:
 setFantasyFontFamily:
 setFetchLimit:
 setFetchPredicate:
@@ -6298,6 +6331,7 @@ setInteriorColor:
 setInterlineSpacing:
 setInternationalCurrencySymbol:
 setInverseRelationship:
+setInvocation:
 setIsMap:
 setIsMiniaturized:
 setIsPaneSplitter:
@@ -6937,6 +6971,7 @@ setURL:
 setUndoManager:
 setUnicodeBidi:
 setUniqueID:
+setUp
 setUpFieldEditorAttributes:
 setUpGState
 setUpPrintOperationDefaultValues
@@ -7259,6 +7294,7 @@ start:
 startAnimation
 startAnimation:
 startContainer
+startDate
 startLineStyle
 startListening
 startLoading
@@ -7299,6 +7335,7 @@ stopAnimation
 stopAnimation:
 stopBurn:
 stopConnecting
+stopDate
 stopListening
 stopLoading
 stopLoading:
@@ -7423,6 +7460,7 @@ surroundContents:
 suspend
 suspendCurrentAppleEvent
 suspendExecution
+suspendObservation
 suspended
 swapWithMark:
 symLinkPointingTo: inFilesystem:
@@ -7521,16 +7559,36 @@ targetPath
 targetVolumePath
 taskCount
 taskIdentifier
+tearDown
 tearOffMenuRepresentation
 temporaryAttributesAtCharacterIndex: effectiveRange:
 terminate
 terminate:
 terminationStatus
 test
+testAddition
 testBurn:
+testCaseCount
+testCaseDidFail:
+testCaseDidStart:
+testCaseDidStop:
+testCaseWithInvocation:
+testCaseWithSelector:
+testDuration
+testInvocations
 testPart:
 testProductionSpeedForInterval:
 testProductionSpeedForLength:
+testRunClass
+testRunWithTest:
+testRuns
+testSomething
+testSuiteDidStart:
+testSuiteDidStop:
+testSuiteForBundlePath:
+testSuiteForTestCaseClass:
+testSuiteForTestCaseWithName:
+testSuiteWithName:
 text
 textAlign
 textAttributesForNegativeInfinity
@@ -7691,6 +7749,8 @@ topAutoreleasePoolCount
 topLevelObject
 topMargin
 totalAutoreleasedObjects
+totalDuration
+totalFailureCount
 touch
 track
 trackAttributes
@@ -7775,6 +7835,7 @@ undoManagerForWebView:
 undoMenuItemTitle
 undoMenuTitleForUndoActionName:
 undoNestedGroup
+unexpectedExceptionCount
 unhide
 unhide:
 unhideAllApplications:
