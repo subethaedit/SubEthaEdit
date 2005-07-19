@@ -43,4 +43,25 @@
          forType: NSStringPboardType];
 }
 
+//Custom behavior for keys
+- (void)keyDown:(NSEvent *)theEvent 
+{       
+	unsigned int characterIndex, characterCount; 
+	int selectedRow = [self selectedRow]; 
+	NSString *characters = [theEvent charactersIgnoringModifiers]; 
+	characterCount = [characters length]; 
+	for (characterIndex = 0; characterIndex < characterCount; characterIndex++) { 
+		unichar c = [characters characterAtIndex: characterIndex]; 
+		switch(c) { 
+			// After checking how NSButton behaves I opted to jump upon Return and Enter.
+			case 13: // ReturnKey
+			case NSEnterCharacter: // == 3
+				if (selectedRow > -1) [[self target] performSelector:[self doubleAction]];
+				break; 
+		} 
+	} 
+
+	[super keyDown:theEvent]; 
+} 
+
 @end

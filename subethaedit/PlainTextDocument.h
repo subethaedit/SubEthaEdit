@@ -204,6 +204,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)gotoLine:(unsigned)aLine;
 - (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag;
 - (void)selectRange:(NSRange)aRange;
+- (void)selectRangeInBackground:(NSRange)aRange;
 - (void)handleOpenDocumentEvent;
 
 - (IBAction)convertLineEndings:(id)aSender;
