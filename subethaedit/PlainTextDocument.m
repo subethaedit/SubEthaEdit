@@ -2942,6 +2942,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[windowController window] makeKeyAndOrderFront:self];
 }
 
+- (void)selectRangeInBackground:(NSRange)aRange {
+    PlainTextWindowController *windowController=[self topmostWindowController];
+    [windowController selectRange:aRange];
+}
+
 - (void)addFindAllController:(FindAllController *)aController
 {
     [aController setDocument:self];

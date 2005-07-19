@@ -213,6 +213,8 @@ subethaedit/English.lproj/WebPreview.nib/info.nib -text
 subethaedit/English.lproj/WebPreview.nib/keyedobjects.nib -text
 subethaedit/FindAllController.h -text
 subethaedit/FindAllController.m -text
+subethaedit/FindAllTableView.h -text
+subethaedit/FindAllTableView.m -text
 subethaedit/FindReplaceController.h -text
 subethaedit/FindReplaceController.m -text
 subethaedit/FontAttributesToStringValueTransformer.h -text

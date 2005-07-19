@@ -159,6 +159,25 @@
     } 
 }
 
+- (void)showSelection:(id)sender
+{
+    if(I_document) {
+        NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
+		[I_document selectRangeInBackground:range];
+		[O_findAllPanel makeKeyAndOrderFront:self]; 
+    } 
+}
+
+
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+	NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
+	[I_document selectRangeInBackground:range];
+	[O_findAllPanel makeKeyAndOrderFront:self]; 
+	return YES;
+}
+
+
 @end
 
 
