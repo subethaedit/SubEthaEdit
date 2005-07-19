@@ -43,6 +43,14 @@
          forType: NSStringPboardType];
 }
 
+- (void)paste:(id)sender {
+	NSBeep();
+}
+
+- (void)cut:(id)sender {
+	NSBeep();
+}
+
 //Custom behavior for keys
 - (void)keyDown:(NSEvent *)theEvent 
 {       
@@ -57,11 +65,12 @@
 			case 13: // ReturnKey
 			case NSEnterCharacter: // == 3
 				if (selectedRow > -1) [[self target] performSelector:[self doubleAction]];
-				break; 
+			break; 
+			default:
+				[super keyDown:theEvent]; 
 		} 
 	} 
 
-	[super keyDown:theEvent]; 
 } 
 
 @end
