@@ -187,6 +187,8 @@
 		14FF9947065257E50021FB60 /* TCMMMNoOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 14FF9945065257E50021FB60 /* TCMMMNoOperation.h */; };
 		14FF9948065257E50021FB60 /* TCMMMNoOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FF9946065257E50021FB60 /* TCMMMNoOperation.m */; };
 		14FF9F450653915D0021FB60 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14FF9F430653915D0021FB60 /* AboutPanel.nib */; };
+		300D432D088D1EB3005CA894 /* FindAllTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 300D432B088D1EB3005CA894 /* FindAllTableView.h */; };
+		300D432E088D1EB3005CA894 /* FindAllTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 300D432C088D1EB3005CA894 /* FindAllTableView.m */; };
 		31006A770653F67E004F0094 /* myriad.png in Resources */ = {isa = PBXBuildFile; fileRef = 31006A760653F67E004F0094 /* myriad.png */; };
 		31006CA80654E98A004F0094 /* SubEthaEdit_Splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 31006CA70654E98A004F0094 /* SubEthaEdit_Splash.png */; };
 		31006CAC0654F79B004F0094 /* NextChange.png in Resources */ = {isa = PBXBuildFile; fileRef = 31006CAB0654F79B004F0094 /* NextChange.png */; };
@@ -707,6 +709,8 @@
 		2A37F4B7FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		300D432B088D1EB3005CA894 /* FindAllTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindAllTableView.h; sourceTree = "<group>"; };
+		300D432C088D1EB3005CA894 /* FindAllTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindAllTableView.m; sourceTree = "<group>"; };
 		31006A760653F67E004F0094 /* myriad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = myriad.png; path = artwork/myriad.png; sourceTree = "<group>"; };
 		31006CA70654E98A004F0094 /* SubEthaEdit_Splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SubEthaEdit_Splash.png; path = artwork/SubEthaEdit_Splash.png; sourceTree = "<group>"; };
 		31006CAB0654F79B004F0094 /* NextChange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NextChange.png; path = artwork/NextChange.png; sourceTree = "<group>"; };
@@ -1101,6 +1105,8 @@
 				5EA543BF06357E0D00A06297 /* WebPreviewWindowController.m */,
 				3188A35606492AD000AD92E4 /* FindAllController.h */,
 				3188A35706492AD000AD92E4 /* FindAllController.m */,
+				300D432B088D1EB3005CA894 /* FindAllTableView.h */,
+				300D432C088D1EB3005CA894 /* FindAllTableView.m */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -1607,6 +1613,7 @@
 				5E92CDA507398083006C0CB3 /* TCMIdleTimer.h in Headers */,
 				5E7095D60807433B001FC259 /* NSColorTCMAdditions.h in Headers */,
 				5E766DAD0807445700A722F0 /* NSImageTCMAdditions.h in Headers */,
+				300D432D088D1EB3005CA894 /* FindAllTableView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2051,7 +2058,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 $SRCROOT/SubEthaEdit.sdef\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' $SRCROOT/SubEthaEditSuite.scriptSuite\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' $SRCROOT/SubEthaEditSuite.scriptSuite";
+			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
 		};
 		14963A3C061F0CFD009B8E42 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2236,6 +2243,7 @@
 				5E92CDA607398084006C0CB3 /* TCMIdleTimer.m in Sources */,
 				5E7095D70807433B001FC259 /* NSColorTCMAdditions.m in Sources */,
 				5E766DAC0807445700A722F0 /* NSImageTCMAdditions.m in Sources */,
+				300D432E088D1EB3005CA894 /* FindAllTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

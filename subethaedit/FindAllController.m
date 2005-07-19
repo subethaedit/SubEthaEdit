@@ -56,6 +56,7 @@
     [[self window] setHidesOnDeactivate:NO];
     [[self window] setDelegate:self];
     [O_findRegexTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Find: %@",@"FindRegexPrefix"),[I_regularExpression expressionString]]];
+    [O_resultsTableView setDelegate:self];
     [O_resultsTableView setDoubleAction:@selector(jumpToSelection:)];
     [O_resultsTableView setTarget:self];
 }
