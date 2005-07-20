@@ -346,7 +346,7 @@
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\?(\\)?[!-~])(?=[^[-_A-Za-z0-9]]|$)</regex>
 			</keywords>
 			<keywords id="Symbols" color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal" useforautocomplete="no">
-                <regex>(?&lt;!\S)(:[A-Za-z_][A-Za-z_0-9]*)</regex>
+                <regex>(?&lt;!:)(:[A-Za-z_][A-Za-z_0-9]*)</regex>
 			</keywords>
             <keywords id="Instance Variables" color="#c94b16" inverted-color="#6699cc"  font-style="normal" font-weight="normal" useforautocomplete="no">
             	<regex>(?&lt;=[^[_A-Za-z0-9@]]|^)(@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
