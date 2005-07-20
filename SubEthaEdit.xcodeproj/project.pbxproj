@@ -7,33 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		14963A3D061F0CFD009B8E42 /* Create Disk Image */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 144C07390854D2C700F43304 /* Build configuration list for PBXAggregateTarget "Create Disk Image" */;
-			buildPhases = (
-				14963A3C061F0CFD009B8E42 /* ShellScript */,
-			);
-			buildSettings = {
-				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 15;
-				DiskImageVolumeName = "$(PROJECT_NAME)";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Create Disk Image";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			dependencies = (
-				14963A46061F1022009B8E42 /* PBXTargetDependency */,
-			);
-			name = "Create Disk Image";
-			productName = "Create Disk Image";
-		};
 		31DEE029061089D0001EC83E /* Create Documentation */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 144C07340854D2C700F43304 /* Build configuration list for PBXAggregateTarget "Create Documentation" */;
@@ -482,11 +455,11 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = TCMFoundation;
 		};
-		14963A45061F1022009B8E42 /* PBXContainerItemProxy */ = {
+		14F0147B088EC8FF00FE6B14 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			remoteInfo = SubEthaEdit;
 		};
 		14F45E9C06DBB84B0048F2F8 /* PBXContainerItemProxy */ = {
@@ -1619,6 +1592,36 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		14F01466088EC6A100FE6B14 /* Create Disk Image */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-c \"$(SRCROOT)/createDiskImage.sh\" $(ACTION)";
+			buildConfigurationList = 14F01467088EC6BD00FE6B14 /* Build configuration list for PBXLegacyTarget "Create Disk Image" */;
+			buildPhases = (
+			);
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image (new)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			buildToolPath = /bin/sh;
+			dependencies = (
+				14F0147C088EC8FF00FE6B14 /* PBXTargetDependency */,
+			);
+			name = "Create Disk Image";
+			passBuildSettingsInEnvironment = 1;
+			productName = "Create Disk Image (new)";
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		1428840F06E33DE900FB57C5 /* HelperTool */ = {
 			isa = PBXNativeTarget;
@@ -1817,8 +1820,8 @@
 				8D15AC270486D014006FF6A4 /* SubEthaEdit */,
 				1428840F06E33DE900FB57C5 /* HelperTool */,
 				14DC3C3306C3C6CB000E9E0A /* see */,
+				14F01466088EC6A100FE6B14 /* Create Disk Image */,
 				31DEE029061089D0001EC83E /* Create Documentation */,
-				14963A3D061F0CFD009B8E42 /* Create Disk Image */,
 				5E96530607EDD7860003D65C /* Tests */,
 			);
 		};
@@ -2060,22 +2063,6 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
 		};
-		14963A3C061F0CFD009B8E42 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app",
-				createDiskImage.sh,
-			);
-			outputPaths = (
-				"$(TARGET_BUILD_DIR)/SubEthaEdit.dmg",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "source createDiskImage.sh\n\n#if [ \"$ACTION\" = \"clean\" ]\n#then\n#    echo \"cleaning\"\n#    if [ -e ./SubEthaEdit.dmg ]\n#    then\n#        echo \"removing image\"\n#        rm -f ./SubEthaEdit.dmg\n#    fi\n#    exit 0\n#else\n#    ./createDiskImage.sh 10 \"SubEthaEdit\" \"$DSTROOT/*\"\n#fi\n#exit 0";
-		};
 		14BC80DE07290AEB00657A93 /* Run Script (Deployment) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -2265,10 +2252,10 @@
 			name = TCMFoundation;
 			targetProxy = 144362980855FE7600593BE6 /* PBXContainerItemProxy */;
 		};
-		14963A46061F1022009B8E42 /* PBXTargetDependency */ = {
+		14F0147C088EC8FF00FE6B14 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
-			targetProxy = 14963A45061F1022009B8E42 /* PBXContainerItemProxy */;
+			targetProxy = 14F0147B088EC8FF00FE6B14 /* PBXContainerItemProxy */;
 		};
 		14F45E9D06DBB84B0048F2F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2944,108 +2931,6 @@
 			};
 			name = Default;
 		};
-		144C073A0854D2C700F43304 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
-				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 15;
-				DiskImageVolumeName = "$(PROJECT_NAME)";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "Create Disk Image";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
-		144C073B0854D2C700F43304 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEPLOYMENT_LOCATION = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 15;
-				DiskImageVolumeName = "$(PROJECT_NAME)";
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OTHER_CFLAGS = (
-					"-DTCM_NO_DEBUG",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DNDEBUG",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "Create Disk Image";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Release;
-		};
-		144C073C0854D2C700F43304 /* Release Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_LOCATION = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 15;
-				DiskImageVolumeName = "$(PROJECT_NAME)";
-				OTHER_CFLAGS = (
-					"-DTCM_NO_DEBUG",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DNDEBUG",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "Create Disk Image";
-				SECTORDER_FLAGS = "";
-				UNSTRIPPED_PRODUCT = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = "Release Unstripped";
-		};
-		144C073D0854D2C700F43304 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 15;
-				DiskImageVolumeName = "$(PROJECT_NAME)";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Create Disk Image";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Default;
-		};
 		144C073F0854D2C700F43304 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3205,6 +3090,87 @@
 			};
 			name = Default;
 		};
+		14F01468088EC6BD00FE6B14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DiskImageProduct = SubEthaEdit.app;
+				DiskImageSizeInMB = 20;
+				DiskImageVolumeName = SubEthaEdit;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image (new)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Debug;
+		};
+		14F01469088EC6BD00FE6B14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DiskImageProduct = SubEthaEdit.app;
+				DiskImageSizeInMB = 20;
+				DiskImageVolumeName = SubEthaEdit;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image (new)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Release;
+		};
+		14F0146A088EC6BD00FE6B14 /* Release Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DiskImageProduct = SubEthaEdit.app;
+				DiskImageSizeInMB = 20;
+				DiskImageVolumeName = SubEthaEdit;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image (new)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Release Unstripped";
+		};
+		14F0146B088EC6BD00FE6B14 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image (new)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3252,17 +3218,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
 		};
-		144C07390854D2C700F43304 /* Build configuration list for PBXAggregateTarget "Create Disk Image" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				144C073A0854D2C700F43304 /* Debug */,
-				144C073B0854D2C700F43304 /* Release */,
-				144C073C0854D2C700F43304 /* Release Unstripped */,
-				144C073D0854D2C700F43304 /* Default */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
-		};
 		144C073E0854D2C700F43304 /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3284,6 +3239,16 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
+		};
+		14F01467088EC6BD00FE6B14 /* Build configuration list for PBXLegacyTarget "Create Disk Image" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14F01468088EC6BD00FE6B14 /* Debug */,
+				14F01469088EC6BD00FE6B14 /* Release */,
+				14F0146A088EC6BD00FE6B14 /* Release Unstripped */,
+				14F0146B088EC6BD00FE6B14 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
