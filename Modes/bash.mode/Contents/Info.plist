@@ -21,9 +21,9 @@ http://www.codingmonkeys.de</string>
 	<string>6.0</string>
 	<key>TCMModeExtensions</key>
 	<array>
+	   <string>sh</string>
 	   <string>bash</string>
 	   <string>bashrc</string>
-	   <string>sh</string>
 	   <string>login</string>
 	</array>
 </dict>

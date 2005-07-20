@@ -125,7 +125,14 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     
     TCMMMUser *me=[[TCMMMUserManager sharedInstance] me];
     if ((I_flags.isVisible || [I_announcedSessions count]>0) && !I_flags.serviceIsPublished) {
-        [I_netService setProtocolSpecificInformation:[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001version=2",[me name],[me userID]]];
+        [I_netService setTXTRecordByArray:
+            [NSArray arrayWithObjects:
+                @"txtvers=1",
+                [NSString stringWithFormat:@"userid=%@",[me userID]],
+                [NSString stringWithFormat:@"name=%@",[me name]],
+                @"version=2",
+                nil]];
+//        [I_netService setProtocolSpecificInformation:[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001version=2",[me name],[me userID]]];
         [I_netService publish];
         I_flags.serviceIsPublished = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:self];
@@ -494,11 +501,13 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Removed Service: %@",aNetService);
     if (wasResolved) {
         NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
-        [I_foundUserIDs removeObject:userID];
-        NSMutableDictionary *status=[self statusOfUserID:userID];
-        [status removeObjectForKey:@"NetService"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:userID] forKey:@"UserIDs"]];
+        if (userID){
+            [I_foundUserIDs removeObject:userID];
+            NSMutableDictionary *status=[self statusOfUserID:userID];
+            [status removeObjectForKey:@"NetService"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:userID] forKey:@"UserIDs"]];
         }
+    }
 }
 
 

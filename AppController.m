@@ -315,6 +315,12 @@ static AppController *sharedInstance = nil;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 
+    #warning "Termination has to be removed before release!"
+    if ([[NSDate dateWithString:@"2005-08-15 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
+        [NSApp terminate:self];
+        return;
+    }
+
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     
     [self registerTransformers];
@@ -344,6 +350,7 @@ static AppController *sharedInstance = nil;
                                                         andEventID:kMOD];
                                                                                                                 
     [self setupTextViewContextMenu];
+    [NSApp setServicesProvider:[DocumentController sharedDocumentController]];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -687,5 +694,6 @@ static AppController *sharedInstance = nil;
         }
     }
 }
+
 
 @end

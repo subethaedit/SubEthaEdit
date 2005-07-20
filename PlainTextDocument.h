@@ -61,6 +61,7 @@ extern NSString * const ChangedByUserIDAttributeName;
         BOOL isReadingFile;
         BOOL didPauseBecauseOfMarkedText;
         BOOL shouldChangeChangeCount;
+        BOOL shouldChangeExtensionOnModeChange;
         BOOL shouldSelectModeOnSave;
         BOOL isHandlingUndoManually;
         BOOL isWaiting;
@@ -203,6 +204,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)gotoLine:(unsigned)aLine;
 - (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag;
 - (void)selectRange:(NSRange)aRange;
+- (void)selectRangeInBackground:(NSRange)aRange;
 - (void)handleOpenDocumentEvent;
 
 - (IBAction)convertLineEndings:(id)aSender;
@@ -246,6 +248,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (void)setShowsMatchingBrackets:(BOOL)aFlag;
 - (BOOL)showsChangeMarks;
 - (void)setShowsChangeMarks:(BOOL)aFlag;
+- (IBAction)clearChangeMarks:(id)aSender;
 - (BOOL)indentsNewLines;
 - (void)setIndentsNewLines:(BOOL)aFlag;
 - (BOOL)showsTopStatusBar;
@@ -264,6 +267,9 @@ extern NSString * const ChangedByUserIDAttributeName;
 - (BOOL)isReceivingContent;
 - (void)setShouldSelectModeOnSave:(BOOL)aFlag;
 - (BOOL)shouldSelectModeOnSave;
+- (void)setShouldChangeExtensionOnModeChange:(BOOL)aFlag;
+- (BOOL)shouldChangeExtensionOnModeChange;
+- (void)resizeAccordingToDocumentMode;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

@@ -420,17 +420,20 @@ static NSString *tempFileName() {
         [newFiles addObject:[argument path]];
     }
     
+    NSString *documentModeIdentifierArgument = [properties objectForKey:@"mode"];
     enumerator = [newFiles objectEnumerator];
     while ((fileName = [enumerator nextObject])) {
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
-            if (![properties objectForKey:@"mode"]) {
+            if (!documentModeIdentifierArgument) {
                 DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
                 [properties setObject:[mode documentModeIdentifier] forKey:@"mode"];
             }
             [document setScriptingProperties:properties];
+            [(PlainTextDocument *)document resizeAccordingToDocumentMode];
             [(PlainTextDocument *)document setShouldSelectModeOnSave:NO];
+            [(PlainTextDocument *)document setShouldChangeExtensionOnModeChange:NO];
             [(PlainTextDocument *)document setTemporaryDisplayName:[fileName lastPathComponent]];
             [(PlainTextDocument *)document setDirectoryForSavePanel:[fileName stringByDeletingLastPathComponent]];
             if (jobDescription) {
@@ -465,10 +468,15 @@ static NSString *tempFileName() {
             }
             if (pipeTitle) {
                 [(PlainTextDocument *)document setTemporaryDisplayName:pipeTitle];
-            }
+            } 
+            
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [document readFromFile:standardInputFile ofType:@"PlainTextType"];
+            if (!pipeTitle) {
+                [(PlainTextDocument *)document setShouldChangeExtensionOnModeChange:YES];
+            }
+
             if (pipeTitle && ![properties objectForKey:@"mode"]) {
                 DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[pipeTitle pathExtension]];
                 [(PlainTextDocument *)document setDocumentMode:mode];
@@ -516,6 +524,7 @@ static NSString *tempFileName() {
         PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
         [document setDocumentMode:newMode];
+        [document resizeAccordingToDocumentMode];
         NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         if (encoding < SmallestCustomStringEncoding) {
             [document setFileEncoding:encoding];
@@ -534,6 +543,18 @@ static NSString *tempFileName() {
         }
     }
 }
+
+#pragma mark -
+#pragma mark ### NServices ###
+
+// note the "setServicesProvider:" in the applicationWillFinishLaunching method
+
+- (void)openSelection:(NSPasteboard *)pboard userData:(NSString *)data error:(NSString **)error {
+    PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+    [[[[document plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
+    [document clearChangeMarks:self];
+}
+
 
 #pragma mark -
 

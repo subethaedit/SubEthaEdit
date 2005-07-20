@@ -319,6 +319,7 @@
             
             [menuEntries 
                 addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:identifier,@"Identifier",[modeBundle objectForInfoDictionaryKey:@"CFBundleName"],@"Name",attributedTitle,@"AttributedTitle",nil]];
+            [attributedTitle release];
         }
     }
 

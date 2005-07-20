@@ -124,7 +124,7 @@ static NSString *S_measurementUnits;
     NSString     *keyPath=nil;
     while ((keyPath=[keyPaths nextObject])) {
         [myDictionary   removeObserver:self forKeyPath:keyPath];
-        [I_printDictionary addObserver:self forKeyPath:keyPath options:NULL context:nil];
+        [I_printDictionary addObserver:self forKeyPath:keyPath options:0 context:nil];
     }
     [O_printOptionController setContent:nil];
     I_currentMode=newMode;

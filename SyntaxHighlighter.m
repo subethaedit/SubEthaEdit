@@ -183,7 +183,10 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
                     // different States, if not end/start make dirty 
                     if (!(isEnd&&isStart)) makeItDirty = YES; 
                 } else { 
-                    // Same states -> do nothing
+                    // Same states -> do nothing 
+                    // Update: Actually if it's a end without a start following
+                    // make it dirty...
+                    if (isEnd && (!isStart)) makeItDirty = YES;
                 }
             } else {
                 // someState.defaultState -> check for end

@@ -81,6 +81,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 - (NSBundle *)bundle;
 - (NSString *)documentModeIdentifier;
 - (NSString *)displayName;
+- (NSArray *)recognizedExtensions;
 
 - (NSMutableDictionary *)defaults;
 - (void)setDefaults:(NSMutableDictionary *)defaults;

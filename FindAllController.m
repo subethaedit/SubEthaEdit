@@ -56,6 +56,7 @@
     [[self window] setHidesOnDeactivate:NO];
     [[self window] setDelegate:self];
     [O_findRegexTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Find: %@",@"FindRegexPrefix"),[I_regularExpression expressionString]]];
+    [O_resultsTableView setDelegate:self];
     [O_resultsTableView setDoubleAction:@selector(jumpToSelection:)];
     [O_resultsTableView setTarget:self];
 }
@@ -157,6 +158,19 @@
         [I_document selectRange:range];   
     } 
 }
+
+- (void)jumpToSelectionOnReturn:(id)sender {
+	NSLog([[NSApp currentEvent] description]);
+}
+
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+	NSRange range = [[[[O_resultsController arrangedObjects] objectAtIndex:rowIndex] objectForKey:@"selectionOperation"] selectedRange];
+	[I_document selectRangeInBackground:range];
+	[O_findAllPanel makeKeyAndOrderFront:self]; 
+	return YES;
+}
+
 
 @end
 

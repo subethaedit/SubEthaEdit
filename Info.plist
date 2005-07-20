@@ -187,6 +187,10 @@
 			<string>SubEthaEditSyntaxStyle</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.codingmonkeys.subethaedit.syntaxstyle</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -203,6 +207,10 @@
 			<string>SubEthaEditModeType</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.codingmonkeys.subethaedit.mode</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
 		</dict>
@@ -210,7 +218,7 @@
 	<key>CFBundleExecutable</key>
 	<string>SubEthaEdit</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 2.1.2, Copyright © 2003-2005, TheCodingMonkeys</string>
+	<string>SubEthaEdit 2.2, Copyright © 2003-2005, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -226,7 +234,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.2</string>
+	<string>2.2</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
@@ -256,5 +264,62 @@
 	<string>1.0</string>
 	<key>TCMMinimumSeeToolVersion</key>
 	<string>1.0</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SubEthaEdit Mode</string>
+			<key>UTTypeIconFile</key>
+			<string>Mode.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.codingmonkeys.subethaedit.mode</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>mode</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.xml</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SubEthaEdit Syntax Style</string>
+			<key>UTTypeIconFile</key>
+			<string>style.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.codingmonkeys.subethaedit.syntaxstyle</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>seestyle</string>
+			</dict>
+		</dict>
+	</array>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>SubEthaEdit/New Document Containing Selection</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>openSelection</string>
+			<key>NSPortName</key>
+			<string>SubEthaEdit</string>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSRTFDPboardType</string>
+				<string>NSRTFPboardType</string>
+				<string>NSStringPboardType</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -52,7 +52,7 @@
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage {
     if ([aMessage isRPY]) {
         if ([[aMessage payload] length]>=6) {
-            unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
+            char *bytes=(char *)[[aMessage payload] bytes];
             if (strncmp(bytes,"USRFUL",6)==0) {
                 TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
 				if (user && [[user userID] isEqualToString:[[[self session] userInfo] objectForKey:@"peerUserID"]]) {
@@ -70,7 +70,7 @@
         if ([[aMessage payload] length]<6) {
             DEBUGLOG(@"MillionMonkeysLogDomain", SimpleLogLevel, @"StatusProfile MSG with payload less than 6 bytes is not allowed");
         } else {
-            unsigned char *bytes=(unsigned char *)[[aMessage payload] bytes];
+            char *bytes=(char *)[[aMessage payload] bytes];
             if (strncmp(bytes,"USRCHG",6)==0) {
                 TCMMMUser *user=[TCMMMUser userWithBencodedNotification:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
                 if (user) {

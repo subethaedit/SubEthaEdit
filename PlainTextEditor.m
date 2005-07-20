@@ -1215,9 +1215,10 @@
 }
 
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
-    [I_textView setDefaultParagraphStyle:[[I_windowController document] defaultParagraphStyle]];
-    [self TCM_updateBottomStatusBar];;
+    [I_textView setDefaultParagraphStyle:[(PlainTextDocument *)[I_windowController document] defaultParagraphStyle]];
+    [self TCM_updateBottomStatusBar];
     [self textDidChange:aNotification];
+    [I_textView setNeedsDisplay:YES];
 }
 
 - (void)plainTextDocumentDidChangeEditStatus:(NSNotification *)aNotification {
@@ -1255,7 +1256,7 @@
 
     SelectionOperation *selectionOperation=[[aUser propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
     if (selectionOperation) {
-        int rectCount;
+        unsigned rectCount;
         NSRange range=[selectionOperation selectedRange];
         NSRectArray rects=[[I_textView layoutManager]
                             rectArrayForCharacterRange:range
@@ -1264,7 +1265,7 @@
                                              rectCount:&rectCount];
         if (rectCount>0) {
             NSRect rect=rects[0];
-            int i;
+            unsigned i;
             for (i=1; i<rectCount;i++) {
                 rect=NSUnionRect(rect,rects[i]);
             }

@@ -172,13 +172,13 @@ enum {
     [[O_actionPullDown cell] setUsesItemFromMenu:NO];
     [O_actionPullDown addItemWithTitle:@"<do not modify>"];
     NSMenu *menu=[O_actionPullDown menu];
-    [menu setDelegate:self];
     NSEnumerator *menuItems=[[I_contextMenu itemArray] objectEnumerator];
     id menuItem = nil;
     while ((menuItem = [menuItems nextObject])) {
         [menu addItem:[[menuItem copy] autorelease]];
     }
-//    [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
+    [menu setDelegate:self];
+//    [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Men√º", nil]];
     
     //[O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
     
@@ -266,7 +266,21 @@ enum {
                              MAX(contentSize.height,minSize.height));
     contentRect.origin.y+=contentRect.size.height-contentSize.height;
     contentRect.size=contentSize;
-    [[self window] setFrame:[window frameRectForContentRect:contentRect] display:YES];
+    NSRect frameRect=[window frameRectForContentRect:contentRect];
+    NSScreen *screen=[[self window] screen];
+    if (screen) {
+        NSRect visibleFrame=[screen visibleFrame];
+        if (NSHeight(frameRect)>NSHeight(visibleFrame)) {
+            float heightDiff=frameRect.size.height-visibleFrame.size.height;
+            frameRect.origin.y+=heightDiff;
+            frameRect.size.height-=heightDiff;
+        }
+        if (NSMinY(frameRect)<NSMinY(visibleFrame)) {
+            float positionDiff=NSMinY(visibleFrame)-NSMinY(frameRect);
+            frameRect.origin.y+=positionDiff;
+        }
+    }
+    [[self window] setFrame:frameRect display:YES];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -295,6 +309,11 @@ enum {
         TCMMMSession *session=[(PlainTextDocument *)[self document] session];
         [menuItem setState:([menuItem tag]==[session accessState])?NSOnState:NSOffState];
         return [session isServer];
+    } else if (selector == @selector(readWriteButtonAction:) ||
+               selector == @selector(followUser:) ||
+               selector == @selector(kickButtonAction:) ||
+               selector == @selector(readOnlyButtonAction:)){
+        return [menuItem isEnabled];
     }
     return YES;
 }
@@ -1246,6 +1265,9 @@ enum {
     }
 }
 
+#pragma mark -
+#pragma mark ### menu validation ###
+
 -(void)menuNeedsUpdate:(NSMenu *)menu {
     int state = [self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
     NSMutableSet *userset=[NSMutableSet set];
@@ -1299,6 +1321,16 @@ enum {
     item = [menu itemWithTag:ParticipantContextMenuTagEmail];
     [item setEnabled:[[item target] validateMenuItem:item]];
 
+}
+
+#pragma mark -
+#pragma mark ### window delegation  ###
+
+- (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
+    NSRect windowFrame=[[self window] frame];
+    defaultFrame.size.width=windowFrame.size.width;
+    defaultFrame.origin.x=windowFrame.origin.x;
+    return defaultFrame;
 }
 
 

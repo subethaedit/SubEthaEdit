@@ -6,7 +6,6 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-
 #import "InternetBrowserController.h"
 #import "TCMHost.h"
 #import <TCMBEEP/TCMBEEP.h>
@@ -17,10 +16,7 @@
 #import "PullDownButtonCell.h"
 #import "TexturedButtonCell.h"
 
-#import <netinet/in.h>
-#import <netinet6/in6.h>
-#import <arpa/inet.h>
-#import <sys/socket.h>
+#import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 
 
 #define kMaxNumberOfItems 10
@@ -508,33 +504,36 @@ enum {
         }
         
         NSData *addressData = nil;
-        NSString *host = [url host];
+        NSString *hostAddress = [url host];
+
+        const char *ipAddress = [hostAddress UTF8String];
+        struct addrinfo hints;
+        struct addrinfo *result = NULL;
         
-        struct sockaddr_in6 address6;
-        bzero(&address6, sizeof(struct sockaddr_in6));
-        address6.sin6_len = sizeof(struct sockaddr_in6);
-        address6.sin6_family = AF_INET6;
-        address6.sin6_port = htons(port);
+        memset(&hints, 0, sizeof(hints));
+        hints.ai_flags    = AI_NUMERICHOST;
+        hints.ai_family   = PF_UNSPEC;
+        hints.ai_socktype = SOCK_STREAM;
+        hints.ai_protocol = 0;
         
-        struct sockaddr_in address;
-        bzero(&address, sizeof(struct sockaddr_in));
-        address.sin_len = sizeof(struct sockaddr_in);
-        address.sin_family = AF_INET;
-        address.sin_port = htons(port);        
-        
-        if(inet_pton(AF_INET6, [[url host] UTF8String], &(address6.sin6_addr)) == 1) {
-            addressData = [NSData dataWithBytes:&address6 length:sizeof(struct sockaddr_in6)];
-            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"inet_pton6 succeeded: %@", [NSString stringWithAddressData:addressData]);
-            host = [NSString stringWithFormat:@"[%@]", [url host]];
-        } else if (inet_pton(AF_INET, [[url host] UTF8String], &(address.sin_addr)) == 1) {
-            addressData = [NSData dataWithBytes:&address length:sizeof(struct sockaddr_in6)];
-            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"inet_pton succeeded: %@", [NSString stringWithAddressData:addressData]);
-            host = [url host];        
+        char *portString = NULL;
+        int err = asprintf(&portString, "%d", port);
+        NSAssert(err != -1, @"Failed to convert given port from int to char*");
+
+        err = getaddrinfo(ipAddress, portString, &hints, &result);
+        if (err == 0) {
+            addressData = [NSData dataWithBytes:(UInt8 *)result->ai_addr length:result->ai_addrlen];
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"getaddrinfo succeeded with addr: %@", [NSString stringWithAddressData:addressData]);
+            freeaddrinfo(result);
         } else {
             DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Neither IPv4 nor IPv6 address");
         }
-                
-        NSString *URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], host, port];
+        if (portString) {
+            free(portString);
+        }
+        
+        
+        NSString *URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], hostAddress, port];
 
         // when I_data entry with URL exists, select entry
         int index = [self indexOfItemWithURLString:URLString];
@@ -549,26 +548,41 @@ enum {
                 TCMHost *host;
                 if (addressData) {
                     host = [TCMHost hostWithAddressData:addressData port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
+                    [[I_data objectAtIndex:index] setObject:HostEntryStatusContacting forKey:@"status"];
+                    [O_browserListView reloadData];
+                    [I_resolvedHosts setObject:host forKey:URLString];
+                    [[TCMMMBEEPSessionManager sharedInstance] connectToHost:host];
                 } else {
                     host = [TCMHost hostWithName:[url host] port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
+                    [I_resolvingHosts setObject:host forKey:URLString];
+                    NSMutableDictionary *item = [I_data objectAtIndex:index];
+                    [item setObject:HostEntryStatusResolving forKey:@"status"];
+                    [item setObject:URLString forKey:@"URLString"];
+                    [host setDelegate:self];
+                    [host resolve];
                 }
-                [I_resolvingHosts setObject:host forKey:URLString];
-                NSMutableDictionary *item = [I_data objectAtIndex:index];
-                [item setObject:HostEntryStatusResolving forKey:@"status"];
-                [item setObject:URLString forKey:@"URLString"];
-                [host setDelegate:self];
-                [host resolve];
             }
         } else {
             // otherwise add new entry to I_data
-            TCMHost *host = [TCMHost hostWithName:[url host] port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
-            [I_resolvingHosts setObject:host forKey:URLString];
-            [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                        URLString, @"URLString",
-                                                        HostEntryStatusResolving, @"status",
-                                                        url, @"URL", nil]];
-            [host setDelegate:self];
-            [host resolve];
+            if (addressData) {
+                TCMHost *host = [TCMHost hostWithAddressData:addressData port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
+                [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                            URLString, @"URLString",
+                                                            HostEntryStatusContacting, @"status",
+                                                            url, @"URL", nil]];
+                [O_browserListView reloadData];
+                [I_resolvedHosts setObject:host forKey:URLString];
+                [[TCMMMBEEPSessionManager sharedInstance] connectToHost:host];
+            } else {
+                TCMHost *host = [TCMHost hostWithName:[url host] port:port userInfo:[NSDictionary dictionaryWithObject:URLString forKey:@"URLString"]];
+                [I_resolvingHosts setObject:host forKey:URLString];
+                [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                            URLString, @"URLString",
+                                                            HostEntryStatusResolving, @"status",
+                                                            url, @"URL", nil]];
+                [host setDelegate:self];
+                [host resolve];
+            }
         }
     } else {
         DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Invalid URI");

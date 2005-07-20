@@ -203,6 +203,7 @@ static NSString *tempFileName(NSString *origPath) {
     I_printOperationIsRunning=NO;
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
+    I_flags.shouldChangeExtensionOnModeChange=YES;
     [self setUndoManager:nil];
     I_rangesToInvalidate = [NSMutableArray new];
     I_findAllControllers = [NSMutableArray new];
@@ -281,18 +282,22 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (void)resizeAccordingToDocumentMode {
+    NSEnumerator *controllers=[[self windowControllers] objectEnumerator];
+    id controller=nil;
+    while ((controller=[controllers nextObject])) {
+        if ([controller isKindOfClass:[PlainTextWindowController class]]) {
+            [(PlainTextWindowController *)controller 
+                setSizeByColumns:[[[self documentMode] defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
+                            rows:[[[self documentMode] defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
+        }
+    }
+}
+
 - (void)applyEditPreferences:(NSNotification *)aNotification {
     if ([[aNotification object] isEqual:[self documentMode]]) {
         [self takeEditSettingsFromDocumentMode];
-        NSEnumerator *controllers=[[self windowControllers] objectEnumerator];
-        id controller=nil;
-        while ((controller=[controllers nextObject])) {
-            if ([controller isKindOfClass:[PlainTextWindowController class]]) {
-                [(PlainTextWindowController *)controller 
-                    setSizeByColumns:[[[self documentMode] defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
-                                rows:[[[self documentMode] defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
-            }
-        }
+        [self resizeAccordingToDocumentMode];
     }
 }
 
@@ -937,6 +942,12 @@ static NSString *tempFileName(NSString *origPath) {
     }
     [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
     [self updateSymbolTable];
+    if (I_flags.shouldChangeExtensionOnModeChange) {
+        NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
+        if ([recognizedExtensions count]) {
+            [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
+        }
+    }
 }
 
 - (NSMutableDictionary *)printOptions {
@@ -1251,7 +1262,7 @@ static NSString *tempFileName(NSString *origPath) {
         [[self topmostWindowController] showWindow:self];
     }
     
-    if (closeTransient) {
+    if (closeTransient && ![self isProxyDocument]) {
         [transientDocument close];
         transientDocument = nil;
     }
@@ -1781,17 +1792,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     I_savePanel = nil;
     
-    if (I_flags.shouldSelectModeOnSave) {
-        DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
-        if (![mode isBaseMode]) {
-            [self setDocumentMode:mode];
+    if (fileName) {
+        if (I_flags.shouldSelectModeOnSave) {
+            DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+            if (![mode isBaseMode]) {
+                [self setDocumentMode:mode];
+            }
+            I_flags.shouldSelectModeOnSave=NO;
+            I_flags.shouldChangeExtensionOnModeChange=NO;
         }
-        I_flags.shouldSelectModeOnSave=NO;
-    }
 
-    if (saveOperation == NSSaveToOperation) {
-        I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
+        if (saveOperation == NSSaveToOperation) {
+            I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
+        }
     }
+    
     [super saveToFile:fileName saveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }
 
@@ -1960,6 +1975,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (BOOL)TCM_readFromFile:(NSString *)fileName ofType:(NSString *)docType properties:(NSDictionary *)properties {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromFile:%@ ofType:%@ properties: %@", fileName, docType, properties);
 
+    I_flags.shouldChangeExtensionOnModeChange = NO;
     I_flags.shouldSelectModeOnSave = NO;
     I_flags.isReadingFile = YES;
 
@@ -2866,9 +2882,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)TCM_invalidateDefaultParagraphStyle {
     [I_defaultParagraphStyle autorelease];
-    I_defaultParagraphStyle=nil;
+     I_defaultParagraphStyle=nil;
     [I_plainTextAttributes autorelease];
-    I_plainTextAttributes=nil;
+     I_plainTextAttributes=nil;
+    [I_typingAttributes release];
+     I_typingAttributes=nil;
+    [I_styleCacheDictionary removeAllObjects];
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:self]
                postingStyle:NSPostWhenIdle
@@ -2883,6 +2902,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
        I_typingAttributes=nil;
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
+    [I_styleCacheDictionary removeAllObjects];
     NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
     [I_textStorage addAttributes:[self plainTextAttributes]
                            range:wholeRange];
@@ -2920,6 +2940,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     PlainTextWindowController *windowController=[self topmostWindowController];
     [windowController selectRange:aRange];
     [[windowController window] makeKeyAndOrderFront:self];
+}
+
+- (void)selectRangeInBackground:(NSRange)aRange {
+    PlainTextWindowController *windowController=[self topmostWindowController];
+    [windowController selectRange:aRange];
 }
 
 - (void)addFindAllController:(FindAllController *)aController
@@ -3025,7 +3050,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if ([self temporaryDisplayName] && ![self fileName]) {
         return [[self temporaryDisplayName] lastPathComponent];
     }
-        
+    
+    if (I_flags.shouldChangeExtensionOnModeChange) {
+        NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
+        if ([recognizedExtensions count]) {
+            return [[super displayName] stringByAppendingPathExtension:[recognizedExtensions objectAtIndex:0]];
+        }
+    } 
     return [super displayName];
 }
 
@@ -3291,6 +3322,13 @@ static NSString *S_measurementUnits;
     return I_flags.shouldSelectModeOnSave;
 }
 
+- (void)setShouldChangeExtensionOnModeChange:(BOOL)aFlag {
+    I_flags.shouldChangeExtensionOnModeChange = aFlag;
+}
+
+- (BOOL)shouldChangeExtensionOnModeChange {
+    return I_flags.shouldChangeExtensionOnModeChange;
+}
 
 #pragma mark -
 
@@ -3630,6 +3668,7 @@ static NSString *S_measurementUnits;
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
     [self updateChangeCount:NSChangeCleared];
     I_flags.shouldSelectModeOnSave=NO;
+    I_flags.shouldChangeExtensionOnModeChange=NO;
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent {

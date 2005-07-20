@@ -151,7 +151,7 @@
             return;
         }
         
-        unsigned char *type = (unsigned char *)[[aMessage payload] bytes];
+        char *type = (char *)[[aMessage payload] bytes];
         if (strncmp(type,"USRREQ",6)==0) {
             TCMMMUser *user=nil;
             if ([[aMessage payload] length]>6) {
@@ -315,7 +315,7 @@
             return;
         }
         
-        unsigned char *type = (unsigned char *)[[aMessage payload] bytes];
+        char *type = (char *)[[aMessage payload] bytes];
         if (strncmp(type, "USRFUL", 6) == 0) {
             // TODO: validate userID
             TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];

@@ -7,7 +7,7 @@
     </blocks>
 
     <symbol id="PHP functions" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="no">
-        <regex>^[ ]{0,3}function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
+        <regex>^[ ]{0,1}(?:final[ \t]+)?(?:(?:private|public|protected)[ \t]+)?(?:static[ \t]+)?function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
         <postprocess>
             <find>[\n\r]</find>
             <replace> </replace>
@@ -17,7 +17,7 @@
     </symbol>
 
     <symbol id="PHP functions indented" font-weight="normal" font-style="normal" image="SymbolF()" indentation="1" ignoreblocks="no">
-        <regex>^(?:[ ]{3,}|\t)[ \t]*function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
+        <regex>^(?:[ ]{2,}|\t)[ \t]*(?:final[ \t]+)?(?:(?:private|public|protected)[ \t]+)?(?:static[ \t]+)?function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
        <postprocess>
             <find>[\n\r]</find>
             <replace> </replace>
@@ -27,7 +27,7 @@
     </symbol>
 
     <symbol id="PHP classes" font-weight="bold" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="yes">
-        <regex>^[ \t]*class[ \t]+([a-zA-Z0-9_]+)[ \t]*[^{}]*{</regex>
+        <regex>^[ \t]*(?:final[ \t]+)?class[ \t]+([a-zA-Z0-9_]+([ \t]+extends[ \t]+[a-zA-Z0-9_]+)?)[ \t]*[^{}]*{</regex>
         <postprocess>
             <find>[\n\r]</find>
             <replace> </replace>

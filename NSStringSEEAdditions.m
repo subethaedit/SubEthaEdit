@@ -96,15 +96,16 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 @implementation NSString (NSStringSEEAdditions) 
 
-- (BOOL) isValidSerial 
+- (BOOL)isValidSerial 
 {
+    static int calls = 0;
     NSArray *splitArray = [self componentsSeparatedByString:@"-"];
-    if ([splitArray count]==4) {
+    if ([splitArray count]==4 && calls++ < 50) {
         NSString *zero = [splitArray objectAtIndex:0];
-        NSString *one = [splitArray objectAtIndex:1];
-        NSString *two = [splitArray objectAtIndex:2];
-        NSString *tri = [splitArray objectAtIndex:3];
-        if (([zero length] == 3) && ([one length] == 4) && ([two length] == 4) && ([tri length] == 4)) {
+        NSString *one  = [splitArray objectAtIndex:1];
+        NSString *two  = [splitArray objectAtIndex:2];
+        NSString *tri  = [splitArray objectAtIndex:3];
+        if (([[zero uppercaseString] isEqualToString:@"SEE"]) && ([one length] == 4) && ([two length] == 4) && ([tri length] == 4)) {
             long prefix = [zero base36Value];
             // Buchstaben zwirbeln
             long number = [[NSString stringWithFormat:@"%c%c%c%c",
@@ -558,7 +559,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
                      "closeTag"=> "</em>"};
 "*/
 
-- (NSString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8 {
+- (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8 {
     NSMutableString *result=[[[NSMutableString alloc] initWithCapacity:[self length]*2] autorelease];
     NSMutableDictionary *state=[NSMutableDictionary new];
     NSMutableDictionary *toOpen=[NSMutableDictionary new];

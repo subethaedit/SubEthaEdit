@@ -10,25 +10,25 @@
     <states>
     
         <default id="Base" color="#000">
-            <keywords id="Literals" color="#0000CC" useforautocomplete="yes">
+            <keywords id="Literals" color="#0000cc" inverted-color="#7d9ffa" useforautocomplete="yes">
                 <string>true</string>
                 <string>false</string>
-                <string>nil</string>
+                <regex>((?&lt;!\.)nil)</regex>
             </keywords>
-            <keywords id="Attribute Definitions" color="#0000CC" useforautocomplete="yes">
+            <keywords id="Attribute Definitions" color="#0000cc" inverted-color="#7d9ffa" useforautocomplete="yes">
                 <string>attr</string>
                 <string>attr_reader</string>
                 <string>attr_writer</string>
                 <string>attr_accessor</string>
             </keywords>
-            <keywords id="Definitions" color="#0000CC" useforautocomplete="yes">
+            <keywords id="Definitions" color="#881350" inverted-color="#7d9ffa" font-weight="bold" useforautocomplete="yes">
                 <string>alias</string>
                 <string>module</string>
                 <string>class</string>
                 <string>def</string>
                 <string>undef</string>
             </keywords>
-            <keywords id="Keywords" color="#0000CC" useforautocomplete="yes">
+            <keywords id="Keywords" color="#881350" inverted-color="#7d9ffa" useforautocomplete="yes">
                 <string>__FILE__</string>
                 <string>__LINE__</string>
                 <string>BEGIN</string>
@@ -63,7 +63,7 @@
                 <string>while</string>
                 <string>yield</string>
             </keywords>
-            <keywords id="Builtin Functions" color="#7D00FF" useforautocomplete="yes">
+            <keywords id="Builtin Functions" color="#881350" inverted-color="#9469f9"  font-style="normal" font-weight="bold" useforautocomplete="yes">
                 <string>abort</string>
                 <string>at_exit</string>
                 <string>autoload</string>
@@ -122,7 +122,157 @@
                 <string>trap</string>
                 <string>untrace_var</string>
             </keywords>
-            <keywords id="Builtin Globals" color="#A1617A" useforautocomplete="yes">
+            <keywords id="Builtin Classes" color="#881350" inverted-color="#9469f9"  font-style="normal" font-weight="bold" useforautocomplete="yes">
+                <string>Abbrev</string>
+                <string>ArgumentError</string>
+                <string>Array</string>
+                <string>Base64</string>
+                <string>Benchmark</string>
+                <string>Benchmark::Tms</string>
+                <string>Bignum</string>
+                <string>Binding</string>
+                <string>CGI</string>
+                <string>Cookie</string>
+                <string>HtmlExtension</string>
+                <string>QueryExtension</string>
+                <string>Session</string>
+                <string>FileStore</string>
+                <string>MemoryStore</string>
+                <string>Class</string>
+                <string>Comparable</string>
+                <string>Complex</string>
+                <string>ConditionVariable</string>
+                <string>Continuation</string>
+                <string>Data</string>
+                <string>Date</string>
+                <string>DateTime</string>
+                <string>Dir</string>
+                <string>EOFError</string>
+                <string>Enumerable</string>
+                <string>Errno</string>
+                <string>Exception</string>
+                <string>FalseClass</string>
+                <string>File</string>
+                <string>Constants</string>
+                <string>Stat</string>
+                <string>FileTest</string>
+                <string>FileUtils</string>
+                <string>CopyContext_</string>
+                <string>DryRun</string>
+                <string>NoWrite</string>
+                <string>Verbose</string>
+                <string>Find</string>
+                <string>Fixnum</string>
+                <string>Float</string>
+                <string>FloatDomainError</string>
+                <string>GC</string>
+                <string>Generator</string>
+                <string>Hash</string>
+                <string>IO</string>
+                <string>IOError</string>
+                <string>Iconv</string>
+                <string>Failure</string>
+                <string>IllegalSequence</string>
+                <string>InvalidCharacter</string>
+                <string>OutOfRange</string>
+                <string>IndexError</string>
+                <string>Integer</string>
+                <string>Interrupt</string>
+                <string>Kernel</string>
+                <string>LoadError</string>
+                <string>LocalJumpError</string>
+                <string>Logger</string>
+                <string>Application</string>
+                <string>LogDevice</string>
+                <string>Severity</string>
+                <string>ShiftingError</string>
+                <string>Marshal</string>
+                <string>MatchData</string>
+                <string>Math</string>
+                <string>Matrix</string>
+                <string>Method</string>
+                <string>Module</string>
+                <string>Mutex</string>
+                <string>NameError</string>
+                <string>NilClass</string>
+                <string>NoMemoryError</string>
+                <string>NoMethodError</string>
+                <string>NotImplementedError</string>
+                <string>Numeric</string>
+                <string>Object</string>
+                <string>ObjectSpace</string>
+                <string>Observable</string>
+                <string>Pathname</string>
+                <string>Precision</string>
+                <string>Proc</string>
+                <string>Process</string>
+                <string>GID</string>
+                <string>Status</string>
+                <string>Sys</string>
+                <string>UID</string>
+                <string>Queue</string>
+                <string>Range</string>
+                <string>RangeError</string>
+                <string>Regexp</string>
+                <string>RegexpError</string>
+                <string>RuntimeError</string>
+                <string>ScriptError</string>
+                <string>SecurityError</string>
+                <string>Set</string>
+                <string>Shellwords</string>
+                <string>Signal</string>
+                <string>SignalException</string>
+                <string>Singleton</string>
+                <string>SingletonClassMethods</string>
+                <string>SizedQueue</string>
+                <string>SortedSet</string>
+                <string>StandardError</string>
+                <string>String</string>
+                <string>StringScanner</string>
+                <string>StringScanner::Error</string>
+                <string>Struct</string>
+                <string>Symbol</string>
+                <string>SyncEnumerator</string>
+                <string>SyntaxError</string>
+                <string>SystemCallError</string>
+                <string>SystemExit</string>
+                <string>SystemStackError</string>
+                <string>Tempfile</string>
+                <string>Test</string>
+                <string>Unit</string>
+                <string>Thread</string>
+                <string>ThreadError</string>
+                <string>ThreadGroup</string>
+                <string>ThreadsWait</string>
+                <string>Time</string>
+                <string>TrueClass</string>
+                <string>TypeError</string>
+                <string>UnboundMethod</string>
+                <string>Vector</string>
+                <string>YAML</string>
+                <string>ZeroDivisionError</string>
+                <string>Zlib</string>
+                <string>BufError</string>
+                <string>DataError</string>
+                <string>Deflate</string>
+                <string>Error</string>
+                <string>GzipFile</string>
+                <string>CRCError</string>
+                <string>Error</string>
+                <string>LengthError</string>
+                <string>NoFooter</string>
+                <string>GzipReader</string>
+                <string>GzipWriter</string>
+                <string>Inflate</string>
+                <string>MemError</string>
+                <string>NeedDict</string>
+                <string>StreamEnd</string>
+                <string>StreamError</string>
+                <string>VersionError</string>
+                <string>ZStream</string>
+                <string>fatal</string>
+            </keywords>
+            <keywords id="Builtin Globals" color="#a1617a" inverted-color="#9e5e77"  font-style="normal" font-weight="normal" useforautocomplete="yes">
             	<!--Ones with chars not defined as variable parse chars won't work-->
             	<!--Need a clever way around this as adding them makes things not parse right everywhere else-->
             	<string>$!</string>
@@ -180,7 +330,7 @@
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$')(?=[^[_A-Za-z0-9]]|$)</regex>
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$\+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
-            <keywords id="Numbers" color="#03B514" useforautocomplete="no">
+            <keywords id="Numbers" color="#0000ff" inverted-color="#4afc5b"  font-style="normal" font-weight="normal" useforautocomplete="no">
             	<!-- Integers that can have a leading +/- and underscores -->
             	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?([0-9]*_)*[0-9]+)(?=[^[_A-Za-z0-9.]]|$)</regex>
             	<!-- Floating point, NOT sci notation.  The two lines differ so that +,-, and . don't get hilighted as numbers -->
@@ -195,66 +345,69 @@
 				<!-- Numbers generated by looking at character constants, like ?d and ?\n -->
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\?(\\)?[!-~])(?=[^[-_A-Za-z0-9]]|$)</regex>
 			</keywords>
-            <keywords id="Instance Variables" color="#336699" useforautocomplete="no">
+			<keywords id="Symbols" color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal" useforautocomplete="no">
+                <regex>(?&lt;!\S)(:[A-Za-z_][A-Za-z_0-9]*)</regex>
+			</keywords>
+            <keywords id="Instance Variables" color="#c94b16" inverted-color="#6699cc"  font-style="normal" font-weight="normal" useforautocomplete="no">
             	<regex>(?&lt;=[^[_A-Za-z0-9@]]|^)(@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
-            <keywords id="Class Variables" color="#008C8C" useforautocomplete="no">
+            <keywords id="Class Variables" color="#008c8c" inverted-color="#73ffff"  font-style="normal" font-weight="normal" useforautocomplete="no">
             	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(@@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
-            <keywords id="Global Variables" color="#8A578F" useforautocomplete="no">
+            <keywords id="Global Variables" color="#8a578f" inverted-color="#a370a8"  font-style="normal" font-weight="normal" useforautocomplete="no">
             	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
         </default>
         
-        <state id="String with double quotes" color="#8C8C8C">
+        <state id="String with double quotes" color="#760f15" inverted-color="#f28720"  font-style="italic" font-weight="normal">
             <begin><regex>"</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             <!-- (see line above) This is for the escape codes -->
-            <keywords id="test" color="#669999" useforautocomplete="no">
+            <keywords id="test" color="#669999" inverted-color="#669999"  font-style="normal" font-weight="normal" useforautocomplete="no">
             	<regex>(#\{[^{]*\})</regex>
             	<!-- regexp above *needs* the parens around the part to color change -->
             </keywords>
         </state>
 
-        <state id="String with single quotes" color="#8C8C8C">
+        <state id="String with single quotes" color="#760f15" inverted-color="#f48700"  font-style="italic" font-weight="normal">
             <begin><regex>(?&lt;!\$)(?:')</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
 
-        <state id="Backticks" color="#8C8C8C">
+        <state id="Backticks" color="#b80f15" inverted-color="#737373"  font-style="normal" font-weight="normal">
             <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
         </state>
         
-        <state id="Singleline Comment" color="#B50000">
+        <state id="Singleline Comment" color="#236e25" inverted-color="#ff4a4a"  font-style="normal" font-weight="normal">
             <begin><regex>#</regex></begin>
             <end><regex>[\n\r]|(?:.(?=%&gt;))</regex></end>
         </state>
         
-        <state id="Regexp" color="#C700C2">
+        <state id="Regexp" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
         	<begin><regex>(?:\/)(?=[^/\r\n]*\/)</regex></begin>
         	<end><regex>(((?&lt;!\\)(\\\\)*)|^)\/</regex></end>
         </state>
         
-        <state id="POD Comments" color="#800000">
+        <state id="POD Comments" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal">
         	<begin><regex>(?:^=begin)</regex></begin>
         	<end><regex>^=end</regex></end>
         </state>
         
-        <state id="HTML" color="#000000" background-color="none" font-weight="normal" font-style="normal">
+        <state id="HTML" color="#000000" inverted-color="#ffffff"  font-style="normal" font-weight="normal">
             <begin><string>(?:&lt;html)|(?:&lt;HTML)|(?:%&gt;)</string></begin>
             <end><regex>(?:&lt;%)|(?:&lt;%=)</regex></end>
-            <keywords id="Tags" color="#881280" useforautocomplete="no">
+            <keywords id="Tags" color="#881280" inverted-color="#ed77e5"  font-style="normal" font-weight="normal">
                 <regex>&lt;/?([^ =&gt;\n\r]+)</regex>
             </keywords>
-            <keywords id="Attributes" color="#994500" useforautocomplete="no">
+            <keywords id="Attributes" color="#994500" inverted-color="#ffab66"  font-style="normal" font-weight="normal" useforautocomplete="no">
                 <regex> ([^ &gt;\n\r]+)=</regex>
             </keywords>
-            <keywords id="Strings" color="#1A1AA6" useforautocomplete="no">
+            <keywords id="Strings"  color="#1a1aa6" inverted-color="#5959e5"  font-style="normal" font-weight="normal" useforautocomplete="no">
                 <regex>("[^"]*")</regex>
                 <regex>('[^']*')</regex>
             </keywords>
-            <keywords id="PHP Delimiter" color="#D00000" font-weight="bold" useforautocomplete="no">
+            <keywords id="PHP Delimiter" color="#d00000" inverted-color="#ff2f2f"  font-style="normal" font-weight="bold" useforautocomplete="no">
                 <regex>(&lt;%)</regex>
                 <regex>(%&gt;)</regex>
                 <regex>(&lt;%=)</regex>

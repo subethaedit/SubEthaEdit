@@ -68,7 +68,7 @@
             return;
         }
         
-        unsigned char *type = (unsigned char *)[[aMessage payload] bytes];
+        char *type = (char *)[[aMessage payload] bytes];
         if (strncmp(type, "GRT", 3) == 0) {    
             NSDictionary *dict = TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(3, [[aMessage payload] length] - 3)]);
             [self setRemoteInfos:dict];
