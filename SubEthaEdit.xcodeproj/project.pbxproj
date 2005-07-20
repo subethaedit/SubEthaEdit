@@ -365,7 +365,7 @@
 			outputFiles = (
 				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE)_vers.c",
 			);
-			script = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\nsed \"s/#PLACEHOLDER#/$REV/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
+			script = "REV=`/usr/local/bin/svn info -R \"$SRCROOT\" | awk '/^Last Changed Rev/ {print $4}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\nsed \"s/#PLACEHOLDER#/$REV$MODIFIED/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
 		};
 /* End PBXBuildRule section */
 
