@@ -13,6 +13,7 @@
     struct {
         BOOL showsChangeMarks;
     } I_flags;
+    NSMutableString *I_glyphString;
 }
 
 - (BOOL)showsChangeMarks;
