@@ -633,6 +633,16 @@ subethaedit/see/main.m -text
 subethaedit/see/see.1 -text
 subethaedit/see/see.vers -text
 subethaedit/version.plist -text
+test/Performance/CreateStringByUnicharTest/AppController.h -text
+test/Performance/CreateStringByUnicharTest/AppController.m -text
+test/Performance/CreateStringByUnicharTest/CreateStringByUnicharTest.xcodeproj/project.pbxproj -text
+test/Performance/CreateStringByUnicharTest/CreateStringByUnicharTest_Prefix.pch -text
+test/Performance/CreateStringByUnicharTest/English.lproj/InfoPlist.strings -text
+test/Performance/CreateStringByUnicharTest/English.lproj/MainMenu.nib/classes.nib -text
+test/Performance/CreateStringByUnicharTest/English.lproj/MainMenu.nib/info.nib -text
+test/Performance/CreateStringByUnicharTest/English.lproj/MainMenu.nib/keyedobjects.nib -text
+test/Performance/CreateStringByUnicharTest/Info.plist -text
+test/Performance/CreateStringByUnicharTest/main.m -text
 test/Syntax/PHP-HTML/Classes.php -text
 test/Syntax/PHP-HTML/Library.php -text
 tool/BEEPSEEKiller/AppController.h -text
