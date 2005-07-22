@@ -13,11 +13,19 @@
 @implementation TCMMMStatusProfile
 
 - (NSDictionary *)notification {
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            @"Strunzenöder Testbenutzer",@"name",
-            [NSNumber numberWithLongLong:(long long)[NSDate timeIntervalSinceReferenceDate]],@"cnt",
-            [NSData dataWithUUIDString:[[AppController sharedInstance] userID]],@"uID",
-        nil];
+    if ([[AppController sharedInstance] testNumber] == 4) {
+        return [NSDictionary dictionaryWithObjectsAndKeys:
+                @"Strunzenöder Testbenutzer",@"name",
+                [NSNumber numberWithLongLong:(long long)[NSDate timeIntervalSinceReferenceDate]],@"cnt",
+                [NSData dataWithBytes:"123456789012345678901234567890" length:5],@"uID",
+            nil];
+    } else {
+        return [NSDictionary dictionaryWithObjectsAndKeys:
+                @"Strunzenöder Testbenutzer",@"name",
+                [NSNumber numberWithLongLong:(long long)[NSDate timeIntervalSinceReferenceDate]],@"cnt",
+                [NSData dataWithUUIDString:[[AppController sharedInstance] userID]],@"uID",
+            nil];
+    }
 }
 
 - (void)sendVisibility:(BOOL)isVisible {

@@ -28,6 +28,7 @@ static AppController *S_sharedAppController=nil;
                                 @"Handshake profile: Empty GRT",
                                 @"Handshake profile: Malformed GRT",
                                 @"Status profile: Incomplete USRFUL",
+                                @"Status profile: USRCHG with malformed uID",
                                 nil];
         I_testNumber = 1;
         [self setUserID:[NSString UUIDString]];
@@ -75,7 +76,6 @@ static AppController *S_sharedAppController=nil;
     [I_BEEPSession autorelease];
     I_BEEPSession = nil;
     [self appendString:[NSString stringWithFormat:@"Test %d ended: %@\n-------------\n\n",[self testNumber],aStatusString]];
-    [self setTestNumber:[self testNumber]+1];
 }
 
 - (IBAction)stop:(id)aSender {

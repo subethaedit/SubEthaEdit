@@ -1,0 +1,417 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5E41CCF207F982D700ACF87D /* AppController.h in Resources */ = {isa = PBXBuildFile; fileRef = 5E41CCF007F982D700ACF87D /* AppController.h */; };
+		5E41CCF307F982D700ACF87D /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E41CCF107F982D700ACF87D /* AppController.m */; };
+		5E5E7A8407FFC18A00A279A8 /* TCMMMStatusProfile.h in Resources */ = {isa = PBXBuildFile; fileRef = 5EB1064107FC4B5B003283FC /* TCMMMStatusProfile.h */; };
+		5E5E7A8507FFC18B00A279A8 /* TCMMMStatusProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB1064007FC4B5B003283FC /* TCMMMStatusProfile.m */; };
+		5EB1FB8907FC37DE003283FC /* HandshakeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB1FB8707FC37DE003283FC /* HandshakeProfile.m */; };
+		5EB1FB8A07FC37DE003283FC /* HandshakeProfile.h in Resources */ = {isa = PBXBuildFile; fileRef = 5EB1FB8807FC37DE003283FC /* HandshakeProfile.h */; };
+		5EC2C9FC0891537800101B21 /* TCMBEEP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC2C9EA0891533400101B21 /* TCMBEEP.framework */; };
+		5EC2C9FD0891537B00101B21 /* TCMFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC2C9F10891534400101B21 /* TCMFoundation.framework */; };
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		4A9504CCFFE6A4B311CA0CBA /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		4A9504CDFFE6A4B311CA0CBA /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		5EC2C9E90891533400101B21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5EC2C9E20891533400101B21 /* TCMBEEP.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* TCMBEEP.framework */;
+			remoteInfo = TCMBEEP;
+		};
+		5EC2C9F00891534400101B21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5EC2C9EB0891534400101B21 /* TCMFoundation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* TCMFoundation.framework */;
+			remoteInfo = TCMFoundation;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5EA63E5707F08456009BD76C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* BEEPSEEKiller_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEEPSEEKiller_Prefix.pch; sourceTree = "<group>"; };
+		5E41CCF007F982D700ACF87D /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		5E41CCF107F982D700ACF87D /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		5EB1063F07FC4B5B003283FC /* SessionProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SessionProfile.m; path = Profiles/SessionProfile.m; sourceTree = "<group>"; };
+		5EB1064007FC4B5B003283FC /* TCMMMStatusProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMMMStatusProfile.m; path = Profiles/TCMMMStatusProfile.m; sourceTree = "<group>"; };
+		5EB1064107FC4B5B003283FC /* TCMMMStatusProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMMStatusProfile.h; path = Profiles/TCMMMStatusProfile.h; sourceTree = "<group>"; };
+		5EB1064207FC4B5B003283FC /* SessionProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SessionProfile.h; path = Profiles/SessionProfile.h; sourceTree = "<group>"; };
+		5EB1FB8707FC37DE003283FC /* HandshakeProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = HandshakeProfile.m; path = Profiles/HandshakeProfile.m; sourceTree = "<group>"; };
+		5EB1FB8807FC37DE003283FC /* HandshakeProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = HandshakeProfile.h; path = Profiles/HandshakeProfile.h; sourceTree = "<group>"; };
+		5EC2C9E20891533400101B21 /* TCMBEEP.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TCMBEEP.xcodeproj; path = TCMBEEP/TCMBEEP.xcodeproj; sourceTree = "<group>"; };
+		5EC2C9EB0891534400101B21 /* TCMFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TCMFoundation.xcodeproj; path = TCMFoundation/TCMFoundation.xcodeproj; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* BEEPSEEKiller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BEEPSEEKiller.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EC2C9FD0891537B00101B21 /* TCMFoundation.framework in Frameworks */,
+				5EC2C9FC0891537800101B21 /* TCMBEEP.framework in Frameworks */,
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5E41CCF007F982D700ACF87D /* AppController.h */,
+				5E41CCF107F982D700ACF87D /* AppController.m */,
+				5EB1FB8607FC378E003283FC /* Profiles */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* BEEPSEEKiller.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* BEEPSEEKiller */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				5EC2C9E20891533400101B21 /* TCMBEEP.xcodeproj */,
+				5EC2C9EB0891534400101B21 /* TCMFoundation.xcodeproj */,
+			);
+			name = BEEPSEEKiller;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* BEEPSEEKiller_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5EB1FB8607FC378E003283FC /* Profiles */ = {
+			isa = PBXGroup;
+			children = (
+				5EB1FB8807FC37DE003283FC /* HandshakeProfile.h */,
+				5EB1FB8707FC37DE003283FC /* HandshakeProfile.m */,
+				5EB1064207FC4B5B003283FC /* SessionProfile.h */,
+				5EB1063F07FC4B5B003283FC /* SessionProfile.m */,
+				5EB1064107FC4B5B003283FC /* TCMMMStatusProfile.h */,
+				5EB1064007FC4B5B003283FC /* TCMMMStatusProfile.m */,
+			);
+			name = Profiles;
+			sourceTree = "<group>";
+		};
+		5EC2C9E30891533400101B21 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5EC2C9EA0891533400101B21 /* TCMBEEP.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5EC2C9EC0891534400101B21 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5EC2C9F10891534400101B21 /* TCMFoundation.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* BEEPSEEKiller */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5EC2C9D8089152BE00101B21 /* Build configuration list for PBXNativeTarget "BEEPSEEKiller" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				5EA63E5707F08456009BD76C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = BEEPSEEKiller_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = BEEPSEEKiller;
+				WRAPPER_EXTENSION = app;
+			};
+			dependencies = (
+			);
+			name = BEEPSEEKiller;
+			productInstallPath = "$(HOME)/Applications";
+			productName = BEEPSEEKiller;
+			productReference = 8D1107320486CEB800E47090 /* BEEPSEEKiller.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 5EC2C9DC089152BE00101B21 /* Build configuration list for PBXProject "BEEPSEEKiller" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				4A9504CCFFE6A4B311CA0CBA /* Development */,
+				4A9504CDFFE6A4B311CA0CBA /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* BEEPSEEKiller */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5EC2C9E30891533400101B21 /* Products */;
+					ProjectRef = 5EC2C9E20891533400101B21 /* TCMBEEP.xcodeproj */;
+				},
+				{
+					ProductGroup = 5EC2C9EC0891534400101B21 /* Products */;
+					ProjectRef = 5EC2C9EB0891534400101B21 /* TCMFoundation.xcodeproj */;
+				},
+			);
+			targets = (
+				8D1107260486CEB800E47090 /* BEEPSEEKiller */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		5EC2C9EA0891533400101B21 /* TCMBEEP.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = TCMBEEP.framework;
+			remoteRef = 5EC2C9E90891533400101B21 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5EC2C9F10891534400101B21 /* TCMFoundation.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = TCMFoundation.framework;
+			remoteRef = 5EC2C9F00891534400101B21 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				5E41CCF207F982D700ACF87D /* AppController.h in Resources */,
+				5EB1FB8A07FC37DE003283FC /* HandshakeProfile.h in Resources */,
+				5E5E7A8407FFC18A00A279A8 /* TCMMMStatusProfile.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				5E41CCF307F982D700ACF87D /* AppController.m in Sources */,
+				5EB1FB8907FC37DE003283FC /* HandshakeProfile.m in Sources */,
+				5E5E7A8507FFC18B00A279A8 /* TCMMMStatusProfile.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5EC2C9D9089152BE00101B21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = BEEPSEEKiller_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = BEEPSEEKiller;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		5EC2C9DA089152BE00101B21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = BEEPSEEKiller_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = BEEPSEEKiller;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		5EC2C9DD089152BE00101B21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		5EC2C9DE089152BE00101B21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5EC2C9D8089152BE00101B21 /* Build configuration list for PBXNativeTarget "BEEPSEEKiller" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5EC2C9D9089152BE00101B21 /* Debug */,
+				5EC2C9DA089152BE00101B21 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5EC2C9DC089152BE00101B21 /* Build configuration list for PBXProject "BEEPSEEKiller" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5EC2C9DD089152BE00101B21 /* Debug */,
+				5EC2C9DE089152BE00101B21 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

@@ -647,7 +647,7 @@ test/Syntax/PHP-HTML/Classes.php -text
 test/Syntax/PHP-HTML/Library.php -text
 tool/BEEPSEEKiller/AppController.h -text
 tool/BEEPSEEKiller/AppController.m -text
-tool/BEEPSEEKiller/BEEPSEEKiller.xcode/project.pbxproj -text
+tool/BEEPSEEKiller/BEEPSEEKiller.xcodeproj/project.pbxproj -text
 tool/BEEPSEEKiller/BEEPSEEKiller_Prefix.pch -text
 tool/BEEPSEEKiller/English.lproj/InfoPlist.strings -text
 tool/BEEPSEEKiller/English.lproj/MainMenu.nib/classes.nib -text
