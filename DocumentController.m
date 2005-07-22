@@ -430,6 +430,16 @@ static NSString *tempFileName() {
                 DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
                 [properties setObject:[mode documentModeIdentifier] forKey:@"mode"];
             }
+            if ([properties objectForKey:@"encoding"] == nil && documentModeIdentifierArgument != nil) {
+                DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForName:documentModeIdentifierArgument];
+                unsigned int encodingNumber = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+                if (encodingNumber < SmallestCustomStringEncoding) {
+                    NSString *IANAName = (NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encodingNumber));
+                    if (IANAName != nil) {
+                        [properties setObject:IANAName forKey:@"encoding"];
+                    }
+                }
+            }            
             [document setScriptingProperties:properties];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
             [(PlainTextDocument *)document setShouldSelectModeOnSave:NO];
