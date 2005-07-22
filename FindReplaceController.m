@@ -647,7 +647,7 @@ static FindReplaceController *sharedInstance=nil;
         [O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
         [O_statusTextField setHidden:NO];
         NSBeep();
-        #warning: "Just leaking the findPool"
+        [findPool release];
         return NO;
     }
     
