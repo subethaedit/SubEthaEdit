@@ -132,10 +132,12 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
                         currentRange.length = currentRange.length - stateRange.length;
                     } else {
                         NSLog(@"ERROR: Missing EndsWithRegex tag.");
+                        #warning "Just leaking the syntaxPool"
                         return;
                     }
                 }  else {
                     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"ERROR: Can't lookup state. This is very fishy.");
+                    #warning "Just leaking the syntaxPool"
                     return;
                 }
         } else { // Currently not in a state -> Search next.
