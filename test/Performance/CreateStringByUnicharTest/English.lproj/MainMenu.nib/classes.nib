@@ -4,10 +4,20 @@
             ACTIONS = {testIt = id; }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"O_numberOfStringsTextField" = NSTextField; "O_outputTextView" = NSTextView; }; 
+            OUTLETS = {
+                "O_numberOfStringsTextField" = NSTextField; 
+                "O_outputTextView" = NSTextView; 
+                "O_testView" = TestView; 
+            }; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {testIt = id; }; 
+            CLASS = TestView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }
     ); 
     IBVersion = 1; 
 }

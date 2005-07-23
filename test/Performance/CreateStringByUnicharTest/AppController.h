@@ -9,11 +9,25 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface AppController : NSObject {
-    IBOutlet NSTextView *O_outputTextView;
-    IBOutlet NSTextField *O_numberOfStringsTextField;
+@interface TestView : NSView {
+    BOOL I_shouldDraw;
+    NSMutableDictionary *I_attributes;
+    NSTextStorage *I_textStorage;
+    NSLayoutManager *I_layoutManager;
+    NSTextContainer *I_textContainer;
 }
 
 - (IBAction)testIt:(id)aSender;
 
 @end
+
+@interface AppController : NSObject {
+    IBOutlet NSTextView *O_outputTextView;
+    IBOutlet NSTextField *O_numberOfStringsTextField;
+    IBOutlet TestView *O_testView;
+}
+
+- (IBAction)testIt:(id)aSender;
+
+@end
+
