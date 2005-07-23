@@ -582,7 +582,7 @@
 		1428840306E33DA000FB57C5 /* MoreUNIX.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MoreUNIX.h; path = MoreIsBetter/MoreUNIX.h; sourceTree = "<group>"; };
 		1428841006E33DE900FB57C5 /* SubEthaEditHelperToolTemplate */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SubEthaEditHelperToolTemplate; sourceTree = BUILT_PRODUCTS_DIR; };
 		1428848806E33EC200FB57C5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		142D47DB07283ED500B00725 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
+		142D47DB07283ED500B00725 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
 		14352D00065391F800C9685E /* AboutPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutPanelController.h; sourceTree = "<group>"; };
 		14352D01065391F800C9685E /* AboutPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutPanelController.m; sourceTree = "<group>"; };
 		14352D2606539BCE00C9685E /* SetupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupController.h; sourceTree = "<group>"; };

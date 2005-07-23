@@ -1,3 +1,43 @@
+SubEthaEdit 2.2
+===============
+
+Additions/New Features:
+- Universal Binaries
+- Dragging text on app icon creates untitled document with dragged text. (r1095)
+- added my proposed extension adding to unsaved documents (I like it very much ;-) ) (r1113)
+- HYR-605. (r1116-r1119)
+
+Changes:
+- made proxy invitation window to "orderFrontRegardless" to get more attention (r1139)
+- newly joined windows now become the key window on finished document
+  transmission, if they are in front (That was my deliberate decision, that I
+  don't want windows to take key while i may be doing other things) (r1138)
+
+Fixes:
+- Fixed [#HYR-573]: Invitation windows capture transient documents. (r1084)
+- This fixes a Syntax Highlighter bug, where the Highlighter did not recognize 
+  when a state end was introduced midstream in a state but not followed by a 
+  state begin, mainly while in states with a certain kind of state/end
+  combination. This poped up while investigating and subsequently fixing HYR-410
+  (broken Preprocessor state endregex in C derivates). (r1086)
+- fixed validating of the drawer context menu (I believe / hope the order of
+  calling changed from panther to tiger... otherwise it wasn't working since
+  quite a long time....) (r1092)
+- fixed mark krochmal bug (windows that are created under the dock) (r1095)
+- fixed bug where files created with "new->modename" weren't resized to the
+  correct size, fixed the same thing when opening new empty files via see tool (r1095)
+- fixed HYR-519 - forgot to invalidate the typing attributes on paragraph attribute change (r1096)
+- Fixed HYR-580 - 'see' CLI tool does not set modes properly (r1098)
+- fixed HYR-600 (r1102)
+- fixed HYR-591 (r1102)
+- fixed HYR-579: Behaviour of maximize button on title bar (r1103)
+- this fixes HYR-597: 10.4: doubleclick and autocomplete includes : in words (r1104)
+- Fixed #[HYR-602]: connecting to see://<directip> only works once. (r1110)
+- Fixed #[HYR-604]: mode guessing is canceled if the first save is canceled. (r1111)
+- fixed HYR-609: Double Quotes in HTML should be replaced by &quot; (r1130)
+- Fixed bug mentioned in commit message r1095. Custom file encodings in modes
+  weren't respected when new file were created using the see tool. (r1131)
+
 
 SubEthaEdit 2.1.2
 =================
