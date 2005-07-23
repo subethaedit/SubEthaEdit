@@ -244,7 +244,13 @@ enum {
     } else {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionDidReceiveContentNotification object:[(PlainTextDocument *)[self document] session]];
         [O_progressIndicator stopAnimation:self];
-        [window setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+        PlainTextEditor *editor=[I_plainTextEditors objectAtIndex:0];
+        [window setContentView:[editor editorView]];
+        [[editor textView] setSelectedRange:NSMakeRange(0,0)];
+        [[self window] makeFirstResponder:[editor textView]];
+        if ([self window]==[[[NSApp orderedWindows] objectEnumerator] nextObject]) {
+            [[self window] makeKeyWindow];
+        }
     }
 }
 
