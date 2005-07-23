@@ -69,6 +69,9 @@
         [O_bottomDecisionView setHidden:YES];
     }
     [self update];
+    if ([I_session wasInvited]) {
+        [[self window] orderFrontRegardless];
+    }
 }
 
 - (IBAction)acceptAction:(id)aSender {
