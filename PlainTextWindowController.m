@@ -959,10 +959,6 @@ enum {
         }
     }
 
-    if (session && [session isServer] && ![[session filename] isEqualToString:[document preparedDisplayName]]) {
-        displayName = [displayName stringByAppendingFormat:@" (%@)", [session filename]];
-    }
-    
     if (session && ![session isServer]) {
         displayName = [displayName stringByAppendingFormat:@" - %@", [[[TCMMMUserManager sharedInstance] userForUserID:[session hostID]] name]];
         if ([document fileName]) {
