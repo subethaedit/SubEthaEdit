@@ -538,7 +538,19 @@ enum {
         // when I_data entry with URL exists, select entry
         int index = [self indexOfItemWithURLString:URLString];
         if (index != -1) {
-            if (!isRetrying) {
+            NSMutableDictionary *item = [I_data objectAtIndex:index];
+            BOOL shouldReconnect = NO;
+            if ([item objectForKey:@"failed"]) {
+                DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
+                [item removeObjectForKey:@"BEEPSession"];
+                [item removeObjectForKey:@"UserID"];
+                [item removeObjectForKey:@"Sessions"];
+                [item removeObjectForKey:@"failed"];
+                shouldReconnect = YES;           
+            }
+            
+            shouldReconnect = isRetrying || shouldReconnect;
+            if (!shouldReconnect) {
                 int row = [O_browserListView rowForItem:index child:-1];
                 [O_browserListView selectRow:row byExtendingSelection:NO];
             } else {
