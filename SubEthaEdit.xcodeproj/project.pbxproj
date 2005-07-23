@@ -459,7 +459,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
 		14F45E9C06DBB84B0048F2F8 /* PBXContainerItemProxy */ = {
@@ -3098,7 +3098,7 @@
 				DiskImageSizeInMB = 20;
 				DiskImageVolumeName = SubEthaEdit;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				OPTIMIZATION_CFLAGS = "";
+				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -3120,7 +3120,7 @@
 				DiskImageSizeInMB = 20;
 				DiskImageVolumeName = SubEthaEdit;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OPTIMIZATION_CFLAGS = "";
+				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -3140,7 +3140,7 @@
 				DiskImageProduct = SubEthaEdit.app;
 				DiskImageSizeInMB = 20;
 				DiskImageVolumeName = SubEthaEdit;
-				OPTIMIZATION_CFLAGS = "";
+				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -3157,7 +3157,7 @@
 		14F0146B088EC6BD00FE6B14 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OPTIMIZATION_CFLAGS = "";
+				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";

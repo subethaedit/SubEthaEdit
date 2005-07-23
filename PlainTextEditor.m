@@ -863,6 +863,7 @@
     LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
     [layoutManager   setShowsInvisibleCharacters:aFlag];
     [[self document] setShowInvisibleCharacters:aFlag];
+    [I_textView setNeedsDisplay:YES];
 }
 
 - (BOOL)showsInvisibleCharacters {
