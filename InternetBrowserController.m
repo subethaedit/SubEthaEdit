@@ -278,6 +278,20 @@ enum {
     kParticipantStateMask = 4
 };
 
+
+#pragma mark -
+#pragma mark ### Menu validation ###
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL selector = [menuItem action];
+    if (selector == @selector(join:) ||
+        selector == @selector(reconnect:) ||
+        selector == @selector(clear:)) {
+        return [menuItem isEnabled];
+    }
+    return YES;
+}
+
 - (void)menuNeedsUpdate:(NSMenu *)menu {
     
     if ([menu isEqual:[O_statusPopUpButton menu]]) {
@@ -454,6 +468,8 @@ enum {
         return;
     }
 }
+
+#pragma mark -
 
 - (void)connectToAddress:(NSString *)address {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"connect to address: %@", address);
