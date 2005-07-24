@@ -3843,8 +3843,8 @@ static NSString *S_measurementUnits;
             NSRange oldRange=[selectionOperation selectedRange];
             [transformator transformOperation:selectionOperation serverOperation:textOp];
             if (!NSEqualRanges(oldRange,[selectionOperation selectedRange])) {
-                [self invalidateLayoutForRange:oldRange];
-                [self invalidateLayoutForRange:[selectionOperation selectedRange]];
+//                [self invalidateLayoutForRange:oldRange];
+//                [self invalidateLayoutForRange:[selectionOperation selectedRange]];
                 didChangeAParticipant=YES;
             }
         }
