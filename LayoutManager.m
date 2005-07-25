@@ -74,7 +74,7 @@ static NSString *S_specialGlyphs[11];
 - (void)drawBorderedMarksWithColor:(NSColor *)aColor atRects:(NSRectArray)aRectArray rectCount:(unsigned int)rectCount {
 
     if (rectCount == 0) return;
-    NSBezierPath *markPath = [NSBezierPath bezierPath];
+    NSBezierPath *markPath = [NSBezierPath new];
     NSRect topRect = aRectArray[0];
     float left;
     float x;
@@ -140,6 +140,7 @@ static NSString *S_specialGlyphs[11];
     NSColor *borderColor = [aColor shadowWithLevel:0.3];
     [borderColor set];
     [markPath stroke];
+    [markPath release];
 }
 
 
@@ -154,11 +155,11 @@ static NSString *S_specialGlyphs[11];
     [caretPath closePath];
     [aColor set];
 
-    BOOL shouldAntialias = [[NSGraphicsContext currentContext] shouldAntialias];
+//    BOOL shouldAntialias = [[NSGraphicsContext currentContext] shouldAntialias];
 //    [[NSGraphicsContext currentContext] setShouldAntialias:NO];
     [caretPath fill];
 //    [caretPath stroke];
-    [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
+//    [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
 }
 
 
@@ -212,10 +213,7 @@ static NSString *S_specialGlyphs[11];
                     if (contentsEndIndex>NSMaxRange(attributeRange)) contentsEndIndex=NSMaxRange(attributeRange);
                     unsigned rectCount;
                     NSRectArray rectArray = [self rectArrayForCharacterRange:NSMakeRange(startIndex,contentsEndIndex-startIndex) withinSelectedCharacterRange:NSMakeRange(NSNotFound,0) inTextContainer:container rectCount:&rectCount];
-                    unsigned i;
-                    for (i=0;i<rectCount;i++) {
-                        NSRectFill(rectArray[i]);
-                    }
+                    NSRectFillList(rectArray,rectCount);
                 }
             }
             position=NSMaxRange(attributeRange);

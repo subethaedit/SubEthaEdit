@@ -871,10 +871,7 @@
 }
 
 - (IBAction)toggleShowInvisibles:(id)aSender {
-    LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
-    BOOL newSetting=![layoutManager showsInvisibleCharacters];
-    [layoutManager   setShowsInvisibleCharacters:newSetting];
-    [[self document] setShowInvisibleCharacters:newSetting];
+    [self setShowsInvisibleCharacters:![self showsInvisibleCharacters]];
 }
 
 - (void)setWrapsLines:(BOOL)aFlag {
