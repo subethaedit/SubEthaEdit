@@ -388,6 +388,8 @@
 		14435FE608557A7000593BE6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -400,6 +402,8 @@
 					ppc,
 					i386,
 				);
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -408,6 +412,8 @@
 		14435FE808557A7000593BE6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -443,6 +449,8 @@
 					ppc,
 					i386,
 				);
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				UNSTRIPPED_PRODUCT = YES;
