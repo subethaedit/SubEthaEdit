@@ -1,85 +1,85 @@
+
 SubEthaEdit 2.2
 ===============
 
 Additions/New Features:
-- Universal Binaries
-- Dragging text on app icon creates untitled document with dragged text. (r1095)
-- added my proposed extension adding to unsaved documents (I like it very much ;-) ) (r1113)
-- HYR-605. (r1116-r1119)
+- Universal Binary - SubEthaEdit now runs on Intel Macs natively
+- Dragging text on app icon creates untitled document with dragged text.
+- Extension of Untitled documents is guessed by using its mode
+- "Find All" now shows the selected match in the document
+- It's now possible to copy selected lines from a "Find All" window
 
 Changes:
-- made proxy invitation window to "orderFrontRegardless" to get more attention (r1139)
-- newly joined windows now become the key window on finished document
-  transmission, if they are in front (That was my deliberate decision, that I
-  don't want windows to take key while i may be doing other things) (r1138)
+- Invitation windows are now more prominent.
+- Joined documents now get focus after the initial transfer is completed.
 
 Fixes:
-- Fixed [#HYR-573]: Invitation windows capture transient documents. (r1084)
-- This fixes a Syntax Highlighter bug, where the Highlighter did not recognize 
+- Better keyboard navigation in "Find All"
+- Fixed a bug in syntax highlighter, where the highlighter did not recognize 
   when a state end was introduced midstream in a state but not followed by a 
-  state begin, mainly while in states with a certain kind of state/end
-  combination. This poped up while investigating and subsequently fixing HYR-410
-  (broken Preprocessor state endregex in C derivates). (r1086)
-- fixed validating of the drawer context menu (I believe / hope the order of
-  calling changed from panther to tiger... otherwise it wasn't working since
-  quite a long time....) (r1092)
-- fixed mark krochmal bug (windows that are created under the dock) (r1095)
-- fixed bug where files created with "new->modename" weren't resized to the
-  correct size, fixed the same thing when opening new empty files via see tool (r1095)
-- fixed HYR-519 - forgot to invalidate the typing attributes on paragraph attribute change (r1096)
-- Fixed HYR-580 - 'see' CLI tool does not set modes properly (r1098)
-- fixed HYR-600 (r1102)
-- fixed HYR-591 (r1102)
-- fixed HYR-579: Behaviour of maximize button on title bar (r1103)
-- this fixes HYR-597: 10.4: doubleclick and autocomplete includes : in words (r1104)
-- Fixed #[HYR-602]: connecting to see://<directip> only works once. (r1110)
-- Fixed #[HYR-604]: mode guessing is canceled if the first save is canceled. (r1111)
-- fixed HYR-609: Double Quotes in HTML should be replaced by &quot; (r1130)
-- Fixed bug mentioned in commit message r1095. Custom file encodings in modes
-  weren't respected when new file were created using the see tool. (r1131)
-
+  state begin, mainly while in states with a certain kind of state/end 
+  combination.
+- Fixed validation of drawer context menu and browser context menus.
+- Windows are no longer created under the dock in certain cases.
+- fixed bug where files created with "new->modename" weren't resized to the 
+  correct size, fixed the same thing when opening new empty files via see tool 
+  (r1095)
+- see CLI tool now uses the correct modes when given multiple files.
+- Fixed the "Wrap/Wrap lines" functionality to retain its setting.
+- Improved PHP function recognition.
+- Fixed maximize button to behave according to HIG.
+- Fixed word boundaries for autocomplete and selection to include colon.
+- Fixed various see:// url connection issues.
+- Fixed mode guessing upon first save to work if initial save is canceled.
+- XHTML export and copy now exports quotes as entity.
+- see CLI tool now conforms to the mode's encoding preference.
+- see CLI tool and "New/Mode" now conforms to the mode's window size 
+  preference.
+- Improved speed of Show Invisibles significantly.
+- Fixed a bug in Perl.mode concerning POD comments.
+- Added more classes and constants to Objective-C.mode
+- Fixed a selection display/redraw bug with Tiger.
 
 SubEthaEdit 2.1.2
-=================
+===============
 
-Additions:
+Additions/New Features:
 - Added Conference Kit.
-- Added alternate menu item for 'Switch Mode' called 'Show In Finder', which
+- Added alternate menu item for 'Switch Mode' called 'Show In Finder', which 
   reveals the choosen mode in the Finder.
 - Added change logs to the mode bundles.
 - Added submenu to 'New', new files now can be created in a specific mode.
 
 Fixes:
-- Fixed several issues where bad Address Book entries caused crashes or
+- Fixed several issues where bad Address Book entries caused crashes or 
   exceptions at startup.
 - Improved overall protocol stability.
-- Fixed an issue where empty mode bundles caused an exception at startup,
+- Fixed an issue where empty mode bundles caused an exception at startup, 
   rendering SubEthaEdit unusable.
-- Fixed a bug in 'Save a Copy As...' where the selected encoding was not used
+- Fixed a bug in 'Save a Copy As...' where the selected encoding was not used 
   to save the copy.
-- Fixed a bug where externally changed documents weren't set modified after
+- Fixed a bug where externally changed documents weren't set modified after 
   choosing to keep the SubEthaEdit version.
-- Fixed an issue where the mode of documents created using see's pipe-in was
+- Fixed an issue where the mode of documents created using see's pipe-in was 
   not guessed on save.
-- Fixed a bug where the mode of documents created using the see tool was guessed
-  again on save.
-- Fixed a bug where documents which can be opened via the Help menu were opened
+- Fixed a bug where the mode of documents created using the see tool was 
+  guessed again on save.
+- Fixed a bug where documents which can be opened via the Help menu were opened 
   more than once.
 - Fixed a bug where the scope of a 'Find All' operation wasn't respected.
-- Fixed a bug where the matching brackets were only highlighted when moving the
+- Fixed a bug where the matching brackets were only highlighted when moving the 
   cursor using the arrow keys.
-- Fixed a bug where the 'Shift Left' command produced a crash when the editor
+- Fixed a bug where the 'Shift Left' command produced a crash when the editor 
   used tabs and activated indenting new lines.
-- Fixed a bug where HTML Export didn't export style and weight if current font
+- Fixed a bug where HTML Export didn't export style and weight if current font 
   was synthesized.
-- Fixed an issue where the activiation of syntax highlighting in the print
+- Fixed an issue where the activiation of syntax highlighting in the print 
   options also activated it in the editor.
-- Fixed various issues which occurred while using autocompletion in Blockedit
+- Fixed various issues which occurred while using autocompletion in Blockedit 
   mode.
 
-
 SubEthaEdit 2.1.1
-=================
+===============
 
 Changes:
 - Changed export dialog to disable according checkboxes, if "Participants" is 
@@ -91,7 +91,6 @@ Fixes:
   as an administrator in SubEthaEdit.
 - Printing panel now displays localized separators for margins.
 - Python mode now recognizes abbreviated class declarations.
-
 
 SubEthaEdit 2.1
 ===============
