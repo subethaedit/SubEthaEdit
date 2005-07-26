@@ -511,7 +511,8 @@ enum {
         const char *ipAddress = [hostAddress UTF8String];
         struct addrinfo hints;
         struct addrinfo *result = NULL;
-        
+        BOOL isIPv6Address = NO;
+
         memset(&hints, 0, sizeof(hints));
         hints.ai_flags    = AI_NUMERICHOST;
         hints.ai_family   = PF_UNSPEC;
@@ -525,6 +526,7 @@ enum {
         err = getaddrinfo(ipAddress, portString, &hints, &result);
         if (err == 0) {
             addressData = [NSData dataWithBytes:(UInt8 *)result->ai_addr length:result->ai_addrlen];
+            isIPv6Address = result->ai_family == PF_INET6;
             DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"getaddrinfo succeeded with addr: %@", [NSString stringWithAddressData:addressData]);
             freeaddrinfo(result);
         } else {
@@ -533,8 +535,13 @@ enum {
         if (portString) {
             free(portString);
         }
-                
-        NSString *URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], hostAddress, port];
+        
+        NSString *URLString = nil;
+        if (isIPv6Address) {
+            URLString = [NSString stringWithFormat:@"%@://[%@]:%d", [url scheme], hostAddress, port];
+        } else {
+            URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], hostAddress, port];
+        }
         
         // when I_data entry with URL exists, select entry
         int index = [self indexOfItemWithURLString:URLString];
