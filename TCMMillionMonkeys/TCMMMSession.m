@@ -626,6 +626,57 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     }
 }
 
+- (BOOL)isAddressedByURL:(NSURL *)aURL {
+    NSString *URLPath = [aURL path];
+    NSString *path = nil;
+    if (URLPath != nil) {
+        path = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)URLPath, CFSTR(""));
+        [path autorelease];
+    }
+
+    if (path == nil || [path length] == 0) {
+        return NO;
+    }
+    
+    NSString *lastPathComponent = [path lastPathComponent];
+    if ([lastPathComponent isEqualToString:[self sessionID]]) {
+        return YES;
+    }
+    
+    
+    NSString *urlQuery = [aURL query];
+    NSString *query;
+    NSString *documentId = nil;
+    if (urlQuery != nil) {
+        query = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR(""));
+        [query autorelease];
+        NSArray *components = [query componentsSeparatedByString:@"&"];
+        NSEnumerator *enumerator = [components objectEnumerator];
+        NSString *item;
+        while ((item = [enumerator nextObject])) {
+            NSArray *keyValue = [item componentsSeparatedByString:@"="];
+            if ([keyValue count] == 2) {
+                if ([[keyValue objectAtIndex:0] isEqualToString:@"sessionID"]) {
+                    documentId = [keyValue objectAtIndex:1];
+                }
+                break;
+            }
+        }
+    }
+    
+
+    if ([documentId isEqualToString:[self sessionID]]) {
+        return YES;
+    }
+    
+
+    if ([lastPathComponent compare:[[self filename] lastPathComponent]] == NSOrderedSame) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 #pragma mark -
 
 - (NSDictionary *)TCM_sessionInformationForUserID:(NSString *)userID 

@@ -130,6 +130,8 @@ typedef enum TCMMMSessionClientState {
 - (void)startProcessing;
 - (void)pauseProcessing;
 
+- (BOOL)isAddressedByURL:(NSURL *)aURL;
+
 @end
 
 
