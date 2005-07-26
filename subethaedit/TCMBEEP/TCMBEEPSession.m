@@ -862,6 +862,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
 {
+    NSAutoreleasePool *pool=[NSAutoreleasePool new];
     TCMBEEPSession *session = (TCMBEEPSession *)clientCallBackInfo;
 
     switch(type)
@@ -890,12 +891,14 @@ void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *cl
             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream ??");
             break;
     }
+    [pool release];
 }
 
 void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
 {
+    NSAutoreleasePool *pool=[NSAutoreleasePool new];
     TCMBEEPSession *session = (TCMBEEPSession *)clientCallBackInfo;
-    
+
     switch(type)
     {
         case kCFStreamEventOpenCompleted: {
@@ -922,5 +925,6 @@ void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *
             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream ??");
             break;
     }
+    [pool release];
 }
 
