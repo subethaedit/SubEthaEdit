@@ -3052,6 +3052,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -3064,6 +3066,8 @@
 					ppc,
 					i386,
 				);
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -3076,6 +3080,8 @@
 					ppc,
 					i386,
 				);
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -3085,6 +3091,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
