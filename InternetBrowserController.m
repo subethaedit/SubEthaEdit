@@ -37,8 +37,7 @@ enum {
     BrowserContextMenuTagEmail,
     BrowserContextMenuTagShowDocument,
     BrowserContextMenuTagCancelConnection,
-    BrowserContextMenuTagReconnect,
-    BrowserContextMenuTagClear
+    BrowserContextMenuTagReconnect
 };
 
 @interface InternetBrowserController (InternetBrowserControllerPrivateAdditions)
@@ -101,12 +100,6 @@ static InternetBrowserController *sharedInstance = nil;
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuReconnect", @"Reconnect entry for Browser context menu") action:@selector(reconnect:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagReconnect];        
-
-        [I_contextMenu addItem:[NSMenuItem separatorItem]];
-
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuClear", @"Clear entry for Browser context menu") action:@selector(clear:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:BrowserContextMenuTagClear];
         
         [I_contextMenu setDelegate:self];        
 
@@ -286,7 +279,8 @@ enum {
     SEL selector = [menuItem action];
     if (selector == @selector(join:) ||
         selector == @selector(reconnect:) ||
-        selector == @selector(clear:)) {
+        selector == @selector(clear:) ||
+        selector == @selector(cancelConnection:)) {
         return [menuItem isEnabled];
     }
     return YES;
@@ -333,14 +327,9 @@ enum {
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
         [item setEnabled:NO];
-        item = [menu itemWithTag:BrowserContextMenuTagClear];
-        [item setEnabled:NO];
         return;
     }
-    
-    item = [menu itemWithTag:BrowserContextMenuTagClear];
-    [item setEnabled:NO];
-    
+        
     if ([userSet count] == 0 && [documentSet count] == 0) {
         item = [menu itemWithTag:BrowserContextMenuTagJoin];
         [item setEnabled:NO];
@@ -354,10 +343,6 @@ enum {
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
         [item setEnabled:NO];
-        if ([menu isEqual:[O_actionPullDownButton menu]]) {
-            item = [menu itemWithTag:BrowserContextMenuTagClear];
-            [item setEnabled:YES];
-        }
     }
     
     if ([userSet count] > 0) {
@@ -808,6 +793,7 @@ enum {
             [status isEqualToString:HostEntryStatusSessionAtEnd] ||
             [status isEqualToString:HostEntryStatusCancelled]) {
             isValid = YES;
+            break;
         }
     }
     

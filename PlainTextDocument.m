@@ -3844,7 +3844,11 @@ static NSString *S_measurementUnits;
             [transformator transformOperation:selectionOperation serverOperation:textOp];
             if (!NSEqualRanges(oldRange,[selectionOperation selectedRange])) {
 //                [self invalidateLayoutForRange:oldRange];
-//                [self invalidateLayoutForRange:[selectionOperation selectedRange]];
+                if (TouchingRanges([selectionOperation selectedRange], 
+                    [[aTextStorage string] lineRangeForRange:NSMakeRange([textOp affectedCharRange].location,
+                                    [[textOp replacementString] length])])) {
+                    [self invalidateLayoutForRange:[selectionOperation selectedRange]];
+                }
                 didChangeAParticipant=YES;
             }
         }
