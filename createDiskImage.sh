@@ -63,6 +63,16 @@ osascript -e "tell application \"Finder\"" \
 echo "...done"
 echo
 
+echo -n "Finder syncs .DS_Store "
+LIMIT=10
+for ((a=1; a <= LIMIT ; a++))
+do
+  echo -n .
+  sleep 1
+done
+echo
+echo
+
 echo "Unmounting disk image..."
 hdiutil eject -quiet ${hdidOutput}
 echo "...done"
