@@ -133,6 +133,7 @@
         } else {
             while ((message = [messages nextObject])) {
                 // transform now
+                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"transforming with: %@", message);
                 [transformator transformOperation:[message operation] serverOperation:[aMessage operation]];
                 [message incrementNumberOfServerMessages];
             }
@@ -184,6 +185,7 @@
     
     // wrap operation in message and put it in the buffer
     TCMMMMessage *message = [[[TCMMMMessage alloc] initWithOperation:anOperation numberOfClient:I_numberOfClientMessages numberOfServer:I_numberOfServerMessages] autorelease];
+    DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"buffering Message: %@", message);
     if ([self isServer]) {
         I_numberOfServerMessages++;
     } else {

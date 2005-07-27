@@ -270,8 +270,12 @@
                 [delegate profile:self didReceiveSessionContent:content];
             }
             DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"content: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
-            [self setContentHasBeenExchanged:YES];
             I_flags.isTrackingSesConFrames=NO;
+            TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
+            [[self channel] sendMessage:[message autorelease]];
+            // do this afterwards, so the MMMessages are sent after the Acknowledging RPY
+            [self setContentHasBeenExchanged:YES];
+            return;
         } else if (strncmp(type, "USRFUL", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received full user.");
             TCMMMUser *user=[TCMMMUser userWithBencodedUser:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
@@ -299,6 +303,7 @@
         
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
         [[self channel] sendMessage:[message autorelease]];
+        
     } else if ([aMessage isRPY]) {
         if ([[aMessage payload] length] == 0) {
             if (I_numberOfUnacknowledgedSessconMSG==[aMessage messageNumber]) {
