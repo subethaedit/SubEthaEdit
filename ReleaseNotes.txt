@@ -3,42 +3,43 @@ SubEthaEdit 2.2
 ===============
 
 Additions/New Features:
-- Universal Binary - SubEthaEdit now runs on Intel Macs natively
-- Dragging text on app icon creates untitled document with dragged text.
-- Extension of Untitled documents is guessed by using its mode
-- "Find All" now shows the selected match in the document
-- It's now possible to copy selected lines from a "Find All" window
+- Universal Binary - SubEthaEdit now runs on Intel Macs natively.
+- Dragging text on app icon creates new document with dragged text.
+- Extensions of untitled documents are guessed by using their mode.
+- "Find All" now previews a selected match in the document.
+- Selected lines can now be copied from a "Find All" window.
+- Added more classes and constants to Objective-C.mode.
 
 Changes:
-- Invitation windows are now more prominent.
-- Joined documents now get focus after the initial transfer is completed.
+- Invitation windows are placed more prominently.
 
 Fixes:
-- Better keyboard navigation in "Find All"
-- Fixed a bug in syntax highlighter, where the highlighter did not recognize 
-  when a state end was introduced midstream in a state but not followed by a 
-  state begin, mainly while in states with a certain kind of state/end 
-  combination.
-- Fixed validation of drawer context menu and browser context menus.
-- Windows are no longer created under the dock in certain cases.
-- fixed bug where files created with "new->modename" weren't resized to the 
-  correct size, fixed the same thing when opening new empty files via see tool 
-  (r1095)
-- see CLI tool now uses the correct modes when given multiple files.
+- Fixed an issue where joined documents didn't get the input focus after the 
+  transfer has been completed.
+- Improved keyboard navigation in "Find All".
+- Fixed a bug in the syntax highlighter, where colors where not updated 
+  correctly while typing, but did appear correctly after reloading the file.
+- Fixed an issue where the context menu and action popup in the participants 
+  drawer weren't validated correctly.
+- Windows for new documents are no longer created under the dock.
+- Fixed a bug where files created with "File->New->Mode" weren't resized 
+  correctly, fixed the same issue when opening new files via see tool.
+- Fixed a bug where the see tool didn't set the correct modes when given 
+  multiple files.
 - Fixed the "Wrap/Wrap lines" functionality to retain its setting.
-- Improved PHP function recognition.
-- Fixed maximize button to behave according to HIG.
+- Improved PHP function recognition and added all PHP5 keywords.
+- Fixed maximize button of document windows to behave according to HIG.
 - Fixed word boundaries for autocomplete and selection to include colon.
-- Fixed various see:// url connection issues.
+- Fixed an issue where a document wasn't joined automatically though it was 
+  addressed in a see:// URL.
 - Fixed mode guessing upon first save to work if initial save is canceled.
-- XHTML export and copy now exports quotes as entity.
-- see CLI tool now conforms to the mode's encoding preference.
-- see CLI tool and "New/Mode" now conforms to the mode's window size 
-  preference.
-- Improved speed of Show Invisibles significantly.
+- XHTML export and "Copy as XHTML" now export quotes as entities.
+- see tool now conforms to the mode's encoding preference.
+- Improved speed of "Show Invisibles" significantly.
 - Fixed a bug in Perl.mode concerning POD comments.
-- Added more classes and constants to Objective-C.mode
 - Fixed a selection display/redraw bug with Tiger.
+- Fixed an issue where the context menu and action popup in the browser windows 
+  weren't validated correctly.
 
 SubEthaEdit 2.1.2
 ===============
