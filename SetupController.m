@@ -52,7 +52,7 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
         int bundleMinor = 0;
         if (TCM_scanVersionString(bundleShortVersion, &bundleMajor, &bundleMinor)
             && TCM_scanVersionString(version, &major, &minor)) {
-            if (bundleMajor == major && bundleMinor > minor) {
+            if (bundleMajor == major && bundleMinor > minor + 1) {
                 return YES;
             }
         }
