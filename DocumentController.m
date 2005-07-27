@@ -432,12 +432,16 @@ static NSString *tempFileName() {
             }
             if ([properties objectForKey:@"encoding"] == nil && documentModeIdentifierArgument != nil) {
                 DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForName:documentModeIdentifierArgument];
-                unsigned int encodingNumber = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
-                if (encodingNumber < SmallestCustomStringEncoding) {
-                    NSString *IANAName = (NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encodingNumber));
-                    if (IANAName != nil) {
-                        [properties setObject:IANAName forKey:@"encoding"];
+                if (mode) {
+                    unsigned int encodingNumber = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+                    if (encodingNumber < SmallestCustomStringEncoding) {
+                        NSString *IANAName = (NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encodingNumber));
+                        if (IANAName != nil) {
+                            [properties setObject:IANAName forKey:@"encoding"];
+                        }
                     }
+                } else {
+                    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"mode name argument invalid: %@", documentModeIdentifierArgument);
                 }
             }            
             [document setScriptingProperties:properties];
