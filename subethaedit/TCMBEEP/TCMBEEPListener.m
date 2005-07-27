@@ -187,10 +187,11 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType, CFDataRef anAddress, const void* aData, void* aContext)
 {
-    NSAutoreleasePool *pool=[NSAutoreleasePool new];
+    NSAutoreleasePool *pool=nil;
+    if (floor(NSFoundationVersionNumber)>NSFoundationVersionNumber10_3) pool=[NSAutoreleasePool new];
     TCMBEEPListener *listener = (TCMBEEPListener *)aContext;
     [listener TCM_acceptSocket:*(CFSocketNativeHandle*)aData withAddressData:(NSData *)anAddress];
-    [pool release];
+    if (floor(NSFoundationVersionNumber)>NSFoundationVersionNumber10_3) [pool release];
 }
 
 @end
