@@ -588,6 +588,11 @@ enum {
                     }
                 }                
             } else {
+                if (isRetrying) {
+                    NSMutableSet *requests = [item objectForKey:@"URLRequests"];
+                    [requests removeAllObjects];
+                }
+                
                 [I_resolvingHosts removeObjectForKey:URLString];
                 [I_resolvedHosts removeObjectForKey:URLString];
                 
