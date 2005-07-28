@@ -6,14 +6,19 @@ Additions/New Features:
 - Universal Binary - SubEthaEdit now runs on Intel Macs natively.
 - Dragging text on app icon creates new document with dragged text.
 - Extensions of untitled documents are guessed by using their mode.
-- "Find All" now previews a selected match in the document.
+- "Find All" results can now be used to navigate in the document.
 - Selected lines can now be copied from a "Find All" window.
-- Added more classes and constants to Objective-C.mode.
 
 Changes:
+- Added more classes and constants to Objective-C.mode.
+- Improved PHP function recognition and added all PHP5 keywords.
+- Added autocompletion of Core-API, Std-Lib and rubyonrails classes and methods 
+  to the Ruby mode
 - Invitation windows are placed more prominently.
 
 Fixes:
+- Fixed a selection display/redraw bug that happened when collaborating on 
+  Tiger.
 - Fixed an issue where joined documents didn't get the input focus after the 
   transfer has been completed.
 - Improved keyboard navigation in "Find All".
@@ -27,22 +32,22 @@ Fixes:
 - Fixed a bug where the see tool didn't set the correct modes when given 
   multiple files.
 - Fixed the "Wrap/Wrap lines" functionality to retain its setting.
-- Improved PHP function recognition and added all PHP5 keywords.
 - Fixed maximize button of document windows to behave according to HIG.
-- Fixed word boundaries for autocomplete and selection to include colon.
+- Fixed word boundaries for autocomplete and selection to include colon (which 
+  they didn't on Tiger).
 - Fixed an issue where a document wasn't joined automatically though it was 
   addressed in a see:// URL.
 - Fixed mode guessing upon first save to work if initial save is canceled.
 - XHTML export and "Copy as XHTML" now export quotes as entities.
 - see tool now conforms to the mode's encoding preference.
+- see tool --mode parameter mode matching is case insensitive.
 - Improved speed of "Show Invisibles" significantly.
 - Fixed a bug in Perl.mode concerning POD comments.
-- Fixed a selection display/redraw bug with Tiger.
 - Fixed an issue where the context menu and action popup in the browser windows 
   weren't validated correctly.
 
 SubEthaEdit 2.1.2
-===============
+=================
 
 Additions/New Features:
 - Added Conference Kit.
@@ -80,7 +85,7 @@ Fixes:
   mode.
 
 SubEthaEdit 2.1.1
-===============
+=================
 
 Changes:
 - Changed export dialog to disable according checkboxes, if "Participants" is 
