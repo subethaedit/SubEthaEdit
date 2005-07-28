@@ -26,6 +26,7 @@
     NSMutableDictionary *I_resolvingHosts;
     NSMutableDictionary *I_resolvedHosts;
     NSMutableSet *I_prohibitedInboundSessions;
+    NSMutableDictionary *I_documentRequestTimer;
     
     NSMenu *I_contextMenu;
 }

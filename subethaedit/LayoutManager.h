@@ -13,6 +13,8 @@
     struct {
         BOOL showsChangeMarks;
     } I_flags;
+    NSLayoutManager *I_invisiblesLayoutManager;
+    NSTextStorage *I_invisiblesTextStorage;
 }
 
 - (BOOL)showsChangeMarks;

@@ -16,19 +16,65 @@
 #import "TextStorage.h"
 #import "SelectionOperation.h"
 
+enum {
+    u_false=0,
+    u_00b6,
+    u_2014,
+    u_2024,
+    u_2038,
+    u_204b,
+    u_2192,
+    u_21ab,
+    u_21cb,
+    u_2761,
+    u_fffd
+};
+
+static NSString *S_specialGlyphs[11];
+
 @implementation LayoutManager
+
++ (void)initialize {
+    S_specialGlyphs[u_00b6]=[[NSString alloc] initWithFormat:@"%C",0x00b6];
+    S_specialGlyphs[u_2014]=[[NSString alloc] initWithFormat:@"%C",0x2014];
+    S_specialGlyphs[u_2024]=[[NSString alloc] initWithFormat:@"%C",0x2024];
+    S_specialGlyphs[u_2038]=[[NSString alloc] initWithFormat:@"%C",0x2038];
+    S_specialGlyphs[u_204b]=[[NSString alloc] initWithFormat:@"%C",0x204b];
+    S_specialGlyphs[u_2192]=[[NSString alloc] initWithFormat:@"%C",0x2192];
+    S_specialGlyphs[u_21ab]=[[NSString alloc] initWithFormat:@"%C",0x21ab];
+    S_specialGlyphs[u_21cb]=[[NSString alloc] initWithFormat:@"%C",0x21cb];
+    S_specialGlyphs[u_2761]=[[NSString alloc] initWithFormat:@"%C",0x2761];
+    S_specialGlyphs[u_fffd]=[[NSString alloc] initWithFormat:@"%C",0xfffd];
+}
 
 - (id)init {
     if ((self=[super init])) {
         I_flags.showsChangeMarks=NO;
+        I_invisiblesTextStorage =   [NSTextStorage new];
+        I_invisiblesLayoutManager = [NSLayoutManager new];
+        [I_invisiblesLayoutManager addTextContainer:[[NSTextContainer new] autorelease]];
+        [I_invisiblesTextStorage addLayoutManager:I_invisiblesLayoutManager];
+    
+        NSMutableString *string = [I_invisiblesTextStorage mutableString];
+        [string appendString:@"0"]; // just for offset
+        int i=0;
+        for (i=1;i<=u_fffd;i++) {
+            [string appendString:S_specialGlyphs[i]];
+        }
     }
     return self;
+}
+
+- (void)dealloc {
+    [I_invisiblesLayoutManager release];
+    [I_invisiblesTextStorage release];
+    [super dealloc];
 }
 
 - (void)drawBorderedMarksWithColor:(NSColor *)aColor atRects:(NSRectArray)aRectArray rectCount:(unsigned int)rectCount {
 
     if (rectCount == 0) return;
-    NSBezierPath *markPath = [NSBezierPath bezierPath];
+    NSBezierPath *markPath = [NSBezierPath new];
     NSRect topRect = aRectArray[0];
     float left;
     float x;
@@ -94,6 +140,7 @@
     NSColor *borderColor = [aColor shadowWithLevel:0.3];
     [borderColor set];
     [markPath stroke];
+    [markPath release];
 }
 
 
@@ -108,11 +155,11 @@
     [caretPath closePath];
     [aColor set];
 
-    BOOL shouldAntialias = [[NSGraphicsContext currentContext] shouldAntialias];
+//    BOOL shouldAntialias = [[NSGraphicsContext currentContext] shouldAntialias];
 //    [[NSGraphicsContext currentContext] setShouldAntialias:NO];
     [caretPath fill];
 //    [caretPath stroke];
-    [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
+//    [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
 }
 
 
@@ -166,10 +213,7 @@
                     if (contentsEndIndex>NSMaxRange(attributeRange)) contentsEndIndex=NSMaxRange(attributeRange);
                     unsigned rectCount;
                     NSRectArray rectArray = [self rectArrayForCharacterRange:NSMakeRange(startIndex,contentsEndIndex-startIndex) withinSelectedCharacterRange:NSMakeRange(NSNotFound,0) inTextContainer:container rectCount:&rectCount];
-                    unsigned i;
-                    for (i=0;i<rectCount;i++) {
-                        NSRectFill(rectArray[i]);
-                    }
+                    NSRectFillList(rectArray,rectCount);
                 }
             }
             position=NSMaxRange(attributeRange);
@@ -205,67 +249,83 @@
     [super drawBackgroundForGlyphRange:aGlyphRange atPoint:anOrigin];
 }
 
+#define CHARBUFFERSIZE 200
+
 - (void)drawGlyphsForGlyphRange:(NSRange)glyphRange atPoint:(NSPoint)containerOrigin
 {
     if ([self showsInvisibleCharacters]) {
+        NSRect lineFragmentRect=NSZeroRect; //gets initialized lazily
+        NSMutableDictionary *attributes=nil;
         // figure out what invisibles to draw
         NSRange charRange = [self characterRangeForGlyphRange:glyphRange actualGlyphRange:NULL];
         NSString *characters = [[self textStorage] string];
         unsigned i;
         unichar previousChar=0;
-        for (i=charRange.location;i<NSMaxRange(charRange);i++) {
-            unichar c = [characters characterAtIndex: i];
-            unichar draw = 0;
-            if (c == ' ') {		// "real" space
-                draw = 0x2024; // one dot leader 0x00b7; // "middle dot" 0x22c5; // "Dot centered"
-            } else if (c == '\t') {	// "correct" indentation
-                draw = 0x2192; // "Arrow right"
-            } else if (c == 0x21e4 || c == 0x21e5) {	// not "correct" indentation (leftward tab, rightward tab)
-                draw = 0x2192; // "Arrow right"
-            } else if (c == '\r') {	// mac line feed
-                draw = 0x204b; // "reversed Pilcrow"
-            } else if (c == 0x0a) {	// unix line feed
-                if (previousChar == '\r') {
-                    draw = 0x2014; // m-dash 
+        unichar charBuffer[CHARBUFFERSIZE];
+        while (charRange.length>0) {
+            int loopLength = MIN(charRange.length,CHARBUFFERSIZE);
+            [characters getCharacters:charBuffer range:NSMakeRange(charRange.location,loopLength)];
+            for (i=0;i<loopLength;i++) {
+                unichar c = charBuffer[i];
+                int draw = u_false;
+                if (c == ' ') {		// "real" space
+                    draw = u_2024; // one dot leader 0x00b7; // "middle dot" 0x22c5; // "Dot centered"
+                } else if (c == '\t') {	// "correct" indentation
+                    draw = u_2192; // "Arrow right"
+                } else if (c == 0x21e4 || c == 0x21e5) {	// not "correct" indentation (leftward tab, rightward tab)
+                    draw = u_2192; // "Arrow right"
+                } else if (c == '\r') {	// mac line feed
+                    draw = u_204b; // "reversed Pilcrow"
+                } else if (c == 0x0a) {	// unix line feed
+                    if (previousChar == '\r') {
+                        draw = u_2014; // m-dash 
+                    } else {
+                        draw = u_00b6; // "Pilcrow sign"
+                    }
+                } else if (c == 0x2028) { // unicode line separator
+                    draw = u_2761;
+                } else if (c == 0x2029) { // unicode paragraph separator
+                    draw = u_21ab;
+                } else if (c == 0x00a0) { // nbsp
+                    draw = u_2038;
+                } else if (c == 0x0c) {	// page break
+                    draw = u_21cb; // leftwards harpoon over rightwards harpoon
+                } else if (c < 0x20 || (0x007f <= c && c <= 0x009f) || [[NSCharacterSet illegalCharacterSet] characterIsMember: c]) {	// some other mystery control character
+                    draw = u_fffd; // replacement character for controls that don't belong there
                 } else {
-                    draw = 0x00b6; // "Pilcrow sign"
+                    NSRange glyphRange = [self glyphRangeForCharacterRange:NSMakeRange(charRange.location+i,1) actualCharacterRange:NULL];
+                    if (glyphRange.length == 0) {
+                        // something that doesn't show up as a glpyh
+                        draw = u_fffd; // replacement character
+                    }
                 }
-            } else if (c == 0x2028) { // unicode line separator
-                draw = 0x2761;
-            } else if (c == 0x2029) { // unicode paragraph separator
-                draw = 0x21ab;
-            } else if (c == 0x00a0) { // nbsp
-                draw = 0x2038;
-            } else if (c == 0x0c) {	// page break
-                draw = 0x21cb; // leftwards harpoon over rightwards harpoon
-            } else if (c < 0x20 || (0x007f <= c && c <= 0x009f) || [[NSCharacterSet illegalCharacterSet] characterIsMember: c]) {	// some other mystery control character
-                draw = 0xfffd; // replacement character for controls that don't belong there
-            } else {
-                NSRange glyphRange = [self glyphRangeForCharacterRange:NSMakeRange(i,1) actualCharacterRange:NULL];
-                if (glyphRange.length == 0) {
-                    // something that doesn't show up as a glpyh
-                    draw = 0xfffd; // replacement character
+                if (draw!=u_false) {
+                    // where is that one?
+                    if (!attributes) {
+                        attributes = [[[self textStorage] attributesAtIndex:i effectiveRange:NULL] mutableCopy];
+                        [attributes setObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName];
+                        [I_invisiblesTextStorage addAttributes:attributes range:NSMakeRange(0,[I_invisiblesTextStorage length])];
+                        lineFragmentRect = [I_invisiblesLayoutManager lineFragmentRectForGlyphAtIndex:0 effectiveRange:NULL];
+                    }
+                    NSPoint layoutLocation = [I_invisiblesLayoutManager locationForGlyphAtIndex:draw];
+                    layoutLocation.x += lineFragmentRect.origin.x;
+                    layoutLocation.y += lineFragmentRect.origin.y;
+
+                    NSRange glyphRange = [self glyphRangeForCharacterRange:NSMakeRange(charRange.location+i,1) actualCharacterRange:NULL];
+                    NSPoint where = [self locationForGlyphAtIndex:glyphRange.location];
+                    NSRect fragment = [self lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:NULL];
+                    where.x += containerOrigin.x + fragment.origin.x;
+                    where.y += containerOrigin.y + fragment.origin.y;
+                    [I_invisiblesLayoutManager drawGlyphsForGlyphRange:NSMakeRange(draw, 1) atPoint:NSMakePoint(where.x-layoutLocation.x,where.y-layoutLocation.y)];
                 }
+                previousChar=c;
             }
-            if (draw) {
-                // where is that one?
-                NSString *glyphString=[[NSString alloc] initWithCharactersNoCopy:&draw length:1 freeWhenDone:NO];
-                NSMutableDictionary *attributes = [[[self textStorage] attributesAtIndex:i effectiveRange:NULL] mutableCopy];
-                [attributes setObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName];
-                NSSize glyphSize=[glyphString sizeWithAttributes:attributes];
-                NSRange glyphRange = [self glyphRangeForCharacterRange:NSMakeRange(i,1) actualCharacterRange:NULL];
-                NSPoint where = [self locationForGlyphAtIndex:glyphRange.location];
-                NSRect fragment = [self lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:NULL];
-                where.x += containerOrigin.x + fragment.origin.x;
-                where.y = containerOrigin.y + fragment.origin.y + (fragment.size.height-glyphSize.height)/2.;
-                //NSLog(@"Drawing invisible %C at %g,%g",draw,where.x,where.y);
-                // now draw the thing in the right font/size, attributes, etc...
-                //c = '*';
-                [glyphString drawAtPoint:where withAttributes:attributes];
-                [glyphString release];
-                [attributes release];
-            }
-            previousChar=c;
+            charRange.location += loopLength;
+            charRange.length   -= loopLength;
+        }
+        if (attributes) {
+            [attributes release];
+            attributes=nil;
         }
     }
 

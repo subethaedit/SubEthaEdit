@@ -188,6 +188,22 @@ enum {
     kParticipantStateMask = 4
 };
 
+#pragma mark -
+#pragma mark ### Menu validation ###
+
+// validation changed from panther to tiger
+// menuNeedsUpdate is called before validateMenuItem
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL selector = [menuItem action];
+    if (selector == @selector(join:) ||
+        selector == @selector(reconnect:) ||
+        selector == @selector(clear:)) {
+        return [menuItem isEnabled];
+    }
+    return YES;
+}
+
 - (void)menuNeedsUpdate:(NSMenu *)aMenu {
    if ([aMenu isEqual:[O_statusPopUpButton menu]]) {
         BOOL isVisible=[[TCMMMPresenceManager sharedInstance] isVisible];
@@ -302,6 +318,9 @@ enum {
         return;
     }
 }
+
+#pragma mark -
+
 
 - (IBAction)setVisibilityByMenuItem:(id)aSender {
     BOOL isVisible = ([aSender tag]==10);

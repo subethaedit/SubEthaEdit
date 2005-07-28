@@ -158,12 +158,12 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
                             format:@"endUndoGrouping without beginUndoGrouping"];
             }
         
-            if ([_redoGroup parent] == nil) {
+            if ([(UndoGroup *)_redoGroup parent] == nil) {
                 [_redoStack addObject:_redoGroup];
                 [_redoGroup release];
                 _redoGroup = nil;
             } else {
-                UndoGroup *parent = [[_redoGroup parent] retain];
+                UndoGroup *parent = [[(UndoGroup *)_redoGroup parent] retain];
                 NSArray *actions = [_redoGroup actions];
                 unsigned i;
                 for (i = 0; i < [actions count]; i++) {
@@ -180,12 +180,12 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
                             format:@"endUndoGrouping without beginUndoGrouping"];
             }
         
-            if ([_undoGroup parent] == nil) {
+            if ([(UndoGroup *)_undoGroup parent] == nil) {
                 [_undoStack addObject:_undoGroup];
                 [_undoGroup release];
                 _undoGroup = nil;
             } else {
-                UndoGroup *parent = [[_undoGroup parent] retain];
+                UndoGroup *parent = [[(UndoGroup *)_undoGroup parent] retain];
                 NSArray *actions = [_undoGroup actions];
                 unsigned i;
                 for (i = 0; i < [actions count]; i++) {

@@ -203,7 +203,6 @@ static NSString *tempFileName(NSString *origPath) {
     I_printOperationIsRunning=NO;
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
-    I_flags.shouldChangeExtensionOnModeChange=YES;
     [self setUndoManager:nil];
     I_rangesToInvalidate = [NSMutableArray new];
     I_findAllControllers = [NSMutableArray new];
@@ -767,6 +766,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (id)init {
     self = [super init];
     if (self) {
+        I_flags.shouldChangeExtensionOnModeChange=YES; 
         if ([[DocumentController sharedInstance] isOpeningUntitledDocument]) {
             transientDocument = nil;
         }
@@ -945,6 +945,9 @@ static NSString *tempFileName(NSString *origPath) {
     if (I_flags.shouldChangeExtensionOnModeChange) {
         NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
         if ([recognizedExtensions count]) {
+            if ([I_session isServer]) {
+                [I_session setFilename:[self preparedDisplayName]];
+            }
             [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
         }
     }
@@ -3042,7 +3045,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         return result;
     } else {
-        return [super displayName];
+        return [self displayName];
     }
 }
 
@@ -3840,8 +3843,12 @@ static NSString *S_measurementUnits;
             NSRange oldRange=[selectionOperation selectedRange];
             [transformator transformOperation:selectionOperation serverOperation:textOp];
             if (!NSEqualRanges(oldRange,[selectionOperation selectedRange])) {
-                [self invalidateLayoutForRange:oldRange];
-                [self invalidateLayoutForRange:[selectionOperation selectedRange]];
+//                [self invalidateLayoutForRange:oldRange];
+                if (TouchingRanges([selectionOperation selectedRange], 
+                    [[aTextStorage string] lineRangeForRange:NSMakeRange([textOp affectedCharRange].location,
+                                    [[textOp replacementString] length])])) {
+                    [self invalidateLayoutForRange:[selectionOperation selectedRange]];
+                }
                 didChangeAParticipant=YES;
             }
         }

@@ -37,8 +37,7 @@ enum {
     BrowserContextMenuTagEmail,
     BrowserContextMenuTagShowDocument,
     BrowserContextMenuTagCancelConnection,
-    BrowserContextMenuTagReconnect,
-    BrowserContextMenuTagClear
+    BrowserContextMenuTagReconnect
 };
 
 @interface InternetBrowserController (InternetBrowserControllerPrivateAdditions)
@@ -47,7 +46,6 @@ enum {
 - (int)indexOfItemWithUserID:(NSString *)userID;
 - (NSIndexSet *)indexesOfItemsWithUserID:(NSString *)userID;
 - (void)connectToURL:(NSURL *)url retry:(BOOL)isRetrying;
-- (void)processDocumentURL:(NSURL *)url;
 - (void)TCM_validateStatusPopUpButton;
 - (void)TCM_validateClearButton;
 
@@ -69,7 +67,7 @@ static InternetBrowserController *sharedInstance = nil;
         I_data = [NSMutableArray new];
         I_resolvingHosts = [NSMutableDictionary new];
         I_resolvedHosts = [NSMutableDictionary new];
-
+        I_documentRequestTimer = [[NSMutableDictionary alloc] init];
 
         I_contextMenu = [NSMenu new];
         NSMenuItem *item = nil;
@@ -101,12 +99,6 @@ static InternetBrowserController *sharedInstance = nil;
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuReconnect", @"Reconnect entry for Browser context menu") action:@selector(reconnect:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagReconnect];        
-
-        [I_contextMenu addItem:[NSMenuItem separatorItem]];
-
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuClear", @"Clear entry for Browser context menu") action:@selector(clear:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:BrowserContextMenuTagClear];
         
         [I_contextMenu setDelegate:self];        
 
@@ -134,6 +126,8 @@ static InternetBrowserController *sharedInstance = nil;
     [I_data release];
     [I_resolvingHosts release];
     [I_resolvedHosts release];
+    [[I_documentRequestTimer allValues] makeObjectsPerformSelector:@selector(invalidate)];
+    [I_documentRequestTimer release];
     [I_contextMenu release];
     [super dealloc];
 }
@@ -278,6 +272,21 @@ enum {
     kParticipantStateMask = 4
 };
 
+
+#pragma mark -
+#pragma mark ### Menu validation ###
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL selector = [menuItem action];
+    if (selector == @selector(join:) ||
+        selector == @selector(reconnect:) ||
+        selector == @selector(clear:) ||
+        selector == @selector(cancelConnection:)) {
+        return [menuItem isEnabled];
+    }
+    return YES;
+}
+
 - (void)menuNeedsUpdate:(NSMenu *)menu {
     
     if ([menu isEqual:[O_statusPopUpButton menu]]) {
@@ -319,14 +328,9 @@ enum {
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
         [item setEnabled:NO];
-        item = [menu itemWithTag:BrowserContextMenuTagClear];
-        [item setEnabled:NO];
         return;
     }
-    
-    item = [menu itemWithTag:BrowserContextMenuTagClear];
-    [item setEnabled:NO];
-    
+        
     if ([userSet count] == 0 && [documentSet count] == 0) {
         item = [menu itemWithTag:BrowserContextMenuTagJoin];
         [item setEnabled:NO];
@@ -340,10 +344,6 @@ enum {
         [item setEnabled:NO];
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
         [item setEnabled:NO];
-        if ([menu isEqual:[O_actionPullDownButton menu]]) {
-            item = [menu itemWithTag:BrowserContextMenuTagClear];
-            [item setEnabled:YES];
-        }
     }
     
     if ([userSet count] > 0) {
@@ -455,6 +455,8 @@ enum {
     }
 }
 
+#pragma mark -
+
 - (void)connectToAddress:(NSString *)address {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"connect to address: %@", address);
     
@@ -509,7 +511,8 @@ enum {
         const char *ipAddress = [hostAddress UTF8String];
         struct addrinfo hints;
         struct addrinfo *result = NULL;
-        
+        BOOL isIPv6Address = NO;
+
         memset(&hints, 0, sizeof(hints));
         hints.ai_flags    = AI_NUMERICHOST;
         hints.ai_family   = PF_UNSPEC;
@@ -523,6 +526,7 @@ enum {
         err = getaddrinfo(ipAddress, portString, &hints, &result);
         if (err == 0) {
             addressData = [NSData dataWithBytes:(UInt8 *)result->ai_addr length:result->ai_addrlen];
+            isIPv6Address = result->ai_family == PF_INET6;
             DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"getaddrinfo succeeded with addr: %@", [NSString stringWithAddressData:addressData]);
             freeaddrinfo(result);
         } else {
@@ -532,16 +536,63 @@ enum {
             free(portString);
         }
         
+        NSString *URLString = nil;
+        if (isIPv6Address) {
+            URLString = [NSString stringWithFormat:@"%@://[%@]:%d", [url scheme], hostAddress, port];
+        } else {
+            URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], hostAddress, port];
+        }
         
-        NSString *URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], hostAddress, port];
-
         // when I_data entry with URL exists, select entry
         int index = [self indexOfItemWithURLString:URLString];
         if (index != -1) {
-            if (!isRetrying) {
+            NSMutableDictionary *item = [I_data objectAtIndex:index];
+            NSMutableSet *set = [item objectForKey:@"URLRequests"];
+            [set addObject:url];
+            
+            NSTimer *timer = [I_documentRequestTimer objectForKey:url];
+            if (timer) {
+                [timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:60.0]];
+            }
+            
+            BOOL shouldReconnect = NO;
+            if ([item objectForKey:@"failed"]) {
+                DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
+                [item removeObjectForKey:@"BEEPSession"];
+                [item removeObjectForKey:@"UserID"];
+                [item removeObjectForKey:@"Sessions"];
+                [item removeObjectForKey:@"failed"];
+                shouldReconnect = YES;           
+            }
+            
+            shouldReconnect = isRetrying || shouldReconnect;
+            if (!shouldReconnect) {
                 int row = [O_browserListView rowForItem:index child:-1];
                 [O_browserListView selectRow:row byExtendingSelection:NO];
+                
+                NSEnumerator *enumerator = [[item objectForKey:@"Sessions"] objectEnumerator];
+                TCMMMSession *session;
+                while ((session = [enumerator nextObject])) {
+                    if ([session isAddressedByURL:url]) {
+                        [I_documentRequestTimer removeObjectForKey:url];
+                        TCMBEEPSession *BEEPSession = [item objectForKey:@"BEEPSession"];
+                        [session joinUsingBEEPSession:BEEPSession];
+                        
+                        NSTimer *timer = [I_documentRequestTimer objectForKey:url];
+                        if (timer) {
+                            [timer invalidate];
+                            [I_documentRequestTimer removeObjectForKey:url];
+                        }
+                        [[item objectForKey:@"URLRequests"] removeObject:url];
+                        break;
+                    }
+                }                
             } else {
+                if (isRetrying) {
+                    NSMutableSet *requests = [item objectForKey:@"URLRequests"];
+                    [requests removeAllObjects];
+                }
+                
                 [I_resolvingHosts removeObjectForKey:URLString];
                 [I_resolvedHosts removeObjectForKey:URLString];
                 
@@ -569,6 +620,7 @@ enum {
                 [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                             URLString, @"URLString",
                                                             HostEntryStatusContacting, @"status",
+                                                            [NSMutableSet setWithObject:url], @"URLRequests",
                                                             url, @"URL", nil]];
                 [O_browserListView reloadData];
                 [I_resolvedHosts setObject:host forKey:URLString];
@@ -579,6 +631,7 @@ enum {
                 [I_data addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                             URLString, @"URLString",
                                                             HostEntryStatusResolving, @"status",
+                                                            [NSMutableSet setWithObject:url], @"URLRequests",
                                                             url, @"URL", nil]];
                 [host setDelegate:self];
                 [host resolve];
@@ -669,90 +722,6 @@ enum {
     I_comboBoxItems = [anArray mutableCopy];
 }
 
-- (void)processDocumentURL:(NSURL *)url {
-    NSString *urlPath = [url path];
-    NSString *path = nil;
-    if (urlPath != nil) {
-        path = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlPath, CFSTR(""));
-        [path autorelease];
-    }
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"path: %@", path);
-
-    if (path != nil && [path length] != 0) {
-        NSString *lastPathComponent = [path lastPathComponent];
-        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join: %@", lastPathComponent);
-        
-        UInt16 port;
-        if ([url port] != nil) {
-            port = [[url port] unsignedShortValue];
-        } else {
-            port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
-        }
-        NSString *URLString = [NSString stringWithFormat:@"%@://%@:%d", [url scheme], [url host], port];
-
-        int index = [self indexOfItemWithURLString:URLString];
-        if (index != -1) {
-            NSDictionary *item = [I_data objectAtIndex:index];
-            TCMBEEPSession *BEEPSession = [item objectForKey:@"BEEPSession"];
-            NSArray *sessions = [item objectForKey:@"Sessions"];
-            NSEnumerator *enumerator = [sessions objectEnumerator];
-            TCMMMSession *session;
-            BOOL found = NO;
-            while ((session = [enumerator nextObject])) {
-                if ([lastPathComponent isEqualToString:[session sessionID]]) {
-                    found = YES;
-                    break;
-                }
-            }
-            if (found) {
-                DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"found id");
-                [session joinUsingBEEPSession:BEEPSession];
-            } else {
-                NSString *urlQuery = [url query];
-                NSString *query;
-                NSString *documentId = nil;
-                if (urlQuery != nil) {
-                    query = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR(""));
-                    [query autorelease];
-                    NSArray *components = [query componentsSeparatedByString:@"&"];
-                    NSEnumerator *enumerator = [components objectEnumerator];
-                    NSString *item;
-                    while ((item = [enumerator nextObject])) {
-                        NSArray *keyValue = [item componentsSeparatedByString:@"="];
-                        if ([keyValue count] == 2) {
-                            if ([[keyValue objectAtIndex:0] isEqualToString:@"sessionID"]) {
-                                documentId = [keyValue objectAtIndex:1];
-                            }
-                            break;
-                        }
-                    }
-                }
-                
-                enumerator = [sessions objectEnumerator];
-                found = NO;
-                while ((session = [enumerator nextObject])) {
-                    if ([documentId isEqualToString:[session sessionID]]) {
-                        found = YES;
-                        break;
-                    }
-                }
-                if (found) {
-                    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"found id in query");
-                    [session joinUsingBEEPSession:BEEPSession];
-                } else {
-                    enumerator = [sessions objectEnumerator];
-                    while ((session = [enumerator nextObject])) {
-                        if ([lastPathComponent compare:[[session filename] lastPathComponent]] == NSOrderedSame) {
-                            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"found title");
-                            [session joinUsingBEEPSession:BEEPSession];
-                        }
-                    }                
-                }
-            }
-        }
-    }
-}
-
 - (void)TCM_validateStatusPopUpButton {
     TCMMMPresenceManager *pm = [TCMMMPresenceManager sharedInstance];
     BOOL isVisible = [pm isVisible];
@@ -780,6 +749,7 @@ enum {
             [status isEqualToString:HostEntryStatusSessionAtEnd] ||
             [status isEqualToString:HostEntryStatusCancelled]) {
             isValid = YES;
+            break;
         }
     }
     
@@ -1052,7 +1022,19 @@ enum {
         [item setObject:array forKey:@"Sessions"];
         [array release];
         [O_browserListView reloadData];
-        [self processDocumentURL:[item objectForKey:@"URL"]];
+        
+        NSEnumerator *enumerator = [[item objectForKey:@"URLRequests"] objectEnumerator];
+        NSURL *URL;
+        while ((URL = [enumerator nextObject])) {
+            if (![I_documentRequestTimer objectForKey:URL]) {
+                NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:60.0
+                                                                  target:self
+                                                                selector:@selector(documentRequestTimerFired:)
+                                                                userInfo:[NSDictionary dictionaryWithObjectsAndKeys:URLString, @"URLString", URL, @"URL", nil]
+                                                                 repeats:NO];
+                [I_documentRequestTimer setObject:timer forKey:URL];
+            }
+        }
     } else {
         // Inbound session
         NSString *userID = [[session userInfo] objectForKey:@"peerUserID"];
@@ -1071,6 +1053,21 @@ enum {
     [O_browserListView reloadData];
 }
 
+- (void)documentRequestTimerFired:(NSTimer *)aTimer {
+    NSDictionary *userInfo = [[aTimer userInfo] retain];
+    NSString *URLString = [userInfo objectForKey:@"URLString"];
+    NSString *URL = [userInfo objectForKey:@"URL"];
+    [aTimer invalidate];
+    int index = [self indexOfItemWithURLString:URLString];
+    if (index != -1) {
+        NSMutableDictionary *item = [I_data objectAtIndex:index];
+        NSMutableSet *set = [item objectForKey:@"URLRequests"];
+        [set removeObject:URL];
+    }
+    [I_documentRequestTimer removeObjectForKey:URL];
+    [userInfo release];
+}
+
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
@@ -1083,6 +1080,17 @@ enum {
     int index = [self indexOfItemWithURLString:URLString];
     if (index != -1) {
         NSMutableDictionary *item = [I_data objectAtIndex:index];
+        NSEnumerator *enumerator = [[item objectForKey:@"URLRequests"] objectEnumerator];
+        NSURL *URL;
+        while ((URL = [enumerator nextObject])) {
+            NSTimer *timer = [I_documentRequestTimer objectForKey:URL];
+            if (timer) {
+                [timer invalidate];
+                [I_documentRequestTimer removeObjectForKey:URL];
+            }        
+        }
+        
+        //NSMutableDictionary *item = [I_data objectAtIndex:index];
         if ([item objectForKey:@"inbound"]) {
             [I_data removeObjectAtIndex:index];
         } else {
@@ -1198,6 +1206,23 @@ enum {
                 }
                 if (i == [sessions count]) {
                     [sessions addObject:session];
+                }
+                
+                NSMutableSet *requests = [item objectForKey:@"URLRequests"];
+                NSEnumerator *enumerator = [requests objectEnumerator];
+                NSURL *URL;
+                while ((URL = [enumerator nextObject])) {
+                    NSTimer *timer = [I_documentRequestTimer objectForKey:URL];
+                    if (timer) {
+                        if ([session isAddressedByURL:URL]) {
+                            [timer invalidate];
+                            [I_documentRequestTimer removeObjectForKey:URL];
+                            TCMBEEPSession *BEEPSession = [item objectForKey:@"BEEPSession"];
+                            [session joinUsingBEEPSession:BEEPSession];
+                            [requests removeObject:URL];
+                            break;
+                        }
+                    }
                 }
             } else {
                 NSString *concealedSessionID = [userInfo objectForKey:@"ConcealedSessionID"];

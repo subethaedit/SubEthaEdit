@@ -207,6 +207,17 @@
     }
     DocumentMode *mode = [self documentModeForIdentifier:identifier];
     
+    if (!mode) {
+        NSEnumerator *keyEnumerator = [[self availableModes] keyEnumerator];
+        NSString *key;
+        while ((key = [keyEnumerator nextObject])) {
+            if ([identifier caseInsensitiveCompare:key] == NSOrderedSame) {
+                mode = [self documentModeForIdentifier:key];
+                break;
+            }
+        }
+    }
+    
     return mode;
 }
 

@@ -7,33 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		14963A3D061F0CFD009B8E42 /* Create Disk Image */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 144C07390854D2C700F43304 /* Build configuration list for PBXAggregateTarget "Create Disk Image" */;
-			buildPhases = (
-				14963A3C061F0CFD009B8E42 /* ShellScript */,
-			);
-			buildSettings = {
-				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 15;
-				DiskImageVolumeName = "$(PROJECT_NAME)";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Create Disk Image";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			dependencies = (
-				14963A46061F1022009B8E42 /* PBXTargetDependency */,
-			);
-			name = "Create Disk Image";
-			productName = "Create Disk Image";
-		};
 		31DEE029061089D0001EC83E /* Create Documentation */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 144C07340854D2C700F43304 /* Build configuration list for PBXAggregateTarget "Create Documentation" */;
@@ -392,7 +365,7 @@
 			outputFiles = (
 				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE)_vers.c",
 			);
-			script = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\nsed \"s/#PLACEHOLDER#/$REV/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
+			script = "REV=`/usr/local/bin/svn info -R \"$SRCROOT\" | awk '/^Last Changed Rev/ {print $4}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\nsed \"s/#PLACEHOLDER#/$REV$MODIFIED/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
 		};
 /* End PBXBuildRule section */
 
@@ -482,7 +455,7 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = TCMFoundation;
 		};
-		14963A45061F1022009B8E42 /* PBXContainerItemProxy */ = {
+		14F0147B088EC8FF00FE6B14 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
@@ -609,7 +582,7 @@
 		1428840306E33DA000FB57C5 /* MoreUNIX.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MoreUNIX.h; path = MoreIsBetter/MoreUNIX.h; sourceTree = "<group>"; };
 		1428841006E33DE900FB57C5 /* SubEthaEditHelperToolTemplate */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SubEthaEditHelperToolTemplate; sourceTree = BUILT_PRODUCTS_DIR; };
 		1428848806E33EC200FB57C5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		142D47DB07283ED500B00725 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
+		142D47DB07283ED500B00725 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
 		14352D00065391F800C9685E /* AboutPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutPanelController.h; sourceTree = "<group>"; };
 		14352D01065391F800C9685E /* AboutPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutPanelController.m; sourceTree = "<group>"; };
 		14352D2606539BCE00C9685E /* SetupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupController.h; sourceTree = "<group>"; };
@@ -1619,6 +1592,36 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		14F01466088EC6A100FE6B14 /* Create Disk Image */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-c \"$(SRCROOT)/createDiskImage.sh\" $(ACTION)";
+			buildConfigurationList = 14F01467088EC6BD00FE6B14 /* Build configuration list for PBXLegacyTarget "Create Disk Image" */;
+			buildPhases = (
+			);
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image (new)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			buildToolPath = /bin/sh;
+			dependencies = (
+				14F0147C088EC8FF00FE6B14 /* PBXTargetDependency */,
+			);
+			name = "Create Disk Image";
+			passBuildSettingsInEnvironment = 1;
+			productName = "Create Disk Image (new)";
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		1428840F06E33DE900FB57C5 /* HelperTool */ = {
 			isa = PBXNativeTarget;
@@ -1817,8 +1820,8 @@
 				8D15AC270486D014006FF6A4 /* SubEthaEdit */,
 				1428840F06E33DE900FB57C5 /* HelperTool */,
 				14DC3C3306C3C6CB000E9E0A /* see */,
+				14F01466088EC6A100FE6B14 /* Create Disk Image */,
 				31DEE029061089D0001EC83E /* Create Documentation */,
-				14963A3D061F0CFD009B8E42 /* Create Disk Image */,
 				5E96530607EDD7860003D65C /* Tests */,
 			);
 		};
@@ -2040,7 +2043,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -d $SRCROOT/Localizations ]\nthen\n\n  LOCALIZATIONS=`find $SRCROOT/Localizations \\( -maxdepth 2 -and -name \"*.lproj\" \\) -print`\n  for LOCALIZATION in $LOCALIZATIONS\n  do\n    echo \"Found localization: $LOCALIZATION\"\n    /Developer/Tools/pbxcp -exclude .DS_Store -exclude .svn -resolve-src-symlinks $LOCALIZATION $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\n  done\n\n  LOCALIZED_MODES=`ls $SRCROOT/Localizations/Modes`\n  for MODE in $LOCALIZED_MODES\n  do\n    echo \"Found localizations for mode: $MODE\"\n    if [ -d $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Modes/$MODE.mode ]\n    then\n      LOCALIZATIONS=`ls $SRCROOT/Localizations/Modes/$MODE`\n      for LOCALIZATION in $LOCALIZATIONS\n      do\n        echo \"Copying localization: $LOCALIZATION\"\n        /Developer/Tools/pbxcp -exclude .DS_Store -exclude .svn -resolve-src-symlinks $SRCROOT/Localizations/Modes/$MODE/$LOCALIZATION $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Modes/$MODE.mode/Contents/Resources\n      done\n    else\n      echo \"Mode does not exist in build product.\"\n      exit 1\n    fi\n  done\n  \nelse\n  echo \"No localizations available.\"\nfi\n\nexit 0";
+			shellScript = "if [ -d $SRCROOT/Localizations ]\nthen\n\n  LOCALIZATIONS=`find $SRCROOT/Localizations \\( -maxdepth 2 -and -name \"*.lproj\" \\) -print`\n  for LOCALIZATION in $LOCALIZATIONS\n  do\n    echo \"Found localization: $LOCALIZATION\"\n    /System/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude .svn -resolve-src-symlinks $LOCALIZATION \"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n  done\n\n  LOCALIZED_MODES=`ls $SRCROOT/Localizations/Modes`\n  for MODE in $LOCALIZED_MODES\n  do\n    echo \"Found localizations for mode: $MODE\"\n    if [ -d \"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Modes/$MODE.mode\" ]\n    then\n      LOCALIZATIONS=`ls $SRCROOT/Localizations/Modes/$MODE`\n      for LOCALIZATION in $LOCALIZATIONS\n      do\n        echo \"Copying localization: $LOCALIZATION\"\n        /System/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude .svn -resolve-src-symlinks $SRCROOT/Localizations/Modes/$MODE/$LOCALIZATION \"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Modes/$MODE.mode/Contents/Resources\"\n      done\n    else\n      echo \"Mode does not exist in build product.\"\n      exit 1\n    fi\n  done\n  \nelse\n  echo \"No localizations available.\"\nfi\n\nexit 0";
 		};
 		14916A970856560E002E116C /* Run Script (sdp) */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2059,22 +2062,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
-		};
-		14963A3C061F0CFD009B8E42 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app",
-				createDiskImage.sh,
-			);
-			outputPaths = (
-				"$(TARGET_BUILD_DIR)/SubEthaEdit.dmg",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "source createDiskImage.sh\n\n#if [ \"$ACTION\" = \"clean\" ]\n#then\n#    echo \"cleaning\"\n#    if [ -e ./SubEthaEdit.dmg ]\n#    then\n#        echo \"removing image\"\n#        rm -f ./SubEthaEdit.dmg\n#    fi\n#    exit 0\n#else\n#    ./createDiskImage.sh 10 \"SubEthaEdit\" \"$DSTROOT/*\"\n#fi\n#exit 0";
 		};
 		14BC80DE07290AEB00657A93 /* Run Script (Deployment) */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2265,10 +2252,10 @@
 			name = TCMFoundation;
 			targetProxy = 144362980855FE7600593BE6 /* PBXContainerItemProxy */;
 		};
-		14963A46061F1022009B8E42 /* PBXTargetDependency */ = {
+		14F0147C088EC8FF00FE6B14 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
-			targetProxy = 14963A45061F1022009B8E42 /* PBXContainerItemProxy */;
+			targetProxy = 14F0147B088EC8FF00FE6B14 /* PBXContainerItemProxy */;
 		};
 		14F45E9D06DBB84B0048F2F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2944,108 +2931,6 @@
 			};
 			name = Default;
 		};
-		144C073A0854D2C700F43304 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
-				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 15;
-				DiskImageVolumeName = "$(PROJECT_NAME)";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "Create Disk Image";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
-		144C073B0854D2C700F43304 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEPLOYMENT_LOCATION = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 15;
-				DiskImageVolumeName = "$(PROJECT_NAME)";
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OTHER_CFLAGS = (
-					"-DTCM_NO_DEBUG",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DNDEBUG",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "Create Disk Image";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Release;
-		};
-		144C073C0854D2C700F43304 /* Release Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_LOCATION = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 15;
-				DiskImageVolumeName = "$(PROJECT_NAME)";
-				OTHER_CFLAGS = (
-					"-DTCM_NO_DEBUG",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DNDEBUG",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "Create Disk Image";
-				SECTORDER_FLAGS = "";
-				UNSTRIPPED_PRODUCT = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = "Release Unstripped";
-		};
-		144C073D0854D2C700F43304 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DiskImageProduct = "$(PROJECT_NAME).app";
-				DiskImageSizeInMB = 15;
-				DiskImageVolumeName = "$(PROJECT_NAME)";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Create Disk Image";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Default;
-		};
 		144C073F0854D2C700F43304 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3167,6 +3052,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -3179,6 +3066,8 @@
 					ppc,
 					i386,
 				);
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -3191,6 +3080,8 @@
 					ppc,
 					i386,
 				);
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -3200,8 +3091,91 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+		14F01468088EC6BD00FE6B14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DiskImageProduct = SubEthaEdit.app;
+				DiskImageSizeInMB = 20;
+				DiskImageVolumeName = SubEthaEdit;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image (new)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Debug;
+		};
+		14F01469088EC6BD00FE6B14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DiskImageProduct = SubEthaEdit.app;
+				DiskImageSizeInMB = 20;
+				DiskImageVolumeName = SubEthaEdit;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image (new)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Release;
+		};
+		14F0146A088EC6BD00FE6B14 /* Release Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DiskImageProduct = SubEthaEdit.app;
+				DiskImageSizeInMB = 20;
+				DiskImageVolumeName = SubEthaEdit;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image (new)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Release Unstripped";
+		};
+		14F0146B088EC6BD00FE6B14 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Create Disk Image (new)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
 			};
 			name = Default;
 		};
@@ -3252,17 +3226,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
 		};
-		144C07390854D2C700F43304 /* Build configuration list for PBXAggregateTarget "Create Disk Image" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				144C073A0854D2C700F43304 /* Debug */,
-				144C073B0854D2C700F43304 /* Release */,
-				144C073C0854D2C700F43304 /* Release Unstripped */,
-				144C073D0854D2C700F43304 /* Default */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
-		};
 		144C073E0854D2C700F43304 /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3284,6 +3247,16 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
+		};
+		14F01467088EC6BD00FE6B14 /* Build configuration list for PBXLegacyTarget "Create Disk Image" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14F01468088EC6BD00FE6B14 /* Debug */,
+				14F01469088EC6BD00FE6B14 /* Release */,
+				14F0146A088EC6BD00FE6B14 /* Release Unstripped */,
+				14F0146B088EC6BD00FE6B14 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

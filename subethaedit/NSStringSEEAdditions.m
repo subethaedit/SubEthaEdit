@@ -510,7 +510,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
     while (index < [string length]) {
         unichar c=[string characterAtIndex:index];                         
-        if ((c > 128 && !forUTF8) || c=='&' || c=='<' || c=='>') {                           
+        if ((c > 128 && !forUTF8) || c=='&' || c=='<' || c=='>' || c=='"') {                           
             NSString *encodedString = [NSString stringWithFormat: @"&#%d;", c];
             if ([sEntities objectForKey:encodedString]) {
                 encodedString = [sEntities objectForKey:encodedString];
