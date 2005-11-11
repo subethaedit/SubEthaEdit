@@ -67,6 +67,7 @@ artwork/icons/txt.icns -text
 artwork/mockups/RendezvousBrowser.psd -text
 artwork/mockups/RendezvousBrowser2.psd -text
 artwork/website/Autocomplete.psd -text
+artwork/website/BigPicture.de.psd -text
 artwork/website/BigPicture.psd -text
 artwork/website/HellasInternational.psd -text
 artwork/website/ModeFiles.psd -text
@@ -76,11 +77,15 @@ artwork/website/StylePrefs.psd -text
 artwork/website/SubEthaEditImage.psd -text
 artwork/website/TolleProgramme.psd -text
 artwork/website/buynow.psd -text
+artwork/website/cocoaradiobanner.psd -text
 artwork/website/codingmonkeys.psd -text
 artwork/website/createdwith.psd -text
 artwork/website/download.psd -text
+artwork/website/pombanner.psd -text
+artwork/website/splash-overnight.psd -text
 artwork/website/splash.psd -text
 artwork/website/version2.psd -text
+artwork/website/website.psd -text
 documentation/SessionCreation.txt -text svneol=unset#unset
 documentation/SessionProfile.txt -text
 documentation/autodoc/HTMLTemplate.html -text
