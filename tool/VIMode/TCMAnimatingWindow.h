@@ -11,6 +11,7 @@
 
 @interface TCMAnimatingWindow : NSWindow {
     NSTimer *I_timer;
+    float I_progress;
 }
 
 

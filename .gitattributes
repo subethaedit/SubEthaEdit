@@ -841,6 +841,9 @@ tool/VIMode/VIMTextView.m -text
 tool/VIMode/VIMode.xcode/pittenau.mode2 -text
 tool/VIMode/VIMode.xcode/pittenau.pbxuser -text
 tool/VIMode/VIMode.xcode/project.pbxproj -text
+tool/VIMode/VIMode.xcodeproj/pittenau.mode2 -text
+tool/VIMode/VIMode.xcodeproj/pittenau.pbxuser -text
+tool/VIMode/VIMode.xcodeproj/project.pbxproj -text
 tool/VIMode/VIMode_Prefix.pch -text
 tool/VIMode/main.m -text
 tool/XMPP/English.lproj/InfoPlist.strings -text

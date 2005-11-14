@@ -8,10 +8,17 @@
 
 #import "TCMAnimatingWindow.h"
 
-#define STEP 0.10
-#define DELAY 0.01
+#define STEP 0.01
+#define DELAY 0.005
 
 @implementation TCMAnimatingWindow
+
++ (float) scurveYForX:(float)x; {
+    
+    if (x >= 1) return 1; else if (x <= 0) return 0;
+    
+    return 1.0f / (1 + exp((-x*12)+6)); // magic s-curve formula courtesy of gus.
+}
 
 - (void)orderFront:(id)sender {
     [super orderFront:sender];
@@ -22,16 +29,18 @@
         I_timer = nil;
     }
     
-    float alpha = [self alphaValue]+STEP;
-    [self setAlphaValue:alpha];
+    I_progress += STEP;
+    [self setAlphaValue:[TCMAnimatingWindow scurveYForX:I_progress]];
     
-    if (alpha<1) {
+    if (I_progress<1) {
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(orderFront:)]];  
         [invocation setTarget:self];  
         [invocation setSelector:@selector(orderFront:)];  
         [invocation setArgument:&sender atIndex:2];  
         I_timer = [[NSTimer scheduledTimerWithTimeInterval:DELAY invocation:invocation repeats:NO] retain];  
-    } 
+    } else {
+        I_progress = 1;
+    }
 }
 
 - (void)orderOut:(id)sender {
@@ -41,10 +50,10 @@
         I_timer = nil;
     }
 
-    float alpha = [self alphaValue]-STEP;
-    [self setAlphaValue:alpha];
+    I_progress -= STEP;
+    [self setAlphaValue:[TCMAnimatingWindow scurveYForX:I_progress]];
 
-    if (alpha>0) {
+    if (I_progress>0) {
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(orderOut:)]];  
         [invocation setTarget:self];  
         [invocation setSelector:@selector(orderOut:)];  
@@ -52,6 +61,7 @@
         I_timer = [[NSTimer scheduledTimerWithTimeInterval:DELAY invocation:invocation repeats:NO] retain];  
     } else {
         [super orderOut:sender];
+        I_progress = 0;
     }
 }
 
