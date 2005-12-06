@@ -103,6 +103,8 @@ subethaedit/AppController.h -text
 subethaedit/AppController.m -text
 subethaedit/ButtonScrollView.h -text
 subethaedit/ButtonScrollView.m -text
+subethaedit/CandyBarView.h -text
+subethaedit/CandyBarView.m -text
 subethaedit/Debug/DebugBEEP.nib/classes.nib -text
 subethaedit/Debug/DebugBEEP.nib/info.nib -text
 subethaedit/Debug/DebugBEEP.nib/keyedobjects.nib -text

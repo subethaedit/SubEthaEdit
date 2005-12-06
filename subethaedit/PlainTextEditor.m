@@ -668,7 +668,6 @@
         return YES;
     } else if (selector == @selector(blockeditSelection:) || selector==@selector(endBlockedit:)) {
         TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
-        NSRange selection=[I_textView selectedRange];
         if ([textStorage hasBlockeditRanges]) {
             [menuItem setTitle:NSLocalizedString(@"MenuBlockeditEnd",@"End Blockedit in edit Menu")];
             [menuItem setKeyEquivalent:@"\e"];
