@@ -1804,16 +1804,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 144362480855FE0000593BE6 /* Products */;
-					ProjectRef = 14AD0BF407FC53E400E36927 /* TCMFoundation.xcodeproj */;
-				},
-				{
 					ProductGroup = 14F8E4AE0856512F007CEEAE /* Products */;
 					ProjectRef = 145BFDEB06A5E09B00160C0E /* OgreKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 144362520855FE1400593BE6 /* Products */;
 					ProjectRef = 14D6771E07F17FDC00FA264D /* TCMBEEP.xcodeproj */;
+				},
+				{
+					ProductGroup = 144362480855FE0000593BE6 /* Products */;
+					ProjectRef = 14AD0BF407FC53E400E36927 /* TCMFoundation.xcodeproj */;
 				},
 			);
 			targets = (
@@ -3257,6 +3257,7 @@
 				14F0146B088EC6BD00FE6B14 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
 /* End XCConfigurationList section */
 	};

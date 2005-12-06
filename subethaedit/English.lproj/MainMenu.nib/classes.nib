@@ -83,6 +83,7 @@
                 changeTabWidth = id; 
                 chooseLineEndings = id; 
                 clearChangeMarks = id; 
+                closeAllDocuments = id; 
                 convertLineEndings = id; 
                 copyAsXHTML = id; 
                 copyDocumentURL = id; 

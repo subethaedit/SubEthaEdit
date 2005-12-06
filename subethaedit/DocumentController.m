@@ -634,4 +634,8 @@ struct ModificationInfo
     }
 }
 
+- (IBAction)closeAllDocuments:(id)sender {
+    [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
+}
+
 @end
