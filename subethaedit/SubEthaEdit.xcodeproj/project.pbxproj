@@ -344,6 +344,9 @@
 		5EF18E0F066495C600957730 /* EmptyButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EF18E0E066495C600957730 /* EmptyButton.tiff */; };
 		5EF18E30066496E200957730 /* TexturedButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EF18E2E066496E200957730 /* TexturedButtonCell.h */; };
 		5EF18E31066496E200957730 /* TexturedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF18E2F066496E200957730 /* TexturedButtonCell.m */; };
+		5EF3200609461BD100D97A7D /* CandyBarView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EF3200409461BD100D97A7D /* CandyBarView.h */; };
+		5EF3200709461BD100D97A7D /* CandyBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF3200509461BD100D97A7D /* CandyBarView.m */; };
+		5EF3201509461E5000D97A7D /* CandyBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EF3201409461E5000D97A7D /* CandyBar.png */; };
 		5EF941DB0612E31600C2EBFE /* TextStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EF941D90612E31600C2EBFE /* TextStorage.h */; };
 		5EF941DC0612E31600C2EBFE /* TextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF941DA0612E31600C2EBFE /* TextStorage.m */; };
 		5EF941F60612EC5D00C2EBFE /* DocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EF941F40612EC5D00C2EBFE /* DocumentController.h */; };
@@ -870,6 +873,9 @@
 		5EF18E0E066495C600957730 /* EmptyButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EmptyButton.tiff; path = artwork/EmptyButton.tiff; sourceTree = "<group>"; };
 		5EF18E2E066496E200957730 /* TexturedButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturedButtonCell.h; sourceTree = "<group>"; };
 		5EF18E2F066496E200957730 /* TexturedButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TexturedButtonCell.m; sourceTree = "<group>"; };
+		5EF3200409461BD100D97A7D /* CandyBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CandyBarView.h; sourceTree = "<group>"; };
+		5EF3200509461BD100D97A7D /* CandyBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CandyBarView.m; sourceTree = "<group>"; };
+		5EF3201409461E5000D97A7D /* CandyBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CandyBar.png; path = artwork/CandyBar.png; sourceTree = "<group>"; };
 		5EF941D90612E31600C2EBFE /* TextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextStorage.h; sourceTree = "<group>"; };
 		5EF941DA0612E31600C2EBFE /* TextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextStorage.m; sourceTree = "<group>"; };
 		5EF941F40612EC5D00C2EBFE /* DocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentController.h; sourceTree = "<group>"; };
@@ -1080,6 +1086,8 @@
 				3188A35706492AD000AD92E4 /* FindAllController.m */,
 				300D432B088D1EB3005CA894 /* FindAllTableView.h */,
 				300D432C088D1EB3005CA894 /* FindAllTableView.m */,
+				5EF3200409461BD100D97A7D /* CandyBarView.h */,
+				5EF3200509461BD100D97A7D /* CandyBarView.m */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -1384,6 +1392,7 @@
 		5EEB176705ECDC0C00C17677 /* artwork */ = {
 			isa = PBXGroup;
 			children = (
+				5EF3201409461E5000D97A7D /* CandyBar.png */,
 				5EACBCCC080A837B00D34C15 /* LibraryFolderIcon.tiff */,
 				5EACBCCD080A837B00D34C15 /* HomeFolderIcon.tiff */,
 				5EACBCDC080A871400D34C15 /* SeeFolderIcon.tiff */,
@@ -1587,6 +1596,7 @@
 				5E7095D60807433B001FC259 /* NSColorTCMAdditions.h in Headers */,
 				5E766DAD0807445700A722F0 /* NSImageTCMAdditions.h in Headers */,
 				300D432D088D1EB3005CA894 /* FindAllTableView.h in Headers */,
+				5EF3200609461BD100D97A7D /* CandyBarView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2000,6 +2010,7 @@
 				315B39C60722A58C0005BCC3 /* style.icns in Resources */,
 				142D47DC07283ED500B00725 /* ReleaseNotes.txt in Resources */,
 				5E9624AB0857A8F5000B0AA3 /* Rendezvous.tiff in Resources */,
+				5EF3201509461E5000D97A7D /* CandyBar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2231,6 +2242,7 @@
 				5E7095D70807433B001FC259 /* NSColorTCMAdditions.m in Sources */,
 				5E766DAC0807445700A722F0 /* NSImageTCMAdditions.m in Sources */,
 				300D432E088D1EB3005CA894 /* FindAllTableView.m in Sources */,
+				5EF3200709461BD100D97A7D /* CandyBarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

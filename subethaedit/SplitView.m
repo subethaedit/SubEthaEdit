@@ -18,7 +18,7 @@
 @implementation SplitView
 
 - (float)dividerThickness {
-    return [super dividerThickness]+6.;
+    return [super dividerThickness];
 }
 
 - (void)drawDividerInRect:(NSRect)aRect {
