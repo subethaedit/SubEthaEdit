@@ -669,17 +669,12 @@
     } else if (selector == @selector(blockeditSelection:) || selector==@selector(endBlockedit:)) {
         TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
         NSRange selection=[I_textView selectedRange];
-        if (selection.location<[textStorage length]) {
-            id blockAttribute=[textStorage
-                                attribute:BlockeditAttributeName
-                                  atIndex:selection.location effectiveRange:nil];
-            if (blockAttribute) {
-                [menuItem setTitle:NSLocalizedString(@"MenuBlockeditEnd",@"End Blockedit in edit Menu")];
-                [menuItem setKeyEquivalent:@"\e"];
-                [menuItem setAction:@selector(endBlockedit:)];
-                [menuItem setKeyEquivalentModifierMask:0];
-                return YES;
-            }
+        if ([textStorage hasBlockeditRanges]) {
+            [menuItem setTitle:NSLocalizedString(@"MenuBlockeditEnd",@"End Blockedit in edit Menu")];
+            [menuItem setKeyEquivalent:@"\e"];
+            [menuItem setAction:@selector(endBlockedit:)];
+            [menuItem setKeyEquivalentModifierMask:0];
+            return YES;
         }
         [menuItem setTitle:NSLocalizedString(@"MenuBlockeditSelection",@"Blockedit Selection in edit Menu")];
         [menuItem setKeyEquivalent:@"B"];
