@@ -1329,13 +1329,17 @@ enum {
 #pragma mark ### window delegation  ###
 
 - (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
-    if (!([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
+    if (!([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)) {
         NSRect windowFrame=[[self window] frame];
+        I_flags.zoomFix_defaultFrameHadEqualWidth = (defaultFrame.size.width==windowFrame.size.width);
         defaultFrame.size.width=windowFrame.size.width;
         defaultFrame.origin.x=windowFrame.origin.x;
     }
     return defaultFrame;
 }
 
+- (BOOL)windowShouldZoom:(NSWindow *)sender toFrame:(NSRect)newFrame {
+  return [sender frame].size.width == newFrame.size.width || ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) || I_flags.zoomFix_defaultFrameHadEqualWidth;
+}
 
 @end
