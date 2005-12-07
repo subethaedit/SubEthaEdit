@@ -333,6 +333,8 @@
 		5EDB87E705F8AFE30058C44A /* PlainTextWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EDB87E505F8AFE30058C44A /* PlainTextWindowController.h */; };
 		5EDB87E805F8AFE30058C44A /* PlainTextWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDB87E605F8AFE30058C44A /* PlainTextWindowController.m */; };
 		5EDB87EB05F8B1CB0058C44A /* PlainTextWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5EDB87E905F8B1CB0058C44A /* PlainTextWindow.nib */; };
+		5EE09D9009478B5900BD9C53 /* BorderedTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EE09D8E09478B5900BD9C53 /* BorderedTextField.h */; };
+		5EE09D9109478B5900BD9C53 /* BorderedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE09D8F09478B5900BD9C53 /* BorderedTextField.m */; };
 		5EEB176905ECDC1600C17677 /* SubEthaEdit.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5EEB176805ECDC1600C17677 /* SubEthaEdit.icns */; };
 		5EEB177205ECF6F700C17677 /* TCMMMUserManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EEB177005ECF6F700C17677 /* TCMMMUserManager.h */; };
 		5EEB177305ECF6F700C17677 /* TCMMMUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB177105ECF6F700C17677 /* TCMMMUserManager.m */; };
@@ -862,6 +864,8 @@
 		5EDB87E505F8AFE30058C44A /* PlainTextWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextWindowController.h; sourceTree = "<group>"; };
 		5EDB87E605F8AFE30058C44A /* PlainTextWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextWindowController.m; sourceTree = "<group>"; };
 		5EDB87EA05F8B1CB0058C44A /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PlainTextWindow.nib; sourceTree = "<group>"; };
+		5EE09D8E09478B5900BD9C53 /* BorderedTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BorderedTextField.h; sourceTree = "<group>"; };
+		5EE09D8F09478B5900BD9C53 /* BorderedTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorderedTextField.m; sourceTree = "<group>"; };
 		5EEB176805ECDC1600C17677 /* SubEthaEdit.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = SubEthaEdit.icns; path = artwork/SubEthaEdit.icns; sourceTree = "<group>"; };
 		5EEB177005ECF6F700C17677 /* TCMMMUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMMMUserManager.h; sourceTree = "<group>"; };
 		5EEB177105ECF6F700C17677 /* TCMMMUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMUserManager.m; sourceTree = "<group>"; };
@@ -1050,6 +1054,8 @@
 				5E6D9D3B070062EC003DAE06 /* Printing */,
 				5E2D1909062E93FD00A0EB85 /* ButtonScrollView.h */,
 				5E2D190A062E93FD00A0EB85 /* ButtonScrollView.m */,
+				5EE09D8E09478B5900BD9C53 /* BorderedTextField.h */,
+				5EE09D8F09478B5900BD9C53 /* BorderedTextField.m */,
 				5EF941F40612EC5D00C2EBFE /* DocumentController.h */,
 				5EF941F50612EC5D00C2EBFE /* DocumentController.m */,
 				5EA982800640FC6D00FD5B65 /* DocumentProxyWindowController.h */,
@@ -1597,6 +1603,7 @@
 				5E766DAD0807445700A722F0 /* NSImageTCMAdditions.h in Headers */,
 				300D432D088D1EB3005CA894 /* FindAllTableView.h in Headers */,
 				5EF3200609461BD100D97A7D /* CandyBarView.h in Headers */,
+				5EE09D9009478B5900BD9C53 /* BorderedTextField.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2243,6 +2250,7 @@
 				5E766DAC0807445700A722F0 /* NSImageTCMAdditions.m in Sources */,
 				300D432E088D1EB3005CA894 /* FindAllTableView.m in Sources */,
 				5EF3200709461BD100D97A7D /* CandyBarView.m in Sources */,
+				5EE09D9109478B5900BD9C53 /* BorderedTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

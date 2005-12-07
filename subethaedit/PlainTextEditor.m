@@ -24,6 +24,7 @@
 #import "RadarScroller.h"
 #import "SelectionOperation.h"
 #import "UndoManager.h"
+#import "BorderedTextField.h"
 #import <OgreKit/OgreKit.h>
 
 @interface NSMenu (UndefinedStuff)
@@ -186,6 +187,7 @@
     [self setShowsChangeMarks:[document showsChangeMarks]];
     [self setShowsTopStatusBar:[document showsTopStatusBar]];
     [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
+    [(BorderedTextField *)O_windowWidthTextField setHasRightBorder:NO];
 }
 
 - (void)takeStyleSettingsFromDocument {
@@ -224,12 +226,13 @@
         NSRect positionFrame=[O_positionTextField frame];
         BOOL isWaiting=[[self document] isWaiting];
         [O_waitPipeStatusImageView setHidden:!isWaiting];
-        positionFrame.origin.x=isWaiting?s_initialXPosition+14.:s_initialXPosition;
+        [(BorderedTextField *)O_positionTextField setHasLeftBorder:isWaiting];
+        positionFrame.origin.x=isWaiting?s_initialXPosition+18.:s_initialXPosition;
         NSPoint position=positionFrame.origin;
         positionFrame.size.width=[[O_positionTextField stringValue]
                         sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_positionTextField font]
-                                                                       forKey:NSFontAttributeName]].width+5.;
-        [O_positionTextField setFrame:positionFrame];
+                                                                       forKey:NSFontAttributeName]].width+7.;
+        [O_positionTextField setFrame:NSIntegralRect(positionFrame)];
         position.x = (float)(int)NSMaxX(positionFrame);
         NSRect newWrittenByFrame=[O_writtenByTextField frame];
         newWrittenByFrame.size.width=[[O_writtenByTextField stringValue]
