@@ -1472,11 +1472,18 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)exportPanelDidEnd:(NSSavePanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
     if (aReturnCode==NSOKButton) {
         NSDictionary *htmlOptions=[[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey] objectForKey:DocumentModeExportHTMLPreferenceKey];
+        TextStorage *textStorage = (TextStorage *)I_textStorage;
         
         if ([[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
             SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
             if (highlighter)
-                while (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:self]);
+                while (![highlighter colorizeDirtyRanges:textStorage ofDocument:self]);
+        } else {
+            textStorage = [[TextStorage new] autorelease];
+            [textStorage setAttributedString:I_textStorage];
+            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:textStorage];
+            [textStorage  addAttributes:[self plainTextAttributes]
+                                  range:NSMakeRange(0,[textStorage length])];
         }
 
         BOOL shouldSaveImages=[[htmlOptions objectForKey:DocumentModeHTMLExportShowUserImagesPreferenceKey] boolValue];
@@ -1605,7 +1612,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         
         // modify TextStorage
         NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
-        NSMutableAttributedString *attributedStringForXHTML=[(TextStorage *)[self textStorage] attributedStringForXHTMLExportWithRange:wholeRange foregroundColor:[self documentForegroundColor] backgroundColor:[self documentBackgroundColor]];
+        NSMutableAttributedString *attributedStringForXHTML=[(TextStorage *)textStorage attributedStringForXHTMLExportWithRange:wholeRange foregroundColor:[self documentForegroundColor] backgroundColor:[self documentBackgroundColor]];
         
         unsigned index=0;
         do {
@@ -1692,7 +1699,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 }
             }
             [legend appendString:@"</table>\n"];
-        }    
+        }  
+          
         // Prepare Content    
         NSMutableString *content=[NSMutableString string];
         NSUserDefaults *standardUserDefaults=[NSUserDefaults standardUserDefaults];

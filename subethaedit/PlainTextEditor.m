@@ -260,7 +260,7 @@
         }
         newWrittenByFrame.origin.x = bounds.origin.x+bounds.size.width-RIGHTINSET-newWrittenByFrame.size.width;
         [O_writtenByTextField setFrame:newWrittenByFrame];
-        [O_symbolPopUpButton  setFrame:newPopUpFrame];
+        [O_symbolPopUpButton  setFrame:NSIntegralRect(newPopUpFrame)];
         [O_topStatusBarView setNeedsDisplay:YES];
     }
 }
