@@ -2789,7 +2789,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         float strokeWidth=.0;
         if (synthesise && (traits & NSBoldFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSBoldFontMask)) {
-            strokeWidth=-3.;
+            strokeWidth=darkBackground?-9.:-3.;
         }
         NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
         result=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,

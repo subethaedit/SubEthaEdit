@@ -183,10 +183,15 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         ([[printDictionary objectForKey:@"SEEWhiteBackground"] boolValue] && 
          [[[I_document documentMode] defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue]);
 
-    if (![[printDictionary objectForKey:@"SEEHighlightSyntax"] boolValue]) {
-        [I_textStorage addAttribute:NSForegroundColorAttributeName value:needToEnforceWhiteBackground?[NSColor blackColor]:[I_document documentForegroundColor] range:NSMakeRange(0,[I_textStorage length])];
-        [I_textStorage addAttribute:NSFontAttributeName value:[I_document fontWithTrait:0] 
-            range:NSMakeRange(0,[I_textStorage length])];
+    if (![[printDictionary objectForKey:@"SEEHighlightSyntax"] boolValue] || !highlighter) {
+        NSRange wholeRange=NSMakeRange(0,[I_textStorage length]);
+        NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                    needToEnforceWhiteBackground?[NSColor blackColor]:[I_document documentForegroundColor], NSForegroundColorAttributeName,
+                    [I_document fontWithTrait:0], NSFontAttributeName,
+                    [NSNumber numberWithFloat: 0.], NSObliquenessAttributeName,
+                    [NSNumber numberWithFloat: 0.], NSStrokeWidthAttributeName,
+                    nil];
+        [I_textStorage addAttributes:attributes range:wholeRange];
     }
 
     float lineNumberSize=8.;
