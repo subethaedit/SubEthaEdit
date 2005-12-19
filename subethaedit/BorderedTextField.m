@@ -51,6 +51,11 @@
      I_borderColor=[aColor retain];
 }
 
+- (void)mouseDown:(NSEvent *)anEvent {
+    if ([self action]) {
+        [self sendAction:[self action] to:[self target]];
+    }
+}
 
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];

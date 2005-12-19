@@ -23,8 +23,10 @@
 
 - (id)initWithFrame:(NSRect)frameRect pullsDown:(BOOL)flag {   
     self=[super initWithFrame:frameRect pullsDown:flag];
-//    NSLog(@"init and my cell is:%@",NSStringFromClass([[self cell] class]));
     [[self cell] setArrowPosition:NSPopUpNoArrow];
+    [[self cell] setControlSize:NSSmallControlSize];
+    [self setBordered:NO];
+    [self setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
     return self;
 }
 
@@ -67,15 +69,22 @@
     triangleRect = NSIntegralRect(triangleRect);
     float triangleSpacing = triangleRect.size.height*.15;
 
-    CGContextMoveToPoint(ctx,NSMinX(triangleRect),NSMidY(triangleRect)-triangleSpacing);
-    CGContextAddLineToPoint(ctx,NSMaxX(triangleRect),NSMidY(triangleRect)-triangleSpacing);
-    CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMinY(triangleRect));
-    CGContextClosePath(ctx);
-
-    CGContextMoveToPoint(ctx,NSMinX(triangleRect),NSMidY(triangleRect)+triangleSpacing);
-    CGContextAddLineToPoint(ctx,NSMaxX(triangleRect),NSMidY(triangleRect)+triangleSpacing);
-    CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMaxY(triangleRect));
-    CGContextClosePath(ctx);
+    if ([self pullsDown]) {
+      CGContextMoveToPoint(ctx,NSMinX(triangleRect)-triangleSpacing/2.,NSMidY(triangleRect)-2*triangleSpacing);
+      CGContextAddLineToPoint(ctx,NSMaxX(triangleRect)+triangleSpacing/2.,NSMidY(triangleRect)-2*triangleSpacing);
+      CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMaxY(triangleRect)-2*triangleSpacing);
+      CGContextClosePath(ctx);
+    } else {
+      CGContextMoveToPoint(ctx,NSMinX(triangleRect),NSMidY(triangleRect)-triangleSpacing);
+      CGContextAddLineToPoint(ctx,NSMaxX(triangleRect),NSMidY(triangleRect)-triangleSpacing);
+      CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMinY(triangleRect));
+      CGContextClosePath(ctx);
+  
+      CGContextMoveToPoint(ctx,NSMinX(triangleRect),NSMidY(triangleRect)+triangleSpacing);
+      CGContextAddLineToPoint(ctx,NSMaxX(triangleRect),NSMidY(triangleRect)+triangleSpacing);
+      CGContextAddLineToPoint(ctx,NSMidX(triangleRect),NSMaxY(triangleRect));
+      CGContextClosePath(ctx);
+    }
     
     CGContextFillPath(ctx);
 }

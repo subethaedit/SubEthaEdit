@@ -3205,6 +3205,17 @@ static NSString *S_measurementUnits;
     return I_flags.wrapMode;
 }
 
+- (IBAction)toggleWrapMode:(id)aSender {
+  if (!(I_flags.wrapLines)) {
+    [self setWrapMode:DocumentModeWrapModeWords];
+    [self setWrapLines:YES];
+  } else if (I_flags.wrapMode==DocumentModeWrapModeWords) {
+    [self setWrapMode:DocumentModeWrapModeCharacters];
+  } else {
+    [self setWrapLines:NO];
+  }
+}
+
 - (void)setWrapMode:(int)newMode {
     if (I_flags.wrapMode!=newMode) {
         I_flags.wrapMode=newMode;
@@ -3369,6 +3380,11 @@ static NSString *S_measurementUnits;
                     [self setFileEncoding:encoding];
                     [self updateChangeCount:NSChangeDone];
                 }
+            }
+
+            if (returnCode == NSAlertSecondButtonReturn) {
+              // canceled so update bottom status bar to previous state
+              [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
             }
 
             if (returnCode == NSAlertThirdButtonReturn) {

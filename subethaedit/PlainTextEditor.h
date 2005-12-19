@@ -13,12 +13,12 @@
 @interface PlainTextEditor : NSResponder {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
     IBOutlet NSTextField *O_positionTextField;
-    IBOutlet NSTextField *O_tabStatusTextField;
+    IBOutlet PopUpButton *O_tabStatusPopUpButton;
     IBOutlet NSTextField *O_windowWidthTextField;
     IBOutlet NSTextField *O_writtenByTextField;
-    IBOutlet NSTextField *O_modeTextField;
-    IBOutlet NSTextField *O_encodingTextField;
-    IBOutlet NSTextField *O_lineEndingTextField;
+    IBOutlet PopUpButton *O_modePopUpButton;
+    IBOutlet PopUpButton *O_encodingPopUpButton;
+    IBOutlet PopUpButton *O_lineEndingPopUpButton;
     IBOutlet PopUpButton *O_symbolPopUpButton;
     IBOutlet NSScrollView *O_scrollView;
     IBOutlet NSView       *O_editorView;

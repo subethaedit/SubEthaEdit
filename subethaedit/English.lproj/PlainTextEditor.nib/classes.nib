@@ -2,14 +2,17 @@
     IBClasses = (
         {CLASS = BorderedTextField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
         {CLASS = CandyBarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {toggleWrapMode = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {
             ACTIONS = {
-                chooseSymbol = id; 
                 jumpToNextChange = id; 
                 jumpToPreviousChange = id; 
-                toggleLineNumbers = id; 
                 toggleShowsChangeMarks = id; 
                 toggleWrap = id; 
             }; 
@@ -18,13 +21,13 @@
             OUTLETS = {
                 "O_bottomStatusBarView" = NSView; 
                 "O_editorView" = NSView; 
-                "O_encodingTextField" = NSTextField; 
-                "O_lineEndingTextField" = NSTextField; 
-                "O_modeTextField" = NSTextField; 
+                "O_encodingPopUpButton" = PopUpButton; 
+                "O_lineEndingPopUpButton" = PopUpButton; 
+                "O_modePopUpButton" = PopUpButton; 
                 "O_positionTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 
                 "O_symbolPopUpButton" = PopUpButton; 
-                "O_tabStatusTextField" = NSTextField; 
+                "O_tabStatusPopUpButton" = PopUpButton; 
                 "O_topStatusBarView" = NSView; 
                 "O_waitPipeStatusImageView" = NSImageView; 
                 "O_windowWidthTextField" = NSTextField; 

@@ -25,6 +25,8 @@
 #import "SelectionOperation.h"
 #import "UndoManager.h"
 #import "BorderedTextField.h"
+#import "DocumentModeManager.h"
+#import "AppController.h"
 #import <OgreKit/OgreKit.h>
 
 @interface NSMenu (UndefinedStuff)
@@ -175,9 +177,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
     O_editorView = view;
     [O_symbolPopUpButton setDelegate:self];
-    [[O_symbolPopUpButton cell] setControlSize:NSSmallControlSize];
-    [O_symbolPopUpButton setBordered:NO];
-    [O_symbolPopUpButton setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
 
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
@@ -188,6 +187,63 @@
     [self setShowsTopStatusBar:[document showsTopStatusBar]];
     [self setShowsBottomStatusBar:[document showsBottomStatusBar]];
     [(BorderedTextField *)O_windowWidthTextField setHasRightBorder:NO];
+
+    DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
+    [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
+    [[O_modePopUpButton cell] setMenu:menu];
+
+    EncodingMenu *fileEncodingsSubmenu = [[EncodingMenu new] autorelease];
+    [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
+    [[O_encodingPopUpButton cell] setMenu:fileEncodingsSubmenu];
+    
+    NSMenu *lineEndingMenu = [[NSMenu new] autorelease];
+    [O_lineEndingPopUpButton setPullsDown:YES];
+    // insert title item of pulldown popupbutton
+    [lineEndingMenu addItem:[[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease]];
+    NSMenuItem *item=nil;
+    SEL chooseLineEndings=@selector(chooseLineEndings:);
+    NSEnumerator *formatSubmenuItems=[[[[[NSApp mainMenu] itemWithTag:FormatMenuTag] submenu] itemArray] objectEnumerator];
+    while ((item=[formatSubmenuItems nextObject])) {
+        if ([item hasSubmenu] && [[[[item submenu] itemArray] objectAtIndex:0] action] == chooseLineEndings) {
+            NSEnumerator *interestingItems = [[[item submenu] itemArray] objectEnumerator];
+            NSMenuItem *innerItem = nil;
+            while ((innerItem = [interestingItems nextObject])) {
+                if ([innerItem isSeparatorItem]) {
+                    [lineEndingMenu addItem:[NSMenuItem separatorItem]];
+                } else {
+                    item=[[[NSMenuItem alloc] initWithTitle:[innerItem title] action:[innerItem action] keyEquivalent:@""] autorelease];
+                    [item setTarget:[innerItem target]];
+                    [item setTag:   [innerItem tag]];
+                    [lineEndingMenu addItem:item];
+                }
+            }
+            break;
+        }
+    }
+    [[O_lineEndingPopUpButton cell] setMenu:lineEndingMenu];
+
+    [O_tabStatusPopUpButton setPullsDown:YES];
+    NSMenu *tabMenu = [[NSMenu new] autorelease];
+    // insert title item of pulldown popupbutton
+    [tabMenu addItem:[[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease]];
+    formatSubmenuItems=[[[[[NSApp mainMenu] itemWithTag:FormatMenuTag] submenu] itemArray] objectEnumerator];
+    BOOL copyItems = NO;
+    while ((item=[formatSubmenuItems nextObject])) {
+        if ([item action] == @selector(toggleUsesTabs:)) copyItems = YES;
+        if (copyItems) {
+            if ([item isSeparatorItem]) {
+                [tabMenu addItem:[NSMenuItem separatorItem]];
+            } else {
+                NSMenuItem *newItem=[tabMenu addItemWithTitle:[item title] action:[item action] keyEquivalent:@""];
+                [newItem setTarget:[item target]];
+                [newItem setTag:   [item tag]];
+                if ([item hasSubmenu]) {
+                    [newItem setSubmenu:[[[item submenu] copy] autorelease]];
+                }
+            }
+        }
+    }
+    [[O_tabStatusPopUpButton cell] setMenu:tabMenu];
 }
 
 - (void)takeStyleSettingsFromDocument {
@@ -240,12 +296,11 @@
                                                                                        forKey:NSFontAttributeName]].width+5.;
         NSRect newPopUpFrame=[O_symbolPopUpButton frame];
         newPopUpFrame.origin.x=position.x;
-        if (![[document documentMode] hasSymbols]) {
-            newPopUpFrame.size.width=0;
-            [O_symbolPopUpButton setHidden:YES];
-        } else {
+        if ([[document documentMode] hasSymbols]) {
             newPopUpFrame.size.width=symbolWidth;
             [O_symbolPopUpButton setHidden:NO];
+        } else {
+            [O_symbolPopUpButton setHidden:YES];
         }
         int remainingWidth=bounds.size.width-position.x-5.-RIGHTINSET;
         if (newWrittenByFrame.size.width + newPopUpFrame.size.width > remainingWidth) {
@@ -333,57 +388,40 @@
     return result;
 }
 
-- (void)TCM_adjustVisibilityInBottomStatusBar {
-    if (I_flags.showBottomStatusBar) {
-        float windowWidthPosition=NSMaxX([O_windowWidthTextField frame])-[[O_windowWidthTextField font] widthOfString:[O_windowWidthTextField stringValue]]-3.;
-        float testPosition=MIN(NSMaxX([O_encodingTextField frame]),[O_encodingTextField frame].origin.x+[[O_encodingTextField font] widthOfString:[O_encodingTextField stringValue]]+3.);
-        [O_encodingTextField setHidden:testPosition>windowWidthPosition];
-
-        testPosition=MIN(NSMaxX([O_lineEndingTextField frame]),[O_lineEndingTextField frame].origin.x+[[O_lineEndingTextField font] widthOfString:[O_lineEndingTextField stringValue]]+3.);
-        [O_lineEndingTextField setHidden:testPosition>windowWidthPosition];
-
-        testPosition=MIN(NSMaxX([O_tabStatusTextField frame]),[O_tabStatusTextField frame].origin.x+[[O_tabStatusTextField font] widthOfString:[O_tabStatusTextField stringValue]]+3.);
-        [O_tabStatusTextField setHidden:testPosition>windowWidthPosition];
-
-        testPosition=MIN(NSMaxX([O_modeTextField frame]),[O_modeTextField frame].origin.x+[[O_modeTextField font] widthOfString:[O_modeTextField stringValue]]+3.);
-        [O_modeTextField setHidden:testPosition>windowWidthPosition];
-
-    }
-}
-
 - (void)TCM_updateBottomStatusBar {
     if (I_flags.showBottomStatusBar) {
         PlainTextDocument *document=[self document];
-        [O_tabStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%@ (%d)",@"arrangement of Tab setting and tab width in Bottm Status Bar"),[document usesTabs]?NSLocalizedString(@"TrueTab",@"Bottom status bar text for TrueTab setting"):NSLocalizedString(@"Spaces",@"Bottom status bar text for use Spaces (instead of Tab) setting"),[document tabWidth]]];
-        [O_modeTextField setStringValue:[[document documentMode] displayName]];
+        [O_tabStatusPopUpButton setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ (%d)",@"arrangement of Tab setting and tab width in Bottm Status Bar"),[document usesTabs]?NSLocalizedString(@"TrueTab",@"Bottom status bar text for TrueTab setting"):NSLocalizedString(@"Spaces",@"Bottom status bar text for use Spaces (instead of Tab) setting"),[document tabWidth]]];
+        [O_modePopUpButton selectItemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[document documentMode] documentModeIdentifier]]];
 
-        [O_encodingTextField setStringValue:[NSString localizedNameOfStringEncoding:[document fileEncoding]]];
+        [O_encodingPopUpButton selectItemWithTag:[document fileEncoding]];
 
         NSFont *font=[document fontWithTrait:0];
         float characterWidth=[font widthOfString:@"n"];
         int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
         [O_windowWidthTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"WindowWidth%d%@",@"WindowWidthArangementString"),charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapMode]==DocumentModeWrapModeCharacters?NSLocalizedString(@"CharacterWrap",@"As shown in bottom status bar"):NSLocalizedString(@"WordWrap",@"As shown in bottom status bar"))]];
+
+        [O_lineEndingPopUpButton selectItemWithTag:[document lineEnding]];
         NSString *lineEndingStatusString=@"";
         switch ([document lineEnding]) {
             case LineEndingLF:
-                lineEndingStatusString=@"(LF)";
+                lineEndingStatusString=@"LF";
                 break;
             case LineEndingCR:
-                lineEndingStatusString=@"(CR)";
+                lineEndingStatusString=@"CR";
                 break;
             case LineEndingCRLF:
-                lineEndingStatusString=@"(CRLF)";
+                lineEndingStatusString=@"CRLF";
                 break;
             case LineEndingUnicodeLineSeparator:
-                lineEndingStatusString=@"(LSEP)";
+                lineEndingStatusString=@"LSEP";
                 break;
             case LineEndingUnicodeParagraphSeparator:
-                lineEndingStatusString=@"(PSEP)";
+                lineEndingStatusString=@"PSEP";
                 break;
         }
-        [O_lineEndingTextField setStringValue:lineEndingStatusString];
-        [self TCM_adjustVisibilityInBottomStatusBar];
-    }
+        [O_lineEndingPopUpButton setTitle:lineEndingStatusString];
+     }
 }
 
 - (NSView *)editorView {
@@ -1217,6 +1255,9 @@
 }
 
 - (void)plainTextDocumentDidChangeEditStatus:(NSNotification *)aNotification {
+    if ([[self document] wrapLines] != [self wrapsLines]) {
+        [self setWrapsLines:[[self document] wrapLines]];
+    }
     [self TCM_updateBottomStatusBar];
 }
 
