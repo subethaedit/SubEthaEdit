@@ -52,7 +52,7 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
         int bundleMinor = 0;
         if (TCM_scanVersionString(bundleShortVersion, &bundleMajor, &bundleMinor)
             && TCM_scanVersionString(version, &major, &minor)) {
-            if (bundleMajor == major && bundleMinor > minor + 1) {
+            if (bundleMajor == major && bundleMinor > minor + 2) {
                 return YES;
             }
         }
@@ -336,7 +336,7 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
     [O_goBackButton setEnabled:NO];
     [O_commercialRadioButton setState:NSOffState];
     [O_noncommercialRadioButton setState:NSOffState];
-    [O_useCommandLineToolCheckbox setState:NSOnState];
+    [O_useCommandLineToolCheckbox setState:NSOffState];
     
     [O_licenseeNameField setDelegate:self];
     [O_licenseeOrganizationField setDelegate:self];

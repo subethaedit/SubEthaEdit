@@ -118,7 +118,7 @@
         [mNameAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     }
     NSRect bounds=[self bounds];
-    NSRect itemRect=NSMakeRect(0, 0,bounds.size.width, itemRowHeight);
+    NSRect itemRect=NSMakeRect(0 -1, 0 -1,bounds.size.width +2, itemRowHeight);
     NSImage *fillImage=[NSImage imageNamed:@"ParticipantBar_Fill"];
     [fillImage setFlipped:YES];
     [fillImage drawInRect:itemRect fromRect:NSMakeRect(0,0,[fillImage size].width,[fillImage size].height) operation:NSCompositeCopy fraction:1.0];
@@ -130,14 +130,14 @@
     
     NSImage *image=[dataSource listView:self objectValueForTag:ParticipantsItemStatusImageTag atChildIndex:-1 ofItemAtIndex:aItemIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(12,2+16) 
+        [image compositeToPoint:NSMakePoint(12,2+16 -1) 
                       operation:NSCompositeSourceOver];
     }
 
     NSString *string=[dataSource listView:self objectValueForTag:ParticipantsItemNameTag atChildIndex:-1 ofItemAtIndex:aItemIndex];
     [[NSColor whiteColor] set];
     if (string) {
-        [string drawAtPoint:NSMakePoint(16.+9+16.+3.,3.)
+        [string drawAtPoint:NSMakePoint(16.+9+16.+3.,3. -1.)
                withAttributes:mNameAttributes];
     }
 
