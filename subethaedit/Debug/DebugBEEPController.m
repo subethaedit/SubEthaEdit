@@ -8,7 +8,7 @@
 
 #ifndef TCM_NO_DEBUG
 
-#import <TCMFoundation/TCMFoundation.h>
+#import "TCMFoundation.h"
 #import "DebugBEEPController.h"
 #import "TCMMMBEEPSessionManager.h"
 

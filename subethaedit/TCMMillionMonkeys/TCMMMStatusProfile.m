@@ -10,7 +10,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMUserManager.h"
-#import <TCMFoundation/TCMBencodingUtilities.h>
+#import "TCMBencodingUtilities.h"
 #import "TCMMMSession.h"
 
 

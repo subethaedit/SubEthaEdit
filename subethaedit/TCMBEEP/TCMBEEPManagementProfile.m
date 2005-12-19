@@ -11,7 +11,6 @@
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPSession.h"
 #import <CoreFoundation/CoreFoundation.h>
-#import <TCMFoundation/TCMFoundation.h>
 
 
 @interface TCMBEEPManagementProfile (TCMBEEPManagementProfilePrivateAdditions)

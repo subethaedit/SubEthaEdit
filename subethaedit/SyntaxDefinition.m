@@ -8,7 +8,7 @@
 
 #import "SyntaxDefinition.h"
 #import "NSColorTCMAdditions.h"
-#import <TCMFoundation/TCMFoundation.h>
+#import "TCMFoundation.h"
 
 
 @implementation SyntaxDefinition

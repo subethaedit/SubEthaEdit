@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <TCMBEEP/TCMBEEP.h>
+#import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 
 

@@ -6,7 +6,6 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import <TCMFoundation/TCMFoundation.h>
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPSession.h"
 #import "TCMBEEPFrame.h"

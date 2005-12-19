@@ -6,13 +6,13 @@
 //  Copyright (c) 2005 TheCodingMonkeys. All rights reserved.
 //
 
-#import <TCMFoundation/TCMDebug.h>
-#import <TCMFoundation/CFTreeTCMAdditions.h>
-#import <TCMFoundation/NSCalendarDateTCMAdditions.h>
-#import <TCMFoundation/NSDataTCMAdditions.h>
-#import <TCMFoundation/NSDictionaryTCMAdditions.h>
-#import <TCMFoundation/NSNetServiceTCMAdditions.h>
-#import <TCMFoundation/NSRangeTCMAdditions.h>
-#import <TCMFoundation/NSStringTCMAdditions.h>
-#import <TCMFoundation/TCMBencodingUtilities.h>
-#import <TCMFoundation/TCMRendezvousBrowser.h>
+#import "TCMDebug.h"
+#import "CFTreeTCMAdditions.h"
+#import "NSCalendarDateTCMAdditions.h"
+#import "NSDataTCMAdditions.h"
+#import "NSDictionaryTCMAdditions.h"
+#import "NSNetServiceTCMAdditions.h"
+#import "NSRangeTCMAdditions.h"
+#import "NSStringTCMAdditions.h"
+#import "TCMBencodingUtilities.h"
+#import "TCMRendezvousBrowser.h"

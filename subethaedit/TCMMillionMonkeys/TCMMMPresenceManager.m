@@ -12,7 +12,7 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMSession.h"
-#import <TCMFoundation/TCMRendezvousBrowser.h>
+#import "TCMRendezvousBrowser.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 
