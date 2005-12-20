@@ -318,6 +318,7 @@ static NSColor *nonCommercialColor=nil;
 }
 
 - (void)complete:(id)sender {
+    I_flags.autoCompleteInProgress=YES;
     TextStorage *textStorage=(TextStorage *)[self textStorage];
     if ([textStorage hasBlockeditRanges]) {
         NSEvent *event=[NSApp currentEvent];
@@ -354,6 +355,9 @@ static NSColor *nonCommercialColor=nil;
             if ([[self delegate] respondsToSelector:@selector(textViewWillStartAutocomplete:)]) {
                 [[self delegate] textViewWillStartAutocomplete:self];
             }
+        } else {
+            I_flags.autoCompleteInProgress=NO;
+            NSBeep();
         }
         I_flags.shouldCheckCompleteStart=NO;
     }
@@ -375,7 +379,11 @@ static NSColor *nonCommercialColor=nil;
         if ([[self delegate] respondsToSelector:@selector(textView:didFinishAutocompleteByInsertingCompletion:forPartialWordRange:movement:)]) {
             [[self delegate] textView:self didFinishAutocompleteByInsertingCompletion:word forPartialWordRange:charRange movement:movement];
         }
+
     }
+
+    NSEvent *event=[NSApp currentEvent];
+    if ((([event type]==NSKeyDown || [event type]==NSKeyUp))&&(([event keyCode]==36) || ([event keyCode]==76) || ([event keyCode]==53) || ([event keyCode]==49))) I_flags.autoCompleteInProgress=NO;
 }
 
 - (IBAction)copyStyled:(id)aSender {
@@ -539,6 +547,11 @@ static NSColor *nonCommercialColor=nil;
 }
 
 - (void)keyDown:(NSEvent *)aEvent {
+
+    if (I_flags.autoCompleteInProgress) {
+        [[self textStorage] deleteCharactersInRange:[self selectedRange]];
+    }
+
     static NSCharacterSet *passThroughCharacterSet=nil;
     if (passThroughCharacterSet==nil) {
         passThroughCharacterSet=[[NSCharacterSet characterSetWithCharactersInString:@"123"] retain];
@@ -560,6 +573,11 @@ static NSColor *nonCommercialColor=nil;
     }
         
     [super keyDown:aEvent];
+        
+    if (I_flags.autoCompleteInProgress) {
+        [self complete:self];
+    }
+
 }
 
 - (NSRange)rangeForUserCompletion {
