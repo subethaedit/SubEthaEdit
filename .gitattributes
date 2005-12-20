@@ -317,6 +317,7 @@ subethaedit/Modes/Java.mode/Contents/Resources/English.lproj/Localizable.strings
 subethaedit/Modes/Java.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Java.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Javascript.mode/Contents/Info.plist -text
+subethaedit/Modes/Javascript.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/English.lproj/Localizable.strings -text

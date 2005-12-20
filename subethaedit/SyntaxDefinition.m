@@ -172,6 +172,18 @@
                         break;
                     }
                 }
+            } else if ([@"autocompletetokens" isEqualToString:tag]) {
+                int childCount = CFTreeGetChildCount(xmlTree);
+                int childIndex = 0;
+                for (childIndex = 0; childIndex < childCount; childIndex++) {
+                    CFXMLNodeRef node = CFXMLTreeGetNode(CFTreeGetChildAtIndex(xmlTree, childIndex));
+                    if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeCDATASection) {
+                        NSString *content = (NSString *)CFXMLNodeGetString(node);
+                        NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:content];
+                        [self setAutoCompleteTokenSet:set];
+                        break;
+                    }
+                }
             } 
         }
     }
@@ -518,9 +530,20 @@
     return I_tokenSet;
 }
 
+- (NSCharacterSet *)autoCompleteTokenSet
+{
+    return I_autoCompleteTokenSet;
+}
+
 - (NSCharacterSet *)invertedTokenSet
 {
     return I_invertedTokenSet;
+}
+
+- (void)setAutoCompleteTokenSet:(NSCharacterSet *)aCharacterSet
+{
+    [I_autoCompleteTokenSet autorelease];
+     I_autoCompleteTokenSet = [aCharacterSet copy];
 }
 
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet
@@ -529,6 +552,7 @@
      I_tokenSet = [aCharacterSet copy];
      I_invertedTokenSet = [[aCharacterSet invertedSet] copy];
 }
+
 
 - (NSString *)styleForToken:(NSString *)aToken inState:(int)aState 
 {

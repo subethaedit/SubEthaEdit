@@ -19,6 +19,9 @@
 #import "PlainTextWindowController.h"
 #import "PlainTextEditor.h"
 #import "AppController.h"
+#import "DocumentMode.h"
+#import "SyntaxHighlighter.h"
+#import "SyntaxDefinition.h"
 
 @implementation TextView
 
@@ -561,12 +564,20 @@ static NSColor *nonCommercialColor=nil;
 
 - (NSRange)rangeForUserCompletion {
     NSRange result=[super rangeForUserCompletion];
-    NSRange colonRange;
     NSString *string=[[self textStorage] string];
-    while (((colonRange = [string rangeOfString:@":" options:NSLiteralSearch range:result]).location != NSNotFound)) {
-        result = NSMakeRange(NSMaxRange(colonRange),NSMaxRange(result)-NSMaxRange(colonRange));
+    NSCharacterSet *tokenSet = [[[[[[[self window] windowController] document] documentMode] syntaxHighlighter] syntaxDefinition] autoCompleteTokenSet];
+
+    if (tokenSet) {
+        while (YES) {
+            if (result.location==0) break;
+            NSString *aCharacter = [string substringWithRange:NSMakeRange(result.location-1,1)];
+            if ([aCharacter rangeOfCharacterFromSet:tokenSet].location!=NSNotFound) {
+                result = NSMakeRange(result.location-1,result.length+1);           
+            } else break;
+        }
     }
-    // NSLog(@"rangeForUserCompletion: %@",NSStringFromRange(result));
+    
+    //NSLog(@"rangeForUserCompletion: %@",NSStringFromRange(result));
     return result;
 }
 
