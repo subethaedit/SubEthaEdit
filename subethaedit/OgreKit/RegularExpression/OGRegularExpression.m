@@ -269,8 +269,13 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 	// 正規表現オブジェクトの作成
     OnigCompileInfo ci;
     ci.num_of_elements = 5;
+#ifdef __BIG_ENDIAN__
     ci.pattern_enc = ONIG_ENCODING_UTF16_BE;
     ci.target_enc  = ONIG_ENCODING_UTF16_BE;
+#elif __LITTLE_ENDIAN__
+    ci.pattern_enc = ONIG_ENCODING_UTF16_LE;
+    ci.target_enc  = ONIG_ENCODING_UTF16_LE;
+#endif
     ci.syntax      = [[self class] onigSyntaxTypeForSyntax:_syntax];
     ci.option      = compileTimeOptions;
     ci.ambig_flag  = ONIGENC_AMBIGUOUS_MATCH_DEFAULT;
