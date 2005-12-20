@@ -272,7 +272,7 @@
 			outputFiles = (
 				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE)_vers.c",
 			);
-			script = "REV=`/usr/local/bin/svn info -R \"$SRCROOT\" | awk '/^Last Changed Rev/ {print $4}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\nsed \"s/#PLACEHOLDER#/$REV$MODIFIED/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
+			script = "REV=`/usr/local/bin/svn st --ignore-externals -v \"$SRCROOT\" | awk '{print $2}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\nsed \"s/#PLACEHOLDER#/$REV$MODIFIED/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
 		};
 /* End PBXBuildRule section */
 
@@ -1764,7 +1764,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "REV=`/usr/local/bin/svn info -R \"$SRCROOT\" | awk '/^Last Changed Rev/ {print $4}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\necho \"Setting Revision $REV$MODIFIED\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV$MODIFIED/g\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"";
+			shellScript = "REV=`/usr/local/bin/svn st --ignore-externals -v \"$SRCROOT\" | awk '{print $2}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\necho \"Setting Revision $REV$MODIFIED\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV$MODIFIED/g\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"";
 		};
 		142898130958165400D14688 /* Run Script (Deployment) */ = {
 			isa = PBXShellScriptBuildPhase;
