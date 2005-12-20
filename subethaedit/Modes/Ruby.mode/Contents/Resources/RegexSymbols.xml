@@ -10,7 +10,7 @@
     <symbol id="Defs" image="SymbolF()" indentation="1" ignoreblocks="yes">
 		<!-- This expression properly gets all the args too, but I'd rather not see that -->
 		<!-- getting my first set of parens right was the key to that btw. -->
-        <regex>^[ \t]*(def[ \t]+([^(\r\n]+)[ \t]*(\([^)\r\n]*\))?)</regex>
+        <regex>^[ \t]*def[ \t]+(([^(\r\n]+)[ \t]*(\([^)\r\n]*\))?)</regex>
         <postprocess>
         	<find>\(.*</find>
         	<replace>()</replace>
@@ -34,5 +34,14 @@
             <replace>Versioning conflict!</replace>
         </postprocess>
     </symbol>
+
+    <symbol id="Divs with IDs" font-weight="normal" font-style="normal" image="SymbolD.png" indentation="0" ignoreblocks="yes">
+        <regex>&lt;div[^&gt;]*id *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+
+    <symbol id="HTML Comment Marks" font-weight="normal" font-style="normal" image="Symbol!.png" indentation="0" ignoreblocks="no">
+        <regex>&lt;!-- !([^-]*) --&gt;</regex>
+    </symbol>
+
 
 </symbols>

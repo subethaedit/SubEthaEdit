@@ -5,6 +5,9 @@
     <symbol id="Functions" image="SymbolF()" indentation="0" ignoreblocks="yes">
         <regex>^function[ \t]+([\w\d_\.:]+[ \t]*\([^\)]*\))</regex>
     </symbol>
+    <symbol id="Functions" image="SymbolF()" indentation="0" ignoreblocks="yes">
+        <regex>([\w_]+\s*=\s*function\([^)]*\))</regex>
+    </symbol>
     <symbol id="Inner Functions" image="SymbolF()" indentation="1" ignoreblocks="yes">
         <regex>^(?:[^\r\n\w]{1,5})function[ \t]+([\w\d_\.:]+[ \t]*\([^\)]*\))</regex>
     </symbol>

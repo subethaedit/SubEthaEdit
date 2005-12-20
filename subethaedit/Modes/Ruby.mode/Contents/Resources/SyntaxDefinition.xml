@@ -407,7 +407,7 @@
                 <regex>("[^"]*")</regex>
                 <regex>('[^']*')</regex>
             </keywords>
-            <keywords id="PHP Delimiter" color="#d00000" inverted-color="#ff2f2f"  font-style="normal" font-weight="bold" useforautocomplete="no">
+            <keywords id="ERB Delimiter" color="#d00000" inverted-color="#ff2f2f"  font-style="normal" font-weight="bold" useforautocomplete="no">
                 <regex>(&lt;%)</regex>
                 <regex>(%&gt;)</regex>
                 <regex>(&lt;%=)</regex>

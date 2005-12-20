@@ -300,6 +300,7 @@ subethaedit/Modes/Diff.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Diff.mode/Contents/Resources/SymbolID.png -text
 subethaedit/Modes/Diff.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/HTML.mode/Contents/Info.plist -text
+subethaedit/Modes/HTML.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/HTML.mode/Contents/Resources/English.lproj/Localizable.strings -text
@@ -342,6 +343,7 @@ subethaedit/Modes/Objective-C.mode/Contents/Resources/English.lproj/Localizable.
 subethaedit/Modes/Objective-C.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Info.plist -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/English.lproj/Localizable.strings -text
@@ -374,6 +376,8 @@ subethaedit/Modes/Ruby.mode/Contents/Resources/English.lproj/InfoPlist.strings -
 subethaedit/Modes/Ruby.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/README.txt -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Ruby.mode/Contents/Resources/Symbol!.png -text
+subethaedit/Modes/Ruby.mode/Contents/Resources/SymbolD.png -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/SQL.mode/Contents/Info.plist -text
 subethaedit/Modes/SQL.mode/Contents/Resources/ChangeLog.txt -text

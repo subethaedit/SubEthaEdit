@@ -1,3 +1,9 @@
+Changes with Version 2.4 (by dom)
+    *) added more AutocompleteAdditions (standard XHTML, CSS)
+    *) added comment mark recognition <!-- mark
+    *) added recognition of named divs
+    *) removed the "def" in the function popup (so you can directly jump to functions via the keyboard)
+
 Changes with Version 2.3 (by dom)
 
     *) added AutocompleteAdditions (http://www.ruby-doc.org/ core api and http://rails.rubyonrails.org/)
