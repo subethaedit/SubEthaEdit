@@ -1,40 +1,33 @@
 #!/bin/bash
 
 if [ x$1 = "xclean" ]; then
-    cd RegularExpression/oniguruma
-    if [ -e Makefile ]; then
-        make distclean
-    fi
-    rm -f libonig_*
+    echo "Cleaning..."
+    rm -rf "${TARGET_TEMP_DIR}"
+    rm -f "${BUILT_PRODUCTS_DIR}"/libonig.a
     exit
 fi
 
-cd RegularExpression/oniguruma
 
-if [ -e libonig.a ]; then
-    if [ -e libonig_ppc.a ]; then
-        if [ -e libonig_i386.a ]; then
-            echo "Found libonig*"
-            exit
-        fi
-    fi
+if [ -e "${BUILT_PRODUCTS_DIR}"/libonig.a ]; then
+    echo "Found libonig.a"
+    exit
 fi
 
-if [ -e Makefile ]; then
-    make distclean
-fi
-rm -f libonig_*
 
-CC=gcc-3.3 ./configure
+mkdir -p "${TARGET_TEMP_DIR}"
+cd "${TARGET_TEMP_DIR}"
+mkdir ppc
+cd ppc
+CC=gcc-3.3 ${SRCROOT}/RegularExpression/oniguruma/configure
 make
-mv libonig.a libonig_ppc.a
 
-make distclean
-CC=gcc-4.0 CFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -Wno-pointer-sign" ./configure --host=i386
+cd "${TARGET_TEMP_DIR}"
+mkdir i386
+cd i386
+CC=gcc-4.0 CFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -Wno-pointer-sign" ${SRCROOT}/RegularExpression/oniguruma/configure --host=i386
 sed -i "~" "s#-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk##g" Makefile
 make
-mv libonig.a libonig_i386.a
 
-lipo -create -arch ppc libonig_ppc.a -arch i386 libonig_i386.a -output libonig.a
+lipo -create -arch ppc "${TARGET_TEMP_DIR}"/ppc/libonig.a -arch i386 "${TARGET_TEMP_DIR}"/i386/libonig.a -output "${BUILT_PRODUCTS_DIR}"/libonig.a
 
 exit

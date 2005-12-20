@@ -435,7 +435,7 @@
 		142890560957432800D14688 /* Invitation.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Invitation.aiff; sourceTree = "<group>"; };
 		142890570957432800D14688 /* Knock.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Knock.wav; sourceTree = "<group>"; };
 		1428905A0957434600D14688 /* SubEthaEdit.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = SubEthaEdit.sdef; sourceTree = "<group>"; };
-		1428905E095743B300D14688 /* debug.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = debug.tiff; sourceTree = "<group>"; };
+		1428905E095743B300D14688 /* debug.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = debug.tiff; path = artwork/debug.tiff; sourceTree = "<group>"; };
 		14289060095743F200D14688 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Action.tiff; path = artwork/Action.tiff; sourceTree = "<group>"; };
 		14289061095743F200D14688 /* ActionPressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ActionPressed.tiff; path = artwork/ActionPressed.tiff; sourceTree = "<group>"; };
 		14289062095743F200D14688 /* AdvancedPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AdvancedPrefs.tiff; path = artwork/AdvancedPrefs.tiff; sourceTree = "<group>"; };
@@ -756,7 +756,7 @@
 		142894E8095767CD00D14688 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = see/main.m; sourceTree = "<group>"; };
 		142894E9095767CD00D14688 /* see.1 */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.man; name = see.1; path = see/see.1; sourceTree = "<group>"; };
 		142894EA095767CD00D14688 /* see.vers */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = see.vers; path = see/see.vers; sourceTree = "<group>"; };
-		142895030957692100D14688 /* SymbolWarn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SymbolWarn.tiff; sourceTree = "<group>"; };
+		142895030957692100D14688 /* SymbolWarn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SymbolWarn.tiff; path = artwork/SymbolWarn.tiff; sourceTree = "<group>"; };
 		142898200958194100D14688 /* createDiskImage.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = createDiskImage.sh; sourceTree = "<group>"; };
 		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
 		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };

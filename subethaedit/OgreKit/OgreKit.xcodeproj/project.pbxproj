@@ -751,7 +751,7 @@
 		4DE26948057218F200A25078 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = FindPanelTest/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		4DE2694A057218F200A25078 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = FindPanelTest/English.lproj/MyTextDocument.nib; sourceTree = "<group>"; };
 		4DE269510572190A00A25078 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = FindPanelTest/Japanese.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		4DE2695905721B2800A25078 /* OgreTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DE2695905721B2800A25078 /* OgreTest.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DE2697605721C2400A25078 /* OgreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OgreTest.m; path = RegularExpressionTest/OgreTest.m; sourceTree = "<group>"; };
 		4DE2697705721C2400A25078 /* OgreTest_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreTest_Prefix.h; path = RegularExpressionTest/OgreTest_Prefix.h; sourceTree = "<group>"; };
 		4DE2697805721C2400A25078 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RegularExpressionTest/main.m; sourceTree = "<group>"; };
@@ -3538,7 +3538,7 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = RegularExpression/oniguruma;
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3546,6 +3546,7 @@
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
+					"-lonig",
 				);
 				PREBINDING = YES;
 				PRODUCT_NAME = OgreKit;
@@ -3587,13 +3588,14 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = RegularExpression/oniguruma;
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
+					"-lonig",
 				);
 				PREBINDING = YES;
 				PRODUCT_NAME = OgreKit;
@@ -3627,13 +3629,14 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = RegularExpression/oniguruma;
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
+					"-lonig",
 				);
 				PREBINDING = YES;
 				PRODUCT_NAME = OgreKit;
