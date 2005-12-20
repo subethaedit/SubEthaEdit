@@ -38,13 +38,11 @@
 		1428904B0957427100D14688 /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 1428904A0957427100D14688 /* Modes */; };
 		142890580957432800D14688 /* Invitation.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 142890560957432800D14688 /* Invitation.aiff */; };
 		142890590957432800D14688 /* Knock.wav in Resources */ = {isa = PBXBuildFile; fileRef = 142890570957432800D14688 /* Knock.wav */; };
-		1428905B0957434600D14688 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		1428905F095743B300D14688 /* debug.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428905E095743B300D14688 /* debug.tiff */; };
 		142890B1095743F200D14688 /* Action.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289060095743F200D14688 /* Action.tiff */; };
 		142890B2095743F200D14688 /* ActionPressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289061095743F200D14688 /* ActionPressed.tiff */; };
 		142890B3095743F200D14688 /* AdvancedPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289062095743F200D14688 /* AdvancedPrefs.tiff */; };
 		142890B4095743F200D14688 /* Announce.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289063095743F200D14688 /* Announce.tiff */; };
-		142890B5095743F200D14688 /* CandyBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 14289064095743F200D14688 /* CandyBar.png */; };
 		142890B6095743F200D14688 /* codingmonkeys.png in Resources */ = {isa = PBXBuildFile; fileRef = 14289065095743F200D14688 /* codingmonkeys.png */; };
 		142890B7095743F200D14688 /* Conceal.png in Resources */ = {isa = PBXBuildFile; fileRef = 14289066095743F200D14688 /* Conceal.png */; };
 		142890B8095743F200D14688 /* Conceal.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289067095743F200D14688 /* Conceal.tiff */; };
@@ -246,15 +244,18 @@
 		142894B80957610C00D14688 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
 		142894B90957610C00D14688 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142890060957400800D14688 /* CoreServices.framework */; };
 		142894BA0957610C00D14688 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
-		142894C70957617000D14688 /* HelperTool in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 142894AA0957606F00D14688 /* HelperTool */; };
 		142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142894D3095765CF00D14688 /* SystemConfiguration.framework */; };
 		142894E00957670900D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
 		142894E10957670900D14688 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
 		142894EB095767CD00D14688 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894E8095767CD00D14688 /* main.m */; };
 		142894ED0957681000D14688 /* see.vers in Sources */ = {isa = PBXBuildFile; fileRef = 142894EA095767CD00D14688 /* see.vers */; };
-		142894FA0957685200D14688 /* see.vers in Resources */ = {isa = PBXBuildFile; fileRef = 142894EA095767CD00D14688 /* see.vers */; };
 		142894FF0957686C00D14688 /* see in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 142894DE095766EE00D14688 /* see */; };
 		142895040957692100D14688 /* SymbolWarn.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 142895030957692100D14688 /* SymbolWarn.tiff */; };
+		1428954509576BEF00D14688 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 1428928D0957559600D14688 /* OgreKit.framework */; };
+		1428955C095770FB00D14688 /* SubEthaEditHelperToolTemplate in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */; };
+		14289572095776DE00D14688 /* see.1 in Resources */ = {isa = PBXBuildFile; fileRef = 142894E9095767CD00D14688 /* see.1 */; };
+		14289BD709581C3000D14688 /* FindReplace.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD109581C3000D14688 /* FindReplace.nib */; };
+		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -361,6 +362,13 @@
 			remoteGlobalIDString = 142894DD095766EE00D14688 /* see */;
 			remoteInfo = see;
 		};
+		1428981C0958192A00D14688 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
+			remoteInfo = SubEthaEdit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -370,10 +378,21 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				142894C70957617000D14688 /* HelperTool in Copy Files (Auxiliary Binaries) */,
+				1428955C095770FB00D14688 /* SubEthaEditHelperToolTemplate in Copy Files (Auxiliary Binaries) */,
 				142894FF0957686C00D14688 /* see in Copy Files (Auxiliary Binaries) */,
 			);
 			name = "Copy Files (Auxiliary Binaries)";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1428953909576BCD00D14688 /* Copy Files (Frameworks) */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1428954509576BEF00D14688 /* OgreKit.framework in Copy Files (Frameworks) */,
+			);
+			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -731,7 +750,7 @@
 		1428949109575EF500D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GeneralPrefs.nib; sourceTree = "<group>"; };
 		142894A209575FF200D14688 /* TextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TextFieldCell.h; sourceTree = "<group>"; };
 		142894A309575FF200D14688 /* TextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TextFieldCell.m; sourceTree = "<group>"; };
-		142894AA0957606F00D14688 /* HelperTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HelperTool; sourceTree = BUILT_PRODUCTS_DIR; };
+		142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SubEthaEditHelperToolTemplate; sourceTree = BUILT_PRODUCTS_DIR; };
 		142894B5095760CE00D14688 /* SubEthaEditHelperTool.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SubEthaEditHelperTool.m; sourceTree = "<group>"; };
 		142894D3095765CF00D14688 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		142894DE095766EE00D14688 /* see */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = see; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -739,6 +758,9 @@
 		142894E9095767CD00D14688 /* see.1 */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.man; name = see.1; path = see/see.1; sourceTree = "<group>"; };
 		142894EA095767CD00D14688 /* see.vers */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = see.vers; path = see/see.vers; sourceTree = "<group>"; };
 		142895030957692100D14688 /* SymbolWarn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SymbolWarn.tiff; sourceTree = "<group>"; };
+		142898200958194100D14688 /* createDiskImage.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = createDiskImage.sh; sourceTree = "<group>"; };
+		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
+		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4B7FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -1253,7 +1275,7 @@
 			isa = PBXGroup;
 			children = (
 				8D15AC370486D014006FF6A4 /* SubEthaEdit.app */,
-				142894AA0957606F00D14688 /* HelperTool */,
+				142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */,
 				142894DE095766EE00D14688 /* see */,
 			);
 			name = Products;
@@ -1328,6 +1350,7 @@
 				32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 				14289172095747F800D14688 /* ODBEditorSuite.h */,
+				142898200958194100D14688 /* createDiskImage.sh */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -1347,6 +1370,8 @@
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
 				142890190957418400D14688 /* DocumentProxy.nib */,
 				1428901B0957418400D14688 /* EditPrefs.nib */,
+				14289BD809581CAC00D14688 /* FindAll.nib */,
+				14289BD109581C3000D14688 /* FindReplace.nib */,
 				1428949009575EF500D14688 /* GeneralPrefs.nib */,
 				14289021095741A100D14688 /* InternetBrowser.nib */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
@@ -1383,6 +1408,27 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXLegacyTarget section */
+		142898180958189300D14688 /* Create Disk Image */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-c \"$(SRCROOT)/createDiskImage.sh\" $(ACTION)";
+			buildConfigurationList = 14289819095818E200D14688 /* Build configuration list for PBXLegacyTarget "Create Disk Image" */;
+			buildPhases = (
+			);
+			buildSettings = {
+				PRODUCT_NAME = "Create Disk Image";
+			};
+			buildToolPath = /bin/sh;
+			buildWorkingDirectory = "";
+			dependencies = (
+				1428981D0958192A00D14688 /* PBXTargetDependency */,
+			);
+			name = "Create Disk Image";
+			passBuildSettingsInEnvironment = 1;
+			productName = "Create Disk Image";
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		142894A90957606F00D14688 /* HelperTool */ = {
 			isa = PBXNativeTarget;
@@ -1405,7 +1451,7 @@
 			);
 			name = HelperTool;
 			productName = HelperTool;
-			productReference = 142894AA0957606F00D14688 /* HelperTool */;
+			productReference = 142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */;
 			productType = "com.apple.product-type.tool";
 		};
 		142894DD095766EE00D14688 /* see */ = {
@@ -1441,8 +1487,10 @@
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				1428948209575E2300D14688 /* Rez */,
 				1428949E09575F6F00D14688 /* Run Script (Versioning) */,
+				142898130958165400D14688 /* Run Script (Deployment) */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
+				1428953909576BCD00D14688 /* Copy Files (Frameworks) */,
 				142894C30957614300D14688 /* Copy Files (Auxiliary Binaries) */,
 			);
 			buildRules = (
@@ -1485,6 +1533,7 @@
 				8D15AC270486D014006FF6A4 /* SubEthaEdit */,
 				142894A90957606F00D14688 /* HelperTool */,
 				142894DD095766EE00D14688 /* see */,
+				142898180958189300D14688 /* Create Disk Image */,
 			);
 		};
 /* End PBXProject section */
@@ -1557,6 +1606,8 @@
 				1428901E0957418400D14688 /* AdvancedPrefs.nib in Resources */,
 				1428901F0957418400D14688 /* DocumentProxy.nib in Resources */,
 				142890200957418400D14688 /* EditPrefs.nib in Resources */,
+				14289BDE09581CAC00D14688 /* FindAll.nib in Resources */,
+				14289BD709581C3000D14688 /* FindReplace.nib in Resources */,
 				1428949209575EF500D14688 /* GeneralPrefs.nib in Resources */,
 				14289023095741A100D14688 /* InternetBrowser.nib in Resources */,
 				8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */,
@@ -1576,12 +1627,10 @@
 				142890470957421300D14688 /* SubEthaEditHelp in Resources */,
 				142890580957432800D14688 /* Invitation.aiff in Resources */,
 				142890590957432800D14688 /* Knock.wav in Resources */,
-				1428905B0957434600D14688 /* SubEthaEdit.sdef in Resources */,
 				142890B1095743F200D14688 /* Action.tiff in Resources */,
 				142890B2095743F200D14688 /* ActionPressed.tiff in Resources */,
 				142890B3095743F200D14688 /* AdvancedPrefs.tiff in Resources */,
 				142890B4095743F200D14688 /* Announce.tiff in Resources */,
-				142890B5095743F200D14688 /* CandyBar.png in Resources */,
 				142890B6095743F200D14688 /* codingmonkeys.png in Resources */,
 				142890B7095743F200D14688 /* Conceal.png in Resources */,
 				142890B8095743F200D14688 /* Conceal.tiff in Resources */,
@@ -1666,7 +1715,7 @@
 				142893DA0957599F00D14688 /* Preferences.nib in Resources */,
 				1428948009575E0500D14688 /* SubEthaEditSuite.scriptSuite in Resources */,
 				1428948109575E0500D14688 /* SubEthaEditSuite.scriptTerminology in Resources */,
-				142894FA0957685200D14688 /* see.vers in Resources */,
+				14289572095776DE00D14688 /* see.1 in Resources */,
 				142895040957692100D14688 /* SymbolWarn.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1716,6 +1765,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "REV=`/usr/local/bin/svn info -R \"$SRCROOT\" | awk '/^Last Changed Rev/ {print $4}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\necho \"Setting Revision $REV$MODIFIED\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV$MODIFIED/g\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"";
+		};
+		142898130958165400D14688 /* Run Script (Deployment) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script (Deployment)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1873,6 +1936,11 @@
 			isa = PBXTargetDependency;
 			target = 142894DD095766EE00D14688 /* see */;
 			targetProxy = 142894FB0957685A00D14688 /* PBXContainerItemProxy */;
+		};
+		1428981D0958192A00D14688 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
+			targetProxy = 1428981C0958192A00D14688 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2037,6 +2105,22 @@
 			name = GeneralPrefs.nib;
 			sourceTree = "<group>";
 		};
+		14289BD109581C3000D14688 /* FindReplace.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14289BD209581C3000D14688 /* English */,
+			);
+			name = FindReplace.nib;
+			sourceTree = "<group>";
+		};
+		14289BD809581CAC00D14688 /* FindAll.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14289BD909581CAC00D14688 /* English */,
+			);
+			name = FindAll.nib;
+			sourceTree = "<group>";
+		};
 		2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2059,7 +2143,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
-				PRODUCT_NAME = HelperTool;
+				PRODUCT_NAME = SubEthaEditHelperToolTemplate;
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -2067,13 +2151,17 @@
 		142894AE0957608D00D14688 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
-				PRODUCT_NAME = HelperTool;
+				PRODUCT_NAME = SubEthaEditHelperToolTemplate;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2097,6 +2185,10 @@
 		142894E50957671300D14688 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -2104,6 +2196,31 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
 				PRODUCT_NAME = see;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		1428981A095818E200D14688 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Create Disk Image";
+			};
+			name = Debug;
+		};
+		1428981B095818E200D14688 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DiskImageProduct = SubEthaEdit.app;
+				DiskImageSizeInMB = 20;
+				DiskImageVolumeName = SubEthaEdit;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = "Create Disk Image";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2116,7 +2233,9 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
+				GCC_USE_GCC3_PFE_SUPPORT = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = SubEthaEdit;
@@ -2132,11 +2251,14 @@
 					ppc,
 					i386,
 				);
+				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
+				GCC_USE_GCC3_PFE_SUPPORT = YES;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				INSTALL_PATH = /;
 				PRODUCT_NAME = SubEthaEdit;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2148,6 +2270,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -2157,8 +2280,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = (
+					"-DTCM_NO_DEBUG",
+					"-DNS_BLOCK_ASSERTIONS",
+					"-DNDEBUG",
+				);
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -2181,6 +2312,15 @@
 			buildConfigurations = (
 				142894E40957671300D14688 /* Debug */,
 				142894E50957671300D14688 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		14289819095818E200D14688 /* Build configuration list for PBXLegacyTarget "Create Disk Image" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1428981A095818E200D14688 /* Debug */,
+				1428981B095818E200D14688 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
