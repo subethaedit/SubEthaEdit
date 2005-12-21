@@ -554,10 +554,6 @@ static NSColor *nonCommercialColor=nil;
 
 - (void)keyDown:(NSEvent *)aEvent {
 
-    if (I_flags.autoCompleteInProgress) {
-        [[self textStorage] deleteCharactersInRange:[self selectedRange]];
-    }
-
     static NSCharacterSet *passThroughCharacterSet=nil;
     if (passThroughCharacterSet==nil) {
         passThroughCharacterSet=[[NSCharacterSet characterSetWithCharactersInString:@"123"] retain];
@@ -581,7 +577,12 @@ static NSColor *nonCommercialColor=nil;
     [super keyDown:aEvent];
         
     if (I_flags.autoCompleteInProgress) {
-        [self complete:self];
+        if ([self selectedRange].location>1) {
+            if ([aEvent keyCode]==51){
+                [self setSelectedRange: NSMakeRange([self selectedRange].location-1,[self selectedRange].length+1)];
+            }
+            [self complete:self];
+        } else I_flags.autoCompleteInProgress=NO;
     }
 
 }
