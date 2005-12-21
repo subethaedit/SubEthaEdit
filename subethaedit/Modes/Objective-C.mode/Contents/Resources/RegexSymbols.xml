@@ -8,7 +8,7 @@
     </blocks>
     
     <symbol id="Objective-C Methods" image="SymbolM" indentation="1" ignoreblocks="yes">
-        <regex>(^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ ]+[^{;]*)</regex>
+        <regex>(^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t]+[^{;]*)</regex>
         <postprocess>
             <find>(:) *\([^\)]*\) *[a-zA-Z0-9]*</find>
             <replace>\1</replace>
