@@ -356,9 +356,14 @@ static NSColor *nonCommercialColor=nil;
                 [[self delegate] textViewWillStartAutocomplete:self];
             }
         } else {
-            I_flags.autoCompleteInProgress=NO;
             NSBeep();
+            I_flags.autoCompleteInProgress=NO;
         }
+        
+        if ([result count]<2) {
+            I_flags.autoCompleteInProgress=NO;
+        }
+        
         I_flags.shouldCheckCompleteStart=NO;
     }
     return result;

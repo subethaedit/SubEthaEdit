@@ -98,6 +98,9 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 - (BOOL)isValidSerial 
 {
+    
+    // Pirate number: SEE-11G0-M1A0-5ROC (1500)
+    
     static int calls = 0;
     NSArray *splitArray = [self componentsSeparatedByString:@"-"];
     if ([splitArray count]==4 && calls++ < 50) {
