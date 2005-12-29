@@ -6,6 +6,23 @@
 	objectVersion = 42;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		14E573B90964761F00DB50C3 /* Versioning */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 14E573BF0964766400DB50C3 /* Build configuration list for PBXAggregateTarget "Versioning" */;
+			buildPhases = (
+				14E573B80964761F00DB50C3 /* ShellScript */,
+			);
+			buildSettings = {
+				PRODUCT_NAME = Versioning;
+			};
+			dependencies = (
+			);
+			name = Versioning;
+			productName = Versioning;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDD09573E8900D14688 /* AddressBook.framework */; };
 		14288FE009573EA300D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
@@ -368,6 +385,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4DA6B44605E699D000A3AEC6;
 			remoteInfo = "OgreKit (without Find Panel)";
+		};
+		14E573BC0964763900DB50C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 14E573B90964761F00DB50C3 /* Versioning */;
+			remoteInfo = Versioning;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -767,7 +791,7 @@
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1486,7 +1510,6 @@
 				1428947209575D2D00D14688 /* Run Script (sdp) */,
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				1428948209575E2300D14688 /* Rez */,
-				1428949E09575F6F00D14688 /* Run Script (Versioning) */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
@@ -1501,6 +1524,7 @@
 				142894C20957611D00D14688 /* PBXTargetDependency */,
 				142894FC0957685A00D14688 /* PBXTargetDependency */,
 				14AB223F09586F6500A5F62C /* PBXTargetDependency */,
+				14E573BD0964763900DB50C3 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -1534,6 +1558,7 @@
 				142894A90957606F00D14688 /* HelperTool */,
 				142894DD095766EE00D14688 /* see */,
 				142898180958189300D14688 /* Create Disk Image */,
+				14E573B90964761F00DB50C3 /* Versioning */,
 			);
 		};
 /* End PBXProject section */
@@ -1752,20 +1777,6 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
 		};
-		1428949E09575F6F00D14688 /* Run Script (Versioning) */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script (Versioning)";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\necho \"Setting Revision $REV\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV/g\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"";
-		};
 		142898130958165400D14688 /* Run Script (Deployment) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -1779,6 +1790,19 @@
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;";
+		};
+		14E573B80964761F00DB50C3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "REVISION=`/usr/local/bin/svnversion \"$SRCROOT\"`\nmkdir -p \"$PROJECT_DERIVED_FILE_DIR\"\necho \"Creating Revision.h with REVISION=$REVISION\"\necho \"#define REVISION $REVISION\" > \"$PROJECT_DERIVED_FILE_DIR\"/Revision.h\nexit 0";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1941,6 +1965,11 @@
 			isa = PBXTargetDependency;
 			name = "OgreKit (without Find Panel)";
 			targetProxy = 14AB223E09586F6500A5F62C /* PBXContainerItemProxy */;
+		};
+		14E573BD0964763900DB50C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 14E573B90964761F00DB50C3 /* Versioning */;
+			targetProxy = 14E573BC0964763900DB50C3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2225,6 +2254,28 @@
 			};
 			name = Release;
 		};
+		14E573C00964766400DB50C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Versioning;
+			};
+			name = Debug;
+		};
+		14E573C10964766400DB50C3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = Versioning;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2237,6 +2288,8 @@
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
 				GCC_USE_GCC3_PFE_SUPPORT = YES;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_PREFIX_HEADER = "$(PROJECT_DERIVED_FILE_DIR)/Revision.h";
+				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = SubEthaEdit;
 				WRAPPER_EXTENSION = app;
@@ -2258,6 +2311,8 @@
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
 				GCC_USE_GCC3_PFE_SUPPORT = YES;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_PREFIX_HEADER = "$(PROJECT_DERIVED_FILE_DIR)/Revision.h";
+				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = /;
 				PRODUCT_NAME = SubEthaEdit;
 				WRAPPER_EXTENSION = app;
@@ -2321,6 +2376,15 @@
 			buildConfigurations = (
 				1428981A095818E200D14688 /* Debug */,
 				1428981B095818E200D14688 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		14E573BF0964766400DB50C3 /* Build configuration list for PBXAggregateTarget "Versioning" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14E573C00964766400DB50C3 /* Debug */,
+				14E573C10964766400DB50C3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
