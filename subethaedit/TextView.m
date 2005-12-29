@@ -344,7 +344,7 @@ static NSColor *nonCommercialColor=nil;
     }
 
     I_flags.shouldCheckCompleteStart=YES;
-    I_flags.autoCompleteInProgress=YES;
+    //I_flags.autoCompleteInProgress=YES; // Temporarliy disabled (SEE-874)
     [super complete:sender];
 }
 
