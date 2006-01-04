@@ -412,6 +412,9 @@
                 <regex>(%&gt;)</regex>
                 <regex>(&lt;%=)</regex>
             </keywords>
+            <keywords id="HTMLComment" color="#236E25" useforautocomplete="no"> 
+              <regex>(&lt;!--.*--&gt;)</regex>
+            </keywords> 
         </state>
 
     </states>

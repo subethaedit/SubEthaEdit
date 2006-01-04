@@ -3614,6 +3614,9 @@
             <keywords id="Entities" color="#881280" useforautocomplete="no">
                 <regex>(&amp;\w{1,8};)</regex>
             </keywords>
+            <keywords id="HTMLComment" color="#236E25" useforautocomplete="no"> 
+              <regex>(&lt;!--.*--&gt;)</regex> 
+            </keywords> 
         </state>
         
 
