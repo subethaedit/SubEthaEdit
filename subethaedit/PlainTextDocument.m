@@ -96,6 +96,8 @@ NSString * const PlainTextDocumentDidChangeTextStorageNotification =
                @"PlainTextDocumentDidChangeTextStorageNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification =
                @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
+NSString * const PlainTextDocumentDidSaveNotification =
+               @"PlainTextDocumentDidSaveNotification";
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
@@ -2476,6 +2478,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fullDocumentPath traverseLink:YES];
         [self setFileAttributes:fattrs];
         [self setIsFileWritable:[[NSFileManager defaultManager] isWritableFileAtPath:fullDocumentPath]];
+    }
+
+    if (hasBeenWritten) {
+        [[NSNotificationQueue defaultQueue]
+        enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidSaveNotification object:self]
+               postingStyle:NSPostWhenIdle
+               coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
+                   forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
     }
 
     return hasBeenWritten;

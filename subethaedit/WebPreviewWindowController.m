@@ -43,6 +43,10 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
                                              selector:@selector(synchronizeWindowTitleWithDocumentName)
                                                  name:PlainTextDocumentDidChangeDisplayNameNotification 
                                                object:[self document]];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(somePlainTextDocumentDidSave:)
+                                                 name:PlainTextDocumentDidSaveNotification 
+                                               object:nil];
     return self;
 }
 
@@ -172,10 +176,22 @@ NSScrollView * firstScrollView(NSView *aView) {
     return title; 
 }
 
-- (void) synchronizeWindowTitleWithDocumentName {
+- (void)synchronizeWindowTitleWithDocumentName {
     NSString *displayName=[[self plainTextDocument] displayName];
     if (!displayName) displayName=@"";
     [[self window] setTitle:[self windowTitleForDocumentDisplayName:displayName]];
+}
+
+#pragma mark -
+#pragma mark ### CSS-update ###
+
+- (void)somePlainTextDocumentDidSave:(NSNotification *)aNotification {
+    NSString *savedFileName = [[[aNotification object] fileName] lastPathComponent];
+    if ([[[savedFileName pathExtension] lowercaseString] isEqualToString:@"css"]) {
+        if ([[[[self plainTextDocument] textStorage] string] rangeOfString:savedFileName options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            [self refreshAndEmptyCache:self];
+        }
+    }
 }
 
 #pragma mark -
