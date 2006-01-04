@@ -32,7 +32,6 @@
 		1428900E095740F200D14688 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 14289009095740F200D14688 /* License.rtf */; };
 		1428900F095740F200D14688 /* RE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1428900A095740F200D14688 /* RE.txt */; };
 		14289010095740F200D14688 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1428900B095740F200D14688 /* ReleaseNotes.txt */; };
-		14289011095740F200D14688 /* Setup.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1428900C095740F200D14688 /* Setup.plist */; };
 		142890140957413900D14688 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 142890120957413900D14688 /* Localizable.strings */; };
 		1428901D0957418400D14688 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142890150957418400D14688 /* AboutPanel.nib */; };
 		1428901E0957418400D14688 /* AdvancedPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142890170957418400D14688 /* AdvancedPrefs.nib */; };
@@ -47,7 +46,6 @@
 		1428903F095741BA00D14688 /* RendezvousBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1428902E095741BA00D14688 /* RendezvousBrowser.nib */; };
 		14289040095741BA00D14688 /* SavePanelAccessory.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289030095741BA00D14688 /* SavePanelAccessory.nib */; };
 		14289041095741BA00D14688 /* SelectEncodingsPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289032095741BA00D14688 /* SelectEncodingsPanel.nib */; };
-		14289042095741BA00D14688 /* Setup.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289034095741BA00D14688 /* Setup.nib */; };
 		14289043095741BA00D14688 /* StylePrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289036095741BA00D14688 /* StylePrefs.nib */; };
 		14289044095741BA00D14688 /* WebPreview.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289038095741BA00D14688 /* WebPreview.nib */; };
 		142890470957421300D14688 /* SubEthaEditHelp in Resources */ = {isa = PBXBuildFile; fileRef = 142890450957421300D14688 /* SubEthaEditHelp */; };
@@ -222,7 +220,7 @@
 		142893FF09575A3000D14688 /* PullDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893EB09575A3000D14688 /* PullDownButton.m */; };
 		1428940009575A3000D14688 /* PullDownButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893ED09575A3000D14688 /* PullDownButtonCell.m */; };
 		1428940109575A3000D14688 /* RendezvousBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893EF09575A3000D14688 /* RendezvousBrowserController.m */; };
-		1428940209575A3000D14688 /* SetupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F109575A3000D14688 /* SetupController.m */; };
+		1428940209575A3000D14688 /* LicenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F109575A3000D14688 /* LicenseController.m */; };
 		1428940309575A3000D14688 /* TexturedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F309575A3000D14688 /* TexturedButtonCell.m */; };
 		1428940409575A3000D14688 /* UndoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F509575A3000D14688 /* UndoManager.m */; };
 		1428940509575A3000D14688 /* URLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F709575A3000D14688 /* URLImageView.m */; };
@@ -272,6 +270,7 @@
 		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
 		149EC69A0958728F002BDC41 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14AB220709586EDE00A5F62C /* OgreKit.framework */; };
 		14AB223D09586F5B00A5F62C /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14AB220709586EDE00A5F62C /* OgreKit.framework */; };
+		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -434,8 +433,7 @@
 		14289009095740F200D14688 /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		1428900A095740F200D14688 /* RE.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = RE.txt; sourceTree = "<group>"; };
 		1428900B095740F200D14688 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
-		1428900C095740F200D14688 /* Setup.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Setup.plist; sourceTree = "<group>"; };
-		142890130957413900D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		142890130957413900D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		142890160957418400D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AboutPanel.nib; sourceTree = "<group>"; };
 		142890180957418400D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AdvancedPrefs.nib; sourceTree = "<group>"; };
 		1428901A0957418400D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DocumentProxy.nib; sourceTree = "<group>"; };
@@ -449,7 +447,6 @@
 		1428902F095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/RendezvousBrowser.nib; sourceTree = "<group>"; };
 		14289031095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SavePanelAccessory.nib; sourceTree = "<group>"; };
 		14289033095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SelectEncodingsPanel.nib; sourceTree = "<group>"; };
-		14289035095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Setup.nib; sourceTree = "<group>"; };
 		14289037095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/StylePrefs.nib; sourceTree = "<group>"; };
 		14289039095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/WebPreview.nib; sourceTree = "<group>"; };
 		142890460957421300D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/SubEthaEditHelp; sourceTree = "<group>"; };
@@ -714,8 +711,8 @@
 		142893ED09575A3000D14688 /* PullDownButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PullDownButtonCell.m; sourceTree = "<group>"; };
 		142893EE09575A3000D14688 /* RendezvousBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RendezvousBrowserController.h; sourceTree = "<group>"; };
 		142893EF09575A3000D14688 /* RendezvousBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RendezvousBrowserController.m; sourceTree = "<group>"; };
-		142893F009575A3000D14688 /* SetupController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SetupController.h; sourceTree = "<group>"; };
-		142893F109575A3000D14688 /* SetupController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SetupController.m; sourceTree = "<group>"; };
+		142893F009575A3000D14688 /* LicenseController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LicenseController.h; sourceTree = "<group>"; };
+		142893F109575A3000D14688 /* LicenseController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LicenseController.m; sourceTree = "<group>"; };
 		142893F209575A3000D14688 /* TexturedButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TexturedButtonCell.h; sourceTree = "<group>"; };
 		142893F309575A3000D14688 /* TexturedButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TexturedButtonCell.m; sourceTree = "<group>"; };
 		142893F409575A3000D14688 /* UndoManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UndoManager.h; sourceTree = "<group>"; };
@@ -782,6 +779,7 @@
 		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
 		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };
 		14AB21F609586EDE00A5F62C /* OgreKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OgreKit.xcodeproj; path = OgreKit/OgreKit.xcodeproj; sourceTree = "<group>"; };
+		14F1601F096C288100402129 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/License.nib; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4B7FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -1351,8 +1349,8 @@
 				142893ED09575A3000D14688 /* PullDownButtonCell.m */,
 				142893EE09575A3000D14688 /* RendezvousBrowserController.h */,
 				142893EF09575A3000D14688 /* RendezvousBrowserController.m */,
-				142893F009575A3000D14688 /* SetupController.h */,
-				142893F109575A3000D14688 /* SetupController.m */,
+				142893F009575A3000D14688 /* LicenseController.h */,
+				142893F109575A3000D14688 /* LicenseController.m */,
 				142893F209575A3000D14688 /* TexturedButtonCell.h */,
 				142893F309575A3000D14688 /* TexturedButtonCell.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
@@ -1384,7 +1382,6 @@
 				142890120957413900D14688 /* Localizable.strings */,
 				1428900A095740F200D14688 /* RE.txt */,
 				1428900B095740F200D14688 /* ReleaseNotes.txt */,
-				1428900C095740F200D14688 /* Setup.plist */,
 				142890150957418400D14688 /* AboutPanel.nib */,
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
 				142890190957418400D14688 /* DocumentProxy.nib */,
@@ -1393,6 +1390,7 @@
 				14289BD109581C3000D14688 /* FindReplace.nib */,
 				1428949009575EF500D14688 /* GeneralPrefs.nib */,
 				14289021095741A100D14688 /* InternetBrowser.nib */,
+				14F1601E096C288100402129 /* License.nib */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
 				14289024095741BA00D14688 /* OpenPanelAccessory.nib */,
 				14289026095741BA00D14688 /* PlainTextEditor.nib */,
@@ -1403,7 +1401,6 @@
 				1428902E095741BA00D14688 /* RendezvousBrowser.nib */,
 				14289030095741BA00D14688 /* SavePanelAccessory.nib */,
 				14289032095741BA00D14688 /* SelectEncodingsPanel.nib */,
-				14289034095741BA00D14688 /* Setup.nib */,
 				14289036095741BA00D14688 /* StylePrefs.nib */,
 				14289038095741BA00D14688 /* WebPreview.nib */,
 				1428904E0957429A00D14688 /* AppleScript */,
@@ -1621,7 +1618,6 @@
 				142890140957413900D14688 /* Localizable.strings in Resources */,
 				1428900F095740F200D14688 /* RE.txt in Resources */,
 				14289010095740F200D14688 /* ReleaseNotes.txt in Resources */,
-				14289011095740F200D14688 /* Setup.plist in Resources */,
 				1428901D0957418400D14688 /* AboutPanel.nib in Resources */,
 				1428901E0957418400D14688 /* AdvancedPrefs.nib in Resources */,
 				1428901F0957418400D14688 /* DocumentProxy.nib in Resources */,
@@ -1639,7 +1635,6 @@
 				1428903F095741BA00D14688 /* RendezvousBrowser.nib in Resources */,
 				14289040095741BA00D14688 /* SavePanelAccessory.nib in Resources */,
 				14289041095741BA00D14688 /* SelectEncodingsPanel.nib in Resources */,
-				14289042095741BA00D14688 /* Setup.nib in Resources */,
 				14289043095741BA00D14688 /* StylePrefs.nib in Resources */,
 				14289044095741BA00D14688 /* WebPreview.nib in Resources */,
 				142890490957425900D14688 /* HTMLExport in Resources */,
@@ -1737,6 +1732,7 @@
 				1428948109575E0500D14688 /* SubEthaEditSuite.scriptTerminology in Resources */,
 				14289572095776DE00D14688 /* see.1 in Resources */,
 				142895040957692100D14688 /* SymbolWarn.tiff in Resources */,
+				14F16020096C288100402129 /* License.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1908,7 +1904,7 @@
 				142893FF09575A3000D14688 /* PullDownButton.m in Sources */,
 				1428940009575A3000D14688 /* PullDownButtonCell.m in Sources */,
 				1428940109575A3000D14688 /* RendezvousBrowserController.m in Sources */,
-				1428940209575A3000D14688 /* SetupController.m in Sources */,
+				1428940209575A3000D14688 /* LicenseController.m in Sources */,
 				1428940309575A3000D14688 /* TexturedButtonCell.m in Sources */,
 				1428940409575A3000D14688 /* UndoManager.m in Sources */,
 				1428940509575A3000D14688 /* URLImageView.m in Sources */,
@@ -2088,14 +2084,6 @@
 			name = SelectEncodingsPanel.nib;
 			sourceTree = "<group>";
 		};
-		14289034095741BA00D14688 /* Setup.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				14289035095741BA00D14688 /* English */,
-			);
-			name = Setup.nib;
-			sourceTree = "<group>";
-		};
 		14289036095741BA00D14688 /* StylePrefs.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2142,6 +2130,14 @@
 				14289BD909581CAC00D14688 /* English */,
 			);
 			name = FindAll.nib;
+			sourceTree = "<group>";
+		};
+		14F1601E096C288100402129 /* License.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14F1601F096C288100402129 /* English */,
+			);
+			name = License.nib;
 			sourceTree = "<group>";
 		};
 		2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */ = {

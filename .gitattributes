@@ -169,6 +169,9 @@ subethaedit/English.lproj/InfoPlist.strings -text svneol=unset#text/plain
 subethaedit/English.lproj/InternetBrowser.nib/classes.nib -text
 subethaedit/English.lproj/InternetBrowser.nib/info.nib -text
 subethaedit/English.lproj/InternetBrowser.nib/keyedobjects.nib -text
+subethaedit/English.lproj/License.nib/classes.nib -text
+subethaedit/English.lproj/License.nib/info.nib -text
+subethaedit/English.lproj/License.nib/keyedobjects.nib -text
 subethaedit/English.lproj/Localizable.strings -text svneol=unset#text/plain
 subethaedit/English.lproj/MainMenu.nib/classes.nib -text
 subethaedit/English.lproj/MainMenu.nib/info.nib -text
@@ -250,6 +253,8 @@ subethaedit/Knock.wav -text
 subethaedit/LayoutManager.h -text
 subethaedit/LayoutManager.m -text
 subethaedit/License.rtf -text
+subethaedit/LicenseController.h -text
+subethaedit/LicenseController.m -text
 subethaedit/Modes/ActionScript.mode/Contents/Info.plist -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
@@ -878,8 +883,6 @@ subethaedit/SelectionOperation.m -text
 subethaedit/SessionProfile.h -text
 subethaedit/SessionProfile.m -text
 subethaedit/Setup.plist -text
-subethaedit/SetupController.h -text
-subethaedit/SetupController.m -text
 subethaedit/SplitView.h -text
 subethaedit/SplitView.m -text
 subethaedit/StylePreferences.h -text

@@ -133,6 +133,22 @@
             SUPERCLASS = NSWindowController; 
         }, 
         {
+            ACTIONS = {buy = id; cancel = id; ok = id; }; 
+            CLASS = LicenseController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_OKButton" = NSButton; 
+                "O_buyButton" = NSButton; 
+                "O_cancelButton" = NSButton; 
+                "O_descriptionField" = NSTextField; 
+                "O_licenseeNameField" = NSTextField; 
+                "O_licenseeOrganizationField" = NSTextField; 
+                "O_purchaseHintField" = NSTextField; 
+                "O_serialNumberField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
             ACTIONS = {setVisibilityByPopUpButton = id; }; 
             CLASS = RendezvousBrowserController; 
             LANGUAGE = ObjC; 

@@ -16,7 +16,7 @@
 #import "InternetBrowserController.h"
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
-#import "SetupController.h"
+#import "LicenseController.h"
 
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
@@ -349,11 +349,39 @@ static AppController *sharedInstance = nil;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
 
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-    NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
-    if (!name || ![serial isValidSerial]) {
-        [[SetupController sharedInstance] showWindow:self];
+    if ([LicenseController shouldRun]) {
+        int daysLeft = [LicenseController daysLeft];
+        BOOL isExpired = daysLeft < 1;
+
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSInformationalAlertStyle];
+        if (isExpired) {
+            [alert setMessageText:NSLocalizedString(@"Please purchase SubEthaEdit today!", nil)];
+            [alert setInformativeText:NSLocalizedString(@"Your 30-day SubEthaEdit trial has expired. If you want to continue to use SubEthaEdit please purchase it and enter your serial number.", nil)];
+        } else {
+            [alert setMessageText:NSLocalizedString(@"Try SubEthaEdit!", nil)];
+            [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Your SubEthaEdit trial expires in %d days. If you like SubEthaEdit please purchase it.", nil), daysLeft]];        
+        }
+        [alert addButtonWithTitle:NSLocalizedString(@"Purchase", nil)];
+        if (isExpired) {
+            [alert addButtonWithTitle:NSLocalizedString(@"Quit", nil)];
+        } else {
+            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+        }
+        [alert addButtonWithTitle:NSLocalizedString(@"Enter Serial Number", nil)];
+
+        int result = [alert runModal];
+        [alert release];
+        if (result == NSAlertFirstButtonReturn) {
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/purchase/"]];
+        } else if (result == NSAlertSecondButtonReturn) {
+            if (isExpired) {
+                [NSApp terminate:self];
+            }
+        } else if (result == NSAlertThirdButtonReturn) {
+            LicenseController *licenseController = [LicenseController sharedInstance];
+            (int)[NSApp runModalForWindow:[licenseController window]];
+        }
     }
     
     // set up beep profiles
@@ -524,7 +552,7 @@ static AppController *sharedInstance = nil;
 }
 
 - (IBAction)enterSerialNumber:(id)sender {
-    [[SetupController sharedInstance] showWindow:self];
+    [[LicenseController sharedInstance] showWindow:self];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
