@@ -7,7 +7,7 @@
 //
 
 #import "AboutPanelController.h"
-#import "SetupController.h"
+#import "LicenseController.h"
 #import <OgreKit/OgreKit.h>
 
 
