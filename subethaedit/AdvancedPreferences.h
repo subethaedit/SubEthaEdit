@@ -9,6 +9,11 @@
 #import <Cocoa/Cocoa.h>
 #import "TCMPreferenceModule.h"
 
+
+#define SEE_TOOL_PATH    @"/usr/bin/see"
+#define SEE_MANPAGE_PATH @"/usr/share/man/man1/see.1"
+
+
 @interface AdvancedPreferences : TCMPreferenceModule {
     IBOutlet NSButton *O_commandLineToolRemoveButton;
     IBOutlet NSButton *O_disableScreenFontsButton;

@@ -12,8 +12,6 @@
 #define kKAHL 'KAHL'
 #define kMOD 'MOD '
 
-int abcde();
-@class TCMIdleTimer;
 
 extern int const FileMenuTag   ;
 extern int const EditMenuTag   ;
@@ -34,12 +32,9 @@ extern int const WindowMenuTag ;
 
 @interface AppController : NSObject {
     BOOL I_lastShouldOpenUntitledFile;
-    TCMIdleTimer *I_idleTimer;
 }
 
 + (AppController *)sharedInstance;
-
-- (BOOL)applicationIsIdling;
 
 - (BOOL)lastShouldOpenUntitledFile;
 

@@ -26,45 +26,7 @@
 @implementation TextView
 
 static NSMenu *defaultMenu=nil;
-static NSColor *nonCommercialColor=nil;
 
-#define WATERSIZE 38.
-
-+ (void)initialize {
-    NSRect rect=NSMakeRect(0,0,0,0);
-    NSFont *font=[NSFont fontWithName:@"Helvetica-Bold" size:WATERSIZE];
-    if (!font) {
-        font=[NSFont boldSystemFontOfSize:WATERSIZE];
-    }
-    NSString *text=NSLocalizedString(@"Licensed for non-commercial use",@"");
-    text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if ([text length] < 3) {
-        text = @"non-commercial use only";
-    }
-    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:[NSColor colorWithCalibratedWhite:.5 alpha:.20],NSForegroundColorAttributeName,font,NSFontAttributeName,nil];
-    rect.size=[text sizeWithAttributes:attributes];
-    float height=rect.size.height;
-    float width=rect.size.width;
-    rect.size.width = (int)(cos(30./180.*M_PI)*width+height*2);
-    rect.size.height= (int)(sin(30./180.*M_PI)*width+height);
-    NSImage *image=[[[NSImage alloc] initWithSize:rect.size] autorelease];
-    [image lockFocus];
-    [[NSColor clearColor] set];
-    [NSBezierPath fillRect:rect];
-    [[NSColor colorWithCalibratedWhite:.5 alpha:.3] set];
-//    NSFrameRect(rect);
-    NSAffineTransform *transform=[NSAffineTransform transform];
-    [transform translateXBy:height yBy:0.];
-    [transform rotateByDegrees:30.];
-    [transform scaleXBy:1. yBy:1.2];
-    [transform concat];
-//    NSFrameRect(rect);
-    [text drawAtPoint:NSMakePoint(0.,0.) withAttributes:attributes];
-    [transform invert];
-    [transform concat];
-    [image unlockFocus];
-    nonCommercialColor=[[NSColor colorWithPatternImage:image] retain];
-}
 
 + (NSMenu *)defaultMenu {
     return defaultMenu;
@@ -217,18 +179,6 @@ static NSColor *nonCommercialColor=nil;
     [caretPath fill];
     //[caretPath stroke];
     [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
-}
-
-- (void)drawViewBackgroundInRect:(NSRect)rect {
-    [super drawViewBackgroundInRect:rect];
-    if (!abcde() && [[AppController sharedInstance] applicationIsIdling]) {
-        NSGraphicsContext *context=[NSGraphicsContext currentContext];
-        NSPoint phase=[context patternPhase];
-        [context setPatternPhase:NSMakePoint(phase.x+[[self superview] frame].origin.x,phase.y)];
-        [nonCommercialColor set];
-        [NSBezierPath fillRect:rect];
-        [context setPatternPhase:phase];
-    }
 }
 
 - (void)drawRect:(NSRect)aRect {
@@ -397,33 +347,6 @@ static NSColor *nonCommercialColor=nil;
     [self copy:aSender];
     [self setRichText:NO];
 }
-
-#define WATERMARKINTERVAL 5.
-
-//- (void)trigger {
-//    if ([I_timer isValid]) {
-//        [I_timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:WATERMARKINTERVAL]];
-//    } else {
-//        [I_timer release];
-//        I_timer=[[NSTimer timerWithTimeInterval:WATERMARKINTERVAL
-//                                                target:self
-//                                              selector:@selector(triggerAction:)
-//                                              userInfo:nil repeats:NO] retain];
-//        [[NSRunLoop currentRunLoop] addTimer:I_timer forMode:NSDefaultRunLoopMode]; //(NSString *)kCFRunLoopCommonModes];
-//    }
-//}
-//
-//- (void)triggerAction:(void *)context {
-//    [self setNeedsDisplay:YES];
-//}
-//
-//- (BOOL)resignFirstResponder {
-//    BOOL result=[super resignFirstResponder];
-//    if (result && !abcde()) {
-//        [self trigger];
-//    }
-//    return result;
-//}
 
 #pragma mark -
 #pragma mark ### dragging ###

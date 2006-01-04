@@ -488,10 +488,10 @@ BOOL TCM_scanVersionString(NSString *string, int *major, int *minor) {
         [self TCM_finishSetup];
         [NSApp stopModal];
         [self close];
-        if ((isFirstRun && shouldMakeNewDocument)
-            || [[NSUserDefaults standardUserDefaults] boolForKey:OpenDocumentOnStartPreferenceKey]) {
-            [[NSDocumentController sharedDocumentController] newDocument:self];
-        }
+        //if ((isFirstRun && shouldMakeNewDocument)
+        //    || [[NSUserDefaults standardUserDefaults] boolForKey:OpenDocumentOnStartPreferenceKey]) {
+        //    [[NSDocumentController sharedDocumentController] newDocument:self];
+        //}
     } else {
         [O_tabView selectTabViewItemWithIdentifier:[itemOrder objectAtIndex:++itemIndex]];
     }

@@ -17,7 +17,6 @@
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
 #import "SetupController.h"
-#import "TCMIdleTimer.h"
 
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
@@ -63,12 +62,6 @@ int const FormatMenuTag = 2000;
 int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
-
-static int s_isRegistered=NO;
-
-int abcde() {
-    return s_isRegistered;
-}
 
 
 NSString * const DefaultPortNumber = @"port";
@@ -356,9 +349,11 @@ static AppController *sharedInstance = nil;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
 
-    if ([SetupController shouldRun]) {
-        SetupController *setupController = [SetupController sharedInstance];
-        (int)[NSApp runModalForWindow:[setupController window]];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
+    NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
+    if (!name || ![serial isValidSerial]) {
+        [[SetupController sharedInstance] showWindow:self];
     }
     
     // set up beep profiles
@@ -371,17 +366,6 @@ static AppController *sharedInstance = nil;
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 
     [InternetBrowserController sharedInstance];
-
-
-    I_idleTimer=[[TCMIdleTimer alloc] initWithBeginInterval:120. repeatInterval:100000000.];
-    [I_idleTimer setDelegate:self];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-    NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
-    if (name && [serial isValidSerial]) {
-        s_isRegistered=YES;
-    }
-
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -393,12 +377,6 @@ static AppController *sharedInstance = nil;
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    BOOL isSetupDone = ([defaults objectForKey:SetupVersionPrefKey] != nil);
-    if (!isSetupDone) {
-        I_lastShouldOpenUntitledFile = NO;
-        return NO;
-    }
     BOOL result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
     I_lastShouldOpenUntitledFile = result;
     return result;
@@ -407,43 +385,6 @@ static AppController *sharedInstance = nil;
 - (BOOL)lastShouldOpenUntitledFile {
     return I_lastShouldOpenUntitledFile;
 }
-
-- (BOOL)applicationIsIdling {
-    return [I_idleTimer isIdling];
-}
-
-- (void)setNeedsDisplayOnTextViews {
-    NSEnumerator *documents=[[[DocumentController sharedInstance] documents] objectEnumerator];
-    PlainTextDocument *document=nil;
-    while ((document=[documents nextObject])) {
-        NSEnumerator *editors=[[document plainTextEditors] objectEnumerator];
-        PlainTextEditor *editor=nil;
-        while ((editor=[editors nextObject])) {
-            [[editor textView] setNeedsDisplay:YES];
-        }
-    }
-}
-
-- (void)idleTimerDidFire:(id)aSender {
-    // make all textviews draw their background if not registered
-    if (!abcde()) {
-        [self setNeedsDisplayOnTextViews];
-    }
-}
-
-- (void)applicationDidBecomeActive:(NSNotification *)aNotification {
-    if (!abcde()) {
-        [self setNeedsDisplayOnTextViews];
-    }
-}
-
-- (void)idleTimerDidStop:(id)aSender {
-    // make all textviews draw their background if not registered
-    if (!abcde() && [NSApp isActive]) {
-        [self setNeedsDisplayOnTextViews];
-    }
-}
-
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {
     static NSMenu *dockMenu=nil;
@@ -610,7 +551,6 @@ static AppController *sharedInstance = nil;
         NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
         NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
         if (name && [serial isValidSerial]) {
-            s_isRegistered=YES;
             return NO;
         }
     } else if (selector==@selector(enterSerialNumber:)) {

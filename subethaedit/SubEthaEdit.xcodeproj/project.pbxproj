@@ -156,7 +156,6 @@
 		142891570957475E00D14688 /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914F0957475E00D14688 /* TCMBEEPSession.m */; };
 		142891DD09574E5B00D14688 /* ImagePopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */; };
 		142891DE09574E5B00D14688 /* TCMHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D809574E5B00D14688 /* TCMHost.m */; };
-		142891DF09574E5B00D14688 /* TCMIdleTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891DA09574E5B00D14688 /* TCMIdleTimer.m */; };
 		142891E009574E5B00D14688 /* TCMListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891DC09574E5B00D14688 /* TCMListView.m */; };
 		1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289207095751CB00D14688 /* NSColorTCMAdditions.m */; };
 		1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289209095751CB00D14688 /* NSImageTCMAdditions.m */; };
@@ -390,7 +389,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 14E573B90964761F00DB50C3 /* Versioning */;
+			remoteGlobalIDString = 14E573B90964761F00DB50C3;
 			remoteInfo = Versioning;
 		};
 /* End PBXContainerItemProxy section */
@@ -587,8 +586,6 @@
 		142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ImagePopUpButtonCell.m; sourceTree = "<group>"; };
 		142891D709574E5B00D14688 /* TCMHost.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMHost.h; sourceTree = "<group>"; };
 		142891D809574E5B00D14688 /* TCMHost.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMHost.m; sourceTree = "<group>"; };
-		142891D909574E5B00D14688 /* TCMIdleTimer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMIdleTimer.h; sourceTree = "<group>"; };
-		142891DA09574E5B00D14688 /* TCMIdleTimer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMIdleTimer.m; sourceTree = "<group>"; };
 		142891DB09574E5B00D14688 /* TCMListView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMListView.h; sourceTree = "<group>"; };
 		142891DC09574E5B00D14688 /* TCMListView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMListView.m; sourceTree = "<group>"; };
 		14289206095751CB00D14688 /* NSColorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSColorTCMAdditions.h; sourceTree = "<group>"; };
@@ -1031,6 +1028,8 @@
 		142891780957483200D14688 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				142893E809575A3000D14688 /* NSApplicationTCMAdditions.h */,
+				142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */,
 				14289206095751CB00D14688 /* NSColorTCMAdditions.h */,
 				14289207095751CB00D14688 /* NSColorTCMAdditions.m */,
 				14289208095751CB00D14688 /* NSImageTCMAdditions.h */,
@@ -1071,8 +1070,6 @@
 				142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */,
 				142891D709574E5B00D14688 /* TCMHost.h */,
 				142891D809574E5B00D14688 /* TCMHost.m */,
-				142891D909574E5B00D14688 /* TCMIdleTimer.h */,
-				142891DA09574E5B00D14688 /* TCMIdleTimer.m */,
 				142891DB09574E5B00D14688 /* TCMListView.h */,
 				142891DC09574E5B00D14688 /* TCMListView.m */,
 			);
@@ -1348,8 +1345,6 @@
 				142893E509575A3000D14688 /* GetURLCommand.m */,
 				142893E609575A3000D14688 /* InternetBrowserController.h */,
 				142893E709575A3000D14688 /* InternetBrowserController.m */,
-				142893E809575A3000D14688 /* NSApplicationTCMAdditions.h */,
-				142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */,
 				142893EA09575A3000D14688 /* PullDownButton.h */,
 				142893EB09575A3000D14688 /* PullDownButton.m */,
 				142893EC09575A3000D14688 /* PullDownButtonCell.h */,
@@ -1852,7 +1847,6 @@
 				142891570957475E00D14688 /* TCMBEEPSession.m in Sources */,
 				142891DD09574E5B00D14688 /* ImagePopUpButtonCell.m in Sources */,
 				142891DE09574E5B00D14688 /* TCMHost.m in Sources */,
-				142891DF09574E5B00D14688 /* TCMIdleTimer.m in Sources */,
 				142891E009574E5B00D14688 /* TCMListView.m in Sources */,
 				1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */,
 				1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */,
