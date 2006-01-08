@@ -44,7 +44,6 @@ static LicenseController *sharedInstance = nil;
     NSString *previousVersion = [defaults stringForKey:SetupVersionPrefKey];
     NSString *bundleVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     if ([previousVersion compare:bundleVersion] != NSOrderedSame) {
-        NSLog(@"Different version. Starting eval period again.");
         [defaults setObject:currentDate forKey:@"FirstStartDate"];
         [defaults setObject:bundleVersion forKey:SetupVersionPrefKey];
     }
@@ -65,36 +64,57 @@ static LicenseController *sharedInstance = nil;
     sharedInstance = self;
 }
 
+- (void)TCM_fillInRegistrationInfo {
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
+    NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
+    NSString *organization = [defaults stringForKey:LicenseeOrganizationPrefKey];
+    
+    if (name != nil && serial != nil) {
+        [O_licenseeNameField setObjectValue:name];
+        if (organization != nil) [O_licenseeOrganizationField setObjectValue:organization];
+        [O_serialNumberField setObjectValue:serial];
+        if ([[O_licenseeNameField stringValue] length] > 0 && [[O_serialNumberField stringValue] isValidSerial]) {
+            [O_registerButton setEnabled:YES];
+        } else {
+            [O_registerButton setEnabled:NO];
+        }
+    } else {
+        ABPerson *meCard = [[ABAddressBook sharedAddressBook] me];
+        NSString *myName = nil;
+        
+        if (meCard) {
+            NSString *firstName = [meCard valueForProperty:kABFirstNameProperty];
+            NSString *lastName  = [meCard valueForProperty:kABLastNameProperty];            
+        
+            if ((firstName != nil) && (lastName != nil)) {
+                myName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+            } else if (firstName != nil) {
+                myName = firstName;
+            } else if (lastName!=nil) {
+                myName = lastName;
+            } else {
+                myName = NSFullUserName();
+            }
+                
+            NSString *organization = [meCard valueForProperty:kABOrganizationProperty];
+            [O_licenseeOrganizationField setObjectValue:organization];
+        } else {
+            myName = NSFullUserName();
+        }
+        [O_licenseeNameField setObjectValue:myName];
+    }
+}
+
 - (void)windowDidLoad {
     [O_registerButton setEnabled:NO];
     [O_licenseeNameField setDelegate:self];
     [O_licenseeOrganizationField setDelegate:self];
     [O_serialNumberField setDelegate:self];
     
-    ABPerson *meCard = [[ABAddressBook sharedAddressBook] me];
-    NSString *myName = nil;
-    
-    if (meCard) {
-        NSString *firstName = [meCard valueForProperty:kABFirstNameProperty];
-        NSString *lastName  = [meCard valueForProperty:kABLastNameProperty];            
-    
-        if ((firstName != nil) && (lastName != nil)) {
-            myName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-        } else if (firstName != nil) {
-            myName = firstName;
-        } else if (lastName!=nil) {
-            myName = lastName;
-        } else {
-            myName = NSFullUserName();
-        }
-            
-        NSString *organization = [meCard valueForProperty:kABOrganizationProperty];
-        [O_licenseeOrganizationField setObjectValue:organization];
-    } else {
-        myName = NSFullUserName();
-    }
-    [O_licenseeNameField setObjectValue:myName];
-        
+    [self TCM_fillInRegistrationInfo];        
     [[self window] center];
 }
 
@@ -103,6 +123,7 @@ static LicenseController *sharedInstance = nil;
 }
     
 - (IBAction)showWindow:(id)sender {
+    [self TCM_fillInRegistrationInfo];
     [[self window] center];
     [super showWindow:self];
 }

@@ -574,20 +574,6 @@ static AppController *sharedInstance = nil;
             NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
             return [undoManager canRedo];
         }
-    } else if (selector==@selector(purchaseSubEthaEdit:)) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
-        if (name && [serial isValidSerial]) {
-            return NO;
-        }
-    } else if (selector==@selector(enterSerialNumber:)) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
-        if (name && [serial isValidSerial]) {
-            return NO;
-        }
     }
 
     return YES;
