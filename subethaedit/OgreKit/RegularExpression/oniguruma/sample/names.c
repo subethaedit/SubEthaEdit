@@ -2,6 +2,7 @@
  * names.c -- example of group name callback.
  */
 #include <stdio.h>
+#include <string.h>
 #include "oniguruma.h"
 
 static int
@@ -31,10 +32,10 @@ extern int main(int argc, char* argv[])
   OnigErrorInfo einfo;
   OnigRegion *region;
 
-  static unsigned char* pattern = "(?<foo>a*)(?<bar>b*)(?<foo>c*)";
-  static unsigned char* str = "aaabbbbcc";
+  static UChar* pattern = (UChar* )"(?<foo>a*)(?<bar>b*)(?<foo>c*)";
+  static UChar* str = (UChar* )"aaabbbbcc";
 
-  r = onig_new(&reg, pattern, pattern + strlen(pattern),
+  r = onig_new(&reg, pattern, pattern + strlen((char* )pattern),
 	ONIG_OPTION_DEFAULT, ONIG_ENCODING_ASCII, ONIG_SYNTAX_DEFAULT, &einfo);
   if (r != ONIG_NORMAL) {
     char s[ONIG_MAX_ERROR_MESSAGE_LEN];
@@ -47,7 +48,7 @@ extern int main(int argc, char* argv[])
 
   region = onig_region_new();
 
-  end   = str + strlen(str);
+  end   = str + strlen((char* )str);
   start = str;
   range = end;
   r = onig_search(reg, str, end, start, range, region, ONIG_OPTION_NONE);

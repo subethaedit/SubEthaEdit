@@ -3320,6 +3320,9 @@ onigenc_unicode_is_code_ctype(OnigCodePoint code, unsigned int ctype)
   case ONIGENC_CTYPE_ALNUM:
     return onig_is_in_code_range((UChar* )CRAlnum, code);
     break;
+  case ONIGENC_CTYPE_NEWLINE:
+    return FALSE;
+    break;
 
   default:
     return ONIGENCERR_TYPE_BUG;

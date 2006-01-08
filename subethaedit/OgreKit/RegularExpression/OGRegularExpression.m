@@ -269,13 +269,16 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 	// 正規表現オブジェクトの作成
     OnigCompileInfo ci;
     ci.num_of_elements = 5;
-#ifdef __BIG_ENDIAN__
+    
+	// Next seven lines by MATSUMOTO Satoshi, Sep 31 2005
+#if defined( __BIG_ENDIAN__ )
     ci.pattern_enc = ONIG_ENCODING_UTF16_BE;
     ci.target_enc  = ONIG_ENCODING_UTF16_BE;
-#elif __LITTLE_ENDIAN__
+#else
     ci.pattern_enc = ONIG_ENCODING_UTF16_LE;
     ci.target_enc  = ONIG_ENCODING_UTF16_LE;
 #endif
+
     ci.syntax      = [[self class] onigSyntaxTypeForSyntax:_syntax];
     ci.option      = compileTimeOptions;
     ci.ambig_flag  = ONIGENC_AMBIGUOUS_MATCH_DEFAULT;
@@ -458,10 +461,20 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
     [compileTimeString getCharacters:UTF16Str range:NSMakeRange(0, length)];
 	
 	// 正規表現オブジェクトの作成・解放
-	r = onig_new(&regexBuffer, (unsigned char*)UTF16Str, (unsigned char*)(UTF16Str + length),
+
+	// Next 11 lines by MATSUMOTO Satoshi, Sep 31 2005
+#if defined( __BIG_ENDIAN__ )
+ 	r = onig_new(&regexBuffer, (unsigned char*)UTF16Str, (unsigned char*)(UTF16Str + length),
 		compileTimeOptions, ONIG_ENCODING_UTF16_BE, 
 			[[self class] onigSyntaxTypeForSyntax:syntax] 
 		, &einfo);
+#else
+	r = onig_new(&regexBuffer, (unsigned char*)UTF16Str, (unsigned char*)(UTF16Str + length),
+		compileTimeOptions, ONIG_ENCODING_UTF16_LE, 
+			[[self class] onigSyntaxTypeForSyntax:syntax] 
+		, &einfo);
+#endif
+
 	onig_free(regexBuffer);
     NSZoneFree([self zone], UTF16Str);
     

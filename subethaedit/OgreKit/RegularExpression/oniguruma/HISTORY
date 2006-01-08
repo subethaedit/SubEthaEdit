@@ -1,5 +1,83 @@
 History
 
+2005/11/29: Version 3.9.1
+
+2005/11/29: [test] success in ruby 1.9.0 (2005-11-28) [i686-linux].
+2005/11/24: [test] success in ruby 1.9.0 (2005-08-09) [i686-linux].
+2005/11/21: [test] success in ruby 1.9.0 (2005-11-20) [i386-cygwin].
+2005/11/21: [bug]  (thanks Allan Odgaard)
+                   utf-8 character comments in extended mode leads 
+                   invalid result.
+                   ex. /(?x)(?<= # <any-utf-8 multibyte char>o\n~) /
+                   fix onigenc_unicode_is_code_ctype() and
+                   utf8_is_code_ctype().
+2005/11/20: [bug]  (thanks MATSUMOTO Satoshi) (thanks Isao Sonobe)
+                   begin-line anchor and BM search optimization leads
+                   invalid result in UTF-16/32.
+                   fix in set_optimize_exact_info().
+
+2005/11/20: Version 3.9.0
+
+2005/11/20: [test] success in ruby 1.9.0 (2005-11-20) [i386-cygwin].
+2005/11/20: [test] success in ruby 1.9.0 (2005-10-18) [i386-cygwin].
+2005/11/20: [new]  add new config USE_CRNL_AS_LINE_TERMINATOR.
+                   (!!! NO SUPPORT experimental option !!!)
+2005/11/15: [bug]  (thanks Allan Odgaard)
+                   tok->escape was not cleared in fetch_token_in_cc().
+                   ex. [\s&&[^\n]] makes wrong result.
+2005/10/18: [impl] (thanks nobu)
+                   change sjis_mbc_enc_len()
+                   and node_new_cclass_by_codepoint_range() scope to static.
+2005/09/05: [dist] remove link to MultiFind.
+2005/09/01: [dist] add link to yagrep.
+
+2005/08/23: Version 3.8.9
+
+2005/08/23: [test] success in ruby 1.9.0 (2005-08-09) [i686-linux].
+2005/08/23: [inst] fix Makefile.in for make ctest/ptest.
+
+2005/08/23: Version 3.8.8
+
+2005/08/23: [test] success in ruby 1.9.0 (2005-08-09) [i686-linux].
+2005/08/23: [impl] split is_code_in_cc() from onig_is_code_in_cc().
+2005/08/23: [impl] should check DATA_ENSURE() at OP_CCLASS_NODE in match_at().
+2005/08/23: [impl] (thanks akr)
+                   add ONIG_OPTION_MAXBIT for escape conflict with
+                   Ruby's option.
+2005/08/22: [impl] escape GCC 4.0 warnings for testc.c.
+2005/08/22: [bug]  (thanks nobu, matz) [ruby-dev:26840]
+                   UTF-8 0xFE, 0xFF handling bug in code_is_in_cclass_node().
+                   abort on /\S*/ =~ "\xfe"
+2005/08/22: [impl] escape GCC 4.0 warnings for sample/*.c.
+2005/08/22: [impl] fix testconvu.rb.
+2005/08/22: [impl] escape GCC 4.0 warnings.
+
+2005/08/09: Version 3.8.7
+
+2005/08/09: [test] success in ruby 1.9.0 (2005-08-09) [i686-linux].
+2005/08/09: [bug]  (thanks Allan Odgaard)
+                   should not call enc_len() for s == range
+                   in onig_search().
+2005/08/01: [dist] add mkdir $prefix, mkdir $exec_prefix to make install.
+
+2005/07/27: Version 3.8.6
+
+2005/07/27: [test] success in ruby 1.9.0 (2005-07-26) [i686-linux].
+2005/07/27: [impl] update onig-config.in.
+2005/07/26: [new]  (thanks Yen-Ju Chen)
+                   add Oniguruma configuration check program.
+                   (onig-config.in)
+
+2005/07/14: Version 3.8.5
+
+2005/07/14: [test] success in ruby 1.9.0 (2005-07-14) [i686-linux].
+2005/07/11: [test] success in ruby 1.9.0 (2005-07-04) [i686-linux].
+2005/07/11: [bug]  (thanks nobu) [ruby-dev:26505]
+                   invalid handling for /\c\x/ and /\C-\x/.
+                   fix fetch_escaped_value().
+2005/07/05: [impl] (thanks Alexey Zakhlestine)
+                   escape GCC 4.0 warnings.
+
 2005/07/01: Version 3.8.4
 
 2005/07/01: [test] success in ruby 1.9.0 (2005-07-01) [i686-linux].
@@ -21,8 +99,8 @@ History
 2005/06/27: [test] success in ruby 1.9.0 (2005-05-31) [i686-linux].
 2005/06/27: [bug]  (thanks Wolfgang Nadasi-Donner)
                    invalid check for never ending recursion.
-                   lower zero quantifer should be treated as
-                   non-recursive call alternatives.
+                   lower zero quantifier should be treated as
+                   a non-recursive call alternative.
                    ex. /(?<bal>[^()]*(\(\g<bal>\)[^()]*)*)/
 2005/06/15: [impl] add divide_ambig_string_node_sub().
 2005/06/15: [dist] add a test to sample/encode.c.
@@ -97,7 +175,7 @@ History
                    remove reggnu.c from make 19.
 2005/02/19: [dist] update doc/API and doc/API.ja.
 2005/02/19: [test] success in ruby 1.9.0 (2005-02-19) [i386-cygwin].
-2005/02/19: [impl] (thanks Alexey Zakhlestin)
+2005/02/19: [impl] (thanks Alexey Zakhlestine)
                    change UChar* to const UChar* in oniguruma.h,
                    regenc.h and regparse.h.
 2005/02/13: [impl] change UChar* to const UChar* in oniguruma.h and

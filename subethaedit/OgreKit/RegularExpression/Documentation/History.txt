@@ -1,3 +1,23 @@
+2006-01-04 Isao Sonobe  <sonobe@secret>
+
+	* OgreKit[dep]: 
+	release ver.2.1.0.
+
+	* OgreKit[dist]: 
+	support creating a universal binary.
+	(thanks MATSUMOTO Satoshi!)
+
+	* OGRegularExpression[spec]: 
+	support creating a universal binary.
+	(thanks MATSUMOTO Satoshi!)
+
+	* OgreAdvancedFindPanel.nib, OgreTextFinderLocalizable.strings, OgreAPFCLocalizable.strings[dist]: 
+	add french translated resources by Mr. Sébastien Guy.
+	(Thanks greatful for your help! Sébastien Guy!)
+
+	* Oniguruma[dist]: 
+	import ver.3.9.1.
+
 2005-07-03 Isao Sonobe  <sonobe@secret>
 
 	* OgreKit[dep]: 

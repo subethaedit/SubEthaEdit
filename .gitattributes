@@ -666,10 +666,9 @@ subethaedit/OgreKit/MyFindPanelExample/MyMenuController.m -text
 subethaedit/OgreKit/MyFindPanelExample/MyTextFinder.h -text
 subethaedit/OgreKit/MyFindPanelExample/MyTextFinder.m -text
 subethaedit/OgreKit/MyFindPanelExample/main.m -text
-subethaedit/OgreKit/OgreKit.xcode/isao.mode1 -text
-subethaedit/OgreKit/OgreKit.xcode/isao.pbxuser -text
-subethaedit/OgreKit/OgreKit.xcode/project.pbxproj -text
-subethaedit/OgreKit/OgreKit.xcodeproj/project.pbxproj -text
+subethaedit/OgreKit/OgreKit[!!-~](Universal[!!-~]Binary).xcodeproj/isao.mode1 -text
+subethaedit/OgreKit/OgreKit[!!-~](Universal[!!-~]Binary).xcodeproj/isao.pbxuser -text
+subethaedit/OgreKit/OgreKit[!!-~](Universal[!!-~]Binary).xcodeproj/project.pbxproj -text
 subethaedit/OgreKit/OnigurumaTest/English.lproj/InfoPlist.strings -text
 subethaedit/OgreKit/OnigurumaTest/English.lproj/MainMenu.nib/JavaCompiling.plist -text
 subethaedit/OgreKit/OnigurumaTest/English.lproj/MainMenu.nib/_MainMenu_EOArchive_English.java -text
@@ -726,7 +725,6 @@ subethaedit/OgreKit/RegularExpression/OgreKit.h -text
 subethaedit/OgreKit/RegularExpression/OgreKitWithoutFindPanel/OgreKit.h -text
 subethaedit/OgreKit/RegularExpression/OgreKit_Prefix.pch -text
 subethaedit/OgreKit/RegularExpression/configure.sh -text
-subethaedit/OgreKit/RegularExpression/onigd20050701.tar.gz -text
 subethaedit/OgreKit/RegularExpression/oniguruma/.cvsignore -text
 subethaedit/OgreKit/RegularExpression/oniguruma/COPYING -text
 subethaedit/OgreKit/RegularExpression/oniguruma/HISTORY -text
@@ -776,6 +774,7 @@ subethaedit/OgreKit/RegularExpression/oniguruma/enc/utf32_be.c -text
 subethaedit/OgreKit/RegularExpression/oniguruma/enc/utf32_le.c -text
 subethaedit/OgreKit/RegularExpression/oniguruma/enc/utf8.c -text
 subethaedit/OgreKit/RegularExpression/oniguruma/index.html -text
+subethaedit/OgreKit/RegularExpression/oniguruma/onig-config.in -text
 subethaedit/OgreKit/RegularExpression/oniguruma/oniggnu.h -text
 subethaedit/OgreKit/RegularExpression/oniguruma/onigposix.h -text
 subethaedit/OgreKit/RegularExpression/oniguruma/oniguruma.h -text

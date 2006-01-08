@@ -3674,6 +3674,9 @@ utf8_is_code_ctype(OnigCodePoint code, unsigned int ctype)
   case ONIGENC_CTYPE_ALNUM:
     range = MBAlnum;
     break;
+  case ONIGENC_CTYPE_NEWLINE:
+    return FALSE;
+    break;
 
   default:
     return ONIGENCERR_TYPE_BUG;

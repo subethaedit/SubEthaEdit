@@ -33,8 +33,17 @@
 #define HAVE_FCNTL_H 1
 #define HAVE_SYS_UTIME_H 1
 #define HAVE_MEMORY_H 1
-#define uid_t int
-#define gid_t int
+
+#ifndef _UID_T
+#define _UID_T
+#define uid_t __darwin_uid_t
+#endif
+
+#ifndef _GID_T
+#define _GID_T
+#define gid_t __darwin_gid_t
+#endif
+
 #define HAVE_STRUCT_STAT_ST_RDEV 1
 #define HAVE_ST_RDEV 1
 #define GETGROUPS_T int

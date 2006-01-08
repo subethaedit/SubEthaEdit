@@ -35,8 +35,8 @@ extern "C" {
 
 #define ONIGURUMA
 #define ONIGURUMA_VERSION_MAJOR   3
-#define ONIGURUMA_VERSION_MINOR   8
-#define ONIGURUMA_VERSION_TEENY   4
+#define ONIGURUMA_VERSION_MINOR   9
+#define ONIGURUMA_VERSION_TEENY   1
 
 #ifdef __cplusplus
 # ifndef  HAVE_PROTOTYPES
@@ -471,6 +471,7 @@ typedef unsigned int        OnigOptionType;
 #define ONIG_OPTION_NOTBOL               (ONIG_OPTION_CAPTURE_GROUP << 1)
 #define ONIG_OPTION_NOTEOL               (ONIG_OPTION_NOTBOL << 1)
 #define ONIG_OPTION_POSIX_REGION         (ONIG_OPTION_NOTEOL << 1)
+#define ONIG_OPTION_MAXBIT               ONIG_OPTION_POSIX_REGION  /* limit */
 
 #define ONIG_OPTION_ON(options,regopt)      ((options) |= (regopt))
 #define ONIG_OPTION_OFF(options,regopt)     ((options) &= ~(regopt))

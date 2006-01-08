@@ -68,3 +68,4 @@ fi
 AC_SUBST()
 
 AC_OUTPUT(Makefile)
+AC_OUTPUT(onig-config)

@@ -290,7 +290,6 @@ typedef struct {
 extern int    onig_renumber_name_table P_((regex_t* reg, GroupNumRemap* map));
 #endif
 
-extern int    onig_is_code_in_cc P_((OnigEncoding enc, OnigCodePoint code, CClassNode* cc));
 extern int    onig_strncmp P_((const UChar* s1, const UChar* s2, int n));
 extern void   onig_scan_env_set_error_string P_((ScanEnv* env, int ecode, UChar* arg, UChar* arg_end));
 extern int    onig_scan_unsigned_number P_((UChar** src, const UChar* end, OnigEncoding enc));

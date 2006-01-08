@@ -4,13 +4,15 @@
 #include <stdio.h>
 #include "onigposix.h"
 
+typedef unsigned char  UChar;
+
 static int x(regex_t* reg, unsigned char* pattern, unsigned char* str)
 {
   int r, i;
   char buf[200];
   regmatch_t pmatch[20];
 
-  r = regexec(reg, str, reg->re_nsub + 1, pmatch, 0);
+  r = regexec(reg, (char* )str, reg->re_nsub + 1, pmatch, 0);
   if (r != 0 && r != REG_NOMATCH) {
     regerror(r, reg, buf, sizeof(buf));
     fprintf(stderr, "ERROR: %s\n", buf);
@@ -34,57 +36,57 @@ extern int main(int argc, char* argv[])
   int r;
   char buf[200];
   regex_t reg;
-  unsigned char* pattern;
+  UChar* pattern;
 
   /* default syntax (ONIG_SYNTAX_RUBY) */
-  pattern = "^a+b{2,7}[c-f]?$|uuu";
-  r = regcomp(&reg, pattern, REG_EXTENDED);
+  pattern = (UChar* )"^a+b{2,7}[c-f]?$|uuu";
+  r = regcomp(&reg, (char* )pattern, REG_EXTENDED);
   if (r) {
     regerror(r, &reg, buf, sizeof(buf));
     fprintf(stderr, "ERROR: %s\n", buf);
     return -1;
   }
-  x(&reg, pattern, "aaabbbbd");
+  x(&reg, pattern, (UChar* )"aaabbbbd");
 
   /* POSIX Basic RE (REG_EXTENDED is not specified.) */
-  pattern = "^a+b{2,7}[c-f]?|uuu";
-  r = regcomp(&reg, pattern, 0);
+  pattern = (UChar* )"^a+b{2,7}[c-f]?|uuu";
+  r = regcomp(&reg, (char* )pattern, 0);
   if (r) {
     regerror(r, &reg, buf, sizeof(buf));
     fprintf(stderr, "ERROR: %s\n", buf);
     return -1;
   }
-  x(&reg, pattern, "a+b{2,7}d?|uuu");
+  x(&reg, pattern, (UChar* )"a+b{2,7}d?|uuu");
 
   /* POSIX Basic RE (REG_EXTENDED is not specified.) */
-  pattern = "^a*b\\{2,7\\}\\([c-f]\\)$";
-  r = regcomp(&reg, pattern, 0);
+  pattern = (UChar* )"^a*b\\{2,7\\}\\([c-f]\\)$";
+  r = regcomp(&reg, (char* )pattern, 0);
   if (r) {
     regerror(r, &reg, buf, sizeof(buf));
     fprintf(stderr, "ERROR: %s\n", buf);
     return -1;
   }
-  x(&reg, pattern, "aaaabbbbbbd");
+  x(&reg, pattern, (UChar* )"aaaabbbbbbd");
 
   /* POSIX Extended RE */
   onig_set_default_syntax(ONIG_SYNTAX_POSIX_EXTENDED);
-  pattern = "^a+b{2,7}[c-f]?)$|uuu";
-  r = regcomp(&reg, pattern, REG_EXTENDED);
+  pattern = (UChar* )"^a+b{2,7}[c-f]?)$|uuu";
+  r = regcomp(&reg, (char* )pattern, REG_EXTENDED);
   if (r) {
     regerror(r, &reg, buf, sizeof(buf));
     fprintf(stderr, "ERROR: %s\n", buf);
     return -1;
   }
-  x(&reg, pattern, "aaabbbbd)");
+  x(&reg, pattern, (UChar* )"aaabbbbd)");
 
-  pattern = "^b.";
-  r = regcomp(&reg, pattern, REG_EXTENDED | REG_NEWLINE);
+  pattern = (UChar* )"^b.";
+  r = regcomp(&reg, (char* )pattern, REG_EXTENDED | REG_NEWLINE);
   if (r) {
     regerror(r, &reg, buf, sizeof(buf));
     fprintf(stderr, "ERROR: %s\n", buf);
     return -1;
   }
-  x(&reg, pattern, "a\nb\n");
+  x(&reg, pattern, (UChar* )"a\nb\n");
 
   regfree(&reg);
   return 0;

@@ -906,7 +906,7 @@ static NSString	*OgreTextFinderEscapeCharacterKey = @"Escape Character";
 
 	[self makeTargetBusy:target];
 	OgreTextFindLeaf	*selectedLeaf = nil;
-	NSRange				selectedRange;
+	NSRange				selectedRange = NSMakeRange(0, 0);
 	OgreTextFindResult	*textFindResult = nil;
 	
 	NS_DURING

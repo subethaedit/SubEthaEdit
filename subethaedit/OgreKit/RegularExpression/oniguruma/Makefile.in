@@ -1,4 +1,4 @@
-# Oni Guruma Makefile
+# Oniguruma Makefile
 
 product_name = oniguruma
 dist_tag     = `date '+%Y%m%d'`
@@ -27,6 +27,7 @@ prefix = @prefix@
 exec_prefix = @exec_prefix@
 libdir     = $(exec_prefix)/lib
 includedir = $(prefix)/include
+bindir = $(exec_prefix)/bin
 
 subdirs = 
 
@@ -68,7 +69,7 @@ encdir       = enc
 patchfiles   = re.c.168.patch re.c.181.patch
 distfiles    =  README README.ja COPYING HISTORY index.html MANIFEST-RUBY \
 		INSTALL-RUBY .cvsignore Makefile.in configure.in \
-		config.h.in configure \
+		config.h.in configure onig-config.in \
 		$(headers) $(libsources) $(patchfiles) \
 		test.rb testconv.rb testconvu.rb $(testc).c
 win32distfiles = $(WIN32)/Makefile $(WIN32)/config.h $(WIN32)/testc.c
@@ -107,7 +108,7 @@ makeargs = $(MFLAGS) CPPFLAGS='$(CPPFLAGS)' CFLAGS='$(CFLAGS)' CC='$(CC)'
 # targets
 default: all
 
-all: $(libname)
+all: $(libname) onig-config
 
 $(libname): make_enc_dir $(libobjs) $(encobjs)
 	rm -f $(libname)
@@ -163,19 +164,24 @@ make_enc_dir:
 	test -d enc || mkdir enc
 
 install: all
+	test -d $(prefix) || mkdir $(prefix)
+	test -d $(exec_prefix) || mkdir $(exec_prefix)
 	test -d $(libdir) || mkdir $(libdir)
 	test -d $(includedir) || mkdir $(includedir)
+	test -d $(bindir) || mkdir $(bindir)
 	$(INSTALL) -m 644 $(libname) $(libdir)/$(libname)
 	$(RANLIB)  $(libdir)/$(libname)
 	$(INSTALL) -m 644 $(srcdir)/oniguruma.h  $(includedir)/oniguruma.h
 	$(INSTALL) -m 644 $(srcdir)/onigposix.h  $(includedir)/onigposix.h
 	$(INSTALL) -m 644 $(srcdir)/oniggnu.h    $(includedir)/oniggnu.h
+	$(INSTALL) -m 755 onig-config            $(bindir)/onig-config
 
 uninstall:
 	-rm -f $(libdir)/$(libname)
 	-rm -f $(includedir)/oniguruma.h
 	-rm -f $(includedir)/onigposix.h
 	-rm -f $(includedir)/oniggnu.h
+	-rm -f $(bindir)/onig-config
 
 warn:
 	make CFLAGS='@CFLAGS@ @STATISTICS@ -Wall'
@@ -200,13 +206,13 @@ ptest: $(testp)
 	./$(testp)
 
 $(testc): $(testc).c $(libname)
-	$(CC) $(CFLAGS) -o $@ $(srcdir)/$(testc).c $(libname)
+	$(CC) $(CFLAGS) -I. -I$(srcdir) -o $@ $(srcdir)/$(testc).c $(libname)
 
 $(testc)u: $(testc)u.c $(libname)
-	$(CC) $(CFLAGS) -o $@ $(srcdir)/$(testc)u.c $(libname)
+	$(CC) $(CFLAGS) -I. -I$(srcdir) -o $@ $(srcdir)/$(testc)u.c $(libname)
 
 $(testp): $(testc).c $(libname)
-	$(CC) -DPOSIX_TEST $(CFLAGS) -o $@ $(srcdir)/$(testc).c $(libname)
+	$(CC) -DPOSIX_TEST $(CFLAGS) -I. -I$(srcdir) -o $@ $(srcdir)/$(testc).c $(libname)
 
 $(testc).c: $(srcdir)/test.rb $(srcdir)/testconv.rb
 	ruby -Ke $(srcdir)/testconv.rb < $(srcdir)/test.rb > $@
@@ -294,6 +300,9 @@ config.status: configure
 	$(SHELL) ./config.status --recheck
 
 Makefile: Makefile.in config.status
+	$(SHELL) ./config.status
+
+onig-config: onig-config.in config.status
 	$(SHELL) ./config.status
 
 # Prevent GNU make 3 from overflowing arg limit on system V.

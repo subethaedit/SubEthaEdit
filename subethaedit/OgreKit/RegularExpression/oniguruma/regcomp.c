@@ -2120,29 +2120,6 @@ get_char_length_tree(Node* node, regex_t* reg, int* len)
   return get_char_length_tree1(node, reg, len, 0);
 }
 
-extern int
-onig_is_code_in_cc(OnigEncoding enc, OnigCodePoint code, CClassNode* cc)
-{
-  int found;
-
-  if (ONIGENC_MBC_MINLEN(enc) > 1 || (code >= SINGLE_BYTE_SIZE)) {
-    if (IS_NULL(cc->mbuf)) {
-      found = 0;
-    }
-    else {
-      found = (onig_is_in_code_range(cc->mbuf->p, code) != 0 ? 1 : 0);
-    }
-  }
-  else {
-    found = (BITSET_AT(cc->bs, code) == 0 ? 0 : 1);
-  }
-
-  if (IS_CCLASS_NOT(cc))
-    return !found;
-  else
-    return found;
-}
-
 /* x is not included y ==>  1 : 0 */
 static int
 is_not_included(Node* x, Node* y, regex_t* reg)
@@ -4311,10 +4288,7 @@ set_optimize_exact_info(regex_t* reg, OptExactInfo* e)
     CHECK_NULL_RETURN_VAL(reg->exact, ONIGERR_MEMORY);
     reg->exact_end = reg->exact + e->len;
  
-    if (e->anc.left_anchor & ANCHOR_BEGIN_LINE)
-      allow_reverse = 1;
-    else
-      allow_reverse =
+    allow_reverse =
 	ONIGENC_IS_ALLOWED_REVERSE_MATCH(reg->enc, reg->exact, reg->exact_end);
 
     if (e->len >= 3 || (e->len >= 2 && allow_reverse)) {

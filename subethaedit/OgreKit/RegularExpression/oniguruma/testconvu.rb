@@ -1,6 +1,6 @@
 #!/usr/local/bin/ruby -Ke
 # testconvu.rb
-# Copyright (C) 2004  K.Kosako (sndgk393 AT ybb DOT ne DOT jp)
+# Copyright (C) 2004-2005  K.Kosako (sndgk393 AT ybb DOT ne DOT jp)
 
 require 'iconv'
 
@@ -10,8 +10,8 @@ ARGV.shift if WINDOWS
 BIG_ENDIAN    = 1
 LITTLE_ENDIAN = 2
 
-ICV_BE = Iconv.new('UTF-16', 'EUC-JP')
-ICV_LE = Iconv.new('UTF-16', 'EUC-JP')
+ICV_BE = Iconv.new('UTF-16BE', 'EUC-JP')
+ICV_LE = Iconv.new('UTF-16LE', 'EUC-JP')
 
 def eucjp_char_pos(s, byte_pos)
   pos = 0
@@ -152,8 +152,7 @@ static OnigRegion* region;
 static OnigEncoding ENC;
 #endif
 
-#define ulen(p) onigenc_str_bytelen_null(ENC, p)
-
+#define ulen(p) onigenc_str_bytelen_null(ENC, (UChar* )p)
 
 static void uconv(char* from, char* to, int len)
 {

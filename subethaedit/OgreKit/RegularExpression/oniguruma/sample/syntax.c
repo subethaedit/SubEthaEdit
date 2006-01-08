@@ -2,18 +2,21 @@
  * syntax.c
  */
 #include <stdio.h>
+#include <string.h>
 #include "oniguruma.h"
 
 extern int exec(OnigSyntaxType* syntax,
-		unsigned char* pattern, unsigned char* str)
+		char* apattern, char* astr)
 {
   int r;
   unsigned char *start, *range, *end;
   regex_t* reg;
   OnigErrorInfo einfo;
   OnigRegion *region;
+  UChar* pattern = (UChar* )apattern;
+  UChar* str     = (UChar* )astr;
 
-  r = onig_new(&reg, pattern, pattern + strlen(pattern),
+  r = onig_new(&reg, pattern, pattern + strlen((char* )pattern),
 	       ONIG_OPTION_DEFAULT, ONIG_ENCODING_ASCII, syntax, &einfo);
   if (r != ONIG_NORMAL) {
     char s[ONIG_MAX_ERROR_MESSAGE_LEN];
@@ -24,7 +27,7 @@ extern int exec(OnigSyntaxType* syntax,
 
   region = onig_region_new();
 
-  end   = str + strlen(str);
+  end   = str + strlen((char* )str);
   start = str;
   range = end;
   r = onig_search(reg, str, end, start, range, region, ONIG_OPTION_NONE);

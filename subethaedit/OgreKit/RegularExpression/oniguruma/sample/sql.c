@@ -2,6 +2,7 @@
  * sql.c
  */
 #include <stdio.h>
+#include <string.h>
 #include "oniguruma.h"
 
 extern int main(int argc, char* argv[])
@@ -15,8 +16,8 @@ extern int main(int argc, char* argv[])
   OnigRegion *region;
   static OnigEncodingType new_enc;
 
-  static unsigned char* pattern = "\\_%\\\\__zz";
-  static unsigned char* str = "a_abcabcabc\\ppzz";
+  static UChar* pattern = (UChar* )"\\_%\\\\__zz";
+  static UChar* str = (UChar* )"a_abcabcabc\\ppzz";
 
   onig_set_syntax_op      (&SQLSyntax, ONIG_SYN_OP_VARIABLE_META_CHARACTERS);
   onig_set_syntax_op2     (&SQLSyntax, 0);
@@ -31,7 +32,7 @@ extern int main(int argc, char* argv[])
   onig_set_meta_char(&new_enc, ONIG_META_CHAR_ESCAPE, (OnigCodePoint )'@');
 #endif
 
-  r = onig_new(&reg, pattern, pattern + strlen(pattern),
+  r = onig_new(&reg, pattern, pattern + strlen((char* )pattern),
 	       ONIG_OPTION_DEFAULT, &new_enc, &SQLSyntax, &einfo);
   if (r != ONIG_NORMAL) {
     char s[ONIG_MAX_ERROR_MESSAGE_LEN];
@@ -42,7 +43,7 @@ extern int main(int argc, char* argv[])
 
   region = onig_region_new();
 
-  end   = str + strlen(str);
+  end   = str + strlen((char* )str);
   start = str;
   range = end;
   r = onig_search(reg, str, end, start, range, region, ONIG_OPTION_NONE);

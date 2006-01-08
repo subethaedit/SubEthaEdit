@@ -62,6 +62,11 @@
 #define USE_INFINITE_REPEAT_MONOMANIAC_MEM_STATUS_CHECK /* /(?:()|())*\2/ */
 #define USE_NEWLINE_AT_END_OF_STRING_HAS_EMPTY_LINE     /* /\n$/ =~ "\n" */
 #define USE_WARNING_REDUNDANT_NESTED_REPEAT_OPERATOR
+/* treat \r\n as line terminator.
+   !!! NO SUPPORT !!!
+   use this configuration on your own responsibility */
+/* #define USE_CRNL_AS_LINE_TERMINATOR */
+
 /* internal config */
 #define USE_RECYCLE_NODE
 #define USE_OP_PUSH_OR_JUMP_EXACT
@@ -786,13 +791,14 @@ extern void onig_print_statistics P_((FILE* f));
 #endif
 #endif
 
-extern char* onig_error_code_to_format P_((int code));
-extern void  onig_snprintf_with_pattern PV_((char buf[], int bufsize, OnigEncoding enc, char* pat, char* pat_end, char *fmt, ...));
+extern UChar* onig_error_code_to_format P_((int code));
+extern void  onig_snprintf_with_pattern PV_((UChar buf[], int bufsize, OnigEncoding enc, UChar* pat, UChar* pat_end, const UChar *fmt, ...));
 extern int  onig_bbuf_init P_((BBuf* buf, int size));
 extern int  onig_alloc_init P_((regex_t** reg, OnigOptionType option, OnigAmbigType ambig_flag, OnigEncoding enc, OnigSyntaxType* syntax));
 extern int  onig_compile P_((regex_t* reg, const UChar* pattern, const UChar* pattern_end, OnigErrorInfo* einfo));
 extern void onig_chain_reduce P_((regex_t* reg));
 extern void onig_chain_link_add P_((regex_t* to, regex_t* add));
 extern void onig_transfer P_((regex_t* to, regex_t* from));
+extern int  onig_is_code_in_cc P_((OnigEncoding enc, OnigCodePoint code, CClassNode* cc));
 
 #endif /* REGINT_H */

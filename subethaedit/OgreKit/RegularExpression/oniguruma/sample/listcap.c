@@ -4,6 +4,7 @@
  * capture history (?@...) sample.
  */
 #include <stdio.h>
+#include <string.h>
 #include "oniguruma.h"
 
 static int
@@ -31,7 +32,7 @@ extern int ex(unsigned char* str, unsigned char* pattern,
   OnigErrorInfo einfo;
   OnigRegion *region;
 
-  r = onig_new(&reg, pattern, pattern + strlen(pattern),
+  r = onig_new(&reg, pattern, pattern + strlen((char* )pattern),
 	       ONIG_OPTION_DEFAULT, ONIG_ENCODING_ASCII, syntax, &einfo);
   if (r != ONIG_NORMAL) {
     char s[ONIG_MAX_ERROR_MESSAGE_LEN];
@@ -46,7 +47,7 @@ extern int ex(unsigned char* str, unsigned char* pattern,
 
   region = onig_region_new();
 
-  end   = str + strlen(str);
+  end   = str + strlen((char* )str);
   start = str;
   range = end;
   r = onig_search(reg, str, end, start, range, region, ONIG_OPTION_NONE);
@@ -82,15 +83,15 @@ extern int main(int argc, char* argv[])
   int r;
   OnigSyntaxType syn;
 
-  static unsigned char* str1 = "((())())";
-  static unsigned char* pattern1
-    = "\\g<p>(?@<p>\\(\\g<s>\\)){0}(?@<s>(?:\\g<p>)*|){0}";
+  static UChar* str1 = (UChar* )"((())())";
+  static UChar* pattern1
+    = (UChar* )"\\g<p>(?@<p>\\(\\g<s>\\)){0}(?@<s>(?:\\g<p>)*|){0}";
 
-  static unsigned char* str2     = "x00x00x00";
-  static unsigned char* pattern2 = "(?@x(?@\\d+))+";
+  static UChar* str2     = (UChar* )"x00x00x00";
+  static UChar* pattern2 = (UChar* )"(?@x(?@\\d+))+";
 
-  static unsigned char* str3     = "0123";
-  static unsigned char* pattern3 = "(?@.)(?@.)(?@.)(?@.)";
+  static UChar* str3     = (UChar* )"0123";
+  static UChar* pattern3 = (UChar* )"(?@.)(?@.)(?@.)(?@.)";
 
  /* enable capture hostory */
   onig_copy_syntax(&syn, ONIG_SYNTAX_DEFAULT);

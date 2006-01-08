@@ -43,12 +43,14 @@ search(regex_t* reg, unsigned char* str, unsigned char* end)
 
 static int
 exec(OnigEncoding enc, OnigOptionType options,
-     unsigned char* pattern, unsigned char* str)
+     char* apattern, char* astr)
 {
   int r;
   unsigned char *end;
   regex_t* reg;
   OnigErrorInfo einfo;
+  UChar* pattern = (UChar* )apattern;
+  UChar* str     = (UChar* )astr;
 
   r = onig_new(&reg, pattern,
                pattern + onigenc_str_bytelen_null(enc, pattern),
@@ -70,13 +72,15 @@ exec(OnigEncoding enc, OnigOptionType options,
 
 static int
 exec_deluxe(OnigEncoding pattern_enc, OnigEncoding str_enc,
-            OnigOptionType options, unsigned char* pattern, unsigned char* str)
+            OnigOptionType options, char* apattern, char* astr)
 {
   int r;
   unsigned char *end;
   regex_t* reg;
   OnigCompileInfo ci;
   OnigErrorInfo einfo;
+  UChar* pattern = (UChar* )apattern;
+  UChar* str     = (UChar* )astr;
 
   ci.num_of_elements = 5;
   ci.pattern_enc = pattern_enc;
@@ -156,8 +160,10 @@ extern int main(int argc, char* argv[])
 	   "[ac]+", "bbbaAaCCC");
   r = exec(ONIG_ENCODING_ISO_8859_14, ONIG_OPTION_IGNORECASE,
 	   "[ac]+", "bbbaAaCCC");
-  r = exec(ONIG_ENCODING_ISO_8859_15, ONIG_OPTION_IGNORECASE, pattern, str);
-  r = exec(ONIG_ENCODING_ISO_8859_16, ONIG_OPTION_IGNORECASE, pattern, str);
+  r = exec(ONIG_ENCODING_ISO_8859_15, ONIG_OPTION_IGNORECASE,
+	   (char* )pattern, (char* )str);
+  r = exec(ONIG_ENCODING_ISO_8859_16, ONIG_OPTION_IGNORECASE,
+	   (char* )pattern, (char* )str);
 
 #if 0
   r = exec(ONIG_ENCODING_KOI8,   ONIG_OPTION_NONE, "a+", "bbbaaaccc");
