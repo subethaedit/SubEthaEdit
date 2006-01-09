@@ -5,7 +5,6 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_appIconView" = NSImageView; 
-                "O_creditsTextView" = NSTextView; 
                 "O_legalTextField" = NSTextField; 
                 "O_licenseeLabel" = NSTextField; 
                 "O_licenseeNameField" = NSTextField; 
