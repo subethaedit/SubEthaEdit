@@ -9,6 +9,7 @@
                 "O_licenseeLabel" = NSTextField; 
                 "O_licenseeNameField" = NSTextField; 
                 "O_licenseeOrganizationField" = NSTextField; 
+                "O_ogreVersionField" = NSTextField; 
                 "O_versionField" = NSTextField; 
             }; 
             SUPERCLASS = NSWindowController; 

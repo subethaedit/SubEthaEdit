@@ -8,6 +8,7 @@
 
 #import "AboutPanelController.h"
 #import "LicenseController.h"
+#import <OgreKit/OgreKit.h>
 
 
 @implementation AboutPanelController
@@ -43,8 +44,10 @@
     NSString *versionString = [NSString stringWithFormat:NSLocalizedString(@"Version %@ (%@)", @"Marketing version followed by build version e.g. Version 2.0 (739)"), 
                                 [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
                                 [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+    NSString *ogreVersion = [NSString stringWithFormat:@"OgreKit v%@, Oniguruma v%@", [OGRegularExpression version], [OGRegularExpression onigurumaVersion]];
 
     [O_versionField setObjectValue:versionString];
+    [O_ogreVersionField setObjectValue:ogreVersion];
     [O_legalTextField setObjectValue:[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
 
     [self fillLicenseInfoField];
