@@ -12,15 +12,13 @@
 @implementation FindAllTableView
 
 // Implement copying lines
-- (void)copy:(id)sender
-{
+- (void)copy:(id)sender {
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
-    NSString *string = @"";
+    NSMutableString *string = [[NSMutableString new] autorelease];
 
-    switch ([self numberOfSelectedRows])
-    {
+    switch ([self numberOfSelectedRows]) {
         case 0:
-			NSBeep();
+            NSBeep();
             return;
 
         default:
@@ -28,49 +26,46 @@
             id selection = [self selectedRowIndexes];
             int index = [selection firstIndex]; 
 
-            do
-            {
-				string = [string stringByAppendingFormat: @"%@", [[[[[self delegate] arrangedObjects] objectAtIndex:index] objectForKey:@"foundString"] string]];
+            do {
+                [string appendString:[[[[[self delegate] arrangedObjects] objectAtIndex:index] objectForKey:@"foundString"] string]];
             } while ((index = [selection indexGreaterThanIndex: index]) != NSNotFound);
         }
     }
 
-    [pb 
-        declareTypes: [NSArray arrayWithObject:NSStringPboardType] 
+    [pb declareTypes: [NSArray arrayWithObject:NSStringPboardType] 
         owner:nil];
 
-    [pb setString:string
-         forType: NSStringPboardType];
+    [pb setString:string forType: NSStringPboardType];
 }
 
 - (void)paste:(id)sender {
-	NSBeep();
+    NSBeep();
 }
 
 - (void)cut:(id)sender {
-	NSBeep();
+    NSBeep();
 }
 
 //Custom behavior for keys
 - (void)keyDown:(NSEvent *)theEvent 
-{       
-	unsigned int characterIndex, characterCount; 
-	int selectedRow = [self selectedRow]; 
-	NSString *characters = [theEvent charactersIgnoringModifiers]; 
-	characterCount = [characters length]; 
-	for (characterIndex = 0; characterIndex < characterCount; characterIndex++) { 
-		unichar c = [characters characterAtIndex: characterIndex]; 
-		switch(c) { 
-			// After checking how NSButton behaves I opted to jump upon Return and Enter.
-			case 13: // ReturnKey
-			case NSEnterCharacter: // == 3
-				if (selectedRow > -1) [[self target] performSelector:[self doubleAction]];
-			break; 
-			default:
-				[super keyDown:theEvent]; 
-		} 
-	} 
+{
+    unsigned int characterIndex, characterCount; 
+    int selectedRow = [self selectedRow]; 
+    NSString *characters = [theEvent charactersIgnoringModifiers]; 
+    characterCount = [characters length]; 
+    for (characterIndex = 0; characterIndex < characterCount; characterIndex++) { 
+        unichar c = [characters characterAtIndex: characterIndex]; 
+        switch(c) { 
+            // After checking how NSButton behaves I opted to jump upon Return and Enter.
+            case 13: // ReturnKey
+            case NSEnterCharacter: // == 3
+                if (selectedRow > -1) [[self target] performSelector:[self doubleAction]];
+            break; 
+            default:
+                [super keyDown:theEvent]; 
+        } 
+    } 
 
-} 
+}
 
 @end
