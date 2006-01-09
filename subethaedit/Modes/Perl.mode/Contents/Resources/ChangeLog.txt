@@ -1,3 +1,6 @@
+
+    *) SYNTAX: Fixed SEE-470
+
 Changes with Version 1.2
     
     *) SYNTAX: Fixed a problem with POD comments (= after a state).
