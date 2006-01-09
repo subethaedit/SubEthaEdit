@@ -3386,6 +3386,8 @@ static NSString *S_measurementUnits;
                                          modalDelegate:nil
                                         didEndSelector:nil
                                            contextInfo:NULL];
+                    // didn't work so update bottom status bar to previous state
+                    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
                 } else {
                     [self setFileEncoding:encoding];
                     [self updateChangeCount:NSChangeDone];
@@ -3412,6 +3414,8 @@ static NSString *S_measurementUnits;
                                          modalDelegate:nil
                                         didEndSelector:nil
                                            contextInfo:NULL];
+                    // didn't work so update bottom status bar to previous state
+                    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
                 } else {
                     BOOL isEdited = [self isDocumentEdited];
                     [I_textStorage beginEditing];

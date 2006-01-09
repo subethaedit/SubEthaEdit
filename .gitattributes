@@ -246,6 +246,8 @@ subethaedit/HueToColorValueTransformer.m -text
 subethaedit/ImagePopUpButtonCell.h -text
 subethaedit/ImagePopUpButtonCell.m -text
 subethaedit/Info.plist -text
+subethaedit/InsetTextFieldCell.h -text
+subethaedit/InsetTextFieldCell.m -text
 subethaedit/InternetBrowserController.h -text
 subethaedit/InternetBrowserController.m -text
 subethaedit/Invitation.aiff -text

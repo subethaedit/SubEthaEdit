@@ -1,5 +1,5 @@
 //
-//  PlainTextEditorWindowController.h
+//  PlainTextEditor.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.

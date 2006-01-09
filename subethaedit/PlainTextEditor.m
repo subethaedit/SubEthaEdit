@@ -1,5 +1,5 @@
 //
-//  PlainTextEditorWindowController.m
+//  PlainTextEditor.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.
@@ -27,6 +27,7 @@
 #import "BorderedTextField.h"
 #import "DocumentModeManager.h"
 #import "AppController.h"
+#import "InsetTextFieldCell.h"
 #import <OgreKit/OgreKit.h>
 
 @interface NSMenu (UndefinedStuff)
@@ -106,6 +107,7 @@
                 addObserver:self selector:@selector(plainTextDocumentUserDidChangeSelection:)
                 name:PlainTextDocumentUserDidChangeSelectionNotification object:document];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_updateBottomStatusBar) name:@"AfterEncodingsListChanged" object:nil];
 
 
     if (I_flags.hasSplitButton) {
@@ -178,9 +180,6 @@
     O_editorView = view;
     [O_symbolPopUpButton setDelegate:self];
 
-    [self TCM_updateStatusBar];
-    [self TCM_updateBottomStatusBar];
-
     [self takeSettingsFromDocument];
     [self takeStyleSettingsFromDocument];
     [self setShowsChangeMarks:[document showsChangeMarks]];
@@ -194,6 +193,8 @@
 
     EncodingMenu *fileEncodingsSubmenu = [[EncodingMenu new] autorelease];
     [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
+    [[[fileEncodingsSubmenu itemArray] lastObject] setTarget:self];
+    [[[fileEncodingsSubmenu itemArray] lastObject] setAction:@selector(showCustomizeEncodingPanel:)];
     [[O_encodingPopUpButton cell] setMenu:fileEncodingsSubmenu];
     
     NSMenu *lineEndingMenu = [[NSMenu new] autorelease];
@@ -244,6 +245,27 @@
         }
     }
     [[O_tabStatusPopUpButton cell] setMenu:tabMenu];
+
+
+    // replace the textfield cell
+    NSMutableData *data=[NSMutableData data];
+    NSKeyedArchiver *archiver=[[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver setClassName:@"InsetTextFieldCell"
+              forClass:[NSTextFieldCell class]];
+    [archiver encodeObject:[O_positionTextField cell] forKey:@"MyCell"];
+    [archiver finishEncoding];
+    [archiver release];
+    
+    NSKeyedUnarchiver *unarchiver=[[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [unarchiver setClass:[InsetTextFieldCell class]
+                forClassName:@"NSTextFieldCell"];
+    [O_positionTextField setCell:[unarchiver decodeObjectForKey:@"MyCell"]];
+    [unarchiver finishDecoding];
+    [unarchiver release];
+
+    [self TCM_updateStatusBar];
+    [self TCM_updateBottomStatusBar];
+
 }
 
 - (void)takeStyleSettingsFromDocument {
@@ -283,11 +305,11 @@
         BOOL isWaiting=[[self document] isWaiting];
         [O_waitPipeStatusImageView setHidden:!isWaiting];
         [(BorderedTextField *)O_positionTextField setHasLeftBorder:isWaiting];
-        positionFrame.origin.x=isWaiting?s_initialXPosition+18.:s_initialXPosition;
+        positionFrame.origin.x=isWaiting?s_initialXPosition+19.:s_initialXPosition;
         NSPoint position=positionFrame.origin;
         positionFrame.size.width=[[O_positionTextField stringValue]
                         sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_positionTextField font]
-                                                                       forKey:NSFontAttributeName]].width+7.;
+                                                                       forKey:NSFontAttributeName]].width+9.;
         [O_positionTextField setFrame:NSIntegralRect(positionFrame)];
         position.x = (float)(int)NSMaxX(positionFrame);
         NSRect newWrittenByFrame=[O_writtenByTextField frame];
@@ -1122,6 +1144,13 @@
     }
 }
 
+#pragma mark -
+#pragma mark ### display fixes for bottom status bar pop up buttons ###
+// proxy method for status bar encoding dropdown to reset state on selection
+- (IBAction)showCustomizeEncodingPanel:(id)aSender {
+    [self performSelector:@selector(TCM_updateBottomStatusBar) withObject:nil afterDelay:0.0001];
+    [[EncodingManager sharedInstance] showPanel:self];
+}
 
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
