@@ -992,13 +992,8 @@ enum {
         [item removeObjectForKey:@"failed"];
         [item setObject:session forKey:@"BEEPSession"];
         [item setObject:userID forKey:@"UserID"];
+        [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
         NSDictionary *infoDict = [[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
-        BOOL isVisible = [[infoDict objectForKey:@"isVisible"] boolValue];
-        if (isVisible) {
-            [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
-        } else {
-            [item setObject:HostEntryStatusSessionInvisible forKey:@"status"];
-        }
         NSMutableArray *array = [[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy];
         [item setObject:array forKey:@"Sessions"];
         [array release];
