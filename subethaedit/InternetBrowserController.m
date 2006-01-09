@@ -662,16 +662,6 @@ enum {
             [session terminate];
             [O_browserListView reloadData];
         }
-        /*
-        NSMutableDictionary *item = [alertContext objectForKey:@"item"];
-        [item removeObjectForKey:@"UserID"];
-        [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
-        [item setObject:HostEntryStatusCancelling forKey:@"status"];
-        [O_browserListView reloadData];
-        TCMBEEPSession *session = [alertContext objectForKey:@"session"];
-        [session terminate];
-        [O_browserListView reloadData];
-        */
     }
     
     [alertContext autorelease];
@@ -953,15 +943,6 @@ enum {
     ItemChildPair pair = [aSender itemChildPairAtRow:row];
     if (pair.childIndex != -1) {
         [self joinSessionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
-
-        /*
-        NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
-        NSArray *sessions = [userDict objectForKey:@"Sessions"];
-        TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
-        TCMBEEPSession *BEEPSession = [userDict objectForKey:@"BEEPSession"];
-        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join on session: %@, using BEEPSession: %@", session, BEEPSession);
-        [session joinUsingBEEPSession:BEEPSession];
-        */
     }
 }
 
@@ -1139,12 +1120,6 @@ enum {
         }
     }
     [self TCM_validateClearButton];
-}
-
-#pragma mark -
-
-- (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile {
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
 }
 
 #pragma mark -

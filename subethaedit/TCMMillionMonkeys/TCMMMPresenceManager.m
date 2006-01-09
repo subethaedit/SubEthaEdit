@@ -24,8 +24,6 @@ NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification=
                @"TCMMMPresenceManagerUserVisibilityDidChangeNotification";
 NSString * const TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification=
                @"TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification";
-NSString * const TCMMMPresenceManagerUserDidChangeNotification=
-               @"TCMMMPresenceManagerUserDidChangeNotification";
 NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
                @"TCMMMPresenceManagerUserSessionsDidChangeNotification";
 NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification=

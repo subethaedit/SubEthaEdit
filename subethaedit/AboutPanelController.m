@@ -48,6 +48,7 @@
     [O_legalTextField setObjectValue:[mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
 
     [self fillLicenseInfoField];
+    [O_creditsTextView readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtfd"]];
     [[self window] center];
 }
 

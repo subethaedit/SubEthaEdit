@@ -131,7 +131,7 @@ static LicenseController *sharedInstance = nil;
 #pragma mark -
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
-    if ([[O_licenseeNameField stringValue] length] > 0 && [[O_serialNumberField stringValue] isValidSerial]) {
+    if ([[O_licenseeNameField stringValue] length] > 0 && [[O_serialNumberField stringValue] length] == 18 && [[O_serialNumberField stringValue] isValidSerial]) {
         [O_registerButton setEnabled:YES];
     } else {
         [O_registerButton setEnabled:NO];

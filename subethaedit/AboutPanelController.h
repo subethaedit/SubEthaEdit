@@ -7,6 +7,7 @@
 //
 
 #import <AppKit/AppKit.h>
+#import <WebKit/WebKit.h>
 
 
 @interface AboutPanelController : NSWindowController {
@@ -16,6 +17,7 @@
     IBOutlet NSTextField *O_licenseeLabel;
     IBOutlet NSTextField *O_licenseeNameField;
     IBOutlet NSTextField *O_licenseeOrganizationField;
+    IBOutlet NSTextView *O_creditsTextView;
 }
 
 @end

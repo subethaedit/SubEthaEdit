@@ -103,7 +103,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     
     static int calls = 0;
     NSArray *splitArray = [self componentsSeparatedByString:@"-"];
-    if ([splitArray count]==4 && calls++ < 50) {
+    if ([splitArray count]==4 && calls++ < 100) {
         NSString *zero = [splitArray objectAtIndex:0];
         NSString *one  = [splitArray objectAtIndex:1];
         NSString *two  = [splitArray objectAtIndex:2];
