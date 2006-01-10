@@ -414,16 +414,16 @@
     if (I_flags.showBottomStatusBar) {
         PlainTextDocument *document=[self document];
         [O_tabStatusPopUpButton setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ (%d)",@"arrangement of Tab setting and tab width in Bottm Status Bar"),[document usesTabs]?NSLocalizedString(@"TrueTab",@"Bottom status bar text for TrueTab setting"):NSLocalizedString(@"Spaces",@"Bottom status bar text for use Spaces (instead of Tab) setting"),[document tabWidth]]];
-        [O_modePopUpButton selectItemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[document documentMode] documentModeIdentifier]]];
+        [O_modePopUpButton selectItemAtIndex:[O_modePopUpButton indexOfItemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[document documentMode] documentModeIdentifier]]]];
 
-        [O_encodingPopUpButton selectItemWithTag:[document fileEncoding]];
+        [O_encodingPopUpButton selectItemAtIndex:[O_encodingPopUpButton indexOfItemWithTag:[document fileEncoding]]];
 
         NSFont *font=[document fontWithTrait:0];
         float characterWidth=[font widthOfString:@"n"];
         int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
         [O_windowWidthTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"WindowWidth%d%@",@"WindowWidthArangementString"),charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapMode]==DocumentModeWrapModeCharacters?NSLocalizedString(@"CharacterWrap",@"As shown in bottom status bar"):NSLocalizedString(@"WordWrap",@"As shown in bottom status bar"))]];
 
-        [O_lineEndingPopUpButton selectItemWithTag:[document lineEnding]];
+        [O_lineEndingPopUpButton selectItemAtIndex:[O_lineEndingPopUpButton indexOfItemWithTag:[document lineEnding]]];
         NSString *lineEndingStatusString=@"";
         switch ([document lineEnding]) {
             case LineEndingLF:
