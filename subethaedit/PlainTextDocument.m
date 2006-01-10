@@ -7,6 +7,7 @@
 //
 
 #import <Carbon/Carbon.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
@@ -2989,24 +2990,46 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSMutableString *address = [[[NSMutableString alloc] init] autorelease];
     [address appendFormat:@"%@:", @"see"];
 
+    NSString *hostAddress = nil;
     NSHost *currentHost = [NSHost currentHost];
-    NSString *hostname = nil;
-    if ([[currentHost name] isEqualToString:@"localhost"]) {
-    	NSEnumerator *enumerator = [[currentHost names] objectEnumerator];
-    	while ((hostname = [enumerator nextObject])) {
-            if (![hostname isEqualToString:@"localhost"]) {
-                    break;
-            }
-    	}
-    } else {
-    	hostname = [currentHost name];
+    NSEnumerator *enumerator = [[currentHost addresses] objectEnumerator];
+    while ((hostAddress = [enumerator nextObject])) {
+        if ([hostAddress hasPrefix:@"::1"] ||
+            [hostAddress hasPrefix:@"fe80"] ||
+            [hostAddress hasPrefix:@"127.0.0.1"] ||
+            [hostAddress hasPrefix:@"10."] ||
+            [hostAddress hasPrefix:@"192.168."] ||
+            [hostAddress hasPrefix:@"169.254."] ||
+            [hostAddress hasPrefix:@"172.16."] ||
+            [hostAddress hasPrefix:@"172.17."] ||
+            [hostAddress hasPrefix:@"172.18."] ||
+            [hostAddress hasPrefix:@"172.19."] ||
+            [hostAddress hasPrefix:@"172.20."] ||
+            [hostAddress hasPrefix:@"172.21."] ||
+            [hostAddress hasPrefix:@"172.22."] ||
+            [hostAddress hasPrefix:@"172.23."] ||
+            [hostAddress hasPrefix:@"172.24."] ||
+            [hostAddress hasPrefix:@"172.25."] ||
+            [hostAddress hasPrefix:@"172.26."] ||
+            [hostAddress hasPrefix:@"172.27."] ||
+            [hostAddress hasPrefix:@"172.28."] ||
+            [hostAddress hasPrefix:@"172.29."] ||
+            [hostAddress hasPrefix:@"172.30."] ||
+            [hostAddress hasPrefix:@"172.31."]) {
+            
+            hostAddress = nil;
+        } else {
+            break;
+        }
+    }
+    
+    if (hostAddress == nil) {
+        CFStringRef localHostName = SCDynamicStoreCopyLocalHostName(NULL);
+        hostAddress = [NSString stringWithFormat:@"%@.local", (NSString *)localHostName];
+        CFRelease(localHostName);
     }
 
-    if (hostname == nil) {
-    	hostname = @"localhost";
-    }
-
-    [address appendFormat:@"//%@", hostname];
+    [address appendFormat:@"//%@", hostAddress];
 
     int port = [[TCMMMBEEPSessionManager sharedInstance] listeningPort];
     [address appendFormat:@":%d", port];
