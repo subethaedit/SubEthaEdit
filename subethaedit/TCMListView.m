@@ -25,6 +25,10 @@ NSString *ListViewDidChangeSelectionNotification=
 
 
 // override this in sublcasses
++ (float)firstRowOffset {
+    return 0.;
+}
+
 + (float)itemRowHeight {
     return 22.;
 }
@@ -119,14 +123,13 @@ NSString *ListViewDidChangeSelectionNotification=
     [self getRectsBeingDrawn:&rects count:&count];
     while (count-->0) {
         NSRect smallRect=rects[count];
-        
+
         if (NSMaxY(smallRect)>=I_indexMaxHeight) {
             [[NSColor whiteColor] set];
             NSRectFill(NSMakeRect(smallRect.origin.x,I_indexMaxHeight,smallRect.size.width, NSMaxY(smallRect)-I_indexMaxHeight));
         }
     
         int startRow = [self indexOfRowAtPoint:smallRect.origin];
-    
         if (startRow!=-1 && startRow < I_indexNumberOfRows) {
             int endRow   = [self indexOfRowAtPoint:NSMakePoint(1.,NSMaxY(smallRect))];
             if (endRow==-1) endRow=I_indexNumberOfRows-1;
@@ -187,10 +190,10 @@ NSString *ListViewDidChangeSelectionNotification=
     result.size.width = [self bounds].size.width;
     
     if (aChildIndex == -1) {
-        result.origin.y = itemChildRange.location;
+        result.origin.y = itemChildRange.location - [myClass firstRowOffset];
         result.size.height = itemRowHeight;
     } else {
-        result.origin.y = itemChildRange.location + itemRowHeight + aChildIndex * childRowHeight;
+        result.origin.y = itemChildRange.location + itemRowHeight + aChildIndex * childRowHeight - [myClass firstRowOffset];
         result.size.height = childRowHeight;
     }
     
@@ -209,10 +212,14 @@ NSString *ListViewDidChangeSelectionNotification=
     float itemRowHeight   =[myClass itemRowHeight];
     float childRowHeight  =[myClass childRowHeight];
 
+    aPoint.y += [myClass firstRowOffset];
+
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
 
-    if (aPoint.y >= I_indexMaxHeight || aPoint.y < 0)
+    if ((aPoint.y >= I_indexMaxHeight + [myClass firstRowOffset]) || 
+        aPoint.y < 0) {
         return - 1;
+    }
 
     int searchPosition=(int)(aPoint.y/I_indexMaxHeight)*I_indexNumberOfItems;
     NSRange testRange=I_indexYRangesForItem[searchPosition];
@@ -697,7 +704,7 @@ NSString *ListViewDidChangeSelectionNotification=
         yPosition+=itemRowGapHeight;
     }
     I_indexNumberOfRows=row;
-    I_indexMaxHeight=yPosition-itemRowGapHeight;
+    I_indexMaxHeight=yPosition-itemRowGapHeight - [myClass firstRowOffset];
     
     I_indexItemChildPairAtRow = (ItemChildPair *)malloc(sizeof(ItemChildPair)*row);
     row=0;
