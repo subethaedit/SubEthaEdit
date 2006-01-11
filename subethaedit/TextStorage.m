@@ -78,10 +78,24 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 #pragma mark -
 #pragma mark ### Line Numbers ###
+- (BOOL)lastLineIsEmpty {
+    unsigned lineStartIndex, lineEndIndex;
+    [[self string] getLineStart:&lineStartIndex end:&lineEndIndex contentsEnd:NULL forRange:NSMakeRange([self length],0)];
+    return lineStartIndex == lineEndIndex;
+}
+
 - (NSString *)positionStringForRange:(NSRange)aRange {
     int lineNumber=[self lineNumberForLocation:aRange.location];
     unsigned lineStartLocation=[[[self lineStarts] objectAtIndex:lineNumber-1] intValue];
-    NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, aRange.location-lineStartLocation];
+    int positionInLine = aRange.location-lineStartLocation;
+    NSString *text = [self string];
+    if (aRange.location!= 0 &&
+        aRange.location==[text length] && 
+        [self lastLineIsEmpty]) {
+        lineNumber++;
+        positionInLine = 0;
+    }
+    NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, positionInLine];
     if (aRange.length>0) string=[string stringByAppendingFormat:@" (%d)",aRange.length];
     return string;
 }

@@ -81,14 +81,21 @@
                            withAttributes:attributes];
 
         }
+        
+        BOOL goOn = YES;
+
         lineRange=[text lineRangeForRange:NSMakeRange(characterIndex,0)];
         maxRange=NSMaxRange(lineRange);
-        
         while (NSMaxY(previousBoundingRect)<NSMaxY(boundingRect) && 
-               NSMaxY(boundingRect)<visibleRect.origin.y+NSMaxY(aRect)) {
+               NSMaxY(boundingRect)<visibleRect.origin.y+NSMaxY(aRect) &&
+               goOn) {
             lineRange=[text lineRangeForRange:NSMakeRange(maxRange,0)];
             if (maxRange==NSMaxRange(lineRange)) {
-                break;
+                if ([textStorage lastLineIsEmpty]) {
+                    goOn = NO;
+                } else {
+                    break;
+                }
             }
             maxRange=NSMaxRange(lineRange);
             lineNumber++;
@@ -96,17 +103,24 @@
                 cardinalityComparitor*=10;
                 cardinality++;
             }
-
-            glyphIndex=[layoutManager glyphRangeForCharacterRange:NSMakeRange(lineRange.location,1) 
-                                             actualCharacterRange:nil].location;
-            boundingRect  =[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
-                                                           effectiveRange:nil];
+            
+            if (goOn) {
+                glyphIndex=[layoutManager glyphRangeForCharacterRange:NSMakeRange(lineRange.location,1) 
+                                                 actualCharacterRange:nil].location;
+                previousBoundingRect = boundingRect;
+                boundingRect  =[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
+                                                               effectiveRange:nil];
+            } else {
+                boundingRect.origin.y += boundingRect.size.height;
+            }
             lineNumberString=[NSString stringWithFormat:@"%u",lineNumber];
             [lineNumberString drawAtPoint:NSMakePoint([self ruleThickness]-(4+sizeOfZero.width*cardinality),
                                                       NSMaxY(boundingRect)-visibleRect.origin.y-sizeOfZero.height
                                                       -(boundingRect.size.height-sizeOfZero.height)/2.-1.) 
                            withAttributes:attributes];
         }
+ 
+        
         
         float potentialNewWidth=8.+sizeOfZero.width*cardinality;
         if ([self ruleThickness]<potentialNewWidth) {
