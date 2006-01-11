@@ -279,7 +279,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)applyStylePreferences:(NSNotification *)aNotification {
     DocumentMode *mode=[self documentMode];
-    if ([[aNotification object] isEqual:mode]) {
+    if ([[aNotification object] isEqual:mode] || [[aNotification object] isBaseMode]) {
         [self applyStylePreferences];
     }
 }
