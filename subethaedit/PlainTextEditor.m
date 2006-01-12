@@ -968,6 +968,14 @@
     [self TCM_updateBottomStatusBar];
 }
 
+- (IBAction)positionClick:(id)aSender {
+    if (([[NSApp currentEvent] type] == NSLeftMouseDown || 
+         [[NSApp currentEvent] type] == NSLeftMouseUp) &&
+        [[NSApp currentEvent] clickCount] > 1) {
+        [I_textView doCommandBySelector:@selector(centerSelectionInVisibleArea:)];
+    }
+}
+
 - (BOOL)showsGutter {
     return [O_scrollView rulersVisible];
 }

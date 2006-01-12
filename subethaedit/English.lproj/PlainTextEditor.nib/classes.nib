@@ -13,6 +13,7 @@
             ACTIONS = {
                 jumpToNextChange = id; 
                 jumpToPreviousChange = id; 
+                positionClick = id; 
                 toggleShowsChangeMarks = id; 
                 toggleWrap = id; 
             }; 
