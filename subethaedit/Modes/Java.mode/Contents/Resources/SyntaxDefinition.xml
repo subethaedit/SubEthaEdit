@@ -1905,7 +1905,7 @@
         </default>
         
         <state id="JavadocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
-            <begin><regex>/\*\*[\n\r]</regex></begin>
+            <begin><regex>/\*\*(?=[\n\r])</regex></begin>
             <end><regex>\*/</regex></end>
         </state>
 
