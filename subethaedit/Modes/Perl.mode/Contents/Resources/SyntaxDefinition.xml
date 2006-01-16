@@ -305,8 +305,8 @@
         </state>
 
         <state id="Regular Expressions" color="#000">
-            <begin><regex>(/).*(?=/)</regex></begin>
-            <end><regex>(/)</regex></end>
+            <begin><regex>/.*(?=/)</regex></begin>
+            <end><regex>/</regex></end>
         </state>
 
     </states>

@@ -584,6 +584,21 @@
         NSString *beginString;
         if ((beginString = [aDictionary objectForKey:@"BeginsWithRegexString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found regex string state start:%@",beginString);
+            // Warn if begin contains group
+            OGRegularExpression *testForGroups = [[OGRegularExpression alloc] initWithString:beginString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
+
+            if ([testForGroups numberOfGroups]>0) {
+                NSLog(@"ERROR: Captured group in <begin>:%@",[aDictionary description]);
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setMessageText:NSLocalizedString(@"XML Group Error",@"XML Group Error Title")];
+                [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The <begin> tag of <state> \"%@\" contains a regex that has captured groups. This is currently not allowed. Please escape all groups to be not-captured with (?:).",@"Syntax XML Group Error Informative Text"),[aDictionary objectForKey:@"id"]]];
+                [alert addButtonWithTitle:@"OK"];
+                [alert runModal];
+                everythingOkay = NO;
+            }
+            
+            [testForGroups release];
         } else if ((beginString = [aDictionary objectForKey:@"BeginsWithPlainString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found plain string state start:%@",beginString);
         } else {
