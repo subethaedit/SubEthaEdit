@@ -722,9 +722,7 @@
         return YES;
     } else if (selector == @selector(toggleShowsChangeMarks:)) {
         BOOL showsChangeMarks=[self showsChangeMarks];
-        [menuItem setTitle:showsChangeMarks
-                              ?NSLocalizedString(@"Hide Changes", nil)
-                              :NSLocalizedString(@"Show Changes", nil)];
+        [menuItem setState:showsChangeMarks?NSOnState:NSOffState];
         return YES;
     } else if (selector == @selector(toggleShowInvisibles:)) {
         [menuItem setState:[self showsInvisibleCharacters]?NSOnState:NSOffState];
