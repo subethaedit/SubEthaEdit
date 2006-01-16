@@ -26,6 +26,7 @@ http://www.codingmonkeys.de</string>
 	   <string>cp</string>
 	   <string>cxx</string>
 	   <string>hxx</string>
+	   <string>hpp</string>
 	   <string>C</string>
 	   <string>cc</string>
 	   <string>CPP</string>
@@ -33,6 +34,7 @@ http://www.codingmonkeys.de</string>
 	   <string>CP</string>
 	   <string>CXX</string>
 	   <string>HXX</string>
+	   <string>HPP</string>
 	   <string>CC</string>
 	</array>
 </dict>
