@@ -3465,12 +3465,14 @@ static NSString *S_measurementUnits;
         if (returnCode == NSAlertThirdButtonReturn) {
             [self setFileEncoding:NSUnicodeStringEncoding];
             NSTextView *textView = [alertContext objectForKey:@"TextView"];
-            [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+            NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
+            if (replacementString) [textView insertText:replacementString];
             [[self documentUndoManager] removeAllActions];
         } else if (returnCode == NSAlertSecondButtonReturn) {
             [self setFileEncoding:NSUTF8StringEncoding];
             NSTextView *textView = [alertContext objectForKey:@"TextView"];
-            [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+            NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
+            if (replacementString) [textView insertText:replacementString];
             [[self documentUndoManager] removeAllActions];
         }
 

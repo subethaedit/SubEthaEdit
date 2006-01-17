@@ -1200,16 +1200,18 @@
     if (![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
         TCMMMSession *session=[document session];
         if ([session isServer] && [session participantCount]<=1) {
-            NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                            @"ShouldPromoteAlert", @"Alert",
-                                                            aTextView, @"TextView",
-                                                            [[replacementString copy] autorelease], @"ReplacementString",
-                                                            nil];
+            NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
+            [contextInfo setObject:@"ShouldPromoteAlert" forKey:@"Alert"];
+            [contextInfo setObject:aTextView forKey:@"TextView"];
+            if (![aTextView hasMarkedText]) {
+                [contextInfo setObject:[[replacementString copy] autorelease] forKey:@"ReplacementString"];
+            }
+            [contextInfo autorelease];
 
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
-            [alert setMessageText:NSLocalizedString(@"Warning", nil)];
-            [alert setInformativeText:NSLocalizedString(@"CancelOrPromote", nil)];
+            [alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
+            [alert setInformativeText:NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
             [alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
