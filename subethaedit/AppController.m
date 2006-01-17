@@ -636,7 +636,7 @@ static AppController *sharedInstance = nil;
 }
 
 - (IBAction)reportBug:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.codingmonkeys.de/bugs/"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/bugs"]];
 }
 
 - (void)changeFont:(id)aSender {
