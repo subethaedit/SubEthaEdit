@@ -425,7 +425,8 @@ static FindReplaceController *sharedInstance=nil;
     int i = replacePerCycle;
 
     [[I_replaceAllTarget textStorage] beginEditing];
-    [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
+    if (I_replaceAllReplaced>0) 
+        [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
  
     while (YES) {
         i--;
@@ -546,7 +547,7 @@ static FindReplaceController *sharedInstance=nil;
     [self addString:replaceString toHistory:I_replaceHistory];
 
     if (target) {
-        if (![target isEditable]) {
+        if ((![target isEditable])||(aRange.length==0)) {
             [O_progressIndicator stopAnimation:nil];
             NSBeep();
             return;
