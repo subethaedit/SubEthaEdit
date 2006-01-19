@@ -111,6 +111,11 @@
                 boundingRect  =[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
                                                                effectiveRange:nil];
             } else {
+                glyphIndex=[layoutManager glyphRangeForCharacterRange:NSMakeRange(maxRange-1,1) 
+                                                 actualCharacterRange:nil].location;
+                previousBoundingRect = boundingRect;
+                boundingRect  =[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
+                                                               effectiveRange:nil];
                 boundingRect.origin.y += boundingRect.size.height;
             }
             lineNumberString=[NSString stringWithFormat:@"%u",lineNumber];
