@@ -105,12 +105,16 @@ static RendezvousBrowserController *sharedInstance=nil;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
 }
 
-- (void)windowDidLoad {
-    [[self window] setFrameAutosaveName:@"RendezvousBrowser"];
+- (void)TCM_synchronizeMyNameAndPicture {
     TCMMMUser *me=[TCMMMUserManager me];
     [O_myNameTextField setStringValue:[me name]];
     [O_imageView setImage:[[me properties] objectForKey:@"Image"]];
+}
+
+- (void)windowDidLoad {
+    [[self window] setFrameAutosaveName:@"RendezvousBrowser"];
     [((NSPanel *)[self window]) setFloatingPanel:NO];
+    [self TCM_synchronizeMyNameAndPicture];
     [[self window] setHidesOnDeactivate:NO];
     
     NSRect frame=[[O_scrollView contentView] frame];
@@ -636,6 +640,8 @@ enum {
     if ([I_userIDsInRendezvous containsObject:[user userID]]) {
         DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"reloadData");
         [O_browserListView reloadData];
+    } else if ([user isMe]) {
+        [self TCM_synchronizeMyNameAndPicture];
     }
 }
 

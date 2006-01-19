@@ -73,6 +73,12 @@
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
+- (void)sendUserDidChangeNotification:(TCMMMUser *)aUser {
+    NSMutableData *data=[NSMutableData dataWithBytes:"USRCHG" length:6];
+    [data appendData:[aUser notificationBencoded]];
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
 - (void)sendUserRequest:(NSDictionary *)aUserNotification {
     NSMutableData *data = [NSMutableData dataWithBytes:"USRREQ" length:6];
     if (aUserNotification) {
@@ -299,6 +305,15 @@
                 }
             }
             [I_MMState handleMessage:message];
+        } else if (strncmp(type, "USRCHG",6)==0) {
+            TCMMMUser *user=[TCMMMUser userWithBencodedNotification:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
+            if (user) {
+                if ([[TCMMMUserManager sharedInstance] sender:self shouldRequestUser:user]) {
+                    [self sendUserRequest:[user notification]];
+                }
+            } else {
+                [[self session] terminate];
+            }
         }
         
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];

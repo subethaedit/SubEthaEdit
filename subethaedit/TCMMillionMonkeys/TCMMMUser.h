@@ -26,6 +26,7 @@ extern NSString * const TCMMMUserWillLeaveSessionNotification;
 
 - (NSMutableDictionary *)properties;
 
+- (BOOL)isMe;
 - (void)setUserID:(NSString *)aID;
 - (NSString *)userID;
 - (void)setServiceName:(NSString *)aServiceName;

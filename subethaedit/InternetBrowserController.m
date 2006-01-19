@@ -143,11 +143,15 @@ static InternetBrowserController *sharedInstance = nil;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
 }
 
-- (void)windowDidLoad {
-    [[self window] setFrameAutosaveName:@"InternetBrowser"];
-    TCMMMUser *me = [TCMMMUserManager me];
+- (void)TCM_synchronizeMyNameAndPicture {
+    TCMMMUser *me=[TCMMMUserManager me];
     [O_myNameTextField setStringValue:[me name]];
     [O_imageView setImage:[[me properties] objectForKey:@"Image"]];
+}
+
+- (void)windowDidLoad {
+    [[self window] setFrameAutosaveName:@"InternetBrowser"];
+    [self TCM_synchronizeMyNameAndPicture];
     [((NSPanel *)[self window]) setFloatingPanel:NO];
     [[self window] setHidesOnDeactivate:NO];
     
@@ -1121,7 +1125,11 @@ enum {
 
 - (void)userDidChange:(NSNotification *)aNotification {
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
-    [O_browserListView reloadData];
+    if ([[[aNotification userInfo] objectForKey:@"User"] isMe]) {
+        [self TCM_synchronizeMyNameAndPicture];
+    } else {
+        [O_browserListView reloadData];
+    }
 }
 
 - (void)announcedSessionsDidChange:(NSNotification *)aNotification {

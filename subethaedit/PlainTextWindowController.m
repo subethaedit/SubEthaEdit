@@ -913,6 +913,7 @@ enum {
 
 - (void)participantsDidChange:(NSNotification *)aNotifcation {
     [O_participantsView reloadData];
+    [self refreshDisplay];
 }
 
 - (void)pendingUsersDidChange:(NSNotification *)aNotifcation {
