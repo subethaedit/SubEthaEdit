@@ -7,6 +7,7 @@
 //
 
 #import "InternetBrowserController.h"
+#import "AppController.h"
 #import "TCMHost.h"
 #import "TCMBEEP.h"
 #import "TCMFoundation.h"
@@ -506,7 +507,7 @@ enum {
         if ([url port] != nil) {
             port = [[url port] unsignedShortValue];
         } else {
-            port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
+            port = SUBETHAEDIT_DEFAULT_PORT;
         }
         
         NSData *addressData = nil;

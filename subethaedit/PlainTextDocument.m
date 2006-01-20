@@ -3033,8 +3033,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [address appendFormat:@"//%@", hostAddress];
 
     int port = [[TCMMMBEEPSessionManager sharedInstance] listeningPort];
-    [address appendFormat:@":%d", port];
-
+    if (port != SUBETHAEDIT_DEFAULT_PORT) {
+        [address appendFormat:@":%d", port];
+    }
+    
     NSString *title = [[self fileName] lastPathComponent];
     if (title == nil) {
         title = [self displayName];

@@ -11,7 +11,7 @@
 
 #define kKAHL 'KAHL'
 #define kMOD 'MOD '
-
+#define SUBETHAEDIT_DEFAULT_PORT 6942
 
 extern int const FileMenuTag   ;
 extern int const EditMenuTag   ;

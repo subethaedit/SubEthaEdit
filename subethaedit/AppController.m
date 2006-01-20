@@ -91,7 +91,7 @@ static AppController *sharedInstance = nil;
 + (void)initialize {
     [NSURLProtocol registerClass:[URLDataProtocol class]];
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-    [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
+    [defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
     [defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
     [defaults setObject:[NSMutableArray array] forKey:AddressHistory];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
