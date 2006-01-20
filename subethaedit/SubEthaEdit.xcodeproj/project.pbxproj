@@ -269,7 +269,6 @@
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
-		5E28E28F0972FB8E00099B13 /* InsetTextFieldCell.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E28E28D0972FB8E00099B13 /* InsetTextFieldCell.h */; };
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; };
 		5E2F5E43097BE32F00F7AA3C /* Export.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5E2F5E41097BE32E00F7AA3C /* Export.nib */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
@@ -407,7 +406,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
-				5E28E28F0972FB8E00099B13 /* InsetTextFieldCell.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -771,6 +769,30 @@
 		142898200958194100D14688 /* createDiskImage.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = createDiskImage.sh; sourceTree = "<group>"; };
 		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
 		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };
+		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1468BA92097D91FF006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/AboutPanel.nib; sourceTree = "<group>"; };
+		1468BA93097D9213006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/AdvancedPrefs.nib; sourceTree = "<group>"; };
+		1468BA94097D9213006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/DocumentProxy.nib; sourceTree = "<group>"; };
+		1468BA97097D9234006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/EditPrefs.nib; sourceTree = "<group>"; };
+		1468BA98097D9234006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/Export.nib; sourceTree = "<group>"; };
+		1468BA99097D9256006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/FindAll.nib; sourceTree = "<group>"; };
+		1468BA9A097D9256006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/FindReplace.nib; sourceTree = "<group>"; };
+		1468BA9B097D9256006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/GeneralPrefs.nib; sourceTree = "<group>"; };
+		1468BA9C097D9256006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/InternetBrowser.nib; sourceTree = "<group>"; };
+		1468BA9D097D9291006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		1468BA9E097D9291006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/OpenPanelAccessory.nib; sourceTree = "<group>"; };
+		1468BA9F097D9291006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PlainTextEditor.nib; sourceTree = "<group>"; };
+		1468BAA0097D9291006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PlainTextWindow.nib; sourceTree = "<group>"; };
+		1468BAA5097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrintOptions.nib; sourceTree = "<group>"; };
+		1468BAA6097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrintPrefs.nib; sourceTree = "<group>"; };
+		1468BAA7097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/RendezvousBrowser.nib; sourceTree = "<group>"; };
+		1468BAA8097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/SavePanelAccessory.nib; sourceTree = "<group>"; };
+		1468BAA9097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/SelectEncodingsPanel.nib; sourceTree = "<group>"; };
+		1468BAAA097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/StylePrefs.nib; sourceTree = "<group>"; };
+		1468BAAB097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/WebPreview.nib; sourceTree = "<group>"; };
+		1468BAB4097D932D006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = folder; name = German; path = German.lproj/SubEthaEditHelp; sourceTree = "<group>"; };
+		1468BB70097D9AAD006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/License.nib; sourceTree = "<group>"; };
 		14F1601F096C288100402129 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/License.nib; sourceTree = "<group>"; };
 		14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "OgreKit (Universal Binary).xcodeproj"; path = "OgreKit/OgreKit (Universal Binary).xcodeproj"; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1957,6 +1979,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C1660FE840EACC02AAC07 /* English */,
+				1468BA8F097D91BC006F5936 /* German */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1965,6 +1988,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				142890130957413900D14688 /* English */,
+				1468BA90097D91D1006F5936 /* German */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1973,6 +1997,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				142890160957418400D14688 /* English */,
+				1468BA92097D91FF006F5936 /* German */,
 			);
 			name = AboutPanel.nib;
 			sourceTree = "<group>";
@@ -1981,6 +2006,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				142890180957418400D14688 /* English */,
+				1468BA93097D9213006F5936 /* German */,
 			);
 			name = AdvancedPrefs.nib;
 			sourceTree = "<group>";
@@ -1989,6 +2015,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1428901A0957418400D14688 /* English */,
+				1468BA94097D9213006F5936 /* German */,
 			);
 			name = DocumentProxy.nib;
 			sourceTree = "<group>";
@@ -1997,6 +2024,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1428901C0957418400D14688 /* English */,
+				1468BA97097D9234006F5936 /* German */,
 			);
 			name = EditPrefs.nib;
 			sourceTree = "<group>";
@@ -2005,6 +2033,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14289022095741A100D14688 /* English */,
+				1468BA9C097D9256006F5936 /* German */,
 			);
 			name = InternetBrowser.nib;
 			sourceTree = "<group>";
@@ -2013,6 +2042,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14289025095741BA00D14688 /* English */,
+				1468BA9E097D9291006F5936 /* German */,
 			);
 			name = OpenPanelAccessory.nib;
 			sourceTree = "<group>";
@@ -2021,6 +2051,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14289027095741BA00D14688 /* English */,
+				1468BA9F097D9291006F5936 /* German */,
 			);
 			name = PlainTextEditor.nib;
 			sourceTree = "<group>";
@@ -2029,6 +2060,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14289029095741BA00D14688 /* English */,
+				1468BAA0097D9291006F5936 /* German */,
 			);
 			name = PlainTextWindow.nib;
 			sourceTree = "<group>";
@@ -2037,6 +2069,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1428902B095741BA00D14688 /* English */,
+				1468BAA5097D92D7006F5936 /* German */,
 			);
 			name = PrintOptions.nib;
 			sourceTree = "<group>";
@@ -2045,6 +2078,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1428902D095741BA00D14688 /* English */,
+				1468BAA6097D92D7006F5936 /* German */,
 			);
 			name = PrintPrefs.nib;
 			sourceTree = "<group>";
@@ -2053,6 +2087,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1428902F095741BA00D14688 /* English */,
+				1468BAA7097D92D7006F5936 /* German */,
 			);
 			name = RendezvousBrowser.nib;
 			sourceTree = "<group>";
@@ -2061,6 +2096,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14289031095741BA00D14688 /* English */,
+				1468BAA8097D92D7006F5936 /* German */,
 			);
 			name = SavePanelAccessory.nib;
 			sourceTree = "<group>";
@@ -2069,6 +2105,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14289033095741BA00D14688 /* English */,
+				1468BAA9097D92D7006F5936 /* German */,
 			);
 			name = SelectEncodingsPanel.nib;
 			sourceTree = "<group>";
@@ -2077,6 +2114,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14289037095741BA00D14688 /* English */,
+				1468BAAA097D92D7006F5936 /* German */,
 			);
 			name = StylePrefs.nib;
 			sourceTree = "<group>";
@@ -2085,6 +2123,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14289039095741BA00D14688 /* English */,
+				1468BAAB097D92D7006F5936 /* German */,
 			);
 			name = WebPreview.nib;
 			sourceTree = "<group>";
@@ -2093,6 +2132,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				142890460957421300D14688 /* English */,
+				1468BAB4097D932D006F5936 /* German */,
 			);
 			name = SubEthaEditHelp;
 			sourceTree = "<group>";
@@ -2101,6 +2141,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1428949109575EF500D14688 /* English */,
+				1468BA9B097D9256006F5936 /* German */,
 			);
 			name = GeneralPrefs.nib;
 			sourceTree = "<group>";
@@ -2109,6 +2150,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14289BD209581C3000D14688 /* English */,
+				1468BA9A097D9256006F5936 /* German */,
 			);
 			name = FindReplace.nib;
 			sourceTree = "<group>";
@@ -2117,6 +2159,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14289BD909581CAC00D14688 /* English */,
+				1468BA99097D9256006F5936 /* German */,
 			);
 			name = FindAll.nib;
 			sourceTree = "<group>";
@@ -2125,6 +2168,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				14F1601F096C288100402129 /* English */,
+				1468BB70097D9AAD006F5936 /* German */,
 			);
 			name = License.nib;
 			sourceTree = "<group>";
@@ -2133,6 +2177,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2A37F4B7FDCFA73011CA2CEA /* English */,
+				1468BA9D097D9291006F5936 /* German */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -2141,6 +2186,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				5E2F5E42097BE32F00F7AA3C /* English */,
+				1468BA98097D9234006F5936 /* German */,
 			);
 			name = Export.nib;
 			sourceTree = "<group>";
