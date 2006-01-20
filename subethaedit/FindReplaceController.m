@@ -66,6 +66,7 @@ static FindReplaceController *sharedInstance=nil;
         [self loadStateFromPreferences];
         [O_findComboBox reloadData];
         [O_replaceComboBox reloadData];
+        [O_findPanel setDelegate:self];
         //[O_ReplaceFindButton setKeyEquivalent:@"y"];
         //[O_ReplaceFindButton setKeyEquivalentModifierMask:NSControlKeyMask|NSCommandKeyMask];
     }
@@ -132,6 +133,22 @@ static FindReplaceController *sharedInstance=nil;
     NSPanel *panel = [self findPanel];
     [O_findComboBox selectText:nil];
     [panel makeKeyAndOrderFront:nil];
+    // This is a workaround from dts to trick the KeyViewLoopValidation on Tiger (atm 10.4.4)
+    // Quoting Scott Ritchie (dts) <sritchie@apple.com>:
+    
+    // The problem occurs because there is a drawer (or toolbar, for that matter) present that does not contain any views that can become key. When AppKit searches the drawer for a potential key view and finds none, it erroneously selects the current key view as the one to tab to.  Thus, tabbing gets stuck.
+
+    //If possible, simply place a control that can gain the input focus in the drawer. This will cause the tabbing problem to go away.
+
+    //If this isn't an option, I submit the following internal method. This will suppress the AppKit logic that attempts to dynamically splice drawers and the toolbar into the window's key loop. You should be fine if you condition its use on a -respondsToSelector: check.
+    
+    if ([[self findPanel] respondsToSelector:@selector(_setKeyViewRedirectionDisabled:)]) {
+        [[self findPanel] _setKeyViewRedirectionDisabled:YES];
+    }
+    
+    //It will be necessary to do this after each time the window is ordered in, since the ordering-in process clears this setting.
+
+    //If in the future you add a potential key view to the drawer, or a toolbar to the window, you should remove this code to allow the tabbing to include those areas again.
 }
 
 - (IBAction)gotoLine:(id)aSender {

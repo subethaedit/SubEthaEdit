@@ -18,6 +18,10 @@ typedef enum {
 - (NSRange)findString:(NSString *)string selectedRange:(NSRange)selectedRange options:(unsigned)options wrap:(BOOL)wrap;
 @end
 
+@interface NSWindow (AppleInternalKeyViewLoopRedirection)
+- (void)_setKeyViewRedirectionDisabled:(BOOL)aBool;
+@end
+
 @interface FindReplaceController : NSObject {
     IBOutlet NSPanel *O_findPanel;
     IBOutlet NSPanel *O_gotoPanel;
