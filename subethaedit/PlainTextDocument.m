@@ -3081,11 +3081,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSMutableString *result = [NSMutableString string];
         int i = count;
         int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-        for (i = count-1; i >= 0 && i > count-pathComponentsToShow-1; i--) {
+        for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
             if (i != count-1) {
                 [result insertString:@"/" atIndex:0];
             }
             [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
+        }
+        if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
+            [result insertString:@"/" atIndex:0];
         }
         return result;
     } else {
