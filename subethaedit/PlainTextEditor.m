@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import "FindReplaceController.h"
 #import "DocumentController.h"
 #import "PlainTextEditor.h"
 #import "PlainTextDocument.h"
@@ -968,9 +969,12 @@
 
 - (IBAction)positionClick:(id)aSender {
     if (([[NSApp currentEvent] type] == NSLeftMouseDown || 
-         [[NSApp currentEvent] type] == NSLeftMouseUp) &&
-        [[NSApp currentEvent] clickCount] > 1) {
-        [I_textView doCommandBySelector:@selector(centerSelectionInVisibleArea:)];
+         [[NSApp currentEvent] type] == NSLeftMouseUp)) {
+        if ([[NSApp currentEvent] clickCount] == 1) {
+            [I_textView doCommandBySelector:@selector(centerSelectionInVisibleArea:)];
+        } else if ([[NSApp currentEvent] clickCount] > 1) {
+            [[FindReplaceController sharedInstance] orderFrontGotoPanel:self];
+        }
     }
 }
 
