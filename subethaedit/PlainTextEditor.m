@@ -987,7 +987,7 @@
     [self TCM_updateBottomStatusBar];
 }
 
-#define STATUSBARSIZE 18.
+#define STATUSBARSIZE 17.
 
 - (BOOL)showsTopStatusBar {
     return I_flags.showTopStatusBar;
@@ -998,10 +998,10 @@
         I_flags.showTopStatusBar=!I_flags.showTopStatusBar;
         NSRect frame=[O_scrollView frame];
         if (!I_flags.showTopStatusBar) {
-            frame.size.height+=STATUSBARSIZE+1;
+            frame.size.height+=STATUSBARSIZE;
         } else {
-            frame.size.height-=STATUSBARSIZE+1;
-            [O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x,NSMaxY(frame),frame.size.width,STATUSBARSIZE+1)];
+            frame.size.height-=STATUSBARSIZE;
+            [O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x,NSMaxY(frame),frame.size.width,STATUSBARSIZE)];
             [self TCM_updateStatusBar];
         }
         [O_scrollView setFrame:frame];
