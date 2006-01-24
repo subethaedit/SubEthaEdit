@@ -189,16 +189,6 @@
     }
 }
 
--(void)complainAboutNotParseableColor:(NSString *)colorString{
-    if (colorString) {
-        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSWarningAlertStyle];
-        [alert setMessageText:NSLocalizedString(@"HTML Color Error",@"HTML Color Error Title")];
-        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" is not a valid HTML color. Please specify colors either as e.g. \"#fff\" or \"#ffffff\"",@"HTML Color Error Informative Text"),colorString]];
-        [alert addButtonWithTitle:@"OK"];
-        [alert runModal];
-    }
-}
 
 /*"Parse the <states> tag"*/
 - (void)parseStatesForTreeNode:(CFXMLTreeRef)aTree
@@ -222,12 +212,8 @@
             NSColor *aColor;
             if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
                 [aDictionary setObject:aColor forKey:@"color"];
-            else 
-                [self complainAboutNotParseableColor:[attributes objectForKey:@"color"]];
             if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"inverted-color"]]))
                 [aDictionary setObject:aColor forKey:@"inverted-color"];
-            else 
-                [self complainAboutNotParseableColor:[attributes objectForKey:@"inverted-color"]];
                 
             NSFontTraitMask mask = 0;
             if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
@@ -241,13 +227,8 @@
             NSColor *aColor;
             if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
                 [I_defaultState setObject:aColor forKey:@"color"];
-            else 
-                [self complainAboutNotParseableColor:[attributes objectForKey:@"color"]];
-
             if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"inverted-color"]]))
                 [I_defaultState setObject:aColor forKey:@"inverted-color"];
-            else 
-                [self complainAboutNotParseableColor:[attributes objectForKey:@"inverted-color"]];
                 
             NSFontTraitMask mask = 0;
             if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
@@ -276,16 +257,12 @@
         NSString *colorString=[aDictionary objectForKey:@"background-color"];
         NSColor *backgroundColor=[NSColor whiteColor];
         if (colorString) {
-            if (!(backgroundColor = [NSColor colorForHTMLString:colorString])) {
-                [self complainAboutNotParseableColor:colorString];
-            }            
+            backgroundColor = [NSColor colorForHTMLString:colorString];
         }
         [styleDictionary setObject:backgroundColor forKey:@"background-color"];
         colorString=[aDictionary objectForKey:@"inverted-background-color"];
         if (colorString) {
-            if (!(backgroundColor = [NSColor colorForHTMLString:colorString])) {
-                [self complainAboutNotParseableColor:colorString];
-            }            
+            backgroundColor = [NSColor colorForHTMLString:colorString];
         } else {
             backgroundColor = [backgroundColor brightnessInvertedColor];
         }
@@ -368,10 +345,7 @@
             NSString *styleID=[NSString stringWithFormat:@"%@.%@",aStateID,keywordName];
             [keywordGroup setObject:styleID forKey:@"styleID"];
             NSMutableDictionary *styleDictionary = [NSMutableDictionary dictionary];
-            
-            NSColor *keywordColor = [NSColor colorForHTMLString:[keywordGroup objectForKey:@"color"]];
-            if (keywordColor) [styleDictionary setObject:keywordColor forKey:@"color"];
-            else [self complainAboutNotParseableColor:[keywordGroup objectForKey:@"color"]];
+            [styleDictionary setObject:[NSColor colorForHTMLString:[keywordGroup objectForKey:@"color"]] forKey:@"color"];
 
             NSFontTraitMask mask = 0;
             if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"])  mask = mask | NSBoldFontMask;
@@ -383,7 +357,6 @@
             NSColor *color=[NSColor colorForHTMLString:[keywordGroup objectForKey:@"inverted-color"]];
             if (!color) {
                 color = [[styleDictionary objectForKey:@"color"] brightnessInvertedColor];
-                [self complainAboutNotParseableColor:[keywordGroup objectForKey:@"inverted-color"]];
             }
             [styleDictionary setObject:color forKey:@"inverted-color"];
             [I_defaultSyntaxStyle addKey:styleID];

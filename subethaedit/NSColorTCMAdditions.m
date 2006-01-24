@@ -41,6 +41,17 @@
                                                alpha:1.0];
         }
     }
+    
+    if (!result && htmlString) {
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"HTML Color Error",@"HTML Color Error Title")];
+        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" is not a valid HTML color. Please specify colors in your syntax defintion either as e.g. \"#fff\" or \"#ffffff\"",@"HTML Color Error Informative Text"),htmlString]];
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
+        result = [NSColor colorWithCalibratedRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+    }
+    
     return result;
 }
 
