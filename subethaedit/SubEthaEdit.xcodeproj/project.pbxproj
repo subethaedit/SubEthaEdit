@@ -59,7 +59,6 @@
 		142890B3095743F200D14688 /* AdvancedPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289062095743F200D14688 /* AdvancedPrefs.tiff */; };
 		142890B4095743F200D14688 /* Announce.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289063095743F200D14688 /* Announce.tiff */; };
 		142890B7095743F200D14688 /* Conceal.png in Resources */ = {isa = PBXBuildFile; fileRef = 14289066095743F200D14688 /* Conceal.png */; };
-		142890B8095743F200D14688 /* Conceal.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289067095743F200D14688 /* Conceal.tiff */; };
 		142890B9095743F200D14688 /* DefaultPerson.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289068095743F200D14688 /* DefaultPerson.tiff */; };
 		142890BA095743F200D14688 /* EditPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289069095743F200D14688 /* EditPrefs.tiff */; };
 		142890BB095743F200D14688 /* EmptyButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428906A095743F200D14688 /* EmptyButton.tiff */; };
@@ -455,7 +454,6 @@
 		14289063095743F200D14688 /* Announce.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Announce.tiff; path = artwork/Announce.tiff; sourceTree = "<group>"; };
 		14289064095743F200D14688 /* CandyBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CandyBar.png; path = artwork/CandyBar.png; sourceTree = "<group>"; };
 		14289066095743F200D14688 /* Conceal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Conceal.png; path = artwork/Conceal.png; sourceTree = "<group>"; };
-		14289067095743F200D14688 /* Conceal.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Conceal.tiff; path = artwork/Conceal.tiff; sourceTree = "<group>"; };
 		14289068095743F200D14688 /* DefaultPerson.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = DefaultPerson.tiff; path = artwork/DefaultPerson.tiff; sourceTree = "<group>"; };
 		14289069095743F200D14688 /* EditPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EditPrefs.tiff; path = artwork/EditPrefs.tiff; sourceTree = "<group>"; };
 		1428906A095743F200D14688 /* EmptyButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EmptyButton.tiff; path = artwork/EmptyButton.tiff; sourceTree = "<group>"; };
@@ -889,7 +887,6 @@
 				14289063095743F200D14688 /* Announce.tiff */,
 				14289064095743F200D14688 /* CandyBar.png */,
 				14289066095743F200D14688 /* Conceal.png */,
-				14289067095743F200D14688 /* Conceal.tiff */,
 				1428905E095743B300D14688 /* debug.tiff */,
 				14289068095743F200D14688 /* DefaultPerson.tiff */,
 				14289069095743F200D14688 /* EditPrefs.tiff */,
@@ -1658,7 +1655,6 @@
 				142890B3095743F200D14688 /* AdvancedPrefs.tiff in Resources */,
 				142890B4095743F200D14688 /* Announce.tiff in Resources */,
 				142890B7095743F200D14688 /* Conceal.png in Resources */,
-				142890B8095743F200D14688 /* Conceal.tiff in Resources */,
 				1428905F095743B300D14688 /* debug.tiff in Resources */,
 				142890B9095743F200D14688 /* DefaultPerson.tiff in Resources */,
 				142890BA095743F200D14688 /* EditPrefs.tiff in Resources */,
