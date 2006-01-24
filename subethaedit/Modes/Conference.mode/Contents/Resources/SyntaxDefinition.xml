@@ -4,6 +4,7 @@
 
     <head>
         <name>Confrerence</name> <!-- The definitions title -->
+        <autocompleteoptions use-spelling-dictionary="yes" />
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
     </head>
 
