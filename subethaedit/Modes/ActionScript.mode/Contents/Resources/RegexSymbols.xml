@@ -26,7 +26,7 @@
     </symbol>
 
     <symbol id="Funtions" image="SymbolF()" indentation="0" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r])\s*function\s+([^{]*)(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)\s*function\s+([^{]*)(?=\s*\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>
@@ -38,7 +38,7 @@
     </symbol>
 
     <symbol id="Funtions 2" image="SymbolF()" indentation="0" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r])[ \t]*=[ \t]*function[ \t]+(?=[ \t]*\()</regex>
+        <regex>(?&lt;=[\n\r]|^)[ \t]*=[ \t]*function[ \t]+(?=[ \t]*\()</regex>
         <postprocess>
             <find>^[= \t]*</find>
             <replace></replace>
