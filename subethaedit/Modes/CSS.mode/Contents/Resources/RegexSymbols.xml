@@ -8,7 +8,7 @@
     </blocks>
     
     <symbol id="Tags" image="SymbolT">
-        <regex>(?&lt;=[\n\r]|^)[\t ]*(\w[\w\d\s,-_# ]*)(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)[\t ]*(\w[\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=\s*\{)</regex>
         <postprocess>
             <find>[\n\r]</find>
             <replace> </replace>
@@ -18,7 +18,7 @@
     </symbol>
     
     <symbol id="Classes" image="SymbolC">
-        <regex>(?&lt;=[\n\r]|^)[\t ]*(\.[\w\d\s,-_# ]*)(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)[\t ]*(\.[\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=\s*\{)</regex>
         <postprocess>
             <find>[\n\r]</find>
             <replace> </replace>
@@ -28,7 +28,7 @@
     </symbol>
     
     <symbol id="IDs" image="SymbolID">
-        <regex>(?&lt;=[\n\r]|^)[\t ]*(#[\w\d\s,-_# ]*)(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)[\t ]*(#[\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=\s*\{)</regex>
         <postprocess>
             <find>[\n\r]</find>
             <replace> </replace>
