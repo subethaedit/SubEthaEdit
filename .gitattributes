@@ -358,6 +358,7 @@ subethaedit/Modes/Base.mode/Contents/Info.plist -text
 subethaedit/Modes/Base.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/Base.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Base.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
+subethaedit/Modes/Base.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/C++.mode/Contents/Info.plist -text
 subethaedit/Modes/C++.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/C++.mode/Contents/Resources/English.lproj/InfoPlist.strings -text

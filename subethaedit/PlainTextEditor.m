@@ -30,6 +30,8 @@
 #import "AppController.h"
 #import "InsetTextFieldCell.h"
 #import <OgreKit/OgreKit.h>
+#import "SyntaxHighlighter.h"
+#import "SyntaxDefinition.h"
 
 @interface NSMenu (UndefinedStuff)
 - (NSMenu *)bottomPart;
@@ -1394,6 +1396,7 @@
     [findExpression release];
     [completions addObjectsFromArray:[[dictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
     [dictionary release];
+    
 // Too slow unfortunatly.
 /*    NSArray *paras = [[[self document] textStorage] paragraphs];
 
@@ -1421,6 +1424,14 @@
         if (([completionEntry hasPrefix:partialWord])&&(![completions containsObject:completionEntry])) [completions addObject:completionEntry];
     }
 
+    if ([[[[[self document] documentMode] syntaxHighlighter] syntaxDefinition] useSpellingDictionary]) {
+        NSEnumerator *enumerator = [words objectEnumerator];
+        id word;
+        while (word = [enumerator nextObject]) {
+            if (![completions containsObject:word])
+                [completions addObject:word];
+        }
+    }
 
     //DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"Finished autocomplete");
 

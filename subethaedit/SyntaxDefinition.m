@@ -172,7 +172,7 @@
                         break;
                     }
                 }
-            } else if ([@"autocompletetokens" isEqualToString:tag]) {
+            } else if ([@"charsincompletion" isEqualToString:tag]) {
                 int childCount = CFTreeGetChildCount(xmlTree);
                 int childIndex = 0;
                 for (childIndex = 0; childIndex < childCount; childIndex++) {
@@ -184,7 +184,13 @@
                         break;
                     }
                 }
-            } 
+            } else if ([@"autocompleteoptions" isEqualToString:tag]) {
+                CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
+                NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
+                I_useSpellingDictionary = [[attributes objectForKey:@"use-spelling-dictionary"] isEqualTo:@"yes"];
+            } else {
+                I_useSpellingDictionary = NO;
+            }
         }
     }
 }
@@ -652,6 +658,10 @@
 
 - (SyntaxStyle *)defaultSyntaxStyle {
     return I_defaultSyntaxStyle;
+}
+
+- (BOOL)useSpellingDictionary {
+    return I_useSpellingDictionary;
 }
 
 

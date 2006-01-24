@@ -23,6 +23,7 @@
     NSMutableArray *I_stylesForRegex;   /*"Chached regexs"*/
     OGRegularExpression *I_combinedStateRegex;     /*"All state-begins in one regex"*/
     BOOL everythingOkay;
+    BOOL I_useSpellingDictionary;
     SyntaxStyle *I_defaultSyntaxStyle;
 }
 
@@ -57,5 +58,6 @@
 - (DocumentMode *)mode;
 - (void)setMode:(DocumentMode *)aMode;
 - (SyntaxStyle *)defaultSyntaxStyle;
+- (BOOL)useSpellingDictionary;
 
 @end
