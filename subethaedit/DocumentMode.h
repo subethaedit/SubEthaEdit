@@ -50,6 +50,7 @@ extern NSString * const DocumentModeHTMLExportShowVisitorsPreferenceKey    ;
 extern NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey ;
 extern NSString * const DocumentModeUseDefaultPrintPreferenceKey;
 extern NSString * const DocumentModeUseDefaultStylePreferenceKey;
+extern NSString * const DocumentModeUseDefaultFontPreferenceKey;
 
 extern NSString * const DocumentModeApplyEditPreferencesNotification;
 extern NSString * const DocumentModeApplyStylePreferencesNotification;
