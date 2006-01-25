@@ -623,7 +623,9 @@ struct ModificationInfo
     
     if (selector == @selector(concealAllDocuments:)) {
         return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
-    } 
+    } else if (selector == @selector(saveAllDocuments:)) {
+        return YES;
+    }
     return [super validateMenuItem:menuItem];
 }
 
