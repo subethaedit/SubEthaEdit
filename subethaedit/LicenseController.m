@@ -41,16 +41,16 @@ static LicenseController *sharedInstance = nil;
     }
 
     if (firstStartDate==nil && otherDate==nil) {
-        NSLog(@"Both Dates are nil!");
+//        NSLog(@"Both Dates are nil!");
         // fresh start so lets set the firstStart Date
         firstStartDate = currentDate;
         setStartDate = YES;
     } else if (firstStartDate && otherDate) {
-        NSLog(@"Both Dates are set!");
+//        NSLog(@"Both Dates are set!");
         NSTimeInterval difference=[firstStartDate timeIntervalSinceDate:otherDate];
-        NSLog(@"difference was %.30f", difference);
+//        NSLog(@"difference was %.30f", difference);
         if (ABS(difference)>1.) {
-            NSLog(@"first: %@ wasn't equal to other: %@", firstStartDate, otherDate);
+//            NSLog(@"first: %@ wasn't equal to other: %@", firstStartDate, otherDate);
             if (difference > 0) firstStartDate = otherDate;
             setStartDate = YES;
         }
@@ -61,15 +61,24 @@ static LicenseController *sharedInstance = nil;
         setStartDate = YES;
     } 
 
+    NSString *cfBundleVersionKey = @"CFBundleVersion";
+    NSString *previousCFBundleVersion = [defaults stringForKey:cfBundleVersionKey];
     NSString *previousVersion = [defaults stringForKey:SetupVersionPrefKey];
     NSString *bundleVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    if ([previousVersion compare:bundleVersion] != NSOrderedSame) {
-        setStartDate = YES;
-        [defaults setObject:bundleVersion forKey:SetupVersionPrefKey];
+    NSString *cfBundleVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:cfBundleVersionKey];
+    if (![bundleVersion   isEqualToString:previousVersion] || 
+        ![cfBundleVersion isEqualToString:previousCFBundleVersion]) {
+        if (![bundleVersion   isEqualToString:previousVersion] && 
+            ![cfBundleVersion isEqualToString:previousCFBundleVersion]) {
+            firstStartDate = currentDate;
+            setStartDate = YES;
+        }
+        [defaults setObject:bundleVersion   forKey:SetupVersionPrefKey];
+        [defaults setObject:cfBundleVersion forKey:cfBundleVersionKey];
     }
 
     if (setStartDate) {
-        NSLog(@"setting start date to %@, %f", firstStartDate, [firstStartDate timeIntervalSince1970]);
+//        NSLog(@"setting start date to %@, %f", firstStartDate, [firstStartDate timeIntervalSince1970]);
         [defaults setObject:firstStartDate forKey:@"FirstStartDate"];
         [defaults setObject:[NSNumber numberWithDouble:[firstStartDate timeIntervalSince1970]] forKey:otherKey];
     }
@@ -82,7 +91,7 @@ static LicenseController *sharedInstance = nil;
     NSDate *currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
     NSTimeInterval runningInterval = [currentDate timeIntervalSinceDate:firstStartDate];
     [currentDate release];
-    int daysLeft = 30 - ABS((runningInterval / (60 * 60 * 24)));
+    int daysLeft = 31 - ABS((runningInterval / (60 * 60 * 24)));
     return daysLeft;
 }
 
