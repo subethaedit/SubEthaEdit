@@ -101,6 +101,10 @@ static AppController *sharedInstance = nil;
 #ifdef TCM_NO_DEBUG
 	[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
 #endif
+    // fix of SEE-883 - only an issue on tiger...
+    if (floor(NSAppKitVersionNumber) == 824.) {
+        [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"NSUseInsertionPointCache"];
+    } 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
