@@ -1370,70 +1370,56 @@
 
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index {
     NSString *partialWord, *completionEntry;
-    NSMutableArray *completionSource;
     NSMutableArray *completions = [NSMutableArray array];
     unsigned i, count;
     NSString *textString=[[textView textStorage] string];
     // Get the current partial word being completed.
     partialWord = [textString substringWithRange:charRange];
 
-    // Find all known names.
-    completionSource = [NSMutableArray array];
-
-    NSMutableDictionary *dictionary=[NSMutableDictionary new];
+    NSMutableDictionary *dictionaryOfResultStrings=[NSMutableDictionary new];
 
     // find all matches in the current text for this prefix
     OGRegularExpression *findExpression=[[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"(?<=\\W)%@\\w+",partialWord] options:OgreFindNotEmptyOption];
-    NSEnumerator *documents=[[[DocumentController sharedInstance] documentsInMode:[[self document] documentMode]] objectEnumerator];
+    DocumentMode *documentMode = [[self document] documentMode];
+    NSEnumerator *documents=[[[DocumentController sharedInstance] documentsInMode:documentMode] objectEnumerator];
     PlainTextDocument *document=nil;
     while ((document=[documents nextObject])) {
         NSEnumerator *matches=[findExpression matchEnumeratorInString:[[document textStorage] string]];
         OGRegularExpressionMatch *match=nil;
         while ((match=[matches nextObject])) {
-            [dictionary setObject:@"Blah" forKey:[match matchedString]];
+            [dictionaryOfResultStrings setObject:@"YES" forKey:[match matchedString]];
         }
     }
     [findExpression release];
-    [completions addObjectsFromArray:[[dictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
-    [dictionary release];
+    [completions addObjectsFromArray:[[dictionaryOfResultStrings allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
     
-// Too slow unfortunatly.
-/*    NSArray *paras = [[[self document] textStorage] paragraphs];
-
-    count = [paras count];
-    for (i = 0; i < count; i++) {
-        NSArray *words = [[paras objectAtIndex:i] words];
-        int wordcount = [words count];
-        int j;
-        for (j = 0; j < wordcount; j++) {
-            completionEntry = [[words objectAtIndex:j] string];
-            if ([completionEntry hasPrefix:partialWord]) {
-              if (![completions containsObject:completionEntry]) [completions addObject:completionEntry];
-            }
-        }
-    }
-*/
-    [completionSource addObjectsFromArray:[[[self document] documentMode] autocompleteDictionary]];
-//    [completionSource addObjectsFromArray:words]; // The whole stuff: spellchecker + all words in text
-
+    // Find all known names.
+    NSArray *completionSource = [documentMode autocompleteDictionary];
     // Examine the names one by one.
     count = [completionSource count];
     for (i = 0; i < count; i++) {
         completionEntry = [completionSource objectAtIndex:i];
         // Add those that match the current partial word to the list of completions.
-        if (([completionEntry hasPrefix:partialWord])&&(![completions containsObject:completionEntry])) [completions addObject:completionEntry];
+        if ([completionEntry hasPrefix:partialWord] &&
+            [dictionaryOfResultStrings objectForKey:completionEntry]==nil) {
+            [completions addObject:completionEntry];
+            [dictionaryOfResultStrings setObject:@"YES" forKey:completionEntry];
+        }
     }
 
-    if ([[[[[self document] documentMode] syntaxHighlighter] syntaxDefinition] useSpellingDictionary]) {
+    // add the originally suggested words
+    if ([[[documentMode syntaxHighlighter] syntaxDefinition] useSpellingDictionary]) {
         NSEnumerator *enumerator = [words objectEnumerator];
         id word;
         while (word = [enumerator nextObject]) {
-            if (![completions containsObject:word])
+            if ([dictionaryOfResultStrings objectForKey:word]==nil)
                 [completions addObject:word];
+                [dictionaryOfResultStrings setObject:@"YES" forKey:word];
         }
     }
 
     //DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"Finished autocomplete");
+    [dictionaryOfResultStrings release];
 
     return completions;
 }
