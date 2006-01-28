@@ -7,14 +7,14 @@
 	<key>CFBundleName</key>
 	<string>Diff</string>
     <key>NSHumanReadableCopyright</key>
-	<string>© 2004 TheCodingMonkeys
+	<string>© 2006 TheCodingMonkeys
 http://www.codingmonkeys.de</string>
     <key>CFBundleShortVersionString</key>
-	<string>0.5</string>
+	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>0.5</string>
+	<string>1.0</string>
     <key>CFBundleGetInfoString</key>
-	<string>0.5, Copyright TheCodingMonkeys 2004</string>
+	<string>1.0, Copyright TheCodingMonkeys 2006</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>

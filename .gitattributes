@@ -405,9 +405,7 @@ subethaedit/Modes/Conference.mode/Contents/Resources/notes_template.notes -text
 subethaedit/Modes/Diff.mode/Contents/Info.plist -text
 subethaedit/Modes/Diff.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/Diff.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
-subethaedit/Modes/Diff.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Diff.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
-subethaedit/Modes/Diff.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/Diff.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Diff.mode/Contents/Resources/SymbolID.png -text
 subethaedit/Modes/Diff.mode/Contents/Resources/SyntaxDefinition.xml -text
