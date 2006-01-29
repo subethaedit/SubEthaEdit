@@ -83,6 +83,8 @@ static LicenseController *sharedInstance = nil;
         [defaults setObject:[NSNumber numberWithDouble:[firstStartDate timeIntervalSince1970]] forKey:otherKey];
     }
     
+    [currentDate release];
+    
     return YES;
 }
 
