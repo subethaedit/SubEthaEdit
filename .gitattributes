@@ -367,6 +367,7 @@ subethaedit/Modes/Base.mode/Contents/Resources/English.lproj/InfoPlist.strings -
 subethaedit/Modes/Base.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Base.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/C++.mode/Contents/Info.plist -text
+subethaedit/Modes/C++.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/C++.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/C++.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/C++.mode/Contents/Resources/English.lproj/Localizable.strings -text
@@ -375,6 +376,7 @@ subethaedit/Modes/C++.mode/Contents/Resources/German.lproj/Localizable.strings -
 subethaedit/Modes/C++.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/C++.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/C.mode/Contents/Info.plist -text
+subethaedit/Modes/C.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/C.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/C.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/C.mode/Contents/Resources/English.lproj/Localizable.strings -text
