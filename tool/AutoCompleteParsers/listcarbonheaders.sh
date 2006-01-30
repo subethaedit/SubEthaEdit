@@ -1,0 +1,16 @@
+find /System/Library/Frameworks/Accelerate.framework -name "*.h"
+find /System/Library/Frameworks/AudioUnit.framework -name "*.h"
+find /System/Library/Frameworks/AudioToolbox.framework -name "*.h"
+find /System/Library/Frameworks/Carbon.framework -name "*.h"
+find /System/Library/Frameworks/CoreAudio.framework -name "*.h"
+find /System/Library/Frameworks/CoreAudioKit.framework -name "*.h"
+find /System/Library/Frameworks/CoreServices.framework -name "*.h"
+find /System/Library/Frameworks/IOKit.framework -name "*.h"
+find /System/Library/Frameworks/QuickTime.framework -name "*.h"
+find /System/Library/Frameworks/OpenGL.framework -name "*.h"
+find /System/Library/Frameworks/Quartz.framework -name "*.h"
+find /System/Library/Frameworks/QuartzCore.framework -name "*.h"
+find /System/Library/Frameworks/SystemConfiguration.framework -name "*.h"
+find /System/Library/Frameworks/Security.framework  
+find /System/Library/Frameworks/SecurityInterface.framework -name "*.h"
+find /System/Library/Frameworks/SecurityFoundation.framework  

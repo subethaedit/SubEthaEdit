@@ -1240,6 +1240,13 @@ test/Performance/CreateStringByUnicharTest/Info.plist -text
 test/Performance/CreateStringByUnicharTest/main.m -text
 test/Syntax/PHP-HTML/Classes.php -text
 test/Syntax/PHP-HTML/Library.php -text
+tool/AutoCompleteParsers/gogogo.sh -text
+tool/AutoCompleteParsers/lensort -text
+tool/AutoCompleteParsers/listcarbonheaders.sh -text
+tool/AutoCompleteParsers/parseCarbonHeaders.pl -text
+tool/AutoCompleteParsers/parseCocoaEnums.pl -text
+tool/AutoCompleteParsers/parseObjCHeadersForAutocomplete.pl -text
+tool/AutoCompleteParsers/uniqify.sh -text
 tool/BEEPSEEKiller/AppController.h -text
 tool/BEEPSEEKiller/AppController.m -text
 tool/BEEPSEEKiller/BEEPSEEKiller.xcodeproj/project.pbxproj -text
@@ -1462,8 +1469,6 @@ tool/autodoc -text
 tool/convertcolor.pl -text
 tool/customers2vcf.pl -text
 tool/filterClasses.sh -text
-tool/parseCocoaEnums.pl -text
-tool/parseObjCHeadersForAutocomplete.pl -text
 tool/seeserver.pl -text
 tool/serials/attackserial.pl -text
 tool/serials/checkserial.pl -text

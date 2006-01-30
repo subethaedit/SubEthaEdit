@@ -84,7 +84,7 @@
         [shadow setShadowColor:[NSColor blackColor]];
 
          attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            [NSColor colorWithCalibratedWhite:1 alpha:0.85], NSForegroundColorAttributeName,
+            [NSColor colorWithCalibratedBlack:1 alpha:0.85], NSForegroundColorAttributeName,
             shadow, NSShadowAttributeName,
             parStyle, NSParagraphStyleAttributeName,
             [NSFont boldSystemFontOfSize:11], NSFontAttributeName, nil];
