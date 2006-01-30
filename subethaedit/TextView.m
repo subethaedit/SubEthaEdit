@@ -22,6 +22,7 @@
 #import "DocumentMode.h"
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
+#import <OgreKit/OgreKit.h>
 
 @implementation TextView
 
@@ -516,6 +517,7 @@ static NSMenu *defaultMenu=nil;
     NSCharacterSet *tokenSet = [[[[[[[self window] windowController] document] documentMode] syntaxHighlighter] syntaxDefinition] autoCompleteTokenSet];
 
     if (tokenSet) {
+        result = [self selectedRange]; // Start with a fresh range
         while (YES) {
             if (result.location==0) break;
             NSString *aCharacter = [string substringWithRange:NSMakeRange(result.location-1,1)];
