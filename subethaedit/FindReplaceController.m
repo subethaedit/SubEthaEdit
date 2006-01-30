@@ -16,6 +16,7 @@
 #import "FindAllController.h"
 #import "UndoManager.h"
 #import "time.h"
+#import "TextOperation.h"
 
 static FindReplaceController *sharedInstance=nil;
 
@@ -440,6 +441,7 @@ static FindReplaceController *sharedInstance=nil;
 {
     const int replacePerCycle = 100;
     int i = replacePerCycle;
+    TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
 
     [[I_replaceAllTarget textStorage] beginEditing];
     if (I_replaceAllReplaced>0) 
@@ -463,6 +465,9 @@ static FindReplaceController *sharedInstance=nil;
                 [[aDocument documentUndoManager] beginUndoGrouping];
             }
             [I_replaceAllText replaceCharactersInRange:foundRange withString:I_replaceAllReplaceString];
+
+            [transformator transformOperation:I_replaceAllSelectionOperation serverOperation:[TextOperation textOperationWithAffectedCharRange:foundRange replacementString:I_replaceAllReplaceString userID:[TCMMMUserManager myUserID]]];
+
             [[I_replaceAllTarget textStorage] addAttributes:I_replaceAllAttributes range:NSMakeRange(foundRange.location, [I_replaceAllReplaceString length])];
             I_replaceAllReplaced++;
             I_replaceAllPosRange.location = foundRange.location;
@@ -476,12 +481,16 @@ static FindReplaceController *sharedInstance=nil;
             [I_replaceAllText release];
             [I_replaceAllAttributes release];
             
+            PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
+            
+            [aDocument selectRange:[I_replaceAllSelectionOperation selectedRange]];
+            [I_replaceAllSelectionOperation release];
+            
             if (I_replaceAllReplaced==0) {
                 [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
                 NSBeep();
             } else {
                 [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
-                PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
                 [[aDocument documentUndoManager] endUndoGrouping];
                 [[aDocument session] startProcessing];
                 [self unlockDocument:aDocument];
@@ -499,6 +508,7 @@ static FindReplaceController *sharedInstance=nil;
     const int replacePerCycle = 50;
     int i;
     int index = I_replaceAllArrayIndex;
+    TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
 
     [[I_replaceAllTarget textStorage] beginEditing];
         
@@ -515,6 +525,9 @@ static FindReplaceController *sharedInstance=nil;
         }
 
         [I_replaceAllText replaceCharactersInRange:matchedRange withString:replaceWith];
+
+        [transformator transformOperation:I_replaceAllSelectionOperation serverOperation:[TextOperation textOperationWithAffectedCharRange:matchedRange replacementString:replaceWith userID:[TCMMMUserManager myUserID]]];
+
         
         NSRange newRange = NSMakeRange(matchedRange.location, [replaceWith length]);
         [[I_replaceAllTarget textStorage] addAttributes:I_replaceAllAttributes range:newRange];
@@ -534,11 +547,16 @@ static FindReplaceController *sharedInstance=nil;
         [I_replaceAllRepex release];
         [I_replaceAllRegex release];
         [I_replaceAllAttributes release];
+        
+        PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
+        
+        [aDocument selectRange:[I_replaceAllSelectionOperation selectedRange]];
+        [I_replaceAllSelectionOperation release];
+        
         if (I_replaceAllReplaced==0) {
             [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
             NSBeep();
         } else {
-            PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
             [[aDocument documentUndoManager] endUndoGrouping];
             [self unlockDocument:aDocument];
             [[aDocument session] startProcessing];
@@ -574,6 +592,9 @@ static FindReplaceController *sharedInstance=nil;
         NSDictionary *attributes = [aDocument typingAttributes];
         
         I_replaceAllAttributes = [attributes retain];
+        
+        I_replaceAllSelectionOperation = [SelectionOperation new];
+        [I_replaceAllSelectionOperation setSelectedRange:[target selectedRange]];
         
         if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
             [self loadFindStringToPasteboard];

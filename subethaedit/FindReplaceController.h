@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
+#import "SelectionOperation.h"
 
 typedef enum {
     TCMFindPanelActionFindAll = 1001,
@@ -73,6 +74,7 @@ typedef enum {
     int I_replaceAllReplaced;
     int I_replaceAllArrayIndex;
     unsigned I_replaceAllOptions;
+    SelectionOperation *I_replaceAllSelectionOperation;
 }
 + (FindReplaceController *)sharedInstance;
 
