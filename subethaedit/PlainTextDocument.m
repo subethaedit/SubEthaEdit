@@ -2294,6 +2294,76 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
         
+        
+    // ---
+    
+    if (err == noErr) {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:fullDocumentPath traverseLink:YES];
+        unsigned long fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
+        if (fileReferenceCount > 1) {
+        
+            if (err == noErr) {
+                request = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    @"GetFileDescriptor", @"CommandName",
+                                    fullDocumentPath, @"FileName",
+                                    nil];
+            }
+
+            if (err == noErr) {
+                err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+            }
+            
+            if (err == noErr) {
+                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
+
+                err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+                if (err == noErr) {
+                    NSArray *descArray;
+                    int descIndex;
+                    int descCount;
+                    
+                    descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
+                    descCount = [descArray count];
+                    for (descIndex = 0; descIndex < descCount; descIndex++) {
+                        NSNumber *thisDescNum;
+                        int thisDesc;
+                        
+                        thisDescNum = [descArray objectAtIndex:descIndex];
+                        thisDesc = [thisDescNum intValue];
+                        fcntl(thisDesc, F_GETFD, 0);
+                        
+                        NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
+                        NSData *data = [self dataRepresentationOfType:docType];
+                        @try {
+                            [fileHandle writeData:data];
+                        }
+                        @catch (id exception) {
+                            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
+                            err = writErr;
+                        }
+                        [fileHandle release];
+                    }
+                }
+            }
+            
+            if (response) {
+                [response release];
+                response = nil;
+            }
+
+
+            CFQRelease(tool);
+            if (auth != NULL) {
+                (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+            }
+            
+            return ((err == noErr) ? YES : NO);
+        }
+    }
+              
+    // ---
+        
     // Create the request dictionary for a file descriptor
 
     if (err == noErr) {
