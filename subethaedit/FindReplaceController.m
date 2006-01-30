@@ -302,7 +302,7 @@ static FindReplaceController *sharedInstance=nil;
         [self replaceSelection];
     } else if ([sender tag]==NSFindPanelActionReplaceAndFind) {
         [self replaceSelection];
-        if (![findString isEqualToString:@""]) [self find:findString forward:YES];
+        if (![findString isEqualToString:@""]) [self find:findString forward:YES ];
         else NSBeep();
     } else if ([sender tag]==NSFindPanelActionSetFindString) {
         [self findPanel];
@@ -659,7 +659,8 @@ static FindReplaceController *sharedInstance=nil;
     [self addString:findString toHistory:I_findHistory];
     NSAutoreleasePool *findPool = [NSAutoreleasePool new];     
     [O_progressIndicator startAnimation:nil];
-        
+    
+    // Check for invalid RegEx    
     if ((![OGRegularExpression isValidExpressionString:findString])&&(![self currentOgreSyntax]==OgreSimpleMatchingSyntax)) {
         [O_progressIndicator stopAnimation:nil];
         [O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
@@ -677,7 +678,10 @@ static FindReplaceController *sharedInstance=nil;
 
     NSTextView *target = [self targetToFindIn];
     if (target) {
-        
+        NSRange scope = {NSNotFound, 0};
+        if ([[O_scopePopup selectedItem] tag]==1) scope = [target selectedRange];
+        else scope = NSMakeRange(0,[[target string] length]);
+
         NSString *text = [target string];
         NSRange selection = [target selectedRange];        
         
@@ -690,7 +694,14 @@ static FindReplaceController *sharedInstance=nil;
                 unsigned options = NSLiteralSearch;
                 if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
                 BOOL wrap = ([O_wrapAroundCheckbox state]==NSOnState); 
-                NSRange foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];
+                
+                NSRange foundRange;
+                // Check for scoping, as findString:selectedRange:options:wrap:
+                // only makes sense for scope:document.
+                if ([[O_scopePopup selectedItem] tag]==1) {
+                    foundRange = [text rangeOfString:findString options:options range:scope];
+                } else foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];                
+                
                 if (foundRange.length) {
                     found = YES;
                     [target setSelectedRange:foundRange];
@@ -699,7 +710,13 @@ static FindReplaceController *sharedInstance=nil;
                 } else {NSBeep();}
 
             } else {
-                enumerator=[regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection))];
+                NSRange findRange;
+                if ([[O_scopePopup selectedItem] tag]==1) 
+                    findRange = scope;
+                else 
+                    findRange = NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection));
+
+                enumerator=[regex matchEnumeratorInString:text options:[self currentOgreOptions] range:findRange];
                 aMatch = [enumerator nextObject];
                 if (aMatch != nil) {
                     found = YES;
@@ -707,7 +724,7 @@ static FindReplaceController *sharedInstance=nil;
                     [target setSelectedRange:foundRange];
                     [target scrollRangeToVisible:foundRange];
                     [target display];
-                } else if ([O_wrapAroundCheckbox state] == NSOnState){
+                } else if (([O_wrapAroundCheckbox state] == NSOnState)&&([[O_scopePopup selectedItem] tag]!=1)){
                     enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,selection.location)];
                     aMatch = [enumerator nextObject];
                     if (aMatch != nil) {
@@ -726,7 +743,13 @@ static FindReplaceController *sharedInstance=nil;
                 unsigned options = NSLiteralSearch|NSBackwardsSearch;
                 if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
                 BOOL wrap = ([O_wrapAroundCheckbox state]==NSOnState); 
-                NSRange foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];
+
+                NSRange foundRange;
+                // Check for scoping, as findString:selectedRange:options:wrap:
+                // only makes sense for scope:document.
+                if ([[O_scopePopup selectedItem] tag]==1) {
+                    foundRange = [text rangeOfString:findString options:options range:scope];
+                } else foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];                
                 if (foundRange.length) {
                     found = YES;
                     [target setSelectedRange:foundRange];
@@ -734,7 +757,13 @@ static FindReplaceController *sharedInstance=nil;
                     [target display];
                 } else {NSBeep();}
             } else {
-                NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:NSMakeRange(0, selection.location)];
+                NSRange findRange;
+                if ([[O_scopePopup selectedItem] tag]==1) 
+                    findRange = scope;
+                else 
+                    findRange = NSMakeRange(0, selection.location);
+
+                NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:findRange];
                 if ([matchArray count] > 0) aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
                 if (aMatch != nil) {
                     found = YES;
