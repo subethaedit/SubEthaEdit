@@ -33,6 +33,10 @@
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
 
+@interface NSTextView (PrivateAdditions)
+- (BOOL)_isUnmarking;
+@end
+
 @interface NSMenu (UndefinedStuff)
 - (NSMenu *)bottomPart;
 @end
@@ -1203,15 +1207,13 @@
         return NO;
     }
 
-    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
+    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]] && (![aTextView hasMarkedText] || [aTextView _isUnmarking])) {
         TCMMMSession *session=[document session];
         if ([session isServer] && [session participantCount]<=1) {
             NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
             [contextInfo setObject:@"ShouldPromoteAlert" forKey:@"Alert"];
             [contextInfo setObject:aTextView forKey:@"TextView"];
-            if (![aTextView hasMarkedText]) {
-                [contextInfo setObject:[[replacementString copy] autorelease] forKey:@"ReplacementString"];
-            }
+            [contextInfo setObject:[[replacementString copy] autorelease] forKey:@"ReplacementString"];
             [contextInfo autorelease];
 
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
