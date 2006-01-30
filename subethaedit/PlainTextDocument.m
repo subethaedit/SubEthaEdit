@@ -40,7 +40,9 @@
 #import "MoreSecurity.h"
 #import "MoreCFQ.h"
 #import <fcntl.h>
+#import <sys/param.h>
 #import <sys/stat.h>
+#import <string.h>
 
 
 #pragma options align=mac68k
@@ -2403,62 +2405,86 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeWithBackupToFile:");
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
-        BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
-        if (isDirWritable && isFileDeletable) {
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
-            [alert setMessageText:NSLocalizedString(@"Save", nil)];
-            [alert setInformativeText:NSLocalizedString(@"SaveDialogInformativeText: Save or Replace", @"Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file")];
-            [alert addButtonWithTitle:NSLocalizedString(@"Save", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Replace", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-            int returnCode = [alert runModal];
-            [[alert window] orderOut:self];
+        NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:fullDocumentPath traverseLink:YES];
+        unsigned long fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
+        BOOL isFileWritable = [fileManager isWritableFileAtPath:fullDocumentPath];
+        if (fileReferenceCount > 1 && isFileWritable) {            
+            char cFullDocumentPath[MAXPATHLEN+1];
+            if ([(NSString *)fullDocumentPath getFileSystemRepresentation:cFullDocumentPath maxLength:MAXPATHLEN]) {
+                int fd = open(cFullDocumentPath, O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
+                if (fd) {
+                    NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
+                    NSData *data = [self dataRepresentationOfType:docType];
+                    @try {
+                        [fileHandle writeData:data];
+                        hasBeenWritten = YES;
+                    }
+                    @catch (id exception) {
+                        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
+                    }
+                    [fileHandle release];
+                }
+            }
+        }
+        
+        if (!hasBeenWritten) {
+            BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
+            BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
+            if (isDirWritable && isFileDeletable) {
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setMessageText:NSLocalizedString(@"Save", nil)];
+                [alert setInformativeText:NSLocalizedString(@"SaveDialogInformativeText: Save or Replace", @"Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file")];
+                [alert addButtonWithTitle:NSLocalizedString(@"Save", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Replace", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                int returnCode = [alert runModal];
+                [[alert window] orderOut:self];
 
-            if (returnCode == NSAlertFirstButtonReturn) {
-                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-                hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
-            } else if (returnCode == NSAlertSecondButtonReturn) {
-                NSFileManager *fileManager = [NSFileManager defaultManager];
-                NSString *tempFilePath = tempFileName(fullDocumentPath);
-                hasBeenWritten = [self writeToFile:tempFilePath ofType:docType];
-                if (hasBeenWritten) {
-                    BOOL result = [fileManager removeFileAtPath:fullDocumentPath handler:nil];
-                    if (result) {
-                        hasBeenWritten = [fileManager movePath:tempFilePath toPath:fullDocumentPath handler:nil];
-                        if (hasBeenWritten) {
-                            NSDictionary *fattrs = [self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
-                            (void)[fileManager changeFileAttributes:fattrs atPath:fullDocumentPath];
+                if (returnCode == NSAlertFirstButtonReturn) {
+                    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
+                    hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
+                } else if (returnCode == NSAlertSecondButtonReturn) {
+                    NSFileManager *fileManager = [NSFileManager defaultManager];
+                    NSString *tempFilePath = tempFileName(fullDocumentPath);
+                    hasBeenWritten = [self writeToFile:tempFilePath ofType:docType];
+                    if (hasBeenWritten) {
+                        BOOL result = [fileManager removeFileAtPath:fullDocumentPath handler:nil];
+                        if (result) {
+                            hasBeenWritten = [fileManager movePath:tempFilePath toPath:fullDocumentPath handler:nil];
+                            if (hasBeenWritten) {
+                                NSDictionary *fattrs = [self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
+                                (void)[fileManager changeFileAttributes:fattrs atPath:fullDocumentPath];
+                            } else {
+                                NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+                                [newAlert setAlertStyle:NSWarningAlertStyle];
+                                [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
+                                [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")];
+                                [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+                                [newAlert beginSheetModalForWindow:[self windowForSheet]
+                                                     modalDelegate:nil
+                                                    didEndSelector:nil
+                                                       contextInfo:NULL];
+                            }
                         } else {
+                            (void)[fileManager removeFileAtPath:tempFilePath handler:nil];
                             NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
                             [newAlert setAlertStyle:NSWarningAlertStyle];
                             [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
-                            [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")];
+                            [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
                             [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
                             [newAlert beginSheetModalForWindow:[self windowForSheet]
                                                  modalDelegate:nil
                                                 didEndSelector:nil
                                                    contextInfo:NULL];
-                        }
-                    } else {
-                        (void)[fileManager removeFileAtPath:tempFilePath handler:nil];
-                        NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                        [newAlert setAlertStyle:NSWarningAlertStyle];
-                        [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
-                        [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
-                        [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                        [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                             modalDelegate:nil
-                                            didEndSelector:nil
-                                               contextInfo:NULL];
 
+                        }
                     }
                 }
+            } else {
+                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
+                hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
             }
-        } else {
-            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-            hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
         }
      }
 
