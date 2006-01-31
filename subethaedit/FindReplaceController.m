@@ -746,7 +746,7 @@ static FindReplaceController *sharedInstance=nil;
                     [target scrollRangeToVisible:foundRange];
                     [target display];
                 } else if (([O_wrapAroundCheckbox state] == NSOnState)&&([[O_scopePopup selectedItem] tag]!=1)){
-                    enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,selection.location)];
+                    enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,NSMaxRange(selection))];
                     aMatch = [enumerator nextObject];
                     if (aMatch != nil) {
                         found = YES;
@@ -793,7 +793,7 @@ static FindReplaceController *sharedInstance=nil;
                     [target scrollRangeToVisible:foundRange];
                     [target display];
                 } else if ([O_wrapAroundCheckbox state] == NSOnState){
-                    NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection))];
+                    NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:NSMakeRange(selection.location, [text length] - selection.location)];
                     if ([matchArray count] > 0) aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
                     if (aMatch != nil) {
                         found = YES;
@@ -896,8 +896,8 @@ static FindReplaceController *sharedInstance=nil;
 	searchRange.length = length - searchRange.location;
 	range = [self rangeOfString:string options:options range:searchRange];
         if ((range.length == 0) && wrap) {	/* If not found look at the first part of the string */
-	    searchRange.location = 0;
-            searchRange.length = selectedRange.location;
+            searchRange.location = 0;
+            searchRange.length = NSMaxRange(selectedRange);
             range = [self rangeOfString:string options:options range:searchRange];
         }
     } else {
@@ -905,7 +905,7 @@ static FindReplaceController *sharedInstance=nil;
 	searchRange.length = selectedRange.location;
         range = [self rangeOfString:string options:options range:searchRange];
         if ((range.length == 0) && wrap) {
-            searchRange.location = NSMaxRange(selectedRange);
+            searchRange.location = selectedRange.location;
             searchRange.length = length - searchRange.location;
             range = [self rangeOfString:string options:options range:searchRange];
         }
