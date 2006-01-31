@@ -852,7 +852,6 @@ static NSString *tempFileName(NSString *origPath) {
     [I_jobDescription release];
     [I_directoryForSavePanel release];
     [I_temporaryDisplayName release];
-    [I_lineEndingString release];
     [I_symbolArray release];
     [I_symbolPopUpMenu release];
     [I_symbolPopUpMenuSorted release];
@@ -2746,8 +2745,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
     }
 
-    if (I_lineEnding !=newLineEnding) {
-        I_lineEnding = newLineEnding;
+    if (I_lineEnding!=newLineEnding) {
+        I_lineEnding =newLineEnding;
         switch(I_lineEnding) {
             case LineEndingLF:
                 I_lineEndingString=@"\n";
