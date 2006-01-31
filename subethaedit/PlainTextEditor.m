@@ -1108,14 +1108,45 @@
     if ((flags & NSControlKeyMask) && 
         !(flags & NSCommandKeyMask) && 
         [[aEvent characters] length]==1) {
-        if ([[aEvent characters] isEqualToString:@"2"] &&
-            [self showsTopStatusBar]) {
+        NSString *characters = [aEvent characters];
+        if ([characters isEqualToString:@"2"] &&
+            [self showsTopStatusBar] &&
+            ![O_symbolPopUpButton isHidden]) {
             [O_symbolPopUpButton performClick:self];
             return;
-        } else if ([[aEvent characters] isEqualToString:@"1"]) {
+        } else if ([characters isEqualToString:@"1"]) {
             
             [NSMenu popUpContextMenu:[[NSApp windowsMenu] bottomPart] withEvent:aEvent forView:[self textView] withFont:[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
             return;
+        } else if ([self showsBottomStatusBar]) {
+                   if ([characters isEqualToString:@"3"]) {
+                [O_modePopUpButton performClick:self];
+                return;
+            } else if ([characters isEqualToString:@"4"]) {
+                [O_tabStatusPopUpButton performClick:self];
+                return;
+            } else if ([characters isEqualToString:@"5"]) {
+                [O_lineEndingPopUpButton performClick:self];
+                return;
+            } else if ([characters isEqualToString:@"6"]) {
+                [O_encodingPopUpButton performClick:self];
+                return;
+            } else if ([characters isEqualToString:@"7"]) {
+                [O_windowWidthTextField performClick:self];
+                return;
+            }
+        } else {
+            static NSSet *s_bottomShortCutSet = nil;
+            if (!s_bottomShortCutSet) {
+                 s_bottomShortCutSet = [[NSSet alloc] initWithObjects:@"3",@"4",@"5",@"6",@"7",nil];
+            }
+            PlainTextEditor *otherEditor=
+                [[(PlainTextWindowController *)[self windowController] plainTextEditors] lastObject];
+            if ([otherEditor showsBottomStatusBar] && 
+                [s_bottomShortCutSet containsObject:characters]) {
+                [otherEditor keyDown:aEvent];
+                return;
+            }
         }
     }
     
