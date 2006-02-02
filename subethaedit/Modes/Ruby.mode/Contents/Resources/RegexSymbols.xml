@@ -43,5 +43,8 @@
         <regex>&lt;!-- !([^-]*) --&gt;</regex>
     </symbol>
 
+    <symbol id="Comment Marks" font-weight="bold" image="Symbol#" indentation="0" ignoreblocks="yes">
+        <regex>^[\t ]*#mark[\t -]*([^\n]*)\n</regex>
+    </symbol>
 
 </symbols>
