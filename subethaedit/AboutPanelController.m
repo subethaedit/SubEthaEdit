@@ -30,10 +30,10 @@
     } else {
         [O_licenseeLabel setHidden:YES];
         int daysLeft = [LicenseController daysLeft];
-        if (daysLeft > 1) {
-            [O_licenseeNameField setObjectValue:[NSString stringWithFormat:NSLocalizedString(@"Trial expires in %d days.", nil), daysLeft]];
-        } else {
+        if (daysLeft < 1) {
             [O_licenseeNameField setObjectValue:NSLocalizedString(@"30-day trial has expired.", nil)];
+        } else {
+            [O_licenseeNameField setObjectValue:[NSString stringWithFormat:NSLocalizedString(@"Trial expires in %d days.", nil), daysLeft]];
         }
         [O_licenseeOrganizationField setObjectValue:@""];
     }
