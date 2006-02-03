@@ -721,7 +721,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
 - (void)drawRect:(NSRect)rect {
     NSDictionary *printDictionary = [I_document printOptions];
 
-    int currentPage=(int)(rect.origin.y/I_pageSize.height)+1;
+    int currentPage=(int)roundf(rect.origin.y/I_pageSize.height)+1;
     BOOL leftPage=(currentPage-1)%2 && [[printDictionary objectForKey:@"SEEFacingPages"] boolValue];
     float originX=leftPage?[[printDictionary objectForKey:NSPrintRightMargin] floatValue]:[[printDictionary objectForKey:NSPrintLeftMargin] floatValue];
     if ([[printDictionary objectForKey:@"SEEPageHeader"] boolValue]) {
