@@ -379,6 +379,9 @@ static AppController *sharedInstance = nil;
         [alert release];
         if (result == NSAlertFirstButtonReturn) {
             [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/purchase/"]];
+            if (isExpired) {
+                [NSApp terminate:self];
+            }
         } else if (result == NSAlertSecondButtonReturn) {
             if (isExpired) {
                 [NSApp terminate:self];
