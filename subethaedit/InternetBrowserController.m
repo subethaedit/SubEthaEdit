@@ -653,7 +653,7 @@ enum {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"alertDidEnd:");
     
     NSDictionary *alertContext = (NSDictionary *)contextInfo;
-    if (returnCode == NSAlertSecondButtonReturn) {
+    if (returnCode == NSAlertFirstButtonReturn) {
         DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"abort connection");
         NSSet *set = [alertContext objectForKey:@"items"];
         NSEnumerator *enumerator = [set objectEnumerator];
@@ -823,8 +823,8 @@ enum {
         [alert setAlertStyle:NSWarningAlertStyle];
         [alert setMessageText:NSLocalizedString(@"OpenChannels", @"Sheet message text when user has open document connections")];
         [alert setInformativeText:NSLocalizedString(@"AbortChannels", @"Sheet informative text when user has open document connections")];
-        [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", @"Button title")];
         [alert addButtonWithTitle:NSLocalizedString(@"Abort", @"Button title")];
+        [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", @"Button title")];
         [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
         [alert beginSheetModalForWindow:[self window]
                           modalDelegate:self 
