@@ -8,11 +8,11 @@
     </blocks>
     
     <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r])\s*class\s+([^\s]*)</regex>
+        <regex>(?&lt;=[\n\r]|^)\s*class\s+([^\s]*)</regex>
     </symbol>
 
     <symbol id="Funtions in Classes" image="SymbolF()" indentation="0" ignoreblocks="yes">
-        <regex>(?&lt;=public|private|protected)\s+(?:\w*\s+)*function\s+([^{\s]*)(?=\s*\{)</regex>
+        <regex>(?&lt;=public|private)\s+(?:\w*\s+)*function\s+([^{]*)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>

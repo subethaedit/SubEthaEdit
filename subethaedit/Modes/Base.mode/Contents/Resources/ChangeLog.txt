@@ -1,3 +1,7 @@
+Changes with Version 1.2
+    
+    *) Enabled system dictionary completion.
+
 Changes with Version 1.1
     
     *) EXTENSIONS: Added uppercase variants where appropriate.

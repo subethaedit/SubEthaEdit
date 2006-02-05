@@ -1,5 +1,7 @@
+Changes with Version 1.3 (SEE 2.3)
 
-    *) SYNTAX: Fixed SEE-470
+    *) SYMBOLS: Fixed SEE-490.
+    *) SYNTAX: Fixed SEE-470 ($"/$' operator confused for string)
 
 Changes with Version 1.2
     
