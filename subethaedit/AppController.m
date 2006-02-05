@@ -378,7 +378,7 @@ static AppController *sharedInstance = nil;
         int result = [alert runModal];
         [alert release];
         if (result == NSAlertFirstButtonReturn) {
-            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/purchase/"]];
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/purchase.html",@"Purchase Link")]];
             if (isExpired) {
                 [NSApp terminate:self];
             }
@@ -555,10 +555,6 @@ static AppController *sharedInstance = nil;
     }
 }
 
-- (IBAction)purchaseSubEthaEdit:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/purchase/"]];
-}
-
 - (IBAction)enterSerialNumber:(id)sender {
     [[LicenseController sharedInstance] showWindow:self];
 }
@@ -639,11 +635,19 @@ static AppController *sharedInstance = nil;
 }
 
 - (IBAction)visitWebsite:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/",@"WebSite Link")]];
 }
 
 - (IBAction)reportBug:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/bugs"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/bugs",@"BugTracker Link")]];
+}
+
+- (IBAction)provideFeedback:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/feedback.html",@"Feedback Link")]];
+}
+
+- (IBAction)purchaseSubEthaEdit:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/purchase.html",@"Purchase Link")]];
 }
 
 - (void)changeFont:(id)aSender {

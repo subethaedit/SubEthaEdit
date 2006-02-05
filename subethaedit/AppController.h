@@ -50,5 +50,6 @@ extern int const WindowMenuTag ;
 - (IBAction)showReleaseNotes:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
 - (IBAction)reportBug:(id)sender;
+- (IBAction)provideFeedback:(id)sender;
 
 @end

@@ -8,6 +8,7 @@
         {
             ACTIONS = {
                 enterSerialNumber = id; 
+                provideFeedback = id; 
                 purchaseSubEthaEdit = id; 
                 redo = id; 
                 reportBug = id; 
