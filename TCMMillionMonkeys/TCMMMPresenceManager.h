@@ -14,7 +14,6 @@ extern NSString * const VisibilityPrefKey;
 
 extern NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification;
-extern NSString * const TCMMMPresenceManagerUserDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification;

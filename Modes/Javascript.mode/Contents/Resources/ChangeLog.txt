@@ -1,3 +1,9 @@
+Changes with Version 1.2 (SEE 2.3)
+
+    *) Symbol recognition for lambda functions as used by e.g. prototype.js
+    *) Single Quote String is treated correctly now
+    *) SYMBOLS: Fixed SEE-490.
+
 Changes with Version 1.1
     
     *) EXTENSIONS: Added uppercase variants where appropriate.

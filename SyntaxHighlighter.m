@@ -96,9 +96,10 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
                         NSRange stateRange;
                         NSRange startRange;
 
-                        // Add start to colorRange
+                        // Add start to colorRange to color keywords within
+                        // But check for starts that contain \n
                         NSRange attRange;
-                        if([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 longestEffectiveRange:&attRange inRange:aRange] isEqualToString:@"Start"]){
+                        if (([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 longestEffectiveRange:&attRange inRange:aRange] isEqualToString:@"Start"])&&(currentRange.location-1>=aRange.location)){
                             startRange = attRange;
                         } else {
                             startRange = NSMakeRange(NSNotFound,0);

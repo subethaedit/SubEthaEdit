@@ -7,10 +7,10 @@
     </symbol>
 
     <symbol id="Conference" font-weight="bold" font-style="normal" indentation="0" ignoreblocks="yes" image="SymbolC">
-        <regex>[\n\r]CONFERENCE:\s*([^\n\r]+)</regex>
+        <regex>(?&lt;=[\n\r]|^)CONFERENCE:\s*([^\n\r]+)</regex>
     </symbol>
     <symbol id="Date" font-weight="normal" font-style="italic" indentation="0" ignoreblocks="yes">
-        <regex>[\n\r]DATE:\s*([^\n\r]+)</regex>
+        <regex>(?&lt;=[\n\r]|^)DATE:\s*([^\n\r]+)</regex>
     </symbol>
 
     <symbol id="SECTIONS" font-weight="bold" font-style="normal" indentation="0" ignoreblocks="yes">
@@ -22,7 +22,7 @@
     </symbol>
 
     <symbol id="Events" font-weight="normal" font-style="italic" indentation="1" ignoreblocks="yes">
-        <regex>[\n\r]\*\*\* ([^\n\r\*]+) \*\*\*[\n\r]</regex>
+        <regex>(?&lt;=[\n\r]|^)\*\*\* ([^\n\r\*]+) \*\*\*[\n\r]</regex>
     </symbol>
 
 </symbols>

@@ -123,7 +123,11 @@
     //int tag = [[self selectedItem] tag];
     //if (tag != 0 && tag != NoStringEncoding) defaultEncoding = tag;
     //[[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry lossyEncodings:[NSArray array]];
+    SEL theAction = [[[self itemArray] lastObject] action];
+    id  target    = [[[self itemArray] lastObject] target];
     [[EncodingManager sharedInstance] setupMenu:self action:action];
+    [[[self itemArray] lastObject] setAction:theAction];
+    [[[self itemArray] lastObject] setTarget:target   ];
 }
 
 - (void)configureWithAction:(SEL)aSelector {
@@ -376,7 +380,11 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         [encodingMatrix setNeedsDisplay:YES];
     }
 
-    if (post) [[NSNotificationCenter defaultCenter] postNotificationName:@"EncodingsListChanged" object:nil];
+    if (post) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"EncodingsListChanged" object:nil];
+        // this is for a flicker free update of the ecodings popup in the bottom status bar
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"AfterEncodingsListChanged" object:nil];
+    }
 }
 
 /* Use this method to get a new accessory view. It reinitializes the popup, selects the specified item, and also includes or deletes the default entry (corresponding to "Automatic")

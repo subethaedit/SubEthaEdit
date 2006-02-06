@@ -11,9 +11,7 @@
 
 #define kKAHL 'KAHL'
 #define kMOD 'MOD '
-
-int abcde();
-@class TCMIdleTimer;
+#define SUBETHAEDIT_DEFAULT_PORT 6942
 
 extern int const FileMenuTag   ;
 extern int const EditMenuTag   ;
@@ -34,12 +32,9 @@ extern int const WindowMenuTag ;
 
 @interface AppController : NSObject {
     BOOL I_lastShouldOpenUntitledFile;
-    TCMIdleTimer *I_idleTimer;
 }
 
 + (AppController *)sharedInstance;
-
-- (BOOL)applicationIsIdling;
 
 - (BOOL)lastShouldOpenUntitledFile;
 
@@ -55,5 +50,6 @@ extern int const WindowMenuTag ;
 - (IBAction)showReleaseNotes:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
 - (IBAction)reportBug:(id)sender;
+- (IBAction)provideFeedback:(id)sender;
 
 @end

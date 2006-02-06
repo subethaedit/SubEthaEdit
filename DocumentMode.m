@@ -218,15 +218,15 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                         forKey:@"SEEWhiteBackground"];
                 [printDictionary setObject:[NSNumber numberWithBool:YES]
                                         forKey:@"SEEHighlightSyntax"];
-                [printDictionary setObject:[NSNumber numberWithBool:YES]
+                [printDictionary setObject:[NSNumber numberWithBool:NO]
                                         forKey:@"SEEColorizeChangeMarks"];
-                [printDictionary setObject:[NSNumber numberWithBool:YES]
+                [printDictionary setObject:[NSNumber numberWithBool:NO]
                                         forKey:@"SEEAnnotateChangeMarks"];
                 [printDictionary setObject:[NSNumber numberWithBool:NO]
                                         forKey:@"SEEColorizeWrittenBy"];
-                [printDictionary setObject:[NSNumber numberWithBool:YES]
+                [printDictionary setObject:[NSNumber numberWithBool:NO]
                                         forKey:@"SEEAnnotateWrittenBy"];
-                [printDictionary setObject:[NSNumber numberWithBool:YES]
+                [printDictionary setObject:[NSNumber numberWithBool:NO]
                                         forKey:@"SEEParticipants"];
                 [printDictionary setObject:[NSNumber numberWithBool:YES]
                                         forKey:@"SEEParticipantImages"];

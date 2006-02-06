@@ -19,49 +19,15 @@
 #import "PlainTextWindowController.h"
 #import "PlainTextEditor.h"
 #import "AppController.h"
+#import "DocumentMode.h"
+#import "SyntaxHighlighter.h"
+#import "SyntaxDefinition.h"
+#import <OgreKit/OgreKit.h>
 
 @implementation TextView
 
 static NSMenu *defaultMenu=nil;
-static NSColor *nonCommercialColor=nil;
 
-#define WATERSIZE 38.
-
-+ (void)initialize {
-    NSRect rect=NSMakeRect(0,0,0,0);
-    NSFont *font=[NSFont fontWithName:@"Helvetica-Bold" size:WATERSIZE];
-    if (!font) {
-        font=[NSFont boldSystemFontOfSize:WATERSIZE];
-    }
-    NSString *text=NSLocalizedString(@"Licensed for non-commercial use",@"");
-    text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if ([text length] < 3) {
-        text = @"non-commercial use only";
-    }
-    NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:[NSColor colorWithCalibratedWhite:.5 alpha:.20],NSForegroundColorAttributeName,font,NSFontAttributeName,nil];
-    rect.size=[text sizeWithAttributes:attributes];
-    float height=rect.size.height;
-    float width=rect.size.width;
-    rect.size.width = (int)(cos(30./180.*M_PI)*width+height*2);
-    rect.size.height= (int)(sin(30./180.*M_PI)*width+height);
-    NSImage *image=[[[NSImage alloc] initWithSize:rect.size] autorelease];
-    [image lockFocus];
-    [[NSColor clearColor] set];
-    [NSBezierPath fillRect:rect];
-    [[NSColor colorWithCalibratedWhite:.5 alpha:.3] set];
-//    NSFrameRect(rect);
-    NSAffineTransform *transform=[NSAffineTransform transform];
-    [transform translateXBy:height yBy:0.];
-    [transform rotateByDegrees:30.];
-    [transform scaleXBy:1. yBy:1.2];
-    [transform concat];
-//    NSFrameRect(rect);
-    [text drawAtPoint:NSMakePoint(0.,0.) withAttributes:attributes];
-    [transform invert];
-    [transform concat];
-    [image unlockFocus];
-    nonCommercialColor=[[NSColor colorWithPatternImage:image] retain];
-}
 
 + (NSMenu *)defaultMenu {
     return defaultMenu;
@@ -216,18 +182,6 @@ static NSColor *nonCommercialColor=nil;
     [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
 }
 
-- (void)drawViewBackgroundInRect:(NSRect)rect {
-    [super drawViewBackgroundInRect:rect];
-    if (!abcde() && [[AppController sharedInstance] applicationIsIdling]) {
-        NSGraphicsContext *context=[NSGraphicsContext currentContext];
-        NSPoint phase=[context patternPhase];
-        [context setPatternPhase:NSMakePoint(phase.x+[[self superview] frame].origin.x,phase.y)];
-        [nonCommercialColor set];
-        [NSBezierPath fillRect:rect];
-        [context setPatternPhase:phase];
-    }
-}
-
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];
     // now paint Cursors if there are any
@@ -341,6 +295,7 @@ static NSColor *nonCommercialColor=nil;
     }
 
     I_flags.shouldCheckCompleteStart=YES;
+    //I_flags.autoCompleteInProgress=YES; // Temporarliy disabled (SEE-874)
     [super complete:sender];
 }
 
@@ -351,7 +306,15 @@ static NSColor *nonCommercialColor=nil;
             if ([[self delegate] respondsToSelector:@selector(textViewWillStartAutocomplete:)]) {
                 [[self delegate] textViewWillStartAutocomplete:self];
             }
+        } else {
+            NSBeep();
+            I_flags.autoCompleteInProgress=NO;
         }
+        
+        if ([result count]<2) {
+            I_flags.autoCompleteInProgress=NO;
+        }
+        
         I_flags.shouldCheckCompleteStart=NO;
     }
     return result;
@@ -372,7 +335,12 @@ static NSColor *nonCommercialColor=nil;
         if ([[self delegate] respondsToSelector:@selector(textView:didFinishAutocompleteByInsertingCompletion:forPartialWordRange:movement:)]) {
             [[self delegate] textView:self didFinishAutocompleteByInsertingCompletion:word forPartialWordRange:charRange movement:movement];
         }
+
+        NSEvent *event=[NSApp currentEvent];
+        if ((([event type]==NSKeyDown || [event type]==NSKeyUp))&&(([event keyCode]==36) || ([event keyCode]==76) || ([event keyCode]==53) || ([event keyCode]==49) || ([event keyCode]==48))) {I_flags.autoCompleteInProgress=NO;}
+
     }
+
 }
 
 - (IBAction)copyStyled:(id)aSender {
@@ -380,33 +348,6 @@ static NSColor *nonCommercialColor=nil;
     [self copy:aSender];
     [self setRichText:NO];
 }
-
-#define WATERMARKINTERVAL 5.
-
-//- (void)trigger {
-//    if ([I_timer isValid]) {
-//        [I_timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:WATERMARKINTERVAL]];
-//    } else {
-//        [I_timer release];
-//        I_timer=[[NSTimer timerWithTimeInterval:WATERMARKINTERVAL
-//                                                target:self
-//                                              selector:@selector(triggerAction:)
-//                                              userInfo:nil repeats:NO] retain];
-//        [[NSRunLoop currentRunLoop] addTimer:I_timer forMode:NSDefaultRunLoopMode]; //(NSString *)kCFRunLoopCommonModes];
-//    }
-//}
-//
-//- (void)triggerAction:(void *)context {
-//    [self setNeedsDisplay:YES];
-//}
-//
-//- (BOOL)resignFirstResponder {
-//    BOOL result=[super resignFirstResponder];
-//    if (result && !abcde()) {
-//        [self trigger];
-//    }
-//    return result;
-//}
 
 #pragma mark -
 #pragma mark ### dragging ###
@@ -536,14 +477,15 @@ static NSColor *nonCommercialColor=nil;
 }
 
 - (void)keyDown:(NSEvent *)aEvent {
-    static NSCharacterSet *passThroughCharacterSet=nil;
-    if (passThroughCharacterSet==nil) {
-        passThroughCharacterSet=[[NSCharacterSet characterSetWithCharactersInString:@"123"] retain];
+
+    static NSCharacterSet *s_passThroughCharacterSet=nil;
+    if (s_passThroughCharacterSet==nil) {
+        s_passThroughCharacterSet=[[NSCharacterSet characterSetWithCharactersInString:@"1234567"] retain];
     }
     int flags=[aEvent modifierFlags];
     if ((flags & NSControlKeyMask) && !(flags & NSCommandKeyMask) && 
         [[aEvent characters] length]==1 &&
-        [passThroughCharacterSet characterIsMember:[[aEvent characters] characterAtIndex:0]]) {
+        [s_passThroughCharacterSet characterIsMember:[[aEvent characters] characterAtIndex:0]]) {
         id nextResponder=[self nextResponder];
         while (nextResponder) {
             if ([nextResponder isKindOfClass:[PlainTextEditor class]] &&
@@ -557,16 +499,35 @@ static NSColor *nonCommercialColor=nil;
     }
         
     [super keyDown:aEvent];
+        
+    if (I_flags.autoCompleteInProgress) {
+        if ([self selectedRange].location>1) {
+            if ([aEvent keyCode]==51){
+                [self setSelectedRange: NSMakeRange([self selectedRange].location-1,[self selectedRange].length+1)];
+            }
+            [self complete:self];
+        } else I_flags.autoCompleteInProgress=NO;
+    }
+
 }
 
 - (NSRange)rangeForUserCompletion {
     NSRange result=[super rangeForUserCompletion];
-    NSRange colonRange;
     NSString *string=[[self textStorage] string];
-    while (((colonRange = [string rangeOfString:@":" options:NSLiteralSearch range:result]).location != NSNotFound)) {
-        result = NSMakeRange(NSMaxRange(colonRange),NSMaxRange(result)-NSMaxRange(colonRange));
+    NSCharacterSet *tokenSet = [[[[[[[self window] windowController] document] documentMode] syntaxHighlighter] syntaxDefinition] autoCompleteTokenSet];
+
+    if (tokenSet) {
+        result = [self selectedRange]; // Start with a fresh range
+        while (YES) {
+            if (result.location==0) break;
+            NSString *aCharacter = [string substringWithRange:NSMakeRange(result.location-1,1)];
+            if ([aCharacter rangeOfCharacterFromSet:tokenSet].location!=NSNotFound) {
+                result = NSMakeRange(result.location-1,result.length+1);           
+            } else break;
+        }
     }
-    // NSLog(@"rangeForUserCompletion: %@",NSStringFromRange(result));
+    
+    //NSLog(@"rangeForUserCompletion: %@",NSStringFromRange(result));
     return result;
 }
 

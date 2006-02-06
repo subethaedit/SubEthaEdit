@@ -10,7 +10,6 @@
 #import <WebKit/WebKit.h>
 
 
-
 extern int const kWebPreviewRefreshAutomatic;
 extern int const kWebPreviewRefreshOnSave   ;
 extern int const kWebPreviewRefreshManually ;

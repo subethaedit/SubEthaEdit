@@ -505,6 +505,7 @@
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)aRow {
+    BOOL darkBackground = ![[aTableColumn identifier]isEqualToString:@"light"];
     BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
     NSString *key=[[I_currentSyntaxStyle allKeys] objectAtIndex:aRow];
     NSDictionary *style=[(useDefault && aRow==0)?([[DocumentModeManager baseMode] syntaxStyle]):I_currentSyntaxStyle styleForKey:key];
@@ -530,11 +531,11 @@
     }
     float strokeWidth=.0;
     if (synthesise && (traits & NSBoldFontMask) && !([fontManager traitsOfFont:font] & NSBoldFontMask)) {
-        strokeWidth=-3.;
+        strokeWidth=darkBackground?-9.:-3.;
     }
     
     NSDictionary *attributes=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
-        [[aTableColumn identifier]isEqualToString:@"light"]?[style objectForKey:@"color"]:[style objectForKey:@"inverted-color"],NSForegroundColorAttributeName,
+        darkBackground?[style objectForKey:@"inverted-color"]:[style objectForKey:@"color"],NSForegroundColorAttributeName,
         s_paragraphStyle,NSParagraphStyleAttributeName,
         [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
         [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,

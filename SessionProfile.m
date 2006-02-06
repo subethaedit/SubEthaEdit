@@ -7,7 +7,7 @@
 //
 
 #import "SessionProfile.h"
-#import <TCMFoundation/TCMBencodingUtilities.h>
+#import "TCMBencodingUtilities.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "UserChangeOperation.h"
@@ -70,6 +70,12 @@
                             aSessionID, @"SessionID",
                             nil];
     [data appendData:TCM_BencodedObject(dict)]; 
+    [[self channel] sendMSGMessageWithPayload:data];
+}
+
+- (void)sendUserDidChangeNotification:(TCMMMUser *)aUser {
+    NSMutableData *data=[NSMutableData dataWithBytes:"USRCHG" length:6];
+    [data appendData:[aUser notificationBencoded]];
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
@@ -299,6 +305,15 @@
                 }
             }
             [I_MMState handleMessage:message];
+        } else if (strncmp(type, "USRCHG",6)==0) {
+            TCMMMUser *user=[TCMMMUser userWithBencodedNotification:[[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]];
+            if (user) {
+                if ([[TCMMMUserManager sharedInstance] sender:self shouldRequestUser:user]) {
+                    [self sendUserRequest:[user notification]];
+                }
+            } else {
+                [[self session] terminate];
+            }
         }
         
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];

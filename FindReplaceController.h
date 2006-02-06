@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
+#import "SelectionOperation.h"
 
 typedef enum {
     TCMFindPanelActionFindAll = 1001,
@@ -16,6 +17,10 @@ typedef enum {
 
 @interface NSString (NSStringTextFinding)
 - (NSRange)findString:(NSString *)string selectedRange:(NSRange)selectedRange options:(unsigned)options wrap:(BOOL)wrap;
+@end
+
+@interface NSWindow (AppleInternalKeyViewLoopRedirection)
+- (void)_setKeyViewRedirectionDisabled:(BOOL)aBool;
 @end
 
 @interface FindReplaceController : NSObject {
@@ -69,6 +74,7 @@ typedef enum {
     int I_replaceAllReplaced;
     int I_replaceAllArrayIndex;
     unsigned I_replaceAllOptions;
+    SelectionOperation *I_replaceAllSelectionOperation;
 }
 + (FindReplaceController *)sharedInstance;
 

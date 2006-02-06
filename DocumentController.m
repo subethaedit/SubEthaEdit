@@ -566,6 +566,10 @@ static NSString *tempFileName() {
 - (void)openSelection:(NSPasteboard *)pboard userData:(NSString *)data error:(NSString **)error {
     PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
     [[[[document plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
+    // Workaround for when only RTF is on the drag pasteboard (e.g. when dragging text from safari on the SubEthaEditApplicationIcon)
+    NSTextStorage *ts = [document textStorage];
+    [ts removeAttribute:NSBackgroundColorAttributeName range:NSMakeRange(0,[ts length])];
+    [ts removeAttribute:NSLinkAttributeName range:NSMakeRange(0,[ts length])];
     [document clearChangeMarks:self];
 }
 
@@ -632,6 +636,10 @@ struct ModificationInfo
             [document setIsAnnounced:NO];
         }
     }
+}
+
+- (IBAction)closeAllDocuments:(id)sender {
+    [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
 }
 
 @end

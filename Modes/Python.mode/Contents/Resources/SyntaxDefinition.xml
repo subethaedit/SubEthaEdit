@@ -317,6 +317,11 @@
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
 
+        <state id="String with triple single quotes" color="#760f15">
+            <begin><regex>'''</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'''</regex></end>
+        </state>
+
         <state id="Backticks" color="#760f15">
             <begin><regex>`</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>

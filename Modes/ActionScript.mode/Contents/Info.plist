@@ -11,11 +11,11 @@
 http://www.codingmonkeys.de,
 Thanks to ash (http://www.actionscripthero.com)</string>
     <key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.2</string>
 	<key>CFBundleVersion</key>
-	<string>1.1</string>
+	<string>1.2</string>
     <key>CFBundleGetInfoString</key>
-	<string>1.1, Copyright TheCodingMonkeys 2004</string>
+	<string>1.2, Copyright TheCodingMonkeys 2004</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>

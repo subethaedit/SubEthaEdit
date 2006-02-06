@@ -7,7 +7,7 @@
 //
 
 #import <AddressBook/AddressBook.h>
-#import <TCMBEEP/TCMBEEP.h>
+#import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "AppController.h"
@@ -16,8 +16,7 @@
 #import "InternetBrowserController.h"
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
-#import "SetupController.h"
-#import "TCMIdleTimer.h"
+#import "LicenseController.h"
 
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
@@ -64,12 +63,6 @@ int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
 
-static int s_isRegistered=NO;
-
-int abcde() {
-    return s_isRegistered;
-}
-
 
 NSString * const DefaultPortNumber = @"port";
 NSString * const AddressHistory = @"AddressHistory";
@@ -98,7 +91,8 @@ static AppController *sharedInstance = nil;
 + (void)initialize {
     [NSURLProtocol registerClass:[URLDataProtocol class]];
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-    [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
+    [defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
+    [defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
     [defaults setObject:[NSMutableArray array] forKey:AddressHistory];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
     [defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
@@ -107,6 +101,10 @@ static AppController *sharedInstance = nil;
 #ifdef TCM_NO_DEBUG
 	[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
 #endif
+    // fix of SEE-883 - only an issue on tiger...
+    if (floor(NSAppKitVersionNumber) == 824.) {
+        [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"NSUseInsertionPointCache"];
+    } 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
@@ -356,9 +354,42 @@ static AppController *sharedInstance = nil;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
 
-    if ([SetupController shouldRun]) {
-        SetupController *setupController = [SetupController sharedInstance];
-        (int)[NSApp runModalForWindow:[setupController window]];
+    if ([LicenseController shouldRun]) {
+        int daysLeft = [LicenseController daysLeft];
+        BOOL isExpired = daysLeft < 1;
+
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSInformationalAlertStyle];
+        if (isExpired) {
+            [alert setMessageText:NSLocalizedString(@"Please purchase SubEthaEdit today!", nil)];
+            [alert setInformativeText:NSLocalizedString(@"Your 30-day SubEthaEdit trial has expired. If you want to continue to use SubEthaEdit please purchase it and enter your serial number.", nil)];
+        } else {
+            [alert setMessageText:NSLocalizedString(@"Try SubEthaEdit!", nil)];
+            [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Your SubEthaEdit trial expires in %d days. If you like SubEthaEdit please purchase it.", nil), daysLeft]];        
+        }
+        [alert addButtonWithTitle:NSLocalizedString(@"Purchase", nil)];
+        if (isExpired) {
+            [alert addButtonWithTitle:NSLocalizedString(@"Quit", nil)];
+        } else {
+            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+        }
+        [alert addButtonWithTitle:NSLocalizedString(@"Enter Serial Number", nil)];
+
+        int result = [alert runModal];
+        [alert release];
+        if (result == NSAlertFirstButtonReturn) {
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/purchase.html",@"Purchase Link")]];
+            if (isExpired) {
+                [NSApp terminate:self];
+            }
+        } else if (result == NSAlertSecondButtonReturn) {
+            if (isExpired) {
+                [NSApp terminate:self];
+            }
+        } else if (result == NSAlertThirdButtonReturn) {
+            LicenseController *licenseController = [LicenseController sharedInstance];
+            (int)[NSApp runModalForWindow:[licenseController window]];
+        }
     }
     
     // set up beep profiles
@@ -371,17 +402,6 @@ static AppController *sharedInstance = nil;
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 
     [InternetBrowserController sharedInstance];
-
-
-    I_idleTimer=[[TCMIdleTimer alloc] initWithBeginInterval:120. repeatInterval:100000000.];
-    [I_idleTimer setDelegate:self];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-    NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
-    if (name && [serial isValidSerial]) {
-        s_isRegistered=YES;
-    }
-
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -393,12 +413,6 @@ static AppController *sharedInstance = nil;
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    BOOL isSetupDone = ([defaults objectForKey:SetupVersionPrefKey] != nil);
-    if (!isSetupDone) {
-        I_lastShouldOpenUntitledFile = NO;
-        return NO;
-    }
     BOOL result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
     I_lastShouldOpenUntitledFile = result;
     return result;
@@ -407,43 +421,6 @@ static AppController *sharedInstance = nil;
 - (BOOL)lastShouldOpenUntitledFile {
     return I_lastShouldOpenUntitledFile;
 }
-
-- (BOOL)applicationIsIdling {
-    return [I_idleTimer isIdling];
-}
-
-- (void)setNeedsDisplayOnTextViews {
-    NSEnumerator *documents=[[[DocumentController sharedInstance] documents] objectEnumerator];
-    PlainTextDocument *document=nil;
-    while ((document=[documents nextObject])) {
-        NSEnumerator *editors=[[document plainTextEditors] objectEnumerator];
-        PlainTextEditor *editor=nil;
-        while ((editor=[editors nextObject])) {
-            [[editor textView] setNeedsDisplay:YES];
-        }
-    }
-}
-
-- (void)idleTimerDidFire:(id)aSender {
-    // make all textviews draw their background if not registered
-    if (!abcde()) {
-        [self setNeedsDisplayOnTextViews];
-    }
-}
-
-- (void)applicationDidBecomeActive:(NSNotification *)aNotification {
-    if (!abcde()) {
-        [self setNeedsDisplayOnTextViews];
-    }
-}
-
-- (void)idleTimerDidStop:(id)aSender {
-    // make all textviews draw their background if not registered
-    if (!abcde() && [NSApp isActive]) {
-        [self setNeedsDisplayOnTextViews];
-    }
-}
-
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {
     static NSMenu *dockMenu=nil;
@@ -578,12 +555,8 @@ static AppController *sharedInstance = nil;
     }
 }
 
-- (IBAction)purchaseSubEthaEdit:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/purchase/"]];
-}
-
 - (IBAction)enterSerialNumber:(id)sender {
-    [[SetupController sharedInstance] showWindow:self];
+    [[LicenseController sharedInstance] showWindow:self];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -604,21 +577,6 @@ static AppController *sharedInstance = nil;
         } else {
             NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
             return [undoManager canRedo];
-        }
-    } else if (selector==@selector(purchaseSubEthaEdit:)) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
-        if (name && [serial isValidSerial]) {
-            s_isRegistered=YES;
-            return NO;
-        }
-    } else if (selector==@selector(enterSerialNumber:)) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *serial = [defaults stringForKey:SerialNumberPrefKey];
-        NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
-        if (name && [serial isValidSerial]) {
-            return NO;
         }
     }
 
@@ -677,11 +635,19 @@ static AppController *sharedInstance = nil;
 }
 
 - (IBAction)visitWebsite:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/subethaedit/"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/",@"WebSite Link")]];
 }
 
 - (IBAction)reportBug:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.codingmonkeys.de/bugs/"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/bugs",@"BugTracker Link")]];
+}
+
+- (IBAction)provideFeedback:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/feedback.html",@"Feedback Link")]];
+}
+
+- (IBAction)purchaseSubEthaEdit:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/purchase.html",@"Purchase Link")]];
 }
 
 - (void)changeFont:(id)aSender {

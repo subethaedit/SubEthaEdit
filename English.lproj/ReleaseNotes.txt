@@ -1,0 +1,253 @@
+
+SubEthaEdit 2.3
+===============
+
+Additions/New Features:
+- New built-in Mode for .diff files and patches.
+- Added "Close All" and "Save All" commands to the File menu.
+- User Interface refresh.
+- Quick access to Mode, Tabbing, Line Ending, File Encodings and Wrapping via 
+  popup menus in the Bottom Status Bar as well as shortcuts (Ctrl-4 through 
+  Ctrl-7).
+- Position Field: Center current selection on single click, double click opens 
+  goto line panel.
+- Window Zoom Button: Shift-click now goes to fullscreen again, normal click 
+  still keeps the width.
+- Saving an associated CSS files now updates a HTML file's web preview.
+- The number of files listed in the "Open Recent" submenu is now customizable.
+
+Changes:
+- Autocomplete can now complete natural language words. Enabled in Default and 
+  Conference Mode.
+- Replace all now preserves selection in both scopes.
+- Adjusted synthesised bold fonts for dark backgrounds (synthesised bold fonts 
+  actually looked thinner).
+- More sophisticated checks on mode loading to help mode authors.
+- Collaboration metadata is disabled by default in the print preferences.
+- Document URLs now refer to the Bonjour name if a local IP is detected or a 
+  public IP if available.
+- Disabled autocomplete in Find/Replace window.
+- Hide Changes and Show Changes in the view menu are now a checkmark item.
+
+Fixes:
+- Vastly improved speed of autocompletion.
+- Disabling Syntax Highlighting in "Export as HTML" now works again.
+- Fixed an issue where documents joined over network where hidden by the dock.
+- Fixed a bug which printed white on white text in certain cases.
+- Fixed issues with FileVault accounts.
+- Fixed a bug where the Internet Browser showed the wrong status while 
+  connecting.
+- Inherited attributes of a mode weren't updated on "Apply to Open Documents".
+- Fixed a bug which didn't displayed the last line number if this line was 
+  empty.
+- Drag and dropping from Safari onto the SubEthaEdit icon does not retain 
+  background color and links anymore.
+- Fixed an issue where changes to the editing preferences were not correctly 
+  applied to open documents.
+- Unicode promotion dialog is not shown while composing characters.
+- Fixed an issue where user attribute changes did not propagate and redraw 
+  correctly while networking.
+- Fixed an issue where Internet and Bonjour browser didn't reflect a change of 
+  name.
+- Fixed a bug on Tiger where tabbing in the Find/Replace panel was broken when 
+  regular expression were activated.
+- Multiple path components are shown correctly in the window title.
+- Hard links are preserved upon saving.
+- Fixed a crash which occurred while converting line endings to PSEP or LSEP.
+- Fixed an issue where bordereless paper formats would result in an empty 
+  header when printing.
+- Autocompletion delimiters can now be specified within a mode file.
+- Improved the following modes by various means: ActionScript, C++, C, CSS, 
+  Conference, HTML, Javascript, Lua, Objective-C, PHP-HTML, Pascal, Perl, 
+  Python, Ruby.
+- "End blockedit selection" is validated correctly in Edit menu.
+
+SubEthaEdit 2.2
+===============
+
+Additions/New Features:
+- Universal Binary - SubEthaEdit now runs on Intel Macs natively.
+- Dragging text on app icon creates new document with dragged text.
+- Extensions of untitled documents are guessed by using their mode.
+- "Find All" results can now be used to navigate in the document.
+- Selected lines can now be copied from a "Find All" window.
+
+Changes:
+- Added more classes and constants to Objective-C.mode.
+- Improved PHP function recognition and added all PHP5 keywords.
+- Added autocompletion of Core-API, Std-Lib and rubyonrails classes and methods 
+  to the Ruby mode
+- Invitation windows are placed more prominently.
+
+Fixes:
+- Fixed a selection display/redraw bug that happened when collaborating on 
+  Tiger.
+- Fixed an issue where joined documents didn't get the input focus after the 
+  transfer has been completed.
+- Improved keyboard navigation in "Find All".
+- Fixed a bug in the syntax highlighter, where colors where not updated 
+  correctly while typing, but did appear correctly after reloading the file.
+- Fixed an issue where the context menu and action popup in the participants 
+  drawer weren't validated correctly.
+- Windows for new documents are no longer created under the dock.
+- Fixed a bug where files created with "File->New->Mode" weren't resized 
+  correctly, fixed the same issue when opening new files via see tool.
+- Fixed a bug where the see tool didn't set the correct modes when given 
+  multiple files.
+- Fixed the "Wrap/Wrap lines" functionality to retain its setting.
+- Fixed maximize button of document windows to behave according to HIG.
+- Fixed word boundaries for autocomplete and selection to include colon (which 
+  they didn't on Tiger).
+- Fixed an issue where a document wasn't joined automatically though it was 
+  addressed in a see:// URL.
+- Fixed mode guessing upon first save to work if initial save is canceled.
+- XHTML export and "Copy as XHTML" now export quotes as entities.
+- see tool now conforms to the mode's encoding preference.
+- see tool --mode parameter mode matching is case insensitive.
+- Improved speed of "Show Invisibles" significantly.
+- Fixed a bug in Perl.mode concerning POD comments.
+
+SubEthaEdit 2.1.2
+===============
+
+Additions/New Features:
+- Added Conference Kit.
+- Added alternate menu item for 'Switch Mode' called 'Show In Finder', which 
+  reveals the choosen mode in the Finder.
+- Added change logs to the mode bundles.
+- Added submenu to 'New', new files now can be created in a specific mode.
+
+Fixes:
+- Fixed several issues where bad Address Book entries caused crashes or 
+  exceptions at startup.
+- Improved overall protocol stability.
+- Fixed an issue where empty mode bundles caused an exception at startup, 
+  rendering SubEthaEdit unusable.
+- Fixed a bug in 'Save a Copy As...' where the selected encoding was not used 
+  to save the copy.
+- Fixed a bug where externally changed documents weren't set modified after 
+  choosing to keep the SubEthaEdit version.
+- Fixed an issue where the mode of documents created using see's pipe-in was 
+  not guessed on save.
+- Fixed a bug where the mode of documents created using the see tool was 
+  guessed again on save.
+- Fixed a bug where documents which can be opened via the Help menu were opened 
+  more than once.
+- Fixed a bug where the scope of a 'Find All' operation wasn't respected.
+- Fixed a bug where the matching brackets were only highlighted when moving the 
+  cursor using the arrow keys.
+- Fixed a bug where the 'Shift Left' command produced a crash when the editor 
+  used tabs and activated indenting new lines.
+- Fixed a bug where HTML Export didn't export style and weight if current font 
+  was synthesized.
+- Fixed an issue where the activiation of syntax highlighting in the print 
+  options also activated it in the editor.
+- Fixed various issues which occurred while using autocompletion in Blockedit 
+  mode.
+
+SubEthaEdit 2.1.1
+===============
+
+Changes:
+- Changed export dialog to disable according checkboxes, if "Participants" is 
+  not selected.
+
+Fixes:
+- Fixed a security issue where a user could receive permanent authorization for 
+  privileged SubEthaEdit operations after successfully aquiring authorization 
+  as an administrator in SubEthaEdit.
+- Printing panel now displays localized separators for margins.
+- Python mode now recognizes abbreviated class declarations.
+
+SubEthaEdit 2.1
+===============
+
+Additions/New Features:
+- Added preference pane for customizing the syntax highlighting style for 
+  modes. Syntax styles can also be imported and exported.
+- Documents can be exported to HTML files including collaboration metadata.
+- Documents can be printed with page headers, line numbers, highlighted syntax 
+  and collaboration annotations.
+- A selection of text can now be copied to the clipboard as XHTML.
+- A selection of text can now be copied to the clipboard while preserving font 
+  styles.
+- Added see command line tool for opening files in SubEthaEdit via the command 
+  line.
+- C++ mode adds .cc file extension to its list of supported extensions.
+- Added option to open and save panels for looking into bundles.
+- Added highlighting support for entities in XML and related modes.
+- Documents can be opened and saved using administrator permissions.
+- Non-commercial licensed copies embed watermarks into documents after 2 
+  minutes of inactivity. They will disappear when SubEthaEdit is reactivated.
+- Added entab and detab feature for text.
+- Changes to the editing preferences can now be applied explicitly to open 
+  documents.
+- Added release notes document to the application.
+- AppleScript: Added encoding, mode, access control, announced status and URL 
+  properties to the text document class.
+- Added advanced preferences for screen fonts and for synthesising bold and 
+  italic font variants.
+- Added menu command and keyboard shortcut for blockedit.
+- Added several missing enums and constants to the Objective-C mode.
+- Added French and Korean localizations.
+
+Changes:
+- Moved font preferences to the new Style preference pane.
+- Used consistently the term "Highlight Syntax" instead of "Colorize Syntax".
+- "Copy Document URL" command now works only on announced documents.
+- Visibility setting is now sticky.
+- SubEthaEdit no longer listens for incoming connections when internet 
+  connections were prohibited and the status has been set to invisible.
+- Autocompletion now takes all open documents using the same mode into account.
+- AppleScript: Removed the attachments and size properties of the text class.
+- System encoding is used when a file can't be read using the specified 
+  encoding.
+- Display preferences for status bars are now sticky per mode.
+- Removed "#" image for pragma marks in Objective-C mode and for comment lines 
+  in PHP mode.
+- Removed out-of-date Dutch localization.
+- Updated OrgeKit.
+
+Fixes:
+- Fixed a bug where the mode of a document was reseted to its original value 
+  during a revert of the document.
+- Fixed a bug where the window width display in the bottom status bar wasn't 
+  correctly updated after a font change.
+- Fixed bug in Perl mode where an array counter was recognized as a comment.
+- Fixed a bug where a document lost its location after a revert.
+- Fixed a bug where a new document was opened when SubEthaEdit was launched via 
+  Xcode.
+- Fixed a bug where the setup consumed 100% CPU.
+- Fixed a bug where the user's initial colors weren't determined randomly.
+- Fixed a bug where an external application (e.g. FTP clients) invoking 
+  SubEthaEdit wasn't notified when SubEthaEdit was quitted.
+- Fixed several issues regarding highlighting of regular expressions in Perl 
+  mode.
+- Fixed several bugs where the location of a document couldn't be determined 
+  while trying to save it.
+- Fixed a bug where the status of a connection wasn't displayed correctly in 
+  the internet browser.
+- Fixed a bug where delayed web preview didn't work in modes without symbols.
+- Fixed a bug which could cause a crash when SubEthaEdit shared a document.
+- Fixed a bug which could cause a crash when the web preview was closed.
+- Fixed a bug where the web preview window title wasn't in sync with the 
+  corresponding document window title.
+- Fixed a bug which could prevent further display of changes when matching 
+  brackets where highlighted while blockediting.
+- Fixed "ID" symbol image in the symbol popup menu by adding transparency to 
+  the image.
+- Fixed a bug in LaTeX mode where highlighting failed when there were "{" or 
+  "}" characters in the argument of a command.
+- Fixed a bug which could result in inserting different sized tabs when using 
+  tabs while blockediting.
+- Fixed a bug where shift left or shift right didn't work correctly when tabs 
+  were activated
+- Fixed a bug where toolbar item labels where not displayed correctly.
+- Fixed a bug in Lua mode where symbols appared twice.
+- Fixed highlighting of variables in PHP mode.
+- Fixed a bug where participants seemed to have lost their connections but were 
+  still listed as participants.
+- Fixed a bug in LaTeX mode which could result in wrong highlighting of escaped 
+  comments.
+- Fixed a bug in Perl mode which could break syntax highlighting in regexp 
+  quote-like operators.

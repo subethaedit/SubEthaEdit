@@ -4,7 +4,8 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
-    #import <TCMFoundation/TCMFoundation.h>
+    #import "TCMFoundation.h"
+    #import "TCMBEEP.h"
     #import "NSColorTCMAdditions.h"
     #import "NSImageTCMAdditions.h"
     #import "NSStringSEEAdditions.h"

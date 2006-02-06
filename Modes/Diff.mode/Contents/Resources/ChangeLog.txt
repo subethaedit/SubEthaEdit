@@ -1,0 +1,3 @@
+Changes with Version 1.0 (SEE 2.3)
+    
+    *) made it look nice for "svn diff"

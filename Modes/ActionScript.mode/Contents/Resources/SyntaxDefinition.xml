@@ -1728,7 +1728,7 @@
         </default>
         
         <state id="JavadocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
-            <begin><regex>/\*\*[\n\r]</regex></begin>
+            <begin><regex>/\*\*(?=[\n\r])</regex></begin>
             <end><regex>\*/</regex></end>
         </state>
 
@@ -1742,9 +1742,14 @@
             <end><regex>[\n\r]</regex></end>
         </state>
         
-        <state id="String" color="#727272" background-color="none" font-weight="normal" font-style="normal">
+        <state id="Double Quoted String" color="#727272" background-color="none" font-weight="normal" font-style="normal">
             <begin><regex>"</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+        </state>
+        
+        <state id="Single Quoted String" color="#727272" background-color="none" font-weight="normal" font-style="normal">
+            <begin><regex>'</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
     </states>
 

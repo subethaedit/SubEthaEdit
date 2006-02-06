@@ -54,6 +54,10 @@
 }
 
 - (IBAction)applyToOpenDocuments:(id)aSender {
+    // make sure changes are saved first
+    [O_viewController commitEditing];
+    [O_editController commitEditing];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:DocumentModeApplyEditPreferencesNotification object:[O_modeController content]];
 }
 

@@ -12,6 +12,7 @@
     BOOL I_isDragTarget;
     struct {
         BOOL shouldCheckCompleteStart;
+        BOOL autoCompleteInProgress;
     } I_flags;
     NSTimer *I_timer;
 }

@@ -7,6 +7,7 @@
 //
 
 #import <Carbon/Carbon.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
@@ -39,7 +40,9 @@
 #import "MoreSecurity.h"
 #import "MoreCFQ.h"
 #import <fcntl.h>
+#import <sys/param.h>
 #import <sys/stat.h>
+#import <string.h>
 
 
 #pragma options align=mac68k
@@ -96,6 +99,8 @@ NSString * const PlainTextDocumentDidChangeTextStorageNotification =
                @"PlainTextDocumentDidChangeTextStorageNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification =
                @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
+NSString * const PlainTextDocumentDidSaveNotification =
+               @"PlainTextDocumentDidSaveNotification";
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
@@ -276,7 +281,10 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)applyStylePreferences:(NSNotification *)aNotification {
     DocumentMode *mode=[self documentMode];
-    if ([[aNotification object] isEqual:mode]) {
+    if ([[aNotification object] isEqual:mode] || 
+        ([[aNotification object] isBaseMode] && 
+         ([[mode defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue] ||
+          [[mode defaultForKey:DocumentModeUseDefaultFontPreferenceKey]  boolValue]))) {
         [self applyStylePreferences];
     }
 }
@@ -844,7 +852,6 @@ static NSString *tempFileName(NSString *origPath) {
     [I_jobDescription release];
     [I_directoryForSavePanel release];
     [I_temporaryDisplayName release];
-    [I_lineEndingString release];
     [I_symbolArray release];
     [I_symbolPopUpMenu release];
     [I_symbolPopUpMenuSorted release];
@@ -1472,11 +1479,18 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)exportPanelDidEnd:(NSSavePanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
     if (aReturnCode==NSOKButton) {
         NSDictionary *htmlOptions=[[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey] objectForKey:DocumentModeExportHTMLPreferenceKey];
+        TextStorage *textStorage = (TextStorage *)I_textStorage;
         
         if ([[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
             SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
             if (highlighter)
-                while (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:self]);
+                while (![highlighter colorizeDirtyRanges:textStorage ofDocument:self]);
+        } else {
+            textStorage = [[TextStorage new] autorelease];
+            [textStorage setAttributedString:I_textStorage];
+            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:textStorage];
+            [textStorage  addAttributes:[self plainTextAttributes]
+                                  range:NSMakeRange(0,[textStorage length])];
         }
 
         BOOL shouldSaveImages=[[htmlOptions objectForKey:DocumentModeHTMLExportShowUserImagesPreferenceKey] boolValue];
@@ -1605,7 +1619,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         
         // modify TextStorage
         NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
-        NSMutableAttributedString *attributedStringForXHTML=[(TextStorage *)[self textStorage] attributedStringForXHTMLExportWithRange:wholeRange foregroundColor:[self documentForegroundColor] backgroundColor:[self documentBackgroundColor]];
+        NSMutableAttributedString *attributedStringForXHTML=[(TextStorage *)textStorage attributedStringForXHTMLExportWithRange:wholeRange foregroundColor:[self documentForegroundColor] backgroundColor:[self documentBackgroundColor]];
         
         unsigned index=0;
         do {
@@ -1692,7 +1706,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 }
             }
             [legend appendString:@"</table>\n"];
-        }    
+        }  
+          
         // Prepare Content    
         NSMutableString *content=[NSMutableString string];
         NSUserDefaults *standardUserDefaults=[NSUserDefaults standardUserDefaults];
@@ -2278,6 +2293,76 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
         
+        
+    // ---
+    
+    if (err == noErr) {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:fullDocumentPath traverseLink:YES];
+        unsigned long fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
+        if (fileReferenceCount > 1) {
+        
+            if (err == noErr) {
+                request = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    @"GetFileDescriptor", @"CommandName",
+                                    fullDocumentPath, @"FileName",
+                                    nil];
+            }
+
+            if (err == noErr) {
+                err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+            }
+            
+            if (err == noErr) {
+                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"response: %@", response);
+
+                err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+                if (err == noErr) {
+                    NSArray *descArray;
+                    int descIndex;
+                    int descCount;
+                    
+                    descArray = [response objectForKey:(NSString *)kMoreSecFileDescriptorsKey];
+                    descCount = [descArray count];
+                    for (descIndex = 0; descIndex < descCount; descIndex++) {
+                        NSNumber *thisDescNum;
+                        int thisDesc;
+                        
+                        thisDescNum = [descArray objectAtIndex:descIndex];
+                        thisDesc = [thisDescNum intValue];
+                        fcntl(thisDesc, F_GETFD, 0);
+                        
+                        NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
+                        NSData *data = [self dataRepresentationOfType:docType];
+                        @try {
+                            [fileHandle writeData:data];
+                        }
+                        @catch (id exception) {
+                            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
+                            err = writErr;
+                        }
+                        [fileHandle release];
+                    }
+                }
+            }
+            
+            if (response) {
+                [response release];
+                response = nil;
+            }
+
+
+            CFQRelease(tool);
+            if (auth != NULL) {
+                (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+            }
+            
+            return ((err == noErr) ? YES : NO);
+        }
+    }
+              
+    // ---
+        
     // Create the request dictionary for a file descriptor
 
     if (err == noErr) {
@@ -2389,62 +2474,86 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeWithBackupToFile:");
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
-        BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
-        if (isDirWritable && isFileDeletable) {
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
-            [alert setMessageText:NSLocalizedString(@"Save", nil)];
-            [alert setInformativeText:NSLocalizedString(@"SaveDialogInformativeText: Save or Replace", @"Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file")];
-            [alert addButtonWithTitle:NSLocalizedString(@"Save", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Replace", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-            int returnCode = [alert runModal];
-            [[alert window] orderOut:self];
+        NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:fullDocumentPath traverseLink:YES];
+        unsigned long fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
+        BOOL isFileWritable = [fileManager isWritableFileAtPath:fullDocumentPath];
+        if (fileReferenceCount > 1 && isFileWritable) {            
+            char cFullDocumentPath[MAXPATHLEN+1];
+            if ([(NSString *)fullDocumentPath getFileSystemRepresentation:cFullDocumentPath maxLength:MAXPATHLEN]) {
+                int fd = open(cFullDocumentPath, O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
+                if (fd) {
+                    NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
+                    NSData *data = [self dataRepresentationOfType:docType];
+                    @try {
+                        [fileHandle writeData:data];
+                        hasBeenWritten = YES;
+                    }
+                    @catch (id exception) {
+                        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"writeData throws exception: %@", exception);
+                    }
+                    [fileHandle release];
+                }
+            }
+        }
+        
+        if (!hasBeenWritten) {
+            BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
+            BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
+            if (isDirWritable && isFileDeletable) {
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setMessageText:NSLocalizedString(@"Save", nil)];
+                [alert setInformativeText:NSLocalizedString(@"SaveDialogInformativeText: Save or Replace", @"Informative text in a save dialog, because of permissions issues the user has the choice to save using administrator permissions or replace the file")];
+                [alert addButtonWithTitle:NSLocalizedString(@"Save", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Replace", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                int returnCode = [alert runModal];
+                [[alert window] orderOut:self];
 
-            if (returnCode == NSAlertFirstButtonReturn) {
-                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-                hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
-            } else if (returnCode == NSAlertSecondButtonReturn) {
-                NSFileManager *fileManager = [NSFileManager defaultManager];
-                NSString *tempFilePath = tempFileName(fullDocumentPath);
-                hasBeenWritten = [self writeToFile:tempFilePath ofType:docType];
-                if (hasBeenWritten) {
-                    BOOL result = [fileManager removeFileAtPath:fullDocumentPath handler:nil];
-                    if (result) {
-                        hasBeenWritten = [fileManager movePath:tempFilePath toPath:fullDocumentPath handler:nil];
-                        if (hasBeenWritten) {
-                            NSDictionary *fattrs = [self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
-                            (void)[fileManager changeFileAttributes:fattrs atPath:fullDocumentPath];
+                if (returnCode == NSAlertFirstButtonReturn) {
+                    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
+                    hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
+                } else if (returnCode == NSAlertSecondButtonReturn) {
+                    NSFileManager *fileManager = [NSFileManager defaultManager];
+                    NSString *tempFilePath = tempFileName(fullDocumentPath);
+                    hasBeenWritten = [self writeToFile:tempFilePath ofType:docType];
+                    if (hasBeenWritten) {
+                        BOOL result = [fileManager removeFileAtPath:fullDocumentPath handler:nil];
+                        if (result) {
+                            hasBeenWritten = [fileManager movePath:tempFilePath toPath:fullDocumentPath handler:nil];
+                            if (hasBeenWritten) {
+                                NSDictionary *fattrs = [self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
+                                (void)[fileManager changeFileAttributes:fattrs atPath:fullDocumentPath];
+                            } else {
+                                NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+                                [newAlert setAlertStyle:NSWarningAlertStyle];
+                                [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
+                                [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")];
+                                [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+                                [newAlert beginSheetModalForWindow:[self windowForSheet]
+                                                     modalDelegate:nil
+                                                    didEndSelector:nil
+                                                       contextInfo:NULL];
+                            }
                         } else {
+                            (void)[fileManager removeFileAtPath:tempFilePath handler:nil];
                             NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
                             [newAlert setAlertStyle:NSWarningAlertStyle];
                             [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
-                            [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")];
+                            [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
                             [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
                             [newAlert beginSheetModalForWindow:[self windowForSheet]
                                                  modalDelegate:nil
                                                 didEndSelector:nil
                                                    contextInfo:NULL];
-                        }
-                    } else {
-                        (void)[fileManager removeFileAtPath:tempFilePath handler:nil];
-                        NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                        [newAlert setAlertStyle:NSWarningAlertStyle];
-                        [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
-                        [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
-                        [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                        [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                             modalDelegate:nil
-                                            didEndSelector:nil
-                                               contextInfo:NULL];
 
+                        }
                     }
                 }
+            } else {
+                DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
+                hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
             }
-        } else {
-            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-            hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
         }
      }
 
@@ -2468,6 +2577,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fullDocumentPath traverseLink:YES];
         [self setFileAttributes:fattrs];
         [self setIsFileWritable:[[NSFileManager defaultManager] isWritableFileAtPath:fullDocumentPath]];
+    }
+
+    if (hasBeenWritten) {
+        [[NSNotificationQueue defaultQueue]
+        enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidSaveNotification object:self]
+               postingStyle:NSPostWhenIdle
+               coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
+                   forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
     }
 
     return hasBeenWritten;
@@ -2628,8 +2745,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
     }
 
-    if (I_lineEnding !=newLineEnding) {
-        I_lineEnding = newLineEnding;
+    if (I_lineEnding!=newLineEnding) {
+        I_lineEnding =newLineEnding;
         switch(I_lineEnding) {
             case LineEndingLF:
                 I_lineEndingString=@"\n";
@@ -2781,7 +2898,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         float strokeWidth=.0;
         if (synthesise && (traits & NSBoldFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSBoldFontMask)) {
-            strokeWidth=-3.;
+            strokeWidth=darkBackground?-9.:-3.;
         }
         NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
         result=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
@@ -2971,28 +3088,52 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSMutableString *address = [[[NSMutableString alloc] init] autorelease];
     [address appendFormat:@"%@:", @"see"];
 
+    NSString *hostAddress = nil;
     NSHost *currentHost = [NSHost currentHost];
-    NSString *hostname = nil;
-    if ([[currentHost name] isEqualToString:@"localhost"]) {
-    	NSEnumerator *enumerator = [[currentHost names] objectEnumerator];
-    	while ((hostname = [enumerator nextObject])) {
-            if (![hostname isEqualToString:@"localhost"]) {
-                    break;
-            }
-    	}
-    } else {
-    	hostname = [currentHost name];
+    NSEnumerator *enumerator = [[currentHost addresses] objectEnumerator];
+    while ((hostAddress = [enumerator nextObject])) {
+        if ([hostAddress hasPrefix:@"::1"] ||
+            [hostAddress hasPrefix:@"fe80"] ||
+            [hostAddress hasPrefix:@"127.0.0.1"] ||
+            [hostAddress hasPrefix:@"10."] ||
+            [hostAddress hasPrefix:@"192.168."] ||
+            [hostAddress hasPrefix:@"169.254."] ||
+            [hostAddress hasPrefix:@"172.16."] ||
+            [hostAddress hasPrefix:@"172.17."] ||
+            [hostAddress hasPrefix:@"172.18."] ||
+            [hostAddress hasPrefix:@"172.19."] ||
+            [hostAddress hasPrefix:@"172.20."] ||
+            [hostAddress hasPrefix:@"172.21."] ||
+            [hostAddress hasPrefix:@"172.22."] ||
+            [hostAddress hasPrefix:@"172.23."] ||
+            [hostAddress hasPrefix:@"172.24."] ||
+            [hostAddress hasPrefix:@"172.25."] ||
+            [hostAddress hasPrefix:@"172.26."] ||
+            [hostAddress hasPrefix:@"172.27."] ||
+            [hostAddress hasPrefix:@"172.28."] ||
+            [hostAddress hasPrefix:@"172.29."] ||
+            [hostAddress hasPrefix:@"172.30."] ||
+            [hostAddress hasPrefix:@"172.31."]) {
+            
+            hostAddress = nil;
+        } else {
+            break;
+        }
+    }
+    
+    if (hostAddress == nil) {
+        CFStringRef localHostName = SCDynamicStoreCopyLocalHostName(NULL);
+        hostAddress = [NSString stringWithFormat:@"%@.local", (NSString *)localHostName];
+        CFRelease(localHostName);
     }
 
-    if (hostname == nil) {
-    	hostname = @"localhost";
-    }
-
-    [address appendFormat:@"//%@", hostname];
+    [address appendFormat:@"//%@", hostAddress];
 
     int port = [[TCMMMBEEPSessionManager sharedInstance] listeningPort];
-    [address appendFormat:@":%d", port];
-
+    if (port != SUBETHAEDIT_DEFAULT_PORT) {
+        [address appendFormat:@":%d", port];
+    }
+    
     NSString *title = [[self fileName] lastPathComponent];
     if (title == nil) {
         title = [self displayName];
@@ -3037,11 +3178,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSMutableString *result = [NSMutableString string];
         int i = count;
         int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-        for (i = count-1; i >= 0 && i > count-pathComponentsToShow-1; i--) {
+        for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
             if (i != count-1) {
                 [result insertString:@"/" atIndex:0];
             }
             [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
+        }
+        if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
+            [result insertString:@"/" atIndex:0];
         }
         return result;
     } else {
@@ -3195,6 +3339,17 @@ static NSString *S_measurementUnits;
 
 - (int)wrapMode {
     return I_flags.wrapMode;
+}
+
+- (IBAction)toggleWrapMode:(id)aSender {
+  if (!(I_flags.wrapLines)) {
+    [self setWrapMode:DocumentModeWrapModeWords];
+    [self setWrapLines:YES];
+  } else if (I_flags.wrapMode==DocumentModeWrapModeWords) {
+    [self setWrapMode:DocumentModeWrapModeCharacters];
+  } else {
+    [self setWrapLines:NO];
+  }
 }
 
 - (void)setWrapMode:(int)newMode {
@@ -3357,10 +3512,17 @@ static NSString *S_measurementUnits;
                                          modalDelegate:nil
                                         didEndSelector:nil
                                            contextInfo:NULL];
+                    // didn't work so update bottom status bar to previous state
+                    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
                 } else {
                     [self setFileEncoding:encoding];
                     [self updateChangeCount:NSChangeDone];
                 }
+            }
+
+            if (returnCode == NSAlertSecondButtonReturn) {
+              // canceled so update bottom status bar to previous state
+              [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
             }
 
             if (returnCode == NSAlertThirdButtonReturn) {
@@ -3378,6 +3540,8 @@ static NSString *S_measurementUnits;
                                          modalDelegate:nil
                                         didEndSelector:nil
                                            contextInfo:NULL];
+                    // didn't work so update bottom status bar to previous state
+                    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
                 } else {
                     BOOL isEdited = [self isDocumentEdited];
                     [I_textStorage beginEditing];
@@ -3403,12 +3567,14 @@ static NSString *S_measurementUnits;
         if (returnCode == NSAlertThirdButtonReturn) {
             [self setFileEncoding:NSUnicodeStringEncoding];
             NSTextView *textView = [alertContext objectForKey:@"TextView"];
-            [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+            NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
+            if (replacementString) [textView insertText:replacementString];
             [[self documentUndoManager] removeAllActions];
         } else if (returnCode == NSAlertSecondButtonReturn) {
             [self setFileEncoding:NSUTF8StringEncoding];
             NSTextView *textView = [alertContext objectForKey:@"TextView"];
-            [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+            NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
+            if (replacementString) [textView insertText:replacementString];
             [[self documentUndoManager] removeAllActions];
         }
 

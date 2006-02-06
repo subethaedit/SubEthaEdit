@@ -2,7 +2,7 @@ This document explains the syntax of SubEthaEdit's underlying regular expression
 
 --------------------------------------------------------------------------------
 
-Oniguruma Regular Expressions Version 3.5.0    2004/12/20
+Oniguruma Regular Expressions Version 3.6.0    2005/02/01
 
 syntax: ONIG_SYNTAX_RUBY (default)
 
@@ -115,8 +115,10 @@ syntax: ONIG_SYNTAX_RUBY (default)
   \A      beginning of string
   \Z      end of string, or before newline at the end
   \z      end of string
-  \G      matching start position
-          Ruby: previous end-of-match position
+  \G      matching start position (*)
+
+          * Ruby Regexp:
+                 previous end-of-match position
                 (This specification is not related to this library.)
 
 

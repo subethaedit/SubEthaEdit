@@ -1,0 +1,488 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		14A5A08D07FC4AC70026D2C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D69BFE84028FC02AAC07 /* Foundation.framework */; };
+		14A5A42807FC4DF40026D2C9 /* NSDictionaryTCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 14A5A42407FC4DF40026D2C9 /* NSDictionaryTCMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14A5A42907FC4DF40026D2C9 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A5A42507FC4DF40026D2C9 /* NSDictionaryTCMAdditions.m */; };
+		14A5A42A07FC4DF40026D2C9 /* NSStringTCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 14A5A42607FC4DF40026D2C9 /* NSStringTCMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14A5A42B07FC4DF40026D2C9 /* NSStringTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A5A42707FC4DF40026D2C9 /* NSStringTCMAdditions.m */; };
+		14A5A44507FC4F410026D2C9 /* TCMFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 14A5A44407FC4F410026D2C9 /* TCMFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E2286FB07FD7DAD00413653 /* TCMDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2286FA07FD7DAD00413653 /* TCMDebug.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E5E7BC507FFCACC00A279A8 /* NSDataTCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E5E7BC307FFCACC00A279A8 /* NSDataTCMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E5E7BC607FFCACC00A279A8 /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5E7BC407FFCACC00A279A8 /* NSDataTCMAdditions.m */; };
+		5E70956C08073E5A001FC259 /* NSRangeTCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E70956B08073E5A001FC259 /* NSRangeTCMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E70957008073F0D001FC259 /* CFTreeTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70956E08073F0D001FC259 /* CFTreeTCMAdditions.m */; };
+		5E70957108073F0D001FC259 /* CFTreeTCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E70956F08073F0D001FC259 /* CFTreeTCMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E7095A308074016001FC259 /* NSCalendarDateTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7095A108074016001FC259 /* NSCalendarDateTCMAdditions.m */; };
+		5E7095A408074016001FC259 /* NSCalendarDateTCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7095A208074016001FC259 /* NSCalendarDateTCMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E7095BF080741D9001FC259 /* NSNetServiceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7095BB080741D9001FC259 /* NSNetServiceTCMAdditions.m */; };
+		5E7095C0080741D9001FC259 /* NSNetServiceTCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7095BC080741D9001FC259 /* NSNetServiceTCMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E79232B07FF0529003C5571 /* TCMRendezvousBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E79232907FF0529003C5571 /* TCMRendezvousBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E79232C07FF0529003C5571 /* TCMRendezvousBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E79232A07FF0529003C5571 /* TCMRendezvousBrowser.m */; };
+		5EA7F98907FED757002EE153 /* TCMBencodingUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA7F98707FED757002EE153 /* TCMBencodingUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5EA7F98A07FED757002EE153 /* TCMBencodingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA7F98807FED757002EE153 /* TCMBencodingUtilities.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		014CEA440018CDF011CA2923 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PREBINDING = NO;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		014CEA450018CDF011CA2923 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PREBINDING = NO;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXFileReference section */
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		14A5A42407FC4DF40026D2C9 /* NSDictionaryTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSDictionaryTCMAdditions.h; sourceTree = "<group>"; };
+		14A5A42507FC4DF40026D2C9 /* NSDictionaryTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSDictionaryTCMAdditions.m; sourceTree = "<group>"; };
+		14A5A42607FC4DF40026D2C9 /* NSStringTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSStringTCMAdditions.h; sourceTree = "<group>"; };
+		14A5A42707FC4DF40026D2C9 /* NSStringTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSStringTCMAdditions.m; sourceTree = "<group>"; };
+		14A5A44407FC4F410026D2C9 /* TCMFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMFoundation.h; sourceTree = "<group>"; };
+		32DBCF5E0370ADEE00C91783 /* TCMFoundation_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMFoundation_Prefix.pch; sourceTree = "<group>"; };
+		5E2286FA07FD7DAD00413653 /* TCMDebug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMDebug.h; sourceTree = "<group>"; };
+		5E5E7BC307FFCACC00A279A8 /* NSDataTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSDataTCMAdditions.h; sourceTree = "<group>"; };
+		5E5E7BC407FFCACC00A279A8 /* NSDataTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSDataTCMAdditions.m; sourceTree = "<group>"; };
+		5E70956B08073E5A001FC259 /* NSRangeTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSRangeTCMAdditions.h; sourceTree = "<group>"; };
+		5E70956E08073F0D001FC259 /* CFTreeTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CFTreeTCMAdditions.m; sourceTree = "<group>"; };
+		5E70956F08073F0D001FC259 /* CFTreeTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CFTreeTCMAdditions.h; sourceTree = "<group>"; };
+		5E7095A108074016001FC259 /* NSCalendarDateTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSCalendarDateTCMAdditions.m; sourceTree = "<group>"; };
+		5E7095A208074016001FC259 /* NSCalendarDateTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSCalendarDateTCMAdditions.h; sourceTree = "<group>"; };
+		5E7095BB080741D9001FC259 /* NSNetServiceTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSNetServiceTCMAdditions.m; sourceTree = "<group>"; };
+		5E7095BC080741D9001FC259 /* NSNetServiceTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSNetServiceTCMAdditions.h; sourceTree = "<group>"; };
+		5E79232907FF0529003C5571 /* TCMRendezvousBrowser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMRendezvousBrowser.h; sourceTree = "<group>"; };
+		5E79232A07FF0529003C5571 /* TCMRendezvousBrowser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMRendezvousBrowser.m; sourceTree = "<group>"; };
+		5EA7F98707FED757002EE153 /* TCMBencodingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMBencodingUtilities.h; sourceTree = "<group>"; };
+		5EA7F98807FED757002EE153 /* TCMBencodingUtilities.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMBencodingUtilities.m; sourceTree = "<group>"; };
+		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8DC2EF5B0486A6940098B216 /* TCMFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TCMFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14A5A08D07FC4AC70026D2C9 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* TCMFoundation.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* TCMFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				5E2286F607FD7D1800413653 /* Standalone Headers */,
+				14A5A40A07FC4D5D0026D2C9 /* Categories */,
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				5EA7F98607FED73A002EE153 /* Functions */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = TCMFoundation;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5A0486A6940098B216 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5E79232907FF0529003C5571 /* TCMRendezvousBrowser.h */,
+				5E79232A07FF0529003C5571 /* TCMRendezvousBrowser.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		14A5A40A07FC4D5D0026D2C9 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				5E7095A208074016001FC259 /* NSCalendarDateTCMAdditions.h */,
+				5E7095A108074016001FC259 /* NSCalendarDateTCMAdditions.m */,
+				5E5E7BC307FFCACC00A279A8 /* NSDataTCMAdditions.h */,
+				5E5E7BC407FFCACC00A279A8 /* NSDataTCMAdditions.m */,
+				14A5A42407FC4DF40026D2C9 /* NSDictionaryTCMAdditions.h */,
+				14A5A42507FC4DF40026D2C9 /* NSDictionaryTCMAdditions.m */,
+				5E7095BC080741D9001FC259 /* NSNetServiceTCMAdditions.h */,
+				5E7095BB080741D9001FC259 /* NSNetServiceTCMAdditions.m */,
+				14A5A42607FC4DF40026D2C9 /* NSStringTCMAdditions.h */,
+				14A5A42707FC4DF40026D2C9 /* NSStringTCMAdditions.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				14A5A44407FC4F410026D2C9 /* TCMFoundation.h */,
+				32DBCF5E0370ADEE00C91783 /* TCMFoundation_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		5E2286F607FD7D1800413653 /* Standalone Headers */ = {
+			isa = PBXGroup;
+			children = (
+				5E2286FA07FD7DAD00413653 /* TCMDebug.h */,
+			);
+			name = "Standalone Headers";
+			sourceTree = "<group>";
+		};
+		5EA7F98607FED73A002EE153 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				5E70956F08073F0D001FC259 /* CFTreeTCMAdditions.h */,
+				5E70956E08073F0D001FC259 /* CFTreeTCMAdditions.m */,
+				5E70956B08073E5A001FC259 /* NSRangeTCMAdditions.h */,
+				5EA7F98707FED757002EE153 /* TCMBencodingUtilities.h */,
+				5EA7F98807FED757002EE153 /* TCMBencodingUtilities.m */,
+			);
+			name = Functions;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14A5A42807FC4DF40026D2C9 /* NSDictionaryTCMAdditions.h in Headers */,
+				14A5A42A07FC4DF40026D2C9 /* NSStringTCMAdditions.h in Headers */,
+				14A5A44507FC4F410026D2C9 /* TCMFoundation.h in Headers */,
+				5E2286FB07FD7DAD00413653 /* TCMDebug.h in Headers */,
+				5EA7F98907FED757002EE153 /* TCMBencodingUtilities.h in Headers */,
+				5E79232B07FF0529003C5571 /* TCMRendezvousBrowser.h in Headers */,
+				5E5E7BC507FFCACC00A279A8 /* NSDataTCMAdditions.h in Headers */,
+				5E70956C08073E5A001FC259 /* NSRangeTCMAdditions.h in Headers */,
+				5E70957108073F0D001FC259 /* CFTreeTCMAdditions.h in Headers */,
+				5E7095A408074016001FC259 /* NSCalendarDateTCMAdditions.h in Headers */,
+				5E7095C0080741D9001FC259 /* NSNetServiceTCMAdditions.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* TCMFoundation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14435FE108557A7000593BE6 /* Build configuration list for PBXNativeTarget "TCMFoundation" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				1492E5E6081501FB00B7E1C5 /* Run Script (Versioning) */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMFoundation_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMFoundation;
+				WRAPPER_EXTENSION = framework;
+			};
+			dependencies = (
+			);
+			name = TCMFoundation;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = TCMFoundation;
+			productReference = 8DC2EF5B0486A6940098B216 /* TCMFoundation.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 14435FE508557A7000593BE6 /* Build configuration list for PBXProject "TCMFoundation" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA440018CDF011CA2923 /* Development */,
+				014CEA450018CDF011CA2923 /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* TCMFoundation */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			targets = (
+				8DC2EF4F0486A6940098B216 /* TCMFoundation */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1492E5E6081501FB00B7E1C5 /* Run Script (Versioning) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script (Versioning)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "REV=`/usr/local/bin/svn info -R \"$SRCROOT\" | awk '/^Last Changed Rev/ {print $4}' | sort -n | tail -n 1`\nMODIFIED=`/usr/local/bin/svn st -q \"$SRCROOT\" | awk '/^M/ {print $1}' | uniq`\n\necho \"Setting Revision $REV$MODIFIED\"\n\n/usr/bin/perl -spi -e \"s/BUILD_NUMBER_PLACEHOLDER/$REV$MODIFIED/g\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14A5A42907FC4DF40026D2C9 /* NSDictionaryTCMAdditions.m in Sources */,
+				14A5A42B07FC4DF40026D2C9 /* NSStringTCMAdditions.m in Sources */,
+				5EA7F98A07FED757002EE153 /* TCMBencodingUtilities.m in Sources */,
+				5E79232C07FF0529003C5571 /* TCMRendezvousBrowser.m in Sources */,
+				5E5E7BC607FFCACC00A279A8 /* NSDataTCMAdditions.m in Sources */,
+				5E70957008073F0D001FC259 /* CFTreeTCMAdditions.m in Sources */,
+				5E7095A308074016001FC259 /* NSCalendarDateTCMAdditions.m in Sources */,
+				5E7095BF080741D9001FC259 /* NSNetServiceTCMAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		14435FE208557A7000593BE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMFoundation_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMFoundation;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		14435FE308557A7000593BE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMFoundation_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				OTHER_CFLAGS = "-DTCM_NO_DEBUG";
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMFoundation;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		14435FE408557A7000593BE6 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMFoundation_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMFoundation;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Default;
+		};
+		14435FE608557A7000593BE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		14435FE708557A7000593BE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+		14435FE808557A7000593BE6 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+		5E0D23970882E31F0075D14A /* Release Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TCMFoundation_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				OTHER_CFLAGS = "-DTCM_NO_DEBUG";
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMFoundation;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = "Release Unstripped";
+		};
+		5E0D23980882E31F0075D14A /* Release Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				UNSTRIPPED_PRODUCT = YES;
+			};
+			name = "Release Unstripped";
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		14435FE108557A7000593BE6 /* Build configuration list for PBXNativeTarget "TCMFoundation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14435FE208557A7000593BE6 /* Debug */,
+				14435FE308557A7000593BE6 /* Release */,
+				5E0D23970882E31F0075D14A /* Release Unstripped */,
+				14435FE408557A7000593BE6 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		14435FE508557A7000593BE6 /* Build configuration list for PBXProject "TCMFoundation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14435FE608557A7000593BE6 /* Debug */,
+				14435FE708557A7000593BE6 /* Release */,
+				5E0D23980882E31F0075D14A /* Release Unstripped */,
+				14435FE808557A7000593BE6 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

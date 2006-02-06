@@ -7,9 +7,14 @@
 //
 
 #import "AdvancedPreferences.h"
-#import "SetupController.h"
 #import "DocumentController.h"
 #import "GeneralPreferences.h"
+
+#import "MoreUNIX.h"
+#import "MoreSecurity.h"
+#import "MoreCFQ.h"
+
+#import <sys/stat.h>
 
 @implementation AdvancedPreferences
 
@@ -45,11 +50,236 @@
     }
 }
 
+#pragma mark -
+
+- (BOOL)installCommandLineTool {
+    OSStatus err;
+    CFURLRef tool = NULL;
+    AuthorizationRef auth = NULL;
+    NSDictionary *request = nil;
+    NSDictionary *response = nil;
+    BOOL result = NO;
+
+
+    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+    if (err == noErr) {
+        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                                   | kAuthorizationFlagInteractionAllowed
+                                                   | kAuthorizationFlagExtendRights
+                                                   | kAuthorizationFlagPreAuthorize;
+        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+        AuthorizationRights rights = { 1, &right };
+
+        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+    }
+    
+    if (err == noErr) {
+        err = MoreSecCopyHelperToolURLAndCheckBundled(
+            CFBundleGetMainBundle(), 
+            CFSTR("SubEthaEditHelperToolTemplate"), 
+            kApplicationSupportFolderType, 
+            CFSTR("SubEthaEdit"), 
+            CFSTR("SubEthaEditHelperTool"), 
+            &tool);
+
+        // If the home directory is on an volume that doesn't support 
+        // setuid root helper tools, ask the user whether they want to use 
+        // a temporary tool.
+        
+        if (err == kMoreSecFolderInappropriateErr) {
+            err = MoreSecCopyHelperToolURLAndCheckBundled(
+                CFBundleGetMainBundle(), 
+                CFSTR("SubEthaEditHelperToolTemplate"), 
+                kTemporaryFolderType, 
+                CFSTR("SubEthaEdit"), 
+                CFSTR("SubEthaEditHelperTool"), 
+                &tool);
+        }
+    }
+    
+    // Create the request dictionary for a file descriptor
+                                    
+    if (err == noErr) {
+        NSString *pathForSeeTool = [[NSBundle mainBundle] pathForAuxiliaryExecutable:@"see"];
+        NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH)];
+        NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        filePermissions, NSFilePosixPermissions,
+                                        @"root", NSFileOwnerAccountName,
+                                        @"wheel", NSFileGroupOwnerAccountName,
+                                        nil];
+                                        
+        request = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"CopyFiles", @"CommandName",
+                            pathForSeeTool, @"SourceFile",
+                            SEE_TOOL_PATH, @"TargetFile",
+                            targetAttrs, @"TargetAttributes",
+                            nil];
+    }
+
+    // Go go gadget helper tool!
+
+    if (err == noErr) {
+        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+    }
+    
+    // Extract information from the response.
+
+    if (err == noErr) {
+        //NSLog(@"response: %@", response);
+
+        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+        if (err == noErr) {
+        }
+    }
+    
+    // Clean up after first call of helper tool
+        
+    if (response) {
+        [response release];
+        response = nil;
+    }
+
+    // Create the request dictionary for exchanging file contents
+                                    
+    if (err == noErr) {
+        NSString *pathForSeeManpage = [[NSBundle mainBundle] pathForResource:@"see.1" ofType:nil];
+        NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)];
+        NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        filePermissions, NSFilePosixPermissions,
+                                        @"root", NSFileOwnerAccountName,
+                                        @"wheel", NSFileGroupOwnerAccountName,
+                                        nil];
+                                        
+        request = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"CopyFiles", @"CommandName",
+                            pathForSeeManpage, @"SourceFile",
+                            SEE_MANPAGE_PATH, @"TargetFile",
+                            targetAttrs, @"TargetAttributes",
+                            nil];
+    }
+
+    // Go go gadget helper tool!
+
+    if (err == noErr) {
+        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+    }
+    
+    // Extract information from the response.
+    
+    if (err == noErr) {
+        //NSLog(@"response: %@", response);
+
+        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+        if (err == noErr) {
+            result = YES;
+        }
+    }
+    
+    // Clean up after second call of helper tool.
+    if (response) {
+        [response release];
+    }
+
+
+    CFQRelease(tool);
+    if (auth != NULL) {
+        (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+    }
+    
+    return result;
+}
+
+- (BOOL)removeCommandLineTool {
+    OSStatus err;
+    CFURLRef tool = NULL;
+    AuthorizationRef auth = NULL;
+    NSDictionary *request = nil;
+    NSDictionary *response = nil;
+    BOOL result = NO;
+
+
+    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+    if (err == noErr) {
+        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                                   | kAuthorizationFlagInteractionAllowed
+                                                   | kAuthorizationFlagExtendRights
+                                                   | kAuthorizationFlagPreAuthorize;
+        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+        AuthorizationRights rights = { 1, &right };
+
+        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+    }
+    
+    if (err == noErr) {
+        err = MoreSecCopyHelperToolURLAndCheckBundled(
+            CFBundleGetMainBundle(), 
+            CFSTR("SubEthaEditHelperToolTemplate"), 
+            kApplicationSupportFolderType, 
+            CFSTR("SubEthaEdit"), 
+            CFSTR("SubEthaEditHelperTool"), 
+            &tool);
+
+        // If the home directory is on an volume that doesn't support 
+        // setuid root helper tools, ask the user whether they want to use 
+        // a temporary tool.
+        
+        if (err == kMoreSecFolderInappropriateErr) {
+            err = MoreSecCopyHelperToolURLAndCheckBundled(
+                CFBundleGetMainBundle(), 
+                CFSTR("SubEthaEditHelperToolTemplate"), 
+                kTemporaryFolderType, 
+                CFSTR("SubEthaEdit"), 
+                CFSTR("SubEthaEditHelperTool"), 
+                &tool);
+        }
+    }
+    
+    // Create the request dictionary for a file descriptor
+
+    if (err == noErr) {
+        NSArray *files = [NSArray arrayWithObjects:SEE_TOOL_PATH, SEE_MANPAGE_PATH, nil];
+        request = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"RemoveFiles", @"CommandName",
+                            files, @"Files",
+                            nil];
+    }
+
+    // Go go gadget helper tool!
+
+    if (err == noErr) {
+        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+    }
+    
+    // Extract information from the response.
+
+    if (err == noErr) {
+        //NSLog(@"response: %@", response);
+
+        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+        if (err == noErr) {
+            result = YES;
+        }
+    }
+            
+    if (response) {
+        [response release];
+        response = nil;
+    }
+        
+    CFQRelease(tool);
+    if (auth != NULL) {
+        (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+    }
+    
+    return result;
+}
 
 #pragma mark -
 
 - (IBAction)commandLineToolInstall:(id)sender {
-    BOOL success = [SetupController installCommandLineTool];
+    BOOL success = [self installCommandLineTool];
     if (success) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setAlertStyle:NSInformationalAlertStyle];
@@ -70,7 +300,7 @@
 }
 
 - (IBAction)commandLineToolRemove:(id)sender {
-    BOOL success = [SetupController removeCommandLineTool];
+    BOOL success = [self removeCommandLineTool];
     if (success) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setAlertStyle:NSInformationalAlertStyle];
@@ -101,6 +331,5 @@
     // trigger update
     [[[DocumentController sharedInstance] documents] makeObjectsPerformSelector:@selector(applyStylePreferences)];
 }
-
 
 @end

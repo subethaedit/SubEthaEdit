@@ -913,6 +913,7 @@ enum {
 
 - (void)participantsDidChange:(NSNotification *)aNotifcation {
     [O_participantsView reloadData];
+    [self refreshDisplay];
 }
 
 - (void)pendingUsersDidChange:(NSNotification *)aNotifcation {
@@ -945,13 +946,15 @@ enum {
         NSMutableString *result = [NSMutableString string];
         int i = count;
         int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-        for (i = count-1; i >= 0 && i > count-pathComponentsToShow-1; i--) {
+        for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
             if (i != count-1) {
                 [result insertString:@"/" atIndex:0];
             }
             [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
         }
-        
+        if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
+            [result insertString:@"/" atIndex:0];
+        }
         displayName = result;
     } else {
         if (session && ![session isServer]) {
@@ -1329,11 +1332,17 @@ enum {
 #pragma mark ### window delegation  ###
 
 - (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
-    NSRect windowFrame=[[self window] frame];
-    defaultFrame.size.width=windowFrame.size.width;
-    defaultFrame.origin.x=windowFrame.origin.x;
+    if (!([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)) {
+        NSRect windowFrame=[[self window] frame];
+        I_flags.zoomFix_defaultFrameHadEqualWidth = (defaultFrame.size.width==windowFrame.size.width);
+        defaultFrame.size.width=windowFrame.size.width;
+        defaultFrame.origin.x=windowFrame.origin.x;
+    }
     return defaultFrame;
 }
 
+- (BOOL)windowShouldZoom:(NSWindow *)sender toFrame:(NSRect)newFrame {
+  return [sender frame].size.width == newFrame.size.width || ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) || I_flags.zoomFix_defaultFrameHadEqualWidth;
+}
 
 @end

@@ -8,7 +8,7 @@
 
 #import "SyntaxDefinition.h"
 #import "NSColorTCMAdditions.h"
-#import <TCMFoundation/TCMFoundation.h>
+#import "TCMFoundation.h"
 
 
 @implementation SyntaxDefinition
@@ -172,7 +172,25 @@
                         break;
                     }
                 }
-            } 
+            } else if ([@"charsincompletion" isEqualToString:tag]) {
+                int childCount = CFTreeGetChildCount(xmlTree);
+                int childIndex = 0;
+                for (childIndex = 0; childIndex < childCount; childIndex++) {
+                    CFXMLNodeRef node = CFXMLTreeGetNode(CFTreeGetChildAtIndex(xmlTree, childIndex));
+                    if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeCDATASection) {
+                        NSString *content = (NSString *)CFXMLNodeGetString(node);
+                        NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:content];
+                        [self setAutoCompleteTokenSet:set];
+                        break;
+                    }
+                }
+            } else if ([@"autocompleteoptions" isEqualToString:tag]) {
+                CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
+                NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
+                I_useSpellingDictionary = [[attributes objectForKey:@"use-spelling-dictionary"] isEqualTo:@"yes"];
+            } else {
+                I_useSpellingDictionary = NO;
+            }
         }
     }
 }
@@ -518,9 +536,20 @@
     return I_tokenSet;
 }
 
+- (NSCharacterSet *)autoCompleteTokenSet
+{
+    return I_autoCompleteTokenSet;
+}
+
 - (NSCharacterSet *)invertedTokenSet
 {
     return I_invertedTokenSet;
+}
+
+- (void)setAutoCompleteTokenSet:(NSCharacterSet *)aCharacterSet
+{
+    [I_autoCompleteTokenSet autorelease];
+     I_autoCompleteTokenSet = [aCharacterSet copy];
 }
 
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet
@@ -529,6 +558,7 @@
      I_tokenSet = [aCharacterSet copy];
      I_invertedTokenSet = [[aCharacterSet invertedSet] copy];
 }
+
 
 - (NSString *)styleForToken:(NSString *)aToken inState:(int)aState 
 {
@@ -560,6 +590,21 @@
         NSString *beginString;
         if ((beginString = [aDictionary objectForKey:@"BeginsWithRegexString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found regex string state start:%@",beginString);
+            // Warn if begin contains group
+            OGRegularExpression *testForGroups = [[OGRegularExpression alloc] initWithString:beginString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
+
+            if ([testForGroups numberOfGroups]>0) {
+                NSLog(@"ERROR: Captured group in <begin>:%@",[aDictionary description]);
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setMessageText:NSLocalizedString(@"XML Group Error",@"XML Group Error Title")];
+                [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The <begin> tag of <state> \"%@\" contains a regex that has captured groups. This is currently not allowed. Please escape all groups to be not-captured with (?:).",@"Syntax XML Group Error Informative Text"),[aDictionary objectForKey:@"id"]]];
+                [alert addButtonWithTitle:@"OK"];
+                [alert runModal];
+                everythingOkay = NO;
+            }
+            
+            [testForGroups release];
         } else if ((beginString = [aDictionary objectForKey:@"BeginsWithPlainString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found plain string state start:%@",beginString);
         } else {
@@ -613,6 +658,10 @@
 
 - (SyntaxStyle *)defaultSyntaxStyle {
     return I_defaultSyntaxStyle;
+}
+
+- (BOOL)useSpellingDictionary {
+    return I_useSpellingDictionary;
 }
 
 

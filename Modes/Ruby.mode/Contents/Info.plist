@@ -26,10 +26,12 @@ Based on the original Coding Monkey's code</string>
 	   <string>ruby</string>
 	   <string>rbx</string>
 	   <string>rhtml</string>
+	   <string>rxml</string>
 	   <string>RB</string>
 	   <string>RUBY</string>
 	   <string>RBX</string>
 	   <string>RHTML</string>
+	   <string>RXML</string>
 	</array>
 </dict>
 </plist>

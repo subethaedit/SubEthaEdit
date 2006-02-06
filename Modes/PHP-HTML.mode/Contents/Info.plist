@@ -2,33 +2,35 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleIdentifier</key>
-	<string>SEEMode.PHP-HTML</string>
-	<key>CFBundleName</key>
-	<string>PHP-HTML</string>
+  <key>CFBundleIdentifier</key>
+  <string>SEEMode.PHP-HTML</string>
+  <key>CFBundleName</key>
+  <string>PHP-HTML</string>
     <key>NSHumanReadableCopyright</key>
-	<string>© 2004 TheCodingMonkeys
-http://www.codingmonkeys.de</string>
+  <string>© 2004 TheCodingMonkeys
+  http://www.codingmonkeys.de</string>
     <key>CFBundleShortVersionString</key>
-	<string>1.2</string>
-	<key>CFBundleVersion</key>
-	<string>1.2</string>
+  <string>1.3</string>
+  <key>CFBundleVersion</key>
+  <string>1.3</string>
     <key>CFBundleGetInfoString</key>
-	<string>1.2, Copyright TheCodingMonkeys 2004</string>
-	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>php</string>
-	   <string>php3</string>
-	   <string>php4</string>
-	   <string>phtml</string>
-	   <string>PHP</string>
-	   <string>PHP3</string>
-	   <string>PHP4</string>
-	   <string>PHTML</string>
-	</array>
+  <string>1.3, Copyright TheCodingMonkeys 2004</string>
+  <key>CFBundlePackageType</key>
+  <string>BNDL</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>TCMModeExtensions</key>
+  <array>
+    <string>php</string>
+    <string>php3</string>
+    <string>php4</string>
+    <string>phtml</string>
+    <string>inc</string>
+    <string>PHP</string>
+    <string>PHP3</string>
+    <string>PHP4</string>
+    <string>PHTML</string>
+    <string>INC</string>
+  </array>
 </dict>
 </plist>

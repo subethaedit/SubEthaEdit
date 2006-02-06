@@ -38,6 +38,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     NSMenu *I_contextMenu;
     struct {
         BOOL isReceivingContent;
+        BOOL zoomFix_defaultFrameHadEqualWidth;
     } I_flags;
 }
 

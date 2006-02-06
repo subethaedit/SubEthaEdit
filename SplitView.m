@@ -18,7 +18,7 @@
 @implementation SplitView
 
 - (float)dividerThickness {
-    return [super dividerThickness]+6.;
+    return [super dividerThickness];
 }
 
 - (void)drawDividerInRect:(NSRect)aRect {
@@ -32,7 +32,7 @@
     }
     [color set];
     [[NSBezierPath bezierPathWithRect:aRect] fill];
-    [[NSColor grayColor] set];
+    [[NSColor lightGrayColor] set];
     aRect.origin.x-=1;
     aRect.size.width+=2;
     NSFrameRect(aRect);

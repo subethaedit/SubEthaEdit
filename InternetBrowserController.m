@@ -7,9 +7,10 @@
 //
 
 #import "InternetBrowserController.h"
+#import "AppController.h"
 #import "TCMHost.h"
-#import <TCMBEEP/TCMBEEP.h>
-#import <TCMFoundation/TCMFoundation.h>
+#import "TCMBEEP.h"
+#import "TCMFoundation.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "ImagePopUpButtonCell.h"
@@ -143,11 +144,15 @@ static InternetBrowserController *sharedInstance = nil;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
 }
 
-- (void)windowDidLoad {
-    [[self window] setFrameAutosaveName:@"InternetBrowser"];
-    TCMMMUser *me = [TCMMMUserManager me];
+- (void)TCM_synchronizeMyNameAndPicture {
+    TCMMMUser *me=[TCMMMUserManager me];
     [O_myNameTextField setStringValue:[me name]];
     [O_imageView setImage:[[me properties] objectForKey:@"Image"]];
+}
+
+- (void)windowDidLoad {
+    [[self window] setFrameAutosaveName:@"InternetBrowser"];
+    [self TCM_synchronizeMyNameAndPicture];
     [((NSPanel *)[self window]) setFloatingPanel:NO];
     [[self window] setHidesOnDeactivate:NO];
     
@@ -502,7 +507,7 @@ enum {
         if ([url port] != nil) {
             port = [[url port] unsignedShortValue];
         } else {
-            port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
+            port = SUBETHAEDIT_DEFAULT_PORT;
         }
         
         NSData *addressData = nil;
@@ -648,7 +653,7 @@ enum {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"alertDidEnd:");
     
     NSDictionary *alertContext = (NSDictionary *)contextInfo;
-    if (returnCode == NSAlertSecondButtonReturn) {
+    if (returnCode == NSAlertFirstButtonReturn) {
         DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"abort connection");
         NSSet *set = [alertContext objectForKey:@"items"];
         NSEnumerator *enumerator = [set objectEnumerator];
@@ -662,16 +667,6 @@ enum {
             [session terminate];
             [O_browserListView reloadData];
         }
-        /*
-        NSMutableDictionary *item = [alertContext objectForKey:@"item"];
-        [item removeObjectForKey:@"UserID"];
-        [item setObject:[NSNumber numberWithBool:YES] forKey:@"failed"];
-        [item setObject:HostEntryStatusCancelling forKey:@"status"];
-        [O_browserListView reloadData];
-        TCMBEEPSession *session = [alertContext objectForKey:@"session"];
-        [session terminate];
-        [O_browserListView reloadData];
-        */
     }
     
     [alertContext autorelease];
@@ -828,8 +823,8 @@ enum {
         [alert setAlertStyle:NSWarningAlertStyle];
         [alert setMessageText:NSLocalizedString(@"OpenChannels", @"Sheet message text when user has open document connections")];
         [alert setInformativeText:NSLocalizedString(@"AbortChannels", @"Sheet informative text when user has open document connections")];
-        [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", @"Button title")];
         [alert addButtonWithTitle:NSLocalizedString(@"Abort", @"Button title")];
+        [alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", @"Button title")];
         [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
         [alert beginSheetModalForWindow:[self window]
                           modalDelegate:self 
@@ -953,15 +948,6 @@ enum {
     ItemChildPair pair = [aSender itemChildPairAtRow:row];
     if (pair.childIndex != -1) {
         [self joinSessionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
-
-        /*
-        NSDictionary *userDict = [I_data objectAtIndex:pair.itemIndex];
-        NSArray *sessions = [userDict objectForKey:@"Sessions"];
-        TCMMMSession *session = [sessions objectAtIndex:pair.childIndex];
-        TCMBEEPSession *BEEPSession = [userDict objectForKey:@"BEEPSession"];
-        DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join on session: %@, using BEEPSession: %@", session, BEEPSession);
-        [session joinUsingBEEPSession:BEEPSession];
-        */
     }
 }
 
@@ -1011,13 +997,8 @@ enum {
         [item removeObjectForKey:@"failed"];
         [item setObject:session forKey:@"BEEPSession"];
         [item setObject:userID forKey:@"UserID"];
+        [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
         NSDictionary *infoDict = [[TCMMMPresenceManager sharedInstance] statusOfUserID:userID];
-        BOOL isVisible = [[infoDict objectForKey:@"isVisible"] boolValue];
-        if (isVisible) {
-            [item setObject:HostEntryStatusSessionOpen forKey:@"status"];
-        } else {
-            [item setObject:HostEntryStatusSessionInvisible forKey:@"status"];
-        }
         NSMutableArray *array = [[[infoDict objectForKey:@"Sessions"] allValues] mutableCopy];
         [item setObject:array forKey:@"Sessions"];
         [array release];
@@ -1143,15 +1124,13 @@ enum {
 
 #pragma mark -
 
-- (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile {
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
-}
-
-#pragma mark -
-
 - (void)userDidChange:(NSNotification *)aNotification {
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
-    [O_browserListView reloadData];
+    if ([[[aNotification userInfo] objectForKey:@"User"] isMe]) {
+        [self TCM_synchronizeMyNameAndPicture];
+    } else {
+        [O_browserListView reloadData];
+    }
 }
 
 - (void)announcedSessionsDidChange:(NSNotification *)aNotification {

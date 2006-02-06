@@ -12,7 +12,7 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMSession.h"
-#import <TCMFoundation/TCMRendezvousBrowser.h>
+#import "TCMRendezvousBrowser.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 
@@ -24,8 +24,6 @@ NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification=
                @"TCMMMPresenceManagerUserVisibilityDidChangeNotification";
 NSString * const TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification=
                @"TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification";
-NSString * const TCMMMPresenceManagerUserDidChangeNotification=
-               @"TCMMMPresenceManagerUserDidChangeNotification";
 NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification=
                @"TCMMMPresenceManagerUserSessionsDidChangeNotification";
 NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification=
@@ -286,6 +284,8 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 - (void)TCM_validateVisibilityOfUserID:(NSString *)aUserID {
     NSMutableDictionary *status=[self statusOfUserID:aUserID];
     BOOL currentVisibility=([status objectForKey:@"isVisible"]!=nil);
+    BOOL shouldSendNotification = [[status objectForKey:@"shouldSendVisibilityChangeNotification"] boolValue];
+    [status removeObjectForKey:@"shouldSendVisibilityChangeNotification"];
     if ([[status objectForKey:@"Status"] isEqualToString:@"NoStatus"])
         [status removeObjectForKey:@"InternalIsVisible"];
     BOOL newVisibility=(([status objectForKey:@"InternalIsVisible"]!=nil) || ([[status objectForKey:@"Sessions"] count] > 0));
@@ -295,6 +295,9 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         } else {
             [status removeObjectForKey:@"isVisible"];
         }
+        shouldSendNotification = YES;
+    }
+    if (shouldSendNotification) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:self 
             userInfo:[NSDictionary dictionaryWithObjectsAndKeys:aUserID,@"UserID",[NSNumber numberWithBool:newVisibility],@"isVisible",nil]];
     }
@@ -423,7 +426,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"starting StatusProfile with: %@", userID);
         [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil sender:self];
     }
-    
+    [statusOfUserID setObject:[NSNumber numberWithBool:YES] forKey:@"shouldSendVisibilityChangeNotification"];    
 }
 
 - (void)TCM_didEndSession:(NSNotification *)aNotification 

@@ -107,13 +107,13 @@ static TCMMMUserManager *sharedInstance=nil;
             }
         }
 #ifndef TCM_NO_DEBUG
-    NSString *saveName=[NSString stringWithFormat:@"%@ - %@",[aUser name],[aUser userID]];
-    NSData *vcard=[[aUser vcfRepresentation] dataUsingEncoding:NSUnicodeStringEncoding];
-    [vcard writeToFile:[[NSString stringWithFormat:@"~/Library/Caches/SubEthaEdit/%@.vcf",saveName] stringByExpandingTildeInPath] atomically:YES];
-    NSData *image=[[aUser properties] objectForKey:@"ImageAsPNG"];
-    if (image) {
-        [image writeToFile:[[NSString stringWithFormat:@"~/Library/Caches/SubEthaEdit/%@.png",saveName] stringByExpandingTildeInPath] atomically:YES];
-    }
+        NSString *saveName=[NSString stringWithFormat:@"%@ - %@",[aUser name],[aUser userID]];
+        NSData *vcard=[[aUser vcfRepresentation] dataUsingEncoding:NSUnicodeStringEncoding];
+        [vcard writeToFile:[[NSString stringWithFormat:@"~/Library/Caches/SubEthaEdit/%@.vcf",saveName] stringByExpandingTildeInPath] atomically:YES];
+        NSData *image=[[aUser properties] objectForKey:@"ImageAsPNG"];
+        if (image) {
+            [image writeToFile:[[NSString stringWithFormat:@"~/Library/Caches/SubEthaEdit/%@.png",saveName] stringByExpandingTildeInPath] atomically:YES];
+        }
 #endif
         
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMUserManagerUserDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:aUser forKey:@"User"]];

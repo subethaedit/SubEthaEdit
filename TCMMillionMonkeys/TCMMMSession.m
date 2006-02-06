@@ -8,7 +8,7 @@
 
 #import "../TCMBEEP/TCMBEEP.h"
 #import "TCMMMSession.h"
-#import <TCMFoundation/TCMBencodingUtilities.h>
+#import "TCMBencodingUtilities.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUser.h"
@@ -105,6 +105,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         I_statesWithRemainingMessages=[NSMutableSet new];
         [self setIsServer:NO];
         [self setClientState:TCMMMSessionClientNoState];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
     }
     return self;
 }
@@ -140,6 +141,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     I_document = nil;
     [I_invitedUsers release];
     [I_groupOfInvitedUsers release];
@@ -675,6 +677,27 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     }
     
     return NO;
+}
+
+#pragma mark -
+
+- (void)userDidChange:(NSNotification *)aNotification {
+    TCMMMUser *user = [[aNotification userInfo] objectForKey:@"User"];
+    // check if user contributed to or participates in document
+    BOOL affected=([I_groupByUserID objectForKey:[user userID]]!=nil);
+    if (affected) {
+        [self TCM_sendParticipantsDidChangeNotification];
+        if ([self isServer]) {
+            // propagateChangeOfUser
+            NSEnumerator *userIDs=[I_profilesByUserID keyEnumerator];
+            NSString *userID=nil;
+            while ((userID=[userIDs nextObject])) {
+                if (![userID isEqualToString:[user userID]]) {
+                    [[I_profilesByUserID objectForKey:userID] sendUserDidChangeNotification:user];
+                }
+            }
+        }
+    }
 }
 
 #pragma mark -

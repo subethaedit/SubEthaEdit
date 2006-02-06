@@ -1,3 +1,8 @@
+Changes with Version 1.2 (SEE 2.3)
+
+    *) Fixed SEE-490
+    *) Added fixes by Christian Rocha
+
 Changes with Version 1.1
     
     *) EXTENSIONS: Added uppercase variants where appropriate.

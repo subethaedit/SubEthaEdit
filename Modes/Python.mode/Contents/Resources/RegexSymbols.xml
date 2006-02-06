@@ -8,11 +8,11 @@
     </blocks>
     
     <symbol id="Defs" image="SymbolM" indentation="1" ignoreblocks="yes">
-        <regex>[\n\r][ \t]*def[ \t]+([\w\d_]+)[ \t]*\([^\)]*\)[ \t]*:</regex>
+        <regex>(?&lt;=[\n\r]|^)[ \t]*def[ \t]+([\w\d_]+)[ \t]*\([^\)]*\)[ \t]*:</regex>
     </symbol>
 
     <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes">
-        <regex>[\n\r][ \t]*class[ \t]+([\w\d_]+)[ \t]*(?:\([^\)]*\))?[ \t]*:</regex>
+        <regex>(?&lt;=[\n\r]|^)[ \t]*class[ \t]+([\w\d_]+)[ \t]*(?:\([^\)]*\))?[ \t]*:</regex>
     </symbol>
 
     <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">

@@ -96,11 +96,14 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 @implementation NSString (NSStringSEEAdditions) 
 
-- (BOOL)isValidSerial 
+- (BOOL)isValidSerial
 {
+    // Pirated number (2.1.1): 2QF-PABI-OCM6-KRHH (Blocked by enforcing SEE prefix)
+    // Pirated number (2.2): SEE-11G0-M1A0-5ROC (Blocked #1500/63000)
+    
     static int calls = 0;
     NSArray *splitArray = [self componentsSeparatedByString:@"-"];
-    if ([splitArray count]==4 && calls++ < 50) {
+    if ([splitArray count]==4 && calls++ < 100) {
         NSString *zero = [splitArray objectAtIndex:0];
         NSString *one  = [splitArray objectAtIndex:1];
         NSString *two  = [splitArray objectAtIndex:2];
@@ -123,7 +126,14 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
                       [one characterAtIndex:2],
                       [tri characterAtIndex:1],
                       [two characterAtIndex:2]] base36Value];
-            // check for validity
+
+            // check for pirated number            
+            if ((number==1500) && (rndnumber == 63000)) {
+                NSLog(@"Arrrr!");
+                return NO;
+            }
+            
+            // check for validity            
             if (((rndnumber%42) == 0) && (rndnumber >= 42*1111)) {
                 if ((((prefix+number+chksum+rndnumber)%4242)==0) && (chksum >= 42*1111)) {
                     return YES;

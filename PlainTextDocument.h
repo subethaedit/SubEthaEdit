@@ -34,6 +34,7 @@ extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
 
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
+extern NSString * const PlainTextDocumentDidSaveNotification;
 
 @interface PlainTextDocument : NSDocument
 {

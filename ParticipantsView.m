@@ -22,6 +22,9 @@
 @implementation ParticipantsView
 
 // override this in sublcasses
++ (float)firstRowOffset {
+    return 1.;
+}
 + (float)itemRowHeight {
     return 22.;
 }
@@ -118,13 +121,10 @@
         [mNameAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     }
     NSRect bounds=[self bounds];
-    NSRect itemRect=NSMakeRect(0, 0,bounds.size.width, itemRowHeight);
+    NSRect itemRect=NSMakeRect(0,0,bounds.size.width, itemRowHeight);
     NSImage *fillImage=[NSImage imageNamed:@"ParticipantBar_Fill"];
     [fillImage setFlipped:YES];
     [fillImage drawInRect:itemRect fromRect:NSMakeRect(0,0,[fillImage size].width,[fillImage size].height) operation:NSCompositeCopy fraction:1.0];
-    [[NSColor lightGrayColor] set];
-    itemRect.size.height-=1;
-    NSFrameRect(itemRect);
     
     id dataSource=[self dataSource];
     

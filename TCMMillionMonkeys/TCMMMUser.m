@@ -6,7 +6,8 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import <TCMFoundation/TCMBencodingUtilities.h>
+#import "TCMBencodingUtilities.h"
+#import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 
 NSString * const TCMMMUserWillLeaveSessionNotification =
@@ -73,6 +74,10 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"TCMMMUser <ID:%@,Name:%@,properties:%d>",[self userID],[self name],[[self properties] count]];
+}
+
+- (BOOL)isMe {
+    return [[self userID] isEqualToString:[TCMMMUserManager myUserID]];
 }
 
 - (void)setUserID:(NSString *)aID {

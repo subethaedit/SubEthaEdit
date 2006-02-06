@@ -16,12 +16,14 @@
     DocumentMode *I_mode;               
     NSCharacterSet *I_tokenSet;     /*"Set for tokenizing"*/
     NSCharacterSet *I_invertedTokenSet;     /*"Set for tokenizing"*/
+    NSCharacterSet *I_autoCompleteTokenSet;     /*"Set for autocomplete tokenizing"*/
     NSMutableArray *I_states;       /*"All states except the default state"*/
     NSMutableDictionary *I_defaultState;    /*"Default state"*/
     NSMutableArray *I_stylesForToken;   /*"Chached plainstrings"*/
     NSMutableArray *I_stylesForRegex;   /*"Chached regexs"*/
     OGRegularExpression *I_combinedStateRegex;     /*"All state-begins in one regex"*/
     BOOL everythingOkay;
+    BOOL I_useSpellingDictionary;
     SyntaxStyle *I_defaultSyntaxStyle;
 }
 
@@ -46,7 +48,9 @@
 - (NSDictionary *)defaultState;
 - (NSCharacterSet *)tokenSet;
 - (NSCharacterSet *)invertedTokenSet;
+- (NSCharacterSet *)autoCompleteTokenSet;
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet;
+- (void)setAutoCompleteTokenSet:(NSCharacterSet *)aCharacterSet;
 - (NSString *)styleForToken:(NSString *)aToken inState:(int)aState;
 - (NSArray *)regularExpressionsInState:(int)aState;
 - (void)setCombinedStateRegex;
@@ -54,5 +58,6 @@
 - (DocumentMode *)mode;
 - (void)setMode:(DocumentMode *)aMode;
 - (SyntaxStyle *)defaultSyntaxStyle;
+- (BOOL)useSpellingDictionary;
 
 @end
