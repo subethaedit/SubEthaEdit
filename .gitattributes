@@ -1161,9 +1161,7 @@ subethaedit/artwork/LibraryFolderIcon.tiff -text
 subethaedit/artwork/Mode.icns -text
 subethaedit/artwork/NamedLogo2.tiff -text
 subethaedit/artwork/NextChange.png -text
-subethaedit/artwork/NextChange.psd -text
 subethaedit/artwork/NextSymbol.png -text
-subethaedit/artwork/NextSymbol.tiff -text
 subethaedit/artwork/ParticipantBar_Fill.tiff -text
 subethaedit/artwork/Participants.icns -text
 subethaedit/artwork/PreviousChange.png -text
@@ -1222,7 +1220,6 @@ subethaedit/artwork/WebReload.tiff -text
 subethaedit/artwork/codingmonkeys.png -text
 subethaedit/artwork/debug.tiff -text
 subethaedit/artwork/monkey32.png -text
-subethaedit/artwork/myriad.png -text
 subethaedit/artwork/style.icns -text
 subethaedit/createDiskImage.sh -text
 subethaedit/main.m -text
