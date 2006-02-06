@@ -2233,6 +2233,111 @@
 			};
 			name = Release;
 		};
+		145047620997894300D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = SubEthaEditHelperToolTemplate;
+				ZERO_LINK = NO;
+			};
+			name = Unstripped;
+		};
+		145047630997894300D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = see;
+				ZERO_LINK = NO;
+			};
+			name = Unstripped;
+		};
+		145047640997894300D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = Versioning;
+				ZERO_LINK = NO;
+			};
+			name = Unstripped;
+		};
+		145047650997894300D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
+				GCC_USE_GCC3_PFE_SUPPORT = YES;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
+				INFOPLIST_PREFIX_HEADER = "$(PROJECT_DERIVED_FILE_DIR)/Revision.h";
+				INFOPLIST_PREPROCESS = YES;
+				INSTALL_PATH = /;
+				PRODUCT_NAME = SubEthaEdit;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Unstripped;
+		};
+		145047660997894300D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DiskImageProduct = SubEthaEdit.app;
+				DiskImageSizeInMB = 20;
+				DiskImageVolumeName = SubEthaEdit;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = "Create Disk Image";
+				ZERO_LINK = NO;
+			};
+			name = Unstripped;
+		};
+		145047670997894300D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = (
+					"-DTCM_NO_DEBUG",
+					"-DNS_BLOCK_ASSERTIONS",
+					"-DNDEBUG",
+				);
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Unstripped;
+		};
 		14E573C00964766400DB50C3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2339,6 +2444,7 @@
 			buildConfigurations = (
 				142894AD0957608D00D14688 /* Debug */,
 				142894AE0957608D00D14688 /* Release */,
+				145047620997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2348,6 +2454,7 @@
 			buildConfigurations = (
 				142894E40957671300D14688 /* Debug */,
 				142894E50957671300D14688 /* Release */,
+				145047630997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2357,6 +2464,7 @@
 			buildConfigurations = (
 				1428981A095818E200D14688 /* Debug */,
 				1428981B095818E200D14688 /* Release */,
+				145047660997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2366,6 +2474,7 @@
 			buildConfigurations = (
 				14E573C00964766400DB50C3 /* Debug */,
 				14E573C10964766400DB50C3 /* Release */,
+				145047640997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2375,6 +2484,7 @@
 			buildConfigurations = (
 				C05733C808A9546B00998B17 /* Debug */,
 				C05733C908A9546B00998B17 /* Release */,
+				145047650997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2384,6 +2494,7 @@
 			buildConfigurations = (
 				C05733CC08A9546B00998B17 /* Debug */,
 				C05733CD08A9546B00998B17 /* Release */,
+				145047670997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

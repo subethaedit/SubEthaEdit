@@ -2789,6 +2789,272 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1450477B09978A0100D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOS_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOS_DEPLOYMENT_TARGET_ppc = 10.3;
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0x32000000,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = OgreKit;
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Unstripped;
+		};
+		1450477C09978A0100D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RegularExpressionTest/OgreTest_Prefix.h;
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				INFOPLIST_FILE = "RegularExpressionTest/OgreTest-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				MACOS_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOS_DEPLOYMENT_TARGET_ppc = 10.3;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = OgreTest;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Unstripped;
+		};
+		1450477D09978A0100D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				MACOS_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOS_DEPLOYMENT_TARGET_ppc = 10.3;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = OgreFindPanelTest;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			name = Unstripped;
+		};
+		1450477E09978A0100D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				MACOS_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOS_DEPLOYMENT_TARGET_ppc = 10.3;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = MyFindPanelExample;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			name = Unstripped;
+		};
+		1450477F09978A0100D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				INFOPLIST_FILE = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				MACOS_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOS_DEPLOYMENT_TARGET_ppc = 10.3;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = ReplaceWithAttributesTest;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Unstripped;
+		};
+		1450478009978A0100D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = All;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Unstripped;
+		};
+		1450478109978A0100D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0x32000000,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = OgreKit;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Unstripped;
+		};
+		1450478209978A0100D18142 /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Unstripped;
+		};
 		4DC40BA0091509DC0029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3487,6 +3753,7 @@
 			buildConfigurations = (
 				4DC40BA0091509DC0029A2A6 /* Debug */,
 				4DC40BA1091509DC0029A2A6 /* Release */,
+				1450477B09978A0100D18142 /* Unstripped */,
 				4DC40BA2091509DC0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -3497,6 +3764,7 @@
 			buildConfigurations = (
 				4DC40BA4091509DC0029A2A6 /* Debug */,
 				4DC40BA5091509DC0029A2A6 /* Release */,
+				1450478209978A0100D18142 /* Unstripped */,
 				4DC40BA6091509DC0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -3507,6 +3775,7 @@
 			buildConfigurations = (
 				4DC40BF909150BDB0029A2A6 /* Debug */,
 				4DC40BFA09150BDB0029A2A6 /* Release */,
+				1450478109978A0100D18142 /* Unstripped */,
 				4DC40BFB09150BDB0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -3517,6 +3786,7 @@
 			buildConfigurations = (
 				4DC40C0809150C290029A2A6 /* Debug */,
 				4DC40C0909150C290029A2A6 /* Release */,
+				1450477C09978A0100D18142 /* Unstripped */,
 				4DC40C0A09150C290029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -3527,6 +3797,7 @@
 			buildConfigurations = (
 				4DC40C1309150C400029A2A6 /* Debug */,
 				4DC40C1409150C400029A2A6 /* Release */,
+				1450477D09978A0100D18142 /* Unstripped */,
 				4DC40C1509150C400029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -3537,6 +3808,7 @@
 			buildConfigurations = (
 				4DC40C1E09150C740029A2A6 /* Debug */,
 				4DC40C1F09150C740029A2A6 /* Release */,
+				1450477E09978A0100D18142 /* Unstripped */,
 				4DC40C2009150C740029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -3547,6 +3819,7 @@
 			buildConfigurations = (
 				4DC40C3409150C9F0029A2A6 /* Debug */,
 				4DC40C3509150C9F0029A2A6 /* Release */,
+				1450477F09978A0100D18142 /* Unstripped */,
 				4DC40C3609150C9F0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -3557,6 +3830,7 @@
 			buildConfigurations = (
 				4DC412C3091519D50029A2A6 /* Debug */,
 				4DC412C4091519D50029A2A6 /* Release */,
+				1450478009978A0100D18142 /* Unstripped */,
 				4DC412C5091519D50029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
