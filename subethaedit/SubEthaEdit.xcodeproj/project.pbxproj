@@ -31,7 +31,6 @@
 		1428900D095740F200D14688 /* Acknowledgements.txt in Resources */ = {isa = PBXBuildFile; fileRef = 14289008095740F200D14688 /* Acknowledgements.txt */; };
 		1428900E095740F200D14688 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 14289009095740F200D14688 /* License.rtf */; };
 		1428900F095740F200D14688 /* RE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1428900A095740F200D14688 /* RE.txt */; };
-		14289010095740F200D14688 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1428900B095740F200D14688 /* ReleaseNotes.txt */; };
 		142890140957413900D14688 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 142890120957413900D14688 /* Localizable.strings */; };
 		1428901D0957418400D14688 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142890150957418400D14688 /* AboutPanel.nib */; };
 		1428901E0957418400D14688 /* AdvancedPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142890170957418400D14688 /* AdvancedPrefs.nib */; };
@@ -250,6 +249,7 @@
 		14289572095776DE00D14688 /* see.1 in Resources */ = {isa = PBXBuildFile; fileRef = 142894E9095767CD00D14688 /* see.1 */; };
 		14289BD709581C3000D14688 /* FindReplace.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD109581C3000D14688 /* FindReplace.nib */; };
 		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
+		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
@@ -409,7 +409,7 @@
 		14289008095740F200D14688 /* Acknowledgements.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Acknowledgements.txt; sourceTree = "<group>"; };
 		14289009095740F200D14688 /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		1428900A095740F200D14688 /* RE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RE.txt; sourceTree = "<group>"; };
-		1428900B095740F200D14688 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
+		1428900B095740F200D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = English; path = English.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		142890130957413900D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		142890160957418400D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AboutPanel.nib; sourceTree = "<group>"; };
 		142890180957418400D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AdvancedPrefs.nib; sourceTree = "<group>"; };
@@ -737,6 +737,7 @@
 		142898200958194100D14688 /* createDiskImage.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = createDiskImage.sh; sourceTree = "<group>"; };
 		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
 		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };
+		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1468BA92097D91FF006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/AboutPanel.nib; sourceTree = "<group>"; };
@@ -1350,7 +1351,7 @@
 				14289009095740F200D14688 /* License.rtf */,
 				142890120957413900D14688 /* Localizable.strings */,
 				1428900A095740F200D14688 /* RE.txt */,
-				1428900B095740F200D14688 /* ReleaseNotes.txt */,
+				145047410997750100D18142 /* ReleaseNotes.txt */,
 				142890150957418400D14688 /* AboutPanel.nib */,
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
 				142890190957418400D14688 /* DocumentProxy.nib */,
@@ -1580,7 +1581,7 @@
 				1428900E095740F200D14688 /* License.rtf in Resources */,
 				142890140957413900D14688 /* Localizable.strings in Resources */,
 				1428900F095740F200D14688 /* RE.txt in Resources */,
-				14289010095740F200D14688 /* ReleaseNotes.txt in Resources */,
+				145047420997750100D18142 /* ReleaseNotes.txt in Resources */,
 				1428901D0957418400D14688 /* AboutPanel.nib in Resources */,
 				1428901E0957418400D14688 /* AdvancedPrefs.nib in Resources */,
 				1428901F0957418400D14688 /* DocumentProxy.nib in Resources */,
@@ -2098,6 +2099,15 @@
 				1468BA99097D9256006F5936 /* German */,
 			);
 			name = FindAll.nib;
+			sourceTree = "<group>";
+		};
+		145047410997750100D18142 /* ReleaseNotes.txt */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1428900B095740F200D14688 /* English */,
+				145047510997758600D18142 /* German */,
+			);
+			name = ReleaseNotes.txt;
 			sourceTree = "<group>";
 		};
 		14F1601E096C288100402129 /* License.nib */ = {

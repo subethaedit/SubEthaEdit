@@ -198,6 +198,7 @@ subethaedit/English.lproj/PrintOptions.nib/keyedobjects.nib -text
 subethaedit/English.lproj/PrintPrefs.nib/classes.nib -text
 subethaedit/English.lproj/PrintPrefs.nib/info.nib -text
 subethaedit/English.lproj/PrintPrefs.nib/keyedobjects.nib -text
+subethaedit/English.lproj/ReleaseNotes.txt -text
 subethaedit/English.lproj/RendezvousBrowser.nib/classes.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/info.nib -text
 subethaedit/English.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
@@ -290,6 +291,7 @@ subethaedit/German.lproj/PrintOptions.nib/keyedobjects.nib -text
 subethaedit/German.lproj/PrintPrefs.nib/classes.nib -text
 subethaedit/German.lproj/PrintPrefs.nib/info.nib -text
 subethaedit/German.lproj/PrintPrefs.nib/keyedobjects.nib -text
+subethaedit/German.lproj/ReleaseNotes.txt -text
 subethaedit/German.lproj/RendezvousBrowser.nib/classes.nib -text
 subethaedit/German.lproj/RendezvousBrowser.nib/info.nib -text
 subethaedit/German.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
@@ -1007,7 +1009,6 @@ subethaedit/RegexSymbolDefinition.h -text
 subethaedit/RegexSymbolDefinition.m -text
 subethaedit/RegexSymbolParser.h -text
 subethaedit/RegexSymbolParser.m -text
-subethaedit/ReleaseNotes.txt -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
 subethaedit/SaturationToColorValueTransformer.h -text

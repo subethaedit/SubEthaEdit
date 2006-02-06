@@ -3490,7 +3490,7 @@
 				4DC40BA2091509DC0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 		4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit (Universal Binary)" */ = {
 			isa = XCConfigurationList;
@@ -3500,7 +3500,7 @@
 				4DC40BA6091509DC0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 		4DC40BF809150BDB0029A2A6 /* Build configuration list for PBXNativeTarget "OgreKit (without Find Panel)" */ = {
 			isa = XCConfigurationList;
@@ -3510,7 +3510,7 @@
 				4DC40BFB09150BDB0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 		4DC40C0709150C290029A2A6 /* Build configuration list for PBXNativeTarget "Regular Expression Test" */ = {
 			isa = XCConfigurationList;
@@ -3520,7 +3520,7 @@
 				4DC40C0A09150C290029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 		4DC40C1209150C400029A2A6 /* Build configuration list for PBXNativeTarget "Find Panel Test" */ = {
 			isa = XCConfigurationList;
@@ -3530,7 +3530,7 @@
 				4DC40C1509150C400029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 		4DC40C1D09150C740029A2A6 /* Build configuration list for PBXNativeTarget "My Find Panel Example" */ = {
 			isa = XCConfigurationList;
@@ -3540,7 +3540,7 @@
 				4DC40C2009150C740029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 		4DC40C3309150C9F0029A2A6 /* Build configuration list for PBXNativeTarget "Replace With Attributes Test" */ = {
 			isa = XCConfigurationList;
@@ -3550,7 +3550,7 @@
 				4DC40C3609150C9F0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 		4DC412C2091519D50029A2A6 /* Build configuration list for PBXAggregateTarget "All" */ = {
 			isa = XCConfigurationList;
@@ -3560,7 +3560,7 @@
 				4DC412C5091519D50029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
