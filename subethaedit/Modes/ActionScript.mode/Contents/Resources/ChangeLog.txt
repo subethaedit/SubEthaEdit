@@ -1,4 +1,4 @@
-Changes with Version 1.2
+Changes with Version 1.2 (SEE 2.3)
 
     *) Fixed SEE-490
     *) Added fixes by Christian Rocha
