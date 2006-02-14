@@ -48,6 +48,7 @@
     return self;
 }
 
+// actually never gets called - as any other top level nib object isn't dealloced...
 - (void)dealloc {
     [I_modeIdentifierFromLastRunOpenPanel release];
     [I_fileNamesFromLastRunOpenPanel release];

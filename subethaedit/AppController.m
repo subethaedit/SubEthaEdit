@@ -405,11 +405,9 @@ static AppController *sharedInstance = nil;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] setVisible:NO];
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
-    //[[TCMMMBEEPSessionManager sharedInstance] terminateAllBEEPSessions];    
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {

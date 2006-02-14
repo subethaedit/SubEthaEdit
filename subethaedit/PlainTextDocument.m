@@ -812,6 +812,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)dealloc {
+
     if (transientDocument == self) {
         transientDocument = nil;
     }
@@ -1247,13 +1248,15 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)removeWindowController:(NSWindowController *)windowController {
     [super removeWindowController:windowController];
-    [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
     if ([[self windowControllers] count] == 0) {
         // terminate syntax coloring
         I_flags.highlightSyntax = NO;
         [I_symbolUpdateTimer invalidate];
         [I_webPreviewDelayedRefreshTimer invalidate];
         [self TCM_sendODBCloseEvent];
+    } else {
+        // if doing always, we delay the dealloc method ad inifitum on quit
+        [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
     }
 }
 
