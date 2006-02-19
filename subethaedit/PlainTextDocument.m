@@ -1071,7 +1071,7 @@ static NSString *tempFileName(NSString *origPath) {
             DEBUGLOG(@"Document", AllLogLevel, @"conceal");
             TCMMMSession *session=[self session];
             [[TCMMMPresenceManager sharedInstance] concealSession:session];
-            if ([session participantCount]<=1) {
+            if ([session participantCount]<=1 && [[session pendingUsers] count] == 0) {
                 [[self windowControllers] makeObjectsPerformSelector:@selector(closeParticipantsDrawer:) withObject:self];
             }
         }

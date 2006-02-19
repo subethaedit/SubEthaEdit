@@ -215,6 +215,11 @@ enum {
                                              selector:@selector(displayNameDidChange:)
                                                  name:PlainTextDocumentDidChangeDisplayNameNotification 
                                                object:[self document]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(validateUpperDrawer)
+                                                 name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification 
+                                               object:nil];
     
     PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
     [[self window] setInitialFirstResponder:[plainTextEditor textView]];
@@ -374,7 +379,6 @@ enum {
 }
 
 - (IBAction)openParticipantsDrawer:(id)aSender {
-    [self validateUpperDrawer];
     [O_participantsDrawer open:aSender];
 }
 
@@ -383,7 +387,6 @@ enum {
 }
 
 - (IBAction)toggleParticipantsDrawer:(id)sender {
-    [self validateUpperDrawer];
     [O_participantsDrawer toggle:sender];
 }
 
