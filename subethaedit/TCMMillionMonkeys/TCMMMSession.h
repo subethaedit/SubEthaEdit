@@ -12,6 +12,7 @@
 extern NSString * const TCMMMSessionClientStateDidChangeNotification;
 extern NSString * const TCMMMSessionParticipantsDidChangeNotification;
 extern NSString * const TCMMMSessionPendingUsersDidChangeNotification;
+extern NSString * const TCMMMSessionPendingInvitationsDidChange;
 extern NSString * const TCMMMSessionDidChangeNotification;
 extern NSString * const TCMMMSessionDidReceiveContentNotification;
 

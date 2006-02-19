@@ -1217,6 +1217,10 @@ static NSString *tempFileName(NSString *origPath) {
     return ((I_documentProxyWindowController != nil) || I_flags.isReceivingContent);
 }
 
+- (BOOL)isPendingInvitation {
+    return [I_documentProxyWindowController isPendingInvitation];
+}
+
 - (void)makeProxyWindowController {
     I_documentProxyWindowController =
         [[DocumentProxyWindowController alloc] initWithSession:[self session]];

@@ -144,6 +144,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (IBAction)goIntoBundles:(id)sender;
 
 - (BOOL)isProxyDocument;
+- (BOOL)isPendingInvitation;
 - (void)makeProxyWindowController;
 - (void)killProxyWindowController;
 - (void)proxyWindowWillClose;

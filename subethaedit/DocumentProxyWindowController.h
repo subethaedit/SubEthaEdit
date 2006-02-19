@@ -29,6 +29,8 @@
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
+
+- (BOOL)isPendingInvitation;
 - (IBAction)acceptAction:(id)aSender;
 
 - (void)update;

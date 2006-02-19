@@ -250,6 +250,8 @@
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
+		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
+		5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */; };
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; };
 		5E2F5E43097BE32F00F7AA3C /* Export.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5E2F5E41097BE32E00F7AA3C /* Export.nib */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
@@ -763,6 +765,8 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
+		5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvitationBadge3.tiff; path = artwork/InvitationBadge3.tiff; sourceTree = "<group>"; };
+		5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "InvitationBadge1-2.tiff"; path = "artwork/InvitationBadge1-2.tiff"; sourceTree = "<group>"; };
 		5E28E28D0972FB8E00099B13 /* InsetTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsetTextFieldCell.h; sourceTree = "<group>"; };
 		5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetTextFieldCell.m; sourceTree = "<group>"; };
 		5E2F5E42097BE32F00F7AA3C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Export.nib; sourceTree = "<group>"; };
@@ -862,6 +866,8 @@
 				1428906F095743F200D14688 /* Internet.tiff */,
 				14289070095743F200D14688 /* InternetResume.tiff */,
 				14289071095743F200D14688 /* InternetStop.tiff */,
+				5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */,
+				5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */,
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
 				14289073095743F200D14688 /* Mode.icns */,
 				14289075095743F200D14688 /* NamedLogo2.tiff */,
@@ -1668,6 +1674,8 @@
 				142895040957692100D14688 /* SymbolWarn.tiff in Resources */,
 				14F16020096C288100402129 /* License.nib in Resources */,
 				5E2F5E43097BE32F00F7AA3C /* Export.nib in Resources */,
+				5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */,
+				5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

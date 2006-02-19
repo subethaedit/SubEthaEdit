@@ -10,6 +10,7 @@
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMMMSession.h"
 #import "AppController.h"
 #import "TCMPreferenceController.h"
 #import "RendezvousBrowserController.h"
@@ -402,12 +403,88 @@ static AppController *sharedInstance = nil;
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 
     [InternetBrowserController sharedInstance];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingInvitationsDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingUsersDidChangeNotification object:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
+    // reset dock icon to normal
+    [NSApp setApplicationIconImage:[NSImage imageNamed:@"NSApplicationIcon"]];
+
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] setVisible:NO];
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
+}
+
+- (void)updateApplicationIcon {
+    NSImage  *appImage, *newAppImage;
+
+    static NSDictionary *s_attributes=nil;
+    if (!s_attributes) {
+        float fontsize = 26.;
+        NSFont *font=[NSFont fontWithName:@"Helvetica Bold" size:fontsize];
+        if (!font) font=[NSFont systemFontOfSize:fontsize];
+        NSShadow *shadow=[[NSShadow new] autorelease];
+        [shadow setShadowColor:[NSColor blackColor]];
+        [shadow setShadowOffset:NSMakeSize(0.,-2.)];
+        [shadow setShadowBlurRadius:4.];
+        
+        s_attributes=[[NSDictionary dictionaryWithObjectsAndKeys:
+                       font,NSFontAttributeName,
+                       [NSColor colorWithCalibratedWhite:1.0 alpha:1.0],NSForegroundColorAttributeName,
+                       shadow,NSShadowAttributeName,
+                       nil] retain];
+    }
+
+
+    // Grab the unmodified application image.
+    appImage = [NSImage imageNamed:@"NSApplicationIcon"];
+    // [[NSWorkspace sharedWorkspace] iconForFile:[[NSBundle mainBundle] bundlePath]];
+
+    // get the badge count
+    int badgeCount = 0;
+    NSEnumerator      *documents=[[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+    PlainTextDocument *document = nil;
+    while ((document=[documents nextObject])) {
+        badgeCount += [[[document session] pendingUsers] count];
+        if ([document isPendingInvitation]) {
+            badgeCount++;
+        }
+    }
+
+    if (badgeCount == 0) {
+        newAppImage = appImage;
+    } else {
+        
+        newAppImage      = [[[NSImage alloc] initWithSize:[appImage size]] autorelease];
+        
+        NSImage *badgeImage = [NSImage imageNamed:(badgeCount >= 100)?@"InvitationBadge3":@"InvitationBadge1-2"];
+        
+        NSRect badgeRect = NSZeroRect;
+        badgeRect.size = [badgeImage size];
+//        badgeRect.origin.x = [newAppImage size].width / 16.;
+        badgeRect.origin.y = [newAppImage size].height - badgeRect.size.height - badgeRect.origin.x;
+        
+        // Draw into the new image (the badged image)
+        [newAppImage lockFocus];
+
+        // First draw the unmodified app image.
+        [appImage drawInRect:NSMakeRect(0, 0, [newAppImage size].width, [newAppImage size].height)
+                           fromRect:NSMakeRect(0, 0, [appImage size].width, [appImage size].height)
+                          operation:NSCompositeCopy
+                           fraction:1.0];
+
+        [badgeImage drawInRect:badgeRect fromRect:NSMakeRect(0.,0.,badgeRect.size.width,badgeRect.size.height) operation:NSCompositeSourceOver fraction:1.0];
+        
+        NSString *badgeString = [NSString stringWithFormat:@"%d", badgeCount];
+        NSSize stringSize = [badgeString sizeWithAttributes:s_attributes];
+        [badgeString drawAtPoint:NSMakePoint(NSMidX(badgeRect)-stringSize.width/2., NSMidY(badgeRect)-stringSize.height/2.+3.) withAttributes:s_attributes];
+    
+        [newAppImage unlockFocus];
+    }
+
+    [NSApp setApplicationIconImage:newAppImage];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
