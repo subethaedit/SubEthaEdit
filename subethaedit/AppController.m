@@ -425,15 +425,15 @@ static AppController *sharedInstance = nil;
         float fontsize = 26.;
         NSFont *font=[NSFont fontWithName:@"Helvetica Bold" size:fontsize];
         if (!font) font=[NSFont systemFontOfSize:fontsize];
-        NSShadow *shadow=[[NSShadow new] autorelease];
-        [shadow setShadowColor:[NSColor blackColor]];
-        [shadow setShadowOffset:NSMakeSize(0.,-2.)];
-        [shadow setShadowBlurRadius:4.];
+//        NSShadow *shadow=[[NSShadow new] autorelease];
+//        [shadow setShadowColor:[NSColor blackColor]];
+//        [shadow setShadowOffset:NSMakeSize(0.,-2.)];
+//        [shadow setShadowBlurRadius:4.];
         
         s_attributes=[[NSDictionary dictionaryWithObjectsAndKeys:
                        font,NSFontAttributeName,
                        [NSColor colorWithCalibratedWhite:1.0 alpha:1.0],NSForegroundColorAttributeName,
-                       shadow,NSShadowAttributeName,
+//                       shadow,NSShadowAttributeName,
                        nil] retain];
     }
 
@@ -479,7 +479,7 @@ static AppController *sharedInstance = nil;
         
         NSString *badgeString = [NSString stringWithFormat:@"%d", badgeCount];
         NSSize stringSize = [badgeString sizeWithAttributes:s_attributes];
-        [badgeString drawAtPoint:NSMakePoint(NSMidX(badgeRect)-stringSize.width/2., NSMidY(badgeRect)-stringSize.height/2.+3.) withAttributes:s_attributes];
+        [badgeString drawAtPoint:NSMakePoint(NSMidX(badgeRect)-stringSize.width/2., NSMidY(badgeRect)-stringSize.height/2.+1.) withAttributes:s_attributes];
     
         [newAppImage unlockFocus];
     }
