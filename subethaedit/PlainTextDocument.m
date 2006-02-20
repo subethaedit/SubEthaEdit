@@ -20,6 +20,7 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "PrintPreferences.h"
 #import "AppController.h"
+#import "NSSavePanelTCMAdditions.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -1779,14 +1780,28 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
 }
 
+- (IBAction)showHiddenFiles:(id)sender {
+    BOOL flag = ([sender state] == NSOffState) ? NO : YES;
+    if ([I_savePanel canShowHiddenFiles]) {
+        [I_savePanel setInternalShowsHiddenFiles:flag];
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];    
+}
+
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
     if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
         NSLog(@"Failed to load SavePanelAccessory.nib");
         return nil;
     }
     
-    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
-    [savePanel setTreatsFilePackagesAsDirectories:flag];
+    BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
+    [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
+    
+    BOOL showsHiddenFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
+    if ([savePanel canShowHiddenFiles]) {
+        [savePanel setInternalShowsHiddenFiles:showsHiddenFiles];
+    }    
+    
     I_savePanel = savePanel;
 
     if (![self fileName] && [self directoryForSavePanel]) {
@@ -1806,10 +1821,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [O_encodingPopUpButton setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
         
         [savePanel setAccessoryView:O_savePanelAccessoryView];
-        [O_goIntoBundlesCheckbox setState:flag ? NSOnState : NSOffState];
+        [O_goIntoBundlesCheckbox setState:isGoingIntoBundles ? NSOnState : NSOffState];
+        if ([savePanel canShowHiddenFiles]) {
+            [O_showHiddenFilesCheckbox setState:showsHiddenFiles ? NSOnState : NSOffState];
+        } else {
+            [O_showHiddenFilesCheckbox setHidden:YES];
+        }
     } else {
         [savePanel setAccessoryView:O_savePanelAccessoryView2];
-        [O_goIntoBundlesCheckbox2 setState:flag ? NSOnState : NSOffState];
+        [O_goIntoBundlesCheckbox2 setState:isGoingIntoBundles ? NSOnState : NSOffState];
+        if ([savePanel canShowHiddenFiles]) {
+            [O_showHiddenFilesCheckbox2 setState:showsHiddenFiles ? NSOnState : NSOffState];
+        } else {
+            [O_showHiddenFilesCheckbox2 setHidden:YES];
+        }
     }
 
     [O_savePanelAccessoryView release];

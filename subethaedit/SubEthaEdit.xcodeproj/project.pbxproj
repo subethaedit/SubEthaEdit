@@ -246,6 +246,8 @@
 		14289572095776DE00D14688 /* see.1 in Resources */ = {isa = PBXBuildFile; fileRef = 142894E9095767CD00D14688 /* see.1 */; };
 		14289BD709581C3000D14688 /* FindReplace.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD109581C3000D14688 /* FindReplace.nib */; };
 		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
+		144DEAA609AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */; };
+		144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
@@ -389,6 +391,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
+				144DEAA609AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -733,6 +736,8 @@
 		142898200958194100D14688 /* createDiskImage.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = createDiskImage.sh; sourceTree = "<group>"; };
 		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
 		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };
+		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
+		144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSavePanelTCMAdditions.m; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -998,6 +1003,8 @@
 				14289207095751CB00D14688 /* NSColorTCMAdditions.m */,
 				14289208095751CB00D14688 /* NSImageTCMAdditions.h */,
 				14289209095751CB00D14688 /* NSImageTCMAdditions.m */,
+				144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */,
+				144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */,
 				1428920A095751CB00D14688 /* NSStringSEEAdditions.h */,
 				1428920B095751CB00D14688 /* NSStringSEEAdditions.m */,
 				1428920C095751CB00D14688 /* TCMMMUserSEEAdditions.h */,
@@ -1874,6 +1881,7 @@
 				1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */,
 				142894A409575FF200D14688 /* TextFieldCell.m in Sources */,
 				5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */,
+				144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

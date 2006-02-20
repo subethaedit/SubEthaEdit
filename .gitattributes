@@ -556,6 +556,8 @@ subethaedit/NSColorTCMAdditions.h -text
 subethaedit/NSColorTCMAdditions.m -text
 subethaedit/NSImageTCMAdditions.h -text
 subethaedit/NSImageTCMAdditions.m -text
+subethaedit/NSSavePanelTCMAdditions.h -text
+subethaedit/NSSavePanelTCMAdditions.m -text
 subethaedit/NSStringSEEAdditions.h -text
 subethaedit/NSStringSEEAdditions.m -text
 subethaedit/ODBEditorSuite.h -text

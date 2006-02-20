@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -16,6 +16,7 @@
 @interface DocumentController : NSDocumentController {
     IBOutlet NSView *O_openPanelAccessoryView;
     IBOutlet NSButton *O_goIntoBundlesCheckbox;
+    IBOutlet NSButton *O_showHiddenFilesCheckbox;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSPanel *O_modeHintPanel;
@@ -37,6 +38,7 @@
 + (DocumentController *)sharedInstance;
 
 - (IBAction)goIntoBundles:(id)sender;
+- (IBAction)showHiddenFiles:(id)sender;
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession;
 

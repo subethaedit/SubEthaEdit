@@ -91,6 +91,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     IBOutlet NSView *O_savePanelAccessoryView2;
     IBOutlet NSButton *O_goIntoBundlesCheckbox;
     IBOutlet NSButton *O_goIntoBundlesCheckbox2;
+    IBOutlet NSButton *O_showHiddenFilesCheckbox;
+    IBOutlet NSButton *O_showHiddenFilesCheckbox2;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
     NSSavePanel *I_savePanel;
     NSSaveOperationType I_lastSaveOperation;
@@ -145,6 +147,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (IBAction)newView:(id)aSender;
 - (IBAction)goIntoBundles:(id)sender;
+- (IBAction)showHiddenFiles:(id)sender;
 
 - (BOOL)isProxyDocument;
 - (BOOL)isPendingInvitation;

@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import "DocumentController.h"
@@ -17,6 +17,7 @@
 #import "TCMPreferenceModule.h"
 #import "StylePreferences.h"
 #import "TextStorage.h"
+#import "NSSavePanelTCMAdditions.h"
 
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
@@ -87,12 +88,20 @@
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
 }
 
+- (IBAction)showHiddenFiles:(id)sender {
+    BOOL flag = ([sender state] == NSOffState) ? NO : YES;
+    if ([I_openPanel canShowHiddenFiles]) {
+        [I_openPanel setInternalShowsHiddenFiles:flag];
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
+}
+
 - (int)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions {
     if (![NSBundle loadNibNamed:@"OpenPanelAccessory" owner:self])  {
         NSLog(@"Failed to load OpenPanelAccessory.nib");
         return nil;
     }
-    
+        
     [O_modePopUpButton setHasAutomaticMode:YES];
     [O_modePopUpButton setSelectedModeIdentifier:AUTOMATICMODEIDENTIFIER];
     [O_encodingPopUpButton setEncoding:ModeStringEncoding defaultEntry:YES modeEntry:YES lossyEncodings:nil];
@@ -103,6 +112,14 @@
     BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
     [openPanel setTreatsFilePackagesAsDirectories:flag];
     [O_goIntoBundlesCheckbox setState:flag ? NSOnState : NSOffState];
+    
+    if ([openPanel canShowHiddenFiles]) {
+        flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
+        [openPanel setInternalShowsHiddenFiles:flag];
+        [O_showHiddenFilesCheckbox setState:flag ? NSOnState : NSOffState];
+    } else {
+        [O_showHiddenFilesCheckbox setHidden:YES];
+    }
     
     I_openPanel = openPanel;
     int result = [super runModalOpenPanel:openPanel forTypes:extensions];
