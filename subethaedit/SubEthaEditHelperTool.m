@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Apr 13 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 //
 
@@ -168,10 +168,16 @@ static OSStatus ExchangeFileContents(CFStringRef path1, CFStringRef path2, CFDic
     return status;
 }
 
-static OSStatus AquireRight(AuthorizationRef auth)
+static OSStatus AquireRight(AuthorizationRef auth, CFStringRef path)
 {
     OSStatus err;
-    static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+    const char *kRightName;
+    if (path) {
+        NSString *rightName = [NSString stringWithFormat:@"sys.openfile.readwritecreate.%@", (NSString *)path];
+        kRightName = [rightName UTF8String];
+    } else {
+        kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+    }
     static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
                                                | kAuthorizationFlagInteractionAllowed
                                                | kAuthorizationFlagExtendRights
@@ -227,7 +233,8 @@ static OSStatus TestToolCommandProc(AuthorizationRef auth, CFDictionaryRef reque
     if (err == noErr) {
         if (CFEqual(command, CFSTR("GetFileDescriptor"))) {
             CFStringRef fileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("FileName"));
-            err = AquireRight(auth);
+            CFStringRef actualFileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("ActualFileName"));
+            err = AquireRight(auth, actualFileName);
             if (err == noErr) {
                 err = GetFileDescriptor(fileName, result);
             }
@@ -235,7 +242,7 @@ static OSStatus TestToolCommandProc(AuthorizationRef auth, CFDictionaryRef reque
             CFStringRef intermediateFileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("IntermediateFileName"));
             CFStringRef actualFileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("ActualFileName"));
             CFDictionaryRef attributes = (CFDictionaryRef)CFDictionaryGetValue(request, CFSTR("Attributes"));
-            err = AquireRight(auth);
+            err = AquireRight(auth, actualFileName);
             if (err == noErr) {
                 err = ExchangeFileContents(intermediateFileName, actualFileName, attributes, result);
             }
@@ -243,19 +250,19 @@ static OSStatus TestToolCommandProc(AuthorizationRef auth, CFDictionaryRef reque
             CFStringRef sourceFile = (CFStringRef)CFDictionaryGetValue(request, CFSTR("SourceFile"));
             CFStringRef targetFile = (CFStringRef)CFDictionaryGetValue(request, CFSTR("TargetFile"));
             CFDictionaryRef targetAttrs = (CFDictionaryRef)CFDictionaryGetValue(request, CFSTR("TargetAttributes"));
-            err = AquireRight(auth);
+            err = AquireRight(auth, nil);
             if (err == noErr) {
                 err = CopyFiles(sourceFile, targetFile, targetAttrs, result);
             }
         } else if (CFEqual(command, CFSTR("RemoveFiles"))) {
             CFArrayRef files = (CFArrayRef)CFDictionaryGetValue(request, CFSTR("Files"));
-            err = AquireRight(auth);
+            err = AquireRight(auth, nil);
             if (err == noErr) {
                 err = RemoveFiles(files, result);
             }
         } else if (CFEqual(command, CFSTR("GetReadOnlyFileDescriptor"))) {
             CFStringRef fileName = (CFStringRef)CFDictionaryGetValue(request, CFSTR("FileName"));
-            err = AquireRight(auth);
+            err = AquireRight(auth, fileName);
             if (err == noErr) {
                 err = GetReadOnlyFileDescriptor(fileName, result);
             }

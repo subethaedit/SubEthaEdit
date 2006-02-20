@@ -3,11 +3,12 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Feb 24 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 
 #import <Cocoa/Cocoa.h>
+#import <Security/Security.h>
 #import "EncodingManager.h"
 
 enum {
@@ -136,6 +137,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     // export nib
     IBOutlet NSWindow *O_exportSheet;
     IBOutlet NSObjectController *O_exportSheetController;
+    
+    AuthorizationRef I_authRef;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;

@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Feb 24 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Carbon/Carbon.h>
@@ -790,6 +790,11 @@ static NSString *tempFileName(NSString *origPath) {
         I_flags.isRemotelyEditingTextStorage=NO;
         [self setShowsChangeMarks:[[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesAlonePreferenceKey] && [[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]];
         [self TCM_initHelper];
+        
+        OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &I_authRef);
+        if (err != noErr) {
+            NSLog(@"Failed to create authRef!");
+        }
     }
     return self;
 }
@@ -812,6 +817,11 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)dealloc {
+
+    if (I_authRef != NULL) {
+        (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
+        I_authRef = NULL;
+    }
 
     if (transientDocument == self) {
         transientDocument = nil;
@@ -1258,6 +1268,10 @@ static NSString *tempFileName(NSString *origPath) {
         [I_symbolUpdateTimer invalidate];
         [I_webPreviewDelayedRefreshTimer invalidate];
         [self TCM_sendODBCloseEvent];
+        if (I_authRef != NULL) {
+            (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
+            I_authRef = NULL;
+        }
     } else {
         // if doing always, we delay the dealloc method ad inifitum on quit
         [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
@@ -1891,25 +1905,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (NSData *)TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:(NSString *)fileName {
-    OSStatus err;
+    OSStatus err = noErr;
     CFURLRef tool = NULL;
-    AuthorizationRef auth = NULL;
     NSDictionary *request = nil;
     NSDictionary *response = nil;
     NSData *fileData = nil;
 
-    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
-    if (err == noErr) {
-        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
-        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
-                                                   | kAuthorizationFlagInteractionAllowed
-                                                   | kAuthorizationFlagExtendRights
-                                                   | kAuthorizationFlagPreAuthorize;
-        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-        AuthorizationRights rights = { 1, &right };
 
-        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-    }
+    NSString *rightName = [NSString stringWithFormat:@"sys.openfile.readwritecreate.%@", fileName];
+    const char *kRightName = [rightName UTF8String];
+    static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                               | kAuthorizationFlagInteractionAllowed
+                                               | kAuthorizationFlagExtendRights
+                                               | kAuthorizationFlagPreAuthorize;
+    AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+    AuthorizationRights rights = { 1, &right };
+
+    err = AuthorizationCopyRights(I_authRef, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
     
     if (err == noErr) {
         err = MoreSecCopyHelperToolURLAndCheckBundled(
@@ -1947,7 +1959,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     // Go go gadget helper tool!
 
     if (err == noErr) {
-        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
     }
     
     // Extract information from the response.
@@ -1986,9 +1998,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     
     CFQRelease(tool);
-    if (auth != NULL) {
-        (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
-    }
     
     if (err == noErr) {
         return fileData;
@@ -2255,26 +2264,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)TCM_writeUsingAuthorizedHelperToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
-    OSStatus err;
+    OSStatus err = noErr;
     CFURLRef tool = NULL;
-    AuthorizationRef auth = NULL;
     NSDictionary *request = nil;
     NSDictionary *response = nil;
     NSString *intermediateFileName = tempFileName(fullDocumentPath);
 
 
-    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
-    if (err == noErr) {
-        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
-        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
-                                                   | kAuthorizationFlagInteractionAllowed
-                                                   | kAuthorizationFlagExtendRights
-                                                   | kAuthorizationFlagPreAuthorize;
-        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-        AuthorizationRights rights = { 1, &right };
-
-        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-    }
+    NSString *rightName = [NSString stringWithFormat:@"sys.openfile.readwritecreate.%@", fullDocumentPath];
+    const char *kRightName = [rightName UTF8String];
+    static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                               | kAuthorizationFlagInteractionAllowed
+                                               | kAuthorizationFlagExtendRights
+                                               | kAuthorizationFlagPreAuthorize;
+    AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+    AuthorizationRights rights = { 1, &right };
+        
+    err = AuthorizationCopyRights(I_authRef, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
     
     if (err == noErr) {
         err = MoreSecCopyHelperToolURLAndCheckBundled(
@@ -2300,7 +2306,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
         
-        
     // ---
     
     if (err == noErr) {
@@ -2313,11 +2318,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 request = [NSDictionary dictionaryWithObjectsAndKeys:
                                     @"GetFileDescriptor", @"CommandName",
                                     fullDocumentPath, @"FileName",
+                                    fullDocumentPath, @"ActualFileName",
                                     nil];
             }
 
             if (err == noErr) {
-                err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+                err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
             }
             
             if (err == noErr) {
@@ -2360,9 +2366,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 
             CFQRelease(tool);
-            if (auth != NULL) {
-                (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
-            }
             
             return ((err == noErr) ? YES : NO);
         }
@@ -2376,13 +2379,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         request = [NSDictionary dictionaryWithObjectsAndKeys:
                             @"GetFileDescriptor", @"CommandName",
                             intermediateFileName, @"FileName",
+                            fullDocumentPath, @"ActualFileName",
                             nil];
     }
 
     // Go go gadget helper tool!
 
     if (err == noErr) {
-        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
     }
     
     // Extract information from the response.
@@ -2446,7 +2450,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     // Go go gadget helper tool!
 
     if (err == noErr) {
-        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+        err = MoreSecExecuteRequestInHelperTool(tool, I_authRef, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
     }
     
     // Extract information from the response.
@@ -2466,10 +2470,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 
     CFQRelease(tool);
-    if (auth != NULL) {
-        (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
-    }
-    
     
     return ((err == noErr) ? YES : NO);
 }
