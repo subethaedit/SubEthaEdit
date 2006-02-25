@@ -1937,8 +1937,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSData *fileData = nil;
 
 
-    NSString *rightName = [NSString stringWithFormat:@"sys.openfile.readwritecreate.%@", fileName];
-    const char *kRightName = [rightName UTF8String];
+    const char *kRightName = "de.codingmonkeys.SubEthaEdit.file.readwritecreate";
     static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
                                                | kAuthorizationFlagInteractionAllowed
                                                | kAuthorizationFlagExtendRights
@@ -2296,8 +2295,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSString *intermediateFileName = tempFileName(fullDocumentPath);
 
 
-    NSString *rightName = [NSString stringWithFormat:@"sys.openfile.readwritecreate.%@", fullDocumentPath];
-    const char *kRightName = [rightName UTF8String];
+    const char *kRightName = "de.codingmonkeys.SubEthaEdit.file.readwritecreate";
     static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
                                                | kAuthorizationFlagInteractionAllowed
                                                | kAuthorizationFlagExtendRights

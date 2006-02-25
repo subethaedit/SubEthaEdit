@@ -173,8 +173,7 @@ static OSStatus AquireRight(AuthorizationRef auth, CFStringRef path)
     OSStatus err;
     const char *kRightName;
     if (path) {
-        NSString *rightName = [NSString stringWithFormat:@"sys.openfile.readwritecreate.%@", (NSString *)path];
-        kRightName = [rightName UTF8String];
+        kRightName = "de.codingmonkeys.SubEthaEdit.file.readwritecreate";
     } else {
         kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
     }
