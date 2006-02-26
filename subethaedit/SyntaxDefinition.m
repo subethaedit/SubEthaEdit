@@ -386,9 +386,9 @@
         NSString *tag = (NSString *)CFXMLNodeGetString(node);
         NSString *content = extractStringWithEntitiesFromTree(xmlTree);
         if ([@"regex" isEqualToString:tag]) {
-            NSMutableSet *regexs;
+            NSMutableArray *regexs;
             if (!(regexs = [aDictionary objectForKey:@"RegularExpressions"])) {
-                [aDictionary setObject:[NSMutableSet set] forKey:@"RegularExpressions"];
+                [aDictionary setObject:[NSMutableArray array] forKey:@"RegularExpressions"];
                 regexs = [aDictionary objectForKey:@"RegularExpressions"];
             }
             [regexs addObject:content];
