@@ -4597,7 +4597,7 @@
         </default>
 
         <state id="Characters" color="#00f" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>'</regex></begin>
+            <begin><regex>'(?=\\?.')</regex></begin>
             <end><regex>(\\'')|(.')</regex></end>
         </state>
         
