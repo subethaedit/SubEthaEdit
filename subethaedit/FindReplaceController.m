@@ -351,8 +351,6 @@ static FindReplaceController *sharedInstance=nil;
 - (void) replaceSelection
 {
     BOOL found = YES;
-    TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
-    SelectionOperation *replaceSelectionOperation;
 
     NSTextView *target = [self targetToFindIn];
     if (target) {
@@ -370,10 +368,7 @@ static FindReplaceController *sharedInstance=nil;
             NSBeep();
             return;
         }
-
-        replaceSelectionOperation = [SelectionOperation new];
-        [replaceSelectionOperation setSelectedRange:selection];
-
+        
         PlainTextDocument *aDocument = (PlainTextDocument *)[[[target window] windowController] document];
         NSDictionary *attributes = [aDocument typingAttributes];
         
@@ -385,7 +380,8 @@ static FindReplaceController *sharedInstance=nil;
             [self loadFindStringToPasteboard];
             [text replaceCharactersInRange:selection withString:replaceString];
             [[target textStorage] addAttributes:attributes range:NSMakeRange(selection.location, [replaceString length])];
-            [transformator transformOperation:replaceSelectionOperation serverOperation:[TextOperation textOperationWithAffectedCharRange:selection replacementString:replaceString userID:[TCMMMUserManager myUserID]]];
+            selection.location = selection.location + [replaceString length];
+            selection.length = 0;
         } else {
             // This might not work for lookahead etc.
             OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:findString
@@ -400,7 +396,8 @@ static FindReplaceController *sharedInstance=nil;
                 NSString *replaceWith = [repex replaceMatchedStringOf:aMatch];
                 [text replaceCharactersInRange:matchedRange withString:replaceWith];
                 [[target textStorage] addAttributes:attributes range:NSMakeRange(matchedRange.location, [replaceWith length])];
-                [transformator transformOperation:replaceSelectionOperation serverOperation:[TextOperation textOperationWithAffectedCharRange:selection replacementString:replaceWith userID:[TCMMMUserManager myUserID]]];
+                selection.location = selection.location + [replaceWith length];
+                selection.length = 0;
             } else {
                 NSBeep();
                 found=NO;
@@ -411,8 +408,7 @@ static FindReplaceController *sharedInstance=nil;
         if (found) [[aDocument documentUndoManager] endUndoGrouping];
         [[aDocument session] startProcessing];
         
-        [aDocument selectRange:[replaceSelectionOperation selectedRange]];
-        [replaceSelectionOperation release];
+        [target setSelectedRange:selection];
     }
 }
 
