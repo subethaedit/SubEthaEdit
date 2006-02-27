@@ -950,7 +950,6 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode {
     if (aDocumentMode != I_documentMode) {
-        NSLog(@"Set the document mode to %@", [aDocumentMode documentModeIdentifier]);
         [I_documentMode autorelease];
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
         [highlighter cleanUpTextStorage:[self textStorage]];
