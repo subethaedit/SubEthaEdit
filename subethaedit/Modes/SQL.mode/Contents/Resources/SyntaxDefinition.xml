@@ -847,6 +847,11 @@
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
         
+        <state id="String with Backticks" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+            <begin><regex>`</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
+        </state>
+        
         <state id="String Doublequoted" color="#608" background-color="none" font-weight="normal" font-style="normal">
             <begin><regex>"</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
