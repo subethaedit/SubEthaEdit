@@ -949,25 +949,28 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode {
-    [I_documentMode autorelease];
-    SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
-    [highlighter cleanUpTextStorage:[self textStorage]];
-     I_documentMode = [aDocumentMode retain];
-    [self takeSettingsFromDocumentMode];
-    [I_textStorage addAttributes:[self plainTextAttributes]
-                               range:NSMakeRange(0,[I_textStorage length])];
-    if (I_flags.highlightSyntax) {
-        [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
-    }
-    [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
-    [self updateSymbolTable];
-    if (I_flags.shouldChangeExtensionOnModeChange) {
-        NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
-        if ([recognizedExtensions count]) {
-            if ([I_session isServer]) {
-                [I_session setFilename:[self preparedDisplayName]];
+    if (aDocumentMode != I_documentMode) {
+        NSLog(@"Set the document mode to %@", [aDocumentMode documentModeIdentifier]);
+        [I_documentMode autorelease];
+        SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
+        [highlighter cleanUpTextStorage:[self textStorage]];
+         I_documentMode = [aDocumentMode retain];
+        [self takeSettingsFromDocumentMode];
+        [I_textStorage addAttributes:[self plainTextAttributes]
+                                   range:NSMakeRange(0,[I_textStorage length])];
+        if (I_flags.highlightSyntax) {
+            [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
+        }
+        [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
+        [self updateSymbolTable];
+        if (I_flags.shouldChangeExtensionOnModeChange) {
+            NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
+            if ([recognizedExtensions count]) {
+                if ([I_session isServer]) {
+                    [I_session setFilename:[self preparedDisplayName]];
+                }
+                [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
             }
-            [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
         }
     }
 }
@@ -3014,16 +3017,19 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         sLayoutManager=[NSLayoutManager new];
     }
     if (!I_defaultParagraphStyle) {
-        I_defaultParagraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [I_defaultParagraphStyle setTabStops:[NSArray array]];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setTabStops:[NSArray array]];
         NSFont *font=[sLayoutManager substituteFontForFont:[self fontWithTrait:nil]];
         float charWidth = [font widthOfString:@" "];
         if (charWidth<=0) {
             charWidth=[font maximumAdvancement].width;
         }
-        [I_defaultParagraphStyle setLineBreakMode:I_flags.wrapMode==DocumentModeWrapModeCharacters?NSLineBreakByCharWrapping:NSLineBreakByWordWrapping];
-        [I_defaultParagraphStyle setDefaultTabInterval:charWidth*I_tabWidth];
-        [I_defaultParagraphStyle addTabStop:[[[NSTextTab alloc] initWithType:NSLeftTabStopType location:charWidth*I_tabWidth] autorelease]];
+        [paragraphStyle setLineBreakMode:I_flags.wrapMode==DocumentModeWrapModeCharacters?NSLineBreakByCharWrapping:NSLineBreakByWordWrapping];
+        [paragraphStyle setDefaultTabInterval:charWidth*I_tabWidth];
+        [paragraphStyle addTabStop:[[[NSTextTab alloc] initWithType:NSLeftTabStopType location:charWidth*I_tabWidth] autorelease]];
+
+        I_defaultParagraphStyle = [paragraphStyle copy];
+        [paragraphStyle release];
         [[self textStorage] addAttribute:NSParagraphStyleAttributeName value:I_defaultParagraphStyle range:NSMakeRange(0,[[self textStorage] length])];
     }
     return I_defaultParagraphStyle;
@@ -3046,10 +3052,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)TCM_invalidateTextAttributes {
-      [I_plainTextAttributes release];
-       I_plainTextAttributes=nil;
+    [I_plainTextAttributes release];
+     I_plainTextAttributes=nil;
     [I_typingAttributes release];
-       I_typingAttributes=nil;
+     I_typingAttributes=nil;
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];

@@ -122,7 +122,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         SyntaxDefinition *synDef = [[[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"] forMode:self] autorelease];
         RegexSymbolDefinition *symDef = [[[RegexSymbolDefinition alloc] initWithFile:[aBundle pathForResource:@"RegexSymbols" ofType:@"xml"] forMode:self] autorelease];
         
-        if (synDef)
+        if (synDef && ![self isBaseMode])
             I_syntaxHighlighter = [[SyntaxHighlighter alloc] initWithSyntaxDefinition:synDef];
         if (symDef)
             I_symbolParser = [[RegexSymbolParser alloc] initWithSymbolDefinition:symDef];

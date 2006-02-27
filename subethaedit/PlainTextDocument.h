@@ -80,7 +80,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     NSMutableDictionary *I_styleCacheDictionary;
     NSDictionary *I_plainTextAttributes;
     NSDictionary *I_typingAttributes;
-    NSMutableParagraphStyle *I_defaultParagraphStyle;
+    NSParagraphStyle *I_defaultParagraphStyle;
     NSDictionary *I_fileAttributes;
     NSDictionary *I_ODBParameters;
     NSString *I_jobDescription;
