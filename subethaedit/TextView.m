@@ -531,5 +531,72 @@ static NSMenu *defaultMenu=nil;
     return result;
 }
 
+#define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
+
+#pragma mark -
+#pragma mark ### handle ruler interaction ###
+// needs the textview to be delegate to the ruler
+- (void)rulerView:(NSRulerView *)aRulerView handleMouseDown:(NSEvent *)anEvent {
+    NSString *textStorageString = [[self textStorage] string];
+    if ([textStorageString length]==0) return;
+    NSLayoutManager *layoutManager = [self layoutManager];
+    NSTextContainer *textContainer = [self textContainer];
+    NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
+    point.x=5;
+    unsigned glyphIndex,endCharacterIndex,startCharacterIndex;
+    glyphIndex=[layoutManager glyphIndexForPoint:point 
+                                 inTextContainer:textContainer];
+    endCharacterIndex = startCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+    NSRange selectedRange = [textStorageString lineRangeForRange:SPANNINGRANGE(startCharacterIndex, endCharacterIndex)];
+    [self setSelectedRange:selectedRange];
+    NSEvent *autoscrollEvent=nil;
+    BOOL timerOn = NO;
+    while (1) {
+        NSEvent *event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask | NSPeriodicMask)];
+        switch ([event type]) {
+            case NSPeriodic:
+                if (autoscrollEvent) [self autoscroll:autoscrollEvent];
+                event = autoscrollEvent;           
+            case NSLeftMouseDragged:
+                point = [self convertPoint:[event locationInWindow] fromView:nil];
+                glyphIndex = [layoutManager glyphIndexForPoint:point
+                                               inTextContainer:textContainer];
+                endCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+                selectedRange = [textStorageString lineRangeForRange:SPANNINGRANGE(startCharacterIndex, endCharacterIndex)];
+                if (!NSEqualRanges([self selectedRange], selectedRange)) {
+                    [self setSelectedRange:selectedRange];
+                }
+                if ([self mouse:point inRect:[self visibleRect]]) {
+                    if (timerOn) {
+                        [NSEvent stopPeriodicEvents];
+                        timerOn = NO;
+                        [autoscrollEvent release];
+                        autoscrollEvent = nil;
+                    }
+                } else {
+                    if (timerOn) {
+                        [autoscrollEvent release];
+                         autoscrollEvent = [event retain];
+                    } else {
+                        [NSEvent startPeriodicEventsAfterDelay:0.1 withPeriod:0.1];
+                        timerOn = YES;
+                        [autoscrollEvent release];
+                        autoscrollEvent = [event retain];
+                    }
+                }
+            break;
+                
+            case NSLeftMouseUp:
+                if (timerOn) {
+                    [NSEvent stopPeriodicEvents];
+                    timerOn = NO;
+                    [autoscrollEvent release];
+                    autoscrollEvent = nil;
+                }
+            return;
+        }
+    }
+}
+
 
 @end
