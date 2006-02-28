@@ -303,7 +303,12 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)applyEditPreferences:(NSNotification *)aNotification {
-    if ([[aNotification object] isEqual:[self documentMode]]) {
+    DocumentMode *mode=[self documentMode];
+    if ([[aNotification object] isEqual:mode] || 
+        ([[aNotification object] isBaseMode] && 
+         ([[mode defaultForKey:DocumentModeUseDefaultEditPreferenceKey] boolValue] ||
+          [[mode defaultForKey:DocumentModeUseDefaultViewPreferenceKey] boolValue] ||
+          [[mode defaultForKey:DocumentModeUseDefaultFilePreferenceKey] boolValue]))) {
         [self takeEditSettingsFromDocumentMode];
         [self resizeAccordingToDocumentMode];
     }
