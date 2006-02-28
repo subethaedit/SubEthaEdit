@@ -3512,6 +3512,13 @@
                 <string>var</string>
                 <string>int</string>
                 <string>float</string>
+                <string>real</string>
+                <string>double</string>
+                <string>bool</string>
+                <string>boolean</string>
+                <string>integer</string>
+                <string>resource</string>
+                <string>NULL</string>
                 <string>string</string>
                 <string>array</string>
                 <string>list</string>
