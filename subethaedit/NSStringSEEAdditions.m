@@ -100,6 +100,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 {
     // Pirated number (2.1.1): 2QF-PABI-OCM6-KRHH (Blocked by enforcing SEE prefix)
     // Pirated number (2.2): SEE-11G0-M1A0-5ROC (Blocked #1500/63000)
+    // Pirated number (2.3): SEE-1960-4979-8692 (Blocked #431865/49392)
     
     static int calls = 0;
     NSArray *splitArray = [self componentsSeparatedByString:@"-"];
@@ -128,7 +129,8 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
                       [two characterAtIndex:2]] base36Value];
 
             // check for pirated number            
-            if ((number==1500) && (rndnumber == 63000)) {
+            if (((number==1500) && (rndnumber == 63000)) ||
+                ((number==431865) && (rndnumber == 49392))) {
                 NSLog(@"Arrrr!");
                 return NO;
             }
