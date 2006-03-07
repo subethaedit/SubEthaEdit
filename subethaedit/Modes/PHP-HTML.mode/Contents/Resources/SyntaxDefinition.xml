@@ -34,7 +34,6 @@
                 <string>ada_result</string>
                 <string>ada_resultall</string>
                 <string>ada_rollback</string>
-                <string>add</string>
                 <string>add_iovec</string>
                 <string>addaction</string>
                 <string>addcolor</string>
@@ -2813,7 +2812,6 @@
                 <string>register_shutdown_function</string>
                 <string>register_tick_function</string>
                 <string>reload</string>
-                <string>remove</string>
                 <string>rename</string>
                 <string>reset</string>
                 <string>restore_error_handler</string>
