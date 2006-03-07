@@ -418,6 +418,16 @@ NSString * const BlockeditAttributeValue=@"YES";
     [self setHasBlockeditRanges:NO];
 }
 
+- (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange {
+    NSEnumerator *attributeNames=[anObjectEnumerable objectEnumerator];
+    id attributeName=nil;
+    while ((attributeName=[attributeNames nextObject])) {
+        [self removeAttribute:attributeName
+                        range:aRange];
+    }
+}
+
+
 #pragma mark -
 #pragma mark ### Abstract Primitives of NSTextStorage ###
 

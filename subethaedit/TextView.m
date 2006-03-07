@@ -24,6 +24,9 @@
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 
+#define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
+
+
 @implementation TextView
 
 static NSMenu *defaultMenu=nil;
@@ -39,7 +42,7 @@ static NSMenu *defaultMenu=nil;
 
 - (void)trackMouseForBlockeditWithEvent:(NSEvent *)aEvent {
     NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextView:self];
-    BOOL outside=NO;
+    BOOL timerOn=NO;
     NSScrollView *scrollView=[self enclosingScrollView];
 
     NSPoint currentPoint;
@@ -48,47 +51,54 @@ static NSMenu *defaultMenu=nil;
 
     NSLayoutManager *layoutManager=[self layoutManager];
     TextStorage *textStorage=(TextStorage *)[self textStorage];
+    if ([textStorage length]==0) return;
+
     NSRange blockeditRange,tempRange;
 
     currentPoint = [self convertPoint:[aEvent locationInWindow] fromView:nil];
-    glyphIndex =[layoutManager glyphIndexForPoint:currentPoint 
-                                     inTextContainer:[self textContainer]];
+    glyphIndex = [layoutManager glyphIndexForPoint:currentPoint 
+                                   inTextContainer:[self textContainer]];
     beginIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+    
+    BOOL isAddingBlockeditRanges = [[textStorage attributesAtIndex:beginIndex effectiveRange:NULL] objectForKey:BlockeditAttributeName]==nil;
+
     blockeditRange=[[self string] lineRangeForRange:NSMakeRange(beginIndex,0)];
     [textStorage addAttributes:blockeditAttributes 
-                 range:blockeditRange];    
+                         range:blockeditRange];    
 
+    NSEvent *leftMouseDraggedEvent = nil;
     while (YES) {
         NSRange intersectionRange;
-        NSEvent *leftMouseDraggedEvent = nil;
         aEvent=[[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask|NSLeftMouseUpMask|NSPeriodicMask)];
 
         if ([aEvent type] == NSLeftMouseDragged) {
-            leftMouseDraggedEvent=aEvent;
-            BOOL hitsContent=[scrollView 
-                                 mouse:[scrollView convertPoint:[aEvent locationInWindow] fromView:nil] 
-                                inRect:[scrollView bounds]];
-            if (outside) {
+            [leftMouseDraggedEvent release];
+             leftMouseDraggedEvent=[aEvent retain];
+            BOOL hitsContent=[self mouse:[self convertPoint:[aEvent locationInWindow] fromView:nil] 
+                                  inRect:[self visibleRect]];
+            if (timerOn) {
                 if (hitsContent) {
                     [NSEvent stopPeriodicEvents];
-                    outside=NO;
+                    timerOn=NO;
                 }
             } else {
                 if (!hitsContent) {
-                    [NSEvent startPeriodicEventsAfterDelay:0.0 withPeriod:0.1];
-                    outside=YES;
+                    [NSEvent startPeriodicEventsAfterDelay:0.1 withPeriod:0.1];
+                    timerOn=YES;
                 }
             }
         }
         
         if ([aEvent type] == NSPeriodic) {
-            [self autoscroll:aEvent];
+            [self autoscroll:leftMouseDraggedEvent];
         } 
         
         if ([aEvent type] == NSLeftMouseUp) {
             if ([textStorage length]>0) {
                 [textStorage setHasBlockeditRanges:YES];
                 [NSEvent stopPeriodicEvents];
+                [leftMouseDraggedEvent release];
+                 leftMouseDraggedEvent = nil;
                 // evil hack for unpause
                 [[self delegate] textViewDidChangeSelection:nil];
             }
@@ -96,11 +106,10 @@ static NSMenu *defaultMenu=nil;
         } else {
             currentPoint = [self convertPoint:[leftMouseDraggedEvent locationInWindow] fromView:nil];
             glyphIndex =[layoutManager glyphIndexForPoint:currentPoint 
-                                             inTextContainer:[self textContainer]]; 
+                                          inTextContainer:[self textContainer]]; 
             characterIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
-            tempRange.location=MIN(beginIndex,characterIndex);
-            tempRange.length  =MAX(beginIndex,characterIndex)-MIN(beginIndex,characterIndex);
-            tempRange=[[self string] lineRangeForRange:tempRange];
+            tempRange=[[self string] lineRangeForRange:SPANNINGRANGE(beginIndex,characterIndex)];
+
             if (!NSEqualRanges(blockeditRange,tempRange)) {
                 if (blockeditRange.location!=tempRange.location) {
                     if (blockeditRange.location>tempRange.location) {
@@ -111,12 +120,8 @@ static NSMenu *defaultMenu=nil;
                     } else {
                         intersectionRange.location=blockeditRange.location;
                         intersectionRange.length=tempRange.location-blockeditRange.location;
-                        NSEnumerator *attributeNames=[blockeditAttributes keyEnumerator];
-                        id attributeName=nil;
-                        while ((attributeName=[attributeNames nextObject])) {
-                            [textStorage removeAttribute:attributeName
-                                                   range:intersectionRange];
-                        }
+                        [textStorage removeAttributes:[blockeditAttributes allKeys]
+                                                range:intersectionRange];
                     }
                 }
                 if (NSMaxRange(blockeditRange)!=NSMaxRange(tempRange)) {
@@ -128,12 +133,8 @@ static NSMenu *defaultMenu=nil;
                     } else {
                         intersectionRange.location=NSMaxRange(tempRange);
                         intersectionRange.length  =NSMaxRange(blockeditRange)-NSMaxRange(tempRange);
-                        NSEnumerator *attributeNames=[blockeditAttributes keyEnumerator];
-                        id attributeName=nil;
-                        while ((attributeName=[attributeNames nextObject])) {
-                            [textStorage removeAttribute:attributeName
-                                                   range:intersectionRange];
-                        }
+                        [textStorage removeAttributes:[blockeditAttributes allKeys]
+                                                range:intersectionRange];
                     }
                 }
                 blockeditRange=tempRange;
@@ -531,12 +532,10 @@ static NSMenu *defaultMenu=nil;
     return result;
 }
 
-#define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
-
 #pragma mark -
 #pragma mark ### handle ruler interaction ###
-// needs the textview to be delegate to the ruler
-- (void)rulerView:(NSRulerView *)aRulerView handleMouseDown:(NSEvent *)anEvent {
+
+- (void)trackMouseForLineSelectionWithEvent:(NSEvent *)anEvent {
     NSString *textStorageString = [[self textStorage] string];
     if ([textStorageString length]==0) return;
     NSLayoutManager *layoutManager = [self layoutManager];
@@ -596,6 +595,15 @@ static NSMenu *defaultMenu=nil;
             return;
         }
     }
+}
+
+// needs the textview to be delegate to the ruler
+- (void)rulerView:(NSRulerView *)aRulerView handleMouseDown:(NSEvent *)anEvent {
+    if (([anEvent modifierFlags] & NSAlternateKeyMask) && [self isEditable]) {
+        [self trackMouseForBlockeditWithEvent:anEvent];
+    } else {
+        [self trackMouseForLineSelectionWithEvent:anEvent];
+    }    
 }
 
 

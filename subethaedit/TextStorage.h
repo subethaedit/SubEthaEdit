@@ -57,6 +57,8 @@ extern NSString * const BlockeditAttributeValue;
 
 - (NSMutableAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor backgroundColor:(NSColor *)aBackgroundColor;
 
+- (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange;
+
 @end
 
 #pragma mark -
