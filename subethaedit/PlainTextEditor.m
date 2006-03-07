@@ -409,11 +409,10 @@
     NSSize result;
     NSFont *font=[[self document] fontWithTrait:0];
     float characterWidth=[font widthOfString:@"n"];
-    result.width = characterWidth*aColumns + [[I_textView textContainer] lineFragmentPadding]*2 + [I_textView textContainerInset].width*2 + ([O_editorView bounds].size.width - [I_textView bounds].size.width);
+    result.width = characterWidth*aColumns + [[I_textView textContainer] lineFragmentPadding]*2 + [I_textView textContainerInset].width*2 + ([O_editorView bounds].size.width - [[I_textView enclosingScrollView] contentSize].width);
     result.height = [font defaultLineHeightForFont]*aRows +
-                    ([self showsBottomStatusBar]?18.:0) +
-                    ([self showsTopStatusBar]?18.:0) +
-                    [I_textView textContainerInset].height * 2;
+                    [I_textView textContainerInset].height * 2 +
+                    ([O_editorView bounds].size.height - [[I_textView enclosingScrollView] contentSize].height);
     return result;
 }
 
