@@ -333,5 +333,14 @@ static NSString *S_specialGlyphs[11];
     [super drawGlyphsForGlyphRange: glyphRange atPoint: containerOrigin];
 }
 
+- (void)removeTemporaryAttributes:(id)anObjectEnumerable forCharacterRange:(NSRange)aRange {
+    NSEnumerator *attributeNames=[anObjectEnumerable objectEnumerator];
+    id attributeName=nil;
+    while ((attributeName=[attributeNames nextObject])) {
+        [self removeTemporaryAttribute:attributeName
+                     forCharacterRange:aRange];
+    }
+}
+
 
 @end
