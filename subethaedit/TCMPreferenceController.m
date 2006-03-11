@@ -98,6 +98,8 @@ static TCMPreferenceController *sharedInstance = nil;
 - (void)windowDidLoad
 {
     [[self window] setToolbar:I_toolbar];
+    [[[self window] standardWindowButton: NSWindowToolbarButton] setFrame: NSZeroRect];
+
     [I_toolbar autorelease];
         
     if ([I_toolbarItemIdentifiers count] > 0) {
