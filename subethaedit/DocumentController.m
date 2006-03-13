@@ -504,6 +504,7 @@ static NSString *tempFileName() {
             
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
+            [(PlainTextDocument *)document resizeAccordingToDocumentMode];
             [document readFromFile:standardInputFile ofType:@"PlainTextType"];
             if (!pipeTitle) {
                 [(PlainTextDocument *)document setShouldChangeExtensionOnModeChange:YES];
@@ -512,6 +513,7 @@ static NSString *tempFileName() {
             if (pipeTitle && ![properties objectForKey:@"mode"]) {
                 DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[pipeTitle pathExtension]];
                 [(PlainTextDocument *)document setDocumentMode:mode];
+                [(PlainTextDocument *)document resizeAccordingToDocumentMode];
                 [(PlainTextDocument *)document setShouldSelectModeOnSave:NO];
             } else if (![properties objectForKey:@"mode"]) {
                 [(PlainTextDocument *)document setShouldSelectModeOnSave:YES];
