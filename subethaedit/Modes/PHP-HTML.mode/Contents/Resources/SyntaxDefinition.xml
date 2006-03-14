@@ -3524,7 +3524,9 @@
                 <string>if</string>
                 <string>else</string>
                 <string>elseif</string>
+                <string>endif</string>
                 <string>while</string>
+                <string>endwhile</string>
                 <string>do</string>
                 <string>for</string>
                 <string>foreach</string>
