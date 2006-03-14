@@ -311,4 +311,29 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (void)addFindAllController:(FindAllController *)aController;
 - (void)removeFindAllController:(FindAllController *)aController;
+
+@end
+
+#pragma mark -
+
+typedef enum {
+    kAccessOptionReadWrite = 'RdWr',
+    kAccessOptionReadOnly = 'RdOn',
+    kAccessOptionLocked = 'Lock'
+} AccessOptions;
+
+@interface PlainTextDocument (PlainTextDocumentScriptingAdditions)
+
+- (NSString *)encoding;
+- (void)setEncoding:(NSString *)name;
+- (NSString *)mode;
+- (void)setMode:(NSString *)identifier;
+- (AccessOptions)accessOption;
+- (void)setAccessOption:(AccessOptions)option;
+- (NSString *)announcementURL;
+- (NSTextStorage *)text;
+- (void)setText:(NSString *)aString;
+- (id)selection;
+- (void)setSelection:(id)selection;
+
 @end

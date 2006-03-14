@@ -35,15 +35,21 @@
         PlainTextWindowController *windowController = [window windowController];
         
         PlainTextDocument *document = [windowController document];
-        if ([document isProxyDocument]) {
-            return nil;
-        }
-    
-        PlainTextEditor *editor = [windowController activePlainTextEditor];
-        return [TextSelection selectionForEditor:editor];
+        return [document selection];
     }
 
     return nil;
+}
+
+- (void)setSelection:(id)selection {
+    NSArray *orderedWindows = [NSApp orderedWindows];
+    if ([orderedWindows count] > 0) {
+        NSWindow *window = [orderedWindows objectAtIndex:0];
+        PlainTextWindowController *windowController = [window windowController];
+        
+        PlainTextDocument *document = [windowController document];
+        return [document setSelection:selection];
+    }
 }
 
 @end

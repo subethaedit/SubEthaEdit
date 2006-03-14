@@ -4467,26 +4467,6 @@ static NSString *S_measurementUnits;
 
 #pragma mark -
 
-typedef enum {
-    kAccessOptionReadWrite = 'RdWr',
-    kAccessOptionReadOnly = 'RdOn',
-    kAccessOptionLocked = 'Lock'
-} AccessOptions;
-
-@interface PlainTextDocument (PlainTextDocumentScriptingAdditions)
-
-- (NSString *)encoding;
-- (void)setEncoding:(NSString *)name;
-- (NSString *)mode;
-- (void)setMode:(NSString *)identifier;
-- (AccessOptions)accessOption;
-- (void)setAccessOption:(AccessOptions)option;
-- (NSString *)announcementURL;
-- (NSTextStorage *)text;
-- (void)setText:(NSString *)aString;
-
-@end
-
 @implementation PlainTextDocument (PlainTextDocumentScriptingAdditions)
 
 - (NSString *)encoding {
@@ -4607,6 +4587,22 @@ typedef enum {
     
     PlainTextEditor *editor = [windowController activePlainTextEditor];
     return [TextSelection selectionForEditor:editor];
+}
+
+- (void)setSelection:(id)selection {
+    if (![selection isKindOfClass:[NSArray class]] || [selection count] != 2 || [self isProxyDocument]) 
+        return;
+        
+    int startIndex = [[selection objectAtIndex:0] intValue];
+    int endIndex = [[selection objectAtIndex:1] intValue];
+    
+    PlainTextWindowController *windowController = [self topmostWindowController];
+    PlainTextEditor *editor = [windowController activePlainTextEditor];
+    NSTextView *textView = [editor textView];
+    unsigned length = [[textView textStorage] length];
+    
+    if (startIndex > 0 && startIndex <= length && endIndex <= [[textView textStorage] length])
+        [textView setSelectedRange:NSMakeRange(startIndex - 1, endIndex - startIndex + 1)];
 }
 
 @end

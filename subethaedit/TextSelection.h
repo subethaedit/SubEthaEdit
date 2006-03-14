@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PlainTextEditor, TextStorage;
+@class PlainTextEditor;
 
 @interface TextSelection : NSObject {
     PlainTextEditor *I_editor;
