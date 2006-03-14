@@ -45,6 +45,8 @@
 #import <sys/stat.h>
 #import <string.h>
 
+#import "TextSelection.h"
+
 
 #pragma options align=mac68k
 struct SelectionRange
@@ -4593,6 +4595,18 @@ typedef enum {
     } else {
         return [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:value toClass:[NSString class]];
     }
+}
+
+
+- (id)selection {
+    PlainTextWindowController *windowController = [self topmostWindowController];
+    
+    if ([self isProxyDocument]) {
+        return nil;
+    }
+    
+    PlainTextEditor *editor = [windowController activePlainTextEditor];
+    return [TextSelection selectionForEditor:editor];
 }
 
 @end

@@ -59,6 +59,8 @@ extern NSString * const BlockeditAttributeValue;
 
 - (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange;
 
+- (id)insertionPoints;
+
 @end
 
 #pragma mark -

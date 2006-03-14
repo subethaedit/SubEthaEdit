@@ -225,7 +225,6 @@
 		1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* WebPreviewWindowController.m */; };
 		1428948009575E0500D14688 /* SubEthaEditSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */; };
 		1428948109575E0500D14688 /* SubEthaEditSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */; };
-		1428948409575E2E00D14688 /* SubEthaEditScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 1428947D09575E0500D14688 /* SubEthaEditScripting.r */; };
 		1428949209575EF500D14688 /* GeneralPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1428949009575EF500D14688 /* GeneralPrefs.nib */; };
 		142894A409575FF200D14688 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894A309575FF200D14688 /* TextFieldCell.m */; };
 		142894AF0957609300D14688 /* MoreCFQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 14289109095744C100D14688 /* MoreCFQ.c */; };
@@ -248,7 +247,10 @@
 		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
 		144DEAA609AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */; };
 		144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */; };
+		144DF1E809ABAD1F00AF8CFB /* TextSelection.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 144DF1E609ABAD1F00AF8CFB /* TextSelection.h */; };
+		144DF1E909ABAD1F00AF8CFB /* TextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 144DF1E709ABAD1F00AF8CFB /* TextSelection.m */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
+		14C1C87709BDEBFC00A27D3F /* SubEthaEditScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 1428947D09575E0500D14688 /* SubEthaEditScripting.r */; };
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
@@ -392,6 +394,7 @@
 			files = (
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
 				144DEAA609AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h in Copy Files (Frameworks) */,
+				144DF1E809ABAD1F00AF8CFB /* TextSelection.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -738,6 +741,8 @@
 		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };
 		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
 		144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSavePanelTCMAdditions.m; sourceTree = "<group>"; };
+		144DF1E609ABAD1F00AF8CFB /* TextSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextSelection.h; sourceTree = "<group>"; };
+		144DF1E709ABAD1F00AF8CFB /* TextSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextSelection.m; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1098,6 +1103,8 @@
 				1428945709575B9700D14688 /* RadarScroller.m */,
 				1428945809575B9700D14688 /* SplitView.h */,
 				1428945909575B9700D14688 /* SplitView.m */,
+				144DF1E609ABAD1F00AF8CFB /* TextSelection.h */,
+				144DF1E709ABAD1F00AF8CFB /* TextSelection.m */,
 				1428945A09575B9700D14688 /* TextStorage.h */,
 				1428945B09575B9700D14688 /* TextStorage.m */,
 				1428945C09575B9700D14688 /* TextView.h */,
@@ -1693,7 +1700,7 @@
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1428948409575E2E00D14688 /* SubEthaEditScripting.r in Rez */,
+				14C1C87709BDEBFC00A27D3F /* SubEthaEditScripting.r in Rez */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1882,6 +1889,7 @@
 				142894A409575FF200D14688 /* TextFieldCell.m in Sources */,
 				5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */,
 				144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */,
+				144DF1E909ABAD1F00AF8CFB /* TextSelection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

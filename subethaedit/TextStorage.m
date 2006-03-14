@@ -9,9 +9,11 @@
 #import "TextStorage.h"
 #import "EncodingManager.h"
 #import "PlainTextDocument.h"
+#import "PlainTextWindowController.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "GeneralPreferences.h"
+#import "TextSelection.h"
 
 NSString * const BlockeditAttributeName =@"Blockedit";
 NSString * const BlockeditAttributeValue=@"YES";
@@ -653,4 +655,23 @@ NSString * const BlockeditAttributeValue=@"YES";
     return result;
 }
 
+#pragma mark -
+#pragma mark ### Scripting ###
+
+- (id)insertionPoints
+{
+    return [TextSelection selectionForEditor:[[[self delegate] topmostWindowController] activePlainTextEditor]];
+}
+
+ - (id)objectSpecifier
+ {
+    NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];
+    NSScriptObjectSpecifier *containerSpecifier = [[self delegate] objectSpecifier];
+    NSPropertySpecifier *propertySpecifier = [[NSPropertySpecifier alloc] initWithContainerClassDescription:containerClassDesc
+                                                                                         containerSpecifier:containerSpecifier
+                                                                                                        key:@"text"];
+    
+    return propertySpecifier;
+ }
+ 
 @end
