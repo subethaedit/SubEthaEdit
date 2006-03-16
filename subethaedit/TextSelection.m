@@ -9,6 +9,7 @@
 #import "TextSelection.h"
 #import "TextStorage.h"
 #import "PlainTextDocument.h"
+#import "PlainTextEditor.h"
 
 
 @implementation TextSelection
