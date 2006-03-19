@@ -48,7 +48,7 @@
         PlainTextWindowController *windowController = [window windowController];
         
         PlainTextDocument *document = [windowController document];
-        return [document setSelection:selection];
+        [document setSelection:selection];
     }
 }
 

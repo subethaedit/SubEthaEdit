@@ -4601,7 +4601,7 @@ static NSString *S_measurementUnits;
     NSTextView *textView = [editor textView];
     unsigned length = [[textView textStorage] length];
     
-    if (startIndex > 0 && startIndex <= length && endIndex <= [[textView textStorage] length])
+    if (startIndex > 0 && startIndex <= length && endIndex >= startIndex && endIndex <= length)
         [textView setSelectedRange:NSMakeRange(startIndex - 1, endIndex - startIndex + 1)];
 }
 
