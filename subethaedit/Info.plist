@@ -261,7 +261,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>TCMBundledSeeToolVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>TCMMinimumSeeToolVersion</key>
 	<string>1.0</string>
 	<key>UTExportedTypeDeclarations</key>

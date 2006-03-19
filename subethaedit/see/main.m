@@ -174,10 +174,10 @@ static void printVersion() {
         appShortVersionString = localizedVersionString;
     }
 
-    fprintf(stdout, "see %d.%d (v%s)\n", gToolVersionMajor, gToolVersionMinor, gToolVersion);
+    fprintf(stdout, "see %d.%d (%s)\n", gToolVersionMajor, gToolVersionMinor, gToolVersion);
     if (appURL != NULL) {
         NSString *path = [(NSURL *)appURL path];
-        fprintf(stdout, "%s %s (v%s)\n", [path fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
+        fprintf(stdout, "%s %s (%s)\n", [path fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
         if (bundledSeeToolVersionString) {
             BOOL result;
             BOOL newerBundledVersion = NO;
@@ -430,8 +430,10 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
         [fileManager createFileAtPath:fileName contents:[NSData data] attributes:nil];
         NSFileHandle *fdout = [NSFileHandle fileHandleForWritingAtPath:fileName];
         NSFileHandle *fdin = [NSFileHandle fileHandleWithStandardInput];
+        unsigned length = 0; 
         while (TRUE) {
             NSData *data = [fdin readDataOfLength:1024];
+            length += [data length];
             if ([data length] != 0) {
                 [fdout writeData:data];
             } else {
@@ -439,7 +441,12 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
             }
         }
         [fdout closeFile];
-        stdinFileName = fileName;
+        
+        if (length == 0) {
+            (void)[[NSFileManager defaultManager] removeFileAtPath:stdinFileName handler:nil];
+        } else {
+            stdinFileName = fileName;
+        }
     }
     
     if ([fileNames count] != 0) {
