@@ -12,9 +12,14 @@
 @implementation NSNetService (NSNetServiceTCMAdditions)
 - (NSArray *)TXTRecordArray {
     if ([self respondsToSelector:@selector(TXTRecordData)]) {
-        NSMutableArray *result=[NSMutableArray array];
-        NSData *TXTRecord=[self TXTRecordData];
-        DEBUGLOG(@"RendezvousLogDomain", AllLogLevel,@"%@ - Data: %@",[[[NSString alloc] initWithData:TXTRecord encoding: NSMacOSRomanStringEncoding] autorelease],TXTRecord);
+        NSMutableArray *result   =[NSMutableArray array];
+        NSData         *TXTRecord=[self TXTRecordData];
+        DEBUGLOG(@"RendezvousLogDomain", AllLogLevel,@"%@ - Data: %@",
+                 [[[NSString alloc] 
+                    initWithData:TXTRecord 
+                    encoding:NSMacOSRomanStringEncoding] autorelease],
+                 TXTRecord);
+                 
         unsigned char *bytes=(unsigned char *)[TXTRecord bytes];
         unsigned char *bytesEnd=bytes + [TXTRecord length];
         while (bytes<bytesEnd) {
@@ -23,7 +28,10 @@
                 length = bytesEnd-bytes;
             }
             if (length>0) {
-                NSString *string=[[NSString alloc] initWithBytes:bytes length:(unsigned int)length encoding:NSUTF8StringEncoding];
+                NSString *string=[[NSString alloc] 
+                                    initWithBytes:bytes 
+                                           length:(unsigned int)length 
+                                         encoding:NSUTF8StringEncoding];
                 if (string) {
                     [result addObject:string];
                     [string release];
@@ -34,7 +42,8 @@
         DEBUGLOG(@"RendezvousLogDomain", AllLogLevel,@"Array: %@",result);
         return result;
     } else {
-        return [[self protocolSpecificInformation] componentsSeparatedByString:@"\001"];
+        return [[self protocolSpecificInformation] 
+                   componentsSeparatedByString:@"\001"];
     }
 }
 
