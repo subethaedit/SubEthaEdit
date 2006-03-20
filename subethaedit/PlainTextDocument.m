@@ -1384,6 +1384,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"odb tokens were put in a list");
 
     }
+    
+    // keyFileCustomPath/
+    NSAppleEventDescriptor *customPathDesc = nil;
+    NSAppleEventDescriptor *customPathListDesc = [[eventDesc paramDescriptorForKeyword:keyFileCustomPath] coerceToDescriptorType:typeAEList];
+    if (!customPathListDesc) {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"odb custom path is probably not a list");
+        customPathDesc = [eventDesc paramDescriptorForKeyword:keyFileCustomPath];
+    } else {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"odb custom paths were put in a list");
+
+    }
 
     // look for AEPropData appended by LaunchServices
     NSAppleEventDescriptor *propDataAEDesc = [[eventDesc paramDescriptorForKeyword:keyAEPropData] coerceToDescriptorType:typeWildCard];
@@ -1395,7 +1406,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             senderTokenDesc = [[propDataAEDesc paramDescriptorForKeyword:keyFileSenderToken] coerceToDescriptorType:typeWildCard];
         }
     }
-
+    
     // coerce the document list into a list of CFURLRefs
     NSAppleEventDescriptor *aliasesDesc = [[eventDesc descriptorForKeyword:keyDirectObject] coerceToDescriptorType:typeAEList];
     int numberOfItems = [aliasesDesc numberOfItems];
@@ -1429,9 +1440,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     [ODBParameters setObject:[fileSenderDesc data] forKey:@"keyFileSender"];
                 }
 
-
+                if (customPathListDesc) {
+                    NSAppleEventDescriptor *customPathDesc = [customPathListDesc descriptorAtIndex:i];
+                    if (customPathDesc) {
+                        [ODBParameters setObject:[customPathDesc stringValue] forKey:@"keyFileCustomPath"];
+                    }
+                } else if (customPathDesc) {
+                    [ODBParameters setObject:[customPathDesc stringValue] forKey:@"keyFileCustomPath"];
+                }
+                
                 if (senderTokenListDesc) {
-                NSAppleEventDescriptor *tokenDesc = [senderTokenListDesc descriptorAtIndex:i];
+                    NSAppleEventDescriptor *tokenDesc = [senderTokenListDesc descriptorAtIndex:i];
                     if (tokenDesc) {
                         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"use item in odb list: %d", i);
                         [ODBParameters setObject:tokenDesc forKey:@"keyFileSenderToken"];

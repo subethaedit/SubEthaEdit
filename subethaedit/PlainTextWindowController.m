@@ -946,25 +946,29 @@ enum {
     PlainTextDocument *document = (PlainTextDocument *)[self document];
     TCMMMSession *session = [document session];
     
-    NSArray *pathComponents = [[document fileName] pathComponents];
-    int count = [pathComponents count];
-    if (count != 0) {
-        NSMutableString *result = [NSMutableString string];
-        int i = count;
-        int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-        for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
-            if (i != count-1) {
+    if ([[document ODBParameters] objectForKey:@"keyFileCustomPath"]) {
+        displayName = [[document ODBParameters] objectForKey:@"keyFileCustomPath"];
+    } else {
+        NSArray *pathComponents = [[document fileName] pathComponents];
+        int count = [pathComponents count];
+        if (count != 0) {
+            NSMutableString *result = [NSMutableString string];
+            int i = count;
+            int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+            for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
+                if (i != count-1) {
+                    [result insertString:@"/" atIndex:0];
+                }
+                [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
+            }
+            if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
                 [result insertString:@"/" atIndex:0];
             }
-            [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
-        }
-        if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
-            [result insertString:@"/" atIndex:0];
-        }
-        displayName = result;
-    } else {
-        if (session && ![session isServer]) {
-            displayName = [session filename];
+            displayName = result;
+        } else {
+            if (session && ![session isServer]) {
+                displayName = [session filename];
+            }
         }
     }
 
