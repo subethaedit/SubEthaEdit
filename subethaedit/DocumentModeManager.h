@@ -52,4 +52,6 @@
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
 - (NSDictionary *)availableModes;
 
+- (IBAction)reloadDocumentModes:(id)aSender;
+
 @end

@@ -746,6 +746,14 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[LicenseController sharedInstance] showWindow:self];
 }
 
+- (IBAction)reloadDocumentModes:(id)aSender {
+    [[DocumentModeManager sharedInstance] reloadDocumentModes:aSender];
+}
+
+
+#pragma mark -
+#pragma mark ### Menu validation ###
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     

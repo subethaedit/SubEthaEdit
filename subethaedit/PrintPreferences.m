@@ -109,6 +109,12 @@ static NSString *S_measurementUnits;
     [superview replaceSubview:O_placeholderView with:O_printOptionView];
     
     [self changeMode:O_modePopUpButton];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
+    
+}
+
+- (void)documentModeListChanged:(NSNotification *)aNotification {
+    [self performSelector:@selector(changeMode:) withObject:O_modePopUpButton afterDelay:.2];
 }
 
 - (void)didUnselect {

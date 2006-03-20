@@ -7,6 +7,8 @@
 //
 
 #import "DocumentModeManager.h"
+#import "DocumentController.h"
+#import "PlainTextDocument.h"
 #import "GeneralPreferences.h"
 #import "SyntaxStyle.h"
 
@@ -68,7 +70,9 @@
 /* Update contents based on encodings list customization
 */
 - (void)documentModeListChanged:(NSNotification *)notification {
-    [[DocumentModeManager sharedInstance] setupPopUp:self selectedModeIdentifier:[self selectedModeIdentifier] automaticMode:I_automaticMode];
+    NSString *selectedModeIdentifier=[self selectedModeIdentifier];
+    [[DocumentModeManager sharedInstance] setupPopUp:self selectedModeIdentifier:selectedModeIdentifier automaticMode:I_automaticMode];
+    [self setSelectedModeIdentifier:selectedModeIdentifier];
 }
 
 @end
@@ -194,6 +198,28 @@
     }
 }
 
+- (IBAction)reloadDocumentModes:(id)aSender {
+    // write all preferences
+    [[I_documentModesByIdentifier allValues] makeObjectsPerformSelector:@selector(writeDefaults)];
+
+    // reload all modes
+    [I_modeBundles                removeAllObjects];
+    [I_documentModesByIdentifier  removeAllObjects];
+    [I_modeIdentifiersByExtension removeAllObjects];
+    [self TCM_findModes];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DocumentModeListChanged" object:self];
+    
+    // replace the DocumentModes in the documents
+    NSEnumerator      *documents = [[[DocumentController sharedDocumentController] documents] objectEnumerator];
+    PlainTextDocument *document = nil;
+    while ((document=[documents nextObject])) {
+        DocumentMode *oldMode = [document documentMode];
+        DocumentMode *newMode = [self documentModeForIdentifier:[oldMode documentModeIdentifier]];
+        [document setDocumentMode:newMode];
+    }
+    
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"DocumentModeManager, FoundModeBundles:%@",[I_modeBundles description]];
 }
@@ -279,6 +305,7 @@
 }
 
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier {
+    if (![self documentModeForIdentifier:anIdentifier]) anIdentifier = BASEMODEIDENTIFIER;
     return [I_modeIdentifiersTagArray indexOfObject:anIdentifier];
 }
 

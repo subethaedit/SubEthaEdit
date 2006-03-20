@@ -44,6 +44,8 @@ extern int const WindowMenuTag ;
 - (IBAction)purchaseSubEthaEdit:(id)sender;
 - (IBAction)enterSerialNumber:(id)sender;
 
+- (IBAction)reloadDocumentModes:(id)aSender;
+
 - (IBAction)showLicense:(id)sender;
 - (IBAction)showAcknowledgements:(id)sender;
 - (IBAction)showRegExHelp:(id)sender;

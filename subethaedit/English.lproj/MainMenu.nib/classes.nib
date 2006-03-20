@@ -11,6 +11,7 @@
                 provideFeedback = id; 
                 purchaseSubEthaEdit = id; 
                 redo = id; 
+                reloadDocumentModes = id; 
                 reportBug = id; 
                 showAcknowledgements = id; 
                 showLicense = id; 
