@@ -18,6 +18,9 @@
             <element type="text document">
                 <cocoa key="orderedDocuments"/>
             </element>
+            <element type="mode" access="r">
+                <cocoa key="scriptedModes"/>
+            </element>
 
             <responds-to name="open">
                 <cocoa method="TCM_handleOpenScriptCommand:"/>
@@ -45,6 +48,19 @@
             </property>
         </class>
         
+        <class name="mode" code="cMod" description="A mode" inherits="item" plural="modes">
+            <cocoa class="DocumentMode"/>
+            <property name="name" code="pnam" type="string" access="r" description="The mode's name.">
+				<cocoa key="scriptedName"/>
+			</property>
+			<property name="id" code="ID  " type="string" access="r" description="The unique identifier of the mode.">
+				<cocoa key="documentModeIdentifier"/>
+			</property>
+            <property name="resource path" code="ppth" type="string" access="r" description="The mode's resource location on disk.">
+				<cocoa key="scriptedResourcePath"/>
+			</property>
+        </class>
+        
         <class name="text document" code="pltd" inherits="document">
             <cocoa class="PlainTextDocument"/>
             <contents name="contents" code="ctxt" type="text" description="the text of the document">
@@ -52,16 +68,18 @@
             </contents>
             
             <property name="selection" code="pSel" type="selection-object" description="The current selection or insertion point."/>
-            
+            <property name="mode" code="cMod" type="mode" description="the document's mode">
+                <cocoa key="documentMode"/>
+            </property>
             <property name="text" code="ctxt" type="text" description="the text of the document">
                 <cocoa key="text"/>
             </property>
             <property name="encoding" code="Encd" type="string" description="the internet name of the document's encoding">
                 <cocoa key="encoding"/>
             </property>
-            <property name="mode" code="Mode" type="string" description="the name of the document's mode">
+            <!--<property name="mode" code="Mode" type="string" description="the name of the document's mode">
                 <cocoa key="mode"/>
-            </property>
+            </property>-->
             <property name="access control" code="Actl" type="access options" description="the access right of the document">
                 <cocoa key="accessOption"/>
             </property>

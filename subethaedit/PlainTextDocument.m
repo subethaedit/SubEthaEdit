@@ -4523,6 +4523,7 @@ static NSString *S_measurementUnits;
     }
 }
 
+/*
 - (NSString *)mode {
     return [[self documentMode] documentModeIdentifier];
 }
@@ -4537,6 +4538,7 @@ static NSString *S_measurementUnits;
         [command setScriptErrorString:@"Couldn't find specified mode."];    
     }
 }
+*/
 
 - (AccessOptions)accessOption {
     TCMMMSessionAccessState state = [[self session] accessState];
@@ -4584,6 +4586,24 @@ static NSString *S_measurementUnits;
         if (I_flags.highlightSyntax) {
             [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
         }
+    }
+}
+
+- (id)coerceValueForDocumentMode:(id)value {
+    if ([value isKindOfClass:[DocumentMode class]]) {
+        return value;
+    } else if ([value isKindOfClass:[NSString class]]) {
+        DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForName:value];
+        if (mode) {
+            return mode;
+        } else {
+            NSScriptCommand *command = [NSScriptCommand currentCommand];
+            [command setScriptErrorNumber:2];
+            [command setScriptErrorString:@"Couldn't find specified mode."];
+            return nil;
+        }
+    } else {
+        return [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:value toClass:[DocumentMode class]];
     }
 }
 

@@ -326,8 +326,10 @@ typedef enum {
 
 - (NSString *)encoding;
 - (void)setEncoding:(NSString *)name;
+/*
 - (NSString *)mode;
 - (void)setMode:(NSString *)identifier;
+*/
 - (AccessOptions)accessOption;
 - (void)setAccessOption:(AccessOptions)option;
 - (NSString *)announcementURL;

@@ -8,6 +8,8 @@
 
 #import "NSApplicationTCMAdditions.h"
 #import "DocumentController.h"
+#import "DocumentMode.h"
+#import "DocumentModeManager.h"
 #import "TextSelection.h"
 #import "TextStorage.h"
 #import "PlainTextDocument.h"
@@ -50,6 +52,20 @@
         PlainTextDocument *document = [windowController document];
         [document setSelection:selection];
     }
+}
+
+- (NSArray *)scriptedModes {
+    DocumentModeManager *manager = [DocumentModeManager sharedInstance];
+    NSDictionary *availableModes = [manager availableModes];
+    
+    NSMutableArray *modes = [NSMutableArray array];
+    NSEnumerator *enumerator = [availableModes keyEnumerator];
+    NSString *identifier;
+    while ((identifier = [enumerator nextObject])) {
+        [modes addObject:[manager documentModeForIdentifier:identifier]];
+    }
+    
+    return modes;
 }
 
 @end

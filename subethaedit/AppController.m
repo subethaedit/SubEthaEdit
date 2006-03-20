@@ -324,6 +324,11 @@ static AppController *sharedInstance = nil;
 
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     
+    [[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:[DocumentMode class]
+                                                            selector:@selector(coerceValue:toClass:)
+                                                  toConvertFromClass:[DocumentMode class]
+                                                             toClass:[NSString class]]; 
+    
     [self registerTransformers];
     [self addMe];
     [self setupFileEncodingsSubmenu];

@@ -465,4 +465,43 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     }
 }
 
+#pragma mark -
+#pragma mark ### Scripting ###
+
++ (id)coerceValue:(id)value toClass:(Class)toClass {
+    if ([value isKindOfClass:[DocumentMode class]] && [toClass isSubclassOfClass:[NSString class]]) {
+        return [value documentModeIdentifier];
+    } else {
+        return nil;
+    }
+}
+
+- (NSScriptObjectSpecifier *)objectSpecifier {
+    NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
+
+    // We can either return a name or a uniqueID specifier.
+    /*
+    return [[[NSNameSpecifier alloc] initWithContainerClassDescription:containerClassDesc
+                                                    containerSpecifier:nil 
+                                                                   key:@"scriptedModes"
+                                                                  name:[self scriptedName]] autorelease];
+    */
+    return [[[NSUniqueIDSpecifier alloc] initWithContainerClassDescription:containerClassDesc
+                                                        containerSpecifier:nil
+                                                                       key:@"scriptedModes"
+                                                                  uniqueID:[self documentModeIdentifier]] autorelease];
+}
+
+- (NSString *)scriptedResourcePath {
+    return [[self bundle] resourcePath];
+}
+
+- (NSString *)scriptedName {
+    NSString *identifier = [self documentModeIdentifier];
+    if ([identifier hasPrefix:@"SEEMode."] && [identifier length] > 8) {
+        return [identifier substringFromIndex:8];
+    }
+    return identifier;
+}
+
 @end
