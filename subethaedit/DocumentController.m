@@ -190,8 +190,18 @@
     NSString *extension = [fileName pathExtension];
     if (isFilePackage && [extension isEqualToString:@"mode"]) {
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"User tries to open a mode file");
-        [O_modeHintPanel center];
-        [O_modeHintPanel makeKeyAndOrderFront:self];
+        int result = [NSApp runModalForWindow:O_modeInstallerPanel];
+        [O_modeInstallerPanel orderOut:self];
+        if (result == NSRunStoppedResponse) {
+            int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
+            if (tag == 0) {
+                // User
+            } else if (tag == 1) {
+                // Computer
+            } else if (tag == 2) {
+                // Network
+            }
+        }
         return nil;
     }
     
@@ -200,6 +210,14 @@
         [(PlainTextDocument *)document handleOpenDocumentEvent];
     }
     return document;
+}
+
+- (IBAction)installMode:(id)sender {
+    [NSApp stopModal];
+}
+
+- (IBAction)cancelModeInstallation:(id)sender {
+    [NSApp abortModal];
 }
 
 - (id)openUntitledDocumentOfType:(NSString *)docType display:(BOOL)display {

@@ -25,13 +25,23 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {
+                cancelModeInstallation = id; 
+                goIntoBundles = id; 
+                installMode = id; 
+                showHiddenFiles = id; 
+            }; 
             CLASS = DocumentController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_encodingPopUpButton" = EncodingPopUpButton; 
-                "O_modeHintPanel" = NSPanel; 
+                "O_goIntoBundlesCheckbox" = NSButton; 
+                "O_modeInstallerDomainMatrix" = NSMatrix; 
+                "O_modeInstallerMessageTextField" = NSTextField; 
+                "O_modeInstallerPanel" = NSPanel; 
                 "O_modePopUpButton" = DocumentModePopUpButton; 
                 "O_openPanelAccessoryView" = NSView; 
+                "O_showHiddenFilesCheckbox" = NSButton; 
             }; 
             SUPERCLASS = NSDocumentController; 
         }, 

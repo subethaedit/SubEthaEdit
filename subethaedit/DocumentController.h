@@ -19,7 +19,11 @@
     IBOutlet NSButton *O_showHiddenFilesCheckbox;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
-    IBOutlet NSPanel *O_modeHintPanel;
+    
+    IBOutlet NSPanel *O_modeInstallerPanel;
+    IBOutlet NSTextField *O_modeInstallerMessageTextField;
+    IBOutlet NSMatrix *O_modeInstallerDomainMatrix;
+    
     NSOpenPanel *I_openPanel;
     
     BOOL I_isOpeningUntitledDocument;
@@ -39,6 +43,9 @@
 
 - (IBAction)goIntoBundles:(id)sender;
 - (IBAction)showHiddenFiles:(id)sender;
+
+- (IBAction)installMode:(id)sender;
+- (IBAction)cancelModeInstallation:(id)sender;
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession;
 
