@@ -326,10 +326,6 @@ typedef enum {
 
 - (NSString *)encoding;
 - (void)setEncoding:(NSString *)name;
-/*
-- (NSString *)mode;
-- (void)setMode:(NSString *)identifier;
-*/
 - (AccessOptions)accessOption;
 - (void)setAccessOption:(AccessOptions)option;
 - (NSString *)announcementURL;
@@ -337,5 +333,9 @@ typedef enum {
 - (void)setText:(NSString *)aString;
 - (id)selection;
 - (void)setSelection:(id)selection;
+
+// Deprecated, but needed for compatibility with see tool.
+- (NSString *)mode;
+- (void)setMode:(NSString *)identifier;
 
 @end

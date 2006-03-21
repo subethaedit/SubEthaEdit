@@ -4523,11 +4523,12 @@ static NSString *S_measurementUnits;
     }
 }
 
-/*
+// Deprecated, but needed for compatibility with see tool.
 - (NSString *)mode {
     return [[self documentMode] documentModeIdentifier];
 }
 
+// Deprecated, but needed for compatibility with see tool.
 - (void)setMode:(NSString *)identifier {
     DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForName:identifier];
     if (mode) {
@@ -4538,7 +4539,6 @@ static NSString *S_measurementUnits;
         [command setScriptErrorString:@"Couldn't find specified mode."];    
     }
 }
-*/
 
 - (AccessOptions)accessOption {
     TCMMMSessionAccessState state = [[self session] accessState];

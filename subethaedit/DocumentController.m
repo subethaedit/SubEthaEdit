@@ -384,6 +384,10 @@ static NSString *tempFileName() {
             NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
             if (key) {
                 [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+            } else 
+                // Workaround for see tool which assumes that the mode property is still 'Mode'.
+                if ([argumentKey unsignedLongValue] == 'Mode') {
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:@"mode"];
             }
         } else if ([argumentKey isKindOfClass:[NSString class]]) {
             [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
