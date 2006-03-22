@@ -65,11 +65,19 @@ static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
 
 
-@interface NSMenuItem (Sorting)
+@interface NSMenuItem (Additions)
+- (id)autoreleasedCopy;
 - (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aNotherMenuItem;
 @end
 
-@implementation NSMenuItem (Sorting)
+@implementation NSMenuItem (Additions)
+- (id)autoreleasedCopy {
+    NSMenuItem *result=[[NSMenuItem alloc] initWithTitle:[self title] action:[self action] keyEquivalent:[self keyEquivalent]];
+    [result setKeyEquivalentModifierMask:[self keyEquivalentModifierMask]];
+    [result setTarget:[self target]];
+    [result setTag:[self tag]];
+    return [result autorelease];
+}
 - (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aMenuItem {
     return [[self title] caseInsensitiveCompare:[aMenuItem title]];
 }
@@ -913,6 +921,27 @@ static NSString *tempFileName(NSString *origPath) {
     return I_textStorage;
 }
 
+- (void)adjustModeMenu {
+    NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
+    // remove all items that don't belong here anymore
+    int index = [modeMenu indexOfItemWithTag:SwitchModeMenuTag];
+    index++;
+    while (index < [modeMenu numberOfItems]) {
+        [modeMenu removeItemAtIndex:index];
+    }
+    // check if mode has items
+    NSArray *itemArray = [[self documentMode] scriptMenuItemArray];
+    if ([itemArray count]) {
+        [modeMenu addItem:[[[NSMenuItem alloc] initWithTitle:[[self documentMode] displayName] action:NULL keyEquivalent:@""] autorelease]];
+        NSEnumerator *menuItems=[itemArray objectEnumerator];
+        NSMenuItem   *menuItem = nil;
+        while ((menuItem=[menuItems nextObject])) {
+            [modeMenu addItem:[menuItem autoreleasedCopy]];
+        }
+    }
+}
+
+
 - (DocumentMode *)documentMode {
     return I_documentMode;
 }
@@ -977,6 +1006,10 @@ static NSString *tempFileName(NSString *origPath) {
                 }
                 [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
             }
+        }
+        id testDocument=[[[NSApp mainWindow] windowController] document];
+        if (testDocument == self || !testDocument) {
+            [self adjustModeMenu];
         }
     }
 }

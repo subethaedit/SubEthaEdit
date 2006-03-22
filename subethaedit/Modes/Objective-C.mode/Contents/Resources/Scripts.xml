@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<scripts>
+  <script name="Compile" displayname="Compile using Xcode">
+    <shortcut key="c" ctrl="yes" alt="no" />
+    <toolbaritem icon="Build" />
+  </script>
+  <script name="Open Temrinal in Enclosing Folder" displayname="Open Terminal Here">
+    <shortcut key="t" ctrl="yes" alt="no"/>
+    <toolbaritem icon="Terminal" />
+  </script>
+</scripts>

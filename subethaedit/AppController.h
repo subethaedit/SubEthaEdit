@@ -28,6 +28,8 @@ extern int const FormatMenuTag ;
 extern int const FontMenuItemTag ;
 extern int const FileEncodingsMenuItemTag ;
 extern int const WindowMenuTag ;
+extern int const ModeMenuTag ;
+extern int const SwitchModeMenuTag ;
 
 
 @interface AppController : NSObject {

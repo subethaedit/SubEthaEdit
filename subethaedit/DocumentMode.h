@@ -70,6 +70,9 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     NSMutableArray *I_autocompleteDictionary;
     NSMutableDictionary *I_defaults;
     SyntaxStyle *I_syntaxStyle,*I_defaultSyntaxStyle;
+    NSMutableDictionary *I_scriptsByFilename;
+    NSMutableArray *I_menuItemArray;
+    NSMutableArray *I_scriptOrderArray;
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle;
@@ -93,6 +96,9 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 - (SyntaxStyle *)syntaxStyle;
 - (void)setSyntaxStyle:(SyntaxStyle *)aStyle;
 - (SyntaxStyle *)defaultSyntaxStyle;
+
+- (NSArray *)scriptMenuItemArray;
+- (IBAction)performScriptAction:(id)aSender;
 
 - (BOOL)isBaseMode;
 @end

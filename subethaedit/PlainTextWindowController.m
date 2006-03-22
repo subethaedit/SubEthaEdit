@@ -1355,4 +1355,9 @@ enum {
   return [sender frame].size.width == newFrame.size.width || ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) || I_flags.zoomFix_defaultFrameHadEqualWidth;
 }
 
+- (void)windowDidBecomeMain:(NSNotification *)aNotification {
+    // switch mode menu on becoming main
+    [(PlainTextDocument *)[self document] adjustModeMenu];
+}
+
 @end

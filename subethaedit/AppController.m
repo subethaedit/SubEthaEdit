@@ -65,6 +65,8 @@ int const FormatMenuTag = 2000;
 int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
+int const ModeMenuTag = 50;
+int const SwitchModeMenuTag = 10;
 
 
 NSString * const DefaultPortNumber = @"port";
@@ -310,8 +312,6 @@ static AppController *sharedInstance = nil;
     [userManager setMe:[me autorelease]];
 }
 
-#define MODEMENUTAG 50
-#define SWITCHMODEMENUTAG 10
 #define MODEMENUNAMETAG 20 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
@@ -645,8 +645,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"%@",[[DocumentModeManager sharedInstance] description]);
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Found modes: %@",[[[DocumentModeManager sharedInstance] availableModes] description]);
 
-    NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:MODEMENUTAG] submenu];
-    NSMenuItem *switchModesMenuItem=[modeMenu itemWithTag:SWITCHMODEMENUTAG];
+    NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
+    NSMenuItem *switchModesMenuItem=[modeMenu itemWithTag:SwitchModeMenuTag];
 
     DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
     [switchModesMenuItem setSubmenu:menu];

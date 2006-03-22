@@ -114,6 +114,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                   forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
 }
 
+#define SCRIPTMODEMENUTAGBASE 4000
+
 - (id)initWithBundle:(NSBundle *)aBundle {
     self = [super init];
     if (self) {
@@ -137,6 +139,39 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         // Sort the autocomplete dictionary
         [[self autocompleteDictionary] sortUsingSelector:@selector(caseInsensitiveCompare:)];
         
+        // Load scripts
+        I_scriptsByFilename = [NSMutableDictionary new];
+        NSString *scriptFolder = [[aBundle resourcePath] stringByAppendingPathComponent:@"Scripts"];
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSEnumerator *filenames = [[fm directoryContentsAtPath:scriptFolder] objectEnumerator];
+        NSString     *filename  = nil;
+        while ((filename=[filenames nextObject])) {
+            // skip hidden files and directory entries
+            if (![filename hasPrefix:@"."]) {
+                NSDictionary *errorDictionary;
+                NSURL *fileURL=[NSURL fileURLWithPath:[scriptFolder stringByAppendingPathComponent:filename]];
+                NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:fileURL error:&errorDictionary];
+                if (!script) {
+                    NSLog(@"Script loading of %@ failed: %@", [fileURL path], errorDictionary);
+                } else {
+                    [I_scriptsByFilename setObject:[script autorelease] forKey:[filename stringByDeletingPathExtension]];
+                }
+            }
+        }
+        
+        I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
+        
+        I_menuItemArray = [NSMutableArray new];
+        int i=0;
+        for (i=0;i<[I_scriptOrderArray count];i++) {
+            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[I_scriptOrderArray objectAtIndex:i] action:@selector(performScriptAction:) keyEquivalent:[NSString stringWithFormat:@"%d", i+1]];
+            [item setTag:SCRIPTMODEMENUTAGBASE+i];
+            [item setTarget:self];
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask | NSControlKeyMask];
+            [I_menuItemArray addObject:[item autorelease]];
+        }
+        
+        // Preference Handling
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[[self bundle] bundleIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
@@ -329,6 +364,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [I_menuItemArray release];
+    [I_scriptOrderArray release];
+    [I_scriptsByFilename release];
+
     [I_defaults release];
     [I_syntaxHighlighter release];
     [I_symbolParser release];
@@ -441,6 +480,26 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 //    [defaults setObject:data forKey:DocumentModeBackgroundColorPreferenceKey];
     [defaults setObject:[[self syntaxStyle] defaultsDictionary] forKey:DocumentModeSyntaxStylePreferenceKey];
     [[NSUserDefaults standardUserDefaults] setObject:defaults forKey:[[self bundle] bundleIdentifier]];
+}
+
+#pragma mark -
+#pragma mark ### Script Handling ###
+
+- (NSArray *)scriptMenuItemArray {
+    return (NSArray *)I_menuItemArray;
+}
+
+- (IBAction)performScriptAction:(id)aSender {
+    int index = [aSender tag] - SCRIPTMODEMENUTAGBASE;
+    if (index > 0 && index < [I_scriptOrderArray count]) {
+        NSString *scriptFilename=[I_scriptOrderArray objectAtIndex:index];
+        NSAppleScript *script = [I_scriptsByFilename objectForKey:scriptFilename];
+        NSDictionary *errorDictionary=nil;
+        (NSAppleEventDescriptor *)[script executeAndReturnError:&errorDictionary];
+        if (errorDictionary) {
+            NSLog(@"Script: %@ of Mode:%@ returnedError:%@",scriptFilename,[self documentModeIdentifier], errorDictionary);
+        }
+    }
 }
 
 #pragma mark -
