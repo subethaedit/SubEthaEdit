@@ -56,7 +56,7 @@
 			<property name="id" code="ID  " type="string" access="r" description="The unique identifier of the mode.">
 				<cocoa key="documentModeIdentifier"/>
 			</property>
-            <property name="resource path" code="ppth" type="string" access="r" description="The mode's resource location on disk.">
+            <property name="resource path" code="pMrp" type="string" access="r" description="The mode's resource location on disk.">
 				<cocoa key="scriptedResourcePath"/>
 			</property>
         </class>
