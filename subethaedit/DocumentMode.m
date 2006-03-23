@@ -491,7 +491,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (IBAction)performScriptAction:(id)aSender {
     int index = [aSender tag] - SCRIPTMODEMENUTAGBASE;
-    if (index > 0 && index < [I_scriptOrderArray count]) {
+    if (index >= 0 && index < [I_scriptOrderArray count]) {
         NSString *scriptFilename=[I_scriptOrderArray objectAtIndex:index];
         NSAppleScript *script = [I_scriptsByFilename objectForKey:scriptFilename];
         NSDictionary *errorDictionary=nil;

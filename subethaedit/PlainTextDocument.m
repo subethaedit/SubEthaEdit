@@ -925,7 +925,7 @@ static NSString *tempFileName(NSString *origPath) {
     NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
     // remove all items that don't belong here anymore
     int index = [modeMenu indexOfItemWithTag:SwitchModeMenuTag];
-    index++;
+    index+=2; // don't forget the alternate menu item
     while (index < [modeMenu numberOfItems]) {
         [modeMenu removeItemAtIndex:index];
     }

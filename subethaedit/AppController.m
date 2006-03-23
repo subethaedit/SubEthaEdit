@@ -523,6 +523,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingUsersDidChangeNotification object:nil];
 
     [self setupAuthorization];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -641,6 +642,20 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 }
 
+- (void)addShortcutToModeForNewDocumentsEntry {
+    NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+    NSMenuItem *menuItem=[menu itemWithTag:FileNewMenuItemTag];
+    menu = [menuItem submenu];
+menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+    [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [menuItem setKeyEquivalent:@"n"];
+}
+
+- (void)documentModeListDidChange:(NSNotification *)aNotification {
+    // fix file->new menu
+    [self performSelector:@selector(addShortcutToModeForNewDocumentsEntry) withObject:nil afterDelay:0.01];
+}
+
 - (void)setupDocumentModeSubmenu {
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"%@",[[DocumentModeManager sharedInstance] description]);
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Found modes: %@",[[[DocumentModeManager sharedInstance] availableModes] description]);
@@ -668,12 +683,9 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     NSMenu *fileMenu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
     NSMenuItem *fileNewMenuItem=[fileMenu itemWithTag:FileNewMenuItemTag];
     [fileNewMenuItem setSubmenu:menu];
-    [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
-    menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [menuItem setKeyEquivalentModifierMask:[fileNewMenuItem keyEquivalentModifierMask]];
-    [menuItem setKeyEquivalent:[fileNewMenuItem keyEquivalent]];
     [fileNewMenuItem setKeyEquivalent:@""];
-    
+    [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
+    [self addShortcutToModeForNewDocumentsEntry];
 }
 
 - (void)setupFileEncodingsSubmenu {
