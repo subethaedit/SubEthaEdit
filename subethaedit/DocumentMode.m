@@ -15,6 +15,8 @@
 #import "SymbolTableEntry.h"
 #import "RegexSymbolParser.h"
 #import "RegexSymbolDefinition.h"
+#import "NSAppleScriptTCMAdditions.h"
+#import "NSMenuTCMAdditions.h"
 
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
 NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
@@ -141,6 +143,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         
         // Load scripts
         I_scriptsByFilename = [NSMutableDictionary new];
+        I_scriptSettingsByFilename = [NSMutableDictionary new];
         NSString *scriptFolder = [[aBundle resourcePath] stringByAppendingPathComponent:@"Scripts"];
         NSFileManager *fm = [NSFileManager defaultManager];
         NSEnumerator *filenames = [[fm directoryContentsAtPath:scriptFolder] objectEnumerator];
@@ -155,6 +158,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                     NSLog(@"Script loading of %@ failed: %@", [fileURL path], errorDictionary);
                 } else {
                     [I_scriptsByFilename setObject:[script autorelease] forKey:[filename stringByDeletingPathExtension]];
+                    NSDictionary *errorDict=nil;
+                    NSAppleEventDescriptor *ae = [script executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDict];
+                    if (errorDict==nil) {
+                        [I_scriptSettingsByFilename setObject:[ae dictionaryValue] forKey:[filename stringByDeletingPathExtension]];
+                    }
                 }
             }
         }
@@ -165,9 +173,17 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         int i=0;
         for (i=0;i<[I_scriptOrderArray count];i++) {
             NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[I_scriptOrderArray objectAtIndex:i] action:@selector(performScriptAction:) keyEquivalent:[NSString stringWithFormat:@"%d", i+1]];
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask | NSControlKeyMask];
+
+            NSDictionary *settingsDictionary = [I_scriptSettingsByFilename objectForKey:[I_scriptOrderArray objectAtIndex:i]];
+            if (settingsDictionary) {
+                [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:@"keyboardshortcut"]];
+                if ([settingsDictionary objectForKey:@"displayname"]) {
+                    [item setTitle:[settingsDictionary objectForKey:@"displayname"]];
+                }
+            }
             [item setTag:SCRIPTMODEMENUTAGBASE+i];
             [item setTarget:self];
-            [item setKeyEquivalentModifierMask:NSCommandKeyMask | NSControlKeyMask];
             [I_menuItemArray addObject:[item autorelease]];
         }
         

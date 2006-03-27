@@ -46,7 +46,7 @@
 #import <string.h>
 
 #import "TextSelection.h"
-
+#import "NSMenuAdditions.h"
 
 #pragma options align=mac68k
 struct SelectionRange
@@ -63,25 +63,6 @@ struct SelectionRange
 
 static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
-
-
-@interface NSMenuItem (Additions)
-- (id)autoreleasedCopy;
-- (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aNotherMenuItem;
-@end
-
-@implementation NSMenuItem (Additions)
-- (id)autoreleasedCopy {
-    NSMenuItem *result=[[NSMenuItem alloc] initWithTitle:[self title] action:[self action] keyEquivalent:[self keyEquivalent]];
-    [result setKeyEquivalentModifierMask:[self keyEquivalentModifierMask]];
-    [result setTarget:[self target]];
-    [result setTag:[self tag]];
-    return [result autorelease];
-}
-- (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aMenuItem {
-    return [[self title] caseInsensitiveCompare:[aMenuItem title]];
-}
-@end
 
 #pragma mark -
 

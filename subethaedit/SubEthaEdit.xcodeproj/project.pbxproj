@@ -258,6 +258,10 @@
 		5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */; };
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; };
 		5E2F5E43097BE32F00F7AA3C /* Export.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5E2F5E41097BE32E00F7AA3C /* Export.nib */; };
+		5E685D5209D82BBB00E41973 /* NSAppleScriptTCMAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */; };
+		5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
+		5E685DB309D8438800E41973 /* NSMenuTCMAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */; };
+		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -395,6 +399,8 @@
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
 				144DEAA609AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h in Copy Files (Frameworks) */,
 				144DF1E809ABAD1F00AF8CFB /* TextSelection.h in Copy Files (Frameworks) */,
+				5E685D5209D82BBB00E41973 /* NSAppleScriptTCMAdditions.h in Copy Files (Frameworks) */,
+				5E685DB309D8438800E41973 /* NSMenuTCMAdditions.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -780,6 +786,10 @@
 		5E28E28D0972FB8E00099B13 /* InsetTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsetTextFieldCell.h; sourceTree = "<group>"; };
 		5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetTextFieldCell.m; sourceTree = "<group>"; };
 		5E2F5E42097BE32F00F7AA3C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Export.nib; sourceTree = "<group>"; };
+		5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAppleScriptTCMAdditions.h; sourceTree = "<group>"; };
+		5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAppleScriptTCMAdditions.m; sourceTree = "<group>"; };
+		5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMenuTCMAdditions.h; sourceTree = "<group>"; };
+		5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMenuTCMAdditions.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -956,12 +966,16 @@
 			children = (
 				1428911C0957457500D14688 /* CFTreeTCMAdditions.h */,
 				1428911D0957457500D14688 /* CFTreeTCMAdditions.m */,
+				5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */,
+				5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */,
 				1428911F0957457500D14688 /* NSCalendarDateTCMAdditions.h */,
 				142891200957457500D14688 /* NSCalendarDateTCMAdditions.m */,
 				142891210957457500D14688 /* NSDataTCMAdditions.h */,
 				142891220957457500D14688 /* NSDataTCMAdditions.m */,
 				142891230957457500D14688 /* NSDictionaryTCMAdditions.h */,
 				142891240957457500D14688 /* NSDictionaryTCMAdditions.m */,
+				5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */,
+				5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */,
 				142891250957457500D14688 /* NSNetServiceTCMAdditions.h */,
 				142891260957457500D14688 /* NSNetServiceTCMAdditions.m */,
 				142891270957457500D14688 /* NSRangeTCMAdditions.h */,
@@ -1890,6 +1904,8 @@
 				5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */,
 				144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */,
 				144DF1E909ABAD1F00AF8CFB /* TextSelection.m in Sources */,
+				5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */,
+				5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

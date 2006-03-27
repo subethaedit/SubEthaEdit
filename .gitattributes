@@ -468,7 +468,6 @@ subethaedit/Modes/Objective-C.mode/Contents/Resources/English.lproj/Localizable.
 subethaedit/Modes/Objective-C.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/RegexSymbols.xml -text
-subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Compile.scpt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Open[!!-~]Counterpart.scpt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Open[!!-~]Terminal[!!-~]in[!!-~]Enclosing[!!-~]Folder.scpt -text
@@ -556,12 +555,16 @@ subethaedit/MoreIsBetter/MoreUNIX.c -text
 subethaedit/MoreIsBetter/MoreUNIX.h -text
 subethaedit/MultiPagePrintView.h -text
 subethaedit/MultiPagePrintView.m -text
+subethaedit/NSAppleScriptTCMAdditions.h -text
+subethaedit/NSAppleScriptTCMAdditions.m -text
 subethaedit/NSApplicationTCMAdditions.h -text
 subethaedit/NSApplicationTCMAdditions.m -text
 subethaedit/NSColorTCMAdditions.h -text
 subethaedit/NSColorTCMAdditions.m -text
 subethaedit/NSImageTCMAdditions.h -text
 subethaedit/NSImageTCMAdditions.m -text
+subethaedit/NSMenuTCMAdditions.h -text
+subethaedit/NSMenuTCMAdditions.m -text
 subethaedit/NSSavePanelTCMAdditions.h -text
 subethaedit/NSSavePanelTCMAdditions.m -text
 subethaedit/NSStringSEEAdditions.h -text

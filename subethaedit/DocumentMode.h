@@ -71,6 +71,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     NSMutableDictionary *I_defaults;
     SyntaxStyle *I_syntaxStyle,*I_defaultSyntaxStyle;
     NSMutableDictionary *I_scriptsByFilename;
+    NSMutableDictionary *I_scriptSettingsByFilename;
     NSMutableArray *I_menuItemArray;
     NSMutableArray *I_scriptOrderArray;
 }
