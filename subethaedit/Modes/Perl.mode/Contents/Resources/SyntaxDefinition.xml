@@ -270,12 +270,12 @@
         </state>
         
         <state id="String with double quotes" color="#760f15">
-            <begin><regex>(?&lt;!\$)"</regex></begin>
+            <begin><regex>(?&lt;!\$|\\)(?:\\\\)*"</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
 
         <state id="String with single quotes" color="#760f15">
-            <begin><regex>(?&lt;!\$)'</regex></begin>
+            <begin><regex>(?&lt;!\$|\\)(?:\\\\)*'</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
 

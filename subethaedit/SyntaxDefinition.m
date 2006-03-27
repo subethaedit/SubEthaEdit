@@ -206,43 +206,45 @@
     for (index = 0; index < childCount; index++) {
         CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
         CFXMLNodeRef xmlNode = CFXMLTreeGetNode(xmlTree);
-        CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
-        NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
-        NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
-        NSString *stateID=[attributes objectForKey:@"id"];
-        DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", tag);
-        if ([@"state" isEqualToString:tag]) {
-            NSMutableDictionary *aDictionary = [NSMutableDictionary dictionary];
-            [I_states addObject:aDictionary];
-            [aDictionary addEntriesFromDictionary:attributes];
-            NSColor *aColor;
-            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
-                [aDictionary setObject:aColor forKey:@"color"];
-            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"inverted-color"]]))
-                [aDictionary setObject:aColor forKey:@"inverted-color"];
+        if (CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) {
+            CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
+            NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
+            NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
+            NSString *stateID=[attributes objectForKey:@"id"];
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", tag);
+            if ([@"state" isEqualToString:tag]) {
+                NSMutableDictionary *aDictionary = [NSMutableDictionary dictionary];
+                [I_states addObject:aDictionary];
+                [aDictionary addEntriesFromDictionary:attributes];
+                NSColor *aColor;
+                if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
+                    [aDictionary setObject:aColor forKey:@"color"];
+                if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"inverted-color"]]))
+                    [aDictionary setObject:aColor forKey:@"inverted-color"];
+                    
+                NSFontTraitMask mask = 0;
+                if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
+                if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
+                [aDictionary setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
+                [aDictionary setObject:stateID forKey:@"styleID"];
                 
-            NSFontTraitMask mask = 0;
-            if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
-            if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-            [aDictionary setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
-            [aDictionary setObject:stateID forKey:@"styleID"];
-            
-            [self stateForTreeNode:xmlTree toDictionary:aDictionary stateID:stateID];
-        } else if ([@"default" isEqualToString:tag]) {
-            [I_defaultState addEntriesFromDictionary:attributes];
-            NSColor *aColor;
-            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
-                [I_defaultState setObject:aColor forKey:@"color"];
-            if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"inverted-color"]]))
-                [I_defaultState setObject:aColor forKey:@"inverted-color"];
+                [self stateForTreeNode:xmlTree toDictionary:aDictionary stateID:stateID];
+            } else if ([@"default" isEqualToString:tag]) {
+                [I_defaultState addEntriesFromDictionary:attributes];
+                NSColor *aColor;
+                if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
+                    [I_defaultState setObject:aColor forKey:@"color"];
+                if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"inverted-color"]]))
+                    [I_defaultState setObject:aColor forKey:@"inverted-color"];
+                    
+                NSFontTraitMask mask = 0;
+                if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
+                if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
+                [I_defaultState setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
+                [I_defaultState setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
                 
-            NSFontTraitMask mask = 0;
-            if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
-            if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-            [I_defaultState setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
-            [I_defaultState setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
-            
-            [self stateForTreeNode:xmlTree toDictionary:I_defaultState stateID:SyntaxStyleBaseIdentifier];
+                [self stateForTreeNode:xmlTree toDictionary:I_defaultState stateID:SyntaxStyleBaseIdentifier];
+            }
         }
     }
 }
