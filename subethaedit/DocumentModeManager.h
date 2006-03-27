@@ -49,6 +49,7 @@
 - (DocumentMode *)documentModeForExtension:(NSString *)anExtension;
 - (DocumentMode *)documentModeForName:(NSString *)aName;
 - (NSString *)documentModeIdentifierForTag:(int)aTag;
+- (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier;
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
 - (NSDictionary *)availableModes;
 

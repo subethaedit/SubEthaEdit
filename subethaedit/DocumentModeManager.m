@@ -71,6 +71,9 @@
 */
 - (void)documentModeListChanged:(NSNotification *)notification {
     NSString *selectedModeIdentifier=[self selectedModeIdentifier];
+    if (![[DocumentModeManager sharedInstance] documentModeAvailableModeIdentifier:selectedModeIdentifier]) {
+        selectedModeIdentifier=BASEMODEIDENTIFIER;
+    }
     [[DocumentModeManager sharedInstance] setupPopUp:self selectedModeIdentifier:selectedModeIdentifier automaticMode:I_automaticMode];
     [self setSelectedModeIdentifier:selectedModeIdentifier];
 }
@@ -85,10 +88,6 @@
 }
 
 - (void)documentModeListChanged:(NSNotification *)notification {
-    //int tag = [[self selectedItem] tag];
-    //if (tag != 0 && tag != NoStringEncoding) defaultEncoding = tag;
-    //[[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry lossyEncodings:[NSArray array]];
-    //preserve command-n shortcut!
     [[DocumentModeManager sharedInstance] setupMenu:self action:I_action alternateDisplay:I_alternateDisplay];
 }
 
@@ -304,8 +303,11 @@
     }
 }
 
+- (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier {
+    return [I_modeBundles objectForKey:anIdentifier]!=nil;
+}
+
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier {
-    if (![self documentModeForIdentifier:anIdentifier]) anIdentifier = BASEMODEIDENTIFIER;
     return [I_modeIdentifiersTagArray indexOfObject:anIdentifier];
 }
 

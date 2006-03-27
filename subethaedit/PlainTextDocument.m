@@ -46,7 +46,7 @@
 #import <string.h>
 
 #import "TextSelection.h"
-#import "NSMenuAdditions.h"
+#import "NSMenuTCMAdditions.h"
 
 #pragma options align=mac68k
 struct SelectionRange
