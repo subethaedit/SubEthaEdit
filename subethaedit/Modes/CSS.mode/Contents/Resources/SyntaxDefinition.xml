@@ -10,7 +10,13 @@
     <states>
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
-        
+                    
+        </default>
+
+        <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+            <begin><string>{</string></begin>
+            <end><regex>}</regex></end>
+
             <keywords id="CSS Attributes" font-style="italic" color="#9B4400" useforautocomplete="yes">
                 <string>inherit</string>
                 <string>none</string>
@@ -339,8 +345,7 @@
                 <regex>(#[\da-fA-F]{3})</regex>
                 <regex>(#[\da-fA-F]{6})</regex>
             </keywords>
-            
-        </default>
+        </state>
 
         <state id="AutodocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
             <begin><string>/\*"</string></begin>
