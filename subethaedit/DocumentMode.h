@@ -74,6 +74,9 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     NSMutableDictionary *I_scriptSettingsByFilename;
     NSMutableArray *I_menuItemArray;
     NSMutableArray *I_scriptOrderArray;
+    NSMutableDictionary *I_toolbarItemsByIdentifier;
+    NSMutableArray *I_toolbarItemIdentifiers;
+    NSMutableArray *I_defaultToolbarItemIdentifiers;
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle;

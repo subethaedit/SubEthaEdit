@@ -103,16 +103,13 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                 if ([attributes objectForKey:@"id"]) [I_currentSymbol setObject:[attributes objectForKey:@"id"] forKey:@"id"];
                 
                 if ([attributes objectForKey:@"image"]) {
-                    NSImage *aImage = [NSImage imageNamed:[attributes objectForKey:@"image"]];
-                    if (aImage) {
-                        [I_currentSymbol setObject:aImage forKey:@"image"];
+                    NSString *imageName=[attributes objectForKey:@"image"];
+                    NSImage *image = [[[NSImage alloc] initWithContentsOfFile:[[[self mode] bundle] pathForImageResource:imageName]] autorelease];
+                    if (!image) image = [NSImage imageNamed:imageName];
+                    if (image) {
+                        [I_currentSymbol setObject:image forKey:@"image"];
                     } else {
-                        aImage = [[[NSImage alloc] initWithContentsOfFile:[[[self mode] bundle] pathForImageResource:[attributes objectForKey:@"image"]]] autorelease];
-                        if (aImage) {
-                            [I_currentSymbol setObject:aImage forKey:@"image"];
-                        } else {
-                             NSLog(@"Can't find image '%@'", [attributes objectForKey:@"image"]);
-                        }
+                        NSLog(@"Can't find image '%@'", [attributes objectForKey:@"image"]);
                     }
                 }
                 

@@ -87,6 +87,8 @@ NSString * const PlainTextDocumentUserDidChangeSelectionNotification =
                @"PlainTextDocumentUserDidChangeSelectionNotification";
 NSString * const PlainTextDocumentDidChangeDisplayNameNotification =
                @"PlainTextDocumentDidChangeDisplayNameNotification";
+NSString * const PlainTextDocumentDidChangeDocumentModeNotification =
+               @"PlainTextDocumentDidChangeDocumentModeNotification";
 NSString * const PlainTextDocumentDidChangeTextStorageNotification =
                @"PlainTextDocumentDidChangeTextStorageNotification";
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification =
@@ -992,6 +994,7 @@ static NSString *tempFileName(NSString *origPath) {
         if (testDocument == self || !testDocument) {
             [self adjustModeMenu];
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidChangeDocumentModeNotification object:self];
     }
 }
 

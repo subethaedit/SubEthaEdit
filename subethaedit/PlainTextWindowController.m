@@ -9,6 +9,7 @@
 #import "PlainTextWindowController.h"
 #import "ParticipantsView.h"
 #import "PlainTextDocument.h"
+#import "DocumentMode.h"
 #import "PlainTextEditor.h"
 #import "TextStorage.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
@@ -140,13 +141,17 @@ enum {
     }
 }
 
-- (void)windowDidLoad {
-
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
+- (void)adjustToolbarToDocumentMode {
+    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:[NSString stringWithFormat:@"%@%@",[[(PlainTextDocument *)[self document] documentMode] documentModeIdentifier], PlainTextWindowToolbarIdentifier]] autorelease];
     [toolbar setAllowsUserCustomization:YES];
     [toolbar setAutosavesConfiguration:YES];
     [toolbar setDelegate:self];
     [[self window] setToolbar:toolbar];
+}
+
+- (void)windowDidLoad {
+    [self adjustToolbarToDocumentMode];
+
     [self validateUpperDrawer];
     
     NSSize drawerSize = [O_participantsDrawer contentSize];
@@ -215,6 +220,12 @@ enum {
                                              selector:@selector(displayNameDidChange:)
                                                  name:PlainTextDocumentDidChangeDisplayNameNotification 
                                                object:[self document]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(adjustToolbarToDocumentMode)
+                                                 name:PlainTextDocumentDidChangeDocumentModeNotification 
+                                               object:[self document]];
+
 
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(validateUpperDrawer)
@@ -798,14 +809,18 @@ enum {
         [toolbarItem setTarget:[self document]];
         [toolbarItem setAction:@selector(toggleIsAnnounced:)];    
     } else {
-        toolbarItem = nil;
+        return [[(PlainTextDocument *)[self document] documentMode] 
+                                        toolbar:toolbar 
+                          itemForItemIdentifier:itemIdent 
+                      willBeInsertedIntoToolbar:willBeInserted];
     }
     
     return toolbarItem;
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-    return [NSArray arrayWithObjects:
+    NSMutableArray *result=
+        [NSMutableArray arrayWithObjects:
                 ParticipantsToolbarItemIdentifier,
                 ToggleAnnouncementToolbarItemIdentifier,
                 NSToolbarSeparatorItemIdentifier,
@@ -815,13 +830,19 @@ enum {
                 NextChangeToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
-                RendezvousToolbarItemIdentifier,
-                InternetToolbarItemIdentifier,
                 nil];
+    [result addObjectsFromArray:
+        [[(PlainTextDocument *)[self document] documentMode] 
+            toolbarDefaultItemIdentifiers:toolbar]];
+    
+    [result addObject:NSToolbarFlexibleSpaceItemIdentifier];
+    [result addObject:RendezvousToolbarItemIdentifier];
+    [result addObject:InternetToolbarItemIdentifier];
+    return result;
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
-    return [NSArray arrayWithObjects:
+    return [[NSArray arrayWithObjects:
                 InternetToolbarItemIdentifier,
                 RendezvousToolbarItemIdentifier,
                 ShiftLeftToolbarItemIdentifier,
@@ -838,7 +859,10 @@ enum {
                 NSToolbarSeparatorItemIdentifier,
                 NSToolbarSpaceItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
-                nil];
+                nil] 
+                arrayByAddingObjectsFromArray:
+                    [[(PlainTextDocument *)[self document] documentMode] 
+                        toolbarAllowedItemIdentifiers:toolbar]];
 }
 
 - (void)toolbarWillAddItem:(NSNotification *)aNotification {

@@ -170,21 +170,54 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
         
         I_menuItemArray = [NSMutableArray new];
+        I_toolbarItemsByIdentifier     =[NSMutableDictionary new];
+        I_toolbarItemIdentifiers       =[NSMutableArray new];
+        I_defaultToolbarItemIdentifiers=[NSMutableArray new];
         int i=0;
         for (i=0;i<[I_scriptOrderArray count];i++) {
-            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[I_scriptOrderArray objectAtIndex:i] action:@selector(performScriptAction:) keyEquivalent:[NSString stringWithFormat:@"%d", i+1]];
-            [item setKeyEquivalentModifierMask:NSCommandKeyMask | NSControlKeyMask];
-
             NSDictionary *settingsDictionary = [I_scriptSettingsByFilename objectForKey:[I_scriptOrderArray objectAtIndex:i]];
+            NSString *filename = [I_scriptOrderArray objectAtIndex:i];
+            NSString *displayName = filename;
+            if (settingsDictionary && [settingsDictionary objectForKey:@"displayname"]) {
+                displayName = [settingsDictionary objectForKey:@"displayname"];
+            }
+            displayName = [I_bundle localizedStringForKey:displayName value:displayName table:nil];
+            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:displayName
+                                                          action:@selector(performScriptAction:) 
+                                                   keyEquivalent:[NSString stringWithFormat:@"%d", i+1]];
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask | NSControlKeyMask];
             if (settingsDictionary) {
                 [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:@"keyboardshortcut"]];
-                if ([settingsDictionary objectForKey:@"displayname"]) {
-                    [item setTitle:[settingsDictionary objectForKey:@"displayname"]];
-                }
             }
             [item setTag:SCRIPTMODEMENUTAGBASE+i];
             [item setTarget:self];
             [I_menuItemArray addObject:[item autorelease]];
+            
+            NSString *toolbarImageName=nil;
+            if (settingsDictionary && (toolbarImageName=[settingsDictionary objectForKey:@"toolbaricon"])) {
+                NSString *toolbarItemIdentifier = [NSString stringWithFormat:@"%@ToolbarItemIdentifier", filename];
+                NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:toolbarItemIdentifier] autorelease];
+
+                NSImage           *toolbarImage=[[[NSImage alloc] 
+                                                    initWithContentsOfFile:[I_bundle pathForImageResource:toolbarImageName]] autorelease];
+                if (!toolbarImage) toolbarImage=[NSImage imageNamed:toolbarImageName];
+                if (!toolbarImage) {
+                    NSLog(@"Couldn't find toolbar image %@ for script %@ of mode %@", toolbarImageName, filename, [self documentModeIdentifier]);
+                } else {
+                    NSLog(@"found image:%@", toolbarImageName);
+                    [toolbarItem setLabel:displayName];
+                    [toolbarItem setPaletteLabel:displayName];
+                    [toolbarItem setImage:toolbarImage];
+                    [toolbarItem setTarget:self];
+                    [toolbarItem setAction:@selector(performScriptAction:)];
+                    [toolbarItem setTag:SCRIPTMODEMENUTAGBASE+i];
+                    [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:toolbarItemIdentifier];
+                    [I_toolbarItemIdentifiers addObject:toolbarItemIdentifier];
+                    if ([[[settingsDictionary objectForKey:@"instandardtoolbar"] lowercaseString] isEqualToString:@"yes"]) {
+                        [I_defaultToolbarItemIdentifiers addObject:toolbarItemIdentifier];
+                    }
+                }
+            }
         }
         
         // Preference Handling
@@ -383,6 +416,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_menuItemArray release];
     [I_scriptOrderArray release];
     [I_scriptsByFilename release];
+    [I_toolbarItemIdentifiers release];
+    [I_toolbarItemsByIdentifier release];
+    [I_defaultToolbarItemIdentifiers release];
 
     [I_defaults release];
     [I_syntaxHighlighter release];
@@ -538,6 +574,21 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [[EncodingManager sharedInstance] registerEncoding:[newEncodingNumber unsignedIntValue]];
         }
     }
+}
+
+#pragma mark -
+#pragma mark ### Toolbar ###
+
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)willBeInserted {
+    return [[[I_toolbarItemsByIdentifier objectForKey:itemIdentifier] copy] autorelease];
+}
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
+    return I_defaultToolbarItemIdentifiers;
+}
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
+    return I_toolbarItemIdentifiers;
 }
 
 #pragma mark -

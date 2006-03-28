@@ -32,6 +32,7 @@ extern NSString * const PlainTextDocumentParticipantsDataDidChangeNotification;
 extern NSString * const PlainTextDocumentUserDidChangeSelectionNotification;
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
+extern NSString * const PlainTextDocumentDidChangeDocumentModeNotification;
 
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
