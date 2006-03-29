@@ -151,17 +151,18 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         while ((filename=[filenames nextObject])) {
             // skip hidden files and directory entries
             if (![filename hasPrefix:@"."]) {
-                NSDictionary *errorDictionary;
+                NSDictionary *errorDictionary=nil;
                 NSURL *fileURL=[NSURL fileURLWithPath:[scriptFolder stringByAppendingPathComponent:filename]];
                 NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:fileURL error:&errorDictionary];
                 if (!script) {
                     NSLog(@"Script loading of %@ failed: %@", [fileURL path], errorDictionary);
                 } else {
                     [I_scriptsByFilename setObject:[script autorelease] forKey:[filename stringByDeletingPathExtension]];
-                    NSDictionary *errorDict=nil;
-                    NSAppleEventDescriptor *ae = [script executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDict];
-                    if (errorDict==nil) {
+                    NSAppleEventDescriptor *ae = [script executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDictionary];
+                    if (errorDictionary==nil) {
                         [I_scriptSettingsByFilename setObject:[ae dictionaryValue] forKey:[filename stringByDeletingPathExtension]];
+                    } else {
+                        NSLog(@"Getting Settings for %@ failed: %@", [fileURL path], errorDictionary);
                     }
                 }
             }
@@ -181,11 +182,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             if (settingsDictionary && [settingsDictionary objectForKey:@"displayname"]) {
                 displayName = [settingsDictionary objectForKey:@"displayname"];
             }
-            displayName = [I_bundle localizedStringForKey:displayName value:displayName table:nil];
             NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:displayName
                                                           action:@selector(performScriptAction:) 
-                                                   keyEquivalent:[NSString stringWithFormat:@"%d", i+1]];
-            [item setKeyEquivalentModifierMask:NSCommandKeyMask | NSControlKeyMask];
+                                                   keyEquivalent:@""];
             if (settingsDictionary) {
                 [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:@"keyboardshortcut"]];
             }
@@ -545,7 +544,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     int index = [aSender tag] - SCRIPTMODEMENUTAGBASE;
     if (index >= 0 && index < [I_scriptOrderArray count]) {
         NSString *scriptFilename=[I_scriptOrderArray objectAtIndex:index];
-        NSAppleScript *script = [I_scriptsByFilename objectForKey:scriptFilename];
+        id script = [I_scriptsByFilename objectForKey:scriptFilename];
         NSDictionary *errorDictionary=nil;
         (NSAppleEventDescriptor *)[script executeAndReturnError:&errorDictionary];
         if (errorDictionary) {

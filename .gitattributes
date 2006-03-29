@@ -472,7 +472,6 @@ subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Compile.scpt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Open[!!-~]Counterpart.scpt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Open[!!-~]Terminal[!!-~]in[!!-~]Enclosing[!!-~]Folder.scpt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml -text
-subethaedit/Modes/Objective-C.mode/Contents/Resources/ToolbarIconBuild.tiff -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/ToolbarIconTerminal.png -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Info.plist -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/AutocompleteAdditions.txt -text
@@ -482,7 +481,10 @@ subethaedit/Modes/PHP-HTML.mode/Contents/Resources/English.lproj/Localizable.str
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Check[!!-~]Syntax.scpt -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]PHP[!!-~]Documentation.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ToolbarIconPHPLookup.png -text
 subethaedit/Modes/Pascal.mode/Contents/Info.plist -text
 subethaedit/Modes/Pascal.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/Pascal.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
@@ -1229,6 +1231,7 @@ subethaedit/artwork/SymbolT.tiff -text
 subethaedit/artwork/SymbolV.png -text
 subethaedit/artwork/SymbolV.tiff -text
 subethaedit/artwork/SymbolWarn.tiff -text
+subethaedit/artwork/ToolbarIconBuild.tiff -text
 subethaedit/artwork/URLIcon.tiff -text
 subethaedit/artwork/WaitPipe.png -text
 subethaedit/artwork/WebReload.tiff -text
