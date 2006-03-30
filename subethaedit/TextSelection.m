@@ -35,6 +35,23 @@
     [super dealloc];
 }
 
+- (NSData *)characterRange
+{
+    NSTextView *textView = [I_editor textView];
+    NSRange range = [textView selectedRange];
+    
+    Point p;
+    if (range.length == 0) {
+        p.v = range.location;
+        p.h = range.location;
+    } else {
+        p.v = NSMaxRange(range);
+        p.h = range.location + 1;
+    }
+    
+    return [NSData dataWithBytes:&p length:sizeof(p)];
+}
+
 - (id)contents
 {
     NSTextView *textView = [I_editor textView];
@@ -46,8 +63,6 @@
 
 - (void)setContents:(id)string
 {
-    NSLog(@"string: %@", string);
-    NSLog(@"editor: %@", I_editor);
     NSTextView *textView = [I_editor textView];
     [textView insertText:string];
 }

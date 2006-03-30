@@ -17,6 +17,7 @@
 + (id)selectionForEditor:(id)editor;
 - (id)initForEditor:(id)editor;
 
+- (NSData *)characterRange;
 - (id)contents;
 - (void)setContents:(id)string;
 - (id)objectSpecifier;
