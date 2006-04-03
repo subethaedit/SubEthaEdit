@@ -44,6 +44,8 @@
 #import "HueToColorValueTransformer.h"
 #import "SaturationToColorValueTransformer.h"
 #import "PointsToDisplayValueTransformer.h"
+#import "NSAppleScriptTCMAdditions.h"
+#import "NSMenuTCMAdditions.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -67,6 +69,9 @@ int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
 int const ModeMenuTag = 50;
 int const SwitchModeMenuTag = 10;
+int const HighlightSyntaxMenuTag = 20;
+int const ScriptMenuTag = 4000;
+
 
 
 NSString * const DefaultPortNumber = @"port";
@@ -333,6 +338,7 @@ static AppController *sharedInstance = nil;
     [self addMe];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
+    [self setupScriptMenu];
 
     [[[[NSApp mainMenu] itemWithTag:EditMenuTag] submenu] setDelegate:self];
 
@@ -698,15 +704,163 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
 }
 
+#define SCRIPTPATHCOMPONENT @"Application Support/SubEthaEdit/Scripts"
+#define SCRIPTMENUTAGBASE   7000
+
+- (void)reloadScriptMenu {
+    NSMenu *scriptMenu=[[[NSApp mainMenu] itemWithTag:ScriptMenuTag] submenu];
+    while ([scriptMenu numberOfItems]) {
+        [scriptMenu removeItemAtIndex:0];
+    }
+    
+    NSMenuItem *item=nil;
+    
+    // load scripts and do stuff
+    [I_scriptsByFilename release];
+     I_scriptsByFilename = [NSMutableDictionary new];
+    [I_scriptSettingsByFilename release];
+     I_scriptSettingsByFilename = [NSMutableDictionary new];
+
+    [I_toolbarItemIdentifiers release];
+     I_toolbarItemIdentifiers = [NSMutableArray new];
+    [I_toolbarItemsByIdentifier release];
+     I_toolbarItemsByIdentifier = [NSMutableDictionary new];
+
+    NSString *file;
+    NSString *path;
+    
+    // make sure Basic directories have been created
+    [DocumentModeManager sharedInstance];
+
+    //create Directories
+    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
+    while ((path = [enumerator nextObject])) {
+        NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
+        }
+    }
+
+    // collect all directories
+    NSMutableArray *allPaths = [NSMutableArray array];
+    NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
+    enumerator = [allDomainsPaths objectEnumerator];
+    while ((path = [enumerator nextObject])) {
+        [allPaths addObject:[path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT]];
+    }
+    
+    [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Scripts/"]];
+
+    // iterate over all directories
+
+    enumerator = [allPaths reverseObjectEnumerator];
+    while ((path = [enumerator nextObject])) {
+        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:path] objectEnumerator];
+        while ((file = [dirEnumerator nextObject])) {
+            NSDictionary *errorDictionary = nil;
+            NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:file]] error:&errorDictionary];
+            if (!errorDictionary && script) {
+                [I_scriptsByFilename setObject:script forKey:[file stringByDeletingLastPathComponent]];
+            }
+        }
+    }
+
+    [I_scriptOrderArray release];
+     I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
+    
+    int i=0;
+    for (i=0;i<[I_scriptOrderArray count];i++) {
+        NSString *filename = [I_scriptOrderArray objectAtIndex:i];
+        NSAppleScript *script=[I_scriptsByFilename objectForKey:[I_scriptOrderArray objectAtIndex:i]];
+        NSDictionary *errorDictionary=nil;
+        NSAppleEventDescriptor *ae = [script executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDictionary];
+        if (errorDictionary==nil) {
+            [I_scriptSettingsByFilename setObject:[ae dictionaryValue] forKey:[filename stringByDeletingPathExtension]];
+        }
+        NSDictionary *settingsDictionary = [I_scriptSettingsByFilename objectForKey:filename];
+        NSString *displayName = filename;
+        if (settingsDictionary && [settingsDictionary objectForKey:@"displayname"]) {
+            displayName = [settingsDictionary objectForKey:@"displayname"];
+        }
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:displayName
+                                                      action:@selector(performScriptAction:) 
+                                               keyEquivalent:@""];
+        if (settingsDictionary) {
+            [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:@"keyboardshortcut"]];
+        }
+        [item setTag:SCRIPTMENUTAGBASE+i];
+        [item setTarget:self];
+        [scriptMenu addItem:[item autorelease]];
+        
+        NSString *toolbarImageName=nil;
+        if (settingsDictionary && (toolbarImageName=[settingsDictionary objectForKey:@"toolbaricon"])) {
+            NSString *toolbarItemIdentifier = [NSString stringWithFormat:@"%@ScriptToolbarItemIdentifier", filename];
+            NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:toolbarItemIdentifier] autorelease];
+
+            NSImage *toolbarImage=[NSImage imageNamed:toolbarImageName];
+            if (!toolbarImage) {
+                NSLog(@"Couldn't find toolbar image %@ for script %@", toolbarImageName, filename);
+            } else {
+                [toolbarItem setLabel:displayName];
+                [toolbarItem setPaletteLabel:displayName];
+                [toolbarItem setImage:toolbarImage];
+                [toolbarItem setTarget:self];
+                [toolbarItem setAction:@selector(performScriptAction:)];
+                [toolbarItem setTag:SCRIPTMENUTAGBASE+i];
+                [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:toolbarItemIdentifier];
+                [I_toolbarItemIdentifiers addObject:toolbarItemIdentifier];
+            }
+        }
+    }
+    // add final entries
+    [scriptMenu addItem:[NSMenuItem separatorItem]];
+    item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reload Scripts", @"Reload Scripts MenuItem in Script Menu")
+                              action:@selector(reloadScriptMenu) keyEquivalent:@""] autorelease];
+    [item setTarget:self];
+    [scriptMenu addItem:item];
+    item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open Script Folder", @"Open Script Folder MenuItem in Script Menu")
+                              action:@selector(showScriptFolder:) keyEquivalent:@""] autorelease];
+    [item setTarget:self];
+    [scriptMenu addItem:item];
+}
+
+- (IBAction)performScriptAction:(id)aSender {
+    int index = [aSender tag] - SCRIPTMENUTAGBASE;
+    if (index >= 0 && index < [I_scriptOrderArray count]) {
+        NSString *scriptFilename=[I_scriptOrderArray objectAtIndex:index];
+        id script = [I_scriptsByFilename objectForKey:scriptFilename];
+        NSDictionary *errorDictionary=nil;
+        (NSAppleEventDescriptor *)[script executeAndReturnError:&errorDictionary];
+        if (errorDictionary) {
+            NSLog(@"Script: %@ returnedError:%@",scriptFilename, errorDictionary);
+        }
+    }
+}
+
+- (IBAction)showScriptFolder:(id)aSender {
+    //create Directories
+    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
+    NSString *path = nil;
+    while ((path = [enumerator nextObject])) {
+        NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:fullPath]];
+        return;
+    }
+}
+
 - (void)setupScriptMenu {
     int indexOfWindowMenu = [[NSApp mainMenu] indexOfItemWithTag:WindowMenuTag];
     if (indexOfWindowMenu != -1) {
         NSMenuItem *scriptMenuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
         [scriptMenuItem setImage:[NSImage imageNamed:@"ScriptMenu"]];
+        [scriptMenuItem setTag:ScriptMenuTag];
         NSMenu *menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
         [scriptMenuItem setSubmenu:menu];
         [[NSApp mainMenu] insertItem:scriptMenuItem atIndex:indexOfWindowMenu + 1];
         [scriptMenuItem release];
+        [self reloadScriptMenu];
     }
 }
 
@@ -767,6 +921,16 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     [[DocumentModeManager sharedInstance] reloadDocumentModes:aSender];
 }
 
+#pragma mark -
+#pragma mark ### Toolbar ###
+
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)willBeInserted {
+    return [[[I_toolbarItemsByIdentifier objectForKey:itemIdentifier] copy] autorelease];
+}
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
+    return I_toolbarItemIdentifiers;
+}
 
 #pragma mark -
 #pragma mark ### Menu validation ###

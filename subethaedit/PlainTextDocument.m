@@ -907,19 +907,22 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)adjustModeMenu {
     NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
     // remove all items that don't belong here anymore
-    int index = [modeMenu indexOfItemWithTag:SwitchModeMenuTag];
-    index+=2; // don't forget the alternate menu item
+    int index = [modeMenu indexOfItemWithTag:HighlightSyntaxMenuTag];
+    index+=1; 
     while (index < [modeMenu numberOfItems]) {
         [modeMenu removeItemAtIndex:index];
     }
     // check if mode has items
     NSArray *itemArray = [[self documentMode] scriptMenuItemArray];
     if ([itemArray count]) {
-        [modeMenu addItem:[[[NSMenuItem alloc] initWithTitle:[[self documentMode] displayName] action:NULL keyEquivalent:@""] autorelease]];
+        [modeMenu addItem:[NSMenuItem separatorItem]];
         NSEnumerator *menuItems=[itemArray objectEnumerator];
         NSMenuItem   *menuItem = nil;
+        NSImage *scriptMenuItemIcon=[NSImage imageNamed:@"ScriptMenuItemIcon"];
         while ((menuItem=[menuItems nextObject])) {
-            [modeMenu addItem:[menuItem autoreleasedCopy]];
+            NSMenuItem *item=[menuItem autoreleasedCopy];
+            [item setImage:scriptMenuItemIcon];
+            [modeMenu addItem:item];
         }
     }
 }

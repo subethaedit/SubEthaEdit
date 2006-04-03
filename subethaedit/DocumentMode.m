@@ -168,7 +168,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             }
         }
         
-        I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
+        [I_scriptOrderArray release];
+         I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
         
         I_menuItemArray = [NSMutableArray new];
         I_toolbarItemsByIdentifier     =[NSMutableDictionary new];
@@ -203,7 +204,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 if (!toolbarImage) {
                     NSLog(@"Couldn't find toolbar image %@ for script %@ of mode %@", toolbarImageName, filename, [self documentModeIdentifier]);
                 } else {
-                    NSLog(@"found image:%@", toolbarImageName);
                     [toolbarItem setLabel:displayName];
                     [toolbarItem setPaletteLabel:displayName];
                     [toolbarItem setImage:toolbarImage];

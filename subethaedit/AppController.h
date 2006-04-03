@@ -30,10 +30,17 @@ extern int const FileEncodingsMenuItemTag ;
 extern int const WindowMenuTag ;
 extern int const ModeMenuTag ;
 extern int const SwitchModeMenuTag ;
+extern int const HighlightSyntaxMenuTag ;
+extern int const ScriptMenuTag;
 
 
 @interface AppController : NSObject {
     BOOL I_lastShouldOpenUntitledFile;
+    NSMutableDictionary *I_scriptsByFilename;
+    NSMutableDictionary *I_scriptSettingsByFilename;
+    NSMutableArray      *I_scriptOrderArray;
+    NSMutableDictionary *I_toolbarItemsByIdentifier;
+    NSMutableArray      *I_toolbarItemIdentifiers;
 }
 
 + (AppController *)sharedInstance;

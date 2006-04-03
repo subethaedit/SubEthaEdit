@@ -23,6 +23,7 @@
 #import "InternetBrowserController.h"
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
+#import "AppController.h"
 
 NSString * const PlainTextWindowToolbarIdentifier = 
                @"PlainTextWindowToolbarIdentifier";
@@ -809,12 +810,17 @@ enum {
         [toolbarItem setTarget:[self document]];
         [toolbarItem setAction:@selector(toggleIsAnnounced:)];    
     } else {
-        return [[(PlainTextDocument *)[self document] documentMode] 
+        toolbarItem=[[(PlainTextDocument *)[self document] documentMode] 
                                         toolbar:toolbar 
                           itemForItemIdentifier:itemIdent 
                       willBeInsertedIntoToolbar:willBeInserted];
     }
-    
+    if (!toolbarItem) {
+        toolbarItem=[[AppController sharedInstance] 
+                                        toolbar:toolbar 
+                          itemForItemIdentifier:itemIdent 
+                      willBeInsertedIntoToolbar:willBeInserted];
+    }
     return toolbarItem;
 }
 
@@ -842,7 +848,7 @@ enum {
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
-    return [[NSArray arrayWithObjects:
+    return [[[NSArray arrayWithObjects:
                 InternetToolbarItemIdentifier,
                 RendezvousToolbarItemIdentifier,
                 ShiftLeftToolbarItemIdentifier,
@@ -862,7 +868,9 @@ enum {
                 nil] 
                 arrayByAddingObjectsFromArray:
                     [[(PlainTextDocument *)[self document] documentMode] 
-                        toolbarAllowedItemIdentifiers:toolbar]];
+                        toolbarAllowedItemIdentifiers:toolbar]]
+                arrayByAddingObjectsFromArray:[[AppController sharedInstance] 
+                                        toolbarAllowedItemIdentifiers:toolbar]];
 }
 
 - (void)toolbarWillAddItem:(NSNotification *)aNotification {

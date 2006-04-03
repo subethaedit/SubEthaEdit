@@ -470,9 +470,7 @@ subethaedit/Modes/Objective-C.mode/Contents/Resources/German.lproj/Localizable.s
 subethaedit/Modes/Objective-C.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Compile.scpt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Open[!!-~]Counterpart.scpt -text
-subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Open[!!-~]Terminal[!!-~]in[!!-~]Enclosing[!!-~]Folder.scpt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml -text
-subethaedit/Modes/Objective-C.mode/Contents/Resources/ToolbarIconTerminal.png -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Info.plist -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ChangeLog.txt -text
@@ -1026,6 +1024,7 @@ subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
 subethaedit/SaturationToColorValueTransformer.h -text
 subethaedit/SaturationToColorValueTransformer.m -text
+subethaedit/Scripts/Open[!!-~]Terminal[!!-~]Here.scpt -text
 subethaedit/SelectionOperation.h -text
 subethaedit/SelectionOperation.m -text
 subethaedit/SessionProfile.h -text
@@ -1172,6 +1171,7 @@ subethaedit/artwork/HomeFolderIcon.tiff -text
 subethaedit/artwork/Internet.tiff -text
 subethaedit/artwork/InternetResume.tiff -text
 subethaedit/artwork/InternetStop.tiff -text
+subethaedit/artwork/InvertedIBeam.tiff -text
 subethaedit/artwork/InvitationBadge1-2.tiff -text
 subethaedit/artwork/InvitationBadge3.tiff -text
 subethaedit/artwork/LibraryFolderIcon.tiff -text
@@ -1188,6 +1188,7 @@ subethaedit/artwork/PreviousSymbol.tiff -text
 subethaedit/artwork/PrintPrefs.tiff -text
 subethaedit/artwork/Rendezvous.tiff -text
 subethaedit/artwork/ScriptMenu.tiff -text
+subethaedit/artwork/ScriptMenuItemIcon.png -text
 subethaedit/artwork/SeeFolderIcon.tiff -text
 subethaedit/artwork/ShiftLeft.png -text
 subethaedit/artwork/ShiftLeft.tiff -text
@@ -1232,6 +1233,7 @@ subethaedit/artwork/SymbolV.png -text
 subethaedit/artwork/SymbolV.tiff -text
 subethaedit/artwork/SymbolWarn.tiff -text
 subethaedit/artwork/ToolbarIconBuild.tiff -text
+subethaedit/artwork/ToolbarIconTerminal.png -text
 subethaedit/artwork/URLIcon.tiff -text
 subethaedit/artwork/WaitPipe.png -text
 subethaedit/artwork/WebReload.tiff -text

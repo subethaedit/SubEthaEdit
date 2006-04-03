@@ -259,6 +259,9 @@
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; };
 		5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */; };
 		5E2F5E43097BE32F00F7AA3C /* Export.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5E2F5E41097BE32E00F7AA3C /* Export.nib */; };
+		5E4DA72D09E159B400D91CFC /* ToolbarIconTerminal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */; };
+		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
+		5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */; };
 		5E685D5209D82BBB00E41973 /* NSAppleScriptTCMAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */; };
 		5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
 		5E685DB309D8438800E41973 /* NSMenuTCMAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */; };
@@ -788,6 +791,9 @@
 		5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetTextFieldCell.m; sourceTree = "<group>"; };
 		5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconBuild.tiff; path = artwork/ToolbarIconBuild.tiff; sourceTree = "<group>"; };
 		5E2F5E42097BE32F00F7AA3C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Export.nib; sourceTree = "<group>"; };
+		5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconTerminal.png; path = artwork/ToolbarIconTerminal.png; sourceTree = "<group>"; };
+		5E4DA73A09E15C6800D91CFC /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
+		5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
 		5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAppleScriptTCMAdditions.h; sourceTree = "<group>"; };
 		5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAppleScriptTCMAdditions.m; sourceTree = "<group>"; };
 		5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMenuTCMAdditions.h; sourceTree = "<group>"; };
@@ -902,6 +908,7 @@
 				14289080095743F200D14688 /* PrintPrefs.tiff */,
 				14289081095743F200D14688 /* Rendezvous.tiff */,
 				14289082095743F200D14688 /* ScriptMenu.tiff */,
+				5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */,
 				14289083095743F200D14688 /* SeeFolderIcon.tiff */,
 				14289084095743F200D14688 /* ShiftLeft.png */,
 				14289086095743F200D14688 /* ShiftRight.png */,
@@ -934,6 +941,7 @@
 				142890AC095743F200D14688 /* SymbolV.png */,
 				142895030957692100D14688 /* SymbolWarn.tiff */,
 				5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */,
+				5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */,
 				142890AE095743F200D14688 /* URLIcon.tiff */,
 				142890AF095743F200D14688 /* WaitPipe.png */,
 				142890B0095743F200D14688 /* WebReload.tiff */,
@@ -1407,6 +1415,7 @@
 				14289054095742AD00D14688 /* Sound */,
 				142890480957425900D14688 /* HTMLExport */,
 				1428904A0957427100D14688 /* Modes */,
+				5E4DA73A09E15C6800D91CFC /* Scripts */,
 				142890450957421300D14688 /* SubEthaEditHelp */,
 			);
 			name = Resources;
@@ -1631,6 +1640,7 @@
 				14289044095741BA00D14688 /* WebPreview.nib in Resources */,
 				142890490957425900D14688 /* HTMLExport in Resources */,
 				1428904B0957427100D14688 /* Modes in Resources */,
+				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
 				142890470957421300D14688 /* SubEthaEditHelp in Resources */,
 				142890580957432800D14688 /* Invitation.aiff in Resources */,
 				142890590957432800D14688 /* Knock.wav in Resources */,
@@ -1708,6 +1718,8 @@
 				5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */,
 				5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */,
 				5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */,
+				5E4DA72D09E159B400D91CFC /* ToolbarIconTerminal.png in Resources */,
+				5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
