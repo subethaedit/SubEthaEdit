@@ -1027,6 +1027,7 @@ subethaedit/RendezvousBrowserController.m -text
 subethaedit/SaturationToColorValueTransformer.h -text
 subethaedit/SaturationToColorValueTransformer.m -text
 subethaedit/Scripts/Open[!!-~]Terminal[!!-~]Here.scpt -text
+subethaedit/Scripts/Save[!!-~]front[!!-~]document.scpt -text
 subethaedit/SelectionOperation.h -text
 subethaedit/SelectionOperation.m -text
 subethaedit/SessionProfile.h -text

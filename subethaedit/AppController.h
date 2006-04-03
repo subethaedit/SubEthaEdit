@@ -47,6 +47,8 @@ extern int const ScriptMenuTag;
 
 - (BOOL)lastShouldOpenUntitledFile;
 
+- (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary;
+
 - (IBAction)undo:(id)aSender;
 - (IBAction)redo:(id)aSender;
 

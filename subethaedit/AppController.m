@@ -761,7 +761,7 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
             NSDictionary *errorDictionary = nil;
             NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:file]] error:&errorDictionary];
             if (!errorDictionary && script) {
-                [I_scriptsByFilename setObject:script forKey:[file stringByDeletingLastPathComponent]];
+                [I_scriptsByFilename setObject:script forKey:[file stringByDeletingPathExtension]];
             }
         }
     }
@@ -776,7 +776,7 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
         NSDictionary *errorDictionary=nil;
         NSAppleEventDescriptor *ae = [script executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDictionary];
         if (errorDictionary==nil) {
-            [I_scriptSettingsByFilename setObject:[ae dictionaryValue] forKey:[filename stringByDeletingPathExtension]];
+            [I_scriptSettingsByFilename setObject:[ae dictionaryValue] forKey:filename];
         }
         NSDictionary *settingsDictionary = [I_scriptSettingsByFilename objectForKey:filename];
         NSString *displayName = filename;
@@ -825,6 +825,21 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     [scriptMenu addItem:item];
 }
 
+- (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary {
+    NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+    [newAlert setAlertStyle:NSCriticalAlertStyle];
+    [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"]];
+    [newAlert setInformativeText:[NSString stringWithFormat:@"%@ (%d)", [anErrorDictionary objectForKey:@"NSAppleScriptErrorMessage"], [[anErrorDictionary objectForKey:@"NSAppleScriptErrorNumber"] intValue]]];
+    [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+    NSWindow *alertWindow=nil;
+    NSArray *documents=[NSApp orderedDocuments];
+    if ([documents count]>0) alertWindow=[[documents objectAtIndex:0] windowForSheet];
+    [newAlert beginSheetModalForWindow:alertWindow
+                         modalDelegate:nil
+                        didEndSelector:nil
+                           contextInfo:NULL];
+}
+
 - (IBAction)performScriptAction:(id)aSender {
     int index = [aSender tag] - SCRIPTMENUTAGBASE;
     if (index >= 0 && index < [I_scriptOrderArray count]) {
@@ -833,7 +848,7 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
         NSDictionary *errorDictionary=nil;
         (NSAppleEventDescriptor *)[script executeAndReturnError:&errorDictionary];
         if (errorDictionary) {
-            NSLog(@"Script: %@ returnedError:%@",scriptFilename, errorDictionary);
+            [self reportAppleScriptError:errorDictionary];
         }
     }
 }

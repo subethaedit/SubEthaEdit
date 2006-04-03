@@ -17,6 +17,7 @@
 #import "RegexSymbolDefinition.h"
 #import "NSAppleScriptTCMAdditions.h"
 #import "NSMenuTCMAdditions.h"
+#import "AppController.h"
 
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
 NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
@@ -548,7 +549,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         NSDictionary *errorDictionary=nil;
         (NSAppleEventDescriptor *)[script executeAndReturnError:&errorDictionary];
         if (errorDictionary) {
-            NSLog(@"Script: %@ of Mode:%@ returnedError:%@",scriptFilename,[self documentModeIdentifier], errorDictionary);
+            [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
         }
     }
 }
