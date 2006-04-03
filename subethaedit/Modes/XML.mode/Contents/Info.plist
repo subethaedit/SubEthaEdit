@@ -7,14 +7,14 @@
 	<key>CFBundleName</key>
 	<string>XML</string>
     <key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.2</string>
     <key>NSHumanReadableCopyright</key>
 	<string>© 2004 TheCodingMonkeys
 http://www.codingmonkeys.de</string>
 	<key>CFBundleVersion</key>
-	<string>1.1</string>
+	<string>1.2</string>
     <key>CFBundleGetInfoString</key>
-	<string>1.1, Copyright TheCodingMonkeys 2004</string>
+	<string>1.2, Copyright TheCodingMonkeys 2004</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -28,6 +28,7 @@ http://www.codingmonkeys.de</string>
 	   <string>rss</string>
 	   <string>rdf</string>
 	   <string>seestyle</string>
+	   <string>sdf</string>
 	   <string>XML</string>
 	   <string>XSLT</string>
 	   <string>XSL</string>
@@ -35,6 +36,7 @@ http://www.codingmonkeys.de</string>
 	   <string>RSS</string>
 	   <string>RDF</string>
 	   <string>SEESTYLE</string>
+	   <string>SDF</string>
 	</array>
 </dict>
 </plist>
