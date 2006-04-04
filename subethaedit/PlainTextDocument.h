@@ -217,6 +217,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)selectRangeInBackground:(NSRange)aRange;
 - (void)handleOpenDocumentEvent;
 
+- (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding;
 - (IBAction)convertLineEndings:(id)aSender;
 - (IBAction)chooseLineEndings:(id)aSender;
 
@@ -335,6 +336,7 @@ typedef enum {
 - (void)setText:(NSString *)aString;
 - (id)selection;
 - (void)setSelection:(id)selection;
+- (void)replaceTextInRange:(NSRange)range withString:(NSString *)string;
 
 // Deprecated, but needed for compatibility with see tool.
 - (NSString *)mode;

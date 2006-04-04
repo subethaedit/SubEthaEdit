@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <AppKit/AppKit.h>
@@ -13,10 +13,15 @@
     struct {
         BOOL shouldCheckCompleteStart;
         BOOL autoCompleteInProgress;
+        BOOL isPasting;
     } I_flags;
     NSTimer *I_timer;
 }
+
 + (void)setDefaultMenu:(NSMenu *)aMenu;
+
+- (BOOL)isPasting;
+
 @end
 
 @interface NSObject (TextViewDelegateMethods) 

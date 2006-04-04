@@ -1265,6 +1265,54 @@
     } else {
         [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] typingAttributes]];
     }
+    
+    if ([(TextView *)aTextView isPasting]) {
+        unsigned length = [replacementString length];
+        unsigned curPos = 0;
+        unsigned startIndex, endIndex, contentsEndIndex;
+        NSString *lineEndingString = [document lineEndingString];
+        unsigned lineEndingStringLength = [lineEndingString length];
+        unichar *lineEndingBuffer = NSZoneMalloc(NULL, sizeof(unichar) * lineEndingStringLength);
+        [lineEndingString getCharacters:lineEndingBuffer];
+        BOOL isLineEndingValid = YES;
+        
+        while (curPos < length) {
+            [replacementString getLineStart:&startIndex end:&endIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(curPos, 0)];
+            if ((contentsEndIndex + lineEndingStringLength) <= length) {
+                unsigned i;
+                for (i = 0; i < lineEndingStringLength; i++) {
+                    if ([replacementString characterAtIndex:contentsEndIndex + i] != lineEndingBuffer[i]) {
+                        isLineEndingValid = NO;
+                        break;
+                    }
+                }            
+            }
+            curPos = endIndex;
+        }
+        
+        NSZoneFree(NSZoneFromPointer(lineEndingBuffer), lineEndingBuffer);
+        
+        if (!isLineEndingValid) {
+            NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
+            [contextInfo setObject:@"PasteWrongLineEndingsAlert" forKey:@"Alert"];
+            [contextInfo setObject:aTextView forKey:@"TextView"];
+            [contextInfo setObject:[[replacementString copy] autorelease] forKey:@"ReplacementString"];
+            [contextInfo autorelease];
+            
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil)];
+            [alert setInformativeText:NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Paste Converted", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Paste Unchanged", nil)];
+            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+            [alert beginSheetModalForWindow:[aTextView window]
+                              modalDelegate:document
+                             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                                contextInfo:[contextInfo retain]];
+            return NO;
+        }
+    }
 
     return [document textView:aTextView shouldChangeTextInRange:affectedCharRange replacementString:replacementString];
 }

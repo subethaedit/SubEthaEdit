@@ -110,6 +110,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (BOOL)TCM_validateDocument;
 - (NSDictionary *)TCM_propertiesOfCurrentSeeEvent;
 - (BOOL)TCM_readFromFile:(NSString *)fileName ofType:(NSString *)docType properties:(NSDictionary *)properties;
+- (void)TCM_validateLineEndings;
 @end
 
 #pragma mark -
@@ -1249,7 +1250,6 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)makeWindowControllers {
-    DEBUGLOG(@"blah",5,@"makeWindowCotrollers");
     [self addWindowController:[[PlainTextWindowController new] autorelease]];
 }
 
@@ -1308,6 +1308,97 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (void)TCM_validateLineEndings {
+
+    NSString *string = [[self textStorage] string];
+    unsigned length = [string length];
+    unsigned curPos = 0;
+    unsigned start, end, contentsEnd;
+    unichar CR   = 0x000D;
+    unichar LF   = 0x000A;
+    unichar LSEP = 0x2028;
+    unichar PSEP = 0x2029;
+    unsigned countOfCR = 0;
+    unsigned countOfLF = 0;
+    unsigned countOfCRLF = 0;
+    unsigned countOfLSEP = 0;
+    unsigned countOfPSEP = 0;
+    
+    while (curPos < length) {
+        [string getLineStart:&start end:&end contentsEnd:&contentsEnd forRange:NSMakeRange(curPos, 0)];
+        if (contentsEnd < length) {
+            unichar currentChar = [string characterAtIndex:contentsEnd];
+            if (currentChar == LF) {
+                countOfLF++;
+            } else if (currentChar == LSEP) {
+                countOfLSEP++;
+            } else if (currentChar == PSEP) {
+                countOfPSEP++;
+            } else if (currentChar == CR) {
+                if (curPos < (length - 1) && [string characterAtIndex:curPos + 1] == LF) {
+                    countOfCRLF++;
+                } else {
+                    countOfCR++;
+                }
+            }
+        }
+        curPos = end;
+    }
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"line endings stats -\nLF:   %d\nLSEP: %d\nPSEP: %d\nCR:   %d\nCRLF: %d\n", countOfLF, countOfLSEP, countOfPSEP, countOfCR, countOfCRLF);
+    
+    NSDictionary *lineEndingStats = [NSDictionary dictionaryWithObjectsAndKeys:
+        [NSNumber numberWithUnsignedInt:countOfCR], [NSNumber numberWithUnsignedShort:LineEndingCR],
+        [NSNumber numberWithUnsignedInt:countOfLF], [NSNumber numberWithUnsignedShort:LineEndingLF],
+        [NSNumber numberWithUnsignedInt:countOfPSEP], [NSNumber numberWithUnsignedShort:LineEndingUnicodeParagraphSeparator],
+        [NSNumber numberWithUnsignedInt:countOfLSEP], [NSNumber numberWithUnsignedShort:LineEndingUnicodeLineSeparator],
+        [NSNumber numberWithUnsignedInt:countOfCRLF], [NSNumber numberWithUnsignedShort:LineEndingCRLF],
+        nil];
+    NSArray *sortedLineEndingStatsKeys = [lineEndingStats keysSortedByValueUsingSelector:@selector(compare:)];
+    BOOL hasLineEndings = ([[lineEndingStats objectForKey:[sortedLineEndingStatsKeys objectAtIndex:4]] unsignedIntValue] != 0);
+    BOOL hasMixedLineEndings = hasLineEndings && ([[lineEndingStats objectForKey:[sortedLineEndingStatsKeys objectAtIndex:3]] unsignedIntValue] != 0);
+    if (hasLineEndings) {
+        if (hasMixedLineEndings) {
+            NSString *localizedName;
+            switch([[sortedLineEndingStatsKeys objectAtIndex:4] unsignedShortValue]) {
+                case LineEndingLF:
+                    localizedName = @"LF";
+                    break;
+                case LineEndingCR:
+                    localizedName = @"CR";
+                    break;
+                case LineEndingCRLF:
+                    localizedName = @"CRLF";
+                    break;
+                case LineEndingUnicodeLineSeparator:
+                    localizedName = @"LSEP";
+                    break;
+                case LineEndingUnicodeParagraphSeparator:
+                    localizedName = @"PSEP";
+                    break;
+                default:
+                    localizedName = @"LF";
+                    break;
+            }
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName]];
+            [alert setInformativeText:NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil)];
+            [alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName]];
+            [alert addButtonWithTitle:NSLocalizedString(@"Keep Line Endings", nil)];
+            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+            [alert beginSheetModalForWindow:[self windowForSheet]
+                              modalDelegate:self
+                             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                                contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                @"MixedLineEndingsAlert", @"Alert",
+                                                                [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
+                                                                nil] retain]];
+          } else {
+            [self setLineEnding:[[sortedLineEndingStatsKeys objectAtIndex:4] unsignedShortValue]];
+        }
+    }
+}
+
 - (void)showWindows {    
     BOOL closeTransient = transientDocument 
                           && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
@@ -1332,6 +1423,8 @@ static NSString *tempFileName(NSString *origPath) {
         transientDocument = self;
         transientDocumentWindowFrame = [[[transientDocument topmostWindowController] window] frame];
     }
+    
+    [self TCM_validateLineEndings];
 }
 
 - (NSWindow *)windowForSheet {
@@ -1344,10 +1437,8 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)windowControllerWillLoadNib:(NSWindowController *)aController {
     [super windowControllerWillLoadNib:aController];
-    DEBUGLOG(@"blah",5,@"Willload");
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
-
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
@@ -2853,11 +2944,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setLineEnding:[aSender tag]];
 }
 
-- (IBAction)convertLineEndings:(id)aSender {
-    [self setLineEnding:[aSender tag]];
+- (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding {   
+    [self setLineEnding:lineEnding];
     [[self documentUndoManager] beginUndoGrouping];
     [[[self textStorage] mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
     [[self documentUndoManager] endUndoGrouping];
+}
+
+- (IBAction)convertLineEndings:(id)aSender {
+    [self convertLineEndingsToLineEnding:[aSender tag]];
 }
 
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious symbolForRange:(NSRange)aRange {
@@ -3641,6 +3736,8 @@ static NSString *S_measurementUnits;
                     if (!isEdited) {
                         [self updateChangeCount:NSChangeCleared];
                     }
+                    
+                    [self TCM_validateLineEndings];
                 }
             }
         }
@@ -3675,6 +3772,24 @@ static NSString *S_measurementUnits;
             [self setEditAnyway:YES];
             NSTextView *textView = [alertContext objectForKey:@"TextView"];
             [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+        }
+    } else if ([alertIdentifier isEqualToString:@"MixedLineEndingsAlert"]) {
+        LineEnding lineEnding = [[alertContext objectForKey:@"LineEnding"] unsignedShortValue];
+        if (returnCode == NSAlertFirstButtonReturn) {
+            [self convertLineEndingsToLineEnding:lineEnding];
+        } else if (returnCode == NSAlertSecondButtonReturn) {
+            [self setLineEnding:lineEnding];
+        }
+    } else if ([alertIdentifier isEqualToString:@"PasteWrongLineEndingsAlert"]) {
+        NSTextView *textView = [alertContext objectForKey:@"TextView"];
+        NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
+        if (returnCode == NSAlertFirstButtonReturn) {
+            NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
+            [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
+            [textView insertText:mutableString];
+            [mutableString release];
+        } else if (returnCode == NSAlertSecondButtonReturn) {
+            [textView insertText:replacementString];
         }
     }
 
@@ -4600,12 +4715,35 @@ static NSString *S_measurementUnits;
     return I_textStorage;
 }
 
+- (void)replaceTextInRange:(NSRange)range withString:(NSString *)string {
+    
+    // Check for valid encoding
+    if (![string canBeConvertedToEncoding:[self fileEncoding]]) {
+        return;
+    }
+    
+    // Convert encoding
+    NSData *stringData = [string dataUsingEncoding:[self fileEncoding]];
+    
+    // Normalize line endings
+    NSMutableString *mutableString = [[NSMutableString alloc] initWithData:stringData encoding:[self fileEncoding]];
+    [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
+
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:mutableString attributes:[self plainTextAttributes]];
+    [[self textStorage] replaceCharactersInRange:range withAttributedString:attributedString];
+    
+    [mutableString release];
+    [attributedString release];
+    
+    if (I_flags.highlightSyntax) {
+        [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
+    }
+
+}
+
 - (void)setText:(NSString *)aString {
     if ([aString isKindOfClass:[NSString class]]) {
-        [[self textStorage] replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withAttributedString:[[[NSAttributedString alloc] initWithString:aString attributes:[self plainTextAttributes]] autorelease]];
-        if (I_flags.highlightSyntax) {
-            [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
-        }
+        [self replaceTextInRange:NSMakeRange(0, [I_textStorage length]) withString:aString];
     }
 }
 

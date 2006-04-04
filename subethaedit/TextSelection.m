@@ -63,8 +63,12 @@
 
 - (void)setContents:(id)string
 {
-    NSTextView *textView = [I_editor textView];
-    [textView insertText:string];
+    if ([string isKindOfClass:[NSString class]]) {
+        NSTextView *textView = [I_editor textView];
+        NSTextStorage *textStorage = [textView textStorage];
+        PlainTextDocument *document = [textStorage delegate];
+        [document replaceTextInRange:[textView selectedRange] withString:string];
+    }
 }
 
 - (id)objectSpecifier

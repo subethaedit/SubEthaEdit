@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import "LayoutManager.h"
@@ -39,6 +39,16 @@ static NSMenu *defaultMenu=nil;
 
 + (void)setDefaultMenu:(NSMenu *)aMenu {
     defaultMenu=[aMenu copy];
+}
+
+- (IBAction)paste:(id)sender {
+    I_flags.isPasting = YES;
+    [super paste:sender];
+    I_flags.isPasting = NO;
+}
+
+- (BOOL)isPasting {
+    return I_flags.isPasting;
 }
 
 - (void)trackMouseForBlockeditWithEvent:(NSEvent *)aEvent {
