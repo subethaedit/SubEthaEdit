@@ -234,7 +234,7 @@ enum {
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(validateToolbar)
+                                             selector:@selector(checkToolbarForUnallowedItems)
                                                  name:GlobalScriptsDidReloadNotification 
                                                object:nil];
     
@@ -878,7 +878,7 @@ enum {
                                         toolbarAllowedItemIdentifiers:toolbar]];
 }
 
-- (void)validateToolbar {
+- (void)checkToolbarForUnallowedItems {
     NSToolbar *toolbar=[[self window] toolbar];
     NSArray *itemArray=[toolbar items];
     NSArray *allowedIdentifiers=[self toolbarAllowedItemIdentifiers:toolbar];
@@ -903,7 +903,6 @@ enum {
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
     NSString *itemIdentifier = [toolbarItem itemIdentifier];
-    
     if ([itemIdentifier isEqualToString:ParticipantsToolbarItemIdentifier]) {
         return YES;
     } else if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {

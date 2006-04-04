@@ -8,6 +8,7 @@
 
 #import <AddressBook/AddressBook.h>
 #import <Security/Security.h>
+#import <Carbon/Carbon.h>
 
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
@@ -44,8 +45,9 @@
 #import "HueToColorValueTransformer.h"
 #import "SaturationToColorValueTransformer.h"
 #import "PointsToDisplayValueTransformer.h"
-#import "NSAppleScriptTCMAdditions.h"
 #import "NSMenuTCMAdditions.h"
+
+#import "ScriptWrapper.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -720,8 +722,6 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     // load scripts and do stuff
     [I_scriptsByFilename release];
      I_scriptsByFilename = [NSMutableDictionary new];
-    [I_scriptSettingsByFilename release];
-     I_scriptSettingsByFilename = [NSMutableDictionary new];
 
     [I_toolbarItemIdentifiers release];
      I_toolbarItemIdentifiers = [NSMutableArray new];
@@ -760,10 +760,12 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     while ((path = [enumerator nextObject])) {
         NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:path] objectEnumerator];
         while ((file = [dirEnumerator nextObject])) {
-            NSDictionary *errorDictionary = nil;
-            NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:file]] error:&errorDictionary];
-            if (!errorDictionary && script) {
-                [I_scriptsByFilename setObject:script forKey:[file stringByDeletingPathExtension]];
+            // skip hidden files and directory entries
+            if (![file hasPrefix:@"."]) {
+                ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:file]]];
+                if (script) {
+                    [I_scriptsByFilename setObject:script forKey:[file stringByDeletingPathExtension]];
+                }
             }
         }
     }
@@ -774,29 +776,24 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     int i=0;
     for (i=0;i<[I_scriptOrderArray count];i++) {
         NSString *filename = [I_scriptOrderArray objectAtIndex:i];
-        NSAppleScript *script=[I_scriptsByFilename objectForKey:[I_scriptOrderArray objectAtIndex:i]];
-        NSDictionary *errorDictionary=nil;
-        NSAppleEventDescriptor *ae = [script executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDictionary];
-        if (errorDictionary==nil) {
-            [I_scriptSettingsByFilename setObject:[ae dictionaryValue] forKey:filename];
-        }
-        NSDictionary *settingsDictionary = [I_scriptSettingsByFilename objectForKey:filename];
+        ScriptWrapper *script=[I_scriptsByFilename objectForKey:[I_scriptOrderArray objectAtIndex:i]];
+        NSDictionary *settingsDictionary = [script settingsDictionary];
         NSString *displayName = filename;
-        if (settingsDictionary && [settingsDictionary objectForKey:@"displayname"]) {
-            displayName = [settingsDictionary objectForKey:@"displayname"];
+        if (settingsDictionary && [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey]) {
+            displayName = [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey];
         }
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:displayName
                                                       action:@selector(performScriptAction:) 
                                                keyEquivalent:@""];
         if (settingsDictionary) {
-            [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:@"keyboardshortcut"]];
+            [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:ScriptWrapperKeyboardShortcutSettingsKey]];
         }
         [item setTag:SCRIPTMENUTAGBASE+i];
         [item setTarget:self];
         [scriptMenu addItem:[item autorelease]];
         
         NSString *toolbarImageName=nil;
-        if (settingsDictionary && (toolbarImageName=[settingsDictionary objectForKey:@"toolbaricon"])) {
+        if (settingsDictionary && (toolbarImageName=[settingsDictionary objectForKey:ScriptWrapperToolbarIconSettingsKey])) {
             NSString *toolbarItemIdentifier = [NSString stringWithFormat:@"%@ScriptToolbarItemIdentifier", filename];
             NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:toolbarItemIdentifier] autorelease];
 
@@ -848,11 +845,17 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     int index = [aSender tag] - SCRIPTMENUTAGBASE;
     if (index >= 0 && index < [I_scriptOrderArray count]) {
         NSString *scriptFilename=[I_scriptOrderArray objectAtIndex:index];
-        id script = [I_scriptsByFilename objectForKey:scriptFilename];
-        NSDictionary *errorDictionary=nil;
-        (NSAppleEventDescriptor *)[script executeAndReturnError:&errorDictionary];
-        if (errorDictionary) {
-            [self reportAppleScriptError:errorDictionary];
+        ScriptWrapper *script = [I_scriptsByFilename objectForKey:scriptFilename];
+        if (([[NSApp currentEvent] type]!=NSKeyDown) &&
+            (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) ||
+             (GetCurrentKeyModifiers() & optionKey)) ) {
+            [script revealSource];
+        } else {
+            NSDictionary *errorDictionary=nil;
+            [script executeAndReturnError:&errorDictionary];
+            if (errorDictionary) {
+                [self reportAppleScriptError:errorDictionary];
+            }
         }
     }
 }

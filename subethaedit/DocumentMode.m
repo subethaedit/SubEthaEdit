@@ -15,9 +15,10 @@
 #import "SymbolTableEntry.h"
 #import "RegexSymbolParser.h"
 #import "RegexSymbolDefinition.h"
-#import "NSAppleScriptTCMAdditions.h"
 #import "NSMenuTCMAdditions.h"
 #import "AppController.h"
+#import "ScriptWrapper.h"
+#import <Carbon/Carbon.h>
 
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
 NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
@@ -144,7 +145,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         
         // Load scripts
         I_scriptsByFilename = [NSMutableDictionary new];
-        I_scriptSettingsByFilename = [NSMutableDictionary new];
         NSString *scriptFolder = [[aBundle resourcePath] stringByAppendingPathComponent:@"Scripts"];
         NSFileManager *fm = [NSFileManager defaultManager];
         NSEnumerator *filenames = [[fm directoryContentsAtPath:scriptFolder] objectEnumerator];
@@ -152,19 +152,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         while ((filename=[filenames nextObject])) {
             // skip hidden files and directory entries
             if (![filename hasPrefix:@"."]) {
-                NSDictionary *errorDictionary=nil;
                 NSURL *fileURL=[NSURL fileURLWithPath:[scriptFolder stringByAppendingPathComponent:filename]];
-                NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:fileURL error:&errorDictionary];
-                if (!script) {
-                    NSLog(@"Script loading of %@ failed: %@", [fileURL path], errorDictionary);
-                } else {
-                    [I_scriptsByFilename setObject:[script autorelease] forKey:[filename stringByDeletingPathExtension]];
-                    NSAppleEventDescriptor *ae = [script executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDictionary];
-                    if (errorDictionary==nil) {
-                        [I_scriptSettingsByFilename setObject:[ae dictionaryValue] forKey:[filename stringByDeletingPathExtension]];
-                    } else {
-                        NSLog(@"Getting Settings for %@ failed: %@", [fileURL path], errorDictionary);
-                    }
+                ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:fileURL];
+                if (script) {
+                    [I_scriptsByFilename setObject:script forKey:[filename stringByDeletingPathExtension]];
                 }
             }
         }
@@ -178,24 +169,24 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         I_defaultToolbarItemIdentifiers=[NSMutableArray new];
         int i=0;
         for (i=0;i<[I_scriptOrderArray count];i++) {
-            NSDictionary *settingsDictionary = [I_scriptSettingsByFilename objectForKey:[I_scriptOrderArray objectAtIndex:i]];
             NSString *filename = [I_scriptOrderArray objectAtIndex:i];
+            NSDictionary *settingsDictionary = [[I_scriptsByFilename objectForKey:filename] settingsDictionary];
             NSString *displayName = filename;
-            if (settingsDictionary && [settingsDictionary objectForKey:@"displayname"]) {
-                displayName = [settingsDictionary objectForKey:@"displayname"];
+            if (settingsDictionary && [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey]) {
+                displayName = [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey];
             }
             NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:displayName
                                                           action:@selector(performScriptAction:) 
                                                    keyEquivalent:@""];
             if (settingsDictionary) {
-                [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:@"keyboardshortcut"]];
+                [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:ScriptWrapperKeyboardShortcutSettingsKey]];
             }
             [item setTag:SCRIPTMODEMENUTAGBASE+i];
             [item setTarget:self];
             [I_menuItemArray addObject:[item autorelease]];
             
-            NSString *toolbarImageName=nil;
-            if (settingsDictionary && (toolbarImageName=[settingsDictionary objectForKey:@"toolbaricon"])) {
+            NSString *toolbarImageName=[settingsDictionary objectForKey:ScriptWrapperToolbarIconSettingsKey];
+            if (toolbarImageName) {
                 NSString *toolbarItemIdentifier = [NSString stringWithFormat:@"%@ToolbarItemIdentifier", filename];
                 NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:toolbarItemIdentifier] autorelease];
 
@@ -213,7 +204,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                     [toolbarItem setTag:SCRIPTMODEMENUTAGBASE+i];
                     [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:toolbarItemIdentifier];
                     [I_toolbarItemIdentifiers addObject:toolbarItemIdentifier];
-                    if ([[[settingsDictionary objectForKey:@"instandardtoolbar"] lowercaseString] isEqualToString:@"yes"]) {
+                    if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
                         [I_defaultToolbarItemIdentifiers addObject:toolbarItemIdentifier];
                     }
                 }
@@ -225,13 +216,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[[self bundle] bundleIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
             // color is depricated since 2.1 - so ignore it
-//            NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
-//            NSColor *color=[transformer transformedValue:[dictionary objectForKey:DocumentModeForegroundColorPreferenceKey]];
-//            if (!color) color=[NSColor blackColor];
-//            [dictionary setObject:color forKey:DocumentModeForegroundColorPreferenceKey];
-//            color=[transformer transformedValue:[dictionary objectForKey:DocumentModeBackgroundColorPreferenceKey]];
-//            if (!color) color=[NSColor whiteColor];
-//            [dictionary setObject:color forKey:DocumentModeBackgroundColorPreferenceKey];
             [self setDefaults:dictionary];
             NSNumber *encodingNumber = [dictionary objectForKey:DocumentModeEncodingPreferenceKey];
             if (encodingNumber) {
@@ -545,11 +529,19 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     int index = [aSender tag] - SCRIPTMODEMENUTAGBASE;
     if (index >= 0 && index < [I_scriptOrderArray count]) {
         NSString *scriptFilename=[I_scriptOrderArray objectAtIndex:index];
-        id script = [I_scriptsByFilename objectForKey:scriptFilename];
-        NSDictionary *errorDictionary=nil;
-        (NSAppleEventDescriptor *)[script executeAndReturnError:&errorDictionary];
-        if (errorDictionary) {
-            [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
+        ScriptWrapper *script = [I_scriptsByFilename objectForKey:scriptFilename];
+        // if the user click the item, the current event isn't a mousedown or up event, so we need getcurrentkeymodifiers
+        // if the user pressed the shortcut, we don't want to show the source, so we check for a keydown event
+        if (([[NSApp currentEvent] type]!=NSKeyDown) &&
+            (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) ||
+             (GetCurrentKeyModifiers() & optionKey)) ) {
+            [script revealSource];
+        } else {
+            NSDictionary *errorDictionary=nil;
+            [script executeAndReturnError:&errorDictionary];
+            if (errorDictionary) {
+                [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
+            }
         }
     }
 }
