@@ -33,6 +33,7 @@ extern int const SwitchModeMenuTag ;
 extern int const HighlightSyntaxMenuTag ;
 extern int const ScriptMenuTag;
 
+extern NSString * const GlobalScriptsDidReloadNotification;
 
 @interface AppController : NSObject {
     BOOL I_lastShouldOpenUntitledFile;

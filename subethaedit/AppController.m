@@ -82,6 +82,8 @@ NSString * const SerialNumberPrefKey = @"SerialNumberPrefKey";
 NSString * const LicenseeNamePrefKey = @"LicenseeNamePrefKey";
 NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 
+NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNotification";
+
 
 @interface AppController (AppControllerPrivateAdditions)
 
@@ -823,6 +825,8 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
                               action:@selector(showScriptFolder:) keyEquivalent:@""] autorelease];
     [item setTarget:self];
     [scriptMenu addItem:item];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:GlobalScriptsDidReloadNotification object:self];
 }
 
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary {

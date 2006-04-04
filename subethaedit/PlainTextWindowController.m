@@ -233,6 +233,11 @@ enum {
                                                  name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification 
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(validateToolbar)
+                                                 name:GlobalScriptsDidReloadNotification 
+                                               object:nil];
+    
     PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
     [[self window] setInitialFirstResponder:[plainTextEditor textView]];
     [[self window] setContentView:[plainTextEditor editorView]];
@@ -872,6 +877,20 @@ enum {
                 arrayByAddingObjectsFromArray:[[AppController sharedInstance] 
                                         toolbarAllowedItemIdentifiers:toolbar]];
 }
+
+- (void)validateToolbar {
+    NSToolbar *toolbar=[[self window] toolbar];
+    NSArray *itemArray=[toolbar items];
+    NSArray *allowedIdentifiers=[self toolbarAllowedItemIdentifiers:toolbar];
+    int i = [itemArray count];
+    for (--i;i>=0;i--) {
+        if (![allowedIdentifiers containsObject:[[itemArray objectAtIndex:i] itemIdentifier]]) {
+            [toolbar removeItemAtIndex:i];
+        }
+    }
+}
+
+
 
 - (void)toolbarWillAddItem:(NSNotification *)aNotification {
     // to show all items correctly validated
