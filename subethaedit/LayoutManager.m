@@ -27,23 +27,33 @@ enum {
     u_21ab,
     u_21cb,
     u_2761,
-    u_fffd
+    u_fffd,
+    u_00b6_red,
+    u_2014_red,
+    u_204b_red,
+    u_21ab_red,
+    u_2761_red
 };
 
-static NSString *S_specialGlyphs[11];
+static NSString *S_specialGlyphs[16];
 
 @implementation LayoutManager
 
 + (void)initialize {
     S_specialGlyphs[u_00b6]=[[NSString alloc] initWithFormat:@"%C",0x00b6];
+    S_specialGlyphs[u_00b6_red]=[[NSString alloc] initWithFormat:@"%C",0x00b6];
     S_specialGlyphs[u_2014]=[[NSString alloc] initWithFormat:@"%C",0x2014];
+    S_specialGlyphs[u_2014_red]=[[NSString alloc] initWithFormat:@"%C",0x2014];
     S_specialGlyphs[u_2024]=[[NSString alloc] initWithFormat:@"%C",0x2024];
     S_specialGlyphs[u_2038]=[[NSString alloc] initWithFormat:@"%C",0x2038];
     S_specialGlyphs[u_204b]=[[NSString alloc] initWithFormat:@"%C",0x204b];
+    S_specialGlyphs[u_204b_red]=[[NSString alloc] initWithFormat:@"%C",0x204b];
     S_specialGlyphs[u_2192]=[[NSString alloc] initWithFormat:@"%C",0x2192];
     S_specialGlyphs[u_21ab]=[[NSString alloc] initWithFormat:@"%C",0x21ab];
+    S_specialGlyphs[u_21ab_red]=[[NSString alloc] initWithFormat:@"%C",0x21ab];
     S_specialGlyphs[u_21cb]=[[NSString alloc] initWithFormat:@"%C",0x21cb];
     S_specialGlyphs[u_2761]=[[NSString alloc] initWithFormat:@"%C",0x2761];
+    S_specialGlyphs[u_2761_red]=[[NSString alloc] initWithFormat:@"%C",0x2761];
     S_specialGlyphs[u_fffd]=[[NSString alloc] initWithFormat:@"%C",0xfffd];
 }
 
@@ -58,7 +68,7 @@ static NSString *S_specialGlyphs[11];
         NSMutableString *string = [I_invisiblesTextStorage mutableString];
         [string appendString:@"0"]; // just for offset
         int i=0;
-        for (i=1;i<=u_fffd;i++) {
+        for (i=1;i<=u_2761_red;i++) {
             [string appendString:S_specialGlyphs[i]];
         }
     }
@@ -253,7 +263,10 @@ static NSString *S_specialGlyphs[11];
 
 - (void)drawGlyphsForGlyphRange:(NSRange)glyphRange atPoint:(NSPoint)containerOrigin
 {
-    if ([self showsInvisibleCharacters]) {
+    BOOL hasMixedLineEndings=YES;
+    PlainTextDocument *document = (PlainTextDocument *)[[[[[[self textContainers] lastObject] textView] window] windowController] document];
+    LineEnding lineEnding= [document lineEnding];
+    if ([self showsInvisibleCharacters] || hasMixedLineEndings) {
         NSRect lineFragmentRect=NSZeroRect; //gets initialized lazily
         NSMutableDictionary *attributes=nil;
         // figure out what invisibles to draw
@@ -267,36 +280,57 @@ static NSString *S_specialGlyphs[11];
             [characters getCharacters:charBuffer range:NSMakeRange(charRange.location,loopLength)];
             for (i=0;i<loopLength;i++) {
                 unichar c = charBuffer[i];
+                unichar next_c = (i+1 < loopLength)?charBuffer[i+1]:
+                    (NSMaxRange(charRange)>charRange.location+loopLength?[characters characterAtIndex:charRange.location+loopLength]:0);
                 int draw = u_false;
-                if (c == ' ') {		// "real" space
-                    draw = u_2024; // one dot leader 0x00b7; // "middle dot" 0x22c5; // "Dot centered"
-                } else if (c == '\t') {	// "correct" indentation
-                    draw = u_2192; // "Arrow right"
-                } else if (c == 0x21e4 || c == 0x21e5) {	// not "correct" indentation (leftward tab, rightward tab)
-                    draw = u_2192; // "Arrow right"
-                } else if (c == '\r') {	// mac line feed
-                    draw = u_204b; // "reversed Pilcrow"
-                } else if (c == 0x0a) {	// unix line feed
-                    if (previousChar == '\r') {
-                        draw = u_2014; // m-dash 
+                if ([self showsInvisibleCharacters]) {
+                    if (c == ' ') {		// "real" space
+                        draw = u_2024; // one dot leader 0x00b7; // "middle dot" 0x22c5; // "Dot centered"
+                    } else if (c == '\t') {	// "correct" indentation
+                        draw = u_2192; // "Arrow right"
+                    } else if (c == 0x21e4 || c == 0x21e5) {	// not "correct" indentation (leftward tab, rightward tab)
+                        draw = u_2192; // "Arrow right"
+                    } else if (c == '\r') {	// mac line feed
+                        draw = u_204b; // "reversed Pilcrow"
+                    } else if (c == 0x0a) {	// unix line feed
+                        if (previousChar == '\r') {
+                            draw = u_2014; // m-dash 
+                        } else {
+                            draw = u_00b6; // "Pilcrow sign"
+                        }
+                    } else if (c == 0x2028) { // unicode line separator
+                        draw = u_2761;
+                    } else if (c == 0x2029) { // unicode paragraph separator
+                        draw = u_21ab;
+                    } else if (c == 0x00a0) { // nbsp
+                        draw = u_2038;
+                    } else if (c == 0x0c) {	// page break
+                        draw = u_21cb; // leftwards harpoon over rightwards harpoon
+                    } else if (c < 0x20 || (0x007f <= c && c <= 0x009f) || [[NSCharacterSet illegalCharacterSet] characterIsMember: c]) {	// some other mystery control character
+                        draw = u_fffd; // replacement character for controls that don't belong there
                     } else {
-                        draw = u_00b6; // "Pilcrow sign"
+                        NSRange glyphRange = [self glyphRangeForCharacterRange:NSMakeRange(charRange.location+i,1) actualCharacterRange:NULL];
+                        if (glyphRange.length == 0) {
+                            // something that doesn't show up as a glpyh
+                            draw = u_fffd; // replacement character
+                        }
                     }
-                } else if (c == 0x2028) { // unicode line separator
-                    draw = u_2761;
-                } else if (c == 0x2029) { // unicode paragraph separator
-                    draw = u_21ab;
-                } else if (c == 0x00a0) { // nbsp
-                    draw = u_2038;
-                } else if (c == 0x0c) {	// page break
-                    draw = u_21cb; // leftwards harpoon over rightwards harpoon
-                } else if (c < 0x20 || (0x007f <= c && c <= 0x009f) || [[NSCharacterSet illegalCharacterSet] characterIsMember: c]) {	// some other mystery control character
-                    draw = u_fffd; // replacement character for controls that don't belong there
-                } else {
-                    NSRange glyphRange = [self glyphRangeForCharacterRange:NSMakeRange(charRange.location+i,1) actualCharacterRange:NULL];
-                    if (glyphRange.length == 0) {
-                        // something that doesn't show up as a glpyh
-                        draw = u_fffd; // replacement character
+                }
+                if (hasMixedLineEndings) {
+                    if (c == '\r' && ((lineEnding != LineEndingCR && next_c!='\n')|| (next_c=='\n' && lineEnding!=LineEndingCRLF)) ) {	// mac line feed
+                        draw = u_204b_red; // "reversed Pilcrow"
+                    } else if (c == 0x0a) {	// unix line feed
+                        if (previousChar == '\r') {
+                            if (lineEnding != LineEndingCRLF) {
+                                draw = u_2014_red; // m-dash 
+                            }
+                        } else if (lineEnding != LineEndingLF){
+                            draw = u_00b6_red; // "Pilcrow sign"
+                        }
+                    } else if (c == 0x2028 && lineEnding != LineEndingUnicodeLineSeparator) { // unicode line separator
+                        draw = u_2761_red;
+                    } else if (c == 0x2029 && lineEnding != LineEndingUnicodeParagraphSeparator) { // unicode paragraph separator
+                        draw = u_21ab_red;
                     }
                 }
                 if (draw!=u_false) {
@@ -305,6 +339,8 @@ static NSString *S_specialGlyphs[11];
                         attributes = [[[self textStorage] attributesAtIndex:i effectiveRange:NULL] mutableCopy];
                         [attributes setObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName];
                         [I_invisiblesTextStorage addAttributes:attributes range:NSMakeRange(0,[I_invisiblesTextStorage length])];
+                        [attributes setObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+                        [I_invisiblesTextStorage addAttributes:attributes range:NSMakeRange([I_invisiblesTextStorage length]-6,6)];
                         lineFragmentRect = [I_invisiblesLayoutManager lineFragmentRectForGlyphAtIndex:0 effectiveRange:NULL];
                     }
                     NSPoint layoutLocation = [I_invisiblesLayoutManager locationForGlyphAtIndex:draw];

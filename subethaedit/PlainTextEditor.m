@@ -1382,6 +1382,7 @@
         [self setWrapsLines:[[self document] wrapLines]];
     }
     [self TCM_updateBottomStatusBar];
+    [I_textView setNeedsDisplay:YES]; // because the change could have involved line endings
 }
 
 - (void)plainTextDocumentDidChangeSymbols:(NSNotification *)aNotification {

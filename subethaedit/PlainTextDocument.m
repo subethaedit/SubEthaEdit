@@ -1357,6 +1357,7 @@ static NSString *tempFileName(NSString *origPath) {
     BOOL hasLineEndings = ([[lineEndingStats objectForKey:[sortedLineEndingStatsKeys objectAtIndex:4]] unsignedIntValue] != 0);
     BOOL hasMixedLineEndings = hasLineEndings && ([[lineEndingStats objectForKey:[sortedLineEndingStatsKeys objectAtIndex:3]] unsignedIntValue] != 0);
     if (hasLineEndings) {
+        [self setLineEnding:[[sortedLineEndingStatsKeys objectAtIndex:4] unsignedShortValue]];
         if (hasMixedLineEndings) {
             NSString *localizedName;
             switch([[sortedLineEndingStatsKeys objectAtIndex:4] unsignedShortValue]) {
@@ -1393,8 +1394,6 @@ static NSString *tempFileName(NSString *origPath) {
                                                                 @"MixedLineEndingsAlert", @"Alert",
                                                                 [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
                                                                 nil] retain]];
-          } else {
-            [self setLineEnding:[[sortedLineEndingStatsKeys objectAtIndex:4] unsignedShortValue]];
         }
     }
 }
