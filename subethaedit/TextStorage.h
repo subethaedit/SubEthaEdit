@@ -7,15 +7,20 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <OgreKit/OgreKit.h>
 
 extern NSString * const BlockeditAttributeName ;
 extern NSString * const BlockeditAttributeValue;
+
+extern NSString * const TextStorageLineEndingDidChange;
+extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
 @interface TextStorage : NSTextStorage {
     NSMutableArray *I_lineStarts;
     unsigned int I_lineStartsValidUpTo;
     NSMutableAttributedString *I_contents;
     unsigned int I_encoding;
+    LineEnding I_lineEnding;
 
     struct {
         BOOL hasBlockeditRanges;
@@ -24,7 +29,15 @@ extern NSString * const BlockeditAttributeValue;
         NSRange didBlockeditRange;
         NSRange didBlockeditLineRange;
     } I_blockedit;
+
+    struct {
+        BOOL hasMixedLineEndings;
+        BOOL shouldWatchLineEndings;
+    } I_flags;
 }
+
++ (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
+
 
 - (int)lineNumberForLocation:(unsigned)location;
 - (BOOL)lastLineIsEmpty;
@@ -33,6 +46,11 @@ extern NSString * const BlockeditAttributeValue;
 - (NSRange)findLine:(int)aLineNumber;
 - (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation;
 
+- (LineEnding)lineEnding;
+- (void)setLineEnding:(LineEnding)newLineEnding;
+- (void)setShouldWatchLineEndings:(BOOL)aFlag;
+- (BOOL)hasMixedLineEndings;
+- (void)setHasMixedLineEndings:(BOOL)aFlag;
 - (unsigned int)encoding;
 - (void)setEncoding:(unsigned int)anEncoding;
 

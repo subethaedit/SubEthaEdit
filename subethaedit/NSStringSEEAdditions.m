@@ -96,6 +96,32 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 @implementation NSString (NSStringSEEAdditions) 
 
++ (NSString *)lineEndingStringForLineEnding:(LineEnding)aLineEnding {
+    static NSString *sUnicodeLSEP=nil;
+    static NSString *sUnicodePSEP=nil;
+    if (sUnicodeLSEP==nil) {
+        unichar seps[2];
+        seps[0]=0x2028;
+        seps[1]=0x2029;
+        sUnicodeLSEP=[[NSString stringWithCharacters:seps length:1] retain];
+        sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
+    }
+    switch(aLineEnding) {
+    case LineEndingLF:
+        return @"\n";
+    case LineEndingCR:
+        return @"\r";
+    case LineEndingCRLF:
+        return @"\r\n";
+    case LineEndingUnicodeLineSeparator:
+        return sUnicodeLSEP;
+    case LineEndingUnicodeParagraphSeparator:
+        return sUnicodePSEP;
+    default:
+        return @"\n";
+    }
+}
+
 - (BOOL)isValidSerial
 {
     // Pirated number (2.1.1): 2QF-PABI-OCM6-KRHH (Blocked by enforcing SEE prefix)

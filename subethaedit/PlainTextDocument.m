@@ -177,7 +177,12 @@ static NSString *tempFileName(NSString *origPath) {
     enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidChangeEditStatusNotification object:self]
            postingStyle:NSPostWhenIdle
            coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
-               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+               forModes:nil];
+}
+
+- (void)TCM_textStorageLineEndingDidChange:(NSNotification *)aNotification {
+     I_lineEndingString = [NSString lineEndingStringForLineEnding:[(TextStorage *)[self textStorage] lineEnding]];
+    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
 - (void)TCM_sendPlainTextDocumentParticipantsDataDidChangeNotification {
@@ -226,6 +231,8 @@ static NSString *tempFileName(NSString *origPath) {
     [center addObserver:self selector:@selector(applyEditPreferences:) name:DocumentModeApplyEditPreferencesNotification object:nil];
 
     I_blockeditTextView=nil;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_textStorageLineEndingDidChange:) name:TextStorageLineEndingDidChange object:I_textStorage];
 
     // maybe put this into DocumentMode Setting
     NSString *bracketString=@"{[()]}";
@@ -2897,45 +2904,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (LineEnding)lineEnding {
-    return I_lineEnding;
+    return [(TextStorage *)[self textStorage] lineEnding];
 }
 
 // http://developer.apple.com/documentation/Carbon/Conceptual/ATSUI_Concepts/atsui_chap4/chapter_4_section_5.html
 
 - (void)setLineEnding:(LineEnding)newLineEnding {
-    static NSString *sUnicodeLSEP=nil;
-    static NSString *sUnicodePSEP=nil;
-    if (sUnicodeLSEP==nil) {
-        unichar seps[2];
-        seps[0]=0x2028;
-        seps[1]=0x2029;
-        sUnicodeLSEP=[[NSString stringWithCharacters:seps length:1] retain];
-        sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
-    }
-
-    if (I_lineEnding!=newLineEnding) {
-        I_lineEnding =newLineEnding;
-        switch(I_lineEnding) {
-            case LineEndingLF:
-                I_lineEndingString=@"\n";
-                break;
-            case LineEndingCR:
-                I_lineEndingString=@"\r";
-                break;
-            case LineEndingCRLF:
-                I_lineEndingString=@"\r\n";
-                break;
-            case LineEndingUnicodeLineSeparator:
-                I_lineEndingString=sUnicodeLSEP;
-                break;
-            case LineEndingUnicodeParagraphSeparator:
-                I_lineEndingString=sUnicodePSEP;
-                break;
-            default:
-                I_lineEndingString=@"\n";
-                break;
-        }
-    }
+    [(TextStorage *)[self textStorage] setLineEnding:newLineEnding];
+    I_lineEndingString = [NSString lineEndingStringForLineEnding:newLineEnding];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
@@ -2944,10 +2920,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding {   
+    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    [textStorage setShouldWatchLineEndings:NO];
+
     [self setLineEnding:lineEnding];
     [[self documentUndoManager] beginUndoGrouping];
-    [[[self textStorage] mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
+    [[textStorage mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
     [[self documentUndoManager] endUndoGrouping];
+
+    [textStorage setShouldWatchLineEndings:YES];
+    [textStorage setHasMixedLineEndings:NO];
 }
 
 - (IBAction)convertLineEndings:(id)aSender {

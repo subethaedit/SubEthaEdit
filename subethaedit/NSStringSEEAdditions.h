@@ -25,6 +25,7 @@ typedef enum _LineEnding {
 
 @interface NSString (NSStringSEEAdditions)
 
++ (NSString *)lineEndingStringForLineEnding:(LineEnding)aLineEnding;
 - (BOOL)isValidSerial;
 - (long)base36Value;
 

@@ -263,9 +263,9 @@ static NSString *S_specialGlyphs[16];
 
 - (void)drawGlyphsForGlyphRange:(NSRange)glyphRange atPoint:(NSPoint)containerOrigin
 {
-    BOOL hasMixedLineEndings=YES;
-    PlainTextDocument *document = (PlainTextDocument *)[[[[[[self textContainers] lastObject] textView] window] windowController] document];
-    LineEnding lineEnding= [document lineEnding];
+    TextStorage *textStorage = (TextStorage *)[self textStorage];
+    BOOL hasMixedLineEndings = [textStorage hasMixedLineEndings];
+    LineEnding    lineEnding = [textStorage lineEnding];
     if ([self showsInvisibleCharacters] || hasMixedLineEndings) {
         NSRect lineFragmentRect=NSZeroRect; //gets initialized lazily
         NSMutableDictionary *attributes=nil;
