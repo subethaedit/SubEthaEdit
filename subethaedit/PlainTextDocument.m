@@ -4690,6 +4690,10 @@ static NSString *S_measurementUnits;
 
 - (void)setAccessOption:(AccessOptions)option {
     TCMMMSession *session = [self session];
+    if (![session isServer]) {
+        return;    
+    }
+    
     if (option == kAccessOptionLocked) {
         [session setAccessState:TCMMMSessionAccessLockedState];
     } else if (option == kAccessOptionReadOnly) {
