@@ -1266,7 +1266,7 @@
         [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] typingAttributes]];
     }
     
-    if ([(TextView *)aTextView isPasting]) {
+    if ([(TextView *)aTextView isPasting] && ![(TextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
         unsigned length = [replacementString length];
         unsigned curPos = 0;
         unsigned startIndex, endIndex, contentsEndIndex;
