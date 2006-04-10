@@ -198,8 +198,6 @@
                 // User
             } else if (tag == 1) {
                 // Computer
-            } else if (tag == 2) {
-                // Network
             }
         }
         return nil;
@@ -214,6 +212,16 @@
 
 - (IBAction)installMode:(id)sender {
     [NSApp stopModal];
+}
+
+- (IBAction)changeModeInstallationDomain:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
+    int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
+    if (tag == 0) {
+        [O_modeInstallerInformativeTextField setStringValue:@"Home"];
+    } else if (tag == 1) {
+        [O_modeInstallerInformativeTextField setStringValue:@"Computer"];
+    }
 }
 
 - (IBAction)cancelModeInstallation:(id)sender {

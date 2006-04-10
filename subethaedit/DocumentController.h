@@ -23,6 +23,7 @@
     IBOutlet NSPanel *O_modeInstallerPanel;
     IBOutlet NSTextField *O_modeInstallerMessageTextField;
     IBOutlet NSMatrix *O_modeInstallerDomainMatrix;
+    IBOutlet NSTextField *O_modeInstallerInformativeTextField;
     
     NSOpenPanel *I_openPanel;
     
@@ -42,6 +43,7 @@
 + (DocumentController *)sharedInstance;
 
 - (IBAction)goIntoBundles:(id)sender;
+- (IBAction)changeModeInstallationDomain:(id)sender;
 - (IBAction)showHiddenFiles:(id)sender;
 
 - (IBAction)installMode:(id)sender;

@@ -27,6 +27,7 @@
         {
             ACTIONS = {
                 cancelModeInstallation = id; 
+                changeModeInstallationDomain = id; 
                 goIntoBundles = id; 
                 installMode = id; 
                 showHiddenFiles = id; 
@@ -37,6 +38,7 @@
                 "O_encodingPopUpButton" = EncodingPopUpButton; 
                 "O_goIntoBundlesCheckbox" = NSButton; 
                 "O_modeInstallerDomainMatrix" = NSMatrix; 
+                "O_modeInstallerInformativeTextField" = NSTextField; 
                 "O_modeInstallerMessageTextField" = NSTextField; 
                 "O_modeInstallerPanel" = NSPanel; 
                 "O_modePopUpButton" = DocumentModePopUpButton; 
