@@ -213,6 +213,9 @@ NSScrollView * firstScrollView(NSView *aView) {
            forKey:WebPreviewWindowSizePreferenceKey];
 }
 
+- (void)windowDidResize:(NSNotification *)aNotification {
+    [self saveWindowSize:self];
+}
 
 #pragma mark -
 #pragma mark ### ResourceLoadDelegate ###
