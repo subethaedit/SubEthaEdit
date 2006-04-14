@@ -241,6 +241,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeShowMatchingBracketsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeWrapLinesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeIndentNewLinesPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeUseTabsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:DocumentModeWrapModeWords] forKey:DocumentModeWrapModePreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:LineEndingLF] forKey:DocumentModeLineEndingPreferenceKey];
 
@@ -482,6 +483,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         NSString *defaultKey=[defaultablePreferenceKeys objectForKey:aKey];
         if (!defaultKey || ![[I_defaults objectForKey:defaultKey] boolValue]) {
             id result=[I_defaults objectForKey:aKey];
+            if (result) {
+            	return result;
+            } else {
+            	result = [defaultDefaults objectForKey:aKey];
+            	if (result) [I_defaults setObject:result forKey:aKey];
+            	return result;
+            }
             return result?result:[defaultDefaults objectForKey:aKey];
         }
     }
