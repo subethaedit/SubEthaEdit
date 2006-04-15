@@ -18,6 +18,7 @@
 #import "StylePreferences.h"
 #import "TextStorage.h"
 #import "NSSavePanelTCMAdditions.h"
+#import "MoreSecurity.h"
 
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
@@ -183,6 +184,16 @@
     return [I_propertiesForOpenedFiles objectForKey:fileName];
 }
 
+- (BOOL)fileManager:(NSFileManager *)manager shouldProceedAfterError:(NSDictionary *)errorInfo {
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"File operation error: %@ with file: %@", nil), [errorInfo objectForKey:@"Error"], [errorInfo objectForKey:@"Path"]]];
+    //[alert setInformativeText:NSLocalizedString(@"ConvertOrReinterpret", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+    (void)[alert runModal];
+    return YES;
+}
+
 - (id)openDocumentWithContentsOfFile:(NSString *)fileName display:(BOOL)flag {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
     
@@ -190,14 +201,153 @@
     NSString *extension = [fileName pathExtension];
     if (isFilePackage && [extension isEqualToString:@"mode"]) {
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"User tries to open a mode file");
+
+        NSBundle *modeBundle = [NSBundle bundleWithPath:fileName];
+        NSString *versionString = [modeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+        NSString *name = [NSString stringWithFormat:@"%@ (%@)", [fileName lastPathComponent], versionString];
+        [O_modeInstallerMessageTextField setObjectValue:[NSString stringWithFormat:NSLocalizedString(@"Do you want to install the mode \"%@\"?", nil), name]];
+        
+        NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+        DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
+        if (mode) {
+            NSBundle *installedModeBundle = [mode bundle];
+            NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+            NSString *installedModeFileName = [installedModeBundle bundlePath];
+            
+            short domain;
+            BOOL isKnownDomain = YES;
+            if ([installedModeFileName hasPrefix:@"/Users/"]) {
+                domain = kUserDomain;
+            } else if ([installedModeFileName hasPrefix:@"/Library/"]) {
+                domain = kLocalDomain;
+            } else if ([installedModeFileName hasPrefix:@"/Network/"]) {
+                domain = kNetworkDomain;
+            } else {
+                isKnownDomain = NO;
+            }
+                        
+            // Mode "Foo.mode (v1.0)" is already installed in "/Library/...".
+            // You will replace the installed mode. || You will override the installed mode. || The installed mode will override your new mode.
+            // When you click Install, you'll be asked to enter the name and password for an administrator of this computer.
+            [O_modeInstallerInformativeTextField setObjectValue:@"nil"];
+        } else {
+            
+        }
+        
         int result = [NSApp runModalForWindow:O_modeInstallerPanel];
         [O_modeInstallerPanel orderOut:self];
         if (result == NSRunStoppedResponse) {
+            short domain;
             int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
             if (tag == 0) {
-                // User
+                domain = kUserDomain;
             } else if (tag == 1) {
-                // Computer
+                domain = kLocalDomain;
+            }
+            
+            // Determine destination path and copy mode package
+            OSErr err = noErr;
+            FSRef folderRef;
+            err = FSFindFolder(domain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
+            if (err == noErr) {
+                CFURLRef appSupportURL = CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef);
+                NSString *destination = [(NSURL *)appSupportURL path];
+                destination = [destination stringByAppendingPathComponent:@"SubEthaEdit"];
+                destination = [destination stringByAppendingPathComponent:@"Modes"];
+                destination = [destination stringByAppendingPathComponent:[fileName lastPathComponent]];
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode installation path: %@", destination);
+                if (domain == kUserDomain) {
+                    NSFileManager *fileManager = [NSFileManager defaultManager];
+                    if ([fileManager fileExistsAtPath:destination]) {
+                        (void)[fileManager removeFileAtPath:destination handler:self];
+                    }
+                    (void)[fileManager copyPath:fileName toPath:destination handler:self];
+                } else {
+                    OSStatus err;
+                    CFURLRef tool = NULL;
+                    AuthorizationRef auth = NULL;
+                    NSDictionary *request = nil;
+                    NSDictionary *response = nil;
+                    BOOL result = NO;
+
+
+                    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+                    if (err == noErr) {
+                        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+                        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                                                   | kAuthorizationFlagInteractionAllowed
+                                                                   | kAuthorizationFlagExtendRights
+                                                                   | kAuthorizationFlagPreAuthorize;
+                        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+                        AuthorizationRights rights = { 1, &right };
+
+                        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+                    }
+                    
+                    if (err == noErr) {
+                        err = MoreSecCopyHelperToolURLAndCheckBundled(
+                            CFBundleGetMainBundle(), 
+                            CFSTR("SubEthaEditHelperToolTemplate"), 
+                            kApplicationSupportFolderType, 
+                            CFSTR("SubEthaEdit"), 
+                            CFSTR("SubEthaEditHelperTool"), 
+                            &tool);
+
+                        // If the home directory is on an volume that doesn't support 
+                        // setuid root helper tools, ask the user whether they want to use 
+                        // a temporary tool.
+                        
+                        if (err == kMoreSecFolderInappropriateErr) {
+                            err = MoreSecCopyHelperToolURLAndCheckBundled(
+                                CFBundleGetMainBundle(), 
+                                CFSTR("SubEthaEditHelperToolTemplate"), 
+                                kTemporaryFolderType, 
+                                CFSTR("SubEthaEdit"), 
+                                CFSTR("SubEthaEditHelperTool"), 
+                                &tool);
+                        }
+                    }
+
+                    // Create the request dictionary for copying the mode
+
+                    if (err == noErr) {
+                        request = [NSDictionary dictionaryWithObjectsAndKeys:
+                                            @"CopyFiles", @"CommandName",
+                                            fileName, @"SourceFile",
+                                            destination, @"TargetFile",
+                                            //targetAttrs, @"TargetAttributes",
+                                            nil];
+                    }
+
+                    // Go go gadget helper tool!
+
+                    if (err == noErr) {
+                        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+                    }
+                    
+                    // Extract information from the response.
+                    
+                    if (err == noErr) {
+                        //NSLog(@"response: %@", response);
+
+                        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+                        if (err == noErr) {
+                            result = YES;
+                        }
+                    }
+                    
+                    // Clean up after second call of helper tool.
+                    if (response) {
+                        [response release];
+                    }
+
+
+                    CFQRelease(tool);
+                    if (auth != NULL) {
+                        (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+                    }
+
+                }
             }
         }
         return nil;
@@ -215,11 +365,12 @@
 }
 
 - (IBAction)changeModeInstallationDomain:(id)sender {
-    NSLog(@"%s", __FUNCTION__);
     int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
     if (tag == 0) {
+        // installed? replace? override? version?
         [O_modeInstallerInformativeTextField setStringValue:@"Home"];
     } else if (tag == 1) {
+        // installed? replace? override? useless? version? admin?
         [O_modeInstallerInformativeTextField setStringValue:@"Computer"];
     }
 }

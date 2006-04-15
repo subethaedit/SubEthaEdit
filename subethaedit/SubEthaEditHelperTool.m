@@ -31,8 +31,26 @@ static OSStatus CopyFiles(CFStringRef sourceFile, CFStringRef targetFile, CFDict
         if ([fileManager fileExistsAtPath:(NSString *)targetFile]) {
             (void)[fileManager removeFileAtPath:(NSString *)targetFile handler:nil];
         }
+        
+        NSArray *pathComponents = [(NSString *)targetFile pathComponents];
+        int index;
+        int count = [pathComponents count] - 1;
+        NSString *path = [pathComponents objectAtIndex:0];
+        BOOL isDir;
+        NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH)];
+        NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                    filePermissions, NSFilePosixPermissions,
+                    nil];
+                                
+        for (index = 1; index < count; index++) {
+            path = [path stringByAppendingPathComponent:[pathComponents objectAtIndex:index]];
+            if (!([fileManager fileExistsAtPath:path isDirectory:&isDir] && isDir)) {
+                (void)[fileManager createDirectoryAtPath:path attributes:attributes];
+            }
+        }
+        
         BOOL result = [fileManager copyPath:(NSString *)sourceFile toPath:(NSString *)targetFile handler:nil];
-        if (result) {
+        if (result && targetAttrs != NULL) {
             result = [fileManager changeFileAttributes:(NSDictionary *)targetAttrs atPath:(NSString *)targetFile];
         }
         err = result ? noErr : paramErr;
