@@ -225,17 +225,25 @@
             } else {
                 isKnownDomain = NO;
             }
-                        
-            // Mode "Foo.mode (v1.0)" is already installed in "/Library/...".
-            // You will replace the installed mode. || You will override the installed mode. || The installed mode will override your new mode.
-            // When you click Install, you'll be asked to enter the name and password for an administrator of this computer.
-            [O_modeInstallerInformativeTextField setObjectValue:@"nil"];
+            
+            NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
+            NSString *informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
+
+            if (!isKnownDomain || domain == kNetworkDomain || domain == kLocalDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
+            } else if (domain == kUserDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
+            }
+
+            [O_modeInstallerInformativeTextField setObjectValue:informativeText];
         } else {
             
         }
         
+        I_currentModeFileName = fileName;
         int result = [NSApp runModalForWindow:O_modeInstallerPanel];
         [O_modeInstallerPanel orderOut:self];
+        I_currentModeFileName = nil;
         if (result == NSRunStoppedResponse) {
             short domain;
             int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
@@ -349,6 +357,8 @@
 
                 }
             }
+            
+            [[DocumentModeManager sharedInstance] reloadDocumentModes:self];
         }
         return nil;
     }
@@ -366,13 +376,52 @@
 
 - (IBAction)changeModeInstallationDomain:(id)sender {
     int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
-    if (tag == 0) {
-        // installed? replace? override? version?
-        [O_modeInstallerInformativeTextField setStringValue:@"Home"];
-    } else if (tag == 1) {
-        // installed? replace? override? useless? version? admin?
-        [O_modeInstallerInformativeTextField setStringValue:@"Computer"];
+    NSString *informativeText = @"";
+    NSBundle *modeBundle = [NSBundle bundleWithPath:I_currentModeFileName];
+    NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+    DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
+    if (mode) {
+        NSBundle *installedModeBundle = [mode bundle];
+        NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+        NSString *installedModeFileName = [installedModeBundle bundlePath];
+        NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
+        informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
+        
+        short domain;
+        BOOL isKnownDomain = YES;
+        if ([installedModeFileName hasPrefix:@"/Users/"]) {
+            domain = kUserDomain;
+        } else if ([installedModeFileName hasPrefix:@"/Library/"]) {
+            domain = kLocalDomain;
+        } else if ([installedModeFileName hasPrefix:@"/Network/"]) {
+            domain = kNetworkDomain;
+        } else {
+            isKnownDomain = NO;
+        }
+
+        if (tag == 0) {
+            if (!isKnownDomain || domain == kNetworkDomain || domain == kLocalDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
+            } else if (domain == kUserDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
+            }
+        } else if (tag == 1) {
+            if (!isKnownDomain || domain == kNetworkDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
+            } else if (domain == kLocalDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
+            } else if (domain == kUserDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"The installed mode will override your new mode.", nil)];
+            }
+        }
     }
+    
+    if (tag == 1) { 
+        if ([informativeText length] > 0)
+            informativeText = [informativeText stringByAppendingString:@" "];
+        informativeText = [informativeText stringByAppendingString:NSLocalizedString(@"When you click Install, you'll be asked to enter the name and password for an administrator of this computer.", nil)];
+    }
+    [O_modeInstallerInformativeTextField setObjectValue:informativeText];
 }
 
 - (IBAction)cancelModeInstallation:(id)sender {

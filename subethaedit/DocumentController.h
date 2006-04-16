@@ -38,6 +38,8 @@
     NSMutableDictionary *I_refCountsOfSeeScriptCommands;
     NSMutableDictionary *I_waitingDocuments;
     NSMutableArray *I_pipingSeeScriptCommands;
+    
+    NSString *I_currentModeFileName;
 }
 
 + (DocumentController *)sharedInstance;
