@@ -1101,26 +1101,28 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)setIsAnnounced:(BOOL)aFlag {
-    if (I_flags.isAnnounced!=aFlag) {
-        I_flags.isAnnounced=aFlag;
-        if (I_flags.isAnnounced) {
-            DEBUGLOG(@"Document", AllLogLevel, @"announce");
-            [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
-            [[self session] setFilename:[self preparedDisplayName]];
-            [[self topmostWindowController] openParticipantsDrawer:self];
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
-                NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
-                PlainTextEditor *editor=nil;
-                while ((editor=[plainTextEditors nextObject])) {
-                    [editor setShowsChangeMarks:YES];
+    if ([[self session] isServer]) {
+        if (I_flags.isAnnounced!=aFlag) {
+            I_flags.isAnnounced=aFlag;
+            if (I_flags.isAnnounced) {
+                DEBUGLOG(@"Document", AllLogLevel, @"announce");
+                [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
+                [[self session] setFilename:[self preparedDisplayName]];
+                [[self topmostWindowController] openParticipantsDrawer:self];
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
+                    NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
+                    PlainTextEditor *editor=nil;
+                    while ((editor=[plainTextEditors nextObject])) {
+                        [editor setShowsChangeMarks:YES];
+                    }
                 }
-            }
-        } else {
-            DEBUGLOG(@"Document", AllLogLevel, @"conceal");
-            TCMMMSession *session=[self session];
-            [[TCMMMPresenceManager sharedInstance] concealSession:session];
-            if ([session participantCount]<=1 && [[session pendingUsers] count] == 0) {
-                [[self windowControllers] makeObjectsPerformSelector:@selector(closeParticipantsDrawer:) withObject:self];
+            } else {
+                DEBUGLOG(@"Document", AllLogLevel, @"conceal");
+                TCMMMSession *session=[self session];
+                [[TCMMMPresenceManager sharedInstance] concealSession:session];
+                if ([session participantCount]<=1 && [[session pendingUsers] count] == 0) {
+                    [[self windowControllers] makeObjectsPerformSelector:@selector(closeParticipantsDrawer:) withObject:self];
+                }
             }
         }
     }

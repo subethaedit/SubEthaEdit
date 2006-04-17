@@ -200,11 +200,15 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 }
 
 - (void)announceSession:(TCMMMSession *)aSession {
-    [I_announcedSessions setObject:aSession forKey:[aSession sessionID]];
-    [self TCM_validateServiceAnnouncement];
-    [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(announceSession:) withObject:aSession];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionDidChange:) name:TCMMMSessionDidChangeNotification object:aSession];
-    [self TCM_sendAnnouncedSessionsDidChangeNotification];
+    if (![aSession isServer]) { 
+        NSLog(@"tried to announce session although we are not the host: %@", [aSession description]);
+    } else {
+        [I_announcedSessions setObject:aSession forKey:[aSession sessionID]];
+        [self TCM_validateServiceAnnouncement];
+        [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(announceSession:) withObject:aSession];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionDidChange:) name:TCMMMSessionDidChangeNotification object:aSession];
+        [self TCM_sendAnnouncedSessionsDidChangeNotification];
+    }
 }
 
 - (void)concealSession:(TCMMMSession *)aSession {
@@ -267,10 +271,12 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 - (TCMMMSession *)referenceSessionForSession:(TCMMMSession *)aSession {
     NSMutableDictionary *sessionEntry=[I_registeredSessions objectForKey:[aSession sessionID]];
     if (sessionEntry) {
-        // merge
         TCMMMSession *session=[sessionEntry objectForKey:@"Session"];
-        [session setFilename:[aSession filename]];
-        [session setAccessState:[aSession accessState]];
+        if ([aSession isServer]==[session isServer]) {
+            // merge
+            [session setFilename:[aSession filename]];
+            [session setAccessState:[aSession accessState]];
+        }
         return session;
     } else {
         return aSession;
@@ -332,15 +338,17 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     NSMutableDictionary *status=[self statusOfUserID:userID];
     NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
     TCMMMSession *session=[self referenceSessionForSession:aSession];
-    if (![sessions objectForKey:[session sessionID]]) {
-        [self registerSession:session];
-        [sessions setObject:session forKey:[session sessionID]];
-        [self TCM_validateVisibilityOfUserID:userID];
+    if (![session isServer]) {
+        if (![sessions objectForKey:[session sessionID]]) {
+            [self registerSession:session];
+            [sessions setObject:session forKey:[session sessionID]];
+            [self TCM_validateVisibilityOfUserID:userID];
+        }
+        NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil];
+        [userInfo setObject:aSession forKey:@"AnnouncedSession"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
+                userInfo:userInfo];
     }
-    NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil];
-    [userInfo setObject:aSession forKey:@"AnnouncedSession"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
-            userInfo:userInfo];
 }
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID
