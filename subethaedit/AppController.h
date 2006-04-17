@@ -42,6 +42,9 @@ extern NSString * const GlobalScriptsDidReloadNotification;
     NSMutableArray      *I_scriptOrderArray;
     NSMutableDictionary *I_toolbarItemsByIdentifier;
     NSMutableArray      *I_toolbarItemIdentifiers;
+    
+    IBOutlet NSTextView *O_licenseTextView;
+    IBOutlet NSWindow *O_licenseWindow;
 }
 
 + (AppController *)sharedInstance;

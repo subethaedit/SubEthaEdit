@@ -22,6 +22,7 @@
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
+            OUTLETS = {"O_licenseTextView" = NSTextView; "O_licenseWindow" = NSWindow; }; 
             SUPERCLASS = NSObject; 
         }, 
         {

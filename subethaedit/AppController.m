@@ -1014,7 +1014,9 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
 
 - (IBAction)showLicense:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"License" ofType:@"rtf"];
-    [[NSWorkspace sharedWorkspace] openFile:path];
+    (void)[O_licenseTextView readRTFDFromFile:path];
+    [O_licenseWindow center];
+    [O_licenseWindow makeKeyAndOrderFront:self];
 }
 
 - (IBAction)showRegExHelp:(id)sender {
