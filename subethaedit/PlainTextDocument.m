@@ -1660,7 +1660,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                   range:NSMakeRange(0,[textStorage length])];
         }
 
-        BOOL shouldSaveImages=[[htmlOptions objectForKey:DocumentModeHTMLExportShowUserImagesPreferenceKey] boolValue];
+        BOOL shouldSaveImages=[[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue] &&
+                              [[htmlOptions objectForKey:DocumentModeHTMLExportShowUserImagesPreferenceKey] boolValue];
         
         static NSDictionary *baseAttributeMapping;
         if (baseAttributeMapping==nil) {
