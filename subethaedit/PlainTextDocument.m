@@ -1687,10 +1687,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
         NSString *htmlFile=[aPanel filename];
         NSString *imageDirectory=@"";
+        NSString *imageDirectoryPrefix=@"";
         if (shouldSaveImages) {
             NSFileManager *fileManager=[NSFileManager defaultManager];
-            imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"img"];
-            [fileManager createDirectoryAtPath:imageDirectory attributes:nil];
+            imageDirectoryPrefix=[[[htmlFile lastPathComponent] stringByDeletingPathExtension] stringByAppendingString:@"_images"];
+            imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:imageDirectoryPrefix];
+            if ([fileManager createDirectoryAtPath:imageDirectory attributes:nil]) {
+                imageDirectoryPrefix = [imageDirectoryPrefix stringByAppendingString:@"/"];
+            } else {
+                imageDirectory = [htmlFile stringByDeletingLastPathComponent];
+                imageDirectoryPrefix = @"";
+            }
         }
         
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
@@ -1825,7 +1832,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
                     [legend appendFormat:@"<tr>",shortID];
                     if (shouldSaveImages) {
-                        [legend appendFormat:@"<th><img src=\"img/%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",shortID,name, name];
+                        [legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",imageDirectoryPrefix,shortID,name, name];
                     }
                     [legend appendFormat:@"<td class=\"ContributorName %@\"%@>%@</td>",shortID,contributorForegroundColor,name];
                     if (shouldShowAIMAndEmail) {
@@ -1855,7 +1862,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     NSString *email  =[[lurker valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
                     [legend appendFormat:@"<tr%@>",alternateFlag?@" class=\"Alternate\"":@""];
                     if (shouldSaveImages) {
-                        [legend appendFormat:@"<th><img src=\"img/%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",shortID,name, name];
+                        [legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",imageDirectoryPrefix,shortID,name, name];
                     }
                     [legend appendFormat:@"<td class=\"VisitorName\">%@</td>",name];
                     if (shouldShowAIMAndEmail) {
