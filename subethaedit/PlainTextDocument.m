@@ -3342,6 +3342,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     if (pathComponents) {
         int count = [pathComponents count];
+        if (count==1) return [pathComponents lastObject];
         NSMutableString *result = [NSMutableString string];
         int i = count;
         int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
