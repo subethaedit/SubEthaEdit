@@ -2309,7 +2309,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL isHTML = [extension isEqual:@"htm"] || [extension isEqual:@"html"];
     
     if (isHTML && isReadable) {
-        #warning: What happens if we can't read the file?
+        #warning: What happens if we cant read the file?
         fileData = [[NSData alloc] initWithContentsOfFile:[fileName stringByExpandingTildeInPath]];
     }
     
