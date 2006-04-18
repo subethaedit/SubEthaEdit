@@ -38,7 +38,10 @@
             <!-- <contents name="contents" code="ctxt" type="text">
                 <cocoa key="contents"/>
             </contents> -->
-            <property name="character range" code="pRng" type="point" access="r" description="The range of characters in the selection."/>
+            <property name="length" code="pLen" type="integer" access="r" description="length of text object (in characters)"/>
+            <property name="characterOffset" code="pOfs" type="integer" access="r" description=""/>
+            <property name="startLine" code="pSln" type="integer" access="r" description=""/>
+            <property name="endLine" code="pEln" type="integer" access="r" description=""/>
             <property name="contents" code="pcnt" type="text" description="The information currently selected.  Use &quot;contents of selection&quot; to get or change information in a document."/>
         </class>
     
@@ -213,9 +216,5 @@
                 <cocoa key="WithProperties"/>
             </parameter>
         </command>
-        
-        <value-type name="point" code="QDpt">
-            <cocoa class="NSData" name="QDPoint"/>
-        </value-type>    
     </suite>
 </dictionary>

@@ -35,21 +35,30 @@
     [super dealloc];
 }
 
-- (NSData *)characterRange
-{
+- (NSNumber *)length {
     NSTextView *textView = [I_editor textView];
     NSRange range = [textView selectedRange];
-    
-    Point p;
-    if (range.length == 0) {
-        p.v = range.location;
-        p.h = range.location;
-    } else {
-        p.v = NSMaxRange(range);
-        p.h = range.location + 1;
-    }
-    
-    return [NSData dataWithBytes:&p length:sizeof(p)];
+    return [NSNumber numberWithInt:range.length];
+}
+
+- (NSNumber *)characterOffset {
+    NSTextView *textView = [I_editor textView];
+    NSRange range = [textView selectedRange];
+    return [NSNumber numberWithInt:range.location + 1];
+}
+
+- (NSNumber *)startLine {
+    NSTextView *textView = [I_editor textView];
+    NSRange range = [textView selectedRange];
+    int lineNumber = [(TextStorage *)[textView textStorage] lineNumberForLocation:range.location];
+    return [NSNumber numberWithInt:lineNumber];
+}
+
+- (NSNumber *)endLine {
+    NSTextView *textView = [I_editor textView];
+    NSRange range = [textView selectedRange];
+    int lineNumber = [(TextStorage *)[textView textStorage] lineNumberForLocation:NSMaxRange(range)];
+    return [NSNumber numberWithInt:lineNumber];
 }
 
 - (id)contents
