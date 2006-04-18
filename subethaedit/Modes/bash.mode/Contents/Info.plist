@@ -26,5 +26,17 @@ http://www.codingmonkeys.de</string>
 	   <string>bashrc</string>
 	   <string>login</string>
 	</array>
+	<key>TCMModeFilenames</key>
+	<array>
+	   <string>.bash_profile</string>
+	   <string>.bashrc</string>
+	</array>
+	<key>TCMModeRegex</key>
+	<array>
+	   <string>\A#!/bin/sh</string>
+	   <string>\A#!/usr/bin/env sh</string>
+	   <string>\A#!/bin/bash</string>
+	   <string>\A#!/usr/bin/env bash</string>
+	</array>
 </dict>
 </plist>

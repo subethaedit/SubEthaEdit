@@ -30,5 +30,10 @@ http://www.codingmonkeys.de</string>
 	   <string>PYW</string>
 	   <string>PYTHON</string>
 	</array>
+	<key>TCMModeRegex</key>
+	<array>
+	   <string>\A#!/usr/bin/python</string>
+	   <string>\A#!/usr/bin/env python</string>
+	</array>
 </dict>
 </plist>

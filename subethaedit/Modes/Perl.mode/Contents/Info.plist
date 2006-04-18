@@ -26,5 +26,9 @@ http://www.codingmonkeys.de</string>
 	   <string>PL</string>
 	   <string>PM</string>
 	</array>
+	<key>TCMModeRegex</key>
+	<array>
+	   <string>\A#!/usr/bin/(env )?perl</string>
+	</array>
 </dict>
 </plist>

@@ -32,5 +32,10 @@
     <string>PHTML</string>
     <string>INC</string>
   </array>
+	<key>TCMModeRegex</key>
+	<array>
+	   <string>\A#!/usr/bin/php</string>
+	   <string>\A#!/usr/bin/env php</string>
+	</array>
 </dict>
 </plist>

@@ -11,6 +11,8 @@
 #import "PlainTextDocument.h"
 #import "GeneralPreferences.h"
 #import "SyntaxStyle.h"
+#import <OgreKit/OgreKit.h>
+
 
 #define MODEPATHCOMPONENT @"Application Support/SubEthaEdit/Modes/"
 
@@ -133,6 +135,8 @@
         I_modeBundles=[NSMutableDictionary new];
         I_documentModesByIdentifier =[NSMutableDictionary new];
 		I_modeIdentifiersByExtension=[NSMutableDictionary new];
+		I_modeIdentifiersByFilename =[NSMutableDictionary new];
+		I_modeIdentifiersByRegex    =[NSMutableDictionary new];
 		I_modeIdentifiersTagArray   =[NSMutableArray new];
 		[I_modeIdentifiersTagArray addObject:@"-"];
 		[I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
@@ -146,6 +150,8 @@
     [I_modeBundles release];
     [I_documentModesByIdentifier release];
 	[I_modeIdentifiersByExtension release];
+	[I_modeIdentifiersByFilename release];
+	[I_modeIdentifiersByRegex release];
     [super dealloc];
 }
 
@@ -187,6 +193,21 @@
 					while ((extension = [extensions nextObject])) {
 						[I_modeIdentifiersByExtension setObject:[bundle bundleIdentifier] forKey:extension];
 					}
+					
+					NSEnumerator *filenames = [[[bundle infoDictionary] objectForKey:@"TCMModeFilenames"] objectEnumerator];
+					NSString *filename = nil;
+					while ((filename = [filenames nextObject])) {
+						[I_modeIdentifiersByFilename setObject:[bundle bundleIdentifier] forKey:filename];
+					}
+					
+					NSEnumerator *regexes = [[[bundle infoDictionary] objectForKey:@"TCMModeRegex"] objectEnumerator];
+					NSString *regex = nil;
+					while ((regex = [regexes nextObject])) {
+                        if ([OGRegularExpression isValidExpressionString:regex]) {
+						[I_modeIdentifiersByRegex setObject:[bundle bundleIdentifier] forKey:[[[OGRegularExpression alloc] initWithString:regex options:OgreFindNotEmptyOption]autorelease]];
+				        }
+					}
+					
                     [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
                     if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) {
                         [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];
@@ -205,6 +226,8 @@
     [I_modeBundles                removeAllObjects];
     [I_documentModesByIdentifier  removeAllObjects];
     [I_modeIdentifiersByExtension removeAllObjects];
+    [I_modeIdentifiersByFilename removeAllObjects];
+    [I_modeIdentifiersByRegex removeAllObjects];
     [self TCM_findModes];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DocumentModeListChanged" object:self];
     
@@ -280,6 +303,27 @@
 	} else {
         return [self baseMode];
 	}
+}
+
+- (DocumentMode *)documentModeForFilename:(NSString *)aFilename {
+    NSString *identifier=[I_modeIdentifiersByFilename objectForKey:aFilename];
+    if (identifier) {
+        return [self documentModeForIdentifier:identifier];
+	} else {
+        return [self baseMode];
+	}
+}
+
+- (DocumentMode *)documentModeForContent:(NSString *)aString {
+    NSEnumerator *regexes = [I_modeIdentifiersByRegex keyEnumerator];
+    id regex;
+    OGRegularExpressionMatch *match;
+    while (regex = [regexes nextObject]) {
+        match = [regex matchInString:aString];
+        if ([match count]>0) return [self documentModeForIdentifier:[I_modeIdentifiersByRegex objectForKey:regex]];
+     }
+
+    return [self baseMode];
 }
 
 

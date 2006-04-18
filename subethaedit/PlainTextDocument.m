@@ -2210,9 +2210,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
 
+    // Determine mode
     DocumentMode *mode = nil;
+    BOOL chooseModeByContent = NO;
     if (!isReverting) {
-        // Determine mode
         if ([properties objectForKey:@"mode"]) {
             NSString *modeName = [properties objectForKey:@"mode"];
             mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
@@ -2223,8 +2224,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             if (isDocumentFromOpenPanel) {
                 NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
                 if ([identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
-                    NSString *extension = [fileName pathExtension];
-                    mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
+                    // Choose mode
+                    // Priorities: Filename, Regex, Extension
+                    // Check filename
+                    mode = [[DocumentModeManager sharedInstance] documentModeForFilename:[fileName lastPathComponent]];
+                    if ([mode isBaseMode]) {
+                        chooseModeByContent = YES;
+                        // Check extensions
+                        NSString *extension = [fileName pathExtension];
+                        mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
+                    }
                 } else {
                     mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
                 }
@@ -2234,14 +2243,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (!mode) {
             // get default mode (may be automatic)
             // currently following workaround is used
-            mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+            mode = [[DocumentModeManager sharedInstance] documentModeForFilename:[fileName lastPathComponent]];
+            if ([mode isBaseMode]) {
+                chooseModeByContent = YES;
+                // Check extensions
+                NSString *extension = [fileName pathExtension];
+                mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
+            }
         }
     } else {
         mode = [self documentMode];
     }
 
-
     // Determine encoding
+    BOOL usesModePreferenceEncoding = NO;
     NSStringEncoding encoding = NoStringEncoding;
     if ([properties objectForKey:@"encoding"]) {
         NSString *IANACharSetName = [properties objectForKey:@"encoding"];
@@ -2259,12 +2274,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             encoding = [documentController encodingFromLastRunOpenPanel];
             if (encoding == ModeStringEncoding) {
                 encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+                usesModePreferenceEncoding = YES;
             }
         }
     }
     
     if (encoding == NoStringEncoding) {
         encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+        usesModePreferenceEncoding = YES;
     }
     
     
@@ -2292,6 +2309,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL isHTML = [extension isEqual:@"htm"] || [extension isEqual:@"html"];
     
     if (isHTML && isReadable) {
+        #warning: What happens if we can't read the file?
         fileData = [[NSData alloc] initWithContentsOfFile:[fileName stringByExpandingTildeInPath]];
     }
     
@@ -2341,6 +2359,31 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
+
+
+    // Check for ModeByContent changes and reinterpret to new encoding if necessary.
+    if (chooseModeByContent) {
+        NSString *beginning = [[I_textStorage string] substringWithRange:NSMakeRange(0,MIN(4000,[[I_textStorage string] length]))];
+        DocumentMode *contentmode = [[DocumentModeManager sharedInstance] documentModeForContent:beginning];
+        if (![contentmode isBaseMode]) {
+            mode = contentmode;
+            // Check for encoding!
+            if (usesModePreferenceEncoding) {
+                NSStringEncoding newencoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+                if (newencoding != encoding) {
+                    encoding = newencoding;
+                    if ([[I_textStorage string] canBeConvertedToEncoding:encoding]){
+                        NSString *reinterpretedString = [[NSString alloc] initWithData:[[I_textStorage string] dataUsingEncoding:[self fileEncoding]] encoding:encoding];
+                        if (reinterpretedString) {
+                            [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
+                            [self setFileEncoding:encoding];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
 
     [self setKeepDocumentVersion:NO];
