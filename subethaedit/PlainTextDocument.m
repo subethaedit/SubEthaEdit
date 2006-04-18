@@ -1432,6 +1432,23 @@ static NSString *tempFileName(NSString *origPath) {
         transientDocumentWindowFrame = [[[transientDocument topmostWindowController] window] frame];
     }
     
+    if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSInformationalAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")];
+        [alert setInformativeText:NSLocalizedString(@"Turning on Syntax Highlighting for very large Documents is not recommended.", @"BigFile Informative Text")];
+        [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+        [alert beginSheetModalForWindow:[self windowForSheet]
+                          modalDelegate:self
+                         didEndSelector:@selector(bigDocumentAlertDidEnd:returnCode:contextInfo:)
+                            contextInfo:nil];
+    } else {
+        [self TCM_validateLineEndings];
+    }
+}
+
+- (void)bigDocumentAlertDidEnd:(NSAlert *)anAlert returnCode:(int)aReturnCode  contextInfo:(void  *)aContextInfo {
+    [[anAlert window] orderOut:self];
     [self TCM_validateLineEndings];
 }
 
@@ -1929,6 +1946,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
+#pragma mark -
+#pragma mark ### Save/Open Panel loading ###
+
 - (IBAction)goIntoBundles:(id)sender {
     BOOL flag = ([sender state] == NSOffState) ? NO : YES;
     [I_savePanel setTreatsFilePackagesAsDirectories:flag];
@@ -2393,10 +2413,18 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"isWritable: %@", isWritable ? @"YES" : @"NO");
     [self setIsFileWritable:isWritable];
 
+
+    unsigned int wholeLength = [I_textStorage length];
     [I_textStorage addAttributes:[self plainTextAttributes]
-                           range:NSMakeRange(0, [I_textStorage length])];
+                           range:NSMakeRange(0, wholeLength)];
+
 
     [self setDocumentMode:mode];
+    if (wholeLength > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
+        [self setHighlightsSyntax:NO];
+        [self setWrapLines:NO];
+    }
+
     [self updateChangeCount:NSChangeCleared];
 
     I_flags.isReadingFile = NO;
@@ -2853,6 +2881,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     return YES;
 }
+
+#pragma mark -
+
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     SEL selector=[anItem action];

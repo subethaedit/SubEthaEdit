@@ -115,6 +115,7 @@ static AppController *sharedInstance = nil;
 #ifdef TCM_NO_DEBUG
 	[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
 #endif
+    [defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopHighlightingAndWrapping"];
     // fix of SEE-883 - only an issue on tiger...
     if (floor(NSAppKitVersionNumber) == 824.) {
         [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"NSUseInsertionPointCache"];
