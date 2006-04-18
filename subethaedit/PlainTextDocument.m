@@ -4655,7 +4655,7 @@ static NSString *S_measurementUnits;
     return [[self documentMode] documentModeIdentifier];
 }
 
-// Deprecated, but needed for compatibility with see tool.
+// Deprecated, but needed for compatibility with see tool and older scripts.
 - (void)setMode:(NSString *)identifier {
     DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForName:identifier];
     if (mode) {

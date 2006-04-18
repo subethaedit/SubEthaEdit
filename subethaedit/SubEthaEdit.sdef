@@ -49,7 +49,7 @@
             </property>
         </class>
         
-        <class name="mode" code="cMod" description="A mode" inherits="item" plural="modes">
+        <class name="mode" code="Mode" description="A mode" inherits="item" plural="modes">
             <cocoa class="DocumentMode"/>
             <property name="name" code="pnam" type="string" access="r" description="The mode's name.">
 				<cocoa key="scriptedName"/>
@@ -69,7 +69,7 @@
             </contents>
             
             <property name="selection" code="pSel" type="selection-object" description="The current selection or insertion point."/>
-            <property name="mode" code="cMod" type="mode" description="the document's mode">
+            <property name="mode" code="Mode" type="mode" description="the document's mode">
                 <cocoa key="documentMode"/>
             </property>
             <property name="text" code="ctxt" type="text" description="the text of the document">

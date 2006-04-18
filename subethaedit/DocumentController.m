@@ -505,7 +505,13 @@ static NSString *tempFileName() {
         if ([argumentKey isKindOfClass:[NSNumber class]]) {
             NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
             if (key) {
-                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                if ([argumentKey unsignedLongValue] == 'Mode') {
+                    // Workaround for see tool and older scripts which assume that the mode property is a string.
+                    // Properties aren't coerced automatically.
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:@"mode"];
+                } else {
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                }
             }
         } else if ([argumentKey isKindOfClass:[NSString class]]) {
             [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
@@ -561,7 +567,13 @@ static NSString *tempFileName() {
         if ([argumentKey isKindOfClass:[NSNumber class]]) {
             NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
             if (key) {
-                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                if ([argumentKey unsignedLongValue] == 'Mode') {
+                    // Workaround for see tool and older scripts which assume that the mode property is a string.
+                    // Properties aren't coerced automatically.
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:@"mode"];
+                } else {
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                }
             }
         } else if ([argumentKey isKindOfClass:[NSString class]]) {
             [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
@@ -609,11 +621,13 @@ static NSString *tempFileName() {
         if ([argumentKey isKindOfClass:[NSNumber class]]) {
             NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
             if (key) {
-                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
-            } else 
-                // Workaround for see tool which assumes that the mode property is still 'Mode'.
                 if ([argumentKey unsignedLongValue] == 'Mode') {
+                    // Workaround for see tool and older scripts which assume that the mode property is a string.
+                    // Properties aren't coerced automatically.
                     [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:@"mode"];
+                } else {
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                }
             }
         } else if ([argumentKey isKindOfClass:[NSString class]]) {
             [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
