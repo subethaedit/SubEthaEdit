@@ -28,7 +28,7 @@ http://www.codingmonkeys.de</string>
 	   <string>rss</string>
 	   <string>rdf</string>
 	   <string>seestyle</string>
-	   <string>sdf</string>
+	   <string>sdef</string>
 	   <string>XML</string>
 	   <string>XSLT</string>
 	   <string>XSL</string>
@@ -36,7 +36,7 @@ http://www.codingmonkeys.de</string>
 	   <string>RSS</string>
 	   <string>RDF</string>
 	   <string>SEESTYLE</string>
-	   <string>SDF</string>
+	   <string>SDEF</string>
 	</array>
 </dict>
 </plist>
