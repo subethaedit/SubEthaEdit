@@ -24,6 +24,7 @@
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
 #import "AppController.h"
+#import "Toolbar.h"
 
 NSString * const PlainTextWindowToolbarIdentifier = 
                @"PlainTextWindowToolbarIdentifier";
@@ -143,7 +144,8 @@ enum {
 }
 
 - (void)adjustToolbarToDocumentMode {
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:[NSString stringWithFormat:@"%@%@",[[(PlainTextDocument *)[self document] documentMode] documentModeIdentifier], PlainTextWindowToolbarIdentifier]] autorelease];
+    NSToolbar *toolbar = [[[Toolbar alloc] initWithIdentifier:
+        [[(PlainTextDocument *)[self document] documentMode] documentModeIdentifier]] autorelease];
     [toolbar setAllowsUserCustomization:YES];
     [toolbar setAutosavesConfiguration:YES];
     [toolbar setDelegate:self];
@@ -841,14 +843,16 @@ enum {
                 NextChangeToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
+                RendezvousToolbarItemIdentifier,
+                InternetToolbarItemIdentifier,
                 nil];
+    [result addObjectsFromArray:
+        [[AppController sharedInstance] 
+            toolbarDefaultItemIdentifiers:toolbar]];
     [result addObjectsFromArray:
         [[(PlainTextDocument *)[self document] documentMode] 
             toolbarDefaultItemIdentifiers:toolbar]];
     
-    [result addObject:NSToolbarFlexibleSpaceItemIdentifier];
-    [result addObject:RendezvousToolbarItemIdentifier];
-    [result addObject:InternetToolbarItemIdentifier];
     return result;
 }
 

@@ -473,6 +473,7 @@ subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Open[!!-~]Counterpart.scpt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/ToolbarAppKiDo.png -text
+subethaedit/Modes/Objective-C.mode/Contents/Resources/ToolbarCounterpart.tif -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Info.plist -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ChangeLog.txt -text
@@ -1150,6 +1151,8 @@ subethaedit/TextView.h -text
 subethaedit/TextView.m -text
 subethaedit/TexturedButtonCell.h -text
 subethaedit/TexturedButtonCell.m -text
+subethaedit/Toolbar.h -text
+subethaedit/Toolbar.m -text
 subethaedit/URLDataProtocol.h -text
 subethaedit/URLDataProtocol.m -text
 subethaedit/URLImageView.h -text

@@ -725,6 +725,8 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
 
     [I_toolbarItemIdentifiers release];
      I_toolbarItemIdentifiers = [NSMutableArray new];
+    [I_defaultToolbarItemIdentifiers release];
+     I_defaultToolbarItemIdentifiers = [NSMutableArray new];
     [I_toolbarItemsByIdentifier release];
      I_toolbarItemsByIdentifier = [NSMutableDictionary new];
 
@@ -809,6 +811,9 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
                 [toolbarItem setTag:SCRIPTMENUTAGBASE+i];
                 [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:toolbarItemIdentifier];
                 [I_toolbarItemIdentifiers addObject:toolbarItemIdentifier];
+                if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
+                    [I_defaultToolbarItemIdentifiers addObject:toolbarItemIdentifier];
+                }
             }
         }
     }
@@ -952,6 +957,10 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
     return I_toolbarItemIdentifiers;
+}
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
+    return I_defaultToolbarItemIdentifiers;
 }
 
 #pragma mark -

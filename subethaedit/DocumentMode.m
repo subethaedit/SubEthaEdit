@@ -211,10 +211,40 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 }
             }
         }
+
+        // ToolbarHandling
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *toolbarDefaultKey=[NSString stringWithFormat:@"NSToolbar Configuration %@",[self documentModeIdentifier]];
+        if (![defaults objectForKey:toolbarDefaultKey]) {
+            NSDictionary *oldDefaultToolbar=[defaults objectForKey:@"NSToolbar Configuration " BASEMODEIDENTIFIER];
+            if (!oldDefaultToolbar) {
+                oldDefaultToolbar = [defaults objectForKey:@"NSToolbar Configuration PlainTextWindowToolbarIdentifier"];
+            }
+            if (oldDefaultToolbar) {
+                NSMutableDictionary *newModeToolbar=[NSMutableDictionary dictionaryWithDictionary:oldDefaultToolbar];
+                NSMutableArray *shownItemIdentifiers=[NSMutableArray arrayWithArray:[newModeToolbar objectForKey:@"TB Item Identifiers"]];
+                NSEnumerator *itemIdentifiers=[[[AppController sharedInstance] toolbarDefaultItemIdentifiers:nil] objectEnumerator];
+                NSString     *itemIdentifier = nil;
+                while ((itemIdentifier=[itemIdentifiers nextObject])) {
+                    if (![shownItemIdentifiers containsObject:itemIdentifier]) {
+                        [shownItemIdentifiers addObject:itemIdentifier];
+                    }
+                }
+                itemIdentifiers=[I_defaultToolbarItemIdentifiers objectEnumerator];
+                itemIdentifier = nil;
+                while ((itemIdentifier=[itemIdentifiers nextObject])) {
+                    if (![shownItemIdentifiers containsObject:itemIdentifier]) {
+                        [shownItemIdentifiers addObject:itemIdentifier];
+                    }
+                }
+                [newModeToolbar setObject:shownItemIdentifiers forKey:@"TB Item Identifiers"];
+                [defaults setObject:newModeToolbar forKey:toolbarDefaultKey];
+            }
+        }
         
         // Preference Handling
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-        NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[[self bundle] bundleIdentifier]] mutableCopy] autorelease];
+        NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[self documentModeIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
             // color is depricated since 2.1 - so ignore it
             [self setDefaults:dictionary];
