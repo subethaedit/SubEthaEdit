@@ -32,25 +32,6 @@
                 <cocoa method="TCM_handleSeeScriptCommand:"/>
             </responds-to>
         </class>
-           
-        <class name="selection-object" code="csel" description="A way to refer to the state of the current of the selection.  Use the &quot;select&quot; command to make a new selection." inherits="item" plural="selection-objects">
-            <cocoa class="TextSelection"/>
-            <!-- <contents name="contents" code="ctxt" type="text">
-                <cocoa key="contents"/>
-            </contents> -->
-            <property name="length" code="pLen" type="integer" access="r" description="length of text object (in characters)"/>
-            <property name="characterOffset" code="pOfs" type="integer" access="r" description=""/>
-            <property name="startLine" code="pSln" type="integer" access="r" description=""/>
-            <property name="endLine" code="pEln" type="integer" access="r" description=""/>
-            <property name="contents" code="pcnt" type="text" description="The information currently selected.  Use &quot;contents of selection&quot; to get or change information in a document."/>
-        </class>
-    
-        <class name="insertion point" code="cins" description="location between two characters" inherits="item" plural="insertion points">
-            <cocoa class="TextSelection"/>
-            <property name="contents" code="pcnt" type="text" description="The contents at the insertion point.">
-                <cocoa key="contents"/>
-            </property>
-        </class>
         
         <class name="mode" code="Mode" description="A mode" inherits="item" plural="modes">
             <cocoa class="DocumentMode"/>
@@ -64,7 +45,34 @@
 				<cocoa key="scriptedResourcePath"/>
 			</property>
         </class>
-        
+
+        <class name="selection-object" code="csel" description="A way to refer to the state of the current of the selection.  Use the &quot;select&quot; command to make a new selection." inherits="item" plural="selection-objects">
+            <cocoa class="TextSelection"/>
+            <!-- <contents name="contents" code="ctxt" type="text">
+                <cocoa key="contents"/>
+            </contents> -->
+            <property name="length" code="pLen" type="integer" access="r" description="">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="characterOffset" code="pOfs" type="integer" access="r" description="">
+                <cocoa key="scriptedCharacterOffset"/>
+            </property>
+            <property name="startLine" code="pSln" type="integer" access="r" description="">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLine" code="pEln" type="integer" access="r" description="">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+            <property name="contents" code="pcnt" type="text" description="The information currently selected.  Use &quot;contents of selection&quot; to get or change information in a document."/>
+        </class>
+    
+        <class name="insertion point" code="cins" description="location between two characters" inherits="item" plural="insertion points">
+            <cocoa class="TextSelection"/>
+            <!--<property name="contents" code="pcnt" type="text" description="The contents at the insertion point.">
+                <cocoa key="contents"/>
+            </property>-->
+        </class>
+
         <class name="text document" code="pltd" inherits="document">
             <cocoa class="PlainTextDocument"/>
             <contents name="contents" code="ctxt" type="text" description="the text of the document">
@@ -129,6 +137,19 @@
                 <cocoa method="attachments"/>
             </element> -->
         
+            <property name="length" code="pLen" type="integer" access="r" description="">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="characterOffset" code="pOfs" type="integer" access="r" description="">
+                <cocoa key="scriptedCharacterOffset"/>
+            </property>
+            <property name="startLine" code="pSln" type="integer" access="r" description="">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLine" code="pEln" type="integer" access="r" description="">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+            
             <property name="color" code="colr" type="color" access="r" description="The color of the first character.">
                 <cocoa key="foregroundColor"/>
             </property>

@@ -8,19 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PlainTextEditor;
+@class PlainTextEditor, TextStorage;
 
 @interface TextSelection : NSObject {
     PlainTextEditor *I_editor;
+    TextStorage *I_subTextStorage;
 }
 
 + (id)selectionForEditor:(id)editor;
 - (id)initForEditor:(id)editor;
 
-- (NSNumber *)length;
-- (NSNumber *)characterOffset;
-- (NSNumber *)startLine;
-- (NSNumber *)endLine;
+- (NSNumber *)scriptedLength;
+- (NSNumber *)scriptedCharacterOffset;
+- (NSNumber *)scriptedStartLine;
+- (NSNumber *)scriptedEndLine;
 - (id)contents;
 - (void)setContents:(id)string;
 - (id)objectSpecifier;

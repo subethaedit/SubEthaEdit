@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -34,6 +34,14 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
         BOOL hasMixedLineEndings;
         BOOL shouldWatchLineEndings;
     } I_flags;
+    
+    TextStorage *I_containerTextStorage;
+    struct {
+        int length;
+        int characterOffset;
+        int startLine;
+        int endLine;
+    } I_scriptingProperties;
 }
 
 + (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
@@ -77,7 +85,18 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
 - (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange;
 
+@end
+
+#pragma mark -
+
+@interface TextStorage (TextStorageScriptingAdditions)
+
+- (id)initWithContainerTextStorage:(TextStorage *)textStorage range:(NSRange)range;
 - (id)insertionPoints;
+- (NSNumber *)scriptedLength;
+- (NSNumber *)scriptedCharacterOffset;
+- (NSNumber *)scriptedStartLine;
+- (NSNumber *)scriptedEndLine;
 
 @end
 

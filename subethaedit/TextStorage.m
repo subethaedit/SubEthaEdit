@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import "TextStorage.h"
@@ -48,24 +48,30 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 @implementation TextStorage
 
-- (id)init {
-    self=[super init];
-    if (self) {
-        I_blockedit.hasBlockeditRanges=NO;
-        I_blockedit.isBlockediting    =NO;
-        I_blockedit.didBlockedit      =NO;
-        I_blockedit.didBlockeditRange = NSMakeRange(NSNotFound,0);
-        I_blockedit.didBlockeditLineRange = NSMakeRange(NSNotFound,0);
+- (void)TCM_initHelper {
+    I_blockedit.hasBlockeditRanges=NO;
+    I_blockedit.isBlockediting    =NO;
+    I_blockedit.didBlockedit      =NO;
+    I_blockedit.didBlockeditRange = NSMakeRange(NSNotFound,0);
+    I_blockedit.didBlockeditLineRange = NSMakeRange(NSNotFound,0);
 
-        I_flags.shouldWatchLineEndings = YES;
-        I_flags.hasMixedLineEndings    = NO;
-        I_lineEnding = LineEndingLF;
-        I_contents=[NSMutableAttributedString new];
-        I_lineStarts=[NSMutableArray new];
-        [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:0]];
-        I_lineStartsValidUpTo=0;
-        I_encoding=CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
-        [[EncodingManager sharedInstance] registerEncoding:I_encoding];
+    I_flags.shouldWatchLineEndings = YES;
+    I_flags.hasMixedLineEndings    = NO;
+    I_lineEnding = LineEndingLF;
+    I_contents=[NSMutableAttributedString new];
+    I_lineStarts=[NSMutableArray new];
+    [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:0]];
+    I_lineStartsValidUpTo=0;
+    I_encoding=CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
+    [[EncodingManager sharedInstance] registerEncoding:I_encoding];
+}
+
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self TCM_initHelper];
+        I_containerTextStorage = nil;
     }
     return self;
 }
@@ -802,24 +808,115 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     
     return result;
 }
+ 
+@end
 
 #pragma mark -
-#pragma mark ### Scripting ###
+
+@implementation TextStorage (TextStorageScriptingAdditions)
+
+- (id)initWithContainerTextStorage:(TextStorage *)textStorage range:(NSRange)range
+{
+    self = [super init];
+    if (self) {
+        [self TCM_initHelper];
+        I_containerTextStorage = textStorage;
+        [I_contents release];
+        I_contents = [[textStorage attributedSubstringFromRange:range] mutableCopy];
+        I_scriptingProperties.length = range.length;
+        I_scriptingProperties.characterOffset = range.location + 1;
+        I_scriptingProperties.startLine = [textStorage lineNumberForLocation:range.location];
+        I_scriptingProperties.endLine = [textStorage lineNumberForLocation:NSMaxRange(range)]; // evtl. -1
+
+    }
+    return self;
+}
+
+- (id)valueInCharactersAtIndex:(unsigned)index
+{
+    return [[self characters] objectAtIndex:index];
+}
+
+- (NSArray *)characters
+{
+    NSMutableArray *characters = [[NSMutableArray alloc] init];
+    unsigned i;
+    unsigned length = [self length];
+    for (i = 0; i < length; i++) {
+        TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:NSMakeRange(i, 1)];
+        [characters addObject:subTextStorage];
+        [subTextStorage release];
+    }
+    return [characters autorelease];
+}
+
+- (NSArray *)words
+{
+    return [super words];
+}
+
+- (NSArray *)paragraphs
+{
+    return [super paragraphs];
+}
 
 - (id)insertionPoints
 {
     return [TextSelection selectionForEditor:[[[self delegate] topmostWindowController] activePlainTextEditor]];
 }
 
- - (id)objectSpecifier
- {
+- (NSNumber *)scriptedLength
+{
+    if (I_containerTextStorage) {
+        return [NSNumber numberWithInt:I_scriptingProperties.length];
+    } else {
+        return [NSNumber numberWithInt:[self length]];
+    }
+}
+
+- (NSNumber *)scriptedCharacterOffset
+{
+    if (I_containerTextStorage) {
+        return [NSNumber numberWithInt:I_scriptingProperties.characterOffset];
+    } else {
+        return [NSNumber numberWithInt:1];
+    }
+}
+
+- (NSNumber *)scriptedStartLine
+{
+    if (I_containerTextStorage) {
+        return [NSNumber numberWithInt:I_scriptingProperties.startLine];
+    } else {
+        return [NSNumber numberWithInt:1];
+    }
+}
+
+- (NSNumber *)scriptedEndLine
+{
+    if (I_containerTextStorage) {
+        return [NSNumber numberWithInt:I_scriptingProperties.endLine];
+    } else {
+        int lineNumber;
+        int length = [self length];
+        if (length > 0) {
+            lineNumber = [self lineNumberForLocation:length - 1];
+        } else {
+            lineNumber = 1;
+        }
+        return [NSNumber numberWithInt:lineNumber];
+    }
+}
+
+- (id)objectSpecifier
+{
     NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];
     NSScriptObjectSpecifier *containerSpecifier = [[self delegate] objectSpecifier];
     NSPropertySpecifier *propertySpecifier = [[NSPropertySpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                                                          containerSpecifier:containerSpecifier
                                                                                                         key:@"text"];
-    
+
     return propertySpecifier;
- }
- 
+}
+
 @end

@@ -24,50 +24,40 @@
     self = [super init];
     if (self) {
         I_editor = [editor retain];
+        I_subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:(TextStorage *)[[editor textView] textStorage] 
+                                                                       range:[[editor textView] selectedRange]];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [I_subTextStorage release];
+    I_subTextStorage = nil;
     [I_editor release];
     I_editor = nil;
     [super dealloc];
 }
 
-- (NSNumber *)length {
-    NSTextView *textView = [I_editor textView];
-    NSRange range = [textView selectedRange];
-    return [NSNumber numberWithInt:range.length];
+- (NSNumber *)scriptedLength {
+    return [I_subTextStorage scriptedLength];
 }
 
-- (NSNumber *)characterOffset {
-    NSTextView *textView = [I_editor textView];
-    NSRange range = [textView selectedRange];
-    return [NSNumber numberWithInt:range.location + 1];
+- (NSNumber *)scriptedCharacterOffset {
+    return [I_subTextStorage scriptedCharacterOffset];
 }
 
-- (NSNumber *)startLine {
-    NSTextView *textView = [I_editor textView];
-    NSRange range = [textView selectedRange];
-    int lineNumber = [(TextStorage *)[textView textStorage] lineNumberForLocation:range.location];
-    return [NSNumber numberWithInt:lineNumber];
+- (NSNumber *)scriptedStartLine {
+    return [I_subTextStorage scriptedStartLine];
 }
 
-- (NSNumber *)endLine {
-    NSTextView *textView = [I_editor textView];
-    NSRange range = [textView selectedRange];
-    int lineNumber = [(TextStorage *)[textView textStorage] lineNumberForLocation:NSMaxRange(range)];
-    return [NSNumber numberWithInt:lineNumber];
+- (NSNumber *)scriptedEndLine {
+    return [I_subTextStorage scriptedEndLine];
 }
 
 - (id)contents
 {
-    NSTextView *textView = [I_editor textView];
-    NSRange range = [textView selectedRange];
-    
-    NSAttributedString *attributedSubstring = [[textView textStorage] attributedSubstringFromRange:range];
-    return [[[NSTextStorage alloc] initWithAttributedString:attributedSubstring] autorelease];
+    return I_subTextStorage;
 }
 
 - (void)setContents:(id)string
