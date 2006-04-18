@@ -60,11 +60,13 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 
 
 @class SyntaxHighlighter;
+@class SyntaxDefinition;
 @class RegexSymbolParser;
 @class SyntaxStyle;
 
 @interface DocumentMode : NSObject {
     NSBundle *I_bundle;
+    SyntaxDefinition *I_syntaxDefinition;
     SyntaxHighlighter *I_syntaxHighlighter;
     RegexSymbolParser *I_symbolParser;
     NSMutableArray *I_autocompleteDictionary;
@@ -81,6 +83,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 - (id)initWithBundle:(NSBundle *)aBundle;
 
 - (SyntaxHighlighter *)syntaxHighlighter;
+- (SyntaxDefinition *)syntaxDefinition;
 - (RegexSymbolParser *)symbolParser;
 - (NSString *)newFileContent;
 - (NSMutableArray *)autocompleteDictionary;

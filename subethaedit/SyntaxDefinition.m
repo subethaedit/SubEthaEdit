@@ -29,6 +29,7 @@
         }
         // Alloc & Init
         I_defaultState = [NSMutableDictionary new];
+        I_useSpellingDictionary = NO;
         I_states = [NSMutableArray new];
         I_name = [@"Not named" retain];
         [self setMode:aMode];
@@ -188,8 +189,6 @@
                 CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
                 NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
                 I_useSpellingDictionary = [[attributes objectForKey:@"use-spelling-dictionary"] isEqualTo:@"yes"];
-            } else {
-                I_useSpellingDictionary = NO;
             }
         }
     }
@@ -509,7 +508,7 @@
 #pragma mark - 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SyntaxDefinition, Name:%@ , TokenSet:%@, States: %@, DefaultState: %@", [self name], [self tokenSet], [I_states description], [I_defaultState description]];
+    return [NSString stringWithFormat:@"SyntaxDefinition, Name:%@ , TokenSet:%@, States: %@, DefaultState: %@, Uses Spelling Dcitionary: %@", [self name], [self tokenSet], [I_states description], [I_defaultState description], I_useSpellingDictionary?@"Yes.":@"No."];
 }
 
 - (NSString *)name

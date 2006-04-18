@@ -30,7 +30,6 @@
 #import "AppController.h"
 #import "InsetTextFieldCell.h"
 #import <OgreKit/OgreKit.h>
-#import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
 
 @interface NSTextView (PrivateAdditions)
@@ -1489,7 +1488,7 @@
     }
 
     // add the originally suggested words
-    if ([[[documentMode syntaxHighlighter] syntaxDefinition] useSpellingDictionary]) {
+    if ([[documentMode syntaxDefinition] useSpellingDictionary]) {
         NSEnumerator *enumerator = [words objectEnumerator];
         id word;
         while (word = [enumerator nextObject]) {

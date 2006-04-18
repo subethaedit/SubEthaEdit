@@ -125,11 +125,12 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     if (self) {
         I_autocompleteDictionary = [NSMutableArray new];
         I_bundle = [aBundle retain];
-        SyntaxDefinition *synDef = [[[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"] forMode:self] autorelease];
+        I_syntaxDefinition = [[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"] forMode:self];
+        
         RegexSymbolDefinition *symDef = [[[RegexSymbolDefinition alloc] initWithFile:[aBundle pathForResource:@"RegexSymbols" ofType:@"xml"] forMode:self] autorelease];
         
-        if (synDef && ![self isBaseMode])
-            I_syntaxHighlighter = [[SyntaxHighlighter alloc] initWithSyntaxDefinition:synDef];
+        if (I_syntaxDefinition && ![self isBaseMode])
+            I_syntaxHighlighter = [[SyntaxHighlighter alloc] initWithSyntaxDefinition:I_syntaxDefinition];
         if (symDef)
             I_symbolParser = [[RegexSymbolParser alloc] initWithSymbolDefinition:symDef];
         
@@ -407,6 +408,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
     [I_defaults release];
     [I_syntaxHighlighter release];
+    [I_syntaxDefinition release];
     [I_symbolParser release];
     [I_autocompleteDictionary release];
     [I_bundle release];
@@ -431,6 +433,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [[I_bundle infoDictionary] objectForKey:@"TCMModeExtensions"];
 }
 
+
+- (SyntaxDefinition *)syntaxDefinition {
+    return I_syntaxDefinition;
+}
 
 - (SyntaxHighlighter *)syntaxHighlighter {
     return I_syntaxHighlighter;
