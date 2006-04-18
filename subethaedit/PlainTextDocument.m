@@ -4615,6 +4615,15 @@ static NSString *S_measurementUnits;
 
 @implementation PlainTextDocument (PlainTextDocumentScriptingAdditions)
 
+- (id)objectSpecifier {
+    NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
+
+    return [[[NSUniqueIDSpecifier alloc] initWithContainerClassDescription:containerClassDesc
+                                                        containerSpecifier:nil
+                                                                       key:@"orderedDocuments"
+                                                                  uniqueID:[NSNumber numberWithUnsignedInt:(unsigned int)self]] autorelease];
+}
+
 - (NSString *)encoding {
     CFStringEncoding cfEncoding = CFStringConvertNSStringEncodingToEncoding([self fileEncoding]);
     if (cfEncoding != kCFStringEncodingInvalidId) {
