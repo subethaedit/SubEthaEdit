@@ -824,12 +824,125 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         [I_contents release];
         I_contents = [[textStorage attributedSubstringFromRange:range] mutableCopy];
         I_scriptingProperties.length = range.length;
-        I_scriptingProperties.characterOffset = range.location + 1;
+        if (textStorage != nil)
+            I_scriptingProperties.characterOffset = [[textStorage scriptedCharacterOffset] intValue] - 1 + range.location + 1;
+        else
+            I_scriptingProperties.characterOffset = range.location + 1;
         I_scriptingProperties.startLine = [textStorage lineNumberForLocation:range.location];
-        I_scriptingProperties.endLine = [textStorage lineNumberForLocation:NSMaxRange(range)]; // evtl. -1
+        I_scriptingProperties.endLine = [textStorage lineNumberForLocation:NSMaxRange(range)];
 
     }
     return self;
+}
+
+- (void)replaceValueAtIndex:(unsigned)index inPropertyWithKey:(NSString *)key withValue:(id)value
+{
+    if ([key isEqual:@"characters"]) {
+        NSArray *characters = [self characters];
+        if ([characters count] > index && [characters count] > 0) {
+            TextStorage *character = [characters objectAtIndex:index];
+            TextStorage *textStorage = self;
+            if (I_containerTextStorage)
+                textStorage = I_containerTextStorage;
+            [textStorage replaceCharactersInRange:NSMakeRange([[character scriptedCharacterOffset] intValue] - 1, 1) withString:value];
+        }
+    } else if ([key isEqual:@"words"]) {
+        NSArray *words = [self words];
+        if ([words count] > index && [words count] > 0) {
+            TextStorage *word = [words objectAtIndex:index];
+            TextStorage *textStorage = self;
+            if (I_containerTextStorage)
+                textStorage = I_containerTextStorage;
+            [textStorage replaceCharactersInRange:NSMakeRange([[word scriptedCharacterOffset] intValue] - 1, [[word scriptedLength] intValue]) withString:value];
+        }
+    } else if ([key isEqual:@"paragraphs"]) {
+        NSArray *paragraphs = [self paragraphs];
+        if ([paragraphs count] > index && [paragraphs count] > 0) {
+            TextStorage *paragraph = [paragraphs objectAtIndex:index];
+            TextStorage *textStorage = self;
+            if (I_containerTextStorage)
+                textStorage = I_containerTextStorage;
+            [textStorage replaceCharactersInRange:NSMakeRange([[paragraph scriptedCharacterOffset] intValue] - 1, [[paragraph scriptedLength] intValue]) withString:value];
+        }
+    }
+}
+
+- (void)insertValue:(id)value atIndex:(unsigned)index inPropertyWithKey:(NSString *)key
+{
+    if ([key isEqual:@"characters"]) {
+        NSArray *characters = [self characters];
+        TextStorage *textStorage = self;
+        if (I_containerTextStorage)
+            textStorage = I_containerTextStorage;
+        if (index == 0) {
+            [textStorage replaceCharactersInRange:NSMakeRange(0, 0) withString:value];
+        } else if (index < [characters count]) {
+            TextStorage *character = [characters objectAtIndex:index];
+            [textStorage replaceCharactersInRange:NSMakeRange([[character scriptedCharacterOffset] intValue] - 1, 0) withString:value];
+        }
+    } else if ([key isEqual:@"words"]) {
+        NSArray *words = [self words];
+        TextStorage *textStorage = self;
+        if (I_containerTextStorage)
+            textStorage = I_containerTextStorage;
+        if (index == 0) {
+            [textStorage replaceCharactersInRange:NSMakeRange(0, 0) withString:value];
+        } else if (index < [words count]) {
+            TextStorage *word = [words objectAtIndex:index];
+            [textStorage replaceCharactersInRange:NSMakeRange([[word scriptedCharacterOffset] intValue] - 1, 0) withString:value];
+        }
+    } else if ([key isEqual:@"paragraphs"]) {
+        NSArray *paragraphs = [self paragraphs];
+        TextStorage *textStorage = self;
+        if (I_containerTextStorage)
+            textStorage = I_containerTextStorage;
+        if (index == 0) {
+            [textStorage replaceCharactersInRange:NSMakeRange(0, 0) withString:value];
+        } else if (index < [paragraphs count]) {
+            TextStorage *paragraph = [paragraphs objectAtIndex:index];
+            [textStorage replaceCharactersInRange:NSMakeRange([[paragraph scriptedCharacterOffset] intValue] - 1, 0) withString:value];
+        }
+    }
+}
+
+- (void)removeValueAtIndex:(unsigned)index fromPropertyWithKey:(NSString *)key
+{
+    if ([key isEqual:@"characters"]) {
+        NSArray *characters = [self characters];
+        TextStorage *textStorage = self;
+        if (I_containerTextStorage)
+            textStorage = I_containerTextStorage;
+        if (index == 0) {
+            [textStorage replaceCharactersInRange:NSMakeRange(0, 1) withString:@""];
+        } else if (index < [characters count]) {
+            TextStorage *character = [characters objectAtIndex:index];
+            [textStorage replaceCharactersInRange:NSMakeRange([[character scriptedCharacterOffset] intValue] - 1, 1) withString:@""];
+        }
+    } else if ([key isEqual:@"words"]) {
+        NSArray *words = [self words];
+        TextStorage *textStorage = self;
+        if (I_containerTextStorage)
+            textStorage = I_containerTextStorage;
+        if (index == 0) {
+            TextStorage *word = [words objectAtIndex:index];
+            [textStorage replaceCharactersInRange:NSMakeRange(0, [word length]) withString:@""];
+        } else if (index < [words count]) {
+            TextStorage *word = [words objectAtIndex:index];
+            [textStorage replaceCharactersInRange:NSMakeRange([[word scriptedCharacterOffset] intValue] - 1, [[word scriptedLength] intValue]) withString:@""];
+        }
+    } else if ([key isEqual:@"paragraphs"]) {
+        NSArray *paragraphs = [self paragraphs];
+        TextStorage *textStorage = self;
+        if (I_containerTextStorage)
+            textStorage = I_containerTextStorage;
+        if (index == 0) {
+            TextStorage *paragraph = [paragraphs objectAtIndex:index];
+            [textStorage replaceCharactersInRange:NSMakeRange(0, [paragraph length]) withString:@""];
+        } else if (index < [paragraphs count]) {
+            TextStorage *paragraph = [paragraphs objectAtIndex:index];
+            [textStorage replaceCharactersInRange:NSMakeRange([[paragraph scriptedCharacterOffset] intValue] - 1, [[paragraph scriptedLength] intValue]) withString:@""];
+        }
+    }
 }
 
 - (id)valueInCharactersAtIndex:(unsigned)index
@@ -843,21 +956,63 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     unsigned i;
     unsigned length = [self length];
     for (i = 0; i < length; i++) {
-        TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:NSMakeRange(i, 1)];
+        NSRange range = NSMakeRange(i, 1);
+        TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:range];
         [characters addObject:subTextStorage];
         [subTextStorage release];
     }
     return [characters autorelease];
 }
 
-- (NSArray *)words
+- (id)valueInWordsAtIndex:(unsigned)index
 {
-    return [super words];
+    return [[self words] objectAtIndex:index];
+}
+
+- (NSArray *)words
+{   
+    NSMutableArray *words = [[NSMutableArray alloc] init];
+    NSMutableCharacterSet *scanSet = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
+    [scanSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSScanner *scanner = [[NSScanner alloc] initWithString:[self string]];
+    [scanner setCharactersToBeSkipped:scanSet];
+    NSString *string;
+    while (![scanner isAtEnd]) {
+        BOOL result = [scanner scanUpToCharactersFromSet:scanSet intoString:&string];
+        if (result) {
+            TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:NSMakeRange([scanner scanLocation] - [string length], [string length])];
+            [words addObject:subTextStorage];
+            [subTextStorage release];
+        }
+        (void)[scanner scanCharactersFromSet:scanSet intoString:nil];
+    }
+    [scanner release];
+    [scanSet release];
+
+    return [words autorelease];
+}
+
+- (id)valueInParagraphsAtIndex:(unsigned)index
+{
+    return [[self paragraphs] objectAtIndex:index];
 }
 
 - (NSArray *)paragraphs
 {
-    return [super paragraphs];
+    NSMutableArray *paragraphs = [[NSMutableArray alloc] init];
+    NSString *string = [self string];
+    unsigned startIndex, lineEndIndex, contentsEndIndex;
+    unsigned length = [string length];
+    unsigned curPos = 0;
+
+    while (curPos < length) {
+        [string getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(curPos, 0)];
+        TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:NSMakeRange(startIndex, lineEndIndex - startIndex)];
+        [paragraphs addObject:subTextStorage];
+        [subTextStorage release];
+        curPos = lineEndIndex;
+    }
+    return [paragraphs autorelease];
 }
 
 - (id)insertionPoints
