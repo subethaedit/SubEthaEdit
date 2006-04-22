@@ -1344,7 +1344,7 @@ static NSString *tempFileName(NSString *origPath) {
             } else if (currentChar == PSEP) {
                 countOfPSEP++;
             } else if (currentChar == CR) {
-                if (curPos < (length - 1) && [string characterAtIndex:curPos + 1] == LF) {
+                if (contentsEnd < (length - 1) && [string characterAtIndex:contentsEnd + 1] == LF) {
                     countOfCRLF++;
                 } else {
                     countOfCR++;
