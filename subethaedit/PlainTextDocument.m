@@ -1963,6 +1963,29 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];    
 }
 
+- (NSString *)panel:(id)sender userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag
+{
+    if (okFlag) {
+        NSString *panelFileName = [sender filename];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+        BOOL isDir;
+        if ([fileManager fileExistsAtPath:panelFileName isDirectory:&isDir] && isDir && ![workspace isFilePackageAtPath:panelFileName]) {
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert setAlertStyle:NSInformationalAlertStyle];
+            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The document can not be saved with the name \"%@\" because a folder with the same name already exists.", nil), filename]];
+            [alert setInformativeText:NSLocalizedString(@"Try choosing a different name for the document.", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+            (void)[alert runModal];
+            [[alert window] orderOut:self];
+            [alert release];
+            return nil;
+        }
+    }
+    
+    return filename;
+}
+    
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
     if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
         NSLog(@"Failed to load SavePanelAccessory.nib");
@@ -1978,6 +2001,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }    
     
     I_savePanel = savePanel;
+    [savePanel setDelegate:self];
 
     if (![self fileName] && [self directoryForSavePanel]) {
         [savePanel setDirectory:[self directoryForSavePanel]];
@@ -2029,6 +2053,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)saveToFile:(NSString *)fileName saveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
 
+    [I_savePanel setDelegate:nil];
     I_savePanel = nil;
     
     if (fileName) {
