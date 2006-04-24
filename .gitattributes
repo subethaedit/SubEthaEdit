@@ -1504,6 +1504,7 @@ tool/serials/checkserial/checkserial_Prefix.pch -text
 tool/serials/checkserial/main.m -text
 tool/serials/direct.txt -text
 tool/serials/donations.txt -text
+tool/serials/maczot.txt -text
 tool/serials/makeserial.pl -text
 tool/serials/serials1.txt -text
 tool/serials/serials2.txt -text
