@@ -24,6 +24,7 @@ http://www.codingmonkeys.de</string>
 	   <string>xml</string>
 	   <string>xslt</string>
 	   <string>xsl</string>
+	   <string>xsd</string>
 	   <string>plist</string>
 	   <string>rss</string>
 	   <string>rdf</string>
@@ -32,6 +33,7 @@ http://www.codingmonkeys.de</string>
 	   <string>XML</string>
 	   <string>XSLT</string>
 	   <string>XSL</string>
+	   <string>XSD</string>
 	   <string>PLIST</string>
 	   <string>RSS</string>
 	   <string>RDF</string>

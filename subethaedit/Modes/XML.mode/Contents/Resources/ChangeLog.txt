@@ -1,6 +1,6 @@
 Changes with Version 1.2 (SEE 2.4)
 
-    *) EXTENSIONS: Added sdef
+    *) EXTENSIONS: Added sdef, xsd
 
 Changes with Version 1.1
     
