@@ -8,6 +8,7 @@
 
 #import "ScriptWrapper.h"
 #import "NSAppleScriptTCMAdditions.h"
+#import "AppController.h"
 
 NSString * const ScriptWrapperDisplayNameSettingsKey     =@"displayname";
 NSString * const ScriptWrapperKeyboardShortcutSettingsKey=@"keyboardshortcut";
@@ -30,6 +31,7 @@ NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
             return nil;
         }
         I_URL = [anURL copy];
+        I_tasks = [NSMutableSet new];
     }
     return self;
 }
@@ -38,11 +40,38 @@ NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
     [I_settingsDictionary release];
     [I_URL release];
     [I_appleScript release];
+    [I_tasks release];
     [super dealloc];
 }
 
 - (void)executeAndReturnError:(NSDictionary **)errorDictionary {
-    [I_appleScript executeAndReturnError:errorDictionary];
+//    [I_appleScript executeAndReturnError:errorDictionary];
+    NSTask *task = [NSTask new];
+    [task setLaunchPath:@"/usr/bin/osascript"]; 
+    [task setArguments:[NSArray arrayWithObject:[I_URL path]]];
+    [task setStandardError:[NSPipe pipe]];
+    [task setStandardOutput:[NSPipe pipe]];
+    [task launch];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskDidTerminate:) name:NSTaskDidTerminateNotification object:task];
+    [I_tasks addObject:task];
+    [task release];
+}
+
+- (void)taskDidTerminate:(NSNotification *)aNotification {
+    NSTask *task = [aNotification object];
+    NSLog(@"Termination status: %d", [task terminationStatus]);
+    if ([task terminationStatus]!=0) {
+        NSString *errorString = [[[NSString alloc] initWithData:[[[task standardError] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
+        if (!errorString) errorString=@"Haha";
+        NSDictionary *errorDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+        @"AppleScript Error occured",@"NSAppleScriptErrorBriefMessage",
+        errorString,@"NSAppleScriptErrorMessage",
+        [NSNumber numberWithInt:-42],@"NSAppleScriptErrorNumber",
+        nil];
+        [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
+    }
+    [[task retain] autorelease];
+    [I_tasks removeObject:task];
 }
 
 - (NSDictionary *)settingsDictionary {

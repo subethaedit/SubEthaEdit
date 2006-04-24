@@ -17,6 +17,7 @@ extern NSString * const ScriptWrapperInDefaultToolbarSettingsKey;
     NSAppleScript *I_appleScript;
     NSURL         *I_URL;
     NSDictionary  *I_settingsDictionary;
+    NSMutableSet *I_tasks;
 }
 
 + (id)scriptWrapperWithContentsOfURL:(NSURL *)anURL;
