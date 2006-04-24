@@ -1029,6 +1029,7 @@ subethaedit/SaturationToColorValueTransformer.h -text
 subethaedit/SaturationToColorValueTransformer.m -text
 subethaedit/ScriptWrapper.h -text
 subethaedit/ScriptWrapper.m -text
+subethaedit/Scripts/Check[!!-~]Syntax.scpt -text
 subethaedit/Scripts/Open[!!-~]Terminal[!!-~]Here.scpt -text
 subethaedit/Scripts/Save[!!-~]front[!!-~]document.scpt -text
 subethaedit/SelectionOperation.h -text
