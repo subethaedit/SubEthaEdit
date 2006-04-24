@@ -70,6 +70,17 @@
     }
 }
 
+- (void)replaceValueAtIndex:(unsigned)index inPropertyWithKey:(NSString *)key withValue:(id)value
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
+- (void)insertValue:(id)value atIndex:(unsigned)index inPropertyWithKey:(NSString *)key
+{
+    NSLog(@"%s", __FUNCTION__);
+    NSLog(@"value: %@, index: %d, key: %@", value, index, key);
+}
+
 - (id)objectSpecifier
 {
     NSTextView *textView = [I_editor textView];

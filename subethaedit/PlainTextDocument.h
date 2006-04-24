@@ -327,6 +327,7 @@ typedef enum {
 
 @interface PlainTextDocument (PlainTextDocumentScriptingAdditions)
 
+- (void)replaceTextInRange:(NSRange)range withString:(NSString *)string;
 - (NSString *)encoding;
 - (void)setEncoding:(NSString *)name;
 - (AccessOptions)accessOption;
@@ -336,7 +337,6 @@ typedef enum {
 - (void)setText:(NSString *)aString;
 - (id)selection;
 - (void)setSelection:(id)selection;
-- (void)replaceTextInRange:(NSRange)range withString:(NSString *)string;
 
 // Deprecated, but needed for compatibility with see tool.
 - (NSString *)mode;

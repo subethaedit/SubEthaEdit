@@ -4714,13 +4714,43 @@ static NSString *S_measurementUnits;
 
 @implementation PlainTextDocument (PlainTextDocumentScriptingAdditions)
 
+- (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
+    
+    // Check for valid encoding
+    if (![aString canBeConvertedToEncoding:[self fileEncoding]]) {
+        return;
+    }
+    
+    // Normalize line endings
+    NSMutableString *mutableString = [aString mutableCopy];
+    [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
+
+    NSTextStorage *textStorage = [self textStorage];
+    [textStorage replaceCharactersInRange:aRange withString:mutableString];
+    if ([mutableString length] > 0) {
+        [textStorage addAttributes:[self typingAttributes] 
+                             range:NSMakeRange(aRange.location, [mutableString length])];
+    }
+    
+    [mutableString release];
+    
+    if (I_flags.highlightSyntax) {
+        [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
+    }
+
+}
+
+- (NSNumber *)uniqueID {
+    return [NSNumber numberWithUnsignedInt:(unsigned int)self];
+}
+
 - (id)objectSpecifier {
     NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
 
     return [[[NSUniqueIDSpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                         containerSpecifier:nil
                                                                        key:@"orderedDocuments"
-                                                                  uniqueID:[NSNumber numberWithUnsignedInt:(unsigned int)self]] autorelease];
+                                                                  uniqueID:[self uniqueID]] autorelease];
 }
 
 - (NSString *)encoding {
@@ -4817,32 +4847,6 @@ static NSString *S_measurementUnits;
 
 - (NSTextStorage *)text {
     return I_textStorage;
-}
-
-- (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
-    
-    // Check for valid encoding
-    if (![aString canBeConvertedToEncoding:[self fileEncoding]]) {
-        return;
-    }
-    
-    // Normalize line endings
-    NSMutableString *mutableString = [aString mutableCopy];
-    [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
-
-    NSTextStorage *textStorage = [self textStorage];
-    [textStorage replaceCharactersInRange:aRange withString:mutableString];
-    if ([mutableString length] > 0) {
-        [textStorage addAttributes:[self typingAttributes] 
-                             range:NSMakeRange(aRange.location,[mutableString length])];
-    }
-    
-    [mutableString release];
-    
-    if (I_flags.highlightSyntax) {
-        [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
-    }
-
 }
 
 - (void)setText:(NSString *)aString {

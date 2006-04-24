@@ -78,7 +78,9 @@
             <contents name="contents" code="ctxt" type="text" description="the text of the document">
                 <cocoa key="text"/>
             </contents>
-            
+			<property name="id" code="ID  " type="number" access="r" description="The unique identifier of the document.">
+				<cocoa key="uniqueID"/>
+			</property>
             <property name="selection" code="pSel" type="selection-object" description="The current selection or insertion point."/>
             <property name="mode" code="Mode" type="mode" description="the document's mode">
                 <cocoa key="documentMode"/>
