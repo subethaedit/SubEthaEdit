@@ -4819,25 +4819,25 @@ static NSString *S_measurementUnits;
     return I_textStorage;
 }
 
-- (void)replaceTextInRange:(NSRange)range withString:(NSString *)string {
+- (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
     
     // Check for valid encoding
-    if (![string canBeConvertedToEncoding:[self fileEncoding]]) {
+    if (![aString canBeConvertedToEncoding:[self fileEncoding]]) {
         return;
     }
     
-    // Convert encoding
-    NSData *stringData = [string dataUsingEncoding:[self fileEncoding]];
-    
     // Normalize line endings
-    NSMutableString *mutableString = [[NSMutableString alloc] initWithData:stringData encoding:[self fileEncoding]];
+    NSMutableString *mutableString = [aString mutableCopy];
     [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
 
-    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:mutableString attributes:[self plainTextAttributes]];
-    [[self textStorage] replaceCharactersInRange:range withAttributedString:attributedString];
+    NSTextStorage *textStorage = [self textStorage];
+    [textStorage replaceCharactersInRange:aRange withString:mutableString];
+    if ([mutableString length] > 0) {
+        [textStorage addAttributes:[self typingAttributes] 
+                             range:NSMakeRange(aRange.location,[mutableString length])];
+    }
     
     [mutableString release];
-    [attributedString release];
     
     if (I_flags.highlightSyntax) {
         [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
