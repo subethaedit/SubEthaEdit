@@ -139,6 +139,10 @@
                 <cocoa method="attachments"/>
             </element> -->
         
+            <property name="contents" code="pcnt" type="text" description="">
+                <cocoa key="contents"/>
+            </property>
+            
             <property name="length" code="pLen" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>
             </property>

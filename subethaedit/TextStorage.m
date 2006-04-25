@@ -835,38 +835,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return self;
 }
 
-- (void)replaceValueAtIndex:(unsigned)index inPropertyWithKey:(NSString *)key withValue:(id)value
-{
-    if ([key isEqual:@"characters"]) {
-        NSArray *characters = [self characters];
-        if ([characters count] > index && [characters count] > 0) {
-            TextStorage *character = [characters objectAtIndex:index];
-            TextStorage *textStorage = self;
-            if (I_containerTextStorage)
-                textStorage = I_containerTextStorage;
-            [[textStorage delegate] replaceTextInRange:NSMakeRange([[character scriptedCharacterOffset] intValue] - 1, 1) withString:value];
-        }
-    } else if ([key isEqual:@"words"]) {
-        NSArray *words = [self words];
-        if ([words count] > index && [words count] > 0) {
-            TextStorage *word = [words objectAtIndex:index];
-            TextStorage *textStorage = self;
-            if (I_containerTextStorage)
-                textStorage = I_containerTextStorage;
-            [[textStorage delegate] replaceTextInRange:NSMakeRange([[word scriptedCharacterOffset] intValue] - 1, [[word scriptedLength] intValue]) withString:value];
-        }
-    } else if ([key isEqual:@"paragraphs"]) {
-        NSArray *paragraphs = [self paragraphs];
-        if ([paragraphs count] > index && [paragraphs count] > 0) {
-            TextStorage *paragraph = [paragraphs objectAtIndex:index];
-            TextStorage *textStorage = self;
-            if (I_containerTextStorage)
-                textStorage = I_containerTextStorage;
-            [[textStorage delegate] replaceTextInRange:NSMakeRange([[paragraph scriptedCharacterOffset] intValue] - 1, [[paragraph scriptedLength] intValue]) withString:value];
-        }
-    }
-}
-
+/*
 - (void)insertValue:(id)value atIndex:(unsigned)index inPropertyWithKey:(NSString *)key
 {
     NSLog(@"%s", __FUNCTION__);
@@ -946,25 +915,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         }
     }
 }
-
-- (id)valueInCharactersAtIndex:(unsigned)index
-{
-    return [[self characters] objectAtIndex:index];
-}
-
-- (NSArray *)characters
-{
-    NSMutableArray *characters = [[NSMutableArray alloc] init];
-    unsigned i;
-    unsigned length = [self length];
-    for (i = 0; i < length; i++) {
-        NSRange range = NSMakeRange(i, 1);
-        TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:range];
-        [characters addObject:subTextStorage];
-        [subTextStorage release];
-    }
-    return [characters autorelease];
-}
+*/
 
 - (id)valueInWordsAtIndex:(unsigned)index
 {
@@ -995,9 +946,29 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return [words autorelease];
 }
 
+- (id)valueInCharactersAtIndex:(unsigned)index
+{
+    NSRange lineRange = [self findLine:index + 1];
+    TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:lineRange];
+    return [subTextStorage autorelease];
+}
+
+- (NSArray *)characters
+{
+    NSMutableArray *characters = [[NSMutableArray alloc] init];
+    unsigned i;
+    unsigned length = [self length];
+    for (i = 0; i < length; i++) {
+        [characters addObject:[self valueInCharactersAtIndex:i]];
+    }
+    return [characters autorelease];
+}
+
 - (id)valueInParagraphsAtIndex:(unsigned)index
 {
-    return [[self paragraphs] objectAtIndex:index];
+    NSRange range = NSMakeRange(index, 1);
+    TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:range];
+    return [subTextStorage autorelease];
 }
 
 - (NSArray *)paragraphs
@@ -1016,6 +987,19 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         curPos = lineEndIndex;
     }
     return [paragraphs autorelease];
+}
+ 
+- (void)setContents:(id)value
+{
+    TextStorage *textStorage = self;
+    if (I_containerTextStorage)
+        textStorage = I_containerTextStorage;
+    [[textStorage delegate] replaceTextInRange:NSMakeRange([[self scriptedCharacterOffset] intValue] - 1, [[self scriptedLength] intValue]) withString:value];
+}
+
+- (id)contents
+{
+    return self;
 }
 
 - (id)insertionPoints
@@ -1068,7 +1052,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (id)objectSpecifier
 {
-    NSLog(@"%s", __FUNCTION__);
     if (I_containerTextStorage) {
         NSRange range;
         range.location = [[self scriptedCharacterOffset] intValue] - 1;
@@ -1100,6 +1083,32 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
                                                                                                             key:@"text"];
 
         return propertySpecifier;
+    }
+}
+
+- (void)replaceValueAtIndex:(unsigned)index inPropertyWithKey:(NSString *)key withValue:(id)value
+{
+    if ([key isEqual:@"characters"]) {
+        TextStorage *character = [self valueInCharactersAtIndex:index];
+        TextStorage *textStorage = self;
+        if (I_containerTextStorage)
+            textStorage = I_containerTextStorage;
+        [[textStorage delegate] replaceTextInRange:NSMakeRange([[character scriptedCharacterOffset] intValue] - 1, 1) withString:value];
+    } else if ([key isEqual:@"words"]) {
+        NSArray *words = [self words];
+        if ([words count] > index && [words count] > 0) {
+            TextStorage *word = [words objectAtIndex:index];
+            TextStorage *textStorage = self;
+            if (I_containerTextStorage)
+                textStorage = I_containerTextStorage;
+            [[textStorage delegate] replaceTextInRange:NSMakeRange([[word scriptedCharacterOffset] intValue] - 1, [[word scriptedLength] intValue]) withString:value];
+        }
+    } else if ([key isEqual:@"paragraphs"]) {
+        TextStorage *paragraph = [self valueInParagraphsAtIndex:index];
+        TextStorage *textStorage = self;
+        if (I_containerTextStorage)
+            textStorage = I_containerTextStorage;
+        [[textStorage delegate] replaceTextInRange:NSMakeRange([[paragraph scriptedCharacterOffset] intValue] - 1, [[paragraph scriptedLength] intValue]) withString:value];
     }
 }
 
