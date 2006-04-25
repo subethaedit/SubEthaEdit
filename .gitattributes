@@ -483,6 +483,7 @@ subethaedit/Modes/PHP-HTML.mode/Contents/Resources/German.lproj/InfoPlist.string
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Check[!!-~]Syntax.scpt -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]PHP[!!-~]Documentation.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ToolbarIconPHPLookup.png -text
@@ -1242,6 +1243,7 @@ subethaedit/artwork/SymbolV.png -text
 subethaedit/artwork/SymbolV.tiff -text
 subethaedit/artwork/SymbolWarn.tiff -text
 subethaedit/artwork/ToolbarIconBuild.tiff -text
+subethaedit/artwork/ToolbarIconColorChooser.tiff -text
 subethaedit/artwork/ToolbarIconTerminal.png -text
 subethaedit/artwork/URLIcon.tiff -text
 subethaedit/artwork/WaitPipe.png -text

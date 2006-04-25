@@ -268,6 +268,7 @@
 		5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
 		5E685DB309D8438800E41973 /* NSMenuTCMAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */; };
 		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
+		5E6AEEE309FE7C5700276D7C /* ToolbarIconColorChooser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */; };
 		5EA1258909E2B4190055965D /* ScriptWrapper.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5EA1258709E2B4190055965D /* ScriptWrapper.h */; };
 		5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA1258809E2B4190055965D /* ScriptWrapper.m */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
@@ -806,6 +807,7 @@
 		5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAppleScriptTCMAdditions.m; sourceTree = "<group>"; };
 		5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMenuTCMAdditions.h; sourceTree = "<group>"; };
 		5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMenuTCMAdditions.m; sourceTree = "<group>"; };
+		5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconColorChooser.tiff; path = artwork/ToolbarIconColorChooser.tiff; sourceTree = "<group>"; };
 		5EA1258709E2B4190055965D /* ScriptWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptWrapper.h; sourceTree = "<group>"; };
 		5EA1258809E2B4190055965D /* ScriptWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptWrapper.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -951,6 +953,7 @@
 				142890AC095743F200D14688 /* SymbolV.png */,
 				142895030957692100D14688 /* SymbolWarn.tiff */,
 				5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */,
+				5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */,
 				5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */,
 				142890AE095743F200D14688 /* URLIcon.tiff */,
 				142890AF095743F200D14688 /* WaitPipe.png */,
@@ -1734,6 +1737,7 @@
 				5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */,
 				5E4DA72D09E159B400D91CFC /* ToolbarIconTerminal.png in Resources */,
 				5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */,
+				5E6AEEE309FE7C5700276D7C /* ToolbarIconColorChooser.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
