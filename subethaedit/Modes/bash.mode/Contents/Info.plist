@@ -30,6 +30,7 @@ http://www.codingmonkeys.de</string>
 	<array>
 	   <string>.bash_profile</string>
 	   <string>.bashrc</string>
+	   <string>configure</string>
 	</array>
 	<key>TCMModeRegex</key>
 	<array>
