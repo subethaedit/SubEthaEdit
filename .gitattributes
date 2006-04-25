@@ -568,6 +568,8 @@ subethaedit/NSImageTCMAdditions.h -text
 subethaedit/NSImageTCMAdditions.m -text
 subethaedit/NSMenuTCMAdditions.h -text
 subethaedit/NSMenuTCMAdditions.m -text
+subethaedit/NSRangeSpecifierTCMAdditions.h -text
+subethaedit/NSRangeSpecifierTCMAdditions.m -text
 subethaedit/NSSavePanelTCMAdditions.h -text
 subethaedit/NSSavePanelTCMAdditions.m -text
 subethaedit/NSStringSEEAdditions.h -text
