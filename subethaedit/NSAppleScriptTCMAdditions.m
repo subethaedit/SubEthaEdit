@@ -13,10 +13,15 @@
 @implementation NSAppleEventDescriptor (NSAppleEventDescriptorTCMAdditions)
 + (NSAppleEventDescriptor *)appleEventToCallSubroutine:(NSString *)aSubroutineName {
     // build apple event descriptor
+    NSAppleEventDescriptor* targetAddress;
+    int pid = [[NSProcessInfo processInfo] processIdentifier];
+    targetAddress = [NSAppleEventDescriptor descriptorWithDescriptorType:typeKernelProcessID
+                                                                   bytes:&pid
+                                                                  length:sizeof(pid)];
     NSAppleEventDescriptor *result = 
         [NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite
                                                  eventID:kASSubroutineEvent
-                                        targetDescriptor:nil 
+                                        targetDescriptor:targetAddress 
                                                 returnID:kAutoGenerateReturnID
                                            transactionID:kAnyTransactionID];
     [result setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:[aSubroutineName lowercaseString]]
