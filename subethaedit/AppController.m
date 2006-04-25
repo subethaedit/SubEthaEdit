@@ -1022,13 +1022,6 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     }
 }
 
-- (IBAction)showLicense:(id)sender {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"License" ofType:@"rtf"];
-    (void)[O_licenseTextView readRTFDFromFile:path];
-    [O_licenseWindow center];
-    [O_licenseWindow makeKeyAndOrderFront:self];
-}
-
 - (IBAction)showRegExHelp:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RE" ofType:@"txt"];
     [self TCM_showPlainTextFile:path];

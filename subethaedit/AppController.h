@@ -62,7 +62,6 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 
 - (IBAction)reloadDocumentModes:(id)aSender;
 
-- (IBAction)showLicense:(id)sender;
 - (IBAction)showAcknowledgements:(id)sender;
 - (IBAction)showRegExHelp:(id)sender;
 - (IBAction)showReleaseNotes:(id)sender;

@@ -345,7 +345,6 @@ subethaedit/Invitation.aiff -text
 subethaedit/Knock.wav -text
 subethaedit/LayoutManager.h -text
 subethaedit/LayoutManager.m -text
-subethaedit/License.rtf -text
 subethaedit/LicenseController.h -text
 subethaedit/LicenseController.m -text
 subethaedit/Modes/ActionScript.mode/Contents/Info.plist -text

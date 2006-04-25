@@ -29,7 +29,6 @@
 		14288FED09573F2B00D14688 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
 		14288FF509573F4900D14688 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FF409573F4900D14688 /* WebKit.framework */; };
 		1428900D095740F200D14688 /* Acknowledgements.txt in Resources */ = {isa = PBXBuildFile; fileRef = 14289008095740F200D14688 /* Acknowledgements.txt */; };
-		1428900E095740F200D14688 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 14289009095740F200D14688 /* License.rtf */; };
 		1428900F095740F200D14688 /* RE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1428900A095740F200D14688 /* RE.txt */; };
 		142890140957413900D14688 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 142890120957413900D14688 /* Localizable.strings */; };
 		1428901D0957418400D14688 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142890150957418400D14688 /* AboutPanel.nib */; };
@@ -429,7 +428,6 @@
 		14288FFD09573FED00D14688 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		142890060957400800D14688 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		14289008095740F200D14688 /* Acknowledgements.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Acknowledgements.txt; sourceTree = "<group>"; };
-		14289009095740F200D14688 /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		1428900A095740F200D14688 /* RE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RE.txt; sourceTree = "<group>"; };
 		1428900B095740F200D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = English; path = English.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		142890130957413900D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1401,7 +1399,6 @@
 				14289008095740F200D14688 /* Acknowledgements.txt */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
-				14289009095740F200D14688 /* License.rtf */,
 				142890120957413900D14688 /* Localizable.strings */,
 				1428900A095740F200D14688 /* RE.txt */,
 				145047410997750100D18142 /* ReleaseNotes.txt */,
@@ -1632,7 +1629,6 @@
 			files = (
 				1428900D095740F200D14688 /* Acknowledgements.txt in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				1428900E095740F200D14688 /* License.rtf in Resources */,
 				142890140957413900D14688 /* Localizable.strings in Resources */,
 				1428900F095740F200D14688 /* RE.txt in Resources */,
 				145047420997750100D18142 /* ReleaseNotes.txt in Resources */,
