@@ -9,12 +9,18 @@
 #import "ScriptWrapper.h"
 #import "NSAppleScriptTCMAdditions.h"
 #import "AppController.h"
+#import "SESendProc.h"
+#import "SEActiveProc.h"
 
 NSString * const ScriptWrapperDisplayNameSettingsKey     =@"displayname";
 NSString * const ScriptWrapperKeyboardShortcutSettingsKey=@"keyboardshortcut";
 NSString * const ScriptWrapperToolbarIconSettingsKey     =@"toolbaricon";
 NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
 
+@interface NSAppleScript (PrivateAPI)
++ (ComponentInstance) _defaultScriptingComponent;
+- (OSAID) _compiledScriptID;
+@end
 
 @implementation ScriptWrapper
 
@@ -31,7 +37,6 @@ NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
             return nil;
         }
         I_URL = [anURL copy];
-        I_tasks = [NSMutableSet new];
     }
     return self;
 }
@@ -40,38 +45,39 @@ NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
     [I_settingsDictionary release];
     [I_URL release];
     [I_appleScript release];
-    [I_tasks release];
     [super dealloc];
 }
 
 - (void)executeAndReturnError:(NSDictionary **)errorDictionary {
 //    [I_appleScript executeAndReturnError:errorDictionary];
-    NSTask *task = [NSTask new];
-    [task setLaunchPath:@"/usr/bin/osascript"]; 
-    [task setArguments:[NSArray arrayWithObject:[I_URL path]]];
-    [task setStandardError:[NSPipe pipe]];
-    [task setStandardOutput:[NSPipe pipe]];
-    [task launch];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskDidTerminate:) name:NSTaskDidTerminateNotification object:task];
-    [I_tasks addObject:task];
-    [task release];
-}
 
-- (void)taskDidTerminate:(NSNotification *)aNotification {
-    NSTask *task = [aNotification object];
-    NSLog(@"Termination status: %d", [task terminationStatus]);
-    if ([task terminationStatus]!=0) {
-        NSString *errorString = [[[NSString alloc] initWithData:[[[task standardError] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
-        if (!errorString) errorString=@"Haha";
-        NSDictionary *errorDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-        @"AppleScript Error occured",@"NSAppleScriptErrorBriefMessage",
-        errorString,@"NSAppleScriptErrorMessage",
-        [NSNumber numberWithInt:-42],@"NSAppleScriptErrorNumber",
-        nil];
-        [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
+    OSAID resultID  = kOSANullScript;
+    OSAID contextID = kOSANullScript;
+    OSAID scriptID  = [I_appleScript _compiledScriptID];
+    ComponentInstance component = [NSAppleScript _defaultScriptingComponent];
+    SESendProc   *sp=[[SESendProc   alloc] initWithComponent:component];
+    SEActiveProc *ap=[[SEActiveProc alloc] initWithComponent:component];
+    OSStatus err = OSAExecute(component,scriptID,contextID,kOSAModeNull,&resultID);
+    AEDesc resultData;
+    AECreateDesc(typeNull, NULL,0,&resultData);
+    if (err==errOSAScriptError) {
+        NSMutableDictionary *errorDict=[NSMutableDictionary dictionary];
+        OSAScriptError(component,kOSAErrorMessage,typeChar,&resultData);
+        NSAppleEventDescriptor *errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
+        [errorDict setObject:[errorDescriptor stringValue] forKey:@"NSAppleScriptErrorMessage"];
+        [errorDescriptor release];
+        OSAScriptError(component,kOSAErrorNumber,typeChar,&resultData);
+        errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
+        [errorDict setObject:[NSNumber numberWithInt:[errorDescriptor int32Value]] forKey:@"NSAppleScriptErrorNumber"];
+        [errorDescriptor release];
+        OSAScriptError(component,kOSAErrorBriefMessage,typeChar,&resultData);
+        errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
+        [errorDict setObject:[errorDescriptor stringValue] forKey:@"NSAppleScriptErrorBriefMessage"];
+        [errorDescriptor release];
+        *errorDictionary = errorDict;
     }
-    [[task retain] autorelease];
-    [I_tasks removeObject:task];
+    [ap release];
+    [sp release];
 }
 
 - (NSDictionary *)settingsDictionary {

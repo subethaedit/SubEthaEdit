@@ -255,6 +255,10 @@
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
+		5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE30A039283003D2813 /* SESendProc.m */; };
+		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
+		5E0F6AE90A039283003D2813 /* SEActiveProc.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E0F6AE50A039283003D2813 /* SEActiveProc.h */; };
+		5E0F6AEA0A039283003D2813 /* SESendProc.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E0F6AE60A039283003D2813 /* SESendProc.h */; };
 		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
 		5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */; };
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; };
@@ -414,6 +418,8 @@
 				5EA1258909E2B4190055965D /* ScriptWrapper.h in Copy Files (Frameworks) */,
 				5E57298E09F514FB00D3746B /* Toolbar.h in Copy Files (Frameworks) */,
 				1483397709FEB1F500C638D6 /* NSRangeSpecifierTCMAdditions.h in Copy Files (Frameworks) */,
+				5E0F6AE90A039283003D2813 /* SEActiveProc.h in Copy Files (Frameworks) */,
+				5E0F6AEA0A039283003D2813 /* SESendProc.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -795,6 +801,10 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
+		5E0F6AE30A039283003D2813 /* SESendProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SESendProc.m; sourceTree = "<group>"; };
+		5E0F6AE40A039283003D2813 /* SEActiveProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEActiveProc.m; sourceTree = "<group>"; };
+		5E0F6AE50A039283003D2813 /* SEActiveProc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SEActiveProc.h; sourceTree = "<group>"; };
+		5E0F6AE60A039283003D2813 /* SESendProc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SESendProc.h; sourceTree = "<group>"; };
 		5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvitationBadge3.tiff; path = artwork/InvitationBadge3.tiff; sourceTree = "<group>"; };
 		5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "InvitationBadge1-2.tiff"; path = "artwork/InvitationBadge1-2.tiff"; sourceTree = "<group>"; };
 		5E28E28D0972FB8E00099B13 /* InsetTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsetTextFieldCell.h; sourceTree = "<group>"; };
@@ -1379,6 +1389,10 @@
 				142893EF09575A3000D14688 /* RendezvousBrowserController.m */,
 				5EA1258709E2B4190055965D /* ScriptWrapper.h */,
 				5EA1258809E2B4190055965D /* ScriptWrapper.m */,
+				5E0F6AE60A039283003D2813 /* SESendProc.h */,
+				5E0F6AE30A039283003D2813 /* SESendProc.m */,
+				5E0F6AE50A039283003D2813 /* SEActiveProc.h */,
+				5E0F6AE40A039283003D2813 /* SEActiveProc.m */,
 				142893F209575A3000D14688 /* TexturedButtonCell.h */,
 				142893F309575A3000D14688 /* TexturedButtonCell.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
@@ -1946,6 +1960,8 @@
 				5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */,
 				5E57298F09F514FB00D3746B /* Toolbar.m in Sources */,
 				1483397809FEB1F500C638D6 /* NSRangeSpecifierTCMAdditions.m in Sources */,
+				5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */,
+				5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

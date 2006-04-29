@@ -48,6 +48,8 @@
 #import "NSMenuTCMAdditions.h"
 
 #import "ScriptWrapper.h"
+#import "SESendProc.h"
+#import "SEActiveProc.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"

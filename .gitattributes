@@ -1027,6 +1027,10 @@ subethaedit/RegexSymbolParser.h -text
 subethaedit/RegexSymbolParser.m -text
 subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
+subethaedit/SEActiveProc.h -text
+subethaedit/SEActiveProc.m -text
+subethaedit/SESendProc.h -text
+subethaedit/SESendProc.m -text
 subethaedit/SaturationToColorValueTransformer.h -text
 subethaedit/SaturationToColorValueTransformer.m -text
 subethaedit/ScriptWrapper.h -text

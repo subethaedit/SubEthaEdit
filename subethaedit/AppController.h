@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 #define kKAHL 'KAHL'
 #define kMOD 'MOD '
 #define SUBETHAEDIT_DEFAULT_PORT 6942
