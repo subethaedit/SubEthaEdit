@@ -1202,6 +1202,53 @@
                 <string>NSCompositingOperation</string>
             </keywords>
             <keywords id="Cocoa Constants" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
+                <string>NSDecimalMaxSize</string>
+                <string>NSDecimalNoScale</string>
+                <string>NSMaximumStringLength</string>
+                <string>NSNotAnIntMapKey</string>
+                <string>NSNotAPointerMapKey</string>
+                <string>NSCocoaErrorDomain</string>
+                <string>NSPOSIXErrorDomain</string>
+                <string>NSOSStatusErrorDomain</string>
+                <string>NSMachErrorDomain</string>
+                <string>NSUnderlyingErrorKey</string>
+                <string>NSLocalizedDescriptionKey</string>
+                <string>NSLocalizedFailureReasonErrorKey</string>
+                <string>NSLocalizedRecoverySuggestionErrorKey</string>
+                <string>NSLocalizedRecoveryOptionsErrorKey</string>
+                <string>NSRecoveryAttempterErrorKey</string>
+                <string>NSStringEncodingErrorKey</string>
+                <string>NSURLErrorKey</string>
+                <string>NSFilePathErrorKey	</string>
+                <string>NSURLCredentialStorageChangedNotification</string>
+                <string>NSUserDefaultsDidChangeNotification</string>
+                <string>NSWillBecomeMultiThreadedNotification</string>
+                <string>NSDidBecomeSingleThreadedNotification</string>
+                <string>NSThreadWillExitNotification</string>
+                <string>NSUndoManagerCheckpointNotification</string>
+                <string>NSUndoManagerWillUndoChangeNotification</string>
+                <string>NSUndoManagerWillRedoChangeNotification</string>
+                <string>NSUndoManagerDidUndoChangeNotification</string>
+                <string>NSUndoManagerDidRedoChangeNotification</string>
+                <string>NSUndoManagerDidOpenUndoGroupNotification</string>
+                <string>NSUndoManagerWillCloseUndoGroupNotification</string>
+                <string>NSPortDidBecomeInvalidNotification</string>
+                <string>NSTaskDidTerminateNotification</string>
+                <string>NSJavaWillSetupVirtualMachineNotification</string>
+                <string>NSJavaDidSetupVirtualMachineNotification</string>
+                <string>NSJavaWillCreateVirtualMachineNotification</string>
+                <string>NSJavaDidCreateVirtualMachineNotification</string>
+                <string>NSAppleEventManagerWillProcessFirstEventNotification</string>
+                <string>NSBundleDidLoadNotification</string>
+                <string>NSClassDescriptionNeededForClassNotification</string>
+                <string>NSConnectionDidDieNotification</string>
+                <string>NSConnectionDidInitializeNotification</string>
+                <string>NSFileHandleReadCompletionNotification</string>
+                <string>NSFileHandleReadToEndOfFileCompletionNotification</string>
+                <string>NSFileHandleConnectionAcceptedNotification</string>
+                <string>NSFileHandleDataAvailableNotification</string>
+                <string>NSHTTPCookieManagerAcceptPolicyChangedNotification</string>
+                <string>NSHTTPCookieManagerCookiesChangedNotification</string>
                 <string>BPF_MODE_DISABLED</string>
                 <string>BPF_MODE_INPUT</string>
                 <string>BPF_MODE_INPUT_OUTPUT</string>
