@@ -237,7 +237,7 @@
 
             [O_modeInstallerInformativeTextField setObjectValue:informativeText];
         } else {
-            
+            [O_modeInstallerInformativeTextField setObjectValue:@""];
         }
         
         I_currentModeFileName = fileName;
