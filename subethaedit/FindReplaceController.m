@@ -274,11 +274,25 @@ static FindReplaceController *sharedInstance=nil;
     }
 }
 
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)alertForReadonlyDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertFirstButtonReturn) {
         NSDictionary *alertContext = (NSDictionary *)contextInfo;
         PlainTextDocument *document = [alertContext objectForKey:@"Document"];
         [document setEditAnyway:YES];
+        [self performFindPanelAction:[alertContext objectForKey:@"Sender"]];
+    }
+}
+
+- (void)alertForEncodingDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    NSDictionary *alertContext = (NSDictionary *)contextInfo;
+    PlainTextDocument *document = [alertContext objectForKey:@"Document"];
+    if (returnCode == NSAlertThirdButtonReturn) {
+        [document setFileEncoding:NSUnicodeStringEncoding];
+        [[document documentUndoManager] removeAllActions];
+        [self performFindPanelAction:[alertContext objectForKey:@"Sender"]];
+    } else if (returnCode == NSAlertSecondButtonReturn) {
+        [document setFileEncoding:NSUTF8StringEncoding];
+        [[document documentUndoManager] removeAllActions];
         [self performFindPanelAction:[alertContext objectForKey:@"Sender"]];
     }
 }
@@ -316,9 +330,38 @@ static FindReplaceController *sharedInstance=nil;
                 [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
                 [alert beginSheetModalForWindow:[target window]
                                   modalDelegate:self
-                                 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                                 didEndSelector:@selector(alertForReadonlyDidEnd:returnCode:contextInfo:)
                                     contextInfo:[contextInfo retain]];
                 return;
+            }
+            
+            NSString *replacementString = [O_replaceComboBox stringValue];
+            if (![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
+                TCMMMSession *session=[document session];
+                if ([session isServer] && [session participantCount]<=1) {
+                NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                            @"ShouldPromoteAlert", @"Alert",
+                                                            sender, @"Sender",
+                                                            document, @"Document",
+                                                            target, @"TextView",
+                                                            nil];
+        
+                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                    [alert setAlertStyle:NSWarningAlertStyle];
+                    [alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
+                    [alert setInformativeText:NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil)];
+                    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                    [alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
+                    [alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
+                    [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+                    [alert beginSheetModalForWindow:[target window]
+                                      modalDelegate:self
+                                     didEndSelector:@selector(alertForEncodingDidEnd:returnCode:contextInfo:)
+                                        contextInfo:[contextInfo retain]];
+                    return;
+                } else {
+                    NSBeep();
+                }
             }
         }
     }
