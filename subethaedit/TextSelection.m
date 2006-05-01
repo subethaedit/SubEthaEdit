@@ -89,24 +89,29 @@
     if (range.length > 0) {
         NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];
         NSScriptObjectSpecifier *containerSpecifier = [[[I_editor windowController] document] objectSpecifier];
+        containerSpecifier = [[[NSPropertySpecifier alloc] initWithContainerClassDescription:containerClassDesc containerSpecifier:containerSpecifier key:@"text"]  autorelease];
+        containerClassDesc =  (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[TextStorage class]];
 
-        NSIndexSpecifier *startSpecifier = [[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
-                                                                                    containerSpecifier:containerSpecifier
-                                                                                                   key:@"text"
-                                                                                                 index:range.location];
+        NSIndexSpecifier *startSpecifier = 
+        [[[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
+                                                  containerSpecifier:nil
+                                                                 key:@"characters"
+                                                               index:range.location] autorelease];
 
-        NSIndexSpecifier *endSpecifier = [[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
-                                                                                  containerSpecifier:containerSpecifier
-                                                                                                 key:@"text"
-                                                                                               index:NSMaxRange(range) - 1];
+        NSIndexSpecifier *endSpecifier = 
+        [[[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
+                                                  containerSpecifier:nil
+                                                                 key:@"characters"
+                                                               index:NSMaxRange(range) - 1] autorelease];
 
-        NSRangeSpecifier *rangeSpecifier = [[NSRangeSpecifier alloc] initWithContainerClassDescription:containerClassDesc
-                                                                                    containerSpecifier:containerSpecifier
-                                                                                                   key:@"text"
-                                                                                        startSpecifier:[startSpecifier autorelease]
-                                                                                          endSpecifier:[endSpecifier autorelease]];   
+        NSRangeSpecifier *rangeSpecifier = 
+        [[[NSRangeSpecifier alloc] initWithContainerClassDescription:containerClassDesc
+                                                  containerSpecifier:containerSpecifier
+                                                                 key:@"characters"
+                                                      startSpecifier:startSpecifier
+                                                        endSpecifier:endSpecifier] autorelease];;   
 
-        return [rangeSpecifier autorelease];
+        return rangeSpecifier;
         
     } else {
         NSScriptObjectSpecifier *containerSpecifier = [[textView textStorage] objectSpecifier];
