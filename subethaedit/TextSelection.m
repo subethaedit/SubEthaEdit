@@ -97,12 +97,14 @@
                                                   containerSpecifier:nil
                                                                  key:@"characters"
                                                                index:range.location] autorelease];
+        [startSpecifier setContainerIsRangeContainerObject:YES];
 
         NSIndexSpecifier *endSpecifier = 
         [[[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                   containerSpecifier:nil
                                                                  key:@"characters"
                                                                index:NSMaxRange(range) - 1] autorelease];
+        [endSpecifier setContainerIsRangeContainerObject:YES];
 
         NSRangeSpecifier *rangeSpecifier = 
         [[[NSRangeSpecifier alloc] initWithContainerClassDescription:containerClassDesc

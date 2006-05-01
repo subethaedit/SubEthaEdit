@@ -946,25 +946,26 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return [words autorelease];
 }
 
-- (id)valueInCharactersAtIndex:(unsigned)index
+- (id)valueInParagraphsAtIndex:(unsigned)index
 {
     NSRange lineRange = [self findLine:index + 1];
     TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:lineRange];
     return [subTextStorage autorelease];
 }
 
-- (NSArray *)characters
+- (TextStorage *)characters
 {
-    NSMutableArray *characters = [[NSMutableArray alloc] init];
-    unsigned i;
-    unsigned length = [self length];
-    for (i = 0; i < length; i++) {
-        [characters addObject:[self valueInCharactersAtIndex:i]];
-    }
-    return [characters autorelease];
+    return self;
+//    NSMutableArray *characters = [[NSMutableArray alloc] init];
+//    unsigned i;
+//    unsigned length = [self length];
+//    for (i = 0; i < length; i++) {
+//        [characters addObject:[self valueInCharactersAtIndex:i]];
+//    }
+//    return [characters autorelease];
 }
 
-- (id)valueInParagraphsAtIndex:(unsigned)index
+- (id)valueInCharactersAtIndex:(unsigned)index
 {
     NSRange range = NSMakeRange(index, 1);
     TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:range];
@@ -999,7 +1000,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (id)contents
 {
-    return self;
+    return [self string];
 }
 
 - (id)insertionPoints
@@ -1059,15 +1060,17 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[TextStorage class]];
         NSScriptObjectSpecifier *containerSpecifier = [I_containerTextStorage objectSpecifier];
         NSIndexSpecifier *startSpecifier = [[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
-                                                                                    containerSpecifier:containerSpecifier
+                                                                                    containerSpecifier:nil
                                                                                                    key:@"characters"
                                                                                                  index:range.location];
+        [startSpecifier setContainerIsRangeContainerObject:YES];
 
         NSIndexSpecifier *endSpecifier = [[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
-                                                                                  containerSpecifier:containerSpecifier
+                                                                                  containerSpecifier:nil
                                                                                                  key:@"characters"
                                                                                                index:NSMaxRange(range) - 1];
 
+        [endSpecifier setContainerIsRangeContainerObject:YES];
         NSRangeSpecifier *rangeSpecifier = [[NSRangeSpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                                                     containerSpecifier:containerSpecifier
                                                                                                    key:@"characters"
