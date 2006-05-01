@@ -274,6 +274,15 @@ static FindReplaceController *sharedInstance=nil;
     }
 }
 
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertFirstButtonReturn) {
+        NSDictionary *alertContext = (NSDictionary *)contextInfo;
+        PlainTextDocument *document = [alertContext objectForKey:@"Document"];
+        [document setEditAnyway:YES];
+        [self performFindPanelAction:[alertContext objectForKey:@"Sender"]];
+    }
+}
+
 - (void)performFindPanelAction:(id)sender 
 {
     [O_statusTextField setStringValue:@""];
@@ -286,6 +295,32 @@ static FindReplaceController *sharedInstance=nil;
     if (target) {
         if ([[O_scopePopup selectedItem] tag]==1) scope = [target selectedRange];
         else scope = NSMakeRange(0,[[target string] length]);
+        
+        // Check for replace operation in case it's a read-only file.
+        if (([sender tag]==NSFindPanelActionReplace)||([sender tag]==NSFindPanelActionReplaceAndFind)||([sender tag]==NSFindPanelActionReplaceAll)) {
+            PlainTextDocument *document = (PlainTextDocument *)[[[target window] windowController] document];
+            if (document && ![document isFileWritable] && ![document editAnyway]) {
+                // Call sheet
+                NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                            @"EditAnywayAlert", @"Alert",
+                                                            sender, @"Sender",
+                                                            document, @"Document",
+                                                            nil];
+        
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setMessageText:NSLocalizedString(@"Warning", nil)];
+                [alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+                [alert beginSheetModalForWindow:[target window]
+                                  modalDelegate:self
+                                 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                                    contextInfo:[contextInfo retain]];
+                return;
+            }
+        }
     }
     
     if ([sender tag]==NSFindPanelActionShowFindPanel) {
