@@ -523,7 +523,15 @@ static NSString *tempFileName() {
     NSMutableArray *files = [NSMutableArray array];
     id directParameter = [command directParameter];
     if ([directParameter isKindOfClass:[NSArray class]]) {
-        [files addObjectsFromArray:directParameter];
+        id file;
+        NSEnumerator *parameterEnumerator = [directParameter objectEnumerator];
+        while ((file = [parameterEnumerator nextObject])) {
+            if ([file isKindOfClass:[NSURL class]]) {
+                [files addObject:[file path]];
+            } else {
+                [files addObject:file];
+            }
+        }
     } else if ([directParameter isKindOfClass:[NSString class]]) {
         [files addObject:directParameter];
     } else if ([directParameter isKindOfClass:[NSURL class]]) {

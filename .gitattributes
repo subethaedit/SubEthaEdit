@@ -1047,6 +1047,7 @@ subethaedit/SplitView.h -text
 subethaedit/SplitView.m -text
 subethaedit/StylePreferences.h -text
 subethaedit/StylePreferences.m -text
+subethaedit/SubEthaEdit-Panther.sdef -text
 subethaedit/SubEthaEdit.sdef -text
 subethaedit/SubEthaEdit.xcodeproj/project.pbxproj -text
 subethaedit/SubEthaEditHelperTool.m -text
