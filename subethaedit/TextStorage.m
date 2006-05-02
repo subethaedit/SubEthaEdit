@@ -15,6 +15,7 @@
 #import "GeneralPreferences.h"
 #import "TextSelection.h"
 #import "ScriptLine.h"
+#import "ScriptCharacters.h"
 
 
 NSString * const BlockeditAttributeName =@"Blockedit";
@@ -919,41 +920,50 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 */
 
-- (id)valueInWordsAtIndex:(unsigned)index
-{
-    return [[self words] objectAtIndex:index];
-}
+// - (id)valueInWordsAtIndex:(unsigned)index
+// {
+//     return [[self words] objectAtIndex:index];
+// }
+// 
+// - (NSArray *)words
+// {   
+//     NSMutableArray *words = [[NSMutableArray alloc] init];
+//     NSMutableCharacterSet *scanSet = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
+//     [scanSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//     NSScanner *scanner = [[NSScanner alloc] initWithString:[self string]];
+//     [scanner setCharactersToBeSkipped:scanSet];
+//     NSString *string;
+//     while (![scanner isAtEnd]) {
+//         BOOL result = [scanner scanUpToCharactersFromSet:scanSet intoString:&string];
+//         if (result) {
+//             TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:NSMakeRange([scanner scanLocation] - [string length], [string length])];
+//             //[words addObject:subTextStorage];
+//             [words addObject:[subTextStorage objectSpecifier]];
+//             [subTextStorage release];
+//         }
+//         (void)[scanner scanCharactersFromSet:scanSet intoString:nil];
+//     }
+//     [scanner release];
+//     [scanSet release];
+// 
+//     return [words autorelease];
+// }
 
-- (NSArray *)words
-{   
-    NSMutableArray *words = [[NSMutableArray alloc] init];
-    NSMutableCharacterSet *scanSet = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
-    [scanSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSScanner *scanner = [[NSScanner alloc] initWithString:[self string]];
-    [scanner setCharactersToBeSkipped:scanSet];
-    NSString *string;
-    while (![scanner isAtEnd]) {
-        BOOL result = [scanner scanUpToCharactersFromSet:scanSet intoString:&string];
-        if (result) {
-            TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:NSMakeRange([scanner scanLocation] - [string length], [string length])];
-            //[words addObject:subTextStorage];
-            [words addObject:[subTextStorage objectSpecifier]];
-            [subTextStorage release];
-        }
-        (void)[scanner scanCharactersFromSet:scanSet intoString:nil];
+- (id)characters {
+    NSLog(@"%s", __FUNCTION__);
+    NSMutableArray *result=[NSMutableArray array];
+    int length=[self length];
+    int index=0;
+    while (index<length) {
+        [result addObject:[ScriptCharacters scriptCharactersWithTextStorage:self characterRange:NSMakeRange(index++,1)]];
     }
-    [scanner release];
-    [scanSet release];
-
-    return [words autorelease];
+    return result;
 }
-
 
 - (id)valueInCharactersAtIndex:(unsigned)index
 {
-    NSRange range = NSMakeRange(index, 1);
-    TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:range];
-    return [subTextStorage autorelease];
+    NSLog(@"%s: %d", __FUNCTION__, index);
+    return [ScriptCharacters scriptCharactersWithTextStorage:self characterRange:NSMakeRange(index,1)];
 }
 
 - (NSArray *)lines

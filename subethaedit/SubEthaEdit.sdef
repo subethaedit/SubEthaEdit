@@ -207,6 +207,9 @@
                 description="Is this the frontmost (active) application?">
                 <cocoa key="isActive"/>
             </property>
+            <property name="selection" code="pSel" type="selection-object" description="The current selection in the frontmost document.">
+                <cocoa key="scriptSelection"/>
+            </property>
             <property name="version" code="vers" type="text" access="r"
                 description="The version of the application."/>
             <element type="document">
@@ -273,8 +276,11 @@
             <property name="URL" code="DURL" type="text" access="r" description="the URL of the document">
                 <cocoa key="announcementURL"/>
             </property>
+            <property name="selection" code="pSel" type="selection-object" description="The current selection or insertion point.">
+                <cocoa key="scriptSelection"/>
+            </property>
             <element type="window">
-                <cocoa key="scriptedWindows"/>
+                <cocoa key="orderedWindows"/>
             </element>
             <responds-to name="close">
                 <cocoa method="handleCloseScriptCommand:"/>
@@ -289,6 +295,9 @@
 
         <class name="window" code="cwin" description="A window.">
             <cocoa class="NSWindow"/>
+            <property name="selection" code="pSel" type="selection-object" description="The current selection in the frontmost document.">
+                <cocoa key="scriptSelection"/>
+            </property>
             <property name="name" code="pnam" type="text" access="r"
                 description="The full title of the window.">
                 <cocoa key="title"/>
@@ -361,95 +370,53 @@
             <cocoa class="NSColor"/>
         </value-type>
 
-<!--
         <class name="character" code="cha "
             description="This subdivides the text into characters.">
-            <cocoa class="TextStorage"/>
-            <property name="color" code="colr" type="color"
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
-            </property>
-            <property name="font" code="font" type="text"
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
-            </property>
-            <property name="size" code="ptsz" type="integer"
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-            <element type="character"/>
-            <element type="line"/>
-            <element type="word"/>
-            <element type="attribute run"/>
-        </class>
-
-        <class name="word" code="cwor"
-            description="This subdivides the text into words.">
-            <cocoa class="ScriptWord"/>
-            <property name="color" code="colr" type="color"
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
-            </property>
-            <property name="font" code="font" type="text"
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
-            </property>
-            <property name="size" code="ptsz" type="integer"
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-            <element type="character"/>
-            <element type="line"/>
-            <element type="word"/>
-            <element type="attribute run"/>
-        </class>
-
-        <class name="attribute run" code="catr"
-            description="This subdivides the text into chunks that all have the same attributes.">
-            <cocoa class="ScriptAttributeRun"/>
-            <property name="color" code="colr" type="color"
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
-            </property>
-            <property name="font" code="font" type="text"
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
-            </property>
-            <property name="size" code="ptsz" type="integer"
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-            <element type="character"/>
-            <element type="line"/>
-            <element type="word"/>
-            <element type="attribute run"/>
-        </class>
--->
-        <class name="line" code="cLIN"
-            description="This subdivides the text into lines.">
-            <cocoa class="ScriptLine"/>
-            <property name="color" code="colr" type="color"
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
-            </property>
-            <property name="font" code="font" type="text"
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
-            </property>
-            <property name="size" code="ptsz" type="integer"
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-        <!--    <element type="character"/>
-            <element type="word"/>
-            <element type="attribute run"/> -->
-            
-            <property name="characters" code="pTxt" type="text"
+            <cocoa class="ScriptCharacters"/>
+            <property name="contents" code="pTxt" type="text"
                 description="The text.">
                 <cocoa key="text"/>
             </property>   
-            <property name="characterIndex" code="pIdx" type="integer" access="r" description="">
-                <cocoa key="scriptedCharacterOffset"/>
+            <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="">
+                <cocoa key="startCharacterIndex"/>
+            </property>
+            <property name="endCharacterIndex" code="pIdE" type="integer" access="r" description="">
+                <cocoa key="endCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
+
+         <class name="word" code="cwor"
+            description="This subdivides the text into words.">
+            <cocoa class="ScriptWord"/>
+        </class>       
+        
+        <class name="paragraph" code="cLIN"
+            description="This subdivides the text into lines.">
+            <cocoa class="ScriptLine"/>
+            <element type="character">
+                <cocoa key="characters"/>
+            </element>
+            <element type="word">
+                <cocoa key="words"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="text"/>
+            </property>   
+            <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="">
+                <cocoa key="startCharacterIndex"/>
+            </property>
+            <property name="endCharacterIndex" code="pIdE" type="integer" access="r" description="">
+                <cocoa key="endCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>
@@ -466,38 +433,27 @@
         <class name="rich text" plural="rich text" code="cTXT"
             description="Rich (styled) text">
             <cocoa class="TextStorage"/>
-           <element type="line">
+            <element type="insertion point">
+                <cocoa key="insertionPoints"/>
+            </element>
+            <element type="paragraph">
                 <cocoa key="lines"/>
             </element>
-<!--             <element type="character">
+            <element type="character">
                 <cocoa key="characters"/>
             </element>
             <element type="word">
-                <cocoa key="words"/>
+                 <cocoa key="words"/>
             </element>
-            <element type="attribute run">
-                <cocoa key="attributeRuns"/>
-            </element> -->
-            
-            <property name="characters" code="pTxt" type="text"
+            <property name="contents" code="pTxt" type="text"
                 description="The text.">
                 <cocoa key="text"/>
-            </property>           
-            <property name="color" code="colr" type="color"
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
             </property>
-            <property name="font" code="font" type="text"
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
+            <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="">
+                <cocoa key="startCharacterIndex"/>
             </property>
-            <property name="size" code="ptsz" type="integer"
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-
-            <property name="characterIndex" code="pIdx" type="integer" access="r" description="">
-                <cocoa key="scriptedCharacterOffset"/>
+            <property name="endCharacterIndex" code="pIdE" type="integer" access="r" description="">
+                <cocoa key="endCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>
@@ -576,7 +532,69 @@
             <synonym name="open url"/>
             <direct-parameter type="specifier" description="The URL to open."/>
         </command>
-        
+ 		
+        <command name="select" code="HdraSlct" description="Select an object.">
+          <direct-parameter type="specifier" description="the object for the command"/>
+        </command>
+
+        <class name="selection-object" code="csel" description="A way to refer to the state of the current of the selection.  Use the &quot;select&quot; command to make a new selection.">
+            <cocoa class="ScriptTextSelection"/>
+            <element type="paragraph">
+                <cocoa key="lines"/>
+            </element>
+            <element type="character">
+                <cocoa key="characters"/>
+            </element>
+            <element type="word">
+                 <cocoa key="words"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="text"/>
+            </property>
+            <property name="startCharacterIndex" code="pIdS" type="integer" description="">
+                <cocoa key="startCharacterIndex"/>
+            </property>
+            <property name="endCharacterIndex" code="pIdE" type="integer" description="">
+                <cocoa key="endCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
+
+        <class name="insertion point" code="cins" description="location between two characters">
+            <cocoa class="ScriptInsertionPoint"/>
+            <element type="paragraph">
+                <cocoa key="lines"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="text"/>
+            </property>
+            <property name="startCharacterIndex" code="pIdS" type="integer" description="">
+                <cocoa key="startCharacterIndex"/>
+            </property>
+            <property name="endCharacterIndex" code="pIdE" type="integer" description="">
+                <cocoa key="endCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
+
         <class name="mode" code="Mode" description="A mode">
             <cocoa class="DocumentMode"/>
             <property name="name" code="pnam" type="text" access="r" description="The mode's name.">

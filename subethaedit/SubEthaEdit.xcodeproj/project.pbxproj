@@ -248,6 +248,8 @@
 		1483397809FEB1F500C638D6 /* NSRangeSpecifierTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1483397609FEB1F500C638D6 /* NSRangeSpecifierTCMAdditions.m */; };
 		14E290E90A06DBC7007C0065 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		14E291C70A07A501007C0065 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
+		14E291E90A07B480007C0065 /* ScriptCharacters.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14E291E70A07B480007C0065 /* ScriptCharacters.h */; };
+		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
@@ -401,6 +403,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
+				14E291E90A07B480007C0065 /* ScriptCharacters.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -778,6 +781,8 @@
 		14E290E70A06DB8A007C0065 /* SubEthaEdit-Panther.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = "SubEthaEdit-Panther.sdef"; sourceTree = "<group>"; };
 		14E291C40A07A501007C0065 /* ScriptLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptLine.h; sourceTree = "<group>"; };
 		14E291C50A07A501007C0065 /* ScriptLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptLine.m; sourceTree = "<group>"; };
+		14E291E70A07B480007C0065 /* ScriptCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptCharacters.h; sourceTree = "<group>"; };
+		14E291E80A07B480007C0065 /* ScriptCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptCharacters.m; sourceTree = "<group>"; };
 		14F1601F096C288100402129 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/License.nib; sourceTree = "<group>"; };
 		14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "OgreKit (Universal Binary).xcodeproj"; path = "OgreKit/OgreKit (Universal Binary).xcodeproj"; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1139,6 +1144,8 @@
 				1428945509575B9700D14688 /* PopUpButtonCell.m */,
 				1428945609575B9700D14688 /* RadarScroller.h */,
 				1428945709575B9700D14688 /* RadarScroller.m */,
+				14E291E70A07B480007C0065 /* ScriptCharacters.h */,
+				14E291E80A07B480007C0065 /* ScriptCharacters.m */,
 				14E291C40A07A501007C0065 /* ScriptLine.h */,
 				14E291C50A07A501007C0065 /* ScriptLine.m */,
 				1428945809575B9700D14688 /* SplitView.h */,
@@ -1948,6 +1955,7 @@
 				5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */,
 				5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */,
 				14E291C70A07A501007C0065 /* ScriptLine.m in Sources */,
+				14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
