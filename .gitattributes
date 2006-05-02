@@ -1033,6 +1033,10 @@ subethaedit/SESendProc.h -text
 subethaedit/SESendProc.m -text
 subethaedit/SaturationToColorValueTransformer.h -text
 subethaedit/SaturationToColorValueTransformer.m -text
+subethaedit/ScriptCharacters.h -text
+subethaedit/ScriptCharacters.m -text
+subethaedit/ScriptLine.h -text
+subethaedit/ScriptLine.m -text
 subethaedit/ScriptWrapper.h -text
 subethaedit/ScriptWrapper.m -text
 subethaedit/Scripts/Check[!!-~]Syntax.scpt -text
