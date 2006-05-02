@@ -68,11 +68,13 @@ static FindReplaceController *sharedInstance=nil;
         [O_findComboBox reloadData];
         [O_replaceComboBox reloadData];
         [O_findPanel setDelegate:self];
-        //[O_ReplaceFindButton setKeyEquivalent:@"y"];
-        //[O_ReplaceFindButton setKeyEquivalentModifierMask:NSControlKeyMask|NSCommandKeyMask];
+        // It seems buttons can't have keyEquivalent with ctrl in it.
+        //[O_ReplaceFindButton setKeyEquivalent:@"g"];
+        //[O_ReplaceFindButton setKeyEquivalentModifierMask:(NSCommandKeyMask | NSControlKeyMask)];
     }
     return O_findPanel;
 }
+
 
 - (NSPanel *)gotoPanel {
     if (!O_findPanel) [self loadUI];
@@ -105,12 +107,7 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
-    SEL selector=[anItem action];
-    if (selector==@selector(orderFrontTabWidthPanel:) || 
-        selector==@selector(orderFrontGotoPanel:)) {
-        return [[[[self textViewToSearchIn] window] windowController] document]!=nil;
-    }
-    return YES;
+    return [[[[self textViewToSearchIn] window] windowController] document]!=nil;
 }
 
 - (IBAction)chooseTabWidth:(id)aSender {
