@@ -4844,13 +4844,15 @@ static NSString *S_measurementUnits;
     return nil;
 }
 
-- (NSTextStorage *)text {
-    return I_textStorage;
+- (TextStorage *)contents {
+    NSLog(@"%s", __FUNCTION__);
+    return (TextStorage *)I_textStorage;
 }
 
-- (void)setText:(NSString *)aString {
-    if ([aString isKindOfClass:[NSString class]]) {
-        [self replaceTextInRange:NSMakeRange(0, [I_textStorage length]) withString:aString];
+- (void)setContents:(id)value {
+    NSLog(@"%s: %@", __FUNCTION__, value);
+    if ([value isKindOfClass:[NSString class]]) {
+        [self replaceTextInRange:NSMakeRange(0, [I_textStorage length]) withString:value];
     }
 }
 
@@ -4873,6 +4875,7 @@ static NSString *S_measurementUnits;
 }
 
 - (id)coerceValueForText:(id)value {
+    NSLog(@"%s: %d", __FUNCTION__, value);
     // We want to just get Strings unchanged.  We will detect this and do the right thing in setTextStorage().  We do this because, this way, we will do more reasonable things about attributes when we are receiving plain text.
     if ([value isKindOfClass:[NSString class]]) {
         return value;

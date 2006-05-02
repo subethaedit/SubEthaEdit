@@ -998,8 +998,9 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     [[textStorage delegate] replaceTextInRange:NSMakeRange([[self scriptedCharacterOffset] intValue] - 1, [[self scriptedLength] intValue]) withString:value];
 }
 
-- (id)contents
+- (NSString *)text
 {
+    NSLog(@"%s", __FUNCTION__);
     return [self string];
 }
 
@@ -1053,40 +1054,18 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (id)objectSpecifier
 {
-    if (I_containerTextStorage) {
-        NSRange range;
-        range.location = [[self scriptedCharacterOffset] intValue] - 1;
-        range.length = [[self scriptedLength] intValue];
-        NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[TextStorage class]];
-        NSScriptObjectSpecifier *containerSpecifier = [I_containerTextStorage objectSpecifier];
-        NSIndexSpecifier *startSpecifier = [[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
-                                                                                    containerSpecifier:nil
-                                                                                                   key:@"characters"
-                                                                                                 index:range.location];
-        [startSpecifier setContainerIsRangeContainerObject:YES];
+    NSLog(@"%s", __FUNCTION__);
+    
+    NSScriptClassDescription *containerClassDesc = 
+        (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];
+    
+    NSScriptObjectSpecifier *containerSpecifier = [[self delegate] objectSpecifier];
+    NSPropertySpecifier *propertySpecifier = 
+        [[[NSPropertySpecifier alloc] initWithContainerClassDescription:containerClassDesc
+                                                     containerSpecifier:containerSpecifier
+                                                                    key:@"contents"] autorelease];
 
-        NSIndexSpecifier *endSpecifier = [[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
-                                                                                  containerSpecifier:nil
-                                                                                                 key:@"characters"
-                                                                                               index:NSMaxRange(range) - 1];
-
-        [endSpecifier setContainerIsRangeContainerObject:YES];
-        NSRangeSpecifier *rangeSpecifier = [[NSRangeSpecifier alloc] initWithContainerClassDescription:containerClassDesc
-                                                                                    containerSpecifier:containerSpecifier
-                                                                                                   key:@"characters"
-                                                                                        startSpecifier:[startSpecifier autorelease]
-                                                                                          endSpecifier:[endSpecifier autorelease]];   
-
-        return rangeSpecifier;
-    } else {
-        NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];
-        NSScriptObjectSpecifier *containerSpecifier = [[self delegate] objectSpecifier];
-        NSPropertySpecifier *propertySpecifier = [[NSPropertySpecifier alloc] initWithContainerClassDescription:containerClassDesc
-                                                                                             containerSpecifier:containerSpecifier
-                                                                                                            key:@"text"];
-
-        return propertySpecifier;
-    }
+    return propertySpecifier;
 }
 
 - (void)replaceValueAtIndex:(unsigned)index inPropertyWithKey:(NSString *)key withValue:(id)value

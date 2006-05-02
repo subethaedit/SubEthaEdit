@@ -20,7 +20,7 @@ enum {
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
-       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation;
+       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TextStorage;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;
@@ -333,8 +333,8 @@ typedef enum {
 - (AccessOptions)accessOption;
 - (void)setAccessOption:(AccessOptions)option;
 - (NSString *)announcementURL;
-- (NSTextStorage *)text;
-- (void)setText:(NSString *)aString;
+- (TextStorage *)contents;
+- (void)setContents:(id)value;
 - (id)selection;
 - (void)setSelection:(id)selection;
 

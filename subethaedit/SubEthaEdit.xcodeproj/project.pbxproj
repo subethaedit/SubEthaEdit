@@ -222,8 +222,6 @@
 		1428946B09575B9700D14688 /* TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945D09575B9700D14688 /* TextView.m */; };
 		1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945F09575B9700D14688 /* URLDataProtocol.m */; };
 		1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* WebPreviewWindowController.m */; };
-		1428948009575E0500D14688 /* SubEthaEditSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */; };
-		1428948109575E0500D14688 /* SubEthaEditSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */; };
 		1428949209575EF500D14688 /* GeneralPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1428949009575EF500D14688 /* GeneralPrefs.nib */; };
 		142894A409575FF200D14688 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894A309575FF200D14688 /* TextFieldCell.m */; };
 		142894AF0957609300D14688 /* MoreCFQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 14289109095744C100D14688 /* MoreCFQ.c */; };
@@ -248,7 +246,6 @@
 		144DF1E909ABAD1F00AF8CFB /* TextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 144DF1E709ABAD1F00AF8CFB /* TextSelection.m */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		1483397809FEB1F500C638D6 /* NSRangeSpecifierTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1483397609FEB1F500C638D6 /* NSRangeSpecifierTCMAdditions.m */; };
-		14C1C87709BDEBFC00A27D3F /* SubEthaEdit-PantherScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 1428947D09575E0500D14688 /* SubEthaEdit-PantherScripting.r */; };
 		14E290E90A06DBC7007C0065 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
@@ -1729,8 +1726,6 @@
 				1428922C0957523300D14688 /* DebugPresence.nib in Resources */,
 				1428922F0957523300D14688 /* DebugUsers.nib in Resources */,
 				142893DA0957599F00D14688 /* Preferences.nib in Resources */,
-				1428948009575E0500D14688 /* SubEthaEditSuite.scriptSuite in Resources */,
-				1428948109575E0500D14688 /* SubEthaEditSuite.scriptTerminology in Resources */,
 				14289572095776DE00D14688 /* see.1 in Resources */,
 				142895040957692100D14688 /* SymbolWarn.tiff in Resources */,
 				14F16020096C288100402129 /* License.nib in Resources */,
@@ -1751,7 +1746,6 @@
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14C1C87709BDEBFC00A27D3F /* SubEthaEdit-PantherScripting.r in Rez */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1774,7 +1768,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit-Panther.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
+			shellScript = "exit 0\n\necho \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit-Panther.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
 		};
 		142898130958165400D14688 /* Run Script (Deployment) */ = {
 			isa = PBXShellScriptBuildPhase;

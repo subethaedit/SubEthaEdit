@@ -92,6 +92,7 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 @interface TextStorage (TextStorageScriptingAdditions)
 
 - (id)initWithContainerTextStorage:(TextStorage *)textStorage range:(NSRange)range;
+- (NSString *)text;
 - (id)insertionPoints;
 - (NSNumber *)scriptedLength;
 - (NSNumber *)scriptedCharacterOffset;
