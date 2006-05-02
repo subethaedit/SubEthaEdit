@@ -14,6 +14,8 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "GeneralPreferences.h"
 #import "TextSelection.h"
+#import "ScriptLine.h"
+
 
 NSString * const BlockeditAttributeName =@"Blockedit";
 NSString * const BlockeditAttributeValue=@"YES";
@@ -946,24 +948,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return [words autorelease];
 }
 
-- (id)valueInParagraphsAtIndex:(unsigned)index
-{
-    NSRange lineRange = [self findLine:index + 1];
-    TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:lineRange];
-    return [subTextStorage autorelease];
-}
-
-- (TextStorage *)characters
-{
-    return self;
-//    NSMutableArray *characters = [[NSMutableArray alloc] init];
-//    unsigned i;
-//    unsigned length = [self length];
-//    for (i = 0; i < length; i++) {
-//        [characters addObject:[self valueInCharactersAtIndex:i]];
-//    }
-//    return [characters autorelease];
-}
 
 - (id)valueInCharactersAtIndex:(unsigned)index
 {
@@ -972,36 +956,36 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return [subTextStorage autorelease];
 }
 
-- (NSArray *)paragraphs
+- (NSArray *)lines
 {
-    NSMutableArray *paragraphs = [[NSMutableArray alloc] init];
-    NSString *string = [self string];
-    unsigned startIndex, lineEndIndex, contentsEndIndex;
-    unsigned length = [string length];
-    unsigned curPos = 0;
-
-    while (curPos < length) {
-        [string getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(curPos, 0)];
-        TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:NSMakeRange(startIndex, lineEndIndex - startIndex)];
-        [paragraphs addObject:subTextStorage];
-        [subTextStorage release];
-        curPos = lineEndIndex;
+    NSLog(@"%s", __FUNCTION__);
+    int lineCount = 1;
+    if ([self length]>0) {
+        lineCount = [self lineNumberForLocation:[self length]-1];
     }
-    return [paragraphs autorelease];
+    NSMutableArray *lines = [NSMutableArray array];
+    int lineNumber = 1;
+    for (lineNumber=1;lineNumber<=lineCount;lineNumber++) {
+        [lines addObject:[ScriptLine scriptLineWithTextStorage:self lineNumber:lineNumber]];
+    }
+    return lines;
 }
- 
-- (void)setContents:(id)value
+
+- (id)valueInLinesAtIndex:(unsigned)index
 {
-    TextStorage *textStorage = self;
-    if (I_containerTextStorage)
-        textStorage = I_containerTextStorage;
-    [[textStorage delegate] replaceTextInRange:NSMakeRange([[self scriptedCharacterOffset] intValue] - 1, [[self scriptedLength] intValue]) withString:value];
+    NSLog(@"%s: %d", __FUNCTION__, index);
+    return [ScriptLine scriptLineWithTextStorage:self lineNumber:index+1];
 }
 
 - (NSString *)text
 {
     NSLog(@"%s", __FUNCTION__);
     return [self string];
+}
+
+- (void)setText:(id)value {
+    NSLog(@"%s: %d", __FUNCTION__, value);
+    [[self delegate] replaceTextInRange:NSMakeRange(0,[self length]) withString:value];
 }
 
 - (id)insertionPoints
@@ -1011,45 +995,29 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (NSNumber *)scriptedLength
 {
-    if (I_containerTextStorage) {
-        return [NSNumber numberWithInt:I_scriptingProperties.length];
-    } else {
-        return [NSNumber numberWithInt:[self length]];
-    }
+    return [NSNumber numberWithInt:[self length]];
 }
 
 - (NSNumber *)scriptedCharacterOffset
 {
-    if (I_containerTextStorage) {
-        return [NSNumber numberWithInt:I_scriptingProperties.characterOffset];
-    } else {
-        return [NSNumber numberWithInt:1];
-    }
+    return [NSNumber numberWithInt:1];
 }
 
 - (NSNumber *)scriptedStartLine
 {
-    if (I_containerTextStorage) {
-        return [NSNumber numberWithInt:I_scriptingProperties.startLine];
-    } else {
-        return [NSNumber numberWithInt:1];
-    }
+    return [NSNumber numberWithInt:1];
 }
 
 - (NSNumber *)scriptedEndLine
 {
-    if (I_containerTextStorage) {
-        return [NSNumber numberWithInt:I_scriptingProperties.endLine];
+    int lineNumber;
+    int length = [self length];
+    if (length > 0) {
+        lineNumber = [self lineNumberForLocation:length - 1];
     } else {
-        int lineNumber;
-        int length = [self length];
-        if (length > 0) {
-            lineNumber = [self lineNumberForLocation:length - 1];
-        } else {
-            lineNumber = 1;
-        }
-        return [NSNumber numberWithInt:lineNumber];
+        lineNumber = 1;
     }
+    return [NSNumber numberWithInt:lineNumber];
 }
 
 - (id)objectSpecifier
@@ -1068,6 +1036,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return propertySpecifier;
 }
 
+/*
 - (void)replaceValueAtIndex:(unsigned)index inPropertyWithKey:(NSString *)key withValue:(id)value
 {
     if ([key isEqual:@"characters"]) {
@@ -1093,5 +1062,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         [[textStorage delegate] replaceTextInRange:NSMakeRange([[paragraph scriptedCharacterOffset] intValue] - 1, [[paragraph scriptedLength] intValue]) withString:value];
     }
 }
+*/
 
 @end

@@ -383,27 +383,6 @@
             <element type="attribute run"/>
         </class>
 
-        <class name="line" code="cLIN"
-            description="This subdivides the text into lines.">
-            <cocoa class="ScriptLine"/>
-            <property name="color" code="colr" type="color"
-                description="The color of the first character.">
-                <cocoa key="foregroundColor"/>
-            </property>
-            <property name="font" code="font" type="text"
-                description="The name of the font of the first character.">
-                <cocoa key="fontName"/>
-            </property>
-            <property name="size" code="ptsz" type="integer"
-                description="The size in points of the first character.">
-                <cocoa key="fontSize"/>
-            </property>
-            <element type="character"/>
-            <element type="line"/>
-            <element type="word"/>
-            <element type="attribute run"/>
-        </class>
-
         <class name="word" code="cwor"
             description="This subdivides the text into words.">
             <cocoa class="ScriptWord"/>
@@ -446,13 +425,51 @@
             <element type="attribute run"/>
         </class>
 -->
+        <class name="line" code="cLIN"
+            description="This subdivides the text into lines.">
+            <cocoa class="ScriptLine"/>
+            <property name="color" code="colr" type="color"
+                description="The color of the first character.">
+                <cocoa key="foregroundColor"/>
+            </property>
+            <property name="font" code="font" type="text"
+                description="The name of the font of the first character.">
+                <cocoa key="fontName"/>
+            </property>
+            <property name="size" code="ptsz" type="integer"
+                description="The size in points of the first character.">
+                <cocoa key="fontSize"/>
+            </property>
+        <!--    <element type="character"/>
+            <element type="word"/>
+            <element type="attribute run"/> -->
+            
+            <property name="characters" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="text"/>
+            </property>   
+            <property name="characterIndex" code="pIdx" type="integer" access="r" description="">
+                <cocoa key="scriptedCharacterOffset"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+            
+        </class>
+
         <class name="rich text" plural="rich text" code="cTXT"
             description="Rich (styled) text">
             <cocoa class="TextStorage"/>
-<!--            <element type="line">
+           <element type="line">
                 <cocoa key="lines"/>
             </element>
-            <element type="character">
+<!--             <element type="character">
                 <cocoa key="characters"/>
             </element>
             <element type="word">
