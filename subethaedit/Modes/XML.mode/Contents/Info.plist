@@ -39,6 +39,8 @@ http://www.codingmonkeys.de</string>
 	   <string>RDF</string>
 	   <string>SEESTYLE</string>
 	   <string>SDEF</string>
+	   <string>scriptSuite</string>
+	   <string>scriptTerminology</string>
 	</array>
 </dict>
 </plist>
