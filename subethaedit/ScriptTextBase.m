@@ -7,6 +7,8 @@
 //
 
 #import "ScriptTextBase.h"
+#import "TextStorage.h"
+#import "PlainTextDocument.h"
 
 
 @implementation ScriptTextBase
