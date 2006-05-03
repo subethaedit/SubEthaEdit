@@ -54,30 +54,42 @@ NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
     OSAID resultID  = kOSANullScript;
     OSAID contextID = kOSANullScript;
     OSAID scriptID  = [I_appleScript _compiledScriptID];
-    ComponentInstance component = [NSAppleScript _defaultScriptingComponent];
+    ComponentInstance component = OpenDefaultComponent( kOSAComponentType, typeAppleScript );
     SESendProc   *sp=[[SESendProc   alloc] initWithComponent:component];
     SEActiveProc *ap=[[SEActiveProc alloc] initWithComponent:component];
-    OSStatus err = OSAExecute(component,scriptID,contextID,kOSAModeNull,&resultID);
-    AEDesc resultData;
-    AECreateDesc(typeNull, NULL,0,&resultData);
-    if (err==errOSAScriptError) {
-        NSMutableDictionary *errorDict=[NSMutableDictionary dictionary];
-        OSAScriptError(component,kOSAErrorMessage,typeChar,&resultData);
-        NSAppleEventDescriptor *errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
-        [errorDict setObject:[errorDescriptor stringValue] forKey:@"NSAppleScriptErrorMessage"];
-        [errorDescriptor release];
-        OSAScriptError(component,kOSAErrorNumber,typeChar,&resultData);
-        errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
-        [errorDict setObject:[NSNumber numberWithInt:[errorDescriptor int32Value]] forKey:@"NSAppleScriptErrorNumber"];
-        [errorDescriptor release];
-        OSAScriptError(component,kOSAErrorBriefMessage,typeChar,&resultData);
-        errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
-        [errorDict setObject:[errorDescriptor stringValue] forKey:@"NSAppleScriptErrorBriefMessage"];
-        [errorDescriptor release];
-        *errorDictionary = errorDict;
+    FSRef fsRef;
+    
+    if (!CFURLGetFSRef((CFURLRef)I_URL, &fsRef)) {
+        NSBeep();
+        NSLog(@"mist, fsref ging nicht");
     }
-    [ap release];
-    [sp release];
+    OSStatus err = noErr;
+    err = OSALoadFile(component,&fsRef,NULL,NULL,&scriptID);
+    if (err==noErr) {
+        err = OSAExecute(component,scriptID,contextID,kOSAModeNull,&resultID);
+        AEDesc resultData;
+        AECreateDesc(typeNull, NULL,0,&resultData);
+        if (err==errOSAScriptError) {
+            NSMutableDictionary *errorDict=[NSMutableDictionary dictionary];
+            OSAScriptError(component,kOSAErrorMessage,typeChar,&resultData);
+            NSAppleEventDescriptor *errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
+            [errorDict setObject:[errorDescriptor stringValue] forKey:@"NSAppleScriptErrorMessage"];
+            [errorDescriptor release];
+            OSAScriptError(component,kOSAErrorNumber,typeChar,&resultData);
+            errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
+            [errorDict setObject:[NSNumber numberWithInt:[errorDescriptor int32Value]] forKey:@"NSAppleScriptErrorNumber"];
+            [errorDescriptor release];
+            OSAScriptError(component,kOSAErrorBriefMessage,typeChar,&resultData);
+            errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
+            [errorDict setObject:[errorDescriptor stringValue] forKey:@"NSAppleScriptErrorBriefMessage"];
+            [errorDescriptor release];
+            *errorDictionary = errorDict;
+        }
+        [ap release];
+        [sp release];
+    } else {
+        NSLog(@"OSALoadFile did fail");
+    }
 }
 
 - (NSDictionary *)settingsDictionary {

@@ -15,3 +15,8 @@ FOUNDATION_STATIC_INLINE BOOL TouchingRanges(NSRange range1, NSRange range2) {
     return (range1.location <= NSMaxRange(range2)
             && NSMaxRange(range1) >= range2.location);
 }
+
+FOUNDATION_STATIC_INLINE int EndCharacterIndex(NSRange aRange) {
+    if (aRange.length==0) return aRange.location;
+    return NSMaxRange(aRange)-1;
+}

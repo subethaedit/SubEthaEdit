@@ -237,10 +237,10 @@
 
         <class name="document" code="docu" description="A document.">
             <cocoa class="PlainTextDocument"/>
-            <contents name="contents" code="pcnt" type="rich text" description="A rich text object containing all the document's text.">
+            <contents name="plain text" code="pcnt" type="plain text" description="A plain text object containing all the document's text.">
                 <cocoa key="contents"/>
             </contents>
-            <property name="rich text" code="cTXT" type="rich text" description="">
+            <property name="plain text" code="cTXT" type="plain text" description="">
                 <cocoa key="contents"/>
             </property>
             <property name="name" code="pnam" type="text" access="r"
@@ -373,15 +373,18 @@
         <class name="character" code="cha "
             description="This subdivides the text into characters.">
             <cocoa class="ScriptCharacters"/>
+            <contents name="contents" code="pcnt" type="text" description="The text of the charcter.">
+                <cocoa key="scriptedContents"/>
+            </contents>
             <property name="contents" code="pTxt" type="text"
                 description="The text.">
-                <cocoa key="text"/>
+                <cocoa key="scriptedContents"/>
             </property>   
             <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="">
-                <cocoa key="startCharacterIndex"/>
+                <cocoa key="scriptedStartCharacterIndex"/>
             </property>
             <property name="endCharacterIndex" code="pIdE" type="integer" access="r" description="">
-                <cocoa key="endCharacterIndex"/>
+                <cocoa key="scriptedEndCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>
@@ -402,6 +405,9 @@
         <class name="paragraph" code="cLIN"
             description="This subdivides the text into lines.">
             <cocoa class="ScriptLine"/>
+            <contents name="contents" code="pcnt" type="text" description="The text contained in the line.">
+                <cocoa key="scriptedContents"/>
+            </contents>
             <element type="character">
                 <cocoa key="characters"/>
             </element>
@@ -410,13 +416,13 @@
             </element>
             <property name="contents" code="pTxt" type="text"
                 description="The text.">
-                <cocoa key="text"/>
+                <cocoa key="scriptedContents"/>
             </property>   
             <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="">
-                <cocoa key="startCharacterIndex"/>
+                <cocoa key="scriptedStartCharacterIndex"/>
             </property>
             <property name="endCharacterIndex" code="pIdE" type="integer" access="r" description="">
-                <cocoa key="endCharacterIndex"/>
+                <cocoa key="scriptedEndCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>
@@ -430,9 +436,12 @@
             
         </class>
 
-        <class name="rich text" plural="rich text" code="cTXT"
-            description="Rich (styled) text">
+        <class name="plain text" plural="plain text" code="cTXT"
+            description="Plain (styled) text">
             <cocoa class="TextStorage"/>
+            <contents name="contents" code="pcnt" type="text" description="The text contained in the plain text.">
+                <cocoa key="scriptedContents"/>
+            </contents>
             <element type="insertion point">
                 <cocoa key="insertionPoints"/>
             </element>
@@ -447,13 +456,13 @@
             </element>
             <property name="contents" code="pTxt" type="text"
                 description="The text.">
-                <cocoa key="text"/>
+                <cocoa key="scriptedContents"/>
             </property>
             <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="">
-                <cocoa key="startCharacterIndex"/>
+                <cocoa key="scriptedStartCharacterIndex"/>
             </property>
             <property name="endCharacterIndex" code="pIdE" type="integer" access="r" description="">
-                <cocoa key="endCharacterIndex"/>
+                <cocoa key="scriptedEndCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>
@@ -539,6 +548,9 @@
 
         <class name="selection-object" code="csel" description="A way to refer to the state of the current of the selection.  Use the &quot;select&quot; command to make a new selection.">
             <cocoa class="ScriptTextSelection"/>
+            <contents name="contents" code="pcnt" type="text" description="The text contained in the selection.">
+                <cocoa key="scriptedContents"/>
+            </contents>
             <element type="paragraph">
                 <cocoa key="lines"/>
             </element>
@@ -550,13 +562,13 @@
             </element>
             <property name="contents" code="pTxt" type="text"
                 description="The text.">
-                <cocoa key="text"/>
+                <cocoa key="scriptedContents"/>
             </property>
             <property name="startCharacterIndex" code="pIdS" type="integer" description="">
-                <cocoa key="startCharacterIndex"/>
+                <cocoa key="scriptedStartCharacterIndex"/>
             </property>
             <property name="endCharacterIndex" code="pIdE" type="integer" description="">
-                <cocoa key="endCharacterIndex"/>
+                <cocoa key="scriptedEndCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>
@@ -571,18 +583,21 @@
 
         <class name="insertion point" code="cins" description="location between two characters">
             <cocoa class="ScriptInsertionPoint"/>
+            <contents name="contents" code="pcnt" type="text" description="The text contained in the selection.">
+                <cocoa key="scriptedContents"/>
+            </contents>
             <element type="paragraph">
                 <cocoa key="lines"/>
             </element>
             <property name="contents" code="pTxt" type="text"
                 description="The text.">
-                <cocoa key="text"/>
+                <cocoa key="scriptedContents"/>
             </property>
             <property name="startCharacterIndex" code="pIdS" type="integer" description="">
-                <cocoa key="startCharacterIndex"/>
+                <cocoa key="scriptedStartCharacterIndex"/>
             </property>
             <property name="endCharacterIndex" code="pIdE" type="integer" description="">
-                <cocoa key="endCharacterIndex"/>
+                <cocoa key="scriptedEndCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>

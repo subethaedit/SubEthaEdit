@@ -335,8 +335,8 @@ typedef enum {
 - (NSString *)announcementURL;
 - (TextStorage *)contents;
 - (void)setContents:(id)value;
-- (id)selection;
-- (void)setSelection:(id)selection;
+- (id)scriptSelection;
+- (void)setScriptSelection:(id)selection;
 
 // Deprecated, but needed for compatibility with see tool.
 - (NSString *)mode;

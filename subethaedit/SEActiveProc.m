@@ -73,6 +73,7 @@ SUCH DAMAGE.
 
 OSAError ActiveProc(long refCon)
 {
+    printf("ActiveProc\n");
 	OSAError error = noErr;
 	
 	NSEvent *event;

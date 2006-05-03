@@ -574,6 +574,8 @@ subethaedit/NSSavePanelTCMAdditions.h -text
 subethaedit/NSSavePanelTCMAdditions.m -text
 subethaedit/NSStringSEEAdditions.h -text
 subethaedit/NSStringSEEAdditions.m -text
+subethaedit/NSWindowScriptingAdditions.h -text
+subethaedit/NSWindowScriptingAdditions.m -text
 subethaedit/ODBEditorSuite.h -text
 subethaedit/OgreKit/BuildOniguruma.sh -text
 subethaedit/OgreKit/FindPanel/Controllers/OgreAFPCEscapeCharacterFormatter.h -text
@@ -1037,6 +1039,10 @@ subethaedit/ScriptCharacters.h -text
 subethaedit/ScriptCharacters.m -text
 subethaedit/ScriptLine.h -text
 subethaedit/ScriptLine.m -text
+subethaedit/ScriptTextBase.h -text
+subethaedit/ScriptTextBase.m -text
+subethaedit/ScriptTextSelection.h -text
+subethaedit/ScriptTextSelection.m -text
 subethaedit/ScriptWrapper.h -text
 subethaedit/ScriptWrapper.m -text
 subethaedit/Scripts/Check[!!-~]Syntax.scpt -text
@@ -1155,8 +1161,6 @@ subethaedit/TextFieldCell.h -text
 subethaedit/TextFieldCell.m -text
 subethaedit/TextOperation.h -text
 subethaedit/TextOperation.m -text
-subethaedit/TextSelection.h -text
-subethaedit/TextSelection.m -text
 subethaedit/TextStorage.h -text
 subethaedit/TextStorage.m -text
 subethaedit/TextView.h -text

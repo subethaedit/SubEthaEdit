@@ -10,7 +10,7 @@
 #import "DocumentController.h"
 #import "DocumentMode.h"
 #import "DocumentModeManager.h"
-#import "TextSelection.h"
+#import "ScriptTextSelection.h"
 #import "TextStorage.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
@@ -30,27 +30,21 @@
     return [[DocumentController sharedInstance] handleSeeScriptCommand:command];
 }
 
-- (id)selection {
-    NSArray *orderedWindows = [NSApp orderedWindows];
-    if ([orderedWindows count] > 0) {
-        NSWindow *window = [orderedWindows objectAtIndex:0];
-        PlainTextWindowController *windowController = [window windowController];
-        
-        PlainTextDocument *document = [windowController document];
-        return [document selection];
+- (id)scriptSelection {
+    NSArray *orderedDocuments = [NSApp orderedDocuments];
+    if ([orderedDocuments count] > 0) {
+        PlainTextDocument *document = [orderedDocuments objectAtIndex:0];
+        return [document scriptSelection];
     }
 
     return nil;
 }
 
-- (void)setSelection:(id)selection {
-    NSArray *orderedWindows = [NSApp orderedWindows];
-    if ([orderedWindows count] > 0) {
-        NSWindow *window = [orderedWindows objectAtIndex:0];
-        PlainTextWindowController *windowController = [window windowController];
-        
-        PlainTextDocument *document = [windowController document];
-        [document setSelection:selection];
+- (void)setScriptSelection:(id)aSelection {
+    NSArray *orderedDocuments = [NSApp orderedDocuments];
+    if ([orderedDocuments count] > 0) {
+        PlainTextDocument *document = [orderedDocuments objectAtIndex:0];
+        return [document setScriptSelection:aSelection];
     }
 }
 

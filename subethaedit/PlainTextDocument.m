@@ -45,7 +45,7 @@
 #import <sys/stat.h>
 #import <string.h>
 
-#import "TextSelection.h"
+#import "ScriptTextSelection.h"
 #import "NSMenuTCMAdditions.h"
 
 #pragma options align=mac68k
@@ -4884,32 +4884,15 @@ static NSString *S_measurementUnits;
     }
 }
 
-
-- (id)selection {
-    PlainTextWindowController *windowController = [self topmostWindowController];
-    
-    if ([self isProxyDocument]) {
-        return nil;
-    }
-    
-    PlainTextEditor *editor = [windowController activePlainTextEditor];
-    return [TextSelection selectionForEditor:editor];
+- (id)scriptSelection {
+    if ([self isProxyDocument]) return nil;
+    return [[[self topmostWindowController] activePlainTextEditor] scriptSelection];
 }
 
-- (void)setSelection:(id)selection {
-    if (![selection isKindOfClass:[NSArray class]] || [selection count] != 2 || [self isProxyDocument]) 
-        return;
-        
-    int startIndex = [[selection objectAtIndex:0] intValue];
-    int endIndex = [[selection objectAtIndex:1] intValue];
-    
-    PlainTextWindowController *windowController = [self topmostWindowController];
-    PlainTextEditor *editor = [windowController activePlainTextEditor];
-    NSTextView *textView = [editor textView];
-    unsigned length = [[textView textStorage] length];
-    
-    if (startIndex > 0 && startIndex <= length && endIndex >= startIndex && endIndex <= length)
-        [textView setSelectedRange:NSMakeRange(startIndex - 1, endIndex - startIndex + 1)];
+- (void)setScriptSelection:(id)aSelection {
+    if ([self isProxyDocument]) return;
+    [[[self topmostWindowController] activePlainTextEditor] setScriptSelection:aSelection];
 }
+
 
 @end

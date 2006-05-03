@@ -15,8 +15,8 @@
 - (id)TCM_handlePrintScriptCommand:(NSScriptCommand *)command;
 - (id)TCM_handleSeeScriptCommand:(NSScriptCommand *)command;
 
-- (id)selection;
-- (void)setSelection:(id)selection;
+- (id)scriptSelection;
+- (void)setScriptSelection:(id)selection;
 - (NSArray *)scriptedModes;
 
 @end

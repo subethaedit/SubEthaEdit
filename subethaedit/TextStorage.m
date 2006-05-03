@@ -13,7 +13,7 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "GeneralPreferences.h"
-#import "TextSelection.h"
+#import "ScriptTextSelection.h"
 #import "ScriptLine.h"
 #import "ScriptCharacters.h"
 
@@ -818,26 +818,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 @implementation TextStorage (TextStorageScriptingAdditions)
 
-- (id)initWithContainerTextStorage:(TextStorage *)textStorage range:(NSRange)range
-{
-    self = [super init];
-    if (self) {
-        [self TCM_initHelper];
-        I_containerTextStorage = textStorage;
-        [I_contents release];
-        I_contents = [[textStorage attributedSubstringFromRange:range] mutableCopy];
-        I_scriptingProperties.length = range.length;
-        if (textStorage != nil)
-            I_scriptingProperties.characterOffset = [[textStorage scriptedCharacterOffset] intValue] - 1 + range.location + 1;
-        else
-            I_scriptingProperties.characterOffset = range.location + 1;
-        I_scriptingProperties.startLine = [textStorage lineNumberForLocation:range.location];
-        I_scriptingProperties.endLine = [textStorage lineNumberForLocation:NSMaxRange(range)];
-
-    }
-    return self;
-}
-
 /*
 - (void)insertValue:(id)value atIndex:(unsigned)index inPropertyWithKey:(NSString *)key
 {
@@ -987,20 +967,26 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return [ScriptLine scriptLineWithTextStorage:self lineNumber:index+1];
 }
 
-- (NSString *)text
+- (NSString *)scriptedContents
 {
     NSLog(@"%s", __FUNCTION__);
     return [self string];
 }
 
-- (void)setText:(id)value {
+- (void)setScriptedContents:(id)value {
     NSLog(@"%s: %d", __FUNCTION__, value);
     [[self delegate] replaceTextInRange:NSMakeRange(0,[self length]) withString:value];
 }
 
 - (id)insertionPoints
 {
-    return [TextSelection selectionForEditor:[[[self delegate] topmostWindowController] activePlainTextEditor]];
+    NSMutableArray *resultArray=[NSMutableArray new];
+    int index=0;
+    int length=[self length];
+    for (index=0;index<=length;index++) {
+        [resultArray addObject:[ScriptTextSelection insertionPointWithTextStorage:self index:index]];
+    }
+    return resultArray;
 }
 
 - (NSNumber *)scriptedLength
@@ -1008,10 +994,16 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return [NSNumber numberWithInt:[self length]];
 }
 
-- (NSNumber *)scriptedCharacterOffset
+- (NSNumber *)scriptedStartCharacterIndex
 {
     return [NSNumber numberWithInt:1];
 }
+
+- (NSNumber *)scriptedEndCharacterIndex
+{
+    return [NSNumber numberWithInt:EndCharacterIndex(NSMakeRange(0,[self length]))];
+}
+
 
 - (NSNumber *)scriptedStartLine
 {

@@ -29,8 +29,7 @@
 
 - (id)initWithTextStorage:(TextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange
 {
-    if ((self = [super init])) {
-        I_textStorage = [aTextStorage retain];
+    if ((self = [super initWithTextStorage:aTextStorage])) {
         I_characterRange = aCharacterRange;
     }
     return self;
@@ -38,42 +37,11 @@
 
 - (void)dealloc
 {
-    [I_textStorage release];
     [super dealloc];
 }
 
-- (NSRange)saveRange {
+- (NSRange)rangeRepresentation {
     return NSIntersectionRange(NSMakeRange(0,[I_textStorage length]),I_characterRange);
-}
-
-- (NSNumber *)scriptedLength
-{
-    return [NSNumber numberWithInt:I_characterRange.length];
-}
-
-- (NSNumber *)scriptedCharacterOffset
-{
-    return [NSNumber numberWithInt:I_characterRange.location + 1];
-}
-
-- (NSNumber *)scriptedStartLine
-{
-    return [NSNumber numberWithInt:[I_textStorage lineNumberForLocation:I_characterRange.location]];
-}
-
-- (NSNumber *)scriptedEndLine
-{
-    return [NSNumber numberWithInt:[I_textStorage lineNumberForLocation:NSMaxRange(I_characterRange)-1]];
-}
-
-- (NSString *)text
-{
-    return [[I_textStorage string] substringWithRange:[self saveRange]];
-}
-
-- (void)setText:(id)value {
-    NSLog(@"%s: %d", __FUNCTION__, value);
-    [[I_textStorage delegate] replaceTextInRange:[self saveRange] withString:value];
 }
 
 - (id)objectSpecifier

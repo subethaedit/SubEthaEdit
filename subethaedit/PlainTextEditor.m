@@ -31,6 +31,7 @@
 #import "InsetTextFieldCell.h"
 #import <OgreKit/OgreKit.h>
 #import "SyntaxDefinition.h"
+#import "ScriptTextSelection.h"
 
 @interface NSTextView (PrivateAdditions)
 - (BOOL)_isUnmarking;
@@ -1525,3 +1526,27 @@
 }
 
 @end
+
+
+@implementation PlainTextEditor (PlainTextEditorScriptingAdditions)
+- (id)scriptSelection {
+    return [ScriptTextSelection scriptTextSelectionWithTextStorage:(TextStorage *)[[self textView] textStorage] editor:self];
+}
+
+- (void)setScriptSelection:(id)selection {
+    // TODO: coerce value first! Accept more things. of course also an Insertion Point
+    if (![selection isKindOfClass:[NSArray class]] || [selection count] != 2) {
+        return;
+    }
+    int startIndex = [[selection objectAtIndex:0] intValue];
+    int endIndex = [[selection objectAtIndex:1] intValue];
+    
+    NSTextView *textView = [self textView];
+    unsigned length = [[textView textStorage] length];
+    
+    if (startIndex > 0 && startIndex <= length && endIndex >= startIndex && endIndex <= length)
+        [textView setSelectedRange:NSMakeRange(startIndex - 1, endIndex - startIndex + 1)];
+}
+
+@end
+

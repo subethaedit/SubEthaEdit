@@ -18,8 +18,7 @@
 
 - (id)initWithTextStorage:(TextStorage *)aTextStorage lineNumber:(int)aLineNumber
 {
-    if ((self = [super init])) {
-        I_textStorage = [aTextStorage retain];
+    if ((self = [super initWithTextStorage:aTextStorage])) {
         I_lineNumber = aLineNumber;
     }
     return self;
@@ -27,47 +26,16 @@
 
 - (void)dealloc
 {
-    [I_textStorage release];
     [super dealloc];
 }
 
-- (NSNumber *)scriptedLength
-{
-    return [NSNumber numberWithInt:[self lineRangeWithoutLineFeed].length];
-}
-
-- (NSNumber *)scriptedCharacterOffset
-{
-    return [NSNumber numberWithInt:[self lineRangeWithoutLineFeed].location];
-}
-
-- (NSNumber *)scriptedStartLine
-{
-    return [NSNumber numberWithInt:I_lineNumber];
-}
-
-- (NSNumber *)scriptedEndLine
-{
-    return [NSNumber numberWithInt:I_lineNumber];
-}
-
-- (NSRange)lineRangeWithoutLineFeed
+- (NSRange)rangeRepresentation
 {
     unsigned startIndex;
     unsigned lineEndIndex;
     unsigned contentsEndIndex;
     [[I_textStorage string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:[I_textStorage findLine:I_lineNumber]];
     return NSMakeRange(startIndex, contentsEndIndex - startIndex);
-}
-
-- (NSString *)text
-{
-    return [[I_textStorage string] substringWithRange:[self lineRangeWithoutLineFeed]];
-}
-
-- (void)setText:(id)value {
-    NSLog(@"%s: %d", __FUNCTION__, value);
-    [[I_textStorage delegate] replaceTextInRange:[self lineRangeWithoutLineFeed] withString:value];
 }
 
 - (id)objectSpecifier

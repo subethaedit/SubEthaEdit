@@ -7,23 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ScriptTextBase.h"
 
 @class TextStorage;
 
-@interface ScriptLine : NSObject{
-    TextStorage *I_textStorage;
+@interface ScriptLine : ScriptTextBase {
+    TextStorage *I_textStorage; // geerbt
     int I_lineNumber;
 }
 
 + (id)scriptLineWithTextStorage:(TextStorage *)aTextStorage lineNumber:(int)aLineNumber;
 - (id)initWithTextStorage:(TextStorage *)aTextStorage lineNumber:(int)aLineNumber;
-
-- (NSRange)lineRangeWithoutLineFeed;
-- (NSNumber *)scriptedLength;
-- (NSNumber *)scriptedCharacterOffset;
-- (NSNumber *)scriptedStartLine;
-- (NSNumber *)scriptedEndLine;
-- (NSString *)text;
-- (void)setText:(id)value;
 
 @end

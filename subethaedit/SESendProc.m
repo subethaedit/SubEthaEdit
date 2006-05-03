@@ -79,6 +79,7 @@ static AEFilterUPP _SEFilterProc = NULL;
 
 BOOL IdleProc(EventRecord *theEvent, long *sleepTime, RgnHandle *mouseRgn)
 {
+    printf("IdleProc\n");
 	BOOL result = NO;
 		
 	// Check for command period
@@ -121,6 +122,7 @@ BOOL IdleProc(EventRecord *theEvent, long *sleepTime, RgnHandle *mouseRgn)
 
 BOOL FilterProc(EventRecord *theEvent, long returnID, long transactionID, const AEAddressDesc *sender)
 {
+    printf("FilterProc\n");
 	return YES;
 }
 
@@ -131,6 +133,7 @@ BOOL FilterProc(EventRecord *theEvent, long returnID, long transactionID, const 
 
 OSAError SendProc(const AppleEvent* event, AppleEvent *result, AESendMode sendMode, AESendPriority sendPriority, long timeOutInTicks, AEIdleUPP idleProc, AEFilterUPP filterProc, long refCon)
 {
+    printf("SendProc\n");
 	OSAError error = noErr;
 	
 	if (_SEIdleProc == NULL)

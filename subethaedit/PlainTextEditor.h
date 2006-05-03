@@ -81,3 +81,8 @@
 - (IBAction)jumpToPreviousChange:(id)aSender;
 
 @end
+
+@interface PlainTextEditor (PlainTextEditorScriptingAdditions)
+- (id)scriptSelection;
+- (void)setScriptSelection:(id)selection;
+@end

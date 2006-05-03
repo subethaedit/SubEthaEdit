@@ -25,7 +25,6 @@
 - (id)objectsByEvaluatingWithContainers:(id)containers
 {
     NSLog(@"%s", __FUNCTION__);
-    /*
     if ([[self key] isEqual:@"characters"]) {
         int numRefs;
         int *indices = [self indicesOfObjectsByEvaluatingWithContainer:containers count:&numRefs];
@@ -36,7 +35,6 @@
             return [subTextStorage autorelease];
         }
     }
-    */
     
     return [super objectsByEvaluatingWithContainers:containers];
 }
