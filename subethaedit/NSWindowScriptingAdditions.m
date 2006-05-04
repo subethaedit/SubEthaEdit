@@ -8,6 +8,7 @@
 
 #import "NSWindowScriptingAdditions.h"
 #import "PlainTextWindowController.h"
+#import "PlainTextEditor.h"
 
 @implementation NSWindow (NSWindowScriptingAdditions)
 - (id)scriptSelection {

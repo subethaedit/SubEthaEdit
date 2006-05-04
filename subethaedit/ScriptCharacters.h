@@ -12,7 +12,6 @@
 @class TextStorage;
 
 @interface ScriptCharacters : ScriptTextBase {
-    TextStorage *I_textStorage;
     NSRange      I_characterRange;
 }
 

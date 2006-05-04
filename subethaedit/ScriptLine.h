@@ -12,7 +12,6 @@
 @class TextStorage;
 
 @interface ScriptLine : ScriptTextBase {
-    TextStorage *I_textStorage; // geerbt
     int I_lineNumber;
 }
 
