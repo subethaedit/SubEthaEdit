@@ -13,16 +13,6 @@
 
 @implementation ScriptCharacters
 
-+ (void)initialize {
-    NSLog(@"%s", __FUNCTION__);
-    [[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:self selector:@selector(coerceString:toClass:) toConvertFromClass:[NSString class] toClass:[NSArray class]];
-}
-
-+ (id)coerceString:(NSString *)aString toClass:(Class)aClass {
-    NSLog(@"%s", __FUNCTION__);
-    return [NSArray arrayWithObject:aString];
-}
-
 + (id)scriptCharactersWithTextStorage:(TextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange {
     return [[[ScriptCharacters alloc] initWithTextStorage:aTextStorage characterRange:aCharacterRange] autorelease];
 }

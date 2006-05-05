@@ -33,11 +33,11 @@
 }
 
 - (NSNumber *)scriptedStartCharacterIndex {
-    return [NSNumber numberWithInt:[self rangeRepresentation].location];
+    return [NSNumber numberWithInt:[self rangeRepresentation].location +1];
 }
 
 - (NSNumber *)scriptedEndCharacterIndex {
-    return [NSNumber numberWithInt:EndCharacterIndex([self rangeRepresentation])];
+    return [NSNumber numberWithInt:((int)NSMaxRange([self rangeRepresentation]))-1 +1];
 }
 
 - (NSNumber *)scriptedStartLine {

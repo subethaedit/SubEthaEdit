@@ -50,6 +50,64 @@
     }
 }
 
+- (void)setScriptedStartCharacterIndex:(id)aValue {
+    NSLog(@"%s: %@", __FUNCTION__, aValue);
+    if (I_editor && [aValue isKindOfClass:[NSNumber class]]) {
+        NSTextView *textView = [I_editor textView];
+        NSRange range = [textView selectedRange];
+        int newValue = ((int)[aValue intValue])-1;
+        if (newValue>[I_textStorage length]) {
+            newValue=[I_textStorage length];
+            [textView setSelectedRange:NSMakeRange(newValue,0)];
+        } else {
+            if (newValue<0) newValue = 0;
+            if (NSMaxRange(range)<=newValue) {
+                [textView setSelectedRange:NSMakeRange(newValue,0)];
+            } else {
+                int positionChange = (int)newValue - range.location;
+                range.length -= positionChange;
+                range.location = newValue;
+                [textView setSelectedRange:range];
+            }
+        }
+    }
+}
+
+- (void)setScriptedEndCharacterIndex:(id)aValue {
+    NSLog(@"%s: %@", __FUNCTION__, aValue);
+    if (I_editor && [aValue isKindOfClass:[NSNumber class]]) {
+        NSTextView *textView = [I_editor textView];
+        NSRange range = [textView selectedRange];
+        int newValue = ((int)[aValue intValue])-1;
+        if (newValue<0) {
+            [textView setSelectedRange:NSMakeRange(0,0)];
+        } else if (newValue>=(int)[I_textStorage length]) {
+            range.length = [I_textStorage length]-range.location;
+            [textView setSelectedRange:range];
+        } else {
+            if (newValue < range.location) {
+                [textView setSelectedRange:NSMakeRange(newValue+1,0)];
+            } else {
+                range.length = newValue+1-range.location;
+                [textView setSelectedRange:range];
+            }
+        }
+    }
+}
+
+- (void)setScriptedLength:(id)aValue {
+    NSLog(@"%s: %@", __FUNCTION__, aValue);
+    if (I_editor && [aValue isKindOfClass:[NSNumber class]]) {
+        NSTextView *textView = [I_editor textView];
+        NSRange range = [textView selectedRange];
+        range.length = [aValue intValue];
+        if (NSMaxRange(range)>[I_textStorage length]) {
+            range.length -= NSMaxRange(range)-[I_textStorage length];
+        }
+        [textView setSelectedRange:range];
+    }
+}
+
 - (void)setScriptedContents:(id)value {
     NSLog(@"%s: %d", __FUNCTION__, value);
     NSRange range=[self rangeRepresentation];

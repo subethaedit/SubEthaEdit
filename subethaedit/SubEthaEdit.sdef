@@ -570,7 +570,7 @@
             <property name="endCharacterIndex" code="pIdE" type="integer" description="">
                 <cocoa key="scriptedEndCharacterIndex"/>
             </property>
-            <property name="length" code="leng" type="integer" access="r" description="">
+            <property name="length" code="leng" type="integer" description="">
                 <cocoa key="scriptedLength"/>
             </property>
             <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
