@@ -246,8 +246,8 @@
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		14E290E90A06DBC7007C0065 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		14E291C70A07A501007C0065 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
-		14E291E90A07B480007C0065 /* ScriptCharacters.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14E291E70A07B480007C0065 /* ScriptCharacters.h */; };
 		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
+		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; };
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
@@ -266,11 +266,8 @@
 		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
 		5E6AEEE309FE7C5700276D7C /* ToolbarIconColorChooser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */; };
 		5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA1258809E2B4190055965D /* ScriptWrapper.m */; };
-		5EDD2FFF0A08D71D0036E63A /* ScriptTextSelection.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5EDD2FFD0A08D71D0036E63A /* ScriptTextSelection.h */; };
 		5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */; };
-		5EDD300F0A091BD60036E63A /* NSWindowScriptingAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5EDD300D0A091BD60036E63A /* NSWindowScriptingAdditions.h */; };
 		5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */; };
-		5EDD304E0A092AA50036E63A /* ScriptTextBase.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5EDD304C0A092AA50036E63A /* ScriptTextBase.h */; };
 		5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
@@ -407,10 +404,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
-				14E291E90A07B480007C0065 /* ScriptCharacters.h in Copy Files (Frameworks) */,
-				5EDD2FFF0A08D71D0036E63A /* ScriptTextSelection.h in Copy Files (Frameworks) */,
-				5EDD300F0A091BD60036E63A /* NSWindowScriptingAdditions.h in Copy Files (Frameworks) */,
-				5EDD304E0A092AA50036E63A /* ScriptTextBase.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -786,6 +779,8 @@
 		14E291C50A07A501007C0065 /* ScriptLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptLine.m; sourceTree = "<group>"; };
 		14E291E70A07B480007C0065 /* ScriptCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptCharacters.h; sourceTree = "<group>"; };
 		14E291E80A07B480007C0065 /* ScriptCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptCharacters.m; sourceTree = "<group>"; };
+		14E2944E0A0CBFB0007C0065 /* SelectCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCommand.h; sourceTree = "<group>"; };
+		14E2944F0A0CBFB0007C0065 /* SelectCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCommand.m; sourceTree = "<group>"; };
 		14F1601F096C288100402129 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/License.nib; sourceTree = "<group>"; };
 		14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "OgreKit (Universal Binary).xcodeproj"; path = "OgreKit/OgreKit (Universal Binary).xcodeproj"; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1369,8 +1364,6 @@
 				142893E109575A3000D14688 /* EncodingManager.m */,
 				142893E209575A3000D14688 /* FindReplaceController.h */,
 				142893E309575A3000D14688 /* FindReplaceController.m */,
-				142893E409575A3000D14688 /* GetURLCommand.h */,
-				142893E509575A3000D14688 /* GetURLCommand.m */,
 				142893E609575A3000D14688 /* InternetBrowserController.h */,
 				142893E709575A3000D14688 /* InternetBrowserController.m */,
 				142893F009575A3000D14688 /* LicenseController.h */,
@@ -1456,6 +1449,8 @@
 		5EDD2FFC0A08D69F0036E63A /* Scripting */ = {
 			isa = PBXGroup;
 			children = (
+				142893E409575A3000D14688 /* GetURLCommand.h */,
+				142893E509575A3000D14688 /* GetURLCommand.m */,
 				142893E809575A3000D14688 /* NSApplicationTCMAdditions.h */,
 				142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */,
 				5EDD300D0A091BD60036E63A /* NSWindowScriptingAdditions.h */,
@@ -1474,6 +1469,8 @@
 				5E0F6AE40A039283003D2813 /* SEActiveProc.m */,
 				5EDD304C0A092AA50036E63A /* ScriptTextBase.h */,
 				5EDD304D0A092AA50036E63A /* ScriptTextBase.m */,
+				14E2944E0A0CBFB0007C0065 /* SelectCommand.h */,
+				14E2944F0A0CBFB0007C0065 /* SelectCommand.m */,
 			);
 			name = Scripting;
 			sourceTree = "<group>";
@@ -1976,6 +1973,7 @@
 				5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */,
 				5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */,
 				5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */,
+				14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

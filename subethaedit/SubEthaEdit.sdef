@@ -543,7 +543,8 @@
         </command>
  		
         <command name="select" code="HdraSlct" description="Select an object.">
-          <direct-parameter type="specifier" description="the object for the command"/>
+            <cocoa class="SelectCommand"/>
+            <direct-parameter type="specifier" description="the object for the command"/>
         </command>
 
         <class name="selection-object" code="csel" description="A way to refer to the state of the current of the selection.  Use the &quot;select&quot; command to make a new selection.">

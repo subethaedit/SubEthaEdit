@@ -1048,6 +1048,8 @@ subethaedit/ScriptWrapper.m -text
 subethaedit/Scripts/Check[!!-~]Syntax.scpt -text
 subethaedit/Scripts/Open[!!-~]Terminal[!!-~]Here.scpt -text
 subethaedit/Scripts/Save[!!-~]front[!!-~]document.scpt -text
+subethaedit/SelectCommand.h -text
+subethaedit/SelectCommand.m -text
 subethaedit/SelectionOperation.h -text
 subethaedit/SelectionOperation.m -text
 subethaedit/SessionProfile.h -text
