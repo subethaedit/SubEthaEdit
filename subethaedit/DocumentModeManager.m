@@ -196,9 +196,14 @@
                         filenames = [[modeSettings recognizedFilenames] objectEnumerator];
                         regexes = [[modeSettings recognizedRegexes] objectEnumerator];
                     } else {
-					    extensions = [[[bundle infoDictionary] objectForKey:@"TCMModeExtensions"] objectEnumerator];
-					    filenames = [[[bundle infoDictionary] objectForKey:@"TCMModeFilenames"] objectEnumerator];
-					    regexes = [[[bundle infoDictionary] objectForKey:@"TCMModeRegex"] objectEnumerator];
+                        CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)[bundle bundlePath], kCFURLPOSIXPathStyle, 1);
+                        CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
+                        NSDictionary *infoDictionary = (NSDictionary *) infodict;
+					    extensions = [[infoDictionary objectForKey:@"TCMModeExtensions"] objectEnumerator];
+					    filenames = [[infoDictionary objectForKey:@"TCMModeFilenames"] objectEnumerator];
+					    regexes = [[infoDictionary objectForKey:@"TCMModeRegex"] objectEnumerator];
+                        CFRelease(url);
+                        CFRelease(infodict);
                     }
                     
 					NSString *extension = nil;

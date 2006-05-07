@@ -466,8 +466,15 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 - (NSArray *)recognizedExtensions {
     if (I_modeSettings) {
         return [I_modeSettings recognizedExtensions];
-    } 
-    return [[I_bundle infoDictionary] objectForKey:@"TCMModeExtensions"];
+    } else {
+        CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)[I_bundle bundlePath], kCFURLPOSIXPathStyle, 1);
+        CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
+        NSDictionary *infoDictionary = (NSDictionary *) infodict;
+        NSArray *returnArray = [[[infoDictionary objectForKey:@"TCMModeExtensions"] copy] autorelease];
+        CFRelease(url);
+        CFRelease(infodict);
+        return returnArray;
+    }
 }
 
 - (ModeSettings *)modeSettings {
