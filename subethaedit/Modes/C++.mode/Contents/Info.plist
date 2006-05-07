@@ -19,23 +19,5 @@ http://www.codingmonkeys.de</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>cpp</string>
-	   <string>c++</string>
-	   <string>cp</string>
-	   <string>cxx</string>
-	   <string>hxx</string>
-	   <string>hpp</string>
-	   <string>C</string>
-	   <string>cc</string>
-	   <string>CPP</string>
-	   <string>C++</string>
-	   <string>CP</string>
-	   <string>CXX</string>
-	   <string>HXX</string>
-	   <string>HPP</string>
-	   <string>CC</string>
-	</array>
 </dict>
 </plist>

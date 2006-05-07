@@ -19,12 +19,5 @@ http://www.codingmonkeys.de</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>notes</string>
-	   <string>NOTES</string>
-	</array>
-	<key>TCMModeNewFileTemplate</key>
-	<string>notes_template.notes</string>
 </dict>
 </plist>

@@ -8,6 +8,7 @@
 
 #import "DocumentMode.h"
 #import "DocumentModeManager.h"
+#import "ModeSettings.h"
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
 #import "SyntaxStyle.h"
@@ -125,6 +126,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     if (self) {
         I_autocompleteDictionary = [NSMutableArray new];
         I_bundle = [aBundle retain];
+
+        I_modeSettings = [[ModeSettings alloc] initWithFile:[aBundle pathForResource:@"ModeSettings" ofType:@"xml"]];
+
         I_syntaxDefinition = [[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"] forMode:self];
         
         RegexSymbolDefinition *symDef = [[[RegexSymbolDefinition alloc] initWithFile:[aBundle pathForResource:@"RegexSymbols" ofType:@"xml"] forMode:self] autorelease];
@@ -460,9 +464,15 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (NSArray *)recognizedExtensions {
+    if (I_modeSettings) {
+        return [I_modeSettings recognizedExtensions];
+    } 
     return [[I_bundle infoDictionary] objectForKey:@"TCMModeExtensions"];
 }
 
+- (ModeSettings *)modeSettings {
+    return I_modeSettings;
+}
 
 - (SyntaxDefinition *)syntaxDefinition {
     return I_syntaxDefinition;
@@ -481,7 +491,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (NSString *)newFileContent {
-    NSString *templateFilename=[[I_bundle infoDictionary] objectForKey:@"TCMModeNewFileTemplate"];
+    NSString *templateFilename;
+    if (I_modeSettings) {
+        templateFilename=[I_modeSettings templateFile];
+    } else {
+        templateFilename=[[I_bundle infoDictionary] objectForKey:@"TCMModeNewFileTemplate"];
+    }
+
     if (templateFilename) {
         NSString *templatePath=[I_bundle pathForResource:templateFilename ofType:nil];
         if (templatePath) {

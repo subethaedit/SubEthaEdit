@@ -19,21 +19,5 @@ http://www.codingmonkeys.de</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>py</string>
-	   <string>pw</string>
-	   <string>pyw</string>
-	   <string>python</string>
-	   <string>PY</string>
-	   <string>PW</string>
-	   <string>PYW</string>
-	   <string>PYTHON</string>
-	</array>
-	<key>TCMModeRegex</key>
-	<array>
-	   <string>\A#!/usr/bin/python</string>
-	   <string>\A#!/usr/bin/env python</string>
-	</array>
 </dict>
 </plist>

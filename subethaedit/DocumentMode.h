@@ -59,6 +59,7 @@ extern NSString * const DocumentModeApplyEditPreferencesNotification;
 extern NSString * const DocumentModeApplyStylePreferencesNotification;
 
 
+@class ModeSettings;
 @class SyntaxHighlighter;
 @class SyntaxDefinition;
 @class RegexSymbolParser;
@@ -66,6 +67,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 
 @interface DocumentMode : NSObject {
     NSBundle *I_bundle;
+    ModeSettings *I_modeSettings;
     SyntaxDefinition *I_syntaxDefinition;
     SyntaxHighlighter *I_syntaxHighlighter;
     RegexSymbolParser *I_symbolParser;
@@ -82,6 +84,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 
 - (id)initWithBundle:(NSBundle *)aBundle;
 
+- (ModeSettings *)modeSettings;
 - (SyntaxHighlighter *)syntaxHighlighter;
 - (SyntaxDefinition *)syntaxDefinition;
 - (RegexSymbolParser *)symbolParser;

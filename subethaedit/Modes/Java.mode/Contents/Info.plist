@@ -19,10 +19,5 @@ http://www.codingmonkeys.de</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>java</string>
-	   <string>JAVA</string>
-	</array>
 </dict>
 </plist>

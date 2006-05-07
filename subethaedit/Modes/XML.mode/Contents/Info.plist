@@ -19,28 +19,5 @@ http://www.codingmonkeys.de</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>xml</string>
-	   <string>xslt</string>
-	   <string>xsl</string>
-	   <string>xsd</string>
-	   <string>plist</string>
-	   <string>rss</string>
-	   <string>rdf</string>
-	   <string>seestyle</string>
-	   <string>sdef</string>
-	   <string>XML</string>
-	   <string>XSLT</string>
-	   <string>XSL</string>
-	   <string>XSD</string>
-	   <string>PLIST</string>
-	   <string>RSS</string>
-	   <string>RDF</string>
-	   <string>SEESTYLE</string>
-	   <string>SDEF</string>
-	   <string>scriptSuite</string>
-	   <string>scriptTerminology</string>
-	</array>
 </dict>
 </plist>

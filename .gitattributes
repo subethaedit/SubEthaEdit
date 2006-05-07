@@ -347,12 +347,15 @@ subethaedit/LayoutManager.h -text
 subethaedit/LayoutManager.m -text
 subethaedit/LicenseController.h -text
 subethaedit/LicenseController.m -text
+subethaedit/ModeSettings.h -text
+subethaedit/ModeSettings.m -text
 subethaedit/Modes/ActionScript.mode/Contents/Info.plist -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/ActionScript.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/ActionScript.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/AppleScript.mode/Contents/Info.plist -text
@@ -360,6 +363,7 @@ subethaedit/Modes/AppleScript.mode/Contents/Resources/English.lproj/InfoPlist.st
 subethaedit/Modes/AppleScript.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/AppleScript.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/AppleScript.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/AppleScript.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/AppleScript.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/AppleScript.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Base.mode/Contents/Info.plist -text
@@ -374,6 +378,7 @@ subethaedit/Modes/C++.mode/Contents/Resources/English.lproj/InfoPlist.strings -t
 subethaedit/Modes/C++.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/C++.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/C++.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/C++.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/C++.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/C++.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/C.mode/Contents/Info.plist -text
@@ -383,6 +388,7 @@ subethaedit/Modes/C.mode/Contents/Resources/English.lproj/InfoPlist.strings -tex
 subethaedit/Modes/C.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/C.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/C.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/C.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/C.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/C.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/CSS.mode/Contents/Info.plist -text
@@ -391,6 +397,7 @@ subethaedit/Modes/CSS.mode/Contents/Resources/English.lproj/InfoPlist.strings -t
 subethaedit/Modes/CSS.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/CSS.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/CSS.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/CSS.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/CSS.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/CSS.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/CSS.mode/Contents/Resources/SymbolID.png -text
@@ -401,6 +408,7 @@ subethaedit/Modes/Conference.mode/Contents/Resources/English.lproj/InfoPlist.str
 subethaedit/Modes/Conference.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Conference.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Conference.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/Conference.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Conference.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Conference.mode/Contents/Resources/SymbolH.png -text
 subethaedit/Modes/Conference.mode/Contents/Resources/SyntaxDefinition.xml -text
@@ -409,6 +417,7 @@ subethaedit/Modes/Diff.mode/Contents/Info.plist -text
 subethaedit/Modes/Diff.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/Diff.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/Diff.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
+subethaedit/Modes/Diff.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Diff.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Diff.mode/Contents/Resources/SymbolID.png -text
 subethaedit/Modes/Diff.mode/Contents/Resources/SyntaxDefinition.xml -text
@@ -419,6 +428,7 @@ subethaedit/Modes/HTML.mode/Contents/Resources/English.lproj/InfoPlist.strings -
 subethaedit/Modes/HTML.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/HTML.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/HTML.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/HTML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/HTML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/SymbolD.png -text
@@ -431,6 +441,7 @@ subethaedit/Modes/Java.mode/Contents/Resources/English.lproj/InfoPlist.strings -
 subethaedit/Modes/Java.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Java.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Java.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/Java.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Java.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Java.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Javascript.mode/Contents/Info.plist -text
@@ -440,6 +451,7 @@ subethaedit/Modes/Javascript.mode/Contents/Resources/English.lproj/InfoPlist.str
 subethaedit/Modes/Javascript.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/Javascript.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/LaTeX.mode/Contents/Info.plist -text
@@ -449,6 +461,7 @@ subethaedit/Modes/LaTeX.mode/Contents/Resources/English.lproj/InfoPlist.strings 
 subethaedit/Modes/LaTeX.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Lua.mode/Contents/Info.plist -text
@@ -457,6 +470,7 @@ subethaedit/Modes/Lua.mode/Contents/Resources/English.lproj/InfoPlist.strings -t
 subethaedit/Modes/Lua.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Lua.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Lua.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/Lua.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Lua.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Lua.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Info.plist -text
@@ -466,6 +480,7 @@ subethaedit/Modes/Objective-C.mode/Contents/Resources/English.lproj/InfoPlist.st
 subethaedit/Modes/Objective-C.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/Objective-C.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Compile.scpt -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]AppKiDo.scpt -text
@@ -480,6 +495,7 @@ subethaedit/Modes/PHP-HTML.mode/Contents/Resources/English.lproj/InfoPlist.strin
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Check[!!-~]Syntax.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
@@ -492,6 +508,7 @@ subethaedit/Modes/Pascal.mode/Contents/Resources/English.lproj/InfoPlist.strings
 subethaedit/Modes/Pascal.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Pascal.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Pascal.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/Pascal.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Pascal.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Pascal.mode/Contents/Resources/SymbolD.png -text
 subethaedit/Modes/Pascal.mode/Contents/Resources/SymbolO.png -text
@@ -502,6 +519,7 @@ subethaedit/Modes/Perl.mode/Contents/Resources/English.lproj/InfoPlist.strings -
 subethaedit/Modes/Perl.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Perl.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Perl.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/Perl.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Perl.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Perl.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Python.mode/Contents/Info.plist -text
@@ -510,6 +528,7 @@ subethaedit/Modes/Python.mode/Contents/Resources/English.lproj/InfoPlist.strings
 subethaedit/Modes/Python.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Python.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Python.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/Python.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Python.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Python.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Ruby.mode/Contents/Info.plist -text
@@ -519,6 +538,7 @@ subethaedit/Modes/Ruby.mode/Contents/Resources/English.lproj/InfoPlist.strings -
 subethaedit/Modes/Ruby.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/Ruby.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/README.txt -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/Symbol!.png -text
@@ -530,6 +550,7 @@ subethaedit/Modes/SQL.mode/Contents/Resources/English.lproj/InfoPlist.strings -t
 subethaedit/Modes/SQL.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/SQL.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/SQL.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/SQL.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/SQL.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/SQL.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/XML.mode/Contents/Info.plist -text
@@ -538,6 +559,7 @@ subethaedit/Modes/XML.mode/Contents/Resources/English.lproj/InfoPlist.strings -t
 subethaedit/Modes/XML.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/XML.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/XML.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/XML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/XML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/XML.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/XML.mode/Contents/Resources/SymbolID.png -text
@@ -547,6 +569,7 @@ subethaedit/Modes/bash.mode/Contents/Resources/English.lproj/InfoPlist.strings -
 subethaedit/Modes/bash.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/bash.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/bash.mode/Contents/Resources/German.lproj/Localizable.strings -text
+subethaedit/Modes/bash.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/bash.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/bash.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/MoreIsBetter/MoreCFQ.c -text

@@ -19,14 +19,5 @@ http://www.codingmonkeys.de</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>sql</string>
-	   <string>mysql</string>
-	   <string>postgresql</string>
-	   <string>SQL</string>
-	   <string>MYSQL</string>
-	   <string>POSTGRESQL</string>
-	</array>
 </dict>
 </plist>

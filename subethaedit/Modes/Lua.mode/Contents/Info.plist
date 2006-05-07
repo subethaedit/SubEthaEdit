@@ -19,15 +19,5 @@ http://www.codingmonkeys.de</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>lua</string>
-	   <string>LUA</string>
-	</array>
-	<key>TCMModeRegex</key>
-	<array>
-	   <string>\A#!/usr(/local)?/bin/lua</string>
-	   <string>\A#!/usr/bin/env lua</string>
-	</array>
 </dict>
 </plist>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "settings.dtd">
+<settings>
+    <recognition>
+        <extension>js</extension>
+        <extension>javascript</extension>
+        <extension>JS</extension>
+        <extension>JAVASCRIPT</extension>
+    </recognition>
+</settings>

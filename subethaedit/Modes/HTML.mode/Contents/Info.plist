@@ -19,18 +19,5 @@ http://www.codingmonkeys.de</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>html</string>
-	   <string>shtml</string>
-	   <string>htm</string>
-	   <string>xhtml</string>
-	   <string>shtm</string>
-	   <string>HTML</string>
-	   <string>SHTML</string>
-	   <string>HTM</string>
-	   <string>XHTML</string>
-	   <string>SHTM</string>
-	</array>
 </dict>
 </plist>

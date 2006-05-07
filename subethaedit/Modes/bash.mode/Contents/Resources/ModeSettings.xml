@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "settings.dtd">
+<settings>
+    <recognition>
+        <extension>sh</extension>
+        <extension>bash</extension>
+        <extension>bashrc</extension>
+        <extension>login</extension>
+        <filename>.bash_profile</filename>
+        <filename>.bashrc</filename>
+        <filename>configure</filename>
+        <regex>\A#!/bin/sh</regex>
+        <regex>\A#!/usr/bin/env sh</regex>
+        <regex>\A#!/usr/(bin/env )?bash</regex>
+    </recognition>
+</settings>

@@ -20,27 +20,5 @@ Based on the original Coding Monkey's code</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>rb</string>
-	   <string>ruby</string>
-	   <string>rbx</string>
-	   <string>rhtml</string>
-	   <string>rxml</string>
-	   <string>RB</string>
-	   <string>RUBY</string>
-	   <string>RBX</string>
-	   <string>RHTML</string>
-	   <string>RXML</string>
-	</array>
-	<key>TCMModeFilenames</key>
-	<array>
-	   <string>Rakefile</string>
-	</array>
-	<key>TCMModeRegex</key>
-	<array>
-	   <string>\A#!/usr/bin/ruby</string>
-	   <string>\A#!/usr/bin/env ruby</string>
-	</array>
 </dict>
 </plist>

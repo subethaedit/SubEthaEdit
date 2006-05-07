@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "settings.dtd">
+<settings>
+    <recognition>
+        <extension>perl</extension>
+        <extension>pl</extension>
+        <extension>pm</extension>
+        <extension>PL</extension>
+        <extension>PM</extension>
+        <extension>PERL</extension>
+        <regex>\A#!/usr/bin/(env )?perl</regex>
+    </recognition>
+</settings>

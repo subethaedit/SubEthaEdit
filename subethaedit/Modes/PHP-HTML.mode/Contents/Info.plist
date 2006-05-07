@@ -19,23 +19,5 @@
   <string>BNDL</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
-  <key>TCMModeExtensions</key>
-  <array>
-    <string>php</string>
-    <string>php3</string>
-    <string>php4</string>
-    <string>phtml</string>
-    <string>inc</string>
-    <string>PHP</string>
-    <string>PHP3</string>
-    <string>PHP4</string>
-    <string>PHTML</string>
-    <string>INC</string>
-  </array>
-	<key>TCMModeRegex</key>
-	<array>
-	   <string>\A#!/usr/bin/php</string>
-	   <string>\A#!/usr/bin/env php</string>
-	</array>
 </dict>
 </plist>

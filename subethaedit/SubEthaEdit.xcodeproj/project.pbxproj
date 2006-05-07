@@ -251,6 +251,8 @@
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
+		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
+		311717F50A0E8C3600A9DA18 /* ModeSettings.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 311717F30A0E8C3600A9DA18 /* ModeSettings.h */; };
 		5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE30A039283003D2813 /* SESendProc.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
 		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
@@ -404,6 +406,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
+				311717F50A0E8C3600A9DA18 /* ModeSettings.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -787,6 +790,8 @@
 		2A37F4B7FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		311717F20A0E8C3600A9DA18 /* ModeSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ModeSettings.m; sourceTree = "<group>"; };
+		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ModeSettings.h; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		5E0F6AE30A039283003D2813 /* SESendProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SESendProc.m; sourceTree = "<group>"; };
 		5E0F6AE40A039283003D2813 /* SEActiveProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEActiveProc.m; sourceTree = "<group>"; };
@@ -1167,6 +1172,8 @@
 				142893B60957594500D14688 /* DocumentMode.m */,
 				142893B70957594500D14688 /* DocumentModeManager.h */,
 				142893B80957594500D14688 /* DocumentModeManager.m */,
+				311717F20A0E8C3600A9DA18 /* ModeSettings.m */,
+				311717F30A0E8C3600A9DA18 /* ModeSettings.h */,
 				142893B90957594500D14688 /* RegexSymbolDefinition.h */,
 				142893BA0957594500D14688 /* RegexSymbolDefinition.m */,
 				142893BB0957594500D14688 /* RegexSymbolParser.h */,
@@ -1974,6 +1981,7 @@
 				5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */,
 				5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */,
 				14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */,
+				311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

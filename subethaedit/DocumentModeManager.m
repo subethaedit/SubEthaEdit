@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import "ModeSettings.h"
 #import "DocumentModeManager.h"
 #import "DocumentController.h"
 #import "PlainTextDocument.h"
@@ -188,19 +189,28 @@
             if ([[file pathExtension] isEqualToString:@"mode"]) {
                 NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]];
                 if (bundle && [bundle bundleIdentifier]) {
-					NSEnumerator *extensions = [[[bundle infoDictionary] objectForKey:@"TCMModeExtensions"] objectEnumerator];
+                    ModeSettings *modeSettings = [[ModeSettings alloc] initWithFile:[bundle pathForResource:@"ModeSettings" ofType:@"xml"]];
+                    NSEnumerator *extensions, *filenames, *regexes;
+                    if (modeSettings) {
+                        extensions = [[modeSettings recognizedExtensions] objectEnumerator];
+                        filenames = [[modeSettings recognizedFilenames] objectEnumerator];
+                        regexes = [[modeSettings recognizedRegexes] objectEnumerator];
+                    } else {
+					    extensions = [[[bundle infoDictionary] objectForKey:@"TCMModeExtensions"] objectEnumerator];
+					    filenames = [[[bundle infoDictionary] objectForKey:@"TCMModeFilenames"] objectEnumerator];
+					    regexes = [[[bundle infoDictionary] objectForKey:@"TCMModeRegex"] objectEnumerator];
+                    }
+                    
 					NSString *extension = nil;
 					while ((extension = [extensions nextObject])) {
 						[I_modeIdentifiersByExtension setObject:[bundle bundleIdentifier] forKey:extension];
 					}
 					
-					NSEnumerator *filenames = [[[bundle infoDictionary] objectForKey:@"TCMModeFilenames"] objectEnumerator];
 					NSString *filename = nil;
 					while ((filename = [filenames nextObject])) {
 						[I_modeIdentifiersByFilename setObject:[bundle bundleIdentifier] forKey:filename];
 					}
 					
-					NSEnumerator *regexes = [[[bundle infoDictionary] objectForKey:@"TCMModeRegex"] objectEnumerator];
 					NSString *regex = nil;
 					while ((regex = [regexes nextObject])) {
                         if ([OGRegularExpression isValidExpressionString:regex]) {

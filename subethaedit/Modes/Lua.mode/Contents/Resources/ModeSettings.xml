@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "settings.dtd">
+<settings>
+    <recognition>
+        <extension>lua</extension>
+        <extension>LUA</extension>
+        <regex>\A#!/usr(/local)?/bin/lua</regex>
+        <regex>\A#!/usr/bin/env lua</regex>
+    </recognition>
+</settings>

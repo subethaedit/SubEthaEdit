@@ -19,14 +19,5 @@ http://www.codingmonkeys.de</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>tex</string>
-	   <string>latex</string>
-	   <string>sty</string>
-	   <string>TEX</string>
-	   <string>LATEX</string>
-	   <string>STY</string>
-	</array>
 </dict>
 </plist>
