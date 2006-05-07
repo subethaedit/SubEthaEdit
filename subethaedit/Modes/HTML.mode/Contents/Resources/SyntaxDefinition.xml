@@ -431,12 +431,9 @@
 				<regex>(?&lt;=[^[A-Za-z0-9]]|^)((([0-9]+\.[0-9]*)|(\.[0-9]+)([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]))(([uU][lL]?)|([lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
             </keywords>
             
-            <keywords id="Javascript Characters" color="#00f" useforautocomplete="no">
-				<regex>('.')</regex>
-            </keywords>
-
             <keywords id="Javascript String" color="#1A1AA6" useforautocomplete="no">
-				<regex>("[^"]*")</regex>
+				<regex>('([^']|(\\'))*')</regex>
+				<regex>("([^"]|(\\"))*")</regex>
             </keywords>
 
             <keywords id="Javascript FunctionRegex" color="#003369" useforautocomplete="no">
