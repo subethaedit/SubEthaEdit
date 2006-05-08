@@ -66,4 +66,8 @@
     return [[DocumentModeManager sharedInstance] documentModeForIdentifier:uniqueID];
 }
 
+- (id)valueInScriptedModesWithName:(NSString *)name {
+    return [[DocumentModeManager sharedInstance] documentModeForName:name];
+}
+
 @end
