@@ -417,11 +417,6 @@
             </property>
         </class>
 
-         <class name="word" code="cwor"
-            description="This subdivides the text into words.">
-            <cocoa class="ScriptWord"/>
-        </class>       
-        
         <class name="paragraph" code="cLIN"
             description="This subdivides the text into lines.">
             <cocoa class="ScriptLine"/>
@@ -453,7 +448,12 @@
             <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
                 <cocoa key="scriptedEndLine"/>
             </property>
-            
+         </class>
+
+        <class name="word" code="cwor"
+          description="This subdivides the text into words.">
+          <cocoa class="NSTextStorage"/>
+          <type type="text"/>
         </class>
 
         <class name="plain text" plural="plain text" code="cTXT"

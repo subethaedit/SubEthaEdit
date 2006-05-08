@@ -28,6 +28,7 @@
 - (NSRange)rangeRepresentation {
     return NSMakeRange(0,NSNotFound);
 }
+
 - (NSNumber *)scriptedLength {
     return [NSNumber numberWithInt:[self rangeRepresentation].length];
 }
@@ -46,6 +47,14 @@
 
 - (NSNumber *)scriptedEndLine {
     return [NSNumber numberWithInt:[I_textStorage lineNumberForLocation:EndCharacterIndex([self rangeRepresentation])]];
+}
+
+- (NSArray *)words {
+    return [[[[NSTextStorage alloc] initWithAttributedString:[I_textStorage attributedSubstringFromRange:[self rangeRepresentation]]] autorelease] words];
+}
+
+- (void)setWords:(NSArray *)wordArray {
+    NSBeep();
 }
 
 - (id)scriptedContents
