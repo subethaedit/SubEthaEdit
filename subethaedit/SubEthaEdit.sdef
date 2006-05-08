@@ -22,6 +22,9 @@
                 object.  However, the Cocoa implementation does not do this yet.
             <result type="specifier"/>
             -->
+            <parameter name="with properties" code="prdt" type="open settings" optional="yes" description="the initial values for the properties, to be applied to the document when opening">
+                <cocoa key="WithProperties"/>
+            </parameter>	
         </command>
 
         <enumeration name="save options" code="savo">
