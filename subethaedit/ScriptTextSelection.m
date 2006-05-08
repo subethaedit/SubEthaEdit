@@ -73,7 +73,7 @@
     }
 }
 
-- (void)setScriptedEndCharacterIndex:(id)aValue {
+- (void)setScriptedNextCharacterIndex:(id)aValue {
     NSLog(@"%s: %@", __FUNCTION__, aValue);
     if (I_editor && [aValue isKindOfClass:[NSNumber class]]) {
         NSTextView *textView = [I_editor textView];
@@ -81,14 +81,14 @@
         int newValue = ((int)[aValue intValue])-1;
         if (newValue<0) {
             [textView setSelectedRange:NSMakeRange(0,0)];
-        } else if (newValue>=(int)[I_textStorage length]) {
+        } else if (newValue>(int)[I_textStorage length]) {
             range.length = [I_textStorage length]-range.location;
             [textView setSelectedRange:range];
         } else {
-            if (newValue < range.location) {
-                [textView setSelectedRange:NSMakeRange(newValue+1,0)];
+            if (newValue <= range.location) {
+                [textView setSelectedRange:NSMakeRange(newValue,0)];
             } else {
-                range.length = newValue+1-range.location;
+                range.length = newValue-range.location;
                 [textView setSelectedRange:range];
             }
         }

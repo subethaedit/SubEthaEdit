@@ -17,7 +17,7 @@
 - (NSRange)rangeRepresentation;
 - (NSNumber *)scriptedLength;
 - (NSNumber *)scriptedStartCharacterIndex;
-- (NSNumber *)scriptedEndCharacterIndex;
+- (NSNumber *)scriptedNextCharacterIndex;
 - (NSNumber *)scriptedStartLine;
 - (NSNumber *)scriptedEndLine;
 

@@ -1534,18 +1534,28 @@
 }
 
 - (void)setScriptSelection:(id)selection {
-    // TODO: coerce value first! Accept more things. of course also an Insertion Point
-    if (![selection isKindOfClass:[NSArray class]] || [selection count] != 2) {
-        return;
-    }
-    int startIndex = [[selection objectAtIndex:0] intValue];
-    int endIndex = [[selection objectAtIndex:1] intValue];
-    
     NSTextView *textView = [self textView];
     unsigned length = [[textView textStorage] length];
-    
-    if (startIndex > 0 && startIndex <= length && endIndex >= startIndex && endIndex <= length)
-        [textView setSelectedRange:NSMakeRange(startIndex - 1, endIndex - startIndex + 1)];
+    if ([selection isKindOfClass:[NSArray class]] && [selection count] == 2) {
+        int startIndex = [[selection objectAtIndex:0] intValue];
+        int endIndex = [[selection objectAtIndex:1] intValue];
+        
+        if (startIndex > 0 && startIndex <= length && endIndex >= startIndex && endIndex <= length)
+            [textView setSelectedRange:NSMakeRange(startIndex - 1, endIndex - startIndex + 1)];
+    } else if ([selection isKindOfClass:[NSNumber class]]) {
+        int insertionPointIndex = [selection intValue]-1;
+        insertionPointIndex = MAX(insertionPointIndex,0);
+        insertionPointIndex = MIN(insertionPointIndex,length);
+        [textView setSelectedRange:NSMakeRange(insertionPointIndex,0)];
+    } else if ([selection isKindOfClass:[ScriptTextBase class]] || [selection isKindOfClass:[TextStorage class]]) {
+        NSRange newRange=NSIntersectionRange([selection rangeRepresentation], NSMakeRange(0,length));
+        if (newRange.length == 0) {
+            if ([selection rangeRepresentation].location >= length) {
+                newRange = NSMakeRange(length,0);
+            }
+        }
+        [textView setSelectedRange:newRange];
+    }
 }
 
 @end

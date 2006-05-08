@@ -207,8 +207,14 @@
                 description="Is this the frontmost (active) application?">
                 <cocoa key="isActive"/>
             </property>
-            <property name="selection" code="pSel" type="selection-object" description="The current selection in the frontmost document.">
+            <property name="selection" code="pSel" description="The current selection in the frontmost document.">
                 <cocoa key="scriptSelection"/>
+                <type type="selection-object" />
+                <type type="plain text" />
+                <type type="paragraph" />
+                <type type="character" />
+                <type type="integer" list="yes" />
+                <type type="integer" list="no" />
             </property>
             <property name="version" code="vers" type="text" access="r"
                 description="The version of the application."/>
@@ -278,8 +284,14 @@
             <property name="URL" code="DURL" type="text" access="r" description="the URL of the document">
                 <cocoa key="announcementURL"/>
             </property>
-            <property name="selection" code="pSel" type="selection-object" description="The current selection or insertion point.">
+            <property name="selection" code="pSel" description="The current selection or insertion point.">
                 <cocoa key="scriptSelection"/>
+                <type type="selection-object" />
+                <type type="plain text" />
+                <type type="paragraph" />
+                <type type="character" />
+                <type type="integer" list="yes" />
+                <type type="integer" list="no" />
             </property>
             <element type="window">
                 <cocoa key="orderedWindows"/>
@@ -297,8 +309,14 @@
 
         <class name="window" code="cwin" description="A window.">
             <cocoa class="NSWindow"/>
-            <property name="selection" code="pSel" type="selection-object" description="The current selection in the frontmost document.">
+            <property name="selection" code="pSel" description="The current selection in the frontmost document.">
                 <cocoa key="scriptSelection"/>
+                <type type="selection-object" />
+                <type type="plain text" />
+                <type type="paragraph" />
+                <type type="character" />
+                <type type="integer" list="yes" />
+                <type type="integer" list="no" />
             </property>
             <property name="name" code="pnam" type="text" access="r"
                 description="The full title of the window.">
@@ -385,8 +403,8 @@
             <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="">
                 <cocoa key="scriptedStartCharacterIndex"/>
             </property>
-            <property name="endCharacterIndex" code="pIdE" type="integer" access="r" description="">
-                <cocoa key="scriptedEndCharacterIndex"/>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" access="r" description="">
+                <cocoa key="scriptedNextCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>
@@ -423,8 +441,8 @@
             <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="">
                 <cocoa key="scriptedStartCharacterIndex"/>
             </property>
-            <property name="endCharacterIndex" code="pIdE" type="integer" access="r" description="">
-                <cocoa key="scriptedEndCharacterIndex"/>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" access="r" description="">
+                <cocoa key="scriptedNextCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>
@@ -463,8 +481,8 @@
             <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="">
                 <cocoa key="scriptedStartCharacterIndex"/>
             </property>
-            <property name="endCharacterIndex" code="pIdE" type="integer" access="r" description="">
-                <cocoa key="scriptedEndCharacterIndex"/>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" access="r" description="">
+                <cocoa key="scriptedNextCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" access="r" description="">
                 <cocoa key="scriptedLength"/>
@@ -549,6 +567,35 @@
             <direct-parameter type="specifier" description="the object for the command"/>
         </command>
 
+        <class name="insertion point" code="cins" description="location between two characters">
+            <cocoa class="ScriptTextSelection"/>
+            <contents name="contents" code="pcnt" type="text" description="The text contained in the selection.">
+                <cocoa key="scriptedContents"/>
+            </contents>
+            <element type="paragraph">
+                <cocoa key="lines"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="scriptedContents"/>
+            </property>
+            <property name="startCharacterIndex" code="pIdS" type="integer" description="">
+                <cocoa key="scriptedStartCharacterIndex"/>
+            </property>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" description="">
+                <cocoa key="scriptedNextCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
+
         <class name="selection-object" code="csel" description="A way to refer to the state of the current of the selection.  Use the &quot;select&quot; command to make a new selection.">
             <cocoa class="ScriptTextSelection"/>
             <contents name="contents" code="pcnt" type="text" description="The text contained in the selection.">
@@ -570,8 +617,8 @@
             <property name="startCharacterIndex" code="pIdS" type="integer" description="">
                 <cocoa key="scriptedStartCharacterIndex"/>
             </property>
-            <property name="endCharacterIndex" code="pIdE" type="integer" description="">
-                <cocoa key="scriptedEndCharacterIndex"/>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" description="Index of first character after the selection.">
+                <cocoa key="scriptedNextCharacterIndex"/>
             </property>
             <property name="length" code="leng" type="integer" description="">
                 <cocoa key="scriptedLength"/>
@@ -584,34 +631,6 @@
             </property>
         </class>
 
-        <class name="insertion point" code="cins" description="location between two characters">
-            <cocoa class="ScriptInsertionPoint"/>
-            <contents name="contents" code="pcnt" type="text" description="The text contained in the selection.">
-                <cocoa key="scriptedContents"/>
-            </contents>
-            <element type="paragraph">
-                <cocoa key="lines"/>
-            </element>
-            <property name="contents" code="pTxt" type="text"
-                description="The text.">
-                <cocoa key="scriptedContents"/>
-            </property>
-            <property name="startCharacterIndex" code="pIdS" type="integer" description="">
-                <cocoa key="scriptedStartCharacterIndex"/>
-            </property>
-            <property name="endCharacterIndex" code="pIdE" type="integer" description="">
-                <cocoa key="scriptedEndCharacterIndex"/>
-            </property>
-            <property name="length" code="leng" type="integer" access="r" description="">
-                <cocoa key="scriptedLength"/>
-            </property>
-            <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
-                <cocoa key="scriptedStartLine"/>
-            </property>
-            <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
-                <cocoa key="scriptedEndLine"/>
-            </property>
-        </class>
 
         <class name="mode" code="Mode" description="A mode">
             <cocoa class="DocumentMode"/>

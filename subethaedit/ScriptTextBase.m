@@ -36,8 +36,8 @@
     return [NSNumber numberWithInt:[self rangeRepresentation].location +1];
 }
 
-- (NSNumber *)scriptedEndCharacterIndex {
-    return [NSNumber numberWithInt:((int)NSMaxRange([self rangeRepresentation]))-1 +1];
+- (NSNumber *)scriptedNextCharacterIndex {
+    return [NSNumber numberWithInt:((int)NSMaxRange([self rangeRepresentation]))+1];
 }
 
 - (NSNumber *)scriptedStartLine {
@@ -54,7 +54,7 @@
 }
 
 - (void)setScriptedContents:(id)value {
-    NSLog(@"%s: %d", __FUNCTION__, value);
+    NSLog(@"%s: %@", __FUNCTION__, value);
     [[I_textStorage delegate] replaceTextInRange:[self rangeRepresentation] withString:value];
 }
 

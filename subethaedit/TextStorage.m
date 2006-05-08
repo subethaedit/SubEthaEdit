@@ -929,6 +929,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 //     return [words autorelease];
 // }
 
+- (NSRange)rangeRepresentation {
+    return NSMakeRange(0,[self length]);
+}
+
 - (id)characters {
     NSLog(@"%s", __FUNCTION__);
     NSMutableArray *result=[NSMutableArray array];
