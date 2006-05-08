@@ -3905,6 +3905,18 @@ static NSString *S_measurementUnits;
     }
 }
 
+- (void)setIsDocumentEdited:(BOOL)aFlag {
+    if ([self isDocumentEdited]) {
+        if (aFlag == NO) {
+            [self updateChangeCount:NSChangeCleared];
+        }
+    } else {
+        if (aFlag == YES) {
+             [self updateChangeCount:NSChangeDone];
+        }
+    }
+}
+
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
 
@@ -4712,6 +4724,11 @@ static NSString *S_measurementUnits;
 #pragma mark -
 
 @implementation PlainTextDocument (PlainTextDocumentScriptingAdditions)
+
+- (void)handleClearChangeMarksCommand:(NSScriptCommand *)command {
+    [self clearChangeMarks:self];
+}
+
 
 - (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
     

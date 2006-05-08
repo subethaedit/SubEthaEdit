@@ -326,7 +326,7 @@ typedef enum {
 } AccessOptions;
 
 @interface PlainTextDocument (PlainTextDocumentScriptingAdditions)
-
+- (void)handleClearChangeMarksCommand:(NSScriptCommand *)command;
 - (void)replaceTextInRange:(NSRange)range withString:(NSString *)string;
 - (NSString *)encoding;
 - (void)setEncoding:(NSString *)name;

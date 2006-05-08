@@ -9,6 +9,7 @@
 #import "NSWindowScriptingAdditions.h"
 #import "PlainTextWindowController.h"
 #import "PlainTextEditor.h"
+#import "PlainTextDocument.h"
 
 @implementation NSWindow (NSWindowScriptingAdditions)
 - (id)scriptSelection {
@@ -19,5 +20,9 @@
 - (void)setScriptSelection:(id)aSelection {
     if (![[self windowController] isKindOfClass:[PlainTextWindowController class]]) return;
     [[[self windowController] activePlainTextEditor] setScriptSelection:aSelection];
+}
+
+- (void)handleClearChangeMarksCommand:(NSScriptCommand *)aCommand {
+    [[[self windowController] document] handleClearChangeMarksCommand:aCommand];
 }
 @end

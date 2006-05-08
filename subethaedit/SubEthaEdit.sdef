@@ -238,7 +238,7 @@
             <property name="id" code="ID  " type="integer" access="r" description="The unique identifier of the document.">
                 <cocoa key="uniqueID"/>
             </property>
-            <property name="modified" code="imod" type="boolean" access="r"
+            <property name="modified" code="imod" type="boolean"
                 description="Has the document been modified since the last save?">
                 <cocoa key="isDocumentEdited"/>
             </property>
@@ -517,6 +517,13 @@
                 <cocoa key="mode"/>
             </property>
         </record-type>
+
+        <command name="clear change marks" code="Hdradccm">
+            <direct-parameter description="A Document.">
+                <type type="document"/>
+                <type type="window"/>
+            </direct-parameter>
+        </command>
         
         <command name="see" code="HdraSee " description="Do not use this command or I will come to your home and kill you.">
             <parameter name="files" code="File" optional="yes" hidden="yes" description="">
@@ -629,6 +636,11 @@
             <element type="window">
                 <cocoa key="orderedWindows"/>
             </element>
+
+            <responds-to name="clear change marks">
+                <cocoa method="handleClearChangeMarksCommand:"/>
+            </responds-to>
+
         </class>
 
         <class name="window" code="cwin" description="A window." inherits="window">
@@ -644,6 +656,9 @@
             </property>
             <property name="document" code="docu" type="document" access="r"
                 description="The document whose contents are being displayed in the window."/>
+            <responds-to name="clear change marks">
+                <cocoa method="handleClearChangeMarksCommand:"/>
+            </responds-to>
         </class>
 
         <class name="mode" code="Mode" description="A mode">
