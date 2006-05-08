@@ -518,11 +518,15 @@
         </record-type>
         
         <command name="see" code="HdraSee " description="Do not use this command or I will come to your home and kill you.">
-            <parameter name="files" code="File" type="text" optional="yes" hidden="yes" description="">
+            <parameter name="files" code="File" optional="yes" hidden="yes" description="">
                 <cocoa key="Files"/>
+                <type type="text"/>
+                <type type="text" list="yes"/>
             </parameter>                
-            <parameter name="new files" code="NuFl" type="text" optional="yes" hidden="yes" description="">
+            <parameter name="new files" code="NuFl" optional="yes" hidden="yes" description="">
                 <cocoa key="NewFiles"/>
+                <type type="text"/>
+                <type type="text" list="yes"/>
             </parameter>                
             <parameter name="stdin" code="Stdi" type="text" optional="yes" hidden="yes" description="">
                 <cocoa key="Stdin"/>
