@@ -207,15 +207,6 @@
                 description="Is this the frontmost (active) application?">
                 <cocoa key="isActive"/>
             </property>
-            <property name="selection" code="pSel" description="The current selection in the frontmost document.">
-                <cocoa key="scriptSelection"/>
-                <type type="selection-object" />
-                <type type="plain text" />
-                <type type="paragraph" />
-                <type type="character" />
-                <type type="integer" list="yes" />
-                <type type="integer" list="no" />
-            </property>
             <property name="version" code="vers" type="text" access="r"
                 description="The version of the application."/>
             <element type="document">
@@ -223,9 +214,6 @@
             </element>
             <element type="window" access="r">
                 <cocoa key="orderedWindows"/>
-            </element>
-            <element type="mode" access="r">
-                <cocoa key="scriptedModes"/>
             </element>
             <responds-to name="open">
                 <cocoa method="TCM_handleOpenScriptCommand:"/>
@@ -236,19 +224,10 @@
             <responds-to name="quit">
                 <cocoa method="handleQuitScriptCommand:"/>
             </responds-to>
-            <responds-to name="see">
-                <cocoa method="TCM_handleSeeScriptCommand:"/>
-            </responds-to>
         </class>
 
         <class name="document" code="docu" description="A document.">
             <cocoa class="PlainTextDocument"/>
-            <contents name="plain text" code="pcnt" type="plain text" description="A plain text object containing all the document's text.">
-                <cocoa key="contents"/>
-            </contents>
-            <property name="plain text" code="cTXT" type="plain text" description="">
-                <cocoa key="contents"/>
-            </property>
             <property name="name" code="pnam" type="text" access="r"
                 description="The document's name.">
                 <cocoa key="displayName"/>
@@ -267,35 +246,6 @@
                 description="The document's location on disk.">
                 <cocoa key="fileURL"/>
             </property>
-            <property name="mode" code="Mode" description="the document's mode">
-                <cocoa key="documentMode"/>
-                <type type="mode"/>
-                <type type="text"/>
-            </property>
-            <property name="encoding" code="Encd" type="text" description="the internet name of the document's encoding">
-                <cocoa key="encoding"/>
-            </property>
-            <property name="access control" code="Actl" type="access options" description="the access right of the document">
-                <cocoa key="accessOption"/>
-            </property>
-            <property name="announced" code="Anno" type="boolean" description="is the document announced?">
-                <cocoa key="isAnnounced"/>
-            </property>
-            <property name="URL" code="DURL" type="text" access="r" description="the URL of the document">
-                <cocoa key="announcementURL"/>
-            </property>
-            <property name="selection" code="pSel" description="The current selection or insertion point.">
-                <cocoa key="scriptSelection"/>
-                <type type="selection-object" />
-                <type type="plain text" />
-                <type type="paragraph" />
-                <type type="character" />
-                <type type="integer" list="yes" />
-                <type type="integer" list="no" />
-            </property>
-            <element type="window">
-                <cocoa key="orderedWindows"/>
-            </element>
             <responds-to name="close">
                 <cocoa method="handleCloseScriptCommand:"/>
             </responds-to>
@@ -309,15 +259,6 @@
 
         <class name="window" code="cwin" description="A window.">
             <cocoa class="NSWindow"/>
-            <property name="selection" code="pSel" description="The current selection in the frontmost document.">
-                <cocoa key="scriptSelection"/>
-                <type type="selection-object" />
-                <type type="plain text" />
-                <type type="paragraph" />
-                <type type="character" />
-                <type type="integer" list="yes" />
-                <type type="integer" list="no" />
-            </property>
             <property name="name" code="pnam" type="text" access="r"
                 description="The full title of the window.">
                 <cocoa key="title"/>
@@ -362,8 +303,6 @@
                 description="Whether the window is currently zoomed.">
                 <cocoa key="isZoomed"/>
             </property>
-            <property name="document" code="docu" type="document" access="r"
-                description="The document whose contents are being displayed in the window."/>
             <responds-to name="close">
                 <cocoa method="handleCloseScriptCommand:"/>
             </responds-to>
@@ -386,9 +325,69 @@
 
         <cocoa name="TCMTextSuite"/>
 
-        <value-type name="color" code="cRGB">
-            <cocoa class="NSColor"/>
-        </value-type>
+        <class name="insertion point" code="cins" description="location between two characters">
+            <cocoa class="ScriptTextSelection"/>
+            <contents name="contents" code="pcnt" type="text" description="The text contained in the selection.">
+                <cocoa key="scriptedContents"/>
+            </contents>
+            <element type="paragraph">
+                <cocoa key="lines"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="scriptedContents"/>
+            </property>
+            <property name="startCharacterIndex" code="pIdS" type="integer" description="">
+                <cocoa key="scriptedStartCharacterIndex"/>
+            </property>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" description="">
+                <cocoa key="scriptedNextCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
+
+        <class name="selection-object" code="csel" description="A way to refer to the state of the current of the selection.  Use the &quot;select&quot; command to make a new selection.">
+            <cocoa class="ScriptTextSelection"/>
+            <contents name="contents" code="pcnt" type="text" description="The text contained in the selection.">
+                <cocoa key="scriptedContents"/>
+            </contents>
+            <element type="paragraph">
+                <cocoa key="lines"/>
+            </element>
+            <element type="character">
+                <cocoa key="characters"/>
+            </element>
+            <element type="word">
+                 <cocoa key="words"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="scriptedContents"/>
+            </property>
+            <property name="startCharacterIndex" code="pIdS" type="integer" description="">
+                <cocoa key="scriptedStartCharacterIndex"/>
+            </property>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" description="Index of first character after the selection.">
+                <cocoa key="scriptedNextCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" description="">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
 
         <class name="character" code="cha "
             description="This subdivides the text into characters.">
@@ -450,8 +449,7 @@
             </property>
          </class>
 
-        <class name="word" code="cwor"
-          description="This subdivides the text into words.">
+        <class name="word" code="cwor" description="This subdivides the text into words.">
           <cocoa class="NSTextStorage"/>
           <type type="text"/>
         </class>
@@ -571,70 +569,79 @@
             <direct-parameter type="specifier" description="the object for the command"/>
         </command>
 
-        <class name="insertion point" code="cins" description="location between two characters">
-            <cocoa class="ScriptTextSelection"/>
-            <contents name="contents" code="pcnt" type="text" description="The text contained in the selection.">
-                <cocoa key="scriptedContents"/>
-            </contents>
-            <element type="paragraph">
-                <cocoa key="lines"/>
+
+        <class name="application" code="capp" inherits="application" description="The application's top-level scripting object.">
+            <cocoa class="NSApplication"/>
+            <property name="selection" code="pSel" description="The current selection in the frontmost document.">
+                <cocoa key="scriptSelection"/>
+                <type type="selection-object" />
+                <type type="plain text" />
+                <type type="paragraph" />
+                <type type="character" />
+                <type type="integer" list="yes" />
+                <type type="integer" list="no" />
+            </property>
+            <element type="mode" access="r">
+                <cocoa key="scriptedModes"/>
             </element>
-            <property name="contents" code="pTxt" type="text"
-                description="The text.">
-                <cocoa key="scriptedContents"/>
-            </property>
-            <property name="startCharacterIndex" code="pIdS" type="integer" description="">
-                <cocoa key="scriptedStartCharacterIndex"/>
-            </property>
-            <property name="nextCharacterIndex" code="pIdN" type="integer" description="">
-                <cocoa key="scriptedNextCharacterIndex"/>
-            </property>
-            <property name="length" code="leng" type="integer" access="r" description="">
-                <cocoa key="scriptedLength"/>
-            </property>
-            <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
-                <cocoa key="scriptedStartLine"/>
-            </property>
-            <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
-                <cocoa key="scriptedEndLine"/>
-            </property>
+            <responds-to name="see">
+                <cocoa method="TCM_handleSeeScriptCommand:"/>
+            </responds-to>
         </class>
 
-        <class name="selection-object" code="csel" description="A way to refer to the state of the current of the selection.  Use the &quot;select&quot; command to make a new selection.">
-            <cocoa class="ScriptTextSelection"/>
-            <contents name="contents" code="pcnt" type="text" description="The text contained in the selection.">
-                <cocoa key="scriptedContents"/>
+        <class name="document" code="docu" inherits="document" description="A document.">
+            <cocoa class="PlainTextDocument"/>
+            <contents name="plain text" code="pcnt" type="plain text" description="A plain text object containing all the document's text.">
+                <cocoa key="contents"/>
             </contents>
-            <element type="paragraph">
-                <cocoa key="lines"/>
+            <property name="plain text" code="cTXT" type="plain text" description="">
+                <cocoa key="contents"/>
+            </property>
+            <property name="mode" code="Mode" description="the document's mode">
+                <cocoa key="documentMode"/>
+                <type type="mode"/>
+                <type type="text"/>
+            </property>
+            <property name="encoding" code="Encd" type="text" description="the internet name of the document's encoding">
+                <cocoa key="encoding"/>
+            </property>
+            <property name="access control" code="Actl" type="access options" description="the access right of the document">
+                <cocoa key="accessOption"/>
+            </property>
+            <property name="announced" code="Anno" type="boolean" description="is the document announced?">
+                <cocoa key="isAnnounced"/>
+            </property>
+            <property name="URL" code="DURL" type="text" access="r" description="the URL of the document">
+                <cocoa key="announcementURL"/>
+            </property>
+            <property name="selection" code="pSel" description="The current selection or insertion point.">
+                <cocoa key="scriptSelection"/>
+                <type type="selection-object" />
+                <type type="plain text" />
+                <type type="paragraph" />
+                <type type="character" />
+                <type type="integer" list="yes" />
+                <type type="integer" list="no" />
+            </property>
+            <element type="window">
+                <cocoa key="orderedWindows"/>
             </element>
-            <element type="character">
-                <cocoa key="characters"/>
-            </element>
-            <element type="word">
-                 <cocoa key="words"/>
-            </element>
-            <property name="contents" code="pTxt" type="text"
-                description="The text.">
-                <cocoa key="scriptedContents"/>
-            </property>
-            <property name="startCharacterIndex" code="pIdS" type="integer" description="">
-                <cocoa key="scriptedStartCharacterIndex"/>
-            </property>
-            <property name="nextCharacterIndex" code="pIdN" type="integer" description="Index of first character after the selection.">
-                <cocoa key="scriptedNextCharacterIndex"/>
-            </property>
-            <property name="length" code="leng" type="integer" description="">
-                <cocoa key="scriptedLength"/>
-            </property>
-            <property name="startLineNumber" code="pSln" type="integer" access="r" description="">
-                <cocoa key="scriptedStartLine"/>
-            </property>
-            <property name="endLineNumber" code="pEln" type="integer" access="r" description="">
-                <cocoa key="scriptedEndLine"/>
-            </property>
         </class>
 
+        <class name="window" code="cwin" description="A window." inherits="window">
+            <cocoa class="NSWindow"/>
+            <property name="selection" code="pSel" description="The current selection in the frontmost document.">
+                <cocoa key="scriptSelection"/>
+                <type type="selection-object" />
+                <type type="plain text" />
+                <type type="paragraph" />
+                <type type="character" />
+                <type type="integer" list="yes" />
+                <type type="integer" list="no" />
+            </property>
+            <property name="document" code="docu" type="document" access="r"
+                description="The document whose contents are being displayed in the window."/>
+        </class>
 
         <class name="mode" code="Mode" description="A mode">
             <cocoa class="DocumentMode"/>
@@ -648,6 +655,7 @@
                 <cocoa key="scriptedResourcePath"/>
             </property>
         </class>
+
         
     </suite>
 </dictionary>
