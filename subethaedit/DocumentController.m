@@ -496,7 +496,7 @@ static NSString *tempFileName() {
     NSMutableDictionary *properties = [NSMutableDictionary dictionary];
 
     NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
-                                                    classDescriptionWithAppleEventCode:'pltd'];
+                                                    classDescriptionWithAppleEventCode:'docu'];
     
     NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];
     NSEnumerator *enumerator = [evaluatedProperties keyEnumerator];
@@ -566,7 +566,7 @@ static NSString *tempFileName() {
     NSMutableDictionary *properties = [NSMutableDictionary dictionary];
 
     NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
-                                                    classDescriptionWithAppleEventCode:'pltd'];
+                                                    classDescriptionWithAppleEventCode:'docu'];
     
     NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];
     NSEnumerator *enumerator = [evaluatedProperties keyEnumerator];
@@ -619,7 +619,7 @@ static NSString *tempFileName() {
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"command: %@", [command description]);
 
     NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
-                                                    classDescriptionWithAppleEventCode:'pltd'];
+                                                    classDescriptionWithAppleEventCode:'docu'];
     
     NSMutableDictionary *properties = [NSMutableDictionary dictionary];
     NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];

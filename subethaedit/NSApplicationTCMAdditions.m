@@ -62,4 +62,8 @@
     return modes;
 }
 
+- (id)valueInScriptedModesWithUniqueID:(id)uniqueID {
+    return [[DocumentModeManager sharedInstance] documentModeForIdentifier:uniqueID];
+}
+
 @end

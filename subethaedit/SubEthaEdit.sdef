@@ -261,8 +261,10 @@
                 description="The document's location on disk.">
                 <cocoa key="fileURL"/>
             </property>
-            <property name="mode" code="Mode" type="mode" description="the document's mode">
+            <property name="mode" code="Mode" description="the document's mode">
                 <cocoa key="documentMode"/>
+                <type type="mode"/>
+                <type type="text"/>
             </property>
             <property name="encoding" code="Encd" type="text" description="the internet name of the document's encoding">
                 <cocoa key="encoding"/>
@@ -526,23 +528,23 @@
                 <cocoa key="WithProperties"/>
             </parameter>
             <result description="">
-                <type type="file" list="yes"/>
+                <type type="text" list="yes"/>
             </result>
         </command>
         
         <command name="get URL" code="GURLGURL" description="Open a URL.">
             <cocoa class="GetURLCommand"/>
             <synonym name="get url"/>
-            <direct-parameter type="specifier" description="The URL to open."/>
+            <direct-parameter type="text" description="The URL to open."/>
         </command>
         
         <command name="open URL" code="WWW!OURL" description="Open a URL.">
             <cocoa class="GetURLCommand"/>
             <synonym name="open url"/>
-            <direct-parameter type="specifier" description="The URL to open."/>
+            <direct-parameter type="text" description="The URL to open."/>
         </command>
  		
-        <command name="select" code="HdraSlct" description="Select an object.">
+        <command name="select" code="miscslct" description="Select an object.">
             <cocoa class="SelectCommand"/>
             <direct-parameter type="specifier" description="the object for the command"/>
         </command>
