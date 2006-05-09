@@ -216,7 +216,7 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
+	<string>${EXECUTABLE_NAME}${SYSTEM_VERSION_CHECK_SUFFIX}</string>
 	<key>CFBundleGetInfoString</key>
 	<string>SubEthaEdit 2.4, Copyright © 2003-2006, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
@@ -251,7 +251,12 @@
 	<key>CFBundleVersion</key>
 	<string>REVISION</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.3</string>
+	<string>10.3.9</string>
+    <key>LSEnvironment</key>
+    <dict>
+        <key>MinimumSystemVersion</key>
+        <string>10.3.9</string>
+    </dict>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
     <key>OSAScriptingDefinition</key>

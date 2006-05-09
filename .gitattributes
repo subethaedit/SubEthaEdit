@@ -1096,6 +1096,7 @@ subethaedit/SyntaxHighlighter.h -text
 subethaedit/SyntaxHighlighter.m -text
 subethaedit/SyntaxStyle.h -text
 subethaedit/SyntaxStyle.m -text
+subethaedit/SystemVersionCheck.m -text
 subethaedit/TCMApplication.h -text
 subethaedit/TCMApplication.m -text
 subethaedit/TCMBEEP/Info.plist -text
