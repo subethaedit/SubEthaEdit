@@ -584,12 +584,12 @@
             <cocoa class="NSApplication"/>
             <property name="selection" code="pSel" description="The current selection in the frontmost document.">
                 <cocoa key="scriptSelection"/>
-                <type type="selection-object" />
-                <type type="plain text" />
-                <type type="paragraph" />
-                <type type="character" />
-                <type type="integer" list="yes" />
-                <type type="integer" list="no" />
+                <type type="selection-object"/>
+                <type type="plain text"/>
+                <type type="paragraph"/>
+                <type type="character"/>
+                <type type="integer" list="yes"/>
+                <type type="integer" list="no"/>
             </property>
             <element type="mode" access="r">
                 <cocoa key="scriptedModes"/>
@@ -626,12 +626,12 @@
             </property>
             <property name="selection" code="pSel" description="The current selection or insertion point.">
                 <cocoa key="scriptSelection"/>
-                <type type="selection-object" />
-                <type type="plain text" />
-                <type type="paragraph" />
-                <type type="character" />
-                <type type="integer" list="yes" />
-                <type type="integer" list="no" />
+                <type type="selection-object"/>
+                <type type="plain text"/>
+                <type type="paragraph"/>
+                <type type="character"/>
+                <type type="integer" list="yes"/>
+                <type type="integer" list="no"/>
             </property>
             <element type="window">
                 <cocoa key="orderedWindows"/>
@@ -640,19 +640,18 @@
             <responds-to name="clear change marks">
                 <cocoa method="handleClearChangeMarksCommand:"/>
             </responds-to>
-
         </class>
 
         <class name="window" code="cwin" description="A window." inherits="window">
             <cocoa class="NSWindow"/>
             <property name="selection" code="pSel" description="The current selection in the frontmost document.">
                 <cocoa key="scriptSelection"/>
-                <type type="selection-object" />
-                <type type="plain text" />
-                <type type="paragraph" />
-                <type type="character" />
-                <type type="integer" list="yes" />
-                <type type="integer" list="no" />
+                <type type="selection-object"/>
+                <type type="plain text"/>
+                <type type="paragraph"/>
+                <type type="character"/>
+                <type type="integer" list="yes"/>
+                <type type="integer" list="no"/>
             </property>
             <property name="document" code="docu" type="document" access="r"
                 description="The document whose contents are being displayed in the window."/>

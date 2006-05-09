@@ -1114,7 +1114,6 @@
 		142892490957526300D14688 /* Document */ = {
 			isa = PBXGroup;
 			children = (
-				14289377095757E400D14688 /* Printing */,
 				1428941509575AE600D14688 /* BorderedTextField.h */,
 				1428941609575AE600D14688 /* BorderedTextField.m */,
 				1428941709575AE600D14688 /* ButtonScrollView.h */,
@@ -1335,7 +1334,15 @@
 			isa = PBXGroup;
 			children = (
 				142891780957483200D14688 /* Additions */,
+				142892460957525900D14688 /* BEEPProfiles */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				142892490957526300D14688 /* Document */,
+				1428924C0957526E00D14688 /* Mode */,
+				1428924F0957527300D14688 /* Operations */,
+				142892520957528A00D14688 /* Preferences */,
+				14289377095757E400D14688 /* Printing */,
+				5EDD2FFC0A08D69F0036E63A /* Scripting */,
+				142892550957529900D14688 /* ValueTransformers */,
 				1428917B0957483C00D14688 /* Debug */,
 				1428917E0957486D00D14688 /* TCMBase */,
 				142891190957452F00D14688 /* TCMBEEP */,
@@ -1356,13 +1363,6 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				5EDD2FFC0A08D69F0036E63A /* Scripting */,
-				142892460957525900D14688 /* BEEPProfiles */,
-				142892490957526300D14688 /* Document */,
-				1428924C0957526E00D14688 /* Mode */,
-				1428924F0957527300D14688 /* Operations */,
-				142892520957528A00D14688 /* Preferences */,
-				142892550957529900D14688 /* ValueTransformers */,
 				142893DC09575A3000D14688 /* AboutPanelController.h */,
 				142893DD09575A3000D14688 /* AboutPanelController.m */,
 				142893DE09575A3000D14688 /* AppController.h */,

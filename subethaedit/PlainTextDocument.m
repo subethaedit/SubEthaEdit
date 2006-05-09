@@ -4911,5 +4911,16 @@ static NSString *S_measurementUnits;
     [[[self topmostWindowController] activePlainTextEditor] setScriptSelection:aSelection];
 }
 
+- (NSArray *)orderedWindows {
+    NSMutableArray *orderedWindows = [NSMutableArray array];
+    NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
+    NSWindow *window;
+    while ((window = [windowsEnumerator nextObject])) {
+        if ([[[window windowController] document] isEqual:self] && ![self isProxyDocument]) {
+            [orderedWindows addObject:window];
+        }
+    }
+    return orderedWindows;
+}
 
 @end
