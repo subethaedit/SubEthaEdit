@@ -9,6 +9,7 @@
 #import "ScriptTextBase.h"
 #import "ScriptLine.h"
 #import "ScriptCharacters.h"
+#import "ScriptTextSelection.h"
 #import "TextStorage.h"
 #import "PlainTextDocument.h"
 
@@ -99,5 +100,18 @@
     NSLog(@"%s: %@", __FUNCTION__, value);
     [[I_textStorage delegate] replaceTextInRange:[self rangeRepresentation] withString:value];
 }
+
+- (id)insertionPoints
+{
+    NSMutableArray *resultArray=[NSMutableArray new];
+    NSRange range = [self rangeRepresentation];
+    int index=range.location;
+    int endIndex=NSMaxRange(range);
+    for (;index<=endIndex;index++) {
+        [resultArray addObject:[ScriptTextSelection insertionPointWithTextStorage:I_textStorage index:index]];
+    }
+    return resultArray;
+}
+
 
 @end
