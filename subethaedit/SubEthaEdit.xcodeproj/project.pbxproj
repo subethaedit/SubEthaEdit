@@ -247,6 +247,7 @@
 		1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */; };
 		1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		1493A80C0A10C8EB004ECE6A /* SubEthaEdit-SystemVersionCheck in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */; };
+		1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */; };
 		14E290E90A06DBC7007C0065 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		14E291C70A07A501007C0065 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
 		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
@@ -790,6 +791,7 @@
 		1468BB70097D9AAD006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/License.nib; sourceTree = "<group>"; };
 		1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SystemVersionCheck.m; sourceTree = "<group>"; };
 		1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "SubEthaEdit-SystemVersionCheck"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1493A8460A10D9E8004ECE6A /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
 		14E290E70A06DB8A007C0065 /* SubEthaEdit-Panther.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = "SubEthaEdit-Panther.sdef"; sourceTree = "<group>"; };
 		14E291C40A07A501007C0065 /* ScriptLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptLine.h; sourceTree = "<group>"; };
 		14E291C50A07A501007C0065 /* ScriptLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptLine.m; sourceTree = "<group>"; };
@@ -835,7 +837,7 @@
 		5EDD304C0A092AA50036E63A /* ScriptTextBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptTextBase.h; sourceTree = "<group>"; };
 		5EDD304D0A092AA50036E63A /* ScriptTextBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptTextBase.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1435,6 +1437,7 @@
 				142890120957413900D14688 /* Localizable.strings */,
 				1428900A095740F200D14688 /* RE.txt */,
 				145047410997750100D18142 /* ReleaseNotes.txt */,
+				1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */,
 				142890150957418400D14688 /* AboutPanel.nib */,
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
 				142890190957418400D14688 /* DocumentProxy.nib */,
@@ -1829,6 +1832,7 @@
 				5E4DA72D09E159B400D91CFC /* ToolbarIconTerminal.png in Resources */,
 				5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */,
 				5E6AEEE309FE7C5700276D7C /* ToolbarIconColorChooser.tiff in Resources */,
+				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2283,6 +2287,14 @@
 				145047510997758600D18142 /* German */,
 			);
 			name = ReleaseNotes.txt;
+			sourceTree = "<group>";
+		};
+		1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1493A8460A10D9E8004ECE6A /* English */,
+			);
+			name = SystemVersionCheck.strings;
 			sourceTree = "<group>";
 		};
 		14F1601E096C288100402129 /* License.nib */ = {

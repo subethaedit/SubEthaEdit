@@ -166,18 +166,18 @@ int main(int argc, char *argv[])
             applicationName = @"This application";
         }
         
-        NSString *title = [NSString stringWithFormat:@"%@ requires Mac OS X %@", applicationName, requiredVersion];
+        NSString *title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ requires Mac OS X %@", @"SystemVersionCheck", nil), applicationName, requiredVersion];
         
         NSString *messageFormat;
         NSString *defaultButton;
         NSString *alternateButton;
         if (sameMajorMinor) {
-            messageFormat = @"Please use Software Update to upgrade to Mac OS X %@ or later.\n";
-            defaultButton = @"Software Update...";
-            alternateButton = @"Quit";
+            messageFormat = NSLocalizedStringFromTable(@"Please use Software Update to upgrade to Mac OS X %@ or later.\n", @"SystemVersionCheck", nil);
+            defaultButton = NSLocalizedStringFromTable(@"Software Update...", @"SystemVersionCheck", nil);
+            alternateButton = NSLocalizedStringFromTable(@"Quit", @"SystemVersionCheck", nil);
         } else {
-            messageFormat = @"Please install Mac OS X %@ or later.\n";
-            defaultButton = @"Quit";
+            messageFormat = NSLocalizedStringFromTable(@"Please install Mac OS X %@ or later.\n", @"SystemVersionCheck", nil);
+            defaultButton = NSLocalizedStringFromTable(@"Quit", @"SystemVersionCheck", nil);
             alternateButton = nil;
         }
         
