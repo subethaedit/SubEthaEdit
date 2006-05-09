@@ -334,10 +334,10 @@
                 <cocoa key="scriptedContents"/>
             </contents>
             <element type="paragraph">
-                <cocoa key="lines"/>
+                <cocoa key="scriptedLines"/>
             </element>
             <property name="contents" code="pTxt" type="text"
-                description="The text.">
+                description="The text inlcuding the line ending.">
                 <cocoa key="scriptedContents"/>
             </property>
             <property name="startCharacterIndex" code="pIdS" type="integer" description="">
@@ -363,10 +363,10 @@
                 <cocoa key="scriptedContents"/>
             </contents>
             <element type="paragraph">
-                <cocoa key="lines"/>
+                <cocoa key="scriptedLines"/>
             </element>
             <element type="character">
-                <cocoa key="characters"/>
+                <cocoa key="scriptedCharacters"/>
             </element>
             <element type="word">
                  <cocoa key="words"/>
@@ -426,7 +426,7 @@
                 <cocoa key="scriptedContents"/>
             </contents>
             <element type="character">
-                <cocoa key="characters"/>
+                <cocoa key="scriptedCharacters"/>
             </element>
             <element type="word">
                 <cocoa key="words"/>
@@ -435,6 +435,10 @@
                 description="The text.">
                 <cocoa key="scriptedContents"/>
             </property>   
+            <property name="innerContents" code="pTxI" type="text"
+                description="The text excluding the line ending.">
+                <cocoa key="scriptedInnerContents"/>
+            </property>
             <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="">
                 <cocoa key="scriptedStartCharacterIndex"/>
             </property>
@@ -467,10 +471,10 @@
                 <cocoa key="insertionPoints"/>
             </element>
             <element type="paragraph">
-                <cocoa key="lines"/>
+                <cocoa key="scriptedLines"/>
             </element>
             <element type="character">
-                <cocoa key="characters"/>
+                <cocoa key="scriptedCharacters"/>
             </element>
             <element type="word">
                  <cocoa key="words"/>

@@ -96,11 +96,13 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 - (NSRange)rangeRepresentation;
 - (NSNumber *)scriptedLength;
 - (NSNumber *)scriptedStartCharacterIndex;
-- (NSNumber *)scriptedEndCharacterIndex;
+- (NSNumber *)scriptedNextCharacterIndex;
 - (NSNumber *)scriptedStartLine;
 - (NSNumber *)scriptedEndLine;
 - (NSString *)scriptedContents;
 - (void)setScriptedContents:(id)string;
+- (NSArray *)scriptedCharacters;
+- (NSArray *)scriptedLines;
 
 @end
 

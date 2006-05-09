@@ -249,28 +249,37 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (int)lineNumberForLocation:(unsigned)aLocation {
 
-    // validate I_lineStarts array
-    int i;
-    for (i=[I_lineStarts count]-1;i>=0;i--) {
-        if ([[I_lineStarts objectAtIndex:i] unsignedIntValue]<=I_lineStartsValidUpTo) {
-            break;
-        } else {
-            [I_lineStarts removeObjectAtIndex:i];    
+    if (I_lineStartsValidUpTo == 0 && [I_lineStarts count] > 1) {
+        [I_lineStarts removeAllObjects];
+        [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:0]];
+    } else {
+        while ([[I_lineStarts lastObject] unsignedIntValue] > I_lineStartsValidUpTo) {
+            [I_lineStarts removeLastObject];
         }
     }
-    NSAssert(i>=0,@"Failure in lineNumberForLocation");
+
+    int i;
     int result=0;
     if (!(aLocation<=I_lineStartsValidUpTo)) {
         NSString *string=[self string];
+        unsigned int length = [string length];
         i=[I_lineStarts count]-1;
         unsigned lineStart=[[I_lineStarts objectAtIndex:i] unsignedIntValue];
         NSRange lineRange=[string lineRangeForRange:NSMakeRange(lineStart,0)];
         I_lineStartsValidUpTo=NSMaxRange(lineRange)-1;
-        while (NSMaxRange(lineRange)<[string length] && I_lineStartsValidUpTo<aLocation) {
+        while (NSMaxRange(lineRange)<length && I_lineStartsValidUpTo<aLocation) {
             lineRange=[string lineRangeForRange:NSMakeRange(NSMaxRange(lineRange),0)];
             [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:lineRange.location]];
             I_lineStartsValidUpTo=NSMaxRange(lineRange)-1;
         }
+        if (NSMaxRange(lineRange)==length) {
+            NSRange lastRange=[string lineRangeForRange:NSMakeRange(length,0)];
+            if (lastRange.location == length && [[I_lineStarts lastObject] intValue] != length) {
+                [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:length]];
+                I_lineStartsValidUpTo=length;
+            }
+        }
+
     }
     for (i=[I_lineStarts count]-1;i>=0;i--) {
         if ([[I_lineStarts objectAtIndex:i] unsignedIntValue]<=aLocation) {
@@ -294,19 +303,39 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 - (NSRange)findLine:(int)aLineNumber {
     NSString *string=[self string];
     NSRange lineRange=NSMakeRange(NSNotFound,0);
+    unsigned length = [string length];
     if (aLineNumber < 1) return lineRange;
+
+    if (I_lineStartsValidUpTo == 0 && [I_lineStarts count] > 1) {
+        [I_lineStarts removeAllObjects];
+        [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:0]];
+    } else {
+        while ([[I_lineStarts lastObject] unsignedIntValue] > I_lineStartsValidUpTo) {
+            [I_lineStarts removeLastObject];
+        }
+    }
+
     if ([I_lineStarts count]<aLineNumber) {
         int lineNumber=[I_lineStarts count];
         lineRange=[string lineRangeForRange:NSMakeRange([[I_lineStarts objectAtIndex:lineNumber-1] unsignedIntValue],0)];
-        while (lineNumber<aLineNumber && NSMaxRange(lineRange)<[string length]) {
+        while (lineNumber<aLineNumber && NSMaxRange(lineRange)<length) {
             lineRange=[string lineRangeForRange:NSMakeRange(NSMaxRange(lineRange),0)];
             [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:lineRange.location]];
             I_lineStartsValidUpTo=NSMaxRange(lineRange)-1;
             lineNumber++;
         }
+        if (NSMaxRange(lineRange)==length) {
+            NSRange lastRange=[string lineRangeForRange:NSMakeRange(length,0)];
+            if (lastRange.location == length && [[I_lineStarts lastObject] intValue] != length) {
+                lineRange = lastRange;
+                [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:length]];
+                I_lineStartsValidUpTo=length;
+            }
+        }
     } else {
         lineRange=[string lineRangeForRange:NSMakeRange([[I_lineStarts objectAtIndex:aLineNumber-1] unsignedIntValue],0)];
     }
+    NSLog(@"%@ %s %d",NSStringFromRange(lineRange), __FUNCTION__, aLineNumber);
     return lineRange;
 }
 
@@ -933,7 +962,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return NSMakeRange(0,[self length]);
 }
 
-- (id)characters {
+- (NSArray *)scriptedCharacters {
     NSLog(@"%s", __FUNCTION__);
     NSMutableArray *result=[NSMutableArray array];
     int length=[self length];
@@ -944,18 +973,22 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return result;
 }
 
-- (id)valueInCharactersAtIndex:(unsigned)index
+- (unsigned int)countOfScriptedCharacters {
+    return [self length];
+}
+
+- (id)valueInScriptedCharactersAtIndex:(unsigned)index
 {
     NSLog(@"%s: %d", __FUNCTION__, index);
     return [ScriptCharacters scriptCharactersWithTextStorage:self characterRange:NSMakeRange(index,1)];
 }
 
-- (NSArray *)lines
+- (NSArray *)scriptedLines
 {
     NSLog(@"%s", __FUNCTION__);
     int lineCount = 1;
     if ([self length]>0) {
-        lineCount = [self lineNumberForLocation:[self length]-1];
+        lineCount = [self lineNumberForLocation:[self length]];
     }
     NSMutableArray *lines = [NSMutableArray array];
     int lineNumber = 1;
@@ -965,7 +998,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return lines;
 }
 
-- (id)valueInLinesAtIndex:(unsigned)index
+- (id)valueInScriptedLinesAtIndex:(unsigned)index
 {
     NSLog(@"%s: %d", __FUNCTION__, index);
     return [ScriptLine scriptLineWithTextStorage:self lineNumber:index+1];
@@ -1003,9 +1036,9 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return [NSNumber numberWithInt:1];
 }
 
-- (NSNumber *)scriptedEndCharacterIndex
+- (NSNumber *)scriptedNextCharacterIndex
 {
-    return [NSNumber numberWithInt:EndCharacterIndex(NSMakeRange(0,[self length]))];
+    return [NSNumber numberWithInt:[self length]];
 }
 
 

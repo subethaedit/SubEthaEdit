@@ -1548,12 +1548,7 @@
         insertionPointIndex = MIN(insertionPointIndex,length);
         [textView setSelectedRange:NSMakeRange(insertionPointIndex,0)];
     } else if ([selection isKindOfClass:[ScriptTextBase class]] || [selection isKindOfClass:[TextStorage class]]) {
-        NSRange newRange=NSIntersectionRange([selection rangeRepresentation], NSMakeRange(0,length));
-        if (newRange.length == 0) {
-            if ([selection rangeRepresentation].location >= length) {
-                newRange = NSMakeRange(length,0);
-            }
-        }
+        NSRange newRange=RangeConfinedToRange([selection rangeRepresentation], NSMakeRange(0,length));
         [textView setSelectedRange:newRange];
     }
 }

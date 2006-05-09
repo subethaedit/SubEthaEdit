@@ -64,7 +64,7 @@ NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
         NSLog(@"mist, fsref ging nicht");
     }
     OSStatus err = noErr;
-    err = OSALoadFile(component,&fsRef,NULL,NULL,&scriptID);
+    err = OSALoadFile(component,&fsRef,NULL,0,&scriptID);
     if (err==noErr) {
         err = OSAExecute(component,scriptID,contextID,kOSAModeNull,&resultID);
         AEDesc resultData;

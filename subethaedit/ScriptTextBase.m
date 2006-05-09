@@ -7,6 +7,8 @@
 //
 
 #import "ScriptTextBase.h"
+#import "ScriptLine.h"
+#import "ScriptCharacters.h"
 #import "TextStorage.h"
 #import "PlainTextDocument.h"
 
@@ -49,12 +51,43 @@
     return [NSNumber numberWithInt:[I_textStorage lineNumberForLocation:EndCharacterIndex([self rangeRepresentation])]];
 }
 
+- (NSArray *)scriptedLines {
+    int index    = [[self scriptedStartLine] intValue];
+    int endIndex = [[self scriptedEndLine] intValue];
+    NSMutableArray *result = [NSMutableArray array];
+    for (;index<=endIndex;index++) {
+        [result addObject:[ScriptLine scriptLineWithTextStorage:I_textStorage lineNumber:index]];
+    }
+    return result;
+}
+
 - (NSArray *)words {
     return [[[[NSTextStorage alloc] initWithAttributedString:[I_textStorage attributedSubstringFromRange:[self rangeRepresentation]]] autorelease] words];
 }
 
 - (void)setWords:(NSArray *)wordArray {
     NSBeep();
+}
+
+- (id)scriptedCharacters {
+    NSLog(@"%s", __FUNCTION__);
+    NSMutableArray *result=[NSMutableArray array];
+    NSRange range=[self rangeRepresentation];
+    int nextIndex=NSMaxRange(range);
+    int index=range.location;
+    while (index<nextIndex) {
+        [result addObject:[ScriptCharacters scriptCharactersWithTextStorage:I_textStorage characterRange:NSMakeRange(index++,1)]];
+    }
+    return result;
+}
+
+- (unsigned int)countOfScriptedCharacters {
+    return [self rangeRepresentation].length;
+}
+
+- (id)valueInScriptedCharactersAtIndex:(unsigned)index {
+    NSLog(@"%s: %d", __FUNCTION__, index);
+    return [ScriptCharacters scriptCharactersWithTextStorage:I_textStorage characterRange:NSMakeRange(index+[[self scriptedStartCharacterIndex] intValue],1)];
 }
 
 - (id)scriptedContents

@@ -376,14 +376,10 @@ enum {
 
 - (void)selectRange:(NSRange)aRange {
     NSTextView *aTextView=[[self activePlainTextEditor] textView];
-    NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[[aTextView textStorage] length]));
-    if (range.length > 0 || 
-        (aRange.length==0 && aRange.location <= [[aTextView textStorage] length])) {
-        [aTextView setSelectedRange:range];
-        [aTextView scrollRangeToVisible:range];
-    } else {
-        NSBeep();
-    }
+    NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[[aTextView textStorage] length]));
+    [aTextView setSelectedRange:range];
+    [aTextView scrollRangeToVisible:range];
+    if (!NSEqualRanges(range,aRange)) NSBeep();
 }
 
 #pragma mark -

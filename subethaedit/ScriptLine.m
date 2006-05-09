@@ -35,6 +35,15 @@
     unsigned lineEndIndex;
     unsigned contentsEndIndex;
     [[I_textStorage string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:[I_textStorage findLine:I_lineNumber]];
+    return NSMakeRange(startIndex, lineEndIndex - startIndex);
+}
+
+- (NSRange)innerRangeRepresentation
+{
+    unsigned startIndex;
+    unsigned lineEndIndex;
+    unsigned contentsEndIndex;
+    [[I_textStorage string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:[I_textStorage findLine:I_lineNumber]];
     return NSMakeRange(startIndex, contentsEndIndex - startIndex);
 }
 
@@ -48,10 +57,22 @@
     NSIndexSpecifier *indexSpecifier = 
         [[[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                   containerSpecifier:containerSpecifier
-                                                                 key:@"lines"
+                                                                 key:@"scriptedLines"
                                                                index:I_lineNumber-1] autorelease];
                                                                
     return indexSpecifier;
 }
+
+
+- (id)scriptedInnerContents
+{
+    return [[I_textStorage string] substringWithRange:[self innerRangeRepresentation]];
+}
+
+- (void)setScriptedInnerContents:(id)value {
+    NSLog(@"%s: %@", __FUNCTION__, value);
+    [[I_textStorage delegate] replaceTextInRange:[self innerRangeRepresentation] withString:value];
+}
+
 
 @end

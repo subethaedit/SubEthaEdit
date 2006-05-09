@@ -20,6 +20,7 @@
 - (NSNumber *)scriptedNextCharacterIndex;
 - (NSNumber *)scriptedStartLine;
 - (NSNumber *)scriptedEndLine;
-
+- (NSArray *)scriptedLines;
+- (NSArray *)scriptedCharacters;
 
 @end

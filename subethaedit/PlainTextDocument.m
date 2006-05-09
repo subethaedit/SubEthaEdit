@@ -622,10 +622,7 @@ static NSString *tempFileName(NSString *origPath) {
         NSRange symbolRange=[[I_symbolArray objectAtIndex:[aMenuItem tag]] jumpRange];
         NSTextView *textView=[aMenuItem representedObject];
         NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
-        symbolRange=NSIntersectionRange(symbolRange,wholeRange);
-        if (symbolRange.location==NSNotFound) {
-            symbolRange=NSMakeRange(NSMaxRange(wholeRange)>0?NSMaxRange(wholeRange)-1:0,0);
-        }
+        symbolRange=RangeConfinedToRange(symbolRange,wholeRange);
         [textView setSelectedRange:symbolRange];
         [textView scrollRangeToVisible:symbolRange];
         PlainTextWindowController *controller=(PlainTextWindowController *)[[textView window] windowController];

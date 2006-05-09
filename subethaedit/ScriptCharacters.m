@@ -31,7 +31,7 @@
 }
 
 - (NSRange)rangeRepresentation {
-    return NSIntersectionRange(NSMakeRange(0,[I_textStorage length]),I_characterRange);
+    return RangeConfinedToRange(I_characterRange,NSMakeRange(0,[I_textStorage length]));
 }
 
 - (id)objectSpecifier
@@ -45,21 +45,21 @@
         NSIndexSpecifier *startSpecifier = 
             [[[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                       containerSpecifier:nil
-                                                                     key:@"characters"
+                                                                     key:@"scriptedCharacters"
                                                                    index:I_characterRange.location] autorelease];
         [startSpecifier setContainerIsRangeContainerObject:YES];
 
         NSIndexSpecifier *endSpecifier = 
             [[[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                       containerSpecifier:nil
-                                                                     key:@"characters"
+                                                                     key:@"scriptedCharacters"
                                                                    index:NSMaxRange(I_characterRange) - 1] autorelease];
         [endSpecifier setContainerIsRangeContainerObject:YES];
 
         NSRangeSpecifier *rangeSpecifier = 
             [[[NSRangeSpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                       containerSpecifier:containerSpecifier
-                                                                     key:@"characters"
+                                                                     key:@"scriptedCharacters"
                                                           startSpecifier:startSpecifier
                                                             endSpecifier:endSpecifier] autorelease];  
 
@@ -68,7 +68,7 @@
         NSIndexSpecifier *indexSpecifier = 
             [[[NSIndexSpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                       containerSpecifier:containerSpecifier
-                                                                     key:@"characters"
+                                                                     key:@"scriptedCharacters"
                                                                    index:I_characterRange.location] autorelease];
 
         return indexSpecifier;
