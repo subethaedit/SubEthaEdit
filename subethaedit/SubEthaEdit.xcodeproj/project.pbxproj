@@ -1357,6 +1357,7 @@
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */,
 			);
+			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
 			name = SubEthaEdit;
 			sourceTree = "<group>";
 		};
