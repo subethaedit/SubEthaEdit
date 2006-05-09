@@ -69,7 +69,7 @@
     NSBeep();
 }
 
-- (id)scriptedCharacters {
+- (NSArray *)scriptedCharacters {
     NSLog(@"%s", __FUNCTION__);
     NSMutableArray *result=[NSMutableArray array];
     NSRange range=[self rangeRepresentation];

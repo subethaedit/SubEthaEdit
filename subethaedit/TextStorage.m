@@ -1070,7 +1070,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     NSPropertySpecifier *propertySpecifier = 
         [[[NSPropertySpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                      containerSpecifier:containerSpecifier
-                                                                    key:@"contents"] autorelease];
+                                                                    key:@"scriptedPlainContents"] autorelease];
 
     return propertySpecifier;
 }

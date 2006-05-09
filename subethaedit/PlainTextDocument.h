@@ -333,8 +333,8 @@ typedef enum {
 - (AccessOptions)accessOption;
 - (void)setAccessOption:(AccessOptions)option;
 - (NSString *)announcementURL;
-- (TextStorage *)contents;
-- (void)setContents:(id)value;
+- (TextStorage *)scriptedPlainContents;
+- (void)setScriptedPlainContents:(id)value;
 - (id)scriptSelection;
 - (void)setScriptSelection:(id)selection;
 

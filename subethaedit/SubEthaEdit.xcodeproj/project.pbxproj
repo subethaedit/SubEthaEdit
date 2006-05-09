@@ -1489,6 +1489,8 @@
 				142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */,
 				5EDD300D0A091BD60036E63A /* NSWindowScriptingAdditions.h */,
 				5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */,
+				5EDD304C0A092AA50036E63A /* ScriptTextBase.h */,
+				5EDD304D0A092AA50036E63A /* ScriptTextBase.m */,
 				14E291E70A07B480007C0065 /* ScriptCharacters.h */,
 				14E291E80A07B480007C0065 /* ScriptCharacters.m */,
 				14E291C40A07A501007C0065 /* ScriptLine.h */,
@@ -1501,8 +1503,6 @@
 				5E0F6AE30A039283003D2813 /* SESendProc.m */,
 				5E0F6AE50A039283003D2813 /* SEActiveProc.h */,
 				5E0F6AE40A039283003D2813 /* SEActiveProc.m */,
-				5EDD304C0A092AA50036E63A /* ScriptTextBase.h */,
-				5EDD304D0A092AA50036E63A /* ScriptTextBase.m */,
 				14E2944E0A0CBFB0007C0065 /* SelectCommand.h */,
 				14E2944F0A0CBFB0007C0065 /* SelectCommand.m */,
 			);

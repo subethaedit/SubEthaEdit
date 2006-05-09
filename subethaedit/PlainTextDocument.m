@@ -4858,12 +4858,23 @@ static NSString *S_measurementUnits;
     return nil;
 }
 
-- (TextStorage *)contents {
+- (NSString *)scriptedContents
+{
+    NSLog(@"%s", __FUNCTION__);
+    return [I_textStorage string];
+}
+
+- (void)setScriptedContents:(id)value {
+    NSLog(@"%s: %d", __FUNCTION__, value);
+    [self replaceTextInRange:NSMakeRange(0,[I_textStorage length]) withString:value];
+}
+
+- (TextStorage *)scriptedPlainContents {
     NSLog(@"%s", __FUNCTION__);
     return (TextStorage *)I_textStorage;
 }
 
-- (void)setContents:(id)value {
+- (void)setScriptedPlainContents:(id)value {
     NSLog(@"%s: %@", __FUNCTION__, value);
     if ([value isKindOfClass:[NSString class]]) {
         [self replaceTextInRange:NSMakeRange(0, [I_textStorage length]) withString:value];
@@ -4885,16 +4896,6 @@ static NSString *S_measurementUnits;
         }
     } else {
         return [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:value toClass:[DocumentMode class]];
-    }
-}
-
-- (id)coerceValueForText:(id)value {
-    NSLog(@"%s: %d", __FUNCTION__, value);
-    // We want to just get Strings unchanged.  We will detect this and do the right thing in setTextStorage().  We do this because, this way, we will do more reasonable things about attributes when we are receiving plain text.
-    if ([value isKindOfClass:[NSString class]]) {
-        return value;
-    } else {
-        return [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:value toClass:[NSString class]];
     }
 }
 
