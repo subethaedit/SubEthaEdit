@@ -51,8 +51,8 @@ NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
 }
 
 - (void)executeAndReturnError:(NSDictionary **)errorDictionary {
-//    [I_appleScript executeAndReturnError:errorDictionary];
-
+    [I_appleScript executeAndReturnError:errorDictionary];
+/*
     OSAID resultID  = kOSANullScript;
     OSAID contextID = kOSANullScript;
     OSAID scriptID  = [I_appleScript _compiledScriptID];
@@ -92,6 +92,7 @@ NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
     } else {
         NSLog(@"OSALoadFile did fail");
     }
+    */
 }
 
 - (NSDictionary *)settingsDictionary {

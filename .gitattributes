@@ -400,6 +400,7 @@ subethaedit/Modes/CSS.mode/Contents/Resources/German.lproj/InfoPlist.strings -te
 subethaedit/Modes/CSS.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/CSS.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/CSS.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/CSS.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
 subethaedit/Modes/CSS.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/CSS.mode/Contents/Resources/SymbolID.png -text
 subethaedit/Modes/CSS.mode/Contents/Resources/SyntaxDefinition.xml -text
@@ -431,6 +432,7 @@ subethaedit/Modes/HTML.mode/Contents/Resources/German.lproj/InfoPlist.strings -t
 subethaedit/Modes/HTML.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/HTML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/HTML.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/SymbolD.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/SymbolH.png -text
@@ -454,6 +456,7 @@ subethaedit/Modes/Javascript.mode/Contents/Resources/German.lproj/InfoPlist.stri
 subethaedit/Modes/Javascript.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Javascript.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/LaTeX.mode/Contents/Info.plist -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/AutocompleteAdditions.txt -text
@@ -545,6 +548,7 @@ subethaedit/Modes/Ruby.mode/Contents/Resources/German.lproj/Localizable.strings 
 subethaedit/Modes/Ruby.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/README.txt -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Ruby.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/SymbolD.png -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/SyntaxDefinition.xml -text
