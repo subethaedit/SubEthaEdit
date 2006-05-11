@@ -168,6 +168,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         [I_scriptOrderArray release];
          I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
         
+        NSArray *searchLocations = [NSArray arrayWithObjects:I_bundle,[NSBundle mainBundle],nil];
         I_menuItemArray = [NSMutableArray new];
         I_toolbarItemsByIdentifier     =[NSMutableDictionary new];
         I_toolbarItemIdentifiers       =[NSMutableArray new];
@@ -175,7 +176,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         int i=0;
         for (i=0;i<[I_scriptOrderArray count];i++) {
             NSString *filename = [I_scriptOrderArray objectAtIndex:i];
-            NSDictionary *settingsDictionary = [[I_scriptsByFilename objectForKey:filename] settingsDictionary];
+            ScriptWrapper *script = [I_scriptsByFilename objectForKey:filename];
+            NSDictionary *settingsDictionary = [script settingsDictionary];
             NSString *displayName = filename;
             if (settingsDictionary && [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey]) {
                 displayName = [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey];
@@ -186,32 +188,15 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             if (settingsDictionary) {
                 [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:ScriptWrapperKeyboardShortcutSettingsKey]];
             }
-            [item setTag:SCRIPTMODEMENUTAGBASE+i];
-            [item setTarget:self];
+            [item setTarget:script];
             [I_menuItemArray addObject:[item autorelease]];
-            
-            NSString *toolbarImageName=[settingsDictionary objectForKey:ScriptWrapperToolbarIconSettingsKey];
-            if (toolbarImageName) {
-                NSString *toolbarItemIdentifier = [NSString stringWithFormat:@"%@ToolbarItemIdentifier", filename];
-                NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:toolbarItemIdentifier] autorelease];
 
-                NSImage           *toolbarImage=[[[NSImage alloc] 
-                                                    initWithContentsOfFile:[I_bundle pathForImageResource:toolbarImageName]] autorelease];
-                if (!toolbarImage) toolbarImage=[NSImage imageNamed:toolbarImageName];
-                if (!toolbarImage) {
-                    NSLog(@"Couldn't find toolbar image %@ for script %@ of mode %@", toolbarImageName, filename, [self documentModeIdentifier]);
-                } else {
-                    [toolbarItem setLabel:displayName];
-                    [toolbarItem setPaletteLabel:displayName];
-                    [toolbarItem setImage:toolbarImage];
-                    [toolbarItem setTarget:self];
-                    [toolbarItem setAction:@selector(performScriptAction:)];
-                    [toolbarItem setTag:SCRIPTMODEMENUTAGBASE+i];
-                    [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:toolbarItemIdentifier];
-                    [I_toolbarItemIdentifiers addObject:toolbarItemIdentifier];
-                    if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
-                        [I_defaultToolbarItemIdentifiers addObject:toolbarItemIdentifier];
-                    }
+            NSToolbarItem *toolbarItem=[script toolbarItemWithImageSearchLocations:searchLocations identifierAddition:[self documentModeIdentifier]];
+            if (toolbarItem) {
+                [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
+                [I_toolbarItemIdentifiers  addObject:[toolbarItem itemIdentifier]];
+                if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
+                    [I_defaultToolbarItemIdentifiers addObject:[toolbarItem itemIdentifier]];
                 }
             }
         }
@@ -590,27 +575,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (NSArray *)scriptMenuItemArray {
     return (NSArray *)I_menuItemArray;
-}
-
-- (IBAction)performScriptAction:(id)aSender {
-    int index = [aSender tag] - SCRIPTMODEMENUTAGBASE;
-    if (index >= 0 && index < [I_scriptOrderArray count]) {
-        NSString *scriptFilename=[I_scriptOrderArray objectAtIndex:index];
-        ScriptWrapper *script = [I_scriptsByFilename objectForKey:scriptFilename];
-        // if the user click the item, the current event isn't a mousedown or up event, so we need getcurrentkeymodifiers
-        // if the user pressed the shortcut, we don't want to show the source, so we check for a keydown event
-        if (([[NSApp currentEvent] type]!=NSKeyDown) &&
-            (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) ||
-             (GetCurrentKeyModifiers() & optionKey)) ) {
-            [script revealSource];
-        } else {
-            NSDictionary *errorDictionary=nil;
-            [script executeAndReturnError:&errorDictionary];
-            if (errorDictionary) {
-                [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
-            }
-        }
-    }
 }
 
 #pragma mark -

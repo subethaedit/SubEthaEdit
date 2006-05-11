@@ -778,6 +778,8 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     [I_scriptOrderArray release];
      I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
     
+    NSArray *searchLocations = [NSArray arrayWithObject:[NSBundle mainBundle]];
+    
     int i=0;
     for (i=0;i<[I_scriptOrderArray count];i++) {
         NSString *filename = [I_scriptOrderArray objectAtIndex:i];
@@ -793,30 +795,16 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
         if (settingsDictionary) {
             [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:ScriptWrapperKeyboardShortcutSettingsKey]];
         }
-        [item setTag:SCRIPTMENUTAGBASE+i];
-        [item setTarget:self];
+        [item setTarget:script];
         [scriptMenu addItem:[item autorelease]];
-        
-        NSString *toolbarImageName=nil;
-        if (settingsDictionary && (toolbarImageName=[settingsDictionary objectForKey:ScriptWrapperToolbarIconSettingsKey])) {
-            NSString *toolbarItemIdentifier = [NSString stringWithFormat:@"%@ScriptToolbarItemIdentifier", filename];
-            NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:toolbarItemIdentifier] autorelease];
 
-            NSImage *toolbarImage=[NSImage imageNamed:toolbarImageName];
-            if (!toolbarImage) {
-                NSLog(@"Couldn't find toolbar image %@ for script %@", toolbarImageName, filename);
-            } else {
-                [toolbarItem setLabel:displayName];
-                [toolbarItem setPaletteLabel:displayName];
-                [toolbarItem setImage:toolbarImage];
-                [toolbarItem setTarget:self];
-                [toolbarItem setAction:@selector(performScriptAction:)];
-                [toolbarItem setTag:SCRIPTMENUTAGBASE+i];
-                [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:toolbarItemIdentifier];
-                [I_toolbarItemIdentifiers addObject:toolbarItemIdentifier];
-                if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
-                    [I_defaultToolbarItemIdentifiers addObject:toolbarItemIdentifier];
-                }
+        NSToolbarItem *toolbarItem = [script toolbarItemWithImageSearchLocations:searchLocations identifierAddition:@"Application"];
+        
+        if (toolbarItem) {
+            [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
+            [I_toolbarItemIdentifiers  addObject:[toolbarItem itemIdentifier]];
+            if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
+                [I_defaultToolbarItemIdentifiers addObject:[toolbarItem itemIdentifier]];
             }
         }
     }
@@ -847,25 +835,6 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
                          modalDelegate:nil
                         didEndSelector:nil
                            contextInfo:NULL];
-}
-
-- (IBAction)performScriptAction:(id)aSender {
-    int index = [aSender tag] - SCRIPTMENUTAGBASE;
-    if (index >= 0 && index < [I_scriptOrderArray count]) {
-        NSString *scriptFilename=[I_scriptOrderArray objectAtIndex:index];
-        ScriptWrapper *script = [I_scriptsByFilename objectForKey:scriptFilename];
-        if (([[NSApp currentEvent] type]!=NSKeyDown) &&
-            (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) ||
-             (GetCurrentKeyModifiers() & optionKey)) ) {
-            [script revealSource];
-        } else {
-            NSDictionary *errorDictionary=nil;
-            [script executeAndReturnError:&errorDictionary];
-            if (errorDictionary) {
-                [self reportAppleScriptError:errorDictionary];
-            }
-        }
-    }
 }
 
 - (IBAction)showScriptFolder:(id)aSender {

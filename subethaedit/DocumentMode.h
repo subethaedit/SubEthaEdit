@@ -107,7 +107,6 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 - (SyntaxStyle *)defaultSyntaxStyle;
 
 - (NSArray *)scriptMenuItemArray;
-- (IBAction)performScriptAction:(id)aSender;
 
 - (BOOL)isBaseMode;
 @end

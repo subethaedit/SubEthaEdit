@@ -13,6 +13,8 @@
 #import "SEActiveProc.h"
 
 NSString * const ScriptWrapperDisplayNameSettingsKey     =@"displayname";
+NSString * const ScriptWrapperShortDisplayNameSettingsKey=@"shortdisplayname";
+NSString * const ScriptWrapperToolbarToolTipSettingsKey  =@"toolbartooltip";
 NSString * const ScriptWrapperKeyboardShortcutSettingsKey=@"keyboardshortcut";
 NSString * const ScriptWrapperToolbarIconSettingsKey     =@"toolbaricon";
 NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
@@ -105,12 +107,62 @@ NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
     return I_settingsDictionary;
 }
 
+- (NSToolbarItem *)toolbarItemWithImageSearchLocations:(NSArray *)anImageSearchLocationsArray identifierAddition:(NSString *)anAddition {
+    NSDictionary *settingsDictionary=[self settingsDictionary];
+    NSString *imageName=[settingsDictionary objectForKey:ScriptWrapperToolbarIconSettingsKey];
+    if (imageName) {
+        NSImage *toolbarImage = nil;
+        NSEnumerator *searchLocations=[anImageSearchLocationsArray objectEnumerator];
+        id searchLocation = nil;
+        while (!toolbarImage && (searchLocation=[searchLocations nextObject])) {
+            if ([searchLocation isKindOfClass:[NSBundle class]]) {
+                NSString *imagePath = [searchLocation pathForImageResource:imageName];
+                if (imagePath) toolbarImage = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
+            }
+        }
+        if (!toolbarImage) toolbarImage = [NSImage imageNamed:imageName];
+        if (!toolbarImage) NSLog(@"Image for script: %@ was not found.", [I_URL path]);
+        if (toolbarImage) {
+            NSString *toolbarItemIdentifier = [NSString stringWithFormat:@"%@%@ToolbarItemIdentifier", [[I_URL path] lastPathComponent], anAddition];
+            NSString *displayName = [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey]?[settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey]:[[[I_URL path] lastPathComponent] stringByDeletingPathExtension];
+
+            NSToolbarItem *item=[[[NSToolbarItem alloc] initWithItemIdentifier:toolbarItemIdentifier] autorelease];
+            [item setImage:toolbarImage];
+            [item setLabel:[settingsDictionary objectForKey:ScriptWrapperShortDisplayNameSettingsKey]?[settingsDictionary objectForKey:ScriptWrapperShortDisplayNameSettingsKey]:displayName];
+            [item setPaletteLabel:[item label]];
+            [item setTarget:self];
+            [item setAction:@selector(performScriptAction:)];
+            if ([settingsDictionary objectForKey:ScriptWrapperToolbarToolTipSettingsKey]) {
+                [item setToolTip:[settingsDictionary objectForKey:ScriptWrapperToolbarToolTipSettingsKey]];
+            }
+            return item;
+        }
+    }
+    return nil;
+}
+
+
 - (void)revealSource {
     if ([I_URL isFileURL]) {
         [[NSWorkspace sharedWorkspace] selectFile:[I_URL path] inFileViewerRootedAtPath:nil];
     } else {
         NSBeep();
     }
+}
+
+- (void)performScriptAction:(id)aSender {
+    if (([[NSApp currentEvent] type]!=NSKeyDown) &&
+        (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) ||
+         (GetCurrentKeyModifiers() & optionKey)) ) {
+        [self revealSource];
+    } else {
+        NSDictionary *errorDictionary=nil;
+        [self executeAndReturnError:&errorDictionary];
+        if (errorDictionary) {
+            [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
+        }
+    }
+
 }
 
 @end
