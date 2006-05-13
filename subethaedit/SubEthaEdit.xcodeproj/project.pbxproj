@@ -2602,7 +2602,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "SubEthaEdit-SystemVersionCheck";
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Unstripped;
 		};
