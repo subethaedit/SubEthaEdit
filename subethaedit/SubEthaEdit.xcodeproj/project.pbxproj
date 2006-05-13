@@ -242,13 +242,17 @@
 		14289572095776DE00D14688 /* see.1 in Resources */ = {isa = PBXBuildFile; fileRef = 142894E9095767CD00D14688 /* see.1 */; };
 		14289BD709581C3000D14688 /* FindReplace.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD109581C3000D14688 /* FindReplace.nib */; };
 		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
+		144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */; };
+		144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */; };
+		144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */; };
+		144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */; };
+		144483B10A160D6B00F36B34 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */; };
 		1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		1493A80C0A10C8EB004ECE6A /* SubEthaEdit-SystemVersionCheck in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */; };
 		1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */; };
-		14E290E90A06DBC7007C0065 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		14E291C70A07A501007C0065 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
 		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
 		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; };
@@ -256,7 +260,6 @@
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
-		311717F50A0E8C3600A9DA18 /* ModeSettings.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 311717F30A0E8C3600A9DA18 /* ModeSettings.h */; };
 		5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE30A039283003D2813 /* SESendProc.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
 		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
@@ -418,7 +421,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
-				311717F50A0E8C3600A9DA18 /* ModeSettings.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -745,7 +747,6 @@
 		1428945F09575B9700D14688 /* URLDataProtocol.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = URLDataProtocol.m; sourceTree = "<group>"; };
 		1428946009575B9700D14688 /* WebPreviewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WebPreviewWindowController.h; sourceTree = "<group>"; };
 		1428946109575B9700D14688 /* WebPreviewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WebPreviewWindowController.m; sourceTree = "<group>"; };
-		1428947D09575E0500D14688 /* SubEthaEdit-PantherScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = "SubEthaEdit-PantherScripting.r"; sourceTree = "<group>"; };
 		1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = SubEthaEditSuite.scriptSuite; sourceTree = "<group>"; };
 		1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = SubEthaEditSuite.scriptTerminology; sourceTree = "<group>"; };
 		1428949109575EF500D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GeneralPrefs.nib; sourceTree = "<group>"; };
@@ -762,6 +763,8 @@
 		142898200958194100D14688 /* createDiskImage.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = createDiskImage.sh; sourceTree = "<group>"; };
 		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
 		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };
+		144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptSuite; sourceTree = "<group>"; };
+		144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptTerminology; sourceTree = "<group>"; };
 		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
 		144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSavePanelTCMAdditions.m; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
@@ -915,9 +918,10 @@
 			children = (
 				1428905A0957434600D14688 /* SubEthaEdit.sdef */,
 				14E290E70A06DB8A007C0065 /* SubEthaEdit-Panther.sdef */,
-				1428947D09575E0500D14688 /* SubEthaEdit-PantherScripting.r */,
 				1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */,
 				1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */,
+				144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */,
+				144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */,
 			);
 			name = AppleScript;
 			sourceTree = "<group>";
@@ -1620,7 +1624,6 @@
 			buildPhases = (
 				1428947209575D2D00D14688 /* Run Script (sdp) */,
 				8D15AC2B0486D014006FF6A4 /* Resources */,
-				1428948209575E2300D14688 /* Rez */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
@@ -1726,7 +1729,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14E290E90A06DBC7007C0065 /* SubEthaEdit.sdef in Resources */,
+				144483B10A160D6B00F36B34 /* SubEthaEdit.sdef in Resources */,
 				1428900D095740F200D14688 /* Acknowledgements.txt in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				142890140957413900D14688 /* Localizable.strings in Resources */,
@@ -1833,20 +1836,14 @@
 				5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */,
 				5E6AEEE309FE7C5700276D7C /* ToolbarIconColorChooser.tiff in Resources */,
 				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
+				144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */,
+				144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */,
+				144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */,
+				144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXRezBuildPhase section */
-		1428948209575E2300D14688 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		1428947209575D2D00D14688 /* Run Script (sdp) */ = {
@@ -1861,11 +1858,12 @@
 			outputPaths = (
 				"$(SRCROOT)/SubEthaEditSuite.scriptSuite",
 				"$(SRCROOT)/SubEthaEditSuite.scriptTerminology",
-				"$(SRCROOT)/SubEthaEdit-PantherScripting.r",
+				"$(SRCROOT)/TCMTextSuite.scriptTerminology",
+				"$(SRCROOT)/TCMTextSuite.scriptSuite",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "exit 0\n\necho \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit-Panther.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
+			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f st -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit-Panther.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSDocument/SubEthaEditSuite.PlainTextDocument/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
 		};
 		142898130958165400D14688 /* Run Script (Deployment) */ = {
 			isa = PBXShellScriptBuildPhase;
