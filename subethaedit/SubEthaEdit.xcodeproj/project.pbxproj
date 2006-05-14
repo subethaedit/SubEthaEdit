@@ -275,6 +275,8 @@
 		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
 		5E6AEEE309FE7C5700276D7C /* ToolbarIconColorChooser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */; };
 		5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA1258809E2B4190055965D /* ScriptWrapper.m */; };
+		5EB51AF80A177CF500AE2E17 /* InvisibleCharactersShow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */; };
+		5EB51AF90A177CF500AE2E17 /* InvisibleCharactersHide.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */; };
 		5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */; };
 		5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */; };
 		5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
@@ -833,6 +835,8 @@
 		5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconColorChooser.tiff; path = artwork/ToolbarIconColorChooser.tiff; sourceTree = "<group>"; };
 		5EA1258709E2B4190055965D /* ScriptWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptWrapper.h; sourceTree = "<group>"; };
 		5EA1258809E2B4190055965D /* ScriptWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptWrapper.m; sourceTree = "<group>"; };
+		5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvisibleCharactersShow.png; path = artwork/InvisibleCharactersShow.png; sourceTree = "<group>"; };
+		5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvisibleCharactersHide.png; path = artwork/InvisibleCharactersHide.png; sourceTree = "<group>"; };
 		5EDD2FFD0A08D71D0036E63A /* ScriptTextSelection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScriptTextSelection.h; sourceTree = "<group>"; };
 		5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ScriptTextSelection.m; sourceTree = "<group>"; };
 		5EDD300D0A091BD60036E63A /* NSWindowScriptingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSWindowScriptingAdditions.h; sourceTree = "<group>"; };
@@ -947,6 +951,8 @@
 				14289071095743F200D14688 /* InternetStop.tiff */,
 				5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */,
 				5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */,
+				5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */,
+				5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */,
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
 				14289073095743F200D14688 /* Mode.icns */,
 				14289075095743F200D14688 /* NamedLogo2.tiff */,
@@ -1840,6 +1846,8 @@
 				144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */,
 				144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */,
 				144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */,
+				5EB51AF80A177CF500AE2E17 /* InvisibleCharactersShow.png in Resources */,
+				5EB51AF90A177CF500AE2E17 /* InvisibleCharactersHide.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

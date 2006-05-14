@@ -1450,7 +1450,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (NSWindow *)windowForSheet {
-    NSWindow *result=[super windowForSheet];
+    NSWindow *result=[[self topmostWindowController] window];
     if (!result && I_documentProxyWindowController) {
         result = [I_documentProxyWindowController window];
     }

@@ -50,6 +50,9 @@ NSString * const ToggleChangeMarksToolbarItemIdentifier =
                @"ToggleChangeMarksToolbarItemIdentifier";
 NSString * const ToggleAnnouncementToolbarItemIdentifier = 
                @"ToggleAnnouncementToolbarItemIdentifier";
+NSString * const ToggleShowInvisibleCharactersToolbarItemIdentifier = 
+               @"ToggleShowInvisibleCharactersToolbarItemIdentifier";
+
 
 static int KickButtonStateMask=1;
 static int ReadOnlyButtonStateMask=2;
@@ -777,6 +780,13 @@ enum {
         [toolbarItem setImage:([NSImage imageNamed: @"ShowChangeMarks"])];
         [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(toggleShowsChangeMarks:)];    
+    } else if ([itemIdent isEqual:ToggleShowInvisibleCharactersToolbarItemIdentifier]) {
+        [toolbarItem setToolTip:NSLocalizedString(@"Toggle Invisible Characters", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Show Invisibles", nil)];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Toggle Invisibles", nil)];
+        [toolbarItem setImage:([NSImage imageNamed: @"InvisibleCharactersShow"])];
+        [toolbarItem setTarget:self];
+        [toolbarItem setAction:@selector(toggleShowInvisibleCharacters:)];    
     } else if ([itemIdent isEqual:PreviousSymbolToolbarItemIdentifier]) {
         [toolbarItem setToolTip:NSLocalizedString(@"Goto Previous Symbol", nil)];
         [toolbarItem setLabel:NSLocalizedString(@"Previous Symbol", nil)];
@@ -865,6 +875,7 @@ enum {
                 NextChangeToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
                 ToggleAnnouncementToolbarItemIdentifier,
+                ToggleShowInvisibleCharactersToolbarItemIdentifier,
                 NSToolbarPrintItemIdentifier,
                 NSToolbarCustomizeToolbarItemIdentifier,
                 NSToolbarSeparatorItemIdentifier,
@@ -916,9 +927,22 @@ enum {
                               ?NSLocalizedString(@"Hide Changes", nil)
                               :NSLocalizedString(@"Show Changes", nil)];
         return YES;
+    } else if ([itemIdentifier isEqualToString:ToggleShowInvisibleCharactersToolbarItemIdentifier]) {
+        BOOL showsInvisibleCharacters = [[self activePlainTextEditor] showsInvisibleCharacters];
+        [toolbarItem setImage:showsInvisibleCharacters
+                              ?[NSImage imageNamed: @"InvisibleCharactersHide"]
+                              :[NSImage imageNamed: @"InvisibleCharactersShow"]];
+        [toolbarItem setLabel:showsInvisibleCharacters
+                              ?NSLocalizedString(@"Hide Invisibles", nil)
+                              :NSLocalizedString(@"Show Invisibles", nil)];
+        return YES;
     }
     
     return YES;
+}
+
+- (IBAction)toggleShowInvisibleCharacters:(id)aSender {
+    [[self activePlainTextEditor] setShowsInvisibleCharacters:![[self activePlainTextEditor] showsInvisibleCharacters]];
 }
 
 - (IBAction)toggleShowsChangeMarks:(id)aSender {
