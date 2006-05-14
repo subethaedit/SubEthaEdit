@@ -519,6 +519,14 @@
                 <type type="window"/>
             </direct-parameter>
         </command>
+
+        <command name="show web preview" code="Hdrasweb" description="Opens the web preview.">
+            <direct-parameter description="the document(s) or window(s) to open the web preview for.">
+                <type type="document"/>
+                <type type="window"/>
+            </direct-parameter>
+        </command>
+
         
         <command name="see" code="HdraSee " description="Do not use this command.">
             <parameter name="files" code="File" optional="yes" hidden="yes" description="">
@@ -632,6 +640,9 @@
             <responds-to name="clear change marks">
                 <cocoa method="handleClearChangeMarksCommand:"/>
             </responds-to>
+            <responds-to name="show web preview">
+                <cocoa method="handleShowWebPreviewCommand:"/>
+            </responds-to>
         </class>
 
         <class name="window" code="cwin" description="A window." inherits="window">
@@ -649,6 +660,9 @@
                 description="The document whose contents are being displayed in the window."/>
             <responds-to name="clear change marks">
                 <cocoa method="handleClearChangeMarksCommand:"/>
+            </responds-to>
+            <responds-to name="show web preview">
+                <cocoa method="handleShowWebPreviewCommand:"/>
             </responds-to>
         </class>
 

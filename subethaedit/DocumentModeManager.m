@@ -455,6 +455,54 @@
             
         }
     }
+    if (aFlag) {
+        [aMenu addItem:[NSMenuItem separatorItem]];
+        menuItem = [[NSMenuItem alloc] 
+            initWithTitle:NSLocalizedString(@"Open User Modes Folder", @"Menu item in alternate mode menu for opening the user modes folder.")
+                   action:@selector(revealModesFolder:)
+            keyEquivalent:@""];
+        [menuItem setTag:2];
+        [menuItem setTarget:self];
+        [aMenu addItem:menuItem];
+        [menuItem release];
+
+        menuItem = [[NSMenuItem alloc] 
+            initWithTitle:NSLocalizedString(@"Open System Modes Folder",@"Menu item in alternate mode menu for opening the system modes folder.")
+                   action:@selector(revealModesFolder:)
+            keyEquivalent:@""];
+        [menuItem setTag:1];
+        [menuItem setTarget:self];
+        [aMenu addItem:menuItem];
+        [menuItem release];
+
+        menuItem = [[NSMenuItem alloc] 
+            initWithTitle:NSLocalizedString(@"Open SubEthaEdit Modes Folder",@"Menu item in alternate mode menu for opening the SubEthaEdit modes folder.")
+                   action:@selector(revealModesFolder:)
+            keyEquivalent:@""];
+        [menuItem setTag:0];
+        [menuItem setTarget:self];
+        [aMenu addItem:menuItem];
+        [menuItem release];
+    }
+}
+
+- (IBAction)revealModesFolder:(id)aSender {
+    NSString *directoryString = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/"];
+    switch ([aSender tag]) {
+        case 2: {
+            NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+            NSString *path=[userDomainPaths lastObject];
+            directoryString = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; }
+            break;
+        case 1: {
+            NSArray *systemDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSSystemDomainMask, YES);
+            NSString *path=[systemDomainPaths lastObject];
+            directoryString = [path stringByAppendingPathComponent:MODEPATHCOMPONENT];
+            }
+            break;
+    }
+    NSLog(@"%@",directoryString);
+    if (![[NSWorkspace sharedWorkspace] openFile:directoryString]) NSBeep();;
 }
 
 - (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode {

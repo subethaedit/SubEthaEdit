@@ -149,7 +149,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (IBAction)newView:(id)aSender;
 - (IBAction)goIntoBundles:(id)sender;
 - (IBAction)showHiddenFiles:(id)sender;
-
+- (IBAction)showWebPreview:(id)aSender;
 - (BOOL)isProxyDocument;
 - (BOOL)isPendingInvitation;
 - (void)makeProxyWindowController;
@@ -327,6 +327,7 @@ typedef enum {
 
 @interface PlainTextDocument (PlainTextDocumentScriptingAdditions)
 - (void)handleClearChangeMarksCommand:(NSScriptCommand *)command;
+- (void)handleShowWebPreviewCommand:(NSScriptCommand *)command;
 - (void)replaceTextInRange:(NSRange)range withString:(NSString *)string;
 - (NSString *)encoding;
 - (void)setEncoding:(NSString *)name;

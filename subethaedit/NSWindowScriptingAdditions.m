@@ -25,4 +25,10 @@
 - (void)handleClearChangeMarksCommand:(NSScriptCommand *)aCommand {
     [[[self windowController] document] handleClearChangeMarksCommand:aCommand];
 }
+
+- (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
+    [[[self windowController] document] showWebPreview:self];
+}
+
+
 @end

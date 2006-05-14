@@ -4735,6 +4735,9 @@ static NSString *S_measurementUnits;
     [self clearChangeMarks:self];
 }
 
+- (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
+    [self showWebPreview:self];
+}
 
 - (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
     
