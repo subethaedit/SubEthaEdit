@@ -1928,11 +1928,6 @@
             <begin><regex>"</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
-
-        <state id="Characters" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>'(?=\\?.')</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
-        </state>
     </states>
 
 </syntax>
