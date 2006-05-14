@@ -3470,6 +3470,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return [super displayName];
 }
 
+- (void)setDisplayName:(NSString *)aDisplayName {
+    NSLog(@"%s %@",__FUNCTION__, aDisplayName);
+    if (![self fileName]) {
+        [self setTemporaryDisplayName:aDisplayName];
+    } else {
+        [self setFileName:[[[self fileName] stringByDeletingLastPathComponent] stringByAppendingPathComponent:aDisplayName]];
+    }
+}
+
 #pragma mark -
 #pragma mark ### Printing ###
 

@@ -577,9 +577,9 @@
                 <type type="plain text"/>
                 <type type="paragraph"/>
                 <type type="character"/>
-                <type type="integer" list="yes"/>
                 <type type="integer" list="no"/>
-            </property>
+                <type type="integer" list="yes"/>
+           </property>
             <element type="mode" access="r">
                 <cocoa key="scriptedModes"/>
             </element>
@@ -623,8 +623,8 @@
                 <type type="plain text"/>
                 <type type="paragraph"/>
                 <type type="character"/>
-                <type type="integer" list="yes"/>
                 <type type="integer" list="no"/>
+                <type type="integer" list="yes"/>
             </property>
             <element type="window">
                 <cocoa key="orderedWindows"/>
@@ -642,8 +642,8 @@
                 <type type="plain text"/>
                 <type type="paragraph"/>
                 <type type="character"/>
-                <type type="integer" list="yes"/>
                 <type type="integer" list="no"/>
+                <type type="integer" list="yes"/>
             </property>
             <property name="document" code="docu" type="document" access="r"
                 description="The document whose contents are being displayed in the window."/>
