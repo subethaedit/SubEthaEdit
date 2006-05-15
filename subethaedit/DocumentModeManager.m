@@ -467,7 +467,7 @@
         [menuItem release];
 
         menuItem = [[NSMenuItem alloc] 
-            initWithTitle:NSLocalizedString(@"Open System Modes Folder",@"Menu item in alternate mode menu for opening the system modes folder.")
+            initWithTitle:NSLocalizedString(@"Open Library Modes Folder",@"Menu item in alternate mode menu for opening the library modes folder.")
                    action:@selector(revealModesFolder:)
             keyEquivalent:@""];
         [menuItem setTag:1];
