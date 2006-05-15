@@ -432,7 +432,9 @@ subethaedit/Modes/HTML.mode/Contents/Resources/German.lproj/InfoPlist.strings -t
 subethaedit/Modes/HTML.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/HTML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/HTML.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/CloseLastTag.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
+subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/shell/closetag.pl -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/SymbolD.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/SymbolH.png -text
@@ -508,10 +510,12 @@ subethaedit/Modes/PHP-HTML.mode/Contents/Resources/German.lproj/Localizable.stri
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Check[!!-~]Syntax.scpt -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/CloseLastTag.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]PHP[!!-~]Documentation.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Run[!!-~]Using[!!-~]PHP.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Syntax[!!-~]Check.scpt -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/shell/closetag.pl -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ToolbarIconPHPLookup.png -text
 subethaedit/Modes/Pascal.mode/Contents/Info.plist -text
@@ -574,6 +578,9 @@ subethaedit/Modes/XML.mode/Contents/Resources/German.lproj/InfoPlist.strings -te
 subethaedit/Modes/XML.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/XML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/XML.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/XML.mode/Contents/Resources/Scripts/CloseLastTag.scpt -text
+subethaedit/Modes/XML.mode/Contents/Resources/Scripts/TransformWithXSLT.scpt -text
+subethaedit/Modes/XML.mode/Contents/Resources/Scripts/shell/closetag.pl -text
 subethaedit/Modes/XML.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/XML.mode/Contents/Resources/SymbolID.png -text
 subethaedit/Modes/XML.mode/Contents/Resources/SyntaxDefinition.xml -text
