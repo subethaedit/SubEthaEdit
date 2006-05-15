@@ -434,7 +434,9 @@ subethaedit/Modes/HTML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/HTML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/CloseLastTag.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
+subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Validate.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/shell/closetag.pl -text
+subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/shell/validate.pl -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/SymbolD.png -text
 subethaedit/Modes/HTML.mode/Contents/Resources/SymbolH.png -text
