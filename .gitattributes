@@ -558,6 +558,9 @@ subethaedit/Modes/Ruby.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/README.txt -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
+subethaedit/Modes/Ruby.mode/Contents/Resources/Scripts/Insert[!!-~]Shebang.scpt -text
+subethaedit/Modes/Ruby.mode/Contents/Resources/Scripts/Run[!!-~]in[!!-~]Terminal.scpt -text
+subethaedit/Modes/Ruby.mode/Contents/Resources/Scripts/chmod[!!-~]ug+x.scpt -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/SymbolD.png -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/SyntaxDefinition.xml -text
@@ -579,6 +582,7 @@ subethaedit/Modes/XML.mode/Contents/Resources/German.lproj/Localizable.strings -
 subethaedit/Modes/XML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/XML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/XML.mode/Contents/Resources/Scripts/CloseLastTag.scpt -text
+subethaedit/Modes/XML.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
 subethaedit/Modes/XML.mode/Contents/Resources/Scripts/TransformWithXSLT.scpt -text
 subethaedit/Modes/XML.mode/Contents/Resources/Scripts/shell/closetag.pl -text
 subethaedit/Modes/XML.mode/Contents/Resources/Symbol!.png -text
