@@ -276,11 +276,11 @@
             <property name="selection" code="pSel" description="The current selection or insertion point of the frontmost window.">
                 <cocoa key="scriptSelection"/>
                 <type type="selection-object"/>
-                <type type="plain text"/>
+                <!-- <type type="plain text"/>
                 <type type="paragraph"/>
                 <type type="character"/>
                 <type type="integer" list="yes"/>
-                <type type="integer" list="no"/>
+                <type type="integer" list="no"/> -->
             </property>
             <element type="mode" access="r">
                 <cocoa key="scriptedModes"/>
@@ -331,11 +331,11 @@
             <property name="selection" code="pSel" description="The current selection or insertion point of the front most window of the document.">
                 <cocoa key="scriptSelection"/>
                 <type type="selection-object"/>
-                <type type="plain text"/>
+                <!-- <type type="plain text"/>
                 <type type="paragraph"/>
                 <type type="character"/>
                 <type type="integer" list="yes"/>
-                <type type="integer" list="no"/>
+                <type type="integer" list="no"/> -->
             </property>
             <element type="window">
                 <cocoa key="orderedWindows"/>
@@ -350,11 +350,11 @@
             <property name="selection" code="pSel" description="The current selection or insertion point.">
                 <cocoa key="scriptSelection"/>
                 <type type="selection-object"/>
-                <type type="plain text"/>
+                <!-- <type type="plain text"/>
                 <type type="paragraph"/>
                 <type type="character"/>
                 <type type="integer" list="yes"/>
-                <type type="integer" list="no"/>
+                <type type="integer" list="no"/> -->
             </property>
             <property name="document" code="docu" type="document" access="r"
                 description="The document whose contents are being displayed in the window."/>
