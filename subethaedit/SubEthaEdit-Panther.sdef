@@ -2,7 +2,7 @@
 <!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
 
 <dictionary title="SubEthaEdit Terminology">
-    
+
     <!--
         TEXT SUITE
     -->
@@ -225,12 +225,12 @@
         <command name="see" code="HdraSee " description="Do not use this command.">
             <parameter name="files" code="File" optional="yes" hidden="yes" description="">
                 <cocoa key="Files"/>
-                <type type="text"/>
+                <!-- <type type="text"/> -->
                 <type type="text" list="yes"/>
             </parameter>                
             <parameter name="new files" code="NuFl" optional="yes" hidden="yes" description="">
                 <cocoa key="NewFiles"/>
-                <type type="text"/>
+                <!-- <type type="text"/> -->
                 <type type="text" list="yes"/>
             </parameter>                
             <parameter name="stdin" code="Stdi" type="text" optional="yes" hidden="yes" description="">
