@@ -1093,8 +1093,11 @@ subethaedit/ScriptTextSelection.m -text
 subethaedit/ScriptWrapper.h -text
 subethaedit/ScriptWrapper.m -text
 subethaedit/Scripts/Check[!!-~]Syntax.scpt -text
+subethaedit/Scripts/Lowercase.scpt -text
 subethaedit/Scripts/Open[!!-~]Terminal[!!-~]Here.scpt -text
+subethaedit/Scripts/Rot13.scpt -text
 subethaedit/Scripts/Save[!!-~]front[!!-~]document.scpt -text
+subethaedit/Scripts/Uppercase.scpt -text
 subethaedit/SelectCommand.h -text
 subethaedit/SelectCommand.m -text
 subethaedit/SelectionOperation.h -text
