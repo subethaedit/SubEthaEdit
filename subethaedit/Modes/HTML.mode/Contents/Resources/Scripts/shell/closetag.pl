@@ -16,6 +16,7 @@ my @stack;
 
 foreach my $tag (reverse @tags) {              # iterate through reversed xml tree
 #    print "Tag:".$tag."\n";
+    if ($tag =~ /^[\?\!]/) {next;}
     if ($tag =~ /^\//) {
         push @stack, $tag;
 #        print "Pushing:".$tag."\n";
