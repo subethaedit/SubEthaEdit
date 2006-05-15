@@ -30,5 +30,37 @@
     [[[self windowController] document] showWebPreview:self];
 }
 
+- (int)scriptedColumns {
+    PlainTextWindowController *wc=(PlainTextWindowController *)[self windowController];
+    if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+        return [[wc activePlainTextEditor] displayedColumns];
+    } else {
+        return -1;
+    }
+}
+
+- (int)scriptedRows {
+    PlainTextWindowController *wc=(PlainTextWindowController *)[self windowController];
+    if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+        return [[wc valueForKeyPath:@"plainTextEditors.@sum.displayedRows"] intValue];
+    } else {
+        return -1;
+    }
+}
+
+- (void)setScriptedColumns:(int)aColumns {
+    PlainTextWindowController *wc=(PlainTextWindowController *)[self windowController];
+    if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+        [wc setSizeByColumns:aColumns rows:[self scriptedRows]];
+    }
+}
+
+
+- (void)setScriptedRows:(int)aRows {
+    PlainTextWindowController *wc=(PlainTextWindowController *)[self windowController];
+    if ([wc isKindOfClass:[PlainTextWindowController class]]) {
+        [wc setSizeByColumns:[[wc activePlainTextEditor] displayedColumns] rows:aRows];
+    }
+}
 
 @end

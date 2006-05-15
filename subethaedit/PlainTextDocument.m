@@ -1146,10 +1146,15 @@ static NSString *tempFileName(NSString *origPath) {
     return I_flags.isRemotelyEditingTextStorage;
 }
 
-- (IBAction)showWebPreview:(id)aSender {
+- (void)ensureWebPreview {
     if (!I_webPreviewWindowController) {
         I_webPreviewWindowController=[[WebPreviewWindowController alloc] initWithPlainTextDocument:self];
+        [I_webPreviewWindowController window];
     }
+}
+
+- (IBAction)showWebPreview:(id)aSender {
+    [self ensureWebPreview];
     if (![[I_webPreviewWindowController window] isVisible]) {
         [I_webPreviewWindowController showWindow:self];
         [I_webPreviewWindowController refresh:self];
@@ -4737,6 +4742,7 @@ static NSString *S_measurementUnits;
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
     [self showWebPreview:self];
+    if ([[I_webPreviewWindowController window] isVisible]) [self refreshWebPreview:self];
 }
 
 - (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
@@ -4931,6 +4937,17 @@ static NSString *S_measurementUnits;
         }
     }
     return orderedWindows;
+}
+
+- (NSString *)scriptedWebPreviewBaseURL {
+    [self ensureWebPreview];
+    return [[I_webPreviewWindowController baseURL] absoluteString];
+}
+
+- (void)setScriptedWebPreviewBaseURL:(NSString *)aString {
+    [self ensureWebPreview];
+    [I_webPreviewWindowController setBaseURL:[NSURL URLWithString:aString]];
+    if ([[I_webPreviewWindowController window] isVisible]) [self refreshWebPreview:self];
 }
 
 @end

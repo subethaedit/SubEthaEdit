@@ -46,6 +46,8 @@
 - (void)setIsSplit:(BOOL)aFlag;
 
 - (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows;
+- (int)displayedColumns;
+- (int)displayedRows;
 
 - (void)setShowsChangeMarks:(BOOL)aFlag;
 - (BOOL)showsChangeMarks;

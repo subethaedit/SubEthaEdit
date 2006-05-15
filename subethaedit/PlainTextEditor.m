@@ -416,6 +416,18 @@
     return result;
 }
 
+- (int)displayedRows {
+    NSFont *font=[[self document] fontWithTrait:0];
+    return (int)(([[I_textView enclosingScrollView] contentSize].height-[I_textView textContainerInset].height*2)/[font defaultLineHeightForFont]);
+}
+
+- (int)displayedColumns {
+    PlainTextDocument *document=[self document];
+    NSFont *font=[document fontWithTrait:0];
+    float characterWidth=[font widthOfString:@"n"];
+    return (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
+}
+
 - (void)TCM_updateBottomStatusBar {
     if (I_flags.showBottomStatusBar) {
         PlainTextDocument *document=[self document];
@@ -424,9 +436,7 @@
 
         [O_encodingPopUpButton selectItemAtIndex:[O_encodingPopUpButton indexOfItemWithTag:[document fileEncoding]]];
 
-        NSFont *font=[document fontWithTrait:0];
-        float characterWidth=[font widthOfString:@"n"];
-        int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
+        int charactersPerLine = [self displayedColumns];
         [O_windowWidthTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"WindowWidth%d%@",@"WindowWidthArangementString"),charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapMode]==DocumentModeWrapModeCharacters?NSLocalizedString(@"CharacterWrap",@"As shown in bottom status bar"):NSLocalizedString(@"WordWrap",@"As shown in bottom status bar"))]];
 
         [O_lineEndingPopUpButton selectItemAtIndex:[O_lineEndingPopUpButton indexOfItemWithTag:[document lineEnding]]];

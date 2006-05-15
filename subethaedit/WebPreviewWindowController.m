@@ -63,6 +63,14 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     return _plainTextDocument;
 }
 
+- (NSURL *)baseURL {
+    return [NSURL URLWithString:[oBaseUrlTextField stringValue]];
+}
+
+- (void)setBaseURL:(NSURL *)aBaseURL {
+    [oBaseUrlTextField setStringValue:[aBaseURL absoluteString]];
+}
+
 - (void)updateBaseURL {
     NSString *fileName;
     if ((fileName=[[self plainTextDocument] fileName])) {
