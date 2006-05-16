@@ -22,6 +22,15 @@
     [[[self windowController] activePlainTextEditor] setScriptSelection:aSelection];
 }
 
+- (void)handleBeginUndoGroupCommand:(NSScriptCommand *)aCommand {
+    [[[self windowController] document] handleBeginUndoGroupCommand:aCommand];
+}
+
+- (void)handleEndUndoGroupCommand:(NSScriptCommand *)aCommand {
+    [[[self windowController] document] handleEndUndoGroupCommand:aCommand];
+}
+
+
 - (void)handleClearChangeMarksCommand:(NSScriptCommand *)aCommand {
     [[[self windowController] document] handleClearChangeMarksCommand:aCommand];
 }

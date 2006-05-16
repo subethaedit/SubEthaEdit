@@ -50,12 +50,12 @@
     }
 }
 
-- (void)setScriptedStartCharacterIndex:(id)aValue {
-    NSLog(@"%s: %@", __FUNCTION__, aValue);
-    if (I_editor && [aValue isKindOfClass:[NSNumber class]]) {
+- (void)setScriptedStartCharacterIndex:(int)aValue {
+    NSLog(@"%s: %d", __FUNCTION__, aValue);
+    if (I_editor && aValue > 0) {
         NSTextView *textView = [I_editor textView];
         NSRange range = [textView selectedRange];
-        int newValue = ((int)[aValue intValue])-1;
+        int newValue = aValue-1;
         if (newValue>[I_textStorage length]) {
             newValue=[I_textStorage length];
             [textView setSelectedRange:NSMakeRange(newValue,0)];
@@ -73,12 +73,12 @@
     }
 }
 
-- (void)setScriptedNextCharacterIndex:(id)aValue {
-    NSLog(@"%s: %@", __FUNCTION__, aValue);
-    if (I_editor && [aValue isKindOfClass:[NSNumber class]]) {
+- (void)setScriptedNextCharacterIndex:(int)aValue {
+    NSLog(@"%s: %d", __FUNCTION__, aValue);
+    if (I_editor && aValue > 0) {
         NSTextView *textView = [I_editor textView];
         NSRange range = [textView selectedRange];
-        int newValue = ((int)[aValue intValue])-1;
+        int newValue = aValue-1;
         if (newValue<0) {
             [textView setSelectedRange:NSMakeRange(0,0)];
         } else if (newValue>(int)[I_textStorage length]) {
@@ -95,12 +95,12 @@
     }
 }
 
-- (void)setScriptedLength:(id)aValue {
-    NSLog(@"%s: %@", __FUNCTION__, aValue);
-    if (I_editor && [aValue isKindOfClass:[NSNumber class]]) {
+- (void)setScriptedLength:(int)aValue {
+    NSLog(@"%s: %d", __FUNCTION__, aValue);
+    if (I_editor && aValue >= 0) {
         NSTextView *textView = [I_editor textView];
         NSRange range = [textView selectedRange];
-        range.length = [aValue intValue];
+        range.length = aValue;
         if (NSMaxRange(range)>[I_textStorage length]) {
             range.length -= NSMaxRange(range)-[I_textStorage length];
         }

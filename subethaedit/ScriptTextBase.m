@@ -32,29 +32,29 @@
     return NSMakeRange(0,NSNotFound);
 }
 
-- (NSNumber *)scriptedLength {
-    return [NSNumber numberWithInt:[self rangeRepresentation].length];
+- (int)scriptedLength {
+    return [self rangeRepresentation].length;
 }
 
-- (NSNumber *)scriptedStartCharacterIndex {
-    return [NSNumber numberWithInt:[self rangeRepresentation].location +1];
+- (int)scriptedStartCharacterIndex {
+    return [self rangeRepresentation].location+1;
 }
 
-- (NSNumber *)scriptedNextCharacterIndex {
-    return [NSNumber numberWithInt:((int)NSMaxRange([self rangeRepresentation]))+1];
+- (int)scriptedNextCharacterIndex {
+    return (int)NSMaxRange([self rangeRepresentation])+1;
 }
 
-- (NSNumber *)scriptedStartLine {
-    return [NSNumber numberWithInt:[I_textStorage lineNumberForLocation:[self rangeRepresentation].location]];
+- (int)scriptedStartLine {
+    return [I_textStorage lineNumberForLocation:[self rangeRepresentation].location];
 }
 
-- (NSNumber *)scriptedEndLine {
-    return [NSNumber numberWithInt:[I_textStorage lineNumberForLocation:EndCharacterIndex([self rangeRepresentation])]];
+- (int)scriptedEndLine {
+    return [I_textStorage lineNumberForLocation:EndCharacterIndex([self rangeRepresentation])];
 }
 
 - (NSArray *)scriptedLines {
-    int index    = [[self scriptedStartLine] intValue];
-    int endIndex = [[self scriptedEndLine] intValue];
+    int index    = [self scriptedStartLine];
+    int endIndex = [self scriptedEndLine];
     NSMutableArray *result = [NSMutableArray array];
     for (;index<=endIndex;index++) {
         [result addObject:[ScriptLine scriptLineWithTextStorage:I_textStorage lineNumber:index]];
@@ -88,7 +88,7 @@
 
 - (id)valueInScriptedCharactersAtIndex:(unsigned)index {
     NSLog(@"%s: %d", __FUNCTION__, index);
-    return [ScriptCharacters scriptCharactersWithTextStorage:I_textStorage characterRange:NSMakeRange(index+[[self scriptedStartCharacterIndex] intValue],1)];
+    return [ScriptCharacters scriptCharactersWithTextStorage:I_textStorage characterRange:NSMakeRange(index+[self scriptedStartCharacterIndex],1)];
 }
 
 - (id)scriptedContents

@@ -4736,6 +4736,15 @@ static NSString *S_measurementUnits;
 
 @implementation PlainTextDocument (PlainTextDocumentScriptingAdditions)
 
+- (void)handleBeginUndoGroupCommand:(NSScriptCommand *)command {
+    [[self documentUndoManager] beginUndoGrouping];
+}
+
+- (void)handleEndUndoGroupCommand:(NSScriptCommand *)command {
+    [[self documentUndoManager] endUndoGrouping];
+}
+
+
 - (void)handleClearChangeMarksCommand:(NSScriptCommand *)command {
     [self clearChangeMarks:self];
 }
@@ -4746,7 +4755,7 @@ static NSString *S_measurementUnits;
 }
 
 - (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
-    
+    NSLog(@"%s",__FUNCTION__);
     // Check for valid encoding
     if (![aString canBeConvertedToEncoding:[self fileEncoding]]) {
         return;

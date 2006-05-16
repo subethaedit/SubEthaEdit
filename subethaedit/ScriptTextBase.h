@@ -15,11 +15,11 @@
 
 - (id)initWithTextStorage:(TextStorage *)aTextStorage;
 - (NSRange)rangeRepresentation;
-- (NSNumber *)scriptedLength;
-- (NSNumber *)scriptedStartCharacterIndex;
-- (NSNumber *)scriptedNextCharacterIndex;
-- (NSNumber *)scriptedStartLine;
-- (NSNumber *)scriptedEndLine;
+- (int)scriptedLength;
+- (int)scriptedStartCharacterIndex;
+- (int)scriptedNextCharacterIndex;
+- (int)scriptedStartLine;
+- (int)scriptedEndLine;
 - (NSArray *)scriptedLines;
 - (NSArray *)scriptedCharacters;
 

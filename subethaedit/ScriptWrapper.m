@@ -19,6 +19,10 @@ NSString * const ScriptWrapperKeyboardShortcutSettingsKey=@"keyboardshortcut";
 NSString * const ScriptWrapperToolbarIconSettingsKey     =@"toolbaricon";
 NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
 
+NSString * const ScriptWrapperWillRunScriptNotification=@"ScriptWrapperWillRunScriptNotification";
+NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScriptNotification";
+
+
 @interface NSAppleScript (PrivateAPI)
 + (ComponentInstance) _defaultScriptingComponent;
 - (OSAID) _compiledScriptID;
@@ -157,11 +161,13 @@ NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
          (GetCurrentKeyModifiers() & optionKey)) ) {
         [self revealSource];
     } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperWillRunScriptNotification object:self];
         NSDictionary *errorDictionary=nil;
         [self executeAndReturnError:&errorDictionary];
         if (errorDictionary) {
             [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];
     }
 
 }

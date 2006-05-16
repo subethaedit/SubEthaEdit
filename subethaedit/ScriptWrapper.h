@@ -15,6 +15,10 @@ extern NSString * const ScriptWrapperKeyboardShortcutSettingsKey;
 extern NSString * const ScriptWrapperToolbarIconSettingsKey;
 extern NSString * const ScriptWrapperInDefaultToolbarSettingsKey;
 
+extern NSString * const ScriptWrapperWillRunScriptNotification;
+extern NSString * const ScriptWrapperDidRunScriptNotification;
+
+
 @interface ScriptWrapper : NSObject {
     NSAppleScript *I_appleScript;
     NSURL         *I_URL;
