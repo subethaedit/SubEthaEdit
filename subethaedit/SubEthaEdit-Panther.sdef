@@ -213,6 +213,20 @@
             <cocoa key="WithProperties"/>
             </parameter>
         </command>
+
+        <command name="begin undo group" code="HdraBugp" description="Begins an undo group.">
+            <direct-parameter description="The document(s) or window(s) to begin a undo group in.">
+                <type type="document"/>
+                <type type="window"/>
+            </direct-parameter>
+        </command>
+
+        <command name="end undo group" code="HdraEugp" description="Ends an undo group.">
+            <direct-parameter description="The document(s) or window(s) to end an undo group in. Be careful to end all undo groups you began - and only the ones you began.">
+                <type type="document"/>
+                <type type="window"/>
+            </direct-parameter>
+        </command>
         
         <command name="clear change marks" code="HdraDccm" description="Clears the change marks.">
             <direct-parameter description="The document(s) or window(s) to clear.">
@@ -337,6 +351,12 @@
             <element type="window">
                 <cocoa key="orderedWindows"/>
             </element>
+            <responds-to name="begin undo group">
+                <cocoa method="handleBeginUndoGroupCommand:"/>
+            </responds-to>
+            <responds-to name="end undo group">
+                <cocoa method="handleEndUndoGroupCommand:"/>
+            </responds-to>
             <responds-to name="clear change marks">
                 <cocoa method="handleClearChangeMarksCommand:"/>
             </responds-to>
@@ -361,6 +381,12 @@
             <property name="columns" code="Cols" type="integer" description="The number of columns displayed in the window.">
                 <cocoa key="scriptedColumns"/>
             </property>
+            <responds-to name="begin undo group">
+                <cocoa method="handleBeginUndoGroupCommand:"/>
+            </responds-to>
+            <responds-to name="end undo group">
+                <cocoa method="handleEndUndoGroupCommand:"/>
+            </responds-to>
             <responds-to name="clear change marks">
                 <cocoa method="handleClearChangeMarksCommand:"/>
             </responds-to>
