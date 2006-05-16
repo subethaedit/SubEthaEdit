@@ -7,7 +7,8 @@ $data =~ s/<!--.*?-->//g;       # strip comments
 $data =~ s/(?<=>)[^<]*//g;      # remove everthing that's not a tag
 $data =~ s/\A[^<]*<//g;         # remove everything up to the first <
 $data =~ s/>[^>]*\Z//g;         # remove eyerthing after the last >
-$data =~ s/ [^>]*//g;           # remove attributes
+$data =~ s/ .*?(\/?) *>/\1>/g;      # remove attributes
+$data =~ s/ //g;
 
 my @tags = split /></,$data;    # make array of tags
 my @stack;
@@ -17,6 +18,7 @@ my @stack;
 foreach my $tag (reverse @tags) {              # iterate through reversed xml tree
 #    print "Tag:".$tag."\n";
     if ($tag =~ /^[\?\!]/) {next;}
+    if ($tag =~ /[\/]$/) {next;}
     if ($tag =~ /^\//) {
         push @stack, $tag;
 #        print "Pushing:".$tag."\n";
