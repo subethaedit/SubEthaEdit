@@ -162,6 +162,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (NSTextStorage *)textStorage;
 
+- (void)fillScriptsIntoContextMenu:(NSMenu *)aMenu;
 - (void)adjustModeMenu;
 - (DocumentMode *)documentMode;
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode;

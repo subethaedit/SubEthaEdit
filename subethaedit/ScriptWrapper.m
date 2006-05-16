@@ -18,6 +18,7 @@ NSString * const ScriptWrapperToolbarToolTipSettingsKey  =@"toolbartooltip";
 NSString * const ScriptWrapperKeyboardShortcutSettingsKey=@"keyboardshortcut";
 NSString * const ScriptWrapperToolbarIconSettingsKey     =@"toolbaricon";
 NSString * const ScriptWrapperInDefaultToolbarSettingsKey=@"indefaulttoolbar";
+NSString * const ScriptWrapperInContextMenuSettingsKey   =@"incontextmenu";
 
 NSString * const ScriptWrapperWillRunScriptNotification=@"ScriptWrapperWillRunScriptNotification";
 NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScriptNotification";

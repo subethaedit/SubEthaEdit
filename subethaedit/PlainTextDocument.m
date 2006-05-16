@@ -909,6 +909,28 @@ static NSString *tempFileName(NSString *origPath) {
     return I_textStorage;
 }
 
+- (void)fillScriptsIntoContextMenu:(NSMenu *)aMenu {
+    NSLog(@"%s",__FUNCTION__);
+    NSArray *itemArray = [[self documentMode] contextMenuItemArray];
+    if ([itemArray count]) {
+        NSEnumerator *menuItems=[itemArray objectEnumerator];
+        NSMenuItem   *menuItem = nil;
+        while ((menuItem=[menuItems nextObject])) {
+            NSMenuItem *item=[menuItem autoreleasedCopy];
+            [aMenu addItem:item];
+        }
+    }
+    itemArray = [[AppController sharedInstance] contextMenuItemArray];
+    if ([itemArray count]) {
+        NSEnumerator *menuItems=[itemArray objectEnumerator];
+        NSMenuItem   *menuItem = nil;
+        while ((menuItem=[menuItems nextObject])) {
+            NSMenuItem *item=[menuItem autoreleasedCopy];
+            [aMenu addItem:item];
+        }
+    }
+}
+
 - (void)adjustModeMenu {
     NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
     // remove all items that don't belong here anymore
@@ -928,6 +950,8 @@ static NSString *tempFileName(NSString *origPath) {
             NSMenuItem *item=[menuItem autoreleasedCopy];
             [item setImage:scriptMenuItemIcon];
             [modeMenu addItem:item];
+            [item setKeyEquivalent:[menuItem keyEquivalent]];
+            [item setKeyEquivalentModifierMask:[menuItem keyEquivalentModifierMask]];
         }
     }
 }

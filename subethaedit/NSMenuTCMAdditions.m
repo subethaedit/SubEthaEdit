@@ -8,6 +8,15 @@
 
 #import "NSMenuTCMAdditions.h"
 
+@implementation NSMenu (NSMenuTCMAdditions)
+- (void)removeAllItems {
+    int i = [self numberOfItems];
+    while (i--) {
+        [self removeItemAtIndex:i];
+    }
+}
+@end
+
 
 @implementation  NSMenuItem (NSMenuItemTCMAdditions)
 - (id)autoreleasedCopy {

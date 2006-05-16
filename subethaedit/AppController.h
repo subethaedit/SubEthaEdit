@@ -42,6 +42,7 @@ extern NSString * const GlobalScriptsDidReloadNotification;
     NSMutableDictionary *I_toolbarItemsByIdentifier;
     NSMutableArray      *I_toolbarItemIdentifiers;
     NSMutableArray      *I_defaultToolbarItemIdentifiers;
+    NSMutableArray      *I_contextMenuItemArray;
     
     IBOutlet NSTextView *O_licenseTextView;
     IBOutlet NSWindow *O_licenseWindow;
@@ -67,5 +68,7 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 - (IBAction)visitWebsite:(id)sender;
 - (IBAction)reportBug:(id)sender;
 - (IBAction)provideFeedback:(id)sender;
+
+- (NSArray *)contextMenuItemArray;
 
 @end

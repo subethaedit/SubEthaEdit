@@ -30,4 +30,5 @@
 - (void)textViewDidChangeSpellCheckingSetting:(TextView *)aTextView;
 - (void)textView:(TextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement;
 - (void)textViewWillStartAutocomplete:(TextView *)aTextView;
+- (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu;
 @end

@@ -32,6 +32,7 @@
 #import <OgreKit/OgreKit.h>
 #import "SyntaxDefinition.h"
 #import "ScriptTextSelection.h"
+#import "NSMenuTCMAdditions.h"
 
 @interface NSTextView (PrivateAdditions)
 - (BOOL)_isUnmarking;
@@ -1210,6 +1211,18 @@
 
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
+
+- (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu {
+    NSMenu *scriptMenu = [[aContextMenu itemWithTag:12345] submenu];
+    [scriptMenu removeAllItems];
+    PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
+    [document fillScriptsIntoContextMenu:scriptMenu];
+    if ([scriptMenu numberOfItems] == 0) {
+        [[aContextMenu itemWithTag:12345] setEnabled:NO];
+    } else {
+        [[aContextMenu itemWithTag:12345] setEnabled:YES];
+    }
+}
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
     PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];

@@ -14,6 +14,8 @@ extern NSString * const ScriptWrapperToolbarToolTipSettingsKey  ;
 extern NSString * const ScriptWrapperKeyboardShortcutSettingsKey;
 extern NSString * const ScriptWrapperToolbarIconSettingsKey;
 extern NSString * const ScriptWrapperInDefaultToolbarSettingsKey;
+extern NSString * const ScriptWrapperInContextMenuSettingsKey;
+
 
 extern NSString * const ScriptWrapperWillRunScriptNotification;
 extern NSString * const ScriptWrapperDidRunScriptNotification;

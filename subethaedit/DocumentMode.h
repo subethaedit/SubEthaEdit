@@ -76,6 +76,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     SyntaxStyle *I_syntaxStyle,*I_defaultSyntaxStyle;
     NSMutableDictionary *I_scriptsByFilename;
     NSMutableArray *I_menuItemArray;
+    NSMutableArray *I_contextMenuItemArray;
     NSMutableArray *I_scriptOrderArray;
     NSMutableDictionary *I_toolbarItemsByIdentifier;
     NSMutableArray *I_toolbarItemIdentifiers;
@@ -107,6 +108,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 - (SyntaxStyle *)defaultSyntaxStyle;
 
 - (NSArray *)scriptMenuItemArray;
+- (NSArray *)contextMenuItemArray;
 
 - (BOOL)isBaseMode;
 @end

@@ -726,6 +726,9 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     [I_scriptsByFilename release];
      I_scriptsByFilename = [NSMutableDictionary new];
 
+    [I_contextMenuItemArray release];
+     I_contextMenuItemArray = [NSMutableArray new];
+
     [I_toolbarItemIdentifiers release];
      I_toolbarItemIdentifiers = [NSMutableArray new];
     [I_defaultToolbarItemIdentifiers release];
@@ -792,10 +795,13 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:displayName
                                                       action:@selector(performScriptAction:) 
                                                keyEquivalent:@""];
+        [item setTarget:script];
         if (settingsDictionary) {
             [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:ScriptWrapperKeyboardShortcutSettingsKey]];
+            if ([[[settingsDictionary objectForKey:ScriptWrapperInContextMenuSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
+                [I_contextMenuItemArray addObject:[item autoreleasedCopy]];
+            }
         }
-        [item setTarget:script];
         [scriptMenu addItem:[item autorelease]];
 
         NSToolbarItem *toolbarItem = [script toolbarItemWithImageSearchLocations:searchLocations identifierAddition:@"Application"];
@@ -876,6 +882,14 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:BlockeditMenuItemTag] copy]];
+    NSMenuItem *scriptsSubmenuItem=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Scripts",@"Scripts entry for contextual menu") action:nil keyEquivalent:@""] autorelease];
+    NSMenu *menu = [[NSMenu new] autorelease];
+    [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuItemIcon"]];
+    [scriptsSubmenuItem setTag:12345];
+    [scriptsSubmenuItem setSubmenu:menu];
+    [defaultMenu addItem:scriptsSubmenuItem];
+    [menu setDelegate:self];
+    [menu addItem:[NSMenuItem separatorItem]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
     [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpellingMenuItemTag] copy]];
     [defaultMenu addItem:[(NSMenuItem *)[FormatMenu itemWithTag:FontMenuItemTag] copy]];
@@ -884,7 +898,10 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     [TextView setDefaultMenu:defaultMenu];
 }
 
-
+- (NSArray *)contextMenuItemArray {
+    NSLog(@"%s",__FUNCTION__);
+    return I_contextMenuItemArray;
+}
 // trigger update so keyequivalents match the situation
 - (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action {
     [menu update];

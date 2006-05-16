@@ -8,6 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+@interface NSMenu (NSMenuTCMAdditions)
+- (void)removeAllItems;
+@end
 
 @interface NSMenuItem (NSMenuItemTCMAdditions)
 - (id)autoreleasedCopy;

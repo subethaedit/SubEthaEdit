@@ -170,6 +170,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         
         NSArray *searchLocations = [NSArray arrayWithObjects:I_bundle,[NSBundle mainBundle],nil];
         I_menuItemArray = [NSMutableArray new];
+        I_contextMenuItemArray = [NSMutableArray new];
         I_toolbarItemsByIdentifier     =[NSMutableDictionary new];
         I_toolbarItemIdentifiers       =[NSMutableArray new];
         I_defaultToolbarItemIdentifiers=[NSMutableArray new];
@@ -187,6 +188,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                                    keyEquivalent:@""];
             if (settingsDictionary) {
                 [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:ScriptWrapperKeyboardShortcutSettingsKey]];
+                if ([[[settingsDictionary objectForKey:ScriptWrapperInContextMenuSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
+                    [I_contextMenuItemArray addObject:item];
+                }
             }
             [item setTarget:script];
             [I_menuItemArray addObject:[item autorelease]];
@@ -419,6 +423,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_menuItemArray release];
+    [I_contextMenuItemArray release];
     [I_scriptOrderArray release];
     [I_scriptsByFilename release];
     [I_toolbarItemIdentifiers release];
@@ -576,6 +581,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 - (NSArray *)scriptMenuItemArray {
     return (NSArray *)I_menuItemArray;
 }
+
+- (NSArray *)contextMenuItemArray {
+    return (NSArray *)I_contextMenuItemArray;
+}
+
 
 #pragma mark -
 #pragma mark ### Notification Handling ###
