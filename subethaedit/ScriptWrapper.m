@@ -113,6 +113,11 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
     return I_settingsDictionary;
 }
 
+- (NSURL *)URL {
+    return I_URL;
+}
+
+
 - (NSToolbarItem *)toolbarItemWithImageSearchLocations:(NSArray *)anImageSearchLocationsArray identifierAddition:(NSString *)anAddition {
     NSDictionary *settingsDictionary=[self settingsDictionary];
     NSString *imageName=[settingsDictionary objectForKey:ScriptWrapperToolbarIconSettingsKey];
@@ -124,6 +129,16 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
             if ([searchLocation isKindOfClass:[NSBundle class]]) {
                 NSString *imagePath = [searchLocation pathForImageResource:imageName];
                 if (imagePath) toolbarImage = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
+            } else if ([searchLocation isKindOfClass:[NSString class]]) {
+                NSArray *directoryContents=[[NSFileManager defaultManager] directoryContentsAtPath:searchLocation];
+                NSEnumerator *filenames=[directoryContents objectEnumerator];
+                NSString     *filename=nil;
+                while ((filename=[filenames nextObject])) {
+                    if ([[filename stringByDeletingPathExtension] isEqualToString:imageName]) {
+                        toolbarImage = [[[NSImage alloc] initWithContentsOfFile:[searchLocation stringByAppendingPathComponent:filename]] autorelease];
+                        break;
+                    }
+                }
             }
         }
         if (!toolbarImage) toolbarImage = [NSImage imageNamed:imageName];

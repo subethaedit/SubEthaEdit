@@ -35,5 +35,5 @@ extern NSString * const ScriptWrapperDidRunScriptNotification;
 - (NSDictionary *)settingsDictionary;
 - (void)revealSource;
 - (IBAction)performScriptAction:(id)aSender;
-
+- (NSURL *)URL;
 @end

@@ -780,9 +780,7 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
 
     [I_scriptOrderArray release];
      I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
-    
-    NSArray *searchLocations = [NSArray arrayWithObject:[NSBundle mainBundle]];
-    
+        
     int i=0;
     for (i=0;i<[I_scriptOrderArray count];i++) {
         NSString *filename = [I_scriptOrderArray objectAtIndex:i];
@@ -804,7 +802,7 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
         }
         [scriptMenu addItem:[item autorelease]];
 
-        NSToolbarItem *toolbarItem = [script toolbarItemWithImageSearchLocations:searchLocations identifierAddition:@"Application"];
+        NSToolbarItem *toolbarItem = [script toolbarItemWithImageSearchLocations:[NSArray arrayWithObjects:[[[script URL] path] stringByDeletingLastPathComponent],[NSBundle mainBundle],nil] identifierAddition:@"Application"];
         
         if (toolbarItem) {
             [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
