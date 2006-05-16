@@ -514,19 +514,18 @@
         </record-type>
 
         <command name="clear change marks" code="HdraDccm" description="Clears the change marks.">
-            <direct-parameter description="the document(s) or window(s) to clear.">
+            <direct-parameter description="The document(s) or window(s) to clear.">
                 <type type="document"/>
                 <type type="window"/>
             </direct-parameter>
         </command>
 
         <command name="show web preview" code="HdraSweb" description="Opens the web preview.">
-            <direct-parameter description="the document(s) or window(s) to open the web preview for.">
+            <direct-parameter description="The document(s) or window(s) to open the web preview for.">
                 <type type="document"/>
                 <type type="window"/>
             </direct-parameter>
         </command>
-
         
         <command name="see" code="HdraSee " description="Do not use this command.">
             <parameter name="files" code="File" optional="yes" hidden="yes" description="">
@@ -625,7 +624,7 @@
             <property name="URL" code="DURL" type="text" access="r" description="The URL of the document.">
                 <cocoa key="announcementURL"/>
             </property>
-            <property name="web preview base URL" code="WURL" type="text" access="r" description="The base URL of the document. Realtive addressed web resources will be addressed relative to this URL.">
+            <property name="web preview base URL" code="WURL" type="text" access="r" description="The base URL of the document. Relative addressed web resources will be addressed relative to this URL.">
                 <cocoa key="scriptedWebPreviewBaseURL"/>
             </property>
             <property name="selection" code="pSel" description="The current selection or insertion point of the front most window of the document.">
@@ -661,13 +660,13 @@
             </property>
             <property name="document" code="docu" type="document" access="r"
                 description="The document whose contents are being displayed in the window.">
-                <cocoa key="document" />
+                <cocoa key="document"/>
             </property>
-            <property name="rows" code="Rows" type="integer" description="The number of Rows displayed in the window."> 
-                <cocoa key="scriptedRows" />
+            <property name="rows" code="Rows" type="integer" description="The number of rows displayed in the window."> 
+                <cocoa key="scriptedRows"/>
             </property>
-            <property name="columns" code="Cols" type="integer" description="The number of Columns displayed in the window.">
-                <cocoa key="scriptedColumns" />
+            <property name="columns" code="Cols" type="integer" description="The number of columns displayed in the window.">
+                <cocoa key="scriptedColumns"/>
             </property>
             <responds-to name="clear change marks">
                 <cocoa method="handleClearChangeMarksCommand:"/>

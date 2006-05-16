@@ -208,29 +208,33 @@
         </command>
         
         <command name="print" description="Print an object." code="aevtpdoc">
-            <!-- type would be better written as "file | document". -->
             <direct-parameter type="file" description="The file(s) or document(s) to be printed."/>
             <parameter name="with properties" code="prdt" type="open settings" optional="yes" description="the initial values for the properties, to be applied to the document when printing">
             <cocoa key="WithProperties"/>
             </parameter>
         </command>
         
-        <command name="clear change marks" code="Hdradccm" description="Clears the change marks.">
-            <direct-parameter description="the document(s) or window(s) to clear.">
+        <command name="clear change marks" code="HdraDccm" description="Clears the change marks.">
+            <direct-parameter description="The document(s) or window(s) to clear.">
                 <type type="document"/>
                 <type type="window"/>
             </direct-parameter>
         </command>
         
+        <command name="show web preview" code="HdraSweb" description="Opens the web preview.">
+            <direct-parameter description="The document(s) or window(s) to open the web preview for.">
+                <type type="document"/>
+                <type type="window"/>
+            </direct-parameter>
+        </command> 
+        
         <command name="see" code="HdraSee " description="Do not use this command.">
             <parameter name="files" code="File" optional="yes" hidden="yes" description="">
                 <cocoa key="Files"/>
-                <!-- <type type="text"/> -->
                 <type type="text" list="yes"/>
             </parameter>                
             <parameter name="new files" code="NuFl" optional="yes" hidden="yes" description="">
                 <cocoa key="NewFiles"/>
-                <!-- <type type="text"/> -->
                 <type type="text" list="yes"/>
             </parameter>                
             <parameter name="stdin" code="Stdi" type="text" optional="yes" hidden="yes" description="">
@@ -270,17 +274,12 @@
             <synonym name="open url"/>
             <direct-parameter type="text" description="The URL to open."/>
         </command>
-        
+
         <class name="application" code="capp" inherits="application"  description="The application's top-level scripting object.">
             <cocoa class="NSApplication"/>
             <property name="selection" code="pSel" description="The current selection or insertion point of the frontmost window.">
                 <cocoa key="scriptSelection"/>
                 <type type="selection-object"/>
-                <!-- <type type="plain text"/>
-                <type type="paragraph"/>
-                <type type="character"/>
-                <type type="integer" list="yes"/>
-                <type type="integer" list="no"/> -->
             </property>
             <element type="mode" access="r">
                 <cocoa key="scriptedModes"/>
@@ -328,20 +327,21 @@
             <property name="URL" code="DURL" type="text" access="r" description="The URL of the document.">
                 <cocoa key="announcementURL"/>
             </property>
+            <property name="web preview base URL" code="WURL" type="text" access="r" description="The base URL of the document. Relative addressed web resources will be addressed relative to this URL.">
+                <cocoa key="scriptedWebPreviewBaseURL"/>
+            </property>
             <property name="selection" code="pSel" description="The current selection or insertion point of the front most window of the document.">
                 <cocoa key="scriptSelection"/>
                 <type type="selection-object"/>
-                <!-- <type type="plain text"/>
-                <type type="paragraph"/>
-                <type type="character"/>
-                <type type="integer" list="yes"/>
-                <type type="integer" list="no"/> -->
             </property>
             <element type="window">
                 <cocoa key="orderedWindows"/>
             </element>
             <responds-to name="clear change marks">
                 <cocoa method="handleClearChangeMarksCommand:"/>
+            </responds-to>
+            <responds-to name="show web preview">
+                <cocoa method="handleShowWebPreviewCommand:"/>
             </responds-to>
         </class>
         
@@ -350,16 +350,22 @@
             <property name="selection" code="pSel" description="The current selection or insertion point.">
                 <cocoa key="scriptSelection"/>
                 <type type="selection-object"/>
-                <!-- <type type="plain text"/>
-                <type type="paragraph"/>
-                <type type="character"/>
-                <type type="integer" list="yes"/>
-                <type type="integer" list="no"/> -->
             </property>
             <property name="document" code="docu" type="document" access="r"
-                description="The document whose contents are being displayed in the window."/>
+                description="The document whose contents are being displayed in the window.">
+                <cocoa key="document"/>
+            </property>
+            <property name="rows" code="Rows" type="integer" description="The number of rows displayed in the window."> 
+                <cocoa key="scriptedRows"/>
+            </property>
+            <property name="columns" code="Cols" type="integer" description="The number of columns displayed in the window.">
+                <cocoa key="scriptedColumns"/>
+            </property>
             <responds-to name="clear change marks">
                 <cocoa method="handleClearChangeMarksCommand:"/>
+            </responds-to>
+            <responds-to name="show web preview">
+                <cocoa method="handleShowWebPreviewCommand:"/>
             </responds-to>
         </class>
         
