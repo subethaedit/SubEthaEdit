@@ -245,6 +245,8 @@
         [O_modeInstallerPanel orderOut:self];
         I_currentModeFileName = nil;
         if (result == NSRunStoppedResponse) {
+            BOOL success = NO;
+        
             short domain;
             int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
             if (tag == 0) {
@@ -264,101 +266,117 @@
                 destination = [destination stringByAppendingPathComponent:@"Modes"];
                 destination = [destination stringByAppendingPathComponent:[fileName lastPathComponent]];
                 DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode installation path: %@", destination);
-                if (domain == kUserDomain) {
-                    NSFileManager *fileManager = [NSFileManager defaultManager];
-                    if ([fileManager fileExistsAtPath:destination]) {
-                        (void)[fileManager removeFileAtPath:destination handler:self];
-                    }
-                    (void)[fileManager copyPath:fileName toPath:destination handler:self];
-                } else {
-                    OSStatus err;
-                    CFURLRef tool = NULL;
-                    AuthorizationRef auth = NULL;
-                    NSDictionary *request = nil;
-                    NSDictionary *response = nil;
-                    BOOL result = NO;
+                
+                if (![fileName isEqualToString:destination]) {
+                    if (domain == kUserDomain) {
+                        NSFileManager *fileManager = [NSFileManager defaultManager];
+                        if ([fileManager fileExistsAtPath:destination]) {
+                            (void)[fileManager removeFileAtPath:destination handler:self];
+                        }
+                        success = [fileManager copyPath:fileName toPath:destination handler:self];
+                    } else {
+                        OSStatus err;
+                        CFURLRef tool = NULL;
+                        AuthorizationRef auth = NULL;
+                        NSDictionary *request = nil;
+                        NSDictionary *response = nil;
+                        BOOL result = NO;
 
 
-                    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
-                    if (err == noErr) {
-                        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
-                        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
-                                                                   | kAuthorizationFlagInteractionAllowed
-                                                                   | kAuthorizationFlagExtendRights
-                                                                   | kAuthorizationFlagPreAuthorize;
-                        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-                        AuthorizationRights rights = { 1, &right };
+                        err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+                        if (err == noErr) {
+                            static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+                            static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                                                       | kAuthorizationFlagInteractionAllowed
+                                                                       | kAuthorizationFlagExtendRights
+                                                                       | kAuthorizationFlagPreAuthorize;
+                            AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+                            AuthorizationRights rights = { 1, &right };
 
-                        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-                    }
-                    
-                    if (err == noErr) {
-                        err = MoreSecCopyHelperToolURLAndCheckBundled(
-                            CFBundleGetMainBundle(), 
-                            CFSTR("SubEthaEditHelperToolTemplate"), 
-                            kApplicationSupportFolderType, 
-                            CFSTR("SubEthaEdit"), 
-                            CFSTR("SubEthaEditHelperTool"), 
-                            &tool);
-
-                        // If the home directory is on an volume that doesn't support 
-                        // setuid root helper tools, ask the user whether they want to use 
-                        // a temporary tool.
+                            err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+                        }
                         
-                        if (err == kMoreSecFolderInappropriateErr) {
+                        if (err == noErr) {
                             err = MoreSecCopyHelperToolURLAndCheckBundled(
                                 CFBundleGetMainBundle(), 
                                 CFSTR("SubEthaEditHelperToolTemplate"), 
-                                kTemporaryFolderType, 
+                                kApplicationSupportFolderType, 
                                 CFSTR("SubEthaEdit"), 
                                 CFSTR("SubEthaEditHelperTool"), 
                                 &tool);
+
+                            // If the home directory is on an volume that doesn't support 
+                            // setuid root helper tools, ask the user whether they want to use 
+                            // a temporary tool.
+                            
+                            if (err == kMoreSecFolderInappropriateErr) {
+                                err = MoreSecCopyHelperToolURLAndCheckBundled(
+                                    CFBundleGetMainBundle(), 
+                                    CFSTR("SubEthaEditHelperToolTemplate"), 
+                                    kTemporaryFolderType, 
+                                    CFSTR("SubEthaEdit"), 
+                                    CFSTR("SubEthaEditHelperTool"), 
+                                    &tool);
+                            }
                         }
-                    }
 
-                    // Create the request dictionary for copying the mode
+                        // Create the request dictionary for copying the mode
 
-                    if (err == noErr) {
-                        request = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            @"CopyFiles", @"CommandName",
-                                            fileName, @"SourceFile",
-                                            destination, @"TargetFile",
-                                            //targetAttrs, @"TargetAttributes",
-                                            nil];
-                    }
-
-                    // Go go gadget helper tool!
-
-                    if (err == noErr) {
-                        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-                    }
-                    
-                    // Extract information from the response.
-                    
-                    if (err == noErr) {
-                        //NSLog(@"response: %@", response);
-
-                        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
                         if (err == noErr) {
-                            result = YES;
+                            request = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                @"CopyFiles", @"CommandName",
+                                                fileName, @"SourceFile",
+                                                destination, @"TargetFile",
+                                                //targetAttrs, @"TargetAttributes",
+                                                nil];
+                        }
+
+                        // Go go gadget helper tool!
+
+                        if (err == noErr) {
+                            err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+                        }
+                        
+                        // Extract information from the response.
+                        
+                        if (err == noErr) {
+                            //NSLog(@"response: %@", response);
+
+                            err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+                            if (err == noErr) {
+                                result = YES;
+                                success = YES;
+                            }
+                        }
+                        
+                        // Clean up after second call of helper tool.
+                        if (response) {
+                            [response release];
+                        }
+
+
+                        CFQRelease(tool);
+                        if (auth != NULL) {
+                            (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
                         }
                     }
-                    
-                    // Clean up after second call of helper tool.
-                    if (response) {
-                        [response release];
-                    }
-
-
-                    CFQRelease(tool);
-                    if (auth != NULL) {
-                        (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
-                    }
-
+                } else {
+                    success = YES;
                 }
             }
             
             [[DocumentModeManager sharedInstance] reloadDocumentModes:self];
+            
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert setAlertStyle:NSInformationalAlertStyle];
+            if (success) {
+                [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name]];       
+            } else {
+                [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Installation of mode \"%@\" failed.", nil), name]];
+            }
+            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+            (void)[alert runModal];
+            [alert release];
         }
         return nil;
     }
