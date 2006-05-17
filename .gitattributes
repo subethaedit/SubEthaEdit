@@ -1105,6 +1105,8 @@ subethaedit/Scripts/10-Uppercase.scpt -text
 subethaedit/Scripts/15-Lowercase.scpt -text
 subethaedit/Scripts/30-Rot13.scpt -text
 subethaedit/Scripts/40-Open[!!-~]Terminal[!!-~]Here.scpt -text
+subethaedit/Scripts/50-Open[!!-~]URL.scpt -text
+subethaedit/Scripts/shell/open_url.rb -text
 subethaedit/SelectCommand.h -text
 subethaedit/SelectCommand.m -text
 subethaedit/SelectionOperation.h -text
@@ -1321,6 +1323,8 @@ subethaedit/artwork/SymbolV.tiff -text
 subethaedit/artwork/SymbolWarn.tiff -text
 subethaedit/artwork/ToolbarIconBuild.tiff -text
 subethaedit/artwork/ToolbarIconColorChooser.tiff -text
+subethaedit/artwork/ToolbarIconOpenURL.png -text
+subethaedit/artwork/ToolbarIconOpenURL.psd -text
 subethaedit/artwork/ToolbarIconRun.tiff -text
 subethaedit/artwork/ToolbarIconTerminal.png -text
 subethaedit/artwork/URLIcon.tiff -text
