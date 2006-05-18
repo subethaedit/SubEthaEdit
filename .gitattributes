@@ -480,6 +480,10 @@ subethaedit/Modes/Lua.mode/Contents/Resources/German.lproj/InfoPlist.strings -te
 subethaedit/Modes/Lua.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/Lua.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Lua.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Lua.mode/Contents/Resources/Scripts/10-Insert[!!-~]Shebang.scpt -text
+subethaedit/Modes/Lua.mode/Contents/Resources/Scripts/20-chmod[!!-~]ug+x.scpt -text
+subethaedit/Modes/Lua.mode/Contents/Resources/Scripts/30-Check[!!-~]Syntax.scpt -text
+subethaedit/Modes/Lua.mode/Contents/Resources/Scripts/40-Run[!!-~]in[!!-~]Terminal.scpt -text
 subethaedit/Modes/Lua.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Info.plist -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt -text
