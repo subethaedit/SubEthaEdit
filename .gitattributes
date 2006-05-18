@@ -1110,6 +1110,7 @@ subethaedit/Scripts/15-Lowercase.scpt -text
 subethaedit/Scripts/30-Rot13.scpt -text
 subethaedit/Scripts/40-Open[!!-~]Terminal[!!-~]Here.scpt -text
 subethaedit/Scripts/50-Open[!!-~]URL.scpt -text
+subethaedit/Scripts/90-Diff[!!-~]Unsaved[!!-~]Changes.scpt -text
 subethaedit/Scripts/shell/open_url.rb -text
 subethaedit/SelectCommand.h -text
 subethaedit/SelectCommand.m -text
