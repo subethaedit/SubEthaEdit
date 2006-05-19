@@ -5,9 +5,9 @@ my $data = join "",<STDIN>;
 $data =~ s/[\n\r]/ /g;          # throw out line breaks
 $data =~ s/<!--.*?-->//g;       # strip comments
 $data =~ s/(?<=>)[^<]*//g;      # remove everthing that's not a tag
+$data =~ s/ .*?(\/?) *>/\1>/g;  # remove attributes
 $data =~ s/\A[^<]*<//g;         # remove everything up to the first <
 $data =~ s/>[^>]*\Z//g;         # remove eyerthing after the last >
-$data =~ s/ .*?(\/?) *>/\1>/g;      # remove attributes
 $data =~ s/ //g;
 
 my @tags = split /></,$data;    # make array of tags
