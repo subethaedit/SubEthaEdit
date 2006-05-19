@@ -314,6 +314,10 @@
             <contents name="plain text" code="cTXT" type="plain text" description="The plain text object containing all the document's text." hidden="yes">
                 <cocoa key="scriptedPlainContents"/>
             </contents>
+            <property name="name" code="pnam" type="text" access="r"
+                description="The document's name.">
+                <cocoa key="displayName"/>
+            </property>
             <property name="id" code="ID  " type="integer" access="r" description="The unique identifier of the document.">
                 <cocoa key="uniqueID"/>
             </property>
