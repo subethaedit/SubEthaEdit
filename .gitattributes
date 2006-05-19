@@ -558,7 +558,13 @@ subethaedit/Modes/Python.mode/Contents/Resources/German.lproj/InfoPlist.strings 
 subethaedit/Modes/Python.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/Python.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Python.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Python.mode/Contents/Resources/Scripts/10-Insert[!!-~]Shebang.scpt -text
+subethaedit/Modes/Python.mode/Contents/Resources/Scripts/20-chmod[!!-~]ug+x.scpt -text
+subethaedit/Modes/Python.mode/Contents/Resources/Scripts/30-Check[!!-~]Syntax.scpt -text
+subethaedit/Modes/Python.mode/Contents/Resources/Scripts/40-Run[!!-~]in[!!-~]Terminal.scpt -text
+subethaedit/Modes/Python.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]Pearldoc.scpt -text
 subethaedit/Modes/Python.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/Python.mode/Contents/Resources/ToolbarIconPythonLookup.png -text
 subethaedit/Modes/Ruby.mode/Contents/Info.plist -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/Ruby.mode/Contents/Resources/ChangeLog.txt -text
