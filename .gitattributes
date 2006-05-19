@@ -547,7 +547,9 @@ subethaedit/Modes/Perl.mode/Contents/Resources/Scripts/10-Insert[!!-~]Shebang.sc
 subethaedit/Modes/Perl.mode/Contents/Resources/Scripts/15-chmod[!!-~]ug+x.scpt -text
 subethaedit/Modes/Perl.mode/Contents/Resources/Scripts/30-Check[!!-~]Syntax.scpt -text
 subethaedit/Modes/Perl.mode/Contents/Resources/Scripts/40-Run[!!-~]in[!!-~]Terminal.scpt -text
+subethaedit/Modes/Perl.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]Pearldoc.scpt -text
 subethaedit/Modes/Perl.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/Perl.mode/Contents/Resources/ToolbarIconPearldocLookup.png -text
 subethaedit/Modes/Python.mode/Contents/Info.plist -text
 subethaedit/Modes/Python.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/Python.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
