@@ -239,7 +239,7 @@ enum {
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(checkToolbarForUnallowedItems)
+                                             selector:@selector(adjustToolbarToDocumentMode)
                                                  name:GlobalScriptsDidReloadNotification 
                                                object:nil];
     
