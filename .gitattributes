@@ -402,6 +402,8 @@ subethaedit/Modes/CSS.mode/Contents/Resources/German.lproj/Localizable.strings -
 subethaedit/Modes/CSS.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/CSS.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/CSS.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
+subethaedit/Modes/CSS.mode/Contents/Resources/Scripts/Validate.scpt -text
+subethaedit/Modes/CSS.mode/Contents/Resources/Scripts/shell/validate.pl -text
 subethaedit/Modes/CSS.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/CSS.mode/Contents/Resources/SymbolID.png -text
 subethaedit/Modes/CSS.mode/Contents/Resources/SyntaxDefinition.xml -text
