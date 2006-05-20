@@ -771,6 +771,7 @@
 		144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptTerminology; sourceTree = "<group>"; };
 		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
 		144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSavePanelTCMAdditions.m; sourceTree = "<group>"; };
+		144E23550A1F6197002ED261 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -2307,6 +2308,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1493A8460A10D9E8004ECE6A /* English */,
+				144E23550A1F6197002ED261 /* German */,
 			);
 			name = SystemVersionCheck.strings;
 			sourceTree = "<group>";

@@ -11,6 +11,7 @@
                 provideFeedback = id; 
                 purchaseSubEthaEdit = id; 
                 redo = id; 
+                reloadDocumentModes = id; 
                 reportBug = id; 
                 showAcknowledgements = id; 
                 showLicense = id; 
@@ -21,16 +22,29 @@
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
+            OUTLETS = {"O_licenseTextView" = NSTextView; "O_licenseWindow" = NSWindow; }; 
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {
+                cancelModeInstallation = id; 
+                changeModeInstallationDomain = id; 
+                goIntoBundles = id; 
+                installMode = id; 
+                showHiddenFiles = id; 
+            }; 
             CLASS = DocumentController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_encodingPopUpButton" = EncodingPopUpButton; 
-                "O_modeHintPanel" = NSPanel; 
+                "O_goIntoBundlesCheckbox" = NSButton; 
+                "O_modeInstallerDomainMatrix" = NSMatrix; 
+                "O_modeInstallerInformativeTextField" = NSTextField; 
+                "O_modeInstallerMessageTextField" = NSTextField; 
+                "O_modeInstallerPanel" = NSPanel; 
                 "O_modePopUpButton" = DocumentModePopUpButton; 
                 "O_openPanelAccessoryView" = NSView; 
+                "O_showHiddenFilesCheckbox" = NSButton; 
             }; 
             SUPERCLASS = NSDocumentController; 
         }, 
