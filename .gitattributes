@@ -435,6 +435,7 @@ subethaedit/Modes/HTML.mode/Contents/Resources/German.lproj/InfoPlist.strings -t
 subethaedit/Modes/HTML.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/HTML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/HTML.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Add[!!-~]Link.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/CloseLastTag.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Validate.scpt -text
@@ -520,6 +521,7 @@ subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/10-Close[!!-~]Last[!!-~]Tag.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/20-InsertHTMLColor.scpt -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/25-Add[!!-~]Link.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/30-CheckSyntax.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/40-RunUsingPHP.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]PHP[!!-~]Documentation.scpt -text
