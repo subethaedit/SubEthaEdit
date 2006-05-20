@@ -62,6 +62,15 @@
     return result;
 }
 
+- (void)insertObject:(id)anObject inScriptedLinesAtIndex:(unsigned)anIndex {
+    // has to be there for KVC not to mourn
+}
+
+- (void)removeObjectFromScriptedLinesAtIndex:(unsigned)anIndex {
+    NSLog(@"%s: %d", __FUNCTION__, anIndex);
+    [[[self scriptedLines] objectAtIndex:anIndex] setScriptedContents:@""];
+}
+
 - (NSArray *)words {
     return [[[[NSTextStorage alloc] initWithAttributedString:[I_textStorage attributedSubstringFromRange:[self rangeRepresentation]]] autorelease] words];
 }
@@ -71,7 +80,7 @@
 }
 
 - (NSArray *)scriptedCharacters {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s", __FUNCTION__);
     NSMutableArray *result=[NSMutableArray array];
     NSRange range=[self rangeRepresentation];
     int nextIndex=NSMaxRange(range);
@@ -87,8 +96,17 @@
 }
 
 - (id)valueInScriptedCharactersAtIndex:(unsigned)index {
-    NSLog(@"%s: %d", __FUNCTION__, index);
-    return [ScriptCharacters scriptCharactersWithTextStorage:I_textStorage characterRange:NSMakeRange(index+[self scriptedStartCharacterIndex],1)];
+    // NSLog(@"%s: %d", __FUNCTION__, index);
+    return [ScriptCharacters scriptCharactersWithTextStorage:I_textStorage characterRange:NSMakeRange(index+[self rangeRepresentation].location,1)];
+}
+
+- (void)insertObject:(id)anObject inScriptedCharactersAtIndex:(unsigned)anIndex {
+    // has to be there for KVC not to mourn
+}
+
+- (void)removeObjectFromScriptedCharactersAtIndex:(unsigned)anIndex {
+//    NSLog(@"%s: %d", __FUNCTION__, anIndex);
+    [[self valueInScriptedCharactersAtIndex:anIndex] setScriptedContents:@""];
 }
 
 - (id)scriptedContents
@@ -97,7 +115,7 @@
 }
 
 - (void)setScriptedContents:(id)value {
-    NSLog(@"%s: %@", __FUNCTION__, value);
+    // NSLog(@"%s: %@", __FUNCTION__, value);
     [[I_textStorage delegate] replaceTextInRange:[self rangeRepresentation] withString:value];
 }
 
@@ -111,6 +129,10 @@
         [resultArray addObject:[ScriptTextSelection insertionPointWithTextStorage:I_textStorage index:index]];
     }
     return resultArray;
+}
+
+- (id)valueInInsertionPointsAtIndex:(unsigned)anIndex {
+    return [ScriptTextSelection insertionPointWithTextStorage:I_textStorage index:[self rangeRepresentation].location+anIndex];
 }
 
 

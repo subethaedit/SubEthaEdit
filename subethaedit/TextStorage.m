@@ -335,7 +335,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     } else {
         lineRange=[string lineRangeForRange:NSMakeRange([[I_lineStarts objectAtIndex:aLineNumber-1] unsignedIntValue],0)];
     }
-    NSLog(@"%@ %s %d",NSStringFromRange(lineRange), __FUNCTION__, aLineNumber);
+    // NSLog(@"%@ %s %d",NSStringFromRange(lineRange), __FUNCTION__, aLineNumber);
     return lineRange;
 }
 
@@ -847,123 +847,12 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 @implementation TextStorage (TextStorageScriptingAdditions)
 
-/*
-- (void)insertValue:(id)value atIndex:(unsigned)index inPropertyWithKey:(NSString *)key
-{
-    NSLog(@"%s", __FUNCTION__);
-    if ([key isEqual:@"characters"]) {
-        NSArray *characters = [self characters];
-        TextStorage *textStorage = self;
-        if (I_containerTextStorage)
-            textStorage = I_containerTextStorage;
-        if (index == 0) {
-            [[textStorage delegate] replaceTextInRange:NSMakeRange(0, 0) withString:value];
-        } else if (index < [characters count]) {
-            TextStorage *character = [characters objectAtIndex:index];
-            [[textStorage delegate] replaceTextInRange:NSMakeRange([[character scriptedCharacterOffset] intValue] - 1, 0) withString:value];
-        }
-    } else if ([key isEqual:@"words"]) {
-        NSArray *words = [self words];
-        TextStorage *textStorage = self;
-        if (I_containerTextStorage)
-            textStorage = I_containerTextStorage;
-        if (index == 0) {
-            [[textStorage delegate] replaceTextInRange:NSMakeRange(0, 0) withString:value];
-        } else if (index < [words count]) {
-            TextStorage *word = [words objectAtIndex:index];
-            [[textStorage delegate] replaceTextInRange:NSMakeRange([[word scriptedCharacterOffset] intValue] - 1, 0) withString:value];
-        }
-    } else if ([key isEqual:@"paragraphs"]) {
-        NSArray *paragraphs = [self paragraphs];
-        TextStorage *textStorage = self;
-        if (I_containerTextStorage)
-            textStorage = I_containerTextStorage;
-        if (index == 0) {
-            [[textStorage delegate] replaceTextInRange:NSMakeRange(0, 0) withString:value];
-        } else if (index < [paragraphs count]) {
-            TextStorage *paragraph = [paragraphs objectAtIndex:index];
-            [[textStorage delegate] replaceTextInRange:NSMakeRange([[paragraph scriptedCharacterOffset] intValue] - 1, 0) withString:value];
-        }
-    }
-}
-
-- (void)removeValueAtIndex:(unsigned)index fromPropertyWithKey:(NSString *)key
-{
-    NSLog(@"%s", __FUNCTION__);
-    if ([key isEqual:@"characters"]) {
-        NSArray *characters = [self characters];
-        TextStorage *textStorage = self;
-        if (I_containerTextStorage)
-            textStorage = I_containerTextStorage;
-        if (index == 0) {
-            [[textStorage delegate] replaceTextInRange:NSMakeRange(0, 1) withString:@""];
-        } else if (index < [characters count]) {
-            TextStorage *character = [characters objectAtIndex:index];
-            [[textStorage delegate] replaceTextInRange:NSMakeRange([[character scriptedCharacterOffset] intValue] - 1, 1) withString:@""];
-        }
-    } else if ([key isEqual:@"words"]) {
-        NSArray *words = [self words];
-        TextStorage *textStorage = self;
-        if (I_containerTextStorage)
-            textStorage = I_containerTextStorage;
-        if (index == 0) {
-            TextStorage *word = [words objectAtIndex:index];
-            [[textStorage delegate] replaceTextInRange:NSMakeRange(0, [word length]) withString:@""];
-        } else if (index < [words count]) {
-            TextStorage *word = [words objectAtIndex:index];
-            [[textStorage delegate] replaceTextInRange:NSMakeRange([[word scriptedCharacterOffset] intValue] - 1, [[word scriptedLength] intValue]) withString:@""];
-        }
-    } else if ([key isEqual:@"paragraphs"]) {
-        NSArray *paragraphs = [self paragraphs];
-        TextStorage *textStorage = self;
-        if (I_containerTextStorage)
-            textStorage = I_containerTextStorage;
-        if (index == 0) {
-            TextStorage *paragraph = [paragraphs objectAtIndex:index];
-            [[textStorage delegate] replaceTextInRange:NSMakeRange(0, [paragraph length]) withString:@""];
-        } else if (index < [paragraphs count]) {
-            TextStorage *paragraph = [paragraphs objectAtIndex:index];
-            [[textStorage delegate] replaceTextInRange:NSMakeRange([[paragraph scriptedCharacterOffset] intValue] - 1, [[paragraph scriptedLength] intValue]) withString:@""];
-        }
-    }
-}
-*/
-
-// - (id)valueInWordsAtIndex:(unsigned)index
-// {
-//     return [[self words] objectAtIndex:index];
-// }
-// 
-// - (NSArray *)words
-// {   
-//     NSMutableArray *words = [[NSMutableArray alloc] init];
-//     NSMutableCharacterSet *scanSet = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
-//     [scanSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//     NSScanner *scanner = [[NSScanner alloc] initWithString:[self string]];
-//     [scanner setCharactersToBeSkipped:scanSet];
-//     NSString *string;
-//     while (![scanner isAtEnd]) {
-//         BOOL result = [scanner scanUpToCharactersFromSet:scanSet intoString:&string];
-//         if (result) {
-//             TextStorage *subTextStorage = [[TextStorage alloc] initWithContainerTextStorage:self range:NSMakeRange([scanner scanLocation] - [string length], [string length])];
-//             //[words addObject:subTextStorage];
-//             [words addObject:[subTextStorage objectSpecifier]];
-//             [subTextStorage release];
-//         }
-//         (void)[scanner scanCharactersFromSet:scanSet intoString:nil];
-//     }
-//     [scanner release];
-//     [scanSet release];
-// 
-//     return [words autorelease];
-// }
-
 - (NSRange)rangeRepresentation {
     return NSMakeRange(0,[self length]);
 }
 
 - (NSArray *)scriptedCharacters {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s", __FUNCTION__);
     NSMutableArray *result=[NSMutableArray array];
     int length=[self length];
     int index=0;
@@ -979,13 +868,22 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (id)valueInScriptedCharactersAtIndex:(unsigned)index
 {
-    NSLog(@"%s: %d", __FUNCTION__, index);
+    // NSLog(@"%s: %d", __FUNCTION__, index);
     return [ScriptCharacters scriptCharactersWithTextStorage:self characterRange:NSMakeRange(index,1)];
+}
+
+- (void)insertObject:(id)anObject inScriptedCharactersAtIndex:(unsigned)anIndex {
+    // has to be there for KVC not to mourn
+}
+
+- (void)removeObjectFromScriptedCharactersAtIndex:(unsigned)anIndex {
+    NSLog(@"%s: %d", __FUNCTION__, anIndex);
+    [[self valueInScriptedCharactersAtIndex:anIndex] setScriptedContents:@""];
 }
 
 - (NSArray *)scriptedLines
 {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s", __FUNCTION__);
     int lineCount = 1;
     if ([self length]>0) {
         lineCount = [self lineNumberForLocation:[self length]];
@@ -1000,18 +898,27 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (id)valueInScriptedLinesAtIndex:(unsigned)index
 {
-    NSLog(@"%s: %d", __FUNCTION__, index);
+    // NSLog(@"%s: %d", __FUNCTION__, index);
     return [ScriptLine scriptLineWithTextStorage:self lineNumber:index+1];
+}
+
+- (void)insertObject:(id)anObject inScriptedLinesAtIndex:(unsigned)anIndex {
+    // has to be there for KVC not to mourn
+}
+
+- (void)removeObjectFromScriptedLinesAtIndex:(unsigned)anIndex {
+    NSLog(@"%s: %d", __FUNCTION__, anIndex);
+    [[self valueInScriptedLinesAtIndex:anIndex] setScriptedContents:@""];
 }
 
 - (NSString *)scriptedContents
 {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s", __FUNCTION__);
     return [self string];
 }
 
 - (void)setScriptedContents:(id)value {
-    NSLog(@"%s: %d", __FUNCTION__, value);
+    // NSLog(@"%s: %d", __FUNCTION__, value);
     [[self delegate] replaceTextInRange:NSMakeRange(0,[self length]) withString:value];
 }
 
@@ -1025,6 +932,11 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     }
     return resultArray;
 }
+
+- (id)valueInInsertionPointsAtIndex:(unsigned)anIndex {
+    return [ScriptTextSelection insertionPointWithTextStorage:self index:anIndex];
+}
+
 
 - (NSNumber *)scriptedLength
 {
@@ -1061,7 +973,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (id)objectSpecifier
 {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s", __FUNCTION__);
     
     NSScriptClassDescription *containerClassDesc = 
         (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];

@@ -46,6 +46,7 @@
 #import <string.h>
 
 #import "ScriptTextSelection.h"
+#import "ScriptWrapper.h"
 #import "NSMenuTCMAdditions.h"
 
 #pragma options align=mac68k
@@ -229,6 +230,8 @@ static NSString *tempFileName(NSString *origPath) {
     [center addObserver:self selector:@selector(printPreferencesDidChange:) name:PrintPreferencesDidChangeNotification object:nil];
     [center addObserver:self selector:@selector(applyStylePreferences:) name:DocumentModeApplyStylePreferencesNotification object:nil];
     [center addObserver:self selector:@selector(applyEditPreferences:) name:DocumentModeApplyEditPreferencesNotification object:nil];
+    [center addObserver:self selector:@selector(scriptWrapperWillRunScriptNotification:) name:ScriptWrapperWillRunScriptNotification object:nil];
+    [center addObserver:self selector:@selector(scriptWrapperDidRunScriptNotification:) name:ScriptWrapperDidRunScriptNotification object:nil];
 
     I_blockeditTextView=nil;
 
@@ -4025,11 +4028,18 @@ static NSString *S_measurementUnits;
 }
 
 - (void)highlightSyntaxLoop {
+//    NSLog(@"%s",__FUNCTION__);
     I_flags.isPerformingSyntaxHighlighting=NO;
     if (I_flags.highlightSyntax) {
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
-        if (highlighter && ![highlighter colorizeDirtyRanges:I_textStorage ofDocument: self]) {
-            [self performHighlightSyntax];
+        if (highlighter) {
+            if (!I_flags.syntaxHighlightingIsSuspended) {
+                if (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:self]) {
+                    [self performHighlightSyntax];
+                }
+            } else {
+                [self performHighlightSyntax];
+            }
         }
     }
 }
@@ -4779,7 +4789,7 @@ static NSString *S_measurementUnits;
 }
 
 - (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
-    NSLog(@"%s",__FUNCTION__);
+    // NSLog(@"%s",__FUNCTION__);
     // Check for valid encoding
     if (![aString canBeConvertedToEncoding:[self fileEncoding]]) {
         return;
@@ -4911,22 +4921,22 @@ static NSString *S_measurementUnits;
 
 - (NSString *)scriptedContents
 {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s", __FUNCTION__);
     return [I_textStorage string];
 }
 
 - (void)setScriptedContents:(id)value {
-    NSLog(@"%s: %d", __FUNCTION__, value);
+    // NSLog(@"%s: %d", __FUNCTION__, value);
     [self replaceTextInRange:NSMakeRange(0,[I_textStorage length]) withString:value];
 }
 
 - (TextStorage *)scriptedPlainContents {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s", __FUNCTION__);
     return (TextStorage *)I_textStorage;
 }
 
 - (void)setScriptedPlainContents:(id)value {
-    NSLog(@"%s: %@", __FUNCTION__, value);
+    // NSLog(@"%s: %@", __FUNCTION__, value);
     if ([value isKindOfClass:[NSString class]]) {
         [self replaceTextInRange:NSMakeRange(0, [I_textStorage length]) withString:value];
     }
@@ -4982,5 +4992,16 @@ static NSString *S_measurementUnits;
     [I_webPreviewWindowController setBaseURL:[NSURL URLWithString:aString]];
     if ([[I_webPreviewWindowController window] isVisible]) [self refreshWebPreview:self];
 }
+
+- (void)scriptWrapperWillRunScriptNotification:(NSNotification *)aNotification {
+    [[self session] pauseProcessing];
+    I_flags.syntaxHighlightingIsSuspended = YES;
+}
+
+- (void)scriptWrapperDidRunScriptNotification:(NSNotification *)aNotification {
+    I_flags.syntaxHighlightingIsSuspended = NO;
+    [[self session] startProcessing];
+}
+
 
 @end

@@ -51,7 +51,7 @@
 }
 
 - (void)setScriptedStartCharacterIndex:(int)aValue {
-    NSLog(@"%s: %d", __FUNCTION__, aValue);
+    // NSLog(@"%s: %d", __FUNCTION__, aValue);
     if (I_editor && aValue > 0) {
         NSTextView *textView = [I_editor textView];
         NSRange range = [textView selectedRange];
@@ -74,7 +74,7 @@
 }
 
 - (void)setScriptedNextCharacterIndex:(int)aValue {
-    NSLog(@"%s: %d", __FUNCTION__, aValue);
+    // NSLog(@"%s: %d", __FUNCTION__, aValue);
     if (I_editor && aValue > 0) {
         NSTextView *textView = [I_editor textView];
         NSRange range = [textView selectedRange];
@@ -96,7 +96,7 @@
 }
 
 - (void)setScriptedLength:(int)aValue {
-    NSLog(@"%s: %d", __FUNCTION__, aValue);
+    // NSLog(@"%s: %d", __FUNCTION__, aValue);
     if (I_editor && aValue >= 0) {
         NSTextView *textView = [I_editor textView];
         NSRange range = [textView selectedRange];
@@ -109,7 +109,7 @@
 }
 
 - (void)setScriptedContents:(id)value {
-    NSLog(@"%s: %d", __FUNCTION__, value);
+    // NSLog(@"%s: %d", __FUNCTION__, value);
     NSRange range=[self rangeRepresentation];
     [[I_textStorage delegate] replaceTextInRange:range withString:value];
     if (I_editor) {

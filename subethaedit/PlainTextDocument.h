@@ -68,6 +68,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         BOOL shouldSelectModeOnSave;
         BOOL isHandlingUndoManually;
         BOOL isWaiting;
+        BOOL syntaxHighlightingIsSuspended;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
