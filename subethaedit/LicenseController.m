@@ -181,7 +181,11 @@ static LicenseController *sharedInstance = nil;
 #pragma mark -
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
-    if ([[O_licenseeNameField stringValue] length] > 0 && [[O_serialNumberField stringValue] length] == 18 && [[O_serialNumberField stringValue] isValidSerial]) {
+
+    NSString *serialNumberString = [[[O_serialNumberField stringValue]uppercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([[O_licenseeNameField stringValue] length] > 0 && [serialNumberString length] == 18 && [serialNumberString isValidSerial]) {
+        [O_serialNumberField setStringValue:serialNumberString];
         [O_registerButton setEnabled:YES];
     } else {
         [O_registerButton setEnabled:NO];
