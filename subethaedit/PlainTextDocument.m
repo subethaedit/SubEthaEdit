@@ -3503,7 +3503,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)setDisplayName:(NSString *)aDisplayName {
-    NSLog(@"%s %@",__FUNCTION__, aDisplayName);
     if (![self fileName]) {
         [self setTemporaryDisplayName:aDisplayName];
     } else {
