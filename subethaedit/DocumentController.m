@@ -206,6 +206,7 @@
         NSString *versionString = [modeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
         NSString *name = [NSString stringWithFormat:@"%@ (%@)", [fileName lastPathComponent], versionString];
         [O_modeInstallerMessageTextField setObjectValue:[NSString stringWithFormat:NSLocalizedString(@"Do you want to install the mode \"%@\"?", nil), name]];
+        [O_modeInstallerDomainMatrix selectCellAtRow:0 column:0];
         
         NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
         DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
