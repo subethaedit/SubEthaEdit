@@ -20,7 +20,7 @@ for ($i=0;$i<$#lines;$i++) {
     if ((length($thisLine) > (max(20,$maxlinewidth*0.8))) and ($nextLine =~ /[^\n\r\t ]/)) {
         $thisLine =~ s/[\n\r]/ /g;
         $thisLine =~ s/ +$/ /g;
-        $nextLine =~ s/^ +//g;
+        $lines[$i+1] =~ s/^ +//g;
     }
     
         print $thisLine;
