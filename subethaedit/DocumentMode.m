@@ -411,6 +411,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         }
 
         [self setSyntaxStyle:style];
+        [style release];
         
         [I_defaults addObserver:self
                      forKeyPath:DocumentModeEncodingPreferenceKey
@@ -438,6 +439,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_bundle release];
     [I_syntaxStyle release];
     [I_defaultSyntaxStyle release];
+    [I_modeSettings release];
     [super dealloc];
 }
 
@@ -573,6 +575,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 //    [defaults setObject:data forKey:DocumentModeBackgroundColorPreferenceKey];
     [defaults setObject:[[self syntaxStyle] defaultsDictionary] forKey:DocumentModeSyntaxStylePreferenceKey];
     [[NSUserDefaults standardUserDefaults] setObject:defaults forKey:[[self bundle] bundleIdentifier]];
+    [defaults release];
 }
 
 #pragma mark -

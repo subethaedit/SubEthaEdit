@@ -202,6 +202,7 @@ static NSArray *S_possibleStyleColors;
 
 - (void)dealloc {
     [I_styleDictionary release];
+    [I_keyArray release];
     [super dealloc];
 }
 

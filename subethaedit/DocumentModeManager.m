@@ -237,6 +237,8 @@
             [I_modeIdentifiersByRegex setObject:[bundle bundleIdentifier] forKey:[[[OGRegularExpression alloc] initWithString:regex options:OgreFindNotEmptyOption]autorelease]];
             }
         }
+        
+        [modeSettings release];
     }
 
 }

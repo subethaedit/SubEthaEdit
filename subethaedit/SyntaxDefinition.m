@@ -557,6 +557,7 @@
 {
     [I_tokenSet autorelease];
      I_tokenSet = [aCharacterSet copy];
+    [I_invertedTokenSet autorelease];
      I_invertedTokenSet = [[aCharacterSet invertedSet] copy];
 }
 
