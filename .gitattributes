@@ -1123,6 +1123,7 @@ subethaedit/ScriptWrapper.h -text
 subethaedit/ScriptWrapper.m -text
 subethaedit/Scripts/10-Uppercase.scpt -text
 subethaedit/Scripts/15-Lowercase.scpt -text
+subethaedit/Scripts/20-SortLines.scpt -text
 subethaedit/Scripts/30-Rot13.scpt -text
 subethaedit/Scripts/40-Open[!!-~]Terminal[!!-~]Here.scpt -text
 subethaedit/Scripts/50-Open[!!-~]URL.scpt -text
