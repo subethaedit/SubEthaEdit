@@ -1208,6 +1208,10 @@
                 <string>NSNotAnIntMapKey</string>
                 <string>NSNotAPointerMapKey</string>
                 <string>NSCocoaErrorDomain</string>
+                <string>NSURLErrorDomain</string>
+                <string>CFStreamErrorDomain</string>
+                <string>NSFilePathErrorKey</string>
+                <string>NSErrorFailingURLStringKey</string>
                 <string>NSPOSIXErrorDomain</string>
                 <string>NSOSStatusErrorDomain</string>
                 <string>NSMachErrorDomain</string>
