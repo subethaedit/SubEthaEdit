@@ -3624,6 +3624,8 @@
             </keywords>
             <keywords id="Entities" color="#881280" useforautocomplete="no">
                 <regex>(&amp;\w{1,8};)</regex>
+                <regex>(&amp;#[0-9]+;)</regex>
+                <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
             </keywords>
             <keywords id="HTMLComment" color="#236E25" useforautocomplete="no"> 
               <regex>(&lt;!--.*--&gt;)</regex> 
