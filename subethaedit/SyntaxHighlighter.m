@@ -216,6 +216,7 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
     int location;
     NSString *styleID;
     SyntaxDefinition *definition = [self syntaxDefinition];
+    if (![definition hasTokensForState:aState]) return;
 
     NSMutableDictionary *attributes=[NSMutableDictionary new];
 

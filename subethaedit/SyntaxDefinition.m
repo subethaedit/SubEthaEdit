@@ -575,6 +575,10 @@
     return nil;
 }
 
+- (BOOL) hasTokensForState:(int)aState {
+    return (([[[I_stylesForToken objectAtIndex:aState] objectAtIndex:0] count]>0)||([[[I_stylesForToken objectAtIndex:aState] objectAtIndex:1] count]>0));
+}
+
 - (NSArray *)regularExpressionsInState:(int)aState
 {
     NSArray *aRegexDictionary;
