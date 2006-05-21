@@ -189,48 +189,57 @@
             if ([[file pathExtension] isEqualToString:@"mode"]) {
                 NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]];
                 if (bundle && [bundle bundleIdentifier]) {
-                    ModeSettings *modeSettings = [[ModeSettings alloc] initWithFile:[bundle pathForResource:@"ModeSettings" ofType:@"xml"]];
-                    NSEnumerator *extensions, *filenames, *regexes;
-                    if (modeSettings) {
-                        extensions = [[modeSettings recognizedExtensions] objectEnumerator];
-                        filenames = [[modeSettings recognizedFilenames] objectEnumerator];
-                        regexes = [[modeSettings recognizedRegexes] objectEnumerator];
-                    } else {
-                        CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)[bundle bundlePath], kCFURLPOSIXPathStyle, 1);
-                        CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
-                        NSDictionary *infoDictionary = (NSDictionary *) infodict;
-					    extensions = [[infoDictionary objectForKey:@"TCMModeExtensions"] objectEnumerator];
-					    filenames = [[infoDictionary objectForKey:@"TCMModeFilenames"] objectEnumerator];
-					    regexes = [[infoDictionary objectForKey:@"TCMModeRegex"] objectEnumerator];
-                        CFRelease(url);
-                        CFRelease(infodict);
-                    }
-                    
-					NSString *extension = nil;
-					while ((extension = [extensions nextObject])) {
-						[I_modeIdentifiersByExtension setObject:[bundle bundleIdentifier] forKey:extension];
-					}
-					
-					NSString *filename = nil;
-					while ((filename = [filenames nextObject])) {
-						[I_modeIdentifiersByFilename setObject:[bundle bundleIdentifier] forKey:filename];
-					}
-					
-					NSString *regex = nil;
-					while ((regex = [regexes nextObject])) {
-                        if ([OGRegularExpression isValidExpressionString:regex]) {
-						[I_modeIdentifiersByRegex setObject:[bundle bundleIdentifier] forKey:[[[OGRegularExpression alloc] initWithString:regex options:OgreFindNotEmptyOption]autorelease]];
-				        }
-					}
-					
                     [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
                     if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) {
-                        [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];
+                        [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];                    
                     }
                 }
             }
+            
         }
     }
+
+    enumerator = [I_modeBundles objectEnumerator];
+    NSBundle *bundle;
+    while (bundle = [enumerator nextObject]) {
+
+        ModeSettings *modeSettings = [[ModeSettings alloc] initWithFile:[bundle pathForResource:@"ModeSettings" ofType:@"xml"]];
+        NSEnumerator *extensions, *filenames, *regexes;
+        if (modeSettings) {
+            extensions = [[modeSettings recognizedExtensions] objectEnumerator];
+            filenames = [[modeSettings recognizedFilenames] objectEnumerator];
+            regexes = [[modeSettings recognizedRegexes] objectEnumerator];
+        } else {
+            CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)[bundle bundlePath], kCFURLPOSIXPathStyle, 1);
+            CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
+            NSDictionary *infoDictionary = (NSDictionary *) infodict;
+            extensions = [[infoDictionary objectForKey:@"TCMModeExtensions"] objectEnumerator];
+            filenames = [[infoDictionary objectForKey:@"TCMModeFilenames"] objectEnumerator];
+            regexes = [[infoDictionary objectForKey:@"TCMModeRegex"] objectEnumerator];
+            CFRelease(url);
+            CFRelease(infodict);
+        }
+    
+        NSString *extension = nil;
+        NSString *filename = nil;
+        NSString *regex = nil;
+    
+        while ((extension = [extensions nextObject])) {
+            [I_modeIdentifiersByExtension setObject:[bundle bundleIdentifier] forKey:extension];
+            NSLog(@"Extension %@ for bundle %@",extension,[bundle description]);
+        }
+        
+        while ((filename = [filenames nextObject])) {
+            [I_modeIdentifiersByFilename setObject:[bundle bundleIdentifier] forKey:filename];
+        }
+        
+        while ((regex = [regexes nextObject])) {
+            if ([OGRegularExpression isValidExpressionString:regex]) {
+            [I_modeIdentifiersByRegex setObject:[bundle bundleIdentifier] forKey:[[[OGRegularExpression alloc] initWithString:regex options:OgreFindNotEmptyOption]autorelease]];
+            }
+        }
+    }
+
 }
 
 - (IBAction)reloadDocumentModes:(id)aSender {
