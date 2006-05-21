@@ -1,12 +1,34 @@
 #!/usr/bin/perl
-use strict;
+#use strict;
 
-my $data = join "",<STDIN>;
-$data =~ s/([^\n\r])([\n\r][\n\r])([^\n\r])/\1TheCodingMonkeysTheCodingMonkeysTheCodingMonkeysTheCodingMonkeysTheCodingMonkeysNewLineBackupTheCodingMonkeysTheCodingMonkeysTheCodingMonkeysTheCodingMonkeysTheCodingMonkeysNewLineBackup\3/g;
-$data =~ s/([\n\r][^\n\r]{1,60}[\n\r])/\1TheCodingMonkeysTheCodingMonkeysTheCodingMonkeysTheCodingMonkeysTheCodingMonkeysNewLineBackup/g;
+my @lines = <STDIN>;
+my $maxlinewidth = 0;
 
-$data =~ s/([^\n\r]) *[\n\r] *([^\n\r])/\1 \2/g;
+foreach my $line (@lines) {
+    if (length($line)-1>$maxlinewidth) {$maxlinewidth=length($line)-1}
+}
 
-$data =~ s/TheCodingMonkeysTheCodingMonkeysTheCodingMonkeysTheCodingMonkeysTheCodingMonkeysNewLineBackup/\n/g;
+my $nextLine;
+my $thisLine;
+my $i;
 
-print $data;
+for ($i=0;$i<$#lines;$i++) {
+    
+    $thisLine = $lines[$i];
+    $nextLine = $lines[$i+1];
+    
+    if ((length($thisLine) > (max(20,$maxlinewidth*0.8))) and ($nextLine =~ /[^\n\r\t ]/)) {
+        $thisLine =~ s/[\n\r]/ /g;
+        $thisLine =~ s/ +$/ /g;
+        $nextLine =~ s/^ +//g;
+    }
+    
+        print $thisLine;
+}
+
+print $lines[$#lines];
+
+
+sub max { 
+    if ($_[0]<$_[1]) {return $_[1]} else {return $_[0]}; 
+}
