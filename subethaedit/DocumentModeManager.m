@@ -226,7 +226,6 @@
     
         while ((extension = [extensions nextObject])) {
             [I_modeIdentifiersByExtension setObject:[bundle bundleIdentifier] forKey:extension];
-            NSLog(@"Extension %@ for bundle %@",extension,[bundle description]);
         }
         
         while ((filename = [filenames nextObject])) {
