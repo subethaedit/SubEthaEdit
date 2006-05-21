@@ -1557,7 +1557,7 @@
 }
 
 - (void)setScriptSelection:(id)selection {
-    NSLog(@"%s %@",__FUNCTION__,[selection debugDescription]);
+    //NSLog(@"%s %@",__FUNCTION__,[selection debugDescription]);
     NSTextView *textView = [self textView];
     unsigned length = [[textView textStorage] length];
     if ([selection isKindOfClass:[NSArray class]] && [selection count] == 2) {
