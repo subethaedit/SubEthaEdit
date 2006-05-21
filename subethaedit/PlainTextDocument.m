@@ -1638,6 +1638,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [fileURL release];
         }
     }
+    [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
 }
 
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
