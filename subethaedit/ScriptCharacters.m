@@ -36,7 +36,7 @@
 
 - (id)objectSpecifier
 {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s", __FUNCTION__);
 
     NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[TextStorage class]];
     NSScriptObjectSpecifier *containerSpecifier = [I_textStorage objectSpecifier];

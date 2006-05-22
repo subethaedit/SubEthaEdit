@@ -511,7 +511,7 @@
             }
             break;
     }
-    NSLog(@"%@",directoryString);
+    // NSLog(@"%@",directoryString);
     if (![[NSWorkspace sharedWorkspace] openFile:directoryString]) NSBeep();;
 }
 

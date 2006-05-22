@@ -159,11 +159,6 @@
     } 
 }
 
-- (void)jumpToSelectionOnReturn:(id)sender {
-	NSLog([[NSApp currentEvent] description]);
-}
-
-
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
 	NSRange range = [[[[O_resultsController arrangedObjects] objectAtIndex:rowIndex] objectForKey:@"selectionOperation"] selectedRange];
 	[I_document selectRangeInBackground:range];

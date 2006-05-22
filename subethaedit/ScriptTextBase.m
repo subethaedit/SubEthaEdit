@@ -67,7 +67,7 @@
 }
 
 - (void)removeObjectFromScriptedLinesAtIndex:(unsigned)anIndex {
-    NSLog(@"%s: %d", __FUNCTION__, anIndex);
+    // NSLog(@"%s: %d", __FUNCTION__, anIndex);
     [[[self scriptedLines] objectAtIndex:anIndex] setScriptedContents:@""];
 }
 
