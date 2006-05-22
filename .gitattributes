@@ -454,6 +454,8 @@ subethaedit/Modes/Java.mode/Contents/Resources/German.lproj/InfoPlist.strings -t
 subethaedit/Modes/Java.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/Java.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Java.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Java.mode/Contents/Resources/Scripts/30-Compile.scpt -text
+subethaedit/Modes/Java.mode/Contents/Resources/Scripts/40-Compile[!!-~]and[!!-~]run.scpt -text
 subethaedit/Modes/Java.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Javascript.mode/Contents/Info.plist -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/AutocompleteAdditions.txt -text
@@ -1349,6 +1351,7 @@ subethaedit/artwork/SymbolV.png -text
 subethaedit/artwork/SymbolV.tiff -text
 subethaedit/artwork/SymbolWarn.tiff -text
 subethaedit/artwork/ToolbarIconBuild.tiff -text
+subethaedit/artwork/ToolbarIconBuildAndRun.tiff -text
 subethaedit/artwork/ToolbarIconColorChooser.tiff -text
 subethaedit/artwork/ToolbarIconOpenURL.png -text
 subethaedit/artwork/ToolbarIconOpenURL.psd -text

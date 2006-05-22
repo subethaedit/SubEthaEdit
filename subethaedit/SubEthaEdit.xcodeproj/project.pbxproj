@@ -283,6 +283,7 @@
 		5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */; };
 		5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
 		5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */; };
+		5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -850,6 +851,7 @@
 		5EDD304C0A092AA50036E63A /* ScriptTextBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptTextBase.h; sourceTree = "<group>"; };
 		5EDD304D0A092AA50036E63A /* ScriptTextBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptTextBase.m; sourceTree = "<group>"; };
 		5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconRunInTerminal.png; path = artwork/ToolbarIconRunInTerminal.png; sourceTree = "<group>"; };
+		5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconBuildAndRun.tiff; path = artwork/ToolbarIconBuildAndRun.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1005,6 +1007,7 @@
 				142890AC095743F200D14688 /* SymbolV.png */,
 				142895030957692100D14688 /* SymbolWarn.tiff */,
 				5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */,
+				5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */,
 				5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */,
 				5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */,
 				5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */,
@@ -1861,6 +1864,7 @@
 				5EB51B270A179E9B00AE2E17 /* ToolbarIconRun.tiff in Resources */,
 				5E7E7FE80A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png in Resources */,
 				5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */,
+				5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
