@@ -248,6 +248,7 @@
 		144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */; };
 		14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */; };
+		144E29340A2228B3002ED261 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 144E29320A2228B3002ED261 /* ServicesMenu.strings */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */; };
 		1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -774,6 +775,7 @@
 		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
 		144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSavePanelTCMAdditions.m; sourceTree = "<group>"; };
 		144E23550A1F6197002ED261 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
+		144E29390A2228BF002ED261 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1460,6 +1462,7 @@
 				142890120957413900D14688 /* Localizable.strings */,
 				1428900A095740F200D14688 /* RE.txt */,
 				145047410997750100D18142 /* ReleaseNotes.txt */,
+				144E29320A2228B3002ED261 /* ServicesMenu.strings */,
 				1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */,
 				142890150957418400D14688 /* AboutPanel.nib */,
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
@@ -1865,6 +1868,7 @@
 				5E7E7FE80A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png in Resources */,
 				5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */,
 				5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */,
+				144E29340A2228B3002ED261 /* ServicesMenu.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2301,6 +2305,14 @@
 				1468BA99097D9256006F5936 /* German */,
 			);
 			name = FindAll.nib;
+			sourceTree = "<group>";
+		};
+		144E29320A2228B3002ED261 /* ServicesMenu.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				144E29390A2228BF002ED261 /* German */,
+			);
+			name = ServicesMenu.strings;
 			sourceTree = "<group>";
 		};
 		145047410997750100D18142 /* ReleaseNotes.txt */ = {
