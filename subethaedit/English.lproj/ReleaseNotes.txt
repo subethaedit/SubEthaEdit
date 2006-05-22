@@ -1,4 +1,71 @@
 
+SubEthaEdit 2.5
+===============
+
+Additions/New Features:
+- Added an application-wide AppleScript menu.
+- AppleScripts can be bundled per mode. They show up in the mode menu and 
+  optionally in the toolbar and context menu.
+- Scriptability: Modes are exposed as AppleScript objects.
+- Scriptability: Added selection properties to the application, document, and 
+  window classes.
+- Scriptability: Added detailed properties to most text classes.
+- Scriptability: Added web preview base url property to the document class.
+- Scriptability: Added colums and rows properties to the window class.
+- Scriptability: Added undo grouping commands.
+- Scriptability: Added clear change marks command.
+- Dock icon badge indicating pending users and invitations.
+- Modes can be reloaded without restarting the application.
+- Hidden files can be shown in open and save dialogs.
+- Click on line number selects line.
+- Installation support for modes.
+- Line endings not matching the document's setting are highlighted.
+- Mode guessing also considers file name and content of file.
+- Added toolbar item for "Show Invisible Characters".
+
+Changes:
+- Moved several mode settings from a mode's Info.plist to ModeSettings.xml.
+- "Export to HTML" creates an image folder called '<exportname>_images'.
+- Scriptability: Document objects return id-based specifier.
+- Scriptability: Removed the text document class. Use the document class.
+
+Fixes:
+- Privileged operations are authorized per document.
+- Fixed an issue where "Replace & Next" skipped occurrences.
+- Fixed a bug that caused the syntax highlighter to mix up order of more than 
+  eight keyword groups.
+- Improved load performance of documents.
+- Fixed an issue where the "Wrap line" setting was ignored when applying it to 
+  open documents.
+- Fixed a bug where windows weren't resized correctly on apply to open 
+  documents when wrap is disabled in a document with long lines.
+- Improved autoscrolling for blockedit.
+- Fixed a bug where option-click during blockediting didn't behave as expected.
+- Fixed a bug where the specified window size wasn't respected by the see tool.
+- Fixed an issue were the see tool didn't handle empty input correctly.
+- Remote document paths are displayed when a document is edited via an FTP 
+  client.
+- Fixed a crash which can be caused by broken modes.
+- Improved line endings support by optionally enforcing the document's setting.
+- Fixed a bug which enabled scripters to change access control of joined 
+  documents.
+- Fixed a bug where the size of the web preview wasn't remembered correctly.
+- Fixed an issue where the "Editor uses tabs" preference didn't work properly.
+- Fixed an issue where an image folder was created during export even when it 
+  wasn't necessary.
+- Fixed a bug where the window title wasn't set correctly when the see tool was 
+  invoked with the title option.
+- Prevents overwriting directories.
+- Fixed a bug with syntax highlighter when inserting newlines.
+- Fixed a bug where "Replace" didn't respect the document's file encoding.
+- Fixed broken find keyboard shortcuts in find panel.
+- Export dialog now clearly states its purpose.
+- Improved feedback when nothing was found in the selection scope.
+- Improved syntax highlighter performance when there are states with no plain 
+  text strings.
+- Improved modes: bash, C, C++, CSS, HTML, Java, Lua, Objective-C, Perl, 
+  PHP-HTML, Python, Ruby, SQL, XML.
+
 SubEthaEdit 2.3
 ===============
 
