@@ -32,7 +32,7 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 @implementation ScriptWrapper
 
 + (id)scriptWrapperWithContentsOfURL:(NSURL *)anURL {
-    return [[ScriptWrapper alloc] initWithContentsOfURL:anURL];
+    return [[[ScriptWrapper alloc] initWithContentsOfURL:anURL] autorelease];
 }
 
 - (id)initWithContentsOfURL:(NSURL *)anURL {
