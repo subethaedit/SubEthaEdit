@@ -625,6 +625,7 @@ subethaedit/Modes/XML.mode/Contents/Resources/Symbol!.png -text
 subethaedit/Modes/XML.mode/Contents/Resources/SymbolID.png -text
 subethaedit/Modes/XML.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/bash.mode/Contents/Info.plist -text
+subethaedit/Modes/bash.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/bash.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/bash.mode/Contents/Resources/English.lproj/Localizable.strings -text
 subethaedit/Modes/bash.mode/Contents/Resources/German.lproj/InfoPlist.strings -text

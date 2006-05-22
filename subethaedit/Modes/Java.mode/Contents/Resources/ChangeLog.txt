@@ -1,3 +1,11 @@
+Changes with Version 1.2
+    
+    *) Added Scripts: Compile, Compile and Run in Terminal.
+    *) Fixed SEE-239, SEE-354, SEE-373, SEE-966 by completely overhauling Java Symbol recognition.
+    *) Adding DoxyGen Support to C,C++,Obj-C
+    *) Improved JavaDoc Support in Java 
+    *) Fixed SEE-912: Character Constants that aren't one digit wide aren't recognized propery.
+    
 Changes with Version 1.1
     
     *) EXTENSIONS: Added uppercase variants where appropriate.

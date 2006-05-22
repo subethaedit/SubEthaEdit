@@ -1,4 +1,5 @@
-Changes with Version 1.4 (SEE 2.4)
+Changes with Version 1.4 (SEE 2.5)
+    *) added scripts: Close Last Tag, Insert/Edit HTML Color, Add Link, Check Syntax, Run using PHP, HTML Comment Selection, Lookup in PHP Documentation
     *) added real, double, bool, boolean, integer, resource, NULL as keywords
     *) removed non existing functions: add, remove
     *) added missing keywords: endif, endwhile

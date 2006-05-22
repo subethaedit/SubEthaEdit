@@ -1,3 +1,9 @@
+Changes with Version 1.4 (SEE 2.5)
+
+    *) Added Scripts: Insert Shebang, chmod ug+x, Check Syntax, Run in Terminal, Lookup in Perldoc.
+    *) Fixed SEE-084: Perl code coloring fails when using " on m and s
+    *) Fixed SEE-1008. qq() support for Perl.
+
 Changes with Version 1.3 (SEE 2.3)
 
     *) SYMBOLS: Fixed SEE-490.
