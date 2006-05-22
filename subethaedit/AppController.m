@@ -897,7 +897,6 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
 }
 
 - (NSArray *)contextMenuItemArray {
-    NSLog(@"%s",__FUNCTION__);
     return I_contextMenuItemArray;
 }
 // trigger update so keyequivalents match the situation

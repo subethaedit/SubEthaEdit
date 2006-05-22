@@ -913,7 +913,6 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)fillScriptsIntoContextMenu:(NSMenu *)aMenu {
-    NSLog(@"%s",__FUNCTION__);
     NSArray *itemArray = [[self documentMode] contextMenuItemArray];
     if ([itemArray count]) {
         NSEnumerator *menuItems=[itemArray objectEnumerator];

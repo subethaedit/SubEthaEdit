@@ -281,11 +281,9 @@ static NSMenu *defaultMenu=nil;
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)anEvent {
-    NSLog(@"%s",__FUNCTION__);
     NSMenu *menu = [super menuForEvent:anEvent];
     id delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(textViewContextMenuNeedsUpdate:)]) {
-    NSLog(@"%s",__FUNCTION__);
         [delegate textViewContextMenuNeedsUpdate:menu];
     }
     return menu;
