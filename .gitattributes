@@ -216,6 +216,7 @@ subethaedit/English.lproj/StylePrefs.nib/info.nib -text
 subethaedit/English.lproj/StylePrefs.nib/keyedobjects.nib -text
 subethaedit/English.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
 subethaedit/English.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
+subethaedit/English.lproj/SubEthaEditHelp/SubEthaEditHelp.helpindex -text
 subethaedit/English.lproj/SubEthaEditHelp/css/access.css -text
 subethaedit/English.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 subethaedit/English.lproj/SubEthaEditHelp/html/learn.html -text
@@ -310,6 +311,7 @@ subethaedit/German.lproj/StylePrefs.nib/info.nib -text
 subethaedit/German.lproj/StylePrefs.nib/keyedobjects.nib -text
 subethaedit/German.lproj/SubEthaEditHelp/SubEthaEdit[!!-~]Help.html -text
 subethaedit/German.lproj/SubEthaEditHelp/SubEthaEditHelp[!!-~]idx -text
+subethaedit/German.lproj/SubEthaEditHelp/SubEthaEditHelp.helpindex -text
 subethaedit/German.lproj/SubEthaEditHelp/css/access.css -text
 subethaedit/German.lproj/SubEthaEditHelp/css/task_tbl_style.css -text
 subethaedit/German.lproj/SubEthaEditHelp/html/learn.html -text
