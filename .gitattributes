@@ -576,7 +576,7 @@ subethaedit/Modes/Python.mode/Contents/Resources/Scripts/10-Insert[!!-~]Shebang.
 subethaedit/Modes/Python.mode/Contents/Resources/Scripts/20-chmod[!!-~]ug+x.scpt -text
 subethaedit/Modes/Python.mode/Contents/Resources/Scripts/30-Check[!!-~]Syntax.scpt -text
 subethaedit/Modes/Python.mode/Contents/Resources/Scripts/40-Run[!!-~]in[!!-~]Terminal.scpt -text
-subethaedit/Modes/Python.mode/Contents/Resources/Scripts/Lookup[!!-~]at[!!-~]Python.net.dcpt -text
+subethaedit/Modes/Python.mode/Contents/Resources/Scripts/Lookup[!!-~]at[!!-~]Python.net.scpt -text
 subethaedit/Modes/Python.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Python.mode/Contents/Resources/ToolbarIconPythonLookup.png -text
 subethaedit/Modes/Ruby.mode/Contents/Info.plist -text
