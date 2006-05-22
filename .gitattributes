@@ -382,6 +382,8 @@ subethaedit/Modes/C++.mode/Contents/Resources/German.lproj/InfoPlist.strings -te
 subethaedit/Modes/C++.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/C++.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/C++.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/C++.mode/Contents/Resources/Scripts/20-OpenCounterpart.scpt -text
+subethaedit/Modes/C++.mode/Contents/Resources/Scripts/30-Check[!!-~]Syntax.scpt -text
 subethaedit/Modes/C++.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/C.mode/Contents/Info.plist -text
 subethaedit/Modes/C.mode/Contents/Resources/AutocompleteAdditions.txt -text
@@ -392,6 +394,8 @@ subethaedit/Modes/C.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 subethaedit/Modes/C.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/C.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/C.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/C.mode/Contents/Resources/Scripts/20-OpenCounterpart.scpt -text
+subethaedit/Modes/C.mode/Contents/Resources/Scripts/30-Check[!!-~]Syntax.scpt -text
 subethaedit/Modes/C.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/CSS.mode/Contents/Info.plist -text
 subethaedit/Modes/CSS.mode/Contents/Resources/ChangeLog.txt -text
