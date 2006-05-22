@@ -441,6 +441,7 @@ subethaedit/Modes/HTML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/HTML.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Add[!!-~]Link.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/CloseLastTag.scpt -text
+subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Comment[!!-~]Selection.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/Validate.scpt -text
 subethaedit/Modes/HTML.mode/Contents/Resources/Scripts/shell/closetag.pl -text
@@ -531,6 +532,7 @@ subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/20-InsertHTMLColor.sc
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/25-Add[!!-~]Link.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/30-CheckSyntax.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/40-RunUsingPHP.scpt -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Comment[!!-~]Selection.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]PHP[!!-~]Documentation.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/shell/closetag.pl -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml -text
@@ -616,6 +618,7 @@ subethaedit/Modes/XML.mode/Contents/Resources/Scripts/10-CloseLastTag.scpt -text
 subethaedit/Modes/XML.mode/Contents/Resources/Scripts/20-CheckWellFormedness.scpt -text
 subethaedit/Modes/XML.mode/Contents/Resources/Scripts/30-Validate.scpt -text
 subethaedit/Modes/XML.mode/Contents/Resources/Scripts/50-TransformWithXSLT.scpt -text
+subethaedit/Modes/XML.mode/Contents/Resources/Scripts/Comment[!!-~]Selection.scpt -text
 subethaedit/Modes/XML.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -text
 subethaedit/Modes/XML.mode/Contents/Resources/Scripts/shell/closetag.pl -text
 subethaedit/Modes/XML.mode/Contents/Resources/Symbol!.png -text
