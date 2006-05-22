@@ -11,32 +11,6 @@
 
         <cocoa name="TCMTextSuite"/>
 
-        <class name="insertion point" code="cins" description="A location between two characters. Set its contents to insert text.">
-            <cocoa class="ScriptTextSelection"/>
-            <element type="paragraph">
-                <cocoa key="scriptedLines"/>
-            </element>
-            <property name="contents" code="pTxt" type="text"
-                description="The text.">
-                <cocoa key="scriptedContents"/>
-            </property>
-            <property name="startCharacterIndex" code="pIdS" type="integer" description="The index of the first character.">
-                <cocoa key="scriptedStartCharacterIndex"/>
-            </property>
-            <property name="nextCharacterIndex" code="pIdN" type="integer" description="The index of the first character after the text.">
-                <cocoa key="scriptedNextCharacterIndex"/>
-            </property>
-            <property name="length" code="leng" type="integer" access="r" description="The length of the text.">
-                <cocoa key="scriptedLength"/>
-            </property>
-            <property name="startLineNumber" code="pSln" type="integer" access="r" description="The line number of the first paragraph.">
-                <cocoa key="scriptedStartLine"/>
-            </property>
-            <property name="endLineNumber" code="pEln" type="integer" access="r" description="The line number of last paragraph.">
-                <cocoa key="scriptedEndLine"/>
-            </property>
-        </class>
-
         <class name="selection-object" code="csel" description="A way to refer to the state of the current selection. Set the selection property of the container to change selection. The following types are accepted: plain text, paragraph, character, list of 2 integers (start - end), and 1 integer (insertion point).">
             <cocoa class="ScriptTextSelection"/>
             <element type="insertion point">
@@ -72,6 +46,32 @@
             </property>
         </class>
 
+        <class name="insertion point" code="cins" description="A location between two characters. Set its contents to insert text.">
+            <cocoa class="ScriptTextSelection"/>
+            <element type="paragraph">
+                <cocoa key="scriptedLines"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="scriptedContents"/>
+            </property>
+            <property name="startCharacterIndex" code="pIdS" type="integer" description="The index of the first character.">
+                <cocoa key="scriptedStartCharacterIndex"/>
+            </property>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" description="The index of the first character after the text.">
+                <cocoa key="scriptedNextCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="The length of the text.">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="The line number of the first paragraph.">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="The line number of last paragraph.">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
+        
         <class name="character" code="cha "
             description="A character of a plain text object.">
             <cocoa class="ScriptCharacters"/>
@@ -96,7 +96,7 @@
             </property>
         </class>
 
-        <class name="paragraph" code="cLIN"
+        <class name="paragraph" code="cpar"
             description="A paragraph of a plain text object.">
             <cocoa class="ScriptLine"/>
             <element type="insertion point">
@@ -134,8 +134,8 @@
          </class>
 
         <class name="word" code="cwor" description="A word. Only text.">
-          <cocoa class="NSTextStorage"/>
-          <type type="text"/>
+            <cocoa class="NSTextStorage"/>
+            <type type="text"/>
         </class>
 
         <class name="plain text" plural="plain text" code="cTXT"
@@ -331,7 +331,6 @@
             <property name="mode" code="Mode" description="The document's mode.">
                 <cocoa key="documentMode"/>
                 <type type="mode"/>
-                <type type="text"/>
             </property>
             <property name="encoding" code="Encd" type="text" description="The internet name of the document's encoding.">
                 <cocoa key="encoding"/>

@@ -413,7 +413,7 @@
             </property>
         </class>
 
-        <class name="paragraph" code="cLIN"
+        <class name="paragraph" code="cpar"
             description="A paragraph of a plain text object.">
             <cocoa class="ScriptLine"/>
             <element type="insertion point">
