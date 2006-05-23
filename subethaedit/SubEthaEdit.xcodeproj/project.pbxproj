@@ -286,6 +286,7 @@
 		5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
 		5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */; };
 		5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */; };
+		5EFF5C4C0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -856,6 +857,7 @@
 		5EDD304D0A092AA50036E63A /* ScriptTextBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptTextBase.m; sourceTree = "<group>"; };
 		5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconRunInTerminal.png; path = artwork/ToolbarIconRunInTerminal.png; sourceTree = "<group>"; };
 		5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconBuildAndRun.tiff; path = artwork/ToolbarIconBuildAndRun.tiff; sourceTree = "<group>"; };
+		5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconGenericScript.tiff; path = artwork/ToolbarIconGenericScript.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1014,6 +1016,7 @@
 				5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */,
 				5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */,
 				5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */,
+				5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */,
 				5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */,
 				5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */,
 				5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */,
@@ -1873,6 +1876,7 @@
 				5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */,
 				5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */,
 				144E29340A2228B3002ED261 /* ServicesMenu.strings in Resources */,
+				5EFF5C4C0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
