@@ -10,27 +10,14 @@
   <string>© 2004 TheCodingMonkeys
   http://www.codingmonkeys.de</string>
     <key>CFBundleShortVersionString</key>
-  <string>1.3</string>
+  <string>1.4</string>
   <key>CFBundleVersion</key>
-  <string>1.3</string>
+  <string>1.4</string>
     <key>CFBundleGetInfoString</key>
-  <string>1.3, Copyright TheCodingMonkeys 2004</string>
+  <string>1.4, Copyright TheCodingMonkeys 2004</string>
   <key>CFBundlePackageType</key>
   <string>BNDL</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
-  <key>TCMModeExtensions</key>
-  <array>
-    <string>php</string>
-    <string>php3</string>
-    <string>php4</string>
-    <string>phtml</string>
-    <string>inc</string>
-    <string>PHP</string>
-    <string>PHP3</string>
-    <string>PHP4</string>
-    <string>PHTML</string>
-    <string>INC</string>
-  </array>
 </dict>
 </plist>

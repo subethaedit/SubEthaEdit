@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "settings.dtd">
+<settings>
+    <recognition>
+	   <extension>html</extension>
+	   <extension>shtml</extension>
+	   <extension>htm</extension>
+	   <extension>xhtml</extension>
+	   <extension>shtm</extension>
+	   <extension>HTML</extension>
+	   <extension>SHTML</extension>
+	   <extension>HTM</extension>
+	   <extension>XHTML</extension>
+	   <extension>SHTM</extension>
+    </recognition>
+</settings>
+
+

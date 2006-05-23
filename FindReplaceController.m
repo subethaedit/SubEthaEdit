@@ -68,11 +68,13 @@ static FindReplaceController *sharedInstance=nil;
         [O_findComboBox reloadData];
         [O_replaceComboBox reloadData];
         [O_findPanel setDelegate:self];
-        //[O_ReplaceFindButton setKeyEquivalent:@"y"];
-        //[O_ReplaceFindButton setKeyEquivalentModifierMask:NSControlKeyMask|NSCommandKeyMask];
+        // It seems buttons can't have keyEquivalent with ctrl in it.
+        //[O_ReplaceFindButton setKeyEquivalent:@"g"];
+        //[O_ReplaceFindButton setKeyEquivalentModifierMask:(NSCommandKeyMask | NSControlKeyMask)];
     }
     return O_findPanel;
 }
+
 
 - (NSPanel *)gotoPanel {
     if (!O_findPanel) [self loadUI];
@@ -105,12 +107,7 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
-    SEL selector=[anItem action];
-    if (selector==@selector(orderFrontTabWidthPanel:) || 
-        selector==@selector(orderFrontGotoPanel:)) {
-        return [[[[self textViewToSearchIn] window] windowController] document]!=nil;
-    }
-    return YES;
+    return [[[[self textViewToSearchIn] window] windowController] document]!=nil;
 }
 
 - (IBAction)chooseTabWidth:(id)aSender {
@@ -274,6 +271,29 @@ static FindReplaceController *sharedInstance=nil;
     }
 }
 
+- (void)alertForReadonlyDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertFirstButtonReturn) {
+        NSDictionary *alertContext = (NSDictionary *)contextInfo;
+        PlainTextDocument *document = [alertContext objectForKey:@"Document"];
+        [document setEditAnyway:YES];
+        [self performFindPanelAction:[alertContext objectForKey:@"Sender"]];
+    }
+}
+
+- (void)alertForEncodingDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    NSDictionary *alertContext = (NSDictionary *)contextInfo;
+    PlainTextDocument *document = [alertContext objectForKey:@"Document"];
+    if (returnCode == NSAlertThirdButtonReturn) {
+        [document setFileEncoding:NSUnicodeStringEncoding];
+        [[document documentUndoManager] removeAllActions];
+        [self performFindPanelAction:[alertContext objectForKey:@"Sender"]];
+    } else if (returnCode == NSAlertSecondButtonReturn) {
+        [document setFileEncoding:NSUTF8StringEncoding];
+        [[document documentUndoManager] removeAllActions];
+        [self performFindPanelAction:[alertContext objectForKey:@"Sender"]];
+    }
+}
+
 - (void)performFindPanelAction:(id)sender 
 {
     [O_statusTextField setStringValue:@""];
@@ -286,6 +306,61 @@ static FindReplaceController *sharedInstance=nil;
     if (target) {
         if ([[O_scopePopup selectedItem] tag]==1) scope = [target selectedRange];
         else scope = NSMakeRange(0,[[target string] length]);
+        
+        // Check for replace operation in case it's a read-only file.
+        if (([sender tag]==NSFindPanelActionReplace)||([sender tag]==NSFindPanelActionReplaceAndFind)||([sender tag]==NSFindPanelActionReplaceAll)) {
+            PlainTextDocument *document = (PlainTextDocument *)[[[target window] windowController] document];
+            if (document && ![document isFileWritable] && ![document editAnyway]) {
+                // Call sheet
+                NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                            @"EditAnywayAlert", @"Alert",
+                                                            sender, @"Sender",
+                                                            document, @"Document",
+                                                            nil];
+        
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setMessageText:NSLocalizedString(@"Warning", nil)];
+                [alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
+                [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+                [alert beginSheetModalForWindow:[target window]
+                                  modalDelegate:self
+                                 didEndSelector:@selector(alertForReadonlyDidEnd:returnCode:contextInfo:)
+                                    contextInfo:[contextInfo retain]];
+                return;
+            }
+            
+            NSString *replacementString = [O_replaceComboBox stringValue];
+            if (![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
+                TCMMMSession *session=[document session];
+                if ([session isServer] && [session participantCount]<=1) {
+                NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                            @"ShouldPromoteAlert", @"Alert",
+                                                            sender, @"Sender",
+                                                            document, @"Document",
+                                                            target, @"TextView",
+                                                            nil];
+        
+                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                    [alert setAlertStyle:NSWarningAlertStyle];
+                    [alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
+                    [alert setInformativeText:NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil)];
+                    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                    [alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
+                    [alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
+                    [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+                    [alert beginSheetModalForWindow:[target window]
+                                      modalDelegate:self
+                                     didEndSelector:@selector(alertForEncodingDidEnd:returnCode:contextInfo:)
+                                        contextInfo:[contextInfo retain]];
+                    return;
+                } else {
+                    NSBeep();
+                }
+            }
+        }
     }
     
     if ([sender tag]==NSFindPanelActionShowFindPanel) {
@@ -351,6 +426,7 @@ static FindReplaceController *sharedInstance=nil;
 - (void) replaceSelection
 {
     BOOL found = YES;
+
     NSTextView *target = [self targetToFindIn];
     if (target) {
         if (![target isEditable]) {
@@ -379,6 +455,8 @@ static FindReplaceController *sharedInstance=nil;
             [self loadFindStringToPasteboard];
             [text replaceCharactersInRange:selection withString:replaceString];
             [[target textStorage] addAttributes:attributes range:NSMakeRange(selection.location, [replaceString length])];
+            selection.location = selection.location + [replaceString length];
+            selection.length = 0;
         } else {
             // This might not work for lookahead etc.
             OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:findString
@@ -393,6 +471,8 @@ static FindReplaceController *sharedInstance=nil;
                 NSString *replaceWith = [repex replaceMatchedStringOf:aMatch];
                 [text replaceCharactersInRange:matchedRange withString:replaceWith];
                 [[target textStorage] addAttributes:attributes range:NSMakeRange(matchedRange.location, [replaceWith length])];
+                selection.location = selection.location + [replaceWith length];
+                selection.length = 0;
             } else {
                 NSBeep();
                 found=NO;
@@ -402,6 +482,8 @@ static FindReplaceController *sharedInstance=nil;
         [[target textStorage] endEditing];
         if (found) [[aDocument documentUndoManager] endUndoGrouping];
         [[aDocument session] startProcessing];
+        
+        [target setSelectedRange:selection];
     }
 }
 
@@ -487,7 +569,11 @@ static FindReplaceController *sharedInstance=nil;
             [I_replaceAllSelectionOperation release];
             
             if (I_replaceAllReplaced==0) {
-                [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
+                if ([[O_scopePopup selectedItem] tag]==1) {
+                    [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")]];
+                } else {
+                    [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
+                }
                 NSBeep();
             } else {
                 [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
@@ -554,7 +640,11 @@ static FindReplaceController *sharedInstance=nil;
         [I_replaceAllSelectionOperation release];
         
         if (I_replaceAllReplaced==0) {
-            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
+            if ([[O_scopePopup selectedItem] tag]==1) {
+                [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")]];
+            } else {
+                [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
+            }
             NSBeep();
         } else {
             [[aDocument documentUndoManager] endUndoGrouping];
@@ -811,7 +901,11 @@ static FindReplaceController *sharedInstance=nil;
                                  
     [O_progressIndicator stopAnimation:nil];
     if (!found){
-        [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
+        if ([[O_scopePopup selectedItem] tag]==1) {
+            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")]];
+        } else {
+            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
+        }
         [O_statusTextField setHidden:NO];
     }
     [findPool release];

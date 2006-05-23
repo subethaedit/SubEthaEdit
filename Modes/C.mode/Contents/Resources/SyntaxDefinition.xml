@@ -60,7 +60,7 @@
         </default>
 
         <state id="Characters" color="#00f" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>'</regex></begin>
+            <begin><regex>'(?=\\?.')</regex></begin>
             <end><regex>(\\'')|(.')</regex></end>
         </state>
 
@@ -71,7 +71,15 @@
 				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
             </keywords>
         </state>
-        
+
+        <state id="DoxyGen Comment" color="#236E25" background-color="none"  font-style="italic">
+            <begin><regex>/\*[\*\!]</regex></begin>
+            <end><regex>\*/</regex></end>
+            <keywords id="DoxyGen Tags" color="#236E25" font-weight="bold" useforautocomplete="no">
+				<regex>(?&lt;=[^\w\d]|^)([@\\]\w+)</regex>
+            </keywords>
+        </state>
+
         <state id="AutodocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
             <begin><regex>/\*"</regex></begin>
             <end><regex>"\*/</regex></end>

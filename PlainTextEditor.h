@@ -46,6 +46,8 @@
 - (void)setIsSplit:(BOOL)aFlag;
 
 - (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows;
+- (int)displayedColumns;
+- (int)displayedRows;
 
 - (void)setShowsChangeMarks:(BOOL)aFlag;
 - (BOOL)showsChangeMarks;
@@ -80,4 +82,9 @@
 - (IBAction)jumpToNextChange:(id)aSender;
 - (IBAction)jumpToPreviousChange:(id)aSender;
 
+@end
+
+@interface PlainTextEditor (PlainTextEditorScriptingAdditions)
+- (id)scriptSelection;
+- (void)setScriptSelection:(id)selection;
 @end

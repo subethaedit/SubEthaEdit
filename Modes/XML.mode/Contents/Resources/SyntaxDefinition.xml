@@ -12,27 +12,26 @@
     
         <default id="Base" color="#000" background-color="#fff" font-style="normal">
         
-            <keywords id="Tags" color="#881280" useforautocomplete="no">
-                <regex>(&lt;[^&gt;]*&gt;)</regex>
-            </keywords>
-            
-            <keywords id="Strings in Tags" color="#1A1AA6" useforautocomplete="no">
-                <regex>("[^"&gt;&lt;]*")(?=[^&lt;]*&gt;)</regex>
-            </keywords>
+        </default>
 
-            <keywords id="Single Strings in Tags" color="#1A1AA6" useforautocomplete="no">
-                <regex>('[^'&gt;&lt;]*')(?=[^&lt;]*&gt;)</regex>
+        <state id="Tags" color="#881280" font-style="italic">
+            <begin><regex>&lt;</regex></begin>
+            <end><regex>&gt;</regex></end>
+
+            <keywords id="Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+                <regex>("[^"]*")</regex>
+                <regex>('[^']*')</regex>
             </keywords>
             
             <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
-                <regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
+                <regex>([\w-]*)(?=[ \t]*=)</regex>
             </keywords>
 
             <keywords id="Entities" color="#881280" useforautocomplete="no">
                 <regex>(&amp;\w{1,8};)</regex>
             </keywords>
 
-        </default>
+        </state>
 
         <state id="Comment" color="#236E25" font-style="italic">
             <begin><regex>&lt;!--</regex></begin>

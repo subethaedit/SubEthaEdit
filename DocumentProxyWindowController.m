@@ -81,6 +81,10 @@
     [[(PlainTextDocument *)[self document] session] acceptInvitation];
 }
 
+- (BOOL)isPendingInvitation {
+    return ![O_bottomDecisionView isHidden];
+}
+
 - (void)setSession:(TCMMMSession *)aSession {
     [I_session autorelease];
     I_session=[aSession retain];

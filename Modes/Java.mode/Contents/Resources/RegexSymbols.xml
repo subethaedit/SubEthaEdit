@@ -7,11 +7,21 @@
         <endregex>}</endregex>
     </blocks>
     
-    <symbol id="Methods" image="SymbolM" indentation="0" ignoreblocks="yes">
-        <regex>[ \t]*(?:public|private|protected)([ \t]+([^;(]*\([^;)]*\)))\s*\{</regex>
+    <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes">
+        <regex>^[ \t]*((?:public|private|protected)?[ \t]*class[^{]+)</regex>
         <postprocess>
-            <find>\([^\)]*\)</find>
-            <replace>()</replace>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Methods" image="SymbolM" indentation="1" ignoreblocks="no">
+        <regex>((?:public|private|protected)[ \t]+(?:(?:abstract|static|final|synchronized|native|strictfp)[ \t]+)*(?:[A-Za-z0-9_\-]+(?:\[\])?[ \t]+)?[A-Za-z0-9_\-]+[ \t]*\([^\)]*\)[ \t]*(?:\s*throws[ \t]*[A-Za-z0-9_\-, \t]+)?)\s*\{</regex>
+        <postprocess>
+            <find>\(([^\) ]+(?:[ \t]+\[\])?)[^\)]*\)</find>
+            <replace>(\1)</replace>
             <find>[\n\r]</find>
             <replace> </replace>
             <find>[ \t]+</find>

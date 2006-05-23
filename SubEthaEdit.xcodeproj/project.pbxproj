@@ -29,7 +29,6 @@
 		14288FED09573F2B00D14688 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
 		14288FF509573F4900D14688 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FF409573F4900D14688 /* WebKit.framework */; };
 		1428900D095740F200D14688 /* Acknowledgements.txt in Resources */ = {isa = PBXBuildFile; fileRef = 14289008095740F200D14688 /* Acknowledgements.txt */; };
-		1428900E095740F200D14688 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 14289009095740F200D14688 /* License.rtf */; };
 		1428900F095740F200D14688 /* RE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1428900A095740F200D14688 /* RE.txt */; };
 		142890140957413900D14688 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 142890120957413900D14688 /* Localizable.strings */; };
 		1428901D0957418400D14688 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142890150957418400D14688 /* AboutPanel.nib */; };
@@ -223,9 +222,6 @@
 		1428946B09575B9700D14688 /* TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945D09575B9700D14688 /* TextView.m */; };
 		1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945F09575B9700D14688 /* URLDataProtocol.m */; };
 		1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* WebPreviewWindowController.m */; };
-		1428948009575E0500D14688 /* SubEthaEditSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */; };
-		1428948109575E0500D14688 /* SubEthaEditSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */; };
-		1428948409575E2E00D14688 /* SubEthaEditScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 1428947D09575E0500D14688 /* SubEthaEditScripting.r */; };
 		1428949209575EF500D14688 /* GeneralPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1428949009575EF500D14688 /* GeneralPrefs.nib */; };
 		142894A409575FF200D14688 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894A309575FF200D14688 /* TextFieldCell.m */; };
 		142894AF0957609300D14688 /* MoreCFQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 14289109095744C100D14688 /* MoreCFQ.c */; };
@@ -246,12 +242,51 @@
 		14289572095776DE00D14688 /* see.1 in Resources */ = {isa = PBXBuildFile; fileRef = 142894E9095767CD00D14688 /* see.1 */; };
 		14289BD709581C3000D14688 /* FindReplace.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD109581C3000D14688 /* FindReplace.nib */; };
 		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
+		144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */; };
+		144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */; };
+		144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */; };
+		144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */; };
+		14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
+		144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */; };
+		144E29340A2228B3002ED261 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 144E29320A2228B3002ED261 /* ServicesMenu.strings */; };
+		144E29660A222EFE002ED261 /* SubEthaEdit-PantherScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
+		1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */; };
+		1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		1493A80C0A10C8EB004ECE6A /* SubEthaEdit-SystemVersionCheck in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */; };
+		1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */; };
+		14E291C70A07A501007C0065 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
+		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
+		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; };
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
+		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
+		5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE30A039283003D2813 /* SESendProc.m */; };
+		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
+		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
+		5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */; };
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; };
+		5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */; };
 		5E2F5E43097BE32F00F7AA3C /* Export.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5E2F5E41097BE32E00F7AA3C /* Export.nib */; };
+		5E4DA72D09E159B400D91CFC /* ToolbarIconTerminal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */; };
+		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
+		5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */; };
+		5E57298F09F514FB00D3746B /* Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57298D09F514FB00D3746B /* Toolbar.m */; };
+		5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
+		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
+		5E6AEEE309FE7C5700276D7C /* ToolbarIconColorChooser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */; };
+		5E7E7FE80A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */; };
+		5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA1258809E2B4190055965D /* ScriptWrapper.m */; };
+		5EB51AF80A177CF500AE2E17 /* InvisibleCharactersShow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */; };
+		5EB51AF90A177CF500AE2E17 /* InvisibleCharactersHide.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */; };
+		5EB51B270A179E9B00AE2E17 /* ToolbarIconRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */; };
+		5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */; };
+		5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */; };
+		5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
+		5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */; };
+		5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */; };
+		5EFF5C4C0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -308,6 +343,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
+		};
+		1493A80A0A10C8C4004ECE6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1493A7E70A10C873004ECE6A;
+			remoteInfo = SystemVersionCheck;
 		};
 		14E573BC0964763900DB50C3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -374,6 +416,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				1493A80C0A10C8EB004ECE6A /* SubEthaEdit-SystemVersionCheck in Copy Files (Auxiliary Binaries) */,
 				1428955C095770FB00D14688 /* SubEthaEditHelperToolTemplate in Copy Files (Auxiliary Binaries) */,
 				142894FF0957686C00D14688 /* see in Copy Files (Auxiliary Binaries) */,
 			);
@@ -404,7 +447,6 @@
 		14288FFD09573FED00D14688 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		142890060957400800D14688 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		14289008095740F200D14688 /* Acknowledgements.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Acknowledgements.txt; sourceTree = "<group>"; };
-		14289009095740F200D14688 /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		1428900A095740F200D14688 /* RE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RE.txt; sourceTree = "<group>"; };
 		1428900B095740F200D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = English; path = English.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		142890130957413900D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -714,7 +756,6 @@
 		1428945F09575B9700D14688 /* URLDataProtocol.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = URLDataProtocol.m; sourceTree = "<group>"; };
 		1428946009575B9700D14688 /* WebPreviewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WebPreviewWindowController.h; sourceTree = "<group>"; };
 		1428946109575B9700D14688 /* WebPreviewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WebPreviewWindowController.m; sourceTree = "<group>"; };
-		1428947D09575E0500D14688 /* SubEthaEditScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = SubEthaEditScripting.r; sourceTree = "<group>"; };
 		1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = SubEthaEditSuite.scriptSuite; sourceTree = "<group>"; };
 		1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = SubEthaEditSuite.scriptTerminology; sourceTree = "<group>"; };
 		1428949109575EF500D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GeneralPrefs.nib; sourceTree = "<group>"; };
@@ -731,6 +772,13 @@
 		142898200958194100D14688 /* createDiskImage.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = createDiskImage.sh; sourceTree = "<group>"; };
 		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
 		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };
+		144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptSuite; sourceTree = "<group>"; };
+		144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptTerminology; sourceTree = "<group>"; };
+		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
+		144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSavePanelTCMAdditions.m; sourceTree = "<group>"; };
+		144E23550A1F6197002ED261 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
+		144E29390A2228BF002ED261 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
+		144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = "SubEthaEdit-PantherScripting.r"; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -756,16 +804,60 @@
 		1468BAAB097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/WebPreview.nib; sourceTree = "<group>"; };
 		1468BAB4097D932D006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = folder; name = German; path = German.lproj/SubEthaEditHelp; sourceTree = "<group>"; };
 		1468BB70097D9AAD006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/License.nib; sourceTree = "<group>"; };
+		1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SystemVersionCheck.m; sourceTree = "<group>"; };
+		1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "SubEthaEdit-SystemVersionCheck"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1493A8460A10D9E8004ECE6A /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
+		14E290E70A06DB8A007C0065 /* SubEthaEdit-Panther.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = "SubEthaEdit-Panther.sdef"; sourceTree = "<group>"; };
+		14E291C40A07A501007C0065 /* ScriptLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptLine.h; sourceTree = "<group>"; };
+		14E291C50A07A501007C0065 /* ScriptLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptLine.m; sourceTree = "<group>"; };
+		14E291E70A07B480007C0065 /* ScriptCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptCharacters.h; sourceTree = "<group>"; };
+		14E291E80A07B480007C0065 /* ScriptCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptCharacters.m; sourceTree = "<group>"; };
+		14E2944E0A0CBFB0007C0065 /* SelectCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCommand.h; sourceTree = "<group>"; };
+		14E2944F0A0CBFB0007C0065 /* SelectCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCommand.m; sourceTree = "<group>"; };
 		14F1601F096C288100402129 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/License.nib; sourceTree = "<group>"; };
 		14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "OgreKit (Universal Binary).xcodeproj"; path = "OgreKit/OgreKit (Universal Binary).xcodeproj"; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4B7FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		311717F20A0E8C3600A9DA18 /* ModeSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ModeSettings.m; sourceTree = "<group>"; };
+		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ModeSettings.h; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
+		5E0F6AE30A039283003D2813 /* SESendProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SESendProc.m; sourceTree = "<group>"; };
+		5E0F6AE40A039283003D2813 /* SEActiveProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEActiveProc.m; sourceTree = "<group>"; };
+		5E0F6AE50A039283003D2813 /* SEActiveProc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SEActiveProc.h; sourceTree = "<group>"; };
+		5E0F6AE60A039283003D2813 /* SESendProc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SESendProc.h; sourceTree = "<group>"; };
+		5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvitationBadge3.tiff; path = artwork/InvitationBadge3.tiff; sourceTree = "<group>"; };
+		5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "InvitationBadge1-2.tiff"; path = "artwork/InvitationBadge1-2.tiff"; sourceTree = "<group>"; };
 		5E28E28D0972FB8E00099B13 /* InsetTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsetTextFieldCell.h; sourceTree = "<group>"; };
 		5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetTextFieldCell.m; sourceTree = "<group>"; };
+		5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconBuild.tiff; path = artwork/ToolbarIconBuild.tiff; sourceTree = "<group>"; };
 		5E2F5E42097BE32F00F7AA3C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Export.nib; sourceTree = "<group>"; };
+		5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconTerminal.png; path = artwork/ToolbarIconTerminal.png; sourceTree = "<group>"; };
+		5E4DA73A09E15C6800D91CFC /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
+		5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
+		5E57298C09F514FB00D3746B /* Toolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toolbar.h; sourceTree = "<group>"; };
+		5E57298D09F514FB00D3746B /* Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toolbar.m; sourceTree = "<group>"; };
+		5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAppleScriptTCMAdditions.h; sourceTree = "<group>"; };
+		5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAppleScriptTCMAdditions.m; sourceTree = "<group>"; };
+		5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMenuTCMAdditions.h; sourceTree = "<group>"; };
+		5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMenuTCMAdditions.m; sourceTree = "<group>"; };
+		5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconColorChooser.tiff; path = artwork/ToolbarIconColorChooser.tiff; sourceTree = "<group>"; };
+		5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconOpenURL.png; path = artwork/ToolbarIconOpenURL.png; sourceTree = "<group>"; };
+		5EA1258709E2B4190055965D /* ScriptWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptWrapper.h; sourceTree = "<group>"; };
+		5EA1258809E2B4190055965D /* ScriptWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptWrapper.m; sourceTree = "<group>"; };
+		5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvisibleCharactersShow.png; path = artwork/InvisibleCharactersShow.png; sourceTree = "<group>"; };
+		5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvisibleCharactersHide.png; path = artwork/InvisibleCharactersHide.png; sourceTree = "<group>"; };
+		5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconRun.tiff; path = artwork/ToolbarIconRun.tiff; sourceTree = "<group>"; };
+		5EDD2FFD0A08D71D0036E63A /* ScriptTextSelection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScriptTextSelection.h; sourceTree = "<group>"; };
+		5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ScriptTextSelection.m; sourceTree = "<group>"; };
+		5EDD300D0A091BD60036E63A /* NSWindowScriptingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSWindowScriptingAdditions.h; sourceTree = "<group>"; };
+		5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSWindowScriptingAdditions.m; sourceTree = "<group>"; };
+		5EDD304C0A092AA50036E63A /* ScriptTextBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptTextBase.h; sourceTree = "<group>"; };
+		5EDD304D0A092AA50036E63A /* ScriptTextBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptTextBase.m; sourceTree = "<group>"; };
+		5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconRunInTerminal.png; path = artwork/ToolbarIconRunInTerminal.png; sourceTree = "<group>"; };
+		5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconBuildAndRun.tiff; path = artwork/ToolbarIconBuildAndRun.tiff; sourceTree = "<group>"; };
+		5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconGenericScript.tiff; path = artwork/ToolbarIconGenericScript.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -787,6 +879,14 @@
 			files = (
 				142894E00957670900D14688 /* Carbon.framework in Frameworks */,
 				142894E10957670900D14688 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1493A7E60A10C873004ECE6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -836,9 +936,12 @@
 			isa = PBXGroup;
 			children = (
 				1428905A0957434600D14688 /* SubEthaEdit.sdef */,
-				1428947D09575E0500D14688 /* SubEthaEditScripting.r */,
+				14E290E70A06DB8A007C0065 /* SubEthaEdit-Panther.sdef */,
+				144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */,
 				1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */,
 				1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */,
+				144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */,
+				144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */,
 			);
 			name = AppleScript;
 			sourceTree = "<group>";
@@ -862,6 +965,10 @@
 				1428906F095743F200D14688 /* Internet.tiff */,
 				14289070095743F200D14688 /* InternetResume.tiff */,
 				14289071095743F200D14688 /* InternetStop.tiff */,
+				5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */,
+				5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */,
+				5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */,
+				5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */,
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
 				14289073095743F200D14688 /* Mode.icns */,
 				14289075095743F200D14688 /* NamedLogo2.tiff */,
@@ -874,6 +981,7 @@
 				14289080095743F200D14688 /* PrintPrefs.tiff */,
 				14289081095743F200D14688 /* Rendezvous.tiff */,
 				14289082095743F200D14688 /* ScriptMenu.tiff */,
+				5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */,
 				14289083095743F200D14688 /* SeeFolderIcon.tiff */,
 				14289084095743F200D14688 /* ShiftLeft.png */,
 				14289086095743F200D14688 /* ShiftRight.png */,
@@ -905,6 +1013,14 @@
 				142890AA095743F200D14688 /* SymbolT.png */,
 				142890AC095743F200D14688 /* SymbolV.png */,
 				142895030957692100D14688 /* SymbolWarn.tiff */,
+				5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */,
+				5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */,
+				5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */,
+				5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */,
+				5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */,
+				5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */,
+				5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */,
+				5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */,
 				142890AE095743F200D14688 /* URLIcon.tiff */,
 				142890AF095743F200D14688 /* WaitPipe.png */,
 				142890B0095743F200D14688 /* WebReload.tiff */,
@@ -940,12 +1056,16 @@
 			children = (
 				1428911C0957457500D14688 /* CFTreeTCMAdditions.h */,
 				1428911D0957457500D14688 /* CFTreeTCMAdditions.m */,
+				5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */,
+				5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */,
 				1428911F0957457500D14688 /* NSCalendarDateTCMAdditions.h */,
 				142891200957457500D14688 /* NSCalendarDateTCMAdditions.m */,
 				142891210957457500D14688 /* NSDataTCMAdditions.h */,
 				142891220957457500D14688 /* NSDataTCMAdditions.m */,
 				142891230957457500D14688 /* NSDictionaryTCMAdditions.h */,
 				142891240957457500D14688 /* NSDictionaryTCMAdditions.m */,
+				5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */,
+				5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */,
 				142891250957457500D14688 /* NSNetServiceTCMAdditions.h */,
 				142891260957457500D14688 /* NSNetServiceTCMAdditions.m */,
 				142891270957457500D14688 /* NSRangeTCMAdditions.h */,
@@ -986,12 +1106,12 @@
 		142891780957483200D14688 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				142893E809575A3000D14688 /* NSApplicationTCMAdditions.h */,
-				142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */,
 				14289206095751CB00D14688 /* NSColorTCMAdditions.h */,
 				14289207095751CB00D14688 /* NSColorTCMAdditions.m */,
 				14289208095751CB00D14688 /* NSImageTCMAdditions.h */,
 				14289209095751CB00D14688 /* NSImageTCMAdditions.m */,
+				144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */,
+				144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */,
 				1428920A095751CB00D14688 /* NSStringSEEAdditions.h */,
 				1428920B095751CB00D14688 /* NSStringSEEAdditions.m */,
 				1428920C095751CB00D14688 /* TCMMMUserSEEAdditions.h */,
@@ -1048,7 +1168,6 @@
 		142892490957526300D14688 /* Document */ = {
 			isa = PBXGroup;
 			children = (
-				14289377095757E400D14688 /* Printing */,
 				1428941509575AE600D14688 /* BorderedTextField.h */,
 				1428941609575AE600D14688 /* BorderedTextField.m */,
 				1428941709575AE600D14688 /* ButtonScrollView.h */,
@@ -1089,6 +1208,8 @@
 				1428945B09575B9700D14688 /* TextStorage.m */,
 				1428945C09575B9700D14688 /* TextView.h */,
 				1428945D09575B9700D14688 /* TextView.m */,
+				5E57298C09F514FB00D3746B /* Toolbar.h */,
+				5E57298D09F514FB00D3746B /* Toolbar.m */,
 				1428945E09575B9700D14688 /* URLDataProtocol.h */,
 				1428945F09575B9700D14688 /* URLDataProtocol.m */,
 				1428946009575B9700D14688 /* WebPreviewWindowController.h */,
@@ -1104,6 +1225,8 @@
 				142893B60957594500D14688 /* DocumentMode.m */,
 				142893B70957594500D14688 /* DocumentModeManager.h */,
 				142893B80957594500D14688 /* DocumentModeManager.m */,
+				311717F20A0E8C3600A9DA18 /* ModeSettings.m */,
+				311717F30A0E8C3600A9DA18 /* ModeSettings.h */,
 				142893B90957594500D14688 /* RegexSymbolDefinition.h */,
 				142893BA0957594500D14688 /* RegexSymbolDefinition.m */,
 				142893BB0957594500D14688 /* RegexSymbolParser.h */,
@@ -1257,6 +1380,7 @@
 				8D15AC370486D014006FF6A4 /* SubEthaEdit.app */,
 				142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */,
 				142894DE095766EE00D14688 /* see */,
+				1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1265,7 +1389,15 @@
 			isa = PBXGroup;
 			children = (
 				142891780957483200D14688 /* Additions */,
+				142892460957525900D14688 /* BEEPProfiles */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				142892490957526300D14688 /* Document */,
+				1428924C0957526E00D14688 /* Mode */,
+				1428924F0957527300D14688 /* Operations */,
+				142892520957528A00D14688 /* Preferences */,
+				14289377095757E400D14688 /* Printing */,
+				5EDD2FFC0A08D69F0036E63A /* Scripting */,
+				142892550957529900D14688 /* ValueTransformers */,
 				1428917B0957483C00D14688 /* Debug */,
 				1428917E0957486D00D14688 /* TCMBase */,
 				142891190957452F00D14688 /* TCMBEEP */,
@@ -1280,18 +1412,13 @@
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */,
 			);
+			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
 			name = SubEthaEdit;
 			sourceTree = "<group>";
 		};
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				142892460957525900D14688 /* BEEPProfiles */,
-				142892490957526300D14688 /* Document */,
-				1428924C0957526E00D14688 /* Mode */,
-				1428924F0957527300D14688 /* Operations */,
-				142892520957528A00D14688 /* Preferences */,
-				142892550957529900D14688 /* ValueTransformers */,
 				142893DC09575A3000D14688 /* AboutPanelController.h */,
 				142893DD09575A3000D14688 /* AboutPanelController.m */,
 				142893DE09575A3000D14688 /* AppController.h */,
@@ -1300,8 +1427,6 @@
 				142893E109575A3000D14688 /* EncodingManager.m */,
 				142893E209575A3000D14688 /* FindReplaceController.h */,
 				142893E309575A3000D14688 /* FindReplaceController.m */,
-				142893E409575A3000D14688 /* GetURLCommand.h */,
-				142893E509575A3000D14688 /* GetURLCommand.m */,
 				142893E609575A3000D14688 /* InternetBrowserController.h */,
 				142893E709575A3000D14688 /* InternetBrowserController.m */,
 				142893F009575A3000D14688 /* LicenseController.h */,
@@ -1325,6 +1450,7 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */,
 				32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 				14289172095747F800D14688 /* ODBEditorSuite.h */,
@@ -1339,10 +1465,11 @@
 				14289008095740F200D14688 /* Acknowledgements.txt */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
-				14289009095740F200D14688 /* License.rtf */,
 				142890120957413900D14688 /* Localizable.strings */,
 				1428900A095740F200D14688 /* RE.txt */,
 				145047410997750100D18142 /* ReleaseNotes.txt */,
+				144E29320A2228B3002ED261 /* ServicesMenu.strings */,
+				1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */,
 				142890150957418400D14688 /* AboutPanel.nib */,
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
 				142890190957418400D14688 /* DocumentProxy.nib */,
@@ -1370,6 +1497,7 @@
 				14289054095742AD00D14688 /* Sound */,
 				142890480957425900D14688 /* HTMLExport */,
 				1428904A0957427100D14688 /* Modes */,
+				5E4DA73A09E15C6800D91CFC /* Scripts */,
 				142890450957421300D14688 /* SubEthaEditHelp */,
 			);
 			name = Resources;
@@ -1382,6 +1510,35 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5EDD2FFC0A08D69F0036E63A /* Scripting */ = {
+			isa = PBXGroup;
+			children = (
+				142893E409575A3000D14688 /* GetURLCommand.h */,
+				142893E509575A3000D14688 /* GetURLCommand.m */,
+				142893E809575A3000D14688 /* NSApplicationTCMAdditions.h */,
+				142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */,
+				5EDD300D0A091BD60036E63A /* NSWindowScriptingAdditions.h */,
+				5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */,
+				5EDD304C0A092AA50036E63A /* ScriptTextBase.h */,
+				5EDD304D0A092AA50036E63A /* ScriptTextBase.m */,
+				14E291E70A07B480007C0065 /* ScriptCharacters.h */,
+				14E291E80A07B480007C0065 /* ScriptCharacters.m */,
+				14E291C40A07A501007C0065 /* ScriptLine.h */,
+				14E291C50A07A501007C0065 /* ScriptLine.m */,
+				5EDD2FFD0A08D71D0036E63A /* ScriptTextSelection.h */,
+				5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */,
+				5EA1258709E2B4190055965D /* ScriptWrapper.h */,
+				5EA1258809E2B4190055965D /* ScriptWrapper.m */,
+				5E0F6AE60A039283003D2813 /* SESendProc.h */,
+				5E0F6AE30A039283003D2813 /* SESendProc.m */,
+				5E0F6AE50A039283003D2813 /* SEActiveProc.h */,
+				5E0F6AE40A039283003D2813 /* SEActiveProc.m */,
+				14E2944E0A0CBFB0007C0065 /* SelectCommand.h */,
+				14E2944F0A0CBFB0007C0065 /* SelectCommand.m */,
+			);
+			name = Scripting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1457,13 +1614,45 @@
 			productReference = 142894DE095766EE00D14688 /* see */;
 			productType = "com.apple.product-type.tool";
 		};
+		1493A7E70A10C873004ECE6A /* SystemVersionCheck */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1493A7FF0A10C891004ECE6A /* Build configuration list for PBXNativeTarget "SystemVersionCheck" */;
+			buildPhases = (
+				1493A7E50A10C873004ECE6A /* Sources */,
+				1493A7E60A10C873004ECE6A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = SystemVersionCheck;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = SystemVersionCheck;
+			productName = SystemVersionCheck;
+			productReference = 1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */;
+			productType = "com.apple.product-type.tool";
+		};
 		8D15AC270486D014006FF6A4 /* SubEthaEdit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "SubEthaEdit" */;
 			buildPhases = (
 				1428947209575D2D00D14688 /* Run Script (sdp) */,
 				8D15AC2B0486D014006FF6A4 /* Resources */,
-				1428948209575E2300D14688 /* Rez */,
+				144E295E0A222E96002ED261 /* Rez */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
@@ -1477,6 +1666,7 @@
 			dependencies = (
 				142894C20957611D00D14688 /* PBXTargetDependency */,
 				142894FC0957685A00D14688 /* PBXTargetDependency */,
+				1493A80B0A10C8C4004ECE6A /* PBXTargetDependency */,
 				14F16D100971A89A00402129 /* PBXTargetDependency */,
 				14E573BD0964763900DB50C3 /* PBXTargetDependency */,
 			);
@@ -1513,6 +1703,7 @@
 				142894DD095766EE00D14688 /* see */,
 				142898180958189300D14688 /* Create Disk Image */,
 				14E573B90964761F00DB50C3 /* Versioning */,
+				1493A7E70A10C873004ECE6A /* SystemVersionCheck */,
 			);
 		};
 /* End PBXProject section */
@@ -1567,9 +1758,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
 				1428900D095740F200D14688 /* Acknowledgements.txt in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				1428900E095740F200D14688 /* License.rtf in Resources */,
 				142890140957413900D14688 /* Localizable.strings in Resources */,
 				1428900F095740F200D14688 /* RE.txt in Resources */,
 				145047420997750100D18142 /* ReleaseNotes.txt in Resources */,
@@ -1594,6 +1785,7 @@
 				14289044095741BA00D14688 /* WebPreview.nib in Resources */,
 				142890490957425900D14688 /* HTMLExport in Resources */,
 				1428904B0957427100D14688 /* Modes in Resources */,
+				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
 				142890470957421300D14688 /* SubEthaEditHelp in Resources */,
 				142890580957432800D14688 /* Invitation.aiff in Resources */,
 				142890590957432800D14688 /* Knock.wav in Resources */,
@@ -1662,23 +1854,40 @@
 				1428922C0957523300D14688 /* DebugPresence.nib in Resources */,
 				1428922F0957523300D14688 /* DebugUsers.nib in Resources */,
 				142893DA0957599F00D14688 /* Preferences.nib in Resources */,
-				1428948009575E0500D14688 /* SubEthaEditSuite.scriptSuite in Resources */,
-				1428948109575E0500D14688 /* SubEthaEditSuite.scriptTerminology in Resources */,
 				14289572095776DE00D14688 /* see.1 in Resources */,
 				142895040957692100D14688 /* SymbolWarn.tiff in Resources */,
 				14F16020096C288100402129 /* License.nib in Resources */,
 				5E2F5E43097BE32F00F7AA3C /* Export.nib in Resources */,
+				5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */,
+				5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */,
+				5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */,
+				5E4DA72D09E159B400D91CFC /* ToolbarIconTerminal.png in Resources */,
+				5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */,
+				5E6AEEE309FE7C5700276D7C /* ToolbarIconColorChooser.tiff in Resources */,
+				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
+				144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */,
+				144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */,
+				144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */,
+				144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */,
+				5EB51AF80A177CF500AE2E17 /* InvisibleCharactersShow.png in Resources */,
+				5EB51AF90A177CF500AE2E17 /* InvisibleCharactersHide.png in Resources */,
+				5EB51B270A179E9B00AE2E17 /* ToolbarIconRun.tiff in Resources */,
+				5E7E7FE80A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png in Resources */,
+				5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */,
+				5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */,
+				144E29340A2228B3002ED261 /* ServicesMenu.strings in Resources */,
+				5EFF5C4C0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXRezBuildPhase section */
-		1428948209575E2300D14688 /* Rez */ = {
+		144E295E0A222E96002ED261 /* Rez */ = {
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1428948409575E2E00D14688 /* SubEthaEditScripting.r in Rez */,
+				144E29660A222EFE002ED261 /* SubEthaEdit-PantherScripting.r in Rez */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1691,17 +1900,19 @@
 			files = (
 			);
 			inputPaths = (
-				$SRCROOT/SubEthaEdit.sdef,
+				"$SRCROOT/SubEthaEdit-Panther.sdef",
 			);
 			name = "Run Script (sdp)";
 			outputPaths = (
 				"$(SRCROOT)/SubEthaEditSuite.scriptSuite",
 				"$(SRCROOT)/SubEthaEditSuite.scriptTerminology",
-				"$(SRCROOT)/SubEthaEditScripting.r",
+				"$(SRCROOT)/TCMTextSuite.scriptTerminology",
+				"$(SRCROOT)/TCMTextSuite.scriptSuite",
+				"$(SRCROOT)/SubEthaEdit-PantherScripting.r",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
+			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit-Panther.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSDocument/SubEthaEditSuite.PlainTextDocument/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
 		};
 		142898130958165400D14688 /* Run Script (Deployment) */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1715,7 +1926,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;";
+			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\necho \"Rename resource file...\"\nmv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"";
 		};
 		14E573B80964761F00DB50C3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1750,6 +1961,14 @@
 			files = (
 				142894EB095767CD00D14688 /* main.m in Sources */,
 				142894ED0957681000D14688 /* see.vers in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1493A7E50A10C873004ECE6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1866,6 +2085,20 @@
 				1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */,
 				142894A409575FF200D14688 /* TextFieldCell.m in Sources */,
 				5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */,
+				144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */,
+				5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */,
+				5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */,
+				5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */,
+				5E57298F09F514FB00D3746B /* Toolbar.m in Sources */,
+				5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */,
+				5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */,
+				14E291C70A07A501007C0065 /* ScriptLine.m in Sources */,
+				14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */,
+				5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */,
+				5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */,
+				5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */,
+				14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */,
+				311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1886,6 +2119,11 @@
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 1428981C0958192A00D14688 /* PBXContainerItemProxy */;
+		};
+		1493A80B0A10C8C4004ECE6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1493A7E70A10C873004ECE6A /* SystemVersionCheck */;
+			targetProxy = 1493A80A0A10C8C4004ECE6A /* PBXContainerItemProxy */;
 		};
 		14E573BD0964763900DB50C3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2089,6 +2327,14 @@
 			name = FindAll.nib;
 			sourceTree = "<group>";
 		};
+		144E29320A2228B3002ED261 /* ServicesMenu.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				144E29390A2228BF002ED261 /* German */,
+			);
+			name = ServicesMenu.strings;
+			sourceTree = "<group>";
+		};
 		145047410997750100D18142 /* ReleaseNotes.txt */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2096,6 +2342,15 @@
 				145047510997758600D18142 /* German */,
 			);
 			name = ReleaseNotes.txt;
+			sourceTree = "<group>";
+		};
+		1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1493A8460A10D9E8004ECE6A /* English */,
+				144E23550A1F6197002ED261 /* German */,
+			);
+			name = SystemVersionCheck.strings;
 			sourceTree = "<group>";
 		};
 		14F1601E096C288100402129 /* License.nib */ = {
@@ -2275,6 +2530,7 @@
 					ppc,
 					i386,
 				);
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
@@ -2287,6 +2543,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = /;
 				PRODUCT_NAME = SubEthaEdit;
+				SYSTEM_VERSION_CHECK_SUFFIX = "-SystemVersionCheck";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Unstripped;
@@ -2310,8 +2567,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -2323,6 +2578,89 @@
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Unstripped;
+		};
+		1493A8000A10C891004ECE6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				INSTALL_PATH = "$(HOME)/bin";
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "SubEthaEdit-SystemVersionCheck";
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1493A8010A10C891004ECE6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				INSTALL_PATH = "$(HOME)/bin";
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "SubEthaEdit-SystemVersionCheck";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		1493A8020A10C891004ECE6A /* Unstripped */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
+				INSTALL_PATH = "$(HOME)/bin";
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "SubEthaEdit-SystemVersionCheck";
+				ZERO_LINK = NO;
 			};
 			name = Unstripped;
 		};
@@ -2351,6 +2689,7 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -2377,6 +2716,7 @@
 					ppc,
 					i386,
 				);
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
@@ -2389,6 +2729,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = /;
 				PRODUCT_NAME = SubEthaEdit;
+				SYSTEM_VERSION_CHECK_SUFFIX = "-SystemVersionCheck";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2409,8 +2750,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -2453,6 +2792,16 @@
 				1428981A095818E200D14688 /* Debug */,
 				1428981B095818E200D14688 /* Release */,
 				145047660997894300D18142 /* Unstripped */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1493A7FF0A10C891004ECE6A /* Build configuration list for PBXNativeTarget "SystemVersionCheck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1493A8000A10C891004ECE6A /* Debug */,
+				1493A8010A10C891004ECE6A /* Release */,
+				1493A8020A10C891004ECE6A /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

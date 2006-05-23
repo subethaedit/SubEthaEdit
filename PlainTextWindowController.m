@@ -9,6 +9,7 @@
 #import "PlainTextWindowController.h"
 #import "ParticipantsView.h"
 #import "PlainTextDocument.h"
+#import "DocumentMode.h"
 #import "PlainTextEditor.h"
 #import "TextStorage.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
@@ -22,6 +23,8 @@
 #import "InternetBrowserController.h"
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
+#import "AppController.h"
+#import "Toolbar.h"
 
 NSString * const PlainTextWindowToolbarIdentifier = 
                @"PlainTextWindowToolbarIdentifier";
@@ -47,6 +50,9 @@ NSString * const ToggleChangeMarksToolbarItemIdentifier =
                @"ToggleChangeMarksToolbarItemIdentifier";
 NSString * const ToggleAnnouncementToolbarItemIdentifier = 
                @"ToggleAnnouncementToolbarItemIdentifier";
+NSString * const ToggleShowInvisibleCharactersToolbarItemIdentifier = 
+               @"ToggleShowInvisibleCharactersToolbarItemIdentifier";
+
 
 static int KickButtonStateMask=1;
 static int ReadOnlyButtonStateMask=2;
@@ -140,13 +146,18 @@ enum {
     }
 }
 
-- (void)windowDidLoad {
-
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:PlainTextWindowToolbarIdentifier] autorelease];
+- (void)adjustToolbarToDocumentMode {
+    NSToolbar *toolbar = [[[Toolbar alloc] initWithIdentifier:
+        [[(PlainTextDocument *)[self document] documentMode] documentModeIdentifier]] autorelease];
     [toolbar setAllowsUserCustomization:YES];
     [toolbar setAutosavesConfiguration:YES];
     [toolbar setDelegate:self];
     [[self window] setToolbar:toolbar];
+}
+
+- (void)windowDidLoad {
+    [self adjustToolbarToDocumentMode];
+
     [self validateUpperDrawer];
     
     NSSize drawerSize = [O_participantsDrawer contentSize];
@@ -215,6 +226,22 @@ enum {
                                              selector:@selector(displayNameDidChange:)
                                                  name:PlainTextDocumentDidChangeDisplayNameNotification 
                                                object:[self document]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(adjustToolbarToDocumentMode)
+                                                 name:PlainTextDocumentDidChangeDocumentModeNotification 
+                                               object:[self document]];
+
+
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(validateUpperDrawer)
+                                                 name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification 
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(adjustToolbarToDocumentMode)
+                                                 name:GlobalScriptsDidReloadNotification 
+                                               object:nil];
     
     PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
     [[self window] setInitialFirstResponder:[plainTextEditor textView]];
@@ -352,11 +379,10 @@ enum {
 
 - (void)selectRange:(NSRange)aRange {
     NSTextView *aTextView=[[self activePlainTextEditor] textView];
-    NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[[aTextView textStorage] length]));
-    if (range.length>0) {
-        [aTextView setSelectedRange:range];
-    }
+    NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[[aTextView textStorage] length]));
+    [aTextView setSelectedRange:range];
     [aTextView scrollRangeToVisible:range];
+    if (!NSEqualRanges(range,aRange)) NSBeep();
 }
 
 #pragma mark -
@@ -374,7 +400,6 @@ enum {
 }
 
 - (IBAction)openParticipantsDrawer:(id)aSender {
-    [self validateUpperDrawer];
     [O_participantsDrawer open:aSender];
 }
 
@@ -383,7 +408,6 @@ enum {
 }
 
 - (IBAction)toggleParticipantsDrawer:(id)sender {
-    [self validateUpperDrawer];
     [O_participantsDrawer toggle:sender];
 }
 
@@ -756,6 +780,13 @@ enum {
         [toolbarItem setImage:([NSImage imageNamed: @"ShowChangeMarks"])];
         [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(toggleShowsChangeMarks:)];    
+    } else if ([itemIdent isEqual:ToggleShowInvisibleCharactersToolbarItemIdentifier]) {
+        [toolbarItem setToolTip:NSLocalizedString(@"Toggle Invisible Characters", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Show Invisibles", nil)];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Toggle Invisibles", nil)];
+        [toolbarItem setImage:([NSImage imageNamed: @"InvisibleCharactersShow"])];
+        [toolbarItem setTarget:self];
+        [toolbarItem setAction:@selector(toggleShowInvisibleCharacters:)];    
     } else if ([itemIdent isEqual:PreviousSymbolToolbarItemIdentifier]) {
         [toolbarItem setToolTip:NSLocalizedString(@"Goto Previous Symbol", nil)];
         [toolbarItem setLabel:NSLocalizedString(@"Previous Symbol", nil)];
@@ -792,14 +823,23 @@ enum {
         [toolbarItem setTarget:[self document]];
         [toolbarItem setAction:@selector(toggleIsAnnounced:)];    
     } else {
-        toolbarItem = nil;
+        toolbarItem=[[(PlainTextDocument *)[self document] documentMode] 
+                                        toolbar:toolbar 
+                          itemForItemIdentifier:itemIdent 
+                      willBeInsertedIntoToolbar:willBeInserted];
     }
-    
+    if (!toolbarItem) {
+        toolbarItem=[[AppController sharedInstance] 
+                                        toolbar:toolbar 
+                          itemForItemIdentifier:itemIdent 
+                      willBeInsertedIntoToolbar:willBeInserted];
+    }
     return toolbarItem;
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-    return [NSArray arrayWithObjects:
+    NSMutableArray *result=
+        [NSMutableArray arrayWithObjects:
                 ParticipantsToolbarItemIdentifier,
                 ToggleAnnouncementToolbarItemIdentifier,
                 NSToolbarSeparatorItemIdentifier,
@@ -812,10 +852,18 @@ enum {
                 RendezvousToolbarItemIdentifier,
                 InternetToolbarItemIdentifier,
                 nil];
+    [result addObjectsFromArray:
+        [[AppController sharedInstance] 
+            toolbarDefaultItemIdentifiers:toolbar]];
+    [result addObjectsFromArray:
+        [[(PlainTextDocument *)[self document] documentMode] 
+            toolbarDefaultItemIdentifiers:toolbar]];
+    
+    return result;
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
-    return [NSArray arrayWithObjects:
+    return [[[NSArray arrayWithObjects:
                 InternetToolbarItemIdentifier,
                 RendezvousToolbarItemIdentifier,
                 ShiftLeftToolbarItemIdentifier,
@@ -827,13 +875,33 @@ enum {
                 NextChangeToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
                 ToggleAnnouncementToolbarItemIdentifier,
+                ToggleShowInvisibleCharactersToolbarItemIdentifier,
                 NSToolbarPrintItemIdentifier,
                 NSToolbarCustomizeToolbarItemIdentifier,
                 NSToolbarSeparatorItemIdentifier,
                 NSToolbarSpaceItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
-                nil];
+                nil] 
+                arrayByAddingObjectsFromArray:
+                    [[(PlainTextDocument *)[self document] documentMode] 
+                        toolbarAllowedItemIdentifiers:toolbar]]
+                arrayByAddingObjectsFromArray:[[AppController sharedInstance] 
+                                        toolbarAllowedItemIdentifiers:toolbar]];
 }
+
+- (void)checkToolbarForUnallowedItems {
+    NSToolbar *toolbar=[[self window] toolbar];
+    NSArray *itemArray=[toolbar items];
+    NSArray *allowedIdentifiers=[self toolbarAllowedItemIdentifiers:toolbar];
+    int i = [itemArray count];
+    for (--i;i>=0;i--) {
+        if (![allowedIdentifiers containsObject:[[itemArray objectAtIndex:i] itemIdentifier]]) {
+            [toolbar removeItemAtIndex:i];
+        }
+    }
+}
+
+
 
 - (void)toolbarWillAddItem:(NSNotification *)aNotification {
     // to show all items correctly validated
@@ -846,7 +914,6 @@ enum {
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
     NSString *itemIdentifier = [toolbarItem itemIdentifier];
-    
     if ([itemIdentifier isEqualToString:ParticipantsToolbarItemIdentifier]) {
         return YES;
     } else if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {
@@ -860,9 +927,22 @@ enum {
                               ?NSLocalizedString(@"Hide Changes", nil)
                               :NSLocalizedString(@"Show Changes", nil)];
         return YES;
+    } else if ([itemIdentifier isEqualToString:ToggleShowInvisibleCharactersToolbarItemIdentifier]) {
+        BOOL showsInvisibleCharacters = [[self activePlainTextEditor] showsInvisibleCharacters];
+        [toolbarItem setImage:showsInvisibleCharacters
+                              ?[NSImage imageNamed: @"InvisibleCharactersHide"]
+                              :[NSImage imageNamed: @"InvisibleCharactersShow"]];
+        [toolbarItem setLabel:showsInvisibleCharacters
+                              ?NSLocalizedString(@"Hide Invisibles", nil)
+                              :NSLocalizedString(@"Show Invisibles", nil)];
+        return YES;
     }
     
     return YES;
+}
+
+- (IBAction)toggleShowInvisibleCharacters:(id)aSender {
+    [[self activePlainTextEditor] setShowsInvisibleCharacters:![[self activePlainTextEditor] showsInvisibleCharacters]];
 }
 
 - (IBAction)toggleShowsChangeMarks:(id)aSender {
@@ -940,25 +1020,29 @@ enum {
     PlainTextDocument *document = (PlainTextDocument *)[self document];
     TCMMMSession *session = [document session];
     
-    NSArray *pathComponents = [[document fileName] pathComponents];
-    int count = [pathComponents count];
-    if (count != 0) {
-        NSMutableString *result = [NSMutableString string];
-        int i = count;
-        int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
-        for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
-            if (i != count-1) {
+    if ([[document ODBParameters] objectForKey:@"keyFileCustomPath"]) {
+        displayName = [[document ODBParameters] objectForKey:@"keyFileCustomPath"];
+    } else {
+        NSArray *pathComponents = [[document fileName] pathComponents];
+        int count = [pathComponents count];
+        if (count != 0) {
+            NSMutableString *result = [NSMutableString string];
+            int i = count;
+            int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
+            for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
+                if (i != count-1) {
+                    [result insertString:@"/" atIndex:0];
+                }
+                [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
+            }
+            if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
                 [result insertString:@"/" atIndex:0];
             }
-            [result insertString:[pathComponents objectAtIndex:i] atIndex:0];
-        }
-        if (pathComponentsToShow>1 && i<1 && [[pathComponents objectAtIndex:0] isEqualToString:@"/"]) {
-            [result insertString:@"/" atIndex:0];
-        }
-        displayName = result;
-    } else {
-        if (session && ![session isServer]) {
-            displayName = [session filename];
+            displayName = result;
+        } else {
+            if (session && ![session isServer]) {
+                displayName = [session filename];
+            }
         }
     }
 
@@ -1343,6 +1427,11 @@ enum {
 
 - (BOOL)windowShouldZoom:(NSWindow *)sender toFrame:(NSRect)newFrame {
   return [sender frame].size.width == newFrame.size.width || ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) || I_flags.zoomFix_defaultFrameHadEqualWidth;
+}
+
+- (void)windowDidBecomeMain:(NSNotification *)aNotification {
+    // switch mode menu on becoming main
+    [(PlainTextDocument *)[self document] adjustModeMenu];
 }
 
 @end

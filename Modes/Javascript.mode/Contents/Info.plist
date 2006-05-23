@@ -10,21 +10,14 @@
 	<string>© 2004 TheCodingMonkeys
 http://www.codingmonkeys.de</string>
     <key>CFBundleShortVersionString</key>
-	<string>1.2</string>
+	<string>1.3</string>
 	<key>CFBundleVersion</key>
-	<string>1.2</string>
+	<string>1.3</string>
     <key>CFBundleGetInfoString</key>
-	<string>1.2, Copyright TheCodingMonkeys 2004</string>
+	<string>1.3, Copyright TheCodingMonkeys 2004</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>js</string>
-	   <string>javascript</string>
-	   <string>JS</string>
-	   <string>JAVASCRIPT</string>
-	</array>
 </dict>
 </plist>

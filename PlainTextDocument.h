@@ -3,11 +3,12 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Feb 24 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 
 #import <Cocoa/Cocoa.h>
+#import <Security/Security.h>
 #import "EncodingManager.h"
 
 enum {
@@ -19,7 +20,7 @@ enum {
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
-       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation;
+       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TextStorage;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;
@@ -31,6 +32,7 @@ extern NSString * const PlainTextDocumentParticipantsDataDidChangeNotification;
 extern NSString * const PlainTextDocumentUserDidChangeSelectionNotification;
 extern NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification;
 extern NSString * const PlainTextDocumentDidChangeDisplayNameNotification;
+extern NSString * const PlainTextDocumentDidChangeDocumentModeNotification;
 
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
@@ -66,6 +68,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         BOOL shouldSelectModeOnSave;
         BOOL isHandlingUndoManually;
         BOOL isWaiting;
+        BOOL syntaxHighlightingIsSuspended;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -79,7 +82,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     NSMutableDictionary *I_styleCacheDictionary;
     NSDictionary *I_plainTextAttributes;
     NSDictionary *I_typingAttributes;
-    NSMutableParagraphStyle *I_defaultParagraphStyle;
+    NSParagraphStyle *I_defaultParagraphStyle;
     NSDictionary *I_fileAttributes;
     NSDictionary *I_ODBParameters;
     NSString *I_jobDescription;
@@ -90,6 +93,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     IBOutlet NSView *O_savePanelAccessoryView2;
     IBOutlet NSButton *O_goIntoBundlesCheckbox;
     IBOutlet NSButton *O_goIntoBundlesCheckbox2;
+    IBOutlet NSButton *O_showHiddenFilesCheckbox;
+    IBOutlet NSButton *O_showHiddenFilesCheckbox2;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
     NSSavePanel *I_savePanel;
     NSSaveOperationType I_lastSaveOperation;
@@ -136,14 +141,18 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     // export nib
     IBOutlet NSWindow *O_exportSheet;
     IBOutlet NSObjectController *O_exportSheetController;
+    
+    AuthorizationRef I_authRef;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
 - (IBAction)newView:(id)aSender;
 - (IBAction)goIntoBundles:(id)sender;
-
+- (IBAction)showHiddenFiles:(id)sender;
+- (IBAction)showWebPreview:(id)aSender;
 - (BOOL)isProxyDocument;
+- (BOOL)isPendingInvitation;
 - (void)makeProxyWindowController;
 - (void)killProxyWindowController;
 - (void)proxyWindowWillClose;
@@ -154,6 +163,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (NSTextStorage *)textStorage;
 
+- (void)fillScriptsIntoContextMenu:(NSMenu *)aMenu;
+- (void)adjustModeMenu;
 - (DocumentMode *)documentMode;
 - (void)setDocumentMode:(DocumentMode *)aDocumentMode;
 - (void)takeStyleSettingsFromDocumentMode;
@@ -208,6 +219,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)selectRangeInBackground:(NSRange)aRange;
 - (void)handleOpenDocumentEvent;
 
+- (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding;
 - (IBAction)convertLineEndings:(id)aSender;
 - (IBAction)chooseLineEndings:(id)aSender;
 
@@ -304,4 +316,33 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (void)addFindAllController:(FindAllController *)aController;
 - (void)removeFindAllController:(FindAllController *)aController;
+
+@end
+
+#pragma mark -
+
+typedef enum {
+    kAccessOptionReadWrite = 'RdWr',
+    kAccessOptionReadOnly = 'RdOn',
+    kAccessOptionLocked = 'Lock'
+} AccessOptions;
+
+@interface PlainTextDocument (PlainTextDocumentScriptingAdditions)
+- (void)handleClearChangeMarksCommand:(NSScriptCommand *)command;
+- (void)handleShowWebPreviewCommand:(NSScriptCommand *)command;
+- (void)replaceTextInRange:(NSRange)range withString:(NSString *)string;
+- (NSString *)encoding;
+- (void)setEncoding:(NSString *)name;
+- (AccessOptions)accessOption;
+- (void)setAccessOption:(AccessOptions)option;
+- (NSString *)announcementURL;
+- (TextStorage *)scriptedPlainContents;
+- (void)setScriptedPlainContents:(id)value;
+- (id)scriptSelection;
+- (void)setScriptSelection:(id)selection;
+
+// Deprecated, but needed for compatibility with see tool.
+- (NSString *)mode;
+- (void)setMode:(NSString *)identifier;
+
 @end

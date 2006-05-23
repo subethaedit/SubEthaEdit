@@ -1202,6 +1202,57 @@
                 <string>NSCompositingOperation</string>
             </keywords>
             <keywords id="Cocoa Constants" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
+                <string>NSDecimalMaxSize</string>
+                <string>NSDecimalNoScale</string>
+                <string>NSMaximumStringLength</string>
+                <string>NSNotAnIntMapKey</string>
+                <string>NSNotAPointerMapKey</string>
+                <string>NSCocoaErrorDomain</string>
+                <string>NSURLErrorDomain</string>
+                <string>CFStreamErrorDomain</string>
+                <string>NSFilePathErrorKey</string>
+                <string>NSErrorFailingURLStringKey</string>
+                <string>NSPOSIXErrorDomain</string>
+                <string>NSOSStatusErrorDomain</string>
+                <string>NSMachErrorDomain</string>
+                <string>NSUnderlyingErrorKey</string>
+                <string>NSLocalizedDescriptionKey</string>
+                <string>NSLocalizedFailureReasonErrorKey</string>
+                <string>NSLocalizedRecoverySuggestionErrorKey</string>
+                <string>NSLocalizedRecoveryOptionsErrorKey</string>
+                <string>NSRecoveryAttempterErrorKey</string>
+                <string>NSStringEncodingErrorKey</string>
+                <string>NSURLErrorKey</string>
+                <string>NSFilePathErrorKey	</string>
+                <string>NSURLCredentialStorageChangedNotification</string>
+                <string>NSUserDefaultsDidChangeNotification</string>
+                <string>NSWillBecomeMultiThreadedNotification</string>
+                <string>NSDidBecomeSingleThreadedNotification</string>
+                <string>NSThreadWillExitNotification</string>
+                <string>NSUndoManagerCheckpointNotification</string>
+                <string>NSUndoManagerWillUndoChangeNotification</string>
+                <string>NSUndoManagerWillRedoChangeNotification</string>
+                <string>NSUndoManagerDidUndoChangeNotification</string>
+                <string>NSUndoManagerDidRedoChangeNotification</string>
+                <string>NSUndoManagerDidOpenUndoGroupNotification</string>
+                <string>NSUndoManagerWillCloseUndoGroupNotification</string>
+                <string>NSPortDidBecomeInvalidNotification</string>
+                <string>NSTaskDidTerminateNotification</string>
+                <string>NSJavaWillSetupVirtualMachineNotification</string>
+                <string>NSJavaDidSetupVirtualMachineNotification</string>
+                <string>NSJavaWillCreateVirtualMachineNotification</string>
+                <string>NSJavaDidCreateVirtualMachineNotification</string>
+                <string>NSAppleEventManagerWillProcessFirstEventNotification</string>
+                <string>NSBundleDidLoadNotification</string>
+                <string>NSClassDescriptionNeededForClassNotification</string>
+                <string>NSConnectionDidDieNotification</string>
+                <string>NSConnectionDidInitializeNotification</string>
+                <string>NSFileHandleReadCompletionNotification</string>
+                <string>NSFileHandleReadToEndOfFileCompletionNotification</string>
+                <string>NSFileHandleConnectionAcceptedNotification</string>
+                <string>NSFileHandleDataAvailableNotification</string>
+                <string>NSHTTPCookieManagerAcceptPolicyChangedNotification</string>
+                <string>NSHTTPCookieManagerCookiesChangedNotification</string>
                 <string>BPF_MODE_DISABLED</string>
                 <string>BPF_MODE_INPUT</string>
                 <string>BPF_MODE_INPUT_OUTPUT</string>
@@ -4597,7 +4648,7 @@
         </default>
 
         <state id="Characters" color="#00f" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>'</regex></begin>
+            <begin><regex>'(?=\\?.')</regex></begin>
             <end><regex>(\\'')|(.')</regex></end>
         </state>
         
@@ -4606,6 +4657,14 @@
             <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
             <keywords id="Numbers" color="#00f" useforautocomplete="no">
                 <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+            </keywords>
+        </state>
+
+        <state id="DoxyGen Comment" color="#236E25" background-color="none"  font-style="italic">
+            <begin><regex>/\*[\*\!]</regex></begin>
+            <end><regex>\*/</regex></end>
+            <keywords id="DoxyGen Tags" color="#236E25" font-weight="bold" useforautocomplete="no">
+				<regex>(?&lt;=[^\w\d]|^)([@\\]\w+)</regex>
             </keywords>
         </state>
 

@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<dictionary title="SubEthaEdit Terminology">
+
+    <!--
+        TEXT SUITE
+    -->
+    <suite name="Text Suite" code="HYRT"
+        description="A set of basic classes for text processing.">
+
+        <cocoa name="TCMTextSuite"/>
+
+        <class name="selection-object" code="csel" description="A way to refer to the state of the current selection. Set the selection property of the container to change selection. The following types are accepted: plain text, paragraph, character, list of 2 integers (start - end), and 1 integer (insertion point).">
+            <cocoa class="ScriptTextSelection"/>
+            <element type="insertion point">
+                <cocoa key="insertionPoints"/>
+            </element>
+            <element type="paragraph">
+                <cocoa key="scriptedLines"/>
+            </element>
+            <element type="character">
+                <cocoa key="scriptedCharacters"/>
+            </element>
+            <element type="word">
+                 <cocoa key="words"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="scriptedContents"/>
+            </property>
+            <property name="startCharacterIndex" code="pIdS" type="integer" description="The index of the first character.">
+                <cocoa key="scriptedStartCharacterIndex"/>
+            </property>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" description="The index of the first character after the selection.">
+                <cocoa key="scriptedNextCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" description="The length of the selection.">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="The line number of the first paragraph.">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="The line number of last paragraph.">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
+
+        <class name="insertion point" code="cins" description="A location between two characters. Set its contents to insert text.">
+            <cocoa class="ScriptTextSelection"/>
+            <element type="paragraph">
+                <cocoa key="scriptedLines"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="scriptedContents"/>
+            </property>
+            <property name="startCharacterIndex" code="pIdS" type="integer" description="The index of the first character.">
+                <cocoa key="scriptedStartCharacterIndex"/>
+            </property>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" description="The index of the first character after the text.">
+                <cocoa key="scriptedNextCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="The length of the text.">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="The line number of the first paragraph.">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="The line number of last paragraph.">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
+        
+        <class name="character" code="cha "
+            description="A character of a plain text object.">
+            <cocoa class="ScriptCharacters"/>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="scriptedContents"/>
+            </property>   
+            <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="The index of the first character.">
+                <cocoa key="scriptedStartCharacterIndex"/>
+            </property>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" access="r" description="The index of the first character after the text.">
+                <cocoa key="scriptedNextCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="The length of the text.">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="The line number of the first paragraph.">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="The line number of last paragraph.">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
+
+        <class name="paragraph" code="cpar"
+            description="A paragraph of a plain text object.">
+            <cocoa class="ScriptLine"/>
+            <element type="insertion point">
+                <cocoa key="insertionPoints"/>
+            </element>
+            <element type="character">
+                <cocoa key="scriptedCharacters"/>
+            </element>
+            <element type="word">
+                <cocoa key="words"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text including the line ending.">
+                <cocoa key="scriptedContents"/>
+            </property>   
+            <property name="innerContents" code="pTxI" type="text"
+                description="The text excluding the line ending.">
+                <cocoa key="scriptedInnerContents"/>
+            </property>
+            <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="The index of the first character.">
+                <cocoa key="scriptedStartCharacterIndex"/>
+            </property>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" access="r" description="The index of the first character after the text.">
+                <cocoa key="scriptedNextCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="The length of the text.">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="The line number of the first paragraph.">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="The line number of last paragraph.">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+         </class>
+
+        <class name="word" code="cwor" description="A word. Only text.">
+            <cocoa class="NSTextStorage"/>
+            <type type="text"/>
+        </class>
+
+        <class name="plain text" plural="plain text" code="cTXT"
+            description="A plain text object.">
+            <cocoa class="TextStorage"/>
+            <element type="insertion point">
+                <cocoa key="insertionPoints"/>
+            </element>
+            <element type="paragraph">
+                <cocoa key="scriptedLines"/>
+            </element>
+            <element type="character">
+                <cocoa key="scriptedCharacters"/>
+            </element>
+            <element type="word">
+                 <cocoa key="words"/>
+            </element>
+            <property name="contents" code="pTxt" type="text"
+                description="The text.">
+                <cocoa key="scriptedContents"/>
+            </property>
+            <property name="startCharacterIndex" code="pIdS" type="integer" access="r" description="The index of the first character.">
+                <cocoa key="scriptedStartCharacterIndex"/>
+            </property>
+            <property name="nextCharacterIndex" code="pIdN" type="integer" access="r" description="The index of the first character after the text.">
+                <cocoa key="scriptedNextCharacterIndex"/>
+            </property>
+            <property name="length" code="leng" type="integer" access="r" description="The length of the text.">
+                <cocoa key="scriptedLength"/>
+            </property>
+            <property name="startLineNumber" code="pSln" type="integer" access="r" description="The line number of the first paragraph.">
+                <cocoa key="scriptedStartLine"/>
+            </property>
+            <property name="endLineNumber" code="pEln" type="integer" access="r" description="The line number of last paragraph.">
+                <cocoa key="scriptedEndLine"/>
+            </property>
+        </class>
+
+    </suite>
+
+    <!--
+        SubEthaEdit SUITE
+    -->
+    <suite name="SubEthaEdit Suite" code="Hdra" description="SubEthaEdit-specific classes and commands.">
+    
+        <value-type name="open settings" code="reco">
+			<cocoa class="NSDictionary"/>
+		</value-type>
+		
+        <enumeration name="access options" code="Acco">
+            <enumerator name="read write" code="RdWr" description="read/write"/>
+            <enumerator name="read only" code="RdOn" description="read only"/>
+            <enumerator name="locked" code="Lock" description="locked"/>
+        </enumeration>
+		
+        <record-type name="open settings" code="oSet" hidden="yes" >
+            <property name="encoding" code="Encd" type="text" hidden="yes" description="The internet name of the document's encoding.">
+                <cocoa key="encoding"/>
+            </property>
+            <property name="mode" code="Mode" type="text" hidden="yes" description="The document's mode.">
+                <cocoa key="mode"/>
+            </property>
+        </record-type>
+
+        <command name="open" code="aevtodoc" description="Open an object.">
+            <direct-parameter type="file" description="The file(s) to be opened."/>
+            <parameter name="with properties" code="prdt" type="open settings" optional="yes" description="the initial values for the properties, to be applied to the document when opening">
+            <cocoa key="WithProperties"/>
+            </parameter>			
+        </command>
+        
+        <command name="print" description="Print an object." code="aevtpdoc">
+            <direct-parameter type="file" description="The file(s) or document(s) to be printed."/>
+            <parameter name="with properties" code="prdt" type="open settings" optional="yes" description="the initial values for the properties, to be applied to the document when printing">
+            <cocoa key="WithProperties"/>
+            </parameter>
+        </command>
+
+        <command name="begin undo group" code="HdraBugp" description="Begins an undo group.">
+            <direct-parameter description="The document(s) or window(s) to begin a undo group in.">
+                <type type="document"/>
+                <type type="window"/>
+            </direct-parameter>
+        </command>
+
+        <command name="end undo group" code="HdraEugp" description="Ends an undo group.">
+            <direct-parameter description="The document(s) or window(s) to end an undo group in. Be careful to end all undo groups you began - and only the ones you began.">
+                <type type="document"/>
+                <type type="window"/>
+            </direct-parameter>
+        </command>
+        
+        <command name="clear change marks" code="HdraDccm" description="Clears the change marks.">
+            <direct-parameter description="The document(s) or window(s) to clear.">
+                <type type="document"/>
+                <type type="window"/>
+            </direct-parameter>
+        </command>
+        
+        <command name="show web preview" code="HdraSweb" description="Opens the web preview.">
+            <direct-parameter description="The document(s) or window(s) to open the web preview for.">
+                <type type="document"/>
+                <type type="window"/>
+            </direct-parameter>
+        </command> 
+        
+        <command name="see" code="HdraSee " description="Do not use this command.">
+            <parameter name="files" code="File" optional="yes" hidden="yes" description="">
+                <cocoa key="Files"/>
+                <type type="text" list="yes"/>
+            </parameter>                
+            <parameter name="new files" code="NuFl" optional="yes" hidden="yes" description="">
+                <cocoa key="NewFiles"/>
+                <type type="text" list="yes"/>
+            </parameter>                
+            <parameter name="stdin" code="Stdi" type="text" optional="yes" hidden="yes" description="">
+                <cocoa key="Stdin"/>
+            </parameter>
+            <parameter name="jobdescription" code="JobD" type="text" optional="yes" hidden="yes" description="">
+                <cocoa key="JobDescription"/>                    
+            </parameter>
+            <parameter name="pipetitle" code="Pipe" type="text" optional="yes" hidden="yes" description="">
+                <cocoa key="PipeTitle"/>                    
+            </parameter>
+            <parameter name="print" code="Prnt" type="boolean" optional="yes" hidden="yes" description="">
+                <cocoa key="ShouldPrint"/>                    
+            </parameter>
+            <parameter name="wait" code="Wait" type="boolean" optional="yes" hidden="yes" description="">
+                 <cocoa key="ShouldWait"/>                   
+            </parameter>
+            <parameter name="pipeout" code="PipO" type="boolean" optional="yes" hidden="yes" description="">
+                 <cocoa key="PipeOut"/>                   
+            </parameter>
+            <parameter name="with properties" code="prdt" type="open settings" hidden="yes" optional="yes" description="initial properties">
+                <cocoa key="WithProperties"/>
+            </parameter>
+            <result description="">
+                <type type="text" list="yes"/>
+            </result>
+        </command>
+        
+        <command name="get URL" code="GURLGURL" description="Open a URL.">
+            <cocoa class="GetURLCommand"/>
+            <synonym name="get url"/>
+            <direct-parameter type="text" description="The URL to open."/>
+        </command>
+        
+        <command name="open URL" code="WWW!OURL" description="Open a URL.">
+            <cocoa class="GetURLCommand"/>
+            <synonym name="open url"/>
+            <direct-parameter type="text" description="The URL to open."/>
+        </command>
+
+        <class name="application" code="capp" inherits="application"  description="The application's top-level scripting object.">
+            <cocoa class="NSApplication"/>
+            <property name="selection" code="pSel" description="The current selection or insertion point of the frontmost window.">
+                <cocoa key="scriptSelection"/>
+                <type type="selection-object"/>
+            </property>
+            <element type="mode" access="r">
+                <cocoa key="scriptedModes"/>
+            </element>
+            <responds-to name="open">
+                <cocoa method="TCM_handleOpenScriptCommand:"/>
+            </responds-to>
+            <responds-to name="print">
+                <cocoa method="TCM_handlePrintScriptCommand:"/>
+            </responds-to>
+            <responds-to name="see">
+                <cocoa method="TCM_handleSeeScriptCommand:"/>
+            </responds-to>
+        </class>
+        
+        <class name="document" code="docu" inherits="document" description="A document.">
+            <cocoa class="PlainTextDocument"/>
+            <contents name="plain text" code="cTXT" type="plain text" description="The plain text object containing all the document's text." hidden="yes">
+                <cocoa key="scriptedPlainContents"/>
+            </contents>
+            <property name="name" code="pnam" type="text" access="r"
+                description="The document's name.">
+                <cocoa key="displayName"/>
+            </property>
+            <property name="id" code="ID  " type="integer" access="r" description="The unique identifier of the document.">
+                <cocoa key="uniqueID"/>
+            </property>
+            <property name="plain text" code="cTXT" type="plain text" description="The plain text object containing all the document's text.">
+                <cocoa key="scriptedPlainContents"/>
+            </property>
+            <property name="contents" code="pTxt" type="text"
+                description="The text of the document.">
+                <cocoa key="scriptedContents"/>
+            </property>
+            <property name="mode" code="Mode" description="The document's mode.">
+                <cocoa key="documentMode"/>
+                <type type="mode"/>
+            </property>
+            <property name="encoding" code="Encd" type="text" description="The internet name of the document's encoding.">
+                <cocoa key="encoding"/>
+            </property>
+            <property name="access control" code="Actl" type="access options" description="The access right of the document.">
+                <cocoa key="accessOption"/>
+            </property>
+            <property name="announced" code="Anno" type="boolean" description="Whether the document is announced.">
+                <cocoa key="isAnnounced"/>
+            </property>
+            <property name="URL" code="DURL" type="text" access="r" description="The URL of the document.">
+                <cocoa key="announcementURL"/>
+            </property>
+            <property name="web preview base URL" code="WURL" type="text" access="r" description="The base URL of the document. Relative addressed web resources will be addressed relative to this URL.">
+                <cocoa key="scriptedWebPreviewBaseURL"/>
+            </property>
+            <property name="selection" code="pSel" description="The current selection or insertion point of the front most window of the document.">
+                <cocoa key="scriptSelection"/>
+                <type type="selection-object"/>
+            </property>
+            <element type="window">
+                <cocoa key="orderedWindows"/>
+            </element>
+            <responds-to name="begin undo group">
+                <cocoa method="handleBeginUndoGroupCommand:"/>
+            </responds-to>
+            <responds-to name="end undo group">
+                <cocoa method="handleEndUndoGroupCommand:"/>
+            </responds-to>
+            <responds-to name="clear change marks">
+                <cocoa method="handleClearChangeMarksCommand:"/>
+            </responds-to>
+            <responds-to name="show web preview">
+                <cocoa method="handleShowWebPreviewCommand:"/>
+            </responds-to>
+        </class>
+        
+        <class name="window" code="cwin" description="A window." inherits="window">
+            <cocoa class="NSWindow"/>
+            <property name="selection" code="pSel" description="The current selection or insertion point.">
+                <cocoa key="scriptSelection"/>
+                <type type="selection-object"/>
+            </property>
+            <property name="document" code="docu" type="document" access="r"
+                description="The document whose contents are being displayed in the window.">
+                <cocoa key="document"/>
+            </property>
+            <property name="rows" code="Rows" type="integer" description="The number of rows displayed in the window."> 
+                <cocoa key="scriptedRows"/>
+            </property>
+            <property name="columns" code="Cols" type="integer" description="The number of columns displayed in the window.">
+                <cocoa key="scriptedColumns"/>
+            </property>
+            <responds-to name="begin undo group">
+                <cocoa method="handleBeginUndoGroupCommand:"/>
+            </responds-to>
+            <responds-to name="end undo group">
+                <cocoa method="handleEndUndoGroupCommand:"/>
+            </responds-to>
+            <responds-to name="clear change marks">
+                <cocoa method="handleClearChangeMarksCommand:"/>
+            </responds-to>
+            <responds-to name="show web preview">
+                <cocoa method="handleShowWebPreviewCommand:"/>
+            </responds-to>
+        </class>
+        
+        <class name="mode" code="Mode" description="A mode.">
+            <cocoa class="DocumentMode"/>
+            <property name="name" code="pnam" type="text" access="r" description="The mode's name.">
+                <cocoa key="scriptedName"/>
+            </property>
+            <property name="id" code="ID  " type="text" access="r" description="The unique identifier of the mode.">
+                <cocoa key="documentModeIdentifier"/>
+            </property>
+            <property name="resource path" code="pMrp" type="text" access="r" description="The mode's resource location on disk.">
+                <cocoa key="scriptedResourcePath"/>
+            </property>
+        </class>
+
+    </suite>
+</dictionary>

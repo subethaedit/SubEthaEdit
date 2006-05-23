@@ -51,27 +51,43 @@ extern NSString * const DocumentModeHTMLExportWrittenByHoversPreferenceKey ;
 extern NSString * const DocumentModeUseDefaultPrintPreferenceKey;
 extern NSString * const DocumentModeUseDefaultStylePreferenceKey;
 extern NSString * const DocumentModeUseDefaultFontPreferenceKey;
+extern NSString * const DocumentModeUseDefaultViewPreferenceKey;
+extern NSString * const DocumentModeUseDefaultEditPreferenceKey;
+extern NSString * const DocumentModeUseDefaultFilePreferenceKey;
 
 extern NSString * const DocumentModeApplyEditPreferencesNotification;
 extern NSString * const DocumentModeApplyStylePreferencesNotification;
 
 
+@class ModeSettings;
 @class SyntaxHighlighter;
+@class SyntaxDefinition;
 @class RegexSymbolParser;
 @class SyntaxStyle;
 
 @interface DocumentMode : NSObject {
     NSBundle *I_bundle;
+    ModeSettings *I_modeSettings;
+    SyntaxDefinition *I_syntaxDefinition;
     SyntaxHighlighter *I_syntaxHighlighter;
     RegexSymbolParser *I_symbolParser;
     NSMutableArray *I_autocompleteDictionary;
     NSMutableDictionary *I_defaults;
     SyntaxStyle *I_syntaxStyle,*I_defaultSyntaxStyle;
+    NSMutableDictionary *I_scriptsByFilename;
+    NSMutableArray *I_menuItemArray;
+    NSMutableArray *I_contextMenuItemArray;
+    NSMutableArray *I_scriptOrderArray;
+    NSMutableDictionary *I_toolbarItemsByIdentifier;
+    NSMutableArray *I_toolbarItemIdentifiers;
+    NSMutableArray *I_defaultToolbarItemIdentifiers;
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle;
 
+- (ModeSettings *)modeSettings;
 - (SyntaxHighlighter *)syntaxHighlighter;
+- (SyntaxDefinition *)syntaxDefinition;
 - (RegexSymbolParser *)symbolParser;
 - (NSString *)newFileContent;
 - (NSMutableArray *)autocompleteDictionary;
@@ -90,6 +106,9 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 - (SyntaxStyle *)syntaxStyle;
 - (void)setSyntaxStyle:(SyntaxStyle *)aStyle;
 - (SyntaxStyle *)defaultSyntaxStyle;
+
+- (NSArray *)scriptMenuItemArray;
+- (NSArray *)contextMenuItemArray;
 
 - (BOOL)isBaseMode;
 @end

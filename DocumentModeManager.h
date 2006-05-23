@@ -36,6 +36,8 @@
     NSMutableDictionary *I_modeBundles;
     NSMutableDictionary *I_documentModesByIdentifier;
 	NSMutableDictionary *I_modeIdentifiersByExtension;
+	NSMutableDictionary *I_modeIdentifiersByFilename;
+	NSMutableDictionary *I_modeIdentifiersByRegex;
 	NSMutableArray      *I_modeIdentifiersTagArray;
 }
 
@@ -47,9 +49,14 @@
 - (DocumentMode *)modeForNewDocuments;
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier;
 - (DocumentMode *)documentModeForExtension:(NSString *)anExtension;
+- (DocumentMode *)documentModeForFilename:(NSString *)aFilename;
+- (DocumentMode *)documentModeForContent:(NSString *)aString;
 - (DocumentMode *)documentModeForName:(NSString *)aName;
 - (NSString *)documentModeIdentifierForTag:(int)aTag;
+- (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier;
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
 - (NSDictionary *)availableModes;
+
+- (IBAction)reloadDocumentModes:(id)aSender;
 
 @end

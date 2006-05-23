@@ -20,10 +20,5 @@ Thanks to ash (http://www.actionscripthero.com)</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>as</string>
-	   <string>AS</string>
-	</array>
 </dict>
 </plist>

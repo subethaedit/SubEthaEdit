@@ -120,15 +120,17 @@ static LicenseController *sharedInstance = nil;
     NSString *name = [defaults stringForKey:LicenseeNamePrefKey];
     NSString *organization = [defaults stringForKey:LicenseeOrganizationPrefKey];
     
-    if (name != nil && serial != nil) {
+    if (name != nil && [name length] > 0 && serial != nil && [serial isValidSerial]) {
         [O_licenseeNameField setObjectValue:name];
         if (organization != nil) [O_licenseeOrganizationField setObjectValue:organization];
         [O_serialNumberField setObjectValue:serial];
-        if ([[O_licenseeNameField stringValue] length] > 0 && [[O_serialNumberField stringValue] isValidSerial]) {
-            [O_registerButton setEnabled:YES];
-        } else {
-            [O_registerButton setEnabled:NO];
-        }
+        unichar bulletCharacters[] = {0x2022, 0x2022, 0x2022, 0x2022, 0x2022, 0x2022, 
+                                      0x2022, 0x2022, 0x2022, 0x2022, 0x2022, 0x2022, 
+                                      0x2022, 0x2022, 0x2022, 0x2022, 0x2022, 0x2022};
+        NSString *bulletString = [NSString stringWithCharacters:bulletCharacters length:18];
+
+        [O_serialNumberField setObjectValue:bulletString];
+        [O_registerButton setEnabled:NO];
     } else {
         ABPerson *meCard = [[ABAddressBook sharedAddressBook] me];
         NSString *myName = nil;
@@ -179,7 +181,11 @@ static LicenseController *sharedInstance = nil;
 #pragma mark -
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
-    if ([[O_licenseeNameField stringValue] length] > 0 && [[O_serialNumberField stringValue] length] == 18 && [[O_serialNumberField stringValue] isValidSerial]) {
+
+    NSString *serialNumberString = [[[O_serialNumberField stringValue]uppercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([[O_licenseeNameField stringValue] length] > 0 && [serialNumberString length] == 18 && [serialNumberString isValidSerial]) {
+        [O_serialNumberField setStringValue:serialNumberString];
         [O_registerButton setEnabled:YES];
     } else {
         [O_registerButton setEnabled:NO];

@@ -1,4 +1,87 @@
 
+SubEthaEdit 2.5
+===============
+
+Neue Funktionen:
+- AppleScript-Menü hinzugefügt.
+- AppleScript-Skripte können mit Modi ausgeliefert werden. Sie tauchen im 
+  Modus-Menü auf und optional in der Symbolleiste und dem Kontextmenü.
+- Skriptfähigkeit: Modi stehen als AppleScript Objekte zur Verfügung.
+- Skriptfähigkeit: Selection Attribut zur den application, document und window 
+  Klassen hinzugefügt.
+- Skriptfähigkeit: Mehr Attribute zu den Text-Klassen hinzugefügt.
+- Skriptfähigkeit: Web preview base url Attribut zur document Klasse 
+  hinzugefügt.
+- Skriptfähigkeit: Columns und rows Attribute zur window Klasse hinzugefügt.
+- Skriptfähigkeit: Undo grouping Kommandos hinzugefügt.
+- Skriptfähigkeit: Clear change marks Kommando hinzugefügt.
+- Dock-Symbol-Plakette zur Anzeige der Einladungen hinzugefügt.
+- Modi können neu geladen werden ohne die Anwendung neu zu starten.
+- Versteckte Dateien können in den "Öffnen" und "Sichern" Dialogen angezeigt 
+  werden.
+- Ein Klick auf die Zeilennummer wählt die ganze Zeile aus.
+- Modi können mit Hilfe der Anwendung installiert werden.
+- Zeilenenden, die nicht der Einstellung des Dokuments entsprechen, werden rot 
+  gefärbt angezeigt.
+- Auswahl des Modus für ein Dokument wird auch durch den Dateinamen und den 
+  Inhalt der Datei beeinflußt.
+- Symbol für "Unsichtbare Zeichen anzeigen" zur Symbolleiste hinzugefügt.
+
+Veränderugen:
+- Einige Modus-Einstellungen wurden von der jeweiligen Info.plist in 
+  ModeSettings.xml verschoben.
+- Der Export zu HTML erzeugt einen Bilder-Ordner namens '<exportname>_images'. 
+- Skriptfähigkeit: Document Objekte liefern einen id-basierten Specifier.
+- Skriptfähigkeit: Text document Klasse entfernt und ersetzt durch die document 
+  Klasse.
+
+Korrekturen:
+- Privilegierte Operationen werden per Dokument authorisiert.
+- Ein Problem, bei dem "Ersetzen & Suchen" Treffer ausließ, wurde behoben.
+- Ein Problem, bei dem die Syntax-Einfärbung die Reihenfolge von mehr als acht 
+  Keyword-Gruppen nicht beachtete, wurde behoben.
+- Die Ladezeit von Dokumenten wurde verbessert.
+- Ein Problem, bei dem die "Zeilen umbrechen" Einstellung beim "Auf offene 
+  Dokumente anwenden" ignoriert wurde, wurde behoben.
+- Ein Problem, bei dem Fenster in der Größe nicht richtig angepaßt wurden, 
+  falls Zeilenumbruch in einem Dokument mit langen Zeilen deaktiviert war, 
+  wurde behoben.
+- Das automatische Blättern wurde im Zusammenhang mit Blockedit verbessert.
+- Ein Problem, bei dem der Wahltaste-Klick währen Blockedit sich nicht richtig 
+  verhalten hat, wurde behoben.
+- Ein Problem, bei dem die angegebene Fenstergröße vom see Kommandozeilentool 
+  nicht beachtet wurde, wurde behoben.
+- Ein Problem, bei dem das see Kommandozeilentool eine leere Eingabe nicht 
+  richtig gehandhabt hat, wurde behoben.
+- Der Pfade von einem entfernten Dokument wird angezeigt, wenn es mittels einem 
+  FTP-Programm bearbeitet wird.
+- Ein Absturz, der von einem defekten Modus ausgelöst werden konnte, wurde 
+  behoben.
+- Die Unterstützung von einheitlichen Zeilenenden in einem Dokument wurde 
+  verbessert.
+- Ein Problem, bei dem die Zugriffskontrolle von entfernten Dokumenten per 
+  Skript manipuliert werden konnte, wurde behoben.
+- Ein Problem, bei dem die Größe der Web-Vorschau nicht korrekt 
+  wiederhergestellt wurde, wurde behoben.
+- Ein Problem, bei dem die "Editor verwendet Tabulatoren" Einstellung nicht 
+  richtig funktionierte, wurde behoben.
+- Ein Problem, bei dem der Bilder-Ordner während des Exportierens 
+  unnötigerweise angelegt wurde, wurde behoben.
+- Ein Problem, bei dem der Fenstertitel nicht korrekt gesetzt wurde, wenn das 
+  see Kommandozeilentool mit der Titel-Option aufgerufen wurde, wurde behoben.
+- Das Überschreiben von Verzeichnissen wird verhindert.
+- Ein Problem, bei dem die Syntax-Einfärbung beim Einfügen von Zeilenumbrüchen 
+  nicht korrekt färbte, wurde behoben.
+- Ein Problem, bei dem die Dateikodierung des Dokuments beim "Ersetzen" nicht 
+  berücksichtigt wurde, wurde behoben.
+- Die defekten Tastatur-Kurzbefehle im Suchfenster wurden behoben.
+- Der Export-Dialog erläutert nun seinen Zweck.
+- Die Rückmeldung beim Suchen in der Auswahl wurde verbessert.
+- Die Geschwindigkeit der Syntax-Einfärbung im Falle von Zuständen ohne 
+  Plain-Text-Strings wurde verbessert.
+- Verbesserte Modi: bash, C, C++, CSS, HTML, Java, Lua, Objective-C, Perl, 
+  PHP-HTML, Python, Ruby, SQL, XML.
+
 SubEthaEdit 2.3
 ===============
 

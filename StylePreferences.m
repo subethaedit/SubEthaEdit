@@ -71,7 +71,12 @@
     [string addAttribute:NSObliquenessAttributeName value:[NSNumber numberWithFloat:.2] range:NSMakeRange(0,[[string string] length])];
     [O_italicButton setAttributedTitle:[string autorelease]];
     [self adjustTableViewColumns:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
     
+}
+
+- (void)documentModeListChanged:(NSNotification *)aNotification {
+    [self performSelector:@selector(changeMode:) withObject:O_modePopUpButton afterDelay:.2];
 }
 
 - (void)didSelect {

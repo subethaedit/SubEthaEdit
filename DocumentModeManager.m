@@ -6,9 +6,14 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import "ModeSettings.h"
 #import "DocumentModeManager.h"
+#import "DocumentController.h"
+#import "PlainTextDocument.h"
 #import "GeneralPreferences.h"
 #import "SyntaxStyle.h"
+#import <OgreKit/OgreKit.h>
+
 
 #define MODEPATHCOMPONENT @"Application Support/SubEthaEdit/Modes/"
 
@@ -68,7 +73,12 @@
 /* Update contents based on encodings list customization
 */
 - (void)documentModeListChanged:(NSNotification *)notification {
-    [[DocumentModeManager sharedInstance] setupPopUp:self selectedModeIdentifier:[self selectedModeIdentifier] automaticMode:I_automaticMode];
+    NSString *selectedModeIdentifier=[self selectedModeIdentifier];
+    if (![[DocumentModeManager sharedInstance] documentModeAvailableModeIdentifier:selectedModeIdentifier]) {
+        selectedModeIdentifier=BASEMODEIDENTIFIER;
+    }
+    [[DocumentModeManager sharedInstance] setupPopUp:self selectedModeIdentifier:selectedModeIdentifier automaticMode:I_automaticMode];
+    [self setSelectedModeIdentifier:selectedModeIdentifier];
 }
 
 @end
@@ -81,10 +91,6 @@
 }
 
 - (void)documentModeListChanged:(NSNotification *)notification {
-    //int tag = [[self selectedItem] tag];
-    //if (tag != 0 && tag != NoStringEncoding) defaultEncoding = tag;
-    //[[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry lossyEncodings:[NSArray array]];
-    //preserve command-n shortcut!
     [[DocumentModeManager sharedInstance] setupMenu:self action:I_action alternateDisplay:I_alternateDisplay];
 }
 
@@ -130,6 +136,8 @@
         I_modeBundles=[NSMutableDictionary new];
         I_documentModesByIdentifier =[NSMutableDictionary new];
 		I_modeIdentifiersByExtension=[NSMutableDictionary new];
+		I_modeIdentifiersByFilename =[NSMutableDictionary new];
+		I_modeIdentifiersByRegex    =[NSMutableDictionary new];
 		I_modeIdentifiersTagArray   =[NSMutableArray new];
 		[I_modeIdentifiersTagArray addObject:@"-"];
 		[I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
@@ -143,6 +151,8 @@
     [I_modeBundles release];
     [I_documentModesByIdentifier release];
 	[I_modeIdentifiersByExtension release];
+	[I_modeIdentifiersByFilename release];
+	[I_modeIdentifiersByRegex release];
     [super dealloc];
 }
 
@@ -179,19 +189,82 @@
             if ([[file pathExtension] isEqualToString:@"mode"]) {
                 NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]];
                 if (bundle && [bundle bundleIdentifier]) {
-					NSEnumerator *extensions = [[[bundle infoDictionary] objectForKey:@"TCMModeExtensions"] objectEnumerator];
-					NSString *extension = nil;
-					while ((extension = [extensions nextObject])) {
-						[I_modeIdentifiersByExtension setObject:[bundle bundleIdentifier] forKey:extension];
-					}
                     [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
                     if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) {
-                        [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];
+                        [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];                    
                     }
                 }
             }
+            
         }
     }
+
+    enumerator = [I_modeBundles objectEnumerator];
+    NSBundle *bundle;
+    while (bundle = [enumerator nextObject]) {
+
+        ModeSettings *modeSettings = [[ModeSettings alloc] initWithFile:[bundle pathForResource:@"ModeSettings" ofType:@"xml"]];
+        NSEnumerator *extensions, *filenames, *regexes;
+        if (modeSettings) {
+            extensions = [[modeSettings recognizedExtensions] objectEnumerator];
+            filenames = [[modeSettings recognizedFilenames] objectEnumerator];
+            regexes = [[modeSettings recognizedRegexes] objectEnumerator];
+        } else {
+            CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)[bundle bundlePath], kCFURLPOSIXPathStyle, 1);
+            CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
+            NSDictionary *infoDictionary = (NSDictionary *) infodict;
+            extensions = [[infoDictionary objectForKey:@"TCMModeExtensions"] objectEnumerator];
+            filenames = [[infoDictionary objectForKey:@"TCMModeFilenames"] objectEnumerator];
+            regexes = [[infoDictionary objectForKey:@"TCMModeRegex"] objectEnumerator];
+            CFRelease(url);
+            CFRelease(infodict);
+        }
+    
+        NSString *extension = nil;
+        NSString *filename = nil;
+        NSString *regex = nil;
+    
+        while ((extension = [extensions nextObject])) {
+            [I_modeIdentifiersByExtension setObject:[bundle bundleIdentifier] forKey:extension];
+        }
+        
+        while ((filename = [filenames nextObject])) {
+            [I_modeIdentifiersByFilename setObject:[bundle bundleIdentifier] forKey:filename];
+        }
+        
+        while ((regex = [regexes nextObject])) {
+            if ([OGRegularExpression isValidExpressionString:regex]) {
+            [I_modeIdentifiersByRegex setObject:[bundle bundleIdentifier] forKey:[[[OGRegularExpression alloc] initWithString:regex options:OgreFindNotEmptyOption]autorelease]];
+            }
+        }
+        
+        [modeSettings release];
+    }
+
+}
+
+- (IBAction)reloadDocumentModes:(id)aSender {
+    // write all preferences
+    [[I_documentModesByIdentifier allValues] makeObjectsPerformSelector:@selector(writeDefaults)];
+
+    // reload all modes
+    [I_modeBundles                removeAllObjects];
+    [I_documentModesByIdentifier  removeAllObjects];
+    [I_modeIdentifiersByExtension removeAllObjects];
+    [I_modeIdentifiersByFilename removeAllObjects];
+    [I_modeIdentifiersByRegex removeAllObjects];
+    [self TCM_findModes];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DocumentModeListChanged" object:self];
+    
+    // replace the DocumentModes in the documents
+    NSEnumerator      *documents = [[[DocumentController sharedDocumentController] documents] objectEnumerator];
+    PlainTextDocument *document = nil;
+    while ((document=[documents nextObject])) {
+        DocumentMode *oldMode = [document documentMode];
+        DocumentMode *newMode = [self documentModeForIdentifier:[oldMode documentModeIdentifier]];
+        [document setDocumentMode:newMode];
+    }
+    
 }
 
 - (NSString *)description {
@@ -257,6 +330,27 @@
 	}
 }
 
+- (DocumentMode *)documentModeForFilename:(NSString *)aFilename {
+    NSString *identifier=[I_modeIdentifiersByFilename objectForKey:aFilename];
+    if (identifier) {
+        return [self documentModeForIdentifier:identifier];
+	} else {
+        return [self baseMode];
+	}
+}
+
+- (DocumentMode *)documentModeForContent:(NSString *)aString {
+    NSEnumerator *regexes = [I_modeIdentifiersByRegex keyEnumerator];
+    id regex;
+    OGRegularExpressionMatch *match;
+    while (regex = [regexes nextObject]) {
+        match = [regex matchInString:aString];
+        if ([match count]>0) return [self documentModeForIdentifier:[I_modeIdentifiersByRegex objectForKey:regex]];
+     }
+
+    return [self baseMode];
+}
+
 
 /*"Returns an NSDictionary with Key=Identifier, Value=ModeName"*/
 - (NSDictionary *)availableModes {
@@ -276,6 +370,10 @@
     } else {
         return nil;
     }
+}
+
+- (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier {
+    return [I_modeBundles objectForKey:anIdentifier]!=nil;
 }
 
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier {
@@ -367,6 +465,54 @@
             
         }
     }
+    if (aFlag) {
+        [aMenu addItem:[NSMenuItem separatorItem]];
+        menuItem = [[NSMenuItem alloc] 
+            initWithTitle:NSLocalizedString(@"Open User Modes Folder", @"Menu item in alternate mode menu for opening the user modes folder.")
+                   action:@selector(revealModesFolder:)
+            keyEquivalent:@""];
+        [menuItem setTag:2];
+        [menuItem setTarget:self];
+        [aMenu addItem:menuItem];
+        [menuItem release];
+
+        menuItem = [[NSMenuItem alloc] 
+            initWithTitle:NSLocalizedString(@"Open Library Modes Folder",@"Menu item in alternate mode menu for opening the library modes folder.")
+                   action:@selector(revealModesFolder:)
+            keyEquivalent:@""];
+        [menuItem setTag:1];
+        [menuItem setTarget:self];
+        [aMenu addItem:menuItem];
+        [menuItem release];
+
+        menuItem = [[NSMenuItem alloc] 
+            initWithTitle:NSLocalizedString(@"Open SubEthaEdit Modes Folder",@"Menu item in alternate mode menu for opening the SubEthaEdit modes folder.")
+                   action:@selector(revealModesFolder:)
+            keyEquivalent:@""];
+        [menuItem setTag:0];
+        [menuItem setTarget:self];
+        [aMenu addItem:menuItem];
+        [menuItem release];
+    }
+}
+
+- (IBAction)revealModesFolder:(id)aSender {
+    NSString *directoryString = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/"];
+    switch ([aSender tag]) {
+        case 2: {
+            NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+            NSString *path=[userDomainPaths lastObject];
+            directoryString = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; }
+            break;
+        case 1: {
+            NSArray *systemDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSSystemDomainMask, YES);
+            NSString *path=[systemDomainPaths lastObject];
+            directoryString = [path stringByAppendingPathComponent:MODEPATHCOMPONENT];
+            }
+            break;
+    }
+    // NSLog(@"%@",directoryString);
+    if (![[NSWorkspace sharedWorkspace] openFile:directoryString]) NSBeep();;
 }
 
 - (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode {

@@ -216,9 +216,9 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
+	<string>${EXECUTABLE_NAME}${SYSTEM_VERSION_CHECK_SUFFIX}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 2.3, Copyright © 2003-2006, TheCodingMonkeys</string>
+	<string>SubEthaEdit 2.5, Copyright © 2003-2006, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -234,7 +234,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3</string>
+	<string>2.5</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
@@ -250,8 +250,11 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>REVISION</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.3</string>
+    <key>LSEnvironment</key>
+    <dict>
+        <key>MinimumSystemVersion</key>
+        <string>10.3.9</string>
+    </dict>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSHumanReadableCopyright</key>
@@ -261,7 +264,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>TCMBundledSeeToolVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>TCMMinimumSeeToolVersion</key>
 	<string>1.0</string>
 	<key>UTExportedTypeDeclarations</key>
@@ -307,7 +310,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>SubEthaEdit/New Document Containing Selection</string>
+				<string>SubEthaEdit/New Window Containing Selection</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>openSelection</string>

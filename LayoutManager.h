@@ -19,5 +19,7 @@
 
 - (BOOL)showsChangeMarks;
 - (void)setShowsChangeMarks:(BOOL)showsChangeMarks;
+- (void)removeTemporaryAttributes:(id)anObjectEnumerable forCharacterRange:(NSRange)aRange;
+
 
 @end

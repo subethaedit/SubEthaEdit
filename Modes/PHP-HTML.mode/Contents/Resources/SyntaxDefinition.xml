@@ -34,7 +34,6 @@
                 <string>ada_result</string>
                 <string>ada_resultall</string>
                 <string>ada_rollback</string>
-                <string>add</string>
                 <string>add_iovec</string>
                 <string>addaction</string>
                 <string>addcolor</string>
@@ -2813,7 +2812,6 @@
                 <string>register_shutdown_function</string>
                 <string>register_tick_function</string>
                 <string>reload</string>
-                <string>remove</string>
                 <string>rename</string>
                 <string>reset</string>
                 <string>restore_error_handler</string>
@@ -3512,6 +3510,13 @@
                 <string>var</string>
                 <string>int</string>
                 <string>float</string>
+                <string>real</string>
+                <string>double</string>
+                <string>bool</string>
+                <string>boolean</string>
+                <string>integer</string>
+                <string>resource</string>
+                <string>NULL</string>
                 <string>string</string>
                 <string>array</string>
                 <string>list</string>
@@ -3519,7 +3524,9 @@
                 <string>if</string>
                 <string>else</string>
                 <string>elseif</string>
+                <string>endif</string>
                 <string>while</string>
+                <string>endwhile</string>
                 <string>do</string>
                 <string>for</string>
                 <string>foreach</string>
@@ -3617,6 +3624,8 @@
             </keywords>
             <keywords id="Entities" color="#881280" useforautocomplete="no">
                 <regex>(&amp;\w{1,8};)</regex>
+                <regex>(&amp;#[0-9]+;)</regex>
+                <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
             </keywords>
             <keywords id="HTMLComment" color="#236E25" useforautocomplete="no"> 
               <regex>(&lt;!--.*--&gt;)</regex> 

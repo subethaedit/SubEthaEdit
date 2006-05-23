@@ -1,0 +1,4 @@
+Changes with Version 1.1 (SEE 2.5)
+
+    *) added Scripts (Insert Shebang, chmod ug+x, Run in Terminal)
+

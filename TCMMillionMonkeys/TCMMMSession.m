@@ -34,6 +34,8 @@ NSString * const TCMMMSessionParticipantsDidChangeNotification =
                @"TCMMMSessionParticipantsDidChangeNotification";
 NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
                @"TCMMMSessionPendingUsersDidChangeNotification";
+NSString * const TCMMMSessionPendingInvitationsDidChange =
+               @"TCMMMSessionPendingInvitationsDidChange";
 NSString * const TCMMMSessionDidChangeNotification = 
                @"TCMMMSessionDidChangeNotification";
 NSString * const TCMMMSessionClientStateDidChangeNotification = 
@@ -584,6 +586,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [self setClientState:TCMMMSessionClientNoState];
         NSBeep();
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingInvitationsDidChange object:self];
 }
 
 - (void)declineInvitation {
@@ -592,6 +595,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [profile setDelegate:nil];
     [I_profilesByUserID removeObjectForKey:[self hostID]];
     [self setClientState:TCMMMSessionClientNoState];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingInvitationsDidChange object:self];
 }
 
 - (void)leave {
@@ -897,6 +901,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         } else {
             [document updateProxyWindow];
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingInvitationsDidChange object:self];
     }
 }
 
@@ -971,6 +976,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"profileDidCancelInvitation - profile and profileByuserID didn't match: %@",[I_profilesByUserID objectForKey:peerUserID]);    
     }
     [self setClientState:TCMMMSessionClientNoState];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingInvitationsDidChange object:self];
 }
 
 

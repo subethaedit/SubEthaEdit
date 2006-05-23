@@ -61,7 +61,7 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
     SyntaxDefinition *definition = [self syntaxDefinition];
     if (!definition) NSLog(@"ERROR: No defintion for highlighter.");
     NSString *theString = [aString string];
-    //NSLog(NSStringFromRange(aRange));
+    //NSLog(@"%@:%@", NSStringFromRange(aRange), [theString substringWithRange:aRange]);
     
     NSRange currentRange = aRange;
     int stateNumber;
@@ -216,6 +216,7 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
     int location;
     NSString *styleID;
     SyntaxDefinition *definition = [self syntaxDefinition];
+    if (![definition hasTokensForState:aState]) return;
 
     NSMutableDictionary *attributes=[NSMutableDictionary new];
 
@@ -336,6 +337,12 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
                 chunks++;
                 chunkRange = dirtyRange;
                 if (chunkRange.length > chunkSize) chunkRange.length = chunkSize;
+                else {
+                    NSRange newRange = chunkRange;
+                    newRange.length =+ 3; // To stretch to the new line if the dirty range ends with linebreak.
+                    if (NSMaxRange(newRange)<=NSMaxRange(textRange)) chunkRange = newRange;
+                }
+                
                 chunkRange = [[aTextStorage string] lineRangeForRange:chunkRange];
 
                 //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));

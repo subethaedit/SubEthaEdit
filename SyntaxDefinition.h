@@ -51,6 +51,7 @@
 - (NSCharacterSet *)autoCompleteTokenSet;
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet;
 - (void)setAutoCompleteTokenSet:(NSCharacterSet *)aCharacterSet;
+- (BOOL) hasTokensForState:(int)aState;
 - (NSString *)styleForToken:(NSString *)aToken inState:(int)aState;
 - (NSArray *)regularExpressionsInState:(int)aState;
 - (void)setCombinedStateRegex;

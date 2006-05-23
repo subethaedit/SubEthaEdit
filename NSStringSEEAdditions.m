@@ -96,10 +96,39 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 @implementation NSString (NSStringSEEAdditions) 
 
++ (NSString *)lineEndingStringForLineEnding:(LineEnding)aLineEnding {
+    static NSString *sUnicodeLSEP=nil;
+    static NSString *sUnicodePSEP=nil;
+    if (sUnicodeLSEP==nil) {
+        unichar seps[2];
+        seps[0]=0x2028;
+        seps[1]=0x2029;
+        sUnicodeLSEP=[[NSString stringWithCharacters:seps length:1] retain];
+        sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
+    }
+    switch(aLineEnding) {
+    case LineEndingLF:
+        return @"\n";
+    case LineEndingCR:
+        return @"\r";
+    case LineEndingCRLF:
+        return @"\r\n";
+    case LineEndingUnicodeLineSeparator:
+        return sUnicodeLSEP;
+    case LineEndingUnicodeParagraphSeparator:
+        return sUnicodePSEP;
+    default:
+        return @"\n";
+    }
+}
+
 - (BOOL)isValidSerial
 {
     // Pirated number (2.1.1): 2QF-PABI-OCM6-KRHH (Blocked by enforcing SEE prefix)
     // Pirated number (2.2): SEE-11G0-M1A0-5ROC (Blocked #1500/63000)
+    // Pirated number (2.3): SEE-1960-4979-8692 (Blocked #431865/49392)
+    // Published number (2.3): SEE-2XG6-8CK0-H8KX ( #43400/136374)
+    // Published number (2.3): SEE-ZXFC-PF60-FZSX ( #43336/1676640)
     
     static int calls = 0;
     NSArray *splitArray = [self componentsSeparatedByString:@"-"];
@@ -128,7 +157,10 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
                       [two characterAtIndex:2]] base36Value];
 
             // check for pirated number            
-            if ((number==1500) && (rndnumber == 63000)) {
+            if (((number==1500) && (rndnumber == 63000)) ||
+                ((number==43400) && (rndnumber == 136374)) ||
+                ((number==43336) && (rndnumber == 1676640)) ||
+                ((number==431865) && (rndnumber == 49392))) {
                 NSLog(@"Arrrr!");
                 return NO;
             }

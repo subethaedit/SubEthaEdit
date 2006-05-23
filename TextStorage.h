@@ -3,19 +3,24 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
+#import <OgreKit/OgreKit.h>
 
 extern NSString * const BlockeditAttributeName ;
 extern NSString * const BlockeditAttributeValue;
+
+extern NSString * const TextStorageLineEndingDidChange;
+extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
 @interface TextStorage : NSTextStorage {
     NSMutableArray *I_lineStarts;
     unsigned int I_lineStartsValidUpTo;
     NSMutableAttributedString *I_contents;
     unsigned int I_encoding;
+    LineEnding I_lineEnding;
 
     struct {
         BOOL hasBlockeditRanges;
@@ -24,7 +29,23 @@ extern NSString * const BlockeditAttributeValue;
         NSRange didBlockeditRange;
         NSRange didBlockeditLineRange;
     } I_blockedit;
+
+    struct {
+        BOOL hasMixedLineEndings;
+        BOOL shouldWatchLineEndings;
+    } I_flags;
+    
+    TextStorage *I_containerTextStorage;
+    struct {
+        int length;
+        int characterOffset;
+        int startLine;
+        int endLine;
+    } I_scriptingProperties;
 }
+
++ (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
+
 
 - (int)lineNumberForLocation:(unsigned)location;
 - (BOOL)lastLineIsEmpty;
@@ -33,6 +54,11 @@ extern NSString * const BlockeditAttributeValue;
 - (NSRange)findLine:(int)aLineNumber;
 - (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation;
 
+- (LineEnding)lineEnding;
+- (void)setLineEnding:(LineEnding)newLineEnding;
+- (void)setShouldWatchLineEndings:(BOOL)aFlag;
+- (BOOL)hasMixedLineEndings;
+- (void)setHasMixedLineEndings:(BOOL)aFlag;
 - (unsigned int)encoding;
 - (void)setEncoding:(unsigned int)anEncoding;
 
@@ -56,6 +82,27 @@ extern NSString * const BlockeditAttributeValue;
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 - (NSMutableAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor backgroundColor:(NSColor *)aBackgroundColor;
+
+- (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange;
+
+@end
+
+#pragma mark -
+
+@interface TextStorage (TextStorageScriptingAdditions)
+
+- (id)insertionPoints;
+
+- (NSRange)rangeRepresentation;
+- (NSNumber *)scriptedLength;
+- (NSNumber *)scriptedStartCharacterIndex;
+- (NSNumber *)scriptedNextCharacterIndex;
+- (NSNumber *)scriptedStartLine;
+- (NSNumber *)scriptedEndLine;
+- (NSString *)scriptedContents;
+- (void)setScriptedContents:(id)string;
+- (NSArray *)scriptedCharacters;
+- (NSArray *)scriptedLines;
 
 @end
 

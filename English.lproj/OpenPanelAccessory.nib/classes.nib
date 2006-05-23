@@ -7,7 +7,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {goIntoBundles = id; }; 
+            ACTIONS = {goIntoBundles = id; showHiddenFiles = id; }; 
             CLASS = DocumentController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -16,6 +16,7 @@
                 "O_modeHintPanel" = NSPanel; 
                 "O_modePopUpButton" = DocumentModePopUpButton; 
                 "O_openPanelAccessoryView" = NSView; 
+                "O_showHiddenFilesCheckbox" = NSButton; 
             }; 
             SUPERCLASS = NSDocumentController; 
         }, 

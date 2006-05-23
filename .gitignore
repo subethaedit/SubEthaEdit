@@ -1,2 +1,6 @@
+SubEthaEdit.xcodeproj/*.mode1
 SubEthaEdit.xcodeproj/*.mode2
 SubEthaEdit.xcodeproj/*.pbxuser
+/SubEthaEditScripting.r
+/SubEthaEditSuite.scriptSuite
+/SubEthaEditSuite.scriptTerminology

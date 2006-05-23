@@ -8,6 +8,7 @@
 
 #import "DocumentMode.h"
 #import "DocumentModeManager.h"
+#import "ModeSettings.h"
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
 #import "SyntaxStyle.h"
@@ -15,6 +16,10 @@
 #import "SymbolTableEntry.h"
 #import "RegexSymbolParser.h"
 #import "RegexSymbolDefinition.h"
+#import "NSMenuTCMAdditions.h"
+#import "AppController.h"
+#import "ScriptWrapper.h"
+#import <Carbon/Carbon.h>
 
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
 NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
@@ -114,16 +119,22 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                   forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
 }
 
+#define SCRIPTMODEMENUTAGBASE 4000
+
 - (id)initWithBundle:(NSBundle *)aBundle {
     self = [super init];
     if (self) {
         I_autocompleteDictionary = [NSMutableArray new];
         I_bundle = [aBundle retain];
-        SyntaxDefinition *synDef = [[[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"] forMode:self] autorelease];
+
+        I_modeSettings = [[ModeSettings alloc] initWithFile:[aBundle pathForResource:@"ModeSettings" ofType:@"xml"]];
+
+        I_syntaxDefinition = [[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"] forMode:self];
+        
         RegexSymbolDefinition *symDef = [[[RegexSymbolDefinition alloc] initWithFile:[aBundle pathForResource:@"RegexSymbols" ofType:@"xml"] forMode:self] autorelease];
         
-        if (synDef)
-            I_syntaxHighlighter = [[SyntaxHighlighter alloc] initWithSyntaxDefinition:synDef];
+        if (I_syntaxDefinition && ![self isBaseMode])
+            I_syntaxHighlighter = [[SyntaxHighlighter alloc] initWithSyntaxDefinition:I_syntaxDefinition];
         if (symDef)
             I_symbolParser = [[RegexSymbolParser alloc] initWithSymbolDefinition:symDef];
         
@@ -137,17 +148,98 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         // Sort the autocomplete dictionary
         [[self autocompleteDictionary] sortUsingSelector:@selector(caseInsensitiveCompare:)];
         
+        // Load scripts
+        I_scriptsByFilename = [NSMutableDictionary new];
+        NSString *scriptFolder = [[aBundle resourcePath] stringByAppendingPathComponent:@"Scripts"];
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSEnumerator *filenames = [[fm directoryContentsAtPath:scriptFolder] objectEnumerator];
+        NSString     *filename  = nil;
+        while ((filename=[filenames nextObject])) {
+            // skip hidden files and directory entries
+            if (![filename hasPrefix:@"."]) {
+                NSURL *fileURL=[NSURL fileURLWithPath:[scriptFolder stringByAppendingPathComponent:filename]];
+                ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:fileURL];
+                if (script) {
+                    [I_scriptsByFilename setObject:script forKey:[filename stringByDeletingPathExtension]];
+                }
+            }
+        }
+        
+        [I_scriptOrderArray release];
+         I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
+        
+        NSArray *searchLocations = [NSArray arrayWithObjects:I_bundle,[NSBundle mainBundle],nil];
+        I_menuItemArray = [NSMutableArray new];
+        I_contextMenuItemArray = [NSMutableArray new];
+        I_toolbarItemsByIdentifier     =[NSMutableDictionary new];
+        I_toolbarItemIdentifiers       =[NSMutableArray new];
+        I_defaultToolbarItemIdentifiers=[NSMutableArray new];
+        int i=0;
+        for (i=0;i<[I_scriptOrderArray count];i++) {
+            NSString *filename = [I_scriptOrderArray objectAtIndex:i];
+            ScriptWrapper *script = [I_scriptsByFilename objectForKey:filename];
+            NSDictionary *settingsDictionary = [script settingsDictionary];
+            NSString *displayName = filename;
+            if (settingsDictionary && [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey]) {
+                displayName = [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey];
+            }
+            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:displayName
+                                                          action:@selector(performScriptAction:) 
+                                                   keyEquivalent:@""];
+            if (settingsDictionary) {
+                [item setKeyEquivalentBySettingsString:[settingsDictionary objectForKey:ScriptWrapperKeyboardShortcutSettingsKey]];
+                if ([[[settingsDictionary objectForKey:ScriptWrapperInContextMenuSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
+                    [I_contextMenuItemArray addObject:item];
+                }
+            }
+            [item setTarget:script];
+            [I_menuItemArray addObject:[item autorelease]];
+
+            NSToolbarItem *toolbarItem=[script toolbarItemWithImageSearchLocations:searchLocations identifierAddition:[self documentModeIdentifier]];
+            if (toolbarItem) {
+                [I_toolbarItemsByIdentifier setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
+                [I_toolbarItemIdentifiers  addObject:[toolbarItem itemIdentifier]];
+                if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
+                    [I_defaultToolbarItemIdentifiers addObject:[toolbarItem itemIdentifier]];
+                }
+            }
+        }
+
+        // ToolbarHandling
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *toolbarDefaultKey=[NSString stringWithFormat:@"NSToolbar Configuration %@",[self documentModeIdentifier]];
+        if (![defaults objectForKey:toolbarDefaultKey]) {
+            NSDictionary *oldDefaultToolbar=[defaults objectForKey:@"NSToolbar Configuration " BASEMODEIDENTIFIER];
+            if (!oldDefaultToolbar) {
+                oldDefaultToolbar = [defaults objectForKey:@"NSToolbar Configuration PlainTextWindowToolbarIdentifier"];
+            }
+            if (oldDefaultToolbar) {
+                NSMutableDictionary *newModeToolbar=[NSMutableDictionary dictionaryWithDictionary:oldDefaultToolbar];
+                NSMutableArray *shownItemIdentifiers=[NSMutableArray arrayWithArray:[newModeToolbar objectForKey:@"TB Item Identifiers"]];
+                NSEnumerator *itemIdentifiers=[[[AppController sharedInstance] toolbarDefaultItemIdentifiers:nil] objectEnumerator];
+                NSString     *itemIdentifier = nil;
+                while ((itemIdentifier=[itemIdentifiers nextObject])) {
+                    if (![shownItemIdentifiers containsObject:itemIdentifier]) {
+                        [shownItemIdentifiers addObject:itemIdentifier];
+                    }
+                }
+                itemIdentifiers=[I_defaultToolbarItemIdentifiers objectEnumerator];
+                itemIdentifier = nil;
+                while ((itemIdentifier=[itemIdentifiers nextObject])) {
+                    if (![shownItemIdentifiers containsObject:itemIdentifier]) {
+                        [shownItemIdentifiers addObject:itemIdentifier];
+                    }
+                }
+                [newModeToolbar setObject:shownItemIdentifiers forKey:@"TB Item Identifiers"];
+                [defaults setObject:newModeToolbar forKey:toolbarDefaultKey];
+            }
+        }
+        
+        // Preference Handling
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-        NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[[self bundle] bundleIdentifier]] mutableCopy] autorelease];
+        NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[self documentModeIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
             // color is depricated since 2.1 - so ignore it
-//            NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
-//            NSColor *color=[transformer transformedValue:[dictionary objectForKey:DocumentModeForegroundColorPreferenceKey]];
-//            if (!color) color=[NSColor blackColor];
-//            [dictionary setObject:color forKey:DocumentModeForegroundColorPreferenceKey];
-//            color=[transformer transformedValue:[dictionary objectForKey:DocumentModeBackgroundColorPreferenceKey]];
-//            if (!color) color=[NSColor whiteColor];
-//            [dictionary setObject:color forKey:DocumentModeBackgroundColorPreferenceKey];
             [self setDefaults:dictionary];
             NSNumber *encodingNumber = [dictionary objectForKey:DocumentModeEncodingPreferenceKey];
             if (encodingNumber) {
@@ -173,6 +265,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeShowMatchingBracketsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeWrapLinesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeIndentNewLinesPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeUseTabsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:DocumentModeWrapModeWords] forKey:DocumentModeWrapModePreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:LineEndingLF] forKey:DocumentModeLineEndingPreferenceKey];
 
@@ -318,6 +411,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         }
 
         [self setSyntaxStyle:style];
+        [style release];
         
         [I_defaults addObserver:self
                      forKeyPath:DocumentModeEncodingPreferenceKey
@@ -329,13 +423,23 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [I_menuItemArray release];
+    [I_contextMenuItemArray release];
+    [I_scriptOrderArray release];
+    [I_scriptsByFilename release];
+    [I_toolbarItemIdentifiers release];
+    [I_toolbarItemsByIdentifier release];
+    [I_defaultToolbarItemIdentifiers release];
+
     [I_defaults release];
     [I_syntaxHighlighter release];
+    [I_syntaxDefinition release];
     [I_symbolParser release];
     [I_autocompleteDictionary release];
     [I_bundle release];
     [I_syntaxStyle release];
     [I_defaultSyntaxStyle release];
+    [I_modeSettings release];
     [super dealloc];
 }
 
@@ -352,9 +456,26 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (NSArray *)recognizedExtensions {
-    return [[I_bundle infoDictionary] objectForKey:@"TCMModeExtensions"];
+    if (I_modeSettings) {
+        return [I_modeSettings recognizedExtensions];
+    } else {
+        CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)[I_bundle bundlePath], kCFURLPOSIXPathStyle, 1);
+        CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
+        NSDictionary *infoDictionary = (NSDictionary *) infodict;
+        NSArray *returnArray = [[[infoDictionary objectForKey:@"TCMModeExtensions"] copy] autorelease];
+        CFRelease(url);
+        CFRelease(infodict);
+        return returnArray;
+    }
 }
 
+- (ModeSettings *)modeSettings {
+    return I_modeSettings;
+}
+
+- (SyntaxDefinition *)syntaxDefinition {
+    return I_syntaxDefinition;
+}
 
 - (SyntaxHighlighter *)syntaxHighlighter {
     return I_syntaxHighlighter;
@@ -369,7 +490,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (NSString *)newFileContent {
-    NSString *templateFilename=[[I_bundle infoDictionary] objectForKey:@"TCMModeNewFileTemplate"];
+    NSString *templateFilename;
+    if (I_modeSettings) {
+        templateFilename=[I_modeSettings templateFile];
+    } else {
+        templateFilename=[[I_bundle infoDictionary] objectForKey:@"TCMModeNewFileTemplate"];
+    }
+
     if (templateFilename) {
         NSString *templatePath=[I_bundle pathForResource:templateFilename ofType:nil];
         if (templatePath) {
@@ -407,6 +534,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         NSString *defaultKey=[defaultablePreferenceKeys objectForKey:aKey];
         if (!defaultKey || ![[I_defaults objectForKey:defaultKey] boolValue]) {
             id result=[I_defaults objectForKey:aKey];
+            if (result) {
+            	return result;
+            } else {
+            	result = [defaultDefaults objectForKey:aKey];
+            	if (result) [I_defaults setObject:result forKey:aKey];
+            	return result;
+            }
             return result?result:[defaultDefaults objectForKey:aKey];
         }
     }
@@ -441,7 +575,20 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 //    [defaults setObject:data forKey:DocumentModeBackgroundColorPreferenceKey];
     [defaults setObject:[[self syntaxStyle] defaultsDictionary] forKey:DocumentModeSyntaxStylePreferenceKey];
     [[NSUserDefaults standardUserDefaults] setObject:defaults forKey:[[self bundle] bundleIdentifier]];
+    [defaults release];
 }
+
+#pragma mark -
+#pragma mark ### Script Handling ###
+
+- (NSArray *)scriptMenuItemArray {
+    return (NSArray *)I_menuItemArray;
+}
+
+- (NSArray *)contextMenuItemArray {
+    return (NSArray *)I_contextMenuItemArray;
+}
+
 
 #pragma mark -
 #pragma mark ### Notification Handling ###
@@ -463,6 +610,60 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [[EncodingManager sharedInstance] registerEncoding:[newEncodingNumber unsignedIntValue]];
         }
     }
+}
+
+#pragma mark -
+#pragma mark ### Toolbar ###
+
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)willBeInserted {
+    return [[[I_toolbarItemsByIdentifier objectForKey:itemIdentifier] copy] autorelease];
+}
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
+    return I_defaultToolbarItemIdentifiers;
+}
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
+    return I_toolbarItemIdentifiers;
+}
+
+#pragma mark -
+#pragma mark ### Scripting ###
+
++ (id)coerceValue:(id)value toClass:(Class)toClass {
+    if ([value isKindOfClass:[DocumentMode class]] && [toClass isSubclassOfClass:[NSString class]]) {
+        return [value documentModeIdentifier];
+    } else {
+        return nil;
+    }
+}
+
+- (NSScriptObjectSpecifier *)objectSpecifier {
+    NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
+
+    // We can either return a name or a uniqueID specifier.
+    /*
+    return [[[NSNameSpecifier alloc] initWithContainerClassDescription:containerClassDesc
+                                                    containerSpecifier:nil 
+                                                                   key:@"scriptedModes"
+                                                                  name:[self scriptedName]] autorelease];
+    */
+    return [[[NSUniqueIDSpecifier alloc] initWithContainerClassDescription:containerClassDesc
+                                                        containerSpecifier:nil
+                                                                       key:@"scriptedModes"
+                                                                  uniqueID:[self documentModeIdentifier]] autorelease];
+}
+
+- (NSString *)scriptedResourcePath {
+    return [[self bundle] resourcePath];
+}
+
+- (NSString *)scriptedName {
+    NSString *identifier = [self documentModeIdentifier];
+    if ([identifier hasPrefix:@"SEEMode."] && [identifier length] > 8) {
+        return [identifier substringFromIndex:8];
+    }
+    return identifier;
 }
 
 @end

@@ -33,6 +33,12 @@
     // Initialize user interface elements to reflect current preference settings
     [O_encodingPopUpButton setEncoding:NoStringEncoding defaultEntry:YES modeEntry:NO lossyEncodings:nil];
     [self changeMode:O_modePopUpButton];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
+    
+}
+
+- (void)documentModeListChanged:(NSNotification *)aNotification {
+    [self performSelector:@selector(changeMode:) withObject:O_modePopUpButton afterDelay:.2];
 }
 
 - (IBAction)validateDefaultsState:(id)aSender {

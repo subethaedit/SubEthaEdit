@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import "DocumentController.h"
@@ -17,6 +17,8 @@
 #import "TCMPreferenceModule.h"
 #import "StylePreferences.h"
 #import "TextStorage.h"
+#import "NSSavePanelTCMAdditions.h"
+#import "MoreSecurity.h"
 
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
@@ -48,6 +50,7 @@
     return self;
 }
 
+// actually never gets called - as any other top level nib object isn't dealloced...
 - (void)dealloc {
     [I_modeIdentifierFromLastRunOpenPanel release];
     [I_fileNamesFromLastRunOpenPanel release];
@@ -86,12 +89,20 @@
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
 }
 
+- (IBAction)showHiddenFiles:(id)sender {
+    BOOL flag = ([sender state] == NSOffState) ? NO : YES;
+    if ([I_openPanel canShowHiddenFiles]) {
+        [I_openPanel setInternalShowsHiddenFiles:flag];
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
+}
+
 - (int)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions {
     if (![NSBundle loadNibNamed:@"OpenPanelAccessory" owner:self])  {
         NSLog(@"Failed to load OpenPanelAccessory.nib");
         return nil;
     }
-    
+        
     [O_modePopUpButton setHasAutomaticMode:YES];
     [O_modePopUpButton setSelectedModeIdentifier:AUTOMATICMODEIDENTIFIER];
     [O_encodingPopUpButton setEncoding:ModeStringEncoding defaultEntry:YES modeEntry:YES lossyEncodings:nil];
@@ -102,6 +113,14 @@
     BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
     [openPanel setTreatsFilePackagesAsDirectories:flag];
     [O_goIntoBundlesCheckbox setState:flag ? NSOnState : NSOffState];
+    
+    if ([openPanel canShowHiddenFiles]) {
+        flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
+        [openPanel setInternalShowsHiddenFiles:flag];
+        [O_showHiddenFilesCheckbox setState:flag ? NSOnState : NSOffState];
+    } else {
+        [O_showHiddenFilesCheckbox setHidden:YES];
+    }
     
     I_openPanel = openPanel;
     int result = [super runModalOpenPanel:openPanel forTypes:extensions];
@@ -165,6 +184,16 @@
     return [I_propertiesForOpenedFiles objectForKey:fileName];
 }
 
+- (BOOL)fileManager:(NSFileManager *)manager shouldProceedAfterError:(NSDictionary *)errorInfo {
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"File operation error: %@ with file: %@", nil), [errorInfo objectForKey:@"Error"], [errorInfo objectForKey:@"Path"]]];
+    //[alert setInformativeText:NSLocalizedString(@"ConvertOrReinterpret", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+    (void)[alert runModal];
+    return YES;
+}
+
 - (id)openDocumentWithContentsOfFile:(NSString *)fileName display:(BOOL)flag {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
     
@@ -172,8 +201,202 @@
     NSString *extension = [fileName pathExtension];
     if (isFilePackage && [extension isEqualToString:@"mode"]) {
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"User tries to open a mode file");
-        [O_modeHintPanel center];
-        [O_modeHintPanel makeKeyAndOrderFront:self];
+
+        NSBundle *modeBundle = [NSBundle bundleWithPath:fileName];
+        NSString *versionString = [modeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+        NSString *name = [NSString stringWithFormat:@"%@ (%@)", [fileName lastPathComponent], versionString];
+        [O_modeInstallerMessageTextField setObjectValue:[NSString stringWithFormat:NSLocalizedString(@"Do you want to install the mode \"%@\"?", nil), name]];
+        [O_modeInstallerDomainMatrix selectCellAtRow:0 column:0];
+        
+        NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+        DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
+        if (mode) {
+            NSBundle *installedModeBundle = [mode bundle];
+            NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+            NSString *installedModeFileName = [installedModeBundle bundlePath];
+            
+            OSErr err = noErr;
+            FSRef folderRef;
+            NSString *userDomainPath = nil;
+            NSString *localDomainPath = nil;
+            NSString *networkDomainPath = nil;
+            
+            err = FSFindFolder(kUserDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
+            if (err == noErr)
+                userDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
+
+            err = FSFindFolder(kLocalDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
+            if (err == noErr)
+                localDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
+                
+            err = FSFindFolder(kNetworkDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
+            if (err == noErr)
+                networkDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
+                
+            short domain;
+            BOOL isKnownDomain = YES;
+            if (userDomainPath != nil && [installedModeFileName hasPrefix:userDomainPath]) {
+                domain = kUserDomain;
+            } else if (localDomainPath != nil && [installedModeFileName hasPrefix:localDomainPath]) {
+                domain = kLocalDomain;
+            } else if (networkDomainPath != nil && [installedModeFileName hasPrefix:networkDomainPath]) {
+                domain = kNetworkDomain;
+            } else {
+                isKnownDomain = NO;
+            }
+            
+            NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
+            NSString *informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
+
+            if (!isKnownDomain || domain == kNetworkDomain || domain == kLocalDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
+            } else if (domain == kUserDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
+            }
+
+            [O_modeInstallerInformativeTextField setObjectValue:informativeText];
+        } else {
+            [O_modeInstallerInformativeTextField setObjectValue:@""];
+        }
+        
+        I_currentModeFileName = fileName;
+        int result = [NSApp runModalForWindow:O_modeInstallerPanel];
+        [O_modeInstallerPanel orderOut:self];
+        I_currentModeFileName = nil;
+        if (result == NSRunStoppedResponse) {
+            BOOL success = NO;
+        
+            short domain;
+            int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
+            if (tag == 0) {
+                domain = kUserDomain;
+            } else if (tag == 1) {
+                domain = kLocalDomain;
+            }
+            
+            // Determine destination path and copy mode package
+            OSErr err = noErr;
+            FSRef folderRef;
+            err = FSFindFolder(domain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
+            if (err == noErr) {
+                CFURLRef appSupportURL = CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef);
+                NSString *destination = [(NSURL *)appSupportURL path];
+                destination = [destination stringByAppendingPathComponent:@"SubEthaEdit"];
+                destination = [destination stringByAppendingPathComponent:@"Modes"];
+                destination = [destination stringByAppendingPathComponent:[fileName lastPathComponent]];
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode installation path: %@", destination);
+                
+                if (![fileName isEqualToString:destination]) {
+                    if (domain == kUserDomain) {
+                        NSFileManager *fileManager = [NSFileManager defaultManager];
+                        if ([fileManager fileExistsAtPath:destination]) {
+                            (void)[fileManager removeFileAtPath:destination handler:self];
+                        }
+                        success = [fileManager copyPath:fileName toPath:destination handler:self];
+                    } else {
+                        OSStatus err;
+                        CFURLRef tool = NULL;
+                        AuthorizationRef auth = NULL;
+                        NSDictionary *request = nil;
+                        NSDictionary *response = nil;
+                        BOOL result = NO;
+
+
+                        err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+                        if (err == noErr) {
+                            static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+                            static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
+                                                                       | kAuthorizationFlagInteractionAllowed
+                                                                       | kAuthorizationFlagExtendRights
+                                                                       | kAuthorizationFlagPreAuthorize;
+                            AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+                            AuthorizationRights rights = { 1, &right };
+
+                            err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+                        }
+                        
+                        if (err == noErr) {
+                            err = MoreSecCopyHelperToolURLAndCheckBundled(
+                                CFBundleGetMainBundle(), 
+                                CFSTR("SubEthaEditHelperToolTemplate"), 
+                                kApplicationSupportFolderType, 
+                                CFSTR("SubEthaEdit"), 
+                                CFSTR("SubEthaEditHelperTool"), 
+                                &tool);
+
+                            // If the home directory is on an volume that doesn't support 
+                            // setuid root helper tools, ask the user whether they want to use 
+                            // a temporary tool.
+                            
+                            if (err == kMoreSecFolderInappropriateErr) {
+                                err = MoreSecCopyHelperToolURLAndCheckBundled(
+                                    CFBundleGetMainBundle(), 
+                                    CFSTR("SubEthaEditHelperToolTemplate"), 
+                                    kTemporaryFolderType, 
+                                    CFSTR("SubEthaEdit"), 
+                                    CFSTR("SubEthaEditHelperTool"), 
+                                    &tool);
+                            }
+                        }
+
+                        // Create the request dictionary for copying the mode
+
+                        if (err == noErr) {
+                            request = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                @"CopyFiles", @"CommandName",
+                                                fileName, @"SourceFile",
+                                                destination, @"TargetFile",
+                                                //targetAttrs, @"TargetAttributes",
+                                                nil];
+                        }
+
+                        // Go go gadget helper tool!
+
+                        if (err == noErr) {
+                            err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+                        }
+                        
+                        // Extract information from the response.
+                        
+                        if (err == noErr) {
+                            //NSLog(@"response: %@", response);
+
+                            err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+                            if (err == noErr) {
+                                result = YES;
+                                success = YES;
+                            }
+                        }
+                        
+                        // Clean up after second call of helper tool.
+                        if (response) {
+                            [response release];
+                        }
+
+
+                        CFQRelease(tool);
+                        if (auth != NULL) {
+                            (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+                        }
+                    }
+                } else {
+                    success = YES;
+                }
+            }
+            
+            [[DocumentModeManager sharedInstance] reloadDocumentModes:self];
+            
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert setAlertStyle:NSInformationalAlertStyle];
+            if (success) {
+                [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name]];       
+            } else {
+                [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Installation of mode \"%@\" failed.", nil), name]];
+            }
+            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+            (void)[alert runModal];
+            [alert release];
+        }
         return nil;
     }
     
@@ -182,6 +405,64 @@
         [(PlainTextDocument *)document handleOpenDocumentEvent];
     }
     return document;
+}
+
+- (IBAction)installMode:(id)sender {
+    [NSApp stopModal];
+}
+
+- (IBAction)changeModeInstallationDomain:(id)sender {
+    int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
+    NSString *informativeText = @"";
+    NSBundle *modeBundle = [NSBundle bundleWithPath:I_currentModeFileName];
+    NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+    DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
+    if (mode) {
+        NSBundle *installedModeBundle = [mode bundle];
+        NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+        NSString *installedModeFileName = [installedModeBundle bundlePath];
+        NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
+        informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
+        
+        short domain;
+        BOOL isKnownDomain = YES;
+        if ([installedModeFileName hasPrefix:@"/Users/"]) {
+            domain = kUserDomain;
+        } else if ([installedModeFileName hasPrefix:@"/Library/"]) {
+            domain = kLocalDomain;
+        } else if ([installedModeFileName hasPrefix:@"/Network/"]) {
+            domain = kNetworkDomain;
+        } else {
+            isKnownDomain = NO;
+        }
+
+        if (tag == 0) {
+            if (!isKnownDomain || domain == kNetworkDomain || domain == kLocalDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
+            } else if (domain == kUserDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
+            }
+        } else if (tag == 1) {
+            if (!isKnownDomain || domain == kNetworkDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
+            } else if (domain == kLocalDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
+            } else if (domain == kUserDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"The installed mode will override your new mode.", nil)];
+            }
+        }
+    }
+    
+    if (tag == 1) { 
+        if ([informativeText length] > 0)
+            informativeText = [informativeText stringByAppendingString:@" "];
+        informativeText = [informativeText stringByAppendingString:NSLocalizedString(@"When you click Install, you'll be asked to enter the name and password for an administrator of this computer.", nil)];
+    }
+    [O_modeInstallerInformativeTextField setObjectValue:informativeText];
+}
+
+- (IBAction)cancelModeInstallation:(id)sender {
+    [NSApp abortModal];
 }
 
 - (id)openUntitledDocumentOfType:(NSString *)docType display:(BOOL)display {
@@ -244,6 +525,15 @@ static NSString *tempFileName() {
     }
     
     [super removeDocument:document];
+    if ([[self documents] count]==0) {
+        NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
+        // remove all items that don't belong here anymore
+        int index = [modeMenu indexOfItemWithTag:HighlightSyntaxMenuTag];
+        index+=1; 
+        while (index < [modeMenu numberOfItems]) {
+            [modeMenu removeItemAtIndex:index];
+        }
+    }
 }
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command {
@@ -252,7 +542,7 @@ static NSString *tempFileName() {
     NSMutableDictionary *properties = [NSMutableDictionary dictionary];
 
     NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
-                                                    classDescriptionWithAppleEventCode:'pltd'];
+                                                    classDescriptionWithAppleEventCode:'docu'];
     
     NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];
     NSEnumerator *enumerator = [evaluatedProperties keyEnumerator];
@@ -261,7 +551,13 @@ static NSString *tempFileName() {
         if ([argumentKey isKindOfClass:[NSNumber class]]) {
             NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
             if (key) {
-                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                if ([argumentKey unsignedLongValue] == 'Mode') {
+                    // Workaround for see tool and older scripts which assume that the mode property is a string.
+                    // Properties aren't coerced automatically.
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:@"mode"];
+                } else {
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                }
             }
         } else if ([argumentKey isKindOfClass:[NSString class]]) {
             [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
@@ -273,7 +569,15 @@ static NSString *tempFileName() {
     NSMutableArray *files = [NSMutableArray array];
     id directParameter = [command directParameter];
     if ([directParameter isKindOfClass:[NSArray class]]) {
-        [files addObjectsFromArray:directParameter];
+        id file;
+        NSEnumerator *parameterEnumerator = [directParameter objectEnumerator];
+        while ((file = [parameterEnumerator nextObject])) {
+            if ([file isKindOfClass:[NSURL class]]) {
+                [files addObject:[file path]];
+            } else {
+                [files addObject:file];
+            }
+        }
     } else if ([directParameter isKindOfClass:[NSString class]]) {
         [files addObject:directParameter];
     } else if ([directParameter isKindOfClass:[NSURL class]]) {
@@ -308,7 +612,7 @@ static NSString *tempFileName() {
     NSMutableDictionary *properties = [NSMutableDictionary dictionary];
 
     NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
-                                                    classDescriptionWithAppleEventCode:'pltd'];
+                                                    classDescriptionWithAppleEventCode:'docu'];
     
     NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];
     NSEnumerator *enumerator = [evaluatedProperties keyEnumerator];
@@ -317,7 +621,13 @@ static NSString *tempFileName() {
         if ([argumentKey isKindOfClass:[NSNumber class]]) {
             NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
             if (key) {
-                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                if ([argumentKey unsignedLongValue] == 'Mode') {
+                    // Workaround for see tool and older scripts which assume that the mode property is a string.
+                    // Properties aren't coerced automatically.
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:@"mode"];
+                } else {
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                }
             }
         } else if ([argumentKey isKindOfClass:[NSString class]]) {
             [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
@@ -329,7 +639,15 @@ static NSString *tempFileName() {
     NSMutableArray *files = [NSMutableArray array];
     id directParameter = [command directParameter];
     if ([directParameter isKindOfClass:[NSArray class]]) {
-        [files addObjectsFromArray:directParameter];
+        id file;
+        NSEnumerator *parameterEnumerator = [directParameter objectEnumerator];
+        while ((file = [parameterEnumerator nextObject])) {
+            if ([file isKindOfClass:[NSURL class]]) {
+                [files addObject:[file path]];
+            } else {
+                [files addObject:file];
+            }
+        }
     } else if ([directParameter isKindOfClass:[NSString class]]) {
         [files addObject:directParameter];
     } else if ([directParameter isKindOfClass:[NSURL class]]) {
@@ -355,7 +673,7 @@ static NSString *tempFileName() {
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"command: %@", [command description]);
 
     NSScriptClassDescription *classDescription = [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] 
-                                                    classDescriptionWithAppleEventCode:'pltd'];
+                                                    classDescriptionWithAppleEventCode:'docu'];
     
     NSMutableDictionary *properties = [NSMutableDictionary dictionary];
     NSDictionary *evaluatedProperties = [[command evaluatedArguments] objectForKey:@"WithProperties"];
@@ -365,7 +683,13 @@ static NSString *tempFileName() {
         if ([argumentKey isKindOfClass:[NSNumber class]]) {
             NSString *key = [classDescription keyWithAppleEventCode:[argumentKey unsignedLongValue]];
             if (key) {
-                [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                if ([argumentKey unsignedLongValue] == 'Mode') {
+                    // Workaround for see tool and older scripts which assume that the mode property is a string.
+                    // Properties aren't coerced automatically.
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:@"mode"];
+                } else {
+                    [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:key];
+                }
             }
         } else if ([argumentKey isKindOfClass:[NSString class]]) {
             [properties setObject:[evaluatedProperties objectForKey:argumentKey] forKey:argumentKey];
@@ -486,6 +810,7 @@ static NSString *tempFileName() {
             
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
+            [(PlainTextDocument *)document resizeAccordingToDocumentMode];
             [document readFromFile:standardInputFile ofType:@"PlainTextType"];
             if (!pipeTitle) {
                 [(PlainTextDocument *)document setShouldChangeExtensionOnModeChange:YES];
@@ -494,6 +819,7 @@ static NSString *tempFileName() {
             if (pipeTitle && ![properties objectForKey:@"mode"]) {
                 DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[pipeTitle pathExtension]];
                 [(PlainTextDocument *)document setDocumentMode:mode];
+                [(PlainTextDocument *)document resizeAccordingToDocumentMode];
                 [(PlainTextDocument *)document setShouldSelectModeOnSave:NO];
             } else if (![properties objectForKey:@"mode"]) {
                 [(PlainTextDocument *)document setShouldSelectModeOnSave:YES];
@@ -535,9 +861,10 @@ static NSString *tempFileName() {
     DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
     NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
     if (identifier) {
-        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:NO];
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
         [document setDocumentMode:newMode];
+        [document showWindows];
         [document resizeAccordingToDocumentMode];
         NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         if (encoding < SmallestCustomStringEncoding) {

@@ -11,27 +11,14 @@
 http://www.paploo.net/~paploo
 Based on the original Coding Monkey's code</string>
     <key>CFBundleShortVersionString</key>
-	<string>2.3</string>
+	<string>2.5</string>
 	<key>CFBundleVersion</key>
-	<string>2.3</string>
+	<string>2.5</string>
     <key>CFBundleGetInfoString</key>
-	<string>2.3, Copyright Jeff Reinecke 2004, based on the original Ruby mode by The Coding Monkeys.</string>
+	<string>2.5, Copyright Jeff Reinecke 2004, based on the original Ruby mode by The Coding Monkeys.</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>rb</string>
-	   <string>ruby</string>
-	   <string>rbx</string>
-	   <string>rhtml</string>
-	   <string>rxml</string>
-	   <string>RB</string>
-	   <string>RUBY</string>
-	   <string>RBX</string>
-	   <string>RHTML</string>
-	   <string>RXML</string>
-	</array>
 </dict>
 </plist>

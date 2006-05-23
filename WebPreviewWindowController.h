@@ -36,6 +36,10 @@ extern int const kWebPreviewRefreshDelayed  ;
 - (void)setRefreshType:(int)aRefreshType;
 - (void)updateBaseURL;
 
+- (NSURL *)baseURL;
+- (void)setBaseURL:(NSURL *)aBaseURL;
+
+
 -(IBAction)refreshAndEmptyCache:(id)aSender;
 -(IBAction)refresh:(id)aSender;
 -(IBAction)changeRefreshType:(id)aSender;

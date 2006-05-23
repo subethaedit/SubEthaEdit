@@ -10,32 +10,14 @@
 	<string>© 2004 TheCodingMonkeys
 http://www.codingmonkeys.de</string>
     <key>CFBundleShortVersionString</key>
-	<string>1.3</string>
+	<string>1.4</string>
 	<key>CFBundleVersion</key>
-	<string>1.3</string>
+	<string>1.4</string>
     <key>CFBundleGetInfoString</key>
-	<string>1.3, Copyright TheCodingMonkeys 2004</string>
+	<string>1.4, Copyright TheCodingMonkeys 2004</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-	   <string>cpp</string>
-	   <string>c++</string>
-	   <string>cp</string>
-	   <string>cxx</string>
-	   <string>hxx</string>
-	   <string>hpp</string>
-	   <string>C</string>
-	   <string>cc</string>
-	   <string>CPP</string>
-	   <string>C++</string>
-	   <string>CP</string>
-	   <string>CXX</string>
-	   <string>HXX</string>
-	   <string>HPP</string>
-	   <string>CC</string>
-	</array>
 </dict>
 </plist>

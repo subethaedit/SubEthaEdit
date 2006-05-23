@@ -30,8 +30,9 @@
 #import "AppController.h"
 #import "InsetTextFieldCell.h"
 #import <OgreKit/OgreKit.h>
-#import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
+#import "ScriptTextSelection.h"
+#import "NSMenuTCMAdditions.h"
 
 @interface NSTextView (PrivateAdditions)
 - (BOOL)_isUnmarking;
@@ -409,12 +410,23 @@
     NSSize result;
     NSFont *font=[[self document] fontWithTrait:0];
     float characterWidth=[font widthOfString:@"n"];
-    result.width = characterWidth*aColumns + [[I_textView textContainer] lineFragmentPadding]*2 + [I_textView textContainerInset].width*2 + ([O_editorView bounds].size.width - [I_textView bounds].size.width);
+    result.width = characterWidth*aColumns + [[I_textView textContainer] lineFragmentPadding]*2 + [I_textView textContainerInset].width*2 + ([O_editorView bounds].size.width - [[I_textView enclosingScrollView] contentSize].width);
     result.height = [font defaultLineHeightForFont]*aRows +
-                    ([self showsBottomStatusBar]?18.:0) +
-                    ([self showsTopStatusBar]?18.:0) +
-                    [I_textView textContainerInset].height * 2;
+                    [I_textView textContainerInset].height * 2 +
+                    ([O_editorView bounds].size.height - [[I_textView enclosingScrollView] contentSize].height);
     return result;
+}
+
+- (int)displayedRows {
+    NSFont *font=[[self document] fontWithTrait:0];
+    return (int)(([[I_textView enclosingScrollView] contentSize].height-[I_textView textContainerInset].height*2)/[font defaultLineHeightForFont]);
+}
+
+- (int)displayedColumns {
+    PlainTextDocument *document=[self document];
+    NSFont *font=[document fontWithTrait:0];
+    float characterWidth=[font widthOfString:@"n"];
+    return (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
 }
 
 - (void)TCM_updateBottomStatusBar {
@@ -425,9 +437,7 @@
 
         [O_encodingPopUpButton selectItemAtIndex:[O_encodingPopUpButton indexOfItemWithTag:[document fileEncoding]]];
 
-        NSFont *font=[document fontWithTrait:0];
-        float characterWidth=[font widthOfString:@"n"];
-        int charactersPerLine = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
+        int charactersPerLine = [self displayedColumns];
         [O_windowWidthTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"WindowWidth%d%@",@"WindowWidthArangementString"),charactersPerLine,[O_scrollView hasHorizontalScroller]?@"":([document wrapMode]==DocumentModeWrapModeCharacters?NSLocalizedString(@"CharacterWrap",@"As shown in bottom status bar"):NSLocalizedString(@"WordWrap",@"As shown in bottom status bar"))]];
 
         [O_lineEndingPopUpButton selectItemAtIndex:[O_lineEndingPopUpButton indexOfItemWithTag:[document lineEnding]]];
@@ -1202,6 +1212,18 @@
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
 
+- (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu {
+    NSMenu *scriptMenu = [[aContextMenu itemWithTag:12345] submenu];
+    [scriptMenu removeAllItems];
+    PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
+    [document fillScriptsIntoContextMenu:scriptMenu];
+    if ([scriptMenu numberOfItems] == 0) {
+        [[aContextMenu itemWithTag:12345] setEnabled:NO];
+    } else {
+        [[aContextMenu itemWithTag:12345] setEnabled:YES];
+    }
+}
+
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
     PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
     if (![document isRemotelyEditingTextStorage]) {
@@ -1265,6 +1287,54 @@
         return NO;
     } else {
         [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] typingAttributes]];
+    }
+    
+    if ([(TextView *)aTextView isPasting] && ![(TextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
+        unsigned length = [replacementString length];
+        unsigned curPos = 0;
+        unsigned startIndex, endIndex, contentsEndIndex;
+        NSString *lineEndingString = [document lineEndingString];
+        unsigned lineEndingStringLength = [lineEndingString length];
+        unichar *lineEndingBuffer = NSZoneMalloc(NULL, sizeof(unichar) * lineEndingStringLength);
+        [lineEndingString getCharacters:lineEndingBuffer];
+        BOOL isLineEndingValid = YES;
+        
+        while (curPos < length) {
+            [replacementString getLineStart:&startIndex end:&endIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(curPos, 0)];
+            if ((contentsEndIndex + lineEndingStringLength) <= length) {
+                unsigned i;
+                for (i = 0; i < lineEndingStringLength; i++) {
+                    if ([replacementString characterAtIndex:contentsEndIndex + i] != lineEndingBuffer[i]) {
+                        isLineEndingValid = NO;
+                        break;
+                    }
+                }            
+            }
+            curPos = endIndex;
+        }
+        
+        NSZoneFree(NSZoneFromPointer(lineEndingBuffer), lineEndingBuffer);
+        
+        if (!isLineEndingValid) {
+            NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
+            [contextInfo setObject:@"PasteWrongLineEndingsAlert" forKey:@"Alert"];
+            [contextInfo setObject:aTextView forKey:@"TextView"];
+            [contextInfo setObject:[[replacementString copy] autorelease] forKey:@"ReplacementString"];
+            [contextInfo autorelease];
+            
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:NSLocalizedString(@"You are pasting text that does not match the file's current line endings. Do you want to paste the text with converted line endings?", nil)];
+            [alert setInformativeText:NSLocalizedString(@"The file will have mixed line endings if you do not paste converted text.", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Paste Converted", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Paste Unchanged", nil)];
+            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+            [alert beginSheetModalForWindow:[aTextView window]
+                              modalDelegate:document
+                             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                                contextInfo:[contextInfo retain]];
+            return NO;
+        }
     }
 
     return [document textView:aTextView shouldChangeTextInRange:affectedCharRange replacementString:replacementString];
@@ -1335,6 +1405,7 @@
         [self setWrapsLines:[[self document] wrapLines]];
     }
     [self TCM_updateBottomStatusBar];
+    [I_textView setNeedsDisplay:YES]; // because the change could have involved line endings
 }
 
 - (void)plainTextDocumentDidChangeSymbols:(NSNotification *)aNotification {
@@ -1441,7 +1512,7 @@
     }
 
     // add the originally suggested words
-    if ([[[documentMode syntaxHighlighter] syntaxDefinition] useSpellingDictionary]) {
+    if ([[documentMode syntaxDefinition] useSpellingDictionary]) {
         NSEnumerator *enumerator = [words objectEnumerator];
         id word;
         while (word = [enumerator nextObject]) {
@@ -1478,3 +1549,33 @@
 }
 
 @end
+
+
+@implementation PlainTextEditor (PlainTextEditorScriptingAdditions)
+- (id)scriptSelection {
+    return [ScriptTextSelection scriptTextSelectionWithTextStorage:(TextStorage *)[[self textView] textStorage] editor:self];
+}
+
+- (void)setScriptSelection:(id)selection {
+    //NSLog(@"%s %@",__FUNCTION__,[selection debugDescription]);
+    NSTextView *textView = [self textView];
+    unsigned length = [[textView textStorage] length];
+    if ([selection isKindOfClass:[NSArray class]] && [selection count] == 2) {
+        int startIndex = [[selection objectAtIndex:0] intValue];
+        int endIndex = [[selection objectAtIndex:1] intValue];
+        
+        if (startIndex > 0 && startIndex <= length && endIndex >= startIndex && endIndex <= length)
+            [textView setSelectedRange:NSMakeRange(startIndex - 1, endIndex - startIndex + 1)];
+    } else if ([selection isKindOfClass:[NSNumber class]]) {
+        int insertionPointIndex = [selection intValue]-1;
+        insertionPointIndex = MAX(insertionPointIndex,0);
+        insertionPointIndex = MIN(insertionPointIndex,length);
+        [textView setSelectedRange:NSMakeRange(insertionPointIndex,0)];
+    } else if ([selection isKindOfClass:[ScriptTextBase class]] || [selection isKindOfClass:[TextStorage class]]) {
+        NSRange newRange=RangeConfinedToRange([selection rangeRepresentation], NSMakeRange(0,length));
+        [textView setSelectedRange:newRange];
+    }
+}
+
+@end
+

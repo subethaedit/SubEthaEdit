@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 #define kKAHL 'KAHL'
 #define kMOD 'MOD '
 #define SUBETHAEDIT_DEFAULT_PORT 6942
@@ -28,15 +27,32 @@ extern int const FormatMenuTag ;
 extern int const FontMenuItemTag ;
 extern int const FileEncodingsMenuItemTag ;
 extern int const WindowMenuTag ;
+extern int const ModeMenuTag ;
+extern int const SwitchModeMenuTag ;
+extern int const HighlightSyntaxMenuTag ;
+extern int const ScriptMenuTag;
 
+extern NSString * const GlobalScriptsDidReloadNotification;
 
 @interface AppController : NSObject {
     BOOL I_lastShouldOpenUntitledFile;
+    NSMutableDictionary *I_scriptsByFilename;
+    NSMutableDictionary *I_scriptSettingsByFilename;
+    NSMutableArray      *I_scriptOrderArray;
+    NSMutableDictionary *I_toolbarItemsByIdentifier;
+    NSMutableArray      *I_toolbarItemIdentifiers;
+    NSMutableArray      *I_defaultToolbarItemIdentifiers;
+    NSMutableArray      *I_contextMenuItemArray;
+    
+    IBOutlet NSTextView *O_licenseTextView;
+    IBOutlet NSWindow *O_licenseWindow;
 }
 
 + (AppController *)sharedInstance;
 
 - (BOOL)lastShouldOpenUntitledFile;
+
+- (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary;
 
 - (IBAction)undo:(id)aSender;
 - (IBAction)redo:(id)aSender;
@@ -44,12 +60,15 @@ extern int const WindowMenuTag ;
 - (IBAction)purchaseSubEthaEdit:(id)sender;
 - (IBAction)enterSerialNumber:(id)sender;
 
-- (IBAction)showLicense:(id)sender;
+- (IBAction)reloadDocumentModes:(id)aSender;
+
 - (IBAction)showAcknowledgements:(id)sender;
 - (IBAction)showRegExHelp:(id)sender;
 - (IBAction)showReleaseNotes:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
 - (IBAction)reportBug:(id)sender;
 - (IBAction)provideFeedback:(id)sender;
+
+- (NSArray *)contextMenuItemArray;
 
 @end
