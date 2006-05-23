@@ -3,6 +3,7 @@ use strict;
 
 my $data = join "",<STDIN>;
 $data =~ s/[\n\r]/ /g;          # throw out line breaks
+$data =~ s/\A[^<]//g;           # filter all characters up to first tag
 $data =~ s/<!--.*?-->//g;       # strip comments
 $data =~ s/(?<=>)[^<]*//g;      # remove everthing that's not a tag
 $data =~ s/ .*?(\/?) *>/\1>/g;  # remove attributes
