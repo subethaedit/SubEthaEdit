@@ -215,13 +215,31 @@
             NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
             NSString *installedModeFileName = [installedModeBundle bundlePath];
             
+            OSErr err = noErr;
+            FSRef folderRef;
+            NSString *userDomainPath = nil;
+            NSString *localDomainPath = nil;
+            NSString *networkDomainPath = nil;
+            
+            err = FSFindFolder(kUserDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
+            if (err == noErr)
+                userDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
+
+            err = FSFindFolder(kLocalDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
+            if (err == noErr)
+                localDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
+                
+            err = FSFindFolder(kNetworkDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
+            if (err == noErr)
+                networkDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
+                
             short domain;
             BOOL isKnownDomain = YES;
-            if ([installedModeFileName hasPrefix:@"/Users/"]) {
+            if (userDomainPath != nil && [installedModeFileName hasPrefix:userDomainPath]) {
                 domain = kUserDomain;
-            } else if ([installedModeFileName hasPrefix:@"/Library/"]) {
+            } else if (localDomainPath != nil && [installedModeFileName hasPrefix:localDomainPath]) {
                 domain = kLocalDomain;
-            } else if ([installedModeFileName hasPrefix:@"/Network/"]) {
+            } else if (networkDomainPath != nil && [installedModeFileName hasPrefix:networkDomainPath]) {
                 domain = kNetworkDomain;
             } else {
                 isKnownDomain = NO;
