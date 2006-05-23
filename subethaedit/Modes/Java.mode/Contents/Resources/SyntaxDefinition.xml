@@ -1907,7 +1907,7 @@
         </state>
 
         <state id="JavadocComment" color="#236E25" background-color="none"  font-style="italic">
-            <begin><regex>/\*\*(?=[\n\r])</regex></begin>
+            <begin><regex>/\*\*</regex></begin>
             <end><regex>\*/</regex></end>
             <keywords id="JavadocTags" color="#236E25" font-weight="bold" useforautocomplete="no">
 				<regex>(?&lt;=[^\w\d]|^)(@\w+)</regex>
