@@ -13,9 +13,6 @@
 			buildPhases = (
 				14E573B80964761F00DB50C3 /* ShellScript */,
 			);
-			buildSettings = {
-				PRODUCT_NAME = Versioning;
-			};
 			dependencies = (
 			);
 			name = Versioning;
@@ -306,21 +303,6 @@
 			script = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\nsed \"s/#PLACEHOLDER#/$REV/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
 		};
 /* End PBXBuildRule section */
-
-/* Begin PBXBuildStyle section */
-		4A9504D0FFE6A4CB11CA0CBA /* Debug */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		4A9504D1FFE6A4CB11CA0CBA /* Release */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-			};
-			name = Release;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
 		142894C10957611D00D14688 /* PBXContainerItemProxy */ = {
@@ -1550,9 +1532,6 @@
 			buildConfigurationList = 14289819095818E200D14688 /* Build configuration list for PBXLegacyTarget "Create Disk Image" */;
 			buildPhases = (
 			);
-			buildSettings = {
-				PRODUCT_NAME = "Create Disk Image";
-			};
 			buildToolPath = /bin/sh;
 			buildWorkingDirectory = "";
 			dependencies = (
@@ -1574,14 +1553,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = HelperTool;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = HelperTool;
@@ -1599,14 +1570,6 @@
 			buildRules = (
 				142894EC095767E000D14688 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = see;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = see;
@@ -1623,22 +1586,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = SystemVersionCheck;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = SystemVersionCheck;
@@ -1661,8 +1608,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-			};
 			dependencies = (
 				142894C20957611D00D14688 /* PBXTargetDependency */,
 				142894FC0957685A00D14688 /* PBXTargetDependency */,
@@ -1682,12 +1627,6 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "SubEthaEdit" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4A9504D0FFE6A4CB11CA0CBA /* Debug */,
-				4A9504D1FFE6A4CB11CA0CBA /* Release */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */;
 			projectDirPath = "";
@@ -2406,9 +2345,7 @@
 					ppc,
 					i386,
 				);
-				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
@@ -2440,9 +2377,7 @@
 					ppc,
 					i386,
 				);
-				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
@@ -2475,111 +2410,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Release;
-		};
-		145047620997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = SubEthaEditHelperToolTemplate;
-				ZERO_LINK = NO;
-			};
-			name = Unstripped;
-		};
-		145047630997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = see;
-				ZERO_LINK = NO;
-			};
-			name = Unstripped;
-		};
-		145047640997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = Versioning;
-				ZERO_LINK = NO;
-			};
-			name = Unstripped;
-		};
-		145047650997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
-				GCC_USE_GCC3_PFE_SUPPORT = YES;
-				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
-				INFOPLIST_PREFIX_HEADER = "$(PROJECT_DERIVED_FILE_DIR)/Revision.h";
-				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = /;
-				PRODUCT_NAME = SubEthaEdit;
-				SYSTEM_VERSION_CHECK_SUFFIX = "-SystemVersionCheck";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Unstripped;
-		};
-		145047660997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DiskImageProduct = SubEthaEdit.app;
-				DiskImageSizeInMB = 20;
-				DiskImageVolumeName = SubEthaEdit;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = "Create Disk Image";
-				ZERO_LINK = NO;
-			};
-			name = Unstripped;
-		};
-		145047670997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-DTCM_NO_DEBUG",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DNDEBUG",
-				);
-				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = Unstripped;
 		};
 		1493A8000A10C891004ECE6A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2615,16 +2445,15 @@
 					ppc,
 					i386,
 				);
-				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_VERSION_i386 = 4.0;
 				GCC_VERSION_ppc = 3.3;
 				INSTALL_PATH = "$(HOME)/bin";
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2636,33 +2465,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Release;
-		};
-		1493A8020A10C891004ECE6A /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
-				INSTALL_PATH = "$(HOME)/bin";
-				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "SubEthaEdit-SystemVersionCheck";
-				ZERO_LINK = NO;
-			};
-			name = Unstripped;
 		};
 		14E573C00964766400DB50C3 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2717,8 +2519,6 @@
 					i386,
 				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
@@ -2737,6 +2537,7 @@
 		C05733CC08A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -2749,6 +2550,12 @@
 		C05733CD08A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -2760,6 +2567,7 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -2771,7 +2579,6 @@
 			buildConfigurations = (
 				142894AD0957608D00D14688 /* Debug */,
 				142894AE0957608D00D14688 /* Release */,
-				145047620997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2781,7 +2588,6 @@
 			buildConfigurations = (
 				142894E40957671300D14688 /* Debug */,
 				142894E50957671300D14688 /* Release */,
-				145047630997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2791,7 +2597,6 @@
 			buildConfigurations = (
 				1428981A095818E200D14688 /* Debug */,
 				1428981B095818E200D14688 /* Release */,
-				145047660997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2801,7 +2606,6 @@
 			buildConfigurations = (
 				1493A8000A10C891004ECE6A /* Debug */,
 				1493A8010A10C891004ECE6A /* Release */,
-				1493A8020A10C891004ECE6A /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2811,7 +2615,6 @@
 			buildConfigurations = (
 				14E573C00964766400DB50C3 /* Debug */,
 				14E573C10964766400DB50C3 /* Release */,
-				145047640997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2821,7 +2624,6 @@
 			buildConfigurations = (
 				C05733C808A9546B00998B17 /* Debug */,
 				C05733C908A9546B00998B17 /* Release */,
-				145047650997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2831,7 +2633,6 @@
 			buildConfigurations = (
 				C05733CC08A9546B00998B17 /* Debug */,
 				C05733CD08A9546B00998B17 /* Release */,
-				145047670997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
