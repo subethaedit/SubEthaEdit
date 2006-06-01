@@ -9,8 +9,8 @@
         <filename>.bash_profile</filename>
         <filename>.bashrc</filename>
         <filename>configure</filename>
-        <regex>\A#!/bin/sh</regex>
-        <regex>\A#!/usr/bin/env sh</regex>
-        <regex>\A#!/usr/(bin/env )?bash</regex>
+        <regex>\A#! ?/bin/(ba)?sh</regex>
+        <regex>\A#! ?/usr/bin/env sh</regex>
+        <regex>\A#! ?/usr/(bin/env )?bash</regex>
     </recognition>
 </settings>
