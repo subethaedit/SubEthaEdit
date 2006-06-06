@@ -466,7 +466,12 @@
 }
 
 - (id)openUntitledDocumentOfType:(NSString *)docType display:(BOOL)display {
-    I_isOpeningUntitledDocument = YES;
+    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+    if ([eventDesc eventClass] == 'Hdra' && [eventDesc eventID] == 'See ') {
+        I_isOpeningUntitledDocument = NO;
+    } else {
+        I_isOpeningUntitledDocument = YES;
+    }
     NSDocument *document = [super openUntitledDocumentOfType:docType display:display];
     I_isOpeningUntitledDocument = NO;
     return document;
