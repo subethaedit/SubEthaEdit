@@ -218,7 +218,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}${SYSTEM_VERSION_CHECK_SUFFIX}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 2.5, Copyright © 2003-2006, TheCodingMonkeys</string>
+	<string>SubEthaEdit 2.5.1, Copyright © 2003-2006, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -234,7 +234,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.5</string>
+	<string>2.5.1</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
