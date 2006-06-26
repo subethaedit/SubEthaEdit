@@ -3056,17 +3056,42 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setLineEnding:[aSender tag]];
 }
 
-- (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding {   
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
-    [textStorage setShouldWatchLineEndings:NO];
+- (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding {
 
-    [self setLineEnding:lineEnding];
-    [[self documentUndoManager] beginUndoGrouping];
-    [[textStorage mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
-    [[self documentUndoManager] endUndoGrouping];
+    if (![self isFileWritable] && ![self editAnyway]) {
+        NSMethodSignature *signature = [self methodSignatureForSelector:@selector(convertLineEndingsToLineEnding:)];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+        [invocation setTarget:self];
+        [invocation setSelector:@selector(convertLineEndingsToLineEnding:)];
+        [invocation setArgument:&lineEnding atIndex:2];
+        NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"EditAnywayAlert", @"Alert",
+                                                    invocation, @"Invocation",
+                                                    nil];
 
-    [textStorage setShouldWatchLineEndings:YES];
-    [textStorage setHasMixedLineEndings:NO];
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"Warning", nil)];
+        [alert setInformativeText:NSLocalizedString(@"File is read-only", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+        [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+        [alert beginSheetModalForWindow:[self windowForSheet]
+                          modalDelegate:self
+                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                            contextInfo:[contextInfo retain]];
+    } else {
+        TextStorage *textStorage=(TextStorage *)[self textStorage];
+        [textStorage setShouldWatchLineEndings:NO];
+
+        [self setLineEnding:lineEnding];
+        [[self documentUndoManager] beginUndoGrouping];
+        [[textStorage mutableString] convertLineEndingsToLineEndingString:[self lineEndingString]];
+        [[self documentUndoManager] endUndoGrouping];
+
+        [textStorage setShouldWatchLineEndings:YES];
+        [textStorage setHasMixedLineEndings:NO];
+    }
 }
 
 - (IBAction)convertLineEndings:(id)aSender {
@@ -3897,12 +3922,18 @@ static NSString *S_measurementUnits;
     } else if ([alertIdentifier isEqualToString:@"EditAnywayAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {
             [self setEditAnyway:YES];
-            NSTextView *textView = [alertContext objectForKey:@"TextView"];
-            [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+            NSInvocation *invocation = [alertContext objectForKey:@"Invocation"];
+            if (invocation) {
+                [invocation invoke];
+            } else {
+                NSTextView *textView = [alertContext objectForKey:@"TextView"];
+                [textView insertText:[alertContext objectForKey:@"ReplacementString"]];
+            }
         }
     } else if ([alertIdentifier isEqualToString:@"MixedLineEndingsAlert"]) {
         LineEnding lineEnding = [[alertContext objectForKey:@"LineEnding"] unsignedShortValue];
         if (returnCode == NSAlertFirstButtonReturn) {
+            [[alert window] orderOut:self];
             [self convertLineEndingsToLineEnding:lineEnding];
         } else if (returnCode == NSAlertSecondButtonReturn) {
             [self setLineEnding:lineEnding];
@@ -3911,6 +3942,7 @@ static NSString *S_measurementUnits;
         NSTextView *textView = [alertContext objectForKey:@"TextView"];
         NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
         if (returnCode == NSAlertFirstButtonReturn) {
+            [[alert window] orderOut:self];
             NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
             [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
             [textView insertText:mutableString];
