@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Feb 25 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <AddressBook/AddressBook.h>
@@ -56,6 +56,8 @@
 #import "Debug/DebugController.h"
 #endif
 
+int const AppMenuTag = 200;
+int const EnterSerialMenuItemTag = 201;
 int const FileMenuTag   =  100;
 int const EditMenuTag   = 1000;
 int const FileNewMenuItemTag = 1;
@@ -537,6 +539,13 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     [self setupAuthorization];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
+    
+    if (![LicenseController shouldRun]) {
+        NSMenu *mainMenu = [NSApp mainMenu];
+        NSMenu *appMenu = [[mainMenu itemWithTag:AppMenuTag] submenu];
+        NSMenuItem *enterSerialMenuItem = [appMenu itemWithTag:EnterSerialMenuItemTag];
+        [appMenu removeItem:enterSerialMenuItem];
+    }
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

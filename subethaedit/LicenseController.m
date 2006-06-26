@@ -3,10 +3,11 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Thu May 13 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import "LicenseController.h"
+#import "AppController.h"
 #import "GeneralPreferences.h"
 #import <AddressBook/AddressBook.h>
 
@@ -216,6 +217,11 @@ static LicenseController *sharedInstance = nil;
     [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
     (void)[alert runModal];
     [alert release];
+    
+    NSMenu *mainMenu = [NSApp mainMenu];
+    NSMenu *appMenu = [[mainMenu itemWithTag:AppMenuTag] submenu];
+    NSMenuItem *enterSerialMenuItem = [appMenu itemWithTag:EnterSerialMenuItemTag];
+    [appMenu removeItem:enterSerialMenuItem];
 }
 
 - (IBAction)cancel:(id)sender {
