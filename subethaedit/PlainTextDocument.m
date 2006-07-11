@@ -1740,7 +1740,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSFileManager *fileManager=[NSFileManager defaultManager];
             imageDirectoryPrefix=[[[htmlFile lastPathComponent] stringByDeletingPathExtension] stringByAppendingString:@"_images"];
             imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:imageDirectoryPrefix];
-            if ([fileManager createDirectoryAtPath:imageDirectory attributes:nil]) {
+            BOOL isDir = NO;
+            if (([fileManager fileExistsAtPath:imageDirectory isDirectory:&isDir] && isDir) ||
+                 [fileManager createDirectoryAtPath:imageDirectory attributes:nil]) {
                 imageDirectoryPrefix = [imageDirectoryPrefix stringByAppendingString:@"/"];
             } else {
                 imageDirectory = [htmlFile stringByDeletingLastPathComponent];
