@@ -3860,7 +3860,7 @@ static NSString *S_measurementUnits;
                 [[alert window] orderOut:self];
                 NSData *stringData = [[I_textStorage string] dataUsingEncoding:[self fileEncoding]];
                 NSString *reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
-                if (!reinterpretedString) {
+                if (!reinterpretedString || ([reinterpretedString length] == 0 && [I_textStorage length] > 0)) {
                     NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
                     [newAlert setAlertStyle:NSWarningAlertStyle];
                     [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
