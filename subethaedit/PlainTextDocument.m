@@ -44,6 +44,8 @@
 #import <sys/param.h>
 #import <sys/stat.h>
 #import <string.h>
+#import <pwd.h>
+#import <grp.h>
 
 #import "ScriptTextSelection.h"
 #import "ScriptWrapper.h"
@@ -2550,12 +2552,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
 
-    // If neither type nor creator code exist, use the default implementation.
-    if (!(typeCode || creatorCode)) {
-        return [super fileAttributesToWriteToFile:fullDocumentPath ofType:documentTypeName saveOperation:saveOperationType];
-    }
-
-    // Otherwise, add the type and/or creator to the dictionary.
+    // Add the type and/or creator to the dictionary if they exist.
     newAttributes = [NSMutableDictionary dictionaryWithDictionary:[super
         fileAttributesToWriteToFile:fullDocumentPath ofType:documentTypeName
         saveOperation:saveOperationType]];
@@ -2563,6 +2560,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [newAttributes setObject:typeCode forKey:NSFileHFSTypeCode];
     if (creatorCode)
         [newAttributes setObject:creatorCode forKey:NSFileHFSCreatorCode];
+
+    // Set group owner to primary gid of current user.
+    struct passwd *pwdInfo = getpwnam([NSUserName() UTF8String]);
+    if (pwdInfo) {
+    
+        [newAttributes setObject:[NSString stringWithUTF8String:group_from_gid(pwdInfo->pw_gid, 0)]
+                          forKey:NSFileGroupOwnerAccountName];
+        [newAttributes setObject:[NSNumber numberWithUnsignedLong:pwdInfo->pw_gid]
+                          forKey:NSFileGroupOwnerAccountID];
+    }
 
     [self setFileAttributes:newAttributes];
     return newAttributes;
