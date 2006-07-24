@@ -69,6 +69,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         BOOL isHandlingUndoManually;
         BOOL isWaiting;
         BOOL syntaxHighlightingIsSuspended;
+        BOOL hasUTF8BOM;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;

@@ -253,6 +253,7 @@ static NSString *tempFileName(NSString *origPath) {
     }
     I_flags.showMatchingBrackets=YES;
     I_flags.didPauseBecauseOfMarkedText=NO;
+    I_flags.hasUTF8BOM = NO;
     I_bracketMatching.matchingBracketPosition=NSNotFound;
     [self setKeepDocumentVersion:NO];
     [self setEditAnyway:NO];
@@ -2110,13 +2111,26 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (NSData *)dataRepresentationOfType:(NSString *)aType {
 
     if ([aType isEqualToString:@"PlainTextType"] || [aType isEqualToString:@"SubEthaEditSyntaxStyle"]) {
+        NSData *data;
         if (I_lastSaveOperation == NSSaveToOperation) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
             [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
-            return [[I_textStorage string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
+            data = [[I_textStorage string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
         } else {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
-            return [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+            data = [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+        }
+        
+        if (I_flags.hasUTF8BOM && [self fileEncoding] == NSUTF8StringEncoding) {
+            char utf8_bom[3];
+            utf8_bom[0] = 0xef;
+            utf8_bom[1] = 0xbb;
+            utf8_bom[2] = 0xbf;
+            NSMutableData *mutableData = [NSMutableData dataWithBytes:utf8_bom length:3];
+            [mutableData appendData:data];
+            return mutableData;
+        } else {
+            return data;
         }
     }
 
@@ -2399,8 +2413,39 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         [textStorage beginEditing];
         if (isHTML || !isReadable) {
+            if ([fileData length] >= 3) {
+                char bom_buffer[3];
+                [fileData getBytes:bom_buffer length:3];
+                char utf8_bom[3];
+                utf8_bom[0] = 0xef;
+                utf8_bom[1] = 0xbb;
+                utf8_bom[2] = 0xbf;
+                if (bom_buffer[0] == utf8_bom[0] && bom_buffer[1] == utf8_bom[1] && bom_buffer[2] == utf8_bom[2]) {
+                    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
+                    I_flags.hasUTF8BOM = YES;
+                    [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
+                }
+            }
             success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs];
         } else {
+            NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:[fileURL path]];
+            @try {
+                NSData *bomData = [fileHandle readDataOfLength:3];
+                char bom_buffer[3];
+                [bomData getBytes:bom_buffer length:3];
+                char utf8_bom[3];
+                utf8_bom[0] = 0xef;
+                utf8_bom[1] = 0xbb;
+                utf8_bom[2] = 0xbf;
+                if (bom_buffer[0] == utf8_bom[0] && bom_buffer[1] == utf8_bom[1] && bom_buffer[2] == utf8_bom[2]) {
+                    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
+                    I_flags.hasUTF8BOM = YES;
+                    [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
+                }
+            }
+            @catch (id exception) {
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readDataOfLength throws exception: %@", exception);
+            }
             success = [textStorage readFromURL:fileURL options:options documentAttributes:&docAttrs];
         }
         [textStorage endEditing];
