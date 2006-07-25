@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Mon Mar 22 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import "DocumentMode.h"
@@ -24,6 +24,7 @@
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
 NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
 NSString * const DocumentModeEncodingPreferenceKey             = @"Encoding";
+NSString * const DocumentModeUTF8BOMPreferenceKey              = @"UTF8BOM";
 NSString * const DocumentModeFontAttributesPreferenceKey       = @"FontAttributes";
 NSString * const DocumentModeHighlightSyntaxPreferenceKey      = @"HighlightSyntax";
 NSString * const DocumentModeIndentNewLinesPreferenceKey       = @"IndentNewLines";
@@ -108,6 +109,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                   forKey:DocumentModeEncodingPreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
                                   forKey:DocumentModeLineEndingPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
+                                  forKey:DocumentModeUTF8BOMPreferenceKey];
 
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
                                   forKey:DocumentModeFontAttributesPreferenceKey];
@@ -239,7 +242,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[self documentModeIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
-            // color is depricated since 2.1 - so ignore it
+            // color is deprecated since 2.1 - so ignore it
             [self setDefaults:dictionary];
             NSNumber *encodingNumber = [dictionary objectForKey:DocumentModeEncodingPreferenceKey];
             if (encodingNumber) {
@@ -268,6 +271,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeUseTabsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:DocumentModeWrapModeWords] forKey:DocumentModeWrapModePreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:LineEndingLF] forKey:DocumentModeLineEndingPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUTF8BOMPreferenceKey];
 
 			// ignore deprecated color settings, but still set them for backwards compatability
 			NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];

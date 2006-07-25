@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Mon Mar 22 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -16,6 +16,7 @@ enum {
 extern NSString * const DocumentModeShowTopStatusBarPreferenceKey       ;
 extern NSString * const DocumentModeShowBottomStatusBarPreferenceKey    ;
 extern NSString * const DocumentModeEncodingPreferenceKey               ;
+extern NSString * const DocumentModeUTF8BOMPreferenceKey                ;
 extern NSString * const DocumentModeFontAttributesPreferenceKey         ;
 extern NSString * const DocumentModeHighlightSyntaxPreferenceKey        ;
 extern NSString * const DocumentModeIndentNewLinesPreferenceKey         ;

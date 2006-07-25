@@ -2121,7 +2121,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             data = [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
         }
         
-        if (I_flags.hasUTF8BOM && [self fileEncoding] == NSUTF8StringEncoding) {
+        BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
+        BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
+
+        if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
             char utf8_bom[3];
             utf8_bom[0] = 0xef;
             utf8_bom[1] = 0xbb;
