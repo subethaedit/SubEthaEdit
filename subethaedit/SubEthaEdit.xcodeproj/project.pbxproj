@@ -281,6 +281,9 @@
 		5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */; };
 		5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */; };
 		5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
+		5EF31B220A7E2E2100D777F5 /* NSCursorSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */; };
+		5EF31B230A7E2E2100D777F5 /* NSCursorSEEAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */; };
+		5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */; };
 		5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */; };
 		5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */; };
 		5EFF5C4C0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */; };
@@ -412,6 +415,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
+				5EF31B230A7E2E2100D777F5 /* NSCursorSEEAdditions.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -838,6 +842,9 @@
 		5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSWindowScriptingAdditions.m; sourceTree = "<group>"; };
 		5EDD304C0A092AA50036E63A /* ScriptTextBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptTextBase.h; sourceTree = "<group>"; };
 		5EDD304D0A092AA50036E63A /* ScriptTextBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptTextBase.m; sourceTree = "<group>"; };
+		5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSCursorSEEAdditions.m; sourceTree = "<group>"; };
+		5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSCursorSEEAdditions.h; sourceTree = "<group>"; };
+		5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvertedIBeam.tiff; path = artwork/InvertedIBeam.tiff; sourceTree = "<group>"; };
 		5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconRunInTerminal.png; path = artwork/ToolbarIconRunInTerminal.png; sourceTree = "<group>"; };
 		5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconBuildAndRun.tiff; path = artwork/ToolbarIconBuildAndRun.tiff; sourceTree = "<group>"; };
 		5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconGenericScript.tiff; path = artwork/ToolbarIconGenericScript.tiff; sourceTree = "<group>"; };
@@ -952,6 +959,7 @@
 				5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */,
 				5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */,
 				5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */,
+				5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */,
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
 				14289073095743F200D14688 /* Mode.icns */,
 				14289075095743F200D14688 /* NamedLogo2.tiff */,
@@ -1089,6 +1097,8 @@
 		142891780957483200D14688 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */,
+				5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */,
 				14289206095751CB00D14688 /* NSColorTCMAdditions.h */,
 				14289207095751CB00D14688 /* NSColorTCMAdditions.m */,
 				14289208095751CB00D14688 /* NSImageTCMAdditions.h */,
@@ -1824,6 +1834,7 @@
 				5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */,
 				5EFF5C4C0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff in Resources */,
 				14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */,
+				5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2046,6 +2057,7 @@
 				5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */,
 				14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */,
 				311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */,
+				5EF31B220A7E2E2100D777F5 /* NSCursorSEEAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2516,7 +2528,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = SubEthaEdit;
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};

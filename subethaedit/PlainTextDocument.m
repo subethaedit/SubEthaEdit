@@ -5092,5 +5092,22 @@ static NSString *S_measurementUnits;
     [[self session] startProcessing];
 }
 
+#ifndef TCM_NO_DEBUG
+
+- (void)createThumbnail:(id)aSender {
+    NSTextView *myTextView = [[[self topmostWindowController] activePlainTextEditor] textView];
+    [myTextView setDrawsBackground:NO];
+    NSRect rectToCache = [myTextView frame];
+    NSBitmapImageRep *rep = [myTextView bitmapImageRepForCachingDisplayInRect:rectToCache];
+    [myTextView cacheDisplayInRect:[myTextView frame] toBitmapImageRep:rep];
+    NSPasteboard *pb=[NSPasteboard generalPasteboard];
+    [pb declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];
+    [pb setData:[rep TIFFRepresentation] forType:NSTIFFPboardType];
+    [myTextView setDrawsBackground:YES];
+}
+
+#endif
+
+
 
 @end

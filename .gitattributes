@@ -656,6 +656,8 @@ subethaedit/NSApplicationTCMAdditions.h -text
 subethaedit/NSApplicationTCMAdditions.m -text
 subethaedit/NSColorTCMAdditions.h -text
 subethaedit/NSColorTCMAdditions.m -text
+subethaedit/NSCursorSEEAdditions.h -text
+subethaedit/NSCursorSEEAdditions.m -text
 subethaedit/NSImageTCMAdditions.h -text
 subethaedit/NSImageTCMAdditions.m -text
 subethaedit/NSMenuTCMAdditions.h -text

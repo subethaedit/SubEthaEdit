@@ -24,6 +24,7 @@
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
+#import "NSCursorSEEAdditions.h"
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
@@ -289,10 +290,17 @@ static NSMenu *defaultMenu=nil;
     return menu;
 }
 
+- (void)resetCursorRects {
+    // disable cursor rects and therefore mouse cursor changing when we have a dark background so the documentcursor is used
+    if ([[self insertionPointColor] isDark]) [super resetCursorRects];
+}
+
 - (void)setBackgroundColor:(NSColor *)aColor {
     [super setBackgroundColor:aColor];
     [self setInsertionPointColor:[aColor isDark]?[NSColor whiteColor]:[NSColor blackColor]];
     [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:[aColor isDark]?[[NSColor selectedTextBackgroundColor] brightnessInvertedColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
+    [[self enclosingScrollView] setDocumentCursor:[aColor isDark]?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
+    [[self window] invalidateCursorRectsForView:self];
 }
 
 - (void)toggleContinuousSpellChecking:(id)sender {

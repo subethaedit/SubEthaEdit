@@ -156,6 +156,7 @@ enum {
 }
 
 - (void)windowDidLoad {
+    // [[[[[self window] standardWindowButton:NSWindowDocumentIconButton] superview] titleCell] setLineBreakMode:NSLineBreakByTruncatingMiddle];
     [self adjustToolbarToDocumentMode];
 
     [self validateUpperDrawer];

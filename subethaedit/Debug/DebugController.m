@@ -64,6 +64,12 @@ static DebugController * sharedInstance = nil;
         [debugItem setSubmenu:menu];
         [[NSApp mainMenu] addItem:debugItem];
         [debugItem release];
+
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"Copy Thumbnail Of current Document to pb" action:@selector(createThumbnail:) keyEquivalent:@""];
+        [blahItem setTarget:nil];
+        [menu addItem:blahItem];
+        [blahItem release];
+
     } else if (flag == NO && indexOfDebugMenu != -1) {
         [[NSApp mainMenu] removeItemAtIndex:indexOfDebugMenu];
     }
