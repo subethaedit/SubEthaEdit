@@ -7,6 +7,7 @@
 //
 
 #import "TextView.h"
+#import "NSCursorSEEAdditions.h"
 
 
 @implementation TextView
@@ -15,7 +16,12 @@
     [super addCursorRect:aRect cursor:aCursor];
 }
 
+// ugly
 - (void)mouseMoved:(NSEvent *)anEvent {
+    
+    // even more ugly!
+    // might break stuff ?!
+    
     // [super mouseMoved:anEvent];
     if ([NSCursor currentCursor] == [NSCursor IBeamCursor]) {
         [[NSCursor currentCursor] pop];

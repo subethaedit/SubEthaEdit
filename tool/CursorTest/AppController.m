@@ -12,10 +12,15 @@
 @implementation AppController
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [[O_textView enclosingScrollView] setDocumentCursor:[NSCursor invertedIBeamCursor]];
-    [O_scrollView setDocumentCursor:[NSCursor invertedIBeamCursor]];
-    [O_textView addCursorRect:NSMakeRect(0,0,100,100) cursor:[NSCursor invertedIBeamCursor]];
+    
+    [[O_textView enclosingScrollView] setDocumentCursor:[NSCursor invertedIBeamCursor]];  // doesn't help anything
+    
+    [O_scrollView setDocumentCursor:[NSCursor invertedIBeamCursor]]; //works
+    
+    // Setup    
     [O_textView setInsertionPointColor:[NSColor whiteColor]];
+    
+    // setting NSCursor attributes does not show the right cursor when pointed to empty area
 }
 
 @end
