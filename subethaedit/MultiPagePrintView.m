@@ -286,11 +286,12 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                     [[NSCalendarDate calendarDate] 
                             descriptionWithCalendarFormat:[standardUserDefaults objectForKey:NSDateFormatString] 
                             locale:(id)standardUserDefaults] ];
+        NSString *filenameString = [[printDictionary objectForKey:@"SEEPageHeaderFullPath"] boolValue]?[I_document fileName]:[self printJobTitle];
         if ([[printDictionary objectForKey:@"SEEPageHeaderFilename"] boolValue] &&
             [[printDictionary objectForKey:@"SEEPageHeaderCurrentDate"] boolValue]) {
-            [self setHeaderFormatString:[NSString stringWithFormat:@"%1$@\t%2$@\n%3$@",[self printJobTitle],@"%1$@",date]];
+            [self setHeaderFormatString:[NSString stringWithFormat:@"%1$@\n%3$@\t%2$@",filenameString,@"%1$@",date]];
         } else if ([[printDictionary objectForKey:@"SEEPageHeaderFilename"] boolValue]) {
-            [self setHeaderFormatString:[NSString stringWithFormat:@"%1$@\t%2$@",[self printJobTitle],@"%1$@"]];
+            [self setHeaderFormatString:[NSString stringWithFormat:@"%1$@\t%2$@",filenameString,@"%1$@"]];
         } else if ([[printDictionary objectForKey:@"SEEPageHeaderCurrentDate"] boolValue]) {
             [self setHeaderFormatString:[NSString stringWithFormat:@"%1$@\t%2$@",date,@"%1$@"]];
         } else {
