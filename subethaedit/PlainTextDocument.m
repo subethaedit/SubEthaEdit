@@ -987,7 +987,14 @@ static NSString *tempFileName(NSString *origPath) {
     [self setShowInvisibleCharacters:[[documentMode defaultForKey:DocumentModeShowInvisibleCharactersPreferenceKey] boolValue]];
     [self setShowsGutter:[[documentMode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] intValue]];
     [self setShowsMatchingBrackets:[[documentMode defaultForKey:DocumentModeShowMatchingBracketsPreferenceKey] boolValue]];
-    [self setLineEnding:[[documentMode defaultForKey:DocumentModeLineEndingPreferenceKey] intValue]];
+    
+    NSString *string = [[self textStorage] string];
+    unsigned lineEndIndex, contentsEndIndex;
+    [string getLineStart:NULL end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(0, 0)];
+    if (lineEndIndex == contentsEndIndex) {
+        [self setLineEnding:[[documentMode defaultForKey:DocumentModeLineEndingPreferenceKey] intValue]];
+    }
+    
     NSNumber *aFlag=[[documentMode defaults] objectForKey:DocumentModeShowBottomStatusBarPreferenceKey];
     [self setShowsBottomStatusBar:!aFlag || [aFlag boolValue]];
     aFlag=[[documentMode defaults] objectForKey:DocumentModeShowTopStatusBarPreferenceKey];
