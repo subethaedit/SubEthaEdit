@@ -2528,7 +2528,6 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = SubEthaEdit;
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -2565,6 +2564,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};

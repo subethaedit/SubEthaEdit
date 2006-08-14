@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed May 12 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -28,6 +28,7 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
     
     id _undoGroup;
     id _redoGroup;
+    id _preparedInvocationTarget;
     
     struct {
         unsigned int undoing;

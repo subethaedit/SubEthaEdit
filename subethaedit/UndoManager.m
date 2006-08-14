@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed May 12 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import "UndoManager.h"
@@ -32,8 +32,8 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 
 - (NSMutableArray *)actions;
 - (NSString *)actionName;
-- (void)addOperation:(TCMMMOperation *)operation;
-- (TCMMMOperation *)lastOperation;
+- (void)addAction:(id)action;
+- (id)lastAction;
 - (id)initWithParent:(UndoGroup *)parent;
 - (UndoGroup *)parent;
 - (void)setActionName:(NSString *)newName;
@@ -54,15 +54,15 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     return _actionName;
 }
 
-- (void)addOperation:(TCMMMOperation *)operation
+- (void)addAction:(id)action
 {
     if (_actions == nil) {
         _actions = [NSMutableArray new];
     }
-    [_actions addObject:operation];
+    [_actions addObject:action];
 }
 
-- (TCMMMOperation *)lastOperation {
+- (id)lastAction {
     return [_actions lastObject];
 }
 
@@ -105,6 +105,37 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 #pragma mark -
 
 @implementation UndoManager
+
+- (void)_registerAction:(id)action shouldGroupWithPriorOperation:(BOOL)shouldGroup {
+    if ([self isUndoing]) {
+        if (_redoGroup == nil) {
+                [NSException raise:NSInternalInconsistencyException
+                            format:@"endUndoGrouping without beginUndoGrouping"];
+        }
+        [_redoGroup addAction:action];
+    } else {
+        if (_undoGroup == nil) {
+            if (_flags.automaticGroupLevel != -1) {
+            [NSException raise:NSInternalInconsistencyException
+                        format:@"endUndoGrouping without beginUndoGrouping"];
+            } else {
+                [self beginUndoGrouping];
+                _flags.automaticGroupLevel = [self groupingLevel];
+            }
+        } else if (_flags.automaticGroupLevel == [self groupingLevel]) {
+            if ([_undoGroup lastAction] && !shouldGroup) {
+                [self endUndoGrouping];
+                [self beginUndoGrouping];
+            }
+        }
+        [_undoGroup addAction:action];
+        if (![self isRedoing]) {
+            [_redoGroup release];
+            _redoGroup = nil;
+            [_redoStack removeAllObjects];
+        }
+    }
+}
 
 - (void)dealloc {
     _document = nil;
@@ -167,7 +198,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
                 NSArray *actions = [_redoGroup actions];
                 unsigned i;
                 for (i = 0; i < [actions count]; i++) {
-                    [parent addOperation:[actions objectAtIndex:i]];
+                    [parent addAction:[actions objectAtIndex:i]];
                 }
                 [_redoGroup release];
                 _redoGroup = parent;
@@ -189,7 +220,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
                 NSArray *actions = [_undoGroup actions];
                 unsigned i;
                 for (i = 0; i < [actions count]; i++) {
-                    [parent addOperation:[actions objectAtIndex:i]];
+                    [parent addAction:[actions objectAtIndex:i]];
                 }
                 [_undoGroup release];
                 _undoGroup = parent;
@@ -410,22 +441,89 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 }
 
 - (void)removeAllActionsWithTarget:(id)target {
-    [NSException raise:NSInternalInconsistencyException format:@"Unimplemented method: %@", NSStringFromSelector(_cmd)];
+    int i, k;
+    UndoGroup *group;
+    NSMutableArray *actions;
+        
+    group = _undoGroup;
+    while (group != nil) {
+        actions = [group actions];
+        for (i = [actions count] - 1; i >= 0; i--) {
+            if ([[actions objectAtIndex:i] isKindOfClass:[NSInvocation class]]) {
+                if ([target isEqual:[[actions objectAtIndex:i] target]]) {
+                    [actions removeObjectAtIndex:i];
+                }
+            }
+        }
+        group = [group parent];
+    }
+        
+    for (i = [_undoStack count] - 1; i >= 0; i--) {
+        group = [_undoStack objectAtIndex:i];
+        actions = [group actions];
+        for (k = [actions count] -1; k >= 0; k--) {
+            if ([[actions objectAtIndex:k] isKindOfClass:[NSInvocation class]]) {
+                if ([target isEqual:[[actions objectAtIndex:k] target]]) {
+                    [actions removeObjectAtIndex:k];
+                }
+            }
+        }
+        
+        if ([actions count] == 0) {
+            [_undoStack removeObjectAtIndex:i];
+        }
+    }
+    
+    
+    group = _redoGroup;
+    while (group != nil) {
+        actions = [group actions];
+        for (i = [actions count] - 1; i >= 0; i--) {
+            if ([[actions objectAtIndex:i] isKindOfClass:[NSInvocation class]]) {
+                if ([target isEqual:[[actions objectAtIndex:i] target]]) {
+                    [actions removeObjectAtIndex:i];
+                }
+            }
+        }
+        group = [group parent];
+    }
+    
+    for (i = [_redoStack count] - 1; i >= 0; i--) {
+
+        group = [_redoStack objectAtIndex:i];
+        actions = [group actions];        
+        for (k = [actions count] -1; k >= 0; k--) {
+            if ([[actions objectAtIndex:k] isKindOfClass:[NSInvocation class]]) {
+                if ([target isEqual:[[actions objectAtIndex:k] target]]) {
+                    [actions removeObjectAtIndex:k];
+                }
+            }
+        }
+        
+        if ([actions count] == 0) {
+            [_redoStack removeObjectAtIndex:i];
+        }
+    }
 }
     // Should be called from the dealloc method of any object that may have
     // registered as a target for undo operations
 
         /* Object based Undo */
 
-- (void)registerUndoWithTarget:(id)target selector:(SEL)selector object:(id)anObject {
-    [NSException raise:NSInternalInconsistencyException format:@"Unimplemented method: %@", NSStringFromSelector(_cmd)];
+- (void)registerUndoWithTarget:(id)target selector:(SEL)selector object:(id)anObject {    
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[target methodSignatureForSelector:selector]];
+    [invocation setTarget:target];
+    [invocation setSelector:selector];
+    [invocation setArgument:&anObject atIndex:2];
+    
+    [self _registerAction:invocation shouldGroupWithPriorOperation:NO];
 }
 
         /* Invocation based undo */
 
 - (id)prepareWithInvocationTarget:(id)target {
-    [NSException raise:NSInternalInconsistencyException format:@"Unimplemented method: %@", NSStringFromSelector(_cmd)];
-    return nil;
+    _preparedInvocationTarget = target;
+    return self;
 }
    // called as:
    // [[undoManager prepareWithInvocationTarget:self] setFont:oldFont color:oldColor]
@@ -433,7 +531,14 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
    // [target setFont:oldFont color:oldColor]
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
-    [NSException raise:NSInternalInconsistencyException format:@"Unimplemented method: %@", NSStringFromSelector(_cmd)];
+    if (_preparedInvocationTarget != nil) {
+        [anInvocation setTarget:_preparedInvocationTarget];
+        [self _registerAction:anInvocation shouldGroupWithPriorOperation:NO];
+    } else {
+        [NSException raise:NSInternalInconsistencyException format:@"prepareWithInvocationTarget: was not invoked before this method"];
+    }
+    
+    _preparedInvocationTarget = nil;
 }
 
     	/* Undo/Redo action name */
@@ -543,19 +648,24 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     NSArray *actions = [group actions];
     
     if (actions != nil) {
-        _flags.isPerformingGroup=YES;
+        _flags.isPerformingGroup = YES;
         unsigned i = [actions count];
         [[_document textStorage] beginEditing];
         TextOperation *operation = nil;
         while (i-- > 0) {
-            operation = [actions objectAtIndex:i];
-            [_document handleOperation:operation];
+            id action = [actions objectAtIndex:i];
+            if ([action isKindOfClass:[TCMMMOperation class]]) {
+                operation = action;
+                [_document handleOperation:operation];
+            } else {
+                [action invoke];
+            }
         }
         [[_document textStorage] endEditing];
         _flags.isPerformingGroup=NO;
         if (operation) {
-            NSTextView *textView=[[[_document topmostWindowController] activePlainTextEditor] textView];
-            [textView setSelectedRange:NSMakeRange([operation affectedCharRange].location+[[operation replacementString] length],0)];
+            NSTextView *textView = [[[_document topmostWindowController] activePlainTextEditor] textView];
+            [textView setSelectedRange:NSMakeRange([operation affectedCharRange].location + [[operation replacementString] length], 0)];
             [textView scrollRangeToVisible:[textView selectedRange]];
         }
     }
@@ -566,36 +676,8 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     TextOperation *operation = [TextOperation textOperationWithAffectedCharRange:aAffectedCharRange
                                                                replacementString:aReplacementString
                                                                           userID:[TCMMMUserManager myUserID]];
-
-    if ([self isUndoing]) {
-        if (_redoGroup == nil) {
-                [NSException raise:NSInternalInconsistencyException
-                            format:@"endUndoGrouping without beginUndoGrouping"];
-        }
-        [_redoGroup addOperation:operation];
-    } else {
-        if (_undoGroup == nil) {
-            if (_flags.automaticGroupLevel != -1) {
-            [NSException raise:NSInternalInconsistencyException
-                        format:@"endUndoGrouping without beginUndoGrouping"];
-            } else {
-                [self beginUndoGrouping];
-                _flags.automaticGroupLevel = [self groupingLevel];
-            }
-        } else if (_flags.automaticGroupLevel == [self groupingLevel]) {
-            TCMMMOperation *lastOperation = [_undoGroup lastOperation];
-            if (lastOperation && !shouldGroup) {
-                [self endUndoGrouping];
-                [self beginUndoGrouping];
-            }
-        }
-        [_undoGroup addOperation:operation];
-        if (![self isRedoing]) {
-            [_redoGroup release];
-            _redoGroup = nil;
-            [_redoStack removeAllObjects];
-        }
-    }
+                                                                          
+    [self _registerAction:operation shouldGroupWithPriorOperation:shouldGroup];
 }
 
 - (void)transformStacksWithOperation:(TCMMMOperation *)anOperation {
@@ -615,16 +697,16 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         while (group != nil) {
             actions = [group actions];
             for (i = [actions count] - 1; i >= 0; i--) {
-                if (isServer) {
-                    //[[actions objectAtIndex:i] transform:operation];
-                    [transformator transformOperation:[actions objectAtIndex:i] serverOperation:operation];
-                } else {
-                    //[operation transform:[actions objectAtIndex:i]];
-                    [transformator transformOperation:operation serverOperation:[actions objectAtIndex:i]];
-                }
-                
-                if ([[actions objectAtIndex:i] isIrrelevant]) {
-                    [actions removeObjectAtIndex:i];
+                if ([[actions objectAtIndex:i] isKindOfClass:[TCMMMOperation class]]) {
+                    if (isServer) {
+                        [transformator transformOperation:[actions objectAtIndex:i] serverOperation:operation];
+                    } else {
+                        [transformator transformOperation:operation serverOperation:[actions objectAtIndex:i]];
+                    }
+                    
+                    if ([[actions objectAtIndex:i] isIrrelevant]) {
+                        [actions removeObjectAtIndex:i];
+                    }
                 }
             }
             group = [group parent];
@@ -634,16 +716,16 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             group = [_undoStack objectAtIndex:i];
             actions = [group actions];
             for (k = [actions count] -1; k >= 0; k--) {
-                if (isServer) {
-                    //[[actions objectAtIndex:k] transform:operation];
-                    [transformator transformOperation:[actions objectAtIndex:k] serverOperation:operation];
-                } else {
-                    //[operation transform:[actions objectAtIndex:k]];
-                    [transformator transformOperation:operation serverOperation:[actions objectAtIndex:k]];
-                }
-            
-                if ([[actions objectAtIndex:k] isIrrelevant]) {
-                    [actions removeObjectAtIndex:k];
+                if ([[actions objectAtIndex:k] isKindOfClass:[TCMMMOperation class]]) {
+                    if (isServer) {
+                        [transformator transformOperation:[actions objectAtIndex:k] serverOperation:operation];
+                    } else {
+                        [transformator transformOperation:operation serverOperation:[actions objectAtIndex:k]];
+                    }
+                
+                    if ([[actions objectAtIndex:k] isIrrelevant]) {
+                        [actions removeObjectAtIndex:k];
+                    }
                 }
             }
             
@@ -661,16 +743,16 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         while (group != nil) {
             actions = [group actions];
             for (i = [actions count] - 1; i >= 0; i--) {
-                if (isServer) {
-                    //[[actions objectAtIndex:i] transform:operation];
-                    [transformator transformOperation:[actions objectAtIndex:i] serverOperation:operation];
-                } else {
-                    //[operation transform:[actions objectAtIndex:i]];
-                    [transformator transformOperation:operation serverOperation:[actions objectAtIndex:i]];
-                }
-                
-                if ([[actions objectAtIndex:i] isIrrelevant]) {
-                    [actions removeObjectAtIndex:i];
+                if ([[actions objectAtIndex:i] isKindOfClass:[TCMMMOperation class]]) {
+                    if (isServer) {
+                        [transformator transformOperation:[actions objectAtIndex:i] serverOperation:operation];
+                    } else {
+                        [transformator transformOperation:operation serverOperation:[actions objectAtIndex:i]];
+                    }
+                    
+                    if ([[actions objectAtIndex:i] isIrrelevant]) {
+                        [actions removeObjectAtIndex:i];
+                    }
                 }
             }
             group = [group parent];
@@ -681,15 +763,16 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             group = [_redoStack objectAtIndex:i];
             actions = [group actions];        
             for (k = [actions count] -1; k >= 0; k--) {
-                if (isServer) {
-                    //[[actions objectAtIndex:k] transform:operation];
-                    [transformator transformOperation:[actions objectAtIndex:k] serverOperation:operation];
-                } else {
-                    //[operation transform:[actions objectAtIndex:k]];
-                    [transformator transformOperation:operation serverOperation:[actions objectAtIndex:k]];                }
-                
-                if ([[actions objectAtIndex:k] isIrrelevant]) {
-                    [actions removeObjectAtIndex:k];
+                if ([[actions objectAtIndex:i] isKindOfClass:[TCMMMOperation class]]) {
+                    if (isServer) {
+                        [transformator transformOperation:[actions objectAtIndex:k] serverOperation:operation];
+                    } else {
+                        [transformator transformOperation:operation serverOperation:[actions objectAtIndex:k]];
+                    }
+                    
+                    if ([[actions objectAtIndex:k] isIrrelevant]) {
+                        [actions removeObjectAtIndex:k];
+                    }
                 }
             }
             
