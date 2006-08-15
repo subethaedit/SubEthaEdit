@@ -541,6 +541,10 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     _preparedInvocationTarget = nil;
 }
 
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    return [_preparedInvocationTarget methodSignatureForSelector:aSelector];
+}
+
     	/* Undo/Redo action name */
 
 - (NSString *)undoActionName {

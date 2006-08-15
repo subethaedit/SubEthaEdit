@@ -3117,8 +3117,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
+- (void)setLineEndingUndoable:(LineEnding)lineEnding {
+    [[self documentUndoManager] beginUndoGrouping];
+    [[[self documentUndoManager] prepareWithInvocationTarget:self] setLineEndingUndoable:[self lineEnding]];
+    [[self documentUndoManager] endUndoGrouping];
+    [self setLineEnding:lineEnding];
+}
+
 - (IBAction)chooseLineEndings:(id)aSender {
-    [self setLineEnding:[aSender tag]];
+    [self setLineEndingUndoable:[aSender tag]];
 }
 
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding {
