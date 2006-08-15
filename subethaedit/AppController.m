@@ -964,22 +964,24 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     
-    if (selector==@selector(undo:)) {
-        PlainTextDocument *currentDocument=[[NSDocumentController sharedDocumentController] currentDocument];
-        if (currentDocument) {
-            return [[currentDocument documentUndoManager] canUndo];
-        } else {
-            NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
-            return [undoManager canUndo];
-        }
-    } else if (selector==@selector(redo:)) {
-        PlainTextDocument *currentDocument=[[NSDocumentController sharedDocumentController] currentDocument];
-        if (currentDocument) {
-            return [[currentDocument documentUndoManager] canRedo];
-        } else {
-            NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
-            return [undoManager canRedo];
-        }
+    id undoManager = nil;
+    PlainTextDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+    if (currentDocument) {
+        undoManager = [currentDocument documentUndoManager];
+    } else {
+        undoManager = [[[NSApp mainWindow] delegate] undoManager];
+    }
+    
+    if (selector == @selector(undo:)) {
+        NSString *title = [undoManager undoMenuItemTitle];
+        if (title == nil) title = NSLocalizedString(@"&Undo", nil);
+        [menuItem setTitle:title];   
+        return [undoManager canUndo];
+    } else if (selector == @selector(redo:)) {
+        NSString *title = [undoManager redoMenuItemTitle];
+        if (title == nil) title = NSLocalizedString(@"&Redo", nil);
+        [menuItem setTitle:title];
+        return [undoManager canRedo];
     }
 
     return YES;

@@ -602,13 +602,27 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     	/* Undo/Redo menu item title */
 
 - (NSString *)undoMenuItemTitle {
-    [NSException raise:NSInternalInconsistencyException format:@"Unimplemented method: %@", NSStringFromSelector(_cmd)];
-    return @"";
+    if ([self canUndo]) {
+        if ([self undoActionName]) {
+            return [self undoMenuTitleForUndoActionName:[self undoActionName]];
+        } else {
+            return NSLocalizedString(@"&Undo", nil);
+        }
+    } else {
+        return nil;
+    }
 }
 
 - (NSString *)redoMenuItemTitle {
-    [NSException raise:NSInternalInconsistencyException format:@"Unimplemented method: %@", NSStringFromSelector(_cmd)];
-    return @"";
+    if ([self canRedo]) {
+        if ([self redoActionName]) {
+            return [self redoMenuTitleForUndoActionName:[self redoActionName]];
+        } else {
+            return NSLocalizedString(@"&Redo", nil);
+        }
+    } else {
+        return nil;
+    }
 }
     // Call undoMenuItemTitle or redoMenuItemTitle to get the string for the undo or redo menu item.
     // In English they will return "Undo <action name>"/"Redo <action name>" or "Undo"/"Redo" if there is
@@ -617,13 +631,11 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
     	/* localization hooks */
 
 - (NSString *)undoMenuTitleForUndoActionName:(NSString *)actionName {
-    [NSException raise:NSInternalInconsistencyException format:@"Unimplemented method: %@", NSStringFromSelector(_cmd)];
-    return @"";
+    return [NSString stringWithFormat:NSLocalizedString(@"&Undo %@", nil), actionName];
 }
 
 - (NSString *)redoMenuTitleForUndoActionName:(NSString *)actionName {
-    [NSException raise:NSInternalInconsistencyException format:@"Unimplemented method: %@", NSStringFromSelector(_cmd)];
-    return @"";
+    return [NSString stringWithFormat:NSLocalizedString(@"&Redo %@", nil), actionName];
 }
     // The localization of the pattern is usually done by localizing the string patterns in
     // undo.strings. But undo/redoMenuTitleForUndoActionName can also be overridden if
