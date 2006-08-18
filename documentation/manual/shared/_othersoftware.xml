@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter SYSTEM "../etc/documentation.dtd">
+<chapter name="Other Products" id="otherproducts">
+	<paragraph>Besides ${software}, DEVONtechnologies publishes a number of other commercial,
+	shareware, and freeware applications, and services that you may be interested
+	in.</paragraph>
+	<section name="At a Glance" id="intro">
+		<paragraph>DEVONtechnologies is focused on developing innovative applications for
+		finding, storing, and organizing information. Our main objective is to make complex
+		yet flexible technology that is both easy to use and lightning fast.</paragraph>
+		<list>
+			<item>
+				<reference chapter="otherproducts" section="devonthink">
+				DEVONthink</reference>
+			</item>
+			<item>
+				<reference chapter="otherproducts" section="devonagent">
+				DEVONagent</reference>
+			</item>
+			<item>
+				<reference chapter="otherproducts" section="devonnote">
+				DEVONnote</reference>
+			</item>
+		</list>
+		<paragraph>All applications are based on the DEVONtechnology, a powerful and solid
+		core unique to DEVONtechnologies. DEVONthink, DEVONnote, and DEVONagent are only
+		the first of many more DEVONtechnology-applications yet to come.</paragraph>
+		<subsection name="Newsletter &amp; Forum">
+			<paragraph>Would you like DEVONtechnologies to keep you informed about
+			updates and new product releases? 
+			<link href="http://www.devon-technologies.com/news/newsletter.php">
+			Subscribe to the newsletter.</link></paragraph>
+			<paragraph>And don't forget to have a look at our very lively 
+			<link href="http://www.devon-technologies.com/support/forum.html">user
+			forum</link>, where users of all skill levels meet to discuss our
+			applications, talk about our technology, and exchange tips and tricks for
+			DEVONthink &amp; Co.</paragraph>
+		</subsection>
+	</section>
+	<section name="DEVONthink" id="devonthink">
+		<subsection name="The Real Paperless Office">
+			<paragraph>Make the dream of the paperless office come true with DEVONthink
+			and keep all your text and RTF files, scanned documents, notes, emails,
+			images, chat logs, bookmarks, and multimedia files together in one simple
+			to use database. 
+			<!-- NOTE: Using a bulleted list in the middle of a sentence is grammatically clunky; consider using a regular sentence, with the terms previously highlighted with bullets (such as text and RTF files, scanned documents, etc.) bolded for effect. -->DEVONthink
+			allows you to integrate both local documents and live content from the
+			Internet, keeping all project- related information stored in one
+			easy-to-access place.</paragraph>
+		</subsection>
+		<subsection name="Why DEVONthink?">
+			<paragraph>DEVONthink not only stores documents, it also facilitates
+			editing, analyzing, organizing, finding, and archiving your documents with
+			its flexible work environment, powerful organization tools, and built-in AI
+			architecture.</paragraph>
+			<!-- Again, bulleted list is really clunky; better to use sentence with bolded terms ('editing,' 'analyzing,' 'organizing,' 'finding' and 'archiving,' in this case) -->
+		</subsection>
+		<subsection name="Integrated Workspace">
+			<paragraph>Unlike Mac OS X's Finder, DEVONthink provides an integrated work
+			environment with all the tools you need for working with information of all
+			kinds, from simple text to PDFs and multimedia files. DEVONthink can
+			intelligently assist you with filing documents, finding similar files, or
+			searching the database, saving you the trouble of having to manually manage
+			thousands of files.</paragraph>
+			<paragraph>As a native Mac application, DEVONthink is also tightly
+			integrated with the Mac OS X operating system and its frameworks. It
+			provides a dock menu, Services menu commands, and even makes heavy use of
+			the Safari web browser engine and Mac OS X 10.4 Tiger's advanced PDF
+			library.</paragraph>
+		</subsection>
+		<paragraph>
+			<link href="http://www.devon-technologies.com/products/devonthink">Click
+			here to read more about DEVONthink.</link>
+		</paragraph>
+	</section>
+	<section name="DEVONagent" id="devonagent">
+		<paragraph>DEVONagent overcomes all the shortcomings that make Google &amp; Co.
+		such a pain to use for serious research projects. With more than 130 plug-ins for
+		popular search engines, DEVONagent has scientific databases and research tools, and
+		predefined search sets that you can use right away with amazing results. The
+		application also has a clean, easy-to-use user interface. All this and more make
+		DEVONagent the number one tool for finding information on the web with a
+		Mac.</paragraph>
+		<paragraph name="Why DEVONagent">DEVONagent is much more than just an interface for
+		web search engines; it helps you find, collect, and organize information with a
+		powerful and flexible search architecture. It also has a simple to use built-in
+		archive, and tight integration with DEVONthink. 
+		<!-- Bulleted lists mid-sentence not best option grammatically; consider using sentence with elements 'find,' 'collect,' and 'organize' bolded for emphasis. -->DEVONagent
+		creates summaries, acts as a fast and lean web browser, and shows all items of
+		interest in a separate drawer. DEVONagent is the easiest way to look for
+		information on the web. 
+		<!-- If previous statement is too strong, consider changing to "We think DEVONagent is the easiest way to look for information on the web." Best to use a positive, bold statement. --></paragraph>
+		<paragraph name="DEVONthink Companion">DEVONagent is the perfect extension to your
+		DEVONthink database. With DEVONagent you can save found information directly to
+		your database as plain or rich text, as a web archive, or as a PDF-all with a
+		single click of your mouse. You can then use DEVONthink's intelligence to organize
+		this newly collected data conveniently and quickly.</paragraph>
+		<paragraph name="What You Can Use It For">There are many different ways to use
+		DEVONagent and to integrate it into your workflow. Some examples
+		include:</paragraph>
+		<list>
+			<item>Journalists, who use ${software} to collect hot news, and who use
+			copy-and-paste to transfer the summary to the word processing program of
+			their choice. "See also" and DEVONagent's intelligent filters also help
+			journalists eliminate junk information and/or duplicate or irrelevant pages
+			on-the-fly.</item>
+			<item>Analysts, who need to stay up-to-date with everything that happens in
+			their industry. With DEVONagent they define their own search sets that
+			return exactly what they're interested in, storing the key information in
+			the integrated archive.</item>
+			<item>Scientists and students, who directly access specialized databases,
+			scan important websites, and receive relevant news via RSS. These users
+			then transfer the most interesting articles as web archive, plain text,
+			RTF, or PDF files into DEVONthink with a single click of the mouse.</item>
+			<item>Lawyers, who wish to stay up-to-date with new laws, precendence
+			setting cases and interpretations, and with their main clients.
+			DEVONagent's scheduler does this automatically, letting the lawyers
+			concentrate on their work, instead of searching the web for
+			information.</item>
+			<item>Home users, who are interested in genealogical research, finding
+			desktop pictures, searching for long-lost friends, or simply using
+			DEVONagent as a high-end interface for Google and MSN Search.</item>
+		</list>
+		<paragraph>
+			<link href="http://www.devon-technologies.com/products/devonagent">Click
+			here to read more about DEVONagent.</link>
+		</paragraph>
+	</section>
+	<section name="DEVONnote" id="devonnote">
+		<subsection name="Organize Your Thoughts">
+			<paragraph>DEVONnote helps you take notes and keep them organized. It keeps
+			all your ideas, documents, important information, and even your web
+			browser's bookmarks in one single, accessible place. DEVONnote supports you
+			with professional, easy-to-use features, and helps create structure out of
+			chaos.</paragraph>
+			<!-- Consider adding mention of how DEVONnote helps create structure out of chaos; example: "...and helps create structure out of chaos with its unique filing system." -->
+			<paragraph>DEVONnote is the most sophisticated notepad application for Mac
+			OS X, and the only one that uses AI (artificial intelligence) instead of
+			relying on your NI (natural intelligence).</paragraph>
+			<!-- Consider adding a line about why AI is preferred to NI in this context; as it reads now, the sentence seems to say that AI is preferrable to NI because the user is not very intelligent (at least, not intelligent enough to rely on their NI). -->
+		</subsection>
+		<subsection name="Why DEVONnote?">
+			<paragraph>DEVONnote was designed with the typical Mac user in mind-a user
+			who is:</paragraph>
+			<list>
+				<item>Creative</item>
+				<item>Professional (whether at work or at home)</item>
+				<!-- "Professional" in the U.S. often connotates business, or work only, and is not usually associated with activities done at home or for hobbists/students; consider alternative word choice, such as "practical," "knowledgable," or "savvy"—these words will cover business people as well as home users, students, etc. -->
+				<item>Desiring quality software</item>
+			</list>
+			<paragraph>Consequently, DEVONnote comes with a clean, easy-to-use
+			interface that gives you all the tools you need in a familiar Mac-like
+			package. Even the most complex AI functions are just »buttons«, meaning one
+			simple click can send DEVONnote into action, digging through all of your
+			data to find a place for your latest note, or to show you all your ideas
+			and concepts that are similar to the one you've just selected.</paragraph>
+		</subsection>
+		<subsection name="Brain Food Included">
+			<paragraph>Of course, creative people don't just »have thoughts«, they
+			often need new »input«, too. 
+			<!-- Consider using the word "inspiration" instead of "input," as input seems a little too computerese/sterile -->We
+			understand that, and that's the reason why DEVONnote comes with a complete
+			Safari-based web browser and solid, but flexible, bookmark-managing
+			capabilities. With DEVONnote, you can browse your favourite websites, then
+			clip and save the most important information directly to your DEVONnote
+			notebook.</paragraph>
+			<paragraph>But, of course, life is not just work! Use DEVONnote to watch
+			and organize your favorite cams, directly within your notepad.</paragraph>
+			<!-- Not sure what you mean by "cams" - if meaning webcam, be sure to say webcam for clarity. Also, try for consistency with "webcam"— in this document, it is one word, however on your website it is two: web cam. Best to pick one and use exclusively. I recommend using the single word. -->
+		</subsection>
+		<paragraph>
+			<link href="http://www.devon-technologies.com/products/devonnote">Click
+			here to read more about DEVONnote.</link>
+		</paragraph>
+	</section>
+	<section name="PhotoStickies" id="photostickies">
+		<subsection name="">
+			<paragraph>PhotoStickies displays one or more photos (located on your local
+			drives or on the Internet) on your screen. It also shows webcam pictures,
+			acts as a fast image viewer, and records and replays slideshows.
+			PhotoStickies can even be used as a wallpaper utility.</paragraph>
+			<paragraph>In contrast to other "sticky" solutions, all of PhotoStickies'
+			windows are borderless, and may float above or behind other application or
+			Finder windows directly on your desktop. As PhotoStickies supports (and
+			even calculates) alpha channels and transparency, your stickies and
+			background images don't have to be opaque rectangles. And, if you don't
+			want your photos to be in your way, let the clicks go right through them as
+			if they weren't even there.</paragraph>
+			<paragraph>Additional features include real-time filtering (like blur,
+			sharpen, adjust contrast and brightness, etc.) of images, webcams and
+			slideshows to improve display quality, and a special webcam mode that can
+			save your bandwidth for other tasks so you may monitor many different
+			webcams at the same time. PhotoStickies has the ability to revert to saved
+			states on startup, includes favorites, and even zooming, rotating, tiling
+			and flipping of images. The application can be run as a menu extra, is
+			highly multi-threaded, supports multiple screens, drag-and-drop, contextual
+			menus, a dock menu, a processes panel, and a inspector panel. It
+			understands all image formats provided by Cocoa, such as PDF, EPS, PICT,
+			TIFF, JPEG, Photoshop (PSD), or icons (ICNS, ICO).</paragraph>
+		</subsection>
+		<subsection name="Key Features">
+			<list>
+				<item>Displays local images or webcam pictures on your
+				desktop</item>
+				<item>Records webcams over a period of time, ideal for surveillance
+				cams</item>
+				<item>Can be used as a ultra-fast image viewer</item>
+				<item>Filters images for better image quality</item>
+				<item>Server-based list with new webcams; users can post new cams
+				to the server</item>
+				<item>Built to seamlessly integrate with Mac OS X</item>
+			</list>
+		</subsection>
+		<subsection name="What's Unique">
+			<list>
+				<item>Uses all Quartz image features such as alpha channels and
+				transparency</item>
+				<item>Comes with real-time image filters</item>
+				<item>Images can be shown frameless</item>
+				<item>Can be run as a Menu Extra</item>
+				<item>Understands all Quartz and QuickTime image formats</item>
+				<item>Built to seamlessly integrate with Mac OS X</item>
+			</list>
+		</subsection>
+		<paragraph>
+			<link href="http://www.devon-technologies.com/products/shareware">Click
+			here to read more about PhotoStickies.</link>
+		</paragraph>
+	</section>
+	<section name="Needful Things" id="freeware">
+		<subsection name="EasyFind">
+			<paragraph>As an alternative to-or supplement of-Sherlock, EasyFind finds
+			files, folders, or contents in any file without the need for indexing. This
+			is especially useful if you are tired of slow or impossible indexing,
+			outdated or corrupted indices, or if you are just looking for missing
+			features like case sensitive or insensitive search, Boolean operators,
+			wildcards, or searching for phrases. In addition, EasyFind uses
+			multi-threading and is therefore very responsive, even with multiple search
+			processes running. 
+			<!-- "multi-threading" is hyphenated here to be consistent with "mutli-threaded," as found in PhotoStickies text above -->The
+			application provides contextual menus and Mac OS X Services, and displays
+			the location of each item in a separate column for a better overview.
+			EasyFind uses little memory, supports drag-and-drop and the clipboard, and
+			optionally finds invisible items or items within packages.</paragraph>
+		</subsection>
+		<subsection name="ThumbsUp">
+			<paragraph>ThumbsUp is a simple, drag-and-drop based utility designed to
+			create thumbnail images from batches of pictures. (The application supports
+			all Mac OS X and QuickTime image formats, including PDF documents.) Image
+			size, quality, sharpening, and antialiasing are configurable, and images
+			can be scaled by percentage or limited to a maximum size. With a scaling of
+			100 percent, ThumbsUp may be used as an ultra-fast, comfortable image
+			converter.</paragraph>
+			<note>This utility is not intended to be an HTML thumbnail gallery
+			generator; there are already lots of them out there.</note>
+			<!-- Consider replacing with what the utility *is* intended to be used for instead to emphasis why someone would want to download the application; giving potential users project ideas (such as "use ThumbsUp to create contact sheets, etc.") will draw interest from people who may not otherwise realize how useful the application can be. -->
+		</subsection>
+		<subsection name="XMenu">
+			<paragraph>XMenu brings back the Apple menu to Mac OS X. 
+			<!-- Consider rephrasing this sentence for clarity; the Apple menu still exists in OS X, it's just not the same as OS 9's Apple menu. Consider saying something like: "XMenu brings Mac OS 9's Apple menu back from the dead, adding its functionality to Mac OS X." -->The
+			application also includes a complete application launcher. By adding one or
+			more global menus to the right side of the menu bar, you can easily access
+			your preferred applications, folders (and subfolders), documents, and
+			files. Furthermore, there's no explicit need for a configuration (like
+			creating lots of folders and aliases or adding items to user-defined
+			setups)-just activate the menus you like: Applications, Developer
+			Applications, Home, Documents, or User-Defined (like the old Apple menu
+			found in Mac OS 9).</paragraph>
+		</subsection>
+		<subsection name="Freeware Services">
+			<paragraph>Besides the full-blown freeware applications, DEVONtechnologies
+			also offers a variety of useful services that extend the functionality of
+			Mac OS X's Services menu and that allow Cocoa applications like TextEdit or
+			DEVONthink to open Microsoft Word documents as plain text files, or PDFs as
+			RTF files. These services include:</paragraph>
+			<list>
+				<item>AntiWordService</item>
+				<item>BlueService</item>
+				<item>CalcService</item>
+				<item>HotService</item>
+				<item>PDF2RTFService</item>
+				<item>WordService</item>
+			</list>
+			<paragraph>Also, HotService installs a second Services menu right in the
+			top level of the menu bar, next to the Window menu. Note: This Services
+			menu is only visible in true Cocoa applications such as TextEdit, Mail, or
+			DEVONtechnologies' applications.</paragraph>
+		</subsection>
+		<paragraph>
+			<link href="http://www.devon-technologies.com/products/freeware">Click here
+			to read more about DEVONtechnologies' freeware applications and
+			services.</link>
+		</paragraph>
+	</section>
+</chapter>

@@ -1,0 +1,884 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter SYSTEM "../../etc/documentation.dtd">
+<chapter name="Windows &amp; Panels" id="windows">
+	<paragraph>${software} communicates with you through a number of windows for displaying and
+	manipulating groups and documents, finding information, editing metadata, analyzing text or
+	changing the properties of your database.</paragraph>
+	<section name="Main Window" id="main">
+		<image src="devonthinkpro/window_main.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>Most of your time with ${software} you'll spend in a main window. Like
+		Finder windows, main windows give you access to your groups and documents, but also
+		allow you to view and edit documents. Open a new main window with 
+		<reference chapter="menus" section="file">"File &gt; New Window".</reference>Also,
+		${software} opens a new window when you open a database when you check "Open New
+		Window" on the 
+		<reference chapter="preferences" section="general">"General" tab of the
+		preferences.</reference></paragraph>
+		<subsection name="Views" id="main_views">
+			<paragraph>Different views present your information in exactly the way you
+			need:</paragraph>
+			<list>
+				<item name="List" edition_le="no">Displays groups and documents as
+				a list, groups can be expanded/collapsed by clicking the grey
+				triangle in front of their name. Double-clicking items opens them
+				in separate windows.</item>
+				<item name="Icons" edition_le="no">Displays groups and documents as
+				icons. Double-clicking items opens them in separate windows. For
+				images ${software} displays a live thumbnail. Adjust the size of
+				the icons using the slider at the upper right corner of the window,
+				just below the toolbar. Use 
+				<reference chapter="menus" section="view">"View &gt; Show/Hide
+				Details"</reference>to switch between icons only and icons with
+				details in a list.</item>
+				<item name="Columns" edition_le="no">Displays groups and documents
+				in columns, similar to the columns view of the Mac OS X Finder.
+				Selecting a document shows more information about it, selecting a
+				group shows the items it contains in a new column to the right of
+				it.</item>
+				<item name="Vertical Split">Splits the window into a hierarchy list
+				to the left and a view/edit pane to the right. The hierarchy lists
+				all groups and documents of the database and can contain one or
+				more columns. By default, it shows only item names. Expand/collapse
+				groups by clicking the grey triangle.</item>
+				<item name="Horizontal Split">Similar to the Vertical Split View,
+				but splits the window horizontally instead of vertically.</item>
+				<item name="Three Panes" edition_le="no" edition_pe="no">Resembles
+				the way Apple Mail displays folders, items and contents. The left
+				hand side pane displays all groups, the top right pane displays the
+				documents contained in the selected group and the view/edit pane to
+				the lower right shows the contents of the selected document and
+				allows you to edit it if possible.</item>
+			</list>
+			<paragraph>To adjust the size of the different panes, move the mouse to the
+			divider between two panes until it changes into a line with two arrows.
+			Click and drag to adjust the size of the panes.</paragraph>
+		</subsection>
+		<subsection name="Items" id="main_items">
+			<paragraph>${software} displays groups and documents much as the Finder
+			does. Select items with a single click, drag them with the mouse from one
+			group to another, to the Finder or any other application or drag folders
+			and files from the Finder to ${software}. You can also drag clippings
+			(texts, images) from any application to ${software} and vice
+			versa.</paragraph>
+			<paragraph>Hold the Command and Option keys pressed to link to the dragged
+			item(s) instead of importing them to the database.</paragraph>
+			<note>Due to limitations in the Mac OS X drag-and-drop system you cannot
+			drag groups to the Finder or other applications on Mac OS X 10.3.9. Use 
+			<reference chapter="menus" section="file">"File &gt;
+			Export"</reference>instead. On Mac OS X 10.4 Tiger, you can drag groups
+			also to the Finder to export them.</note>
+			<paragraph>To view or edit the contents of a document or group, do the
+			following:</paragraph>
+			<list>
+				<item name="List/Icons/Columns View" edition_le="no">Double-click
+				the group or document to open it in a separate window. Hold the
+				Command key pressed to close the originating window at the same
+				time (hoisting). This also works in the other views.</item>
+				<item name="Vertical/Horizontal Split">Select the group or
+				document. The view/edit pane shows the contents of the group or
+				document. Click the triange in front of a group to expand it, then
+				select a document to view or edit it.</item>
+				<item name="Three Panes View" edition_le="no" edition_pe="no">
+				Select a group or subgroup, then select the document you want to
+				view or edit. ${software} shows it contents in the view/edit pane.
+				Click the triange in front of a group to expand it.</item>
+			</list>
+		</subsection>
+		<subsection name="View/Edit Pane" id="main_viewedit">
+			<paragraph>The view/edit pane 
+			<phrase edition_le="no">(not visible in icons and list view)</phrase>shows
+			the contents of the selected document and allows you to edit it if
+			possible. 
+			<phrase edition_le="no">You can edit plain text, rich text (also rich texts
+			converted from Microsoft Word documents) and HTML pages.</phrase>
+			<phrase edition_pe="no" edition_se="no">You can edit plain and rich text
+			(also rich texts converted from Microsoft Word
+			documents).</phrase></paragraph>
+			<paragraph>The top of the view/edit pane hosts additional
+			elements:</paragraph>
+			<list>
+				<item name="Back and Forward Buttons">Navigates back and forth
+				visited documents, for example when you've followed a cross-,
+				Wiki-style or web link. Resembles the back and forward buttons in a
+				standard web browser.</item>
+				<item name="Reload Button">Reloads the displayed page. Same as the
+				"Reload" button in a standard web browser, only active when
+				displaying a web page.</item>
+				<item name="URL Bar">Shows the URL entered into the "URL" field of
+				the displayed document. The URL can be changed by using the 
+				<reference chapter="windows" section="info">"Info"
+				panel.</reference>Clicking the URL bar opens the URL in the default
+				application for its type, e.g. "http:"-URLs in Safari,
+				"mailto:"-URLs in Apple Mail.</item>
+				<item name="Padlock Button">Locks or unlocks the document.</item>
+				<item name="Topics Pop-Up Menu">Shows a list of the most important
+				words of the displayed document. What's important and what not is
+				calculated using the information of all documents stored in the the
+				database. The more documents you have stored and the better the
+				quality of the documents, the better the results. 
+				<phrase edition_le="no">Topics are available for plain text, rich
+				text, HTML, XML and PDF documents as well as webarchives.</phrase>
+				<phrase edition_pe="no" edition_se="no">Topics are available for
+				plain and rich text documents.</phrase></item>
+			</list>
+			<paragraph>
+				<reference chapter="views">Read more here about the various
+				document types you can view or edit in the view/edit
+				pane.</reference>
+			</paragraph>
+		</subsection>
+		<subsection name="Info Bar" id="main_infobar">
+			<paragraph>Just below the toolbar you'll find the info bar. For selected
+			items it shows icon, name, kind, size and modification date. If you're not
+			sure of what kind a document is, here's the place to look.</paragraph>
+			<paragraph>Adjust the size of icons with the slider at the right-hand side
+			of the info bar.</paragraph>
+		</subsection>
+		<subsection name="Toolbar" id="main_toolbar">
+			<paragraph>The toolbar of ${software} main windows carries many commands
+			for manipulating the way it displays information and for manipulating
+			selected items. Many of them are simply shortcuts for menu bar commands.
+			Here's a short list of the available tools:</paragraph>
+			<list>
+				<item name="Top/Enclosing Group">Navigates to the top level of the
+				database or one level up. Useful when you've opened a second main
+				window by double-clicking a group and now you want to move up the
+				groups hierarchy in this window.</item>
+				<item name="Go To Document" edition_le="no">Selects the
+				first/previous/next/last document. Only available in "Three Panes"
+				view or in separate 
+				<reference chapter="windows" section="document">document
+				windows.</reference></item>
+				<item name="View">Switches between the possible views. See
+				above.</item>
+				<item name="Actions">Provides some commands for modifying the
+				selected document(s), similar to the action menu in other views.
+				Generally, the action menu contains a selection of the commands
+				also available via the contextual menu.</item>
+				<item name="Scripts" edition_le="no" edition_pe="no">Gives you
+				instant access to the scripts menu.</item>
+			</list>
+			<list>
+				<item name="Group +">Creates an empty group.</item>
+				<item name="Outline +" edition_le="no">Creates a new group with
+				shown state.</item>
+				<item name="Plain/Rich Text +">Create empty plain or rich text
+				documents.</item>
+				<item name="Link +">Creates a new link document.</item>
+				<item name="Sheet +" edition_le="no" edition_pe="no">Creates a new
+				sheet.</item>
+			</list>
+			<list edition_le="no" edition_pe="no">
+				<item name="New Record">Creates a new record in a sheet.</item>
+				<item name="Delete Records">Deletes selected records.</item>
+				<item name="New Column">Adds a new column to a sheet.</item>
+				<item name="Delete Columns">Deletes selected column(s).</item>
+				<item name="Columns">Opens the columns editor which allows you to
+				rename, reorder, add or delete columns.</item>
+			</list>
+			<list>
+				<item name="Open" edition_le="no">Opens the selected document(s) in
+				separate 
+				<reference chapter="windows" section="document">document
+				windows.</reference></item>
+				<item name="Open With &gt; ..." edition_le="no">Opens the selected
+				document(s) in an external application.</item>
+				<item name="Launch URL">Opens the Internet location stored in the
+				"URL" field of the selected document(s), e.g. a web site URL in
+				Safari.</item>
+				<item name="Delete">Deletes the selected document(s).</item>
+				<item name="Save">Saves all changes to the currently edited
+				document.</item>
+				<item name="Import, Export">"Import" imports new documents,
+				"Export" exports the selected document(s).</item>
+				<item name="Print">Prints the current or selected
+				document(s).</item>
+				<item name="Show Info">Opens the 
+				<reference chapter="windows" section="info">"Info"
+				panel.</reference></item>
+			</list>
+			<list>
+				<item name="Group, Ungroup">"Group" creates a new group and moves
+				all selected documents into it. "Upgroup" moves all documents
+				contained in the selected group(s) one level up and then deletes
+				the then-empty group.</item>
+				<item name="Auto Classify" edition_le="no">Classifies the selected
+				document(s) and moves them into the most appropriate group if
+				possible.</item>
+				<item name="Find (search field)">Searches the database
+				conveniently. Select your search options from the magnifier pop-up
+				menu, enter your search term and press Return.</item>
+				<item name="Find" edition_le="no">Opens the 
+				<reference chapter="windows" section="search">"Search"
+				window.</reference></item>
+			</list>
+			<list>
+				<item name="Bigger, Smaller Font">Increases or decreases the font
+				size.</item>
+				<item name="Subscript, Superscript">Makes selected text sub- or
+				superscript.</item>
+				<item name="Ruler">Shows or hides the ruler for rich text.</item>
+				<item name="Fonts">Shows the standard Mac OS X fonts panel.</item>
+				<item name="Colors">Shows the standard Mac OS X colors
+				panel.</item>
+				<item name="Make Plain, Rich Text">Converts the current text
+				document to plain or rich text.</item>
+				<item name="Highlighting">Highlights selected text.</item>
+				<item name="Link">Makes selected text a Wiki-style link. If the
+				text is a URL, the link will point to that URL.</item>
+				<item name="Edit Source, Show Page" edition_le="no">Toggles between
+				source and page display of selected HTML document(s).</item>
+			</list>
+			<list>
+				<item name="Zoom">Zooms in, out or shows the document in
+				1:1.</item>
+				<item name="Full Screen" edition_le="no">Shows the selected
+				document(s) in full screen mode. Press F8 to return to windowed
+				mode.</item>
+			</list>
+			<list>
+				<item name="Capture" edition_le="no">Captures a web page as
+				webarchive.</item>
+				<item name="Capture Note">Captures selected elements of a web page
+				as rich text document.</item>
+				<item name="DEVONagent" edition_le="no">Opens 
+				<reference chapter="otherproducts" section="devonagent">
+				DEVONagent.</reference>If the view/edit pane or frontmost window
+				displays a web page, it opens the same URL in DEVONagent.</item>
+				<item name="Backup">Creates an internal backup of the database and
+				then optimizes the database stucture (same as 
+				<reference chapter="menus" section="tools" edition_le="no">"Tools
+				&gt; Backup &amp; Optimize").</reference>
+				<reference chapter="menus" section="file" edition_pe="no"
+				edition_se="no">"File &gt; Backup &amp;
+				Optimize").</reference></item>
+				<item name="Verify">Verifies the database structure (same as 
+				<reference chapter="menus" section="tools" edition_le="no">"Tools
+				&gt; Verify &amp; Repair").</reference>
+				<reference chapter="menus" section="file" edition_pe="no"
+				edition_se="no">"File &gt; Verify &amp;
+				Repair").</reference></item>
+			</list>
+			<note>Not all of these commands are always available. You can customize the
+			toolbar by selecting 
+			<reference chapter="menus" section="view">"View &gt; Customize
+			Toolbar..."</reference>or by control/right-clicking the toolbar background
+			and selecting "Customize Toolbar..." from the contextual menu.</note>
+		</subsection>
+		<subsection name="Shortcuts &amp; Modifier Keys" id="main_shortcuts">
+			<paragraph>For group and document icons in both the hierarchy list or when
+			displaying a group's content in the view/edit pane, you can use a couple of
+			shortcuts and modifier keys.</paragraph>
+			<list>
+				<item name="Command + drag-and-drop">Copys item(s) to the drag
+				destination.</item>
+				<item name="Command-Option + drag-and-drop">Links/replicates
+				item(s) to the drag destination.</item>
+				<item name="Shift-Click">Selects multiple items.</item>
+				<item name="Shift-Left/Right/Up/Down Arrow">Extends the current
+				selection.</item>
+				<item name="Option-Double Click or Command-Shift-O">Opens selected
+				document(s)/group(s) in a new main window and closes the current
+				window ("Hoist"). Activate "Always open groups in a new window" on
+				the 
+				<reference chapter="preferences" section="general">"General" tab of
+				the preferences.</reference></item>
+				<item name="Command-Click (a crosslink or Wiki link)">Positions the
+				insertion mark inside the link for editing.</item>
+				<item name="Command-Option-Click (a crosslink or Wiki link)">Opens
+				the target of the link in a separate window.</item>
+				<item name="Option-Click (a word)">Looks for the clicked word in
+				the database, like the contextual menu command "See
+				&lt;word&gt;"</item>
+				<item name="Option-Click (the triangle in front of a group)">
+				Expands or collapses all children.</item>
+				<item name="Left/Right arrow">Shows or hides the contents of groups
+				in "Horizontal Split", "Vertical Split" 
+				<phrase edition_le="no">or "List"</phrase>views or navigate to
+				previous/next item in other views.</item>
+				<item name="Up/Down arrow">Navigates up and down in all views. Use
+				"Shift" to select multiple entries.</item>
+				<item name="Space/Shift-Space">Scrolls one page down or up, in
+				non-editable views, e.g., a locked document.</item>
+				<item name="Return">Renames documents in main windows.</item>
+				<item name="Escape">Cancels renaming.</item>
+				<item name="Backspace">Deletes selected items.</item>
+			</list>
+		</subsection>
+		<subsection name="Contextual Menu" id="main_contextual">
+			<paragraph>The contextual menu, which appears when you click something with
+			the right mouse button or when you click while holding the Control key
+			down, offers a range of commands tailored to what you can do with the
+			clicked object, for example a text passage.</paragraph>
+			<paragraph>Most of the commands offered by the contextual menu have
+			counterparts in a main menu, so you'll recognize them immediately. However,
+			to save menu bar real estate, ${software} gives you access to some options
+			only via the contextual menu.</paragraph>
+			<list>
+				<item name="Duplicate To &gt; ...">Creates a duplicate of the group
+				or document in the group you select in the submenu.</item>
+				<item name="Replicate To &gt; ...">Creates a replicate of the group
+				or document in the group you select in the submenu.</item>
+				<item name="Move To &gt; ...">Moves the group or document to the
+				group you select in the submenu.</item>
+				<item name="Interval &gt; ..." edition_pe="no" edition_se="no">Sets
+				a reload interval for a selected bookmark. Use it for conveniently
+				viewing web cams.</item>
+			</list>
+			<note>For your convenience, ${software} also makes the 
+			<reference chapter="menus" section="services">"Services"
+			menu</reference>available via the contextual menu.</note>
+		</subsection>
+	</section>
+	<section name="Document Window" id="document" edition_le="no">
+		<image src="devonthinkpro/window_document.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>A document window is more or less similar to the view/edit pane of a
+		main window. You open a document window by double-clicking a document in any view
+		of a main window.</paragraph>
+		<paragraph>Depending on the type of information it contains, the toolbar of a
+		document window offers different set of tools. Most of them are identical to their
+		counterparts in the ${software} main window toolbar.</paragraph>
+		<paragraph>See chapter 
+		<reference chapter="views">"Views"</reference>for a detailed description of the
+		various views for different types of documents.</paragraph>
+	</section>
+	<section name="Search Window" id="search" edition_le="no">
+		<image src="devonthinkpro/window_search.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>The "Search" window allows you to search your database in almost every
+		way possible, and assists you with intelligent functions for broadening and
+		adjusting your search terms.</paragraph>
+		<subsection name="Search Term" id="search_term">
+			<paragraph>In the top part of the "Search" window you'll find the search
+			term field as well as the "Spelling" and "Context" buttons. To enter a
+			search term and run the query with the default options, simply type your
+			search words into the search term field and click the magnifier button to
+			the right of it. Like in many other Mac applications, the pop-up menu
+			behind the magnifier icon at the left hand side of the search term field
+			gives you access to the last 25 search terms.</paragraph>
+			<paragraph>To broaden or adjust your search words, enter a word and click
+			either "Spelling" or "Context" to show a list of all words in the database
+			that are similar to the entered word either by spelling or by context.
+			Choose one or more words (use Shift or Command to select multiple words
+			from the list) to use them as search words. The word you've entered will be
+			shown on the top of the list, so you won't lose it for your search
+			run.</paragraph>
+		</subsection>
+		<subsection name="Search Options" id="search_options">
+			<paragraph>The left hand part of the "Search" window gives you more control
+			over the way ${software} searches the database. Adjust them to your
+			needs.</paragraph>
+			<paragraph name="Search for">Choose what exactly you're looking for or
+			select "All" to search all parts of a document:</paragraph>
+			<list>
+				<item>All</item>
+				<item>Content</item>
+				<item>Name</item>
+				<item>URL/Path</item>
+				<item>Comment</item>
+			</list>
+			<paragraph name="Operator">Use these four options to either find documents
+			containing all entered search words ("All Words") or to find only documents
+			containing all entered words in exactly this very sequence ("Phrase"). "Any
+			Word" finds documents containing any of the given words, "Wildcards" lets
+			you use the wildcards "*" and "?" (currently only in document names, not in
+			document contents). "Phrase" also finds partial words.</paragraph>
+			<paragraph name="Comparison">Choose whether you want to find words exactly,
+			i.e. exactly spelled as entered, or case-insensitive ("Ignore case").
+			Choose "Fuzzy" (only available with the "All Words" and "Any Words"
+			operators, see above) to find also words with a similar or wrong spelling,
+			e.g. "Kennedy" and "Kenedy".</paragraph>
+			<paragraph name="State">Limit the results based on their state
+			(checked/unchecked). Choose "Any" to find results regardless of their
+			state.</paragraph>
+			<paragraph name="Locking">Limit the results based on whether they are
+			locked or not (on/off). Choose "Any" to find results regardless of their
+			locking flag.</paragraph>
+			<paragraph name="Label">Limit the results based on their label. Choose
+			"Any" to find results regardless of their label.</paragraph>
+			<note>To search for all documents with a given state, locking state, or
+			label, simply leave the query field empty and use the above options to
+			define what you are looking for.</note>
+			<paragraph name="Search in">Limit the scope of the search run to any group
+			in the database including its subgroups. Choose "Database" to search the
+			complete database.</paragraph>
+		</subsection>
+		<subsection name="Search Results" id="search_results">
+			<paragraph>After a successful search run, ${software} lists all found
+			documents below the search term field and displays them in a list together
+			with their score (relevance compared to the query), their icon, location in
+			the database, modification date, document kind and size. Sort the list in
+			any way you want by clicking the column titles, click them again to reverse
+			the sorting order. Point with the mouse to a result for a short moment, the
+			appearing tooltip will show you the full title and location.</paragraph>
+			<paragraph>Below the list of found documents, ${software} gives you a
+			preview of the documents you select in the list. If you cannot see the
+			preview area, drag its handle up from the bottom of the window. Also, you
+			can do almost everything you could do in any other ${software} window, e.g.
+			drag a document to another window or the Finder, or export
+			them.</paragraph>
+		</subsection>
+		<subsection name="Toolbar" id="search_toolbar">
+			<paragraph>The toolbar of the search window carries many tools that are
+			also present in ${software} main or document windows. Here's a short
+			list:</paragraph>
+			<list>
+				<item name="Go">Selects the first/previous/next/last item.</item>
+				<item name="View">Switches between "Horizontal Split" and "Vertical
+				Split" views for the "Results" tab.</item>
+				<item name="Actions">Provides some commands for modifying the
+				selected document(s), similar to the action menu in other views.
+				Generally, the action menu contains a selection of the commands
+				also available via the contextual menu.</item>
+				<item name="Open">Opens the selected document(s) in separate
+				document windows.</item>
+				<item name="Open With &gt; ...">Opens the selected document(s) in
+				an external application.</item>
+				<item name="Launch URL">Opens the Internet location stored in the
+				"URL" field of the selected document(s), e.g. a web site URL in
+				Safari.</item>
+				<item name="Group">Groups the selected document(s) in a new
+				group.</item>
+				<item name="Delete">Deletes the selected document(s).</item>
+				<item name="Export">Exports the selected document(s).</item>
+				<item name="Show Info">Opens the 
+				<reference chapter="windows" section="info">Info
+				panel.</reference></item>
+				<item name="Print">Prints the selected document(s).</item>
+				<item name="Edit Source, Show Page">Toggles between source and page
+				display of selected HTML document(s).</item>
+				<item name="Zoom">Zooms in, out or displays the document in
+				1:1.</item>
+				<item name="Full Screen" edition_le="no">Shows the selected
+				document(s) in full screen mode. Press F8 to return to windowed
+				mode.</item>
+			</list>
+			<note>Not all of these commands are always available. You can customize the
+			toolbar by selecting 
+			<reference chapter="menus" section="view">"View &gt; Customize
+			Toolbar..."</reference>or by control/right-clicking the toolbar background
+			and selecting "Customize Toolbar..." from the contextual menu.</note>
+		</subsection>
+		<subsection name="Contextual Menu" id="search_contextual">
+			<paragraph>You can manipulate the search results by command-clicking them
+			to open the contextual menu, which offers various additional
+			commands.</paragraph>
+			<list>
+				<item name="Open...">Opens the selected document(s) in a separate 
+				<reference chapter="windows" section="main">main
+				window.</reference></item>
+				<item name="Launch URL">Opens the document(s) or web page(s)
+				pointed to by the "URL" field of the selected document(s).</item>
+				<item name="Launch Path">Opens the document(s) pointed to by the
+				"Path" field of the selected document(s).</item>
+				<item name="Reveal">Show and select the document group.</item>
+				<item name="Duplicate To &gt; ...">Duplicates the selected
+				document(s) to the group you select from the submenu.</item>
+				<item name="Replicate To &gt; ...">Replicates the selected
+				document(s) to the group you select from the submenu.</item>
+				<item name="Move To &gt; ...">Moves the selected document(s) to the
+				group you select from the submenu.</item>
+				<item name="Label &gt; ...">Changes the label of the selected
+				document(s).</item>
+				<item name="State &gt; ...">Shows or changes the state of the
+				selected document(s).</item>
+				<item name="Locking &gt; ...">Locks or unlocks the selected
+				document(s).</item>
+				<item name="Delete All Instances">Deletes all instances of the
+				selected document(s), i.e. including all replicants (if
+				any).</item>
+				<item name="Group">Creates a new group in the top level of the
+				database and moves the selected document(s) there.</item>
+			</list>
+		</subsection>
+	</section>
+	<section name="Info Panel" id="info">
+		<image src="devonthinkpro/panel_info.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>The "Info" panel, just like its counterpart in the Finder, displays
+		additional information about a selected document or group, from icon and name to
+		comments and other metadata.</paragraph>
+		<paragraph>Open the "Info" panel using the "i" icon from the window toolbar or by
+		selecting 
+		<phrase edition_pe="no" edition_se="no">
+			<reference chapter="menus" section="window">"Window &gt; Show
+			Info..."</reference>
+		</phrase>
+		<phrase edition_le="no">
+			<reference chapter="menus" section="tools">"Tools &gt; Show
+			Info..."</reference>
+		</phrase>. The contents of the info panel corresponds to the currently selected
+		object, so you can leave it open all the time and it will always display the
+		correct information for the selected document or group.</paragraph>
+		<subsection name="Head Elements" id="info_head">
+			<paragraph name="Icon and Name">Just like in the Finder, the top part of
+			the panel displays the icon and the name of the selected object. 
+			<phrase edition_le="no">To change the icon of the document, select it and
+			paste any image you want over it.</phrase>To change the name of the
+			document, use the Name field below.</paragraph>
+			<paragraph name="Locking">The "Locking" checkbox indicates if the object is
+			write-protected. Check the checkbox to protect the document or group from
+			being accidently modified. Locked documents or groups show a little padlock
+			after their name.</paragraph>
+			<paragraph name="Exclude from classification">The checkbox "Exclude from
+			classification" allows you to exclude this document or group from being
+			used for classifying objects. Use this to exclude for example temporary
+			groups to increase the accuracy of auto-classify and see-also.</paragraph>
+			<paragraph name="Show State" edition_le="no">When the "Show State" checkbox
+			is checked, the icon of the object in the groups list changes to a
+			checkbox, so that it can be checked or unchecked. You can use this
+			functionality to make ${software} a simple outliner or to tick all
+			documents you have already finished. Uncheck the "Show State" checkbox in
+			the Info panel to show the item's icon again in groups lists.</paragraph>
+		</subsection>
+		<subsection name="Metadata Elements" id="info_metadata">
+			<paragraph name="Name">Use this field to change the name of the
+			object.</paragraph>
+			<paragraph name="Aliases">Enter one or more words here, separated by
+			semicolons, as alternative targets for Wiki-style links. Generally, Wiki
+			links refer to the name of contents, aliases make this system much more
+			flexible.</paragraph>
+			<paragraph name="Path">Enter the path to a file in the file system here to
+			link the document to that file. This is usually done automatically when you
+			create a link to a file unknown to ${software}. You can open this file by
+			selecting the document and using the contextual menu command "Launch Path".
+			Alternatively, you can click on the "@" button next to this field in the
+			"Info" panel.</paragraph>
+			<paragraph name="URL">Smiliar to the "Path" field, the "URL" field is used
+			to link the document to an Internet address (or just anything that can be
+			reached by a URL). This field is used primarily by links, but you can also
+			use it to connect a document to a web page. Go to the web page by clicking
+			the "@" button next to this field or by selecting the document and using
+			the contextual menu command "Launch URL".</paragraph>
+		</subsection>
+		<subsection name="Information elements" id="info_information">
+			<paragraph name="Size, File">These and the following field are for your
+			information only. "Size" and "File" display the size of the document in the
+			database and of the file linked with it via the "Path" field (see
+			above).</paragraph>
+			<paragraph name="Kind">Shows of what kind the selected document is, for
+			example text, RTF, etc.</paragraph>
+			<paragraph name="Created, Modified">The dates when the object was created
+			and when it was modified the last time.</paragraph>
+			<paragraph name="Location">Shows where in the groups hierarchy the document
+			or group is located.</paragraph>
+			<paragraph name="Instances">Shows how many replicants of this document or
+			group exist in the database and how many duplicates ${software} has
+			identified.</paragraph>
+		</subsection>
+		<subsection name="Additional elements" id="info_additionalelements">
+			<paragraph name="Comments">The "Comments" field stores any other meta
+			information you want to attach to your document or group, similar to the
+			comments field in the Finder. Of course, the "Comments" field is
+			searchable. For imported files, ${software} also takes over the comments in
+			the Finder comment field. Just make sure to check the corresponding option
+			in the 
+			<reference chapter="preferences" section="import">preferences, "Import"
+			tab.</reference></paragraph>
+		</subsection>
+	</section>
+	<section name="Concordance" id="concordance" edition_le="no" edition_pe="no">
+		<image src="devonthinkpro/window_concordance.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>The "Concordance" window, opened with 
+		<reference chapter="menus" section="tools">"Tools &gt;
+		Concordance",</reference>gives you a tool for analyzing the contents of your
+		database by:</paragraph>
+		<list>
+			<item>Rank number (starting with 1, ascending)</item>
+			<item>Word frequency</item>
+			<item>Number of groups containing items containing a word</item>
+			<item>Word length</item>
+			<item>Word weight (relevance, depends on the contents of the
+			database)</item>
+		</list>
+		<subsection name="Concordance List" id="concordance_list">
+			<paragraph>The concordance list shows a list of all words in the opened
+			database, sorted by frequency or any other criteria by clicking the
+			according column title. Click the column title again to reverse the sorting
+			order.</paragraph>
+			<paragraph>You can also filter the list by word length and limit it to
+			alphanumeric strings (to omit character/number combinations) by entering
+			the minimum and maximum word length at the bottom of the "Concordance"
+			window and by checking/unchecking the "Alphanumeric" switch. Click the
+			"Update" button at the top of the window to update the list after you have
+			changed some parameters.</paragraph>
+			<paragraph>To find a word in the list, enter it into the search field at
+			the top of the window. Select any word and click the "Search" button at the
+			bottom of the window to open a drawer containing all documents that contain
+			this word, sorted by relevance. Click "Similar" to show a list of words
+			that are contextually similar to the selected word.</paragraph>
+		</subsection>
+		<subsection name="Drawers" id="concordance_drawers">
+			<paragraph>You can manipulate the items in the drawer opened by the
+			"Similar" and Search" buttons in various ways. Drag them to the hierarchy
+			to move them to another location, double-click them to open them in a
+			separate window or control-click them to open the contextual menu, which
+			shows basically the same options as the contextual menu for 
+			<reference chapter="drawers" section="seealso">"See Also"
+			drawers.</reference>To close the drawer, click the red close
+			button.</paragraph>
+		</subsection>
+		<subsection name="Frequency Graph" id="concordance_frequency">
+			<paragraph>You can switch between the frequency graph and the concordance
+			list by clicking the "graph" and "list" buttons in the upper left corner of
+			the concordance window.</paragraph>
+			<paragraph>The frequency graph shows a graph of the word frequency over the
+			rank number of the word (see above). Change the sorting in the concordance
+			list to get different results, e.g. a graph of frequency over number of
+			groups. You can influence the graph also by limiting the word length or by
+			omitting alphanumeric strings and clicking the "Update" button.</paragraph>
+		</subsection>
+	</section>
+	<section name="Download Manager" id="download" edition_le="no" edition_pe="no">
+		<image src="devonthinkpro/panel_download.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>The command 
+		<reference chapter="menus" section="window">"Window &gt; Download
+		Manager"</reference>opens the "Download Manager" panel of ${software}. Using the
+		download manager, you can download files or even complete web sites from the
+		Internet and store them directly in your database or as files on your hard
+		drive.</paragraph>
+		<subsection name="Panel Elements" id="download_panel">
+			<paragraph>The "Download Manager" panel consists of a couple of
+			elements:</paragraph>
+			<list>
+				<item>A list of a items to be downloaded</item>
+				<item>A status bar at the bottom</item>
+				<item>Buttons for adding items (+) to or deleting (-) selected
+				items from the list</item>
+				<item>A reload button (backwards arrow)</item>
+				<item>A go/stop button (play/pause icons)</item>
+				<item>An action menu (toothwheel icon)</item>
+			</list>
+		</subsection>
+		<subsection name="Adding Files" id="download_addingfiles">
+			<paragraph>To download a website or any other file, simply add it to the
+			download manager by dragging its URL to the "Download Manager" panel.
+			Alternatively, you can click the "+" button in the panel and add the URL
+			yourself as well as a referrer, user name and password. If "Automatic" is
+			checked, ${software} creates a referrer automatically when downloading
+			whole web sites.</paragraph>
+			<paragraph>Also, you can paste one or more URLs (e.g. copied Safari
+			bookmarks, ${software} links, copied links from 
+			<reference chapter="otherproducts" section="devonagent">
+			DEVONagent's</reference>download manager), or add files to the download
+			manager by using the contextual menu in web and HTML views. Option-clicking
+			a link also adds it to the download manager.</paragraph>
+		</subsection>
+		<subsection name="The Action Menu" id="download_actionmenu">
+			<paragraph>Most actions are available through the action menu or the
+			contextual menu. Click the toothwheel button or control-click an item in
+			the "Download Manager" panel to display more commands:</paragraph>
+			<list>
+				<item name="Add...">Add another file to the list.</item>
+				<item name="Edit...">Edit the parameters of a selected item in the
+				list.</item>
+				<item name="Retry">Tries to reload an item that failed to
+				download.</item>
+				<item name="Remove">Removes the selected item(s) from the list.
+				Alternatively, you can press the Delete key.</item>
+				<item name="Enable/Disable">Checks or unchecks the selected
+				item(s). Only checked items will be downloaded.</item>
+				<item name="Start/Stop Queue">Starts or stops the download queue.
+				Same as the play/pause buttons at the bottom of the panel.</item>
+				<item name="Purge Queue">Removes all items from the list that have
+				been completely downloaded.</item>
+				<item name="Only Added Files ... Thumbnail Gallery">Various
+				predefined option sets. See below.</item>
+				<item name="Import Files to Database">When checked, all downloaded
+				files will be stored in the database. If not, they'll end up in the
+				download directory specified in the options.</item>
+				<item name="Options...">Opens the options dialog sheet that allows
+				you to specify in detail what to download, which links to follow
+				and where to store the downloaded files (see below).</item>
+			</list>
+			<paragraph>For your convenience, ${software} comes with a couple of
+			predefined options sets that you can directly select from the action
+			menu.</paragraph>
+			<list>
+				<item name="Only Added Files">Downloads only exactly the files you
+				have manually added to the download manager.</item>
+				<item name="Offline Archive">Downloads the files you have added to
+				the download manager including embedded images, style sheets and
+				scripts. Use this options set to archive/download web pages with
+				everything necessary to display them properly. Alternative: 
+				<reference chapter="views" section="html">Create a web
+				archive.</reference></item>
+				<item name="Subdirectory (Complete)">Downloads the files you have
+				added to the download manager including all other embedded files or
+				files linked to them. Also, this options set follows all links
+				leading to (items in)subdirectories. Use this set to download e.g.
+				a complete web site for offline archiving.</item>
+				<item name="Subdirectory (Images &amp; Multimedia)">Same as above,
+				but downloads only linked images, linked multimedia files and
+				embedded images in the item's directory and all subdirectories. Use
+				this set to download e.g. a complete web site for offline
+				archiving, but without all linked Office documents, PDFs and
+				such.</item>
+				<item name="Thumbnail Gallery">Downloads the files you have added
+				to the download manager including linked images, embedded images,
+				style sheets and scripts. Use this options set to download e.g. a
+				thumbnail gallery including all full-size images linked to each
+				thumbnail for offline archiving.</item>
+			</list>
+		</subsection>
+		<subsection name="Options" id="download_options">
+			<paragraph>The options dialog defines, which file types the download
+			manager shall download, which links it follows and where it stores the
+			files.</paragraph>
+			<list>
+				<item name="Files">Check all file types you want the download
+				manager to download (plain texts, rich texts, office and PDF files,
+				style sheets and scripts, images, embedded images, multimedia
+				files, markup language files). With the "Follow Links" pop-up menu,
+				define how far ${software} shall follow links on the downloaded
+				HTML pages (see below). Check "Overwrite existing" to update an
+				already existing archive.</item>
+				<item name="Destination">When you uncheck "Import Files to
+				Database" in the action menu of the "Download Manager" panel,
+				${software} stores all downloaded items in the directory you
+				specify here. Click "Set..." to choose your preferred location. Use
+				this option to use the integrated download manager for downloading
+				e.g. software archives or other files you don't want to store in
+				your database.</item>
+				<item name="Download">Define how many connections the download
+				manager opens at the same time (fewer connections for slower
+				Internet connection, more for DSL or broadband). Also, check
+				"Automatically purge queue" to have already downloaded items
+				automatically removed from the queue.</item>
+			</list>
+			<paragraph>The "Follow Links" options defines how far ${software} follows
+			links on the downloaded HTML pages and so allows you to control if only the
+			actual pages get downloaded or a complete web site. ${software} supports
+			the following options:</paragraph>
+			<list>
+				<item name="Off">Don't follows any links.</item>
+				<item name="On Same Host">Follows links but only as long as they
+				refer to the same server, i.e. the same web site. Files on other
+				servers will not be downloaded.</item>
+				<item name="In Same Directory">Follows links but only as long as
+				they refer to items in the same directory as the downloaded HTML
+				page.</item>
+				<item name="In Subdirectories">Follows links but only as long as
+				they refer to items in the same directory as the downloaded HTML
+				page or in its subdirectories.</item>
+				<item name="One Level">Follow all links regardless where they point
+				to, but only one level deep. Links on pages linked to from the
+				original page are not downloaded.</item>
+				<item name="Two Levels">Follow all links regardless where they
+				point to, two levels deep. Attention: This can result in very large
+				downloads!</item>
+			</list>
+		</subsection>
+	</section>
+	<section name="History" id="history" edition_le="no">
+		<image src="devonthinkpro/panel_history.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>The History panel 
+		<reference chapter="menus" section="tools">("Tools &gt; History")</reference>lists
+		all documents in your database in one long list, i.e. without the groups hiearchy,
+		by default sorted by modification date ("Age"). You can easily re-sort the list
+		after name, age or file size by clicking the according column titles (click again
+		to reverse the sorting order) and by any other criterum 
+		<reference chapter="menus" section="view">("View &gt; Sort &gt;
+		...").</reference></paragraph>
+		<paragraph>Of couse, you can use drag-and-drop to move documents to other windows
+		or the Finder and modify them using the commands in the 
+		<reference chapter="menus" section="data">"Data"</reference>menu.</paragraph>
+		<paragraph>Use the "History" panel to quickly access recently added documents or to
+		export all documents of a certain age.</paragraph>
+	</section>
+	<section name="Groups" id="groups" edition_le="no">
+		<image src="devonthinkpro/panel_groups.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>The "Groups" panel 
+		<reference chapter="menus" section="tools">("Tools &gt; Show
+		Groups")</reference>gives you direct access to all groups of the current database
+		and can e.g. be used for dragging items to the desired group conveniently. You can
+		also rearrange groups with the mouse in the "Groups" panel.</paragraph>
+		<paragraph>Depending on your 
+		<reference chapter="preferences" section="general">preferences,</reference>the
+		"Groups" panel floats above all other windows and stays in front even in other
+		applications.</paragraph>
+	</section>
+	<section name="Log" id="log" edition_le="no">
+		<paragraph>The "Log" panel displays warnings and error messages that occur e.g.
+		when importing files and folders. It shows the date of the message, the affected
+		file and a short information about what happened.</paragraph>
+		<paragraph>You can save the list to a text file by clicking the "Save..." button
+		and clear the log with the "Clear" button. To sort the log, click the according
+		column title (click again to reverse the sorting order).</paragraph>
+	</section>
+	<section name="Preferences" id="preferences">
+		<paragraph>The "Preferences" window is, like in any Mac OS X application available
+		via 
+		<reference chapter="menus" section="application">"${software} &gt;
+		Preferences...".</reference>It contains all available options that you can modify
+		to adapt ${software} to your personal needs. .</paragraph>
+		<paragraph>Because the preferences are so important, we have created an extra
+		chapter for them. 
+		<reference chapter="preferences">Read more about them here.</reference></paragraph>
+	</section>
+	<section name="Database Properties" id="properties">
+		<image src="devonthinkpro/panel_properties.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>The "Database Properties" panel defines a couple of preferences which
+		are directly related to the database and not to the application in general. Open
+		the properties panel using 
+		<reference chapter="menus" section="file">"File &gt; Database
+		Properties...".</reference></paragraph>
+		<subsection name="Location" id="properties_location_pro" edition_pe="no"
+		edition_le="no">
+			<paragraph>This part of the properties panel shows the location (path) of
+			the database package. Check "Use as Default Database" to open the current
+			database every time when you open ${software}. Of course, ${software} will
+			not open the default database when it is opened by double-clicking another
+			database.</paragraph>
+		</subsection>
+		<subsection name="Location" id="properties_location" edition_se="no">
+			<paragraph>Shows the location (path) of the database package. Use the "Set"
+			button to choose the location of the database files if you don't want to
+			keep your data in "~/Library/Application Support/". This will copy the
+			complete database folder to the new location and tell ${software} to use
+			the copy instead of the standard location.</paragraph>
+		</subsection>
+		<subsection name="Statistics" id="properties_statistics">
+			<paragraph>This section displays some basic statistics on how many
+			documents you have stored in your database.</paragraph>
+			<list>
+				<item>Number of groups</item>
+				<item edition_le="no">Number of HTML and XML pages</item>
+				<item>Number of plain and rich text documents</item>
+				<item edition_le="no">Number of images</item>
+				<item edition_le="no">Number of webarchives</item>
+				<item>Number of links</item>
+				<item edition_le="no" edition_pe="no">Number of sheets and
+				records</item>
+				<item edition_le="no">Number of QuickTime documents</item>
+				<item>Total word count and number of unique words</item>
+			</list>
+		</subsection>
+		<subsection name="Name and Comments" id="properties_name">
+			<paragraph name="Name">Enter a name for your database here. It will appear
+			in the title bar of every 
+			<reference chapter="windows" section="main">main window</reference>for this
+			database.</paragraph>
+			<note>This does not change the file name for the database package.</note>
+			<paragraph name="Comments">Enter your own comments about the database
+			here.</paragraph>
+		</subsection>
+		<subsection name="Protection" id="properties_protection">
+			<paragraph>To prevent other people opening ${software} and accessing your
+			data, click on the lock button to unlock the entry fields, enter a user
+			name and your private password, and then click on the lock button again to
+			lock your changes and hide the password.</paragraph>
+			<note>This is a simple password protection. ${software} does not yet
+			provide file encryption for enhances security. For better protection,
+			create an encrypted disk image using Disk Utility and store your database
+			on it.</note>
+		</subsection>
+	</section>
+</chapter>

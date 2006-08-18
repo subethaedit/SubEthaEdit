@@ -1,0 +1,115 @@
+<!ELEMENT chapter (#PCDATA | section | paragraph | image | sourcecode | list | note | example)*>
+	<!ATTLIST chapter name CDATA #IMPLIED>
+	<!ATTLIST chapter edition CDATA #IMPLIED>
+	<!ATTLIST chapter id ID #REQUIRED>
+	<!ATTLIST chapter edition_lite (yes | no) "yes">
+	<!ATTLIST chapter edition_pro (yes | no) "yes">
+	<!ATTLIST chapter edition_se (yes | no) "yes">
+	<!ATTLIST chapter edition_ee (yes | no) "yes">
+
+<!ELEMENT section (#PCDATA | subsection | paragraph | sourcecode | list | note | example | image)*>
+	<!ATTLIST section name CDATA #REQUIRED>
+	<!ATTLIST section id CDATA #REQUIRED>
+	<!ATTLIST section anchor CDATA #IMPLIED>
+	<!ATTLIST section edition_lite (yes | no) "yes">
+	<!ATTLIST section edition_pro (yes | no) "yes">
+	<!ATTLIST section edition_se (yes | no) "yes">
+	<!ATTLIST section edition_ee (yes | no) "yes">
+
+<!ELEMENT subsection (#PCDATA | paragraph | sourcecode | list | note | example | image)*>
+	<!ATTLIST subsection name CDATA #IMPLIED>
+	<!ATTLIST section id CDATA #REQUIRED>
+	<!ATTLIST subsection anchor CDATA #IMPLIED>
+	<!ATTLIST subsection id CDATA #IMPLIED>
+	<!ATTLIST subsection edition_lite (yes | no) "yes">
+	<!ATTLIST subsection edition_pro (yes | no) "yes">
+	<!ATTLIST subsection edition_se (yes | no) "yes">
+	<!ATTLIST subsection edition_ee (yes | no) "yes">
+
+<!ELEMENT paragraph (#PCDATA | phrase | nameofsoftware | link | reference)*>
+	<!ATTLIST paragraph lead CDATA #IMPLIED>
+	<!ATTLIST paragraph name CDATA #IMPLIED>
+	<!ATTLIST paragraph edition_lite (yes | no) "yes">
+	<!ATTLIST paragraph edition_pro (yes | no) "yes">
+	<!ATTLIST paragraph edition_se (yes | no) "yes">
+	<!ATTLIST paragraph edition_ee (yes | no) "yes">
+
+<!ELEMENT phrase (#PCDATA | nameofsoftware | link | reference)*>
+	<!ATTLIST phrase
+		edition_lite (yes | no) "yes"
+		edition_pro (yes | no) "yes"
+		edition_se (yes | no) "yes"
+		edition_ee (yes | no) "yes"
+	>
+	
+<!ELEMENT sourcecode (#PCDATA | phrase | nameofsoftware | link | reference)*>
+	<!ATTLIST sourcecode
+		edition_lite (yes | no) "yes"
+		edition_pro (yes | no) "yes"
+		edition_se (yes | no) "yes"
+		edition_ee (yes | no) "yes"
+	>
+
+<!ELEMENT list (#PCDATA | item)*>
+	<!ATTLIST list
+		edition_lite (yes | no) "yes"
+		edition_pro (yes | no) "yes"
+		edition_se (yes | no) "yes"
+		edition_ee (yes | no) "yes"
+	>
+
+<!ELEMENT item (#PCDATA | phrase | link | reference | nameofsoftware)*>
+	<!ATTLIST item name CDATA #IMPLIED>
+	<!ATTLIST item
+		edition_lite (yes | no) "yes"
+		edition_pro (yes | no) "yes"
+		edition_se (yes | no) "yes"
+		edition_ee (yes | no) "yes"
+	>
+
+<!ELEMENT note (#PCDATA | link | reference | phrase | nameofsoftware)*>
+	<!ATTLIST note
+		edition_lite (yes | no) "yes"
+		edition_pro (yes | no) "yes"
+		edition_se (yes | no) "yes"
+		edition_ee (yes | no) "yes"
+	>
+
+<!ELEMENT example (#PCDATA | link | reference | phrase | nameofsoftware)*>
+	<!ATTLIST example
+		edition_lite (yes | no) "yes"
+		edition_pro (yes | no) "yes"
+		edition_se (yes | no) "yes"
+		edition_ee (yes | no) "yes"
+	>
+
+<!ELEMENT image (#PCDATA)>
+	<!ATTLIST image
+		name 		CDATA #IMPLIED
+		src			CDATA #IMPLIED
+		src_html		CDATA #IMPLIED
+		align		(left | center | right) "center"
+		scaling		CDATA "8cm"
+	>
+	<!ATTLIST image
+		edition_lite (yes | no) "yes"
+		edition_pro (yes | no) "yes"
+		edition_se (yes | no) "yes"
+		edition_ee (yes | no) "yes"
+	>
+	
+<!ELEMENT link (#PCDATA)>
+	<!ATTLIST link
+		href CDATA #REQUIRED
+	>
+
+<!ELEMENT reference (#PCDATA | nameofsoftware)*>
+	<!ATTLIST reference
+		chapter CDATA #REQUIRED
+		section CDATA #IMPLIED
+		subsection CDATA #IMPLIED
+	>
+	<!ATTLIST reference edition_lite (yes | no) "yes">
+	<!ATTLIST reference edition_pro (yes | no) "yes">
+	<!ATTLIST reference edition_se (yes | no) "yes">
+	<!ATTLIST reference edition_ee (yes | no) "yes">

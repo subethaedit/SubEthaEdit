@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter SYSTEM "../../etc/documentation.dtd">
+<chapter name="Views" id="views">
+	<paragraph>All documents are displayed in ${software} in views. Each view features its own
+	tools, contextual menu commands and hidden keyboard shortcuts, explained in this
+	chapter.</paragraph>
+	<section name="General" id="general">
+		<paragraph edition_pe="no" edition_le="no">All documents are displayed in
+		${software} in views (not to confuse with the different layouts in main windows,
+		also called 
+		<reference chapter="windows" section="main">"views".</reference>Each view, e.g. a
+		text or PDF view, has its own tools, contextual menu commands and hidden keyboard
+		shortcuts but is the same in main, document or even "Search" windows. Some views,
+		like the text view, also allow you to edit the document, others like the PDF view,
+		only display the selected document.</paragraph>
+		<paragraph edition_se="no">All documents are displayed in ${software} in views (not
+		to confuse with the different layouts in main windows, also called 
+		<reference chapter="windows" section="main">"views".</reference>Each view has its
+		own tools, contextual menu commands and hidden keyboard shortcuts.</paragraph>
+		<paragraph>Currently, ${software} features the following views:</paragraph>
+		<list>
+			<item>
+				<reference chapter="views" section="text">Plain and Rich
+				Texts</reference>
+			</item>
+			<item>
+				<reference chapter="views" section="html">HTML pages, Web
+				pages</reference>
+			</item>
+			<item edition_le="no" edition_pe="no">
+				<reference chapter="views" section="sheet">Sheets and
+				Records</reference>
+			</item>
+			<item edition_le="no">
+				<reference chapter="views" section="image">Images</reference>
+			</item>
+			<item edition_le="no">
+				<reference chapter="views" section="pdf">PDFs</reference>
+			</item>
+		</list>
+		<subsection name="Toolbar" id="general_toolbar" edition_le="no">
+			<paragraph>${software} can display documents in separate windows when you
+			double-click them in a main window. Depending on the type of the document,
+			the tools in the toolbar change. Even though not all tools are always
+			present in the default toolbar for a view, you can easily add them by
+			choosing 
+			<reference chapter="menus" section="view">"View &gt; Customize
+			Toolbar...".</reference></paragraph>
+		</subsection>
+		<subsection name="Shortcuts &amp; Modifier Keys" id="general_shortcuts">
+			<paragraph>Besides shortcuts special to one view or another, many shortcuts
+			work the same for all views (and the same as in most other Mac OS X
+			applications).</paragraph>
+			<list>
+				<item name="Option-Tab">Jumps between between panes of split
+				views.</item>
+				<item name="Home/End">Go to beginning of or end of any view.</item>
+				<item name="Page Up/Down">Scroll one page up and down in any
+				view.</item>
+				<item name="Space/Shift-Space">Scroll one page up and down in
+				displayed web pages or main views. 
+				<phrase edition_le="no">Works also in images and PDF
+				documents.</phrase></item>
+			</list>
+		</subsection>
+	</section>
+	<section name="Plain and Rich Texts" id="text">
+		<image src="devonthinkpro/view_text.jpg" align="left" scaling="40%" edition_le="no"
+		edition_pe="no" />
+		<paragraph>The view for plain and rich text documents is basically a built-in
+		incarnation of TextEdit and you use it in a very similar fashion. Of course, text
+		views support the 
+		<reference chapter="menus" section="edit">"Edit &gt; Find &gt;
+		..."</reference>commands and all options of the 
+		<reference chapter="menus" section="format">"Format"</reference>menu.</paragraph>
+		<subsection name="Classify, See Also" id="text_classify">
+			<paragraph>Additionally to the standard elements, text views offer access
+			to 
+			<phrase edition_pe="no">the concordance,</phrase>the classify and the
+			see-also functions through buttons in the lower part of the 
+			<reference chapter="windows" section="main">view/edit
+			pane.</reference></paragraph>
+			<list>
+				<item name="Words" edition_pe="no" edition_le="no">Opens a drawer
+				with a 
+				<reference chapter="drawers" section="concordance">
+				concordance</reference>of all words of the document. 
+				<phrase edition_le="no">Only available in 
+				<reference chapter="windows" section="document">document
+				windows.</reference></phrase></item>
+				<item name="Classify">Classifies the document and shows a 
+				<reference chapter="drawers" section="classify">
+				drawer</reference>with the most relevant groups.</item>
+				<item name="See Also">Shows a 
+				<reference chapter="drawers" section="seealso">
+				drawer</reference>with a list of all documents with a content
+				similar to the current.</item>
+			</list>
+		</subsection>
+		<subsection name="The Ruler" id="text_ruler">
+			<paragraph>For rich text documents, ${software} supports the standard ruler
+			that the TextEdit engine of Mac OS X provides. Show or hide it with 
+			<reference chapter="menus" section="format">"Format &gt; Ruler &gt;
+			Show/Hide Ruler".</reference></paragraph>
+			<paragraph>The ruler contains the following elements:</paragraph>
+			<list>
+				<item name="Tab Stops">Place tab stops with the mouse, remove them
+				by dragging them away from the ruler. Drag new tab stops (left
+				aligned, centered, right aligned or decimal aligned) from the
+				repository at the right-hand side to their desired positions. Move
+				the left and right margins as well as the indent with the
+				mouse.</item>
+				<item name="Styles">Select a predefined text style from the pop-up
+				menu. To define your own styles, choose "Other" to open the Mac OS
+				X standard style editor. In the style editor, navigate back and
+				forth through the styles of your document or the stored favourite
+				styles (use the radio buttons to switch between document and
+				favorite styles). Click "Select" to select all occurences of text
+				with the displayed style in the document, click "Apply" to apply
+				the style to selected text or click "Done" to leave the style
+				editor. To add a style from your document to the favourites, click
+				"Add To Favorites", to remove a favorite, click "Remove From
+				Favorites".</item>
+				<item name="Alignment">Align the current paragraph (the one with
+				the insertion caret inside) left, centered, justified or right by
+				clicking the according alignment buttons in the ruler.</item>
+				<item name="Spacing">Choose the desired spacing for the current
+				paragraph from the "Spacing" pop-up menu. Choose "Other" to enter
+				other values than the ones shown.</item>
+				<item name="Lists">Make the current paragraph a list item (indented
+				and with a bullet or numbered) by choosing the desired list style
+				from the "Lists" pop-up menu. Choose "Other" to define your own
+				list style.</item>
+			</list>
+		</subsection>
+		<subsection name="Shortcuts &amp; Modifier Keys" id="text_shortcuts">
+			<list>
+				<item name="Shift-Left/Right/Up/Down Arrow">Extend current
+				selection.</item>
+			</list>
+			<list>
+				<item name="Command + drag-and-drop">Copy selected text.</item>
+				<item name="Command-Option + drag-and-drop">Insert a cross-link for
+				groups or documents dropped into a rich text document.
+				Command-Option-dragging files or folders from the file system to a
+				rich text document creates links to them.</item>
+				<item name="Command-Click (1)">Open clicked URL in the default
+				application (e.g. your default Internet browser).</item>
+				<item name="Command-Click (2)">Place insertion caret inside a link
+				for editing without jumping to the destination of the link.</item>
+				<item name="Command-Option-Click">Opens a clicked crosslink or
+				Wiki-style link in a separate document window.</item>
+				<item name="Option-Click (1)" edition_le="no">List all contents
+				containing the clicked word, too, in the 
+				<reference chapter="drawers" section="seealso">"See Also"
+				drawer</reference>(identical to the contextual menu command "See
+				Word").</item>
+				<item name="Option-Click (2)" edition_le="no" edition_pe="no">Add
+				clicked URL to the 
+				<reference chapter="windows" section="download">"Download
+				Manager".</reference></item>
+			</list>
+		</subsection>
+		<subsection name="Toolbar" id="text_toolbar" edition_le="no">
+			<paragraph>The toolbar of document windows is very similar to the one of
+			${software} main windows but can be configured separately.</paragraph>
+		</subsection>
+		<subsection name="Contextual Menu" id="text_contextual">
+			<list>
+				<item name="Search with Spotlight">Searches for the selected text
+				using Spotlight (Mac OS X 10.4 Tiger only).</item>
+				<item name="Search in Google">Opens you default browser and
+				searches for the selected text in Google (Mac OS X 10.4 Tiger
+				only).</item>
+				<item name="Copy Link">Copies a link as such to the clipboard (only
+				available for selected links).</item>
+				<item name="Edit Link...">Edits the destination of a selected
+				link.</item>
+				<item name="Highlight &gt; ...">Highlights the selected piece of
+				text with the colour you select in the submenu.</item>
+				<item name="Insert &gt; ...">Inserts special elements into the
+				text, e.g. a page break, the current date or a bullet. Same as the
+				"Insert" submenu of the 
+				<reference chapter="menus" section="edit">"Edit"
+				menu.</reference></item>
+				<item name="Insert Link To &gt; ...">Inserts a link to an item you
+				select in the submenu (only available when no text is
+				selected).</item>
+				<item name="Look Up in Dictionary">Looks the selected text up in
+				Mac OS X's dictionary (Mac OS X 10.4 Tiger only).</item>
+				<item name="Link To &gt; ...">Makes the selected piece of text a
+				cross-link and links it directly to the group or document you
+				select in the submenu.</item>
+				<item name="Make Link">Makes the selected piece of text a
+				link.</item>
+				<item name="Open Link">Follows a selected link (only available for
+				a selected link).</item>
+				<item name="Open Alias">Follows a selected link (only available for
+				a selected Wiki-style link resolved by an alias). Aliases are
+				defined for each item separately in the 
+				<reference chapter="windows" section="info">"Info"
+				panel.</reference></item>
+				<item name="Remove Link">Makes a selected link simple text.</item>
+				<item name="See '...'">Opens a drawer with documents related to the
+				selected word.</item>
+				<item name="See Selected Text">Opens a drawer with documents
+				related to the selected text passage. Only available when more than
+				one word is selected.</item>
+				<item name="Set Title As">Renames the document according to the
+				selected piece of text.</item>
+			</list>
+		</subsection>
+	</section>
+	<section name="HTML Pages, Web Pages" id="html">
+		<image src="devonthinkpro/view_html.jpg" align="left" scaling="40%" edition_le="no"
+		edition_pe="no" />
+		<paragraph>HTML views render web pages, stored in the database or downloaded "live"
+		from the Internet, by using the Safari web browser engine of Mac OS X. The visual
+		appearance of web pages is similar to Safari or any other WebKit-based browser such
+		as 
+		<reference chapter="otherproducts" section="devonagent">
+		DEVONagent.</reference></paragraph>
+		<paragraph>HTML views support the 
+		<reference chapter="menus" section="edit">"Edit &gt; Find &gt;
+		..."</reference>commands.</paragraph>
+		<subsection name="Shortcuts &amp; Modifier Keys" id="html_shortcuts">
+			<list>
+				<item name="Command-Click">Open clicked URL in the default
+				application (e.g. your default Internet browser).</item>
+				<item name="Option-Click" edition_le="no" edition_pe="no">Add
+				clicked URL to the 
+				<reference chapter="windows" section="download">"Download Manager"
+				panel.</reference></item>
+				<item name="Backspace/Shift-Backspace">Go backwards and forwards
+				through the visited web pages.</item>
+			</list>
+		</subsection>
+		<subsection name="Toolbar" id="html_toolbar">
+			<paragraph>Separate HTML or web browser windows feature a more web-like
+			default toolbar set than text document windows. As with text document
+			windows, this toolbar can be individually configured. Naturally, the
+			${software} offers only tools for HTML views that are useful in a web
+			environment. HTML and XML views also support the 
+			<reference chapter="views" section="text">"Words", "Classify" and "See
+			Also" buttons.</reference>Web views don't support them.</paragraph>
+		</subsection>
+		<subsection name="Contextual Menu" id="html_contextual">
+			<list>
+				<item name="Reload">Reloads the page from the Internet.</item>
+				<item name="Back / Forward">Navigates back and forth the previously
+				visited pages.</item>
+				<item name="Capture Frame Address">Adds the URL of the current
+				frame to the database.</item>
+				<item name="Capture Page Address">Adds the URL of the current page
+				to the database.</item>
+				<item name="Copy Frame Address">Copies the frame URL to the
+				clipboard.</item>
+				<item name="Copy Image">Copies the image to the clipboard.</item>
+				<item name="Copy Image Address">Copies the URL of an image to the
+				clipboards.</item>
+				<item name="Copy Page Address">Copies the page URL to the
+				clipboard.</item>
+				<item name="Open Image in PhotoStickies">Opens the image in 
+				<reference chapter="otherproducts" section="photostickies">
+				PhotoStickies.</reference></item>
+				<item name="Open Link in Browser">Opens a link in your default web
+				browser.</item>
+				<item name="Open Link in DEVONagent">Opens a link in 
+				<reference chapter="otherproducts" section="devonagent">
+				DEVONagent.</reference></item>
+				<item name="Open Link in PhotoStickies">Opens a link in 
+				<reference chapter="otherproducts" section="photostickies">
+				PhotoStickies.</reference></item>
+				<item name="Set Title As">Sets the name of the link document to the
+				selected piece of text.</item>
+			</list>
+			<list>
+				<item name="Add Link to Downloads" edition_le="no" edition_pe="no">
+				Adds a link to the 
+				<reference chapter="windows" section="download">"Download Manager"
+				panel.</reference></item>
+				<item name="Add Page to Downloads" edition_le="no" edition_pe="no">
+				Adds the page address to the 
+				<reference chapter="windows" section="download">"Download Manager"
+				panel.</reference></item>
+				<item name="Capture Frame" edition_le="no">Captures the HTML code
+				of the frame and saves it as a new HTML document.</item>
+				<item name="Capture Image" edition_le="no">Captures the selected
+				image and saves it as a new image document.</item>
+				<item name="Capture Link">Captures the link and stores it as a new
+				link document.</item>
+				<item name="Capture Note">Captures selected text as a new rich text
+				note.</item>
+				<item name="Capture Page" edition_le="no">Captures the HTML code of
+				the page and saves it as a new HTML document.</item>
+				<item name="Capture Webarchive" edition_le="no">Captures the page
+				as a webarchive including all necessary images for offline viewing
+				and archival.</item>
+				<item name="Update Webarchive" edition_le="no">Updates the contents
+				of a webarchive with the live version on the Internet (only
+				available in webarchives).</item>
+			</list>
+		</subsection>
+	</section>
+	<section name="Sheets and Records" id="sheet" edition_le="no" edition_pe="no">
+		<image src="devonthinkpro/view_sheet.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>
+		<reference chapter="appendix" section="glossary">Sheets</reference>combine multiple
+		records in a table-like view and are used to create table-like databases within a
+		${software} database.</paragraph>
+		<paragraph>Sheets actually appear in the hierarchy list like folders with an
+		expand/collapse triangle in front of them. When you select the sheet itself, it
+		displays as a table (sheet), when you expand it and select a record, it appears as
+		a single record.</paragraph>
+		<paragraph>The record view displays a single record of a sheet. To display a record
+		separately, either control- or right-click the record in a sheet view and choose
+		"Open..." from the contextual menu, or expand the sheet by clicking the triangle in
+		front of its icon in the hierarchy list and select the record you want to view in a
+		form.</paragraph>
+		<paragraph>Sheets and records support the 
+		<reference chapter="menus" section="edit">"Edit &gt; Find &gt;
+		..."</reference>commands but currently no formattings.</paragraph>
+		<paragraph>Of course, records can also be grouped within the surrounding sheet like
+		any other document, but will then not be shows as part of the table when the sheet
+		is selected.</paragraph>
+		<note>Due to limitation in Mac OS X's Cocoa memory management, sheets are currently
+		limited to 32767 records.</note>
+		<subsection name="Toolbar" id="sheet_toolbar">
+			<paragraph>Document windows opened for a sheet or record also feature a
+			tool set specialized for working with sheets and records. Use tools like
+			"New Record", "New Column" or "Columns" to create new records for the
+			sheet, add a column or modify the columns in any way you like. Sheet and
+			record views also can contain tools for paging back and forth through all
+			records of a sheet.</paragraph>
+		</subsection>
+		<subsection name="Contextual Menu" id="sheet_contextual">
+			<paragraph>The contextual menu for sheets basically lists the same commands
+			that are also available through the main menu.</paragraph>
+			<list>
+				<item name="Open...">Opens a selected record in a sheet in a
+				separate window. Same as double-clicking the record.</item>
+				<item name="New Record">Creates a new record in the sheet.</item>
+				<item name="New Column...">Creates a new column in the
+				sheet.</item>
+				<item name="Edit Columns">Opens the columns editor where you can
+				create new columns, delete them, rearrange and rename them.</item>
+				<item name="Cut/Copy/Paste">Cuts, copies or pastes whole records in
+				a sheet. Use them e.g. for duplicating records.</item>
+				<item name="Delete">Delete the selected record.</item>
+			</list>
+		</subsection>
+	</section>
+	<section name="Images and Movies" id="image" edition_le="no">
+		<image src="devonthinkpro/view_image.jpg" align="left" scaling="40%"
+		edition_le="no" edition_pe="no" />
+		<paragraph>${software} uses Quartz and QuickTime to display images and movies and
+		so makes a very nice image and movie viewer, too.</paragraph>
+		<subsection name="Toolbar" id="image_toolbar">
+			<paragraph>For images and movies, ${software} provides a set of tools that
+			allows you to zoom the picture to whatever zoom factor you like or to view
+			it in full screen mode. Use "Open Externally" to open the image in an
+			external editor. Movies appear with the standard QuickTime
+			controller.</paragraph>
+			<note>Editing an image stored internally in the database with an external
+			editor does not modify the image data stored in ${software}!</note>
+		</subsection>
+		<subsection name="Contextual Menu" id="image_contextual">
+			<list>
+				<item name="Actual Size">Zooms the image so that it appears in its
+				real size, calculated from the actual pixels and the resolution
+				information contained in the image.</item>
+				<item name="All Pixels">Zooms the image so that one image pixel
+				equals one pixel on the screen.</item>
+				<item name="Zoom In/Out">Zooms into and out of the picture.</item>
+				<item name="Zoom To Fit">Zooms the image so that it completely fits
+				into the view/edit pane or the document window.</item>
+				<item name="Zoom To Width">Zooms the image so that it appears
+				exactly as wide as the view/edit pane or the document
+				window.</item>
+			</list>
+		</subsection>
+	</section>
+	<section name="PDFs" id="pdf" edition_le="no">
+		<image src="devonthinkpro/view_pdf.jpg" align="left" scaling="40%" edition_le="no"
+		edition_pe="no" />
+		<paragraph>PDF views are pretty similar to image views, but come with some
+		specialized options for viewing PDF documents. Also, PDF views support the 
+		<reference chapter="menus" section="edit">"Edit &gt; Find &gt;
+		..."</reference>commands.</paragraph>
+		<subsection name="Shortcuts &amp; Modifier Keys" id="pdf_shortcuts">
+			<paragraph>In addition to the general shortcuts for paging up and down in a
+			PDF document mentioned in the 
+			<reference chapter="views" section="general">"General"
+			section,</reference>PDF views also offers unique shortcuts.</paragraph>
+			<list>
+				<item name="Command-Up/Down Arrow" edition_le="no">Go to first/last
+				page of a PDF document (Mac OS X 10.3.9 only).</item>
+				<item name="Command-Right/Left Arrow" edition_le="no">Go to
+				next/previous page of a PDF document (Mac OS X 10.3.9 only).</item>
+			</list>
+		</subsection>
+		<subsection name="Toolbar" id="pdf_toolbar">
+			<paragraph>For multi-page images or PDFs, ${software} provides back and
+			forward buttons as well as an page number field at the bottom of the
+			window. Enter any page number and press Return to display that page. For
+			PDFs that contain text, ${software} also provides the same A.I. tools 
+			<reference chapter="views" section="text">"Words", "Classify" and "See
+			Also"</reference>that are also available in plain or rich text
+			views.</paragraph>
+		</subsection>
+		<subsection name="Contextual Menu" id="pdf_contextual">
+			<list>
+				<item name="Actual Size">Zooms the image so that it appears in its
+				real size, calculated from the actual pixels and the resolution
+				information contained in the PDF.</item>
+				<item name="Zoom In/Out">Zooms into and out of the PDF.</item>
+				<item name="Auto Size">Resizes the PDF automatically that it always
+				fits the size of the view/edit pane or the document window.</item>
+				<item name="Single Page/Facing Pages">Displays the PDF either as
+				one page or as facing pages like in a magazine.</item>
+				<item name="Continous">When checked, ${software} displays the pages
+				of a mutli-page PDF like one long roll of paper. If unchecked, it
+				displays it page by page.</item>
+				<item name="Previous/Next Page">Jumps to the previous or next
+				page.</item>
+				<item name="Set Title As">Renames the document according to the
+				selected piece of text.</item>
+				<item name="See '...'">Opens a drawer with documents related to the
+				selected word.</item>
+				<item name="See Selected Text">Opens a drawer with documents
+				related to the selected text passage. Only available when more than
+				one word is selected.</item>
+			</list>
+		</subsection>
+	</section>
+</chapter>
