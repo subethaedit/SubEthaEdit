@@ -3263,6 +3263,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self TCM_styleFonts];
     [self TCM_invalidateTextAttributes];
     [self TCM_invalidateDefaultParagraphStyle];
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(adjustDisplayOfPageGuide)];
 }
 
 - (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID {

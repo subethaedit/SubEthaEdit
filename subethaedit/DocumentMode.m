@@ -35,6 +35,9 @@ NSString * const DocumentModeShowInvisibleCharactersPreferenceKey = @"ShowInvisi
 NSString * const DocumentModeTabWidthPreferenceKey             = @"TabWidth";
 NSString * const DocumentModeUseTabsPreferenceKey              = @"UseTabs";
 NSString * const DocumentModeWrapLinesPreferenceKey            = @"WrapLines";
+NSString * const DocumentModeIndentWrappedLinesPreferenceKey   = @"IndentWrappedLines";
+NSString * const DocumentModeShowPageGuidePreferenceKey        = @"ShowPageGuide";
+NSString * const DocumentModePageGuideWidthPreferenceKey       = @"PageGuideWidth";
 NSString * const DocumentModeWrapModePreferenceKey             = @"WrapMode";
 NSString * const DocumentModeRowsPreferenceKey                 = @"Rows";
 NSString * const DocumentModeColumnsPreferenceKey              = @"Columns";
@@ -85,6 +88,12 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                   forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeWrapLinesPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeIndentWrappedLinesPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeShowPageGuidePreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModePageGuideWidthPreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeWrapModePreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
@@ -253,6 +262,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             I_defaults = [NSMutableDictionary new];
             [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModeColumnsPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:40] forKey:DocumentModeRowsPreferenceKey];
             NSFont *font=[NSFont userFixedPitchFontOfSize:0.0];
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
@@ -297,6 +307,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
         // augment pre 2.1 data if needed
         if ([self isBaseMode]) {
+
             if (![I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey]) {
                 NSMutableDictionary *printDictionary=[NSMutableDictionary dictionary];
                 [printDictionary setObject:[NSNumber numberWithInt:0]
@@ -358,6 +369,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
                                forKey:DocumentModeUseDefaultStylePreferenceKey];
             }
+        }
+
+        // new settings in 2.5.1 that need a default value
+        if (![I_defaults objectForKey:DocumentModePageGuideWidthPreferenceKey]) {
+            [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
         }
 
         NSMutableDictionary *printDictionary=[I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey];

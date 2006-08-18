@@ -42,6 +42,11 @@ static NSMenu *defaultMenu=nil;
     defaultMenu=[aMenu copy];
 }
 
+- (void)setPageGuidePosition:(float)aPosition {
+    I_pageGuidePosition = aPosition;
+    [self setNeedsDisplay:YES];
+}
+
 - (IBAction)paste:(id)sender {
     I_flags.isPasting = YES;
     [super paste:sender];
@@ -206,6 +211,16 @@ static NSMenu *defaultMenu=nil;
     [caretPath fill];
     //[caretPath stroke];
     [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
+}
+
+- (void)drawViewBackgroundInRect:(NSRect)aRect {
+    [super drawViewBackgroundInRect:aRect];
+    if (I_pageGuidePosition > 0) {
+        [[NSColor colorWithCalibratedWhite:.5 alpha:0.2] set];
+        NSRect rectToFill=[self bounds];
+        rectToFill.origin.x = I_pageGuidePosition;
+        [NSBezierPath fillRect:rectToFill];
+    }
 }
 
 - (void)drawRect:(NSRect)aRect {

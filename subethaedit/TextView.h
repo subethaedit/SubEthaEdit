@@ -15,11 +15,12 @@
         BOOL autoCompleteInProgress;
         BOOL isPasting;
     } I_flags;
+    float I_pageGuidePosition;
     NSTimer *I_timer;
 }
 
 + (void)setDefaultMenu:(NSMenu *)aMenu;
-
+- (void)setPageGuidePosition:(float)aPosition;
 - (BOOL)isPasting;
 
 @end

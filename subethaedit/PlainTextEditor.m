@@ -66,6 +66,7 @@
 @interface PlainTextEditor (PlainTextEditorPrivateAdditions)
 - (void)TCM_updateStatusBar;
 - (void)TCM_updateBottomStatusBar;
+- (float)pageGuidePositionForColumns:(int)aColumns;
 @end
 
 @implementation PlainTextEditor
@@ -135,6 +136,12 @@
 
 
     LayoutManager *layoutManager=[LayoutManager new];
+    if ([layoutManager respondsToSelector:@selector(setNonContiguousLayout:)]) {
+        [layoutManager performSelector:@selector(setNonContiguousLayout:) withObject:[NSNumber numberWithBool:YES]];
+    }
+    if ([NSLayoutManager respondsToSelector:@selector(setNonContiguousLayout:)]) {
+        [NSLayoutManager performSelector:@selector(setNonContiguousLayout:) withObject:[NSNumber numberWithBool:YES]];
+    }
     [[document textStorage] addLayoutManager:layoutManager];
 
     I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width,FLT_MAX)];
@@ -276,6 +283,18 @@
 
 }
 
+- (void)adjustDisplayOfPageGuide {
+    PlainTextDocument *document=[self document];
+    if (document) {
+        DocumentMode *mode = [document documentMode];
+        if ([[mode defaultForKey:DocumentModeShowPageGuidePreferenceKey] boolValue]) {
+            [(TextView *)I_textView setPageGuidePosition:[self pageGuidePositionForColumns:[[mode defaultForKey:DocumentModePageGuideWidthPreferenceKey] intValue]]];
+        } else {
+            [(TextView *)I_textView setPageGuidePosition:0];
+        }
+    }
+}
+
 - (void)takeStyleSettingsFromDocument {
     PlainTextDocument *document=[self document];
     if (document) {
@@ -296,6 +315,7 @@
     [self TCM_updateBottomStatusBar];
     [I_textView setEditable:[document isEditable]];
     [I_textView setContinuousSpellCheckingEnabled:[document isContinuousSpellCheckingEnabled]];
+    [self adjustDisplayOfPageGuide];
 }
 
 #define RIGHTINSET 5.
@@ -404,6 +424,12 @@
         }
         [self TCM_adjustTopStatusBarFrames];
     }
+}
+
+- (float)pageGuidePositionForColumns:(int)aColumns {
+    NSFont *font=[[self document] fontWithTrait:0];
+    float characterWidth=[font widthOfString:@"n"];
+    return aColumns * characterWidth + [[I_textView textContainer] lineFragmentPadding]+[I_textView textContainerInset].width;
 }
 
 - (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows {
