@@ -4596,12 +4596,7 @@ static NSString *S_measurementUnits;
                 // when we have a newline, we have to find the last linebreak
                 NSString    *string=[[self textStorage] string];
                 NSRange indentRange=[string lineRangeForRange:affectedRange];
-                indentRange.length=0;
-                while (NSMaxRange(indentRange)<affectedRange.location &&
-                       ([string characterAtIndex:NSMaxRange(indentRange)]==[@" "  characterAtIndex:0] ||
-                        [string characterAtIndex:NSMaxRange(indentRange)]==[@"\t" characterAtIndex:0])) {
-                    indentRange.length++;
-                }
+                indentRange = [string rangeOfLeadingWhitespaceStartingAt:indentRange.location];
                 if (indentRange.length) {
                     indentString=[string substringWithRange:indentRange];
                 }

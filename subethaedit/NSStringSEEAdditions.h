@@ -31,6 +31,7 @@ typedef enum _LineEnding {
 
 - (BOOL)isWhiteSpace;
 - (unsigned)detabbedLengthForRange:(NSRange)aRange tabWidth:(int)aTabWidth;
+- (NSRange)rangeOfLeadingWhitespaceStartingAt:(unsigned)location;
 - (BOOL)detabbedLength:(unsigned)aLength fromIndex:(unsigned)aFromIndex 
                 length:(unsigned *)rLength upToCharacterIndex:(unsigned *)rIndex
               tabWidth:(int)aTabWidth;

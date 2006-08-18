@@ -221,6 +221,18 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     return result;
 }
 
+- (NSRange)rangeOfLeadingWhitespaceStartingAt:(unsigned)location {
+    unsigned length=[self length];
+    NSRange result = NSMakeRange(location,0);
+    while (NSMaxRange(result) < length &&
+           ([self characterAtIndex:NSMaxRange(result)]==' ' ||
+            [self characterAtIndex:NSMaxRange(result)]=='\t')) {
+        result.length++;
+    }
+    return result;
+}
+
+
 - (unsigned) detabbedLengthForRange:(NSRange)aRange tabWidth:(int)aTabWidth {
     NSRange foundRange=[self rangeOfString:@"\t" options:0 range:aRange];
     if (foundRange.location==NSNotFound) {
