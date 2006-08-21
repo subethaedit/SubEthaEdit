@@ -259,6 +259,8 @@
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
+		312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
+		312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
 		5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE30A039283003D2813 /* SESendProc.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
 		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
@@ -282,7 +284,6 @@
 		5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */; };
 		5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
 		5EF31B220A7E2E2100D777F5 /* NSCursorSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */; };
-		5EF31B230A7E2E2100D777F5 /* NSCursorSEEAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */; };
 		5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */; };
 		5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */; };
 		5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */; };
@@ -392,6 +393,27 @@
 			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6;
 			remoteInfo = "OgreKit (without Find Panel)";
 		};
+		312B7BBA0A99D1B50014E52A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* Sparkle.framework */;
+			remoteInfo = Sparkle;
+		};
+		312B7BBC0A99D1B50014E52A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61B5F90209C4CEE200B25A18 /* Sparkle Test App.app */;
+			remoteInfo = "Sparkle Test App";
+		};
+		312B7BBE0A99D2000014E52A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* Sparkle */;
+			remoteInfo = Sparkle;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -414,8 +436,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
-				5EF31B230A7E2E2100D777F5 /* NSCursorSEEAdditions.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -809,6 +831,7 @@
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		311717F20A0E8C3600A9DA18 /* ModeSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ModeSettings.m; sourceTree = "<group>"; };
 		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ModeSettings.h; sourceTree = "<group>"; };
+		312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		5E0F6AE30A039283003D2813 /* SESendProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SESendProc.m; sourceTree = "<group>"; };
 		5E0F6AE40A039283003D2813 /* SEActiveProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEActiveProc.m; sourceTree = "<group>"; };
@@ -884,6 +907,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */,
 				14288FE009573EA300D14688 /* Carbon.framework in Frameworks */,
@@ -1403,6 +1427,7 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
+				312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */,
 			);
 			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
@@ -1503,6 +1528,15 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		312B7BB30A99D1B50014E52A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				312B7BBB0A99D1B50014E52A /* Sparkle.framework */,
+				312B7BBD0A99D1B50014E52A /* Sparkle Test App.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		5EDD2FFC0A08D69F0036E63A /* Scripting */ = {
@@ -1624,6 +1658,7 @@
 				142894FC0957685A00D14688 /* PBXTargetDependency */,
 				1493A80B0A10C8C4004ECE6A /* PBXTargetDependency */,
 				14F16D100971A89A00402129 /* PBXTargetDependency */,
+				312B7BBF0A99D2000014E52A /* PBXTargetDependency */,
 				14E573BD0964763900DB50C3 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
@@ -1652,6 +1687,10 @@
 				{
 					ProductGroup = 14F16CF00971A87300402129 /* Products */;
 					ProjectRef = 14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */;
+				},
+				{
+					ProductGroup = 312B7BB30A99D1B50014E52A /* Products */;
+					ProjectRef = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
 				},
 			);
 			targets = (
@@ -1706,6 +1745,20 @@
 			fileType = wrapper.application;
 			path = ReplaceWithAttributesTest.app;
 			remoteRef = 14F16D080971A87300402129 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		312B7BBB0A99D1B50014E52A /* Sparkle.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Sparkle.framework;
+			remoteRef = 312B7BBA0A99D1B50014E52A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		312B7BBD0A99D1B50014E52A /* Sparkle Test App.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Sparkle Test App.app";
+			remoteRef = 312B7BBC0A99D1B50014E52A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2093,6 +2146,11 @@
 			isa = PBXTargetDependency;
 			name = "OgreKit (without Find Panel)";
 			targetProxy = 14F16D0F0971A89A00402129 /* PBXContainerItemProxy */;
+		};
+		312B7BBF0A99D2000014E52A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Sparkle;
+			targetProxy = 312B7BBE0A99D2000014E52A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2544,7 +2602,7 @@
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
 				GCC_USE_GCC3_PFE_SUPPORT = YES;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREFIX_HEADER = "$(PROJECT_DERIVED_FILE_DIR)/Revision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = /;
