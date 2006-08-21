@@ -36,6 +36,7 @@ NSString * const DocumentModeTabWidthPreferenceKey             = @"TabWidth";
 NSString * const DocumentModeUseTabsPreferenceKey              = @"UseTabs";
 NSString * const DocumentModeWrapLinesPreferenceKey            = @"WrapLines";
 NSString * const DocumentModeIndentWrappedLinesPreferenceKey   = @"IndentWrappedLines";
+NSString * const DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey   = @"IndentWrappedLinesCharacterAmount";
 NSString * const DocumentModeShowPageGuidePreferenceKey        = @"ShowPageGuide";
 NSString * const DocumentModePageGuideWidthPreferenceKey       = @"PageGuideWidth";
 NSString * const DocumentModeWrapModePreferenceKey             = @"WrapMode";
@@ -90,6 +91,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                   forKey:DocumentModeWrapLinesPreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeIndentWrappedLinesPreferenceKey];
+    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+                                  forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
                                   forKey:DocumentModeShowPageGuidePreferenceKey];
     [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
@@ -263,6 +266,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModeColumnsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:40] forKey:DocumentModeRowsPreferenceKey];
             NSFont *font=[NSFont userFixedPitchFontOfSize:0.0];
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
@@ -375,8 +379,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         if (![I_defaults objectForKey:DocumentModePageGuideWidthPreferenceKey]) {
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
         }
+        if (![I_defaults objectForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey]) {
+            [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
+        }
 
-        NSMutableDictionary *printDictionary=[I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey];
+                NSMutableDictionary *printDictionary=[I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey];
         if (printDictionary) [I_defaults setObject:[[printDictionary mutableCopy] autorelease] forKey:DocumentModePrintOptionsPreferenceKey];
 
         NSMutableDictionary *export=[I_defaults objectForKey:DocumentModeExportPreferenceKey];

@@ -27,6 +27,7 @@ extern NSString * const DocumentModeTabWidthPreferenceKey               ;
 extern NSString * const DocumentModeUseTabsPreferenceKey                ;
 extern NSString * const DocumentModeWrapLinesPreferenceKey              ;
 extern NSString * const DocumentModeIndentWrappedLinesPreferenceKey     ;
+extern NSString * const DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey;
 extern NSString * const DocumentModeShowPageGuidePreferenceKey          ;
 extern NSString * const DocumentModePageGuideWidthPreferenceKey         ;
 extern NSString * const DocumentModeShowInvisibleCharactersPreferenceKey;

@@ -367,19 +367,22 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         NSFont *font=[[self delegate] fontWithTrait:0];
         int tabWidth=[[self delegate] tabWidth];
         float characterWidth=[font widthOfString:@" "];
-
+        int indentWrappedCharacterAmount = [[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
         // look at all the lines and fixe the indention
         NSRange myRange = NSMakeRange(aRange.location,0);
         do {
             myRange = [string lineRangeForRange:NSMakeRange(NSMaxRange(myRange),0)];
             if (myRange.length>0) {
                 NSParagraphStyle *style=[self attribute:NSParagraphStyleAttributeName atIndex:myRange.location effectiveRange:NULL];
-                float desiredHeadIndent = characterWidth*[string detabbedLengthForRange:[string rangeOfLeadingWhitespaceStartingAt:myRange.location] tabWidth:tabWidth] + [style firstLineHeadIndent];
-                if (ABS([style headIndent]-desiredHeadIndent)>0.01) {
-                    NSMutableParagraphStyle *newStyle=[style mutableCopy];
-                    [newStyle setHeadIndent:desiredHeadIndent];
-                    [self addAttribute:NSParagraphStyleAttributeName value:newStyle range:myRange];
-                    [newStyle release];
+                if (style) {
+                    float desiredHeadIndent = characterWidth*[string detabbedLengthForRange:[string rangeOfLeadingWhitespaceStartingAt:myRange.location] tabWidth:tabWidth] + [style firstLineHeadIndent] + indentWrappedCharacterAmount * characterWidth;
+                    
+                    if (ABS([style headIndent]-desiredHeadIndent)>0.01) {
+                        NSMutableParagraphStyle *newStyle=[style mutableCopy];
+                        [newStyle setHeadIndent:desiredHeadIndent];
+                        [self addAttribute:NSParagraphStyleAttributeName value:newStyle range:myRange];
+                        [newStyle release];
+                    }
                 }
             }
         } while (NSMaxRange(myRange)<NSMaxRange(aRange)); 
