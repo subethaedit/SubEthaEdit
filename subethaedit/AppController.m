@@ -539,13 +539,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     [self setupAuthorization];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
-    
-    if (![LicenseController shouldRun]) {
-        NSMenu *mainMenu = [NSApp mainMenu];
-        NSMenu *appMenu = [[mainMenu itemWithTag:AppMenuTag] submenu];
-        NSMenuItem *enterSerialMenuItem = [appMenu itemWithTag:EnterSerialMenuItemTag];
-        [appMenu removeItem:enterSerialMenuItem];
-    }
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -982,8 +975,9 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
         if (title == nil) title = NSLocalizedString(@"&Redo", nil);
         [menuItem setTitle:title];
         return [undoManager canRedo];
+    } else if (selector == @selector(enterSerialNumber:)) {
+        return [LicenseController shouldRun];
     }
-
     return YES;
 }
 

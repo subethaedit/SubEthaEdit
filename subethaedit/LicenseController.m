@@ -217,11 +217,6 @@ static LicenseController *sharedInstance = nil;
     [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
     (void)[alert runModal];
     [alert release];
-    
-    NSMenu *mainMenu = [NSApp mainMenu];
-    NSMenu *appMenu = [[mainMenu itemWithTag:AppMenuTag] submenu];
-    NSMenuItem *enterSerialMenuItem = [appMenu itemWithTag:EnterSerialMenuItemTag];
-    [appMenu removeItem:enterSerialMenuItem];
 }
 
 - (IBAction)cancel:(id)sender {
