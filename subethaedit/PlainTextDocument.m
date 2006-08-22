@@ -4597,6 +4597,9 @@ static NSString *S_measurementUnits;
                 NSString    *string=[[self textStorage] string];
                 NSRange indentRange=[string lineRangeForRange:affectedRange];
                 indentRange = [string rangeOfLeadingWhitespaceStartingAt:indentRange.location];
+                if (NSMaxRange(indentRange)>affectedRange.location) {
+                    indentRange.length-=NSMaxRange(indentRange)-affectedRange.location;
+                }
                 if (indentRange.length) {
                     indentString=[string substringWithRange:indentRange];
                 }
