@@ -2480,6 +2480,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				DiskImageBackgroundImage = artwork/dmg_background.png;
 				DiskImageProduct = SubEthaEdit.app;
 				DiskImageSizeInMB = 20;
 				DiskImageVolumeName = SubEthaEdit;

@@ -44,21 +44,29 @@ ditto -V -rsrc "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}" "${mountedDmgPath}/${
 echo "...done"
 echo
 echo "${mountedDmgPath}"
+echo
+echo "Copying background image ${SRCROOT}/${DiskImageBackgroundImage}..."
+mkdir "${mountedDmgPath}/.background"
+cp "${SRCROOT}/${DiskImageBackgroundImage}" "${mountedDmgPath}/.background/background.png"
+echo "...done"
 
+# 482x312
 echo "Configuring folder properties..."
-osascript -e "tell application \"Finder\"" \
+osascript -e "set imagePath to \"${DiskImageVolumeName}:.background:background.png\" as Unicode text" \
+		  -e "set fileRef to (imagePath as alias)" \
+          -e "tell application \"Finder\"" \
           -e "    set mountedDiskImage to disk \"${DiskImageVolumeName}\"" \
           -e "    open mountedDiskImage" \
           -e " 	  set myPosition to position of container window of mountedDiskImage" \
-          -e "    set bounds of container window of mountedDiskImage to {item 1 of myPosition, item 2 of myPosition, (item 1 of myPosition) + 384 + sidebar width of container window of mountedDiskImage, (item 2 of myPosition) + 384}" \
+          -e "    set bounds of container window of mountedDiskImage to {item 1 of myPosition, item 2 of myPosition, (item 1 of myPosition) + 482 + 20 + sidebar width of container window of mountedDiskImage, (item 2 of myPosition) + 312 + 80}" \
           -e "    set current view of container window of mountedDiskImage to icon view" \
           -e "    set toolbar visible of container window of mountedDiskImage to false" \
           -e "    set statusbar visible of container window of mountedDiskImage to false" \
           -e "    set icon size of icon view options of container window of mountedDiskImage to 128" \
-          -e "    set text size of icon view options of container window of mountedDiskImage to 16" \
           -e "    set arrangement of icon view options of container window of mountedDiskImage to not arranged" \
+	      -e "    set background picture of icon view options of container window of mountedDiskImage to fileRef" \
           -e "    set myApplicationFile to get application file \"${DiskImageProduct}\" of container window of mountedDiskImage" \
-          -e "    set position of myApplicationFile to {384 / 2, 304 / 2}" \
+          -e "    set position of myApplicationFile to {(482 + 20) / 2, 80}" \
           -e "end tell" \
           > /dev/null
 echo "...done"
