@@ -279,8 +279,6 @@
 									<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 									<array>
 										<array>
-											<integer>14</integer>
-											<integer>13</integer>
 											<integer>0</integer>
 										</array>
 									</array>
@@ -308,7 +306,7 @@
 									<real>43</real>
 								</array>
 								<key>RubberWindowFrame</key>
-								<string>1037 453 350 420 0 0 1440 878 </string>
+								<string>1002 394 350 420 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXSmartGroupTreeModule</string>
@@ -445,8 +443,8 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>31FF9F210A9FA9670036B7DD</string>
-				<string>31FF9F220A9FA9670036B7DD</string>
+				<string>31D5F86E0AA302B50088DB18</string>
+				<string>31D5F86F0AA302B50088DB18</string>
 				<string>1C9437FD063B20B00039CFAC</string>
 				<string>1C9437FE063B20B00039CFAC</string>
 				<string>1C9437FF063B20B00039CFAC</string>
@@ -464,7 +462,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>178235751.663629</real>
+	<real>178455135.52900401</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -479,11 +477,10 @@
 	<integer>0</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C530D52069F1CE1000CFCEE</string>
-		<string>/Users/pittenau/Desktop/CrashReporter/CrashReporter.xcodeproj</string>
+		<string>/Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/CrashReporter/CrashReporter.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>1037 453 350 420 0 0 1440 878 </string>
+	<string>1002 394 350 420 0 0 1440 878 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>

@@ -247,6 +247,7 @@
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
 		312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
 		312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
+		31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE30A039283003D2813 /* SESendProc.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
 		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
@@ -392,6 +393,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = Sparkle;
+		};
+		31D5F8580AA2FB760088DB18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = HDCrashReporter;
+		};
+		31D5F85C0AA301C10088DB18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = HDCrashReporter;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -811,6 +826,7 @@
 		311717F20A0E8C3600A9DA18 /* ModeSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ModeSettings.m; sourceTree = "<group>"; };
 		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ModeSettings.h; sourceTree = "<group>"; };
 		312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
+		31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = CrashReporter/CrashReporter.xcodeproj; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		5E0F6AE30A039283003D2813 /* SESendProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SESendProc.m; sourceTree = "<group>"; };
 		5E0F6AE40A039283003D2813 /* SEActiveProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEActiveProc.m; sourceTree = "<group>"; };
@@ -893,6 +909,7 @@
 				14288FED09573F2B00D14688 /* Security.framework in Frameworks */,
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
 				14288FF509573F4900D14688 /* WebKit.framework in Frameworks */,
+				31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */,
 				14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1407,6 +1424,7 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */,
+				31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */,
 			);
 			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
@@ -1514,6 +1532,14 @@
 			children = (
 				312B7BBB0A99D1B50014E52A /* Sparkle.framework */,
 				312B7BBD0A99D1B50014E52A /* Sparkle Test App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		31D5F8520AA2FB760088DB18 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1638,6 +1664,7 @@
 				142894FC0957685A00D14688 /* PBXTargetDependency */,
 				1493A80B0A10C8C4004ECE6A /* PBXTargetDependency */,
 				14F16D100971A89A00402129 /* PBXTargetDependency */,
+				31D5F85D0AA301C10088DB18 /* PBXTargetDependency */,
 				312B7BBF0A99D2000014E52A /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
@@ -1663,6 +1690,10 @@
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 31D5F8520AA2FB760088DB18 /* Products */;
+					ProjectRef = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
+				},
 				{
 					ProductGroup = 14F16CF00971A87300402129 /* Products */;
 					ProjectRef = 14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */;
@@ -1737,6 +1768,13 @@
 			fileType = wrapper.application;
 			path = "Sparkle Test App.app";
 			remoteRef = 312B7BBC0A99D1B50014E52A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = HDCrashReporter.framework;
+			remoteRef = 31D5F8580AA2FB760088DB18 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2125,6 +2163,11 @@
 			isa = PBXTargetDependency;
 			name = Sparkle;
 			targetProxy = 312B7BBE0A99D2000014E52A /* PBXContainerItemProxy */;
+		};
+		31D5F85D0AA301C10088DB18 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HDCrashReporter;
+			targetProxy = 31D5F85C0AA301C10088DB18 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
