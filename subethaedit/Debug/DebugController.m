@@ -14,6 +14,7 @@
 #import "DebugUserController.h"
 #import "DebugPresenceController.h"
 #import "TCMMMBEEPSessionManager.h"
+#import <HDCrashReporter/crashReporter.h>
 
 static DebugController * sharedInstance = nil;
 
@@ -60,6 +61,10 @@ static DebugController * sharedInstance = nil;
         [CrashItem setTarget:self];
         [menu addItem:CrashItem];
 
+        NSMenuItem *CrashReportItem = [[NSMenuItem alloc] initWithTitle:@"Resend last crash report" action:@selector(sendCrashReport:) keyEquivalent:@""];
+        [CrashReportItem setTarget:self];
+        [menu addItem:CrashReportItem];
+
         NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Retain Counts" action:@selector(printMist) keyEquivalent:@""];
         [blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
         [menu addItem:blahItem];
@@ -102,6 +107,10 @@ static DebugController * sharedInstance = nil;
 
 - (IBAction)crash:(id)sender {
     NSLog((NSString *)"crash here"); // This is supposed to crash, don't fix.
+}
+
+- (IBAction)sendCrashReport:(id)sender {
+    [HDCrashReporter doCrashSubmitting];
 }
 
 @end
