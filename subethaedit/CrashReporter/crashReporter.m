@@ -102,13 +102,10 @@
 
 - (IBAction) sendReport: (id) sender
 {   
-    #warning "Crash Reporter version set to 2.5.1"
     NSMutableDictionary *bugInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            @"Report Issue", @"requestReportIssue",
-                            @"1", @"issue[project_id]",
-                            @"1", @"issue[issue_type_id]",
-                            @"4", @"issue[issue_reproducibility_id]",
-                            @"56", @"issue[affects_project_version_id]", // 56 == 2.5.1
+                            @"Bug", @"issue[issue_type]",
+                            @"I Didn't Try", @"issue[issue_reproducibility]",
+                            [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], @"issue[affects_project_version]",
                             @"Automatic Crash Report", @"issue[title]",
                             @"crash", @"issue[tag_string]",
                             [[self bugReportTextView] string], @"issue[details]",
@@ -144,7 +141,7 @@
     
     [bugInfo addEntriesFromDictionary:contactDict];
     
-    NSMutableURLRequest *aRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.codingmonkeys.de/bugs/public/report/SEE"] postDictionary:bugInfo];
+    NSMutableURLRequest *aRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.codingmonkeys.de/bugs/public/automated_report/SEE"] postDictionary:bugInfo];
     
     [aRequest setValue:[NSString stringWithFormat:@"SubEthaEdit %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]] forHTTPHeaderField:@"User-Agent"];
 
