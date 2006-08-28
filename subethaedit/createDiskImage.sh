@@ -50,7 +50,6 @@ mkdir "${mountedDmgPath}/.background"
 cp "${SRCROOT}/${DiskImageBackgroundImage}" "${mountedDmgPath}/.background/background.png"
 echo "...done"
 
-# 482x312
 echo "Configuring folder properties..."
 osascript -e "set imagePath to \"${DiskImageVolumeName}:.background:background.png\" as Unicode text" \
 		  -e "set fileRef to (imagePath as alias)" \
@@ -102,6 +101,14 @@ echo "Internet-enabling ${dmgBasePath}.dmg disk image..."
 hdiutil internet-enable -yes "${dmgBasePath}.dmg"
 echo "...done"
 echo
+
+# HDCrashReporter.framework.dSYM
+# Sparkle.framework.dSYM
+# OgreKit.framework.dSYM
+# see.dSYM
+# SubEthaEditHelperToolTemplate.dSYM
+# SubEthaEdit.app.dSYM
+
 
 osascript -e "tell application \"Finder\"" -e "select posix file \"${TARGET_BUILD_DIR}/${DiskImageVolumeName}.dmg\"" -e "end tell" > /dev/null
 
