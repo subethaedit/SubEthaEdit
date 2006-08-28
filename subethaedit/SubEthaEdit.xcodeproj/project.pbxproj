@@ -6,20 +6,6 @@
 	objectVersion = 42;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		14E573B90964761F00DB50C3 /* Versioning */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 14E573BF0964766400DB50C3 /* Build configuration list for PBXAggregateTarget "Versioning" */;
-			buildPhases = (
-				14E573B80964761F00DB50C3 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = Versioning;
-			productName = Versioning;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDD09573E8900D14688 /* AddressBook.framework */; };
 		14288FE009573EA300D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
@@ -336,13 +322,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1493A7E70A10C873004ECE6A;
 			remoteInfo = SystemVersionCheck;
-		};
-		14E573BC0964763900DB50C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 14E573B90964761F00DB50C3;
-			remoteInfo = Versioning;
 		};
 		14F16CFE0971A87300402129 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1650,6 +1629,7 @@
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				149EC6970958726E002BDC41 /* Copy Files (Frameworks) */,
 				142894C30957614300D14688 /* Copy Files (Auxiliary Binaries) */,
+				14EB1AB90AA2ED9A004F5BEE /* Run Script (Versioning) */,
 			);
 			buildRules = (
 			);
@@ -1659,7 +1639,6 @@
 				1493A80B0A10C8C4004ECE6A /* PBXTargetDependency */,
 				14F16D100971A89A00402129 /* PBXTargetDependency */,
 				312B7BBF0A99D2000014E52A /* PBXTargetDependency */,
-				14E573BD0964763900DB50C3 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -1698,7 +1677,6 @@
 				142894A90957606F00D14688 /* HelperTool */,
 				142894DD095766EE00D14688 /* see */,
 				142898180958189300D14688 /* Create Disk Image */,
-				14E573B90964761F00DB50C3 /* Versioning */,
 				1493A7E70A10C873004ECE6A /* SystemVersionCheck */,
 			);
 		};
@@ -1939,18 +1917,19 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\necho \"Rename resource file...\"\nmv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"";
 		};
-		14E573B80964761F00DB50C3 /* ShellScript */ = {
+		14EB1AB90AA2ED9A004F5BEE /* Run Script (Versioning) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script (Versioning)";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "REVISION=`/usr/local/bin/svnversion \"$SRCROOT\"`\nmkdir -p \"$PROJECT_DERIVED_FILE_DIR\"\necho \"Creating Revision.h with REVISION=$REVISION\"\necho \"#define REVISION $REVISION\" > \"$PROJECT_DERIVED_FILE_DIR\"/Revision.h\nexit 0";
+			shellPath = "/usr/bin/perl -w";
+			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/local/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2136,11 +2115,6 @@
 			isa = PBXTargetDependency;
 			target = 1493A7E70A10C873004ECE6A /* SystemVersionCheck */;
 			targetProxy = 1493A80A0A10C8C4004ECE6A /* PBXContainerItemProxy */;
-		};
-		14E573BD0964763900DB50C3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 14E573B90964761F00DB50C3 /* Versioning */;
-			targetProxy = 14E573BC0964763900DB50C3 /* PBXContainerItemProxy */;
 		};
 		14F16D100971A89A00402129 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2546,28 +2520,6 @@
 			};
 			name = Release;
 		};
-		14E573C00964766400DB50C3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = Versioning;
-			};
-			name = Debug;
-		};
-		14E573C10964766400DB50C3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = Versioning;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2686,15 +2638,6 @@
 			buildConfigurations = (
 				1493A8000A10C891004ECE6A /* Debug */,
 				1493A8010A10C891004ECE6A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		14E573BF0964766400DB50C3 /* Build configuration list for PBXAggregateTarget "Versioning" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				14E573C00964766400DB50C3 /* Debug */,
-				14E573C10964766400DB50C3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
