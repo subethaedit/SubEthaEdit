@@ -29,16 +29,15 @@
 
 @interface HDCrashReporter : NSWindowController 
 {
-  NSAttributedString *bugReport;
+  NSString *bugReport;
   IBOutlet NSButton *nameAndEmailButton; 
+  IBOutlet NSTextView *bugReportTextView; 
 }
 
 + (BOOL) newCrashLogExists;
 + (void) doCrashSubmitting;
 
 - (IBAction) sendReport: (id) sender;
-
-- (NSAttributedString *)bugReport;
-- (void)setBugReport:(NSAttributedString *)aString;
+- (NSTextView *)bugReportTextView;
 
 @end

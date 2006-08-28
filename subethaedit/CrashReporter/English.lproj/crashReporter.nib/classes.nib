@@ -5,7 +5,7 @@
             ACTIONS = {sendReport = id; }; 
             CLASS = HDCrashReporter; 
             LANGUAGE = ObjC; 
-            OUTLETS = {nameAndEmailButton = NSButton; }; 
+            OUTLETS = {bugReportTextView = NSTextView; nameAndEmailButton = NSButton; }; 
             SUPERCLASS = NSWindowController; 
         }, 
         {

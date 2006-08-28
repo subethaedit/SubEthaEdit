@@ -26,6 +26,7 @@
 
 #import "crashReporter.h"
 #import "NSURLRequestPostAdditions.h"
+#import <AddressBook/AddressBook.h>
 
 @implementation HDCrashReporter
 
@@ -89,11 +90,14 @@
   
   NSString *consoleLog = [consoleStrings componentsJoinedByString: @"\n"];
   
-  NSString *bugReport = [NSString stringWithFormat:@"Feedback:\n\n\nCrash Log:\n%@\n\nConsole Log:\n%@\n\n", lastCrash, consoleLog];
-    
-  [crashReporterController setBugReport: [[[NSAttributedString alloc] initWithString:bugReport attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor blackColor], NSForegroundColorAttributeName, [NSFont fontWithName:@"Monaco" size:9.0], NSFontAttributeName,nil]]autorelease]];
-  
-  [crashReporterController showWindow: self];
+  NSString *bugReport = [NSString stringWithFormat: @"-------------------------------------------------------------------\nFeedback:\n-------------------------------------------------------------------\n\n...\n\n-------------------------------------------------------------------\nCrash Log:\n-------------------------------------------------------------------\n\n%@\n-------------------------------------------------------------------\nConsole Log:\n-------------------------------------------------------------------\n\n%@\n\n", lastCrash, consoleLog];
+   
+
+    [crashReporterController showWindow: self];
+
+  [[crashReporterController window] makeFirstResponder:[crashReporterController bugReportTextView]];
+  [[crashReporterController bugReportTextView] setString:bugReport];
+  [[crashReporterController bugReportTextView] setSelectedRange:NSMakeRange(147,3)]; // Select "..."
 }
 
 - (IBAction) sendReport: (id) sender
@@ -107,25 +111,35 @@
                             @"56", @"issue[affects_project_version_id]", // 56 == 2.5.1
                             @"Automatic Crash Report", @"issue[title]",
                             @"crash", @"issue[tag_string]",
-                            [[self bugReport] string], @"issue[details]",
+                            [[self bugReportTextView] string], @"issue[details]",
                             @"", @"configuration_information",
                             @"", @"enclosure",
                             nil];
      
-    NSDictionary *contactDict;                       
-    if ([nameAndEmailButton state]==NSOffState) {
-        contactDict = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *contactDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                         @"", @"user[email]",
                         @"", @"user[firstname]",
                         @"", @"user[surname]",
                         nil];
-    } else {
-        #warning FIXME: Add name and mail stuff here
-        contactDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                        @"", @"user[email]",
-                        @"", @"user[firstname]",
-                        @"", @"user[surname]",
-                        nil];    
+                        
+    if ([nameAndEmailButton state]==NSOnState) {
+        ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
+        
+        if (meCard) {
+            NSString *firstName = [meCard valueForProperty:kABFirstNameProperty];
+            NSString *lastName  = [meCard valueForProperty:kABLastNameProperty];            
+            NSString *email=nil;
+
+            ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
+            NSString *primaryIdentifier=[emails primaryIdentifier];
+            if (primaryIdentifier) {
+                email=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
+            }
+        
+            if (firstName) [contactDict setObject:firstName forKey:@"user[firstname]"];
+            if (lastName) [contactDict setObject:lastName forKey:@"user[surname]"];
+            if (email) [contactDict setObject:email forKey:@"user[email]"];
+        }                
     }
     
     [bugInfo addEntriesFromDictionary:contactDict];
@@ -134,7 +148,6 @@
     
     [aRequest setValue:[NSString stringWithFormat:@"SubEthaEdit %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]] forHTTPHeaderField:@"User-Agent"];
 
-//    [NSURLConnection sendSynchronousRequest:aRequest returningResponse:nil error:nil];
     NSURLConnection* theConnection = [NSURLConnection connectionWithRequest:aRequest delegate: self];
     [theConnection retain];
     
@@ -149,22 +162,13 @@
     [connection autorelease];
 }
 
-- (NSAttributedString *)bugReport
+- (NSTextView *)bugReportTextView
 {  
-  return [[bugReport retain] autorelease]; 
-}
-
-- (void)setBugReport:(NSAttributedString *)aString
-{  
-  if (bugReport != aString) {
-    [bugReport release];
-    bugReport = [aString retain];
-  }
+  return bugReportTextView; 
 }
 
 - (void)dealloc
 {
-  [self setBugReport:nil];
   [super dealloc];
 }
 

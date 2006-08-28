@@ -9,6 +9,7 @@
 #import <AddressBook/AddressBook.h>
 #import <Security/Security.h>
 #import <Carbon/Carbon.h>
+#import <HDCrashReporter/crashReporter.h>
 
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
@@ -539,6 +540,10 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     [self setupAuthorization];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
+    
+    if ([HDCrashReporter newCrashLogExists]) {
+        [HDCrashReporter doCrashSubmitting];
+    }
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

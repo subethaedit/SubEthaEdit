@@ -27,6 +27,7 @@
 
 - (IBAction)showUsers:(id)aSender;
 - (IBAction)showBEEP:(id)sender;
+- (IBAction)crash:(id)sender;
 
 @end
 

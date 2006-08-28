@@ -56,6 +56,10 @@ static DebugController * sharedInstance = nil;
         [BEEPItem setTarget:self];
         [menu addItem:BEEPItem];
 
+        NSMenuItem *CrashItem = [[NSMenuItem alloc] initWithTitle:@"Crash Application" action:@selector(crash:) keyEquivalent:@""];
+        [CrashItem setTarget:self];
+        [menu addItem:CrashItem];
+
         NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Retain Counts" action:@selector(printMist) keyEquivalent:@""];
         [blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
         [menu addItem:blahItem];
@@ -94,6 +98,10 @@ static DebugController * sharedInstance = nil;
         I_debugBEEPController = [DebugBEEPController new];
     }
     [I_debugBEEPController showWindow:sender];
+}
+
+- (IBAction)crash:(id)sender {
+    NSLog((NSString *)"crash here"); // This is supposed to crash, don't fix.
 }
 
 @end

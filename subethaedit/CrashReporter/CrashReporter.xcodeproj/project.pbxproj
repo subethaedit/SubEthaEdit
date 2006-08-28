@@ -10,7 +10,7 @@
 		0970B4B40997A83300CAA451 /* crashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0970B4B10997A83300CAA451 /* crashReporter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0970B4B50997A83300CAA451 /* crashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0970B4B20997A83300CAA451 /* crashReporter.m */; };
 		0970B4B90997A86800CAA451 /* crashReporter.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0970B4B70997A86800CAA451 /* crashReporter.nib */; };
-		0970B4D50997A92600CAA451 /* Message.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0970B4D40997A92600CAA451 /* Message.framework */; };
+		31D5FE410AA33A790088DB18 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5FE400AA33A790088DB18 /* AddressBook.framework */; };
 		31FF9EC90A9F90AE0036B7DD /* NSURLRequestPostAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 31FF9EC70A9F90AE0036B7DD /* NSURLRequestPostAdditions.h */; };
 		31FF9ECA0A9F90AE0036B7DD /* NSURLRequestPostAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FF9EC80A9F90AE0036B7DD /* NSURLRequestPostAdditions.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -24,9 +24,9 @@
 		0970B4B10997A83300CAA451 /* crashReporter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = crashReporter.h; sourceTree = "<group>"; };
 		0970B4B20997A83300CAA451 /* crashReporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = crashReporter.m; sourceTree = "<group>"; };
 		0970B4B80997A86800CAA451 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/crashReporter.nib; sourceTree = "<group>"; };
-		0970B4D40997A92600CAA451 /* Message.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Message.framework; path = /System/Library/Frameworks/Message.framework; sourceTree = "<absolute>"; };
 		099F4A72099D1D9D008DD32C /* license.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		31D5FE400AA33A790088DB18 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		31FF9EC70A9F90AE0036B7DD /* NSURLRequestPostAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSURLRequestPostAdditions.h; sourceTree = "<group>"; };
 		31FF9EC80A9F90AE0036B7DD /* NSURLRequestPostAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSURLRequestPostAdditions.m; sourceTree = "<group>"; };
 		31FF9F060A9FA7770036B7DD /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/crashReporter.nib; sourceTree = "<group>"; };
@@ -42,7 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				0970B4D50997A92600CAA451 /* Message.framework in Frameworks */,
+				31D5FE410AA33A790088DB18 /* AddressBook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +103,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0970B4D40997A92600CAA451 /* Message.framework */,
+				31D5FE400AA33A790088DB18 /* AddressBook.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
