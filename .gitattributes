@@ -153,10 +153,6 @@ subethaedit/ButtonScrollView.h -text
 subethaedit/ButtonScrollView.m -text
 subethaedit/CandyBarView.h -text
 subethaedit/CandyBarView.m -text
-subethaedit/CrashReporter/CrashReporter.xcodeproj/olivier.pbxuser -text
-subethaedit/CrashReporter/CrashReporter.xcodeproj/olivier.perspective -text
-subethaedit/CrashReporter/CrashReporter.xcodeproj/pittenau.mode2 -text
-subethaedit/CrashReporter/CrashReporter.xcodeproj/pittenau.pbxuser -text
 subethaedit/CrashReporter/CrashReporter.xcodeproj/project.pbxproj -text
 subethaedit/CrashReporter/English.lproj/InfoPlist.strings -text
 subethaedit/CrashReporter/English.lproj/crashReporter.nib/classes.nib -text
