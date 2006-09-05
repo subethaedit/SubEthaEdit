@@ -3967,20 +3967,20 @@ static NSString *S_measurementUnits;
             }
         }
     } else if ([alertIdentifier isEqualToString:@"ShouldPromoteAlert"]) {
+        NSTextView *textView = [alertContext objectForKey:@"TextView"];
+        NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
         if (returnCode == NSAlertThirdButtonReturn) {
             [self setFileEncoding:NSUnicodeStringEncoding];
-            NSTextView *textView = [alertContext objectForKey:@"TextView"];
-            NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
             if (replacementString) [textView insertText:replacementString];
             [[self documentUndoManager] removeAllActions];
         } else if (returnCode == NSAlertSecondButtonReturn) {
             [self setFileEncoding:NSUTF8StringEncoding];
-            NSTextView *textView = [alertContext objectForKey:@"TextView"];
-            NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
             if (replacementString) [textView insertText:replacementString];
             [[self documentUndoManager] removeAllActions];
+        } else if (returnCode == NSAlertFirstButtonReturn) {
+            NSData *lossyData = [replacementString dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+            if (lossyData) [textView insertText:[NSString stringWithData:lossyData encoding:[self fileEncoding]]];
         }
-
     } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {
             [self setKeepDocumentVersion:YES];
