@@ -79,6 +79,11 @@ static DebugController * sharedInstance = nil;
         [menu addItem:blahItem];
         [blahItem release];
 
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"toggle dialog view" action:@selector(toggleDialogView:) keyEquivalent:@""];
+        [blahItem setTarget:nil];
+        [menu addItem:blahItem];
+        [blahItem release];
+
     } else if (flag == NO && indexOfDebugMenu != -1) {
         [[NSApp mainMenu] removeItemAtIndex:indexOfDebugMenu];
     }

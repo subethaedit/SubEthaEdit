@@ -126,6 +126,10 @@ enum {
     [O_participantsView release];
     [I_plainTextEditors makeObjectsPerformSelector:@selector(setWindowController:) withObject:nil];
     [I_plainTextEditors release];
+    [I_editorSplitView release];
+     I_editorSplitView = nil;
+    [I_dialogSplitView release];
+     I_dialogSplitView = nil;
     [super dealloc];
 }
 
@@ -1124,33 +1128,61 @@ enum {
     }
 }
 
+- (IBAction)toggleDialogView:(id)aSender {
+    if (!I_dialogSplitView) {
+        NSView *contentView = [[[self window] contentView] retain];
+        I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
+        [[self window] setContentView:I_dialogSplitView];
+        [I_dialogSplitView setIsPaneSplitter:YES];
+        [I_dialogSplitView setDelegate:self];
+        [I_dialogSplitView addSubview:[[[NSView alloc] initWithFrame:NSMakeRect(0,0,100,100)] autorelease]];
+        NSLog(@"%@", [I_dialogSplitView subviews]);
+        [I_dialogSplitView addSubview:[contentView autorelease]];
+        NSLog(@"%@", [I_dialogSplitView subviews]);
+    } else {
+        [[self window] setContentView:[[I_dialogSplitView subviews] objectAtIndex:1]];
+        [I_dialogSplitView release];
+         I_dialogSplitView=nil;
+    }
+}
+
 - (IBAction)toggleSplitView:(id)aSender {
     if ([I_plainTextEditors count]==1) {
         PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:NO];
         [I_plainTextEditors addObject:plainTextEditor];
         [plainTextEditor release];
-        NSSplitView *splitView = [[SplitView alloc] initWithFrame:[[[self window] contentView] frame]];
-        [[self window] setContentView:splitView];
-        NSSize splitSize=[splitView frame].size;
+        I_editorSplitView = [[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]];
+        if (!I_dialogSplitView) {
+            [[self window] setContentView:I_editorSplitView];
+        } else {
+            [I_dialogSplitView addSubview:I_editorSplitView positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:1]];
+        }
+        NSSize splitSize=[I_editorSplitView frame].size;
         splitSize.height=splitSize.height/2.;
         [[[I_plainTextEditors objectAtIndex:0] editorView] setFrameSize:splitSize];
         [[[I_plainTextEditors objectAtIndex:1] editorView] setFrameSize:splitSize];
-        [splitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView]];
-        [splitView addSubview:[[I_plainTextEditors objectAtIndex:1] editorView]];
-        [splitView setIsPaneSplitter:YES];
-        [splitView setDelegate:self];
+        [I_editorSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView]];
+        [I_editorSplitView addSubview:[[I_plainTextEditors objectAtIndex:1] editorView]];
+        [I_editorSplitView setIsPaneSplitter:YES];
+        [I_editorSplitView setDelegate:self];
         [[I_plainTextEditors objectAtIndex:1] setShowsBottomStatusBar:
             [[I_plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
         [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
         [[I_plainTextEditors objectAtIndex:1] setShowsGutter:
             [[I_plainTextEditors objectAtIndex:0] showsGutter]];
         [self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
-        [splitView release];
     } else if ([I_plainTextEditors count]==2) {
-        [[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+        if (!I_dialogSplitView) {
+            [[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+        } else {
+            [I_dialogSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView] positioned:NSWindowBelow relativeTo:I_editorSplitView];
+            [I_editorSplitView removeFromSuperview];
+        }
         [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:
             [[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
         [I_plainTextEditors removeObjectAtIndex:1];
+        [I_editorSplitView release];
+        I_editorSplitView = nil;
     }
     [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];
     NSTextView *textView=[[I_plainTextEditors objectAtIndex:0] textView];

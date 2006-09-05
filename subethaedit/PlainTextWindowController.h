@@ -34,6 +34,9 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSProgressIndicator *O_progressIndicator;
     IBOutlet NSImageView         *O_URLImageView;
     IBOutlet NSTextField         *O_receivingStatusTextField;
+    NSSplitView *I_editorSplitView;
+    NSSplitView *I_dialogSplitView;
+
     NSMutableArray *I_plainTextEditors;
     NSMenu *I_contextMenu;
     struct {
