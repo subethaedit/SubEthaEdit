@@ -11,6 +11,7 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "TCMMMUserManager.h"
+#import "SelectionOperation.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "GeneralPreferences.h"
 #import "ScriptTextSelection.h"
@@ -220,6 +221,22 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     }
     // NSLog(@"doubleClickAtIndex:%d returned: %@",index,NSStringFromRange(result));
     return result;
+}
+
+- (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding {
+    NSMutableArray *array = [NSMutableArray array];
+    NSString *string = [self string];
+    unsigned length = [string length];
+    unsigned i;
+    for (i = 0; i < length; i++) {
+        unichar character = [string characterAtIndex:i];
+        NSString *charString = [[NSString alloc] initWithCharactersNoCopy:&character length:1 freeWhenDone:NO];
+        if (![charString canBeConvertedToEncoding:encoding]) {
+            [array addObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(i, 1) userID:[TCMMMUserManager myUserID]]];
+        }
+        [charString release];
+    }
+    return array;
 }
 
 

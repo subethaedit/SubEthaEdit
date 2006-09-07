@@ -3904,6 +3904,10 @@ static NSString *S_measurementUnits;
                 DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
                 [[alert window] orderOut:self];
                 if (![[I_textStorage string] canBeConvertedToEncoding:encoding]) {
+                
+                    NSArray *operations = [(TextStorage *)I_textStorage selectionOperationsForRangesUnconvertableToEncoding:encoding];
+                    NSLog(@"operations: %@", operations);
+                
                     NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
                     [newAlert setAlertStyle:NSWarningAlertStyle];
                     [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
