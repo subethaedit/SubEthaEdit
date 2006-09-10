@@ -279,24 +279,29 @@
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
 
-        <state id="q{}" color="#760f15">
-            <begin><regex>q[qxwr]?{</regex></begin>
-            <end><regex>}</regex></end>
+        <state id="q//, qq//, qx//, qw//" color="#760f15">
+            <begin><regex>(?&lt;=[^\w\d])q[qxw]?(?&lt;qclosure&gt;[^\d\w\s]).*?[^\\](?=\k&lt;qclosure&gt;)</regex></begin>
+            <end><regex>.</regex></end>
         </state>
 
-        <state id="q()" color="#760f15">
-            <begin><regex>q[qxwr]?\(</regex></begin>
-            <end><regex>\)</regex></end>
+        <state id="qr//" color="#760f15">
+            <begin><regex>(?&lt;=[^\w\d])qr(?&lt;qrclosure&gt;[^\d\w\s]).+?[^\\](?=\k&lt;qrclosure&gt;)</regex></begin>
+            <end><regex>.[imosx]?</regex></end>
         </state>
 
-        <state id="q||" color="#760f15">
-            <begin><regex>q[qxwr]?\|</regex></begin>
-            <end><regex>\|</regex></end>
+        <state id="m//" color="#760f15">
+            <begin><regex>(?&lt;=[^\w\d])m(?&lt;mclosure&gt;[^\d\w\s]).*?[^\\](?=\k&lt;mclosure&gt;)</regex></begin>
+            <end><regex>.[cgimosx]?</regex></end>
         </state>
 
-        <state id="q//" color="#760f15">
-            <begin><regex>q[qxwr]?/</regex></begin>
-            <end><regex>/</regex></end>
+        <state id="s///" color="#760f15">
+            <begin><regex>(?&lt;=[^\w\d])s(?&lt;sclosure&gt;[^\d\w\s])(?:.*?[^\\])?\k&lt;sclosure&gt;(?:.*?[^\\])?(?=\k&lt;sclosure&gt;)</regex></begin>
+            <end><regex>.[egimosx]?</regex></end>
+        </state>
+
+        <state id="tr///, y///" color="#760f15">
+            <begin><regex>(?&lt;=[^\w\d])(?:tr|y)(?&lt;yclosure&gt;[^\d\w\s])(?:.*?[^\\])?\k&lt;yclosure&gt;(?:.*?[^\\])?(?=\k&lt;yclosure&gt;)</regex></begin>
+            <end><regex>.[cds]?</regex></end>
         </state>
 
         <state id="Backticks" color="#608">
@@ -309,14 +314,14 @@
             <end><regex>(?&lt;=[\n\r])=cut[^\n\r]*</regex></end>
         </state>
 
-        <state id="Regular Expressions" color="#000">
-            <begin><regex>/.*(?=/)</regex></begin>
-            <end><regex>/</regex></end>
+        <state id="/Regular Expressions/" color="#760f15">
+            <begin><regex>/.*?[^\\](?=/)</regex></begin>
+            <end><regex>/[cgimosx]?</regex></end>
         </state>
 
-        <state id="Regular Expression Matching" color="#000">
-            <begin><regex>(?&lt;=\=~)[^\);]</regex></begin>
-            <end><regex>[\);]</regex></end>
+        <state id="?Regular Expressions?" color="#760f15">
+            <begin><regex>\?.*?[^\\](?=\?)</regex></begin>
+            <end><regex>\?</regex></end>
         </state>
 
     </states>
