@@ -442,6 +442,7 @@ subethaedit/Modes/C++.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/C++.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/C++.mode/Contents/Resources/Scripts/20-OpenCounterpart.scpt -text
 subethaedit/Modes/C++.mode/Contents/Resources/Scripts/30-Check[!!-~]Syntax.scpt -text
+subethaedit/Modes/C++.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -text
 subethaedit/Modes/C++.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/C.mode/Contents/Info.plist -text
 subethaedit/Modes/C.mode/Contents/Resources/AutocompleteAdditions.txt -text
@@ -519,6 +520,7 @@ subethaedit/Modes/Java.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Java.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/Java.mode/Contents/Resources/Scripts/30-Compile.scpt -text
 subethaedit/Modes/Java.mode/Contents/Resources/Scripts/40-Compile[!!-~]and[!!-~]run.scpt -text
+subethaedit/Modes/Java.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -text
 subethaedit/Modes/Java.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Javascript.mode/Contents/Info.plist -text
 subethaedit/Modes/Javascript.mode/Contents/Resources/AutocompleteAdditions.txt -text
