@@ -146,7 +146,9 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
             if ((startMatch = [stateStarts matchInString:theString range:currentRange])) { // Found new state
                 NSRange startRange = [startMatch rangeOfMatchedString];
                 defaultStateRange.length = startRange.location - currentRange.location;
-                stateNumber = [startMatch indexOfFirstMatchedSubstring] - 1;
+                //stateNumber = [startMatch indexOfFirstMatchedSubstring] - 1;
+                NSString *stateName = [startMatch nameOfSubstringAtIndex:[startMatch indexOfFirstMatchedSubstring]];
+                stateNumber = [[stateName substringFromIndex:16] intValue];
                 foundState = [[definition states] objectAtIndex:stateNumber];
 
                 [scratchAttributes removeAllObjects];

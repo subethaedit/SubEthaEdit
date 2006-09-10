@@ -592,14 +592,16 @@
     NSMutableString *combinedString = [NSMutableString string];
     NSEnumerator *statesEnumerator = [I_states objectEnumerator];
     NSMutableDictionary *aDictionary;
+    int i = -1;
     while ((aDictionary = [statesEnumerator nextObject])) {
+        i++;
         NSString *beginString;
         if ((beginString = [aDictionary objectForKey:@"BeginsWithRegexString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found regex string state start:%@",beginString);
-            // Warn if begin contains group
+            // Warn if begin contains unnamed group
             OGRegularExpression *testForGroups = [[OGRegularExpression alloc] initWithString:beginString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
 
-            if ([testForGroups numberOfGroups]>0) {
+            if ([testForGroups numberOfGroups]>[testForGroups numberOfNames]) {
                 NSLog(@"ERROR: Captured group in <begin>:%@",[aDictionary description]);
                 NSAlert *alert = [[[NSAlert alloc] init] autorelease];
                 [alert setAlertStyle:NSWarningAlertStyle];
@@ -609,7 +611,7 @@
                 [alert runModal];
                 everythingOkay = NO;
             }
-            
+          
             [testForGroups release];
         } else if ((beginString = [aDictionary objectForKey:@"BeginsWithPlainString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found plain string state start:%@",beginString);
@@ -624,7 +626,7 @@
             everythingOkay = NO;
         }
         if (beginString) {
-            [combinedString appendString:[NSString stringWithFormat:@"(%@)|",beginString]];
+            [combinedString appendString:[NSString stringWithFormat:@"(?<seeinternalgroup%d>%@)|",i,beginString]];
         }
     }
     int combinedStringLength = [combinedString length];
@@ -632,8 +634,8 @@
         [combinedString deleteCharactersInRange:NSMakeRange(combinedStringLength-1,1)];      
         [I_combinedStateRegex autorelease];
         if ([OGRegularExpression isValidExpressionString:combinedString]) {
-            I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
-            //I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
+            I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
+            //I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
         } else {
             NSLog(@"ERROR: %@ (begins of all states) is not a valid regular expression", combinedString);
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
