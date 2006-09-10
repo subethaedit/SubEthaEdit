@@ -264,43 +264,28 @@
             </keywords>
         </default>
         
-        <state id="Singleline Comment" color="#236E25" font-style="italic">
-            <begin><regex>(?&lt;!\$)#</regex></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
-        
-        <state id="String with double quotes" color="#760f15">
-            <begin><regex>(?&lt;!\$|\\)(?:\\\\)*"</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-        </state>
-
-        <state id="String with single quotes" color="#760f15">
-            <begin><regex>(?&lt;!\$|\\)(?:\\\\)*'</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
-        </state>
-
         <state id="q//, qq//, qx//, qw//" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d])q[qxw]?(?&lt;qclosure&gt;[^\d\w\s]).*?[^\\](?=\k&lt;qclosure&gt;)</regex></begin>
+            <begin><regex>(?&lt;=[^\w\d]|\A)q[qxw]?(?&lt;qclosure&gt;[^\d\w\s]).*?[^\\](?=\k&lt;qclosure&gt;)</regex></begin>
             <end><regex>.</regex></end>
         </state>
 
         <state id="qr//" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d])qr(?&lt;qrclosure&gt;[^\d\w\s]).+?[^\\](?=\k&lt;qrclosure&gt;)</regex></begin>
+            <begin><regex>(?&lt;=[^\w\d]|\A)qr(?&lt;qrclosure&gt;[^\d\w\s]).+?[^\\](?=\k&lt;qrclosure&gt;)</regex></begin>
             <end><regex>.[imosx]?</regex></end>
         </state>
 
         <state id="m//" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d])m(?&lt;mclosure&gt;[^\d\w\s]).*?[^\\](?=\k&lt;mclosure&gt;)</regex></begin>
+            <begin><regex>(?&lt;=[^\w\d]|\A)m(?&lt;mclosure&gt;[^\d\w\s]).*?[^\\](?=\k&lt;mclosure&gt;)</regex></begin>
             <end><regex>.[cgimosx]?</regex></end>
         </state>
 
         <state id="s///" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d])s(?&lt;sclosure&gt;[^\d\w\s])(?:.*?[^\\])?\k&lt;sclosure&gt;(?:.*?[^\\])?(?=\k&lt;sclosure&gt;)</regex></begin>
+            <begin><regex>(?&lt;=[^\w\d]|\A)s(?&lt;sclosure&gt;[^\d\w\s])(?:.*?[^\\])?\k&lt;sclosure&gt;(?:.*?[^\\])?(?=\k&lt;sclosure&gt;)</regex></begin>
             <end><regex>.[egimosx]?</regex></end>
         </state>
 
         <state id="tr///, y///" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d])(?:tr|y)(?&lt;yclosure&gt;[^\d\w\s])(?:.*?[^\\])?\k&lt;yclosure&gt;(?:.*?[^\\])?(?=\k&lt;yclosure&gt;)</regex></begin>
+            <begin><regex>(?&lt;=[^\w\d]|\A)(?:tr|y)(?&lt;yclosure&gt;[^\d\w\s])(?:.*?[^\\])?\k&lt;yclosure&gt;(?:.*?[^\\])?(?=\k&lt;yclosure&gt;)</regex></begin>
             <end><regex>.[cds]?</regex></end>
         </state>
 
@@ -322,6 +307,21 @@
         <state id="?Regular Expressions?" color="#760f15">
             <begin><regex>\?.*?[^\\](?=\?)</regex></begin>
             <end><regex>\?</regex></end>
+        </state>
+
+        <state id="Singleline Comment" color="#236E25" font-style="italic">
+            <begin><regex>(?&lt;!\$)#</regex></begin>
+            <end><regex>[\n\r]</regex></end>
+        </state>
+        
+        <state id="String with double quotes" color="#760f15">
+            <begin><regex>(?&lt;!\$|\\)(?:\\\\)*"</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+        </state>
+
+        <state id="String with single quotes" color="#760f15">
+            <begin><regex>(?&lt;!\$|\\)(?:\\\\)*'</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
 
     </states>
