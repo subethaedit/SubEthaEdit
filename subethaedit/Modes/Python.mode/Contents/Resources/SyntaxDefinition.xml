@@ -302,14 +302,19 @@
             <end><regex>[\n\r]</regex></end>
         </state>
         
-        <state id="String with double quotes" color="#760f15">
-            <begin><regex>"</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-        </state>
-
         <state id="String with triple double quotes" color="#760f15">
             <begin><regex>"""</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"""</regex></end>
+        </state>
+
+        <state id="String with triple single quotes" color="#760f15">
+            <begin><regex>'''</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'''</regex></end>
+        </state>
+
+        <state id="String with double quotes" color="#760f15">
+            <begin><regex>"</regex></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
 
         <state id="String with single quotes" color="#760f15">
@@ -317,10 +322,6 @@
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
 
-        <state id="String with triple single quotes" color="#760f15">
-            <begin><regex>'''</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'''</regex></end>
-        </state>
 
         <state id="Backticks" color="#760f15">
             <begin><regex>`</regex></begin>
