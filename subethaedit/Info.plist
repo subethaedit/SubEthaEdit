@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>SUFeedURL</key>
-	<string>http://www.codingmonkeys.de/subethaedit/news.rss</string>
+	<string>http://www.codingmonkeys.de/subethaedit/appcast.rss</string>
 	<key>SUExpectsDSASignature</key>
 	<true/>
 	<key>SUPublicDSAKey</key>
