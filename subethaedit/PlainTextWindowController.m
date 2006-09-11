@@ -1092,28 +1092,41 @@ enum {
 
 -(void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
     float splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
-    NSRect frame=[aSplitView bounds];
-    NSArray *subviews=[aSplitView subviews];
-    NSRect frametop=[[subviews objectAtIndex:0] frame];
-    NSRect framebottom=[[subviews objectAtIndex:1] frame];
-    float newHeight1=frame.size.height-[aSplitView dividerThickness];
-    float topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
-    frametop.size.height=(float)((int)(newHeight1*topratio));
-    if (frametop.size.height<splitminheight) {
-        frametop.size.height=splitminheight;
-    } else if (newHeight1-frametop.size.height<splitminheight) {
-        frametop.size.height=newHeight1-splitminheight;
+    if (aSplitView != I_dialogSplitView) {
+        NSRect frame=[aSplitView bounds];
+        NSArray *subviews=[aSplitView subviews];
+        NSRect frametop=[[subviews objectAtIndex:0] frame];
+        NSRect framebottom=[[subviews objectAtIndex:1] frame];
+        float newHeight1=frame.size.height-[aSplitView dividerThickness];
+        float topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
+        frametop.size.height=(float)((int)(newHeight1*topratio));
+        if (frametop.size.height<splitminheight) {
+            frametop.size.height=splitminheight;
+        } else if (newHeight1-frametop.size.height<splitminheight) {
+            frametop.size.height=newHeight1-splitminheight;
+        }
+    
+        framebottom.size.height=newHeight1-frametop.size.height;
+        framebottom.size.width=frametop.size.width=frame.size.width;
+        
+        frametop.origin.x=framebottom.origin.x=frame.origin.x;
+        frametop.origin.y=frame.origin.y;
+        framebottom.origin.y=frame.origin.y+[aSplitView dividerThickness]+frametop.size.height;
+        
+        [[subviews objectAtIndex:0] setFrame:frametop];
+        [[subviews objectAtIndex:1] setFrame:framebottom];
+    } else {
+        // just keep the height of the first view (dialog)
+        NSView *view2 = [[aSplitView subviews] objectAtIndex:1];
+        NSSize newSize = [aSplitView bounds].size;
+        NSSize frameSize = [view2 frame].size;
+        frameSize.height += newSize.height - oldSize.height;
+        if (frameSize.height <= splitminheight) {
+            frameSize.height = splitminheight;
+        }
+        [view2 setFrameSize:frameSize];
+        [aSplitView adjustSubviews];
     }
-
-    framebottom.size.height=newHeight1-frametop.size.height;
-    framebottom.size.width=frametop.size.width=frame.size.width;
-    
-    frametop.origin.x=framebottom.origin.x=frame.origin.x;
-    frametop.origin.y=frame.origin.y;
-    framebottom.origin.y=frame.origin.y+[aSplitView dividerThickness]+frametop.size.height;
-    
-    [[subviews objectAtIndex:0] setFrame:frametop];
-    [[subviews objectAtIndex:1] setFrame:framebottom];
 }
 
 - (BOOL)splitView:(NSSplitView *)aSplitView canCollapseSubview:(NSView *)aView {
