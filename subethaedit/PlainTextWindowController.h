@@ -36,6 +36,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSTextField         *O_receivingStatusTextField;
     NSSplitView *I_editorSplitView;
     NSSplitView *I_dialogSplitView;
+    id I_documentDialog;
 
     NSMutableArray *I_plainTextEditors;
     NSMenu *I_contextMenu;
@@ -72,5 +73,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (BOOL)showsGutter;
 - (void)setShowsGutter:(BOOL)aFlag;
 - (IBAction)toggleLineNumbers:(id)aSender;
+
+- (void)setDocumentDialog:(id)aDocumentDialog;
 
 @end

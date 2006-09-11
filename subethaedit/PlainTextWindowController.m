@@ -25,6 +25,8 @@
 #import "TCMMMSession.h"
 #import "AppController.h"
 #import "Toolbar.h"
+#import "SEEDocumentDialog.h"
+#import "EncodingDoctorDialog.h"
 
 NSString * const PlainTextWindowToolbarIdentifier = 
                @"PlainTextWindowToolbarIdentifier";
@@ -130,6 +132,8 @@ enum {
      I_editorSplitView = nil;
     [I_dialogSplitView release];
      I_dialogSplitView = nil;
+    [I_documentDialog release];
+     I_documentDialog = nil;
     [super dealloc];
 }
 
@@ -1083,9 +1087,11 @@ enum {
 
 #pragma mark -
 
-#define SPLITMINHEIGHT 46.
+#define SPLITMINHEIGHTTEXT   46.
+#define SPLITMINHEIGHTDIALOG 95.
 
 -(void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
+    float splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
     NSRect frame=[aSplitView bounds];
     NSArray *subviews=[aSplitView subviews];
     NSRect frametop=[[subviews objectAtIndex:0] frame];
@@ -1093,10 +1099,10 @@ enum {
     float newHeight1=frame.size.height-[aSplitView dividerThickness];
     float topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
     frametop.size.height=(float)((int)(newHeight1*topratio));
-    if (frametop.size.height<SPLITMINHEIGHT) {
-        frametop.size.height=SPLITMINHEIGHT;
-    } else if (newHeight1-frametop.size.height<SPLITMINHEIGHT) {
-        frametop.size.height=newHeight1-SPLITMINHEIGHT;
+    if (frametop.size.height<splitminheight) {
+        frametop.size.height=splitminheight;
+    } else if (newHeight1-frametop.size.height<splitminheight) {
+        frametop.size.height=newHeight1-splitminheight;
     }
 
     framebottom.size.height=newHeight1-frametop.size.height;
@@ -1118,7 +1124,7 @@ enum {
        ofSubviewAt:(int)offset {
 
     float height=[aSplitView frame].size.height;
-    float minHeight=SPLITMINHEIGHT;
+    float minHeight=(aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;;
     if (proposedPosition<minHeight) {
         return minHeight;
     } else if (proposedPosition+minHeight+[aSplitView dividerThickness]>height) {
@@ -1128,22 +1134,35 @@ enum {
     }
 }
 
-- (IBAction)toggleDialogView:(id)aSender {
-    if (!I_dialogSplitView) {
+- (void)setDocumentDialog:(id)aDocumentDialog {
+    [aDocumentDialog setDocument:[self document]];
+    if (aDocumentDialog && !I_dialogSplitView) {
         NSView *contentView = [[[self window] contentView] retain];
         I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
         [[self window] setContentView:I_dialogSplitView];
         [I_dialogSplitView setIsPaneSplitter:YES];
         [I_dialogSplitView setDelegate:self];
-        [I_dialogSplitView addSubview:[[[NSView alloc] initWithFrame:NSMakeRect(0,0,100,100)] autorelease]];
+        [I_dialogSplitView addSubview:[aDocumentDialog mainView]];
         NSLog(@"%@", [I_dialogSplitView subviews]);
         [I_dialogSplitView addSubview:[contentView autorelease]];
         NSLog(@"%@", [I_dialogSplitView subviews]);
-    } else {
+        NSSize minSize = [[self window] contentMinSize];
+        minSize.height+=100;
+        [[self window] setContentMinSize:minSize];
+    } else if (!aDocumentDialog && I_dialogSplitView) {
         [[self window] setContentView:[[I_dialogSplitView subviews] objectAtIndex:1]];
         [I_dialogSplitView release];
          I_dialogSplitView=nil;
+        NSSize minSize = [[self window] contentMinSize];
+        minSize.height-=100;
+        [[self window] setContentMinSize:minSize];
     }
+    [I_documentDialog autorelease];
+    I_documentDialog = [aDocumentDialog retain];
+}
+
+- (IBAction)toggleDialogView:(id)aSender {
+    [self setDocumentDialog:[[EncodingDoctorDialog new] autorelease]];
 }
 
 - (IBAction)toggleSplitView:(id)aSender {

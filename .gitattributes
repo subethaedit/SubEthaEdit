@@ -190,6 +190,8 @@ subethaedit/Debug/DebugUserController.m -text
 subethaedit/Debug/DebugUsers.nib/classes.nib -text
 subethaedit/Debug/DebugUsers.nib/info.nib -text
 subethaedit/Debug/DebugUsers.nib/keyedobjects.nib -text
+subethaedit/DialogBackgroundView.h -text
+subethaedit/DialogBackgroundView.m -text
 subethaedit/DocumentController.h -text
 subethaedit/DocumentController.m -text
 subethaedit/DocumentMode.h -text
@@ -200,6 +202,8 @@ subethaedit/DocumentProxyWindowController.h -text
 subethaedit/DocumentProxyWindowController.m -text
 subethaedit/EditPreferences.h -text
 subethaedit/EditPreferences.m -text
+subethaedit/EncodingDoctorDialog.h -text
+subethaedit/EncodingDoctorDialog.m -text
 subethaedit/EncodingManager.h -text
 subethaedit/EncodingManager.m -text
 subethaedit/English.lproj/AboutPanel.nib/classes.nib -text
@@ -214,6 +218,9 @@ subethaedit/English.lproj/DocumentProxy.nib/keyedobjects.nib -text
 subethaedit/English.lproj/EditPrefs.nib/classes.nib -text
 subethaedit/English.lproj/EditPrefs.nib/info.nib -text
 subethaedit/English.lproj/EditPrefs.nib/keyedobjects.nib -text
+subethaedit/English.lproj/EncodingDoctor.nib/classes.nib -text
+subethaedit/English.lproj/EncodingDoctor.nib/info.nib -text
+subethaedit/English.lproj/EncodingDoctor.nib/keyedobjects.nib -text
 subethaedit/English.lproj/Export.nib/classes.nib -text
 subethaedit/English.lproj/Export.nib/info.nib -text
 subethaedit/English.lproj/Export.nib/keyedobjects.nib -text
@@ -1180,6 +1187,8 @@ subethaedit/RendezvousBrowserController.h -text
 subethaedit/RendezvousBrowserController.m -text
 subethaedit/SEActiveProc.h -text
 subethaedit/SEActiveProc.m -text
+subethaedit/SEEDocumentDialog.h -text
+subethaedit/SEEDocumentDialog.m -text
 subethaedit/SESendProc.h -text
 subethaedit/SESendProc.m -text
 subethaedit/SaturationToColorValueTransformer.h -text

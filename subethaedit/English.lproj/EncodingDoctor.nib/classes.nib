@@ -1,0 +1,25 @@
+{
+    IBClasses = (
+        {CLASS = CandyBarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = DialogBackgroundView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {cancel = id; }; 
+            CLASS = EncodingDoctorDialog; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_cancelButton" = NSButton; 
+                "O_convertButton" = NSButton; 
+                "O_convertLossyButton" = NSButton; 
+            }; 
+            SUPERCLASS = SEEDocumentDialog; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = SEEDocumentDialog; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"I_document" = id; "O_window" = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
