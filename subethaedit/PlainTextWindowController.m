@@ -1147,6 +1147,11 @@ enum {
     }
 }
 
+- (id)documentDialog {
+    return I_documentDialog;
+}
+
+
 - (void)setDocumentDialog:(id)aDocumentDialog {
     [aDocumentDialog setDocument:[self document]];
     if (aDocumentDialog && !I_dialogSplitView) {
@@ -1175,7 +1180,7 @@ enum {
 }
 
 - (IBAction)toggleDialogView:(id)aSender {
-    [self setDocumentDialog:[[EncodingDoctorDialog new] autorelease]];
+    [self setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:NSASCIIStringEncoding] autorelease]];
 }
 
 - (IBAction)toggleSplitView:(id)aSender {

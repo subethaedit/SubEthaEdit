@@ -197,6 +197,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (unsigned int)fileEncoding;
 - (void)setFileEncoding:(unsigned int)anEncoding;
+- (void)setFileEncodingUndoable:(unsigned int)anEncoding;
 - (NSDictionary *)fileAttributes;
 - (void)setFileAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)ODBParameters;

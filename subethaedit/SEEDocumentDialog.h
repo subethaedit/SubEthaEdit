@@ -31,5 +31,6 @@
 
 - (id)document;
 - (void)setDocument:(id)aDocument;
+- (IBAction)orderOut:(id)aSender;
 
 @end

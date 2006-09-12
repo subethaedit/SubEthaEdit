@@ -21,6 +21,7 @@
 #import "PrintPreferences.h"
 #import "AppController.h"
 #import "NSSavePanelTCMAdditions.h"
+#import "EncodingDoctorDialog.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -1067,6 +1068,13 @@ static NSString *tempFileName(NSString *origPath) {
     [(TextStorage *)[self textStorage] setEncoding:anEncoding];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
+
+- (void)setFileEncodingUndoable:(unsigned int)anEncoding {
+    [[[self documentUndoManager] prepareWithInvocationTarget:self] 
+        setFileEncodingUndoable:[self fileEncoding]];
+    [self setFileEncoding:anEncoding];
+}
+
 
 - (NSDictionary *)fileAttributes {
     return I_fileAttributes;
@@ -3904,23 +3912,12 @@ static NSString *S_measurementUnits;
                 DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
                 [[alert window] orderOut:self];
                 if (![[I_textStorage string] canBeConvertedToEncoding:encoding]) {
+                    [[self topmostWindowController] setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:encoding] autorelease]];
                 
-                    NSArray *operations = [(TextStorage *)I_textStorage selectionOperationsForRangesUnconvertableToEncoding:encoding];
-                    NSLog(@"operations: %@", operations);
-                
-                    NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                    [newAlert setAlertStyle:NSWarningAlertStyle];
-                    [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
-                    [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not applicable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
-                    [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-                    [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                         modalDelegate:nil
-                                        didEndSelector:nil
-                                           contextInfo:NULL];
                     // didn't work so update bottom status bar to previous state
                     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
                 } else {
-                    [self setFileEncoding:encoding];
+                    [self setFileEncodingUndoable:encoding];
                     [self updateChangeCount:NSChangeDone];
                 }
             }
@@ -4496,6 +4493,17 @@ static NSString *S_measurementUnits;
             [transformator transformOperation:operation serverOperation:textOp];
         }
     }
+
+// transform EncodingDoctorTables if there
+    NSArray *windowControllers = [self windowControllers];
+    int i=[windowControllers count];
+    while (--i>=0) {
+        id dialog = [[windowControllers objectAtIndex:i] documentDialog];
+        if ([dialog respondsToSelector:@selector(takeNoteOfOperation:transformator:)]) {
+            [dialog takeNoteOfOperation:textOp transformator:transformator];
+        }
+    }
+
 
 
 // WebPreview

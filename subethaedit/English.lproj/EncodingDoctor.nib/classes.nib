@@ -3,16 +3,20 @@
         {CLASS = CandyBarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = DialogBackgroundView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
-            ACTIONS = {cancel = id; }; 
+            ACTIONS = {cancel = id; convertLossy = id; rerunCheckAndConvert = id; }; 
             CLASS = EncodingDoctorDialog; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "O_cancelButton" = NSButton; 
                 "O_convertButton" = NSButton; 
                 "O_convertLossyButton" = NSButton; 
+                "O_descriptionTextField" = NSTextField; 
+                "O_foundErrors" = NSArrayController; 
+                "O_tableView" = NSTableView; 
             }; 
             SUPERCLASS = SEEDocumentDialog; 
         }, 
+        {CLASS = FindAllTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             CLASS = SEEDocumentDialog; 

@@ -75,5 +75,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (IBAction)toggleLineNumbers:(id)aSender;
 
 - (void)setDocumentDialog:(id)aDocumentDialog;
+- (id)documentDialog;
 
 @end

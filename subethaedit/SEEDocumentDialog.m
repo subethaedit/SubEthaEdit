@@ -7,7 +7,7 @@
 //
 
 #import "SEEDocumentDialog.h"
-
+#import "PlainTextWindowController.h"
 
 @implementation SEEDocumentDialog
 
@@ -15,6 +15,10 @@
     [O_mainView release];
     [I_topLevelNibObjects release];
     [super dealloc];
+}
+
+- (IBAction)orderOut:(id)aSender {
+    [(id)[[O_mainView window] windowController] setDocumentDialog:nil];
 }
 
 - (NSView *)assignMainView
