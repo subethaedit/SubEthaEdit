@@ -2958,7 +2958,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (saveOperationType != NSSaveToOperation) {
         NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fullDocumentPath traverseLink:YES];
         [self setFileAttributes:fattrs];
-        [self setIsFileWritable:[[NSFileManager defaultManager] isWritableFileAtPath:fullDocumentPath]];
+        [self setIsFileWritable:[[NSFileManager defaultManager] isWritableFileAtPath:fullDocumentPath] || hasBeenWritten];
     }
 
     if (hasBeenWritten) {

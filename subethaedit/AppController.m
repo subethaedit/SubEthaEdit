@@ -980,7 +980,7 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
         if (title == nil) title = NSLocalizedString(@"&Redo", nil);
         [menuItem setTitle:title];
         return [undoManager canRedo];
-    } else if (selector == @selector(enterSerialNumber:)) {
+    } else if (selector == @selector(enterSerialNumber:) || selector == @selector(purchaseSubEthaEdit:)) {
         return [LicenseController shouldRun];
     }
     return YES;
