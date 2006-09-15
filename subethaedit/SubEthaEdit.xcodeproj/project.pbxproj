@@ -1509,6 +1509,7 @@
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
 				142890190957418400D14688 /* DocumentProxy.nib */,
 				1428901B0957418400D14688 /* EditPrefs.nib */,
+				5E754EB10AB56ACC00C5119E /* EncodingDoctor.nib */,
 				5E2F5E41097BE32E00F7AA3C /* Export.nib */,
 				14289BD809581CAC00D14688 /* FindAll.nib */,
 				14289BD109581C3000D14688 /* FindReplace.nib */,
@@ -1534,7 +1535,6 @@
 				1428904A0957427100D14688 /* Modes */,
 				5E4DA73A09E15C6800D91CFC /* Scripts */,
 				142890450957421300D14688 /* SubEthaEditHelp */,
-				5E754EB10AB56ACC00C5119E /* EncodingDoctor.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";

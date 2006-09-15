@@ -44,6 +44,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
         BOOL isReceivingContent;
         BOOL zoomFix_defaultFrameHadEqualWidth;
     } I_flags;
+    NSTimer *I_dialogAnimationTimer;
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;

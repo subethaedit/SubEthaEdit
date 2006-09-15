@@ -64,9 +64,9 @@ static const CGFunctionCallbacks linearFunctionCallbacks = {0,
 - (void)drawRect:(NSRect)rect {
     if (!sLinearFunctionRef)  {
         _twoColorsType *twoColors=malloc(sizeof(_twoColorsType));
-        twoColors->red1 = twoColors->green1 = twoColors->blue1 = 0.91;
+        twoColors->red1 = twoColors->green1 = twoColors->blue1 = 0.83;
         twoColors->alpha1 = twoColors->alpha2 = 1.0;
-        twoColors->red2 = twoColors->green2 = twoColors->blue2 = 0.83;
+        twoColors->red2 = twoColors->green2 = twoColors->blue2 = 0.91;
         static const float domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0};
         sLinearFunctionRef=CGFunctionCreate(twoColors, 1,
         domainAndRange, 4, domainAndRange, &linearFunctionCallbacks);

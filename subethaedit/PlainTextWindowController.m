@@ -1151,32 +1151,104 @@ enum {
     return I_documentDialog;
 }
 
+- (void)documentDialogFadeInTimer:(NSTimer *)aTimer {
+    NSMutableDictionary *info = [aTimer userInfo];
+    int counter = [[info objectForKey:@"counter"] intValue]+1;
+    int repeats = [[info objectForKey:@"repeats"] intValue];
+    [info setObject:[NSNumber numberWithInt:counter] forKey:@"counter"];
+    float factor = (float)counter / (float)repeats;
+    if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
+        factor = 1.-factor;
+    }
+    // make transition sinoidal
+    factor = (-cos(factor*M_PI)/2.)+0.5;
+    
+    
+    NSView *dialogView = [[I_dialogSplitView subviews] objectAtIndex:0];
+    NSRect targetFrame = [dialogView frame];
+    float newHeight = (int)(factor * [[info objectForKey:@"targetHeight"] floatValue]);
+    float difference = newHeight - targetFrame.size.height;
+    targetFrame.size.height = newHeight;
+    [dialogView setFrame:targetFrame];
+    NSView *contentView = [[I_dialogSplitView subviews] objectAtIndex:1];
+    NSRect contentFrame = [contentView frame];
+    contentFrame.size.height -= difference;
+    [contentView setFrame:contentFrame];
+    [I_dialogSplitView setNeedsDisplay:YES];
+    
+    if (counter == repeats) {
+        if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
+            [[self window] setContentView:[[I_dialogSplitView subviews] objectAtIndex:1]];
+            [I_dialogSplitView release];
+             I_dialogSplitView=nil;
+            NSSize minSize = [[self window] contentMinSize];
+            minSize.height-=100;
+            [[self window] setContentMinSize:minSize];
+            [I_documentDialog autorelease];
+             I_documentDialog = nil;
+            [[self window] makeFirstResponder:[[self activePlainTextEditor] textView]];
+        }
+        [dialogView setAutoresizesSubviews:YES];
+        [I_dialogAnimationTimer invalidate];
+        [I_dialogAnimationTimer autorelease];
+         I_dialogAnimationTimer = nil;
+    }
+}
 
 - (void)setDocumentDialog:(id)aDocumentDialog {
     [aDocumentDialog setDocument:[self document]];
-    if (aDocumentDialog && !I_dialogSplitView) {
-        NSView *contentView = [[[self window] contentView] retain];
-        I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
-        [[self window] setContentView:I_dialogSplitView];
-        [I_dialogSplitView setIsPaneSplitter:YES];
-        [I_dialogSplitView setDelegate:self];
-        [I_dialogSplitView addSubview:[aDocumentDialog mainView]];
-        NSLog(@"%@", [I_dialogSplitView subviews]);
-        [I_dialogSplitView addSubview:[contentView autorelease]];
-        NSLog(@"%@", [I_dialogSplitView subviews]);
-        NSSize minSize = [[self window] contentMinSize];
-        minSize.height+=100;
-        [[self window] setContentMinSize:minSize];
+    if (aDocumentDialog) {
+        if (!I_dialogSplitView) {
+            NSView *contentView = [[[self window] contentView] retain];
+            NSView *dialogView = [aDocumentDialog mainView];
+            I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
+            [(SplitView *)I_dialogSplitView setDividerThickness:3.];
+            NSRect mainFrame = [dialogView frame];
+            [[self window] setContentView:I_dialogSplitView];
+            [I_dialogSplitView setIsPaneSplitter:YES];
+            [I_dialogSplitView setDelegate:self];
+            [I_dialogSplitView addSubview:dialogView];
+            mainFrame.size.width = [I_dialogSplitView frame].size.width;
+            [dialogView setFrame:mainFrame];
+            float targetHeight = mainFrame.size.height;
+            [dialogView resizeSubviewsWithOldSize:mainFrame.size];
+            mainFrame.size.height = 0;
+            [dialogView setAutoresizesSubviews:NO];
+            [dialogView setFrame:mainFrame];
+            [I_dialogSplitView addSubview:[contentView autorelease]];
+            NSSize minSize = [[self window] contentMinSize];
+            minSize.height+=100;
+            [[self window] setContentMinSize:minSize];
+            I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01 
+                target:self 
+                selector:@selector(documentDialogFadeInTimer:) 
+                userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                            [NSNumber numberWithInt:20], @"repeats", 
+                            [NSNumber numberWithInt:0], @"counter",
+                            [NSNumber numberWithFloat:targetHeight],@"targetHeight",
+                            @"BlindDown",@"type",nil] 
+                repeats:YES] retain];
+        } else {
+            NSRect frame = [[[I_dialogSplitView subviews] objectAtIndex:0] frame];
+            [[[I_dialogSplitView subviews] objectAtIndex:0] removeFromSuperviewWithoutNeedingDisplay];
+            [I_dialogSplitView addSubview:[aDocumentDialog mainView] positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:0]];
+            [[aDocumentDialog mainView] setFrame:frame];
+            [I_dialogSplitView setNeedsDisplay:YES];
+        }
+        [I_documentDialog autorelease];
+        I_documentDialog = [aDocumentDialog retain];
     } else if (!aDocumentDialog && I_dialogSplitView) {
-        [[self window] setContentView:[[I_dialogSplitView subviews] objectAtIndex:1]];
-        [I_dialogSplitView release];
-         I_dialogSplitView=nil;
-        NSSize minSize = [[self window] contentMinSize];
-        minSize.height-=100;
-        [[self window] setContentMinSize:minSize];
+        [[[I_dialogSplitView subviews] objectAtIndex:0] setAutoresizesSubviews:NO];
+        I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01 
+            target:self 
+            selector:@selector(documentDialogFadeInTimer:) 
+            userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:20], @"repeats", 
+                        [NSNumber numberWithInt:0], @"counter",
+                        [NSNumber numberWithFloat:[[[I_dialogSplitView subviews] objectAtIndex:0] frame].size.height],@"targetHeight",
+                        @"BlindUp",@"type",nil] 
+            repeats:YES] retain];
     }
-    [I_documentDialog autorelease];
-    I_documentDialog = [aDocumentDialog retain];
 }
 
 - (IBAction)toggleDialogView:(id)aSender {

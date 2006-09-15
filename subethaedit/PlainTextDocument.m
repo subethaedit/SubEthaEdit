@@ -1296,11 +1296,76 @@ static NSString *tempFileName(NSString *origPath) {
         [alert addButtonWithTitle:NSLocalizedString(@"Reinterpret", nil)];
         [alert beginSheetModalForWindow:[self windowForSheet]
                           modalDelegate:self
-                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                         didEndSelector:@selector(selectEncodingAlertDidEnd:returnCode:contextInfo:)
                             contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
                                                             @"SelectEncodingAlert", @"Alert",
                                                             [NSNumber numberWithUnsignedInt:encoding], @"Encoding",
                                                             nil] retain]];
+    }
+}
+
+- (void)selectEncodingAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    NSDictionary *alertContext = (NSDictionary *)contextInfo;
+    NSString *alertIdentifier = [alertContext objectForKey:@"Alert"];
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"alertDidEnd: %@", alertIdentifier);
+
+    TCMMMSession *session=[self session];
+    if (!I_flags.isReceivingContent && [session isServer] && [session participantCount]<=1) {
+        NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntValue];
+        if (returnCode == NSAlertFirstButtonReturn) { // convert
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
+            [[alert window] orderOut:self];
+            if (![[I_textStorage string] canBeConvertedToEncoding:encoding]) {
+                [[self topmostWindowController] setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:encoding] autorelease]];
+            
+                // didn't work so update bottom status bar to previous state
+                [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+            } else {
+                [self setFileEncodingUndoable:encoding];
+                [self updateChangeCount:NSChangeDone];
+            }
+        }
+
+        if (returnCode == NSAlertSecondButtonReturn) {
+          // canceled so update bottom status bar to previous state
+          [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+        }
+
+        if (returnCode == NSAlertThirdButtonReturn) { // Reinterpret
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
+            [[alert window] orderOut:self];
+            NSData *stringData = [[I_textStorage string] dataUsingEncoding:[self fileEncoding]];
+            NSString *reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
+            if (!reinterpretedString || ([reinterpretedString length] == 0 && [I_textStorage length] > 0)) {
+                NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
+                [newAlert setAlertStyle:NSWarningAlertStyle];
+                [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
+                [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
+                [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+                [newAlert beginSheetModalForWindow:[self windowForSheet]
+                                     modalDelegate:nil
+                                    didEndSelector:nil
+                                       contextInfo:NULL];
+                // didn't work so update bottom status bar to previous state
+                [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
+            } else {
+                [[self documentUndoManager] beginUndoGrouping];
+                [I_textStorage beginEditing];
+                [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
+                [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:@""];
+
+                [self setFileEncodingUndoable:encoding];
+                [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
+                [reinterpretedString release];
+                [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
+                if (I_flags.highlightSyntax) {
+                    [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
+                }
+                [I_textStorage endEditing];
+                [[self documentUndoManager] endUndoGrouping];
+                [self TCM_validateLineEndings];
+            }
+        }
     }
 }
 
@@ -3904,80 +3969,15 @@ static NSString *S_measurementUnits;
     NSString *alertIdentifier = [alertContext objectForKey:@"Alert"];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"alertDidEnd: %@", alertIdentifier);
 
-    if ([alertIdentifier isEqualToString:@"SelectEncodingAlert"]) {
-        TCMMMSession *session=[self session];
-        if (!I_flags.isReceivingContent && [session isServer] && [session participantCount]<=1) {
-            NSStringEncoding encoding = [[alertContext objectForKey:@"Encoding"] unsignedIntValue];
-            if (returnCode == NSAlertFirstButtonReturn) {
-                DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
-                [[alert window] orderOut:self];
-                if (![[I_textStorage string] canBeConvertedToEncoding:encoding]) {
-                    [[self topmostWindowController] setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:encoding] autorelease]];
-                
-                    // didn't work so update bottom status bar to previous state
-                    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-                } else {
-                    [self setFileEncodingUndoable:encoding];
-                    [self updateChangeCount:NSChangeDone];
-                }
-            }
-
-            if (returnCode == NSAlertSecondButtonReturn) {
-              // canceled so update bottom status bar to previous state
-              [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-            }
-
-            if (returnCode == NSAlertThirdButtonReturn) {
-                DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
-                [[alert window] orderOut:self];
-                NSData *stringData = [[I_textStorage string] dataUsingEncoding:[self fileEncoding]];
-                NSString *reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
-                if (!reinterpretedString || ([reinterpretedString length] == 0 && [I_textStorage length] > 0)) {
-                    NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
-                    [newAlert setAlertStyle:NSWarningAlertStyle];
-                    [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
-                    [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
-                    [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-                    [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                         modalDelegate:nil
-                                        didEndSelector:nil
-                                           contextInfo:NULL];
-                    // didn't work so update bottom status bar to previous state
-                    [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
-                } else {
-                    BOOL isEdited = [self isDocumentEdited];
-                    [I_textStorage beginEditing];
-                    [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
-                    [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
-
-                    if (I_flags.highlightSyntax) {
-                        [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
-                    }
-
-                    [I_textStorage endEditing];
-
-                    [[self documentUndoManager] removeAllActions];
-                    [reinterpretedString release];
-                    [self setFileEncoding:encoding];
-                    if (!isEdited) {
-                        [self updateChangeCount:NSChangeCleared];
-                    }
-                    
-                    [self TCM_validateLineEndings];
-                }
-            }
-        }
-    } else if ([alertIdentifier isEqualToString:@"ShouldPromoteAlert"]) {
+    if ([alertIdentifier isEqualToString:@"ShouldPromoteAlert"]) {
         NSTextView *textView = [alertContext objectForKey:@"TextView"];
         NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
         if (returnCode == NSAlertThirdButtonReturn) {
-            [self setFileEncoding:NSUnicodeStringEncoding];
+            [self setFileEncodingUndoable:NSUnicodeStringEncoding];
             if (replacementString) [textView insertText:replacementString];
-            [[self documentUndoManager] removeAllActions];
         } else if (returnCode == NSAlertSecondButtonReturn) {
-            [self setFileEncoding:NSUTF8StringEncoding];
+            [self setFileEncodingUndoable:NSUTF8StringEncoding];
             if (replacementString) [textView insertText:replacementString];
-            [[self documentUndoManager] removeAllActions];
         } else if (returnCode == NSAlertFirstButtonReturn) {
             NSData *lossyData = [replacementString dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
             if (lossyData) [textView insertText:[NSString stringWithData:lossyData encoding:[self fileEncoding]]];
