@@ -223,21 +223,33 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return result;
 }
 
-- (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding {
-    NSLog(@"%s beginning",__FUNCTION__);
+- (NSArray *)selectionOperationsForRangesInRange:(NSRange)aRange unconvertableToEncoding:(NSStringEncoding)encoding {
     NSMutableArray *array = [NSMutableArray array];
     NSString *string = [self string];
-    unsigned length = [string length];
-    unsigned i;
-    for (i = 0; i < length; i++) {
-        unichar character = [string characterAtIndex:i];
-        NSString *charString = [[NSString alloc] initWithCharactersNoCopy:&character length:1 freeWhenDone:NO];
-        if (![charString canBeConvertedToEncoding:encoding]) {
-            [array addObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(i, 1) userID:[TCMMMUserManager myUserID]]];
+    if (![[string substringWithRange:aRange] canBeConvertedToEncoding:encoding]) {
+        if (aRange.length <= 100) {
+            unsigned end = NSMaxRange(aRange);
+            unsigned i = aRange.location;
+            for (i = 0; i < end; i++) {
+                unichar character = [string characterAtIndex:i];
+                NSString *charString = [[NSString alloc] initWithCharactersNoCopy:&character length:1 freeWhenDone:NO];
+                if (![charString canBeConvertedToEncoding:encoding]) {
+                    [array addObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(i, 1) userID:[TCMMMUserManager myUserID]]];
+                }
+                [charString release];
+            }
+        } else {
+            int chunkCount = 5;
+            NSRange chunkRange = aRange;
+            chunkRange.length = aRange.length/chunkCount;
+            
+            while (--chunkCount) {
+                [array addObjectsFromArray:[self selectionOperationsForRangesInRange:chunkRange unconvertableToEncoding:encoding]];
+                chunkRange.location+=chunkRange.length;
+            }
+            chunkRange.length = NSMaxRange(aRange)-chunkRange.location;
         }
-        [charString release];
     }
-    
     // combinde adjacent selection operations
     int count = [array count];
     while (--count>0) {
@@ -248,7 +260,13 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
             [array removeObjectAtIndex:count];
         }
     }
-    
+    return array;
+}
+
+- (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding {
+    NSLog(@"%s beginning",__FUNCTION__);
+    NSMutableArray *array = [NSMutableArray array];
+    [array addObjectsFromArray:[self selectionOperationsForRangesInRange:NSMakeRange(0, [self length]) unconvertableToEncoding:encoding]];
     NSLog(@"%s end",__FUNCTION__);
     return array;
 }
