@@ -1534,6 +1534,8 @@ test/Performance/CreateStringByUnicharTest/English.lproj/MainMenu.nib/info.nib -
 test/Performance/CreateStringByUnicharTest/English.lproj/MainMenu.nib/keyedobjects.nib -text
 test/Performance/CreateStringByUnicharTest/Info.plist -text
 test/Performance/CreateStringByUnicharTest/main.m -text
+test/Performance/EncodingTests/LongAndFew.txt -text
+test/Performance/EncodingTests/LongAndMany.txt -text
 test/Syntax/PHP-HTML/Classes.php -text
 test/Syntax/PHP-HTML/Library.php -text
 tool/AutoCompleteParsers/gogogo.sh -text
