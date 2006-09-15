@@ -224,6 +224,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding {
+    NSLog(@"%s beginning",__FUNCTION__);
     NSMutableArray *array = [NSMutableArray array];
     NSString *string = [self string];
     unsigned length = [string length];
@@ -236,6 +237,19 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         }
         [charString release];
     }
+    
+    // combinde adjacent selection operations
+    int count = [array count];
+    while (--count>0) {
+        NSRange lowerRange  = [[array objectAtIndex:count-1] selectedRange];
+        NSRange higherRange = [[array objectAtIndex:count] selectedRange];
+        if (NSMaxRange(lowerRange) == higherRange.location) {
+            [[array objectAtIndex:count-1] setSelectedRange:NSUnionRange(lowerRange,higherRange)];
+            [array removeObjectAtIndex:count];
+        }
+    }
+    
+    NSLog(@"%s end",__FUNCTION__);
     return array;
 }
 

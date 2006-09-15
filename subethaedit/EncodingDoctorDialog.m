@@ -35,6 +35,7 @@
 
 
 - (IBAction)convertLossy:(id)aSender {
+    [O_foundErrors setContent:[NSMutableArray array]];
     NSArray *selectionOperationArray=[(TextStorage *)[I_document textStorage] selectionOperationsForRangesUnconvertableToEncoding:I_encoding];
     int i = [selectionOperationArray count];
     [[I_document documentUndoManager] beginUndoGrouping];
@@ -58,23 +59,46 @@
 
 - (IBAction)rerunCheckAndConvert:(id)aSender {
     [O_foundErrors setContent:[NSMutableArray array]];
+    NSMutableArray *newErrors=[NSMutableArray array];
     NSArray *selectionOperationArray=[(TextStorage *)[I_document textStorage] selectionOperationsForRangesUnconvertableToEncoding:I_encoding];
+    NSLog(@"%s before",__FUNCTION__);
     NSEnumerator *selectionOperations=[selectionOperationArray objectEnumerator];
     SelectionOperation *selectionOperation = nil;
+    TextStorage *textStorage = (TextStorage *)[I_document textStorage];
+    NSString *string=[textStorage string];
+    NSRange currentLineRange=[string lineRangeForRange:NSMakeRange(0,0)];
+    int currentLineNumber = 1;
     while ((selectionOperation=[selectionOperations nextObject])) {
         NSMutableDictionary *dictionary=[NSMutableDictionary dictionaryWithObject:selectionOperation forKey:@"selectionOperation"];
         NSRange errorRange=[selectionOperation selectedRange];
-        NSTextStorage *textStorage = [I_document textStorage];
-        [dictionary setObject:[NSNumber numberWithInt:[(TextStorage *)textStorage lineNumberForLocation:errorRange.location]] forKey:@"line"];
-        NSRange lineRange = [[textStorage string] lineRangeForRange:errorRange];
-        NSMutableAttributedString *attString = [[[NSMutableAttributedString alloc] initWithString:[[textStorage string] substringWithRange:lineRange]] autorelease];
-        [attString addAttribute:NSForegroundColorAttributeName value:[NSColor redColor] range:NSMakeRange(errorRange.location - lineRange.location, errorRange.length)];
-        if (errorRange.location - lineRange.location>10) {
-            [attString replaceCharactersInRange:NSMakeRange(0, errorRange.location - lineRange.location - 10) withString:@"..."];
+        NSRange lineRange = [string lineRangeForRange:errorRange];
+        if (!NSEqualRanges(currentLineRange, lineRange)) {
+            currentLineRange = lineRange;
+            currentLineNumber = [textStorage lineNumberForLocation:lineRange.location];
         }
+        [dictionary setObject:[NSNumber numberWithInt:currentLineNumber] forKey:@"line"];
+        BOOL truncStart = NO;
+        BOOL truncEnd = NO;
+        if (errorRange.location - lineRange.location>10) {
+            int difference = errorRange.location - lineRange.location - 10;
+            lineRange.location += difference;
+            lineRange.length   -= difference;
+            truncStart = YES;
+        }
+        if (NSMaxRange(lineRange) > NSMaxRange(errorRange) + 10) {
+            lineRange.length = (NSMaxRange(errorRange) + 10) - lineRange.location;
+            truncEnd = YES;
+        }
+        NSMutableAttributedString *attString = [[[NSMutableAttributedString alloc] initWithString:[string substringWithRange:lineRange]] autorelease];
+        [attString addAttribute:NSForegroundColorAttributeName value:[NSColor redColor] range:NSMakeRange(errorRange.location - lineRange.location, errorRange.length)];
+        if (truncStart) [attString replaceCharactersInRange:NSMakeRange(0,0) withString:@"..."];
+        if (truncEnd)   [attString replaceCharactersInRange:NSMakeRange([attString length],0) withString:@"..."];
+    
         [dictionary setObject:attString forKey:@"errorString"];
-        [O_foundErrors addObject:dictionary];
+        [newErrors addObject:dictionary];
     }
+    [O_foundErrors setContent:newErrors];
+
     if ([[O_foundErrors arrangedObjects] count]>0) {
         [O_foundErrors setSelectionIndex:0];
         [self jumpToSelection:self];
@@ -85,6 +109,8 @@
         [I_document updateChangeCount:NSChangeDone];
         [self orderOut:self];
     }
+    NSLog(@"%s after",__FUNCTION__);
+
 }
 
 - (NSArray *)arrangedObjects {
