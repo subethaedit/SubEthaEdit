@@ -224,7 +224,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding {
-    NSLog(@"%s beginning",__FUNCTION__);
+//    NSLog(@"%s beginning",__FUNCTION__);
     NSMutableArray *array = [NSMutableArray array];
     NSString *string = [self string];
     unsigned length = [string length];
@@ -249,7 +249,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         }
     }
     
-    NSLog(@"%s end",__FUNCTION__);
+//    NSLog(@"%s end",__FUNCTION__);
     return array;
 }
 

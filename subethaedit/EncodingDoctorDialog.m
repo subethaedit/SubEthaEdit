@@ -61,7 +61,6 @@
     [O_foundErrors setContent:[NSMutableArray array]];
     NSMutableArray *newErrors=[NSMutableArray array];
     NSArray *selectionOperationArray=[(TextStorage *)[I_document textStorage] selectionOperationsForRangesUnconvertableToEncoding:I_encoding];
-    NSLog(@"%s before",__FUNCTION__);
     NSEnumerator *selectionOperations=[selectionOperationArray objectEnumerator];
     SelectionOperation *selectionOperation = nil;
     TextStorage *textStorage = (TextStorage *)[I_document textStorage];
@@ -109,8 +108,6 @@
         [I_document updateChangeCount:NSChangeDone];
         [self orderOut:self];
     }
-    NSLog(@"%s after",__FUNCTION__);
-
 }
 
 - (NSArray *)arrangedObjects {
