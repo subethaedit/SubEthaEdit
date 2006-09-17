@@ -93,7 +93,8 @@
   NSString *bugReport = [NSString stringWithFormat: @"-------------------------------------------------------------------\nFeedback:\n-------------------------------------------------------------------\n\n...\n\n-------------------------------------------------------------------\nCrash Log:\n-------------------------------------------------------------------\n\n%@\n-------------------------------------------------------------------\nConsole Log:\n-------------------------------------------------------------------\n\n%@\n\n", lastCrash, consoleLog];
    
 
-    [crashReporterController showWindow: self];
+  [[crashReporterController window] center];
+  [crashReporterController showWindow: self];
 
   [[crashReporterController window] makeFirstResponder:[crashReporterController bugReportTextView]];
   [[crashReporterController bugReportTextView] setString:bugReport];
