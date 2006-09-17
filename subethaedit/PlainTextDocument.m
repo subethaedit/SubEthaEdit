@@ -1306,8 +1306,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)selectEncodingAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     NSDictionary *alertContext = (NSDictionary *)contextInfo;
-    NSString *alertIdentifier = [alertContext objectForKey:@"Alert"];
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"alertDidEnd: %@", alertIdentifier);
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"alertDidEnd: %@", [alertContext objectForKey:@"Alert"]);
 
     TCMMMSession *session=[self session];
     if (!I_flags.isReceivingContent && [session isServer] && [session participantCount]<=1) {

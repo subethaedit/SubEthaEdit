@@ -26,9 +26,6 @@
 - (void)mainViewDidLoad;
 - (void)setMainView:(NSView *)aView;
 
-- (float)minHeight;
-- (float)maxHeight;
-
 - (id)document;
 - (void)setDocument:(id)aDocument;
 - (IBAction)orderOut:(id)aSender;
