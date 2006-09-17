@@ -250,7 +250,6 @@
 		31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
-		5E0F01C40AB573A100A5DE33 /* DialogBackgroundView.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */; };
 		5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE30A039283003D2813 /* SESendProc.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
 		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
@@ -265,9 +264,7 @@
 		5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
 		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
 		5E6AEEE309FE7C5700276D7C /* ToolbarIconColorChooser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */; };
-		5E754EA30AB5648F00C5119E /* EncodingDoctorDialog.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E754EA10AB5648F00C5119E /* EncodingDoctorDialog.h */; };
 		5E754EA40AB5648F00C5119E /* EncodingDoctorDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E754EA20AB5648F00C5119E /* EncodingDoctorDialog.m */; };
-		5E754EAB0AB564BD00C5119E /* SEEDocumentDialog.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 5E754EA90AB564BD00C5119E /* SEEDocumentDialog.h */; };
 		5E754EAC0AB564BD00C5119E /* SEEDocumentDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E754EAA0AB564BD00C5119E /* SEEDocumentDialog.m */; };
 		5E754EB30AB56ACC00C5119E /* EncodingDoctor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5E754EB10AB56ACC00C5119E /* EncodingDoctor.nib */; };
 		5E7E7FE80A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */; };
@@ -441,9 +438,6 @@
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
-				5E754EA30AB5648F00C5119E /* EncodingDoctorDialog.h in Copy Files (Frameworks) */,
-				5E754EAB0AB564BD00C5119E /* SEEDocumentDialog.h in Copy Files (Frameworks) */,
-				5E0F01C40AB573A100A5DE33 /* DialogBackgroundView.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
