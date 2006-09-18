@@ -394,6 +394,10 @@ subethaedit/German.lproj/WebPreview.nib/info.nib -text
 subethaedit/German.lproj/WebPreview.nib/keyedobjects.nib -text
 subethaedit/GetURLCommand.h -text
 subethaedit/GetURLCommand.m -text
+subethaedit/GlassButton.h -text
+subethaedit/GlassButton.m -text
+subethaedit/GlassButtonCell.h -text
+subethaedit/GlassButtonCell.m -text
 subethaedit/GutterRulerView.h -text
 subethaedit/GutterRulerView.m -text
 subethaedit/HTMLExport/Base.css -text
@@ -1522,6 +1526,12 @@ subethaedit/artwork/WebReload.tiff -text
 subethaedit/artwork/codingmonkeys.png -text
 subethaedit/artwork/debug.tiff -text
 subethaedit/artwork/dmg_background.png -text
+subethaedit/artwork/glass-normal-cap-left.tiff -text
+subethaedit/artwork/glass-normal-cap-right.tiff -text
+subethaedit/artwork/glass-normal-fill.tiff -text
+subethaedit/artwork/glass-normal-pressed-cap-left.tiff -text
+subethaedit/artwork/glass-normal-pressed-cap-right.tiff -text
+subethaedit/artwork/glass-normal-pressed-fill.tiff -text
 subethaedit/artwork/monkey32.png -text
 subethaedit/artwork/style.icns -text
 subethaedit/createDiskImage.sh -text

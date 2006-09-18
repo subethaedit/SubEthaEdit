@@ -18,6 +18,7 @@
         }, 
         {CLASS = FindAllTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = GlassButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
         {
             CLASS = SEEDocumentDialog; 
             LANGUAGE = ObjC; 
