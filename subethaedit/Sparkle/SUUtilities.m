@@ -40,7 +40,7 @@ NSString *SUHostAppDisplayName()
 
 NSString *SUHostAppVersion()
 {
-	return SUInfoValueForKey(@"CFBundleVersion");
+	return SUInfoValueForKey(@"CFBundleShortVersionString"); // Monkey internal change to use CFBundleShortVersionString 
 }
 
 NSString *SUHostAppVersionString()
