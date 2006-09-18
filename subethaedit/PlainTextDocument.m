@@ -1340,6 +1340,13 @@ static NSString *tempFileName(NSString *origPath) {
                     stringData = [stringData dataPrefixedWithUTF8BOM];
                 }
             }
+            if (encoding == NSUTF8StringEncoding) {
+                if (I_flags.hasUTF8BOM && ![stringData startsWithUTF8BOM]) {
+                    I_flags.hasUTF8BOM = NO;
+                } else if (!I_flags.hasUTF8BOM && [stringData startsWithUTF8BOM]) {
+                    I_flags.hasUTF8BOM = YES;
+                }
+            }
             NSString *reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
             if (!reinterpretedString || ([reinterpretedString length] == 0 && [I_textStorage length] > 0)) {
                 NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
