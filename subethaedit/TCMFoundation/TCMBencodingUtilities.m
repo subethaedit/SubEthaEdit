@@ -114,13 +114,15 @@ id TCM_BdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
         }
     } else if (aBytes[*aPosition]=='i') {
         (*aPosition)++;
+        long long signum=aBytes[*aPosition]=='-'?-1:1;
+        if (signum < 0) (*aPosition)++;
         long long number=0;
         while (*aPosition<aLength && aBytes[*aPosition]>='0' && aBytes[*aPosition]<='9') {
             number=number*10+aBytes[*aPosition]-'0';
             (*aPosition)++;
         }
         if (aBytes[*aPosition]=='e') {
-            result=[NSNumber numberWithLongLong:number];
+            result=[NSNumber numberWithLongLong:number*signum];
             (*aPosition)++;
         } else {
             result=nil;

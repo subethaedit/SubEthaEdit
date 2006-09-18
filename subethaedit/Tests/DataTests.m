@@ -34,6 +34,14 @@
         TCM_BdecodedObjectWithData(TCM_BencodedObject([NSNumber numberWithFloat:2.2])),
         [NSNumber numberWithInt:[[NSNumber numberWithFloat:2.2] intValue]],
         @"round-trip bencoding of %@",[NSNumber numberWithFloat:2.2]);
+    long long i=0;
+    for (i=LLONG_MAX; i>0; i=i/10) {
+        [self roundtripBencode:[NSNumber numberWithLongLong:i]];
+    }
+    for (i=LLONG_MIN; i<0; i=i/10) {
+        [self roundtripBencode:[NSNumber numberWithLongLong:i]];
+    }
+    NSLog(@"%qd",2147483607);
     [self roundtripBencode:[NSNumber numberWithLongLong:-2147483607]];
     [self roundtripBencode:[NSArray arrayWithObjects:@"one",@"two",@"three",nil]];
     [self roundtripBencode:[NSDictionary dictionaryWithObjectsAndKeys:@"content one",@"key one",@"content 2",@"key 2",nil]];
