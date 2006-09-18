@@ -115,7 +115,6 @@ NSArray *SUSplitVersionString(NSString *version)
 
 NSComparisonResult SUStandardVersionComparison(NSString *versionA, NSString *versionB)
 {
-    NSLog(@"foo: %@ %@", versionA, versionB);
 	NSArray *partsA = SUSplitVersionString(versionA);
     NSArray *partsB = SUSplitVersionString(versionB);
     
