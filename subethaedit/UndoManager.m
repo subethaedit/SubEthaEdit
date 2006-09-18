@@ -603,7 +603,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 
 - (NSString *)undoMenuItemTitle {
     if ([self canUndo]) {
-        if ([self undoActionName]) {
+        if ([self undoActionName] && ([[self undoActionName] length] > 0)) {
             return [self undoMenuTitleForUndoActionName:[self undoActionName]];
         } else {
             return NSLocalizedString(@"&Undo", nil);
@@ -615,7 +615,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 
 - (NSString *)redoMenuItemTitle {
     if ([self canRedo]) {
-        if ([self redoActionName]) {
+        if ([self redoActionName] && ([[self redoActionName] length] > 0)) {
             return [self redoMenuTitleForUndoActionName:[self redoActionName]];
         } else {
             return NSLocalizedString(@"&Redo", nil);
