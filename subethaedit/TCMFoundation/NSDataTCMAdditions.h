@@ -13,5 +13,7 @@
 
 + (id)dataWithUUIDString:(NSString *)aUUIDString;
 - (NSString *)base64EncodedStringWithLineLength:(int)lineLength;
+- (id)dataPrefixedWithUTF8BOM;
+- (BOOL)startsWithUTF8BOM;
 
 @end

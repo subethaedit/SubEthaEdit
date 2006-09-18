@@ -1334,6 +1334,12 @@ static NSString *tempFileName(NSString *origPath) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
             [[alert window] orderOut:self];
             NSData *stringData = [[I_textStorage string] dataUsingEncoding:[self fileEncoding]];
+            if ([self fileEncoding] == NSUTF8StringEncoding) {
+                BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
+                if (I_flags.hasUTF8BOM || modeWantsUTF8BOM) {
+                    stringData = [stringData dataPrefixedWithUTF8BOM];
+                }
+            }
             NSString *reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
             if (!reinterpretedString || ([reinterpretedString length] == 0 && [I_textStorage length] > 0)) {
                 NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
@@ -2205,13 +2211,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
 
         if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
-            char utf8_bom[3];
-            utf8_bom[0] = 0xef;
-            utf8_bom[1] = 0xbb;
-            utf8_bom[2] = 0xbf;
-            NSMutableData *mutableData = [NSMutableData dataWithBytes:utf8_bom length:3];
-            [mutableData appendData:data];
-            return mutableData;
+            return [data dataPrefixedWithUTF8BOM];
         } else {
             return data;
         }
@@ -2496,31 +2496,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         [textStorage beginEditing];
         if (isHTML || !isReadable) {
-            if ([fileData length] >= 3) {
-                char bom_buffer[3];
-                [fileData getBytes:bom_buffer length:3];
-                char utf8_bom[3];
-                utf8_bom[0] = 0xef;
-                utf8_bom[1] = 0xbb;
-                utf8_bom[2] = 0xbf;
-                if (bom_buffer[0] == utf8_bom[0] && bom_buffer[1] == utf8_bom[1] && bom_buffer[2] == utf8_bom[2]) {
-                    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
-                    I_flags.hasUTF8BOM = YES;
-                    [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
-                }
+            if ([fileData startsWithUTF8BOM]) {
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
+                I_flags.hasUTF8BOM = YES;
+                [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
             }
             success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs];
         } else {
             NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:[fileURL path]];
             @try {
                 NSData *bomData = [fileHandle readDataOfLength:3];
-                char bom_buffer[3];
-                [bomData getBytes:bom_buffer length:3];
-                char utf8_bom[3];
-                utf8_bom[0] = 0xef;
-                utf8_bom[1] = 0xbb;
-                utf8_bom[2] = 0xbf;
-                if (bom_buffer[0] == utf8_bom[0] && bom_buffer[1] == utf8_bom[1] && bom_buffer[2] == utf8_bom[2]) {
+                if ([bomData startsWithUTF8BOM]) {
                     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
                     I_flags.hasUTF8BOM = YES;
                     [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
