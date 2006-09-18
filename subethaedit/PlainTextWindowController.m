@@ -1153,10 +1153,12 @@ enum {
 
 - (void)documentDialogFadeInTimer:(NSTimer *)aTimer {
     NSMutableDictionary *info = [aTimer userInfo];
-    int counter = [[info objectForKey:@"counter"] intValue]+1;
-    int repeats = [[info objectForKey:@"repeats"] intValue];
-    [info setObject:[NSNumber numberWithInt:counter] forKey:@"counter"];
-    float factor = (float)counter / (float)repeats;
+    NSTimeInterval timeInterval     = [[[aTimer userInfo] objectForKey:@"stop"] 
+                                        timeIntervalSinceDate:[[aTimer userInfo] objectForKey:@"start"]];
+    NSTimeInterval timeSinceStart   = [[[aTimer userInfo] objectForKey:@"start"] timeIntervalSinceNow] * -1.;
+//    NSLog(@"sinceStart: %f, timeInterval: %f, %@ %@",timeSinceStart,timeInterval,[[aTimer userInfo] objectForKey:@"stop"],[[aTimer userInfo] objectForKey:@"start"]);
+    float factor = timeSinceStart / timeInterval;
+    if (factor > 1.) factor = 1.;
     if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
         factor = 1.-factor;
     }
@@ -1176,7 +1178,7 @@ enum {
     [contentView setFrame:contentFrame];
     [I_dialogSplitView setNeedsDisplay:YES];
     
-    if (counter == repeats) {
+    if (timeSinceStart >= timeInterval) {
         if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
             [[self window] setContentView:[[I_dialogSplitView subviews] objectAtIndex:1]];
             [I_dialogSplitView release];
@@ -1223,8 +1225,8 @@ enum {
                 target:self 
                 selector:@selector(documentDialogFadeInTimer:) 
                 userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                            [NSNumber numberWithInt:20], @"repeats", 
-                            [NSNumber numberWithInt:0], @"counter",
+                            [NSDate dateWithTimeIntervalSinceNow:0.20], @"stop", 
+                            [NSDate date], @"start",
                             [NSNumber numberWithFloat:targetHeight],@"targetHeight",
                             @"BlindDown",@"type",nil] 
                 repeats:YES] retain];
@@ -1243,8 +1245,8 @@ enum {
             target:self 
             selector:@selector(documentDialogFadeInTimer:) 
             userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                        [NSNumber numberWithInt:20], @"repeats", 
-                        [NSNumber numberWithInt:0], @"counter",
+                        [NSDate dateWithTimeIntervalSinceNow:0.20], @"stop", 
+                        [NSDate date], @"start",
                         [NSNumber numberWithFloat:[[[I_dialogSplitView subviews] objectAtIndex:0] frame].size.height],@"targetHeight",
                         @"BlindUp",@"type",nil] 
             repeats:YES] retain];
