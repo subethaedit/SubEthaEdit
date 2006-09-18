@@ -67,6 +67,7 @@
     NSString *string=[textStorage string];
     NSRange currentLineRange=[string lineRangeForRange:NSMakeRange(0,0)];
     int currentLineNumber = 1;
+    NSColor *highlightColor = [[NSColor yellowColor] highlightWithLevel:0.5];
     while ((selectionOperation=[selectionOperations nextObject])) {
         NSMutableDictionary *dictionary=[NSMutableDictionary dictionaryWithObject:selectionOperation forKey:@"selectionOperation"];
         NSRange errorRange=[selectionOperation selectedRange];
@@ -89,7 +90,9 @@
             truncEnd = YES;
         }
         NSMutableAttributedString *attString = [[[NSMutableAttributedString alloc] initWithString:[string substringWithRange:lineRange]] autorelease];
-        [attString addAttribute:NSForegroundColorAttributeName value:[NSColor redColor] range:NSMakeRange(errorRange.location - lineRange.location, errorRange.length)];
+        NSRange highlightRange = NSMakeRange(errorRange.location - lineRange.location, errorRange.length);
+        [attString addAttribute:NSBackgroundColorAttributeName value:highlightColor       range:highlightRange];
+        [attString addAttribute:NSForegroundColorAttributeName value:[NSColor blackColor] range:highlightRange];
         if (truncStart) [attString replaceCharactersInRange:NSMakeRange(0,0) withString:@"..."];
         if (truncEnd)   [attString replaceCharactersInRange:NSMakeRange([attString length],0) withString:@"..."];
     
