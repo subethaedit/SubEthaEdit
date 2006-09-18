@@ -56,6 +56,7 @@ artwork/icons/ToolbarItems/PreviousChange.psd -text
 artwork/icons/ToolbarItems/ShowChangeMarks.psd -text
 artwork/icons/ToolbarItems/StabiloClosed.psd -text
 artwork/icons/ToolbarItems/StabiloOpen.psd -text
+artwork/icons/ToolbarItems/ToolbarIconCounterpart.psd -text
 artwork/icons/ToolbarItems/nextSymbol.psd -text
 artwork/icons/ToolbarItems/previousSymbol.psd -text
 artwork/icons/ToolbarItems/test.psd -text
@@ -451,6 +452,7 @@ subethaedit/Modes/C++.mode/Contents/Resources/Scripts/20-OpenCounterpart.scpt -t
 subethaedit/Modes/C++.mode/Contents/Resources/Scripts/30-Check[!!-~]Syntax.scpt -text
 subethaedit/Modes/C++.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -text
 subethaedit/Modes/C++.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/C++.mode/Contents/Resources/ToolbarCounterpart.png -text
 subethaedit/Modes/C.mode/Contents/Info.plist -text
 subethaedit/Modes/C.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/C.mode/Contents/Resources/ChangeLog.txt -text
@@ -462,7 +464,9 @@ subethaedit/Modes/C.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/C.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/C.mode/Contents/Resources/Scripts/20-OpenCounterpart.scpt -text
 subethaedit/Modes/C.mode/Contents/Resources/Scripts/30-Check[!!-~]Syntax.scpt -text
+subethaedit/Modes/C.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -text
 subethaedit/Modes/C.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/C.mode/Contents/Resources/ToolbarCounterpart.png -text
 subethaedit/Modes/CSS.mode/Contents/Info.plist -text
 subethaedit/Modes/CSS.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/CSS.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
@@ -583,7 +587,7 @@ subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-
 subethaedit/Modes/Objective-C.mode/Contents/Resources/Scripts/shell/insert_super.py -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/ToolbarAppKiDo.png -text
-subethaedit/Modes/Objective-C.mode/Contents/Resources/ToolbarCounterpart.tif -text
+subethaedit/Modes/Objective-C.mode/Contents/Resources/ToolbarCounterpart.png -text
 subethaedit/Modes/Objective-C.mode/Contents/Resources/ToolbarXcodeProject.png -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Info.plist -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/AutocompleteAdditions.txt -text
