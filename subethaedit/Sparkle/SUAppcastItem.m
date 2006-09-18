@@ -160,11 +160,12 @@
 
 
 - (NSString *)minimumSystemVersion { return [[minimumSystemVersion retain] autorelease]; }
+
 - (void)setMinimumSystemVersion:(NSString *)systemVersionString
 {
 	if(minimumSystemVersion)
 		[minimumSystemVersion autorelease];
-	minimumSystemVersion = systemVersionString;
+	minimumSystemVersion = [systemVersionString copy];
 }
 
 

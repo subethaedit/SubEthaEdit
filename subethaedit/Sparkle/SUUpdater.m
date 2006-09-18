@@ -275,6 +275,7 @@
 // Override this to change the new version comparison logic!
 - (BOOL)newVersionAvailable
 {
+	//BOOL canRunOnCurrentSystem = (SUStandardVersionComparison([updateItem minimumSystemVersion], currentSystemVersion) != NSOrderedDescending);
 	BOOL canRunOnCurrentSystem = SUStandardVersionComparison([updateItem minimumSystemVersion], currentSystemVersion);
 	return (canRunOnCurrentSystem && (SUStandardVersionComparison([updateItem fileVersion], SUHostAppVersion()) == NSOrderedAscending));
 	// Want straight-up string comparison like Sparkle 1.0b3 and earlier? Uncomment the line below and comment the one above.
