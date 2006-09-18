@@ -1402,8 +1402,8 @@ subethaedit/TCMPreferenceModule.h -text
 subethaedit/TCMPreferenceModule.m -text
 subethaedit/TableView.h -text
 subethaedit/TableView.m -text
-subethaedit/Tests/Tests.m -text
-subethaedit/Tests/Tests_Prefix.pch -text
+subethaedit/Tests/DataTests.h -text
+subethaedit/Tests/DataTests.m -text
 subethaedit/TextFieldCell.h -text
 subethaedit/TextFieldCell.m -text
 subethaedit/TextOperation.h -text
@@ -1422,6 +1422,7 @@ subethaedit/URLImageView.h -text
 subethaedit/URLImageView.m -text
 subethaedit/UndoManager.h -text
 subethaedit/UndoManager.m -text
+subethaedit/Unit[!!-~]Tests-Info.plist -text
 subethaedit/UserChangeOperation.h -text
 subethaedit/UserChangeOperation.m -text
 subethaedit/WebPreviewWindowController.h -text

@@ -272,6 +272,8 @@
 		5EB51AF80A177CF500AE2E17 /* InvisibleCharactersShow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */; };
 		5EB51AF90A177CF500AE2E17 /* InvisibleCharactersHide.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */; };
 		5EB51B270A179E9B00AE2E17 /* ToolbarIconRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */; };
+		5EC638360ABEB88B00D3295B /* DataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC638350ABEB88B00D3295B /* DataTests.m */; };
+		5EC638460ABEBE5900D3295B /* TCMBencodingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428912B0957457500D14688 /* TCMBencodingUtilities.m */; };
 		5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */; };
 		5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */; };
 		5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
@@ -412,6 +414,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = HDCrashReporter;
+		};
+		5EC638300ABEB78000D3295B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
+			remoteInfo = SubEthaEdit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -867,6 +876,10 @@
 		5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvisibleCharactersShow.png; path = artwork/InvisibleCharactersShow.png; sourceTree = "<group>"; };
 		5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvisibleCharactersHide.png; path = artwork/InvisibleCharactersHide.png; sourceTree = "<group>"; };
 		5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconRun.tiff; path = artwork/ToolbarIconRun.tiff; sourceTree = "<group>"; };
+		5EC6382A0ABEB71100D3295B /* Unit Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Unit Tests-Info.plist"; sourceTree = "<group>"; };
+		5EC638340ABEB88B00D3295B /* DataTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataTests.h; path = Tests/DataTests.h; sourceTree = "<group>"; };
+		5EC638350ABEB88B00D3295B /* DataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataTests.m; path = Tests/DataTests.m; sourceTree = "<group>"; };
 		5EDD2FFD0A08D71D0036E63A /* ScriptTextSelection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScriptTextSelection.h; sourceTree = "<group>"; };
 		5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ScriptTextSelection.m; sourceTree = "<group>"; };
 		5EDD300D0A091BD60036E63A /* NSWindowScriptingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSWindowScriptingAdditions.h; sourceTree = "<group>"; };
@@ -908,6 +921,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5EC638270ABEB71100D3295B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1408,6 +1428,7 @@
 				142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */,
 				142894DE095766EE00D14688 /* see */,
 				1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */,
+				5EC6382A0ABEB71100D3295B /* Unit Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1425,6 +1446,7 @@
 				14289377095757E400D14688 /* Printing */,
 				5EDD2FFC0A08D69F0036E63A /* Scripting */,
 				142892550957529900D14688 /* ValueTransformers */,
+				5EC638450ABEBE2C00D3295B /* Unit Tests */,
 				1428917B0957483C00D14688 /* Debug */,
 				1428917E0957486D00D14688 /* TCMBase */,
 				142891190957452F00D14688 /* TCMBEEP */,
@@ -1440,6 +1462,7 @@
 				312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */,
 				31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */,
+				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 			);
 			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
 			name = SubEthaEdit;
@@ -1572,6 +1595,15 @@
 			name = Dialogs;
 			sourceTree = "<group>";
 		};
+		5EC638450ABEBE2C00D3295B /* Unit Tests */ = {
+			isa = PBXGroup;
+			children = (
+				5EC638340ABEB88B00D3295B /* DataTests.h */,
+				5EC638350ABEB88B00D3295B /* DataTests.m */,
+			);
+			name = "Unit Tests";
+			sourceTree = "<group>";
+		};
 		5EDD2FFC0A08D69F0036E63A /* Scripting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1671,6 +1703,25 @@
 			productReference = 1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */;
 			productType = "com.apple.product-type.tool";
 		};
+		5EC638290ABEB71100D3295B /* Unit Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "Unit Tests" */;
+			buildPhases = (
+				5EC638250ABEB71100D3295B /* Resources */,
+				5EC638260ABEB71100D3295B /* Sources */,
+				5EC638270ABEB71100D3295B /* Frameworks */,
+				5EC638280ABEB71100D3295B /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5EC638310ABEB78000D3295B /* PBXTargetDependency */,
+			);
+			name = "Unit Tests";
+			productName = "Unit Tests";
+			productReference = 5EC6382A0ABEB71100D3295B /* Unit Tests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		8D15AC270486D014006FF6A4 /* SubEthaEdit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "SubEthaEdit" */;
@@ -1737,6 +1788,7 @@
 				142894DD095766EE00D14688 /* see */,
 				142898180958189300D14688 /* Create Disk Image */,
 				1493A7E70A10C873004ECE6A /* SystemVersionCheck */,
+				5EC638290ABEB71100D3295B /* Unit Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -1808,6 +1860,13 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5EC638250ABEB71100D3295B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC2B0486D014006FF6A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1998,6 +2057,19 @@
 			shellPath = "/usr/bin/perl -w";
 			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/local/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
 		};
+		5EC638280ABEB71100D3295B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -2026,6 +2098,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5EC638260ABEB71100D3295B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EC638360ABEB88B00D3295B /* DataTests.m in Sources */,
+				5EC638460ABEBE5900D3295B /* TCMBencodingUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2200,6 +2281,11 @@
 			isa = PBXTargetDependency;
 			name = HDCrashReporter;
 			targetProxy = 31D5F85C0AA301C10088DB18 /* PBXContainerItemProxy */;
+		};
+		5EC638310ABEB78000D3295B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
+			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2603,6 +2689,60 @@
 			};
 			name = Release;
 		};
+		5EC6382E0ABEB71200D3295B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app/Contents/MacOS/SubEthaEdit";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "Unit Tests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Unit Tests";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		5EC6382F0ABEB71200D3295B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "Unit Tests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Unit Tests";
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2719,6 +2859,15 @@
 			buildConfigurations = (
 				1493A8000A10C891004ECE6A /* Debug */,
 				1493A8010A10C891004ECE6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "Unit Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5EC6382E0ABEB71200D3295B /* Debug */,
+				5EC6382F0ABEB71200D3295B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
