@@ -2,8 +2,8 @@
 <!DOCTYPE syntax SYSTEM "settings.dtd">
 <settings>
     <recognition>
-        <extension>perl</extension>
         <extension>pl</extension>
+        <extension>perl</extension>
         <extension>pm</extension>
         <extension>PL</extension>
         <extension>PM</extension>
