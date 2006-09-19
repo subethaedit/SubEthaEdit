@@ -24,6 +24,7 @@
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
+#import "NSCursorSEEAdditions.h"
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
@@ -39,6 +40,11 @@ static NSMenu *defaultMenu=nil;
 
 + (void)setDefaultMenu:(NSMenu *)aMenu {
     defaultMenu=[aMenu copy];
+}
+
+- (void)setPageGuidePosition:(float)aPosition {
+    I_pageGuidePosition = aPosition;
+    [self setNeedsDisplay:YES];
 }
 
 - (IBAction)paste:(id)sender {
@@ -207,6 +213,16 @@ static NSMenu *defaultMenu=nil;
     [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
 }
 
+- (void)drawViewBackgroundInRect:(NSRect)aRect {
+    [super drawViewBackgroundInRect:aRect];
+    if (I_pageGuidePosition > 0) {
+        [[NSColor colorWithCalibratedWhite:.5 alpha:0.2] set];
+        NSRect rectToFill=[self bounds];
+        rectToFill.origin.x = I_pageGuidePosition;
+        [NSBezierPath fillRect:rectToFill];
+    }
+}
+
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];
     // now paint Cursors if there are any
@@ -289,10 +305,17 @@ static NSMenu *defaultMenu=nil;
     return menu;
 }
 
+- (void)resetCursorRects {
+    // disable cursor rects and therefore mouse cursor changing when we have a dark background so the documentcursor is used
+    if ([[self insertionPointColor] isDark]) [super resetCursorRects];
+}
+
 - (void)setBackgroundColor:(NSColor *)aColor {
     [super setBackgroundColor:aColor];
     [self setInsertionPointColor:[aColor isDark]?[NSColor whiteColor]:[NSColor blackColor]];
     [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:[aColor isDark]?[[NSColor selectedTextBackgroundColor] brightnessInvertedColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
+    [[self enclosingScrollView] setDocumentCursor:[aColor isDark]?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
+    [[self window] invalidateCursorRectsForView:self];
 }
 
 - (void)toggleContinuousSpellChecking:(id)sender {

@@ -23,6 +23,14 @@
         </postprocess>
     </symbol>
 
+    <symbol id="Inline Funtions" image="SymbolF()" indentation="0" ignoreblocks="yes">
+        <regex>([^\s]+)\s*=\s*function\s*\([^\)]*\)(?=\s*\{)</regex>
+        <postprocess>
+            <find>(.*)</find>
+            <replace>\1()</replace>
+        </postprocess>
+    </symbol>
+
     <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
         <regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;[^=]*======[^&gt;]*&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
         <postprocess>

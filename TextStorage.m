@@ -11,11 +11,13 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "TCMMMUserManager.h"
+#import "SelectionOperation.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "GeneralPreferences.h"
 #import "ScriptTextSelection.h"
 #import "ScriptLine.h"
 #import "ScriptCharacters.h"
+#import "DocumentMode.h"
 
 
 NSString * const BlockeditAttributeName =@"Blockedit";
@@ -221,6 +223,36 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return result;
 }
 
+- (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding {
+//    NSLog(@"%s beginning",__FUNCTION__);
+    NSMutableArray *array = [NSMutableArray array];
+    NSString *string = [self string];
+    unsigned length = [string length];
+    unsigned i;
+    for (i = 0; i < length; i++) {
+        unichar character = [string characterAtIndex:i];
+        NSString *charString = [[NSString alloc] initWithCharactersNoCopy:&character length:1 freeWhenDone:NO];
+        if (![charString canBeConvertedToEncoding:encoding]) {
+            [array addObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(i, 1) userID:[TCMMMUserManager myUserID]]];
+        }
+        [charString release];
+    }
+    
+    // combinde adjacent selection operations
+    int count = [array count];
+    while (--count>0) {
+        NSRange lowerRange  = [[array objectAtIndex:count-1] selectedRange];
+        NSRange higherRange = [[array objectAtIndex:count] selectedRange];
+        if (NSMaxRange(lowerRange) == higherRange.location) {
+            [[array objectAtIndex:count-1] setSelectedRange:NSUnionRange(lowerRange,higherRange)];
+            [array removeObjectAtIndex:count];
+        }
+    }
+    
+//    NSLog(@"%s end",__FUNCTION__);
+    return array;
+}
+
 
 #pragma mark -
 #pragma mark ### Line Numbers ###
@@ -360,6 +392,31 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
             }
         }
         position=NSMaxRange(blockeditRange);
+    }
+    
+    if ([[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesPreferenceKey] boolValue]) {
+        NSFont *font=[[self delegate] fontWithTrait:0];
+        int tabWidth=[[self delegate] tabWidth];
+        float characterWidth=[font widthOfString:@" "];
+        int indentWrappedCharacterAmount = [[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
+        // look at all the lines and fixe the indention
+        NSRange myRange = NSMakeRange(aRange.location,0);
+        do {
+            myRange = [string lineRangeForRange:NSMakeRange(NSMaxRange(myRange),0)];
+            if (myRange.length>0) {
+                NSParagraphStyle *style=[self attribute:NSParagraphStyleAttributeName atIndex:myRange.location effectiveRange:NULL];
+                if (style) {
+                    float desiredHeadIndent = characterWidth*[string detabbedLengthForRange:[string rangeOfLeadingWhitespaceStartingAt:myRange.location] tabWidth:tabWidth] + [style firstLineHeadIndent] + indentWrappedCharacterAmount * characterWidth;
+                    
+                    if (ABS([style headIndent]-desiredHeadIndent)>0.01) {
+                        NSMutableParagraphStyle *newStyle=[style mutableCopy];
+                        [newStyle setHeadIndent:desiredHeadIndent];
+                        [self addAttribute:NSParagraphStyleAttributeName value:newStyle range:myRange];
+                        [newStyle release];
+                    }
+                }
+            }
+        } while (NSMaxRange(myRange)<NSMaxRange(aRange)); 
     }
 }
 

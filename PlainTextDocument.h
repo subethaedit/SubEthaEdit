@@ -69,6 +69,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         BOOL isHandlingUndoManually;
         BOOL isWaiting;
         BOOL syntaxHighlightingIsSuspended;
+        BOOL hasUTF8BOM;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -196,6 +197,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (unsigned int)fileEncoding;
 - (void)setFileEncoding:(unsigned int)anEncoding;
+- (void)setFileEncodingUndoable:(unsigned int)anEncoding;
 - (NSDictionary *)fileAttributes;
 - (void)setFileAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)ODBParameters;

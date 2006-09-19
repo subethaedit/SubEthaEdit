@@ -388,7 +388,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
             [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"] andData:nil sender:self];
         }
     } else {
-        [self removeSessionFromSessionsArray:aBEEPSession];
+        [self removeSessionFromSessionsArray:[[aBEEPSession retain] autorelease]];
         [aBEEPSession setDelegate:nil];
         [aBEEPSession terminate];
         

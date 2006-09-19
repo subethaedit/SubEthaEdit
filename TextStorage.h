@@ -61,6 +61,7 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 - (void)setHasMixedLineEndings:(BOOL)aFlag;
 - (unsigned int)encoding;
 - (void)setEncoding:(unsigned int)anEncoding;
+- (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding;
 
 - (BOOL)hasBlockeditRanges;
 - (void)setHasBlockeditRanges:(BOOL)aFlag;

@@ -14,25 +14,6 @@
         
         </default>
 
-        <state id="Tags" color="#881280" font-style="italic">
-            <begin><regex>&lt;</regex></begin>
-            <end><regex>&gt;</regex></end>
-
-            <keywords id="Strings in Tags" color="#1A1AA6" useforautocomplete="no">
-                <regex>("[^"]*")</regex>
-                <regex>('[^']*')</regex>
-            </keywords>
-            
-            <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
-                <regex>([\w-]*)(?=[ \t]*=)</regex>
-            </keywords>
-
-            <keywords id="Entities" color="#881280" useforautocomplete="no">
-                <regex>(&amp;\w{1,8};)</regex>
-            </keywords>
-
-        </state>
-
         <state id="Comment" color="#236E25" font-style="italic">
             <begin><regex>&lt;!--</regex></begin>
             <end><regex>--&gt;</regex></end>
@@ -51,6 +32,25 @@
         <state id="Escape" color="#236E25" font-style="italic">
             <begin><regex>&lt;\?</regex></begin>
             <end><regex>\?&gt;</regex></end>
+        </state>
+
+        <state id="Tags" color="#881280" font-style="italic">
+            <begin><regex>&lt;</regex></begin>
+            <end><regex>&gt;</regex></end>
+
+            <keywords id="Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+                <regex>("[^"]*")</regex>
+                <regex>('[^']*')</regex>
+            </keywords>
+            
+            <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
+                <regex>([\w-]*)(?=[ \t]*=)</regex>
+            </keywords>
+
+            <keywords id="Entities" color="#881280" useforautocomplete="no">
+                <regex>(&amp;\w{1,8};)</regex>
+            </keywords>
+
         </state>
 
     </states>

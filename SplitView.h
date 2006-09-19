@@ -10,7 +10,9 @@
 
 
 @interface SplitView : NSSplitView {
-
+    float I_dividerThickness;
 }
+
+- (void)setDividerThickness:(float)aDividerThickness;
 
 @end

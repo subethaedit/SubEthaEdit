@@ -176,6 +176,12 @@
             SUPERCLASS = NSWindowController; 
         }, 
         {
+            ACTIONS = {checkForUpdates = id; }; 
+            CLASS = SUUpdater; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
             ACTIONS = {agreeLicense = id; continueDone = id; disagreeLicense = id; goBack = id; }; 
             CLASS = SetupController; 
             LANGUAGE = ObjC; 

@@ -14,6 +14,7 @@
 #import "DebugUserController.h"
 #import "DebugPresenceController.h"
 #import "TCMMMBEEPSessionManager.h"
+#import <HDCrashReporter/crashReporter.h>
 
 static DebugController * sharedInstance = nil;
 
@@ -56,6 +57,14 @@ static DebugController * sharedInstance = nil;
         [BEEPItem setTarget:self];
         [menu addItem:BEEPItem];
 
+        NSMenuItem *CrashItem = [[NSMenuItem alloc] initWithTitle:@"Crash Application" action:@selector(crash:) keyEquivalent:@""];
+        [CrashItem setTarget:self];
+        [menu addItem:CrashItem];
+
+        NSMenuItem *CrashReportItem = [[NSMenuItem alloc] initWithTitle:@"Resend last crash report" action:@selector(sendCrashReport:) keyEquivalent:@""];
+        [CrashReportItem setTarget:self];
+        [menu addItem:CrashReportItem];
+
         NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Retain Counts" action:@selector(printMist) keyEquivalent:@""];
         [blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
         [menu addItem:blahItem];
@@ -64,6 +73,17 @@ static DebugController * sharedInstance = nil;
         [debugItem setSubmenu:menu];
         [[NSApp mainMenu] addItem:debugItem];
         [debugItem release];
+
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"Copy Thumbnail Of current Document to pb" action:@selector(createThumbnail:) keyEquivalent:@""];
+        [blahItem setTarget:nil];
+        [menu addItem:blahItem];
+        [blahItem release];
+
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"toggle dialog view" action:@selector(toggleDialogView:) keyEquivalent:@""];
+        [blahItem setTarget:nil];
+        [menu addItem:blahItem];
+        [blahItem release];
+
     } else if (flag == NO && indexOfDebugMenu != -1) {
         [[NSApp mainMenu] removeItemAtIndex:indexOfDebugMenu];
     }
@@ -88,6 +108,14 @@ static DebugController * sharedInstance = nil;
         I_debugBEEPController = [DebugBEEPController new];
     }
     [I_debugBEEPController showWindow:sender];
+}
+
+- (IBAction)crash:(id)sender {
+    NSLog((NSString *)"crash here"); // This is supposed to crash, don't fix.
+}
+
+- (IBAction)sendCrashReport:(id)sender {
+    [HDCrashReporter doCrashSubmitting];
 }
 
 @end

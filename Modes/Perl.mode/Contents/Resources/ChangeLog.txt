@@ -1,3 +1,9 @@
+Changes with Version 1.5 (SEE 2.5.1)
+
+    *) Fixing SEE-1039 (Incorrect coloring after perl regex variable $`)
+    *) Perl.mode now confirms to "perldoc perlop", complete with arbitary delimiters
+    *) fixed issue SEE-1040: "Check Syntax" script has same key shortcut as block edit by changing it to ctrl-command-b
+
 Changes with Version 1.4 (SEE 2.5)
 
     *) Added Scripts: Insert Shebang, chmod ug+x, Check Syntax, Run in Terminal, Lookup in Perldoc.

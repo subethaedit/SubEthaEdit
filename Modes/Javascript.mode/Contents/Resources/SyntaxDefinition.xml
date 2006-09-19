@@ -65,6 +65,11 @@
             <end><regex>[\n\r]</regex></end>
         </state>
         
+        <state id="/Regular Expressions/" color="#760f15">
+            <begin><regex>/.*?[^\\](?=/)</regex></begin>
+            <end><regex>/[cgimosx]*</regex></end>
+        </state>
+
         <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
             <begin><regex>"</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>

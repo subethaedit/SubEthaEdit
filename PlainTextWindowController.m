@@ -25,6 +25,8 @@
 #import "TCMMMSession.h"
 #import "AppController.h"
 #import "Toolbar.h"
+#import "SEEDocumentDialog.h"
+#import "EncodingDoctorDialog.h"
 
 NSString * const PlainTextWindowToolbarIdentifier = 
                @"PlainTextWindowToolbarIdentifier";
@@ -126,6 +128,12 @@ enum {
     [O_participantsView release];
     [I_plainTextEditors makeObjectsPerformSelector:@selector(setWindowController:) withObject:nil];
     [I_plainTextEditors release];
+    [I_editorSplitView release];
+     I_editorSplitView = nil;
+    [I_dialogSplitView release];
+     I_dialogSplitView = nil;
+    [I_documentDialog release];
+     I_documentDialog = nil;
     [super dealloc];
 }
 
@@ -156,6 +164,7 @@ enum {
 }
 
 - (void)windowDidLoad {
+    // [[[[[self window] standardWindowButton:NSWindowDocumentIconButton] superview] titleCell] setLineBreakMode:NSLineBreakByTruncatingMiddle];
     [self adjustToolbarToDocumentMode];
 
     [self validateUpperDrawer];
@@ -1078,31 +1087,46 @@ enum {
 
 #pragma mark -
 
-#define SPLITMINHEIGHT 46.
+#define SPLITMINHEIGHTTEXT   46.
+#define SPLITMINHEIGHTDIALOG 95.
 
 -(void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
-    NSRect frame=[aSplitView bounds];
-    NSArray *subviews=[aSplitView subviews];
-    NSRect frametop=[[subviews objectAtIndex:0] frame];
-    NSRect framebottom=[[subviews objectAtIndex:1] frame];
-    float newHeight1=frame.size.height-[aSplitView dividerThickness];
-    float topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
-    frametop.size.height=(float)((int)(newHeight1*topratio));
-    if (frametop.size.height<SPLITMINHEIGHT) {
-        frametop.size.height=SPLITMINHEIGHT;
-    } else if (newHeight1-frametop.size.height<SPLITMINHEIGHT) {
-        frametop.size.height=newHeight1-SPLITMINHEIGHT;
+    float splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
+    if (aSplitView != I_dialogSplitView) {
+        NSRect frame=[aSplitView bounds];
+        NSArray *subviews=[aSplitView subviews];
+        NSRect frametop=[[subviews objectAtIndex:0] frame];
+        NSRect framebottom=[[subviews objectAtIndex:1] frame];
+        float newHeight1=frame.size.height-[aSplitView dividerThickness];
+        float topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
+        frametop.size.height=(float)((int)(newHeight1*topratio));
+        if (frametop.size.height<splitminheight) {
+            frametop.size.height=splitminheight;
+        } else if (newHeight1-frametop.size.height<splitminheight) {
+            frametop.size.height=newHeight1-splitminheight;
+        }
+    
+        framebottom.size.height=newHeight1-frametop.size.height;
+        framebottom.size.width=frametop.size.width=frame.size.width;
+        
+        frametop.origin.x=framebottom.origin.x=frame.origin.x;
+        frametop.origin.y=frame.origin.y;
+        framebottom.origin.y=frame.origin.y+[aSplitView dividerThickness]+frametop.size.height;
+        
+        [[subviews objectAtIndex:0] setFrame:frametop];
+        [[subviews objectAtIndex:1] setFrame:framebottom];
+    } else {
+        // just keep the height of the first view (dialog)
+        NSView *view2 = [[aSplitView subviews] objectAtIndex:1];
+        NSSize newSize = [aSplitView bounds].size;
+        NSSize frameSize = [view2 frame].size;
+        frameSize.height += newSize.height - oldSize.height;
+        if (frameSize.height <= splitminheight) {
+            frameSize.height = splitminheight;
+        }
+        [view2 setFrameSize:frameSize];
+        [aSplitView adjustSubviews];
     }
-
-    framebottom.size.height=newHeight1-frametop.size.height;
-    framebottom.size.width=frametop.size.width=frame.size.width;
-    
-    frametop.origin.x=framebottom.origin.x=frame.origin.x;
-    frametop.origin.y=frame.origin.y;
-    framebottom.origin.y=frame.origin.y+[aSplitView dividerThickness]+frametop.size.height;
-    
-    [[subviews objectAtIndex:0] setFrame:frametop];
-    [[subviews objectAtIndex:1] setFrame:framebottom];
 }
 
 - (BOOL)splitView:(NSSplitView *)aSplitView canCollapseSubview:(NSView *)aView {
@@ -1113,7 +1137,7 @@ enum {
        ofSubviewAt:(int)offset {
 
     float height=[aSplitView frame].size.height;
-    float minHeight=SPLITMINHEIGHT;
+    float minHeight=(aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;;
     if (proposedPosition<minHeight) {
         return minHeight;
     } else if (proposedPosition+minHeight+[aSplitView dividerThickness]>height) {
@@ -1123,33 +1147,155 @@ enum {
     }
 }
 
+- (id)documentDialog {
+    return I_documentDialog;
+}
+
+- (void)documentDialogFadeInTimer:(NSTimer *)aTimer {
+    NSMutableDictionary *info = [aTimer userInfo];
+    NSTimeInterval timeInterval     = [[[aTimer userInfo] objectForKey:@"stop"] 
+                                        timeIntervalSinceDate:[[aTimer userInfo] objectForKey:@"start"]];
+    NSTimeInterval timeSinceStart   = [[[aTimer userInfo] objectForKey:@"start"] timeIntervalSinceNow] * -1.;
+//    NSLog(@"sinceStart: %f, timeInterval: %f, %@ %@",timeSinceStart,timeInterval,[[aTimer userInfo] objectForKey:@"stop"],[[aTimer userInfo] objectForKey:@"start"]);
+    float factor = timeSinceStart / timeInterval;
+    if (factor > 1.) factor = 1.;
+    if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
+        factor = 1.-factor;
+    }
+    // make transition sinoidal
+    factor = (-cos(factor*M_PI)/2.)+0.5;
+    
+    
+    NSView *dialogView = [[I_dialogSplitView subviews] objectAtIndex:0];
+    NSRect targetFrame = [dialogView frame];
+    float newHeight = (int)(factor * [[info objectForKey:@"targetHeight"] floatValue]);
+    float difference = newHeight - targetFrame.size.height;
+    targetFrame.size.height = newHeight;
+    [dialogView setFrame:targetFrame];
+    NSView *contentView = [[I_dialogSplitView subviews] objectAtIndex:1];
+    NSRect contentFrame = [contentView frame];
+    contentFrame.size.height -= difference;
+    [contentView setFrame:contentFrame];
+    [I_dialogSplitView setNeedsDisplay:YES];
+    
+    if (timeSinceStart >= timeInterval) {
+        if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
+            [[self window] setContentView:[[I_dialogSplitView subviews] objectAtIndex:1]];
+            [I_dialogSplitView release];
+             I_dialogSplitView=nil;
+            NSSize minSize = [[self window] contentMinSize];
+            minSize.height-=100;
+            minSize.width-=63;
+            [[self window] setContentMinSize:minSize];
+            [I_documentDialog autorelease];
+             I_documentDialog = nil;
+            [[self window] makeFirstResponder:[[self activePlainTextEditor] textView]];
+        }
+        [dialogView setAutoresizesSubviews:YES];
+        [I_dialogAnimationTimer invalidate];
+        [I_dialogAnimationTimer autorelease];
+         I_dialogAnimationTimer = nil;
+    }
+}
+
+- (void)setDocumentDialog:(id)aDocumentDialog {
+    [aDocumentDialog setDocument:[self document]];
+    if (aDocumentDialog) {
+        if (!I_dialogSplitView) {
+            NSView *contentView = [[[self window] contentView] retain];
+            NSView *dialogView = [aDocumentDialog mainView];
+            I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
+            [(SplitView *)I_dialogSplitView setDividerThickness:3.];
+            NSRect mainFrame = [dialogView frame];
+            [[self window] setContentView:I_dialogSplitView];
+            [I_dialogSplitView setIsPaneSplitter:YES];
+            [I_dialogSplitView setDelegate:self];
+            [I_dialogSplitView addSubview:dialogView];
+            mainFrame.size.width = [I_dialogSplitView frame].size.width;
+            [dialogView setFrame:mainFrame];
+            float targetHeight = mainFrame.size.height;
+            [dialogView resizeSubviewsWithOldSize:mainFrame.size];
+            mainFrame.size.height = 0;
+            [dialogView setAutoresizesSubviews:NO];
+            [dialogView setFrame:mainFrame];
+            [I_dialogSplitView addSubview:[contentView autorelease]];
+            NSSize minSize = [[self window] contentMinSize];
+            minSize.height+=100;
+            minSize.width+=63;
+            [[self window] setContentMinSize:minSize];
+            I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01 
+                target:self 
+                selector:@selector(documentDialogFadeInTimer:) 
+                userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                            [NSDate dateWithTimeIntervalSinceNow:0.20], @"stop", 
+                            [NSDate date], @"start",
+                            [NSNumber numberWithFloat:targetHeight],@"targetHeight",
+                            @"BlindDown",@"type",nil] 
+                repeats:YES] retain];
+        } else {
+            NSRect frame = [[[I_dialogSplitView subviews] objectAtIndex:0] frame];
+            [[[I_dialogSplitView subviews] objectAtIndex:0] removeFromSuperviewWithoutNeedingDisplay];
+            [I_dialogSplitView addSubview:[aDocumentDialog mainView] positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:0]];
+            [[aDocumentDialog mainView] setFrame:frame];
+            [I_dialogSplitView setNeedsDisplay:YES];
+        }
+        [I_documentDialog autorelease];
+        I_documentDialog = [aDocumentDialog retain];
+    } else if (!aDocumentDialog && I_dialogSplitView) {
+        [[[I_dialogSplitView subviews] objectAtIndex:0] setAutoresizesSubviews:NO];
+        I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01 
+            target:self 
+            selector:@selector(documentDialogFadeInTimer:) 
+            userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                        [NSDate dateWithTimeIntervalSinceNow:0.20], @"stop", 
+                        [NSDate date], @"start",
+                        [NSNumber numberWithFloat:[[[I_dialogSplitView subviews] objectAtIndex:0] frame].size.height],@"targetHeight",
+                        @"BlindUp",@"type",nil] 
+            repeats:YES] retain];
+    }
+}
+
+- (IBAction)toggleDialogView:(id)aSender {
+    [self setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:NSASCIIStringEncoding] autorelease]];
+}
+
 - (IBAction)toggleSplitView:(id)aSender {
     if ([I_plainTextEditors count]==1) {
         PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:NO];
         [I_plainTextEditors addObject:plainTextEditor];
         [plainTextEditor release];
-        NSSplitView *splitView = [[SplitView alloc] initWithFrame:[[[self window] contentView] frame]];
-        [[self window] setContentView:splitView];
-        NSSize splitSize=[splitView frame].size;
+        I_editorSplitView = [[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]];
+        if (!I_dialogSplitView) {
+            [[self window] setContentView:I_editorSplitView];
+        } else {
+            [I_dialogSplitView addSubview:I_editorSplitView positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:1]];
+        }
+        NSSize splitSize=[I_editorSplitView frame].size;
         splitSize.height=splitSize.height/2.;
         [[[I_plainTextEditors objectAtIndex:0] editorView] setFrameSize:splitSize];
         [[[I_plainTextEditors objectAtIndex:1] editorView] setFrameSize:splitSize];
-        [splitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView]];
-        [splitView addSubview:[[I_plainTextEditors objectAtIndex:1] editorView]];
-        [splitView setIsPaneSplitter:YES];
-        [splitView setDelegate:self];
+        [I_editorSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView]];
+        [I_editorSplitView addSubview:[[I_plainTextEditors objectAtIndex:1] editorView]];
+        [I_editorSplitView setIsPaneSplitter:YES];
+        [I_editorSplitView setDelegate:self];
         [[I_plainTextEditors objectAtIndex:1] setShowsBottomStatusBar:
             [[I_plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
         [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
         [[I_plainTextEditors objectAtIndex:1] setShowsGutter:
             [[I_plainTextEditors objectAtIndex:0] showsGutter]];
         [self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
-        [splitView release];
     } else if ([I_plainTextEditors count]==2) {
-        [[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+        if (!I_dialogSplitView) {
+            [[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+        } else {
+            [I_dialogSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView] positioned:NSWindowBelow relativeTo:I_editorSplitView];
+            [I_editorSplitView removeFromSuperview];
+        }
         [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:
             [[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
         [I_plainTextEditors removeObjectAtIndex:1];
+        [I_editorSplitView release];
+        I_editorSplitView = nil;
     }
     [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];
     NSTextView *textView=[[I_plainTextEditors objectAtIndex:0] textView];

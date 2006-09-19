@@ -34,12 +34,17 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSProgressIndicator *O_progressIndicator;
     IBOutlet NSImageView         *O_URLImageView;
     IBOutlet NSTextField         *O_receivingStatusTextField;
+    NSSplitView *I_editorSplitView;
+    NSSplitView *I_dialogSplitView;
+    id I_documentDialog;
+
     NSMutableArray *I_plainTextEditors;
     NSMenu *I_contextMenu;
     struct {
         BOOL isReceivingContent;
         BOOL zoomFix_defaultFrameHadEqualWidth;
     } I_flags;
+    NSTimer *I_dialogAnimationTimer;
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
@@ -69,5 +74,8 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (BOOL)showsGutter;
 - (void)setShowsGutter:(BOOL)aFlag;
 - (IBAction)toggleLineNumbers:(id)aSender;
+
+- (void)setDocumentDialog:(id)aDocumentDialog;
+- (id)documentDialog;
 
 @end

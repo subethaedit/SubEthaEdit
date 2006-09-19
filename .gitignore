@@ -1,3 +1,6 @@
+CrashReporter/CrashReporter.xcodeproj/*.mode2
+CrashReporter/CrashReporter.xcodeproj/*.pbxuser
+CrashReporter/CrashReporter.xcodeproj/*.perspective
 SubEthaEdit.xcodeproj/*.mode1
 SubEthaEdit.xcodeproj/*.mode2
 SubEthaEdit.xcodeproj/*.pbxuser

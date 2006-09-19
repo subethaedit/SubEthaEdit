@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {sendReport = id; }; 
+            CLASS = HDCrashReporter; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {bugReportTextView = NSTextView; nameAndEmailButton = NSButton; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {sendReport = id; showDetails = id; }; 
+            CLASS = crashReporter; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

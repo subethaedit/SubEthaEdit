@@ -101,5 +101,30 @@ static char base64EncodingArray[ 64 ] = {
 
 }
 
+- (BOOL)startsWithUTF8BOM {
+    char utf8_bom[] = {0xef,0xbb,0xbf};
+    if ([self length] >=3) {
+        char bom_buffer[3];
+        [self getBytes:bom_buffer length:3];
+        if (bom_buffer[0] == utf8_bom[0] && 
+            bom_buffer[1] == utf8_bom[1] && 
+            bom_buffer[2] == utf8_bom[2]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (id)dataPrefixedWithUTF8BOM {
+    static NSData *s_bomData = nil;
+    if (!s_bomData) {
+        char utf8_bom[] = {0xef,0xbb,0xbf};
+        s_bomData = [[NSData alloc] initWithBytes:utf8_bom length:3];
+    }
+    id result = [[s_bomData mutableCopy] autorelease];
+    [result appendData:self];
+    return result;
+}
+
 
 @end

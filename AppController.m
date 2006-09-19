@@ -3,12 +3,13 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Feb 25 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <AddressBook/AddressBook.h>
 #import <Security/Security.h>
 #import <Carbon/Carbon.h>
+#import <HDCrashReporter/crashReporter.h>
 
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
@@ -56,6 +57,8 @@
 #import "Debug/DebugController.h"
 #endif
 
+int const AppMenuTag = 200;
+int const EnterSerialMenuItemTag = 201;
 int const FileMenuTag   =  100;
 int const EditMenuTag   = 1000;
 int const FileNewMenuItemTag = 1;
@@ -537,6 +540,10 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     [self setupAuthorization];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
+    
+    if ([HDCrashReporter newCrashLogExists]) {
+        [HDCrashReporter doCrashSubmitting];
+    }
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -955,24 +962,27 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     
-    if (selector==@selector(undo:)) {
-        PlainTextDocument *currentDocument=[[NSDocumentController sharedDocumentController] currentDocument];
-        if (currentDocument) {
-            return [[currentDocument documentUndoManager] canUndo];
-        } else {
-            NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
-            return [undoManager canUndo];
-        }
-    } else if (selector==@selector(redo:)) {
-        PlainTextDocument *currentDocument=[[NSDocumentController sharedDocumentController] currentDocument];
-        if (currentDocument) {
-            return [[currentDocument documentUndoManager] canRedo];
-        } else {
-            NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
-            return [undoManager canRedo];
-        }
+    id undoManager = nil;
+    PlainTextDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+    if (currentDocument) {
+        undoManager = [currentDocument documentUndoManager];
+    } else {
+        undoManager = [[[NSApp mainWindow] delegate] undoManager];
     }
-
+    
+    if (selector == @selector(undo:)) {
+        NSString *title = [undoManager undoMenuItemTitle];
+        if (title == nil) title = NSLocalizedString(@"&Undo", nil);
+        [menuItem setTitle:title];   
+        return [undoManager canUndo];
+    } else if (selector == @selector(redo:)) {
+        NSString *title = [undoManager redoMenuItemTitle];
+        if (title == nil) title = NSLocalizedString(@"&Redo", nil);
+        [menuItem setTitle:title];
+        return [undoManager canRedo];
+    } else if (selector == @selector(enterSerialNumber:) || selector == @selector(purchaseSubEthaEdit:)) {
+        return [LicenseController shouldRun];
+    }
     return YES;
 }
 

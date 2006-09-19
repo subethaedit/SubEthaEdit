@@ -6,23 +6,6 @@
 	objectVersion = 42;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		14E573B90964761F00DB50C3 /* Versioning */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 14E573BF0964766400DB50C3 /* Build configuration list for PBXAggregateTarget "Versioning" */;
-			buildPhases = (
-				14E573B80964761F00DB50C3 /* ShellScript */,
-			);
-			buildSettings = {
-				PRODUCT_NAME = Versioning;
-			};
-			dependencies = (
-			);
-			name = Versioning;
-			productName = Versioning;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDD09573E8900D14688 /* AddressBook.framework */; };
 		14288FE009573EA300D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
@@ -248,7 +231,6 @@
 		144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */; };
 		14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */; };
-		144E29340A2228B3002ED261 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 144E29320A2228B3002ED261 /* ServicesMenu.strings */; };
 		144E29660A222EFE002ED261 /* SubEthaEdit-PantherScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */; };
@@ -258,10 +240,16 @@
 		14E291C70A07A501007C0065 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
 		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
 		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; };
+		14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14EC6E270A63F2E800B44481 /* ServicesMenu.strings */; };
 		14F16020096C288100402129 /* License.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14F1601E096C288100402129 /* License.nib */; };
 		14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F16D010971A87300402129 /* OgreKit.framework */; };
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
+		312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
+		312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
+		31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
+		31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
+		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
 		5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE30A039283003D2813 /* SESendProc.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
 		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
@@ -273,17 +261,42 @@
 		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
 		5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */; };
 		5E57298F09F514FB00D3746B /* Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57298D09F514FB00D3746B /* Toolbar.m */; };
+		5E67DB130ABEFC400013562D /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
+		5E67DB1A0ABF0DEA0013562D /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
+		5E67DB3D0ABF1A770013562D /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E67DB3C0ABF1A770013562D /* GlassButtonCell.m */; };
+		5E67DB6B0ABF1CE50013562D /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E67DB6A0ABF1CE50013562D /* GlassButton.m */; };
+		5E67DB780ABF1EF50013562D /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E67DB6A0ABF1CE50013562D /* GlassButton.m */; };
+		5E67DB790ABF1EF60013562D /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E67DB3C0ABF1A770013562D /* GlassButtonCell.m */; };
+		5E67DB8D0ABF21270013562D /* glass-normal-cap-left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */; };
+		5E67DB8E0ABF21270013562D /* glass-normal-pressed-cap-right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */; };
+		5E67DB8F0ABF21270013562D /* glass-normal-fill.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB890ABF21270013562D /* glass-normal-fill.tiff */; };
+		5E67DB900ABF21270013562D /* glass-normal-cap-right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8A0ABF21270013562D /* glass-normal-cap-right.tiff */; };
+		5E67DB910ABF21270013562D /* glass-normal-pressed-cap-left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8B0ABF21270013562D /* glass-normal-pressed-cap-left.tiff */; };
+		5E67DB920ABF21270013562D /* glass-normal-pressed-fill.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8C0ABF21270013562D /* glass-normal-pressed-fill.tiff */; };
+		5E67DB930ABF212A0013562D /* glass-normal-cap-left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */; };
+		5E67DB940ABF212A0013562D /* glass-normal-pressed-cap-right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */; };
+		5E67DB950ABF212B0013562D /* glass-normal-cap-right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8A0ABF21270013562D /* glass-normal-cap-right.tiff */; };
+		5E67DB960ABF212B0013562D /* glass-normal-fill.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB890ABF21270013562D /* glass-normal-fill.tiff */; };
+		5E67DB970ABF212D0013562D /* glass-normal-pressed-cap-left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8B0ABF21270013562D /* glass-normal-pressed-cap-left.tiff */; };
+		5E67DB980ABF212D0013562D /* glass-normal-pressed-fill.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB8C0ABF21270013562D /* glass-normal-pressed-fill.tiff */; };
 		5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */; };
 		5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */; };
 		5E6AEEE309FE7C5700276D7C /* ToolbarIconColorChooser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */; };
+		5E754EA40AB5648F00C5119E /* EncodingDoctorDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E754EA20AB5648F00C5119E /* EncodingDoctorDialog.m */; };
+		5E754EAC0AB564BD00C5119E /* SEEDocumentDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E754EAA0AB564BD00C5119E /* SEEDocumentDialog.m */; };
+		5E754EB30AB56ACC00C5119E /* EncodingDoctor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5E754EB10AB56ACC00C5119E /* EncodingDoctor.nib */; };
 		5E7E7FE80A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */; };
 		5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA1258809E2B4190055965D /* ScriptWrapper.m */; };
 		5EB51AF80A177CF500AE2E17 /* InvisibleCharactersShow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */; };
 		5EB51AF90A177CF500AE2E17 /* InvisibleCharactersHide.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */; };
 		5EB51B270A179E9B00AE2E17 /* ToolbarIconRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */; };
+		5EC638360ABEB88B00D3295B /* DataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC638350ABEB88B00D3295B /* DataTests.m */; };
+		5EC638460ABEBE5900D3295B /* TCMBencodingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428912B0957457500D14688 /* TCMBencodingUtilities.m */; };
 		5EDD30000A08D71D0036E63A /* ScriptTextSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */; };
 		5EDD30100A091BD60036E63A /* NSWindowScriptingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */; };
 		5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD304D0A092AA50036E63A /* ScriptTextBase.m */; };
+		5EF31B220A7E2E2100D777F5 /* NSCursorSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */; };
+		5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */; };
 		5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */; };
 		5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */; };
 		5EFF5C4C0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */; };
@@ -306,21 +319,6 @@
 			script = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\nsed \"s/#PLACEHOLDER#/$REV/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
 		};
 /* End PBXBuildRule section */
-
-/* Begin PBXBuildStyle section */
-		4A9504D0FFE6A4CB11CA0CBA /* Debug */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		4A9504D1FFE6A4CB11CA0CBA /* Release */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-			};
-			name = Release;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
 		142894C10957611D00D14688 /* PBXContainerItemProxy */ = {
@@ -350,13 +348,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1493A7E70A10C873004ECE6A;
 			remoteInfo = SystemVersionCheck;
-		};
-		14E573BC0964763900DB50C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 14E573B90964761F00DB50C3;
-			remoteInfo = Versioning;
 		};
 		14F16CFE0971A87300402129 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -407,6 +398,48 @@
 			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6;
 			remoteInfo = "OgreKit (without Find Panel)";
 		};
+		312B7BBA0A99D1B50014E52A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
+		312B7BBC0A99D1B50014E52A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61B5F90209C4CEE200B25A18;
+			remoteInfo = "Sparkle Test App";
+		};
+		312B7BBE0A99D2000014E52A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
+		31D5F8580AA2FB760088DB18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = HDCrashReporter;
+		};
+		31D5F85C0AA301C10088DB18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = HDCrashReporter;
+		};
+		5EC638300ABEB78000D3295B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
+			remoteInfo = SubEthaEdit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -429,6 +462,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
+				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
@@ -777,7 +812,6 @@
 		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
 		144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSavePanelTCMAdditions.m; sourceTree = "<group>"; };
 		144E23550A1F6197002ED261 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
-		144E29390A2228BF002ED261 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
 		144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = "SubEthaEdit-PantherScripting.r"; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -814,6 +848,9 @@
 		14E291E80A07B480007C0065 /* ScriptCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptCharacters.m; sourceTree = "<group>"; };
 		14E2944E0A0CBFB0007C0065 /* SelectCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCommand.h; sourceTree = "<group>"; };
 		14E2944F0A0CBFB0007C0065 /* SelectCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCommand.m; sourceTree = "<group>"; };
+		14E98B000ABF2BF300544D45 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/EncodingDoctor.nib; sourceTree = "<group>"; };
+		14EC6E180A63F2B100B44481 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
+		14EC6E2B0A63F2F700B44481 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
 		14F1601F096C288100402129 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/License.nib; sourceTree = "<group>"; };
 		14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "OgreKit (Universal Binary).xcodeproj"; path = "OgreKit/OgreKit (Universal Binary).xcodeproj"; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -822,7 +859,11 @@
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		311717F20A0E8C3600A9DA18 /* ModeSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ModeSettings.m; sourceTree = "<group>"; };
 		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ModeSettings.h; sourceTree = "<group>"; };
+		312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
+		31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = CrashReporter/CrashReporter.xcodeproj; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
+		5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DialogBackgroundView.m; sourceTree = "<group>"; };
+		5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DialogBackgroundView.h; sourceTree = "<group>"; };
 		5E0F6AE30A039283003D2813 /* SESendProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SESendProc.m; sourceTree = "<group>"; };
 		5E0F6AE40A039283003D2813 /* SEActiveProc.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEActiveProc.m; sourceTree = "<group>"; };
 		5E0F6AE50A039283003D2813 /* SEActiveProc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SEActiveProc.h; sourceTree = "<group>"; };
@@ -838,23 +879,45 @@
 		5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
 		5E57298C09F514FB00D3746B /* Toolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toolbar.h; sourceTree = "<group>"; };
 		5E57298D09F514FB00D3746B /* Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toolbar.m; sourceTree = "<group>"; };
+		5E67DB3B0ABF1A770013562D /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlassButtonCell.h; sourceTree = "<group>"; };
+		5E67DB3C0ABF1A770013562D /* GlassButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassButtonCell.m; sourceTree = "<group>"; };
+		5E67DB690ABF1CE50013562D /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlassButton.h; sourceTree = "<group>"; };
+		5E67DB6A0ABF1CE50013562D /* GlassButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassButton.m; sourceTree = "<group>"; };
+		5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-cap-left.tiff"; path = "artwork/glass-normal-cap-left.tiff"; sourceTree = "<group>"; };
+		5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-pressed-cap-right.tiff"; path = "artwork/glass-normal-pressed-cap-right.tiff"; sourceTree = "<group>"; };
+		5E67DB890ABF21270013562D /* glass-normal-fill.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-fill.tiff"; path = "artwork/glass-normal-fill.tiff"; sourceTree = "<group>"; };
+		5E67DB8A0ABF21270013562D /* glass-normal-cap-right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-cap-right.tiff"; path = "artwork/glass-normal-cap-right.tiff"; sourceTree = "<group>"; };
+		5E67DB8B0ABF21270013562D /* glass-normal-pressed-cap-left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-pressed-cap-left.tiff"; path = "artwork/glass-normal-pressed-cap-left.tiff"; sourceTree = "<group>"; };
+		5E67DB8C0ABF21270013562D /* glass-normal-pressed-fill.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-pressed-fill.tiff"; path = "artwork/glass-normal-pressed-fill.tiff"; sourceTree = "<group>"; };
 		5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAppleScriptTCMAdditions.h; sourceTree = "<group>"; };
 		5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAppleScriptTCMAdditions.m; sourceTree = "<group>"; };
 		5E685DB109D8438800E41973 /* NSMenuTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMenuTCMAdditions.h; sourceTree = "<group>"; };
 		5E685DB209D8438800E41973 /* NSMenuTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMenuTCMAdditions.m; sourceTree = "<group>"; };
 		5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconColorChooser.tiff; path = artwork/ToolbarIconColorChooser.tiff; sourceTree = "<group>"; };
+		5E754EA10AB5648F00C5119E /* EncodingDoctorDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncodingDoctorDialog.h; sourceTree = "<group>"; };
+		5E754EA20AB5648F00C5119E /* EncodingDoctorDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncodingDoctorDialog.m; sourceTree = "<group>"; };
+		5E754EA90AB564BD00C5119E /* SEEDocumentDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentDialog.h; sourceTree = "<group>"; };
+		5E754EAA0AB564BD00C5119E /* SEEDocumentDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentDialog.m; sourceTree = "<group>"; };
+		5E754EB20AB56ACC00C5119E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EncodingDoctor.nib; sourceTree = "<group>"; };
 		5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconOpenURL.png; path = artwork/ToolbarIconOpenURL.png; sourceTree = "<group>"; };
 		5EA1258709E2B4190055965D /* ScriptWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptWrapper.h; sourceTree = "<group>"; };
 		5EA1258809E2B4190055965D /* ScriptWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptWrapper.m; sourceTree = "<group>"; };
 		5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvisibleCharactersShow.png; path = artwork/InvisibleCharactersShow.png; sourceTree = "<group>"; };
 		5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvisibleCharactersHide.png; path = artwork/InvisibleCharactersHide.png; sourceTree = "<group>"; };
 		5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconRun.tiff; path = artwork/ToolbarIconRun.tiff; sourceTree = "<group>"; };
+		5EC6382A0ABEB71100D3295B /* Unit Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Unit Tests-Info.plist"; sourceTree = "<group>"; };
+		5EC638340ABEB88B00D3295B /* DataTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataTests.h; path = Tests/DataTests.h; sourceTree = "<group>"; };
+		5EC638350ABEB88B00D3295B /* DataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataTests.m; path = Tests/DataTests.m; sourceTree = "<group>"; };
 		5EDD2FFD0A08D71D0036E63A /* ScriptTextSelection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScriptTextSelection.h; sourceTree = "<group>"; };
 		5EDD2FFE0A08D71D0036E63A /* ScriptTextSelection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ScriptTextSelection.m; sourceTree = "<group>"; };
 		5EDD300D0A091BD60036E63A /* NSWindowScriptingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSWindowScriptingAdditions.h; sourceTree = "<group>"; };
 		5EDD300E0A091BD60036E63A /* NSWindowScriptingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSWindowScriptingAdditions.m; sourceTree = "<group>"; };
 		5EDD304C0A092AA50036E63A /* ScriptTextBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptTextBase.h; sourceTree = "<group>"; };
 		5EDD304D0A092AA50036E63A /* ScriptTextBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptTextBase.m; sourceTree = "<group>"; };
+		5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSCursorSEEAdditions.m; sourceTree = "<group>"; };
+		5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSCursorSEEAdditions.h; sourceTree = "<group>"; };
+		5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InvertedIBeam.tiff; path = artwork/InvertedIBeam.tiff; sourceTree = "<group>"; };
 		5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconRunInTerminal.png; path = artwork/ToolbarIconRunInTerminal.png; sourceTree = "<group>"; };
 		5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconBuildAndRun.tiff; path = artwork/ToolbarIconBuildAndRun.tiff; sourceTree = "<group>"; };
 		5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconGenericScript.tiff; path = artwork/ToolbarIconGenericScript.tiff; sourceTree = "<group>"; };
@@ -890,16 +953,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5EC638270ABEB71100D3295B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E67DB130ABEFC400013562D /* Sparkle.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC330486D014006FF6A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */,
 				14288FE009573EA300D14688 /* Carbon.framework in Frameworks */,
 				14288FED09573F2B00D14688 /* Security.framework in Frameworks */,
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
 				14288FF509573F4900D14688 /* WebKit.framework in Frameworks */,
+				31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */,
 				14F16D220971A8C600402129 /* OgreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -960,6 +1033,12 @@
 				14289069095743F200D14688 /* EditPrefs.tiff */,
 				1428906A095743F200D14688 /* EmptyButton.tiff */,
 				1428906B095743F200D14688 /* GeneralPrefs.tiff */,
+				5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */,
+				5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */,
+				5E67DB890ABF21270013562D /* glass-normal-fill.tiff */,
+				5E67DB8A0ABF21270013562D /* glass-normal-cap-right.tiff */,
+				5E67DB8B0ABF21270013562D /* glass-normal-pressed-cap-left.tiff */,
+				5E67DB8C0ABF21270013562D /* glass-normal-pressed-fill.tiff */,
 				1428906C095743F200D14688 /* HideChangeMarks.png */,
 				1428906E095743F200D14688 /* HomeFolderIcon.tiff */,
 				1428906F095743F200D14688 /* Internet.tiff */,
@@ -969,6 +1048,7 @@
 				5E18F62A09A8A43A00A96A6C /* InvitationBadge1-2.tiff */,
 				5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */,
 				5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */,
+				5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */,
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
 				14289073095743F200D14688 /* Mode.icns */,
 				14289075095743F200D14688 /* NamedLogo2.tiff */,
@@ -1106,6 +1186,8 @@
 		142891780957483200D14688 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */,
+				5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */,
 				14289206095751CB00D14688 /* NSColorTCMAdditions.h */,
 				14289207095751CB00D14688 /* NSColorTCMAdditions.m */,
 				14289208095751CB00D14688 /* NSImageTCMAdditions.h */,
@@ -1168,6 +1250,7 @@
 		142892490957526300D14688 /* Document */ = {
 			isa = PBXGroup;
 			children = (
+				5E754EA60AB5649C00C5119E /* Dialogs */,
 				1428941509575AE600D14688 /* BorderedTextField.h */,
 				1428941609575AE600D14688 /* BorderedTextField.m */,
 				1428941709575AE600D14688 /* ButtonScrollView.h */,
@@ -1381,6 +1464,7 @@
 				142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */,
 				142894DE095766EE00D14688 /* see */,
 				1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */,
+				5EC6382A0ABEB71100D3295B /* Unit Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1398,6 +1482,7 @@
 				14289377095757E400D14688 /* Printing */,
 				5EDD2FFC0A08D69F0036E63A /* Scripting */,
 				142892550957529900D14688 /* ValueTransformers */,
+				5EC638450ABEBE2C00D3295B /* Unit Tests */,
 				1428917B0957483C00D14688 /* Debug */,
 				1428917E0957486D00D14688 /* TCMBase */,
 				142891190957452F00D14688 /* TCMBEEP */,
@@ -1410,7 +1495,10 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
+				312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */,
+				31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */,
+				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 			);
 			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
 			name = SubEthaEdit;
@@ -1462,18 +1550,19 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				14EC6E270A63F2E800B44481 /* ServicesMenu.strings */,
 				14289008095740F200D14688 /* Acknowledgements.txt */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 				142890120957413900D14688 /* Localizable.strings */,
 				1428900A095740F200D14688 /* RE.txt */,
 				145047410997750100D18142 /* ReleaseNotes.txt */,
-				144E29320A2228B3002ED261 /* ServicesMenu.strings */,
 				1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */,
 				142890150957418400D14688 /* AboutPanel.nib */,
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
 				142890190957418400D14688 /* DocumentProxy.nib */,
 				1428901B0957418400D14688 /* EditPrefs.nib */,
+				5E754EB10AB56ACC00C5119E /* EncodingDoctor.nib */,
 				5E2F5E41097BE32E00F7AA3C /* Export.nib */,
 				14289BD809581CAC00D14688 /* FindAll.nib */,
 				14289BD109581C3000D14688 /* FindReplace.nib */,
@@ -1510,6 +1599,49 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		312B7BB30A99D1B50014E52A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				312B7BBB0A99D1B50014E52A /* Sparkle.framework */,
+				312B7BBD0A99D1B50014E52A /* Sparkle Test App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		31D5F8520AA2FB760088DB18 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5E754EA60AB5649C00C5119E /* Dialogs */ = {
+			isa = PBXGroup;
+			children = (
+				5E754EA90AB564BD00C5119E /* SEEDocumentDialog.h */,
+				5E754EAA0AB564BD00C5119E /* SEEDocumentDialog.m */,
+				5E754EA10AB5648F00C5119E /* EncodingDoctorDialog.h */,
+				5E754EA20AB5648F00C5119E /* EncodingDoctorDialog.m */,
+				5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */,
+				5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */,
+				5E67DB690ABF1CE50013562D /* GlassButton.h */,
+				5E67DB6A0ABF1CE50013562D /* GlassButton.m */,
+				5E67DB3B0ABF1A770013562D /* GlassButtonCell.h */,
+				5E67DB3C0ABF1A770013562D /* GlassButtonCell.m */,
+			);
+			name = Dialogs;
+			sourceTree = "<group>";
+		};
+		5EC638450ABEBE2C00D3295B /* Unit Tests */ = {
+			isa = PBXGroup;
+			children = (
+				5EC638340ABEB88B00D3295B /* DataTests.h */,
+				5EC638350ABEB88B00D3295B /* DataTests.m */,
+			);
+			name = "Unit Tests";
 			sourceTree = "<group>";
 		};
 		5EDD2FFC0A08D69F0036E63A /* Scripting */ = {
@@ -1550,9 +1682,6 @@
 			buildConfigurationList = 14289819095818E200D14688 /* Build configuration list for PBXLegacyTarget "Create Disk Image" */;
 			buildPhases = (
 			);
-			buildSettings = {
-				PRODUCT_NAME = "Create Disk Image";
-			};
 			buildToolPath = /bin/sh;
 			buildWorkingDirectory = "";
 			dependencies = (
@@ -1574,14 +1703,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = HelperTool;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = HelperTool;
@@ -1599,14 +1720,6 @@
 			buildRules = (
 				142894EC095767E000D14688 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = see;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = see;
@@ -1623,28 +1736,31 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = SystemVersionCheck;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = SystemVersionCheck;
 			productName = SystemVersionCheck;
 			productReference = 1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */;
 			productType = "com.apple.product-type.tool";
+		};
+		5EC638290ABEB71100D3295B /* Unit Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "Unit Tests" */;
+			buildPhases = (
+				5EC638250ABEB71100D3295B /* Resources */,
+				5EC638260ABEB71100D3295B /* Sources */,
+				5EC638270ABEB71100D3295B /* Frameworks */,
+				5EC638280ABEB71100D3295B /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5EC638310ABEB78000D3295B /* PBXTargetDependency */,
+			);
+			name = "Unit Tests";
+			productName = "Unit Tests";
+			productReference = 5EC6382A0ABEB71100D3295B /* Unit Tests.octest */;
+			productType = "com.apple.product-type.bundle";
 		};
 		8D15AC270486D014006FF6A4 /* SubEthaEdit */ = {
 			isa = PBXNativeTarget;
@@ -1653,22 +1769,22 @@
 				1428947209575D2D00D14688 /* Run Script (sdp) */,
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				144E295E0A222E96002ED261 /* Rez */,
-				142898130958165400D14688 /* Run Script (Deployment) */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				149EC6970958726E002BDC41 /* Copy Files (Frameworks) */,
 				142894C30957614300D14688 /* Copy Files (Auxiliary Binaries) */,
+				14EB1AB90AA2ED9A004F5BEE /* Run Script (Versioning) */,
+				142898130958165400D14688 /* Run Script (Deployment) */,
 			);
 			buildRules = (
 			);
-			buildSettings = {
-			};
 			dependencies = (
 				142894C20957611D00D14688 /* PBXTargetDependency */,
 				142894FC0957685A00D14688 /* PBXTargetDependency */,
 				1493A80B0A10C8C4004ECE6A /* PBXTargetDependency */,
 				14F16D100971A89A00402129 /* PBXTargetDependency */,
-				14E573BD0964763900DB50C3 /* PBXTargetDependency */,
+				31D5F85D0AA301C10088DB18 /* PBXTargetDependency */,
+				312B7BBF0A99D2000014E52A /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -1682,19 +1798,28 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "SubEthaEdit" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4A9504D0FFE6A4CB11CA0CBA /* Debug */,
-				4A9504D1FFE6A4CB11CA0CBA /* Release */,
-			);
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				ger,
+			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */;
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 31D5F8520AA2FB760088DB18 /* Products */;
+					ProjectRef = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
+				},
+				{
 					ProductGroup = 14F16CF00971A87300402129 /* Products */;
 					ProjectRef = 14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */;
+				},
+				{
+					ProductGroup = 312B7BB30A99D1B50014E52A /* Products */;
+					ProjectRef = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
 				},
 			);
 			targets = (
@@ -1702,8 +1827,8 @@
 				142894A90957606F00D14688 /* HelperTool */,
 				142894DD095766EE00D14688 /* see */,
 				142898180958189300D14688 /* Create Disk Image */,
-				14E573B90964761F00DB50C3 /* Versioning */,
 				1493A7E70A10C873004ECE6A /* SystemVersionCheck */,
+				5EC638290ABEB71100D3295B /* Unit Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -1751,9 +1876,43 @@
 			remoteRef = 14F16D080971A87300402129 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		312B7BBB0A99D1B50014E52A /* Sparkle.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Sparkle.framework;
+			remoteRef = 312B7BBA0A99D1B50014E52A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		312B7BBD0A99D1B50014E52A /* Sparkle Test App.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Sparkle Test App.app";
+			remoteRef = 312B7BBC0A99D1B50014E52A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = HDCrashReporter.framework;
+			remoteRef = 31D5F8580AA2FB760088DB18 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5EC638250ABEB71100D3295B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E67DB8D0ABF21270013562D /* glass-normal-cap-left.tiff in Resources */,
+				5E67DB8E0ABF21270013562D /* glass-normal-pressed-cap-right.tiff in Resources */,
+				5E67DB8F0ABF21270013562D /* glass-normal-fill.tiff in Resources */,
+				5E67DB900ABF21270013562D /* glass-normal-cap-right.tiff in Resources */,
+				5E67DB910ABF21270013562D /* glass-normal-pressed-cap-left.tiff in Resources */,
+				5E67DB920ABF21270013562D /* glass-normal-pressed-fill.tiff in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC2B0486D014006FF6A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1875,8 +2034,16 @@
 				5E7E7FE80A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png in Resources */,
 				5EFF54270A21B463005DC26B /* ToolbarIconRunInTerminal.png in Resources */,
 				5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */,
-				144E29340A2228B3002ED261 /* ServicesMenu.strings in Resources */,
 				5EFF5C4C0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff in Resources */,
+				14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */,
+				5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */,
+				5E754EB30AB56ACC00C5119E /* EncodingDoctor.nib in Resources */,
+				5E67DB930ABF212A0013562D /* glass-normal-cap-left.tiff in Resources */,
+				5E67DB940ABF212A0013562D /* glass-normal-pressed-cap-right.tiff in Resources */,
+				5E67DB950ABF212B0013562D /* glass-normal-cap-right.tiff in Resources */,
+				5E67DB960ABF212B0013562D /* glass-normal-fill.tiff in Resources */,
+				5E67DB970ABF212D0013562D /* glass-normal-pressed-cap-left.tiff in Resources */,
+				5E67DB980ABF212D0013562D /* glass-normal-pressed-fill.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1926,9 +2093,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\necho \"Rename resource file...\"\nmv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"";
+			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\necho \"Rename resource file...\"\nmv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete";
 		};
-		14E573B80964761F00DB50C3 /* ShellScript */ = {
+		14EB1AB90AA2ED9A004F5BEE /* Run Script (Versioning) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script (Versioning)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/perl -w";
+			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/local/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
+		};
+		5EC638280ABEB71100D3295B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1939,7 +2120,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "REVISION=`/usr/local/bin/svnversion \"$SRCROOT\"`\nmkdir -p \"$PROJECT_DERIVED_FILE_DIR\"\necho \"Creating Revision.h with REVISION=$REVISION\"\necho \"#define REVISION $REVISION\" > \"$PROJECT_DERIVED_FILE_DIR\"/Revision.h\nexit 0";
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1969,6 +2150,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5EC638260ABEB71100D3295B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EC638360ABEB88B00D3295B /* DataTests.m in Sources */,
+				5EC638460ABEBE5900D3295B /* TCMBencodingUtilities.m in Sources */,
+				5E67DB1A0ABF0DEA0013562D /* NSDataTCMAdditions.m in Sources */,
+				5E67DB3D0ABF1A770013562D /* GlassButtonCell.m in Sources */,
+				5E67DB6B0ABF1CE50013562D /* GlassButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2099,6 +2292,12 @@
 				5EDD304F0A092AA50036E63A /* ScriptTextBase.m in Sources */,
 				14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */,
 				311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */,
+				5EF31B220A7E2E2100D777F5 /* NSCursorSEEAdditions.m in Sources */,
+				5E754EA40AB5648F00C5119E /* EncodingDoctorDialog.m in Sources */,
+				5E754EAC0AB564BD00C5119E /* SEEDocumentDialog.m in Sources */,
+				5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */,
+				5E67DB780ABF1EF50013562D /* GlassButton.m in Sources */,
+				5E67DB790ABF1EF60013562D /* GlassButtonCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2125,15 +2324,25 @@
 			target = 1493A7E70A10C873004ECE6A /* SystemVersionCheck */;
 			targetProxy = 1493A80A0A10C8C4004ECE6A /* PBXContainerItemProxy */;
 		};
-		14E573BD0964763900DB50C3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 14E573B90964761F00DB50C3 /* Versioning */;
-			targetProxy = 14E573BC0964763900DB50C3 /* PBXContainerItemProxy */;
-		};
 		14F16D100971A89A00402129 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "OgreKit (without Find Panel)";
 			targetProxy = 14F16D0F0971A89A00402129 /* PBXContainerItemProxy */;
+		};
+		312B7BBF0A99D2000014E52A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Sparkle;
+			targetProxy = 312B7BBE0A99D2000014E52A /* PBXContainerItemProxy */;
+		};
+		31D5F85D0AA301C10088DB18 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HDCrashReporter;
+			targetProxy = 31D5F85C0AA301C10088DB18 /* PBXContainerItemProxy */;
+		};
+		5EC638310ABEB78000D3295B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
+			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2327,14 +2536,6 @@
 			name = FindAll.nib;
 			sourceTree = "<group>";
 		};
-		144E29320A2228B3002ED261 /* ServicesMenu.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				144E29390A2228BF002ED261 /* German */,
-			);
-			name = ServicesMenu.strings;
-			sourceTree = "<group>";
-		};
 		145047410997750100D18142 /* ReleaseNotes.txt */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2351,6 +2552,15 @@
 				144E23550A1F6197002ED261 /* German */,
 			);
 			name = SystemVersionCheck.strings;
+			sourceTree = "<group>";
+		};
+		14EC6E270A63F2E800B44481 /* ServicesMenu.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14EC6E180A63F2B100B44481 /* English */,
+				14EC6E2B0A63F2F700B44481 /* German */,
+			);
+			name = ServicesMenu.strings;
 			sourceTree = "<group>";
 		};
 		14F1601E096C288100402129 /* License.nib */ = {
@@ -2380,6 +2590,15 @@
 			name = Export.nib;
 			sourceTree = "<group>";
 		};
+		5E754EB10AB56ACC00C5119E /* EncodingDoctor.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5E754EB20AB56ACC00C5119E /* English */,
+				14E98B000ABF2BF300544D45 /* German */,
+			);
+			name = EncodingDoctor.nib;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -2406,9 +2625,7 @@
 					ppc,
 					i386,
 				);
-				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
@@ -2440,9 +2657,7 @@
 					ppc,
 					i386,
 				);
-				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
@@ -2466,6 +2681,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				DiskImageBackgroundImage = artwork/dmg_background.png;
 				DiskImageProduct = SubEthaEdit.app;
 				DiskImageSizeInMB = 20;
 				DiskImageVolumeName = SubEthaEdit;
@@ -2475,111 +2691,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Release;
-		};
-		145047620997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = SubEthaEditHelperToolTemplate;
-				ZERO_LINK = NO;
-			};
-			name = Unstripped;
-		};
-		145047630997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = see;
-				ZERO_LINK = NO;
-			};
-			name = Unstripped;
-		};
-		145047640997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = Versioning;
-				ZERO_LINK = NO;
-			};
-			name = Unstripped;
-		};
-		145047650997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
-				GCC_USE_GCC3_PFE_SUPPORT = YES;
-				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
-				INFOPLIST_PREFIX_HEADER = "$(PROJECT_DERIVED_FILE_DIR)/Revision.h";
-				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = /;
-				PRODUCT_NAME = SubEthaEdit;
-				SYSTEM_VERSION_CHECK_SUFFIX = "-SystemVersionCheck";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Unstripped;
-		};
-		145047660997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DiskImageProduct = SubEthaEdit.app;
-				DiskImageSizeInMB = 20;
-				DiskImageVolumeName = SubEthaEdit;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = "Create Disk Image";
-				ZERO_LINK = NO;
-			};
-			name = Unstripped;
-		};
-		145047670997894300D18142 /* Unstripped */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-DTCM_NO_DEBUG",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DNDEBUG",
-				);
-				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = Unstripped;
 		};
 		1493A8000A10C891004ECE6A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2615,16 +2726,15 @@
 					ppc,
 					i386,
 				);
-				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_VERSION_i386 = 4.0;
 				GCC_VERSION_ppc = 3.3;
 				INSTALL_PATH = "$(HOME)/bin";
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2637,51 +2747,56 @@
 			};
 			name = Release;
 		};
-		1493A8020A10C891004ECE6A /* Unstripped */ = {
+		5EC6382E0ABEB71200D3295B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
-				INSTALL_PATH = "$(HOME)/bin";
-				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "SubEthaEdit-SystemVersionCheck";
-				ZERO_LINK = NO;
-			};
-			name = Unstripped;
-		};
-		14E573C00964766400DB50C3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app/Contents/MacOS/SubEthaEdit";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = Versioning;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "Unit Tests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Unit Tests";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
-		14E573C10964766400DB50C3 /* Release */ = {
+		5EC6382F0ABEB71200D3295B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = Versioning;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "Unit Tests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Unit Tests";
+				WRAPPER_EXTENSION = octest;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2699,13 +2814,11 @@
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
 				GCC_USE_GCC3_PFE_SUPPORT = YES;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
-				INFOPLIST_PREFIX_HEADER = "$(PROJECT_DERIVED_FILE_DIR)/Revision.h";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = SubEthaEdit;
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
@@ -2717,15 +2830,12 @@
 					i386,
 				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
 				GCC_USE_GCC3_PFE_SUPPORT = YES;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
-				INFOPLIST_PREFIX_HEADER = "$(PROJECT_DERIVED_FILE_DIR)/Revision.h";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = /;
 				PRODUCT_NAME = SubEthaEdit;
@@ -2737,18 +2847,26 @@
 		C05733CC08A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
 		C05733CD08A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -2760,6 +2878,7 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -2771,7 +2890,6 @@
 			buildConfigurations = (
 				142894AD0957608D00D14688 /* Debug */,
 				142894AE0957608D00D14688 /* Release */,
-				145047620997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2781,7 +2899,6 @@
 			buildConfigurations = (
 				142894E40957671300D14688 /* Debug */,
 				142894E50957671300D14688 /* Release */,
-				145047630997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2791,7 +2908,6 @@
 			buildConfigurations = (
 				1428981A095818E200D14688 /* Debug */,
 				1428981B095818E200D14688 /* Release */,
-				145047660997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2801,17 +2917,15 @@
 			buildConfigurations = (
 				1493A8000A10C891004ECE6A /* Debug */,
 				1493A8010A10C891004ECE6A /* Release */,
-				1493A8020A10C891004ECE6A /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		14E573BF0964766400DB50C3 /* Build configuration list for PBXAggregateTarget "Versioning" */ = {
+		5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "Unit Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				14E573C00964766400DB50C3 /* Debug */,
-				14E573C10964766400DB50C3 /* Release */,
-				145047640997894300D18142 /* Unstripped */,
+				5EC6382E0ABEB71200D3295B /* Debug */,
+				5EC6382F0ABEB71200D3295B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2821,7 +2935,6 @@
 			buildConfigurations = (
 				C05733C808A9546B00998B17 /* Debug */,
 				C05733C908A9546B00998B17 /* Release */,
-				145047650997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2831,7 +2944,6 @@
 			buildConfigurations = (
 				C05733CC08A9546B00998B17 /* Debug */,
 				C05733CD08A9546B00998B17 /* Release */,
-				145047670997894300D18142 /* Unstripped */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -129,7 +129,7 @@
         
         float potentialNewWidth=8.+sizeOfZero.width*cardinality;
         if ([self ruleThickness]<potentialNewWidth) {
-            [self setRuleThickness:potentialNewWidth];
+            [self setRuleThickness:ceil(potentialNewWidth)];
         }
     }
 }
