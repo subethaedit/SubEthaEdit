@@ -1,3 +1,8 @@
+Changes with Version 1.4 (SEE 2.5.1)
+
+    *) Fixing SEE-1116 (Support alternate syntax for javascript functions)
+    *) Adding new Regular Expression state from Perl.mode to JavaScript.mode to fix SEE-1117. (prototype.js coloring fails due to direct regexes) 
+
 Changes with Version 1.3 (SEE 2.5)
 
     *) added script: Insert/Edit HTML Color.

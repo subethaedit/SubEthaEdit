@@ -1,4 +1,10 @@
-Changes with Version 1.4 (SEE 2.4)
+Changes with Version 1.5 (SEE 2.5.1)
+
+    *) added artwork for open counterpart in c and c++ mode
+    *) added un/comment lines for c
+    *) fixed issue SEE-1040: "Check Syntax" script has same key shortcut as block edit by changing it to ctrl-command-b
+
+Changes with Version 1.4 (SEE 2.5)
 
     *) Added scripts (Open Counterpart, Check Syntax)
 

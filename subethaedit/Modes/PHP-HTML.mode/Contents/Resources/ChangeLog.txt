@@ -1,5 +1,7 @@
 Changes with Version 1.5 (SEE 2.5.1)
     *) fixed link in Lookup in PHP Documentation Script
+    *) substituted 501 with `id -g` to make all utf-8 "do shell script" commands work on non-501 users. (fixes SEE-1042)
+    *) fixed issue SEE-1040: "Check Syntax" script has same key shortcut as block edit by changing it to ctrl-command-b
 
 Changes with Version 1.4 (SEE 2.5)
     *) added scripts: Close Last Tag, Insert/Edit HTML Color, Add Link, Check Syntax, Run using PHP, HTML Comment Selection, Lookup in PHP Documentation

@@ -1,4 +1,8 @@
 Changes with Version 1.1 (SEE 2.5)
 
+    *) Fixing standard location for bash and being more liberal about shebangs for bash.mode.
+
+Changes with Version 1.1 (SEE 2.5)
+
     *) added Scripts (Insert Shebang, chmod ug+x, Run in Terminal)
 
