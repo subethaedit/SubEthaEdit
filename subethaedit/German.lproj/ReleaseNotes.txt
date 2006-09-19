@@ -1,4 +1,79 @@
 
+SubEthaEdit 2.5.1
+=================
+
+Neue Funktionen:
+- Konvertierung der Dateikodierung: Eine Unterstützung zur Identifizierung von 
+  Zeichen, die nicht in der neuen Dateikodierung dargestellt werden können, 
+  wurde hinzugefügt. Die Möglichkeit zur verlustbehafteten Konvertierung ist 
+  ebenfalls hinzugekommen.
+- Konvertierungen der Dateikodierung sind nun widerrufbar.
+- Eingrückter Zeilenumbruch: Umgebrochene Zeilen können nun um den gleichen 
+  Wert eingerückt werden, wie der Beginn der Zeile. Ein zusätzliche Einrückung 
+  ist ebenso möglich.
+- Eine Seitenmarkierung des rechten Randes kann nun dargestellt werden. Die 
+  Breite kann in Zeichenspalten angegeben werden.
+- Text kann nun verlustbehaftet eingefügt werden, wenn er nicht in der 
+  aktuellen Dateikodierung repräsentiert werden kann.
+- Die Druckfunktion kann nun den kompletten Pfad einer Datei in der Kopfzeile 
+  ausgeben.
+- Eine auf Sparkle basierende Software-Aktualisierungsfunktion wurde 
+  hinzugefügt, um aus SubEthaEdit heraus nach neuen Versionen zu suchen und 
+  diese zu installieren.
+- Modus-spezifisch können UTF-8 kodierte Dateien mit einem UTF-8 BOM gesichert 
+  werden.
+- Eine Unterstützung zur Meldung von Abstürzen wurde eingebaut.
+
+Veränderugen:
+- Der Tastatur-Kurzbefehl für die "Check Syntax"-Funktion wurde auf 
+  ctrl-befehl-b geändert, um einen Konflikt mit der Blockedit-Funktion zu 
+  vermeiden.
+- Die Farbe des Mauszeigers ist nun weiß, wenn ein dunkler Hintergrund 
+  verwendet wird.
+- Die Gruppenzugehörigkeit neuer Dateien wird nun auf die primäre Gruppe des 
+  aktuellen Benutzers gesetzt.
+- Die Bezeichnung der Zeilenenden wurde klargestellt, um darauf hinzuweisen, 
+  dass LF auch das empfohlene Zeilenende unter Mac OS X ist.
+- Es wird auf Geschwindigkeitsverbesserungen des darunterliegenden Text-Systems 
+  zurückgegriffen, wenn SubEthaEdit unter Leopard ausgeführt wird.
+- Die Menüeinträge zum Registrieren und Kaufen von SubEthaEdit werden nun 
+  deaktiviert sobald es registriert wurde.
+- Wenn "Beim Starten neues Dokument öffnen" aktiviert ist, werden neue und 
+  bisher unbenutzte Dokumentenfenster wiederbenutzt, wenn das see-Kommando mit 
+  unbekannte Dateinamen aufgerufen wird.
+
+Korrekturen:
+- Ein Problem wurde behoben, bei dem keine Warnung angezeigt wurde, wenn die 
+  Zeilenenden in einer gerade geöffneten aber nicht schreibbaren Datei 
+  konvertiert wurden.
+- Ein Fehler beim Exportieren von HTML, der Bilder an der gleichen Stelle wie 
+  die HTML-Datei speicherte, wenn ein Ordner für die Bilder bereits existierte, 
+  wurde behoben.
+- Die fehlerhafte Übersetzung des Dienstemenüs von SubEthaEdit wurde behoben.
+- Eine Warnung wird nun angezeigt, wenn eine mit ISO Latin-2 geöffnete Datei 
+  als UTF-8 reinterpretiert werden soll und dies fehlschlägt.
+- Ein Problem, bei dem das UTF-8 BOM einer Datei nicht erhalten wurde, wurde 
+  behoben.
+- Ein Problem mit der automatischen Erkennung der Dateikodierung wurde behoben, 
+  bei dem Dateien mit UTF-8 BOM nicht als UTF-8 kodierte Dateien erkannt 
+  wurden.
+- Ein Fehler, durch den die Zeilennummern nicht korrekt gezeichnet wurde, wurde 
+  behoben.
+- Ein Problem wurde behoben, durch das inkonsistente Zeilenenden durch das 
+  Wechseln des Modus erzeugt werden konnten.
+- Das Wechseln der benutzten Zeilenenden ist nun widerrufbar.
+- Eine fälschlicherweise angezeigte Warnung, die beim Bearbeiten einer Datei 
+  auftrat, die zuvor mit der nötigen Autorisierung gesichert wurde, wurde 
+  entfernt.
+- Ein Problem wurde behoben, bei dem das Dokument in bestimmten 
+  Dateikodierungen nicht übertragen wurde.
+- Ein Problem, bei dem ein fehlerhafter Verbindungsaufbau zum Absturz führte, 
+  wurde behoben.
+- Ein Problem wurde behoben, bei dem die "Edit/Insert HTML Color" Funktion die 
+  gerade ausgewählte Farbe nicht korrekt darstellte.
+- Verbesserte Modi: bash, C, C++, CSS, HTML, Java, Objective-C, Perl, PHP-HTML, 
+  Python, Ruby, XML.
+
 SubEthaEdit 2.5
 ===============
 

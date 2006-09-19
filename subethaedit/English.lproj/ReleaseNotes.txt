@@ -1,4 +1,65 @@
 
+SubEthaEdit 2.5.1
+=================
+
+Additions/New Features:
+- Encoding conversion: Added assistance to identify characters that cannot be 
+  represented in the new encoding. Also added option to allow lossy conversion.
+- Encoding conversions are now undoable.
+- Indented soft wrapping: Wrapped lines can be indented to the same amount as 
+  the start of the line or more.
+- A page guide can now be shown at a specific character width.
+- Text which cannot be represented in the current encoding can now be inserted 
+  lossy.
+- New print option to include the full file path in the header.
+- Added software update mechanism based on Sparkle for checking and installing 
+  new version from within SubEthaEdit.
+- New per-mode option to save UTF-8 encoded files with a UTF-8 BOM.
+- Added built-in support for reporting crashes.
+
+Changes:
+- Changed the keyboard shortcut for the 'Check Syntax' command in various modes 
+  to ctrl-command-b to resolve a conflict with blockediting.
+- Changed the color of the insertion cursor to white when a dark background is 
+  used.
+- Group ownership of new files is now set to the primary group of the current 
+  user.
+- Clarified the naming of line endings to highlight that LF is also the 
+  recommended line ending on Mac OS X.
+- Use of underlying text system performance improvements when running on 
+  Leopard.
+- Menu items for registering and purchasing SubEthaEdit are now disabled once 
+  it has been registered.
+- When 'Open new document at startup' is enabled newly created unmodified 
+  document windows are reused when the see command is invoked with unknown file 
+  names.
+
+Fixes:
+- Fixed a bug where no warning was issued when line endings were converted on a 
+  just opened read-only file.
+- Fixed an issue where HTML export saved images to the same location as the 
+  HTML file if an images folder already existed.
+- Fixed an issue where an entry in the SubEthaEdit services menu hasn't been 
+  localized correctly.
+- Fixed a bug where no warning was issued when the reinterpration to UTF-8 of 
+  file loaded with ISO Latin-2 encoding failed.
+- Fixed a bug where the UTF-8 BOM of a file was not preserved.
+- Fixed a bug where the 'Automatic' encoding didn't recognize files with a 
+  UTF-8 BOM as UTF-8 encoded files.
+- Fixed an issue where the line numbers in the gutter weren't drawn correctly.
+- Fixed a bug that caused inconsistent line endings when a mode change 
+  overwrite the guessed line ending.
+- Fixed a bug where changing line endings weren't undoable.
+- Fixed an issue where a read-only warning has been issued after a file has 
+  been saved with the proper authorization.
+- Fixed an issue where the document wasn't transmitted when using specific 
+  encodings (e.g. celtic encoding).
+- Fixed a bug where an incorrect handshake could cause a crash.
+- Fixed an issue with the 'Edit/Insert HTML Color' command where the currently 
+  selected color wasn't represented correctly.
+- Improved modes: bash, C, C++, CSS, HTML, Java, Objective-C, Perl, PHP-HTML, 
+  Python, Ruby, XML.
+
 SubEthaEdit 2.5
 ===============
 
