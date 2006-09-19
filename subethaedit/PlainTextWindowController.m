@@ -1185,6 +1185,7 @@ enum {
              I_dialogSplitView=nil;
             NSSize minSize = [[self window] contentMinSize];
             minSize.height-=100;
+            minSize.width-=63;
             [[self window] setContentMinSize:minSize];
             [I_documentDialog autorelease];
              I_documentDialog = nil;
@@ -1220,6 +1221,7 @@ enum {
             [I_dialogSplitView addSubview:[contentView autorelease]];
             NSSize minSize = [[self window] contentMinSize];
             minSize.height+=100;
+            minSize.width+=63;
             [[self window] setContentMinSize:minSize];
             I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01 
                 target:self 
