@@ -751,6 +751,13 @@
     }
 }
 
+- (void)updateViews
+{
+    NSLog(@"%@ %s", [self description], __FUNCTION__);
+    [self TCM_adjustTopStatusBarFrames];
+    [self TCM_updateBottomStatusBar];
+}
+
 #pragma mark -
 #pragma mark First Responder Actions
 

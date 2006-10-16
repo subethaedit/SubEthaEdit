@@ -74,6 +74,9 @@
 - (void)setRadarMarkForUser:(TCMMMUser *)aUser;
 
 - (void)scrollToUserWithID:(NSString *)aUserID;
+
+- (void)updateViews;
+
 #pragma mark -
 #pragma mark ### Actions ###
 - (IBAction)toggleWrap:(id)aSender;

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */; };
+		141F4F120AE42BC7001B73D2 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */; };
 		14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDD09573E8900D14688 /* AddressBook.framework */; };
 		14288FE009573EA300D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
 		14288FED09573F2B00D14688 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
@@ -321,6 +323,34 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		141F4EA20AE42602001B73D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D1AC9740486D14A00FE50C9 /* PSMTabBarControl.palette */;
+			remoteInfo = PSMTabBarControl;
+		};
+		141F4EA40AE42602001B73D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A251BEA00959BB5B0058BC7F /* TabBarControlDemo.app */;
+			remoteInfo = TabBarControlDemo;
+		};
+		141F4EA60AE42602001B73D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 53DF68FD067E5B5A0090B5B0 /* PSMTabBarControl.framework */;
+			remoteInfo = PSMTabBarControlFramework;
+		};
+		141F4EA80AE42641001B73D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 53DF68FC067E5B5A0090B5B0 /* PSMTabBarControlFramework */;
+			remoteInfo = PSMTabBarControlFramework;
+		};
 		142894C10957611D00D14688 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -463,6 +493,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
+				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
 			);
@@ -474,6 +505,7 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PSMTabBarControl.xcodeproj; path = PSMTabBarControl/PSMTabBarControl.xcodeproj; sourceTree = "<group>"; };
 		14288FDD09573E8900D14688 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		14288FDF09573EA300D14688 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		14288FEC09573F2B00D14688 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -965,6 +997,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				141F4F120AE42BC7001B73D2 /* PSMTabBarControl.framework in Frameworks */,
 				312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */,
@@ -1003,6 +1036,16 @@
 				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		141F4E980AE42602001B73D2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				141F4EA30AE42602001B73D2 /* PSMTabBarControl.palette */,
+				141F4EA50AE42602001B73D2 /* TabBarControlDemo.app */,
+				141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		1428904E0957429A00D14688 /* AppleScript */ = {
@@ -1497,6 +1540,7 @@
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */,
 				31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */,
+				141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */,
 				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 			);
@@ -1785,6 +1829,7 @@
 				14F16D100971A89A00402129 /* PBXTargetDependency */,
 				31D5F85D0AA301C10088DB18 /* PBXTargetDependency */,
 				312B7BBF0A99D2000014E52A /* PBXTargetDependency */,
+				141F4EA90AE42641001B73D2 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -1818,6 +1863,10 @@
 					ProjectRef = 14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */;
 				},
 				{
+					ProductGroup = 141F4E980AE42602001B73D2 /* Products */;
+					ProjectRef = 141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */;
+				},
+				{
 					ProductGroup = 312B7BB30A99D1B50014E52A /* Products */;
 					ProjectRef = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
 				},
@@ -1834,6 +1883,27 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		141F4EA30AE42602001B73D2 /* PSMTabBarControl.palette */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PSMTabBarControl.palette;
+			remoteRef = 141F4EA20AE42602001B73D2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		141F4EA50AE42602001B73D2 /* TabBarControlDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = TabBarControlDemo.app;
+			remoteRef = 141F4EA40AE42602001B73D2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PSMTabBarControl.framework;
+			remoteRef = 141F4EA60AE42602001B73D2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		14F16CFF0971A87300402129 /* OgreKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2304,6 +2374,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		141F4EA90AE42641001B73D2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PSMTabBarControlFramework;
+			targetProxy = 141F4EA80AE42641001B73D2 /* PBXContainerItemProxy */;
+		};
 		142894C20957611D00D14688 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 142894A90957606F00D14688 /* HelperTool */;

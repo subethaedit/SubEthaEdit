@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Mar 05 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import "PlainTextWindowController.h"
@@ -27,6 +27,9 @@
 #import "Toolbar.h"
 #import "SEEDocumentDialog.h"
 #import "EncodingDoctorDialog.h"
+#import "DocumentController.h"
+#import <PSMTabBarControl/PSMTabBarControl.h>
+
 
 NSString * const PlainTextWindowToolbarIdentifier = 
                @"PlainTextWindowToolbarIdentifier";
@@ -89,6 +92,7 @@ enum {
 - (id)init {
     if ((self=[super initWithWindowNibName:@"PlainTextWindow"])) {
         I_plainTextEditors = [NSMutableArray new];
+        I_plainTextEditorsByDocument = [[NSMutableArray alloc] init];
         I_contextMenu = [NSMenu new];
         NSMenuItem *item=nil;
         item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuFollow",@"Follow user entry for Participant context menu") action:@selector(followUser:) keyEquivalent:@""];
@@ -134,6 +138,15 @@ enum {
      I_dialogSplitView = nil;
     [I_documentDialog release];
      I_documentDialog = nil;
+    
+    [I_tabBar setDelegate:nil];
+    [I_tabBar setTabView:nil];
+    [I_tabView setDelegate:nil];
+    [I_tabBar release];
+    [I_tabView release];
+    
+    [I_plainTextEditorsByDocument release];
+    
     [super dealloc];
 }
 
@@ -165,9 +178,10 @@ enum {
 
 - (void)windowDidLoad {
     // [[[[[self window] standardWindowButton:NSWindowDocumentIconButton] superview] titleCell] setLineBreakMode:NSLineBreakByTruncatingMiddle];
-    [self adjustToolbarToDocumentMode];
+    
+    //[self adjustToolbarToDocumentMode];
 
-    [self validateUpperDrawer];
+    //[self validateUpperDrawer];
     
     NSSize drawerSize = [O_participantsDrawer contentSize];
     drawerSize.width = 170;
@@ -177,7 +191,7 @@ enum {
     O_participantsView = [[ParticipantsView alloc] initWithFrame:frame];
     [O_participantsScrollView setBorderType:NSBezelBorder];
     [O_participantsView setDelegate:self];
-[O_participantsView setDataSource:self];
+    [O_participantsView setDataSource:self];
     [O_participantsScrollView setHasVerticalScroller:YES];
     [[O_participantsScrollView verticalScroller] setControlSize:NSSmallControlSize];
     [O_participantsScrollView setDocumentView:O_participantsView];
@@ -198,10 +212,8 @@ enum {
         [menu addItem:[[menuItem copy] autorelease]];
     }
     [menu setDelegate:self];
-//    [O_actionPullDown addItemsWithTitles:[NSArray arrayWithObjects:@"<do not modify>", @"Ich", @"bin", @"das", @"Action", @"Menü", nil]];
     
-    //[O_newUserView setFrameSize:NSMakeSize([O_newUserView frame].size.width, 0)];
-    
+    /*
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(sessionWillChange:)
                                                  name:PlainTextDocumentSessionWillChangeNotification 
@@ -240,6 +252,7 @@ enum {
                                              selector:@selector(adjustToolbarToDocumentMode)
                                                  name:PlainTextDocumentDidChangeDocumentModeNotification 
                                                object:[self document]];
+    */
 
 
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -252,36 +265,75 @@ enum {
                                                  name:GlobalScriptsDidReloadNotification 
                                                object:nil];
     
-    PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
-    [[self window] setInitialFirstResponder:[plainTextEditor textView]];
-    [[self window] setContentView:[plainTextEditor editorView]];
-    [I_plainTextEditors addObject:plainTextEditor];
-    if ([self document]) {
-        [[self document] windowControllerDidLoadNib:self];
-        [self setInitialRadarStatusForPlainTextEditor:plainTextEditor];;
+    /*
+    SInt32 MacVersion;
+    if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr){
+        if (MacVersion >= 0x1040){
+            // this call is Tiger only
+            [[[self window] toolbar] setShowsBaselineSeparator:NO];
+        }
     }
-    [plainTextEditor release];
+    */
+
+    [[[self window] contentView] setAutoresizesSubviews:YES];
+    NSRect contentFrame = [[[self window] contentView] frame];
+
+    I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - 22.0, NSWidth(contentFrame), 22.0)];
+    [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
+    [I_tabBar setStyleNamed:@"Unified"];
+    [[[self window] contentView] addSubview:I_tabBar];
+    I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - 22.0)];
+    [I_tabView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
+    [I_tabView setTabViewType:NSNoTabsNoBorder];
+    [[[self window] contentView] addSubview:I_tabView];
+    [I_tabBar setTabView:I_tabView];
+    [I_tabView setDelegate:I_tabBar];
+
+    [I_tabBar setDelegate:self];
     
-    [self validateButtons];
+    //[self validateButtons];
 }
 
 - (void)takeSettingsFromDocument {
+    NSLog(@"%s", __FUNCTION__);
     [self setShowsBottomStatusBar:[(PlainTextDocument *)[self document] showsBottomStatusBar]];
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
 - (void)setIsReceivingContent:(BOOL)aFlag {
-    NSWindow *window=[self window];
+    NSLog(@"%s", __FUNCTION__);
+    //NSWindow *window=[self window];
     I_flags.isReceivingContent=aFlag;
     if (aFlag) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:TCMMMSessionDidReceiveContentNotification object:[(PlainTextDocument *)[self document] session]];
-        [window setContentView:O_receivingContentView];
+        //[window setContentView:O_receivingContentView];
+        
+        //int index = [[self documents] indexOfObject:[self document]];
+        //[I_tabView selectTabViewItemAtIndex:index];
+        //[[I_tabView tabViewItemAtIndex:index] setView:O_receivingContentView];
+        
+        NSString *identifier = [[[self document] session] sessionID];
+        int index = [I_tabView indexOfTabViewItemWithIdentifier:identifier];
+        if (index != NSNotFound) {        
+            [I_tabView selectTabViewItemAtIndex:index];
+            [[I_tabView tabViewItemAtIndex:index] setView:O_receivingContentView];
+        }
+        
         [O_progressIndicator startAnimation:self];
     } else {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionDidReceiveContentNotification object:[(PlainTextDocument *)[self document] session]];
         [O_progressIndicator stopAnimation:self];
         PlainTextEditor *editor=[I_plainTextEditors objectAtIndex:0];
-        [window setContentView:[editor editorView]];
+        //[window setContentView:[editor editorView]];
+        
+        //int index = [[self documents] indexOfObject:[self document]];
+        //[[I_tabView tabViewItemAtIndex:index] setView:[editor editorView]];
+
+        NSString *identifier = [[[self document] session] sessionID];
+        int index = [I_tabView indexOfTabViewItemWithIdentifier:identifier];
+        if (index != NSNotFound)     
+            [[I_tabView tabViewItemAtIndex:index] setView:[editor editorView]];
+        
         [[editor textView] setSelectedRange:NSMakeRange(0,0)];
         [[self window] makeFirstResponder:[editor textView]];
         if ([self window]==[[[NSApp orderedWindows] objectEnumerator] nextObject]) {
@@ -300,6 +352,7 @@ enum {
 }
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
+    NSLog(@"%s", __FUNCTION__);
     NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
     NSWindow *window=[self window];
     NSSize minSize=[window contentMinSize];
@@ -365,6 +418,7 @@ enum {
 }
 
 - (PlainTextEditor *)activePlainTextEditor {
+    NSLog(@"%s", __FUNCTION__);
     if ([I_plainTextEditors count]!=1) {
         id responder=[[self window] firstResponder];
         if ([responder isKindOfClass:[NSTextView class]]) {
@@ -1180,7 +1234,9 @@ enum {
     
     if (timeSinceStart >= timeInterval) {
         if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
-            [[self window] setContentView:[[I_dialogSplitView subviews] objectAtIndex:1]];
+            //[[self window] setContentView:[[I_dialogSplitView subviews] objectAtIndex:1]];
+            NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+            [tab setView:[[I_dialogSplitView subviews] objectAtIndex:1]];
             [I_dialogSplitView release];
              I_dialogSplitView=nil;
             NSSize minSize = [[self window] contentMinSize];
@@ -1207,7 +1263,9 @@ enum {
             I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
             [(SplitView *)I_dialogSplitView setDividerThickness:3.];
             NSRect mainFrame = [dialogView frame];
-            [[self window] setContentView:I_dialogSplitView];
+            //[[self window] setContentView:I_dialogSplitView];
+            NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+            [tab setView:I_dialogSplitView];
             [I_dialogSplitView setIsPaneSplitter:YES];
             [I_dialogSplitView setDelegate:self];
             [I_dialogSplitView addSubview:dialogView];
@@ -1266,7 +1324,9 @@ enum {
         [plainTextEditor release];
         I_editorSplitView = [[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]];
         if (!I_dialogSplitView) {
-            [[self window] setContentView:I_editorSplitView];
+            //[[self window] setContentView:I_editorSplitView];
+            NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+            [tab setView:I_editorSplitView];
         } else {
             [I_dialogSplitView addSubview:I_editorSplitView positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:1]];
         }
@@ -1286,7 +1346,9 @@ enum {
         [self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
     } else if ([I_plainTextEditors count]==2) {
         if (!I_dialogSplitView) {
-            [[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+            //[[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+            NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+            [tab setView:[[I_plainTextEditors objectAtIndex:0] editorView]];
         } else {
             [I_dialogSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView] positioned:NSWindowBelow relativeTo:I_editorSplitView];
             [I_editorSplitView removeFromSuperview];
@@ -1578,6 +1640,274 @@ enum {
 - (void)windowDidBecomeMain:(NSNotification *)aNotification {
     // switch mode menu on becoming main
     [(PlainTextDocument *)[self document] adjustModeMenu];
+}
+
+#pragma mark -
+#pragma mark  A Method That PlainTextDocument Invokes 
+
+
+- (void)documentWillClose:(NSDocument *)document 
+{
+    NSLog(@"%s", __FUNCTION__);
+    // Record the document that's closing. We'll just remove it from our list when this object receives a -close message.
+    I_documentBeingClosed = document;
+}
+
+#pragma mark  Private KVC-Compliance for Public Properties 
+
+- (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(unsigned int)index
+{
+    // Instantiate the documents array lazily.
+    if (!I_documents) {
+        I_documents = [[NSMutableArray alloc] init];
+    }
+    [I_documents insertObject:document atIndex:index];
+}
+
+
+- (void)removeObjectFromDocumentsAtIndex:(unsigned int)index
+{
+    // Instantiate the documents array lazily, if only to get a useful exception thrown.
+    if (!I_documents) {
+        I_documents = [[NSMutableArray alloc] init];
+    }
+    // Forget about the document.
+    [I_documents removeObjectAtIndex:index];
+}
+
+
+#pragma mark Simple Property Getting 
+
+
+- (NSArray *)documents 
+{
+    // Instantiate the documents array lazily.
+    if (!I_documents) {
+        I_documents = [[NSMutableArray alloc] init];
+    }
+    return I_documents;
+}
+
+#pragma mark Overrides of NSWindowController Methods 
+
+- (void)setDocument:(NSDocument *)document 
+{
+    NSLog(@"%s %@", __FUNCTION__, document);
+    
+    // A document has been told that this window controller belongs to it.
+
+    // Every document sends it window controllers -setDocument:nil when it's closed. We ignore such messages for some purposes.
+    if (document) {
+        // Have we already recorded this document in our list?
+        NSArray *documents = [self documents];
+        if (![documents containsObject:document]) {
+            // No. Record it, in a KVO-compliant way.
+            [self insertObject:document inDocumentsAtIndex:[documents count]];
+            
+            
+            NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:[[document session] sessionID]];
+            [tab setLabel:[document displayName]];
+            [I_tabView addTabViewItem:tab];
+            NSLog(@"adding tab");
+
+            [super setDocument:document];
+            PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
+            [[self window] setInitialFirstResponder:[plainTextEditor textView]];
+            
+            [tab setView:[plainTextEditor editorView]];
+            
+            //[I_plainTextEditors addObject:plainTextEditor];
+            NSMutableArray *editors = [[[NSMutableArray alloc] init] autorelease];
+            [editors addObject:plainTextEditor];
+            [I_plainTextEditorsByDocument addObject:editors];
+            I_plainTextEditors = editors;
+            NSLog(@"set I_plainTextEditors to: %@", I_plainTextEditors);
+            
+            //if ([self document]) {
+                //[[self document] windowControllerDidLoadNib:self];
+                [self setInitialRadarStatusForPlainTextEditor:plainTextEditor];
+            //}
+            [plainTextEditor release];
+            [tab release];
+        } else {
+            // document is already there
+            unsigned index = [[self documents] indexOfObject:document];
+            if (index < [I_plainTextEditorsByDocument count]) {
+                I_plainTextEditors = [I_plainTextEditorsByDocument objectAtIndex:index];
+                NSLog(@"set I_plainTextEditors to: %@", I_plainTextEditors);
+            } else {
+                NSLog(@"set I_plainTextEditors to nil");
+                I_plainTextEditors = nil;
+            }
+        }
+    } else {
+        NSLog(@"set I_plainTextEditors to nil");
+        I_plainTextEditors = nil;
+        [I_tabView selectTabViewItemAtIndex:0];
+    }
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:PlainTextDocumentSessionWillChangeNotification
+                                                  object:[self document]];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:PlainTextDocumentSessionDidChangeNotification
+                                                  object:[self document]];
+                                                  
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:PlainTextDocumentParticipantsDataDidChangeNotification
+                                                  object:[self document]];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:TCMMMSessionParticipantsDidChangeNotification
+                                                  object:[(PlainTextDocument *)[self document] session]];
+                                                  
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                   name:TCMMMSessionPendingUsersDidChangeNotification 
+                                                 object:[(PlainTextDocument *)[self document] session]];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:TCMMMSessionDidChangeNotification 
+                                                  object:[(PlainTextDocument *)[self document] session]];
+                                               
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:PlainTextDocumentDidChangeDisplayNameNotification 
+                                                  object:[self document]];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:PlainTextDocumentDidChangeDocumentModeNotification 
+                                                  object:[self document]];        
+                                                   
+    [super setDocument:document];
+    
+    if (document) {
+        [self adjustToolbarToDocumentMode];
+        [self refreshDisplay];
+        [self validateUpperDrawer];
+        [O_participantsView reloadData];
+        [self validateButtons];
+        
+        NSEnumerator *editors = [[self plainTextEditors] objectEnumerator];
+        PlainTextEditor *editor = nil;
+        while ((editor = [editors nextObject])) {
+            [editor updateViews];
+        }
+    
+        DocumentMode *mode = [document documentMode];
+        [self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
+                          rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(sessionWillChange:)
+                                                     name:PlainTextDocumentSessionWillChangeNotification 
+                                                   object:[self document]];
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(sessionDidChange:)
+                                                     name:PlainTextDocumentSessionDidChangeNotification 
+                                                   object:[self document]];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(participantsDataDidChange:)
+                                                     name:PlainTextDocumentParticipantsDataDidChangeNotification 
+                                                   object:[self document]];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(participantsDidChange:)
+                                                     name:TCMMMSessionParticipantsDidChangeNotification 
+                                                   object:[(PlainTextDocument *)[self document] session]];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(pendingUsersDidChange:)
+                                                     name:TCMMMSessionPendingUsersDidChangeNotification 
+                                                   object:[(PlainTextDocument *)[self document] session]];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(MMSessionDidChange:)
+                                                     name:TCMMMSessionDidChangeNotification 
+                                                   object:[(PlainTextDocument *)[self document] session]];
+                                                   
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(displayNameDidChange:)
+                                                     name:PlainTextDocumentDidChangeDisplayNameNotification 
+                                                   object:[self document]];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(adjustToolbarToDocumentMode)
+                                                     name:PlainTextDocumentDidChangeDocumentModeNotification 
+                                                   object:[self document]];        
+    }
+}
+
+- (void)close
+{
+    NSLog(@"%s",__FUNCTION__);
+    // A document is being closed, and trying to close this window controller. Is it the last document for this window controller?
+    NSArray *documents = [self documents];
+    unsigned int oldDocumentCount = [documents count];
+    if (I_documentBeingClosed && oldDocumentCount > 1) {
+        // There are other documents open. Just remove the document being closed from our list.
+        unsigned int documentIndex = [documents indexOfObject:I_documentBeingClosed];
+        [self removeObjectFromDocumentsAtIndex:documentIndex];
+        
+        [I_plainTextEditorsByDocument removeObjectAtIndex:documentIndex];
+        
+        I_documentBeingClosed = nil;
+
+        // If that was the current document (and it probably was) then pick another one. Don't forget that [self documents] has now changed.
+        documents = [self documents];
+        unsigned int newDocumentCount = [documents count];
+        if (documentIndex > (newDocumentCount - 1)) {
+            // We closed the last document in the list. Display the new last document.
+            documentIndex = newDocumentCount - 1;
+        }
+        [self setDocument:[documents objectAtIndex:documentIndex]];
+    } else {
+
+        // Cocoa Bindings makes many things easier. Unfortunately, one of the things it makes easier is creation of reference counting cycles. In Tiger NSWindowController has a feature that keeps bindings to File's Owner, when File's Owner is a window controller, from retaining the window controller in a way that would prevent its deallocation. We're setting up bindings programmatically in -windowDidLoad though, so that feature doesn't kick in, and we have to explicitly unbind to make sure this window controller and everything in the nib it owns get deallocated.
+        //[_graphicView unbind:SKTGraphicViewGridBindingName];
+        //[_graphicView unbind:SKTGraphicViewGraphicsBindingName];
+        //[_graphicView unbind:SKTGraphicViewSelectionIndexesBindingName];
+
+        // That was the last document. Do the regular NSWindowController thing.
+        [self removeObjectFromDocumentsAtIndex:0];
+        
+        [I_plainTextEditorsByDocument removeObjectAtIndex:0];
+        
+        [[DocumentController sharedDocumentController] removeWindowController:self];
+        [super close];
+    }
+}
+
+#pragma mark PSMTabBarControl Delegate
+
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
+{
+    NSLog(@"%s", __FUNCTION__);
+    NSString *identifier = [tabViewItem identifier];
+    NSEnumerator *enumerator = [[self documents] objectEnumerator];
+    id document;
+    while ((document = [enumerator nextObject])) {
+        if ([identifier isEqualToString:[[document session] sessionID]]) {
+            [self setDocument:document];
+            break;
+        }
+    }
+}
+
+- (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem
+{
+    NSLog(@"%s", __FUNCTION__);
+    NSString *identifier = [tabViewItem identifier];
+    NSEnumerator *enumerator = [[self documents] objectEnumerator];
+    id document;
+    while ((document = [enumerator nextObject])) {
+        if ([identifier isEqualToString:[[document session] sessionID]]) {
+            [document close];
+            break;
+        }
+    }
+    
+    return YES;
 }
 
 @end

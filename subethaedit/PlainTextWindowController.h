@@ -3,13 +3,14 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Mar 05 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <AppKit/AppKit.h>
 
 
-@class ParticipantsView,PlainTextEditor;
+@class ParticipantsView, PlainTextEditor, PSMTabBarControl;
+
 extern NSString * const PlainTextWindowToolbarIdentifier;
 extern NSString * const ParticipantsToolbarItemIdentifier;
 extern NSString * const ShiftLeftToolbarItemIdentifier;
@@ -37,6 +38,8 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     NSSplitView *I_editorSplitView;
     NSSplitView *I_dialogSplitView;
     id I_documentDialog;
+    NSTabView        *I_tabView;
+    PSMTabBarControl *I_tabBar;
 
     NSMutableArray *I_plainTextEditors;
     NSMenu *I_contextMenu;
@@ -45,6 +48,12 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
         BOOL zoomFix_defaultFrameHadEqualWidth;
     } I_flags;
     NSTimer *I_dialogAnimationTimer;
+    
+    @private     
+    NSMutableArray *I_documents;
+    NSDocument *I_documentBeingClosed;
+    id I_previousDocument;
+    NSMutableArray *I_plainTextEditorsByDocument;
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
@@ -77,5 +86,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (void)setDocumentDialog:(id)aDocumentDialog;
 - (id)documentDialog;
+
+- (void)documentWillClose:(NSDocument *)document;
 
 @end

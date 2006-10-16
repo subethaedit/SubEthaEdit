@@ -19,6 +19,7 @@
 #import "TextStorage.h"
 #import "NSSavePanelTCMAdditions.h"
 #import "MoreSecurity.h"
+#import "PlainTextWindowController.h"
 
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
@@ -278,6 +279,9 @@ static NSString *tempFileName() {
         I_waitingDocuments = [NSMutableDictionary new];
         I_refCountsOfSeeScriptCommands = [NSMutableDictionary new];
         I_pipingSeeScriptCommands = [NSMutableArray new];
+        
+        I_windowControllers = [NSMutableArray new];
+        I_documentsWithPendingDisplay = [NSMutableArray new];
     }
     return self;
 }
@@ -291,7 +295,43 @@ static NSString *tempFileName() {
     [I_waitingDocuments release];
     [I_refCountsOfSeeScriptCommands release];
     [I_pipingSeeScriptCommands release];
+    
+    [I_documentsWithPendingDisplay release];
+    [I_windowControllers release];
+    
     [super dealloc];
+}
+
+- (void)displayPendingDocuments
+{
+    // How many documents need displaying?
+    unsigned int documentCount = [I_documentsWithPendingDisplay count];
+    if (documentCount == 1) {
+        // Just one. Do what NSDocumentController would have done if this class didn't override -openDocumentWithContentsOfURL:display:error:.
+        NSDocument *document = [I_documentsWithPendingDisplay objectAtIndex:0];
+        [document makeWindowControllers];
+        [document showWindows];
+    } else if (documentCount > 0) {
+        // More than one. Instantiate a window controller that can display all of them.
+        PlainTextWindowController *windowController = [[PlainTextWindowController alloc] init];
+
+        // "Add" it to each of the documents.
+        unsigned int index;
+        for (index = 0; index < documentCount; index++) {
+            [[I_documentsWithPendingDisplay objectAtIndex:index] addWindowController:windowController];
+        }
+
+        // Make the first document the current one.
+        [windowController setDocument:[I_documentsWithPendingDisplay objectAtIndex:0]];
+
+        // Show the window.
+        [windowController showWindow:self];
+
+        // Release the window controller. It will be deallocated when all of the documents have been closed.
+        [windowController release];
+
+    } // else something inexplicable has happened. Ignore it (instead of crashing).
+    [I_documentsWithPendingDisplay removeAllObjects];
 }
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession {
@@ -427,14 +467,57 @@ static NSString *tempFileName() {
     (void)[alert runModal];
     return YES;
 }
- 
+
+
+
+- (PlainTextWindowController *)activeWindowController {
+    int count = [I_windowControllers count];
+    if (count == 0) {
+        PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
+        [I_windowControllers addObject:controller];
+        [controller release];
+        count++;
+    }
+    PlainTextWindowController *wc = nil;
+    while (--count >= 0) {
+        wc = [I_windowControllers objectAtIndex:count];
+        if ([[wc window] isMainWindow]) break;
+    }
+    return wc;
+}
+
+- (void)removeWindowController:(id)aWindowController {
+    [I_windowControllers removeObject:[[aWindowController retain] autorelease]];
+}
+
+
+
+
 - (id)openDocumentWithContentsOfFile:(NSString *)fileName display:(BOOL)flag {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
     
-    NSDocument *document = [super openDocumentWithContentsOfFile:fileName display:flag];
-    if (document && flag) {
-        [(PlainTextDocument *)document handleOpenDocumentEvent];
+    //NSDocument *document = [super openDocumentWithContentsOfFile:fileName display:flag];
+    //if (document && flag) {
+    #warning: call handleOpenDocumentEvent
+    //    [(PlainTextDocument *)document handleOpenDocumentEvent];
+    //}
+    
+    id document;
+    if ([self documentForFileName:fileName] || !flag) {
+        document = [super openDocumentWithContentsOfFile:fileName display:flag];
+    } else {
+        // Open the document, but don't display it yet.
+        document = [super openDocumentWithContentsOfFile:fileName display:NO];
+        if (document) {
+            // Schedule the display of the document with all of the others in a batch.
+            if ([I_documentsWithPendingDisplay count] == 0) {
+                [self performSelector:@selector(displayPendingDocuments) withObject:nil afterDelay:0.0f];
+            }
+            [I_documentsWithPendingDisplay addObject:document];
+        }
+
     }
+        
     return document;
 }
 

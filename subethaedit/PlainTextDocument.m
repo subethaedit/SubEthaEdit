@@ -102,6 +102,20 @@ NSString * const PlainTextDocumentDidSaveNotification =
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
+
+// Something that's used by our override of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: down below.
+@interface PlainTextDocumentShouldCloseContext : NSObject {
+    @public
+    PlainTextWindowController *windowController;
+    id originalDelegate;
+    SEL originalSelector;
+    void *originalContext;
+}
+@end
+@implementation PlainTextDocumentShouldCloseContext
+@end
+
+
 @interface PlainTextDocument (PlainTextDocumentPrivateAdditions)
 - (void)TCM_invalidateDefaultParagraphStyle;
 - (void)TCM_invalidateTextAttributes;
@@ -828,7 +842,8 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)dealloc {
-
+    NSLog(@"%s", __FUNCTION__);
+    
     if (I_authRef != NULL) {
         (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
         I_authRef = NULL;
@@ -1381,9 +1396,100 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+
+#pragma mark Overrides of NSDocument Methods to Support MultiDocument Windows
+
+static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
+
 - (void)makeWindowControllers {
-    [self addWindowController:[[PlainTextWindowController new] autorelease]];
+    NSLog(@"%s", __FUNCTION__);
+    //[self addWindowController:[[PlainTextWindowController new] autorelease]];
+    [self addWindowController:[[DocumentController sharedDocumentController] activeWindowController]];
 }
+
+- (void)addWindowController:(NSWindowController *)windowController 
+{
+    // -[NSDocument addWindowController:] does something foul: it checks to see if the window controller already has a document, and if so sends that other document a -removeWindowController:windowController message. That's the wrong thing to do (it's -[NSWindowController setDocument:]'s job to worry about that) and interferes with our support for window controllers that display multiple documents. Prevent it.
+    PlainTextDocumentIgnoreRemoveWindowController = YES;
+    //[windowController addDocument:self];
+    [super addWindowController:windowController];
+    PlainTextDocumentIgnoreRemoveWindowController = NO;
+}
+
+- (void)removeWindowController:(NSWindowController *)windowController
+{
+    if (!PlainTextDocumentIgnoreRemoveWindowController) {
+        [super removeWindowController:windowController];
+    }
+
+    if ([[self windowControllers] count] == 0) {
+        // terminate syntax coloring
+        I_flags.highlightSyntax = NO;
+        [I_symbolUpdateTimer invalidate];
+        [I_webPreviewDelayedRefreshTimer invalidate];
+        [self TCM_sendODBCloseEvent];
+        if (I_authRef != NULL) {
+            (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
+            I_authRef = NULL;
+        }
+    } else {
+        // if doing always, we delay the dealloc method ad inifitum on quit
+        [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
+    }
+}
+
+- (void)shouldCloseWindowController:(NSWindowController *)windowController delegate:(id)delegate shouldCloseSelector:(SEL)selector contextInfo:(void *)contextInfo 
+{
+    // NSWindow invokes this directly; there's nothing we can override in NSWindowController instead.
+
+    // Do the regular NSDocument thing, but take control afterward if it's a multidocument window controller. To do this we have to record the original parameters of this method invocation.
+    if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+        PlainTextDocumentShouldCloseContext *replacementContext = [[PlainTextDocumentShouldCloseContext alloc] init];
+        replacementContext->windowController = (PlainTextWindowController *)windowController;
+        replacementContext->originalDelegate = delegate;
+        replacementContext->originalSelector = selector;
+        replacementContext->originalContext = contextInfo;
+        delegate = self;
+        selector = @selector(thisDocument:shouldClose:contextInfo:);
+        contextInfo = replacementContext;
+    }
+    [super shouldCloseWindowController:windowController delegate:delegate shouldCloseSelector:selector contextInfo:contextInfo];
+}
+
+
+- (void)thisDocument:(NSDocument *)document shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
+{
+    PlainTextDocumentShouldCloseContext *replacementContext = (PlainTextDocumentShouldCloseContext *)contextInfo;
+
+    // Always tell the original invoker of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: not to close the window controller (it's actually the NSWindow in Tiger and every earlier release). We might not want the window controller to be closed. Even if we want it to be closed, we want to do it by invoking our override of -close, which will always cause the window controller to get a -close message, which is necessary for some cleanup.
+    // Sketch 2 is still a work in progress! Using objc_msgSend() like this isn't really considered exemplary.
+    objc_msgSend(replacementContext->originalDelegate, replacementContext->originalSelector, document, NO, replacementContext->originalContext);
+    if (shouldClose) {
+        [self close];
+    }
+    [replacementContext release];
+}
+
+
+- (void)close
+{
+    NSLog(@"%s",__FUNCTION__);
+    // The window controller are going to get -close messages of their own when we invoke [super close]. If one of them is a multidocument window controller tell it who the -close message is coming from.
+    NSArray *windowControllers = [self windowControllers];
+    unsigned int windowControllerCount = [windowControllers count];
+    unsigned int index;
+    for (index = 0; index<windowControllerCount; index++) {
+        NSWindowController *windowController = [windowControllers objectAtIndex:index];
+        if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+            [(PlainTextWindowController *)windowController documentWillClose:self];
+        }
+    }
+
+    // Do the regular NSDocument thing.
+    [super close];
+}
+
+#pragma mark -
 
 - (BOOL)isProxyDocument {
     return ((I_documentProxyWindowController != nil) || I_flags.isReceivingContent);
@@ -1420,24 +1526,6 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)proxyWindowWillClose {
     [self killProxyWindowController];
-}
-
-- (void)removeWindowController:(NSWindowController *)windowController {
-    [super removeWindowController:windowController];
-    if ([[self windowControllers] count] == 0) {
-        // terminate syntax coloring
-        I_flags.highlightSyntax = NO;
-        [I_symbolUpdateTimer invalidate];
-        [I_webPreviewDelayedRefreshTimer invalidate];
-        [self TCM_sendODBCloseEvent];
-        if (I_authRef != NULL) {
-            (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
-            I_authRef = NULL;
-        }
-    } else {
-        // if doing always, we delay the dealloc method ad inifitum on quit
-        [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
-    }
 }
 
 - (void)TCM_validateLineEndings {
@@ -1589,6 +1677,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
+    NSLog(@"%s", __FUNCTION__);
     [super windowControllerDidLoadNib:aController];
     DocumentMode *mode=[self documentMode];
     [(PlainTextWindowController *)aController setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];

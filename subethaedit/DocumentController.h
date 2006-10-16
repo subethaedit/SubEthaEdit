@@ -12,6 +12,8 @@
 @class EncodingPopUpButton;
 @class DocumentModePopUpButton;
 @class DocumentMode;
+@class PlainTextWindowController;
+
 
 @interface DocumentController : NSDocumentController {
     IBOutlet NSView *O_openPanelAccessoryView;
@@ -40,6 +42,10 @@
     NSMutableArray *I_pipingSeeScriptCommands;
     
     NSString *I_currentModeFileName;
+    
+    @private
+    NSMutableArray *I_documentsWithPendingDisplay;
+    NSMutableArray *I_windowControllers;
 }
 
 + (DocumentController *)sharedInstance;
@@ -65,5 +71,8 @@
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)handlePrintScriptCommand:(NSScriptCommand *)command;
 - (id)handleSeeScriptCommand:(NSScriptCommand *)command;
+
+- (PlainTextWindowController *)activeWindowController;
+- (void)removeWindowController:(id)aWindowController;
 
 @end
