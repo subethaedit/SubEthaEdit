@@ -38,7 +38,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     NSSplitView *I_editorSplitView;
     NSSplitView *I_dialogSplitView;
     id I_documentDialog;
-    NSTabView        *I_tabView;
+    NSTabView *I_tabView;
     PSMTabBarControl *I_tabBar;
 
     NSMutableArray *I_plainTextEditors;
@@ -51,9 +51,8 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     
     @private     
     NSMutableArray *I_documents;
+    NSMutableArray *I_tabContexts;
     NSDocument *I_documentBeingClosed;
-    id I_previousDocument;
-    NSMutableArray *I_plainTextEditorsByDocument;
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
@@ -88,5 +87,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (id)documentDialog;
 
 - (void)documentWillClose:(NSDocument *)document;
+
+- (NSArray *)documents;
 
 @end

@@ -1265,6 +1265,8 @@ subethaedit/PlainTextEditor.h -text
 subethaedit/PlainTextEditor.m -text
 subethaedit/PlainTextWindowController.h -text
 subethaedit/PlainTextWindowController.m -text
+subethaedit/PlainTextWindowControllerTabContext.h -text
+subethaedit/PlainTextWindowControllerTabContext.m -text
 subethaedit/PointsToDisplayValueTransformer.h -text
 subethaedit/PointsToDisplayValueTransformer.m -text
 subethaedit/PopUpButton.h -text

@@ -311,6 +311,7 @@ static NSString *tempFileName() {
         NSDocument *document = [I_documentsWithPendingDisplay objectAtIndex:0];
         [document makeWindowControllers];
         [document showWindows];
+        [(PlainTextDocument *)document handleOpenDocumentEvent];
     } else if (documentCount > 0) {
         // More than one. Instantiate a window controller that can display all of them.
         PlainTextWindowController *windowController = [[PlainTextWindowController alloc] init];
@@ -319,6 +320,8 @@ static NSString *tempFileName() {
         unsigned int index;
         for (index = 0; index < documentCount; index++) {
             [[I_documentsWithPendingDisplay objectAtIndex:index] addWindowController:windowController];
+            [(PlainTextDocument *)[I_documentsWithPendingDisplay objectAtIndex:index] handleOpenDocumentEvent];
+
         }
 
         // Make the first document the current one.
@@ -498,7 +501,6 @@ static NSString *tempFileName() {
     
     //NSDocument *document = [super openDocumentWithContentsOfFile:fileName display:flag];
     //if (document && flag) {
-    #warning: call handleOpenDocumentEvent
     //    [(PlainTextDocument *)document handleOpenDocumentEvent];
     //}
     
