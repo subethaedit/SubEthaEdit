@@ -1272,8 +1272,9 @@ static NSString *tempFileName(NSString *origPath) {
 
 
 - (IBAction)newView:(id)aSender {
-    if (!I_flags.isReceivingContent && [[self windowControllers] count]>0) {
-        PlainTextWindowController *controller=[PlainTextWindowController new];
+    if (!I_flags.isReceivingContent && [[self windowControllers] count] > 0) {
+        PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
+        [controller setIsMultiDocument:NO];
         [self addWindowController:controller];
         [controller showWindow:aSender];
         [controller release];
@@ -1443,7 +1444,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     // NSWindow invokes this directly; there's nothing we can override in NSWindowController instead.
 
     // Do the regular NSDocument thing, but take control afterward if it's a multidocument window controller. To do this we have to record the original parameters of this method invocation.
-    if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+    if ([(PlainTextWindowController *)windowController isMultiDocument]) {
         PlainTextDocumentShouldCloseContext *replacementContext = [[PlainTextDocumentShouldCloseContext alloc] init];
         replacementContext->windowController = (PlainTextWindowController *)windowController;
         replacementContext->originalDelegate = delegate;
@@ -1480,7 +1481,8 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     unsigned int index;
     for (index = 0; index<windowControllerCount; index++) {
         NSWindowController *windowController = [windowControllers objectAtIndex:index];
-        if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+        //if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+        if ([(PlainTextWindowController *)windowController isMultiDocument]) {
             [(PlainTextWindowController *)windowController documentWillClose:self];
         }
     }

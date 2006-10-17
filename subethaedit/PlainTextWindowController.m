@@ -93,6 +93,7 @@ enum {
 - (id)init {
     if ((self = [super initWithWindowNibName:@"PlainTextWindow"])) {
         I_tabContexts = [[NSMutableArray alloc] init];
+        I_isMultiDocument = YES;
         I_contextMenu = [NSMenu new];
         NSMenuItem *item=nil;
         item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuFollow",@"Follow user entry for Participant context menu") action:@selector(followUser:) keyEquivalent:@""];
@@ -130,8 +131,8 @@ enum {
     [[[self window] toolbar] setDelegate:nil];
     [O_participantsView setWindowController:nil];
     [O_participantsView release];
-    //[I_plainTextEditors makeObjectsPerformSelector:@selector(setWindowController:) withObject:nil];
     [I_tabContexts release];
+    I_plainTextEditors = nil;
     [I_editorSplitView release];
     I_editorSplitView = nil;
     [I_dialogSplitView release];
@@ -1665,6 +1666,14 @@ enum {
     [(PlainTextDocument *)[self document] adjustModeMenu];
 }
 
+- (void)setIsMultiDocument:(BOOL)flag {
+    I_isMultiDocument = flag;
+}
+
+- (BOOL)isMultiDocument {
+    return I_isMultiDocument;
+}
+
 #pragma mark -
 #pragma mark  A Method That PlainTextDocument Invokes 
 
@@ -1904,6 +1913,7 @@ enum {
         [self removeObjectFromDocumentsAtIndex:0];
         [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:0]];
         [I_tabContexts removeObjectAtIndex:0];
+        [self setDocument:nil];
         
         [[DocumentController sharedDocumentController] removeWindowController:self];
         [super close];

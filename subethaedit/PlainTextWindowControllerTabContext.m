@@ -24,6 +24,8 @@
 
 - (void)dealloc
 {
+    NSLog(@"%@ %s", [self description], __FUNCTION__);
+    [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowController:) withObject:nil];
     [_plainTextEditors release];
     [_editorSplitView release];
     [_dialogSplitView release];
