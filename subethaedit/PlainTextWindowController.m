@@ -81,17 +81,6 @@ enum {
 };
 
 
-@interface PlainTextWindowControllerDragTabContext : NSObject {
-    @public
-    PlainTextWindowController *windowController;
-    PlainTextWindowControllerTabContext *tabContext;
-    PlainTextDocument *document;
-}
-@end
-@implementation PlainTextWindowControllerDragTabContext
-@end
-
-
 @interface PlainTextWindowController (PlainTextWindowControllerPrivateAdditions)
 
 - (void)validateUpperDrawer;
@@ -145,9 +134,7 @@ enum {
     [O_participantsView release];
     [I_tabContexts release];
     I_plainTextEditors = nil;
-    [I_editorSplitView release];
     I_editorSplitView = nil;
-    [I_dialogSplitView release];
     I_dialogSplitView = nil;
     I_documentDialog = nil;
     
@@ -223,47 +210,6 @@ enum {
     }
     [menu setDelegate:self];
     
-    /*
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(sessionWillChange:)
-                                                 name:PlainTextDocumentSessionWillChangeNotification 
-                                               object:[self document]];
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(sessionDidChange:)
-                                                 name:PlainTextDocumentSessionDidChangeNotification 
-                                               object:[self document]];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(participantsDataDidChange:)
-                                                 name:PlainTextDocumentParticipantsDataDidChangeNotification 
-                                               object:[self document]];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(participantsDidChange:)
-                                                 name:TCMMMSessionParticipantsDidChangeNotification 
-                                               object:[(PlainTextDocument *)[self document] session]];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(pendingUsersDidChange:)
-                                                 name:TCMMMSessionPendingUsersDidChangeNotification 
-                                               object:[(PlainTextDocument *)[self document] session]];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(MMSessionDidChange:)
-                                                 name:TCMMMSessionDidChangeNotification 
-                                               object:[(PlainTextDocument *)[self document] session]];
-                                               
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(displayNameDidChange:)
-                                                 name:PlainTextDocumentDidChangeDisplayNameNotification 
-                                               object:[self document]];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(adjustToolbarToDocumentMode)
-                                                 name:PlainTextDocumentDidChangeDocumentModeNotification 
-                                               object:[self document]];
-    */
-
 
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(validateUpperDrawer)
@@ -1275,7 +1221,7 @@ enum {
             NSView *tabItemView = [[tab view] retain];
             NSView *dialogView = [aDocumentDialog mainView];
             //I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
-            I_dialogSplitView = [[SplitView alloc] initWithFrame:[tabItemView frame]];
+            I_dialogSplitView = [[[SplitView alloc] initWithFrame:[tabItemView frame]] autorelease];
             
             NSLog(@"add dialogSplitView");
             int index = [[self documents] indexOfObject:[self document]];
@@ -1348,7 +1294,7 @@ enum {
         PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:NO];
         [I_plainTextEditors addObject:plainTextEditor];
         [plainTextEditor release];
-        I_editorSplitView = [[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]];
+        I_editorSplitView = [[[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]] autorelease];
 
         NSLog(@"add editorSplitView");
         int index = [[self documents] indexOfObject:[self document]];
@@ -1775,7 +1721,6 @@ enum {
             PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
             [[self window] setInitialFirstResponder:[plainTextEditor textView]];
                         
-            //[I_plainTextEditors addObject:plainTextEditor];
             [[tabContext plainTextEditors] addObject:plainTextEditor];
             I_plainTextEditors = [tabContext plainTextEditors];
             NSLog(@"set I_plainTextEditors to: %@", I_plainTextEditors);
@@ -1864,8 +1809,8 @@ enum {
         }
     
         DocumentMode *mode = [(PlainTextDocument *)document documentMode];
-        [self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
-                          rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
+        //[self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
+        //                  rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(sessionWillChange:)
@@ -1998,6 +1943,8 @@ enum {
 
 - (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned int *)styleMask
 {
+    NSLog(@"%s %@", __FUNCTION__, [tabViewItem label]);
+    
 	// grabs whole window image
 	NSImage *viewImage = [[[NSImage alloc] init] autorelease];
 	NSRect contentFrame = [[[self window] contentView] frame];
@@ -2054,8 +2001,7 @@ enum {
 	NSLog(@"newTabBarForDraggedTabViewItem: %@ atPoint: %@", [tabViewItem label], NSStringFromPoint(point));
 	
 	//create a new window controller with no tab items
-	PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
-    NSLog(@"created new windowController: %@", controller);
+	PlainTextWindowController *controller = [[[PlainTextWindowController alloc] init] autorelease];
     id <PSMTabStyle> style = (id <PSMTabStyle>)[[aTabView delegate] style];
 	
 	NSRect windowFrame = [[controller window] frame];
@@ -2067,36 +2013,6 @@ enum {
 	
     [[DocumentController sharedInstance] addWindowController:controller];
 
-    /*
-    NSString *identifier = [tabViewItem identifier];
-    NSEnumerator *enumerator = [[self documents] objectEnumerator];
-    id document;
-    BOOL found = NO;
-    while ((document = [enumerator nextObject])) {
-        if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
-            found = YES;
-            break;
-        }
-    }
-    if (found) {
-        unsigned int documentIndex = [[self documents] indexOfObject:document];
-        [[DocumentController sharedInstance] addWindowController:controller];
-        PlainTextWindowControllerDragTabContext *dragTabContext = [[PlainTextWindowControllerDragTabContext alloc] init];
-        dragTabContext->windowController = controller;
-        dragTabContext->tabContext = [[I_tabContexts objectAtIndex:documentIndex] retain];
-        dragTabContext->document = [document retain];
-        
-        [document removeWindowController:self];
-        [self removeObjectFromDocumentsAtIndex:documentIndex];
-        [I_tabContexts removeObjectAtIndex:documentIndex];
-        
-        I_dragTabContext = dragTabContext;
-        NSLog(@"prepared PlainTextWindowControllerDragTabContext: %@", dragTabContext);
-    } else {
-        return nil;
-    }
-    */
-    
 	return [controller tabBar];
 }
 
@@ -2126,11 +2042,7 @@ enum {
             [self removeObjectFromDocumentsAtIndex:documentIndex];
             [I_tabContexts removeObjectAtIndex:documentIndex];
             
-            enumerator = [[tabContext plainTextEditors] objectEnumerator];
-            PlainTextEditor *editor;
-            while ((editor = [enumerator nextObject])) {
-                [editor setWindowController:windowController];
-            }
+            [tabContext setWindowController:windowController];
             [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
             [windowController insertObject:tabContext inTabContextsAtIndex:[[windowController tabContexts] count]];
             [document addWindowController:windowController];
@@ -2139,38 +2051,6 @@ enum {
             [tabContext release];
             [windowController setDocument:document];
         }
-        
-        
-        /*
-        // prepare it everytime and overwrite it with each try? "leaks" one context at most
-        // do also removal from old(this) windowcontroller here?
-        PlainTextWindowControllerDragTabContext *dragTabContext = (PlainTextWindowControllerDragTabContext *)I_dragTabContext;
-        PlainTextWindowController *windowController = dragTabContext->windowController;
-        PlainTextDocument *document = dragTabContext->document;
-        PlainTextWindowControllerTabContext *tabContext = dragTabContext->tabContext;
-    
-        NSEnumerator *enumerator = [[tabContext plainTextEditors] objectEnumerator];
-        PlainTextEditor *editor;
-        while ((editor = [enumerator nextObject])) {
-            [editor setWindowController:windowController];
-        }
-        [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
-        [windowController insertObject:tabContext inTabContextsAtIndex:[[windowController tabContexts] count]];
-        [document addWindowController:windowController];
-            
-        //[document removeWindowController:self];
-        //unsigned int documentIndex = [[self documents] indexOfObject:document];
-        //[self removeObjectFromDocumentsAtIndex:documentIndex];
-        //[I_tabContexts removeObjectAtIndex:documentIndex];
-        
-        //[windowController setDocument:document];
-        [document release];
-        [tabContext release];
-        [I_dragTabContext release];
-        I_dragTabContext = nil;
-        */
-        NSLog(@"Old windowController %@\nwindow: %@\ndocuments: %@\ntabContexts: %@", self, [self window], [self documents], [self tabContexts]);
-        NSLog(@"New windowController %@\nwindow: %@\ndocuments: %@\ntabContexts: %@", windowController, [windowController window], [windowController documents], [windowController tabContexts]);
     }
 }
 

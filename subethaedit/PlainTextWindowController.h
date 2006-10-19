@@ -57,7 +57,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     NSMutableArray *I_tabContexts;
     NSDocument *I_documentBeingClosed;
     BOOL I_isMultiDocument;
-    id I_dragTabContext;
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;

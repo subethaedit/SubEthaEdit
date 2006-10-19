@@ -7,6 +7,7 @@
 //
 
 #import "PlainTextWindowControllerTabContext.h"
+#import "PlainTextWindowController.h"
 
 
 @implementation PlainTextWindowControllerTabContext
@@ -14,8 +15,7 @@
 - (id)init
 {
     self = [super init];
-    if (self) 
-    {
+    if (self) {
         _plainTextEditors = [[NSMutableArray alloc] init];
     }
     return self;
@@ -85,6 +85,26 @@
 - (id)documentDialog
 {
     return _documentDialog;
+}
+
+
+- (void)setWindowController:(PlainTextWindowController *)windowController
+{
+    NSEnumerator *enumerator = [_plainTextEditors objectEnumerator];
+    id editor;
+    while ((editor = [enumerator nextObject])) {
+        [editor setWindowController:windowController];
+    }
+}
+
+
+- (PlainTextWindowController *)windowController
+{
+    if ([_plainTextEditors count] > 0) {
+        return [[_plainTextEditors objectAtIndex:0] windowController];
+    } else {
+        return nil;
+    }
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class PlainTextWindowController;
+
 
 @interface PlainTextWindowControllerTabContext : NSObject {
     @private
@@ -27,5 +29,8 @@
 
 - (void)setDocumentDialog:(id)dialog;
 - (id)documentDialog;
+
+- (void)setWindowController:(PlainTextWindowController *)windowController;
+- (PlainTextWindowController *)windowController;
 
 @end
