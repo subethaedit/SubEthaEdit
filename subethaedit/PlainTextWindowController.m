@@ -30,6 +30,7 @@
 #import "DocumentController.h"
 #import "PlainTextWindowControllerTabContext.h"
 #import <PSMTabBarControl/PSMTabBarControl.h>
+#import <PSMTabBarControl/PSMTabStyle.h>
 
 
 NSString * const PlainTextWindowToolbarIdentifier = 
@@ -78,6 +79,17 @@ enum {
     ParticipantContextMenuTagReadOnly,
     ParticipantContextMenuTagKickDeny
 };
+
+
+@interface PlainTextWindowControllerDragTabContext : NSObject {
+    @public
+    PlainTextWindowController *windowController;
+    PlainTextWindowControllerTabContext *tabContext;
+    PlainTextDocument *document;
+}
+@end
+@implementation PlainTextWindowControllerDragTabContext
+@end
 
 
 @interface PlainTextWindowController (PlainTextWindowControllerPrivateAdditions)
@@ -1666,12 +1678,19 @@ enum {
     [(PlainTextDocument *)[self document] adjustModeMenu];
 }
 
+#pragma mark -
+
 - (void)setIsMultiDocument:(BOOL)flag {
     I_isMultiDocument = flag;
 }
 
 - (BOOL)isMultiDocument {
     return I_isMultiDocument;
+}
+
+- (PSMTabBarControl *)tabBar
+{
+	return I_tabBar;
 }
 
 #pragma mark -
@@ -1707,6 +1726,16 @@ enum {
     [I_documents removeObjectAtIndex:index];
 }
 
+- (void)insertObject:(PlainTextWindowControllerTabContext *)tabContext inTabContextsAtIndex:(unsigned int)index
+{
+    NSLog(@"%s", __FUNCTION__);
+    [I_tabContexts insertObject:tabContext atIndex:index];
+}
+
+- (void)removeObjectFromTabContextsAtIndex:(unsigned int)index
+{
+    [I_tabContexts removeObjectAtIndex:index];
+}
 
 #pragma mark Simple Property Getting 
 
@@ -1720,11 +1749,16 @@ enum {
     return I_documents;
 }
 
+- (NSArray *)tabContexts
+{
+    return I_tabContexts;
+}
+
 #pragma mark Overrides of NSWindowController Methods 
 
 - (void)setDocument:(NSDocument *)document 
 {
-    NSLog(@"%s %@", __FUNCTION__, document);
+    NSLog(@"%s %@ %@", __FUNCTION__, document, self);
     [super setDocument:document];
     // A document has been told that this window controller belongs to it.
 
@@ -1924,7 +1958,7 @@ enum {
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%s %@", __FUNCTION__, self);
     NSString *identifier = [tabViewItem identifier];
     NSEnumerator *enumerator = [[self documents] objectEnumerator];
     id document;
@@ -1950,6 +1984,201 @@ enum {
     }
     
     return YES;
+}
+
+- (BOOL)tabView:(NSTabView*)aTabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(PSMTabBarControl *)tabBarControl
+{
+	return YES;
+}
+
+- (BOOL)tabView:(NSTabView*)aTabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
+{
+	return YES;
+}
+
+- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned int *)styleMask
+{
+	// grabs whole window image
+	NSImage *viewImage = [[[NSImage alloc] init] autorelease];
+	NSRect contentFrame = [[[self window] contentView] frame];
+	[[[self window] contentView] lockFocus];
+	NSBitmapImageRep *viewRep = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:contentFrame] autorelease];
+	[viewImage addRepresentation:viewRep];
+	[[[self window] contentView] unlockFocus];
+	
+    // grabs snapshot of dragged tabViewItem's view (represents content being dragged)
+	NSView *viewForImage = [tabViewItem view];
+	NSRect viewRect = [viewForImage frame];
+	NSImage *tabViewImage = [[[NSImage alloc] initWithSize:viewRect.size] autorelease];
+	[tabViewImage lockFocus];
+	[viewForImage drawRect:[viewForImage bounds]];
+	[tabViewImage unlockFocus];
+	
+	[viewImage lockFocus];
+	NSPoint tabOrigin = [I_tabView frame].origin;
+	tabOrigin.x += 10;
+	tabOrigin.y += 13;
+	[tabViewImage compositeToPoint:tabOrigin operation:NSCompositeSourceOver];
+	[viewImage unlockFocus];
+	
+	//draw over where the tab bar would usually be
+	NSRect tabFrame = [I_tabBar frame];
+	[viewImage lockFocus];
+	[[NSColor windowBackgroundColor] set];
+	NSRectFill(tabFrame);
+	//draw the background flipped, which is actually the right way up
+	NSAffineTransform *transform = [NSAffineTransform transform];
+	[transform scaleXBy:1.0 yBy:-1.0];
+	[transform concat];
+	tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
+	[(id <PSMTabStyle>)[[aTabView delegate] style] drawBackgroundInRect:tabFrame];
+	[transform invert];
+	[transform concat];
+	
+	[viewImage unlockFocus];
+	
+	if ([[aTabView delegate] orientation] == PSMTabBarHorizontalOrientation) {
+		offset->width = [(id <PSMTabStyle>)[[aTabView delegate] style] leftMarginForTabBarControl];
+		offset->height = 22;
+	} else {
+		offset->width = 0;
+		offset->height = 22 + [(id <PSMTabStyle>)[[aTabView delegate] style] leftMarginForTabBarControl];
+	}
+	*styleMask = NSTitledWindowMask;
+	
+	return viewImage;
+}
+
+- (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point
+{
+	NSLog(@"newTabBarForDraggedTabViewItem: %@ atPoint: %@", [tabViewItem label], NSStringFromPoint(point));
+	
+	//create a new window controller with no tab items
+	PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
+    NSLog(@"created new windowController: %@", controller);
+    id <PSMTabStyle> style = (id <PSMTabStyle>)[[aTabView delegate] style];
+	
+	NSRect windowFrame = [[controller window] frame];
+	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height;
+	point.x -= [style leftMarginForTabBarControl];
+	
+	[[controller window] setFrameTopLeftPoint:point];
+	[[controller tabBar] setStyle:style];
+	
+    [[DocumentController sharedInstance] addWindowController:controller];
+
+    /*
+    NSString *identifier = [tabViewItem identifier];
+    NSEnumerator *enumerator = [[self documents] objectEnumerator];
+    id document;
+    BOOL found = NO;
+    while ((document = [enumerator nextObject])) {
+        if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+            found = YES;
+            break;
+        }
+    }
+    if (found) {
+        unsigned int documentIndex = [[self documents] indexOfObject:document];
+        [[DocumentController sharedInstance] addWindowController:controller];
+        PlainTextWindowControllerDragTabContext *dragTabContext = [[PlainTextWindowControllerDragTabContext alloc] init];
+        dragTabContext->windowController = controller;
+        dragTabContext->tabContext = [[I_tabContexts objectAtIndex:documentIndex] retain];
+        dragTabContext->document = [document retain];
+        
+        [document removeWindowController:self];
+        [self removeObjectFromDocumentsAtIndex:documentIndex];
+        [I_tabContexts removeObjectAtIndex:documentIndex];
+        
+        I_dragTabContext = dragTabContext;
+        NSLog(@"prepared PlainTextWindowControllerDragTabContext: %@", dragTabContext);
+    } else {
+        return nil;
+    }
+    */
+    
+	return [controller tabBar];
+}
+
+- (void)tabView:(NSTabView *)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
+{
+	NSLog(@"didDropTabViewItem: %@ inTabBar: %@", [tabViewItem label], tabBarControl);
+    
+    if (![tabBarControl isEqual:I_tabBar]) {
+        
+        PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
+        NSString *identifier = [tabViewItem identifier];
+        NSEnumerator *enumerator = [[self documents] objectEnumerator];
+        id document;
+        BOOL found = NO;
+        while ((document = [enumerator nextObject])) {
+            if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+                found = YES;
+                break;
+            }
+        }
+        if (found) {
+            unsigned int documentIndex = [[self documents] indexOfObject:document];
+            PlainTextWindowControllerTabContext *tabContext = [I_tabContexts objectAtIndex:documentIndex];
+            [document retain];
+            [tabContext retain];
+            [document removeWindowController:self];
+            [self removeObjectFromDocumentsAtIndex:documentIndex];
+            [I_tabContexts removeObjectAtIndex:documentIndex];
+            
+            enumerator = [[tabContext plainTextEditors] objectEnumerator];
+            PlainTextEditor *editor;
+            while ((editor = [enumerator nextObject])) {
+                [editor setWindowController:windowController];
+            }
+            [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
+            [windowController insertObject:tabContext inTabContextsAtIndex:[[windowController tabContexts] count]];
+            [document addWindowController:windowController];
+
+            [document release];
+            [tabContext release];
+            [windowController setDocument:document];
+        }
+        
+        
+        /*
+        // prepare it everytime and overwrite it with each try? "leaks" one context at most
+        // do also removal from old(this) windowcontroller here?
+        PlainTextWindowControllerDragTabContext *dragTabContext = (PlainTextWindowControllerDragTabContext *)I_dragTabContext;
+        PlainTextWindowController *windowController = dragTabContext->windowController;
+        PlainTextDocument *document = dragTabContext->document;
+        PlainTextWindowControllerTabContext *tabContext = dragTabContext->tabContext;
+    
+        NSEnumerator *enumerator = [[tabContext plainTextEditors] objectEnumerator];
+        PlainTextEditor *editor;
+        while ((editor = [enumerator nextObject])) {
+            [editor setWindowController:windowController];
+        }
+        [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
+        [windowController insertObject:tabContext inTabContextsAtIndex:[[windowController tabContexts] count]];
+        [document addWindowController:windowController];
+            
+        //[document removeWindowController:self];
+        //unsigned int documentIndex = [[self documents] indexOfObject:document];
+        //[self removeObjectFromDocumentsAtIndex:documentIndex];
+        //[I_tabContexts removeObjectAtIndex:documentIndex];
+        
+        //[windowController setDocument:document];
+        [document release];
+        [tabContext release];
+        [I_dragTabContext release];
+        I_dragTabContext = nil;
+        */
+        NSLog(@"Old windowController %@\nwindow: %@\ndocuments: %@\ntabContexts: %@", self, [self window], [self documents], [self tabContexts]);
+        NSLog(@"New windowController %@\nwindow: %@\ndocuments: %@\ntabContexts: %@", windowController, [windowController window], [windowController documents], [windowController tabContexts]);
+    }
+}
+
+
+- (void)tabView:(NSTabView *)aTabView closeWindowForLastTabViewItem:(NSTabViewItem *)tabViewItem
+{
+	NSLog(@"closeWindowForLastTabViewItem: %@", [tabViewItem label]);
+	[[self window] close];
 }
 
 @end

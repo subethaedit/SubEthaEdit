@@ -34,6 +34,12 @@
 }
 
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@, plainTextEditors: %@", [super description], _plainTextEditors];
+}
+
+
 - (NSMutableArray *)plainTextEditors
 {
     return _plainTextEditors;

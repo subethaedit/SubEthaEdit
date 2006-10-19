@@ -73,6 +73,7 @@
 - (id)handleSeeScriptCommand:(NSScriptCommand *)command;
 
 - (PlainTextWindowController *)activeWindowController;
+- (void)addWindowController:(id)aWindowController;
 - (void)removeWindowController:(id)aWindowController;
 
 @end

@@ -489,6 +489,10 @@ static NSString *tempFileName() {
     return wc;
 }
 
+- (void)addWindowController:(id)aWindowController {
+    [I_windowControllers addObject:aWindowController];
+}
+
 - (void)removeWindowController:(id)aWindowController {
     [I_windowControllers removeObject:[[aWindowController retain] autorelease]];
 }

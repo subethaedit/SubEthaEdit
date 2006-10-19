@@ -22,7 +22,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 @interface PlainTextWindowController : NSWindowController {
 
-    // praticipants
+    // Participants drawer views
     IBOutlet NSDrawer            *O_participantsDrawer;
     IBOutlet NSScrollView        *O_participantsScrollView;
     IBOutlet ParticipantsView    *O_participantsView;
@@ -35,13 +35,13 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSProgressIndicator *O_progressIndicator;
     IBOutlet NSImageView         *O_URLImageView;
     IBOutlet NSTextField         *O_receivingStatusTextField;
+    
+    // Pointers to the current instances
     NSSplitView *I_editorSplitView;
     NSSplitView *I_dialogSplitView;
     id I_documentDialog;
-    NSTabView *I_tabView;
-    PSMTabBarControl *I_tabBar;
-
     NSMutableArray *I_plainTextEditors;
+    
     NSMenu *I_contextMenu;
     struct {
         BOOL isReceivingContent;
@@ -49,11 +49,15 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     } I_flags;
     NSTimer *I_dialogAnimationTimer;
     
-    @private     
+    @private
+    NSTabView *I_tabView;
+    PSMTabBarControl *I_tabBar;
+    
     NSMutableArray *I_documents;
     NSMutableArray *I_tabContexts;
     NSDocument *I_documentBeingClosed;
     BOOL I_isMultiDocument;
+    id I_dragTabContext;
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
@@ -90,8 +94,11 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)documentWillClose:(NSDocument *)document;
 
 - (NSArray *)documents;
+- (NSArray *)tabContexts;
 
 - (void)setIsMultiDocument:(BOOL)flag;
 - (BOOL)isMultiDocument;
+
+- (PSMTabBarControl *)tabBar;
 
 @end
