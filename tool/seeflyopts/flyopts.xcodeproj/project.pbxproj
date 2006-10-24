@@ -1,0 +1,391 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		317615C70AEE40E10046259D /* FlyOpts.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* FlyOpts.bundle */; };
+		317615C90AEE41500046259D /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 317615C80AEE41500046259D /* Info */; };
+		317615CA0AEE41560046259D /* Info in CopyFiles */ = {isa = PBXBuildFile; fileRef = 317615C80AEE41500046259D /* Info */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		CC14F2EF0681EF2800B94885 /* flyopts.h in Headers */ = {isa = PBXBuildFile; fileRef = CC14F2EC0681EF2800B94885 /* flyopts.h */; };
+		CC14F2F00681EF2800B94885 /* flyopts.m in Sources */ = {isa = PBXBuildFile; fileRef = CC14F2ED0681EF2800B94885 /* flyopts.m */; };
+		CC14F2F10681EF2800B94885 /* flyopts.pch in Headers */ = {isa = PBXBuildFile; fileRef = CC14F2EE0681EF2800B94885 /* flyopts.pch */; };
+		CC14F3080681F01500B94885 /* NSAppleEventDescriptor-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = CC14F3010681F01500B94885 /* NSAppleEventDescriptor-Extensions.h */; };
+		CC14F3090681F01500B94885 /* NSAppleEventDescriptor-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CC14F3020681F01500B94885 /* NSAppleEventDescriptor-Extensions.m */; };
+		CC14F30A0681F01500B94885 /* NSTextView(ODBIAdditions).h in Headers */ = {isa = PBXBuildFile; fileRef = CC14F3030681F01500B94885 /* NSTextView(ODBIAdditions).h */; };
+		CC14F30B0681F01500B94885 /* NSTextView(ODBIAdditions).m in Sources */ = {isa = PBXBuildFile; fileRef = CC14F3040681F01500B94885 /* NSTextView(ODBIAdditions).m */; };
+		CC14F30E0681F01500B94885 /* ODBEditorSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = CC14F3070681F01500B94885 /* ODBEditorSuite.h */; };
+		CC14F35B0681F61A00B94885 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC14F3590681F61A00B94885 /* InfoPlist.strings */; };
+		CC20CD8D06060DEB00010D21 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CC20CD8006060DEB00010D21 /* main.m */; };
+		CC97EAEF092DD33400BD4584 /* FOODBEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = CC97EAEB092DD33400BD4584 /* FOODBEditor.h */; };
+		CC97EAF0092DD33400BD4584 /* FOODBEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = CC97EAEC092DD33400BD4584 /* FOODBEditor.m */; };
+		CC97EAF1092DD33400BD4584 /* FOODBEditorController.h in Headers */ = {isa = PBXBuildFile; fileRef = CC97EAED092DD33400BD4584 /* FOODBEditorController.h */; };
+		CC97EAF2092DD33400BD4584 /* FOODBEditorController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC97EAEE092DD33400BD4584 /* FOODBEditorController.m */; };
+		CC97EB1F092DD3F200BD4584 /* ODBEditInProgressSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = CC97EB1D092DD3F200BD4584 /* ODBEditInProgressSheet.nib */; };
+		CC9B487005D2939B0026F5FD /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC9B486F05D2939B0026F5FD /* Carbon.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		317615C30AEE40BA0046259D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = FlyOpts;
+			dstSubfolderSpec = 16;
+			files = (
+				317615CA0AEE41560046259D /* Info in CopyFiles */,
+				317615C70AEE40E10046259D /* FlyOpts.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		317615C80AEE41500046259D /* Info */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info; path = resources/Info; sourceTree = "<group>"; };
+		8D5B49B6048680CD000E48DA /* FlyOpts.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlyOpts.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC14F2EC0681EF2800B94885 /* flyopts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = flyopts.h; path = src/flyopts.h; sourceTree = "<group>"; };
+		CC14F2ED0681EF2800B94885 /* flyopts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = flyopts.m; path = src/flyopts.m; sourceTree = "<group>"; };
+		CC14F2EE0681EF2800B94885 /* flyopts.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = flyopts.pch; path = src/flyopts.pch; sourceTree = "<group>"; };
+		CC14F3010681F01500B94885 /* NSAppleEventDescriptor-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAppleEventDescriptor-Extensions.h"; path = "src/bbedit/NSAppleEventDescriptor-Extensions.h"; sourceTree = "<group>"; };
+		CC14F3020681F01500B94885 /* NSAppleEventDescriptor-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAppleEventDescriptor-Extensions.m"; path = "src/bbedit/NSAppleEventDescriptor-Extensions.m"; sourceTree = "<group>"; };
+		CC14F3030681F01500B94885 /* NSTextView(ODBIAdditions).h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTextView(ODBIAdditions).h"; path = "src/bbedit/NSTextView(ODBIAdditions).h"; sourceTree = "<group>"; };
+		CC14F3040681F01500B94885 /* NSTextView(ODBIAdditions).m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTextView(ODBIAdditions).m"; path = "src/bbedit/NSTextView(ODBIAdditions).m"; sourceTree = "<group>"; };
+		CC14F3070681F01500B94885 /* ODBEditorSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODBEditorSuite.h; path = src/bbedit/ODBEditorSuite.h; sourceTree = "<group>"; };
+		CC14F35A0681F61A00B94885 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CC20CD8006060DEB00010D21 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = src/main.m; sourceTree = "<group>"; };
+		CC20CD9A06060DFC00010D21 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = resources/Info.plist; sourceTree = "<group>"; };
+		CC97EAEB092DD33400BD4584 /* FOODBEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FOODBEditor.h; path = src/bbedit/FOODBEditor.h; sourceTree = "<group>"; };
+		CC97EAEC092DD33400BD4584 /* FOODBEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FOODBEditor.m; path = src/bbedit/FOODBEditor.m; sourceTree = "<group>"; };
+		CC97EAED092DD33400BD4584 /* FOODBEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FOODBEditorController.h; path = src/bbedit/FOODBEditorController.h; sourceTree = "<group>"; };
+		CC97EAEE092DD33400BD4584 /* FOODBEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FOODBEditorController.m; path = src/bbedit/FOODBEditorController.m; sourceTree = "<group>"; };
+		CC97EB1E092DD3F200BD4584 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = resources/English.lproj/ODBEditInProgressSheet.nib; sourceTree = "<group>"; };
+		CC9B486F05D2939B0026F5FD /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				CC9B487005D2939B0026F5FD /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* ODBI */ = {
+			isa = PBXGroup;
+			children = (
+				32C88E010371C26100C91783 /* src */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = ODBI;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				317615C80AEE41500046259D /* Info */,
+				CC20CD9A06060DFC00010D21 /* Info.plist */,
+				CC14F3590681F61A00B94885 /* InfoPlist.strings */,
+				CC97EB1D092DD3F200BD4584 /* ODBEditInProgressSheet.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CC9B486F05D2939B0026F5FD /* Carbon.framework */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* FlyOpts.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				CC14F2FF0681F00B00B94885 /* odbedit */,
+				CC20CD8006060DEB00010D21 /* main.m */,
+				CC14F2EC0681EF2800B94885 /* flyopts.h */,
+				CC14F2ED0681EF2800B94885 /* flyopts.m */,
+				CC14F2EE0681EF2800B94885 /* flyopts.pch */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		CC14F2FF0681F00B00B94885 /* odbedit */ = {
+			isa = PBXGroup;
+			children = (
+				CC97EAEB092DD33400BD4584 /* FOODBEditor.h */,
+				CC97EAEC092DD33400BD4584 /* FOODBEditor.m */,
+				CC97EAED092DD33400BD4584 /* FOODBEditorController.h */,
+				CC97EAEE092DD33400BD4584 /* FOODBEditorController.m */,
+				CC14F3010681F01500B94885 /* NSAppleEventDescriptor-Extensions.h */,
+				CC14F3020681F01500B94885 /* NSAppleEventDescriptor-Extensions.m */,
+				CC14F3030681F01500B94885 /* NSTextView(ODBIAdditions).h */,
+				CC14F3040681F01500B94885 /* NSTextView(ODBIAdditions).m */,
+				CC14F3070681F01500B94885 /* ODBEditorSuite.h */,
+			);
+			name = odbedit;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC14F2EF0681EF2800B94885 /* flyopts.h in Headers */,
+				CC14F2F10681EF2800B94885 /* flyopts.pch in Headers */,
+				CC14F3080681F01500B94885 /* NSAppleEventDescriptor-Extensions.h in Headers */,
+				CC14F30A0681F01500B94885 /* NSTextView(ODBIAdditions).h in Headers */,
+				CC14F30E0681F01500B94885 /* ODBEditorSuite.h in Headers */,
+				CC97EAEF092DD33400BD4584 /* FOODBEditor.h in Headers */,
+				CC97EAF1092DD33400BD4584 /* FOODBEditorController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* flyopts */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CCA4230C086E04900080B79A /* Build configuration list for PBXNativeTarget "flyopts" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+				317615C30AEE40BA0046259D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = flyopts;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = ODBI;
+			productReference = 8D5B49B6048680CD000E48DA /* FlyOpts.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CCA42310086E04900080B79A /* Build configuration list for PBXProject "flyopts" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* ODBI */;
+			projectDirPath = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* flyopts */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC14F35B0681F61A00B94885 /* InfoPlist.strings in Resources */,
+				CC97EB1F092DD3F200BD4584 /* ODBEditInProgressSheet.nib in Resources */,
+				317615C90AEE41500046259D /* Info in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC20CD8D06060DEB00010D21 /* main.m in Sources */,
+				CC14F2F00681EF2800B94885 /* flyopts.m in Sources */,
+				CC14F3090681F01500B94885 /* NSAppleEventDescriptor-Extensions.m in Sources */,
+				CC14F30B0681F01500B94885 /* NSTextView(ODBIAdditions).m in Sources */,
+				CC97EAF0092DD33400BD4584 /* FOODBEditor.m in Sources */,
+				CC97EAF2092DD33400BD4584 /* FOODBEditorController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CC14F3590681F61A00B94885 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CC14F35A0681F61A00B94885 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CC97EB1D092DD3F200BD4584 /* ODBEditInProgressSheet.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CC97EB1E092DD3F200BD4584 /* English */,
+			);
+			name = ODBEditInProgressSheet.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CCA4230D086E04900080B79A /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = src/flyopts.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = resources/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/InputManagers";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "-DDEBUG";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = FlyOpts;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = bundle;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		CCA4230E086E04900080B79A /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = src/flyopts.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = resources/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/InputManagers";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = FlyOpts;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = bundle;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CCA42311086E04900080B79A /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "-DDEBUG";
+			};
+			name = Development;
+		};
+		CCA42312086E04900080B79A /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Deployment;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CCA4230C086E04900080B79A /* Build configuration list for PBXNativeTarget "flyopts" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCA4230D086E04900080B79A /* Development */,
+				CCA4230E086E04900080B79A /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CCA42310086E04900080B79A /* Build configuration list for PBXProject "flyopts" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCA42311086E04900080B79A /* Development */,
+				CCA42312086E04900080B79A /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

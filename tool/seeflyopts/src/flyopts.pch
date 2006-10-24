@@ -1,0 +1,22 @@
+//
+// Prefix header for all source files of the 'ODBI' target in the 'ODBI' project.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <AppKit/AppKit.h>
+#endif
+
+#ifdef DEBUG
+    #define debug(...) NSLog(__VA_ARGS__)
+#else
+    #define debug(...)
+#endif
+
+
+#define FMRelease(_x) { [_x release]; _x = 0x00; }
+
+#define and &&
+#define or  ||
+
+#define BREAK_INTO_DEBUGGER()  asm { trap }

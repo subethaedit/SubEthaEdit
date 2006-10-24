@@ -1,0 +1,70 @@
+// !$*UTF8*$!
+{
+	089C1669FE841209C02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Deployment;
+		activeTarget = 8D5B49AC048680CD000E48DA /* flyopts */;
+		addToTargets = (
+			8D5B49AC048680CD000E48DA /* flyopts */,
+		);
+		codeSenseManager = 317D9F95095837FC00C24B4E /* Code sense */;
+		perUserDictionary = {
+			PBXPerProjectTemplateStateSaveDate = 183382080;
+			PBXWorkspaceStateSaveDate = 183382080;
+		};
+		sourceControlManager = 317D9F94095837FC00C24B4E /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	317D9F94095837FC00C24B4E /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+		scmType = "";
+	};
+	317D9F95095837FC00C24B4E /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	8D5B49AC048680CD000E48DA /* flyopts */ = {
+		activeExec = 0;
+	};
+	CC14F2ED0681EF2800B94885 /* flyopts.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {944, 518}}";
+			sepNavSelRange = "{910, 0}";
+			sepNavVisRect = "{{0, 114}, {718, 122}}";
+		};
+	};
+	CC14F3030681F01500B94885 /* NSTextView(ODBIAdditions).h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {740, 210}}";
+			sepNavSelRange = "{61, 6}";
+			sepNavVisRect = "{{0, 0}, {740, 180}}";
+		};
+	};
+	CC14F3070681F01500B94885 /* ODBEditorSuite.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {740, 476}}";
+			sepNavSelRange = "{439, 6}";
+			sepNavVisRect = "{{0, 183}, {740, 180}}";
+		};
+	};
+	CC14F35A0681F61A00B94885 /* English */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1022, 452}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {599, 452}}";
+			sepNavWindowFrame = "{{15, 292}, {638, 581}}";
+		};
+	};
+	CC20CD9A06060DFC00010D21 /* Info.plist */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {771, 596}}";
+			sepNavSelRange = "{620, 0}";
+			sepNavVisRect = "{{0, 0}, {771, 596}}";
+			sepNavWindowFrame = "{{15, 102}, {810, 725}}";
+		};
+	};
+}
