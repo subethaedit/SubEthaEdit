@@ -279,8 +279,8 @@
 									<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 									<array>
 										<array>
-											<integer>8</integer>
-											<integer>7</integer>
+											<integer>5</integer>
+											<integer>1</integer>
 											<integer>0</integer>
 										</array>
 									</array>
@@ -343,14 +343,11 @@
 									<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 									<array>
 										<string>1C37FBAC04509CD000000102</string>
-										<string>317615B70AEE30EE0046259D</string>
 										<string>1C37FAAC04509CD000000102</string>
 									</array>
 									<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 									<array>
 										<array>
-											<integer>7</integer>
-											<integer>1</integer>
 											<integer>0</integer>
 										</array>
 									</array>
@@ -451,8 +448,8 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>317615B80AEE30EE0046259D</string>
-				<string>317615B90AEE30EE0046259D</string>
+				<string>317615DA0AEE4DF20046259D</string>
+				<string>317615DB0AEE4DF20046259D</string>
 				<string>1C9437FD063B20B00039CFAC</string>
 				<string>1C9437FE063B20B00039CFAC</string>
 				<string>1C9437FF063B20B00039CFAC</string>
@@ -470,7 +467,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>183388141.1979</real>
+	<real>183389679.03607199</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -485,8 +482,7 @@
 	<integer>0</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C530D52069F1CE1000CFCEE</string>
-		<string>/Users/pittenau/Code/3rd/SeeFlyOpts/flyopts_src/flyopts.xcodeproj</string>
+		<string>/Users/pittenau/svn/codingmonkeys/subethaedit/trunk/tool/seeflyopts/flyopts.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>1001 162 350 420 0 0 1440 878 </string>

@@ -18,18 +18,11 @@
         NSMenuItem *sep = [NSMenuItem separatorItem];
         [[editMenu submenu] addItem: sep];
         
-		if (![@"com.flyingmeat.VoodooPad" isEqualToString:bundleId]) {
+		if (![@"de.codingmonkeys.SubEthaEdit" isEqualToString:bundleId]) {
             NSMenuItem *bbeditCommand = [[editMenu submenu] addItemWithTitle:@"Edit in SubEthaEdit" action:@selector(flyoptsODBEdit:) keyEquivalent:@"j"];
-            [bbeditCommand setKeyEquivalentModifierMask: NSShiftKeyMask | NSCommandKeyMask];
-            
-            
+            [bbeditCommand setKeyEquivalentModifierMask: NSControlKeyMask | NSCommandKeyMask];
         }
-        
-        
-        
-        
-    }
-    
+    }    
 }
 
 @end
