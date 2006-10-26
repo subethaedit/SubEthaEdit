@@ -81,7 +81,7 @@ static FOODBEditorController *me = nil;
     [contextDict retain]; // we'll see about releasing this later on.
     
     [[FOODBEditor sharedODBEditor] editString:[[textView textStorage] string]
-                                      options:nil
+                                      options:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Text from %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"]] ,ODBEditorCustomPathKey, nil]
                                     forClient:self
                                       context:contextDict];
 }

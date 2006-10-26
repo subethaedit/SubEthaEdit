@@ -1908,8 +1908,6 @@ tool/dsa-signing/sign -text
 tool/filterClasses.sh -text
 tool/seeflyopts/flyopts.xcodeproj/gus.mode1 -text
 tool/seeflyopts/flyopts.xcodeproj/gus.pbxuser -text
-tool/seeflyopts/flyopts.xcodeproj/pittenau.mode2 -text
-tool/seeflyopts/flyopts.xcodeproj/pittenau.pbxuser -text
 tool/seeflyopts/flyopts.xcodeproj/project.pbxproj -text
 tool/seeflyopts/resources/English.lproj/InfoPlist.strings -text
 tool/seeflyopts/resources/English.lproj/ODBEditInProgressSheet.nib/classes.nib -text
