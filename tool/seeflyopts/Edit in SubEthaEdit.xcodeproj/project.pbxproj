@@ -354,6 +354,10 @@
 		CCA42311086E04900080B79A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				OTHER_CFLAGS = "-DDEBUG";
 			};
 			name = Debug;
@@ -361,6 +365,10 @@
 		CCA42312086E04900080B79A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 			};
 			name = Release;
 		};
