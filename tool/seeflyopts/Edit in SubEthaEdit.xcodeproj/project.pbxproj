@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		317615C70AEE40E10046259D /* FlyOpts.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* FlyOpts.bundle */; };
+		317615C70AEE40E10046259D /* Edit in SubEthaEdit.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* Edit in SubEthaEdit.bundle */; };
 		317615C90AEE41500046259D /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 317615C80AEE41500046259D /* Info */; };
 		317615CA0AEE41560046259D /* Info in CopyFiles */ = {isa = PBXBuildFile; fileRef = 317615C80AEE41500046259D /* Info */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -33,11 +33,11 @@
 		317615C30AEE40BA0046259D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = FlyOpts;
+			dstPath = "Edit in SubEthaEdit";
 			dstSubfolderSpec = 16;
 			files = (
 				317615CA0AEE41560046259D /* Info in CopyFiles */,
-				317615C70AEE40E10046259D /* FlyOpts.bundle in CopyFiles */,
+				317615C70AEE40E10046259D /* Edit in SubEthaEdit.bundle in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,7 +48,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		317615C80AEE41500046259D /* Info */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info; path = resources/Info; sourceTree = "<group>"; };
-		8D5B49B6048680CD000E48DA /* FlyOpts.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlyOpts.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B6048680CD000E48DA /* Edit in SubEthaEdit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Edit in SubEthaEdit.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC14F2EC0681EF2800B94885 /* flyopts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = flyopts.h; path = src/flyopts.h; sourceTree = "<group>"; };
 		CC14F2ED0681EF2800B94885 /* flyopts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = flyopts.m; path = src/flyopts.m; sourceTree = "<group>"; };
 		CC14F2EE0681EF2800B94885 /* flyopts.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = flyopts.pch; path = src/flyopts.pch; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D5B49B6048680CD000E48DA /* FlyOpts.bundle */,
+				8D5B49B6048680CD000E48DA /* Edit in SubEthaEdit.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,9 +186,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D5B49AC048680CD000E48DA /* flyopts */ = {
+		8D5B49AC048680CD000E48DA /* Edit in SubEthaEdit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CCA4230C086E04900080B79A /* Build configuration list for PBXNativeTarget "flyopts" */;
+			buildConfigurationList = CCA4230C086E04900080B79A /* Build configuration list for PBXNativeTarget "Edit in SubEthaEdit" */;
 			buildPhases = (
 				8D5B49AD048680CD000E48DA /* Headers */,
 				8D5B49AF048680CD000E48DA /* Resources */,
@@ -201,10 +201,10 @@
 			);
 			dependencies = (
 			);
-			name = flyopts;
+			name = "Edit in SubEthaEdit";
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = ODBI;
-			productReference = 8D5B49B6048680CD000E48DA /* FlyOpts.bundle */;
+			productReference = 8D5B49B6048680CD000E48DA /* Edit in SubEthaEdit.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -217,7 +217,7 @@
 			mainGroup = 089C166AFE841209C02AAC07 /* ODBI */;
 			projectDirPath = "";
 			targets = (
-				8D5B49AC048680CD000E48DA /* flyopts */,
+				8D5B49AC048680CD000E48DA /* Edit in SubEthaEdit */,
 			);
 		};
 /* End PBXProject section */
@@ -306,7 +306,7 @@
 				OTHER_CFLAGS = "-DDEBUG";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = FlyOpts;
+				PRODUCT_NAME = "Edit in SubEthaEdit";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -339,7 +339,7 @@
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = FlyOpts;
+				PRODUCT_NAME = "Edit in SubEthaEdit";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -367,7 +367,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CCA4230C086E04900080B79A /* Build configuration list for PBXNativeTarget "flyopts" */ = {
+		CCA4230C086E04900080B79A /* Build configuration list for PBXNativeTarget "Edit in SubEthaEdit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CCA4230D086E04900080B79A /* Development */,

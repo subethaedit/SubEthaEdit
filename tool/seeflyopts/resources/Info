@@ -4,13 +4,13 @@
 <plist version="1.0">
 <dict>
 	<key>BundleName</key>
-	<string>FlyOpts.bundle</string>
+	<string>Edit in SubEthaEdit.bundle</string>
 	<key>LoadBundleOnLaunch</key>
 	<string>YES</string>
 	<key>LocalizedNames</key>
 	<dict>
 		<key>English</key>
-		<string>FlyOpts</string>
+		<string>Edit in SubEthaEdit</string>
 	</dict>
 	<key>NoMenuEntry</key>
 	<string>YES</string>
