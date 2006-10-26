@@ -212,7 +212,7 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = CCA42310086E04900080B79A /* Build configuration list for PBXProject "flyopts" */;
+			buildConfigurationList = CCA42310086E04900080B79A /* Build configuration list for PBXProject "Edit in SubEthaEdit" */;
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* ODBI */;
 			projectDirPath = "";
@@ -281,7 +281,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		CCA4230D086E04900080B79A /* Development */ = {
+		CCA4230D086E04900080B79A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -316,9 +316,9 @@
 				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		CCA4230E086E04900080B79A /* Deployment */ = {
+		CCA4230E086E04900080B79A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -349,20 +349,20 @@
 				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		CCA42311086E04900080B79A /* Development */ = {
+		CCA42311086E04900080B79A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				OTHER_CFLAGS = "-DDEBUG";
 			};
-			name = Development;
+			name = Debug;
 		};
-		CCA42312086E04900080B79A /* Deployment */ = {
+		CCA42312086E04900080B79A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -370,20 +370,20 @@
 		CCA4230C086E04900080B79A /* Build configuration list for PBXNativeTarget "Edit in SubEthaEdit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CCA4230D086E04900080B79A /* Development */,
-				CCA4230E086E04900080B79A /* Deployment */,
+				CCA4230D086E04900080B79A /* Debug */,
+				CCA4230E086E04900080B79A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
-		CCA42310086E04900080B79A /* Build configuration list for PBXProject "flyopts" */ = {
+		CCA42310086E04900080B79A /* Build configuration list for PBXProject "Edit in SubEthaEdit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CCA42311086E04900080B79A /* Development */,
-				CCA42312086E04900080B79A /* Deployment */,
+				CCA42311086E04900080B79A /* Debug */,
+				CCA42312086E04900080B79A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

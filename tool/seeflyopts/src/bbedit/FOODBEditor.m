@@ -61,7 +61,7 @@ static FOODBEditor	*_sharedODBEditor;
 		CFBundleGetPackageInfo(CFBundleGetMainBundle(), &packageType, &packageCreator);
 		_signature = packageCreator;
 		
-		[self setEditorBundleIdentifier: @"de.codingmonkeys.subethaedit"];
+		[self setEditorBundleIdentifier: @"de.codingmonkeys.SubEthaEdit"];
 		
 		_filesBeingEdited = [[NSMutableDictionary alloc] init];
 		
