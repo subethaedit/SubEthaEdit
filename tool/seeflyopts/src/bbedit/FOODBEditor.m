@@ -219,10 +219,10 @@ static FOODBEditor	*_sharedODBEditor;
 
 	sTempFileSequence++;
 	
-	fileName = [NSString stringWithFormat: @"ODBEditor-%@-%06d.html", [[NSBundle mainBundle] bundleIdentifier], sTempFileSequence];
+	fileName = [NSString stringWithFormat: @"ODBEditor-%@-%06d.txt", [[NSBundle mainBundle] bundleIdentifier], sTempFileSequence];
 	fileName = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
 
-	if (NO == [string writeToFile: fileName atomically: NO])
+	if (NO == [string writeToFile: fileName atomically: NO encoding:NSUnicodeStringEncoding error:nil])
 		fileName = nil;
 
 	return fileName;
