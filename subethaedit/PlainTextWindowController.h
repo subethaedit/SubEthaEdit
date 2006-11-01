@@ -74,6 +74,9 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (IBAction)readOnlyButtonAction:(id)aSender;
 - (IBAction)readWriteButtonAction:(id)aSender;
 
+- (IBAction)toggleTabBar:(id)sender;
+- (IBAction)openInSeparateWindow:(id)sender;
+
 - (void)gotoLine:(unsigned)aLine;
 - (void)selectRange:(NSRange)aRange;
 

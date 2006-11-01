@@ -315,6 +315,7 @@ static NSString *tempFileName() {
     } else if (documentCount > 0) {
         // More than one. Instantiate a window controller that can display all of them.
         PlainTextWindowController *windowController = [[PlainTextWindowController alloc] init];
+        [I_windowControllers addObject:windowController];
 
         // "Add" it to each of the documents.
         unsigned int index;

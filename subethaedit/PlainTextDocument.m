@@ -1404,8 +1404,14 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)makeWindowControllers {
     NSLog(@"%s", __FUNCTION__);
-    //[self addWindowController:[[PlainTextWindowController new] autorelease]];
-    [self addWindowController:[[DocumentController sharedDocumentController] activeWindowController]];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:OpenNewDocumentInTabKey] boolValue]) {
+        [self addWindowController:[[DocumentController sharedDocumentController] activeWindowController]];
+    } else {
+        PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
+        [self addWindowController:controller];
+        [[DocumentController sharedInstance] addWindowController:controller];
+        [controller release];
+    }
 }
 
 - (void)addWindowController:(NSWindowController *)windowController 

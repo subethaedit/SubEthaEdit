@@ -112,6 +112,7 @@
                 jumpToPreviousChange = id; 
                 jumpToPreviousSymbol = id; 
                 newView = id; 
+                openInSeparateWindow = id; 
                 refreshWebPreview = id; 
                 selectWrapMode = id; 
                 shiftLeft = id; 
@@ -127,6 +128,7 @@
                 toggleShowsChangeMarks = id; 
                 toggleSplitView = id; 
                 toggleSyntaxHighlighting = id; 
+                toggleTabBar = id; 
                 toggleTopStatusBar = id; 
                 toggleUsesTabs = id; 
                 toggleWrap = id; 
@@ -160,6 +162,37 @@
                 "O_licenseeOrganizationField" = NSTextField; 
                 "O_purchaseHintField" = NSTextField; 
                 "O_serialNumberField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                changePendingUsersAccess = id; 
+                closeParticipantsDrawer = id; 
+                kickButtonAction = id; 
+                openInSeparateWindow = id; 
+                openParticipantsDrawer = id; 
+                readOnlyButtonAction = id; 
+                readWriteButtonAction = id; 
+                toggleLineNumbers = id; 
+                toggleTabBar = id; 
+            }; 
+            CLASS = PlainTextWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "I_documentDialog" = id; 
+                "O_URLImageView" = NSImageView; 
+                "O_actionPullDown" = NSPopUpButton; 
+                "O_kickButton" = NSButton; 
+                "O_participantsDrawer" = NSDrawer; 
+                "O_participantsScrollView" = NSScrollView; 
+                "O_participantsView" = ParticipantsView; 
+                "O_pendingUsersAccessPopUpButton" = NSPopUpButton; 
+                "O_progressIndicator" = NSProgressIndicator; 
+                "O_readOnlyButton" = NSButton; 
+                "O_readWriteButton" = NSButton; 
+                "O_receivingContentView" = NSView; 
+                "O_receivingStatusTextField" = NSTextField; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

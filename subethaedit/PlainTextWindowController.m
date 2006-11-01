@@ -356,8 +356,17 @@ enum {
     } else if (selector == @selector(readWriteButtonAction:) ||
                selector == @selector(followUser:) ||
                selector == @selector(kickButtonAction:) ||
-               selector == @selector(readOnlyButtonAction:)){
+               selector == @selector(readOnlyButtonAction:)) {
         return [menuItem isEnabled];
+    } else if (selector == @selector(openInSeparateWindow:)) {
+        return [self isMultiDocument];
+    } else if (selector == @selector(toggleTabBar:)) {
+        if ([I_tabBar isTabBarHidden]) {
+            [menuItem setTitle:NSLocalizedString(@"Show Tab Bar", nil)];
+        } else {
+            [menuItem setTitle:NSLocalizedString(@"Hide Tab Bar", nil)];
+        }
+        return YES;
     }
     return YES;
 }
@@ -398,6 +407,19 @@ enum {
 }
 
 #pragma mark -
+
+- (IBAction)toggleTabBar:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
+    if ([I_tabBar isTabBarHidden]) {
+        [I_tabBar hideTabBar:NO animate:NO];
+    } else {
+        [I_tabBar hideTabBar:YES animate:NO];
+    }
+}
+
+- (IBAction)openInSeparateWindow:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
+}
 
 - (BOOL)showsBottomStatusBar {
     return [[I_plainTextEditors lastObject] showsBottomStatusBar];
