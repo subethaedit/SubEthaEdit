@@ -927,6 +927,7 @@ static NSString *tempFileName() {
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
         [document setDocumentMode:newMode];
         [document showWindows];
+        #warning: Issue with multi-document windows
         [document resizeAccordingToDocumentMode];
         NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         if (encoding < SmallestCustomStringEncoding) {

@@ -1705,6 +1705,7 @@ enum {
 - (void)setDocument:(NSDocument *)document 
 {
     NSLog(@"%s %@ %@", __FUNCTION__, document, self);
+    BOOL isNew = NO;
     [super setDocument:document];
     // A document has been told that this window controller belongs to it.
 
@@ -1738,6 +1739,8 @@ enum {
             [I_tabView selectTabViewItem:tab];
             [tab release];
             
+            isNew = [I_tabView numberOfTabViewItems] == 1 ? YES : NO;
+            
         } else {
             // document is already there
             unsigned index = [[self documents] indexOfObject:document];
@@ -1746,6 +1749,9 @@ enum {
                 I_editorSplitView = [[I_tabContexts objectAtIndex:index] editorSplitView];
                 I_dialogSplitView = [[I_tabContexts objectAtIndex:index] dialogSplitView];
                 NSLog(@"set I_plainTextEditors to: %@", I_plainTextEditors);
+                if ([I_plainTextEditors count] > 0) {
+                    [[self window] setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] textView]];
+                }
             } else {
                 NSLog(@"set I_plainTextEditors to nil");
                 I_plainTextEditors = nil;
@@ -1754,10 +1760,10 @@ enum {
             }
         }
     } else {
-        NSLog(@"set I_plainTextEditors to nil");
         I_plainTextEditors = nil;
         I_editorSplitView = nil;
         I_dialogSplitView = nil;
+        NSLog(@"set I_plainTextEditors to nil");
         //[I_tabView selectTabViewItemAtIndex:0];
     }
 
@@ -1808,9 +1814,11 @@ enum {
             [editor updateViews];
         }
     
-        DocumentMode *mode = [(PlainTextDocument *)document documentMode];
-        //[self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
-        //                  rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
+        if (isNew) {
+            DocumentMode *mode = [(PlainTextDocument *)document documentMode];
+            [self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
+                              rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
+        }
         
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(sessionWillChange:)
@@ -1853,6 +1861,9 @@ enum {
     }
 }
 
+
+static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
+
 - (void)close
 {
     NSLog(@"%s",__FUNCTION__);
@@ -1860,11 +1871,14 @@ enum {
     NSArray *documents = [self documents];
     unsigned int oldDocumentCount = [documents count];
     if (I_documentBeingClosed && oldDocumentCount > 1) {
-        //NSString *identifier = [[I_documentBeingClosed session] sessionID];
-        //int index = [I_tabView indexOfTabViewItemWithIdentifier:identifier];
-        //if (index != NSNotFound) {
-        //    [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:index]];
-        //}
+        if (!PlainTextWindowControllerDocumentClosedByTabControl) {
+            NSString *identifier = [[(PlainTextDocument *)I_documentBeingClosed session] sessionID];
+            int index = [I_tabView indexOfTabViewItemWithIdentifier:identifier];
+            if (index != NSNotFound) {
+                [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:index]];
+            }
+        }
+        PlainTextWindowControllerDocumentClosedByTabControl = NO;
     
         // There are other documents open. Just remove the document being closed from our list.
         unsigned int documentIndex = [documents indexOfObject:I_documentBeingClosed];
@@ -1923,6 +1937,7 @@ enum {
     id document;
     while ((document = [enumerator nextObject])) {
         if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+            PlainTextWindowControllerDocumentClosedByTabControl = YES;
             [document close];
             break;
         }

@@ -1474,7 +1474,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)close
 {
-    NSLog(@"%s",__FUNCTION__);
+    NSLog(@"%s", __FUNCTION__);
     // The window controller are going to get -close messages of their own when we invoke [super close]. If one of them is a multidocument window controller tell it who the -close message is coming from.
     NSArray *windowControllers = [self windowControllers];
     unsigned int windowControllerCount = [windowControllers count];

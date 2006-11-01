@@ -86,10 +86,13 @@
 }
 
 - (void)dealloc {
+    NSLog(@"%@ %s", self, __FUNCTION__);
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowController document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowController document] name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_textView setDelegate:nil];
+    NSLog(@"%@", I_textView);
+    [O_editorView setNextResponder:nil];
     [O_editorView release];
     [I_textContainer release];
     [I_radarScroller release];
@@ -170,7 +173,8 @@
     [O_scrollView setHasVerticalRuler:YES];
     [[O_scrollView verticalRulerView] setRuleThickness:32.];
 
-    [O_scrollView setDocumentView:[I_textView autorelease]];
+    [O_scrollView setDocumentView:I_textView];
+    [I_textView release];
     [[O_scrollView verticalRulerView] setClientView:I_textView];
 
 
