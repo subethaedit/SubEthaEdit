@@ -85,6 +85,11 @@ enum {
 
 - (void)validateUpperDrawer;
 
+- (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(unsigned int)index;
+- (void)removeObjectFromDocumentsAtIndex:(unsigned int)index;
+- (void)insertObject:(PlainTextWindowControllerTabContext *)tabContext inTabContextsAtIndex:(unsigned int)index;
+- (void)removeObjectFromTabContextsAtIndex:(unsigned int)index;
+
 @end
 
 #pragma mark -
@@ -244,7 +249,6 @@ enum {
     [[[self window] contentView] addSubview:I_tabView];
     [I_tabBar setTabView:I_tabView];
     [I_tabView setDelegate:I_tabBar];
-
     [I_tabBar setDelegate:self];
     
     //[self validateButtons];
@@ -359,14 +363,14 @@ enum {
                selector == @selector(readOnlyButtonAction:)) {
         return [menuItem isEnabled];
     } else if (selector == @selector(openInSeparateWindow:)) {
-        return [self isMultiDocument];
+        return ([self isMultiDocument] && [[self documents] count] > 1);
     } else if (selector == @selector(toggleTabBar:)) {
         if ([I_tabBar isTabBarHidden]) {
             [menuItem setTitle:NSLocalizedString(@"Show Tab Bar", nil)];
         } else {
             [menuItem setTitle:NSLocalizedString(@"Hide Tab Bar", nil)];
         }
-        return YES;
+        return NO;
     }
     return YES;
 }
@@ -419,6 +423,34 @@ enum {
 
 - (IBAction)openInSeparateWindow:(id)sender {
     NSLog(@"%s", __FUNCTION__);
+    
+    PlainTextDocument *document = [self document];
+    unsigned int documentIndex = [[self documents] indexOfObject:document];
+    PlainTextWindowControllerTabContext *tabContext = [I_tabContexts objectAtIndex:documentIndex];
+    unsigned int tabViewItemIndex = [I_tabView indexOfTabViewItemWithIdentifier:[[document session] sessionID]];
+    NSTabViewItem *tabViewItem = [I_tabView tabViewItemAtIndex:tabViewItemIndex];
+    [tabViewItem retain];
+    [document retain];
+    [tabContext retain];
+    [document removeWindowController:self];
+    [self removeObjectFromDocumentsAtIndex:documentIndex];
+    [I_tabContexts removeObjectAtIndex:documentIndex];
+    [I_tabView removeTabViewItem:tabViewItem];
+    
+    PlainTextWindowController *windowController = [[[PlainTextWindowController alloc] init] autorelease];
+    [[DocumentController sharedInstance] addWindowController:windowController];
+    [tabContext setWindowController:windowController];
+    [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
+    [document addWindowController:windowController];
+    [windowController insertObject:tabContext inTabContextsAtIndex:[[windowController tabContexts] count]];
+    [[windowController tabView] addTabViewItem:tabViewItem];
+    [[windowController tabView] selectTabViewItem:tabViewItem];
+
+    [tabViewItem release];
+    [document release];
+    [tabContext release];
+    [document showWindows];
+    [windowController setDocument:document];
 }
 
 - (BOOL)showsBottomStatusBar {
@@ -1659,6 +1691,11 @@ enum {
 - (PSMTabBarControl *)tabBar
 {
 	return I_tabBar;
+}
+
+- (NSTabView *)tabView
+{
+    return I_tabView;
 }
 
 #pragma mark -

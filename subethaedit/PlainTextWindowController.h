@@ -102,5 +102,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (BOOL)isMultiDocument;
 
 - (PSMTabBarControl *)tabBar;
+- (NSTabView *)tabView;
 
 @end
