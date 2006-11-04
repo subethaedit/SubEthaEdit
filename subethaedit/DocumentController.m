@@ -305,13 +305,14 @@ static NSString *tempFileName() {
 - (void)displayPendingDocuments
 {
     // How many documents need displaying?
-    unsigned int documentCount = [I_documentsWithPendingDisplay count];
-    if (documentCount == 1) {
+    //unsigned int documentCount = [I_documentsWithPendingDisplay count];
+    //if (documentCount == 1) {
         // Just one. Do what NSDocumentController would have done if this class didn't override -openDocumentWithContentsOfURL:display:error:.
         NSDocument *document = [I_documentsWithPendingDisplay objectAtIndex:0];
         [document makeWindowControllers];
         [document showWindows];
         [(PlainTextDocument *)document handleOpenDocumentEvent];
+    /*
     } else if (documentCount > 0) {
         // More than one. Instantiate a window controller that can display all of them.
         PlainTextWindowController *windowController = [[PlainTextWindowController alloc] init];
@@ -335,6 +336,7 @@ static NSString *tempFileName() {
         [windowController release];
 
     } // else something inexplicable has happened. Ignore it (instead of crashing).
+    */
     [I_documentsWithPendingDisplay removeAllObjects];
 }
 

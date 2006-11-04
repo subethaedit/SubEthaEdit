@@ -470,7 +470,18 @@ enum {
 }
 
 - (IBAction)closeParticipantsDrawer:(id)aSender {
-    [O_participantsDrawer close:aSender];
+    BOOL shouldClose = YES;
+    PlainTextDocument *document;
+    NSEnumerator *enumerator = [[self documents] objectEnumerator];
+    while ((document = [enumerator nextObject])) {
+        if ([document isAnnounced] || [[document session] clientState] != TCMMMSessionClientNoState) {
+            shouldClose = NO;
+            break;
+        }
+    }
+    if (shouldClose) {
+        [O_participantsDrawer close:aSender];
+    }
 }
 
 - (IBAction)toggleParticipantsDrawer:(id)sender {
@@ -1087,6 +1098,9 @@ enum {
     PlainTextDocument *document = (PlainTextDocument *)[self document];
     TCMMMSession *session = [document session];
     
+    unsigned int index = [I_tabView indexOfTabViewItemWithIdentifier:[session sessionID]];
+    if (index != NSNotFound) [[I_tabView tabViewItemAtIndex:index] setLabel:displayName];
+
     if ([[document ODBParameters] objectForKey:@"keyFileCustomPath"]) {
         displayName = [[document ODBParameters] objectForKey:@"keyFileCustomPath"];
     } else {
