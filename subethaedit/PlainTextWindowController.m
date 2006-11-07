@@ -2030,21 +2030,24 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 
 - (BOOL)tabView:(NSTabView*)aTabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
 {
-    PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
-    
-    NSString *identifier = [tabViewItem identifier];
-    NSEnumerator *enumerator = [[self documents] objectEnumerator];
-    id document;
-    BOOL found = NO;
-    while ((document = [enumerator nextObject])) {
-        if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
-            found = YES;
-            break;
+    //NSLog(@"\n%@\n%@", I_tabView, aTabView);
+    if (![aTabView isEqual:I_tabView]) {
+        PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
+        
+        NSString *identifier = [tabViewItem identifier];
+        NSEnumerator *enumerator = [[self documents] objectEnumerator];
+        id document;
+        BOOL found = NO;
+        while ((document = [enumerator nextObject])) {
+            if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+                found = YES;
+                break;
+            }
         }
-    }
-    if (found) {
-        if ([[windowController documents] containsObject:document]) {
-            return NO;
+        if (found) {
+            if ([[windowController documents] containsObject:document]) {
+                return NO;
+            }
         }
     }
         
@@ -2053,7 +2056,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 
 - (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned int *)styleMask
 {
-    NSLog(@"%s %@", __FUNCTION__, [tabViewItem label]);
+    NSLog(@"%s %@ %@", __FUNCTION__, I_tabBar, [tabViewItem label]);
     
 	// grabs whole window image
 	NSImage *viewImage = [[[NSImage alloc] init] autorelease];
