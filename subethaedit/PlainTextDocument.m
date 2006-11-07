@@ -1274,7 +1274,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)newView:(id)aSender {
     if (!I_flags.isReceivingContent && [[self windowControllers] count] > 0) {
         PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
-        [controller setIsMultiDocument:NO];
+        [[DocumentController sharedInstance] addWindowController:controller];
         [self addWindowController:controller];
         [controller showWindow:aSender];
         [controller release];
@@ -1447,19 +1447,20 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)shouldCloseWindowController:(NSWindowController *)windowController delegate:(id)delegate shouldCloseSelector:(SEL)selector contextInfo:(void *)contextInfo 
 {
+    NSLog(@"%s", __FUNCTION__);
+    
     // NSWindow invokes this directly; there's nothing we can override in NSWindowController instead.
 
     // Do the regular NSDocument thing, but take control afterward if it's a multidocument window controller. To do this we have to record the original parameters of this method invocation.
-    if ([(PlainTextWindowController *)windowController isMultiDocument]) {
-        PlainTextDocumentShouldCloseContext *replacementContext = [[PlainTextDocumentShouldCloseContext alloc] init];
-        replacementContext->windowController = (PlainTextWindowController *)windowController;
-        replacementContext->originalDelegate = delegate;
-        replacementContext->originalSelector = selector;
-        replacementContext->originalContext = contextInfo;
-        delegate = self;
-        selector = @selector(thisDocument:shouldClose:contextInfo:);
-        contextInfo = replacementContext;
-    }
+    PlainTextDocumentShouldCloseContext *replacementContext = [[PlainTextDocumentShouldCloseContext alloc] init];
+    replacementContext->windowController = (PlainTextWindowController *)windowController;
+    replacementContext->originalDelegate = delegate;
+    replacementContext->originalSelector = selector;
+    replacementContext->originalContext = contextInfo;
+    delegate = self;
+    selector = @selector(thisDocument:shouldClose:contextInfo:);
+    contextInfo = replacementContext;
+    
     [super shouldCloseWindowController:windowController delegate:delegate shouldCloseSelector:selector contextInfo:contextInfo];
 }
 
@@ -1472,8 +1473,16 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     // Sketch 2 is still a work in progress! Using objc_msgSend() like this isn't really considered exemplary.
     objc_msgSend(replacementContext->originalDelegate, replacementContext->originalSelector, document, NO, replacementContext->originalContext);
     if (shouldClose) {
-        [self close];
-    }
+        NSArray *windowControllers = [self windowControllers];
+        unsigned int windowControllerCount = [windowControllers count];
+        if (windowControllerCount > 1) {
+            PlainTextWindowController *windowController = replacementContext->windowController;
+            [windowController documentWillClose:self];
+            [windowController close];
+        } else {
+            [self close];
+        }
+    }   
     [replacementContext release];
 }
 
@@ -1485,12 +1494,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     NSArray *windowControllers = [self windowControllers];
     unsigned int windowControllerCount = [windowControllers count];
     unsigned int index;
-    for (index = 0; index<windowControllerCount; index++) {
+    for (index = 0; index < windowControllerCount; index++) {
         NSWindowController *windowController = [windowControllers objectAtIndex:index];
-        //if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
-        if ([(PlainTextWindowController *)windowController isMultiDocument]) {
-            [(PlainTextWindowController *)windowController documentWillClose:self];
-        }
+        [(PlainTextWindowController *)windowController documentWillClose:self];
     }
 
     // Do the regular NSDocument thing.

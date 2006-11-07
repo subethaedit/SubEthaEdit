@@ -56,7 +56,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     NSMutableArray *I_documents;
     NSMutableArray *I_tabContexts;
     NSDocument *I_documentBeingClosed;
-    BOOL I_isMultiDocument;
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
@@ -97,9 +96,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (NSArray *)documents;
 - (NSArray *)tabContexts;
-
-- (void)setIsMultiDocument:(BOOL)flag;
-- (BOOL)isMultiDocument;
 
 - (PSMTabBarControl *)tabBar;
 - (NSTabView *)tabView;

@@ -31,6 +31,8 @@
 #import "PlainTextWindowControllerTabContext.h"
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
+#import <objc/objc-runtime.h>			// for objc_msgSend
+
 
 
 NSString * const PlainTextWindowToolbarIdentifier = 
@@ -99,7 +101,6 @@ enum {
 - (id)init {
     if ((self = [super initWithWindowNibName:@"PlainTextWindow"])) {
         I_tabContexts = [[NSMutableArray alloc] init];
-        I_isMultiDocument = YES;
         I_contextMenu = [NSMenu new];
         NSMenuItem *item=nil;
         item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuFollow",@"Follow user entry for Participant context menu") action:@selector(followUser:) keyEquivalent:@""];
@@ -363,7 +364,7 @@ enum {
                selector == @selector(readOnlyButtonAction:)) {
         return [menuItem isEnabled];
     } else if (selector == @selector(openInSeparateWindow:)) {
-        return ([self isMultiDocument] && [[self documents] count] > 1);
+        return ([[self documents] count] > 1);
     } else if (selector == @selector(toggleTabBar:)) {
         if ([I_tabBar isTabBarHidden]) {
             [menuItem setTitle:NSLocalizedString(@"Show Tab Bar", nil)];
@@ -1694,14 +1695,6 @@ enum {
 
 #pragma mark -
 
-- (void)setIsMultiDocument:(BOOL)flag {
-    I_isMultiDocument = flag;
-}
-
-- (BOOL)isMultiDocument {
-    return I_isMultiDocument;
-}
-
 - (PSMTabBarControl *)tabBar
 {
 	return I_tabBar;
@@ -1953,11 +1946,13 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
         }
         PlainTextWindowControllerDocumentClosedByTabControl = NO;
     
+        [I_documentBeingClosed removeWindowController:self];
+
         // There are other documents open. Just remove the document being closed from our list.
         unsigned int documentIndex = [documents indexOfObject:I_documentBeingClosed];
         [self removeObjectFromDocumentsAtIndex:documentIndex];
         [I_tabContexts removeObjectAtIndex:documentIndex];
-        
+
         I_documentBeingClosed = nil;
 
         // If that was the current document (and it probably was) then pick another one. Don't forget that [self documents] has now changed.
@@ -1969,13 +1964,8 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
         }
         [self setDocument:[documents objectAtIndex:documentIndex]];
     } else {
-
-        // Cocoa Bindings makes many things easier. Unfortunately, one of the things it makes easier is creation of reference counting cycles. In Tiger NSWindowController has a feature that keeps bindings to File's Owner, when File's Owner is a window controller, from retaining the window controller in a way that would prevent its deallocation. We're setting up bindings programmatically in -windowDidLoad though, so that feature doesn't kick in, and we have to explicitly unbind to make sure this window controller and everything in the nib it owns get deallocated.
-        //[_graphicView unbind:SKTGraphicViewGridBindingName];
-        //[_graphicView unbind:SKTGraphicViewGraphicsBindingName];
-        //[_graphicView unbind:SKTGraphicViewSelectionIndexesBindingName];
-
         // That was the last document. Do the regular NSWindowController thing.
+        [[I_documents objectAtIndex:0] removeWindowController:self];
         [self removeObjectFromDocumentsAtIndex:0];
         [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:0]];
         [I_tabContexts removeObjectAtIndex:0];
@@ -2002,6 +1992,20 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
     }
 }
 
+- (void)document:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
+{
+    if (shouldClose) {
+        NSArray *windowControllers = [doc windowControllers];
+        unsigned int windowControllerCount = [windowControllers count];
+        if (windowControllerCount > 1) {
+            [self documentWillClose:doc];
+            [self close];
+        } else {
+            [doc close];
+        }
+    }
+}
+
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
     NSLog(@"%s", __FUNCTION__);
@@ -2011,7 +2015,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
     while ((document = [enumerator nextObject])) {
         if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
             PlainTextWindowControllerDocumentClosedByTabControl = YES;
-            [document close];
+            [document canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
             break;
         }
     }
@@ -2026,6 +2030,24 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 
 - (BOOL)tabView:(NSTabView*)aTabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
 {
+    PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
+    
+    NSString *identifier = [tabViewItem identifier];
+    NSEnumerator *enumerator = [[self documents] objectEnumerator];
+    id document;
+    BOOL found = NO;
+    while ((document = [enumerator nextObject])) {
+        if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+            found = YES;
+            break;
+        }
+    }
+    if (found) {
+        if ([[windowController documents] containsObject:document]) {
+            return NO;
+        }
+    }
+        
 	return YES;
 }
 
@@ -2129,6 +2151,11 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
             [document removeWindowController:self];
             [self removeObjectFromDocumentsAtIndex:documentIndex];
             [I_tabContexts removeObjectAtIndex:documentIndex];
+            
+            if ([[self documents] count] == 0) {
+                [[self retain] autorelease];
+                [[DocumentController sharedInstance] removeWindowController:self];
+            }
             
             [tabContext setWindowController:windowController];
             [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
