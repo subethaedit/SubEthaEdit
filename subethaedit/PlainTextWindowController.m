@@ -1396,18 +1396,17 @@ enum {
             NSTabViewItem *tab = [I_tabView selectedTabViewItem];
             [tab setView:[[I_plainTextEditors objectAtIndex:0] editorView]];
         } else {
+            NSView *editorView = [[I_plainTextEditors objectAtIndex:0] editorView];
+            [editorView setFrame:[I_editorSplitView frame]];
             [I_dialogSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView] positioned:NSWindowBelow relativeTo:I_editorSplitView];
             [I_editorSplitView removeFromSuperview];
-
-            NSLog(@"remove editorSplitView");
-            int index = [[self documents] indexOfObject:[self document]];
-            if (index != NSNotFound) [[I_tabContexts objectAtIndex:index] setEditorSplitView:nil];
-
         }
+        NSLog(@"remove editorSplitView");
+        int index = [[self documents] indexOfObject:[self document]];
+        if (index != NSNotFound) [[I_tabContexts objectAtIndex:index] setEditorSplitView:nil];
         [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:
             [[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
         [I_plainTextEditors removeObjectAtIndex:1];
-        [I_editorSplitView release];
         I_editorSplitView = nil;
     }
     [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];
