@@ -20,6 +20,7 @@
 #import "NSSavePanelTCMAdditions.h"
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
+#import <objc/objc-runtime.h>			// for objc_msgSend
 
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
@@ -950,8 +951,6 @@ static NSString *tempFileName() {
     }
 }
 
-
-
 #pragma mark -
 
 #pragma options align=mac68k
@@ -1091,6 +1090,13 @@ struct ModificationInfo
 
 - (IBAction)closeAllDocuments:(id)sender {
     [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
+}
+
+- (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
+{
+    NSLog(@"%s", __FUNCTION__);
+    #warning: handle review and quit here    
+    [super closeAllDocumentsWithDelegate:delegate didCloseAllSelector:didCloseAllSelector contextInfo:contextInfo];
 }
 
 #pragma mark -

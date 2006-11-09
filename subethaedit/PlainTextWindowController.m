@@ -1802,42 +1802,26 @@ enum {
         NSLocalizedString(@"If you don\\U2019t save, your changes will be lost.", @"Subtitle in the alert panel when the user tries to close a window containing an unsaved document."));
 }
 
-/* We implement willEnd to check for NSAlertAlternateReturn here, because if the user indicates "close anyway," we want the window to go away immediately, rather than having the sheet slide up first.
-*/
-- (void)willEndCloseSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    NSLog(@"%s", __FUNCTION__);
-    [sheet orderOut:self];
-    if (returnCode == NSAlertAlternateReturn) {		/* "Don't Save" */
-        
-        NSArray *windowControllers = [[self document] windowControllers];
+- (void)reviewedDocument:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
+{      
+    NSWindow *sheet = [[self window] attachedSheet];
+    if (sheet) [sheet orderOut:self];
+    
+    if (shouldClose) {
+        NSArray *windowControllers = [doc windowControllers];
         unsigned int windowControllerCount = [windowControllers count];
         if (windowControllerCount > 1) {
-            [self documentWillClose:[self document]];
+            [self documentWillClose:doc];
             [self close];
         } else {
-            [[self document] close];
+            [doc close];
         }
         
-        //[[self window] close];
-        NSLog(@"close %@", self);
-        
-        
-        if (contextInfo) ((void (*)(id, SEL, BOOL))objc_msgSend)(self, (SEL)contextInfo, YES);	// Send callback (YES indicates continue saving)
+        if (contextInfo) ((void (*)(id, SEL, BOOL))objc_msgSend)(self, (SEL)contextInfo, YES);
+    } else {
+        if (contextInfo) ((void (*)(id, SEL, BOOL))objc_msgSend)(self, (SEL)contextInfo, NO);
     }
-}
-
-- (void)didEndCloseSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    NSLog(@"%s", __FUNCTION__);
-    [sheet orderOut:self];
-    if (returnCode == NSAlertDefaultReturn) {		/* "Save" */
     
-        //[self saveDocument:NO name:nil rememberName:YES shouldClose:YES whenDone:(SEL)contextInfo];
-        NSLog(@"save and close %@", self);
-    
-    
-    } else if (returnCode == NSAlertOtherReturn) {	/* "Cancel" */
-        if (contextInfo) ((void (*)(id, SEL, BOOL))objc_msgSend)(self, (SEL)contextInfo, NO);	// Send callback indicating save cancelled
-    }
 }
 
 - (void)reviewChangesAndQuitEnumeration:(BOOL)cont
@@ -1851,23 +1835,25 @@ enum {
                 if ([document isDocumentEdited]) {
                     int index = [I_tabView indexOfTabViewItemWithIdentifier:[[document session] sessionID]];
                     if (index != NSNotFound) [I_tabView selectTabViewItemAtIndex:index];
-                    [self askToSaveDocument:@selector(reviewChangesAndQuitEnumeration:)];
+                    //[self askToSaveDocument:@selector(reviewChangesAndQuitEnumeration:)];
+                    [document canCloseDocumentWithDelegate:self
+                                       shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
+                                               contextInfo:(void *)(@selector(reviewChangesAndQuitEnumeration:))];
                     return;
                 }
             }
         }
+        
+        documents = [self documents];
+        count = [documents count];
+        while (count--) {
+            PlainTextDocument *document = [documents objectAtIndex:count];
+            [self documentWillClose:document];
+            [document close];
+        }
     }
-    // if we get to here, either cont was YES and we reviewed all documents, or cont was NO and we don't want to quit
-    NSLog(@"Either we reviewed all documents, or cont was NO");
-    NSLog(@"Close the rest!!!");
     
-    NSArray *documents = [self documents];
-    unsigned count = [documents count];
-    while (count--) {
-        PlainTextDocument *document = [documents objectAtIndex:count];
-        [self documentWillClose:document];
-        [document close];
-    }
+    // if we get to here, either cont was YES and we reviewed all documents, or cont was NO and we don't want to quit
 }
 
 
