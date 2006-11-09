@@ -9,6 +9,7 @@
 #import <Carbon/Carbon.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
+#import <PSMTabBarControl/PSMTabBarControl.h>
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
 #import "DocumentController.h"
@@ -1406,6 +1407,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     NSLog(@"%s", __FUNCTION__);
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:OpenNewDocumentInTabKey] boolValue]) {
         [self addWindowController:[[DocumentController sharedDocumentController] activeWindowController]];
+        [[(PlainTextWindowController *)[[DocumentController sharedDocumentController] activeWindowController] tabBar] setHideForSingleTab:NO];
     } else {
         PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
         [self addWindowController:controller];

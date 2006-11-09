@@ -589,7 +589,7 @@
     if (!_awakenedFromNib || (_isHidden && hide) || (!_isHidden && !hide) || (_currentStep != kPSMIsNotBeingResized)) {
         return;
 	}
-	
+	    
     [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     _hideIndicators = YES;
     
@@ -842,10 +842,10 @@
     }
 	
     // hide/show? (these return if already in desired state)
-    if((_hideForSingleTab) && ([_cells count] <= 1)){
+    if(((_hideForSingleTab) && ([_cells count] <= 1)) || _isHidden){
         [self hideTabBar:YES animate:YES];
     } else {
-        [self hideTabBar:NO animate:YES];
+        //[self hideTabBar:NO animate:YES];
     }
 	
 	[self _removeCellTrackingRects];

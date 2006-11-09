@@ -251,7 +251,9 @@ enum {
     [I_tabBar setTabView:I_tabView];
     [I_tabView setDelegate:I_tabBar];
     [I_tabBar setDelegate:self];
-    
+    [I_tabBar setPartnerView:I_tabView];
+    [I_tabBar setHideForSingleTab:YES];
+
     //[self validateButtons];
 }
 
@@ -371,7 +373,8 @@ enum {
         } else {
             [menuItem setTitle:NSLocalizedString(@"Hide Tab Bar", nil)];
         }
-        return NO;
+        if ([self hasManyDocuments])
+            return NO;
     }
     return YES;
 }
@@ -413,9 +416,10 @@ enum {
 
 #pragma mark -
 
-- (IBAction)toggleTabBar:(id)sender {
-    NSLog(@"%s", __FUNCTION__);
+- (IBAction)toggleTabBar:(id)sender
+{
     if ([I_tabBar isTabBarHidden]) {
+        [I_tabBar setHideForSingleTab:NO];
         [I_tabBar hideTabBar:NO animate:NO];
     } else {
         [I_tabBar hideTabBar:YES animate:NO];
@@ -1829,6 +1833,10 @@ enum {
             [I_tabView selectTabViewItem:tab];
             [tab release];
             
+            if ([[self documents] count] > 1) {
+                [I_tabBar hideTabBar:NO animate:YES];
+            }
+            
             isNew = [I_tabView numberOfTabViewItems] == 1 ? YES : NO;
             
         } else {
@@ -1904,7 +1912,7 @@ enum {
             [editor updateViews];
         }
     
-        if (isNew) {
+        if (isNew) {            
             DocumentMode *mode = [(PlainTextDocument *)document documentMode];
             [self setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
                               rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
@@ -2196,6 +2204,8 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
             [document release];
             [tabContext release];
             [windowController setDocument:document];
+            
+            [tabBarControl setHideForSingleTab:NO];
         }
     }
 }
