@@ -316,7 +316,7 @@ static NSString *tempFileName(NSString *origPath) {
     NSEnumerator *controllers=[[self windowControllers] objectEnumerator];
     id controller=nil;
     while ((controller=[controllers nextObject])) {
-        if ([controller isKindOfClass:[PlainTextWindowController class]]) {
+        if ([controller isKindOfClass:[PlainTextWindowController class]] && ![(PlainTextWindowController *)controller hasManyDocuments]) {
             [(PlainTextWindowController *)controller 
                 setSizeByColumns:[[[self documentMode] defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
                             rows:[[[self documentMode] defaultForKey:DocumentModeRowsPreferenceKey] intValue]];

@@ -422,9 +422,8 @@ enum {
     }
 }
 
-- (IBAction)openInSeparateWindow:(id)sender {
-    NSLog(@"%s", __FUNCTION__);
-    
+- (IBAction)openInSeparateWindow:(id)sender
+{
     PlainTextDocument *document = [self document];
     unsigned int documentIndex = [[self documents] indexOfObject:document];
     PlainTextWindowControllerTabContext *tabContext = [I_tabContexts objectAtIndex:documentIndex];
@@ -439,6 +438,27 @@ enum {
     [I_tabView removeTabViewItem:tabViewItem];
     
     PlainTextWindowController *windowController = [[[PlainTextWindowController alloc] init] autorelease];
+    
+    NSRect contentRect = [[self window] contentRectForFrameRect:[[self window] frame]];
+    NSRect frame = [[windowController window] frameRectForContentRect:contentRect];
+    NSPoint cascadedTopLeft = [[self window] cascadeTopLeftFromPoint:NSZeroPoint];
+    frame.origin.x = cascadedTopLeft.x;
+    frame.origin.y = cascadedTopLeft.y - NSHeight(frame);
+    NSScreen *screen = [[self window] screen];
+    if (screen) {
+        NSRect visibleFrame = [screen visibleFrame];
+        if (NSHeight(frame) > NSHeight(visibleFrame)) {
+            float heightDiff = frame.size.height - visibleFrame.size.height;
+            frame.origin.y += heightDiff;
+            frame.size.height -= heightDiff;
+        }
+        if (NSMinY(frame) < NSMinY(visibleFrame)) {
+            float positionDiff = NSMinY(visibleFrame) - NSMinY(frame);
+            frame.origin.y += positionDiff;
+        }
+    }
+    [[windowController window] setFrame:frame display:YES];
+
     [[DocumentController sharedInstance] addWindowController:windowController];
     [tabContext setWindowController:windowController];
     [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
@@ -1694,6 +1714,11 @@ enum {
 
 #pragma mark -
 
+- (BOOL)hasManyDocuments
+{
+    return [[self documents] count] > 1;
+}
+
 - (PSMTabBarControl *)tabBar
 {
 	return I_tabBar;
@@ -2120,7 +2145,11 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height;
 	point.x -= [style leftMarginForTabBarControl];
 	
-	[[controller window] setFrameTopLeftPoint:point];
+    NSRect contentRect = [[self window] contentRectForFrameRect:[[self window] frame]];
+    NSRect frame = [[controller window] frameRectForContentRect:contentRect];
+    [[controller window] setFrame:frame display:NO];
+            
+    [[controller window] setFrameTopLeftPoint:point];
 	[[controller tabBar] setStyle:style];
 	
     [[DocumentController sharedInstance] addWindowController:controller];
