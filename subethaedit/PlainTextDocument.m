@@ -1451,19 +1451,23 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 {
     NSLog(@"%s", __FUNCTION__);
     
-    // NSWindow invokes this directly; there's nothing we can override in NSWindowController instead.
+    if ([(PlainTextWindowController *)windowController hasManyDocuments]) {
+        [(PlainTextWindowController *)windowController closeAllTabs];
+    } else {
+        // NSWindow invokes this directly; there's nothing we can override in NSWindowController instead.
 
-    // Do the regular NSDocument thing, but take control afterward if it's a multidocument window controller. To do this we have to record the original parameters of this method invocation.
-    PlainTextDocumentShouldCloseContext *replacementContext = [[PlainTextDocumentShouldCloseContext alloc] init];
-    replacementContext->windowController = (PlainTextWindowController *)windowController;
-    replacementContext->originalDelegate = delegate;
-    replacementContext->originalSelector = selector;
-    replacementContext->originalContext = contextInfo;
-    delegate = self;
-    selector = @selector(thisDocument:shouldClose:contextInfo:);
-    contextInfo = replacementContext;
-    
-    [super shouldCloseWindowController:windowController delegate:delegate shouldCloseSelector:selector contextInfo:contextInfo];
+        // Do the regular NSDocument thing, but take control afterward if it's a multidocument window controller. To do this we have to record the original parameters of this method invocation.
+        PlainTextDocumentShouldCloseContext *replacementContext = [[PlainTextDocumentShouldCloseContext alloc] init];
+        replacementContext->windowController = (PlainTextWindowController *)windowController;
+        replacementContext->originalDelegate = delegate;
+        replacementContext->originalSelector = selector;
+        replacementContext->originalContext = contextInfo;
+        delegate = self;
+        selector = @selector(thisDocument:shouldClose:contextInfo:);
+        contextInfo = replacementContext;
+        
+        [super shouldCloseWindowController:windowController delegate:delegate shouldCloseSelector:selector contextInfo:contextInfo];
+    }
 }
 
 

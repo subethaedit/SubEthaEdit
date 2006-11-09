@@ -99,6 +99,7 @@
                 chooseLineEndings = id; 
                 clearChangeMarks = id; 
                 closeAllDocuments = id; 
+                closeTab = id; 
                 convertLineEndings = id; 
                 copyAsXHTML = id; 
                 copyDocumentURL = id; 

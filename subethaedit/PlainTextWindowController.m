@@ -376,6 +376,7 @@ enum {
         if ([self hasManyDocuments])
             return NO;
     }
+    
     return YES;
 }
 
@@ -384,7 +385,6 @@ enum {
 }
 
 - (PlainTextEditor *)activePlainTextEditor {
-    NSLog(@"%s", __FUNCTION__);
     if ([I_plainTextEditors count]!=1) {
         id responder=[[self window] firstResponder];
         if ([responder isKindOfClass:[NSTextView class]]) {
@@ -1119,7 +1119,6 @@ enum {
 #pragma mark -
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
-    NSLog(@"%s", __FUNCTION__);
     PlainTextDocument *document = (PlainTextDocument *)[self document];
     TCMMMSession *session = [document session];
     
@@ -1733,13 +1732,151 @@ enum {
     return I_tabView;
 }
 
+- (IBAction)closeTab:(id)sender
+{
+    NSLog(@"%s", __FUNCTION__);
+
+    [[self document] canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
+}
+
+- (void)closeAllTabs
+{
+    NSArray *documents = [self documents];
+    unsigned count = [documents count];
+    unsigned needsSaving = 0;
+ 
+    // Determine if there are any unsaved documents...
+
+    while (count--) {
+        PlainTextDocument *document = [documents objectAtIndex:count];
+        if (document && [document isDocumentEdited]) needsSaving++;
+    }
+    if (needsSaving > 0) {
+        int choice = NSAlertDefaultReturn;	// Meaning, review changes
+        if (needsSaving > 1) {	// If we only have 1 unsaved document, we skip the "review changes?" panel
+            NSString *title = [NSString stringWithFormat:NSLocalizedString(@"You have %d documents with unsaved changes. Do you want to review these changes before quitting?", @"Title of alert panel which comes up when user chooses Quit and there are multiple unsaved documents."), needsSaving];
+            choice = NSRunAlertPanel(title, 
+                NSLocalizedString(@"If you don\\U2019t review your documents, all your changes will be lost.", @"Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents."), 
+                NSLocalizedString(@"Review Changes\\U2026", @"Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first."), 	// ellipses
+                NSLocalizedString(@"Discard Changes", @"Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents."), 
+                NSLocalizedString(@"Cancel", @"Button choice allowing user to cancel."));
+            if (choice == NSAlertOtherReturn) {
+                NSLog(@"Cancelled...");       	/* Cancel */
+                return;
+            }
+        }
+        if (choice == NSAlertDefaultReturn) {	/* Review unsaved; Quit Anyway falls through */
+            [self reviewChangesAndQuitEnumeration:YES];
+            return;
+        } else if (choice == NSAlertAlternateReturn) {
+            NSLog(@"close all tabs unreviewed");
+            NSArray *documents = [self documents];
+            unsigned count = [documents count];
+            while (count--) {
+                PlainTextDocument *document = [documents objectAtIndex:count];
+                [self documentWillClose:document];
+                [document close];
+            }
+            return;
+        }
+    }
+    
+    NSLog(@"just close all tabs");
+    documents = [self documents];
+    count = [documents count];
+    while (count--) {
+        PlainTextDocument *document = [documents objectAtIndex:count];
+        [self documentWillClose:document];
+        [document close];
+    }
+}
+
+/* This method will put up an alert asking whether the document should be saved; if yes, then goes on to put up panels and such. The specified callback will be called with YES or NO at the end (NO if user cancelled the save).
+*/
+- (void)askToSaveDocument:(SEL)callback {
+    NSBeginAlertSheet(NSLocalizedString(@"Do you want to save changes to this document before closing?", @"Title in the alert panel  when the user tries to close a window containing an unsaved document."),
+        NSLocalizedString(@"Save", @"Button choice which allows the user to save the document."),
+        NSLocalizedString(@"Don\\U2019t Save", @"Button choice which allows the user to cancel the save of a document."),
+        NSLocalizedString(@"Cancel", @"Button choice allowing user to cancel."), 
+        [self window], self, @selector(willEndCloseSheet:returnCode:contextInfo:), @selector(didEndCloseSheet:returnCode:contextInfo:), (void *)callback,
+        NSLocalizedString(@"If you don\\U2019t save, your changes will be lost.", @"Subtitle in the alert panel when the user tries to close a window containing an unsaved document."));
+}
+
+/* We implement willEnd to check for NSAlertAlternateReturn here, because if the user indicates "close anyway," we want the window to go away immediately, rather than having the sheet slide up first.
+*/
+- (void)willEndCloseSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    NSLog(@"%s", __FUNCTION__);
+    [sheet orderOut:self];
+    if (returnCode == NSAlertAlternateReturn) {		/* "Don't Save" */
+        
+        NSArray *windowControllers = [[self document] windowControllers];
+        unsigned int windowControllerCount = [windowControllers count];
+        if (windowControllerCount > 1) {
+            [self documentWillClose:[self document]];
+            [self close];
+        } else {
+            [[self document] close];
+        }
+        
+        //[[self window] close];
+        NSLog(@"close %@", self);
+        
+        
+        if (contextInfo) ((void (*)(id, SEL, BOOL))objc_msgSend)(self, (SEL)contextInfo, YES);	// Send callback (YES indicates continue saving)
+    }
+}
+
+- (void)didEndCloseSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    NSLog(@"%s", __FUNCTION__);
+    [sheet orderOut:self];
+    if (returnCode == NSAlertDefaultReturn) {		/* "Save" */
+    
+        //[self saveDocument:NO name:nil rememberName:YES shouldClose:YES whenDone:(SEL)contextInfo];
+        NSLog(@"save and close %@", self);
+    
+    
+    } else if (returnCode == NSAlertOtherReturn) {	/* "Cancel" */
+        if (contextInfo) ((void (*)(id, SEL, BOOL))objc_msgSend)(self, (SEL)contextInfo, NO);	// Send callback indicating save cancelled
+    }
+}
+
+- (void)reviewChangesAndQuitEnumeration:(BOOL)cont
+{
+    if (cont) {
+        NSArray *documents = [self documents];
+        unsigned count = [documents count];
+        while (count--) {
+            PlainTextDocument *document = [documents objectAtIndex:count];
+            if (document) {
+                if ([document isDocumentEdited]) {
+                    int index = [I_tabView indexOfTabViewItemWithIdentifier:[[document session] sessionID]];
+                    if (index != NSNotFound) [I_tabView selectTabViewItemAtIndex:index];
+                    [self askToSaveDocument:@selector(reviewChangesAndQuitEnumeration:)];
+                    return;
+                }
+            }
+        }
+    }
+    // if we get to here, either cont was YES and we reviewed all documents, or cont was NO and we don't want to quit
+    NSLog(@"Either we reviewed all documents, or cont was NO");
+    NSLog(@"Close the rest!!!");
+    
+    NSArray *documents = [self documents];
+    unsigned count = [documents count];
+    while (count--) {
+        PlainTextDocument *document = [documents objectAtIndex:count];
+        [self documentWillClose:document];
+        [document close];
+    }
+}
+
+
 #pragma mark -
 #pragma mark  A Method That PlainTextDocument Invokes 
 
 
 - (void)documentWillClose:(NSDocument *)document 
 {
-    NSLog(@"%s", __FUNCTION__);
     // Record the document that's closing. We'll just remove it from our list when this object receives a -close message.
     I_documentBeingClosed = document;
 }
@@ -1768,7 +1905,6 @@ enum {
 
 - (void)insertObject:(PlainTextWindowControllerTabContext *)tabContext inTabContextsAtIndex:(unsigned int)index
 {
-    NSLog(@"%s", __FUNCTION__);
     [I_tabContexts insertObject:tabContext atIndex:index];
 }
 
