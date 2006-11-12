@@ -73,6 +73,7 @@ enum {
 	PSMTabBarOrientation		_orientation;
 	BOOL						_automaticallyAnimates;
 	NSTimer						*_animationTimer;
+	float						_animationDelta;
 	
 	// behavior
 	BOOL						_allowsBackgroundTabClosing;

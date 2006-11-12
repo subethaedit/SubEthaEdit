@@ -1092,11 +1092,23 @@ struct ModificationInfo
     [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
 }
 
+- (void)documentController:(NSDocumentController *)docController didCloseAll:(BOOL)didCloseAll contextInfo:(void *)contextInfo
+{
+    NSLog(@"%@", __FUNCTION__);
+}
+
 - (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
 {
-    NSLog(@"%s", __FUNCTION__);
-    #warning: handle review and quit here    
-    [super closeAllDocumentsWithDelegate:delegate didCloseAllSelector:didCloseAllSelector contextInfo:contextInfo];
+    NSArray *windows = [NSApp windows];
+    unsigned count = [windows count];
+    while (count--) {
+        NSWindow *window = [windows objectAtIndex:count];
+        if ([[window windowController] isKindOfClass:[PlainTextWindowController class]]) {
+            [(PlainTextWindowController *)[window windowController] reviewChangesAndQuitEnumeration:YES];
+        }
+    }
+    
+    //[super closeAllDocumentsWithDelegate:self didCloseAllSelector:@selector(documentController:didCloseAll:contextInfo:) contextInfo:nil];
 }
 
 #pragma mark -

@@ -375,6 +375,16 @@ enum {
         }
         if ([self hasManyDocuments])
             return NO;
+    } else if (selector == @selector(selectNextTab:)) {
+        if ([self hasManyDocuments]) 
+            return YES;
+        else
+            return NO;
+    } else if (selector == @selector(selectPreviousTab:)) {
+        if ([self hasManyDocuments]) 
+            return YES;
+        else
+            return NO;    
     }
     
     return YES;
@@ -1732,6 +1742,24 @@ enum {
     return I_tabView;
 }
 
+- (IBAction)selectNextTab:(id)sender
+{
+    NSTabViewItem *item = [I_tabView selectedTabViewItem];
+    [I_tabView selectNextTabViewItem:self];
+    if ([item isEqual:[I_tabView selectedTabViewItem]]) {
+        [I_tabView selectFirstTabViewItem:self];
+    }
+}
+
+- (IBAction)selectPreviousTab:(id)sender
+{
+    NSTabViewItem *item = [I_tabView selectedTabViewItem];
+    [I_tabView selectPreviousTabViewItem:self];
+    if ([item isEqual:[I_tabView selectedTabViewItem]]) {
+        [I_tabView selectLastTabViewItem:self];
+    }
+}
+
 - (IBAction)closeTab:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);
@@ -1791,17 +1819,6 @@ enum {
     }
 }
 
-/* This method will put up an alert asking whether the document should be saved; if yes, then goes on to put up panels and such. The specified callback will be called with YES or NO at the end (NO if user cancelled the save).
-*/
-- (void)askToSaveDocument:(SEL)callback {
-    NSBeginAlertSheet(NSLocalizedString(@"Do you want to save changes to this document before closing?", @"Title in the alert panel  when the user tries to close a window containing an unsaved document."),
-        NSLocalizedString(@"Save", @"Button choice which allows the user to save the document."),
-        NSLocalizedString(@"Don\\U2019t Save", @"Button choice which allows the user to cancel the save of a document."),
-        NSLocalizedString(@"Cancel", @"Button choice allowing user to cancel."), 
-        [self window], self, @selector(willEndCloseSheet:returnCode:contextInfo:), @selector(didEndCloseSheet:returnCode:contextInfo:), (void *)callback,
-        NSLocalizedString(@"If you don\\U2019t save, your changes will be lost.", @"Subtitle in the alert panel when the user tries to close a window containing an unsaved document."));
-}
-
 - (void)reviewedDocument:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
 {      
     NSWindow *sheet = [[self window] attachedSheet];
@@ -1835,7 +1852,6 @@ enum {
                 if ([document isDocumentEdited]) {
                     int index = [I_tabView indexOfTabViewItemWithIdentifier:[[document session] sessionID]];
                     if (index != NSNotFound) [I_tabView selectTabViewItemAtIndex:index];
-                    //[self askToSaveDocument:@selector(reviewChangesAndQuitEnumeration:)];
                     [document canCloseDocumentWithDelegate:self
                                        shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
                                                contextInfo:(void *)(@selector(reviewChangesAndQuitEnumeration:))];

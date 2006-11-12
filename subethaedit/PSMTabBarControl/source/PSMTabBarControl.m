@@ -1023,31 +1023,22 @@
 	if ((animate || _animationTimer != nil) && [self orientation] == PSMTabBarHorizontalOrientation && [_cells count] > 0) {
 		//animate only on horizontal tab bars
 		if (_animationTimer) {
-			[_animationTimer invalidate], _animationTimer = nil;
+			[_animationTimer invalidate];
 		}
 		
 		//convert the target widths into target rects
 		NSMutableArray *targetFrames = [NSMutableArray arrayWithCapacity:[newWidths count]];
 		NSRect nextRect;
 		float start = [style leftMarginForTabBarControl];
-		BOOL frameChanged = NO;
 		
 		for (i = 0; i < [newWidths count]; i++) {
 			nextRect = NSMakeRect(start, cellRect.origin.y, [[newWidths objectAtIndex:i] floatValue], cellRect.size.height);
 			[targetFrames addObject:NSStringFromRect(nextRect)];
 			start += nextRect.size.width;
-			
-			if (!frameChanged) {
-				frameChanged = !NSEqualRects(nextRect, [[_cells objectAtIndex:i] frame]);
-			}
 		}
 		
-		if (frameChanged) {
-			NSAnimation *animation = [[NSAnimation alloc] initWithDuration:0.50 animationCurve:NSAnimationEaseInOut];
-			[animation setAnimationBlockingMode:NSAnimationNonblocking];
-			[animation startAnimation];
-			_animationTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 / 30.0 target:self selector:@selector(_animateCells:) userInfo:[NSArray arrayWithObjects:newWidths, targetFrames, animation, nil] repeats:YES];
-		}
+		_animationDelta = 0.0f;
+		_animationTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 / 30.0 target:self selector:@selector(_animateCells:) userInfo:[NSArray arrayWithObjects:newWidths, targetFrames, nil] repeats:YES];
 	} else {
 		[self _finishCellUpdate:newWidths];
 		[self setNeedsDisplay:YES];
@@ -1079,34 +1070,47 @@
 
 - (void)_animateCells:(NSTimer *)timer
 {
-	NSAnimation *animation = [[timer userInfo] objectAtIndex:2];
 	NSArray *targetFrames = [[timer userInfo] objectAtIndex:1], *newWidths = [[timer userInfo] objectAtIndex:0];
 	int i, numberOfVisibleCells = [targetFrames count];
+	BOOL updated = NO;
 	
-	if ([animation isAnimating]) {
-		if ([_cells count] > 0) {
-			//compare our target widths with the current widths and move towards the target
-			for (i = 0; i < numberOfVisibleCells; i++) {
-				PSMTabBarCell *currentCell = [_cells objectAtIndex:i];
-				NSRect cellFrame = [currentCell frame], targetFrame = NSRectFromString([targetFrames objectAtIndex:i]);
-				float widthChange = (targetFrame.size.width - cellFrame.size.width) * [animation currentProgress];
-				float originChange = (targetFrame.origin.x - cellFrame.origin.x) * [animation currentProgress];
-				
-				cellFrame.size.width += widthChange;
-				cellFrame.origin.x += originChange;
-				
-				//move the status indicator along with the rest of the cell
-				if (![[currentCell indicator] isHidden] && !_hideIndicators) {
-					[[currentCell indicator] setFrame:[currentCell indicatorRectForFrame:cellFrame]];
-				}
-				
-				[currentCell setFrame:cellFrame];
+	if ([_cells count] > 0) {
+		//compare our target widths with the current widths and move towards the target
+		for (i = 0; i < numberOfVisibleCells; i++) {
+			PSMTabBarCell *currentCell = [_cells objectAtIndex:i];
+			NSRect cellFrame = [currentCell frame], targetFrame = NSRectFromString([targetFrames objectAtIndex:i]);
+			
+			//move the cell width toward it's target value
+			if (fabs(cellFrame.size.width - targetFrame.size.width) >= _animationDelta) {
+				cellFrame.size.width -= (cellFrame.size.width > targetFrame.size.width) ? _animationDelta : -_animationDelta;
+				updated = YES;
+			} else {
+				cellFrame.size.width = targetFrame.size.width;
 			}
+			
+			//move the cell origin toward it's target value
+			if (fabs(targetFrame.origin.x - cellFrame.origin.x) >= _animationDelta) {
+				cellFrame.origin.x -= (cellFrame.origin.x > targetFrame.origin.x) ? _animationDelta : -_animationDelta;
+				updated = YES;
+			} else {
+				cellFrame.origin.x = targetFrame.origin.x;
+			}
+			
+			//move the status indicator along with the rest of the cell
+			if (![[currentCell indicator] isHidden] && !_hideIndicators) {
+                [[currentCell indicator] setFrame:[currentCell indicatorRectForFrame:cellFrame]];
+            }
+			
+			[currentCell setFrame:cellFrame];
 		}
-	} else {
+		
+		_animationDelta += 3.0f;
+	}
+	
+	if (!updated) {
 		[self _finishCellUpdate:newWidths];
-		[_animationTimer invalidate], _animationTimer = nil;
-		[animation release];
+		[timer invalidate];
+		_animationTimer = nil;
 	}
 	
 	[self setNeedsDisplay:YES];
