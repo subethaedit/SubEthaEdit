@@ -1451,7 +1451,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 {
     NSLog(@"%s", __FUNCTION__);
     
-    if ([(PlainTextWindowController *)windowController hasManyDocuments]) {
+    if ([windowController isKindOfClass:[PlainTextWindowController class]] && [(PlainTextWindowController *)windowController hasManyDocuments]) {
         [(PlainTextWindowController *)windowController closeAllTabs];
     } else {
         // NSWindow invokes this directly; there's nothing we can override in NSWindowController instead.

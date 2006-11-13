@@ -507,11 +507,14 @@ static NSString *tempFileName() {
 - (id)openDocumentWithContentsOfFile:(NSString *)fileName display:(BOOL)flag {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
     
-    //NSDocument *document = [super openDocumentWithContentsOfFile:fileName display:flag];
-    //if (document && flag) {
-    //    [(PlainTextDocument *)document handleOpenDocumentEvent];
-    //}
     
+    NSDocument *document = [super openDocumentWithContentsOfFile:fileName display:flag];
+    if (document && flag) {
+        [(PlainTextDocument *)document handleOpenDocumentEvent];
+    }
+    
+    
+    /*
     id document;
     if ([self documentForFileName:fileName] || !flag) {
         document = [super openDocumentWithContentsOfFile:fileName display:flag];
@@ -527,6 +530,7 @@ static NSString *tempFileName() {
         }
 
     }
+    */
         
     return document;
 }
