@@ -8,6 +8,7 @@
 
 #import <Carbon/Carbon.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#import <objc/objc-runtime.h>			// for objc_msgSend
 
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
@@ -1444,6 +1445,27 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
     }
 }
+
+- (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
+{
+    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
+    NSWindowController *windowController;
+    unsigned count = [[self windowControllers] count];
+    unsigned found = 0;
+    while ((windowController = [enumerator nextObject])) {
+        if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+            found++;
+        }
+    }
+    
+    if (count > 1 && count == found) {
+        if ([delegate respondsToSelector:shouldCloseSelector]) {
+            ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, YES, contextInfo);
+        }
+    } else {
+        [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
+    }
+}   
 
 - (void)shouldCloseWindowController:(NSWindowController *)windowController delegate:(id)delegate shouldCloseSelector:(SEL)selector contextInfo:(void *)contextInfo 
 {
