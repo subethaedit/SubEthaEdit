@@ -17,6 +17,7 @@
     NSSplitView *_editorSplitView;
     NSSplitView *_dialogSplitView;
     id _documentDialog;
+    BOOL _isReceivingContent;
 }
 
 - (NSMutableArray *)plainTextEditors;
@@ -32,5 +33,8 @@
 
 - (void)setWindowController:(PlainTextWindowController *)windowController;
 - (PlainTextWindowController *)windowController;
+
+- (void)setIsReceivingContent:(BOOL)flag;
+- (BOOL)isReceivingContent;
 
 @end

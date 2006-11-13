@@ -9,7 +9,7 @@
 #import <AppKit/AppKit.h>
 
 
-@class ParticipantsView, PlainTextEditor, PSMTabBarControl;
+@class ParticipantsView, PlainTextEditor, PSMTabBarControl, PlainTextDocument;
 
 extern NSString * const PlainTextWindowToolbarIdentifier;
 extern NSString * const ParticipantsToolbarItemIdentifier;
@@ -44,7 +44,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     
     NSMenu *I_contextMenu;
     struct {
-        BOOL isReceivingContent;
         BOOL zoomFix_defaultFrameHadEqualWidth;
     } I_flags;
     NSTimer *I_dialogAnimationTimer;
@@ -79,7 +78,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)gotoLine:(unsigned)aLine;
 - (void)selectRange:(NSRange)aRange;
 
-- (void)setIsReceivingContent:(BOOL)aFlag;
+- (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 - (void)didLoseConnection;
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows;

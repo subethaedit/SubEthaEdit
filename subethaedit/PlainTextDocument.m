@@ -842,9 +842,8 @@ static NSString *tempFileName(NSString *origPath) {
     return self;
 }
 
-- (void)dealloc {
-    NSLog(@"%s", __FUNCTION__);
-    
+- (void)dealloc
+{
     if (I_authRef != NULL) {
         (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
         I_authRef = NULL;
@@ -1404,7 +1403,6 @@ static NSString *tempFileName(NSString *origPath) {
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)makeWindowControllers {
-    NSLog(@"%s", __FUNCTION__);
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:OpenNewDocumentInTabKey] boolValue]) {
         [self addWindowController:[[DocumentController sharedDocumentController] activeWindowController]];
         [[(PlainTextWindowController *)[[DocumentController sharedDocumentController] activeWindowController] tabBar] setHideForSingleTab:NO];
@@ -1449,8 +1447,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)shouldCloseWindowController:(NSWindowController *)windowController delegate:(id)delegate shouldCloseSelector:(SEL)selector contextInfo:(void *)contextInfo 
 {
-    NSLog(@"%s", __FUNCTION__);
-    
     if ([windowController isKindOfClass:[PlainTextWindowController class]] && [(PlainTextWindowController *)windowController hasManyDocuments]) {
         [(PlainTextWindowController *)windowController closeAllTabs];
     } else {
@@ -1495,7 +1491,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)close
 {
-    NSLog(@"%s", __FUNCTION__);
     // The window controller are going to get -close messages of their own when we invoke [super close]. If one of them is a multidocument window controller tell it who the -close message is coming from.
     NSArray *windowControllers = [self windowControllers];
     unsigned int windowControllerCount = [windowControllers count];
@@ -1698,7 +1693,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
-    NSLog(@"%s", __FUNCTION__);
     [super windowControllerDidLoadNib:aController];
     DocumentMode *mode=[self documentMode];
     [(PlainTextWindowController *)aController setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
@@ -4344,7 +4338,7 @@ static NSString *S_measurementUnits;
     [self makeWindowControllers];
     PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
     I_flags.isReceivingContent=YES;
-    [windowController setIsReceivingContent:YES];
+    [windowController document:self isReceivingContent:YES];
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
 }
 
@@ -4398,7 +4392,7 @@ static NSString *S_measurementUnits;
         [self setContentByDictionaryRepresentation:aContent];
         I_flags.isReceivingContent = NO;
         PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
-        [windowController setIsReceivingContent:NO];
+        [windowController document:self isReceivingContent:NO];
     }
     I_flags.isReceivingContent = NO;
 }

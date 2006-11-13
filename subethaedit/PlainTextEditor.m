@@ -86,12 +86,12 @@
 }
 
 - (void)dealloc {
-    NSLog(@"%@ %s", self, __FUNCTION__);
+    //NSLog(@"%@ %s", self, __FUNCTION__);
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowController document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowController document] name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_textView setDelegate:nil];
-    NSLog(@"%@", I_textView);
+    //NSLog(@"%@", I_textView);
     [O_editorView setNextResponder:nil];
     [O_editorView release];
     [I_textContainer release];
@@ -757,7 +757,7 @@
 
 - (void)updateViews
 {
-    NSLog(@"%@ %s", [self description], __FUNCTION__);
+    //NSLog(@"%@ %s", [self description], __FUNCTION__);
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
 }

@@ -17,6 +17,7 @@
     self = [super init];
     if (self) {
         _plainTextEditors = [[NSMutableArray alloc] init];
+        _isReceivingContent = NO;
     }
     return self;
 }
@@ -24,7 +25,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"%@ %s", [self description], __FUNCTION__);
+    //NSLog(@"%@ %s", [self description], __FUNCTION__);
     [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowController:) withObject:nil];
     [_plainTextEditors release];
     [_editorSplitView release];
@@ -105,6 +106,16 @@
     } else {
         return nil;
     }
+}
+
+- (void)setIsReceivingContent:(BOOL)flag
+{
+    _isReceivingContent = flag;
+}
+
+- (BOOL)isReceivingContent
+{
+    return _isReceivingContent;
 }
 
 @end
