@@ -1760,6 +1760,15 @@ enum {
     }
 }
 
+- (BOOL)selectTabForDocument:(id)aDocument {
+    unsigned index = [[self documents] indexOfObject:aDocument];
+    if (index == NSNotFound) return NO;
+    if ([self hasManyDocuments]) {
+        [I_tabView selectTabViewItemAtIndex:index];
+    }
+    return YES; 
+}
+
 - (IBAction)closeTab:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);

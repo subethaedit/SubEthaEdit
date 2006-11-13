@@ -3618,18 +3618,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag {
     PlainTextWindowController *windowController=[self topmostWindowController];
+    [windowController selectTabForDocument:self];
     [windowController gotoLine:aLine];
     if (aFlag) [[windowController window] makeKeyAndOrderFront:self];
 }
 
 - (void)selectRange:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
+    [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
     [[windowController window] makeKeyAndOrderFront:self];
 }
 
 - (void)selectRangeInBackground:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
+    [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
 }
 
