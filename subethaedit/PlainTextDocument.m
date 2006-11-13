@@ -1650,6 +1650,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             NSWindow *window = [[self topmostWindowController] window];
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
+        [[self topmostWindowController] selectTabForDocument:self];
         [[self topmostWindowController] showWindow:self];
     }
     
