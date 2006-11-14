@@ -1096,23 +1096,68 @@ struct ModificationInfo
     [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
 }
 
-- (void)documentController:(NSDocumentController *)docController didCloseAll:(BOOL)didCloseAll contextInfo:(void *)contextInfo
+- (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext
 {
-    NSLog(@"%@", __FUNCTION__);
+    // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
+    
+    NSArray *documents = [self documents];
+    unsigned count = [documents count];
+    while (count--) {
+        PlainTextDocument *document = [documents objectAtIndex:count];
+        if ([document isDocumentEdited]) {
+            PlainTextWindowController *controller = [document topmostWindowController];
+            (void)[controller selectTabForDocument:document];
+            [document canCloseDocumentWithDelegate:self
+                               shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
+                                       contextInfo:closeAllContext];
+            return;
+        }
+        
+        [document close];
+    }
+    
+    // Invoke invocation after reviewing all documents
+    if (closeAllContext) {
+        NSInvocation *invocation = (NSInvocation *)closeAllContext;
+        [invocation autorelease];
+        [invocation invoke];
+    }
+}
+
+- (void)reviewedDocument:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
+{
+    PlainTextWindowController *windowController = [doc topmostWindowController];
+    NSWindow *sheet = [[windowController window] attachedSheet];
+    if (sheet) [sheet orderOut:self];
+    
+    if (shouldClose) {
+        NSArray *windowControllers = [doc windowControllers];
+        unsigned int windowControllerCount = [windowControllers count];
+        if (windowControllerCount > 1) {
+            [windowController documentWillClose:doc];
+            [windowController close];
+        } else {
+            [doc close];
+        }
+    }
+    
+    [self closeDocumentsStartingWith:nil shouldClose:shouldClose closeAllContext:contextInfo];
 }
 
 - (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
 {
-    NSArray *windows = [NSApp windows];
-    unsigned count = [windows count];
-    while (count--) {
-        NSWindow *window = [windows objectAtIndex:count];
-        if ([[window windowController] isKindOfClass:[PlainTextWindowController class]]) {
-            [(PlainTextWindowController *)[window windowController] reviewChangesAndQuitEnumeration:YES];
-        }
+    NSInvocation *invocation = nil;
+    if (delegate != nil && didCloseAllSelector != NULL) {
+        NSMethodSignature *methodSignature = [delegate methodSignatureForSelector:didCloseAllSelector];
+        unsigned numberOfArguments = [methodSignature numberOfArguments];
+        invocation = [[NSInvocation invocationWithMethodSignature:methodSignature] retain];
+        [invocation setSelector:didCloseAllSelector];
+        [invocation setTarget:delegate];
+        if (numberOfArguments > 2) [invocation setArgument:&self atIndex:2];
+        if (numberOfArguments > 3) { BOOL flag = YES; [invocation setArgument:&flag atIndex:3]; }
+        if (numberOfArguments > 4) [invocation setArgument:&contextInfo atIndex:4];
     }
-    
-    //[super closeAllDocumentsWithDelegate:self didCloseAllSelector:@selector(documentController:didCloseAll:contextInfo:) contextInfo:nil];
+    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:invocation];
 }
 
 #pragma mark -

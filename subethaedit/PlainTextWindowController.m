@@ -1864,15 +1864,11 @@ enum {
         unsigned count = [documents count];
         while (count--) {
             PlainTextDocument *document = [documents objectAtIndex:count];
-            if (document) {
-                if ([document isDocumentEdited]) {
-                    int index = [I_tabView indexOfTabViewItemWithIdentifier:[[document session] sessionID]];
-                    if (index != NSNotFound) [I_tabView selectTabViewItemAtIndex:index];
-                    [document canCloseDocumentWithDelegate:self
-                                       shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
-                                               contextInfo:(void *)(@selector(reviewChangesAndQuitEnumeration:))];
-                    return;
-                }
+            if ([document isDocumentEdited] && [self selectTabForDocument:document]) {
+                [document canCloseDocumentWithDelegate:self
+                                   shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
+                                           contextInfo:(void *)(@selector(reviewChangesAndQuitEnumeration:))];
+                return;
             }
         }
         
