@@ -14,6 +14,7 @@
 #import "PSMMetalTabStyle.h"
 #import "PSMAquaTabStyle.h"
 #import "PSMUnifiedTabStyle.h"
+#import "PSMPFTabStyle.h"
 #import "PSMAdiumTabStyle.h"
 #import "PSMTabDragAssistant.h"
 
@@ -310,6 +311,8 @@
         newStyle = [[PSMUnifiedTabStyle alloc] init];
     } else if ([name isEqualToString:@"Adium"]) {
         newStyle = [[PSMAdiumTabStyle alloc] init];
+    } else if ([name isEqualToString:@"PF"]) {
+        newStyle = [[PSMPFTabStyle alloc] init];
     } else {
         newStyle = [[PSMMetalTabStyle alloc] init];
     }

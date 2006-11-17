@@ -1233,6 +1233,8 @@ subethaedit/PSMTabBarControl/source/PSMMetalTabStyle.h -text
 subethaedit/PSMTabBarControl/source/PSMMetalTabStyle.m -text
 subethaedit/PSMTabBarControl/source/PSMOverflowPopUpButton.h -text
 subethaedit/PSMTabBarControl/source/PSMOverflowPopUpButton.m -text
+subethaedit/PSMTabBarControl/source/PSMPFTabStyle.h -text
+subethaedit/PSMTabBarControl/source/PSMPFTabStyle.m -text
 subethaedit/PSMTabBarControl/source/PSMProgressIndicator.h -text
 subethaedit/PSMTabBarControl/source/PSMProgressIndicator.m -text
 subethaedit/PSMTabBarControl/source/PSMRolloverButton.h -text

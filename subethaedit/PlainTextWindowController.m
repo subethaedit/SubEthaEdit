@@ -242,7 +242,7 @@ enum {
 
     I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - 22.0, NSWidth(contentFrame), 22.0)];
     [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
-    [I_tabBar setStyleNamed:@"Unified"];
+    [I_tabBar setStyleNamed:@"PF"];
     [[[self window] contentView] addSubview:I_tabBar];
     I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - 22.0)];
     [I_tabView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];

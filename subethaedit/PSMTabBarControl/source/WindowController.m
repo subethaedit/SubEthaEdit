@@ -24,7 +24,7 @@
     if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr){
         if (MacVersion >= 0x1040){
             // this call is Tiger only
-            [toolbar setShowsBaselineSeparator:NO];
+            // [toolbar setShowsBaselineSeparator:NO];
         }
     }
     [[self window] setToolbar:[toolbar autorelease]];
@@ -40,7 +40,7 @@
     while(item = [e nextObject]){
         [tabView removeTabViewItem:item];
     }
-	
+    [tabBar setStyleNamed:@"PF"];	
     // open drawer
     //[drawer toggle:self];
 }

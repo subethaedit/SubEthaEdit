@@ -39,6 +39,11 @@
 		546DEAF1067F63070098DCC4 /* PSMTabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0259C576FE90428111CA0C5A /* PSMTabBarControl.m */; };
 		546DEAF2067F630E0098DCC4 /* PSMTabBarControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0259C57AFE90428111CA0C5A /* PSMTabBarControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54D33B2906778E3300C9C163 /* PSMTabBarControl.ibclassdescription in Resources */ = {isa = PBXBuildFile; fileRef = 54D33B2806778E3300C9C163 /* PSMTabBarControl.ibclassdescription */; };
+		5E0001E60B0DBAAE00B32F06 /* PSMPFTabStyle.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5E0001E50B0DBAAE00B32F06 /* PSMPFTabStyle.h */; };
+		5E0001E80B0DBAB200B32F06 /* PSMPFTabStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0001E70B0DBAB200B32F06 /* PSMPFTabStyle.m */; };
+		5E0001FB0B0DBCA800B32F06 /* PSMPFTabStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0001E70B0DBAB200B32F06 /* PSMPFTabStyle.m */; };
+		5E0002050B0DBD1300B32F06 /* PSMPFTabStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0001E70B0DBAB200B32F06 /* PSMPFTabStyle.m */; };
+		5E0002060B0DBD1300B32F06 /* PSMPFTabStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E0001E50B0DBAAE00B32F06 /* PSMPFTabStyle.h */; };
 		8D1AC9670486D14A00FE50C9 /* PSMTabBarControlInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0259C57EFE90428111CA0C5A /* PSMTabBarControlInspector.nib */; };
 		8D1AC9680486D14A00FE50C9 /* PSMTabBarControlPalette.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0259C580FE90428111CA0C5A /* PSMTabBarControlPalette.nib */; };
 		8D1AC9690486D14A00FE50C9 /* palette.table in Resources */ = {isa = PBXBuildFile; fileRef = 0259C583FE90428111CA0C5A /* palette.table */; };
@@ -168,6 +173,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				3769D08A0A349FDD00D71EDA /* PSMTabBarControl.framework in CopyFiles */,
+				5E0001E60B0DBAAE00B32F06 /* PSMPFTabStyle.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +201,8 @@
 		53DF68FD067E5B5A0090B5B0 /* PSMTabBarControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PSMTabBarControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		53DF68FE067E5B5A0090B5B0 /* PSMTabBarControlFramework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PSMTabBarControlFramework-Info.plist"; sourceTree = "<group>"; };
 		54D33B2806778E3300C9C163 /* PSMTabBarControl.ibclassdescription */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PSMTabBarControl.ibclassdescription; sourceTree = "<group>"; };
+		5E0001E50B0DBAAE00B32F06 /* PSMPFTabStyle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PSMPFTabStyle.h; path = source/PSMPFTabStyle.h; sourceTree = "<group>"; };
+		5E0001E70B0DBAB200B32F06 /* PSMPFTabStyle.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PSMPFTabStyle.m; path = source/PSMPFTabStyle.m; sourceTree = "<group>"; };
 		8D1AC9730486D14A00FE50C9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1AC9740486D14A00FE50C9 /* PSMTabBarControl.palette */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PSMTabBarControl.palette; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1AC97B0486D23100FE50C9 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -402,6 +410,8 @@
 				A2D32EFF09A63D7A00EC8662 /* PSMMetalTabStyle.m */,
 				A2D98B070A2B432C0064C6F8 /* PSMUnifiedTabStyle.h */,
 				A2D98B080A2B432C0064C6F8 /* PSMUnifiedTabStyle.m */,
+				5E0001E50B0DBAAE00B32F06 /* PSMPFTabStyle.h */,
+				5E0001E70B0DBAB200B32F06 /* PSMPFTabStyle.m */,
 			);
 			name = Styles;
 			sourceTree = "<group>";
@@ -528,6 +538,7 @@
 				A2D98B120A2B43FA0064C6F8 /* NSBezierPath_AMShading.h in Headers */,
 				3767A7590A2D449B005F7522 /* PSMAdiumTabStyle.h in Headers */,
 				3767A91C0A2F7A11005F7522 /* PSMTabDragWindow.h in Headers */,
+				5E0002060B0DBD1300B32F06 /* PSMPFTabStyle.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -710,6 +721,7 @@
 				A2D98B130A2B43FA0064C6F8 /* NSBezierPath_AMShading.m in Sources */,
 				3767A75A0A2D449B005F7522 /* PSMAdiumTabStyle.m in Sources */,
 				3767A91D0A2F7A11005F7522 /* PSMTabDragWindow.m in Sources */,
+				5E0002050B0DBD1300B32F06 /* PSMPFTabStyle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,6 +743,7 @@
 				A2D98B140A2B43FA0064C6F8 /* NSBezierPath_AMShading.m in Sources */,
 				3767A7580A2D449B005F7522 /* PSMAdiumTabStyle.m in Sources */,
 				3767A91E0A2F7A11005F7522 /* PSMTabDragWindow.m in Sources */,
+				5E0001FB0B0DBCA800B32F06 /* PSMPFTabStyle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,6 +755,7 @@
 				A251BEBE0959BBE60058BC7F /* FakeModel.m in Sources */,
 				A251BEC10959BBEC0058BC7F /* main.m in Sources */,
 				A2A711BF09E5BF0500D0089B /* WindowController.m in Sources */,
+				5E0001E80B0DBAB200B32F06 /* PSMPFTabStyle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
