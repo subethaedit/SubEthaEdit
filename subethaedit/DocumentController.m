@@ -16,10 +16,12 @@
 #import "TCMPreferenceController.h"
 #import "TCMPreferenceModule.h"
 #import "StylePreferences.h"
+#import "GeneralPreferences.h"
 #import "TextStorage.h"
 #import "NSSavePanelTCMAdditions.h"
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
+#import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
@@ -1004,11 +1006,32 @@ struct ModificationInfo
     
     if (selector == @selector(concealAllDocuments:)) {
         return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
-    } 
+    } else if (selector == @selector(alwaysShowTabBar:)) {
+        BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
+        [menuItem setState:(isChecked ? NSOnState : NSOffState)];
+        return YES;
+    }
     return [super validateMenuItem:menuItem];
 }
 
 #pragma mark -
+
+- (IBAction)alwaysShowTabBar:(id)sender
+{
+    BOOL flag = ([sender state] == NSOnState) ? NO : YES;
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:AlwaysShowTabBarKey];
+    
+    NSEnumerator *enumerator = [I_windowControllers objectEnumerator];
+    PlainTextWindowController *windowController;
+    while ((windowController = [enumerator nextObject])) {
+        if (![windowController hasManyDocuments]) {
+            PSMTabBarControl *tabBar = [windowController tabBar];
+            [tabBar setHideForSingleTab:!flag];
+            [tabBar hideTabBar:!flag animate:YES];
+        }
+    }
+    
+}
 
 - (IBAction)goIntoBundles:(id)sender {
     BOOL flag = ([sender state] == NSOffState) ? NO : YES;

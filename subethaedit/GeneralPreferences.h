@@ -32,6 +32,7 @@ extern NSString * const MyAIMsPreferenceKey;
 extern NSString * const MyEmailsPreferenceKey;
 extern NSString * const SynthesiseFontsPreferenceKey;
 extern NSString * const OpenNewDocumentInTabKey;
+extern NSString * const AlwaysShowTabBarKey;
 
 @class DocumentModePopUpButton;
 

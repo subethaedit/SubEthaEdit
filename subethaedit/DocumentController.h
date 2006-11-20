@@ -50,6 +50,8 @@
 
 + (DocumentController *)sharedInstance;
 
+- (IBAction)alwaysShowTabBar:(id)sender;
+
 - (IBAction)goIntoBundles:(id)sender;
 - (IBAction)changeModeInstallationDomain:(id)sender;
 - (IBAction)showHiddenFiles:(id)sender;

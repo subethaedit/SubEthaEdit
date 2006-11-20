@@ -252,7 +252,9 @@ enum {
     [I_tabView setDelegate:I_tabBar];
     [I_tabBar setDelegate:self];
     [I_tabBar setPartnerView:I_tabView];
-    [I_tabBar setHideForSingleTab:YES];
+    BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
+    [I_tabBar setHideForSingleTab:!shouldHideTabBar];
+    [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
 
     //[self validateButtons];
 }
@@ -380,14 +382,6 @@ enum {
         return [menuItem isEnabled];
     } else if (selector == @selector(openInSeparateWindow:)) {
         return ([[self documents] count] > 1);
-    } else if (selector == @selector(toggleTabBar:)) {
-        if ([I_tabBar isTabBarHidden]) {
-            [menuItem setTitle:NSLocalizedString(@"Show Tab Bar", nil)];
-        } else {
-            [menuItem setTitle:NSLocalizedString(@"Hide Tab Bar", nil)];
-        }
-        if ([self hasManyDocuments])
-            return NO;
     } else if (selector == @selector(selectNextTab:)) {
         if ([self hasManyDocuments]) 
             return YES;
@@ -438,16 +432,6 @@ enum {
 }
 
 #pragma mark -
-
-- (IBAction)toggleTabBar:(id)sender
-{
-    if ([I_tabBar isTabBarHidden]) {
-        [I_tabBar setHideForSingleTab:NO];
-        [I_tabBar hideTabBar:NO animate:YES];
-    } else {
-        [I_tabBar hideTabBar:YES animate:YES];
-    }
-}
 
 - (IBAction)openInSeparateWindow:(id)sender
 {
@@ -2360,8 +2344,10 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
             [tabContext release];
             [windowController setDocument:document];
             
-            [tabBarControl setHideForSingleTab:NO];
-            [tabBarControl hideTabBar:NO animate:YES];
+            if (![windowController hasManyDocuments]) {
+                [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
+                [tabBarControl hideTabBar:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey] animate:NO];
+            }
         }
     }
 }

@@ -36,6 +36,8 @@ NSString * const MyAIMsPreferenceKey                        = @"MyAIMs";
 NSString * const MyEmailsPreferenceKey                      = @"MyEmails";
 NSString * const SynthesiseFontsPreferenceKey               = @"SynthesiseFonts";
 NSString * const OpenNewDocumentInTabKey                    = @"OpenNewDocumentInTab";
+NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar";
+
 
 @implementation GeneralPreferences
 
@@ -64,6 +66,8 @@ NSString * const OpenNewDocumentInTabKey                    = @"OpenNewDocumentI
                     forKey:HighlightChangesAlonePreferenceKey];
     [defaultDict setObject:[NSNumber numberWithBool:NO]
                     forKey:OpenNewDocumentInTabKey];
+    [defaultDict setObject:[NSNumber numberWithBool:YES]
+                    forKey:AlwaysShowTabBarKey];
     [defaultDict setObject:BASEMODEIDENTIFIER
                     forKey:ModeForNewDocumentsPreferenceKey];
     

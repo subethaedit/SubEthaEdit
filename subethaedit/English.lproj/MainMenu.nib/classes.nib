@@ -93,6 +93,7 @@
         }, 
         {
             ACTIONS = {
+                alwaysShowTabBar = id; 
                 blockeditSelection = id; 
                 changePendingUsersAccess = id; 
                 changeTabWidth = id; 
@@ -131,7 +132,6 @@
                 toggleShowsChangeMarks = id; 
                 toggleSplitView = id; 
                 toggleSyntaxHighlighting = id; 
-                toggleTabBar = id; 
                 toggleTopStatusBar = id; 
                 toggleUsesTabs = id; 
                 toggleWrap = id; 

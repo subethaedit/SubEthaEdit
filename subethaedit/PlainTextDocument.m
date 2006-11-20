@@ -1404,9 +1404,9 @@ static NSString *tempFileName(NSString *origPath) {
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)makeWindowControllers {
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:OpenNewDocumentInTabKey] boolValue]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
         [self addWindowController:[[DocumentController sharedDocumentController] activeWindowController]];
-        [[(PlainTextWindowController *)[[DocumentController sharedDocumentController] activeWindowController] tabBar] setHideForSingleTab:NO];
+        [[(PlainTextWindowController *)[[DocumentController sharedDocumentController] activeWindowController] tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
     } else {
         PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
         [self addWindowController:controller];
