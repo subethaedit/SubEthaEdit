@@ -443,9 +443,9 @@ enum {
 {
     if ([I_tabBar isTabBarHidden]) {
         [I_tabBar setHideForSingleTab:NO];
-        [I_tabBar hideTabBar:NO animate:NO];
+        [I_tabBar hideTabBar:NO animate:YES];
     } else {
-        [I_tabBar hideTabBar:YES animate:NO];
+        [I_tabBar hideTabBar:YES animate:YES];
     }
 }
 
@@ -2351,6 +2351,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
             [windowController setDocument:document];
             
             [tabBarControl setHideForSingleTab:NO];
+            [tabBarControl hideTabBar:NO animate:YES];
         }
     }
 }
