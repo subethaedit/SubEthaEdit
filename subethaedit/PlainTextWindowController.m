@@ -2291,6 +2291,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 	//create a new window controller with no tab items
 	PlainTextWindowController *controller = [[[PlainTextWindowController alloc] init] autorelease];
     id <PSMTabStyle> style = (id <PSMTabStyle>)[[aTabView delegate] style];
+    BOOL hideForSingleTab = [[aTabView delegate] hideForSingleTab];
 	
 	NSRect windowFrame = [[controller window] frame];
 	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height;
@@ -2302,6 +2303,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
             
     [[controller window] setFrameTopLeftPoint:point];
 	[[controller tabBar] setStyle:style];
+    [[controller tabBar] setHideForSingleTab:hideForSingleTab];
 	
     [[DocumentController sharedInstance] addWindowController:controller];
 
