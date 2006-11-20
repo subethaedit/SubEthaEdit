@@ -2339,6 +2339,16 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
             if ([[self documents] count] == 0) {
                 [[self retain] autorelease];
                 [[DocumentController sharedInstance] removeWindowController:self];
+            } else {
+                if ([[self documents] count] == 1) {
+                    [self setDocument:[I_documents objectAtIndex:0]];
+                } else {
+                    if (documentIndex >= [[self documents] count]) {
+                        [self setDocument:[I_documents objectAtIndex:[[self documents] count] - 1]];
+                    } else {
+                        [self setDocument:[I_documents objectAtIndex:documentIndex]];
+                    }
+                }
             }
             
             [tabContext setWindowController:windowController];
