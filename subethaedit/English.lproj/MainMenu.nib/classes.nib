@@ -113,6 +113,7 @@
                 jumpToNextSymbol = id; 
                 jumpToPreviousChange = id; 
                 jumpToPreviousSymbol = id; 
+                newAlternateDocument = id; 
                 newView = id; 
                 openInSeparateWindow = id; 
                 refreshWebPreview = id; 

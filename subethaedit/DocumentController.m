@@ -957,6 +957,22 @@ static NSString *tempFileName() {
     }
 }
 
+- (void)newAlternateDocument:(id)sender
+{
+    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+    [[NSUserDefaults standardUserDefaults] setBool:!flag forKey:OpenNewDocumentInTabKey];
+    [self newDocument:sender];
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
+}
+
+- (void)newAlternateDocumentWithModeMenuItem:(id)sender
+{
+    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+    [[NSUserDefaults standardUserDefaults] setBool:!flag forKey:OpenNewDocumentInTabKey];
+    [self newDocumentWithModeMenuItem:sender];
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
+}
+
 #pragma mark -
 
 #pragma options align=mac68k
@@ -1009,6 +1025,13 @@ struct ModificationInfo
     } else if (selector == @selector(alwaysShowTabBar:)) {
         BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
         [menuItem setState:(isChecked ? NSOnState : NSOffState)];
+        return YES;
+    } else if (selector == @selector(newAlternateDocument:)) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
+            [menuItem setTitle:NSLocalizedString(@"New Window", nil)];
+        } else {
+            [menuItem setTitle:NSLocalizedString(@"New Tab", nil)];
+        }
         return YES;
     }
     return [super validateMenuItem:menuItem];
