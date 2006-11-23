@@ -1405,8 +1405,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)makeWindowControllers {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
-        [self addWindowController:[[DocumentController sharedDocumentController] activeWindowController]];
-        [[(PlainTextWindowController *)[[DocumentController sharedDocumentController] activeWindowController] tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
+        PlainTextWindowController *controller = [[DocumentController sharedDocumentController] activeWindowController];
+        [self addWindowController:controller];
+        [[(PlainTextWindowController *)controller tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
     } else {
         PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
         [self addWindowController:controller];

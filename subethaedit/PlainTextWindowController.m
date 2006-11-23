@@ -483,6 +483,7 @@ enum {
     [tabContext release];
     [document showWindows];
     [windowController setDocument:document];
+    if ([O_participantsDrawer state] == NSDrawerOpenState) [windowController openParticipantsDrawer:self];
 }
 
 - (BOOL)showsBottomStatusBar {
@@ -2390,6 +2391,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
             [document release];
             [tabContext release];
             [windowController setDocument:document];
+            if ([O_participantsDrawer state] == NSDrawerOpenState) [windowController openParticipantsDrawer:self];
             
             if (![windowController hasManyDocuments]) {
                 [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
