@@ -1265,6 +1265,8 @@ subethaedit/PlainTextDocument.h -text
 subethaedit/PlainTextDocument.m -text
 subethaedit/PlainTextEditor.h -text
 subethaedit/PlainTextEditor.m -text
+subethaedit/PlainTextWindow.h -text
+subethaedit/PlainTextWindow.m -text
 subethaedit/PlainTextWindowController.h -text
 subethaedit/PlainTextWindowController.m -text
 subethaedit/PlainTextWindowControllerTabContext.h -text
