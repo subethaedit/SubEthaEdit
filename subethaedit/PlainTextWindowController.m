@@ -1718,6 +1718,51 @@ enum {
     [(PlainTextDocument *)[self document] adjustModeMenu];
 }
 
+- (void)windowDidBecomeKey:(NSNotification *)aNotification
+{
+    NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+    int index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeTab:)];
+    if (index) {
+        NSMenuItem *item = [fileMenu itemAtIndex:index];
+        [item setKeyEquivalent:@"w"];
+        [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+        [item setEnabled:YES];
+    }
+    index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(performClose:)];
+    if (index) {
+        NSMenuItem *item = [fileMenu itemAtIndex:index];
+        [item setKeyEquivalent:@"W"];
+    }
+    index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeAllDocuments:)];
+    if (index) {
+        NSMenuItem *item = [fileMenu itemAtIndex:index];
+        [item setKeyEquivalent:@"W"];
+        [item setKeyEquivalentModifierMask:NSShiftKeyMask | NSAlternateKeyMask | NSCommandKeyMask];
+    }
+}
+
+- (void)windowDidResignKey:(NSNotification *)aNotification
+{
+    NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+    int index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeTab:)];
+    if (index) {
+        NSMenuItem *item = [fileMenu itemAtIndex:index];
+        [item setKeyEquivalent:@""];
+        [item setEnabled:NO];
+    }
+    index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(performClose:)];
+    if (index) {
+        NSMenuItem *item = [fileMenu itemAtIndex:index];
+        [item setKeyEquivalent:@"w"];
+    }
+    index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeAllDocuments:)];
+    if (index) {
+        NSMenuItem *item = [fileMenu itemAtIndex:index];
+        [item setKeyEquivalent:@"w"];
+        [item setKeyEquivalentModifierMask:NSAlternateKeyMask | NSCommandKeyMask];
+    }
+}
+
 #pragma mark -
 
 - (BOOL)hasManyDocuments
