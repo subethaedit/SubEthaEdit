@@ -483,7 +483,12 @@ enum {
     [tabContext release];
     [document showWindows];
     [windowController setDocument:document];
-    if ([O_participantsDrawer state] == NSDrawerOpenState) [windowController openParticipantsDrawer:self];
+    if ([O_participantsDrawer state] == NSDrawerOpenState &&
+        ([document isAnnounced] || [[document session] clientState] != TCMMMSessionClientNoState))
+    {
+        [windowController openParticipantsDrawer:self];
+    }
+    [self closeParticipantsDrawer:self];
 }
 
 - (BOOL)showsBottomStatusBar {
@@ -1857,7 +1862,6 @@ enum {
         }
     }
     
-    NSLog(@"just close all tabs");
     documents = [self documents];
     count = [documents count];
     while (count--) {
@@ -2391,8 +2395,14 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
             [document release];
             [tabContext release];
             [windowController setDocument:document];
-            if ([O_participantsDrawer state] == NSDrawerOpenState) [windowController openParticipantsDrawer:self];
             
+            if ([O_participantsDrawer state] == NSDrawerOpenState &&
+                ([document isAnnounced] || [(TCMMMSession *)[document session] clientState] != TCMMMSessionClientNoState))
+            {
+                [windowController openParticipantsDrawer:self];
+            }
+            [self closeParticipantsDrawer:self];
+                      
             if (![windowController hasManyDocuments]) {
                 [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
                 [tabBarControl hideTabBar:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey] animate:NO];
