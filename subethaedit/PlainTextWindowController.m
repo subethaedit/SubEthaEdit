@@ -1799,12 +1799,14 @@ enum {
 }
 
 - (BOOL)selectTabForDocument:(id)aDocument {
-    unsigned index = [[self documents] indexOfObject:aDocument];
-    if (index == NSNotFound) return NO;
-    if ([self hasManyDocuments]) {
+    NSString *identifier = [[(PlainTextDocument *)aDocument session] sessionID];
+    int index = [I_tabView indexOfTabViewItemWithIdentifier:identifier];
+    if (index != NSNotFound) {
         [I_tabView selectTabViewItemAtIndex:index];
+        return YES;
+    } else {
+        return NO;
     }
-    return YES; 
 }
 
 - (IBAction)closeTab:(id)sender
