@@ -282,8 +282,11 @@
     // Paragraph Style for Truncating Long Text
     static NSMutableParagraphStyle *TruncatingTailParagraphStyle = nil;
     if (!TruncatingTailParagraphStyle) {
-        TruncatingTailParagraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] retain];
-        [TruncatingTailParagraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+        TruncatingTailParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [TruncatingTailParagraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
+        if ([TruncatingTailParagraphStyle respondsToSelector:@selector(setTighteningFactorForTruncation:)]) {
+            [TruncatingTailParagraphStyle setTighteningFactorForTruncation:0.2];
+        }
     }
     [attrStr addAttribute:NSParagraphStyleAttributeName value:TruncatingTailParagraphStyle range:range];
     
