@@ -103,6 +103,8 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (NSArray *)documents;
 - (NSArray *)tabContexts;
 
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document;
+
 - (PSMTabBarControl *)tabBar;
 - (NSTabView *)tabView;
 

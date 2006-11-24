@@ -1130,9 +1130,7 @@ enum {
 }
 
 #pragma mark -
-
-- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
-    PlainTextDocument *document = (PlainTextDocument *)[self document];
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document {
     TCMMMSession *session = [document session];
     
     unsigned int index = [I_tabView indexOfTabViewItemWithIdentifier:[session sessionID]];
@@ -1192,6 +1190,10 @@ enum {
     }
     
     return displayName;
+}
+
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
+    return [self windowTitleForDocumentDisplayName:displayName document:(PlainTextDocument *)[self document]];
 }
 
 #pragma mark -

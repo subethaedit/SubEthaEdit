@@ -1162,8 +1162,24 @@
             [O_symbolPopUpButton performClick:self];
             return;
         } else if ([characters isEqualToString:@"1"]) {
-            
-            [NSMenu popUpContextMenu:[[NSApp windowsMenu] bottomPart] withEvent:aEvent forView:[self textView] withFont:[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+            static NSPopUpButtonCell *s_cell = nil;
+            if (!s_cell) {
+                s_cell = [NSPopUpButtonCell new];
+                [s_cell setControlSize:NSSmallControlSize];
+                [s_cell setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+            }
+            [s_cell setMenu:[[DocumentController sharedInstance] documentMenu]];
+            NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
+            NSMenuItem   *menuItem  = nil;
+            while ((menuItem=[menuItems nextObject])) {
+                if ([menuItem target]==[self document]) {
+                    [s_cell selectItem:menuItem];
+                    break;
+                }
+            }
+            NSRect frame = [O_editorView frame];
+            frame.size.width = 50;
+            [s_cell performClickWithFrame:frame inView:O_editorView];
             return;
         } else if ([self showsBottomStatusBar]) {
                    if ([characters isEqualToString:@"3"]) {

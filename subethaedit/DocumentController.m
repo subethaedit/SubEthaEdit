@@ -35,6 +35,7 @@
 
 @implementation DocumentController (DocumentControllerPrivateAdditions)
 
+
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding {
     I_encodingFromLastRunOpenPanel = stringEncoding;
 }
@@ -304,6 +305,34 @@ static NSString *tempFileName() {
     
     [super dealloc];
 }
+
+- (NSMenu *)documentMenu {
+    static NSMenu *s_documentMenu = nil;
+    [s_documentMenu release];
+    s_documentMenu = [NSMenu new];
+    NSMenuItem *prototypeMenuItem=
+        [[NSMenuItem alloc] initWithTitle:@""
+                                   action:@selector(showWindows)
+                            keyEquivalent:@""];
+    NSEnumerator *windowControllers = [I_windowControllers objectEnumerator];
+    PlainTextWindowController *windowController = nil;
+    BOOL firstWC = YES;
+    while ((windowController=[windowControllers nextObject])) {
+        NSEnumerator      *documents = [[windowController documents] objectEnumerator];
+        PlainTextDocument *document = nil;
+        if (!firstWC) {
+            [s_documentMenu addItem:[NSMenuItem separatorItem]];
+        }
+        while ((document = [documents nextObject])) {
+            [prototypeMenuItem setTarget:document];
+            [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
+            [s_documentMenu addItem:[[prototypeMenuItem copy] autorelease]];
+        }
+        firstWC = NO;
+    }
+    return s_documentMenu;
+}
+
 
 - (void)displayPendingDocuments
 {

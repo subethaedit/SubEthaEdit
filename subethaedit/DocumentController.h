@@ -50,6 +50,8 @@
 
 + (DocumentController *)sharedInstance;
 
+- (NSMenu *)documentMenu;
+
 - (IBAction)alwaysShowTabBar:(id)sender;
 
 - (IBAction)goIntoBundles:(id)sender;
