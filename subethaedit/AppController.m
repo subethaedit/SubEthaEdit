@@ -667,6 +667,11 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
     NSMenuItem *menuItem=[menu itemWithTag:FileNewMenuItemTag];
     menu = [menuItem submenu];
+    NSEnumerator *menuItems = [[menu itemArray] objectEnumerator];
+    NSMenuItem *item = nil;
+    while ((item=[menuItems nextObject])) {
+        [item setKeyEquivalent:@""];
+    }
     menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
     [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
     [menuItem setKeyEquivalent:@"n"];
@@ -676,14 +681,21 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     NSMenu *menu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
     NSMenuItem *menuItem = [menu itemWithTag:FileNewAlternateMenuItemTag];
     menu = [menuItem submenu];
+    NSEnumerator *menuItems = [[menu itemArray] objectEnumerator];
+    NSMenuItem *item = nil;
+    while ((item=[menuItems nextObject])) {
+        [item setKeyEquivalent:@""];
+    }
     menuItem = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
     [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask | NSAlternateKeyMask];
     [menuItem setKeyEquivalent:@"n"];
 }
 
 - (void)documentModeListDidChange:(NSNotification *)aNotification {
+    NSLog(@"%s",__FUNCTION__);
     // fix file->new menu
-    [self performSelector:@selector(addShortcutToModeForNewDocumentsEntry) withObject:nil afterDelay:0.01];
+    [self performSelector:@selector(addShortcutToModeForNewDocumentsEntry)          withObject:nil afterDelay:0.0];
+    [self performSelector:@selector(addShortcutToModeForNewAlternateDocumentsEntry) withObject:nil afterDelay:0.0];
 }
 
 - (void)setupDocumentModeSubmenu {

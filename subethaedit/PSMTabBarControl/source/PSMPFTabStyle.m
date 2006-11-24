@@ -346,7 +346,7 @@
 		[s_shadow set];
         static NSColor *color;
         if (!color) {
-            if ([NSColor respondsToSelector:@selector(_controlColor)] && NO) {
+            if ([NSColor respondsToSelector:@selector(_controlColor)]) {
                 color = [[NSColor performSelector:@selector(_controlColor)] retain];
             } else {
                 color = [[NSColor colorWithCalibratedWhite:0.8841 alpha:1.0] retain];

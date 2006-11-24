@@ -159,16 +159,9 @@ NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar
 
 - (IBAction)changeModeForNewDocuments:(id)aSender {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
-    NSMenu *newMenu=[[[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu] itemWithTag:FileNewMenuItemTag] submenu];
-    NSMenuItem *menuItem=[newMenu itemWithTag:[modeManager tagForDocumentModeIdentifier:[defaults objectForKey:ModeForNewDocumentsPreferenceKey]]];
-    NSString *keyEquivalent=[[[menuItem keyEquivalent] retain] autorelease];
-    unsigned int modifierMask=[menuItem keyEquivalentModifierMask];
-    [menuItem setKeyEquivalent:@""];
     [defaults setObject:[aSender selectedModeIdentifier] forKey:ModeForNewDocumentsPreferenceKey];
-    menuItem=(NSMenuItem *)[newMenu itemWithTag:[modeManager tagForDocumentModeIdentifier:[defaults objectForKey:ModeForNewDocumentsPreferenceKey]]];
-    [menuItem setKeyEquivalent:keyEquivalent];
-    [menuItem setKeyEquivalentModifierMask:modifierMask];
+    [[AppController sharedInstance] performSelector:@selector(addShortcutToModeForNewDocumentsEntry)          withObject:nil afterDelay:0.0];
+    [[AppController sharedInstance] performSelector:@selector(addShortcutToModeForNewAlternateDocumentsEntry) withObject:nil afterDelay:0.0];
 }
 
 
