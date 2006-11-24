@@ -344,7 +344,15 @@
 		  [s_shadow setShadowBlurRadius:4.];
 		}
 		[s_shadow set];
-		[[NSColor whiteColor] set];
+        static NSColor *color;
+        if (!color) {
+            if ([NSColor respondsToSelector:@selector(_controlColor)] && NO) {
+                color = [[NSColor performSelector:@selector(_controlColor)] retain];
+            } else {
+                color = [[NSColor colorWithCalibratedWhite:0.8841 alpha:1.0] retain];
+            }
+        }
+		[color set];
 		[bezier fill];
 		if ([NSApp isActive]) {
 			if ([cell state] == NSOnState) {
@@ -357,7 +365,7 @@
 				[bezier linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.835 alpha:1.0]
 												endColor:[NSColor colorWithCalibratedWhite:0.843 alpha:1.0]];
 			}
-		}
+		} 
 		[s_noshadow set];
 		[lineColor set];
         [bezier stroke];
