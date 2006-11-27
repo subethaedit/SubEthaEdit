@@ -1431,6 +1431,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         [super removeWindowController:windowController];
     }
 
+    #warning: Relates to SEE-1185
     if ([[self windowControllers] count] == 0) {
         // terminate syntax coloring
         I_flags.highlightSyntax = NO;
@@ -4321,6 +4322,7 @@ static NSString *S_measurementUnits;
 
 - (void)sessionDidReceiveClose:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
+    #warning: Fix NSAlert
     NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"Closed",@"Server Closed Document title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"ClosedInfo",@"Server Closed Document info in Sheet")];
     [alert setAlertStyle:NSInformationalAlertStyle];
     [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
@@ -4448,10 +4450,10 @@ static NSString *S_measurementUnits;
 
 - (NSArray *)plainTextEditors {
     NSMutableArray *result = [NSMutableArray array];
-    NSEnumerator *windowControllers=[[self windowControllers] objectEnumerator];
+    NSEnumerator *windowControllers = [[self windowControllers] objectEnumerator];
     PlainTextWindowController *windowController;
-    while ((windowController=[windowControllers nextObject])) {
-        [result addObjectsFromArray:[windowController plainTextEditors]];
+    while ((windowController = [windowControllers nextObject])) {
+        [result addObjectsFromArray:[windowController plainTextEditorsForDocument:self]];
     }
     return result;
 }

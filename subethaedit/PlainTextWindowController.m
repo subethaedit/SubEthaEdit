@@ -227,7 +227,6 @@ enum {
                                                  name:GlobalScriptsDidReloadNotification 
                                                object:nil];
     
-    /*
     SInt32 MacVersion;
     if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr){
         if (MacVersion >= 0x1040){
@@ -235,7 +234,6 @@ enum {
             [[[self window] toolbar] setShowsBaselineSeparator:NO];
         }
     }
-    */
 
     [[[self window] contentView] setAutoresizesSubviews:YES];
     NSRect contentFrame = [[[self window] contentView] frame];
@@ -1804,6 +1802,22 @@ enum {
     if ([item isEqual:[I_tabView selectedTabViewItem]]) {
         [I_tabView selectLastTabViewItem:self];
     }
+}
+
+- (NSArray *)plainTextEditorsForDocument:(id)aDocument
+{
+    NSMutableArray *editors = [NSMutableArray array];
+    unsigned count = [[self documents] count];
+    unsigned i;
+    for (i = 0; i < count; i++) {
+        PlainTextDocument *document = [[self documents] objectAtIndex:i];
+        if ([document isEqual:aDocument]) {
+            PlainTextWindowControllerTabContext *tabContext = [I_tabContexts objectAtIndex:i];
+            [editors addObjectsFromArray:[tabContext plainTextEditors]];
+        }
+    }
+    
+    return editors;
 }
 
 - (BOOL)selectTabForDocument:(id)aDocument {
