@@ -106,6 +106,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     int I_lineEnding;
     NSString *I_lineEndingString;
+    NSString *I_identifier;
     
     struct {
         int numberOfBrackets;
@@ -158,6 +159,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)killProxyWindowController;
 - (void)proxyWindowWillClose;
 - (void)updateProxyWindow;
+- (NSString *)identifier;
 
 - (void)setSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)session;

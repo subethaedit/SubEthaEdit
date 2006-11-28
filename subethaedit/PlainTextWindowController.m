@@ -277,8 +277,7 @@ enum {
                                                          name:TCMMMSessionDidReceiveContentNotification
                                                        object:[document session]];
 
-            NSString *identifier = [[document session] sessionID];
-            int index = [I_tabView indexOfTabViewItemWithIdentifier:identifier];
+            int index = [I_tabView indexOfTabViewItemWithIdentifier:[document identifier]];
             if (index != NSNotFound) {        
                 [I_tabView selectTabViewItemAtIndex:index];
                 [[I_tabView tabViewItemAtIndex:index] setView:O_receivingContentView];
@@ -292,8 +291,7 @@ enum {
             [O_progressIndicator stopAnimation:self];
             PlainTextEditor *editor = [[tabContext plainTextEditors] objectAtIndex:0];
 
-            NSString *identifier = [[document session] sessionID];
-            int index = [I_tabView indexOfTabViewItemWithIdentifier:identifier];
+            int index = [I_tabView indexOfTabViewItemWithIdentifier:[document identifier]];
             if (index != NSNotFound)     
                 [[I_tabView tabViewItemAtIndex:index] setView:[editor editorView]];
             
@@ -436,7 +434,7 @@ enum {
     PlainTextDocument *document = [self document];
     unsigned int documentIndex = [[self documents] indexOfObject:document];
     PlainTextWindowControllerTabContext *tabContext = [I_tabContexts objectAtIndex:documentIndex];
-    unsigned int tabViewItemIndex = [I_tabView indexOfTabViewItemWithIdentifier:[[document session] sessionID]];
+    unsigned int tabViewItemIndex = [I_tabView indexOfTabViewItemWithIdentifier:[document identifier]];
     NSTabViewItem *tabViewItem = [I_tabView tabViewItemAtIndex:tabViewItemIndex];
     [tabViewItem retain];
     [document retain];
@@ -1131,7 +1129,7 @@ enum {
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document {
     TCMMMSession *session = [document session];
     
-    unsigned int index = [I_tabView indexOfTabViewItemWithIdentifier:[session sessionID]];
+    unsigned int index = [I_tabView indexOfTabViewItemWithIdentifier:[document identifier]];
     if (index != NSNotFound) [[I_tabView tabViewItemAtIndex:index] setLabel:displayName];
 
     if ([[document ODBParameters] objectForKey:@"keyFileCustomPath"]) {
@@ -1318,8 +1316,7 @@ enum {
     [aDocumentDialog setDocument:[self document]];
     if (aDocumentDialog) {
         if (!I_dialogSplitView) {
-            NSString *identifier = [[(PlainTextDocument *)[self document] session] sessionID];
-            int idx = [I_tabView indexOfTabViewItemWithIdentifier:identifier];
+            int idx = [I_tabView indexOfTabViewItemWithIdentifier:[(PlainTextDocument *)[self document] identifier]];
             NSTabViewItem *tab = [I_tabView tabViewItemAtIndex:idx];
             //NSView *contentView = [[[self window] contentView] retain];
             NSView *tabItemView = [[tab view] retain];
@@ -1821,8 +1818,7 @@ enum {
 }
 
 - (BOOL)selectTabForDocument:(id)aDocument {
-    NSString *identifier = [[(PlainTextDocument *)aDocument session] sessionID];
-    int index = [I_tabView indexOfTabViewItemWithIdentifier:identifier];
+    int index = [I_tabView indexOfTabViewItemWithIdentifier:[(PlainTextDocument *)aDocument identifier]];
     if (index != NSNotFound) {
         [I_tabView selectTabViewItemAtIndex:index];
         return YES;
@@ -1989,7 +1985,7 @@ enum {
         NSEnumerator *enumerator = [[self documents] objectEnumerator];
         id document;
         while ((document = [enumerator nextObject])) {
-            if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+            if ([identifier isEqualToString:[(PlainTextDocument *)document identifier]]) {
                 [result addObject:document];
                 break;
             }
@@ -2041,7 +2037,7 @@ enum {
             I_dialogSplitView = nil;
             [self setInitialRadarStatusForPlainTextEditor:plainTextEditor];
             
-            NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:[[(PlainTextDocument *)document session] sessionID]];
+            NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:[(PlainTextDocument *)document identifier]];
             [tab setLabel:[document displayName]];
             [tab setView:[plainTextEditor editorView]];
             [plainTextEditor release];
@@ -2184,8 +2180,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
     unsigned int oldDocumentCount = [documents count];
     if (I_documentBeingClosed && oldDocumentCount > 1) {
         if (!PlainTextWindowControllerDocumentClosedByTabControl) {
-            NSString *identifier = [[(PlainTextDocument *)I_documentBeingClosed session] sessionID];
-            int index = [I_tabView indexOfTabViewItemWithIdentifier:identifier];
+            int index = [I_tabView indexOfTabViewItemWithIdentifier:[(PlainTextDocument *)I_documentBeingClosed identifier]];
             if (index != NSNotFound) {
                 [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:index]];
             }
@@ -2230,7 +2225,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
     NSEnumerator *enumerator = [[self documents] objectEnumerator];
     id document;
     while ((document = [enumerator nextObject])) {
-        if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+        if ([identifier isEqualToString:[(PlainTextDocument *)document identifier]]) {
             [self setDocument:document];
             break;
         }
@@ -2257,7 +2252,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
     NSEnumerator *enumerator = [[self documents] objectEnumerator];
     id document;
     while ((document = [enumerator nextObject])) {
-        if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+        if ([identifier isEqualToString:[(PlainTextDocument *)document identifier]]) {
             PlainTextWindowControllerDocumentClosedByTabControl = YES;
             [document canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
             break;
@@ -2283,7 +2278,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
         id document;
         BOOL found = NO;
         while ((document = [enumerator nextObject])) {
-            if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+            if ([identifier isEqualToString:[(PlainTextDocument *)document identifier]]) {
                 found = YES;
                 break;
             }
@@ -2391,7 +2386,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
         id document;
         BOOL found = NO;
         while ((document = [enumerator nextObject])) {
-            if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+            if ([identifier isEqualToString:[(PlainTextDocument *)document identifier]]) {
                 found = YES;
                 break;
             }

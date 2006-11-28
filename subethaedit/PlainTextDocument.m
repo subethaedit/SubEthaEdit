@@ -276,6 +276,7 @@ static NSString *tempFileName(NSString *origPath) {
     [self setEditAnyway:NO];
     [self setIsFileWritable:YES];
     I_undoManager = [(UndoManager *)[UndoManager alloc] initWithDocument:self];
+    I_identifier = nil;
 }
 
 - (void)updateViewBecauseOfPreferences:(NSNotification *)aNotification {
@@ -867,6 +868,7 @@ static NSString *tempFileName(NSString *origPath) {
         [I_session abandon];
     }
     
+    [I_identifier release];
     [I_symbolUpdateTimer release];
     [I_webPreviewDelayedRefreshTimer release];
 
@@ -916,6 +918,15 @@ static NSString *tempFileName(NSString *origPath) {
 
 #pragma mark -
 #pragma mark ### accessors ###
+
+- (NSString *)identifier
+{
+    if (I_identifier == nil) {
+        I_identifier = [[NSNumber numberWithUnsignedInt:(unsigned int)self] stringValue];
+        [I_identifier retain];
+    }
+    return I_identifier;
+}
 
 - (void)setSession:(TCMMMSession *)aSession {
     [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentSessionWillChangeNotification object:self];
@@ -1431,18 +1442,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         [super removeWindowController:windowController];
     }
 
-    #warning: Relates to SEE-1185
-    if ([[self windowControllers] count] == 0) {
-        // terminate syntax coloring
-        I_flags.highlightSyntax = NO;
-        [I_symbolUpdateTimer invalidate];
-        [I_webPreviewDelayedRefreshTimer invalidate];
-        [self TCM_sendODBCloseEvent];
-        if (I_authRef != NULL) {
-            (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
-            I_authRef = NULL;
-        }
-    } else {
+    if ([[self windowControllers] count] != 0) {
         // if doing always, we delay the dealloc method ad inifitum on quit
         [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
     }
@@ -1522,6 +1522,16 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     for (index = 0; index < windowControllerCount; index++) {
         NSWindowController *windowController = [windowControllers objectAtIndex:index];
         [(PlainTextWindowController *)windowController documentWillClose:self];
+    }
+    
+    // terminate syntax coloring
+    I_flags.highlightSyntax = NO;
+    [I_symbolUpdateTimer invalidate];
+    [I_webPreviewDelayedRefreshTimer invalidate];
+    [self TCM_sendODBCloseEvent];
+    if (I_authRef != NULL) {
+        (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
+        I_authRef = NULL;
     }
 
     // Do the regular NSDocument thing.
@@ -4316,6 +4326,7 @@ static NSString *S_measurementUnits;
 
 - (void)sessionDidReceiveKick:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
+    #warning: Fix NSAlert
     NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"Kicked",@"Kick title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"KickedInfo",@"Kick info in Sheet")];
     [alert setAlertStyle:NSInformationalAlertStyle];
     [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
@@ -4327,7 +4338,6 @@ static NSString *S_measurementUnits;
 
 - (void)sessionDidReceiveClose:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
-    #warning: Fix NSAlert
     NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"Closed",@"Server Closed Document title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"ClosedInfo",@"Server Closed Document info in Sheet")];
     [alert setAlertStyle:NSInformationalAlertStyle];
     [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
