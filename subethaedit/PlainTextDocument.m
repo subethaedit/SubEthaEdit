@@ -1657,6 +1657,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
+- (void)showWindowController:(id)aSender {
+    [[aSender representedObject] selectTabForDocument:self];
+    [[aSender representedObject] showWindow:self];
+}
+
 - (void)showWindows {    
     BOOL closeTransient = transientDocument 
                           && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])

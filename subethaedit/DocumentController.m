@@ -15,6 +15,7 @@
 #import "TCMMMPresenceManager.h"
 #import "TCMPreferenceController.h"
 #import "TCMPreferenceModule.h"
+#import "NSMenuTCMAdditions.h"
 #import "StylePreferences.h"
 #import "GeneralPreferences.h"
 #import "TextStorage.h"
@@ -306,31 +307,39 @@ static NSString *tempFileName() {
     [super dealloc];
 }
 
-- (NSMenu *)documentMenu {
-    static NSMenu *s_documentMenu = nil;
-    [s_documentMenu release];
-    s_documentMenu = [NSMenu new];
+- (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu {
+    [aMenu removeAllItems];
     NSMenuItem *prototypeMenuItem=
         [[NSMenuItem alloc] initWithTitle:@""
-                                   action:@selector(showWindows)
+                                   action:@selector(showWindowController:)
                             keyEquivalent:@""];
     NSEnumerator *windowControllers = [I_windowControllers objectEnumerator];
     PlainTextWindowController *windowController = nil;
     BOOL firstWC = YES;
     while ((windowController=[windowControllers nextObject])) {
-        NSEnumerator      *documents = [[windowController documents] objectEnumerator];
+        NSEnumerator      *documents = [[windowController orderedDocuments] objectEnumerator];
         PlainTextDocument *document = nil;
         if (!firstWC) {
-            [s_documentMenu addItem:[NSMenuItem separatorItem]];
+            [aMenu addItem:[NSMenuItem separatorItem]];
         }
         while ((document = [documents nextObject])) {
             [prototypeMenuItem setTarget:document];
             [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
-            [s_documentMenu addItem:[[prototypeMenuItem copy] autorelease]];
+            [prototypeMenuItem setRepresentedObject:windowController];
+            [aMenu addItem:[[prototypeMenuItem copy] autorelease]];
         }
         firstWC = NO;
     }
-    return s_documentMenu;
+}
+
+- (void)menuNeedsUpdate:(NSMenu *)aMenu {
+    [self updateMenuWithTabMenuItems:aMenu];
+}
+
+- (NSMenu *)documentMenu {
+    NSMenu *documentMenu = [[NSMenu new] autorelease];
+    [self updateMenuWithTabMenuItems:documentMenu];
+    return documentMenu;
 }
 
 

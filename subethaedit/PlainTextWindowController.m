@@ -1981,6 +1981,22 @@ enum {
 
 #pragma mark Simple Property Getting 
 
+- (NSArray *)orderedDocuments {
+    NSMutableArray *result=[NSMutableArray array];
+    NSEnumerator *tabViewItems=[[[self tabBar] representedTabViewItems] objectEnumerator];
+    NSString *identifier = nil;
+    while ((identifier=[[tabViewItems nextObject] identifier])) {
+        NSEnumerator *enumerator = [[self documents] objectEnumerator];
+        id document;
+        while ((document = [enumerator nextObject])) {
+            if ([identifier isEqualToString:[[(PlainTextDocument *)document session] sessionID]]) {
+                [result addObject:document];
+                break;
+            }
+        }
+    }
+    return result;
+}
 
 - (NSArray *)documents 
 {
@@ -2097,6 +2113,7 @@ enum {
     [super setDocument:document];
     
     if (document) {
+        if ([[self window] isKeyWindow]) [(PlainTextDocument *)document adjustModeMenu];
         [self adjustToolbarToDocumentMode];
         [self refreshDisplay];
         [self validateUpperDrawer];

@@ -1172,13 +1172,15 @@
             NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
             NSMenuItem   *menuItem  = nil;
             while ((menuItem=[menuItems nextObject])) {
-                if ([menuItem target]==[self document]) {
+                if ([menuItem target]==[self document] && [menuItem representedObject]==[[I_textView window] windowController]) {
                     [s_cell selectItem:menuItem];
                     break;
                 }
             }
             NSRect frame = [O_editorView frame];
             frame.size.width = 50;
+            frame.origin.y = frame.size.height-20;
+            frame.size.height = 20;
             [s_cell performClickWithFrame:frame inView:O_editorView];
             return;
         } else if ([self showsBottomStatusBar]) {

@@ -101,6 +101,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)closeAllTabs;
 - (void)reviewChangesAndQuitEnumeration:(BOOL)cont;
 
+- (NSArray *)orderedDocuments;
 - (NSArray *)documents;
 - (NSArray *)tabContexts;
 
