@@ -15,6 +15,11 @@
     if ((mainMenu = [NSApp mainMenu]) != nil) {
 		
         NSMenuItem *editMenu = [mainMenu itemWithTitle:@"Edit"];
+                
+        if (!editMenu) { // FIXME This is a sucky workaround for localized Edit menus
+            editMenu = [mainMenu itemAtIndex:2];
+        }
+        
         NSMenuItem *sep = [NSMenuItem separatorItem];
         [[editMenu submenu] addItem: sep];
         

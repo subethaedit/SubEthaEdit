@@ -8,6 +8,7 @@
 
 #import "FOODBEditorController.h"
 #import "FOODBEditor.h"
+#import <WebKit/WebKit.h>
 
 @implementation FOODBEditorController
 
@@ -55,7 +56,16 @@ static FOODBEditorController *me = nil;
     [NSApp endSheet:[sender window]];
     
     // FIXME - end the ODB session here as well.
+    
+    // Editor abortEditingFile:
 }
+
+- (void) openWebViewInODBEditor:(WebView*)webview; {
+    [webview selectAll:nil];
+	DOMDocumentFragment* selection = [[webview selectedDOMRange] cloneContents];
+    NSLog(@"foo: %@", selection);
+}
+
 
 - (void) openInODBEditor:(NSTextView*)textView; {
     

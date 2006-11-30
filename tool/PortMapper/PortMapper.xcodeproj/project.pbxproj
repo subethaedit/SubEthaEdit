@@ -1,0 +1,369 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		31A5AC160B1F0269007F3375 /* upnp.c in Sources */ = {isa = PBXBuildFile; fileRef = 31A5ABEC0B1F0268007F3375 /* upnp.c */; };
+		31A5AC170B1F0269007F3375 /* natpmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 31A5ABEE0B1F0268007F3375 /* natpmp.c */; };
+		31A5AC180B1F0269007F3375 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 31A5ABF00B1F0268007F3375 /* utils.c */; };
+		31A5AC1E0B1F0269007F3375 /* fdlimit.c in Sources */ = {isa = PBXBuildFile; fileRef = 31A5ABFE0B1F0269007F3375 /* fdlimit.c */; };
+		31A5AC240B1F0269007F3375 /* platform.c in Sources */ = {isa = PBXBuildFile; fileRef = 31A5AC0A0B1F0269007F3375 /* platform.c */; };
+		31A5AC270B1F0269007F3375 /* xml.c in Sources */ = {isa = PBXBuildFile; fileRef = 31A5AC130B1F0269007F3375 /* xml.c */; };
+		31A5AC280B1F0269007F3375 /* http.c in Sources */ = {isa = PBXBuildFile; fileRef = 31A5AC150B1F0269007F3375 /* http.c */; };
+		31A5AC6D0B1F0D25007F3375 /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = 31A5ABF60B1F0269007F3375 /* net.c */; };
+		31A5ACDF0B1F1BB0007F3375 /* PortMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A5ACDE0B1F1BB0007F3375 /* PortMapper.m */; };
+		31A5ACE90B1F1BD3007F3375 /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A5ACE80B1F1BD3007F3375 /* Controller.m */; };
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		31A5ABEB0B1F0268007F3375 /* upnp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = upnp.h; sourceTree = "<group>"; };
+		31A5ABEC0B1F0268007F3375 /* upnp.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = upnp.c; sourceTree = "<group>"; };
+		31A5ABED0B1F0268007F3375 /* natpmp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = natpmp.h; sourceTree = "<group>"; };
+		31A5ABEE0B1F0268007F3375 /* natpmp.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = natpmp.c; sourceTree = "<group>"; };
+		31A5ABEF0B1F0268007F3375 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		31A5ABF00B1F0268007F3375 /* utils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
+		31A5ABF10B1F0269007F3375 /* transmission.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = transmission.h; sourceTree = "<group>"; };
+		31A5ABF30B1F0269007F3375 /* internal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
+		31A5ABF40B1F0269007F3375 /* inout.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = inout.h; sourceTree = "<group>"; };
+		31A5ABF60B1F0269007F3375 /* net.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = net.c; sourceTree = "<group>"; };
+		31A5ABF70B1F0269007F3375 /* metainfo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = metainfo.h; sourceTree = "<group>"; };
+		31A5ABF90B1F0269007F3375 /* peermessages.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = peermessages.h; sourceTree = "<group>"; };
+		31A5ABFA0B1F0269007F3375 /* peer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = peer.h; sourceTree = "<group>"; };
+		31A5ABFC0B1F0269007F3375 /* net.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
+		31A5ABFD0B1F0269007F3375 /* fdlimit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = fdlimit.h; sourceTree = "<group>"; };
+		31A5ABFE0B1F0269007F3375 /* fdlimit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = fdlimit.c; sourceTree = "<group>"; };
+		31A5ABFF0B1F0269007F3375 /* fastresume.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = fastresume.h; sourceTree = "<group>"; };
+		31A5AC000B1F0269007F3375 /* tracker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = tracker.h; sourceTree = "<group>"; };
+		31A5AC020B1F0269007F3375 /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
+		31A5AC040B1F0269007F3375 /* ratecontrol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ratecontrol.h; sourceTree = "<group>"; };
+		31A5AC070B1F0269007F3375 /* choking.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = choking.h; sourceTree = "<group>"; };
+		31A5AC090B1F0269007F3375 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
+		31A5AC0A0B1F0269007F3375 /* platform.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = platform.c; sourceTree = "<group>"; };
+		31A5AC0B0B1F0269007F3375 /* peerutils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = peerutils.h; sourceTree = "<group>"; };
+		31A5AC0C0B1F0269007F3375 /* peerparse.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = peerparse.h; sourceTree = "<group>"; };
+		31A5AC0D0B1F0269007F3375 /* bencode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = bencode.h; sourceTree = "<group>"; };
+		31A5AC0F0B1F0269007F3375 /* completion.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = completion.h; sourceTree = "<group>"; };
+		31A5AC110B1F0269007F3375 /* clients.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = clients.h; sourceTree = "<group>"; };
+		31A5AC120B1F0269007F3375 /* xml.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = xml.h; sourceTree = "<group>"; };
+		31A5AC130B1F0269007F3375 /* xml.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = xml.c; sourceTree = "<group>"; };
+		31A5AC140B1F0269007F3375 /* http.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = http.h; sourceTree = "<group>"; };
+		31A5AC150B1F0269007F3375 /* http.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = http.c; sourceTree = "<group>"; };
+		31A5ACDD0B1F1BB0007F3375 /* PortMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortMapper.h; sourceTree = "<group>"; };
+		31A5ACDE0B1F1BB0007F3375 /* PortMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortMapper.m; sourceTree = "<group>"; };
+		31A5ACE70B1F1BD3007F3375 /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
+		31A5ACE80B1F1BD3007F3375 /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* PortMapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortMapper_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* PortMapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PortMapper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				31A5ACE70B1F1BD3007F3375 /* Controller.h */,
+				31A5ACE80B1F1BD3007F3375 /* Controller.m */,
+				31A5ACDD0B1F1BB0007F3375 /* PortMapper.h */,
+				31A5ACDE0B1F1BB0007F3375 /* PortMapper.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* PortMapper.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* PortMapper */ = {
+			isa = PBXGroup;
+			children = (
+				31A5ABEA0B1F0268007F3375 /* libtransmission */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = PortMapper;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* PortMapper_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		31A5ABEA0B1F0268007F3375 /* libtransmission */ = {
+			isa = PBXGroup;
+			children = (
+				31A5ABF10B1F0269007F3375 /* transmission.h */,
+				31A5ABEB0B1F0268007F3375 /* upnp.h */,
+				31A5ABEC0B1F0268007F3375 /* upnp.c */,
+				31A5ABED0B1F0268007F3375 /* natpmp.h */,
+				31A5ABEE0B1F0268007F3375 /* natpmp.c */,
+				31A5ABEF0B1F0268007F3375 /* utils.h */,
+				31A5ABF00B1F0268007F3375 /* utils.c */,
+				31A5ABF30B1F0269007F3375 /* internal.h */,
+				31A5ABF40B1F0269007F3375 /* inout.h */,
+				31A5ABF60B1F0269007F3375 /* net.c */,
+				31A5ABF70B1F0269007F3375 /* metainfo.h */,
+				31A5ABF90B1F0269007F3375 /* peermessages.h */,
+				31A5ABFA0B1F0269007F3375 /* peer.h */,
+				31A5ABFC0B1F0269007F3375 /* net.h */,
+				31A5ABFD0B1F0269007F3375 /* fdlimit.h */,
+				31A5ABFE0B1F0269007F3375 /* fdlimit.c */,
+				31A5ABFF0B1F0269007F3375 /* fastresume.h */,
+				31A5AC000B1F0269007F3375 /* tracker.h */,
+				31A5AC020B1F0269007F3375 /* sha1.h */,
+				31A5AC040B1F0269007F3375 /* ratecontrol.h */,
+				31A5AC070B1F0269007F3375 /* choking.h */,
+				31A5AC090B1F0269007F3375 /* platform.h */,
+				31A5AC0A0B1F0269007F3375 /* platform.c */,
+				31A5AC0B0B1F0269007F3375 /* peerutils.h */,
+				31A5AC0C0B1F0269007F3375 /* peerparse.h */,
+				31A5AC0D0B1F0269007F3375 /* bencode.h */,
+				31A5AC0F0B1F0269007F3375 /* completion.h */,
+				31A5AC110B1F0269007F3375 /* clients.h */,
+				31A5AC120B1F0269007F3375 /* xml.h */,
+				31A5AC130B1F0269007F3375 /* xml.c */,
+				31A5AC140B1F0269007F3375 /* http.h */,
+				31A5AC150B1F0269007F3375 /* http.c */,
+			);
+			name = libtransmission;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* PortMapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "PortMapper" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PortMapper;
+			productInstallPath = "$(HOME)/Applications";
+			productName = PortMapper;
+			productReference = 8D1107320486CEB800E47090 /* PortMapper.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "PortMapper" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* PortMapper */;
+			projectDirPath = "";
+			targets = (
+				8D1107260486CEB800E47090 /* PortMapper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				31A5AC160B1F0269007F3375 /* upnp.c in Sources */,
+				31A5AC170B1F0269007F3375 /* natpmp.c in Sources */,
+				31A5AC180B1F0269007F3375 /* utils.c in Sources */,
+				31A5AC1E0B1F0269007F3375 /* fdlimit.c in Sources */,
+				31A5AC240B1F0269007F3375 /* platform.c in Sources */,
+				31A5AC270B1F0269007F3375 /* xml.c in Sources */,
+				31A5AC280B1F0269007F3375 /* http.c in Sources */,
+				31A5AC6D0B1F0D25007F3375 /* net.c in Sources */,
+				31A5ACDF0B1F1BB0007F3375 /* PortMapper.m in Sources */,
+				31A5ACE90B1F1BD3007F3375 /* Controller.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = PortMapper;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = PortMapper;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "PortMapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "PortMapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

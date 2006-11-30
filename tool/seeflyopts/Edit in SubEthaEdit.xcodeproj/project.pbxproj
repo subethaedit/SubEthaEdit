@@ -10,6 +10,8 @@
 		317615C70AEE40E10046259D /* Edit in SubEthaEdit.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* Edit in SubEthaEdit.bundle */; };
 		317615C90AEE41500046259D /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 317615C80AEE41500046259D /* Info */; };
 		317615CA0AEE41560046259D /* Info in CopyFiles */ = {isa = PBXBuildFile; fileRef = 317615C80AEE41500046259D /* Info */; };
+		318AB0240AF7C81100460EA5 /* WebView(ODBIAdditions).h in Headers */ = {isa = PBXBuildFile; fileRef = 318AB0220AF7C81100460EA5 /* WebView(ODBIAdditions).h */; };
+		318AB0250AF7C81100460EA5 /* WebView(ODBIAdditions).m in Sources */ = {isa = PBXBuildFile; fileRef = 318AB0230AF7C81100460EA5 /* WebView(ODBIAdditions).m */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		CC14F2EF0681EF2800B94885 /* flyopts.h in Headers */ = {isa = PBXBuildFile; fileRef = CC14F2EC0681EF2800B94885 /* flyopts.h */; };
 		CC14F2F00681EF2800B94885 /* flyopts.m in Sources */ = {isa = PBXBuildFile; fileRef = CC14F2ED0681EF2800B94885 /* flyopts.m */; };
@@ -48,6 +50,8 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		317615C80AEE41500046259D /* Info */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info; path = resources/Info; sourceTree = "<group>"; };
+		318AB0220AF7C81100460EA5 /* WebView(ODBIAdditions).h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WebView(ODBIAdditions).h"; sourceTree = "<group>"; };
+		318AB0230AF7C81100460EA5 /* WebView(ODBIAdditions).m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WebView(ODBIAdditions).m"; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Edit in SubEthaEdit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Edit in SubEthaEdit.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC14F2EC0681EF2800B94885 /* flyopts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = flyopts.h; path = src/flyopts.h; sourceTree = "<group>"; };
 		CC14F2ED0681EF2800B94885 /* flyopts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = flyopts.m; path = src/flyopts.m; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 				CC14F3020681F01500B94885 /* NSAppleEventDescriptor-Extensions.m */,
 				CC14F3030681F01500B94885 /* NSTextView(ODBIAdditions).h */,
 				CC14F3040681F01500B94885 /* NSTextView(ODBIAdditions).m */,
+				318AB0220AF7C81100460EA5 /* WebView(ODBIAdditions).h */,
+				318AB0230AF7C81100460EA5 /* WebView(ODBIAdditions).m */,
 				CC14F3070681F01500B94885 /* ODBEditorSuite.h */,
 			);
 			name = odbedit;
@@ -180,6 +186,7 @@
 				CC14F30E0681F01500B94885 /* ODBEditorSuite.h in Headers */,
 				CC97EAEF092DD33400BD4584 /* FOODBEditor.h in Headers */,
 				CC97EAF1092DD33400BD4584 /* FOODBEditorController.h in Headers */,
+				318AB0240AF7C81100460EA5 /* WebView(ODBIAdditions).h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +263,7 @@
 				CC14F30B0681F01500B94885 /* NSTextView(ODBIAdditions).m in Sources */,
 				CC97EAF0092DD33400BD4584 /* FOODBEditor.m in Sources */,
 				CC97EAF2092DD33400BD4584 /* FOODBEditorController.m in Sources */,
+				318AB0250AF7C81100460EA5 /* WebView(ODBIAdditions).m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
