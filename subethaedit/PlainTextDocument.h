@@ -149,6 +149,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
+- (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo;
+
 - (IBAction)newView:(id)aSender;
 - (IBAction)goIntoBundles:(id)sender;
 - (IBAction)showHiddenFiles:(id)sender;

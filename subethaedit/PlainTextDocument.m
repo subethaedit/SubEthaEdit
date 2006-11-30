@@ -916,6 +916,33 @@ static NSString *tempFileName(NSString *origPath) {
     [super dealloc];
 }
 
+- (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo
+{
+    #warning: Fix for tabbed-editing
+    NSArray *orderedWindows = [NSApp orderedWindows];
+    unsigned minIndex = NSNotFound;
+    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
+    PlainTextWindowController *windowController;
+    while ((windowController = [enumerator nextObject])) {
+        if ([[windowController document] isEqual:self] && [[windowController window] attachedSheet] == nil) {
+            minIndex = MIN(minIndex, [orderedWindows indexOfObjectIdenticalTo:[windowController window]]);
+        } 
+    }
+    
+    if (minIndex != NSNotFound) {
+        NSWindow *window = [orderedWindows objectAtIndex:minIndex];
+        [window makeKeyAndOrderFront:self];
+        [alert beginSheetModalForWindow:window
+                          modalDelegate:delegate
+                         didEndSelector:didEndSelector
+                            contextInfo:contextInfo];
+    } else {
+        NSLog(@"We have a problem here! No suitable window found for presenting the sheet.");
+        NSBeep();
+        // Schedule alert for display
+    }
+}
+
 #pragma mark -
 #pragma mark ### accessors ###
 
@@ -1322,13 +1349,13 @@ static NSString *tempFileName(NSString *origPath) {
         [alert addButtonWithTitle:NSLocalizedString(@"Convert", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Reinterpret", nil)];
-        [alert beginSheetModalForWindow:[self windowForSheet]
-                          modalDelegate:self
-                         didEndSelector:@selector(selectEncodingAlertDidEnd:returnCode:contextInfo:)
-                            contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                            @"SelectEncodingAlert", @"Alert",
-                                                            [NSNumber numberWithUnsignedInt:encoding], @"Encoding",
-                                                            nil] retain]];
+        [self presentAlert:alert
+             modalDelegate:self
+            didEndSelector:@selector(selectEncodingAlertDidEnd:returnCode:contextInfo:)
+               contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                @"SelectEncodingAlert", @"Alert",
+                                                [NSNumber numberWithUnsignedInt:encoding], @"Encoding",
+                                                nil] retain]];
     }
 }
 
@@ -1382,10 +1409,10 @@ static NSString *tempFileName(NSString *origPath) {
                 [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
                 [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
                 [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-                [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                     modalDelegate:nil
-                                    didEndSelector:nil
-                                       contextInfo:NULL];
+                [self presentAlert:newAlert
+                     modalDelegate:nil
+                    didEndSelector:nil
+                       contextInfo:NULL];
                 // didn't work so update bottom status bar to previous state
                 [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
             } else {
@@ -1656,13 +1683,13 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             [alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName]];
             [alert addButtonWithTitle:NSLocalizedString(@"Keep Line Endings", nil)];
             [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [alert beginSheetModalForWindow:[self windowForSheet]
-                              modalDelegate:self
-                             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                                contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                @"MixedLineEndingsAlert", @"Alert",
-                                                                [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
-                                                                nil] retain]];
+            [self presentAlert:alert
+                 modalDelegate:self
+                didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"MixedLineEndingsAlert", @"Alert",
+                                                    [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
+                                                    nil] retain]];
         }
     }
 }
@@ -1698,16 +1725,17 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         transientDocumentWindowFrame = [[[transientDocument topmostWindowController] window] frame];
     }
     
+    #warning: Doesn't belong here
     if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSInformationalAlertStyle];
         [alert setMessageText:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")];
         [alert setInformativeText:NSLocalizedString(@"Turning on Syntax Highlighting for very large Documents is not recommended.", @"BigFile Informative Text")];
         [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-        [alert beginSheetModalForWindow:[self windowForSheet]
-                          modalDelegate:self
-                         didEndSelector:@selector(bigDocumentAlertDidEnd:returnCode:contextInfo:)
-                            contextInfo:nil];
+        [self presentAlert:alert
+             modalDelegate:self
+            didEndSelector:@selector(bigDocumentAlertDidEnd:returnCode:contextInfo:)
+               contextInfo:nil];
     } else {
         [self TCM_validateLineEndings];
     }
@@ -3112,10 +3140,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                 [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
                                 [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")];
                                 [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                                [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                                     modalDelegate:nil
-                                                    didEndSelector:nil
-                                                       contextInfo:NULL];
+                                [self presentAlert:newAlert
+                                     modalDelegate:nil
+                                    didEndSelector:nil
+                                       contextInfo:NULL];
                             }
                         } else {
                             (void)[fileManager removeFileAtPath:tempFilePath handler:nil];
@@ -3124,10 +3152,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                             [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
                             [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
                             [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                            [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                                 modalDelegate:nil
-                                                didEndSelector:nil
-                                                   contextInfo:NULL];
+                            [self presentAlert:newAlert
+                                 modalDelegate:nil
+                                didEndSelector:nil
+                                   contextInfo:NULL];
 
                         }
                     }
@@ -3173,11 +3201,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)TCM_validateDocument {
-    NSWindow *window = [self windowForSheet];
-    if (!window) {
-        return YES;
-    }
-
     NSString *fileName = [self fileName];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Validate document: %@", fileName);
 
@@ -3195,12 +3218,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [alert addButtonWithTitle:NSLocalizedString(@"Keep SubEthaEdit Version", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
         [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-        [alert beginSheetModalForWindow:window
-                          modalDelegate:self
-                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                            contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                            @"DocumentChangedExternallyAlert", @"Alert",
-                                                            nil] retain]];
+        [self presentAlert:alert
+             modalDelegate:self
+            didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+               contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                @"DocumentChangedExternallyAlert", @"Alert",
+                                                nil] retain]];
 
         return NO;
     }
@@ -3356,10 +3379,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-        [alert beginSheetModalForWindow:[self windowForSheet]
-                          modalDelegate:self
-                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                            contextInfo:[contextInfo retain]];
+        [self presentAlert:alert
+             modalDelegate:self
+            didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+               contextInfo:[contextInfo retain]];
     } else {
         TextStorage *textStorage=(TextStorage *)[self textStorage];
         [textStorage setShouldWatchLineEndings:NO];
@@ -4326,10 +4349,13 @@ static NSString *S_measurementUnits;
 
 - (void)sessionDidReceiveKick:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
-    #warning: Fix NSAlert
-    NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"Kicked",@"Kick title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"KickedInfo",@"Kick info in Sheet")];
+    
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
     [alert setAlertStyle:NSInformationalAlertStyle];
-    [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+    [alert setMessageText:NSLocalizedString(@"Kicked", @"Kick title in Sheet")];
+    [alert setInformativeText:NSLocalizedString(@"KickedInfo", @"Kick info in Sheet")];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
+    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
 - (void)sessionDidCancelInvitation:(TCMMMSession *)aSession {
@@ -4338,9 +4364,13 @@ static NSString *S_measurementUnits;
 
 - (void)sessionDidReceiveClose:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
-    NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"Closed",@"Server Closed Document title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"ClosedInfo",@"Server Closed Document info in Sheet")];
+
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
     [alert setAlertStyle:NSInformationalAlertStyle];
-    [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+    [alert setMessageText:NSLocalizedString(@"Closed", @"Server Closed Document title in Sheet")];
+    [alert setInformativeText:NSLocalizedString(@"ClosedInfo", @"Server Closed Document info in Sheet")];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
+    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession {
@@ -4350,9 +4380,15 @@ static NSString *S_measurementUnits;
             PlainTextWindowController *controller=[[self windowControllers] objectAtIndex:0];
             [controller didLoseConnection];
         } else {
-            NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"LostConnection",@"LostConnection title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"LostConnectionInfo",@"LostConnection info in Sheet")];
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSInformationalAlertStyle];
-            [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+            [alert setMessageText:NSLocalizedString(@"LostConnection", @"LostConnection title in Sheet")];
+            [alert setInformativeText:NSLocalizedString(@"LostConnectionInfo", @"LostConnection info in Sheet")];
+            [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
+            [self presentAlert:alert
+                 modalDelegate:nil
+                didEndSelector:NULL
+                   contextInfo:nil];
         }
     } else if (I_documentProxyWindowController) {
         [I_documentProxyWindowController didLoseConnection];

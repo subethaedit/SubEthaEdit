@@ -226,14 +226,6 @@ enum {
                                              selector:@selector(adjustToolbarToDocumentMode)
                                                  name:GlobalScriptsDidReloadNotification 
                                                object:nil];
-    
-    SInt32 MacVersion;
-    if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr){
-        if (MacVersion >= 0x1040){
-            // this call is Tiger only
-            [[[self window] toolbar] setShowsBaselineSeparator:NO];
-        }
-    }
 
     [[[self window] contentView] setAutoresizesSubviews:YES];
     NSRect contentFrame = [[[self window] contentView] frame];
