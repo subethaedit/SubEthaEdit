@@ -18,6 +18,11 @@
     if (self) {
         _plainTextEditors = [[NSMutableArray alloc] init];
         _isReceivingContent = NO;
+        
+        _isProcessing = NO;
+        _icon = nil;
+        _iconName = nil;
+        _objectCount = 0;
     }
     return self;
 }
@@ -31,6 +36,10 @@
     [_editorSplitView release];
     [_dialogSplitView release];
     [_documentDialog release];
+    
+    [_icon release];
+    [_iconName release];
+    
     [super dealloc];
 }
 
@@ -123,11 +132,59 @@
 - (void)setIsReceivingContent:(BOOL)flag
 {
     _isReceivingContent = flag;
+    _isProcessing = flag;
 }
 
 - (BOOL)isReceivingContent
 {
     return _isReceivingContent;
 }
+
+
+- (BOOL)isProcessing
+{
+    return _isProcessing;
+}
+
+- (void)setIsProcessing:(BOOL)value
+{
+    _isProcessing = value;
+    _isReceivingContent = value;
+}
+
+- (NSImage *)icon
+{
+    return _icon;
+}
+
+- (void)setIcon:(NSImage *)icon
+{
+    [icon retain];
+    [_icon release];
+    _icon = icon;
+}
+
+- (NSString *)iconName
+{
+    return _iconName;
+}
+
+- (void)setIconName:(NSString *)iconName
+{
+    [iconName retain];
+    [_iconName release];
+    _iconName = iconName;
+}
+
+- (int)objectCount
+{
+    return _objectCount;
+}
+
+- (void)setObjectCount:(int)value
+{
+    _objectCount = value;
+}
+
 
 @end

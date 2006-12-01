@@ -19,6 +19,11 @@
     id _documentDialog;
     BOOL _isReceivingContent;
     PlainTextDocument *_document;
+    
+    BOOL _isProcessing;
+    NSImage *_icon;
+    NSString *_iconName;
+    int _objectCount;
 }
 
 - (NSMutableArray *)plainTextEditors;
@@ -40,5 +45,14 @@
 
 - (void)setIsReceivingContent:(BOOL)flag;
 - (BOOL)isReceivingContent;
+
+- (BOOL)isProcessing;
+- (void)setIsProcessing:(BOOL)value;
+- (NSImage *)icon;
+- (void)setIcon:(NSImage *)icon;
+- (NSString *)iconName;
+- (void)setIconName:(NSString *)iconName;
+- (int)objectCount;
+- (void)setObjectCount:(int)value;
 
 @end
