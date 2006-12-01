@@ -53,7 +53,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     PSMTabBarControl *I_tabBar;
     
     NSMutableArray *I_documents;
-    NSMutableArray *I_tabContexts;
     NSDocument *I_documentBeingClosed;
 }
 
@@ -103,7 +102,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (NSArray *)orderedDocuments;
 - (NSArray *)documents;
-- (NSArray *)tabContexts;
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document;
 

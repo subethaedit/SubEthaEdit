@@ -25,7 +25,7 @@
 
 - (void)dealloc
 {
-    //NSLog(@"%@ %s", [self description], __FUNCTION__);
+    _document = nil;
     [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowController:) withObject:nil];
     [_plainTextEditors release];
     [_editorSplitView release];
@@ -37,7 +37,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@, plainTextEditors: %@", [super description], _plainTextEditors];
+    return [NSString stringWithFormat:@"%@, document: %@", [super description], _document];
 }
 
 
@@ -107,6 +107,18 @@
         return nil;
     }
 }
+
+
+- (void)setDocument:(PlainTextDocument *)document
+{
+    _document = document;
+}
+
+- (PlainTextDocument *)document
+{
+    return _document;
+}
+
 
 - (void)setIsReceivingContent:(BOOL)flag
 {

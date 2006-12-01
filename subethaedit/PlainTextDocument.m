@@ -276,7 +276,6 @@ static NSString *tempFileName(NSString *origPath) {
     [self setEditAnyway:NO];
     [self setIsFileWritable:YES];
     I_undoManager = [(UndoManager *)[UndoManager alloc] initWithDocument:self];
-    I_identifier = nil;
 }
 
 - (void)updateViewBecauseOfPreferences:(NSNotification *)aNotification {
@@ -868,7 +867,7 @@ static NSString *tempFileName(NSString *origPath) {
         [I_session abandon];
     }
     
-    [I_identifier release];
+    //[I_identifier release];
     [I_symbolUpdateTimer release];
     [I_webPreviewDelayedRefreshTimer release];
 
@@ -945,15 +944,6 @@ static NSString *tempFileName(NSString *origPath) {
 
 #pragma mark -
 #pragma mark ### accessors ###
-
-- (NSString *)identifier
-{
-    if (I_identifier == nil) {
-        I_identifier = [[NSNumber numberWithUnsignedInt:(unsigned int)self] stringValue];
-        [I_identifier retain];
-    }
-    return I_identifier;
-}
 
 - (void)setSession:(TCMMMSession *)aSession {
     [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentSessionWillChangeNotification object:self];

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PlainTextWindowController;
+@class PlainTextWindowController, PlainTextDocument;
 
 
 @interface PlainTextWindowControllerTabContext : NSObject {
@@ -18,6 +18,7 @@
     NSSplitView *_dialogSplitView;
     id _documentDialog;
     BOOL _isReceivingContent;
+    PlainTextDocument *_document;
 }
 
 - (NSMutableArray *)plainTextEditors;
@@ -33,6 +34,9 @@
 
 - (void)setWindowController:(PlainTextWindowController *)windowController;
 - (PlainTextWindowController *)windowController;
+
+- (void)setDocument:(PlainTextDocument *)document;
+- (PlainTextDocument *)document;
 
 - (void)setIsReceivingContent:(BOOL)flag;
 - (BOOL)isReceivingContent;

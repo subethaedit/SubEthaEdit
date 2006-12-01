@@ -89,8 +89,6 @@ enum {
 
 - (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(unsigned int)index;
 - (void)removeObjectFromDocumentsAtIndex:(unsigned int)index;
-- (void)insertObject:(PlainTextWindowControllerTabContext *)tabContext inTabContextsAtIndex:(unsigned int)index;
-- (void)removeObjectFromTabContextsAtIndex:(unsigned int)index;
 
 @end
 
@@ -100,7 +98,6 @@ enum {
 
 - (id)init {
     if ((self = [super initWithWindowNibName:@"PlainTextWindow"])) {
-        I_tabContexts = [[NSMutableArray alloc] init];
         I_contextMenu = [NSMenu new];
         NSMenuItem *item=nil;
         item=(NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"ParticipantContextMenuFollow",@"Follow user entry for Participant context menu") action:@selector(followUser:) keyEquivalent:@""];
@@ -138,7 +135,6 @@ enum {
     [[[self window] toolbar] setDelegate:nil];
     [O_participantsView setWindowController:nil];
     [O_participantsView release];
-    [I_tabContexts release];
     I_plainTextEditors = nil;
     I_editorSplitView = nil;
     I_dialogSplitView = nil;
@@ -254,14 +250,28 @@ enum {
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
+- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document
+{
+    unsigned count = [I_tabView numberOfTabViewItems];
+    unsigned i;
+    for (i = 0; i < count; i++) {
+        NSTabViewItem *tabItem = [I_tabView tabViewItemAtIndex:i];
+        id identifier = [tabItem identifier];
+        if ([[identifier document] isEqual:document]) {
+            return tabItem;
+        }
+    }
+    return nil;
+}
+
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 {
     if (![[self documents] containsObject:document])
         return;
         
-    unsigned index = [[self documents] indexOfObject:document];
-    if (index != NSNotFound) {
-        PlainTextWindowControllerTabContext *tabContext = [I_tabContexts objectAtIndex:index];
+    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
+    if (tabViewItem) {
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
         [tabContext setIsReceivingContent:flag];
         if (flag) {
             [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -269,12 +279,9 @@ enum {
                                                          name:TCMMMSessionDidReceiveContentNotification
                                                        object:[document session]];
 
-            int index = [I_tabView indexOfTabViewItemWithIdentifier:[document identifier]];
-            if (index != NSNotFound) {        
-                [I_tabView selectTabViewItemAtIndex:index];
-                [[I_tabView tabViewItemAtIndex:index] setView:O_receivingContentView];
-            }
-            
+      
+            [I_tabView selectTabViewItem:tabViewItem];
+            [tabViewItem setView:O_receivingContentView];
             [O_progressIndicator startAnimation:self];
         } else {
             [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -283,10 +290,7 @@ enum {
             [O_progressIndicator stopAnimation:self];
             PlainTextEditor *editor = [[tabContext plainTextEditors] objectAtIndex:0];
 
-            int index = [I_tabView indexOfTabViewItemWithIdentifier:[document identifier]];
-            if (index != NSNotFound)     
-                [[I_tabView tabViewItemAtIndex:index] setView:[editor editorView]];
-            
+            [tabViewItem setView:[editor editorView]];
             [[editor textView] setSelectedRange:NSMakeRange(0, 0)];
             [self selectTabForDocument:document];
             [[self window] makeFirstResponder:[editor textView]];
@@ -294,7 +298,6 @@ enum {
                 [[self window] makeKeyWindow];
             }
         }
-    
     }
 }
 
@@ -356,8 +359,8 @@ enum {
                            NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
         
         BOOL isReceivingContent = NO;
-        unsigned index = [[self documents] indexOfObject:[self document]];
-        if (index != NSNotFound) isReceivingContent = [[I_tabContexts objectAtIndex:index] isReceivingContent];
+        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
+        if (tabViewItem) isReceivingContent = [[tabViewItem identifier] isReceivingContent];
         return !isReceivingContent;
     } else if (selector == @selector(changePendingUsersAccess:)) {
         TCMMMSession *session=[(PlainTextDocument *)[self document] session];
@@ -425,15 +428,13 @@ enum {
 {
     PlainTextDocument *document = [self document];
     unsigned int documentIndex = [[self documents] indexOfObject:document];
-    PlainTextWindowControllerTabContext *tabContext = [I_tabContexts objectAtIndex:documentIndex];
-    unsigned int tabViewItemIndex = [I_tabView indexOfTabViewItemWithIdentifier:[document identifier]];
-    NSTabViewItem *tabViewItem = [I_tabView tabViewItemAtIndex:tabViewItemIndex];
+    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
+    PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+    
     [tabViewItem retain];
     [document retain];
-    [tabContext retain];
     [document removeWindowController:self];
     [self removeObjectFromDocumentsAtIndex:documentIndex];
-    [I_tabContexts removeObjectAtIndex:documentIndex];
     [I_tabView removeTabViewItem:tabViewItem];
     
     PlainTextWindowController *windowController = [[[PlainTextWindowController alloc] init] autorelease];
@@ -462,13 +463,11 @@ enum {
     [tabContext setWindowController:windowController];
     [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
     [document addWindowController:windowController];
-    [windowController insertObject:tabContext inTabContextsAtIndex:[[windowController tabContexts] count]];
     [[windowController tabView] addTabViewItem:tabViewItem];
     [[windowController tabView] selectTabViewItem:tabViewItem];
 
     [tabViewItem release];
     [document release];
-    [tabContext release];
     [document showWindows];
     [windowController setDocument:document];
     if ([O_participantsDrawer state] == NSDrawerOpenState &&
@@ -1118,12 +1117,13 @@ enum {
 }
 
 #pragma mark -
+
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document {
     TCMMMSession *session = [document session];
     
-    unsigned int index = [I_tabView indexOfTabViewItemWithIdentifier:[document identifier]];
-    if (index != NSNotFound) [[I_tabView tabViewItemAtIndex:index] setLabel:displayName];
-
+    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
+    if (tabViewItem) [tabViewItem setLabel:displayName];
+ 
     if ([[document ODBParameters] objectForKey:@"keyFileCustomPath"]) {
         displayName = [[document ODBParameters] objectForKey:@"keyFileCustomPath"];
     } else {
@@ -1285,15 +1285,15 @@ enum {
             [I_dialogSplitView release];
             I_dialogSplitView=nil;
             
-            int index = [[self documents] indexOfObject:[self document]];
-            if (index != NSNotFound) [[I_tabContexts objectAtIndex:index] setDialogSplitView:nil];
-             
+            NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
+            if (tabViewItem) [[tabViewItem identifier] setDialogSplitView:nil];
+                         
             NSSize minSize = [[self window] contentMinSize];
             minSize.height-=100;
             minSize.width-=63;
             [[self window] setContentMinSize:minSize];
             //[I_documentDialog autorelease];
-            if (index != NSNotFound) [[I_tabContexts objectAtIndex:index] setDocumentDialog:nil];
+            if (tabViewItem) [[tabViewItem identifier] setDocumentDialog:nil];
             I_documentDialog = nil;
             [[self window] makeFirstResponder:[[self activePlainTextEditor] textView]];
         }
@@ -1308,16 +1308,15 @@ enum {
     [aDocumentDialog setDocument:[self document]];
     if (aDocumentDialog) {
         if (!I_dialogSplitView) {
-            int idx = [I_tabView indexOfTabViewItemWithIdentifier:[(PlainTextDocument *)[self document] identifier]];
-            NSTabViewItem *tab = [I_tabView tabViewItemAtIndex:idx];
+            NSTabViewItem *tab = [self tabViewItemForDocument:[self document]];
+            
             //NSView *contentView = [[[self window] contentView] retain];
             NSView *tabItemView = [[tab view] retain];
             NSView *dialogView = [aDocumentDialog mainView];
             //I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
             I_dialogSplitView = [[[SplitView alloc] initWithFrame:[tabItemView frame]] autorelease];
             
-            int index = [[self documents] indexOfObject:[self document]];
-            if (index != NSNotFound) [[I_tabContexts objectAtIndex:index] setDialogSplitView:I_dialogSplitView];
+            [[tab identifier] setDialogSplitView:I_dialogSplitView];
 
             [(SplitView *)I_dialogSplitView setDividerThickness:3.];
             NSRect mainFrame = [dialogView frame];
@@ -1358,9 +1357,10 @@ enum {
         }
         //[I_documentDialog autorelease];
         //I_documentDialog = [aDocumentDialog retain];
-        int index = [[self documents] indexOfObject:[self document]];
-        if (index != NSNotFound) {
-            [[I_tabContexts objectAtIndex:index] setDocumentDialog:aDocumentDialog];
+        
+        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
+        if (tabViewItem) {
+            [[tabViewItem identifier] setDocumentDialog:aDocumentDialog];
             I_documentDialog = aDocumentDialog;
         }
     } else if (!aDocumentDialog && I_dialogSplitView) {
@@ -1388,8 +1388,8 @@ enum {
         [plainTextEditor release];
         I_editorSplitView = [[[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]] autorelease];
 
-        int index = [[self documents] indexOfObject:[self document]];
-        if (index != NSNotFound) [[I_tabContexts objectAtIndex:index] setEditorSplitView:I_editorSplitView];
+        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
+        if (tabViewItem) [[tabViewItem identifier] setEditorSplitView:I_editorSplitView];
 
         if (!I_dialogSplitView) {
             //[[self window] setContentView:I_editorSplitView];
@@ -1423,8 +1423,9 @@ enum {
             [I_dialogSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView] positioned:NSWindowBelow relativeTo:I_editorSplitView];
             [I_editorSplitView removeFromSuperview];
         }
-        int index = [[self documents] indexOfObject:[self document]];
-        if (index != NSNotFound) [[I_tabContexts objectAtIndex:index] setEditorSplitView:nil];
+        
+        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
+        if (tabViewItem) [[tabViewItem identifier] setEditorSplitView:nil];
         [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:
             [[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
         [I_plainTextEditors removeObjectAtIndex:1];
@@ -1801,8 +1802,11 @@ enum {
     for (i = 0; i < count; i++) {
         PlainTextDocument *document = [[self documents] objectAtIndex:i];
         if ([document isEqual:aDocument]) {
-            PlainTextWindowControllerTabContext *tabContext = [I_tabContexts objectAtIndex:i];
-            [editors addObjectsFromArray:[tabContext plainTextEditors]];
+            NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
+            if (tabViewItem) {
+                PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+                [editors addObjectsFromArray:[tabContext plainTextEditors]];
+            }
         }
     }
     
@@ -1810,9 +1814,9 @@ enum {
 }
 
 - (BOOL)selectTabForDocument:(id)aDocument {
-    int index = [I_tabView indexOfTabViewItemWithIdentifier:[(PlainTextDocument *)aDocument identifier]];
-    if (index != NSNotFound) {
-        [I_tabView selectTabViewItemAtIndex:index];
+    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
+    if (tabViewItem) {
+        [I_tabView selectTabViewItem:tabViewItem];
         return YES;
     } else {
         return NO;
@@ -1957,30 +1961,17 @@ enum {
     [I_documents removeObjectAtIndex:index];
 }
 
-- (void)insertObject:(PlainTextWindowControllerTabContext *)tabContext inTabContextsAtIndex:(unsigned int)index
-{
-    [I_tabContexts insertObject:tabContext atIndex:index];
-}
-
-- (void)removeObjectFromTabContextsAtIndex:(unsigned int)index
-{
-    [I_tabContexts removeObjectAtIndex:index];
-}
 
 #pragma mark Simple Property Getting 
 
 - (NSArray *)orderedDocuments {
-    NSMutableArray *result=[NSMutableArray array];
-    NSEnumerator *tabViewItems=[[[self tabBar] representedTabViewItems] objectEnumerator];
-    NSString *identifier = nil;
-    while ((identifier=[[tabViewItems nextObject] identifier])) {
-        NSEnumerator *enumerator = [[self documents] objectEnumerator];
-        id document;
-        while ((document = [enumerator nextObject])) {
-            if ([identifier isEqualToString:[(PlainTextDocument *)document identifier]]) {
-                [result addObject:document];
-                break;
-            }
+    NSMutableArray *result = [NSMutableArray array];
+    NSEnumerator *tabViewItems = [[[self tabBar] representedTabViewItems] objectEnumerator];
+    id identifier;
+    while ((identifier = [[tabViewItems nextObject] identifier])) {
+        id document = [identifier document];
+        if ([[self documents] containsObject:document]) {
+            [result addObject:document];
         }
     }
     return result;
@@ -1995,16 +1986,11 @@ enum {
     return I_documents;
 }
 
-- (NSArray *)tabContexts
-{
-    return I_tabContexts;
-}
 
 #pragma mark Overrides of NSWindowController Methods 
 
 - (void)setDocument:(NSDocument *)document 
 {
-    //NSLog(@"%s %@ %@", __FUNCTION__, document, self);
     BOOL isNew = NO;
     [super setDocument:document];
     // A document has been told that this window controller belongs to it.
@@ -2017,7 +2003,7 @@ enum {
             // No. Record it, in a KVO-compliant way.
             [self insertObject:document inDocumentsAtIndex:[documents count]];
             PlainTextWindowControllerTabContext *tabContext = [[[PlainTextWindowControllerTabContext alloc] init] autorelease];
-            [I_tabContexts addObject:tabContext];
+            [tabContext setDocument:(PlainTextDocument *)document];
             
             PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
             [[self window] setInitialFirstResponder:[plainTextEditor textView]];
@@ -2029,7 +2015,7 @@ enum {
             I_dialogSplitView = nil;
             [self setInitialRadarStatusForPlainTextEditor:plainTextEditor];
             
-            NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:[(PlainTextDocument *)document identifier]];
+            NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
             [tab setLabel:[document displayName]];
             [tab setView:[plainTextEditor editorView]];
             [plainTextEditor release];
@@ -2045,11 +2031,12 @@ enum {
             
         } else {
             // document is already there
-            unsigned index = [[self documents] indexOfObject:document];
-            if (index < [I_tabContexts count]) {
-                I_plainTextEditors = [(PlainTextWindowControllerTabContext *)[I_tabContexts objectAtIndex:index] plainTextEditors];
-                I_editorSplitView = [[I_tabContexts objectAtIndex:index] editorSplitView];
-                I_dialogSplitView = [[I_tabContexts objectAtIndex:index] dialogSplitView];
+            NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
+            if (tabViewItem) {
+                PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+                I_plainTextEditors = [tabContext plainTextEditors];
+                I_editorSplitView = [tabContext editorSplitView];
+                I_dialogSplitView = [tabContext dialogSplitView];
                 if ([I_plainTextEditors count] > 0) {
                     [[self window] setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] textView]];
                 }
@@ -2172,10 +2159,8 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
     unsigned int oldDocumentCount = [documents count];
     if (I_documentBeingClosed && oldDocumentCount > 1) {
         if (!PlainTextWindowControllerDocumentClosedByTabControl) {
-            int index = [I_tabView indexOfTabViewItemWithIdentifier:[(PlainTextDocument *)I_documentBeingClosed identifier]];
-            if (index != NSNotFound) {
-                [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:index]];
-            }
+            NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)I_documentBeingClosed];
+            if (tabViewItem) [I_tabView removeTabViewItem:tabViewItem];
         }
         PlainTextWindowControllerDocumentClosedByTabControl = NO;
     
@@ -2184,7 +2169,6 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
         // There are other documents open. Just remove the document being closed from our list.
         unsigned int documentIndex = [documents indexOfObject:I_documentBeingClosed];
         [self removeObjectFromDocumentsAtIndex:documentIndex];
-        [I_tabContexts removeObjectAtIndex:documentIndex];
 
         I_documentBeingClosed = nil;
 
@@ -2201,7 +2185,6 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
         [[I_documents objectAtIndex:0] removeWindowController:self];
         [self removeObjectFromDocumentsAtIndex:0];
         [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:0]];
-        [I_tabContexts removeObjectAtIndex:0];
         [self setDocument:nil];
         
         [[DocumentController sharedDocumentController] removeWindowController:self];
@@ -2213,14 +2196,9 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    NSString *identifier = [tabViewItem identifier];
-    NSEnumerator *enumerator = [[self documents] objectEnumerator];
-    id document;
-    while ((document = [enumerator nextObject])) {
-        if ([identifier isEqualToString:[(PlainTextDocument *)document identifier]]) {
-            [self setDocument:document];
-            break;
-        }
+    id document = [[tabViewItem identifier] document];
+    if ([[self documents] containsObject:document]) {
+        [self setDocument:document];
     }
 }
 
@@ -2240,17 +2218,10 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    NSString *identifier = [tabViewItem identifier];
-    NSEnumerator *enumerator = [[self documents] objectEnumerator];
-    id document;
-    while ((document = [enumerator nextObject])) {
-        if ([identifier isEqualToString:[(PlainTextDocument *)document identifier]]) {
-            PlainTextWindowControllerDocumentClosedByTabControl = YES;
-            [document canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
-            break;
-        }
-    }
-    
+    PlainTextWindowControllerDocumentClosedByTabControl = YES;
+    id document = [[tabViewItem identifier] document];
+    [document canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
+
     return YES;
 }
 
@@ -2261,24 +2232,11 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 
 - (BOOL)tabView:(NSTabView*)aTabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
 {
-    //NSLog(@"\n%@\n%@", I_tabView, aTabView);
     if (![aTabView isEqual:I_tabView]) {
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
-        
-        NSString *identifier = [tabViewItem identifier];
-        NSEnumerator *enumerator = [[self documents] objectEnumerator];
-        id document;
-        BOOL found = NO;
-        while ((document = [enumerator nextObject])) {
-            if ([identifier isEqualToString:[(PlainTextDocument *)document identifier]]) {
-                found = YES;
-                break;
-            }
-        }
-        if (found) {
-            if ([[windowController documents] containsObject:document]) {
-                return NO;
-            }
+        id document = [[tabViewItem identifier] document];
+        if ([[windowController documents] containsObject:document]) {
+            return NO;
         }
     }
         
@@ -2286,9 +2244,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 }
 
 - (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned int *)styleMask
-{
-    //NSLog(@"%s %@ %@", __FUNCTION__, I_tabBar, [tabViewItem label]);
-    
+{    
 	// grabs whole window image
 	NSImage *viewImage = [[[NSImage alloc] init] autorelease];
 	NSRect contentFrame = [[[self window] contentView] frame];
@@ -2341,9 +2297,7 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 }
 
 - (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point
-{
-	//NSLog(@"newTabBarForDraggedTabViewItem: %@ atPoint: %@", [tabViewItem label], NSStringFromPoint(point));
-	
+{	
 	//create a new window controller with no tab items
 	PlainTextWindowController *controller = [[[PlainTextWindowController alloc] init] autorelease];
     id <PSMTabStyle> style = (id <PSMTabStyle>)[[aTabView delegate] style];
@@ -2367,66 +2321,49 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 }
 
 - (void)tabView:(NSTabView *)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
-{
-	//NSLog(@"didDropTabViewItem: %@ inTabBar: %@", [tabViewItem label], tabBarControl);
-    
+{    
     if (![tabBarControl isEqual:I_tabBar]) {
         
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
-        NSString *identifier = [tabViewItem identifier];
-        NSEnumerator *enumerator = [[self documents] objectEnumerator];
-        id document;
-        BOOL found = NO;
-        while ((document = [enumerator nextObject])) {
-            if ([identifier isEqualToString:[(PlainTextDocument *)document identifier]]) {
-                found = YES;
-                break;
-            }
-        }
-        if (found) {
-            unsigned int documentIndex = [[self documents] indexOfObject:document];
-            PlainTextWindowControllerTabContext *tabContext = [I_tabContexts objectAtIndex:documentIndex];
-            [document retain];
-            [tabContext retain];
-            [document removeWindowController:self];
-            [self removeObjectFromDocumentsAtIndex:documentIndex];
-            [I_tabContexts removeObjectAtIndex:documentIndex];
-            
-            if ([[self documents] count] == 0) {
-                [[self retain] autorelease];
-                [[DocumentController sharedInstance] removeWindowController:self];
+        id document = [[tabViewItem identifier] document];
+        unsigned int documentIndex = [[self documents] indexOfObject:document];
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        [document retain];
+        [document removeWindowController:self];
+        [self removeObjectFromDocumentsAtIndex:documentIndex];
+        
+        if ([[self documents] count] == 0) {
+            [[self retain] autorelease];
+            [[DocumentController sharedInstance] removeWindowController:self];
+        } else {
+            if ([[self documents] count] == 1) {
+                [self setDocument:[I_documents objectAtIndex:0]];
             } else {
-                if ([[self documents] count] == 1) {
-                    [self setDocument:[I_documents objectAtIndex:0]];
+                if (documentIndex >= [[self documents] count]) {
+                    [self setDocument:[I_documents objectAtIndex:[[self documents] count] - 1]];
                 } else {
-                    if (documentIndex >= [[self documents] count]) {
-                        [self setDocument:[I_documents objectAtIndex:[[self documents] count] - 1]];
-                    } else {
-                        [self setDocument:[I_documents objectAtIndex:documentIndex]];
-                    }
+                    [self setDocument:[I_documents objectAtIndex:documentIndex]];
                 }
             }
-            
-            [tabContext setWindowController:windowController];
-            [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
-            [windowController insertObject:tabContext inTabContextsAtIndex:[[windowController tabContexts] count]];
-            [document addWindowController:windowController];
+        }
+        
+        [tabContext setWindowController:windowController];
+        [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
+        [document addWindowController:windowController];
 
-            [document release];
-            [tabContext release];
-            [windowController setDocument:document];
-            
-            if ([O_participantsDrawer state] == NSDrawerOpenState &&
-                ([document isAnnounced] || [(TCMMMSession *)[document session] clientState] != TCMMMSessionClientNoState))
-            {
-                [windowController openParticipantsDrawer:self];
-            }
-            [self closeParticipantsDrawer:self];
-                      
-            if (![windowController hasManyDocuments]) {
-                [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
-                [tabBarControl hideTabBar:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey] animate:NO];
-            }
+        [document release];
+        [windowController setDocument:document];
+        
+        if ([O_participantsDrawer state] == NSDrawerOpenState &&
+            ([document isAnnounced] || [(TCMMMSession *)[document session] clientState] != TCMMMSessionClientNoState))
+        {
+            [windowController openParticipantsDrawer:self];
+        }
+        [self closeParticipantsDrawer:self];
+                  
+        if (![windowController hasManyDocuments]) {
+            [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
+            [tabBarControl hideTabBar:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey] animate:NO];
         }
     }
 }
