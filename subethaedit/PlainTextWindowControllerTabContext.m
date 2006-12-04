@@ -18,6 +18,7 @@
     if (self) {
         _plainTextEditors = [[NSMutableArray alloc] init];
         _isReceivingContent = NO;
+        _isAlertScheduled = NO;
         
         _isProcessing = NO;
         _icon = nil;
@@ -140,6 +141,23 @@
     return _isReceivingContent;
 }
 
+
+- (void)setIsAlertScheduled:(BOOL)flag
+{
+    if (flag) {
+        [self setIcon:[NSImage imageNamed:@"SymbolWarn"]];
+        [self setIconName:@"Alert"];
+    } else {
+        [self setIcon:nil];
+        [self setIconName:@""];
+    }
+    _isAlertScheduled = flag;
+}
+
+- (BOOL)isAlertScheduled
+{
+    return _isAlertScheduled;
+}
 
 - (BOOL)isProcessing
 {

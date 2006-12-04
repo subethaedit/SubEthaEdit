@@ -16,6 +16,7 @@
 #import "DocumentController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
+#import "PlainTextWindowControllerTabContext.h"
 #import "WebPreviewWindowController.h"
 #import "DocumentProxyWindowController.h"
 #import "UndoManager.h"
@@ -909,15 +910,29 @@ static NSString *tempFileName(NSString *origPath) {
     [I_documentBackgroundColor release];
     [I_documentForegroundColor release];
     [I_printOptions autorelease];
+    [I_scheduledAlertDictionary release];
 
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
 }
 
+- (void)setScheduledAlertDictionary:(NSDictionary *)dict
+{
+    [dict retain];
+    [I_scheduledAlertDictionary release];
+    I_scheduledAlertDictionary = dict;
+}
+
+- (NSDictionary *)scheduledAlertDictionary
+{
+    return I_scheduledAlertDictionary;
+}
+
 - (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo
 {
-    #warning: Fix for tabbed-editing
+    if (alert == nil) return;
+    
     NSArray *orderedWindows = [NSApp orderedWindows];
     unsigned minIndex = NSNotFound;
     NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
@@ -936,11 +951,48 @@ static NSString *tempFileName(NSString *origPath) {
                          didEndSelector:didEndSelector
                             contextInfo:contextInfo];
     } else {
-        NSLog(@"We have a problem here! No suitable window found for presenting the sheet.");
-        NSBeep();
         // Schedule alert for display
+        
+        NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
+        PlainTextWindowController *windowController;
+        while ((windowController = [enumerator nextObject])) {
+            NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:self];
+            if (tabViewItem) [[tabViewItem identifier] setIsAlertScheduled:YES];
+        }
+
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:alert forKey:@"Alert"];
+        if (delegate) [dict setObject:delegate forKey:@"ModalDelegate"];
+        if (didEndSelector) {
+            NSValue *selectorValue = [NSValue value:&didEndSelector withObjCType:@encode(SEL)];
+            [dict setObject:selectorValue forKey:@"DidEndSelector"];
+        }
+        if (contextInfo) {
+            NSValue *contextInfoValue = [NSValue value:&contextInfo withObjCType:@encode(void *)];
+            [dict setObject:contextInfoValue forKey:@"ContextInfo"];
+        }
+        [self setScheduledAlertDictionary:dict];
     }
 }
+
+- (void)presentScheduledAlertForWindow:(NSWindow *)window
+{
+    NSDictionary *dict = [self scheduledAlertDictionary];
+    NSAlert *alert = [dict objectForKey:@"Alert"];
+    id modalDelegate = [dict objectForKey:@"ModalDelegate"];
+    SEL didEndSelector = NULL;
+    NSValue *selectorValue = [dict objectForKey:@"DidEndSelector"];
+    if (selectorValue) [selectorValue getValue:&didEndSelector];
+    void *contextInfo = NULL;
+    NSValue *contextInfoValue = [dict objectForKey:@"ContextInfo"];
+    if (contextInfoValue) [contextInfoValue getValue:&contextInfo];
+    
+    [alert beginSheetModalForWindow:window
+                      modalDelegate:modalDelegate
+                     didEndSelector:didEndSelector
+                        contextInfo:contextInfo];
+}
+
 
 #pragma mark -
 #pragma mark ### accessors ###

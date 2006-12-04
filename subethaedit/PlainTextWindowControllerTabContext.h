@@ -19,6 +19,7 @@
     id _documentDialog;
     BOOL _isReceivingContent;
     PlainTextDocument *_document;
+    BOOL _isAlertScheduled;
     
     BOOL _isProcessing;
     NSImage *_icon;
@@ -45,6 +46,9 @@
 
 - (void)setIsReceivingContent:(BOOL)flag;
 - (BOOL)isReceivingContent;
+
+- (void)setIsAlertScheduled:(BOOL)flag;
+- (BOOL)isAlertScheduled;
 
 - (BOOL)isProcessing;
 - (void)setIsProcessing:(BOOL)value;

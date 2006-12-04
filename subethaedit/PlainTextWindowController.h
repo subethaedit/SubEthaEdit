@@ -91,6 +91,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (void)documentWillClose:(NSDocument *)document;
 
+- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document;
 - (NSArray *)plainTextEditorsForDocument:(id)aDocument;
 - (BOOL)selectTabForDocument:(id)aDocument;
 - (BOOL)hasManyDocuments;

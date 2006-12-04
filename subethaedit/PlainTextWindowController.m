@@ -2196,9 +2196,15 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    id document = [[tabViewItem identifier] document];
+    PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+    id document = [tabContext document];
     if ([[self documents] containsObject:document]) {
         [self setDocument:document];
+    }
+    
+    if ([tabContext isAlertScheduled]) {
+        [document presentScheduledAlertForWindow:[self window]];
+        [tabContext setIsAlertScheduled:NO];
     }
 }
 
