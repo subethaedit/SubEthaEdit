@@ -470,12 +470,9 @@ enum {
     [document release];
     [document showWindows];
     [windowController setDocument:document];
-    if ([O_participantsDrawer state] == NSDrawerOpenState &&
-        ([document isAnnounced] || [[document session] clientState] != TCMMMSessionClientNoState))
-    {
+    if ([O_participantsDrawer state] == NSDrawerOpenState) {
         [windowController openParticipantsDrawer:self];
     }
-    [self closeParticipantsDrawer:self];
 }
 
 - (BOOL)showsBottomStatusBar {
@@ -2360,12 +2357,9 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
         [document release];
         [windowController setDocument:document];
         
-        if ([O_participantsDrawer state] == NSDrawerOpenState &&
-            ([document isAnnounced] || [(TCMMMSession *)[document session] clientState] != TCMMMSessionClientNoState))
-        {
+        if ([O_participantsDrawer state] == NSDrawerOpenState) {
             [windowController openParticipantsDrawer:self];
         }
-        [self closeParticipantsDrawer:self];
                   
         if (![windowController hasManyDocuments]) {
             [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
