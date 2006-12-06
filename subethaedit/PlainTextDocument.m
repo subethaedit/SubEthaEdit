@@ -1766,8 +1766,10 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         transientDocument = self;
         transientDocumentWindowFrame = [[[transientDocument topmostWindowController] window] frame];
     }
-    
-    #warning: Doesn't belong here
+}
+
+- (void)TCM_validateSizeAndLineEndings
+{
     if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSInformationalAlertStyle];
@@ -2819,6 +2821,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self updateChangeCount:NSChangeCleared];
 
     I_flags.isReadingFile = NO;
+    [self performSelector:@selector(TCM_validateSizeAndLineEndings) withObject:nil afterDelay:0.0f];
 
     return YES;
 }
