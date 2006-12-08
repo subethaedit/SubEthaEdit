@@ -2299,15 +2299,34 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 	return viewImage;
 }
 
+float ToolbarHeightForWindow(NSWindow *window)
+{
+    NSToolbar *toolbar;
+    float toolbarHeight = 0.0;
+    NSRect windowFrame;
+ 
+    toolbar = [window toolbar];
+ 
+    if(toolbar && [toolbar isVisible])
+    {
+        windowFrame = [NSWindow contentRectForFrameRect:[window frame]
+                                styleMask:[window styleMask]];
+        toolbarHeight = NSHeight(windowFrame)
+                        - NSHeight([[window contentView] frame]);
+    }
+ 
+    return toolbarHeight;
+}
+
 - (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point
-{	
+{
 	//create a new window controller with no tab items
 	PlainTextWindowController *controller = [[[PlainTextWindowController alloc] init] autorelease];
     id <PSMTabStyle> style = (id <PSMTabStyle>)[[aTabView delegate] style];
     BOOL hideForSingleTab = [[aTabView delegate] hideForSingleTab];
 	
 	NSRect windowFrame = [[controller window] frame];
-	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height;
+	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height + ToolbarHeightForWindow([self window]);
 	point.x -= [style leftMarginForTabBarControl];
 	
     NSRect contentRect = [[self window] contentRectForFrameRect:[[self window] frame]];
