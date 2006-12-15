@@ -622,31 +622,31 @@
 				// partner is below me
 				if (_isHidden) {
 					// I'm shrinking
-					myTargetOrigin = myOriginalOrigin + 21;
-					myTargetSize = myOriginalSize - 21;
+					myTargetOrigin = myOriginalOrigin + 22;
+					myTargetSize = myOriginalSize - 22;
 					partnerTargetOrigin = partnerOriginalOrigin;
-					partnerTargetSize = partnerOriginalSize + 21;
+					partnerTargetSize = partnerOriginalSize + 22;
 				} else {
 					// I'm growing
-					myTargetOrigin = myOriginalOrigin - 21;
-					myTargetSize = myOriginalSize + 21;
+					myTargetOrigin = myOriginalOrigin - 22;
+					myTargetSize = myOriginalSize + 22;
 					partnerTargetOrigin = partnerOriginalOrigin;
-					partnerTargetSize = partnerOriginalSize - 21;
+					partnerTargetSize = partnerOriginalSize - 22;
 				}
 			} else {
 				// partner is above me
 				if (_isHidden) {
 					// I'm shrinking
 					myTargetOrigin = myOriginalOrigin;
-					myTargetSize = myOriginalSize - 21;
-					partnerTargetOrigin = partnerOriginalOrigin - 21;
-					partnerTargetSize = partnerOriginalSize + 21;
+					myTargetSize = myOriginalSize - 22;
+					partnerTargetOrigin = partnerOriginalOrigin - 22;
+					partnerTargetSize = partnerOriginalSize + 22;
 				} else {
 					// I'm growing
 					myTargetOrigin = myOriginalOrigin;
-					myTargetSize = myOriginalSize + 21;
-					partnerTargetOrigin = partnerOriginalOrigin + 21;
-					partnerTargetSize = partnerOriginalSize - 21;
+					myTargetSize = myOriginalSize + 22;
+					partnerTargetOrigin = partnerOriginalOrigin + 22;
+					partnerTargetSize = partnerOriginalSize - 22;
 				}
 			}
 		} else {
@@ -654,15 +654,15 @@
 			if (_isHidden) {
 				// I'm shrinking
 				myTargetOrigin = myOriginalOrigin;
-				myTargetSize = myOriginalSize - 21;
-				partnerTargetOrigin = partnerOriginalOrigin + 21;
-				partnerTargetSize = partnerOriginalSize - 21;
+				myTargetSize = myOriginalSize - 22;
+				partnerTargetOrigin = partnerOriginalOrigin + 22;
+				partnerTargetSize = partnerOriginalSize - 22;
 			} else {
 				// I'm growing
 				myTargetOrigin = myOriginalOrigin;
-				myTargetSize = myOriginalSize + 21;
-				partnerTargetOrigin = partnerOriginalOrigin - 21;
-				partnerTargetSize = partnerOriginalSize + 21;
+				myTargetSize = myOriginalSize + 22;
+				partnerTargetOrigin = partnerOriginalOrigin - 22;
+				partnerTargetSize = partnerOriginalSize + 22;
 			}
 		}
 	} else {
@@ -1688,20 +1688,20 @@
 				// above or below me?
 				if (myFrame.origin.y - 22 > [partnerView frame].origin.y) {
 					// partner is below me
-					[self setFrame:NSMakeRect(myFrame.origin.x, myFrame.origin.y + 21, myFrame.size.width, myFrame.size.height - 21)];
-					[partnerView setFrame:NSMakeRect(partnerFrame.origin.x, partnerFrame.origin.y, partnerFrame.size.width, partnerFrame.size.height + 21)];
+					[self setFrame:NSMakeRect(myFrame.origin.x, myFrame.origin.y + 22, myFrame.size.width, myFrame.size.height - 22)];
+					[partnerView setFrame:NSMakeRect(partnerFrame.origin.x, partnerFrame.origin.y, partnerFrame.size.width, partnerFrame.size.height + 22)];
 				} else {
 					// partner is above me
-					[self setFrame:NSMakeRect(myFrame.origin.x, myFrame.origin.y, myFrame.size.width, myFrame.size.height - 21)];
-					[partnerView setFrame:NSMakeRect(partnerFrame.origin.x, partnerFrame.origin.y - 21, partnerFrame.size.width, partnerFrame.size.height + 21)];
+					[self setFrame:NSMakeRect(myFrame.origin.x, myFrame.origin.y, myFrame.size.width, myFrame.size.height - 22)];
+					[partnerView setFrame:NSMakeRect(partnerFrame.origin.x, partnerFrame.origin.y - 22, partnerFrame.size.width, partnerFrame.size.height + 22)];
 				}
 				[partnerView setNeedsDisplay:YES];
 				[self setNeedsDisplay:YES];
 			} else {
 				// for window movement
 				NSRect windowFrame = [[self window] frame];
-				[[self window] setFrame:NSMakeRect(windowFrame.origin.x, windowFrame.origin.y + 21, windowFrame.size.width, windowFrame.size.height - 21) display:YES];
-				[self setFrame:NSMakeRect(myFrame.origin.x, myFrame.origin.y, myFrame.size.width, myFrame.size.height - 21)];
+				[[self window] setFrame:NSMakeRect(windowFrame.origin.x, windowFrame.origin.y + 22, windowFrame.size.width, windowFrame.size.height - 22) display:YES];
+				[self setFrame:NSMakeRect(myFrame.origin.x, myFrame.origin.y, myFrame.size.width, myFrame.size.height - 22)];
 			}
 		} else {
 			if (partnerView) {

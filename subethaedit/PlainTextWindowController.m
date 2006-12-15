@@ -2261,9 +2261,10 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 	NSRect viewRect = [viewForImage frame];
 	NSImage *tabViewImage = [[[NSImage alloc] initWithSize:viewRect.size] autorelease];
 	[tabViewImage lockFocus];
-	[viewForImage drawRect:[viewForImage bounds]];
+    #warning: tabViewImage is empty
+    [viewForImage drawRect:[viewForImage bounds]];
 	[tabViewImage unlockFocus];
-	
+    	
 	[viewImage lockFocus];
 	NSPoint tabOrigin = [I_tabView frame].origin;
 	tabOrigin.x += 10;
