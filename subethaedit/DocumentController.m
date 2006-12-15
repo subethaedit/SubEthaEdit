@@ -525,12 +525,20 @@ static NSString *tempFileName() {
         [controller release];
         count++;
     }
-    PlainTextWindowController *wc = nil;
+    PlainTextWindowController *activeWindowController = nil;
     while (--count >= 0) {
-        wc = [I_windowControllers objectAtIndex:count];
-        if ([[wc window] isMainWindow]) break;
+        PlainTextWindowController *controller = [I_windowControllers objectAtIndex:count];
+        if (![[controller window] attachedSheet]) {
+            activeWindowController = controller;
+            if ([[controller window] isMainWindow]) break;
+        }
     }
-    return wc;
+    if (!activeWindowController) {
+        activeWindowController = [[PlainTextWindowController alloc] init];
+        [I_windowControllers addObject:activeWindowController];
+        [activeWindowController release];
+    }
+    return activeWindowController;
 }
 
 - (void)addWindowController:(id)aWindowController {
