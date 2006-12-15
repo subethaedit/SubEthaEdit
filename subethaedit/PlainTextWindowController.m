@@ -2230,6 +2230,11 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 
 - (BOOL)tabView:(NSTabView*)aTabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(PSMTabBarControl *)tabBarControl
 {
+    if ([[self documents] count] == 1) {
+        if ([O_participantsDrawer respondsToSelector:@selector(_hide)]) {
+            [O_participantsDrawer performSelector:@selector(_hide)];
+        }
+    }
 	return YES;
 }
 
