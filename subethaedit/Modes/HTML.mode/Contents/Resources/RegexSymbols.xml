@@ -9,6 +9,12 @@
     
     <symbol id="Headers" font-weight="normal" font-style="normal" image="SymbolH.png" indentation="0" ignoreblocks="yes">
         <regex>&lt;[hH][1-6]&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex>
+        <postprocess>
+            <find>^[ \n\r\t]+</find>
+            <replace></replace>
+            <find>[ \n\r\t]+$</find>
+            <replace></replace>
+        </postprocess>
     </symbol>
     
     <symbol id="Divs with IDs" font-weight="normal" font-style="normal" image="SymbolD.png" indentation="0" ignoreblocks="yes">
