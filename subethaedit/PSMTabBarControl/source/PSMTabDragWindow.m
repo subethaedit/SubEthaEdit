@@ -19,7 +19,7 @@
 
 - (id)initWithTabBarCell:(PSMTabBarCell *)cell image:(NSImage *)image styleMask:(unsigned int)styleMask
 {
-	if ( (self = [super initWithContentRect:NSMakeRect(0, 0, 0, 0) styleMask:styleMask backing:NSBackingStoreBuffered defer:NO]) ) {
+	if ( (self = [super initWithContentRect:NSMakeRect(0, 0, [image size].width, [image size].height) styleMask:styleMask backing:NSBackingStoreBuffered defer:NO]) ) {
 		_cell = [cell retain];
 		_imageView = [[[PSMImageView alloc] initWithFrame:NSMakeRect(0, 0, [image size].width, [image size].height)] autorelease];
         [self setBackgroundColor:[NSColor clearColor]];
@@ -33,6 +33,7 @@
 		//Set the size of the window to be the exact size of the drag image
 		NSSize imageSize = [image size];
 		NSRect windowFrame = [self frame];
+//        [[image TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"/Users/Shared/Window%d.tiff",(int)self] atomically:NO];
 		
 		windowFrame.origin.y += windowFrame.size.height - imageSize.height;
 		windowFrame.size = imageSize;
