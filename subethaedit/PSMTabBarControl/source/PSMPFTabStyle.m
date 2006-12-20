@@ -299,6 +299,9 @@
 - (void)drawTabCell:(PSMTabBarCell *)cell
 {
     NSRect cellFrame = [cell frame];
+    
+    [[NSColor clearColor] set];
+    [NSBezierPath fillRect:cellFrame];
 	
 	NSToolbar *toolbar = [[[cell controlView] window] toolbar];
 	BOOL showsBaselineSeparator = (toolbar && [toolbar respondsToSelector:@selector(showsBaselineSeparator)] && [toolbar showsBaselineSeparator]);

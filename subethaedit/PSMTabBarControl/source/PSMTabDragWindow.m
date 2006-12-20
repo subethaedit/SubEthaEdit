@@ -8,6 +8,7 @@
 
 #import "PSMTabDragWindow.h"
 #import "PSMTabBarCell.h"
+#import "PSMImageView.h"
 
 @implementation PSMTabDragWindow
 
@@ -20,7 +21,8 @@
 {
 	if ( (self = [super initWithContentRect:NSMakeRect(0, 0, 0, 0) styleMask:styleMask backing:NSBackingStoreBuffered defer:NO]) ) {
 		_cell = [cell retain];
-		_imageView = [[[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, 0, 0)] autorelease];
+		_imageView = [[[PSMImageView alloc] initWithFrame:NSMakeRect(0, 0, [image size].width, [image size].height)] autorelease];
+        [self setBackgroundColor:[NSColor clearColor]];
 		[self setContentView:_imageView];
 		[self setLevel:NSStatusWindowLevel];
 		[self setIgnoresMouseEvents:YES];
