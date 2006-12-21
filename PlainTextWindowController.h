@@ -3,13 +3,14 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Mar 05 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <AppKit/AppKit.h>
 
 
-@class ParticipantsView,PlainTextEditor;
+@class ParticipantsView, PlainTextEditor, PSMTabBarControl, PlainTextDocument;
+
 extern NSString * const PlainTextWindowToolbarIdentifier;
 extern NSString * const ParticipantsToolbarItemIdentifier;
 extern NSString * const ShiftLeftToolbarItemIdentifier;
@@ -21,7 +22,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 @interface PlainTextWindowController : NSWindowController {
 
-    // praticipants
+    // Participants drawer views
     IBOutlet NSDrawer            *O_participantsDrawer;
     IBOutlet NSScrollView        *O_participantsScrollView;
     IBOutlet ParticipantsView    *O_participantsView;
@@ -34,17 +35,25 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSProgressIndicator *O_progressIndicator;
     IBOutlet NSImageView         *O_URLImageView;
     IBOutlet NSTextField         *O_receivingStatusTextField;
+    
+    // Pointers to the current instances
     NSSplitView *I_editorSplitView;
     NSSplitView *I_dialogSplitView;
     id I_documentDialog;
-
     NSMutableArray *I_plainTextEditors;
+    
     NSMenu *I_contextMenu;
     struct {
-        BOOL isReceivingContent;
         BOOL zoomFix_defaultFrameHadEqualWidth;
     } I_flags;
     NSTimer *I_dialogAnimationTimer;
+    
+    @private
+    NSTabView *I_tabView;
+    PSMTabBarControl *I_tabBar;
+    
+    NSMutableArray *I_documents;
+    NSDocument *I_documentBeingClosed;
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
@@ -62,10 +71,12 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (IBAction)readOnlyButtonAction:(id)aSender;
 - (IBAction)readWriteButtonAction:(id)aSender;
 
+- (IBAction)openInSeparateWindow:(id)sender;
+
 - (void)gotoLine:(unsigned)aLine;
 - (void)selectRange:(NSRange)aRange;
 
-- (void)setIsReceivingContent:(BOOL)aFlag;
+- (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 - (void)didLoseConnection;
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows;
@@ -77,5 +88,25 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (void)setDocumentDialog:(id)aDocumentDialog;
 - (id)documentDialog;
+
+- (void)documentWillClose:(NSDocument *)document;
+
+- (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document;
+- (NSArray *)plainTextEditorsForDocument:(id)aDocument;
+- (BOOL)selectTabForDocument:(id)aDocument;
+- (BOOL)hasManyDocuments;
+- (IBAction)closeTab:(id)sender;
+- (IBAction)selectNextTab:(id)sender;
+- (IBAction)selectPreviousTab:(id)sender;
+- (void)closeAllTabs;
+- (void)reviewChangesAndQuitEnumeration:(BOOL)cont;
+
+- (NSArray *)orderedDocuments;
+- (NSArray *)documents;
+
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document;
+
+- (PSMTabBarControl *)tabBar;
+- (NSTabView *)tabView;
 
 @end

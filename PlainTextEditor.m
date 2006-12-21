@@ -86,10 +86,13 @@
 }
 
 - (void)dealloc {
+    //NSLog(@"%@ %s", self, __FUNCTION__);
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowController document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowController document] name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_textView setDelegate:nil];
+    //NSLog(@"%@", I_textView);
+    [O_editorView setNextResponder:nil];
     [O_editorView release];
     [I_textContainer release];
     [I_radarScroller release];
@@ -170,7 +173,8 @@
     [O_scrollView setHasVerticalRuler:YES];
     [[O_scrollView verticalRulerView] setRuleThickness:32.];
 
-    [O_scrollView setDocumentView:[I_textView autorelease]];
+    [O_scrollView setDocumentView:I_textView];
+    [I_textView release];
     [[O_scrollView verticalRulerView] setClientView:I_textView];
 
 
@@ -751,6 +755,13 @@
     }
 }
 
+- (void)updateViews
+{
+    //NSLog(@"%@ %s", [self description], __FUNCTION__);
+    [self TCM_adjustTopStatusBarFrames];
+    [self TCM_updateBottomStatusBar];
+}
+
 #pragma mark -
 #pragma mark First Responder Actions
 
@@ -1151,8 +1162,26 @@
             [O_symbolPopUpButton performClick:self];
             return;
         } else if ([characters isEqualToString:@"1"]) {
-            
-            [NSMenu popUpContextMenu:[[NSApp windowsMenu] bottomPart] withEvent:aEvent forView:[self textView] withFont:[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+            static NSPopUpButtonCell *s_cell = nil;
+            if (!s_cell) {
+                s_cell = [NSPopUpButtonCell new];
+                [s_cell setControlSize:NSSmallControlSize];
+                [s_cell setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+            }
+            [s_cell setMenu:[[DocumentController sharedInstance] documentMenu]];
+            NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
+            NSMenuItem   *menuItem  = nil;
+            while ((menuItem=[menuItems nextObject])) {
+                if ([menuItem target]==[self document] && [menuItem representedObject]==[[I_textView window] windowController]) {
+                    [s_cell selectItem:menuItem];
+                    break;
+                }
+            }
+            NSRect frame = [O_editorView frame];
+            frame.size.width = 50;
+            frame.origin.y = frame.size.height-20;
+            frame.size.height = 20;
+            [s_cell performClickWithFrame:frame inView:O_editorView];
             return;
         } else if ([self showsBottomStatusBar]) {
                    if ([characters isEqualToString:@"3"]) {

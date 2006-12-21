@@ -89,6 +89,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     NSString *I_jobDescription;
     NSString *I_temporaryDisplayName;
     NSString *I_directoryForSavePanel;
+    NSDictionary *I_scheduledAlertDictionary;
     
     IBOutlet NSView *O_savePanelAccessoryView;
     IBOutlet NSView *O_savePanelAccessoryView2;
@@ -147,6 +148,9 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;
+
+- (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo;
+- (void)presentScheduledAlertForWindow:(NSWindow *)window;
 
 - (IBAction)newView:(id)aSender;
 - (IBAction)goIntoBundles:(id)sender;

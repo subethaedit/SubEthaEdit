@@ -59,17 +59,18 @@
 
 int const AppMenuTag = 200;
 int const EnterSerialMenuItemTag = 201;
-int const FileMenuTag   =  100;
-int const EditMenuTag   = 1000;
-int const FileNewMenuItemTag = 1;
-int const CutMenuItemTag   = 1;
-int const CopyMenuItemTag  = 2;
+int const FileMenuTag = 100;
+int const EditMenuTag = 1000;
+int const FileNewMenuItemTag = 101;
+int const FileNewAlternateMenuItemTag = 102;
+int const CutMenuItemTag = 1;
+int const CopyMenuItemTag = 2;
 int const CopyXHTMLMenuItemTag = 5;
 int const CopyStyledMenuItemTag = 6;
 int const PasteMenuItemTag = 3;
 int const BlockeditMenuItemTag = 4;
 int const SpellingMenuItemTag = 10;
-int const SpeechMenuItemTag   = 11;
+int const SpeechMenuItemTag = 11;
 int const FormatMenuTag = 2000;
 int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
@@ -332,10 +333,10 @@ static AppController *sharedInstance = nil;
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 
     //#warning "Termination has to be removed before release!"
-    //if ([[NSDate dateWithString:@"2005-08-15 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
-    //    [NSApp terminate:self];
-    //    return;
-    //}
+    if ([[NSDate dateWithString:@"2007-01-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
+        [NSApp terminate:self];
+        return;
+    }
 
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     
@@ -648,6 +649,10 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
         item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openDocument:) keyEquivalent:@""] autorelease];
         [dockMenu addItem:item];
+        item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""] autorelease];
+        [item setSubmenu:[[NSMenu new] autorelease]];
+        [[item submenu] setDelegate:[DocumentController sharedDocumentController]]; 
+        [dockMenu addItem:item];
     }
     return dockMenu;
 }
@@ -666,14 +671,35 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
     NSMenuItem *menuItem=[menu itemWithTag:FileNewMenuItemTag];
     menu = [menuItem submenu];
-menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+    NSEnumerator *menuItems = [[menu itemArray] objectEnumerator];
+    NSMenuItem *item = nil;
+    while ((item=[menuItems nextObject])) {
+        [item setKeyEquivalent:@""];
+    }
+    menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
     [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
     [menuItem setKeyEquivalent:@"n"];
 }
 
+- (void)addShortcutToModeForNewAlternateDocumentsEntry {
+    NSMenu *menu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+    NSMenuItem *menuItem = [menu itemWithTag:FileNewAlternateMenuItemTag];
+    menu = [menuItem submenu];
+    NSEnumerator *menuItems = [[menu itemArray] objectEnumerator];
+    NSMenuItem *item = nil;
+    while ((item=[menuItems nextObject])) {
+        [item setKeyEquivalent:@""];
+    }
+    menuItem = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+    [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask | NSAlternateKeyMask];
+    [menuItem setKeyEquivalent:@"n"];
+}
+
 - (void)documentModeListDidChange:(NSNotification *)aNotification {
+    NSLog(@"%s",__FUNCTION__);
     // fix file->new menu
-    [self performSelector:@selector(addShortcutToModeForNewDocumentsEntry) withObject:nil afterDelay:0.01];
+    [self performSelector:@selector(addShortcutToModeForNewDocumentsEntry)          withObject:nil afterDelay:0.0];
+    [self performSelector:@selector(addShortcutToModeForNewAlternateDocumentsEntry) withObject:nil afterDelay:0.0];
 }
 
 - (void)setupDocumentModeSubmenu {
@@ -698,7 +724,7 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     [modeMenu insertItem:menuItem atIndex:[modeMenu indexOfItem:switchModesMenuItem]+1];
     [menuItem release];
 
-
+    // Setup File -> New submenu
     menu=[[DocumentModeMenu new] autorelease];
     NSMenu *fileMenu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
     NSMenuItem *fileNewMenuItem=[fileMenu itemWithTag:FileNewMenuItemTag];
@@ -706,6 +732,14 @@ menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] t
     [fileNewMenuItem setKeyEquivalent:@""];
     [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
     [self addShortcutToModeForNewDocumentsEntry];
+    
+    // Setup File -> New (alternate) submenu
+    menu = [[[DocumentModeMenu alloc] init] autorelease];
+    NSMenuItem *fileNewAlternateMenuItem = [fileMenu itemWithTag:FileNewAlternateMenuItemTag];
+    [fileNewAlternateMenuItem setSubmenu:menu];
+    [fileNewAlternateMenuItem setKeyEquivalent:@""];
+    [menu configureWithAction:@selector(newAlternateDocumentWithModeMenuItem:) alternateDisplay:NO];
+    [self addShortcutToModeForNewAlternateDocumentsEntry];
 }
 
 - (void)setupFileEncodingsSubmenu {

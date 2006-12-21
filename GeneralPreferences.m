@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Mon Mar 29 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import "GeneralPreferences.h"
@@ -17,24 +17,26 @@
 NSString * const GeneralViewPreferencesDidChangeNotificiation =
                @"GeneralViewPreferencesDidChangeNotificiation";
 
-NSString * const MyColorHuePreferenceKey             = @"MyColorHue";
-NSString * const CustomMyColorHuePreferenceKey       = @"CustomMyColorHue";
-NSString * const SelectionSaturationPreferenceKey    = @"MySelectionSaturation";
-NSString * const ChangesSaturationPreferenceKey      = @"MyChangesSaturation";
-NSString * const HighlightChangesPreferenceKey       = @"HighlightChanges";
-NSString * const HighlightChangesAlonePreferenceKey  = @"HighlightChangesAlone";
-NSString * const OpenDocumentOnStartPreferenceKey    = @"OpenDocumentOnStart";
-NSString * const ModeForNewDocumentsPreferenceKey    = @"ModeForNewDocuments";
+NSString * const MyColorHuePreferenceKey                    = @"MyColorHue";
+NSString * const CustomMyColorHuePreferenceKey              = @"CustomMyColorHue";
+NSString * const SelectionSaturationPreferenceKey           = @"MySelectionSaturation";
+NSString * const ChangesSaturationPreferenceKey             = @"MyChangesSaturation";
+NSString * const HighlightChangesPreferenceKey              = @"HighlightChanges";
+NSString * const HighlightChangesAlonePreferenceKey         = @"HighlightChangesAlone";
+NSString * const OpenDocumentOnStartPreferenceKey           = @"OpenDocumentOnStart";
+NSString * const ModeForNewDocumentsPreferenceKey           = @"ModeForNewDocuments";
 NSString * const AdditionalShownPathComponentsPreferenceKey = @"AdditionalShownPathComponents";
-NSString * const SelectedMyColorPreferenceKey        = @"SelectedMyColor";
-NSString * const MyNamePreferenceKey    = @"MyName";
-NSString * const MyAIMPreferenceKey     = @"MyAIM";
-NSString * const MyEmailPreferenceKey   = @"MyEmail";
-NSString * const MyAIMIdentifierPreferenceKey  =@"MyAIMIdentifier";
-NSString * const MyEmailIdentifierPreferenceKey=@"MyEmailIdentifier";
-NSString * const MyAIMsPreferenceKey  = @"MyAIMs";
-NSString * const MyEmailsPreferenceKey= @"MyEmails";
-NSString * const SynthesiseFontsPreferenceKey=@"SynthesiseFonts";
+NSString * const SelectedMyColorPreferenceKey               = @"SelectedMyColor";
+NSString * const MyNamePreferenceKey                        = @"MyName";
+NSString * const MyAIMPreferenceKey                         = @"MyAIM";
+NSString * const MyEmailPreferenceKey                       = @"MyEmail";
+NSString * const MyAIMIdentifierPreferenceKey               = @"MyAIMIdentifier";
+NSString * const MyEmailIdentifierPreferenceKey             = @"MyEmailIdentifier";
+NSString * const MyAIMsPreferenceKey                        = @"MyAIMs";
+NSString * const MyEmailsPreferenceKey                      = @"MyEmails";
+NSString * const SynthesiseFontsPreferenceKey               = @"SynthesiseFonts";
+NSString * const OpenNewDocumentInTabKey                    = @"OpenNewDocumentInTab";
+NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar";
 
 
 @implementation GeneralPreferences
@@ -62,7 +64,10 @@ NSString * const SynthesiseFontsPreferenceKey=@"SynthesiseFonts";
                     forKey:HighlightChangesPreferenceKey];
     [defaultDict setObject:[NSNumber numberWithBool:NO]
                     forKey:HighlightChangesAlonePreferenceKey];
-                    
+    [defaultDict setObject:[NSNumber numberWithBool:NO]
+                    forKey:OpenNewDocumentInTabKey];
+    [defaultDict setObject:[NSNumber numberWithBool:YES]
+                    forKey:AlwaysShowTabBarKey];
     [defaultDict setObject:BASEMODEIDENTIFIER
                     forKey:ModeForNewDocumentsPreferenceKey];
     
@@ -154,16 +159,9 @@ NSString * const SynthesiseFontsPreferenceKey=@"SynthesiseFonts";
 
 - (IBAction)changeModeForNewDocuments:(id)aSender {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
-    NSMenu *newMenu=[[[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu] itemWithTag:FileNewMenuItemTag] submenu];
-    NSMenuItem *menuItem=[newMenu itemWithTag:[modeManager tagForDocumentModeIdentifier:[defaults objectForKey:ModeForNewDocumentsPreferenceKey]]];
-    NSString *keyEquivalent=[[[menuItem keyEquivalent] retain] autorelease];
-    unsigned int modifierMask=[menuItem keyEquivalentModifierMask];
-    [menuItem setKeyEquivalent:@""];
     [defaults setObject:[aSender selectedModeIdentifier] forKey:ModeForNewDocumentsPreferenceKey];
-    menuItem=(NSMenuItem *)[newMenu itemWithTag:[modeManager tagForDocumentModeIdentifier:[defaults objectForKey:ModeForNewDocumentsPreferenceKey]]];
-    [menuItem setKeyEquivalent:keyEquivalent];
-    [menuItem setKeyEquivalentModifierMask:modifierMask];
+    [[AppController sharedInstance] performSelector:@selector(addShortcutToModeForNewDocumentsEntry)          withObject:nil afterDelay:0.0];
+    [[AppController sharedInstance] performSelector:@selector(addShortcutToModeForNewAlternateDocumentsEntry) withObject:nil afterDelay:0.0];
 }
 
 

@@ -4,7 +4,9 @@
     <recognition>
         <extension>js</extension>
         <extension>javascript</extension>
+        <extension>jsx</extension>
         <extension>JS</extension>
         <extension>JAVASCRIPT</extension>
+        <extension>JSX</extension>
     </recognition>
 </settings>

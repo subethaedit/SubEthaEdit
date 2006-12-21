@@ -12,6 +12,9 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMUserManager.h"
 #import "PlainTextDocument.h"
+#import "PlainTextWindowController.h"
+#import "GeneralPreferences.h"
+
 
 @implementation DocumentProxyWindowController
 
@@ -94,7 +97,8 @@
     I_targetWindow=[aWindow retain];
     NSRect frame=[[self window] frame];
     frame.origin.y=NSMaxY(frame);
-    [I_targetWindow setFrameTopLeftPoint:frame.origin];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey])
+        [I_targetWindow setFrameTopLeftPoint:frame.origin];
     [[self window] setContentView:[[NSView new] autorelease]];
     [O_containerView setAutoresizingMask:([O_containerView autoresizingMask] & ~NSViewWidthSizable) | NSViewMinXMargin | NSViewMaxXMargin ];
 
