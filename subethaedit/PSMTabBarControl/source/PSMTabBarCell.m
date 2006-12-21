@@ -345,7 +345,6 @@
 	NSRect cellFrame = [(id <PSMTabStyle>)[_controlView style] dragRectForTabCell:self orientation:[_controlView orientation]];
 	//NSRect cellFrame = [self frame];
 	
-    /*
     [_controlView lockFocus];
     NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:cellFrame];
     [_controlView unlockFocus];
@@ -363,13 +362,7 @@
         [returnImage unlockFocus];
         [pi release];
     }
-    */
-    NSImage *returnImage = [[[NSImage alloc] initWithSize:cellFrame.size] autorelease];
-    [returnImage setFlipped:YES];
-    [returnImage lockFocus];
-    [(id <PSMTabStyle>)[_controlView style] drawTabCell:self];
-    [returnImage unlockFocus];
-    [[returnImage TIFFRepresentation] writeToFile:@"/Users/Shared/tabimage.tiff" atomically:NO];
+
     return returnImage;
 }
 

@@ -1177,8 +1177,6 @@ subethaedit/PSMTabBarControl/English.lproj/Window.nib/classes.nib -text
 subethaedit/PSMTabBarControl/English.lproj/Window.nib/info.nib -text
 subethaedit/PSMTabBarControl/English.lproj/Window.nib/keyedobjects.nib -text
 subethaedit/PSMTabBarControl/Info.plist -text
-subethaedit/PSMTabBarControl/PSMImageView.h -text
-subethaedit/PSMTabBarControl/PSMImageView.m -text
 subethaedit/PSMTabBarControl/PSMTabBarControl.ibclassdescription -text
 subethaedit/PSMTabBarControl/PSMTabBarControl.xcodeproj/project.pbxproj -text
 subethaedit/PSMTabBarControl/PSMTabBarControlFramework-Info.plist -text
