@@ -61,10 +61,8 @@
     [self performSelector:@selector(pulse) withObject:nil afterDelay:0.5];
 }
 
-- (void) doSomething {
+- (void) mapPort:(int)port {
     
-    int port = 6666;
-
     NSLog(@"Setting up stuff");
 
     tr_natpmpForwardPort(i_natpmp, port);

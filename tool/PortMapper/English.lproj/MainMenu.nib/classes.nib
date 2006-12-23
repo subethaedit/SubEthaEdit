@@ -1,6 +1,12 @@
 {
     IBClasses = (
-        {CLASS = Controller; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {check = id; map = id; }; 
+            CLASS = Controller; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {portTextField = NSTextField; statusTextField = NSTextField; }; 
+            SUPERCLASS = NSObject; 
+        }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
     ); 
     IBVersion = 1; 
