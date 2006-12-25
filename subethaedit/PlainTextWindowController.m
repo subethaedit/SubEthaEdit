@@ -2146,8 +2146,6 @@ enum {
 }
 
 
-static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
-
 - (void)close
 {
     //NSLog(@"%s",__FUNCTION__);
@@ -2155,11 +2153,8 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
     NSArray *documents = [self documents];
     unsigned int oldDocumentCount = [documents count];
     if (I_documentBeingClosed && oldDocumentCount > 1) {
-        if (!PlainTextWindowControllerDocumentClosedByTabControl) {
-            NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)I_documentBeingClosed];
-            if (tabViewItem) [I_tabView removeTabViewItem:tabViewItem];
-        }
-        PlainTextWindowControllerDocumentClosedByTabControl = NO;
+        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)I_documentBeingClosed];
+        if (tabViewItem) [I_tabView removeTabViewItem:tabViewItem];
     
         [I_documentBeingClosed removeWindowController:self];
 
@@ -2221,11 +2216,10 @@ static BOOL PlainTextWindowControllerDocumentClosedByTabControl = NO;
 
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    PlainTextWindowControllerDocumentClosedByTabControl = YES;
     id document = [[tabViewItem identifier] document];
     [document canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
 
-    return YES;
+    return NO;
 }
 
 - (BOOL)tabView:(NSTabView*)aTabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(PSMTabBarControl *)tabBarControl

@@ -960,7 +960,7 @@
 		5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconBuildAndRun.tiff; path = artwork/ToolbarIconBuildAndRun.tiff; sourceTree = "<group>"; };
 		5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconGenericScript.tiff; path = artwork/ToolbarIconGenericScript.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
