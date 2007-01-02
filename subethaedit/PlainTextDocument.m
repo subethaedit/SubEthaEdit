@@ -3349,6 +3349,19 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return ![self isProxyDocument];
     } else if (selector == @selector(clearChangeMarks:)) {
         return ![self isProxyDocument];
+    } else if (selector == @selector(showWindowController:)) {
+        if ([self isDocumentEdited]) {
+            [anItem setMark:(char)0xA5];
+        } else {
+            [anItem setMark:noMark];
+        }
+        id wc = [anItem representedObject];
+        if ([[anItem representedObject] document] == self &&
+            ([[wc window] isKeyWindow] || 
+             [[wc window] isMainWindow])) {
+            [anItem setMark:(char)checkMark];
+        }
+        return ![[wc window] attachedSheet] || ([[wc window] attachedSheet] && [wc document] == self);
     }
 
 //    if (selector==@selector(undo:)) {

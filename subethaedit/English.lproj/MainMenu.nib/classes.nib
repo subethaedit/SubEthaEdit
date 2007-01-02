@@ -27,10 +27,12 @@
         }, 
         {
             ACTIONS = {
+                alwaysShowTabBar = id; 
                 cancelModeInstallation = id; 
                 changeModeInstallationDomain = id; 
                 goIntoBundles = id; 
                 installMode = id; 
+                menuValidationNoneAction = id; 
                 showHiddenFiles = id; 
             }; 
             CLASS = DocumentController; 

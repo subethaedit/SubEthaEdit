@@ -1706,6 +1706,10 @@ enum {
 - (void)windowDidBecomeMain:(NSNotification *)aNotification {
     // switch mode menu on becoming main
     [(PlainTextDocument *)[self document] adjustModeMenu];
+    // also make sure the tab menu is updated correctly
+    NSMenu *windowMenu=[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu];
+    NSMenu *gotoTabMenu=[[windowMenu itemWithTag:GotoTabMenuItemTag] submenu];
+    [[gotoTabMenu delegate] menuNeedsUpdate:gotoTabMenu];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification

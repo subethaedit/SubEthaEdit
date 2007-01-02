@@ -75,6 +75,7 @@ int const FormatMenuTag = 2000;
 int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
+int const GotoTabMenuItemTag = 3042;
 int const ModeMenuTag = 50;
 int const SwitchModeMenuTag = 10;
 int const HighlightSyntaxMenuTag = 20;
@@ -651,6 +652,9 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [dockMenu addItem:item];
         item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""] autorelease];
         [item setSubmenu:[[NSMenu new] autorelease]];
+        [item setTarget:[DocumentController sharedDocumentController]];
+        [item setAction:@selector(menuValidationNoneAction:)];
+        [item setTag:GotoTabMenuItemTag];
         [[item submenu] setDelegate:[DocumentController sharedDocumentController]]; 
         [dockMenu addItem:item];
     }

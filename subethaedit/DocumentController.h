@@ -14,7 +14,6 @@
 @class DocumentMode;
 @class PlainTextWindowController;
 
-
 @interface DocumentController : NSDocumentController {
     IBOutlet NSView *O_openPanelAccessoryView;
     IBOutlet NSButton *O_goIntoBundlesCheckbox;
@@ -65,6 +64,8 @@
 
 - (NSArray *)documentsInMode:(DocumentMode *)aDocumentMode;
 
+- (IBAction)menuValidationNoneAction:(id)aSender;
+
 - (NSStringEncoding)encodingFromLastRunOpenPanel;
 - (NSString *)modeIdentifierFromLastRunOpenPanel;
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument;
@@ -79,5 +80,7 @@
 - (PlainTextWindowController *)activeWindowController;
 - (void)addWindowController:(id)aWindowController;
 - (void)removeWindowController:(id)aWindowController;
+
+
 
 @end

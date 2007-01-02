@@ -307,7 +307,8 @@ static NSString *tempFileName() {
     [super dealloc];
 }
 
-- (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu {
+- (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
+//    NSLog(@"%s",__FUNCTION__);
     [aMenu removeAllItems];
     NSMenuItem *prototypeMenuItem=
         [[NSMenuItem alloc] initWithTitle:@""
@@ -322,23 +323,32 @@ static NSString *tempFileName() {
         if (!firstWC) {
             [aMenu addItem:[NSMenuItem separatorItem]];
         }
+        BOOL hasSheet = (BOOL)[[windowController window] attachedSheet];
+        int isMainWindow = ([[windowController window] isMainWindow] || [[windowController window] isKeyWindow]) ? 1 : NO;
         while ((document = [documents nextObject])) {
             [prototypeMenuItem setTarget:document];
             [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
             [prototypeMenuItem setRepresentedObject:windowController];
+            [prototypeMenuItem setEnabled:!hasSheet];
+            if (withShortcuts) {
+                if (isMainWindow && isMainWindow <= 10) {
+                    [prototypeMenuItem setKeyEquivalent:[NSString stringWithFormat:@"%d",isMainWindow%10]];
+                    [prototypeMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+                    isMainWindow++;
+                } else {
+                    [prototypeMenuItem setKeyEquivalent:@""];
+                }
+            }
+            [prototypeMenuItem setState:[document isDocumentEdited]?NSMixedState:NSOffState];
             [aMenu addItem:[[prototypeMenuItem copy] autorelease]];
         }
         firstWC = NO;
     }
 }
 
-- (void)menuNeedsUpdate:(NSMenu *)aMenu {
-    [self updateMenuWithTabMenuItems:aMenu];
-}
-
 - (NSMenu *)documentMenu {
     NSMenu *documentMenu = [[NSMenu new] autorelease];
-    [self updateMenuWithTabMenuItems:documentMenu];
+    [self updateMenuWithTabMenuItems:documentMenu shortcuts:NO];
     return documentMenu;
 }
 
@@ -1063,6 +1073,10 @@ struct ModificationInfo
     }
 }
 
+- (void)menuNeedsUpdate:(NSMenu *)aMenu {
+    [self updateMenuWithTabMenuItems:aMenu shortcuts:YES];
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     
@@ -1079,9 +1093,17 @@ struct ModificationInfo
             [menuItem setTitle:NSLocalizedString(@"New Tab", nil)];
         }
         return YES;
+    } else if ([menuItem tag] == GotoTabMenuItemTag) {
+        return [[self documents] count] >0;
     }
     return [super validateMenuItem:menuItem];
 }
+
+- (IBAction)menuValidationNoneAction:(id)aSender {
+
+}
+
+
 
 #pragma mark -
 
