@@ -323,7 +323,7 @@ static NSString *tempFileName() {
         if (!firstWC) {
             [aMenu addItem:[NSMenuItem separatorItem]];
         }
-        BOOL hasSheet = (BOOL)[[windowController window] attachedSheet];
+        BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
         int isMainWindow = ([[windowController window] isMainWindow] || [[windowController window] isKeyWindow]) ? 1 : NO;
         while ((document = [documents nextObject])) {
             [prototypeMenuItem setTarget:document];
@@ -1253,9 +1253,10 @@ struct ModificationInfo
         } else {
             [doc close];
         }
+        [self closeDocumentsStartingWith:nil shouldClose:shouldClose closeAllContext:contextInfo];
+    }  else {
+        [NSApp replyToApplicationShouldTerminate:NO];
     }
-    
-    [self closeDocumentsStartingWith:nil shouldClose:shouldClose closeAllContext:contextInfo];
 }
 
 - (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo

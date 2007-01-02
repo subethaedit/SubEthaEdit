@@ -342,6 +342,7 @@
 
 - (NSImage *)dragImage
 {
+
 	NSRect cellFrame = [(id <PSMTabStyle>)[_controlView style] dragRectForTabCell:self orientation:[_controlView orientation]];
 	//NSRect cellFrame = [self frame];
 	
@@ -364,6 +365,21 @@
     }
 
     return returnImage;
+
+
+/*
+    NSImage *returnImage = [[NSImage alloc] initWithSize:[self frame].size];
+    [returnImage setFlipped:YES];
+    [returnImage lockFocus];
+    
+    NSRect cellFrame = [self frame];
+    cellFrame.origin = NSMakePoint(0.0, 0.0);
+    
+    [(id <PSMTabStyle>)[_controlView style] drawTabCell:self];
+    
+    [returnImage unlockFocus];
+    return [returnImage autorelease];
+*/
 }
 
 #pragma mark -
