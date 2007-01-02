@@ -1167,7 +1167,7 @@ enum {
         displayName = [displayName stringByAppendingFormat:@" [%@]", jobDescription];
     }
     
-    NSArray *windowControllers=[[self document] windowControllers];
+    NSArray *windowControllers=[document windowControllers];
     if ([windowControllers count]>1) {
         displayName = [displayName stringByAppendingFormat:@" - %d/%d",
                         [windowControllers indexOfObject:self]+1,
