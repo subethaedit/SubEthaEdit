@@ -1276,20 +1276,17 @@ enum {
     
     if (timeSinceStart >= timeInterval) {
         if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
-            //[[self window] setContentView:[[I_dialogSplitView subviews] objectAtIndex:1]];
             NSTabViewItem *tab = [I_tabView selectedTabViewItem];
             [tab setView:[[I_dialogSplitView subviews] objectAtIndex:1]];
-            [I_dialogSplitView release];
-            I_dialogSplitView=nil;
+            I_dialogSplitView = nil;
             
             NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
             if (tabViewItem) [[tabViewItem identifier] setDialogSplitView:nil];
                          
             NSSize minSize = [[self window] contentMinSize];
-            minSize.height-=100;
-            minSize.width-=63;
+            minSize.height -= 100;
+            minSize.width -= 63;
             [[self window] setContentMinSize:minSize];
-            //[I_documentDialog autorelease];
             if (tabViewItem) [[tabViewItem identifier] setDocumentDialog:nil];
             I_documentDialog = nil;
             [[self window] makeFirstResponder:[[self activePlainTextEditor] textView]];
@@ -1297,7 +1294,7 @@ enum {
         [dialogView setAutoresizesSubviews:YES];
         [I_dialogAnimationTimer invalidate];
         [I_dialogAnimationTimer autorelease];
-         I_dialogAnimationTimer = nil;
+        I_dialogAnimationTimer = nil;
     }
 }
 
