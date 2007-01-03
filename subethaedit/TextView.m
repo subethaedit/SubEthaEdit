@@ -186,6 +186,10 @@ static NSMenu *defaultMenu=nil;
     }
 }
 
+- (BOOL)dragSelectionWithEvent:(NSEvent *)event offset:(NSSize)mouseOffset slideBack:(BOOL)slideBack {
+    I_flags.isDraggingText = YES;
+    return [super dragSelectionWithEvent:event offset:mouseOffset slideBack:slideBack];
+}
 
 // make sure our document gets the font change
 - (void)changeFont:(id)aSender {
@@ -507,7 +511,17 @@ static NSMenu *defaultMenu=nil;
         }
     }
     [self setIsDragTarget:NO];
-    return [super performDragOperation:sender];
+    PlainTextDocument *document=nil;
+    if (I_flags.isDraggingText) {
+            document=(PlainTextDocument *)[[[self window] windowController] document];
+        [[document documentUndoManager] beginUndoGrouping];
+    }
+    BOOL result = [super performDragOperation:sender];
+    if (I_flags.isDraggingText) {
+        I_flags.isDraggingText = NO;
+        [[document documentUndoManager] endUndoGrouping];
+    }
+    return result;
 }
 
 - (NSArray *)acceptableDragTypes {
