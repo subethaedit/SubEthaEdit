@@ -387,11 +387,8 @@
         aRect.size.width += 1;
         
         // rollover
-        if ([cell isHighlighted])
-		{
-            [[NSColor colorWithCalibratedWhite:0.0 alpha:0.1] set];
-            [bezier fill];
-        }
+        [[NSColor colorWithCalibratedWhite:0.0 alpha:0.1] set];
+        [bezier fill];
 	}
     [dragImage unlockFocus];
     
@@ -624,25 +621,11 @@
         if ([cell isPlaceholder] && [cell frame].size.width >= 2.)
 		{
 		    [self drawBackgroundInRect:cellFrame];
+		    /*
             [[NSColor colorWithCalibratedWhite:0.0 alpha:0.2] set];
             [bezier linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.75 alpha:1.0]
 			  								endColor:[NSColor colorWithCalibratedWhite:0.70 alpha:1.0]];
-            NSBezierPath *path=[NSBezierPath bezierPath];
-            NSRect myRect = NSInsetRect(cellFrame,0,2.0);
-            NSPoint point = NSMakePoint(myRect.origin.x+myRect.size.width/2.,myRect.origin.y);
-            [path moveToPoint:point];
-            [path lineToPoint:NSMakePoint(point.x-6.,point.y)];
-            [path lineToPoint:NSMakePoint(point.x-6.,point.y+myRect.size.height/2.)];
-            [path lineToPoint:NSMakePoint(point.x-10.,point.y+myRect.size.height/2.)];
-            [path lineToPoint:NSMakePoint(point.x,point.y+myRect.size.height)];
-            [path lineToPoint:NSMakePoint(point.x+10.,point.y+myRect.size.height/2.)];
-            [path lineToPoint:NSMakePoint(point.x+6.,point.y+myRect.size.height/2.)];
-            [path lineToPoint:NSMakePoint(point.x+6.,point.y)];
-            [path closePath];
-            if ([cell frame].size.width > 16.) {
-                [path linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.65 alpha:0.7]
-												endColor:[NSColor colorWithCalibratedWhite:0.60 alpha:0.7]];
-            }
+            */
         }
 
         

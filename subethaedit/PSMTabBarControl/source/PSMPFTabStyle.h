@@ -22,4 +22,5 @@
 	PSMTabBarControl *tabBar;
 }
 - (void)setLeftMarginForTabBarControl:(float)margin;
+- (NSImage *)dragImageForCell:(PSMTabBarCell *)cell;
 @end

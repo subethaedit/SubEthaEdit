@@ -2258,18 +2258,20 @@ enum {
 	
     // grabs snapshot of dragged tabViewItem's view (represents content being dragged)
 	NSView *viewForImage = [tabViewItem view];
-	NSRect viewRect = [viewForImage frame];
-	NSImage *tabViewImage = [[[NSImage alloc] initWithSize:viewRect.size] autorelease];
+	NSRect viewRect = [viewForImage bounds];
+	//NSImage *tabViewImage = [[[NSImage alloc] initWithSize:viewRect.size] autorelease];
+    
+	NSImage *tabViewImage = [[[NSImage alloc] init] autorelease];
+    NSData *PDFData = [viewForImage dataWithPDFInsideRect:viewRect];
+    [tabViewImage addRepresentation:[NSPDFImageRep imageRepWithData:PDFData]];
+    
 	[tabViewImage lockFocus];
     #warning: tabViewImage is empty
-    [viewForImage drawRect:[viewForImage bounds]];
+    //[viewForImage drawRect:[viewForImage bounds]];
 	[tabViewImage unlockFocus];
     	
 	[viewImage lockFocus];
-	NSPoint tabOrigin = [I_tabView frame].origin;
-	tabOrigin.x += 10;
-	tabOrigin.y += 13;
-	[tabViewImage compositeToPoint:tabOrigin operation:NSCompositeSourceOver];
+	[tabViewImage compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
 	[viewImage unlockFocus];
 	
 	//draw over where the tab bar would usually be

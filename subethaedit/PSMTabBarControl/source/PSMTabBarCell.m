@@ -9,6 +9,7 @@
 #import "PSMTabBarCell.h"
 #import "PSMTabBarControl.h"
 #import "PSMTabStyle.h"
+#import "PSMPFTabStyle.h"
 #import "PSMProgressIndicator.h"
 #import "PSMTabDragAssistant.h"
 
@@ -297,7 +298,8 @@
     if(_isPlaceholder){
         [[NSColor colorWithCalibratedWhite:0.0 alpha:0.2] set];
         NSRectFillUsingOperation(cellFrame, NSCompositeSourceAtop);
-        // return;
+        if (![(id <PSMTabStyle>)[_controlView style] isKindOfClass:[PSMPFTabStyle class]])
+            return;
     }
     
     [(id <PSMTabStyle>)[_controlView style] drawTabCell:self];	
@@ -342,44 +344,32 @@
 
 - (NSImage *)dragImage
 {
-
-	NSRect cellFrame = [(id <PSMTabStyle>)[_controlView style] dragRectForTabCell:self orientation:[_controlView orientation]];
-	//NSRect cellFrame = [self frame];
-	
-    [_controlView lockFocus];
-    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:cellFrame];
-    [_controlView unlockFocus];
-    NSImage *image = [[[NSImage alloc] initWithSize:[rep size]] autorelease];
-    [image addRepresentation:rep];
-    NSImage *returnImage = [[[NSImage alloc] initWithSize:[rep size]] autorelease];
-    [returnImage lockFocus];
-    [image compositeToPoint:NSMakePoint(0.0, 0.0) operation:NSCompositeSourceOver fraction:1.0];
-    [returnImage unlockFocus];
-    if(![[self indicator] isHidden]){
-        NSImage *pi = [[NSImage alloc] initByReferencingFile:[[PSMTabBarControl bundle] pathForImageResource:@"pi"]];
+    if ([(id <PSMTabStyle>)[_controlView style] isKindOfClass:[PSMPFTabStyle class]]) {
+        return [(id <PSMTabStyle>)[_controlView style] dragImageForCell:self];
+    } else {
+        NSRect cellFrame = [(id <PSMTabStyle>)[_controlView style] dragRectForTabCell:self orientation:[_controlView orientation]];
+        //NSRect cellFrame = [self frame];
+        
+        [_controlView lockFocus];
+        NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:cellFrame];
+        [_controlView unlockFocus];
+        NSImage *image = [[[NSImage alloc] initWithSize:[rep size]] autorelease];
+        [image addRepresentation:rep];
+        NSImage *returnImage = [[[NSImage alloc] initWithSize:[rep size]] autorelease];
         [returnImage lockFocus];
-        NSPoint indicatorPoint = NSMakePoint([self frame].size.width - MARGIN_X - kPSMTabBarIndicatorWidth, MARGIN_Y);
-        [pi compositeToPoint:indicatorPoint operation:NSCompositeSourceOver fraction:1.0];
+        [image compositeToPoint:NSMakePoint(0.0, 0.0) operation:NSCompositeSourceOver fraction:1.0];
         [returnImage unlockFocus];
-        [pi release];
+        if(![[self indicator] isHidden]){
+            NSImage *pi = [[NSImage alloc] initByReferencingFile:[[PSMTabBarControl bundle] pathForImageResource:@"pi"]];
+            [returnImage lockFocus];
+            NSPoint indicatorPoint = NSMakePoint([self frame].size.width - MARGIN_X - kPSMTabBarIndicatorWidth, MARGIN_Y);
+            [pi compositeToPoint:indicatorPoint operation:NSCompositeSourceOver fraction:1.0];
+            [returnImage unlockFocus];
+            [pi release];
+        }
+
+        return returnImage;
     }
-
-    return returnImage;
-
-
-/*
-    NSImage *returnImage = [[NSImage alloc] initWithSize:[self frame].size];
-    [returnImage setFlipped:YES];
-    [returnImage lockFocus];
-    
-    NSRect cellFrame = [self frame];
-    cellFrame.origin = NSMakePoint(0.0, 0.0);
-    
-    [(id <PSMTabStyle>)[_controlView style] drawTabCell:self];
-    
-    [returnImage unlockFocus];
-    return [returnImage autorelease];
-*/
 }
 
 #pragma mark -

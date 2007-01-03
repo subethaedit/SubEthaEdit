@@ -320,7 +320,6 @@
 		F2061D170B4BFD2100E6631F /* NSBezierPath_AMAdditons.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2061D130B4BFD2100E6631F /* NSBezierPath_AMAdditons.h */; };
 		F2061D180B4BFD2100E6631F /* NSBezierPath_AMShading.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2061D140B4BFD2100E6631F /* NSBezierPath_AMShading.h */; };
 		F2061D190B4BFD2100E6631F /* NSBezierPath_AMAdditons.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D150B4BFD2100E6631F /* NSBezierPath_AMAdditons.m */; };
-		F2061D580B4C13AF00E6631F /* SmallGrowBoxRight2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D560B4C13AF00E6631F /* SmallGrowBoxRight2.tiff */; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D680B4C152600E6631F /* FirstClickCustomView.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2061D660B4C152600E6631F /* FirstClickCustomView.h */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
@@ -996,7 +995,6 @@
 		F2061D130B4BFD2100E6631F /* NSBezierPath_AMAdditons.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSBezierPath_AMAdditons.h; sourceTree = "<group>"; };
 		F2061D140B4BFD2100E6631F /* NSBezierPath_AMShading.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSBezierPath_AMShading.h; sourceTree = "<group>"; };
 		F2061D150B4BFD2100E6631F /* NSBezierPath_AMAdditons.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSBezierPath_AMAdditons.m; sourceTree = "<group>"; };
-		F2061D560B4C13AF00E6631F /* SmallGrowBoxRight2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight2.tiff; path = artwork/SmallGrowBoxRight2.tiff; sourceTree = "<group>"; };
 		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
@@ -1163,7 +1161,6 @@
 				14289090095743F200D14688 /* StatusPending.tiff */,
 				14289091095743F200D14688 /* StatusReadOnly.tiff */,
 				14289092095743F200D14688 /* StatusReadWrite.tiff */,
-				F2061D560B4C13AF00E6631F /* SmallGrowBoxRight2.tiff */,
 				F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */,
 				14289093095743F200D14688 /* style.icns */,
 				14289094095743F200D14688 /* StylePrefs.tiff */,
@@ -1603,9 +1600,9 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */,
 				31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */,
 				141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */,
+				312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit (Universal Binary).xcodeproj */,
 				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 			);
@@ -2179,7 +2176,6 @@
 				5E67DB960ABF212B0013562D /* glass-normal-fill.tiff in Resources */,
 				5E67DB970ABF212D0013562D /* glass-normal-pressed-cap-left.tiff in Resources */,
 				5E67DB980ABF212D0013562D /* glass-normal-pressed-fill.tiff in Resources */,
-				F2061D580B4C13AF00E6631F /* SmallGrowBoxRight2.tiff in Resources */,
 				F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
