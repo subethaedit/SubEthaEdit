@@ -296,9 +296,14 @@
 #pragma mark -
 #pragma mark ---- drawing ----
 
-- (void)drawTabCell:(PSMTabBarCell *)cell
+- (NSImage *)dragImageForCell:(PSMTabBarCell *)cell
 {
+    NSImage *dragImage = [[[NSImage alloc] initWithSize:[cell frame].size] autorelease];
+    [dragImage setFlipped:YES];
+    [dragImage lockFocus];
+    
     NSRect cellFrame = [cell frame];
+    cellFrame.origin = NSZeroPoint;
 	
 	NSToolbar *toolbar = [[[cell controlView] window] toolbar];
 	BOOL showsBaselineSeparator = (toolbar && [toolbar respondsToSelector:@selector(showsBaselineSeparator)] && [toolbar showsBaselineSeparator]);
@@ -312,7 +317,7 @@
     lineColor = [NSColor colorWithCalibratedWhite:0.576 alpha:1.0];
 
     // frame
-    NSRect aRect = NSMakeRect(cellFrame.origin.x+0.5, cellFrame.origin.y+1.5, cellFrame.size.width, cellFrame.size.height-2.);
+    NSRect aRect = NSMakeRect(cellFrame.origin.x+0.5, cellFrame.origin.y+1.5, cellFrame.size.width-1.0, cellFrame.size.height-2.);
     float radius = MIN(6.0, 0.5f * MIN(NSWidth(aRect), NSHeight(aRect)));
     NSRect rect = NSInsetRect(aRect, radius, radius);
     
@@ -387,6 +392,259 @@
             [[NSColor colorWithCalibratedWhite:0.0 alpha:0.1] set];
             [bezier fill];
         }
+	}
+    [dragImage unlockFocus];
+    
+    [dragImage setFlipped:YES];
+    [dragImage lockFocus];
+    
+    // draw interior
+    
+    cellFrame = [cell frame];
+    cellFrame.origin = NSZeroPoint;
+    float labelPosition = cellFrame.origin.x + MARGIN_X;
+    
+    // close button
+    if ([cell hasCloseButton] && ![cell isCloseButtonSuppressed]) {
+        NSSize closeButtonSize = NSZeroSize;
+        //NSRect closeButtonRect = [cell closeButtonRectForFrame:cellFrame];
+        NSRect closeButtonRect;
+        NSRect cellFrame2 = [cell frame];
+        cellFrame2.origin = NSZeroPoint;
+        if ([cell hasCloseButton] == NO) {
+            closeButtonRect = NSZeroRect;
+        } else {
+            closeButtonRect.size = [unifiedCloseButton size];
+            closeButtonRect.origin.x = cellFrame2.origin.x + MARGIN_X;
+            closeButtonRect.origin.y = cellFrame2.origin.y + MARGIN_Y + 3.0;
+        }
+        NSImage * closeButton = nil;
+        
+        closeButton = unifiedCloseButton;
+        if ([cell closeButtonOver]) closeButton = unifiedCloseButtonOver;
+        if ([cell closeButtonPressed]) closeButton = unifiedCloseButtonDown;
+        
+        closeButtonSize = [closeButton size];
+        if ([[cell controlView] isFlipped]) {
+            closeButtonRect.origin.y += closeButtonRect.size.height;
+        }
+        
+        [closeButton compositeToPoint:closeButtonRect.origin operation:NSCompositeSourceOver fraction:1.0];
+        
+        // scoot label over
+        labelPosition += closeButtonSize.width + kPSMTabBarCellPadding;
+    }
+    
+    // icon
+    if([cell hasIcon]){
+        NSRect iconRect = [self iconRectForTabCell:cell];
+        NSImage *icon = [[[cell representedObject] identifier] icon];
+        if ([[cell controlView] isFlipped]) {
+            iconRect.origin.y += iconRect.size.height;
+        }
+        
+        // center in available space (in case icon image is smaller than kPSMTabBarIconWidth)
+        if([icon size].width < kPSMTabBarIconWidth)
+            iconRect.origin.x += (kPSMTabBarIconWidth - [icon size].width)/2.0;
+        if([icon size].height < kPSMTabBarIconWidth)
+            iconRect.origin.y -= (kPSMTabBarIconWidth - [icon size].height)/2.0;
+        
+        [icon compositeToPoint:iconRect.origin operation:NSCompositeSourceOver fraction:1.0];
+        
+        // scoot label over
+        labelPosition += iconRect.size.width + kPSMTabBarCellPadding;
+    }
+    
+    // object counter
+    if([cell count] > 0){
+        [[NSColor colorWithCalibratedWhite:0.3 alpha:0.6] set];
+        NSBezierPath *path = [NSBezierPath bezierPath];
+        //NSRect myRect = [self objectCounterRectForTabCell:cell];
+        NSRect myRect;
+        NSRect cellFrame2 = [cell frame];
+        cellFrame2.origin = NSZeroPoint;
+        if ([cell count] == 0) {
+            myRect = NSZeroRect;
+        } else {
+            float countWidth = [[self attributedObjectCountValueForTabCell:cell] size].width;
+            countWidth += (2 * kPSMUnifiedObjectCounterRadius - 6.0);
+            if(countWidth < kPSMUnifiedCounterMinWidth)
+                countWidth = kPSMUnifiedCounterMinWidth;
+            
+            myRect.size = NSMakeSize(countWidth, 2 * kPSMUnifiedObjectCounterRadius); // temp
+            myRect.origin.x = cellFrame2.origin.x + cellFrame.size.width - MARGIN_X - myRect.size.width;
+            myRect.origin.y = cellFrame2.origin.y + MARGIN_Y + 3.0;
+            
+            if(![[cell indicator] isHidden])
+                myRect.origin.x -= kPSMTabBarIndicatorWidth + kPSMTabBarCellPadding;
+        }
+        
+		myRect.origin.y -= 1.0;
+        [path moveToPoint:NSMakePoint(myRect.origin.x + kPSMUnifiedObjectCounterRadius, myRect.origin.y)];
+        [path lineToPoint:NSMakePoint(myRect.origin.x + myRect.size.width - kPSMUnifiedObjectCounterRadius, myRect.origin.y)];
+        [path appendBezierPathWithArcWithCenter:NSMakePoint(myRect.origin.x + myRect.size.width - kPSMUnifiedObjectCounterRadius, myRect.origin.y + kPSMUnifiedObjectCounterRadius) radius:kPSMUnifiedObjectCounterRadius startAngle:270.0 endAngle:90.0];
+        [path lineToPoint:NSMakePoint(myRect.origin.x + kPSMUnifiedObjectCounterRadius, myRect.origin.y + myRect.size.height)];
+        [path appendBezierPathWithArcWithCenter:NSMakePoint(myRect.origin.x + kPSMUnifiedObjectCounterRadius, myRect.origin.y + kPSMUnifiedObjectCounterRadius) radius:kPSMUnifiedObjectCounterRadius startAngle:90.0 endAngle:270.0];
+        [path fill];
+        
+        // draw attributed string centered in area
+        NSRect counterStringRect;
+        NSAttributedString *counterString = [self attributedObjectCountValueForTabCell:cell];
+        counterStringRect.size = [counterString size];
+        counterStringRect.origin.x = myRect.origin.x + ((myRect.size.width - counterStringRect.size.width) / 2.0) + 0.25;
+        counterStringRect.origin.y = myRect.origin.y + ((myRect.size.height - counterStringRect.size.height) / 2.0) + 0.5;
+        [counterString drawInRect:counterStringRect];
+    }
+    
+    // label rect
+    NSRect labelRect;
+    labelRect.origin.x = labelPosition;
+    labelRect.size.width = cellFrame.size.width - (labelRect.origin.x - cellFrame.origin.x) - kPSMTabBarCellPadding;
+	NSSize s = [[cell attributedStringValue] size];
+	labelRect.origin.y = cellFrame.origin.y + (cellFrame.size.height-s.height)/2.0 + 2.0;
+	labelRect.size.height = s.height;
+    
+    if(![[cell indicator] isHidden])
+        labelRect.size.width -= (kPSMTabBarIndicatorWidth + kPSMTabBarCellPadding);
+    
+    if([cell count] > 0)
+        labelRect.size.width -= ([self objectCounterRectForTabCell:cell].size.width + kPSMTabBarCellPadding);
+    
+    // label
+    [[cell attributedStringValue] drawInRect:labelRect];
+    
+    
+    [dragImage unlockFocus];
+    
+    if(![[cell indicator] isHidden]){
+        NSImage *pi = [[NSImage alloc] initByReferencingFile:[[PSMTabBarControl bundle] pathForImageResource:@"pi"]];
+        [dragImage setFlipped:NO];
+        [dragImage lockFocus];
+        NSPoint indicatorPoint = NSMakePoint([cell frame].size.width - MARGIN_X - kPSMTabBarIndicatorWidth, MARGIN_Y);
+        [pi compositeToPoint:indicatorPoint operation:NSCompositeSourceOver fraction:1.0];
+        [dragImage unlockFocus];
+        [pi release];
+    }
+    
+    return dragImage;
+}
+
+- (void)drawTabCell:(PSMTabBarCell *)cell
+{
+    NSRect cellFrame = [cell frame];
+	
+	NSToolbar *toolbar = [[[cell controlView] window] toolbar];
+	BOOL showsBaselineSeparator = (toolbar && [toolbar respondsToSelector:@selector(showsBaselineSeparator)] && [toolbar showsBaselineSeparator]);
+	if (!showsBaselineSeparator) {
+		cellFrame.origin.y += 1.0;
+		cellFrame.size.height -= 1.0;
+	}
+	
+    NSColor * lineColor = nil;
+    NSBezierPath* bezier = [NSBezierPath bezierPath];
+    lineColor = [NSColor colorWithCalibratedWhite:0.576 alpha:1.0];
+
+    // frame
+    NSRect aRect = NSMakeRect(cellFrame.origin.x+0.5, cellFrame.origin.y+1.5, cellFrame.size.width, cellFrame.size.height-2.);
+    float radius = MIN(6.0, 0.5f * MIN(NSWidth(aRect), NSHeight(aRect)));
+    NSRect rect = NSInsetRect(aRect, radius, radius);
+    
+    [bezier appendBezierPathWithArcWithCenter:NSMakePoint(NSMinX(rect), NSMinY(rect)) radius:radius startAngle:180.0 endAngle:270.0];
+    
+    [bezier appendBezierPathWithArcWithCenter:NSMakePoint(NSMaxX(rect), NSMinY(rect)) radius:radius startAngle:270.0 endAngle:360.0];
+    
+    NSPoint cornerPoint = NSMakePoint(NSMaxX(aRect), NSMaxY(aRect));
+    [bezier appendBezierPathWithPoints:&cornerPoint count:1];
+    
+    cornerPoint = NSMakePoint(NSMinX(aRect), NSMaxY(aRect));
+    [bezier appendBezierPathWithPoints:&cornerPoint count:1];
+    
+    [bezier closePath];
+
+    static NSShadow *s_shadow = nil, *s_noshadow = nil;
+    if (!showsBaselineSeparator || [cell state] == NSOnState)
+	{
+        // selected tab
+        
+		
+		//[[NSColor windowBackgroundColor] set];
+		//[bezier fill];
+		if (!s_shadow) {
+		  s_noshadow = [NSShadow new];
+		  s_shadow = [NSShadow new];
+		  [s_shadow setShadowOffset:NSMakeSize(0.,-3.)];
+		  [s_shadow setShadowColor:[NSColor blackColor]];
+		  [s_shadow setShadowBlurRadius:4.];
+		}
+		[s_shadow set];
+        static NSColor *color;
+        if (!color) {
+            if ([NSColor respondsToSelector:@selector(_controlColor)]) {
+                color = [[NSColor performSelector:@selector(_controlColor)] retain];
+            } else {
+                color = [[NSColor colorWithCalibratedWhite:0.8841 alpha:1.0] retain];
+            }
+        }
+		[color set];
+		[bezier fill];
+		if ([NSApp isActive]) {
+			if ([cell state] == NSOnState) {
+				[bezier linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.99 alpha:1.0]
+												endColor:[NSColor colorWithCalibratedWhite:0.841 alpha:1.0]];
+			} else if ([cell isHighlighted]) {
+				[bezier linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.75 alpha:1.0]
+												endColor:[NSColor colorWithCalibratedWhite:0.70 alpha:1.0]];
+			} else {
+				[bezier linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.835 alpha:1.0]
+												endColor:[NSColor colorWithCalibratedWhite:0.843 alpha:1.0]];
+			}
+		} 
+		[s_noshadow set];
+		[lineColor set];
+        [bezier stroke];
+    }
+	else
+	{
+        // unselected tab
+        NSRect aRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y, cellFrame.size.width, cellFrame.size.height);
+        aRect.origin.y += 0.5;
+        aRect.origin.x += 1.5;
+        aRect.size.width -= 1;
+		
+		aRect.origin.x -= 1;
+        aRect.size.width += 1;
+        
+        // rollover
+        if ([cell isHighlighted])
+		{
+            [[NSColor colorWithCalibratedWhite:0.0 alpha:0.1] set];
+            [bezier fill];
+        }
+
+        if ([cell isPlaceholder] && [cell frame].size.width >= 2.)
+		{
+		    [self drawBackgroundInRect:cellFrame];
+            [[NSColor colorWithCalibratedWhite:0.0 alpha:0.2] set];
+            [bezier linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.75 alpha:1.0]
+			  								endColor:[NSColor colorWithCalibratedWhite:0.70 alpha:1.0]];
+            NSBezierPath *path=[NSBezierPath bezierPath];
+            NSRect myRect = NSInsetRect(cellFrame,0,2.0);
+            NSPoint point = NSMakePoint(myRect.origin.x+myRect.size.width/2.,myRect.origin.y);
+            [path moveToPoint:point];
+            [path lineToPoint:NSMakePoint(point.x-6.,point.y)];
+            [path lineToPoint:NSMakePoint(point.x-6.,point.y+myRect.size.height/2.)];
+            [path lineToPoint:NSMakePoint(point.x-10.,point.y+myRect.size.height/2.)];
+            [path lineToPoint:NSMakePoint(point.x,point.y+myRect.size.height)];
+            [path lineToPoint:NSMakePoint(point.x+10.,point.y+myRect.size.height/2.)];
+            [path lineToPoint:NSMakePoint(point.x+6.,point.y+myRect.size.height/2.)];
+            [path lineToPoint:NSMakePoint(point.x+6.,point.y)];
+            [path closePath];
+            if ([cell frame].size.width > 16.) {
+                [path linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.65 alpha:0.7]
+												endColor:[NSColor colorWithCalibratedWhite:0.60 alpha:0.7]];
+            }
+        }
+
         
         // frame
 		
@@ -416,7 +674,7 @@
 //									  toPoint:NSMakePoint(aRect.origin.x+1.0,NSMaxY(aRect)-2.5)];
 //		}
 	}
-    
+
     [self drawInteriorWithTabCell:cell inView:[cell controlView]];
 }
 
@@ -427,7 +685,7 @@
     float labelPosition = cellFrame.origin.x + MARGIN_X;
     
     // close button
-    if ([cell hasCloseButton] && ![cell isCloseButtonSuppressed]) {
+    if ([cell hasCloseButton] && ![cell isCloseButtonSuppressed] && ![cell isPlaceholder]) {
         NSSize closeButtonSize = NSZeroSize;
         NSRect closeButtonRect = [cell closeButtonRectForFrame:cellFrame];
         NSImage * closeButton = nil;
@@ -545,13 +803,20 @@
     }
     
     // draw cells
+    PSMTabBarCell *cell=nil;
     NSEnumerator *e = [[bar cells] objectEnumerator];
-    PSMTabBarCell *cell;
     while ( (cell = [e nextObject]) ) {
-        if (![cell isInOverflowMenu] && NSIntersectsRect([cell frame], rect)) {
+        if ([cell isPlaceholder]) {
             [cell drawWithFrame:[cell frame] inView:bar];
         }
     }
+    e = [[bar cells] objectEnumerator];
+    while ( (cell = [e nextObject]) ) {
+        if (![cell isInOverflowMenu] && NSIntersectsRect([cell frame], rect) && ![cell isPlaceholder]) {
+            [cell drawWithFrame:[cell frame] inView:bar];
+        }
+    }
+
 }   	
 
 #pragma mark -

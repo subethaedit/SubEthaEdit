@@ -141,6 +141,10 @@ documentation/participants-drawer.jpg -text
 documentation/session-lifcycle.jpg -text
 documentation/syntax-styles-whiteboard.jpg -text
 documentation/whiteboard-1411.jpg -text
+subethaedit/AMRollOverButton.h -text
+subethaedit/AMRollOverButton.m -text
+subethaedit/AMRollOverButtonCell.h -text
+subethaedit/AMRollOverButtonCell.m -text
 subethaedit/AboutPanelController.h -text
 subethaedit/AboutPanelController.m -text
 subethaedit/Acknowledgements.txt -text
@@ -150,6 +154,8 @@ subethaedit/AppController.h -text
 subethaedit/AppController.m -text
 subethaedit/BorderedTextField.h -text
 subethaedit/BorderedTextField.m -text
+subethaedit/BorderlessWindow.h -text
+subethaedit/BorderlessWindow.m -text
 subethaedit/ButtonScrollView.h -text
 subethaedit/ButtonScrollView.m -text
 subethaedit/CandyBarView.h -text
@@ -169,6 +175,8 @@ subethaedit/CrashReporter/crashReporter.h -text
 subethaedit/CrashReporter/crashReporter.m -text
 subethaedit/CrashReporter/crashReporter_Prefix.pch -text
 subethaedit/CrashReporter/license.txt -text
+subethaedit/DWRoundedTransparentView.h -text
+subethaedit/DWRoundedTransparentView.m -text
 subethaedit/Debug/DebugBEEP.nib/classes.nib -text
 subethaedit/Debug/DebugBEEP.nib/info.nib -text
 subethaedit/Debug/DebugBEEP.nib/keyedobjects.nib -text
@@ -302,6 +310,8 @@ subethaedit/FindAllTableView.h -text
 subethaedit/FindAllTableView.m -text
 subethaedit/FindReplaceController.h -text
 subethaedit/FindReplaceController.m -text
+subethaedit/FirstClickCustomView.h -text
+subethaedit/FirstClickCustomView.m -text
 subethaedit/FontAttributesToStringValueTransformer.h -text
 subethaedit/FontAttributesToStringValueTransformer.m -text
 subethaedit/GeneralPreferences.h -text
@@ -727,6 +737,10 @@ subethaedit/NSAppleScriptTCMAdditions.h -text
 subethaedit/NSAppleScriptTCMAdditions.m -text
 subethaedit/NSApplicationTCMAdditions.h -text
 subethaedit/NSApplicationTCMAdditions.m -text
+subethaedit/NSBezierPath_AMAdditons.h -text
+subethaedit/NSBezierPath_AMAdditons.m -text
+subethaedit/NSBezierPath_AMShading.h -text
+subethaedit/NSBezierPath_AMShading.m -text
 subethaedit/NSColorTCMAdditions.h -text
 subethaedit/NSColorTCMAdditions.m -text
 subethaedit/NSCursorSEEAdditions.h -text
@@ -1582,6 +1596,7 @@ subethaedit/artwork/ShiftRight.png -text
 subethaedit/artwork/ShiftRight.tiff -text
 subethaedit/artwork/ShowChangeMarks.png -text
 subethaedit/artwork/ShowChangeMarks.psd -text
+subethaedit/artwork/SmallGrowBoxRight3.tiff -text
 subethaedit/artwork/SplitClose.tiff -text
 subethaedit/artwork/SplitOpen.tiff -text
 subethaedit/artwork/StatusButtonKick.tiff -text

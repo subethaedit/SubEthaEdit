@@ -14,6 +14,7 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "GeneralPreferences.h"
+#import "DWRoundedTransparentView.h"
 
 
 @implementation DocumentProxyWindowController
@@ -65,7 +66,28 @@
     [O_bottomCustomView removeFromSuperview];
     [[window contentView] addSubview:O_bottomStatusView];
     [[window contentView] addSubview:O_bottomDecisionView];
+
+    [(DWRoundedTransparentView *)[window contentView] setTitle:[self windowTitleForDocumentDisplayName:[[self document] displayName]]];
+    [window setTitle:[self windowTitleForDocumentDisplayName:[[self document] displayName]]];
+
+    [NSApp addWindowsItem:window title:[window title] filename:NO];
     
+    [O_acceptButton setAction:@selector(acceptAction:)];
+    [O_acceptButton setTarget:self];
+    [O_declineButton setAction:@selector(performClose:)];
+    [O_declineButton setTarget:[O_declineButton window]];
+
+    [O_acceptButton  setFont:[NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSRegularControlSize]]];
+    [O_declineButton setFont:[NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSRegularControlSize]]];
+    [O_acceptButton  setTextColor:[NSColor whiteColor]];
+    [O_declineButton setTextColor:[NSColor whiteColor]];
+    [O_acceptButton  setTextColor:[NSColor whiteColor]];
+    [O_declineButton setTextColor:[NSColor whiteColor]];
+    
+    [O_declineButton setFrameColor:[NSColor lightGrayColor]];
+    [O_acceptButton  setFrameColor:[NSColor lightGrayColor]];
+
+
     if ([I_session wasInvited]) {
         [O_bottomStatusView setHidden:YES];
     } else {

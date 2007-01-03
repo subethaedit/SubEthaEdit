@@ -297,7 +297,7 @@
     if(_isPlaceholder){
         [[NSColor colorWithCalibratedWhite:0.0 alpha:0.2] set];
         NSRectFillUsingOperation(cellFrame, NSCompositeSourceAtop);
-        return;
+        // return;
     }
     
     [(id <PSMTabStyle>)[_controlView style] drawTabCell:self];	
