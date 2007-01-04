@@ -27,7 +27,7 @@
 
     NSWindow *I_targetWindow;
     TCMMMSession *I_session;
-
+    NSRect I_dissolveToFrame;
 }
 
 - (id)initWithSession:(TCMMMSession *)aSession;

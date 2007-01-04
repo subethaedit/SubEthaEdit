@@ -109,4 +109,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (PSMTabBarControl *)tabBar;
 - (NSTabView *)tabView;
 
+- (NSRect)dissolveToFrame;
+
 @end

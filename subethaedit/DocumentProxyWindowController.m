@@ -28,6 +28,7 @@
 }
 
 - (void)dealloc {
+    [[self window] setDelegate:nil];
     [I_targetWindow release];
     [I_session release];
     [super dealloc];
@@ -121,7 +122,9 @@
     frame.origin.y=NSMaxY(frame);
     if (![[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey])
         [I_targetWindow setFrameTopLeftPoint:frame.origin];
-    [[self window] setContentView:[[NSView new] autorelease]];
+    DWRoundedTransparentView *proxyview = [[DWRoundedTransparentView new] autorelease];
+    [proxyview setTitle:nil];
+    [[self window] setContentView:proxyview];
     [O_containerView setAutoresizingMask:([O_containerView autoresizingMask] & ~NSViewWidthSizable) | NSViewMinXMargin | NSViewMaxXMargin ];
 
     NSRect targetFrame = [I_targetWindow frame];
@@ -136,8 +139,8 @@
                                                              frame.origin.y - origin_offset.y)];
         }
     }
-
-    [[self window] setFrame:[I_targetWindow frame] display:YES animate:YES];
+    I_dissolveToFrame = [[I_targetWindow windowController] dissolveToFrame];
+    [[self window] setFrame:I_dissolveToFrame display:YES animate:YES];
 }
 
 - (void)joinRequestWasDenied {
@@ -157,8 +160,10 @@
 }
 
 - (void)windowDidResize:(NSNotification *)aNotification {
-    if (I_targetWindow && NSEqualRects([[self window] frame],[I_targetWindow frame])) {
-        [I_targetWindow orderWindow:NSWindowBelow relativeTo:[[self window] windowNumber]];
+    if (I_targetWindow && NSEqualRects([[self window] frame],I_dissolveToFrame)) {
+        if (![I_targetWindow isVisible]) {
+            [I_targetWindow orderWindow:NSWindowBelow relativeTo:[[self window] windowNumber]];
+        }
         [[self window] orderOut:self];
         [[I_targetWindow drawers] makeObjectsPerformSelector:@selector(open)];
         [(PlainTextDocument *)[self document] killProxyWindowController];
