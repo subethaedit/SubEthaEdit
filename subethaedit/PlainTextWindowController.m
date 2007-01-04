@@ -2277,14 +2277,14 @@ enum {
 	//draw over where the tab bar would usually be
 	NSRect tabFrame = [I_tabBar frame];
 	[viewImage lockFocus];
-	[[NSColor windowBackgroundColor] set];
+	[[NSColor clearColor] set];
 	NSRectFill(tabFrame);
 	//draw the background flipped, which is actually the right way up
 	NSAffineTransform *transform = [NSAffineTransform transform];
 	[transform scaleXBy:1.0 yBy:-1.0];
 	[transform concat];
 	tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
-	[(id <PSMTabStyle>)[[aTabView delegate] style] drawBackgroundInRect:tabFrame];
+	//[(id <PSMTabStyle>)[[aTabView delegate] style] drawBackgroundInRect:tabFrame];
 	[transform invert];
 	[transform concat];
 	
@@ -2297,7 +2297,7 @@ enum {
 		offset->width = 0;
 		offset->height = 22 + [(id <PSMTabStyle>)[[aTabView delegate] style] leftMarginForTabBarControl];
 	}
-	*styleMask = NSTitledWindowMask;
+	*styleMask = NSBorderlessWindowMask; //NSTitledWindowMask;
 	
 	return viewImage;
 }

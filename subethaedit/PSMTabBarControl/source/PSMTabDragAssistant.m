@@ -280,6 +280,7 @@ static PSMTabDragAssistant *sharedDragAssistant = nil;
 			
 			_dragViewWindow = [[PSMTabDragWindow dragWindowWithTabBarCell:[self draggedCell] image:viewImage styleMask:styleMask] retain];
 			[_dragViewWindow setAlphaValue:0.0];
+            [_dragViewWindow setHasShadow:YES];
 		}
 		
 		NSPoint windowOrigin = [_dragTabWindow frame].origin;
