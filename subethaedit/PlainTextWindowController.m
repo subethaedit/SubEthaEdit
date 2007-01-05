@@ -1759,6 +1759,35 @@ enum {
 
 #pragma mark -
 
+- (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController
+{
+    NSEnumerator *enumerator = [I_documents objectEnumerator];
+    PlainTextDocument *document;
+    while ((document = [enumerator nextObject]))
+    {
+        unsigned int documentIndex = [[self documents] indexOfObject:document];
+        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        
+        [tabViewItem retain];
+        [document retain];
+        [document removeWindowController:self];
+        [self removeObjectFromDocumentsAtIndex:documentIndex];
+        [I_tabView removeTabViewItem:tabViewItem];
+
+        [tabContext setWindowController:windowController];
+        [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
+        [document addWindowController:windowController];
+        [[windowController tabView] addTabViewItem:tabViewItem];
+
+        [tabViewItem release];
+        [document release];
+        if ([O_participantsDrawer state] == NSDrawerOpenState) {
+            [windowController openParticipantsDrawer:self];
+        }
+    }
+}
+
 - (BOOL)hasManyDocuments
 {
     return [[self documents] count] > 1;
@@ -2175,9 +2204,11 @@ enum {
         [self setDocument:[documents objectAtIndex:documentIndex]];
     } else {
         // That was the last document. Do the regular NSWindowController thing.
-        [[I_documents objectAtIndex:0] removeWindowController:self];
-        [self removeObjectFromDocumentsAtIndex:0];
-        [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:0]];
+        if ([I_documents count] > 0) {
+            [[I_documents objectAtIndex:0] removeWindowController:self];
+            [self removeObjectFromDocumentsAtIndex:0];
+        }
+        if ([I_tabView numberOfTabViewItems] > 0) [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:0]];
         [self setDocument:nil];
         
         [[DocumentController sharedDocumentController] removeWindowController:self];

@@ -308,20 +308,13 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		F2061CCD0B4BF43F00E6631F /* AMRollOverButtonCell.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2061CC90B4BF43F00E6631F /* AMRollOverButtonCell.h */; };
-		F2061CCE0B4BF43F00E6631F /* AMRollOverButton.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2061CCA0B4BF43F00E6631F /* AMRollOverButton.h */; };
 		F2061CCF0B4BF43F00E6631F /* AMRollOverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CCB0B4BF43F00E6631F /* AMRollOverButton.m */; };
 		F2061CD00B4BF43F00E6631F /* AMRollOverButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CCC0B4BF43F00E6631F /* AMRollOverButtonCell.m */; };
-		F2061CD30B4BF44800E6631F /* DWRoundedTransparentView.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2061CD10B4BF44800E6631F /* DWRoundedTransparentView.h */; };
 		F2061CD40B4BF44800E6631F /* DWRoundedTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD20B4BF44800E6631F /* DWRoundedTransparentView.m */; };
 		F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */; };
-		F2061CD80B4BF48E00E6631F /* BorderlessWindow.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2061CD60B4BF48E00E6631F /* BorderlessWindow.h */; };
 		F2061D160B4BFD2100E6631F /* NSBezierPath_AMShading.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D120B4BFD2100E6631F /* NSBezierPath_AMShading.m */; };
-		F2061D170B4BFD2100E6631F /* NSBezierPath_AMAdditons.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2061D130B4BFD2100E6631F /* NSBezierPath_AMAdditons.h */; };
-		F2061D180B4BFD2100E6631F /* NSBezierPath_AMShading.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2061D140B4BFD2100E6631F /* NSBezierPath_AMShading.h */; };
 		F2061D190B4BFD2100E6631F /* NSBezierPath_AMAdditons.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D150B4BFD2100E6631F /* NSBezierPath_AMAdditons.m */; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
-		F2061D680B4C152600E6631F /* FirstClickCustomView.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2061D660B4C152600E6631F /* FirstClickCustomView.h */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
 /* End PBXBuildFile section */
 
@@ -513,13 +506,6 @@
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
-				F2061CCD0B4BF43F00E6631F /* AMRollOverButtonCell.h in Copy Files (Frameworks) */,
-				F2061CCE0B4BF43F00E6631F /* AMRollOverButton.h in Copy Files (Frameworks) */,
-				F2061CD30B4BF44800E6631F /* DWRoundedTransparentView.h in Copy Files (Frameworks) */,
-				F2061CD80B4BF48E00E6631F /* BorderlessWindow.h in Copy Files (Frameworks) */,
-				F2061D170B4BFD2100E6631F /* NSBezierPath_AMAdditons.h in Copy Files (Frameworks) */,
-				F2061D180B4BFD2100E6631F /* NSBezierPath_AMShading.h in Copy Files (Frameworks) */,
-				F2061D680B4C152600E6631F /* FirstClickCustomView.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;

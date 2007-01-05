@@ -115,6 +115,7 @@
                 jumpToNextSymbol = id; 
                 jumpToPreviousChange = id; 
                 jumpToPreviousSymbol = id; 
+                mergeAllWindows = id; 
                 newAlternateDocument = id; 
                 newView = id; 
                 openInSeparateWindow = id; 

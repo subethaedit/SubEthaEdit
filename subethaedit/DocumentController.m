@@ -1029,6 +1029,31 @@ static NSString *tempFileName() {
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
 }
 
+- (void)mergeAllWindows:(id)sender
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setMessageText:NSLocalizedString(@"Are you sure you want to merge all windows?", nil)];
+    [alert setInformativeText:NSLocalizedString(@"Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone.", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"Merge", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+    int response = [alert runModal];
+    if (NSAlertFirstButtonReturn == response) {
+        PlainTextWindowController *targetWindowController = [self activeWindowController];
+        int count = [I_windowControllers count];
+        while (--count >= 0) {
+            PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
+            if (sourceWindowController != targetWindowController) {
+                [sourceWindowController moveAllTabsToWindowController:targetWindowController];
+                [sourceWindowController close];
+                [self removeWindowController:sourceWindowController];
+            }
+        }
+    }
+    [alert release];
+}
+
+
 #pragma mark -
 
 #pragma options align=mac68k
@@ -1095,6 +1120,8 @@ struct ModificationInfo
         return YES;
     } else if ([menuItem tag] == GotoTabMenuItemTag) {
         return [[self documents] count] >0;
+    } else if (selector == @selector(mergeAllWindows:)) {
+        return ([I_windowControllers count] > 1);
     }
     return [super validateMenuItem:menuItem];
 }
