@@ -2186,6 +2186,10 @@ enum {
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)I_documentBeingClosed];
         if (tabViewItem) [I_tabView removeTabViewItem:tabViewItem];
     
+        id document = nil;
+        BOOL keepCurrentDocument = ![[self document] isEqual:I_documentBeingClosed];
+        if (keepCurrentDocument) document = [self document];
+        
         [I_documentBeingClosed removeWindowController:self];
 
         // There are other documents open. Just remove the document being closed from our list.
@@ -2195,13 +2199,16 @@ enum {
         I_documentBeingClosed = nil;
 
         // If that was the current document (and it probably was) then pick another one. Don't forget that [self documents] has now changed.
-        documents = [self documents];
-        unsigned int newDocumentCount = [documents count];
-        if (documentIndex > (newDocumentCount - 1)) {
-            // We closed the last document in the list. Display the new last document.
-            documentIndex = newDocumentCount - 1;
+        if (!keepCurrentDocument) {
+            documents = [self documents];
+            unsigned int newDocumentCount = [documents count];
+            if (documentIndex > (newDocumentCount - 1)) {
+                // We closed the last document in the list. Display the new last document.
+                documentIndex = newDocumentCount - 1;
+            }
+            document = [documents objectAtIndex:documentIndex];
         }
-        [self setDocument:[documents objectAtIndex:documentIndex]];
+        [self setDocument:document];
     } else {
         // That was the last document. Do the regular NSWindowController thing.
         if ([I_documents count] > 0) {
