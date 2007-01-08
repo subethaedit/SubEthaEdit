@@ -29,7 +29,9 @@
             SUPERCLASS = NSWindowController; 
         }, 
         {CLASS = FirstClickCustomView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = HUDButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {CLASS = HUDWindow; LANGUAGE = ObjC; SUPERCLASS = NSPanel; }
     ); 
     IBVersion = 1; 
 }

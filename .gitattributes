@@ -415,6 +415,10 @@ subethaedit/GutterRulerView.h -text
 subethaedit/GutterRulerView.m -text
 subethaedit/HTMLExport/Base.css -text
 subethaedit/HTMLExport/Base.html -text
+subethaedit/HUDButton.h -text
+subethaedit/HUDButton.m -text
+subethaedit/HUDButtonCell.h -text
+subethaedit/HUDButtonCell.m -text
 subethaedit/HandshakeProfile.h -text
 subethaedit/HandshakeProfile.m -text
 subethaedit/HueToColorValueTransformer.h -text
@@ -1596,6 +1600,7 @@ subethaedit/artwork/ShiftRight.png -text
 subethaedit/artwork/ShiftRight.tiff -text
 subethaedit/artwork/ShowChangeMarks.png -text
 subethaedit/artwork/ShowChangeMarks.psd -text
+subethaedit/artwork/SmallGrowBoxRight2.tiff -text
 subethaedit/artwork/SmallGrowBoxRight3.tiff -text
 subethaedit/artwork/SplitClose.tiff -text
 subethaedit/artwork/SplitOpen.tiff -text
@@ -1633,6 +1638,8 @@ subethaedit/artwork/SymbolT.tiff -text
 subethaedit/artwork/SymbolV.png -text
 subethaedit/artwork/SymbolV.tiff -text
 subethaedit/artwork/SymbolWarn.tiff -text
+subethaedit/artwork/TCM-32x32.png -text
+subethaedit/artwork/TCM-48x48.png -text
 subethaedit/artwork/ToolbarIconBuild.tiff -text
 subethaedit/artwork/ToolbarIconBuildAndRun.tiff -text
 subethaedit/artwork/ToolbarIconColorChooser.tiff -text
@@ -1654,6 +1661,13 @@ subethaedit/artwork/glass-normal-fill.tiff -text
 subethaedit/artwork/glass-normal-pressed-cap-left.tiff -text
 subethaedit/artwork/glass-normal-pressed-cap-right.tiff -text
 subethaedit/artwork/glass-normal-pressed-fill.tiff -text
+subethaedit/artwork/hud_buttonFill-N.tiff -text
+subethaedit/artwork/hud_buttonFill-P.tiff -text
+subethaedit/artwork/hud_buttonLeft-N.tiff -text
+subethaedit/artwork/hud_buttonLeft-P.tiff -text
+subethaedit/artwork/hud_buttonRight-N.tiff -text
+subethaedit/artwork/hud_buttonRight-P.tiff -text
+subethaedit/artwork/hud_titlebar-close.tiff -text
 subethaedit/artwork/monkey32.png -text
 subethaedit/artwork/style.icns -text
 subethaedit/createDiskImage.sh -text

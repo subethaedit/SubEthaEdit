@@ -316,6 +316,17 @@
 		F2061D190B4BFD2100E6631F /* NSBezierPath_AMAdditons.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D150B4BFD2100E6631F /* NSBezierPath_AMAdditons.m */; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
+		F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */; };
+		F27B2EE30B52957800679CF2 /* hud_buttonLeft-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */; };
+		F27B2EE40B52957800679CF2 /* hud_buttonRight-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */; };
+		F27B2EE50B52957800679CF2 /* hud_buttonRight-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDF0B52957800679CF2 /* hud_buttonRight-P.tiff */; };
+		F27B2EE60B52957800679CF2 /* hud_buttonFill-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE00B52957800679CF2 /* hud_buttonFill-P.tiff */; };
+		F27B2EE70B52957800679CF2 /* hud_buttonFill-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE10B52957800679CF2 /* hud_buttonFill-N.tiff */; };
+		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
+		F27B2EF00B52968E00679CF2 /* HUDButtonCell.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F27B2EEC0B52968E00679CF2 /* HUDButtonCell.h */; };
+		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
+		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
+		F27B2EF30B52968E00679CF2 /* HUDButton.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F27B2EEF0B52968E00679CF2 /* HUDButton.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -506,6 +517,8 @@
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
+				F27B2EF00B52968E00679CF2 /* HUDButtonCell.h in Copy Files (Frameworks) */,
+				F27B2EF30B52968E00679CF2 /* HUDButton.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -984,6 +997,17 @@
 		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
+		F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_titlebar-close.tiff"; path = "artwork/hud_titlebar-close.tiff"; sourceTree = "<group>"; };
+		F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonLeft-N.tiff"; path = "artwork/hud_buttonLeft-N.tiff"; sourceTree = "<group>"; };
+		F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonRight-N.tiff"; path = "artwork/hud_buttonRight-N.tiff"; sourceTree = "<group>"; };
+		F27B2EDF0B52957800679CF2 /* hud_buttonRight-P.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonRight-P.tiff"; path = "artwork/hud_buttonRight-P.tiff"; sourceTree = "<group>"; };
+		F27B2EE00B52957800679CF2 /* hud_buttonFill-P.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonFill-P.tiff"; path = "artwork/hud_buttonFill-P.tiff"; sourceTree = "<group>"; };
+		F27B2EE10B52957800679CF2 /* hud_buttonFill-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonFill-N.tiff"; path = "artwork/hud_buttonFill-N.tiff"; sourceTree = "<group>"; };
+		F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonLeft-P.tiff"; path = "artwork/hud_buttonLeft-P.tiff"; sourceTree = "<group>"; };
+		F27B2EEC0B52968E00679CF2 /* HUDButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HUDButtonCell.h; sourceTree = "<group>"; };
+		F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButtonCell.m; sourceTree = "<group>"; };
+		F27B2EEE0B52968E00679CF2 /* HUDButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButton.m; sourceTree = "<group>"; };
+		F27B2EEF0B52968E00679CF2 /* HUDButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HUDButton.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1113,6 +1137,13 @@
 				5E67DB8C0ABF21270013562D /* glass-normal-pressed-fill.tiff */,
 				1428906C095743F200D14688 /* HideChangeMarks.png */,
 				1428906E095743F200D14688 /* HomeFolderIcon.tiff */,
+				F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */,
+				F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */,
+				F27B2EDF0B52957800679CF2 /* hud_buttonRight-P.tiff */,
+				F27B2EE00B52957800679CF2 /* hud_buttonFill-P.tiff */,
+				F27B2EE10B52957800679CF2 /* hud_buttonFill-N.tiff */,
+				F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */,
+				F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */,
 				1428906F095743F200D14688 /* Internet.tiff */,
 				14289070095743F200D14688 /* InternetResume.tiff */,
 				14289071095743F200D14688 /* InternetStop.tiff */,
@@ -1323,6 +1354,10 @@
 		142892490957526300D14688 /* Document */ = {
 			isa = PBXGroup;
 			children = (
+				F27B2EEF0B52968E00679CF2 /* HUDButton.h */,
+				F27B2EEE0B52968E00679CF2 /* HUDButton.m */,
+				F27B2EEC0B52968E00679CF2 /* HUDButtonCell.h */,
+				F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */,
 				5E754EA60AB5649C00C5119E /* Dialogs */,
 				F2061CCA0B4BF43F00E6631F /* AMRollOverButton.h */,
 				F2061CCB0B4BF43F00E6631F /* AMRollOverButton.m */,
@@ -2163,6 +2198,13 @@
 				5E67DB970ABF212D0013562D /* glass-normal-pressed-cap-left.tiff in Resources */,
 				5E67DB980ABF212D0013562D /* glass-normal-pressed-fill.tiff in Resources */,
 				F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */,
+				F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */,
+				F27B2EE30B52957800679CF2 /* hud_buttonLeft-N.tiff in Resources */,
+				F27B2EE40B52957800679CF2 /* hud_buttonRight-N.tiff in Resources */,
+				F27B2EE50B52957800679CF2 /* hud_buttonRight-P.tiff in Resources */,
+				F27B2EE60B52957800679CF2 /* hud_buttonFill-P.tiff in Resources */,
+				F27B2EE70B52957800679CF2 /* hud_buttonFill-N.tiff in Resources */,
+				F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2426,6 +2468,8 @@
 				F2061D160B4BFD2100E6631F /* NSBezierPath_AMShading.m in Sources */,
 				F2061D190B4BFD2100E6631F /* NSBezierPath_AMAdditons.m in Sources */,
 				F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */,
+				F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */,
+				F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

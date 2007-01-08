@@ -78,16 +78,6 @@
     [O_declineButton setAction:@selector(performClose:)];
     [O_declineButton setTarget:[O_declineButton window]];
 
-    [O_acceptButton  setFont:[NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSRegularControlSize]]];
-    [O_declineButton setFont:[NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSRegularControlSize]]];
-    [O_acceptButton  setTextColor:[NSColor whiteColor]];
-    [O_declineButton setTextColor:[NSColor whiteColor]];
-    [O_acceptButton  setTextColor:[NSColor whiteColor]];
-    [O_declineButton setTextColor:[NSColor whiteColor]];
-    
-    [O_declineButton setFrameColor:[NSColor lightGrayColor]];
-    [O_acceptButton  setFrameColor:[NSColor lightGrayColor]];
-
 
     if ([I_session wasInvited]) {
         [O_bottomStatusView setHidden:YES];
