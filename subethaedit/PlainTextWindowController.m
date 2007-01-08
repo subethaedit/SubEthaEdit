@@ -2286,32 +2286,21 @@ enum {
 
 - (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned int *)styleMask
 {    
-	// grabs whole window image
+	// grabs whole window image of the right tab
+	[[self window] disableFlushWindow];
+    NSTabViewItem *oldItem = [aTabView selectedTabViewItem];
+    [aTabView selectTabViewItem:tabViewItem];
+    [aTabView display];
 	NSImage *viewImage = [[[NSImage alloc] init] autorelease];
 	NSRect contentFrame = [[[self window] contentView] frame];
 	[[[self window] contentView] lockFocus];
 	NSBitmapImageRep *viewRep = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:contentFrame] autorelease];
 	[viewImage addRepresentation:viewRep];
 	[[[self window] contentView] unlockFocus];
-	
-    // grabs snapshot of dragged tabViewItem's view (represents content being dragged)
-	NSView *viewForImage = [tabViewItem view];
-	NSRect viewRect = [viewForImage bounds];
-	//NSImage *tabViewImage = [[[NSImage alloc] initWithSize:viewRect.size] autorelease];
-    
-	NSImage *tabViewImage = [[[NSImage alloc] init] autorelease];
-    NSData *PDFData = [viewForImage dataWithPDFInsideRect:viewRect];
-    [tabViewImage addRepresentation:[NSPDFImageRep imageRepWithData:PDFData]];
-    
-	[tabViewImage lockFocus];
-    #warning: tabViewImage is empty
-    //[viewForImage drawRect:[viewForImage bounds]];
-	[tabViewImage unlockFocus];
-    	
-	[viewImage lockFocus];
-	[tabViewImage compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
-	[viewImage unlockFocus];
-	
+    [aTabView selectTabViewItem:oldItem];
+    [aTabView display];
+	[[self window] enableFlushWindow];
+		
 	//draw over where the tab bar would usually be
 	NSRect tabFrame = [I_tabBar frame];
 	[viewImage lockFocus];
