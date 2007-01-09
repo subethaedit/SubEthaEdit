@@ -319,10 +319,8 @@
 		F27B2EE60B52957800679CF2 /* hud_buttonFill-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE00B52957800679CF2 /* hud_buttonFill-P.tiff */; };
 		F27B2EE70B52957800679CF2 /* hud_buttonFill-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE10B52957800679CF2 /* hud_buttonFill-N.tiff */; };
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
-		F27B2EF00B52968E00679CF2 /* HUDButtonCell.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F27B2EEC0B52968E00679CF2 /* HUDButtonCell.h */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
-		F27B2EF30B52968E00679CF2 /* HUDButton.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F27B2EEF0B52968E00679CF2 /* HUDButton.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -513,8 +511,6 @@
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
 				14F16D130971A8B700402129 /* OgreKit.framework in Copy Files (Frameworks) */,
-				F27B2EF00B52968E00679CF2 /* HUDButtonCell.h in Copy Files (Frameworks) */,
-				F27B2EF30B52968E00679CF2 /* HUDButton.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;

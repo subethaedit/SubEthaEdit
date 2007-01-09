@@ -272,7 +272,9 @@ enum {
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-        [tabContext setIsReceivingContent:flag];
+        [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isProcessing"];
+        [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isReceivingContent"];
+
         if (flag) {
             [[NSNotificationCenter defaultCenter] addObserver:self 
                                                      selector:@selector(updateProgress:) 

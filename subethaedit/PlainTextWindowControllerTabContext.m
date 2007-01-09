@@ -133,7 +133,6 @@
 - (void)setIsReceivingContent:(BOOL)flag
 {
     _isReceivingContent = flag;
-    _isProcessing = flag;
 }
 
 - (BOOL)isReceivingContent
@@ -167,7 +166,6 @@
 - (void)setIsProcessing:(BOOL)value
 {
     _isProcessing = value;
-    _isReceivingContent = value;
 }
 
 - (NSImage *)icon
