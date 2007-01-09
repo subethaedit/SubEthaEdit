@@ -1228,10 +1228,12 @@
             [cell setIsInOverflowMenu:NO];
             
             // indicator
+            if (![[self subviews] containsObject:[cell indicator]]) {
+                [self addSubview:[cell indicator]];
+            }
             if (![[cell indicator] isHidden] && !_hideIndicators) {
                 [[cell indicator] setFrame:[cell indicatorRectForFrame:cellRect]];
                 if (![[self subviews] containsObject:[cell indicator]]) {
-                    [self addSubview:[cell indicator]];
                     [[cell indicator] startAnimation:self];
                 }
             }
