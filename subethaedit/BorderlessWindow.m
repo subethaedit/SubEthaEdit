@@ -1,6 +1,8 @@
 
 #import "BorderlessWindow.h"
 #import <AppKit/AppKit.h>
+#import "AppController.h"
+
 
 @implementation BorderlessWindow
 
@@ -28,7 +30,7 @@
 
 // Custom windows that use the NSBorderlessWindowMask can't become key by default.  Therefore, controls in such windows
 // won't ever be enabled by default.  Thus, we override this method to change that.
-- (BOOL) canBecomeKeyWindow
+- (BOOL)canBecomeKeyWindow
 {
     return YES;
 }
@@ -81,6 +83,16 @@
 
 - (void)performClose:(id)aSender {
     [self close];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+    SEL selector = [menuItem action];
+    
+    if (selector == @selector(performClose:)) {
+        return YES;
+    }
+    return [super validateMenuItem:menuItem];
 }
 
 @end
