@@ -1646,6 +1646,10 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     [self killProxyWindowController];
 }
 
+- (DocumentProxyWindowController *)proxyWindowController {
+    return I_documentProxyWindowController;
+}
+
 - (void)TCM_validateLineEndings {
 
     NSString *string = [[self textStorage] string];

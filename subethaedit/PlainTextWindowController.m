@@ -2427,7 +2427,7 @@ float ToolbarHeightForWindow(NSWindow *window)
 - (NSRect)dissolveToFrame {
     if ([self hasManyDocuments]) {
         NSWindow *window = [self window];
-        NSRect bounds = [[I_tabBar lastVisibleTab] frame];
+        NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
         bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
         NSPoint point1 = bounds.origin;
         NSPoint point2 = NSMakePoint(NSMaxX(bounds),NSMaxY(bounds));

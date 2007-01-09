@@ -162,6 +162,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)killProxyWindowController;
 - (void)proxyWindowWillClose;
 - (void)updateProxyWindow;
+- (DocumentProxyWindowController *)proxyWindowController;
 
 - (void)setSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)session;

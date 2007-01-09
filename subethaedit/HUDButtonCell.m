@@ -58,7 +58,7 @@ static NSImage *s_normal[]={nil,nil,nil};
                 fromRect:NSMakeRect(0,0,middleSize.width,middleSize.height) 
                operation:NSCompositeSourceOver fraction:1.0];
 
-    NSMutableAttributedString *title=[[self attributedTitle] mutableCopy];
+    NSMutableAttributedString *title=[[[self attributedTitle] mutableCopy] autorelease];
     [title addAttribute:NSForegroundColorAttributeName value:[NSColor whiteColor] range:NSMakeRange(0,[title length])];
     [self setAttributedTitle:title];
     [super drawInteriorWithFrame:cellFrame inView:controlView];

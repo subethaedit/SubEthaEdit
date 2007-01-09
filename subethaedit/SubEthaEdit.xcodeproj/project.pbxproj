@@ -308,12 +308,8 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		F2061CCF0B4BF43F00E6631F /* AMRollOverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CCB0B4BF43F00E6631F /* AMRollOverButton.m */; };
-		F2061CD00B4BF43F00E6631F /* AMRollOverButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CCC0B4BF43F00E6631F /* AMRollOverButtonCell.m */; };
 		F2061CD40B4BF44800E6631F /* DWRoundedTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD20B4BF44800E6631F /* DWRoundedTransparentView.m */; };
 		F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */; };
-		F2061D160B4BFD2100E6631F /* NSBezierPath_AMShading.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D120B4BFD2100E6631F /* NSBezierPath_AMShading.m */; };
-		F2061D190B4BFD2100E6631F /* NSBezierPath_AMAdditons.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D150B4BFD2100E6631F /* NSBezierPath_AMAdditons.m */; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
 		F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */; };
@@ -982,18 +978,10 @@
 		5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconGenericScript.tiff; path = artwork/ToolbarIconGenericScript.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2061CC90B4BF43F00E6631F /* AMRollOverButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRollOverButtonCell.h; sourceTree = "<group>"; };
-		F2061CCA0B4BF43F00E6631F /* AMRollOverButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRollOverButton.h; sourceTree = "<group>"; };
-		F2061CCB0B4BF43F00E6631F /* AMRollOverButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AMRollOverButton.m; sourceTree = "<group>"; };
-		F2061CCC0B4BF43F00E6631F /* AMRollOverButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AMRollOverButtonCell.m; sourceTree = "<group>"; };
 		F2061CD10B4BF44800E6631F /* DWRoundedTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DWRoundedTransparentView.h; sourceTree = "<group>"; };
 		F2061CD20B4BF44800E6631F /* DWRoundedTransparentView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DWRoundedTransparentView.m; sourceTree = "<group>"; };
 		F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BorderlessWindow.m; sourceTree = "<group>"; };
 		F2061CD60B4BF48E00E6631F /* BorderlessWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BorderlessWindow.h; sourceTree = "<group>"; };
-		F2061D120B4BFD2100E6631F /* NSBezierPath_AMShading.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSBezierPath_AMShading.m; sourceTree = "<group>"; };
-		F2061D130B4BFD2100E6631F /* NSBezierPath_AMAdditons.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSBezierPath_AMAdditons.h; sourceTree = "<group>"; };
-		F2061D140B4BFD2100E6631F /* NSBezierPath_AMShading.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSBezierPath_AMShading.h; sourceTree = "<group>"; };
-		F2061D150B4BFD2100E6631F /* NSBezierPath_AMAdditons.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSBezierPath_AMAdditons.m; sourceTree = "<group>"; };
 		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
@@ -1359,10 +1347,6 @@
 				F27B2EEC0B52968E00679CF2 /* HUDButtonCell.h */,
 				F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */,
 				5E754EA60AB5649C00C5119E /* Dialogs */,
-				F2061CCA0B4BF43F00E6631F /* AMRollOverButton.h */,
-				F2061CCB0B4BF43F00E6631F /* AMRollOverButton.m */,
-				F2061CC90B4BF43F00E6631F /* AMRollOverButtonCell.h */,
-				F2061CCC0B4BF43F00E6631F /* AMRollOverButtonCell.m */,
 				1428941509575AE600D14688 /* BorderedTextField.h */,
 				1428941609575AE600D14688 /* BorderedTextField.m */,
 				F2061CD60B4BF48E00E6631F /* BorderlessWindow.h */,
@@ -1389,10 +1373,6 @@
 				5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */,
 				1428944409575B3400D14688 /* LayoutManager.h */,
 				1428944509575B3400D14688 /* LayoutManager.m */,
-				F2061D140B4BFD2100E6631F /* NSBezierPath_AMShading.h */,
-				F2061D120B4BFD2100E6631F /* NSBezierPath_AMShading.m */,
-				F2061D130B4BFD2100E6631F /* NSBezierPath_AMAdditons.h */,
-				F2061D150B4BFD2100E6631F /* NSBezierPath_AMAdditons.m */,
 				1428944A09575B9700D14688 /* ParticipantsView.h */,
 				1428944B09575B9700D14688 /* ParticipantsView.m */,
 				1428944C09575B9700D14688 /* PlainTextDocument.h */,
@@ -2461,12 +2441,8 @@
 				5E67DB790ABF1EF60013562D /* GlassButtonCell.m in Sources */,
 				141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */,
 				148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */,
-				F2061CCF0B4BF43F00E6631F /* AMRollOverButton.m in Sources */,
-				F2061CD00B4BF43F00E6631F /* AMRollOverButtonCell.m in Sources */,
 				F2061CD40B4BF44800E6631F /* DWRoundedTransparentView.m in Sources */,
 				F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */,
-				F2061D160B4BFD2100E6631F /* NSBezierPath_AMShading.m in Sources */,
-				F2061D190B4BFD2100E6631F /* NSBezierPath_AMAdditons.m in Sources */,
 				F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */,
 				F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */,
 				F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */,

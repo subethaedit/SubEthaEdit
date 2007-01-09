@@ -7,7 +7,6 @@
 //
 
 #import <AppKit/AppKit.h>
-#import "AMRollOverButton.h"
 
 @class TCMMMSession;
 
@@ -22,8 +21,8 @@
     IBOutlet NSView *O_bottomCustomView;
     IBOutlet NSView *O_bottomStatusView;
     IBOutlet NSView *O_bottomDecisionView;
-    IBOutlet AMRollOverButton *O_acceptButton;
-    IBOutlet AMRollOverButton *O_declineButton;
+    IBOutlet NSButton *O_acceptButton;
+    IBOutlet NSButton *O_declineButton;
 
     NSWindow *I_targetWindow;
     TCMMMSession *I_session;

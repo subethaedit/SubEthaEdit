@@ -41,7 +41,7 @@
 {
    NSPoint currentLocation;
    NSPoint newOrigin;
-   NSRect  screenFrame = [[NSScreen mainScreen] frame];
+   NSRect  screenFrame = [[NSScreen mainScreen] visibleFrame];
    NSRect  windowFrame = [self frame];
 
    
@@ -54,7 +54,11 @@
     
     // Don't let window get dragged up under the menu bar
     if( (newOrigin.y+windowFrame.size.height) > (screenFrame.origin.y+screenFrame.size.height) ){
-	newOrigin.y=screenFrame.origin.y + (screenFrame.size.height-windowFrame.size.height);
+        newOrigin.y=screenFrame.origin.y + (screenFrame.size.height-windowFrame.size.height);
+    }
+    // don't let the window title get dragged under the dock
+    if( (newOrigin.y+windowFrame.size.height-19.) < screenFrame.origin.y ){
+        newOrigin.y=screenFrame.origin.y - windowFrame.size.height + 19;
     }
     
     //go ahead and move the window to the new location
@@ -70,7 +74,7 @@
 - (void)mouseDown:(NSEvent *)theEvent
 {    
     NSRect  windowFrame = [self frame];
-
+    [self setLevel:NSNormalWindowLevel];
     //grab the mouse location in global coordinates
    initialLocation = [self convertBaseToScreen:[theEvent locationInWindow]];
    initialResizing.x = initialLocation.x;

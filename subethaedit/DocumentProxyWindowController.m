@@ -16,6 +16,22 @@
 #import "GeneralPreferences.h"
 #import "DWRoundedTransparentView.h"
 
+@interface NSScreen (NSScreenTCMAdditions)
++ (NSScreen *)menuBarContainingScreen;
+@end
+
+@implementation NSScreen (NSScreenTCMAdditions)
++ (NSScreen *)menuBarContainingScreen {
+    NSArray *screens = [NSScreen screens];
+    if ([screens count] > 0) {
+        return [screens objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+@end
+
+
 
 @implementation DocumentProxyWindowController
 
@@ -23,6 +39,7 @@
     self = [super initWithWindowNibName:@"DocumentProxy"];
     if (self) {
         [self setSession:aSession];
+        [self setShouldCascadeWindows:NO];
     }
     return self;
 }
@@ -55,6 +72,7 @@
     NSWindow *window=[self window];
 //    [((NSPanel *)window) setFloatingPanel:NO];
     [window setHidesOnDeactivate:NO];
+    [window setLevel:NSFloatingWindowLevel];
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[I_session hostID]];
     [O_userImageView setImage:[[user properties] objectForKey:@"Image"]];
     [O_userNameTextField setStringValue:[user name]];
@@ -85,8 +103,57 @@
         [O_bottomDecisionView setHidden:YES];
     }
     [self update];
+    
+    // position cascading top left on menubar screen
+    NSRect screenRect = [[NSScreen menuBarContainingScreen] visibleFrame];
+    NSPoint origin = NSZeroPoint;
+    NSRect windowFrame = [window frame];
+    origin.x = NSMaxX(screenRect)-windowFrame.size.width-80.;
+    origin.y = NSMaxY(screenRect)-40.;
+    float cascadingYDifference = windowFrame.size.height+40.;
+        // get all existing proxy windows
+        NSMutableArray *proxyWindowArray = [NSMutableArray array];
+        NSEnumerator *documents = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+        PlainTextDocument *document = nil;
+        while ((document = [documents nextObject])) {
+            DocumentProxyWindowController *wc = [document proxyWindowController];
+            if (wc) {
+                [proxyWindowArray addObject:[wc window]];
+            }
+        }
+        
+        // check current position against windows that are already there
+        int maxHitCount = 0;
+        
+        while (YES) {
+            int currentHitCount;
+            while (origin.y - windowFrame.size.height > NSMinY(screenRect)) {
+                currentHitCount = 0;
+                NSEnumerator *windows = [proxyWindowArray objectEnumerator];
+                NSWindow *window = nil;
+                while ((window = [windows nextObject])) {
+                    if (NSPointInRect(origin,NSInsetRect([window frame],-5.,-5.))) {
+                        currentHitCount++;
+                    }
+                }
+                if (currentHitCount <= maxHitCount) break;
+                origin.y -= cascadingYDifference;
+            }
+            if (currentHitCount <= maxHitCount) break;
+            if (origin.y - windowFrame.size.height <= NSMinY(screenRect)) {
+                maxHitCount++;
+                origin.y = NSMaxY(screenRect)-40. - currentHitCount * 22.;
+                // if we are way out of screenbounds with start then just stick with one location
+                if (origin.y - windowFrame.size.height <= NSMinY(screenRect)) {
+                    origin.y = NSMaxY(screenRect)-40.; 
+                    break;
+                }
+            }
+        }
+        
+    [window cascadeTopLeftFromPoint:origin];
     if ([I_session wasInvited]) {
-        [[self window] orderFrontRegardless];
+        [window orderFrontRegardless];
     }
 }
 
