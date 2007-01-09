@@ -412,11 +412,11 @@ static PSMTabDragAssistant *sharedDragAssistant = nil;
 				[[[self sourceTabBar] tabView] removeTabViewItem:[[self draggedCell] representedObject]];
 				
 				[[control tabView] addTabViewItem:[[self draggedCell] representedObject]];
-				[[control window] makeKeyAndOrderFront:nil];
 				
 				if ([sourceDelegate respondsToSelector:@selector(tabView:didDropTabViewItem:inTabBar:)]) {
 					[sourceDelegate tabView:[[self sourceTabBar] tabView] didDropTabViewItem:[[self draggedCell] representedObject] inTabBar:control];
 				}
+				[[control window] makeKeyAndOrderFront:nil];
 			} else {
 				NSLog(@"Delegate returned no control to add to.");
 				[[[self sourceTabBar] cells] insertObject:[self draggedCell] atIndex:[self draggedCellIndex]];
