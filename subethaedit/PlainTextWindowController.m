@@ -272,7 +272,6 @@ enum {
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-        [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isProcessing"];
         [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isReceivingContent"];
 
         if (flag) {
@@ -299,7 +298,18 @@ enum {
             if ([self window] == [[[NSApp orderedWindows] objectEnumerator] nextObject]) {
                 [[self window] makeKeyWindow];
             }
+            
+            [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isProcessing"];
         }
+    }
+}
+
+- (void)startTabProgressIndicatorForDocument:(PlainTextDocument *)document
+{
+    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
+    if (tabViewItem) {
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        [tabContext setValue:[NSNumber numberWithBool:YES] forKeyPath:@"isProcessing"];
     }
 }
 

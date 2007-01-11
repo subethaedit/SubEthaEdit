@@ -77,6 +77,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)selectRange:(NSRange)aRange;
 
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
+- (void)startTabProgressIndicatorForDocument:(PlainTextDocument *)document;
 - (void)didLoseConnection;
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows;

@@ -1635,6 +1635,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             [session cancelJoin];
         }
         [[DocumentController sharedInstance] removeDocument:[[self retain] autorelease]];
+    } else {
+        PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+        [windowController startTabProgressIndicatorForDocument:self];
     }
 }
 
