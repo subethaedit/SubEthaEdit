@@ -31,6 +31,48 @@
 }
 @end
 
+@interface NSWindow (NSWindowNonBlockingAnimationAdditions) 
+- (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame;
+@end
+
+#define linearInterpolation(A,B,P) (A + ((P)*((B)-(A))))
+
+@implementation NSWindow (NSWindowNonBlockingAnimationAdditions) 
+- (NSRect)frameAnimatedFrom:(NSRect)aFromRect to:(NSRect)aToRect progress:(float)aProgress {
+    if (aProgress >= 1.0) {
+        return aToRect;
+    } else if (aProgress <= 0) {
+        return aFromRect;
+    } else {
+        aFromRect.origin.x = linearInterpolation(aFromRect.origin.x,aToRect.origin.x,aProgress);
+        aFromRect.origin.y = linearInterpolation(aFromRect.origin.y,aToRect.origin.y,aProgress);
+        aFromRect.size.width = linearInterpolation(aFromRect.size.width,aToRect.size.width,aProgress);
+        aFromRect.size.height = linearInterpolation(aFromRect.size.height,aToRect.size.height,aProgress);
+
+        return aFromRect;
+    }
+}
+
+- (void)nonBlockingAnimationStep:(NSTimer *)aTimer {
+    NSDictionary *userInfo = [aTimer userInfo];
+    float progress = [[NSDate date] timeIntervalSinceDate:[userInfo objectForKey:@"startDate"]]/
+        [[userInfo objectForKey:@"stopDate"] timeIntervalSinceDate:[userInfo objectForKey:@"startDate"]];
+    NSRect newFrame = [self frameAnimatedFrom:[[userInfo objectForKey:@"sourceFrame"] rectValue] to:[[userInfo objectForKey:@"targetFrame"] rectValue] progress:progress];
+    BOOL finished = NSEqualRects(newFrame,[self frame]);
+    [self setFrame:newFrame display:YES];
+    if (finished)
+        [aTimer invalidate];
+}
+
+- (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame {
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    [userInfo setObject:[NSValue valueWithRect:[self frame]] forKey:@"sourceFrame"];
+    [userInfo setObject:[NSValue valueWithRect:aFrame] forKey:@"targetFrame"];
+    [userInfo setObject:[NSDate dateWithTimeIntervalSinceNow:[self animationResizeTime:aFrame]] forKey:@"stopDate"];
+    [userInfo setObject:[NSDate date] forKey:@"startDate"];
+    [NSTimer scheduledTimerWithTimeInterval:(1.0/20.0) target:self selector:@selector(nonBlockingAnimationStep:) userInfo:userInfo repeats:YES];
+}
+@end
 
 
 @implementation DocumentProxyWindowController
@@ -197,7 +239,7 @@
         }
     }
     I_dissolveToFrame = [[I_targetWindow windowController] dissolveToFrame];
-    [[self window] setFrame:I_dissolveToFrame display:YES animate:YES];
+    [[self window] setFrameUsingNonBlockingAnimation:I_dissolveToFrame];
 }
 
 - (void)joinRequestWasDenied {

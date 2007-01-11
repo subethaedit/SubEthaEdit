@@ -144,7 +144,7 @@
     
     float radius=6.f;
     [[NSColor colorWithCalibratedWhite:0.1 alpha:.75] set];
-    [[NSBezierPath bezierPathWithBottomCapOfRoundedRect:bounds radius:radius] fill];
+    [(I_titleString?[NSBezierPath bezierPathWithBottomCapOfRoundedRect:bounds radius:radius]:[NSBezierPath bezierPathWithRoundedRect:bounds radius:radius]) fill];
 
     [[NSImage imageNamed:@"SmallGrowBoxRight3"] compositeToPoint:NSMakePoint(bounds.size.width-18.,6) operation:NSCompositeSourceOver fraction:1.0];
 
