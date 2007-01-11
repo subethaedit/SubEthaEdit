@@ -1889,7 +1889,7 @@ enum {
                 NSLocalizedString(@"Discard Changes", @"Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents."), 
                 NSLocalizedString(@"Cancel", @"Button choice allowing user to cancel."));
             if (choice == NSAlertOtherReturn) {
-                NSLog(@"Cancelled...");       	/* Cancel */
+                //NSLog(@"Cancelled...");       	/* Cancel */
                 return;
             }
         }
@@ -1897,7 +1897,7 @@ enum {
             [self reviewChangesAndQuitEnumeration:YES];
             return;
         } else if (choice == NSAlertAlternateReturn) {
-            NSLog(@"close all tabs unreviewed");
+            //NSLog(@"close all tabs unreviewed");
             NSArray *documents = [self documents];
             unsigned count = [documents count];
             while (count--) {
