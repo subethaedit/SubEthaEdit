@@ -171,6 +171,11 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     [style release];
 }
 
++ (PlainTextDocument *)transientDocument
+{
+    return transientDocument;
+}
+
 static NSString *tempFileName(NSString *origPath) {
     static int sequenceNumber = 0;
     NSString *name;

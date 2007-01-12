@@ -147,6 +147,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     AuthorizationRef I_authRef;
 }
 
++ (PlainTextDocument *)transientDocument;
+
 - (id)initWithSession:(TCMMMSession *)aSession;
 
 - (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo;

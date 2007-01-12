@@ -2063,7 +2063,12 @@ enum {
             [tab release];
             
             if ([[self documents] count] > 1) {
-                [I_tabBar hideTabBar:NO animate:YES];
+                if (!([[self documents] count] == 2 && 
+                    [PlainTextDocument transientDocument] &&
+                    [[self documents] containsObject:[PlainTextDocument transientDocument]]))
+                {
+                    [I_tabBar hideTabBar:NO animate:YES];
+                }
             }
             
             isNew = [I_tabView numberOfTabViewItems] == 1 ? YES : NO;
