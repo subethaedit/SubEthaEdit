@@ -15,7 +15,7 @@
 - (IBAction)performClose:(id)sender
 {
     if ([[self windowController] isKindOfClass:[PlainTextWindowController class]]) {
-        [(PlainTextWindowController *)[self windowController] closeTab:sender];
+        [(PlainTextWindowController *)[self windowController] closeAllTabs];
     } else {
         [super performClose:sender];
     }
