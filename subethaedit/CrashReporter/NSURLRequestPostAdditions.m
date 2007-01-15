@@ -41,3 +41,11 @@
 }
 
 @end
+
+@implementation NSURLRequest(IgnoreSelfSignedCertificatesAdditions)
+
++ (BOOL)allowsAnyHTTPSCertificateForHost:(NSString *)host {
+    return YES;
+}
+
+@end
