@@ -4499,10 +4499,24 @@ static NSString *S_measurementUnits;
     // up to here...
     
     [[windowController tabBar] updateViewsHack];
-#warning: Fix transient document case
     I_flags.isReceivingContent=YES;
     [windowController document:self isReceivingContent:YES];
+    
+    BOOL closeTransient = transientDocument 
+                          && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+                          && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+
+    if (closeTransient) {
+        NSWindow *window = [[self topmostWindowController] window];
+        [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
+        [transientDocument close];
+    }
+
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
+    
+    if (closeTransient) {
+        transientDocument = nil;
+    }
 }
 
 - (NSDictionary *)sessionInformation {

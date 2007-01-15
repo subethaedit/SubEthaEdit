@@ -2455,7 +2455,7 @@ float ToolbarHeightForWindow(NSWindow *window)
 }
 
 - (NSRect)dissolveToFrame {
-    if ([self hasManyDocuments]) {
+    if ([self hasManyDocuments] || [PlainTextDocument transientDocument]) {
         NSWindow *window = [self window];
         NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
         bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
