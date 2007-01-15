@@ -309,7 +309,8 @@ enum {
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-        [tabContext setValue:[NSNumber numberWithBool:YES] forKeyPath:@"isProcessing"];
+        if ([tabContext isReceivingContent])
+            [tabContext setValue:[NSNumber numberWithBool:YES] forKeyPath:@"isProcessing"];
     }
 }
 
