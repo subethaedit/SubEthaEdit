@@ -219,12 +219,11 @@
     I_targetWindow=[aWindow retain];
     NSRect frame=[[self window] frame];
     frame.origin.y=NSMaxY(frame);
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey])
-        [I_targetWindow setFrameTopLeftPoint:frame.origin];
+
     DWRoundedTransparentView *proxyview = [[DWRoundedTransparentView new] autorelease];
     [proxyview setTitle:nil];
     [[self window] setContentView:proxyview];
-    [O_containerView setAutoresizingMask:([O_containerView autoresizingMask] & ~NSViewWidthSizable) | NSViewMinXMargin | NSViewMaxXMargin ];
+    [O_containerView setAutoresizingMask:([O_containerView autoresizingMask] & ~NSViewWidthSizable) | NSViewMinXMargin | NSViewMaxXMargin];
 
     NSRect targetFrame = [I_targetWindow frame];
     NSScreen *screen=[[self window] screen];

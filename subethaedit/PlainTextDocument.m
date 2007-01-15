@@ -71,8 +71,6 @@ struct SelectionRange
 static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
 
-#pragma mark -
-
 static NSString * const PlainTextDocumentSyntaxColorizeNotification =
                       @"PlainTextDocumentSyntaxColorizeNotification";
 static NSString * PlainTextDocumentInvalidateLayoutNotification =
@@ -1643,6 +1641,8 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     } else {
         PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
         [windowController startTabProgressIndicatorForDocument:self];
+        [windowController selectTabForDocument:self];
+        [windowController showWindow:self];
     }
 }
 
@@ -4481,8 +4481,23 @@ static NSString *S_measurementUnits;
     //[self setFileName:[aSession filename]];
     [self setTemporaryDisplayName:[aSession filename]];
 
-    [self makeWindowControllers];
-    PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+    // this is slightly modified make window controllers code ... 
+    PlainTextWindowController *windowController=nil;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
+        windowController = [[DocumentController sharedDocumentController] activeWindowController];
+//        if ([[windowController documents] count] != 0) {
+//            [windowController addDocument:self];
+//        }
+        [self addWindowController:windowController];
+        [[(PlainTextWindowController *)windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
+    } else {
+        windowController = [[PlainTextWindowController alloc] init];
+        [self addWindowController:windowController];
+        [[DocumentController sharedInstance] addWindowController:windowController];
+        [windowController release];
+    }
+    // up to here...
+    
     [[windowController tabBar] updateViewsHack];
     I_flags.isReceivingContent=YES;
     [windowController document:self isReceivingContent:YES];

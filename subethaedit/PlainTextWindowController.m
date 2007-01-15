@@ -2029,8 +2029,39 @@ enum {
 
 #pragma mark Overrides of NSWindowController Methods 
 
+- (NSTabViewItem *)addDocument:(NSDocument *)document {
+    NSLog(@"%s %@",__FUNCTION__,document);
+    NSArray *documents = [self documents];
+    if (![documents containsObject:document]) {
+        // No. Record it, in a KVO-compliant way.
+        [self insertObject:document inDocumentsAtIndex:[documents count]];
+        PlainTextWindowControllerTabContext *tabContext = [[[PlainTextWindowControllerTabContext alloc] init] autorelease];
+        [tabContext setDocument:(PlainTextDocument *)document];
+        
+        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
+        [[self window] setInitialFirstResponder:[plainTextEditor textView]];
+                    
+        [[tabContext plainTextEditors] addObject:plainTextEditor];
+        I_plainTextEditors = [tabContext plainTextEditors];
+
+        I_editorSplitView = nil;
+        I_dialogSplitView = nil;
+        [self setInitialRadarStatusForPlainTextEditor:plainTextEditor];
+        
+        NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
+        [tab setLabel:[document displayName]];
+        [tab setView:[plainTextEditor editorView]];
+        [plainTextEditor release];
+        [I_tabView addTabViewItem:tab];
+        [tab release];
+        return tab;
+    }
+    return nil;
+}
+
 - (void)setDocument:(NSDocument *)document 
 {
+    NSLog(@"%s %@",__FUNCTION__, document);
     BOOL isNew = NO;
     [super setDocument:document];
     // A document has been told that this window controller belongs to it.
@@ -2040,28 +2071,10 @@ enum {
         // Have we already recorded this document in our list?
         NSArray *documents = [self documents];
         if (![documents containsObject:document]) {
+            NSLog(@"-> didn't contain document");
             // No. Record it, in a KVO-compliant way.
-            [self insertObject:document inDocumentsAtIndex:[documents count]];
-            PlainTextWindowControllerTabContext *tabContext = [[[PlainTextWindowControllerTabContext alloc] init] autorelease];
-            [tabContext setDocument:(PlainTextDocument *)document];
-            
-            PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
-            [[self window] setInitialFirstResponder:[plainTextEditor textView]];
-                        
-            [[tabContext plainTextEditors] addObject:plainTextEditor];
-            I_plainTextEditors = [tabContext plainTextEditors];
-
-            I_editorSplitView = nil;
-            I_dialogSplitView = nil;
-            [self setInitialRadarStatusForPlainTextEditor:plainTextEditor];
-            
-            NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
-            [tab setLabel:[document displayName]];
-            [tab setView:[plainTextEditor editorView]];
-            [plainTextEditor release];
-            [I_tabView addTabViewItem:tab];
+            NSTabViewItem *tab = [self addDocument:document];
             [I_tabView selectTabViewItem:tab];
-            [tab release];
             
             if ([[self documents] count] > 1) {
                 if (!([[self documents] count] == 2 && 
