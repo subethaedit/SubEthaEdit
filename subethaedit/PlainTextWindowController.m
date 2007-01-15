@@ -1796,6 +1796,8 @@ enum {
         if ([O_participantsDrawer state] == NSDrawerOpenState) {
             [windowController openParticipantsDrawer:self];
         }
+        
+        [[windowController tabBar] hideTabBar:NO animate:YES];
     }
 }
 
