@@ -1638,11 +1638,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             [session cancelJoin];
         }
         [[DocumentController sharedInstance] removeDocument:[[self retain] autorelease]];
+
     } else {
-        PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
-        [windowController startTabProgressIndicatorForDocument:self];
+        PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];                
         [windowController selectTabForDocument:self];
-        [windowController showWindow:self];
+        [windowController showWindow:self];    
     }
 }
 
@@ -4499,6 +4499,7 @@ static NSString *S_measurementUnits;
     // up to here...
     
     [[windowController tabBar] updateViewsHack];
+#warning: Fix transient document case
     I_flags.isReceivingContent=YES;
     [windowController document:self isReceivingContent:YES];
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];

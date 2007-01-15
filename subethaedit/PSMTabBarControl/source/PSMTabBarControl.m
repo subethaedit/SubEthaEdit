@@ -1767,7 +1767,7 @@
         [self update];
     }
 	
-	if ([[self delegate] respondsToSelector:@selector(tabView:didSelectTabViewItem:)]) {
+	if ([[self delegate] respondsToSelector:@selector(tabView:didSelectTabViewItem:)] && !([[NSApp currentEvent] type] == NSLeftMouseDragged)) {
 		[[self delegate] performSelector:@selector(tabView:didSelectTabViewItem:) withObject:aTabView withObject:tabViewItem];
 	}
 }

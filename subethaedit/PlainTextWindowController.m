@@ -273,6 +273,7 @@ enum {
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
         [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isReceivingContent"];
+        [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isProcessing"];
 
         if (flag) {
             [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -298,19 +299,7 @@ enum {
             if ([self window] == [[[NSApp orderedWindows] objectEnumerator] nextObject]) {
                 [[self window] makeKeyWindow];
             }
-            
-            [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isProcessing"];
         }
-    }
-}
-
-- (void)startTabProgressIndicatorForDocument:(PlainTextDocument *)document
-{
-    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
-    if (tabViewItem) {
-        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-        if ([tabContext isReceivingContent])
-            [tabContext setValue:[NSNumber numberWithBool:YES] forKeyPath:@"isProcessing"];
     }
 }
 
@@ -1723,6 +1712,15 @@ enum {
     NSMenu *windowMenu=[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu];
     NSMenu *gotoTabMenu=[[windowMenu itemWithTag:GotoTabMenuItemTag] submenu];
     [[gotoTabMenu delegate] menuNeedsUpdate:gotoTabMenu];
+    
+    NSTabViewItem *tabViewItem = [I_tabView selectedTabViewItem];
+    if (tabViewItem) {
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        if ([tabContext isAlertScheduled]) {
+            [[tabContext document] presentScheduledAlertForWindow:[self window]];
+            [tabContext setIsAlertScheduled:NO];
+        }
+    }
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification
@@ -2262,11 +2260,10 @@ enum {
     id document = [tabContext document];
     if ([[self documents] containsObject:document]) {
         [self setDocument:document];
-    }
-    
-    if ([tabContext isAlertScheduled]) {
-        [document presentScheduledAlertForWindow:[self window]];
-        [tabContext setIsAlertScheduled:NO];
+        if ([tabContext isAlertScheduled]) {
+            [document presentScheduledAlertForWindow:[self window]];
+            [tabContext setIsAlertScheduled:NO];
+        }
     }
 }
 
