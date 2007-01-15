@@ -1677,6 +1677,11 @@
     [self setNeedsDisplay:YES];
 }
 
+- (void)updateViewsHack
+{
+    [self windowStatusDidChange:nil];
+}
+
 - (void)windowStatusDidChange:(NSNotification *)notification
 {
     // hide? must readjust things if I'm not supposed to be showing

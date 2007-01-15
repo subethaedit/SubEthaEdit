@@ -77,7 +77,6 @@
 + (NSBezierPath *)bezierPathWithTopCapOfRoundedRect:(NSRect)rect radius:(float)radius {
         NSRect irect = NSInsetRect( rect, radius, radius );
         float minX = NSMinX( irect );
-        float minY = NSMinY( irect );
         float maxX = NSMaxX( irect );
         float maxY = NSMaxY( irect );
 

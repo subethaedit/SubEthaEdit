@@ -4483,6 +4483,7 @@ static NSString *S_measurementUnits;
 
     [self makeWindowControllers];
     PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+    [[windowController tabBar] updateViewsHack];
     I_flags.isReceivingContent=YES;
     [windowController document:self isReceivingContent:YES];
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
