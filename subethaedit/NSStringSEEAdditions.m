@@ -130,6 +130,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     // Published number (2.3): SEE-2XG6-8CK0-H8KX ( #43400/136374)
     // Published number (2.3): SEE-ZXFC-PF60-FZSX ( #43336/1676640)
     // Pirated number (2.5): SEE-SE2O-Y1LV-EZ1J ( #1464985/1332240) (KCN)
+    // Pirated number (2.5.1): SEE-IC3I-O11Y-W0FO (#1603023/871794)
     
     static int calls = 0;
     NSArray *splitArray = [self componentsSeparatedByString:@"-"];
@@ -162,6 +163,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
                 ((number==43400) && (rndnumber == 136374)) ||
                 ((number==43336) && (rndnumber == 1676640)) ||
                 ((number==1464985) && (rndnumber == 1332240)) ||
+                ((number==1603023) && (rndnumber == 871794)) ||
                 ((number==431865) && (rndnumber == 49392))) {
                 NSLog(@"Arrrr!");
                 return NO;
