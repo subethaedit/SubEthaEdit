@@ -417,9 +417,11 @@
         }
         NSImage * closeButton = nil;
         
-        closeButton = unifiedCloseButton;
-        if ([cell closeButtonOver]) closeButton = unifiedCloseButtonOver;
-        if ([cell closeButtonPressed]) closeButton = unifiedCloseButtonDown;
+        BOOL hasUnsavedChanges = [[[[cell representedObject] identifier] document] isDocumentEdited];
+        closeButton = hasUnsavedChanges?[NSImage imageNamed:@"AquaTabCloseDirty_Front"]:unifiedCloseButton;
+
+        if ([cell closeButtonOver]) closeButton = hasUnsavedChanges?[NSImage imageNamed:@"AquaTabCloseDirty_Front_Rollover"]:unifiedCloseButtonOver;
+        if ([cell closeButtonPressed]) closeButton = hasUnsavedChanges?[NSImage imageNamed:@"AquaTabCloseDirty_Front_Pressed"]:unifiedCloseButtonDown;
         
         closeButtonSize = [closeButton size];
         if ([[cell controlView] isFlipped]) {
@@ -673,10 +675,12 @@
         NSRect closeButtonRect = [cell closeButtonRectForFrame:cellFrame];
         NSImage * closeButton = nil;
         
-        closeButton = unifiedCloseButton;
-        if ([cell closeButtonOver]) closeButton = unifiedCloseButtonOver;
-        if ([cell closeButtonPressed]) closeButton = unifiedCloseButtonDown;
-        
+        BOOL hasUnsavedChanges = [[[[cell representedObject] identifier] document] isDocumentEdited];
+        closeButton = hasUnsavedChanges?[NSImage imageNamed:@"AquaTabCloseDirty_Front"]:unifiedCloseButton;
+
+        if ([cell closeButtonOver]) closeButton = hasUnsavedChanges?[NSImage imageNamed:@"AquaTabCloseDirty_Front_Rollover"]:unifiedCloseButtonOver;
+        if ([cell closeButtonPressed]) closeButton = hasUnsavedChanges?[NSImage imageNamed:@"AquaTabCloseDirty_Front_Pressed"]:unifiedCloseButtonDown;
+
         closeButtonSize = [closeButton size];
         if ([controlView isFlipped]) {
             closeButtonRect.origin.y += closeButtonRect.size.height;
