@@ -29,6 +29,7 @@
 #import "EncodingDoctorDialog.h"
 #import "DocumentController.h"
 #import "PlainTextWindowControllerTabContext.h"
+#import "NSMenuTCMAdditions.h"
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
@@ -2462,6 +2463,22 @@ float ToolbarHeightForWindow(NSWindow *window)
 {
 	//NSLog(@"closeWindowForLastTabViewItem: %@", [tabViewItem label]);
 	[[self window] close];
+}
+
+- (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(NSMenuItem *)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem
+{
+    PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+    PlainTextDocument *document = [tabContext document];
+    if ([document isDocumentEdited]) {
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], (char)0xA5);
+    } else {
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], noMark);
+    }
+
+    if ([I_tabView selectedTabViewItem] == tabViewItem)
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], (char)checkMark);
+        
+    return YES;
 }
 
 - (NSRect)dissolveToFrame {
