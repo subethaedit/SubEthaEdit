@@ -1199,6 +1199,9 @@ subethaedit/PSMTabBarControl/documentation/frameset_styles.css -text
 subethaedit/PSMTabBarControl/images/32x32_log.tiff -text
 subethaedit/PSMTabBarControl/images/32x32cancel.png -text
 subethaedit/PSMTabBarControl/images/AdiumGradient.tiff -text
+subethaedit/PSMTabBarControl/images/AquaTabCloseDirty_Front.tif -text
+subethaedit/PSMTabBarControl/images/AquaTabCloseDirty_Front_Pressed.tif -text
+subethaedit/PSMTabBarControl/images/AquaTabCloseDirty_Front_Rollover.tif -text
 subethaedit/PSMTabBarControl/images/AquaTabClose_Front.tif -text
 subethaedit/PSMTabBarControl/images/AquaTabClose_Front_Pressed.tif -text
 subethaedit/PSMTabBarControl/images/AquaTabClose_Front_Rollover.tif -text
@@ -1552,9 +1555,6 @@ subethaedit/artwork/Action.tiff -text
 subethaedit/artwork/ActionPressed.tiff -text
 subethaedit/artwork/AdvancedPrefs.tiff -text
 subethaedit/artwork/Announce.tiff -text
-subethaedit/artwork/AquaTabCloseDirty_Front.tif -text
-subethaedit/artwork/AquaTabCloseDirty_Front_Pressed.tif -text
-subethaedit/artwork/AquaTabCloseDirty_Front_Rollover.tif -text
 subethaedit/artwork/CandyBar.png -text
 subethaedit/artwork/Conceal.png -text
 subethaedit/artwork/DefaultPerson.tiff -text

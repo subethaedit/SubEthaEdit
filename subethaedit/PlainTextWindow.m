@@ -21,4 +21,14 @@
     }
 }
 
+- (void)setDocumentEdited:(BOOL)flag
+{
+    NSDocument *document = [[self windowController] document];
+    if (document) {
+        [super setDocumentEdited:[document isDocumentEdited]];
+    } else {
+        [super setDocumentEdited:flag];
+    }
+}
+
 @end

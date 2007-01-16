@@ -24,6 +24,7 @@
         _icon = nil;
         _iconName = nil;
         _objectCount = 0;
+        _isEdited = NO;
     }
     return self;
 }
@@ -202,5 +203,14 @@
     _objectCount = value;
 }
 
+- (BOOL)isEdited
+{
+    return _isEdited;
+}
+
+- (void)setIsEdited:(BOOL)value
+{
+    _isEdited = value;
+}
 
 @end

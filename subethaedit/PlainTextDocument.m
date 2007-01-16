@@ -4277,6 +4277,14 @@ static NSString *S_measurementUnits;
     if (changeType==NSChangeCleared || I_flags.shouldChangeChangeCount) {
         [super updateChangeCount:changeType];
     }
+    
+    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
+    id windowController;
+    while ((windowController = [enumerator nextObject])) {
+        if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+            [(PlainTextWindowController *)windowController documentUpdatedChangeCount:self];
+        }
+    }
 }
 
 - (void)setIsDocumentEdited:(BOOL)aFlag {

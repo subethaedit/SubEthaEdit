@@ -1770,6 +1770,16 @@ enum {
 
 #pragma mark -
 
+- (void)documentUpdatedChangeCount:(PlainTextDocument *)document
+{
+    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
+    if (tabViewItem) {
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        if ([tabContext isEdited] != [document isDocumentEdited])
+            [tabContext setIsEdited:[document isDocumentEdited]];
+    }
+}
+
 - (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController
 {
     NSEnumerator *enumerator = [I_documents objectEnumerator];

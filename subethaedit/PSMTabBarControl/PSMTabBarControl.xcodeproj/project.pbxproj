@@ -25,6 +25,9 @@
 /* Begin PBXBuildFile section */
 		13EB9DBE07DE0F1E00EB933A /* InterfaceBuilder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13EB9DBD07DE0F1E00EB933A /* InterfaceBuilder.framework */; };
 		13F8B89007B43554008AE28D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
+		1497721A0B5CD92C004A546C /* AquaTabCloseDirty_Front_Pressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = 149772170B5CD92C004A546C /* AquaTabCloseDirty_Front_Pressed.tif */; };
+		1497721B0B5CD92C004A546C /* AquaTabCloseDirty_Front_Rollover.tif in Resources */ = {isa = PBXBuildFile; fileRef = 149772180B5CD92C004A546C /* AquaTabCloseDirty_Front_Rollover.tif */; };
+		1497721C0B5CD92C004A546C /* AquaTabCloseDirty_Front.tif in Resources */ = {isa = PBXBuildFile; fileRef = 149772190B5CD92C004A546C /* AquaTabCloseDirty_Front.tif */; };
 		3767A7580A2D449B005F7522 /* PSMAdiumTabStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3767A7560A2D449B005F7522 /* PSMAdiumTabStyle.m */; };
 		3767A7590A2D449B005F7522 /* PSMAdiumTabStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 3767A7550A2D449B005F7522 /* PSMAdiumTabStyle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3767A75A0A2D449B005F7522 /* PSMAdiumTabStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3767A7560A2D449B005F7522 /* PSMAdiumTabStyle.m */; };
@@ -196,6 +199,9 @@
 		13EB9DBD07DE0F1E00EB933A /* InterfaceBuilder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InterfaceBuilder.framework; path = /System/Library/Frameworks/InterfaceBuilder.framework; sourceTree = "<absolute>"; };
 		13F8B88807B434F6008AE28D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		13F8B88A07B434F6008AE28D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		149772170B5CD92C004A546C /* AquaTabCloseDirty_Front_Pressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AquaTabCloseDirty_Front_Pressed.tif; path = images/AquaTabCloseDirty_Front_Pressed.tif; sourceTree = "<group>"; };
+		149772180B5CD92C004A546C /* AquaTabCloseDirty_Front_Rollover.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AquaTabCloseDirty_Front_Rollover.tif; path = images/AquaTabCloseDirty_Front_Rollover.tif; sourceTree = "<group>"; };
+		149772190B5CD92C004A546C /* AquaTabCloseDirty_Front.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AquaTabCloseDirty_Front.tif; path = images/AquaTabCloseDirty_Front.tif; sourceTree = "<group>"; };
 		32DBCF980370C29C00C91783 /* PSMTabBarControl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PSMTabBarControl_Prefix.pch; path = source/PSMTabBarControl_Prefix.pch; sourceTree = "<group>"; };
 		3767A7550A2D449B005F7522 /* PSMAdiumTabStyle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PSMAdiumTabStyle.h; path = source/PSMAdiumTabStyle.h; sourceTree = "<group>"; };
 		3767A7560A2D449B005F7522 /* PSMAdiumTabStyle.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PSMAdiumTabStyle.m; path = source/PSMAdiumTabStyle.m; sourceTree = "<group>"; };
@@ -488,6 +494,9 @@
 		A251BE8E0959A21A0058BC7F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				149772170B5CD92C004A546C /* AquaTabCloseDirty_Front_Pressed.tif */,
+				149772180B5CD92C004A546C /* AquaTabCloseDirty_Front_Rollover.tif */,
+				149772190B5CD92C004A546C /* AquaTabCloseDirty_Front.tif */,
 				A27074080A33E4510035C4DB /* mater_large.jpg */,
 				A27074090A33E4510035C4DB /* mcqueen_large.jpg */,
 				A270740A0A33E4510035C4DB /* sally_large.jpg */,
@@ -651,6 +660,9 @@
 				A27E47850A28EE76007BA395 /* TabIcon.tif in Resources */,
 				A27E47880A28EE7C007BA395 /* TabControlRep.tif in Resources */,
 				37E25E820A549B3100CD63B7 /* AdiumGradient.tiff in Resources */,
+				1497721A0B5CD92C004A546C /* AquaTabCloseDirty_Front_Pressed.tif in Resources */,
+				1497721B0B5CD92C004A546C /* AquaTabCloseDirty_Front_Rollover.tif in Resources */,
+				1497721C0B5CD92C004A546C /* AquaTabCloseDirty_Front.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

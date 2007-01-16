@@ -25,6 +25,7 @@
     NSImage *_icon;
     NSString *_iconName;
     int _objectCount;
+    BOOL _isEdited;
 }
 
 - (NSMutableArray *)plainTextEditors;
@@ -58,5 +59,7 @@
 - (void)setIconName:(NSString *)iconName;
 - (int)objectCount;
 - (void)setObjectCount:(int)value;
+- (BOOL)isEdited;
+- (void)setIsEdited:(BOOL)value;
 
 @end

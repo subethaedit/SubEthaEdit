@@ -527,6 +527,7 @@
     [cell unbind:@"hasIcon"];
     [cell unbind:@"title"];
     [cell unbind:@"count"];
+    [cell unbind:@"isEdited"];
 	
 	if ([item identifier] != nil) {
 		if ([[[cell representedObject] identifier] respondsToSelector:@selector(isProcessing)]) {
@@ -543,6 +544,12 @@
 	if ([item identifier] != nil) {
 		if ([[[cell representedObject] identifier] respondsToSelector:@selector(objectCount)]) {
 			[[item identifier] removeObserver:cell forKeyPath:@"objectCount"];
+		}
+	}
+    
+	if ([item identifier] != nil) {
+		if ([[[cell representedObject] identifier] respondsToSelector:@selector(isEdited)]) {
+			[[item identifier] removeObserver:cell forKeyPath:@"isEdited"];
 		}
 	}
 	
@@ -1960,6 +1967,14 @@
 		if ([[[cell representedObject] identifier] respondsToSelector:@selector(objectCount)]) {
 			[cell bind:@"count" toObject:[item identifier] withKeyPath:@"objectCount" options:nil];
 			[[item identifier] addObserver:cell forKeyPath:@"objectCount" options:nil context:nil];
+		}
+    }
+    
+    [cell setIsEdited:NO];
+    if ([item identifier] != nil) {
+		if ([[[cell representedObject] identifier] respondsToSelector:@selector(isEdited)]) {
+			[cell bind:@"isEdited" toObject:[item identifier] withKeyPath:@"isEdited" options:nil];
+			[[item identifier] addObserver:cell forKeyPath:@"isEdited" options:nil context:nil];
 		}
     }
     
