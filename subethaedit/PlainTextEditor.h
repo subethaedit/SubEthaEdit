@@ -7,8 +7,9 @@
 //
 
 #import <AppKit/AppKit.h>
+#import "PlainTextWindowControllerTabContext.h"
 
-@class PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser;
+@class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser;
 
 @interface PlainTextEditor : NSResponder {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
@@ -27,7 +28,7 @@
     RadarScroller   *I_radarScroller;
     NSTextView      *I_textView;
     NSTextContainer *I_textContainer;
-    NSWindowController *I_windowController;
+    PlainTextWindowControllerTabContext *I_windowControllerTabContext;
     NSString *I_followUserID;
     struct {
         BOOL showTopStatusBar;
@@ -39,7 +40,7 @@
 }
 
 
-- (id)initWithWindowController:(NSWindowController *)aWindowController splitButton:(BOOL)aFlag;
+- (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
 - (NSView *)editorView;
 - (NSTextView *)textView;
 - (PlainTextDocument *)document;
@@ -63,7 +64,7 @@
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 - (void)setFollowUserID:(NSString *)userID;
 - (NSString *)followUserID;
-- (void)setWindowController:(NSWindowController *)aWindowController;
+- (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext;
 - (NSWindowController *)windowController;
 - (void)takeStyleSettingsFromDocument;
 - (void)takeSettingsFromDocument;

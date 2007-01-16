@@ -1640,9 +1640,10 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         [[DocumentController sharedInstance] removeDocument:[[self retain] autorelease]];
 
     } else {
-        PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];                
-        [windowController selectTabForDocument:self];
-        [windowController showWindow:self];    
+        PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+        if (![windowController hasManyDocuments]) {
+            [windowController showWindow:self];
+        }
     }
 }
 
@@ -4474,6 +4475,7 @@ static NSString *S_measurementUnits;
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation {
+    NSLog(@"%s",__FUNCTION__);
     DocumentModeManager *manager=[DocumentModeManager sharedInstance];
     DocumentMode *mode=[manager documentModeForIdentifier:[aSessionInformation objectForKey:@"DocumentMode"]];
     if (!mode) {
@@ -4489,22 +4491,9 @@ static NSString *S_measurementUnits;
     //[self setFileName:[aSession filename]];
     [self setTemporaryDisplayName:[aSession filename]];
 
-    // this is slightly modified make window controllers code ... 
-    PlainTextWindowController *windowController=nil;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
-        windowController = [[DocumentController sharedDocumentController] activeWindowController];
-//        if ([[windowController documents] count] != 0) {
-//            [windowController addDocument:self];
-//        }
-        [self addWindowController:windowController];
-        [[(PlainTextWindowController *)windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
-    } else {
-        windowController = [[PlainTextWindowController alloc] init];
-        [self addWindowController:windowController];
-        [[DocumentController sharedInstance] addWindowController:windowController];
-        [windowController release];
-    }
-    // up to here...
+    // this is slightly modified make window controllers code ...
+    [self makeWindowControllers]; 
+    PlainTextWindowController *windowController=[[self windowControllers] lastObject];
     
     [[windowController tabBar] updateViewsHack];
     I_flags.isReceivingContent=YES;

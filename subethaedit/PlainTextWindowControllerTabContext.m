@@ -33,7 +33,7 @@
 - (void)dealloc
 {
     _document = nil;
-    [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowController:) withObject:nil];
+    [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowControllerTabContext:) withObject:nil];
     [_plainTextEditors release];
     [_editorSplitView release];
     [_dialogSplitView release];

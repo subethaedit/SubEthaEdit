@@ -283,7 +283,7 @@ enum {
                                                        object:[document session]];
 
       
-            [I_tabView selectTabViewItem:tabViewItem];
+//            [I_tabView selectTabViewItem:tabViewItem];
             [tabViewItem setView:O_receivingContentView];
             [O_progressIndicator startAnimation:self];
         } else {
@@ -295,8 +295,8 @@ enum {
 
             [tabViewItem setView:[editor editorView]];
             [[editor textView] setSelectedRange:NSMakeRange(0, 0)];
-            [self selectTabForDocument:document];
-            [[self window] makeFirstResponder:[editor textView]];
+//            [self selectTabForDocument:document];
+//            [[self window] makeFirstResponder:[editor textView]];
             if ([self window] == [[[NSApp orderedWindows] objectEnumerator] nextObject]) {
                 [[self window] makeKeyWindow];
             }
@@ -1380,17 +1380,17 @@ enum {
 
 - (IBAction)toggleSplitView:(id)aSender {
     if ([I_plainTextEditors count]==1) {
-        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:NO];
+        NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+        PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
+        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:context splitButton:NO];
         [I_plainTextEditors addObject:plainTextEditor];
         [plainTextEditor release];
         I_editorSplitView = [[[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]] autorelease];
 
-        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
-        if (tabViewItem) [[tabViewItem identifier] setEditorSplitView:I_editorSplitView];
+        [context setEditorSplitView:I_editorSplitView];
 
         if (!I_dialogSplitView) {
             //[[self window] setContentView:I_editorSplitView];
-            NSTabViewItem *tab = [I_tabView selectedTabViewItem];
             [tab setView:I_editorSplitView];
         } else {
             [I_dialogSplitView addSubview:I_editorSplitView positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:1]];
@@ -2058,7 +2058,6 @@ enum {
 #pragma mark Overrides of NSWindowController Methods 
 
 - (NSTabViewItem *)addDocument:(NSDocument *)document {
-    NSLog(@"%s %@",__FUNCTION__,document);
     NSArray *documents = [self documents];
     if (![documents containsObject:document]) {
         // No. Record it, in a KVO-compliant way.
@@ -2066,7 +2065,7 @@ enum {
         PlainTextWindowControllerTabContext *tabContext = [[[PlainTextWindowControllerTabContext alloc] init] autorelease];
         [tabContext setDocument:(PlainTextDocument *)document];
         
-        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowController:self splitButton:YES];
+        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:tabContext splitButton:YES];
         [[self window] setInitialFirstResponder:[plainTextEditor textView]];
                     
         [[tabContext plainTextEditors] addObject:plainTextEditor];
@@ -2074,7 +2073,6 @@ enum {
 
         I_editorSplitView = nil;
         I_dialogSplitView = nil;
-        [self setInitialRadarStatusForPlainTextEditor:plainTextEditor];
         
         NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
         [tab setLabel:[document displayName]];
@@ -2082,6 +2080,15 @@ enum {
         [plainTextEditor release];
         [I_tabView addTabViewItem:tab];
         [tab release];
+        if ([documents count] > 1) {
+            if (!([documents count] == 2 && 
+                [PlainTextDocument transientDocument] &&
+                [documents containsObject:[PlainTextDocument transientDocument]]))
+            {
+                [I_tabBar hideTabBar:NO animate:YES];
+            }
+        }
+        
         return tab;
     }
     return nil;
@@ -2089,7 +2096,11 @@ enum {
 
 - (void)setDocument:(NSDocument *)document 
 {
-    NSLog(@"%s %@",__FUNCTION__, document);
+    NSLog(@"%s %@",__FUNCTION__,[document displayName]);
+    if (document == [self document]) {
+        [super setDocument:document];
+        return;
+    }
     BOOL isNew = NO;
     [super setDocument:document];
     // A document has been told that this window controller belongs to it.
@@ -2104,15 +2115,6 @@ enum {
             NSTabViewItem *tab = [self addDocument:document];
             [I_tabView selectTabViewItem:tab];
             
-            if ([[self documents] count] > 1) {
-                if (!([[self documents] count] == 2 && 
-                    [PlainTextDocument transientDocument] &&
-                    [[self documents] containsObject:[PlainTextDocument transientDocument]]))
-                {
-                    [I_tabBar hideTabBar:NO animate:YES];
-                }
-            }
-            
             isNew = [I_tabView numberOfTabViewItems] == 1 ? YES : NO;
             
         } else {
@@ -2126,6 +2128,7 @@ enum {
                 if ([I_plainTextEditors count] > 0) {
                     [[self window] setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] textView]];
                 }
+                [I_tabView selectTabViewItem:tabViewItem];
             } else {
                 I_plainTextEditors = nil;
                 I_editorSplitView = nil;
