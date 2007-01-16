@@ -2440,7 +2440,6 @@ float ToolbarHeightForWindow(NSWindow *window)
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
         id document = [[tabViewItem identifier] document];
         unsigned int documentIndex = [[self documents] indexOfObject:document];
-        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
         [document retain];
         [document removeWindowController:self];
         [self removeObjectFromDocumentsAtIndex:documentIndex];

@@ -28,6 +28,9 @@
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
+@interface TextView (TextViewPrivateAdditions) 
+- (PlainTextDocument *)document;
+@end
 
 @implementation TextView
 
@@ -41,6 +44,11 @@ static NSMenu *defaultMenu=nil;
 + (void)setDefaultMenu:(NSMenu *)aMenu {
     defaultMenu=[aMenu copy];
 }
+
+- (PlainTextDocument *)document {
+    return [(TextStorage *)[self textStorage] delegate];
+}
+
 
 - (void)setPageGuidePosition:(float)aPosition {
     I_pageGuidePosition = aPosition;
@@ -193,7 +201,7 @@ static NSMenu *defaultMenu=nil;
 
 // make sure our document gets the font change
 - (void)changeFont:(id)aSender {
-    [[[[self window] windowController] document] changeFont:aSender];
+    [[self document] changeFont:aSender];
 }
 
 
@@ -230,7 +238,7 @@ static NSMenu *defaultMenu=nil;
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];
     // now paint Cursors if there are any
-    PlainTextDocument *document=(PlainTextDocument *)[[[self window] windowController] document];
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
     TCMMMSession *session=[document session];
     NSString *sessionID=[session sessionID];
     NSDictionary *sessionParticipants=[session participants];
@@ -424,7 +432,7 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingEntered:");
-        PlainTextDocument *document=(PlainTextDocument *)[[[self window] windowController] document];
+        PlainTextDocument *document=(PlainTextDocument *)[self document];
         TCMMMSession *session=[document session];
         if ([session isServer]) {
             [[[self window] drawers] makeObjectsPerformSelector:@selector(open)];
@@ -450,7 +458,7 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingUpdated:");
-        BOOL shouldDrag=[[(PlainTextDocument *)[[[self window] windowController] document] session] isServer];
+        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         [self setIsDragTarget:shouldDrag];
         if (shouldDrag) {
             return NSDragOperationGeneric;
@@ -470,7 +478,7 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"prepareForDragOperation:");
-        BOOL shouldDrag=[[(PlainTextDocument *)[[[self window] windowController] document] session] isServer];
+        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         [self setIsDragTarget:shouldDrag];
         return shouldDrag;
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
@@ -488,7 +496,7 @@ static NSMenu *defaultMenu=nil;
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"performDragOperation:");
         NSArray *userArray=[pboard propertyListForType:@"PboardTypeTBD"];
-        PlainTextDocument *document=(PlainTextDocument *)[[[self window] windowController] document];
+        PlainTextDocument *document=(PlainTextDocument *)[self document];
         TCMMMSession *session=[document session];
         NSEnumerator *userDescriptions=[userArray objectEnumerator];
         NSDictionary *userDescription=nil;
@@ -503,7 +511,7 @@ static NSMenu *defaultMenu=nil;
         return YES;
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
         if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]] && 
-            [[sender draggingSource] windowController]==[[self window]windowController]) {
+            [[sender draggingSource] windowController]==[[self window] windowController]) {
             PlainTextWindowController *controller=[[self window] windowController];
             [controller performSelector:@selector(followUser:) withObject:self];
             [self setIsDragTarget:NO];
@@ -513,7 +521,7 @@ static NSMenu *defaultMenu=nil;
     [self setIsDragTarget:NO];
     PlainTextDocument *document=nil;
     if (I_flags.isDraggingText) {
-            document=(PlainTextDocument *)[[[self window] windowController] document];
+            document=(PlainTextDocument *)[self document];
         [[document documentUndoManager] beginUndoGrouping];
     }
     BOOL result = [super performDragOperation:sender];
@@ -585,7 +593,7 @@ static NSMenu *defaultMenu=nil;
 - (NSRange)rangeForUserCompletion {
     NSRange result=[super rangeForUserCompletion];
     NSString *string=[[self textStorage] string];
-    NSCharacterSet *tokenSet = [[[[[[[self window] windowController] document] documentMode] syntaxHighlighter] syntaxDefinition] autoCompleteTokenSet];
+    NSCharacterSet *tokenSet = [[[[[self document] documentMode] syntaxHighlighter] syntaxDefinition] autoCompleteTokenSet];
 
     if (tokenSet) {
         result = [self selectedRange]; // Start with a fresh range
