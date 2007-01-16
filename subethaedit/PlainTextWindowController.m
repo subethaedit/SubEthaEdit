@@ -1771,6 +1771,23 @@ enum {
 
 #pragma mark -
 
+- (NSRect)dissolveToFrame {
+    if ([self hasManyDocuments] ||
+        ([PlainTextDocument transientDocument] && [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey])) {
+        NSWindow *window = [self window];
+        NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
+        bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
+        NSPoint point1 = bounds.origin;
+        NSPoint point2 = NSMakePoint(NSMaxX(bounds),NSMaxY(bounds));
+        point1 = [window convertBaseToScreen:point1];
+        point2 = [window convertBaseToScreen:point2];
+        bounds = NSMakeRect(MIN(point1.x,point2.x),MIN(point1.y,point2.y),ABS(point1.x-point2.x),ABS(point1.y-point2.y));
+        return bounds;
+    } else {
+        return [[self window] frame];
+    }
+}
+
 - (void)documentUpdatedChangeCount:(PlainTextDocument *)document
 {
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
@@ -2481,22 +2498,11 @@ float ToolbarHeightForWindow(NSWindow *window)
     return YES;
 }
 
-- (NSRect)dissolveToFrame {
-    if ([self hasManyDocuments] ||
-        ([PlainTextDocument transientDocument] && [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey])) {
-        NSWindow *window = [self window];
-        NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
-        bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
-        NSPoint point1 = bounds.origin;
-        NSPoint point2 = NSMakePoint(NSMaxX(bounds),NSMaxY(bounds));
-        point1 = [window convertBaseToScreen:point1];
-        point2 = [window convertBaseToScreen:point2];
-        bounds = NSMakeRect(MIN(point1.x,point2.x),MIN(point1.y,point2.y),ABS(point1.x-point2.x),ABS(point1.y-point2.y));
-        return bounds;
-    } else {
-        return [[self window] frame];
-    }
+- (NSString *)tabView:(NSTabView *)aTabView toolTipForTabViewItem:(NSTabViewItem *)tabViewItem
+{
+    PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+    PlainTextDocument *document = [tabContext document];
+    return [self windowTitleForDocumentDisplayName:[document displayName] document:document];
 }
-
 
 @end
