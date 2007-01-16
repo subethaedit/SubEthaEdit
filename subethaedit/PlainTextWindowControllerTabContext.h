@@ -39,9 +39,6 @@
 - (void)setDocumentDialog:(id)dialog;
 - (id)documentDialog;
 
-- (void)setWindowController:(PlainTextWindowController *)windowController;
-- (PlainTextWindowController *)windowController;
-
 - (void)setDocument:(PlainTextDocument *)document;
 - (PlainTextDocument *)document;
 

@@ -432,7 +432,6 @@ enum {
     PlainTextDocument *document = [self document];
     unsigned int documentIndex = [[self documents] indexOfObject:document];
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
-    PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
     
     [tabViewItem retain];
     [document retain];
@@ -463,7 +462,6 @@ enum {
     [[windowController window] setFrame:frame display:YES];
 
     [[DocumentController sharedInstance] addWindowController:windowController];
-    [tabContext setWindowController:windowController];
     [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
     [document addWindowController:windowController];
     [[windowController tabView] addTabViewItem:tabViewItem];
@@ -1806,7 +1804,6 @@ enum {
     {
         unsigned int documentIndex = [[self documents] indexOfObject:document];
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
-        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
         
         [tabViewItem retain];
         [document retain];
@@ -1814,7 +1811,6 @@ enum {
         [self removeObjectFromDocumentsAtIndex:documentIndex];
         [I_tabView removeTabViewItem:tabViewItem];
 
-        [tabContext setWindowController:windowController];
         [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
         [document addWindowController:windowController];
         [[windowController tabView] addTabViewItem:tabViewItem];

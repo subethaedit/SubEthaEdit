@@ -99,27 +99,6 @@
     return _documentDialog;
 }
 
-
-- (void)setWindowController:(PlainTextWindowController *)windowController
-{
-    NSEnumerator *enumerator = [_plainTextEditors objectEnumerator];
-    id editor;
-    while ((editor = [enumerator nextObject])) {
-        [editor setWindowController:windowController];
-    }
-}
-
-
-- (PlainTextWindowController *)windowController
-{
-    if ([_plainTextEditors count] > 0) {
-        return [[_plainTextEditors objectAtIndex:0] windowController];
-    } else {
-        return nil;
-    }
-}
-
-
 - (void)setDocument:(PlainTextDocument *)document
 {
     _document = document;
