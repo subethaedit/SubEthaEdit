@@ -2460,7 +2460,6 @@ float ToolbarHeightForWindow(NSWindow *window)
             }
         }
         
-        [tabContext setWindowController:windowController];
         [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
         [document addWindowController:windowController];
 
