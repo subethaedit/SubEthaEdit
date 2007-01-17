@@ -1721,9 +1721,7 @@ enum {
     // switch mode menu on becoming main
     [(PlainTextDocument *)[self document] adjustModeMenu];
     // also make sure the tab menu is updated correctly
-    NSMenu *windowMenu=[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu];
-    NSMenu *gotoTabMenu=[[windowMenu itemWithTag:GotoTabMenuItemTag] submenu];
-    [[gotoTabMenu delegate] menuNeedsUpdate:gotoTabMenu];
+    [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
     
     NSTabViewItem *tabViewItem = [I_tabView selectedTabViewItem];
     if (tabViewItem) {
@@ -2190,7 +2188,11 @@ enum {
     [super setDocument:document];
     
     if (document) {
-        if ([[self window] isKeyWindow]) [(PlainTextDocument *)document adjustModeMenu];
+        if ([[self window] isKeyWindow]) {
+            [(PlainTextDocument *)document adjustModeMenu];
+            // also make sure the tab menu is updated correctly
+            [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+        }
         [self adjustToolbarToDocumentMode];
         [self refreshDisplay];
         [self validateUpperDrawer];
@@ -2501,13 +2503,13 @@ float ToolbarHeightForWindow(NSWindow *window)
     PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
     PlainTextDocument *document = [tabContext document];
     if ([document isDocumentEdited]) {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], (char)0xA5);
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], kBulletCharCode);
     } else {
         SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], noMark);
     }
 
     if ([I_tabView selectedTabViewItem] == tabViewItem)
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], (char)checkMark);
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], checkMark);
         
     return YES;
 }

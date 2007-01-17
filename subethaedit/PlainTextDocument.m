@@ -1752,6 +1752,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 - (void)showWindowController:(id)aSender {
     [[aSender representedObject] selectTabForDocument:self];
     [[aSender representedObject] showWindow:self];
+    [self showWindows];
 }
 
 - (void)showWindows {    
@@ -3364,7 +3365,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return ![self isProxyDocument];
     } else if (selector == @selector(showWindowController:)) {
         if ([self isDocumentEdited]) {
-            [anItem setMark:(char)0xA5];
+            [anItem setMark:kBulletCharCode];
         } else {
             [anItem setMark:noMark];
         }
@@ -3372,7 +3373,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if ([[anItem representedObject] document] == self &&
             ([[wc window] isKeyWindow] || 
              [[wc window] isMainWindow])) {
-            [anItem setMark:(char)checkMark];
+            [anItem setState:NSOnState];
+            [anItem setMark:kCheckCharCode];
         }
         return ![[wc window] attachedSheet] || ([[wc window] attachedSheet] && [wc document] == self);
     }

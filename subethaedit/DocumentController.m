@@ -339,8 +339,9 @@ static NSString *tempFileName() {
                     [prototypeMenuItem setKeyEquivalent:@""];
                 }
             }
-            [prototypeMenuItem setState:[document isDocumentEdited]?NSMixedState:NSOffState];
-            [aMenu addItem:[[prototypeMenuItem copy] autorelease]];
+            NSMenuItem *itemToAdd = [[prototypeMenuItem copy] autorelease];
+            [aMenu addItem:itemToAdd];
+            [itemToAdd setMark:[document isDocumentEdited]?kBulletCharCode:noMark];
         }
         firstWC = NO;
     }
@@ -1119,7 +1120,11 @@ struct ModificationInfo
         }
         return YES;
     } else if ([menuItem tag] == GotoTabMenuItemTag) {
-        return [[self documents] count] >0;
+        if ([[self documents] count] >0) {
+            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
+        } else {
+            return NO;
+        };
     } else if (selector == @selector(mergeAllWindows:)) {
         return ([I_windowControllers count] > 1);
     }

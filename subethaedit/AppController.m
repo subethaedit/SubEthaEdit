@@ -655,7 +655,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [item setTarget:[DocumentController sharedDocumentController]];
         [item setAction:@selector(menuValidationNoneAction:)];
         [item setTag:GotoTabMenuItemTag];
-        [[item submenu] setDelegate:[DocumentController sharedDocumentController]]; 
         [dockMenu addItem:item];
     }
     return dockMenu;
