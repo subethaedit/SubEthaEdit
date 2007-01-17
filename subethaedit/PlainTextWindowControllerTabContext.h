@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PlainTextWindowController, PlainTextDocument;
+@class PlainTextWindowController, PlainTextDocument, PlainTextLoadProgress;
 
 
 @interface PlainTextWindowControllerTabContext : NSObject {
@@ -20,6 +20,7 @@
     BOOL _isReceivingContent;
     PlainTextDocument *_document;
     BOOL _isAlertScheduled;
+    PlainTextLoadProgress *_loadProgress;
     
     BOOL _isProcessing;
     NSImage *_icon;
@@ -47,6 +48,9 @@
 
 - (void)setIsAlertScheduled:(BOOL)flag;
 - (BOOL)isAlertScheduled;
+
+- (void)setLoadProgress:(PlainTextLoadProgress *)loadProgress;
+- (PlainTextLoadProgress *)loadProgress;
 
 - (BOOL)isProcessing;
 - (void)setIsProcessing:(BOOL)value;

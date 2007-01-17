@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Mar 05 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import "PlainTextWindowController.h"
@@ -30,6 +30,7 @@
 #import "DocumentController.h"
 #import "PlainTextWindowControllerTabContext.h"
 #import "NSMenuTCMAdditions.h"
+#import "PlainTextLoadProgress.h"
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
@@ -277,20 +278,31 @@ enum {
         [tabContext setValue:[NSNumber numberWithBool:flag] forKeyPath:@"isProcessing"];
 
         if (flag) {
-            [[NSNotificationCenter defaultCenter] addObserver:self 
+            PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
+            if (!loadProgress) {
+                loadProgress = [[PlainTextLoadProgress alloc] init];
+                [tabContext setLoadProgress:loadProgress];
+                [loadProgress release];
+            }
+            [tabViewItem setView:[loadProgress loadProgressView]];
+            [loadProgress startAnimation];
+
+            [[NSNotificationCenter defaultCenter] addObserver:loadProgress 
                                                      selector:@selector(updateProgress:) 
                                                          name:TCMMMSessionDidReceiveContentNotification
                                                        object:[document session]];
-
+            
       
 //            [I_tabView selectTabViewItem:tabViewItem];
-            [tabViewItem setView:O_receivingContentView];
-            [O_progressIndicator startAnimation:self];
         } else {
-            [[NSNotificationCenter defaultCenter] removeObserver:self
+            PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
+
+            [[NSNotificationCenter defaultCenter] removeObserver:loadProgress
                                                             name:TCMMMSessionDidReceiveContentNotification
                                                           object:[document session]];
-            [O_progressIndicator stopAnimation:self];
+            
+            [loadProgress stopAnimation];
+
             PlainTextEditor *editor = [[tabContext plainTextEditors] objectAtIndex:0];
 
             [tabViewItem setView:[editor editorView]];
@@ -304,13 +316,14 @@ enum {
     }
 }
 
-- (void)didLoseConnection {
-    [O_progressIndicator stopAnimation:self];
-    [O_receivingStatusTextField setStringValue:NSLocalizedString(@"Did lose Connection!",@"Text in Proxy window")];
-}
-
-- (void)updateProgress:(NSNotification *)aNotification {
-    [O_progressIndicator setDoubleValue:[[aNotification object] percentOfSessionReceived]];
+- (void)documentDidLoseConnection:(PlainTextDocument *)document {
+    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
+    if (tabViewItem) {
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
+        [loadProgress stopAnimation];
+        [loadProgress setStatusText:NSLocalizedString(@"Did lose Connection!", @"Text in Proxy window")];
+    }
 }
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
@@ -2061,6 +2074,10 @@ enum {
         PlainTextWindowControllerTabContext *tabContext = [[[PlainTextWindowControllerTabContext alloc] init] autorelease];
         [tabContext setDocument:(PlainTextDocument *)document];
         
+        PlainTextLoadProgress *loadProgress = [[PlainTextLoadProgress alloc] init];
+        [tabContext setLoadProgress:loadProgress];
+        [loadProgress release];
+
         PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:tabContext splitButton:YES];
         [[self window] setInitialFirstResponder:[plainTextEditor textView]];
                     

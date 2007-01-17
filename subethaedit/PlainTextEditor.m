@@ -81,6 +81,7 @@
         I_flags.pausedProcessing = NO;
         [self setFollowUserID:nil];
         [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
+        
     }
     return self;
 }
@@ -508,12 +509,6 @@
 - (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext {
     I_windowControllerTabContext = aContext;
 }
-
-
-- (NSWindowController *)windowController {
-    return [I_windowControllerTabContext windowController];
-}
-
 
 - (void)setIsSplit:(BOOL)aFlag {
     if (I_flags.hasSplitButton) {
@@ -1207,7 +1202,7 @@
                  s_bottomShortCutSet = [[NSSet alloc] initWithObjects:@"3",@"4",@"5",@"6",@"7",nil];
             }
             PlainTextEditor *otherEditor=
-                [[(PlainTextWindowController *)[self windowController] plainTextEditors] lastObject];
+                [[I_windowControllerTabContext plainTextEditors] lastObject];
             if ([otherEditor showsBottomStatusBar] && 
                 [s_bottomShortCutSet containsObject:characters]) {
                 [otherEditor keyDown:aEvent];

@@ -65,7 +65,6 @@
 - (void)setFollowUserID:(NSString *)userID;
 - (NSString *)followUserID;
 - (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext;
-- (NSWindowController *)windowController;
 - (void)takeStyleSettingsFromDocument;
 - (void)takeSettingsFromDocument;
 

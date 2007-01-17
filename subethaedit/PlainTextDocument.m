@@ -4457,7 +4457,7 @@ static NSString *S_measurementUnits;
         [self TCM_generateNewSession];
         if (I_flags.isReceivingContent) {
             PlainTextWindowController *controller=[[self windowControllers] objectAtIndex:0];
-            [controller didLoseConnection];
+            [controller documentDidLoseConnection:self];
         } else {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSInformationalAlertStyle];

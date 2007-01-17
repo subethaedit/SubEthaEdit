@@ -241,6 +241,8 @@
 		1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		1493A80C0A10C8EB004ECE6A /* SubEthaEdit-SystemVersionCheck in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */; };
 		1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */; };
+		149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = 149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */; };
+		149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 149774160B5E159F004A546C /* PlainTextLoadProgress.m */; };
 		14E291C70A07A501007C0065 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
 		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
 		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; };
@@ -892,9 +894,13 @@
 		1468BB70097D9AAD006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/License.nib; sourceTree = "<group>"; };
 		148167AB0B15B002008894C9 /* PlainTextWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextWindow.h; sourceTree = "<group>"; };
 		148167AC0B15B002008894C9 /* PlainTextWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextWindow.m; sourceTree = "<group>"; };
+		148364660B5E2AD000B47455 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PlainTextLoadProgress.nib; sourceTree = "<group>"; };
 		1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SystemVersionCheck.m; sourceTree = "<group>"; };
 		1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "SubEthaEdit-SystemVersionCheck"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1493A8460A10D9E8004ECE6A /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
+		149774080B5E14FC004A546C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PlainTextLoadProgress.nib; sourceTree = "<group>"; };
+		149774150B5E159F004A546C /* PlainTextLoadProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextLoadProgress.h; sourceTree = "<group>"; };
+		149774160B5E159F004A546C /* PlainTextLoadProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextLoadProgress.m; sourceTree = "<group>"; };
 		14E290E70A06DB8A007C0065 /* SubEthaEdit-Panther.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = "SubEthaEdit-Panther.sdef"; sourceTree = "<group>"; };
 		14E291C40A07A501007C0065 /* ScriptLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptLine.h; sourceTree = "<group>"; };
 		14E291C50A07A501007C0065 /* ScriptLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptLine.m; sourceTree = "<group>"; };
@@ -1384,6 +1390,8 @@
 				1428944D09575B9700D14688 /* PlainTextDocument.m */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
+				149774150B5E159F004A546C /* PlainTextLoadProgress.h */,
+				149774160B5E159F004A546C /* PlainTextLoadProgress.m */,
 				148167AB0B15B002008894C9 /* PlainTextWindow.h */,
 				148167AC0B15B002008894C9 /* PlainTextWindow.m */,
 				1428945009575B9700D14688 /* PlainTextWindowController.h */,
@@ -1700,6 +1708,7 @@
 				1428904A0957427100D14688 /* Modes */,
 				5E4DA73A09E15C6800D91CFC /* Scripts */,
 				142890450957421300D14688 /* SubEthaEditHelp */,
+				149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2193,6 +2202,7 @@
 				F2E8E5FB0B5C777800D56AE3 /* TabCloseDirty_Front_Pressed.tif in Resources */,
 				F2E8E5FC0B5C777800D56AE3 /* TabCloseDirty_Front_Rollover.tif in Resources */,
 				F2E8E5FD0B5C777800D56AE3 /* TabCloseDirty_Front.tif in Resources */,
+				149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2454,6 +2464,7 @@
 				F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */,
 				F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */,
 				F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */,
+				149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2713,6 +2724,15 @@
 				144E23550A1F6197002ED261 /* German */,
 			);
 			name = SystemVersionCheck.strings;
+			sourceTree = "<group>";
+		};
+		149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				149774080B5E14FC004A546C /* English */,
+				148364660B5E2AD000B47455 /* German */,
+			);
+			name = PlainTextLoadProgress.nib;
 			sourceTree = "<group>";
 		};
 		14EC6E270A63F2E800B44481 /* ServicesMenu.strings */ = {

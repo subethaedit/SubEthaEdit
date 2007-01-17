@@ -255,6 +255,9 @@ subethaedit/English.lproj/OpenPanelAccessory.nib/keyedobjects.nib -text
 subethaedit/English.lproj/PlainTextEditor.nib/classes.nib -text
 subethaedit/English.lproj/PlainTextEditor.nib/info.nib -text
 subethaedit/English.lproj/PlainTextEditor.nib/keyedobjects.nib -text
+subethaedit/English.lproj/PlainTextLoadProgress.nib/classes.nib -text
+subethaedit/English.lproj/PlainTextLoadProgress.nib/info.nib -text
+subethaedit/English.lproj/PlainTextLoadProgress.nib/keyedobjects.nib -text
 subethaedit/English.lproj/PlainTextWindow.nib/classes.nib -text
 subethaedit/English.lproj/PlainTextWindow.nib/info.nib -text
 subethaedit/English.lproj/PlainTextWindow.nib/keyedobjects.nib -text
@@ -356,6 +359,9 @@ subethaedit/German.lproj/OpenPanelAccessory.nib/keyedobjects.nib -text
 subethaedit/German.lproj/PlainTextEditor.nib/classes.nib -text
 subethaedit/German.lproj/PlainTextEditor.nib/info.nib -text
 subethaedit/German.lproj/PlainTextEditor.nib/keyedobjects.nib -text
+subethaedit/German.lproj/PlainTextLoadProgress.nib/classes.nib -text
+subethaedit/German.lproj/PlainTextLoadProgress.nib/info.nib -text
+subethaedit/German.lproj/PlainTextLoadProgress.nib/keyedobjects.nib -text
 subethaedit/German.lproj/PlainTextWindow.nib/classes.nib -text
 subethaedit/German.lproj/PlainTextWindow.nib/info.nib -text
 subethaedit/German.lproj/PlainTextWindow.nib/keyedobjects.nib -text
@@ -1278,6 +1284,8 @@ subethaedit/PlainTextDocument.h -text
 subethaedit/PlainTextDocument.m -text
 subethaedit/PlainTextEditor.h -text
 subethaedit/PlainTextEditor.m -text
+subethaedit/PlainTextLoadProgress.h -text
+subethaedit/PlainTextLoadProgress.m -text
 subethaedit/PlainTextWindow.h -text
 subethaedit/PlainTextWindow.m -text
 subethaedit/PlainTextWindowController.h -text

@@ -8,6 +8,7 @@
 
 #import "PlainTextWindowControllerTabContext.h"
 #import "PlainTextWindowController.h"
+#import "PlainTextLoadProgress.h"
 
 
 @implementation PlainTextWindowControllerTabContext
@@ -38,6 +39,7 @@
     [_editorSplitView release];
     [_dialogSplitView release];
     [_documentDialog release];
+    [_loadProgress release];
     
     [_icon release];
     [_iconName release];
@@ -109,6 +111,17 @@
     return _document;
 }
 
+- (void)setLoadProgress:(PlainTextLoadProgress *)loadProgress
+{
+    [loadProgress retain];
+    [_loadProgress release];
+    _loadProgress = loadProgress;   
+}
+
+- (PlainTextLoadProgress *)loadProgress
+{
+    return _loadProgress;
+}
 
 - (void)setIsReceivingContent:(BOOL)flag
 {
@@ -137,6 +150,8 @@
 {
     return _isAlertScheduled;
 }
+
+#pragma mark -
 
 - (BOOL)isProcessing
 {
