@@ -539,7 +539,7 @@
     NSRect cellFrame = [cell frame];
 	
 	NSToolbar *toolbar = [[[cell controlView] window] toolbar];
-	BOOL showsBaselineSeparator = (toolbar && [toolbar respondsToSelector:@selector(showsBaselineSeparator)] && [toolbar showsBaselineSeparator]);
+	BOOL showsBaselineSeparator = (toolbar && (([toolbar respondsToSelector:@selector(showsBaselineSeparator)] && [toolbar showsBaselineSeparator]) || ![toolbar respondsToSelector:@selector(showsBaselineSeparator)]));
 	if (!showsBaselineSeparator) {
 		cellFrame.origin.y += 1.0;
 		cellFrame.size.height -= 1.0;
