@@ -5362,7 +5362,7 @@ static NSString *S_measurementUnits;
     NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
     NSWindow *window;
     while ((window = [windowsEnumerator nextObject])) {
-        if ([[[window windowController] document] isEqual:self] && ![self isProxyDocument]) {
+        if ([[[window windowController] documents] containsObject:self] && ![self isProxyDocument]) {
             [orderedWindows addObject:window];
         }
     }

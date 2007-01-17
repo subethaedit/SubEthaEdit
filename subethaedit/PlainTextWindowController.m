@@ -2109,7 +2109,7 @@ enum {
 
 - (void)setDocument:(NSDocument *)document 
 {
-    NSLog(@"%s %@",__FUNCTION__,[document displayName]);
+//    NSLog(@"%s %@",__FUNCTION__,[document displayName]);
     if (document == [self document]) {
         [super setDocument:document];
         return;
@@ -2123,7 +2123,7 @@ enum {
         // Have we already recorded this document in our list?
         NSArray *documents = [self documents];
         if (![documents containsObject:document]) {
-            NSLog(@"-> didn't contain document");
+            // NSLog(@"-> didn't contain document");
             // No. Record it, in a KVO-compliant way.
             NSTabViewItem *tab = [self addDocument:document];
             [I_tabView selectTabViewItem:tab];
