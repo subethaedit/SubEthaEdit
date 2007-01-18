@@ -114,7 +114,6 @@
     NSWindow *window=[self window];
 //    [((NSPanel *)window) setFloatingPanel:NO];
     [window setHidesOnDeactivate:NO];
-    [window setLevel:NSFloatingWindowLevel];
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[I_session hostID]];
     [O_userImageView setImage:[[user properties] objectForKey:@"Image"]];
     [O_userNameTextField setStringValue:[user name]];
@@ -140,8 +139,10 @@
 
 
     if ([I_session wasInvited]) {
+        [window setLevel:NSFloatingWindowLevel];
         [O_bottomStatusView setHidden:YES];
     } else {
+        [window setLevel:NSNormalWindowLevel];
         [O_bottomDecisionView setHidden:YES];
     }
     [self update];
