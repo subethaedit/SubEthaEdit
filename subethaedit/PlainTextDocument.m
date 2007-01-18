@@ -1641,9 +1641,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
     } else {
         PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
-        if (![windowController hasManyDocuments]) {
+//        if (![windowController hasManyDocuments]) {
             [windowController showWindow:self];
-        }
+//        }
     }
 }
 
@@ -4477,7 +4477,6 @@ static NSString *S_measurementUnits;
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation {
-    NSLog(@"%s",__FUNCTION__);
     DocumentModeManager *manager=[DocumentModeManager sharedInstance];
     DocumentMode *mode=[manager documentModeForIdentifier:[aSessionInformation objectForKey:@"DocumentMode"]];
     if (!mode) {
