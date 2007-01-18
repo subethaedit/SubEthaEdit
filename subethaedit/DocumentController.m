@@ -345,6 +345,7 @@ static NSString *tempFileName() {
         }
         firstWC = NO;
     }
+    [prototypeMenuItem release];
 }
 
 - (NSMenu *)documentMenu {

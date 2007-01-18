@@ -142,6 +142,9 @@ enum {
     I_dialogSplitView = nil;
     I_documentDialog = nil;
     
+    [I_documents release];
+    I_documents = nil;
+    
     [I_tabBar setDelegate:nil];
     [I_tabBar setTabView:nil];
     [I_tabView setDelegate:nil];
