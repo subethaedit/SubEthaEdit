@@ -1205,9 +1205,9 @@ subethaedit/PSMTabBarControl/documentation/frameset_styles.css -text
 subethaedit/PSMTabBarControl/images/32x32_log.tiff -text
 subethaedit/PSMTabBarControl/images/32x32cancel.png -text
 subethaedit/PSMTabBarControl/images/AdiumGradient.tiff -text
-subethaedit/PSMTabBarControl/images/AquaTabCloseDirty_Front.tif -text
-subethaedit/PSMTabBarControl/images/AquaTabCloseDirty_Front_Pressed.tif -text
-subethaedit/PSMTabBarControl/images/AquaTabCloseDirty_Front_Rollover.tif -text
+subethaedit/PSMTabBarControl/images/AquaTabCloseDirty_Front.png -text
+subethaedit/PSMTabBarControl/images/AquaTabCloseDirty_Front_Pressed.png -text
+subethaedit/PSMTabBarControl/images/AquaTabCloseDirty_Front_Rollover.png -text
 subethaedit/PSMTabBarControl/images/AquaTabClose_Front.tif -text
 subethaedit/PSMTabBarControl/images/AquaTabClose_Front_Pressed.tif -text
 subethaedit/PSMTabBarControl/images/AquaTabClose_Front_Rollover.tif -text
