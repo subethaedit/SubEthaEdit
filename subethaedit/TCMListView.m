@@ -607,7 +607,6 @@ NSString *ListViewDidChangeSelectionNotification=
 }
 
 - (void)mouseDragged:(NSEvent *)aEvent {
-//    NSLog(@"mouseDragged");
     if (I_clickedRow!=-1 && [I_selectedRows count]>0) {
         NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
     
