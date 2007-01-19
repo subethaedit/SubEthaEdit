@@ -5312,22 +5312,18 @@ static NSString *S_measurementUnits;
 
 - (NSString *)scriptedContents
 {
-    // NSLog(@"%s", __FUNCTION__);
     return [I_textStorage string];
 }
 
 - (void)setScriptedContents:(id)value {
-    // NSLog(@"%s: %d", __FUNCTION__, value);
     [self replaceTextInRange:NSMakeRange(0,[I_textStorage length]) withString:value];
 }
 
 - (TextStorage *)scriptedPlainContents {
-    // NSLog(@"%s", __FUNCTION__);
     return (TextStorage *)I_textStorage;
 }
 
 - (void)setScriptedPlainContents:(id)value {
-    // NSLog(@"%s: %@", __FUNCTION__, value);
     if ([value isKindOfClass:[NSString class]]) {
         [self replaceTextInRange:NSMakeRange(0, [I_textStorage length]) withString:value];
     }
