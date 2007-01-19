@@ -323,9 +323,6 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
-		F2E8E5FB0B5C777800D56AE3 /* TabCloseDirty_Front_Pressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = F2E8E5F80B5C777800D56AE3 /* TabCloseDirty_Front_Pressed.tif */; };
-		F2E8E5FC0B5C777800D56AE3 /* TabCloseDirty_Front_Rollover.tif in Resources */ = {isa = PBXBuildFile; fileRef = F2E8E5F90B5C777800D56AE3 /* TabCloseDirty_Front_Rollover.tif */; };
-		F2E8E5FD0B5C777800D56AE3 /* TabCloseDirty_Front.tif in Resources */ = {isa = PBXBuildFile; fileRef = F2E8E5FA0B5C777800D56AE3 /* TabCloseDirty_Front.tif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -1001,9 +998,6 @@
 		F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButtonCell.m; sourceTree = "<group>"; };
 		F27B2EEE0B52968E00679CF2 /* HUDButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButton.m; sourceTree = "<group>"; };
 		F27B2EEF0B52968E00679CF2 /* HUDButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HUDButton.h; sourceTree = "<group>"; };
-		F2E8E5F80B5C777800D56AE3 /* TabCloseDirty_Front_Pressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = TabCloseDirty_Front_Pressed.tif; path = artwork/TabCloseDirty_Front_Pressed.tif; sourceTree = "<group>"; };
-		F2E8E5F90B5C777800D56AE3 /* TabCloseDirty_Front_Rollover.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = TabCloseDirty_Front_Rollover.tif; path = artwork/TabCloseDirty_Front_Rollover.tif; sourceTree = "<group>"; };
-		F2E8E5FA0B5C777800D56AE3 /* TabCloseDirty_Front.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = TabCloseDirty_Front.tif; path = artwork/TabCloseDirty_Front.tif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1193,9 +1187,6 @@
 				142890AA095743F200D14688 /* SymbolT.png */,
 				142890AC095743F200D14688 /* SymbolV.png */,
 				142895030957692100D14688 /* SymbolWarn.tiff */,
-				F2E8E5F80B5C777800D56AE3 /* TabCloseDirty_Front_Pressed.tif */,
-				F2E8E5F90B5C777800D56AE3 /* TabCloseDirty_Front_Rollover.tif */,
-				F2E8E5FA0B5C777800D56AE3 /* TabCloseDirty_Front.tif */,
 				5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */,
 				5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */,
 				5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */,
@@ -2199,9 +2190,6 @@
 				F27B2EE60B52957800679CF2 /* hud_buttonFill-P.tiff in Resources */,
 				F27B2EE70B52957800679CF2 /* hud_buttonFill-N.tiff in Resources */,
 				F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */,
-				F2E8E5FB0B5C777800D56AE3 /* TabCloseDirty_Front_Pressed.tif in Resources */,
-				F2E8E5FC0B5C777800D56AE3 /* TabCloseDirty_Front_Rollover.tif in Resources */,
-				F2E8E5FD0B5C777800D56AE3 /* TabCloseDirty_Front.tif in Resources */,
 				149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
