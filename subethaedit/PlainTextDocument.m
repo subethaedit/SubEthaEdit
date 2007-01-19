@@ -2418,6 +2418,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 [self setDocumentMode:mode];
             }
             I_flags.shouldSelectModeOnSave=NO;
+        }
+        // we have saved, so no more extension changing
+        if (I_flags.shouldChangeExtensionOnModeChange) {
             I_flags.shouldChangeExtensionOnModeChange=NO;
         }
 
