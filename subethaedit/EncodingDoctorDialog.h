@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 11.09.06.
-//  Copyright 2006 TheCodingMonkeys. All rights reserved.
+//  Copyright 2006-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -26,7 +26,7 @@
 - (IBAction)rerunCheckAndConvert:(id)aSender;
 - (IBAction)convertLossy:(id)aSender;
 - (IBAction)jumpToSelection:(id)aSender; 
-
+- (id)initialFirstResponder;
 - (void)takeNoteOfOperation:(TCMMMOperation *)anOperation transformator:(TCMMMTransformator *)aTransformator;
 
 @end

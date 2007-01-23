@@ -295,8 +295,6 @@ enum {
                                                          name:TCMMMSessionDidReceiveContentNotification
                                                        object:[document session]];
             
-      
-//            [I_tabView selectTabViewItem:tabViewItem];
         } else {
             PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
 
@@ -309,9 +307,10 @@ enum {
             PlainTextEditor *editor = [[tabContext plainTextEditors] objectAtIndex:0];
 
             [tabViewItem setView:[editor editorView]];
+            [tabViewItem setInitialFirstResponder:[editor textView]];
             [[editor textView] setSelectedRange:NSMakeRange(0, 0)];
-//            [self selectTabForDocument:document];
-//            [[self window] makeFirstResponder:[editor textView]];
+
+            if ([I_tabView selectedTabViewItem] == tabViewItem) [[self window] makeFirstResponder:[editor textView]];
             if ([self window] == [[[NSApp orderedWindows] objectEnumerator] nextObject]) {
                 [[self window] makeKeyWindow];
             }
@@ -1292,12 +1291,12 @@ enum {
     [I_dialogSplitView setNeedsDisplay:YES];
     
     if (timeSinceStart >= timeInterval) {
+        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
         if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
             NSTabViewItem *tab = [I_tabView selectedTabViewItem];
             [tab setView:[[I_dialogSplitView subviews] objectAtIndex:1]];
             I_dialogSplitView = nil;
             
-            NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
             if (tabViewItem) [[tabViewItem identifier] setDialogSplitView:nil];
                          
             NSSize minSize = [[self window] contentMinSize];
@@ -1307,6 +1306,8 @@ enum {
             if (tabViewItem) [[tabViewItem identifier] setDocumentDialog:nil];
             I_documentDialog = nil;
             [[self window] makeFirstResponder:[[self activePlainTextEditor] textView]];
+        } else {
+            if (tabViewItem) [[self window] makeFirstResponder:[[self documentDialog] initialFirstResponder]];
         }
         [dialogView setAutoresizesSubviews:YES];
         [I_dialogAnimationTimer invalidate];
@@ -1428,6 +1429,7 @@ enum {
             //[[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
             NSTabViewItem *tab = [I_tabView selectedTabViewItem];
             [tab setView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+            [tab setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] editorView]];
         } else {
             NSView *editorView = [[I_plainTextEditors objectAtIndex:0] editorView];
             [editorView setFrame:[I_editorSplitView frame]];
@@ -2091,6 +2093,7 @@ enum {
         NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
         [tab setLabel:[document displayName]];
         [tab setView:[plainTextEditor editorView]];
+        [tab setInitialFirstResponder:[plainTextEditor textView]];
         [plainTextEditor release];
         [I_tabView addTabViewItem:tab];
         [tab release];
