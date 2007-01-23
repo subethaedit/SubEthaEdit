@@ -1129,7 +1129,16 @@ struct ModificationInfo
             return NO;
         };
     } else if (selector == @selector(mergeAllWindows:)) {
-        return ([I_windowControllers count] > 1);
+        BOOL hasSheet = NO;
+        NSEnumerator *enumerator = [I_windowControllers objectEnumerator];
+        PlainTextWindowController *controller;
+        while ((controller = [enumerator nextObject])) {
+            if ([[controller window] attachedSheet] != nil) {
+                hasSheet = YES;
+                break;
+            }
+        }
+        return (([I_windowControllers count] > 1) && !hasSheet);
     }
     return [super validateMenuItem:menuItem];
 }
