@@ -14,6 +14,65 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "GeneralPreferences.h"
+#import "DWRoundedTransparentView.h"
+
+@interface NSScreen (NSScreenTCMAdditions)
++ (NSScreen *)menuBarContainingScreen;
+@end
+
+@implementation NSScreen (NSScreenTCMAdditions)
++ (NSScreen *)menuBarContainingScreen {
+    NSArray *screens = [NSScreen screens];
+    if ([screens count] > 0) {
+        return [screens objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+@end
+
+@interface NSWindow (NSWindowNonBlockingAnimationAdditions) 
+- (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame;
+@end
+
+#define linearInterpolation(A,B,P) (A + ((P)*((B)-(A))))
+
+@implementation NSWindow (NSWindowNonBlockingAnimationAdditions) 
+- (NSRect)frameAnimatedFrom:(NSRect)aFromRect to:(NSRect)aToRect progress:(float)aProgress {
+    if (aProgress >= 1.0) {
+        return aToRect;
+    } else if (aProgress <= 0) {
+        return aFromRect;
+    } else {
+        aFromRect.origin.x = linearInterpolation(aFromRect.origin.x,aToRect.origin.x,aProgress);
+        aFromRect.origin.y = linearInterpolation(aFromRect.origin.y,aToRect.origin.y,aProgress);
+        aFromRect.size.width = linearInterpolation(aFromRect.size.width,aToRect.size.width,aProgress);
+        aFromRect.size.height = linearInterpolation(aFromRect.size.height,aToRect.size.height,aProgress);
+
+        return aFromRect;
+    }
+}
+
+- (void)nonBlockingAnimationStep:(NSTimer *)aTimer {
+    NSDictionary *userInfo = [aTimer userInfo];
+    float progress = [[NSDate date] timeIntervalSinceDate:[userInfo objectForKey:@"startDate"]]/
+        [[userInfo objectForKey:@"stopDate"] timeIntervalSinceDate:[userInfo objectForKey:@"startDate"]];
+    NSRect newFrame = [self frameAnimatedFrom:[[userInfo objectForKey:@"sourceFrame"] rectValue] to:[[userInfo objectForKey:@"targetFrame"] rectValue] progress:progress];
+    BOOL finished = NSEqualRects(newFrame,[self frame]);
+    [self setFrame:newFrame display:YES];
+    if (finished)
+        [aTimer invalidate];
+}
+
+- (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame {
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    [userInfo setObject:[NSValue valueWithRect:[self frame]] forKey:@"sourceFrame"];
+    [userInfo setObject:[NSValue valueWithRect:aFrame] forKey:@"targetFrame"];
+    [userInfo setObject:[NSDate dateWithTimeIntervalSinceNow:[self animationResizeTime:aFrame]] forKey:@"stopDate"];
+    [userInfo setObject:[NSDate date] forKey:@"startDate"];
+    [NSTimer scheduledTimerWithTimeInterval:(1.0/20.0) target:self selector:@selector(nonBlockingAnimationStep:) userInfo:userInfo repeats:YES];
+}
+@end
 
 
 @implementation DocumentProxyWindowController
@@ -22,11 +81,13 @@
     self = [super initWithWindowNibName:@"DocumentProxy"];
     if (self) {
         [self setSession:aSession];
+        [self setShouldCascadeWindows:NO];
     }
     return self;
 }
 
 - (void)dealloc {
+    [[self window] setDelegate:nil];
     [I_targetWindow release];
     [I_session release];
     [super dealloc];
@@ -65,15 +126,77 @@
     [O_bottomCustomView removeFromSuperview];
     [[window contentView] addSubview:O_bottomStatusView];
     [[window contentView] addSubview:O_bottomDecisionView];
+
+    [(DWRoundedTransparentView *)[window contentView] setTitle:[self windowTitleForDocumentDisplayName:[[self document] displayName]]];
+    [window setTitle:[self windowTitleForDocumentDisplayName:[[self document] displayName]]];
+
+    [NSApp addWindowsItem:window title:[window title] filename:NO];
     
+    [O_acceptButton setAction:@selector(acceptAction:)];
+    [O_acceptButton setTarget:self];
+    [O_declineButton setAction:@selector(performClose:)];
+    [O_declineButton setTarget:[O_declineButton window]];
+
+
     if ([I_session wasInvited]) {
+        [window setLevel:NSFloatingWindowLevel];
         [O_bottomStatusView setHidden:YES];
     } else {
+        [window setLevel:NSNormalWindowLevel];
         [O_bottomDecisionView setHidden:YES];
     }
     [self update];
+    
+    // position cascading top left on menubar screen
+    NSRect screenRect = [[NSScreen menuBarContainingScreen] visibleFrame];
+    NSPoint origin = NSZeroPoint;
+    NSRect windowFrame = [window frame];
+    origin.x = NSMaxX(screenRect)-windowFrame.size.width-80.;
+    origin.y = NSMaxY(screenRect)-40.;
+    float cascadingYDifference = windowFrame.size.height+40.;
+        // get all existing proxy windows
+        NSMutableArray *proxyWindowArray = [NSMutableArray array];
+        NSEnumerator *documents = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+        PlainTextDocument *document = nil;
+        while ((document = [documents nextObject])) {
+            DocumentProxyWindowController *wc = [document proxyWindowController];
+            if (wc) {
+                [proxyWindowArray addObject:[wc window]];
+            }
+        }
+        
+        // check current position against windows that are already there
+        int maxHitCount = 0;
+        
+        while (YES) {
+            int currentHitCount;
+            while (origin.y - windowFrame.size.height > NSMinY(screenRect)) {
+                currentHitCount = 0;
+                NSEnumerator *windows = [proxyWindowArray objectEnumerator];
+                NSWindow *window = nil;
+                while ((window = [windows nextObject])) {
+                    if (NSPointInRect(origin,NSInsetRect([window frame],-5.,-5.))) {
+                        currentHitCount++;
+                    }
+                }
+                if (currentHitCount <= maxHitCount) break;
+                origin.y -= cascadingYDifference;
+            }
+            if (currentHitCount <= maxHitCount) break;
+            if (origin.y - windowFrame.size.height <= NSMinY(screenRect)) {
+                maxHitCount++;
+                origin.y = NSMaxY(screenRect)-40. - currentHitCount * 22.;
+                // if we are way out of screenbounds with start then just stick with one location
+                if (origin.y - windowFrame.size.height <= NSMinY(screenRect)) {
+                    origin.y = NSMaxY(screenRect)-40.; 
+                    break;
+                }
+            }
+        }
+        
+    [window cascadeTopLeftFromPoint:origin];
     if ([I_session wasInvited]) {
-        [[self window] orderFrontRegardless];
+        [window orderFrontRegardless];
     }
 }
 
@@ -97,10 +220,11 @@
     I_targetWindow=[aWindow retain];
     NSRect frame=[[self window] frame];
     frame.origin.y=NSMaxY(frame);
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey])
-        [I_targetWindow setFrameTopLeftPoint:frame.origin];
-    [[self window] setContentView:[[NSView new] autorelease]];
-    [O_containerView setAutoresizingMask:([O_containerView autoresizingMask] & ~NSViewWidthSizable) | NSViewMinXMargin | NSViewMaxXMargin ];
+
+    DWRoundedTransparentView *proxyview = [[DWRoundedTransparentView new] autorelease];
+    [proxyview setTitle:nil];
+    [[self window] setContentView:proxyview];
+    [O_containerView setAutoresizingMask:([O_containerView autoresizingMask] & ~NSViewWidthSizable) | NSViewMinXMargin | NSViewMaxXMargin];
 
     NSRect targetFrame = [I_targetWindow frame];
     NSScreen *screen=[[self window] screen];
@@ -114,8 +238,8 @@
                                                              frame.origin.y - origin_offset.y)];
         }
     }
-
-    [[self window] setFrame:[I_targetWindow frame] display:YES animate:YES];
+    I_dissolveToFrame = [[I_targetWindow windowController] dissolveToFrame];
+    [[self window] setFrameUsingNonBlockingAnimation:I_dissolveToFrame];
 }
 
 - (void)joinRequestWasDenied {
@@ -135,8 +259,10 @@
 }
 
 - (void)windowDidResize:(NSNotification *)aNotification {
-    if (I_targetWindow && NSEqualRects([[self window] frame],[I_targetWindow frame])) {
-        [I_targetWindow orderWindow:NSWindowBelow relativeTo:[[self window] windowNumber]];
+    if (I_targetWindow && NSEqualRects([[self window] frame],I_dissolveToFrame)) {
+        if (![I_targetWindow isVisible]) {
+            [I_targetWindow orderWindow:NSWindowBelow relativeTo:[[self window] windowNumber]];
+        }
         [[self window] orderOut:self];
         [[I_targetWindow drawers] makeObjectsPerformSelector:@selector(open)];
         [(PlainTextDocument *)[self document] killProxyWindowController];

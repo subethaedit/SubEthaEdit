@@ -1030,8 +1030,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (id)objectSpecifier
 {
-    // NSLog(@"%s", __FUNCTION__);
-    
     NSScriptClassDescription *containerClassDesc = 
         (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];
     

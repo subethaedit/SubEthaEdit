@@ -14,6 +14,11 @@
     NSImage *unifiedCloseButton;
     NSImage *unifiedCloseButtonDown;
     NSImage *unifiedCloseButtonOver;
+    
+    NSImage *unifiedCloseDirtyButton;
+    NSImage *unifiedCloseDirtyButtonDown;
+    NSImage *unifiedCloseDirtyButtonOver;
+    
     NSImage *_addTabButtonImage;
     NSImage *_addTabButtonPressedImage;
     NSImage *_addTabButtonRolloverImage;
@@ -22,4 +27,5 @@
 	PSMTabBarControl *tabBar;
 }
 - (void)setLeftMarginForTabBarControl:(float)margin;
+- (NSImage *)dragImageForCell:(PSMTabBarCell *)cell;
 @end

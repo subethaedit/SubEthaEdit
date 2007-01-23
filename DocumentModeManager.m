@@ -185,7 +185,6 @@
     while ((path = [enumerator nextObject])) {
         NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:path] objectEnumerator];
         while ((file = [dirEnumerator nextObject])) {
-			//NSLog(@"%@",file);
             if ([[file pathExtension] isEqualToString:@"mode"]) {
                 NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]];
                 if (bundle && [bundle bundleIdentifier]) {
@@ -511,7 +510,6 @@
             }
             break;
     }
-    // NSLog(@"%@",directoryString);
     if (![[NSWorkspace sharedWorkspace] openFile:directoryString]) NSBeep();;
 }
 

@@ -75,6 +75,7 @@ int const FormatMenuTag = 2000;
 int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
+int const GotoTabMenuItemTag = 3042;
 int const ModeMenuTag = 50;
 int const SwitchModeMenuTag = 10;
 int const HighlightSyntaxMenuTag = 20;
@@ -332,8 +333,8 @@ static AppController *sharedInstance = nil;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 
-    //#warning "Termination has to be removed before release!"
-    if ([[NSDate dateWithString:@"2007-01-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
+    #warning "Termination has to be removed before release!"
+    if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
         [NSApp terminate:self];
         return;
     }
@@ -651,7 +652,9 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [dockMenu addItem:item];
         item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""] autorelease];
         [item setSubmenu:[[NSMenu new] autorelease]];
-        [[item submenu] setDelegate:[DocumentController sharedDocumentController]]; 
+        [item setTarget:[DocumentController sharedDocumentController]];
+        [item setAction:@selector(menuValidationNoneAction:)];
+        [item setTag:GotoTabMenuItemTag];
         [dockMenu addItem:item];
     }
     return dockMenu;

@@ -1294,26 +1294,26 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)performRoundRobinMessageProcessing {
 //    NSLog(@"performRoundRobinMessageProcessing");
-    int i;
     clock_t start_time = clock();
     double timeSpent=0;
 
     BOOL hasMessagesAvailable = YES;
-    int count = [I_statesByClientID count];
-    int remainingCount = [I_statesWithRemainingMessages count];
-    NSArray *states=[I_statesByClientID allValues];
     NSMutableArray *statesToDiscard=[NSMutableArray array];
-    while (!(I_flags.pauseCount>0) && hasMessagesAvailable && (count || remainingCount) && timeSpent<kProcessingTime) {
+    while (!(I_flags.pauseCount>0) && 
+           hasMessagesAvailable && 
+           ([I_statesByClientID count] || [I_statesWithRemainingMessages count]) && 
+           timeSpent<kProcessingTime) {
         hasMessagesAvailable = NO;
-        for (i=0;i<count;i++) {
-            TCMMMState *state=[states objectAtIndex:i];
+        NSEnumerator *states=[I_statesByClientID objectEnumerator];
+        TCMMMState *state=nil;
+        while ((state=[states nextObject])) {
             [state processMessage];
             if (!hasMessagesAvailable) {
                 hasMessagesAvailable=[state hasMessagesAvailable];
             }
         }
-        NSEnumerator *states=[I_statesWithRemainingMessages objectEnumerator];
-        TCMMMState *state=nil;
+
+        states=[I_statesWithRemainingMessages objectEnumerator];
         while ((state=[states nextObject])) {
             [state processMessage];
             if (![state hasMessagesAvailable]) {
@@ -1324,16 +1324,19 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                 hasMessagesAvailable=YES;
             }
         }
+        
         while ([statesToDiscard count]) {
             state = [statesToDiscard lastObject];
             [I_statesWithRemainingMessages removeObject:state];
             [statesToDiscard removeLastObject];
             //NSLog(@"discarding state: %@",[state description]);
         }
+        
         timeSpent=(((double)(clock()-start_time))/CLOCKS_PER_SEC);
     }
+    
     I_flags.isPerformingRoundRobin = NO;
-    if (hasMessagesAvailable && !(I_flags.pauseCount>0) && count) {
+    if (hasMessagesAvailable && !(I_flags.pauseCount>0) && [I_statesByClientID count]) {
         [self triggerPerformRoundRobin];
     }
 }

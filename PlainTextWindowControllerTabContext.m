@@ -8,6 +8,7 @@
 
 #import "PlainTextWindowControllerTabContext.h"
 #import "PlainTextWindowController.h"
+#import "PlainTextLoadProgress.h"
 
 
 @implementation PlainTextWindowControllerTabContext
@@ -24,6 +25,7 @@
         _icon = nil;
         _iconName = nil;
         _objectCount = 0;
+        _isEdited = NO;
     }
     return self;
 }
@@ -32,11 +34,12 @@
 - (void)dealloc
 {
     _document = nil;
-    [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowController:) withObject:nil];
+    [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowControllerTabContext:) withObject:nil];
     [_plainTextEditors release];
     [_editorSplitView release];
     [_dialogSplitView release];
     [_documentDialog release];
+    [_loadProgress release];
     
     [_icon release];
     [_iconName release];
@@ -98,27 +101,6 @@
     return _documentDialog;
 }
 
-
-- (void)setWindowController:(PlainTextWindowController *)windowController
-{
-    NSEnumerator *enumerator = [_plainTextEditors objectEnumerator];
-    id editor;
-    while ((editor = [enumerator nextObject])) {
-        [editor setWindowController:windowController];
-    }
-}
-
-
-- (PlainTextWindowController *)windowController
-{
-    if ([_plainTextEditors count] > 0) {
-        return [[_plainTextEditors objectAtIndex:0] windowController];
-    } else {
-        return nil;
-    }
-}
-
-
 - (void)setDocument:(PlainTextDocument *)document
 {
     _document = document;
@@ -129,11 +111,21 @@
     return _document;
 }
 
+- (void)setLoadProgress:(PlainTextLoadProgress *)loadProgress
+{
+    [loadProgress retain];
+    [_loadProgress release];
+    _loadProgress = loadProgress;   
+}
+
+- (PlainTextLoadProgress *)loadProgress
+{
+    return _loadProgress;
+}
 
 - (void)setIsReceivingContent:(BOOL)flag
 {
     _isReceivingContent = flag;
-    _isProcessing = flag;
 }
 
 - (BOOL)isReceivingContent
@@ -159,6 +151,8 @@
     return _isAlertScheduled;
 }
 
+#pragma mark -
+
 - (BOOL)isProcessing
 {
     return _isProcessing;
@@ -167,7 +161,6 @@
 - (void)setIsProcessing:(BOOL)value
 {
     _isProcessing = value;
-    _isReceivingContent = value;
 }
 
 - (NSImage *)icon
@@ -204,5 +197,14 @@
     _objectCount = value;
 }
 
+- (BOOL)isEdited
+{
+    return _isEdited;
+}
+
+- (void)setIsEdited:(BOOL)value
+{
+    _isEdited = value;
+}
 
 @end

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PlainTextWindowController, PlainTextDocument;
+@class PlainTextWindowController, PlainTextDocument, PlainTextLoadProgress;
 
 
 @interface PlainTextWindowControllerTabContext : NSObject {
@@ -20,11 +20,13 @@
     BOOL _isReceivingContent;
     PlainTextDocument *_document;
     BOOL _isAlertScheduled;
+    PlainTextLoadProgress *_loadProgress;
     
     BOOL _isProcessing;
     NSImage *_icon;
     NSString *_iconName;
     int _objectCount;
+    BOOL _isEdited;
 }
 
 - (NSMutableArray *)plainTextEditors;
@@ -38,9 +40,6 @@
 - (void)setDocumentDialog:(id)dialog;
 - (id)documentDialog;
 
-- (void)setWindowController:(PlainTextWindowController *)windowController;
-- (PlainTextWindowController *)windowController;
-
 - (void)setDocument:(PlainTextDocument *)document;
 - (PlainTextDocument *)document;
 
@@ -50,6 +49,9 @@
 - (void)setIsAlertScheduled:(BOOL)flag;
 - (BOOL)isAlertScheduled;
 
+- (void)setLoadProgress:(PlainTextLoadProgress *)loadProgress;
+- (PlainTextLoadProgress *)loadProgress;
+
 - (BOOL)isProcessing;
 - (void)setIsProcessing:(BOOL)value;
 - (NSImage *)icon;
@@ -58,5 +60,7 @@
 - (void)setIconName:(NSString *)iconName;
 - (int)objectCount;
 - (void)setObjectCount:(int)value;
+- (BOOL)isEdited;
+- (void)setIsEdited:(BOOL)value;
 
 @end

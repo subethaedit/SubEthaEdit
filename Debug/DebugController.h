@@ -28,6 +28,7 @@
 - (IBAction)showUsers:(id)aSender;
 - (IBAction)showBEEP:(id)sender;
 - (IBAction)crash:(id)sender;
+- (IBAction)createProxyWindow:(id)aSender;
 
 @end
 

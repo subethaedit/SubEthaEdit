@@ -31,6 +31,7 @@
     BOOL                _isCloseButtonSuppressed;
     BOOL                _hasIcon;
     int                 _count;
+    BOOL                _isEdited;
 }
 
 // creation/destruction
@@ -72,6 +73,8 @@
 - (void)setIsPlaceholder:(BOOL)value;
 - (int)currentStep;
 - (void)setCurrentStep:(int)value;
+- (BOOL)isEdited;
+- (void)setIsEdited:(BOOL)value;
 
 // component attributes
 - (NSRect)indicatorRectForFrame:(NSRect)cellFrame;

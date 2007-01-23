@@ -15,6 +15,10 @@
 #import "DebugPresenceController.h"
 #import "TCMMMBEEPSessionManager.h"
 #import <HDCrashReporter/crashReporter.h>
+#import "DocumentProxyWindowController.h"
+#import "TCMMillionMonkeys.h"
+#import "DocumentController.h"
+
 
 static DebugController * sharedInstance = nil;
 
@@ -84,9 +88,28 @@ static DebugController * sharedInstance = nil;
         [menu addItem:blahItem];
         [blahItem release];
 
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"create proxy window" action:@selector(createProxyWindow:) keyEquivalent:@""];
+        [blahItem setTarget:self];
+        [menu addItem:blahItem];
+        [blahItem release];
+
     } else if (flag == NO && indexOfDebugMenu != -1) {
         [[NSApp mainMenu] removeItemAtIndex:indexOfDebugMenu];
     }
+}
+
+- (IBAction)createProxyWindow:(id)aSender {
+    TCMMMSession *testSession = 
+        [TCMMMSession sessionWithDictionaryRepresentation:
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                    [NSData dataWithUUIDString:[NSString UUIDString]],@"sID",
+                    @"/langer/pfad/mit/langer/Testsession.m",@"name",
+                    [NSData dataWithUUIDString:[[TCMMMUserManager me] userID]],@"hID",
+                    [NSNumber numberWithInt:TCMMMSessionAccessReadOnlyState],@"acc",
+                nil]
+            ];
+    [testSession setClientState:TCMMMSessionClientInvitedState];
+    [[DocumentController sharedDocumentController] addProxyDocumentWithSession:testSession];
 }
 
 - (IBAction)showPresence:(id)aSender {

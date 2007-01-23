@@ -147,6 +147,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     AuthorizationRef I_authRef;
 }
 
++ (PlainTextDocument *)transientDocument;
+
 - (id)initWithSession:(TCMMMSession *)aSession;
 
 - (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo;
@@ -162,6 +164,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)killProxyWindowController;
 - (void)proxyWindowWillClose;
 - (void)updateProxyWindow;
+- (DocumentProxyWindowController *)proxyWindowController;
 
 - (void)setSession:(TCMMMSession *)aSession;
 - (TCMMMSession *)session;

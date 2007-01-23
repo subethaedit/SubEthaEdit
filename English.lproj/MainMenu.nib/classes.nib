@@ -27,10 +27,12 @@
         }, 
         {
             ACTIONS = {
+                alwaysShowTabBar = id; 
                 cancelModeInstallation = id; 
                 changeModeInstallationDomain = id; 
                 goIntoBundles = id; 
                 installMode = id; 
+                menuValidationNoneAction = id; 
                 showHiddenFiles = id; 
             }; 
             CLASS = DocumentController; 
@@ -113,6 +115,7 @@
                 jumpToNextSymbol = id; 
                 jumpToPreviousChange = id; 
                 jumpToPreviousSymbol = id; 
+                mergeAllWindows = id; 
                 newAlternateDocument = id; 
                 newView = id; 
                 openInSeparateWindow = id; 

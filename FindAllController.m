@@ -143,7 +143,8 @@
 
             [aString release];
         }
-            [O_resultsTableView tile];
+        [O_resultsTableView tile];
+        if ([[self arrangedObjects] count] > 0) [O_resultsController setSelectionIndex:0];
     }
     [O_progressIndicator stopAnimation:nil];
 }

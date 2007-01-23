@@ -187,7 +187,6 @@ static PSMTabDragAssistant *sharedDragAssistant = nil;
 			[[control delegate] tabView:[control tabView] shouldDropTabViewItem:[[self draggedCell] representedObject] inTabBar:nil]) {
 		_dragTabWindow = [[PSMTabDragWindow dragWindowWithTabBarCell:cell image:dragImage styleMask:NSBorderlessWindowMask] retain];
 		[_dragTabWindow setAlphaValue:kPSMTabDragWindowAlpha];
-		[_dragTabWindow orderFront:nil];
 		
 		//[control dragImage:dragImage at:cellFrame.origin offset:offset event:event pasteboard:pboard source:control slideBack:NO];
 		cellFrame.origin.y -= cellFrame.size.height;
@@ -280,6 +279,7 @@ static PSMTabDragAssistant *sharedDragAssistant = nil;
 			
 			_dragViewWindow = [[PSMTabDragWindow dragWindowWithTabBarCell:[self draggedCell] image:viewImage styleMask:styleMask] retain];
 			[_dragViewWindow setAlphaValue:0.0];
+            [_dragViewWindow setHasShadow:YES];
 		}
 		
 		NSPoint windowOrigin = [_dragTabWindow frame].origin;
@@ -411,11 +411,11 @@ static PSMTabDragAssistant *sharedDragAssistant = nil;
 				[[[self sourceTabBar] tabView] removeTabViewItem:[[self draggedCell] representedObject]];
 				
 				[[control tabView] addTabViewItem:[[self draggedCell] representedObject]];
-				[[control window] makeKeyAndOrderFront:nil];
 				
 				if ([sourceDelegate respondsToSelector:@selector(tabView:didDropTabViewItem:inTabBar:)]) {
 					[sourceDelegate tabView:[[self sourceTabBar] tabView] didDropTabViewItem:[[self draggedCell] representedObject] inTabBar:control];
 				}
+				[[control window] makeKeyAndOrderFront:nil];
 			} else {
 				NSLog(@"Delegate returned no control to add to.");
 				[[[self sourceTabBar] cells] insertObject:[self draggedCell] atIndex:[self draggedCellIndex]];
@@ -471,6 +471,7 @@ static PSMTabDragAssistant *sharedDragAssistant = nil;
 {
 	if (_dragTabWindow) {
 		[_dragTabWindow setFrameTopLeftPoint:aPoint];
+        [_dragTabWindow orderFront:nil];
 		
 		if ([[[self sourceTabBar] tabView] numberOfTabViewItems] == 1) {
 			[self draggingExitedTabBar:[self sourceTabBar]];

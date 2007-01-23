@@ -9,6 +9,7 @@
 #import "PSMTabBarCell.h"
 #import "PSMTabBarControl.h"
 #import "PSMTabStyle.h"
+#import "PSMPFTabStyle.h"
 #import "PSMProgressIndicator.h"
 #import "PSMTabDragAssistant.h"
 
@@ -35,6 +36,7 @@
         _hasCloseButton = YES;
         _isCloseButtonSuppressed = NO;
         _count = 0;
+        _isEdited = NO;
         _isPlaceholder = NO;
     }
     return self;
@@ -61,6 +63,7 @@
         _hasCloseButton = YES;
         _isCloseButtonSuppressed = NO;
         _count = 0;
+        _isEdited = NO;
         
         if (value) {
             [self setCurrentStep:(kPSMTabDragAnimationSteps - 1)];
@@ -236,7 +239,7 @@
     return _isPlaceholder;
 }
 
-- (void)setIsPlaceholder:(BOOL)value;
+- (void)setIsPlaceholder:(BOOL)value
 {
     _isPlaceholder = value;
 }
@@ -255,6 +258,17 @@
         value = (kPSMTabDragAnimationSteps - 1);
     
     _currentStep = value;
+}
+
+- (BOOL)isEdited
+{
+    return _isEdited;
+}
+
+- (void)setIsEdited:(BOOL)value
+{
+    _isEdited = value;
+    [_controlView update:[[self controlView] automaticallyAnimates]]; // binding notice is too fast
 }
 
 #pragma mark -
@@ -297,7 +311,8 @@
     if(_isPlaceholder){
         [[NSColor colorWithCalibratedWhite:0.0 alpha:0.2] set];
         NSRectFillUsingOperation(cellFrame, NSCompositeSourceAtop);
-        return;
+        if (![(id <PSMTabStyle>)[_controlView style] isKindOfClass:[PSMPFTabStyle class]])
+            return;
     }
     
     [(id <PSMTabStyle>)[_controlView style] drawTabCell:self];	
@@ -342,28 +357,32 @@
 
 - (NSImage *)dragImage
 {
-	NSRect cellFrame = [(id <PSMTabStyle>)[_controlView style] dragRectForTabCell:self orientation:[_controlView orientation]];
-	//NSRect cellFrame = [self frame];
-	
-    [_controlView lockFocus];
-    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:cellFrame];
-    [_controlView unlockFocus];
-    NSImage *image = [[[NSImage alloc] initWithSize:[rep size]] autorelease];
-    [image addRepresentation:rep];
-    NSImage *returnImage = [[[NSImage alloc] initWithSize:[rep size]] autorelease];
-    [returnImage lockFocus];
-    [image compositeToPoint:NSMakePoint(0.0, 0.0) operation:NSCompositeSourceOver fraction:1.0];
-    [returnImage unlockFocus];
-    if(![[self indicator] isHidden]){
-        NSImage *pi = [[NSImage alloc] initByReferencingFile:[[PSMTabBarControl bundle] pathForImageResource:@"pi"]];
+    if ([(id <PSMTabStyle>)[_controlView style] isKindOfClass:[PSMPFTabStyle class]]) {
+        return [(id <PSMTabStyle>)[_controlView style] dragImageForCell:self];
+    } else {
+        NSRect cellFrame = [(id <PSMTabStyle>)[_controlView style] dragRectForTabCell:self orientation:[_controlView orientation]];
+        //NSRect cellFrame = [self frame];
+        
+        [_controlView lockFocus];
+        NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:cellFrame];
+        [_controlView unlockFocus];
+        NSImage *image = [[[NSImage alloc] initWithSize:[rep size]] autorelease];
+        [image addRepresentation:rep];
+        NSImage *returnImage = [[[NSImage alloc] initWithSize:[rep size]] autorelease];
         [returnImage lockFocus];
-        NSPoint indicatorPoint = NSMakePoint([self frame].size.width - MARGIN_X - kPSMTabBarIndicatorWidth, MARGIN_Y);
-        [pi compositeToPoint:indicatorPoint operation:NSCompositeSourceOver fraction:1.0];
+        [image compositeToPoint:NSMakePoint(0.0, 0.0) operation:NSCompositeSourceOver fraction:1.0];
         [returnImage unlockFocus];
-        [pi release];
-    }
+        if(![[self indicator] isHidden]){
+            NSImage *pi = [[NSImage alloc] initByReferencingFile:[[PSMTabBarControl bundle] pathForImageResource:@"pi"]];
+            [returnImage lockFocus];
+            NSPoint indicatorPoint = NSMakePoint([self frame].size.width - MARGIN_X - kPSMTabBarIndicatorWidth, MARGIN_Y);
+            [pi compositeToPoint:indicatorPoint operation:NSCompositeSourceOver fraction:1.0];
+            [returnImage unlockFocus];
+            [pi release];
+        }
 
-    return returnImage;
+        return returnImage;
+    }
 }
 
 #pragma mark -
@@ -387,6 +406,7 @@
         [aCoder encodeBool:_isCloseButtonSuppressed forKey:@"isCloseButtonSuppressed"];
         [aCoder encodeBool:_hasIcon forKey:@"hasIcon"];
         [aCoder encodeInt:_count forKey:@"count"];
+        [aCoder encodeBool:_isEdited forKey:@"isEdited"];
     }
 }
 
@@ -410,6 +430,7 @@
             _isCloseButtonSuppressed = [aDecoder decodeBoolForKey:@"isCloseButtonSuppressed"];
             _hasIcon = [aDecoder decodeBoolForKey:@"hasIcon"];
             _count = [aDecoder decodeIntForKey:@"count"];
+            _isEdited = [aDecoder decodeBoolForKey:@"isEdited"];
         }
     }
     return self;

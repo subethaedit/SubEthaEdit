@@ -137,6 +137,12 @@
 		A2D98B120A2B43FA0064C6F8 /* NSBezierPath_AMShading.h in Headers */ = {isa = PBXBuildFile; fileRef = A2D98B0F0A2B43FA0064C6F8 /* NSBezierPath_AMShading.h */; };
 		A2D98B130A2B43FA0064C6F8 /* NSBezierPath_AMShading.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D98B100A2B43FA0064C6F8 /* NSBezierPath_AMShading.m */; };
 		A2D98B140A2B43FA0064C6F8 /* NSBezierPath_AMShading.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D98B100A2B43FA0064C6F8 /* NSBezierPath_AMShading.m */; };
+		F2693B670B61393900DF3A05 /* AquaTabCloseDirty_Front_Pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2693B640B61393900DF3A05 /* AquaTabCloseDirty_Front_Pressed.png */; };
+		F2693B680B61393900DF3A05 /* AquaTabCloseDirty_Front_Rollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2693B650B61393900DF3A05 /* AquaTabCloseDirty_Front_Rollover.png */; };
+		F2693B690B61393900DF3A05 /* AquaTabCloseDirty_Front.png in Resources */ = {isa = PBXBuildFile; fileRef = F2693B660B61393900DF3A05 /* AquaTabCloseDirty_Front.png */; };
+		F2A7D62E0B613A210062A36F /* AquaTabCloseDirty_Front_Pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2693B640B61393900DF3A05 /* AquaTabCloseDirty_Front_Pressed.png */; };
+		F2A7D62F0B613A210062A36F /* AquaTabCloseDirty_Front_Rollover.png in Resources */ = {isa = PBXBuildFile; fileRef = F2693B650B61393900DF3A05 /* AquaTabCloseDirty_Front_Rollover.png */; };
+		F2A7D6300B613A210062A36F /* AquaTabCloseDirty_Front.png in Resources */ = {isa = PBXBuildFile; fileRef = F2693B660B61393900DF3A05 /* AquaTabCloseDirty_Front.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -274,6 +280,9 @@
 		A2D98B0F0A2B43FA0064C6F8 /* NSBezierPath_AMShading.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSBezierPath_AMShading.h; path = source/NSBezierPath_AMShading.h; sourceTree = "<group>"; };
 		A2D98B100A2B43FA0064C6F8 /* NSBezierPath_AMShading.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSBezierPath_AMShading.m; path = source/NSBezierPath_AMShading.m; sourceTree = "<group>"; };
 		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		F2693B640B61393900DF3A05 /* AquaTabCloseDirty_Front_Pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AquaTabCloseDirty_Front_Pressed.png; path = images/AquaTabCloseDirty_Front_Pressed.png; sourceTree = "<group>"; };
+		F2693B650B61393900DF3A05 /* AquaTabCloseDirty_Front_Rollover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AquaTabCloseDirty_Front_Rollover.png; path = images/AquaTabCloseDirty_Front_Rollover.png; sourceTree = "<group>"; };
+		F2693B660B61393900DF3A05 /* AquaTabCloseDirty_Front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AquaTabCloseDirty_Front.png; path = images/AquaTabCloseDirty_Front.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -488,6 +497,9 @@
 		A251BE8E0959A21A0058BC7F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F2693B640B61393900DF3A05 /* AquaTabCloseDirty_Front_Pressed.png */,
+				F2693B650B61393900DF3A05 /* AquaTabCloseDirty_Front_Rollover.png */,
+				F2693B660B61393900DF3A05 /* AquaTabCloseDirty_Front.png */,
 				A27074080A33E4510035C4DB /* mater_large.jpg */,
 				A27074090A33E4510035C4DB /* mcqueen_large.jpg */,
 				A270740A0A33E4510035C4DB /* sally_large.jpg */,
@@ -635,6 +647,9 @@
 				A2D32EF709A63BF700EC8662 /* AquaTabClose_Front_Pressed.tif in Resources */,
 				A2D32EF809A63BF700EC8662 /* AquaTabClose_Front_Rollover.tif in Resources */,
 				A2D32EF909A63BF700EC8662 /* AquaTabClose_Front.tif in Resources */,
+				F2A7D62E0B613A210062A36F /* AquaTabCloseDirty_Front_Pressed.png in Resources */,
+				F2A7D62F0B613A210062A36F /* AquaTabCloseDirty_Front_Rollover.png in Resources */,
+				F2A7D6300B613A210062A36F /* AquaTabCloseDirty_Front.png in Resources */,
 				A2D32EFA09A63BF700EC8662 /* AquaTabsBackground.png in Resources */,
 				A2D32EFB09A63BF700EC8662 /* AquaTabsDown.png in Resources */,
 				A2D32EFC09A63BF700EC8662 /* AquaTabsSeparator.png in Resources */,
@@ -704,6 +719,9 @@
 				A270740C0A33E4510035C4DB /* mcqueen_large.jpg in Resources */,
 				A270740D0A33E4510035C4DB /* sally_large.jpg in Resources */,
 				3769D05D0A349F9100D71EDA /* 32x32_log.tiff in Resources */,
+				F2693B670B61393900DF3A05 /* AquaTabCloseDirty_Front_Pressed.png in Resources */,
+				F2693B680B61393900DF3A05 /* AquaTabCloseDirty_Front_Rollover.png in Resources */,
+				F2693B690B61393900DF3A05 /* AquaTabCloseDirty_Front.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

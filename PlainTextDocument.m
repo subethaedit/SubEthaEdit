@@ -71,8 +71,6 @@ struct SelectionRange
 static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
 
-#pragma mark -
-
 static NSString * const PlainTextDocumentSyntaxColorizeNotification =
                       @"PlainTextDocumentSyntaxColorizeNotification";
 static NSString * PlainTextDocumentInvalidateLayoutNotification =
@@ -169,6 +167,11 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
     [attributes release];
     [style release];
+}
+
++ (PlainTextDocument *)transientDocument
+{
+    return transientDocument;
 }
 
 static NSString *tempFileName(NSString *origPath) {
@@ -1635,6 +1638,12 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             [session cancelJoin];
         }
         [[DocumentController sharedInstance] removeDocument:[[self retain] autorelease]];
+
+    } else {
+        PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+//        if (![windowController hasManyDocuments]) {
+            [windowController showWindow:self];
+//        }
     }
 }
 
@@ -1644,6 +1653,10 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)proxyWindowWillClose {
     [self killProxyWindowController];
+}
+
+- (DocumentProxyWindowController *)proxyWindowController {
+    return I_documentProxyWindowController;
 }
 
 - (void)TCM_validateLineEndings {
@@ -1739,6 +1752,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 - (void)showWindowController:(id)aSender {
     [[aSender representedObject] selectTabForDocument:self];
     [[aSender representedObject] showWindow:self];
+    [self showWindows];
 }
 
 - (void)showWindows {    
@@ -2404,6 +2418,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 [self setDocumentMode:mode];
             }
             I_flags.shouldSelectModeOnSave=NO;
+        }
+        // we have saved, so no more extension changing
+        if (I_flags.shouldChangeExtensionOnModeChange) {
             I_flags.shouldChangeExtensionOnModeChange=NO;
         }
 
@@ -3349,6 +3366,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return ![self isProxyDocument];
     } else if (selector == @selector(clearChangeMarks:)) {
         return ![self isProxyDocument];
+    } else if (selector == @selector(showWindowController:)) {
+        if ([self isDocumentEdited]) {
+            [anItem setMark:kBulletCharCode];
+        } else {
+            [anItem setMark:noMark];
+        }
+        id wc = [anItem representedObject];
+        if ([[anItem representedObject] document] == self &&
+            ([[wc window] isKeyWindow] || 
+             [[wc window] isMainWindow])) {
+            [anItem setState:NSOnState];
+            [anItem setMark:kCheckCharCode];
+        }
+        return ![[wc window] attachedSheet] || ([[wc window] attachedSheet] && [wc document] == self);
     }
 
 //    if (selector==@selector(undo:)) {
@@ -4252,6 +4283,14 @@ static NSString *S_measurementUnits;
     if (changeType==NSChangeCleared || I_flags.shouldChangeChangeCount) {
         [super updateChangeCount:changeType];
     }
+    
+    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
+    id windowController;
+    while ((windowController = [enumerator nextObject])) {
+        if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+            [(PlainTextWindowController *)windowController documentUpdatedChangeCount:self];
+        }
+    }
 }
 
 - (void)setIsDocumentEdited:(BOOL)aFlag {
@@ -4423,7 +4462,7 @@ static NSString *S_measurementUnits;
         [self TCM_generateNewSession];
         if (I_flags.isReceivingContent) {
             PlainTextWindowController *controller=[[self windowControllers] objectAtIndex:0];
-            [controller didLoseConnection];
+            [controller documentDidLoseConnection:self];
         } else {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSInformationalAlertStyle];
@@ -4456,11 +4495,29 @@ static NSString *S_measurementUnits;
     //[self setFileName:[aSession filename]];
     [self setTemporaryDisplayName:[aSession filename]];
 
-    [self makeWindowControllers];
-    PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+    // this is slightly modified make window controllers code ...
+    [self makeWindowControllers]; 
+    PlainTextWindowController *windowController=[[self windowControllers] lastObject];
+    
+    [[windowController tabBar] updateViewsHack];
     I_flags.isReceivingContent=YES;
     [windowController document:self isReceivingContent:YES];
+    
+    BOOL closeTransient = transientDocument 
+                          && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+                          && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+
+    if (closeTransient) {
+        NSWindow *window = [[self topmostWindowController] window];
+        [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
+        [transientDocument close];
+    }
+
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
+    
+    if (closeTransient) {
+        transientDocument = nil;
+    }
 }
 
 - (NSDictionary *)sessionInformation {
@@ -5255,22 +5312,18 @@ static NSString *S_measurementUnits;
 
 - (NSString *)scriptedContents
 {
-    // NSLog(@"%s", __FUNCTION__);
     return [I_textStorage string];
 }
 
 - (void)setScriptedContents:(id)value {
-    // NSLog(@"%s: %d", __FUNCTION__, value);
     [self replaceTextInRange:NSMakeRange(0,[I_textStorage length]) withString:value];
 }
 
 - (TextStorage *)scriptedPlainContents {
-    // NSLog(@"%s", __FUNCTION__);
     return (TextStorage *)I_textStorage;
 }
 
 - (void)setScriptedPlainContents:(id)value {
-    // NSLog(@"%s: %@", __FUNCTION__, value);
     if ([value isKindOfClass:[NSString class]]) {
         [self replaceTextInRange:NSMakeRange(0, [I_textStorage length]) withString:value];
     }
@@ -5309,7 +5362,7 @@ static NSString *S_measurementUnits;
     NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
     NSWindow *window;
     while ((window = [windowsEnumerator nextObject])) {
-        if ([[[window windowController] document] isEqual:self] && ![self isProxyDocument]) {
+        if ([[[window windowController] documents] containsObject:self] && ![self isProxyDocument]) {
             [orderedWindows addObject:window];
         }
     }

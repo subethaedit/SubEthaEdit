@@ -166,6 +166,9 @@ enum {
 - (void)bindPropertiesForCell:(PSMTabBarCell *)cell andTabViewItem:(NSTabViewItem *)item;
 - (void)removeTabForCell:(PSMTabBarCell *)cell;
 
+
+- (void)updateViewsHack;
+
 @end
 
 

@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Mar 05 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import <AppKit/AppKit.h>
@@ -31,10 +31,8 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSButton            *O_kickButton;
     IBOutlet NSButton            *O_readOnlyButton;
     IBOutlet NSButton            *O_readWriteButton;
-    IBOutlet NSView              *O_receivingContentView;
-    IBOutlet NSProgressIndicator *O_progressIndicator;
+    
     IBOutlet NSImageView         *O_URLImageView;
-    IBOutlet NSTextField         *O_receivingStatusTextField;
     
     // Pointers to the current instances
     NSSplitView *I_editorSplitView;
@@ -77,7 +75,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)selectRange:(NSRange)aRange;
 
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
-- (void)didLoseConnection;
+- (void)documentDidLoseConnection:(PlainTextDocument *)document;
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
@@ -91,6 +89,9 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (void)documentWillClose:(NSDocument *)document;
 
+- (void)documentUpdatedChangeCount:(PlainTextDocument *)document;
+- (NSTabViewItem *)addDocument:(NSDocument *)document;
+- (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController;
 - (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document;
 - (NSArray *)plainTextEditorsForDocument:(id)aDocument;
 - (BOOL)selectTabForDocument:(id)aDocument;
@@ -108,5 +109,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (PSMTabBarControl *)tabBar;
 - (NSTabView *)tabView;
+
+- (NSRect)dissolveToFrame;
 
 @end

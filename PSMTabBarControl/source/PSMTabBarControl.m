@@ -173,6 +173,7 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(frameDidChange:) name:NSViewFrameDidChangeNotification object:self];
 		
 		// window status
+		#warning totally problematic all around observation because window is nil at this point
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowStatusDidChange:) name:NSWindowDidBecomeKeyNotification object:[self window]];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowStatusDidChange:) name:NSWindowDidResignKeyNotification object:[self window]];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidMove:) name:NSWindowDidMoveNotification object:[self window]];
@@ -526,6 +527,7 @@
     [cell unbind:@"hasIcon"];
     [cell unbind:@"title"];
     [cell unbind:@"count"];
+    [cell unbind:@"isEdited"];
 	
 	if ([item identifier] != nil) {
 		if ([[[cell representedObject] identifier] respondsToSelector:@selector(isProcessing)]) {
@@ -542,6 +544,12 @@
 	if ([item identifier] != nil) {
 		if ([[[cell representedObject] identifier] respondsToSelector:@selector(objectCount)]) {
 			[[item identifier] removeObserver:cell forKeyPath:@"objectCount"];
+		}
+	}
+    
+	if ([item identifier] != nil) {
+		if ([[[cell representedObject] identifier] respondsToSelector:@selector(isEdited)]) {
+			[[item identifier] removeObserver:cell forKeyPath:@"isEdited"];
 		}
 	}
 	
@@ -1228,10 +1236,12 @@
             [cell setIsInOverflowMenu:NO];
             
             // indicator
+            if (![[self subviews] containsObject:[cell indicator]]) {
+                [self addSubview:[cell indicator]];
+            }
             if (![[cell indicator] isHidden] && !_hideIndicators) {
                 [[cell indicator] setFrame:[cell indicatorRectForFrame:cellRect]];
                 if (![[self subviews] containsObject:[cell indicator]]) {
-                    [self addSubview:[cell indicator]];
                     [[cell indicator] startAnimation:self];
                 }
             }
@@ -1675,6 +1685,11 @@
     [self setNeedsDisplay:YES];
 }
 
+- (void)updateViewsHack
+{
+    [self windowStatusDidChange:nil];
+}
+
 - (void)windowStatusDidChange:(NSNotification *)notification
 {
     // hide? must readjust things if I'm not supposed to be showing
@@ -1759,7 +1774,7 @@
         [self update];
     }
 	
-	if ([[self delegate] respondsToSelector:@selector(tabView:didSelectTabViewItem:)]) {
+	if ([[self delegate] respondsToSelector:@selector(tabView:didSelectTabViewItem:)] && !([[NSApp currentEvent] type] == NSLeftMouseDragged)) {
 		[[self delegate] performSelector:@selector(tabView:didSelectTabViewItem:) withObject:aTabView withObject:tabViewItem];
 	}
 }
@@ -1952,6 +1967,14 @@
 		if ([[[cell representedObject] identifier] respondsToSelector:@selector(objectCount)]) {
 			[cell bind:@"count" toObject:[item identifier] withKeyPath:@"objectCount" options:nil];
 			[[item identifier] addObserver:cell forKeyPath:@"objectCount" options:nil context:nil];
+		}
+    }
+    
+    [cell setIsEdited:NO];
+    if ([item identifier] != nil) {
+		if ([[[cell representedObject] identifier] respondsToSelector:@selector(isEdited)]) {
+			[cell bind:@"isEdited" toObject:[item identifier] withKeyPath:@"isEdited" options:nil];
+			[[item identifier] addObserver:cell forKeyPath:@"isEdited" options:nil context:nil];
 		}
     }
     
