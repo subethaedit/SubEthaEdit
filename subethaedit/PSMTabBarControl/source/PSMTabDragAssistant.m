@@ -187,7 +187,6 @@ static PSMTabDragAssistant *sharedDragAssistant = nil;
 			[[control delegate] tabView:[control tabView] shouldDropTabViewItem:[[self draggedCell] representedObject] inTabBar:nil]) {
 		_dragTabWindow = [[PSMTabDragWindow dragWindowWithTabBarCell:cell image:dragImage styleMask:NSBorderlessWindowMask] retain];
 		[_dragTabWindow setAlphaValue:kPSMTabDragWindowAlpha];
-		[_dragTabWindow orderFront:nil];
 		
 		//[control dragImage:dragImage at:cellFrame.origin offset:offset event:event pasteboard:pboard source:control slideBack:NO];
 		cellFrame.origin.y -= cellFrame.size.height;
@@ -472,6 +471,7 @@ static PSMTabDragAssistant *sharedDragAssistant = nil;
 {
 	if (_dragTabWindow) {
 		[_dragTabWindow setFrameTopLeftPoint:aPoint];
+        [_dragTabWindow orderFront:nil];
 		
 		if ([[[self sourceTabBar] tabView] numberOfTabViewItems] == 1) {
 			[self draggingExitedTabBar:[self sourceTabBar]];
