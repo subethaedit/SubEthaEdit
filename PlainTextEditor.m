@@ -71,25 +71,27 @@
 
 @implementation PlainTextEditor
 
-- (id)initWithWindowController:(NSWindowController *)aWindowController splitButton:(BOOL)aFlag {
+- (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag {
     self = [super init];
     if (self) {
-        I_windowController = aWindowController;
+        I_windowControllerTabContext = aWindowControllerTabContext;
         I_flags.hasSplitButton = aFlag;
         I_flags.showTopStatusBar = YES;
         I_flags.showBottomStatusBar = YES;
         I_flags.pausedProcessing = NO;
         [self setFollowUserID:nil];
         [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
+        
     }
     return self;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowController document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
-    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowController document] name:NSTextDidChangeNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_textView setDelegate:nil];
+    [O_editorView setNextResponder:nil];
     [O_editorView release];
     [I_textContainer release];
     [I_radarScroller release];
@@ -170,7 +172,8 @@
     [O_scrollView setHasVerticalRuler:YES];
     [[O_scrollView verticalRulerView] setRuleThickness:32.];
 
-    [O_scrollView setDocumentView:[I_textView autorelease]];
+    [O_scrollView setDocumentView:I_textView];
+    [I_textView release];
     [[O_scrollView verticalRulerView] setClientView:I_textView];
 
 
@@ -498,17 +501,12 @@
 }
 
 - (PlainTextDocument *)document {
-    return (PlainTextDocument *)[I_windowController document];
+    return (PlainTextDocument *)[I_windowControllerTabContext document];
 }
 
-- (void)setWindowController:(NSWindowController *)aWindowController {
-    I_windowController = aWindowController;
+- (void)setWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aContext {
+    I_windowControllerTabContext = aContext;
 }
-
-- (NSWindowController *)windowController {
-    return I_windowController;
-}
-
 
 - (void)setIsSplit:(BOOL)aFlag {
     if (I_flags.hasSplitButton) {
@@ -749,6 +747,12 @@
 
         [undoManager endUndoGrouping];
     }
+}
+
+- (void)updateViews
+{
+    [self TCM_adjustTopStatusBarFrames];
+    [self TCM_updateBottomStatusBar];
 }
 
 #pragma mark -
@@ -1151,8 +1155,26 @@
             [O_symbolPopUpButton performClick:self];
             return;
         } else if ([characters isEqualToString:@"1"]) {
-            
-            [NSMenu popUpContextMenu:[[NSApp windowsMenu] bottomPart] withEvent:aEvent forView:[self textView] withFont:[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+            static NSPopUpButtonCell *s_cell = nil;
+            if (!s_cell) {
+                s_cell = [NSPopUpButtonCell new];
+                [s_cell setControlSize:NSSmallControlSize];
+                [s_cell setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+            }
+            [s_cell setMenu:[[DocumentController sharedInstance] documentMenu]];
+            NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
+            NSMenuItem   *menuItem  = nil;
+            while ((menuItem=[menuItems nextObject])) {
+                if ([menuItem target]==[self document] && [menuItem representedObject]==[[I_textView window] windowController]) {
+                    [s_cell selectItem:menuItem];
+                    break;
+                }
+            }
+            NSRect frame = [O_editorView frame];
+            frame.size.width = 50;
+            frame.origin.y = frame.size.height-20;
+            frame.size.height = 20;
+            [s_cell performClickWithFrame:frame inView:O_editorView];
             return;
         } else if ([self showsBottomStatusBar]) {
                    if ([characters isEqualToString:@"3"]) {
@@ -1177,7 +1199,7 @@
                  s_bottomShortCutSet = [[NSSet alloc] initWithObjects:@"3",@"4",@"5",@"6",@"7",nil];
             }
             PlainTextEditor *otherEditor=
-                [[(PlainTextWindowController *)[self windowController] plainTextEditors] lastObject];
+                [[I_windowControllerTabContext plainTextEditors] lastObject];
             if ([otherEditor showsBottomStatusBar] && 
                 [s_bottomShortCutSet containsObject:characters]) {
                 [otherEditor keyDown:aEvent];
@@ -1241,7 +1263,7 @@
 - (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu {
     NSMenu *scriptMenu = [[aContextMenu itemWithTag:12345] submenu];
     [scriptMenu removeAllItems];
-    PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
     [document fillScriptsIntoContextMenu:scriptMenu];
     if ([scriptMenu numberOfItems] == 0) {
         [[aContextMenu itemWithTag:12345] setEnabled:NO];
@@ -1251,7 +1273,7 @@
 }
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
-    PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
     if (![document isRemotelyEditingTextStorage]) {
         [self setFollowUserID:nil];
     }
@@ -1312,7 +1334,7 @@
         }
         return NO;
     } else {
-        [aTextView setTypingAttributes:[(PlainTextDocument *)[I_windowController document] typingAttributes]];
+        [aTextView setTypingAttributes:[(PlainTextDocument *)[self document] typingAttributes]];
     }
     
     if ([(TextView *)aTextView isPasting] && ![(TextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
@@ -1375,7 +1397,7 @@
 - (NSRange)textView:(NSTextView *)aTextView
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
-    PlainTextDocument *document=(PlainTextDocument *)[I_windowController document];
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
     return [document textView:aTextView
              willChangeSelectionFromCharacterRange:aOldSelectedCharRange
                                   toCharacterRange:aNewSelectedCharRange];
@@ -1420,7 +1442,7 @@
 }
 
 - (void)defaultParagraphStyleDidChange:(NSNotification *)aNotification {
-    [I_textView setDefaultParagraphStyle:[(PlainTextDocument *)[I_windowController document] defaultParagraphStyle]];
+    [I_textView setDefaultParagraphStyle:[(PlainTextDocument *)[self document] defaultParagraphStyle]];
     [self TCM_updateBottomStatusBar];
     [self textDidChange:aNotification];
     [I_textView setNeedsDisplay:YES];
@@ -1467,21 +1489,26 @@
     if (selectionOperation) {
         unsigned rectCount;
         NSRange range=[selectionOperation selectedRange];
-        NSRectArray rects=[[I_textView layoutManager]
-                            rectArrayForCharacterRange:range
-                          withinSelectedCharacterRange:range
-                                       inTextContainer:[I_textView textContainer]
-                                             rectCount:&rectCount];
-        if (rectCount>0) {
-            NSRect rect=rects[0];
-            unsigned i;
-            for (i=1; i<rectCount;i++) {
-                rect=NSUnionRect(rect,rects[i]);
+        NSLayoutManager *layoutManager = [I_textView layoutManager];
+        if (layoutManager) {
+            NSRectArray rects=[layoutManager
+                                rectArrayForCharacterRange:range
+                              withinSelectedCharacterRange:range
+                                           inTextContainer:[I_textView textContainer]
+                                                 rectCount:&rectCount];
+            if (rectCount>0) {
+                NSRect rect=rects[0];
+                unsigned i;
+                for (i=1; i<rectCount;i++) {
+                    rect=NSUnionRect(rect,rects[i]);
+                }
+                [I_radarScroller setMarkFor:[aUser userID]
+                                withColor:changeColor
+                            forMinLocation:(float)rect.origin.y
+                            andMaxLocation:(float)NSMaxY(rect)];
             }
-            [I_radarScroller setMarkFor:[aUser userID]
-                            withColor:changeColor
-                        forMinLocation:(float)rect.origin.y
-                        andMaxLocation:(float)NSMaxY(rect)];
+        } else {
+            NSLog(@"%s Textview:%@ has not yet a layoutmanager:%@ - strange document: %@",__FUNCTION__,I_textView,layoutManager,[[self document] displayName]);
         }
     } else {
         [I_radarScroller removeMarkFor:[aUser userID]];

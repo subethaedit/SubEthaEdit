@@ -1202,6 +1202,16 @@
                 <string>NSCompositingOperation</string>
             </keywords>
             <keywords id="Cocoa Constants" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
+                <string>NSNormalWindowLevel</string>
+                <string>NSFloatingWindowLevel</string>
+                <string>NSSubmenuWindowLevel</string>
+                <string>NSTornOffMenuWindowLevel</string>
+                <string>NSMainMenuWindowLevel</string>
+                <string>NSStatusWindowLevel</string>
+                <string>NSDockWindowLevel</string>
+                <string>NSModalPanelWindowLevel</string>
+                <string>NSPopUpMenuWindowLevel</string>
+                <string>NSScreenSaverWindowLevel</string>               
                 <string>NSDecimalMaxSize</string>
                 <string>NSDecimalNoScale</string>
                 <string>NSMaximumStringLength</string>

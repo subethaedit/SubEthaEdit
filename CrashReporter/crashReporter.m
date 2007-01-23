@@ -30,33 +30,40 @@
 
 @implementation HDCrashReporter
 
-+ (BOOL) newCrashLogExists
-{
-  BOOL returnValue = NO;
-  
-  //do crash recovery
-  //
-  NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"HDCrashReporter.lastCrashDate"];
-  NSArray *libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,FALSE);
-  
-  NSString *logFilePathAndname = @"Logs/CrashReporter/SubEthaEdit.crash.log";
-  NSString *crashLogPath = [[[libraryDirectories objectAtIndex: 0 ] stringByAppendingPathComponent: logFilePathAndname] stringByExpandingTildeInPath];
-  
-  NSDate *crashLogModificationDate = [[[NSFileManager defaultManager] fileAttributesAtPath: crashLogPath traverseLink: YES] fileModificationDate];
-  if (lastCrashDate && 
-      crashLogModificationDate && 
-      ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending))
-  {
-    //we had a new crash since last time, ask the user ih wants to submit it
-    //
-    returnValue = YES;
-  }
-  
-  [[NSUserDefaults standardUserDefaults] setValue: crashLogModificationDate
-                                           forKey: @"HDCrashReporter.lastCrashDate"];
-  
-  return returnValue;
++ (BOOL) newCrashLogExists {
+    
+    BOOL returnValue = NO;
+    NSDate *crashLogModificationDate;
+    SInt32 MacVersion;
+
+    NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"HDCrashReporter.lastCrashDate"];
+
+    if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr) {
+        if (MacVersion >= 0x1050) {
+            // User is using Leopard or later
+
+        } else {
+            // User is using Tiger or earlier
+            NSArray *libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,FALSE);
+            
+            NSString *logFilePathAndname = @"Logs/CrashReporter/SubEthaEdit.crash.log";
+            NSString *crashLogPath = [[[libraryDirectories objectAtIndex: 0 ] stringByAppendingPathComponent: logFilePathAndname] stringByExpandingTildeInPath];
+            
+            crashLogModificationDate = [[[NSFileManager defaultManager] fileAttributesAtPath: crashLogPath traverseLink: YES] fileModificationDate];
+            if (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending)) {
+                //we had a new crash since last time, ask the user if wants to submit it
+                returnValue = YES;
+            }
+            
+        }
+
+        [[NSUserDefaults standardUserDefaults] setValue: crashLogModificationDate forKey: @"HDCrashReporter.lastCrashDate"];
+
+    } else NSBeep();
+    
+    return returnValue;
 }
+  
 
 + (void) doCrashSubmitting
 { 

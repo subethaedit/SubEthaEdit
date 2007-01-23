@@ -15,6 +15,7 @@
         [self removeItemAtIndex:i];
     }
 }
+
 @end
 
 
@@ -29,6 +30,10 @@
 
 - (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aMenuItem {
     return [[self title] caseInsensitiveCompare:[aMenuItem title]];
+}
+
+- (void)setMark:(int)aMark {
+    SetItemMark(_NSGetCarbonMenu([self menu]), [[self menu] indexOfItem:self] + 1, aMark);
 }
 
 

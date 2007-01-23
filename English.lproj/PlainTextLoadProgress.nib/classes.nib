@@ -1,0 +1,16 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = PlainTextLoadProgress; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_loadProgressView" = NSView; 
+                "_loadStatusField" = NSTextField; 
+                "_progressIndicator" = NSProgressIndicator; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

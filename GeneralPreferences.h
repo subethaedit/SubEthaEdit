@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Mon Mar 29 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,33 +12,35 @@
 extern NSString * const GeneralViewPreferencesDidChangeNotificiation;
 
 
-extern NSString * const MyColorHuePreferenceKey            ;
-extern NSString * const CustomMyColorHuePreferenceKey      ;
-extern NSString * const SelectionSaturationPreferenceKey   ;
-extern NSString * const ChangesSaturationPreferenceKey     ;
-extern NSString * const HighlightChangesPreferenceKey      ;
-extern NSString * const HighlightChangesAlonePreferenceKey ;
-extern NSString * const OpenDocumentOnStartPreferenceKey   ;
-extern NSString * const SelectedMyColorPreferenceKey       ;
-extern NSString * const ModeForNewDocumentsPreferenceKey   ;
+extern NSString * const MyColorHuePreferenceKey;
+extern NSString * const CustomMyColorHuePreferenceKey;
+extern NSString * const SelectionSaturationPreferenceKey;
+extern NSString * const ChangesSaturationPreferenceKey;
+extern NSString * const HighlightChangesPreferenceKey;
+extern NSString * const HighlightChangesAlonePreferenceKey;
+extern NSString * const OpenDocumentOnStartPreferenceKey;
+extern NSString * const SelectedMyColorPreferenceKey;
+extern NSString * const ModeForNewDocumentsPreferenceKey;
 extern NSString * const AdditionalShownPathComponentsPreferenceKey;
-extern NSString * const MyNamePreferenceKey ;
-extern NSString * const MyAIMPreferenceKey  ;
+extern NSString * const MyNamePreferenceKey;
+extern NSString * const MyAIMPreferenceKey ;
 extern NSString * const MyEmailPreferenceKey;
-extern NSString * const MyAIMIdentifierPreferenceKey  ;
+extern NSString * const MyAIMIdentifierPreferenceKey;
 extern NSString * const MyEmailIdentifierPreferenceKey;
-extern NSString * const MyNamesPreferenceKey ;
-extern NSString * const MyAIMsPreferenceKey  ;
+extern NSString * const MyNamesPreferenceKey;
+extern NSString * const MyAIMsPreferenceKey;
 extern NSString * const MyEmailsPreferenceKey;
 extern NSString * const SynthesiseFontsPreferenceKey;
+extern NSString * const OpenNewDocumentInTabKey;
+extern NSString * const AlwaysShowTabBarKey;
 
 @class DocumentModePopUpButton;
 
 @interface GeneralPreferences : TCMPreferenceModule {
     IBOutlet NSButton    *O_useAddressbookButton;
     IBOutlet NSImageView *O_pictureImageView;
-    IBOutlet NSTextField * O_nameTextField;
-    IBOutlet NSComboBox  *  O_aimComboBox;
+    IBOutlet NSTextField *O_nameTextField;
+    IBOutlet NSComboBox  *O_aimComboBox;
     IBOutlet NSComboBox  *O_emailComboBox;
 
     IBOutlet NSPopUpButton *O_colorsPopUpButton;

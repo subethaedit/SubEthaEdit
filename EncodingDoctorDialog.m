@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 11.09.06.
-//  Copyright 2006 TheCodingMonkeys. All rights reserved.
+//  Copyright 2006-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import "EncodingDoctorDialog.h"
@@ -144,6 +144,10 @@
 
 - (IBAction)cancel:(id)aSender {
     [self orderOut:self];
+}
+
+- (id)initialFirstResponder {
+    return O_tableView;
 }
 
 - (void)takeNoteOfOperation:(TCMMMOperation *)anOperation transformator:(TCMMMTransformator *)aTransformator {

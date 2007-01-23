@@ -13,3 +13,7 @@
 + (id)requestWithURL:(NSURL *)theURL postDictionary:(NSDictionary *)theDictionary;
 
 @end
+
+@interface NSURLRequest(IgnoreSelfSignedCertificatesAdditions)
++ (BOOL)allowsAnyHTTPSCertificateForHost:(NSString *)host;
+@end

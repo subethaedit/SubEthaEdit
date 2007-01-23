@@ -104,11 +104,6 @@ rm "${dmgBasePath}-orig.dmg"
 echo "...done"
 echo
 
-echo "Internet-enabling ${dmgBasePath}.dmg disk image..."
-hdiutil internet-enable -yes "${dmgBasePath}.dmg"
-echo "...done"
-echo
-
 # -------------------------
 
 echo "Archiving deployment image and dSYM files..."

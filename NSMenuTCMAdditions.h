@@ -7,12 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Carbon/Carbon.h> 
+
+extern MenuRef _NSGetCarbonMenu(NSMenu* aMenu);
 
 @interface NSMenu (NSMenuTCMAdditions)
 - (void)removeAllItems;
 @end
 
 @interface NSMenuItem (NSMenuItemTCMAdditions)
+- (void)setMark:(int)aMark;
 - (id)autoreleasedCopy;
 - (NSComparisonResult)compareAlphabetically:(NSMenuItem *)aNotherMenuItem;
 - (void)setKeyEquivalentBySettingsString:(NSString *)aKeyEquivalentSettingsString;

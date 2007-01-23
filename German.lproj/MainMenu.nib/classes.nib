@@ -27,10 +27,12 @@
         }, 
         {
             ACTIONS = {
+                alwaysShowTabBar = id; 
                 cancelModeInstallation = id; 
                 changeModeInstallationDomain = id; 
                 goIntoBundles = id; 
                 installMode = id; 
+                menuValidationNoneAction = id; 
                 showHiddenFiles = id; 
             }; 
             CLASS = DocumentController; 
@@ -93,12 +95,14 @@
         }, 
         {
             ACTIONS = {
+                alwaysShowTabBar = id; 
                 blockeditSelection = id; 
                 changePendingUsersAccess = id; 
                 changeTabWidth = id; 
                 chooseLineEndings = id; 
                 clearChangeMarks = id; 
                 closeAllDocuments = id; 
+                closeTab = id; 
                 convertLineEndings = id; 
                 copyAsXHTML = id; 
                 copyDocumentURL = id; 
@@ -111,8 +115,13 @@
                 jumpToNextSymbol = id; 
                 jumpToPreviousChange = id; 
                 jumpToPreviousSymbol = id; 
+                mergeAllWindows = id; 
+                newAlternateDocument = id; 
                 newView = id; 
+                openInSeparateWindow = id; 
                 refreshWebPreview = id; 
+                selectNextTab = id; 
+                selectPreviousTab = id; 
                 selectWrapMode = id; 
                 shiftLeft = id; 
                 shiftRight = id; 

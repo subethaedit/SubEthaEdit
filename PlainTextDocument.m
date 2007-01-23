@@ -8,12 +8,15 @@
 
 #import <Carbon/Carbon.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#import <objc/objc-runtime.h>			// for objc_msgSend
 
+#import <PSMTabBarControl/PSMTabBarControl.h>
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
 #import "DocumentController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
+#import "PlainTextWindowControllerTabContext.h"
 #import "WebPreviewWindowController.h"
 #import "DocumentProxyWindowController.h"
 #import "UndoManager.h"
@@ -68,8 +71,6 @@ struct SelectionRange
 static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
 
-#pragma mark -
-
 static NSString * const PlainTextDocumentSyntaxColorizeNotification =
                       @"PlainTextDocumentSyntaxColorizeNotification";
 static NSString * PlainTextDocumentInvalidateLayoutNotification =
@@ -101,6 +102,20 @@ NSString * const PlainTextDocumentDidSaveNotification =
                @"PlainTextDocumentDidSaveNotification";
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
+
+
+// Something that's used by our override of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: down below.
+@interface PlainTextDocumentShouldCloseContext : NSObject {
+    @public
+    PlainTextWindowController *windowController;
+    id originalDelegate;
+    SEL originalSelector;
+    void *originalContext;
+}
+@end
+@implementation PlainTextDocumentShouldCloseContext
+@end
+
 
 @interface PlainTextDocument (PlainTextDocumentPrivateAdditions)
 - (void)TCM_invalidateDefaultParagraphStyle;
@@ -152,6 +167,11 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
     [attributes release];
     [style release];
+}
+
++ (PlainTextDocument *)transientDocument
+{
+    return transientDocument;
 }
 
 static NSString *tempFileName(NSString *origPath) {
@@ -302,7 +322,7 @@ static NSString *tempFileName(NSString *origPath) {
     NSEnumerator *controllers=[[self windowControllers] objectEnumerator];
     id controller=nil;
     while ((controller=[controllers nextObject])) {
-        if ([controller isKindOfClass:[PlainTextWindowController class]]) {
+        if ([controller isKindOfClass:[PlainTextWindowController class]] && ![(PlainTextWindowController *)controller hasManyDocuments]) {
             [(PlainTextWindowController *)controller 
                 setSizeByColumns:[[[self documentMode] defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
                             rows:[[[self documentMode] defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
@@ -827,8 +847,8 @@ static NSString *tempFileName(NSString *origPath) {
     return self;
 }
 
-- (void)dealloc {
-
+- (void)dealloc
+{
     if (I_authRef != NULL) {
         (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
         I_authRef = NULL;
@@ -851,6 +871,7 @@ static NSString *tempFileName(NSString *origPath) {
         [I_session abandon];
     }
     
+    //[I_identifier release];
     [I_symbolUpdateTimer release];
     [I_webPreviewDelayedRefreshTimer release];
 
@@ -892,11 +913,89 @@ static NSString *tempFileName(NSString *origPath) {
     [I_documentBackgroundColor release];
     [I_documentForegroundColor release];
     [I_printOptions autorelease];
+    [I_scheduledAlertDictionary release];
 
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
 }
+
+- (void)setScheduledAlertDictionary:(NSDictionary *)dict
+{
+    [dict retain];
+    [I_scheduledAlertDictionary release];
+    I_scheduledAlertDictionary = dict;
+}
+
+- (NSDictionary *)scheduledAlertDictionary
+{
+    return I_scheduledAlertDictionary;
+}
+
+- (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo
+{
+    if (alert == nil) return;
+    
+    NSArray *orderedWindows = [NSApp orderedWindows];
+    unsigned minIndex = NSNotFound;
+    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
+    PlainTextWindowController *windowController;
+    while ((windowController = [enumerator nextObject])) {
+        if ([[windowController document] isEqual:self] && [[windowController window] attachedSheet] == nil) {
+            minIndex = MIN(minIndex, [orderedWindows indexOfObjectIdenticalTo:[windowController window]]);
+        } 
+    }
+    
+    if (minIndex != NSNotFound) {
+        NSWindow *window = [orderedWindows objectAtIndex:minIndex];
+        [window makeKeyAndOrderFront:self];
+        [alert beginSheetModalForWindow:window
+                          modalDelegate:delegate
+                         didEndSelector:didEndSelector
+                            contextInfo:contextInfo];
+    } else {
+        // Schedule alert for display
+        
+        NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
+        PlainTextWindowController *windowController;
+        while ((windowController = [enumerator nextObject])) {
+            NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:self];
+            if (tabViewItem) [[tabViewItem identifier] setIsAlertScheduled:YES];
+        }
+
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:alert forKey:@"Alert"];
+        if (delegate) [dict setObject:delegate forKey:@"ModalDelegate"];
+        if (didEndSelector) {
+            NSValue *selectorValue = [NSValue value:&didEndSelector withObjCType:@encode(SEL)];
+            [dict setObject:selectorValue forKey:@"DidEndSelector"];
+        }
+        if (contextInfo) {
+            NSValue *contextInfoValue = [NSValue value:&contextInfo withObjCType:@encode(void *)];
+            [dict setObject:contextInfoValue forKey:@"ContextInfo"];
+        }
+        [self setScheduledAlertDictionary:dict];
+    }
+}
+
+- (void)presentScheduledAlertForWindow:(NSWindow *)window
+{
+    NSDictionary *dict = [self scheduledAlertDictionary];
+    NSAlert *alert = [dict objectForKey:@"Alert"];
+    id modalDelegate = [dict objectForKey:@"ModalDelegate"];
+    SEL didEndSelector = NULL;
+    NSValue *selectorValue = [dict objectForKey:@"DidEndSelector"];
+    if (selectorValue) [selectorValue getValue:&didEndSelector];
+    void *contextInfo = NULL;
+    NSValue *contextInfoValue = [dict objectForKey:@"ContextInfo"];
+    if (contextInfoValue) [contextInfoValue getValue:&contextInfo];
+    
+    [alert beginSheetModalForWindow:window
+                      modalDelegate:modalDelegate
+                     didEndSelector:didEndSelector
+                        contextInfo:contextInfo];
+}
+
 
 #pragma mark -
 #pragma mark ### accessors ###
@@ -1257,8 +1356,9 @@ static NSString *tempFileName(NSString *origPath) {
 
 
 - (IBAction)newView:(id)aSender {
-    if (!I_flags.isReceivingContent && [[self windowControllers] count]>0) {
-        PlainTextWindowController *controller=[PlainTextWindowController new];
+    if (!I_flags.isReceivingContent && [[self windowControllers] count] > 0) {
+        PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
+        [[DocumentController sharedInstance] addWindowController:controller];
         [self addWindowController:controller];
         [controller showWindow:aSender];
         [controller release];
@@ -1294,13 +1394,13 @@ static NSString *tempFileName(NSString *origPath) {
         [alert addButtonWithTitle:NSLocalizedString(@"Convert", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Reinterpret", nil)];
-        [alert beginSheetModalForWindow:[self windowForSheet]
-                          modalDelegate:self
-                         didEndSelector:@selector(selectEncodingAlertDidEnd:returnCode:contextInfo:)
-                            contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                            @"SelectEncodingAlert", @"Alert",
-                                                            [NSNumber numberWithUnsignedInt:encoding], @"Encoding",
-                                                            nil] retain]];
+        [self presentAlert:alert
+             modalDelegate:self
+            didEndSelector:@selector(selectEncodingAlertDidEnd:returnCode:contextInfo:)
+               contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                @"SelectEncodingAlert", @"Alert",
+                                                [NSNumber numberWithUnsignedInt:encoding], @"Encoding",
+                                                nil] retain]];
     }
 }
 
@@ -1354,10 +1454,10 @@ static NSString *tempFileName(NSString *origPath) {
                 [newAlert setMessageText:NSLocalizedString(@"Error", nil)];
                 [newAlert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Encoding %@ not reinterpretable", nil), [NSString localizedNameOfStringEncoding:encoding]]];
                 [newAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-                [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                     modalDelegate:nil
-                                    didEndSelector:nil
-                                       contextInfo:NULL];
+                [self presentAlert:newAlert
+                     modalDelegate:nil
+                    didEndSelector:nil
+                       contextInfo:NULL];
                 // didn't work so update bottom status bar to previous state
                 [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
             } else {
@@ -1381,9 +1481,136 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+
+#pragma mark Overrides of NSDocument Methods to Support MultiDocument Windows
+
+static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
+
 - (void)makeWindowControllers {
-    [self addWindowController:[[PlainTextWindowController new] autorelease]];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
+        PlainTextWindowController *controller = [[DocumentController sharedDocumentController] activeWindowController];
+        [self addWindowController:controller];
+        [[(PlainTextWindowController *)controller tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
+    } else {
+        PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
+        [self addWindowController:controller];
+        [[DocumentController sharedInstance] addWindowController:controller];
+        [controller release];
+    }
 }
+
+- (void)addWindowController:(NSWindowController *)windowController 
+{
+    // -[NSDocument addWindowController:] does something foul: it checks to see if the window controller already has a document, and if so sends that other document a -removeWindowController:windowController message. That's the wrong thing to do (it's -[NSWindowController setDocument:]'s job to worry about that) and interferes with our support for window controllers that display multiple documents. Prevent it.
+    PlainTextDocumentIgnoreRemoveWindowController = YES;
+    //[windowController addDocument:self];
+    [super addWindowController:windowController];
+    PlainTextDocumentIgnoreRemoveWindowController = NO;
+}
+
+- (void)removeWindowController:(NSWindowController *)windowController
+{
+    if (!PlainTextDocumentIgnoreRemoveWindowController) {
+        [super removeWindowController:windowController];
+    }
+
+    if ([[self windowControllers] count] != 0) {
+        // if doing always, we delay the dealloc method ad inifitum on quit
+        [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
+    }
+}
+
+- (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
+{
+    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
+    NSWindowController *windowController;
+    unsigned count = [[self windowControllers] count];
+    unsigned found = 0;
+    while ((windowController = [enumerator nextObject])) {
+        if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+            found++;
+        }
+    }
+    
+    if (count > 1 && count == found) {
+        if ([delegate respondsToSelector:shouldCloseSelector]) {
+            ((void (*)(id, SEL, id, BOOL, void (*)))objc_msgSend)(delegate, shouldCloseSelector, self, YES, contextInfo);
+        }
+    } else {
+        [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
+    }
+}   
+
+- (void)shouldCloseWindowController:(NSWindowController *)windowController delegate:(id)delegate shouldCloseSelector:(SEL)selector contextInfo:(void *)contextInfo 
+{
+    if ([windowController isKindOfClass:[PlainTextWindowController class]] && [(PlainTextWindowController *)windowController hasManyDocuments]) {
+        [(PlainTextWindowController *)windowController closeAllTabs];
+    } else {
+        // NSWindow invokes this directly; there's nothing we can override in NSWindowController instead.
+
+        // Do the regular NSDocument thing, but take control afterward if it's a multidocument window controller. To do this we have to record the original parameters of this method invocation.
+        PlainTextDocumentShouldCloseContext *replacementContext = [[PlainTextDocumentShouldCloseContext alloc] init];
+        replacementContext->windowController = (PlainTextWindowController *)windowController;
+        replacementContext->originalDelegate = delegate;
+        replacementContext->originalSelector = selector;
+        replacementContext->originalContext = contextInfo;
+        delegate = self;
+        selector = @selector(thisDocument:shouldClose:contextInfo:);
+        contextInfo = replacementContext;
+        
+        [super shouldCloseWindowController:windowController delegate:delegate shouldCloseSelector:selector contextInfo:contextInfo];
+    }
+}
+
+
+- (void)thisDocument:(NSDocument *)document shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
+{
+    PlainTextDocumentShouldCloseContext *replacementContext = (PlainTextDocumentShouldCloseContext *)contextInfo;
+
+    // Always tell the original invoker of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: not to close the window controller (it's actually the NSWindow in Tiger and every earlier release). We might not want the window controller to be closed. Even if we want it to be closed, we want to do it by invoking our override of -close, which will always cause the window controller to get a -close message, which is necessary for some cleanup.
+    // Sketch 2 is still a work in progress! Using objc_msgSend() like this isn't really considered exemplary.
+    objc_msgSend(replacementContext->originalDelegate, replacementContext->originalSelector, document, NO, replacementContext->originalContext);
+    if (shouldClose) {
+        NSArray *windowControllers = [self windowControllers];
+        unsigned int windowControllerCount = [windowControllers count];
+        if (windowControllerCount > 1) {
+            PlainTextWindowController *windowController = replacementContext->windowController;
+            [windowController documentWillClose:self];
+            [windowController close];
+        } else {
+            [self close];
+        }
+    }   
+    [replacementContext release];
+}
+
+
+- (void)close
+{
+    // The window controller are going to get -close messages of their own when we invoke [super close]. If one of them is a multidocument window controller tell it who the -close message is coming from.
+    NSArray *windowControllers = [self windowControllers];
+    unsigned int windowControllerCount = [windowControllers count];
+    unsigned int index;
+    for (index = 0; index < windowControllerCount; index++) {
+        NSWindowController *windowController = [windowControllers objectAtIndex:index];
+        [(PlainTextWindowController *)windowController documentWillClose:self];
+    }
+    
+    // terminate syntax coloring
+    I_flags.highlightSyntax = NO;
+    [I_symbolUpdateTimer invalidate];
+    [I_webPreviewDelayedRefreshTimer invalidate];
+    [self TCM_sendODBCloseEvent];
+    if (I_authRef != NULL) {
+        (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
+        I_authRef = NULL;
+    }
+
+    // Do the regular NSDocument thing.
+    [super close];
+}
+
+#pragma mark -
 
 - (BOOL)isProxyDocument {
     return ((I_documentProxyWindowController != nil) || I_flags.isReceivingContent);
@@ -1411,6 +1638,12 @@ static NSString *tempFileName(NSString *origPath) {
             [session cancelJoin];
         }
         [[DocumentController sharedInstance] removeDocument:[[self retain] autorelease]];
+
+    } else {
+        PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+//        if (![windowController hasManyDocuments]) {
+            [windowController showWindow:self];
+//        }
     }
 }
 
@@ -1422,22 +1655,8 @@ static NSString *tempFileName(NSString *origPath) {
     [self killProxyWindowController];
 }
 
-- (void)removeWindowController:(NSWindowController *)windowController {
-    [super removeWindowController:windowController];
-    if ([[self windowControllers] count] == 0) {
-        // terminate syntax coloring
-        I_flags.highlightSyntax = NO;
-        [I_symbolUpdateTimer invalidate];
-        [I_webPreviewDelayedRefreshTimer invalidate];
-        [self TCM_sendODBCloseEvent];
-        if (I_authRef != NULL) {
-            (void)AuthorizationFree(I_authRef, kAuthorizationFlagDestroyRights);
-            I_authRef = NULL;
-        }
-    } else {
-        // if doing always, we delay the dealloc method ad inifitum on quit
-        [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
-    }
+- (DocumentProxyWindowController *)proxyWindowController {
+    return I_documentProxyWindowController;
 }
 
 - (void)TCM_validateLineEndings {
@@ -1519,15 +1738,21 @@ static NSString *tempFileName(NSString *origPath) {
             [alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName]];
             [alert addButtonWithTitle:NSLocalizedString(@"Keep Line Endings", nil)];
             [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [alert beginSheetModalForWindow:[self windowForSheet]
-                              modalDelegate:self
-                             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                                contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                @"MixedLineEndingsAlert", @"Alert",
-                                                                [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
-                                                                nil] retain]];
+            [self presentAlert:alert
+                 modalDelegate:self
+                didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"MixedLineEndingsAlert", @"Alert",
+                                                    [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
+                                                    nil] retain]];
         }
     }
+}
+
+- (void)showWindowController:(id)aSender {
+    [[aSender representedObject] selectTabForDocument:self];
+    [[aSender representedObject] showWindow:self];
+    [self showWindows];
 }
 
 - (void)showWindows {    
@@ -1542,6 +1767,7 @@ static NSString *tempFileName(NSString *origPath) {
             NSWindow *window = [[self topmostWindowController] window];
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
+        [[self topmostWindowController] selectTabForDocument:self];
         [[self topmostWindowController] showWindow:self];
     }
     
@@ -1554,17 +1780,20 @@ static NSString *tempFileName(NSString *origPath) {
         transientDocument = self;
         transientDocumentWindowFrame = [[[transientDocument topmostWindowController] window] frame];
     }
-    
+}
+
+- (void)TCM_validateSizeAndLineEndings
+{
     if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSInformationalAlertStyle];
         [alert setMessageText:NSLocalizedString(@"Syntax Highlighting and Wrap Lines have been turned off due to the size of the Document.", @"BigFile Message Text")];
         [alert setInformativeText:NSLocalizedString(@"Turning on Syntax Highlighting for very large Documents is not recommended.", @"BigFile Informative Text")];
         [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-        [alert beginSheetModalForWindow:[self windowForSheet]
-                          modalDelegate:self
-                         didEndSelector:@selector(bigDocumentAlertDidEnd:returnCode:contextInfo:)
-                            contextInfo:nil];
+        [self presentAlert:alert
+             modalDelegate:self
+            didEndSelector:@selector(bigDocumentAlertDidEnd:returnCode:contextInfo:)
+               contextInfo:nil];
     } else {
         [self TCM_validateLineEndings];
     }
@@ -2189,6 +2418,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 [self setDocumentMode:mode];
             }
             I_flags.shouldSelectModeOnSave=NO;
+        }
+        // we have saved, so no more extension changing
+        if (I_flags.shouldChangeExtensionOnModeChange) {
             I_flags.shouldChangeExtensionOnModeChange=NO;
         }
 
@@ -2606,6 +2838,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self updateChangeCount:NSChangeCleared];
 
     I_flags.isReadingFile = NO;
+    [self performSelector:@selector(TCM_validateSizeAndLineEndings) withObject:nil afterDelay:0.0f];
 
     return YES;
 }
@@ -2969,10 +3202,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                 [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
                                 [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Replace failed", @"Informative text in an alert which tells the you user that replacing the file failed")];
                                 [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                                [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                                     modalDelegate:nil
-                                                    didEndSelector:nil
-                                                       contextInfo:NULL];
+                                [self presentAlert:newAlert
+                                     modalDelegate:nil
+                                    didEndSelector:nil
+                                       contextInfo:NULL];
                             }
                         } else {
                             (void)[fileManager removeFileAtPath:tempFilePath handler:nil];
@@ -2981,10 +3214,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                             [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
                             [newAlert setInformativeText:NSLocalizedString(@"AlertInformativeText: Error occurred during replace", @"Informative text in an alert which tells the user that an error prevented the replace")];
                             [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                            [newAlert beginSheetModalForWindow:[self windowForSheet]
-                                                 modalDelegate:nil
-                                                didEndSelector:nil
-                                                   contextInfo:NULL];
+                            [self presentAlert:newAlert
+                                 modalDelegate:nil
+                                didEndSelector:nil
+                                   contextInfo:NULL];
 
                         }
                     }
@@ -3030,11 +3263,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)TCM_validateDocument {
-    NSWindow *window = [self windowForSheet];
-    if (!window) {
-        return YES;
-    }
-
     NSString *fileName = [self fileName];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Validate document: %@", fileName);
 
@@ -3052,12 +3280,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [alert addButtonWithTitle:NSLocalizedString(@"Keep SubEthaEdit Version", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
         [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-        [alert beginSheetModalForWindow:window
-                          modalDelegate:self
-                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                            contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                            @"DocumentChangedExternallyAlert", @"Alert",
-                                                            nil] retain]];
+        [self presentAlert:alert
+             modalDelegate:self
+            didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+               contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                @"DocumentChangedExternallyAlert", @"Alert",
+                                                nil] retain]];
 
         return NO;
     }
@@ -3138,6 +3366,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return ![self isProxyDocument];
     } else if (selector == @selector(clearChangeMarks:)) {
         return ![self isProxyDocument];
+    } else if (selector == @selector(showWindowController:)) {
+        if ([self isDocumentEdited]) {
+            [anItem setMark:kBulletCharCode];
+        } else {
+            [anItem setMark:noMark];
+        }
+        id wc = [anItem representedObject];
+        if ([[anItem representedObject] document] == self &&
+            ([[wc window] isKeyWindow] || 
+             [[wc window] isMainWindow])) {
+            [anItem setState:NSOnState];
+            [anItem setMark:kCheckCharCode];
+        }
+        return ![[wc window] attachedSheet] || ([[wc window] attachedSheet] && [wc document] == self);
     }
 
 //    if (selector==@selector(undo:)) {
@@ -3213,10 +3455,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [alert addButtonWithTitle:NSLocalizedString(@"Edit anyway", nil)];
         [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-        [alert beginSheetModalForWindow:[self windowForSheet]
-                          modalDelegate:self
-                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                            contextInfo:[contextInfo retain]];
+        [self presentAlert:alert
+             modalDelegate:self
+            didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+               contextInfo:[contextInfo retain]];
     } else {
         TextStorage *textStorage=(TextStorage *)[self textStorage];
         [textStorage setShouldWatchLineEndings:NO];
@@ -3509,18 +3751,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag {
     PlainTextWindowController *windowController=[self topmostWindowController];
+    [windowController selectTabForDocument:self];
     [windowController gotoLine:aLine];
     if (aFlag) [[windowController window] makeKeyAndOrderFront:self];
 }
 
 - (void)selectRange:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
+    [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
     [[windowController window] makeKeyAndOrderFront:self];
 }
 
 - (void)selectRangeInBackground:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
+    [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
 }
 
@@ -4038,6 +4283,14 @@ static NSString *S_measurementUnits;
     if (changeType==NSChangeCleared || I_flags.shouldChangeChangeCount) {
         [super updateChangeCount:changeType];
     }
+    
+    NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
+    id windowController;
+    while ((windowController = [enumerator nextObject])) {
+        if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+            [(PlainTextWindowController *)windowController documentUpdatedChangeCount:self];
+        }
+    }
 }
 
 - (void)setIsDocumentEdited:(BOOL)aFlag {
@@ -4180,9 +4433,13 @@ static NSString *S_measurementUnits;
 
 - (void)sessionDidReceiveKick:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
-    NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"Kicked",@"Kick title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"KickedInfo",@"Kick info in Sheet")];
+    
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
     [alert setAlertStyle:NSInformationalAlertStyle];
-    [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+    [alert setMessageText:NSLocalizedString(@"Kicked", @"Kick title in Sheet")];
+    [alert setInformativeText:NSLocalizedString(@"KickedInfo", @"Kick info in Sheet")];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
+    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
 - (void)sessionDidCancelInvitation:(TCMMMSession *)aSession {
@@ -4191,9 +4448,13 @@ static NSString *S_measurementUnits;
 
 - (void)sessionDidReceiveClose:(TCMMMSession *)aSession {
     [self TCM_generateNewSession];
-    NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"Closed",@"Server Closed Document title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"ClosedInfo",@"Server Closed Document info in Sheet")];
+
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
     [alert setAlertStyle:NSInformationalAlertStyle];
-    [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+    [alert setMessageText:NSLocalizedString(@"Closed", @"Server Closed Document title in Sheet")];
+    [alert setInformativeText:NSLocalizedString(@"ClosedInfo", @"Server Closed Document info in Sheet")];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
+    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession {
@@ -4201,11 +4462,17 @@ static NSString *S_measurementUnits;
         [self TCM_generateNewSession];
         if (I_flags.isReceivingContent) {
             PlainTextWindowController *controller=[[self windowControllers] objectAtIndex:0];
-            [controller didLoseConnection];
+            [controller documentDidLoseConnection:self];
         } else {
-            NSAlert *alert=[NSAlert alertWithMessageText:NSLocalizedString(@"LostConnection",@"LostConnection title in Sheet") defaultButton:NSLocalizedString(@"OK",@"Ok in sheet") alternateButton:@"" otherButton:@"" informativeTextWithFormat:NSLocalizedString(@"LostConnectionInfo",@"LostConnection info in Sheet")];
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSInformationalAlertStyle];
-            [alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+            [alert setMessageText:NSLocalizedString(@"LostConnection", @"LostConnection title in Sheet")];
+            [alert setInformativeText:NSLocalizedString(@"LostConnectionInfo", @"LostConnection info in Sheet")];
+            [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
+            [self presentAlert:alert
+                 modalDelegate:nil
+                didEndSelector:NULL
+                   contextInfo:nil];
         }
     } else if (I_documentProxyWindowController) {
         [I_documentProxyWindowController didLoseConnection];
@@ -4228,11 +4495,29 @@ static NSString *S_measurementUnits;
     //[self setFileName:[aSession filename]];
     [self setTemporaryDisplayName:[aSession filename]];
 
-    [self makeWindowControllers];
-    PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
+    // this is slightly modified make window controllers code ...
+    [self makeWindowControllers]; 
+    PlainTextWindowController *windowController=[[self windowControllers] lastObject];
+    
+    [[windowController tabBar] updateViewsHack];
     I_flags.isReceivingContent=YES;
-    [windowController setIsReceivingContent:YES];
+    [windowController document:self isReceivingContent:YES];
+    
+    BOOL closeTransient = transientDocument 
+                          && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+                          && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
+
+    if (closeTransient) {
+        NSWindow *window = [[self topmostWindowController] window];
+        [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
+        [transientDocument close];
+    }
+
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
+    
+    if (closeTransient) {
+        transientDocument = nil;
+    }
 }
 
 - (NSDictionary *)sessionInformation {
@@ -4285,7 +4570,7 @@ static NSString *S_measurementUnits;
         [self setContentByDictionaryRepresentation:aContent];
         I_flags.isReceivingContent = NO;
         PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
-        [windowController setIsReceivingContent:NO];
+        [windowController document:self isReceivingContent:NO];
     }
     I_flags.isReceivingContent = NO;
 }
@@ -4318,10 +4603,10 @@ static NSString *S_measurementUnits;
 
 - (NSArray *)plainTextEditors {
     NSMutableArray *result = [NSMutableArray array];
-    NSEnumerator *windowControllers=[[self windowControllers] objectEnumerator];
+    NSEnumerator *windowControllers = [[self windowControllers] objectEnumerator];
     PlainTextWindowController *windowController;
-    while ((windowController=[windowControllers nextObject])) {
-        [result addObjectsFromArray:[windowController plainTextEditors]];
+    while ((windowController = [windowControllers nextObject])) {
+        [result addObjectsFromArray:[windowController plainTextEditorsForDocument:self]];
     }
     return result;
 }
@@ -5027,22 +5312,18 @@ static NSString *S_measurementUnits;
 
 - (NSString *)scriptedContents
 {
-    // NSLog(@"%s", __FUNCTION__);
     return [I_textStorage string];
 }
 
 - (void)setScriptedContents:(id)value {
-    // NSLog(@"%s: %d", __FUNCTION__, value);
     [self replaceTextInRange:NSMakeRange(0,[I_textStorage length]) withString:value];
 }
 
 - (TextStorage *)scriptedPlainContents {
-    // NSLog(@"%s", __FUNCTION__);
     return (TextStorage *)I_textStorage;
 }
 
 - (void)setScriptedPlainContents:(id)value {
-    // NSLog(@"%s: %@", __FUNCTION__, value);
     if ([value isKindOfClass:[NSString class]]) {
         [self replaceTextInRange:NSMakeRange(0, [I_textStorage length]) withString:value];
     }
@@ -5081,7 +5362,7 @@ static NSString *S_measurementUnits;
     NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
     NSWindow *window;
     while ((window = [windowsEnumerator nextObject])) {
-        if ([[[window windowController] document] isEqual:self] && ![self isProxyDocument]) {
+        if ([[[window windowController] documents] containsObject:self] && ![self isProxyDocument]) {
             [orderedWindows addObject:window];
         }
     }
