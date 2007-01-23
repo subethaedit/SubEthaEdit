@@ -1908,6 +1908,29 @@ enum {
     [[self document] canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
 }
 
+- (void)closeAllTabsAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+    [[alert window] orderOut:self];
+
+    if (returnCode == NSAlertFirstButtonReturn) {
+        NSLog(@"review tabs");
+        [self reviewChangesAndQuitEnumeration:YES];
+        //return;
+    } else if (returnCode == NSAlertSecondButtonReturn) {
+        NSLog(@"cancel");
+    } else if (returnCode == NSAlertThirdButtonReturn) {
+        NSLog(@"close all tabs unreviewed");
+        NSArray *documents = [self documents];
+        unsigned count = [documents count];
+        while (count--) {
+            PlainTextDocument *document = [documents objectAtIndex:count];
+            [self documentWillClose:document];
+            [document close];
+        }
+        //return;
+    }
+}
+
 - (void)closeAllTabs
 {
     NSArray *documents = [self documents];
@@ -1921,41 +1944,32 @@ enum {
         if (document && [document isDocumentEdited]) needsSaving++;
     }
     if (needsSaving > 0) {
-        int choice = NSAlertDefaultReturn;	// Meaning, review changes
         if (needsSaving > 1) {	// If we only have 1 unsaved document, we skip the "review changes?" panel
+        
             NSString *title = [NSString stringWithFormat:NSLocalizedString(@"You have %d documents in this window with unsaved changes. Do you want to review these changes?", nil), needsSaving];
-            choice = NSRunAlertPanel(title, 
-                NSLocalizedString(@"If you don\\U2019t review your documents, all your changes will be lost.", @"Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents."), 
-                NSLocalizedString(@"Review Changes\\U2026", @"Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first."), 	// ellipses
-                NSLocalizedString(@"Discard Changes", @"Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents."), 
-                NSLocalizedString(@"Cancel", @"Button choice allowing user to cancel."));
-            if (choice == NSAlertOtherReturn) {
-                //NSLog(@"Cancelled...");       	/* Cancel */
-                return;
-            }
-        }
-        if (choice == NSAlertDefaultReturn) {	/* Review unsaved; Quit Anyway falls through */
+            
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:title];
+            [alert setInformativeText:NSLocalizedString(@"If you don\\U2019t review your documents, all your changes will be lost.", @"Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents.")];
+            [alert addButtonWithTitle:NSLocalizedString(@"Review Changes\\U2026", @"Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first.")];
+            [alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Button choice allowing user to cancel.")];
+            [alert addButtonWithTitle:NSLocalizedString(@"Discard Changes", @"Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents.")];
+            [alert beginSheetModalForWindow:[self window]
+                              modalDelegate:self
+                             didEndSelector:@selector(closeAllTabsAlertDidEnd:returnCode:contextInfo:)
+                                contextInfo:nil];
+        } else {
             [self reviewChangesAndQuitEnumeration:YES];
-            return;
-        } else if (choice == NSAlertAlternateReturn) {
-            //NSLog(@"close all tabs unreviewed");
-            NSArray *documents = [self documents];
-            unsigned count = [documents count];
-            while (count--) {
-                PlainTextDocument *document = [documents objectAtIndex:count];
-                [self documentWillClose:document];
-                [document close];
-            }
-            return;
         }
-    }
-    
-    documents = [self documents];
-    count = [documents count];
-    while (count--) {
-        PlainTextDocument *document = [documents objectAtIndex:count];
-        [self documentWillClose:document];
-        [document close];
+    } else {
+        documents = [self documents];
+        count = [documents count];
+        while (count--) {
+            PlainTextDocument *document = [documents objectAtIndex:count];
+            [self documentWillClose:document];
+            [document close];
+        }
     }
 }
 
