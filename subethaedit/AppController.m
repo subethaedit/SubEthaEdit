@@ -699,7 +699,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (void)documentModeListDidChange:(NSNotification *)aNotification {
-    NSLog(@"%s",__FUNCTION__);
     // fix file->new menu
     [self performSelector:@selector(addShortcutToModeForNewDocumentsEntry)          withObject:nil afterDelay:0.0];
     [self performSelector:@selector(addShortcutToModeForNewAlternateDocumentsEntry) withObject:nil afterDelay:0.0];
