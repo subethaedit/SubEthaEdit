@@ -1923,7 +1923,7 @@ enum {
     if (needsSaving > 0) {
         int choice = NSAlertDefaultReturn;	// Meaning, review changes
         if (needsSaving > 1) {	// If we only have 1 unsaved document, we skip the "review changes?" panel
-            NSString *title = [NSString stringWithFormat:NSLocalizedString(@"You have %d documents with unsaved changes. Do you want to review these changes before quitting?", @"Title of alert panel which comes up when user chooses Quit and there are multiple unsaved documents."), needsSaving];
+            NSString *title = [NSString stringWithFormat:NSLocalizedString(@"You have %d documents in this window with unsaved changes. Do you want to review these changes?", nil), needsSaving];
             choice = NSRunAlertPanel(title, 
                 NSLocalizedString(@"If you don\\U2019t review your documents, all your changes will be lost.", @"Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents."), 
                 NSLocalizedString(@"Review Changes\\U2026", @"Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first."), 	// ellipses
