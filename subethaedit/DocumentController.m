@@ -1042,6 +1042,7 @@ static NSString *tempFileName() {
     int response = [alert runModal];
     if (NSAlertFirstButtonReturn == response) {
         PlainTextWindowController *targetWindowController = [self activeWindowController];
+        id document = [targetWindowController document];
         int count = [I_windowControllers count];
         while (--count >= 0) {
             PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
@@ -1051,6 +1052,7 @@ static NSString *tempFileName() {
                 [self removeWindowController:sourceWindowController];
             }
         }
+        [targetWindowController setDocument:document];
     }
     [alert release];
 }
