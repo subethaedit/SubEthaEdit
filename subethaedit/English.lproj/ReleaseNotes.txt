@@ -1,4 +1,44 @@
 
+SubEthaEdit 2.6
+===============
+
+Additions/New Features:
+- Editor windows can contain several documents respresented by tabs in a tab 
+  bar.
+- Added preference option for opening new documents in tabs.
+- Added additional New menu command for creating tabs.
+- Windows and tabs can be closed separately from each other.
+- Added 'Always Show Tab Bar' command to show or hide the tab bar.
+- A tab can be moved to a new window using the command 'Move Tab to New 
+  Window'.
+- All windows can be merged to a single window using the command 'Merge All 
+  Windows'.
+- Navigation between tabs with commands for selecting the next or previous tab.
+- Added 'Go to Tab' submenu for a listing of all tabs.
+- Tabs can be rearranged via drag and drop.
+- Tabs can also be dragged between windows.
+
+Changes:
+- Find All now highlights the first search result instead of the last after 
+  performing the search.
+- Invitations are now displayed on top of all other windows.
+
+Fixes:
+- Fixed a bug where a superfluous warning was showed when a mode file was 
+  opened.
+- Fixed several bugs in the German localization.
+- Fixed an bug where the Lowercase and Uppercase scripts didn't handle Unicode 
+  text correctly.
+- Fixed an issue where the Uppercase and Lowercase scripts inserted an 
+  unintended newline.
+- Fixed an issue where the highlight color for dark backgrounds was too dark to 
+  be noticable.
+- Fixed a bug where modes installed for all users couldn't be loaded.
+- Fixed a bug where the Open Terminal in Enclosing Folder script failed for 
+  paths containing quotes.
+- Improved modes: ActionScript, C, C++, HTML, Javascript, Lua, Objective-C, 
+  Python.
+
 SubEthaEdit 2.5.1
 =================
 
