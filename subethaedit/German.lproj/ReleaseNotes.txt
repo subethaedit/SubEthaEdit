@@ -23,7 +23,9 @@ Neue Funktionen:
 Veränderugen:
 - Die Funktion 'Alles suchen' hebt nun nach der Suche das erste Suchergebnis 
   anstatt dem letzten hervor.
-- Einladungen werden nun über allen anderen Fenstern dargestellt.
+- Einladungen werden nun über allen anderen Fenstern und in der rechten oberen 
+  Ecke des Bildschirms dargestellt.
+- Einladungen haben nun ein neues transparentes Erscheinungsbild.
 
 Korrekturen:
 - Ein Fehler, bei dem eine überflüssige Warnung beim Öffnen von Modus-Dateien 

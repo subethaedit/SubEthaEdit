@@ -21,7 +21,9 @@ Additions/New Features:
 Changes:
 - Find All now highlights the first search result instead of the last after 
   performing the search.
-- Invitations are now displayed on top of all other windows.
+- Invitations are now placed on top of all other windows and in upper right 
+  corner of the screen.
+- Invitations now feature a new transparent look.
 
 Fixes:
 - Fixed a bug where a superfluous warning was showed when a mode file was 
