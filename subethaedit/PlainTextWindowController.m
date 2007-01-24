@@ -1827,9 +1827,11 @@ enum {
         [self removeObjectFromDocumentsAtIndex:documentIndex];
         [I_tabView removeTabViewItem:tabViewItem];
 
-        [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
-        [document addWindowController:windowController];
-        [[windowController tabView] addTabViewItem:tabViewItem];
+        if (![[windowController documents] containsObject:document]) {
+            [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
+            [document addWindowController:windowController];
+            [[windowController tabView] addTabViewItem:tabViewItem];
+        }
 
         [tabViewItem release];
         [document release];
@@ -1913,13 +1915,8 @@ enum {
     [[alert window] orderOut:self];
 
     if (returnCode == NSAlertFirstButtonReturn) {
-        NSLog(@"review tabs");
         [self reviewChangesAndQuitEnumeration:YES];
-        //return;
-    } else if (returnCode == NSAlertSecondButtonReturn) {
-        NSLog(@"cancel");
     } else if (returnCode == NSAlertThirdButtonReturn) {
-        NSLog(@"close all tabs unreviewed");
         NSArray *documents = [self documents];
         unsigned count = [documents count];
         while (count--) {
@@ -1927,7 +1924,6 @@ enum {
             [self documentWillClose:document];
             [document close];
         }
-        //return;
     }
 }
 
