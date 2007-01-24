@@ -2086,6 +2086,7 @@ enum {
         [self insertObject:document inDocumentsAtIndex:[documents count]];
         PlainTextWindowControllerTabContext *tabContext = [[[PlainTextWindowControllerTabContext alloc] init] autorelease];
         [tabContext setDocument:(PlainTextDocument *)document];
+        [tabContext setIsEdited:[(PlainTextDocument *)document isDocumentEdited]];
         
         PlainTextLoadProgress *loadProgress = [[PlainTextLoadProgress alloc] init];
         [tabContext setLoadProgress:loadProgress];
