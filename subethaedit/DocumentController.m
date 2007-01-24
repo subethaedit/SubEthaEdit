@@ -189,11 +189,19 @@
                     // Create the request dictionary for copying the mode
 
                     if (err == noErr) {
+                    
+                    NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)];
+                    NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    filePermissions, NSFilePosixPermissions,
+                                                    @"root", NSFileOwnerAccountName,
+                                                    @"admin", NSFileGroupOwnerAccountName,
+                                                    nil];
+                                        
                         request = [NSDictionary dictionaryWithObjectsAndKeys:
                                             @"CopyFiles", @"CommandName",
                                             fileName, @"SourceFile",
                                             destination, @"TargetFile",
-                                            //targetAttrs, @"TargetAttributes",
+                                            targetAttrs, @"TargetAttributes",
                                             nil];
                     }
 

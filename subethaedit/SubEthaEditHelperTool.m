@@ -51,7 +51,16 @@ static OSStatus CopyFiles(CFStringRef sourceFile, CFStringRef targetFile, CFDict
         
         BOOL result = [fileManager copyPath:(NSString *)sourceFile toPath:(NSString *)targetFile handler:nil];
         if (result && targetAttrs != NULL) {
-            result = [fileManager changeFileAttributes:(NSDictionary *)targetAttrs atPath:(NSString *)targetFile];
+            if ([fileManager fileExistsAtPath:(NSString *)targetFile isDirectory:&isDir] && isDir) {
+                NSDirectoryEnumerator *direnum = [fileManager enumeratorAtPath:(NSString *)targetFile];
+                NSString *pname;
+                while ((pname = [direnum nextObject])) {
+                    (void)[fileManager changeFileAttributes:(NSDictionary *)targetAttrs atPath:[(NSString *)targetFile stringByAppendingPathComponent:pname]];
+                }
+                result = YES;
+            } else {
+                result = [fileManager changeFileAttributes:(NSDictionary *)targetAttrs atPath:(NSString *)targetFile];
+            }
         }
         err = result ? noErr : paramErr;
     }
