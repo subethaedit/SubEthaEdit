@@ -1133,7 +1133,9 @@ struct ModificationInfo
     } else if ([menuItem tag] == GotoTabMenuItemTag) {
         if ([[self documents] count] >0) {
             [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
+            return YES;
         } else {
+            [[menuItem submenu] removeAllItems];
             return NO;
         };
     } else if (selector == @selector(mergeAllWindows:)) {
