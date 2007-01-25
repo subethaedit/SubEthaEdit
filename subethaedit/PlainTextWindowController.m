@@ -506,9 +506,9 @@ enum {
 
     [tabViewItem release];
     [document release];
-    [document showWindows];
     [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
     [windowController setDocument:document];
+    [windowController showWindow:self];
     if ([O_participantsDrawer state] == NSDrawerOpenState) {
         [windowController openParticipantsDrawer:self];
     }
