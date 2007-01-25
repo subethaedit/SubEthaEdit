@@ -1961,7 +1961,12 @@ enum {
 
     while (count--) {
         PlainTextDocument *document = [documents objectAtIndex:count];
-        if (document && [document isDocumentEdited]) needsSaving++;
+        if (document &&
+            [document isDocumentEdited] &&
+            ([[document windowControllers] count] == 1))
+        {
+            needsSaving++;
+        }
     }
     if (needsSaving > 0) {
         if (needsSaving > 1) {	// If we only have 1 unsaved document, we skip the "review changes?" panel
