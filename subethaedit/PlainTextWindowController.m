@@ -413,6 +413,7 @@ enum {
 - (PlainTextEditor *)activePlainTextEditor {
     if ([I_plainTextEditors count]!=1) {
         id responder=[[self window] firstResponder];
+        //NSLog(@"%s responder:%@",__FUNCTION__, responder);
         if ([responder isKindOfClass:[NSTextView class]]) {
             if ([[I_plainTextEditors objectAtIndex:1] textView] == responder) {
                 return [I_plainTextEditors objectAtIndex:1];
@@ -430,14 +431,15 @@ enum {
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
         NSArray *plainTextEditors = [tabContext plainTextEditors];
-        if ([plainTextEditors count] != 1) {
-            id responder = [tabContext initialFirstResponder];
-            if ([responder isKindOfClass:[NSTextView class]]) {
-                if ([[plainTextEditors objectAtIndex:1] textView] == responder) {
-                    return [plainTextEditors objectAtIndex:1];
-                }
-            }
-        }
+//        if ([plainTextEditors count] != 1) {
+//            id responder = [tabViewItem initialFirstResponder];
+//            NSLog(@"%s %@ responder:%@",__FUNCTION__,aDocument,responder);
+//            if ([responder isKindOfClass:[NSTextView class]]) {
+//                if ([[plainTextEditors objectAtIndex:1] textView] == responder) {
+//                    return [plainTextEditors objectAtIndex:1];
+//                }
+//            }
+//        }
         if ([plainTextEditors count] > 0) {
             return [plainTextEditors objectAtIndex:0];
         }
