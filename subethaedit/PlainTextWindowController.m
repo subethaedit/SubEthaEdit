@@ -425,6 +425,27 @@ enum {
     return nil;
 }
 
+- (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument {
+    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
+    if (tabViewItem) {
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        NSArray *plainTextEditors = [tabContext plainTextEditors];
+        if ([plainTextEditors count] != 1) {
+            id responder = [tabContext initialFirstResponder];
+            if ([responder isKindOfClass:[NSTextView class]]) {
+                if ([[plainTextEditors objectAtIndex:1] textView] == responder) {
+                    return [plainTextEditors objectAtIndex:1];
+                }
+            }
+        }
+        if ([plainTextEditors count] > 0) {
+            return [plainTextEditors objectAtIndex:0];
+        }
+    }
+    return nil;
+}
+
+
 #pragma mark -
 
 - (void)gotoLine:(unsigned)aLine {
