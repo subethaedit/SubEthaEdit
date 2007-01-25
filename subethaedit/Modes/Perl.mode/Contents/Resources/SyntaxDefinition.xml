@@ -4,7 +4,7 @@
 
     <head>
         <name>Perl</name> <!-- The definitions title -->
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$]]></charsintokens> <!-- Valid Characters for Variables -->
     </head>
 
     <states>
@@ -265,27 +265,32 @@
         </default>
         
         <state id="q//, qq//, qx//, qw//" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d]|\A)q[qxw]?(?&lt;qclosure&gt;[^\d\w\s]).*?[^\\](?=\k&lt;qclosure&gt;)</regex></begin>
+            <begin><regex>(?&lt;=[^\w\d]|\A)q[qxw]?(?&lt;qclosure&gt;[^\d\w\s\(]).*?[^\\](?=\k&lt;qclosure&gt;)</regex></begin>
             <end><regex>.</regex></end>
         </state>
 
+        <state id="q(), qq(), qx(), qw()" color="#760f15">
+            <begin><regex>(?&lt;=[^\w\d]|\A)q[qxwr]?\(</regex></begin>
+            <end><regex>[^\\]\)</regex></end>
+        </state>
+
         <state id="qr//" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d]|\A)qr(?&lt;qrclosure&gt;[^\d\w\s]).+?[^\\](?=\k&lt;qrclosure&gt;)</regex></begin>
+            <begin><regex>(?&lt;=[^\w\d]|\A)qr(?&lt;qrclosure&gt;[^\d\w\s\(]).+?[^\\](?=\k&lt;qrclosure&gt;)</regex></begin>
             <end><regex>.[imosx]*</regex></end>
         </state>
 
         <state id="m//" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d]|\A)m(?&lt;mclosure&gt;[^\d\w\s]).*?[^\\](?=\k&lt;mclosure&gt;)</regex></begin>
+            <begin><regex>(?&lt;=[^\w\d]|\A)m(?&lt;mclosure&gt;[^\d\w\s\(]).*?[^\\](?=\k&lt;mclosure&gt;)</regex></begin>
             <end><regex>.[cgimosx]*</regex></end>
         </state>
 
         <state id="s///" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d]|\A)s(?&lt;sclosure&gt;[^\d\w\s])(?:.*?[^\\])?\k&lt;sclosure&gt;(?:.*?[^\\])?(?=\k&lt;sclosure&gt;)</regex></begin>
+            <begin><regex>(?&lt;=[^\w\d]|\A)s(?&lt;sclosure&gt;[^\d\w\s\(])(?:.*?[^\\])?\k&lt;sclosure&gt;(?:.*?[^\\])?(?=\k&lt;sclosure&gt;)</regex></begin>
             <end><regex>.[egimosx]*</regex></end>
         </state>
 
         <state id="tr///, y///" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d]|\A)(?:tr|y)(?&lt;yclosure&gt;[^\d\w\s])(?:.*?[^\\])?\k&lt;yclosure&gt;(?:.*?[^\\])?(?=\k&lt;yclosure&gt;)</regex></begin>
+            <begin><regex>(?&lt;=[^\w\d]|\A)(?:tr|y)(?&lt;yclosure&gt;[^\d\w\s\(])(?:.*?[^\\])?\k&lt;yclosure&gt;(?:.*?[^\\])?(?=\k&lt;yclosure&gt;)</regex></begin>
             <end><regex>.[cds]*</regex></end>
         </state>
 
@@ -300,12 +305,17 @@
         </state>
 
         <state id="/Regular Expressions/" color="#760f15">
-            <begin><regex>/.*?[^\\](?=/)</regex></begin>
+            <begin><regex>(?&lt;=[=])\s*/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
+            <end><regex>/[cgimosx]*</regex></end>
+        </state>
+
+        <state id="/Regular Expressions/ 2" color="#760f15">
+            <begin><regex>(?&lt;=[=]\S)\s*/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
             <end><regex>/[cgimosx]*</regex></end>
         </state>
 
         <state id="?Regular Expressions?" color="#760f15">
-            <begin><regex>\?.*?[^\\](?=\?)</regex></begin>
+            <begin><regex>\?[^:]*?[^\\](?=\?[^\n\r]*;)</regex></begin>
             <end><regex>\?</regex></end>
         </state>
 
