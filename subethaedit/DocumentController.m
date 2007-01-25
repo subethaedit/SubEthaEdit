@@ -1023,11 +1023,16 @@ static NSString *tempFileName() {
     }
 }
 
+- (void)newDocument:(id)sender
+{
+    [self newDocumentWithModeMenuItem:[sender representedObject]];
+}
+
 - (void)newAlternateDocument:(id)sender
 {
     BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
     [[NSUserDefaults standardUserDefaults] setBool:!flag forKey:OpenNewDocumentInTabKey];
-    [self newDocument:sender];
+    [self newDocumentWithModeMenuItem:[sender representedObject]];
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
 }
 

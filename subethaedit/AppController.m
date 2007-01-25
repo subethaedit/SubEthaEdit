@@ -679,9 +679,11 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     while ((item=[menuItems nextObject])) {
         [item setKeyEquivalent:@""];
     }
-    menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
-    [menuItem setKeyEquivalent:@"n"];
+    item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+    [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [item setKeyEquivalent:@"n"];
+    
+    [menuItem setRepresentedObject:item];
 }
 
 - (void)addShortcutToModeForNewAlternateDocumentsEntry {
@@ -693,9 +695,11 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     while ((item=[menuItems nextObject])) {
         [item setKeyEquivalent:@""];
     }
-    menuItem = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask | NSAlternateKeyMask];
-    [menuItem setKeyEquivalent:@"n"];
+    item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+    [item setKeyEquivalentModifierMask:NSCommandKeyMask | NSAlternateKeyMask];
+    [item setKeyEquivalent:@"n"];
+    
+    [menuItem setRepresentedObject:item];
 }
 
 - (void)documentModeListDidChange:(NSNotification *)aNotification {
