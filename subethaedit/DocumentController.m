@@ -1268,22 +1268,30 @@ struct ModificationInfo
 {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
     
-    NSArray *documents = [self documents];
-    unsigned count = [documents count];
-    while (count--) {
-        PlainTextDocument *document = [documents objectAtIndex:count];
-        if ([document isDocumentEdited]) {
-            PlainTextWindowController *controller = [document topmostWindowController];
-            (void)[controller selectTabForDocument:document];
-            [document canCloseDocumentWithDelegate:self
-                               shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
-                                       contextInfo:closeAllContext];
-            return;
+    NSArray *windows = [[[NSApp orderedWindows] copy] autorelease];
+    NSEnumerator *winEnum = [windows objectEnumerator];
+    NSWindow *window;
+    while ((window = [winEnum nextObject])) {
+        NSWindowController *controller = [window windowController];
+        if ([controller isKindOfClass:[PlainTextWindowController class]]) {
+            NSArray *documents = [(PlainTextWindowController *)controller documents];
+            unsigned count = [documents count];
+            while (count--) {
+                PlainTextDocument *document = [documents objectAtIndex:count];
+                if ([document isDocumentEdited]) {
+                    PlainTextWindowController *controller = [document topmostWindowController];
+                    (void)[controller selectTabForDocument:document];
+                    [document canCloseDocumentWithDelegate:self
+                                       shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
+                                               contextInfo:closeAllContext];
+                    return;
+                }
+                
+                [document close];
+            }
         }
-        
-        [document close];
     }
-    
+
     // Invoke invocation after reviewing all documents
     if (closeAllContext) {
         NSInvocation *invocation = (NSInvocation *)closeAllContext;
