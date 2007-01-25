@@ -2387,6 +2387,10 @@ enum {
 
 - (BOOL)tabView:(NSTabView*)aTabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
 {
+    if ([[tabBarControl window] attachedSheet]) {
+        return NO;
+    }
+
     if (![aTabView isEqual:I_tabView]) {
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
         id document = [[tabViewItem identifier] document];
