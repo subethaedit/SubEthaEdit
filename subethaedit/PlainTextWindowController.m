@@ -413,7 +413,6 @@ enum {
 - (PlainTextEditor *)activePlainTextEditor {
     if ([I_plainTextEditors count]!=1) {
         id responder=[[self window] firstResponder];
-        //NSLog(@"%s responder:%@",__FUNCTION__, responder);
         if ([responder isKindOfClass:[NSTextView class]]) {
             if ([[I_plainTextEditors objectAtIndex:1] textView] == responder) {
                 return [I_plainTextEditors objectAtIndex:1];
@@ -508,6 +507,7 @@ enum {
     [tabViewItem release];
     [document release];
     [document showWindows];
+    [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
     [windowController setDocument:document];
     if ([O_participantsDrawer state] == NSDrawerOpenState) {
         [windowController openParticipantsDrawer:self];
@@ -1854,6 +1854,7 @@ enum {
             [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
             [document addWindowController:windowController];
             [[windowController tabView] addTabViewItem:tabViewItem];
+            [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
         }
 
         [tabViewItem release];
@@ -2149,6 +2150,13 @@ enum {
 {
     if (document == [self document]) {
         [super setDocument:document];
+        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
+        if (tabViewItem) {
+            PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+            I_plainTextEditors = [tabContext plainTextEditors];
+            I_editorSplitView = [tabContext editorSplitView];
+            I_dialogSplitView = [tabContext dialogSplitView];
+        } 
         return;
     }
     BOOL isNew = NO;
@@ -2520,6 +2528,7 @@ float ToolbarHeightForWindow(NSWindow *window)
         [document addWindowController:windowController];
 
         [document release];
+        [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
         [windowController setDocument:document];
         
         if ([O_participantsDrawer state] == NSDrawerOpenState) {
