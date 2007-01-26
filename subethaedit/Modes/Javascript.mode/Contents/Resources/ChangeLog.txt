@@ -1,3 +1,8 @@
+Changes with Version 1.5 (SEE 2.6)
+
+    *) Fixes a false positive in Javascript.mode where RegEx state responded to divisions
+    *) Added jsx extension for Adobe Photoshop script files 
+
 Changes with Version 1.4 (SEE 2.5.1)
 
     *) Fixing SEE-1116 (Support alternate syntax for javascript functions)

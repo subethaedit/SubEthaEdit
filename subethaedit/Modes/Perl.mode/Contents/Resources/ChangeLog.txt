@@ -1,3 +1,7 @@
+Changes with Version 1.6 (SEE 2.6)
+
+    *) Fixes various problems with states for regex and quotes. Corrected token dictionary to include $.
+
 Changes with Version 1.5 (SEE 2.5.1)
 
     *) Fixing SEE-1039 (Incorrect coloring after perl regex variable $`)
