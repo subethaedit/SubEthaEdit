@@ -38,8 +38,10 @@ Fixes:
 - Fixed a bug where modes installed for all users couldn't be loaded.
 - Fixed a bug where the Open Terminal in Enclosing Folder script failed for 
   paths containing quotes.
+- Fixed a bug where the line number in the status bar wasn't displayed 
+  correctly.
 - Improved modes: ActionScript, C, C++, HTML, Javascript, Lua, Objective-C, 
-  Python.
+  Perl, Python.
 
 SubEthaEdit 2.5.1
 =================

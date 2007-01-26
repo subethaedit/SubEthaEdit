@@ -40,8 +40,10 @@ Korrekturen:
 - Ein Fehler beim Installieren von Modi für alle Benutzer wurde behoben.
 - Ein Fehler, bei dem das Open Terminal in Enclosing Folder Skript bei Pfaden 
   mit Anführungszeichen fehlschlug, wurde behoben.
+- Ein Fehler, bei dem die Zeilennummer in der Statuszeile nicht korrekt 
+  angezeigt wurde, wurde behoben.
 - Verbesserte Modi: ActionScript, C, C++, HTML, Javascript, Lua, Objective-C, 
-  Python.
+  Perl, Python.
 
 SubEthaEdit 2.5.1
 =================
