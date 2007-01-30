@@ -1956,19 +1956,23 @@ enum {
     NSArray *documents = [self documents];
     unsigned count = [documents count];
     unsigned needsSaving = 0;
+    unsigned hasMultipleViews = 0;
  
     // Determine if there are any unsaved documents...
 
     while (count--) {
         PlainTextDocument *document = [documents objectAtIndex:count];
         if (document &&
-            [document isDocumentEdited] &&
-            ([[document windowControllers] count] == 1))
+            [document isDocumentEdited])
         {
             needsSaving++;
+
+            if ([[document windowControllers] count] > 1)
+                hasMultipleViews++;
         }
     }
     if (needsSaving > 0) {
+        needsSaving -= hasMultipleViews;
         if (needsSaving > 1) {	// If we only have 1 unsaved document, we skip the "review changes?" panel
         
             NSString *title = [NSString stringWithFormat:NSLocalizedString(@"You have %d documents in this window with unsaved changes. Do you want to review these changes?", nil), needsSaving];
