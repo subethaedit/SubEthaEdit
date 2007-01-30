@@ -765,7 +765,6 @@ subethaedit/NSStringSEEAdditions.m -text
 subethaedit/NSWindowScriptingAdditions.h -text
 subethaedit/NSWindowScriptingAdditions.m -text
 subethaedit/ODBEditorSuite.h -text
-subethaedit/OgreKit/BuildOniguruma.sh -text
 subethaedit/OgreKit/FindPanel/Controllers/OgreAFPCEscapeCharacterFormatter.h -text
 subethaedit/OgreKit/FindPanel/Controllers/OgreAFPCEscapeCharacterFormatter.m -text
 subethaedit/OgreKit/FindPanel/Controllers/OgreAFPCOptionButton.h -text
