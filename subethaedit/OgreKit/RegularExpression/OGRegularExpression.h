@@ -23,7 +23,8 @@
 
 /* constants */
 // version
-#define OgreVersionString	@"2.1.0"
+#define OgreVersionString	@"2.1.2"
+
 
 // compile time options:
 extern const unsigned	OgreNoneOption;

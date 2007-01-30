@@ -12,6 +12,19 @@
 			buildConfigurationList = 4DC412C2091519D50029A2A6 /* Build configuration list for PBXAggregateTarget "All" */;
 			buildPhases = (
 			);
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = All;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
 			dependencies = (
 				4DC412B5091519B70029A2A6 /* PBXTargetDependency */,
 				4DC412B9091519B70029A2A6 /* PBXTargetDependency */,
@@ -25,6 +38,22 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4D82DCE309BA0CAF007F03B0 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D82DCE209BA0CAF007F03B0 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4D82DCE409BA0CAF007F03B0 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D82DCE209BA0CAF007F03B0 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4D82DCE609BA0CBF007F03B0 /* COPYING in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCE509BA0CBF007F03B0 /* COPYING */; };
+		4D82DCE709BA0CBF007F03B0 /* COPYING in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCE509BA0CBF007F03B0 /* COPYING */; };
+		4D82DCEF09BA0CCF007F03B0 /* API in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCE909BA0CCE007F03B0 /* API */; };
+		4D82DCF109BA0CCF007F03B0 /* FAQ in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCEB09BA0CCE007F03B0 /* FAQ */; };
+		4D82DCF309BA0CCF007F03B0 /* RE in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCED09BA0CCE007F03B0 /* RE */; };
+		4D82DCF509BA0CCF007F03B0 /* API in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCE909BA0CCE007F03B0 /* API */; };
+		4D82DCF709BA0CCF007F03B0 /* FAQ in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCEB09BA0CCE007F03B0 /* FAQ */; };
+		4D82DCF909BA0CCF007F03B0 /* RE in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCED09BA0CCE007F03B0 /* RE */; };
+		4D82DCFC09BA0CEF007F03B0 /* HISTORY in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCFB09BA0CEF007F03B0 /* HISTORY */; };
+		4D82DCFD09BA0CEF007F03B0 /* HISTORY in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCFB09BA0CEF007F03B0 /* HISTORY */; };
+		4D82DCFF09BA0CFC007F03B0 /* README in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCFE09BA0CFC007F03B0 /* README */; };
+		4D82DD0009BA0CFC007F03B0 /* README in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D82DCFE09BA0CFC007F03B0 /* README */; };
+		4D9DBE2C09BAB999003DD4A8 /* libonig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonig.a */; };
+		4D9DBE2D09BAB999003DD4A8 /* libonig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9DBE2B09BAB999003DD4A8 /* libonig.a */; };
 		4DC40E5E09150CF50029A2A6 /* OGRegularExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5009150CEB0029A2A6 /* OGRegularExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC40E5F09150CF50029A2A6 /* OGRegularExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D5109150CEB0029A2A6 /* OGRegularExpression.m */; };
 		4DC40E6009150CF50029A2A6 /* OGRegularExpressionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5209150CEB0029A2A6 /* OGRegularExpressionPrivate.h */; };
@@ -172,51 +201,6 @@
 		4DC40EEE09150CF50029A2A6 /* OgreAttachableWindowMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DF609150CF00029A2A6 /* OgreAttachableWindowMediator.m */; };
 		4DC40EEF09150CF50029A2A6 /* OgreAttachableWindowAcceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40DF709150CF00029A2A6 /* OgreAttachableWindowAcceptor.h */; };
 		4DC40EF009150CF50029A2A6 /* OgreAttachableWindowAcceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40DF809150CF00029A2A6 /* OgreAttachableWindowAcceptor.m */; };
-		4DC40F0009150CF50029A2A6 /* regcomp.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E0A09150CF00029A2A6 /* regcomp.c */; };
-		4DC40F0109150CF50029A2A6 /* regenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E0B09150CF00029A2A6 /* regenc.c */; };
-		4DC40F0209150CF50029A2A6 /* regenc.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E0C09150CF00029A2A6 /* regenc.h */; };
-		4DC40F0309150CF50029A2A6 /* regerror.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E0D09150CF10029A2A6 /* regerror.c */; };
-		4DC40F0409150CF50029A2A6 /* regexec.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E0E09150CF10029A2A6 /* regexec.c */; };
-		4DC40F0509150CF50029A2A6 /* regext.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E0F09150CF10029A2A6 /* regext.c */; };
-		4DC40F0709150CF50029A2A6 /* regint.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E1109150CF10029A2A6 /* regint.h */; };
-		4DC40F0809150CF50029A2A6 /* regparse.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E1209150CF10029A2A6 /* regparse.c */; };
-		4DC40F0909150CF50029A2A6 /* regparse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E1309150CF10029A2A6 /* regparse.h */; };
-		4DC40F0C09150CF50029A2A6 /* regsyntax.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E1609150CF10029A2A6 /* regsyntax.c */; };
-		4DC40F0D09150CF50029A2A6 /* regtrav.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E1709150CF10029A2A6 /* regtrav.c */; };
-		4DC40F0E09150CF50029A2A6 /* regversion.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E1809150CF10029A2A6 /* regversion.c */; };
-		4DC40F1609150CF50029A2A6 /* st.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E2109150CF10029A2A6 /* st.c */; };
-		4DC40F1709150CF50029A2A6 /* st.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E2209150CF10029A2A6 /* st.h */; };
-		4DC40F2609150CF50029A2A6 /* ascii.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3409150CF20029A2A6 /* ascii.c */; };
-		4DC40F2709150CF50029A2A6 /* big5.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3509150CF20029A2A6 /* big5.c */; };
-		4DC40F2809150CF50029A2A6 /* euc_jp.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3609150CF20029A2A6 /* euc_jp.c */; };
-		4DC40F2909150CF50029A2A6 /* euc_kr.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3709150CF20029A2A6 /* euc_kr.c */; };
-		4DC40F2A09150CF50029A2A6 /* euc_tw.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3809150CF20029A2A6 /* euc_tw.c */; };
-		4DC40F2B09150CF50029A2A6 /* gb18030.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3909150CF20029A2A6 /* gb18030.c */; };
-		4DC40F2C09150CF50029A2A6 /* iso8859_1.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3A09150CF20029A2A6 /* iso8859_1.c */; };
-		4DC40F2D09150CF50029A2A6 /* iso8859_10.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3B09150CF20029A2A6 /* iso8859_10.c */; };
-		4DC40F2E09150CF50029A2A6 /* iso8859_11.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3C09150CF20029A2A6 /* iso8859_11.c */; };
-		4DC40F2F09150CF50029A2A6 /* iso8859_13.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3D09150CF20029A2A6 /* iso8859_13.c */; };
-		4DC40F3009150CF50029A2A6 /* iso8859_14.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3E09150CF20029A2A6 /* iso8859_14.c */; };
-		4DC40F3109150CF50029A2A6 /* iso8859_15.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3F09150CF30029A2A6 /* iso8859_15.c */; };
-		4DC40F3209150CF50029A2A6 /* iso8859_16.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4009150CF30029A2A6 /* iso8859_16.c */; };
-		4DC40F3309150CF50029A2A6 /* iso8859_2.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4109150CF30029A2A6 /* iso8859_2.c */; };
-		4DC40F3409150CF50029A2A6 /* iso8859_3.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4209150CF30029A2A6 /* iso8859_3.c */; };
-		4DC40F3509150CF50029A2A6 /* iso8859_4.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4309150CF30029A2A6 /* iso8859_4.c */; };
-		4DC40F3609150CF50029A2A6 /* iso8859_5.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4409150CF30029A2A6 /* iso8859_5.c */; };
-		4DC40F3709150CF50029A2A6 /* iso8859_6.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4509150CF30029A2A6 /* iso8859_6.c */; };
-		4DC40F3809150CF50029A2A6 /* iso8859_7.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4609150CF30029A2A6 /* iso8859_7.c */; };
-		4DC40F3909150CF50029A2A6 /* iso8859_8.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4709150CF30029A2A6 /* iso8859_8.c */; };
-		4DC40F3A09150CF50029A2A6 /* iso8859_9.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4809150CF30029A2A6 /* iso8859_9.c */; };
-		4DC40F3B09150CF50029A2A6 /* koi8.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4909150CF30029A2A6 /* koi8.c */; };
-		4DC40F3C09150CF50029A2A6 /* koi8_r.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4A09150CF30029A2A6 /* koi8_r.c */; };
-		4DC40F3E09150CF50029A2A6 /* sjis.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4C09150CF30029A2A6 /* sjis.c */; };
-		4DC40F3F09150CF50029A2A6 /* unicode.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4D09150CF30029A2A6 /* unicode.c */; };
-		4DC40F4009150CF50029A2A6 /* utf16_be.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4E09150CF30029A2A6 /* utf16_be.c */; };
-		4DC40F4109150CF50029A2A6 /* utf16_le.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4F09150CF30029A2A6 /* utf16_le.c */; };
-		4DC40F4209150CF50029A2A6 /* utf32_be.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E5009150CF30029A2A6 /* utf32_be.c */; };
-		4DC40F4309150CF50029A2A6 /* utf32_le.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E5109150CF30029A2A6 /* utf32_le.c */; };
-		4DC40F4409150CF50029A2A6 /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E5209150CF30029A2A6 /* utf8.c */; };
-		4DC40F4509150CF50029A2A6 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E5309150CF30029A2A6 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC40F4609150CF50029A2A6 /* OgreKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E5509150CF30029A2A6 /* OgreKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC40F4809150CF50029A2A6 /* OgreKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E5709150CF30029A2A6 /* OgreKit_Prefix.pch */; };
 		4DC40F4F09150CF50029A2A6 /* OGRegularExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D5009150CEB0029A2A6 /* OGRegularExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -243,51 +227,6 @@
 		4DC40F6409150CF50029A2A6 /* OGRegularExpressionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D6509150CEB0029A2A6 /* OGRegularExpressionFormatter.m */; };
 		4DC40F7009150CF50029A2A6 /* NSString_OgreKitAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40D7409150CEC0029A2A6 /* NSString_OgreKitAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC40F7109150CF50029A2A6 /* NSString_OgreKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40D7509150CEC0029A2A6 /* NSString_OgreKitAdditions.m */; };
-		4DC40FF109150CF50029A2A6 /* regcomp.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E0A09150CF00029A2A6 /* regcomp.c */; };
-		4DC40FF209150CF50029A2A6 /* regenc.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E0B09150CF00029A2A6 /* regenc.c */; };
-		4DC40FF309150CF50029A2A6 /* regenc.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E0C09150CF00029A2A6 /* regenc.h */; };
-		4DC40FF409150CF50029A2A6 /* regerror.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E0D09150CF10029A2A6 /* regerror.c */; };
-		4DC40FF509150CF50029A2A6 /* regexec.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E0E09150CF10029A2A6 /* regexec.c */; };
-		4DC40FF609150CF50029A2A6 /* regext.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E0F09150CF10029A2A6 /* regext.c */; };
-		4DC40FF809150CF50029A2A6 /* regint.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E1109150CF10029A2A6 /* regint.h */; };
-		4DC40FF909150CF50029A2A6 /* regparse.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E1209150CF10029A2A6 /* regparse.c */; };
-		4DC40FFA09150CF50029A2A6 /* regparse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E1309150CF10029A2A6 /* regparse.h */; };
-		4DC40FFD09150CF50029A2A6 /* regsyntax.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E1609150CF10029A2A6 /* regsyntax.c */; };
-		4DC40FFE09150CF50029A2A6 /* regtrav.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E1709150CF10029A2A6 /* regtrav.c */; };
-		4DC40FFF09150CF50029A2A6 /* regversion.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E1809150CF10029A2A6 /* regversion.c */; };
-		4DC4100709150CF50029A2A6 /* st.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E2109150CF10029A2A6 /* st.c */; };
-		4DC4100809150CF50029A2A6 /* st.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E2209150CF10029A2A6 /* st.h */; };
-		4DC4101709150CF50029A2A6 /* ascii.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3409150CF20029A2A6 /* ascii.c */; };
-		4DC4101809150CF50029A2A6 /* big5.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3509150CF20029A2A6 /* big5.c */; };
-		4DC4101909150CF50029A2A6 /* euc_jp.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3609150CF20029A2A6 /* euc_jp.c */; };
-		4DC4101A09150CF50029A2A6 /* euc_kr.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3709150CF20029A2A6 /* euc_kr.c */; };
-		4DC4101B09150CF50029A2A6 /* euc_tw.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3809150CF20029A2A6 /* euc_tw.c */; };
-		4DC4101C09150CF50029A2A6 /* gb18030.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3909150CF20029A2A6 /* gb18030.c */; };
-		4DC4101D09150CF50029A2A6 /* iso8859_1.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3A09150CF20029A2A6 /* iso8859_1.c */; };
-		4DC4101E09150CF50029A2A6 /* iso8859_10.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3B09150CF20029A2A6 /* iso8859_10.c */; };
-		4DC4101F09150CF50029A2A6 /* iso8859_11.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3C09150CF20029A2A6 /* iso8859_11.c */; };
-		4DC4102009150CF50029A2A6 /* iso8859_13.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3D09150CF20029A2A6 /* iso8859_13.c */; };
-		4DC4102109150CF50029A2A6 /* iso8859_14.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3E09150CF20029A2A6 /* iso8859_14.c */; };
-		4DC4102209150CF50029A2A6 /* iso8859_15.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E3F09150CF30029A2A6 /* iso8859_15.c */; };
-		4DC4102309150CF50029A2A6 /* iso8859_16.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4009150CF30029A2A6 /* iso8859_16.c */; };
-		4DC4102409150CF50029A2A6 /* iso8859_2.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4109150CF30029A2A6 /* iso8859_2.c */; };
-		4DC4102509150CF50029A2A6 /* iso8859_3.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4209150CF30029A2A6 /* iso8859_3.c */; };
-		4DC4102609150CF60029A2A6 /* iso8859_4.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4309150CF30029A2A6 /* iso8859_4.c */; };
-		4DC4102709150CF60029A2A6 /* iso8859_5.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4409150CF30029A2A6 /* iso8859_5.c */; };
-		4DC4102809150CF60029A2A6 /* iso8859_6.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4509150CF30029A2A6 /* iso8859_6.c */; };
-		4DC4102909150CF60029A2A6 /* iso8859_7.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4609150CF30029A2A6 /* iso8859_7.c */; };
-		4DC4102A09150CF60029A2A6 /* iso8859_8.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4709150CF30029A2A6 /* iso8859_8.c */; };
-		4DC4102B09150CF60029A2A6 /* iso8859_9.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4809150CF30029A2A6 /* iso8859_9.c */; };
-		4DC4102C09150CF60029A2A6 /* koi8.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4909150CF30029A2A6 /* koi8.c */; };
-		4DC4102D09150CF60029A2A6 /* koi8_r.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4A09150CF30029A2A6 /* koi8_r.c */; };
-		4DC4102F09150CF60029A2A6 /* sjis.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4C09150CF30029A2A6 /* sjis.c */; };
-		4DC4103009150CF60029A2A6 /* unicode.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4D09150CF30029A2A6 /* unicode.c */; };
-		4DC4103109150CF60029A2A6 /* utf16_be.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4E09150CF30029A2A6 /* utf16_be.c */; };
-		4DC4103209150CF60029A2A6 /* utf16_le.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E4F09150CF30029A2A6 /* utf16_le.c */; };
-		4DC4103309150CF60029A2A6 /* utf32_be.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E5009150CF30029A2A6 /* utf32_be.c */; };
-		4DC4103409150CF60029A2A6 /* utf32_le.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E5109150CF30029A2A6 /* utf32_le.c */; };
-		4DC4103509150CF60029A2A6 /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC40E5209150CF30029A2A6 /* utf8.c */; };
-		4DC4103609150CF60029A2A6 /* oniguruma.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E5309150CF30029A2A6 /* oniguruma.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC4103809150CF60029A2A6 /* OgreKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E5609150CF30029A2A6 /* OgreKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC4103909150CF60029A2A6 /* OgreKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4DC40E5709150CF30029A2A6 /* OgreKit_Prefix.pch */; };
 		4DC4104609150D0E0029A2A6 /* OgreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4104009150D0D0029A2A6 /* OgreTest.m */; };
@@ -332,14 +271,6 @@
 		4DC411D6091515930029A2A6 /* License.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40D4C09150CEA0029A2A6 /* License.txt */; };
 		4DC411D70915159A0029A2A6 /* ReadMe.rtf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40D4B09150CEA0029A2A6 /* ReadMe.rtf */; };
 		4DC411D80915159A0029A2A6 /* License.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40D4C09150CEA0029A2A6 /* License.txt */; };
-		4DC411D9091515BB0029A2A6 /* HISTORY in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40DFE09150CF00029A2A6 /* HISTORY */; };
-		4DC411DA091515BB0029A2A6 /* COPYING in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40E2B09150CF20029A2A6 /* COPYING */; };
-		4DC411DB091515BB0029A2A6 /* API in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40E2D09150CF20029A2A6 /* API */; };
-		4DC411DC091515BB0029A2A6 /* RE in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40E3109150CF20029A2A6 /* RE */; };
-		4DC411DD091515C40029A2A6 /* HISTORY in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40DFE09150CF00029A2A6 /* HISTORY */; };
-		4DC411DE091515C40029A2A6 /* COPYING in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40E2B09150CF20029A2A6 /* COPYING */; };
-		4DC411DF091515C40029A2A6 /* API in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40E2D09150CF20029A2A6 /* API */; };
-		4DC411E0091515C40029A2A6 /* RE in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4DC40E3109150CF20029A2A6 /* RE */; };
 		4DC41271091518E60029A2A6 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; };
 		4DC41272091518EC0029A2A6 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; };
 		4DC41273091518F10029A2A6 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */; };
@@ -373,6 +304,30 @@
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildStyle section */
+		014CEA440018CDF011CA2923 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		014CEA450018CDF011CA2923 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
 /* Begin PBXContainerItemProxy section */
 		4D6EA0E5096ACECA0010762A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -394,6 +349,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = "OgreKit (Full Features)";
+		};
+		4D82DCCB09B9ECDB007F03B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4D82DCCA09B9ECD1007F03B0;
+			remoteInfo = Oniguruma;
+		};
+		4D82DCCD09B9ECDE007F03B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4D82DCCA09B9ECD1007F03B0;
+			remoteInfo = Oniguruma;
 		};
 		4DC412B4091519B70029A2A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -457,10 +426,12 @@
 			dstPath = Documentation/OniGuruma;
 			dstSubfolderSpec = 7;
 			files = (
-				4DC411D9091515BB0029A2A6 /* HISTORY in CopyFiles */,
-				4DC411DA091515BB0029A2A6 /* COPYING in CopyFiles */,
-				4DC411DB091515BB0029A2A6 /* API in CopyFiles */,
-				4DC411DC091515BB0029A2A6 /* RE in CopyFiles */,
+				4D82DCE609BA0CBF007F03B0 /* COPYING in CopyFiles */,
+				4D82DCEF09BA0CCF007F03B0 /* API in CopyFiles */,
+				4D82DCF109BA0CCF007F03B0 /* FAQ in CopyFiles */,
+				4D82DCF309BA0CCF007F03B0 /* RE in CopyFiles */,
+				4D82DCFC09BA0CEF007F03B0 /* HISTORY in CopyFiles */,
+				4D82DCFF09BA0CFC007F03B0 /* README in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,10 +452,12 @@
 			dstPath = Documentation/OniGuruma;
 			dstSubfolderSpec = 7;
 			files = (
-				4DC411DD091515C40029A2A6 /* HISTORY in CopyFiles */,
-				4DC411DE091515C40029A2A6 /* COPYING in CopyFiles */,
-				4DC411DF091515C40029A2A6 /* API in CopyFiles */,
-				4DC411E0091515C40029A2A6 /* RE in CopyFiles */,
+				4D82DCE709BA0CBF007F03B0 /* COPYING in CopyFiles */,
+				4D82DCF509BA0CCF007F03B0 /* API in CopyFiles */,
+				4D82DCF709BA0CCF007F03B0 /* FAQ in CopyFiles */,
+				4D82DCF909BA0CCF007F03B0 /* RE in CopyFiles */,
+				4D82DCFD09BA0CEF007F03B0 /* HISTORY in CopyFiles */,
+				4D82DD0009BA0CFC007F03B0 /* README in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +509,14 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		4D82DCE209BA0CAF007F03B0 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = intel/oniguruma.h; sourceTree = "<group>"; };
+		4D82DCE509BA0CBF007F03B0 /* COPYING */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; name = COPYING; path = intel/COPYING; sourceTree = "<group>"; };
+		4D82DCE909BA0CCE007F03B0 /* API */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; path = API; sourceTree = "<group>"; };
+		4D82DCEB09BA0CCE007F03B0 /* FAQ */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; path = FAQ; sourceTree = "<group>"; };
+		4D82DCED09BA0CCE007F03B0 /* RE */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; path = RE; sourceTree = "<group>"; };
+		4D82DCFB09BA0CEF007F03B0 /* HISTORY */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; name = HISTORY; path = intel/HISTORY; sourceTree = "<group>"; };
+		4D82DCFE09BA0CFC007F03B0 /* README */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; name = README; path = intel/README; sourceTree = "<group>"; };
+		4D9DBE2B09BAB999003DD4A8 /* libonig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libonig.a; path = RegularExpression/oniguruma/universal/libonig.a; sourceTree = "<group>"; };
 		4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C0409150C280029A2A6 /* OgreTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreFindPanelTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -544,7 +525,6 @@
 		4DC40D4B09150CEA0029A2A6 /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ReadMe.rtf; path = RegularExpression/Documentation/ReadMe.rtf; sourceTree = SOURCE_ROOT; };
 		4DC40D4C09150CEA0029A2A6 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = License.txt; path = RegularExpression/Documentation/License.txt; sourceTree = SOURCE_ROOT; };
 		4DC40D4D09150CEA0029A2A6 /* History.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = History.txt; path = RegularExpression/Documentation/History.txt; sourceTree = SOURCE_ROOT; };
-		4DC40D4E09150CEB0029A2A6 /* OgreKitWiki.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html.documentation; name = OgreKitWiki.html; path = RegularExpression/Documentation/OgreKitWiki.html; sourceTree = SOURCE_ROOT; };
 		4DC40D5009150CEB0029A2A6 /* OGRegularExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OGRegularExpression.h; path = RegularExpression/OGRegularExpression.h; sourceTree = SOURCE_ROOT; };
 		4DC40D5109150CEB0029A2A6 /* OGRegularExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OGRegularExpression.m; path = RegularExpression/OGRegularExpression.m; sourceTree = SOURCE_ROOT; };
 		4DC40D5209150CEB0029A2A6 /* OGRegularExpressionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OGRegularExpressionPrivate.h; path = RegularExpression/OGRegularExpressionPrivate.h; sourceTree = SOURCE_ROOT; };
@@ -692,91 +672,6 @@
 		4DC40DF609150CF00029A2A6 /* OgreAttachableWindowMediator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OgreAttachableWindowMediator.m; path = FindPanel/Controllers/OgreAttachableWindow/OgreAttachableWindowMediator.m; sourceTree = SOURCE_ROOT; };
 		4DC40DF709150CF00029A2A6 /* OgreAttachableWindowAcceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreAttachableWindowAcceptor.h; path = FindPanel/Controllers/OgreAttachableWindow/OgreAttachableWindowAcceptor.h; sourceTree = SOURCE_ROOT; };
 		4DC40DF809150CF00029A2A6 /* OgreAttachableWindowAcceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OgreAttachableWindowAcceptor.m; path = FindPanel/Controllers/OgreAttachableWindow/OgreAttachableWindowAcceptor.m; sourceTree = SOURCE_ROOT; };
-		4DC40DFB09150CF00029A2A6 /* config.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = config.h.in; path = RegularExpression/oniguruma/config.h.in; sourceTree = SOURCE_ROOT; };
-		4DC40DFC09150CF00029A2A6 /* configure */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = configure; path = RegularExpression/oniguruma/configure; sourceTree = SOURCE_ROOT; };
-		4DC40DFD09150CF00029A2A6 /* configure.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = configure.in; path = RegularExpression/oniguruma/configure.in; sourceTree = SOURCE_ROOT; };
-		4DC40DFE09150CF00029A2A6 /* HISTORY */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = HISTORY; path = RegularExpression/oniguruma/HISTORY; sourceTree = SOURCE_ROOT; };
-		4DC40DFF09150CF00029A2A6 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = RegularExpression/oniguruma/index.html; sourceTree = SOURCE_ROOT; };
-		4DC40E0009150CF00029A2A6 /* INSTALL-RUBY */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "INSTALL-RUBY"; path = "RegularExpression/oniguruma/INSTALL-RUBY"; sourceTree = SOURCE_ROOT; };
-		4DC40E0109150CF00029A2A6 /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Makefile.in; path = RegularExpression/oniguruma/Makefile.in; sourceTree = SOURCE_ROOT; };
-		4DC40E0209150CF00029A2A6 /* MANIFEST-RUBY */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "MANIFEST-RUBY"; path = "RegularExpression/oniguruma/MANIFEST-RUBY"; sourceTree = SOURCE_ROOT; };
-		4DC40E0309150CF00029A2A6 /* onig-config.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "onig-config.in"; path = "RegularExpression/oniguruma/onig-config.in"; sourceTree = SOURCE_ROOT; };
-		4DC40E0409150CF00029A2A6 /* oniggnu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oniggnu.h; path = RegularExpression/oniguruma/oniggnu.h; sourceTree = SOURCE_ROOT; };
-		4DC40E0509150CF00029A2A6 /* onigposix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = onigposix.h; path = RegularExpression/oniguruma/onigposix.h; sourceTree = SOURCE_ROOT; };
-		4DC40E0609150CF00029A2A6 /* re.c.168.patch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = re.c.168.patch; path = RegularExpression/oniguruma/re.c.168.patch; sourceTree = SOURCE_ROOT; };
-		4DC40E0709150CF00029A2A6 /* re.c.181.patch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = re.c.181.patch; path = RegularExpression/oniguruma/re.c.181.patch; sourceTree = SOURCE_ROOT; };
-		4DC40E0809150CF00029A2A6 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README; path = RegularExpression/oniguruma/README; sourceTree = SOURCE_ROOT; };
-		4DC40E0909150CF00029A2A6 /* README.ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.ja; path = RegularExpression/oniguruma/README.ja; sourceTree = SOURCE_ROOT; };
-		4DC40E0A09150CF00029A2A6 /* regcomp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regcomp.c; path = RegularExpression/oniguruma/regcomp.c; sourceTree = SOURCE_ROOT; };
-		4DC40E0B09150CF00029A2A6 /* regenc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regenc.c; path = RegularExpression/oniguruma/regenc.c; sourceTree = SOURCE_ROOT; };
-		4DC40E0C09150CF00029A2A6 /* regenc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = regenc.h; path = RegularExpression/oniguruma/regenc.h; sourceTree = SOURCE_ROOT; };
-		4DC40E0D09150CF10029A2A6 /* regerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regerror.c; path = RegularExpression/oniguruma/regerror.c; sourceTree = SOURCE_ROOT; };
-		4DC40E0E09150CF10029A2A6 /* regexec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regexec.c; path = RegularExpression/oniguruma/regexec.c; sourceTree = SOURCE_ROOT; };
-		4DC40E0F09150CF10029A2A6 /* regext.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regext.c; path = RegularExpression/oniguruma/regext.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1009150CF10029A2A6 /* reggnu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = reggnu.c; path = RegularExpression/oniguruma/reggnu.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1109150CF10029A2A6 /* regint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = regint.h; path = RegularExpression/oniguruma/regint.h; sourceTree = SOURCE_ROOT; };
-		4DC40E1209150CF10029A2A6 /* regparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regparse.c; path = RegularExpression/oniguruma/regparse.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1309150CF10029A2A6 /* regparse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = regparse.h; path = RegularExpression/oniguruma/regparse.h; sourceTree = SOURCE_ROOT; };
-		4DC40E1409150CF10029A2A6 /* regposerr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regposerr.c; path = RegularExpression/oniguruma/regposerr.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1509150CF10029A2A6 /* regposix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regposix.c; path = RegularExpression/oniguruma/regposix.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1609150CF10029A2A6 /* regsyntax.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regsyntax.c; path = RegularExpression/oniguruma/regsyntax.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1709150CF10029A2A6 /* regtrav.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regtrav.c; path = RegularExpression/oniguruma/regtrav.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1809150CF10029A2A6 /* regversion.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = regversion.c; path = RegularExpression/oniguruma/regversion.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1A09150CF10029A2A6 /* encode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = encode.c; path = RegularExpression/oniguruma/sample/encode.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1B09150CF10029A2A6 /* listcap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = listcap.c; path = RegularExpression/oniguruma/sample/listcap.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1C09150CF10029A2A6 /* names.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = names.c; path = RegularExpression/oniguruma/sample/names.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1D09150CF10029A2A6 /* posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = posix.c; path = RegularExpression/oniguruma/sample/posix.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1E09150CF10029A2A6 /* simple.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = simple.c; path = RegularExpression/oniguruma/sample/simple.c; sourceTree = SOURCE_ROOT; };
-		4DC40E1F09150CF10029A2A6 /* sql.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sql.c; path = RegularExpression/oniguruma/sample/sql.c; sourceTree = SOURCE_ROOT; };
-		4DC40E2009150CF10029A2A6 /* syntax.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = syntax.c; path = RegularExpression/oniguruma/sample/syntax.c; sourceTree = SOURCE_ROOT; };
-		4DC40E2109150CF10029A2A6 /* st.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = st.c; path = RegularExpression/oniguruma/st.c; sourceTree = SOURCE_ROOT; };
-		4DC40E2209150CF10029A2A6 /* st.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = st.h; path = RegularExpression/oniguruma/st.h; sourceTree = SOURCE_ROOT; };
-		4DC40E2309150CF10029A2A6 /* test.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; name = test.rb; path = RegularExpression/oniguruma/test.rb; sourceTree = SOURCE_ROOT; };
-		4DC40E2409150CF10029A2A6 /* testc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = testc.c; path = RegularExpression/oniguruma/testc.c; sourceTree = SOURCE_ROOT; };
-		4DC40E2509150CF10029A2A6 /* testconv.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; name = testconv.rb; path = RegularExpression/oniguruma/testconv.rb; sourceTree = SOURCE_ROOT; };
-		4DC40E2609150CF10029A2A6 /* testconvu.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; name = testconvu.rb; path = RegularExpression/oniguruma/testconvu.rb; sourceTree = SOURCE_ROOT; };
-		4DC40E2809150CF20029A2A6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = RegularExpression/oniguruma/win32/config.h; sourceTree = SOURCE_ROOT; };
-		4DC40E2909150CF20029A2A6 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = RegularExpression/oniguruma/win32/Makefile; sourceTree = SOURCE_ROOT; };
-		4DC40E2A09150CF20029A2A6 /* testc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = testc.c; path = RegularExpression/oniguruma/win32/testc.c; sourceTree = SOURCE_ROOT; };
-		4DC40E2B09150CF20029A2A6 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = COPYING; path = RegularExpression/oniguruma/COPYING; sourceTree = SOURCE_ROOT; };
-		4DC40E2D09150CF20029A2A6 /* API */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = API; path = RegularExpression/oniguruma/doc/API; sourceTree = SOURCE_ROOT; };
-		4DC40E2E09150CF20029A2A6 /* API.ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = API.ja; path = RegularExpression/oniguruma/doc/API.ja; sourceTree = SOURCE_ROOT; };
-		4DC40E2F09150CF20029A2A6 /* FAQ */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = FAQ; path = RegularExpression/oniguruma/doc/FAQ; sourceTree = SOURCE_ROOT; };
-		4DC40E3009150CF20029A2A6 /* FAQ.ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = FAQ.ja; path = RegularExpression/oniguruma/doc/FAQ.ja; sourceTree = SOURCE_ROOT; };
-		4DC40E3109150CF20029A2A6 /* RE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RE; path = RegularExpression/oniguruma/doc/RE; sourceTree = SOURCE_ROOT; };
-		4DC40E3209150CF20029A2A6 /* RE.ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RE.ja; path = RegularExpression/oniguruma/doc/RE.ja; sourceTree = SOURCE_ROOT; };
-		4DC40E3409150CF20029A2A6 /* ascii.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ascii.c; path = RegularExpression/oniguruma/enc/ascii.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3509150CF20029A2A6 /* big5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = big5.c; path = RegularExpression/oniguruma/enc/big5.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3609150CF20029A2A6 /* euc_jp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = euc_jp.c; path = RegularExpression/oniguruma/enc/euc_jp.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3709150CF20029A2A6 /* euc_kr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = euc_kr.c; path = RegularExpression/oniguruma/enc/euc_kr.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3809150CF20029A2A6 /* euc_tw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = euc_tw.c; path = RegularExpression/oniguruma/enc/euc_tw.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3909150CF20029A2A6 /* gb18030.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = gb18030.c; path = RegularExpression/oniguruma/enc/gb18030.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3A09150CF20029A2A6 /* iso8859_1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_1.c; path = RegularExpression/oniguruma/enc/iso8859_1.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3B09150CF20029A2A6 /* iso8859_10.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_10.c; path = RegularExpression/oniguruma/enc/iso8859_10.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3C09150CF20029A2A6 /* iso8859_11.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_11.c; path = RegularExpression/oniguruma/enc/iso8859_11.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3D09150CF20029A2A6 /* iso8859_13.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_13.c; path = RegularExpression/oniguruma/enc/iso8859_13.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3E09150CF20029A2A6 /* iso8859_14.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_14.c; path = RegularExpression/oniguruma/enc/iso8859_14.c; sourceTree = SOURCE_ROOT; };
-		4DC40E3F09150CF30029A2A6 /* iso8859_15.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_15.c; path = RegularExpression/oniguruma/enc/iso8859_15.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4009150CF30029A2A6 /* iso8859_16.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_16.c; path = RegularExpression/oniguruma/enc/iso8859_16.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4109150CF30029A2A6 /* iso8859_2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_2.c; path = RegularExpression/oniguruma/enc/iso8859_2.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4209150CF30029A2A6 /* iso8859_3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_3.c; path = RegularExpression/oniguruma/enc/iso8859_3.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4309150CF30029A2A6 /* iso8859_4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_4.c; path = RegularExpression/oniguruma/enc/iso8859_4.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4409150CF30029A2A6 /* iso8859_5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_5.c; path = RegularExpression/oniguruma/enc/iso8859_5.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4509150CF30029A2A6 /* iso8859_6.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_6.c; path = RegularExpression/oniguruma/enc/iso8859_6.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4609150CF30029A2A6 /* iso8859_7.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_7.c; path = RegularExpression/oniguruma/enc/iso8859_7.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4709150CF30029A2A6 /* iso8859_8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_8.c; path = RegularExpression/oniguruma/enc/iso8859_8.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4809150CF30029A2A6 /* iso8859_9.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iso8859_9.c; path = RegularExpression/oniguruma/enc/iso8859_9.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4909150CF30029A2A6 /* koi8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = koi8.c; path = RegularExpression/oniguruma/enc/koi8.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4A09150CF30029A2A6 /* koi8_r.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = koi8_r.c; path = RegularExpression/oniguruma/enc/koi8_r.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4B09150CF30029A2A6 /* mktable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mktable.c; path = RegularExpression/oniguruma/enc/mktable.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4C09150CF30029A2A6 /* sjis.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sjis.c; path = RegularExpression/oniguruma/enc/sjis.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4D09150CF30029A2A6 /* unicode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unicode.c; path = RegularExpression/oniguruma/enc/unicode.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4E09150CF30029A2A6 /* utf16_be.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf16_be.c; path = RegularExpression/oniguruma/enc/utf16_be.c; sourceTree = SOURCE_ROOT; };
-		4DC40E4F09150CF30029A2A6 /* utf16_le.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf16_le.c; path = RegularExpression/oniguruma/enc/utf16_le.c; sourceTree = SOURCE_ROOT; };
-		4DC40E5009150CF30029A2A6 /* utf32_be.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf32_be.c; path = RegularExpression/oniguruma/enc/utf32_be.c; sourceTree = SOURCE_ROOT; };
-		4DC40E5109150CF30029A2A6 /* utf32_le.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf32_le.c; path = RegularExpression/oniguruma/enc/utf32_le.c; sourceTree = SOURCE_ROOT; };
-		4DC40E5209150CF30029A2A6 /* utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf8.c; path = RegularExpression/oniguruma/enc/utf8.c; sourceTree = SOURCE_ROOT; };
-		4DC40E5309150CF30029A2A6 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = RegularExpression/oniguruma/oniguruma.h; sourceTree = SOURCE_ROOT; };
 		4DC40E5509150CF30029A2A6 /* OgreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreKit.h; path = RegularExpression/OgreKit.h; sourceTree = SOURCE_ROOT; };
 		4DC40E5609150CF30029A2A6 /* OgreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreKit.h; path = RegularExpression/OgreKitWithoutFindPanel/OgreKit.h; sourceTree = SOURCE_ROOT; };
 		4DC40E5709150CF30029A2A6 /* OgreKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreKit_Prefix.pch; path = RegularExpression/OgreKit_Prefix.pch; sourceTree = SOURCE_ROOT; };
@@ -882,6 +777,7 @@
 			files = (
 				4DC410A7091511C80029A2A6 /* Foundation.framework in Frameworks */,
 				4DC410A8091511CA0029A2A6 /* AppKit.framework in Frameworks */,
+				4D9DBE2D09BAB999003DD4A8 /* libonig.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -922,6 +818,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
+				4D9DBE2C09BAB999003DD4A8 /* libonig.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -958,6 +855,7 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4D82DCC109B9EC15007F03B0 /* Linked Libraries */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
 				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
 			);
@@ -982,6 +880,25 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
+		4D82DCC109B9EC15007F03B0 /* Linked Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				4D9DBE2B09BAB999003DD4A8 /* libonig.a */,
+			);
+			name = "Linked Libraries";
+			sourceTree = "<group>";
+		};
+		4D82DCE809BA0CCE007F03B0 /* doc */ = {
+			isa = PBXGroup;
+			children = (
+				4D82DCE909BA0CCE007F03B0 /* API */,
+				4D82DCEB09BA0CCE007F03B0 /* FAQ */,
+				4D82DCED09BA0CCE007F03B0 /* RE */,
+			);
+			name = doc;
+			path = intel/doc;
+			sourceTree = "<group>";
+		};
 		4DC40D4909150CEA0029A2A6 /* OgreKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1004,7 +921,6 @@
 				4DC40D4B09150CEA0029A2A6 /* ReadMe.rtf */,
 				4DC40D4C09150CEA0029A2A6 /* License.txt */,
 				4DC40D4D09150CEA0029A2A6 /* History.txt */,
-				4DC40D4E09150CEB0029A2A6 /* OgreKitWiki.html */,
 			);
 			name = Documentation;
 			sourceTree = SOURCE_ROOT;
@@ -1355,130 +1271,14 @@
 		4DC40DFA09150CF00029A2A6 /* oniguruma */ = {
 			isa = PBXGroup;
 			children = (
-				4DC40DFB09150CF00029A2A6 /* config.h.in */,
-				4DC40DFC09150CF00029A2A6 /* configure */,
-				4DC40DFD09150CF00029A2A6 /* configure.in */,
-				4DC40DFE09150CF00029A2A6 /* HISTORY */,
-				4DC40DFF09150CF00029A2A6 /* index.html */,
-				4DC40E0009150CF00029A2A6 /* INSTALL-RUBY */,
-				4DC40E0109150CF00029A2A6 /* Makefile.in */,
-				4DC40E0209150CF00029A2A6 /* MANIFEST-RUBY */,
-				4DC40E0309150CF00029A2A6 /* onig-config.in */,
-				4DC40E0409150CF00029A2A6 /* oniggnu.h */,
-				4DC40E0509150CF00029A2A6 /* onigposix.h */,
-				4DC40E0609150CF00029A2A6 /* re.c.168.patch */,
-				4DC40E0709150CF00029A2A6 /* re.c.181.patch */,
-				4DC40E0809150CF00029A2A6 /* README */,
-				4DC40E0909150CF00029A2A6 /* README.ja */,
-				4DC40E0A09150CF00029A2A6 /* regcomp.c */,
-				4DC40E0B09150CF00029A2A6 /* regenc.c */,
-				4DC40E0C09150CF00029A2A6 /* regenc.h */,
-				4DC40E0D09150CF10029A2A6 /* regerror.c */,
-				4DC40E0E09150CF10029A2A6 /* regexec.c */,
-				4DC40E0F09150CF10029A2A6 /* regext.c */,
-				4DC40E1009150CF10029A2A6 /* reggnu.c */,
-				4DC40E1109150CF10029A2A6 /* regint.h */,
-				4DC40E1209150CF10029A2A6 /* regparse.c */,
-				4DC40E1309150CF10029A2A6 /* regparse.h */,
-				4DC40E1409150CF10029A2A6 /* regposerr.c */,
-				4DC40E1509150CF10029A2A6 /* regposix.c */,
-				4DC40E1609150CF10029A2A6 /* regsyntax.c */,
-				4DC40E1709150CF10029A2A6 /* regtrav.c */,
-				4DC40E1809150CF10029A2A6 /* regversion.c */,
-				4DC40E1909150CF10029A2A6 /* sample */,
-				4DC40E2109150CF10029A2A6 /* st.c */,
-				4DC40E2209150CF10029A2A6 /* st.h */,
-				4DC40E2309150CF10029A2A6 /* test.rb */,
-				4DC40E2409150CF10029A2A6 /* testc.c */,
-				4DC40E2509150CF10029A2A6 /* testconv.rb */,
-				4DC40E2609150CF10029A2A6 /* testconvu.rb */,
-				4DC40E2709150CF10029A2A6 /* win32 */,
-				4DC40E2B09150CF20029A2A6 /* COPYING */,
-				4DC40E2C09150CF20029A2A6 /* doc */,
-				4DC40E3309150CF20029A2A6 /* enc */,
-				4DC40E5309150CF30029A2A6 /* oniguruma.h */,
+				4D82DCE209BA0CAF007F03B0 /* oniguruma.h */,
+				4D82DCE509BA0CBF007F03B0 /* COPYING */,
+				4D82DCFB09BA0CEF007F03B0 /* HISTORY */,
+				4D82DCFE09BA0CFC007F03B0 /* README */,
+				4D82DCE809BA0CCE007F03B0 /* doc */,
 			);
 			name = oniguruma;
 			path = RegularExpression/oniguruma;
-			sourceTree = SOURCE_ROOT;
-		};
-		4DC40E1909150CF10029A2A6 /* sample */ = {
-			isa = PBXGroup;
-			children = (
-				4DC40E1A09150CF10029A2A6 /* encode.c */,
-				4DC40E1B09150CF10029A2A6 /* listcap.c */,
-				4DC40E1C09150CF10029A2A6 /* names.c */,
-				4DC40E1D09150CF10029A2A6 /* posix.c */,
-				4DC40E1E09150CF10029A2A6 /* simple.c */,
-				4DC40E1F09150CF10029A2A6 /* sql.c */,
-				4DC40E2009150CF10029A2A6 /* syntax.c */,
-			);
-			name = sample;
-			path = RegularExpression/oniguruma/sample;
-			sourceTree = SOURCE_ROOT;
-		};
-		4DC40E2709150CF10029A2A6 /* win32 */ = {
-			isa = PBXGroup;
-			children = (
-				4DC40E2809150CF20029A2A6 /* config.h */,
-				4DC40E2909150CF20029A2A6 /* Makefile */,
-				4DC40E2A09150CF20029A2A6 /* testc.c */,
-			);
-			name = win32;
-			path = RegularExpression/oniguruma/win32;
-			sourceTree = SOURCE_ROOT;
-		};
-		4DC40E2C09150CF20029A2A6 /* doc */ = {
-			isa = PBXGroup;
-			children = (
-				4DC40E2D09150CF20029A2A6 /* API */,
-				4DC40E2E09150CF20029A2A6 /* API.ja */,
-				4DC40E2F09150CF20029A2A6 /* FAQ */,
-				4DC40E3009150CF20029A2A6 /* FAQ.ja */,
-				4DC40E3109150CF20029A2A6 /* RE */,
-				4DC40E3209150CF20029A2A6 /* RE.ja */,
-			);
-			name = doc;
-			path = RegularExpression/oniguruma/doc;
-			sourceTree = SOURCE_ROOT;
-		};
-		4DC40E3309150CF20029A2A6 /* enc */ = {
-			isa = PBXGroup;
-			children = (
-				4DC40E3409150CF20029A2A6 /* ascii.c */,
-				4DC40E3509150CF20029A2A6 /* big5.c */,
-				4DC40E3609150CF20029A2A6 /* euc_jp.c */,
-				4DC40E3709150CF20029A2A6 /* euc_kr.c */,
-				4DC40E3809150CF20029A2A6 /* euc_tw.c */,
-				4DC40E3909150CF20029A2A6 /* gb18030.c */,
-				4DC40E3A09150CF20029A2A6 /* iso8859_1.c */,
-				4DC40E3B09150CF20029A2A6 /* iso8859_10.c */,
-				4DC40E3C09150CF20029A2A6 /* iso8859_11.c */,
-				4DC40E3D09150CF20029A2A6 /* iso8859_13.c */,
-				4DC40E3E09150CF20029A2A6 /* iso8859_14.c */,
-				4DC40E3F09150CF30029A2A6 /* iso8859_15.c */,
-				4DC40E4009150CF30029A2A6 /* iso8859_16.c */,
-				4DC40E4109150CF30029A2A6 /* iso8859_2.c */,
-				4DC40E4209150CF30029A2A6 /* iso8859_3.c */,
-				4DC40E4309150CF30029A2A6 /* iso8859_4.c */,
-				4DC40E4409150CF30029A2A6 /* iso8859_5.c */,
-				4DC40E4509150CF30029A2A6 /* iso8859_6.c */,
-				4DC40E4609150CF30029A2A6 /* iso8859_7.c */,
-				4DC40E4709150CF30029A2A6 /* iso8859_8.c */,
-				4DC40E4809150CF30029A2A6 /* iso8859_9.c */,
-				4DC40E4909150CF30029A2A6 /* koi8.c */,
-				4DC40E4A09150CF30029A2A6 /* koi8_r.c */,
-				4DC40E4B09150CF30029A2A6 /* mktable.c */,
-				4DC40E4C09150CF30029A2A6 /* sjis.c */,
-				4DC40E4D09150CF30029A2A6 /* unicode.c */,
-				4DC40E4E09150CF30029A2A6 /* utf16_be.c */,
-				4DC40E4F09150CF30029A2A6 /* utf16_le.c */,
-				4DC40E5009150CF30029A2A6 /* utf32_be.c */,
-				4DC40E5109150CF30029A2A6 /* utf32_le.c */,
-				4DC40E5209150CF30029A2A6 /* utf8.c */,
-			);
-			name = enc;
-			path = RegularExpression/oniguruma/enc;
 			sourceTree = SOURCE_ROOT;
 		};
 		4DC40E5409150CF30029A2A6 /* Resources */ = {
@@ -1684,11 +1484,6 @@
 				4DC40F6109150CF50029A2A6 /* OGReplaceExpressionPrivate.h in Headers */,
 				4DC40F6309150CF50029A2A6 /* OGRegularExpressionFormatter.h in Headers */,
 				4DC40F7009150CF50029A2A6 /* NSString_OgreKitAdditions.h in Headers */,
-				4DC40FF309150CF50029A2A6 /* regenc.h in Headers */,
-				4DC40FF809150CF50029A2A6 /* regint.h in Headers */,
-				4DC40FFA09150CF50029A2A6 /* regparse.h in Headers */,
-				4DC4100809150CF50029A2A6 /* st.h in Headers */,
-				4DC4103609150CF60029A2A6 /* oniguruma.h in Headers */,
 				4DC4103809150CF60029A2A6 /* OgreKit.h in Headers */,
 				4DC4103909150CF60029A2A6 /* OgreKit_Prefix.pch in Headers */,
 				4DC410E8091512C10029A2A6 /* OGMutableString.h in Headers */,
@@ -1697,6 +1492,7 @@
 				4DC410EE091512C70029A2A6 /* OGPlainString.h in Headers */,
 				4DC410F0091512C90029A2A6 /* OGMutableAttributedString.h in Headers */,
 				4DC410F2091512CA0029A2A6 /* OGAttributedString.h in Headers */,
+				4D82DCE409BA0CAF007F03B0 /* oniguruma.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1779,17 +1575,33 @@
 				4DC40EEB09150CF50029A2A6 /* OgreAttachableWindowAcceptee.h in Headers */,
 				4DC40EED09150CF50029A2A6 /* OgreAttachableWindowMediator.h in Headers */,
 				4DC40EEF09150CF50029A2A6 /* OgreAttachableWindowAcceptor.h in Headers */,
-				4DC40F0209150CF50029A2A6 /* regenc.h in Headers */,
-				4DC40F0709150CF50029A2A6 /* regint.h in Headers */,
-				4DC40F0909150CF50029A2A6 /* regparse.h in Headers */,
-				4DC40F1709150CF50029A2A6 /* st.h in Headers */,
-				4DC40F4509150CF50029A2A6 /* oniguruma.h in Headers */,
 				4DC40F4609150CF50029A2A6 /* OgreKit.h in Headers */,
 				4DC40F4809150CF50029A2A6 /* OgreKit_Prefix.pch in Headers */,
+				4D82DCE309BA0CAF007F03B0 /* oniguruma.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
+
+/* Begin PBXLegacyTarget section */
+		4D82DCCA09B9ECD1007F03B0 /* Oniguruma */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 4D82DCD509B9ECF8007F03B0 /* Build configuration list for PBXLegacyTarget "Oniguruma" */;
+			buildPhases = (
+			);
+			buildSettings = {
+				PRODUCT_NAME = Oniguruma;
+			};
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = RegularExpression/oniguruma;
+			dependencies = (
+			);
+			name = Oniguruma;
+			passBuildSettingsInEnvironment = 1;
+			productName = Oniguruma;
+		};
+/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		4DC40BF209150BDB0029A2A6 /* OgreKit (without Find Panel) */ = {
@@ -1805,7 +1617,25 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OgreKit_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				PREBINDING = NO;
+				PRODUCT_NAME = OgreKit;
+				WRAPPER_EXTENSION = framework;
+			};
 			dependencies = (
+				4D82DCCE09B9ECDE007F03B0 /* PBXTargetDependency */,
 			);
 			name = "OgreKit (without Find Panel)";
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -1824,12 +1654,62 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Regular Expression Test-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = "Regular Expression Test";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
 			dependencies = (
 				4DC412C1091519C90029A2A6 /* PBXTargetDependency */,
 			);
 			name = "Regular Expression Test";
 			productName = "Regular Expression Test";
 			productReference = 4DC40C0409150C280029A2A6 /* OgreTest.app */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Regular Expression Test</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Regular_Expression_Test</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+";
 			productType = "com.apple.product-type.application";
 		};
 		4DC40C0E09150C3E0029A2A6 /* Find Panel Test */ = {
@@ -1843,12 +1723,62 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Find Panel Test-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = "Find Panel Test";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
 			dependencies = (
 				4D6EA0E6096ACECA0010762A /* PBXTargetDependency */,
 			);
 			name = "Find Panel Test";
 			productName = "Find Panel Test";
 			productReference = 4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Find Panel Test</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Find_Panel_Test</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+";
 			productType = "com.apple.product-type.application";
 		};
 		4DC40C1909150C720029A2A6 /* My Find Panel Example */ = {
@@ -1862,12 +1792,62 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "My Find Panel Example-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = "My Find Panel Example";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
 			dependencies = (
 				4D6EA0E8096ACED60010762A /* PBXTargetDependency */,
 			);
 			name = "My Find Panel Example";
 			productName = "My Find Panel Example";
 			productReference = 4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>My Find Panel Example</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.My_Find_Panel_Example</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+";
 			productType = "com.apple.product-type.application";
 		};
 		4DC40C2F09150C9E0029A2A6 /* Replace With Attributes Test */ = {
@@ -1881,12 +1861,62 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Replace With Attributes Test-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = "Replace With Attributes Test";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
 			dependencies = (
 				4D6EA0EA096ACEDC0010762A /* PBXTargetDependency */,
 			);
 			name = "Replace With Attributes Test";
 			productName = "Replace With Attributes Test";
 			productReference = 4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Replace With Attributes Test</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Replace_With_Attributes_Test</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+";
 			productType = "com.apple.product-type.application";
 		};
 		8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */ = {
@@ -1902,7 +1932,25 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OgreKit_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				PREBINDING = NO;
+				PRODUCT_NAME = OgreKit;
+				WRAPPER_EXTENSION = framework;
+			};
 			dependencies = (
+				4D82DCCC09B9ECDB007F03B0 /* PBXTargetDependency */,
 			);
 			name = "OgreKit (Full Features)";
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -1915,7 +1963,13 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit (Universal Binary)" */;
+			buildConfigurationList = 4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA440018CDF011CA2923 /* Debug */,
+				014CEA450018CDF011CA2923 /* Release */,
+			);
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -1933,6 +1987,7 @@
 			projectDirPath = "";
 			targets = (
 				4DC412B3091519A60029A2A6 /* All */,
+				4D82DCCA09B9ECD1007F03B0 /* Oniguruma */,
 				8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */,
 				4DC40BF209150BDB0029A2A6 /* OgreKit (without Find Panel) */,
 				4DC40C0309150C280029A2A6 /* Regular Expression Test */,
@@ -2029,46 +2084,6 @@
 				4DC40F6209150CF50029A2A6 /* OGReplaceExpressionPrivate.m in Sources */,
 				4DC40F6409150CF50029A2A6 /* OGRegularExpressionFormatter.m in Sources */,
 				4DC40F7109150CF50029A2A6 /* NSString_OgreKitAdditions.m in Sources */,
-				4DC40FF109150CF50029A2A6 /* regcomp.c in Sources */,
-				4DC40FF209150CF50029A2A6 /* regenc.c in Sources */,
-				4DC40FF409150CF50029A2A6 /* regerror.c in Sources */,
-				4DC40FF509150CF50029A2A6 /* regexec.c in Sources */,
-				4DC40FF609150CF50029A2A6 /* regext.c in Sources */,
-				4DC40FF909150CF50029A2A6 /* regparse.c in Sources */,
-				4DC40FFD09150CF50029A2A6 /* regsyntax.c in Sources */,
-				4DC40FFE09150CF50029A2A6 /* regtrav.c in Sources */,
-				4DC40FFF09150CF50029A2A6 /* regversion.c in Sources */,
-				4DC4100709150CF50029A2A6 /* st.c in Sources */,
-				4DC4101709150CF50029A2A6 /* ascii.c in Sources */,
-				4DC4101809150CF50029A2A6 /* big5.c in Sources */,
-				4DC4101909150CF50029A2A6 /* euc_jp.c in Sources */,
-				4DC4101A09150CF50029A2A6 /* euc_kr.c in Sources */,
-				4DC4101B09150CF50029A2A6 /* euc_tw.c in Sources */,
-				4DC4101C09150CF50029A2A6 /* gb18030.c in Sources */,
-				4DC4101D09150CF50029A2A6 /* iso8859_1.c in Sources */,
-				4DC4101E09150CF50029A2A6 /* iso8859_10.c in Sources */,
-				4DC4101F09150CF50029A2A6 /* iso8859_11.c in Sources */,
-				4DC4102009150CF50029A2A6 /* iso8859_13.c in Sources */,
-				4DC4102109150CF50029A2A6 /* iso8859_14.c in Sources */,
-				4DC4102209150CF50029A2A6 /* iso8859_15.c in Sources */,
-				4DC4102309150CF50029A2A6 /* iso8859_16.c in Sources */,
-				4DC4102409150CF50029A2A6 /* iso8859_2.c in Sources */,
-				4DC4102509150CF50029A2A6 /* iso8859_3.c in Sources */,
-				4DC4102609150CF60029A2A6 /* iso8859_4.c in Sources */,
-				4DC4102709150CF60029A2A6 /* iso8859_5.c in Sources */,
-				4DC4102809150CF60029A2A6 /* iso8859_6.c in Sources */,
-				4DC4102909150CF60029A2A6 /* iso8859_7.c in Sources */,
-				4DC4102A09150CF60029A2A6 /* iso8859_8.c in Sources */,
-				4DC4102B09150CF60029A2A6 /* iso8859_9.c in Sources */,
-				4DC4102C09150CF60029A2A6 /* koi8.c in Sources */,
-				4DC4102D09150CF60029A2A6 /* koi8_r.c in Sources */,
-				4DC4102F09150CF60029A2A6 /* sjis.c in Sources */,
-				4DC4103009150CF60029A2A6 /* unicode.c in Sources */,
-				4DC4103109150CF60029A2A6 /* utf16_be.c in Sources */,
-				4DC4103209150CF60029A2A6 /* utf16_le.c in Sources */,
-				4DC4103309150CF60029A2A6 /* utf32_be.c in Sources */,
-				4DC4103409150CF60029A2A6 /* utf32_le.c in Sources */,
-				4DC4103509150CF60029A2A6 /* utf8.c in Sources */,
 				4DC410E9091512C20029A2A6 /* OGString.m in Sources */,
 				4DC410EB091512C40029A2A6 /* OGMutablePlainString.m in Sources */,
 				4DC410ED091512C60029A2A6 /* OGPlainString.m in Sources */,
@@ -2202,46 +2217,6 @@
 				4DC40EEC09150CF50029A2A6 /* OgreAttachableWindowAcceptee.m in Sources */,
 				4DC40EEE09150CF50029A2A6 /* OgreAttachableWindowMediator.m in Sources */,
 				4DC40EF009150CF50029A2A6 /* OgreAttachableWindowAcceptor.m in Sources */,
-				4DC40F0009150CF50029A2A6 /* regcomp.c in Sources */,
-				4DC40F0109150CF50029A2A6 /* regenc.c in Sources */,
-				4DC40F0309150CF50029A2A6 /* regerror.c in Sources */,
-				4DC40F0409150CF50029A2A6 /* regexec.c in Sources */,
-				4DC40F0509150CF50029A2A6 /* regext.c in Sources */,
-				4DC40F0809150CF50029A2A6 /* regparse.c in Sources */,
-				4DC40F0C09150CF50029A2A6 /* regsyntax.c in Sources */,
-				4DC40F0D09150CF50029A2A6 /* regtrav.c in Sources */,
-				4DC40F0E09150CF50029A2A6 /* regversion.c in Sources */,
-				4DC40F1609150CF50029A2A6 /* st.c in Sources */,
-				4DC40F2609150CF50029A2A6 /* ascii.c in Sources */,
-				4DC40F2709150CF50029A2A6 /* big5.c in Sources */,
-				4DC40F2809150CF50029A2A6 /* euc_jp.c in Sources */,
-				4DC40F2909150CF50029A2A6 /* euc_kr.c in Sources */,
-				4DC40F2A09150CF50029A2A6 /* euc_tw.c in Sources */,
-				4DC40F2B09150CF50029A2A6 /* gb18030.c in Sources */,
-				4DC40F2C09150CF50029A2A6 /* iso8859_1.c in Sources */,
-				4DC40F2D09150CF50029A2A6 /* iso8859_10.c in Sources */,
-				4DC40F2E09150CF50029A2A6 /* iso8859_11.c in Sources */,
-				4DC40F2F09150CF50029A2A6 /* iso8859_13.c in Sources */,
-				4DC40F3009150CF50029A2A6 /* iso8859_14.c in Sources */,
-				4DC40F3109150CF50029A2A6 /* iso8859_15.c in Sources */,
-				4DC40F3209150CF50029A2A6 /* iso8859_16.c in Sources */,
-				4DC40F3309150CF50029A2A6 /* iso8859_2.c in Sources */,
-				4DC40F3409150CF50029A2A6 /* iso8859_3.c in Sources */,
-				4DC40F3509150CF50029A2A6 /* iso8859_4.c in Sources */,
-				4DC40F3609150CF50029A2A6 /* iso8859_5.c in Sources */,
-				4DC40F3709150CF50029A2A6 /* iso8859_6.c in Sources */,
-				4DC40F3809150CF50029A2A6 /* iso8859_7.c in Sources */,
-				4DC40F3909150CF50029A2A6 /* iso8859_8.c in Sources */,
-				4DC40F3A09150CF50029A2A6 /* iso8859_9.c in Sources */,
-				4DC40F3B09150CF50029A2A6 /* koi8.c in Sources */,
-				4DC40F3C09150CF50029A2A6 /* koi8_r.c in Sources */,
-				4DC40F3E09150CF50029A2A6 /* sjis.c in Sources */,
-				4DC40F3F09150CF50029A2A6 /* unicode.c in Sources */,
-				4DC40F4009150CF50029A2A6 /* utf16_be.c in Sources */,
-				4DC40F4109150CF50029A2A6 /* utf16_le.c in Sources */,
-				4DC40F4209150CF50029A2A6 /* utf32_be.c in Sources */,
-				4DC40F4309150CF50029A2A6 /* utf32_le.c in Sources */,
-				4DC40F4409150CF50029A2A6 /* utf8.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2262,6 +2237,16 @@
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */;
 			targetProxy = 4D6EA0E9096ACEDC0010762A /* PBXContainerItemProxy */;
+		};
+		4D82DCCC09B9ECDB007F03B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4D82DCCA09B9ECD1007F03B0 /* Oniguruma */;
+			targetProxy = 4D82DCCB09B9ECDB007F03B0 /* PBXContainerItemProxy */;
+		};
+		4D82DCCE09B9ECDE007F03B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4D82DCCA09B9ECD1007F03B0 /* Oniguruma */;
+			targetProxy = 4D82DCCD09B9ECDE007F03B0 /* PBXContainerItemProxy */;
 		};
 		4DC412B5091519B70029A2A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2512,6 +2497,35 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4D82DCD609B9ECF8007F03B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Oniguruma;
+			};
+			name = Debug;
+		};
+		4D82DCD709B9ECF8007F03B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = Oniguruma;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		4D82DCD809B9ECF8007F03B0 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Oniguruma;
+			};
+			name = Default;
+		};
 		4DC40BA0091509DC0029A2A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2530,6 +2544,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -2573,11 +2591,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOS_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOS_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
@@ -2609,6 +2631,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -2657,7 +2683,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -2672,9 +2697,13 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
@@ -2701,22 +2730,29 @@
 					i386,
 				);
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpression/OgreKit_Prefix.pch;
+				GCC_VERSION_i386 = 4.0;
+				GCC_VERSION_ppc = 3.3;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
@@ -2725,7 +2761,6 @@
 				PRODUCT_NAME = OgreKit;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SKIP_INSTALL = YES;
-				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -2750,9 +2785,13 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "RegularExpression/OgreKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)/RegularExpression/oniguruma/universal",
+				);
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x32000000,
@@ -2817,8 +2856,8 @@
 				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "RegularExpressionTest/OgreTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOS_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOS_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -2913,8 +2952,8 @@
 				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOS_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOS_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -3001,8 +3040,8 @@
 				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOS_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOS_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -3093,8 +3132,8 @@
 				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOS_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOS_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -3204,6 +3243,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4D82DCD509B9ECF8007F03B0 /* Build configuration list for PBXLegacyTarget "Oniguruma" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4D82DCD609B9ECF8007F03B0 /* Debug */,
+				4D82DCD709B9ECF8007F03B0 /* Release */,
+				4D82DCD809B9ECF8007F03B0 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
 		4DC40B9F091509DC0029A2A6 /* Build configuration list for PBXNativeTarget "OgreKit (Full Features)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3212,9 +3261,9 @@
 				4DC40BA2091509DC0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Default;
 		};
-		4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit (Universal Binary)" */ = {
+		4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4DC40BA4091509DC0029A2A6 /* Debug */,
@@ -3222,7 +3271,7 @@
 				4DC40BA6091509DC0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Default;
 		};
 		4DC40BF809150BDB0029A2A6 /* Build configuration list for PBXNativeTarget "OgreKit (without Find Panel)" */ = {
 			isa = XCConfigurationList;
@@ -3232,7 +3281,7 @@
 				4DC40BFB09150BDB0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Default;
 		};
 		4DC40C0709150C290029A2A6 /* Build configuration list for PBXNativeTarget "Regular Expression Test" */ = {
 			isa = XCConfigurationList;
@@ -3242,7 +3291,7 @@
 				4DC40C0A09150C290029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Default;
 		};
 		4DC40C1209150C400029A2A6 /* Build configuration list for PBXNativeTarget "Find Panel Test" */ = {
 			isa = XCConfigurationList;
@@ -3252,7 +3301,7 @@
 				4DC40C1509150C400029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Default;
 		};
 		4DC40C1D09150C740029A2A6 /* Build configuration list for PBXNativeTarget "My Find Panel Example" */ = {
 			isa = XCConfigurationList;
@@ -3262,7 +3311,7 @@
 				4DC40C2009150C740029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Default;
 		};
 		4DC40C3309150C9F0029A2A6 /* Build configuration list for PBXNativeTarget "Replace With Attributes Test" */ = {
 			isa = XCConfigurationList;
@@ -3272,7 +3321,7 @@
 				4DC40C3609150C9F0029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Default;
 		};
 		4DC412C2091519D50029A2A6 /* Build configuration list for PBXAggregateTarget "All" */ = {
 			isa = XCConfigurationList;
@@ -3282,7 +3331,7 @@
 				4DC412C5091519D50029A2A6 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Default;
 		};
 /* End XCConfigurationList section */
 	};

@@ -1,3 +1,28 @@
+2006-03-05 Isao Sonobe  <sonobe@secret>
+
+	* OgreKit[dep]: 
+	release ver.2.1.2.
+
+	* Build Targets[new]: 
+	add build target for Oniguruma.
+
+	* Oniguruma[dist]: 
+	import ver.4.0.1.
+
+2006-01-22 Isao Sonobe  <sonobe@secret>
+
+	* OgreKit[dep]: 
+	release ver.2.1.1.
+
+	* OGRegularExpression[bug]: 
+	update the version string.
+	(thanks Martin Ott!)
+
+	* Target settings[bug]:
+	fix a wrong path.
+	fix typos.
+	(thanks Martin Ott!)
+
 2006-01-04 Isao Sonobe  <sonobe@secret>
 
 	* OgreKit[dep]: 
