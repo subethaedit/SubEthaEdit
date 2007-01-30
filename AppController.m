@@ -333,11 +333,11 @@ static AppController *sharedInstance = nil;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 
-    #warning "Termination has to be removed before release!"
-    if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
-        [NSApp terminate:self];
-        return;
-    }
+    //#warning "Termination has to be removed before release!"
+    //if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
+    //    [NSApp terminate:self];
+    //    return;
+    //}
 
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     
@@ -679,9 +679,11 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     while ((item=[menuItems nextObject])) {
         [item setKeyEquivalent:@""];
     }
-    menuItem=(NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
-    [menuItem setKeyEquivalent:@"n"];
+    item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+    [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [item setKeyEquivalent:@"n"];
+    
+    [menuItem setRepresentedObject:item];
 }
 
 - (void)addShortcutToModeForNewAlternateDocumentsEntry {
@@ -693,13 +695,14 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     while ((item=[menuItems nextObject])) {
         [item setKeyEquivalent:@""];
     }
-    menuItem = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-    [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask | NSAlternateKeyMask];
-    [menuItem setKeyEquivalent:@"n"];
+    item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+    [item setKeyEquivalentModifierMask:NSCommandKeyMask | NSAlternateKeyMask];
+    [item setKeyEquivalent:@"n"];
+    
+    [menuItem setRepresentedObject:item];
 }
 
 - (void)documentModeListDidChange:(NSNotification *)aNotification {
-    NSLog(@"%s",__FUNCTION__);
     // fix file->new menu
     [self performSelector:@selector(addShortcutToModeForNewDocumentsEntry)          withObject:nil afterDelay:0.0];
     [self performSelector:@selector(addShortcutToModeForNewAlternateDocumentsEntry) withObject:nil afterDelay:0.0];

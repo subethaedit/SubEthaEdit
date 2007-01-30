@@ -629,11 +629,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:DocumentModeEncodingPreferenceKey]) {
         NSNumber *oldEncodingNumber = [change objectForKey:NSKeyValueChangeOldKey];
-        if (oldEncodingNumber) {
+        if (oldEncodingNumber && ![oldEncodingNumber isKindOfClass:[NSNull class]]) {
             [[EncodingManager sharedInstance] unregisterEncoding:[oldEncodingNumber unsignedIntValue]];
         }
         NSNumber *newEncodingNumber = [change objectForKey:NSKeyValueChangeNewKey];
-        if (newEncodingNumber) {
+        if (newEncodingNumber && ![newEncodingNumber isKindOfClass:[NSNull class]]) {
             [[EncodingManager sharedInstance] registerEncoding:[newEncodingNumber unsignedIntValue]];
         }
     }

@@ -16,4 +16,5 @@
 - (NSString *)HTMLString;
 - (BOOL)isDark;
 - (NSColor *)brightnessInvertedColor;
+- (NSColor *)brightnessInvertedSelectionColor;
 @end

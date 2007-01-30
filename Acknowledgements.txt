@@ -1,6 +1,12 @@
+SubEthaEdit uses the following 3rd party frameworks:
+- OniGuruma         http://www.geocities.jp/kosako3/oniguruma/
+- OgreKit           http://www8.ocn.ne.jp/~sonoisa/OgreKit/
+- Sparkle           http://andymatuschak.org/pages/sparkle
+- HDCrashReporter   http://www.profcast.com/developers/HDCrashReporter.php
+- PSMTabBarControl  http://opensource.bleepsoft.com/index.php/Main/PSMTabBarControl
 
-SubEthaEdit uses two excellent frameworks for its regular expression capabilities.
-Following are the licenses of these. Thanks a lot Kosako-san and Sonobe-san!
+Thanks a lot to all creators and contributers of these frameworks. 
+Following are the licenses of these frameworks:
 
 
 OniGuruma LICENSE
@@ -70,9 +76,6 @@ It follows the BSD license in the case of the one except for it.
  */
  
 
-
-SubEthaEdit also uses Sparkle by Andy Matuschak for automatic updates and a modified version of HDCrashReporter by Humble Daisy. Thanks a lot!
-
 Sparkle license
 ---------------
 
@@ -107,3 +110,19 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 For more information contact: developers@profcast.com
+
+
+PSMTabBarControl license
+------------------------
+
+This source code is provided under BSD license, the conditions of which are listed below.  I hope you'll make note somewhere in your about window or ReadMe stating the sweet coding goodness of Positive Spin Media and link to the fascinating and informative website at www.positivespinmedia.com
+
+Copyright (c) 2005, Positive Spin Media
+All rights reserved.
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	•	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	•	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+	•	Neither the name of Positive Spin Media nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+        
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+

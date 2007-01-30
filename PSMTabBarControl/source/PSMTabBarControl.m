@@ -171,21 +171,29 @@
 		// resize
 		[self setPostsFrameChangedNotifications:YES];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(frameDidChange:) name:NSViewFrameDidChangeNotification object:self];
-		
-		// window status
-		#warning totally problematic all around observation because window is nil at this point
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowStatusDidChange:) name:NSWindowDidBecomeKeyNotification object:[self window]];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowStatusDidChange:) name:NSWindowDidResignKeyNotification object:[self window]];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidMove:) name:NSWindowDidMoveNotification object:[self window]];
     }
     [self setTarget:self];
     return self;
 }
 
+- (void)viewWillMoveToWindow:(NSWindow *)aWindow {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    NSWindow *myWindow = [self window];
+    if (myWindow) {
+        [center removeObserver:self name:NSWindowDidBecomeKeyNotification object:myWindow];
+        [center removeObserver:self name:NSWindowDidResignKeyNotification object:myWindow];
+        [center removeObserver:self name:NSWindowDidMoveNotification      object:myWindow];
+    } 
+    if (aWindow) {
+		[center addObserver:self selector:@selector(windowStatusDidChange:) name:NSWindowDidBecomeKeyNotification object:aWindow];
+		[center addObserver:self selector:@selector(windowStatusDidChange:) name:NSWindowDidResignKeyNotification object:aWindow];
+		[center addObserver:self selector:@selector(windowDidMove:)         name:NSWindowDidMoveNotification      object:aWindow];
+    }
+}
+
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
 	//unbind all the items to prevent crashing
 	//not sure if this is necessary or not
 	NSEnumerator *enumerator = [_cells objectEnumerator];
@@ -801,7 +809,7 @@
 				[[self delegate] tabView:[self tabView] tabBarDidUnhide:self];
 			}
 		}
-		
+		[[self retain] autorelease]; // save us from an evil fate if the invalidation of the timer would cause us to be dealloced
 		[timer invalidate];
     }
     [[self window] display];

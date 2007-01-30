@@ -57,6 +57,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (NSArray *)plainTextEditors;
 - (PlainTextEditor *)activePlainTextEditor;
+- (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument;
 
 - (void)refreshDisplay;
 

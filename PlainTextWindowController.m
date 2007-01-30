@@ -425,6 +425,28 @@ enum {
     return nil;
 }
 
+- (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument {
+    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
+    if (tabViewItem) {
+        PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        NSArray *plainTextEditors = [tabContext plainTextEditors];
+//        if ([plainTextEditors count] != 1) {
+//            id responder = [tabViewItem initialFirstResponder];
+//            NSLog(@"%s %@ responder:%@",__FUNCTION__,aDocument,responder);
+//            if ([responder isKindOfClass:[NSTextView class]]) {
+//                if ([[plainTextEditors objectAtIndex:1] textView] == responder) {
+//                    return [plainTextEditors objectAtIndex:1];
+//                }
+//            }
+//        }
+        if ([plainTextEditors count] > 0) {
+            return [plainTextEditors objectAtIndex:0];
+        }
+    }
+    return nil;
+}
+
+
 #pragma mark -
 
 - (void)gotoLine:(unsigned)aLine {
@@ -484,8 +506,9 @@ enum {
 
     [tabViewItem release];
     [document release];
-    [document showWindows];
+    [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
     [windowController setDocument:document];
+    [windowController showWindow:self];
     if ([O_participantsDrawer state] == NSDrawerOpenState) {
         [windowController openParticipantsDrawer:self];
     }
@@ -1827,9 +1850,12 @@ enum {
         [self removeObjectFromDocumentsAtIndex:documentIndex];
         [I_tabView removeTabViewItem:tabViewItem];
 
-        [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
-        [document addWindowController:windowController];
-        [[windowController tabView] addTabViewItem:tabViewItem];
+        if (![[windowController documents] containsObject:document]) {
+            [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
+            [document addWindowController:windowController];
+            [[windowController tabView] addTabViewItem:tabViewItem];
+            [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
+        }
 
         [tabViewItem release];
         [document release];
@@ -1908,54 +1934,71 @@ enum {
     [[self document] canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
 }
 
+- (void)closeAllTabsAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+    [[alert window] orderOut:self];
+
+    if (returnCode == NSAlertFirstButtonReturn) {
+        [self reviewChangesAndQuitEnumeration:YES];
+    } else if (returnCode == NSAlertThirdButtonReturn) {
+        NSArray *documents = [self documents];
+        unsigned count = [documents count];
+        while (count--) {
+            PlainTextDocument *document = [documents objectAtIndex:count];
+            [self documentWillClose:document];
+            [document close];
+        }
+    }
+}
+
 - (void)closeAllTabs
 {
     NSArray *documents = [self documents];
     unsigned count = [documents count];
     unsigned needsSaving = 0;
+    unsigned hasMultipleViews = 0;
  
     // Determine if there are any unsaved documents...
 
     while (count--) {
         PlainTextDocument *document = [documents objectAtIndex:count];
-        if (document && [document isDocumentEdited]) needsSaving++;
+        if (document &&
+            [document isDocumentEdited])
+        {
+            needsSaving++;
+
+            if ([[document windowControllers] count] > 1)
+                hasMultipleViews++;
+        }
     }
     if (needsSaving > 0) {
-        int choice = NSAlertDefaultReturn;	// Meaning, review changes
+        needsSaving -= hasMultipleViews;
         if (needsSaving > 1) {	// If we only have 1 unsaved document, we skip the "review changes?" panel
-            NSString *title = [NSString stringWithFormat:NSLocalizedString(@"You have %d documents with unsaved changes. Do you want to review these changes before quitting?", @"Title of alert panel which comes up when user chooses Quit and there are multiple unsaved documents."), needsSaving];
-            choice = NSRunAlertPanel(title, 
-                NSLocalizedString(@"If you don\\U2019t review your documents, all your changes will be lost.", @"Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents."), 
-                NSLocalizedString(@"Review Changes\\U2026", @"Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first."), 	// ellipses
-                NSLocalizedString(@"Discard Changes", @"Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents."), 
-                NSLocalizedString(@"Cancel", @"Button choice allowing user to cancel."));
-            if (choice == NSAlertOtherReturn) {
-                //NSLog(@"Cancelled...");       	/* Cancel */
-                return;
-            }
-        }
-        if (choice == NSAlertDefaultReturn) {	/* Review unsaved; Quit Anyway falls through */
+        
+            NSString *title = [NSString stringWithFormat:NSLocalizedString(@"You have %d documents in this window with unsaved changes. Do you want to review these changes?", nil), needsSaving];
+            
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:title];
+            [alert setInformativeText:NSLocalizedString(@"If you don\\U2019t review your documents, all your changes will be lost.", @"Warning in the alert panel which comes up when user chooses Quit and there are unsaved documents.")];
+            [alert addButtonWithTitle:NSLocalizedString(@"Review Changes\\U2026", @"Choice (on a button) given to user which allows him/her to review all unsaved documents if he/she quits the application without saving them all first.")];
+            [alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Button choice allowing user to cancel.")];
+            [alert addButtonWithTitle:NSLocalizedString(@"Discard Changes", @"Choice (on a button) given to user which allows him/her to quit the application even though there are unsaved documents.")];
+            [alert beginSheetModalForWindow:[self window]
+                              modalDelegate:self
+                             didEndSelector:@selector(closeAllTabsAlertDidEnd:returnCode:contextInfo:)
+                                contextInfo:nil];
+        } else {
             [self reviewChangesAndQuitEnumeration:YES];
-            return;
-        } else if (choice == NSAlertAlternateReturn) {
-            //NSLog(@"close all tabs unreviewed");
-            NSArray *documents = [self documents];
-            unsigned count = [documents count];
-            while (count--) {
-                PlainTextDocument *document = [documents objectAtIndex:count];
-                [self documentWillClose:document];
-                [document close];
-            }
-            return;
         }
-    }
-    
-    documents = [self documents];
-    count = [documents count];
-    while (count--) {
-        PlainTextDocument *document = [documents objectAtIndex:count];
-        [self documentWillClose:document];
-        [document close];
+    } else {
+        documents = [self documents];
+        count = [documents count];
+        while (count--) {
+            PlainTextDocument *document = [documents objectAtIndex:count];
+            [self documentWillClose:document];
+            [document close];
+        }
     }
 }
 
@@ -2076,6 +2119,7 @@ enum {
         [self insertObject:document inDocumentsAtIndex:[documents count]];
         PlainTextWindowControllerTabContext *tabContext = [[[PlainTextWindowControllerTabContext alloc] init] autorelease];
         [tabContext setDocument:(PlainTextDocument *)document];
+        [tabContext setIsEdited:[(PlainTextDocument *)document isDocumentEdited]];
         
         PlainTextLoadProgress *loadProgress = [[PlainTextLoadProgress alloc] init];
         [tabContext setLoadProgress:loadProgress];
@@ -2115,6 +2159,13 @@ enum {
 {
     if (document == [self document]) {
         [super setDocument:document];
+        NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
+        if (tabViewItem) {
+            PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+            I_plainTextEditors = [tabContext plainTextEditors];
+            I_editorSplitView = [tabContext editorSplitView];
+            I_dialogSplitView = [tabContext dialogSplitView];
+        } 
         return;
     }
     BOOL isNew = NO;
@@ -2353,6 +2404,10 @@ enum {
 
 - (BOOL)tabView:(NSTabView*)aTabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
 {
+    if ([[tabBarControl window] attachedSheet]) {
+        return NO;
+    }
+
     if (![aTabView isEqual:I_tabView]) {
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
         id document = [[tabViewItem identifier] document];
@@ -2467,21 +2522,14 @@ float ToolbarHeightForWindow(NSWindow *window)
             [[self retain] autorelease];
             [[DocumentController sharedInstance] removeWindowController:self];
         } else {
-            if ([[self documents] count] == 1) {
-                [self setDocument:[I_documents objectAtIndex:0]];
-            } else {
-                if (documentIndex >= [[self documents] count]) {
-                    [self setDocument:[I_documents objectAtIndex:[[self documents] count] - 1]];
-                } else {
-                    [self setDocument:[I_documents objectAtIndex:documentIndex]];
-                }
-            }
-        }
+            [self setDocument:[[[[self tabView] selectedTabViewItem] identifier] document]];
+        } 
         
         [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
         [document addWindowController:windowController];
 
         [document release];
+        [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
         [windowController setDocument:document];
         
         if ([O_participantsDrawer state] == NSDrawerOpenState) {
