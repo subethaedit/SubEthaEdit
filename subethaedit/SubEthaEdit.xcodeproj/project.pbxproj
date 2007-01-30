@@ -532,7 +532,7 @@
 		14288FFB09573F8200D14688 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		14288FFD09573FED00D14688 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		142890060957400800D14688 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
-		14289008095740F200D14688 /* Acknowledgements.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Acknowledgements.txt; sourceTree = "<group>"; };
+		14289008095740F200D14688 /* Acknowledgements.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Acknowledgements.txt; sourceTree = "<group>"; };
 		1428900A095740F200D14688 /* RE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RE.txt; sourceTree = "<group>"; };
 		1428900B095740F200D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = English; path = English.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		142890130957413900D14688 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };

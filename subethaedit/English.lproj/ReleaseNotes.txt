@@ -31,8 +31,6 @@ Fixes:
 - Fixed several bugs in the German localization.
 - Fixed an bug where the Lowercase and Uppercase scripts didn't handle Unicode 
   text correctly.
-- Fixed an issue where the Uppercase and Lowercase scripts inserted an 
-  unintended newline.
 - Fixed an issue where the highlight color for dark backgrounds was too dark to 
   be noticable.
 - Fixed a bug where modes installed for all users couldn't be loaded.

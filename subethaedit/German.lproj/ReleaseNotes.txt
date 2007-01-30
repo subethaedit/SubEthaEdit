@@ -33,8 +33,6 @@ Korrekturen:
 - Mehrere Fehler in der deutschen Lokalisierung wurden ausgebessert.
 - Ein Fehler, bei dem die Lowercase und Uppercase Skripte Unicode-Text nicht 
   korrekt behandelt haben, wurde behoben.
-- Ein Problem, durch das eine ungewollte Leerzeile beim Anwenden der Uppercase 
-  und Lowercase Skripte eingefügt wurde, wurde behoben.
 - Ein Problem, bei dem die Hervorhebungsfarbe auf dunklen Hintergründen zu 
   dunkel war, wurde behoben.
 - Ein Fehler beim Installieren von Modi für alle Benutzer wurde behoben.
