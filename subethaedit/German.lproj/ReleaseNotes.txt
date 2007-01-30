@@ -8,7 +8,7 @@ Neue Funktionen:
 - Eine Option für das Öffnen von neuen Dokumenten in Tabs hinzugefügt.
 - Ein zusätzliches Menükommando für das Erzeugen neuer Tabs hinzugefügt.
 - Fenster und Tabs können unabhängig voneinander geschlossen werden.
-- Das Kommando 'Tableister immer einblenden' hinzugefügt, um die Tableiste ein- 
+- Das Kommando 'Tableiste immer einblenden' hinzugefügt, um die Tableiste ein- 
   oder auszublenden.
 - Ein Tab kann mit dem Kommando 'Tab in ein neues Fenster bewegen' aus 
   bisherigen Fenster herausgenommen werden.
