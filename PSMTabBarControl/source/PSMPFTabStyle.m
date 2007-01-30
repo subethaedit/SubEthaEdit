@@ -441,8 +441,21 @@
     }
     
     // icon
-    if([cell hasIcon]){
-        NSRect iconRect = [self iconRectForTabCell:cell];
+    if([cell hasIcon]) {
+    
+        //NSRect iconRect = [self iconRectForTabCell:cell];
+        NSRect cellFrame2 = [cell frame];
+        cellFrame2.origin = NSZeroPoint;
+        
+        NSRect iconRect;
+        iconRect.size = NSMakeSize(kPSMTabBarIconWidth, kPSMTabBarIconWidth);
+        iconRect.origin.x = cellFrame2.origin.x + MARGIN_X;
+        iconRect.origin.y = cellFrame2.origin.y + MARGIN_Y + 1.0;
+        
+        if([cell hasCloseButton] && ![cell isCloseButtonSuppressed])
+            iconRect.origin.x += [unifiedCloseButton size].width + kPSMTabBarCellPadding;
+                
+                                
         NSImage *icon = [[[cell representedObject] identifier] icon];
         if ([[cell controlView] isFlipped]) {
             iconRect.origin.y += iconRect.size.height;

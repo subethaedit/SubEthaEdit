@@ -1,4 +1,48 @@
 
+SubEthaEdit 2.6
+===============
+
+Neue Funktionen:
+- Textfenster können mehrere Dokumente enthalten, die durch Tabs in einer 
+  Tableiste repräsentiert werden.
+- Eine Option für das Öffnen von neuen Dokumenten in Tabs hinzugefügt.
+- Ein zusätzliches Menükommando für das Erzeugen neuer Tabs hinzugefügt.
+- Fenster und Tabs können unabhängig voneinander geschlossen werden.
+- Das Kommando 'Tableiste immer einblenden' hinzugefügt, um die Tableiste ein- 
+  oder auszublenden.
+- Ein Tab kann mit dem Kommando 'Tab in ein neues Fenster bewegen' aus 
+  bisherigen Fenster herausgenommen werden.
+- Alle Fenster können mit dem Kommando 'Alle Fenster zusammenführen' in einem 
+  einzigen Fenster zusammengeführt werden.
+- Zur Navigation zwischen Tabs kann per Menükommando der vorherige oder der 
+  nächste Tab ausgewählt werden.
+- Das Untermenü 'Gehe zu Tab' hinzugefügt, das alle Tabs auflistet.
+- Tabs können mit der Maus durch Anfassen und Ziehen umarrangiert werden.
+- Tabs können auch zwischen Fenstern hin- und hergezogen werden.
+
+Veränderugen:
+- Die Funktion 'Alles suchen' hebt nun nach der Suche das erste Suchergebnis 
+  anstatt dem letzten hervor.
+- Einladungen werden nun über allen anderen Fenstern und in der rechten oberen 
+  Ecke des Bildschirms dargestellt.
+- Einladungen haben nun ein neues transparentes Erscheinungsbild.
+
+Korrekturen:
+- Ein Fehler, bei dem eine überflüssige Warnung beim Öffnen von Modus-Dateien 
+  angezeigt wurde, wurde behoben.
+- Mehrere Fehler in der deutschen Lokalisierung wurden ausgebessert.
+- Ein Fehler, bei dem die Lowercase und Uppercase Skripte Unicode-Text nicht 
+  korrekt behandelt haben, wurde behoben.
+- Ein Problem, bei dem die Hervorhebungsfarbe auf dunklen Hintergründen zu 
+  dunkel war, wurde behoben.
+- Ein Fehler beim Installieren von Modi für alle Benutzer wurde behoben.
+- Ein Fehler, bei dem das Open Terminal in Enclosing Folder Skript bei Pfaden 
+  mit Anführungszeichen fehlschlug, wurde behoben.
+- Ein Fehler, bei dem die Zeilennummer in der Statuszeile nicht korrekt 
+  angezeigt wurde, wurde behoben.
+- Verbesserte Modi: ActionScript, C, C++, HTML, Javascript, Lua, Objective-C, 
+  Perl, Python.
+
 SubEthaEdit 2.5.1
 =================
 

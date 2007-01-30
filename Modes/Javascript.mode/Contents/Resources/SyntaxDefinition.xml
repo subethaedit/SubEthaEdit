@@ -66,7 +66,7 @@
         </state>
         
         <state id="/Regular Expressions/" color="#760f15">
-            <begin><regex>/.*?[^\\](?=/)</regex></begin>
+            <begin><regex>/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
             <end><regex>/[cgimosx]*</regex></end>
         </state>
 

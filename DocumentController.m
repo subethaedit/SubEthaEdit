@@ -189,11 +189,19 @@
                     // Create the request dictionary for copying the mode
 
                     if (err == noErr) {
+                    
+                    NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)];
+                    NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    filePermissions, NSFilePosixPermissions,
+                                                    @"root", NSFileOwnerAccountName,
+                                                    @"admin", NSFileGroupOwnerAccountName,
+                                                    nil];
+                                        
                         request = [NSDictionary dictionaryWithObjectsAndKeys:
                                             @"CopyFiles", @"CommandName",
                                             fileName, @"SourceFile",
                                             destination, @"TargetFile",
-                                            //targetAttrs, @"TargetAttributes",
+                                            targetAttrs, @"TargetAttributes",
                                             nil];
                     }
 
@@ -1015,11 +1023,16 @@ static NSString *tempFileName() {
     }
 }
 
+- (void)newDocument:(id)sender
+{
+    [self newDocumentWithModeMenuItem:[sender representedObject]];
+}
+
 - (void)newAlternateDocument:(id)sender
 {
     BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
     [[NSUserDefaults standardUserDefaults] setBool:!flag forKey:OpenNewDocumentInTabKey];
-    [self newDocument:sender];
+    [self newDocumentWithModeMenuItem:[sender representedObject]];
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
 }
 
@@ -1125,11 +1138,22 @@ struct ModificationInfo
     } else if ([menuItem tag] == GotoTabMenuItemTag) {
         if ([[self documents] count] >0) {
             [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
+            return YES;
         } else {
+            [[menuItem submenu] removeAllItems];
             return NO;
         };
     } else if (selector == @selector(mergeAllWindows:)) {
-        return ([I_windowControllers count] > 1);
+        BOOL hasSheet = NO;
+        NSEnumerator *enumerator = [I_windowControllers objectEnumerator];
+        PlainTextWindowController *controller;
+        while ((controller = [enumerator nextObject])) {
+            if ([[controller window] attachedSheet] != nil) {
+                hasSheet = YES;
+                break;
+            }
+        }
+        return (([I_windowControllers count] > 1) && !hasSheet);
     }
     return [super validateMenuItem:menuItem];
 }
@@ -1249,22 +1273,30 @@ struct ModificationInfo
 {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
     
-    NSArray *documents = [self documents];
-    unsigned count = [documents count];
-    while (count--) {
-        PlainTextDocument *document = [documents objectAtIndex:count];
-        if ([document isDocumentEdited]) {
-            PlainTextWindowController *controller = [document topmostWindowController];
-            (void)[controller selectTabForDocument:document];
-            [document canCloseDocumentWithDelegate:self
-                               shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
-                                       contextInfo:closeAllContext];
-            return;
+    NSArray *windows = [[[NSApp orderedWindows] copy] autorelease];
+    NSEnumerator *winEnum = [windows objectEnumerator];
+    NSWindow *window;
+    while ((window = [winEnum nextObject])) {
+        NSWindowController *controller = [window windowController];
+        if ([controller isKindOfClass:[PlainTextWindowController class]]) {
+            NSArray *documents = [(PlainTextWindowController *)controller documents];
+            unsigned count = [documents count];
+            while (count--) {
+                PlainTextDocument *document = [documents objectAtIndex:count];
+                if ([document isDocumentEdited]) {
+                    PlainTextWindowController *controller = [document topmostWindowController];
+                    (void)[controller selectTabForDocument:document];
+                    [document canCloseDocumentWithDelegate:self
+                                       shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
+                                               contextInfo:closeAllContext];
+                    return;
+                }
+                
+                [document close];
+            }
         }
-        
-        [document close];
     }
-    
+
     // Invoke invocation after reviewing all documents
     if (closeAllContext) {
         NSInvocation *invocation = (NSInvocation *)closeAllContext;

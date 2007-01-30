@@ -4421,7 +4421,7 @@ static NSString *S_measurementUnits;
         }
     }
 
-    [session documentDidApplyOperation:[SelectionOperation selectionOperationWithRange:[[[[self topmostWindowController] activePlainTextEditor] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
+    [session documentDidApplyOperation:[SelectionOperation selectionOperationWithRange:[[[[self topmostWindowController] activePlainTextEditorForDocument:self] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
 }
 
 - (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession {
@@ -5349,12 +5349,12 @@ static NSString *S_measurementUnits;
 
 - (id)scriptSelection {
     if ([self isProxyDocument]) return nil;
-    return [[[self topmostWindowController] activePlainTextEditor] scriptSelection];
+    return [[[self topmostWindowController] activePlainTextEditorForDocument:self] scriptSelection];
 }
 
 - (void)setScriptSelection:(id)aSelection {
     if ([self isProxyDocument]) return;
-    [[[self topmostWindowController] activePlainTextEditor] setScriptSelection:aSelection];
+    [[[self topmostWindowController] activePlainTextEditorForDocument:self] setScriptSelection:aSelection];
 }
 
 - (NSArray *)orderedWindows {
@@ -5393,7 +5393,7 @@ static NSString *S_measurementUnits;
 #ifndef TCM_NO_DEBUG
 
 - (void)createThumbnail:(id)aSender {
-    NSTextView *myTextView = [[[self topmostWindowController] activePlainTextEditor] textView];
+    NSTextView *myTextView = [[[self topmostWindowController] activePlainTextEditorForDocument:self] textView];
     [myTextView setDrawsBackground:NO];
     NSRect rectToCache = [myTextView frame];
     NSBitmapImageRep *rep = [myTextView bitmapImageRepForCachingDisplayInRect:rectToCache];

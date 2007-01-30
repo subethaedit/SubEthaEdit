@@ -1,3 +1,6 @@
+Changes with Version 1.7 (SEE 2.6)
+    *) Added missing NSWindow constants.
+
 Changes with Version 1.6 (SEE 2.5.1)
     *) Uncomment script had wrong icon.
 

@@ -37,27 +37,36 @@
     SInt32 MacVersion;
 
     NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"HDCrashReporter.lastCrashDate"];
+	NSArray *libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,FALSE);
 
     if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr) {
-        if (MacVersion >= 0x1050) {
+        
+		if (MacVersion >= 0x1050) {
             // User is using Leopard or later
-
+			NSString *crashReportLogPath = [[[libraryDirectories objectAtIndex: 0] stringByAppendingPathComponent:@"Logs/CrashReporter/"]stringByExpandingTildeInPath];
+			NSEnumerator *crashLogFiles = [[NSFileManager defaultManager] enumeratorAtPath:crashReportLogPath ];
+			NSString *crashLogFile;
+			crashLogModificationDate = [NSDate distantPast];
+			while ((crashLogFile = [crashLogFiles nextObject])) {
+				if ([[crashLogFile lastPathComponent] hasPrefix:@"SubEthaEdit"]) {
+					crashLogFile = [crashReportLogPath stringByAppendingPathComponent:crashLogFile];
+					NSDate *crashLogFileDate = [[[NSFileManager defaultManager] fileAttributesAtPath:crashLogFile traverseLink: YES] fileModificationDate];
+					crashLogModificationDate = [crashLogModificationDate laterDate:crashLogFileDate];
+				}
+			}
         } else {
             // User is using Tiger or earlier
-            NSArray *libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,FALSE);
             
-            NSString *logFilePathAndname = @"Logs/CrashReporter/SubEthaEdit.crash.log";
-            NSString *crashLogPath = [[[libraryDirectories objectAtIndex: 0 ] stringByAppendingPathComponent: logFilePathAndname] stringByExpandingTildeInPath];
+            NSString *crashLogPath = [[[libraryDirectories objectAtIndex: 0 ] stringByAppendingPathComponent:  @"Logs/CrashReporter/SubEthaEdit.crash.log"] stringByExpandingTildeInPath];
             
-            crashLogModificationDate = [[[NSFileManager defaultManager] fileAttributesAtPath: crashLogPath traverseLink: YES] fileModificationDate];
-            if (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending)) {
-                //we had a new crash since last time, ask the user if wants to submit it
-                returnValue = YES;
-            }
-            
+            crashLogModificationDate = [[[NSFileManager defaultManager] fileAttributesAtPath: crashLogPath traverseLink: YES] fileModificationDate];            
         }
 
-        [[NSUserDefaults standardUserDefaults] setValue: crashLogModificationDate forKey: @"HDCrashReporter.lastCrashDate"];
+		if (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending)) {
+			//we had a new crash since last time, ask the user if wants to submit it
+			returnValue = YES;
+		}
+			[[NSUserDefaults standardUserDefaults] setValue: crashLogModificationDate forKey: @"HDCrashReporter.lastCrashDate"];
 
     } else NSBeep();
     
@@ -78,8 +87,38 @@
   
   //get the crash
   //
-  NSString *crashLogs = [NSString stringWithContentsOfFile: crashLogPath];
-  NSString *lastCrash = [[crashLogs componentsSeparatedByString: @"**********\n\n"] lastObject];
+	NSString *lastCrash;
+
+	SInt32 MacVersion;
+
+    if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr) {
+        
+		if (MacVersion >= 0x1050) {
+            // User is using Leopard or later
+			NSString *crashReportLogPath = [[[libraryDirectories objectAtIndex: 0] stringByAppendingPathComponent:@"Logs/CrashReporter/"]stringByExpandingTildeInPath];
+			NSEnumerator *crashLogFiles = [[NSFileManager defaultManager] enumeratorAtPath:crashReportLogPath ];
+			NSString *crashLogFile;
+			NSDate *crashLogModificationDate = [NSDate distantPast];
+			while ((crashLogFile = [crashLogFiles nextObject])) {
+				if ([[crashLogFile lastPathComponent] hasPrefix:@"SubEthaEdit"]) {
+					crashLogFile = [crashReportLogPath stringByAppendingPathComponent:crashLogFile];
+					NSDate *crashLogFileDate = [[[NSFileManager defaultManager] fileAttributesAtPath:crashLogFile traverseLink: YES] fileModificationDate];
+					if ( [crashLogFileDate isGreaterThan:crashLogModificationDate]) {
+						crashLogModificationDate = crashLogFileDate;
+						crashLogPath = crashLogFile;
+					}
+				}
+			}
+			
+			lastCrash = [NSString stringWithContentsOfFile:crashLogPath];
+        } else {
+            // User is using Tiger or earlier
+            
+			NSString *crashLogs = [NSString stringWithContentsOfFile: crashLogPath];
+			lastCrash = [[crashLogs componentsSeparatedByString: @"**********\n\n"] lastObject];
+        }
+    } else NSBeep();
+
     
   //now get the console log
   //
@@ -89,10 +128,10 @@
   NSString* currentObject;
   NSMutableArray *consoleStrings = [NSMutableArray array];
   
-  while (currentObject = [theEnum nextObject])
-  {
-    if ([currentObject rangeOfString: @"SubEthaEdit["].location != NSNotFound)
+  while (currentObject = [theEnum nextObject]) {
+    if ([currentObject rangeOfString: @"SubEthaEdit"].location != NSNotFound) {
       [consoleStrings addObject: currentObject];
+	}
   }  
   
   NSString *consoleLog = [consoleStrings componentsJoinedByString: @"\n"];

@@ -1202,6 +1202,7 @@
                 <string>NSCompositingOperation</string>
             </keywords>
             <keywords id="Cocoa Constants" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
+                <string>NSUnifiedTitleAndToolbarWindowMask</string>
                 <string>NSNormalWindowLevel</string>
                 <string>NSFloatingWindowLevel</string>
                 <string>NSSubmenuWindowLevel</string>
