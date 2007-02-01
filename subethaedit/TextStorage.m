@@ -266,7 +266,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     int lineNumber=[self lineNumberForLocation:aRange.location];
     unsigned lineStartLocation=[[[self lineStarts] objectAtIndex:lineNumber-1] intValue];
     int positionInLine = aRange.location-lineStartLocation;
-    NSString *text = [self string];
     NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, positionInLine];
     if (aRange.length>0) string=[string stringByAppendingFormat:@" (%d)",aRange.length];
     return string;
