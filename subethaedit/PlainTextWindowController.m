@@ -507,6 +507,7 @@ enum {
     [tabViewItem release];
     [document release];
     [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
+    [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
     [windowController setDocument:document];
     [windowController showWindow:self];
     if ([O_participantsDrawer state] == NSDrawerOpenState) {
@@ -1855,6 +1856,7 @@ enum {
             [document addWindowController:windowController];
             [[windowController tabView] addTabViewItem:tabViewItem];
             [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
+            [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
         }
 
         [tabViewItem release];
@@ -2530,6 +2532,7 @@ float ToolbarHeightForWindow(NSWindow *window)
 
         [document release];
         [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
+        [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
         [windowController setDocument:document];
         
         if ([O_participantsDrawer state] == NSDrawerOpenState) {
