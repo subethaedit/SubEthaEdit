@@ -171,19 +171,24 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
     }
 }
 
+- (void)_delayedExecute
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperWillRunScriptNotification object:self];
+    NSDictionary *errorDictionary=nil;
+    [self executeAndReturnError:&errorDictionary];
+    if (errorDictionary) {
+        [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];
+}
+
 - (void)performScriptAction:(id)aSender {
     if (([[NSApp currentEvent] type]!=NSKeyDown) &&
         (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) ||
          (GetCurrentKeyModifiers() & optionKey)) ) {
         [self revealSource];
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperWillRunScriptNotification object:self];
-        NSDictionary *errorDictionary=nil;
-        [self executeAndReturnError:&errorDictionary];
-        if (errorDictionary) {
-            [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
-        }
-        [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];
+        [self performSelector:@selector(_delayedExecute) withObject:nil afterDelay:0.0];
     }
 
 }
