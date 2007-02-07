@@ -421,6 +421,21 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Invalid Write Stream on Open");
         return;
     }
+
+    
+    CFDataRef socketHandleData = CFReadStreamCopyProperty(I_readStream, kCFStreamPropertySocketNativeHandle);
+	if (socketHandleData != NULL) {
+        CFSocketNativeHandle socketHandle;
+        CFDataGetBytes (socketHandleData, CFRangeMake(0, CFDataGetLength(socketHandleData)), (UInt8 *)&socketHandle);
+        CFRelease (socketHandleData);
+        int yes = 1;
+        int result = setsockopt(socketHandle, IPPROTO_TCP, 
+                                TCP_NODELAY, &yes, sizeof(int));
+        if (result == -1) {
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to TCP_NODELAY: %@ / %s", errno, strerror(errno));
+        }
+    }
+    
     
     I_sessionStatus = TCMBEEPSessionStatusOpening;
     
