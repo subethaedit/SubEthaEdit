@@ -701,50 +701,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_handleStreamErrorOccurredEvent:(NSError *)error
 {
-    [self invalidateTerminator];
-    //if (I_sessionStatus == TCMBEEPSessionStatusError) {
-    //   return;
-    //}
-    
-    I_sessionStatus = TCMBEEPSessionStatusError;
-    
-    //[I_inputStream setDelegate:nil];
-    //[I_outputStream setDelegate:nil];
-    
-    //if ([I_inputStream streamStatus] == NSStreamStatusAtEnd) {
-        CFWriteStreamClose(I_writeStream);
-    //}
-    //if ([I_outputStream streamStatus] == NSStreamStatusAtEnd) {
-        CFReadStreamClose(I_readStream);
-    //}
-    
-    CFRunLoopRef runLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
-
-    CFReadStreamUnscheduleFromRunLoop(I_readStream, runLoop, kCFRunLoopCommonModes);
-    CFWriteStreamUnscheduleFromRunLoop(I_writeStream, runLoop, kCFRunLoopCommonModes);
-    
-    
-    NSEnumerator *activeChannels = [I_activeChannels objectEnumerator];  
-    TCMBEEPChannel *channel;
-    while ((channel = [activeChannels nextObject])) {
-        [channel cleanup];
-    }
-    [I_activeChannels removeAllObjects];
-    
-    int index;
-    for (index = [self countOfChannels] - 1; index >= 0; index--) {
-        [self removeObjectFromChannelsAtIndex:index];
-    }
-    
-    [I_managementChannel cleanup];
-    [I_managementChannel release];
-    I_managementChannel = nil;
-        
-    id delegate = [self delegate];
-    if ([delegate respondsToSelector:@selector(BEEPSession:didFailWithError:)]) {
-        NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
-        [delegate BEEPSession:self didFailWithError:error];
-    }
+    [self terminate];
 }
 
 #pragma mark -
