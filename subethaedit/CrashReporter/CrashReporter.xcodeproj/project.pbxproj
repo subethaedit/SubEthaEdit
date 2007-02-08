@@ -15,6 +15,7 @@
 		31FF9ECA0A9F90AE0036B7DD /* NSURLRequestPostAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FF9EC80A9F90AE0036B7DD /* NSURLRequestPostAdditions.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		F2CE4FBB0B7B5291007B59C6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2CE4FB90B7B5291007B59C6 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,8 @@
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* HDCrashReporter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HDCrashReporter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		F27628A10B7B707F006FB159 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F2CE4FBA0B7B5291007B59C6 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +87,7 @@
 				099F4A72099D1D9D008DD32C /* license.txt */,
 				0970B4B70997A86800CAA451 /* crashReporter.nib */,
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
+				F2CE4FB90B7B5291007B59C6 /* Localizable.strings */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -184,6 +188,7 @@
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				0970B4B90997A86800CAA451 /* crashReporter.nib in Resources */,
+				F2CE4FBB0B7B5291007B59C6 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +222,15 @@
 				31FF9F060A9FA7770036B7DD /* German */,
 			);
 			name = crashReporter.nib;
+			sourceTree = "<group>";
+		};
+		F2CE4FB90B7B5291007B59C6 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2CE4FBA0B7B5291007B59C6 /* English */,
+				F27628A10B7B707F006FB159 /* German */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
