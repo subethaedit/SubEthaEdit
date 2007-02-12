@@ -1461,6 +1461,7 @@ static NSString *tempFileName(NSString *origPath) {
                 // didn't work so update bottom status bar to previous state
                 [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
             } else {
+                BOOL isEdited = [self isDocumentEdited];
                 [[self documentUndoManager] beginUndoGrouping];
                 [I_textStorage beginEditing];
                 [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
@@ -1475,6 +1476,9 @@ static NSString *tempFileName(NSString *origPath) {
                 }
                 [I_textStorage endEditing];
                 [[self documentUndoManager] endUndoGrouping];
+                if (!isEdited) {
+                    [self updateChangeCount:NSChangeCleared];
+                }
                 [self TCM_validateLineEndings];
             }
         }
