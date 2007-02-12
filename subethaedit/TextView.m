@@ -193,8 +193,6 @@ static NSMenu *defaultMenu=nil;
 }
 
 - (void)mouseDown:(NSEvent *)aEvent {
-    NSLog(@"--> enclosingScrollView: %@", NSStringFromRect([[[self enclosingScrollView] contentView] bounds]));
-
     if ([[self delegate] respondsToSelector:@selector(textView:mouseDidGoDown:)]) {
         [[self delegate] textView:self mouseDidGoDown:aEvent];
     }
