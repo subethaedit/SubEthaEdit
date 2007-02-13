@@ -1770,7 +1770,6 @@ enum {
         NSMenuItem *item = [fileMenu itemAtIndex:index];
         [item setKeyEquivalent:@"w"];
         [item setKeyEquivalentModifierMask:NSCommandKeyMask];
-        [item setEnabled:YES];
     }
     index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(performClose:)];
     if (index) {
@@ -1792,7 +1791,6 @@ enum {
     if (index) {
         NSMenuItem *item = [fileMenu itemAtIndex:index];
         [item setKeyEquivalent:@""];
-        [item setEnabled:NO];
     }
     index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(performClose:)];
     if (index) {
