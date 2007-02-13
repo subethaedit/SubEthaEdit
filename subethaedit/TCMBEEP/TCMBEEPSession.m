@@ -556,6 +556,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                         BOOL didAccept = [channel acceptFrame:I_currentReadFrame];
                         DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
                         if (!didAccept) {
+                            [I_currentReadFrame release];
+                            I_currentReadFrame = nil;
                             [self terminate];
                             break;
                         } else {
@@ -567,6 +569,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                         }
                         [I_currentReadFrame release];
                     } else {
+                        [I_currentReadFrame release];
+                        I_currentReadFrame = nil;
                         [self terminate];
                         break;
                     }
@@ -611,6 +615,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                 int localbytesread = 5 - [I_readBuffer length];
                 [I_readBuffer appendBytes:&buffer[bytesParsed] length:5 - [I_readBuffer length]];
                 if (strncmp((char *)[I_readBuffer bytes], "END\r\n", 5) != 0) {
+                    [I_currentReadFrame release];
+                    I_currentReadFrame = nil;
                     [self terminate];
                     break;
                 }
@@ -632,6 +638,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                         break;
                     }
                 } else {
+                    [I_currentReadFrame release];
+                    I_currentReadFrame = nil;
                     [self terminate];
                     break;
                 }
