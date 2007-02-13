@@ -3,7 +3,7 @@
 //  TCMBEEP
 //
 //  Created by Martin Ott on Mon Feb 16 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import "TCMBEEPSession.h"
@@ -456,21 +456,15 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [self invalidateTerminator];
     I_sessionStatus = TCMBEEPSessionStatusError;
     
-    //[I_inputStream setDelegate:nil];
-    //[I_outputStream setDelegate:nil];
-    
-    //if ([I_outputStream streamStatus] != NSStreamStatusClosed && [I_outputStream streamStatus] != NSStreamStatusError) {
     CFReadStreamClose(I_readStream);
-    //}
-    //if ([I_inputStream streamStatus] != NSStreamStatusClosed && [I_inputStream streamStatus] != NSStreamStatusError) {
     CFWriteStreamClose(I_writeStream);
-    //}
     
     CFRunLoopRef runLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
-
     CFReadStreamUnscheduleFromRunLoop(I_readStream, runLoop, kCFRunLoopCommonModes);
     CFWriteStreamUnscheduleFromRunLoop(I_writeStream, runLoop, kCFRunLoopCommonModes);
     
+    CFReadStreamSetClient(I_readStream, 0, NULL, NULL);
+    CFWriteStreamSetClient(I_writeStream, 0, NULL, NULL);
     
     NSEnumerator *activeChannels = [I_activeChannels objectEnumerator];  
     TCMBEEPChannel *channel;
@@ -559,7 +553,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                 if ([I_currentReadFrame isSEQ]) {
                     TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
                     if (channel) {
-                        BOOL didAccept = [channel acceptFrame:[I_currentReadFrame autorelease]];
+                        BOOL didAccept = [channel acceptFrame:I_currentReadFrame];
                         DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
                         if (!didAccept) {
                             [self terminate];
@@ -571,6 +565,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 							}
 #endif  
                         }
+                        [I_currentReadFrame release];
                     } else {
                         [self terminate];
                         break;
@@ -628,8 +623,9 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                 // dispatch frame!
                 TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
                 if (channel) {
-                    BOOL didAccept = [channel acceptFrame:[I_currentReadFrame autorelease]];
+                    BOOL didAccept = [channel acceptFrame:I_currentReadFrame];
                     DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
+                    [I_currentReadFrame release];
                     I_currentReadFrame = nil;
                     if (!didAccept) {
                         [self terminate];
@@ -760,10 +756,10 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator
 {
     TCMBEEPChannel *channel = [[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI asInitiator:isInitiator];
-    
     [self insertObject:channel inChannelsAtIndex:[self countOfChannels]];
-
-    [self activateChannel:[channel autorelease]];
+    [channel release];
+    
+    [self activateChannel:channel];
     if (!isInitiator) {
         id delegate = [self delegate];
         if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:)])
