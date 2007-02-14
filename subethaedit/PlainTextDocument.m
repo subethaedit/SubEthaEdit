@@ -2711,6 +2711,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
     }
 
+    // Disable image loading and execution of code in HTML documents
+    WebPreferences *webPrefs = [WebPreferences standardPreferences];
+    [webPrefs setLoadsImagesAutomatically:NO];
+    [webPrefs setJavaEnabled:NO];
+    [webPrefs setJavaScriptEnabled:NO];
+    [webPrefs setPlugInsEnabled:NO];
+    [options setObject:webPrefs forKey:@"WebPreferences"];
 
     BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
     NSData *fileData = nil;
