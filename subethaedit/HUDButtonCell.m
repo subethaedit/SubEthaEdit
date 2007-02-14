@@ -62,7 +62,11 @@ static NSImage *s_normal[]={nil,nil,nil};
     NSMutableAttributedString *title=[[[self attributedTitle] mutableCopy] autorelease];
     [title addAttribute:NSForegroundColorAttributeName value:[NSColor whiteColor] range:NSMakeRange(0,[title length])];
     [self setAttributedTitle:title];
-    [super drawInteriorWithFrame:cellFrame inView:controlView];
+    if ([super respondsToSelector:@selector(drawTitle:withFrame:inView:)]) {
+        [super drawTitle:title withFrame:[self titleRectForBounds:cellFrame] inView:controlView];
+    } else {
+        [super drawInteriorWithFrame:cellFrame inView:controlView];
+    }
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
