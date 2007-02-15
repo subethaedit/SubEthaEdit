@@ -269,10 +269,6 @@
 		5E57298F09F514FB00D3746B /* Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57298D09F514FB00D3746B /* Toolbar.m */; };
 		5E67DB130ABEFC400013562D /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
 		5E67DB1A0ABF0DEA0013562D /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
-		5E67DB3D0ABF1A770013562D /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E67DB3C0ABF1A770013562D /* GlassButtonCell.m */; };
-		5E67DB6B0ABF1CE50013562D /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E67DB6A0ABF1CE50013562D /* GlassButton.m */; };
-		5E67DB780ABF1EF50013562D /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E67DB6A0ABF1CE50013562D /* GlassButton.m */; };
-		5E67DB790ABF1EF60013562D /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E67DB3C0ABF1A770013562D /* GlassButtonCell.m */; };
 		5E67DB8D0ABF21270013562D /* glass-normal-cap-left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */; };
 		5E67DB8E0ABF21270013562D /* glass-normal-pressed-cap-right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */; };
 		5E67DB8F0ABF21270013562D /* glass-normal-fill.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB890ABF21270013562D /* glass-normal-fill.tiff */; };
@@ -936,10 +932,6 @@
 		5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
 		5E57298C09F514FB00D3746B /* Toolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toolbar.h; sourceTree = "<group>"; };
 		5E57298D09F514FB00D3746B /* Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toolbar.m; sourceTree = "<group>"; };
-		5E67DB3B0ABF1A770013562D /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlassButtonCell.h; sourceTree = "<group>"; };
-		5E67DB3C0ABF1A770013562D /* GlassButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassButtonCell.m; sourceTree = "<group>"; };
-		5E67DB690ABF1CE50013562D /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlassButton.h; sourceTree = "<group>"; };
-		5E67DB6A0ABF1CE50013562D /* GlassButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassButton.m; sourceTree = "<group>"; };
 		5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-cap-left.tiff"; path = "artwork/glass-normal-cap-left.tiff"; sourceTree = "<group>"; };
 		5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-pressed-cap-right.tiff"; path = "artwork/glass-normal-pressed-cap-right.tiff"; sourceTree = "<group>"; };
 		5E67DB890ABF21270013562D /* glass-normal-fill.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-fill.tiff"; path = "artwork/glass-normal-fill.tiff"; sourceTree = "<group>"; };
@@ -1739,10 +1731,6 @@
 				5E754EA20AB5648F00C5119E /* EncodingDoctorDialog.m */,
 				5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */,
 				5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */,
-				5E67DB690ABF1CE50013562D /* GlassButton.h */,
-				5E67DB6A0ABF1CE50013562D /* GlassButton.m */,
-				5E67DB3B0ABF1A770013562D /* GlassButtonCell.h */,
-				5E67DB3C0ABF1A770013562D /* GlassButtonCell.m */,
 			);
 			name = Dialogs;
 			sourceTree = "<group>";
@@ -2307,8 +2295,6 @@
 				5EC638360ABEB88B00D3295B /* DataTests.m in Sources */,
 				5EC638460ABEBE5900D3295B /* TCMBencodingUtilities.m in Sources */,
 				5E67DB1A0ABF0DEA0013562D /* NSDataTCMAdditions.m in Sources */,
-				5E67DB3D0ABF1A770013562D /* GlassButtonCell.m in Sources */,
-				5E67DB6B0ABF1CE50013562D /* GlassButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2443,8 +2429,6 @@
 				5E754EA40AB5648F00C5119E /* EncodingDoctorDialog.m in Sources */,
 				5E754EAC0AB564BD00C5119E /* SEEDocumentDialog.m in Sources */,
 				5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */,
-				5E67DB780ABF1EF50013562D /* GlassButton.m in Sources */,
-				5E67DB790ABF1EF60013562D /* GlassButtonCell.m in Sources */,
 				141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */,
 				148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */,
 				F2061CD40B4BF44800E6631F /* DWRoundedTransparentView.m in Sources */,
