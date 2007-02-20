@@ -193,6 +193,7 @@ NpVfZko6DqvJJcLklZ8=
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>****</string>
+				<string>TEXT</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
