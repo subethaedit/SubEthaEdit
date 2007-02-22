@@ -3284,21 +3284,27 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
             return YES;
         }
-        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSWarningAlertStyle];
-        [alert setMessageText:NSLocalizedString(@"Warning", nil)];
-        [alert setInformativeText:NSLocalizedString(@"Document changed externally", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Keep SubEthaEdit Version", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
-        [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-        [self presentAlert:alert
-             modalDelegate:self
-            didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-               contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                @"DocumentChangedExternallyAlert", @"Alert",
-                                                nil] retain]];
+        
+        if ([self isDocumentEdited]) {
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:NSLocalizedString(@"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?", nil)];
+            [alert setInformativeText:NSLocalizedString(@"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost.", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Keep Changes", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
+            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+            [self presentAlert:alert
+                 modalDelegate:self
+                didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"DocumentChangedExternallyAlert", @"Alert",
+                                                    nil] retain]];
 
-        return NO;
+            return NO;
+        } else {
+            BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
+            return successful;
+        }
     }
 
     return YES;
