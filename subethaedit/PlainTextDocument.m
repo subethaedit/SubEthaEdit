@@ -1463,19 +1463,23 @@ static NSString *tempFileName(NSString *origPath) {
             } else {
                 BOOL isEdited = [self isDocumentEdited];
                 [[self documentUndoManager] beginUndoGrouping];
+                [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
                 [I_textStorage beginEditing];
-                [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:@""];
-
                 [self setFileEncodingUndoable:encoding];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
                 [reinterpretedString release];
-                [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
+                if (!isEdited) {
+                    [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
+                } else {
+                    [I_textStorage setAttributes:[self typingAttributes] range:NSMakeRange(0, [I_textStorage length])];
+                }
                 if (I_flags.highlightSyntax) {
                     [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
                 }
                 [I_textStorage endEditing];
                 [[self documentUndoManager] endUndoGrouping];
+                [[self plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
                 if (!isEdited) {
                     [self updateChangeCount:NSChangeCleared];
                 }
@@ -2464,10 +2468,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)revertToSavedFromFile:(NSString *)fileName ofType:(NSString *)type {
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
     BOOL success = [super revertToSavedFromFile:fileName ofType:type];
     if (success) {
         [self setFileName:fileName];
     }
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
     return success;
 }
 
