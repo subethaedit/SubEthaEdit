@@ -1,4 +1,42 @@
 
+SubEthaEdit 2.6.1
+=================
+
+Veränderugen:
+- Suchergebnisse im 'Alles suchen' Ergebnisfenster können nun ausgewählt werden 
+  ohne zuvor das Fenster zu aktivieren.
+- Die 'Alles suchen' Funktion selektiert nun das erste Ergebnis im 
+  Editorfenster.
+- Geringere Verzögerungszeiten beim gemeinsamen Arbeiten durch Abschaltung des 
+  Nagle Algorithmus.
+- SubEthaEdit registriert sich nun für Dateien des Typs 'TEXT'.
+- Auf Änderungen durch andere Anwendungen an geöffneten Dokumenten wird nun je 
+  nach Bearbeitungszustand der Dokumente hingewiesen.
+
+Korrekturen:
+- Ein Fehler wurde behoben, der beim Ausführen der 'Check Syntax' Funktion in 
+  der Symbolleiste zum Absturz führen konnte.
+- Ein Fehler im Netzwerk-Stack wurde behoben, der zum Absturz unter Mac OS X 
+  Leopard führen konnte.
+- Ein Problem wurde behoben, durch den die 'Tableiste immer einblenden' 
+  Funktion nicht immer korrekt funktionierte.
+- Ein Fehler wurde behoben, der zum Absturz führen konnte, wenn Tabs mit 
+  aufgeteilten Fenstern verschoben wurden.
+- Ein Fehler in den Einladungsfenstern wurde behoben, durch den die Knöpfe 
+  unter Mac OS X Leopard nicht korrekt dargestellt wurden.
+- Ein Fehler in den Einladungsfenstern wurde behoben, durch den die Knöpfe 
+  nicht mit dem kompletten Tastaturzugang funktionierten.
+- Ein Fehler, bei dem ein Dokument nach dem Reinterpretieren mit einer anderen 
+  Dateikodierung als bearbeitet angezeigt wurde, wurde behoben.
+- Ein Problem wurde behoben, der das Öffnen von HTML-Dateien lange hinauszögern 
+  konnte.
+- Ein Problem wurde behoben, durch das der Editor beim Verändern der 
+  Fensteraufteilung nicht ganz den linken Rand angezeigt hat.
+- Ein Fehler wurde behoben, bei dem die Auswahl nach dem Reinterpretieren mit 
+  einer anderen Dateikodierung oder dem Laden der letzten Version zerstört 
+  wurde.
+- Verbesserter Modus: Lua.
+
 SubEthaEdit 2.6
 ===============
 
