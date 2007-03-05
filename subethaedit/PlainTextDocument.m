@@ -3290,7 +3290,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
             return YES;
         }
-        
+                
         if ([self isDocumentEdited]) {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
@@ -3308,8 +3308,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
             return NO;
         } else {
-            BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
-            return successful;
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:NSLocalizedString(@"The document's file has been modified by another application. Do you want to revert the document?", nil)];
+            [alert setInformativeText:NSLocalizedString(@"If you revert the document to the version on disk the document's content will be replaced with the content of the file.", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Revert Document", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Don't Revert Document", nil)];
+            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+            [self presentAlert:alert
+                 modalDelegate:self
+                didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"DocumentChangedExternallyNoModificationsAlert", @"Alert",
+                                                    nil] retain]];
+
+            return NO;
         }
     }
 
@@ -4252,6 +4265,16 @@ static NSString *S_measurementUnits;
             if (successful) {
                 [self updateChangeCount:NSChangeCleared];
             }
+        }
+    } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyNoModificationsAlert"]) {
+        if (returnCode == NSAlertFirstButtonReturn) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+            BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
+            if (successful) {
+                [self updateChangeCount:NSChangeCleared];
+            }
+        } else if (returnCode == NSAlertSecondButtonReturn) {
+            [self setKeepDocumentVersion:YES];
         }
     } else if ([alertIdentifier isEqualToString:@"EditAnywayAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {
