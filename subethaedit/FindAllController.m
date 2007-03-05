@@ -156,6 +156,7 @@
             [aString release];
         }
         [O_resultsTableView tile];
+        [self tableView:O_resultsTableView shouldSelectRow:0];
         if ([[self arrangedObjects] count] > 0) [O_resultsController setSelectionIndex:0];
     }
     [O_progressIndicator stopAnimation:nil];
