@@ -24,16 +24,27 @@
             I_scopeSelectionOperation = [SelectionOperation new];
             [I_scopeSelectionOperation setSelectedRange:aRange];
         } 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(raiseWindowLevel:) name:NSApplicationDidBecomeActiveNotification object:NSApp];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sinkWindowLevel:) name:NSApplicationDidResignActiveNotification object:NSApp];
     }
     return self;
 }
 
 - (void)dealloc 
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[self window] orderOut:self];
     [I_regularExpression release];
     [I_scopeSelectionOperation release];
     [super dealloc];
+}
+
+- (void)raiseWindowLevel:(NSNotification *)aNotification {
+    [[self window] setLevel:NSFloatingWindowLevel];
+}
+
+- (void)sinkWindowLevel:(NSNotification *)aNotification {
+    [[self window] setLevel:NSNormalWindowLevel];
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
@@ -55,6 +66,7 @@
     [((NSPanel *)[self window]) setFloatingPanel:NO];
     [[self window] setHidesOnDeactivate:NO];
     [[self window] setDelegate:self];
+    [[self window] setLevel:NSFloatingWindowLevel];
     [O_findRegexTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Find: %@",@"FindRegexPrefix"),[I_regularExpression expressionString]]];
     [O_resultsTableView setDelegate:self];
     [O_resultsTableView setDoubleAction:@selector(jumpToSelection:)];
