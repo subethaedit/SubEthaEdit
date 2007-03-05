@@ -14,7 +14,11 @@ while (<>) {
             if ($part =~ /(^[ \t]*NS[A-Za-z]+)/) {
                 $result = $1;
                 $result =~ s/[ \t]//g;
-                print "$result\n";
+                
+                $foo = `grep ">$result<" /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml`;
+                if ($foo ne '') {
+                    print $result."\n";
+                } 
             }
         }
     }

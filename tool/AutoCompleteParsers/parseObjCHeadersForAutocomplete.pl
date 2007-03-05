@@ -8,7 +8,14 @@ while (<>) {
         $input =~ s/, ...//g;
         $input =~ s/ +/ /g;
         $input =~ s/^[+-]//g;
-        $input =~ s/^ //g;
-        print $input."\n";
+        $input =~ s/^ +//g;
+        $input =~ s/ {//g;
+        $input =~ s/ +$//g;
+
+        $result = `grep "$input" /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt`;
+        if ($result eq '') {
+            print $input."\n";
+        } 
+
     }
 }

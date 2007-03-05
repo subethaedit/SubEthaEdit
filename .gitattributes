@@ -1611,6 +1611,7 @@ test/Performance/EncodingTests/LongAndFew.txt -text
 test/Performance/EncodingTests/LongAndMany.txt -text
 test/Syntax/PHP-HTML/Classes.php -text
 test/Syntax/PHP-HTML/Library.php -text
+tool/AutoCompleteParsers/classes.pl -text
 tool/AutoCompleteParsers/gogogo.sh -text
 tool/AutoCompleteParsers/lensort -text
 tool/AutoCompleteParsers/listcarbonheaders.sh -text

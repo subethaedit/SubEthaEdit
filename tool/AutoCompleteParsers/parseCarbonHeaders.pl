@@ -17,11 +17,19 @@ while(<STDIN>) {
     $line =~ s/\/\*.*\*\///g;
 
     if ($line =~ /^#define\s+([\w\d_]+)/) {
-        print DEFINES $1."\n";
+        $class = $1;
+        $result = `grep "$class" /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt`;
+        if ($result eq '') {
+            print DEFINES $class."\n";
+        } 
     }
 
     if ($line =~ /typedef\s+([\w\d_]+)/) {
-        print TYPEDEFS $1."\n";
+        $class = $1;
+        $result = `grep "$class" /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt`;
+        if ($result eq '') {
+            print TYPEDEFS $class."\n";
+        } 
     }
 
     if ($line =~ /^#/) {next;}
@@ -29,17 +37,26 @@ while(<STDIN>) {
     if ($state eq "default") {
         
         if ($line =~ /([\w\d_]+)\s*\(/) {
-            #print $1."()\n";
-            print FUNCTIONS $1."\n";
+        $class = $1;
+        $result = `grep "$class" /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt`;
+        if ($result eq '') {
+            print FUNCTIONS $class."\n";
+        } 
         } elsif ($line =~ /struct\s([\w\d_]+)/) {
-            #print $1."-\n";
-            print STRUCTS $1."\n";
+        $class = $1;
+        $result = `grep "$class" /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt`;
+        if ($result eq '') {
+            print STRUCTS $class."\n";
+        } 
         }
         
     } elsif ($state eq "enum") {
         if ($line =~ /^\s*([\w\d_]+)/) {
-            #print $1."\n";
-            print ENUMS $1."\n";
+        $class = $1;
+        $result = `grep "$class" /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml /Users/pittenau/svn/codingmonkeys/subethaedit/trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/AutocompleteAdditions.txt`;
+        if ($result eq '') {
+            print ENUMS $class."\n";
+        } 
         }
         if ($line =~ /}/) {
             pop @states;
