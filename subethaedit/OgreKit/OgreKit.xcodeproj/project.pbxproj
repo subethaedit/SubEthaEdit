@@ -12,19 +12,6 @@
 			buildConfigurationList = 4DC412C2091519D50029A2A6 /* Build configuration list for PBXAggregateTarget "All" */;
 			buildPhases = (
 			);
-			buildSettings = {
-				OPTIMIZATION_CFLAGS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = All;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				4DC412B5091519B70029A2A6 /* PBXTargetDependency */,
 				4DC412B9091519B70029A2A6 /* PBXTargetDependency */,
@@ -304,30 +291,6 @@
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		014CEA440018CDF011CA2923 /* Debug */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
-		014CEA450018CDF011CA2923 /* Release */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXContainerItemProxy section */
 		4D6EA0E5096ACECA0010762A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -509,16 +472,16 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		4D82DCE209BA0CAF007F03B0 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = intel/oniguruma.h; sourceTree = "<group>"; };
-		4D82DCE509BA0CBF007F03B0 /* COPYING */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; name = COPYING; path = intel/COPYING; sourceTree = "<group>"; };
-		4D82DCE909BA0CCE007F03B0 /* API */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; path = API; sourceTree = "<group>"; };
-		4D82DCEB09BA0CCE007F03B0 /* FAQ */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; path = FAQ; sourceTree = "<group>"; };
-		4D82DCED09BA0CCE007F03B0 /* RE */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; path = RE; sourceTree = "<group>"; };
-		4D82DCFB09BA0CEF007F03B0 /* HISTORY */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; name = HISTORY; path = intel/HISTORY; sourceTree = "<group>"; };
-		4D82DCFE09BA0CFC007F03B0 /* README */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; name = README; path = intel/README; sourceTree = "<group>"; };
+		4D82DCE209BA0CAF007F03B0 /* oniguruma.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = oniguruma.h; path = intel/oniguruma.h; sourceTree = "<group>"; };
+		4D82DCE509BA0CBF007F03B0 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; name = COPYING; path = intel/COPYING; sourceTree = "<group>"; };
+		4D82DCE909BA0CCE007F03B0 /* API */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; path = API; sourceTree = "<group>"; };
+		4D82DCEB09BA0CCE007F03B0 /* FAQ */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; path = FAQ; sourceTree = "<group>"; };
+		4D82DCED09BA0CCE007F03B0 /* RE */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; path = RE; sourceTree = "<group>"; };
+		4D82DCFB09BA0CEF007F03B0 /* HISTORY */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; name = HISTORY; path = intel/HISTORY; sourceTree = "<group>"; };
+		4D82DCFE09BA0CFC007F03B0 /* README */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; name = README; path = intel/README; sourceTree = "<group>"; };
 		4D9DBE2B09BAB999003DD4A8 /* libonig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libonig.a; path = RegularExpression/oniguruma/universal/libonig.a; sourceTree = "<group>"; };
 		4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4DC40C0409150C280029A2A6 /* OgreTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DC40C0409150C280029A2A6 /* OgreTest.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreFindPanelTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyFindPanelExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReplaceWithAttributesTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1590,9 +1553,6 @@
 			buildConfigurationList = 4D82DCD509B9ECF8007F03B0 /* Build configuration list for PBXLegacyTarget "Oniguruma" */;
 			buildPhases = (
 			);
-			buildSettings = {
-				PRODUCT_NAME = Oniguruma;
-			};
 			buildToolPath = /usr/bin/make;
 			buildWorkingDirectory = RegularExpression/oniguruma;
 			dependencies = (
@@ -1617,23 +1577,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = OgreKit_Prefix.pch;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				LIBRARY_STYLE = DYNAMIC;
-				PREBINDING = NO;
-				PRODUCT_NAME = OgreKit;
-				WRAPPER_EXTENSION = framework;
-			};
 			dependencies = (
 				4D82DCCE09B9ECDE007F03B0 /* PBXTargetDependency */,
 			);
@@ -1654,62 +1597,12 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "Regular Expression Test-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "Regular Expression Test";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				4DC412C1091519C90029A2A6 /* PBXTargetDependency */,
 			);
 			name = "Regular Expression Test";
 			productName = "Regular Expression Test";
 			productReference = 4DC40C0409150C280029A2A6 /* OgreTest.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>Regular Expression Test</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Regular_Expression_Test</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.application";
 		};
 		4DC40C0E09150C3E0029A2A6 /* Find Panel Test */ = {
@@ -1723,62 +1616,12 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "Find Panel Test-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "Find Panel Test";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				4D6EA0E6096ACECA0010762A /* PBXTargetDependency */,
 			);
 			name = "Find Panel Test";
 			productName = "Find Panel Test";
 			productReference = 4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>Find Panel Test</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Find_Panel_Test</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.application";
 		};
 		4DC40C1909150C720029A2A6 /* My Find Panel Example */ = {
@@ -1792,62 +1635,12 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "My Find Panel Example-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "My Find Panel Example";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				4D6EA0E8096ACED60010762A /* PBXTargetDependency */,
 			);
 			name = "My Find Panel Example";
 			productName = "My Find Panel Example";
 			productReference = 4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>My Find Panel Example</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.My_Find_Panel_Example</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.application";
 		};
 		4DC40C2F09150C9E0029A2A6 /* Replace With Attributes Test */ = {
@@ -1861,62 +1654,12 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "Replace With Attributes Test-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "Replace With Attributes Test";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				4D6EA0EA096ACEDC0010762A /* PBXTargetDependency */,
 			);
 			name = "Replace With Attributes Test";
 			productName = "Replace With Attributes Test";
 			productReference = 4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>Replace With Attributes Test</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Replace_With_Attributes_Test</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.application";
 		};
 		8DC2EF4F0486A6940098B216 /* OgreKit (Full Features) */ = {
@@ -1932,23 +1675,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = OgreKit_Prefix.pch;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				LIBRARY_STYLE = DYNAMIC;
-				PREBINDING = NO;
-				PRODUCT_NAME = OgreKit;
-				WRAPPER_EXTENSION = framework;
-			};
 			dependencies = (
 				4D82DCCC09B9ECDB007F03B0 /* PBXTargetDependency */,
 			);
@@ -1964,12 +1690,6 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				014CEA440018CDF011CA2923 /* Debug */,
-				014CEA450018CDF011CA2923 /* Release */,
-			);
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -2730,6 +2450,7 @@
 					i386,
 				);
 				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
