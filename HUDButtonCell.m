@@ -7,6 +7,7 @@
 //
 
 #import "HUDButtonCell.h"
+#import "DWRoundedTransparentView.h"
 
 static NSImage *s_pressed[]={nil,nil,nil};
 static NSImage *s_normal[]={nil,nil,nil};
@@ -61,12 +62,26 @@ static NSImage *s_normal[]={nil,nil,nil};
     NSMutableAttributedString *title=[[[self attributedTitle] mutableCopy] autorelease];
     [title addAttribute:NSForegroundColorAttributeName value:[NSColor whiteColor] range:NSMakeRange(0,[title length])];
     [self setAttributedTitle:title];
-    [super drawInteriorWithFrame:cellFrame inView:controlView];
+    if ([super respondsToSelector:@selector(drawTitle:withFrame:inView:)]) {
+        [super drawTitle:title withFrame:[self titleRectForBounds:cellFrame] inView:controlView];
+    } else {
+        [super drawInteriorWithFrame:cellFrame inView:controlView];
+    }
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     [self drawInteriorWithFrame:cellFrame inView:controlView];
-    
+    [[NSColor keyboardFocusIndicatorColor] set];
+    if ([self showsFirstResponder]) {     
+         // showsFirstResponder is set for us by the NSControl that is drawing  us.  
+        NSRect focusRingFrame = cellFrame;
+        focusRingFrame.size.height -= 2.0; 
+        [NSGraphicsContext saveGraphicsState];
+        NSSetFocusRingStyle(NSFocusRingOnly);
+        NSBezierPath *bezierPath=[NSBezierPath bezierPathWithRoundedRect:NSInsetRect(focusRingFrame,0,4) radius:(focusRingFrame.size.height-4)/2.];
+        [bezierPath fill];
+        [NSGraphicsContext restoreGraphicsState];
+    }
 }
 
 

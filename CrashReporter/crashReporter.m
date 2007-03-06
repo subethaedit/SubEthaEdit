@@ -136,15 +136,16 @@
   
   NSString *consoleLog = [consoleStrings componentsJoinedByString: @"\n"];
   
-  NSString *bugReport = [NSString stringWithFormat: @"-------------------------------------------------------------------\nFeedback:\n-------------------------------------------------------------------\n\n...\n\n-------------------------------------------------------------------\nCrash Log:\n-------------------------------------------------------------------\n\n%@\n-------------------------------------------------------------------\nConsole Log:\n-------------------------------------------------------------------\n\n%@\n\n", lastCrash, consoleLog];
-   
+  NSString *userReportString = [[NSBundle bundleWithIdentifier:@"com.HumbleDaisy.HDCrashReporter"] localizedStringForKey:@"UserReportHeadline" value:@"UserReportHeadline" table:nil];
 
+  NSString *bugReport = [NSString stringWithFormat: @"-------------------------------------------------------------------\n%@:\n-------------------------------------------------------------------\n\n...\n\n-------------------------------------------------------------------\nCrash Log:\n-------------------------------------------------------------------\n\n%@\n-------------------------------------------------------------------\nConsole Log:\n-------------------------------------------------------------------\n\n%@\n\n", userReportString, lastCrash, consoleLog];
+   
   [[crashReporterController window] center];
   [crashReporterController showWindow: self];
 
   [[crashReporterController window] makeFirstResponder:[crashReporterController bugReportTextView]];
   [[crashReporterController bugReportTextView] setString:bugReport];
-  [[crashReporterController bugReportTextView] setSelectedRange:NSMakeRange(147,3)]; // Select "..."
+  [[crashReporterController bugReportTextView] setSelectedRange:NSMakeRange(139+[userReportString length],3)]; // Select "..."
 }
 
 - (IBAction) sendReport: (id) sender

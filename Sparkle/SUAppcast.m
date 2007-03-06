@@ -46,7 +46,12 @@
 	RSS *feed;
 	@try
 	{
-		NSString *userAgent = [NSString stringWithFormat: @"%@/%@ (Mac OS X) Sparkle/1.0", SUHostAppName(), SUHostAppVersion()];
+        NSBundle *bundle = [NSBundle bundleWithIdentifier:@"org.andymatuschak.Sparkle"];
+        NSString *sparkleVersion = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+        if (sparkleVersion == nil) sparkleVersion = @"(n/a)";
+        NSString *systemVersion = [[NSProcessInfo processInfo] operatingSystemVersionString];
+        if (systemVersion == nil) systemVersion = @"(n/a)";
+		NSString *userAgent = [NSString stringWithFormat: @"%@/%@ (Mac OS X %@) Sparkle/%@", SUHostAppName(), SUHostAppVersion(), systemVersion, sparkleVersion];
 		
 		feed = [[RSS alloc] initWithURL:url normalize:YES userAgent:userAgent];
 		// Set up all the appcast items

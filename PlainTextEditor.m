@@ -81,7 +81,7 @@
         I_flags.pausedProcessing = NO;
         [self setFollowUserID:nil];
         [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
-        
+        I_storedSelectedRanges = [NSMutableArray new];
     }
     return self;
 }
@@ -96,6 +96,7 @@
     [I_textContainer release];
     [I_radarScroller release];
     [I_followUserID release];
+    [I_storedSelectedRanges release];
     [super dealloc];
 }
 
@@ -285,6 +286,21 @@
     [self TCM_updateBottomStatusBar];
 
 }
+
+- (void)pushSelectedRanges {
+    [I_storedSelectedRanges addObject:[NSValue valueWithRange:[I_textView selectedRange]]];
+}
+- (void)popSelectedRanges {
+    NSValue *value = [I_storedSelectedRanges lastObject];
+    if (value) {
+        NSRange selectedRange = [value rangeValue];
+        [I_textView setSelectedRange:RangeConfinedToRange(selectedRange,NSMakeRange(0,[[I_textView string] length]))];
+        [I_storedSelectedRanges removeLastObject];
+    } else {
+        [I_textView setSelectedRange:NSMakeRange(0,0)];
+    }
+}
+
 
 - (void)adjustDisplayOfPageGuide {
     PlainTextDocument *document=[self document];
