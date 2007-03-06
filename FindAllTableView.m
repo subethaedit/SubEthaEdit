@@ -47,8 +47,7 @@
 }
 
 //Custom behavior for keys
-- (void)keyDown:(NSEvent *)theEvent 
-{
+- (void)keyDown:(NSEvent *)theEvent {
     unsigned int characterIndex, characterCount; 
     int selectedRow = [self selectedRow]; 
     NSString *characters = [theEvent charactersIgnoringModifiers]; 
@@ -66,6 +65,19 @@
         } 
     } 
 
+}
+
+// instant reaction on first click:
+- (BOOL)needsPanelToBecomeKey {
+    return NO;
+}
+
+- (BOOL)acceptsFirstResponder {
+    return YES;
+}
+
+- (BOOL)acceptsFirstMouse:(NSEvent *)anEvent {
+    return YES;
 }
 
 @end

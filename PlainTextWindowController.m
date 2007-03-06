@@ -507,6 +507,7 @@ enum {
     [tabViewItem release];
     [document release];
     [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
+    [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
     [windowController setDocument:document];
     [windowController showWindow:self];
     if ([O_participantsDrawer state] == NSDrawerOpenState) {
@@ -1769,7 +1770,6 @@ enum {
         NSMenuItem *item = [fileMenu itemAtIndex:index];
         [item setKeyEquivalent:@"w"];
         [item setKeyEquivalentModifierMask:NSCommandKeyMask];
-        [item setEnabled:YES];
     }
     index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(performClose:)];
     if (index) {
@@ -1791,7 +1791,6 @@ enum {
     if (index) {
         NSMenuItem *item = [fileMenu itemAtIndex:index];
         [item setKeyEquivalent:@""];
-        [item setEnabled:NO];
     }
     index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(performClose:)];
     if (index) {
@@ -1855,6 +1854,7 @@ enum {
             [document addWindowController:windowController];
             [[windowController tabView] addTabViewItem:tabViewItem];
             [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
+            [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
         }
 
         [tabViewItem release];
@@ -2530,6 +2530,7 @@ float ToolbarHeightForWindow(NSWindow *window)
 
         [document release];
         [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
+        [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
         [windowController setDocument:document];
         
         if ([O_participantsDrawer state] == NSDrawerOpenState) {

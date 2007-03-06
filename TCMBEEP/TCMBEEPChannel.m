@@ -535,6 +535,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     [[self profile] setChannel:nil];
     [I_profile autorelease];
     I_profile = nil;
+    [[self retain] autorelease];
 }
 
 - (void)closed

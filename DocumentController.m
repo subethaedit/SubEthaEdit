@@ -1174,10 +1174,12 @@ struct ModificationInfo
     NSEnumerator *enumerator = [I_windowControllers objectEnumerator];
     PlainTextWindowController *windowController;
     while ((windowController = [enumerator nextObject])) {
+        PSMTabBarControl *tabBar = [windowController tabBar];
         if (![windowController hasManyDocuments]) {
-            PSMTabBarControl *tabBar = [windowController tabBar];
             [tabBar setHideForSingleTab:!flag];
             [tabBar hideTabBar:!flag animate:YES];
+        } else {
+            [tabBar setHideForSingleTab:!flag];
         }
     }
     

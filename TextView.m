@@ -32,7 +32,18 @@
 - (PlainTextDocument *)document;
 @end
 
+@interface NSTextView (NSTextViewTCMPrivateAdditions) 
+- (void)_adjustedCenteredScrollRectToVisible:(NSRect)aRect forceCenter:(BOOL)force;
+@end
+
 @implementation TextView
+
+- (void)_adjustedCenteredScrollRectToVisible:(NSRect)aRect forceCenter:(BOOL)force {
+    if (aRect.origin.x == [[self textContainer] lineFragmentPadding]) {
+        aRect.origin.x = 0; // fixes the left hand edge moving
+    }
+    [super _adjustedCenteredScrollRectToVisible:aRect forceCenter:force];
+}
 
 static NSMenu *defaultMenu=nil;
 
@@ -182,7 +193,6 @@ static NSMenu *defaultMenu=nil;
 }
 
 - (void)mouseDown:(NSEvent *)aEvent {
-
     if ([[self delegate] respondsToSelector:@selector(textView:mouseDidGoDown:)]) {
         [[self delegate] textView:self mouseDidGoDown:aEvent];
     }

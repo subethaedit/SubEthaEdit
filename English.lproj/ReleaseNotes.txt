@@ -1,4 +1,36 @@
 
+SubEthaEdit 2.6.1
+=================
+
+Changes:
+- 'Find All' search results window is now click-trough.
+- 'Find All' now selects the first search result in the editor.
+- Lower latency during collaboration session by turning off the Nagle 
+  algorithm.
+- SubEthaEdit now registers with the system for files of type 'TEXT'.
+- External changes to open documents now result in different warnings depending 
+  on the edited state of the document.
+
+Fixes:
+- Fixed a bug where SubEthaEdit could crash on invoking the 'Check Syntax' 
+  command from the toolbar.
+- Fixed an issue in the network stack that could crash SubEthaEdit on Mac OS X 
+  Leopard.
+- Fixed a bug where the 'Always Show Tab Bar' option didn't work correctly.
+- Fixed a bug where SubEthaEdit could crash on dragging around tabs with split 
+  views.
+- Fixed an issue where the buttons in invitation windows weren't displayed 
+  correctly on Mac OS X Leopard.
+- Fixed an issue where the buttons in the invitation window weren't accessible.
+- Fixed a bug where a document showed an edited status after reinterpreting its 
+  content with a different encoding.
+- Fixed an issue where opening of HTML files were delayed.
+- Fixed a bug where the editor scrolled to the left with some offset when the 
+  split view was adjusted.
+- Fixed a bug where the selection was destroyed on revert or reinterpretation 
+  with a different encoding.
+- Improved modes: Lua.
+
 SubEthaEdit 2.6
 ===============
 
@@ -278,7 +310,7 @@ Fixes:
 - Fixed a bug in Perl.mode concerning POD comments.
 
 SubEthaEdit 2.1.2
-===============
+=================
 
 Additions/New Features:
 - Added Conference Kit.
@@ -316,7 +348,7 @@ Fixes:
   mode.
 
 SubEthaEdit 2.1.1
-===============
+=================
 
 Changes:
 - Changed export dialog to disable according checkboxes, if "Participants" is 

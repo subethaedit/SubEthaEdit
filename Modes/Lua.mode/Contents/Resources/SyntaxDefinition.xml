@@ -243,12 +243,14 @@
             <keywords id="Numbers" color="#00f" useforautocomplete="no">
 				<regex>(?&lt;=[^[A-Za-z0-9]]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?)|([0-9]*))(?=[^[A-Za-z0-9]]|$)</regex>
             </keywords>
-            
-            <keywords id="User Functions" color="#a94200" font-style="italic">
-                <regex>^function[ \t]+([\w\d_\.:]+[ \t]*\([^\)]*\))</regex>
-            </keywords>
-            
+                        
         </default>
+        
+        <state id="User Functions" color="#a94200" font-style="italic">
+			<begin><regex>(?&lt;=function)[ \t]+[\w\d_\.:]+[ \t]*\(</regex></begin>
+			<end><regex>\)</regex></end>
+		</state>
+        
         <state id="Multiline Comment" color="#236E25" font-style="italic">
 			<begin><regex>--\[\[</regex></begin>
 			<end><regex>\]\]</regex></end>

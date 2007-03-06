@@ -28,6 +28,7 @@
     RadarScroller   *I_radarScroller;
     NSTextView      *I_textView;
     NSTextContainer *I_textContainer;
+    NSMutableArray *I_storedSelectedRanges;
     PlainTextWindowControllerTabContext *I_windowControllerTabContext;
     NSString *I_followUserID;
     struct {
@@ -39,7 +40,6 @@
     } I_flags;
 }
 
-
 - (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
 - (NSView *)editorView;
 - (NSTextView *)textView;
@@ -49,6 +49,9 @@
 - (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows;
 - (int)displayedColumns;
 - (int)displayedRows;
+
+- (void)pushSelectedRanges;
+- (void)popSelectedRanges;
 
 - (void)setShowsChangeMarks:(BOOL)aFlag;
 - (BOOL)showsChangeMarks;

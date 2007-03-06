@@ -1,3 +1,7 @@
+Changes with Version 1.5 (SEE 2.6.1)
+
+    *) better function signature highlighting
+
 Changes with Version 1.4 (SEE 2.6)
 
     *) fixed missing shortcut due to typo in the script

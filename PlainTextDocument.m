@@ -1461,20 +1461,28 @@ static NSString *tempFileName(NSString *origPath) {
                 // didn't work so update bottom status bar to previous state
                 [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
             } else {
+                BOOL isEdited = [self isDocumentEdited];
                 [[self documentUndoManager] beginUndoGrouping];
+                [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
                 [I_textStorage beginEditing];
-                [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:@""];
-
                 [self setFileEncodingUndoable:encoding];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
                 [reinterpretedString release];
-                [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
+                if (!isEdited) {
+                    [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
+                } else {
+                    [I_textStorage setAttributes:[self typingAttributes] range:NSMakeRange(0, [I_textStorage length])];
+                }
                 if (I_flags.highlightSyntax) {
                     [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
                 }
                 [I_textStorage endEditing];
                 [[self documentUndoManager] endUndoGrouping];
+                [[self plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
+                if (!isEdited) {
+                    [self updateChangeCount:NSChangeCleared];
+                }
                 [self TCM_validateLineEndings];
             }
         }
@@ -2460,10 +2468,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)revertToSavedFromFile:(NSString *)fileName ofType:(NSString *)type {
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
     BOOL success = [super revertToSavedFromFile:fileName ofType:type];
     if (success) {
         [self setFileName:fileName];
     }
+    [[self plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
     return success;
 }
 
@@ -2707,6 +2717,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
     }
 
+    // Disable image loading and execution of code in HTML documents
+    WebPreferences *webPrefs = [WebPreferences standardPreferences];
+    [webPrefs setLoadsImagesAutomatically:NO];
+    [webPrefs setJavaEnabled:NO];
+    [webPrefs setJavaScriptEnabled:NO];
+    [webPrefs setPlugInsEnabled:NO];
+    [options setObject:webPrefs forKey:@"WebPreferences"];
 
     BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
     NSData *fileData = nil;
@@ -3273,21 +3290,40 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
             return YES;
         }
-        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSWarningAlertStyle];
-        [alert setMessageText:NSLocalizedString(@"Warning", nil)];
-        [alert setInformativeText:NSLocalizedString(@"Document changed externally", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Keep SubEthaEdit Version", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
-        [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-        [self presentAlert:alert
-             modalDelegate:self
-            didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-               contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                @"DocumentChangedExternallyAlert", @"Alert",
-                                                nil] retain]];
+                
+        if ([self isDocumentEdited]) {
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:NSLocalizedString(@"The file has been modified by another application. Do you want to keep the changes made in SubEthaEdit?", nil)];
+            [alert setInformativeText:NSLocalizedString(@"If you revert the file to the version on disk the changes you made in SubEthaEdit will be lost.", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Keep Changes", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Revert", nil)];
+            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+            [self presentAlert:alert
+                 modalDelegate:self
+                didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"DocumentChangedExternallyAlert", @"Alert",
+                                                    nil] retain]];
 
-        return NO;
+            return NO;
+        } else {
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert setMessageText:NSLocalizedString(@"The document's file has been modified by another application. Do you want to revert the document?", nil)];
+            [alert setInformativeText:NSLocalizedString(@"If you revert the document to the version on disk the document's content will be replaced with the content of the file.", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Revert Document", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Don't Revert Document", nil)];
+            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+            [self presentAlert:alert
+                 modalDelegate:self
+                didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"DocumentChangedExternallyNoModificationsAlert", @"Alert",
+                                                    nil] retain]];
+
+            return NO;
+        }
     }
 
     return YES;
@@ -4229,6 +4265,16 @@ static NSString *S_measurementUnits;
             if (successful) {
                 [self updateChangeCount:NSChangeCleared];
             }
+        }
+    } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyNoModificationsAlert"]) {
+        if (returnCode == NSAlertFirstButtonReturn) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
+            BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
+            if (successful) {
+                [self updateChangeCount:NSChangeCleared];
+            }
+        } else if (returnCode == NSAlertSecondButtonReturn) {
+            [self setKeepDocumentVersion:YES];
         }
     } else if ([alertIdentifier isEqualToString:@"EditAnywayAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {

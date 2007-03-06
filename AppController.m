@@ -563,7 +563,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     static NSDictionary *s_attributes=nil;
     if (!s_attributes) {
         float fontsize = 26.;
-        NSFont *font=[NSFont fontWithName:@"Helvetica Bold" size:fontsize];
+        NSFont *font=[NSFont fontWithName:@"Helvetica-Bold" size:fontsize];
         if (!font) font=[NSFont systemFontOfSize:fontsize];
 //        NSShadow *shadow=[[NSShadow new] autorelease];
 //        [shadow setShadowColor:[NSColor blackColor]];
