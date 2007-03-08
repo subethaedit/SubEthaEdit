@@ -23,6 +23,5 @@
 
 - (BOOL)canShowHiddenFiles;
 - (void)setInternalShowsHiddenFiles:(BOOL)flag;
-- (void)TCM_selectFilenameWithoutExtension;
 
 @end

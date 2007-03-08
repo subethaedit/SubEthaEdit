@@ -16,6 +16,21 @@
 #import "GeneralPreferences.h"
 #import "DWRoundedTransparentView.h"
 
+@interface NSScreen (NSScreenTCMAdditions)
++ (NSScreen *)menuBarContainingScreen;
+@end
+
+@implementation NSScreen (NSScreenTCMAdditions)
++ (NSScreen *)menuBarContainingScreen {
+    NSArray *screens = [NSScreen screens];
+    if ([screens count] > 0) {
+        return [screens objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+@end
+
 @interface NSWindow (NSWindowNonBlockingAnimationAdditions) 
 - (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame;
 @end
@@ -45,9 +60,8 @@
     NSRect newFrame = [self frameAnimatedFrom:[[userInfo objectForKey:@"sourceFrame"] rectValue] to:[[userInfo objectForKey:@"targetFrame"] rectValue] progress:progress];
     BOOL finished = NSEqualRects(newFrame,[self frame]);
     [self setFrame:newFrame display:YES];
-    if (finished) {
+    if (finished)
         [aTimer invalidate];
-    }
 }
 
 - (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame {
@@ -101,7 +115,7 @@
 //    [((NSPanel *)window) setFloatingPanel:NO];
     [window setHidesOnDeactivate:NO];
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[I_session hostID]];
-    [O_userImageView setImage:[user image]];
+    [O_userImageView setImage:[[user properties] objectForKey:@"Image"]];
     [O_userNameTextField setStringValue:[user name]];
     NSString *filename=[I_session filename];
     [O_documentTitleTextField setStringValue:filename];
@@ -212,6 +226,18 @@
     [[self window] setContentView:proxyview];
     [O_containerView setAutoresizingMask:([O_containerView autoresizingMask] & ~NSViewWidthSizable) | NSViewMinXMargin | NSViewMaxXMargin];
 
+    NSRect targetFrame = [I_targetWindow frame];
+    NSScreen *screen=[[self window] screen];
+    if (screen) {
+        NSPoint origin_offset = NSZeroPoint;
+        NSRect visibleFrame=[screen visibleFrame];
+        origin_offset.y = MIN(NSMinY(targetFrame) - NSMinY(visibleFrame), 0.);
+        origin_offset.x = MIN(NSMaxX(visibleFrame) - NSMaxX(targetFrame), 0.);
+        if (!NSEqualPoints(origin_offset, NSZeroPoint)) {
+            [I_targetWindow setFrameTopLeftPoint:NSMakePoint(frame.origin.x + origin_offset.x,
+                                                             frame.origin.y - origin_offset.y)];
+        }
+    }
     I_dissolveToFrame = [[I_targetWindow windowController] dissolveToFrame];
     [[self window] setFrameUsingNonBlockingAnimation:I_dissolveToFrame];
 }
@@ -233,7 +259,7 @@
 }
 
 - (void)windowDidResize:(NSNotification *)aNotification {
-    if (I_targetWindow && NSEqualSizes([[self window] frame].size,I_dissolveToFrame.size)) {
+    if (I_targetWindow && NSEqualRects([[self window] frame],I_dissolveToFrame)) {
         if (![I_targetWindow isVisible]) {
             [I_targetWindow orderWindow:NSWindowBelow relativeTo:[[self window] windowNumber]];
         }

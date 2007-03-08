@@ -9,9 +9,7 @@
 #import "TCMMMSession.h"
 #import "WebPreviewWindowController.h"
 #import "PlainTextDocument.h"
-#import "TextStorage.h"
 #import "DocumentMode.h"
-#import "BacktracingException.h"
 
 int const kWebPreviewRefreshAutomatic=1;
 int const kWebPreviewRefreshOnSave   =2;
@@ -40,11 +38,11 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(synchronizeWindowTitleWithDocumentName)
                                                  name:TCMMMSessionDidChangeNotification 
-                                               object:[_plainTextDocument session]];
+                                               object:[(PlainTextDocument *)[self document] session]];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(synchronizeWindowTitleWithDocumentName)
                                                  name:PlainTextDocumentDidChangeDisplayNameNotification 
-                                               object:_plainTextDocument];
+                                               object:[self document]];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(somePlainTextDocumentDidSave:)
                                                  name:PlainTextDocumentDidSaveNotification 
@@ -60,14 +58,6 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [[self window] orderOut:self];
     [super dealloc];
 }
-
-- (void)setPlainTextDocument:(PlainTextDocument *)aDocument {
-    _plainTextDocument = aDocument;
-    if (!aDocument) {
-        [oWebView stopLoading:self];
-    }
-}
-
 
 - (PlainTextDocument *)plainTextDocument {
     return _plainTextDocument;
@@ -129,10 +119,9 @@ NSScrollView * firstScrollView(NSView *aView) {
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:MyURL];
     [request setMainDocumentURL:MyURL];
     NSString *string=[[[self plainTextDocument] textStorage] string];
-    NSStringEncoding encoding = [(TextStorage *)[[self plainTextDocument] textStorage] encoding];
-    [request setHTTPBody:[string dataUsingEncoding:encoding]];
+    [request setHTTPBody:[string dataUsingEncoding:[string fastestEncoding]]];
     NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
-                CFStringConvertNSStringEncodingToEncoding(encoding));
+                CFStringConvertNSStringEncodingToEncoding([string fastestEncoding]));
     [request setValue:IANACharSetName forHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"];
     [request setCachePolicy:aFlag?NSURLRequestUseProtocolCachePolicy:NSURLRequestReloadIgnoringCacheData];
     [[oWebView mainFrame] loadRequest:request];
@@ -177,12 +166,6 @@ NSScrollView * firstScrollView(NSView *aView) {
     [oWebView setFrameLoadDelegate:self];
     [oWebView setUIDelegate:self];
     [oWebView setResourceLoadDelegate:self];
-    [oWebView setPreferencesIdentifier:@"WebPreviewPreferences"];
-    WebPreferences *prefs = [oWebView preferences];
-    [prefs setLoadsImagesAutomatically:YES];
-    [prefs setJavaEnabled:YES];
-    [prefs setJavaScriptEnabled:YES];
-    [prefs setPlugInsEnabled:YES];
     [oStatusTextField setStringValue:@""];
     NSString *frameString=[[NSUserDefaults standardUserDefaults] 
                             stringForKey:WebPreviewWindowSizePreferenceKey];

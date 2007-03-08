@@ -540,12 +540,6 @@
                 <type type="window"/>
             </direct-parameter>
         </command>
-
-        <command name="show" code="HdraShow" description="Show a document.">
-            <direct-parameter description="The document(s) to show.">
-                <type type="document"/>
-            </direct-parameter>
-        </command>
         
         <command name="see" code="HdraSee " description="Do not use this command.">
             <parameter name="files" code="File" optional="yes" hidden="yes" description="">
@@ -670,9 +664,6 @@
             </responds-to>
             <responds-to name="show web preview">
                 <cocoa method="handleShowWebPreviewCommand:"/>
-            </responds-to>
-            <responds-to name="show">
-                <cocoa method="handleShowScriptCommand:"/>
             </responds-to>
         </class>
 

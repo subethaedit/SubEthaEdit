@@ -12,6 +12,11 @@
 #import <stdio.h>
 
 
+extern const char *gToolVersion;
+extern const int gToolVersionMajor;
+extern const int gToolVersionMinor;
+
+
 /*
 
 see -h
@@ -56,22 +61,10 @@ static void printHelp() {
     fflush(stdout);
 }
 
-void parseShortVersionString(int *major, int *minor)
-{
-    NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSScanner *scanner = [NSScanner scannerWithString:shortVersion];
-    (void)[scanner scanInt:major];
-    (void)[scanner scanString:@"." intoString:nil];
-    (void)[scanner scanInt:minor];
-}
-
 BOOL meetsRequiredVersion(NSString *string) {
     if (!string) {
         return NO;
     }
-    
-    int myMajor, myMinor;
-    parseShortVersionString(&myMajor, &myMinor);
     
     BOOL result;
     int major = 0;
@@ -82,8 +75,8 @@ BOOL meetsRequiredVersion(NSString *string) {
         && [scanner scanInt:&minor]);
     
     if (result) {
-        if (major < myMajor
-            || (major == myMajor && minor <= myMinor)) {
+        if (major < gToolVersionMajor
+            || (major == gToolVersionMajor && minor <= gToolVersionMinor)) {
             return YES;
         }
     }
@@ -181,16 +174,11 @@ static void printVersion() {
         appShortVersionString = localizedVersionString;
     }
 
-    NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    fprintf(stdout, "see %s (%s)\n", [shortVersion UTF8String], [bundleVersion UTF8String]);
+    fprintf(stdout, "see %d.%d (%s)\n", gToolVersionMajor, gToolVersionMinor, gToolVersion);
     if (appURL != NULL) {
         NSString *path = [(NSURL *)appURL path];
         fprintf(stdout, "%s %s (%s)\n", [path fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
         if (bundledSeeToolVersionString) {
-            int myMajor, myMinor;
-            parseShortVersionString(&myMajor, &myMinor);
-        
             BOOL result;
             BOOL newerBundledVersion = NO;
             int major = 0;
@@ -201,8 +189,8 @@ static void printVersion() {
                 && [scanner scanInt:&minor]);
             
             if (result) {
-                if (major > myMajor
-                    || (major == myMajor && minor > myMinor)) {
+                if (major > gToolVersionMajor
+                    || (major == gToolVersionMajor && minor > gToolVersionMinor)) {
                     newerBundledVersion = YES;
                 }
             }

@@ -3,12 +3,11 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Mar 03 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //           
 
 #import <AppKit/AppKit.h>
-
-@class TCMMMBrowserListView;
+#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 
 
 @interface InternetBrowserController : NSWindowController

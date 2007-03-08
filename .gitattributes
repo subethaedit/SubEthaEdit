@@ -6,8 +6,6 @@
 /AdvancedPreferences.m -text
 /AppController.h -text
 /AppController.m -text
-/BacktracingException.h -text
-/BacktracingException.m -text
 /BorderedTextField.h -text
 /BorderedTextField.m -text
 /BorderlessWindow.h -text
@@ -52,11 +50,6 @@ Debug/DebugPresence.nib/info.nib -text
 Debug/DebugPresence.nib/keyedobjects.nib -text
 Debug/DebugPresenceController.h -text
 Debug/DebugPresenceController.m -text
-Debug/DebugSendOperation.nib/classes.nib -text
-Debug/DebugSendOperation.nib/info.nib -text
-Debug/DebugSendOperation.nib/keyedobjects.nib -text
-Debug/DebugSendOperationController.h -text
-Debug/DebugSendOperationController.m -text
 Debug/DebugUserController.h -text
 Debug/DebugUserController.m -text
 Debug/DebugUsers.nib/classes.nib -text
@@ -276,10 +269,6 @@ German.lproj/WebPreview.nib/info.nib -text
 German.lproj/WebPreview.nib/keyedobjects.nib -text
 /GetURLCommand.h -text
 /GetURLCommand.m -text
-/GlassButton.h -text
-/GlassButton.m -text
-/GlassButtonCell.h -text
-/GlassButtonCell.m -text
 /GutterRulerView.h -text
 /GutterRulerView.m -text
 HTMLExport/Base.css -text
@@ -358,7 +347,6 @@ Modes/C.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -text
 Modes/C.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/C.mode/Contents/Resources/ToolbarCounterpart.png -text
 Modes/CSS.mode/Contents/Info.plist -text
-Modes/CSS.mode/Contents/Resources/AutocompleteAdditions.txt -text
 Modes/CSS.mode/Contents/Resources/ChangeLog.txt -text
 Modes/CSS.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 Modes/CSS.mode/Contents/Resources/English.lproj/Localizable.strings -text
@@ -619,14 +607,10 @@ MoreIsBetter/MoreUNIX.h -text
 /NSImageTCMAdditions.m -text
 /NSMenuTCMAdditions.h -text
 /NSMenuTCMAdditions.m -text
-/NSMutableAttributedStringSEEAdditions.h -text
-/NSMutableAttributedStringSEEAdditions.m -text
 /NSRangeSpecifierTCMAdditions.h -text
 /NSRangeSpecifierTCMAdditions.m -text
 /NSSavePanelTCMAdditions.h -text
 /NSSavePanelTCMAdditions.m -text
-/NSScreenTCMAdditions.h -text
-/NSScreenTCMAdditions.m -text
 /NSStringSEEAdditions.h -text
 /NSStringSEEAdditions.m -text
 /NSWindowScriptingAdditions.h -text
@@ -1288,8 +1272,6 @@ TCMFoundation/version.plist -text
 /TCMIdleTimer.m -text
 /TCMListView.h -text
 /TCMListView.m -text
-/TCMMMUserManagerKitAdditions.h -text
-/TCMMMUserManagerKitAdditions.m -text
 /TCMMMUserSEEAdditions.h -text
 /TCMMMUserSEEAdditions.m -text
 TCMMillionMonkeys/TCMMMBEEPSessionManager.h -text
@@ -1306,10 +1288,6 @@ TCMMillionMonkeys/TCMMMPresenceManager.h -text
 TCMMillionMonkeys/TCMMMPresenceManager.m -text
 TCMMillionMonkeys/TCMMMSession.h -text
 TCMMillionMonkeys/TCMMMSession.m -text
-TCMMillionMonkeys/TCMMMSessionAppKitHelper.h -text
-TCMMillionMonkeys/TCMMMSessionAppKitHelper.m -text
-TCMMillionMonkeys/TCMMMSessionFoundationHelper.h -text
-TCMMillionMonkeys/TCMMMSessionFoundationHelper.m -text
 TCMMillionMonkeys/TCMMMState.h -text
 TCMMillionMonkeys/TCMMMState.m -text
 TCMMillionMonkeys/TCMMMStatusProfile.h -text
@@ -1359,7 +1337,7 @@ artwork/AdvancedPrefs.tiff -text
 artwork/Announce.tiff -text
 artwork/CandyBar.png -text
 artwork/Conceal.png -text
-artwork/DefaultPerson.png -text
+artwork/DefaultPerson.tiff -text
 artwork/EditPrefs.tiff -text
 artwork/EmptyButton.tiff -text
 artwork/GeneralPrefs.tiff -text
@@ -1447,7 +1425,6 @@ artwork/ToolbarIconRun.tiff -text
 artwork/ToolbarIconRunInTerminal.png -text
 artwork/ToolbarIconTerminal.png -text
 artwork/URLIcon.tiff -text
-artwork/UnknownPerson.png -text
 artwork/WaitPipe.png -text
 artwork/WebReload.tiff -text
 artwork/codingmonkeys.png -text
@@ -1470,7 +1447,6 @@ artwork/monkey32.png -text
 artwork/style.icns -text
 /createDiskImage.sh -text
 /main.m -text
-see/Info.plist -text
 see/main.m -text
 see/see.1 -text
 see/see.vers -text

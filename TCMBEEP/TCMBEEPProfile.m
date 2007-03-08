@@ -89,7 +89,7 @@
 
 - (void)channelDidClose
 {
-    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidClose: %@ delegate:%@", NSStringFromClass([self class]), [self delegate]);
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"channelDidClose: %@", NSStringFromClass([self class]));
     id delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(profileDidClose:)]) {
         [delegate profileDidClose:self];

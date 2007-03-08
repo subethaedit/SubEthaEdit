@@ -3,10 +3,9 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Wed Feb 25 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "RendezvousBrowserController.h"
 #import "ImagePopUpButtonCell.h"
 #import "PullDownButtonCell.h"
@@ -14,7 +13,6 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
-#import "TCMMMBrowserListView.h"
 
 enum {
     BrowserContextMenuTagJoin = 1,
@@ -110,7 +108,7 @@ static RendezvousBrowserController *sharedInstance=nil;
 - (void)TCM_synchronizeMyNameAndPicture {
     TCMMMUser *me=[TCMMMUserManager me];
     [O_myNameTextField setStringValue:[me name]];
-    [O_imageView setImage:[me image]];
+    [O_imageView setImage:[[me properties] objectForKey:@"Image"]];
 }
 
 - (void)windowDidLoad {
@@ -422,9 +420,9 @@ enum {
             } else if (aTag==TCMMMBrowserItemStatusTag) {
                 return [NSString stringWithFormat:NSLocalizedString(@"%d Document(s)",@"Status string showing the number of documents in Rendezvous and Internet browser"),[[item objectForKey:@"Sessions"] count]];
             } else if (aTag==TCMMMBrowserItemImageTag) {
-                return [user image32];
+                return [[user properties] objectForKey:@"Image32"];
             } else if (aTag==TCMMMBrowserItemImageNextToNameTag) {
-                return [user colorImage];
+                return [[user properties] objectForKey:@"ColorImage"];
             } 
         }
         return nil;

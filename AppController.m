@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Feb 25 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <AddressBook/AddressBook.h>
@@ -52,8 +52,6 @@
 #import "SESendProc.h"
 #import "SEActiveProc.h"
 
-#import "BacktracingException.h"
-
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
 #import "Debug/DebugController.h"
@@ -85,6 +83,7 @@ int const ScriptMenuTag = 4000;
 
 
 
+NSString * const DefaultPortNumber = @"port";
 NSString * const AddressHistory = @"AddressHistory";
 NSString * const SetupDonePrefKey = @"SetupDone";
 NSString * const SetupVersionPrefKey = @"SetupVersion";
@@ -134,8 +133,6 @@ static AppController *sharedInstance = nil;
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
     [UserChangeOperation class];
     [TCMMMNoOperation class];
-    
-    [BacktracingException install];
 }
 
 + (AppController *)sharedInstance {
@@ -281,7 +278,7 @@ static AppController *sharedInstance = nil;
     }
     
     if (!myImage) {
-        myImage=[[NSImage imageNamed:@"DefaultPerson"] retain];
+        myImage=[[NSImage imageNamed:@"DefaultPerson.tiff"] retain];
     }
     
     if (!myEmail) myEmail=@"";
@@ -289,6 +286,28 @@ static AppController *sharedInstance = nil;
     
     // resizing the image
     scaledMyImage=[myImage resizedImageWithSize:NSMakeSize(64.,64.)];
+//    [myImage setScalesWhenResized:YES];
+//    NSSize originalSize=[myImage size];
+//    NSSize newSize=NSMakeSize(64.,64.);
+//    if (originalSize.width>originalSize.height) {
+//        newSize.height=(int)(originalSize.height/originalSize.width*newSize.width);
+//        if (newSize.height<=0) newSize.height=1;
+//    } else {
+//        newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
+//        if (newSize.width <=0) newSize.width=1;
+//    }
+//    [myImage setSize:newSize];
+//    scaledMyImage=[[NSImage alloc] initWithSize:newSize];
+//    [scaledMyImage setCacheMode:NSImageCacheNever];
+//    [scaledMyImage lockFocus];
+//    NSGraphicsContext *context=[NSGraphicsContext currentContext];
+//    NSImageInterpolation oldInterpolation=[context imageInterpolation];
+//    [context setImageInterpolation:NSImageInterpolationHigh];
+//    [NSColor clearColor];
+//    NSRectFill(NSMakeRect(0.,0.,newSize.width,newSize.height));
+//    [myImage compositeToPoint:NSMakePoint(0.,0.) operation:NSCompositeCopy];
+//    [context setImageInterpolation:oldInterpolation];
+//    [scaledMyImage unlockFocus];
     
     NSData *pngData=[scaledMyImage TIFFRepresentation];
     pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
@@ -303,7 +322,9 @@ static AppController *sharedInstance = nil;
     [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
     [me setUserHue:[defaults objectForKey:MyColorHuePreferenceKey]];
 
-    [myImage release];
+    [myImage       release];
+//    [scaledMyImage release];
+    [me prepareImages];
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     [userManager setMe:[me autorelease]];
 }
@@ -925,7 +946,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 - (NSArray *)contextMenuItemArray {
     return I_contextMenuItemArray;
 }
-
 // trigger update so keyequivalents match the situation
 - (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action {
     [menu update];
@@ -1057,7 +1077,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (IBAction)reportBug:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:NSLocalizedString(@"http://www.subethaedit.net/bugs/?version=%@",@"BugTracker Deep Link"),[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/bugs",@"BugTracker Link")]];
 }
 
 - (IBAction)provideFeedback:(id)sender {

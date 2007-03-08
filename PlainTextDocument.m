@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Feb 24 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Carbon/Carbon.h>
@@ -25,7 +25,6 @@
 #import "AppController.h"
 #import "NSSavePanelTCMAdditions.h"
 #import "EncodingDoctorDialog.h"
-#import "NSMutableAttributedStringSEEAdditions.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -879,7 +878,6 @@ static NSString *tempFileName(NSString *origPath) {
     [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
     [I_textStorage setDelegate:nil];
     [I_textStorage release];
-    [I_webPreviewWindowController setPlainTextDocument:nil];
     [I_webPreviewWindowController release];
     [I_documentProxyWindowController release];
     [I_session release];
@@ -1302,7 +1300,7 @@ static NSString *tempFileName(NSString *origPath) {
     [self ensureWebPreview];
     if (![[I_webPreviewWindowController window] isVisible]) {
         [I_webPreviewWindowController showWindow:self];
-        [I_webPreviewWindowController refreshAndEmptyCache:self];
+        [I_webPreviewWindowController refresh:self];
     } else {
         [[I_webPreviewWindowController window] orderFront:self];
     }
@@ -1759,28 +1757,26 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
-- (id)handleShowScriptCommand:(NSScriptCommand *)command {
+- (void)showWindowController:(id)aSender {
+    [[aSender representedObject] selectTabForDocument:self];
+    [[aSender representedObject] showWindow:self];
     [self showWindows];
-    return nil;
 }
 
 - (void)showWindows {    
-    BOOL closeTransient = transientDocument && transientDocument != self
+    BOOL closeTransient = transientDocument 
                           && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
                           && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
 
     if (I_documentProxyWindowController) {
         [[I_documentProxyWindowController window] orderFront:self];
     } else {
-        PlainTextWindowController *windowController = [self topmostWindowController];
         if (closeTransient) {
-            NSWindow *window = [windowController window];
+            NSWindow *window = [[self topmostWindowController] window];
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
-        [windowController selectTabForDocument:self];
-        [[windowController tabBar] updateViewsHack];
-        if (closeTransient) [[windowController window] orderFront:self]; // stop cascading
-        [windowController showWindow:self];
+        [[self topmostWindowController] selectTabForDocument:self];
+        [[self topmostWindowController] showWindow:self];
     }
     
     if (closeTransient && ![self isProxyDocument]) {
@@ -1979,11 +1975,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     I_lastSaveOperation = saveOperation;
     [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
-}
-
-- (BOOL)shouldRunSavePanelWithAccessoryView {
-	
-    return [super shouldRunSavePanelWithAccessoryView];
 }
 
 #pragma mark -
@@ -2361,7 +2352,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
     if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
         NSLog(@"Failed to load SavePanelAccessory.nib");
-        return NO;
+        return nil;
     }
     
     BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
@@ -2407,21 +2398,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [O_showHiddenFilesCheckbox2 setHidden:YES];
         }
     }
-	
+
     [O_savePanelAccessoryView release];
     O_savePanelAccessoryView = nil;
     
     [O_savePanelAccessoryView2 release];
     O_savePanelAccessoryView2 = nil;
-	
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:savePanel];
+        
     return [super prepareSavePanel:savePanel];
-}
-
-- (void)savePanelDidBecomeKey:(NSNotification *)aNotification {
-	[[aNotification object] TCM_selectFilenameWithoutExtension];
-    [[NSNotificationCenter defaultCenter] removeObserver:self  name:NSWindowDidBecomeKeyNotification object:[aNotification object]];
 }
 
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
@@ -2734,15 +2718,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     // Disable image loading and execution of code in HTML documents
-    static WebPreferences *s_loadPrefs = nil;
-    if (!s_loadPrefs) {
-        s_loadPrefs = [[WebPreferences alloc] initWithIdentifier:@"PlainTextDocumentLoadingPreferences"];
-        [s_loadPrefs setLoadsImagesAutomatically:NO];
-        [s_loadPrefs setJavaEnabled:NO];
-        [s_loadPrefs setJavaScriptEnabled:NO];
-        [s_loadPrefs setPlugInsEnabled:NO];
-    }
-    [options setObject:s_loadPrefs forKey:@"WebPreferences"];
+    WebPreferences *webPrefs = [WebPreferences standardPreferences];
+    [webPrefs setLoadsImagesAutomatically:NO];
+    [webPrefs setJavaEnabled:NO];
+    [webPrefs setJavaScriptEnabled:NO];
+    [webPrefs setPlugInsEnabled:NO];
+    [options setObject:webPrefs forKey:@"WebPreferences"];
 
     BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
     NSData *fileData = nil;
@@ -3421,6 +3402,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return ![self isProxyDocument];
     } else if (selector == @selector(clearChangeMarks:)) {
         return ![self isProxyDocument];
+    } else if (selector == @selector(showWindowController:)) {
+        if ([self isDocumentEdited]) {
+            [anItem setMark:kBulletCharCode];
+        } else {
+            [anItem setMark:noMark];
+        }
+        id wc = [anItem representedObject];
+        if ([[anItem representedObject] document] == self &&
+            ([[wc window] isKeyWindow] || 
+             [[wc window] isMainWindow])) {
+            [anItem setState:NSOnState];
+            [anItem setMark:kCheckCharCode];
+        }
+        return ![[wc window] attachedSheet] || ([[wc window] attachedSheet] && [wc document] == self);
     }
 
 //    if (selector==@selector(undo:)) {
@@ -3776,7 +3771,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSWindow *window;
     PlainTextWindowController *result=nil;
     while ((window=[orderedWindowEnumerator nextObject])) {
-        if ([[window windowController] document]==self && [[window windowController] isKindOfClass:[PlainTextWindowController class]]) {
+        if ([[window windowController] document]==self) {
             result=[window windowController];
             break;
         }
@@ -3801,10 +3796,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     PlainTextWindowController *windowController=[self topmostWindowController];
     [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
-	NSTextView *textView = [[windowController activePlainTextEditor] textView];
-	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-		[textView showFindIndicatorForRange:aRange];
-	} 
     [[windowController window] makeKeyAndOrderFront:self];
 }
 
@@ -3812,10 +3803,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     PlainTextWindowController *windowController=[self topmostWindowController];
     [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
-	NSTextView *textView = [[windowController activePlainTextEditor] textView];
-	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-		[textView showFindIndicatorForRange:aRange];
-	} 
 }
 
 - (void)addFindAllController:(FindAllController *)aController
@@ -4163,17 +4150,6 @@ static NSString *S_measurementUnits;
     return I_flags.showsChangeMarks;
 }
 
-- (void)setPlainTextEditorsShowChangeMarksOnInvitation
-{
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
-        NSEnumerator *plainTextEditors = [[self plainTextEditors] objectEnumerator];
-        PlainTextEditor *editor = nil;
-        while ((editor = [plainTextEditors nextObject])) {
-            [editor setShowsChangeMarks:YES];
-        }
-    }
-}
-
 - (void)setShowsChangeMarks:(BOOL)aFlag {
     I_flags.showsChangeMarks=aFlag;
 }
@@ -4512,18 +4488,6 @@ static NSString *S_measurementUnits;
     [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
-- (void)sessionDidLeave:(TCMMMSession *)aSession {
-    [self TCM_generateNewSession];
-    
-    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-    [alert setAlertStyle:NSInformationalAlertStyle];
-    [alert setMessageText:NSLocalizedString(@"ProblemLeave", @"ProblemLeave title in Sheet")];
-    [alert setInformativeText:NSLocalizedString(@"ProblemLeaveInfo", @"ProblemLeaveInfo info in Sheet")];
-    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
-    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
-}
-
-
 - (void)sessionDidCancelInvitation:(TCMMMSession *)aSession {
     [I_documentProxyWindowController invitationWasCanceled];
 }
@@ -4536,11 +4500,7 @@ static NSString *S_measurementUnits;
     [alert setMessageText:NSLocalizedString(@"Closed", @"Server Closed Document title in Sheet")];
     [alert setInformativeText:NSLocalizedString(@"ClosedInfo", @"Server Closed Document info in Sheet")];
     [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
-    if ([self isProxyDocument]) {
-        [self sessionDidLoseConnection:aSession];
-    } else {
-        [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
-    }
+    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession {
@@ -4594,12 +4554,11 @@ static NSString *S_measurementUnits;
                           && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
 
     if (closeTransient) {
-         NSWindow *window = [[self topmostWindowController] window];
+        NSWindow *window = [[self topmostWindowController] window];
         [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         [transientDocument close];
-    } else if (![[windowController window] isVisible]) {
-        [windowController cascadeWindow];
     }
+
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
     
     if (closeTransient) {
@@ -4636,11 +4595,6 @@ static NSString *S_measurementUnits;
     if ([session isServer]) {
         [session setFilename:[self preparedDisplayName]];
     }
-}
-
-- (NSDictionary *)textStorageDictionaryRepresentation
-{
-    return [(TextStorage *)[self textStorage] dictionaryRepresentation];
 }
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
@@ -4703,17 +4657,8 @@ static NSString *S_measurementUnits;
     return result;
 }
 
-- (BOOL)handleOperation:(TCMMMOperation *)aOperation {
+- (void)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
-        TextOperation *operation=(TextOperation *)aOperation;
-        NSTextStorage *textStorage=[self textStorage];
-    
-        // check validity of operation
-        if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
-            NSLog(@"User tried to change text outside the document bounds:%@ %@",operation,[[TCMMMUserManager sharedInstance] userForUserID:[operation userID]]);
-            return NO;
-        }
-    
         // gather selections from all textviews and transform them
         NSArray *editors=[self plainTextEditors];
         I_flags.isRemotelyEditingTextStorage=![[aOperation userID] isEqualToString:[TCMMMUserManager myUserID]];
@@ -4726,6 +4671,8 @@ static NSString *S_measurementUnits;
             }
         }
 
+        TextOperation *operation=(TextOperation *)aOperation;
+        NSTextStorage *textStorage=[self textStorage];
         [textStorage beginEditing];
         NSRange newRange=NSMakeRange([operation affectedCharRange].location,
                                      [[operation replacementString] length]);
@@ -4759,7 +4706,6 @@ static NSString *S_measurementUnits;
         [self changeSelectionOfUserWithID:[aOperation userID]
               toRange:[(SelectionOperation *)aOperation selectedRange]];
     }
-    return YES;
 }
 
 #pragma mark -
@@ -4951,7 +4897,7 @@ static NSString *S_measurementUnits;
                     NSRange lineRange=[string lineRangeForRange:affectedRange];
                     unsigned firstCharacter=0;
                     int position=affectedRange.location;
-                    while (position-->lineRange.location) {
+                    while (--position>=lineRange.location) {
                         if (!firstCharacter && [string characterAtIndex:position]!=[@"\t" characterAtIndex:0] &&
                                                [string characterAtIndex:position]!=[@" " characterAtIndex:0]) {
                             firstCharacter=position+1;
@@ -5462,9 +5408,7 @@ static NSString *S_measurementUnits;
     NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
     NSWindow *window;
     while ((window = [windowsEnumerator nextObject])) {
-        if (![self isProxyDocument] &&
-            [[window windowController] respondsToSelector:@selector(documents)] &&
-            [[[window windowController] documents] containsObject:self]) {
+        if ([[[window windowController] documents] containsObject:self] && ![self isProxyDocument]) {
             [orderedWindows addObject:window];
         }
     }

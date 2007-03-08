@@ -11,11 +11,11 @@
 http://www.paploo.net/~paploo
 Based on the original Coding Monkey's code</string>
     <key>CFBundleShortVersionString</key>
-	<string>2.7</string>
+	<string>2.6</string>
 	<key>CFBundleVersion</key>
-	<string>2.7</string>
+	<string>2.6</string>
     <key>CFBundleGetInfoString</key>
-	<string>2.7, Copyright Jeff Reinecke 2004, based on the original Ruby mode by The Coding Monkeys.</string>
+	<string>2.6, Copyright Jeff Reinecke 2004, based on the original Ruby mode by The Coding Monkeys.</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>

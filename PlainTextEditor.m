@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #import "FindReplaceController.h"
@@ -33,7 +33,6 @@
 #import "SyntaxDefinition.h"
 #import "ScriptTextSelection.h"
 #import "NSMenuTCMAdditions.h"
-#import "NSMutableAttributedStringSEEAdditions.h"
 
 @interface NSTextView (PrivateAdditions)
 - (BOOL)_isUnmarking;
@@ -164,9 +163,6 @@
     [I_textView setUsesFindPanel:YES];
     [I_textView setAllowsUndo:NO];
     [I_textView setSmartInsertDeleteEnabled:NO];
-//	if ([I_textView respondsToSelector:@selector(setAutomaticLinkDetectionEnabled:)]) {
-//		[I_textView setAutomaticLinkDetectionEnabled:YES];
-//	}
 
     [I_textView setDelegate:self];
     [I_textContainer setHeightTracksTextView:NO];
@@ -983,13 +979,13 @@
 
 - (void)setShowsInvisibleCharacters:(BOOL)aFlag {
     LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
-    [layoutManager   setShowsInvisibles:aFlag];
+    [layoutManager   setShowsInvisibleCharacters:aFlag];
     [[self document] setShowInvisibleCharacters:aFlag];
     [I_textView setNeedsDisplay:YES];
 }
 
 - (BOOL)showsInvisibleCharacters {
-    return [(LayoutManager *)[I_textView layoutManager] showsInvisibles];
+    return [[I_textView layoutManager] showsInvisibleCharacters];
 }
 
 - (IBAction)toggleShowInvisibles:(id)aSender {
@@ -1027,8 +1023,6 @@
         NSRect frame=[I_textView frame];
         frame.size.width=[O_scrollView contentSize].width;
         [I_textView setFrame:frame];
-        // this needs to be done if no text flows over the text view margins (SEE-364)
-        [I_textContainer setContainerSize:NSMakeSize(NSWidth([I_textView frame])-2.0*[I_textView textContainerInset].width,FLT_MAX)];
         [I_textView setNeedsDisplay:YES];
     }
     [[self document] setWrapLines:[self wrapsLines]];
@@ -1187,7 +1181,7 @@
             NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
             NSMenuItem   *menuItem  = nil;
             while ((menuItem=[menuItems nextObject])) {
-                if ([menuItem target]==[[I_textView window] windowController] && [menuItem representedObject]==[self document]) {
+                if ([menuItem target]==[self document] && [menuItem representedObject]==[[I_textView window] windowController]) {
                     [s_cell selectItem:menuItem];
                     break;
                 }
@@ -1303,7 +1297,6 @@
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
-	if (replacementString == nil) return YES; // only styles are changed
     PlainTextDocument *document = [self document];
     if (![document isRemotelyEditingTextStorage]) {
         [self setFollowUserID:nil];

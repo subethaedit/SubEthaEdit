@@ -3,7 +3,7 @@
 //  TCMBEEP
 //
 //  Created by Martin Ott on Mon Feb 16 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -67,9 +67,6 @@ enum {
     TCMBEEPFrame *I_currentReadFrame;
     struct {
         BOOL isInitiator;
-        BOOL isProhibitingInboundInternetSessions;
-        BOOL amReading;
-        BOOL needsToReadAgain;
     } I_flags;
     
     TCMBEEPSessionStatus I_sessionStatus;
@@ -117,8 +114,6 @@ enum {
 - (int)maximumFrameSize;
 - (TCMBEEPSessionStatus)sessionStatus;
 - (NSArray *)channels;
-- (void)setIsProhibitingInboundInternetSessions:(BOOL)flag;
-- (BOOL)isProhibitingInboundInternetSessions;
 
 - (void)open;
 - (void)terminate;

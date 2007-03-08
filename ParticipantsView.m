@@ -284,7 +284,6 @@
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[userDescription objectForKey:@"UserID"]];
             if (user) {
                 TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] URLString:[userDescription objectForKey:@"URLString"]];
-                [[self document] setPlainTextEditorsShowChangeMarksOnInvitation];
                 [session inviteUser:user intoGroup:I_dragToItem==0?@"ReadWrite":@"ReadOnly" usingBEEPSession:BEEPSession];
             }
         }

@@ -3,7 +3,7 @@
 //  
 //
 //  Created by Martin Ott on Tue Feb 17 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -41,5 +41,13 @@ typedef enum _LineEnding {
 @interface NSAttributedString (NSAttributedStringSEEAdditions)
 
 - (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8;
+
+@end
+
+@interface NSMutableAttributedString (NSMutableAttributedStringSEEAdditions) 
+
+/* returns length change */
+- (NSRange)detab:(BOOL)shouldDetab inRange:(NSRange)aRange tabWidth:(int)aTabWidth askingTextView:(NSTextView *)aTextView;
+- (void)makeLeadingWhitespaceNonBreaking;
 
 @end

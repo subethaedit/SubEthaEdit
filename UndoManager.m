@@ -779,7 +779,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             group = [_redoStack objectAtIndex:i];
             actions = [group actions];        
             for (k = [actions count] -1; k >= 0; k--) {
-                if ([[actions objectAtIndex:k] isKindOfClass:[TCMMMOperation class]]) {
+                if ([[actions objectAtIndex:i] isKindOfClass:[TCMMMOperation class]]) {
                     if (isServer) {
                         [transformator transformOperation:[actions objectAtIndex:k] serverOperation:operation];
                     } else {

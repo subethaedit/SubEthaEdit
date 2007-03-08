@@ -656,7 +656,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         NSRect myPictureRect=NSMakeRect(point.x+LEGENDIMAGEPADDING,point.y+LEGENDIMAGEPADDING,
                                         LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING,
                                         LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING);
-        NSImage *userImage=[[[aUser image] copy] autorelease];
+        NSImage *userImage=[[[[aUser properties] objectForKey:@"Image"] copy] autorelease];
         if (![userImage isFlipped]) [userImage setFlipped:YES];
 //        [userImage setScalesWhenResized:YES];
 //        [userImage setSize:myPictureRect.size];

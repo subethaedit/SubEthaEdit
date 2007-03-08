@@ -81,7 +81,6 @@
 - (void)addWindowController:(id)aWindowController;
 - (void)removeWindowController:(id)aWindowController;
 
-- (void)updateTabMenu;
 
 
 @end

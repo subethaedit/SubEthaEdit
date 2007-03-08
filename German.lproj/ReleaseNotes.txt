@@ -1,114 +1,4 @@
 
-SubEthaEdit 2.6.5
-=================
-
-Korrekturen:
-- Ein Absturz wurde behoben der beim Schliessen eines Dokumentes auftreten 
-  konnte, wenn die Web Vorschau sich gerade aktualisierte.
-- Ein Fehler wurde behoben durch den "Zeilen umbrechen" nicht richtig 
-  eingeschalten wurde, wenn sich kein Text im Document befand, der zum 
-  Zeitpunkt des Einschaltens umgebrochen werden musste.
-- Ein Fehler wurde behoben, welcher dafür sorgte, dass das letzte Zeichen einer 
-  Änderung machnmal nicht richtig markiert dargestellt wurde.
-- Ein Fehler wurde behoben, welcher zum Schliessen des automatisch geöffneten 
-  Dokumentes führte, wenn man es über das Fenster Menü aktivierte.
-
-
-SubEthaEdit 2.6.4
-=================
-
-Neue Funktionen:
-- Ein neues AppleScript Verb "show" wurde hinzugefügt. "show" zeigt das 
-  vorderste Fenster bzw. Tab eines Dokuments.
-- Unterstützung für die systemweite hervorhebende Animation beim finden von 
-  gesuchtem Text unter Mac OS X 10.5
-- Dreifach-Klick selektiert jetzt Elemente im gleichen Stil. Z.B. Strings oder 
-  Variablen.
-- Der Speichern Dialog selektiert den Dateinamen ohne Erweiterung vor.
-
-Veränderugen:
-- Die Syntaxeinfärbung des Perl Modus wurde verbessert
-- Der Objective-C Modus unterstützt jetzt Objective-C 2.0 sowie die neuen 
-  Klassen, Methoden und Konstanten von Mac OS X 10.5
-- Das Verhalten von sich neu öffnenden Fenster mit mehreren Monitoren wurde 
-  verbessert. Das neue Fenster öffnet sich jetzt immer auf dem Monitor des 
-  vordersten Dokuments.
-- Der Hilfe Menüeintrag "Fehler an TheCodingMonkeys" melden führt jetzt direkt 
-  zur Eingabemaske auf https://www.codingmonkeys.de/bugs und wählt die korrekte 
-  Version aus.
-- Beim schliessen von aufgeteilten Fenstern wird jetzt nicht mehr die Position 
-  des oberen Textfeldes, sondern die des aktiven Textfeldes berücksichtigt.
-- In allen Modi, die Syntax-Check beherrschen, wurde dieses Script so 
-  verändert, dass es sowohl mit beliebigen Dateikodierungen als auch mit Tabs 
-  einwandfrei funktioniert.
-
-Korrekturen:
-- Ein Fehler wurde behoben, der einen neu eingegebenen Suchbegriff mit dem 
-  systemweiten Suchbegriff überschrieben hat.
-- Ein Fehler wurde behoben, bei dem der Übergang zwischen Beitritts- und 
-  Einladungsfenster stecken blieb.
-- Ein Fehler wurde behoben, der beim Drücken von Apfel-1 bis Apfel-9 falsche 
-  Tabs selektierte, nach dem diese umsortiert wurden.
-- Ein Absturz im Zusammenhang mit Tastaturkürzeln für Tabs wurde behoben.
-- Ein Absturz wurde behoben der in unglücklichen Fällen bei Dokumenten deren 
-  erstes Zeichen ein Leerzeichen war, beim Löschen eben diesem, auftrat.
-- Ein Fehler wurde behoben, der dazu führts dass im Dateikodierungsdialog die 
-  Schaltflächen im falschen Stil angezeigt wurden.
-- Ein Problem wurde behoben, bei dem nicht angezeigt wurde dass ein Mitbenutzer 
-  den Beitritt abgebrochen hat.
-- Ein Absturz der Netzwerkkomponente mit modalen Operation wurde behoben. Z.B. 
-  beim Laden eines Modes mit einem AppleSkript das eine unbekannte Applikation 
-  referenziert.
-- Ein Absturz der Liste der Dateikodierungen wurde behoben, der auftreten 
-  konnte wenn Tabs mit der Maus geschlossen wurden.
-- Ein Problem mit dem Syntax-Check des PHP Modus wenn bereits ein 
-  Ausgabe-Dokument vorhanden war wurde behoben.
-- Ein Fehler unter Mac OS X 10.5 wurde behoben, durch den mit der Option 
-  "Unischtbare Zeichen anzeigen" Leerzeichen als Diamanten dargestellt wurden.
-
-
-SubEthaEdit 2.6.3
-=================
-
-Veränderugen:
-- Die Verarbeitung von fremden Textveränderungen wurde robuster gemacht.
-- Das Öffnen einer Datei, die "Unbenannt.txt" ersetzt, erhöht nicht mehr die 
-  Position im Fensterstapel.
-
-Korrekturen:
-- Ein Fehler wurde behoben, durch den eine vorhandene Verbindung keine 
-  Änderungen mehr übermittelt.
-- Ein Fehler wurde behoben, durch den ein Verbindungsabbruch in seltenen Fällen 
-  einseitig nicht registriert wurde.
-- Ein Fehler wurde behoben, bei dem nach einem nicht registrierten 
-  Verbindungsabbruch ein erneuter Verbindungsaufbau zu einem Absturz führte.
-- Ein Fehler wurde behoben, durch den eine abgebrochene, sich im Aufbau 
-  befindende, Dokumenten-Verbindung über eine Leitung mit hoher Latenz zu einem 
-  Absturz führte.
-- Ein Fehler wurde behoben, der zu einem Absturz führte, wenn die Verbindung 
-  während der Übertragung des Dokumentes abgebrochen wurde.
-- Ein Fehler wurde behoben, durch den Fenster zu weit am rechten Bildschirmrand 
-  platziert wurden, um komplett angezeigt zu werden.
-- Die Farbe des Mauszeigers ist nun auch dann weiß, wenn erst im Laufe der 
-  Benutzung des Dokumentes ein Wechsel von hellem auf dunklen Hintergrund 
-  erfolgt.
-- CSS Modus mit verbesserter Färbung von Kommentaren.
-- PHP-HTML Modus mit verbesserter Unterstützung von PHP 5.
-
-
-SubEthaEdit 2.6.2
-=================
-
-Korrekturen:
-- Ein Fehler in der Web Vorschau wurde behoben, durch den Ressourcen wie z.B. 
-  Bilder nicht mehr geladen wurden.
-- Ein Fehler in der Web Vorschau wurde behoben, durch den Javascript nicht 
-  korrekt ausgeführt wurde.
-- Ein Fehler wurde behoben, durch den die Syntax Option für reguläre Ausdrücke 
-  nicht korrekt berücksichtigt wurde.
-- Verbesserter Modus: Lua.
-
-
 SubEthaEdit 2.6.1
 =================
 
@@ -146,7 +36,6 @@ Korrekturen:
   einer anderen Dateikodierung oder dem Laden der letzten Version zerstört 
   wurde.
 - Verbesserter Modus: Lua.
-
 
 SubEthaEdit 2.6
 ===============
@@ -191,7 +80,6 @@ Korrekturen:
   angezeigt wurde, wurde behoben.
 - Verbesserte Modi: ActionScript, C, C++, HTML, Javascript, Lua, Objective-C, 
   Perl, Python.
-
 
 SubEthaEdit 2.5.1
 =================
@@ -267,7 +155,6 @@ Korrekturen:
   gerade ausgewählte Farbe nicht korrekt darstellte.
 - Verbesserte Modi: bash, C, C++, CSS, HTML, Java, Objective-C, Perl, PHP-HTML, 
   Python, Ruby, XML.
-
 
 SubEthaEdit 2.5
 ===============
@@ -352,7 +239,6 @@ Korrekturen:
 - Verbesserte Modi: bash, C, C++, CSS, HTML, Java, Lua, Objective-C, Perl, 
   PHP-HTML, Python, Ruby, SQL, XML.
 
-
 SubEthaEdit 2.3
 ===============
 
@@ -424,7 +310,6 @@ Korrekturen:
   Python, Ruby.
 - "Blockedit beenden" im Bearbeiten Menü wird nun korrekt validiert.
 
-
 SubEthaEdit 2.2
 ===============
 
@@ -471,4 +356,3 @@ Korrekturen:
   Gross-/Kleinschreibung.
 - Geschwindigkeit von "Unsichtbare Zeichen anzeigen" massiv erhöht.
 - Einen Bug mit POD Kommentaren im Perl.mode korrigiert.
-

@@ -3,12 +3,13 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Mar 09 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #import "SessionProfile.h"
 #import "TCMBencodingUtilities.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
+#import "TCMMMUserSEEAdditions.h"
 #import "UserChangeOperation.h"
 
 @implementation SessionProfile
@@ -217,7 +218,7 @@
                 [delegate profile:self didReceiveInvitationForSession:session];
             }
         } else if (strncmp(type, "JONCAN", 6) == 0) {
-            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received cancel join. Delegate:%@",[self delegate]);
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received cancel join.");
             id delegate = [self delegate];
             if ([delegate respondsToSelector:@selector(profileDidCancelJoinRequest:)]) {
                 [delegate profileDidCancelJoinRequest:self];
@@ -327,7 +328,7 @@
                 }
                 I_numberOfUnacknowledgedSessconMSG=-1;
             }
-            DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"SessionProfile received Ack");
+            DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"SessionProfile recieved Ack");
             return;
         } else if ([[aMessage payload] length] < 6) {
             DEBUGLOG(@"MillionMonkeysLogDomain", SimpleLogLevel, @"SessionProfile: Invalid message format. Payload less than 6 bytes.");

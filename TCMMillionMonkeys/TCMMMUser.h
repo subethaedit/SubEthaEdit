@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Wed Feb 25 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -42,15 +42,5 @@ extern NSString * const TCMMMUserWillLeaveSessionNotification;
 - (NSMutableDictionary *)propertiesForSessionID:(NSString *)aSessionID;
 
 - (void)updateWithUser:(TCMMMUser *)aUser;
-
-#pragma mark -
-
-+ (TCMMMUser *)userWithBencodedUser:(NSData *)aData;
-+ (TCMMMUser *)userWithDictionaryRepresentation:(NSDictionary *)aRepresentation;
-
-- (NSDictionary *)dictionaryRepresentation;
-- (NSData *)userBencoded;
-
-- (void)setUserHue:(NSNumber *)aHue;
 
 @end

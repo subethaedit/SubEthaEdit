@@ -9,7 +9,12 @@
     #import "NSColorTCMAdditions.h"
     #import "NSImageTCMAdditions.h"
     #import "NSStringSEEAdditions.h"
-    #import "NSScreenTCMAdditions.h"
         
+    extern NSString * const DefaultPortNumber;
     extern NSString * const AddressHistory;
 #endif
+
+typedef struct _ItemChildPair {
+    int itemIndex;
+    int childIndex;
+} ItemChildPair;
