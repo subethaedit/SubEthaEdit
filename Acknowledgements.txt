@@ -1,7 +1,7 @@
 SubEthaEdit uses the following 3rd party frameworks:
 - OniGuruma         http://www.geocities.jp/kosako3/oniguruma/
 - OgreKit           http://www8.ocn.ne.jp/~sonoisa/OgreKit/
-- Sparkle           http://sparkle.andymatuschak.org/
+- Sparkle           http://andymatuschak.org/pages/sparkle
 - HDCrashReporter   http://www.profcast.com/developers/HDCrashReporter.php
 - PSMTabBarControl  http://opensource.bleepsoft.com/index.php/Main/PSMTabBarControl
 

@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Fri Apr 23 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #ifndef TCM_NO_DEBUG
@@ -13,12 +13,10 @@
 #import "DebugBEEPController.h"
 #import "DebugUserController.h"
 #import "DebugPresenceController.h"
-#import "DebugSendOperationController.h"
 #import "TCMMMBEEPSessionManager.h"
 #import <HDCrashReporter/crashReporter.h>
 #import "DocumentProxyWindowController.h"
 #import "TCMMillionMonkeys.h"
-#import "TCMMMUserSEEAdditions.h"
 #import "DocumentController.h"
 
 
@@ -37,27 +35,8 @@ static DebugController * sharedInstance = nil;
         [self release];
     } else if ((self = [super init])) {
         sharedInstance = self;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(userDidChange:)
-                                                     name:TCMMMUserManagerUserDidChangeNotification
-                                                   object:nil];
     }
     return sharedInstance;
-}
-
-- (void)userDidChange:(NSNotification *)notification
-{
-    TCMMMUser *user = [[notification userInfo] objectForKey:@"User"];
-    if (![user isEqual:[TCMMMUserManager me]]) {
-        NSString *saveName = [NSString stringWithFormat:@"%@ - %@", [user name], [user userID]];
-        NSData *vcard = [[user vcfRepresentation] dataUsingEncoding:NSUnicodeStringEncoding];
-        [vcard writeToFile:[[NSString stringWithFormat:@"~/Library/Caches/SubEthaEdit/%@.vcf", saveName] stringByExpandingTildeInPath] atomically:YES];
-        NSData *image = [[user properties] objectForKey:@"ImageAsPNG"];
-        if (image) {
-            [image writeToFile:[[NSString stringWithFormat:@"~/Library/Caches/SubEthaEdit/%@.png", saveName] stringByExpandingTildeInPath] atomically:YES];
-        }
-    }
 }
 
 - (void)enableDebugMenu:(BOOL)flag
@@ -82,11 +61,6 @@ static DebugController * sharedInstance = nil;
         [BEEPItem setTarget:self];
         [menu addItem:BEEPItem];
 
-        NSMenuItem *sendOperationItem = [[NSMenuItem alloc] initWithTitle:@"Show Send Operation..." action:@selector(showSendOperation:) keyEquivalent:@""];
-        [sendOperationItem setTarget:self];
-        [menu addItem:sendOperationItem];
-
-
         NSMenuItem *CrashItem = [[NSMenuItem alloc] initWithTitle:@"Crash Application" action:@selector(crash:) keyEquivalent:@""];
         [CrashItem setTarget:self];
         [menu addItem:CrashItem];
@@ -95,7 +69,7 @@ static DebugController * sharedInstance = nil;
         [CrashReportItem setTarget:self];
         [menu addItem:CrashReportItem];
 
-        NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Log Retain Counts for all BEEP Sessions" action:@selector(logRetainCounts) keyEquivalent:@""];
+        NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Retain Counts" action:@selector(printMist) keyEquivalent:@""];
         [blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
         [menu addItem:blahItem];
         [blahItem release];
@@ -158,15 +132,6 @@ static DebugController * sharedInstance = nil;
     }
     [I_debugBEEPController showWindow:sender];
 }
-
-- (IBAction)showSendOperation:(id)sender {
-    if (!I_debugSendOperationController) {
-         I_debugSendOperationController = [DebugSendOperationController new];
-    }
-        [I_debugSendOperationController showWindow:sender];
-}
-
-
 
 - (IBAction)crash:(id)sender {
     NSLog((NSString *)"crash here"); // This is supposed to crash, don't fix.

@@ -25,7 +25,6 @@
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 #import "NSCursorSEEAdditions.h"
-#import "BacktracingException.h"
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
@@ -333,44 +332,11 @@ static NSMenu *defaultMenu=nil;
     if ([[self insertionPointColor] isDark]) [super resetCursorRects];
 }
 
-- (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity {
-    NSEvent *currentEvent=[NSApp currentEvent];
-    NSEventType type = [currentEvent type];
-    if (currentEvent && (type==NSLeftMouseDown || type==NSLeftMouseUp)) {
-        int clickCount = [currentEvent clickCount];
-        NSTextStorage *ts = [self textStorage];
-        NSRange wholeRange = NSMakeRange(0,[ts length]);
-        if (clickCount == 3) {
-            NSRange lineRange = [[ts string] lineRangeForRange:proposedSelRange];
-            // select area that belongs to a style
-            unsigned int index = [self characterIndexForPoint:[[self window] convertBaseToScreen:[[NSApp currentEvent] locationInWindow]]];
-            NSRange resultRange = lineRange;
-            if (index != NSNotFound && index < NSMaxRange(wholeRange)) {
-                [ts attribute:@"styleID" atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
-                return RangeConfinedToRange(resultRange,lineRange);
-            }
-        } else if (clickCount >= 5) {
-            return wholeRange;
-        }
-    }
-    return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
-}
-
 - (void)setBackgroundColor:(NSColor *)aColor {
-    BOOL wasDark = [[self backgroundColor] isDark];
-    BOOL isDark = [aColor isDark];
     [super setBackgroundColor:aColor];
-    [self setInsertionPointColor:isDark?[NSColor whiteColor]:[NSColor blackColor]];
-    [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:isDark?[[NSColor selectedTextBackgroundColor] brightnessInvertedSelectionColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
-    [[self enclosingScrollView] setDocumentCursor:isDark?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
-    if (( wasDark && !isDark) || 
-        (!wasDark &&  isDark)) {
-        // remove and add from Superview to activiate my cursor rect and deactivate the ones of the TextView
-        NSScrollView *sv = [[[self enclosingScrollView] retain] autorelease];
-        NSView *superview = [sv superview];
-        [sv removeFromSuperview];
-        [superview addSubview:sv];
-    }
+    [self setInsertionPointColor:[aColor isDark]?[NSColor whiteColor]:[NSColor blackColor]];
+    [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:[aColor isDark]?[[NSColor selectedTextBackgroundColor] brightnessInvertedSelectionColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
+    [[self enclosingScrollView] setDocumentCursor:[aColor isDark]?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
     [[self window] invalidateCursorRectsForView:self];
 }
 
@@ -548,7 +514,6 @@ static NSMenu *defaultMenu=nil;
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[userDescription objectForKey:@"UserID"]];
             if (user) {
                 TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] URLString:[userDescription objectForKey:@"URLString"]];
-                [document setPlainTextEditorsShowChangeMarksOnInvitation];
                 [session inviteUser:user intoGroup:@"ReadWrite" usingBEEPSession:BEEPSession];
             }
         }

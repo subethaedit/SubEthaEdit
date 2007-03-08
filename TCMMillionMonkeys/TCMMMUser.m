@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Wed Feb 25 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #import "TCMBencodingUtilities.h"
@@ -144,75 +144,6 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     [self setProperties:[aUser properties]];
     [self setName:[aUser name]];
     [self setChangeCount:[aUser changeCount]];
-}
-
-#pragma mark -
-
-+ (TCMMMUser *)userWithBencodedUser:(NSData *)aData {
-    NSDictionary *userDict = TCM_BdecodedObjectWithData(aData);
-    return [self userWithDictionaryRepresentation:userDict];
-}
-
-+ (TCMMMUser *)userWithDictionaryRepresentation:(NSDictionary *)aRepresentation {
-    // bail out for malformed data
-    if (![[aRepresentation objectForKey:@"name"] isKindOfClass:[NSString class]] ||
-        ![[aRepresentation objectForKey:@"uID"] isKindOfClass:[NSData class]] ||
-        ![[aRepresentation objectForKey:@"cnt"] isKindOfClass:[NSNumber class]] ||
-        ![[aRepresentation objectForKey:@"PNG"] isKindOfClass:[NSData class]] ||
-        ![[aRepresentation objectForKey:@"hue"] isKindOfClass:[NSNumber class]])
-    {
-        return nil;
-    }
-    
-    TCMMMUser *user = [[[TCMMMUser alloc] init] autorelease];
-    [user setName:[aRepresentation objectForKey:@"name"]];
-	NSString *userID = [NSString stringWithUUIDData:[aRepresentation objectForKey:@"uID"]];
-	if (!userID) return nil;
-    [user setUserID:userID];
-    
-    [user setChangeCount:[[aRepresentation objectForKey:@"cnt"] longLongValue]];
-    
-    NSString *string = [aRepresentation objectForKey:@"AIM"];
-    if (string == nil) string = @"";
-    else if (![string isKindOfClass:[NSString class]])  return nil;
-    [[user properties] setObject:string forKey:@"AIM"];
-    
-    string = [aRepresentation objectForKey:@"mail"];
-    if (string == nil) string = @"";
-    else if (![string isKindOfClass:[NSString class]]) return nil;
-    [[user properties] setObject:string forKey:@"Email"];
-    
-    NSData *pngData = [aRepresentation objectForKey:@"PNG"];
-    if (pngData) [[user properties] setObject:pngData forKey:@"ImageAsPNG"];
-    
-    [user setUserHue:[aRepresentation objectForKey:@"hue"]];
-
-    return user;
-}
-
-- (NSDictionary *)dictionaryRepresentation {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    if ([self userID]) [dict setObject:[NSData dataWithUUIDString:[self userID]] forKey:@"uID"];
-    if ([self name]) [dict setObject:[self name] forKey:@"name"];
-    if ([[self properties] objectForKey:@"AIM"]) [dict setObject:[[self properties] objectForKey:@"AIM"] forKey:@"AIM"];
-    if ([[self properties] objectForKey:@"Email"]) [dict setObject:[[self properties] objectForKey:@"Email"] forKey:@"mail"];
-    if ([[self properties] objectForKey:@"ImageAsPNG"]) [dict setObject:[[self properties] objectForKey:@"ImageAsPNG"] forKey:@"PNG"];
-    if ([[self properties] objectForKey:@"Hue"]) [dict setObject:[[self properties] objectForKey:@"Hue"] forKey:@"hue"];
-    [dict setObject:[NSNumber numberWithLong:[self changeCount]] forKey:@"cnt"];
-    return dict;
-}
-
-- (NSData *)userBencoded {
-    NSDictionary *user = [self dictionaryRepresentation];
-    return TCM_BencodedObject(user);
-}
-
-- (void)setUserHue:(NSNumber *)aHue {
-    if (aHue) {
-        [[self properties] setObject:aHue forKey:@"Hue"];
-        [[self properties] removeObjectForKey:@"ColorImage"];
-        [[self properties] removeObjectForKey:@"ChangeColor"];
-    }
 }
 
 @end

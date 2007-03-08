@@ -1,104 +1,4 @@
 
-SubEthaEdit 2.6.5
-=================
-
-Fixes:
-- Fixed a crash that could occur when closing a document while the web preview 
-  is reloading.
-- Fixed an issue where turning on wrap lines wouldn't work when there is no 
-  text overflowing the current dimensions of the document window.
-- Fixed an issue where sometimes when showing change marks, the change mark on 
-  the last character of an edit wasn't displayed.
-- Fixed an issue where the document that is created at startup would close when 
-  you selected it via the window menu.
-
-
-SubEthaEdit 2.6.4
-=================
-
-Additions/New Features:
-- Added the AppleScript command "show" to the document. "show" will show the 
-  frontmost window / tab of a document.
-- Added the system wide show animation for selecting found text on Leopard
-- Triple click now selects up to style boundaries. E.g. strings, variables.
-- Save dialog now preselects filename without extension
-
-Changes:
-- Changed "Check Syntax" in all modes. It now should work with all encodings 
-  and with tabs.
-- Improved the syntax highlighting in Perl Mode
-- Improved Objective-C Mode to include new Leopard Classes and support for 
-  Objective-C 2.0
-- Improved a behaviour where new windows would open across screens, now new 
-  windows open on the screen of the topmost window.
-- The report a bug menu item in the help menu now directly selects SubEthaEdit 
-  and the correct version in our bugtracker.
-- When removing a split now, instead of the cursor position of the upper text 
-  view, the cursor position of the active text view is taken
-
-Fixes:
-- Fixed an issue where the shared find panel string did overwrite a user 
-  created find string.
-- Fixed an issue where the transition of the join and invitation windows wasn't 
-  completed.
-- Fixed an issue where the command-number keyboard shortcuts for tabs could be 
-  wrong for a brief period of time after rearranging tabs inside a window.
-- Fixed a crash that could be caused by using the command-number keyboard 
-  shortcuts for switching between tabs in certain situations.
-- Fixed a crash that could happen when the first character in a document was 
-  deleted if it was a space, tabs have been turned off and you were unlucky.
-- Fixed an issue where the Encoding Doctor did show the wrong button style.
-- Fixed an issue where the ui on the hosting SubEthaEdit would not show that a 
-  user has aborted the join.
-- Fixed an network related crash that could be caused by having long modal 
-  operations while joining a document, e.g. the loading of a mode that has an 
-  AppleScript with an unknown application in it.
-- Fixed a crash that could be caused by adding or removing encodings from the 
-  encoding list after closing a tab but not the corresponding window by 
-  clicking with the mouse.
-- Fixed an issue with PHP and other modes which had trouble running the 
-  Check-Syntax script when a Output document already was open.
-- Fixed an issue where "show invisible characters" would draw big diamond 
-  shapes for the space character on leopard
-
-
-SubEthaEdit 2.6.3
-=================
-
-Changes:
-- Made handling of remote edits more robust.
-- Opening a file replacing an empty "Untitled.txt" does not increment window 
-  stagger anymore.
-
-Fixes:
-- Fixed an issue where the connection would stay alive, but remote changes 
-  would not be applied anymore.
-- Fixed an issue that could lead to loosing the connection to a remote 
-  SubEthaEdit without notice in rare cases.
-- Fixed a crash triggered by the reconnection of a participant whose connection 
-  got lost unnoticed.
-- Fixed a crash triggered by canceled-in-transit connections over a high 
-  latency line.
-- Fixed a crash triggered by canceling the transmission of a big document while 
-  the progress bar is visible.
-- Fixed a bug where new documents were placed too far to the right to be shown 
-  entirely on the screen.
-- Fixed an issue where the cursor still was too dark to be noticable when 
-  changing a document from bright to dark background.
-- Improved CSS mode for better inline comments coloring.
-- Improved PHP-HTML with missing PHP 5 keywords.
-
-
-SubEthaEdit 2.6.2
-=================
-
-Fixes:
-- Fixed a bug where the Web Preview no longer loaded resources (e.g. images).
-- Fixed an issue where the Web Preview didn't run Javascript correctly.
-- Fixed a bug where the Regex syntax option wasn't recognized correctly.
-- Improved modes: Lua.
-
-
 SubEthaEdit 2.6.1
 =================
 
@@ -130,7 +30,6 @@ Fixes:
 - Fixed a bug where the selection was destroyed on revert or reinterpretation 
   with a different encoding.
 - Improved modes: Lua.
-
 
 SubEthaEdit 2.6
 ===============
@@ -173,7 +72,6 @@ Fixes:
   correctly.
 - Improved modes: ActionScript, C, C++, HTML, Javascript, Lua, Objective-C, 
   Perl, Python.
-
 
 SubEthaEdit 2.5.1
 =================
@@ -235,7 +133,6 @@ Fixes:
   selected color wasn't represented correctly.
 - Improved modes: bash, C, C++, CSS, HTML, Java, Objective-C, Perl, PHP-HTML, 
   Python, Ruby, XML.
-
 
 SubEthaEdit 2.5
 ===============
@@ -304,7 +201,6 @@ Fixes:
 - Improved modes: bash, C, C++, CSS, HTML, Java, Lua, Objective-C, Perl, 
   PHP-HTML, Python, Ruby, SQL, XML.
 
-
 SubEthaEdit 2.3
 ===============
 
@@ -368,7 +264,6 @@ Fixes:
   Python, Ruby.
 - "End blockedit selection" is validated correctly in Edit menu.
 
-
 SubEthaEdit 2.2
 ===============
 
@@ -414,7 +309,6 @@ Fixes:
 - Improved speed of "Show Invisibles" significantly.
 - Fixed a bug in Perl.mode concerning POD comments.
 
-
 SubEthaEdit 2.1.2
 =================
 
@@ -453,7 +347,6 @@ Fixes:
 - Fixed various issues which occurred while using autocompletion in Blockedit 
   mode.
 
-
 SubEthaEdit 2.1.1
 =================
 
@@ -467,7 +360,6 @@ Fixes:
   as an administrator in SubEthaEdit.
 - Printing panel now displays localized separators for margins.
 - Python mode now recognizes abbreviated class declarations.
-
 
 SubEthaEdit 2.1
 ===============
@@ -561,4 +453,3 @@ Fixes:
   comments.
 - Fixed a bug in Perl mode which could break syntax highlighting in regexp 
   quote-like operators.
-

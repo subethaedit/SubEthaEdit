@@ -21,20 +21,13 @@
     return self;
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
-}
-
 - (void)startAnimation
 {
-    [_progressIndicator setIndeterminate:YES];
     [_progressIndicator startAnimation:self];
 }
 
 - (void)stopAnimation
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_progressIndicator stopAnimation:self];
 }
 
@@ -48,21 +41,11 @@
     return _loadProgressView;
 }
 
-- (void)registerForSession:(TCMMMSession *)aSession {
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(updateProgress:) 
-                                                 name:TCMMMSessionDidReceiveContentNotification
-                                               object:aSession];
-}
-
 #pragma mark -
 
 - (void)updateProgress:(NSNotification *)aNotification
 {
-    if ([[aNotification object] percentOfSessionReceived] > 0.0) {
-        [_progressIndicator setIndeterminate:NO];
-        [_progressIndicator setDoubleValue:[[aNotification object] percentOfSessionReceived]];
-    }
+    [_progressIndicator setDoubleValue:[[aNotification object] percentOfSessionReceived]];
 }
 
 @end

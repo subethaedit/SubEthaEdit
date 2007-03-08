@@ -64,7 +64,6 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 NSString * const ToggleShowInvisibleCharactersToolbarItemIdentifier = 
                @"ToggleShowInvisibleCharactersToolbarItemIdentifier";
 
-static NSPoint S_cascadePoint = {0.0,0.0};
 
 static int KickButtonStateMask=1;
 static int ReadOnlyButtonStateMask=2;
@@ -129,8 +128,6 @@ enum {
         [item setTarget:self];
         [item setTag:ParticipantContextMenuTagKickDeny];
         [I_contextMenu setDelegate:self];
-        
-        [self setShouldCascadeWindows:NO];
     }
     return self;
 }
@@ -147,15 +144,13 @@ enum {
     
     [I_documents release];
     I_documents = nil;
-
+    
     [I_tabBar setDelegate:nil];
     [I_tabBar setTabView:nil];
     [I_tabView setDelegate:nil];
     [I_tabBar release];
     [I_tabView release];
-
-    [[DocumentController sharedInstance] updateTabMenu];
-            
+        
     [super dealloc];
 }
 
@@ -293,13 +288,20 @@ enum {
                 [loadProgress release];
             }
             [tabViewItem setView:[loadProgress loadProgressView]];
-            [loadProgress registerForSession:[document session]];
             [loadProgress startAnimation];
 
+            [[NSNotificationCenter defaultCenter] addObserver:loadProgress 
+                                                     selector:@selector(updateProgress:) 
+                                                         name:TCMMMSessionDidReceiveContentNotification
+                                                       object:[document session]];
             
         } else {
             PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
 
+            [[NSNotificationCenter defaultCenter] removeObserver:loadProgress
+                                                            name:TCMMMSessionDidReceiveContentNotification
+                                                          object:[document session]];
+            
             [loadProgress stopAnimation];
 
             PlainTextEditor *editor = [[tabContext plainTextEditors] objectAtIndex:0];
@@ -320,8 +322,6 @@ enum {
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isReceivingContent"];
-        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isProcessing"];
         PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
         [loadProgress stopAnimation];
         [loadProgress setStatusText:NSLocalizedString(@"Did lose Connection!", @"Text in Proxy window")];
@@ -330,8 +330,6 @@ enum {
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
     NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
-    contentSize.width  = (int)(contentSize.width + 0.5);
-    contentSize.height = (int)(contentSize.height + 0.5);
     NSWindow *window=[self window];
     NSSize minSize=[window contentMinSize];
     NSRect contentRect=[window contentRectForFrameRect:[window frame]];
@@ -403,25 +401,6 @@ enum {
             return YES;
         else
             return NO;    
-    } else if (selector == @selector(showDocumentAtIndex:)) {
-        int documentNumberToShow = [[menuItem representedObject] intValue];
-        id document = nil;
-        NSArray *documents = [self orderedDocuments];
-        if ([documents count] > documentNumberToShow) {
-            document = [documents objectAtIndex:documentNumberToShow];
-            if ([document isDocumentEdited]) {
-                [menuItem setMark:kBulletCharCode];
-            } else {
-                [menuItem setMark:noMark];
-            }
-            if (([self document] == document) && 
-                ([[self window] isKeyWindow] || 
-                 [[self window] isMainWindow])) {
-                [menuItem setState:NSOnState];
-                [menuItem setMark:kCheckCharCode];
-            }
-        }
-        return ![[self window] attachedSheet] || ([[self window] attachedSheet] && [self document] == document);
     }
     
     return YES;
@@ -1470,12 +1449,6 @@ enum {
             [[I_plainTextEditors objectAtIndex:0] showsGutter]];
         [self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
     } else if ([I_plainTextEditors count]==2) {
-        id fr = [[self window] firstResponder];
-        NSRect visibleRect = NSZeroRect;
-        if (fr == [[I_plainTextEditors objectAtIndex:1] textView]) {
-            visibleRect = [[[I_plainTextEditors objectAtIndex:1] textView] visibleRect];
-            [[[I_plainTextEditors objectAtIndex:0] textView] setSelectedRange:[[[I_plainTextEditors objectAtIndex:1] textView] selectedRange]];
-        }
         if (!I_dialogSplitView) {
             //[[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
             NSTabViewItem *tab = [I_tabView selectedTabViewItem];
@@ -1494,10 +1467,6 @@ enum {
             [[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
         [I_plainTextEditors removeObjectAtIndex:1];
         I_editorSplitView = nil;
-        
-        if (!NSEqualRects(NSZeroRect,visibleRect)) {
-            [[[I_plainTextEditors objectAtIndex:0] textView] scrollRectToVisible:visibleRect];
-        }
     }
     [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];
     NSTextView *textView=[[I_plainTextEditors objectAtIndex:0] textView];
@@ -1611,9 +1580,9 @@ enum {
                 }
                 return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
             } else if (aTag==ParticipantsChildImageTag) {
-                return ((status || anItemIndex==2) ? [user image32Dimmed] : [user image32]);
+                return [[user properties] objectForKey:(status || anItemIndex==2)?@"Image32Dimmed":@"Image32"];
             } else if (aTag==ParticipantsChildImageNextToNameTag) {
-                return [user colorImage];
+                return [[user properties] objectForKey:@"ColorImage"];
             }
         }
         return nil;
@@ -1781,7 +1750,7 @@ enum {
     // switch mode menu on becoming main
     [(PlainTextDocument *)[self document] adjustModeMenu];
     // also make sure the tab menu is updated correctly
-    [[DocumentController sharedInstance] updateTabMenu];
+    [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
     
     NSTabViewItem *tabViewItem = [I_tabView selectedTabViewItem];
     if (tabViewItem) {
@@ -1837,19 +1806,6 @@ enum {
 }
 
 #pragma mark -
-
-- (void)cascadeWindow {
-    NSWindow *window = [self window];
-    S_cascadePoint = [window cascadeTopLeftFromPoint:S_cascadePoint];
-    [window setFrameTopLeftPoint:S_cascadePoint];
-}
-
-- (IBAction)showWindow:(id)aSender {
-    if (![[self window] isVisible]) {
-        [self cascadeWindow];
-    }
-    [super showWindow:aSender];
-}
 
 - (NSRect)dissolveToFrame {
     if ([self hasManyDocuments] ||
@@ -1941,17 +1897,6 @@ enum {
     [I_tabView selectPreviousTabViewItem:self];
     if ([item isEqual:[I_tabView selectedTabViewItem]]) {
         [I_tabView selectLastTabViewItem:self];
-    }
-}
-
-- (IBAction)showDocumentAtIndex:(id)aMenuEntry {
-    int documentNumberToShow = [[aMenuEntry representedObject] intValue];
-    NSArray *documents = [self orderedDocuments];
-    if ([documents count] > documentNumberToShow) {
-        id document = [documents objectAtIndex:documentNumberToShow];
-        [self selectTabForDocument:document];
-        [self showWindow:nil];
-        [document showWindows];
     }
 }
 
@@ -2300,7 +2245,8 @@ enum {
     if (document) {
         if ([[self window] isKeyWindow]) {
             [(PlainTextDocument *)document adjustModeMenu];
-            [[DocumentController sharedInstance] updateTabMenu];
+            // also make sure the tab menu is updated correctly
+            [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
         }
         [self adjustToolbarToDocumentMode];
         [self refreshDisplay];
@@ -2435,8 +2381,6 @@ enum {
         } else {
             [doc close];
         }
-        // updateTabMenu
-        [[DocumentController sharedInstance] updateTabMenu];
     }
 }
 
@@ -2564,11 +2508,7 @@ float ToolbarHeightForWindow(NSWindow *window)
 }
 
 - (void)tabView:(NSTabView *)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
-{
-    if ([[self window] isMainWindow]) {
-        // update window menu
-        [[DocumentController sharedInstance] updateTabMenu];
-    }
+{    
     if (![tabBarControl isEqual:I_tabBar]) {
         
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];

@@ -175,7 +175,6 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         CFSocketSignature signature = {address->sa_family, SOCK_STREAM, IPPROTO_TCP, (CFDataRef)aData};
         CFStreamCreatePairWithPeerSocketSignature(kCFAllocatorDefault, &signature, &I_readStream, &I_writeStream);
         I_flags.isInitiator = YES;
-        I_flags.isProhibitingInboundInternetSessions = NO;
         I_nextChannelNumber = -1;
         [self TCM_initHelper];
     }
@@ -370,16 +369,6 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     return I_peerLocalizeAttribute;
 }
 
-- (void)setIsProhibitingInboundInternetSessions:(BOOL)flag
-{
-    I_flags.isProhibitingInboundInternetSessions = flag;
-}
-
-- (BOOL)isProhibitingInboundInternetSessions
-{
-    return I_flags.isProhibitingInboundInternetSessions;
-}
-
 - (BOOL)isInitiator
 {
     return I_flags.isInitiator;
@@ -533,146 +522,135 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_readBytes
 {
-    if (!I_flags.amReading) {
-        I_flags.amReading = YES;
-        uint8_t buffer[8192];
-        int bytesParsed = 0;
-        CFIndex bytesRead = CFReadStreamRead(I_readStream, buffer, sizeof(buffer));
-         
-    #ifndef TCM_NO_DEBUG
-        if (isLogging && bytesRead > 0) {
-            [I_rawLogInHandle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
-    //        [I_rawLogInHandle writeData:[@"|" dataUsingEncoding:NSASCIIStringEncoding]];
-        }
-    #endif
-        
-   //     NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
-        while (bytesRead > 0 && (bytesRead - bytesParsed > 0)) {
-            int remainingBytes = bytesRead - bytesParsed;
-            if (I_currentReadState == frameHeaderState) {
-                int i;
-                // search for 0x0a (LF)
-                for (i = bytesParsed; i < bytesRead; i++) {
-                    if (buffer[i] == 0x0a) {
-                        buffer[i] = 0x00;
-                        break;
-                    }
+    uint8_t buffer[8192];
+    int bytesParsed = 0;
+    CFIndex bytesRead = CFReadStreamRead(I_readStream, buffer, sizeof(buffer));
+     
+#ifndef TCM_NO_DEBUG
+    if (isLogging && bytesRead > 0) {
+        [I_rawLogInHandle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
+//        [I_rawLogInHandle writeData:[@"|" dataUsingEncoding:NSASCIIStringEncoding]];
+    }
+#endif
+    
+    // NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
+    while (bytesRead > 0 && (bytesRead - bytesParsed > 0)) {
+        int remainingBytes = bytesRead - bytesParsed;
+        if (I_currentReadState == frameHeaderState) {
+            int i;
+            // search for 0x0a (LF)
+            for (i = bytesParsed; i < bytesRead; i++) {
+                if (buffer[i] == 0x0a) {
+                    buffer[i] = 0x00;
+                    break;
                 }
-                if (i < bytesRead) {
-                    // found LF
-                    [I_readBuffer appendBytes:&buffer[bytesParsed] length:(i - bytesParsed + 1)];
-                    //NSLog(@"Header String: %s", (char *)[I_readBuffer bytes]);
-                    I_currentReadFrame = [[TCMBEEPFrame alloc] initWithHeader:(char *)[I_readBuffer bytes]];
-                    if ([I_currentReadFrame isSEQ]) {
-                        TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
-                        if (channel) {
-                            BOOL didAccept = [channel acceptFrame:I_currentReadFrame];
-                            DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
-                            if (!didAccept) {
-                                [I_currentReadFrame release];
-                                I_currentReadFrame = nil;
-                                [self terminate];
-                                break;
-                            } else {
-    #ifndef TCM_NO_DEBUG
-                                if (isLogging) {
-                                    [I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
-                                }
-    #endif  
-                            }
-                            [I_currentReadFrame release];
-                        } else {
-                            [I_currentReadFrame release];
-                            I_currentReadFrame = nil;
-                            [self terminate];
-                            break;
-                        }
-                        I_currentReadFrame = nil;                    
-                        [I_readBuffer setLength:0];
-                        I_currentReadState = frameHeaderState;
-                        bytesParsed = i + 1;
-                        continue;
-                    }
-                    
-                    if (!I_currentReadFrame) {
-                        [self terminate];
-                        break;
-                    } else {
-                        I_currentReadState = frameContentState;
-                        I_currentReadFrameRemainingContentSize = [I_currentReadFrame length];
-                        [I_readBuffer setLength:0];
-                        bytesParsed = i + 1;
-                        continue;
-                    }
-                } else {
-                    // didn't find LF
-                    [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
-                    bytesParsed = bytesRead;
-                }
-            } else if (I_currentReadState == frameContentState) {
-                if (remainingBytes < I_currentReadFrameRemainingContentSize) {
-                    [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
-                    I_currentReadFrameRemainingContentSize -= remainingBytes;
-                    bytesParsed = bytesRead;
-                } else {
-                    [I_readBuffer appendBytes:&buffer[bytesParsed] length:I_currentReadFrameRemainingContentSize];
-                    [I_currentReadFrame setPayload:I_readBuffer];
-                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Received Frame: %@", [I_currentReadFrame description]);
-                    [I_readBuffer setLength:0];
-                    bytesParsed += I_currentReadFrameRemainingContentSize;
-                    I_currentReadState = frameEndState;
-                    continue;
-                }
-            } else if (I_currentReadState == frameEndState) {
-                if (remainingBytes + [I_readBuffer length] >= 5) {
-                    int localbytesread = 5 - [I_readBuffer length];
-                    [I_readBuffer appendBytes:&buffer[bytesParsed] length:5 - [I_readBuffer length]];
-                    if (strncmp((char *)[I_readBuffer bytes], "END\r\n", 5) != 0) {
-                        [I_currentReadFrame release];
-                        I_currentReadFrame = nil;
-                        [self terminate];
-                        break;
-                    }
-
-    #ifndef TCM_NO_DEBUG
-                    if (isLogging) {
-                        [I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
-                    }
-    #endif                
-                    // dispatch frame!
+            }
+            if (i < bytesRead) {
+                // found LF
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:(i - bytesParsed + 1)];
+                //NSLog(@"Header String: %s", (char *)[I_readBuffer bytes]);
+                I_currentReadFrame = [[TCMBEEPFrame alloc] initWithHeader:(char *)[I_readBuffer bytes]];
+                if ([I_currentReadFrame isSEQ]) {
                     TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
                     if (channel) {
                         BOOL didAccept = [channel acceptFrame:I_currentReadFrame];
                         DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
-                        [I_currentReadFrame release];
-                        I_currentReadFrame = nil;
                         if (!didAccept) {
+                            [I_currentReadFrame release];
+                            I_currentReadFrame = nil;
                             [self terminate];
                             break;
+                        } else {
+#ifndef TCM_NO_DEBUG
+							if (isLogging) {
+								[I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
+							}
+#endif  
                         }
+                        [I_currentReadFrame release];
                     } else {
                         [I_currentReadFrame release];
                         I_currentReadFrame = nil;
                         [self terminate];
                         break;
                     }
-                    I_currentReadState = frameHeaderState;
+                    I_currentReadFrame = nil;                    
                     [I_readBuffer setLength:0];
-                    bytesParsed += localbytesread;
-                } else {
-                    [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
-                    bytesParsed = bytesRead;
+                    I_currentReadState = frameHeaderState;
+                    bytesParsed = i + 1;
+                    continue;
                 }
+                
+                if (!I_currentReadFrame) {
+                    [self terminate];
+                    break;
+                } else {
+                    I_currentReadState = frameContentState;
+                    I_currentReadFrameRemainingContentSize = [I_currentReadFrame length];
+                    [I_readBuffer setLength:0];
+                    bytesParsed = i + 1;
+                    continue;
+                }
+            } else {
+                // didn't find LF
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
+                bytesParsed = bytesRead;
+            }
+        } else if (I_currentReadState == frameContentState) {
+            if (remainingBytes < I_currentReadFrameRemainingContentSize) {
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
+                I_currentReadFrameRemainingContentSize -= remainingBytes;
+                bytesParsed = bytesRead;
+            } else {
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:I_currentReadFrameRemainingContentSize];
+                [I_currentReadFrame setPayload:I_readBuffer];
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Received Frame: %@", [I_currentReadFrame description]);
+                [I_readBuffer setLength:0];
+                bytesParsed += I_currentReadFrameRemainingContentSize;
+                I_currentReadState = frameEndState;
+                continue;
+            }
+        } else if (I_currentReadState == frameEndState) {
+            if (remainingBytes + [I_readBuffer length] >= 5) {
+                int localbytesread = 5 - [I_readBuffer length];
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:5 - [I_readBuffer length]];
+                if (strncmp((char *)[I_readBuffer bytes], "END\r\n", 5) != 0) {
+                    [I_currentReadFrame release];
+                    I_currentReadFrame = nil;
+                    [self terminate];
+                    break;
+                }
+
+#ifndef TCM_NO_DEBUG
+				if (isLogging) {
+					[I_frameLogHandle writeData:[I_currentReadFrame descriptionInLogFileFormatIncoming:YES]];
+				}
+#endif                
+                // dispatch frame!
+                TCMBEEPChannel *channel = [[self activeChannels] objectForLong:[I_currentReadFrame channelNumber]];
+                if (channel) {
+                    BOOL didAccept = [channel acceptFrame:I_currentReadFrame];
+                    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"channel did accept frame: %@",  didAccept ? @"YES" : @"NO");
+                    [I_currentReadFrame release];
+                    I_currentReadFrame = nil;
+                    if (!didAccept) {
+                        [self terminate];
+                        break;
+                    }
+                } else {
+                    [I_currentReadFrame release];
+                    I_currentReadFrame = nil;
+                    [self terminate];
+                    break;
+                }
+                I_currentReadState = frameHeaderState;
+                [I_readBuffer setLength:0];
+                bytesParsed += localbytesread;
+            } else {
+                [I_readBuffer appendBytes:&buffer[bytesParsed] length:remainingBytes];
+                bytesParsed = bytesRead;
             }
         }
-        if (I_flags.needsToReadAgain) {
-            I_flags.needsToReadAgain = NO;
-            [self performSelector:@selector(TCM_readBytes) withObject:nil afterDelay:0];
-        }
-        I_flags.amReading = NO;
-    } else {
-        I_flags.needsToReadAgain = YES;
-        NSLog(@"%s was already reading",__FUNCTION__);
     }
 }
 

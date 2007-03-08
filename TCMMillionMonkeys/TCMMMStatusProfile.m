@@ -3,11 +3,12 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Mar 02 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
 #import "TCMMMStatusProfile.h"
 #import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
 #import "TCMMMUserManager.h"
 #import "TCMBencodingUtilities.h"
 #import "TCMMMSession.h"

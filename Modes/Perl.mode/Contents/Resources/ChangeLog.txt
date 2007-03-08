@@ -1,9 +1,5 @@
-Changes with Version 1.7 (SEE 2.6.4)
-    *) Fixes more problems with states for regex and quotes.
-    *) fixed the validate scripts to work with unicode and leopard
-    *) fixed hexadecimal character keyword
-
 Changes with Version 1.6 (SEE 2.6)
+
     *) Fixes various problems with states for regex and quotes. Corrected token dictionary to include $.
 
 Changes with Version 1.5 (SEE 2.5.1)
