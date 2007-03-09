@@ -2718,12 +2718,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     // Disable image loading and execution of code in HTML documents
-    WebPreferences *webPrefs = [WebPreferences standardPreferences];
-    [webPrefs setLoadsImagesAutomatically:NO];
-    [webPrefs setJavaEnabled:NO];
-    [webPrefs setJavaScriptEnabled:NO];
-    [webPrefs setPlugInsEnabled:NO];
-    [options setObject:webPrefs forKey:@"WebPreferences"];
+    static WebPreferences *s_loadPrefs = nil;
+    if (!s_loadPrefs) {
+        s_loadPrefs = [[WebPreferences alloc] initWithIdentifier:@"PlainTextDocumentLoadingPreferences"];
+        [s_loadPrefs setLoadsImagesAutomatically:NO];
+        [s_loadPrefs setJavaEnabled:NO];
+        [s_loadPrefs setJavaScriptEnabled:NO];
+        [s_loadPrefs setPlugInsEnabled:NO];
+    }
+    [options setObject:s_loadPrefs forKey:@"WebPreferences"];
 
     BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
     NSData *fileData = nil;

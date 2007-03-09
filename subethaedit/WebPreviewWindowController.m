@@ -166,6 +166,12 @@ NSScrollView * firstScrollView(NSView *aView) {
     [oWebView setFrameLoadDelegate:self];
     [oWebView setUIDelegate:self];
     [oWebView setResourceLoadDelegate:self];
+    [oWebView setPreferencesIdentifier:@"WebPreviewPreferences"];
+    WebPreferences *prefs = [oWebView preferences];
+    [prefs setLoadsImagesAutomatically:YES];
+    [prefs setJavaEnabled:YES];
+    [prefs setJavaScriptEnabled:YES];
+    [prefs setPlugInsEnabled:YES];
     [oStatusTextField setStringValue:@""];
     NSString *frameString=[[NSUserDefaults standardUserDefaults] 
                             stringForKey:WebPreviewWindowSizePreferenceKey];
