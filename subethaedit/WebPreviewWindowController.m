@@ -9,6 +9,7 @@
 #import "TCMMMSession.h"
 #import "WebPreviewWindowController.h"
 #import "PlainTextDocument.h"
+#import "TextStorage.h"
 #import "DocumentMode.h"
 
 int const kWebPreviewRefreshAutomatic=1;
@@ -119,9 +120,10 @@ NSScrollView * firstScrollView(NSView *aView) {
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:MyURL];
     [request setMainDocumentURL:MyURL];
     NSString *string=[[[self plainTextDocument] textStorage] string];
-    [request setHTTPBody:[string dataUsingEncoding:[string fastestEncoding]]];
+    NSStringEncoding encoding = [(TextStorage *)[[self plainTextDocument] textStorage] encoding];
+    [request setHTTPBody:[string dataUsingEncoding:encoding]];
     NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
-                CFStringConvertNSStringEncodingToEncoding([string fastestEncoding]));
+                CFStringConvertNSStringEncodingToEncoding(encoding));
     [request setValue:IANACharSetName forHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"];
     [request setCachePolicy:aFlag?NSURLRequestUseProtocolCachePolicy:NSURLRequestReloadIgnoringCacheData];
     [[oWebView mainFrame] loadRequest:request];
