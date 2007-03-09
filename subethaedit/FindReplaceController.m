@@ -188,7 +188,7 @@ static FindReplaceController *sharedInstance=nil;
 
 - (OgreSyntax) currentOgreSyntax
 {
-    int syntax = [O_regexSyntaxPopup tag];
+    int syntax = [[O_regexSyntaxPopup selectedItem] tag];
     if([O_regexCheckbox state]==NSOffState) return OgreSimpleMatchingSyntax;
     else if(syntax==1) return OgrePOSIXBasicSyntax;
     else if(syntax==2) return OgrePOSIXExtendedSyntax;
@@ -219,7 +219,7 @@ static FindReplaceController *sharedInstance=nil;
 - (void)saveStateToPreferences
 {
     NSMutableDictionary *prefs = [NSMutableDictionary dictionary];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexSyntaxPopup indexOfSelectedItem]] forKey:@"Syntax"];
+    [prefs setObject:[NSNumber numberWithInt:[[O_regexSyntaxPopup selectedItem] tag]] forKey:@"Syntax"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexEscapeCharacter indexOfSelectedItem]] forKey:@"Escape"];
     [prefs setObject:[NSNumber numberWithInt:[O_scopePopup indexOfSelectedItem]] forKey:@"Scope"];
     
@@ -245,7 +245,8 @@ static FindReplaceController *sharedInstance=nil;
 {
     NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"Find Panel Preferences"];
     if (prefs) {
-        [O_regexSyntaxPopup selectItemAtIndex:[[prefs objectForKey:@"Syntax"] intValue]];
+        NSMenuItem *item = [[O_regexSyntaxPopup menu] itemWithTag:[[prefs objectForKey:@"Syntax"] intValue]];
+        if (item) [O_regexSyntaxPopup selectItem:item];
         [O_regexEscapeCharacter selectItemAtIndex:[[prefs objectForKey:@"Escape"] intValue]];
         [O_scopePopup selectItemAtIndex:[[prefs objectForKey:@"Scope"] intValue]];
     
