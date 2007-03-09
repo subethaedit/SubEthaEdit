@@ -1,4 +1,17 @@
 
+SubEthaEdit 2.6.2
+=================
+
+Korrekturen:
+- Ein Fehler in der Web Vorschau wurde behoben, durch den Ressourcen wie z.B. 
+  Bilder nicht mehr geladen wurden.
+- Ein Fehler in der Web Vorschau wurde behoben, durch den Javascript nicht 
+  korrekt ausgeführt wurde.
+- Ein Fehler wurde behoben, durch den die Syntax Option für reguläre Ausdrücke 
+  nicht korrekt berücksichtigt wurde.
+- Verbesserter Modus: Lua.
+
+
 SubEthaEdit 2.6.1
 =================
 
@@ -36,6 +49,7 @@ Korrekturen:
   einer anderen Dateikodierung oder dem Laden der letzten Version zerstört 
   wurde.
 - Verbesserter Modus: Lua.
+
 
 SubEthaEdit 2.6
 ===============
@@ -80,6 +94,7 @@ Korrekturen:
   angezeigt wurde, wurde behoben.
 - Verbesserte Modi: ActionScript, C, C++, HTML, Javascript, Lua, Objective-C, 
   Perl, Python.
+
 
 SubEthaEdit 2.5.1
 =================
@@ -155,6 +170,7 @@ Korrekturen:
   gerade ausgewählte Farbe nicht korrekt darstellte.
 - Verbesserte Modi: bash, C, C++, CSS, HTML, Java, Objective-C, Perl, PHP-HTML, 
   Python, Ruby, XML.
+
 
 SubEthaEdit 2.5
 ===============
@@ -239,6 +255,7 @@ Korrekturen:
 - Verbesserte Modi: bash, C, C++, CSS, HTML, Java, Lua, Objective-C, Perl, 
   PHP-HTML, Python, Ruby, SQL, XML.
 
+
 SubEthaEdit 2.3
 ===============
 
@@ -310,6 +327,7 @@ Korrekturen:
   Python, Ruby.
 - "Blockedit beenden" im Bearbeiten Menü wird nun korrekt validiert.
 
+
 SubEthaEdit 2.2
 ===============
 
@@ -356,3 +374,4 @@ Korrekturen:
   Gross-/Kleinschreibung.
 - Geschwindigkeit von "Unsichtbare Zeichen anzeigen" massiv erhöht.
 - Einen Bug mit POD Kommentaren im Perl.mode korrigiert.
+
