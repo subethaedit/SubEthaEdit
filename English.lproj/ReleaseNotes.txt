@@ -1,4 +1,14 @@
 
+SubEthaEdit 2.6.2
+=================
+
+Fixes:
+- Fixed a bug where the Web Preview no longer loaded resources (e.g. images).
+- Fixed an issue where the Web Preview didn't run Javascript correctly.
+- Fixed a bug where the Regex syntax option wasn't recognized correctly.
+- Improved modes: Lua.
+
+
 SubEthaEdit 2.6.1
 =================
 
@@ -30,6 +40,7 @@ Fixes:
 - Fixed a bug where the selection was destroyed on revert or reinterpretation 
   with a different encoding.
 - Improved modes: Lua.
+
 
 SubEthaEdit 2.6
 ===============
@@ -72,6 +83,7 @@ Fixes:
   correctly.
 - Improved modes: ActionScript, C, C++, HTML, Javascript, Lua, Objective-C, 
   Perl, Python.
+
 
 SubEthaEdit 2.5.1
 =================
@@ -133,6 +145,7 @@ Fixes:
   selected color wasn't represented correctly.
 - Improved modes: bash, C, C++, CSS, HTML, Java, Objective-C, Perl, PHP-HTML, 
   Python, Ruby, XML.
+
 
 SubEthaEdit 2.5
 ===============
@@ -201,6 +214,7 @@ Fixes:
 - Improved modes: bash, C, C++, CSS, HTML, Java, Lua, Objective-C, Perl, 
   PHP-HTML, Python, Ruby, SQL, XML.
 
+
 SubEthaEdit 2.3
 ===============
 
@@ -264,6 +278,7 @@ Fixes:
   Python, Ruby.
 - "End blockedit selection" is validated correctly in Edit menu.
 
+
 SubEthaEdit 2.2
 ===============
 
@@ -309,6 +324,7 @@ Fixes:
 - Improved speed of "Show Invisibles" significantly.
 - Fixed a bug in Perl.mode concerning POD comments.
 
+
 SubEthaEdit 2.1.2
 =================
 
@@ -347,6 +363,7 @@ Fixes:
 - Fixed various issues which occurred while using autocompletion in Blockedit 
   mode.
 
+
 SubEthaEdit 2.1.1
 =================
 
@@ -360,6 +377,7 @@ Fixes:
   as an administrator in SubEthaEdit.
 - Printing panel now displays localized separators for margins.
 - Python mode now recognizes abbreviated class declarations.
+
 
 SubEthaEdit 2.1
 ===============
@@ -453,3 +471,4 @@ Fixes:
   comments.
 - Fixed a bug in Perl mode which could break syntax highlighting in regexp 
   quote-like operators.
+
