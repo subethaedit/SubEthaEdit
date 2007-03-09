@@ -1300,7 +1300,7 @@ static NSString *tempFileName(NSString *origPath) {
     [self ensureWebPreview];
     if (![[I_webPreviewWindowController window] isVisible]) {
         [I_webPreviewWindowController showWindow:self];
-        [I_webPreviewWindowController refresh:self];
+        [I_webPreviewWindowController refreshAndEmptyCache:self];
     } else {
         [[I_webPreviewWindowController window] orderFront:self];
     }
