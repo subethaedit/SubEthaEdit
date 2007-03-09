@@ -373,8 +373,8 @@ static FindReplaceController *sharedInstance=nil;
     }
     
     if ([sender tag]==NSFindPanelActionShowFindPanel) {
-        [self updateRegexDrawer:self];
         [self orderFrontFindPanel:self];
+        [self updateRegexDrawer:self];
     } else if ([sender tag]==NSFindPanelActionNext) {
         if (![findString isEqualToString:@""]) [self find:findString forward:YES];
         else NSBeep();
