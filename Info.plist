@@ -244,7 +244,7 @@ NpVfZko6DqvJJcLklZ8=
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}${SYSTEM_VERSION_CHECK_SUFFIX}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 2.6.1, Copyright © 2003-2007, TheCodingMonkeys</string>
+	<string>SubEthaEdit 2.6.2, Copyright © 2003-2007, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -260,7 +260,7 @@ NpVfZko6DqvJJcLklZ8=
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.6.1</string>
+	<string>2.6.2</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
