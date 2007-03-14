@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Mon May 10 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import <AppKit/AppKit.h>
@@ -11,6 +11,12 @@
 extern NSString *ListViewDidChangeSelectionNotification;
 
 #define TCMListViewActionButtonImageTag 9999
+
+typedef struct _ItemChildPair {
+    int itemIndex;
+    int childIndex;
+} ItemChildPair;
+
 
 @interface TCMListView : NSView
 {

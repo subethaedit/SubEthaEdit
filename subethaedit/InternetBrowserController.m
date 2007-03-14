@@ -3,9 +3,10 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Mar 03 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
+#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "InternetBrowserController.h"
 #import "AppController.h"
 #import "TCMHost.h"
@@ -13,6 +14,7 @@
 #import "TCMFoundation.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMMMBrowserListView.h"
 #import "ImagePopUpButtonCell.h"
 #import "PullDownButtonCell.h"
 #import "TexturedButtonCell.h"
