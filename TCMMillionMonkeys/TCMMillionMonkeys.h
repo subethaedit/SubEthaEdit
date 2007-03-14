@@ -1,5 +1,4 @@
 #import "TCMMMBEEPSessionManager.h"
-#import "TCMMMBrowserListView.h"
 #import "TCMMMPresenceManager.h"
 #import "TCMMMSession.h"
 #import "TCMMMStatusProfile.h"

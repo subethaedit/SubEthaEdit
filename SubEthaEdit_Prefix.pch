@@ -13,8 +13,3 @@
     extern NSString * const DefaultPortNumber;
     extern NSString * const AddressHistory;
 #endif
-
-typedef struct _ItemChildPair {
-    int itemIndex;
-    int childIndex;
-} ItemChildPair;
