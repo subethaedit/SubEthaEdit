@@ -4150,6 +4150,17 @@ static NSString *S_measurementUnits;
     return I_flags.showsChangeMarks;
 }
 
+- (void)setPlainTextEditorsShowChangeMarksOnInvitation
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
+        NSEnumerator *plainTextEditors = [[self plainTextEditors] objectEnumerator];
+        PlainTextEditor *editor = nil;
+        while ((editor = [plainTextEditors nextObject])) {
+            [editor setShowsChangeMarks:YES];
+        }
+    }
+}
+
 - (void)setShowsChangeMarks:(BOOL)aFlag {
     I_flags.showsChangeMarks=aFlag;
 }
