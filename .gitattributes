@@ -1450,3 +1450,8 @@ artwork/style.icns -text
 see/main.m -text
 see/see.1 -text
 see/see.vers -text
+seed/Info.plist -text
+seed/SDAppController.h -text
+seed/SDAppController.m -text
+seed/main.m -text
+seed/seed_Prefix.pch -text
