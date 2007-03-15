@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Mon Mar 08 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import "../TCMBEEP/TCMBEEP.h"
@@ -18,7 +18,10 @@
 #import "SessionProfile.h"
 #import "PlainTextDocument.h"
 #import "DocumentController.h"
+
+#warning Header dependency on TextStorage
 #import "TextStorage.h"
+
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
 #import "time.h"
@@ -509,15 +512,6 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (void)inviteUser:(TCMMMUser *)aUser intoGroup:(NSString *)aGroup usingBEEPSession:(TCMBEEPSession *)aBEEPSession {
 
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
-        NSEnumerator *plainTextEditors=[[(PlainTextDocument *)[self document] plainTextEditors] objectEnumerator];
-        PlainTextEditor *editor=nil;
-        while ((editor=[plainTextEditors nextObject])) {
-            [editor setShowsChangeMarks:YES];
-        }
-    }
-    
-
     if (![I_invitedUsers objectForKey:aGroup]) {
         [I_invitedUsers setObject:[NSMutableArray array] forKey:aGroup];
     }
@@ -556,6 +550,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [self setClientState:TCMMMSessionClientJoiningState];
             I_flags.shouldSendJoinRequest=YES;
             if (!document) {
+                #warning Dependency on DocumentController
                 [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
             } else {
                 [document updateProxyWindow];
@@ -874,6 +869,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     }
 }
 
+// seed: Invitation should be denied immediately on the server
 - (void)invitationWithProfile:(SessionProfile *)profile
 {
     TCMMMSessionClientState state=[self clientState];
@@ -897,6 +893,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [[NSSound soundNamed:@"Invitation"] play];
         if (!document) {
             [self setWasInvited:YES];
+            #warning Dependency on DocumentController
             [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
         } else {
             [document updateProxyWindow];

@@ -69,7 +69,7 @@ static DebugController * sharedInstance = nil;
         [CrashReportItem setTarget:self];
         [menu addItem:CrashReportItem];
 
-        NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Retain Counts" action:@selector(printMist) keyEquivalent:@""];
+        NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Log Retain Counts for all BEEP Sessions" action:@selector(logRetainCounts) keyEquivalent:@""];
         [blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
         [menu addItem:blahItem];
         [blahItem release];
