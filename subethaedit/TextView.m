@@ -514,6 +514,7 @@ static NSMenu *defaultMenu=nil;
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[userDescription objectForKey:@"UserID"]];
             if (user) {
                 TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] URLString:[userDescription objectForKey:@"URLString"]];
+                [document setPlainTextEditorsShowChangeMarksOnInvitation];
                 [session inviteUser:user intoGroup:@"ReadWrite" usingBEEPSession:BEEPSession];
             }
         }

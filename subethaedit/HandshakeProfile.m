@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Feb 27 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import "TCMFoundation.h"
@@ -92,8 +92,7 @@
             }
         } else if (strncmp(type, "ACK", 3) == 0) {
             BOOL isRendezvous = [[[self session] userInfo] objectForKey:@"isRendezvous"] != nil ? YES : NO;
-            BOOL isProhibitingInboundInternetSessions = [[TCMMMBEEPSessionManager sharedInstance] isProhibitingInboundInternetSessions];
-            if (!isProhibitingInboundInternetSessions || isRendezvous) {
+            if (![[self session] isProhibitingInboundInternetSessions] || isRendezvous) {
                 [[self delegate] profile:self receivedAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
                 [[self channel] sendMessage:[message autorelease]];   

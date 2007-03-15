@@ -66,11 +66,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
     return sharedInstance;
 }
 
-- (void)printMist {
-    NSEnumerator *sessions=[I_sessions objectEnumerator];
-    TCMBEEPSession *session=nil;
-    while ((session=[sessions nextObject])) {
-        NSLog(@"Session: %@, %@, retainCount:%d",[session description],NSStringFromClass([session class]),[session retainCount]);
+- (void)logRetainCounts
+{
+    NSEnumerator *sessions = [I_sessions objectEnumerator];
+    TCMBEEPSession *session = nil;
+    while ((session = [sessions nextObject])) {
+        NSLog(@"Session: %@, %@, retainCount: %d", [session description], NSStringFromClass([session class]), [session retainCount]);
     }
 }
 
@@ -85,7 +86,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_sessions = [NSMutableArray new];
         BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:ProhibitInboundInternetSessions];
         I_isProhibitingInboundInternetSessions = flag;
-        //[self setIsProhibitingInboundInternetSessions:flag];
     }
     return self;
 }
@@ -139,6 +139,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (BOOL)listen {
     // set up BEEPListener
+    #warning: Get port number from somewhere else
     int port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
     for (I_listeningPort = port; I_listeningPort < port + PORTRANGELENGTH; I_listeningPort++) {
         I_listener = [[TCMBEEPListener alloc] initWithPort:I_listeningPort];
@@ -190,6 +191,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:ProhibitInboundInternetSessions];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self validateListener];
+
+    NSEnumerator *sessions = [I_sessions objectEnumerator];
+    TCMBEEPSession *session = nil;
+    while ((session = [sessions nextObject])) {
+        [session setIsProhibitingInboundInternetSessions:flag];
+    }
 }
 
 - (BOOL)isProhibitingInboundInternetSessions {
@@ -223,6 +230,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
         DEBUGLOG(@"RendezvousLogDomain", DetailedLogLevel,@"Trying to connect to %d: %@ - %@",i,[service description],[NSString stringWithAddressData:addressData]);
         [self insertObject:session inSessionsAtIndex:[self countOfSessions]];
+        [session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
         
         [outgoingSessions addObject:session];
         [session release];
@@ -278,6 +286,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [[session userInfo] setObject:[[aHost userInfo] objectForKey:@"URLString"] forKey:@"URLString"];
  
         [self insertObject:session inSessionsAtIndex:[self countOfSessions]];
+        [session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
 
         [sessions addObject:session];
         [session release];
