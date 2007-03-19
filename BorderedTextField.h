@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 07.12.05.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Copyright 2005 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

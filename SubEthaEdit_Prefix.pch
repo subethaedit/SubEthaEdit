@@ -10,6 +10,5 @@
     #import "NSImageTCMAdditions.h"
     #import "NSStringSEEAdditions.h"
         
-    extern NSString * const DefaultPortNumber;
     extern NSString * const AddressHistory;
 #endif

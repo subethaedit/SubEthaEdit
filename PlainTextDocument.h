@@ -248,6 +248,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (NSString *)preparedDisplayName;
 
 - (void)setPlainTextEditorsShowChangeMarksOnInvitation;
+- (NSDictionary *)textStorageDictionaryRepresentation;
 
 #pragma mark -
 #pragma mark ### Flag Accessors ###
