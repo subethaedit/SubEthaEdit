@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Feb 25 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import <AddressBook/AddressBook.h>
@@ -83,7 +83,6 @@ int const ScriptMenuTag = 4000;
 
 
 
-NSString * const DefaultPortNumber = @"port";
 NSString * const AddressHistory = @"AddressHistory";
 NSString * const SetupDonePrefKey = @"SetupDone";
 NSString * const SetupVersionPrefKey = @"SetupVersion";

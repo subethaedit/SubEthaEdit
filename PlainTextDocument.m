@@ -4608,6 +4608,11 @@ static NSString *S_measurementUnits;
     }
 }
 
+- (NSDictionary *)textStorageDictionaryRepresentation
+{
+    return [(TextStorage *)[self textStorage] dictionaryRepresentation];
+}
+
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
     I_flags.isRemotelyEditingTextStorage=YES;
     TextStorage *textStorage=(TextStorage *)[self textStorage];
