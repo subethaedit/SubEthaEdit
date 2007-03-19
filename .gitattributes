@@ -607,6 +607,8 @@ MoreIsBetter/MoreUNIX.h -text
 /NSImageTCMAdditions.m -text
 /NSMenuTCMAdditions.h -text
 /NSMenuTCMAdditions.m -text
+/NSMutableAttributedStringSEEAdditions.h -text
+/NSMutableAttributedStringSEEAdditions.m -text
 /NSRangeSpecifierTCMAdditions.h -text
 /NSRangeSpecifierTCMAdditions.m -text
 /NSSavePanelTCMAdditions.h -text
@@ -1272,6 +1274,8 @@ TCMFoundation/version.plist -text
 /TCMIdleTimer.m -text
 /TCMListView.h -text
 /TCMListView.m -text
+/TCMMMUserManagerKitAdditions.h -text
+/TCMMMUserManagerKitAdditions.m -text
 /TCMMMUserSEEAdditions.h -text
 /TCMMMUserSEEAdditions.m -text
 TCMMillionMonkeys/TCMMMBEEPSessionManager.h -text
