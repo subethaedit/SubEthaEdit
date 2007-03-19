@@ -14,19 +14,12 @@
 #import "TCMMMUser.h"
 #import "TCMMMState.h"
 #import "TCMMMOperation.h"
-#import "TextOperation.h"
 #import "SessionProfile.h"
 #import "PlainTextDocument.h"
 #import "DocumentController.h"
-
-#warning Header dependency on TextStorage
-#import "TextStorage.h"
-
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
 #import "time.h"
-#import "PlainTextEditor.h"
-#import "GeneralPreferences.h"
 
 
 #define kProcessingTime 0.5
@@ -406,7 +399,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                     [state setDelegate:nil];
                     [I_statesByClientID removeObjectForKey:userID];
                     [profile setMMState:nil];
-                    [profile sendSessionContent:TCM_BencodedObject([NSDictionary dictionaryWithObject:[(TextStorage *)[(PlainTextDocument *)[self document] textStorage] dictionaryRepresentation] forKey:@"TextStorage"])];
+                    [profile sendSessionContent:TCM_BencodedObject([NSDictionary dictionaryWithObject:[(PlainTextDocument *)[self document] textStorageDictionaryRepresentation] forKey:@"TextStorage"])];
                     state = [[TCMMMState alloc] initAsServer:YES];
                     [state setDelegate:self];
                     [state setClient:profile];
@@ -732,7 +725,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     PlainTextDocument *document=(PlainTextDocument *)[self document];
     [sessionInformation setObject:[document sessionInformation] forKey:@"DocumentSessionInformation"];
 
-    NSDictionary *sessionContent=[NSDictionary dictionaryWithObject:[(TextStorage *)[document textStorage] dictionaryRepresentation] forKey:@"TextStorage"];
+    NSDictionary *sessionContent=[NSDictionary dictionaryWithObject:[document textStorageDictionaryRepresentation] forKey:@"TextStorage"];
     [I_sessionContentForUserID setObject:TCM_BencodedObject(sessionContent) forKey:userID];
 
     [sessionInformation setObject:[NSNumber numberWithUnsignedInt:[(NSData *)[I_sessionContentForUserID objectForKey:userID] length]] forKey:@"ContentLength"];
