@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Feb 24 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Carbon/Carbon.h>
@@ -25,6 +25,7 @@
 #import "AppController.h"
 #import "NSSavePanelTCMAdditions.h"
 #import "EncodingDoctorDialog.h"
+#import "NSMutableAttributedStringSEEAdditions.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"

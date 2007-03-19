@@ -754,6 +754,8 @@ subethaedit/NSImageTCMAdditions.h -text
 subethaedit/NSImageTCMAdditions.m -text
 subethaedit/NSMenuTCMAdditions.h -text
 subethaedit/NSMenuTCMAdditions.m -text
+subethaedit/NSMutableAttributedStringSEEAdditions.h -text
+subethaedit/NSMutableAttributedStringSEEAdditions.m -text
 subethaedit/NSRangeSpecifierTCMAdditions.h -text
 subethaedit/NSRangeSpecifierTCMAdditions.m -text
 subethaedit/NSSavePanelTCMAdditions.h -text
@@ -1419,6 +1421,8 @@ subethaedit/TCMIdleTimer.h -text
 subethaedit/TCMIdleTimer.m -text
 subethaedit/TCMListView.h -text
 subethaedit/TCMListView.m -text
+subethaedit/TCMMMUserManagerKitAdditions.h -text
+subethaedit/TCMMMUserManagerKitAdditions.m -text
 subethaedit/TCMMMUserSEEAdditions.h -text
 subethaedit/TCMMMUserSEEAdditions.m -text
 subethaedit/TCMMillionMonkeys/TCMMMBEEPSessionManager.h -text

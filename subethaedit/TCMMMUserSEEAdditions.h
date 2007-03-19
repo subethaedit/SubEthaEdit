@@ -3,13 +3,12 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Mar 02 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 #import "TCMMillionMonkeys/TCMMMUser.h"
 
-@class TCMMMUser;
 
 @interface TCMMMUser (TCMMMUserSEEAdditions) 
 
