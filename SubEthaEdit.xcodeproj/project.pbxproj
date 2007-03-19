@@ -252,6 +252,9 @@
 		142A82940BA6E9F2001C5035 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
 		142A82C70BA6EBC5001C5035 /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
 		142A82D70BA6EC8E001C5035 /* TCMMMUserSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920D095751CB00D14688 /* TCMMMUserSEEAdditions.m */; };
+		142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
+		142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */; };
+		142D1D330BAEEA2600B9EF1C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
 		144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */; };
 		144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */; };
 		144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */; };
@@ -269,8 +272,6 @@
 		146324D30BA0C71400A88D4F /* TCMBEEPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914B0957475E00D14688 /* TCMBEEPMessage.m */; };
 		146324D40BA0C71400A88D4F /* TCMBEEPProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914D0957475E00D14688 /* TCMBEEPProfile.m */; };
 		146324D50BA0C71400A88D4F /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914F0957475E00D14688 /* TCMBEEPSession.m */; };
-		1463254E0BA0C71400A88D4F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		146325500BA0C71400A88D4F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
 		146325510BA0C71400A88D4F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
 		146325520BA0C71400A88D4F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142894D3095765CF00D14688 /* SystemConfiguration.framework */; };
 		148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 148167AC0B15B002008894C9 /* PlainTextWindow.m */; };
@@ -891,6 +892,10 @@
 		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };
 		142A5DD70BA5894F001C5035 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = seed/main.m; sourceTree = "<group>"; };
 		142A5E260BA58EBE001C5035 /* seed_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = seed_Prefix.pch; path = seed/seed_Prefix.pch; sourceTree = "<group>"; };
+		142D18B20BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableAttributedStringSEEAdditions.h; sourceTree = "<group>"; };
+		142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableAttributedStringSEEAdditions.m; sourceTree = "<group>"; };
+		142D1B990BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMMMUserManagerKitAdditions.h; sourceTree = "<group>"; };
+		142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMUserManagerKitAdditions.m; sourceTree = "<group>"; };
 		144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptSuite; sourceTree = "<group>"; };
 		144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptTerminology; sourceTree = "<group>"; };
 		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
@@ -1057,10 +1062,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1463254E0BA0C71400A88D4F /* Cocoa.framework in Frameworks */,
-				146325500BA0C71400A88D4F /* Carbon.framework in Frameworks */,
 				146325510BA0C71400A88D4F /* Security.framework in Frameworks */,
 				146325520BA0C71400A88D4F /* SystemConfiguration.framework in Frameworks */,
+				142D1D330BAEEA2600B9EF1C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1330,6 +1334,8 @@
 				14289207095751CB00D14688 /* NSColorTCMAdditions.m */,
 				14289208095751CB00D14688 /* NSImageTCMAdditions.h */,
 				14289209095751CB00D14688 /* NSImageTCMAdditions.m */,
+				142D18B20BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.h */,
+				142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */,
 				144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */,
 				144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */,
 				1428920A095751CB00D14688 /* NSStringSEEAdditions.h */,
@@ -1538,6 +1544,8 @@
 		14289305095756A100D14688 /* TCMMillionMonkeys */ = {
 			isa = PBXGroup;
 			children = (
+				142D1B990BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.h */,
+				142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */,
 				14289310095756D800D14688 /* TCMMillionMonkeys.h */,
 				14289311095756D800D14688 /* TCMMMBEEPSessionManager.h */,
 				14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */,
@@ -2574,6 +2582,8 @@
 				F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */,
 				F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */,
 				149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */,
+				142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */,
+				142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
