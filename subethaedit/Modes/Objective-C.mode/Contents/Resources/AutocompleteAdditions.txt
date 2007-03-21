@@ -28222,6 +28222,7 @@ kABFirstNameFirst
 kABFirstNamePhoneticProperty
 kABFirstNameProperty
 kABFriendLabel
+kABGroupNameProperty
 kABHomeLabel
 kABHomePageProperty
 kABICQHomeLabel
