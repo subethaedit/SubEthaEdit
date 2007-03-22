@@ -1580,9 +1580,9 @@ enum {
                 }
                 return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
             } else if (aTag==ParticipantsChildImageTag) {
-                return [[user properties] objectForKey:(status || anItemIndex==2)?@"Image32Dimmed":@"Image32"];
+                return ((status || anItemIndex==2) ? [user image32Dimmed] : [user image32]);
             } else if (aTag==ParticipantsChildImageNextToNameTag) {
-                return [[user properties] objectForKey:@"ColorImage"];
+                return [user colorImage];
             }
         }
         return nil;

@@ -110,7 +110,7 @@ static RendezvousBrowserController *sharedInstance=nil;
 - (void)TCM_synchronizeMyNameAndPicture {
     TCMMMUser *me=[TCMMMUserManager me];
     [O_myNameTextField setStringValue:[me name]];
-    [O_imageView setImage:[[me properties] objectForKey:@"Image"]];
+    [O_imageView setImage:[me image]];
 }
 
 - (void)windowDidLoad {
@@ -422,9 +422,9 @@ enum {
             } else if (aTag==TCMMMBrowserItemStatusTag) {
                 return [NSString stringWithFormat:NSLocalizedString(@"%d Document(s)",@"Status string showing the number of documents in Rendezvous and Internet browser"),[[item objectForKey:@"Sessions"] count]];
             } else if (aTag==TCMMMBrowserItemImageTag) {
-                return [[user properties] objectForKey:@"Image32"];
+                return [user image32];
             } else if (aTag==TCMMMBrowserItemImageNextToNameTag) {
-                return [[user properties] objectForKey:@"ColorImage"];
+                return [user colorImage];
             } 
         }
         return nil;

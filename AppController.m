@@ -321,9 +321,7 @@ static AppController *sharedInstance = nil;
     [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
     [me setUserHue:[defaults objectForKey:MyColorHuePreferenceKey]];
 
-    [myImage       release];
-//    [scaledMyImage release];
-    [me prepareImages];
+    [myImage release];
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     [userManager setMe:[me autorelease]];
 }
