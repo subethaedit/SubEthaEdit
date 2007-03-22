@@ -12,13 +12,16 @@
 
 @interface TCMMMUser (TCMMMUserSEEAdditions) 
 
-+ (TCMMMUser *)userWithBencodedUser:(NSData *)aData;
-+ (TCMMMUser *)userWithDictionaryRepresentation:(NSDictionary *)aRepresentation;
-- (NSDictionary *)dictionaryRepresentation;
-- (void)prepareImages;
-- (NSData *)userBencoded;
-- (void)setUserHue:(NSNumber *)aHue;
 - (NSColor *)changeColor;
 - (NSString *)vcfRepresentation;
-    
+
+#pragma mark -
+
+- (NSImage *)colorImage;
+- (NSImage *)image;
+- (NSImage *)image48;
+- (NSImage *)image32;
+- (NSImage *)image16;
+- (NSImage *)image32Dimmed;
+
 @end

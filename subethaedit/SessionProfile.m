@@ -9,7 +9,7 @@
 #import "SessionProfile.h"
 #import "TCMBencodingUtilities.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
-#import "TCMMMUserSEEAdditions.h"
+//#import "TCMMMUserSEEAdditions.h"
 #import "UserChangeOperation.h"
 
 @implementation SessionProfile
