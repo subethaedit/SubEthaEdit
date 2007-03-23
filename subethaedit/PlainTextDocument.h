@@ -3,13 +3,14 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Feb 24 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 
 #import <Cocoa/Cocoa.h>
 #import <Security/Security.h>
 #import "EncodingManager.h"
+#import "TCMMMSession.h"
 
 enum {
     UnknownStringEncoding = NoStringEncoding,
@@ -38,7 +39,7 @@ extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
 extern NSString * const PlainTextDocumentDidSaveNotification;
 
-@interface PlainTextDocument : NSDocument
+@interface PlainTextDocument : NSDocument <SEEDocument>
 {
     TCMMMSession *I_session;
     struct {
