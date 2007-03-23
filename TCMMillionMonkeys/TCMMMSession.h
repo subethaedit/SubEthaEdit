@@ -3,10 +3,10 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Mon Mar 08 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 
 extern NSString * const TCMMMSessionClientStateDidChangeNotification;
@@ -32,9 +32,35 @@ typedef enum TCMMMSessionClientState {
 } TCMMMSessionClientState;
 
 
+@class TCMMMSession;
+
+@protocol SEEDocument
+- (NSDictionary *)sessionInformation;
+- (void)sessionDidReceiveKick:(TCMMMSession *)aSession;
+- (void)sessionDidReceiveClose:(TCMMMSession *)aSession;
+- (void)sessionDidLoseConnection:(TCMMMSession *)aSession;
+- (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
+- (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession;
+- (void)sessionDidCancelInvitation:(TCMMMSession *)aSession;
+- (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
+- (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent;
+
+- (NSString *)preparedDisplayName;
+- (void)invalidateLayoutForRange:(NSRange)aRange;
+- (NSDictionary *)textStorageDictionaryRepresentation;
+- (void)updateProxyWindow;
+- (void)showWindows;
+- (NSSet *)userIDsOfContributors;
+- (void)sendInitialUserState;
+- (BOOL)isReceivingContent;
+- (void)validateEditability;
+- (void)handleOperation:(TCMMMOperation *)aOperation;
+@end
+
+
 @interface TCMMMSession : NSObject
 {
-    NSDocument *I_document;
+    id <SEEDocument> I_document;
     NSString *I_sessionID;
     NSString *I_hostID;
     NSString *I_filename;
@@ -65,7 +91,7 @@ typedef enum TCMMMSessionClientState {
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData;
 + (TCMMMSession *)sessionWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 
-- (id)initWithDocument:(NSDocument *)aDocument;
+- (id)initWithDocument:(id <SEEDocument>)aDocument;
 - (id)initWithSessionID:(NSString *)aSessionID filename:(NSString *)aFileName;
 
 - (void)setFilename:(NSString *)aFilename;
@@ -74,8 +100,8 @@ typedef enum TCMMMSessionClientState {
 - (void)setSessionID:(NSString *)aSessionID;
 - (NSString *)sessionID;
 
-- (void)setDocument:(NSDocument *)aDocument;
-- (NSDocument *)document;
+- (void)setDocument:(id <SEEDocument>)aDocument;
+- (id <SEEDocument>)document;
 
 - (void)setHostID:(NSString *)aHostID;
 - (NSString *)hostID;
@@ -133,19 +159,4 @@ typedef enum TCMMMSessionClientState {
 
 - (BOOL)isAddressedByURL:(NSURL *)aURL;
 
-@end
-
-
-@interface NSDocument (TCMMMSessionDocumentAdditions)
-
-- (NSDictionary *)sessionInformation;
-- (void)sessionDidReceiveKick:(TCMMMSession *)aSession;
-- (void)sessionDidReceiveClose:(TCMMMSession *)aSession;
-- (void)sessionDidLoseConnection:(TCMMMSession *)aSession;
-- (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
-- (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession;
-- (void)sessionDidCancelInvitation:(TCMMMSession *)aSession;
-- (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
-- (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent;
-- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 @end

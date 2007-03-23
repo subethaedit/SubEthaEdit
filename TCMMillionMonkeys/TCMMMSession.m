@@ -15,7 +15,6 @@
 #import "TCMMMState.h"
 #import "TCMMMOperation.h"
 #import "SessionProfile.h"
-#import "PlainTextDocument.h"
 #import "DocumentController.h"
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
@@ -108,13 +107,13 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     return self;
 }
 
-- (id)initWithDocument:(NSDocument *)aDocument
+- (id)initWithDocument:(id <SEEDocument>)aDocument
 {
     self = [self init];
     if (self) {
         [self setDocument:aDocument];
         [self setSessionID:[NSString UUIDString]];
-        [self setFilename:[(PlainTextDocument *)aDocument preparedDisplayName]];
+        [self setFilename:[aDocument preparedDisplayName]];
         [self setHostID:[TCMMMUserManager myUserID]];
         TCMMMUser *me=[TCMMMUserManager me];
         [I_contributors addObject:me];
@@ -173,7 +172,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         TCMMMUser *user=[userManager userForUserID:userID];
         SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
         if (selectionOperation) {
-            [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
+            [[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
         }
         [user leaveSessionID:sessionID];
     }
@@ -228,12 +227,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     return I_hostID;
 }
 
-- (void)setDocument:(NSDocument *)aDocument
+- (void)setDocument:(id <SEEDocument>)aDocument
 {
     I_document = aDocument;
 }
 
-- (NSDocument *)document
+- (id <SEEDocument>)document
 {
     return I_document;
 }
@@ -363,7 +362,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                 [I_profilesByUserID removeObjectForKey:userID];
                 SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
                 if (selectionOperation) {
-                    [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
+                    [[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
                 }
                 [user leaveSessionID:sessionID];
             }
@@ -387,7 +386,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                 [[I_participants objectForKey:oldGroup] removeObject:user];
                 SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
                 if (selectionOperation) {
-                    [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
+                    [[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
                 }
                 if ([self isServer]) {
                     [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeGroupChange userID:userID newGroup:aGroup]];
@@ -399,7 +398,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                     [state setDelegate:nil];
                     [I_statesByClientID removeObjectForKey:userID];
                     [profile setMMState:nil];
-                    [profile sendSessionContent:TCM_BencodedObject([NSDictionary dictionaryWithObject:[(PlainTextDocument *)[self document] textStorageDictionaryRepresentation] forKey:@"TextStorage"])];
+                    [profile sendSessionContent:TCM_BencodedObject([NSDictionary dictionaryWithObject:[[self document] textStorageDictionaryRepresentation] forKey:@"TextStorage"])];
                     state = [[TCMMMState alloc] initAsServer:YES];
                     [state setDelegate:self];
                     [state setClient:profile];
@@ -447,7 +446,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [I_statesByClientID setObject:state forKey:[user userID]];
             [profile acceptJoin];
             [profile sendSessionInformation:[self TCM_sessionInformationForUserID:[user userID]]];
-            PlainTextDocument *document=(PlainTextDocument *)[self document];
+            id <SEEDocument> document = [self document];
             [document sendInitialUserState];
             [state release];
             [user joinSessionID:[self sessionID]];
@@ -526,6 +525,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     } else if ([I_pendingUsers containsObject:aUser]) {
         [self setGroup:aGroup forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers indexOfObject:aUser]]];
     } else {
+        #warning Don't beep here, get rid of AppKit dependencies
         NSBeep();
     }
 }
@@ -533,7 +533,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession
 {
     TCMMMSessionClientState state=[self clientState];
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    id <SEEDocument> document = [self document];
     if (state==TCMMMSessionClientNoState) {
         TCMBEEPSession *session = aBEEPSession;
         if (!session) {
@@ -572,6 +572,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [self setClientState:TCMMMSessionClientParticipantState];
     } else {
         [self setClientState:TCMMMSessionClientNoState];
+        #warning Don't beep here, get rid of AppKit dependencies
         NSBeep();
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingInvitationsDidChange object:self];
@@ -699,7 +700,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     NSMutableDictionary *sessionInformation=[NSMutableDictionary dictionary];
     NSMutableArray *contributorNotifications=[NSMutableArray array];
     NSEnumerator *contributors = [I_contributors objectEnumerator];
-    NSSet *userIDsOfContributors = [(PlainTextDocument *)[self document] userIDsOfContributors];
+    NSSet *userIDsOfContributors = [[self document] userIDsOfContributors];
     TCMMMUser *contributor=nil;
     while ((contributor=[contributors nextObject])) {
         NSString *contributorID=[contributor userID];
@@ -722,7 +723,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [participantsRepresentation setObject:userRepresentations forKey:group];
     }
     [sessionInformation setObject:participantsRepresentation forKey:@"Participants"];
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    id <SEEDocument> document = [self document];
     [sessionInformation setObject:[document sessionInformation] forKey:@"DocumentSessionInformation"];
 
     NSDictionary *sessionContent=[NSDictionary dictionaryWithObject:[document textStorageDictionaryRepresentation] forKey:@"TextStorage"];
@@ -857,6 +858,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         } else {
             // if no autojoin add user to pending users and notify 
             [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+            #warning Get rid of NSSound, no AppKit dependencies here
             [[NSSound soundNamed:@"Knock"] play];
         }
     }
@@ -866,7 +868,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (void)invitationWithProfile:(SessionProfile *)profile
 {
     TCMMMSessionClientState state=[self clientState];
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    id <SEEDocument> document = [self document];
     if (state==TCMMMSessionClientParticipantState) {
         [profile declineInvitation];
     } else if (state==TCMMMSessionClientInvitedState && document) {
@@ -883,6 +885,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         }
         [I_profilesByUserID setObject:profile forKey:[self hostID]];
         [self setClientState:TCMMMSessionClientInvitedState];
+        #warning Get rid of NSSound, no AppKit dependencies here
         [[NSSound soundNamed:@"Invitation"] play];
         if (!document) {
             [self setWasInvited:YES];
@@ -1003,7 +1006,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [state setClient:profile];
     [I_statesByClientID setObject:state forKey:[user userID]];
     [profile sendSessionInformation:[self TCM_sessionInformationForUserID:[user userID]]];
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    id <SEEDocument> document = [self document];
     [document sendInitialUserState];
     [state release];
     [user joinSessionID:[self sessionID]];
@@ -1069,7 +1072,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         if (state==[I_statesByClientID objectForKey:peerUserID]) {
             [I_statesByClientID removeObjectForKey:peerUserID];
         }
-        if ([(PlainTextDocument *)[self document] isReceivingContent]) {
+        if ([[self document] isReceivingContent]) {
             [[self document] sessionDidLoseConnection:self];
         }
         [state setClient:nil];
@@ -1149,7 +1152,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [state setDelegate:nil];
     [state setClient:nil];
     [I_statesByClientID removeObjectForKey:[self hostID]];
-    [(PlainTextDocument *)[self document] validateEditability];   
+    [[self document] validateEditability];   
 }
 
 - (void)handleUserChangeOperation:(UserChangeOperation *)anOperation fromState:(TCMMMState *)aState {
@@ -1203,7 +1206,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [I_groupByUserID removeObjectForKey:userID];
             SelectionOperation *selectionOperation=[[user propertiesForSessionID:[self sessionID]] objectForKey:@"SelectionOperation"];
             if (selectionOperation) {
-                [(PlainTextDocument *)[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
+                [[self document] invalidateLayoutForRange:[selectionOperation selectedRange]];
             }
             [user leaveSessionID:[self sessionID]];
         }
@@ -1227,7 +1230,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                     [aState setClient:nil];
                     [I_statesByClientID removeObjectForKey:[self hostID]];
                 }
-                [(PlainTextDocument *)[self document] validateEditability];
+                [[self document] validateEditability];
             }
         }
         
@@ -1242,7 +1245,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     if ([[[anOperation class] operationID] isEqualToString:[UserChangeOperation operationID]]) {
         [self handleUserChangeOperation:(UserChangeOperation *)anOperation fromState:aState];
     } else {
-        [(PlainTextDocument *)[self document] handleOperation:anOperation];
+        [[self document] handleOperation:anOperation];
     }
     // distribute operation
     NSEnumerator *states = [I_statesByClientID objectEnumerator];
