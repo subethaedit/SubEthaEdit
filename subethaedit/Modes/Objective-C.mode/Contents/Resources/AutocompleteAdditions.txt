@@ -28213,6 +28213,7 @@ kABCreationDateProperty
 kABDatabaseChangedExternallyNotification
 kABDatabaseChangedNotification
 kABDefaultNameOrdering
+kABDeletedRecords
 kABDepartmentProperty
 kABEmailHomeLabel
 kABEmailProperty
@@ -28228,6 +28229,7 @@ kABHomePageProperty
 kABICQHomeLabel
 kABICQInstantProperty
 kABICQWorkLabel
+kABInsertedRecords
 kABJabberHomeLabel
 kABJabberInstantProperty
 kABJabberWorkLabel
@@ -28271,6 +28273,7 @@ kABSpouseLabel
 kABSuffixProperty
 kABTitleProperty
 kABUIDProperty
+kABUpdatedRecords
 kABURLsProperty
 kABWorkLabel
 kABYahooHomeLabel
