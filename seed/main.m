@@ -33,18 +33,25 @@ int main(int argc, const char *argv[])
     
     endRunLoop = NO;
 
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
+    [defaults setBool:YES forKey:@"EnableBEEPLogging"];
+    [defaults setInteger:3 forKey:@"MillionMonkeysLogDomain"];
+    [defaults setInteger:0 forKey:@"BEEPLogDomain"];
+
+
+
     [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
 
-    SDAppController *appController = [[SDAppController alloc] init];
-    
-    // set the TERM signal handler to 'catch_term' 
-    signal(SIGTERM, catch_term);
-        
-    
     // Setup user with ID and name, w/o you can't establish connections
     TCMMMUser *me = [[TCMMMUser alloc] init];
     [me setUserID:[NSString UUIDString]];
-    [me setName:NSFullUserName()];
+    [me setName:@"Foo Bar"];
+    //[[me properties] setObject:[NSData dataWithContentsOfFile:@"/Users/mbo/Pictures/mbo.png"] forKey:@"ImageAsPNG"];
+    [me setUserHue:[NSNumber numberWithInt:5]];
+    [[me properties] setObject:@"" forKey:@"Email"];
+    [[me properties] setObject:@"" forKey:@"AIM"];
     [[TCMMMUserManager sharedInstance] setMe:me];
     [me release];
     
@@ -54,9 +61,15 @@ int main(int argc, const char *argv[])
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
 
     [[TCMMMBEEPSessionManager sharedInstance] listen];
-    [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];
-            
+    
+    
+    SDAppController *appController = [[SDAppController alloc] init];
+    
+    // set the TERM signal handler to 'catch_term' 
+    signal(SIGTERM, catch_term);
+    
+    
     do {
         NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
         isRunning = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode

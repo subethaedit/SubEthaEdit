@@ -192,7 +192,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    if ([self userID]) [dict setObject:[self userID] forKey:@"uID"];
+    if ([self userID]) [dict setObject:[NSData dataWithUUIDString:[self userID]] forKey:@"uID"];
     if ([self name]) [dict setObject:[self name] forKey:@"name"];
     if ([[self properties] objectForKey:@"AIM"]) [dict setObject:[[self properties] objectForKey:@"AIM"] forKey:@"AIM"];
     if ([[self properties] objectForKey:@"Email"]) [dict setObject:[[self properties] objectForKey:@"Email"] forKey:@"mail"];

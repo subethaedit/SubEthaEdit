@@ -7,6 +7,7 @@
 //
 
 #import "SDAppController.h"
+#import "SDDocument.h"
 
 
 int fd = 0;
@@ -30,8 +31,18 @@ BOOL endRunLoop = NO;
                      object:[_signalPipe fileHandleForReading]];
 
         [[_signalPipe fileHandleForReading] readInBackgroundAndNotify];
+        
+        _document = [[SDDocument alloc] init];
+        [[_document session] setAccessState:TCMMMSessionAccessReadWriteState];
+        [_document setIsAnnounced:YES];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [_document release];
+    [super dealloc];
 }
 
 - (void)handleSignal:(NSNotification *)notification

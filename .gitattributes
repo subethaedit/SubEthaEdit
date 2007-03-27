@@ -1461,5 +1461,7 @@ see/see.vers -text
 seed/Info.plist -text
 seed/SDAppController.h -text
 seed/SDAppController.m -text
+seed/SDDocument.h -text
+seed/SDDocument.m -text
 seed/main.m -text
 seed/seed_Prefix.pch -text
