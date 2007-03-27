@@ -327,7 +327,7 @@
                 }
                 I_numberOfUnacknowledgedSessconMSG=-1;
             }
-            DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"SessionProfile recieved Ack");
+            DEBUGLOG(@"MillionMonkeysLogDomain",DetailedLogLevel,@"SessionProfile received Ack");
             return;
         } else if ([[aMessage payload] length] < 6) {
             DEBUGLOG(@"MillionMonkeysLogDomain", SimpleLogLevel, @"SessionProfile: Invalid message format. Payload less than 6 bytes.");

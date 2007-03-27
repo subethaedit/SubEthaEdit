@@ -1292,6 +1292,10 @@ TCMMillionMonkeys/TCMMMPresenceManager.h -text
 TCMMillionMonkeys/TCMMMPresenceManager.m -text
 TCMMillionMonkeys/TCMMMSession.h -text
 TCMMillionMonkeys/TCMMMSession.m -text
+TCMMillionMonkeys/TCMMMSessionAppKitHelper.h -text
+TCMMillionMonkeys/TCMMMSessionAppKitHelper.m -text
+TCMMillionMonkeys/TCMMMSessionFoundationHelper.h -text
+TCMMillionMonkeys/TCMMMSessionFoundationHelper.m -text
 TCMMillionMonkeys/TCMMMState.h -text
 TCMMillionMonkeys/TCMMMState.m -text
 TCMMillionMonkeys/TCMMMStatusProfile.h -text
