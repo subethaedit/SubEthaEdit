@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		141958B00BB951BE00CB4AA4 /* TCMMMSessionFoundationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141958AB0BB9516E00CB4AA4 /* TCMMMSessionFoundationHelper.m */; };
+		141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141958970BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.m */; };
 		141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */; };
 		141F4F120AE42BC7001B73D2 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */; };
 		141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */; };
@@ -253,7 +255,7 @@
 		142A82C70BA6EBC5001C5035 /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
 		142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */; };
-		142D27940BAEF17E00B9EF1C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		142D54E40BB2E02900B9EF1C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
 		144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */; };
 		144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */; };
 		144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */; };
@@ -280,6 +282,7 @@
 		1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */; };
 		149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = 149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */; };
 		149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 149774160B5E159F004A546C /* PlainTextLoadProgress.m */; };
+		14D47F160BB41CBF005121A7 /* SDDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D47F150BB41CBF005121A7 /* SDDocument.m */; };
 		14E291C70A07A501007C0065 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
 		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
 		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; };
@@ -553,6 +556,10 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		141958960BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMMMSessionAppKitHelper.h; path = TCMMillionMonkeys/TCMMMSessionAppKitHelper.h; sourceTree = "<group>"; };
+		141958970BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMMMSessionAppKitHelper.m; path = TCMMillionMonkeys/TCMMMSessionAppKitHelper.m; sourceTree = "<group>"; };
+		141958AA0BB9516E00CB4AA4 /* TCMMMSessionFoundationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMMMSessionFoundationHelper.h; path = TCMMillionMonkeys/TCMMMSessionFoundationHelper.h; sourceTree = "<group>"; };
+		141958AB0BB9516E00CB4AA4 /* TCMMMSessionFoundationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMMMSessionFoundationHelper.m; path = TCMMillionMonkeys/TCMMMSessionFoundationHelper.m; sourceTree = "<group>"; };
 		141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PSMTabBarControl.xcodeproj; path = PSMTabBarControl/PSMTabBarControl.xcodeproj; sourceTree = "<group>"; };
 		141F50EA0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextWindowControllerTabContext.h; sourceTree = "<group>"; };
 		141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextWindowControllerTabContext.m; sourceTree = "<group>"; };
@@ -939,6 +946,8 @@
 		149774080B5E14FC004A546C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PlainTextLoadProgress.nib; sourceTree = "<group>"; };
 		149774150B5E159F004A546C /* PlainTextLoadProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextLoadProgress.h; sourceTree = "<group>"; };
 		149774160B5E159F004A546C /* PlainTextLoadProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextLoadProgress.m; sourceTree = "<group>"; };
+		14D47F140BB41CBF005121A7 /* SDDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDDocument.h; path = seed/SDDocument.h; sourceTree = "<group>"; };
+		14D47F150BB41CBF005121A7 /* SDDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDDocument.m; path = seed/SDDocument.m; sourceTree = "<group>"; };
 		14E290E70A06DB8A007C0065 /* SubEthaEdit-Panther.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = "SubEthaEdit-Panther.sdef"; sourceTree = "<group>"; };
 		14E291C40A07A501007C0065 /* ScriptLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptLine.h; sourceTree = "<group>"; };
 		14E291C50A07A501007C0065 /* ScriptLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptLine.m; sourceTree = "<group>"; };
@@ -1063,7 +1072,7 @@
 			files = (
 				146325510BA0C71400A88D4F /* Security.framework in Frameworks */,
 				146325520BA0C71400A88D4F /* SystemConfiguration.framework in Frameworks */,
-				142D27940BAEF17E00B9EF1C /* Cocoa.framework in Frameworks */,
+				142D54E40BB2E02900B9EF1C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1560,6 +1569,10 @@
 				1428931C095756D800D14688 /* TCMMMPresenceManager.m */,
 				1428931D095756D800D14688 /* TCMMMSession.h */,
 				1428931E095756D800D14688 /* TCMMMSession.m */,
+				141958960BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.h */,
+				141958970BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.m */,
+				141958AA0BB9516E00CB4AA4 /* TCMMMSessionFoundationHelper.h */,
+				141958AB0BB9516E00CB4AA4 /* TCMMMSessionFoundationHelper.m */,
 				1428931F095756D800D14688 /* TCMMMState.h */,
 				14289320095756D800D14688 /* TCMMMState.m */,
 				14289321095756D800D14688 /* TCMMMStatusProfile.h */,
@@ -1611,6 +1624,8 @@
 				142A5DD70BA5894F001C5035 /* main.m */,
 				1493E0F80BA837FA00A18284 /* SDAppController.h */,
 				1493E0F90BA837FA00A18284 /* SDAppController.m */,
+				14D47F140BB41CBF005121A7 /* SDDocument.h */,
+				14D47F150BB41CBF005121A7 /* SDDocument.m */,
 				1463256A0BA0C71400A88D4F /* Info.plist */,
 				142A5E260BA58EBE001C5035 /* seed_Prefix.pch */,
 			);
@@ -2420,6 +2435,8 @@
 				142A82830BA6E9BE001C5035 /* NSStringTCMAdditions.m in Sources */,
 				142A82940BA6E9F2001C5035 /* NSDictionaryTCMAdditions.m in Sources */,
 				142A82C70BA6EBC5001C5035 /* NSDataTCMAdditions.m in Sources */,
+				14D47F160BB41CBF005121A7 /* SDDocument.m in Sources */,
+				141958B00BB951BE00CB4AA4 /* TCMMMSessionFoundationHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2582,6 +2599,7 @@
 				149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */,
 				142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */,
 				142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */,
+				141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
