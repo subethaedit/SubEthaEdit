@@ -1439,6 +1439,10 @@ subethaedit/TCMMillionMonkeys/TCMMMPresenceManager.h -text
 subethaedit/TCMMillionMonkeys/TCMMMPresenceManager.m -text
 subethaedit/TCMMillionMonkeys/TCMMMSession.h -text
 subethaedit/TCMMillionMonkeys/TCMMMSession.m -text
+subethaedit/TCMMillionMonkeys/TCMMMSessionAppKitHelper.h -text
+subethaedit/TCMMillionMonkeys/TCMMMSessionAppKitHelper.m -text
+subethaedit/TCMMillionMonkeys/TCMMMSessionFoundationHelper.h -text
+subethaedit/TCMMillionMonkeys/TCMMMSessionFoundationHelper.m -text
 subethaedit/TCMMillionMonkeys/TCMMMState.h -text
 subethaedit/TCMMillionMonkeys/TCMMMState.m -text
 subethaedit/TCMMillionMonkeys/TCMMMStatusProfile.h -text

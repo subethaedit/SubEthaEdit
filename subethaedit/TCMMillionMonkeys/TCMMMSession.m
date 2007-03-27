@@ -86,6 +86,11 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 {
     self = [super init];
     if (self) {
+        if (NSClassFromString(@"NSApplication")) {
+            I_helper = [[NSClassFromString(@"TCMMMSessionAppKitHelper") alloc] init];
+        } else {
+            I_helper = [[NSClassFromString(@"TCMMMSessionFoundationHelper") alloc] init];
+        }
         I_invitedUsers = [NSMutableDictionary new];
         I_groupOfInvitedUsers = [NSMutableDictionary new];
         I_stateOfInvitedUsers = [NSMutableDictionary new];
@@ -139,6 +144,8 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [I_helper release];
+    I_helper = nil;
     I_document = nil;
     [I_invitedUsers release];
     [I_groupOfInvitedUsers release];
@@ -525,8 +532,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     } else if ([I_pendingUsers containsObject:aUser]) {
         [self setGroup:aGroup forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers indexOfObject:aUser]]];
     } else {
-        #warning Don't beep here, get rid of AppKit dependencies
-        NSBeep();
+        [I_helper playBeep];
     }
 }
 
@@ -543,8 +549,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [self setClientState:TCMMMSessionClientJoiningState];
             I_flags.shouldSendJoinRequest=YES;
             if (!document) {
-                #warning Dependency on DocumentController
-                [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
+                [I_helper addProxyDocumentWithSession:self];
             } else {
                 [document updateProxyWindow];
                 [document showWindows];
@@ -572,8 +577,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [self setClientState:TCMMMSessionClientParticipantState];
     } else {
         [self setClientState:TCMMMSessionClientNoState];
-        #warning Don't beep here, get rid of AppKit dependencies
-        NSBeep();
+        [I_helper playBeep];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingInvitationsDidChange object:self];
 }
@@ -858,8 +862,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         } else {
             // if no autojoin add user to pending users and notify 
             [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
-            #warning Get rid of NSSound, no AppKit dependencies here
-            [[NSSound soundNamed:@"Knock"] play];
+            [I_helper playSoundNamed:@"Knock"];
         }
     }
 }
@@ -885,12 +888,10 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         }
         [I_profilesByUserID setObject:profile forKey:[self hostID]];
         [self setClientState:TCMMMSessionClientInvitedState];
-        #warning Get rid of NSSound, no AppKit dependencies here
-        [[NSSound soundNamed:@"Invitation"] play];
+        [I_helper playSoundNamed:@"Invitation"];
         if (!document) {
             [self setWasInvited:YES];
-            #warning Dependency on DocumentController
-            [[DocumentController sharedInstance] addProxyDocumentWithSession:self];
+            [I_helper addProxyDocumentWithSession:self];
         } else {
             [document updateProxyWindow];
         }

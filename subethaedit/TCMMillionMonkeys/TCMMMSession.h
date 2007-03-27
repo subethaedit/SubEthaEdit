@@ -58,12 +58,20 @@ typedef enum TCMMMSessionClientState {
 @end
 
 
+@protocol TCMMMSessionHelper <NSObject>
+- (void)playSoundNamed:(NSString *)name;
+- (void)playBeep;
+- (void)addProxyDocumentWithSession:(TCMMMSession *)session;
+@end
+
+
 @interface TCMMMSession : NSObject
 {
     id <SEEDocument> I_document;
     NSString *I_sessionID;
     NSString *I_hostID;
     NSString *I_filename;
+    id <TCMMMSessionHelper> I_helper;
     NSMutableDictionary *I_profilesByUserID;
     NSMutableDictionary *I_participants;
     NSMutableDictionary *I_invitedUsers;

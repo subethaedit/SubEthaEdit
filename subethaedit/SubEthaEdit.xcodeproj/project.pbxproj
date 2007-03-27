@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		141843980BB95CC3001D446B /* TCMMMSessionAppKitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141843950BB95CB8001D446B /* TCMMMSessionAppKitHelper.m */; };
 		141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */; };
 		141F4F120AE42BC7001B73D2 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */; };
 		141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */; };
@@ -520,6 +521,10 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		141843940BB95CB8001D446B /* TCMMMSessionAppKitHelper.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMMSessionAppKitHelper.h; path = TCMMillionMonkeys/TCMMMSessionAppKitHelper.h; sourceTree = "<group>"; };
+		141843950BB95CB8001D446B /* TCMMMSessionAppKitHelper.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMMMSessionAppKitHelper.m; path = TCMMillionMonkeys/TCMMMSessionAppKitHelper.m; sourceTree = "<group>"; };
+		141843960BB95CB8001D446B /* TCMMMSessionFoundationHelper.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMMSessionFoundationHelper.h; path = TCMMillionMonkeys/TCMMMSessionFoundationHelper.h; sourceTree = "<group>"; };
+		141843970BB95CB8001D446B /* TCMMMSessionFoundationHelper.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMMMSessionFoundationHelper.m; path = TCMMillionMonkeys/TCMMMSessionFoundationHelper.m; sourceTree = "<group>"; };
 		141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PSMTabBarControl.xcodeproj; path = PSMTabBarControl/PSMTabBarControl.xcodeproj; sourceTree = "<group>"; };
 		141F50EA0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextWindowControllerTabContext.h; sourceTree = "<group>"; };
 		141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextWindowControllerTabContext.m; sourceTree = "<group>"; };
@@ -1511,6 +1516,10 @@
 				1428931C095756D800D14688 /* TCMMMPresenceManager.m */,
 				1428931D095756D800D14688 /* TCMMMSession.h */,
 				1428931E095756D800D14688 /* TCMMMSession.m */,
+				141843940BB95CB8001D446B /* TCMMMSessionAppKitHelper.h */,
+				141843950BB95CB8001D446B /* TCMMMSessionAppKitHelper.m */,
+				141843960BB95CB8001D446B /* TCMMMSessionFoundationHelper.h */,
+				141843970BB95CB8001D446B /* TCMMMSessionFoundationHelper.m */,
 				1428931F095756D800D14688 /* TCMMMState.h */,
 				14289320095756D800D14688 /* TCMMMState.m */,
 				14289321095756D800D14688 /* TCMMMStatusProfile.h */,
@@ -2449,6 +2458,7 @@
 				149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */,
 				142D1FEC0BAEEE3A00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */,
 				142D1FF10BAEEEA300B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */,
+				141843980BB95CC3001D446B /* TCMMMSessionAppKitHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
