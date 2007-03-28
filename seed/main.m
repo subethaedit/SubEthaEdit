@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDAppController.m"
+#import "SDAppController.h"
 
 #import "TCMMillionMonkeys.h"
 #import "HandshakeProfile.h"
@@ -40,9 +40,10 @@ int main(int argc, const char *argv[])
     [defaults setInteger:3 forKey:@"MillionMonkeysLogDomain"];
     [defaults setInteger:0 forKey:@"BEEPLogDomain"];
 
-
-
     [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
+
+    SDAppController *appController = [[SDAppController alloc] init];
+
 
     // Setup user with ID and name, w/o you can't establish connections
     TCMMMUser *me = [[TCMMMUser alloc] init];
@@ -63,11 +64,27 @@ int main(int argc, const char *argv[])
     [[TCMMMBEEPSessionManager sharedInstance] listen];
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];
     
-    
-    SDAppController *appController = [[SDAppController alloc] init];
-    
+
     // set the TERM signal handler to 'catch_term' 
     signal(SIGTERM, catch_term);
+    
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSMutableArray *filenames = [NSMutableArray array];
+    int i;
+    for (i = 1; i < argc; i++) {
+        char resolved_path[PATH_MAX];
+        char *path = realpath(argv[i], resolved_path);
+
+        if (path) {
+            NSString *fileName = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
+            NSLog(@"fileName after realpath: %@", fileName);
+            [filenames addObject:fileName];
+        } else {
+            NSLog(@"Error occurred while resolving path: %s", argv[i]);
+        }
+    }
+    [appController openFiles:filenames];
     
     
     do {
