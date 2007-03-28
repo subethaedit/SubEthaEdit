@@ -198,6 +198,8 @@
                 [delegate profile:self didReceiveJoinRequestForSessionID:sessionID];
             }
         } else if (strncmp(type, "INVINV", 6) == 0) {
+            #warning Invitations arrive here, seed should decline them here or in the session
+
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received invitation.");
             NSData *data = [[aMessage payload] subdataWithRange:NSMakeRange(6, [[aMessage payload] length]-6)];
             NSDictionary *dict = TCM_BdecodedObjectWithData(data);

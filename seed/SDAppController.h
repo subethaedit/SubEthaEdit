@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDDocument;
 
 extern int fd;
 extern BOOL endRunLoop;
@@ -17,7 +16,9 @@ extern BOOL endRunLoop;
 @interface SDAppController : NSObject {
     @private
     NSPipe *_signalPipe;
-    SDDocument *_document;
+    NSMutableArray *_documents;
 }
+
+- (void)openFiles:(NSArray *)filenames;
 
 @end

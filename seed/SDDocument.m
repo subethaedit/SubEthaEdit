@@ -43,6 +43,21 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 #pragma mark -
 
+- (id)initWithContentsOfURL:(NSURL *)absoluteURL error:(NSError **)outError
+{
+    if ([self init]) {
+        [self setFileURL:absoluteURL];
+        if ([self readFromURL:absoluteURL error:outError]) {
+            return self;
+        } else {
+            return nil;
+        }
+    } else {
+        // create NSError
+        return nil;
+    }
+}
+
 - (id)init
 {
     self = [super init];
@@ -66,6 +81,17 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 }
 
 #pragma mark -
+
+- (NSURL *)fileURL
+{
+    return _fileURL;
+}
+
+- (void)setFileURL:(NSURL *)absoluteURL
+{
+    [_fileURL autorelease];
+    _fileURL = [absoluteURL retain];
+}
 
 - (void)setSession:(TCMMMSession *)session
 {
@@ -101,6 +127,34 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     }
 }
 
+#pragma mark -
+
+- (BOOL)readFromURL:(NSURL *)absoluteURL error:(NSError **)outError
+{
+    NSString *contentString = [[NSString alloc] initWithContentsOfURL:absoluteURL
+                                                             encoding:NSUTF8StringEncoding
+                                                                error:outError];
+    
+    if (contentString) {
+        [_attributedString replaceCharactersInRange:NSMakeRange(0, [_attributedString length])
+                                         withString:contentString];
+        [contentString release];
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL)saveToURL:(NSURL *)absoluteURL error:(NSError **)outError
+{
+    NSString *contentString = [_attributedString string];
+    BOOL result = [contentString writeToURL:absoluteURL
+                                 atomically:YES
+                                   encoding:NSUTF8StringEncoding
+                                      error:outError];
+    return result;
+}
+
 - (void)changeSelectionOfUserWithID:(NSString *)aUserID toRange:(NSRange)aRange {
     TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:aUserID];
     NSMutableDictionary *properties = [user propertiesForSessionID:[[self session] sessionID]];
@@ -124,7 +178,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     NSLog(@"%s", __FUNCTION__);
 
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
-/*
+
     [result setObject:@"SEEMode.Base" forKey:@"DocumentMode"];
 
 //    DocumentModeLineEndingPreferenceKey = @"LineEnding";
@@ -139,11 +193,11 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
                forKey:@"TabWidth"];
     [result setObject:[NSNumber numberWithBool:NO]
                forKey:@"UseTabs"];
-    [result setObject:[NSNumber numberWithBool:NO]
+    [result setObject:[NSNumber numberWithBool:YES]
                forKey:@"WrapLines"];
     [result setObject:[NSNumber numberWithInt:0]
                forKey:@"WrapMode"];
-*/
+
     return result;
 }
 
@@ -190,7 +244,11 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (NSString *)preparedDisplayName
 {
     NSLog(@"%s", __FUNCTION__);
-    return @"foo";
+    if ([self fileURL]) {
+        return [[[self fileURL] absoluteString] lastPathComponent];
+    } else {
+        return @"<Error>";
+    }
 }
 
 - (void)invalidateLayoutForRange:(NSRange)aRange

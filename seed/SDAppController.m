@@ -32,16 +32,14 @@ BOOL endRunLoop = NO;
 
         [[_signalPipe fileHandleForReading] readInBackgroundAndNotify];
         
-        _document = [[SDDocument alloc] init];
-        [[_document session] setAccessState:TCMMMSessionAccessReadWriteState];
-        [_document setIsAnnounced:YES];
+        _documents = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [_document release];
+    [_documents release];
     [super dealloc];
 }
 
@@ -55,7 +53,39 @@ BOOL endRunLoop = NO;
                                                     name:NSFileHandleConnectionAcceptedNotification
                                                   object:[_signalPipe fileHandleForReading]];
                                                   
+    NSEnumerator *enumerator = [_documents objectEnumerator];
+    SDDocument *document;
+    while ((document = [enumerator nextObject])) {
+        NSURL *fileURL = [document fileURL];
+        if (fileURL) {
+            NSLog(@"save document: %@", fileURL);
+            NSError *error;
+            if (![document saveToURL:fileURL error:&error]) {
+                // check error
+            }
+        }
+    }
+                                                  
     endRunLoop = YES;
+}
+
+#pragma mark -
+
+- (void)openFiles:(NSArray *)filenames
+{
+    NSEnumerator *enumerator = [filenames objectEnumerator];
+    NSString *filename;
+    while ((filename = [enumerator nextObject])) {
+        NSError *error;
+        NSURL *absoluteURL = [NSURL fileURLWithPath:filename];
+        NSLog(@"read document: %@", absoluteURL);
+        SDDocument *document = [[SDDocument alloc] initWithContentsOfURL:absoluteURL error:&error];
+        if (document) {
+            [_documents addObject:document];
+            [[document session] setAccessState:TCMMMSessionAccessReadWriteState];
+            [document setIsAnnounced:YES];
+        }
+    }
 }
 
 @end

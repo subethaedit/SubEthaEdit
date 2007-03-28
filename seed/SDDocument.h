@@ -14,10 +14,19 @@
     @private
     NSMutableAttributedString *_attributedString;
     TCMMMSession *_session;
+    NSURL *_fileURL;
     struct {
         BOOL isAnnounced;
     } _flags;
 }
+
+- (id)initWithContentsOfURL:(NSURL *)absoluteURL error:(NSError **)outError;
+
+- (BOOL)readFromURL:(NSURL *)absoluteURL error:(NSError **)outError;
+- (BOOL)saveToURL:(NSURL *)absoluteURL error:(NSError **)outError;
+
+- (NSURL *)fileURL;
+- (void)setFileURL:(NSURL *)absoluteURL;
 
 - (TCMMMSession *)session;
 - (void)setSession:(TCMMMSession *)session;
