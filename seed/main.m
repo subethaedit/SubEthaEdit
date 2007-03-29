@@ -39,7 +39,8 @@ int main(int argc, const char *argv[])
     [defaults setBool:YES forKey:@"EnableBEEPLogging"];
     [defaults setInteger:3 forKey:@"MillionMonkeysLogDomain"];
     [defaults setInteger:0 forKey:@"BEEPLogDomain"];
-
+    
+    
     [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
 
     SDAppController *appController = [[SDAppController alloc] init];
@@ -68,7 +69,7 @@ int main(int argc, const char *argv[])
     // set the TERM signal handler to 'catch_term' 
     signal(SIGTERM, catch_term);
     
-    
+    /*
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSMutableArray *filenames = [NSMutableArray array];
     int i;
@@ -84,7 +85,24 @@ int main(int argc, const char *argv[])
             NSLog(@"Error occurred while resolving path: %s", argv[i]);
         }
     }
+    
     [appController openFiles:filenames];
+    */
+    
+    NSString *configFile = [defaults stringForKey:@"config"];
+    if (configFile) {
+        NSArray *configPlist = [NSArray arrayWithContentsOfFile:[configFile stringByExpandingTildeInPath]];
+        if (configPlist) {
+            NSEnumerator *enumerator = [configPlist objectEnumerator];
+            NSDictionary *entry;
+            while ((entry = [enumerator nextObject])) {
+                NSString *file = [entry objectForKey:@"file"];
+                NSString *mode = [entry objectForKey:@"mode"];
+                [appController openFile:file modeIdentifier:mode];
+            }
+        }
+    }
+    
     
     
     do {

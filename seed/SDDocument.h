@@ -15,6 +15,7 @@
     NSMutableAttributedString *_attributedString;
     TCMMMSession *_session;
     NSURL *_fileURL;
+    NSString *_modeIdentifier;
     struct {
         BOOL isAnnounced;
     } _flags;
@@ -27,6 +28,9 @@
 
 - (NSURL *)fileURL;
 - (void)setFileURL:(NSURL *)absoluteURL;
+
+- (NSString *)modeIdentifier;
+- (void)setModeIdentifier:(NSString *)identifier;
 
 - (TCMMMSession *)session;
 - (void)setSession:(TCMMMSession *)session;

@@ -17,8 +17,10 @@ extern BOOL endRunLoop;
     @private
     NSPipe *_signalPipe;
     NSMutableArray *_documents;
+    NSTimer *_autosaveTimer;
 }
 
+- (void)openFile:(NSString *)filename modeIdentifier:(NSString *)modeIdentifier;
 - (void)openFiles:(NSArray *)filenames;
 
 @end

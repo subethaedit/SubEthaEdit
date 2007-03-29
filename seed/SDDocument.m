@@ -64,6 +64,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     if (self) {
         _attributedString = [[NSMutableAttributedString alloc] init];
         _flags.isAnnounced = NO;
+        _modeIdentifier = @"SEEMode.Base";
         [self _generateNewSession];
     }
     return self;
@@ -76,6 +77,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [_session setDocument:nil];
     if ([_session isServer]) [_session abandon];
     [_session release];
+    [_modeIdentifier release];
     
     [super dealloc];
 }
@@ -91,6 +93,20 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 {
     [_fileURL autorelease];
     _fileURL = [absoluteURL retain];
+}
+
+- (NSString *)modeIdentifier
+{
+    return _modeIdentifier;
+}
+
+- (void)setModeIdentifier:(NSString *)identifier
+{
+    [_modeIdentifier autorelease];
+    if (identifier)
+        _modeIdentifier = identifier;
+    else
+        _modeIdentifier = @"SEEMode.Base";
 }
 
 - (void)setSession:(TCMMMSession *)session
@@ -179,7 +195,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
 
-    [result setObject:@"SEEMode.Base" forKey:@"DocumentMode"];
+    [result setObject:[self modeIdentifier] forKey:@"DocumentMode"];
 
 //    DocumentModeLineEndingPreferenceKey = @"LineEnding";
 //    DocumentModeTabWidthPreferenceKey   = @"TabWidth";
