@@ -49,10 +49,18 @@ int main(int argc, const char *argv[])
     // Setup user with ID and name, w/o you can't establish connections
     TCMMMUser *me = [[TCMMMUser alloc] init];
     [me setUserID:[NSString UUIDString]];
-    [me setName:@"Foo Bar"];
-    //[[me properties] setObject:[NSData dataWithContentsOfFile:@"/Users/mbo/Pictures/mbo.png"] forKey:@"ImageAsPNG"];
+    [me setName:@"King Kong"];
+    
+    NSString *imagePath = [defaults stringForKey:@"image"];
+    if (imagePath) {
+        NSData *imageData = [NSData dataWithContentsOfFile:[imagePath stringByExpandingTildeInPath]];
+        if (imageData) {
+            [[me properties] setObject:imageData forKey:@"ImageAsPNG"];
+        }
+    }
+    
     [me setUserHue:[NSNumber numberWithInt:5]];
-    [[me properties] setObject:@"" forKey:@"Email"];
+    [[me properties] setObject:@"monkeys@codingmonkeys.de" forKey:@"Email"];
     [[me properties] setObject:@"" forKey:@"AIM"];
     [[TCMMMUserManager sharedInstance] setMe:me];
     [me release];
