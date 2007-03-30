@@ -34,12 +34,14 @@ BOOL endRunLoop = NO;
         
         _documents = [[NSMutableArray alloc] init];
         
+        /*
         _autosaveTimer = [NSTimer scheduledTimerWithTimeInterval:60 * 30
                                                           target:self 
                                                         selector:@selector(autosaveTimerFired:)
                                                         userInfo:nil
                                                          repeats:YES];
         [_autosaveTimer retain];
+        */
     }
     return self;
 }
