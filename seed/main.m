@@ -31,6 +31,10 @@ int main(int argc, const char *argv[])
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     BOOL isRunning = YES;
     
+    NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSLog(@"seed %@ (%@)", shortVersion, bundleVersion);
+    
     endRunLoop = NO;
 
     

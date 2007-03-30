@@ -7,12 +7,46 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		141958B00BB951BE00CB4AA4 /* TCMMMSessionFoundationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141958AB0BB9516E00CB4AA4 /* TCMMMSessionFoundationHelper.m */; };
 		141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141958970BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.m */; };
 		141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */; };
 		141F4F120AE42BC7001B73D2 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */; };
 		141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */; };
-		1425090C0BBAB05900052C84 /* SDAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493E0F90BA837FA00A18284 /* SDAppController.m */; };
+		14251B990BBD5E1700052C84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
+		14251B9A0BBD5E1700052C84 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
+		14251B9B0BBD5E1700052C84 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142894D3095765CF00D14688 /* SystemConfiguration.framework */; };
+		14251C590BBD5E2600052C84 /* HandshakeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289363095757AA00D14688 /* HandshakeProfile.m */; };
+		14251C5A0BBD5E2600052C84 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 142A5DD70BA5894F001C5035 /* main.m */; };
+		14251C5B0BBD5E2600052C84 /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
+		14251C5C0BBD5E2600052C84 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
+		14251C5D0BBD5E2600052C84 /* NSNetServiceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891260957457500D14688 /* NSNetServiceTCMAdditions.m */; };
+		14251C5E0BBD5E2600052C84 /* NSStringTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891290957457500D14688 /* NSStringTCMAdditions.m */; };
+		14251C5F0BBD5E2600052C84 /* SDAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493E0F90BA837FA00A18284 /* SDAppController.m */; };
+		14251C600BBD5E2600052C84 /* SDDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D47F150BB41CBF005121A7 /* SDDocument.m */; };
+		14251C610BBD5E2600052C84 /* SelectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893AC095758FD00D14688 /* SelectionOperation.m */; };
+		14251C620BBD5E2600052C84 /* SessionProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289365095757AA00D14688 /* SessionProfile.m */; };
+		14251C630BBD5E2600052C84 /* TCMBEEPChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891430957475E00D14688 /* TCMBEEPChannel.m */; };
+		14251C640BBD5E2600052C84 /* TCMBEEPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891450957475E00D14688 /* TCMBEEPFrame.m */; };
+		14251C650BBD5E2600052C84 /* TCMBEEPListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891470957475E00D14688 /* TCMBEEPListener.m */; };
+		14251C660BBD5E2600052C84 /* TCMBEEPManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891490957475E00D14688 /* TCMBEEPManagementProfile.m */; };
+		14251C670BBD5E2600052C84 /* TCMBEEPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914B0957475E00D14688 /* TCMBEEPMessage.m */; };
+		14251C680BBD5E2600052C84 /* TCMBEEPProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914D0957475E00D14688 /* TCMBEEPProfile.m */; };
+		14251C690BBD5E2600052C84 /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914F0957475E00D14688 /* TCMBEEPSession.m */; };
+		14251C6A0BBD5E2600052C84 /* TCMBencodingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428912B0957457500D14688 /* TCMBencodingUtilities.m */; };
+		14251C6B0BBD5E2600052C84 /* TCMMMBEEPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */; };
+		14251C6C0BBD5E2600052C84 /* TCMMMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289316095756D800D14688 /* TCMMMMessage.m */; };
+		14251C6D0BBD5E2600052C84 /* TCMMMNoOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289318095756D800D14688 /* TCMMMNoOperation.m */; };
+		14251C6E0BBD5E2600052C84 /* TCMMMOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931A095756D800D14688 /* TCMMMOperation.m */; };
+		14251C6F0BBD5E2600052C84 /* TCMMMPresenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931C095756D800D14688 /* TCMMMPresenceManager.m */; };
+		14251C700BBD5E2600052C84 /* TCMMMSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931E095756D800D14688 /* TCMMMSession.m */; };
+		14251C710BBD5E2600052C84 /* TCMMMSessionFoundationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141958AB0BB9516E00CB4AA4 /* TCMMMSessionFoundationHelper.m */; };
+		14251C720BBD5E2600052C84 /* TCMMMState.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289320095756D800D14688 /* TCMMMState.m */; };
+		14251C730BBD5E2600052C84 /* TCMMMStatusProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289322095756D800D14688 /* TCMMMStatusProfile.m */; };
+		14251C740BBD5E2600052C84 /* TCMMMTransformator.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289324095756D800D14688 /* TCMMMTransformator.m */; };
+		14251C750BBD5E2600052C84 /* TCMMMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289326095756D800D14688 /* TCMMMUser.m */; };
+		14251C760BBD5E2600052C84 /* TCMMMUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289328095756D800D14688 /* TCMMMUserManager.m */; };
+		14251C770BBD5E2600052C84 /* TCMRendezvousBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891300957457500D14688 /* TCMRendezvousBrowser.m */; };
+		14251C780BBD5E2600052C84 /* TextOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893AE095758FD00D14688 /* TextOperation.m */; };
+		14251C790BBD5E2600052C84 /* UserChangeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893B0095758FD00D14688 /* UserChangeOperation.m */; };
 		14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDD09573E8900D14688 /* AddressBook.framework */; };
 		14288FE009573EA300D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
 		14288FED09573F2B00D14688 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
@@ -231,32 +265,8 @@
 		14289572095776DE00D14688 /* see.1 in Resources */ = {isa = PBXBuildFile; fileRef = 142894E9095767CD00D14688 /* see.1 */; };
 		14289BD709581C3000D14688 /* FindReplace.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD109581C3000D14688 /* FindReplace.nib */; };
 		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
-		142A5DD80BA5894F001C5035 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 142A5DD70BA5894F001C5035 /* main.m */; };
-		142A77EA0BA5BEF6001C5035 /* HandshakeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289363095757AA00D14688 /* HandshakeProfile.m */; };
-		142A77EB0BA5BF04001C5035 /* TCMBencodingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428912B0957457500D14688 /* TCMBencodingUtilities.m */; };
-		142A78300BA5C3D6001C5035 /* TCMMMBEEPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */; };
-		142A78360BA5C417001C5035 /* TCMMMPresenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931C095756D800D14688 /* TCMMMPresenceManager.m */; };
-		142A78390BA5C464001C5035 /* TCMRendezvousBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891300957457500D14688 /* TCMRendezvousBrowser.m */; };
-		142A783B0BA5C490001C5035 /* TCMMMUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289328095756D800D14688 /* TCMMMUserManager.m */; };
-		142A783D0BA5C49A001C5035 /* TCMMMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289326095756D800D14688 /* TCMMMUser.m */; };
-		142A784D0BA5C5E3001C5035 /* TCMMMState.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289320095756D800D14688 /* TCMMMState.m */; };
-		142A784E0BA5C5ED001C5035 /* SelectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893AC095758FD00D14688 /* SelectionOperation.m */; };
-		142A784F0BA5C5EE001C5035 /* UserChangeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893B0095758FD00D14688 /* UserChangeOperation.m */; };
-		142A78530BA5C605001C5035 /* TextOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893AE095758FD00D14688 /* TextOperation.m */; };
-		142A78550BA5C626001C5035 /* TCMMMOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931A095756D800D14688 /* TCMMMOperation.m */; };
-		142A78560BA5C626001C5035 /* TCMMMNoOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289318095756D800D14688 /* TCMMMNoOperation.m */; };
-		142A78570BA5C627001C5035 /* TCMMMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289316095756D800D14688 /* TCMMMMessage.m */; };
-		142A78580BA5C62A001C5035 /* TCMMMTransformator.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289324095756D800D14688 /* TCMMMTransformator.m */; };
-		142A823B0BA6E6DE001C5035 /* TCMMMSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931E095756D800D14688 /* TCMMMSession.m */; };
-		142A82520BA6E805001C5035 /* SessionProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289365095757AA00D14688 /* SessionProfile.m */; };
-		142A82540BA6E812001C5035 /* TCMMMStatusProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289322095756D800D14688 /* TCMMMStatusProfile.m */; };
-		142A82670BA6E982001C5035 /* NSNetServiceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891260957457500D14688 /* NSNetServiceTCMAdditions.m */; };
-		142A82830BA6E9BE001C5035 /* NSStringTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891290957457500D14688 /* NSStringTCMAdditions.m */; };
-		142A82940BA6E9F2001C5035 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
-		142A82C70BA6EBC5001C5035 /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
 		142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */; };
-		142D54E40BB2E02900B9EF1C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
 		144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */; };
 		144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */; };
 		144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */; };
@@ -267,15 +277,6 @@
 		144E3AD20B6FEED6001C49C2 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
-		146324CF0BA0C71400A88D4F /* TCMBEEPChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891430957475E00D14688 /* TCMBEEPChannel.m */; };
-		146324D00BA0C71400A88D4F /* TCMBEEPFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891450957475E00D14688 /* TCMBEEPFrame.m */; };
-		146324D10BA0C71400A88D4F /* TCMBEEPListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891470957475E00D14688 /* TCMBEEPListener.m */; };
-		146324D20BA0C71400A88D4F /* TCMBEEPManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891490957475E00D14688 /* TCMBEEPManagementProfile.m */; };
-		146324D30BA0C71400A88D4F /* TCMBEEPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914B0957475E00D14688 /* TCMBEEPMessage.m */; };
-		146324D40BA0C71400A88D4F /* TCMBEEPProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914D0957475E00D14688 /* TCMBEEPProfile.m */; };
-		146324D50BA0C71400A88D4F /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914F0957475E00D14688 /* TCMBEEPSession.m */; };
-		146325510BA0C71400A88D4F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
-		146325520BA0C71400A88D4F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142894D3095765CF00D14688 /* SystemConfiguration.framework */; };
 		148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 148167AC0B15B002008894C9 /* PlainTextWindow.m */; };
 		1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */; };
 		1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -283,7 +284,6 @@
 		1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */; };
 		149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = 149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */; };
 		149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 149774160B5E159F004A546C /* PlainTextLoadProgress.m */; };
-		14D47F160BB41CBF005121A7 /* SDDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D47F150BB41CBF005121A7 /* SDDocument.m */; };
 		14E291C70A07A501007C0065 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
 		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
 		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; };
@@ -564,6 +564,7 @@
 		141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PSMTabBarControl.xcodeproj; path = PSMTabBarControl/PSMTabBarControl.xcodeproj; sourceTree = "<group>"; };
 		141F50EA0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextWindowControllerTabContext.h; sourceTree = "<group>"; };
 		141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextWindowControllerTabContext.m; sourceTree = "<group>"; };
+		14251B920BBD5DD300052C84 /* seed */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = seed; sourceTree = BUILT_PRODUCTS_DIR; };
 		14288FDD09573E8900D14688 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		14288FDF09573EA300D14688 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		14288FEC09573F2B00D14688 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -910,7 +911,6 @@
 		144E23550A1F6197002ED261 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
 		144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = "SubEthaEdit-PantherScripting.r"; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
-		146325630BA0C71400A88D4F /* seed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = seed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1463256A0BA0C71400A88D4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = seed/Info.plist; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1048,6 +1048,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		14251B900BBD5DD300052C84 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14251B990BBD5E1700052C84 /* Foundation.framework in Frameworks */,
+				14251B9A0BBD5E1700052C84 /* Security.framework in Frameworks */,
+				14251B9B0BBD5E1700052C84 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		142894A80957606F00D14688 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1064,16 +1074,6 @@
 			files = (
 				142894E00957670900D14688 /* Carbon.framework in Frameworks */,
 				142894E10957670900D14688 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1463254A0BA0C71400A88D4F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				146325510BA0C71400A88D4F /* Security.framework in Frameworks */,
-				146325520BA0C71400A88D4F /* SystemConfiguration.framework in Frameworks */,
-				142D54E40BB2E02900B9EF1C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1654,7 +1654,7 @@
 				142894DE095766EE00D14688 /* see */,
 				1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */,
 				5EC6382A0ABEB71100D3295B /* Unit Tests.octest */,
-				146325630BA0C71400A88D4F /* seed.app */,
+				14251B920BBD5DD300052C84 /* seed */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1883,6 +1883,23 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
+		14251B910BBD5DD300052C84 /* seed */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14251B940BBD5DFA00052C84 /* Build configuration list for PBXNativeTarget "seed" */;
+			buildPhases = (
+				14251D3B0BBD7FDC00052C84 /* ShellScript */,
+				14251B8F0BBD5DD300052C84 /* Sources */,
+				14251B900BBD5DD300052C84 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = seed;
+			productName = seed;
+			productReference = 14251B920BBD5DD300052C84 /* seed */;
+			productType = "com.apple.product-type.tool";
+		};
 		142894A90957606F00D14688 /* HelperTool */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 142894AC0957608D00D14688 /* Build configuration list for PBXNativeTarget "HelperTool" */;
@@ -1915,24 +1932,6 @@
 			productName = see;
 			productReference = 142894DE095766EE00D14688 /* see */;
 			productType = "com.apple.product-type.tool";
-		};
-		146324270BA0C71400A88D4F /* seed */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 146325600BA0C71400A88D4F /* Build configuration list for PBXNativeTarget "seed" */;
-			buildPhases = (
-				146324C20BA0C71400A88D4F /* Sources */,
-				1463254A0BA0C71400A88D4F /* Frameworks */,
-				1463255E0BA0C71400A88D4F /* Run Script (Versioning) */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = seed;
-			productInstallPath = "$(HOME)/Applications";
-			productName = SubEthaEdit;
-			productReference = 146325630BA0C71400A88D4F /* seed.app */;
-			productType = "com.apple.product-type.application";
 		};
 		1493A7E70A10C873004ECE6A /* SystemVersionCheck */ = {
 			isa = PBXNativeTarget;
@@ -2035,7 +2034,7 @@
 				},
 			);
 			targets = (
-				146324270BA0C71400A88D4F /* seed */,
+				14251B910BBD5DD300052C84 /* seed */,
 				8D15AC270486D014006FF6A4 /* SubEthaEdit */,
 				142894A90957606F00D14688 /* HelperTool */,
 				142894DD095766EE00D14688 /* see */,
@@ -2304,6 +2303,20 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		14251D3B0BBD7FDC00052C84 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "REVISION=`/usr/local/bin/svnversion \"$SRCROOT\"`\ncpp -P -DREVISION=$REVISION $INFOPLIST_FILE $SCRIPT_OUTPUT_FILE_0\nexit 0";
+		};
 		1428947209575D2D00D14688 /* Run Script (sdp) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2338,20 +2351,6 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\necho \"Rename resource file...\"\nmv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete";
 		};
-		1463255E0BA0C71400A88D4F /* Run Script (Versioning) */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script (Versioning)";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = "/usr/bin/perl -w";
-			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/local/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
-		};
 		14EB1AB90AA2ED9A004F5BEE /* Run Script (Versioning) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2382,6 +2381,46 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		14251B8F0BBD5DD300052C84 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14251C590BBD5E2600052C84 /* HandshakeProfile.m in Sources */,
+				14251C5A0BBD5E2600052C84 /* main.m in Sources */,
+				14251C5B0BBD5E2600052C84 /* NSDataTCMAdditions.m in Sources */,
+				14251C5C0BBD5E2600052C84 /* NSDictionaryTCMAdditions.m in Sources */,
+				14251C5D0BBD5E2600052C84 /* NSNetServiceTCMAdditions.m in Sources */,
+				14251C5E0BBD5E2600052C84 /* NSStringTCMAdditions.m in Sources */,
+				14251C5F0BBD5E2600052C84 /* SDAppController.m in Sources */,
+				14251C600BBD5E2600052C84 /* SDDocument.m in Sources */,
+				14251C610BBD5E2600052C84 /* SelectionOperation.m in Sources */,
+				14251C620BBD5E2600052C84 /* SessionProfile.m in Sources */,
+				14251C630BBD5E2600052C84 /* TCMBEEPChannel.m in Sources */,
+				14251C640BBD5E2600052C84 /* TCMBEEPFrame.m in Sources */,
+				14251C650BBD5E2600052C84 /* TCMBEEPListener.m in Sources */,
+				14251C660BBD5E2600052C84 /* TCMBEEPManagementProfile.m in Sources */,
+				14251C670BBD5E2600052C84 /* TCMBEEPMessage.m in Sources */,
+				14251C680BBD5E2600052C84 /* TCMBEEPProfile.m in Sources */,
+				14251C690BBD5E2600052C84 /* TCMBEEPSession.m in Sources */,
+				14251C6A0BBD5E2600052C84 /* TCMBencodingUtilities.m in Sources */,
+				14251C6B0BBD5E2600052C84 /* TCMMMBEEPSessionManager.m in Sources */,
+				14251C6C0BBD5E2600052C84 /* TCMMMMessage.m in Sources */,
+				14251C6D0BBD5E2600052C84 /* TCMMMNoOperation.m in Sources */,
+				14251C6E0BBD5E2600052C84 /* TCMMMOperation.m in Sources */,
+				14251C6F0BBD5E2600052C84 /* TCMMMPresenceManager.m in Sources */,
+				14251C700BBD5E2600052C84 /* TCMMMSession.m in Sources */,
+				14251C710BBD5E2600052C84 /* TCMMMSessionFoundationHelper.m in Sources */,
+				14251C720BBD5E2600052C84 /* TCMMMState.m in Sources */,
+				14251C730BBD5E2600052C84 /* TCMMMStatusProfile.m in Sources */,
+				14251C740BBD5E2600052C84 /* TCMMMTransformator.m in Sources */,
+				14251C750BBD5E2600052C84 /* TCMMMUser.m in Sources */,
+				14251C760BBD5E2600052C84 /* TCMMMUserManager.m in Sources */,
+				14251C770BBD5E2600052C84 /* TCMRendezvousBrowser.m in Sources */,
+				14251C780BBD5E2600052C84 /* TextOperation.m in Sources */,
+				14251C790BBD5E2600052C84 /* UserChangeOperation.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		142894A70957606F00D14688 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2399,46 +2438,6 @@
 			files = (
 				142894EB095767CD00D14688 /* main.m in Sources */,
 				142894ED0957681000D14688 /* see.vers in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		146324C20BA0C71400A88D4F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				142A5DD80BA5894F001C5035 /* main.m in Sources */,
-				146324CF0BA0C71400A88D4F /* TCMBEEPChannel.m in Sources */,
-				146324D00BA0C71400A88D4F /* TCMBEEPFrame.m in Sources */,
-				146324D10BA0C71400A88D4F /* TCMBEEPListener.m in Sources */,
-				146324D20BA0C71400A88D4F /* TCMBEEPManagementProfile.m in Sources */,
-				146324D30BA0C71400A88D4F /* TCMBEEPMessage.m in Sources */,
-				146324D40BA0C71400A88D4F /* TCMBEEPProfile.m in Sources */,
-				146324D50BA0C71400A88D4F /* TCMBEEPSession.m in Sources */,
-				142A77EB0BA5BF04001C5035 /* TCMBencodingUtilities.m in Sources */,
-				142A77EA0BA5BEF6001C5035 /* HandshakeProfile.m in Sources */,
-				142A78300BA5C3D6001C5035 /* TCMMMBEEPSessionManager.m in Sources */,
-				142A78360BA5C417001C5035 /* TCMMMPresenceManager.m in Sources */,
-				142A78390BA5C464001C5035 /* TCMRendezvousBrowser.m in Sources */,
-				142A783B0BA5C490001C5035 /* TCMMMUserManager.m in Sources */,
-				142A783D0BA5C49A001C5035 /* TCMMMUser.m in Sources */,
-				142A784D0BA5C5E3001C5035 /* TCMMMState.m in Sources */,
-				142A784E0BA5C5ED001C5035 /* SelectionOperation.m in Sources */,
-				142A784F0BA5C5EE001C5035 /* UserChangeOperation.m in Sources */,
-				142A78530BA5C605001C5035 /* TextOperation.m in Sources */,
-				142A78550BA5C626001C5035 /* TCMMMOperation.m in Sources */,
-				142A78560BA5C626001C5035 /* TCMMMNoOperation.m in Sources */,
-				142A78570BA5C627001C5035 /* TCMMMMessage.m in Sources */,
-				142A78580BA5C62A001C5035 /* TCMMMTransformator.m in Sources */,
-				142A823B0BA6E6DE001C5035 /* TCMMMSession.m in Sources */,
-				142A82520BA6E805001C5035 /* SessionProfile.m in Sources */,
-				142A82540BA6E812001C5035 /* TCMMMStatusProfile.m in Sources */,
-				142A82670BA6E982001C5035 /* NSNetServiceTCMAdditions.m in Sources */,
-				142A82830BA6E9BE001C5035 /* NSStringTCMAdditions.m in Sources */,
-				142A82940BA6E9F2001C5035 /* NSDictionaryTCMAdditions.m in Sources */,
-				142A82C70BA6EBC5001C5035 /* NSDataTCMAdditions.m in Sources */,
-				14D47F160BB41CBF005121A7 /* SDDocument.m in Sources */,
-				141958B00BB951BE00CB4AA4 /* TCMMMSessionFoundationHelper.m in Sources */,
-				1425090C0BBAB05900052C84 /* SDAppController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2920,6 +2919,56 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		14251B950BBD5DFA00052C84 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = seed/seed_Prefix.pch;
+				INFOPLIST_FILE = seed/Info.plist;
+				INSTALL_PATH = "$(HOME)/bin";
+				MACH_O_TYPE = mh_execute;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(DERIVED_FILE_DIR)/Info.plist",
+				);
+				PRODUCT_NAME = seed;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		14251B960BBD5DFA00052C84 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = seed/seed_Prefix.pch;
+				INFOPLIST_FILE = seed/Info.plist;
+				INSTALL_PATH = "$(HOME)/bin";
+				MACH_O_TYPE = mh_execute;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(DERIVED_FILE_DIR)/Info.plist",
+				);
+				PRODUCT_NAME = seed;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		142894AD0957608D00D14688 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3007,50 +3056,6 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				PRODUCT_NAME = "Create Disk Image";
 				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		146325610BA0C71400A88D4F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = seed/seed_Prefix.pch;
-				GCC_USE_GCC3_PFE_SUPPORT = YES;
-				INFOPLIST_FILE = "/Users/mbo/Documents/TheCodingMonkeys/subethaedit-wc/branches/seed/seed/Info.plist";
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
-				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PRODUCT_NAME = seed;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		146325620BA0C71400A88D4F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = seed/seed_Prefix.pch;
-				GCC_USE_GCC3_PFE_SUPPORT = YES;
-				INFOPLIST_FILE = "/Users/mbo/Documents/TheCodingMonkeys/subethaedit-wc/branches/seed/seed/Info.plist";
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
-				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = /;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PRODUCT_NAME = seed;
-				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
@@ -3247,6 +3252,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		14251B940BBD5DFA00052C84 /* Build configuration list for PBXNativeTarget "seed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14251B950BBD5DFA00052C84 /* Debug */,
+				14251B960BBD5DFA00052C84 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		142894AC0957608D00D14688 /* Build configuration list for PBXNativeTarget "HelperTool" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3270,15 +3284,6 @@
 			buildConfigurations = (
 				1428981A095818E200D14688 /* Debug */,
 				1428981B095818E200D14688 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		146325600BA0C71400A88D4F /* Build configuration list for PBXNativeTarget "seed" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				146325610BA0C71400A88D4F /* Debug */,
-				146325620BA0C71400A88D4F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
