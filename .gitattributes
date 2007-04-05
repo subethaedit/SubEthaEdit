@@ -153,6 +153,8 @@ subethaedit/AdvancedPreferences.h -text
 subethaedit/AdvancedPreferences.m -text
 subethaedit/AppController.h -text
 subethaedit/AppController.m -text
+subethaedit/BacktracingException.h -text
+subethaedit/BacktracingException.m -text
 subethaedit/BorderedTextField.h -text
 subethaedit/BorderedTextField.m -text
 subethaedit/BorderlessWindow.h -text

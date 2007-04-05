@@ -55,6 +55,7 @@
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
 #import "Debug/DebugController.h"
+#import "BacktracingException.h"
 #endif
 
 int const AppMenuTag = 200;
@@ -132,6 +133,10 @@ static AppController *sharedInstance = nil;
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
     [UserChangeOperation class];
     [TCMMMNoOperation class];
+    
+#ifndef TCM_NO_DEBUG    
+    [BacktracingException install];
+#endif
 }
 
 + (AppController *)sharedInstance {
