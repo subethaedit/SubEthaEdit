@@ -241,7 +241,6 @@
 		144E3AD20B6FEED6001C49C2 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
-		147B8EA60BC55040003D6264 /* BacktracingException.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 147B8EA40BC5503F003D6264 /* BacktracingException.h */; };
 		147B8EA70BC55040003D6264 /* BacktracingException.m in Sources */ = {isa = PBXBuildFile; fileRef = 147B8EA50BC55040003D6264 /* BacktracingException.m */; };
 		148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 148167AC0B15B002008894C9 /* PlainTextWindow.m */; };
 		1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */; };
@@ -326,7 +325,6 @@
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
 		F2A3DA200BD3A56900310C5E /* DebugSendOperation.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2A3DA1F0BD3A56900310C5E /* DebugSendOperation.nib */; };
 		F2A3DA390BD3AA2400310C5E /* DebugSendOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A3DA370BD3AA2400310C5E /* DebugSendOperationController.m */; };
-		F2A3DA3A0BD3AA2400310C5E /* DebugSendOperationController.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2A3DA380BD3AA2400310C5E /* DebugSendOperationController.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -517,8 +515,6 @@
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
-				147B8EA60BC55040003D6264 /* BacktracingException.h in Copy Files (Frameworks) */,
-				F2A3DA3A0BD3AA2400310C5E /* DebugSendOperationController.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
