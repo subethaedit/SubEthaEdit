@@ -4696,7 +4696,7 @@ static NSString *S_measurementUnits;
     
         // check validity of operation
         if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
-            NSLog(@"User Tried to change text outside the document bounds:%@ %@",operation,[[TCMMMUserManager sharedInstance] userForUserID:[operation userID]]);
+            NSLog(@"User tried to change text outside the document bounds:%@ %@",operation,[[TCMMMUserManager sharedInstance] userForUserID:[operation userID]]);
             return NO;
         }
     
