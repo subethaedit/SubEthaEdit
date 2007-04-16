@@ -6,12 +6,11 @@
 //  Copyright (c) 2003 Apple Computer, Inc.. All rights reserved.
 //
 
-#ifndef TCM_NO_DEBUG
-
 
 #import "BacktracingException.h"
 
 //#import <vmutils/vmutils.h>
+extern NSArray * StackSymbols(BOOL flag) __attribute__((weak_import));
 
 #define kMaxCrawlDepth 15	// Max number of stack frames to print
 
@@ -91,9 +90,12 @@ void SignificantRaise( NSException *x )
 {
     NSMutableString *out = [[NSMutableString alloc] initWithCapacity: 1024];
 	
-	#warning Usage of Apple private api StackSymbols()
-	
-    NSArray *symbols = (NSArray*) StackSymbols(YES);
+    NSArray *symbols;
+	if (StackSymbols != NULL) {
+        symbols = (NSArray*) StackSymbols(YES);
+    } else {
+        symbols = [NSArray array];
+    }
     // Append all the symbols to the string, one per line.
     // Skip leading stack frames from NSException or NSAssertionHandler; they're not interesting.
     // Similarly, skip anything after 'NSApplicationMain' or 'main', as it's also not interesting.
@@ -142,6 +144,3 @@ void SignificantRaise( NSException *x )
 
 
 @end
-
-
-#endif

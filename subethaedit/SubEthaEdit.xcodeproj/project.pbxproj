@@ -3047,6 +3047,10 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = /;
+				OTHER_LDFLAGS = (
+					"-framework",
+					vmutils,
+				);
 				PRODUCT_NAME = SubEthaEdit;
 				SYSTEM_VERSION_CHECK_SUFFIX = "-SystemVersionCheck";
 				WRAPPER_EXTENSION = app;
@@ -3063,7 +3067,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};

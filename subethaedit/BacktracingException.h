@@ -6,8 +6,6 @@
 //  Copyright (c) 2003 Apple Computer, Inc.. All rights reserved.
 //
 
-#ifndef TCM_NO_DEBUG
-
 
 #import <Foundation/Foundation.h>
 
@@ -36,6 +34,3 @@ typedef void (*SignificantRaiseHandler) ( NSException *exception );
 - (NSString*) backtrace;			// Backtrace of the stack when I was created
 
 @end
-
-
-#endif
