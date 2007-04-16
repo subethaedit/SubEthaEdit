@@ -1251,15 +1251,18 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     } else {
         result = [[self document] handleOperation:anOperation];
     }
-    // distribute operation
-    NSEnumerator *states = [I_statesByClientID objectEnumerator];
-    TCMMMState *state;
-    while ((state = [states nextObject])) {
-        if (state == aState) {
-            continue;
+    
+    if (result) {
+        // distribute operation
+        NSEnumerator *states = [I_statesByClientID objectEnumerator];
+        TCMMMState *state;
+        while ((state = [states nextObject])) {
+            if (state == aState) {
+                continue;
+            }
+            
+            [state handleOperation:anOperation];
         }
-        
-        [state handleOperation:anOperation];
     }
     return result;
 }
