@@ -199,6 +199,11 @@ subethaedit/Debug/DebugPresence.nib/info.nib -text
 subethaedit/Debug/DebugPresence.nib/keyedobjects.nib -text
 subethaedit/Debug/DebugPresenceController.h -text
 subethaedit/Debug/DebugPresenceController.m -text
+subethaedit/Debug/DebugSendOperation.nib/classes.nib -text
+subethaedit/Debug/DebugSendOperation.nib/info.nib -text
+subethaedit/Debug/DebugSendOperation.nib/keyedobjects.nib -text
+subethaedit/Debug/DebugSendOperationController.h -text
+subethaedit/Debug/DebugSendOperationController.m -text
 subethaedit/Debug/DebugUserController.h -text
 subethaedit/Debug/DebugUserController.m -text
 subethaedit/Debug/DebugUsers.nib/classes.nib -text

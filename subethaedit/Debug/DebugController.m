@@ -13,6 +13,7 @@
 #import "DebugBEEPController.h"
 #import "DebugUserController.h"
 #import "DebugPresenceController.h"
+#import "DebugSendOperationController.h"
 #import "TCMMMBEEPSessionManager.h"
 #import <HDCrashReporter/crashReporter.h>
 #import "DocumentProxyWindowController.h"
@@ -80,6 +81,11 @@ static DebugController * sharedInstance = nil;
         NSMenuItem *BEEPItem = [[NSMenuItem alloc] initWithTitle:@"Show Sessions & Channels" action:@selector(showBEEP:) keyEquivalent:@""];
         [BEEPItem setTarget:self];
         [menu addItem:BEEPItem];
+
+        NSMenuItem *sendOperationItem = [[NSMenuItem alloc] initWithTitle:@"Show Send Operation..." action:@selector(showSendOperation:) keyEquivalent:@""];
+        [sendOperationItem setTarget:self];
+        [menu addItem:sendOperationItem];
+
 
         NSMenuItem *CrashItem = [[NSMenuItem alloc] initWithTitle:@"Crash Application" action:@selector(crash:) keyEquivalent:@""];
         [CrashItem setTarget:self];
@@ -152,6 +158,15 @@ static DebugController * sharedInstance = nil;
     }
     [I_debugBEEPController showWindow:sender];
 }
+
+- (IBAction)showSendOperation:(id)sender {
+    if (!I_debugSendOperationController) {
+         I_debugSendOperationController = [DebugSendOperationController new];
+    }
+        [I_debugSendOperationController showWindow:sender];
+}
+
+
 
 - (IBAction)crash:(id)sender {
     NSLog((NSString *)"crash here"); // This is supposed to crash, don't fix.

@@ -324,6 +324,9 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
+		F2A3DA200BD3A56900310C5E /* DebugSendOperation.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2A3DA1F0BD3A56900310C5E /* DebugSendOperation.nib */; };
+		F2A3DA390BD3AA2400310C5E /* DebugSendOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A3DA370BD3AA2400310C5E /* DebugSendOperationController.m */; };
+		F2A3DA3A0BD3AA2400310C5E /* DebugSendOperationController.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2A3DA380BD3AA2400310C5E /* DebugSendOperationController.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -515,6 +518,7 @@
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
 				147B8EA60BC55040003D6264 /* BacktracingException.h in Copy Files (Frameworks) */,
+				F2A3DA3A0BD3AA2400310C5E /* DebugSendOperationController.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1006,6 +1010,9 @@
 		F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButtonCell.m; sourceTree = "<group>"; };
 		F27B2EEE0B52968E00679CF2 /* HUDButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButton.m; sourceTree = "<group>"; };
 		F27B2EEF0B52968E00679CF2 /* HUDButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HUDButton.h; sourceTree = "<group>"; };
+		F2A3DA1F0BD3A56900310C5E /* DebugSendOperation.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugSendOperation.nib; path = Debug/DebugSendOperation.nib; sourceTree = "<group>"; };
+		F2A3DA370BD3AA2400310C5E /* DebugSendOperationController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugSendOperationController.m; path = Debug/DebugSendOperationController.m; sourceTree = "<group>"; };
+		F2A3DA380BD3AA2400310C5E /* DebugSendOperationController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugSendOperationController.h; path = Debug/DebugSendOperationController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1317,12 +1324,15 @@
 				1428921F0957523300D14688 /* DebugPreferences.m */,
 				142892220957523300D14688 /* DebugPresenceController.h */,
 				142892230957523300D14688 /* DebugPresenceController.m */,
+				F2A3DA380BD3AA2400310C5E /* DebugSendOperationController.h */,
+				F2A3DA370BD3AA2400310C5E /* DebugSendOperationController.m */,
 				142892240957523300D14688 /* DebugUserController.h */,
 				142892250957523300D14688 /* DebugUserController.m */,
 				142892190957523300D14688 /* DebugBEEP.nib */,
 				142892200957523300D14688 /* DebugPrefs.nib */,
 				142892210957523300D14688 /* DebugPresence.nib */,
 				142892260957523300D14688 /* DebugUsers.nib */,
+				F2A3DA1F0BD3A56900310C5E /* DebugSendOperation.nib */,
 			);
 			name = Debug;
 			sourceTree = "<group>";
@@ -2205,6 +2215,7 @@
 				F27B2EE70B52957800679CF2 /* hud_buttonFill-N.tiff in Resources */,
 				F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */,
 				149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */,
+				F2A3DA200BD3A56900310C5E /* DebugSendOperation.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2467,6 +2478,7 @@
 				142D1FF10BAEEEA300B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */,
 				141843980BB95CC3001D446B /* TCMMMSessionAppKitHelper.m in Sources */,
 				147B8EA70BC55040003D6264 /* BacktracingException.m in Sources */,
+				F2A3DA390BD3AA2400310C5E /* DebugSendOperationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
