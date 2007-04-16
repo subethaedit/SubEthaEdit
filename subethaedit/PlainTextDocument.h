@@ -324,7 +324,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (NSDictionary *)sessionInformation;
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
-- (void)handleOperation:(TCMMMOperation *)aOperation;
+- (BOOL)handleOperation:(TCMMMOperation *)aOperation;
 
 
 - (void)addFindAllController:(FindAllController *)aController;

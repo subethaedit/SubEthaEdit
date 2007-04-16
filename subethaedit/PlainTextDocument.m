@@ -4503,6 +4503,18 @@ static NSString *S_measurementUnits;
     [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
+- (void)sessionDidLeave:(TCMMMSession *)aSession {
+    [self TCM_generateNewSession];
+    
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setMessageText:NSLocalizedString(@"ProblemLeave", @"ProblemLeave title in Sheet")];
+    [alert setInformativeText:NSLocalizedString(@"ProblemLeaveInfo", @"ProblemLeaveInfo info in Sheet")];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
+    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+}
+
+
 - (void)sessionDidCancelInvitation:(TCMMMSession *)aSession {
     [I_documentProxyWindowController invitationWasCanceled];
 }
@@ -4677,8 +4689,17 @@ static NSString *S_measurementUnits;
     return result;
 }
 
-- (void)handleOperation:(TCMMMOperation *)aOperation {
+- (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
+        TextOperation *operation=(TextOperation *)aOperation;
+        NSTextStorage *textStorage=[self textStorage];
+    
+        // check validity of operation
+        if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
+            NSLog(@"User Tried to change text outside the document bounds:%@ %@",operation,[[TCMMMUserManager sharedInstance] userForUserID:[operation userID]]);
+            return NO;
+        }
+    
         // gather selections from all textviews and transform them
         NSArray *editors=[self plainTextEditors];
         I_flags.isRemotelyEditingTextStorage=![[aOperation userID] isEqualToString:[TCMMMUserManager myUserID]];
@@ -4691,8 +4712,6 @@ static NSString *S_measurementUnits;
             }
         }
 
-        TextOperation *operation=(TextOperation *)aOperation;
-        NSTextStorage *textStorage=[self textStorage];
         [textStorage beginEditing];
         NSRange newRange=NSMakeRange([operation affectedCharRange].location,
                                      [[operation replacementString] length]);
@@ -4726,6 +4745,7 @@ static NSString *S_measurementUnits;
         [self changeSelectionOfUserWithID:[aOperation userID]
               toRange:[(SelectionOperation *)aOperation selectedRange]];
     }
+    return YES;
 }
 
 #pragma mark -
