@@ -50,6 +50,8 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
     NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"HDCrashReporter.lastCrashDate"];
 	NSArray *libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,FALSE);
 
+    NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+
     if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr) {
         
 		if (MacVersion >= 0x1050) {
@@ -59,7 +61,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
 			NSString *crashLogFile;
 			crashLogModificationDate = [NSDate distantPast];
 			while ((crashLogFile = [crashLogFiles nextObject])) {
-				if ([[crashLogFile lastPathComponent] hasPrefix:@"SubEthaEdit"]) {
+				if ([[crashLogFile lastPathComponent] hasPrefix:bundleName]) {
 					crashLogFile = [crashReportLogPath stringByAppendingPathComponent:crashLogFile];
 					NSDate *crashLogFileDate = [[[NSFileManager defaultManager] fileAttributesAtPath:crashLogFile traverseLink: YES] fileModificationDate];
 					crashLogModificationDate = [crashLogModificationDate laterDate:crashLogFileDate];
@@ -68,7 +70,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
         } else {
             // User is using Tiger or earlier
             
-            NSString *crashLogPath = [[[libraryDirectories objectAtIndex: 0 ] stringByAppendingPathComponent:  @"Logs/CrashReporter/SubEthaEdit.crash.log"] stringByExpandingTildeInPath];
+            NSString *crashLogPath = [[[libraryDirectories objectAtIndex: 0 ] stringByAppendingPathComponent:[NSString stringWithFormat:@"Logs/CrashReporter/%@.crash.log", bundleName]] stringByExpandingTildeInPath];
             
             crashLogModificationDate = [[[NSFileManager defaultManager] fileAttributesAtPath: crashLogPath traverseLink: YES] fileModificationDate];            
         }
@@ -93,7 +95,9 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
     
   NSArray *libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,FALSE);
   
-  NSString *logFilePathAndname = @"Logs/CrashReporter/SubEthaEdit.crash.log";
+  NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+
+  NSString *logFilePathAndname = [NSString stringWithFormat:@"Logs/CrashReporter/%@.crash.log", bundleName];
   NSString *crashLogPath = [[[libraryDirectories objectAtIndex: 0 ] stringByAppendingPathComponent: logFilePathAndname] stringByExpandingTildeInPath];
   
   //get the crash
@@ -112,7 +116,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
 			NSString *crashLogFile;
 			NSDate *crashLogModificationDate = [NSDate distantPast];
 			while ((crashLogFile = [crashLogFiles nextObject])) {
-				if ([[crashLogFile lastPathComponent] hasPrefix:@"SubEthaEdit"]) {
+				if ([[crashLogFile lastPathComponent] hasPrefix:bundleName]) {
 					crashLogFile = [crashReportLogPath stringByAppendingPathComponent:crashLogFile];
 					NSDate *crashLogFileDate = [[[NSFileManager defaultManager] fileAttributesAtPath:crashLogFile traverseLink: YES] fileModificationDate];
 					if ( [crashLogFileDate isGreaterThan:crashLogModificationDate]) {
@@ -125,7 +129,6 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
 			lastCrash = [NSString stringWithContentsOfFile:crashLogPath];
             
             NSMutableArray *consoleStrings = [NSMutableArray array];
-            NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
             aslmsg q, m;
             aslresponse r;
             int i;
@@ -170,14 +173,20 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
 			NSString *crashLogs = [NSString stringWithContentsOfFile: crashLogPath];
 			lastCrash = [[crashLogs componentsSeparatedByString: @"**********\n\n"] lastObject];
             
-            NSString *consolelogPath = [NSString stringWithFormat: @"/Library/Logs/Console/%@/console.log", [NSNumber numberWithUnsignedInt: getuid()]];
+            NSString *consolelogPath;
+            if (MacVersion < 0x1040) {
+                consolelogPath = [NSString stringWithFormat:@"/Library/Logs/Console/%@/console.log", NSUserName()];
+            } else {
+                consolelogPath = [NSString stringWithFormat:@"/Library/Logs/Console/%@/console.log", [NSNumber numberWithUnsignedInt:getuid()]];
+            }
+            
             NSString *console = [NSString stringWithContentsOfFile: consolelogPath];
             NSEnumerator *theEnum = [[console componentsSeparatedByString: @"\n"] objectEnumerator];
             NSString* currentObject;
             NSMutableArray *consoleStrings = [NSMutableArray array];
 
             while (currentObject = [theEnum nextObject]) {
-                if ([currentObject rangeOfString: @"SubEthaEdit"].location != NSNotFound) {
+                if ([currentObject rangeOfString:bundleName].location != NSNotFound) {
                     [consoleStrings addObject: currentObject];
                 }
             }  
