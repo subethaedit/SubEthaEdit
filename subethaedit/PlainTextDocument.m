@@ -1777,6 +1777,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
         [[self topmostWindowController] selectTabForDocument:self];
+        if (closeTransient) [[[self topmostWindowController] window] orderFront:self]; // stop cascading
         [[self topmostWindowController] showWindow:self];
     }
     
@@ -3775,7 +3776,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSWindow *window;
     PlainTextWindowController *result=nil;
     while ((window=[orderedWindowEnumerator nextObject])) {
-        if ([[window windowController] document]==self) {
+        if ([[window windowController] document]==self && [[window windowController] isKindOfClass:[PlainTextWindowController class]]) {
             result=[window windowController];
             break;
         }
@@ -4581,11 +4582,12 @@ static NSString *S_measurementUnits;
                           && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
 
     if (closeTransient) {
-        NSWindow *window = [[self topmostWindowController] window];
+         NSWindow *window = [[self topmostWindowController] window];
         [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         [transientDocument close];
+    } else if (![[windowController window] isVisible]) {
+        [windowController cascadeWindow];
     }
-
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
     
     if (closeTransient) {

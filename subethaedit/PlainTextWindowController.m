@@ -64,6 +64,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 NSString * const ToggleShowInvisibleCharactersToolbarItemIdentifier = 
                @"ToggleShowInvisibleCharactersToolbarItemIdentifier";
 
+static NSPoint S_cascadePoint = {0.0,0.0};
 
 static int KickButtonStateMask=1;
 static int ReadOnlyButtonStateMask=2;
@@ -128,6 +129,8 @@ enum {
         [item setTarget:self];
         [item setTag:ParticipantContextMenuTagKickDeny];
         [I_contextMenu setDelegate:self];
+        
+        [self setShouldCascadeWindows:NO];
     }
     return self;
 }
@@ -330,6 +333,8 @@ enum {
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
     NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
+    contentSize.width  = (int)(contentSize.width + 0.5);
+    contentSize.height = (int)(contentSize.height + 0.5);
     NSWindow *window=[self window];
     NSSize minSize=[window contentMinSize];
     NSRect contentRect=[window contentRectForFrameRect:[window frame]];
@@ -1806,6 +1811,19 @@ enum {
 }
 
 #pragma mark -
+
+- (void)cascadeWindow {
+    NSWindow *window = [self window];
+    S_cascadePoint = [window cascadeTopLeftFromPoint:S_cascadePoint];
+    [window setFrameTopLeftPoint:S_cascadePoint];
+}
+
+- (IBAction)showWindow:(id)aSender {
+    if (![[self window] isVisible]) {
+        [self cascadeWindow];
+    }
+    [super showWindow:aSender];
+}
 
 - (NSRect)dissolveToFrame {
     if ([self hasManyDocuments] ||
