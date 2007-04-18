@@ -903,11 +903,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 # pragma mark -
 
 - (void)profileDidCancelJoinRequest:(SessionProfile *)aProfile {
-    NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
-    [aProfile setDelegate:nil];
-    [I_profilesByUserID removeObjectForKey:peerUserID];
-    [I_pendingUsers removeObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+    [self profile:aProfile didFailWithError:nil];
 }
 
 - (void)profile:(SessionProfile *)profile didReceiveSessionContent:(id)aContent {
@@ -1109,12 +1105,22 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             //NSLog(@"states: %@",[I_statesWithRemainingMessages description]);
             [state setClient:nil];
             [I_statesByClientID removeObjectForKey:peerUserID];
+        } else {
+            NSString *userState=[I_stateOfInvitedUsers objectForKey:peerUserID];
+            if (userState && [userState isEqualToString:@"AwaitingResponse"]) {
+                [self profileDidDeclineInvitation:(SessionProfile *)aProfile];
+            }
         }
         [aProfile setDelegate:nil];
         [(SessionProfile *)aProfile setMMState:nil];
         if ([I_profilesByUserID objectForKey:peerUserID]==aProfile) {
             [I_sessionContentForUserID removeObjectForKey:peerUserID];
             [I_profilesByUserID removeObjectForKey:peerUserID];
+            TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:peerUserID];
+            if ([I_pendingUsers containsObject:user]) {
+                [I_pendingUsers removeObject:user];
+                [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+            }
         }
     } else { 
         if ([self clientState]==TCMMMSessionClientParticipantState) {
