@@ -44,7 +44,6 @@
 		142890B3095743F200D14688 /* AdvancedPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289062095743F200D14688 /* AdvancedPrefs.tiff */; };
 		142890B4095743F200D14688 /* Announce.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289063095743F200D14688 /* Announce.tiff */; };
 		142890B7095743F200D14688 /* Conceal.png in Resources */ = {isa = PBXBuildFile; fileRef = 14289066095743F200D14688 /* Conceal.png */; };
-		142890B9095743F200D14688 /* DefaultPerson.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289068095743F200D14688 /* DefaultPerson.tiff */; };
 		142890BA095743F200D14688 /* EditPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289069095743F200D14688 /* EditPrefs.tiff */; };
 		142890BB095743F200D14688 /* EmptyButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428906A095743F200D14688 /* EmptyButton.tiff */; };
 		142890BC095743F200D14688 /* GeneralPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428906B095743F200D14688 /* GeneralPrefs.tiff */; };
@@ -323,6 +322,8 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
+		F2A354DB0BD62DB30012E71F /* DefaultPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A354DA0BD62DB30012E71F /* DefaultPerson.png */; };
+		F2A354DD0BD62DC90012E71F /* UnknownPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A354DC0BD62DC90012E71F /* UnknownPerson.png */; };
 		F2A3DA200BD3A56900310C5E /* DebugSendOperation.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2A3DA1F0BD3A56900310C5E /* DebugSendOperation.nib */; };
 		F2A3DA390BD3AA2400310C5E /* DebugSendOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A3DA370BD3AA2400310C5E /* DebugSendOperationController.m */; };
 /* End PBXBuildFile section */
@@ -570,7 +571,6 @@
 		14289063095743F200D14688 /* Announce.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Announce.tiff; path = artwork/Announce.tiff; sourceTree = "<group>"; };
 		14289064095743F200D14688 /* CandyBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CandyBar.png; path = artwork/CandyBar.png; sourceTree = "<group>"; };
 		14289066095743F200D14688 /* Conceal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Conceal.png; path = artwork/Conceal.png; sourceTree = "<group>"; };
-		14289068095743F200D14688 /* DefaultPerson.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = DefaultPerson.tiff; path = artwork/DefaultPerson.tiff; sourceTree = "<group>"; };
 		14289069095743F200D14688 /* EditPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EditPrefs.tiff; path = artwork/EditPrefs.tiff; sourceTree = "<group>"; };
 		1428906A095743F200D14688 /* EmptyButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EmptyButton.tiff; path = artwork/EmptyButton.tiff; sourceTree = "<group>"; };
 		1428906B095743F200D14688 /* GeneralPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GeneralPrefs.tiff; path = artwork/GeneralPrefs.tiff; sourceTree = "<group>"; };
@@ -1006,6 +1006,8 @@
 		F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButtonCell.m; sourceTree = "<group>"; };
 		F27B2EEE0B52968E00679CF2 /* HUDButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButton.m; sourceTree = "<group>"; };
 		F27B2EEF0B52968E00679CF2 /* HUDButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HUDButton.h; sourceTree = "<group>"; };
+		F2A354DA0BD62DB30012E71F /* DefaultPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultPerson.png; path = artwork/DefaultPerson.png; sourceTree = "<group>"; };
+		F2A354DC0BD62DC90012E71F /* UnknownPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownPerson.png; path = artwork/UnknownPerson.png; sourceTree = "<group>"; };
 		F2A3DA1F0BD3A56900310C5E /* DebugSendOperation.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugSendOperation.nib; path = Debug/DebugSendOperation.nib; sourceTree = "<group>"; };
 		F2A3DA370BD3AA2400310C5E /* DebugSendOperationController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugSendOperationController.m; path = Debug/DebugSendOperationController.m; sourceTree = "<group>"; };
 		F2A3DA380BD3AA2400310C5E /* DebugSendOperationController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugSendOperationController.h; path = Debug/DebugSendOperationController.h; sourceTree = "<group>"; };
@@ -1126,7 +1128,7 @@
 				14289064095743F200D14688 /* CandyBar.png */,
 				14289066095743F200D14688 /* Conceal.png */,
 				1428905E095743B300D14688 /* debug.tiff */,
-				14289068095743F200D14688 /* DefaultPerson.tiff */,
+				F2A354DA0BD62DB30012E71F /* DefaultPerson.png */,
 				14289069095743F200D14688 /* EditPrefs.tiff */,
 				1428906A095743F200D14688 /* EmptyButton.tiff */,
 				1428906B095743F200D14688 /* GeneralPrefs.tiff */,
@@ -1207,6 +1209,7 @@
 				5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */,
 				5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */,
 				142890AE095743F200D14688 /* URLIcon.tiff */,
+				F2A354DC0BD62DC90012E71F /* UnknownPerson.png */,
 				142890AF095743F200D14688 /* WaitPipe.png */,
 				142890B0095743F200D14688 /* WebReload.tiff */,
 			);
@@ -2112,7 +2115,6 @@
 				142890B4095743F200D14688 /* Announce.tiff in Resources */,
 				142890B7095743F200D14688 /* Conceal.png in Resources */,
 				1428905F095743B300D14688 /* debug.tiff in Resources */,
-				142890B9095743F200D14688 /* DefaultPerson.tiff in Resources */,
 				142890BA095743F200D14688 /* EditPrefs.tiff in Resources */,
 				142890BB095743F200D14688 /* EmptyButton.tiff in Resources */,
 				142890BC095743F200D14688 /* GeneralPrefs.tiff in Resources */,
@@ -2212,6 +2214,8 @@
 				F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */,
 				149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */,
 				F2A3DA200BD3A56900310C5E /* DebugSendOperation.nib in Resources */,
+				F2A354DB0BD62DB30012E71F /* DefaultPerson.png in Resources */,
+				F2A354DD0BD62DC90012E71F /* UnknownPerson.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1499,7 +1499,7 @@ subethaedit/artwork/AdvancedPrefs.tiff -text
 subethaedit/artwork/Announce.tiff -text
 subethaedit/artwork/CandyBar.png -text
 subethaedit/artwork/Conceal.png -text
-subethaedit/artwork/DefaultPerson.tiff -text
+subethaedit/artwork/DefaultPerson.png -text
 subethaedit/artwork/EditPrefs.tiff -text
 subethaedit/artwork/EmptyButton.tiff -text
 subethaedit/artwork/GeneralPrefs.tiff -text
@@ -1587,6 +1587,7 @@ subethaedit/artwork/ToolbarIconRun.tiff -text
 subethaedit/artwork/ToolbarIconRunInTerminal.png -text
 subethaedit/artwork/ToolbarIconTerminal.png -text
 subethaedit/artwork/URLIcon.tiff -text
+subethaedit/artwork/UnknownPerson.png -text
 subethaedit/artwork/WaitPipe.png -text
 subethaedit/artwork/WebReload.tiff -text
 subethaedit/artwork/codingmonkeys.png -text

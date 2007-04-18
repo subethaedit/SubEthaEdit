@@ -281,7 +281,7 @@ static AppController *sharedInstance = nil;
     }
     
     if (!myImage) {
-        myImage=[[NSImage imageNamed:@"DefaultPerson.tiff"] retain];
+        myImage=[[NSImage imageNamed:@"DefaultPerson"] retain];
     }
     
     if (!myEmail) myEmail=@"";
@@ -289,28 +289,6 @@ static AppController *sharedInstance = nil;
     
     // resizing the image
     scaledMyImage=[myImage resizedImageWithSize:NSMakeSize(64.,64.)];
-//    [myImage setScalesWhenResized:YES];
-//    NSSize originalSize=[myImage size];
-//    NSSize newSize=NSMakeSize(64.,64.);
-//    if (originalSize.width>originalSize.height) {
-//        newSize.height=(int)(originalSize.height/originalSize.width*newSize.width);
-//        if (newSize.height<=0) newSize.height=1;
-//    } else {
-//        newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
-//        if (newSize.width <=0) newSize.width=1;
-//    }
-//    [myImage setSize:newSize];
-//    scaledMyImage=[[NSImage alloc] initWithSize:newSize];
-//    [scaledMyImage setCacheMode:NSImageCacheNever];
-//    [scaledMyImage lockFocus];
-//    NSGraphicsContext *context=[NSGraphicsContext currentContext];
-//    NSImageInterpolation oldInterpolation=[context imageInterpolation];
-//    [context setImageInterpolation:NSImageInterpolationHigh];
-//    [NSColor clearColor];
-//    NSRectFill(NSMakeRect(0.,0.,newSize.width,newSize.height));
-//    [myImage compositeToPoint:NSMakePoint(0.,0.) operation:NSCompositeCopy];
-//    [context setImageInterpolation:oldInterpolation];
-//    [scaledMyImage unlockFocus];
     
     NSData *pngData=[scaledMyImage TIFFRepresentation];
     pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];

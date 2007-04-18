@@ -1242,7 +1242,7 @@ enum {
 - (id)listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
     static NSImage *defaultPerson = nil;
     if (!defaultPerson) {
-        defaultPerson = [[[NSImage imageNamed:@"DefaultPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
+        defaultPerson = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
     }
     
     if (aChildIndex == -1) {
