@@ -1772,13 +1772,15 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     if (I_documentProxyWindowController) {
         [[I_documentProxyWindowController window] orderFront:self];
     } else {
+        PlainTextWindowController *windowController = [self topmostWindowController];
         if (closeTransient) {
-            NSWindow *window = [[self topmostWindowController] window];
+            NSWindow *window = [windowController window];
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
-        [[self topmostWindowController] selectTabForDocument:self];
-        if (closeTransient) [[[self topmostWindowController] window] orderFront:self]; // stop cascading
-        [[self topmostWindowController] showWindow:self];
+        [windowController selectTabForDocument:self];
+        [[windowController tabBar] updateViewsHack];
+        if (closeTransient) [[windowController window] orderFront:self]; // stop cascading
+        [windowController showWindow:self];
     }
     
     if (closeTransient && ![self isProxyDocument]) {
