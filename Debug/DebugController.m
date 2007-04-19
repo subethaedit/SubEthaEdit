@@ -67,29 +67,31 @@ static DebugController * sharedInstance = nil;
         NSMenuItem *debugItem = [[NSMenuItem alloc] initWithTitle:@"Debug" action:nil keyEquivalent:@""];
         NSMenu *menu = [[[NSMenu alloc] initWithTitle:@"Debug"] autorelease];
         
-        NSMenuItem *usersItem = [[NSMenuItem alloc] initWithTitle:@"Show Users" action:@selector(showUsers:) keyEquivalent:@""];
+        NSMenuItem *usersItem = [[NSMenuItem alloc] initWithTitle:@"Users Viewer" action:@selector(showUsers:) keyEquivalent:@""];
         [usersItem setTarget:self];
         [menu addItem:usersItem];
         [usersItem release];
         
-        NSMenuItem *presenceItem = [[NSMenuItem alloc] initWithTitle:@"Show Presence" action:@selector(showPresence:) keyEquivalent:@""];
+        NSMenuItem *presenceItem = [[NSMenuItem alloc] initWithTitle:@"Presence Viewer" action:@selector(showPresence:) keyEquivalent:@""];
         [presenceItem setTarget:self];
         [menu addItem:presenceItem];
         [presenceItem release];
         
-        NSMenuItem *BEEPItem = [[NSMenuItem alloc] initWithTitle:@"Show Sessions & Channels" action:@selector(showBEEP:) keyEquivalent:@""];
+        NSMenuItem *BEEPItem = [[NSMenuItem alloc] initWithTitle:@"Sessions Viewer" action:@selector(showBEEP:) keyEquivalent:@""];
         [BEEPItem setTarget:self];
         [menu addItem:BEEPItem];
+        
+        [menu addItem:[NSMenuItem separatorItem]];
 
         NSMenuItem *CrashItem = [[NSMenuItem alloc] initWithTitle:@"Crash Application" action:@selector(crash:) keyEquivalent:@""];
         [CrashItem setTarget:self];
         [menu addItem:CrashItem];
 
-        NSMenuItem *CrashReportItem = [[NSMenuItem alloc] initWithTitle:@"Resend last crash report" action:@selector(sendCrashReport:) keyEquivalent:@""];
+        NSMenuItem *CrashReportItem = [[NSMenuItem alloc] initWithTitle:@"Resend Last Crash Report" action:@selector(sendCrashReport:) keyEquivalent:@""];
         [CrashReportItem setTarget:self];
         [menu addItem:CrashReportItem];
 
-        NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Log Retain Counts for all BEEP Sessions" action:@selector(logRetainCounts) keyEquivalent:@""];
+        NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Log All BEEP Session Retain Counts" action:@selector(logRetainCounts) keyEquivalent:@""];
         [blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];
         [menu addItem:blahItem];
         [blahItem release];
@@ -98,17 +100,17 @@ static DebugController * sharedInstance = nil;
         [[NSApp mainMenu] addItem:debugItem];
         [debugItem release];
 
-        blahItem = [[NSMenuItem alloc] initWithTitle:@"Copy Thumbnail Of current Document to pb" action:@selector(createThumbnail:) keyEquivalent:@""];
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"Copy Document Thumbnail to Pasteboard" action:@selector(createThumbnail:) keyEquivalent:@""];
         [blahItem setTarget:nil];
         [menu addItem:blahItem];
         [blahItem release];
 
-        blahItem = [[NSMenuItem alloc] initWithTitle:@"toggle dialog view" action:@selector(toggleDialogView:) keyEquivalent:@""];
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"Toggle Dialog View" action:@selector(toggleDialogView:) keyEquivalent:@""];
         [blahItem setTarget:nil];
         [menu addItem:blahItem];
         [blahItem release];
 
-        blahItem = [[NSMenuItem alloc] initWithTitle:@"create proxy window" action:@selector(createProxyWindow:) keyEquivalent:@""];
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"Create Proxy Window" action:@selector(createProxyWindow:) keyEquivalent:@""];
         [blahItem setTarget:self];
         [menu addItem:blahItem];
         [blahItem release];

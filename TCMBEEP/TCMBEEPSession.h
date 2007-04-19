@@ -124,6 +124,7 @@ enum {
 - (BOOL)isProhibitingInboundInternetSessions;
 
 - (void)open;
+- (void)authenticate;
 - (void)terminate;
 - (void)activateChannel:(TCMBEEPChannel *)aChannel;
 - (void)channelHasFramesAvailable:(TCMBEEPChannel *)aChannel;

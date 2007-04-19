@@ -70,21 +70,52 @@ static int sasl_pass_session_client_cb(sasl_conn_t *conn, void *context, int id,
 {
     DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"");
 
-   //[ask the user for their secret]
+    char *password;
+    unsigned len;
 
-   //[allocate psecret and insert the secret]
+    if (!conn || !psecret || id != SASL_CB_PASS)
+        return SASL_BADPARAM;
+
+    password = "geheim";
+    if (!password)
+        return SASL_FAIL;
+
+    len = (unsigned)strlen(password);
+
+    *psecret = (sasl_secret_t *) malloc(sizeof(sasl_secret_t) + len);
+
+    if (! *psecret) {
+        memset(password, 0, len);
+        return SASL_NOMEM;
+    }
+
+    (*psecret)->len = len;
+    strcpy((char *)(*psecret)->data, password);
+    //memset(password, 0, len);
 
     return SASL_OK;
 }
 
-static int sasl_authname_session_client_cb(void *context, int id, const char **result, unsigned *len)
+static int sasl_getsimple_session_client_cb(void *context, int id, const char **result, unsigned *len)
 {
     DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"");
     
-    if (id != SASL_CB_AUTHNAME) return SASL_FAIL;
+    if (!result)
+        return SASL_BADPARAM;
 
-    //[fill in result and len]
-
+    switch (id) {
+        case SASL_CB_USER:
+            *result = "fred";
+            if (len) *len = 4;         
+            break;
+        case SASL_CB_AUTHNAME:
+            *result = "bob";
+            if (len) *len = 3;
+            break;
+        default:
+            return SASL_BADPARAM;
+    }
+    
     return SASL_OK;
 }
 
@@ -92,8 +123,8 @@ static sasl_callback_t sasl_client_callbacks[] = {
     {SASL_CB_GETOPT, &sasl_getopt_session_client_cb, NULL},
     {SASL_CB_LOG, &sasl_log_session_client_cb, NULL},
     {SASL_CB_GETREALM, NULL, NULL},  /* we'll just use an interaction if this comes up */
-    {SASL_CB_USER, NULL, NULL},      /* we'll just use an interaction if this comes up */
-    {SASL_CB_AUTHNAME, &sasl_authname_session_client_cb, NULL}, /* A mechanism should call getauthname_func if it needs the authentication name */
+    {SASL_CB_USER, sasl_getsimple_session_client_cb, NULL},      /* we'll just use an interaction if this comes up */
+    {SASL_CB_AUTHNAME, &sasl_getsimple_session_client_cb, NULL}, /* A mechanism should call getauthname_func if it needs the authentication name */
     {SASL_CB_PASS, &sasl_pass_session_client_cb, NULL},      /* Call getsecret_func if need secret */
     {SASL_CB_LIST_END, NULL, NULL}
 };
@@ -528,6 +559,45 @@ static sasl_callback_t sasl_client_callbacks[] = {
 - (void)activateChannel:(TCMBEEPChannel *)aChannel
 {
     [I_activeChannels setObject:aChannel forLong:[aChannel number]];
+}
+
+- (void)authenticate
+{
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"");
+    
+    NSString *SASLProfileURIPrefix = @"http://iana.org/beep/SASL/";
+    NSMutableString *mechlist_string = [[NSMutableString alloc] init];
+    NSEnumerator *enumerator = [[self peerProfileURIs] objectEnumerator];
+    NSString *profileURI;
+    while ((profileURI = [enumerator nextObject])) {
+        if ([profileURI hasPrefix:SASLProfileURIPrefix]) {
+            if ([mechlist_string length] > 0) [mechlist_string appendString:@" "];
+            [mechlist_string appendString:[profileURI substringFromIndex:[SASLProfileURIPrefix length]]];
+        }
+    }
+    
+    if ([mechlist_string length] > 0) {
+        const char *mech_using;
+        const char *clientout;
+        unsigned clientoutlen;
+        sasl_interact_t *client_interact = NULL;
+        
+        int result = sasl_client_start(_sasl_conn_ctxt,
+                                       [mechlist_string UTF8String],
+                                       &client_interact,
+                                       &clientout,
+                                       &clientoutlen,
+                                       &mech_using);
+        if (SASL_OK == result) {
+            NSLog(@"mech_using: %s", mech_using);
+            if (clientout) NSLog(@"clientout: %@", [NSData dataWithBytes:clientout length:clientoutlen]);
+            if (client_interact) NSLog(@"client_interact has been filled");
+            
+            // open channel
+        } else if (SASL_INTERACT == result) {
+            NSLog(@"interact...");
+        }
+    }
 }
 
 - (void)open
