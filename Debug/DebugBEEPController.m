@@ -3,14 +3,21 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Fri Apr 30 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #ifndef TCM_NO_DEBUG
 
 #import "TCMFoundation.h"
 #import "DebugBEEPController.h"
+#import "TCMBEEPSession.h"
 #import "TCMMMBEEPSessionManager.h"
+
+@interface AddressDataToStringValueTransformer : NSValueTransformer {
+
+}
+
+@end
 
 @implementation DebugBEEPController
 
@@ -24,6 +31,15 @@
 - (void)windowDidLoad
 {
     [O_sessionController bind:@"contentArray" toObject:[TCMMMBEEPSessionManager sharedInstance] withKeyPath:@"sessions" options:nil];
+}
+
+- (IBAction)authenticate:(id)sender
+{
+    NSEnumerator *enumerator = [[O_sessionController selectedObjects] objectEnumerator];
+    TCMBEEPSession *session;
+    while ((session = [enumerator nextObject])) {
+        [session authenticate];
+    }
 }
 
 @end

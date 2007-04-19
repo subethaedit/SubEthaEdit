@@ -1,6 +1,7 @@
 {
     IBClasses = (
         {
+            ACTIONS = {authenticate = id; }; 
             CLASS = DebugBEEPController; 
             LANGUAGE = ObjC; 
             OUTLETS = {"O_sessionController" = NSArrayController; }; 
