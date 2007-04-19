@@ -3,7 +3,7 @@
 //  TCMBEEP
 //
 //  Created by Martin Ott on Wed Feb 18 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import "TCMBEEPChannel.h"
@@ -11,6 +11,7 @@
 #import "TCMBEEPFrame.h"
 #import "TCMBEEPMessage.h"
 #import "TCMBEEPManagementProfile.h"
+#import "TCMBEEPSASLProfile.h"
 
 #import <netinet/tcp_seq.h> // sequence number comparison
 
@@ -33,6 +34,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 {
     profileURIToClassMapping = [NSMutableDictionary new];
     [self setClass:[TCMBEEPManagementProfile class] forProfileURI:kTCMBEEPManagementProfile];
+    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
 }
 
 + (NSDictionary *)profileURIToClassMapping

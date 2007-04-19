@@ -20,11 +20,85 @@
 NSString * const NetworkTimeoutPreferenceKey = @"NetworkTimeout";
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
+NSString * const TCMBEEPSASLPLAINProfileURI = @"http://iana.org/beep/SASL/PLAIN";
 
 
 static void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
 static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
 
+#pragma mark -
+
+static int sasl_getopt_session_server_cb(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len)
+{
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"plugin_name: %s, option: %s", plugin_name, option);
+
+    return SASL_OK;
+}
+
+static int sasl_log_session_server_cb(void *context, int level, const char *message)
+{
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"level: %d, message: %s", level, message);
+
+    return SASL_OK;
+}
+
+static sasl_callback_t sasl_server_callbacks[] = {
+    {SASL_CB_GETOPT, &sasl_getopt_session_server_cb, NULL},
+    // authorization
+    // lang
+    {SASL_CB_LOG, &sasl_log_session_server_cb, NULL},
+    {SASL_CB_LIST_END, NULL, NULL}
+};
+
+#pragma mark -
+
+static int sasl_getopt_session_client_cb(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len)
+{
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"plugin_name: %s, option: %s", plugin_name, option);
+
+    return SASL_OK;
+}
+
+static int sasl_log_session_client_cb(void *context, int level, const char *message)
+{
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"level: %d, message: %s", level, message);
+
+    return SASL_OK;
+}
+
+static int sasl_pass_session_client_cb(sasl_conn_t *conn, void *context, int id, sasl_secret_t **psecret)
+{
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"");
+
+   //[ask the user for their secret]
+
+   //[allocate psecret and insert the secret]
+
+    return SASL_OK;
+}
+
+static int sasl_authname_session_client_cb(void *context, int id, const char **result, unsigned *len)
+{
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"");
+    
+    if (id != SASL_CB_AUTHNAME) return SASL_FAIL;
+
+    //[fill in result and len]
+
+    return SASL_OK;
+}
+
+static sasl_callback_t sasl_client_callbacks[] = {
+    {SASL_CB_GETOPT, &sasl_getopt_session_client_cb, NULL},
+    {SASL_CB_LOG, &sasl_log_session_client_cb, NULL},
+    {SASL_CB_GETREALM, NULL, NULL},  /* we'll just use an interaction if this comes up */
+    {SASL_CB_USER, NULL, NULL},      /* we'll just use an interaction if this comes up */
+    {SASL_CB_AUTHNAME, &sasl_authname_session_client_cb, NULL}, /* A mechanism should call getauthname_func if it needs the authentication name */
+    {SASL_CB_PASS, &sasl_pass_session_client_cb, NULL},      /* Call getsecret_func if need secret */
+    {SASL_CB_LIST_END, NULL, NULL}
+};
+
+#pragma mark -
 
 @interface TCMBEEPSession (TCMBEEPSessionPrivateAdditions)
 - (void)TCM_initHelper;
@@ -85,7 +159,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     
     I_profileURIs = [NSMutableArray new];
     I_peerProfileURIs = [NSMutableArray new];
-    
+        
     I_readBuffer = [NSMutableData new];
     I_currentReadState=frameHeaderState;
     I_writeBuffer = [NSMutableData new];
@@ -160,7 +234,40 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         CFStreamCreatePairWithSocket(kCFAllocatorDefault, aSocketHandle, &I_readStream, &I_writeStream);
         I_flags.isInitiator = NO;
         I_nextChannelNumber = 0;
-        [self TCM_initHelper];        
+        [self TCM_initHelper];
+        
+        // SASL setup for server
+        int result = sasl_server_new("beep",
+                                     NULL,  // serverFQDN
+                                     NULL,  // user_realm
+                                     NULL,  // iplocalport
+                                     NULL,  // ipremoteport
+                                     sasl_server_callbacks,
+                                     0,     // flags
+                                     &_sasl_conn_ctxt);
+        if (result == SASL_OK) {
+            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_server_new succeeded");
+            
+            const char *mech_string;
+            unsigned plen;
+            int pcount;
+            result = sasl_listmech(_sasl_conn_ctxt,
+                                   "",      // user
+                                   "",      // prefix
+                                   " ",     // sep
+                                   NULL,    // suffix
+                                   &mech_string,
+                                   &plen,
+                                   &pcount);
+            if (SASL_OK == result) {
+                NSString *mechs = [[NSString alloc] initWithBytes:mech_string length:plen encoding:NSUTF8StringEncoding];
+                NSArray *mechanisms = [mechs componentsSeparatedByString:@" "];
+                if ([mechanisms containsObject:@"PLAIN"]) [I_profileURIs addObject:TCMBEEPSASLPLAINProfileURI];
+            }
+            
+        } else {
+            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_server_new failed");
+        }
     }
     
     return self;
@@ -185,6 +292,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)dealloc
 {
+    sasl_dispose(&_sasl_conn_ctxt);
+    
     I_delegate = nil;
     CFReadStreamSetClient(I_readStream, 0, NULL, NULL);
     CFWriteStreamSetClient(I_writeStream, 0, NULL, NULL);
@@ -293,6 +402,11 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     return I_userInfo;
 }
 
+- (void)addProfileURIs:(NSArray *)anArray
+{
+    if (!I_profileURIs) I_profileURIs = [[NSMutableArray alloc] init];
+    [I_profileURIs addObjectsFromArray:anArray];
+}
 
 - (void)setProfileURIs:(NSArray *)anArray
 {
@@ -418,6 +532,22 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)open
 {
+    if ([self isInitiator]) {
+        // SASL setup for client
+        int result = sasl_client_new("beep",
+                                     NULL,  // serverFQDN (has to  be set)
+                                     NULL,  // iplocalport
+                                     NULL,  // ipremoteport
+                                     sasl_client_callbacks,
+                                     0, // flags
+                                     &_sasl_conn_ctxt);
+        if (result == SASL_OK) {
+            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_client_new succeeded");
+        } else {
+            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_client_new failed");
+        }
+    }
+
     CFRunLoopRef runLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
 
     CFReadStreamScheduleWithRunLoop(I_readStream, runLoop, kCFRunLoopCommonModes);

@@ -284,6 +284,8 @@
 		1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */; };
 		149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = 149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */; };
 		149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 149774160B5E159F004A546C /* PlainTextLoadProgress.m */; };
+		14D640A60BD7A81700CFC4FC /* TCMBEEPSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D640A50BD7A81700CFC4FC /* TCMBEEPSASLProfile.m */; };
+		14D640B40BD7A85F00CFC4FC /* TCMBEEPSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D640A50BD7A81700CFC4FC /* TCMBEEPSASLProfile.m */; };
 		14E291C70A07A501007C0065 /* ScriptLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291C50A07A501007C0065 /* ScriptLine.m */; };
 		14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E291E80A07B480007C0065 /* ScriptCharacters.m */; };
 		14E294510A0CBFB0007C0065 /* SelectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E2944F0A0CBFB0007C0065 /* SelectCommand.m */; };
@@ -957,6 +959,8 @@
 		149774160B5E159F004A546C /* PlainTextLoadProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextLoadProgress.m; sourceTree = "<group>"; };
 		14D47F140BB41CBF005121A7 /* SDDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDDocument.h; path = seed/SDDocument.h; sourceTree = "<group>"; };
 		14D47F150BB41CBF005121A7 /* SDDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDDocument.m; path = seed/SDDocument.m; sourceTree = "<group>"; };
+		14D640A40BD7A81700CFC4FC /* TCMBEEPSASLProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMBEEPSASLProfile.h; path = TCMBEEP/TCMBEEPSASLProfile.h; sourceTree = "<group>"; };
+		14D640A50BD7A81700CFC4FC /* TCMBEEPSASLProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPSASLProfile.m; path = TCMBEEP/TCMBEEPSASLProfile.m; sourceTree = "<group>"; };
 		14E290E70A06DB8A007C0065 /* SubEthaEdit-Panther.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = "SubEthaEdit-Panther.sdef"; sourceTree = "<group>"; };
 		14E291C40A07A501007C0065 /* ScriptLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptLine.h; sourceTree = "<group>"; };
 		14E291C50A07A501007C0065 /* ScriptLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptLine.m; sourceTree = "<group>"; };
@@ -1336,6 +1340,8 @@
 				1428914B0957475E00D14688 /* TCMBEEPMessage.m */,
 				1428914C0957475E00D14688 /* TCMBEEPProfile.h */,
 				1428914D0957475E00D14688 /* TCMBEEPProfile.m */,
+				14D640A40BD7A81700CFC4FC /* TCMBEEPSASLProfile.h */,
+				14D640A50BD7A81700CFC4FC /* TCMBEEPSASLProfile.m */,
 				1428914E0957475E00D14688 /* TCMBEEPSession.h */,
 				1428914F0957475E00D14688 /* TCMBEEPSession.m */,
 			);
@@ -2442,6 +2448,7 @@
 				14251C770BBD5E2600052C84 /* TCMRendezvousBrowser.m in Sources */,
 				14251C780BBD5E2600052C84 /* TextOperation.m in Sources */,
 				14251C790BBD5E2600052C84 /* UserChangeOperation.m in Sources */,
+				14D640A60BD7A81700CFC4FC /* TCMBEEPSASLProfile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2625,6 +2632,7 @@
 				142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */,
 				142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */,
 				141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */,
+				14D640B40BD7A85F00CFC4FC /* TCMBEEPSASLProfile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

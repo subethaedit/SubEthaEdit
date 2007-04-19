@@ -238,7 +238,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [session release];
         [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
         [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
-        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
+        [session addProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",
+                                                          @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
+                                                          @"http://www.codingmonkeys.de/BEEP/TCMMMStatus",
+                                                          nil]];
         [session setDelegate:self];
         [session open];
     }
@@ -292,7 +295,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
         [sessions addObject:session];
         [session release];
-        [session setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession", @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake", @"http://www.codingmonkeys.de/BEEP/TCMMMStatus", nil]];
+        [session addProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",
+                                                          @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
+                                                          @"http://www.codingmonkeys.de/BEEP/TCMMMStatus",
+                                                          nil]];
         [session setDelegate:self];
         [session open];
     }
@@ -733,7 +739,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPListener:didAcceptBEEPSession: %@", aBEEPSession);
-    [aBEEPSession setProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
+    [aBEEPSession addProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
                                                            @"http://www.codingmonkeys.de/BEEP/TCMMMStatus",
                                                            @"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",
                                                            nil]];

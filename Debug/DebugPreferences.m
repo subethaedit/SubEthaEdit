@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Thu Feb 26 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #ifndef TCM_NO_DEBUG
@@ -30,6 +30,7 @@
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSEnumerator *domains = [[NSArray arrayWithObjects:
                                         @"BEEPLogDomain",
+                                        @"SASLLogDomain",
                                         @"RendezvousLogDomain",
                                         @"MillionMonkeysLogDomain",
                                         @"SyntaxHighlighterDomain",

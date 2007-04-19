@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "sasl.h"
 #import "TCMBEEPProfile.h"
 
 extern NSString * const NetworkTimeoutPreferenceKey;
 extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
+extern NSString * const TCMBEEPSASLPLAINProfileURI;
 
 typedef enum {
    TCMBEEPSessionStatusNotOpen = 0,
@@ -54,7 +56,7 @@ enum {
     
     NSData *I_peerAddressData;
     
-    NSArray *I_profileURIs;
+    NSMutableArray *I_profileURIs;
     NSArray *I_peerProfileURIs;
     
     NSString *I_featuresAttribute;
@@ -74,7 +76,9 @@ enum {
 
     NSTimer *I_terminateTimer;
     NSTimeInterval I_timeout;
-        
+    
+    sasl_conn_t *_sasl_conn_ctxt;
+    
 #ifndef TCM_NO_DEBUG
 	BOOL isLogging;
     NSFileHandle *I_frameLogHandle;
@@ -96,6 +100,7 @@ enum {
 - (id)delegate;
 - (void)setUserInfo:(NSMutableDictionary *)aUserInfo;
 - (NSMutableDictionary *)userInfo;
+- (void)addProfileURIs:(NSArray *)anArray;
 - (void)setProfileURIs:(NSArray *)anArray;
 - (NSArray *)profileURIs;
 - (void)setPeerProfileURIs:(NSArray *)anArray;

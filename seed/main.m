@@ -20,7 +20,7 @@ static int sasl_getopt_callback(void *context, const char *plugin_name, const ch
 static int sasl_log_callback(void *context, int level, const char *message);
 
 static sasl_callback_t callbacks[] = {
-    //{SASL_CB_GETOPT, &sasl_getopt_callback, NULL},
+    {SASL_CB_GETOPT, &sasl_getopt_callback, NULL},
     {SASL_CB_LOG, &sasl_log_callback, NULL},
     {SASL_CB_LIST_END, NULL, NULL}
 };
@@ -30,9 +30,8 @@ static sasl_callback_t callbacks[] = {
 static int sasl_getopt_callback(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSLog(@"%s", __FUNCTION__);
   
-    NSLog(@"plugin_name: %s, option: %s", plugin_name, option);
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"plugin_name: %s, option: %s", plugin_name, option);
 
     [pool release];
     return SASL_OK;
@@ -41,9 +40,8 @@ static int sasl_getopt_callback(void *context, const char *plugin_name, const ch
 static int sasl_log_callback(void *context, int level, const char *message)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSLog(@"%s", __FUNCTION__);
   
-    NSLog(@"level: %d, message: %s", level, message);
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"level: %d, message: %s", level, message);
 
     [pool release];
     return SASL_OK;
@@ -69,6 +67,13 @@ int main(int argc, const char *argv[])
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     BOOL isRunning = YES;
     
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
+    [defaults setBool:YES forKey:@"EnableBEEPLogging"];
+    [defaults setInteger:0 forKey:@"MillionMonkeysLogDomain"];
+    [defaults setInteger:3 forKey:@"BEEPLogDomain"];
+    [defaults setInteger:3 forKey:@"SASLLogDomain"];
+    
     NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     NSLog(@"seed %@ (%@)", shortVersion, bundleVersion);
@@ -88,7 +93,7 @@ int main(int argc, const char *argv[])
     int result;
     result = sasl_server_init(callbacks, "seed");
     if (result != SASL_OK) {
-        NSLog(@"sasl_server_init failed");
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_server_init failed");
     }
     
     NSMutableString *mechanisms = [[NSMutableString alloc] init];
@@ -99,14 +104,8 @@ int main(int argc, const char *argv[])
     while ((mech = mech_list[i++])) {
         [mechanisms appendFormat:@"\t%s\n", mech];
     }
-    NSLog(mechanisms);
+    DEBUGLOG(@"SASLLogDomain", DetailedLogLevel, mechanisms);
 
-
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
-    [defaults setBool:YES forKey:@"EnableBEEPLogging"];
-    [defaults setInteger:3 forKey:@"MillionMonkeysLogDomain"];
-    [defaults setInteger:0 forKey:@"BEEPLogDomain"];
     
     
     [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
