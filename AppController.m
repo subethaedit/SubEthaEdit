@@ -107,7 +107,7 @@ static sasl_callback_t sasl_callbacks[] = {
 
 static int getsecret_callback(sasl_conn_t *conn, void *context /*__attribute__((unused))*/, int id, sasl_secret_t **psecret)
 {
-    NSLog(@"%s", __FUNCTION__);
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", __FUNCTION__);
     
     // [ask the user for their secret]
 
@@ -118,7 +118,7 @@ static int getsecret_callback(sasl_conn_t *conn, void *context /*__attribute__((
 
 static int getauthname_callback(void *context, int id, const char **result, unsigned *len)
 {    
-    NSLog(@"%s", __FUNCTION__);
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", __FUNCTION__);
 
     if (id != SASL_CB_AUTHNAME) return SASL_FAIL;
 

@@ -1239,6 +1239,8 @@ TCMBEEP/TCMBEEPMessage.h -text
 TCMBEEP/TCMBEEPMessage.m -text
 TCMBEEP/TCMBEEPProfile.h -text
 TCMBEEP/TCMBEEPProfile.m -text
+TCMBEEP/TCMBEEPSASLProfile.h -text
+TCMBEEP/TCMBEEPSASLProfile.m -text
 TCMBEEP/TCMBEEPSession.h -text
 TCMBEEP/TCMBEEPSession.m -text
 TCMBEEP/TCMBEEP_Prefix.pch -text
