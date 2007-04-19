@@ -911,6 +911,14 @@
 		144E23550A1F6197002ED261 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
 		144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = "SubEthaEdit-PantherScripting.r"; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
+		1454A6700BD7795500BE12CA /* sasl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sasl.h; path = sasl/sasl.h; sourceTree = "<group>"; };
+		1454A6710BD7795500BE12CA /* prop.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = prop.h; path = sasl/prop.h; sourceTree = "<group>"; };
+		1454A6720BD7795500BE12CA /* saslutil.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = saslutil.h; path = sasl/saslutil.h; sourceTree = "<group>"; };
+		1454A6730BD7795500BE12CA /* hmac-md5.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "hmac-md5.h"; path = "sasl/hmac-md5.h"; sourceTree = "<group>"; };
+		1454A6740BD7795500BE12CA /* md5.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = md5.h; path = sasl/md5.h; sourceTree = "<group>"; };
+		1454A6750BD7795500BE12CA /* md5global.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = md5global.h; path = sasl/md5global.h; sourceTree = "<group>"; };
+		1454A6760BD7795500BE12CA /* gai.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gai.h; path = sasl/gai.h; sourceTree = "<group>"; };
+		1454A6770BD7795500BE12CA /* saslplug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = saslplug.h; path = sasl/saslplug.h; sourceTree = "<group>"; };
 		1463256A0BA0C71400A88D4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = seed/Info.plist; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1646,6 +1654,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		14548BB00BD6771B00BE12CA /* sasl2 */ = {
+			isa = PBXGroup;
+			children = (
+				1454A6700BD7795500BE12CA /* sasl.h */,
+				1454A6710BD7795500BE12CA /* prop.h */,
+				1454A6720BD7795500BE12CA /* saslutil.h */,
+				1454A6730BD7795500BE12CA /* hmac-md5.h */,
+				1454A6740BD7795500BE12CA /* md5.h */,
+				1454A6750BD7795500BE12CA /* md5global.h */,
+				1454A6760BD7795500BE12CA /* gai.h */,
+				1454A6770BD7795500BE12CA /* saslplug.h */,
+			);
+			name = sasl2;
+			sourceTree = "<group>";
+		};
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1662,6 +1685,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */ = {
 			isa = PBXGroup;
 			children = (
+				14548BB00BD6771B00BE12CA /* sasl2 */,
 				142A5DE30BA58967001C5035 /* seed */,
 				142891780957483200D14688 /* Additions */,
 				142892460957525900D14688 /* BEEPProfiles */,
@@ -2939,6 +2963,7 @@
 					__TEXT,
 					__info_plist,
 					"$(DERIVED_FILE_DIR)/Info.plist",
+					"-lsasl2",
 				);
 				PRODUCT_NAME = seed;
 				ZERO_LINK = YES;
@@ -2963,6 +2988,7 @@
 					__TEXT,
 					__info_plist,
 					"$(DERIVED_FILE_DIR)/Info.plist",
+					"-lsasl2",
 				);
 				PRODUCT_NAME = seed;
 				ZERO_LINK = NO;

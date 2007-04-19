@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "sasl.h"
 
 #import "SDAppController.h"
 
@@ -14,6 +15,41 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 
+
+static int sasl_getopt_callback(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len);
+static int sasl_log_callback(void *context, int level, const char *message);
+
+static sasl_callback_t callbacks[] = {
+    //{SASL_CB_GETOPT, &sasl_getopt_callback, NULL},
+    {SASL_CB_LOG, &sasl_log_callback, NULL},
+    {SASL_CB_LIST_END, NULL, NULL}
+};
+
+#pragma mark -
+
+static int sasl_getopt_callback(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSLog(@"%s", __FUNCTION__);
+  
+    NSLog(@"plugin_name: %s, option: %s", plugin_name, option);
+
+    [pool release];
+    return SASL_OK;
+}
+
+static int sasl_log_callback(void *context, int level, const char *message)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSLog(@"%s", __FUNCTION__);
+  
+    NSLog(@"level: %d, message: %s", level, message);
+
+    [pool release];
+    return SASL_OK;
+}
+
+#pragma mark -
 
 // 
 // Signal handler for the TERM signal
@@ -26,6 +62,8 @@ void catch_term(int sig_num)
     endRunLoop = YES;
 }
 
+#pragma mark -
+
 int main(int argc, const char *argv[])
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -37,7 +75,33 @@ int main(int argc, const char *argv[])
     
     endRunLoop = NO;
 
+
+    const char *implementation;
+    const char *version_string;
+    int version_major;
+    int version_minor;
+    int version_step;
+    int version_patch;
+    sasl_version_info(&implementation, &version_string, &version_major, &version_minor, &version_step, &version_patch);
+    NSLog(@"%s %s (%d.%d.%d.%d)", implementation, version_string, version_major, version_minor, version_step, version_patch);
+
+    int result;
+    result = sasl_server_init(callbacks, "seed");
+    if (result != SASL_OK) {
+        NSLog(@"sasl_client_init failed");
+    }
     
+    NSMutableString *mechanisms = [[NSMutableString alloc] init];
+    [mechanisms appendString:@"SASL mechanisms:\n"];
+    const char **mech_list = sasl_global_listmech();
+    const char *mech;
+    int i = 0;
+    while ((mech = mech_list[i++])) {
+        [mechanisms appendFormat:@"\t%s\n", mech];
+    }
+    NSLog(mechanisms);
+
+
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
     [defaults setBool:YES forKey:@"EnableBEEPLogging"];
@@ -49,7 +113,8 @@ int main(int argc, const char *argv[])
 
     SDAppController *appController = [[SDAppController alloc] init];
 
-
+    
+    
     // Setup user with ID and name, w/o you can't establish connections
     TCMMMUser *me = [[TCMMMUser alloc] init];
     [me setUserID:[NSString UUIDString]];
@@ -81,25 +146,6 @@ int main(int argc, const char *argv[])
     // set the TERM signal handler to 'catch_term' 
     signal(SIGTERM, catch_term);
     
-    /*
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSMutableArray *filenames = [NSMutableArray array];
-    int i;
-    for (i = 1; i < argc; i++) {
-        char resolved_path[PATH_MAX];
-        char *path = realpath(argv[i], resolved_path);
-
-        if (path) {
-            NSString *fileName = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
-            NSLog(@"fileName after realpath: %@", fileName);
-            [filenames addObject:fileName];
-        } else {
-            NSLog(@"Error occurred while resolving path: %s", argv[i]);
-        }
-    }
-    
-    [appController openFiles:filenames];
-    */
     
     NSString *configFile = [defaults stringForKey:@"config"];
     if (configFile) {

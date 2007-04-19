@@ -1455,6 +1455,14 @@ artwork/monkey32.png -text
 artwork/style.icns -text
 /createDiskImage.sh -text
 /main.m -text
+sasl/gai.h -text
+sasl/hmac-md5.h -text
+sasl/md5.h -text
+sasl/md5global.h -text
+sasl/prop.h -text
+sasl/sasl.h -text
+sasl/saslplug.h -text
+sasl/saslutil.h -text
 see/main.m -text
 see/see.1 -text
 see/see.vers -text
