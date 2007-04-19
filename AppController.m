@@ -10,6 +10,7 @@
 #import <Security/Security.h>
 #import <Carbon/Carbon.h>
 #import <HDCrashReporter/crashReporter.h>
+#import "sasl.h"
 
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
@@ -93,6 +94,41 @@ NSString * const LicenseeOrganizationPrefKey = @"LicenseeOrganizationPrefKey";
 NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNotification";
 
 
+static int getsecret_callback(sasl_conn_t *conn, void *context /*__attribute__((unused))*/, int id, sasl_secret_t **psecret);
+static int getauthname_callback(void *context, int id, const char **result, unsigned *len);
+
+static sasl_callback_t sasl_callbacks[] = {
+    {SASL_CB_GETREALM, NULL, NULL},  /* we'll just use an interaction if this comes up */
+    {SASL_CB_USER, NULL, NULL},      /* we'll just use an interaction if this comes up */
+    {SASL_CB_AUTHNAME, &getauthname_callback, NULL}, /* A mechanism should call getauthname_func if it needs the authentication name */
+    {SASL_CB_PASS, &getsecret_callback, NULL},       /* Call getsecret_func if need secret */
+    {SASL_CB_LIST_END, NULL, NULL}
+};
+
+static int getsecret_callback(sasl_conn_t *conn, void *context /*__attribute__((unused))*/, int id, sasl_secret_t **psecret)
+{
+    NSLog(@"%s", __FUNCTION__);
+    
+    // [ask the user for their secret]
+
+    // [allocate psecret and insert the secret]
+
+    return SASL_OK;
+}
+
+static int getauthname_callback(void *context, int id, const char **result, unsigned *len)
+{    
+    NSLog(@"%s", __FUNCTION__);
+
+    if (id != SASL_CB_AUTHNAME) return SASL_FAIL;
+
+    // [fill in result and len]
+
+    return SASL_OK;
+}
+    
+#pragma mark -
+    
 @interface AppController (AppControllerPrivateAdditions)
 
 - (void)setupFileEncodingsSubmenu;
@@ -335,6 +371,25 @@ static AppController *sharedInstance = nil;
     //    [NSApp terminate:self];
     //    return;
     //}
+    
+    
+    // SASL setup
+    
+    const char *implementation;
+    const char *version_string;
+    int version_major;
+    int version_minor;
+    int version_step;
+    int version_patch;
+    sasl_version_info(&implementation, &version_string, &version_major, &version_minor, &version_step, &version_patch);
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"%s %s (%d.%d.%d.%d)", implementation, version_string, version_major, version_minor, version_step, version_patch);
+
+    int result;
+    result = sasl_client_init(sasl_callbacks);
+    if (result != SASL_OK) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"sasl_client_init failed");
+    }
+
 
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     

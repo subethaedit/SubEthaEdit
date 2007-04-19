@@ -88,7 +88,7 @@ int main(int argc, const char *argv[])
     int result;
     result = sasl_server_init(callbacks, "seed");
     if (result != SASL_OK) {
-        NSLog(@"sasl_client_init failed");
+        NSLog(@"sasl_server_init failed");
     }
     
     NSMutableString *mechanisms = [[NSMutableString alloc] init];
