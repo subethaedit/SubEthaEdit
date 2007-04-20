@@ -37,6 +37,10 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:aUserID forKey:@"uid"];
     [dict setObject:@"200" forKey:@"vers"];
+    NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+    NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [dict setObject:[NSString stringWithFormat:@"%@/%@ (%@)",bundleName,shortVersion,bundleVersion] forKey:@"uag"];
 
     if ([[[[self session] userInfo] objectForKey:@"isRendezvous"] boolValue]) {
         [dict setObject:@"vous" forKey:@"rendez"];
@@ -77,6 +81,10 @@
             }
             if ([[self remoteInfos] objectForKey:@"url"]) {
                 [[[self session] userInfo] setObject:[NSString stringWithAddressData:[[self session] peerAddressData]] forKey:@"URLString"];
+            }
+            NSString *userAgent = [[self remoteInfos] objectForKey:@"uag"];
+            if (userAgent) {
+                [[[self session] userInfo] setObject:userAgent forKey:@"userAgent"];
             }
             if (![[self remoteInfos] objectForKey:@"uid"] || ![[[self remoteInfos] objectForKey:@"uid"] isKindOfClass:[NSString class]]) {
                 [[self session] terminate];
