@@ -11,4 +11,13 @@
 
 @implementation TCMBEEPSASLProfile
 
+- (id)initWithChannel:(TCMBEEPChannel *)aChannel
+{
+    self = [super initWithChannel:aChannel];
+    if (self) {
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Initialized TCMBEEPSASLProfile");
+    }
+    return self;
+}
+
 @end
