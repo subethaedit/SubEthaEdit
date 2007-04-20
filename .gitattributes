@@ -1227,6 +1227,10 @@ SubEthaEdit.xcodeproj/project.pbxproj -text
 TCMBEEP/Info.plist -text
 TCMBEEP/TCMBEEP.h -text
 TCMBEEP/TCMBEEP.xcodeproj/project.pbxproj -text
+TCMBEEP/TCMBEEPAuthenticationClient.h -text
+TCMBEEP/TCMBEEPAuthenticationClient.m -text
+TCMBEEP/TCMBEEPAuthenticationServer.h -text
+TCMBEEP/TCMBEEPAuthenticationServer.m -text
 TCMBEEP/TCMBEEPChannel.h -text
 TCMBEEP/TCMBEEPChannel.m -text
 TCMBEEP/TCMBEEPFrame.h -text

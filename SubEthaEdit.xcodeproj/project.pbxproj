@@ -267,6 +267,10 @@
 		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
 		142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */; };
+		1443B0340BD9189500755DED /* TCMBEEPAuthenticationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1443B0330BD9189500755DED /* TCMBEEPAuthenticationServer.m */; };
+		1443B0390BD918A800755DED /* TCMBEEPAuthenticationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1443B0380BD918A800755DED /* TCMBEEPAuthenticationClient.m */; };
+		1443B04C0BD9193100755DED /* TCMBEEPAuthenticationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1443B0330BD9189500755DED /* TCMBEEPAuthenticationServer.m */; };
+		1443B04D0BD9193200755DED /* TCMBEEPAuthenticationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1443B0380BD918A800755DED /* TCMBEEPAuthenticationClient.m */; };
 		144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 1428947E09575E0500D14688 /* SubEthaEditSuite.scriptSuite */; };
 		144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 1428947F09575E0500D14688 /* SubEthaEditSuite.scriptTerminology */; };
 		144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */; };
@@ -906,6 +910,10 @@
 		142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableAttributedStringSEEAdditions.m; sourceTree = "<group>"; };
 		142D1B990BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMMMUserManagerKitAdditions.h; sourceTree = "<group>"; };
 		142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMUserManagerKitAdditions.m; sourceTree = "<group>"; };
+		1443B0320BD9189500755DED /* TCMBEEPAuthenticationServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMBEEPAuthenticationServer.h; path = TCMBEEP/TCMBEEPAuthenticationServer.h; sourceTree = "<group>"; };
+		1443B0330BD9189500755DED /* TCMBEEPAuthenticationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPAuthenticationServer.m; path = TCMBEEP/TCMBEEPAuthenticationServer.m; sourceTree = "<group>"; };
+		1443B0370BD918A800755DED /* TCMBEEPAuthenticationClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMBEEPAuthenticationClient.h; path = TCMBEEP/TCMBEEPAuthenticationClient.h; sourceTree = "<group>"; };
+		1443B0380BD918A800755DED /* TCMBEEPAuthenticationClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPAuthenticationClient.m; path = TCMBEEP/TCMBEEPAuthenticationClient.m; sourceTree = "<group>"; };
 		144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptSuite; sourceTree = "<group>"; };
 		144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptTerminology; sourceTree = "<group>"; };
 		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
@@ -1328,6 +1336,10 @@
 			isa = PBXGroup;
 			children = (
 				142891410957475E00D14688 /* TCMBEEP.h */,
+				1443B0370BD918A800755DED /* TCMBEEPAuthenticationClient.h */,
+				1443B0380BD918A800755DED /* TCMBEEPAuthenticationClient.m */,
+				1443B0320BD9189500755DED /* TCMBEEPAuthenticationServer.h */,
+				1443B0330BD9189500755DED /* TCMBEEPAuthenticationServer.m */,
 				142891420957475E00D14688 /* TCMBEEPChannel.h */,
 				142891430957475E00D14688 /* TCMBEEPChannel.m */,
 				142891440957475E00D14688 /* TCMBEEPFrame.h */,
@@ -2449,6 +2461,8 @@
 				14251C780BBD5E2600052C84 /* TextOperation.m in Sources */,
 				14251C790BBD5E2600052C84 /* UserChangeOperation.m in Sources */,
 				14D640A60BD7A81700CFC4FC /* TCMBEEPSASLProfile.m in Sources */,
+				1443B0340BD9189500755DED /* TCMBEEPAuthenticationServer.m in Sources */,
+				1443B0390BD918A800755DED /* TCMBEEPAuthenticationClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2633,6 +2647,8 @@
 				142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */,
 				141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */,
 				14D640B40BD7A85F00CFC4FC /* TCMBEEPSASLProfile.m in Sources */,
+				1443B04C0BD9193100755DED /* TCMBEEPAuthenticationServer.m in Sources */,
+				1443B04D0BD9193200755DED /* TCMBEEPAuthenticationClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
