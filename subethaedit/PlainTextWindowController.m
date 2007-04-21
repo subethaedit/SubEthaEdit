@@ -291,20 +291,13 @@ enum {
                 [loadProgress release];
             }
             [tabViewItem setView:[loadProgress loadProgressView]];
+            [loadProgress registerForSession:[document session]];
             [loadProgress startAnimation];
 
-            [[NSNotificationCenter defaultCenter] addObserver:loadProgress 
-                                                     selector:@selector(updateProgress:) 
-                                                         name:TCMMMSessionDidReceiveContentNotification
-                                                       object:[document session]];
             
         } else {
             PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
 
-            [[NSNotificationCenter defaultCenter] removeObserver:loadProgress
-                                                            name:TCMMMSessionDidReceiveContentNotification
-                                                          object:[document session]];
-            
             [loadProgress stopAnimation];
 
             PlainTextEditor *editor = [[tabContext plainTextEditors] objectAtIndex:0];
