@@ -501,6 +501,7 @@ subethaedit/Modes/C.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -te
 subethaedit/Modes/C.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/C.mode/Contents/Resources/ToolbarCounterpart.png -text
 subethaedit/Modes/CSS.mode/Contents/Info.plist -text
+subethaedit/Modes/CSS.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/CSS.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/CSS.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 subethaedit/Modes/CSS.mode/Contents/Resources/English.lproj/Localizable.strings -text
