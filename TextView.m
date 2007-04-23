@@ -333,10 +333,20 @@ static NSMenu *defaultMenu=nil;
 }
 
 - (void)setBackgroundColor:(NSColor *)aColor {
+    BOOL wasDark = [[self backgroundColor] isDark];
+    BOOL isDark = [aColor isDark];
     [super setBackgroundColor:aColor];
-    [self setInsertionPointColor:[aColor isDark]?[NSColor whiteColor]:[NSColor blackColor]];
-    [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:[aColor isDark]?[[NSColor selectedTextBackgroundColor] brightnessInvertedSelectionColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
-    [[self enclosingScrollView] setDocumentCursor:[aColor isDark]?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
+    [self setInsertionPointColor:isDark?[NSColor whiteColor]:[NSColor blackColor]];
+    [self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:isDark?[[NSColor selectedTextBackgroundColor] brightnessInvertedSelectionColor]:[NSColor selectedTextBackgroundColor] forKey:NSBackgroundColorAttributeName]];
+    [[self enclosingScrollView] setDocumentCursor:isDark?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
+    if (( wasDark && !isDark) || 
+        (!wasDark &&  isDark)) {
+        // remove and add from Superview to activiate my cursor rect and deactivate the ones of the TextView
+        NSScrollView *sv = [[[self enclosingScrollView] retain] autorelease];
+        NSView *superview = [sv superview];
+        [sv removeFromSuperview];
+        [superview addSubview:sv];
+    }
     [[self window] invalidateCursorRectsForView:self];
 }
 
@@ -514,6 +524,7 @@ static NSMenu *defaultMenu=nil;
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[userDescription objectForKey:@"UserID"]];
             if (user) {
                 TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] URLString:[userDescription objectForKey:@"URLString"]];
+                [document setPlainTextEditorsShowChangeMarksOnInvitation];
                 [session inviteUser:user intoGroup:@"ReadWrite" usingBEEPSession:BEEPSession];
             }
         }

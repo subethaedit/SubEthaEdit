@@ -47,14 +47,14 @@
 - (void)handleOperation:(TCMMMOperation *)anOperation;
 
 - (BOOL)hasMessagesAvailable;
-- (void)processMessage;
+- (BOOL)processMessage;
 
 @end
 
 
 @interface NSObject (TCMMMStateDelegateAdditions)
 
-- (void)state:(TCMMMState *)aState handleOperation:(TCMMMOperation *)anOperation;
+- (BOOL)state:(TCMMMState *)aState handleOperation:(TCMMMOperation *)anOperation;
 - (void)stateHasMessagesAvailable:(TCMMMState *)aState;
 
 @end

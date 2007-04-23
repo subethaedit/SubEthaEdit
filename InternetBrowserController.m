@@ -3,9 +3,10 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Mar 03 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
+#import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "InternetBrowserController.h"
 #import "AppController.h"
 #import "TCMHost.h"
@@ -13,6 +14,7 @@
 #import "TCMFoundation.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
+#import "TCMMMBrowserListView.h"
 #import "ImagePopUpButtonCell.h"
 #import "PullDownButtonCell.h"
 #import "TexturedButtonCell.h"
@@ -147,7 +149,7 @@ static InternetBrowserController *sharedInstance = nil;
 - (void)TCM_synchronizeMyNameAndPicture {
     TCMMMUser *me=[TCMMMUserManager me];
     [O_myNameTextField setStringValue:[me name]];
-    [O_imageView setImage:[[me properties] objectForKey:@"Image"]];
+    [O_imageView setImage:[me image]];
 }
 
 - (void)windowDidLoad {
@@ -1240,7 +1242,7 @@ enum {
 - (id)listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
     static NSImage *defaultPerson = nil;
     if (!defaultPerson) {
-        defaultPerson = [[[NSImage imageNamed:@"DefaultPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
+        defaultPerson = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
     }
     
     if (aChildIndex == -1) {
@@ -1260,9 +1262,9 @@ enum {
                 } else if (aTag == TCMMMBrowserItemStatusTag) {
                     return [NSString stringWithFormat:NSLocalizedString(@"%d Document(s)",@"Status string showing the number of documents in Rendezvous and Internet browser"), [[item objectForKey:@"Sessions"] count]];
                 } else if (aTag == TCMMMBrowserItemImageTag) {
-                    return [[user properties] objectForKey:@"Image32"];
+                    return [user image32];
                 } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
-                    return [[user properties] objectForKey:@"ColorImage"];
+                    return [user colorImage];
                 }
             } else {
                 if (aTag == TCMMMBrowserItemNameTag) {
@@ -1355,20 +1357,24 @@ enum {
     if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
         NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
         TCMBEEPSession *BEEPSession = [item objectForKey:@"BEEPSession"];
-        NSString *addressDataString = nil;
+        NSString *addressDataString = nil, *userAgent=nil;
         if (BEEPSession) {
             addressDataString = [NSString stringWithAddressData:[BEEPSession peerAddressData]];
+            userAgent = [[BEEPSession userInfo] objectForKey:@"userAgent"];
+            if (!userAgent) userAgent = @"SubEthaEdit/2.x";
         }
         if ([item objectForKey:@"inbound"]) {
             if (addressDataString) {
-                return [NSString stringWithFormat:NSLocalizedString(@"Inbound Connection from %@", @"Inbound Connection ToolTip With Address"), addressDataString];
+                return [NSString stringWithFormat:@"%@\n%@",
+                        [NSString stringWithFormat:NSLocalizedString(@"Inbound Connection from %@", @"Inbound Connection ToolTip With Address"), addressDataString],
+                        userAgent];
             } else {
                 return NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip");
             }
         }
         
         if (![item objectForKey:@"failed"]) {
-            return [item objectForKey:@"URLString"];
+            return [NSString stringWithFormat:@"%@\n%@",[item objectForKey:@"URLString"],userAgent];
         }
     }
     

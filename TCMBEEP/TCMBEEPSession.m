@@ -175,6 +175,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         CFSocketSignature signature = {address->sa_family, SOCK_STREAM, IPPROTO_TCP, (CFDataRef)aData};
         CFStreamCreatePairWithPeerSocketSignature(kCFAllocatorDefault, &signature, &I_readStream, &I_writeStream);
         I_flags.isInitiator = YES;
+        I_flags.isProhibitingInboundInternetSessions = NO;
         I_nextChannelNumber = -1;
         [self TCM_initHelper];
     }
@@ -367,6 +368,16 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (NSString *)peerLocalizeAttribute
 {
     return I_peerLocalizeAttribute;
+}
+
+- (void)setIsProhibitingInboundInternetSessions:(BOOL)flag
+{
+    I_flags.isProhibitingInboundInternetSessions = flag;
+}
+
+- (BOOL)isProhibitingInboundInternetSessions
+{
+    return I_flags.isProhibitingInboundInternetSessions;
 }
 
 - (BOOL)isInitiator

@@ -1,4 +1,31 @@
 
+SubEthaEdit 2.6.3
+=================
+
+Changes:
+- Made handling of remote edits more robust.
+- Opening a file replacing an empty "Untitled.txt" does not increment window 
+  stagger anymore.
+
+Fixes:
+- Fixed an issue where the connection would stay alive, but remote changes 
+  would not be applied anymore.
+- Fixed an issue that could lead to loosing the connection to a remote 
+  SubEthaEdit without notice in rare cases.
+- Fixed a crash triggered by the reconnection of a participant whose connection 
+  got lost unnoticed
+- Fixed a crash triggered by canceled-in-transit connections over a high 
+  latency line.
+- Fixed a crash triggered by canceling the transmission of a big document while 
+  the progress bar is visible.
+- Fixed a bug where new documents were placed to far to the right to be shown 
+  entirely on the screen.
+- Fixed an issue where the cursor still was too dark to be noticable when 
+  changing a document from bright to dark background.
+- Improved CSS mode for better inline comments coloring.
+- Improved PHP-HTML with missing PHP 5 keywords.
+
+
 SubEthaEdit 2.6.2
 =================
 

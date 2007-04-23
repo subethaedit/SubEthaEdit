@@ -1,4 +1,33 @@
 
+SubEthaEdit 2.6.3
+=================
+
+Veränderugen:
+- Die Verarbeitung von fremden Textveränderungen wurde robuster gemacht.
+- Das Öffnen einer Datei die "Unbenannt.txt" ersetzt, erhöht nicht mehr die 
+  Position im Fensterstapel.
+
+Korrekturen:
+- Ein Fehler wurde behoben, durch den eine vorhandene Verbindung keine 
+  Änderungen mehr übermittelt.
+- Ein Fehler wurde behoben, durch den ein Verbindungsabbruch in seltenen Fällen 
+  einseitig nicht registriert wurde.
+- Ein Fehler wurde behoben, bei dem nach einem nicht registriertem 
+  Verbindungsabbruch ein erneuter Verbindungsaufbau zu einem Absturz führte.
+- Ein Fehler wurde behoben, durch den eine abgebrochene sich im Aufbau 
+  befindende Dokumenten-Verbindung über eine Leitung mit hoher Latenz zu einem 
+  Absturz führte.
+- Ein Fehler wurde behoben, der zu einem Absturz führte, wenn die Verbindung 
+  während der Übertragung des Dokumentes abbgebrochen wurde.
+- Ein Fehler wurde behoben, durch den Fenster zu weit am rechten Bildschirmrand 
+  platziert wurden um komplett angezeigt zu werden.
+- Die Farbe des Mauszeigers ist nun auch dann Weiß, wenn erst im laufe der 
+  Benutzung des Dokumentes ein Wechsel von hellem auf dunklen Hintergrund 
+  erfolgt.
+- CSS Modus mit verbesserter Färbung von Kommentaren.
+- PHP-HTML Modus mit verbesserter Unterstüztung von PHP 5.
+
+
 SubEthaEdit 2.6.2
 =================
 

@@ -1002,8 +1002,8 @@ static NSString *tempFileName() {
         PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:NO];
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
         [document setDocumentMode:newMode];
-        [document showWindows];
         [document resizeAccordingToDocumentMode];
+        [document showWindows];
         NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         if (encoding < SmallestCustomStringEncoding) {
             [document setFileEncoding:encoding];

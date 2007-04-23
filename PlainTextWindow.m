@@ -8,7 +8,7 @@
 
 #import "PlainTextWindow.h"
 #import "PlainTextWindowController.h"
-
+#import "BacktracingException.h"
 
 @implementation PlainTextWindow
 
@@ -30,5 +30,35 @@
         [super setDocumentEdited:flag];
     }
 }
+
+- (NSPoint)cascadeTopLeftFromPoint:(NSPoint)aPoint {
+    static NSPoint offsetPoint = {0.,0.};
+    if (NSEqualPoints(offsetPoint,NSZeroPoint)) {
+        NSPoint firstPoint = [super cascadeTopLeftFromPoint:NSZeroPoint];
+        NSPoint secondPoint = [super cascadeTopLeftFromPoint:firstPoint];
+        offsetPoint.x = MAX(10.,MIN(ABS(secondPoint.x-firstPoint.x),70.));
+        offsetPoint.y = MAX(10.,MIN(ABS(secondPoint.y-firstPoint.y),70.));
+    }
+
+    NSRect visibleFrame = [[self screen] visibleFrame];
+
+    if (NSEqualPoints(aPoint,NSZeroPoint)) {
+        aPoint = NSMakePoint(visibleFrame.origin.x,NSMaxY(visibleFrame));
+    }
+
+    NSPoint result = aPoint;
+    result.x += offsetPoint.x;
+    result.y -= offsetPoint.y;
+    if (result.x + [self frame].size.width > visibleFrame.size.width) {
+        result.x = visibleFrame.origin.x;
+    }
+
+    float toHighDifference = visibleFrame.origin.y - (result.y - [self frame].size.height);
+    if (toHighDifference > 0) {
+        result.y = NSMaxY(visibleFrame);
+    }
+    return result;
+}
+
 
 @end

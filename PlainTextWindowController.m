@@ -64,6 +64,7 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 NSString * const ToggleShowInvisibleCharactersToolbarItemIdentifier = 
                @"ToggleShowInvisibleCharactersToolbarItemIdentifier";
 
+static NSPoint S_cascadePoint = {0.0,0.0};
 
 static int KickButtonStateMask=1;
 static int ReadOnlyButtonStateMask=2;
@@ -128,6 +129,8 @@ enum {
         [item setTarget:self];
         [item setTag:ParticipantContextMenuTagKickDeny];
         [I_contextMenu setDelegate:self];
+        
+        [self setShouldCascadeWindows:NO];
     }
     return self;
 }
@@ -288,20 +291,13 @@ enum {
                 [loadProgress release];
             }
             [tabViewItem setView:[loadProgress loadProgressView]];
+            [loadProgress registerForSession:[document session]];
             [loadProgress startAnimation];
 
-            [[NSNotificationCenter defaultCenter] addObserver:loadProgress 
-                                                     selector:@selector(updateProgress:) 
-                                                         name:TCMMMSessionDidReceiveContentNotification
-                                                       object:[document session]];
             
         } else {
             PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
 
-            [[NSNotificationCenter defaultCenter] removeObserver:loadProgress
-                                                            name:TCMMMSessionDidReceiveContentNotification
-                                                          object:[document session]];
-            
             [loadProgress stopAnimation];
 
             PlainTextEditor *editor = [[tabContext plainTextEditors] objectAtIndex:0];
@@ -330,6 +326,8 @@ enum {
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
     NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
+    contentSize.width  = (int)(contentSize.width + 0.5);
+    contentSize.height = (int)(contentSize.height + 0.5);
     NSWindow *window=[self window];
     NSSize minSize=[window contentMinSize];
     NSRect contentRect=[window contentRectForFrameRect:[window frame]];
@@ -1580,9 +1578,9 @@ enum {
                 }
                 return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
             } else if (aTag==ParticipantsChildImageTag) {
-                return [[user properties] objectForKey:(status || anItemIndex==2)?@"Image32Dimmed":@"Image32"];
+                return ((status || anItemIndex==2) ? [user image32Dimmed] : [user image32]);
             } else if (aTag==ParticipantsChildImageNextToNameTag) {
-                return [[user properties] objectForKey:@"ColorImage"];
+                return [user colorImage];
             }
         }
         return nil;
@@ -1806,6 +1804,19 @@ enum {
 }
 
 #pragma mark -
+
+- (void)cascadeWindow {
+    NSWindow *window = [self window];
+    S_cascadePoint = [window cascadeTopLeftFromPoint:S_cascadePoint];
+    [window setFrameTopLeftPoint:S_cascadePoint];
+}
+
+- (IBAction)showWindow:(id)aSender {
+    if (![[self window] isVisible]) {
+        [self cascadeWindow];
+    }
+    [super showWindow:aSender];
+}
 
 - (NSRect)dissolveToFrame {
     if ([self hasManyDocuments] ||

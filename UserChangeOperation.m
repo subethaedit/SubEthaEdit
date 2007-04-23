@@ -3,12 +3,11 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Mon May 03 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import "UserChangeOperation.h"
 #import "TCMMMUser.h"
-#import "TCMMMUserSEEAdditions.h"
 
 @implementation UserChangeOperation
 

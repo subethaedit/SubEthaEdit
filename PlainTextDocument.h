@@ -3,13 +3,14 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Feb 24 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 
 #import <Cocoa/Cocoa.h>
 #import <Security/Security.h>
 #import "EncodingManager.h"
+#import "TCMMMSession.h"
 
 enum {
     UnknownStringEncoding = NoStringEncoding,
@@ -38,7 +39,7 @@ extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
 extern NSString * const PlainTextDocumentDidSaveNotification;
 
-@interface PlainTextDocument : NSDocument
+@interface PlainTextDocument : NSDocument <SEEDocument>
 {
     TCMMMSession *I_session;
     struct {
@@ -247,6 +248,9 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (NSString *)preparedDisplayName;
 
+- (void)setPlainTextEditorsShowChangeMarksOnInvitation;
+- (NSDictionary *)textStorageDictionaryRepresentation;
+
 #pragma mark -
 #pragma mark ### Flag Accessors ###
 - (BOOL)isHandlingUndoManually;
@@ -320,7 +324,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (NSDictionary *)sessionInformation;
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
-- (void)handleOperation:(TCMMMOperation *)aOperation;
+- (BOOL)handleOperation:(TCMMMOperation *)aOperation;
 
 
 - (void)addFindAllController:(FindAllController *)aController;
