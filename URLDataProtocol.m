@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Sun Oct 19 2003.
-//  Copyright (c) 2003 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2003 TheCodingMonkeys. All rights reserved.
 //
 
 #import "URLDataProtocol.h"

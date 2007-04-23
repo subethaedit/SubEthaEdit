@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Tue Feb 24 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Carbon/Carbon.h>
@@ -25,6 +25,7 @@
 #import "AppController.h"
 #import "NSSavePanelTCMAdditions.h"
 #import "EncodingDoctorDialog.h"
+#import "NSMutableAttributedStringSEEAdditions.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -1771,12 +1772,15 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     if (I_documentProxyWindowController) {
         [[I_documentProxyWindowController window] orderFront:self];
     } else {
+        PlainTextWindowController *windowController = [self topmostWindowController];
         if (closeTransient) {
-            NSWindow *window = [[self topmostWindowController] window];
+            NSWindow *window = [windowController window];
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
-        [[self topmostWindowController] selectTabForDocument:self];
-        [[self topmostWindowController] showWindow:self];
+        [windowController selectTabForDocument:self];
+        [[windowController tabBar] updateViewsHack];
+        if (closeTransient) [[windowController window] orderFront:self]; // stop cascading
+        [windowController showWindow:self];
     }
     
     if (closeTransient && ![self isProxyDocument]) {
@@ -3774,7 +3778,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSWindow *window;
     PlainTextWindowController *result=nil;
     while ((window=[orderedWindowEnumerator nextObject])) {
-        if ([[window windowController] document]==self) {
+        if ([[window windowController] document]==self && [[window windowController] isKindOfClass:[PlainTextWindowController class]]) {
             result=[window windowController];
             break;
         }
@@ -4153,6 +4157,17 @@ static NSString *S_measurementUnits;
     return I_flags.showsChangeMarks;
 }
 
+- (void)setPlainTextEditorsShowChangeMarksOnInvitation
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
+        NSEnumerator *plainTextEditors = [[self plainTextEditors] objectEnumerator];
+        PlainTextEditor *editor = nil;
+        while ((editor = [plainTextEditors nextObject])) {
+            [editor setShowsChangeMarks:YES];
+        }
+    }
+}
+
 - (void)setShowsChangeMarks:(BOOL)aFlag {
     I_flags.showsChangeMarks=aFlag;
 }
@@ -4491,6 +4506,18 @@ static NSString *S_measurementUnits;
     [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
+- (void)sessionDidLeave:(TCMMMSession *)aSession {
+    [self TCM_generateNewSession];
+    
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setMessageText:NSLocalizedString(@"ProblemLeave", @"ProblemLeave title in Sheet")];
+    [alert setInformativeText:NSLocalizedString(@"ProblemLeaveInfo", @"ProblemLeaveInfo info in Sheet")];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
+    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+}
+
+
 - (void)sessionDidCancelInvitation:(TCMMMSession *)aSession {
     [I_documentProxyWindowController invitationWasCanceled];
 }
@@ -4557,11 +4584,12 @@ static NSString *S_measurementUnits;
                           && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
 
     if (closeTransient) {
-        NSWindow *window = [[self topmostWindowController] window];
+         NSWindow *window = [[self topmostWindowController] window];
         [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         [transientDocument close];
+    } else if (![[windowController window] isVisible]) {
+        [windowController cascadeWindow];
     }
-
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
     
     if (closeTransient) {
@@ -4598,6 +4626,11 @@ static NSString *S_measurementUnits;
     if ([session isServer]) {
         [session setFilename:[self preparedDisplayName]];
     }
+}
+
+- (NSDictionary *)textStorageDictionaryRepresentation
+{
+    return [(TextStorage *)[self textStorage] dictionaryRepresentation];
 }
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
@@ -4660,8 +4693,17 @@ static NSString *S_measurementUnits;
     return result;
 }
 
-- (void)handleOperation:(TCMMMOperation *)aOperation {
+- (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
+        TextOperation *operation=(TextOperation *)aOperation;
+        NSTextStorage *textStorage=[self textStorage];
+    
+        // check validity of operation
+        if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
+            NSLog(@"User tried to change text outside the document bounds:%@ %@",operation,[[TCMMMUserManager sharedInstance] userForUserID:[operation userID]]);
+            return NO;
+        }
+    
         // gather selections from all textviews and transform them
         NSArray *editors=[self plainTextEditors];
         I_flags.isRemotelyEditingTextStorage=![[aOperation userID] isEqualToString:[TCMMMUserManager myUserID]];
@@ -4674,8 +4716,6 @@ static NSString *S_measurementUnits;
             }
         }
 
-        TextOperation *operation=(TextOperation *)aOperation;
-        NSTextStorage *textStorage=[self textStorage];
         [textStorage beginEditing];
         NSRange newRange=NSMakeRange([operation affectedCharRange].location,
                                      [[operation replacementString] length]);
@@ -4709,6 +4749,7 @@ static NSString *S_measurementUnits;
         [self changeSelectionOfUserWithID:[aOperation userID]
               toRange:[(SelectionOperation *)aOperation selectedRange]];
     }
+    return YES;
 }
 
 #pragma mark -

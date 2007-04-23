@@ -1,3 +1,6 @@
+Changes with Version 1.8
+    *) Added missing AddressBook constants
+
 Changes with Version 1.7 (SEE 2.6)
     *) Added missing NSWindow constants.
 

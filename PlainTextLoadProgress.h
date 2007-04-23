@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class TCMMMSession;
 
 @interface PlainTextLoadProgress : NSObject {
     IBOutlet NSView *_loadProgressView;
@@ -19,5 +20,6 @@
 - (void)stopAnimation;
 - (void)setStatusText:(NSString *)string;
 - (NSView *)loadProgressView;
+- (void)registerForSession:(TCMMMSession *)session;
 
 @end
