@@ -1,3 +1,6 @@
+Changes with Version 1.5
+    *) added PHP5 specific keywords
+
 Changes with Version 1.5 (SEE 2.5.1)
     *) fixed link in Lookup in PHP Documentation Script
     *) substituted 501 with `id -g` to make all utf-8 "do shell script" commands work on non-501 users. (fixes SEE-1042)

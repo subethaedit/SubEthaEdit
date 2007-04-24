@@ -195,6 +195,7 @@
                 <string>chroot</string>
                 <string>chunk_split</string>
                 <string>class_exists</string>
+                <string>class_implements</string>
                 <string>clearstatcache</string>
                 <string>client_encoding</string>
                 <string>close</string>
@@ -3507,6 +3508,7 @@
                 <string>new</string>
                 <string>clone</string>
                 <string>static</string>
+                <string>const</string>
                 <string>var</string>
                 <string>int</string>
                 <string>float</string>
@@ -3517,6 +3519,7 @@
                 <string>integer</string>
                 <string>resource</string>
                 <string>NULL</string>
+                <string>null</string>
                 <string>string</string>
                 <string>array</string>
                 <string>list</string>
@@ -3529,24 +3532,36 @@
                 <string>endwhile</string>
                 <string>do</string>
                 <string>for</string>
+                <string>endfor</string>
                 <string>foreach</string>
+                <string>endforeach</string>
                 <string>as</string>
                 <string>break</string>
                 <string>continue</string>
                 <string>switch</string>
+                <string>case</string>
+                <string>endswitch</string>
                 <string>declare</string>
+                <string>enddeclare</string>
                 <string>return</string>
                 <string>require</string>
                 <string>require_once</string>
                 <string>include</string>
                 <string>include_once</string>
                 <string>function</string>
+                <string>abstract</string>
                 <string>final</string>
                 <string>class</string>
                 <string>public</string>
                 <string>private</string>
                 <string>protected</string>
+                <string>implements</string>
+                <string>interface</string>
                 <string>extends</string>
+                <string>try</string>
+                <string>catch</string>
+                <string>this</string>
+                <string>exception</string>
                 <string>parent</string>
                 <string>true</string>
                 <string>false</string>

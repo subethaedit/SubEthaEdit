@@ -227,6 +227,11 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     NSLog(@"%s", __FUNCTION__);
 }
 
+- (void)sessionDidLeave:(TCMMMSession *)aSession
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession
 {
     NSLog(@"%s", __FUNCTION__);
@@ -370,7 +375,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     NSLog(@"%s", __FUNCTION__);
 }
 
-- (void)handleOperation:(TCMMMOperation *)anOperation
+- (BOOL)handleOperation:(TCMMMOperation *)anOperation
 {
     NSLog(@"%s", __FUNCTION__);
 
@@ -394,6 +399,8 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
         [self changeSelectionOfUserWithID:[anOperation userID]
                                   toRange:[(SelectionOperation *)anOperation selectedRange]];
     }
+    
+    return YES;
 }
 
 @end

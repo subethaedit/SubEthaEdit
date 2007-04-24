@@ -52,6 +52,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     
     NSMutableArray *I_documents;
     NSDocument *I_documentBeingClosed;
+
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
@@ -112,5 +113,5 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (NSTabView *)tabView;
 
 - (NSRect)dissolveToFrame;
-
+- (void)cascadeWindow;
 @end

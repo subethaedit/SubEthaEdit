@@ -226,18 +226,6 @@
     [[self window] setContentView:proxyview];
     [O_containerView setAutoresizingMask:([O_containerView autoresizingMask] & ~NSViewWidthSizable) | NSViewMinXMargin | NSViewMaxXMargin];
 
-    NSRect targetFrame = [I_targetWindow frame];
-    NSScreen *screen=[[self window] screen];
-    if (screen) {
-        NSPoint origin_offset = NSZeroPoint;
-        NSRect visibleFrame=[screen visibleFrame];
-        origin_offset.y = MIN(NSMinY(targetFrame) - NSMinY(visibleFrame), 0.);
-        origin_offset.x = MIN(NSMaxX(visibleFrame) - NSMaxX(targetFrame), 0.);
-        if (!NSEqualPoints(origin_offset, NSZeroPoint)) {
-            [I_targetWindow setFrameTopLeftPoint:NSMakePoint(frame.origin.x + origin_offset.x,
-                                                             frame.origin.y - origin_offset.y)];
-        }
-    }
     I_dissolveToFrame = [[I_targetWindow windowController] dissolveToFrame];
     [[self window] setFrameUsingNonBlockingAnimation:I_dissolveToFrame];
 }

@@ -1301,7 +1301,7 @@ static NSString *tempFileName(NSString *origPath) {
     [self ensureWebPreview];
     if (![[I_webPreviewWindowController window] isVisible]) {
         [I_webPreviewWindowController showWindow:self];
-        [I_webPreviewWindowController refresh:self];
+        [I_webPreviewWindowController refreshAndEmptyCache:self];
     } else {
         [[I_webPreviewWindowController window] orderFront:self];
     }
@@ -1772,12 +1772,15 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     if (I_documentProxyWindowController) {
         [[I_documentProxyWindowController window] orderFront:self];
     } else {
+        PlainTextWindowController *windowController = [self topmostWindowController];
         if (closeTransient) {
-            NSWindow *window = [[self topmostWindowController] window];
+            NSWindow *window = [windowController window];
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
-        [[self topmostWindowController] selectTabForDocument:self];
-        [[self topmostWindowController] showWindow:self];
+        [windowController selectTabForDocument:self];
+        [[windowController tabBar] updateViewsHack];
+        if (closeTransient) [[windowController window] orderFront:self]; // stop cascading
+        [windowController showWindow:self];
     }
     
     if (closeTransient && ![self isProxyDocument]) {
@@ -2719,12 +2722,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     // Disable image loading and execution of code in HTML documents
-    WebPreferences *webPrefs = [WebPreferences standardPreferences];
-    [webPrefs setLoadsImagesAutomatically:NO];
-    [webPrefs setJavaEnabled:NO];
-    [webPrefs setJavaScriptEnabled:NO];
-    [webPrefs setPlugInsEnabled:NO];
-    [options setObject:webPrefs forKey:@"WebPreferences"];
+    static WebPreferences *s_loadPrefs = nil;
+    if (!s_loadPrefs) {
+        s_loadPrefs = [[WebPreferences alloc] initWithIdentifier:@"PlainTextDocumentLoadingPreferences"];
+        [s_loadPrefs setLoadsImagesAutomatically:NO];
+        [s_loadPrefs setJavaEnabled:NO];
+        [s_loadPrefs setJavaScriptEnabled:NO];
+        [s_loadPrefs setPlugInsEnabled:NO];
+    }
+    [options setObject:s_loadPrefs forKey:@"WebPreferences"];
 
     BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
     NSData *fileData = nil;
@@ -3772,7 +3778,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSWindow *window;
     PlainTextWindowController *result=nil;
     while ((window=[orderedWindowEnumerator nextObject])) {
-        if ([[window windowController] document]==self) {
+        if ([[window windowController] document]==self && [[window windowController] isKindOfClass:[PlainTextWindowController class]]) {
             result=[window windowController];
             break;
         }
@@ -4500,6 +4506,18 @@ static NSString *S_measurementUnits;
     [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
 }
 
+- (void)sessionDidLeave:(TCMMMSession *)aSession {
+    [self TCM_generateNewSession];
+    
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setMessageText:NSLocalizedString(@"ProblemLeave", @"ProblemLeave title in Sheet")];
+    [alert setInformativeText:NSLocalizedString(@"ProblemLeaveInfo", @"ProblemLeaveInfo info in Sheet")];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
+    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+}
+
+
 - (void)sessionDidCancelInvitation:(TCMMMSession *)aSession {
     [I_documentProxyWindowController invitationWasCanceled];
 }
@@ -4566,11 +4584,12 @@ static NSString *S_measurementUnits;
                           && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
 
     if (closeTransient) {
-        NSWindow *window = [[self topmostWindowController] window];
+         NSWindow *window = [[self topmostWindowController] window];
         [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         [transientDocument close];
+    } else if (![[windowController window] isVisible]) {
+        [windowController cascadeWindow];
     }
-
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
     
     if (closeTransient) {
@@ -4674,8 +4693,17 @@ static NSString *S_measurementUnits;
     return result;
 }
 
-- (void)handleOperation:(TCMMMOperation *)aOperation {
+- (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
+        TextOperation *operation=(TextOperation *)aOperation;
+        NSTextStorage *textStorage=[self textStorage];
+    
+        // check validity of operation
+        if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
+            NSLog(@"User tried to change text outside the document bounds:%@ %@",operation,[[TCMMMUserManager sharedInstance] userForUserID:[operation userID]]);
+            return NO;
+        }
+    
         // gather selections from all textviews and transform them
         NSArray *editors=[self plainTextEditors];
         I_flags.isRemotelyEditingTextStorage=![[aOperation userID] isEqualToString:[TCMMMUserManager myUserID]];
@@ -4688,8 +4716,6 @@ static NSString *S_measurementUnits;
             }
         }
 
-        TextOperation *operation=(TextOperation *)aOperation;
-        NSTextStorage *textStorage=[self textStorage];
         [textStorage beginEditing];
         NSRange newRange=NSMakeRange([operation affectedCharRange].location,
                                      [[operation replacementString] length]);
@@ -4723,6 +4749,7 @@ static NSString *S_measurementUnits;
         [self changeSelectionOfUserWithID:[aOperation userID]
               toRange:[(SelectionOperation *)aOperation selectedRange]];
     }
+    return YES;
 }
 
 #pragma mark -

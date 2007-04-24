@@ -80,7 +80,6 @@
 		142890B3095743F200D14688 /* AdvancedPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289062095743F200D14688 /* AdvancedPrefs.tiff */; };
 		142890B4095743F200D14688 /* Announce.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289063095743F200D14688 /* Announce.tiff */; };
 		142890B7095743F200D14688 /* Conceal.png in Resources */ = {isa = PBXBuildFile; fileRef = 14289066095743F200D14688 /* Conceal.png */; };
-		142890B9095743F200D14688 /* DefaultPerson.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289068095743F200D14688 /* DefaultPerson.tiff */; };
 		142890BA095743F200D14688 /* EditPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289069095743F200D14688 /* EditPrefs.tiff */; };
 		142890BB095743F200D14688 /* EmptyButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428906A095743F200D14688 /* EmptyButton.tiff */; };
 		142890BC095743F200D14688 /* GeneralPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428906B095743F200D14688 /* GeneralPrefs.tiff */; };
@@ -265,6 +264,9 @@
 		14289572095776DE00D14688 /* see.1 in Resources */ = {isa = PBXBuildFile; fileRef = 142894E9095767CD00D14688 /* see.1 */; };
 		14289BD709581C3000D14688 /* FindReplace.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD109581C3000D14688 /* FindReplace.nib */; };
 		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
+		1428F4AB0BDE3B6600411CA6 /* BacktracingException.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428F4AA0BDE3B6600411CA6 /* BacktracingException.m */; };
+		1428F4AE0BDE3B7200411CA6 /* BacktracingException.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428F4AA0BDE3B6600411CA6 /* BacktracingException.m */; };
+		1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */; };
 		142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */; };
 		1443B0340BD9189500755DED /* TCMBEEPAuthenticationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1443B0330BD9189500755DED /* TCMBEEPAuthenticationServer.m */; };
@@ -610,7 +612,6 @@
 		14289063095743F200D14688 /* Announce.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Announce.tiff; path = artwork/Announce.tiff; sourceTree = "<group>"; };
 		14289064095743F200D14688 /* CandyBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CandyBar.png; path = artwork/CandyBar.png; sourceTree = "<group>"; };
 		14289066095743F200D14688 /* Conceal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Conceal.png; path = artwork/Conceal.png; sourceTree = "<group>"; };
-		14289068095743F200D14688 /* DefaultPerson.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = DefaultPerson.tiff; path = artwork/DefaultPerson.tiff; sourceTree = "<group>"; };
 		14289069095743F200D14688 /* EditPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EditPrefs.tiff; path = artwork/EditPrefs.tiff; sourceTree = "<group>"; };
 		1428906A095743F200D14688 /* EmptyButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EmptyButton.tiff; path = artwork/EmptyButton.tiff; sourceTree = "<group>"; };
 		1428906B095743F200D14688 /* GeneralPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GeneralPrefs.tiff; path = artwork/GeneralPrefs.tiff; sourceTree = "<group>"; };
@@ -904,6 +905,10 @@
 		142898200958194100D14688 /* createDiskImage.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = createDiskImage.sh; sourceTree = "<group>"; };
 		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
 		14289BD909581CAC00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindAll.nib; sourceTree = "<group>"; };
+		1428F4A90BDE3B6600411CA6 /* BacktracingException.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BacktracingException.h; sourceTree = "<group>"; };
+		1428F4AA0BDE3B6600411CA6 /* BacktracingException.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BacktracingException.m; sourceTree = "<group>"; };
+		1428F4B10BDE3B8A00411CA6 /* DebugSendOperationController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugSendOperationController.h; path = Debug/DebugSendOperationController.h; sourceTree = "<group>"; };
+		1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugSendOperationController.m; path = Debug/DebugSendOperationController.m; sourceTree = "<group>"; };
 		142A5DD70BA5894F001C5035 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = seed/main.m; sourceTree = "<group>"; };
 		142A5E260BA58EBE001C5035 /* seed_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = seed_Prefix.pch; path = seed/seed_Prefix.pch; sourceTree = "<group>"; };
 		142D18B20BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableAttributedStringSEEAdditions.h; sourceTree = "<group>"; };
@@ -1192,7 +1197,6 @@
 				14289064095743F200D14688 /* CandyBar.png */,
 				14289066095743F200D14688 /* Conceal.png */,
 				1428905E095743B300D14688 /* debug.tiff */,
-				14289068095743F200D14688 /* DefaultPerson.tiff */,
 				14289069095743F200D14688 /* EditPrefs.tiff */,
 				1428906A095743F200D14688 /* EmptyButton.tiff */,
 				1428906B095743F200D14688 /* GeneralPrefs.tiff */,
@@ -1392,6 +1396,8 @@
 				1428921F0957523300D14688 /* DebugPreferences.m */,
 				142892220957523300D14688 /* DebugPresenceController.h */,
 				142892230957523300D14688 /* DebugPresenceController.m */,
+				1428F4B10BDE3B8A00411CA6 /* DebugSendOperationController.h */,
+				1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */,
 				142892240957523300D14688 /* DebugUserController.h */,
 				142892250957523300D14688 /* DebugUserController.m */,
 				142892190957523300D14688 /* DebugBEEP.nib */,
@@ -1741,6 +1747,8 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1428F4A90BDE3B6600411CA6 /* BacktracingException.h */,
+				1428F4AA0BDE3B6600411CA6 /* BacktracingException.m */,
 				142893DC09575A3000D14688 /* AboutPanelController.h */,
 				142893DD09575A3000D14688 /* AboutPanelController.m */,
 				142893DE09575A3000D14688 /* AppController.h */,
@@ -2229,7 +2237,6 @@
 				142890B4095743F200D14688 /* Announce.tiff in Resources */,
 				142890B7095743F200D14688 /* Conceal.png in Resources */,
 				1428905F095743B300D14688 /* debug.tiff in Resources */,
-				142890B9095743F200D14688 /* DefaultPerson.tiff in Resources */,
 				142890BA095743F200D14688 /* EditPrefs.tiff in Resources */,
 				142890BB095743F200D14688 /* EmptyButton.tiff in Resources */,
 				142890BC095743F200D14688 /* GeneralPrefs.tiff in Resources */,
@@ -2463,6 +2470,7 @@
 				14D640A60BD7A81700CFC4FC /* TCMBEEPSASLProfile.m in Sources */,
 				1443B0340BD9189500755DED /* TCMBEEPAuthenticationServer.m in Sources */,
 				1443B0390BD918A800755DED /* TCMBEEPAuthenticationClient.m in Sources */,
+				1428F4AB0BDE3B6600411CA6 /* BacktracingException.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2649,6 +2657,8 @@
 				14D640B40BD7A85F00CFC4FC /* TCMBEEPSASLProfile.m in Sources */,
 				1443B04C0BD9193100755DED /* TCMBEEPAuthenticationServer.m in Sources */,
 				1443B04D0BD9193200755DED /* TCMBEEPAuthenticationClient.m in Sources */,
+				1428F4AE0BDE3B7200411CA6 /* BacktracingException.m in Sources */,
+				1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2971,6 +2981,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = /System/Library/PrivateFrameworks;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -2988,6 +2999,8 @@
 					__info_plist,
 					"$(DERIVED_FILE_DIR)/Info.plist",
 					"-lsasl2",
+					"-framework",
+					vmutils,
 				);
 				PRODUCT_NAME = seed;
 				ZERO_LINK = YES;
@@ -2998,6 +3011,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = /System/Library/PrivateFrameworks;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3013,6 +3027,8 @@
 					__info_plist,
 					"$(DERIVED_FILE_DIR)/Info.plist",
 					"-lsasl2",
+					"-framework",
+					vmutils,
 				);
 				PRODUCT_NAME = seed;
 				ZERO_LINK = NO;
@@ -3223,6 +3239,7 @@
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = /System/Library/PrivateFrameworks;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3234,7 +3251,11 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "-lsasl2";
+				OTHER_LDFLAGS = (
+					"-lsasl2",
+					"-framework",
+					vmutils,
+				);
 				PRODUCT_NAME = SubEthaEdit;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3248,6 +3269,7 @@
 					i386,
 				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
+				FRAMEWORK_SEARCH_PATHS = /System/Library/PrivateFrameworks;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
@@ -3256,7 +3278,11 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = /;
-				OTHER_LDFLAGS = "-lsasl2";
+				OTHER_LDFLAGS = (
+					"-lsasl2",
+					"-framework",
+					vmutils,
+				);
 				PRODUCT_NAME = SubEthaEdit;
 				SYSTEM_VERSION_CHECK_SUFFIX = "-SystemVersionCheck";
 				WRAPPER_EXTENSION = app;
@@ -3273,7 +3299,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};

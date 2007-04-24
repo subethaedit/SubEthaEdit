@@ -610,6 +610,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [[TCMMMUserManager me] leaveSessionID:[self sessionID]];
         }
         [self setClientState:TCMMMSessionClientNoState];
+        [[self document] sessionDidLeave:self];
     }
 }
 
@@ -902,11 +903,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 # pragma mark -
 
 - (void)profileDidCancelJoinRequest:(SessionProfile *)aProfile {
-    NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
-    [aProfile setDelegate:nil];
-    [I_profilesByUserID removeObjectForKey:peerUserID];
-    [I_pendingUsers removeObject:[[TCMMMUserManager sharedInstance] userForUserID:peerUserID]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+    [self profile:aProfile didFailWithError:nil];
 }
 
 - (void)profile:(SessionProfile *)profile didReceiveSessionContent:(id)aContent {
@@ -1108,12 +1105,22 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             //NSLog(@"states: %@",[I_statesWithRemainingMessages description]);
             [state setClient:nil];
             [I_statesByClientID removeObjectForKey:peerUserID];
+        } else {
+            NSString *userState=[I_stateOfInvitedUsers objectForKey:peerUserID];
+            if (userState && [userState isEqualToString:@"AwaitingResponse"]) {
+                [self profileDidDeclineInvitation:(SessionProfile *)aProfile];
+            }
         }
         [aProfile setDelegate:nil];
         [(SessionProfile *)aProfile setMMState:nil];
         if ([I_profilesByUserID objectForKey:peerUserID]==aProfile) {
             [I_sessionContentForUserID removeObjectForKey:peerUserID];
             [I_profilesByUserID removeObjectForKey:peerUserID];
+            TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:peerUserID];
+            if ([I_pendingUsers containsObject:user]) {
+                [I_pendingUsers removeObject:user];
+                [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+            }
         }
     } else { 
         if ([self clientState]==TCMMMSessionClientParticipantState) {
@@ -1240,24 +1247,30 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     }
 }
 
-- (void)state:(TCMMMState *)aState handleOperation:(TCMMMOperation *)anOperation {
+- (BOOL)state:(TCMMMState *)aState handleOperation:(TCMMMOperation *)anOperation {
+    BOOL result = YES;
+
 
     // NSLog(@"state:%@ handleOperation:%@",aState,anOperation);
     if ([[[anOperation class] operationID] isEqualToString:[UserChangeOperation operationID]]) {
         [self handleUserChangeOperation:(UserChangeOperation *)anOperation fromState:aState];
     } else {
-        [[self document] handleOperation:anOperation];
+        result = [[self document] handleOperation:anOperation];
     }
-    // distribute operation
-    NSEnumerator *states = [I_statesByClientID objectEnumerator];
-    TCMMMState *state;
-    while ((state = [states nextObject])) {
-        if (state == aState) {
-            continue;
+    
+    if (result) {
+        // distribute operation
+        NSEnumerator *states = [I_statesByClientID objectEnumerator];
+        TCMMMState *state;
+        while ((state = [states nextObject])) {
+            if (state == aState) {
+                continue;
+            }
+            
+            [state handleOperation:anOperation];
         }
-        
-        [state handleOperation:anOperation];
     }
+    return result;
 }
 
 - (void)pauseProcessing {
@@ -1298,16 +1311,29 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
            ([I_statesByClientID count] || [I_statesWithRemainingMessages count]) && 
            timeSpent<kProcessingTime) {
         hasMessagesAvailable = NO;
-        NSEnumerator *states=[I_statesByClientID objectEnumerator];
+        NSEnumerator *clientIDs=[I_statesByClientID keyEnumerator];
+        NSString *clientID = nil;
         TCMMMState *state=nil;
-        while ((state=[states nextObject])) {
-            [state processMessage];
+        while ((clientID=[clientIDs nextObject])) {
+            state = [I_statesByClientID objectForKey:clientID];
+            if (![state processMessage]) {
+                break;
+            }
             if (!hasMessagesAvailable) {
                 hasMessagesAvailable=[state hasMessagesAvailable];
             }
         }
-
-        states=[I_statesWithRemainingMessages objectEnumerator];
+        
+        if (clientID) { // bad client sent a message that could not be processed 
+            if ([self isServer]) {
+                [self setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:clientID]];
+            } else {
+                [self leave];
+                break;
+            }
+        }
+        
+        NSEnumerator *states=[I_statesWithRemainingMessages objectEnumerator];
         while ((state=[states nextObject])) {
             [state processMessage];
             if (![state hasMessagesAvailable]) {

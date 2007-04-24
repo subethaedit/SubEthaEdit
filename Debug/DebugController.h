@@ -12,13 +12,14 @@
 #import <Foundation/Foundation.h>
 
 @class DebugUserController;
-@class DebugBEEPController,DebugPresenceController;
+@class DebugBEEPController,DebugPresenceController,DebugSendOperationController;
 
 @interface DebugController : NSObject
 {
     DebugPresenceController *I_debugPresenceController;
     DebugUserController *I_debugUserController;
     DebugBEEPController *I_debugBEEPController;
+    DebugSendOperationController *I_debugSendOperationController;
 }
 
 + (DebugController *)sharedInstance;
@@ -27,6 +28,7 @@
 
 - (IBAction)showUsers:(id)aSender;
 - (IBAction)showBEEP:(id)sender;
+- (IBAction)showSendOperation:(id)sender;
 - (IBAction)crash:(id)sender;
 - (IBAction)createProxyWindow:(id)aSender;
 

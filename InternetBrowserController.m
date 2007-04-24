@@ -1242,7 +1242,7 @@ enum {
 - (id)listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
     static NSImage *defaultPerson = nil;
     if (!defaultPerson) {
-        defaultPerson = [[[NSImage imageNamed:@"DefaultPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
+        defaultPerson = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
     }
     
     if (aChildIndex == -1) {
@@ -1357,20 +1357,24 @@ enum {
     if (anItemIndex >= 0 && anItemIndex < [I_data count]) {
         NSMutableDictionary *item = [I_data objectAtIndex:anItemIndex];
         TCMBEEPSession *BEEPSession = [item objectForKey:@"BEEPSession"];
-        NSString *addressDataString = nil;
+        NSString *addressDataString = nil, *userAgent=nil;
         if (BEEPSession) {
             addressDataString = [NSString stringWithAddressData:[BEEPSession peerAddressData]];
+            userAgent = [[BEEPSession userInfo] objectForKey:@"userAgent"];
+            if (!userAgent) userAgent = @"SubEthaEdit/2.x";
         }
         if ([item objectForKey:@"inbound"]) {
             if (addressDataString) {
-                return [NSString stringWithFormat:NSLocalizedString(@"Inbound Connection from %@", @"Inbound Connection ToolTip With Address"), addressDataString];
+                return [NSString stringWithFormat:@"%@\n%@",
+                        [NSString stringWithFormat:NSLocalizedString(@"Inbound Connection from %@", @"Inbound Connection ToolTip With Address"), addressDataString],
+                        userAgent];
             } else {
                 return NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip");
             }
         }
         
         if (![item objectForKey:@"failed"]) {
-            return [item objectForKey:@"URLString"];
+            return [NSString stringWithFormat:@"%@\n%@",[item objectForKey:@"URLString"],userAgent];
         }
     }
     
