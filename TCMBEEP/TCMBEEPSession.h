@@ -15,6 +15,7 @@ extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
 extern NSString * const TCMBEEPSASLProfileURIPrefix;
 extern NSString * const TCMBEEPSASLPLAINProfileURI;
+extern NSString * const TCMBEEPSASLCRAMMD5ProfileURI;
 
 typedef enum {
    TCMBEEPSessionStatusNotOpen = 0,
@@ -32,7 +33,7 @@ enum {
 };
 
 
-@class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile, TCMBEEPAuthenticationClient;
+@class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile, TCMBEEPAuthenticationClient, TCMBEEPAuthenticationServer;;
 
 
 @interface TCMBEEPSession : NSObject
@@ -78,8 +79,8 @@ enum {
     NSTimer *I_terminateTimer;
     NSTimeInterval I_timeout;
     
-    sasl_conn_t *_sasl_conn_ctxt;
     TCMBEEPAuthenticationClient *_authClient;
+    TCMBEEPAuthenticationServer *_authServer;
     
 #ifndef TCM_NO_DEBUG
 	BOOL isLogging;

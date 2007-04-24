@@ -11,7 +11,14 @@
 
 
 @interface TCMBEEPAuthenticationServer : NSObject {
+    TCMBEEPSession *_session;
+    TCMBEEPProfile *_profile;
     sasl_conn_t *_sasl_conn_ctxt;
 }
+
+- (id)initWithSession:(TCMBEEPSession *)session;
+
+- (NSData *)answerDataForChannelStartProfileURI:(NSString *)profileURI data:(NSData *)inData;
+- (void)setProfile:(TCMBEEPProfile *)profile;
 
 @end
