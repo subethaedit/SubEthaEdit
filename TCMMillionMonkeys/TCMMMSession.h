@@ -42,6 +42,7 @@ typedef enum TCMMMSessionClientState {
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
 - (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession;
 - (void)sessionDidCancelInvitation:(TCMMMSession *)aSession;
+- (void)sessionDidLeave:(TCMMMSession *)aSession;
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent;
 
@@ -54,7 +55,7 @@ typedef enum TCMMMSessionClientState {
 - (void)sendInitialUserState;
 - (BOOL)isReceivingContent;
 - (void)validateEditability;
-- (void)handleOperation:(TCMMMOperation *)aOperation;
+- (BOOL)handleOperation:(TCMMMOperation *)aOperation;
 @end
 
 

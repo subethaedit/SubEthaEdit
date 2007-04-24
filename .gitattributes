@@ -6,6 +6,8 @@
 /AdvancedPreferences.m -text
 /AppController.h -text
 /AppController.m -text
+/BacktracingException.h -text
+/BacktracingException.m -text
 /BorderedTextField.h -text
 /BorderedTextField.m -text
 /BorderlessWindow.h -text
@@ -50,6 +52,11 @@ Debug/DebugPresence.nib/info.nib -text
 Debug/DebugPresence.nib/keyedobjects.nib -text
 Debug/DebugPresenceController.h -text
 Debug/DebugPresenceController.m -text
+Debug/DebugSendOperation.nib/classes.nib -text
+Debug/DebugSendOperation.nib/info.nib -text
+Debug/DebugSendOperation.nib/keyedobjects.nib -text
+Debug/DebugSendOperationController.h -text
+Debug/DebugSendOperationController.m -text
 Debug/DebugUserController.h -text
 Debug/DebugUserController.m -text
 Debug/DebugUsers.nib/classes.nib -text
@@ -347,6 +354,7 @@ Modes/C.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -text
 Modes/C.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/C.mode/Contents/Resources/ToolbarCounterpart.png -text
 Modes/CSS.mode/Contents/Info.plist -text
+Modes/CSS.mode/Contents/Resources/AutocompleteAdditions.txt -text
 Modes/CSS.mode/Contents/Resources/ChangeLog.txt -text
 Modes/CSS.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
 Modes/CSS.mode/Contents/Resources/English.lproj/Localizable.strings -text
@@ -1351,7 +1359,7 @@ artwork/AdvancedPrefs.tiff -text
 artwork/Announce.tiff -text
 artwork/CandyBar.png -text
 artwork/Conceal.png -text
-artwork/DefaultPerson.tiff -text
+artwork/DefaultPerson.png -text
 artwork/EditPrefs.tiff -text
 artwork/EmptyButton.tiff -text
 artwork/GeneralPrefs.tiff -text
@@ -1439,6 +1447,7 @@ artwork/ToolbarIconRun.tiff -text
 artwork/ToolbarIconRunInTerminal.png -text
 artwork/ToolbarIconTerminal.png -text
 artwork/URLIcon.tiff -text
+artwork/UnknownPerson.png -text
 artwork/WaitPipe.png -text
 artwork/WebReload.tiff -text
 artwork/codingmonkeys.png -text

@@ -219,7 +219,7 @@
                 [delegate profile:self didReceiveInvitationForSession:session];
             }
         } else if (strncmp(type, "JONCAN", 6) == 0) {
-            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received cancel join.");
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received cancel join. Delegate:%@",[self delegate]);
             id delegate = [self delegate];
             if ([delegate respondsToSelector:@selector(profileDidCancelJoinRequest:)]) {
                 [delegate profileDidCancelJoinRequest:self];

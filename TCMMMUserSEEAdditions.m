@@ -79,7 +79,7 @@
         NSData *pngData = [[self properties] objectForKey:@"ImageAsPNG"];
         image = [[[NSImage alloc] initWithData:pngData] autorelease];
         if (!image) {
-            image = [[NSImage imageNamed:@"DefaultPerson.tiff"] resizedImageWithSize:NSMakeSize(64., 64.)];
+            image = [[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(64., 64.)];
             pngData = [image TIFFRepresentation];
             pngData = [[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
             [[self properties] setObject:pngData forKey:@"ImageAsPNG"];

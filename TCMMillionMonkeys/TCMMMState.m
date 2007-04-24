@@ -90,11 +90,11 @@
     return ([I_incomingMessages count] > 0);
 }
 
-- (void)processMessage {
+- (BOOL)processMessage {
     
     TCMMMMessage *aMessage = [I_incomingMessages lastObject];
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"process: %@", aMessage);
-    
+    BOOL result = YES;
     if (aMessage) {
         
         // clean up buffer
@@ -142,7 +142,7 @@
     
         // apply operation
         if ([[self delegate] respondsToSelector:@selector(state:handleOperation:)]) {
-            [[self delegate] state:self handleOperation:[aMessage operation]];
+            result = [[self delegate] state:self handleOperation:[aMessage operation]];
         }
     
         // update state space
@@ -154,6 +154,7 @@
         
         [I_incomingMessages removeLastObject];
     }
+    return result;
 }
 
 - (void)processAllUserChangeMessages {
