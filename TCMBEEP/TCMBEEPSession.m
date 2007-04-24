@@ -11,6 +11,7 @@
 #import "TCMBEEPFrame.h"
 #import "TCMBEEPManagementProfile.h"
 #import "TCMBEEPAuthenticationClient.h"
+#import "TCMBEEPAuthenticationServer.h"
 
 #import <netinet/in.h>
 #import <sys/socket.h>
@@ -23,93 +24,11 @@ NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
 NSString * const TCMBEEPSASLProfileURIPrefix = @"http://iana.org/beep/SASL/";
 NSString * const TCMBEEPSASLPLAINProfileURI = @"http://iana.org/beep/SASL/PLAIN";
+NSString * const TCMBEEPSASLCRAMMD5ProfileURI = @"http://iana.org/beep/SASL/CRAM-MD5";
 
 
 static void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
 static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
-
-#pragma mark -
-
-static int sasl_getopt_session_server_cb(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len)
-{
-    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"plugin_name: %s, option: %s", plugin_name, option);
-    
-    if (!strcmp(option, "log_level")) {
-        NSLog(@"setting log level");
-        *result = "5"; //SASL_LOG_TRACE 6
-        if (len) *len = 1;
-    }
-    return SASL_OK;
-}
-
-static int sasl_log_session_server_cb(void *context, int level, const char *message)
-{
-    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"level: %d, message: %s", level, message);
-
-    return SASL_OK;
-}
-
-static int sasl_authorize_session_server_cb(sasl_conn_t *conn,
-			     void *context,
-			     const char *requested_user, unsigned rlen,
-			     const char *auth_identity, unsigned alen,
-			     const char *def_realm, unsigned urlen,
-			     struct propctx *propctx)
-{
-    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"requested_user: %d, auth_identity: %s, def_realm: %s", requested_user, auth_identity, def_realm);
-    return SASL_OK;
-}
-
-static int sasl_getsimple_session_server_cb(void *context, int id, const char **result, unsigned *len)
-{
-    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"");
-    
-    if (!result)
-        return SASL_BADPARAM;
-
-    switch (id) {
-        case SASL_CB_USER:
-            NSLog(@"SASL_CB_USER");
-            *result = "mbo";
-            if (len) *len = 3;         
-            break;
-        case SASL_CB_AUTHNAME:
-            NSLog(@"SASL_CB_AUTHNAME");
-            *result = "mbo";
-            if (len) *len = 3;
-            break;
-        case SASL_CB_LANGUAGE:
-            NSLog(@"SASL_CB_LANGUAGE");
-            *result = NULL;
-            if (len) *len = 0;
-            break;
-        default:
-            return SASL_BADPARAM;
-    }
-    
-    return SASL_OK;
-}
-
-static int sasl_server_userdb_checkpass(sasl_conn_t *conn,
-					   void *context,
-					   const char *user,
-					   const char *pass,
-					   unsigned passlen,
-					   struct propctx *propctx)
-{
-    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"user: %s", user);
-    
-    return SASL_OK;
-}
-                 
-static sasl_callback_t sasl_server_callbacks[] = {
-    {SASL_CB_GETOPT, &sasl_getopt_session_server_cb, NULL},
-    {SASL_CB_PROXY_POLICY, &sasl_authorize_session_server_cb, NULL},
-    {SASL_CB_USER, &sasl_getsimple_session_server_cb, NULL},
-    {SASL_CB_LOG, &sasl_log_session_server_cb, NULL},
-    {SASL_CB_SERVER_USERDB_CHECKPASS, &sasl_server_userdb_checkpass, NULL},
-    {SASL_CB_LIST_END, NULL, NULL}
-};
 
 #pragma mark -
 
@@ -191,6 +110,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
     I_timeout = [[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey];
     
     _authClient = nil;
+    _authServer = nil;
 
 #ifndef TCM_NO_DEBUG
 	isLogging = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableBEEPLogging"];
@@ -251,38 +171,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
         I_nextChannelNumber = 0;
         [self TCM_initHelper];
         
-        // SASL setup for server
-        int result = sasl_server_new("beep",
-                                     NULL,  // serverFQDN
-                                     NULL,  // user_realm
-                                     NULL,  // iplocalport
-                                     NULL,  // ipremoteport
-                                     sasl_server_callbacks,
-                                     0,     // flags
-                                     &_sasl_conn_ctxt);
-        if (result == SASL_OK) {
-            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_server_new succeeded");
-            
-            const char *mech_string;
-            unsigned plen;
-            int pcount;
-            result = sasl_listmech(_sasl_conn_ctxt,
-                                   "",      // user
-                                   "",      // prefix
-                                   " ",     // sep
-                                   NULL,    // suffix
-                                   &mech_string,
-                                   &plen,
-                                   &pcount);
-            if (SASL_OK == result) {
-                NSString *mechs = [[NSString alloc] initWithBytes:mech_string length:plen encoding:NSUTF8StringEncoding];
-                NSArray *mechanisms = [mechs componentsSeparatedByString:@" "];
-                if ([mechanisms containsObject:@"PLAIN"]) [I_profileURIs addObject:TCMBEEPSASLPLAINProfileURI];
-            }
-            
-        } else {
-            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_server_new failed");
-        }
+        _authServer = [[TCMBEEPAuthenticationServer alloc] initWithSession:self];
     }
     
     return self;
@@ -307,8 +196,6 @@ static sasl_callback_t sasl_server_callbacks[] = {
 
 - (void)dealloc
 {
-    sasl_dispose(&_sasl_conn_ctxt);
-    
     I_delegate = nil;
     CFReadStreamSetClient(I_readStream, 0, NULL, NULL);
     CFWriteStreamSetClient(I_writeStream, 0, NULL, NULL);
@@ -335,6 +222,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
     [I_terminateTimer release];
     
     [_authClient release];
+    [_authServer release];
 #ifndef TCM_NO_DEBUG
 	if (isLogging) {
 		NSString *trailerString = [NSString stringWithFormat:@"\n\n[%@] dealloc\n\n", [[NSCalendarDate calendarDate] description]];
@@ -902,48 +790,9 @@ static sasl_callback_t sasl_server_callbacks[] = {
         if ([[self profileURIs] containsObject:profileURI]) {
             [requestArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", [aDataArray objectAtIndex:i], @"Data", nil]];
             if (!preferedAnswer)  {
-                NSMutableData *answerData = [NSData data];
+                NSData *answerData = [NSData data];
                 if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
-                    NSString *clientin_string = nil;
-                    NSData *data = [aDataArray objectAtIndex:i];
-                    NSString *dataString = [NSString stringWithData:data encoding:NSUTF8StringEncoding];
-                    if (dataString) {
-                        dataString = [dataString substringFromIndex:[@"<blob>" length]];
-                        dataString = [dataString substringToIndex:[dataString length] - [@"</blob>" length]];
-                        NSLog(@"dataString: %@", [dataString componentsSeparatedByString:@"0"]);
-                        clientin_string = dataString;
-                    }
-                    
-                    NSString *mech_string = [profileURI substringFromIndex:[TCMBEEPSASLProfileURIPrefix length]];
-                    
-                    const char *serverout;
-                    unsigned serveroutlen;
-                    int result = sasl_server_start(_sasl_conn_ctxt,
-                                                   [mech_string UTF8String],
-                                                   [clientin_string UTF8String],
-                                                   [clientin_string length],
-                                                   &serverout,
-                                                   &serveroutlen);
-                    if ((result != SASL_OK) && (result != SASL_CONTINUE)) {
-                        // [failure. Send protocol specific message that says authentication failed]
-                        NSLog(@"[failure. Send protocol specific message that says authentication failed]");
-                        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
-                    } else if (result == SASL_OK) {
-                        // [authentication succeeded. Send client the protocol specific message 
-                        // to say that authentication is complete]
-                        NSLog(@"[authentication succeeded. Send client the protocol specific message to say that authentication is complete]");
-                    } else {
-                        // [send data 'out' with length 'outlen' over the network in protocol
-                        // specific format]
-                        NSLog(@"[send data 'out' with length 'outlen' over the network in protocol specific format]");
-                        if (serveroutlen > 0) {
-                            answerData = [NSMutableData data];
-                            [answerData appendData:[@"<blob>" dataUsingEncoding:NSUTF8StringEncoding]];
-                            [answerData appendData:[NSData dataWithBytes:serverout length:serveroutlen]];
-                            [answerData appendData:[@"</blob>" dataUsingEncoding:NSUTF8StringEncoding]];
-                            NSLog(@"answerData: %@", answerData);
-                        }
-                    }
+                    answerData = [_authServer answerDataForChannelStartProfileURI:profileURI data:[aDataArray objectAtIndex:i]];
                 }
                 
                 preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", 
@@ -971,6 +820,9 @@ static sasl_callback_t sasl_server_callbacks[] = {
     
     [self activateChannel:channel];
     if (!isInitiator) {
+        if ([aProfileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
+            [_authServer setProfile:[channel profile]];
+        }
         id delegate = [self delegate];
         if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:)])
             [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile]];

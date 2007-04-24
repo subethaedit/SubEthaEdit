@@ -178,7 +178,7 @@ static sasl_callback_t sasl_client_callbacks[] = {
         if (result == SASL_OK) {
             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_client_new succeeded");
         } else {
-            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, sasl_errdetail(_sasl_conn_ctxt));
+            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
         }
     }
     return self;
@@ -187,6 +187,8 @@ static sasl_callback_t sasl_client_callbacks[] = {
 - (void)dealloc
 {
     if (_sasl_conn_ctxt) sasl_dispose(&_sasl_conn_ctxt);
+    [_profile release];
+    _profile = nil;
     _session = nil;
     [super dealloc];
 }
@@ -252,6 +254,7 @@ static sasl_callback_t sasl_client_callbacks[] = {
 - (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
 {
     NSLog(@"%s", __FUNCTION__);
+    _profile = [profile retain];
 }
 
 @end
