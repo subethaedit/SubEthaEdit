@@ -17,6 +17,7 @@
 
 - (BOOL)TCM_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef)aContentTree;
 - (BOOL)TCM_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree;
+- (BOOL)TCM_processProfileMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree;
 - (BOOL)TCM_proccessCloseMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree;
 - (BOOL)TCM_processOKMessage:(TCMBEEPMessage *)aMessage;
 
@@ -237,13 +238,41 @@
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
         [[self channel] sendMessage:[message autorelease]];
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"juhuhh... sent accept: %@",message);
-        [[self delegate] initiateChannelWithNumber:channelNumber profileURI:[reply objectForKey:@"ProfileURI"] asInitiator:NO];
+        [[self delegate] initiateChannelWithNumber:channelNumber profileURI:[reply objectForKey:@"ProfileURI"] data:[reply objectForKey:@"Data"] asInitiator:NO];
     } else {
         NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<error code='501'>channel request denied</error>"] dataUsingEncoding:NSUTF8StringEncoding]];
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
         [[self channel] sendMessage:[message autorelease]];
     }
     
+    return YES;
+}
+
+- (BOOL)TCM_processProfileMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree
+{
+    CFXMLNodeRef startNode = CFXMLTreeGetNode(aSubTree);
+    CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(startNode);
+    NSDictionary *attributes = (NSDictionary *)info->attributes;
+    
+    int profileContentCount = CFTreeGetChildCount(aSubTree);
+    int profileContentIndex = 0;
+    NSData *contentData = [NSData data];
+    for (profileContentIndex = 0; profileContentIndex < profileContentCount; profileContentIndex++) {
+        CFXMLTreeRef profileContentSubTree = CFTreeGetChildAtIndex(aSubTree, profileContentIndex);
+        CFXMLNodeRef profileContentNode    = CFXMLTreeGetNode(profileContentSubTree);
+        if (CFXMLNodeGetTypeCode(profileContentNode) == kCFXMLNodeTypeCDATASection) {
+            NSString *profileContent = (NSString *)CFXMLNodeGetString(profileContentNode);
+            contentData = [profileContent dataUsingEncoding:NSUTF8StringEncoding];
+        }
+    }
+    
+    NSString *URI;
+    if ((URI = [attributes objectForKey:@"uri"])) {
+        [[self delegate] didReceiveAcceptStartRequestForChannel:[[I_pendingChannelRequestMessageNumbers objectForLong:[aMessage messageNumber]] longValue] withProfileURI:URI andData:contentData];
+    } else {
+        return NO;
+    }
+                
     return YES;
 }
 
@@ -371,12 +400,9 @@
         } else {
             if ([@"profile" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
                 DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found profile element...");
-                CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
-                NSDictionary *attributes = (NSDictionary *)info->attributes;
-                NSString *URI;
-                if ((URI = [attributes objectForKey:@"uri"])) {
-                    [[self delegate] didReceiveAcceptStartRequestForChannel:[[I_pendingChannelRequestMessageNumbers objectForLong:[aMessage messageNumber]] longValue] withProfileURI:URI andData:[NSData data]];
-                }
+                if (![self TCM_processProfileMessage:aMessage XMLSubTree:xmlTree]) {
+                    [[self session] terminate];
+                }                
             } else if ([@"ok" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
                 DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"Found ok element...");
                 if (![self TCM_processOKMessage:aMessage]) {

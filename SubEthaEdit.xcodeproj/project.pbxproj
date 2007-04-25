@@ -283,6 +283,7 @@
 		144E3AD20B6FEED6001C49C2 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
+		145842390BDFBC3000EB6D15 /* SDDocumentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 145842380BDFBC3000EB6D15 /* SDDocumentManager.m */; };
 		148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 148167AC0B15B002008894C9 /* PlainTextWindow.m */; };
 		1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */; };
 		1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -936,6 +937,8 @@
 		1454A6750BD7795500BE12CA /* md5global.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = md5global.h; path = sasl/md5global.h; sourceTree = "<group>"; };
 		1454A6760BD7795500BE12CA /* gai.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gai.h; path = sasl/gai.h; sourceTree = "<group>"; };
 		1454A6770BD7795500BE12CA /* saslplug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = saslplug.h; path = sasl/saslplug.h; sourceTree = "<group>"; };
+		145842370BDFBC3000EB6D15 /* SDDocumentManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SDDocumentManager.h; path = seed/SDDocumentManager.h; sourceTree = "<group>"; };
+		145842380BDFBC3000EB6D15 /* SDDocumentManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SDDocumentManager.m; path = seed/SDDocumentManager.m; sourceTree = "<group>"; };
 		1463256A0BA0C71400A88D4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = seed/Info.plist; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1665,6 +1668,8 @@
 				1493E0F90BA837FA00A18284 /* SDAppController.m */,
 				14D47F140BB41CBF005121A7 /* SDDocument.h */,
 				14D47F150BB41CBF005121A7 /* SDDocument.m */,
+				145842370BDFBC3000EB6D15 /* SDDocumentManager.h */,
+				145842380BDFBC3000EB6D15 /* SDDocumentManager.m */,
 				1463256A0BA0C71400A88D4F /* Info.plist */,
 				142A5E260BA58EBE001C5035 /* seed_Prefix.pch */,
 			);
@@ -2479,6 +2484,7 @@
 				1443B0340BD9189500755DED /* TCMBEEPAuthenticationServer.m in Sources */,
 				1443B0390BD918A800755DED /* TCMBEEPAuthenticationClient.m in Sources */,
 				1428F4AB0BDE3B6600411CA6 /* BacktracingException.m in Sources */,
+				145842390BDFBC3000EB6D15 /* SDDocumentManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -236,8 +236,13 @@ static sasl_callback_t sasl_client_callbacks[] = {
             if (clientout) {
                 NSMutableData *data = [NSMutableData data];
                 [data appendData:[@"<blob>" dataUsingEncoding:NSUTF8StringEncoding]];
-                [data appendData:[NSData dataWithBytes:clientout length:clientoutlen]];
+                
+                NSData *clientData = [NSData dataWithBytes:clientout length:clientoutlen];
+                NSString *base64EncodedString = [clientData base64EncodedStringWithLineLength:0];
+                [data appendData:[base64EncodedString dataUsingEncoding:NSUTF8StringEncoding]];
+
                 [data appendData:[@"</blob>" dataUsingEncoding:NSUTF8StringEncoding]];
+                
                 dataArray = [NSArray arrayWithObject:data];
             }
             [_session startChannelWithProfileURIs:[NSArray arrayWithObject:profileURI]
@@ -251,10 +256,69 @@ static sasl_callback_t sasl_client_callbacks[] = {
 
 #pragma mark -
 
-- (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
+- (NSString *)contentBytesFromProfilePayload:(NSData *)inData
 {
-    NSLog(@"%s", __FUNCTION__);
+    NSString *result = nil;
+    
+    if (inData) {        
+        CFXMLTreeRef payloadTree = NULL;
+        NSDictionary *errorDict;
+        payloadTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,
+                                    (CFDataRef)inData,
+                                    NULL, //sourceURL
+                                    kCFXMLParserSkipWhitespace | kCFXMLParserSkipMetaData,
+                                    kCFXMLNodeCurrentVersion,
+                                    (CFDictionaryRef *)&errorDict);
+        if (!payloadTree) {
+            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"nixe baum: %@", [errorDict description]);
+            //[[self session] terminate]; 
+            //return;
+        } else {
+            // extract top level element from tree
+            CFXMLNodeRef node = NULL;
+            CFXMLTreeRef xmlTree = NULL;
+            int childCount = CFTreeGetChildCount(payloadTree);
+            int index;
+            for (index = 0; index < childCount; index++) {
+                xmlTree = CFTreeGetChildAtIndex(payloadTree, index);
+                node = CFXMLTreeGetNode(xmlTree);
+                if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
+                    break;
+                }
+            }
+            if (!xmlTree || !node || CFXMLNodeGetTypeCode(node) != kCFXMLNodeTypeElement) {
+                DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Unable to extract top level element");
+                //[[self session] terminate];
+                //return;
+            } else {
+                if ([@"blob" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+                    //CFXMLNodeRef blobNode = CFXMLTreeGetNode(xmlTree);
+                    int childCount = CFTreeGetChildCount(xmlTree);
+                    if (childCount == 1) {
+                        CFXMLTreeRef blobSubTree = CFTreeGetChildAtIndex(xmlTree, 0);
+                        CFXMLNodeRef blobTextNode = CFXMLTreeGetNode(blobSubTree);
+                        if (CFXMLNodeGetTypeCode(blobTextNode) == kCFXMLNodeTypeText) {
+                            result = (NSString *)CFXMLNodeGetString(blobTextNode);
+                            NSLog(@"parsed blob: %@", result);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return [[result retain] autorelease];
+}
+
+- (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile data:(NSData *)inData
+{
+    NSLog(@"%s %@", __FUNCTION__, inData);
     _profile = [profile retain];
+    
+    // Parse blob element
+    NSString *clientin_string = [self contentBytesFromProfilePayload:inData];
+    NSData *decodedBase64String = [NSData dataWithBase64EncodedString:clientin_string];
+    NSLog(@"decoded blob: %@", [NSString stringWithData:decodedBase64String encoding:NSUTF8StringEncoding]);
 }
 
 @end

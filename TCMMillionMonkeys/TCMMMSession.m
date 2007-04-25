@@ -781,7 +781,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 #pragma mark -
 #pragma mark ### profile interaction ###
 // When you request a profile you have to implement BEEPSession:didOpenChannelWithProfile: to receive the profile
-- (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile
+- (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile data:(NSData *)inData
 {
     // check if invitation or join is happening
     if ([self isServer]) {

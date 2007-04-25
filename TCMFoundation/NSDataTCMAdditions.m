@@ -3,7 +3,7 @@
 //  TCMFoundation
 //
 //  Created by Dominik Wagner on Wed Apr 28 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import "NSDataTCMAdditions.h"
@@ -44,6 +44,7 @@ static char base64EncodingArray[ 64 ] = {
         
     lentext=[self length];
     result =[NSMutableString stringWithCapacity:lentext];
+    #warning WTF? Is this needed for vcf compatibility or what?
     [result appendString:@"  "];
     lineLength-=2;
 
@@ -99,6 +100,125 @@ static char base64EncodingArray[ 64 ] = {
     }
 	return result;
 
+}
+
+static unsigned long local_preprocessForDecode( const unsigned char *inBytes, unsigned long inBytesLength, unsigned char *outData )
+{
+	unsigned long		i;
+	unsigned char		*outboundData = outData;
+	unsigned char		ch;
+
+	for ( i = 0; i < inBytesLength; i++ )
+	{
+		ch = inBytes[ i ];
+
+		if ((ch >= 'A') && (ch <= 'Z'))
+			*outboundData++ = ch - 'A';
+
+		else if ((ch >= 'a') && (ch <= 'z'))
+			*outboundData++ = ch - 'a' + 26;
+
+		else if ((ch >= '0') && (ch <= '9'))
+			*outboundData++ = ch - '0' + 52;
+
+		else if (ch == '+')
+			*outboundData++ = 62;
+
+		else if (ch == '/')
+			*outboundData++ = 63;
+
+		else if (ch == '=')
+		{	// no op -- put in our stop signal
+			*outboundData++ = 255;
+			break;
+		}
+	}
+
+	// How much valid data did we end up with?
+	return outboundData - outData;
+}
+
++ (NSData *)dataWithBase64EncodedString:(NSString *)inBase64String
+{
+    NSMutableData	*mutableData = nil;
+
+    if ( inBase64String && [ inBase64String length ] > 0 )
+    {
+        unsigned long		ixtext;
+        unsigned long		lentext;
+        unsigned char		ch;
+        unsigned char		inbuf [4], outbuf [3];
+        short				ixinbuf;
+        NSData				*base64Data;
+		unsigned char		*preprocessed, *decodedBytes;
+		unsigned long		preprocessedLength, decodedLength;
+		short				ctcharsinbuf = 3;
+		BOOL				notDone = YES;
+
+        // Convert the string to ASCII data.
+        base64Data = [ inBase64String dataUsingEncoding:NSASCIIStringEncoding ];
+        lentext = [ base64Data length ];
+
+		preprocessed = malloc( lentext );	// We may have all valid data!
+
+		// Allocate our outbound data, and set it's length.
+		// Do this so we can fill it in without allocating memory in small chunks later.
+		mutableData = [ NSMutableData dataWithCapacity:( lentext * 3 ) / 4 + 3 ];
+		[ mutableData setLength:( lentext * 3 ) / 4 + 3 ];
+		decodedBytes = [ mutableData mutableBytes ];
+
+		{
+			preprocessedLength = local_preprocessForDecode( [ base64Data bytes ], lentext, preprocessed );
+			decodedLength = 0;
+			ixtext = 0;
+		}
+
+        ixinbuf = 0;
+
+        while ( notDone && ixtext < preprocessedLength )
+        {
+            ch = preprocessed[ ixtext++ ];
+
+			if ( 255 == ch )	// Hit our stop signal.
+			{
+				if (ixinbuf == 0)
+					break;		// We're done now!
+
+				else if ((ixinbuf == 1) || (ixinbuf == 2))
+				{
+					ctcharsinbuf = 1;
+					ixinbuf = 3;
+				}
+				else
+					ctcharsinbuf = 2;
+
+				notDone = NO;	// We're finished after the outbuf gets copied this time.
+			}
+
+			inbuf [ixinbuf++] = ch;
+
+			if ( 4 == ixinbuf )
+			{
+				ixinbuf = 0;
+
+				outbuf [0] = (inbuf [0] << 2) | ((inbuf [1] & 0x30) >> 4);
+
+				outbuf [1] = ((inbuf [1] & 0x0F) << 4) | ((inbuf [2] & 0x3C) >> 2);
+
+				outbuf [2] = ((inbuf [2] & 0x03) << 6) | inbuf [3];
+
+				memcpy( &decodedBytes[ decodedLength  ], outbuf, ctcharsinbuf );
+				decodedLength += ctcharsinbuf;
+			}
+        } // end while loop on remaining characters
+
+		free( preprocessed );
+
+		// Adjust length down to however many bytes we actually decoded.
+		[ mutableData setLength:decodedLength ];
+    }
+
+    return mutableData;
 }
 
 - (BOOL)startsWithUTF8BOM {
