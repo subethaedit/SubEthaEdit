@@ -443,7 +443,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     
 }
 
-- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile 
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got status Channel!");
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];

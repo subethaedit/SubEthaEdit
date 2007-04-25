@@ -812,7 +812,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     return preferedAnswer;
 }
 
-- (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI asInitiator:(BOOL)isInitiator
+- (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI data:(NSData *)inData asInitiator:(BOOL)isInitiator
 {
     TCMBEEPChannel *channel = [[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI asInitiator:isInitiator];
     [self insertObject:channel inChannelsAtIndex:[self countOfChannels]];
@@ -824,15 +824,15 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
             [_authServer setProfile:[channel profile]];
         }
         id delegate = [self delegate];
-        if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:)])
-            [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile]];
+        if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)])
+            [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
     } else {
         // sender rausfinden
         NSNumber *channelNumber = [NSNumber numberWithInt:aChannelNumber];
         id aSender = [I_channelRequests objectForKey:channelNumber];
         [I_channelRequests removeObjectForKey:channelNumber]; 
         // sender profile geben
-        [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile]];
+        [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
     }
 }
 
@@ -845,7 +845,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)didReceiveAcceptStartRequestForChannel:(int32_t)aNumber withProfileURI:(NSString *)aProfileURI andData:(NSData *)aData
 {
-    [self initiateChannelWithNumber:aNumber profileURI:aProfileURI asInitiator:YES];
+    [self initiateChannelWithNumber:aNumber profileURI:aProfileURI data:aData asInitiator:YES];
 }
 
 - (void)closeChannelWithNumber:(int32_t)aChannelNumber code:(int)aReplyCode

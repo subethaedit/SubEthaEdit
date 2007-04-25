@@ -129,8 +129,8 @@ static sasl_callback_t sasl_server_callbacks[] = {
             if (SASL_OK == result) {
                 NSString *mechs = [[NSString alloc] initWithBytes:mech_string length:plen encoding:NSUTF8StringEncoding];
                 NSArray *mechanisms = [mechs componentsSeparatedByString:@" "];
-                if ([mechanisms containsObject:@"PLAIN"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLPLAINProfileURI]];
-                //if ([mechanisms containsObject:@"CRAM-MD5"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLCRAMMD5ProfileURI]];
+                //if ([mechanisms containsObject:@"PLAIN"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLPLAINProfileURI]];
+                if ([mechanisms containsObject:@"CRAM-MD5"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLCRAMMD5ProfileURI]];
 
             }
             
@@ -215,12 +215,14 @@ static sasl_callback_t sasl_server_callbacks[] = {
     
     NSString *mech_string = [profileURI substringFromIndex:[TCMBEEPSASLProfileURIPrefix length]];
     
+    NSData *decodedBase64String = [NSData dataWithBase64EncodedString:clientin_string];
+
     const char *serverout;
     unsigned serveroutlen;
     int result = sasl_server_start(_sasl_conn_ctxt,
                                    [mech_string UTF8String],
-                                   [clientin_string UTF8String],
-                                   [clientin_string length],
+                                   [decodedBase64String bytes],
+                                   [decodedBase64String length],
                                    &serverout,
                                    &serveroutlen);
     if ((result != SASL_OK) && (result != SASL_CONTINUE)) {
@@ -235,11 +237,16 @@ static sasl_callback_t sasl_server_callbacks[] = {
         // [send data 'out' with length 'outlen' over the network in protocol
         // specific format]
         NSLog(@"[send data 'out' with length 'outlen' over the network in protocol specific format]");
-        if (serveroutlen > 0) {
+        if (serveroutlen > 0) {        
             [outData appendData:[@"<blob>" dataUsingEncoding:NSUTF8StringEncoding]];
-            [outData appendData:[NSData dataWithBytes:serverout length:serveroutlen]];
+
+            NSData *serverData = [NSData dataWithBytes:serverout length:serveroutlen];
+            NSLog(@"serverout: %@", [NSString stringWithData:serverData encoding:NSUTF8StringEncoding]);
+            NSString *base64EncodedString = [serverData base64EncodedStringWithLineLength:0];
+            [outData appendData:[base64EncodedString dataUsingEncoding:NSUTF8StringEncoding]];
+            
             [outData appendData:[@"</blob>" dataUsingEncoding:NSUTF8StringEncoding]];
-            NSLog(@"answerData: %@", outData);
+            NSLog(@"answer: %@", [NSString stringWithData:outData encoding:NSUTF8StringEncoding]);
         }
     }
     
