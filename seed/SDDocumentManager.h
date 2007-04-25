@@ -21,7 +21,7 @@
 - (NSArray *)documents;
 - (void)addDocument:(SDDocument *)aDocument;
 - (void)removeDocument:(SDDocument *)aDocument;
-- (id)addDocumentWithContentsOfURL:(NSURL *)aContentURL error:(NSError **)outError;
-- (id)addDocumentWithSubpath:(NSString *)aPath error:(NSError **)outError;
+- (id)addDocumentWithContentsOfURL:(NSURL *)aContentURL encoding:(NSStringEncoding)anEncoding error:(NSError **)outError;
+- (id)addDocumentWithSubpath:(NSString *)aPath encoding:(NSStringEncoding)anEncoding error:(NSError **)outError;
 
 @end

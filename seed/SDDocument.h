@@ -16,11 +16,13 @@
     TCMMMSession *_session;
     NSURL *_fileURL;
     NSString *_modeIdentifier;
+    NSStringEncoding _stringEncoding;
     struct {
         BOOL isAnnounced;
     } _flags;
 }
 
+- (id)initWithContentsOfURL:(NSURL *)absoluteURL encoding:(NSStringEncoding)anEncoding error:(NSError **)outError;
 - (id)initWithContentsOfURL:(NSURL *)absoluteURL error:(NSError **)outError;
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL error:(NSError **)outError;
@@ -31,6 +33,9 @@
 
 - (NSString *)modeIdentifier;
 - (void)setModeIdentifier:(NSString *)identifier;
+
+- (NSStringEncoding)stringEncoding;
+- (void)setStringEncoding:(NSStringEncoding)anEncoding;
 
 - (TCMMMSession *)session;
 - (void)setSession:(TCMMMSession *)session;
