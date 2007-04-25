@@ -58,23 +58,24 @@ static SDDocumentManager *S_sharedInstance=nil;
     return _documents;
 }
 
-- (id)addDocumentWithContentsOfURL:(NSURL *)aContentURL error:(NSError **)outError {
+- (id)addDocumentWithContentsOfURL:(NSURL *)aContentURL encoding:(NSStringEncoding)anEncoding error:(NSError **)outError {
     NSLog(@"read document: %@", aContentURL);
-    SDDocument *document = [(SDDocument *)[SDDocument alloc] initWithContentsOfURL:aContentURL error:outError];
+    SDDocument *document = [(SDDocument *)[SDDocument alloc] initWithContentsOfURL:aContentURL encoding:anEncoding error:outError];
     if (document) {
         [self addDocument:document];
     }
     return document;
 }
 
-- (id)addDocumentWithSubpath:(NSString *)aPath error:(NSError **)outError {
+- (id)addDocumentWithSubpath:(NSString *)aPath encoding:(NSStringEncoding)anEncoding error:(NSError **)outError {
     if ([aPath rangeOfString:@".."].location != NSNotFound) return nil;
     NSString *filePathString = [_documentRootPath stringByAppendingPathComponent:aPath];
     NSURL *fileURL = [NSURL fileURLWithPath:filePathString];
-    SDDocument *document = [self addDocumentWithContentsOfURL:fileURL error:outError];
+    SDDocument *document = [self addDocumentWithContentsOfURL:fileURL encoding:anEncoding error:outError];
     if (!document) {
         document = [[SDDocument alloc] init];
         [document setFileURL:fileURL];
+        [document setStringEncoding:anEncoding];
         [self addDocument:document];
     }
     return document;

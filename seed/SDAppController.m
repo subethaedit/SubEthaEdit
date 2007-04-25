@@ -99,44 +99,19 @@ BOOL endRunLoop = NO;
             while ((entry = [enumerator nextObject])) {
                 NSString *file = [entry objectForKey:@"file"];
                 NSString *mode = [entry objectForKey:@"mode"];
+                NSString *IANACharSetName = [entry objectForKey:@"encoding"];
+                NSStringEncoding encoding = NSUTF8StringEncoding;
+                if (IANACharSetName) {
+                    encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)IANACharSetName));
+                }
                 NSError *error = nil;
-                SDDocument *document = [[SDDocumentManager sharedInstance] addDocumentWithSubpath:file error:&error];
+                SDDocument *document = [[SDDocumentManager sharedInstance] addDocumentWithSubpath:file encoding:encoding error:&error];
                 if (document) {
                     if (mode) [document setModeIdentifier:mode];
                     [[document session] setAccessState:TCMMMSessionAccessReadWriteState];
                     [document setIsAnnounced:YES];
                 }
             }
-        }
-    }
-}
-
-
-- (void)openFile:(NSString *)filename modeIdentifier:(NSString *)modeIdentifier
-{
-    NSError *outError;
-    NSURL *absoluteURL = [NSURL fileURLWithPath:filename];
-    SDDocument *document = [[SDDocumentManager sharedInstance] addDocumentWithContentsOfURL:absoluteURL error:&outError];
-    if (document) {
-        [document setModeIdentifier:modeIdentifier];
-        [[document session] setAccessState:TCMMMSessionAccessReadWriteState];
-        [document setIsAnnounced:YES];
-    } else {
-        // check error
-    }
-}
-
-- (void)openFiles:(NSArray *)filenames
-{
-    NSEnumerator *enumerator = [filenames objectEnumerator];
-    NSString *filename;
-    while ((filename = [enumerator nextObject])) {
-        NSError *error;
-        NSURL *absoluteURL = [NSURL fileURLWithPath:filename];
-        SDDocument *document = [[SDDocumentManager sharedInstance] addDocumentWithContentsOfURL:absoluteURL error:&error];
-        if (document) {
-            [[document session] setAccessState:TCMMMSessionAccessReadWriteState];
-            [document setIsAnnounced:YES];
         }
     }
 }

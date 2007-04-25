@@ -43,9 +43,9 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 #pragma mark -
 
-- (id)initWithContentsOfURL:(NSURL *)absoluteURL error:(NSError **)outError
-{
+- (id)initWithContentsOfURL:(NSURL *)absoluteURL encoding:(NSStringEncoding)anEncoding error:(NSError **)outError {
     if ([self init]) {
+        [self setStringEncoding:anEncoding];
         [self setFileURL:absoluteURL];
         if ([self readFromURL:absoluteURL error:outError]) {
             return self;
@@ -58,10 +58,17 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     }
 }
 
+
+- (id)initWithContentsOfURL:(NSURL *)absoluteURL error:(NSError **)outError
+{
+    return [self initWithContentsOfURL:absoluteURL encoding:NSUTF8StringEncoding error:outError];
+}
+
 - (id)init
 {
     self = [super init];
     if (self) {
+        _stringEncoding = NSUTF8StringEncoding;
         _attributedString = [[NSMutableAttributedString alloc] init];
         _flags.isAnnounced = NO;
         _modeIdentifier = @"SEEMode.Base";
@@ -143,12 +150,20 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     }
 }
 
+- (NSStringEncoding)stringEncoding {
+    return _stringEncoding;
+}
+- (void)setStringEncoding:(NSStringEncoding)anEncoding {
+    _stringEncoding = anEncoding;
+}
+
+
 #pragma mark -
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL error:(NSError **)outError
 {
     NSString *contentString = [[NSString alloc] initWithContentsOfURL:absoluteURL
-                                                             encoding:NSUTF8StringEncoding
+                                                             encoding:_stringEncoding
                                                                 error:outError];
     
     if (contentString) {
@@ -166,7 +181,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     NSString *contentString = [_attributedString string];
     BOOL result = [contentString writeToURL:absoluteURL
                                  atomically:YES
-                                   encoding:NSUTF8StringEncoding
+                                   encoding:_stringEncoding
                                       error:outError];
     return result;
 }
@@ -274,7 +289,6 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 - (void)invalidateLayoutForRange:(NSRange)aRange
 {
-    NSLog(@"%s", __FUNCTION__);
 }
 
 - (NSDictionary *)textStorageDictionaryRepresentation
@@ -284,7 +298,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
     [dictionary setObject:[[[_attributedString string] copy] autorelease] forKey:@"String"];
-    [dictionary setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"Encoding"];
+    [dictionary setObject:[NSNumber numberWithUnsignedInt:_stringEncoding] forKey:@"Encoding"];
     NSMutableDictionary *attributeDictionary = [[NSMutableDictionary alloc] init];
     NSEnumerator *attributeNames = [[NSArray arrayWithObjects:WrittenByUserIDAttributeName, ChangedByUserIDAttributeName ,nil] objectEnumerator];
     NSString *attributeName;
