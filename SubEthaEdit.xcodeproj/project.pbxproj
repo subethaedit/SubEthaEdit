@@ -357,6 +357,8 @@
 		F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
+		F223FC8D0BDF5F0A00437D55 /* UnknownPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */; };
+		F223FC8F0BDF5F1C00437D55 /* DefaultPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */; };
 		F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */; };
 		F27B2EE30B52957800679CF2 /* hud_buttonLeft-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */; };
 		F27B2EE40B52957800679CF2 /* hud_buttonRight-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */; };
@@ -1059,6 +1061,8 @@
 		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
+		F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownPerson.png; path = artwork/UnknownPerson.png; sourceTree = "<group>"; };
+		F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultPerson.png; path = artwork/DefaultPerson.png; sourceTree = "<group>"; };
 		F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_titlebar-close.tiff"; path = "artwork/hud_titlebar-close.tiff"; sourceTree = "<group>"; };
 		F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonLeft-N.tiff"; path = "artwork/hud_buttonLeft-N.tiff"; sourceTree = "<group>"; };
 		F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonRight-N.tiff"; path = "artwork/hud_buttonRight-N.tiff"; sourceTree = "<group>"; };
@@ -1197,6 +1201,7 @@
 				14289064095743F200D14688 /* CandyBar.png */,
 				14289066095743F200D14688 /* Conceal.png */,
 				1428905E095743B300D14688 /* debug.tiff */,
+				F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */,
 				14289069095743F200D14688 /* EditPrefs.tiff */,
 				1428906A095743F200D14688 /* EmptyButton.tiff */,
 				1428906B095743F200D14688 /* GeneralPrefs.tiff */,
@@ -1276,6 +1281,7 @@
 				5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */,
 				5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */,
 				5EFF54260A21B463005DC26B /* ToolbarIconRunInTerminal.png */,
+				F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */,
 				142890AE095743F200D14688 /* URLIcon.tiff */,
 				142890AF095743F200D14688 /* WaitPipe.png */,
 				142890B0095743F200D14688 /* WebReload.tiff */,
@@ -2335,6 +2341,8 @@
 				F27B2EE70B52957800679CF2 /* hud_buttonFill-N.tiff in Resources */,
 				F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */,
 				149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */,
+				F223FC8D0BDF5F0A00437D55 /* UnknownPerson.png in Resources */,
+				F223FC8F0BDF5F1C00437D55 /* DefaultPerson.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
