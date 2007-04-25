@@ -22,5 +22,7 @@ extern BOOL endRunLoop;
 
 - (void)openFile:(NSString *)filename modeIdentifier:(NSString *)modeIdentifier;
 - (void)openFiles:(NSArray *)filenames;
+- (void)readConfig:(NSString *)configPath;
+
 
 @end

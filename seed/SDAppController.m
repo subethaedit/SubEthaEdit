@@ -8,6 +8,7 @@
 
 #import "SDAppController.h"
 #import "SDDocument.h"
+#import "SDDocumentManager.h"
 
 
 int fd = 0;
@@ -87,14 +88,36 @@ BOOL endRunLoop = NO;
 
 #pragma mark -
 
+- (void)readConfig:(NSString *)configPath {
+    NSLog(@"%s %@",__FUNCTION__,configPath);
+    if (configPath) {
+        NSDictionary *configPlist = [NSDictionary dictionaryWithContentsOfFile:[configPath stringByExpandingTildeInPath]];
+        if (configPlist) {
+            NSLog(@"%s %@",__FUNCTION__, configPlist);
+            NSEnumerator *enumerator = [[configPlist objectForKey:@"InitialFiles"] objectEnumerator];
+            NSDictionary *entry;
+            while ((entry = [enumerator nextObject])) {
+                NSString *file = [entry objectForKey:@"file"];
+                NSString *mode = [entry objectForKey:@"mode"];
+                NSError *error = nil;
+                SDDocument *document = [[SDDocumentManager sharedInstance] addDocumentWithSubpath:file error:&error];
+                if (document) {
+                    if (mode) [document setModeIdentifier:mode];
+                    [[document session] setAccessState:TCMMMSessionAccessReadWriteState];
+                    [document setIsAnnounced:YES];
+                }
+            }
+        }
+    }
+}
+
+
 - (void)openFile:(NSString *)filename modeIdentifier:(NSString *)modeIdentifier
 {
     NSError *outError;
     NSURL *absoluteURL = [NSURL fileURLWithPath:filename];
-    NSLog(@"read document: %@", absoluteURL);
-    SDDocument *document = [(SDDocument *)[SDDocument alloc] initWithContentsOfURL:absoluteURL error:&outError];
+    SDDocument *document = [[SDDocumentManager sharedInstance] addDocumentWithContentsOfURL:absoluteURL error:&outError];
     if (document) {
-        [_documents addObject:document];
         [document setModeIdentifier:modeIdentifier];
         [[document session] setAccessState:TCMMMSessionAccessReadWriteState];
         [document setIsAnnounced:YES];
@@ -110,10 +133,8 @@ BOOL endRunLoop = NO;
     while ((filename = [enumerator nextObject])) {
         NSError *error;
         NSURL *absoluteURL = [NSURL fileURLWithPath:filename];
-        NSLog(@"read document: %@", absoluteURL);
-        SDDocument *document = [(SDDocument *)[SDDocument alloc] initWithContentsOfURL:absoluteURL error:&error];
+        SDDocument *document = [[SDDocumentManager sharedInstance] addDocumentWithContentsOfURL:absoluteURL error:&error];
         if (document) {
-            [_documents addObject:document];
             [[document session] setAccessState:TCMMMSessionAccessReadWriteState];
             [document setIsAnnounced:YES];
         }

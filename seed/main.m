@@ -10,7 +10,7 @@
 #import "sasl.h"
 
 #import "SDAppController.h"
-
+#import "SDDocumentManager.h"
 #import "TCMMillionMonkeys.h"
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
@@ -117,7 +117,9 @@ int main(int argc, const char *argv[])
     // Setup user with ID and name, w/o you can't establish connections
     TCMMMUser *me = [[TCMMMUser alloc] init];
     [me setUserID:[NSString UUIDString]];
-    [me setName:@"King Kong"];
+    NSString *myName = [defaults stringForKey:@"user_name"];
+    if (!myName) myName = @"King Kong";
+    [me setName:myName];
     
     NSString *imagePath = [defaults stringForKey:@"image"];
     if (imagePath) {
@@ -147,18 +149,10 @@ int main(int argc, const char *argv[])
     
     
     NSString *configFile = [defaults stringForKey:@"config"];
-    if (configFile) {
-        NSArray *configPlist = [NSArray arrayWithContentsOfFile:[configFile stringByExpandingTildeInPath]];
-        if (configPlist) {
-            NSEnumerator *enumerator = [configPlist objectEnumerator];
-            NSDictionary *entry;
-            while ((entry = [enumerator nextObject])) {
-                NSString *file = [entry objectForKey:@"file"];
-                NSString *mode = [entry objectForKey:@"mode"];
-                [appController openFile:file modeIdentifier:mode];
-            }
-        }
+    if (!configFile) {
+        configFile = BASE_LOCATION @"/config.plist";
     }
+    [appController readConfig:configFile];
     
     
     
