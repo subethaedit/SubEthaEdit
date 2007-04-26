@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "sasl.h"
 
-@class TCMBEEPSession, TCMBEEPProfile;
+@class TCMBEEPSession, TCMBEEPSASLProfile;
 
 @interface TCMBEEPAuthenticationClient : NSObject {
     TCMBEEPSession *_session;
-    TCMBEEPProfile *_profile;
+    TCMBEEPSASLProfile *_profile;
     sasl_conn_t *_sasl_conn_ctxt;
 }
 

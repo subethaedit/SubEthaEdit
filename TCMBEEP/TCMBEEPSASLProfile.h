@@ -13,4 +13,6 @@
 
 }
 
+- (void)startSecondRoundtripWithBlob:(NSData *)inData;
+
 @end

@@ -253,5 +253,30 @@ static sasl_callback_t sasl_server_callbacks[] = {
     return outData;
 }
 
+- (void)authenticationStepWithBlob:(NSString *)inString
+{
+    int result;
+    const char *serverout;
+    unsigned serveroutlen;
+    
+    result = sasl_server_step(_sasl_conn_ctxt,
+                              [inString UTF8String],      /* what the client gave */
+                              [inString length],   /* it's length */
+                              &serverout,          /* allocated by library on success. Might not be NULL terminated */
+                              &serveroutlen);
+
+    if ((result != SASL_OK) && (result != SASL_CONTINUE)) {
+        // [failure. Send protocol specific message that says authentication failed]
+        NSLog(@"[failure. Send protocol specific message that says authentication failed]");
+    } else if (result == SASL_OK) {
+        // [authentication succeeded. Send client the protocol specific message to say that authentication is complete]
+        NSLog(@"[authentication succeeded. Send client the protocol specific message to say that authentication is complete]");
+    } else {
+        // [send data 'out' with length 'outlen' over the network in protocol specific format]
+        NSLog(@"[send data 'out' with length 'outlen' over the network in protocol specific format]");
+        NSLog(@"serverout: %@", [NSString stringWithData:[NSData dataWithBytes:serverout length:serveroutlen] encoding:NSUTF8StringEncoding]);
+    }
+   
+}
 
 @end

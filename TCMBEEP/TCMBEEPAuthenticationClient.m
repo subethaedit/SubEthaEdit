@@ -8,7 +8,7 @@
 
 #import "TCMBEEPAuthenticationClient.h"
 #import "TCMBEEPSession.h"
-#import "TCMBEEPProfile.h"
+#import "TCMBEEPSASLProfile.h"
 
 
 static int sasl_getopt_session_client_cb(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len)
@@ -318,7 +318,40 @@ static sasl_callback_t sasl_client_callbacks[] = {
     // Parse blob element
     NSString *clientin_string = [self contentBytesFromProfilePayload:inData];
     NSData *decodedBase64String = [NSData dataWithBase64EncodedString:clientin_string];
-    NSLog(@"decoded blob: %@", [NSString stringWithData:decodedBase64String encoding:NSUTF8StringEncoding]);
+    NSString *serverin_string = [NSString stringWithData:decodedBase64String encoding:NSUTF8StringEncoding];
+    NSLog(@"decoded blob: %@", serverin_string);
+    
+    
+    const char *clientout;
+    unsigned clientoutlen;
+    sasl_interact_t *client_interact = NULL;
+    int result;
+    do {
+        result = sasl_client_step(_sasl_conn_ctxt,  /* our context */
+                                  [serverin_string UTF8String],    /* the data from the server */
+                                  [serverin_string length], /* it's length */
+                                  &client_interact,  /* this should be unallocated and NULL */
+                                  &clientout,     /* filled in on success */
+                                  &clientoutlen); /* filled in on success */
+
+        if (result == SASL_INTERACT) {
+           // [deal with the interactions. See below]
+           DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"[deal with the interactions. See below]");
+        }
+
+    } while (result==SASL_INTERACT || result == SASL_CONTINUE);
+
+    if (result == SASL_OK) {
+        if (clientout) {
+            NSLog(@"clientout: %s", clientout);
+            NSData *blob = [NSData dataWithBytes:clientout length:clientoutlen];
+            NSString *base64EncodedBlobString = [blob base64EncodedStringWithLineLength:0];
+            [_profile startSecondRoundtripWithBlob:[base64EncodedBlobString dataUsingEncoding:NSUTF8StringEncoding]];
+        }
+    } else {
+        // [failure]
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
+    }
 }
 
 @end
