@@ -1,0 +1,58 @@
+DESCRIPTION
+
+The seed file management profile allows remote file management of a seed server.  clients can connect to the server to:
+- list files
+- show file attributes
+- change file attributes
+- open files
+- create files
+- close files
+- save files
+- delete files
+- get informend when files change
+
+
+
+This Profile is directional - only the client can connect to the server.
+
+--------------------------------------------------------------------------------
+MESSAGES ALLOWED BY THE CLIENT
+
+DIRLST: List files
+attached data: optionally path relative to document root
+
+the server then replies with a 
+>DIRCON: Directory Contents RPY which contains an Array of file Representations
+
+ATTGET: get file attributes
+attached data: a dictionary where the key FileID holds the FileID of which the attributes 
+
+the server then replies with a
+>FILREP: which contains a file Representation with the most current state of the file
+
+ATTSET: FileID, Attributes with new values
+
+
+FILNEW: string with location, encoding, mode
+
+FILOPN: FileID, encoding, mode
+
+FILCLO: FileID
+
+--------------------------------------------------------------------------------
+
+DATA TYPES
+
+
+FILE REPRESENTATION:
+a file Representation is a dictionary
+{ Filename = "foo.txt",
+  FileID   = a UUID represented as DATA,
+  ChangeCount = a number that will increase with every change made on the file (excluding file size and edits inside the file),
+  LastSave = String date,
+  IsOpen = BOOL as int if file is open,
+  IsAnnounced = BOOL as int if file is Announced,
+  AccessState = 0 == locked, 1 == read only, 2 == read/write,
+  FileSize
+}
+

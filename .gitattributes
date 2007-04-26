@@ -170,6 +170,8 @@ English.lproj/SystemVersionCheck.strings -text
 English.lproj/WebPreview.nib/classes.nib -text
 English.lproj/WebPreview.nib/info.nib -text
 English.lproj/WebPreview.nib/keyedobjects.nib -text
+/FileManagementProfile.h -text
+/FileManagementProfile.m -text
 /FindAllController.h -text
 /FindAllController.m -text
 /FindAllTableView.h -text
@@ -1239,6 +1241,10 @@ TCMBEEP/TCMBEEPAuthenticationClient.h -text
 TCMBEEP/TCMBEEPAuthenticationClient.m -text
 TCMBEEP/TCMBEEPAuthenticationServer.h -text
 TCMBEEP/TCMBEEPAuthenticationServer.m -text
+TCMBEEP/TCMBEEPBencodedMessage.h -text
+TCMBEEP/TCMBEEPBencodedMessage.m -text
+TCMBEEP/TCMBEEPBencodingProfile.h -text
+TCMBEEP/TCMBEEPBencodingProfile.m -text
 TCMBEEP/TCMBEEPChannel.h -text
 TCMBEEP/TCMBEEPChannel.m -text
 TCMBEEP/TCMBEEPFrame.h -text
@@ -1481,6 +1487,7 @@ sasl/saslutil.h -text
 see/main.m -text
 see/see.1 -text
 see/see.vers -text
+seed/FileManagementProfile.notes -text
 seed/Info.plist -text
 seed/SDAppController.h -text
 seed/SDAppController.m -text

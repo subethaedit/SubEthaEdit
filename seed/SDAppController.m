@@ -9,6 +9,9 @@
 #import "SDAppController.h"
 #import "SDDocument.h"
 #import "SDDocumentManager.h"
+#import "TCMBEEP.h"
+#import "TCMMillionMonkeys.h"
+#import "FileManagementProfile.h"
 
 
 int fd = 0;
@@ -43,8 +46,25 @@ BOOL endRunLoop = NO;
                                                          repeats:YES];
         [_autosaveTimer retain];
         */
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:nil];
     }
     return self;
+}
+
+- (void)didAcceptSession:(NSNotification *)aNotification {
+    NSLog(@"%s",__FUNCTION__);
+    TCMBEEPSession *session=[[aNotification userInfo] objectForKey:@"Session"];
+    if ([[session peerProfileURIs] containsObject:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"]) {
+        NSLog(@"%s contained http://www.codingmonkeys.de/BEEP/SeedFileManagement",__FUNCTION__);
+        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"] andData:nil sender:self];
+    }
+}
+
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)aData
+{
+    NSLog(@"%s %@ %@",__FUNCTION__,aBEEPSession, aProfile);
+    [(FileManagementProfile *)aProfile askForDirectoryListing];
+
 }
 
 - (void)dealloc

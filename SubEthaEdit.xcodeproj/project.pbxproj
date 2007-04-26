@@ -358,6 +358,9 @@
 		F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
+		F2230A440BE0241A00437D55 /* FileManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A430BE0241A00437D55 /* FileManagementProfile.m */; };
+		F2230A490BE0243100437D55 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
+		F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
 		F223FC8D0BDF5F0A00437D55 /* UnknownPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */; };
 		F223FC8F0BDF5F1C00437D55 /* DefaultPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */; };
 		F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */; };
@@ -1064,6 +1067,12 @@
 		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
+		F2230A420BE0241A00437D55 /* FileManagementProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FileManagementProfile.h; sourceTree = "<group>"; };
+		F2230A430BE0241A00437D55 /* FileManagementProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FileManagementProfile.m; sourceTree = "<group>"; };
+		F2230A450BE0243100437D55 /* TCMBEEPBencodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMBEEPBencodedMessage.h; path = TCMBEEP/TCMBEEPBencodedMessage.h; sourceTree = "<group>"; };
+		F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodedMessage.m; path = TCMBEEP/TCMBEEPBencodedMessage.m; sourceTree = "<group>"; };
+		F2230A470BE0243100437D55 /* TCMBEEPBencodingProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMBEEPBencodingProfile.h; path = TCMBEEP/TCMBEEPBencodingProfile.h; sourceTree = "<group>"; };
+		F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodingProfile.m; path = TCMBEEP/TCMBEEPBencodingProfile.m; sourceTree = "<group>"; };
 		F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownPerson.png; path = artwork/UnknownPerson.png; sourceTree = "<group>"; };
 		F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultPerson.png; path = artwork/DefaultPerson.png; sourceTree = "<group>"; };
 		F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_titlebar-close.tiff"; path = "artwork/hud_titlebar-close.tiff"; sourceTree = "<group>"; };
@@ -1353,6 +1362,10 @@
 				1443B0380BD918A800755DED /* TCMBEEPAuthenticationClient.m */,
 				1443B0320BD9189500755DED /* TCMBEEPAuthenticationServer.h */,
 				1443B0330BD9189500755DED /* TCMBEEPAuthenticationServer.m */,
+				F2230A450BE0243100437D55 /* TCMBEEPBencodedMessage.h */,
+				F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */,
+				F2230A470BE0243100437D55 /* TCMBEEPBencodingProfile.h */,
+				F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */,
 				142891420957475E00D14688 /* TCMBEEPChannel.h */,
 				142891430957475E00D14688 /* TCMBEEPChannel.m */,
 				142891440957475E00D14688 /* TCMBEEPFrame.h */,
@@ -1433,6 +1446,8 @@
 		142892460957525900D14688 /* BEEPProfiles */ = {
 			isa = PBXGroup;
 			children = (
+				F2230A420BE0241A00437D55 /* FileManagementProfile.h */,
+				F2230A430BE0241A00437D55 /* FileManagementProfile.m */,
 				14289362095757AA00D14688 /* HandshakeProfile.h */,
 				14289363095757AA00D14688 /* HandshakeProfile.m */,
 				14289364095757AA00D14688 /* SessionProfile.h */,
@@ -2485,6 +2500,9 @@
 				1443B0390BD918A800755DED /* TCMBEEPAuthenticationClient.m in Sources */,
 				1428F4AB0BDE3B6600411CA6 /* BacktracingException.m in Sources */,
 				145842390BDFBC3000EB6D15 /* SDDocumentManager.m in Sources */,
+				F2230A440BE0241A00437D55 /* FileManagementProfile.m in Sources */,
+				F2230A490BE0243100437D55 /* TCMBEEPBencodedMessage.m in Sources */,
+				F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

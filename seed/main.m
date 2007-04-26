@@ -14,6 +14,7 @@
 #import "TCMMillionMonkeys.h"
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
+#import "FileManagementProfile.h"
 
 
 static int sasl_getopt_callback(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len);
@@ -139,9 +140,11 @@ int main(int argc, const char *argv[])
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
+    [TCMBEEPChannel setClass:[FileManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
 
     [[TCMMMBEEPSessionManager sharedInstance] listen];
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];
+    [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
     
 
     // set the TERM signal handler to 'catch_term' 
