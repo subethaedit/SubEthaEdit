@@ -241,6 +241,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [session addProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",
                                                           @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
                                                           @"http://www.codingmonkeys.de/BEEP/TCMMMStatus",
+                                                          @"http://www.codingmonkeys.de/BEEP/SeedFileManagement",
                                                           nil]];
         [session setDelegate:self];
         [session open];
@@ -298,6 +299,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [session addProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",
                                                           @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
                                                           @"http://www.codingmonkeys.de/BEEP/TCMMMStatus",
+                                                          @"http://www.codingmonkeys.de/BEEP/SeedFileManagement",
                                                           nil]];
         [session setDelegate:self];
         [session open];
@@ -742,6 +744,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [aBEEPSession addProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
                                                            @"http://www.codingmonkeys.de/BEEP/TCMMMStatus",
                                                            @"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",
+                                                           @"http://www.codingmonkeys.de/BEEP/SeedFileManagement",
                                                            nil]];
     [aBEEPSession setDelegate:self];
     [aBEEPSession open];
