@@ -89,6 +89,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_sessions = [NSMutableArray new];
         BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:ProhibitInboundInternetSessions];
         I_isProhibitingInboundInternetSessions = flag;
+        sharedInstance = self;
         [self registerHandler:[TCMMMPresenceManager sharedInstance] forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     }
     return self;
