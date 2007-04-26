@@ -435,13 +435,12 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData
 {
+    NSLog(@"%s %@ %@",__FUNCTION__,aBEEPSession,aProfile);
     [aProfile setDelegate:self];
     if ([aProfile isServer]) {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"acceptStatusProfile!");
-        if ([aProfile isServer]) {
-            [self sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile];
-            [I_statusProfilesInServerRole addObject:aProfile];
-        }
+        [self sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile];
+        [I_statusProfilesInServerRole addObject:aProfile];
     } else {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got status Channel!");
         NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
