@@ -40,8 +40,18 @@
         [result appendFormat:@"X-AIM;type=HOME;type=pref:%@\r\n",aim];
     }
     NSData *pngImage=[[self properties] objectForKey:@"ImageAsPNG"];
-    if (pngImage && [pngImage length]>0) {
-        [result appendFormat:@"PHOTO;ENCODING=b;TYPE=PNG:\r\n%@\r\n",[pngImage base64EncodedStringWithLineLength:76]];
+    if (pngImage && [pngImage length]>0) {        
+        NSMutableString *vcfCompliantString = [NSMutableString string];
+        NSString *encodedString = [pngImage base64EncodedStringWithLineLength:74];
+        NSArray *lines = [encodedString componentsSeparatedByString:@"\n"];
+        unsigned i;
+        for (i = 0; i < [lines count]; i++) {
+            NSString *line = [lines objectAtIndex:i];
+            [vcfCompliantString appendString:@"  "];
+            [vcfCompliantString appendString:line];
+            if (i != ([lines count] - 1)) [vcfCompliantString appendString:@"\n"];
+        }
+        [result appendFormat:@"PHOTO;ENCODING=b;TYPE=PNG:\r\n%@\r\n",vcfCompliantString];
     }
     [result appendString:@"END:VCARD\r\n"];
     return result;

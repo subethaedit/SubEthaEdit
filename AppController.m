@@ -32,6 +32,7 @@
 
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
+#import "FileManagementProfile.h"
 #import "DocumentModeManager.h"
 #import "DocumentController.h"
 #import "PlainTextEditor.h"
@@ -564,6 +565,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
+    [TCMBEEPChannel setClass:[FileManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
 
     [[TCMMMBEEPSessionManager sharedInstance] listen];
     [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
