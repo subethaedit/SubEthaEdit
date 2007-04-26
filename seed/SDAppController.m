@@ -64,6 +64,15 @@ BOOL endRunLoop = NO;
 {
     NSLog(@"%s %@ %@",__FUNCTION__,aBEEPSession, aProfile);
     [(FileManagementProfile *)aProfile askForDirectoryListing];
+    [(FileManagementProfile *)aProfile requestNewFileWithAttributes:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            @"ascii",@"Encoding",
+            @"hallogallo.html",@"FilePath",
+            @"tri tra trullalala der kasperle ist wieder da!\n\n\nfoobar\n",@"Content",
+            @"SEEMode.Conference",@"ModeIdentifier",
+            [NSNumber numberWithInt:TCMMMSessionAccessReadWriteState],@"AccessState",
+         nil]];
+    [(FileManagementProfile *)aProfile askForDirectoryListing];
 
 }
 

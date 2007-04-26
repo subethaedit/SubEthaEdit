@@ -14,9 +14,12 @@
 @interface SDDocumentManager : NSObject {
     NSMutableArray *_documents;
     NSString *_documentRootPath;
+    NSMutableDictionary *_availableDocumentsByID;
 }
 
 + (id)sharedInstance;
+
+- (void)checkFileSystem;
 
 - (NSArray *)documents;
 - (void)addDocument:(SDDocument *)aDocument;

@@ -46,13 +46,12 @@ DATA TYPES
 
 FILE REPRESENTATION:
 a file Representation is a dictionary
-{ Filename = "foo.txt",
+{ FilePath = "foo.txt", (relative to document root)
   FileID   = a UUID represented as DATA,
   ChangeCount = a number that will increase with every change made on the file (excluding file size and edits inside the file),
   LastSave = String date,
   IsOpen = BOOL as int if file is open,
   IsAnnounced = BOOL as int if file is Announced,
   AccessState = 0 == locked, 1 == read only, 2 == read/write,
-  FileSize
 }
 
