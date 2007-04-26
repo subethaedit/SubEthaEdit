@@ -44,9 +44,6 @@ static char base64EncodingArray[ 64 ] = {
         
     lentext=[self length];
     result =[NSMutableString stringWithCapacity:lentext];
-    #warning WTF? Is this needed for vcf compatibility or what?
-    [result appendString:@"  "];
-    lineLength-=2;
 
     while (YES) {
         ctremaining = lentext - ixtext;
@@ -94,7 +91,7 @@ static char base64EncodingArray[ 64 ] = {
             {
                 charsonline = 0;
 
-                [result appendString:@"\n  "];
+                [result appendString:@"\n"];
             }
         }
     }

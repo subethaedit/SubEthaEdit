@@ -284,6 +284,9 @@
 		144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		145842390BDFBC3000EB6D15 /* SDDocumentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 145842380BDFBC3000EB6D15 /* SDDocumentManager.m */; };
+		14584B2D0BE0C6CB00EB6D15 /* FileManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A430BE0241A00437D55 /* FileManagementProfile.m */; };
+		14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
+		14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
 		148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 148167AC0B15B002008894C9 /* PlainTextWindow.m */; };
 		1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */; };
 		1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -2691,6 +2694,9 @@
 				1443B04D0BD9193200755DED /* TCMBEEPAuthenticationClient.m in Sources */,
 				1428F4AE0BDE3B7200411CA6 /* BacktracingException.m in Sources */,
 				1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */,
+				14584B2D0BE0C6CB00EB6D15 /* FileManagementProfile.m in Sources */,
+				14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */,
+				14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
