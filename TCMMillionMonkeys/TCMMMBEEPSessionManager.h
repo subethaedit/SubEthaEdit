@@ -30,6 +30,7 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostCancelledNotificatio
     
     NSMutableDictionary *I_outboundInternetSessions;
     BOOL I_isProhibitingInboundInternetSessions;
+    NSMutableDictionary *I_handlersForNewProfiles;
 }
 
 + (TCMMMBEEPSessionManager *)sharedInstance;
@@ -43,6 +44,7 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostCancelledNotificatio
 
 - (void)setIsProhibitingInboundInternetSessions:(BOOL)flag;
 - (BOOL)isProhibitingInboundInternetSessions;
+- (void)registerHandler:(id)aHandler forIncomingProfilesWithProfileURI:(NSString *)aProfileURI;
 
 - (void)connectToNetService:(NSNetService *)aNetService;
 - (void)connectToHost:(TCMHost *)aHost;

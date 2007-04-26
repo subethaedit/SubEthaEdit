@@ -31,6 +31,11 @@
 - (NSURL *)fileURL;
 - (void)setFileURL:(NSURL *)absoluteURL;
 
+- (void)setContentString:(NSString *)aString;
+- (NSDictionary *)dictionaryRepresentation;
+
+- (NSString *)uniqueID;
+
 - (NSString *)modeIdentifier;
 - (void)setModeIdentifier:(NSString *)identifier;
 

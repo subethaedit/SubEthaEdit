@@ -8,6 +8,8 @@
 
 #import "SDDocumentManager.h"
 #import "SDDocument.h"
+#import "TCMMMBEEPSessionManager.h"
+#import "FileManagementProfile.h"
 
 static SDDocumentManager *S_sharedInstance=nil;
 
@@ -26,7 +28,9 @@ static SDDocumentManager *S_sharedInstance=nil;
         return S_sharedInstance;
     }
     if ((self=[super init])) {
+        S_sharedInstance = self;
         _documents = [NSMutableArray new];
+        _availableDocumentsByID = [NSMutableDictionary new];
         NSString *documentRoot = [[NSUserDefaults standardUserDefaults] objectForKey:@"document_root"];
         if (!documentRoot) documentRoot = BASE_LOCATION @"/Documents";
         _documentRootPath = [documentRoot retain];
@@ -35,12 +39,14 @@ static SDDocumentManager *S_sharedInstance=nil;
         if (![fm fileExistsAtPath:_documentRootPath isDirectory:&wasDirectory]) {
             [fm createDirectoryAtPath:_documentRootPath attributes:nil];
         }
-        S_sharedInstance = self;
+        
+        [[TCMMMBEEPSessionManager sharedInstance] registerHandler:self forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
     }
     return self;
 }
 
 - (void)dealloc {
+    [_availableDocumentsByID release];
     [_documents release];
     [_documentRootPath release];
     [super dealloc];
@@ -48,11 +54,18 @@ static SDDocumentManager *S_sharedInstance=nil;
 
 - (void)addDocument:(SDDocument *)aDocument {
     [_documents addObject:aDocument];
+    [_availableDocumentsByID setObject:aDocument forKey:[aDocument uniqueID]];
 }
 
 - (void)removeDocument:(SDDocument *)aDocument {
     [_documents removeObject:aDocument];
+    [_availableDocumentsByID removeObjectForKey:[aDocument uniqueID]];
 }
+
+- (void)checkFileSystem {
+    
+}
+
 
 - (NSArray *)documents {
     return _documents;
@@ -81,6 +94,45 @@ static SDDocumentManager *S_sharedInstance=nil;
     return document;
 }
 
+#pragma mark -
+#pragma mark ### BEEPSession interaction ###
 
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData {
+    NSLog(@"%s %@",__FUNCTION__,[aProfile class]);
+    [aProfile setDelegate:self];
+}
+
+#pragma mark -
+#pragma mark ### FileManagementProfile interaction ###
+
+- (NSArray *)directoryListingForProfile:(FileManagementProfile *)aProfile {
+    NSMutableArray *result = [NSMutableArray array];
+    NSEnumerator *documents = [_availableDocumentsByID objectEnumerator];
+    id document = nil;
+    while ((document=[documents nextObject])) {
+        [result addObject:[document dictionaryRepresentation]];
+    }
+    return result;
+}
+
+- (BOOL)profile:(FileManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)error {
+    NSStringEncoding encoding = NSUTF8StringEncoding;
+    if ([attributes objectForKey:@"Encoding"]) {
+        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)[attributes objectForKey:@"Encoding"]));
+    }
+    id document = [self addDocumentWithSubpath:[attributes objectForKey:@"FilePath"] encoding:encoding error:error];
+    if (!document) return NO;
+    if ([attributes objectForKey:@"Content"]) {
+        [document setContentString:[attributes objectForKey:@"Content"]];
+    }
+    if ([attributes objectForKey:@"ModeIdentifier"]) {
+        [document setModeIdentifier:[attributes objectForKey:@"ModeIdentifier"]];
+    }
+    if ([attributes objectForKey:@"AccessState"]) {
+        [[document session] setAccessState:[[attributes objectForKey:@"AccessState"] intValue]];
+    }
+    [document setIsAnnounced:YES];
+    return YES;
+}
 
 @end

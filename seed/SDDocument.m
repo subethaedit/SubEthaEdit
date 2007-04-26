@@ -89,6 +89,16 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     [super dealloc];
 }
 
+- (NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    [result setObject:[NSData dataWithUUIDString:[self uniqueID]] forKey:@"FileID"];
+    [result setObject:[[self fileURL] path] forKey:@"FilePath"];
+    [result setObject:[NSNumber numberWithBool:[self isAnnounced]] forKey:@"IsAnnounced"];
+    [result setObject:[NSNumber numberWithInt:[[self session] accessState]] forKey:@"accessState"];
+    return result;
+}
+
+
 #pragma mark -
 
 - (NSURL *)fileURL
@@ -111,7 +121,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 {
     [_modeIdentifier autorelease];
     if (identifier)
-        _modeIdentifier = identifier;
+        _modeIdentifier = [identifier copy];
     else
         _modeIdentifier = @"SEEMode.Base";
 }
@@ -126,6 +136,11 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 {
     return _session;
 }
+
+- (NSString *)uniqueID {
+    return [_session sessionID];
+}
+
 
 - (BOOL)isAnnounced
 {
@@ -159,6 +174,11 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 
 #pragma mark -
+
+- (void)setContentString:(NSString *)aString {
+    [_attributedString replaceCharactersInRange:NSMakeRange(0, [_attributedString length])
+                                     withString:aString];
+}
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL error:(NSError **)outError
 {

@@ -11,9 +11,14 @@
 
 
 @interface FileManagementProfile : TCMBEEPBencodingProfile {
-
 }
 
 - (void)askForDirectoryListing;
+- (void)requestNewFileWithAttributes:(NSDictionary *)attributes;
 
+@end
+
+@interface NSObject (FileManagementProfileDelegateAdditions)
+- (NSArray *)directoryListingForProfile:(FileManagementProfile *)aProfile;
+- (BOOL)profile:(FileManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)error;
 @end

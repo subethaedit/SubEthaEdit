@@ -81,6 +81,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 {
     self = [super init];
     if (self) {
+        I_handlersForNewProfiles = [NSMutableDictionary new];
         I_sessionInformationByUserID = [NSMutableDictionary new];
         I_pendingSessionProfiles = [NSMutableSet new];
         I_pendingSessions = [NSMutableSet new];
@@ -88,6 +89,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_sessions = [NSMutableArray new];
         BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:ProhibitInboundInternetSessions];
         I_isProhibitingInboundInternetSessions = flag;
+        [self registerHandler:[TCMMMPresenceManager sharedInstance] forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     }
     return self;
 }
@@ -362,6 +364,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
     return fallbackSession;
 }
 
+- (void)registerHandler:(id)aHandler forIncomingProfilesWithProfileURI:(NSString *)aProfileURI {
+    [I_handlersForNewProfiles setObject:aHandler forKey:aProfileURI];
+}
+
 #pragma mark -
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray
@@ -436,6 +442,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData
 {
+    NSLog(@"%s isServer:%@, %@",__FUNCTION__,[aProfile isServer]?@"YES":@"NO", [aProfile class]);
     if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
         [aProfile setDelegate:self];
         if (![aProfile isServer]) {
@@ -450,12 +457,16 @@ static TCMMMBEEPSessionManager *sharedInstance;
             }
             [(HandshakeProfile *)aProfile shakeHandsWithUserID:[TCMMMUserManager myUserID]];
         }
-    } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"]) {
-        [[TCMMMPresenceManager sharedInstance] acceptStatusProfile:(TCMMMStatusProfile *)aProfile];
     } else if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got SubEthaEditSession profile");
         [aProfile setDelegate:self];
         [I_pendingSessionProfiles addObject:aProfile];
+    } else {
+        // general case
+        id handler = [I_handlersForNewProfiles objectForKey:[aProfile profileURI]];
+        if (handler) {
+            [handler BEEPSession:aBEEPSession didOpenChannelWithProfile:aProfile data:inData];
+        }
     }
 }
 

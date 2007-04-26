@@ -43,8 +43,6 @@ extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotifica
 - (BOOL)isVisible;
 - (void)setVisible:(BOOL)aFlag;
 
-- (void)acceptStatusProfile:(TCMMMStatusProfile *)aProfile;
-
 - (NSDictionary *)announcedSessions;
 - (void)announceSession:(TCMMMSession *)aSession;
 - (void)concealSession:(TCMMMSession *)aSession;
