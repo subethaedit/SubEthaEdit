@@ -399,6 +399,16 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     return I_flags.isProhibitingInboundInternetSessions;
 }
 
+- (TCMBEEPAuthenticationClient *)authentiationClient
+{
+    return _authClient;
+}
+
+- (TCMBEEPAuthenticationServer *)authenticationServer
+{
+    return _authServer;
+}
+
 - (BOOL)isInitiator
 {
     return I_flags.isInitiator;

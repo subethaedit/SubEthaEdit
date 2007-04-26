@@ -19,6 +19,7 @@
 - (id)initWithSession:(TCMBEEPSession *)session;
 
 - (NSData *)answerDataForChannelStartProfileURI:(NSString *)profileURI data:(NSData *)inData;
+- (void)authenticationStepWithBlob:(NSString *)inString;
 - (void)setProfile:(TCMBEEPProfile *)profile;
 
 @end
