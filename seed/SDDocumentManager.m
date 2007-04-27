@@ -120,7 +120,7 @@ static SDDocumentManager *S_sharedInstance=nil;
     if ([attributes objectForKey:@"Encoding"]) {
         encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)[attributes objectForKey:@"Encoding"]));
     }
-    id document = [self addDocumentWithSubpath:[attributes objectForKey:@"FilePath"] encoding:encoding error:error];
+    SDDocument * document = [self addDocumentWithSubpath:[attributes objectForKey:@"FilePath"] encoding:encoding error:error];
     if (!document) return NO;
     if ([attributes objectForKey:@"Content"]) {
         [document setContentString:[attributes objectForKey:@"Content"]];

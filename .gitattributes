@@ -144,6 +144,9 @@ English.lproj/SavePanelAccessory.nib/keyedobjects.nib -text
 English.lproj/SelectEncodingsPanel.nib/classes.nib -text
 English.lproj/SelectEncodingsPanel.nib/info.nib -text
 English.lproj/SelectEncodingsPanel.nib/objects.nib -text
+English.lproj/ServerConnection.nib/classes.nib -text
+English.lproj/ServerConnection.nib/info.nib -text
+English.lproj/ServerConnection.nib/keyedobjects.nib -text
 English.lproj/ServicesMenu.strings -text
 English.lproj/Setup.nib/classes.nib -text
 English.lproj/Setup.nib/info.nib -text
@@ -1138,6 +1141,10 @@ Scripts/shell/open_url.rb -text
 /SelectCommand.m -text
 /SelectionOperation.h -text
 /SelectionOperation.m -text
+/ServerConnectionManager.h -text
+/ServerConnectionManager.m -text
+/ServerConnectionWindowController.h -text
+/ServerConnectionWindowController.m -text
 /SessionProfile.h -text
 /SessionProfile.m -text
 /Setup.plist -text

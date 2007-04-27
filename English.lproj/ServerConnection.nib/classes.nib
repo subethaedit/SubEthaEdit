@@ -1,0 +1,22 @@
+{
+    IBClasses = (
+        {
+            CLASS = DocumentModePopUpButton; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPopUpButton; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {newFile = id; }; 
+            CLASS = ServerConnectionWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_modePopUpButton" = DocumentModePopUpButton; 
+                "O_newfileNameTextField" = NSTextField; 
+                "O_tableView" = NSTableView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}
