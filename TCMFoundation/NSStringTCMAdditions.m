@@ -60,7 +60,7 @@
         } else {
             addressAsString = @"IPv4 un-ntopable";
         }
-        int port = ((struct sockaddr_in *)socketAddress)->sin_port;
+        int port = ntohs(((struct sockaddr_in *)socketAddress)->sin_port);
         addressAsString = [addressAsString stringByAppendingFormat:@":%d", port];
     } else if (socketAddress->sa_family == AF_INET6) {
          if (inet_ntop(AF_INET6, &(((struct sockaddr_in6 *)socketAddress)->sin6_addr), stringBuffer, INET6_ADDRSTRLEN)) {
@@ -68,7 +68,7 @@
         } else {
             addressAsString = @"IPv6 un-ntopable";
         }
-        int port = ((struct sockaddr_in6 *)socketAddress)->sin6_port;
+        int port = ntohs(((struct sockaddr_in6 *)socketAddress)->sin6_port);
         
         // Suggested IPv6 format (see http://www.faqs.org/rfcs/rfc2732.html)
         addressAsString = [NSString stringWithFormat:@"[%@]:%d", addressAsString, port]; 
