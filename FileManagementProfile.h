@@ -20,5 +20,7 @@
 
 @interface NSObject (FileManagementProfileDelegateAdditions)
 - (NSArray *)directoryListingForProfile:(FileManagementProfile *)aProfile;
-- (BOOL)profile:(FileManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)error;
+- (void)profile:(FileManagementProfile *)aProfile didReceiveDirectoryContents:(NSArray *)aContentArray;
+- (id)profile:(FileManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)error;
+- (void)profile:(FileManagementProfile *)aProfile didAckNewDocument:(NSDictionary *)aDocumentDictionary;
 @end

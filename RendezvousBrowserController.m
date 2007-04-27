@@ -16,6 +16,7 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMBrowserListView.h"
 #import "ServerConnectionManager.h"
+#import "NSWorkspaceTCMAdditions.h"
 
 enum {
     BrowserContextMenuTagJoin = 1,
@@ -440,10 +441,8 @@ enum {
         static NSImage *statusLock=nil;
         static NSImage *statusReadOnly=nil;
         static NSImage *statusReadWrite=nil;
-        static NSMutableDictionary *icons =nil;
         
-        if (!icons) {
-            icons=[NSMutableDictionary new];
+        if (!statusLock) {
             statusLock     =[[NSImage imageNamed:@"StatusLock"     ] retain];
             statusReadOnly =[[NSImage imageNamed:@"StatusReadOnly" ] retain];
             statusReadWrite=[[NSImage imageNamed:@"StatusReadWrite"] retain];
@@ -460,13 +459,7 @@ enum {
                     return [NSNumber numberWithInt:[session clientState]];
                 } else if (aTag==TCMMMBrowserChildIconImageTag) {
                     NSString *extension=[[session filename] pathExtension];
-                    NSImage *icon=[icons objectForKey:extension];
-                    if (!icon) {
-                        icon = [[[NSWorkspace sharedWorkspace] iconForFileType:extension] copy];
-                        [icon setSize:NSMakeSize(16,16)];
-                        [icons setObject:[icon autorelease] forKey:extension];
-                    }
-                    return icon;
+                    return [[NSWorkspace sharedWorkspace] iconForFileType:extension size:16];
                 } else if (aTag==TCMMMBrowserChildStatusImageTag) {
                     switch ([session accessState]) {
                         case TCMMMSessionAccessLockedState:

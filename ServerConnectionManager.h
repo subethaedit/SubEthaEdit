@@ -8,12 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class ServerConnectionWindowController;
 
 @interface ServerConnectionManager : NSObject {
     NSMutableArray *_windowControllers;
 }
 
 + (id)sharedInstance;
+
+- (void)removeWindowController:(ServerConnectionWindowController *)aWindowController;
 
 - (void)openServerConnectionUsingBEEPSession:(TCMBEEPSession *)aSession;
 - (IBAction)openServerConnection:(id)aSender;

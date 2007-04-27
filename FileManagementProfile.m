@@ -18,6 +18,8 @@
                            messageString:@"DIRCON" channelRole:TCMBEEPChannelRoleInitiator];
     [self registerSelector:@selector(replyToFILNEW:) forMessageType:@"MSG" 
                             messageString:@"FILNEW" channelRole:TCMBEEPChannelRoleResponder];
+    [self registerSelector:@selector(acceptFILACK:) forMessageType:@"RPY" 
+                            messageString:@"FILACK" channelRole:TCMBEEPChannelRoleInitiator];
     NSLog(@"%s %@",__FUNCTION__,[self performSelector:@selector(myRoutingDictionary)]);
 }
 
@@ -39,6 +41,7 @@
 
 - (void)acceptDIRCON:(TCMBEEPBencodedMessage *)aMessage {
     NSLog(@"%s %@",__FUNCTION__,aMessage);
+    [[self delegate] profile:self didReceiveDirectoryContents:[aMessage content]];
 }
 
 - (void)requestNewFileWithAttributes:(NSDictionary *)attributes {
@@ -51,16 +54,25 @@
 
 - (void)replyToFILNEW:(TCMBEEPBencodedMessage *)aMessage {
     NSError *error = nil;
-    if ([[self delegate] profile:self didRequestNewDocumentWithAttributes:[aMessage content] error:&error]) {
-        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:[NSData data]];
-        [[self channel] sendMessage:[message autorelease]];
+    id document = [[self delegate] profile:self didRequestNewDocumentWithAttributes:[aMessage content] error:&error];
+    if (document) {
+        [[self channel] sendMessage:
+            [[TCMBEEPBencodedMessage bencodedMessageWithMessageType:@"RPY"
+                messageNumber:[aMessage messageNumber]
+                messageString:@"FILACK"
+                content:[document dictionaryRepresentation]] BEEPMessage]];
     } else {
-        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"ERR" messageNumber:[aMessage messageNumber] payload:[NSData data]];
-        [[self channel] sendMessage:[message autorelease]];
+        [[self channel] sendMessage:
+            [[TCMBEEPBencodedMessage bencodedMessageWithMessageType:@"ERR"
+                messageNumber:[aMessage messageNumber]
+                messageString:@"FILFAI"
+                content:nil] BEEPMessage]];
     }
 }
 
-
+- (void)acceptFILACK:(TCMBEEPBencodedMessage *)aMessage {
+    [[self delegate] profile:self didAckNewDocument:[aMessage content]];
+}
 
 
 @end

@@ -15,7 +15,7 @@ static ServerConnectionManager *S_sharedInstance = nil;
 @implementation ServerConnectionManager
 
 + (id)sharedInstance {
-    if (!S_sharedInstance) [ServerConnectionManager new];
+    if (!S_sharedInstance) [[ServerConnectionManager alloc] init];
     return S_sharedInstance;
 }
 
@@ -53,5 +53,8 @@ static ServerConnectionManager *S_sharedInstance = nil;
     }
 }
 
+- (void)removeWindowController:(ServerConnectionWindowController *)aWindowController {
+    [_windowControllers removeObject:aWindowController];
+}
 
 @end

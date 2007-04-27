@@ -66,6 +66,10 @@ static SDDocumentManager *S_sharedInstance=nil;
     
 }
 
+- (NSString *)documentRootPath {
+    return _documentRootPath;
+}
+
 
 - (NSArray *)documents {
     return _documents;
@@ -115,13 +119,13 @@ static SDDocumentManager *S_sharedInstance=nil;
     return result;
 }
 
-- (BOOL)profile:(FileManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)error {
+- (id)profile:(FileManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)error {
     NSStringEncoding encoding = NSUTF8StringEncoding;
     if ([attributes objectForKey:@"Encoding"]) {
         encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)[attributes objectForKey:@"Encoding"]));
     }
     SDDocument * document = [self addDocumentWithSubpath:[attributes objectForKey:@"FilePath"] encoding:encoding error:error];
-    if (!document) return NO;
+    if (!document) return nil;
     if ([attributes objectForKey:@"Content"]) {
         [document setContentString:[attributes objectForKey:@"Content"]];
     }
@@ -132,7 +136,7 @@ static SDDocumentManager *S_sharedInstance=nil;
         [[document session] setAccessState:[[attributes objectForKey:@"AccessState"] intValue]];
     }
     [document setIsAnnounced:YES];
-    return YES;
+    return document;
 }
 
 @end
