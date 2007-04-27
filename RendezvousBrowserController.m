@@ -15,12 +15,14 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMBrowserListView.h"
+#import "ServerConnectionManager.h"
 
 enum {
     BrowserContextMenuTagJoin = 1,
     BrowserContextMenuTagShowDocument,
     BrowserContextMenuTagAIM,
-    BrowserContextMenuTagEmail
+    BrowserContextMenuTagEmail,
+    BrowserContextMenuTagManageFiles
 };
 
 static RendezvousBrowserController *sharedInstance=nil;
@@ -66,6 +68,10 @@ static RendezvousBrowserController *sharedInstance=nil;
         [item setTarget:[TCMMMUserManager sharedInstance]];
         [item setTag:BrowserContextMenuTagEmail];
         
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuManageFiles", @"Manage files entry for Browser context menu") action:@selector(openServerConnection:) keyEquivalent:@""];
+        [item setTarget:[ServerConnectionManager sharedInstance]];
+        [item setTag:BrowserContextMenuTagManageFiles];
+
         [I_contextMenu setDelegate:self];    
        
        
@@ -274,6 +280,8 @@ enum {
         item = [aMenu itemWithTag:BrowserContextMenuTagEmail];
         [item setRepresentedObject:userIDs];
         [item setEnabled:[manager validateMenuItem:item]];
+        item = [aMenu itemWithTag:BrowserContextMenuTagManageFiles];
+        [item setRepresentedObject:userIDs];
        
         return;
     }
@@ -477,14 +485,29 @@ enum {
 }
 
 - (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+    NSMutableArray *array = [NSMutableArray array];
     if (anItemIndex>=0 && anItemIndex<[I_data count]) {
         NSMutableDictionary *item=[I_data objectAtIndex:anItemIndex];
         TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[item objectForKey:@"UserID"]];
+
         if (user) {
-            return [NSString stringWithFormat:@"AIM:%@\nEmail:%@",[[user properties] objectForKey:@"AIM"],[[user properties] objectForKey:@"Email"]];
+            if ([[[user properties] objectForKey:@"AIM"] length] > 0)
+                [array addObject:[NSString stringWithFormat:@"AIM: %@",[[user properties] objectForKey:@"AIM"]]];
+            if ([[[user properties] objectForKey:@"Email"] length] > 0)
+                [array addObject:[NSString stringWithFormat:@"Email: %@",[[user properties] objectForKey:@"Email"]]];
+        }
+
+        TCMBEEPSession *BEEPSession = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID]];
+        NSString *addressDataString = nil, *userAgent=nil;
+        if (BEEPSession) {
+            addressDataString = [NSString stringWithAddressData:[BEEPSession peerAddressData]];
+            if (addressDataString) [array addObject:addressDataString];
+            userAgent = [[BEEPSession userInfo] objectForKey:@"userAgent"];
+            if (userAgent) [array addObject:userAgent];
         }
     }
-    return nil;
+    NSString *result = [array componentsJoinedByString:@"\n"];
+    return ([result length]>0)?result:nil;
 }
 
 - (BOOL)listView:(TCMListView *)listView writeRows:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pboard {

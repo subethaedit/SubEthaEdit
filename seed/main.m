@@ -144,7 +144,7 @@ int main(int argc, const char *argv[])
 
     [[TCMMMBEEPSessionManager sharedInstance] listen];
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];
-    [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
+    // [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
     
 
     // set the TERM signal handler to 'catch_term' 

@@ -366,6 +366,9 @@
 		F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
 		F223FC8D0BDF5F0A00437D55 /* UnknownPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */; };
 		F223FC8F0BDF5F1C00437D55 /* DefaultPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */; };
+		F234E1010BE0F1E100504A7C /* ServerConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E0FF0BE0F1E100504A7C /* ServerConnectionWindowController.m */; };
+		F234E1020BE0F1EA00504A7C /* ServerConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */; };
+		F234E3AE0BE20E8400504A7C /* ServerConnection.nib in Resources */ = {isa = PBXBuildFile; fileRef = F234E3AC0BE20E8400504A7C /* ServerConnection.nib */; };
 		F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */; };
 		F27B2EE30B52957800679CF2 /* hud_buttonLeft-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */; };
 		F27B2EE40B52957800679CF2 /* hud_buttonRight-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */; };
@@ -1078,6 +1081,11 @@
 		F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodingProfile.m; path = TCMBEEP/TCMBEEPBencodingProfile.m; sourceTree = "<group>"; };
 		F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownPerson.png; path = artwork/UnknownPerson.png; sourceTree = "<group>"; };
 		F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultPerson.png; path = artwork/DefaultPerson.png; sourceTree = "<group>"; };
+		F234E0F90BE0F1C500504A7C /* ServerConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnectionManager.h; sourceTree = "<group>"; };
+		F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnectionManager.m; sourceTree = "<group>"; };
+		F234E0FE0BE0F1E100504A7C /* ServerConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnectionWindowController.h; sourceTree = "<group>"; };
+		F234E0FF0BE0F1E100504A7C /* ServerConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnectionWindowController.m; sourceTree = "<group>"; };
+		F234E3AD0BE20E8400504A7C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ServerConnection.nib; sourceTree = "<group>"; };
 		F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_titlebar-close.tiff"; path = "artwork/hud_titlebar-close.tiff"; sourceTree = "<group>"; };
 		F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonLeft-N.tiff"; path = "artwork/hud_buttonLeft-N.tiff"; sourceTree = "<group>"; };
 		F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonRight-N.tiff"; path = "artwork/hud_buttonRight-N.tiff"; sourceTree = "<group>"; };
@@ -1802,6 +1810,10 @@
 				142893F509575A3000D14688 /* UndoManager.m */,
 				142893F609575A3000D14688 /* URLImageView.h */,
 				142893F709575A3000D14688 /* URLImageView.m */,
+				F234E0F90BE0F1C500504A7C /* ServerConnectionManager.h */,
+				F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */,
+				F234E0FE0BE0F1E100504A7C /* ServerConnectionWindowController.h */,
+				F234E0FF0BE0F1E100504A7C /* ServerConnectionWindowController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1860,6 +1872,7 @@
 				5E4DA73A09E15C6800D91CFC /* Scripts */,
 				142890450957421300D14688 /* SubEthaEditHelp */,
 				149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */,
+				F234E3AC0BE20E8400504A7C /* ServerConnection.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2366,6 +2379,7 @@
 				149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */,
 				F223FC8D0BDF5F0A00437D55 /* UnknownPerson.png in Resources */,
 				F223FC8F0BDF5F1C00437D55 /* DefaultPerson.png in Resources */,
+				F234E3AE0BE20E8400504A7C /* ServerConnection.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2697,6 +2711,8 @@
 				14584B2D0BE0C6CB00EB6D15 /* FileManagementProfile.m in Sources */,
 				14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */,
 				14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */,
+				F234E1010BE0F1E100504A7C /* ServerConnectionWindowController.m in Sources */,
+				F234E1020BE0F1EA00504A7C /* ServerConnectionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3010,6 +3026,14 @@
 				14E98B000ABF2BF300544D45 /* German */,
 			);
 			name = EncodingDoctor.nib;
+			sourceTree = "<group>";
+		};
+		F234E3AC0BE20E8400504A7C /* ServerConnection.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F234E3AD0BE20E8400504A7C /* English */,
+			);
+			name = ServerConnection.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
