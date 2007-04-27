@@ -10,12 +10,19 @@
 #import "DocumentModeManager.h"
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys.h"
+#import "EncodingManager.h"
+
+@class FileManagementProfile;
 
 @interface ServerConnectionWindowController : NSWindowController {
     IBOutlet NSTableView *O_tableView;
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSTextField *O_newfileNameTextField;
+    IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
+    IBOutlet NSPopUpButton *O_accessStatePopUpButton;
+    IBOutlet NSArrayController *O_remoteFilesController;
 
+    FileManagementProfile *_profile;
     TCMMMUser *_user;
     TCMBEEPSession *_BEEPSession;
 }

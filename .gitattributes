@@ -630,6 +630,8 @@ MoreIsBetter/MoreUNIX.h -text
 /NSStringSEEAdditions.m -text
 /NSWindowScriptingAdditions.h -text
 /NSWindowScriptingAdditions.m -text
+/NSWorkspaceTCMAdditions.h -text
+/NSWorkspaceTCMAdditions.m -text
 /ODBEditorSuite.h -text
 OgreKit/FindPanel/Controllers/OgreAFPCEscapeCharacterFormatter.h -text
 OgreKit/FindPanel/Controllers/OgreAFPCEscapeCharacterFormatter.m -text

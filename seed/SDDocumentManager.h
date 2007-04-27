@@ -20,6 +20,7 @@
 + (id)sharedInstance;
 
 - (void)checkFileSystem;
+- (NSString *)documentRootPath;
 
 - (NSArray *)documents;
 - (void)addDocument:(SDDocument *)aDocument;

@@ -7,6 +7,7 @@
 //
 
 #import "SDDocument.h"
+#import "SDDocumentManager.h"
 #import "../TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "../SelectionOperation.h"
 #import "../TextOperation.h"
@@ -92,9 +93,9 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     [result setObject:[NSData dataWithUUIDString:[self uniqueID]] forKey:@"FileID"];
-    [result setObject:[[self fileURL] path] forKey:@"FilePath"];
+    [result setObject:[self preparedDisplayName] forKey:@"FilePath"];
     [result setObject:[NSNumber numberWithBool:[self isAnnounced]] forKey:@"IsAnnounced"];
-    [result setObject:[NSNumber numberWithInt:[[self session] accessState]] forKey:@"accessState"];
+    [result setObject:[NSNumber numberWithInt:[[self session] accessState]] forKey:@"AccessState"];
     return result;
 }
 
@@ -154,8 +155,8 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
             _flags.isAnnounced = flag;
             if (_flags.isAnnounced) {
                 DEBUGLOG(@"Document", AllLogLevel, @"announce");
-                [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
                 [[self session] setFilename:[self preparedDisplayName]];
+                [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
             } else {
                 DEBUGLOG(@"Document", AllLogLevel, @"conceal");
                 TCMMMSession *session = [self session];
@@ -301,7 +302,9 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 {
     NSLog(@"%s", __FUNCTION__);
     if ([self fileURL]) {
-        return [[[self fileURL] absoluteString] lastPathComponent];
+        NSArray *rootPathComponents = [[[SDDocumentManager sharedInstance] documentRootPath] pathComponents];
+        NSArray *myComponents = [[[self fileURL] path] pathComponents];
+        return [NSString pathWithComponents:[myComponents objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange([rootPathComponents count],[myComponents count]-[rootPathComponents count])]]];
     } else {
         return @"<Error>";
     }
