@@ -12,37 +12,10 @@ The seed file management profile allows remote file management of a seed server.
 - get informend when files change
 
 
-
 This Profile is directional - only the client can connect to the server.
 
 --------------------------------------------------------------------------------
-MESSAGES ALLOWED BY THE CLIENT
-
-DIRLST: List files
-attached data: optionally path relative to document root
-
-the server then replies with a 
->DIRCON: Directory Contents RPY which contains an Array of file Representations
-
-ATTGET: get file attributes
-attached data: a dictionary where the key FileID holds the FileID of which the attributes 
-
-the server then replies with a
->FILREP: which contains a file Representation with the most current state of the file
-
-ATTSET: FileID, Attributes with new values
-
-
-FILNEW: string with location, encoding, mode
-
-FILOPN: FileID, encoding, mode
-
-FILCLO: FileID
-
---------------------------------------------------------------------------------
-
 DATA TYPES
-
 
 FILE REPRESENTATION:
 a file Representation is a dictionary
@@ -50,8 +23,45 @@ a file Representation is a dictionary
   FileID   = a UUID represented as DATA,
   ChangeCount = a number that will increase with every change made on the file (excluding file size and edits inside the file),
   LastSave = String date,
-  IsOpen = BOOL as int if file is open,
   IsAnnounced = BOOL as int if file is Announced,
   AccessState = 0 == locked, 1 == read only, 2 == read/write,
+  Encoding = IANA Charset Name
 }
+
+--------------------------------------------------------------------------------
+MESSAGES SENT BY THE CLIENT
+
+FILLST: List files
+after this is received regular FILUPD messages will be sent by the server
+the server then replies with a 
+>FILLST: Directory Contents RPY which contains an Array of file Representations
+
+ATTGET: get file attributes
+attached data: a dictionary where the key FileID holds the FileID of the requested File
+the server then replies with a
+>FILREP: which contains a file Representation with the most recent state of the file
+
+ATTSET: FileID, Attributes with new values
+the server then replies with a
+>SETACK: which contains a file Representation with the most recent state of the file
+>SETFAI: 
+
+FILNEW: string with partial filepath, encoding, mode
+>NEWACK or
+>NEWFAI
+
+FILSAV: FileID - saves the file
+>SAVACK or
+>SAVFAI
+
+FILCLO: FileID
+>CLOACK
+>CLOFAI
+
+--------------------------------------------------------------------------------
+MESSAGES SENT BY THE SERVER
+
+FILUPD: dictionary with "<FILEID>" => File Representation entries that are sent out when files update. on deletion a <FILEID> => "removed" entry is present.
+>UPDACK: empty
+
 
