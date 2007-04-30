@@ -22,6 +22,24 @@ static SDDocumentManager *S_sharedInstance=nil;
     return S_sharedInstance;
 }
 
+- (void)addDocumentsFromPath:(NSString *)aFilePath {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSEnumerator *entries = [fm enumeratorAtPath:aFilePath]; // this is a deep enumerator traversing subdirectories
+    NSString *entry = nil;
+    while ((entry=[entries nextObject])) {
+        BOOL wasDirectory = NO;
+        NSString *path = [aFilePath stringByAppendingPathComponent:entry];
+        if ([fm fileExistsAtPath:path isDirectory:&wasDirectory]) {
+            if (!wasDirectory) {
+                SDDocument *document = [[[SDDocument alloc] initWithURL:[NSURL fileURLWithPath:path] onDisk:YES] autorelease];
+                if (document) {
+                    [self addDocument:document];
+                }
+            }
+        }
+    }
+}
+
 - (id)init {
     if (S_sharedInstance) {
         [self dealloc];
@@ -29,6 +47,9 @@ static SDDocumentManager *S_sharedInstance=nil;
     }
     if ((self=[super init])) {
         S_sharedInstance = self;
+        _fileManagementProfiles = [NSMutableSet new];
+        _documentIDsWithPendingChanges = [NSMutableSet new];
+        _flags.hasScheduledFileUpdate = NO;
         _documents = [NSMutableArray new];
         _availableDocumentsByID = [NSMutableDictionary new];
         NSString *documentRoot = [[NSUserDefaults standardUserDefaults] objectForKey:@"document_root"];
@@ -38,14 +59,21 @@ static SDDocumentManager *S_sharedInstance=nil;
         BOOL wasDirectory = NO;
         if (![fm fileExistsAtPath:_documentRootPath isDirectory:&wasDirectory]) {
             [fm createDirectoryAtPath:_documentRootPath attributes:nil];
-        }
-        
+        }        
         [[TCMMMBEEPSessionManager sharedInstance] registerHandler:self forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
+        
+        // iterate over directory and create a document for every File on disk
+        [self addDocumentsFromPath:_documentRootPath];
+        
+        #warning ToDo: load state from disk
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentDidChangeChangeCount:) name:SDDocumentDidChangeChangeCountNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
+    [_fileManagementProfiles release];
     [_availableDocumentsByID release];
     [_documents release];
     [_documentRootPath release];
@@ -62,10 +90,6 @@ static SDDocumentManager *S_sharedInstance=nil;
     [_availableDocumentsByID removeObjectForKey:[aDocument uniqueID]];
 }
 
-- (void)checkFileSystem {
-    
-}
-
 - (NSString *)documentRootPath {
     return _documentRootPath;
 }
@@ -74,6 +98,13 @@ static SDDocumentManager *S_sharedInstance=nil;
 - (NSArray *)documents {
     return _documents;
 }
+
+- (SDDocument *)documentForRelativePath:(NSString *)aPath {
+    NSArray *matchingDocuments = [_documents filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathRelativeToDocumentRoot = %@",aPath]];
+    NSLog(@"%s %@ matches %d documents",__FUNCTION__,aPath,[matchingDocuments count]);
+    return [matchingDocuments lastObject];
+}
+
 
 - (id)addDocumentWithContentsOfURL:(NSURL *)aContentURL encoding:(NSStringEncoding)anEncoding error:(NSError **)outError {
     NSLog(@"read document: %@", aContentURL);
@@ -84,15 +115,9 @@ static SDDocumentManager *S_sharedInstance=nil;
     return document;
 }
 
-- (id)addDocumentWithSubpath:(NSString *)aPath encoding:(NSStringEncoding)anEncoding error:(NSError **)outError {
-    if ([aPath rangeOfString:@".."].location != NSNotFound) return nil;
-    NSString *filePathString = [_documentRootPath stringByAppendingPathComponent:aPath];
-    NSURL *fileURL = [NSURL fileURLWithPath:filePathString];
-    SDDocument *document = [self addDocumentWithContentsOfURL:fileURL encoding:anEncoding error:outError];
-    if (!document) {
-        document = [[SDDocument alloc] init];
-        [document setFileURL:fileURL];
-        [document setStringEncoding:anEncoding];
+- (id)addDocumentWithRelativePath:(NSString *)aPath {
+    SDDocument *document = [[[SDDocument alloc] initWithURL:[NSURL fileURLWithPath:[_documentRootPath stringByAppendingPathComponent:aPath]] onDisk:NO] autorelease];
+    if (document) {
         [self addDocument:document];
     }
     return document;
@@ -104,12 +129,55 @@ static SDDocumentManager *S_sharedInstance=nil;
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData {
     NSLog(@"%s %@",__FUNCTION__,[aProfile class]);
     [aProfile setDelegate:self];
+    [_fileManagementProfiles addObject:aProfile];
 }
 
 #pragma mark -
 #pragma mark ### FileManagementProfile interaction ###
 
-- (NSArray *)directoryListingForProfile:(FileManagementProfile *)aProfile {
+- (void)documentDidChangeChangeCount:(NSNotification *)aNotification {
+    [_documentIDsWithPendingChanges addObject:[(SDDocument *)[aNotification object] uniqueID]];
+    if (!_flags.hasScheduledFileUpdate) {
+        [self performSelector:@selector(sendFileUpdates) withObject:nil afterDelay:0.0];
+        _flags.hasScheduledFileUpdate = YES;
+    }
+}
+
+- (void)sendFileUpdates {
+    _flags.hasScheduledFileUpdate = NO;
+    NSMutableDictionary *fileUpdateDictionary = [NSMutableDictionary dictionary];
+    NSEnumerator *fileIDs = [_documentIDsWithPendingChanges objectEnumerator];
+    NSString *fileID = nil;
+    while ((fileID=[fileIDs nextObject])) {
+        SDDocument *document = [_availableDocumentsByID objectForKey:fileID];
+        if (document) {
+            [fileUpdateDictionary setObject:[document dictionaryRepresentation] forKey:fileID];
+        } else {
+            [fileUpdateDictionary setObject:@"removed" forKey:fileID];
+        }
+    }
+    [_documentIDsWithPendingChanges removeAllObjects];
+    
+    NSEnumerator *profiles = [_fileManagementProfiles objectEnumerator];
+    FileManagementProfile *profile = nil;
+    while ((profile = [profiles nextObject])) {
+        if ([profile didSendFILLST]) {
+            [profile sendFileUpdates:fileUpdateDictionary];
+        }
+    }
+}
+
+- (void)profileDidClose:(TCMBEEPProfile *)aProfile {
+    [aProfile setDelegate:nil];
+    [_fileManagementProfiles removeObject:aProfile];
+}
+
+- (void)profileDidFail:(TCMBEEPProfile *)aProfile withError:(NSError *)anError {
+    [self profileDidClose:aProfile];
+}
+
+
+- (NSArray *)fileListForProfile:(FileManagementProfile *)aProfile {
     NSMutableArray *result = [NSMutableArray array];
     NSEnumerator *documents = [_availableDocumentsByID objectEnumerator];
     id document = nil;
@@ -120,12 +188,16 @@ static SDDocumentManager *S_sharedInstance=nil;
 }
 
 - (id)profile:(FileManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)error {
-    NSStringEncoding encoding = NSUTF8StringEncoding;
-    if ([attributes objectForKey:@"Encoding"]) {
-        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)[attributes objectForKey:@"Encoding"]));
+    NSString *relativePath = [attributes objectForKey:@"FilePath"];
+    if ([self documentForRelativePath:relativePath]) {
+        return nil;
     }
-    SDDocument * document = [self addDocumentWithSubpath:[attributes objectForKey:@"FilePath"] encoding:encoding error:error];
+    SDDocument * document = [self addDocumentWithRelativePath:relativePath];
     if (!document) return nil;
+    if ([attributes objectForKey:@"Encoding"]) {
+        NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)[attributes objectForKey:@"Encoding"]));
+        [document setStringEncoding:encoding];
+    }
     if ([attributes objectForKey:@"Content"]) {
         [document setContentString:[attributes objectForKey:@"Content"]];
     }
@@ -138,5 +210,34 @@ static SDDocumentManager *S_sharedInstance=nil;
     [document setIsAnnounced:YES];
     return document;
 }
+
+- (id)profile:(FileManagementProfile *)aProfile didRequestChangeOfAttributes:(NSDictionary *)aNewAttributes ofDocumentWithID:(NSString *)aFileID error:(NSError **)outError {
+    SDDocument *document = [_availableDocumentsByID objectForKey:aFileID];
+    if (!document) {
+        *outError = [NSError errorWithDomain:@"DocumentManagementDomain" code:123 userInfo:nil];
+        return nil;
+    }
+    NSNumber *newAccessState = [aNewAttributes objectForKey:@"AccessState"];
+    if (newAccessState) {
+        [document setValue:newAccessState forKey:@"accessState"];
+    }
+    NSNumber *newIsAnnounced = [aNewAttributes objectForKey:@"IsAnnounced"];
+    if (newIsAnnounced) {
+        [document setValue:newIsAnnounced forKey:@"isAnnounced"];
+    }
+    NSString *newEncoding = [aNewAttributes objectForKey:@"Encoding"];
+    if (newEncoding) {
+        NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)newEncoding));
+        if (![document setStringEncoding:encoding]) {
+            *outError = [NSError errorWithDomain:@"DocumentManagementDomain" code:123 userInfo:nil];
+        }
+    }
+    NSString *newMode = [aNewAttributes objectForKey:@"Mode"];
+    if (newMode) {
+        [document setModeIdentifier:newMode];
+    }
+    return document;
+}
+
 
 @end

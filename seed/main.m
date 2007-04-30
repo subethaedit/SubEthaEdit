@@ -156,7 +156,6 @@ int main(int argc, const char *argv[])
         configFile = BASE_LOCATION @"/config.plist";
     }
     [appController readConfig:configFile];
-    [[SDDocumentManager sharedInstance] checkFileSystem];
     
     do {
         NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];

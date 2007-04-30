@@ -6,9 +6,17 @@
 //  Copyright 2007 TheCodingMonkeys. All rights reserved.
 //
 
+/*
+Documents:
+==========
+Documents are created for each file that exists in the Document Root of the server. Initially Documents aren't loaded - so the contents are on disk. The DocumentManager loads files when they are announced. 
+
+*/
+
 #import <Foundation/Foundation.h>
 #import "TCMMMSession.h"
 
+extern NSString * const SDDocumentDidChangeChangeCountNotification;
 
 @interface SDDocument : NSObject <SEEDocument> {
     @private
@@ -19,14 +27,20 @@
     NSStringEncoding _stringEncoding;
     struct {
         BOOL isAnnounced;
+        BOOL onDisk;
     } _flags;
+    int _changeCount;
 }
+
+- (id)initWithURL:(NSURL *)absoluteURL onDisk:(BOOL)aFlag;
+- (BOOL)readFromDisk:(NSError **)outError;
+- (BOOL)writeToDisk:(NSError **)outError;
 
 - (id)initWithContentsOfURL:(NSURL *)absoluteURL encoding:(NSStringEncoding)anEncoding error:(NSError **)outError;
 - (id)initWithContentsOfURL:(NSURL *)absoluteURL error:(NSError **)outError;
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL error:(NSError **)outError;
-- (BOOL)saveToURL:(NSURL *)absoluteURL error:(NSError **)outError;
+- (BOOL)writeToURL:(NSURL *)absoluteURL error:(NSError **)outError;
 
 - (NSURL *)fileURL;
 - (void)setFileURL:(NSURL *)absoluteURL;
@@ -34,18 +48,23 @@
 - (void)setContentString:(NSString *)aString;
 - (NSDictionary *)dictionaryRepresentation;
 
+- (NSString *)pathRelativeToDocumentRoot;
+
 - (NSString *)uniqueID;
 
 - (NSString *)modeIdentifier;
 - (void)setModeIdentifier:(NSString *)identifier;
 
 - (NSStringEncoding)stringEncoding;
-- (void)setStringEncoding:(NSStringEncoding)anEncoding;
+- (BOOL)setStringEncoding:(NSStringEncoding)anEncoding;
+
+- (void)setAccessState:(TCMMMSessionAccessState)aState;
+- (TCMMMSessionAccessState)accessState;
 
 - (TCMMMSession *)session;
 - (void)setSession:(TCMMMSession *)session;
 
 - (BOOL)isAnnounced;
-- (void)setIsAnnounced:(BOOL)flag;
+- (BOOL)setIsAnnounced:(BOOL)flag;
 
 @end

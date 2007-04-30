@@ -16,8 +16,18 @@
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
+NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidChangeChangeCountNotification";
 
 @implementation SDDocument
+
+- (void)updateChangeCount {
+    _changeCount++;
+    [[NSNotificationQueue defaultQueue]
+    enqueueNotification:[NSNotification notificationWithName:SDDocumentDidChangeChangeCountNotification object:self]
+           postingStyle:NSPostWhenIdle
+           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
+               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
  
 - (void)_generateNewSession
 {
@@ -65,6 +75,23 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     return [self initWithContentsOfURL:absoluteURL encoding:NSUTF8StringEncoding error:outError];
 }
 
+- (id)initWithURL:(NSURL *)absoluteURL onDisk:(BOOL)aFlag {
+    if ((self = [self init])) {
+        [self setFileURL:absoluteURL];
+        _flags.onDisk = aFlag;
+    }
+    return self;
+}
+
+- (BOOL)readFromDisk:(NSError **)outError {
+    return [self readFromURL:[self fileURL] error:outError];
+}
+
+- (BOOL)writeToDisk:(NSError **)outError {
+    return [self writeToURL:[self fileURL] error:outError];
+}
+
+
 - (id)init
 {
     self = [super init];
@@ -72,8 +99,10 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
         _stringEncoding = NSUTF8StringEncoding;
         _attributedString = [[NSMutableAttributedString alloc] init];
         _flags.isAnnounced = NO;
+        _flags.onDisk = NO;
         _modeIdentifier = @"SEEMode.Base";
         [self _generateNewSession];
+        _changeCount = 0;
     }
     return self;
 }
@@ -92,10 +121,11 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    [result setObject:[NSData dataWithUUIDString:[self uniqueID]] forKey:@"FileID"];
-    [result setObject:[self preparedDisplayName] forKey:@"FilePath"];
-    [result setObject:[NSNumber numberWithBool:[self isAnnounced]] forKey:@"IsAnnounced"];
-    [result setObject:[NSNumber numberWithInt:[[self session] accessState]] forKey:@"AccessState"];
+    [result setObject:[self uniqueID]                   forKey:@"FileID"];
+    [result setObject:[self pathRelativeToDocumentRoot] forKey:@"FilePath"];
+    [result setObject:[self valueForKey:@"changeCount"] forKey:@"ChangeCount"];
+    [result setObject:[self valueForKey:@"isAnnounced"] forKey:@"IsAnnounced"];
+    [result setObject:[self valueForKey:@"accessState"] forKey:@"AccessState"];
     return result;
 }
 
@@ -125,6 +155,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
         _modeIdentifier = [identifier copy];
     else
         _modeIdentifier = @"SEEMode.Base";
+    [self updateChangeCount];
 }
 
 - (void)setSession:(TCMMMSession *)session
@@ -148,29 +179,43 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     return _flags.isAnnounced;
 }
 
-- (void)setIsAnnounced:(BOOL)flag
+- (BOOL)setIsAnnounced:(BOOL)flag
 {
-    if ([[self session] isServer]) {
-        if (_flags.isAnnounced != flag) {
-            _flags.isAnnounced = flag;
-            if (_flags.isAnnounced) {
-                DEBUGLOG(@"Document", AllLogLevel, @"announce");
-                [[self session] setFilename:[self preparedDisplayName]];
-                [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
-            } else {
-                DEBUGLOG(@"Document", AllLogLevel, @"conceal");
-                TCMMMSession *session = [self session];
-                [[TCMMMPresenceManager sharedInstance] concealSession:session];
-            }
+    if (flag && _flags.onDisk && [_attributedString length]==0) {
+        if (![self readFromDisk:nil]) return NO;
+    }
+    if (_flags.isAnnounced != flag) {
+        _flags.isAnnounced = flag;
+        if (_flags.isAnnounced) {
+            DEBUGLOG(@"Document", AllLogLevel, @"announce");
+            [[self session] setFilename:[self preparedDisplayName]];
+            [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
+        } else {
+            DEBUGLOG(@"Document", AllLogLevel, @"conceal");
+            TCMMMSession *session = [self session];
+            [[TCMMMPresenceManager sharedInstance] concealSession:session];
         }
     }
+    [self updateChangeCount];
+    return YES;
 }
 
 - (NSStringEncoding)stringEncoding {
     return _stringEncoding;
 }
-- (void)setStringEncoding:(NSStringEncoding)anEncoding {
+- (BOOL)setStringEncoding:(NSStringEncoding)anEncoding {
     _stringEncoding = anEncoding;
+    [self updateChangeCount];
+    return YES;
+    #warning TODO: check if is announced / and if the Attributed String contents can be encoded in the encoding set
+}
+
+- (void)setAccessState:(TCMMMSessionAccessState)aState {
+    [[self session] setAccessState:aState];
+    [self updateChangeCount];
+}
+- (TCMMMSessionAccessState)accessState {
+    return [[self session] accessState];
 }
 
 
@@ -197,8 +242,9 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     return NO;
 }
 
-- (BOOL)saveToURL:(NSURL *)absoluteURL error:(NSError **)outError
+- (BOOL)writeToURL:(NSURL *)absoluteURL error:(NSError **)outError
 {
+    #warning TODO: generate potential subdirectories
     NSString *contentString = [_attributedString string];
     BOOL result = [contentString writeToURL:absoluteURL
                                  atomically:YES
@@ -298,9 +344,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     NSLog(@"%s", __FUNCTION__);
 }
 
-- (NSString *)preparedDisplayName
-{
-    NSLog(@"%s", __FUNCTION__);
+- (NSString *)pathRelativeToDocumentRoot {
     if ([self fileURL]) {
         NSArray *rootPathComponents = [[[SDDocumentManager sharedInstance] documentRootPath] pathComponents];
         NSArray *myComponents = [[[self fileURL] path] pathComponents];
@@ -308,6 +352,10 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     } else {
         return @"<Error>";
     }
+}
+
+- (NSString *)preparedDisplayName {
+    return [self pathRelativeToDocumentRoot];
 }
 
 - (void)invalidateLayoutForRange:(NSRange)aRange
@@ -420,7 +468,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
         TextOperation *operation = (TextOperation *)anOperation;
         [_attributedString beginEditing];
-        NSRange newRange = NSMakeRange([operation affectedCharRange].location,
+        NSRange newRange = NSMakeRange([operation  affectedCharRange].location,
                                        [[operation replacementString] length]);
         [_attributedString replaceCharactersInRange:[operation affectedCharRange]
                                          withString:[operation replacementString]];
@@ -438,6 +486,10 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
     }
     
     return YES;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ dictionaryRep:%@",[super description],[[self dictionaryRepresentation] description]];
 }
 
 @end

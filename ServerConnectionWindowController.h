@@ -28,5 +28,7 @@
 }
 - (id)initWithMMUser:(TCMMMUser *)aUser;
 - (IBAction)newFile:(id)aSender;
+- (IBAction)changeAccessState:(id)aSender;
+- (IBAction)changeAnnounced:(id)aSender;
 
 @end

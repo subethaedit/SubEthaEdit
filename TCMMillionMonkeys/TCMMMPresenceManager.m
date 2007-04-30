@@ -189,6 +189,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 }
 
 - (void)announcedSessionDidChange:(NSNotification *)aNotification {
+    NSLog(@"%s",__FUNCTION__);
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(announceSession:) withObject:[aNotification object]];
 }
 

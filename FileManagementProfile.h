@@ -11,16 +11,32 @@
 
 
 @interface FileManagementProfile : TCMBEEPBencodingProfile {
+    BOOL _didSendFILLST;
 }
 
-- (void)askForDirectoryListing;
+
+#pragma mark ### initiator (client) methods ###
+- (void)changeAttributes:(NSDictionary *)newAttributes forFileWithID:(NSString *)aFileID;
+- (void)askForFileList;
 - (void)requestNewFileWithAttributes:(NSDictionary *)attributes;
+
+#pragma mark ### responder (server) methods ###
+- (BOOL)didSendFILLST;
+- (void)sendFileUpdates:(NSDictionary *)fileUpdateDictionary;
 
 @end
 
-@interface NSObject (FileManagementProfileDelegateAdditions)
-- (NSArray *)directoryListingForProfile:(FileManagementProfile *)aProfile;
-- (void)profile:(FileManagementProfile *)aProfile didReceiveDirectoryContents:(NSArray *)aContentArray;
-- (id)profile:(FileManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)error;
+
+@interface NSObject (FileManagementProfileInitiatorDelegateAdditions)
+- (void)profile:(FileManagementProfile *)aProfile didReceiveFileList:(NSArray *)aContentArray;
+- (void)profile:(FileManagementProfile *)aProfile didReceiveFileUpdates:(NSDictionary *)aFileUpdateDictionary;
 - (void)profile:(FileManagementProfile *)aProfile didAckNewDocument:(NSDictionary *)aDocumentDictionary;
+- (void)profile:(FileManagementProfile *)aProfile didAcceptSetResponse:(NSDictionary *)aDocumentDictionary wasFailure:(BOOL)aFailure;
+@end
+
+
+@interface NSObject (FileManagementProfileResponderDelegateAdditions)
+- (NSArray *)fileListForProfile:(FileManagementProfile *)aProfile;
+- (id)profile:(FileManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)outError;
+- (id)profile:(FileManagementProfile *)aProfile didRequestChangeOfAttributes:(NSDictionary *)aNewAttributes ofDocumentWithID:(NSString *)aFileID error:(NSError **)outError;
 @end

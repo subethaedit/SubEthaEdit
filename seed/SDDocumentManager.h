@@ -15,17 +15,22 @@
     NSMutableArray *_documents;
     NSString *_documentRootPath;
     NSMutableDictionary *_availableDocumentsByID;
+    NSMutableSet *_fileManagementProfiles;
+    NSMutableSet *_documentIDsWithPendingChanges;
+    struct {
+        BOOL hasScheduledFileUpdate;
+    } _flags;
 }
 
 + (id)sharedInstance;
 
-- (void)checkFileSystem;
 - (NSString *)documentRootPath;
 
 - (NSArray *)documents;
+- (SDDocument *)documentForRelativePath:(NSString *)aPath;
 - (void)addDocument:(SDDocument *)aDocument;
 - (void)removeDocument:(SDDocument *)aDocument;
 - (id)addDocumentWithContentsOfURL:(NSURL *)aContentURL encoding:(NSStringEncoding)anEncoding error:(NSError **)outError;
-- (id)addDocumentWithSubpath:(NSString *)aPath encoding:(NSStringEncoding)anEncoding error:(NSError **)outError;
+- (id)addDocumentWithRelativePath:(NSString *)aPath;
 
 @end

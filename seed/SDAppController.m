@@ -67,7 +67,7 @@ BOOL endRunLoop = NO;
         if (fileURL) {
             NSLog(@"save document: %@", fileURL);
             NSError *error;
-            if (![document saveToURL:fileURL error:&error]) {
+            if (![document writeToURL:fileURL error:&error]) {
                 // check error
             }
         }
@@ -96,21 +96,29 @@ BOOL endRunLoop = NO;
     if (configPath) {
         NSDictionary *configPlist = [NSDictionary dictionaryWithContentsOfFile:[configPath stringByExpandingTildeInPath]];
         if (configPlist) {
+            SDDocumentManager *dm=[SDDocumentManager sharedInstance];
             NSLog(@"%s %@",__FUNCTION__, configPlist);
             NSEnumerator *enumerator = [[configPlist objectForKey:@"InitialFiles"] objectEnumerator];
             NSDictionary *entry;
             while ((entry = [enumerator nextObject])) {
                 NSString *file = [entry objectForKey:@"file"];
+                
+                SDDocument *document = [dm documentForRelativePath:file];
+                if (!document) {
+                    document = [dm addDocumentWithRelativePath:file];
+                }
                 NSString *mode = [entry objectForKey:@"mode"];
+                if (mode) {
+                    [document setModeIdentifier:mode];
+                }
+                
                 NSString *IANACharSetName = [entry objectForKey:@"encoding"];
                 NSStringEncoding encoding = NSUTF8StringEncoding;
                 if (IANACharSetName) {
                     encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)IANACharSetName));
+                    [document setStringEncoding:encoding];
                 }
-                NSError *error = nil;
-                SDDocument *document = [[SDDocumentManager sharedInstance] addDocumentWithSubpath:file encoding:encoding error:&error];
                 if (document) {
-                    if (mode) [document setModeIdentifier:mode];
                     [[document session] setAccessState:TCMMMSessionAccessReadWriteState];
                     [document setIsAnnounced:YES];
                 }

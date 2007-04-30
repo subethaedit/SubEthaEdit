@@ -63,7 +63,7 @@ static NSMutableDictionary *S_routingDictionary=nil;
             [selectorValue getValue:&selector];
             [self performSelector:selector withObject:message];
         } else {
-            NSLog(@"%s got unhandled message: %@",__FUNCTION__,aMessage);
+            NSLog(@"%s got unhandled message: %@",__FUNCTION__,message);
         }
     }
 }

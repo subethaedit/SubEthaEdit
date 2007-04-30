@@ -28,7 +28,7 @@
         {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {newFile = id; }; 
+            ACTIONS = {changeAccessState = id; changeAnnounced = id; newFile = id; }; 
             CLASS = ServerConnectionWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
