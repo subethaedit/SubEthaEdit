@@ -59,13 +59,34 @@
     [[ServerConnectionManager sharedInstance] removeWindowController:self];
 }
 
+- (void)realChangeAccessState {
+    NSDictionary *dict = [[O_remoteFilesController selectedObjects] lastObject];
+    NSDictionary *newDict = [NSDictionary dictionaryWithObject:[dict objectForKey:@"AccessState"] forKey:@"AccessState"];
+    [_profile changeAttributes:newDict forFileWithID:[dict objectForKey:@"FileID"]];
+}
+
+- (IBAction)changeAccessState:(id)aSender {
+    [self performSelector:@selector(realChangeAccessState) withObject:nil afterDelay:0];
+}
+
+- (void)realChangeAnnounced {
+    NSDictionary *dict = [[O_remoteFilesController selectedObjects] lastObject];
+    NSDictionary *newDict = [NSDictionary dictionaryWithObject:[dict objectForKey:@"IsAnnounced"] forKey:@"IsAnnounced"];
+    [_profile changeAttributes:newDict forFileWithID:[dict objectForKey:@"FileID"]];
+}
+
+- (IBAction)changeAnnounced:(id)aSender {
+    [self performSelector:@selector(realChangeAnnounced) withObject:nil afterDelay:0];
+}
+
+
 #pragma mark -
 #pragma mark ### Profile Interaction ###
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData {
     _profile = (FileManagementProfile *)aProfile;
     [[_profile retain] setDelegate:self];
-    [_profile askForDirectoryListing];
+    [_profile askForFileList];
 }
 
 - (void)addFileDict:(NSDictionary *)aFileDict {
@@ -77,7 +98,22 @@
     [O_remoteFilesController addObject:fileDictionary];
 }
 
-- (void)profile:(FileManagementProfile *)aProfile didReceiveDirectoryContents:(NSArray *)aContentArray {
+- (void)updateFileDict:(NSDictionary *)aFileDict {
+    NSString *fileID = [aFileDict objectForKey:@"FileID"];
+    NSMutableDictionary *fileDict = [[[O_remoteFilesController arrangedObjects] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"FileID = %@",fileID]] lastObject];
+    if (fileDict) {
+        if ([[fileDict objectForKey:@"ChangeCount"] intValue] < [[aFileDict objectForKey:@"ChangeCount"] intValue]) {
+            NSLog(@"--- :) %s USED update:%@",__FUNCTION__,aFileDict);
+            [fileDict addEntriesFromDictionary:aFileDict];
+        } else {
+            NSLog(@"--- :( %s unused update:%@",__FUNCTION__,aFileDict);
+        }
+    } else {
+        [self addFileDict:aFileDict];
+    }
+}
+
+- (void)profile:(FileManagementProfile *)aProfile didReceiveFileList:(NSArray *)aContentArray {
     
     NSEnumerator *fileDicts = [aContentArray objectEnumerator];
     NSDictionary *fileDict = nil;
@@ -97,7 +133,7 @@
 }
 
 - (void)profile:(FileManagementProfile *)aProfile didAckNewDocument:(NSDictionary *)aDocumentDictionary {
-    [self addFileDict:aDocumentDictionary];
+    [self updateFileDict:aDocumentDictionary];
 }
 
 - (void)profileDidClose:(TCMBEEPProfile *)aProfile {
@@ -106,6 +142,23 @@
 
 - (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError {
     NSLog(@"%s %@ %@",__FUNCTION__,aProfile,anError);
+}
+
+- (void)profile:(FileManagementProfile *)aProfile didReceiveFileUpdates:(NSDictionary *)aFileUpdateDictionary {
+    NSEnumerator *fileIDs = [aFileUpdateDictionary keyEnumerator];
+    NSString *fileID=nil;
+    while ((fileID=[fileIDs nextObject])) {
+        id object = [aFileUpdateDictionary objectForKey:fileID];
+        if ([object isKindOfClass:[NSDictionary class]]) {
+            [self updateFileDict:object];
+        } else {
+            #warning TODO: implement removal of documents
+        }
+    }
+}
+
+- (void)profile:(FileManagementProfile *)aProfile didAcceptSetResponse:(NSDictionary *)aDocumentDictionary wasFailure:(BOOL)aFailure {
+    [self updateFileDict:aDocumentDictionary];
 }
 
 
