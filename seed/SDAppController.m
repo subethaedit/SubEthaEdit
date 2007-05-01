@@ -13,6 +13,7 @@
 #import "TCMMillionMonkeys.h"
 #import "FileManagementProfile.h"
 
+NSString * const DemonWillTerminateNotification = @"DemonWillTerminateNotification";
 
 int fd = 0;
 BOOL endRunLoop = NO;
@@ -85,7 +86,7 @@ BOOL endRunLoop = NO;
                                                   object:[_signalPipe fileHandleForReading]];
                                                   
     [self autosaveTimerFired:nil];
-                                                  
+    [[NSNotificationCenter defaultCenter] postNotificationName:DemonWillTerminateNotification object:self];                                              
     endRunLoop = YES;
 }
 

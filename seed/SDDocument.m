@@ -121,11 +121,13 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    [result setObject:[self uniqueID]                   forKey:@"FileID"];
-    [result setObject:[self pathRelativeToDocumentRoot] forKey:@"FilePath"];
-    [result setObject:[self valueForKey:@"changeCount"] forKey:@"ChangeCount"];
-    [result setObject:[self valueForKey:@"isAnnounced"] forKey:@"IsAnnounced"];
-    [result setObject:[self valueForKey:@"accessState"] forKey:@"AccessState"];
+    [result setObject:[self uniqueID]                      forKey:@"FileID"];
+    [result setObject:[self pathRelativeToDocumentRoot]    forKey:@"FilePath"];
+    [result setObject:[self valueForKey:@"changeCount"]    forKey:@"ChangeCount"];
+    [result setObject:[self valueForKey:@"isAnnounced"]    forKey:@"IsAnnounced"];
+    [result setObject:[self valueForKey:@"accessState"]    forKey:@"AccessState"];
+    [result setObject:[self valueForKey:@"modeIdentifier"] forKey:@"ModeIdentifier"];
+    [result setObject:(NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding([self stringEncoding])) forKey:@"Encoding"];
     return result;
 }
 
@@ -167,6 +169,12 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 - (TCMMMSession *)session
 {
     return _session;
+}
+
+- (void)setUniqueID:(NSString *)aUUIDString {
+    [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
+    [_session setSessionID:aUUIDString];
+    [[TCMMMPresenceManager sharedInstance]   registerSession:[self session]];
 }
 
 - (NSString *)uniqueID {

@@ -6,6 +6,7 @@
 //  Copyright 2007 TheCodingMonkeys. All rights reserved.
 //
 
+#import "SDAppController.h"
 #import "SDDocumentManager.h"
 #import "SDDocument.h"
 #import "TCMMMBEEPSessionManager.h"
@@ -20,6 +21,13 @@ static SDDocumentManager *S_sharedInstance=nil;
         S_sharedInstance = [[SDDocumentManager alloc] init];
     }
     return S_sharedInstance;
+}
+
+- (NSString *)stateFilePath {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *result = [defaults stringForKey:@"state_file_path"];
+    if (result) return result;
+    return [[defaults stringForKey:@"base_location"] stringByAppendingPathComponent:@"/state.plist"];
 }
 
 - (void)addDocumentsFromPath:(NSString *)aFilePath {
@@ -65,9 +73,51 @@ static SDDocumentManager *S_sharedInstance=nil;
         // iterate over directory and create a document for every File on disk
         [self addDocumentsFromPath:_documentRootPath];
         
-        #warning ToDo: load state from disk
+        // load state from disk
+        NSDictionary *stateDict = [NSDictionary dictionaryWithContentsOfFile:[self stateFilePath]];
+        NSEnumerator *documentStates = [[stateDict objectForKey:@"documentStates"] objectEnumerator];
+        NSDictionary *entry = nil;
+        while ((entry = [documentStates nextObject])) {
+            NSString *file = [entry objectForKey:@"FilePath"];
+            if (file) {
+                SDDocument *document = [self documentForRelativePath:file];
+                if (!document) {
+                    document = [self addDocumentWithRelativePath:file];
+                }
+                NSNumber *changeCount = [entry objectForKey:@"changeCount"];
+                if (changeCount) {
+                    [document setValue:changeCount forKey:@"changeCount"];
+                }
+                NSString *fileID = [entry objectForKey:@"FileID"];
+                if (fileID) {
+                    [document setUniqueID:fileID];
+                }
+                NSString *mode = [entry objectForKey:@"ModeIdentifier"];
+                if (mode) {
+                    [document setModeIdentifier:mode];
+                }
+                
+                NSString *IANACharSetName = [entry objectForKey:@"Encoding"];
+                NSStringEncoding encoding = NSUTF8StringEncoding;
+                if (IANACharSetName) {
+                    encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)IANACharSetName));
+                    [document setStringEncoding:encoding];
+                }
+                NSNumber *accessState = [entry objectForKey:@"AccessState"];
+                if (accessState) {
+                    [document setValue:accessState forKey:@"accessState"];
+                }
+                NSNumber *isAnnounced = [entry objectForKey:@"IsAnnounced"];
+                if (isAnnounced) {
+                    [document setIsAnnounced:[isAnnounced boolValue]];
+                }
+            }
+        }
+        
+        NSLog(@"%s - documents after load of state: %@",__FUNCTION__,_documents);
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentDidChangeChangeCount:) name:SDDocumentDidChangeChangeCountNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(demonWillTerminate:) name:DemonWillTerminateNotification object:nil];
     }
     return self;
 }
@@ -121,6 +171,18 @@ static SDDocumentManager *S_sharedInstance=nil;
         [self addDocument:document];
     }
     return document;
+}
+
+- (void)demonWillTerminate:(NSNotification *)aNotification {
+    NSMutableDictionary *stateDict = [NSMutableDictionary dictionary];
+    NSMutableArray *documentStates = [NSMutableArray array];
+    [stateDict setObject:documentStates forKey:@"documentStates"];
+    NSEnumerator *documents = [_documents objectEnumerator];
+    SDDocument *document = nil;
+    while ((document = [documents nextObject])) {
+        [documentStates addObject:[document dictionaryRepresentation]];
+    }
+    [stateDict writeToFile:[self stateFilePath] atomically:YES];
 }
 
 #pragma mark -
