@@ -68,6 +68,8 @@ enum {
     struct {
         BOOL isInitiator;
         BOOL isProhibitingInboundInternetSessions;
+        BOOL amReading;
+        BOOL needsToReadAgain;
     } I_flags;
     
     TCMBEEPSessionStatus I_sessionStatus;
