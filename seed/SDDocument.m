@@ -173,7 +173,10 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 
 - (void)setUniqueID:(NSString *)aUUIDString {
     [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
+    [[self retain] autorelease];
+    [(SDDocumentManager *)[SDDocumentManager sharedInstance] removeDocument:self];
     [_session setSessionID:aUUIDString];
+    [(SDDocumentManager *)[SDDocumentManager sharedInstance] addDocument:self];
     [[TCMMMPresenceManager sharedInstance]   registerSession:[self session]];
 }
 
