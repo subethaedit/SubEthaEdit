@@ -74,6 +74,7 @@ int main(int argc, const char *argv[])
     [defaults setInteger:0 forKey:@"MillionMonkeysLogDomain"];
     [defaults setInteger:3 forKey:@"BEEPLogDomain"];
     [defaults setInteger:3 forKey:@"SASLLogDomain"];
+    [defaults setObject:BASE_LOCATION forKey:@"base_location"];
     
     NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
@@ -153,7 +154,7 @@ int main(int argc, const char *argv[])
     
     NSString *configFile = [defaults stringForKey:@"config"];
     if (!configFile) {
-        configFile = BASE_LOCATION @"/config.plist";
+        configFile = [[defaults stringForKey:@"base_location"] stringByAppendingPathComponent:@"/config.plist"];
     }
     [appController readConfig:configFile];
     

@@ -11,7 +11,7 @@
 
 extern int fd;
 extern BOOL endRunLoop;
-
+extern NSString * const DemonWillTerminateNotification;
 
 @interface SDAppController : NSObject {
     @private

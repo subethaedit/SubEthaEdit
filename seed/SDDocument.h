@@ -50,6 +50,7 @@ extern NSString * const SDDocumentDidChangeChangeCountNotification;
 
 - (NSString *)pathRelativeToDocumentRoot;
 
+- (void)setUniqueID:(NSString *)aUUIDString;
 - (NSString *)uniqueID;
 
 - (NSString *)modeIdentifier;
