@@ -15,7 +15,7 @@ static int sasl_getopt_session_server_cb(void *context, const char *plugin_name,
     DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"plugin_name: %s, option: %s", plugin_name, option);
     
     if (!strcmp(option, "log_level")) {
-        NSLog(@"setting log level");
+        //NSLog(@"setting log level");
         *result = "5"; //SASL_LOG_TRACE 6
         if (len) *len = 1;
     }

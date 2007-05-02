@@ -37,7 +37,6 @@
 }
 
 - (void)announceSession:(TCMMMSession *)aSession {
-    NSLog(@"%s %@",__FUNCTION__,aSession);
     NSMutableData *data=[NSMutableData dataWithBytes:"DOCANN" length:6];
     [data appendData:[aSession sessionBencoded]];
     [[self channel] sendMSGMessageWithPayload:data];

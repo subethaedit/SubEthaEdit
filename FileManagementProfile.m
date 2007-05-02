@@ -32,7 +32,7 @@
                             messageString:@"FILUPD" channelRole:TCMBEEPChannelRoleInitiator];
     [self registerSelector:@selector(acceptUPDACK:) forMessageType:@"RPY" 
                            messageString:@"UPDACK" channelRole:TCMBEEPChannelRoleResponder];
-    NSLog(@"%s %@",__FUNCTION__,[self performSelector:@selector(myRoutingDictionary)]);
+//    NSLog(@"%s %@",__FUNCTION__,[self performSelector:@selector(myRoutingDictionary)]);
 }
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel {

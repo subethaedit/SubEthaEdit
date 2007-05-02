@@ -146,6 +146,11 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     [self setChangeCount:[aUser changeCount]];
 }
 
+- (NSString *)shortDescription {
+    return [NSString stringWithFormat:@"%@ (%@)",[self name], [self userID]];
+}
+
+
 #pragma mark -
 
 + (TCMMMUser *)userWithBencodedUser:(NSData *)aData {

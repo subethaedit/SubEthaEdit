@@ -246,7 +246,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (NSString *)description
 {    
-    return [NSString stringWithFormat:@"BEEPSession with address: %@ andInfo: %@", [NSString stringWithAddressData:I_peerAddressData], [[self userInfo] description]];
+    return [NSString stringWithFormat:@"BEEPSession with address: %@ andInfo: %@ andChannels: %@", [NSString stringWithAddressData:I_peerAddressData], [[self userInfo] description], [I_activeChannels description]];
 }
 
 - (void)startTerminator {

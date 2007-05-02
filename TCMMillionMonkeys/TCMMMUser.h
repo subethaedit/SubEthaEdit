@@ -42,6 +42,7 @@ extern NSString * const TCMMMUserWillLeaveSessionNotification;
 - (NSMutableDictionary *)propertiesForSessionID:(NSString *)aSessionID;
 
 - (void)updateWithUser:(TCMMMUser *)aUser;
+- (NSString *)shortDescription;
 
 #pragma mark -
 

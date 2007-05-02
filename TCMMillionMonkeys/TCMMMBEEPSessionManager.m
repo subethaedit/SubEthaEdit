@@ -127,7 +127,17 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:%@\npendingSessionProfiles:%@\npendingSessions:%@\noutboundInternetSessions:%@", [I_sessionInformationByUserID descriptionInStringsFileFormat], [I_pendingSessionProfiles description], [I_pendingSessions description], [I_outboundInternetSessions description]];
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
+    NSEnumerator *userIDs = [I_sessionInformationByUserID keyEnumerator];
+    NSString *userID=nil;
+    while ((userID = [userIDs nextObject])) {
+        TCMMMUser *user = [um userForUserID:userID];
+        NSMutableDictionary *valueDict = [[[I_sessionInformationByUserID objectForKey:userID] mutableCopy] autorelease];
+        [valueDict removeObjectForKey:@"RendezvousSession"];
+        [dictionary setObject:valueDict forKey:[user shortDescription]];
+    }
+    return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:\n%@\npendingSessionProfiles:%@\npendingSessions:%@\noutboundInternetSessions:%@", [dictionary description], [I_pendingSessionProfiles description], [I_pendingSessions description], [I_outboundInternetSessions description]];
 }
 
 - (void)validateListener {
@@ -443,7 +453,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData
 {
-    NSLog(@"%s isServer:%@, %@",__FUNCTION__,[aProfile isServer]?@"YES":@"NO", [aProfile class]);
+//    NSLog(@"%s isServer:%@, %@",__FUNCTION__,[aProfile isServer]?@"YES":@"NO", [aProfile class]);
     if ([[aProfile profileURI] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"]) {
         [aProfile setDelegate:self];
         if (![aProfile isServer]) {

@@ -151,7 +151,7 @@ static SDDocumentManager *S_sharedInstance=nil;
 
 - (SDDocument *)documentForRelativePath:(NSString *)aPath {
     NSArray *matchingDocuments = [_documents filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathRelativeToDocumentRoot = %@",aPath]];
-    NSLog(@"%s %@ matches %d documents",__FUNCTION__,aPath,[matchingDocuments count]);
+//    NSLog(@"%s %@ matches %d documents",__FUNCTION__,aPath,[matchingDocuments count]);
     return [matchingDocuments lastObject];
 }
 
@@ -189,7 +189,7 @@ static SDDocumentManager *S_sharedInstance=nil;
 #pragma mark ### BEEPSession interaction ###
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData {
-    NSLog(@"%s %@",__FUNCTION__,[aProfile class]);
+//    NSLog(@"%s %@",__FUNCTION__,[aProfile class]);
     [aProfile setDelegate:self];
     [_fileManagementProfiles addObject:aProfile];
 }
