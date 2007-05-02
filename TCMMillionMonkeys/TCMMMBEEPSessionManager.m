@@ -135,7 +135,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         TCMMMUser *user = [um userForUserID:userID];
         NSMutableDictionary *valueDict = [[[I_sessionInformationByUserID objectForKey:userID] mutableCopy] autorelease];
         [valueDict removeObjectForKey:@"RendezvousSession"];
-        [dictionary setObject:valueDict forKey:[user shortDescription]];
+        [dictionary setObject:valueDict forKey:user?[user shortDescription]:userID];
     }
     return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:\n%@\npendingSessionProfiles:%@\npendingSessions:%@\noutboundInternetSessions:%@", [dictionary description], [I_pendingSessionProfiles description], [I_pendingSessions description], [I_outboundInternetSessions description]];
 }
@@ -491,6 +491,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
     NSString *aUserID = [[aBEEPSession userInfo] objectForKey:@"peerUserID"];
     BOOL isRendezvous = [[aBEEPSession userInfo] objectForKey:@"isRendezvous"] != nil;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"LogConnections"]) {
+        TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:aUserID];
+        NSLog(@"Disconnect: %@ - %@ - %@",[NSString stringWithAddressData:[aBEEPSession peerAddressData]],user?[user shortDescription]:aUserID,[[aBEEPSession userInfo] objectForKey:@"userAgent"]);
+    }
     if (aUserID) {
         NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:aUserID];
         if (isRendezvous) {
@@ -598,6 +602,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession
 {
+    NSLog(@"%s",__FUNCTION__);
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSessionDidClose");
 }
 

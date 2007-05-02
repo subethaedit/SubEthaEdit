@@ -8,6 +8,8 @@
 
 #import "TCMFoundation.h"
 #import "HandshakeProfile.h"
+#import "TCMMMUserManager.h"
+#import "TCMMMUser.h"
 
 @implementation HandshakeProfile
 
@@ -99,6 +101,10 @@
                 [[self session] terminate];
             }
         } else if (strncmp(type, "ACK", 3) == 0) {
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"LogConnections"]) {
+                TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:[[self remoteInfos] objectForKey:@"uid"]];
+                NSLog(@"   Connect: %@ - %@ - %@",[NSString stringWithAddressData:[[self session] peerAddressData]],user?[user shortDescription]:[[self remoteInfos] objectForKey:@"uid"],[[self remoteInfos] objectForKey:@"uag"]);
+            }
             BOOL isRendezvous = [[[self session] userInfo] objectForKey:@"isRendezvous"] != nil ? YES : NO;
             if (![[self session] isProhibitingInboundInternetSessions] || isRendezvous) {
                 [[self delegate] profile:self receivedAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];
