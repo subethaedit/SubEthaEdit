@@ -19,6 +19,11 @@ static int sasl_getopt_session_server_cb(void *context, const char *plugin_name,
         *result = "5"; //SASL_LOG_TRACE 6
         if (len) *len = 1;
     }
+    if (!strcmp(option, "sasldb_path")) {
+        NSLog(@"setting sasldb_path");
+        *result = "/etc/sasldb2";
+        if (len) *len = 12;
+    }
     return SASL_OK;
 }
 
@@ -229,10 +234,13 @@ static sasl_callback_t sasl_server_callbacks[] = {
         // [failure. Send protocol specific message that says authentication failed]
         NSLog(@"[failure. Send protocol specific message that says authentication failed]");
         DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
+        #warning Send correct error
+        [outData appendData:[@"<error code='000'>failure description</error>" dataUsingEncoding:NSUTF8StringEncoding]];
     } else if (result == SASL_OK) {
         // [authentication succeeded. Send client the protocol specific message 
         // to say that authentication is complete]
         NSLog(@"[authentication succeeded. Send client the protocol specific message to say that authentication is complete]");
+        [outData appendData:[@"<blob status='complete' />" dataUsingEncoding:NSUTF8StringEncoding]];
     } else {
         // [send data 'out' with length 'outlen' over the network in protocol
         // specific format]
