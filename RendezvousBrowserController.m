@@ -23,7 +23,7 @@ enum {
     BrowserContextMenuTagShowDocument,
     BrowserContextMenuTagAIM,
     BrowserContextMenuTagEmail,
-    BrowserContextMenuTagManageFiles
+    BrowserContextMenuTagManageFiles = 10
 };
 
 static RendezvousBrowserController *sharedInstance=nil;

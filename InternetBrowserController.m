@@ -19,6 +19,7 @@
 #import "PullDownButtonCell.h"
 #import "TexturedButtonCell.h"
 #import "NSWorkspaceTCMAdditions.h"
+#import "ServerConnectionManager.h"
 
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 
@@ -41,7 +42,8 @@ enum {
     BrowserContextMenuTagEmail,
     BrowserContextMenuTagShowDocument,
     BrowserContextMenuTagCancelConnection,
-    BrowserContextMenuTagReconnect
+    BrowserContextMenuTagReconnect,
+    BrowserContextMenuTagManageFiles = 10
 };
 
 @interface InternetBrowserController (InternetBrowserControllerPrivateAdditions)
@@ -103,6 +105,10 @@ static InternetBrowserController *sharedInstance = nil;
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuReconnect", @"Reconnect entry for Browser context menu") action:@selector(reconnect:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagReconnect];        
+
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuManageFiles", @"Manage files entry for Browser context menu") action:@selector(openServerConnection:) keyEquivalent:@""];
+        [item setTarget:[ServerConnectionManager sharedInstance]];
+        [item setTag:BrowserContextMenuTagManageFiles];
         
         [I_contextMenu setDelegate:self];        
 
@@ -397,6 +403,8 @@ enum {
             item = [menu itemWithTag:BrowserContextMenuTagAIM];
             [item setRepresentedObject:userIDs];
             item = [menu itemWithTag:BrowserContextMenuTagEmail];
+            [item setRepresentedObject:userIDs];
+            item = [menu itemWithTag:BrowserContextMenuTagManageFiles];
             [item setRepresentedObject:userIDs];
         }
         TCMMMUserManager *manager = [TCMMMUserManager sharedInstance];

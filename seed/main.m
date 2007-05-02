@@ -151,7 +151,7 @@ int main(int argc, const char *argv[])
     
     NSString *configFile = [defaults stringForKey:@"config"];
     if (!configFile) {
-        configFile = [[defaults stringForKey:@"base_location"] stringByAppendingPathComponent:@"/config.plist"];
+        configFile = [[defaults stringForKey:@"base_location"] stringByAppendingPathComponent:@"config.plist"];
     }
     [appController readConfig:configFile];
     
