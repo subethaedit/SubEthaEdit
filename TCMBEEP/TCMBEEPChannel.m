@@ -108,6 +108,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 
 - (NSString *)description
 {
+    return [NSString stringWithFormat:@"%@ isInitiator: %@ profileURI: %@",[super description],I_flags.isInitiator?@"YES":@"NO ",I_profileURI];
     //return [NSString stringWithFormat:@"\nincomingWindowSize: %d\nincomingBufferSize: %d\nincomingBufferSizeAvailable: %d\nincomingSequenceNumber: %d\nsequenceNumber: %d\noutgoingWindowSize: %d",
     //                                    I_incomingWindowSize,
     //                                    I_incomingBufferSize,
@@ -115,7 +116,7 @@ static NSMutableDictionary *profileURIToClassMapping;
     //                                    I_incomingSequenceNumber,
     //                                    I_sequenceNumber,
     //                                    I_outgoingWindowSize];
-    return [super description];
+    //return [super description];
 }
 
 - (BOOL)isInitiator

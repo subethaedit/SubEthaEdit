@@ -51,14 +51,14 @@ static int sasl_log_callback(void *context, int level, const char *message)
 #pragma mark -
 
 // 
-// Signal handler for the TERM signal
+// Signal handler
 //
-void catch_term(int sig_num)
+void catch_signal(int sig_num)
 {
-    // re-set the signal handler again to catch_term, for next time
-    signal(SIGTERM, catch_term);
+    NSLog(@"%s",__FUNCTION__);
+    // re-set the signal handler again to catch_signal, for next time
+//    signal(sig_num, catch_signal);
     write(fd, &sig_num, sizeof(sig_num));
-    endRunLoop = YES;
 }
 
 #pragma mark -
@@ -70,10 +70,10 @@ int main(int argc, const char *argv[])
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
-    [defaults setBool:YES forKey:@"EnableBEEPLogging"];
+    [defaults setBool:NO forKey:@"EnableBEEPLogging"];
     [defaults setInteger:0 forKey:@"MillionMonkeysLogDomain"];
-    [defaults setInteger:3 forKey:@"BEEPLogDomain"];
-    [defaults setInteger:3 forKey:@"SASLLogDomain"];
+    [defaults setInteger:0 forKey:@"BEEPLogDomain"];
+    [defaults setInteger:0 forKey:@"SASLLogDomain"];
     [defaults setObject:BASE_LOCATION forKey:@"base_location"];
     
     NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
@@ -149,7 +149,8 @@ int main(int argc, const char *argv[])
     
 
     // set the TERM signal handler to 'catch_term' 
-    signal(SIGTERM, catch_term);
+    signal(SIGTERM, catch_signal);
+    signal(SIGINFO, catch_signal);
     
     
     NSString *configFile = [defaults stringForKey:@"config"];

@@ -78,16 +78,40 @@ BOOL endRunLoop = NO;
 - (void)handleSignal:(NSNotification *)notification
 {
     NSData *rawRequest = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-
-    NSLog(@"handleSignal: %@", rawRequest);
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:NSFileHandleConnectionAcceptedNotification
-                                                  object:[_signalPipe fileHandleForReading]];
-                                                  
-    [self autosaveTimerFired:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:DemonWillTerminateNotification object:self];                                              
-    endRunLoop = YES;
+    int dataSize = sizeof(int);
+    unsigned length = [rawRequest length];
+    unsigned location = 0;
+    for (location = 0; location < length; location += dataSize) {
+        int signal = *((int *)([rawRequest bytes]+location));
+        NSLog(@"handleSignal: %d", signal);
+        if (signal == SIGTERM) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:NSFileHandleConnectionAcceptedNotification
+                                                          object:[_signalPipe fileHandleForReading]];
+                                                          
+            [self autosaveTimerFired:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:DemonWillTerminateNotification object:self];                                              
+            endRunLoop = YES;
+            break;
+        } else if (signal == SIGINFO) {
+            NSMutableArray *outputLines = [NSMutableArray array];
+            NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+            NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+            [outputLines addObject:[NSMutableString stringWithFormat:@"=== seed %@ (%@) state information ===",shortVersion,bundleVersion]];
+            [outputLines addObject:[[TCMMMBEEPSessionManager sharedInstance] description]];
+            [outputLines addObject:@"--- Documents:"];
+            [outputLines addObject:[[[SDDocumentManager sharedInstance] documents] description]];
+            [outputLines addObject:@"--- All Users:"];
+            NSEnumerator *users = [[[TCMMMUserManager sharedInstance] allUsers] objectEnumerator];
+            TCMMMUser *user = nil;
+            while ((user=[users nextObject])) {
+                [outputLines addObject:[user shortDescription]];
+            }
+            [outputLines addObject:@"=== seed information end ==="];
+            NSLog([outputLines componentsJoinedByString:@"\n"]);
+        }
+    }
+    [[_signalPipe fileHandleForReading] readInBackgroundAndNotify];
 }
 
 #pragma mark -

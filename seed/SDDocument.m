@@ -284,7 +284,7 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 
 - (NSDictionary *)sessionInformation;
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
 
@@ -312,47 +312,47 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 
 - (void)sessionDidReceiveKick:(TCMMMSession *)aSession
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)sessionDidReceiveClose:(TCMMMSession *)aSession
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)sessionDidLeave:(TCMMMSession *)aSession
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)sessionDidCancelInvitation:(TCMMMSession *)aSession
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveContent:(NSDictionary *)aContent
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (NSString *)pathRelativeToDocumentRoot {
@@ -375,7 +375,7 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 
 - (NSDictionary *)textStorageDictionaryRepresentation
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
@@ -416,17 +416,17 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 
 - (void)updateProxyWindow
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)showWindows
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 }
 
 - (NSSet *)userIDsOfContributors
 {
-    NSLog(@"%s", __FUNCTION__);
+    //NSLog(@"%s", __FUNCTION__);
 
     NSMutableSet *result = [NSMutableSet set];
 

@@ -189,7 +189,6 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 }
 
 - (void)announcedSessionDidChange:(NSNotification *)aNotification {
-    NSLog(@"%s",__FUNCTION__);
     [I_statusProfilesInServerRole makeObjectsPerformSelector:@selector(announceSession:) withObject:[aNotification object]];
 }
 
@@ -436,7 +435,6 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData
 {
-    NSLog(@"%s %@ %@",__FUNCTION__,aBEEPSession,aProfile);
     [aProfile setDelegate:self];
     if ([aProfile isServer]) {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"acceptStatusProfile!");
