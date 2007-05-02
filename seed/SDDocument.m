@@ -444,7 +444,7 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 
 - (void)sendInitialUserState
 {
-    NSLog(@"%s", __FUNCTION__);
+//    NSLog(@"%s", __FUNCTION__);
     
     TCMMMSession *session = [self session];
     NSString *sessionID = [session sessionID];
@@ -468,12 +468,12 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 
 - (void)validateEditability
 {
-    NSLog(@"%s", __FUNCTION__);
+//    NSLog(@"%s", __FUNCTION__);
 }
 
 - (BOOL)handleOperation:(TCMMMOperation *)anOperation
 {
-    NSLog(@"%s", __FUNCTION__);
+//    NSLog(@"%s", __FUNCTION__);
 
     if ([[anOperation operationID] isEqualToString:[TextOperation operationID]]) {
 
