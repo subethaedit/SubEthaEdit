@@ -83,14 +83,15 @@ BOOL endRunLoop = NO;
     unsigned location = 0;
     for (location = 0; location < length; location += dataSize) {
         int signal = *((int *)([rawRequest bytes]+location));
-        NSLog(@"handleSignal: %d", signal);
+//        NSLog(@"handleSignal: %d", signal);
         if (signal == SIGTERM) {
             [[NSNotificationCenter defaultCenter] removeObserver:self
                                                             name:NSFileHandleConnectionAcceptedNotification
                                                           object:[_signalPipe fileHandleForReading]];
                                                           
             [self autosaveTimerFired:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:DemonWillTerminateNotification object:self];                                              
+            [[NSNotificationCenter defaultCenter] postNotificationName:DemonWillTerminateNotification object:self]; 
+            [[TCMMMBEEPSessionManager sharedInstance] terminateAllBEEPSessions];                                             
             endRunLoop = YES;
             break;
         } else if (signal == SIGINFO) {

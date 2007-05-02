@@ -53,11 +53,7 @@ static int sasl_log_callback(void *context, int level, const char *message)
 // 
 // Signal handler
 //
-void catch_signal(int sig_num)
-{
-    NSLog(@"%s",__FUNCTION__);
-    // re-set the signal handler again to catch_signal, for next time
-//    signal(sig_num, catch_signal);
+void catch_signal(int sig_num) {
     write(fd, &sig_num, sizeof(sig_num));
 }
 
