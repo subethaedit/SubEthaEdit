@@ -84,7 +84,8 @@ static int sasl_server_userdb_checkpass(sasl_conn_t *conn,
 {
     DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"user: %s", user);
     
-    return SASL_OK;
+    //return SASL_OK;
+    return SASL_BADAUTH;
 }
                  
 static sasl_callback_t sasl_server_callbacks[] = {
@@ -160,7 +161,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
 
 - (void)setProfile:(TCMBEEPProfile *)profile
 {
-    NSLog(@"Got profile: %@", profile);
+    DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"Got profile: %@", profile);
     [_profile autorelease];
     _profile = [profile retain];
 }
@@ -182,6 +183,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
                                     (CFDictionaryRef *)&errorDict);
         if (!payloadTree) {
             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"nixe baum: %@", [errorDict description]);
+            #warning Send ERR 500 frame
             //[[self session] terminate]; 
             //return;
         } else {
@@ -199,6 +201,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
             }
             if (!xmlTree || !node || CFXMLNodeGetTypeCode(node) != kCFXMLNodeTypeElement) {
                 DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Unable to extract top level element");
+                #warning Send ERR 500 frame
                 //[[self session] terminate];
                 //return;
             } else {
@@ -210,11 +213,13 @@ static sasl_callback_t sasl_server_callbacks[] = {
                         CFXMLNodeRef blobTextNode = CFXMLTreeGetNode(blobSubTree);
                         if (CFXMLNodeGetTypeCode(blobTextNode) == kCFXMLNodeTypeText) {
                             clientin_string = (NSString *)CFXMLNodeGetString(blobTextNode);
-                            NSLog(@"parsed clientin blob");
+                            [[clientin_string retain] autorelease];
+                            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"parsed clientin blob");
                         }
                     }
                 }
             }
+            CFRelease(payloadTree);
         }
     }
     
@@ -232,36 +237,41 @@ static sasl_callback_t sasl_server_callbacks[] = {
                                    &serveroutlen);
     if ((result != SASL_OK) && (result != SASL_CONTINUE)) {
         // [failure. Send protocol specific message that says authentication failed]
-        NSLog(@"[failure. Send protocol specific message that says authentication failed]");
-        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
-        #warning Send correct error
-        [outData appendData:[@"<error code='000'>failure description</error>" dataUsingEncoding:NSUTF8StringEncoding]];
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"[failure. Send protocol specific message that says authentication failed] %s", sasl_errdetail(_sasl_conn_ctxt));
+        unsigned errorCode = 000;
+        NSString *errorDescription = @"error description";
+        if (SASL_NOUSER == result || SASL_BADAUTH == result) {
+            errorCode = 535;
+            errorDescription = @"authentication failure";
+        }
+        NSString *returnString = [NSString stringWithFormat:@"<error code='%d'>%@</error>", errorCode, errorDescription];
+        [outData appendData:[returnString dataUsingEncoding:NSUTF8StringEncoding]];
     } else if (result == SASL_OK) {
         // [authentication succeeded. Send client the protocol specific message 
         // to say that authentication is complete]
-        NSLog(@"[authentication succeeded. Send client the protocol specific message to say that authentication is complete]");
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"[authentication succeeded. Send client the protocol specific message to say that authentication is complete]");
         [outData appendData:[@"<blob status='complete' />" dataUsingEncoding:NSUTF8StringEncoding]];
     } else {
         // [send data 'out' with length 'outlen' over the network in protocol
         // specific format]
-        NSLog(@"[send data 'out' with length 'outlen' over the network in protocol specific format]");
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"[send data 'out' with length 'outlen' over the network in protocol specific format]");
         if (serveroutlen > 0) {        
             [outData appendData:[@"<blob>" dataUsingEncoding:NSUTF8StringEncoding]];
 
             NSData *serverData = [NSData dataWithBytes:serverout length:serveroutlen];
-            NSLog(@"serverout: %@", [NSString stringWithData:serverData encoding:NSUTF8StringEncoding]);
+            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"serverout: %@", [NSString stringWithData:serverData encoding:NSUTF8StringEncoding]);
             NSString *base64EncodedString = [serverData base64EncodedStringWithLineLength:0];
             [outData appendData:[base64EncodedString dataUsingEncoding:NSUTF8StringEncoding]];
             
             [outData appendData:[@"</blob>" dataUsingEncoding:NSUTF8StringEncoding]];
-            NSLog(@"answer: %@", [NSString stringWithData:outData encoding:NSUTF8StringEncoding]);
+            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"answer: %@", [NSString stringWithData:outData encoding:NSUTF8StringEncoding]);
         }
     }
     
     return outData;
 }
 
-- (void)authenticationStepWithBlob:(NSString *)inString
+- (void)authenticationStepWithBlob:(NSString *)inString message:(TCMBEEPMessage *)inMessage
 {
     int result;
     const char *serverout;
@@ -275,14 +285,27 @@ static sasl_callback_t sasl_server_callbacks[] = {
 
     if ((result != SASL_OK) && (result != SASL_CONTINUE)) {
         // [failure. Send protocol specific message that says authentication failed]
-        NSLog(@"[failure. Send protocol specific message that says authentication failed]");
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"[failure. Send protocol specific message that says authentication failed] %s", sasl_errdetail(_sasl_conn_ctxt));
+        
+        unsigned errorCode = 000;
+        NSString *errorDescription = @"error description";
+        if (SASL_NOUSER == result || SASL_BADAUTH == result) {
+            errorCode = 535;
+            errorDescription = @"authentication failure";
+        }
+        
+        NSString *resultString = [NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<error code='%d'>%@</error>", errorCode, errorDescription];
+        NSMutableData *payload = [NSMutableData dataWithData:[resultString dataUsingEncoding:NSUTF8StringEncoding]];
+        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"ERR" messageNumber:[inMessage messageNumber] payload:payload];
+        [[_profile channel] sendMessage:message];       
+
     } else if (result == SASL_OK) {
         // [authentication succeeded. Send client the protocol specific message to say that authentication is complete]
-        NSLog(@"[authentication succeeded. Send client the protocol specific message to say that authentication is complete]");
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"[authentication succeeded. Send client the protocol specific message to say that authentication is complete]");
     } else {
         // [send data 'out' with length 'outlen' over the network in protocol specific format]
-        NSLog(@"[send data 'out' with length 'outlen' over the network in protocol specific format]");
-        NSLog(@"serverout: %@", [NSString stringWithData:[NSData dataWithBytes:serverout length:serveroutlen] encoding:NSUTF8StringEncoding]);
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"[send data 'out' with length 'outlen' over the network in protocol specific format]");
+        DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"serverout: %@", [NSString stringWithData:[NSData dataWithBytes:serverout length:serveroutlen] encoding:NSUTF8StringEncoding]);
     }
    
 }
