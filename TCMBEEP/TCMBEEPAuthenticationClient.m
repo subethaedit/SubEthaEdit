@@ -279,7 +279,7 @@ static sasl_callback_t sasl_client_callbacks[] = {
 
     if (result == SASL_OK) {
         if (clientout) {
-            NSLog(@"clientout: %s", clientout);
+            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"clientout: %s", clientout);
             NSData *blob = [NSData dataWithBytes:clientout length:clientoutlen];
             NSString *base64EncodedBlobString = [blob base64EncodedStringWithLineLength:0];
             [_profile startSecondRoundtripWithBlob:[base64EncodedBlobString dataUsingEncoding:NSUTF8StringEncoding]];
@@ -334,20 +334,22 @@ static sasl_callback_t sasl_client_callbacks[] = {
                         CFXMLNodeRef blobTextNode = CFXMLTreeGetNode(blobSubTree);
                         if (CFXMLNodeGetTypeCode(blobTextNode) == kCFXMLNodeTypeText) {
                             result = (NSString *)CFXMLNodeGetString(blobTextNode);
-                            NSLog(@"parsed blob: %@", result);
+                            [[result retain] autorelease];
+                            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"parsed blob: %@", result);
                         }
                     }
                 }
             }
+            CFRelease(payloadTree);
         }
     }
 
-    return [[result retain] autorelease];
+    return result;
 }
 
 - (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile data:(NSData *)inData
 {
-    NSLog(@"%s %@", __FUNCTION__, inData);
+    DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"%s %@", __FUNCTION__, inData);
     _profile = [profile retain];
     
     // Parse blob element
@@ -367,6 +369,7 @@ static sasl_callback_t sasl_client_callbacks[] = {
                                     (CFDictionaryRef *)&errorDict);
         if (!payloadTree) {
             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"nixe baum: %@", [errorDict description]);
+            #warning Terminate session here or send ERR frame with error 500?
             //[[self session] terminate]; 
             //return;
         } else {
@@ -384,18 +387,17 @@ static sasl_callback_t sasl_client_callbacks[] = {
             }
             if (!xmlTree || !node || CFXMLNodeGetTypeCode(node) != kCFXMLNodeTypeElement) {
                 DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Unable to extract top level element");
+                #warning Terminate session here or send ERR frame with error 500?
                 //[[self session] terminate];
                 //return;
             } else {
                 CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
                 NSDictionary *attributes = (NSDictionary *)info->attributes;
-                NSLog(@"attributes: %@", attributes);
                 if ([@"blob" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    //CFXMLNodeRef blobNode = CFXMLTreeGetNode(xmlTree);
                     int childCount = CFTreeGetChildCount(xmlTree);
                     
                     if (childCount == 0 && [[attributes objectForKey:@"status"] isEqualToString:@"complete"]) {
-                        NSLog(@"SUCCESSFULLY AUTHENTICATED");
+                        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"SUCCESSFULLY AUTHENTICATED");
                     }
                     
                     if (childCount == 1) {
@@ -403,17 +405,26 @@ static sasl_callback_t sasl_client_callbacks[] = {
                         CFXMLNodeRef blobTextNode = CFXMLTreeGetNode(blobSubTree);
                         if (CFXMLNodeGetTypeCode(blobTextNode) == kCFXMLNodeTypeText) {
                             blobContent = (NSString *)CFXMLNodeGetString(blobTextNode);
-                            NSLog(@"parsed blob: %@", blobContent);
+                            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"parsed blob: %@", blobContent);
                             NSData *decodedBase64String = [NSData dataWithBase64EncodedString:blobContent];
                             NSString *serverin_string = [NSString stringWithData:decodedBase64String encoding:NSUTF8StringEncoding];
-                            NSLog(@"decoded blob: %@", serverin_string);
+                            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"decoded blob: %@", serverin_string);
                             [self authenticationStepWithBlob:serverin_string];
                         }
                     }
                 } else if ([@"error" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
-                    NSLog(@"found error");
+                    int childCount = CFTreeGetChildCount(xmlTree);
+                    if (childCount == 1 && [attributes objectForKey:@"code"]) {
+                        CFXMLTreeRef blobSubTree = CFTreeGetChildAtIndex(xmlTree, 0);
+                        CFXMLNodeRef blobTextNode = CFXMLTreeGetNode(blobSubTree);
+                        if (CFXMLNodeGetTypeCode(blobTextNode) == kCFXMLNodeTypeText) {
+                            NSString *failureMessage = (NSString *)CFXMLNodeGetString(blobTextNode);
+                            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Error: %@ (%@)", [attributes objectForKey:@"code"], failureMessage);
+                        }
+                    }
                 }
             }
+            CFRelease(payloadTree);
         }
     }
 

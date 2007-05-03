@@ -45,23 +45,47 @@
     
     NSString *blobContent = nil;
     int blobContentCount = CFTreeGetChildCount(subTree);
-    int blobContentIndex = 0;
-    for (blobContentIndex = 0; blobContentIndex < blobContentCount; blobContentIndex++) {
-        CFXMLTreeRef blobContentSubTree = CFTreeGetChildAtIndex(subTree, blobContentIndex);
-        CFXMLNodeRef blobContentNode    = CFXMLTreeGetNode(blobContentSubTree);
-        if (CFXMLNodeGetTypeCode(blobContentNode) == kCFXMLNodeTypeText) {
-            blobContent = (NSString *)CFXMLNodeGetString(blobContentNode);
+    
+    if (blobContentCount == 0 && [[attributes objectForKey:@"status"] isEqualToString:@"complete"]) {
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"SUCCESSFULLY AUTHENTICATED");
+    } else {
+        int blobContentIndex = 0;
+        for (blobContentIndex = 0; blobContentIndex < blobContentCount; blobContentIndex++) {
+            CFXMLTreeRef blobContentSubTree = CFTreeGetChildAtIndex(subTree, blobContentIndex);
+            CFXMLNodeRef blobContentNode    = CFXMLTreeGetNode(blobContentSubTree);
+            if (CFXMLNodeGetTypeCode(blobContentNode) == kCFXMLNodeTypeText) {
+                blobContent = (NSString *)CFXMLNodeGetString(blobContentNode);
+            }
+        }
+        
+        // Now this is server-only
+        if (blobContent) {
+            NSData *decodedBase64BlobData = [NSData dataWithBase64EncodedString:blobContent];
+            NSString *clientin_string = [NSString stringWithData:decodedBase64BlobData encoding:NSUTF8StringEncoding];
+            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"parsed blob: %@", clientin_string);
+            
+            TCMBEEPAuthenticationServer *authServer = [[self session] authenticationServer];
+            [authServer authenticationStepWithBlob:clientin_string message:message];
         }
     }
     
-    // Now this is server-only
-    if (blobContent) {
-        NSData *decodedBase64BlobData = [NSData dataWithBase64EncodedString:blobContent];
-        NSString *clientin_string = [NSString stringWithData:decodedBase64BlobData encoding:NSUTF8StringEncoding];
-        NSLog(@"parsed blob: %@", clientin_string);
-        
-        TCMBEEPAuthenticationServer *authServer = [[self session] authenticationServer];
-        [authServer authenticationStepWithBlob:clientin_string];
+    return YES;
+}
+
+- (BOOL)_processErrorMessage:(TCMBEEPMessage *)message XMLSubTree:(CFXMLTreeRef)subTree
+{
+    CFXMLNodeRef startNode = CFXMLTreeGetNode(subTree);
+    CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(startNode);
+    NSDictionary *attributes = (NSDictionary *)info->attributes;
+    
+    int errorContentCount = CFTreeGetChildCount(subTree);
+    if (errorContentCount == 1 && [attributes objectForKey:@"code"]) {
+        CFXMLTreeRef errorSubTree = CFTreeGetChildAtIndex(subTree, 0);
+        CFXMLNodeRef errorTextNode = CFXMLTreeGetNode(errorSubTree);
+        if (CFXMLNodeGetTypeCode(errorTextNode) == kCFXMLNodeTypeText) {
+            NSString *failureMessage = (NSString *)CFXMLNodeGetString(errorTextNode);
+            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Error: %@ (%@)", [attributes objectForKey:@"code"], failureMessage);
+        }
     }
     
     return YES;
@@ -130,6 +154,7 @@
     } else if ([message isERR]) {
         if ([@"error" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Found error element...");
+            (void)[self _processErrorMessage:message XMLSubTree:xmlTree];
         }
     }
     
