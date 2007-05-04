@@ -16,6 +16,7 @@
 + (NSString *)UUIDString;
 
 + (NSString *)stringWithAddressData:(NSData *)aData;
++ (NSString *)stringWithAddressData:(NSData *)aData cyrusSASLCompatible:(BOOL)cyrusSASLCompatible;
 
 - (NSData *)UTF8DataWithMaximumLength:(unsigned)aLength;
 

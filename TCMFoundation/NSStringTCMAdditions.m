@@ -43,9 +43,7 @@
     return [(NSString *)myUUIDString autorelease];
 }
 
-
-
-+ (NSString *)stringWithAddressData:(NSData *)aData
++ (NSString *)stringWithAddressData:(NSData *)aData cyrusSASLCompatible:(BOOL)cyrusSASLCompatible
 {
     struct sockaddr *socketAddress = (struct sockaddr *)[aData bytes];
     
@@ -61,7 +59,11 @@
             addressAsString = @"IPv4 un-ntopable";
         }
         int port = ntohs(((struct sockaddr_in *)socketAddress)->sin_port);
-        addressAsString = [addressAsString stringByAppendingFormat:@":%d", port];
+        if (cyrusSASLCompatible) {
+            addressAsString = [addressAsString stringByAppendingFormat:@";%d", port];
+        } else {
+            addressAsString = [addressAsString stringByAppendingFormat:@":%d", port];
+        }
     } else if (socketAddress->sa_family == AF_INET6) {
          if (inet_ntop(AF_INET6, &(((struct sockaddr_in6 *)socketAddress)->sin6_addr), stringBuffer, INET6_ADDRSTRLEN)) {
             addressAsString = [NSString stringWithUTF8String:stringBuffer];
@@ -71,12 +73,21 @@
         int port = ntohs(((struct sockaddr_in6 *)socketAddress)->sin6_port);
         
         // Suggested IPv6 format (see http://www.faqs.org/rfcs/rfc2732.html)
-        addressAsString = [NSString stringWithFormat:@"[%@]:%d", addressAsString, port]; 
+        if (cyrusSASLCompatible) {
+            addressAsString = [NSString stringWithFormat:@"%@;%d", addressAsString, port];
+        } else {
+            addressAsString = [NSString stringWithFormat:@"[%@]:%d", addressAsString, port];
+        }
     } else {
         addressAsString = @"neither IPv6 nor IPv4";
     }
     
     return [[addressAsString copy] autorelease];
+}
+
++ (NSString *)stringWithAddressData:(NSData *)aData
+{
+    return [NSString stringWithAddressData:aData cyrusSASLCompatible:NO];
 }
 
 - (NSData *)UTF8DataWithMaximumLength:(unsigned)aLength {

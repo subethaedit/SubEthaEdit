@@ -14,8 +14,12 @@ extern NSString * const NetworkTimeoutPreferenceKey;
 extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
 extern NSString * const TCMBEEPSASLProfileURIPrefix;
+extern NSString * const TCMBEEPSASLANONYMOUSProfileURI;
 extern NSString * const TCMBEEPSASLPLAINProfileURI;
 extern NSString * const TCMBEEPSASLCRAMMD5ProfileURI;
+extern NSString * const TCMBEEPSASLDIGESTMD5ProfileURI;
+extern NSString * const TCMBEEPSASLGSSAPIProfileURI;
+
 
 typedef enum {
    TCMBEEPSessionStatusNotOpen = 0,
@@ -129,6 +133,7 @@ enum {
 - (BOOL)isProhibitingInboundInternetSessions;
 - (TCMBEEPAuthenticationClient *)authentiationClient;
 - (TCMBEEPAuthenticationServer *)authenticationServer;
+- (NSData *)addressData;
 
 - (void)open;
 - (void)authenticate;

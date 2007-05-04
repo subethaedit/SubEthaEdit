@@ -34,6 +34,12 @@ static int sasl_getopt_callback(void *context, const char *plugin_name, const ch
   
     DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"plugin_name: %s, option: %s", plugin_name, option);
 
+    if (!strcmp(option, "reauth_timeout")) {
+        DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"setting reauth_timeout");
+        *result = "0";
+        if (len) *len = 1;
+    }
+
     [pool release];
     return SASL_OK;
 }

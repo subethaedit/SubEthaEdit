@@ -16,7 +16,7 @@
     sasl_conn_t *_sasl_conn_ctxt;
 }
 
-- (id)initWithSession:(TCMBEEPSession *)session;
+- (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData;
 
 - (NSData *)answerDataForChannelStartProfileURI:(NSString *)profileURI data:(NSData *)inData;
 - (void)authenticationStepWithBlob:(NSString *)inString message:(TCMBEEPMessage *)message;

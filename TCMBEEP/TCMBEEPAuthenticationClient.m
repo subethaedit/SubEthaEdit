@@ -10,6 +10,12 @@
 #import "TCMBEEPSession.h"
 #import "TCMBEEPSASLProfile.h"
 
+#import <netinet/in.h>
+#import <netinet6/in6.h>
+#import <arpa/inet.h>
+#import <sys/socket.h>
+#import <netdb.h>
+
 
 static int sasl_getopt_session_client_cb(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len)
 {
@@ -161,17 +167,37 @@ static sasl_callback_t sasl_client_callbacks[] = {
 
 @implementation TCMBEEPAuthenticationClient
 
-- (id)initWithSession:(TCMBEEPSession *)session
+- (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN
 {
     self = [super init];
     if (self) {
         _session = session;
         
+        const char *iplocalport = NULL;
+        const char *ipremoteport = NULL;
+        if (addressData) iplocalport = [[NSString stringWithAddressData:addressData cyrusSASLCompatible:YES] UTF8String];
+        if (peerAddressData) ipremoteport = [[NSString stringWithAddressData:peerAddressData cyrusSASLCompatible:YES] UTF8String];
+        DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"iplocalport: %s, ipremoteport: %s", iplocalport, ipremoteport);
+        
+        if (!serverFQDN && peerAddressData) {
+            struct hostent *host = NULL;
+            struct sockaddr *socketAddress = (struct sockaddr *)[peerAddressData bytes];
+            if (socketAddress->sa_family == AF_INET) {
+                host = gethostbyaddr(&(((struct sockaddr_in *)socketAddress)->sin_addr), sizeof(struct in_addr), AF_INET);
+            } else if (socketAddress->sa_family == AF_INET6) {
+                host = gethostbyaddr(&(((struct sockaddr_in6 *)socketAddress)->sin6_addr), sizeof(struct in6_addr), AF_INET6);
+            }
+            if (host) {
+                DEBUGLOG(@"SASLLogDomain", DetailedLogLevel, @"gethostbyaddr returned serverFQDN: %s", host->h_name);
+                serverFQDN = [NSString stringWithCString:host->h_name encoding:NSUTF8StringEncoding];
+            }
+        }
+        
         _sasl_conn_ctxt = NULL;
         int result = sasl_client_new("beep",
-                                     NULL,  // serverFQDN (has to  be set)
-                                     NULL,  // iplocalport
-                                     NULL,  // ipremoteport
+                                     [serverFQDN UTF8String],  // serverFQDN (has to  be set)
+                                     iplocalport,  // iplocalport
+                                     ipremoteport,  // ipremoteport
                                      sasl_client_callbacks,
                                      0, // flags
                                      &_sasl_conn_ctxt);
@@ -208,6 +234,8 @@ static sasl_callback_t sasl_client_callbacks[] = {
     }
     
     if ([mechlist_string length] > 0) {
+        DEBUGLOG(@"SASLLogDomain", DetailedLogLevel, @"offered mechs: %@", mechlist_string);
+    
         const char *mech_using;
         const char *clientout;
         unsigned clientoutlen;
