@@ -15,12 +15,12 @@ static int sasl_getopt_session_server_cb(void *context, const char *plugin_name,
     DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"plugin_name: %s, option: %s", plugin_name, option);
     
     if (!strcmp(option, "log_level")) {
-        //NSLog(@"setting log level");
+        DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"setting log level");
         *result = "5"; //SASL_LOG_TRACE 6
         if (len) *len = 1;
     }
     if (!strcmp(option, "sasldb_path")) {
-        NSLog(@"setting sasldb_path");
+        DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"setting sasldb_path");
         *result = "/etc/sasldb2";
         if (len) *len = 12;
     }
@@ -45,36 +45,6 @@ static int sasl_authorize_session_server_cb(sasl_conn_t *conn,
     return SASL_OK;
 }
 
-static int sasl_getsimple_session_server_cb(void *context, int id, const char **result, unsigned *len)
-{
-    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"");
-    
-    if (!result)
-        return SASL_BADPARAM;
-
-    switch (id) {
-        case SASL_CB_USER:
-            NSLog(@"SASL_CB_USER");
-            *result = "mbo";
-            if (len) *len = 3;         
-            break;
-        case SASL_CB_AUTHNAME:
-            NSLog(@"SASL_CB_AUTHNAME");
-            *result = "mbo";
-            if (len) *len = 3;
-            break;
-        case SASL_CB_LANGUAGE:
-            NSLog(@"SASL_CB_LANGUAGE");
-            *result = NULL;
-            if (len) *len = 0;
-            break;
-        default:
-            return SASL_BADPARAM;
-    }
-    
-    return SASL_OK;
-}
-
 static int sasl_server_userdb_checkpass(sasl_conn_t *conn,
 					   void *context,
 					   const char *user,
@@ -91,7 +61,6 @@ static int sasl_server_userdb_checkpass(sasl_conn_t *conn,
 static sasl_callback_t sasl_server_callbacks[] = {
     {SASL_CB_GETOPT, &sasl_getopt_session_server_cb, NULL},
     {SASL_CB_PROXY_POLICY, &sasl_authorize_session_server_cb, NULL},
-    {SASL_CB_USER, &sasl_getsimple_session_server_cb, NULL},
     {SASL_CB_LOG, &sasl_log_session_server_cb, NULL},
     {SASL_CB_SERVER_USERDB_CHECKPASS, &sasl_server_userdb_checkpass, NULL},
     {SASL_CB_LIST_END, NULL, NULL}
@@ -101,7 +70,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
 
 @implementation TCMBEEPAuthenticationServer
 
-- (id)initWithSession:(TCMBEEPSession *)session
+- (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData
 {
     self = [super init];
     if (self) {
@@ -109,12 +78,17 @@ static sasl_callback_t sasl_server_callbacks[] = {
         
         _sasl_conn_ctxt = NULL;
 
+        const char *iplocalport = NULL;
+        const char *ipremoteport = NULL;
+        if (addressData) iplocalport = [[NSString stringWithAddressData:addressData cyrusSASLCompatible:YES] UTF8String];
+        if (peerAddressData) ipremoteport = [[NSString stringWithAddressData:peerAddressData cyrusSASLCompatible:YES] UTF8String];
+        DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"iplocalport: %s, ipremoteport: %s", iplocalport, ipremoteport);
 
         int result = sasl_server_new("beep",
-                                     NULL,  // serverFQDN
+                                     NULL,  // serverFQDN (looks up for itself)
                                      NULL,  // user_realm
-                                     NULL,  // iplocalport
-                                     NULL,  // ipremoteport
+                                     iplocalport,  // iplocalport
+                                     ipremoteport,  // ipremoteport
                                      sasl_server_callbacks,
                                      0,     // flags
                                      &_sasl_conn_ctxt);
@@ -124,6 +98,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
             const char *mech_string;
             unsigned plen;
             int pcount;
+            
             result = sasl_listmech(_sasl_conn_ctxt,
                                    "",      // user
                                    "",      // prefix
@@ -135,11 +110,12 @@ static sasl_callback_t sasl_server_callbacks[] = {
             if (SASL_OK == result) {
                 NSString *mechs = [[NSString alloc] initWithBytes:mech_string length:plen encoding:NSUTF8StringEncoding];
                 NSArray *mechanisms = [mechs componentsSeparatedByString:@" "];
-                //if ([mechanisms containsObject:@"PLAIN"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLPLAINProfileURI]];
+                //if ([mechanisms containsObject:@"GSSAPI"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLGSSAPIProfileURI]];
+                //if ([mechanisms containsObject:@"DIGEST-MD5"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLDIGESTMD5ProfileURI]];
                 if ([mechanisms containsObject:@"CRAM-MD5"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLCRAMMD5ProfileURI]];
-
+                //if ([mechanisms containsObject:@"PLAIN"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLPLAINProfileURI]];
+                //if ([mechanisms containsObject:@"ANONYMOUS"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLANONYMOUSProfileURI]];
             }
-            
         } else {
             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
         }

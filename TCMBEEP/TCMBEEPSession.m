@@ -23,8 +23,11 @@ NSString * const NetworkTimeoutPreferenceKey = @"NetworkTimeout";
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
 NSString * const TCMBEEPSASLProfileURIPrefix = @"http://iana.org/beep/SASL/";
+NSString * const TCMBEEPSASLANONYMOUSProfileURI = @"http://iana.org/beep/SASL/ANONYMOUS";
 NSString * const TCMBEEPSASLPLAINProfileURI = @"http://iana.org/beep/SASL/PLAIN";
 NSString * const TCMBEEPSASLCRAMMD5ProfileURI = @"http://iana.org/beep/SASL/CRAM-MD5";
+NSString * const TCMBEEPSASLDIGESTMD5ProfileURI = @"http://iana.org/beep/SASL/DIGEST-MD5";
+NSString * const TCMBEEPSASLGSSAPIProfileURI = @"http://iana.org/beep/SASL/GSSAPI";
 
 
 static void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
@@ -173,7 +176,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         I_nextChannelNumber = 0;
         [self TCM_initHelper];
         
-        _authServer = [[TCMBEEPAuthenticationServer alloc] initWithSession:self];
+        _authServer = [[TCMBEEPAuthenticationServer alloc] initWithSession:self addressData:[self addressData] peerAddressData:aData];
     }
     
     return self;
@@ -421,6 +424,30 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     return I_activeChannels;
 }
 
+- (NSData *)addressData
+{
+    if (!I_readStream)
+        return nil;
+        
+    NSData *addressData = nil;
+    CFDataRef socketHandleData = CFReadStreamCopyProperty(I_readStream, kCFStreamPropertySocketNativeHandle);
+	if (socketHandleData != NULL) {
+        CFSocketNativeHandle socketHandle;
+        CFDataGetBytes (socketHandleData, CFRangeMake(0, CFDataGetLength(socketHandleData)), (UInt8 *)&socketHandle);
+        CFRelease (socketHandleData);
+        struct sockaddr name;
+        socklen_t namelen = sizeof(struct sockaddr);
+        int result = getsockname(socketHandle, &name, &namelen);
+        if (result == 0) {
+            addressData = [NSData dataWithBytes:&name length:namelen];
+        } else if (result == -1) {
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"getsockname failed: %@ / %s", errno, strerror(errno));
+        }
+    }
+    
+    return addressData;
+}
+
 - (NSArray *)channels
 {
     return I_channels;
@@ -456,11 +483,6 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)open
 {
-    if ([self isInitiator]) {
-        // SASL setup for client
-        _authClient = [[TCMBEEPAuthenticationClient alloc] initWithSession:self];
-    }
-
     CFRunLoopRef runLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
 
     CFReadStreamScheduleWithRunLoop(I_readStream, runLoop, kCFRunLoopCommonModes);
@@ -490,6 +512,13 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         }
     }
     
+    if ([self isInitiator]) {
+        // SASL setup for client
+        CFStringRef remoteHostName = CFReadStreamCopyProperty(I_readStream, kCFStreamPropertySocketRemoteHostName);
+        DEBUGLOG(@"SASLLogDomain", DetailedLogLevel, @"remoteHostName: %@", (NSString *)remoteHostName);
+        _authClient = [[TCMBEEPAuthenticationClient alloc] initWithSession:self addressData:[self addressData] peerAddressData:[self peerAddressData] serverFQDN:(NSString *)remoteHostName];
+        if (remoteHostName) CFRelease(remoteHostName);
+    }
     
     I_sessionStatus = TCMBEEPSessionStatusOpening;
     

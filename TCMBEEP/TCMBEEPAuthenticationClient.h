@@ -17,7 +17,7 @@
     sasl_conn_t *_sasl_conn_ctxt;
 }
 
-- (id)initWithSession:(TCMBEEPSession *)session;
+- (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN;
 - (void)startAuthentication;
 
 @end
