@@ -1498,6 +1498,7 @@ see/see.1 -text
 see/see.vers -text
 seed/FileManagementProfile.notes -text
 seed/Info.plist -text
+seed/Permissions.notes -text
 seed/SDAppController.h -text
 seed/SDAppController.m -text
 seed/SDDocument.h -text
