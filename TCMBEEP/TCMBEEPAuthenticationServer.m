@@ -57,14 +57,6 @@ static int sasl_server_userdb_checkpass(sasl_conn_t *conn,
     return SASL_OK;
     //return SASL_BADAUTH;
 }
-                 
-static sasl_callback_t sasl_server_callbacks[] = {
-    {SASL_CB_GETOPT, &sasl_getopt_session_server_cb, NULL},
-    {SASL_CB_PROXY_POLICY, &sasl_authorize_session_server_cb, NULL},
-    {SASL_CB_LOG, &sasl_log_session_server_cb, NULL},
-    {SASL_CB_SERVER_USERDB_CHECKPASS, &sasl_server_userdb_checkpass, NULL},
-    {SASL_CB_LIST_END, NULL, NULL}
-};
 
 # pragma mark -
 
@@ -78,6 +70,32 @@ static sasl_callback_t sasl_server_callbacks[] = {
         _isAuthenticated = NO;
         _sasl_conn_ctxt = NULL;
 
+        sasl_callback_t *callback = _sasl_server_callbacks;
+        callback->id = SASL_CB_GETOPT;
+        callback->proc = &sasl_getopt_session_server_cb;
+        callback->context = self;
+        ++callback;
+        
+        callback->id = SASL_CB_PROXY_POLICY;
+        callback->proc = &sasl_authorize_session_server_cb;
+        callback->context = self;
+        ++callback;
+        
+        callback->id = SASL_CB_LOG;
+        callback->proc = &sasl_log_session_server_cb;
+        callback->context = self;
+        ++callback;
+        
+        callback->id = SASL_CB_SERVER_USERDB_CHECKPASS;
+        callback->proc = &sasl_server_userdb_checkpass;
+        callback->context = self;
+        ++callback;
+        
+        callback->id = SASL_CB_LIST_END;
+        callback->proc = NULL;
+        callback->context = self;
+
+        
         const char *iplocalport = NULL;
         const char *ipremoteport = NULL;
         if (addressData) iplocalport = [[NSString stringWithAddressData:addressData cyrusSASLCompatible:YES] UTF8String];
@@ -89,7 +107,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
                                      NULL,  // user_realm
                                      iplocalport,  // iplocalport
                                      ipremoteport,  // ipremoteport
-                                     sasl_server_callbacks,
+                                     _sasl_server_callbacks,
                                      0,     // flags
                                      &_sasl_conn_ctxt);
         if (result == SASL_OK) {

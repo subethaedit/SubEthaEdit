@@ -14,6 +14,7 @@
     TCMBEEPSession *_session;
     TCMBEEPProfile *_profile;
     sasl_conn_t *_sasl_conn_ctxt;
+    sasl_callback_t _sasl_server_callbacks[5];
     BOOL _isAuthenticated;
 }
 
