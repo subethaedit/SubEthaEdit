@@ -15,9 +15,12 @@
     TCMBEEPSession *_session;
     TCMBEEPSASLProfile *_profile;
     sasl_conn_t *_sasl_conn_ctxt;
+    BOOL _isAuthenticated;
 }
 
 - (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN;
 - (void)startAuthentication;
+- (BOOL)isAuthenticated;
+- (void)setIsAuthenticated:(BOOL)flag;
 
 @end

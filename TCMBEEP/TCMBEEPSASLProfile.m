@@ -7,6 +7,7 @@
 //
 
 #import "TCMBEEPSASLProfile.h"
+#import "TCMBEEPAuthenticationClient.h"
 #import "TCMBEEPAuthenticationServer.h"
 
 
@@ -47,7 +48,10 @@
     int blobContentCount = CFTreeGetChildCount(subTree);
     
     if (blobContentCount == 0 && [[attributes objectForKey:@"status"] isEqualToString:@"complete"]) {
+        // Client-only
         DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"SUCCESSFULLY AUTHENTICATED");
+        TCMBEEPAuthenticationClient *authClient = [[self session] authenticationClient];
+        [authClient setIsAuthenticated:YES];
     } else {
         int blobContentIndex = 0;
         for (blobContentIndex = 0; blobContentIndex < blobContentCount; blobContentIndex++) {
@@ -156,6 +160,11 @@
             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Found error element...");
             (void)[self _processErrorMessage:message XMLSubTree:xmlTree];
         }
+    } else if ([message isRPY]) {
+        if ([@"blob" isEqualToString:(NSString *)CFXMLNodeGetString(node)]) {
+            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Found blob element...");
+            (void)[self _processBlobMessage:message XMLSubTree:xmlTree];
+        }    
     }
     
     CFRelease(contentTree);

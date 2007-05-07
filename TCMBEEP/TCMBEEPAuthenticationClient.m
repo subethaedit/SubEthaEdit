@@ -70,16 +70,17 @@ static int sasl_getsimple_session_client_cb(void *context, int id, const char **
 
     switch (id) {
         case SASL_CB_USER:
-            NSLog(@"SASL_CB_USER");
+            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"SASL_CB_USER");
             *result = "mbo";
             if (len) *len = 3;         
             break;
         case SASL_CB_AUTHNAME:
-            NSLog(@"SASL_CB_AUTHNAME");
+            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"SASL_CB_AUTHNAME");
             *result = "mbo";
             if (len) *len = 3;
             break;
         default:
+            DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"id: %d", id);
             return SASL_BADPARAM;
     }
     
@@ -92,7 +93,7 @@ static int sasl_getrealm_session_client_cb(void *context, int id, const char **a
 
     if (id != SASL_CB_GETREALM) return SASL_FAIL;
 
-    *result = "myrealm";
+    *result = "localhost";
   
     return SASL_OK;
 }
@@ -172,6 +173,7 @@ static sasl_callback_t sasl_client_callbacks[] = {
     self = [super init];
     if (self) {
         _session = session;
+        _isAuthenticated = NO;
         
         const char *iplocalport = NULL;
         const char *ipremoteport = NULL;
@@ -280,6 +282,16 @@ static sasl_callback_t sasl_client_callbacks[] = {
             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
         }
     }
+}
+
+- (BOOL)isAuthenticated
+{
+    return _isAuthenticated;
+}
+
+- (void)setIsAuthenticated:(BOOL)flag
+{
+    _isAuthenticated = flag;
 }
 
 #pragma mark -
@@ -426,6 +438,8 @@ static sasl_callback_t sasl_client_callbacks[] = {
                     
                     if (childCount == 0 && [[attributes objectForKey:@"status"] isEqualToString:@"complete"]) {
                         DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"SUCCESSFULLY AUTHENTICATED");
+                        _isAuthenticated = YES;
+                        #warning Call delegate
                     }
                     
                     if (childCount == 1) {
@@ -448,6 +462,7 @@ static sasl_callback_t sasl_client_callbacks[] = {
                         if (CFXMLNodeGetTypeCode(blobTextNode) == kCFXMLNodeTypeText) {
                             NSString *failureMessage = (NSString *)CFXMLNodeGetString(blobTextNode);
                             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Error: %@ (%@)", [attributes objectForKey:@"code"], failureMessage);
+                            #warning Call delegate
                         }
                     }
                 }

@@ -54,8 +54,8 @@ static int sasl_server_userdb_checkpass(sasl_conn_t *conn,
 {
     DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"user: %s", user);
     
-    //return SASL_OK;
-    return SASL_BADAUTH;
+    return SASL_OK;
+    //return SASL_BADAUTH;
 }
                  
 static sasl_callback_t sasl_server_callbacks[] = {
@@ -75,7 +75,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
     self = [super init];
     if (self) {
         _session = session;
-        
+        _isAuthenticated = NO;
         _sasl_conn_ctxt = NULL;
 
         const char *iplocalport = NULL;
@@ -112,9 +112,9 @@ static sasl_callback_t sasl_server_callbacks[] = {
                 NSArray *mechanisms = [mechs componentsSeparatedByString:@" "];
                 //if ([mechanisms containsObject:@"GSSAPI"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLGSSAPIProfileURI]];
                 //if ([mechanisms containsObject:@"DIGEST-MD5"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLDIGESTMD5ProfileURI]];
-                if ([mechanisms containsObject:@"CRAM-MD5"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLCRAMMD5ProfileURI]];
-                //if ([mechanisms containsObject:@"PLAIN"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLPLAINProfileURI]];
-                //if ([mechanisms containsObject:@"ANONYMOUS"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLANONYMOUSProfileURI]];
+                //if ([mechanisms containsObject:@"CRAM-MD5"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLCRAMMD5ProfileURI]];
+                if ([mechanisms containsObject:@"PLAIN"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLPLAINProfileURI]];
+                if ([mechanisms containsObject:@"ANONYMOUS"]) [_session addProfileURIs:[NSArray arrayWithObject:TCMBEEPSASLANONYMOUSProfileURI]];
             }
         } else {
             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
@@ -140,6 +140,11 @@ static sasl_callback_t sasl_server_callbacks[] = {
     DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"Got profile: %@", profile);
     [_profile autorelease];
     _profile = [profile retain];
+}
+
+- (BOOL)isAuthenticated
+{
+    return _isAuthenticated;
 }
 
 - (NSData *)answerDataForChannelStartProfileURI:(NSString *)profileURI data:(NSData *)inData
@@ -227,6 +232,7 @@ static sasl_callback_t sasl_server_callbacks[] = {
         // to say that authentication is complete]
         DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"[authentication succeeded. Send client the protocol specific message to say that authentication is complete]");
         [outData appendData:[@"<blob status='complete' />" dataUsingEncoding:NSUTF8StringEncoding]];
+        _isAuthenticated = YES;
     } else {
         // [send data 'out' with length 'outlen' over the network in protocol
         // specific format]
@@ -270,18 +276,30 @@ static sasl_callback_t sasl_server_callbacks[] = {
             errorDescription = @"authentication failure";
         }
         
-        NSString *resultString = [NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<error code='%d'>%@</error>", errorCode, errorDescription];
+        NSString *resultString = [NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<blob status='complete' />", errorCode, errorDescription];
         NSMutableData *payload = [NSMutableData dataWithData:[resultString dataUsingEncoding:NSUTF8StringEncoding]];
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"ERR" messageNumber:[inMessage messageNumber] payload:payload];
         [[_profile channel] sendMessage:message];       
-
     } else if (result == SASL_OK) {
         // [authentication succeeded. Send client the protocol specific message to say that authentication is complete]
         DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"[authentication succeeded. Send client the protocol specific message to say that authentication is complete]");
+        NSString *resultString = @"<blob status='complete' />";
+        NSMutableData *payload = [NSMutableData dataWithData:[resultString dataUsingEncoding:NSUTF8StringEncoding]];
+        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[inMessage messageNumber] payload:payload];
+        [[_profile channel] sendMessage:message];  
+        _isAuthenticated = YES;
     } else {
         // [send data 'out' with length 'outlen' over the network in protocol specific format]
         DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"[send data 'out' with length 'outlen' over the network in protocol specific format]");
         DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"serverout: %@", [NSString stringWithData:[NSData dataWithBytes:serverout length:serveroutlen] encoding:NSUTF8StringEncoding]);
+        NSMutableData *payload = [NSMutableData data];
+        [payload appendData:[@"Content-Type: application/beep+xml\r\n\r\n<blob>" dataUsingEncoding:NSUTF8StringEncoding]];
+        NSData *serverData = [NSData dataWithBytes:serverout length:serveroutlen];
+        NSString *base64EncodedString = [serverData base64EncodedStringWithLineLength:0];
+        [payload appendData:[base64EncodedString dataUsingEncoding:NSUTF8StringEncoding]];
+        [payload appendData:[@"</blob>" dataUsingEncoding:NSUTF8StringEncoding]];
+        TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[inMessage messageNumber] payload:payload];
+        [[_profile channel] sendMessage:message];  
     }
    
 }
