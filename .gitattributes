@@ -1515,5 +1515,6 @@ seed/SDDocument.h -text
 seed/SDDocument.m -text
 seed/SDDocumentManager.h -text
 seed/SDDocumentManager.m -text
+seed/config.plist -text
 seed/main.m -text
 seed/seed_Prefix.pch -text

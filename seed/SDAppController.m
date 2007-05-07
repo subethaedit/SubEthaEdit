@@ -48,34 +48,6 @@ BOOL endRunLoop = NO;
                                                          repeats:YES];
         [_autosaveTimer retain];
         */
-        SDDirectory *directory = [SDDirectory sharedInstance];
-        id tcmgroup = [directory makeGroupWithShortName:@"tcm"];
-        id shdwgroup = [directory makeGroupWithShortName:@"shdw"];
-        id tcmshdwgroup = [directory makeGroupWithShortName:@"tcm+shdw"];
-        [tcmgroup addToGroup:tcmshdwgroup];
-        [shdwgroup addToGroup:tcmshdwgroup];
-        id user = [directory makeUserWithShortName:@"dom"];
-        [user setFullName:@"Dominik Wagner"];
-        [user addToGroup:shdwgroup];
-        [user addToGroup:tcmgroup];
-        user = [directory makeUserWithShortName:@"map"];
-        [user addToGroup:tcmgroup];
-        user = [directory makeUserWithShortName:@"mbo"];
-        [user addToGroup:tcmgroup];
-        user = [directory makeUserWithShortName:@"mist"];
-        user = [directory makeUserWithShortName:@"enzo"];
-        [user addToGroup:shdwgroup];
-        NSLog(@"%s %@",__FUNCTION__,directory);
-        NSDictionary *rep=[directory dictionaryRepresentation];
-        NSLog(@"%s %@",__FUNCTION__,rep);
-        SDDirectory *remoteDirectory = [SDDirectory new];
-        [remoteDirectory addEntriesFromDictionaryRepresentation:rep];
-        NSLog(@"%s reloaded Rep: %@",__FUNCTION__,rep);
-        
-        NSLog(@"is dom member of tcm? %@",[[remoteDirectory userForShortName:@"dom"] isMemberOfGroup:[remoteDirectory groupForShortName:@"tcm"]]?@"YES":@"NO");
-        NSLog(@"is mbo member of shdw? %@",[[remoteDirectory userForShortName:@"mbo"] isMemberOfGroup:[remoteDirectory groupForShortName:@"shdw"]]?@"YES":@"NO");
-        NSLog(@"is mbo member of tcm+shdw? %@",[[remoteDirectory userForShortName:@"mbo"] isMemberOfGroup:[remoteDirectory groupForShortName:@"tcm+shdw"]]?@"YES":@"NO");
-        NSLog(@"is mist member of everyone? %@",[[remoteDirectory userForShortName:@"mist"] isMemberOfGroup:[remoteDirectory groupForShortName:kSDDirectoryGroupEveryoneGroupShortName]]?@"YES":@"NO");
     }
     return self;
 }
@@ -150,6 +122,7 @@ BOOL endRunLoop = NO;
     NSLog(@"%s %@",__FUNCTION__,configPath);
     if (configPath) {
         NSDictionary *configPlist = [NSDictionary dictionaryWithContentsOfFile:[configPath stringByExpandingTildeInPath]];
+        NSLog(@"%s %@",__FUNCTION__,configPlist);
         if (configPlist) {
             SDDocumentManager *dm=[SDDocumentManager sharedInstance];
             NSLog(@"%s %@",__FUNCTION__, configPlist);
@@ -177,6 +150,58 @@ BOOL endRunLoop = NO;
                     [[document session] setAccessState:TCMMMSessionAccessReadWriteState];
                     [document setIsAnnounced:YES];
                 }
+            }
+            
+            
+            NSDictionary *directoryDictionary = [configPlist objectForKey:@"Directory"];
+            if (directoryDictionary) {
+                SDDirectory *directory = [SDDirectory sharedInstance];
+                [directory addEntriesFromDictionaryRepresentation:directoryDictionary];
+                NSLog(@"%s dictionaryLoaded:%@",__FUNCTION__,directory);
+            } else {
+                SDDirectory *directory = [SDDirectory sharedInstance];
+                id tcmgroup = [directory makeGroupWithShortName:@"tcm"];
+                id shdwgroup = [directory makeGroupWithShortName:@"shdw"];
+                id tcmshdwgroup = [directory makeGroupWithShortName:@"tcm+shdw"];
+                [tcmgroup addToGroup:tcmshdwgroup];
+                [shdwgroup addToGroup:tcmshdwgroup];
+                id user = [directory makeUserWithShortName:@"dom"];
+                [user setFullName:@"Dominik Wagner"];
+                [user addToGroup:shdwgroup];
+                [user addToGroup:tcmgroup];
+                [user setValue:@"dom" forKey:@"password"];
+                user = [directory makeUserWithShortName:@"map"];
+                [user setValue:@"map" forKey:@"password"];
+                [user addToGroup:tcmgroup];
+                user = [directory makeUserWithShortName:@"mbo"];
+                [user setValue:@"mbo" forKey:@"password"];
+                [user addToGroup:tcmgroup];
+                user = [directory makeUserWithShortName:@"mist"];
+                user = [directory makeUserWithShortName:@"enzo"];
+                [user setValue:@"enzo" forKey:@"password"];
+                [user addToGroup:shdwgroup];
+                NSLog(@"%s %@",__FUNCTION__,directory);
+                NSDictionary *rep=[directory dictionaryRepresentation];
+                NSLog(@"%s %@",__FUNCTION__,rep);
+                SDDirectory *remoteDirectory = [SDDirectory new];
+                [remoteDirectory addEntriesFromDictionaryRepresentation:rep];
+                NSLog(@"%s reloaded Rep: %@",__FUNCTION__,rep);
+                
+                NSLog(@"is dom member of tcm? %@",[[remoteDirectory userForShortName:@"dom"] isMemberOfGroup:[remoteDirectory groupForShortName:@"tcm"]]?@"YES":@"NO");
+                NSLog(@"is mbo member of shdw? %@",[[remoteDirectory userForShortName:@"mbo"] isMemberOfGroup:[remoteDirectory groupForShortName:@"shdw"]]?@"YES":@"NO");
+                NSLog(@"is mbo member of tcm+shdw? %@",[[remoteDirectory userForShortName:@"mbo"] isMemberOfGroup:[remoteDirectory groupForShortName:@"tcm+shdw"]]?@"YES":@"NO");
+                NSLog(@"is mist member of everyone? %@",[[remoteDirectory userForShortName:@"mist"] isMemberOfGroup:[remoteDirectory groupForShortName:kSDDirectoryGroupEveryoneGroupShortName]]?@"YES":@"NO");
+                
+                rep = [directory shortDictionaryRepresentation];
+                NSLog(@"%s shortRepresentation: %@",__FUNCTION__,rep);
+remoteDirectory = [SDDirectory new];
+                [remoteDirectory addEntriesFromDictionaryRepresentation:rep];
+                NSLog(@"%s reloaded Rep: %@",__FUNCTION__,rep);
+                
+                NSLog(@"is dom member of tcm? %@",[[remoteDirectory userForShortName:@"dom"] isMemberOfGroup:[remoteDirectory groupForShortName:@"tcm"]]?@"YES":@"NO");
+                NSLog(@"is mbo member of shdw? %@",[[remoteDirectory userForShortName:@"mbo"] isMemberOfGroup:[remoteDirectory groupForShortName:@"shdw"]]?@"YES":@"NO");
+                NSLog(@"is mbo member of tcm+shdw? %@",[[remoteDirectory userForShortName:@"mbo"] isMemberOfGroup:[remoteDirectory groupForShortName:@"tcm+shdw"]]?@"YES":@"NO");
+                NSLog(@"is mist member of everyone? %@",[[remoteDirectory userForShortName:@"mist"] isMemberOfGroup:[remoteDirectory groupForShortName:kSDDirectoryGroupEveryoneGroupShortName]]?@"YES":@"NO");
             }
         }
     }
