@@ -404,7 +404,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     return I_flags.isProhibitingInboundInternetSessions;
 }
 
-- (TCMBEEPAuthenticationClient *)authentiationClient
+- (TCMBEEPAuthenticationClient *)authenticationClient
 {
     return _authClient;
 }
@@ -446,6 +446,13 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     }
     
     return addressData;
+}
+
+- (BOOL)isAuthenticated
+{
+    if (_authClient) return [_authClient isAuthenticated];
+    else if (_authServer) return [_authServer isAuthenticated];
+    else return NO;
 }
 
 - (NSArray *)channels

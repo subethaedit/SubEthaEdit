@@ -591,6 +591,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] setVisible:NO];
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
+    
+    sasl_done();
 }
 
 - (void)updateApplicationIcon {

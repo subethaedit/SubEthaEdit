@@ -170,6 +170,9 @@ int main(int argc, const char *argv[])
 
 
     [appController release];
+    
+    sasl_done();
+    
     NSLog(@"Bye bye!");
 
     [pool release];

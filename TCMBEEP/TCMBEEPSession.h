@@ -131,9 +131,10 @@ enum {
 - (NSArray *)channels;
 - (void)setIsProhibitingInboundInternetSessions:(BOOL)flag;
 - (BOOL)isProhibitingInboundInternetSessions;
-- (TCMBEEPAuthenticationClient *)authentiationClient;
+- (TCMBEEPAuthenticationClient *)authenticationClient;
 - (TCMBEEPAuthenticationServer *)authenticationServer;
 - (NSData *)addressData;
+- (BOOL)isAuthenticated;
 
 - (void)open;
 - (void)authenticate;
