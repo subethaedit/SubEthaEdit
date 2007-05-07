@@ -1,0 +1,89 @@
+-------------------------------------------------------------------------------
+USER HIERACHY
+
+USERS: identified by a unique username - full name is also okay
+GROUPS: *Groups* can contain *users* and other *groups*
+
+Special cases:
+The Group "everyone" contains all users
+
+ROLE
+Every user also has one *role*.
+Admin
+Confidant
+Guest
+
+Without authentication a user gets the Guest role
+When authenticated the base role is Confidant. 
+The user can have a higher role which would be configured in the server or would be gotten out of the attached directory.
+
+Guest are normal SubEthaEdit users that connect without authentication
+Confidants are SubEthaEdit users which authenticate - they can also create documents and change permissions to documents they own.
+
+-------------------------------------------------------------------------------
+DOCUMENTS
+
+Documents have some accessibility settings attached to them. These settings determine who can see, read or even edit the document (these correspond to to the access control states "locked, read, read/write" that are already established in SubEthaEdit)
+
+In addition to that a document has the attribute ownership which is a list of users and groups that own that document.
+
+Owners of a document can change its attributes as well as its accessibility settings. Owners also can save as well as delete documents. Admins are implicitly owner of all documents.
+
+Users who are at least confidants can create new documents.
+
+-------------------------------------------------------------------------------
+HOW IS DATA STORED
+
+OWNERSHIP: A list of users and groups
+ACCESSIBILITY SETTINGS: A user and group list for every possible setting ("see","read","edit")
+
+
+USER AND GROUP LISTS:
+- are mutable
+- addMember:
+- removeMember:
+
+- internally store groups and users
+- membershipForUser: {
+  check if user is in user list
+  check if user is in any of the groups in this list (user handles the everyone group implicidly)
+}
+
+
+
+-------------------------------------------------------------------------------
+COMMON REQUESTS
+
+R: Give me all documents that a logged in user can see with his permissions on it.
+
+R: What Access has this user for this Document?
+- check if the user has an attached access setting
+- check if the users groups have an attached access setting
+- if the user is admin he has at least "see" access to all documents
+- return the best access there is (which could be none)
+
+alternative:
+- check if the user is in the "edit" list
+- check if the user is in the "read" list
+- check if the user is in the "see" list
+
+
+
+R: Does this user own this document?
+- check the ownserip list against this user
+
+-------------------------------------------------------------------------------
+NOTES ON / KEY TO THIS TEMPLATE:
+HEADLINES
+    ... have to be CAPITALISED and stand alone in a line to be recognized
+    This differentiates from the text that follows
+A _variable_ that you can change will be surrounded by _underscores_
+    Spaces in variables are also replaced with _under_scores_
+    This allows people to select the whole _variable_ with a simple double-click
+A {tool-tip} is lower case and surrounded by {curly brackets / parentheses}
+    These supply helpful contextual information.
+References should be added as [1] [2] and so forth.
+An *emphasis* can be put on a word by adding *stars* around it
+
+
+-------------------------------------------------------------------------------
