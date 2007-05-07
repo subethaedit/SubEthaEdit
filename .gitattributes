@@ -64,6 +64,16 @@ Debug/DebugUsers.nib/info.nib -text
 Debug/DebugUsers.nib/keyedobjects.nib -text
 /DialogBackgroundView.h -text
 /DialogBackgroundView.m -text
+Directory/SDDirectory.h -text
+Directory/SDDirectory.m -text
+Directory/SDDirectoryEntry.h -text
+Directory/SDDirectoryEntry.m -text
+Directory/SDDirectoryGroup.h -text
+Directory/SDDirectoryGroup.m -text
+Directory/SDDirectoryUser.h -text
+Directory/SDDirectoryUser.m -text
+Directory/SDDirectoryUserGroupList.h -text
+Directory/SDDirectoryUserGroupList.m -text
 /DocumentController.h -text
 /DocumentController.m -text
 /DocumentMode.h -text

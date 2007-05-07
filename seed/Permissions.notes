@@ -37,6 +37,13 @@ HOW IS DATA STORED
 OWNERSHIP: A list of users and groups
 ACCESSIBILITY SETTINGS: A user and group list for every possible setting ("see","read","edit")
 
+CLASSES
+SDDirectory: main class that gives singleton access to users and groups
+SDDirectoryUser
+SDDirectoryGroup
+SDDirectoryUserGroupList
+
+
 
 USER AND GROUP LISTS:
 - are mutable
@@ -49,12 +56,48 @@ USER AND GROUP LISTS:
   check if user is in any of the groups in this list (user handles the everyone group implicidly)
 }
 
+DIRECTORY:
 
+The directory has to be easily exchangable via the net (so clients can use user and group names in their UI)
+
+SDDirectory {
+
+}
++ (id)sharedInstance;
+- (void)addDictionaryRepresentation:
+- (id)entityForShortName:
+- (id)groupForShortName:
+- (id)userForShortName:
+- (id)userForName:
+- (id)makeUserWithShortName:
+- (id)makeGroupWithShhortName:
+- (BOOL)readFromPropertyList: error:
+
+
+SDDirectoryEntry {
+  NSString *_shortName;
+  NSString *_name;
+  NSMutableSet *_groups;
+}
+- (id)initWithShortName:
+- (NSString *)name
+- (BOOL)isMemberOfGroup:(SDDirectoryGroup *)aGroup;
+- (void)addToGroup:(SDDirectoryGroup *)aGroup;
+- (void)removeFromGroup:(SDDirectoryGroup *)aGroup;
+
+SDDirectoryUser : SDDirectoryEntry {
+  NSString *_password;
+  NSString *_role;
+}
+
+SDDirectoryGroup : SDDirectoryEntry {
+}
 
 -------------------------------------------------------------------------------
 COMMON REQUESTS
 
 R: Give me all documents that a logged in user can see with his permissions on it.
+- iterate over the documents and check access of user
 
 R: What Access has this user for this Document?
 - check if the user has an attached access setting
@@ -66,8 +109,6 @@ alternative:
 - check if the user is in the "edit" list
 - check if the user is in the "read" list
 - check if the user is in the "see" list
-
-
 
 R: Does this user own this document?
 - check the ownserip list against this user

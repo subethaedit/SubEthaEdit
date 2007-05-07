@@ -366,6 +366,16 @@
 		F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
 		F223FC8D0BDF5F0A00437D55 /* UnknownPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */; };
 		F223FC8F0BDF5F1C00437D55 /* DefaultPerson.png in Resources */ = {isa = PBXBuildFile; fileRef = F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */; };
+		F2280A120BEF55B500255AAE /* SDDirectoryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A100BEF55B500255AAE /* SDDirectoryEntry.m */; };
+		F2280A1B0BEF55D800255AAE /* SDDirectoryUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A190BEF55D800255AAE /* SDDirectoryUser.m */; };
+		F2280A210BEF55E600255AAE /* SDDirectoryGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A1F0BEF55E600255AAE /* SDDirectoryGroup.m */; };
+		F2280A270BEF560000255AAE /* SDDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A250BEF560000255AAE /* SDDirectory.m */; };
+		F2280A320BEF56AB00255AAE /* SDDirectoryUserGroupList.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A300BEF56AB00255AAE /* SDDirectoryUserGroupList.m */; };
+		F2280A3F0BEF621700255AAE /* SDDirectoryUserGroupList.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A300BEF56AB00255AAE /* SDDirectoryUserGroupList.m */; };
+		F2280A400BEF621800255AAE /* SDDirectoryGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A1F0BEF55E600255AAE /* SDDirectoryGroup.m */; };
+		F2280A410BEF621900255AAE /* SDDirectoryUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A190BEF55D800255AAE /* SDDirectoryUser.m */; };
+		F2280A420BEF621A00255AAE /* SDDirectoryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A100BEF55B500255AAE /* SDDirectoryEntry.m */; };
+		F2280A430BEF621A00255AAE /* SDDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A250BEF560000255AAE /* SDDirectory.m */; };
 		F234E1010BE0F1E100504A7C /* ServerConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E0FF0BE0F1E100504A7C /* ServerConnectionWindowController.m */; };
 		F234E1020BE0F1EA00504A7C /* ServerConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */; };
 		F234E3AE0BE20E8400504A7C /* ServerConnection.nib in Resources */ = {isa = PBXBuildFile; fileRef = F234E3AC0BE20E8400504A7C /* ServerConnection.nib */; };
@@ -1082,6 +1092,16 @@
 		F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodingProfile.m; path = TCMBEEP/TCMBEEPBencodingProfile.m; sourceTree = "<group>"; };
 		F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownPerson.png; path = artwork/UnknownPerson.png; sourceTree = "<group>"; };
 		F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultPerson.png; path = artwork/DefaultPerson.png; sourceTree = "<group>"; };
+		F2280A0F0BEF55B500255AAE /* SDDirectoryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDDirectoryEntry.h; path = Directory/SDDirectoryEntry.h; sourceTree = "<group>"; };
+		F2280A100BEF55B500255AAE /* SDDirectoryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDDirectoryEntry.m; path = Directory/SDDirectoryEntry.m; sourceTree = "<group>"; };
+		F2280A180BEF55D800255AAE /* SDDirectoryUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDDirectoryUser.h; path = Directory/SDDirectoryUser.h; sourceTree = "<group>"; };
+		F2280A190BEF55D800255AAE /* SDDirectoryUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDDirectoryUser.m; path = Directory/SDDirectoryUser.m; sourceTree = "<group>"; };
+		F2280A1E0BEF55E600255AAE /* SDDirectoryGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDDirectoryGroup.h; path = Directory/SDDirectoryGroup.h; sourceTree = "<group>"; };
+		F2280A1F0BEF55E600255AAE /* SDDirectoryGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDDirectoryGroup.m; path = Directory/SDDirectoryGroup.m; sourceTree = "<group>"; };
+		F2280A240BEF560000255AAE /* SDDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDDirectory.h; path = Directory/SDDirectory.h; sourceTree = "<group>"; };
+		F2280A250BEF560000255AAE /* SDDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDDirectory.m; path = Directory/SDDirectory.m; sourceTree = "<group>"; };
+		F2280A2F0BEF56AB00255AAE /* SDDirectoryUserGroupList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDDirectoryUserGroupList.h; path = Directory/SDDirectoryUserGroupList.h; sourceTree = "<group>"; };
+		F2280A300BEF56AB00255AAE /* SDDirectoryUserGroupList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDDirectoryUserGroupList.m; path = Directory/SDDirectoryUserGroupList.m; sourceTree = "<group>"; };
 		F234E0F90BE0F1C500504A7C /* ServerConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnectionManager.h; sourceTree = "<group>"; };
 		F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnectionManager.m; sourceTree = "<group>"; };
 		F234E0FE0BE0F1E100504A7C /* ServerConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnectionWindowController.h; sourceTree = "<group>"; };
@@ -1403,8 +1423,8 @@
 		142891780957483200D14688 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */,
 				5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */,
+				5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */,
 				14289206095751CB00D14688 /* NSColorTCMAdditions.h */,
 				14289207095751CB00D14688 /* NSColorTCMAdditions.m */,
 				14289208095751CB00D14688 /* NSImageTCMAdditions.h */,
@@ -1751,6 +1771,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */ = {
 			isa = PBXGroup;
 			children = (
+				F2280A150BEF55BD00255AAE /* Directory */,
 				14548BB00BD6771B00BE12CA /* sasl2 */,
 				142A5DE30BA58967001C5035 /* seed */,
 				142891780957483200D14688 /* Additions */,
@@ -1957,6 +1978,23 @@
 				14E2944F0A0CBFB0007C0065 /* SelectCommand.m */,
 			);
 			name = Scripting;
+			sourceTree = "<group>";
+		};
+		F2280A150BEF55BD00255AAE /* Directory */ = {
+			isa = PBXGroup;
+			children = (
+				F2280A240BEF560000255AAE /* SDDirectory.h */,
+				F2280A250BEF560000255AAE /* SDDirectory.m */,
+				F2280A0F0BEF55B500255AAE /* SDDirectoryEntry.h */,
+				F2280A100BEF55B500255AAE /* SDDirectoryEntry.m */,
+				F2280A180BEF55D800255AAE /* SDDirectoryUser.h */,
+				F2280A190BEF55D800255AAE /* SDDirectoryUser.m */,
+				F2280A1E0BEF55E600255AAE /* SDDirectoryGroup.h */,
+				F2280A1F0BEF55E600255AAE /* SDDirectoryGroup.m */,
+				F2280A2F0BEF56AB00255AAE /* SDDirectoryUserGroupList.h */,
+				F2280A300BEF56AB00255AAE /* SDDirectoryUserGroupList.m */,
+			);
+			name = Directory;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2525,6 +2563,11 @@
 				F2230A440BE0241A00437D55 /* FileManagementProfile.m in Sources */,
 				F2230A490BE0243100437D55 /* TCMBEEPBencodedMessage.m in Sources */,
 				F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */,
+				F2280A3F0BEF621700255AAE /* SDDirectoryUserGroupList.m in Sources */,
+				F2280A400BEF621800255AAE /* SDDirectoryGroup.m in Sources */,
+				F2280A410BEF621900255AAE /* SDDirectoryUser.m in Sources */,
+				F2280A420BEF621A00255AAE /* SDDirectoryEntry.m in Sources */,
+				F2280A430BEF621A00255AAE /* SDDirectory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2719,6 +2762,11 @@
 				F234E1010BE0F1E100504A7C /* ServerConnectionWindowController.m in Sources */,
 				F234E1020BE0F1EA00504A7C /* ServerConnectionManager.m in Sources */,
 				F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */,
+				F2280A120BEF55B500255AAE /* SDDirectoryEntry.m in Sources */,
+				F2280A1B0BEF55D800255AAE /* SDDirectoryUser.m in Sources */,
+				F2280A210BEF55E600255AAE /* SDDirectoryGroup.m in Sources */,
+				F2280A270BEF560000255AAE /* SDDirectory.m in Sources */,
+				F2280A320BEF56AB00255AAE /* SDDirectoryUserGroupList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
