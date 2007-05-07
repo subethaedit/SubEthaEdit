@@ -152,6 +152,7 @@ int main(int argc, const char *argv[])
 
     // set the TERM signal handler to 'catch_term' 
     signal(SIGTERM, catch_signal);
+    signal(SIGINT, catch_signal);
     signal(SIGINFO, catch_signal);
     
     
