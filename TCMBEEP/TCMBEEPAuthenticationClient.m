@@ -151,18 +151,20 @@ static int sasl_chalprompt_session_client(void *context, int id,
     return SASL_OK;
 }
 
+/*
 static sasl_callback_t sasl_client_callbacks[] = {
     {SASL_CB_GETOPT, &sasl_getopt_session_client_cb, NULL},
     {SASL_CB_LOG, &sasl_log_session_client_cb, NULL},
     {SASL_CB_GETREALM, &sasl_getrealm_session_client_cb, NULL},
     {SASL_CB_USER, &sasl_getsimple_session_client_cb, NULL},
-    {SASL_CB_AUTHNAME, &sasl_getsimple_session_client_cb, NULL}, /* A mechanism should call getauthname_func if it needs the authentication name */
+    {SASL_CB_AUTHNAME, &sasl_getsimple_session_client_cb, NULL}, // A mechanism should call getauthname_func if it needs the authentication name 
     {SASL_CB_LANGUAGE, &sasl_getsimple_session_client_cb, NULL},
-    {SASL_CB_PASS, &sasl_pass_session_client_cb, NULL},      /* Call getsecret_func if need secret */
+    {SASL_CB_PASS, &sasl_pass_session_client_cb, NULL},      // Call getsecret_func if need secret 
     {SASL_CB_ECHOPROMPT, &sasl_chalprompt_session_client, NULL},
     {SASL_CB_NOECHOPROMPT, &sasl_chalprompt_session_client, NULL},
     {SASL_CB_LIST_END, NULL, NULL}
 };
+*/
 
 #pragma mark -
 
@@ -174,6 +176,57 @@ static sasl_callback_t sasl_client_callbacks[] = {
     if (self) {
         _session = session;
         _isAuthenticated = NO;
+        
+        sasl_callback_t *callback = _sasl_client_callbacks;
+        callback->id = SASL_CB_GETOPT;
+        callback->proc = &sasl_getopt_session_client_cb;
+        callback->context = self;
+        ++callback;
+
+        callback->id = SASL_CB_LOG;
+        callback->proc = &sasl_log_session_client_cb;
+        callback->context = self;
+        ++callback;
+            
+        callback->id = SASL_CB_GETREALM;
+        callback->proc = &sasl_getrealm_session_client_cb;
+        callback->context = self;
+        ++callback;
+
+        callback->id = SASL_CB_USER;
+        callback->proc = &sasl_getsimple_session_client_cb;
+        callback->context = self;
+        ++callback;
+        
+        callback->id = SASL_CB_AUTHNAME;
+        callback->proc = &sasl_getsimple_session_client_cb;
+        callback->context = self;
+        ++callback;
+        
+        callback->id = SASL_CB_LANGUAGE;
+        callback->proc = &sasl_getsimple_session_client_cb;
+        callback->context = self;
+        ++callback;
+        
+        callback->id = SASL_CB_PASS;
+        callback->proc = &sasl_pass_session_client_cb;
+        callback->context = self;
+        ++callback;
+        
+        callback->id = SASL_CB_ECHOPROMPT;
+        callback->proc = &sasl_chalprompt_session_client;
+        callback->context = self;
+        ++callback;
+
+        callback->id = SASL_CB_NOECHOPROMPT;
+        callback->proc = &sasl_chalprompt_session_client;
+        callback->context = self;
+        ++callback;
+        
+        callback->id = SASL_CB_LIST_END;
+        callback->proc = NULL;
+        callback->context = self;
+        
         
         const char *iplocalport = NULL;
         const char *ipremoteport = NULL;
@@ -200,7 +253,7 @@ static sasl_callback_t sasl_client_callbacks[] = {
                                      [serverFQDN UTF8String],  // serverFQDN (has to  be set)
                                      iplocalport,  // iplocalport
                                      ipremoteport,  // ipremoteport
-                                     sasl_client_callbacks,
+                                     _sasl_client_callbacks,
                                      0, // flags
                                      &_sasl_conn_ctxt);
         if (result == SASL_OK) {

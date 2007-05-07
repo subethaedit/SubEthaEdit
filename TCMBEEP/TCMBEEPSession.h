@@ -13,6 +13,7 @@
 extern NSString * const NetworkTimeoutPreferenceKey;
 extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
+extern NSString * const TCMBEEPTLSProfileURI;
 extern NSString * const TCMBEEPSASLProfileURIPrefix;
 extern NSString * const TCMBEEPSASLANONYMOUSProfileURI;
 extern NSString * const TCMBEEPSASLPLAINProfileURI;

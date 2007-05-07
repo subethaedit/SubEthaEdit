@@ -34,6 +34,7 @@ static NSMutableDictionary *profileURIToClassMapping;
 {
     profileURIToClassMapping = [NSMutableDictionary new];
     [self setClass:[TCMBEEPManagementProfile class] forProfileURI:kTCMBEEPManagementProfile];
+    [self setClass:[TCMBEEPProfile class] forProfileURI:TCMBEEPTLSProfileURI];
     [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLANONYMOUSProfileURI];
     [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
     [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLCRAMMD5ProfileURI];

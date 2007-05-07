@@ -22,6 +22,7 @@
 NSString * const NetworkTimeoutPreferenceKey = @"NetworkTimeout";
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
+NSString * const TCMBEEPTLSProfileURI = @"http://iana.org/beep/TLS";
 NSString * const TCMBEEPSASLProfileURIPrefix = @"http://iana.org/beep/SASL/";
 NSString * const TCMBEEPSASLANONYMOUSProfileURI = @"http://iana.org/beep/SASL/ANONYMOUS";
 NSString * const TCMBEEPSASLPLAINProfileURI = @"http://iana.org/beep/SASL/PLAIN";
@@ -176,6 +177,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         I_nextChannelNumber = 0;
         [self TCM_initHelper];
         
+        //[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]];
         _authServer = [[TCMBEEPAuthenticationServer alloc] initWithSession:self addressData:[self addressData] peerAddressData:aData];
     }
     
@@ -832,6 +834,15 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [self setPeerLocalizeAttribute:aLocalizeAttribute];
     [self setPeerFeaturesAttribute:aFeaturesAttribute];
     [self setPeerProfileURIs:profileURIs];
+    
+    if ([self isInitiator] && [profileURIs containsObject:TCMBEEPTLSProfileURI]) {
+        NSData *data = [@"<ready />" dataUsingEncoding:NSUTF8StringEncoding];
+        [self startChannelWithProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]
+                                  andData:[NSArray arrayWithObject:data]
+                                   sender:self];
+        #warning Prepared ready message
+    }
+    
     if ([[self delegate] respondsToSelector:@selector(BEEPSession:didReceiveGreetingWithProfileURIs:)]) {
         [[self delegate] BEEPSession:self didReceiveGreetingWithProfileURIs:profileURIs];
     }
@@ -852,6 +863,9 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                 NSData *answerData = [NSData data];
                 if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
                     answerData = [_authServer answerDataForChannelStartProfileURI:profileURI data:[aDataArray objectAtIndex:i]];
+                } else if ([profileURI isEqualToString:TCMBEEPTLSProfileURI]) {
+                    answerData = [@"<proceed />" dataUsingEncoding:NSUTF8StringEncoding];
+                    #warning Sent last message before TLS negotiation
                 }
                 
                 preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", 
