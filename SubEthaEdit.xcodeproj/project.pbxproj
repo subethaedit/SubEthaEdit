@@ -389,6 +389,9 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
+		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
+		F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */; };
+		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -1120,6 +1123,11 @@
 		F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButtonCell.m; sourceTree = "<group>"; };
 		F27B2EEE0B52968E00679CF2 /* HUDButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButton.m; sourceTree = "<group>"; };
 		F27B2EEF0B52968E00679CF2 /* HUDButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HUDButton.h; sourceTree = "<group>"; };
+		F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserController.m; sourceTree = "<group>"; };
+		F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserController.h; sourceTree = "<group>"; };
+		F2D12A0A0BF0B6B000A776CC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
+		F2D12A1A0BF0B8DF00A776CC /* ConnectionBrowserEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserEntry.h; sourceTree = "<group>"; };
+		F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserEntry.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1816,6 +1824,10 @@
 				142893DD09575A3000D14688 /* AboutPanelController.m */,
 				142893DE09575A3000D14688 /* AppController.h */,
 				142893DF09575A3000D14688 /* AppController.m */,
+				F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */,
+				F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */,
+				F2D12A1A0BF0B8DF00A776CC /* ConnectionBrowserEntry.h */,
+				F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */,
 				142893E009575A3000D14688 /* EncodingManager.h */,
 				142893E109575A3000D14688 /* EncodingManager.m */,
 				142893E209575A3000D14688 /* FindReplaceController.h */,
@@ -1869,6 +1881,7 @@
 				1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */,
 				142890150957418400D14688 /* AboutPanel.nib */,
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
+				F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */,
 				142890190957418400D14688 /* DocumentProxy.nib */,
 				1428901B0957418400D14688 /* EditPrefs.nib */,
 				5E754EB10AB56ACC00C5119E /* EncodingDoctor.nib */,
@@ -2423,6 +2436,7 @@
 				F223FC8D0BDF5F0A00437D55 /* UnknownPerson.png in Resources */,
 				F223FC8F0BDF5F1C00437D55 /* DefaultPerson.png in Resources */,
 				F234E3AE0BE20E8400504A7C /* ServerConnection.nib in Resources */,
+				F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2767,6 +2781,8 @@
 				F2280A210BEF55E600255AAE /* SDDirectoryGroup.m in Sources */,
 				F2280A270BEF560000255AAE /* SDDirectory.m in Sources */,
 				F2280A320BEF56AB00255AAE /* SDDirectoryUserGroupList.m in Sources */,
+				F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */,
+				F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3088,6 +3104,14 @@
 				F234E3AD0BE20E8400504A7C /* English */,
 			);
 			name = ServerConnection.nib;
+			sourceTree = "<group>";
+		};
+		F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2D12A0A0BF0B6B000A776CC /* English */,
+			);
+			name = ConnectionBrowser.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
