@@ -163,7 +163,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     if (![[aRepresentation objectForKey:@"name"] isKindOfClass:[NSString class]] ||
         ![[aRepresentation objectForKey:@"uID"] isKindOfClass:[NSData class]] ||
         ![[aRepresentation objectForKey:@"cnt"] isKindOfClass:[NSNumber class]] ||
-        ![[aRepresentation objectForKey:@"PNG"] isKindOfClass:[NSData class]] ||
+        ([aRepresentation objectForKey:@"PNG"] && ![[aRepresentation objectForKey:@"PNG"] isKindOfClass:[NSData class]]) ||
         ![[aRepresentation objectForKey:@"hue"] isKindOfClass:[NSNumber class]])
     {
         return nil;
