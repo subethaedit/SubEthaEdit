@@ -19,9 +19,11 @@
 
 static int sasl_getopt_callback(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len);
 static int sasl_log_callback(void *context, int level, const char *message);
+static int sasl_verifyfile_callback(void *context, const char *file, sasl_verify_type_t type);
 
 static sasl_callback_t callbacks[] = {
     {SASL_CB_GETOPT, &sasl_getopt_callback, NULL},
+    //{SASL_CB_VERIFYFILE, &sasl_verifyfile_callback, NULL},
     {SASL_CB_LOG, &sasl_log_callback, NULL},
     {SASL_CB_LIST_END, NULL, NULL}
 };
@@ -51,6 +53,13 @@ static int sasl_log_callback(void *context, int level, const char *message)
     DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"level: %d, message: %s", level, message);
 
     [pool release];
+    return SASL_OK;
+}
+
+static int sasl_verifyfile_callback(void *context, const char *file, sasl_verify_type_t type)
+{
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"verifyfile: %s", file);
+
     return SASL_OK;
 }
 
