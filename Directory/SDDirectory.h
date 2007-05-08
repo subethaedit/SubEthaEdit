@@ -13,6 +13,10 @@
 
 extern NSString * const kSDDirectoryGroupEveryoneGroupShortName;
 
+extern NSString * const kSDDirectoryAdminRole;
+extern NSString * const kSDDirectoryConfidantRole;
+extern NSString * const kSDDirectoryGuestRole;
+
 @class SDDirectoryEntry,SDDirectoryUser,SDDirectoryGroup;
 
 @interface SDDirectory : NSObject {
@@ -22,11 +26,10 @@ extern NSString * const kSDDirectoryGroupEveryoneGroupShortName;
 
 + (id)sharedInstance;
 - (id)dictionaryRepresentation;
-- (id)smallDictionaryRepresentation;
+- (id)shortDictionaryRepresentation;
 
 - (void)addEntriesFromDictionaryRepresentation:(NSDictionary *)aDictionary;
 
-- (id)entryForShortName:(NSString *)aShortName;
 - (id)userForShortName:(NSString *)aShortName;
 - (id)groupForShortName:(NSString *)aShortName;
 - (id)makeUserWithShortName:(NSString *)aShortName;

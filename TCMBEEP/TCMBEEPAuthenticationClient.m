@@ -41,7 +41,7 @@ static int sasl_pass_session_client_cb(sasl_conn_t *conn, void *context, int id,
     if (!conn || !psecret || id != SASL_CB_PASS)
         return SASL_BADPARAM;
 
-    password = "geheim";
+    password = "jdoe";
     if (!password)
         return SASL_FAIL;
 
@@ -71,12 +71,12 @@ static int sasl_getsimple_session_client_cb(void *context, int id, const char **
     switch (id) {
         case SASL_CB_USER:
             DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"SASL_CB_USER");
-            *result = "mbo";
+            *result = "jdoe";
             if (len) *len = 3;         
             break;
         case SASL_CB_AUTHNAME:
             DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"SASL_CB_AUTHNAME");
-            *result = "mbo";
+            *result = "jdoe";
             if (len) *len = 3;
             break;
         default:

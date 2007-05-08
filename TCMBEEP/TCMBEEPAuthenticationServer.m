@@ -53,9 +53,14 @@ static int sasl_server_userdb_checkpass(sasl_conn_t *conn,
 					   struct propctx *propctx)
 {
     DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"user: %s", user);
+    NSString *userString = [NSString stringWithUTF8String:user];
+    NSString *passwordString = [[NSString alloc] initWithBytes:pass length:passlen encoding:NSUTF8StringEncoding];
+    id delegate = [(id)context delegate];
+    if ([delegate respondsToSelector:@selector(authenticationResultForServer:user:password:)]) {
+        return [delegate authenticationResultForServer:(id)context user:userString password:passwordString];
+    }
     
-    return SASL_OK;
-    //return SASL_BADAUTH;
+    return SASL_BADAUTH;
 }
 
 # pragma mark -
@@ -321,5 +326,13 @@ static int sasl_server_userdb_checkpass(sasl_conn_t *conn,
     }
    
 }
+
+- (void)setDelegate:(id)aDelegate {
+    _delegate = aDelegate;
+}
+- (id)delegate {
+    return _delegate;
+}
+
 
 @end
