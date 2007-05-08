@@ -24,6 +24,13 @@ static int sasl_getopt_session_server_cb(void *context, const char *plugin_name,
         *result = "/etc/sasldb2";
         if (len) *len = 12;
     }
+    
+    //if (!strcmp(option, "auxprop_plugin")) {
+    //    DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"setting auxprop_plugin");
+    //    *result = NULL;
+    //    if (len) *len = 0;
+    //}
+    
     return SASL_OK;
 }
 
@@ -299,7 +306,7 @@ static int sasl_server_userdb_checkpass(sasl_conn_t *conn,
             errorDescription = @"authentication failure";
         }
         
-        NSString *resultString = [NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<blob status='complete' />", errorCode, errorDescription];
+        NSString *resultString = [NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<error code='%d'>%@</error>", errorCode, errorDescription];
         NSMutableData *payload = [NSMutableData dataWithData:[resultString dataUsingEncoding:NSUTF8StringEncoding]];
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"ERR" messageNumber:[inMessage messageNumber] payload:payload];
         [[_profile channel] sendMessage:message];       
