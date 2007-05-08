@@ -7,7 +7,7 @@
 //
 
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
-#import "InternetBrowserController.h"
+#import "ConnectionBrowserController.h"
 #import "AppController.h"
 #import "TCMHost.h"
 #import "TCMBEEP.h"
@@ -46,7 +46,7 @@ enum {
     BrowserContextMenuTagManageFiles = 10
 };
 
-@interface InternetBrowserController (InternetBrowserControllerPrivateAdditions)
+@interface ConnectionBrowserController (InternetBrowserControllerPrivateAdditions)
 
 - (int)indexOfItemWithURLString:(NSString *)URLString;
 - (int)indexOfItemWithUserID:(NSString *)userID;
@@ -59,16 +59,16 @@ enum {
 
 #pragma mark -
 
-static InternetBrowserController *sharedInstance = nil;
+static ConnectionBrowserController *sharedInstance = nil;
 
-@implementation InternetBrowserController
+@implementation ConnectionBrowserController
 
-+ (InternetBrowserController *)sharedInstance {
++ (ConnectionBrowserController *)sharedInstance {
     return sharedInstance;
 }
 
 - (id)init {
-    self = [super initWithWindowNibName:@"InternetBrowser"];
+    self = [super initWithWindowNibName:@"ConnectionBrowser"];
     if (self) {
         I_data = [NSMutableArray new];
         I_resolvingHosts = [NSMutableDictionary new];

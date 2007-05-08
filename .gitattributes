@@ -16,6 +16,10 @@
 /ButtonScrollView.m -text
 /CandyBarView.h -text
 /CandyBarView.m -text
+/ConnectionBrowserController.h -text
+/ConnectionBrowserController.m -text
+/ConnectionBrowserEntry.h -text
+/ConnectionBrowserEntry.m -text
 CrashReporter/CrashReporter.xcodeproj/project.pbxproj -text
 CrashReporter/English.lproj/InfoPlist.strings -text
 CrashReporter/English.lproj/Localizable.strings -text
@@ -94,6 +98,9 @@ English.lproj/AboutPanel.nib/keyedobjects.nib -text
 English.lproj/AdvancedPrefs.nib/classes.nib -text
 English.lproj/AdvancedPrefs.nib/info.nib -text
 English.lproj/AdvancedPrefs.nib/keyedobjects.nib -text
+English.lproj/ConnectionBrowser.nib/classes.nib -text
+English.lproj/ConnectionBrowser.nib/info.nib -text
+English.lproj/ConnectionBrowser.nib/keyedobjects.nib -text
 English.lproj/DocumentProxy.nib/classes.nib -text
 English.lproj/DocumentProxy.nib/info.nib -text
 English.lproj/DocumentProxy.nib/keyedobjects.nib -text
@@ -1373,6 +1380,7 @@ Tests/DataTests.m -text
 /URLImageView.m -text
 /UndoManager.h -text
 /UndoManager.m -text
+/UnifiedBrowser.notes -text
 /Unit[!!-~]Tests-Info.plist -text
 /UserChangeOperation.h -text
 /UserChangeOperation.m -text
