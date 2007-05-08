@@ -48,6 +48,8 @@ BOOL endRunLoop = NO;
                                                          repeats:YES];
         [_autosaveTimer retain];
         */
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(BEEPSessionDidReceiveGreeting:)
+        name:TCMMMBEEPSessionDidReceiveGreetingNotification object:nil];
     }
     return self;
 }
@@ -206,5 +208,23 @@ remoteDirectory = [SDDirectory new];
         }
     }
 }
+
+#pragma mark -
+#pragma mark ### authentication handling ###
+
+- (void)BEEPSessionDidReceiveGreeting:(NSNotification *)aNotification {
+    NSLog(@"%s %@",__FUNCTION__,[aNotification object]);
+    [[[aNotification object] authenticationServer] setDelegate:self];
+}
+
+- (int)authenticationResultForServer:(TCMBEEPAuthenticationServer *)aServer user:(NSString 
+*)aUser password:(NSString *)aPassword {
+    if ([aPassword isEqualToString:[[[SDDirectory sharedInstance] userForShortName:aUser] password]]) {
+        return SASL_OK;
+    } else {
+        return SASL_BADAUTH;
+    }
+}
+
 
 @end

@@ -18,6 +18,9 @@
 }
 
 - (id)initWithShortName:(NSString *)aShortName directory:(SDDirectory *)aDirectory;
+- (id)dictionaryRepresentation;
+- (id)shortDictionaryRepresentation;
+
 - (void)addToGroup:(SDDirectoryGroup *)aGroup;
 - (void)removeFromGroup:(SDDirectoryGroup *)aGroup;
 - (BOOL)isMemberOfGroup:(SDDirectoryGroup *)aGroup;

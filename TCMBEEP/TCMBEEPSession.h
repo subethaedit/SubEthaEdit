@@ -20,7 +20,7 @@ extern NSString * const TCMBEEPSASLPLAINProfileURI;
 extern NSString * const TCMBEEPSASLCRAMMD5ProfileURI;
 extern NSString * const TCMBEEPSASLDIGESTMD5ProfileURI;
 extern NSString * const TCMBEEPSASLGSSAPIProfileURI;
-
+extern NSString * const TCMMMBEEPSessionDidReceiveGreetingNotification;
 
 typedef enum {
    TCMBEEPSessionStatusNotOpen = 0,

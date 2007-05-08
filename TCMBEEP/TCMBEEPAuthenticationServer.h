@@ -16,6 +16,7 @@
     sasl_conn_t *_sasl_conn_ctxt;
     sasl_callback_t _sasl_server_callbacks[5];
     BOOL _isAuthenticated;
+    id _delegate;
 }
 
 - (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData;
@@ -25,4 +26,13 @@
 - (void)setProfile:(TCMBEEPProfile *)profile;
 - (BOOL)isAuthenticated;
 
+- (void)setDelegate:(id)aDelegate;
+- (id)delegate;
+
+@end
+
+@interface NSObject (TCMBEEPAuthenticationServerDelegateAdditions)
+// possible results are SASL_OK, SASL_BADAUTH
+- (int)authenticationResultForServer:(TCMBEEPAuthenticationServer *)aServer user:(NSString 
+*)aUser password:(NSString *)aPassword;
 @end

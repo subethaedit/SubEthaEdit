@@ -10,7 +10,11 @@
 #import "SDDirectoryEntry.h"
 
 @interface SDDirectoryUser : SDDirectoryEntry {
-
+    NSString *_password;
+    NSString *_role;
 }
+
+- (NSString *)role;
+- (NSString *)password;
 
 @end

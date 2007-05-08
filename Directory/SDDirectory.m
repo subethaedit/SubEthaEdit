@@ -11,6 +11,9 @@
 static SDDirectory *S_sharedInstance = nil;
 
 NSString * const kSDDirectoryGroupEveryoneGroupShortName = @"__everyone__";
+NSString * const kSDDirectoryAdminRole     = @"Admin";
+NSString * const kSDDirectoryConfidantRole = @"Confidant";
+NSString * const kSDDirectoryGuestRole     = @"Guest";
 
 
 @implementation SDDirectory
@@ -29,10 +32,6 @@ NSString * const kSDDirectoryGroupEveryoneGroupShortName = @"__everyone__";
     return self;
 }
 
-- (id)smallDictionaryRepresentation {
-    return [self dictionaryRepresentation];
-}
-
 - (void)dealloc {
     [_usersByShortName  release];
     [_groupsByShortName release];
@@ -40,11 +39,6 @@ NSString * const kSDDirectoryGroupEveryoneGroupShortName = @"__everyone__";
     [super dealloc];
 }
 
-- (id)entryForShortName:(NSString *)aShortName {
-    id result = [_usersByShortName objectForKey:aShortName];
-    if (!result) result = [_groupsByShortName objectForKey:aShortName];
-    return result;
-}
 - (id)userForShortName:(NSString *)aShortName {
     id result = [_usersByShortName objectForKey:aShortName];
     return result;
@@ -55,7 +49,7 @@ NSString * const kSDDirectoryGroupEveryoneGroupShortName = @"__everyone__";
 }
 
 - (id)makeUserWithShortName:(NSString *)aShortName {
-    id entry = [self entryForShortName:aShortName];
+    id entry = [self userForShortName:aShortName];
     if (entry) {
         NSLog(@"--> %s an entry with shortname <%@> already existed: %@",__FUNCTION__,aShortName,entry);
         return nil;
@@ -66,7 +60,7 @@ NSString * const kSDDirectoryGroupEveryoneGroupShortName = @"__everyone__";
 }
 
 - (id)makeGroupWithShortName:(NSString *)aShortName {
-    id entry = [self entryForShortName:aShortName];
+    id entry = [self groupForShortName:aShortName];
     if (entry) {
         NSLog(@"--> %s an entry with shortname <%@> already existed: %@",__FUNCTION__,aShortName,entry);
         return nil;
@@ -92,6 +86,13 @@ NSString * const kSDDirectoryGroupEveryoneGroupShortName = @"__everyone__";
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     [result setObject:[[_usersByShortName allValues] valueForKeyPath:@"@unionOfObjects.dictionaryRepresentation"] forKey:@"users"];
     [result setObject:[[_groupsByShortName allValues] valueForKeyPath:@"@unionOfObjects.dictionaryRepresentation"] forKey:@"groups"];
+    return result;
+}
+
+- (id)shortDictionaryRepresentation {
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    [result setObject:[[_usersByShortName allValues] valueForKeyPath:@"@unionOfObjects.shortDictionaryRepresentation"] forKey:@"users"];
+    [result setObject:[[_groupsByShortName allValues] valueForKeyPath:@"@unionOfObjects.shortDictionaryRepresentation"] forKey:@"groups"];
     return result;
 }
 

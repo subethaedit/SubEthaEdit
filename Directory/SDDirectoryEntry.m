@@ -24,12 +24,20 @@
     return self;
 }
 
-- (id)dictionaryRepresentation {
+- (id)_internalDictionaryRepresentation {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     [result setObject:[self shortName] forKey:@"shortName"];
     [result setObject:[[_groups allObjects] valueForKeyPath:@"@unionOfObjects.shortName"] forKey:@"groups"];
     [result setObject:[self fullName] forKey:@"fullName"];
     return result;
+}
+
+- (id)dictionaryRepresentation {
+    return [self _internalDictionaryRepresentation];
+}
+
+- (id)shortDictionaryRepresentation {
+    return [self _internalDictionaryRepresentation];
 }
 
 - (void)updateWithDictionaryRepresentation:(NSDictionary *)aRepresentation {
