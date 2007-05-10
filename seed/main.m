@@ -15,6 +15,7 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 #import "FileManagementProfile.h"
+#import "BacktracingException.h"
 
 
 static int sasl_getopt_callback(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len);
@@ -81,6 +82,7 @@ int main(int argc, const char *argv[])
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
+    [defaults setBool:YES forKey:@"LogConnections"];
     [defaults setBool:NO forKey:@"EnableBEEPLogging"];
     [defaults setInteger:0 forKey:@"MillionMonkeysLogDomain"];
     [defaults setInteger:0 forKey:@"BEEPLogDomain"];
@@ -120,7 +122,7 @@ int main(int argc, const char *argv[])
     DEBUGLOG(@"SASLLogDomain", DetailedLogLevel, mechanisms);
 
     
-    
+    [BacktracingException install];
     [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
 
     SDAppController *appController = [[SDAppController alloc] init];

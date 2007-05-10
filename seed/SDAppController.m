@@ -213,7 +213,7 @@ remoteDirectory = [SDDirectory new];
 #pragma mark ### authentication handling ###
 
 - (void)BEEPSessionDidReceiveGreeting:(NSNotification *)aNotification {
-    NSLog(@"%s %@",__FUNCTION__,[aNotification object]);
+//    NSLog(@"%s %@",__FUNCTION__,[aNotification object]);
     [[[aNotification object] authenticationServer] setDelegate:self];
 }
 

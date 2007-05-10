@@ -478,6 +478,13 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
     if ([[anOperation operationID] isEqualToString:[TextOperation operationID]]) {
 
         TextOperation *operation = (TextOperation *)anOperation;
+
+        // check validity of operation
+        if (NSMaxRange([operation affectedCharRange])>[_attributedString length]) {
+            NSLog(@"User tried to change text outside the document bounds:%@ %@",operation,[[[TCMMMUserManager sharedInstance] userForUserID:[operation userID]] shortDescription]);
+            return NO;
+        }
+
         [_attributedString beginEditing];
         NSRange newRange = NSMakeRange([operation  affectedCharRange].location,
                                        [[operation replacementString] length]);
@@ -500,7 +507,7 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ dictionaryRep:%@",[super description],[[self dictionaryRepresentation] description]];
+    return [NSString stringWithFormat:@"%@ dictionaryRep:%@ session:%@",[super description],[[self dictionaryRepresentation] description],[[self session] description]];
 }
 
 @end

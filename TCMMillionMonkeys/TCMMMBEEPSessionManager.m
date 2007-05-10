@@ -134,8 +134,13 @@ static TCMMMBEEPSessionManager *sharedInstance;
     while ((userID = [userIDs nextObject])) {
         TCMMMUser *user = [um userForUserID:userID];
         NSMutableDictionary *valueDict = [[[I_sessionInformationByUserID objectForKey:userID] mutableCopy] autorelease];
-        [valueDict removeObjectForKey:@"RendezvousSession"];
-        [dictionary setObject:valueDict forKey:user?[user shortDescription]:userID];
+        if ([[valueDict objectForKey:@"InboundSessions"] count] >0 ||
+            [[valueDict objectForKey:@"OutgoingRendezvousSessions"] count] >0 ||
+            [[valueDict objectForKey:@"OutboundSessions"] count] >0 ||
+             [valueDict objectForKey:@"RendezvousSession"]) {
+            [valueDict removeObjectForKey:@"RendezvousSession"];
+            [dictionary setObject:valueDict forKey:user?[user shortDescription]:userID];
+        }
     }
     return [NSString stringWithFormat:@"BEEPSessionManager sessionInformation:\n%@\npendingSessionProfiles:%@\npendingSessions:%@\noutboundInternetSessions:%@", [dictionary description], [I_pendingSessionProfiles description], [I_pendingSessions description], [I_outboundInternetSessions description]];
 }
