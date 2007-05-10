@@ -12,12 +12,14 @@
 #import "TCMBEEPManagementProfile.h"
 #import "TCMBEEPAuthenticationClient.h"
 #import "TCMBEEPAuthenticationServer.h"
+#import <Security/Security.h>
 
 #import <netinet/in.h>
 #import <sys/socket.h>
 #import <sys/sockio.h>  // SIOCGIFMTU
 #import <sys/ioctl.h> // ioctl()
 #import <net/if.h> // struct ifreq
+#import <sys/param.h>
 
 NSString * const NetworkTimeoutPreferenceKey = @"NetworkTimeout";
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
@@ -61,6 +63,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_initHelper
 {
+    I_flags.hasSentTLSProceed = NO;
+    I_flags.isWaitingForTLSProceed = NO;
     CFStreamClientContext context = {0, self, NULL, NULL, NULL};
     CFOptionFlags readFlags =  kCFStreamEventOpenCompleted |
         kCFStreamEventHasBytesAvailable |
@@ -123,7 +127,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 	if (!isLogging) {
 		return;
 	}
-	
+    	
     if (!logDirectory) {
         NSString *appName = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension];
         NSString *appDir = [[@"~/Library/Logs/" stringByExpandingTildeInPath] stringByAppendingPathComponent:appName];
@@ -177,7 +181,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         I_nextChannelNumber = 0;
         [self TCM_initHelper];
         
-        //[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableTLS"])
+            [self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]];
         _authServer = [[TCMBEEPAuthenticationServer alloc] initWithSession:self addressData:[self addressData] peerAddressData:aData];
     }
     
@@ -627,7 +632,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         }
     #endif
         
-   //     NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
+        //NSLog(@"bytesRead: %@", [NSString stringWithCString:buffer length:bytesRead]);
         while (bytesRead > 0 && (bytesRead - bytesParsed > 0)) {
             int remainingBytes = bytesRead - bytesParsed;
             if (I_currentReadState == frameHeaderState) {
@@ -757,10 +762,137 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     }
 }
 
+#define KC_DB_PATH		"Library/Keychains"	
+CFArrayRef getSslCerts(
+	const char 		*kcName,				// may be NULL, i.e., use default
+	CSSM_BOOL		encryptOnly,
+	SecKeychainRef	*pKcRef)				// RETURNED
+{
+	char 				kcPath[MAXPATHLEN + 1];
+	UInt32 				kcPathLen = MAXPATHLEN + 1;
+	SecKeychainRef 		kcRef = nil;
+	OSStatus			ortn;
+	
+	/* pick a keychain */
+	if(kcName) {
+		char *userHome = getenv("HOME");
+	
+		if(userHome == NULL) {
+			/* well, this is probably not going to work */
+			userHome = "";
+		}
+		sprintf(kcPath, "%s/%s/%s", userHome, KC_DB_PATH, kcName);
+	}
+	else {
+		/* use default keychain */
+		ortn = SecKeychainCopyDefault(&kcRef);
+		if(ortn) {
+			printf("SecKeychainCopyDefault returned %d; aborting.\n", 
+				(int)ortn);
+			return nil;
+		}
+		ortn = SecKeychainGetPath(kcRef, &kcPathLen, kcPath);
+		if(ortn) {
+			printf("SecKeychainGetPath returned %d; aborting.\n", 
+				(int)ortn);
+			return nil;
+		}
+		
+		/* 
+		 * OK, we have a path, we have to release the first KC ref, 
+		 * then get another one by opening it 
+		 */
+		CFRelease(kcRef);
+	}
+	ortn = SecKeychainOpen(kcPath, &kcRef);
+	if(ortn) {
+		printf("SecKeychainOpen returned %d.\n", 
+			(int)ortn);
+		printf("Cannot open keychain at %s. Aborting.\n", kcPath);
+		return nil;
+	}
+	*pKcRef = kcRef;
+	
+	/* search for "any" identity matching specified key use; 
+	 * in this app, we expect there to be exactly one. */
+	 
+	SecIdentitySearchRef srchRef = nil;
+	ortn = SecIdentitySearchCreate(kcRef, 
+		encryptOnly ? CSSM_KEYUSE_DECRYPT : CSSM_KEYUSE_SIGN,
+		&srchRef);
+	if(ortn) {
+		printf("SecIdentitySearchCreate returned %d.\n", (int)ortn);
+		printf("Cannot find signing key in keychain at %s. Aborting.\n", 
+			kcPath);
+		return nil;
+	}
+	SecIdentityRef identity = nil;
+	ortn = SecIdentitySearchCopyNext(srchRef, &identity);
+	if(ortn) {
+		printf("SecIdentitySearchCopyNext returned %d.\n", (int)ortn);
+		printf("Cannot find signing key in keychain at %s. Aborting.\n", 
+			kcPath);
+		return nil;
+	}
+	if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
+		printf("SecIdentitySearchCopyNext CFTypeID failure!\n");
+		return nil;
+	}
+
+	/* 
+	 * Found one. Place it in a CFArray. 
+	 * TBD: snag other (non-identity) certs from keychain and add them
+	 * to array as well.
+	 */
+	CFArrayRef ca = CFArrayCreate(NULL,
+		(const void **)&identity,
+		1,
+		NULL);
+	if(ca == nil) {
+		printf("CFArrayCreate error\n");
+	}
+	return ca;
+}
+
+- (void)_listenForTLSHandshake
+{
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"%s", __FUNCTION__);
+    Boolean resultReadStream, resultWriteStream;
+    
+    CFArrayRef certificates = NULL;
+	SecKeychainRef serverKc = nil;
+    certificates = getSslCerts("certkc.keychain", CSSM_FALSE, &serverKc);
+    if (certificates == NULL) DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Didn't find necessary certificates!");
+    
+    CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    CFDictionaryAddValue(settings, kCFStreamSSLLevel, kCFStreamSocketSecurityLevelTLSv1);
+    CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredRoots, kCFBooleanTrue);
+    CFDictionaryAddValue(settings, kCFStreamSSLAllowsAnyRoot, kCFBooleanTrue);
+    CFDictionaryAddValue(settings, kCFStreamSSLIsServer, kCFBooleanTrue);
+    CFDictionaryAddValue(settings, kCFStreamSSLCertificates, certificates);
+
+    resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySSLSettings, settings);
+    resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySSLSettings, settings);
+    CFRelease(settings);
+    if (resultReadStream && resultWriteStream) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySSLSettings");
+    } else {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"failed to set kCFStreamPropertySSLSettings");
+    }
+	//if(serverKc) {
+	//	CFRelease(serverKc);
+	//}
+}
+
 - (void)TCM_writeBytes
 {
-    if (!([I_writeBuffer length] > 0))
+    if (!([I_writeBuffer length] > 0)) {
+        if (![self isInitiator] && I_flags.hasSentTLSProceed) {
+            [self _listenForTLSHandshake];
+            I_flags.hasSentTLSProceed = NO;
+        }
         return;
+    }
         
     CFIndex bytesWritten = CFWriteStreamWrite(I_writeStream, [I_writeBuffer bytes], [I_writeBuffer length]);
 
@@ -808,6 +940,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_handleStreamErrorOccurredEvent:(NSError *)error
 {
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"%@", error);
     [self terminate];
 }
 
@@ -842,11 +975,11 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         [self startChannelWithProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]
                                   andData:[NSArray arrayWithObject:data]
                                    sender:self];
-        #warning Prepared ready message
-    }
-    
-    if ([[self delegate] respondsToSelector:@selector(BEEPSession:didReceiveGreetingWithProfileURIs:)]) {
-        [[self delegate] BEEPSession:self didReceiveGreetingWithProfileURIs:profileURIs];
+        I_flags.isWaitingForTLSProceed = YES;
+    } else {
+        if ([[self delegate] respondsToSelector:@selector(BEEPSession:didReceiveGreetingWithProfileURIs:)]) {
+            [[self delegate] BEEPSession:self didReceiveGreetingWithProfileURIs:profileURIs];
+        }
     }
 }
 
@@ -866,8 +999,10 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
                 if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
                     answerData = [_authServer answerDataForChannelStartProfileURI:profileURI data:[aDataArray objectAtIndex:i]];
                 } else if ([profileURI isEqualToString:TCMBEEPTLSProfileURI]) {
+                    // parse data for 'ready' element, may have attributes
                     answerData = [@"<proceed />" dataUsingEncoding:NSUTF8StringEncoding];
                     #warning Sent last message before TLS negotiation
+                    I_flags.hasSentTLSProceed = YES;
                 }
                 
                 preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", 
@@ -902,12 +1037,49 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)])
             [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
     } else {
+        if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI]) {
+            // parse associated data for 'error' or 'proceed' elements, 'error' may contain attributes?
+            
+            I_flags.isWaitingForTLSProceed = NO;
+            
+            Boolean resultReadStream, resultWriteStream;
+            
+            resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySocketSecurityLevel, kCFStreamSocketSecurityLevelTLSv1);
+            resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySocketSecurityLevel, kCFStreamSocketSecurityLevelTLSv1);
+            if (resultReadStream && resultWriteStream) {
+                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySocketSecurityLevel");
+            } else {
+                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"failed to set kCFStreamPropertySocketSecurityLevel");
+            }
+                                
+            CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+            CFDictionaryAddValue(settings, kCFStreamSSLLevel, kCFStreamSocketSecurityLevelTLSv1);
+            CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredCertificates, kCFBooleanTrue);
+            CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredRoots, kCFBooleanTrue);
+            CFDictionaryAddValue(settings, kCFStreamSSLAllowsAnyRoot, kCFBooleanTrue);
+            CFDictionaryAddValue(settings, kCFStreamSSLValidatesCertificateChain, kCFBooleanFalse);
+            CFDictionaryAddValue(settings, kCFNull, kCFStreamSSLPeerName);
+        
+            resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySSLSettings, settings);
+            resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySSLSettings, settings);
+            CFRelease(settings);
+            if (resultReadStream && resultWriteStream) {
+                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySSLSettings");
+            } else {
+                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"failed to set kCFStreamPropertySSLSettings");
+            }
+        }
+        
         // sender rausfinden
         NSNumber *channelNumber = [NSNumber numberWithInt:aChannelNumber];
         id aSender = [I_channelRequests objectForKey:channelNumber];
         [I_channelRequests removeObjectForKey:channelNumber]; 
         // sender profile geben
-        [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
+        if ([aSender respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)]) {
+            [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
+        } else {
+            NSLog(@"WARNING: Object requested channel doesn't respond to BEEPSession:didOpenChannelWithProfile:data:");
+        }
     }
 }
 
@@ -983,7 +1155,9 @@ void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *cl
 
         case kCFStreamEventErrorOccurred:
             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventErrorOccurred");
-            [session TCM_handleStreamErrorOccurredEvent:nil];
+            CFStreamError myErr = CFReadStreamGetError(stream);
+            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%d", myErr.domain] code:myErr.error userInfo:nil];
+            [session TCM_handleStreamErrorOccurredEvent:error];
             break;
 
         case kCFStreamEventEndEncountered:
@@ -1018,7 +1192,9 @@ void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *
 
         case kCFStreamEventErrorOccurred:
             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventErrorOccurred");
-            [session TCM_handleStreamErrorOccurredEvent:nil];
+            CFStreamError myErr = CFWriteStreamGetError(stream);
+            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%d", myErr.domain] code:myErr.error userInfo:nil];
+            [session TCM_handleStreamErrorOccurredEvent:error];
             break;
 
         case kCFStreamEventEndEncountered:

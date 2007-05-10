@@ -6,11 +6,27 @@
 	objectVersion = 42;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		14C431AB0BF34655007D29EB /* World */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 14C431B60BF3467D007D29EB /* Build configuration list for PBXAggregateTarget "World" */;
+			buildPhases = (
+			);
+			dependencies = (
+				14C431AD0BF3465A007D29EB /* PBXTargetDependency */,
+				14C431AF0BF3465A007D29EB /* PBXTargetDependency */,
+			);
+			name = World;
+			productName = World;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141958970BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.m */; };
 		141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */; };
 		141F4F120AE42BC7001B73D2 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 141F4EA70AE42602001B73D2 /* PSMTabBarControl.framework */; };
 		141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */; };
+		1422A7B10BF1FAD5007DCA36 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142890060957400800D14688 /* CoreServices.framework */; };
 		14251B990BBD5E1700052C84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
 		14251B9A0BBD5E1700052C84 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
 		14251B9B0BBD5E1700052C84 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142894D3095765CF00D14688 /* SystemConfiguration.framework */; };
@@ -513,6 +529,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1493A7E70A10C873004ECE6A;
 			remoteInfo = SystemVersionCheck;
+		};
+		14C431AC0BF3465A007D29EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 14251B910BBD5DD300052C84 /* seed */;
+			remoteInfo = seed;
+		};
+		14C431AE0BF3465A007D29EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
+			remoteInfo = SubEthaEdit;
 		};
 		312B7BBA0A99D1B50014E52A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1135,6 +1165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1422A7B10BF1FAD5007DCA36 /* CoreServices.framework in Frameworks */,
 				14251B990BBD5E1700052C84 /* Foundation.framework in Frameworks */,
 				14251B9A0BBD5E1700052C84 /* Security.framework in Frameworks */,
 				14251B9B0BBD5E1700052C84 /* SystemConfiguration.framework in Frameworks */,
@@ -2189,6 +2220,7 @@
 				142898180958189300D14688 /* Create Disk Image */,
 				1493A7E70A10C873004ECE6A /* SystemVersionCheck */,
 				5EC638290ABEB71100D3295B /* Unit Tests */,
+				14C431AB0BF34655007D29EB /* World */,
 			);
 		};
 /* End PBXProject section */
@@ -2819,6 +2851,16 @@
 			target = 1493A7E70A10C873004ECE6A /* SystemVersionCheck */;
 			targetProxy = 1493A80A0A10C8C4004ECE6A /* PBXContainerItemProxy */;
 		};
+		14C431AD0BF3465A007D29EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 14251B910BBD5DD300052C84 /* seed */;
+			targetProxy = 14C431AC0BF3465A007D29EB /* PBXContainerItemProxy */;
+		};
+		14C431AF0BF3465A007D29EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
+			targetProxy = 14C431AE0BF3465A007D29EB /* PBXContainerItemProxy */;
+		};
 		312B7BBF0A99D2000014E52A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Sparkle;
@@ -3320,6 +3362,28 @@
 			};
 			name = Release;
 		};
+		14C431B70BF3467D007D29EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = World;
+			};
+			name = Debug;
+		};
+		14C431B80BF3467D007D29EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = World;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		5EC6382E0ABEB71200D3295B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3510,6 +3574,15 @@
 			buildConfigurations = (
 				1493A8000A10C891004ECE6A /* Debug */,
 				1493A8010A10C891004ECE6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		14C431B60BF3467D007D29EB /* Build configuration list for PBXAggregateTarget "World" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14C431B70BF3467D007D29EB /* Debug */,
+				14C431B80BF3467D007D29EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
