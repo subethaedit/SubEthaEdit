@@ -147,7 +147,13 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 }
 
 - (NSString *)shortDescription {
-    return [NSString stringWithFormat:@"%@ (%@)",[self name], [self userID]];
+    NSMutableArray *additionalData = [NSMutableArray arrayWithObject:[self userID]];
+    if ([[self properties] objectForKey:@"AIM"] && [[[self properties] objectForKey:@"AIM"] length]>0) 
+        [additionalData addObject:[NSString stringWithFormat:@"aim:%@",[[self properties] objectForKey:@"AIM"]]];
+    if ([[self properties] objectForKey:@"Email"] && [[[self properties] objectForKey:@"Email"] length] >0) 
+        [additionalData addObject:[NSString stringWithFormat:@"mail:%@",[[self properties] objectForKey:@"Email"]]];
+    NSLog(@"%s %@ %@",__FUNCTION__,additionalData,[self description]);
+    return [NSString stringWithFormat:@"%@ (%@)",[self name],[additionalData componentsJoinedByString:@", "]];
 }
 
 

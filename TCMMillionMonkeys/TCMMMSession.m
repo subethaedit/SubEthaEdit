@@ -195,7 +195,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"sessionID: %@, filename: %@, hostID:%@, isServer:%@", [self sessionID], [self filename],[self hostID],[self isServer]?@"YES":@"NO"];
+    return [NSString stringWithFormat:@"sessionID: %@, filename: %@, hostID:%@, isServer:%@, participants:%@", [self sessionID], [self filename],[self hostID],[self isServer]?@"YES":@"NO",I_participants];
 }
 
 - (void)setFilename:(NSString *)aFilename
