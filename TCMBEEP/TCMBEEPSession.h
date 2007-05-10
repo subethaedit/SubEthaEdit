@@ -79,6 +79,8 @@ enum {
         BOOL isProhibitingInboundInternetSessions;
         BOOL amReading;
         BOOL needsToReadAgain;
+        BOOL isWaitingForTLSProceed;
+        BOOL hasSentTLSProceed;
     } I_flags;
     
     TCMBEEPSessionStatus I_sessionStatus;

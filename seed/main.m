@@ -82,6 +82,7 @@ int main(int argc, const char *argv[])
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSNumber numberWithInt:6942] forKey:DefaultPortNumber];
+    [defaults setBool:NO forKey:@"EnableTLS"];
     [defaults setBool:YES forKey:@"LogConnections"];
     [defaults setBool:NO forKey:@"EnableBEEPLogging"];
     [defaults setInteger:0 forKey:@"MillionMonkeysLogDomain"];
