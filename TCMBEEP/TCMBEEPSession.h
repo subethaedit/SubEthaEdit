@@ -38,7 +38,7 @@ enum {
 };
 
 
-@class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile, TCMBEEPAuthenticationClient, TCMBEEPAuthenticationServer;;
+@class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile, TCMBEEPAuthenticationClient, TCMBEEPAuthenticationServer;
 
 
 @interface TCMBEEPSession : NSObject
@@ -81,6 +81,8 @@ enum {
         BOOL needsToReadAgain;
         BOOL isWaitingForTLSProceed;
         BOOL hasSentTLSProceed;
+        BOOL isTLSHandshaking;
+        BOOL isTLSEnabled;
     } I_flags;
     
     TCMBEEPSessionStatus I_sessionStatus;

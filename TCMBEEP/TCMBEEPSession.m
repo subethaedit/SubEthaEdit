@@ -50,6 +50,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (void)TCM_writeBytes;
 - (void)TCM_cleanup;
 - (void)TCM_triggerTerminator;
+- (void)TCM_closeChannelsImplicitly;
+- (void)TCM_createManagementChannelAndSendGreeting;
 @end
 
 #pragma mark -
@@ -65,6 +67,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 {
     I_flags.hasSentTLSProceed = NO;
     I_flags.isWaitingForTLSProceed = NO;
+    I_flags.isTLSHandshaking = NO;
+    I_flags.isTLSEnabled = NO;
     CFStreamClientContext context = {0, self, NULL, NULL, NULL};
     CFOptionFlags readFlags =  kCFStreamEventOpenCompleted |
         kCFStreamEventHasBytesAvailable |
@@ -495,6 +499,19 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [_authClient startAuthentication];
 }
 
+- (void)TCM_createManagementChannelAndSendGreeting
+{
+    I_managementChannel = [[TCMBEEPChannel alloc] initWithSession:self number:0 profileURI:kTCMBEEPManagementProfile asInitiator:[self isInitiator]];
+    [self insertObject:I_managementChannel inChannelsAtIndex:[self countOfChannels]];
+    
+    TCMBEEPManagementProfile *profile = (TCMBEEPManagementProfile *)[I_managementChannel profile];
+    [profile setDelegate:self];
+
+    [self activateChannel:I_managementChannel];
+    
+    [profile sendGreetingWithProfileURIs:[self profileURIs] featuresAttribute:nil localizeAttribute:nil];
+}
+
 - (void)open
 {
     CFRunLoopRef runLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
@@ -536,16 +553,26 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     
     I_sessionStatus = TCMBEEPSessionStatusOpening;
     
-    I_managementChannel = [[TCMBEEPChannel alloc] initWithSession:self number:0 profileURI:kTCMBEEPManagementProfile asInitiator:[self isInitiator]];
-    
-    [self insertObject:I_managementChannel inChannelsAtIndex:[self countOfChannels]];
-    
-    TCMBEEPManagementProfile *profile = (TCMBEEPManagementProfile *)[I_managementChannel profile];
-    [profile setDelegate:self];
+    [self TCM_createManagementChannelAndSendGreeting];
+}
 
-    [self activateChannel:I_managementChannel];
-
-    [profile sendGreetingWithProfileURIs:[self profileURIs] featuresAttribute:nil localizeAttribute:nil];
+- (void)TCM_closeChannelsImplicitly
+{
+    NSEnumerator *activeChannels = [I_activeChannels objectEnumerator];  
+    TCMBEEPChannel *channel;
+    while ((channel = [activeChannels nextObject])) {
+        [channel cleanup];
+    }
+    [I_activeChannels removeAllObjects];
+    
+    int index;
+    for (index = [self countOfChannels] - 1; index >= 0; index--) {
+        [self removeObjectFromChannelsAtIndex:index];
+    }
+    
+    [I_managementChannel cleanup];
+    [I_managementChannel release];
+    I_managementChannel = nil;
 }
 
 - (void)terminate
@@ -563,21 +590,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     CFReadStreamSetClient(I_readStream, 0, NULL, NULL);
     CFWriteStreamSetClient(I_writeStream, 0, NULL, NULL);
     
-    NSEnumerator *activeChannels = [I_activeChannels objectEnumerator];  
-    TCMBEEPChannel *channel;
-    while ((channel = [activeChannels nextObject])) {
-        [channel cleanup];
-    }
-    [I_activeChannels removeAllObjects];
-    
-    int index;
-    for (index = [self countOfChannels] - 1; index >= 0; index--) {
-        [self removeObjectFromChannelsAtIndex:index];
-    }
-
-    [I_managementChannel cleanup];
-    [I_managementChannel release];
-    I_managementChannel = nil;
+    [self TCM_closeChannelsImplicitly];
         
     id delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(BEEPSession:didFailWithError:)]) {
@@ -886,10 +899,22 @@ CFArrayRef getSslCerts(
 
 - (void)TCM_writeBytes
 {
+    if (I_flags.isTLSHandshaking && !I_flags.isTLSEnabled) {
+        // send greeting
+        NSLog(@"Life after TLS handshake...");
+        I_flags.isTLSEnabled = YES;
+        [I_profileURIs removeObject:TCMBEEPTLSProfileURI];
+        [self TCM_createManagementChannelAndSendGreeting];
+        I_flags.isTLSHandshaking = NO;
+    }
+
     if (!([I_writeBuffer length] > 0)) {
         if (![self isInitiator] && I_flags.hasSentTLSProceed) {
+            NSLog(@"Start listen for TLS handshake...");
+            [self TCM_closeChannelsImplicitly];
             [self _listenForTLSHandshake];
             I_flags.hasSentTLSProceed = NO;
+            I_flags.isTLSHandshaking = YES;
         }
         return;
     }
@@ -1000,8 +1025,12 @@ CFArrayRef getSslCerts(
                     answerData = [_authServer answerDataForChannelStartProfileURI:profileURI data:[aDataArray objectAtIndex:i]];
                 } else if ([profileURI isEqualToString:TCMBEEPTLSProfileURI]) {
                     // parse data for 'ready' element, may have attributes
+                    
+                    
                     answerData = [@"<proceed />" dataUsingEncoding:NSUTF8StringEncoding];
                     #warning Sent last message before TLS negotiation
+                    // implicitly close all channels including channel zero, but proceed frame needs to go through
+                    
                     I_flags.hasSentTLSProceed = YES;
                 }
                 
@@ -1040,7 +1069,11 @@ CFArrayRef getSslCerts(
         if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI]) {
             // parse associated data for 'error' or 'proceed' elements, 'error' may contain attributes?
             
+            // implicitly close all channels including channel zero and begin underlying negotiation process
+            [self TCM_closeChannelsImplicitly];
+
             I_flags.isWaitingForTLSProceed = NO;
+            I_flags.isTLSHandshaking = YES;
             
             Boolean resultReadStream, resultWriteStream;
             
