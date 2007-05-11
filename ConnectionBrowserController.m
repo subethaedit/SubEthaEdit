@@ -52,6 +52,7 @@ enum {
 - (void)connectToURL:(NSURL *)anURL retry:(BOOL)isRetrying;
 - (void)TCM_validateStatusPopUpButton;
 - (void)TCM_validateClearButton;
+- (NSArray *)clearableEntries;
 
 @end
 
@@ -499,6 +500,7 @@ enum {
     [[I_entriesController content] addObject:entry];
     [I_entriesController rearrangeObjects];
     [O_browserListView reloadData];
+    [self TCM_validateClearButton];
     return entry;
 }
 
@@ -528,6 +530,10 @@ enum {
     [alertContext autorelease];
 }
 
+- (NSArray *)clearableEntries {
+    return [[I_entriesController arrangedObjects] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"connectionStatus = %@",ConnectionStatusNoConnection]];
+}
+
 - (void)TCM_validateStatusPopUpButton {
     TCMMMPresenceManager *pm = [TCMMMPresenceManager sharedInstance];
     BOOL isVisible = [pm isVisible];
@@ -544,22 +550,7 @@ enum {
 }
 
 - (void)TCM_validateClearButton {
-    BOOL isValid = NO;
-//    int index;
-//    int count = [I_data count];
-//    for (index = count - 1; index >= 0; index--) {
-//        NSDictionary *item = [I_data objectAtIndex:index];
-//        NSString *status = [item objectForKey:@"status"];
-//        if ([status isEqualToString:HostEntryStatusResolveFailed] ||
-//            [status isEqualToString:HostEntryStatusContactFailed] ||
-//            [status isEqualToString:HostEntryStatusSessionAtEnd] ||
-//            [status isEqualToString:HostEntryStatusCancelled]) {
-//            isValid = YES;
-//            break;
-//        }
-//    }
-//    
-    [O_clearButton setEnabled:isValid];
+    [O_clearButton setEnabled:[[self clearableEntries] count] > 0];
 }
 
 #pragma mark -
@@ -636,8 +627,8 @@ enum {
     } else {
         [set makeObjectsPerformSelector:@selector(cancel)];
     }
-    
     [O_browserListView reloadData];
+    [self TCM_validateClearButton];
 }
 
 - (void)joinSessionsWithIndexes:(NSIndexSet *)indexes {
@@ -686,25 +677,7 @@ enum {
 }
 
 - (IBAction)clear:(id)aSender {
-//    int index;
-//    int count = [I_data count];
-//    for (index = count - 1; index >= 0; index--) {
-//        NSDictionary *item = [I_data objectAtIndex:index];
-//        NSString *status = [item objectForKey:@"status"];
-//        NSString *URLString = [item objectForKey:@"URLString"];
-//        if ([status isEqualToString:HostEntryStatusResolveFailed] ||
-//            [status isEqualToString:HostEntryStatusContactFailed] ||
-//            [status isEqualToString:HostEntryStatusSessionAtEnd] ||
-//            [status isEqualToString:HostEntryStatusCancelled]) {
-//            
-//            if (URLString) {
-//                [I_resolvingHosts removeObjectForKey:URLString];
-//                [I_resolvedHosts removeObjectForKey:URLString];
-//            }
-//            
-//            [I_data removeObjectAtIndex:index];   
-//        }
-//    }
+    [I_entriesController removeObjects:[self clearableEntries]];
     [O_browserListView reloadData];
     [self TCM_validateClearButton];
 }
@@ -742,6 +715,7 @@ enum {
     }
     [I_entriesController rearrangeObjects];
     [O_browserListView reloadData];
+    [self TCM_validateClearButton];
 }
 
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
@@ -764,7 +738,6 @@ enum {
         [I_entriesController rearrangeObjects];
         [O_browserListView reloadData];
     }
-    return;
     [self TCM_validateClearButton];
 }
 
@@ -887,6 +860,7 @@ enum {
 
 - (void)connectionEntryDidChange:(NSNotification *)aNotification {
     [O_browserListView reloadData];
+    [self TCM_validateClearButton];
 }
 
 #pragma mark -
