@@ -349,6 +349,12 @@ static AppController *sharedInstance = nil;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 
+    // prepare images
+    NSImage *image = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
+    [image setName:@"UnknownPerson32"];
+
+    image = [[[NSImage imageNamed:@"DefaultPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
+    [image setName:@"DefaultPerson32"];
     //#warning "Termination has to be removed before release!"
     //if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
     //    [NSApp terminate:self];

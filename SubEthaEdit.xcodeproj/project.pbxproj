@@ -534,14 +534,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 14251B910BBD5DD300052C84 /* seed */;
+			remoteGlobalIDString = 14251B910BBD5DD300052C84;
 			remoteInfo = seed;
 		};
 		14C431AE0BF3465A007D29EB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
 		312B7BBA0A99D1B50014E52A /* PBXContainerItemProxy */ = {
@@ -3162,6 +3162,10 @@
 		14251B950BBD5DFA00052C84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = /System/Library/PrivateFrameworks;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3213,6 +3217,7 @@
 					vmutils,
 				);
 				PRODUCT_NAME = seed;
+				STRIP_INSTALLED_PRODUCT = YES;
 				ZERO_LINK = NO;
 			};
 			name = Release;
