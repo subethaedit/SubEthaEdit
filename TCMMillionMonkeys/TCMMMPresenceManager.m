@@ -163,12 +163,14 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 }
 
 - (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID {
+    if (!aUserID) return nil;
     NSMutableDictionary *statusOfUserID=[I_statusOfUserIDs objectForKey:aUserID];
     if (!statusOfUserID) {
         statusOfUserID=[NSMutableDictionary dictionary];
         [statusOfUserID setObject:@"NoStatus" forKey:@"Status"];
         [statusOfUserID setObject:aUserID     forKey:@"UserID"];
         [statusOfUserID setObject:[NSMutableDictionary dictionary] forKey:@"Sessions"];
+        [statusOfUserID setObject:[NSArray array] forKey:@"OrderedSessions"];
         [I_statusOfUserIDs setObject:statusOfUserID forKey:aUserID];
     }
     return statusOfUserID;
@@ -343,6 +345,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         if (![sessions objectForKey:[session sessionID]]) {
             [self registerSession:session];
             [sessions setObject:session forKey:[session sessionID]];
+            [status setObject:[[sessions allValues] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES] autorelease]]] forKey:@"OrderedSessions"];
             [self TCM_validateVisibilityOfUserID:userID];
         }
         NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil];
@@ -361,6 +364,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     TCMMMSession *session=[sessions objectForKey:anID];
     if (session) {
         [sessions removeObjectForKey:anID];
+        [status setObject:[[sessions allValues] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES] autorelease]]] forKey:@"OrderedSessions"];
         [self unregisterSession:session];
     }
     NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil];
@@ -387,6 +391,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
             [self unregisterSession:session];
         }
         [status setObject:[NSMutableDictionary dictionary] forKey:@"Sessions"];
+        [status setObject:[NSArray array] forKey:@"OrderedSessions"];
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
                 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[status objectForKey:@"Sessions"],@"Sessions",nil]];
         TCMBEEPSession *beepSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:userID];

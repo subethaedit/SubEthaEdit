@@ -8,7 +8,7 @@
 
 #import <AppKit/AppKit.h>
 
-@class TCMMMBrowserListView;
+@class TCMMMBrowserListView, ConnectionBrowserEntry;
 
 
 @interface ConnectionBrowserController : NSWindowController
@@ -22,13 +22,8 @@
     IBOutlet NSPopUpButton *O_statusPopUpButton;
     IBOutlet NSButton   *O_clearButton;
 
-    NSMutableArray *I_data;
     NSMutableArray *I_comboBoxItems;
-    NSMutableDictionary *I_resolvingHosts;
-    NSMutableDictionary *I_resolvedHosts;
-    NSMutableSet *I_prohibitedInboundSessions;
-    NSMutableDictionary *I_documentRequestTimer;
-    
+    NSArrayController *I_entriesController;
     NSMenu *I_contextMenu;
 }
 
