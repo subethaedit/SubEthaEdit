@@ -25,6 +25,7 @@
     NSMutableArray *I_comboBoxItems;
     NSArrayController *I_entriesController;
     NSMenu *I_contextMenu;
+    NSMutableArray *I_storedSelections;
 }
 
 + (ConnectionBrowserController *)sharedInstance;
@@ -38,5 +39,8 @@
 - (IBAction)clear:(id)aSender;
 
 - (void)connectToAddress:(NSString *)address;
+
+- (void)storeSelection;
+- (void)restoreSelection;
 
 @end

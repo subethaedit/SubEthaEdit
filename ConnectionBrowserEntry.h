@@ -25,6 +25,7 @@ extern NSString * const ConnectionStatusNoConnection;
     NSMutableArray *_pendingDocumentRequests;
     TCMHost *_host;
     NSDate *_creationDate;
+    NSArray *_announcedSessions;
 }
 
 + (NSURL *)urlForAddress:(NSString *)anAddress;
@@ -39,6 +40,7 @@ extern NSString * const ConnectionStatusNoConnection;
 - (TCMBEEPSession *)BEEPSession;
 - (NSString *)userID;
 - (TCMMMUser *)user;
+- (void)reloadAnnouncedSessions;
 - (NSArray *)announcedSessions;
 - (BOOL)isBonjour;
 - (BOOL)isVisible;

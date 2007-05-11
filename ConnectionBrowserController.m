@@ -71,6 +71,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (id)init {
     self = [super initWithWindowNibName:@"ConnectionBrowser"];
     if (self) {
+        I_storedSelections = [NSMutableArray new];
         I_entriesController = [NSArrayController new];
         [I_entriesController setSortDescriptors:[NSArray arrayWithObjects:
             [[[NSSortDescriptor alloc] initWithKey:@"isBonjour" ascending:NO] autorelease],
@@ -137,6 +138,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 }
 
 - (void)dealloc {
+    [I_storedSelections release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_entriesController release];
     [I_contextMenu release];
@@ -153,6 +155,58 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (void)windowWillLoad {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
 }
+
+- (void)storeSelection {
+    NSMutableDictionary *selectedObjects = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSMutableSet set],@"Entries",[NSMutableDictionary dictionary],@"SessionsByEntry",nil];
+
+    NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
+    if (indexes) {
+        unsigned int index = [indexes firstIndex];
+        while (index != NSNotFound) {
+            ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+            ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
+            if (pair.childIndex == -1) {
+                [[selectedObjects objectForKey:@"Entries"]addObject:entry];
+            } else {
+                NSMutableSet *set = [[selectedObjects objectForKey:@"SessionsByEntry"] objectForKey:[entry creationDate]];
+                if (!set) {
+                    set=[NSMutableSet set];
+                    [[selectedObjects objectForKey:@"SessionsByEntry"] setObject:set forKey:[entry creationDate]];
+                }
+                [set addObject:[[entry announcedSessions] objectAtIndex:pair.childIndex]];
+            }
+            index = [indexes indexGreaterThanIndex:index];
+        }
+        [I_storedSelections addObject:selectedObjects];
+    }
+}
+- (void)restoreSelection {
+    NSDictionary *selectedObjects = [I_storedSelections lastObject];
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
+    NSArray *arrangedObjects = [I_entriesController arrangedObjects];
+    int i = 0;
+    int index = 0;
+    for (i = 0; i<[arrangedObjects count];i++) {
+        ConnectionBrowserEntry *entry = [arrangedObjects objectAtIndex:i];
+        if ([[selectedObjects objectForKey:@"Entries"] containsObject:entry]) [indexes addIndex:index];
+        index +=1;
+        NSArray *announcedSessions = [entry announcedSessions];
+        NSSet *selectedSessions = [[selectedObjects objectForKey:@"SessionsByEntry"] objectForKey:[entry creationDate]];
+        if (selectedSessions) {
+            int j = 0;
+            for (j=0;j<[announcedSessions count];j++) {
+                if ([selectedSessions containsObject:[announcedSessions objectAtIndex:j]]) {
+                    [indexes addIndex:index+j];
+                }
+            }
+        }
+        index += [announcedSessions count];
+    }
+    [O_browserListView selectRowIndexes:indexes byExtendingSelection:NO];
+    if (selectedObjects) [I_storedSelections removeLastObject];
+}
+
+
 
 - (void)TCM_synchronizeMyNameAndPicture {
     TCMMMUser *me=[TCMMMUserManager me];
@@ -403,12 +457,21 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     return entry;
 }
 
+- (void)selectEntry:(ConnectionBrowserEntry *)anEntry {
+    unsigned int index = [[I_entriesController arrangedObjects] indexOfObject:anEntry];
+    if (index == NSNotFound) {
+        [O_browserListView deselectAll:self];
+    } else {
+        [O_browserListView selectRow:[O_browserListView rowForItem:index child:-1] byExtendingSelection:NO];
+    }
+}
+
 - (void)connectToURL:(NSURL *)anURL retry:(BOOL)isRetrying {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"Connect to URL: %@", [anURL description]);
     NSParameterAssert(anURL != nil && [anURL host] != nil);
     
     ConnectionBrowserEntry *entry = [self connectionEntryForURL:anURL];
-    
+    [self selectEntry:entry];
     [entry connect];
 }
 
@@ -640,6 +703,8 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
     
+    [self storeSelection];
+    
     NSEnumerator *entries = [[I_entriesController content] objectEnumerator];
     ConnectionBrowserEntry *entry = nil;
     BOOL sessionWasHandled = NO;
@@ -656,9 +721,11 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [I_entriesController rearrangeObjects];
     [O_browserListView reloadData];
     [self TCM_validateClearButton];
+    [self restoreSelection];
 }
 
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
+    [self storeSelection];
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
     ConnectionBrowserEntry *concernedEntry = nil;
@@ -678,6 +745,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         [O_browserListView reloadData];
     }
     [self TCM_validateClearButton];
+    [self restoreSelection];
 }
 
 
@@ -704,16 +772,21 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeVisibility: %@", aNotification);
 //    NSDictionary *userInfo = [aNotification userInfo];
 //    NSString *userID = [userInfo objectForKey:@"UserID"];
+    [self storeSelection];
     [I_entriesController rearrangeObjects];
     [O_browserListView reloadData];
+    [self restoreSelection];
 }
 
 - (void)userDidChangeAnnouncedDocuments:(NSNotification *)aNotification {
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeAnnouncedDocuments: %@", aNotification);
 //    NSDictionary *userInfo = [aNotification userInfo];
 //    NSString *userID = [userInfo objectForKey:@"UserID"];
+    [self storeSelection];
+    [[I_entriesController arrangedObjects] makeObjectsPerformSelector:@selector(reloadAnnouncedSessions)];
     [[I_entriesController arrangedObjects] makeObjectsPerformSelector:@selector(checkDocumentRequests)];
     [O_browserListView reloadData];
+    [self restoreSelection];
 }
 
 #pragma mark -
