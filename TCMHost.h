@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Mar 03 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -36,6 +36,7 @@
 
 - (void)checkReachability;
 - (void)resolve;
+- (void)reverseLookup;
 - (void)cancel;
 
 @end
@@ -45,5 +46,6 @@
 
 - (void)host:(TCMHost *)sender didNotResolve:(NSError *)error;
 - (void)hostDidResolveAddress:(TCMHost *)sender;
+- (void)hostDidResolveName:(TCMHost *)sender;
 
 @end

@@ -140,6 +140,7 @@ enum {
 - (TCMBEEPAuthenticationServer *)authenticationServer;
 - (NSData *)addressData;
 - (BOOL)isAuthenticated;
+- (BOOL)isTLSEnabled;
 
 - (void)open;
 - (void)authenticate;

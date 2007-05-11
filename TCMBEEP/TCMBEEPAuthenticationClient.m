@@ -9,6 +9,7 @@
 #import "TCMBEEPAuthenticationClient.h"
 #import "TCMBEEPSession.h"
 #import "TCMBEEPSASLProfile.h"
+#import "TCMHost.h"
 
 #import <netinet/in.h>
 #import <netinet6/in6.h>
@@ -153,98 +154,26 @@ static int sasl_chalprompt_session_client(void *context, int id,
 
 #pragma mark -
 
+@interface TCMBEEPAuthenticationClient (TCMBEEPAuthenticationClientPrivate)
+- (void)_setupSASLContextWithServerFQDN:(NSString *)serverFQDN;
+- (void)_authenticate;
+@end
+
+#pragma mark -
+
 @implementation TCMBEEPAuthenticationClient
 
 - (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN
 {
     self = [super init];
     if (self) {
+        _sasl_conn_ctxt = NULL;
         _session = session;
         _isAuthenticated = NO;
-        
-        sasl_callback_t *callback = _sasl_client_callbacks;
-        callback->id = SASL_CB_GETOPT;
-        callback->proc = &sasl_getopt_session_client_cb;
-        callback->context = self;
-        ++callback;
-
-        callback->id = SASL_CB_LOG;
-        callback->proc = &sasl_log_session_client_cb;
-        callback->context = self;
-        ++callback;
-            
-        callback->id = SASL_CB_GETREALM;
-        callback->proc = &sasl_getrealm_session_client_cb;
-        callback->context = self;
-        ++callback;
-
-        callback->id = SASL_CB_USER;
-        callback->proc = &sasl_getsimple_session_client_cb;
-        callback->context = self;
-        ++callback;
-        
-        callback->id = SASL_CB_AUTHNAME;
-        callback->proc = &sasl_getsimple_session_client_cb;
-        callback->context = self;
-        ++callback;
-        
-        callback->id = SASL_CB_LANGUAGE;
-        callback->proc = &sasl_getsimple_session_client_cb;
-        callback->context = self;
-        ++callback;
-        
-        callback->id = SASL_CB_PASS;
-        callback->proc = &sasl_pass_session_client_cb;
-        callback->context = self;
-        ++callback;
-        
-        callback->id = SASL_CB_ECHOPROMPT;
-        callback->proc = &sasl_chalprompt_session_client;
-        callback->context = self;
-        ++callback;
-
-        callback->id = SASL_CB_NOECHOPROMPT;
-        callback->proc = &sasl_chalprompt_session_client;
-        callback->context = self;
-        ++callback;
-        
-        callback->id = SASL_CB_LIST_END;
-        callback->proc = NULL;
-        callback->context = self;
-        
-        
-        const char *iplocalport = NULL;
-        const char *ipremoteport = NULL;
-        if (addressData) iplocalport = [[NSString stringWithAddressData:addressData cyrusSASLCompatible:YES] UTF8String];
-        if (peerAddressData) ipremoteport = [[NSString stringWithAddressData:peerAddressData cyrusSASLCompatible:YES] UTF8String];
-        DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"iplocalport: %s, ipremoteport: %s", iplocalport, ipremoteport);
-        
-        if (!serverFQDN && peerAddressData) {
-            struct hostent *host = NULL;
-            struct sockaddr *socketAddress = (struct sockaddr *)[peerAddressData bytes];
-            if (socketAddress->sa_family == AF_INET) {
-                host = gethostbyaddr(&(((struct sockaddr_in *)socketAddress)->sin_addr), sizeof(struct in_addr), AF_INET);
-            } else if (socketAddress->sa_family == AF_INET6) {
-                host = gethostbyaddr(&(((struct sockaddr_in6 *)socketAddress)->sin6_addr), sizeof(struct in6_addr), AF_INET6);
-            }
-            if (host) {
-                DEBUGLOG(@"SASLLogDomain", DetailedLogLevel, @"gethostbyaddr returned serverFQDN: %s", host->h_name);
-                serverFQDN = [NSString stringWithCString:host->h_name encoding:NSUTF8StringEncoding];
-            }
-        }
-        
-        _sasl_conn_ctxt = NULL;
-        int result = sasl_client_new("beep",
-                                     [serverFQDN UTF8String],  // serverFQDN (has to  be set)
-                                     iplocalport,  // iplocalport
-                                     ipremoteport,  // ipremoteport
-                                     _sasl_client_callbacks,
-                                     0, // flags
-                                     &_sasl_conn_ctxt);
-        if (result == SASL_OK) {
-            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_client_new succeeded");
-        } else {
-            DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
+        _addressData = [addressData retain];
+        _peerAddressData = [peerAddressData retain];
+        if (serverFQDN) {
+            [self _setupSASLContextWithServerFQDN:serverFQDN];
         }
     }
     return self;
@@ -256,12 +185,92 @@ static int sasl_chalprompt_session_client(void *context, int id,
     [_profile release];
     _profile = nil;
     _session = nil;
+    if (_peerHost) {
+        [_peerHost setDelegate:nil];
+        [_peerHost release];
+    }
+    [_addressData release];
+    [_peerAddressData release];
     [super dealloc];
 }
 
 #pragma mark -
 
-- (void)startAuthentication
+- (void)_setupSASLContextWithServerFQDN:(NSString *)serverFQDN
+{
+    sasl_callback_t *callback = _sasl_client_callbacks;
+    callback->id = SASL_CB_GETOPT;
+    callback->proc = &sasl_getopt_session_client_cb;
+    callback->context = self;
+    ++callback;
+
+    callback->id = SASL_CB_LOG;
+    callback->proc = &sasl_log_session_client_cb;
+    callback->context = self;
+    ++callback;
+        
+    callback->id = SASL_CB_GETREALM;
+    callback->proc = &sasl_getrealm_session_client_cb;
+    callback->context = self;
+    ++callback;
+
+    callback->id = SASL_CB_USER;
+    callback->proc = &sasl_getsimple_session_client_cb;
+    callback->context = self;
+    ++callback;
+    
+    callback->id = SASL_CB_AUTHNAME;
+    callback->proc = &sasl_getsimple_session_client_cb;
+    callback->context = self;
+    ++callback;
+    
+    callback->id = SASL_CB_LANGUAGE;
+    callback->proc = &sasl_getsimple_session_client_cb;
+    callback->context = self;
+    ++callback;
+    
+    callback->id = SASL_CB_PASS;
+    callback->proc = &sasl_pass_session_client_cb;
+    callback->context = self;
+    ++callback;
+    
+    callback->id = SASL_CB_ECHOPROMPT;
+    callback->proc = &sasl_chalprompt_session_client;
+    callback->context = self;
+    ++callback;
+
+    callback->id = SASL_CB_NOECHOPROMPT;
+    callback->proc = &sasl_chalprompt_session_client;
+    callback->context = self;
+    ++callback;
+    
+    callback->id = SASL_CB_LIST_END;
+    callback->proc = NULL;
+    callback->context = self;
+    
+    
+    const char *iplocalport = NULL;
+    const char *ipremoteport = NULL;
+    if (_addressData) iplocalport = [[NSString stringWithAddressData:_addressData cyrusSASLCompatible:YES] UTF8String];
+    if (_peerAddressData) ipremoteport = [[NSString stringWithAddressData:_peerAddressData cyrusSASLCompatible:YES] UTF8String];
+    DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"iplocalport: %s, ipremoteport: %s", iplocalport, ipremoteport);
+    
+    _sasl_conn_ctxt = NULL;
+    int result = sasl_client_new("beep",
+                                 [serverFQDN UTF8String],  // serverFQDN (has to  be set)
+                                 iplocalport,  // iplocalport
+                                 ipremoteport,  // ipremoteport
+                                 _sasl_client_callbacks,
+                                 0, // flags
+                                 &_sasl_conn_ctxt);
+    if (result == SASL_OK) {
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_client_new succeeded");
+    } else {
+        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
+    }
+}
+
+- (void)_authenticate
 {
     NSMutableString *mechlist_string = [[NSMutableString alloc] init];
     NSEnumerator *enumerator = [[_session peerProfileURIs] objectEnumerator];
@@ -319,6 +328,22 @@ static int sasl_chalprompt_session_client(void *context, int id,
         } else {
             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
         }
+    }
+}
+
+- (void)startAuthentication
+{
+    if (!_sasl_conn_ctxt) {
+        if (_peerAddressData) {
+            _peerHost = [[TCMHost alloc] initWithAddressData:_peerAddressData port:0 userInfo:nil];
+            [_peerHost setDelegate:self];
+            [_peerHost reverseLookup];
+        } else {
+            [self _setupSASLContextWithServerFQDN:nil];
+            [self _authenticate];
+        }
+    } else {
+        [self _authenticate];
     }
 }
 
@@ -508,8 +533,25 @@ static int sasl_chalprompt_session_client(void *context, int id,
             CFRelease(payloadTree);
         }
     }
+}
 
-    
+#pragma mark -
+
+- (void)hostDidResolveName:(TCMHost *)sender
+{
+    NSArray *names = [sender names];
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"reverse lookup done: %@", names);
+    NSString *name = nil;
+    if ([names count] > 0) name = [names objectAtIndex:0];
+    [self _setupSASLContextWithServerFQDN:name];
+    [self _authenticate];
+}
+
+- (void)host:(TCMHost *)sender didNotResolve:(NSError *)error
+{
+    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"reverse lookup failed");
+    [self _setupSASLContextWithServerFQDN:nil];
+    [self _authenticate];
 }
 
 @end
