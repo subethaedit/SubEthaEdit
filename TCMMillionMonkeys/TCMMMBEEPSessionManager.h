@@ -54,5 +54,6 @@ extern NSString * const TCMMMBEEPSessionManagerConnectToHostCancelledNotificatio
 
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID;
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID URLString:(NSString *)aURLString;
+- (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID peerAddressData:(NSData *)anAddressData;
 
 @end
