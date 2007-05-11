@@ -74,13 +74,11 @@
 		1428901E0957418400D14688 /* AdvancedPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142890170957418400D14688 /* AdvancedPrefs.nib */; };
 		1428901F0957418400D14688 /* DocumentProxy.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142890190957418400D14688 /* DocumentProxy.nib */; };
 		142890200957418400D14688 /* EditPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1428901B0957418400D14688 /* EditPrefs.nib */; };
-		14289023095741A100D14688 /* InternetBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289021095741A100D14688 /* InternetBrowser.nib */; };
 		1428903A095741BA00D14688 /* OpenPanelAccessory.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289024095741BA00D14688 /* OpenPanelAccessory.nib */; };
 		1428903B095741BA00D14688 /* PlainTextEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289026095741BA00D14688 /* PlainTextEditor.nib */; };
 		1428903C095741BA00D14688 /* PlainTextWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289028095741BA00D14688 /* PlainTextWindow.nib */; };
 		1428903D095741BA00D14688 /* PrintOptions.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1428902A095741BA00D14688 /* PrintOptions.nib */; };
 		1428903E095741BA00D14688 /* PrintPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1428902C095741BA00D14688 /* PrintPrefs.nib */; };
-		1428903F095741BA00D14688 /* RendezvousBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1428902E095741BA00D14688 /* RendezvousBrowser.nib */; };
 		14289040095741BA00D14688 /* SavePanelAccessory.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289030095741BA00D14688 /* SavePanelAccessory.nib */; };
 		14289041095741BA00D14688 /* SelectEncodingsPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289032095741BA00D14688 /* SelectEncodingsPanel.nib */; };
 		14289043095741BA00D14688 /* StylePrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289036095741BA00D14688 /* StylePrefs.nib */; };
@@ -230,11 +228,9 @@
 		142893FA09575A3000D14688 /* EncodingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E109575A3000D14688 /* EncodingManager.m */; };
 		142893FB09575A3000D14688 /* FindReplaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E309575A3000D14688 /* FindReplaceController.m */; };
 		142893FC09575A3000D14688 /* GetURLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E509575A3000D14688 /* GetURLCommand.m */; };
-		142893FD09575A3000D14688 /* InternetBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E709575A3000D14688 /* InternetBrowserController.m */; };
 		142893FE09575A3000D14688 /* NSApplicationTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */; };
 		142893FF09575A3000D14688 /* PullDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893EB09575A3000D14688 /* PullDownButton.m */; };
 		1428940009575A3000D14688 /* PullDownButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893ED09575A3000D14688 /* PullDownButtonCell.m */; };
-		1428940109575A3000D14688 /* RendezvousBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893EF09575A3000D14688 /* RendezvousBrowserController.m */; };
 		1428940209575A3000D14688 /* LicenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F109575A3000D14688 /* LicenseController.m */; };
 		1428940309575A3000D14688 /* TexturedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F309575A3000D14688 /* TexturedButtonCell.m */; };
 		1428940409575A3000D14688 /* UndoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F509575A3000D14688 /* UndoManager.m */; };
@@ -645,13 +641,11 @@
 		142890180957418400D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AdvancedPrefs.nib; sourceTree = "<group>"; };
 		1428901A0957418400D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DocumentProxy.nib; sourceTree = "<group>"; };
 		1428901C0957418400D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EditPrefs.nib; sourceTree = "<group>"; };
-		14289022095741A100D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/InternetBrowser.nib; sourceTree = "<group>"; };
 		14289025095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/OpenPanelAccessory.nib; sourceTree = "<group>"; };
 		14289027095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PlainTextEditor.nib; sourceTree = "<group>"; };
 		14289029095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PlainTextWindow.nib; sourceTree = "<group>"; };
 		1428902B095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrintOptions.nib; sourceTree = "<group>"; };
 		1428902D095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrintPrefs.nib; sourceTree = "<group>"; };
-		1428902F095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/RendezvousBrowser.nib; sourceTree = "<group>"; };
 		14289031095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SavePanelAccessory.nib; sourceTree = "<group>"; };
 		14289033095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SelectEncodingsPanel.nib; sourceTree = "<group>"; };
 		14289037095741BA00D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/StylePrefs.nib; sourceTree = "<group>"; };
@@ -886,16 +880,12 @@
 		142893E309575A3000D14688 /* FindReplaceController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FindReplaceController.m; sourceTree = "<group>"; };
 		142893E409575A3000D14688 /* GetURLCommand.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GetURLCommand.h; sourceTree = "<group>"; };
 		142893E509575A3000D14688 /* GetURLCommand.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GetURLCommand.m; sourceTree = "<group>"; };
-		142893E609575A3000D14688 /* InternetBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = InternetBrowserController.h; sourceTree = "<group>"; };
-		142893E709575A3000D14688 /* InternetBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = InternetBrowserController.m; sourceTree = "<group>"; };
 		142893E809575A3000D14688 /* NSApplicationTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSApplicationTCMAdditions.h; sourceTree = "<group>"; };
 		142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSApplicationTCMAdditions.m; sourceTree = "<group>"; };
 		142893EA09575A3000D14688 /* PullDownButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PullDownButton.h; sourceTree = "<group>"; };
 		142893EB09575A3000D14688 /* PullDownButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PullDownButton.m; sourceTree = "<group>"; };
 		142893EC09575A3000D14688 /* PullDownButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PullDownButtonCell.h; sourceTree = "<group>"; };
 		142893ED09575A3000D14688 /* PullDownButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PullDownButtonCell.m; sourceTree = "<group>"; };
-		142893EE09575A3000D14688 /* RendezvousBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RendezvousBrowserController.h; sourceTree = "<group>"; };
-		142893EF09575A3000D14688 /* RendezvousBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RendezvousBrowserController.m; sourceTree = "<group>"; };
 		142893F009575A3000D14688 /* LicenseController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LicenseController.h; sourceTree = "<group>"; };
 		142893F109575A3000D14688 /* LicenseController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LicenseController.m; sourceTree = "<group>"; };
 		142893F209575A3000D14688 /* TexturedButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TexturedButtonCell.h; sourceTree = "<group>"; };
@@ -1004,14 +994,12 @@
 		1468BA99097D9256006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/FindAll.nib; sourceTree = "<group>"; };
 		1468BA9A097D9256006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/FindReplace.nib; sourceTree = "<group>"; };
 		1468BA9B097D9256006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/GeneralPrefs.nib; sourceTree = "<group>"; };
-		1468BA9C097D9256006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/InternetBrowser.nib; sourceTree = "<group>"; };
 		1468BA9D097D9291006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		1468BA9E097D9291006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/OpenPanelAccessory.nib; sourceTree = "<group>"; };
 		1468BA9F097D9291006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PlainTextEditor.nib; sourceTree = "<group>"; };
 		1468BAA0097D9291006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PlainTextWindow.nib; sourceTree = "<group>"; };
 		1468BAA5097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrintOptions.nib; sourceTree = "<group>"; };
 		1468BAA6097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrintPrefs.nib; sourceTree = "<group>"; };
-		1468BAA7097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/RendezvousBrowser.nib; sourceTree = "<group>"; };
 		1468BAA8097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/SavePanelAccessory.nib; sourceTree = "<group>"; };
 		1468BAA9097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/SelectEncodingsPanel.nib; sourceTree = "<group>"; };
 		1468BAAA097D92D7006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/StylePrefs.nib; sourceTree = "<group>"; };
@@ -1864,16 +1852,12 @@
 				142893E109575A3000D14688 /* EncodingManager.m */,
 				142893E209575A3000D14688 /* FindReplaceController.h */,
 				142893E309575A3000D14688 /* FindReplaceController.m */,
-				142893E609575A3000D14688 /* InternetBrowserController.h */,
-				142893E709575A3000D14688 /* InternetBrowserController.m */,
 				142893F009575A3000D14688 /* LicenseController.h */,
 				142893F109575A3000D14688 /* LicenseController.m */,
 				142893EA09575A3000D14688 /* PullDownButton.h */,
 				142893EB09575A3000D14688 /* PullDownButton.m */,
 				142893EC09575A3000D14688 /* PullDownButtonCell.h */,
 				142893ED09575A3000D14688 /* PullDownButtonCell.m */,
-				142893EE09575A3000D14688 /* RendezvousBrowserController.h */,
-				142893EF09575A3000D14688 /* RendezvousBrowserController.m */,
 				142893F209575A3000D14688 /* TexturedButtonCell.h */,
 				142893F309575A3000D14688 /* TexturedButtonCell.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
@@ -1921,7 +1905,6 @@
 				14289BD809581CAC00D14688 /* FindAll.nib */,
 				14289BD109581C3000D14688 /* FindReplace.nib */,
 				1428949009575EF500D14688 /* GeneralPrefs.nib */,
-				14289021095741A100D14688 /* InternetBrowser.nib */,
 				14F1601E096C288100402129 /* License.nib */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
 				14289024095741BA00D14688 /* OpenPanelAccessory.nib */,
@@ -1930,7 +1913,6 @@
 				142893D90957599F00D14688 /* Preferences.nib */,
 				1428902A095741BA00D14688 /* PrintOptions.nib */,
 				1428902C095741BA00D14688 /* PrintPrefs.nib */,
-				1428902E095741BA00D14688 /* RendezvousBrowser.nib */,
 				14289030095741BA00D14688 /* SavePanelAccessory.nib */,
 				14289032095741BA00D14688 /* SelectEncodingsPanel.nib */,
 				14289036095741BA00D14688 /* StylePrefs.nib */,
@@ -2344,14 +2326,12 @@
 				14289BDE09581CAC00D14688 /* FindAll.nib in Resources */,
 				14289BD709581C3000D14688 /* FindReplace.nib in Resources */,
 				1428949209575EF500D14688 /* GeneralPrefs.nib in Resources */,
-				14289023095741A100D14688 /* InternetBrowser.nib in Resources */,
 				8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */,
 				1428903A095741BA00D14688 /* OpenPanelAccessory.nib in Resources */,
 				1428903B095741BA00D14688 /* PlainTextEditor.nib in Resources */,
 				1428903C095741BA00D14688 /* PlainTextWindow.nib in Resources */,
 				1428903D095741BA00D14688 /* PrintOptions.nib in Resources */,
 				1428903E095741BA00D14688 /* PrintPrefs.nib in Resources */,
-				1428903F095741BA00D14688 /* RendezvousBrowser.nib in Resources */,
 				14289040095741BA00D14688 /* SavePanelAccessory.nib in Resources */,
 				14289041095741BA00D14688 /* SelectEncodingsPanel.nib in Resources */,
 				14289043095741BA00D14688 /* StylePrefs.nib in Resources */,
@@ -2738,11 +2718,9 @@
 				142893FA09575A3000D14688 /* EncodingManager.m in Sources */,
 				142893FB09575A3000D14688 /* FindReplaceController.m in Sources */,
 				142893FC09575A3000D14688 /* GetURLCommand.m in Sources */,
-				142893FD09575A3000D14688 /* InternetBrowserController.m in Sources */,
 				142893FE09575A3000D14688 /* NSApplicationTCMAdditions.m in Sources */,
 				142893FF09575A3000D14688 /* PullDownButton.m in Sources */,
 				1428940009575A3000D14688 /* PullDownButtonCell.m in Sources */,
-				1428940109575A3000D14688 /* RendezvousBrowserController.m in Sources */,
 				1428940209575A3000D14688 /* LicenseController.m in Sources */,
 				1428940309575A3000D14688 /* TexturedButtonCell.m in Sources */,
 				1428940409575A3000D14688 /* UndoManager.m in Sources */,
@@ -2935,15 +2913,6 @@
 			name = EditPrefs.nib;
 			sourceTree = "<group>";
 		};
-		14289021095741A100D14688 /* InternetBrowser.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				14289022095741A100D14688 /* English */,
-				1468BA9C097D9256006F5936 /* German */,
-			);
-			name = InternetBrowser.nib;
-			sourceTree = "<group>";
-		};
 		14289024095741BA00D14688 /* OpenPanelAccessory.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2987,15 +2956,6 @@
 				1468BAA6097D92D7006F5936 /* German */,
 			);
 			name = PrintPrefs.nib;
-			sourceTree = "<group>";
-		};
-		1428902E095741BA00D14688 /* RendezvousBrowser.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1428902F095741BA00D14688 /* English */,
-				1468BAA7097D92D7006F5936 /* German */,
-			);
-			name = RendezvousBrowser.nib;
 			sourceTree = "<group>";
 		};
 		14289030095741BA00D14688 /* SavePanelAccessory.nib */ = {

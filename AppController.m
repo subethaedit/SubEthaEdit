@@ -18,8 +18,7 @@
 #import "TCMMMSession.h"
 #import "AppController.h"
 #import "TCMPreferenceController.h"
-#import "RendezvousBrowserController.h"
-#import "InternetBrowserController.h"
+#import "ConnectionBrowserController.h"
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
 #import "LicenseController.h"
@@ -577,7 +576,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 
-    [InternetBrowserController sharedInstance];
+    [ConnectionBrowserController sharedInstance];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingInvitationsDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingUsersDidChangeNotification object:nil];

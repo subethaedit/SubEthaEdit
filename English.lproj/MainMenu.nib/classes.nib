@@ -166,18 +166,6 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {connect = id; }; 
-            CLASS = InternetBrowserController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_addressComboBox" = NSComboBox; 
-                "O_imageView" = NSImageView; 
-                "O_myNameTextField" = NSTextField; 
-                "O_tableView" = NSTableView; 
-            }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {
             ACTIONS = {buy = id; cancel = id; ok = id; }; 
             CLASS = LicenseController; 
             LANGUAGE = ObjC; 
@@ -221,18 +209,6 @@
                 "O_readWriteButton" = NSButton; 
                 "O_receivingContentView" = NSView; 
                 "O_receivingStatusTextField" = NSTextField; 
-            }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {
-            ACTIONS = {setVisibilityByPopUpButton = id; }; 
-            CLASS = RendezvousBrowserController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_browserListView" = TCMMMBrowserListView; 
-                "O_imageView" = NSImageView; 
-                "O_myNameTextField" = NSTextField; 
-                "O_scrollView" = NSScrollView; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
