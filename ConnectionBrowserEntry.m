@@ -177,7 +177,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 - (BOOL)handleSession:(TCMBEEPSession *)aSession {
     if (_URL && !_BEEPSession) {
         if ([[[aSession userInfo] objectForKey:@"URLString"] isEqualToString:[_URL absoluteString]]) {
-            NSLog(@"%s %@",__FUNCTION__,_hostStatus);
             if (_hostStatus==HostEntryStatusCancelling || _hostStatus==HostEntryStatusCancelled) {
                 _hostStatus = HostEntryStatusCancelled;
             } else {
@@ -191,7 +190,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 }
 
 - (BOOL)handleSessionDidEnd:(TCMBEEPSession *)aSession {
-    NSLog(@"%s %@",__FUNCTION__,_hostStatus);
     if (_URL && _BEEPSession == aSession) {
         _BEEPSession = nil;
         if (_hostStatus == HostEntryStatusCancelling) _hostStatus = HostEntryStatusCancelled;
@@ -336,7 +334,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 }
 
 - (void)checkDocumentRequests {
- NSLog(@"%s",__FUNCTION__);   
     if (_BEEPSession) {
         int count = [_pendingDocumentRequests count];
         while (count-- > 0) {
@@ -355,7 +352,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 }
 
 - (void)connect {
-    NSLog(@"%s",__FUNCTION__);
     // check if Address data is there
     if ([self connectionStatus] == ConnectionStatusNoConnection) {
         if ([[_host addresses] count] > 0) {
@@ -373,7 +369,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 }
 
 - (void)cancel {
-    NSLog(@"%s %@",__FUNCTION__,_hostStatus);
     if (_hostStatus == HostEntryStatusContacting) {
         _hostStatus = HostEntryStatusCancelling;
         [[TCMMMBEEPSessionManager sharedInstance] cancelConnectToHost:_host];
@@ -427,7 +422,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 #pragma mark ### TCMHost interaction ###
 
 - (void)hostDidResolveAddress:(TCMHost *)sender {
-    NSLog(@"%s %@",__FUNCTION__, _hostStatus);    
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"hostDidResolveAddress:");
     if (_hostStatus == HostEntryStatusCancelled) return;
     _hostStatus = HostEntryStatusContacting;
@@ -437,8 +431,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 }
 
 - (void)host:(TCMHost *)sender didNotResolve:(NSError *)error {
-NSLog(@"%s",__FUNCTION__);
-    NSLog(@"%s %@",__FUNCTION__, _hostStatus);    
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"host: %@, didNotResolve: %@", sender, error);
     if (_hostStatus == HostEntryStatusCancelled) return;
     _hostStatus = HostEntryStatusResolveFailed;
@@ -448,7 +440,6 @@ NSLog(@"%s",__FUNCTION__);
 
 
 - (void)TCM_connectToHostDidFail:(NSNotification *)notification {
-NSLog(@"%s",__FUNCTION__);
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_connectToHostDidFail: %@", notification);
     
     TCMHost *host = [[notification userInfo] objectForKey:@"host"];
@@ -459,7 +450,6 @@ NSLog(@"%s",__FUNCTION__);
 }
 
 - (void)TCM_connectToHostCancelled:(NSNotification *)notification {
-NSLog(@"%s",__FUNCTION__);
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_connectToHostCancelled: %@", notification);
     
     TCMHost *host = [[notification userInfo] objectForKey:@"host"];

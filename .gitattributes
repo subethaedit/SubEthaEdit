@@ -123,9 +123,6 @@ English.lproj/GeneralPrefs.nib/classes.nib -text
 English.lproj/GeneralPrefs.nib/info.nib -text
 English.lproj/GeneralPrefs.nib/keyedobjects.nib -text
 English.lproj/InfoPlist.strings -text svneol=unset#text/plain
-English.lproj/InternetBrowser.nib/classes.nib -text
-English.lproj/InternetBrowser.nib/info.nib -text
-English.lproj/InternetBrowser.nib/keyedobjects.nib -text
 English.lproj/License.nib/classes.nib -text
 English.lproj/License.nib/info.nib -text
 English.lproj/License.nib/keyedobjects.nib -text
@@ -152,9 +149,6 @@ English.lproj/PrintPrefs.nib/classes.nib -text
 English.lproj/PrintPrefs.nib/info.nib -text
 English.lproj/PrintPrefs.nib/keyedobjects.nib -text
 English.lproj/ReleaseNotes.txt -text
-English.lproj/RendezvousBrowser.nib/classes.nib -text
-English.lproj/RendezvousBrowser.nib/info.nib -text
-English.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
 English.lproj/SavePanelAccessory.nib/classes.nib -text
 English.lproj/SavePanelAccessory.nib/info.nib -text
 English.lproj/SavePanelAccessory.nib/keyedobjects.nib -text
@@ -315,8 +309,6 @@ HTMLExport/Base.html -text
 /Info.plist -text
 /InsetTextFieldCell.h -text
 /InsetTextFieldCell.m -text
-/InternetBrowserController.h -text
-/InternetBrowserController.m -text
 /Invitation.aiff -text
 /Knock.wav -text
 /LayoutManager.h -text
@@ -1124,8 +1116,6 @@ Preferences.nib/keyedobjects.nib -text
 /RegexSymbolDefinition.m -text
 /RegexSymbolParser.h -text
 /RegexSymbolParser.m -text
-/RendezvousBrowserController.h -text
-/RendezvousBrowserController.m -text
 /SEActiveProc.h -text
 /SEActiveProc.m -text
 /SEEDocumentDialog.h -text

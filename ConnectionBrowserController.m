@@ -52,12 +52,16 @@ static ConnectionBrowserController *sharedInstance = nil;
 
 static NSPredicate *S_cancelableEntryPredicate = nil;
 static NSPredicate *S_reconnectableEntryPredicate = nil;
+static NSPredicate *S_showableSessionPredicate = nil;
+static NSPredicate *S_joinableSessionPredicate = nil;
 
 @implementation ConnectionBrowserController
 
 + (void)initialize {
     S_cancelableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus != %@ AND hostStatus != %@",ConnectionStatusNoConnection,@"HostEntryStatusCancelling"] retain];
     S_reconnectableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus == %@ ",ConnectionStatusNoConnection] retain];
+    S_showableSessionPredicate = [[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState] retain];
+    S_joinableSessionPredicate = [[NSPredicate predicateWithFormat:@"clientState = %d",TCMMMSessionClientNoState] retain];
 }
 
 + (ConnectionBrowserController *)sharedInstance {
@@ -305,10 +309,9 @@ static NSPredicate *S_reconnectableEntryPredicate = nil;
 
     if ([sessions count] > 0) {
         item = [menu itemWithTag:BrowserContextMenuTagJoin];
-        [item setEnabled:([[sessions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"clientState  = %d",TCMMMSessionClientNoState]] count]>0)];
+        [item setEnabled:([[sessions filteredArrayUsingPredicate:S_joinableSessionPredicate] count]>0)];
         item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
-        NSLog(@"clientState != noState: %@",[sessions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState]]);
-        [item setEnabled:([[sessions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState]]count]>0)];
+        [item setEnabled:([[sessions filteredArrayUsingPredicate:S_showableSessionPredicate] count]>0)];
     } else {
         item = [menu itemWithTag:BrowserContextMenuTagJoin];
         [item setEnabled:NO];
@@ -344,12 +347,12 @@ static NSPredicate *S_reconnectableEntryPredicate = nil;
         [item setEnabled:([userIDsWithAIM count]>0)];
         
         NSArray *cancelableEntries = [entries filteredArrayUsingPredicate:S_cancelableEntryPredicate];
-        NSLog(@"cancelableEntries: %@",cancelableEntries);
+//        NSLog(@"cancelableEntries: %@",cancelableEntries);
         item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
         [item setEnabled:([cancelableEntries count] > 0)];
         
         NSArray *reconnectableEntries = [entries filteredArrayUsingPredicate:S_reconnectableEntryPredicate];
-        NSLog(@"reconnectableEntries: %@",reconnectableEntries);
+//        NSLog(@"reconnectableEntries: %@",reconnectableEntries);
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
         [item setEnabled:([reconnectableEntries count] > 0)];
     }
@@ -566,11 +569,11 @@ static NSPredicate *S_reconnectableEntryPredicate = nil;
 }
 
 - (IBAction)join:(id)sender {
-    [self joinSessionsWithIndexes:[self indexSetOfSelectedSessionsFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"clientState = %d",TCMMMSessionClientNoState]]];
+    [self joinSessionsWithIndexes:[self indexSetOfSelectedSessionsFilteredUsingPredicate:S_joinableSessionPredicate]];
 }
 
 - (IBAction)show:(id)sender {
-    [self joinSessionsWithIndexes:[self indexSetOfSelectedSessionsFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState]]];
+    [self joinSessionsWithIndexes:[self indexSetOfSelectedSessionsFilteredUsingPredicate:S_showableSessionPredicate]];
 }
 
 - (NSIndexSet *)indexSetOfSelectedEntrysFilteredUsingPredicate:(NSPredicate *)aPredicate {
@@ -634,7 +637,6 @@ static NSPredicate *S_reconnectableEntryPredicate = nil;
 #pragma mark ### Entry lifetime management ###
 
 - (void)TCM_didAcceptSession:(NSNotification *)notification {
-    NSLog(@"%s",__FUNCTION__);
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
     
@@ -657,7 +659,6 @@ static NSPredicate *S_reconnectableEntryPredicate = nil;
 }
 
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
-    NSLog(@"%s",__FUNCTION__);
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
     ConnectionBrowserEntry *concernedEntry = nil;

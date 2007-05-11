@@ -19,8 +19,7 @@
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "SplitView.h"
-#import "RendezvousBrowserController.h"
-#import "InternetBrowserController.h"
+#import "ConnectionBrowserController.h"
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
 #import "AppController.h"
@@ -887,14 +886,14 @@ enum {
         [toolbarItem setLabel:NSLocalizedString(@"Rendezvous", nil)];
         [toolbarItem setToolTip:NSLocalizedString(@"Open Rendezvous Browser", nil)];
         [toolbarItem setImage:[NSImage imageNamed: @"Rendezvous"]];
-        [toolbarItem setTarget:[RendezvousBrowserController sharedInstance]];
+        [toolbarItem setTarget:[ConnectionBrowserController sharedInstance]];
         [toolbarItem setAction:@selector(showWindow:)];
     } else if ([itemIdent isEqual:InternetToolbarItemIdentifier]) { 
         [toolbarItem setPaletteLabel:NSLocalizedString(@"Internet", nil)];
         [toolbarItem setLabel:NSLocalizedString(@"Internet", nil)];
         [toolbarItem setToolTip:NSLocalizedString(@"Open Internet Browser", nil)];
         [toolbarItem setImage:[NSImage imageNamed: @"Internet"]];
-        [toolbarItem setTarget:[InternetBrowserController sharedInstance]];
+        [toolbarItem setTarget:[ConnectionBrowserController sharedInstance]];
         [toolbarItem setAction:@selector(showWindow:)];
     } else if ([itemIdent isEqual:ShiftRightToolbarItemIdentifier]) {
         [toolbarItem setToolTip:NSLocalizedString(@"Shift Selection Right", nil)];
@@ -987,7 +986,6 @@ enum {
                 ToggleChangeMarksToolbarItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
                 RendezvousToolbarItemIdentifier,
-                InternetToolbarItemIdentifier,
                 nil];
     [result addObjectsFromArray:
         [[AppController sharedInstance] 
