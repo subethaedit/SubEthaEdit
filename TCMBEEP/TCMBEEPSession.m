@@ -54,6 +54,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (void)TCM_createManagementChannelAndSendGreeting;
 - (void)TCM_startTLSHandshake;
 - (void)TCM_listenForTLSHandshake;
+- (void)TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel;
 - (CFArrayRef)TCM_sslCertificatesFromKeychain:(const char *)kcName encryptOnly:(CSSM_BOOL)encryptOnly usedKeychain:(SecKeychainRef*)pKcRef;
 - (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content;
 @end
@@ -608,6 +609,18 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     }
 }
 
+- (void)TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel
+{
+    if (I_flags.isTLSHandshaking && !I_flags.isTLSEnabled) {
+        // send greeting
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Life after TLS handshake...");
+        I_flags.isTLSEnabled = YES;
+        [I_profileURIs removeObject:TCMBEEPTLSProfileURI];
+        [self TCM_createManagementChannelAndSendGreeting];
+        I_flags.isTLSHandshaking = NO;
+    }
+}
+
 #define kWriteBufferThreshold 65535
 
 - (void)TCM_fillBufferInRoundRobinFashion
@@ -641,6 +654,8 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_readBytes
 {
+    [self TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel];
+    
     if (!I_flags.amReading) {
         I_flags.amReading = YES;
         uint8_t buffer[8192];
@@ -907,17 +922,11 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_writeBytes
 {
-    if (I_flags.isTLSHandshaking && !I_flags.isTLSEnabled) {
-        // send greeting
-        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Life after TLS handshake...");
-        I_flags.isTLSEnabled = YES;
-        [I_profileURIs removeObject:TCMBEEPTLSProfileURI];
-        [self TCM_createManagementChannelAndSendGreeting];
-        I_flags.isTLSHandshaking = NO;
-    }
+    [self TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel];
 
     if (!([I_writeBuffer length] > 0)) {
         if (![self isInitiator] && I_flags.hasSentTLSProceed) {
+            #warning May be too late when canAcceptBytes events reaches us when client already start the handshake
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Start listen for TLS handshake...");
             [self TCM_closeChannelsImplicitly];
             [self TCM_listenForTLSHandshake];
