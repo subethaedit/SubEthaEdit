@@ -27,16 +27,6 @@
 
 #define kMaxNumberOfItems 10
 
-static NSString * const HostEntryStatusResolving = @"HostEntryStatusResolving";
-static NSString * const HostEntryStatusResolveFailed = @"HostEntryStatusResolveFailed";
-static NSString * const HostEntryStatusContacting = @"HostEntryStatusContacting";
-static NSString * const HostEntryStatusContactFailed = @"HostEntryStatusContactFailed";
-static NSString * const HostEntryStatusSessionOpen = @"HostEntryStatusSessionOpen";
-static NSString * const HostEntryStatusSessionInvisible = @"HostEntryStatusSessionInvisible";
-static NSString * const HostEntryStatusSessionAtEnd = @"HostEntryStatusSessionAtEnd";
-static NSString * const HostEntryStatusCancelling = @"HostEntryStatusCancelling";
-static NSString * const HostEntryStatusCancelled = @"HostEntryStatusCancelled";
-
 enum {
     BrowserContextMenuTagJoin = 1,
     BrowserContextMenuTagAIM,
@@ -60,7 +50,15 @@ enum {
 
 static ConnectionBrowserController *sharedInstance = nil;
 
+static NSPredicate *S_cancelableEntryPredicate = nil;
+static NSPredicate *S_reconnectableEntryPredicate = nil;
+
 @implementation ConnectionBrowserController
+
++ (void)initialize {
+    S_cancelableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus != %@ AND hostStatus != %@",ConnectionStatusNoConnection,@"HostEntryStatusCancelling"] retain];
+    S_reconnectableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus == %@ ",ConnectionStatusNoConnection] retain];
+}
 
 + (ConnectionBrowserController *)sharedInstance {
     return sharedInstance;
@@ -84,7 +82,7 @@ static ConnectionBrowserController *sharedInstance = nil;
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagJoin];
     
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(join:) keyEquivalent:@""];
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuShowDocument", @"Show document entry for Browser context menu") action:@selector(show:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagShowDocument];
 
@@ -261,26 +259,13 @@ static ConnectionBrowserController *sharedInstance = nil;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-
-enum {
-    kCancellableStateMask = 1,
-    kReconnectableStateMask = 2,
-    kOpenStateMask = 4
-};
-
-enum {
-    kNoStateMask = 1,
-    kJoiningStateMask = 2,
-    kParticipantStateMask = 4
-};
-
-
 #pragma mark -
 #pragma mark ### Menu validation ###
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     if (selector == @selector(join:) ||
+        selector == @selector(show:) ||
         selector == @selector(reconnect:) ||
         selector == @selector(clear:) ||
         selector == @selector(cancelConnection:)) {
@@ -291,172 +276,83 @@ enum {
 
 - (void)menuNeedsUpdate:(NSMenu *)menu {
     
-//    if ([menu isEqual:[O_statusPopUpButton menu]]) {
-//        BOOL isVisible = [[TCMMMPresenceManager sharedInstance] isVisible];
-//        [[menu itemWithTag:10] setState:isVisible ? NSOnState : NSOffState];
-//        [[menu itemWithTag:11] setState:(!isVisible) ? NSOnState : NSOffState];
-//        [[menu itemWithTag:12] setState:[[TCMMMBEEPSessionManager sharedInstance] isProhibitingInboundInternetSessions] ? NSOnState : NSOffState];
-//        return;
-//    }
-//    
-//    NSMutableIndexSet *documentSet = [NSMutableIndexSet indexSet];
-//    NSMutableIndexSet *userSet = [NSMutableIndexSet indexSet];
-//    
-//    NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-//    unsigned int index = [indexes firstIndex];
-//    while (index != NSNotFound) {
-//        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
-//        if (pair.childIndex == -1) {
-//            [userSet addIndex:index];
-//        } else {
-//            [documentSet addIndex:index];
-//        }
-//        index = [indexes indexGreaterThanIndex:index];
-//    }
-//    
-//    id item;
-//
-//    if ([userSet count] > 0 && [documentSet count] > 0) {
-//        DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"Disabling all menu items because of inconsistent selection");
-//        item = [menu itemWithTag:BrowserContextMenuTagJoin];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagAIM];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagEmail];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagReconnect];
-//        [item setEnabled:NO];
-//        return;
-//    }
-//        
-//    if ([userSet count] == 0 && [documentSet count] == 0) {
-//        item = [menu itemWithTag:BrowserContextMenuTagJoin];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagAIM];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagEmail];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagReconnect];
-//        [item setEnabled:NO];
-//    }
-//    
-//    if ([userSet count] > 0) {
-//        item = [menu itemWithTag:BrowserContextMenuTagJoin];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagShowDocument];    
-//        [item setEnabled:NO];
-//
-//        NSMutableSet *dataSet = [NSMutableSet set];
-//        NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-//        unsigned int index = [indexes firstIndex];
-//        while (index != NSNotFound) {
-//            ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
-//            [dataSet addObject:[I_data objectAtIndex:pair.itemIndex]];
-//            index = [indexes indexGreaterThanIndex:index];
-//        }
-//        
-//        
-//        int state = 0;
-//        NSEnumerator *enumerator = [dataSet objectEnumerator];
-//        id dataItem;
-//        NSMutableSet *userIDs = [NSMutableSet set];
-//        while ((dataItem = [enumerator nextObject])) {
-//            NSString *status = [dataItem objectForKey:@"status"];
-//            if ([status isEqualToString:HostEntryStatusContacting] ||
-//                [status isEqualToString:HostEntryStatusResolving]) {
-//                state |= kCancellableStateMask;
-//            }
-//            if ([status isEqualToString:HostEntryStatusSessionOpen]) {
-//                [userIDs addObject:[dataItem objectForKey:@"UserID"]];
-//                state |= kOpenStateMask;
-//            }
-//            if ([dataItem objectForKey:@"failed"]) {
-//                state |= kReconnectableStateMask;
-//            }
-//        }
-//        
-//        if (!(state == 0 || state == 1 || state == 2 || state == 4)) {
-//            state = 0;
-//        }
-//
-//        if (state & kOpenStateMask) {
-//            item = [menu itemWithTag:BrowserContextMenuTagAIM];
-//            [item setRepresentedObject:userIDs];
-//            item = [menu itemWithTag:BrowserContextMenuTagEmail];
-//            [item setRepresentedObject:userIDs];
-//            item = [menu itemWithTag:BrowserContextMenuTagManageFiles];
-//            [item setRepresentedObject:userIDs];
-//        }
-//        TCMMMUserManager *manager = [TCMMMUserManager sharedInstance];
-//        item = [menu itemWithTag:BrowserContextMenuTagAIM];
-//        [item setEnabled:(state & kOpenStateMask) && [manager validateMenuItem:item]];
-//        item = [menu itemWithTag:BrowserContextMenuTagEmail];
-//        [item setEnabled:(state & kOpenStateMask) && [manager validateMenuItem:item]];
-//        
-//        item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
-//        [item setEnabled:(state & kCancellableStateMask) || (state & kOpenStateMask)];
-//        item = [menu itemWithTag:BrowserContextMenuTagReconnect];
-//        [item setEnabled:(state & kReconnectableStateMask) && YES]; 
-//                
-//        return;
-//    }
-//    
-//    
-//    if ([documentSet count] > 0) {
-//        item = [menu itemWithTag:BrowserContextMenuTagAIM];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagEmail];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
-//        [item setEnabled:NO];
-//        item = [menu itemWithTag:BrowserContextMenuTagReconnect];
-//        [item setEnabled:NO]; 
-//    
-//        NSMutableSet *sessionSet = [NSMutableSet set];
-//        NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-//        unsigned int index = [indexes firstIndex];
-//        while (index != NSNotFound) {
-//            ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
-//            NSDictionary *dataItem = [I_data objectAtIndex:pair.itemIndex];
-//            NSArray *sessions = [dataItem objectForKey:@"Sessions"];
-//            [sessionSet addObject:[sessions objectAtIndex:pair.childIndex]];
-//            index = [indexes indexGreaterThanIndex:index];
-//        }
-//        
-//        // check for consistent state of selected MMSessions
-//        int state = 0;
-//        NSEnumerator *enumerator = [sessionSet objectEnumerator];
-//        id sessionItem;
-//        while ((sessionItem = [enumerator nextObject])) {
-//            if ([sessionItem clientState] == TCMMMSessionClientNoState) {
-//                state |= kNoStateMask;
-//            }
-//            if ([sessionItem clientState] == TCMMMSessionClientJoiningState) {
-//                state |= kJoiningStateMask;
-//            }
-//            if ([sessionItem clientState] == TCMMMSessionClientParticipantState) {
-//                state |= kParticipantStateMask;
-//            }        
-//        }
-//
-//        if (!(state == 0 || state == 1 || state == 2 || state == 4)) {
-//            state = 0;
-//        }
-//        item = [menu itemWithTag:BrowserContextMenuTagJoin];
-//        [item setEnabled:(state & kNoStateMask) && YES];
-//        item = [menu itemWithTag:BrowserContextMenuTagShowDocument];    
-//        [item setEnabled:(state & kParticipantStateMask) || (state & kJoiningStateMask)];
-//        
-//        return;
-//    }
+    if ([menu isEqual:[O_statusPopUpButton menu]]) {
+        BOOL isVisible = [[TCMMMPresenceManager sharedInstance] isVisible];
+        [[menu itemWithTag:10] setState:isVisible ? NSOnState : NSOffState];
+        [[menu itemWithTag:11] setState:(!isVisible) ? NSOnState : NSOffState];
+        [[menu itemWithTag:12] setState:[[TCMMMBEEPSessionManager sharedInstance] isProhibitingInboundInternetSessions] ? NSOnState : NSOffState];
+        return;
+    }
+    
+    NSMutableArray *entries = [NSMutableArray array];
+    NSMutableArray *sessions = [NSMutableArray array];
+    NSArray *arrangedObjects = [I_entriesController arrangedObjects];
+    
+    NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
+    unsigned int index = [indexes firstIndex];
+    while (index != NSNotFound) {
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        ConnectionBrowserEntry *entry = [arrangedObjects objectAtIndex:pair.itemIndex];
+        if (pair.childIndex == -1) {
+            [entries addObject:entry];
+        } else {
+            [sessions addObject:[[entry announcedSessions] objectAtIndex:pair.childIndex]];
+        }
+        index = [indexes indexGreaterThanIndex:index];
+    }
+
+    NSMenuItem *item = nil;
+
+    if ([sessions count] > 0) {
+        item = [menu itemWithTag:BrowserContextMenuTagJoin];
+        [item setEnabled:([[sessions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"clientState  = %d",TCMMMSessionClientNoState]] count]>0)];
+        item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
+        NSLog(@"clientState != noState: %@",[sessions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState]]);
+        [item setEnabled:([[sessions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState]]count]>0)];
+    } else {
+        item = [menu itemWithTag:BrowserContextMenuTagJoin];
+        [item setEnabled:NO];
+        item = [menu itemWithTag:BrowserContextMenuTagShowDocument];
+        [item setEnabled:NO];
+    }
+    
+    
+    // default: disable then check what to enable
+    item = [menu itemWithTag:BrowserContextMenuTagAIM];
+    [item setEnabled:NO];
+    item = [menu itemWithTag:BrowserContextMenuTagEmail];
+    [item setEnabled:NO];
+    item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
+    [item setEnabled:NO];
+    item = [menu itemWithTag:BrowserContextMenuTagReconnect];
+    [item setEnabled:NO];
+    item = [menu itemWithTag:BrowserContextMenuTagManageFiles];
+    [item setRepresentedObject:nil];
+    [item setEnabled:NO];
+    
+    if ([entries count] > 0) {
+        NSArray *users = [entries valueForKeyPath:@"@distinctUnionOfObjects.user"];
+
+        NSArray *userIDsWithEmail = [[users filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"email != NULL"]] valueForKeyPath:@"@unionOfObjects.userID"];
+        item = [menu itemWithTag:BrowserContextMenuTagEmail];
+        [item setRepresentedObject:userIDsWithEmail];
+        [item setEnabled:([userIDsWithEmail count]>0)];
+        
+        NSArray *userIDsWithAIM = [[users filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"aim != NULL"]] valueForKeyPath:@"@unionOfObjects.userID"];
+        item = [menu itemWithTag:BrowserContextMenuTagAIM];
+        [item setRepresentedObject:userIDsWithAIM];
+        [item setEnabled:([userIDsWithAIM count]>0)];
+        
+        NSArray *cancelableEntries = [entries filteredArrayUsingPredicate:S_cancelableEntryPredicate];
+        NSLog(@"cancelableEntries: %@",cancelableEntries);
+        item = [menu itemWithTag:BrowserContextMenuTagCancelConnection];
+        [item setEnabled:([cancelableEntries count] > 0)];
+        
+        NSArray *reconnectableEntries = [entries filteredArrayUsingPredicate:S_reconnectableEntryPredicate];
+        NSLog(@"reconnectableEntries: %@",reconnectableEntries);
+        item = [menu itemWithTag:BrowserContextMenuTagReconnect];
+        [item setEnabled:([reconnectableEntries count] > 0)];
+    }
 }
 
 #pragma mark -
@@ -584,9 +480,11 @@ enum {
     unsigned int index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
-        ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
-        if (entry) {
-            [set addObject:entry];
+        if (pair.childIndex == -1) {
+            ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
+            if (entry) {
+                [set addObject:entry];
+            }
         }
         index = [indexes indexGreaterThanIndex:index];
     }
@@ -601,11 +499,13 @@ enum {
     unsigned int index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
-        ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
-        if ([[[entry BEEPSession] valueForKeyPath:@"channels.@unionOfObjects.profileURI"] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
-            abort = YES;
+        if (pair.childIndex == -1) {
+            ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
+            if ([[[entry BEEPSession] valueForKeyPath:@"channels.@unionOfObjects.profileURI"] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
+                abort = YES;
+            }
+            [set addObject:entry];
         }
-        [set addObject:entry];
         index = [indexes indexGreaterThanIndex:index];
     }
     
@@ -648,16 +548,54 @@ enum {
     }
 }
 
+- (NSIndexSet *)indexSetOfSelectedSessionsFilteredUsingPredicate:(NSPredicate *)aPredicate {
+    NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
+    NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
+    unsigned int index = [indexes firstIndex];
+    while (index != NSNotFound) {
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        if (pair.childIndex != -1) {
+            ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
+            if ([aPredicate evaluateWithObject:[[entry announcedSessions] objectAtIndex:pair.childIndex]]) {
+                [set addIndex:index];
+            }
+        }
+        index = [indexes indexGreaterThanIndex:index];
+    }
+    return set;
+}
+
 - (IBAction)join:(id)sender {
-    [self joinSessionsWithIndexes:[O_browserListView selectedRowIndexes]];
+    [self joinSessionsWithIndexes:[self indexSetOfSelectedSessionsFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"clientState = %d",TCMMMSessionClientNoState]]];
+}
+
+- (IBAction)show:(id)sender {
+    [self joinSessionsWithIndexes:[self indexSetOfSelectedSessionsFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState]]];
+}
+
+- (NSIndexSet *)indexSetOfSelectedEntrysFilteredUsingPredicate:(NSPredicate *)aPredicate {
+    NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
+    NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
+    unsigned int index = [indexes firstIndex];
+    while (index != NSNotFound) {
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        if (pair.childIndex == -1) {
+            ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
+            if ([aPredicate evaluateWithObject:entry]) {
+                [set addIndex:index];
+            }
+        }
+        index = [indexes indexGreaterThanIndex:index];
+    }
+    return set;
 }
 
 - (IBAction)reconnect:(id)sender {
-    [self reconnectWithIndexes:[O_browserListView selectedRowIndexes]];
+    [self reconnectWithIndexes:[self indexSetOfSelectedEntrysFilteredUsingPredicate:S_reconnectableEntryPredicate]];
 }
 
 - (IBAction)cancelConnection:(id)sender {
-    [self cancelConnectionsWithIndexes:[O_browserListView selectedRowIndexes]];
+    [self cancelConnectionsWithIndexes:[self indexSetOfSelectedEntrysFilteredUsingPredicate:S_cancelableEntryPredicate]];
 }
 
 - (IBAction)actionTriggered:(id)aSender {

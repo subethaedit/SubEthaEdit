@@ -54,4 +54,10 @@ extern NSString * const TCMMMUserWillLeaveSessionNotification;
 
 - (void)setUserHue:(NSNumber *)aHue;
 
+#pragma mark -
+#pragma mark ### accessors for convenience ###
+// both accessors return nil if the property is an @"" so they can be used with @unionOfObjects
+- (NSString *)aim;
+- (NSString *)email;
+
 @end
