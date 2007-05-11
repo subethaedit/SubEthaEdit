@@ -43,6 +43,13 @@ static ServerConnectionManager *S_sharedInstance = nil;
     [_windowControllers addObject:wc];
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
+    if ([anItem action] == @selector(openServerConnection:) ) {
+        return [anItem isEnabled];
+    }
+    return YES;
+}
+
 - (IBAction)openServerConnection:(id)aSender {
     NSLog(@"%s %@",__FUNCTION__,[aSender representedObject]);
     NSEnumerator *userIDs = [[aSender representedObject] objectEnumerator];

@@ -225,4 +225,15 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
     }
 }
 
+- (NSString *)aim {
+    NSString *result = [[self properties] objectForKey:@"AIM"];
+    if (result && [result length]>0) return result;
+    else return nil;
+}
+- (NSString *)email {
+    NSString *result = [[self properties] objectForKey:@"Email"];
+    if (result && [result length]>0) return result;
+    else return nil;
+}
+
 @end
