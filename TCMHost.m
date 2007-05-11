@@ -3,7 +3,7 @@
 //  SubEthaEdit
 //
 //  Created by Martin Ott on Wed Mar 03 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
 #import "TCMHost.h"
@@ -167,6 +167,11 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     CFHostStartInfoResolution(I_host, kCFHostAddresses, NULL);
 }
 
+- (void)reverseLookup
+{
+    CFHostStartInfoResolution(I_host, kCFHostNames, NULL);
+}
+
 - (void)cancel
 {
     CFHostCancelInfoResolution(I_host, kCFHostAddresses);
@@ -207,6 +212,15 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
         }
         if ([delegate respondsToSelector:@selector(hostDidResolveAddress:)]) {
             [delegate hostDidResolveAddress:self];
+        }
+    } else if (typeInfo == kCFHostNames) {
+        Boolean hasBeenResolved;
+        NSArray *names = (NSArray *)CFHostGetNames(host, &hasBeenResolved);
+        //NSLog(@"finished reverse lookup: %@", names);
+        [I_names removeAllObjects];
+        [I_names addObjectsFromArray:names];
+        if ([delegate respondsToSelector:@selector(hostDidResolveName:)]) {
+            [delegate hostDidResolveName:self];
         }
     } else if (typeInfo == kCFHostReachability) {
         

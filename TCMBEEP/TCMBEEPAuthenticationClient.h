@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "sasl.h"
+#import "TCMHost.h"
 
 @class TCMBEEPSession, TCMBEEPSASLProfile;
 
@@ -17,6 +18,9 @@
     sasl_conn_t *_sasl_conn_ctxt;
     sasl_callback_t _sasl_client_callbacks[10];
     BOOL _isAuthenticated;
+    NSData *_addressData;
+    NSData *_peerAddressData;
+    TCMHost *_peerHost;
 }
 
 - (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN;

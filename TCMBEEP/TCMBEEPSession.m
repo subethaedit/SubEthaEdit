@@ -470,6 +470,11 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     else return NO;
 }
 
+- (BOOL)isTLSEnabled
+{
+    return I_flags.isTLSEnabled;
+}
+
 - (NSArray *)channels
 {
     return I_channels;
