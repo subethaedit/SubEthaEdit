@@ -145,11 +145,18 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         _creationDate = [NSDate new];
         _BEEPSession = aSession;
         _hostStatus = HostEntryStatusSessionOpen;
+        [self reloadAnnouncedSessions];
     }
     return self;
 }
 
+- (void)reloadAnnouncedSessions {
+    [_announcedSessions autorelease];
+     _announcedSessions = [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"OrderedSessions"] copy];
+}
+
 - (void)dealloc {
+    [_announcedSessions release];
     [_creationDate release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_host release];
@@ -177,12 +184,13 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 - (BOOL)handleSession:(TCMBEEPSession *)aSession {
     if (_URL && !_BEEPSession) {
         if ([[[aSession userInfo] objectForKey:@"URLString"] isEqualToString:[_URL absoluteString]]) {
-            if (_hostStatus==HostEntryStatusCancelling || _hostStatus==HostEntryStatusCancelled) {
+            if (_hostStatus==HostEntryStatusCancelling ||  _hostStatus==HostEntryStatusCancelled) {
                 _hostStatus = HostEntryStatusCancelled;
             } else {
                 _BEEPSession = aSession;
                 _hostStatus = HostEntryStatusSessionOpen;
             }
+            [self reloadAnnouncedSessions];
             return YES;
         }
     }
@@ -196,6 +204,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         if ([self connectionStatus] != ConnectionStatusNoConnection) {
             _hostStatus = HostEntryStatusSessionAtEnd;
         }
+        [self reloadAnnouncedSessions];
         return YES;
     }
     return NO;
@@ -300,7 +309,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 }
 
 - (NSArray *)announcedSessions {
-    return [[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"OrderedSessions"];
+    return _announcedSessions;
 }
 
 - (BOOL)isBonjour {
