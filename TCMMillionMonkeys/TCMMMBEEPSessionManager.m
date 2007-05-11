@@ -380,6 +380,46 @@ static TCMMMBEEPSessionManager *sharedInstance;
     return fallbackSession;
 }
 
+- (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID peerAddressData:(NSData *)anAddressData {
+    TCMBEEPSession *fallbackSession = nil;
+    
+    NSDictionary *info = [self sessionInformationForUserID:aUserID];
+    NSArray *outboundSessions = [info objectForKey:@"OutboundSessions"];
+    NSEnumerator *outboundSessionEnumerator = [outboundSessions objectEnumerator];
+    TCMBEEPSession *session = nil;
+    while ((session = [outboundSessionEnumerator nextObject])) {
+        if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
+            if ([[session peerAddressData] isEqualTo:anAddressData]) {
+                return session;
+            } else {
+                if (!fallbackSession) fallbackSession = session;
+            }
+        }
+    }
+
+    NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
+    NSEnumerator *inboundSessionEnumerator = [inboundSessions objectEnumerator];
+    while ((session = [inboundSessionEnumerator nextObject])) {
+        if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
+            if ([[session peerAddressData] isEqualTo:anAddressData]) {
+                return session;
+            } else {
+                if (!fallbackSession) fallbackSession = session;
+            }
+        }
+    }
+
+    if ([[info objectForKey:@"RendezvousStatus"] isEqualToString:kBEEPSessionStatusGotSession]) {
+        session=[info objectForKey:@"RendezvousSession"];
+        if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
+            return session;
+        }
+    }
+    
+    return fallbackSession;
+}
+
+
 - (void)registerHandler:(id)aHandler forIncomingProfilesWithProfileURI:(NSString *)aProfileURI {
     [I_handlersForNewProfiles setObject:aHandler forKey:aProfileURI];
 }

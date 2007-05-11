@@ -283,7 +283,7 @@
         while ((userDescription=[userDescriptions nextObject])) {
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[userDescription objectForKey:@"UserID"]];
             if (user) {
-                TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] URLString:[userDescription objectForKey:@"URLString"]];
+                TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
                 [[self document] setPlainTextEditorsShowChangeMarksOnInvitation];
                 [session inviteUser:user intoGroup:I_dragToItem==0?@"ReadWrite":@"ReadOnly" usingBEEPSession:BEEPSession];
             }
