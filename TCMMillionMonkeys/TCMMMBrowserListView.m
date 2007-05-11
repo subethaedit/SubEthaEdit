@@ -145,9 +145,17 @@
     
 //    NSSize cellSize=[I_disclosureCell cellSize];
 //    [I_disclosureCell drawWithFrame:NSMakeRect(32.+10,20.,cellSize.width,cellSize.height) inView:self];
+    NSImage *browserStatusImage = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
+    float additionalSpace = 0.;
+    if (browserStatusImage) {
+        [browserStatusImage compositeToPoint:NSMakePoint(32.+10,32+2) 
+                                   operation:NSCompositeSourceOver];
+        additionalSpace = [browserStatusImage size].width + 4.;
+    }
+    
     string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (string) {
-        [string drawAtPoint:NSMakePoint(32.+11,20.) //was 32.+27 for with diclosure triangle
+        [string drawAtPoint:NSMakePoint(32.+11+additionalSpace,20.) //was 32.+27 for with diclosure triangle
                withAttributes:mStatusAttributes];
     }
     
