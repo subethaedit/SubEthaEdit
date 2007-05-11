@@ -52,6 +52,10 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (void)TCM_triggerTerminator;
 - (void)TCM_closeChannelsImplicitly;
 - (void)TCM_createManagementChannelAndSendGreeting;
+- (void)TCM_startTLSHandshake;
+- (void)TCM_listenForTLSHandshake;
+- (CFArrayRef)TCM_sslCertificatesFromKeychain:(const char *)kcName encryptOnly:(CSSM_BOOL)encryptOnly usedKeychain:(SecKeychainRef*)pKcRef;
+- (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content;
 @end
 
 #pragma mark -
@@ -776,10 +780,9 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 }
 
 #define KC_DB_PATH		"Library/Keychains"	
-CFArrayRef getSslCerts(
-	const char 		*kcName,				// may be NULL, i.e., use default
-	CSSM_BOOL		encryptOnly,
-	SecKeychainRef	*pKcRef)				// RETURNED
+- (CFArrayRef)TCM_sslCertificatesFromKeychain:(const char *)kcName	// may be NULL, i.e., use default
+	encryptOnly:(CSSM_BOOL)encryptOnly
+	usedKeychain:(SecKeychainRef*)pKcRef // RETURNED
 {
 	char 				kcPath[MAXPATHLEN + 1];
 	UInt32 				kcPathLen = MAXPATHLEN + 1;
@@ -867,14 +870,14 @@ CFArrayRef getSslCerts(
 	return ca;
 }
 
-- (void)_listenForTLSHandshake
+- (void)TCM_listenForTLSHandshake
 {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"%s", __FUNCTION__);
     Boolean resultReadStream, resultWriteStream;
     
     CFArrayRef certificates = NULL;
 	SecKeychainRef serverKc = nil;
-    certificates = getSslCerts("certkc.keychain", CSSM_FALSE, &serverKc);
+    certificates = [self TCM_sslCertificatesFromKeychain:"certkc.keychain" encryptOnly:CSSM_FALSE usedKeychain:&serverKc];
     if (certificates == NULL) DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Didn't find necessary certificates!");
     
     CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
@@ -901,7 +904,7 @@ CFArrayRef getSslCerts(
 {
     if (I_flags.isTLSHandshaking && !I_flags.isTLSEnabled) {
         // send greeting
-        NSLog(@"Life after TLS handshake...");
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Life after TLS handshake...");
         I_flags.isTLSEnabled = YES;
         [I_profileURIs removeObject:TCMBEEPTLSProfileURI];
         [self TCM_createManagementChannelAndSendGreeting];
@@ -910,9 +913,9 @@ CFArrayRef getSslCerts(
 
     if (!([I_writeBuffer length] > 0)) {
         if (![self isInitiator] && I_flags.hasSentTLSProceed) {
-            NSLog(@"Start listen for TLS handshake...");
+            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Start listen for TLS handshake...");
             [self TCM_closeChannelsImplicitly];
-            [self _listenForTLSHandshake];
+            [self TCM_listenForTLSHandshake];
             I_flags.hasSentTLSProceed = NO;
             I_flags.isTLSHandshaking = YES;
         }
@@ -1008,6 +1011,71 @@ CFArrayRef getSslCerts(
     }
 }
 
+- (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content
+{
+    BOOL result = YES;
+    // Parse XML
+    CFXMLTreeRef contentTree = NULL;
+    NSDictionary *errorDict;
+    
+    // create XML tree from payload
+    contentTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,
+                                (CFDataRef)data,
+                                NULL, //sourceURL
+                                kCFXMLParserSkipWhitespace | kCFXMLParserSkipMetaData,
+                                kCFXMLNodeCurrentVersion,
+                                (CFDictionaryRef *)&errorDict);
+    if (!contentTree) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"nixe baum: %@", [errorDict description]);
+        result = NO;
+    }
+    
+    CFXMLNodeRef node = NULL;
+    CFXMLTreeRef xmlTree = NULL;
+    if (result) {
+        // extract top level element from tree
+        int childCount = CFTreeGetChildCount(contentTree);
+        int index;
+        for (index = 0; index < childCount; index++) {
+            xmlTree = CFTreeGetChildAtIndex(contentTree, index);
+            node = CFXMLTreeGetNode(xmlTree);
+            if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
+                break;
+            }
+        }
+        if (!xmlTree || !node || CFXMLNodeGetTypeCode(node) != kCFXMLNodeTypeElement) {
+            result = NO;
+        }
+    }
+    
+    if (result) {
+        *element = [[(NSString *)CFXMLNodeGetString(node) retain] autorelease];
+        CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
+        *attributes = [[(NSDictionary *)info->attributes retain] autorelease];
+        NSMutableString *contentString = [NSMutableString string];
+        int childCount = CFTreeGetChildCount(xmlTree);
+        int index;
+        for (index = 0; index < childCount; index++) {
+            CFXMLTreeRef subTree = CFTreeGetChildAtIndex(xmlTree, index);
+            CFXMLNodeRef textNode = CFXMLTreeGetNode(subTree);
+            if (CFXMLNodeGetTypeCode(textNode) == kCFXMLNodeTypeText) {
+                [contentString appendString:(NSString *)CFXMLNodeGetString(textNode)];
+            }
+        }
+        if ([contentString length] > 0)
+            *content = contentString;
+        else
+            *content = nil;
+    } else {
+        *element = nil;
+        *attributes = nil;
+        *content = nil;
+    }
+    
+    if (contentTree) CFRelease(contentTree);
+    return result;
+}
+
 - (NSMutableDictionary *)preferedAnswerToAcceptRequestForChannel:(int32_t)channelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
 {
     // Profile URIs ausduennen 
@@ -1024,14 +1092,29 @@ CFArrayRef getSslCerts(
                 if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
                     answerData = [_authServer answerDataForChannelStartProfileURI:profileURI data:[aDataArray objectAtIndex:i]];
                 } else if ([profileURI isEqualToString:TCMBEEPTLSProfileURI]) {
-                    // parse data for 'ready' element, may have attributes
-                    
-                    
-                    answerData = [@"<proceed />" dataUsingEncoding:NSUTF8StringEncoding];
-                    #warning Sent last message before TLS negotiation
-                    // implicitly close all channels including channel zero, but proceed frame needs to go through
-                    
-                    I_flags.hasSentTLSProceed = YES;
+                    // parse data for 'ready' element, may have attribute
+                    NSString *element, *content;
+                    NSDictionary *attributes;
+                    BOOL result = [self TCM_parseData:[aDataArray objectAtIndex:i] forElement:&element attributes:&attributes content:&content];
+                    if (result) DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
+                    if (result && [element isEqualToString:@"ready"]) {
+                        BOOL shouldProceed = YES;
+                        NSString *version = [attributes objectForKey:@"version"];
+                        if (version && ![version isEqualToString:@"1"]) {
+                            shouldProceed = NO;
+                            answerData = [@"<error code='501'>version attribute poorly formed in &lt;ready&gt; element</error>" dataUsingEncoding:NSUTF8StringEncoding];
+                            #warning Opened TLS channel but there is no TLS
+                        }
+                        
+                        if (shouldProceed) {
+                            answerData = [@"<proceed />" dataUsingEncoding:NSUTF8StringEncoding];
+                            // implicitly close all channels including channel zero, but proceed frame needs to go through
+                            I_flags.hasSentTLSProceed = YES;
+                        }
+                                           
+                    } else {
+                        // Terminate session?
+                    }
                 }
                 
                 preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", 
@@ -1051,6 +1134,42 @@ CFArrayRef getSslCerts(
     return preferedAnswer;
 }
 
+- (void)TCM_startTLSHandshake
+{
+    // implicitly close all channels including channel zero and begin underlying negotiation process
+    [self TCM_closeChannelsImplicitly];
+
+    I_flags.isWaitingForTLSProceed = NO;
+    I_flags.isTLSHandshaking = YES;
+    
+    Boolean resultReadStream, resultWriteStream;
+    
+    resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySocketSecurityLevel, kCFStreamSocketSecurityLevelTLSv1);
+    resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySocketSecurityLevel, kCFStreamSocketSecurityLevelTLSv1);
+    if (resultReadStream && resultWriteStream) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySocketSecurityLevel");
+    } else {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"failed to set kCFStreamPropertySocketSecurityLevel");
+    }
+                        
+    CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    CFDictionaryAddValue(settings, kCFStreamSSLLevel, kCFStreamSocketSecurityLevelTLSv1);
+    CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredCertificates, kCFBooleanTrue);
+    CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredRoots, kCFBooleanTrue);
+    CFDictionaryAddValue(settings, kCFStreamSSLAllowsAnyRoot, kCFBooleanTrue);
+    CFDictionaryAddValue(settings, kCFStreamSSLValidatesCertificateChain, kCFBooleanFalse);
+    CFDictionaryAddValue(settings, kCFNull, kCFStreamSSLPeerName);
+
+    resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySSLSettings, settings);
+    resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySSLSettings, settings);
+    CFRelease(settings);
+    if (resultReadStream && resultWriteStream) {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySSLSettings");
+    } else {
+        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"failed to set kCFStreamPropertySSLSettings");
+    }
+}
+
 - (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI data:(NSData *)inData asInitiator:(BOOL)isInitiator
 {
     TCMBEEPChannel *channel = [[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI asInitiator:isInitiator];
@@ -1068,38 +1187,19 @@ CFArrayRef getSslCerts(
     } else {
         if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI]) {
             // parse associated data for 'error' or 'proceed' elements, 'error' may contain attributes?
-            
-            // implicitly close all channels including channel zero and begin underlying negotiation process
-            [self TCM_closeChannelsImplicitly];
-
-            I_flags.isWaitingForTLSProceed = NO;
-            I_flags.isTLSHandshaking = YES;
-            
-            Boolean resultReadStream, resultWriteStream;
-            
-            resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySocketSecurityLevel, kCFStreamSocketSecurityLevelTLSv1);
-            resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySocketSecurityLevel, kCFStreamSocketSecurityLevelTLSv1);
-            if (resultReadStream && resultWriteStream) {
-                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySocketSecurityLevel");
+            NSString *element, *content;
+            NSDictionary *attributes;
+            BOOL result = [self TCM_parseData:inData forElement:&element attributes:&attributes content:&content];
+            if (result) {
+                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
+                if ([element isEqualToString:@"proceed"] && attributes == nil && content == nil) {
+                    [self TCM_startTLSHandshake];
+                } else if ([element isEqualToString:@"error"]) {
+                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:@"code"], content);
+                    #warning Opened TLS channel but there is no TLS
+                }
             } else {
-                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"failed to set kCFStreamPropertySocketSecurityLevel");
-            }
-                                
-            CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-            CFDictionaryAddValue(settings, kCFStreamSSLLevel, kCFStreamSocketSecurityLevelTLSv1);
-            CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredCertificates, kCFBooleanTrue);
-            CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredRoots, kCFBooleanTrue);
-            CFDictionaryAddValue(settings, kCFStreamSSLAllowsAnyRoot, kCFBooleanTrue);
-            CFDictionaryAddValue(settings, kCFStreamSSLValidatesCertificateChain, kCFBooleanFalse);
-            CFDictionaryAddValue(settings, kCFNull, kCFStreamSSLPeerName);
-        
-            resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySSLSettings, settings);
-            resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySSLSettings, settings);
-            CFRelease(settings);
-            if (resultReadStream && resultWriteStream) {
-                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySSLSettings");
-            } else {
-                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"failed to set kCFStreamPropertySSLSettings");
+                // Terminate session?
             }
         }
         
