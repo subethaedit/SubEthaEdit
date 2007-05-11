@@ -213,6 +213,13 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (id)itemObjectValueForTag:(int)aTag {
     TCMMMUser *user = [self user];
+    if (aTag == TCMMMBrowserItemStatusImageTag) {
+        if ([self isBonjour]) {
+            return [NSImage imageNamed:@"Rendezvous13"];
+        } else {
+            return [NSImage imageNamed:@"Internet13"];
+        }
+    }
     BOOL showUser = [self isVisible] && (_hostStatus == HostEntryStatusSessionOpen) && user;
     if (aTag == TCMMMBrowserItemImageTag) {
         if (showUser) {
