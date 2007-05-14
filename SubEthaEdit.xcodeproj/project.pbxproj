@@ -402,6 +402,10 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
+		F2A707970BF8935400482EFC /* LoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707960BF8935400482EFC /* LoginButton.png */; };
+		F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */; };
+		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
+		F2A707C80BF8A54100482EFC /* LoginSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2A707C60BF8A54100482EFC /* LoginSheet.nib */; };
 		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
 		F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */; };
 		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
@@ -1142,6 +1146,11 @@
 		F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButtonCell.m; sourceTree = "<group>"; };
 		F27B2EEE0B52968E00679CF2 /* HUDButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButton.m; sourceTree = "<group>"; };
 		F27B2EEF0B52968E00679CF2 /* HUDButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HUDButton.h; sourceTree = "<group>"; };
+		F2A707960BF8935400482EFC /* LoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButton.png; path = artwork/LoginButton.png; sourceTree = "<group>"; };
+		F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButtonIn.png; path = artwork/LoginButtonIn.png; sourceTree = "<group>"; };
+		F2A707B80BF89F4200482EFC /* LoginSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginSheetController.h; sourceTree = "<group>"; };
+		F2A707B90BF89F4200482EFC /* LoginSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginSheetController.m; sourceTree = "<group>"; };
+		F2A707C70BF8A54100482EFC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/LoginSheet.nib; sourceTree = "<group>"; };
 		F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserController.m; sourceTree = "<group>"; };
 		F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserController.h; sourceTree = "<group>"; };
 		F2D12A0A0BF0B6B000A776CC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
@@ -1302,6 +1311,8 @@
 				5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */,
 				5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */,
 				5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */,
+				F2A707960BF8935400482EFC /* LoginButton.png */,
+				F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */,
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
 				14289073095743F200D14688 /* Mode.icns */,
 				14289075095743F200D14688 /* NamedLogo2.tiff */,
@@ -1854,6 +1865,8 @@
 				142893E309575A3000D14688 /* FindReplaceController.m */,
 				142893F009575A3000D14688 /* LicenseController.h */,
 				142893F109575A3000D14688 /* LicenseController.m */,
+				F2A707B80BF89F4200482EFC /* LoginSheetController.h */,
+				F2A707B90BF89F4200482EFC /* LoginSheetController.m */,
 				142893EA09575A3000D14688 /* PullDownButton.h */,
 				142893EB09575A3000D14688 /* PullDownButton.m */,
 				142893EC09575A3000D14688 /* PullDownButtonCell.h */,
@@ -1926,6 +1939,7 @@
 				142890450957421300D14688 /* SubEthaEditHelp */,
 				149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */,
 				F234E3AC0BE20E8400504A7C /* ServerConnection.nib */,
+				F2A707C60BF8A54100482EFC /* LoginSheet.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2450,6 +2464,9 @@
 				F223FC8F0BDF5F1C00437D55 /* DefaultPerson.png in Resources */,
 				F234E3AE0BE20E8400504A7C /* ServerConnection.nib in Resources */,
 				F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */,
+				F2A707970BF8935400482EFC /* LoginButton.png in Resources */,
+				F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */,
+				F2A707C80BF8A54100482EFC /* LoginSheet.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2795,6 +2812,7 @@
 				F2280A320BEF56AB00255AAE /* SDDirectoryUserGroupList.m in Sources */,
 				F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */,
 				F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */,
+				F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3108,6 +3126,14 @@
 				F234E3AD0BE20E8400504A7C /* English */,
 			);
 			name = ServerConnection.nib;
+			sourceTree = "<group>";
+		};
+		F2A707C60BF8A54100482EFC /* LoginSheet.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2A707C70BF8A54100482EFC /* English */,
+			);
+			name = LoginSheet.nib;
 			sourceTree = "<group>";
 		};
 		F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */ = {

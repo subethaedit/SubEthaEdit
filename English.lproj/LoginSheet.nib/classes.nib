@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {cancel = id; login = id; }; 
+            CLASS = LoginSheetController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_cancelButton" = NSButton; 
+                "O_imageView" = NSImageView; 
+                "O_loginButton" = NSButton; 
+                "O_passwordTextField" = NSSecureTextField; 
+                "O_progressIndicator" = NSProgressIndicator; 
+                "O_statusTextField" = NSTextField; 
+                "O_textField1" = NSTextField; 
+                "O_textField2" = NSTextField; 
+                "O_textField3" = NSTextField; 
+                "O_usernameTextField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

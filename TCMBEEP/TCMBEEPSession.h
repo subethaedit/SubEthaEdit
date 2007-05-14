@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "sasl.h"
 #import "TCMBEEPProfile.h"
+#import "TCMBEEPAuthenticationClient.h"
+#import "TCMBEEPAuthenticationServer.h"
 
 extern NSString * const NetworkTimeoutPreferenceKey;
 extern NSString * const kTCMBEEPFrameTrailer;
@@ -20,7 +22,8 @@ extern NSString * const TCMBEEPSASLPLAINProfileURI;
 extern NSString * const TCMBEEPSASLCRAMMD5ProfileURI;
 extern NSString * const TCMBEEPSASLDIGESTMD5ProfileURI;
 extern NSString * const TCMBEEPSASLGSSAPIProfileURI;
-extern NSString * const TCMMMBEEPSessionDidReceiveGreetingNotification;
+extern NSString * const TCMBEEPSessionDidReceiveGreetingNotification;
+extern NSString * const TCMBEEPSessionDidEndNotification;
 
 typedef enum {
    TCMBEEPSessionStatusNotOpen = 0,

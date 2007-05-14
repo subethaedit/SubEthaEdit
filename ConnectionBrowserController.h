@@ -8,7 +8,9 @@
 
 #import <AppKit/AppKit.h>
 
-@class TCMMMBrowserListView, ConnectionBrowserEntry;
+#import "LoginSheetController.h"
+
+@class TCMMMBrowserListView, ConnectionBrowserEntry, LoginSheetController;
 
 
 @interface ConnectionBrowserController : NSWindowController
@@ -21,6 +23,7 @@
     IBOutlet NSPopUpButton *O_actionPullDownButton;
     IBOutlet NSPopUpButton *O_statusPopUpButton;
     IBOutlet NSButton   *O_clearButton;
+    IBOutlet LoginSheetController *O_loginSheetController;
 
     NSMutableArray *I_comboBoxItems;
     NSArrayController *I_entriesController;
@@ -33,6 +36,7 @@
 - (NSMutableArray *)comboBoxItems;
 - (void)setComboBoxItems:(NSMutableArray *)anArray;
 
+- (IBAction)login:(id)aSender;
 - (IBAction)connect:(id)aSender;
 - (IBAction)setVisibilityByMenuItem:(id)aSender;
 - (IBAction)toggleProhibitInboundConnections:(id)aSender;

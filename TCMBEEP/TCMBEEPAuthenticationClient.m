@@ -181,6 +181,7 @@ static int sasl_chalprompt_session_client(void *context, int id,
 
 - (void)dealloc
 {
+    [_availableMechanisms release];
     if (_sasl_conn_ctxt) sasl_dispose(&_sasl_conn_ctxt);
     [_profile release];
     _profile = nil;
@@ -269,6 +270,25 @@ static int sasl_chalprompt_session_client(void *context, int id,
         DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"%s", sasl_errdetail(_sasl_conn_ctxt));
     }
 }
+
+- (NSSet *)availableAuthenticationMechanisms {
+    if (_availableMechanisms) return _availableMechanisms;
+    if ([[_session peerProfileURIs] count]) {
+        _availableMechanisms = [NSMutableSet new];
+        NSEnumerator *enumerator = [[_session peerProfileURIs] objectEnumerator];
+        NSString *profileURI;
+        while ((profileURI = [enumerator nextObject])) {
+            if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
+                [_availableMechanisms addObject:[profileURI substringFromIndex:[TCMBEEPSASLProfileURIPrefix length]]];
+            }
+        }
+        return _availableMechanisms;
+    }
+    return nil;
+}
+
+
+
 
 - (void)_authenticate
 {

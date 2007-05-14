@@ -127,6 +127,9 @@ English.lproj/License.nib/classes.nib -text
 English.lproj/License.nib/info.nib -text
 English.lproj/License.nib/keyedobjects.nib -text
 English.lproj/Localizable.strings -text svneol=unset#text/plain
+English.lproj/LoginSheet.nib/classes.nib -text
+English.lproj/LoginSheet.nib/info.nib -text
+English.lproj/LoginSheet.nib/keyedobjects.nib -text
 English.lproj/MainMenu.nib/classes.nib -text
 English.lproj/MainMenu.nib/info.nib -text
 English.lproj/MainMenu.nib/keyedobjects.nib -text
@@ -315,6 +318,8 @@ HTMLExport/Base.html -text
 /LayoutManager.m -text
 /LicenseController.h -text
 /LicenseController.m -text
+/LoginSheetController.h -text
+/LoginSheetController.m -text
 /ModeSettings.h -text
 /ModeSettings.m -text
 Modes/ActionScript.mode/Contents/Info.plist -text
@@ -1399,6 +1404,9 @@ artwork/InvisibleCharactersShow.png -text
 artwork/InvitationBadge1-2.tiff -text
 artwork/InvitationBadge3.tiff -text
 artwork/LibraryFolderIcon.tiff -text
+artwork/LoginButton.png -text
+artwork/LoginButton.psd -text
+artwork/LoginButtonIn.png -text
 artwork/Mode.icns -text
 artwork/NamedLogo2.tiff -text
 artwork/NextChange.png -text

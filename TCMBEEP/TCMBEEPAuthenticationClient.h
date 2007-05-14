@@ -21,9 +21,11 @@
     NSData *_addressData;
     NSData *_peerAddressData;
     TCMHost *_peerHost;
+    NSMutableSet *_availableMechanisms;
 }
 
 - (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN;
+- (NSSet *)availableAuthenticationMechanisms;
 - (void)startAuthentication;
 - (BOOL)isAuthenticated;
 - (void)setIsAuthenticated:(BOOL)flag;
