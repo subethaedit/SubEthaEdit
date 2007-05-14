@@ -16,6 +16,7 @@ enum {
     TCMMMBrowserItemStatusTag,
     TCMMMBrowserItemActionImageTag = TCMListViewActionButtonImageTag,
     TCMMMBrowserItemStatusImageTag,
+    TCMMMBrowserItemStatus2ImageTag,
     TCMMMBrowserChildIconImageTag,
     TCMMMBrowserChildNameTag,
     TCMMMBrowserChildStatusImageTag,

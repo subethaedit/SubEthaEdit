@@ -150,9 +150,16 @@
     if (browserStatusImage) {
         [browserStatusImage compositeToPoint:NSMakePoint(32.+10,32+2) 
                                    operation:NSCompositeSourceOver];
-        additionalSpace = [browserStatusImage size].width + 4.;
+        additionalSpace += [browserStatusImage size].width + 4.;
     }
     
+    browserStatusImage = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatus2ImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
+    if (browserStatusImage) {
+        [browserStatusImage compositeToPoint:NSMakePoint(32.+10+additionalSpace,32+2) 
+                                   operation:NSCompositeSourceOver];
+        additionalSpace += [browserStatusImage size].width + 4.;
+    }
+
     string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (string) {
         [string drawAtPoint:NSMakePoint(32.+11+additionalSpace,20.) //was 32.+27 for with diclosure triangle
