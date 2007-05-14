@@ -17,6 +17,8 @@
 #import <sys/socket.h>
 #import <netdb.h>
 
+NSString * const TCMBEEPAuthenticationClientDidAuthenticateNotification = @"TCMBEEPAuthenticationClientDidAuthenticateNotification";
+NSString * const TCMBEEPAuthenticationClientDidNotAuthenticateNotification = @"TCMBEEPAuthenticationClientDidNotAuthenticateNotification";
 
 static int sasl_getopt_session_client_cb(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len)
 {
@@ -42,7 +44,10 @@ static int sasl_pass_session_client_cb(sasl_conn_t *conn, void *context, int id,
     if (!conn || !psecret || id != SASL_CB_PASS)
         return SASL_BADPARAM;
 
-    password = "jdoe";
+    TCMBEEPAuthenticationClient *client = (TCMBEEPAuthenticationClient *)context;
+    NSString *pass = [client valueForKey:@"password"];
+    
+    password = pass?[pass UTF8String]:"";
     if (!password)
         return SASL_FAIL;
 
@@ -50,10 +55,10 @@ static int sasl_pass_session_client_cb(sasl_conn_t *conn, void *context, int id,
 
     *psecret = (sasl_secret_t *) malloc(sizeof(sasl_secret_t) + len);
 
-    if (! *psecret) {
-        memset(password, 0, len);
-        return SASL_NOMEM;
-    }
+//    if (! *psecret) {
+//        memset(password, 0, len);
+//        return SASL_NOMEM;
+//    }
 
     (*psecret)->len = len;
     strcpy((char *)(*psecret)->data, password);
@@ -69,16 +74,19 @@ static int sasl_getsimple_session_client_cb(void *context, int id, const char **
     if (!result)
         return SASL_BADPARAM;
 
+    TCMBEEPAuthenticationClient *client = (TCMBEEPAuthenticationClient *)context;
+    NSString *userName = [client valueForKey:@"userName"];
+
     switch (id) {
         case SASL_CB_USER:
             DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"SASL_CB_USER");
-            *result = "jdoe";
-            if (len) *len = 3;         
+            *result = userName?[userName UTF8String]:"";
+            if (len) *len = strlen(*result);
             break;
         case SASL_CB_AUTHNAME:
             DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"SASL_CB_AUTHNAME");
-            *result = "jdoe";
-            if (len) *len = 3;
+            *result = userName?[userName UTF8String]:"";
+            if (len) *len = strlen(*result);
             break;
         default:
             DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"id: %d", id);
@@ -351,8 +359,10 @@ static int sasl_chalprompt_session_client(void *context, int id,
     }
 }
 
-- (void)startAuthentication
+- (void)startAuthenticationWithUserName:(NSString *)aUserName password:(NSString *)aPassword
 {
+    [self setValue:aUserName forKey:@"userName"];
+    [self setValue:aPassword forKey:@"password"];
     if (!_sasl_conn_ctxt) {
         if (_peerAddressData) {
             _peerHost = [[TCMHost alloc] initWithAddressData:_peerAddressData port:0 userInfo:nil];
@@ -522,7 +532,9 @@ static int sasl_chalprompt_session_client(void *context, int id,
                     if (childCount == 0 && [[attributes objectForKey:@"status"] isEqualToString:@"complete"]) {
                         DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"SUCCESSFULLY AUTHENTICATED");
                         _isAuthenticated = YES;
-                        #warning Call delegate
+                        [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPAuthenticationClientDidAuthenticateNotification object:self];
+                        [self setValue:@"" forKey:@"userName"];
+                        [self setValue:@"" forKey:@"password"];
                     }
                     
                     if (childCount == 1) {
@@ -545,7 +557,13 @@ static int sasl_chalprompt_session_client(void *context, int id,
                         if (CFXMLNodeGetTypeCode(blobTextNode) == kCFXMLNodeTypeText) {
                             NSString *failureMessage = (NSString *)CFXMLNodeGetString(blobTextNode);
                             DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"Error: %@ (%@)", [attributes objectForKey:@"code"], failureMessage);
-                            #warning Call delegate
+                            if (!failureMessage) failureMessage = @"No Failure Message";
+                            [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPAuthenticationClientDidNotAuthenticateNotification object:self userInfo:[NSDictionary dictionaryWithObject:
+                                [NSError errorWithDomain:@"BEEPDomain" code:[[attributes objectForKey:@"code"] intValue] userInfo:[NSDictionary dictionaryWithObject:failureMessage forKey:NSUnderlyingErrorKey]]
+                                    
+                                forKey:@"NSError"]];
+                            [self setValue:@"" forKey:@"userName"];
+                            [self setValue:@"" forKey:@"password"];
                         }
                     }
                 }

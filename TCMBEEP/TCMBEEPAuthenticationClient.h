@@ -10,6 +10,10 @@
 #import "sasl.h"
 #import "TCMHost.h"
 
+extern NSString * const TCMBEEPAuthenticationClientDidAuthenticateNotification;
+extern NSString * const TCMBEEPAuthenticationClientDidNotAuthenticateNotification;
+
+
 @class TCMBEEPSession, TCMBEEPSASLProfile;
 
 @interface TCMBEEPAuthenticationClient : NSObject {
@@ -22,11 +26,13 @@
     NSData *_peerAddressData;
     TCMHost *_peerHost;
     NSMutableSet *_availableMechanisms;
+    NSString *_userName;
+    NSString *_password;
 }
 
 - (id)initWithSession:(TCMBEEPSession *)session addressData:(NSData *)addressData peerAddressData:(NSData *)peerAddressData serverFQDN:(NSString *)serverFQDN;
 - (NSSet *)availableAuthenticationMechanisms;
-- (void)startAuthentication;
+- (void)startAuthenticationWithUserName:(NSString *)aUserName password:(NSString *)aPassword;
 - (BOOL)isAuthenticated;
 - (void)setIsAuthenticated:(BOOL)flag;
 
