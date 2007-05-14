@@ -616,6 +616,9 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     if (I_flags.isTLSHandshaking && !I_flags.isTLSEnabled) {
         // send greeting
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Life after TLS handshake...");
+
+        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %d, readBuffer length: %d", [I_writeBuffer length], [I_readBuffer length]);
+
         I_flags.isTLSEnabled = YES;
         [I_profileURIs removeObject:TCMBEEPTLSProfileURI];
         [self TCM_createManagementChannelAndSendGreeting];
@@ -655,9 +658,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 }
 
 - (void)TCM_readBytes
-{
-    [self TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel];
-    
+{    
     if (!I_flags.amReading) {
         I_flags.amReading = YES;
         uint8_t buffer[8192];
@@ -895,6 +896,10 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (void)TCM_listenForTLSHandshake
 {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"%s", __FUNCTION__);
+    
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %d, readBuffer length: %d", [I_writeBuffer length], [I_readBuffer length]);
+    
+    
     Boolean resultReadStream, resultWriteStream;
     
     CFArrayRef certificates = NULL;
@@ -924,22 +929,15 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_writeBytes
 {
-    [self TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel];
-
     if (!([I_writeBuffer length] > 0)) {
-        if (![self isInitiator] && I_flags.hasSentTLSProceed) {
-            #warning May be too late when canAcceptBytes events reaches us when client already start the handshake
-            DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Start listen for TLS handshake...");
-            [self TCM_closeChannelsImplicitly];
-            [self TCM_listenForTLSHandshake];
-            I_flags.hasSentTLSProceed = NO;
-            I_flags.isTLSHandshaking = YES;
-        }
         return;
     }
-        
-    CFIndex bytesWritten = CFWriteStreamWrite(I_writeStream, [I_writeBuffer bytes], [I_writeBuffer length]);
-
+    
+    CFIndex bytesWritten = 0;
+    if ((CFWriteStreamCanAcceptBytes(I_writeStream) == true) && (CFWriteStreamGetStatus(I_writeStream) == kCFStreamStatusOpen)) {
+        bytesWritten = CFWriteStreamWrite(I_writeStream, [I_writeBuffer bytes], [I_writeBuffer length]);
+    }
+    
 #ifndef TCM_NO_DEBUG
     if (isLogging && bytesWritten > 0) [I_rawLogOutHandle writeData:[NSData dataWithBytesNoCopy:(void *)[I_writeBuffer bytes] length:bytesWritten freeWhenDone:NO]];
 #endif
@@ -947,6 +945,18 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     if (bytesWritten > 0) {
         DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"bytesWritten: %d", bytesWritten);
         [I_writeBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
+        
+        if (!([I_writeBuffer length] > 0)) {
+            if (![self isInitiator] && I_flags.hasSentTLSProceed) {
+                DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Start listen for TLS handshake...");
+                [self TCM_closeChannelsImplicitly];
+                [self TCM_listenForTLSHandshake];
+                I_flags.hasSentTLSProceed = NO;
+                I_flags.isTLSHandshaking = YES;
+            }
+            return;
+        }
+    
     } else if (bytesWritten < 0) {
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Error occurred while writing bytes.");
     } else {
@@ -965,12 +975,16 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_handleStreamHasBytesAvailableEvent
 {
+    [self TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel];
+
     [self triggerTerminator];
     [self TCM_readBytes];
 }
 
 - (void)TCM_handleStreamCanAcceptBytesEvent
 {
+    [self TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel];
+
     // fill write buffer
     [self TCM_fillBufferInRoundRobinFashion];
 
@@ -1008,6 +1022,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)didReceiveGreetingWithProfileURIs:(NSArray *)profileURIs featuresAttribute:(NSString *)aFeaturesAttribute localizeAttribute:(NSString *)aLocalizeAttribute
 {
+    NSLog(@"%s", __FUNCTION__);
     [self setPeerLocalizeAttribute:aLocalizeAttribute];
     [self setPeerFeaturesAttribute:aFeaturesAttribute];
     [self setPeerProfileURIs:profileURIs];
@@ -1152,8 +1167,12 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 - (void)TCM_startTLSHandshake
 {
+    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Start TLS handshake...");
+    
     // implicitly close all channels including channel zero and begin underlying negotiation process
     [self TCM_closeChannelsImplicitly];
+    
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %d, readBuffer length: %d", [I_writeBuffer length], [I_readBuffer length]);
 
     I_flags.isWaitingForTLSProceed = NO;
     I_flags.isTLSHandshaking = YES;
