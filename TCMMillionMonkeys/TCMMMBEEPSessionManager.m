@@ -34,6 +34,10 @@ NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification = @"TCMMMBEEPS
 NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification = @"TCMMMBEEPSessionManagerConnectToHostDidFailNotification";
 NSString * const TCMMMBEEPSessionManagerConnectToHostCancelledNotification = @"TCMMMBEEPSessionManagerConnectToHostCancelledNotification";
 
+NSString * const kTCMMMBEEPSessionManagerDefaultMode=@"kTCMMMBEEPSessionManagerDefaultMode";
+NSString * const kTCMMMBEEPSessionManagerTLSMode    =@"kTCMMMBEEPSessionManagerTLSMode";
+
+
 /*"
     SessionInformation:
         @"RendezvousStatus" => kBEEPSessionStatusNoSession | kBEEPSessionStatusGotSession | kBEEPSessionStatusConnecting
@@ -81,6 +85,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 {
     self = [super init];
     if (self) {
+        I_greetingProfiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSMutableArray array],kTCMMMBEEPSessionManagerDefaultMode,[NSMutableArray array],kTCMMMBEEPSessionManagerTLSMode,nil];
         I_handlersForNewProfiles = [NSMutableDictionary new];
         I_sessionInformationByUserID = [NSMutableDictionary new];
         I_pendingSessionProfiles = [NSMutableSet new];
@@ -97,6 +102,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)dealloc
 {
+    [I_greetingProfiles release];
     [I_listener close];
     [I_listener setDelegate:nil];
     [I_listener release];
@@ -256,11 +262,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [session release];
         [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
         [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
-        [session addProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",
-                                                          @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
-                                                          @"http://www.codingmonkeys.de/BEEP/TCMMMStatus",
-                                                          @"http://www.codingmonkeys.de/BEEP/SeedFileManagement",
-                                                          nil]];
+        [session addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
         [session setDelegate:self];
         [session open];
     }
@@ -314,11 +316,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
         [sessions addObject:session];
         [session release];
-        [session addProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",
-                                                          @"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
-                                                          @"http://www.codingmonkeys.de/BEEP/TCMMMStatus",
-                                                          @"http://www.codingmonkeys.de/BEEP/SeedFileManagement",
-                                                          nil]];
+        [session addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
         [session setDelegate:self];
         [session open];
     }
@@ -423,6 +421,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)registerHandler:(id)aHandler forIncomingProfilesWithProfileURI:(NSString *)aProfileURI {
     [I_handlersForNewProfiles setObject:aHandler forKey:aProfileURI];
 }
+
+- (void)registerProfileURI:(NSString *)aProfileURI forGreetingInMode:(NSString *)aMode {
+    [[I_greetingProfiles objectForKey:aMode] addObject:aProfileURI];
+}
+
 
 #pragma mark -
 
@@ -813,11 +816,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPListener:didAcceptBEEPSession: %@", aBEEPSession);
-    [aBEEPSession addProfileURIs:[NSArray arrayWithObjects:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake",
-                                                           @"http://www.codingmonkeys.de/BEEP/TCMMMStatus",
-                                                           @"http://www.codingmonkeys.de/BEEP/SubEthaEditSession",
-                                                           @"http://www.codingmonkeys.de/BEEP/SeedFileManagement",
-                                                           nil]];
+    [aBEEPSession addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
     [aBEEPSession setDelegate:self];
     [aBEEPSession open];
     [I_pendingSessions addObject:aBEEPSession];
