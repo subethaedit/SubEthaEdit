@@ -157,7 +157,13 @@ int main(int argc, const char *argv[])
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
     [TCMBEEPChannel setClass:[FileManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
 
-    [[TCMMMBEEPSessionManager sharedInstance] listen];
+    TCMMMBEEPSessionManager *sm = [TCMMMBEEPSessionManager sharedInstance];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+
+    [sm listen];
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];
     // [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
     

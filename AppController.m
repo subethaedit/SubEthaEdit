@@ -580,7 +580,13 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
     [TCMBEEPChannel setClass:[FileManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
 
-    [[TCMMMBEEPSessionManager sharedInstance] listen];
+    // set up default greetings
+    TCMMMBEEPSessionManager *sm = [TCMMMBEEPSessionManager sharedInstance];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    
+    [sm listen];
     [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
     [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 
