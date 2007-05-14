@@ -34,11 +34,13 @@ enum {
     BrowserContextMenuTagShowDocument,
     BrowserContextMenuTagCancelConnection,
     BrowserContextMenuTagReconnect,
+    BrowserContextMenuTagLogIn,
     BrowserContextMenuTagManageFiles = 10
 };
 
 @interface ConnectionBrowserController (InternetBrowserControllerPrivateAdditions)
 
+- (NSSet *)selectedEntriesFilteredUsingPredicate:(NSPredicate *)aPredicate;
 - (void)connectToURL:(NSURL *)anURL retry:(BOOL)isRetrying;
 - (void)TCM_validateStatusPopUpButton;
 - (void)TCM_validateClearButton;
@@ -110,11 +112,18 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuReconnect", @"Reconnect entry for Browser context menu") action:@selector(reconnect:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagReconnect];        
+        
+        [I_contextMenu addItem:[NSMenuItem separatorItem]];
+
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuLogIn", @"Log In entry for Browser context menu") action:@selector(login:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagLogIn];
+
 
         item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuManageFiles", @"Manage files entry for Browser context menu") action:@selector(openServerConnection:) keyEquivalent:@""];
         [item setTarget:[ServerConnectionManager sharedInstance]];
         [item setTag:BrowserContextMenuTagManageFiles];
-        
+
         [I_contextMenu setDelegate:self];        
 
 
@@ -323,6 +332,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     if (selector == @selector(join:) ||
+        selector == @selector(login:) ||
         selector == @selector(show:) ||
         selector == @selector(reconnect:) ||
         selector == @selector(clear:) ||
@@ -386,8 +396,12 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     item = [menu itemWithTag:BrowserContextMenuTagManageFiles];
     [item setRepresentedObject:nil];
     [item setEnabled:NO];
+
+    item = [menu itemWithTag:BrowserContextMenuTagLogIn];
+    [item setEnabled:([entries count] == 1 && [[[[[entries lastObject] BEEPSession] authenticationClient] availableAuthenticationMechanisms] count] > 0)];
     
     if ([entries count] > 0) {
+
         NSArray *users = [entries valueForKeyPath:@"@distinctUnionOfObjects.user"];
 
         NSArray *userIDsWithEmail = [[users filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"email != NULL"]] valueForKeyPath:@"@unionOfObjects.userID"];
@@ -518,6 +532,17 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 #pragma mark -
 #pragma mark ### IBActions ###
 
+- (IBAction)login:(id)aSender {
+    NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"BEEPSession.authenticationClient.availableAuthenticationMechanisms.@count > 0"]];
+    ConnectionBrowserEntry *entry = [entries anyObject];
+    if (entry) {
+        [O_loginSheetController setBEEPSession:[entry BEEPSession]];
+        [NSApp beginSheet:[O_loginSheetController window] modalForWindow:[self window] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+    } else {
+        NSBeep();
+    }
+}
+
 - (IBAction)connect:(id)aSender {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"connect action triggered");
     NSString *address = [aSender objectValue];
@@ -637,6 +662,23 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (IBAction)show:(id)sender {
     [self joinSessionsWithIndexes:[self indexSetOfSelectedSessionsFilteredUsingPredicate:S_showableSessionPredicate]];
+}
+
+- (NSSet *)selectedEntriesFilteredUsingPredicate:(NSPredicate *)aPredicate {
+    NSMutableSet *set = [NSMutableSet set];
+    NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
+    unsigned int index = [indexes firstIndex];
+    while (index != NSNotFound) {
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        if (pair.childIndex == -1) {
+            ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
+            if ([aPredicate evaluateWithObject:entry]) {
+                [set addObject:entry];
+            }
+        }
+        index = [indexes indexGreaterThanIndex:index];
+    }
+    return set;
 }
 
 - (NSIndexSet *)indexSetOfSelectedEntrysFilteredUsingPredicate:(NSPredicate *)aPredicate {

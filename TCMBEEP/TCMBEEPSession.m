@@ -31,7 +31,8 @@ NSString * const TCMBEEPSASLPLAINProfileURI = @"http://iana.org/beep/SASL/PLAIN"
 NSString * const TCMBEEPSASLCRAMMD5ProfileURI = @"http://iana.org/beep/SASL/CRAM-MD5";
 NSString * const TCMBEEPSASLDIGESTMD5ProfileURI = @"http://iana.org/beep/SASL/DIGEST-MD5";
 NSString * const TCMBEEPSASLGSSAPIProfileURI = @"http://iana.org/beep/SASL/GSSAPI";
-NSString * const TCMMMBEEPSessionDidReceiveGreetingNotification = @"TCMMMBEEPSessionDidReceiveGreetingNotification";
+NSString * const TCMBEEPSessionDidReceiveGreetingNotification = @"TCMBEEPSessionDidReceiveGreetingNotification";
+NSString * const TCMBEEPSessionDidEndNotification = @"TCMBEEPSessionDidEndNotification";
 
 static void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
 static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
@@ -607,6 +608,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:451 userInfo:nil];
         [delegate BEEPSession:self didFailWithError:error];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionDidEndNotification object:self];
 }
 
 - (void)TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel
@@ -1010,7 +1012,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [self setPeerFeaturesAttribute:aFeaturesAttribute];
     [self setPeerProfileURIs:profileURIs];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMBEEPSessionDidReceiveGreetingNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionDidReceiveGreetingNotification object:self];
     
     if ([self isInitiator] && [profileURIs containsObject:TCMBEEPTLSProfileURI]) {
         NSData *data = [@"<ready />" dataUsingEncoding:NSUTF8StringEncoding];

@@ -4,6 +4,7 @@
             ACTIONS = {
                 clear = id; 
                 connect = id; 
+                login = id; 
                 setVisibilityByMenuItem = id; 
                 toggleProhibitInboundConnections = id; 
             }; 
@@ -15,6 +16,7 @@
                 "O_browserListView" = TCMMMBrowserListView; 
                 "O_clearButton" = NSButton; 
                 "O_imageView" = NSImageView; 
+                "O_loginSheetController" = LoginSheetController; 
                 "O_myNameTextField" = NSTextField; 
                 "O_scrollView" = NSScrollView; 
                 "O_statusPopUpButton" = NSPopUpButton; 
@@ -26,6 +28,11 @@
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = LoginSheetController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
         }, 
         {CLASS = PullDownButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }
     ); 

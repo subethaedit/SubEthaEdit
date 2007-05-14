@@ -49,7 +49,7 @@ BOOL endRunLoop = NO;
         [_autosaveTimer retain];
         */
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(BEEPSessionDidReceiveGreeting:)
-        name:TCMMMBEEPSessionDidReceiveGreetingNotification object:nil];
+        name:TCMBEEPSessionDidReceiveGreetingNotification object:nil];
     }
     return self;
 }
