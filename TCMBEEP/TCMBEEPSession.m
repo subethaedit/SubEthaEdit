@@ -503,13 +503,6 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     [I_activeChannels setObject:aChannel forLong:[aChannel number]];
 }
 
-- (void)authenticate
-{
-    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"");
-    
-    [_authClient startAuthentication];
-}
-
 - (void)TCM_createManagementChannelAndSendGreeting
 {
     I_managementChannel = [[TCMBEEPChannel alloc] initWithSession:self number:0 profileURI:kTCMBEEPManagementProfile asInitiator:[self isInitiator]];
