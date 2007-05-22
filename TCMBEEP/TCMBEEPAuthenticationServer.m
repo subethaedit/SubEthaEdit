@@ -105,7 +105,7 @@ static int sasl_server_userdb_checkpass(sasl_conn_t *conn,
         
         callback->id = SASL_CB_LIST_END;
         callback->proc = NULL;
-        callback->context = self;
+        callback->context = NULL;
 
         
         const char *iplocalport = NULL;

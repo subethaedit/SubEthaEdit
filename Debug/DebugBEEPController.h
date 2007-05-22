@@ -16,8 +16,6 @@
     IBOutlet NSArrayController *O_sessionController;
 }
 
-- (IBAction)authenticate:(id)sender;
-
 @end
 
 #endif

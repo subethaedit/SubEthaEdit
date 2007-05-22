@@ -33,15 +33,6 @@
     [O_sessionController bind:@"contentArray" toObject:[TCMMMBEEPSessionManager sharedInstance] withKeyPath:@"sessions" options:nil];
 }
 
-- (IBAction)authenticate:(id)sender
-{
-    NSEnumerator *enumerator = [[O_sessionController selectedObjects] objectEnumerator];
-    TCMBEEPSession *session;
-    while ((session = [enumerator nextObject])) {
-        [session authenticate];
-    }
-}
-
 @end
 
 #pragma mark -
