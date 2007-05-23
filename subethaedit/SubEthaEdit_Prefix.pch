@@ -9,6 +9,7 @@
     #import "NSColorTCMAdditions.h"
     #import "NSImageTCMAdditions.h"
     #import "NSStringSEEAdditions.h"
+    #import "NSScreenTCMAdditions.h"
         
     extern NSString * const AddressHistory;
 #endif

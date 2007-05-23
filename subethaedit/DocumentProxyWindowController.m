@@ -16,21 +16,6 @@
 #import "GeneralPreferences.h"
 #import "DWRoundedTransparentView.h"
 
-@interface NSScreen (NSScreenTCMAdditions)
-+ (NSScreen *)menuBarContainingScreen;
-@end
-
-@implementation NSScreen (NSScreenTCMAdditions)
-+ (NSScreen *)menuBarContainingScreen {
-    NSArray *screens = [NSScreen screens];
-    if ([screens count] > 0) {
-        return [screens objectAtIndex:0];
-    } else {
-        return nil;
-    }
-}
-@end
-
 @interface NSWindow (NSWindowNonBlockingAnimationAdditions) 
 - (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame;
 @end

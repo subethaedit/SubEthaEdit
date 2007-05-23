@@ -309,6 +309,8 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		F2010B400C047FAD00D28EA0 /* NSScreenTCMAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2010B3E0C047FAD00D28EA0 /* NSScreenTCMAdditions.h */; };
+		F2010B410C047FAD00D28EA0 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2010B3F0C047FAD00D28EA0 /* NSScreenTCMAdditions.m */; };
 		F2061CD40B4BF44800E6631F /* DWRoundedTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD20B4BF44800E6631F /* DWRoundedTransparentView.m */; };
 		F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
@@ -516,6 +518,7 @@
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
+				F2010B400C047FAD00D28EA0 /* NSScreenTCMAdditions.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -988,6 +991,8 @@
 		5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconGenericScript.tiff; path = artwork/ToolbarIconGenericScript.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2010B3E0C047FAD00D28EA0 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
+		F2010B3F0C047FAD00D28EA0 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
 		F2061CD10B4BF44800E6631F /* DWRoundedTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DWRoundedTransparentView.h; sourceTree = "<group>"; };
 		F2061CD20B4BF44800E6631F /* DWRoundedTransparentView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DWRoundedTransparentView.m; sourceTree = "<group>"; };
 		F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BorderlessWindow.m; sourceTree = "<group>"; };
@@ -1304,6 +1309,8 @@
 				14289209095751CB00D14688 /* NSImageTCMAdditions.m */,
 				144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */,
 				144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */,
+				F2010B3E0C047FAD00D28EA0 /* NSScreenTCMAdditions.h */,
+				F2010B3F0C047FAD00D28EA0 /* NSScreenTCMAdditions.m */,
 				1428920A095751CB00D14688 /* NSStringSEEAdditions.h */,
 				1428920B095751CB00D14688 /* NSStringSEEAdditions.m */,
 				1428920C095751CB00D14688 /* TCMMMUserSEEAdditions.h */,
@@ -2479,6 +2486,7 @@
 				141843980BB95CC3001D446B /* TCMMMSessionAppKitHelper.m in Sources */,
 				147B8EA70BC55040003D6264 /* BacktracingException.m in Sources */,
 				F2A3DA390BD3AA2400310C5E /* DebugSendOperationController.m in Sources */,
+				F2010B410C047FAD00D28EA0 /* NSScreenTCMAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
