@@ -1619,6 +1619,7 @@ subethaedit/artwork/monkey32.png -text
 subethaedit/artwork/style.icns -text
 subethaedit/createDiskImage.sh -text
 subethaedit/main.m -text
+subethaedit/see/Info.plist -text
 subethaedit/see/main.m -text
 subethaedit/see/see.1 -text
 subethaedit/see/see.vers -text

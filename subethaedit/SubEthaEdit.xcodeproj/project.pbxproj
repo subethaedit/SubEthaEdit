@@ -221,7 +221,6 @@
 		142894E00957670900D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
 		142894E10957670900D14688 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
 		142894EB095767CD00D14688 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894E8095767CD00D14688 /* main.m */; };
-		142894ED0957681000D14688 /* see.vers in Sources */ = {isa = PBXBuildFile; fileRef = 142894EA095767CD00D14688 /* see.vers */; };
 		142894FF0957686C00D14688 /* see in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 142894DE095766EE00D14688 /* see */; };
 		142895040957692100D14688 /* SymbolWarn.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 142895030957692100D14688 /* SymbolWarn.tiff */; };
 		1428955C095770FB00D14688 /* SubEthaEditHelperToolTemplate in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */; };
@@ -329,20 +328,6 @@
 		F2A3DA200BD3A56900310C5E /* DebugSendOperation.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2A3DA1F0BD3A56900310C5E /* DebugSendOperation.nib */; };
 		F2A3DA390BD3AA2400310C5E /* DebugSendOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A3DA370BD3AA2400310C5E /* DebugSendOperationController.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildRule section */
-		142894EC095767E000D14688 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			filePatterns = "*.vers";
-			fileType = pattern.proxy;
-			isEditable = 1;
-			outputFiles = (
-				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE)_vers.c",
-			);
-			script = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\nsed \"s/#PLACEHOLDER#/$REV/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
-		};
-/* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
 		141F4EA20AE42602001B73D2 /* PBXContainerItemProxy */ = {
@@ -862,7 +847,6 @@
 		142894DE095766EE00D14688 /* see */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = see; sourceTree = BUILT_PRODUCTS_DIR; };
 		142894E8095767CD00D14688 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = see/main.m; sourceTree = "<group>"; };
 		142894E9095767CD00D14688 /* see.1 */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.man; name = see.1; path = see/see.1; sourceTree = "<group>"; };
-		142894EA095767CD00D14688 /* see.vers */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = see.vers; path = see/see.vers; sourceTree = "<group>"; };
 		142895030957692100D14688 /* SymbolWarn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SymbolWarn.tiff; path = artwork/SymbolWarn.tiff; sourceTree = "<group>"; };
 		142898200958194100D14688 /* createDiskImage.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = createDiskImage.sh; sourceTree = "<group>"; };
 		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
@@ -913,6 +897,7 @@
 		149774080B5E14FC004A546C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PlainTextLoadProgress.nib; sourceTree = "<group>"; };
 		149774150B5E159F004A546C /* PlainTextLoadProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextLoadProgress.h; sourceTree = "<group>"; };
 		149774160B5E159F004A546C /* PlainTextLoadProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextLoadProgress.m; sourceTree = "<group>"; };
+		14A19D600C048B5A007590F0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
 		14E290E70A06DB8A007C0065 /* SubEthaEdit-Panther.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = "SubEthaEdit-Panther.sdef"; sourceTree = "<group>"; };
 		14E291C40A07A501007C0065 /* ScriptLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptLine.h; sourceTree = "<group>"; };
 		14E291C50A07A501007C0065 /* ScriptLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptLine.m; sourceTree = "<group>"; };
@@ -1581,7 +1566,7 @@
 			children = (
 				142894E8095767CD00D14688 /* main.m */,
 				142894E9095767CD00D14688 /* see.1 */,
-				142894EA095767CD00D14688 /* see.vers */,
+				14A19D600C048B5A007590F0 /* Info.plist */,
 			);
 			name = see;
 			sourceTree = "<group>";
@@ -1856,11 +1841,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 142894E30957671300D14688 /* Build configuration list for PBXNativeTarget "see" */;
 			buildPhases = (
+				14A19D6E0C048C4D007590F0 /* Run Script (Info.plist Preprocessing */,
 				142894DB095766EE00D14688 /* Sources */,
 				142894DC095766EE00D14688 /* Frameworks */,
 			);
 			buildRules = (
-				142894EC095767E000D14688 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -1969,6 +1954,7 @@
 					ProjectRef = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
 				},
 			);
+			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* SubEthaEdit */,
 				142894A90957606F00D14688 /* HelperTool */,
@@ -2274,6 +2260,22 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\necho \"Rename resource file...\"\nmv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete";
 		};
+		14A19D6E0C048C4D007590F0 /* Run Script (Info.plist Preprocessing */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(INFOPLIST_FILE)",
+			);
+			name = "Run Script (Info.plist Preprocessing";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "REVISION=`/usr/local/bin/svnversion \"$SRCROOT\"`\ncpp -P -DREVISION=$REVISION $INFOPLIST_FILE $SCRIPT_OUTPUT_FILE_0\nexit 0";
+		};
 		14EB1AB90AA2ED9A004F5BEE /* Run Script (Versioning) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2320,7 +2322,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				142894EB095767CD00D14688 /* main.m in Sources */,
-				142894ED0957681000D14688 /* see.vers in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2846,7 +2847,14 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = see/Info.plist;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(DERIVED_FILE_DIR)/Info.plist",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = see;
 				ZERO_LINK = YES;
@@ -2862,7 +2870,14 @@
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
+				INFOPLIST_FILE = see/Info.plist;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(DERIVED_FILE_DIR)/Info.plist",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = see;
 				ZERO_LINK = NO;
