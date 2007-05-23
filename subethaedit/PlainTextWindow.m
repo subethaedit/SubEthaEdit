@@ -48,7 +48,7 @@
     int count = [orderedWindows count];
     int i = 0;
     for (i=0;i<count;i++) {
-        NSWindow *window = [orderedWindows objectAtIndex:0];
+        NSWindow *window = [orderedWindows objectAtIndex:i];
         if ([window isKindOfClass:[PlainTextWindow class]]) {
             if ([window screen] != screen) {
                 screen = [window screen];
