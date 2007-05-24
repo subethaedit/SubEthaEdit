@@ -2519,7 +2519,11 @@ float ToolbarHeightForWindow(NSWindow *window)
 }
 
 - (void)tabView:(NSTabView *)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
-{    
+{
+    if ([[self window] isMainWindow]) {
+        // update window menu
+        [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+    }
     if (![tabBarControl isEqual:I_tabBar]) {
         
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
