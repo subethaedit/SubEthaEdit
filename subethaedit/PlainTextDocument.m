@@ -4530,7 +4530,11 @@ static NSString *S_measurementUnits;
     [alert setMessageText:NSLocalizedString(@"Closed", @"Server Closed Document title in Sheet")];
     [alert setInformativeText:NSLocalizedString(@"ClosedInfo", @"Server Closed Document info in Sheet")];
     [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
-    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+    if ([self isProxyDocument]) {
+        [self sessionDidLoseConnection:aSession];
+    } else {
+        [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+    }
 }
 
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession {
