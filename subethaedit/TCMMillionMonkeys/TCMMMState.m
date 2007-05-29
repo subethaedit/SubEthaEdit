@@ -196,6 +196,15 @@
     [I_client state:self handleMessage:message];
 }
 
+- (id)lastIncomingMessage {
+    if ([I_incomingMessages count]>0) {
+        return [I_incomingMessages objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+
 #pragma mark -
 
 - (void)sendNoOperation:(NSTimer *)timer {
