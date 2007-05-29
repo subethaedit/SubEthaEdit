@@ -317,6 +317,8 @@ enum {
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isReceivingContent"];
+        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isProcessing"];
         PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
         [loadProgress stopAnimation];
         [loadProgress setStatusText:NSLocalizedString(@"Did lose Connection!", @"Text in Proxy window")];
@@ -2517,7 +2519,11 @@ float ToolbarHeightForWindow(NSWindow *window)
 }
 
 - (void)tabView:(NSTabView *)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
-{    
+{
+    if ([[self window] isMainWindow]) {
+        // update window menu
+        [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+    }
     if (![tabBarControl isEqual:I_tabBar]) {
         
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];

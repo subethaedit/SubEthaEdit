@@ -773,6 +773,15 @@ static FindReplaceController *sharedInstance=nil;
     [self saveStateToPreferences];
 }
 
+- (void)selectAndHighlightRange:(NSRange)aRange inTarget:(id)aTarget {
+	[aTarget setSelectedRange:aRange];
+	[aTarget scrollRangeToVisible:aRange];
+	[aTarget setNeedsDisplay:YES];
+	if ([aTarget respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+		[aTarget showFindIndicatorForRange:aRange];
+	} 
+}
+
 - (BOOL) find:(NSString*)findString forward:(BOOL)forward
 {
     BOOL found = NO;
@@ -824,9 +833,7 @@ static FindReplaceController *sharedInstance=nil;
                 
                 if (foundRange.length) {
                     found = YES;
-                    [target setSelectedRange:foundRange];
-                    [target scrollRangeToVisible:foundRange];
-                    [target display];
+					[self selectAndHighlightRange:foundRange inTarget:target];
                 } else {NSBeep();}
 
             } else {
@@ -841,18 +848,14 @@ static FindReplaceController *sharedInstance=nil;
                 if (aMatch != nil) {
                     found = YES;
                     NSRange foundRange = [aMatch rangeOfMatchedString];
-                    [target setSelectedRange:foundRange];
-                    [target scrollRangeToVisible:foundRange];
-                    [target display];
+					[self selectAndHighlightRange:foundRange inTarget:target];
                 } else if (([O_wrapAroundCheckbox state] == NSOnState)&&([[O_scopePopup selectedItem] tag]!=1)){
                     enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,NSMaxRange(selection))];
                     aMatch = [enumerator nextObject];
                     if (aMatch != nil) {
                         found = YES;
                         NSRange foundRange = [aMatch rangeOfMatchedString];
-                        [target setSelectedRange:foundRange];
-                        [target scrollRangeToVisible:foundRange];
-                        [target display];
+						[self selectAndHighlightRange:foundRange inTarget:target];
                     } else {NSBeep();}
                 } else {NSBeep();}
             }
@@ -872,9 +875,7 @@ static FindReplaceController *sharedInstance=nil;
                 } else foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];                
                 if (foundRange.length) {
                     found = YES;
-                    [target setSelectedRange:foundRange];
-                    [target scrollRangeToVisible:foundRange];
-                    [target display];
+					[self selectAndHighlightRange:foundRange inTarget:target];
                 } else {NSBeep();}
             } else {
                 NSRange findRange;
@@ -888,18 +889,14 @@ static FindReplaceController *sharedInstance=nil;
                 if (aMatch != nil) {
                     found = YES;
                     NSRange foundRange = [aMatch rangeOfMatchedString];
-                    [target setSelectedRange:foundRange];
-                    [target scrollRangeToVisible:foundRange];
-                    [target display];
+					[self selectAndHighlightRange:foundRange inTarget:target];
                 } else if ([O_wrapAroundCheckbox state] == NSOnState){
                     NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:NSMakeRange(selection.location, [text length] - selection.location)];
                     if ([matchArray count] > 0) aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
                     if (aMatch != nil) {
                         found = YES;
                         NSRange foundRange = [aMatch rangeOfMatchedString];
-                        [target setSelectedRange:foundRange];
-                        [target scrollRangeToVisible:foundRange];
-                        [target display];
+                        [self selectAndHighlightRange:foundRange inTarget:target];
                     } else {NSBeep();}
                 } else {NSBeep();}
             }

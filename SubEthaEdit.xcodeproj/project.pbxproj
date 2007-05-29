@@ -269,7 +269,6 @@
 		142894E00957670900D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
 		142894E10957670900D14688 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
 		142894EB095767CD00D14688 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894E8095767CD00D14688 /* main.m */; };
-		142894ED0957681000D14688 /* see.vers in Sources */ = {isa = PBXBuildFile; fileRef = 142894EA095767CD00D14688 /* see.vers */; };
 		142894FF0957686C00D14688 /* see in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 142894DE095766EE00D14688 /* see */; };
 		142895040957692100D14688 /* SymbolWarn.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 142895030957692100D14688 /* SymbolWarn.tiff */; };
 		1428955C095770FB00D14688 /* SubEthaEditHelperToolTemplate in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */; };
@@ -402,6 +401,7 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
+		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
 		F2A707970BF8935400482EFC /* LoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707960BF8935400482EFC /* LoginButton.png */; };
 		F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */; };
 		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
@@ -951,7 +951,6 @@
 		142894DE095766EE00D14688 /* see */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = see; sourceTree = BUILT_PRODUCTS_DIR; };
 		142894E8095767CD00D14688 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = see/main.m; sourceTree = "<group>"; };
 		142894E9095767CD00D14688 /* see.1 */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.man; name = see.1; path = see/see.1; sourceTree = "<group>"; };
-		142894EA095767CD00D14688 /* see.vers */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = see.vers; path = see/see.vers; sourceTree = "<group>"; };
 		142895030957692100D14688 /* SymbolWarn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SymbolWarn.tiff; path = artwork/SymbolWarn.tiff; sourceTree = "<group>"; };
 		142898200958194100D14688 /* createDiskImage.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = createDiskImage.sh; sourceTree = "<group>"; };
 		14289BD209581C3000D14688 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindReplace.nib; sourceTree = "<group>"; };
@@ -1146,6 +1145,9 @@
 		F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButtonCell.m; sourceTree = "<group>"; };
 		F27B2EEE0B52968E00679CF2 /* HUDButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButton.m; sourceTree = "<group>"; };
 		F27B2EEF0B52968E00679CF2 /* HUDButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HUDButton.h; sourceTree = "<group>"; };
+		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
+		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
+		F29940780C0C806600A53189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
 		F2A707960BF8935400482EFC /* LoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButton.png; path = artwork/LoginButton.png; sourceTree = "<group>"; };
 		F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButtonIn.png; path = artwork/LoginButtonIn.png; sourceTree = "<group>"; };
 		F2A707B80BF89F4200482EFC /* LoginSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginSheetController.h; sourceTree = "<group>"; };
@@ -1472,6 +1474,8 @@
 				142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */,
 				144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */,
 				144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */,
+				F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */,
+				F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */,
 				1428920A095751CB00D14688 /* NSStringSEEAdditions.h */,
 				1428920B095751CB00D14688 /* NSStringSEEAdditions.m */,
 				F234E4560BE2592300504A7C /* NSWorkspaceTCMAdditions.h */,
@@ -1745,7 +1749,7 @@
 			children = (
 				142894E8095767CD00D14688 /* main.m */,
 				142894E9095767CD00D14688 /* see.1 */,
-				142894EA095767CD00D14688 /* see.vers */,
+				F29940780C0C806600A53189 /* Info.plist */,
 			);
 			name = see;
 			sourceTree = "<group>";
@@ -2096,6 +2100,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 142894E30957671300D14688 /* Build configuration list for PBXNativeTarget "see" */;
 			buildPhases = (
+				F299406E0C0C7F7800A53189 /* ShellScript */,
 				142894DB095766EE00D14688 /* Sources */,
 				142894DC095766EE00D14688 /* Frameworks */,
 			);
@@ -2559,6 +2564,21 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		F299406E0C0C7F7800A53189 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(INFOPLIST_FILE)",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "REVISION=`/usr/local/bin/svnversion \"$SRCROOT\"`\ncpp -P -DREVISION=$REVISION $INFOPLIST_FILE $SCRIPT_OUTPUT_FILE_0\nexit 0";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -2632,7 +2652,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				142894EB095767CD00D14688 /* main.m in Sources */,
-				142894ED0957681000D14688 /* see.vers in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2813,6 +2832,7 @@
 				F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */,
 				F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */,
 				F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */,
+				F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3251,7 +3271,14 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = see/Info.plist;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(DERIVED_FILE_DIR)/Info.plist",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = see;
 				ZERO_LINK = YES;
@@ -3267,7 +3294,14 @@
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
+				INFOPLIST_FILE = see/Info.plist;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(DERIVED_FILE_DIR)/Info.plist",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = see;
 				ZERO_LINK = NO;
