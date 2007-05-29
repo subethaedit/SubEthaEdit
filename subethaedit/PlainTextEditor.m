@@ -164,6 +164,9 @@
     [I_textView setUsesFindPanel:YES];
     [I_textView setAllowsUndo:NO];
     [I_textView setSmartInsertDeleteEnabled:NO];
+//	if ([I_textView respondsToSelector:@selector(setAutomaticLinkDetectionEnabled:)]) {
+//		[I_textView setAutomaticLinkDetectionEnabled:YES];
+//	}
 
     [I_textView setDelegate:self];
     [I_textContainer setHeightTracksTextView:NO];
@@ -1298,6 +1301,7 @@
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
+	if (replacementString == nil) return YES; // only styles are changed
     PlainTextDocument *document = [self document];
     if (![document isRemotelyEditingTextStorage]) {
         [self setFollowUserID:nil];

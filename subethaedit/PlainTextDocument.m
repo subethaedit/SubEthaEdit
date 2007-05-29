@@ -2356,7 +2356,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
     if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
         NSLog(@"Failed to load SavePanelAccessory.nib");
-        return nil;
+        return NO;
     }
     
     BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
@@ -3803,6 +3803,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     PlainTextWindowController *windowController=[self topmostWindowController];
     [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
+	NSTextView *textView = [[windowController activePlainTextEditor] textView];
+	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+		[textView showFindIndicatorForRange:aRange];
+	} 
     [[windowController window] makeKeyAndOrderFront:self];
 }
 
@@ -3810,6 +3814,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     PlainTextWindowController *windowController=[self topmostWindowController];
     [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
+	NSTextView *textView = [[windowController activePlainTextEditor] textView];
+	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+		[textView showFindIndicatorForRange:aRange];
+	} 
 }
 
 - (void)addFindAllController:(FindAllController *)aController
