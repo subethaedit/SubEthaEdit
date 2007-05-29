@@ -40,11 +40,13 @@
 - (NSObject <TCMMMStateClientProtocol> *)client;
 - (void)setDelegate:(id)aDelegate;
 - (id)delegate;
+- (id)lastIncomingMessage;
 
 - (void)processAllUserChangeMessages;
 - (void)appendOperationToIncomingMessageQueue:(TCMMMOperation *)anOperation;
 - (void)handleMessage:(TCMMMMessage *)aMessage;
 - (void)handleOperation:(TCMMMOperation *)anOperation;
+
 
 - (BOOL)hasMessagesAvailable;
 - (BOOL)processMessage;

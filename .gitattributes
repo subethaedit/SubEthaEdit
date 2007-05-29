@@ -640,6 +640,8 @@ MoreIsBetter/MoreUNIX.h -text
 /NSRangeSpecifierTCMAdditions.m -text
 /NSSavePanelTCMAdditions.h -text
 /NSSavePanelTCMAdditions.m -text
+/NSScreenTCMAdditions.h -text
+/NSScreenTCMAdditions.m -text
 /NSStringSEEAdditions.h -text
 /NSStringSEEAdditions.m -text
 /NSWindowScriptingAdditions.h -text
@@ -1509,6 +1511,7 @@ sasl/prop.h -text
 sasl/sasl.h -text
 sasl/saslplug.h -text
 sasl/saslutil.h -text
+see/Info.plist -text
 see/main.m -text
 see/see.1 -text
 see/see.vers -text

@@ -40,16 +40,36 @@
         offsetPoint.y = MAX(10.,MIN(ABS(secondPoint.y-firstPoint.y),70.));
     }
 
-    NSRect visibleFrame = [[self screen] visibleFrame];
+    NSScreen *screen = [NSScreen screenContainingPoint:aPoint];
+    if (!screen) screen = [NSScreen menuBarContainingScreen];
+    
+    // check if the top window is on the same screen, if not, cascading from the top window
+    NSArray *orderedWindows = [NSApp orderedWindows];
+    int count = [orderedWindows count];
+    int i = 0;
+    for (i=0;i<count;i++) {
+        NSWindow *window = [orderedWindows objectAtIndex:i];
+        if ([window isKindOfClass:[PlainTextWindow class]]) {
+            if ([window screen] != screen) {
+                screen = [window screen];
+                aPoint = NSMakePoint(NSMinX([window frame]),NSMaxY([window frame]));
+                NSRect visibleFrame = [screen visibleFrame];
+                if (aPoint.x < NSMinX(visibleFrame)) aPoint.x = NSMinX(visibleFrame);
+            }
+            break;
+        }
+    }
 
+    NSRect visibleFrame = [screen visibleFrame];
     if (NSEqualPoints(aPoint,NSZeroPoint)) {
         aPoint = NSMakePoint(visibleFrame.origin.x,NSMaxY(visibleFrame));
     }
+    if (aPoint.y > NSMaxY(visibleFrame)) aPoint.y = NSMaxY(visibleFrame) + offsetPoint.y;
 
     NSPoint result = aPoint;
     result.x += offsetPoint.x;
     result.y -= offsetPoint.y;
-    if (result.x + [self frame].size.width > visibleFrame.size.width) {
+    if (result.x + [self frame].size.width > NSMaxX(visibleFrame)) {
         result.x = visibleFrame.origin.x;
     }
 
