@@ -1449,6 +1449,12 @@ enum {
             [[I_plainTextEditors objectAtIndex:0] showsGutter]];
         [self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
     } else if ([I_plainTextEditors count]==2) {
+        id fr = [[self window] firstResponder];
+        NSRect visibleRect = NSZeroRect;
+        if (fr == [[I_plainTextEditors objectAtIndex:1] textView]) {
+            visibleRect = [[[I_plainTextEditors objectAtIndex:1] textView] visibleRect];
+            [[[I_plainTextEditors objectAtIndex:0] textView] setSelectedRange:[[[I_plainTextEditors objectAtIndex:1] textView] selectedRange]];
+        }
         if (!I_dialogSplitView) {
             //[[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
             NSTabViewItem *tab = [I_tabView selectedTabViewItem];
@@ -1467,6 +1473,10 @@ enum {
             [[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
         [I_plainTextEditors removeObjectAtIndex:1];
         I_editorSplitView = nil;
+        
+        if (!NSEqualRects(NSZeroRect,visibleRect)) {
+            [[[I_plainTextEditors objectAtIndex:0] textView] scrollRectToVisible:visibleRect];
+        }
     }
     [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];
     NSTextView *textView=[[I_plainTextEditors objectAtIndex:0] textView];
