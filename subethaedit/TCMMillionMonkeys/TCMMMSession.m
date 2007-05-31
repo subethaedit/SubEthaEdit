@@ -1067,11 +1067,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     if (state) {
         if ([self isServer]) {
             id lastMessage = [state lastIncomingMessage];
+            id lastOperation = [lastMessage operation];
             // this only needs to be done when the user closes the window while receiving content. in that state the leave operation of the client doesn't get through. This might also be done for future clients which don't send a proper leave operation on close.
-            BOOL isUserChange = [[[lastMessage class] operationID] isEqualToString:[UserChangeOperation operationID]];
+            BOOL isUserChange = [[[lastOperation class] operationID] isEqualToString:[UserChangeOperation operationID]];
             if ([I_groupByUserID objectForKey:peerUserID] && 
                 (!isUserChange || 
-                 (isUserChange && [(UserChangeOperation *)lastMessage type]!=UserChangeTypeLeave)
+                 (isUserChange && [(UserChangeOperation *)lastOperation type]!=UserChangeTypeLeave)
                 )
                ) {
                 UserChangeOperation *heLeft=[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:peerUserID newGroup:@"LostConnection"];
