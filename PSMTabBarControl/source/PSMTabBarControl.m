@@ -1609,11 +1609,12 @@
 }
 
 - (void)closeTabClick:(id)sender
-{
+{   
 	NSTabViewItem *item = [sender representedObject];
-    [sender retain];
-    if(([_cells count] == 1) && (![self canCloseOnlyTab]))
+    [[sender retain] autorelease];
+    if(([_cells count] == 1) && (![self canCloseOnlyTab])) {
         return;
+    }
     
     if(([self delegate]) && ([[self delegate] respondsToSelector:@selector(tabView:shouldCloseTabViewItem:)])){
         if(![[self delegate] tabView:tabView shouldCloseTabViewItem:item]){
@@ -1623,11 +1624,8 @@
         }
     }
 	
-    [item retain];
-    
+    [[item retain] autorelease];
 	[tabView removeTabViewItem:item];
-    [item release];
-    [sender release];
 }
 
 - (void)tabClick:(id)sender
