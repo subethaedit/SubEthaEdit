@@ -153,7 +153,9 @@ enum {
     [I_tabView setDelegate:nil];
     [I_tabBar release];
     [I_tabView release];
-        
+    // kind of bade here, but makes sure that no dealloced windowcontrollers stall in the window menu
+    [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+            
     [super dealloc];
 }
 
@@ -401,6 +403,22 @@ enum {
             return YES;
         else
             return NO;    
+    } else if (selector == @selector(showDocument:)) {
+        id document = [menuItem representedObject];
+        if ([[self documents] indexOfObjectIdenticalTo:document] != NSNotFound) {
+            if ([document isDocumentEdited]) {
+                [menuItem setMark:kBulletCharCode];
+            } else {
+                [menuItem setMark:noMark];
+            }
+        }
+        if (([self document] == document) && 
+            ([[self window] isKeyWindow] || 
+             [[self window] isMainWindow])) {
+            [menuItem setState:NSOnState];
+            [menuItem setMark:kCheckCharCode];
+        }
+        return ![[self window] attachedSheet] || ([[self window] attachedSheet] && [self document] == document);
     }
     
     return YES;
@@ -1923,6 +1941,17 @@ enum {
     }
 }
 
+- (IBAction)showDocument:(id)aMenuEntry {
+    id documentToShow = [aMenuEntry representedObject];
+    // this method should be save for released objects so we only compare pointers
+    if ([[self documents] indexOfObjectIdenticalTo:documentToShow] != NSNotFound) {
+        [self selectTabForDocument:documentToShow];
+        [self showWindow:nil];
+        [documentToShow showWindows];
+    }
+}
+
+
 - (NSArray *)plainTextEditorsForDocument:(id)aDocument
 {
     NSMutableArray *editors = [NSMutableArray array];
@@ -2404,6 +2433,8 @@ enum {
         } else {
             [doc close];
         }
+        // updateTabMenu
+        [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
     }
 }
 
