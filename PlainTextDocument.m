@@ -1758,12 +1758,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
-- (void)showWindowController:(id)aSender {
-    [[aSender representedObject] selectTabForDocument:self];
-    [[aSender representedObject] showWindow:self];
-    [self showWindows];
-}
-
 - (void)showWindows {    
     BOOL closeTransient = transientDocument 
                           && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
@@ -3409,20 +3403,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return ![self isProxyDocument];
     } else if (selector == @selector(clearChangeMarks:)) {
         return ![self isProxyDocument];
-    } else if (selector == @selector(showWindowController:)) {
-        if ([self isDocumentEdited]) {
-            [anItem setMark:kBulletCharCode];
-        } else {
-            [anItem setMark:noMark];
-        }
-        id wc = [anItem representedObject];
-        if ([[anItem representedObject] document] == self &&
-            ([[wc window] isKeyWindow] || 
-             [[wc window] isMainWindow])) {
-            [anItem setState:NSOnState];
-            [anItem setMark:kCheckCharCode];
-        }
-        return ![[wc window] attachedSheet] || ([[wc window] attachedSheet] && [wc document] == self);
     }
 
 //    if (selector==@selector(undo:)) {
