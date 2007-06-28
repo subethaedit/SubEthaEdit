@@ -318,6 +318,7 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
 - (BOOL)colorizeDirtyRanges:(NSTextStorage *)aTextStorage ofDocument:(id)sender
 {
     NSRange textRange=NSMakeRange(0,[aTextStorage length]);
+    if(textRange.length == 0) return YES; // special case of empty storage
     double return_after = 0.2;
     BOOL returnvalue = NO;
     BOOL returncontrol = NO;
