@@ -49,6 +49,11 @@
     NSFrameRect(aRect);
     if (I_dividerThickness <0. || I_dividerThickness > 8.)
         [super drawDividerInRect:aRect];
+    // if on leopard
+    if ([NSTextView instancesRespondToSelector:@selector(showFindIndicatorForRange:)]) {
+        [[NSColor lightGrayColor] set];
+        NSFrameRect(aRect);
+    }
 }
 
 @end
