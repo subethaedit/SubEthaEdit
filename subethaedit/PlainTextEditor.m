@@ -1185,7 +1185,7 @@
             NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
             NSMenuItem   *menuItem  = nil;
             while ((menuItem=[menuItems nextObject])) {
-                if ([menuItem target]==[self document] && [menuItem representedObject]==[[I_textView window] windowController]) {
+                if ([menuItem target]==[[I_textView window] windowController] && [menuItem representedObject]==[self document]) {
                     [s_cell selectItem:menuItem];
                     break;
                 }
