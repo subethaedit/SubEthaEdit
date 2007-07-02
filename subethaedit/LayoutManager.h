@@ -12,6 +12,7 @@
 @interface LayoutManager : NSLayoutManager {
     struct {
         BOOL showsChangeMarks;
+        BOOL showsInvisibles;
     } I_flags;
     NSLayoutManager *I_invisiblesLayoutManager;
     NSTextStorage *I_invisiblesTextStorage;
@@ -19,7 +20,9 @@
 
 - (BOOL)showsChangeMarks;
 - (void)setShowsChangeMarks:(BOOL)showsChangeMarks;
-- (void)removeTemporaryAttributes:(id)anObjectEnumerable forCharacterRange:(NSRange)aRange;
+- (BOOL)showsInvisibles;
+- (void)setShowsInvisibles:(BOOL)aFlag;
 
+- (void)removeTemporaryAttributes:(id)anObjectEnumerable forCharacterRange:(NSRange)aRange;
 
 @end

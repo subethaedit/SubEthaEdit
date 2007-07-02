@@ -198,6 +198,17 @@ static NSString *S_specialGlyphs[16];
     }
 }
 
+- (BOOL)showsInvisibles {
+    return I_flags.showsInvisibles;
+}
+- (void)setShowsInvisibles:(BOOL)showsInvisibles {
+    if (showsInvisibles != I_flags.showsInvisibles) {
+        I_flags.showsInvisibles=showsInvisibles;
+        [self invalidateLayoutForCharacterRange:NSMakeRange(0,[[self textStorage] length]) isSoft:NO actualCharacterRange:NULL];
+    }
+}
+
+
 - (void)drawBackgroundForGlyphRange:(NSRange)aGlyphRange atPoint:(NSPoint)anOrigin {
     NSTextContainer *container = [self textContainerForGlyphAtIndex:aGlyphRange.location effectiveRange:nil];
     NSRange charRange = [self characterRangeForGlyphRange:aGlyphRange actualGlyphRange:nil];
@@ -269,7 +280,7 @@ static NSString *S_specialGlyphs[16];
     TextStorage *textStorage = (TextStorage *)[self textStorage];
     BOOL hasMixedLineEndings = [textStorage hasMixedLineEndings];
     LineEnding    lineEnding = [textStorage lineEnding];
-    if ([self showsInvisibleCharacters] || hasMixedLineEndings) {
+    if ([self showsInvisibles] || hasMixedLineEndings) {
         NSRect lineFragmentRect=NSZeroRect; //gets initialized lazily
         NSMutableDictionary *attributes=nil;
         // figure out what invisibles to draw
@@ -286,7 +297,7 @@ static NSString *S_specialGlyphs[16];
                 unichar next_c = (i+1 < loopLength)?charBuffer[i+1]:
                     (NSMaxRange(charRange)>charRange.location+loopLength?[characters characterAtIndex:charRange.location+loopLength]:0);
                 int draw = u_false;
-                if ([self showsInvisibleCharacters]) {
+                if ([self showsInvisibles]) {
                     if (c == ' ') {		// "real" space
                         draw = u_2024; // one dot leader 0x00b7; // "middle dot" 0x22c5; // "Dot centered"
                     } else if (c == '\t') {	// "correct" indentation

@@ -983,13 +983,13 @@
 
 - (void)setShowsInvisibleCharacters:(BOOL)aFlag {
     LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
-    [layoutManager   setShowsInvisibleCharacters:aFlag];
+    [layoutManager   setShowsInvisibles:aFlag];
     [[self document] setShowInvisibleCharacters:aFlag];
     [I_textView setNeedsDisplay:YES];
 }
 
 - (BOOL)showsInvisibleCharacters {
-    return [[I_textView layoutManager] showsInvisibleCharacters];
+    return [(LayoutManager *)[I_textView layoutManager] showsInvisibles];
 }
 
 - (IBAction)toggleShowInvisibles:(id)aSender {
