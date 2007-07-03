@@ -43,17 +43,12 @@
     }
     [color set];
     [[NSBezierPath bezierPathWithRect:aRect] fill];
-    [[NSColor lightGrayColor] set];
     aRect.origin.x-=1;
     aRect.size.width+=2;
-    NSFrameRect(aRect);
     if (I_dividerThickness <0. || I_dividerThickness > 8.)
         [super drawDividerInRect:aRect];
-    // if on leopard
-    if ([NSTextView instancesRespondToSelector:@selector(showFindIndicatorForRange:)]) {
-        [[NSColor lightGrayColor] set];
-        NSFrameRect(aRect);
-    }
+    [[NSColor lightGrayColor] set];
+    NSFrameRect(aRect);
 }
 
 @end
