@@ -4933,7 +4933,7 @@ static NSString *S_measurementUnits;
                     NSRange lineRange=[string lineRangeForRange:affectedRange];
                     unsigned firstCharacter=0;
                     int position=affectedRange.location;
-                    while (--position>=lineRange.location) {
+                    while (position-->lineRange.location) {
                         if (!firstCharacter && [string characterAtIndex:position]!=[@"\t" characterAtIndex:0] &&
                                                [string characterAtIndex:position]!=[@" " characterAtIndex:0]) {
                             firstCharacter=position+1;
