@@ -429,6 +429,10 @@ subethaedit/German.lproj/WebPreview.nib/info.nib -text
 subethaedit/German.lproj/WebPreview.nib/keyedobjects.nib -text
 subethaedit/GetURLCommand.h -text
 subethaedit/GetURLCommand.m -text
+subethaedit/GlassButton.h -text
+subethaedit/GlassButton.m -text
+subethaedit/GlassButtonCell.h -text
+subethaedit/GlassButtonCell.m -text
 subethaedit/GutterRulerView.h -text
 subethaedit/GutterRulerView.m -text
 subethaedit/HTMLExport/Base.css -text
