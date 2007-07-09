@@ -292,6 +292,16 @@
             <end><regex>.[egimosx]*</regex></end>
         </state>
 
+        <state id="s()()" color="#760f15">
+            <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y|s)\([^\)]*\)\(</regex></begin>
+            <end><regex>\)[egimosx]*</regex></end>
+        </state>
+
+        <state id="s{}{}" color="#760f15">
+            <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y|s)\{[^\}]*\}\{</regex></begin>
+            <end><regex>\}[egimosx]*</regex></end>
+        </state>
+
         <state id="tr///, y///" color="#760f15">
             <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y)(?&lt;yclosure&gt;[^\d\w\s\(])(?:.*?[^\\])?\k&lt;yclosure&gt;(?:.*?[^\\])?(?=\k&lt;yclosure&gt;)</regex></begin>
             <end><regex>.[cds]*</regex></end>
