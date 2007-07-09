@@ -262,6 +262,9 @@
             <keywords id="Numbers" color="#00f" useforautocomplete="no">
 				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
             </keywords>
+            <keywords id="Hexadecimal Characters" color="#00f" useforautocomplete="no">
+				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
+            </keywords>
         </default>
         
         <state id="q//, qq//, qx//, qw//" color="#760f15">
