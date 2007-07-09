@@ -1758,6 +1758,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
+- (id)handleShowScriptCommand:(NSScriptCommand *)command {
+    [self showWindows];
+    return nil;
+}
+
 - (void)showWindows {    
     BOOL closeTransient = transientDocument 
                           && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
@@ -5444,7 +5449,9 @@ static NSString *S_measurementUnits;
     NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
     NSWindow *window;
     while ((window = [windowsEnumerator nextObject])) {
-        if ([[[window windowController] documents] containsObject:self] && ![self isProxyDocument]) {
+        if (![self isProxyDocument] &&
+            [[window windowController] respondsToSelector:@selector(documents)] &&
+            [[[window windowController] documents] containsObject:self]) {
             [orderedWindows addObject:window];
         }
     }
