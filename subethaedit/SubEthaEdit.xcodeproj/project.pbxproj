@@ -1292,8 +1292,8 @@
 			children = (
 				142D1FEA0BAEEE3600B9EF1C /* NSMutableAttributedStringSEEAdditions.h */,
 				142D1FEB0BAEEE3600B9EF1C /* NSMutableAttributedStringSEEAdditions.m */,
-				5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */,
 				5EF31B210A7E2E2100D777F5 /* NSCursorSEEAdditions.h */,
+				5EF31B200A7E2E2100D777F5 /* NSCursorSEEAdditions.m */,
 				14289206095751CB00D14688 /* NSColorTCMAdditions.h */,
 				14289207095751CB00D14688 /* NSColorTCMAdditions.m */,
 				14289208095751CB00D14688 /* NSImageTCMAdditions.h */,
