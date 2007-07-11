@@ -931,17 +931,22 @@
                 <string>@required</string>
                 <string>@property</string>
                 <string>@synthesize</string>
+                <string>@synchronized</string>
+                <string>@throw</string>
+                <string>@try</string>
+                <string>@catch</string>
+                <string>@finally</string>
                 <string>__weak</string>
                 <string>__strong</string>
                 <string>__attribute__</string>
+            </keywords>
+            <keywords id="Keywords" color="#881350" useforautocomplete="yes">
                 <string>readwrite</string>
                 <string>readonly</string>
                 <string>assign</string>
                 <string>nonatomic</string>
                 <string>getter</string>
                 <string>setter</string>
-            </keywords>
-            <keywords id="Keywords" color="#881350" useforautocomplete="yes">
                 <string>break</string>
                 <string>case</string>
                 <string>continue</string>
