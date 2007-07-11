@@ -1,3 +1,8 @@
+Changes with Version 2.7 (SEE 2.6.4)
+    *) fixed the validate scripts to work with unicode and leopard
+    *) fixed hexadecimal character keyword
+    *) fixed the validate scripts to work with tabs
+
 Changes with Version 2.6 (SEE 2.5.1)
     *) fixed issue SEE-1040: "Check Syntax" script has same key shortcut as block edit by changing it to ctrl-command-b
 

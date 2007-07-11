@@ -1,3 +1,7 @@
+Changes with Version 1.6 (SEE 2.6.4)
+    *) fixed the validate scripts to work with tabs
+    *) fixed the validate scripts to work with unicode and leopard
+
 Changes with Version 1.5 (SEE 2.6)
 
     *) now indents class defs in the symbol popup
