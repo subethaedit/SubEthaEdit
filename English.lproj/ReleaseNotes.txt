@@ -1,4 +1,53 @@
 
+SubEthaEdit 2.6.4
+=================
+
+Additions/New Features:
+- Added the AppleScript command "show" to the document. "show" will show the 
+  frontmost window / tab of a document.
+- Added the system wide show animation for selecting found text on Leopard
+- Triple click now selects up to style boundaries. E.g. strings, variables.
+- Save dialog now preselects filename without extension
+
+Changes:
+- Changed "Check Syntax" in all modes. It now should work with all encodings 
+  and with tabs.
+- Improved the syntax highlighting in Perl Mode
+- Improved Objective-C Mode to include new Leopard Classes and support for 
+  Objective-C 2.0
+- Improved a behaviour where new windows would open across screens, now new 
+  windows open on the screen of the topmost window.
+- The report a bug menu item in the help menu now directly selects SubEthaEdit 
+  and the correct version in our bugtracker.
+- When removing a split now, instead of the cursor position of the upper text 
+  view, the cursor position of the active text view is taken
+
+Fixes:
+- Fixed an issue where the shared find panel string did overwrite a user 
+  created find string.
+- Fixed an issue where the transition of the join and invitation windows wasn't 
+  completed.
+- Fixed an issue where the command-number keyboard shortcuts for tabs could be 
+  wrong for a brief period of time after rearranging tabs inside a window.
+- Fixed a crash that could be caused by using the command-number keyboard 
+  shortcuts for switching between tabs in certain situations.
+- Fixed a crash that could happen when the first character in a document was 
+  deleted if it was a space, tabs have been turned off and you were unlucky.
+- Fixed an issue where the Encoding Doctor did show the wrong button style.
+- Fixed an issue where the ui on the hosting SubEthaEdit would not show that a 
+  user has aborted the join.
+- Fixed an network related crash that could be caused by having long modal 
+  operations while joining a document, e.g. the loading of a mode that has an 
+  AppleScript with an unknown application in it.
+- Fixed a crash that could be caused by adding or removing encodings from the 
+  encoding list after closing a tab but not the corresponding window by 
+  clicking with the mouse.
+- Fixed an issue with PHP and other modes which had trouble running the 
+  Check-Syntax script when a Output document already was open.
+- Fixed an issue where "show invisible characters" would draw big diamond 
+  shapes for the space character on leopard
+
+
 SubEthaEdit 2.6.3
 =================
 
@@ -13,12 +62,12 @@ Fixes:
 - Fixed an issue that could lead to loosing the connection to a remote 
   SubEthaEdit without notice in rare cases.
 - Fixed a crash triggered by the reconnection of a participant whose connection 
-  got lost unnoticed
+  got lost unnoticed.
 - Fixed a crash triggered by canceled-in-transit connections over a high 
   latency line.
 - Fixed a crash triggered by canceling the transmission of a big document while 
   the progress bar is visible.
-- Fixed a bug where new documents were placed to far to the right to be shown 
+- Fixed a bug where new documents were placed too far to the right to be shown 
   entirely on the screen.
 - Fixed an issue where the cursor still was too dark to be noticable when 
   changing a document from bright to dark background.

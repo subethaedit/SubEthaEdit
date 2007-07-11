@@ -1758,10 +1758,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
-- (void)showWindowController:(id)aSender {
-    [[aSender representedObject] selectTabForDocument:self];
-    [[aSender representedObject] showWindow:self];
+- (id)handleShowScriptCommand:(NSScriptCommand *)command {
     [self showWindows];
+    return nil;
 }
 
 - (void)showWindows {    
@@ -1979,6 +1978,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     I_lastSaveOperation = saveOperation;
     [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
+}
+
+- (BOOL)shouldRunSavePanelWithAccessoryView {
+	
+    return [super shouldRunSavePanelWithAccessoryView];
 }
 
 #pragma mark -
@@ -2356,7 +2360,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
     if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
         NSLog(@"Failed to load SavePanelAccessory.nib");
-        return nil;
+        return NO;
     }
     
     BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
@@ -2402,14 +2406,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [O_showHiddenFilesCheckbox2 setHidden:YES];
         }
     }
-
+	
     [O_savePanelAccessoryView release];
     O_savePanelAccessoryView = nil;
     
     [O_savePanelAccessoryView2 release];
     O_savePanelAccessoryView2 = nil;
-        
+	
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:savePanel];
     return [super prepareSavePanel:savePanel];
+}
+
+- (void)savePanelDidBecomeKey:(NSNotification *)aNotification {
+	[[aNotification object] TCM_selectFilenameWithoutExtension];
+    [[NSNotificationCenter defaultCenter] removeObserver:self  name:NSWindowDidBecomeKeyNotification object:[aNotification object]];
 }
 
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
@@ -3409,20 +3420,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return ![self isProxyDocument];
     } else if (selector == @selector(clearChangeMarks:)) {
         return ![self isProxyDocument];
-    } else if (selector == @selector(showWindowController:)) {
-        if ([self isDocumentEdited]) {
-            [anItem setMark:kBulletCharCode];
-        } else {
-            [anItem setMark:noMark];
-        }
-        id wc = [anItem representedObject];
-        if ([[anItem representedObject] document] == self &&
-            ([[wc window] isKeyWindow] || 
-             [[wc window] isMainWindow])) {
-            [anItem setState:NSOnState];
-            [anItem setMark:kCheckCharCode];
-        }
-        return ![[wc window] attachedSheet] || ([[wc window] attachedSheet] && [wc document] == self);
     }
 
 //    if (selector==@selector(undo:)) {
@@ -3803,6 +3800,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     PlainTextWindowController *windowController=[self topmostWindowController];
     [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
+	NSTextView *textView = [[windowController activePlainTextEditor] textView];
+	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+		[textView showFindIndicatorForRange:aRange];
+	} 
     [[windowController window] makeKeyAndOrderFront:self];
 }
 
@@ -3810,6 +3811,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     PlainTextWindowController *windowController=[self topmostWindowController];
     [windowController selectTabForDocument:self];
     [windowController selectRange:aRange];
+	NSTextView *textView = [[windowController activePlainTextEditor] textView];
+	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+		[textView showFindIndicatorForRange:aRange];
+	} 
 }
 
 - (void)addFindAllController:(FindAllController *)aController
@@ -4530,7 +4535,11 @@ static NSString *S_measurementUnits;
     [alert setMessageText:NSLocalizedString(@"Closed", @"Server Closed Document title in Sheet")];
     [alert setInformativeText:NSLocalizedString(@"ClosedInfo", @"Server Closed Document info in Sheet")];
     [alert addButtonWithTitle:NSLocalizedString(@"OK", @"Ok in sheet")];
-    [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+    if ([self isProxyDocument]) {
+        [self sessionDidLoseConnection:aSession];
+    } else {
+        [self presentAlert:alert modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+    }
 }
 
 - (void)sessionDidLoseConnection:(TCMMMSession *)aSession {
@@ -4941,7 +4950,7 @@ static NSString *S_measurementUnits;
                     NSRange lineRange=[string lineRangeForRange:affectedRange];
                     unsigned firstCharacter=0;
                     int position=affectedRange.location;
-                    while (--position>=lineRange.location) {
+                    while (position-->lineRange.location) {
                         if (!firstCharacter && [string characterAtIndex:position]!=[@"\t" characterAtIndex:0] &&
                                                [string characterAtIndex:position]!=[@" " characterAtIndex:0]) {
                             firstCharacter=position+1;
@@ -5452,7 +5461,9 @@ static NSString *S_measurementUnits;
     NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
     NSWindow *window;
     while ((window = [windowsEnumerator nextObject])) {
-        if ([[[window windowController] documents] containsObject:self] && ![self isProxyDocument]) {
+        if (![self isProxyDocument] &&
+            [[window windowController] respondsToSelector:@selector(documents)] &&
+            [[[window windowController] documents] containsObject:self]) {
             [orderedWindows addObject:window];
         }
     }

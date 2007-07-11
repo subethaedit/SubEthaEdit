@@ -1,4 +1,9 @@
-Changes with Version 1.5
+Changes with Version 1.7 (SEE 2.6.3)
+    *) fixed the validate scripts to work with unicode and leopard
+    *) fixed the validate scripts to work with tabs
+
+
+Changes with Version 1.6
     *) added PHP5 specific keywords
 
 Changes with Version 1.5 (SEE 2.5.1)

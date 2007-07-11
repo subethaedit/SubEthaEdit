@@ -101,6 +101,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (IBAction)closeTab:(id)sender;
 - (IBAction)selectNextTab:(id)sender;
 - (IBAction)selectPreviousTab:(id)sender;
+- (IBAction)showDocument:(id)aMenuEntry;
 - (void)closeAllTabs;
 - (void)reviewChangesAndQuitEnumeration:(BOOL)cont;
 

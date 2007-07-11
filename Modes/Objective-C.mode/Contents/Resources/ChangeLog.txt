@@ -1,3 +1,8 @@
+Changes with Version 1.9 (SEE 2.6.4)
+    *) Added missing NSViewAnimation... constants
+    *) Added Objective-C 2.0 syntax
+    *) Added new Cocoa classes and constants for Leopard
+
 Changes with Version 1.8
     *) Added missing AddressBook constants
 

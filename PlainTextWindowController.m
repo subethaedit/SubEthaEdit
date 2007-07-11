@@ -153,7 +153,9 @@ enum {
     [I_tabView setDelegate:nil];
     [I_tabBar release];
     [I_tabView release];
-        
+    // kind of bade here, but makes sure that no dealloced windowcontrollers stall in the window menu
+    [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+            
     [super dealloc];
 }
 
@@ -318,6 +320,8 @@ enum {
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
+        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isReceivingContent"];
+        [tabContext setValue:[NSNumber numberWithBool:NO] forKeyPath:@"isProcessing"];
         PlainTextLoadProgress *loadProgress = [tabContext loadProgress];
         [loadProgress stopAnimation];
         [loadProgress setStatusText:NSLocalizedString(@"Did lose Connection!", @"Text in Proxy window")];
@@ -399,6 +403,22 @@ enum {
             return YES;
         else
             return NO;    
+    } else if (selector == @selector(showDocument:)) {
+        id document = [menuItem representedObject];
+        if ([[self documents] indexOfObjectIdenticalTo:document] != NSNotFound) {
+            if ([document isDocumentEdited]) {
+                [menuItem setMark:kBulletCharCode];
+            } else {
+                [menuItem setMark:noMark];
+            }
+        }
+        if (([self document] == document) && 
+            ([[self window] isKeyWindow] || 
+             [[self window] isMainWindow])) {
+            [menuItem setState:NSOnState];
+            [menuItem setMark:kCheckCharCode];
+        }
+        return ![[self window] attachedSheet] || ([[self window] attachedSheet] && [self document] == document);
     }
     
     return YES;
@@ -1447,6 +1467,12 @@ enum {
             [[I_plainTextEditors objectAtIndex:0] showsGutter]];
         [self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
     } else if ([I_plainTextEditors count]==2) {
+        id fr = [[self window] firstResponder];
+        NSRect visibleRect = NSZeroRect;
+        if (fr == [[I_plainTextEditors objectAtIndex:1] textView]) {
+            visibleRect = [[[I_plainTextEditors objectAtIndex:1] textView] visibleRect];
+            [[[I_plainTextEditors objectAtIndex:0] textView] setSelectedRange:[[[I_plainTextEditors objectAtIndex:1] textView] selectedRange]];
+        }
         if (!I_dialogSplitView) {
             //[[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
             NSTabViewItem *tab = [I_tabView selectedTabViewItem];
@@ -1465,6 +1491,10 @@ enum {
             [[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
         [I_plainTextEditors removeObjectAtIndex:1];
         I_editorSplitView = nil;
+        
+        if (!NSEqualRects(NSZeroRect,visibleRect)) {
+            [[[I_plainTextEditors objectAtIndex:0] textView] scrollRectToVisible:visibleRect];
+        }
     }
     [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count]!=1];
     NSTextView *textView=[[I_plainTextEditors objectAtIndex:0] textView];
@@ -1910,6 +1940,17 @@ enum {
         [I_tabView selectLastTabViewItem:self];
     }
 }
+
+- (IBAction)showDocument:(id)aMenuEntry {
+    id documentToShow = [aMenuEntry representedObject];
+    // this method should be save for released objects so we only compare pointers
+    if ([[self documents] indexOfObjectIdenticalTo:documentToShow] != NSNotFound) {
+        [self selectTabForDocument:documentToShow];
+        [self showWindow:nil];
+        [documentToShow showWindows];
+    }
+}
+
 
 - (NSArray *)plainTextEditorsForDocument:(id)aDocument
 {
@@ -2392,6 +2433,8 @@ enum {
         } else {
             [doc close];
         }
+        // updateTabMenu
+        [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
     }
 }
 
@@ -2519,7 +2562,11 @@ float ToolbarHeightForWindow(NSWindow *window)
 }
 
 - (void)tabView:(NSTabView *)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
-{    
+{
+    if ([[self window] isMainWindow]) {
+        // update window menu
+        [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+    }
     if (![tabBarControl isEqual:I_tabBar]) {
         
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
