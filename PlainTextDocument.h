@@ -359,3 +359,7 @@ typedef enum {
 - (void)setMode:(NSString *)identifier;
 
 @end
+
+@interface NSTextView (NSTextViewLeopardInterfaceAdditions)
+- (void)showFindIndicatorForRange:(NSRange)aRange;
+@end

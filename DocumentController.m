@@ -316,11 +316,11 @@ static NSString *tempFileName() {
 }
 
 - (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
-//    NSLog(@"%s",__FUNCTION__);
+    // NSLog(@"%s",__FUNCTION__);
     [aMenu removeAllItems];
     NSMenuItem *prototypeMenuItem=
         [[NSMenuItem alloc] initWithTitle:@""
-                                   action:@selector(showWindowController:)
+                                   action:@selector(showDocument:)
                             keyEquivalent:@""];
     NSEnumerator *windowControllers = [I_windowControllers objectEnumerator];
     PlainTextWindowController *windowController = nil;
@@ -334,9 +334,9 @@ static NSString *tempFileName() {
         BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
         int isMainWindow = ([[windowController window] isMainWindow] || [[windowController window] isKeyWindow]) ? 1 : NO;
         while ((document = [documents nextObject])) {
-            [prototypeMenuItem setTarget:document];
+            [prototypeMenuItem setTarget:windowController];
             [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
-            [prototypeMenuItem setRepresentedObject:windowController];
+            [prototypeMenuItem setRepresentedObject:document];
             [prototypeMenuItem setEnabled:!hasSheet];
             if (withShortcuts) {
                 if (isMainWindow && isMainWindow <= 10) {

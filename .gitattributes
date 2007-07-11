@@ -276,6 +276,10 @@ German.lproj/WebPreview.nib/info.nib -text
 German.lproj/WebPreview.nib/keyedobjects.nib -text
 /GetURLCommand.h -text
 /GetURLCommand.m -text
+/GlassButton.h -text
+/GlassButton.m -text
+/GlassButtonCell.h -text
+/GlassButtonCell.m -text
 /GutterRulerView.h -text
 /GutterRulerView.m -text
 HTMLExport/Base.css -text
@@ -621,6 +625,8 @@ MoreIsBetter/MoreUNIX.h -text
 /NSRangeSpecifierTCMAdditions.m -text
 /NSSavePanelTCMAdditions.h -text
 /NSSavePanelTCMAdditions.m -text
+/NSScreenTCMAdditions.h -text
+/NSScreenTCMAdditions.m -text
 /NSStringSEEAdditions.h -text
 /NSStringSEEAdditions.m -text
 /NSWindowScriptingAdditions.h -text
@@ -1464,6 +1470,7 @@ artwork/monkey32.png -text
 artwork/style.icns -text
 /createDiskImage.sh -text
 /main.m -text
+see/Info.plist -text
 see/main.m -text
 see/see.1 -text
 see/see.vers -text

@@ -16,21 +16,6 @@
 #import "GeneralPreferences.h"
 #import "DWRoundedTransparentView.h"
 
-@interface NSScreen (NSScreenTCMAdditions)
-+ (NSScreen *)menuBarContainingScreen;
-@end
-
-@implementation NSScreen (NSScreenTCMAdditions)
-+ (NSScreen *)menuBarContainingScreen {
-    NSArray *screens = [NSScreen screens];
-    if ([screens count] > 0) {
-        return [screens objectAtIndex:0];
-    } else {
-        return nil;
-    }
-}
-@end
-
 @interface NSWindow (NSWindowNonBlockingAnimationAdditions) 
 - (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame;
 @end
@@ -60,8 +45,9 @@
     NSRect newFrame = [self frameAnimatedFrom:[[userInfo objectForKey:@"sourceFrame"] rectValue] to:[[userInfo objectForKey:@"targetFrame"] rectValue] progress:progress];
     BOOL finished = NSEqualRects(newFrame,[self frame]);
     [self setFrame:newFrame display:YES];
-    if (finished)
+    if (finished) {
         [aTimer invalidate];
+    }
 }
 
 - (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame {
@@ -247,7 +233,7 @@
 }
 
 - (void)windowDidResize:(NSNotification *)aNotification {
-    if (I_targetWindow && NSEqualRects([[self window] frame],I_dissolveToFrame)) {
+    if (I_targetWindow && NSEqualSizes([[self window] frame].size,I_dissolveToFrame.size)) {
         if (![I_targetWindow isVisible]) {
             [I_targetWindow orderWindow:NSWindowBelow relativeTo:[[self window] windowNumber]];
         }

@@ -357,6 +357,9 @@
             <keywords id="Global Variables" color="#8a578f" inverted-color="#a370a8"  font-style="normal" font-weight="normal" useforautocomplete="no">
             	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
+            <keywords id="Hexadecimal Characters" color="#00f" useforautocomplete="no">
+				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
+            </keywords>
         </default>
         
         <state id="String with double quotes" color="#760f15" inverted-color="#f28720"  font-style="italic" font-weight="normal">
