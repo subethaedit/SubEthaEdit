@@ -1980,6 +1980,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }
 
+- (BOOL)shouldRunSavePanelWithAccessoryView {
+	
+    return [super shouldRunSavePanelWithAccessoryView];
+}
+
 #pragma mark -
 #pragma mark ### Export ###
 
@@ -2401,14 +2406,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [O_showHiddenFilesCheckbox2 setHidden:YES];
         }
     }
-
+	
     [O_savePanelAccessoryView release];
     O_savePanelAccessoryView = nil;
     
     [O_savePanelAccessoryView2 release];
     O_savePanelAccessoryView2 = nil;
-        
+	
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:savePanel];
     return [super prepareSavePanel:savePanel];
+}
+
+- (void)savePanelDidBecomeKey:(NSNotification *)aNotification {
+	[[aNotification object] TCM_selectFilenameWithoutExtension];
+    [[NSNotificationCenter defaultCenter] removeObserver:self  name:NSWindowDidBecomeKeyNotification object:[aNotification object]];
 }
 
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
