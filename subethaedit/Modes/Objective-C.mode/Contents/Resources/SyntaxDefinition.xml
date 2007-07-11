@@ -930,9 +930,16 @@
                 <string>@optional</string>
                 <string>@required</string>
                 <string>@property</string>
+                <string>@synthesize</string>
                 <string>__weak</string>
                 <string>__strong</string>
                 <string>__attribute__</string>
+                <string>readwrite</string>
+                <string>readonly</string>
+                <string>assign</string>
+                <string>nonatomic</string>
+                <string>getter</string>
+                <string>setter</string>
             </keywords>
             <keywords id="Keywords" color="#881350" useforautocomplete="yes">
                 <string>break</string>
