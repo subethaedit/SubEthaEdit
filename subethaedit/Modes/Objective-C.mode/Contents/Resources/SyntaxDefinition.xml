@@ -927,6 +927,12 @@
                 <string>@protected</string>
                 <string>@protocol</string>
                 <string>@public</string>
+                <string>@optional</string>
+                <string>@required</string>
+                <string>@property</string>
+                <string>__weak</string>
+                <string>__strong</string>
+                <string>__attribute__</string>
             </keywords>
             <keywords id="Keywords" color="#881350" useforautocomplete="yes">
                 <string>break</string>
@@ -938,6 +944,7 @@
                 <string>enum</string>
                 <string>extern</string>
                 <string>for</string>
+                <string>in</string>
                 <string>goto</string>
                 <string>if</string>
                 <string>id</string>
