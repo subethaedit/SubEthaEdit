@@ -25,6 +25,7 @@
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 #import "NSCursorSEEAdditions.h"
+#import "BacktracingException.h"
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
@@ -330,6 +331,29 @@ static NSMenu *defaultMenu=nil;
 - (void)resetCursorRects {
     // disable cursor rects and therefore mouse cursor changing when we have a dark background so the documentcursor is used
     if ([[self insertionPointColor] isDark]) [super resetCursorRects];
+}
+
+- (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity {
+    NSEvent *currentEvent=[NSApp currentEvent];
+    NSEventType type = [currentEvent type];
+    if (currentEvent && (type==NSLeftMouseDown || type==NSLeftMouseUp)) {
+        int clickCount = [currentEvent clickCount];
+        NSTextStorage *ts = [self textStorage];
+        NSRange wholeRange = NSMakeRange(0,[ts length]);
+        if (clickCount == 3) {
+            NSRange lineRange = [[ts string] lineRangeForRange:proposedSelRange];
+            // select area that belongs to a style
+            unsigned int index = [self characterIndexForPoint:[[self window] convertBaseToScreen:[[NSApp currentEvent] locationInWindow]]];
+            NSRange resultRange = lineRange;
+            if (index != NSNotFound && index < NSMaxRange(wholeRange)) {
+                [ts attribute:@"styleID" atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
+                return RangeConfinedToRange(resultRange,lineRange);
+            }
+        } else if (clickCount >= 5) {
+            return wholeRange;
+        }
+    }
+    return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
 }
 
 - (void)setBackgroundColor:(NSColor *)aColor {

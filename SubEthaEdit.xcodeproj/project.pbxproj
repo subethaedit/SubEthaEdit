@@ -406,6 +406,8 @@
 		F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */; };
 		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
 		F2A707C80BF8A54100482EFC /* LoginSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2A707C60BF8A54100482EFC /* LoginSheet.nib */; };
+		F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */; };
+		F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CEA0C4BB550000BB062 /* GlassButton.m */; };
 		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
 		F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */; };
 		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
@@ -1153,6 +1155,10 @@
 		F2A707B80BF89F4200482EFC /* LoginSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginSheetController.h; sourceTree = "<group>"; };
 		F2A707B90BF89F4200482EFC /* LoginSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginSheetController.m; sourceTree = "<group>"; };
 		F2A707C70BF8A54100482EFC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/LoginSheet.nib; sourceTree = "<group>"; };
+		F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GlassButtonCell.m; sourceTree = "<group>"; };
+		F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButtonCell.h; sourceTree = "<group>"; };
+		F2B18CE90C4BB550000BB062 /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButton.h; sourceTree = "<group>"; };
+		F2B18CEA0C4BB550000BB062 /* GlassButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GlassButton.m; sourceTree = "<group>"; };
 		F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserController.m; sourceTree = "<group>"; };
 		F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserController.h; sourceTree = "<group>"; };
 		F2D12A0A0BF0B6B000A776CC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
@@ -1983,6 +1989,10 @@
 				5E754EA20AB5648F00C5119E /* EncodingDoctorDialog.m */,
 				5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */,
 				5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */,
+				F2B18CE90C4BB550000BB062 /* GlassButton.h */,
+				F2B18CEA0C4BB550000BB062 /* GlassButton.m */,
+				F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */,
+				F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */,
 			);
 			name = Dialogs;
 			sourceTree = "<group>";
@@ -2833,6 +2843,8 @@
 				F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */,
 				F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */,
 				F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */,
+				F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */,
+				F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
