@@ -1758,6 +1758,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
+- (id)handleShowScriptCommand:(NSScriptCommand *)command {
+    [self showWindows];
+    return nil;
+}
+
 - (void)showWindows {    
     BOOL closeTransient = transientDocument 
                           && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
@@ -1973,6 +1978,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     I_lastSaveOperation = saveOperation;
     [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
+}
+
+- (BOOL)shouldRunSavePanelWithAccessoryView {
+	
+    return [super shouldRunSavePanelWithAccessoryView];
 }
 
 #pragma mark -
@@ -2396,14 +2406,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [O_showHiddenFilesCheckbox2 setHidden:YES];
         }
     }
-
+	
     [O_savePanelAccessoryView release];
     O_savePanelAccessoryView = nil;
     
     [O_savePanelAccessoryView2 release];
     O_savePanelAccessoryView2 = nil;
-        
+	
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:savePanel];
     return [super prepareSavePanel:savePanel];
+}
+
+- (void)savePanelDidBecomeKey:(NSNotification *)aNotification {
+	[[aNotification object] TCM_selectFilenameWithoutExtension];
+    [[NSNotificationCenter defaultCenter] removeObserver:self  name:NSWindowDidBecomeKeyNotification object:[aNotification object]];
 }
 
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
@@ -4933,7 +4950,7 @@ static NSString *S_measurementUnits;
                     NSRange lineRange=[string lineRangeForRange:affectedRange];
                     unsigned firstCharacter=0;
                     int position=affectedRange.location;
-                    while (--position>=lineRange.location) {
+                    while (position-->lineRange.location) {
                         if (!firstCharacter && [string characterAtIndex:position]!=[@"\t" characterAtIndex:0] &&
                                                [string characterAtIndex:position]!=[@" " characterAtIndex:0]) {
                             firstCharacter=position+1;
@@ -5444,7 +5461,9 @@ static NSString *S_measurementUnits;
     NSEnumerator *windowsEnumerator = [[NSApp orderedWindows] objectEnumerator];
     NSWindow *window;
     while ((window = [windowsEnumerator nextObject])) {
-        if ([[[window windowController] documents] containsObject:self] && ![self isProxyDocument]) {
+        if (![self isProxyDocument] &&
+            [[window windowController] respondsToSelector:@selector(documents)] &&
+            [[[window windowController] documents] containsObject:self]) {
             [orderedWindows addObject:window];
         }
     }

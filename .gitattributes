@@ -295,6 +295,10 @@ German.lproj/WebPreview.nib/info.nib -text
 German.lproj/WebPreview.nib/keyedobjects.nib -text
 /GetURLCommand.h -text
 /GetURLCommand.m -text
+/GlassButton.h -text
+/GlassButton.m -text
+/GlassButtonCell.h -text
+/GlassButtonCell.m -text
 /GutterRulerView.h -text
 /GutterRulerView.m -text
 HTMLExport/Base.css -text

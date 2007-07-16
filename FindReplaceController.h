@@ -100,7 +100,7 @@ typedef enum {
 - (BOOL) find:(NSString*)findString forward:(BOOL)forward;
 - (void) findNextAndOrderOut:(id)sender;
 - (void)loadFindStringFromPasteboard;
-- (void)loadFindStringToPasteboard;
+- (void)saveFindStringToPasteboard;
 - (void) addString:(NSString*)aString toHistory:(NSMutableArray *)anArray;
 - (void) replaceSelection;
 - (void) replaceAllInRange:(NSRange)aRange;

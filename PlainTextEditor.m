@@ -983,13 +983,13 @@
 
 - (void)setShowsInvisibleCharacters:(BOOL)aFlag {
     LayoutManager *layoutManager = (LayoutManager *)[I_textView layoutManager];
-    [layoutManager   setShowsInvisibleCharacters:aFlag];
+    [layoutManager   setShowsInvisibles:aFlag];
     [[self document] setShowInvisibleCharacters:aFlag];
     [I_textView setNeedsDisplay:YES];
 }
 
 - (BOOL)showsInvisibleCharacters {
-    return [[I_textView layoutManager] showsInvisibleCharacters];
+    return [(LayoutManager *)[I_textView layoutManager] showsInvisibles];
 }
 
 - (IBAction)toggleShowInvisibles:(id)aSender {
@@ -1185,7 +1185,7 @@
             NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
             NSMenuItem   *menuItem  = nil;
             while ((menuItem=[menuItems nextObject])) {
-                if ([menuItem target]==[self document] && [menuItem representedObject]==[[I_textView window] windowController]) {
+                if ([menuItem target]==[[I_textView window] windowController] && [menuItem representedObject]==[self document]) {
                     [s_cell selectItem:menuItem];
                     break;
                 }

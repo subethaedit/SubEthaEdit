@@ -1134,7 +1134,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (IBAction)reportBug:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/bugs",@"BugTracker Link")]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:NSLocalizedString(@"http://www.subethaedit.net/bugs/?version=%@",@"BugTracker Deep Link"),[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]]];
 }
 
 - (IBAction)provideFeedback:(id)sender {

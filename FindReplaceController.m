@@ -43,6 +43,8 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 - (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillResignActiveNotification object:[NSApplication sharedApplication]];
     [I_findHistory dealloc];
     [I_replaceHistory dealloc];
     [super dealloc];
@@ -58,6 +60,7 @@ static FindReplaceController *sharedInstance=nil;
 
 - (void)awakeFromNib {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidActivate:) name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResign:) name:NSApplicationWillResignActiveNotification object:[NSApplication sharedApplication]];
 }
 
 - (NSPanel *)findPanel {
@@ -394,7 +397,7 @@ static FindReplaceController *sharedInstance=nil;
         NSTextView *target = [self targetToFindIn];
         if (target) {
             [O_findComboBox setStringValue:[[target string] substringWithRange:[target selectedRange]]];
-            [self loadFindStringToPasteboard];
+            [self saveFindStringToPasteboard];
         } else NSBeep();
     } else if ([sender tag]==TCMFindPanelSetReplaceString) {
         [self findPanel];
@@ -424,7 +427,7 @@ static FindReplaceController *sharedInstance=nil;
             if ([[O_scopePopup selectedItem] tag]!=1) scope = NSMakeRange (NSNotFound, 0);
             FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andRange:scope] autorelease];
             [(PlainTextDocument *)[[[target window] windowController] document] addFindAllController:findall];
-            if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self loadFindStringToPasteboard];
+            if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self saveFindStringToPasteboard];
             [findall findAll:self];
         } else NSBeep();
     }
@@ -461,7 +464,7 @@ static FindReplaceController *sharedInstance=nil;
         
         if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
             [[aDocument documentUndoManager] beginUndoGrouping];
-            [self loadFindStringToPasteboard];
+            [self saveFindStringToPasteboard];
             [text replaceCharactersInRange:selection withString:replaceString];
             [[target textStorage] addAttributes:attributes range:NSMakeRange(selection.location, [replaceString length])];
             selection.location = selection.location + [replaceString length];
@@ -696,7 +699,7 @@ static FindReplaceController *sharedInstance=nil;
         [I_replaceAllSelectionOperation setSelectedRange:[target selectedRange]];
         
         if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
-            [self loadFindStringToPasteboard];
+            [self saveFindStringToPasteboard];
             unsigned options = NSLiteralSearch|NSBackwardsSearch;
             if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
             
@@ -819,7 +822,7 @@ static FindReplaceController *sharedInstance=nil;
         
         if (forward) {
             if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
-                [self loadFindStringToPasteboard];
+                [self saveFindStringToPasteboard];
                 unsigned options = NSLiteralSearch;
                 if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
                 BOOL wrap = ([O_wrapAroundCheckbox state]==NSOnState); 
@@ -862,7 +865,7 @@ static FindReplaceController *sharedInstance=nil;
         } else { // backwards
             if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
                 // If we are just simple searching, use NSBackwardsSearch because Regex Searching is sloooow backwards.
-                [self loadFindStringToPasteboard];
+                [self saveFindStringToPasteboard];
                 unsigned options = NSLiteralSearch|NSBackwardsSearch;
                 if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
                 BOOL wrap = ([O_wrapAroundCheckbox state]==NSOnState); 
@@ -922,7 +925,13 @@ static FindReplaceController *sharedInstance=nil;
 #pragma mark ### Notification handling ###
 
 - (void)applicationDidActivate:(NSNotification *)notification {
-    if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self loadFindStringFromPasteboard];
+    //if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) 
+	[self loadFindStringFromPasteboard];
+}
+
+- (void)applicationWillResign:(NSNotification *)notification {
+    //if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) 
+	[self saveFindStringToPasteboard];
 }
 
 - (void)loadFindStringFromPasteboard {
@@ -936,7 +945,7 @@ static FindReplaceController *sharedInstance=nil;
     }
 }
 
-- (void)loadFindStringToPasteboard {
+- (void)saveFindStringToPasteboard {
     NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
     [pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
     [pasteboard setString:[O_findComboBox stringValue] forType:NSStringPboardType];
