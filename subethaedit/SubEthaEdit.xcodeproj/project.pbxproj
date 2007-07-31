@@ -308,7 +308,6 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		F2010B400C047FAD00D28EA0 /* NSScreenTCMAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2010B3E0C047FAD00D28EA0 /* NSScreenTCMAdditions.h */; };
 		F2010B410C047FAD00D28EA0 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2010B3F0C047FAD00D28EA0 /* NSScreenTCMAdditions.m */; };
 		F2061CD40B4BF44800E6631F /* DWRoundedTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD20B4BF44800E6631F /* DWRoundedTransparentView.m */; };
 		F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */; };
@@ -505,7 +504,6 @@
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
-				F2010B400C047FAD00D28EA0 /* NSScreenTCMAdditions.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;

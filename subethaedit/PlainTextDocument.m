@@ -879,6 +879,7 @@ static NSString *tempFileName(NSString *origPath) {
     [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
     [I_textStorage setDelegate:nil];
     [I_textStorage release];
+    [I_webPreviewWindowController setPlainTextDocument:nil];
     [I_webPreviewWindowController release];
     [I_documentProxyWindowController release];
     [I_session release];

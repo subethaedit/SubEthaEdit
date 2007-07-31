@@ -147,14 +147,14 @@ enum {
     
     [I_documents release];
     I_documents = nil;
-    
+
     [I_tabBar setDelegate:nil];
     [I_tabBar setTabView:nil];
     [I_tabView setDelegate:nil];
     [I_tabBar release];
     [I_tabView release];
-    // kind of bade here, but makes sure that no dealloced windowcontrollers stall in the window menu
-    [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+
+    [[DocumentController sharedInstance] updateTabMenu];
             
     [super dealloc];
 }
@@ -1778,7 +1778,7 @@ enum {
     // switch mode menu on becoming main
     [(PlainTextDocument *)[self document] adjustModeMenu];
     // also make sure the tab menu is updated correctly
-    [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+    [[DocumentController sharedInstance] updateTabMenu];
     
     NSTabViewItem *tabViewItem = [I_tabView selectedTabViewItem];
     if (tabViewItem) {
@@ -1941,16 +1941,17 @@ enum {
     }
 }
 
-- (IBAction)showDocument:(id)aMenuEntry {
-    id documentToShow = [aMenuEntry representedObject];
-    // this method should be save for released objects so we only compare pointers
-    if ([[self documents] indexOfObjectIdenticalTo:documentToShow] != NSNotFound) {
-        [self selectTabForDocument:documentToShow];
+- (IBAction)showDocumentAtIndex:(id)aMenuEntry {
+    int documentNumberToShow = [[aMenuEntry representedObject] intValue];
+    NSLog(@"%s %d",__FUNCTION__,documentNumberToShow);
+    NSArray *documents = [self documents];
+    if ([documents count] > documentNumberToShow) {
+        id document = [documents objectAtIndex:documentNumberToShow];
+        [self selectTabForDocument:document];
         [self showWindow:nil];
-        [documentToShow showWindows];
+        [document showWindows];
     }
 }
-
 
 - (NSArray *)plainTextEditorsForDocument:(id)aDocument
 {
@@ -2297,8 +2298,7 @@ enum {
     if (document) {
         if ([[self window] isKeyWindow]) {
             [(PlainTextDocument *)document adjustModeMenu];
-            // also make sure the tab menu is updated correctly
-            [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+            [[DocumentController sharedInstance] updateTabMenu];
         }
         [self adjustToolbarToDocumentMode];
         [self refreshDisplay];
@@ -2434,7 +2434,7 @@ enum {
             [doc close];
         }
         // updateTabMenu
-        [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+        [[DocumentController sharedInstance] updateTabMenu];
     }
 }
 
@@ -2565,7 +2565,7 @@ float ToolbarHeightForWindow(NSWindow *window)
 {
     if ([[self window] isMainWindow]) {
         // update window menu
-        [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] update];
+        [[DocumentController sharedInstance] updateTabMenu];
     }
     if (![tabBarControl isEqual:I_tabBar]) {
         
