@@ -1943,7 +1943,6 @@ enum {
 
 - (IBAction)showDocumentAtIndex:(id)aMenuEntry {
     int documentNumberToShow = [[aMenuEntry representedObject] intValue];
-    NSLog(@"%s %d",__FUNCTION__,documentNumberToShow);
     NSArray *documents = [self documents];
     if ([documents count] > documentNumberToShow) {
         id document = [documents objectAtIndex:documentNumberToShow];

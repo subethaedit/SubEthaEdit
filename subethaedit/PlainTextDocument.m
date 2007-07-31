@@ -1765,7 +1765,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
 - (void)showWindows {    
-    BOOL closeTransient = transientDocument 
+    BOOL closeTransient = transientDocument && transientDocument != self
                           && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
                           && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
 
