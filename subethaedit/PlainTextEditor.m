@@ -1027,6 +1027,8 @@
         NSRect frame=[I_textView frame];
         frame.size.width=[O_scrollView contentSize].width;
         [I_textView setFrame:frame];
+        // this needs to be done if no text flows over the text view margins (SEE-364)
+        [I_textContainer setContainerSize:NSMakeSize(NSWidth([I_textView frame])-2.0*[I_textView textContainerInset].width,FLT_MAX)];
         [I_textView setNeedsDisplay:YES];
     }
     [[self document] setWrapLines:[self wrapsLines]];
