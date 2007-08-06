@@ -317,43 +317,53 @@ static NSString *tempFileName() {
 
 - (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
     // NSLog(@"%s",__FUNCTION__);
-    [aMenu removeAllItems];
-    NSMenuItem *prototypeMenuItem=
-        [[NSMenuItem alloc] initWithTitle:@""
-                                   action:@selector(showDocument:)
-                            keyEquivalent:@""];
-    NSEnumerator *windowControllers = [I_windowControllers objectEnumerator];
-    PlainTextWindowController *windowController = nil;
-    BOOL firstWC = YES;
-    while ((windowController=[windowControllers nextObject])) {
-        NSEnumerator      *documents = [[windowController orderedDocuments] objectEnumerator];
-        PlainTextDocument *document = nil;
-        if (!firstWC) {
-            [aMenu addItem:[NSMenuItem separatorItem]];
-        }
-        BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
-        int isMainWindow = ([[windowController window] isMainWindow] || [[windowController window] isKeyWindow]) ? 1 : NO;
-        while ((document = [documents nextObject])) {
-            [prototypeMenuItem setTarget:windowController];
-            [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
-            [prototypeMenuItem setRepresentedObject:document];
-            [prototypeMenuItem setEnabled:!hasSheet];
-            if (withShortcuts) {
-                if (isMainWindow && isMainWindow <= 10) {
-                    [prototypeMenuItem setKeyEquivalent:[NSString stringWithFormat:@"%d",isMainWindow%10]];
-                    [prototypeMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
-                    isMainWindow++;
-                } else {
-                    [prototypeMenuItem setKeyEquivalent:@""];
-                }
+    static NSMutableSet *menusCurrentlyUpdating = nil;
+    if (!menusCurrentlyUpdating) menusCurrentlyUpdating = [NSMutableSet new];
+    if ([menusCurrentlyUpdating containsObject:aMenu]) {
+        NSLog(@"%s woof woof",__FUNCTION__);
+    } else {
+        [menusCurrentlyUpdating addObject:aMenu];
+        [aMenu removeAllItems];
+        NSMenuItem *prototypeMenuItem=
+            [[NSMenuItem alloc] initWithTitle:@""
+                                       action:@selector(showDocumentAtIndex:)
+                                keyEquivalent:@""];
+        NSEnumerator *windowControllers = [I_windowControllers objectEnumerator];
+        PlainTextWindowController *windowController = nil;
+        BOOL firstWC = YES;
+        while ((windowController=[windowControllers nextObject])) {
+            NSEnumerator      *documents = [[windowController orderedDocuments] objectEnumerator];
+            PlainTextDocument *document = nil;
+            if (!firstWC) {
+                [aMenu addItem:[NSMenuItem separatorItem]];
             }
-            NSMenuItem *itemToAdd = [[prototypeMenuItem copy] autorelease];
-            [aMenu addItem:itemToAdd];
-            [itemToAdd setMark:[document isDocumentEdited]?kBulletCharCode:noMark];
+            BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
+            int isMainWindow = ([[windowController window] isMainWindow] || [[windowController window] isKeyWindow]) ? 1 : NO;
+            int documentPosition = 0;
+            while ((document = [documents nextObject])) {
+                [prototypeMenuItem setTarget:windowController];
+                [prototypeMenuItem setTitle:[windowController windowTitleForDocumentDisplayName:[document displayName] document:document]];
+                [prototypeMenuItem setRepresentedObject:[NSNumber numberWithInt:documentPosition]];
+                [prototypeMenuItem setEnabled:!hasSheet];
+                if (withShortcuts) {
+                    if (isMainWindow && isMainWindow <= 10) {
+                        [prototypeMenuItem setKeyEquivalent:[NSString stringWithFormat:@"%d",isMainWindow%10]];
+                        [prototypeMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+                        isMainWindow++;
+                    } else {
+                        [prototypeMenuItem setKeyEquivalent:@""];
+                    }
+                }
+                NSMenuItem *itemToAdd = [[prototypeMenuItem copy] autorelease];
+                [aMenu addItem:itemToAdd];
+                [itemToAdd setMark:[document isDocumentEdited]?kBulletCharCode:noMark];
+                documentPosition++;
+            }
+            firstWC = NO;
         }
-        firstWC = NO;
+        [prototypeMenuItem release];
+        [menusCurrentlyUpdating removeObject:aMenu];
     }
-    [prototypeMenuItem release];
 }
 
 - (NSMenu *)documentMenu {
@@ -1157,6 +1167,16 @@ struct ModificationInfo
     }
     return [super validateMenuItem:menuItem];
 }
+
+- (void)updateTabMenu {
+   NSMenuItem *menuItem = [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] itemWithTag:GotoTabMenuItemTag];
+    if ([[self documents] count] >0) {
+        [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
+    } else {
+        [[menuItem submenu] removeAllItems];
+    }
+}
+
 
 - (IBAction)menuValidationNoneAction:(id)aSender {
 

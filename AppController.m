@@ -1003,6 +1003,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 - (NSArray *)contextMenuItemArray {
     return I_contextMenuItemArray;
 }
+
 // trigger update so keyequivalents match the situation
 - (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action {
     [menu update];
