@@ -1,4 +1,18 @@
 
+SubEthaEdit 2.6.5
+=================
+
+Fixes:
+- Fixed a crash that could occur when closing a document while the web preview 
+  is reloading.
+- Fixed an issue where turning on wrap lines wouldn't work when there is no 
+  text overflowing the current dimensions of the document window.
+- Fixed an issue where sometimes when showing change marks, the change mark on 
+  the last character of an edit wasn't displayed.
+- Fixed an issue where the document that is created at startup would close when 
+  you selected it via the window menu.
+
+
 SubEthaEdit 2.6.4
 =================
 
