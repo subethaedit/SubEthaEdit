@@ -31,6 +31,7 @@ extern int const kWebPreviewRefreshDelayed  ;
 
 - (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument;
 
+- (void)setPlainTextDocument:(PlainTextDocument *)aDocument;
 - (PlainTextDocument *)plainTextDocument;
 - (int)refreshType;
 - (void)setRefreshType:(int)aRefreshType;
