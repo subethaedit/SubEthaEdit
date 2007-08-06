@@ -403,20 +403,23 @@ enum {
             return YES;
         else
             return NO;    
-    } else if (selector == @selector(showDocument:)) {
-        id document = [menuItem representedObject];
-        if ([[self documents] indexOfObjectIdenticalTo:document] != NSNotFound) {
+    } else if (selector == @selector(showDocumentAtIndex:)) {
+        int documentNumberToShow = [[menuItem representedObject] intValue];
+        id document = nil;
+        NSArray *documents = [self orderedDocuments];
+        if ([documents count] > documentNumberToShow) {
+            document = [documents objectAtIndex:documentNumberToShow];
             if ([document isDocumentEdited]) {
                 [menuItem setMark:kBulletCharCode];
             } else {
                 [menuItem setMark:noMark];
             }
-        }
-        if (([self document] == document) && 
-            ([[self window] isKeyWindow] || 
-             [[self window] isMainWindow])) {
-            [menuItem setState:NSOnState];
-            [menuItem setMark:kCheckCharCode];
+            if (([self document] == document) && 
+                ([[self window] isKeyWindow] || 
+                 [[self window] isMainWindow])) {
+                [menuItem setState:NSOnState];
+                [menuItem setMark:kCheckCharCode];
+            }
         }
         return ![[self window] attachedSheet] || ([[self window] attachedSheet] && [self document] == document);
     }
@@ -1943,7 +1946,7 @@ enum {
 
 - (IBAction)showDocumentAtIndex:(id)aMenuEntry {
     int documentNumberToShow = [[aMenuEntry representedObject] intValue];
-    NSArray *documents = [self documents];
+    NSArray *documents = [self orderedDocuments];
     if ([documents count] > documentNumberToShow) {
         id document = [documents objectAtIndex:documentNumberToShow];
         [self selectTabForDocument:document];
