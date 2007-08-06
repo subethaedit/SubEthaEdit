@@ -232,7 +232,7 @@ static NSString *S_specialGlyphs[16];
                 unsigned innerPosition = attributeRange.location;
                 while (innerPosition < NSMaxRange(attributeRange)) {
                     [textStorageString getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(innerPosition,0)];
-                    innerPosition=lineEndIndex+1;
+                    innerPosition=lineEndIndex;
                     if (startIndex<attributeRange.location) startIndex=attributeRange.location;
                     if (contentsEndIndex>NSMaxRange(attributeRange)) contentsEndIndex=NSMaxRange(attributeRange);
                     unsigned rectCount;

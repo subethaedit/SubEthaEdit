@@ -17,7 +17,7 @@ extern NSArray * StackSymbols(BOOL flag) __attribute__((weak_import));
 @implementation BacktracingException
 
 
-SignificantRaiseHandler sHandler;
+static SignificantRaiseHandler sHandler;
 
 
 + (void) install
@@ -53,7 +53,7 @@ SignificantRaiseHandler sHandler;
 }
 
 
-void SignificantRaise( NSException *x )
+static void SignificantRaise( NSException *x )
 {
     // This is broken out as a function to make it easy to set a breakpoint on in gdb.
     if( sHandler )

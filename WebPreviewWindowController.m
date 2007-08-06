@@ -11,6 +11,7 @@
 #import "PlainTextDocument.h"
 #import "TextStorage.h"
 #import "DocumentMode.h"
+#import "BacktracingException.h"
 
 int const kWebPreviewRefreshAutomatic=1;
 int const kWebPreviewRefreshOnSave   =2;
@@ -39,11 +40,11 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(synchronizeWindowTitleWithDocumentName)
                                                  name:TCMMMSessionDidChangeNotification 
-                                               object:[(PlainTextDocument *)[self document] session]];
+                                               object:[_plainTextDocument session]];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(synchronizeWindowTitleWithDocumentName)
                                                  name:PlainTextDocumentDidChangeDisplayNameNotification 
-                                               object:[self document]];
+                                               object:_plainTextDocument];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(somePlainTextDocumentDidSave:)
                                                  name:PlainTextDocumentDidSaveNotification 
@@ -59,6 +60,14 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [[self window] orderOut:self];
     [super dealloc];
 }
+
+- (void)setPlainTextDocument:(PlainTextDocument *)aDocument {
+    _plainTextDocument = aDocument;
+    if (!aDocument) {
+        [oWebView stopLoading:self];
+    }
+}
+
 
 - (PlainTextDocument *)plainTextDocument {
     return _plainTextDocument;

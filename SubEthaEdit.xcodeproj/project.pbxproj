@@ -308,7 +308,6 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		F2010B400C047FAD00D28EA0 /* NSScreenTCMAdditions.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2010B3E0C047FAD00D28EA0 /* NSScreenTCMAdditions.h */; };
 		F2010B410C047FAD00D28EA0 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2010B3F0C047FAD00D28EA0 /* NSScreenTCMAdditions.m */; };
 		F2061CD40B4BF44800E6631F /* DWRoundedTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD20B4BF44800E6631F /* DWRoundedTransparentView.m */; };
 		F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */; };
@@ -505,7 +504,6 @@
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
-				F2010B400C047FAD00D28EA0 /* NSScreenTCMAdditions.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1387,11 +1385,11 @@
 				F2061D660B4C152600E6631F /* FirstClickCustomView.h */,
 				F2061D670B4C152600E6631F /* FirstClickCustomView.m */,
 				1428944209575B3400D14688 /* GutterRulerView.h */,
-				1428944409575B3400D14688 /* LayoutManager.h */,
 				1428944309575B3400D14688 /* GutterRulerView.m */,
+				1428944409575B3400D14688 /* LayoutManager.h */,
+				1428944509575B3400D14688 /* LayoutManager.m */,
 				5E28E28D0972FB8E00099B13 /* InsetTextFieldCell.h */,
 				5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */,
-				1428944509575B3400D14688 /* LayoutManager.m */,
 				1428944A09575B9700D14688 /* ParticipantsView.h */,
 				1428944B09575B9700D14688 /* ParticipantsView.m */,
 				1428944C09575B9700D14688 /* PlainTextDocument.h */,
@@ -1435,8 +1433,8 @@
 				142893B60957594500D14688 /* DocumentMode.m */,
 				142893B70957594500D14688 /* DocumentModeManager.h */,
 				142893B80957594500D14688 /* DocumentModeManager.m */,
-				311717F20A0E8C3600A9DA18 /* ModeSettings.m */,
 				311717F30A0E8C3600A9DA18 /* ModeSettings.h */,
+				311717F20A0E8C3600A9DA18 /* ModeSettings.m */,
 				142893B90957594500D14688 /* RegexSymbolDefinition.h */,
 				142893BA0957594500D14688 /* RegexSymbolDefinition.m */,
 				142893BB0957594500D14688 /* RegexSymbolParser.h */,
