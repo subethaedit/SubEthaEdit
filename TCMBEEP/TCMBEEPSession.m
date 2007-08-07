@@ -21,6 +21,7 @@
 #import <net/if.h> // struct ifreq
 #import <sys/param.h>
 
+
 NSString * const NetworkTimeoutPreferenceKey = @"NetworkTimeout";
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
@@ -68,6 +69,115 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     static unsigned numberOfLogs = 0;
     static NSString *logDirectory = nil;
 #endif
+
+static NSString *certKeychainPath = nil;
+static CFArrayRef certArrayRef = NULL;
+static SecKeychainRef kcRef;
+
++ (void)removeTemporaryKeychain {
+    [[NSFileManager defaultManager] removeFileAtPath:certKeychainPath handler:nil];
+}
+
+
++ (void)prepareTemporaryCertificate {
+    NSString *path;
+    
+    //create Directories
+    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
+    while ((path = [enumerator nextObject])) {
+        NSString *fullPath = [path stringByAppendingPathComponent:[[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension]];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
+             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
+        }
+        certKeychainPath = [[fullPath stringByAppendingPathComponent:[NSString stringWithFormat:@"seetempcerts-%d.keychain",(int)[[NSDate date]timeIntervalSinceReferenceDate]]] retain];
+        
+        // we don't want to add this keychain in the default searchlist so we get the list
+        CFArrayRef searchList;
+        SecKeychainCopySearchList(&searchList);
+        
+        // generate the temporary keychain
+        OSStatus status = SecKeychainCreate (
+           [certKeychainPath UTF8String],
+           0,
+           "",
+           FALSE,
+           NULL,
+           &kcRef
+        );
+        NSLog(@"%s status:%d keychain:%@",__FUNCTION__,status,kcRef);
+
+        // remove from Search list
+        status=SecKeychainSetSearchList (searchList);
+        NSLog(@"%s status:%d, list:%@",__FUNCTION__,status,searchList);
+        CFRelease(searchList);
+        searchList = NULL;
+
+        // generate identity
+
+        NSString *pathToTempKeyAndCert = [certKeychainPath stringByAppendingPathExtension:@"cert"];
+        NSTask *opensslTask = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/openssl" arguments:[NSArray arrayWithObjects:
+            @"req",
+            @"-new",
+            @"-x509",
+            @"-keyout",
+            pathToTempKeyAndCert,
+            @"-out",
+            pathToTempKeyAndCert,
+            @"-text",
+            @"-days",
+            @"365",
+            @"-nodes",
+            @"-batch",
+            nil]];
+        [opensslTask waitUntilExit];
+        NSLog(@"%s %@",__FUNCTION__,opensslTask);
+        
+        CFArrayRef array;
+        SecKeychainItemImport (
+            (CFDataRef)[NSData dataWithContentsOfFile:pathToTempKeyAndCert],
+            NULL,
+            kSecFormatUnknown,
+            kSecItemTypeUnknown,
+            0,
+            NULL,
+            kcRef,
+            &array
+        );
+        NSLog(@"%s %@",__FUNCTION__,(NSArray *)array);
+        
+        OSStatus ortn;
+        SecIdentitySearchRef srchRef = nil;
+        ortn = SecIdentitySearchCreate(kcRef,CSSM_KEYUSE_SIGN,&srchRef);
+        if(ortn) {
+            printf("SecIdentitySearchCreate returned %d.\n", (int)ortn);
+            printf("Cannot find signing key in temporary keychain. Aborting.\n");
+            return;
+        }
+        SecIdentityRef identity = nil;
+        ortn = SecIdentitySearchCopyNext(srchRef, &identity);
+        if(ortn) {
+            printf("SecIdentitySearchCopyNext returned %d.\n", (int)ortn);
+            printf("Cannot find signing key in temporary keychain. Aborting.\n");
+            return;
+        }
+        if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
+            printf("SecIdentitySearchCopyNext CFTypeID failure!\n");
+            return;
+        }
+    
+        certArrayRef = CFArrayCreate(NULL,(const void **)&identity,1,NULL);
+            
+        if(certArrayRef == nil) {
+            printf("CFArrayCreate error\n");
+        }
+        
+        // delete temp keychain 
+        NSFileManager *fm = [NSFileManager defaultManager];
+        [fm removeFileAtPath:pathToTempKeyAndCert handler:nil];
+        break;
+    }
+}
 
 - (void)TCM_initHelper
 {
@@ -800,6 +910,13 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 	encryptOnly:(CSSM_BOOL)encryptOnly
 	usedKeychain:(SecKeychainRef*)pKcRef // RETURNED
 {
+    SecKeychainStatus keychainStatus;
+    OSStatus result = SecKeychainGetStatus(kcRef,&keychainStatus);
+    if (keychainStatus && kSecUnlockStateStatus) {
+        NSLog(@"%s keychain was locked!",__FUNCTION__);
+        SecKeychainUnlock(kcRef,0,"",TRUE);
+    }
+    return certArrayRef; // shortcut for now
 	char 				kcPath[MAXPATHLEN + 1];
 	UInt32 				kcPathLen = MAXPATHLEN + 1;
 	SecKeychainRef 		kcRef = nil;
@@ -1239,7 +1356,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
         if ([aSender respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)]) {
             [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
         } else {
-            NSLog(@"WARNING: Object requested channel doesn't respond to BEEPSession:didOpenChannelWithProfile:data:");
+            NSLog(@"WARNING: The Object that requested the channel (%@) doesn't respond to BEEPSession:didOpenChannelWithProfile:data:",aSender);
         }
     }
 }
