@@ -104,6 +104,9 @@ enum {
 #endif
 }
 
++ (void)prepareTemporaryCertificate;
++ (void)removeTemporaryKeychain;
+
 /*"Initializers"*/
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData;
 - (id)initWithAddressData:(NSData *)aData;

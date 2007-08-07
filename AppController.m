@@ -152,6 +152,7 @@ static AppController *sharedInstance = nil;
     [defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
     [defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
     [defaults setObject:[NSMutableArray array] forKey:AddressHistory];
+    [defaults setObject:[NSNumber numberWithBool:YES] forKey:@"EnableTLS"];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
     [defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
     [defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
@@ -423,6 +424,7 @@ static AppController *sharedInstance = nil;
                                                                                                                 
     [self setupTextViewContextMenu];
     [NSApp setServicesProvider:[DocumentController sharedDocumentController]];
+    [TCMBEEPSession prepareTemporaryCertificate];
 }
 
 static OSStatus AuthorizationRightSetWithWorkaround(
@@ -610,6 +612,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] setVisible:NO];
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
+
+    [TCMBEEPSession removeTemporaryKeychain];
     
     sasl_done();
 }

@@ -1,3 +1,6 @@
+Create a keychain
+# security -v create-keychain certkc.keychain
+
 Create server certificate:
 # certtool c k=certkc.keychain x=S
 
