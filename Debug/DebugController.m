@@ -121,6 +121,11 @@ static DebugController * sharedInstance = nil;
         [menu addItem:blahItem];
         [blahItem release];
 
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Attribute Inspector..." action:@selector(showAttributeInspector:) keyEquivalent:@""];
+        [blahItem setTarget:self];
+        [menu addItem:blahItem];
+        [blahItem release];
+
     } else if (flag == NO && indexOfDebugMenu != -1) {
         [[NSApp mainMenu] removeItemAtIndex:indexOfDebugMenu];
     }
@@ -168,7 +173,12 @@ static DebugController * sharedInstance = nil;
         [I_debugSendOperationController showWindow:sender];
 }
 
-
+- (IBAction)showAttributeInspector:(id)sender {
+    if (!I_debugAttributeInspectorController) {
+         I_debugAttributeInspectorController = [DebugAttributeInspectorController new];
+    }
+        [I_debugAttributeInspectorController showWindow:sender];
+}
 
 - (IBAction)crash:(id)sender {
     NSLog((NSString *)"crash here"); // This is supposed to crash, don't fix.

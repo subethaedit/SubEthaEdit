@@ -47,94 +47,59 @@
 #pragma mark - 
 
 -(void)parseXMLFile:(NSString *)aPath {
-    CFXMLTreeRef cfXMLTree;
-    CFDataRef xmlData;
-    CFURLRef sourceURL = (CFURLRef)[NSURL fileURLWithPath:aPath];
-    NSDictionary *errorDict;
 
-    CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, sourceURL, &xmlData, NULL, NULL, NULL);
+    NSError *err=nil;
+    NSXMLDocument *modeSettingsXML = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:aPath] options:nil error:&err];
 
-    cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,xmlData,sourceURL,kCFXMLParserSkipMetaData,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
-
-    if (!cfXMLTree) {
-        NSLog(@"Error parsing mode settings \"%@\":\n%@", aPath, [errorDict description]);
+    if (err) {
+        NSLog(@"Error while loading '%@': %@", aPath, [err localizedDescription]);
         everythingOkay = NO;
         return;
-    }        
-
+    } 
     
-    CFXMLTreeRef    xmlTree = NULL;
-    CFXMLNodeRef    xmlNode = NULL;
-    int             childCount;
-    int             index;
+    // Set template file name, if there is one.
+    [self setTemplateFile:[[[modeSettingsXML nodesForXPath:@"/settings/template" error:&err] lastObject] stringValue]];
 
-    // Get a count of the top level node’s children.
-    childCount = CFTreeGetChildCount(cfXMLTree);
-
-    for (index = 0; index < childCount; index++) {
-        xmlTree = CFTreeGetChildAtIndex(cfXMLTree, index);
-        xmlNode = CFXMLTreeGetNode(xmlTree);
-        if ((CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) &&
-            [@"settings" isEqualToString:(NSString *)CFXMLNodeGetString(xmlNode)]) {
-            break;
-        }
-    }
-
-    if (xmlTree && xmlNode) {
-        childCount = CFTreeGetChildCount(xmlTree);
+    if (err) {
+        NSLog(@"Error while parsing template section of '%@': %@", aPath, [err localizedDescription]);
+        everythingOkay = NO;
+        return;
+    } 
         
-        for (index = 0; index < childCount; index++) {
-            CFXMLTreeRef xmlSubTree = CFTreeGetChildAtIndex(xmlTree, index);
-            CFXMLNodeRef xmlSubNode = CFXMLTreeGetNode(xmlSubTree);
+    NSArray *recognitionEntries = [modeSettingsXML nodesForXPath:@"/settings/recognition/*" error:&err];
 
-            if ([@"template" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)]) {
-                // Parse for the template
-                [self setTemplateFile:extractStringWithEntitiesFromTree(xmlSubTree)];
-            } else if ([@"recognition" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)]) {
-                [self parseRecognition:xmlSubTree];
+    if (err) {
+        NSLog(@"Error while parsing recognition section of '%@': %@", aPath, [err localizedDescription]);
+        everythingOkay = NO;
+        return;
+    } 
+
+    NSEnumerator *enumerator = [recognitionEntries objectEnumerator];
+    id entry;
+    while ((entry = [enumerator nextObject])) {
+        NSString *name = [entry name];
+        NSString *value = [entry stringValue];
+        
+        if ([@"extension" isEqualToString:name]) {
+            [I_recognitionExtenstions addObject:value];
+        }  else if ([@"filename" isEqualToString:name]) {
+            [I_recognitionFilenames addObject:value];
+        }  else if ([@"regex" isEqualToString:name]) {
+            if ([OGRegularExpression isValidExpressionString:value]) {
+                [I_recognitionRegexes addObject:value];
+            } else {                
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setAlertStyle:NSWarningAlertStyle];
+                [alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
+                [alert setInformativeText:NSLocalizedString(@"One of the specified <regex> elements in the mode's settings is not a valid regular expression. ModeSettings.xml will be ignored, falling back to Info.plist. Please check your regular expression in Find Panel's Ruby mode.",@"Mode Settings Expression Error Informative Text")];
+                [alert addButtonWithTitle:@"OK"];
+                [alert runModal];
+                everythingOkay = NO;
             }
         }
-    }
-    CFRelease(cfXMLTree);
-    CFRelease(xmlData);
-}
-
-- (void)parseRecognition:(CFXMLTreeRef)aTree
-{
-    int childCount;
-    int index;
-    NSString *aString;
-
-    childCount = CFTreeGetChildCount(aTree);
-    for (index = 0; index < childCount; index++) {
-        CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
-        CFXMLNodeRef xmlNode = CFXMLTreeGetNode(xmlTree);
-        if (CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) {
-            NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
-            if ([@"extension" isEqualToString:tag]) {
-                aString = extractStringWithEntitiesFromTree(xmlTree);
-                [I_recognitionExtenstions addObject:aString];
-            }  else if ([@"filename" isEqualToString:tag]) {
-                aString = extractStringWithEntitiesFromTree(xmlTree);
-                [I_recognitionFilenames addObject:aString];
-            }  else if ([@"regex" isEqualToString:tag]) {
-                aString = extractStringWithEntitiesFromTree(xmlTree);
-
-                if ([OGRegularExpression isValidExpressionString:aString]) {
-                    //[I_recognitionRegexes addObject:[[[OGRegularExpression alloc] initWithString:aString options:OgreFindNotEmptyOption]autorelease]];
-                    [I_recognitionRegexes addObject:aString];
-                } else {                
-                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-                    [alert setAlertStyle:NSWarningAlertStyle];
-                    [alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
-                    [alert setInformativeText:NSLocalizedString(@"One of the specified <regex> elements in the mode's settings is not a valid regular expression. ModeSettings.xml will be ignored, falling back to Info.plist. Please check your regular expression in Find Panel's Ruby mode.",@"Mode Settings Expression Error Informative Text")];
-                    [alert addButtonWithTitle:@"OK"];
-                    [alert runModal];
-                    everythingOkay = NO;
-                }
-            }  
-        }
-    }
+    }    
+    
+    [modeSettingsXML release];
 }
 
 - (NSArray *)recognizedExtensions {

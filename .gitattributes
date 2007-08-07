@@ -39,6 +39,11 @@ CrashReporter/crashReporter_Prefix.pch -text
 CrashReporter/license.txt -text
 /DWRoundedTransparentView.h -text
 /DWRoundedTransparentView.m -text
+Debug/DebugAttributeInspectorController.h -text
+Debug/DebugAttributeInspectorController.m -text
+Debug/DebugAttributesInspector.nib/classes.nib -text
+Debug/DebugAttributesInspector.nib/info.nib -text
+Debug/DebugAttributesInspector.nib/keyedobjects.nib -text
 Debug/DebugBEEP.nib/classes.nib -text
 Debug/DebugBEEP.nib/info.nib -text
 Debug/DebugBEEP.nib/keyedobjects.nib -text

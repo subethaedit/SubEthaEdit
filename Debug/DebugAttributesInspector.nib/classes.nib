@@ -1,0 +1,12 @@
+{
+    IBClasses = (
+        {
+            CLASS = DebugAttributeInspectorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"O_attributesContentController" = NSArrayController; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
