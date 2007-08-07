@@ -12,6 +12,7 @@
 #import "PlainTextDocument.h"
 #import "GeneralPreferences.h"
 #import "SyntaxStyle.h"
+#import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 
 
@@ -299,8 +300,16 @@
         DocumentMode *mode=[I_documentModesByIdentifier objectForKey:anIdentifier];
         if (!mode) {
             mode = [[[DocumentMode alloc] initWithBundle:bundle] autorelease];
-            if (mode)
+            if (mode) {
                 [I_documentModesByIdentifier setObject:mode forKey:anIdentifier];
+                
+                // Load all depended modes
+                NSEnumerator *linkEnumerator = [[[mode syntaxDefinition] importedModes] keyEnumerator];
+                id import;
+                while ((import = [linkEnumerator nextObject])) {
+                    [self documentModeForName:import];
+                }
+            }
         }
         return mode;
 	} else {

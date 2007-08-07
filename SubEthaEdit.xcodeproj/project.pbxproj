@@ -316,6 +316,8 @@
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
 		312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
 		312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
+		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
+		316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 316A0D290C68A47100720268 /* DebugAttributesInspector.nib */; };
 		31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
@@ -1045,6 +1047,9 @@
 		311717F20A0E8C3600A9DA18 /* ModeSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ModeSettings.m; sourceTree = "<group>"; };
 		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ModeSettings.h; sourceTree = "<group>"; };
 		312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
+		316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugAttributeInspectorController.h; path = Debug/DebugAttributeInspectorController.h; sourceTree = "<group>"; };
+		316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugAttributeInspectorController.m; path = Debug/DebugAttributeInspectorController.m; sourceTree = "<group>"; };
+		316A0D290C68A47100720268 /* DebugAttributesInspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugAttributesInspector.nib; path = Debug/DebugAttributesInspector.nib; sourceTree = "<group>"; };
 		31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = CrashReporter/CrashReporter.xcodeproj; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DialogBackgroundView.m; sourceTree = "<group>"; };
@@ -1495,6 +1500,8 @@
 		1428917B0957483C00D14688 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
+				316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */,
+				316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */,
 				1428921A0957523300D14688 /* DebugBEEPController.h */,
 				1428921B0957523300D14688 /* DebugBEEPController.m */,
 				1428921C0957523300D14688 /* DebugController.h */,
@@ -1507,6 +1514,7 @@
 				1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */,
 				142892240957523300D14688 /* DebugUserController.h */,
 				142892250957523300D14688 /* DebugUserController.m */,
+				316A0D290C68A47100720268 /* DebugAttributesInspector.nib */,
 				142892190957523300D14688 /* DebugBEEP.nib */,
 				142892200957523300D14688 /* DebugPrefs.nib */,
 				142892210957523300D14688 /* DebugPresence.nib */,
@@ -2196,6 +2204,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "SubEthaEdit" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -2224,6 +2233,7 @@
 					ProjectRef = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
 				},
 			);
+			projectRoot = "";
 			targets = (
 				14251B910BBD5DD300052C84 /* seed */,
 				8D15AC270486D014006FF6A4 /* SubEthaEdit */,
@@ -2482,6 +2492,7 @@
 				F2A707970BF8935400482EFC /* LoginButton.png in Resources */,
 				F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */,
 				F2A707C80BF8A54100482EFC /* LoginSheet.nib in Resources */,
+				316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2845,6 +2856,7 @@
 				F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */,
 				F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */,
 				F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */,
+				316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3428,6 +3440,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SubEthaEdit.app/Contents/MacOS/SubEthaEdit";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -3456,6 +3472,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;

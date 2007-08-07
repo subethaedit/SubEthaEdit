@@ -15,6 +15,7 @@ extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
+    NSMutableArray *I_parseStack;
     id theDocument;
 }
 
@@ -28,8 +29,8 @@ extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 
 /*"Highlighting"*/
 -(void)highlightAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange;
--(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState;
--(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(int)aState;
+-(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState;
+-(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState;
 
 /*"Document Interaction"*/
 - (void)updateStylesInTextStorage:(NSTextStorage *)aTextStorage ofDocument:(id)aSender;

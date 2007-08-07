@@ -3,7 +3,7 @@
 <syntax>
 
     <head>
-        <name>HTML</name> <!-- The definitions title -->
+        <name>CSS</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@]]></charsintokens> 
     </head>
 

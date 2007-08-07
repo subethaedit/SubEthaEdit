@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#include <AvailabilityMacros.h>
 #import <Foundation/Foundation.h>
 #import <OgreKit/OgreKit.h>
 #import "DocumentMode.h"
@@ -17,13 +18,15 @@
     NSCharacterSet *I_tokenSet;     /*"Set for tokenizing"*/
     NSCharacterSet *I_invertedTokenSet;     /*"Set for tokenizing"*/
     NSCharacterSet *I_autoCompleteTokenSet;     /*"Set for autocomplete tokenizing"*/
-    NSMutableArray *I_states;       /*"All states except the default state"*/
+    NSMutableDictionary *I_allStates;       /*"All states except the default state"*/
     NSMutableDictionary *I_defaultState;    /*"Default state"*/
-    NSMutableArray *I_stylesForToken;   /*"Chached plainstrings"*/
-    NSMutableArray *I_stylesForRegex;   /*"Chached regexs"*/
+    NSMutableDictionary *I_stylesForToken;   /*"Chached plainstrings"*/
+    NSMutableDictionary *I_stylesForRegex;   /*"Chached regexs"*/
+    NSMutableDictionary *I_importedModes;   /*"Chached regexs"*/
     OGRegularExpression *I_combinedStateRegex;     /*"All state-begins in one regex"*/
     BOOL everythingOkay;
     BOOL I_useSpellingDictionary;
+    BOOL I_combinedStateRegexReady;
     SyntaxStyle *I_defaultSyntaxStyle;
 }
 
@@ -32,33 +35,32 @@
 
 /*"XML parsing"*/
 - (void)parseXMLFile:(NSString *)aPath;
-- (void)parseHeaders:(CFXMLTreeRef)aTree;
-- (void)parseStatesForTreeNode:(CFXMLTreeRef)aTree;
-- (void)stateForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary stateID:(NSString *)aStateID;
-- (void)addKeywordsForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary;
+- (void)parseState:(NSXMLElement *)stateNode addToState:(NSMutableDictionary *)aState;
 
 /*"Caching and Precalculation"*/
 -(void)cacheStyles;
--(void)addStylesForKeywordGroups:(NSDictionary *)aDictionary;
 
 /*"Accessors"*/
 - (NSString *)name;
 - (void)setName:(NSString *)aString;
-- (NSMutableArray *)states;
+- (NSArray *)states;
+- (NSDictionary *)stateForID:(NSString *)aString;
 - (NSDictionary *)defaultState;
+- (NSDictionary *)importedModes;
 - (NSCharacterSet *)tokenSet;
 - (NSCharacterSet *)invertedTokenSet;
 - (NSCharacterSet *)autoCompleteTokenSet;
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet;
 - (void)setAutoCompleteTokenSet:(NSCharacterSet *)aCharacterSet;
-- (BOOL) hasTokensForState:(int)aState;
-- (NSString *)styleForToken:(NSString *)aToken inState:(int)aState;
-- (NSArray *)regularExpressionsInState:(int)aState;
-- (void)setCombinedStateRegex;
-- (OGRegularExpression *)combinedStateRegex;
+- (BOOL)state:(NSString *)aState includesState:(NSString *)anotherState;
+- (BOOL) hasTokensForState:(NSString *)aState;
+- (NSString *)styleForToken:(NSString *)aToken inState:(NSString *)aState;
+- (NSArray *)regularExpressionsInState:(NSString *)aState;
+- (void)setCombinedStateRegexForState:(NSMutableDictionary *)aState;
 - (DocumentMode *)mode;
 - (void)setMode:(DocumentMode *)aMode;
 - (SyntaxStyle *)defaultSyntaxStyle;
 - (BOOL)useSpellingDictionary;
 
 @end
+

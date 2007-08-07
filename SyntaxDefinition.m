@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+#import "DocumentModeManager.h"
 #import "SyntaxDefinition.h"
 #import "NSColorTCMAdditions.h"
 #import "TCMFoundation.h"
@@ -29,23 +30,27 @@
         }
         // Alloc & Init
         I_defaultState = [NSMutableDictionary new];
+        I_importedModes = [NSMutableDictionary new];
         I_useSpellingDictionary = NO;
-        I_states = [NSMutableArray new];
+        I_allStates = [NSMutableDictionary new];
         I_name = [@"Not named" retain];
         [self setMode:aMode];
         everythingOkay = YES;
         
-        I_defaultSyntaxStyle=[SyntaxStyle new]; 
+        I_defaultSyntaxStyle = [SyntaxStyle new]; 
         [I_defaultSyntaxStyle setDocumentMode:aMode];               
         // Parse XML File
         [self parseXMLFile:aPath];
         
         // Setup stuff <-> style dictionaries
-        I_stylesForToken = [NSMutableArray new];
-        I_stylesForRegex = [NSMutableArray new];
+        I_stylesForToken = [NSMutableDictionary new];
+        I_stylesForRegex = [NSMutableDictionary new];
         [self cacheStyles];
-        [self setCombinedStateRegex];   
+        I_combinedStateRegexReady = NO;
     }
+    
+    //NSLog([self description]);
+    
     if (everythingOkay) return self;
     else {
         NSLog(@"Critical errors while loading syntax definition. Not loading syntax highlighter.");
@@ -56,8 +61,9 @@
 
 - (void)dealloc {
     [I_name release];
-    [I_states release];
+    [I_allStates release];
     [I_defaultState release];
+    [I_importedModes release];
     [I_stylesForToken release];
     [I_stylesForRegex release];
     [super dealloc];
@@ -69,340 +75,240 @@
 
 /*"Entry point for XML parsing, branches to according node functions"*/
 -(void)parseXMLFile:(NSString *)aPath {
-    CFXMLTreeRef cfXMLTree;
-    CFDataRef xmlData;
-    if (!(aPath)) {
-        NSLog(@"ERROR: Can't parse nil syntax definition.");
-        everythingOkay = NO;
-    }
-    CFURLRef sourceURL = (CFURLRef)[NSURL fileURLWithPath:aPath];
-    NSDictionary *errorDict;
 
-    CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, sourceURL, &xmlData, NULL, NULL, NULL);
+    NSError *err=nil;
+    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:aPath] options:nil error:&err];
 
-    cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,xmlData,sourceURL,kCFXMLParserSkipWhitespace|kCFXMLParserSkipMetaData,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
-
-    if (!cfXMLTree) {
-        NSLog(@"Error parsing syntax definition \"%@\":\n%@", aPath, [errorDict description]);
-        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        [alert setAlertStyle:NSWarningAlertStyle];
-        [alert setMessageText:NSLocalizedString(@"XML Parse Error",@"XML Parse Error Title")];
-        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Error \"%@\" while parsing line %d of \"%@\". Please check your Syntax Definition for XML validity.",@"XML Parse Error Informative Text"),[errorDict objectForKey:@"kCFXMLTreeErrorDescription"], [[errorDict objectForKey:@"kCFXMLTreeErrorLineNumber"] intValue], aPath]];
-        [alert addButtonWithTitle:@"OK"];
-        [alert runModal];
+    if (err) {
+        #warning Error should be presented
+        NSLog(@"Error while loading '%@': %@", aPath, [err localizedDescription]);
         everythingOkay = NO;
         return;
-    }        
+    } 
 
+    //Parse Headers
     
-    CFXMLTreeRef    xmlTree = NULL;
-    CFXMLNodeRef    xmlNode = NULL;
-    int             childCount;
-    int             index;
+    [self setName:[[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/name" error:&err] lastObject] stringValue]];
 
-    // Get a count of the top level node’s children.
-    childCount = CFTreeGetChildCount(cfXMLTree);
+    NSString *charsInToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsintokens" error:&err] lastObject] stringValue];
+    NSString *charsDelimitingToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsdelimitingtokens" error:&err] lastObject] stringValue];
+    NSCharacterSet *tokenSet;
+    
+    if (charsInToken) {
+        tokenSet = [NSCharacterSet characterSetWithCharactersInString:charsInToken];
+    } else if (charsDelimitingToken) {
+        tokenSet = [NSCharacterSet characterSetWithCharactersInString:charsDelimitingToken];
+        tokenSet = [tokenSet invertedSet];
+    }
+    
+    [self setTokenSet:tokenSet];
 
-    // Print the data string for each top-level node.
-    for (index = 0; index < childCount; index++) {
-        xmlTree = CFTreeGetChildAtIndex(cfXMLTree, index);
-        xmlNode = CFXMLTreeGetNode(xmlTree);
-        if ((CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) &&
-            [@"syntax" isEqualToString:(NSString *)CFXMLNodeGetString(xmlNode)]) {
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Top level node: %@", (NSString *)CFXMLNodeGetString(xmlNode));
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Childs: %d", CFTreeGetChildCount(xmlTree));
-            break;
-        }
+    NSString *charsInCompletion = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsincompletion" error:&err] lastObject] stringValue];
+
+    if (charsInCompletion) {
+        [self setAutoCompleteTokenSet:[NSCharacterSet characterSetWithCharactersInString:charsInCompletion]];
     }
 
-    if (xmlTree && xmlNode) {
-        childCount = CFTreeGetChildCount(xmlTree);
+    I_useSpellingDictionary = [[[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/autocompleteoptions/@use-spelling-dictionary" error:&err] lastObject] stringValue] isEqualTo:@"yes"];    
+
+    
+    // Parse states
+    NSXMLElement *defaultStateNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/states/default" error:&err] lastObject];
+    [self parseState:defaultStateNode addToState:I_defaultState];
+    
+    // For old-style, non-recursive modes
+    NSArray *oldStyleStates = [syntaxDefinitionXML nodesForXPath:@"/syntax/states/state" error:&err];
+    if ([oldStyleStates count]>0) {
+        NSEnumerator *oldStyleStatesEnumerator = [oldStyleStates objectEnumerator];
+        NSXMLElement *oldStyleState;
+        while ((oldStyleState = [oldStyleStatesEnumerator nextObject])) {
+            [self parseState:oldStyleState addToState:I_defaultState];
+        }
+        [I_allStates setObject:I_defaultState forKey:[I_defaultState objectForKey:@"id"]]; // Reread default mode
+    }
+
+    [syntaxDefinitionXML release];
+}
+
+- (void)addAttributes:(NSArray *)attributes toDictionary:(NSMutableDictionary *)aDictionary {
+    NSEnumerator *attributeEnumerator = [attributes objectEnumerator];
+    NSXMLNode *attribute;
+    while ((attribute = [attributeEnumerator nextObject])) {
+        NSString *attributeName = [attribute name];
+        id attributeValue = [attribute stringValue];
         
-        for (index = 0; index < childCount; index++) {
-            CFXMLTreeRef xmlSubTree = CFTreeGetChildAtIndex(xmlTree, index);
-            CFXMLNodeRef xmlSubNode = CFXMLTreeGetNode(xmlSubTree);
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", (NSString *)CFXMLNodeGetString(xmlSubNode));
-
-            if ([@"head" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)]) {
-                [self parseHeaders:xmlSubTree];
-
-            } else if ([@"states" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)]) {
-                [self parseStatesForTreeNode:xmlSubTree];
-
+        // Parse colors
+        if ([attributeName isEqualToString:@"color"]||[attributeName isEqualToString:@"inverted-color"]||[attributeName isEqualToString:@"background-color"]||[attributeName isEqualToString:@"inverted-background-color"]) {
+            NSColor *aColor = [NSColor colorForHTMLString:attributeValue];
+            if (aColor) attributeValue = aColor;
+            else {
+                [aDictionary removeObjectForKey:attributeValue];
+                continue;
+                #warning Handle Color error.
             }
-        }
+        }        
+        
+        [aDictionary setObject:attributeValue forKey:attributeName];
     }
-    CFRelease(cfXMLTree);
-    CFRelease(xmlData);
-}
-
-/*"Parse the <head> tag"*/
-- (void)parseHeaders:(CFXMLTreeRef)aTree
-{
-    int childCount;
-    int index;
-
-    childCount = CFTreeGetChildCount(aTree);
-    for (index = 0; index < childCount; index++) {
-        CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
-        CFXMLNodeRef xmlNode = CFXMLTreeGetNode(xmlTree);
-        if (CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) {
-            NSString *tag     = (NSString *)CFXMLNodeGetString(xmlNode);
-            // Text Content
-            if ([@"name" isEqualToString:tag]) {
-                if (CFTreeGetChildCount(xmlTree) == 1) { 
-                    CFXMLNodeRef textNode=CFXMLTreeGetNode(CFTreeGetFirstChild(xmlTree));
-                    if (CFXMLNodeGetTypeCode(textNode) == kCFXMLNodeTypeText) {
-                        [self setName:(NSString *)CFXMLNodeGetString(textNode)];
-                    }
-                }
-            // CData Content
-            } else if ([@"charsintokens" isEqualToString:tag] || 
-                       [@"charsdelimitingtokens" isEqualToString:tag]) {
-                int childCount = CFTreeGetChildCount(xmlTree);
-                int childIndex = 0;
-                for (childIndex = 0; childIndex < childCount; childIndex++) {
-                    CFXMLNodeRef node = CFXMLTreeGetNode(CFTreeGetChildAtIndex(xmlTree, childIndex));
-                    if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeCDATASection) {
-                        NSString *content = (NSString *)CFXMLNodeGetString(node);
-                        NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:content];
-                        if ([@"charsdelimitingtokens" isEqualToString:tag]) {
-                            set = [set invertedSet];
-                        }
-                        [self setTokenSet:set];
-                        break;
-                    }
-                }
-            } else if ([@"charsincompletion" isEqualToString:tag]) {
-                int childCount = CFTreeGetChildCount(xmlTree);
-                int childIndex = 0;
-                for (childIndex = 0; childIndex < childCount; childIndex++) {
-                    CFXMLNodeRef node = CFXMLTreeGetNode(CFTreeGetChildAtIndex(xmlTree, childIndex));
-                    if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeCDATASection) {
-                        NSString *content = (NSString *)CFXMLNodeGetString(node);
-                        NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:content];
-                        [self setAutoCompleteTokenSet:set];
-                        break;
-                    }
-                }
-            } else if ([@"autocompleteoptions" isEqualToString:tag]) {
-                CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
-                NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
-                I_useSpellingDictionary = [[attributes objectForKey:@"use-spelling-dictionary"] isEqualTo:@"yes"];
-            }
-        }
-    }
-}
-
-
-/*"Parse the <states> tag"*/
-- (void)parseStatesForTreeNode:(CFXMLTreeRef)aTree
-{
-    int childCount;
-    int index;
     
-    childCount = CFTreeGetChildCount(aTree);
-    for (index = 0; index < childCount; index++) {
-        CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
-        CFXMLNodeRef xmlNode = CFXMLTreeGetNode(xmlTree);
-        if (CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) {
-            CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlNode);
-            NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
-            NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
-            NSString *stateID=[attributes objectForKey:@"id"];
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found: %@", tag);
-            if ([@"state" isEqualToString:tag]) {
-                NSMutableDictionary *aDictionary = [NSMutableDictionary dictionary];
-                [I_states addObject:aDictionary];
-                [aDictionary addEntriesFromDictionary:attributes];
-                NSColor *aColor;
-                if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
-                    [aDictionary setObject:aColor forKey:@"color"];
-                if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"inverted-color"]]))
-                    [aDictionary setObject:aColor forKey:@"inverted-color"];
-                    
-                NSFontTraitMask mask = 0;
-                if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
-                if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-                [aDictionary setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
-                [aDictionary setObject:stateID forKey:@"styleID"];
-                
-                [self stateForTreeNode:xmlTree toDictionary:aDictionary stateID:stateID];
-            } else if ([@"default" isEqualToString:tag]) {
-                [I_defaultState addEntriesFromDictionary:attributes];
-                NSColor *aColor;
-                if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"color"]])) 
-                    [I_defaultState setObject:aColor forKey:@"color"];
-                if ((aColor = [NSColor colorForHTMLString:[attributes objectForKey:@"inverted-color"]]))
-                    [I_defaultState setObject:aColor forKey:@"inverted-color"];
-                    
-                NSFontTraitMask mask = 0;
-                if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
-                if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-                [I_defaultState setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
-                [I_defaultState setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
-                
-                [self stateForTreeNode:xmlTree toDictionary:I_defaultState stateID:SyntaxStyleBaseIdentifier];
-            }
-        }
+    // Calculate font-trait
+    NSFontTraitMask mask = 0;
+    if ([[aDictionary objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
+    if ([[aDictionary objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
+    [aDictionary setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
+    
+    // Calculate inverted color if not present
+    NSColor *invertedColor = [aDictionary objectForKey:@"inverted-color"];
+    if (!invertedColor) {
+        invertedColor = [[aDictionary objectForKey:@"color"] brightnessInvertedColor];
+        [aDictionary setObject:invertedColor forKey:@"inverted-color"];
+    }
+    
+    // Same for background color and inverted background color
+    NSColor *backgroundColor = [aDictionary objectForKey:@"background-color"];
+    if (!backgroundColor) {
+        backgroundColor = [NSColor whiteColor];
+        [aDictionary setObject:backgroundColor forKey:@"background-color"];
+    }
+    if (![aDictionary objectForKey:@"inverted-background-color"]) {
+        [aDictionary setObject:[backgroundColor brightnessInvertedColor] forKey:@"inverted-background-color"];
+    }
+    
+    NSString *stateID = [NSString stringWithFormat:@"/%@/%@", [self name], [aDictionary objectForKey:@"id"]];
+    if (stateID) {
+        [aDictionary setObject:stateID forKey:@"id"];
+        [aDictionary setObject:stateID forKey:@"styleID"];
     }
 }
 
-/*"Parse <state> and <default> tags"*/
-- (void)stateForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary stateID:(NSString *)aStateID
-{
-    NSMutableDictionary *styleDictionary = [NSMutableDictionary dictionary];
-    [styleDictionary setObject:[aDictionary objectForKey:@"color"]      forKey:@"color"];
-    [styleDictionary setObject:[aDictionary objectForKey:@"font-trait"] forKey:@"font-trait"];
-    [styleDictionary setObject:aStateID forKey:@"styleID"];
-    NSColor *color=[aDictionary objectForKey:@"inverted-color"];
-    if (!color) {
-        color = [[aDictionary objectForKey:@"color"] brightnessInvertedColor];
+- (void)parseState:(NSXMLElement *)stateNode addToState:(NSMutableDictionary *)aState {
+    NSError *err;
+    NSString *name = [stateNode name];
+    NSMutableDictionary *stateDictionary = [NSMutableDictionary dictionary];
+    
+    [self addAttributes:[stateNode attributes] toDictionary:stateDictionary];
+
+    // Parse and prepare begin/end
+    NSString *regexBegin = [[[stateNode nodesForXPath:@"./begin/regex" error:&err] lastObject] stringValue];
+    NSString *stringBegin = [[[stateNode nodesForXPath:@"./begin/string" error:&err] lastObject] stringValue];
+    NSString *regexEnd = [[[stateNode nodesForXPath:@"./end/regex" error:&err] lastObject] stringValue];
+    NSString *stringEnd = [[[stateNode nodesForXPath:@"./end/string" error:&err] lastObject] stringValue];
+
+    if (regexBegin) {
+        // Begins get compiled later en-block, so just store a string now.
+        [stateDictionary setObject:regexBegin forKey:@"BeginsWithRegexString"];
+    } else if (stringBegin) {
+        [stateDictionary setObject:stringBegin forKey:@"BeginsWithPlainString"];
+    } else {
+        #warning Handle Error: No Begin.
     }
-    [styleDictionary setObject:color forKey:@"inverted-color"];
-    if ([SyntaxStyleBaseIdentifier isEqualToString:aStateID]) {
-        NSString *colorString=[aDictionary objectForKey:@"background-color"];
-        NSColor *backgroundColor=[NSColor whiteColor];
-        if (colorString) {
-            backgroundColor = [NSColor colorForHTMLString:colorString];
-        }
-        [styleDictionary setObject:backgroundColor forKey:@"background-color"];
-        colorString=[aDictionary objectForKey:@"inverted-background-color"];
-        if (colorString) {
-            backgroundColor = [NSColor colorForHTMLString:colorString];
+
+    if (regexEnd) {
+        OGRegularExpression *endRegex;
+        if ([OGRegularExpression isValidExpressionString:regexEnd]) {
+            if ((endRegex = [[[OGRegularExpression alloc] initWithString:regexEnd options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease]))
+                [stateDictionary setObject:endRegex forKey:@"EndsWithRegex"];
+                [stateDictionary setObject:regexEnd forKey:@"EndsWithRegexString"];
         } else {
-            backgroundColor = [backgroundColor brightnessInvertedColor];
+            NSLog(@"Not a regex end");
+            #warning Handle Not a Regex Error.
         }
-        [styleDictionary setObject:backgroundColor forKey:@"inverted-background-color"];
+    } else if (stringEnd) {
+        [stateDictionary setObject:stringEnd forKey:@"EndsWithPlainString"];
+    } else {
+        #warning Handle Error: No End.
     }
-    [I_defaultSyntaxStyle addKey:aStateID];
-    [I_defaultSyntaxStyle setStyle:styleDictionary forKey:aStateID];
+
+    // Add keywords
+    NSMutableArray *keywordGroups = [NSMutableArray array];
+    [stateDictionary setObject:keywordGroups forKey:@"KeywordGroups"];
     
-    int childCount;
-    int index;
-    childCount = CFTreeGetChildCount(aTree);
-    for (index = 0; index < childCount; index++) {
-        CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
-        CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
-        NSString *tag = (NSString *)CFXMLNodeGetString(node);
-        if ([@"begin" isEqualToString:tag]) {
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found <begin> tag");
-            CFXMLTreeRef firstTree = CFTreeGetFirstChild(xmlTree);
-            CFXMLNodeRef firstNode = CFXMLTreeGetNode(firstTree);
-            NSString *innerTag = (NSString *)CFXMLNodeGetString(firstNode);
-            NSString *innerContent = extractStringWithEntitiesFromTree(firstTree);
-            if ([innerTag isEqualTo:@"regex"]) {
-                DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"<begin> tag is RegEx");
-                [aDictionary setObject:innerContent forKey:@"BeginsWithRegexString"];
-            } else if ([innerTag isEqualTo:@"string"]) {
-                DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"<begin> tag is PlainString");
-                [aDictionary setObject:innerContent forKey:@"BeginsWithPlainString"];
-            }
-            DEBUGLOG(@"SyntaxHighlighterDomain",DetailedLogLevel,@"<begin> content is: %@",innerContent);
-        } else if ([@"end" isEqualToString:tag]) {
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found <end> tag");
-            CFXMLTreeRef firstTree = CFTreeGetFirstChild(xmlTree);
-            CFXMLNodeRef firstNode = CFXMLTreeGetNode(firstTree);
-            NSString *innerTag = (NSString *)CFXMLNodeGetString(firstNode);
-            NSString *innerContent = extractStringWithEntitiesFromTree(firstTree);
-            
-            if ([innerTag isEqualTo:@"regex"]) {
-                DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<end> tag is RegEx");
-                [aDictionary setObject:innerContent forKey:@"EndsWithRegexString"];
-                
-                OGRegularExpression *endRegex;
-                if ([OGRegularExpression isValidExpressionString:innerContent]) {
-                    if ((endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease]))
-                    //if ((endRegex = [[[OGRegularExpression alloc] initWithString:innerContent options:OgreFindNotEmptyOption] autorelease]))
-                        [aDictionary setObject:endRegex forKey:@"EndsWithRegex"];
-                } else {
-                    NSLog(@"ERROR: %@ is not a valid Regex.", innerContent);
-                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-                    [alert setAlertStyle:NSWarningAlertStyle];
-                    [alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
-                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" within tag \"<%@>\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Regular Expression Error Informative Text"),innerContent, tag]];
-                    [alert addButtonWithTitle:@"OK"];
-                    [alert runModal];
-                    everythingOkay = NO;
-                }
-                
-            } else if ([innerTag isEqualTo:@"string"]) {
-                DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"<end> tag is PlainString");
-                [aDictionary setObject:innerContent forKey:@"EndsWithPlainString"];
-            }
-        } else if ([@"keywords" isEqualToString:tag]) {
-            NSMutableDictionary *groups;
-
-            if (!(groups = [aDictionary objectForKey:@"KeywordGroups"])) {
-                [aDictionary setObject:[NSMutableDictionary dictionary] forKey:@"KeywordGroups"];
-                groups = [aDictionary objectForKey:@"KeywordGroups"];
-            }
-            
-            CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
-            NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
-
-            NSString *keywordName = [attributes objectForKey:@"id"];
-            [groups setObject:[NSMutableDictionary dictionary] forKey:keywordName];
-
-            NSMutableDictionary *keywordGroup = [groups objectForKey:keywordName];
-            [keywordGroup addEntriesFromDictionary:attributes];
-            
-            [self addKeywordsForTreeNode:xmlTree toDictionary:keywordGroup];
-
-            NSString *styleID=[NSString stringWithFormat:@"%@.%@",aStateID,keywordName];
-            [keywordGroup setObject:styleID forKey:@"styleID"];
-            NSMutableDictionary *styleDictionary = [NSMutableDictionary dictionary];
-            [styleDictionary setObject:[NSColor colorForHTMLString:[keywordGroup objectForKey:@"color"]] forKey:@"color"];
-
-            NSFontTraitMask mask = 0;
-            if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"])  mask = mask | NSBoldFontMask;
-            if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-
-            [styleDictionary setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
-
-            [styleDictionary setObject:styleID forKey:@"styleID"];
-            NSColor *color=[NSColor colorForHTMLString:[keywordGroup objectForKey:@"inverted-color"]];
-            if (!color) {
-                color = [[styleDictionary objectForKey:@"color"] brightnessInvertedColor];
-            }
-            [styleDictionary setObject:color forKey:@"inverted-color"];
-            [I_defaultSyntaxStyle addKey:styleID];
-            [I_defaultSyntaxStyle setStyle:styleDictionary forKey:styleID];            
-        }
-    }
-}
-
-/*"Parse <string> and <regex> tags for keyword groups"*/
-- (void)addKeywordsForTreeNode:(CFXMLTreeRef)aTree toDictionary:(NSMutableDictionary *)aDictionary 
-{
-    int childCount;
-    int index;
-    NSMutableArray *autocompleteDictionary = [[self mode] autocompleteDictionary];
-    BOOL autocomplete = [[aDictionary objectForKey:@"useforautocomplete"] isEqualToString:@"yes"];
+    NSArray *keywordGroupsNodes = [stateNode nodesForXPath:@"./keywords" error:&err];
     
-    childCount = CFTreeGetChildCount(aTree);
-    for (index = 0; index < childCount; index++) {
-        CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
-        CFXMLNodeRef node = CFXMLTreeGetNode(xmlTree);
-        NSString *tag = (NSString *)CFXMLNodeGetString(node);
-        NSString *content = extractStringWithEntitiesFromTree(xmlTree);
-        if ([@"regex" isEqualToString:tag]) {
-            NSMutableArray *regexs;
-            if (!(regexs = [aDictionary objectForKey:@"RegularExpressions"])) {
-                [aDictionary setObject:[NSMutableArray array] forKey:@"RegularExpressions"];
-                regexs = [aDictionary objectForKey:@"RegularExpressions"];
-            }
-            [regexs addObject:content];
-        } else if ([@"string" isEqualToString:tag]) {
-            NSMutableSet *plainStrings;
-            if (!(plainStrings = [aDictionary objectForKey:@"PlainStrings"])) {
-                [aDictionary setObject:[NSMutableSet set] forKey:@"PlainStrings"];
-                plainStrings = [aDictionary objectForKey:@"PlainStrings"];
-            }
-            [plainStrings addObject:content];
-            if (autocomplete) [autocompleteDictionary addObject:content];
+    NSEnumerator *keywordGroupEnumerator = [keywordGroupsNodes objectEnumerator];
+    id keywordGroupNode;
+    while ((keywordGroupNode = [keywordGroupEnumerator nextObject])) {
+        NSMutableDictionary *keywordGroupDictionary = [NSMutableDictionary dictionary];
+        [self addAttributes:[keywordGroupNode attributes] toDictionary:keywordGroupDictionary];
+        NSString *keywordGroupName = [keywordGroupDictionary objectForKey:@"id"];
+        if (keywordGroupName) [keywordGroups addObject:keywordGroupDictionary];
+        [I_defaultSyntaxStyle takeValuesFromDictionary:keywordGroupDictionary];
+        
+        // Add regexes for keyword group
+        NSMutableArray *regexes = [NSMutableArray array];
+        NSMutableArray *strings = [NSMutableArray array];
+        [keywordGroupDictionary setObject:regexes forKey:@"RegularExpressions"];
+        [keywordGroupDictionary setObject:strings forKey:@"PlainStrings"];
+        
+        NSArray *regexNodes = [keywordGroupNode nodesForXPath:@"./regex" error:&err];
+        NSEnumerator *regexEnumerator = [regexNodes objectEnumerator];
+        id regexNode;
+        while ((regexNode = [regexEnumerator nextObject])) {
+            [regexes addObject:[regexNode stringValue]];
+        }
+                
+        // Add strings for keyword group
+        BOOL autocomplete = [[keywordGroupDictionary objectForKey:@"useforautocomplete"] isEqualToString:@"yes"];
+        NSMutableArray *autocompleteDictionary = [[self mode] autocompleteDictionary];
+        NSArray *stringNodes = [keywordGroupNode nodesForXPath:@"./string" error:&err];
+        NSEnumerator *stringEnumerator = [stringNodes objectEnumerator];
+        id stringNode;
+        while ((stringNode = [stringEnumerator nextObject])) {
+            [strings addObject:[stringNode stringValue]];
+            if (autocomplete) [autocompleteDictionary addObject:[stringNode stringValue]];
+        }
+        
+    }
+
+    //Recursive descent into sub-states
+    
+    NSArray *subStates = [stateNode nodesForXPath:@"./state" error:&err];
+    if ([subStates count]>0) {
+        [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
+        NSEnumerator *subStateEnumerator = [subStates objectEnumerator];
+        id subState;
+        while ((subState = [subStateEnumerator nextObject])) {
+            [self parseState:subState addToState:stateDictionary];           
         }
     }
+    
+    //Weak-link to imported states
+    
+    NSArray *importedStates = [stateNode nodesForXPath:@"./import" error:&err];
+    if ([importedStates count]>0) {
+        if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
+
+        NSMutableArray *weaklinks = [NSMutableArray array];
+        [stateDictionary setObject:weaklinks forKey:@"imports"];
+        NSEnumerator *importedStateEnumerator = [importedStates objectEnumerator];
+        NSXMLElement *import;
+        while ((import = [importedStateEnumerator nextObject])) {
+            NSString *importMode, *importState;
+            if ((importMode = [[import attributeForName:@"mode"] stringValue])) {
+                importState = [[import attributeForName:@"state"] stringValue];
+                if (!importState) importState = SyntaxStyleBaseIdentifier;
+                NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
+                [weaklinks addObject:importName];
+                [I_importedModes setObject:@"import" forKey:importMode];
+                //[[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:importName, @"id", @"yes", @"weaklink", nil]];
+            }
+        }
+    }
+
+    // Put the stuff into the dictionary
+
+    if ([name isEqualToString:@"default"]) {        
+        [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
+        [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
+        [I_defaultState addEntriesFromDictionary:stateDictionary];
+    } else {
+        if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
+        [[aState objectForKey:@"states"] addObject:stateDictionary];
+    }
+
+    [I_allStates setObject:stateDictionary forKey:[stateDictionary objectForKey:@"id"]]; // Used for easy caching and precalculating
+
+    [I_defaultSyntaxStyle takeValuesFromDictionary:stateDictionary];    
 }
 
 #pragma mark - 
@@ -412,24 +318,77 @@
 /*"calls addStylesForKeywordGroups: for defaultState and states"*/
 -(void)cacheStyles
 {
-    NSMutableDictionary *aDictionary;
-    if ((aDictionary = [I_defaultState objectForKey:@"KeywordGroups"])) {
-        [self addStylesForKeywordGroups:aDictionary];
-    } else {
-        [I_stylesForToken addObject:[NSArray arrayWithObjects:[NSMutableDictionary dictionary],
-                                                              [NSMutableDictionary caseInsensitiveDictionary],nil]];
-        [I_stylesForRegex addObject:[NSArray array]];
-    }
+    NSMutableDictionary *state;
+    NSMutableDictionary *keywordGroups;
     
-    NSEnumerator *statesEnumerator = [I_states objectEnumerator];
-    while ((aDictionary = [statesEnumerator nextObject])) {
-        if ((aDictionary = [aDictionary objectForKey:@"KeywordGroups"])) {
-            [self addStylesForKeywordGroups:aDictionary];
-        } else {
-        [I_stylesForToken addObject:[NSArray arrayWithObjects:[NSMutableDictionary dictionary],
-                                                              [NSMutableDictionary caseInsensitiveDictionary],nil]];
-            [I_stylesForRegex addObject:[NSArray array]];
-        }
+    NSEnumerator *statesEnumerator = [I_allStates objectEnumerator];
+    while ((state = [statesEnumerator nextObject])) {
+        if ((keywordGroups = [state objectForKey:@"KeywordGroups"])) {
+
+            NSEnumerator *groupEnumerator = [keywordGroups objectEnumerator];
+            NSDictionary *keywordGroup;
+            
+            NSMutableDictionary *newPlainCaseDictionary = [NSMutableDictionary dictionary];
+            NSMutableDictionary *newPlainIncaseDictionary = [NSMutableDictionary caseInsensitiveDictionary];
+            NSMutableArray *newPlainArray = [NSMutableArray array];
+            NSMutableArray *newRegExArray = [NSMutableArray array];
+            [newPlainArray addObject:newPlainCaseDictionary];
+            [newPlainArray addObject:newPlainIncaseDictionary];
+            [I_stylesForToken setObject:newPlainArray forKey:[state objectForKey:@"id"]];
+            [I_stylesForRegex setObject:newRegExArray forKey:[state objectForKey:@"id"]];
+        
+            while ((keywordGroup = [groupEnumerator nextObject])) {
+                NSString *styleID=[keywordGroup objectForKey:@"styleID"];
+                
+                // First do the plainstring stuff
+                
+                NSDictionary *keywords;
+                if ((keywords = [keywordGroup objectForKey:@"PlainStrings"])) {
+                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
+                    NSString *keyword;
+                    while ((keyword = [keywordEnumerator nextObject])) {
+                        if([[keywordGroup objectForKey:@"casesensitive"] isEqualToString:@"no"]) {
+                            [newPlainIncaseDictionary setObject:styleID forKey:keyword];
+                        } else {
+                            [newPlainCaseDictionary setObject:styleID forKey:keyword];                
+                        }
+                    }
+                }
+                // Then do the regex stuff
+                
+                if ((keywords = [keywordGroup objectForKey:@"RegularExpressions"])) {
+                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
+                    NSString *keyword;
+                    NSString *aString;
+                    while ((keyword = [keywordEnumerator nextObject])) {
+                        OGRegularExpression *regex;
+                        unsigned regexOptions = OgreFindLongestOption|OgreFindNotEmptyOption;
+                        //unsigned regexOptions = OgreFindNotEmptyOption;
+                        if ((aString = [keywordGroup objectForKey:@"casesensitive"])) {       
+                            if (([aString isEqualTo:@"no"])) {
+                                regexOptions = regexOptions|OgreIgnoreCaseOption;
+                            }
+                        }
+                        if ([OGRegularExpression isValidExpressionString:keyword]) {
+                            if ((regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease])) {
+                                [newRegExArray addObject:[NSArray arrayWithObjects:regex, styleID, nil]];
+                            }
+                        } else {
+                            NSLog(@"ERROR: %@ in \"%@\" is not a valid regular expression", keyword, [keywordGroup objectForKey:@"id"]);
+                            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                            [alert setAlertStyle:NSWarningAlertStyle];
+                            [alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
+                            [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" within state \"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),keyword, [keywordGroup objectForKey:@"id"]]];
+                            [alert addButtonWithTitle:@"OK"];
+                            [alert runModal];
+                            everythingOkay = NO;
+                        }
+                    }
+                }
+            }
+
+
+        } 
     }
     
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching plainstrings:%@",[I_stylesForToken description]);
@@ -437,78 +396,25 @@
 
 }
 
-/*"Creates dictionaries which match styles (color, font, etc.) to plainstrings or regexs"*/
--(void)addStylesForKeywordGroups:(NSDictionary *)aDictionary
-{
-    NSEnumerator *groupEnumerator = [aDictionary objectEnumerator];
-    NSDictionary *keywordGroup;
-    
-    NSMutableDictionary *newPlainCaseDictionary = [NSMutableDictionary dictionary];
-    NSMutableDictionary *newPlainIncaseDictionary = [NSMutableDictionary caseInsensitiveDictionary];
-    NSMutableArray *newPlainArray = [NSMutableArray array];
-    NSMutableArray *newRegExArray = [NSMutableArray array];
-    [newPlainArray addObject:newPlainCaseDictionary];
-    [newPlainArray addObject:newPlainIncaseDictionary];
-    [I_stylesForToken addObject:newPlainArray];
-    [I_stylesForRegex addObject:newRegExArray];
-
-    while ((keywordGroup = [groupEnumerator nextObject])) {
-        NSString *styleID=[keywordGroup objectForKey:@"styleID"];
-        
-        // First do the plainstring stuff
-        
-        NSDictionary *keywords;
-        if ((keywords = [keywordGroup objectForKey:@"PlainStrings"])) {
-            NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-            NSString *keyword;
-            while ((keyword = [keywordEnumerator nextObject])) {
-                if([[keywordGroup objectForKey:@"casesensitive"] isEqualToString:@"no"]) {
-                    [newPlainIncaseDictionary setObject:styleID forKey:keyword];
-                } else {
-                    [newPlainCaseDictionary setObject:styleID forKey:keyword];                
-                }
-            }
-        }
-        // Then do the regex stuff
-        
-        if ((keywords = [keywordGroup objectForKey:@"RegularExpressions"])) {
-            NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-            NSString *keyword;
-            NSString *aString;
-            while ((keyword = [keywordEnumerator nextObject])) {
-                OGRegularExpression *regex;
-                unsigned regexOptions = OgreFindLongestOption|OgreFindNotEmptyOption;
-                //unsigned regexOptions = OgreFindNotEmptyOption;
-                if ((aString = [keywordGroup objectForKey:@"casesensitive"])) {       
-                    if (([aString isEqualTo:@"no"])) {
-                        regexOptions = regexOptions|OgreIgnoreCaseOption;
-                    }
-                }
-                if ([OGRegularExpression isValidExpressionString:keyword]) {
-                    if ((regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease])) {
-                        [newRegExArray addObject:[NSArray arrayWithObjects:regex, styleID, nil]];
-                    }
-                } else {
-                    NSLog(@"ERROR: %@ in \"%@\" is not a valid regular expression", keyword, [keywordGroup objectForKey:@"id"]);
-                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-                    [alert setAlertStyle:NSWarningAlertStyle];
-                    [alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
-                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" within state \"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),keyword, [keywordGroup objectForKey:@"id"]]];
-                    [alert addButtonWithTitle:@"OK"];
-                    [alert runModal];
-                    everythingOkay = NO;
-                }
-            }
-        }
+- (void) calculateCombinedStateRegexes {
+    NSEnumerator *statesEnumerator = [[self states] objectEnumerator];
+    id state;
+    while ((state = [statesEnumerator nextObject])) {
+        [self setCombinedStateRegexForState:state];   
     }
+    I_combinedStateRegexReady = YES;
 }
 
 #pragma mark - 
 #pragma mark - Accessors
 #pragma mark - 
 
+- (NSDictionary *)importedModes {
+    return I_importedModes;
+}
+
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SyntaxDefinition, Name:%@ , TokenSet:%@, States: %@, DefaultState: %@, Uses Spelling Dcitionary: %@", [self name], [self tokenSet], [I_states description], [I_defaultState description], I_useSpellingDictionary?@"Yes.":@"No."];
+    return [NSString stringWithFormat:@"SyntaxDefinition, Name:%@ , TokenSet:%@, DefaultState: %@, Uses Spelling Dcitionary: %@", [self name], [self tokenSet], [I_defaultState description], I_useSpellingDictionary?@"Yes.":@"No."];
 }
 
 - (NSString *)name
@@ -520,11 +426,6 @@
 {
     [I_name autorelease];
      I_name = [aString copy];
-}
-
-- (NSMutableArray *)states
-{
-    return I_states;
 }
 
 - (NSDictionary *)defaultState
@@ -561,41 +462,80 @@
      I_invertedTokenSet = [[aCharacterSet invertedSet] copy];
 }
 
+- (BOOL)state:(NSString *)aState includesState:(NSString *)anotherState {
 
-- (NSString *)styleForToken:(NSString *)aToken inState:(int)aState 
+    #warning Optimize this via caching/hashing
+    NSDictionary *searchState = [self stateForID:aState];
+    NSEnumerator *enumerator = [[searchState objectForKey:@"states"] objectEnumerator];
+    id object;
+    while ((object = [[enumerator nextObject] objectForKey:@"id"])) {
+        if ([object isEqualToString:anotherState]) return YES;
+    }
+
+    return NO;
+}
+
+
+- (NSArray *)states {
+    return [I_allStates allValues];
+}
+
+- (NSDictionary *)stateForID:(NSString *)aString {
+    if (!I_combinedStateRegexReady) [self calculateCombinedStateRegexes];
+    if ([aString isEqualToString:SyntaxStyleBaseIdentifier]) return I_defaultState;
+    return [I_allStates objectForKey:aString];
+}
+
+- (NSString *)styleForToken:(NSString *)aToken inState:(NSString *)aState 
 {
     NSString *styleID;
     
-    if ((styleID = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:0] objectForKey:aToken])) {
+    if ((styleID = [[[I_stylesForToken objectForKey:aState] objectAtIndex:0] objectForKey:aToken])) {
         return styleID;
     }
-    if ((styleID = [[[I_stylesForToken objectAtIndex:aState] objectAtIndex:1] objectForKey:aToken])){
+    if ((styleID = [[[I_stylesForToken objectForKey:aState] objectAtIndex:1] objectForKey:aToken])){
         return styleID;
     }
     
     return nil;
 }
 
-- (BOOL) hasTokensForState:(int)aState {
-    return (([[[I_stylesForToken objectAtIndex:aState] objectAtIndex:0] count]>0)||([[[I_stylesForToken objectAtIndex:aState] objectAtIndex:1] count]>0));
+- (BOOL) hasTokensForState:(NSString *)aState {
+    return (([[[I_stylesForToken objectForKey:aState] objectAtIndex:0] count]>0)||([[[I_stylesForToken objectForKey:aState] objectAtIndex:1] count]>0));
 }
 
-- (NSArray *)regularExpressionsInState:(int)aState
+- (NSArray *)regularExpressionsInState:(NSString *)aState
 {
     NSArray *aRegexDictionary;
-    if ((aRegexDictionary = [I_stylesForRegex objectAtIndex:aState])) return aRegexDictionary;
+    if ((aRegexDictionary = [I_stylesForRegex objectForKey:aState])) return aRegexDictionary;
     else return nil;
 }
 
-- (void)setCombinedStateRegex 
-{
+- (void)setCombinedStateRegexForState:(NSMutableDictionary *)aState
+{    
     NSMutableString *combinedString = [NSMutableString string];
-    NSEnumerator *statesEnumerator = [I_states objectEnumerator];
+    NSEnumerator *statesEnumerator = [[aState objectForKey:@"states"] objectEnumerator];
     NSMutableDictionary *aDictionary;
     int i = -1;
+    NSString *endString = [aState objectForKey:@"EndsWithRegexString"];
+    if (!endString) endString = [aState objectForKey:@"EndsWithPlainString"];
+    
     while ((aDictionary = [statesEnumerator nextObject])) {
         i++;
         NSString *beginString;
+        
+        if ([aDictionary objectForKey:@"weaklink"]) {
+            NSString *linkedName = [aDictionary objectForKey:@"id"];
+            NSArray *components = [linkedName componentsSeparatedByString:@"/"];
+
+            SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]]syntaxDefinition];
+            NSDictionary *linkedState = [linkedDefinition stateForID:[components objectAtIndex:2]];
+            if (linkedState) {
+                [aDictionary setObject:[linkedState objectForKey:@"BeginsWithRegexString"] forKey:@"BeginsWithRegexString"];
+                [aDictionary setObject:[linkedState objectForKey:@"BeginsWithPlainString"] forKey:@"BeginsWithPlainString"];
+            }
+        }
+        
         if ((beginString = [aDictionary objectForKey:@"BeginsWithRegexString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found regex string state start:%@",beginString);
             // Warn if begin contains unnamed group
@@ -629,30 +569,30 @@
             [combinedString appendString:[NSString stringWithFormat:@"(?<seeinternalgroup%d>%@)|",i,beginString]];
         }
     }
+
+
     int combinedStringLength = [combinedString length];
-    if (combinedStringLength>1) {
-        [combinedString deleteCharactersInRange:NSMakeRange(combinedStringLength-1,1)];      
-        [I_combinedStateRegex autorelease];
+    if ((combinedStringLength>1)||(endString)) {
+        if (endString) { // Any states except the default
+            [combinedString appendString:[NSString stringWithFormat:@"(?<seeinternalgroup4242>%@)",endString]];
+        } else {
+            [combinedString deleteCharactersInRange:NSMakeRange(combinedStringLength-1,1)];      
+        }
+
         if ([OGRegularExpression isValidExpressionString:combinedString]) {
-            I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
-            //I_combinedStateRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
+            OGRegularExpression *combindedRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
+            [aState setObject:combindedRegex forKey:@"Combined Delimiter Regex"];
         } else {
             NSLog(@"ERROR: %@ (begins of all states) is not a valid regular expression", combinedString);
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
             [alert setMessageText:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title")];
-            [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"One of the specified state <begin>'s is not a valid regular expression. Therefore the combined start regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),combinedString]];
+            [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"One of the specified state <begin>'s is not a valid regular expression. Therefore the Combined Delimiter Regex \"%@\" could not be compiled. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),combinedString]];
             [alert addButtonWithTitle:@"OK"];
             [alert runModal];
             everythingOkay = NO;
         }
     }
-    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"CombinedStateRegex:%@",[self combinedStateRegex]);
-}
-
-- (OGRegularExpression *)combinedStateRegex
-{
-    return I_combinedStateRegex;
 }
 
 - (DocumentMode *)mode

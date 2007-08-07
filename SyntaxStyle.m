@@ -55,6 +55,24 @@ static NSArray *S_possibleStyleColors;
     }
 }
 
+- (void)takeValuesFromDictionary:(NSDictionary *)aDictionary {
+    NSString *styleID = [aDictionary objectForKey:@"styleID"];
+    NSMutableDictionary *styleDictionary = [NSMutableDictionary dictionary];
+    NSMutableArray *possibleKeys = [NSMutableArray array];
+    [possibleKeys addObjectsFromArray:S_possibleStyleColors];
+    [possibleKeys addObjectsFromArray:[NSArray arrayWithObjects:@"font-trait",@"styleID",nil]];
+    
+    NSEnumerator *enumerator = [possibleKeys objectEnumerator];
+    id key;
+    while ((key = [enumerator nextObject])) {
+        id object = [aDictionary objectForKey:key];
+        if (object) [styleDictionary setObject:object forKey:key];
+    }
+
+    [self addKey:styleID];
+    [self setStyle:styleDictionary forKey:styleID];            
+}
+
 - (void)takeValuesFromModeSubtree:(CFXMLTreeRef)aModeTree {
     int childCount;
     int index;

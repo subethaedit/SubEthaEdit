@@ -13,6 +13,7 @@
 + (NSColor *)colorForHTMLString:(NSString *) htmlString
 {
 	NSColor *result = nil;
+    if ([htmlString isEqualToString:@"none"]) return nil;
 	
     if ([htmlString hasPrefix:@"#"]) { // Colors have to begin with #
         NSString *aString = [htmlString substringFromIndex:1];

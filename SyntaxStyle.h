@@ -29,6 +29,7 @@ extern NSString * const SyntaxStyleBaseIdentifier;
 - (NSMutableDictionary *)styleForKey:(NSString *)aKey;
 - (void)setStyle:(NSDictionary *)aDictionary forKey:(NSString *)aKey;
 - (void)takeStylesFromDefaultsDictionary:(NSDictionary *)aDictionary;
+- (void)takeValuesFromDictionary:(NSDictionary *)aDictionary;
 - (NSString *)localizedStringForKey:(NSString *)aKey;
 - (void)setDocumentMode:(DocumentMode *)aMode;
 - (DocumentMode *)documentMode;

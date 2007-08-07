@@ -21,7 +21,6 @@
 
 /*"XML parsing"*/
 - (void)parseXMLFile:(NSString *)aPath;
-- (void)parseRecognition:(CFXMLTreeRef)aTree;
 
 /*"Accessors"*/
 - (NSArray *)recognizedExtensions;
