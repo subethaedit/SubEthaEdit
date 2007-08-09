@@ -265,6 +265,14 @@ static NSArray *S_possibleStyleColors;
 
 
 - (NSMutableDictionary *)styleForKey:(NSString *)aKey {
+	NSArray *components = [aKey componentsSeparatedByString:@"/"];
+	NSString *modeName = nil;
+	if ([components count]>1) modeName = [components objectAtIndex:1];
+	
+	if (modeName && ![modeName isEqualToString:[[[self documentMode] syntaxDefinition] name]]) {
+		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxStyle] styleForKey:aKey];
+	} 
+
     return [I_styleDictionary objectForKey:aKey];
 }
 
