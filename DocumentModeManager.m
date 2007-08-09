@@ -267,6 +267,14 @@
     
 }
 
+- (void) resolveAllDependenciesForMode:(DocumentMode *) aMode {
+	NSEnumerator *enumerator = [[[[aMode syntaxDefinition] importedModes] allKeys] objectEnumerator];
+    id modeName;
+    while ((modeName = [enumerator nextObject])) {
+		[self documentModeForIdentifier:modeName];
+    }
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"DocumentModeManager, FoundModeBundles:%@",[I_modeBundles description]];
 }
@@ -311,6 +319,7 @@
                 }
             }
         }
+		[self resolveAllDependenciesForMode:mode];
         return mode;
 	} else {
         return nil;

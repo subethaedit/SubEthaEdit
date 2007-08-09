@@ -272,7 +272,16 @@
         }
     }
     
-    //Weak-link to imported states
+    if ([name isEqualToString:@"default"]) {        
+        [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
+        [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
+        [I_defaultState addEntriesFromDictionary:stateDictionary];
+    } else {
+        if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
+        [[aState objectForKey:@"states"] addObject:stateDictionary];
+    }
+	
+	//Weak-link to imported states
     
     NSArray *importedStates = [stateNode nodesForXPath:@"./import" error:&err];
     if ([importedStates count]>0) {
@@ -286,25 +295,19 @@
             NSString *importMode, *importState;
             if ((importMode = [[import attributeForName:@"mode"] stringValue])) {
                 importState = [[import attributeForName:@"state"] stringValue];
-                if (!importState) importState = SyntaxStyleBaseIdentifier;
-                NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
-                [weaklinks addObject:importName];
-                [I_importedModes setObject:@"import" forKey:importMode];
-                //[[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:importName, @"id", @"yes", @"weaklink", nil]];
+                if (!importState) {
+					[stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", importMode, SyntaxStyleBaseIdentifier] forKey:@"id"];
+				} else {
+					NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
+					[weaklinks addObject:importName];
+					[I_importedModes setObject:@"import" forKey:importMode];
+					[[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:importName, @"id", @"yes", @"weaklink", [stateDictionary objectForKey:@"id"], @"parentState", nil]];
+				}
             }
         }
     }
 
     // Put the stuff into the dictionary
-
-    if ([name isEqualToString:@"default"]) {        
-        [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
-        [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
-        [I_defaultState addEntriesFromDictionary:stateDictionary];
-    } else {
-        if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
-        [[aState objectForKey:@"states"] addObject:stateDictionary];
-    }
 
     [I_allStates setObject:stateDictionary forKey:[stateDictionary objectForKey:@"id"]]; // Used for easy caching and precalculating
 
@@ -400,6 +403,7 @@
     NSEnumerator *statesEnumerator = [[self states] objectEnumerator];
     id state;
     while ((state = [statesEnumerator nextObject])) {
+		NSLog(@"state: %@",state);
         [self setCombinedStateRegexForState:state];   
     }
     I_combinedStateRegexReady = YES;
@@ -481,6 +485,14 @@
 }
 
 - (NSDictionary *)stateForID:(NSString *)aString {
+//	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aString);
+	NSArray *components = [aString componentsSeparatedByString:@"/"];
+	NSString *modeName = [components objectAtIndex:1];
+	
+	if (![modeName isEqualToString:[self name]]) {
+		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] stateForID:aString];
+	} 
+	
     if (!I_combinedStateRegexReady) [self calculateCombinedStateRegexes];
     if ([aString isEqualToString:SyntaxStyleBaseIdentifier]) return I_defaultState;
     return [I_allStates objectForKey:aString];
@@ -488,6 +500,14 @@
 
 - (NSString *)styleForToken:(NSString *)aToken inState:(NSString *)aState 
 {
+//	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aState);
+	NSArray *components = [aState componentsSeparatedByString:@"/"];
+	NSString *modeName = [components objectAtIndex:1];
+	
+	if (![modeName isEqualToString:[self name]]) {
+		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] styleForToken:aToken inState:aState];
+	} 
+
     NSString *styleID;
     
     if ((styleID = [[[I_stylesForToken objectForKey:aState] objectAtIndex:0] objectForKey:aToken])) {
@@ -501,11 +521,27 @@
 }
 
 - (BOOL) hasTokensForState:(NSString *)aState {
+//	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aState);
+	NSArray *components = [aState componentsSeparatedByString:@"/"];
+	NSString *modeName = [components objectAtIndex:1];
+	
+	if (![modeName isEqualToString:[self name]]) {
+		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] hasTokensForState:aState];
+	} 
+	
     return (([[[I_stylesForToken objectForKey:aState] objectAtIndex:0] count]>0)||([[[I_stylesForToken objectForKey:aState] objectAtIndex:1] count]>0));
 }
 
 - (NSArray *)regularExpressionsInState:(NSString *)aState
 {
+//	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aState);
+	NSArray *components = [aState componentsSeparatedByString:@"/"];
+	NSString *modeName = [components objectAtIndex:1];
+	
+	if (![modeName isEqualToString:[self name]]) {
+		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] regularExpressionsInState:aState];
+	} 
+
     NSArray *aRegexDictionary;
     if ((aRegexDictionary = [I_stylesForRegex objectForKey:aState])) return aRegexDictionary;
     else return nil;
@@ -524,15 +560,19 @@
         i++;
         NSString *beginString;
         
+#warning default Mode has to be merged down.
         if ([aDictionary objectForKey:@"weaklink"]) {
             NSString *linkedName = [aDictionary objectForKey:@"id"];
             NSArray *components = [linkedName componentsSeparatedByString:@"/"];
 
-            SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]]syntaxDefinition];
+            SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]] syntaxDefinition];
             NSDictionary *linkedState = [linkedDefinition stateForID:[components objectAtIndex:2]];
+				
             if (linkedState) {
-                [aDictionary setObject:[linkedState objectForKey:@"BeginsWithRegexString"] forKey:@"BeginsWithRegexString"];
-                [aDictionary setObject:[linkedState objectForKey:@"BeginsWithPlainString"] forKey:@"BeginsWithPlainString"];
+				if ([linkedState objectForKey:@"BeginsWithRegexString"])
+					[aDictionary setObject:[linkedState objectForKey:@"BeginsWithRegexString"] forKey:@"BeginsWithRegexString"];
+				if ([linkedState objectForKey:@"BeginsWithPlainString"])
+					[aDictionary setObject:[linkedState objectForKey:@"BeginsWithPlainString"] forKey:@"BeginsWithPlainString"];
             }
         }
         
