@@ -281,7 +281,7 @@
         [[aState objectForKey:@"states"] addObject:stateDictionary];
     }
 	
-	//Weak-link to imported states
+	//Weak-link to imported states, for later copying
     
     NSArray *importedStates = [stateNode nodesForXPath:@"./import" error:&err];
     if ([importedStates count]>0) {
@@ -293,20 +293,46 @@
         NSXMLElement *import;
         while ((import = [importedStateEnumerator nextObject])) {
             NSString *importMode, *importState;
-            if ((importMode = [[import attributeForName:@"mode"] stringValue])) {
-                importState = [[import attributeForName:@"state"] stringValue];
-                if (!importState) {
-					[stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", importMode, SyntaxStyleBaseIdentifier] forKey:@"id"];
-				} else {
-					NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
-					[weaklinks addObject:importName];
-					[I_importedModes setObject:@"import" forKey:importMode];
-					[[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:importName, @"id", @"yes", @"weaklink", [stateDictionary objectForKey:@"id"], @"parentState", nil]];
-				}
-            }
+            importMode = [[import attributeForName:@"mode"] stringValue];
+			if (!importMode) importMode = [self name];
+				
+			importState = [[import attributeForName:@"state"] stringValue];
+			if (!importState) importState = SyntaxStyleBaseIdentifier;
+			
+			NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
+			[I_importedModes setObject:@"import" forKey:importMode];
+			[weaklinks addObject:importName];
+			//[[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:importName, @"id", @"yes", @"weaklink", [stateDictionary objectForKey:@"id"], @"parentState", nil]];
         }
     }
 
+	// Hard-link state-links
+    NSArray *linkedStates = [stateNode nodesForXPath:@"./state-link" error:&err];
+    if ([linkedStates count]>0) {
+        if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
+        NSMutableArray *hardlinks = [NSMutableArray array];
+        [stateDictionary setObject:hardlinks forKey:@"links"];
+        NSEnumerator *linkedStateEnumerator = [linkedStates objectEnumerator];
+        NSXMLElement *link;
+
+        while ((link = [linkedStateEnumerator nextObject])) {
+            NSString *linkMode, *linkState;
+            linkMode = [[link attributeForName:@"mode"] stringValue];
+			if (!linkMode) linkMode = [self name];
+			
+			linkState = [[link attributeForName:@"state"] stringValue];
+			
+			if (linkState) {
+				NSString *linkName = [NSString stringWithFormat:@"/%@/%@", linkMode, linkState];
+				[hardlinks addObject:linkName];
+				[I_importedModes setObject:@"import" forKey:linkMode];
+				[[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:linkName, @"id", @"yes", @"hardlink", [stateDictionary objectForKey:@"id"], @"parentState", nil]];
+			}
+			
+		}
+	}
+	
+	
     // Put the stuff into the dictionary
 
     [I_allStates setObject:stateDictionary forKey:[stateDictionary objectForKey:@"id"]]; // Used for easy caching and precalculating
@@ -403,7 +429,6 @@
     NSEnumerator *statesEnumerator = [[self states] objectEnumerator];
     id state;
     while ((state = [statesEnumerator nextObject])) {
-		NSLog(@"state: %@",state);
         [self setCombinedStateRegexForState:state];   
     }
     I_combinedStateRegexReady = YES;
@@ -485,7 +510,6 @@
 }
 
 - (NSDictionary *)stateForID:(NSString *)aString {
-//	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aString);
 	NSArray *components = [aString componentsSeparatedByString:@"/"];
 	NSString *modeName = [components objectAtIndex:1];
 	
@@ -548,34 +572,60 @@
 }
 
 - (void)setCombinedStateRegexForState:(NSMutableDictionary *)aState
-{    
+{ 
+	if ([aState objectForKey:@"imports"]) {
+		
+		NSEnumerator *enumerator = [[aState objectForKey:@"imports"] objectEnumerator];
+		id importName;
+		while ((importName = [enumerator nextObject])) {
+			NSArray *components = [importName componentsSeparatedByString:@"/"];
+			
+			SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]] syntaxDefinition];
+			NSDictionary *linkedState = [linkedDefinition stateForID:importName];
+			
+			if (linkedState) {
+				if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
+				[[aState objectForKey:@"states"] addObjectsFromArray:[linkedState objectForKey:@"states"]];
+				if (![aState objectForKey:@"KeywordGroups"]) [aState setObject:[NSMutableArray array] forKey:@"KeywordGroups"];
+				[[aState objectForKey:@"KeywordGroups"] addObjectsFromArray:[linkedState objectForKey:@"KeywordGroups"]];
+			}
+
+		}
+	} 
+
     NSMutableString *combinedString = [NSMutableString string];
     NSEnumerator *statesEnumerator = [[aState objectForKey:@"states"] objectEnumerator];
     NSMutableDictionary *aDictionary;
     int i = -1;
     NSString *endString = [aState objectForKey:@"EndsWithRegexString"];
     if (!endString) endString = [aState objectForKey:@"EndsWithPlainString"];
-    
-    while ((aDictionary = [statesEnumerator nextObject])) {
+	
+	while ((aDictionary = [statesEnumerator nextObject])) {
         i++;
         NSString *beginString;
-        
-#warning default Mode has to be merged down.
-        if ([aDictionary objectForKey:@"weaklink"]) {
+                
+		if ([aDictionary objectForKey:@"hardlink"]) {
             NSString *linkedName = [aDictionary objectForKey:@"id"];
             NSArray *components = [linkedName componentsSeparatedByString:@"/"];
-
+			
             SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]] syntaxDefinition];
-            NSDictionary *linkedState = [linkedDefinition stateForID:[components objectAtIndex:2]];
-				
+            NSDictionary *linkedState = [linkedDefinition stateForID:linkedName];
+			
             if (linkedState) {
 				if ([linkedState objectForKey:@"BeginsWithRegexString"])
 					[aDictionary setObject:[linkedState objectForKey:@"BeginsWithRegexString"] forKey:@"BeginsWithRegexString"];
 				if ([linkedState objectForKey:@"BeginsWithPlainString"])
 					[aDictionary setObject:[linkedState objectForKey:@"BeginsWithPlainString"] forKey:@"BeginsWithPlainString"];
+				if ([linkedState objectForKey:@"EndsWithRegexString"])
+					[aDictionary setObject:[linkedState objectForKey:@"EndsWithRegexString"] forKey:@"EndsWithRegexString"];
+				if ([linkedState objectForKey:@"EndsWithPlainString"])
+					[aDictionary setObject:[linkedState objectForKey:@"EndsWithPlainString"] forKey:@"EndsWithPlainString"];
+				if ([linkedState objectForKey:@"styleID"])
+					[aDictionary setObject:[linkedState objectForKey:@"styleID"] forKey:@"styleID"];
             }
         }
-        
+		
+		
         if ((beginString = [aDictionary objectForKey:@"BeginsWithRegexString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found regex string state start:%@",beginString);
             // Warn if begin contains unnamed group
