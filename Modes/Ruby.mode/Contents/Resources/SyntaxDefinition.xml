@@ -397,29 +397,6 @@
         	<end><regex>^=end</regex></end>
         </state>
         
-        <state id="HTML" color="#000000" inverted-color="#ffffff"  font-style="normal" font-weight="normal">
-            <begin><string>(?:&lt;html)|(?:&lt;HTML)|(?:%&gt;)</string></begin>
-            <end><regex>(?:&lt;%)|(?:&lt;%=)</regex></end>
-            <keywords id="Tags" color="#881280" inverted-color="#ed77e5"  font-style="normal" font-weight="normal">
-                <regex>&lt;/?([^ =&gt;\n\r]+)</regex>
-            </keywords>
-            <keywords id="Attributes" color="#994500" inverted-color="#ffab66"  font-style="normal" font-weight="normal" useforautocomplete="no">
-                <regex> ([^ &gt;\n\r]+)=</regex>
-            </keywords>
-            <keywords id="Strings"  color="#1a1aa6" inverted-color="#5959e5"  font-style="normal" font-weight="normal" useforautocomplete="no">
-                <regex>("[^"]*")</regex>
-                <regex>('[^']*')</regex>
-            </keywords>
-            <keywords id="ERB Delimiter" color="#d00000" inverted-color="#ff2f2f"  font-style="normal" font-weight="bold" useforautocomplete="no">
-                <regex>(&lt;%)</regex>
-                <regex>(%&gt;)</regex>
-                <regex>(&lt;%=)</regex>
-            </keywords>
-            <keywords id="HTMLComment" color="#236E25" useforautocomplete="no"> 
-              <regex>(&lt;!--.*--&gt;)</regex>
-            </keywords> 
-        </state>
-
     </states>
 
 </syntax>

@@ -120,6 +120,8 @@ static SecKeychainRef kcRef;
             @"req",
             @"-new",
             @"-x509",
+            @"-newkey",
+            @"rsa:1024",
             @"-keyout",
             pathToTempKeyAndCert,
             @"-out",

@@ -2204,7 +2204,6 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "SubEthaEdit" */;
-			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,

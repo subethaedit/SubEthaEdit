@@ -1,3 +1,6 @@
+Changes with Version 3.0 (SEE 2.7)
+    *) removed ERB and put it into a new mode
+
 Changes with Version 2.7 (SEE 2.6.4)
     *) fixed the validate scripts to work with unicode and leopard
     *) fixed hexadecimal character keyword

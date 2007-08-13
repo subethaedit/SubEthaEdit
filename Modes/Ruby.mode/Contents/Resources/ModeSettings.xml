@@ -5,12 +5,10 @@
         <extension>rb</extension>
         <extension>ruby</extension>
         <extension>rbx</extension>
-        <extension>rhtml</extension>
         <extension>rxml</extension>
         <extension>RB</extension>
         <extension>RUBY</extension>
         <extension>RBX</extension>
-        <extension>RHTML</extension>
         <extension>RXML</extension>
         <filename>Rakefile</filename>
         <regex>\A#!/usr/bin/(env )?ruby</regex>
