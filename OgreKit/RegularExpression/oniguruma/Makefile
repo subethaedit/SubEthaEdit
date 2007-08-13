@@ -8,7 +8,7 @@ PPC_CONFIGURE_FLAGS=--disable-dependency-tracking --host=ppc-apple-darwin$(OS_VE
 INTEL_SDK=/Developer/SDKs/MacOSX10.4u.sdk
 INTEL_CC=gcc
 PPC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-PPC_CC=gcc-3.3 -arch ppc -isystem /Developer/SDKs/MacOSX10.4u.sdk/usr/include/gcc/darwin/3.3 -isystem /Developer/SDKs/MacOSX10.4u.sdk/usr/include 
+PPC_CC=gcc-4.0 -arch ppc -isystem /Developer/SDKs/MacOSX10.4u.sdk/usr/include/gcc/darwin/4.0 -isystem /Developer/SDKs/MacOSX10.4u.sdk/usr/include 
 ONIG_TARGET=libonig.la
 LIBS_DIR=.libs
 ONIGURUMA=libonig.a
