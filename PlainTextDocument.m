@@ -129,7 +129,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 - (void)TCM_sendODBModifiedEvent;
 - (BOOL)TCM_validateDocument;
 - (NSDictionary *)TCM_propertiesOfCurrentSeeEvent;
-- (BOOL)TCM_readFromFile:(NSString *)fileName ofType:(NSString *)docType properties:(NSDictionary *)properties;
+- (BOOL)TCM_readFromURL:(NSURL *)fileName ofType:(NSString *)docType properties:(NSDictionary *)properties error:(NSError **)anError;
 - (void)TCM_validateLineEndings;
 @end
 
@@ -2452,7 +2452,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
         }
     }
-    
+    NSLog(@"%s %@",__FUNCTION__,NSStringFromSelector(didSaveSelector));
     [super saveToFile:fileName saveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }
 
@@ -2483,22 +2483,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return nil;
 }
 
-- (BOOL)revertToSavedFromFile:(NSString *)fileName ofType:(NSString *)type {
+- (BOOL)revertToContentsOfURL:(NSURL *)anURL ofType:(NSString *)type error:(NSError **)outError {
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
-    BOOL success = [super revertToSavedFromFile:fileName ofType:type];
+    BOOL success = [super revertToContentsOfURL:anURL ofType:type error:outError];
     if (success) {
-        [self setFileName:fileName];
+        [self setFileName:[anURL path]];
     }
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
     return success;
-}
-
-- (BOOL)readFromURL:(NSURL *)aURL ofType:(NSString *)docType {
-    if ([aURL isFileURL]) {
-        return [self readFromFile:[aURL path] ofType:docType];
-    } else {
-        return NO;
-    }
 }
 
 - (NSDictionary *)TCM_propertiesOfCurrentSeeEvent {
@@ -2625,14 +2617,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
-- (BOOL)TCM_readFromFile:(NSString *)fileName ofType:(NSString *)docType properties:(NSDictionary *)properties {
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromFile:%@ ofType:%@ properties: %@", fileName, docType, properties);
+- (BOOL)TCM_readFromURL:(NSURL *)anURL ofType:(NSString *)docType properties:(NSDictionary *)properties error:(NSError **)outError {
+    NSString *fileName = [anURL path];
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromURL:%@ ofType:%@ properties: %@", anURL, docType, properties);
 
     I_flags.shouldChangeExtensionOnModeChange = NO;
     I_flags.shouldSelectModeOnSave = NO;
     I_flags.isReadingFile = YES;
 
     if (![docType isEqualToString:@"PlainTextType"] && ![docType isEqualToString:@"SubEthaEditSyntaxStyle"]) {
+        *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                fileName,NSFilePathErrorKey,
+                [NSString stringWithFormat:@"Filetype: %@ not (yet) supported.",docType],NSLocalizedDescriptionKey,
+                nil
+            ]
+        ];
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"filetype not supported %@",*outError);
         I_flags.isReadingFile = NO;
         return NO;
     }
@@ -2640,6 +2641,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
     if (!fileExists || isDir) {
+        // generate the correct error
+        [NSData dataWithContentsOfURL:anURL options:0 error:outError];
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",*outError);
         I_flags.isReadingFile = NO;
         return NO;
     }
@@ -2750,6 +2754,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
         fileData = [self TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:fileName];
         if (fileData == nil) {
+            // generate the correct error
+            [NSData dataWithContentsOfURL:anURL options:0 error:outError];
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file is not readable %@",*outError);
             I_flags.isReadingFile = NO;
             return NO;
         }
@@ -2776,7 +2783,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 I_flags.hasUTF8BOM = YES;
                 [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
             }
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs];
+            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
         } else {
             NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:[fileURL path]];
             @try {
@@ -2790,7 +2797,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             @catch (id exception) {
                 DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readDataOfLength throws exception: %@", exception);
             }
-            success = [textStorage readFromURL:fileURL options:options documentAttributes:&docAttrs];
+            success = [textStorage readFromURL:fileURL options:options documentAttributes:&docAttrs error:outError];
         }
         [textStorage endEditing];
 
@@ -2808,6 +2815,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     continue;
                 }
             }
+            // correct outerror is already set by the textstorage methods
             return NO;
         }
 
@@ -2879,9 +2887,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return YES;
 }
 
-- (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
-    NSDictionary *properties = [[DocumentController sharedDocumentController] propertiesForOpenedFile:fileName];
-    return [self TCM_readFromFile:fileName ofType:docType properties:properties];
+- (BOOL)readFromURL:(NSURL *)anURL ofType:(NSString *)docType error:(NSError **)outError {
+    NSDictionary *properties = [[DocumentController sharedDocumentController] propertiesForOpenedFile:[anURL path]];
+    return [self TCM_readFromURL:anURL ofType:docType properties:properties error:outError];
 }
 
 
