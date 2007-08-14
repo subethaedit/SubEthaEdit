@@ -12,11 +12,20 @@
     
         <default id="Base" color="#000" background-color="#fff" font-style="normal">
         
-        </default>
+            <keywords id="Entities" color="#881280" useforautocomplete="no">
+                <regex>(&amp;\w{1,8};)</regex>
+                <regex>(&amp;#[0-9]+;)</regex>
+                <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
+            </keywords>
 
         <state id="Comment" color="#236E25" font-style="italic">
             <begin><regex>&lt;!--</regex></begin>
             <end><regex>--&gt;</regex></end>
+            
+            <keywords id="SGML Double Dash" color="#f00" font-style="bold" useforautocomplete="no">
+                <regex>(?&lt;!\!)(--)(?!&gt;)</regex>
+            </keywords>
+            
         </state>
 
         <state id="CDATA" color="#f00" font-style="italic">
@@ -38,20 +47,18 @@
             <begin><regex>&lt;</regex></begin>
             <end><regex>&gt;</regex></end>
 
-            <keywords id="Strings in Tags" color="#1A1AA6" useforautocomplete="no">
-                <regex>("[^"]*")</regex>
-                <regex>('[^']*')</regex>
-            </keywords>
+            <state id="Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+                <begin><regex>"</regex></begin>
+                <end><regex>"</regex></end>
+            </state>
             
             <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
                 <regex>([\w-]*)(?=[ \t]*=)</regex>
             </keywords>
 
-            <keywords id="Entities" color="#881280" useforautocomplete="no">
-                <regex>(&amp;\w{1,8};)</regex>
-            </keywords>
-
         </state>
+        
+        </default>
 
     </states>
 
