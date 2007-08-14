@@ -27,6 +27,10 @@
     BOOL everythingOkay;
     BOOL I_useSpellingDictionary;
     BOOL I_combinedStateRegexReady;
+    BOOL I_combinedStateRegexCalculating;
+	BOOL I_cacheStylesReady;
+	BOOL I_cacheStylesCalculating;
+
     SyntaxStyle *I_defaultSyntaxStyle;
 }
 
@@ -43,7 +47,7 @@
 /*"Accessors"*/
 - (NSString *)name;
 - (void)setName:(NSString *)aString;
-- (NSArray *)states;
+//- (NSArray *)states;
 - (NSDictionary *)stateForID:(NSString *)aString;
 - (NSDictionary *)defaultState;
 - (NSDictionary *)importedModes;
