@@ -700,6 +700,17 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 #pragma mark -
 
+- (NSDictionary *)contributersAsDictionaryRepresentation {
+    NSMutableDictionary *contributorsByID=[NSMutableDictionary dictionary];
+    NSEnumerator *contributors = [I_contributors objectEnumerator];
+    TCMMMUser *contributor=nil;
+    while ((contributor=[contributors nextObject])) {
+        NSString *contributorID=[contributor userID];
+        [contributorsByID setObject:[contributor dictionaryRepresentation] forKey:contributorID];
+    }
+    return contributorsByID;
+}
+
 - (NSDictionary *)TCM_sessionInformationForUserID:(NSString *)userID 
 {
     NSMutableDictionary *sessionInformation=[NSMutableDictionary dictionary];

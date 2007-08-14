@@ -1983,7 +1983,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (BOOL)shouldRunSavePanelWithAccessoryView {
 	
-    return [super shouldRunSavePanelWithAccessoryView];
+    return YES;
 }
 
 #pragma mark -
@@ -2359,6 +2359,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
     
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
+
     if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
         NSLog(@"Failed to load SavePanelAccessory.nib");
         return NO;
@@ -2371,7 +2372,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if ([savePanel canShowHiddenFiles]) {
         [savePanel setInternalShowsHiddenFiles:showsHiddenFiles];
     }    
-    
+
+    [savePanel setCanSelectHiddenExtension:NO];
+
     I_savePanel = savePanel;
     [savePanel setDelegate:self];
 
@@ -2391,6 +2394,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [[EncodingManager sharedInstance] registerEncoding:[self fileEncoding]];
         [O_encodingPopUpButton setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
         
+        [O_savePanelAccessoryFileFormatMatrix selectCellWithTag:I_flags.isSEEText?1:0];
+
         [savePanel setAccessoryView:O_savePanelAccessoryView];
         [O_goIntoBundlesCheckbox setState:isGoingIntoBundles ? NSOnState : NSOffState];
         if ([savePanel canShowHiddenFiles]) {
@@ -2416,7 +2421,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 	
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:savePanel];
-    return [super prepareSavePanel:savePanel];
+    return YES;
 }
 
 - (void)savePanelDidBecomeKey:(NSNotification *)aNotification {
@@ -2424,20 +2429,40 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[NSNotificationCenter defaultCenter] removeObserver:self  name:NSWindowDidBecomeKeyNotification object:[aNotification object]];
 }
 
+- (IBAction)selectFileFormat:(id)aSender {
+    NSSavePanel *panel = (NSSavePanel *)[aSender window];
+    NSString *seeTextExtension = [[[DocumentController sharedInstance] fileExtensionsFromType:@"SEETextType"] lastObject];
+    if ([[aSender selectedCell] tag]==1) {
+        [panel setRequiredFileType:seeTextExtension];
+    } else {
+        [panel setRequiredFileType:nil];
+        NSTextField *nameField = [panel valueForKey:@"_nameField"];
+        if (nameField && [nameField isKindOfClass:[NSTextField class]]) {
+            NSString *name = [nameField stringValue];
+            if ([[name pathExtension] isEqualToString:seeTextExtension]) {
+                [nameField setStringValue:[name stringByDeletingPathExtension]];
+            }
+        }
+    }
+    [panel setExtensionHidden:NO];
+    [panel TCM_selectFilenameWithoutExtension];
+}
+
+
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     if ([self TCM_validateDocument]) {
         [super saveDocumentWithDelegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
     }
 }
 
-- (void)saveToFile:(NSString *)fileName saveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
-
+- (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
+    BOOL didShowPanel = (I_savePanel)?YES:NO;
     [I_savePanel setDelegate:nil];
     I_savePanel = nil;
     
-    if (fileName) {
+    if (anAbsoluteURL) {
         if (I_flags.shouldSelectModeOnSave) {
-            DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+            DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[[anAbsoluteURL path] pathExtension]];
             if (![mode isBaseMode]) {
                 [self setDocumentMode:mode];
             }
@@ -2450,13 +2475,32 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         if (saveOperation == NSSaveToOperation) {
             I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
+            if ([[O_savePanelAccessoryFileFormatMatrix2 selectedCell] tag] == 1) {
+                aType = @"SEETextType";
+             } else {
+                aType = @"PlainTextType";
+            }
+         } else if (didShowPanel) {
+            if ([[O_savePanelAccessoryFileFormatMatrix selectedCell] tag] == 1) {
+                aType = @"SEETextType";
+                I_flags.isSEEText = YES;
+            } else {
+                aType = @"PlainTextType";
+                I_flags.isSEEText = NO;
+            }
+         }
+    }
+    if ([aType isEqualToString:@"SEETextType"]) {
+        NSString *seeTextExtension = [[[DocumentController sharedInstance] fileExtensionsFromType:aType] lastObject];
+        if (![[[anAbsoluteURL path] pathExtension] isEqualToString:seeTextExtension]) {
+            anAbsoluteURL = [NSURL fileURLWithPath:[[anAbsoluteURL path] stringByAppendingPathExtension:seeTextExtension]];
         }
     }
     NSLog(@"%s %@",__FUNCTION__,NSStringFromSelector(didSaveSelector));
-    [super saveToFile:fileName saveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
+    [super saveToURL:anAbsoluteURL ofType:aType forSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:aContextInfo];
 }
 
-- (NSData *)dataRepresentationOfType:(NSString *)aType {
+- (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
 
     if ([aType isEqualToString:@"PlainTextType"] || [aType isEqualToString:@"SubEthaEditSyntaxStyle"]) {
         NSData *data;
@@ -2478,8 +2522,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         } else {
             return data;
         }
+    } else if ([aType isEqualToString:@"SEETextType"]) {
+        NSLog(@"%s saving SEEText",__FUNCTION__);
+        NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
+        // combine data
+        NSMutableDictionary *dataDict = [NSMutableDictionary dictionaryWithObject:[self textStorageDictionaryRepresentation] forKey:@"TextStorage"];
+        // collect users
+        [dataDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
+        [data appendData:TCM_BencodedObject(dataDict)];
+        return data;
     }
 
+    if (outError) *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            [NSString stringWithFormat:@"Could not create data for Filetype: %@",aType],NSLocalizedDescriptionKey,
+            nil
+        ]
+    ];
     return nil;
 }
 
@@ -2625,8 +2684,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     I_flags.shouldSelectModeOnSave = NO;
     I_flags.isReadingFile = YES;
 
-    if (![docType isEqualToString:@"PlainTextType"] && ![docType isEqualToString:@"SubEthaEditSyntaxStyle"]) {
-        *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
+    if (![docType isEqualToString:@"PlainTextType"] && ![docType isEqualToString:@"SubEthaEditSyntaxStyle"] && ![docType isEqualToString:@"SEETextType"]) {
+        if (outError) *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
             [NSDictionary dictionaryWithObjectsAndKeys:
                 fileName,NSFilePathErrorKey,
                 [NSString stringWithFormat:@"Filetype: %@ not (yet) supported.",docType],NSLocalizedDescriptionKey,
@@ -2650,6 +2709,25 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     NSTextStorage *textStorage = [self textStorage];
     BOOL isReverting = ([textStorage length] != 0);
+
+    if ([docType isEqualToString:@"SEETextType"]) {
+        NSData *fileData = [NSData dataWithContentsOfURL:anURL options:0 error:outError];
+        if (!fileData) {
+            I_flags.isReadingFile = NO;
+            return NO;
+        }
+        int headerLength = [@"SEEText" length];
+        NSDictionary *dictionaryRepOfText = TCM_BdecodedObjectWithData([fileData subdataWithRange:NSMakeRange(headerLength,[fileData length]-headerLength)]);
+        [self setContentByDictionaryRepresentation:dictionaryRepOfText];
+        TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
+        NSEnumerator *userdicts = [[dictionaryRepOfText objectForKey:@"Contributors"] objectEnumerator];
+        NSDictionary *userdict = nil;
+        while ((userdict = [userdicts nextObject])) {
+            TCMMMUser *user = [TCMMMUser userWithDictionaryRepresentation:userdict];
+            [um addUser:user];
+        }
+        return YES;
+    }
 
     BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
@@ -3055,7 +3133,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                         fcntl(thisDesc, F_GETFD, 0);
                         
                         NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
-                        NSData *data = [self dataRepresentationOfType:docType];
+                        NSError *error=nil;
+                        NSData *data = [self dataOfType:docType error:&error];
+                        if (!data) {
+                            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", error);
+                        }
                         @try {
                             [fileHandle writeData:data];
                         }
@@ -3120,7 +3202,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 fcntl(thisDesc, F_GETFD, 0);
                 
                 NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:thisDesc closeOnDealloc:YES];
-                NSData *data = [self dataRepresentationOfType:docType];
+                NSError *error=nil;
+                NSData *data = [self dataOfType:docType error:&error];
+                if (!data) {
+                    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", error);
+                }
                 @try {
                     [fileHandle writeData:data];
                 }
@@ -3199,7 +3285,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 int fd = open(cFullDocumentPath, O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
                 if (fd) {
                     NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
-                    NSData *data = [self dataRepresentationOfType:docType];
+                    NSError *error=nil;
+                    NSData *data = [self dataOfType:docType error:&error];
+                    if (!data) {
+                        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", error);
+                    }
                     @try {
                         [fileHandle writeData:data];
                         hasBeenWritten = YES;

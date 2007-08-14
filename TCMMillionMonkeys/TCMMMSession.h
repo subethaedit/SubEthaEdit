@@ -168,4 +168,6 @@ typedef enum TCMMMSessionClientState {
 
 - (BOOL)isAddressedByURL:(NSURL *)aURL;
 
+- (NSDictionary *)contributersAsDictionaryRepresentation;
+
 @end
