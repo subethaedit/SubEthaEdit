@@ -354,13 +354,11 @@
                 <regex>(#[\da-fA-F]{6})</regex>
             </keywords>
 
-            <keywords id="Comments in Curly Brackets 2" color="#236E25" font-style="normal" useforautocomplete="no">
-                <regex>(/\*.+?\*/)</regex>
-            </keywords>
-
-            <keywords id="Comments in Curly Brackets" color="#236E25" font-style="normal" useforautocomplete="no">
-                <regex>(//.+?[\n\r])</regex>
-            </keywords>
+            <state-link state="AutodocComment"/>
+            <state-link state="Comment"/>
+            <state-link state="SingleComment"/>
+            <state-link state="String"/>
+            <state-link state="SingleString"/>
 
         </state>
 
@@ -382,6 +380,11 @@
         <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
             <begin><string>"</string></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+        </state>
+
+        <state id="SingleString" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+            <begin><string>'</string></begin>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
         </state>
 
     </states>
