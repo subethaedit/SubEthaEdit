@@ -13,15 +13,13 @@
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
             
             <state id="Ruby" color="#000000" inverted-color="#ffffff"  font-style="normal" font-weight="normal">
-                <begin><regex>(?:&lt;%)|(?:&lt;%=)</regex></begin>
-                <end><regex>(?:%&gt;)|(?:-%&gt;)</regex></end>
+                <begin><regex>(?:&lt;%=?)</regex></begin>
+                <end><regex>(?:-?%&gt;)</regex></end>
                 <import mode="Ruby" />
 
                 <keywords id="ERB Delimiter" color="#d00000" inverted-color="#ff2f2f"  font-style="normal" font-weight="bold" useforautocomplete="no">
-                    <regex>(&lt;%)</regex>
-                    <regex>(%&gt;)</regex>
-                    <regex>(-%&gt;)</regex>
-                    <regex>(&lt;%=)</regex>
+                    <regex>(-?%&gt;)</regex>
+                    <regex>(&lt;%=?)</regex>
                 </keywords>
             </state>
             

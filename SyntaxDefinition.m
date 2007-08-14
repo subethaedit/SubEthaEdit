@@ -45,11 +45,13 @@
         // Setup stuff <-> style dictionaries
         I_stylesForToken = [NSMutableDictionary new];
         I_stylesForRegex = [NSMutableDictionary new];
-        [self cacheStyles];
         I_combinedStateRegexReady = NO;
+		I_combinedStateRegexCalculating = NO;
+        I_cacheStylesReady = NO;
+		I_cacheStylesCalculating = NO;
     }
     
-    //NSLog([self description]);
+//    NSLog([self description]);
     
     if (everythingOkay) return self;
     else {
@@ -299,10 +301,16 @@
 			importState = [[import attributeForName:@"state"] stringValue];
 			if (!importState) importState = SyntaxStyleBaseIdentifier;
 			
+			BOOL keywordsOnly = NO;
+			NSXMLNode *keywordsOnlyAttribute = [import attributeForName:@"keywords-only"];
+			if ([[keywordsOnlyAttribute stringValue] isEqualToString:@"yes"]) keywordsOnly = YES;
+			
 			NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
+			
+			if (keywordsOnly) importName = [NSString stringWithFormat:@"%@/%@", importName, @"keywords-only"];
+				
 			[I_importedModes setObject:@"import" forKey:importMode];
 			[weaklinks addObject:importName];
-			//[[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:importName, @"id", @"yes", @"weaklink", [stateDictionary objectForKey:@"id"], @"parentState", nil]];
         }
     }
 
@@ -347,6 +355,7 @@
 /*"calls addStylesForKeywordGroups: for defaultState and states"*/
 -(void)cacheStyles
 {
+	I_cacheStylesCalculating = YES;
     NSMutableDictionary *state;
     NSMutableDictionary *keywordGroups;
     
@@ -422,11 +431,12 @@
     
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching plainstrings:%@",[I_stylesForToken description]);
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching regular expressions:%@",[I_stylesForRegex description]);
-
+	I_cacheStylesReady = YES;
 }
 
 - (void) calculateCombinedStateRegexes {
-    NSEnumerator *statesEnumerator = [[self states] objectEnumerator];
+	I_combinedStateRegexCalculating = YES;
+    NSEnumerator *statesEnumerator = [I_allStates objectEnumerator];
     id state;
     while ((state = [statesEnumerator nextObject])) {
         [self setCombinedStateRegexForState:state];   
@@ -505,9 +515,9 @@
 }
 
 
-- (NSArray *)states {
-    return [I_allStates allValues];
-}
+//- (NSArray *)states {
+//    return [I_allStates allValues];
+//}
 
 - (NSDictionary *)stateForID:(NSString *)aString {
 	NSArray *components = [aString componentsSeparatedByString:@"/"];
@@ -517,7 +527,8 @@
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] stateForID:aString];
 	} 
 	
-    if (!I_combinedStateRegexReady) [self calculateCombinedStateRegexes];
+    if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self calculateCombinedStateRegexes];
+    if (!I_cacheStylesReady && !I_cacheStylesCalculating) [self cacheStyles];
     if ([aString isEqualToString:SyntaxStyleBaseIdentifier]) return I_defaultState;
     return [I_allStates objectForKey:aString];
 }
@@ -579,13 +590,20 @@
 		id importName;
 		while ((importName = [enumerator nextObject])) {
 			NSArray *components = [importName componentsSeparatedByString:@"/"];
+			BOOL keywordsOnly = NO;
+			if ([components count]>3) {
+				if ([[components objectAtIndex:1] isEqualToString:@"keywords-only"]) keywordsOnly = YES;
+			}
 			
 			SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]] syntaxDefinition];
 			NSDictionary *linkedState = [linkedDefinition stateForID:importName];
 			
 			if (linkedState) {
-				if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
-				[[aState objectForKey:@"states"] addObjectsFromArray:[linkedState objectForKey:@"states"]];
+				if (!keywordsOnly) {
+					if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
+					[[aState objectForKey:@"states"] addObjectsFromArray:[linkedState objectForKey:@"states"]];
+				}
+				
 				if (![aState objectForKey:@"KeywordGroups"]) [aState setObject:[NSMutableArray array] forKey:@"KeywordGroups"];
 				[[aState objectForKey:@"KeywordGroups"] addObjectsFromArray:[linkedState objectForKey:@"KeywordGroups"]];
 			}
@@ -683,6 +701,9 @@
             everythingOkay = NO;
         }
     }
+	// We might have new styles that got imported, so run caching again!
+	I_cacheStylesReady = NO;
+	I_cacheStylesCalculating = NO;
 }
 
 - (DocumentMode *)mode
