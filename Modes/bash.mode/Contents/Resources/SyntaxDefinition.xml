@@ -433,12 +433,12 @@
 				<regex>(\$\{[^\}]*\})</regex>
             </keywords>
         
-            <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="SingleComment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
                 <begin><regex>(?&lt;!\$)#</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="String with double quotes" color="#760f15">
+            <state id="String with double quotes" type="string" color="#760f15">
                 <begin><string>"</string></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
                 <keywords id="Variables in double quoted Strings" color="#C4620A" useforautocomplete="no">
@@ -447,7 +447,7 @@
                 </keywords>
             </state>
     
-            <state id="String with single quotes" color="#760f15">
+            <state id="String with single quotes" type="string" color="#760f15">
                 <begin><string>'</string></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
                 <keywords id="Variables in single quoted Strings" color="#C4620A" useforautocomplete="no">

@@ -18,7 +18,7 @@
                 <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
             </keywords>
 
-        <state id="Comment" color="#236E25" font-style="italic">
+        <state id="Comment" type="comment" color="#236E25" font-style="italic">
             <begin><regex>&lt;!--</regex></begin>
             <end><regex>--&gt;</regex></end>
             
@@ -47,7 +47,7 @@
             <begin><regex>&lt;</regex></begin>
             <end><regex>&gt;</regex></end>
 
-            <state id="Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+            <state id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no">
                 <begin><regex>"</regex></begin>
                 <end><regex>"</regex></end>
             </state>

@@ -14,6 +14,12 @@
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
             <import mode="C"/>
+
+            <state id="NSString" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+                <begin><string>@"</string></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            </state>
+
             <keywords id="Messages" color="#6C0540" casesensitive="yes">
                 <regex>[^:]\([^)]*\)[   ]*([A-Za-z0-9_]+)[  ]*[{;]</regex>
                 <regex>\)[  ]*([A-Za-z0-9_]+:)</regex>
