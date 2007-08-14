@@ -361,7 +361,7 @@
 				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
             </keywords>
         
-            <state id="String with double quotes" color="#760f15" inverted-color="#f28720"  font-style="italic" font-weight="normal">
+            <state id="String with double quotes" type="string" color="#760f15" inverted-color="#f28720"  font-style="italic" font-weight="normal">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
                 <!-- (see line above) This is for the escape codes -->
@@ -371,7 +371,7 @@
                 </keywords>
             </state>
     
-            <state id="String with single quotes" color="#760f15" inverted-color="#f48700"  font-style="italic" font-weight="normal">
+            <state id="String with single quotes" type="string" color="#760f15" inverted-color="#f48700"  font-style="italic" font-weight="normal">
                 <begin><regex>(?&lt;!\$)(?:')</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
@@ -381,7 +381,7 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
             
-            <state id="Singleline Comment" color="#236e25" inverted-color="#ff4a4a"  font-style="normal" font-weight="normal">
+            <state id="Singleline Comment" type="comment" color="#236e25" inverted-color="#ff4a4a"  font-style="normal" font-weight="normal">
                 <begin><regex>#</regex></begin>
                 <end><regex>[\n\r]|(?:.(?=%&gt;))</regex></end>
             </state>
@@ -391,7 +391,7 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)\/</regex></end>
             </state>
             
-            <state id="POD Comments" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal">
+            <state id="POD Comments" type="comment" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal">
                 <begin><regex>(?:^=begin)</regex></begin>
                 <end><regex>^=end</regex></end>
             </state>

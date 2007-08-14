@@ -220,17 +220,17 @@
 				<regex>'.'</regex>
             </keywords>
             
-            <state id="Comment" color="#8d8d8d" font-style="italic">
+            <state id="Comment" type="comment" color="#8d8d8d" font-style="italic">
                 <begin><string>\(\*</string></begin>
                 <end><regex>\*\)</regex></end>
             </state>
             
-            <state id="SingleComment" color="#8d8d8d" font-style="italic">
+            <state id="SingleComment" type="comment" color="#8d8d8d" font-style="italic">
                 <begin><string>--</string></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="String" color="#000">
+            <state id="String" type="string" color="#000">
                 <begin><string>@?"</string></begin>
                 <end><regex>([^\\]"|^")</regex></end>
             </state>

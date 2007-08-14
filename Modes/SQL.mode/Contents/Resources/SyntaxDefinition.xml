@@ -825,33 +825,33 @@
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
         
-            <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
             
-            <state id="Single Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="Single Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
                 <begin><regex>--</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="Singleline Comment (mysql)" color="#236E25" font-style="italic">
+            <state id="Singleline Comment (mysql)" type="comment" color="#236E25" font-style="italic">
                 <begin><regex>#</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
     
             
-            <state id="String Singlequoted" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+            <state id="String Singlequoted" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
                 <begin><regex>'</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
             
-            <state id="String with Backticks" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+            <state id="String with Backticks" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
                 <begin><regex>`</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
             
-            <state id="String Doublequoted" color="#608" background-color="none" font-weight="normal" font-style="normal">
+            <state id="String Doublequoted" type="string" color="#608" background-color="none" font-weight="normal" font-style="normal">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>

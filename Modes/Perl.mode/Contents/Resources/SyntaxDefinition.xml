@@ -331,17 +331,17 @@
                 <end><regex>\?</regex></end>
             </state>
     
-            <state id="Singleline Comment" color="#236E25" font-style="italic">
+            <state id="Singleline Comment" type="comment" color="#236E25" font-style="italic">
                 <begin><regex>(?&lt;!\$)#</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="String with double quotes" color="#760f15">
+            <state id="String with double quotes" type="string" color="#760f15">
                 <begin><regex>(?&lt;!\$|\\)(?:\\\\)*"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>
     
-            <state id="String with single quotes" color="#760f15">
+            <state id="String with single quotes" type="string" color="#760f15">
                 <begin><regex>(?&lt;!\$|\\)(?:\\\\)*'</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
