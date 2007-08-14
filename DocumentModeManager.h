@@ -39,6 +39,7 @@
 	NSMutableDictionary *I_modeIdentifiersByFilename;
 	NSMutableDictionary *I_modeIdentifiersByRegex;
 	NSMutableArray      *I_modeIdentifiersTagArray;
+	NSMutableDictionary *I_dependencyQueue;
 }
 
 + (DocumentModeManager *)sharedInstance;
