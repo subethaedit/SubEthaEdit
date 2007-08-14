@@ -71,6 +71,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         BOOL isWaiting;
         BOOL syntaxHighlightingIsSuspended;
         BOOL hasUTF8BOM;
+        BOOL isSEEText;
     } I_flags;
     int I_tabWidth;
     DocumentMode  *I_documentMode;
@@ -99,6 +100,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     IBOutlet NSButton *O_showHiddenFilesCheckbox;
     IBOutlet NSButton *O_showHiddenFilesCheckbox2;
     IBOutlet EncodingPopUpButton *O_encodingPopUpButton;
+    IBOutlet NSMatrix *O_savePanelAccessoryFileFormatMatrix;
+    IBOutlet NSMatrix *O_savePanelAccessoryFileFormatMatrix2;
     NSSavePanel *I_savePanel;
     NSSaveOperationType I_lastSaveOperation;
     NSStringEncoding I_encodingFromLastRunSaveToOperation;
@@ -158,6 +161,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (IBAction)newView:(id)aSender;
 - (IBAction)goIntoBundles:(id)sender;
 - (IBAction)showHiddenFiles:(id)sender;
+- (IBAction)selectFileFormat:(id)aSender;
 - (IBAction)showWebPreview:(id)aSender;
 - (BOOL)isProxyDocument;
 - (BOOL)isPendingInvitation;
@@ -329,6 +333,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (void)addFindAllController:(FindAllController *)aController;
 - (void)removeFindAllController:(FindAllController *)aController;
+
+- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 @end
 
