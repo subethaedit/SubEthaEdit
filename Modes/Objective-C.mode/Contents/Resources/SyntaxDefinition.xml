@@ -13,6 +13,7 @@
     <states>
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+            <import mode="C"/>
             <keywords id="Messages" color="#6C0540" casesensitive="yes">
                 <regex>[^:]\([^)]*\)[   ]*([A-Za-z0-9_]+)[  ]*[{;]</regex>
                 <regex>\)[  ]*([A-Za-z0-9_]+:)</regex>
@@ -939,38 +940,15 @@
                 <string>__weak</string>
                 <string>__strong</string>
                 <string>__attribute__</string>
-            </keywords>
-            <keywords id="Keywords" color="#881350" useforautocomplete="yes">
                 <string>readwrite</string>
                 <string>readonly</string>
                 <string>assign</string>
                 <string>nonatomic</string>
                 <string>getter</string>
                 <string>setter</string>
-                <string>break</string>
-                <string>case</string>
-                <string>continue</string>
-                <string>default</string>
-                <string>do</string>
-                <string>else</string>
-                <string>enum</string>
-                <string>extern</string>
-                <string>for</string>
-                <string>in</string>
-                <string>goto</string>
-                <string>if</string>
                 <string>id</string>
-                <string>NULL</string>
                 <string>nil</string>
                 <string>Nil</string>
-                <string>void</string>
-                <string>return</string>
-                <string>sizeof</string>
-                <string>struct</string>
-                <string>switch</string>
-                <string>typedef</string>
-                <string>union</string>
-                <string>while</string>
                 <string>@defs</string>
                 <string>@encode</string>
                 <string>@selector</string>
@@ -980,23 +958,10 @@
                 <string>NO</string>
                 <string>IBAction</string>
                 <string>IBOutlet</string>
-                <string>int</string>
-                <string>long</string>
-                <string>float</string>
-                <string>double</string>
-                <string>char</string>
-                <string>unichar</string>
-                <string>unsigned</string>
-                <string>signed</string>
-                <string>const</string>
-                <string>static</string>
                 <string>BOOL</string>
                 <string>SEL</string>
                 <string>Class</string>
                 <string>auto</string>
-                <string>register</string>
-                <string>short</string>
-                <string>volatile</string>
             </keywords>
             <keywords id="Memory Management" color="#f00" font-weight="bold" font-style="normal" useforautocomplete="yes">
                 <string>new</string>
@@ -1262,13 +1227,6 @@
                 <string>QTTimeRangeFromString</string>
                 <string>QTUnionTimeRange</string>
                 <string>QTStringForOSType</string>
-
-            </keywords>
-            <keywords id="Numbers" color="#00f" useforautocomplete="no">
-                <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
-            </keywords>
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
-                <regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
             <keywords id="Cocoa Types" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
                 <string>NSAffineTransformStruct</string>
@@ -1407,7 +1365,6 @@
                 <string>NSOpenStepUnicodeReservedBase</string>
                 <string>NSStringEncoding</string>
                 <string>NSCompositingOperation</string>
-                <string>NSUInteger</string>
                 <string>NSXMLDTDNodeKind</string>
                 <string>NSXMLDocumentContentKind</string>
                 <string>NSXMLNodeKind</string>
@@ -2397,7 +2354,6 @@
                 <string>NSInteger16AttributeType</string>
                 <string>NSInteger32AttributeType</string>
                 <string>NSInteger64AttributeType</string>
-                <string>NSInteger</string>
                 <string>NSInterfaceStyleDefault</string>
                 <string>NSInternalScriptError</string>
                 <string>NSInternalSpecifierError</string>
@@ -5264,46 +5220,6 @@
             </keywords>
         </default>
 
-        <state id="Characters" color="#00f" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>'(?=\\?.')</regex></begin>
-            <end><regex>(\\'')|(.')</regex></end>
-        </state>
-        
-        <state id="Preprocessor" color="#683821" background-color="none">
-            <begin><regex>#</regex></begin>
-            <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
-            <keywords id="Numbers" color="#00f" useforautocomplete="no">
-                <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
-            </keywords>
-        </state>
-
-        <state id="DoxyGen Comment" color="#236E25" background-color="none"  font-style="italic">
-            <begin><regex>/\*[\*\!]</regex></begin>
-            <end><regex>\*/</regex></end>
-            <keywords id="DoxyGen Tags" color="#236E25" font-weight="bold" useforautocomplete="no">
-				<regex>(?&lt;=[^\w\d]|^)([@\\]\w+)</regex>
-            </keywords>
-        </state>
-
-        <state id="Autodoc Comment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
-            <begin><regex>/\*"</regex></begin>
-            <end><regex>"\*/</regex></end>
-        </state>
-
-        <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>/\*</regex></begin>
-            <end><regex>\*/</regex></end>
-        </state>
-        
-        <state id="Singleline Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>//</regex></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
-        
-        <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
-            <begin><string>@?"</string></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-        </state>
     </states>
 
 </syntax>

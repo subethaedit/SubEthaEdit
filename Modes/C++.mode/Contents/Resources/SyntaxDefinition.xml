@@ -11,7 +11,7 @@
     <states>
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
-            <keywords id="Keywords" color="#881350" useforautocomplete="yes">
+            <keywords id="C++ Keywords" color="#881350" useforautocomplete="yes">
                 <string>class</string>
                 <string>false</string>
                 <string>friend</string>
@@ -69,106 +69,11 @@
                 <string>Q_CLASSINFO</string>
                 <string>TRUE</string>
                 <string>FALSE</string>
-                <string>break</string>
-                <string>case</string>
-                <string>continue</string>
-                <string>default</string>
-                <string>do</string>
-                <string>else</string>
-                <string>enum</string>
-                <string>extern</string>
-                <string>for</string>
-                <string>goto</string>
-                <string>if</string>
-                <string>return</string>
-                <string>sizeof</string>
-                <string>struct</string>
-                <string>switch</string>
-                <string>typedef</string>
-                <string>union</string>
-                <string>while</string>
-                <string>connect</string>
-                <string>asm</string>
-                <string>export</string>
-                <string>bool</string>
-                <string>wchar_t</string>
-                <string>mutable</string>
-                <string>uint</string>
-                <string>auto</string>
-                <string>char</string>
-                <string>const</string>
-                <string>double</string>
-                <string>float</string>
-                <string>int</string>
-                <string>long</string>
-                <string>register</string>
-                <string>short</string>
-                <string>signed</string>
-                <string>static</string>
-                <string>unsigned</string>
-                <string>void</string>
-                <string>volatile</string>
-                <string>int16_t</string>
-                <string>int32_t</string>
-                <string>int8_t</string>
-                <string>int64_t</string>
-                <string>uint16_t</string>
-                <string>uint32_t</string>
-                <string>uint8_t</string>
-                <string>uint64_t</string>
-                <string>UInt32</string>
-                <string>UInt16</string>
-                <string>UInt8</string>
             </keywords>
-            <keywords id="Numbers" color="#00f" useforautocomplete="no">
-				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
-            </keywords>
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
-				<regex>([A-Za-z0-9_]+ *)\(</regex>
-            </keywords>
+    
+            <import mode="C"/>
 
         </default>
-
-        <state id="Characters" color="#00f" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>'(?=\\?.')</regex></begin>
-            <end><regex>(\\'')|(.')</regex></end>
-        </state>
-
-        <state id="Preprocessor" color="#683821" background-color="none">
-            <begin><regex>#</regex></begin>
-            <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
-            <keywords id="Numbers" color="#00f" useforautocomplete="no">
-				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
-            </keywords>
-        </state>
-
-        <state id="DoxyGen Comment" color="#236E25" background-color="none"  font-style="italic">
-            <begin><regex>/\*[\*\!]</regex></begin>
-            <end><regex>\*/</regex></end>
-            <keywords id="DoxyGen Tags" color="#236E25" font-weight="bold" useforautocomplete="no">
-				<regex>(?&lt;=[^\w\d]|^)([@\\]\w+)</regex>
-            </keywords>
-        </state>
-
-        <state id="AutodocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
-            <begin><regex>/\*"</regex></begin>
-            <end><regex>"\*/</regex></end>
-        </state>
-
-        <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>/\*</regex></begin>
-            <end><regex>\*/</regex></end>
-        </state>
-        
-        <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>//</regex></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
-        
-        <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>"</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-        </state>
     </states>
 
 </syntax>

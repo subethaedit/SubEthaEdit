@@ -1725,32 +1725,33 @@
             <keywords id="Preprocessor" color="#FF6500" useforautocomplete="no">
 				<regex>(^[ 	]*#([^\n\r])*)</regex>
             </keywords>
-        </default>
         
-        <state id="JavadocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
-            <begin><regex>/\*\*(?=[\n\r])</regex></begin>
-            <end><regex>\*/</regex></end>
-        </state>
+            <state id="JavadocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
+                <begin><regex>/\*\*(?=[\n\r])</regex></begin>
+                <end><regex>\*/</regex></end>
+            </state>
+    
+            <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+                <begin><regex>/\*</regex></begin>
+                <end><regex>\*/</regex></end>
+            </state>
+            
+            <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+                <begin><regex>//</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
+            
+            <state id="Double Quoted String" color="#727272" background-color="none" font-weight="normal" font-style="normal">
+                <begin><regex>"</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            </state>
+            
+            <state id="Single Quoted String" color="#727272" background-color="none" font-weight="normal" font-style="normal">
+                <begin><regex>'</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+            </state>
 
-        <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>/\*</regex></begin>
-            <end><regex>\*/</regex></end>
-        </state>
-        
-        <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>//</regex></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
-        
-        <state id="Double Quoted String" color="#727272" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>"</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-        </state>
-        
-        <state id="Single Quoted String" color="#727272" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>'</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
-        </state>
+        </default>
     </states>
 
 </syntax>
