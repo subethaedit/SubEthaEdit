@@ -48,37 +48,37 @@
             <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
+        
+            <state id="AutodocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
+                <begin><regex>/\*"</regex></begin>
+                <end><regex>"\*/</regex></end>
+            </state>
+    
+            <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+                <begin><regex>/\*</regex></begin>
+                <end><regex>\*/</regex></end>
+            </state>
+            
+            <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+                <begin><regex>//</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
+            
+            <state id="/Regular Expressions/" color="#760f15">
+                <begin><regex>/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
+                <end><regex>/[cgimosx]*</regex></end>
+            </state>
+    
+            <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+                <begin><regex>"</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            </state>
+    
+            <state id="SingleString" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+                <begin><regex>'</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+            </state>
         </default>
-        
-        <state id="AutodocComment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
-            <begin><regex>/\*"</regex></begin>
-            <end><regex>"\*/</regex></end>
-        </state>
-
-        <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>/\*</regex></begin>
-            <end><regex>\*/</regex></end>
-        </state>
-        
-        <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>//</regex></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
-        
-        <state id="/Regular Expressions/" color="#760f15">
-            <begin><regex>/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
-            <end><regex>/[cgimosx]*</regex></end>
-        </state>
-
-        <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>"</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-        </state>
-
-        <state id="SingleString" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>'</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
-        </state>
 
     </states>
 

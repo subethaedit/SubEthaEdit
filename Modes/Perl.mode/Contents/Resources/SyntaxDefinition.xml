@@ -265,87 +265,88 @@
             <keywords id="Hexadecimal Characters" color="#00f" useforautocomplete="no">
 				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
             </keywords>
+            
+            <state id="q//, qq//, qx//, qw//" color="#760f15">
+                <begin><regex>(?&lt;=[^\w\d\$]|\A)q[qxw]?(?&lt;qclosure&gt;[^\d\w\s\(]).*?[^\\](?=\k&lt;qclosure&gt;)</regex></begin>
+                <end><regex>.</regex></end>
+            </state>
+    
+            <state id="q(), qq(), qx(), qw()" color="#760f15">
+                <begin><regex>(?&lt;=[^\w\d\$]|\A)q[qxwr]?\(</regex></begin>
+                <end><regex>[^\\]\)</regex></end>
+            </state>
+    
+            <state id="qr//" color="#760f15">
+                <begin><regex>(?&lt;=[^\w\d\$]|\A)qr(?&lt;qrclosure&gt;[^\d\w\s\(]).+?[^\\](?=\k&lt;qrclosure&gt;)</regex></begin>
+                <end><regex>.[imosx]*</regex></end>
+            </state>
+    
+            <state id="m//" color="#760f15">
+                <begin><regex>(?&lt;=[^\w\d\$]|\A)m(?&lt;mclosure&gt;[^\d\w\s\(]).*?[^\\](?=\k&lt;mclosure&gt;)</regex></begin>
+                <end><regex>.[cgimosx]*</regex></end>
+            </state>
+    
+            <state id="s///" color="#760f15">
+                <begin><regex>(?&lt;=[^\w\d\$]|\A)s(?&lt;sclosure&gt;[^\d\w\s\(])(?:.*?[^\\])?\k&lt;sclosure&gt;(?:.*?[^\\])?(?=\k&lt;sclosure&gt;)</regex></begin>
+                <end><regex>.[egimosx]*</regex></end>
+            </state>
+    
+            <state id="s()()" color="#760f15">
+                <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y|s)\([^\)]*\)\(</regex></begin>
+                <end><regex>\)[egimosx]*</regex></end>
+            </state>
+    
+            <state id="s{}{}" color="#760f15">
+                <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y|s)\{[^\}]*\}\{</regex></begin>
+                <end><regex>\}[egimosx]*</regex></end>
+            </state>
+    
+            <state id="tr///, y///" color="#760f15">
+                <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y)(?&lt;yclosure&gt;[^\d\w\s\(])(?:.*?[^\\])?\k&lt;yclosure&gt;(?:.*?[^\\])?(?=\k&lt;yclosure&gt;)</regex></begin>
+                <end><regex>.[cds]*</regex></end>
+            </state>
+    
+            <state id="Backticks" color="#608">
+                <begin><regex>(?&lt;!\$|\\)(?:\\\\)*`</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
+            </state>
+    
+            <state id="POD style comments" color="#236E25">
+                <begin><regex>(?&lt;=[\n\r])=</regex></begin>
+                <end><regex>(?&lt;=[\n\r])=cut[^\n\r]*</regex></end>
+            </state>
+    
+            <state id="/Regular Expressions/" color="#760f15">
+                <begin><regex>(?&lt;=[=])\s*/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
+                <end><regex>/[cgimosx]*</regex></end>
+            </state>
+    
+            <state id="/Regular Expressions/ 2" color="#760f15">
+                <begin><regex>(?&lt;=[=]\S)\s*/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
+                <end><regex>/[cgimosx]*</regex></end>
+            </state>
+    
+            <state id="?Regular Expressions?" color="#760f15">
+                <begin><regex>\?[^:]*?[^\\](?=\?[^\n\r]*;)</regex></begin>
+                <end><regex>\?</regex></end>
+            </state>
+    
+            <state id="Singleline Comment" color="#236E25" font-style="italic">
+                <begin><regex>(?&lt;!\$)#</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
+            
+            <state id="String with double quotes" color="#760f15">
+                <begin><regex>(?&lt;!\$|\\)(?:\\\\)*"</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            </state>
+    
+            <state id="String with single quotes" color="#760f15">
+                <begin><regex>(?&lt;!\$|\\)(?:\\\\)*'</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+            </state>
+
         </default>
-        
-        <state id="q//, qq//, qx//, qw//" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d\$]|\A)q[qxw]?(?&lt;qclosure&gt;[^\d\w\s\(]).*?[^\\](?=\k&lt;qclosure&gt;)</regex></begin>
-            <end><regex>.</regex></end>
-        </state>
-
-        <state id="q(), qq(), qx(), qw()" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d\$]|\A)q[qxwr]?\(</regex></begin>
-            <end><regex>[^\\]\)</regex></end>
-        </state>
-
-        <state id="qr//" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d\$]|\A)qr(?&lt;qrclosure&gt;[^\d\w\s\(]).+?[^\\](?=\k&lt;qrclosure&gt;)</regex></begin>
-            <end><regex>.[imosx]*</regex></end>
-        </state>
-
-        <state id="m//" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d\$]|\A)m(?&lt;mclosure&gt;[^\d\w\s\(]).*?[^\\](?=\k&lt;mclosure&gt;)</regex></begin>
-            <end><regex>.[cgimosx]*</regex></end>
-        </state>
-
-        <state id="s///" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d\$]|\A)s(?&lt;sclosure&gt;[^\d\w\s\(])(?:.*?[^\\])?\k&lt;sclosure&gt;(?:.*?[^\\])?(?=\k&lt;sclosure&gt;)</regex></begin>
-            <end><regex>.[egimosx]*</regex></end>
-        </state>
-
-        <state id="s()()" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y|s)\([^\)]*\)\(</regex></begin>
-            <end><regex>\)[egimosx]*</regex></end>
-        </state>
-
-        <state id="s{}{}" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y|s)\{[^\}]*\}\{</regex></begin>
-            <end><regex>\}[egimosx]*</regex></end>
-        </state>
-
-        <state id="tr///, y///" color="#760f15">
-            <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y)(?&lt;yclosure&gt;[^\d\w\s\(])(?:.*?[^\\])?\k&lt;yclosure&gt;(?:.*?[^\\])?(?=\k&lt;yclosure&gt;)</regex></begin>
-            <end><regex>.[cds]*</regex></end>
-        </state>
-
-        <state id="Backticks" color="#608">
-            <begin><regex>(?&lt;!\$|\\)(?:\\\\)*`</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
-        </state>
-
-        <state id="POD style comments" color="#236E25">
-            <begin><regex>(?&lt;=[\n\r])=</regex></begin>
-            <end><regex>(?&lt;=[\n\r])=cut[^\n\r]*</regex></end>
-        </state>
-
-        <state id="/Regular Expressions/" color="#760f15">
-            <begin><regex>(?&lt;=[=])\s*/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
-            <end><regex>/[cgimosx]*</regex></end>
-        </state>
-
-        <state id="/Regular Expressions/ 2" color="#760f15">
-            <begin><regex>(?&lt;=[=]\S)\s*/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
-            <end><regex>/[cgimosx]*</regex></end>
-        </state>
-
-        <state id="?Regular Expressions?" color="#760f15">
-            <begin><regex>\?[^:]*?[^\\](?=\?[^\n\r]*;)</regex></begin>
-            <end><regex>\?</regex></end>
-        </state>
-
-        <state id="Singleline Comment" color="#236E25" font-style="italic">
-            <begin><regex>(?&lt;!\$)#</regex></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
-        
-        <state id="String with double quotes" color="#760f15">
-            <begin><regex>(?&lt;!\$|\\)(?:\\\\)*"</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-        </state>
-
-        <state id="String with single quotes" color="#760f15">
-            <begin><regex>(?&lt;!\$|\\)(?:\\\\)*'</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
-        </state>
 
     </states>
 

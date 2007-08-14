@@ -1899,35 +1899,38 @@
 				<regex>(^[ 	]*import([^\n\r])*)</regex>
 				<regex>(^[ 	]*package([^\n\r])*)</regex>
             </keywords>
+
+            <state id="Characters" color="#00f" background-color="none" font-weight="normal" font-style="normal">
+                <begin><regex>'(?=(?:\\u[A-Fa-f0-9]{4}'|\\?.'))</regex></begin>
+                <end><regex>(\\u[A-Fa-f0-9]{4}')|(\\'')|(.')</regex></end>
+            </state>
+    
+            <state id="JavadocComment" color="#236E25" background-color="none"  font-style="italic">
+                <begin><regex>/\*\*</regex></begin>
+                <end><regex>\*/</regex></end>
+                <keywords id="JavadocTags" color="#236E25" font-weight="bold" useforautocomplete="no">
+                    <regex>(?&lt;=[^\w\d]|^)(@\w+)</regex>
+                </keywords>
+            </state>
+    
+            
+            <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+                <begin><regex>/\*</regex></begin>
+                <end><regex>\*/</regex></end>
+            </state>
+            
+            <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+                <begin><regex>//</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
+            
+            <state id="Strings" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+                <begin><regex>"</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            </state>
+            
         </default>
 
-        <state id="Characters" color="#00f" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>'(?=(?:\\u[A-Fa-f0-9]{4}'|\\?.'))</regex></begin>
-            <end><regex>(\\u[A-Fa-f0-9]{4}')|(\\'')|(.')</regex></end>
-        </state>
-
-        <state id="JavadocComment" color="#236E25" background-color="none"  font-style="italic">
-            <begin><regex>/\*\*</regex></begin>
-            <end><regex>\*/</regex></end>
-            <keywords id="JavadocTags" color="#236E25" font-weight="bold" useforautocomplete="no">
-				<regex>(?&lt;=[^\w\d]|^)(@\w+)</regex>
-            </keywords>
-        </state>
-
-        <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>/\*</regex></begin>
-            <end><regex>\*/</regex></end>
-        </state>
-        
-        <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
-            <begin><regex>//</regex></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
-        
-        <state id="Strings" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
-            <begin><regex>"</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-        </state>
     </states>
 
 </syntax>

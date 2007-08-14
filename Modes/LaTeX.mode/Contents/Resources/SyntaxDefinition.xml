@@ -17,12 +17,13 @@
             <keywords id="Functions" color="#408" useforautocomplete="yes">
                 <regex>((\[[\w\d,\. ]*\])?({[^}]*(?=})[^{]*})+)</regex>
             </keywords>
-        </default>
         
-        <state id="Singleline Comment" color="#236E25" font-style="italic">
-            <begin><regex>(?&lt;!\\)%</regex></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
+			<state id="Singleline Comment" color="#236E25" font-style="italic">
+				<begin><regex>(?&lt;!\\)%</regex></begin>
+				<end><regex>[\n\r]</regex></end>
+			</state>
+        
+		</default>
 
     </states>
 

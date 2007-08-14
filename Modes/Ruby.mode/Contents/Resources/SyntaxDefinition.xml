@@ -360,42 +360,43 @@
             <keywords id="Hexadecimal Characters" color="#00f" useforautocomplete="no">
 				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
             </keywords>
+        
+            <state id="String with double quotes" color="#760f15" inverted-color="#f28720"  font-style="italic" font-weight="normal">
+                <begin><regex>"</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+                <!-- (see line above) This is for the escape codes -->
+                <keywords id="test" color="#669999" inverted-color="#669999"  font-style="normal" font-weight="normal" useforautocomplete="no">
+                    <regex>(#\{[^{]*\})</regex>
+                    <!-- regexp above *needs* the parens around the part to color change -->
+                </keywords>
+            </state>
+    
+            <state id="String with single quotes" color="#760f15" inverted-color="#f48700"  font-style="italic" font-weight="normal">
+                <begin><regex>(?&lt;!\$)(?:')</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+            </state>
+    
+            <state id="Backticks" color="#b80f15" inverted-color="#737373"  font-style="normal" font-weight="normal">
+                <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
+            </state>
+            
+            <state id="Singleline Comment" color="#236e25" inverted-color="#ff4a4a"  font-style="normal" font-weight="normal">
+                <begin><regex>#</regex></begin>
+                <end><regex>[\n\r]|(?:.(?=%&gt;))</regex></end>
+            </state>
+            
+            <state id="Regexp" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
+                <begin><regex>(?:\/)(?=[^/\r\n]*\/)</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)\/</regex></end>
+            </state>
+            
+            <state id="POD Comments" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal">
+                <begin><regex>(?:^=begin)</regex></begin>
+                <end><regex>^=end</regex></end>
+            </state>
+
         </default>
-        
-        <state id="String with double quotes" color="#760f15" inverted-color="#f28720"  font-style="italic" font-weight="normal">
-            <begin><regex>"</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-            <!-- (see line above) This is for the escape codes -->
-            <keywords id="test" color="#669999" inverted-color="#669999"  font-style="normal" font-weight="normal" useforautocomplete="no">
-            	<regex>(#\{[^{]*\})</regex>
-            	<!-- regexp above *needs* the parens around the part to color change -->
-            </keywords>
-        </state>
-
-        <state id="String with single quotes" color="#760f15" inverted-color="#f48700"  font-style="italic" font-weight="normal">
-            <begin><regex>(?&lt;!\$)(?:')</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
-        </state>
-
-        <state id="Backticks" color="#b80f15" inverted-color="#737373"  font-style="normal" font-weight="normal">
-            <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
-        </state>
-        
-        <state id="Singleline Comment" color="#236e25" inverted-color="#ff4a4a"  font-style="normal" font-weight="normal">
-            <begin><regex>#</regex></begin>
-            <end><regex>[\n\r]|(?:.(?=%&gt;))</regex></end>
-        </state>
-        
-        <state id="Regexp" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
-        	<begin><regex>(?:\/)(?=[^/\r\n]*\/)</regex></begin>
-        	<end><regex>(((?&lt;!\\)(\\\\)*)|^)\/</regex></end>
-        </state>
-        
-        <state id="POD Comments" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal">
-        	<begin><regex>(?:^=begin)</regex></begin>
-        	<end><regex>^=end</regex></end>
-        </state>
         
     </states>
 
