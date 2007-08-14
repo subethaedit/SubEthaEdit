@@ -268,11 +268,17 @@
 }
 
 - (void) resolveAllDependenciesForMode:(DocumentMode *) aMode {
+	I_dependencyQueue = [NSMutableDictionary new];
+	[I_dependencyQueue setObject:@"queued" forKey:[[aMode syntaxDefinition] name]];
 	NSEnumerator *enumerator = [[[[aMode syntaxDefinition] importedModes] allKeys] objectEnumerator];
     id modeName;
     while ((modeName = [enumerator nextObject])) {
-		[self documentModeForIdentifier:modeName];
+		if (![I_dependencyQueue objectForKey:modeName]) {
+			[self documentModeForIdentifier:modeName];
+			[I_dependencyQueue setObject:@"queued" forKey:modeName];
+		}
     }
+	[I_dependencyQueue release];
 }
 
 - (NSString *)description {
