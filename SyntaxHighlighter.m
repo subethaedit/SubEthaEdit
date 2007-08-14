@@ -22,6 +22,7 @@ NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
 NSString * const kSyntaxHighlightingStackName = @"HighlightingStack";
 NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
 NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
+NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
 
 @implementation SyntaxHighlighter
 /*"A Syntax Highlighter"*/
@@ -146,8 +147,9 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
                 [stack addObject:[subState objectForKey:@"id"]];
                 [scratchAttributes removeAllObjects];
                 [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:@"styleID"]]];
-                [scratchAttributes setObject:[stack componentsJoinedByString:@","] forKey:kSyntaxHighlightingStackName];
+                [scratchAttributes setObject:savedStack forKey:kSyntaxHighlightingStackName];
                 [scratchAttributes setObject:@"Start" forKey:kSyntaxHighlightingStateDelimiterName];
+				
                 [aString addAttributes:scratchAttributes range:delimiterRange];
 
             
@@ -176,6 +178,9 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
         [scratchAttributes removeAllObjects];
         [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[currentState objectForKey:@"styleID"]]];
         [scratchAttributes setObject:savedStack forKey:kSyntaxHighlightingStackName];
+		NSString *typeAttributeString;
+		if ((typeAttributeString=[currentState objectForKey:@"type"]))
+			[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
                                     
         //NSLog(@"Calculating color range");
 

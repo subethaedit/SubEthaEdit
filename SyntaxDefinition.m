@@ -640,6 +640,8 @@
 					[aDictionary setObject:[linkedState objectForKey:@"EndsWithPlainString"] forKey:@"EndsWithPlainString"];
 				if ([linkedState objectForKey:@"styleID"])
 					[aDictionary setObject:[linkedState objectForKey:@"styleID"] forKey:@"styleID"];
+				if ([linkedState objectForKey:@"type"])
+					[aDictionary setObject:[linkedState objectForKey:@"type"] forKey:@"type"];
             }
         }
 		
