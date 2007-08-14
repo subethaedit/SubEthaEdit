@@ -579,36 +579,13 @@ static NSString *tempFileName() {
     [I_windowControllers removeObject:[[aWindowController retain] autorelease]];
 }
 
-
-
-
-- (id)openDocumentWithContentsOfFile:(NSString *)fileName display:(BOOL)flag {
+- (id)openDocumentWithContentsOfURL:(NSURL *)anURL display:(BOOL)flag error:(NSError **)outError {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
     
-    
-    NSDocument *document = [super openDocumentWithContentsOfFile:fileName display:flag];
+    NSDocument *document = [super openDocumentWithContentsOfURL:anURL display:flag error:outError];
     if (document && flag) {
         [(PlainTextDocument *)document handleOpenDocumentEvent];
     }
-    
-    
-    /*
-    id document;
-    if ([self documentForFileName:fileName] || !flag) {
-        document = [super openDocumentWithContentsOfFile:fileName display:flag];
-    } else {
-        // Open the document, but don't display it yet.
-        document = [super openDocumentWithContentsOfFile:fileName display:NO];
-        if (document) {
-            // Schedule the display of the document with all of the others in a batch.
-            if ([I_documentsWithPendingDisplay count] == 0) {
-                [self performSelector:@selector(displayPendingDocuments) withObject:nil afterDelay:0.0f];
-            }
-            [I_documentsWithPendingDisplay addObject:document];
-        }
-
-    }
-    */
         
     return document;
 }
@@ -746,8 +723,10 @@ static NSString *tempFileName() {
                 }
             }
         } else {
+            NSError *error = nil;
             [I_propertiesForOpenedFiles setObject:properties forKey:filename];
-            (void)[self openDocumentWithContentsOfFile:filename display:YES];
+            (void)[self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES error:&error];
+            if (error) NSLog(@"%@",error);
         }
     }
             
@@ -807,7 +786,9 @@ static NSString *tempFileName() {
     while ((filename = [enumerator nextObject])) {
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
         BOOL shouldClose = ([self documentForFileName:filename] == nil);
-        PlainTextDocument *document = [self openDocumentWithContentsOfFile:filename display:YES];
+        NSError *error=nil;
+        PlainTextDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES error:&error];
+        NSLog(@"%@",error);
         [document printShowingPrintPanel:NO];
         if (shouldClose) {
             [document close];
@@ -866,7 +847,9 @@ static NSString *tempFileName() {
     NSString *fileName;
     while ((fileName = [enumerator nextObject])) {
         [I_propertiesForOpenedFiles setObject:properties forKey:fileName];
-        NSDocument *document = [self openDocumentWithContentsOfFile:fileName display:YES];
+        NSError *error=nil;
+        NSDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES error:&error];
+        NSLog(@"%@",error);
         if (document) {
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
             if (jobDescription) {
