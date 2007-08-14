@@ -22,7 +22,7 @@
             <begin><regex>&lt;!--</regex></begin>
             <end><regex>--&gt;</regex></end>
             
-            <keywords id="SGML Double Dash" color="#f00" font-style="bold" useforautocomplete="no">
+            <keywords id="SGML Double Dash" color="#f00" font-weight="bold" useforautocomplete="no">
                 <regex>(?&lt;!\!)(--)(?!&gt;)</regex>
             </keywords>
             
