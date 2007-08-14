@@ -46,12 +46,12 @@
                 <regex>\b(\S+://[^\s&lt;&gt;]+)</regex>
             </keywords>
                         
-        </default>
+            <state id="Tool Tip" color="#076e09" inverted-color="#67dd6a" font-weight="normal" font-style="italic">
+                <begin><regex>{</regex></begin>
+                <end><regex>}</regex></end>
+            </state>
 
-        <state id="Tool Tip" color="#076e09" inverted-color="#67dd6a" font-weight="normal" font-style="italic">
-            <begin><regex>{</regex></begin>
-            <end><regex>}</regex></end>
-        </state>
+        </default>
 
     </states>
 
