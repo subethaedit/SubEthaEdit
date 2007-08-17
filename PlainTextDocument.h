@@ -148,10 +148,15 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     IBOutlet NSWindow *O_exportSheet;
     IBOutlet NSObjectController *O_exportSheetController;
     
+    NSArray *I_preservedDataFromSEETextFile;
+    
     AuthorizationRef I_authRef;
 }
 
 + (PlainTextDocument *)transientDocument;
+
+- (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData;
+- (NSArray *)preservedDataFromSEETextFile;
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
@@ -301,6 +306,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (BOOL)shouldChangeExtensionOnModeChange;
 - (void)resizeAccordingToDocumentMode;
 
+
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
 
@@ -322,6 +328,11 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 #pragma mark -
 #pragma mark ### Session Interaction ###
+
+- (NSDictionary *)documentState;
+- (NSDictionary *)sessionInformation;
+- (void)takeSettingsFromSessionInformation:(NSDictionary *)aSessionInformation;
+- (void)takeSettingsFromDocumentState:(NSDictionary *)aDocumentState;
 
 - (NSSet *)userIDsOfContributors;
 - (void)sendInitialUserState;

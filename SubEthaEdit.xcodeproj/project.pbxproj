@@ -3515,6 +3515,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-lsasl2",
+					"-lz",
 					"-framework",
 					vmutils,
 				);
