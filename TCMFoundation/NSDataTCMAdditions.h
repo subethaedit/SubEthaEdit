@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <zlib.h>
 
 @interface NSData (NSDataTCMAdditions)
 
@@ -16,5 +16,9 @@
 - (NSString *)base64EncodedStringWithLineLength:(int)lineLength;
 - (id)dataPrefixedWithUTF8BOM;
 - (BOOL)startsWithUTF8BOM;
+- (NSData*)compressedDataWithLevel:(int)aLevel;
+- (NSData*)uncompressedDataOfLength:(unsigned)aLength;
+- (NSArray *)arrayOfCompressedDataWithLevel:(int)aLevel;
++ (NSData *)dataWithArrayOfCompressedData:(NSArray *)anArray;
 
 @end

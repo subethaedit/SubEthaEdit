@@ -873,6 +873,7 @@ static NSString *tempFileName(NSString *origPath) {
     }
     
     //[I_identifier release];
+    [self setPreservedDataFromSEETextFile:nil];
     [I_symbolUpdateTimer release];
     [I_webPreviewDelayedRefreshTimer release];
 
@@ -1794,8 +1795,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
-- (void)TCM_validateSizeAndLineEndings
-{
+- (void)TCM_validateSizeAndLineEndings {
     if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSInformationalAlertStyle];
@@ -2411,7 +2411,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         } else {
             [O_showHiddenFilesCheckbox2 setHidden:YES];
         }
+        [O_savePanelAccessoryFileFormatMatrix2 selectCellWithTag:I_flags.isSEEText?1:0];
     }
+    NSLog(@"%s isSeeText %d",__FUNCTION__,I_flags.isSEEText);
 	
     [O_savePanelAccessoryView release];
     O_savePanelAccessoryView = nil;
@@ -2455,6 +2457,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
+- (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData {
+    [I_preservedDataFromSEETextFile autorelease];
+     I_preservedDataFromSEETextFile=[aPreservedData retain];
+}
+
+- (NSArray *)preservedDataFromSEETextFile {
+    return I_preservedDataFromSEETextFile;
+}
+
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
     BOOL didShowPanel = (I_savePanel)?YES:NO;
     [I_savePanel setDelegate:nil];
@@ -2475,13 +2486,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         if (saveOperation == NSSaveToOperation) {
             I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
-            if ([[O_savePanelAccessoryFileFormatMatrix2 selectedCell] tag] == 1) {
+            if ([[O_savePanelAccessoryFileFormatMatrix selectedCell] tag] == 1) {
                 aType = @"SEETextType";
              } else {
                 aType = @"PlainTextType";
             }
          } else if (didShowPanel) {
-            if ([[O_savePanelAccessoryFileFormatMatrix selectedCell] tag] == 1) {
+            if ([[O_savePanelAccessoryFileFormatMatrix2 selectedCell] tag] == 1) {
                 aType = @"SEETextType";
                 I_flags.isSEEText = YES;
             } else {
@@ -2525,11 +2536,24 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     } else if ([aType isEqualToString:@"SEETextType"]) {
         NSLog(@"%s saving SEEText",__FUNCTION__);
         NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
+        NSMutableArray *dataArray = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]]; 
+        // so this is version 1 of the file format...
         // combine data
-        NSMutableDictionary *dataDict = [NSMutableDictionary dictionaryWithObject:[self textStorageDictionaryRepresentation] forKey:@"TextStorage"];
-        // collect users
-        [dataDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
-        [data appendData:TCM_BencodedObject(dataDict)];
+        NSMutableDictionary *compressedDict = [NSMutableDictionary dictionary];
+        NSMutableDictionary *directDict = [NSMutableDictionary dictionary];
+        // collect users - uncompressed because compressing pngs again doesn't help...
+        [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
+        // get text storage and document settings
+        [compressedDict setObject:[self textStorageDictionaryRepresentation] forKey:@"TextStorage"];
+        [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
+
+        // add direct and compressed data to the top level array
+        [dataArray addObject:[NSArray arrayWithObject:directDict]];
+        [dataArray addObject:[TCM_BencodedObject(compressedDict) arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION]];
+        if ([self preservedDataFromSEETextFile]) {
+            [dataArray addObjectsFromArray:[self preservedDataFromSEETextFile]];
+        }
+        [data appendData:TCM_BencodedObject(dataArray)];
         return data;
     }
 
@@ -2716,224 +2740,266 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             I_flags.isReadingFile = NO;
             return NO;
         }
+        // in the top level of the file there is an bencoded array
+        // the elements of the array will be merged into a Dictionary that actually holds the data
+        // the purpose of this is so there can be compressed and uncompressed data in it
+        // currently 2 types are supported
+        // - a Number - this number indicates the fileformatversion which the saving app new about.
+        // - an Array with exactly one entry which is a dictionary with uncompressed content
+        // - an Array with exactly 2 entries which is a length followed by an compressed content dictionary
+        // - everthing else will be ignored but preserved so we have potential upward compatibility
+        
         int headerLength = [@"SEEText" length];
-        NSDictionary *dictionaryRepOfText = TCM_BdecodedObjectWithData([fileData subdataWithRange:NSMakeRange(headerLength,[fileData length]-headerLength)]);
-        [self setContentByDictionaryRepresentation:dictionaryRepOfText];
+        NSArray *topLevelArray = TCM_BdecodedObjectWithData([fileData subdataWithRange:NSMakeRange(headerLength,[fileData length]-headerLength)]);
+        int fileversion=0;
+        NSMutableArray *preservedData = [NSMutableArray array];
+        NSMutableDictionary *dictRep = [NSMutableDictionary dictionary];
+        NSEnumerator *elements = [topLevelArray objectEnumerator];
+        id element = [elements nextObject];
+        if (element) fileversion = [element unsignedIntValue];
+        while ((element=[elements nextObject])) {
+            if ([element isKindOfClass:[NSArray class]] && [element count]==1 && [[element objectAtIndex:0] isKindOfClass:[NSDictionary class]]) {
+                [dictRep addEntriesFromDictionary:[element objectAtIndex:0]];
+            } else if ([element isKindOfClass:[NSArray class]] && [element count]==2) {
+                NSDictionary *dict = TCM_BdecodedObjectWithData([NSData dataWithArrayOfCompressedData:element]);
+                if (dict && [dict isKindOfClass:[NSDictionary class]]) {
+                    [dictRep addEntriesFromDictionary:dict];
+                }
+            } else {
+                [preservedData addObject:element];
+            }
+        }
+        [self setPreservedDataFromSEETextFile:preservedData];
+        I_flags.isSEEText = YES;
+        [self setContentByDictionaryRepresentation:dictRep];
+        [self takeSettingsFromDocumentState:[dictRep objectForKey:@"DocumentState"]];
         TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
-        NSEnumerator *userdicts = [[dictionaryRepOfText objectForKey:@"Contributors"] objectEnumerator];
+        NSEnumerator *userdicts = [[dictRep objectForKey:@"Contributors"] objectEnumerator];
         NSDictionary *userdict = nil;
+        NSMutableArray *contributors = [NSMutableArray array];
         while ((userdict = [userdicts nextObject])) {
             TCMMMUser *user = [TCMMMUser userWithDictionaryRepresentation:userdict];
             [um addUser:user];
+            [contributors addObject:user];
         }
-        return YES;
-    }
-
-    BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
-
-    // Determine mode
-    DocumentMode *mode = nil;
-    BOOL chooseModeByContent = NO;
-    if (!isReverting) {
-        if ([properties objectForKey:@"mode"]) {
-            NSString *modeName = [properties objectForKey:@"mode"];
-            mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
+        [[self session] addContributors:contributors];
+    } else {
+    
+        BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
+    
+        // Determine mode
+        DocumentMode *mode = nil;
+        BOOL chooseModeByContent = NO;
+        if (!isReverting) {
+            if ([properties objectForKey:@"mode"]) {
+                NSString *modeName = [properties objectForKey:@"mode"];
+                mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
+                if (!mode) {
+                    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode name invalid: %@", modeName);
+                }
+            } else {
+                if (isDocumentFromOpenPanel) {
+                    NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
+                    if ([identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
+                        // Choose mode
+                        // Priorities: Filename, Regex, Extension
+                        // Check filename
+                        mode = [[DocumentModeManager sharedInstance] documentModeForFilename:[fileName lastPathComponent]];
+                        if ([mode isBaseMode]) {
+                            chooseModeByContent = YES;
+                            // Check extensions
+                            NSString *extension = [fileName pathExtension];
+                            mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
+                        }
+                    } else {
+                        mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
+                    }
+                }
+            }
+    
             if (!mode) {
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode name invalid: %@", modeName);
+                // get default mode (may be automatic)
+                // currently following workaround is used
+                mode = [[DocumentModeManager sharedInstance] documentModeForFilename:[fileName lastPathComponent]];
+                if ([mode isBaseMode]) {
+                    chooseModeByContent = YES;
+                    // Check extensions
+                    NSString *extension = [fileName pathExtension];
+                    mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
+                }
+            }
+        } else {
+            mode = [self documentMode];
+        }
+    
+        // Determine encoding
+        BOOL usesModePreferenceEncoding = NO;
+        NSStringEncoding encoding = NoStringEncoding;
+        if ([properties objectForKey:@"encoding"]) {
+            NSString *IANACharSetName = [properties objectForKey:@"encoding"];
+            if (IANACharSetName) {
+                CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)IANACharSetName);
+                if (cfEncoding != kCFStringEncodingInvalidId) {
+                    encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+                } else {
+                    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"IANACharSetName invalid: %@", IANACharSetName);
+                }
             }
         } else {
             if (isDocumentFromOpenPanel) {
-                NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
-                if ([identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
-                    // Choose mode
-                    // Priorities: Filename, Regex, Extension
-                    // Check filename
-                    mode = [[DocumentModeManager sharedInstance] documentModeForFilename:[fileName lastPathComponent]];
-                    if ([mode isBaseMode]) {
-                        chooseModeByContent = YES;
-                        // Check extensions
-                        NSString *extension = [fileName pathExtension];
-                        mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
-                    }
-                } else {
-                    mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
+                DocumentController *documentController = (DocumentController *)[NSDocumentController sharedDocumentController];
+                encoding = [documentController encodingFromLastRunOpenPanel];
+                if (encoding == ModeStringEncoding) {
+                    encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+                    usesModePreferenceEncoding = YES;
                 }
             }
         }
-
-        if (!mode) {
-            // get default mode (may be automatic)
-            // currently following workaround is used
-            mode = [[DocumentModeManager sharedInstance] documentModeForFilename:[fileName lastPathComponent]];
-            if ([mode isBaseMode]) {
-                chooseModeByContent = YES;
-                // Check extensions
-                NSString *extension = [fileName pathExtension];
-                mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
+        
+        if (encoding == NoStringEncoding) {
+            encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+            usesModePreferenceEncoding = YES;
+        }
+        
+        
+        NSDictionary *docAttrs = nil;
+        NSMutableDictionary *options = [NSMutableDictionary dictionary];
+    
+        if (encoding < SmallestCustomStringEncoding) {
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Setting \"CharacterEncoding\" option: %@", [NSString localizedNameOfStringEncoding:encoding]);
+            [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
+        }
+    
+        // Disable image loading and execution of code in HTML documents
+        static WebPreferences *s_loadPrefs = nil;
+        if (!s_loadPrefs) {
+            s_loadPrefs = [[WebPreferences alloc] initWithIdentifier:@"PlainTextDocumentLoadingPreferences"];
+            [s_loadPrefs setLoadsImagesAutomatically:NO];
+            [s_loadPrefs setJavaEnabled:NO];
+            [s_loadPrefs setJavaScriptEnabled:NO];
+            [s_loadPrefs setPlugInsEnabled:NO];
+        }
+        [options setObject:s_loadPrefs forKey:@"WebPreferences"];
+    
+        BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
+        NSData *fileData = nil;
+        if (!isReadable) {
+            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
+            fileData = [self TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:fileName];
+            if (fileData == nil) {
+                // generate the correct error
+                [NSData dataWithContentsOfURL:anURL options:0 error:outError];
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file is not readable %@",*outError);
+                I_flags.isReadingFile = NO;
+                return NO;
             }
         }
-    } else {
-        mode = [self documentMode];
-    }
-
-    // Determine encoding
-    BOOL usesModePreferenceEncoding = NO;
-    NSStringEncoding encoding = NoStringEncoding;
-    if ([properties objectForKey:@"encoding"]) {
-        NSString *IANACharSetName = [properties objectForKey:@"encoding"];
-        if (IANACharSetName) {
-            CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)IANACharSetName);
-            if (cfEncoding != kCFStringEncodingInvalidId) {
-                encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
-            } else {
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"IANACharSetName invalid: %@", IANACharSetName);
-            }
+        
+        NSString *extension = [[fileName pathExtension] lowercaseString];
+        BOOL isHTML = [extension isEqual:@"htm"] || [extension isEqual:@"html"];
+        
+        if (isHTML && isReadable) {
+            fileData = [[NSData alloc] initWithContentsOfFile:[fileName stringByExpandingTildeInPath]];
         }
-    } else {
-        if (isDocumentFromOpenPanel) {
-            DocumentController *documentController = (DocumentController *)[NSDocumentController sharedDocumentController];
-            encoding = [documentController encodingFromLastRunOpenPanel];
-            if (encoding == ModeStringEncoding) {
-                encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
-                usesModePreferenceEncoding = YES;
-            }
-        }
-    }
+        
+        [[textStorage mutableString] setString:@""]; // Empty the document
     
-    if (encoding == NoStringEncoding) {
-        encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
-        usesModePreferenceEncoding = YES;
-    }
+        NSURL *fileURL = [NSURL fileURLWithPath:[fileName stringByExpandingTildeInPath]];
     
+        while (TRUE) {
+            BOOL success;
     
-    NSDictionary *docAttrs = nil;
-    NSMutableDictionary *options = [NSMutableDictionary dictionary];
-
-    if (encoding < SmallestCustomStringEncoding) {
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Setting \"CharacterEncoding\" option: %@", [NSString localizedNameOfStringEncoding:encoding]);
-        [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
-    }
-
-    // Disable image loading and execution of code in HTML documents
-    static WebPreferences *s_loadPrefs = nil;
-    if (!s_loadPrefs) {
-        s_loadPrefs = [[WebPreferences alloc] initWithIdentifier:@"PlainTextDocumentLoadingPreferences"];
-        [s_loadPrefs setLoadsImagesAutomatically:NO];
-        [s_loadPrefs setJavaEnabled:NO];
-        [s_loadPrefs setJavaScriptEnabled:NO];
-        [s_loadPrefs setPlugInsEnabled:NO];
-    }
-    [options setObject:s_loadPrefs forKey:@"WebPreferences"];
-
-    BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
-    NSData *fileData = nil;
-    if (!isReadable) {
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-        fileData = [self TCM_dataWithContentsOfFileReadUsingAuthorizedHelper:fileName];
-        if (fileData == nil) {
-            // generate the correct error
-            [NSData dataWithContentsOfURL:anURL options:0 error:outError];
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file is not readable %@",*outError);
-            I_flags.isReadingFile = NO;
-            return NO;
-        }
-    }
-    
-    NSString *extension = [[fileName pathExtension] lowercaseString];
-    BOOL isHTML = [extension isEqual:@"htm"] || [extension isEqual:@"html"];
-    
-    if (isHTML && isReadable) {
-        fileData = [[NSData alloc] initWithContentsOfFile:[fileName stringByExpandingTildeInPath]];
-    }
-    
-    [[textStorage mutableString] setString:@""]; // Empty the document
-
-    NSURL *fileURL = [NSURL fileURLWithPath:[fileName stringByExpandingTildeInPath]];
-
-    while (TRUE) {
-        BOOL success;
-
-        [textStorage beginEditing];
-        if (isHTML || !isReadable) {
-            if ([fileData startsWithUTF8BOM]) {
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
-                I_flags.hasUTF8BOM = YES;
-                [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
-            }
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
-        } else {
-            NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:[fileURL path]];
-            @try {
-                NSData *bomData = [fileHandle readDataOfLength:3];
-                if ([bomData startsWithUTF8BOM]) {
+            [textStorage beginEditing];
+            if (isHTML || !isReadable) {
+                if ([fileData startsWithUTF8BOM]) {
                     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
                     I_flags.hasUTF8BOM = YES;
                     [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
                 }
-            }
-            @catch (id exception) {
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readDataOfLength throws exception: %@", exception);
-            }
-            success = [textStorage readFromURL:fileURL options:options documentAttributes:&docAttrs error:outError];
-        }
-        [textStorage endEditing];
-
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
-        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"documentAttributes: %@", [docAttrs description]);
-
-        if (!success) {
-            NSNumber *encodingNumber = [options objectForKey:@"CharacterEncoding"];
-            if (encodingNumber != nil) {
-                NSStringEncoding systemEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
-                NSStringEncoding triedEncoding = [encodingNumber unsignedIntValue];
-                if (triedEncoding != systemEncoding) {
-                    [[textStorage mutableString] setString:@""]; // Empty the document, and reload
-                    [options setObject:[NSNumber numberWithUnsignedInt:systemEncoding] forKey:@"CharacterEncoding"];
-                    continue;
+                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+            } else {
+                NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:[fileURL path]];
+                @try {
+                    NSData *bomData = [fileHandle readDataOfLength:3];
+                    if ([bomData startsWithUTF8BOM]) {
+                        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
+                        I_flags.hasUTF8BOM = YES;
+                        [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
+                    }
                 }
+                @catch (id exception) {
+                    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readDataOfLength throws exception: %@", exception);
+                }
+                success = [textStorage readFromURL:fileURL options:options documentAttributes:&docAttrs error:outError];
             }
-            // correct outerror is already set by the textstorage methods
-            return NO;
+            [textStorage endEditing];
+    
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"documentAttributes: %@", [docAttrs description]);
+    
+            if (!success) {
+                NSNumber *encodingNumber = [options objectForKey:@"CharacterEncoding"];
+                if (encodingNumber != nil) {
+                    NSStringEncoding systemEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
+                    NSStringEncoding triedEncoding = [encodingNumber unsignedIntValue];
+                    if (triedEncoding != systemEncoding) {
+                        [[textStorage mutableString] setString:@""]; // Empty the document, and reload
+                        [options setObject:[NSNumber numberWithUnsignedInt:systemEncoding] forKey:@"CharacterEncoding"];
+                        continue;
+                    }
+                }
+                // correct outerror is already set by the textstorage methods
+                return NO;
+            }
+    
+            if (![[docAttrs objectForKey:@"DocumentType"] isEqualToString:NSPlainTextDocumentType] &&
+                ![[options objectForKey:@"DocumentType"] isEqualToString:NSPlainTextDocumentType]) {
+                [[textStorage mutableString] setString:@""]; // Empty the document, and reload
+                [options setObject:NSPlainTextDocumentType forKey:@"DocumentType"];
+            } else {
+                break;
+            }
         }
-
-        if (![[docAttrs objectForKey:@"DocumentType"] isEqualToString:NSPlainTextDocumentType] &&
-            ![[options objectForKey:@"DocumentType"] isEqualToString:NSPlainTextDocumentType]) {
-            [[textStorage mutableString] setString:@""]; // Empty the document, and reload
-            [options setObject:NSPlainTextDocumentType forKey:@"DocumentType"];
-        } else {
-            break;
+    
+        if (isHTML && isReadable) {
+            [fileData release];
         }
-    }
-
-    if (isHTML && isReadable) {
-        [fileData release];
-    }
-
-    [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
-
-
-    // Check for ModeByContent changes and reinterpret to new encoding if necessary.
-    if (chooseModeByContent) {
-        NSString *beginning = [[I_textStorage string] substringWithRange:NSMakeRange(0,MIN(4000,[[I_textStorage string] length]))];
-        DocumentMode *contentmode = [[DocumentModeManager sharedInstance] documentModeForContent:beginning];
-        if (![contentmode isBaseMode]) {
-            mode = contentmode;
-            // Check for encoding!
-            if (usesModePreferenceEncoding) {
-                NSStringEncoding newencoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
-                if (newencoding != encoding) {
-                    encoding = newencoding;
-                    if ([[I_textStorage string] canBeConvertedToEncoding:encoding]){
-                        NSString *reinterpretedString = [[NSString alloc] initWithData:[[I_textStorage string] dataUsingEncoding:[self fileEncoding]] encoding:encoding];
-                        if (reinterpretedString) {
-                            [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
-                            [self setFileEncoding:encoding];
+    
+        [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
+    
+    
+        // Check for ModeByContent changes and reinterpret to new encoding if necessary.
+        if (chooseModeByContent) {
+            NSString *beginning = [[I_textStorage string] substringWithRange:NSMakeRange(0,MIN(4000,[[I_textStorage string] length]))];
+            DocumentMode *contentmode = [[DocumentModeManager sharedInstance] documentModeForContent:beginning];
+            if (![contentmode isBaseMode]) {
+                mode = contentmode;
+                // Check for encoding!
+                if (usesModePreferenceEncoding) {
+                    NSStringEncoding newencoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+                    if (newencoding != encoding) {
+                        encoding = newencoding;
+                        if ([[I_textStorage string] canBeConvertedToEncoding:encoding]){
+                            NSString *reinterpretedString = [[NSString alloc] initWithData:[[I_textStorage string] dataUsingEncoding:[self fileEncoding]] encoding:encoding];
+                            if (reinterpretedString) {
+                                [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
+                                [self setFileEncoding:encoding];
+                            }
                         }
                     }
                 }
             }
         }
+
+
+        [self setDocumentMode:mode];
+        if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
+            [self setHighlightsSyntax:NO];
+            [self setWrapLines:NO];
+        }
+        [self performSelector:@selector(TCM_validateSizeAndLineEndings) withObject:nil afterDelay:0.0f];
+
     }
 
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
@@ -2950,17 +3016,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [I_textStorage addAttributes:[self plainTextAttributes]
                            range:NSMakeRange(0, wholeLength)];
 
-
-    [self setDocumentMode:mode];
-    if (wholeLength > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
-        [self setHighlightsSyntax:NO];
-        [self setWrapLines:NO];
-    }
-
     [self updateChangeCount:NSChangeCleared];
 
     I_flags.isReadingFile = NO;
-    [self performSelector:@selector(TCM_validateSizeAndLineEndings) withObject:nil afterDelay:0.0f];
 
     return YES;
 }
@@ -4383,17 +4441,23 @@ static NSString *S_measurementUnits;
             [self updateChangeCount:NSChangeDone];
         } else if (returnCode == NSAlertSecondButtonReturn) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-            BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
+            NSError *error = nil;
+            BOOL successful = [self revertToContentsOfURL:[self fileURL] ofType:[self fileType] error:&error];
             if (successful) {
                 [self updateChangeCount:NSChangeCleared];
+            } else {
+                [self presentError:error];
             }
         }
     } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyNoModificationsAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Revert document");
-            BOOL successful = [self revertToSavedFromFile:[self fileName] ofType:[self fileType]];
+            NSError *error = nil;
+            BOOL successful = [self revertToContentsOfURL:[self fileURL] ofType:[self fileType] error:&error];
             if (successful) {
                 [self updateChangeCount:NSChangeCleared];
+            } else {
+                [self presentError:error];
             }
         } else if (returnCode == NSAlertSecondButtonReturn) {
             [self setKeepDocumentVersion:YES];
@@ -4663,11 +4727,11 @@ static NSString *S_measurementUnits;
     }
 }
 
-- (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation {
+- (void)takeSettingsFromSessionInformation:(NSDictionary *)aSessionInformation {
     DocumentModeManager *manager=[DocumentModeManager sharedInstance];
     DocumentMode *mode=[manager documentModeForIdentifier:[aSessionInformation objectForKey:@"DocumentMode"]];
     if (!mode) {
-        mode = [manager documentModeForExtension:[[aSession filename] pathExtension]];
+        mode = [manager documentModeForExtension:[[[self session] filename] pathExtension]];
     }
     [self setDocumentMode:mode];
     [self setLineEnding:[[aSessionInformation objectForKey:DocumentModeLineEndingPreferenceKey] intValue]];
@@ -4675,6 +4739,10 @@ static NSString *S_measurementUnits;
     [self setUsesTabs:[[aSessionInformation objectForKey:DocumentModeUseTabsPreferenceKey] boolValue]];
     [self setWrapLines:[[aSessionInformation objectForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
     [self setWrapMode:[[aSessionInformation objectForKey:DocumentModeWrapModePreferenceKey] intValue]];
+}
+
+- (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation {
+    [self takeSettingsFromSessionInformation:aSessionInformation];
 
     //[self setFileName:[aSession filename]];
     [self setTemporaryDisplayName:[aSession filename]];
@@ -4726,6 +4794,44 @@ static NSString *S_measurementUnits;
     [result setObject:[NSNumber numberWithInt:[self wrapMode]]
             forKey:DocumentModeWrapModePreferenceKey];
     return result;
+}
+
+
+
+- (NSDictionary *)documentState {
+    NSMutableDictionary *result = [[self sessionInformation] mutableCopy];
+    
+    [result setObject:[NSNumber numberWithBool:[self showsChangeMarks]]
+               forKey:HighlightChangesPreferenceKey];
+    [result setObject:[NSNumber numberWithBool:[self showsGutter]]
+               forKey:DocumentModeShowLineNumbersPreferenceKey];
+    [result setObject:[NSNumber numberWithBool:[self showInvisibleCharacters]]
+               forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+    [result setObject:[NSNumber numberWithBool:[self highlightsSyntax]]
+               forKey:DocumentModeHighlightSyntaxPreferenceKey];
+    [result setObject:[NSNumber numberWithInt:[self lineEnding]]
+               forKey:DocumentModeLineEndingPreferenceKey];
+    [result setObject:[NSNumber numberWithInt:[self lineEnding]]
+               forKey:DocumentModeLineEndingPreferenceKey];
+    
+    return result;
+}
+
+- (void)takeSettingsFromDocumentState:(NSDictionary *)aDocumentState {
+    [self takeSettingsFromSessionInformation:aDocumentState];
+    
+    id value = nil;
+    value = [aDocumentState objectForKey:HighlightChangesPreferenceKey];
+    if (value) [self setValue:value forKey:@"showsChangeMarks"];
+    value = [aDocumentState objectForKey:DocumentModeShowLineNumbersPreferenceKey];
+    if (value) [self setValue:value forKey:@"showsGutter"];
+    value = [aDocumentState objectForKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+    if (value) [self setValue:value forKey:@"showInvisibleCharacters"];
+    value = [aDocumentState objectForKey:DocumentModeHighlightSyntaxPreferenceKey];
+    if (value) [self setValue:value forKey:@"highlightsSyntax"];
+    value = [aDocumentState objectForKey:DocumentModeLineEndingPreferenceKey];
+    if (value) [self setValue:value forKey:@"lineEnding"];
+    
 }
 
 - (void)setFileName:(NSString *)fileName {

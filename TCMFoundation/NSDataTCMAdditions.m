@@ -243,5 +243,51 @@ static unsigned long local_preprocessForDecode( const unsigned char *inBytes, un
     return result;
 }
 
+- (NSData*)compressedDataWithLevel:(int)aLevel {
+    unsigned long length;
+    NSMutableData *result = [[NSMutableData alloc] initWithLength:[self length]+[self length]/10+12];
+    int zResult = compress2([result mutableBytes],&length,[self bytes],[self length],aLevel);
+    if (zResult == Z_OK) {
+        [result setLength:length];
+        return result;
+    } else {
+        NSLog(@"%s compression failed %d",__FUNCTION__,zResult);
+        return nil;
+    }
+}
+
+- (NSData*)uncompressedDataOfLength:(unsigned)aLength {
+    unsigned long length=aLength;
+    NSMutableData *result = [[NSMutableData alloc] initWithLength:aLength];
+    int zResult = uncompress([result mutableBytes],&length,[self bytes],[self length]);
+    if (zResult == Z_OK) {
+        return result;
+    } else {
+        NSLog(@"%s uncompression failed %d",__FUNCTION__,zResult);
+        return nil;
+    }
+}
+
+- (NSArray *)arrayOfCompressedDataWithLevel:(int)aLevel {
+    NSData *compressedData = [self compressedDataWithLevel:aLevel];
+    if (compressedData) {
+        return [NSArray arrayWithObjects:
+                    [NSNumber numberWithUnsignedInt:[self length]],
+                    compressedData,
+                    nil
+                ];
+    } else {
+        return nil;
+    }
+}
++ (NSData *)dataWithArrayOfCompressedData:(NSArray *)anArray {
+    if ([anArray count]>=2 && 
+        [[anArray objectAtIndex:0] isKindOfClass:[NSNumber class]] && 
+        [[anArray objectAtIndex:1] isKindOfClass:[NSData class]]) {
+        return [[anArray objectAtIndex:1] uncompressedDataOfLength:[[anArray objectAtIndex:0] unsignedIntValue]];
+    }
+    return nil;
+}
+
 
 @end
