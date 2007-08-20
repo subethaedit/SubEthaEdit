@@ -13,6 +13,7 @@
 #import "TCMMMBEEPSessionManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMState.h"
+#import "TCMMMLoggingState.h"
 #import "TCMMMOperation.h"
 #import "SessionProfile.h"
 #import "DocumentController.h"
@@ -108,6 +109,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [self setIsServer:NO];
         [self setClientState:TCMMMSessionClientNoState];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
+        I_loggingState = [[TCMMMLoggingState alloc] init];
     }
     return self;
 }
@@ -144,6 +146,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [I_loggingState release];
     [I_helper release];
     I_helper = nil;
     I_document = nil;
@@ -189,6 +192,16 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [I_groupOfInvitedUsers removeAllObjects];
     [I_stateOfInvitedUsers removeAllObjects];
 }
+
+- (TCMMMLoggingState *)loggingState {
+    return I_loggingState;
+}
+- (void)setLoggingState:(TCMMMLoggingState *)aState {
+    [I_loggingState autorelease];
+     I_loggingState = [aState retain];
+}
+
+
 
 #pragma mark -
 #pragma ### Accessors ###
@@ -325,7 +338,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     while ((state=[states nextObject])) {
         [state handleOperation:anOperation];
     }
-
+    [I_loggingState handleOperation:anOperation];
 }
 
 #pragma mark -
@@ -742,7 +755,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     id <SEEDocument> document = [self document];
     [sessionInformation setObject:[document sessionInformation] forKey:@"DocumentSessionInformation"];
 
-    NSDictionary *sessionContent=[NSDictionary dictionaryWithObject:[document textStorageDictionaryRepresentation] forKey:@"TextStorage"];
+    NSDictionary *sessionContent=[NSDictionary dictionaryWithObjectsAndKeys:[document textStorageDictionaryRepresentation],@"TextStorage",[I_loggingState dictionaryRepresentation],@"LoggingState",nil];
     [I_sessionContentForUserID setObject:TCM_BencodedObject(sessionContent) forKey:userID];
 
     [sessionInformation setObject:[NSNumber numberWithUnsignedInt:[(NSData *)[I_sessionContentForUserID objectForKey:userID] length]] forKey:@"ContentLength"];
@@ -926,6 +939,14 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [state setIsSendingNoOps:YES];
         [I_statesByClientID setObject:state forKey:[self hostID]];
         [state release];
+    }
+    NSDictionary *loggingStateRep = [aContent objectForKey:@"LoggingState"];
+    if (loggingStateRep) {
+        id loggingState = [[TCMMMLoggingState alloc] initWithDictionaryRepresentation:loggingStateRep];
+        if (loggingState) {
+            [I_loggingState release];
+             I_loggingState = loggingState;
+        }
     }
     [[self document] session:self didReceiveContent:aContent];
 }
@@ -1294,6 +1315,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             
             [state handleOperation:anOperation];
         }
+        [I_loggingState handleOperation:anOperation];
     }
     return result;
 }

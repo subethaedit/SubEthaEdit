@@ -16,7 +16,7 @@ extern NSString * const TCMMMSessionPendingInvitationsDidChange;
 extern NSString * const TCMMMSessionDidChangeNotification;
 extern NSString * const TCMMMSessionDidReceiveContentNotification;
 
-@class SessionProfile, TCMMMOperation, TCMBEEPSession, TCMMMUser;
+@class SessionProfile, TCMMMOperation, TCMBEEPSession, TCMMMUser, TCMMMLoggingState;
 
 typedef enum TCMMMSessionAccessState {
     TCMMMSessionAccessLockedState=0,
@@ -65,6 +65,7 @@ typedef enum TCMMMSessionClientState {
 - (void)addProxyDocumentWithSession:(TCMMMSession *)session;
 @end
 
+@class TCMMMState;
 
 @interface TCMMMSession : NSObject
 {
@@ -86,6 +87,7 @@ typedef enum TCMMMSessionClientState {
     NSMutableSet *I_statesWithRemainingMessages;
     TCMMMSessionAccessState I_accessState;
     TCMMMSessionClientState I_clientState;
+    TCMMMLoggingState *I_loggingState;
     struct {
         BOOL isServer;
         BOOL shouldSendJoinRequest;
@@ -167,6 +169,9 @@ typedef enum TCMMMSessionClientState {
 - (void)pauseProcessing;
 
 - (BOOL)isAddressedByURL:(NSURL *)aURL;
+
+- (TCMMMLoggingState *)loggingState;
+- (void)setLoggingState:(TCMMMLoggingState *)aState;
 
 - (NSDictionary *)contributersAsDictionaryRepresentation;
 

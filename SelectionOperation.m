@@ -90,6 +90,10 @@
     return dict;
 }
 
+- (BOOL)isEqualTo:(id)anObject {
+    return ([super isEqualTo:anObject] && NSEqualRanges(I_selectedRange,[anObject selectedRange]));
+}
+
 - (NSRange)selectedRange {
     return I_selectedRange;
 }

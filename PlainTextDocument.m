@@ -56,6 +56,8 @@
 #import "ScriptWrapper.h"
 #import "NSMenuTCMAdditions.h"
 
+#import "TCMMMLoggingState.h"
+
 #pragma options align=mac68k
 struct SelectionRange
 {
@@ -2545,6 +2547,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
         // get text storage and document settings
         [compressedDict setObject:[self textStorageDictionaryRepresentation] forKey:@"TextStorage"];
+        [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentation] forKey:@"LoggingState"];
         [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
 
         // add direct and compressed data to the top level array
@@ -2773,6 +2776,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         I_flags.isSEEText = YES;
         [self setContentByDictionaryRepresentation:dictRep];
         [self takeSettingsFromDocumentState:[dictRep objectForKey:@"DocumentState"]];
+        if ([dictRep objectForKey:@"LoggingState"]) {
+            TCMMMLoggingState *logState=[[[TCMMMLoggingState alloc] initWithDictionaryRepresentation:[dictRep objectForKey:@"LoggingState"]] autorelease];
+            if (logState) {
+                [[self session] setLoggingState:logState];
+            }
+        }
         TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
         NSEnumerator *userdicts = [[dictRep objectForKey:@"Contributors"] objectEnumerator];
         NSDictionary *userdict = nil;

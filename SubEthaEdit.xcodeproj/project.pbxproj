@@ -408,6 +408,10 @@
 		F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */; };
 		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
 		F2A707C80BF8A54100482EFC /* LoginSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2A707C60BF8A54100482EFC /* LoginSheet.nib */; };
+		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
+		F2ABC4D70C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
+		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
+		F2ABC4E50C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
 		F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */; };
 		F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CEA0C4BB550000BB062 /* GlassButton.m */; };
 		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
@@ -1160,6 +1164,10 @@
 		F2A707B80BF89F4200482EFC /* LoginSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginSheetController.h; sourceTree = "<group>"; };
 		F2A707B90BF89F4200482EFC /* LoginSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginSheetController.m; sourceTree = "<group>"; };
 		F2A707C70BF8A54100482EFC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/LoginSheet.nib; sourceTree = "<group>"; };
+		F2ABC4D30C799775007437A2 /* TCMMMLoggingState.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMMLoggingState.h; path = TCMMillionMonkeys/TCMMMLoggingState.h; sourceTree = "<group>"; };
+		F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMMMLoggingState.m; path = TCMMillionMonkeys/TCMMMLoggingState.m; sourceTree = "<group>"; };
+		F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMMMLoggedOperation.m; path = TCMMillionMonkeys/TCMMMLoggedOperation.m; sourceTree = "<group>"; };
+		F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMMLoggedOperation.h; path = TCMMillionMonkeys/TCMMMLoggedOperation.h; sourceTree = "<group>"; };
 		F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GlassButtonCell.m; sourceTree = "<group>"; };
 		F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButtonCell.h; sourceTree = "<group>"; };
 		F2B18CE90C4BB550000BB062 /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButton.h; sourceTree = "<group>"; };
@@ -1725,6 +1733,10 @@
 				141958AB0BB9516E00CB4AA4 /* TCMMMSessionFoundationHelper.m */,
 				1428931F095756D800D14688 /* TCMMMState.h */,
 				14289320095756D800D14688 /* TCMMMState.m */,
+				F2ABC4D30C799775007437A2 /* TCMMMLoggingState.h */,
+				F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */,
+				F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */,
+				F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */,
 				14289321095756D800D14688 /* TCMMMStatusProfile.h */,
 				14289322095756D800D14688 /* TCMMMStatusProfile.m */,
 				14289323095756D800D14688 /* TCMMMTransformator.h */,
@@ -2653,6 +2665,8 @@
 				F2280A420BEF621A00255AAE /* SDDirectoryEntry.m in Sources */,
 				F2280A430BEF621A00255AAE /* SDDirectory.m in Sources */,
 				1454694A0BF49E3A00D5B00C /* TCMHost.m in Sources */,
+				F2ABC4D70C799775007437A2 /* TCMMMLoggingState.m in Sources */,
+				F2ABC4E50C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2856,6 +2870,8 @@
 				F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */,
 				F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */,
 				316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */,
+				F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */,
+				F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

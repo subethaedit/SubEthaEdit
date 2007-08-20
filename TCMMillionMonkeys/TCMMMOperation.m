@@ -56,6 +56,14 @@ static NSMutableDictionary *sClassForOperationTypeDictionary;
                 [NSData dataWithUUIDString:[self userID]], @"uid", nil];
 }
 
+- (BOOL)isEqualTo:(id)anObject {
+    return (
+        [anObject isMemberOfClass:[self class]] &&
+        [I_userID isEqualToString:[anObject userID]] &&
+        [[self operationID] isEqualToString:[anObject operationID]]
+    );
+}
+
 - (NSString *)operationID {
     return [[self class] operationID];
 }
