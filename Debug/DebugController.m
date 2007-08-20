@@ -14,6 +14,7 @@
 #import "DebugUserController.h"
 #import "DebugPresenceController.h"
 #import "DebugSendOperationController.h"
+#import "DebugHistoryController.h"
 #import "TCMMMBEEPSessionManager.h"
 #import <HDCrashReporter/crashReporter.h>
 #import "DocumentProxyWindowController.h"
@@ -121,6 +122,11 @@ static DebugController * sharedInstance = nil;
         [menu addItem:blahItem];
         [blahItem release];
 
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"Show History Debugger" action:@selector(showHistoryDebugger:) keyEquivalent:@""];
+        [blahItem setTarget:self];
+        [menu addItem:blahItem];
+        [blahItem release];
+
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Attribute Inspector..." action:@selector(showAttributeInspector:) keyEquivalent:@""];
         [blahItem setTarget:self];
         [menu addItem:blahItem];
@@ -178,6 +184,12 @@ static DebugController * sharedInstance = nil;
          I_debugAttributeInspectorController = [DebugAttributeInspectorController new];
     }
         [I_debugAttributeInspectorController showWindow:sender];
+}
+
+- (IBAction)showHistoryDebugger:(id)aSender {
+    static DebugHistoryController *cont = nil;
+    if (!cont) cont = [DebugHistoryController new];
+    [cont showWindow:aSender];
 }
 
 - (IBAction)crash:(id)sender {

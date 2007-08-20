@@ -51,6 +51,11 @@ Debug/DebugBEEPController.h -text
 Debug/DebugBEEPController.m -text
 Debug/DebugController.h -text
 Debug/DebugController.m -text
+Debug/DebugHistory.nib/classes.nib -text
+Debug/DebugHistory.nib/info.nib -text
+Debug/DebugHistory.nib/keyedobjects.nib -text
+Debug/DebugHistoryController.h -text
+Debug/DebugHistoryController.m -text
 Debug/DebugPreferences.h -text
 Debug/DebugPreferences.m -text
 Debug/DebugPrefs.nib/classes.nib -text
