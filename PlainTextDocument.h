@@ -21,7 +21,7 @@ enum {
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
-       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TextStorage;
+       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TextStorage, TCMMMLoggingState;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;

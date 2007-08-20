@@ -1356,6 +1356,10 @@ TCMMillionMonkeys/TCMMMBEEPSessionManager.h -text
 TCMMillionMonkeys/TCMMMBEEPSessionManager.m -text
 TCMMillionMonkeys/TCMMMBrowserListView.h -text
 TCMMillionMonkeys/TCMMMBrowserListView.m -text
+TCMMillionMonkeys/TCMMMLoggedOperation.h -text
+TCMMillionMonkeys/TCMMMLoggedOperation.m -text
+TCMMillionMonkeys/TCMMMLoggingState.h -text
+TCMMillionMonkeys/TCMMMLoggingState.m -text
 TCMMillionMonkeys/TCMMMMessage.h -text
 TCMMillionMonkeys/TCMMMMessage.m -text
 TCMMillionMonkeys/TCMMMNoOperation.h -text

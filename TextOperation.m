@@ -170,6 +170,10 @@
     return dict;
 }
 
+- (BOOL)isEqualTo:(id)anObject {
+    return ([super isEqualTo:anObject] && NSEqualRanges(I_affectedCharRange,[anObject affectedCharRange]) && [I_replacementString isEqualToString:[anObject replacementString]]);
+}
+
 - (void)setAffectedCharRange:(NSRange)aRange {
     I_affectedCharRange = aRange;
 }
