@@ -55,6 +55,8 @@
 
 #import "BacktracingException.h"
 
+#import "UserStatisticsController.h"
+
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
 #import "Debug/DebugController.h"
@@ -1042,6 +1044,13 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 - (IBAction)reloadDocumentModes:(id)aSender {
     [[DocumentModeManager sharedInstance] reloadDocumentModes:aSender];
 }
+
+- (IBAction)showUserStatisticsWindow:(id)aSender {
+    static UserStatisticsController *uc = nil;
+    if (!uc) uc = [UserStatisticsController new];
+    [uc showWindow:aSender];
+}
+
 
 #pragma mark -
 #pragma mark ### Toolbar ###

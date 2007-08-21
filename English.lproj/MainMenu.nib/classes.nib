@@ -17,6 +17,7 @@
                 showLicense = id; 
                 showRegExHelp = id; 
                 showReleaseNotes = id; 
+                showUserStatisticsWindow = id; 
                 undo = id; 
                 visitWebsite = id; 
             }; 

@@ -72,6 +72,7 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 - (IBAction)visitWebsite:(id)sender;
 - (IBAction)reportBug:(id)sender;
 - (IBAction)provideFeedback:(id)sender;
+- (IBAction)showUserStatisticsWindow:(id)aSender;
 
 - (NSArray *)contextMenuItemArray;
 
