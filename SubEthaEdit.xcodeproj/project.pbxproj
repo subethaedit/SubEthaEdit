@@ -412,6 +412,8 @@
 		F2ABC4D70C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
 		F2ABC4E50C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
+		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; };
+		F2ABC5470C79D9C4007437A2 /* DebugHistory.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2ABC5460C79D9C4007437A2 /* DebugHistory.nib */; };
 		F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */; };
 		F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CEA0C4BB550000BB062 /* GlassButton.m */; };
 		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
@@ -1168,6 +1170,9 @@
 		F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMMMLoggingState.m; path = TCMMillionMonkeys/TCMMMLoggingState.m; sourceTree = "<group>"; };
 		F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMMMLoggedOperation.m; path = TCMMillionMonkeys/TCMMMLoggedOperation.m; sourceTree = "<group>"; };
 		F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMMLoggedOperation.h; path = TCMMillionMonkeys/TCMMMLoggedOperation.h; sourceTree = "<group>"; };
+		F2ABC52F0C79D898007437A2 /* DebugHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugHistoryController.h; path = Debug/DebugHistoryController.h; sourceTree = "<group>"; };
+		F2ABC5300C79D898007437A2 /* DebugHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugHistoryController.m; path = Debug/DebugHistoryController.m; sourceTree = "<group>"; };
+		F2ABC5460C79D9C4007437A2 /* DebugHistory.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugHistory.nib; path = Debug/DebugHistory.nib; sourceTree = "<group>"; };
 		F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GlassButtonCell.m; sourceTree = "<group>"; };
 		F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButtonCell.h; sourceTree = "<group>"; };
 		F2B18CE90C4BB550000BB062 /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButton.h; sourceTree = "<group>"; };
@@ -1527,6 +1532,9 @@
 				142892200957523300D14688 /* DebugPrefs.nib */,
 				142892210957523300D14688 /* DebugPresence.nib */,
 				142892260957523300D14688 /* DebugUsers.nib */,
+				F2ABC5460C79D9C4007437A2 /* DebugHistory.nib */,
+				F2ABC52F0C79D898007437A2 /* DebugHistoryController.h */,
+				F2ABC5300C79D898007437A2 /* DebugHistoryController.m */,
 			);
 			name = Debug;
 			sourceTree = "<group>";
@@ -2504,6 +2512,7 @@
 				F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */,
 				F2A707C80BF8A54100482EFC /* LoginSheet.nib in Resources */,
 				316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */,
+				F2ABC5470C79D9C4007437A2 /* DebugHistory.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2872,6 +2881,7 @@
 				316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */,
 				F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */,
 				F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */,
+				F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
