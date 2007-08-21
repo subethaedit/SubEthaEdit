@@ -2542,7 +2542,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "REVISION=`/usr/bin/env svnversion \"$SRCROOT\"`\ncpp -P -DREVISION=$REVISION $INFOPLIST_FILE $SCRIPT_OUTPUT_FILE_0\nexit 0";
+			shellScript = "export PATH=$PATH:/usr/local/bin\nREVISION=`/usr/bin/env svnversion \"$SRCROOT\"`\ncpp -P -DREVISION=$REVISION $INFOPLIST_FILE $SCRIPT_OUTPUT_FILE_0\nexit 0";
 		};
 		1428947209575D2D00D14688 /* Run Script (sdp) */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2590,7 +2590,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/usr/bin/perl -w";
-			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/bin/env svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
+			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `export PATH=\\$PATH:/usr/local/bin;/usr/bin/env svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
 		};
 		5EC638280ABEB71100D3295B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2618,7 +2618,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "REVISION=`/usr/bin/env svnversion \"$SRCROOT\"`\ncpp -P -DREVISION=$REVISION $INFOPLIST_FILE $SCRIPT_OUTPUT_FILE_0\nexit 0";
+			shellScript = "export PATH=$PATH:/usr/local/bin\nREVISION=`/usr/bin/env svnversion \"$SRCROOT\"`\ncpp -P -DREVISION=$REVISION $INFOPLIST_FILE $SCRIPT_OUTPUT_FILE_0\nexit 0";
 		};
 /* End PBXShellScriptBuildPhase section */
 
