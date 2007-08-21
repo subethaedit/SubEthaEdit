@@ -5,10 +5,10 @@ INTEL_DIR=intel
 PPC_DIR=ppc
 INTEL_CONFIGURE_FLAGS=--disable-dependency-tracking --host=i686-apple-darwin$(OS_VERSION) --build=i686-apple-darwin$(OS_VERSION)
 PPC_CONFIGURE_FLAGS=--disable-dependency-tracking --host=ppc-apple-darwin$(OS_VERSION) --build=i686-apple-darwin$(OS_VERSION)
-INTEL_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-INTEL_CC=gcc
-PPC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-PPC_CC=gcc-4.0 -arch ppc -isystem /Developer/SDKs/MacOSX10.4u.sdk/usr/include/gcc/darwin/4.0 -isystem /Developer/SDKs/MacOSX10.4u.sdk/usr/include 
+INTEL_SDK=$(SDKROOT)
+INTEL_CC=gcc -isysroot $(SDKROOT)
+PPC_SDK=$(SDKROOT)
+PPC_CC=gcc -arch ppc -isysroot $(SDKROOT) 
 ONIG_TARGET=libonig.la
 LIBS_DIR=.libs
 ONIGURUMA=libonig.a
@@ -26,6 +26,7 @@ $(INTEL_DIR)/$(ONIG_TARGET): $(INTEL_DIR)
 	make $(@F)
 
 $(PPC_DIR)/$(ONIG_TARGET): $(PPC_DIR)
+	export;\
 	cd $(@D);\
 	CC="$(PPC_CC)" ./configure $(PPC_CONFIGURE_FLAGS);\
 	perl -pi -e 's@CFLAGS =@CFLAGS =@' Makefile;\
