@@ -105,11 +105,11 @@ static SecKeychainRef kcRef;
            NULL,
            &kcRef
         );
-        NSLog(@"%s status:%d keychain:%@",__FUNCTION__,status,kcRef);
+//        NSLog(@"%s status:%d keychain:%@",__FUNCTION__,status,kcRef);
 
         // remove from Search list
         status=SecKeychainSetSearchList (searchList);
-        NSLog(@"%s status:%d, list:%@",__FUNCTION__,status,searchList);
+//        NSLog(@"%s status:%d, list:%@",__FUNCTION__,status,searchList);
         CFRelease(searchList);
         searchList = NULL;
 
@@ -121,7 +121,7 @@ static SecKeychainRef kcRef;
             @"-new",
             @"-x509",
             @"-newkey",
-            @"rsa:1024",
+            @"rsa:2048",
             @"-keyout",
             pathToTempKeyAndCert,
             @"-out",
@@ -133,7 +133,7 @@ static SecKeychainRef kcRef;
             @"-batch",
             nil]];
         [opensslTask waitUntilExit];
-        NSLog(@"%s %@",__FUNCTION__,opensslTask);
+//        NSLog(@"%s %@",__FUNCTION__,opensslTask);
         
         CFArrayRef array;
         SecKeychainItemImport (
@@ -146,7 +146,7 @@ static SecKeychainRef kcRef;
             kcRef,
             &array
         );
-        NSLog(@"%s %@",__FUNCTION__,(NSArray *)array);
+//        NSLog(@"%s %@",__FUNCTION__,(NSArray *)array);
         
         OSStatus ortn;
         SecIdentitySearchRef srchRef = nil;
@@ -915,7 +915,7 @@ static SecKeychainRef kcRef;
     SecKeychainStatus keychainStatus;
     OSStatus result = SecKeychainGetStatus(kcRef,&keychainStatus);
     if (keychainStatus && kSecUnlockStateStatus) {
-        NSLog(@"%s keychain was locked!",__FUNCTION__);
+//        NSLog(@"%s keychain was locked!",__FUNCTION__);
         SecKeychainUnlock(kcRef,0,"",TRUE);
     }
     return certArrayRef; // shortcut for now
@@ -1357,8 +1357,8 @@ static SecKeychainRef kcRef;
         // sender profile geben
         if ([aSender respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)]) {
             [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
-        } else {
-            NSLog(@"WARNING: The Object that requested the channel (%@) doesn't respond to BEEPSession:didOpenChannelWithProfile:data:",aSender);
+        } else if (![aProfileURI isEqualToString:TCMBEEPTLSProfileURI]) {
+            NSLog(@"WARNING: The Object (%@) that requested the channel with ProfileURI:%@ doesn't respond to BEEPSession:didOpenChannelWithProfile:data:",aSender,aProfileURI);
         }
     }
 }
