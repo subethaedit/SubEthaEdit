@@ -9,6 +9,12 @@
 #import "TCMMMLoggingState.h"
 #import "TCMMMLoggedOperation.h"
 #import "TCMMMNoOperation.h"
+#import "TCMMMUserManager.h"
+#import "TCMMMLogStatisticsEntry.h"
+
+@interface TCMMMLoggingState (TCMMMLoggingStatePrivateAdditions)
+- (void)addLoggedOperation:(TCMMMLoggedOperation *)anOperation;
+@end
 
 @implementation TCMMMLoggingState
 
@@ -17,6 +23,8 @@
         [self setIsSendingNoOps:NO];
         I_loggedOperations = [NSMutableArray new];
         I_participantIDs   = [NSMutableSet new];
+        I_statisticsArray  = [NSMutableArray new];
+        I_statisticsEntryByUserID = [NSMutableDictionary new];
     }
     return self;
 }
@@ -32,11 +40,11 @@
                 if (userID) {
                     [I_participantIDs addObject:userID];
                 }
-                [I_loggedOperations addObject:operation];
+                [self addLoggedOperation:operation];
             }
         }
     }
-    NSLog(@"%s imported %d operations, the last one being:%@",__FUNCTION__,[I_loggedOperations count],[I_loggedOperations lastObject]);
+    NSLog(@"%s imported %d operations, the last one being:%@ statistics are:%@",__FUNCTION__,[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
     return self;
 }
 
@@ -53,6 +61,8 @@
 }
 
 - (void)dealloc {
+    [I_statisticsEntryByUserID release];
+    [I_statisticsArray release];
     [I_loggedOperations release];
     [I_participantIDs release];
     [super dealloc];
@@ -69,12 +79,43 @@
         if (userID) {
             [I_participantIDs addObject:userID];
         }
-        [I_loggedOperations addObject:operation];
+        [self addLoggedOperation:operation];
     }
+}
+
+- (void)addLoggedOperation:(TCMMMLoggedOperation *)anOperation {
+    [I_loggedOperations addObject:anOperation];
+    NSString *userID = [[anOperation operation] userID];
+    if (userID) {
+        TCMMMLogStatisticsEntry *statisticsEntry = [self statisicsEntryForUserID:userID];
+        if (!statisticsEntry) {
+            TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
+            if (!user) {
+                NSLog(@"%s cannot generate stats for unknown user: %@",__FUNCTION__,userID);
+            } else {
+                NSIndexSet *changeSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([I_statisticsArray count],1)];
+                [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:changeSet forKey:@"statisticsArray"];
+                statisticsEntry = [[[TCMMMLogStatisticsEntry alloc] initWithMMUser:user] autorelease];
+                
+                [I_statisticsEntryByUserID setObject:statisticsEntry forKey:userID];
+                [I_statisticsArray addObject:statisticsEntry];
+                [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:changeSet forKey:@"statisticsArray"];
+            }
+        }
+        [statisticsEntry updateWithOperation:anOperation];
+    }
+}
+
+- (TCMMMLogStatisticsEntry *)statisicsEntryForUserID:(NSString *)aUserID {
+    return [I_statisticsEntryByUserID objectForKey:aUserID];
 }
 
 - (NSSet *)participantIDs {
     return I_participantIDs;
+}
+
+- (NSArray *)statisticsArray {
+    return I_statisticsArray;
 }
 
 @end
