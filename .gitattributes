@@ -194,6 +194,9 @@ English.lproj/SubEthaEditHelp/img/see-small.png -text
 English.lproj/SubEthaEditHelp/img/see.png -text
 English.lproj/SubEthaEditHelp/img/vertline2.gif -text
 English.lproj/SystemVersionCheck.strings -text
+English.lproj/UserStatistics.nib/classes.nib -text
+English.lproj/UserStatistics.nib/info.nib -text
+English.lproj/UserStatistics.nib/keyedobjects.nib -text
 English.lproj/WebPreview.nib/classes.nib -text
 English.lproj/WebPreview.nib/info.nib -text
 English.lproj/WebPreview.nib/keyedobjects.nib -text
@@ -1353,6 +1356,8 @@ TCMFoundation/version.plist -text
 /TCMIdleTimer.m -text
 /TCMListView.h -text
 /TCMListView.m -text
+/TCMMMLogStatisticsEntry.h -text
+/TCMMMLogStatisticsEntry.m -text
 /TCMMMUserManagerKitAdditions.h -text
 /TCMMMUserManagerKitAdditions.m -text
 /TCMMMUserSEEAdditions.h -text
@@ -1421,6 +1426,8 @@ Tests/DataTests.m -text
 /Unit[!!-~]Tests-Info.plist -text
 /UserChangeOperation.h -text
 /UserChangeOperation.m -text
+/UserStatisticsController.h -text
+/UserStatisticsController.m -text
 /WebPreviewWindowController.h -text
 /WebPreviewWindowController.m -text
 artwork/Action.tiff -text
