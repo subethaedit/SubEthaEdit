@@ -8,15 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 #import "TCMMMState.h"
+#import "TCMMMLogStatisticsEntry.h"
 
 
 @interface TCMMMLoggingState : TCMMMState {
     NSMutableArray *I_loggedOperations;
     NSMutableSet *I_participantIDs;
+    NSMutableDictionary *I_statisticsEntryByUserID;
+    NSMutableArray *I_statisticsArray;
 }
 
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 - (NSDictionary *)dictionaryRepresentation;
 - (NSSet *)participantIDs;
+- (NSArray *)statisticsArray;
+- (TCMMMLogStatisticsEntry *)statisicsEntryForUserID:(NSString *)aUserID;
 
 @end

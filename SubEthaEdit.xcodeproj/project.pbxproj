@@ -375,6 +375,8 @@
 		F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
+		F20948BA0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
+		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
 		F2230A440BE0241A00437D55 /* FileManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A430BE0241A00437D55 /* FileManagementProfile.m */; };
 		F2230A490BE0243100437D55 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
 		F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
@@ -1122,6 +1124,8 @@
 		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
+		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; };
+		F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsEntry.m; sourceTree = "<group>"; };
 		F2230A420BE0241A00437D55 /* FileManagementProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FileManagementProfile.h; sourceTree = "<group>"; };
 		F2230A430BE0241A00437D55 /* FileManagementProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FileManagementProfile.m; sourceTree = "<group>"; };
 		F2230A450BE0243100437D55 /* TCMBEEPBencodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMBEEPBencodedMessage.h; path = TCMBEEP/TCMBEEPBencodedMessage.h; sourceTree = "<group>"; };
@@ -1642,8 +1646,8 @@
 				142893B60957594500D14688 /* DocumentMode.m */,
 				142893B70957594500D14688 /* DocumentModeManager.h */,
 				142893B80957594500D14688 /* DocumentModeManager.m */,
-				311717F20A0E8C3600A9DA18 /* ModeSettings.m */,
 				311717F30A0E8C3600A9DA18 /* ModeSettings.h */,
+				311717F20A0E8C3600A9DA18 /* ModeSettings.m */,
 				142893B90957594500D14688 /* RegexSymbolDefinition.h */,
 				142893BA0957594500D14688 /* RegexSymbolDefinition.m */,
 				142893BB0957594500D14688 /* RegexSymbolParser.h */,
@@ -1743,6 +1747,8 @@
 				14289320095756D800D14688 /* TCMMMState.m */,
 				F2ABC4D30C799775007437A2 /* TCMMMLoggingState.h */,
 				F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */,
+				F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */,
+				F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */,
 				F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */,
 				F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */,
 				14289321095756D800D14688 /* TCMMMStatusProfile.h */,
@@ -2676,6 +2682,7 @@
 				1454694A0BF49E3A00D5B00C /* TCMHost.m in Sources */,
 				F2ABC4D70C799775007437A2 /* TCMMMLoggingState.m in Sources */,
 				F2ABC4E50C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */,
+				F20948BA0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2882,6 +2889,7 @@
 				F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */,
 				F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */,
 				F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */,
+				F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
