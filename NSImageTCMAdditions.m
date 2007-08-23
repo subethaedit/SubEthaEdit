@@ -11,6 +11,16 @@
 
 @implementation NSImage (NSImageTCMAdditions)
 
++ (NSImage *)clearedImageWithSize:(NSSize)aSize {
+    NSImage *image=[[[NSImage alloc] initWithSize:aSize] autorelease];
+    [image setCacheMode:NSImageCacheNever];
+    [image lockFocus];
+    [[NSColor clearColor] set];
+    [[NSBezierPath bezierPathWithRect:(NSMakeRect(0.,0.,aSize.width,aSize.height))] fill];
+    [image unlockFocus];
+    return image;
+}
+
 - (NSImage *)resizedImageWithSize:(NSSize)aSize {
     
     NSImage *workImage=[self copy];
@@ -26,14 +36,11 @@
         if (newSize.width <=0) newSize.width=1;
     }
     [workImage setSize:newSize];
-    NSImage *image=[[NSImage alloc] initWithSize:newSize];
-    [image setCacheMode:NSImageCacheNever];
+    NSImage *image=[NSImage clearedImageWithSize:newSize];
     [image lockFocus];
     NSGraphicsContext *context=[NSGraphicsContext currentContext];
     NSImageInterpolation oldInterpolation=[context imageInterpolation];
     [context setImageInterpolation:NSImageInterpolationHigh];
-    [[NSColor clearColor] set];
-    [[NSBezierPath bezierPathWithRect:(NSMakeRect(0.,0.,newSize.width,newSize.height))] fill];
     [workImage compositeToPoint:NSMakePoint(0.+(aSize.width-newSize.width )/2.,
                                        0.+(aSize.height-newSize.height)/2.)
                  operation:NSCompositeSourceOver];
@@ -41,7 +48,7 @@
     [image unlockFocus];
     
     [workImage release];
-    return [image autorelease];
+    return image;
 }
 
 - (NSImage *)dimmedImage {

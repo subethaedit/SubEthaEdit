@@ -1547,6 +1547,7 @@ artwork/hud_buttonRight-N.tiff -text
 artwork/hud_buttonRight-P.tiff -text
 artwork/hud_titlebar-close.tiff -text
 artwork/monkey32.png -text
+artwork/seetext.icns -text
 artwork/style.icns -text
 /createDiskImage.sh -text
 /main.m -text

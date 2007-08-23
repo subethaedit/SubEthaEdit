@@ -231,7 +231,7 @@
 				<string>com.codingmonkeys.subethaedit.seetext</string>
 			</array>
 			<key>LSTypeIsPackage</key>
-			<false/>
+			<true/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
 		</dict>
@@ -372,12 +372,15 @@ NpVfZko6DqvJJcLklZ8=
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.data</string>
+				<string>com.apple.package</string>
+				<string>public.composite-content</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>SubEthaEdit Text</string>
 			<key>UTTypeIconFile</key>
-			<string>style.icns</string>
+			<string>seetext.icns</string>
+			<key>UTTypeIconName</key>
+			<string>NumbersDocument</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.codingmonkeys.subethaedit.syntaxstyle</string>
 			<key>UTTypeTagSpecification</key>
