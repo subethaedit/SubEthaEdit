@@ -2514,6 +2514,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [super saveToURL:anAbsoluteURL ofType:aType forSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:aContextInfo];
 }
 
+- (NSFileWrapper *)fileWrapperOfType:(NSString *)typeName error:(NSError **)outError {
+    NSLog(@"%s %@",__FUNCTION__,typeName);
+    NSFileWrapper *pkgInfoWrapper = [[[NSFileWrapper alloc] initRegularFileWithContents:[@"????????" dataUsingEncoding:NSUTF8StringEncoding]] autorelease];
+    NSFileWrapper *contentsDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:pkgInfoWrapper forKey:@"PkgInfo"]] autorelease];
+    NSFileWrapper *previewImage = [[[NSFileWrapper alloc] initRegularFileWithContents:[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]]] autorelease];
+    NSFileWrapper *quicklookDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:previewImage forKey:@"Preview.jpg"]] autorelease];
+    NSFileWrapper *containerData = [[[NSFileWrapper alloc] initRegularFileWithContents:[self dataOfType:typeName error:outError]] autorelease];
+    NSFileWrapper *resultWrapper = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObjectsAndKeys:containerData,@"data.bencoded",contentsDirectory,@"Contents",quicklookDirectory,@"QuickLook",nil]] autorelease];
+    return resultWrapper;
+}
+
 - (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
 
     if ([aType isEqualToString:@"PlainTextType"] || [aType isEqualToString:@"SubEthaEditSyntaxStyle"]) {
@@ -2727,7 +2738,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
-    if (!fileExists || isDir) {
+    if (!fileExists || isDir && ![docType isEqualToString:@"SEETextType"]) {
         // generate the correct error
         [NSData dataWithContentsOfURL:anURL options:0 error:outError];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",*outError);
@@ -2739,7 +2750,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL isReverting = ([textStorage length] != 0);
 
     if ([docType isEqualToString:@"SEETextType"]) {
-        NSData *fileData = [NSData dataWithContentsOfURL:anURL options:0 error:outError];
+        NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"data.bencoded"]] options:0 error:outError];
         if (!fileData) {
             I_flags.isReadingFile = NO;
             return NO;
@@ -3038,8 +3049,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return [self TCM_readFromURL:anURL ofType:docType properties:properties error:outError];
 }
 
+- (NSDictionary *)fileAttributesToWriteToURL:(NSURL *)absoluteURL ofType:(NSString *)documentTypeName forSaveOperation:(NSSaveOperationType)saveOperationType originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)outError {
+    NSString *fullDocumentPath = [absoluteURL path];
 
-- (NSDictionary *)fileAttributesToWriteToFile:(NSString *)fullDocumentPath ofType:(NSString *)documentTypeName saveOperation:(NSSaveOperationType)saveOperationType {
+    if ([documentTypeName isEqualToString:@"SEETextType"]) {
+        return [NSDictionary dictionary];
+    }
 
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"fileAttributesToWriteToFile: %@", fullDocumentPath);
     
@@ -5468,6 +5483,23 @@ static NSString *S_measurementUnits;
         }
     }
 }
+
+- (NSImage *)thumbnailImage {
+    NSTextView *myTextView = [[[self topmostWindowController] activePlainTextEditorForDocument:self] textView];
+    [myTextView setDrawsBackground:NO];
+    NSRect rectToCache = [myTextView frame];
+    int maxHeight = rectToCache.size.width*2.;
+    if (rectToCache.size.height > maxHeight) {
+        rectToCache.size.height = maxHeight;
+    }
+    NSImage *imageContext = [NSImage clearedImageWithSize:rectToCache.size];
+    [imageContext setFlipped:YES];
+    [imageContext lockFocus];
+    [myTextView drawRect:rectToCache];
+    [imageContext unlockFocus];
+    return imageContext;
+}
+
 
 @end
 

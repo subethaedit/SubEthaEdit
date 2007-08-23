@@ -347,6 +347,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
+- (NSImage *)thumbnailImage;
+
 @end
 
 #pragma mark -

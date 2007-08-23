@@ -72,7 +72,7 @@
     TCMMMLoggedOperation *previousLoggedOperation = [I_loggedOperations lastObject];
     if ([[anOperation operationID] isEqualToString:[TCMMMNoOperation operationID]] || 
         [anOperation isEqualTo:[previousLoggedOperation operation]]) {
-        NSLog(@"%s not logging Operation:%@",__FUNCTION__,anOperation);
+        //NSLog(@"%s not logging Operation:%@",__FUNCTION__,anOperation);
     } else {
         TCMMMLoggedOperation *operation=[TCMMMLoggedOperation loggedOperationWithOperation:anOperation index:[previousLoggedOperation index]+1];
         id userID = [anOperation userID];
