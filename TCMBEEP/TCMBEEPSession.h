@@ -104,6 +104,7 @@ enum {
 #endif
 }
 
++ (CFArrayRef)certArrayRef;
 + (void)prepareTemporaryCertificate;
 + (void)removeTemporaryKeychain;
 

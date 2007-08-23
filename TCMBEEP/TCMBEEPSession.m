@@ -73,6 +73,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 static NSString *certKeychainPath = nil;
 static CFArrayRef certArrayRef = NULL;
 static SecKeychainRef kcRef;
+static NSString *pathToTempKeyAndCert = nil;
 
 + (void)removeTemporaryKeychain {
     [[NSFileManager defaultManager] removeFileAtPath:certKeychainPath handler:nil];
@@ -85,7 +86,7 @@ static SecKeychainRef kcRef;
     //create Directories
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
-    while ((path = [enumerator nextObject])) {
+    if ((path = [enumerator nextObject])) {
         NSString *fullPath = [path stringByAppendingPathComponent:[[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension]];
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
              [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
@@ -115,7 +116,7 @@ static SecKeychainRef kcRef;
 
         // generate identity
 
-        NSString *pathToTempKeyAndCert = [certKeychainPath stringByAppendingPathExtension:@"cert"];
+        pathToTempKeyAndCert = [[certKeychainPath stringByAppendingPathExtension:@"cert"] retain];
         NSTask *opensslTask = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/openssl" arguments:[NSArray arrayWithObjects:
             @"req",
             @"-new",
@@ -132,52 +133,61 @@ static SecKeychainRef kcRef;
             @"-nodes",
             @"-batch",
             nil]];
-        [opensslTask waitUntilExit];
-//        NSLog(@"%s %@",__FUNCTION__,opensslTask);
-        
-        CFArrayRef array;
-        SecKeychainItemImport (
-            (CFDataRef)[NSData dataWithContentsOfFile:pathToTempKeyAndCert],
-            NULL,
-            kSecFormatUnknown,
-            kSecItemTypeUnknown,
-            0,
-            NULL,
-            kcRef,
-            &array
-        );
-//        NSLog(@"%s %@",__FUNCTION__,(NSArray *)array);
-        
-        OSStatus ortn;
-        SecIdentitySearchRef srchRef = nil;
-        ortn = SecIdentitySearchCreate(kcRef,CSSM_KEYUSE_SIGN,&srchRef);
-        if(ortn) {
-            printf("SecIdentitySearchCreate returned %d.\n", (int)ortn);
-            printf("Cannot find signing key in temporary keychain. Aborting.\n");
-            return;
-        }
-        SecIdentityRef identity = nil;
-        ortn = SecIdentitySearchCopyNext(srchRef, &identity);
-        if(ortn) {
-            printf("SecIdentitySearchCopyNext returned %d.\n", (int)ortn);
-            printf("Cannot find signing key in temporary keychain. Aborting.\n");
-            return;
-        }
-        if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
-            printf("SecIdentitySearchCopyNext CFTypeID failure!\n");
-            return;
-        }
-    
-        certArrayRef = CFArrayCreate(NULL,(const void **)&identity,1,NULL);
             
-        if(certArrayRef == nil) {
-            printf("CFArrayCreate error\n");
-        }
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openSSLTaskDidTerminate:) name:NSTaskDidTerminateNotification object:opensslTask];
+    }
+}
+
++ (CFArrayRef)certArrayRef {
+    return certArrayRef;
+}
+
++ (void)openSSLTaskDidTerminate:(NSNotification *)aNotification {
+//    NSLog(@"%s %@",__FUNCTION__, aNotification);
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:[aNotification object]];
+    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP];
+    CFArrayRef array;
+    SecKeychainItemImport (
+        (CFDataRef)[NSData dataWithContentsOfFile:pathToTempKeyAndCert],
+        NULL,
+        kSecFormatUnknown,
+        kSecItemTypeUnknown,
+        0,
+        NULL,
+        kcRef,
+        &array
+    );
+
+    // delete temp keychain 
+    NSFileManager *fm = [NSFileManager defaultManager];
+    [fm removeFileAtPath:pathToTempKeyAndCert handler:nil];
+    [pathToTempKeyAndCert release];
+    pathToTempKeyAndCert = nil;
+    
+    OSStatus ortn;
+    SecIdentitySearchRef srchRef = nil;
+    ortn = SecIdentitySearchCreate(kcRef,CSSM_KEYUSE_SIGN,&srchRef);
+    if (ortn) {
+        printf("SecIdentitySearchCreate returned %d.\n", (int)ortn);
+        printf("Cannot find signing key in temporary keychain. Aborting.\n");
+        return;
+    }
+    SecIdentityRef identity = nil;
+    ortn = SecIdentitySearchCopyNext(srchRef, &identity);
+    if(ortn) {
+        printf("SecIdentitySearchCopyNext returned %d.\n", (int)ortn);
+        printf("Cannot find signing key in temporary keychain. Aborting.\n");
+        return;
+    }
+    if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
+        printf("SecIdentitySearchCopyNext CFTypeID failure!\n");
+        return;
+    }
+
+    certArrayRef = CFArrayCreate(NULL,(const void **)&identity,1,NULL);
         
-        // delete temp keychain 
-        NSFileManager *fm = [NSFileManager defaultManager];
-        [fm removeFileAtPath:pathToTempKeyAndCert handler:nil];
-        break;
+    if(certArrayRef == nil) {
+        printf("CFArrayCreate error\n");
     }
 }
 
