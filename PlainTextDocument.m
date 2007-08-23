@@ -2510,7 +2510,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             anAbsoluteURL = [NSURL fileURLWithPath:[[anAbsoluteURL path] stringByAppendingPathExtension:seeTextExtension]];
         }
     }
-    NSLog(@"%s %@",__FUNCTION__,NSStringFromSelector(didSaveSelector));
+
     [super saveToURL:anAbsoluteURL ofType:aType forSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:aContextInfo];
 }
 

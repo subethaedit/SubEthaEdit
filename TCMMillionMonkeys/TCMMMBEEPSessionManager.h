@@ -12,6 +12,8 @@ extern NSString * const DefaultPortNumber;
     
 extern NSString * const ProhibitInboundInternetSessions;
 
+extern NSString * const TCMMMBEEPSessionManagerIsReadyNotification;
+
 extern NSString * const TCMMMBEEPSessionManagerDidAcceptSessionNotification;
 extern NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification;
 extern NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification;

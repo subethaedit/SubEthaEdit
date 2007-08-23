@@ -106,7 +106,7 @@
 
 - (BOOL)isEqualTo:(id)anObject {
     return ([super isEqualTo:anObject] && 
-            I_type == [anObject type] &&
+            I_type == [(UserChangeOperation *)anObject type] &&
             [I_newGroup isEqualToString:[anObject newGroup]] &&
             [[self user] isEqualTo:[anObject user]]);
 }

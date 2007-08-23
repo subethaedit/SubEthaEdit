@@ -426,7 +426,6 @@ static AppController *sharedInstance = nil;
                                                                                                                 
     [self setupTextViewContextMenu];
     [NSApp setServicesProvider:[DocumentController sharedDocumentController]];
-    [TCMBEEPSession prepareTemporaryCertificate];
 }
 
 static OSStatus AuthorizationRightSetWithWorkaround(
@@ -584,15 +583,16 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
     [TCMBEEPChannel setClass:[FileManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
 
+    // set up listening for is ready notificaiton
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionManagerIsReady:) name:TCMMMBEEPSessionManagerIsReadyNotification object:nil];
+
     // set up default greetings
     TCMMMBEEPSessionManager *sm = [TCMMMBEEPSessionManager sharedInstance];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
-    
-    [sm listen];
+
     [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
-    [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 
     [ConnectionBrowserController sharedInstance];
     
@@ -605,6 +605,11 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     if ([HDCrashReporter newCrashLogExists]) {
         [HDCrashReporter doCrashSubmitting];
     }
+}
+
+- (void)sessionManagerIsReady:(NSNotification *)aNotification {
+    [[TCMMMBEEPSessionManager sharedInstance] listen];
+    [[TCMMMPresenceManager sharedInstance] setVisible:[[NSUserDefaults standardUserDefaults] boolForKey:VisibilityPrefKey]];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

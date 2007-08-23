@@ -29,6 +29,8 @@ static NSString *kBEEPSessionStatusGotSession = @"GotSession";
 static NSString *kBEEPSessionStatusConnecting = @"Connecting";
 
 
+NSString * const TCMMMBEEPSessionManagerIsReadyNotification = @"TCMMMBEEPSessionManagerIsReadyNotification";
+
 NSString * const TCMMMBEEPSessionManagerDidAcceptSessionNotification = @"TCMMMBEEPSessionManagerDidAcceptSessionNotification";
 NSString * const TCMMMBEEPSessionManagerSessionDidEndNotification = @"TCMMMBEEPSessionManagerSessionDidEndNotification";
 NSString * const TCMMMBEEPSessionManagerConnectToHostDidFailNotification = @"TCMMMBEEPSessionManagerConnectToHostDidFailNotification";
@@ -85,6 +87,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
 {
     self = [super init];
     if (self) {
+        [TCMBEEPSession prepareTemporaryCertificate];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sslGenerationDidFinish:) name:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:nil];
         I_greetingProfiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSMutableArray array],kTCMMMBEEPSessionManagerDefaultMode,[NSMutableArray array],kTCMMMBEEPSessionManagerTLSMode,nil];
         I_handlersForNewProfiles = [NSMutableDictionary new];
         I_sessionInformationByUserID = [NSMutableDictionary new];
@@ -98,6 +102,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [self registerHandler:[TCMMMPresenceManager sharedInstance] forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     }
     return self;
+}
+
+- (void)sslGenerationDidFinish:(NSNotification *)aNotification {
+//    NSLog(@"%s %@",__FUNCTION__,aNotification);
+    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:TCMMMBEEPSessionManagerIsReadyNotification object:self] postingStyle:NSPostASAP];
 }
 
 - (void)dealloc
@@ -650,7 +659,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession
 {
-    NSLog(@"%s",__FUNCTION__);
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSessionDidClose");
 }
 
