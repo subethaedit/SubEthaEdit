@@ -794,6 +794,7 @@ static NSString *tempFileName(NSString *origPath) {
         NSString *name = [oldSession filename];
         [newSession setFilename:name];
         [self setTemporaryDisplayName:[[self temporaryDisplayName] lastPathComponent]];
+        [newSession setLoggingState:[oldSession loggingState]];
     }
     NSArray *contributors=[oldSession contributors];
     if ([contributors count]) {
@@ -3336,11 +3337,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return ((err == noErr) ? YES : NO);
 }
 
-- (BOOL)writeWithBackupToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
-    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"writeWithBackupToFile: %@", fullDocumentPath);
-    BOOL hasBeenWritten = [super writeWithBackupToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
+- (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
+    NSString *fullDocumentPath = [anAbsoluteURL path];
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"writeSavelyToURL: %@", anAbsoluteURL);
+    BOOL hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:outError];
     if (!hasBeenWritten) {
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeWithBackupToFile:");
+        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeWithBackupToFile: %@",*outError);
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:fullDocumentPath traverseLink:YES];
@@ -3352,10 +3354,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 int fd = open(cFullDocumentPath, O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
                 if (fd) {
                     NSFileHandle *fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
-                    NSError *error=nil;
-                    NSData *data = [self dataOfType:docType error:&error];
+                    NSData *data = [self dataOfType:docType error:outError];
                     if (!data) {
-                        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", error);
+                        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"dataOfType returned error: %@", *outError);
                     }
                     @try {
                         [fileHandle writeData:data];
@@ -3389,7 +3390,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 } else if (returnCode == NSAlertSecondButtonReturn) {
                     NSFileManager *fileManager = [NSFileManager defaultManager];
                     NSString *tempFilePath = tempFileName(fullDocumentPath);
-                    hasBeenWritten = [self writeToFile:tempFilePath ofType:docType];
+                    hasBeenWritten = [self writeToURL:[NSURL fileURLWithPath:tempFilePath] ofType:docType error:outError];
                     if (hasBeenWritten) {
                         BOOL result = [fileManager removeFileAtPath:fullDocumentPath handler:nil];
                         if (result) {

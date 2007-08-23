@@ -624,9 +624,12 @@ static NSString *tempFileName() {
                 while ((doc = [enumerator nextObject])) {
                     if (isPiping) {
                         NSString *fileName = tempFileName();
-                        BOOL result = [doc writeToFile:fileName ofType:@"PlainTextType"];
+                        NSError *error = nil;
+                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"PlainTextType" error:&error];
                         if (result) {
                             [fileNames addObject:fileName];
+                        } else {
+                            NSLog(@"%s %@",__FUNCTION__,error);
                         }
                     }
                 }
@@ -942,7 +945,7 @@ static NSString *tempFileName() {
             [document setScriptingProperties:properties];
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
-            [document readFromFile:standardInputFile ofType:@"PlainTextType"];
+            [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"PlainTextType" error:NULL];
             if (!pipeTitle) {
                 [(PlainTextDocument *)document setShouldChangeExtensionOnModeChange:YES];
             }
