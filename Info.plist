@@ -379,10 +379,8 @@ NpVfZko6DqvJJcLklZ8=
 			<string>SubEthaEdit Text</string>
 			<key>UTTypeIconFile</key>
 			<string>seetext.icns</string>
-			<key>UTTypeIconName</key>
-			<string>NumbersDocument</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.codingmonkeys.subethaedit.syntaxstyle</string>
+			<string>com.codingmonkeys.subethaedit.seetext</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

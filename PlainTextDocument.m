@@ -2470,6 +2470,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
+	NSLog(@"%s %@ %@",__FUNCTION__,anAbsoluteURL,aType);
     BOOL didShowPanel = (I_savePanel)?YES:NO;
     [I_savePanel setDelegate:nil];
     I_savePanel = nil;
@@ -2510,19 +2511,24 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             anAbsoluteURL = [NSURL fileURLWithPath:[[anAbsoluteURL path] stringByAppendingPathExtension:seeTextExtension]];
         }
     }
+	NSLog(@"%s %@ %@",__FUNCTION__,anAbsoluteURL,aType);
 
     [super saveToURL:anAbsoluteURL ofType:aType forSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:aContextInfo];
 }
 
 - (NSFileWrapper *)fileWrapperOfType:(NSString *)typeName error:(NSError **)outError {
-    NSLog(@"%s %@",__FUNCTION__,typeName);
-    NSFileWrapper *pkgInfoWrapper = [[[NSFileWrapper alloc] initRegularFileWithContents:[@"????????" dataUsingEncoding:NSUTF8StringEncoding]] autorelease];
-    NSFileWrapper *contentsDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:pkgInfoWrapper forKey:@"PkgInfo"]] autorelease];
-    NSFileWrapper *previewImage = [[[NSFileWrapper alloc] initRegularFileWithContents:[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]]] autorelease];
-    NSFileWrapper *quicklookDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:previewImage forKey:@"Preview.jpg"]] autorelease];
-    NSFileWrapper *containerData = [[[NSFileWrapper alloc] initRegularFileWithContents:[self dataOfType:typeName error:outError]] autorelease];
-    NSFileWrapper *resultWrapper = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObjectsAndKeys:containerData,@"data.bencoded",contentsDirectory,@"Contents",quicklookDirectory,@"QuickLook",nil]] autorelease];
-    return resultWrapper;
+	if ([typeName isEqualToString:@"SEETextType"]) {
+		NSLog(@"%s %@",__FUNCTION__,typeName);
+		NSFileWrapper *pkgInfoWrapper = [[[NSFileWrapper alloc] initRegularFileWithContents:[@"????????" dataUsingEncoding:NSUTF8StringEncoding]] autorelease];
+		NSFileWrapper *contentsDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:pkgInfoWrapper forKey:@"PkgInfo"]] autorelease];
+		NSFileWrapper *previewImage = [[[NSFileWrapper alloc] initRegularFileWithContents:[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]]] autorelease];
+		NSFileWrapper *quicklookDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:previewImage forKey:@"Preview.jpg"]] autorelease];
+		NSFileWrapper *containerData = [[[NSFileWrapper alloc] initRegularFileWithContents:[self dataOfType:typeName error:outError]] autorelease];
+		NSFileWrapper *resultWrapper = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObjectsAndKeys:containerData,@"data.bencoded",contentsDirectory,@"Contents",quicklookDirectory,@"QuickLook",nil]] autorelease];
+		return resultWrapper;
+	} else {
+		return [super fileWrapperOfType:typeName error:outError];
+	}
 }
 
 - (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
