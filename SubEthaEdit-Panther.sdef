@@ -296,8 +296,28 @@
             <direct-parameter type="text" description="The URL to open."/>
         </command>
 
-        <class name="application" code="capp" inherits="application"  description="The application's top-level scripting object.">
+        <class name="application" code="capp" description="The application's top-level scripting object.">
             <cocoa class="NSApplication"/>
+			<element type="document" access="r">
+				<cocoa key="orderedDocuments"/>
+			</element>
+			<element type="window" access="r">
+				<cocoa key="orderedWindows"/>
+			</element>
+			<property name="name" code="pnam" type="text" access="r" description="The name of the application."/>
+			<property name="frontmost" code="pisf" type="boolean" access="r" description="Is this the frontmost (active) application?">
+				<cocoa key="isActive"/>
+			</property>
+			<property name="version" code="vers" type="text" access="r" description="The version of the application."/>
+			<responds-to name="open">
+				<cocoa method="handleOpenScriptCommand:"/>
+			</responds-to>
+			<responds-to name="print">
+				<cocoa method="handlePrintScriptCommand:"/>
+			</responds-to>
+			<responds-to name="quit">
+				<cocoa method="handleQuitScriptCommand:"/>
+			</responds-to>
             <property name="selection" code="pSel" description="The current selection or insertion point of the frontmost window.">
                 <cocoa key="scriptSelection"/>
                 <type type="selection-object"/>
@@ -316,8 +336,26 @@
             </responds-to>
         </class>
         
-        <class name="document" code="docu" inherits="document" description="A document.">
+        <class name="document" code="docu" description="A document.">
             <cocoa class="PlainTextDocument"/>
+			<property name="path" code="ppth" type="text" description="The document's path.">
+				<cocoa key="fileName"/>
+			</property>
+			<property name="modified" code="imod" type="boolean" access="r" description="Has the document been modified since the last save?">
+				<cocoa key="isDocumentEdited"/>
+			</property>
+			<property name="name" code="pnam" type="text" description="The document's name.">
+				<cocoa key="lastComponentOfFileName"/>
+			</property>
+			<responds-to name="close">
+				<cocoa method="handleCloseScriptCommand:"/>
+			</responds-to>
+			<responds-to name="print">
+				<cocoa method="handlePrintScriptCommand:"/>
+			</responds-to>
+			<responds-to name="save">
+				<cocoa method="handleSaveScriptCommand:"/>
+			</responds-to>
             <contents name="plain text" code="cTXT" type="plain text" description="The plain text object containing all the document's text." hidden="yes">
                 <cocoa key="scriptedPlainContents"/>
             </contents>
@@ -336,7 +374,7 @@
                 <cocoa key="scriptedContents"/>
             </property>
             <property name="mode" code="Mode" description="The document's mode.">
-                <cocoa key="documentMode"/>
+                <cocoa key="scriptDocumentMode"/>
                 <type type="mode"/>
             </property>
             <property name="encoding" code="Encd" type="text" description="The internet name of the document's encoding.">
@@ -378,8 +416,61 @@
             </responds-to>
         </class>
         
-        <class name="window" code="cwin" description="A window." inherits="window">
+        <class name="window" code="cwin" description="A window.">
             <cocoa class="NSWindow"/>
+			<property name="name" code="pnam" type="text" description="The full title of the window.">
+				<cocoa key="title"/>
+			</property>
+			<property name="id" code="ID  " type="number" access="r" description="The unique identifier of the window.">
+				<cocoa key="uniqueID"/>
+			</property>
+			<property name="bounds" code="pbnd" type="rectangle" description="The bounding rectangle of the window.">
+				<cocoa key="boundsAsQDRect"/>
+			</property>
+			<property name="document" code="docu" type="document" access="r" description="The document whose contents are being displayed in the window."/>
+			<property name="closeable" code="hclb" type="boolean" access="r" description="Whether the window has a close box.">
+				<cocoa key="hasCloseBox"/>
+			</property>
+			<property name="titled" code="ptit" type="boolean" access="r" description="Whether the window has a title bar.">
+				<cocoa key="hasTitleBar"/>
+			</property>
+			<property name="index" code="pidx" type="number" description="The index of the window in the back-to-front window ordering.">
+<!-- the type is supposed to be "integer" -->
+				<cocoa key="orderedIndex"/>
+			</property>
+			<property name="floating" code="isfl" type="boolean" access="r" description="Whether the window floats.">
+				<cocoa key="isFloatingPanel"/>
+			</property>
+			<property name="miniaturizable" code="ismn" type="boolean" access="r" description="Whether the window can be miniaturized.">
+				<cocoa key="isMiniaturizable"/>
+			</property>
+			<property name="miniaturized" code="pmnd" type="boolean" description="Whether the window is currently miniaturized.">
+				<cocoa key="isMiniaturized"/>
+			</property>
+			<property name="modal" code="pmod" type="boolean" access="r" description="Whether the window is the application's current modal window.">
+				<cocoa key="isModalPanel"/>
+			</property>
+			<property name="resizable" code="prsz" type="boolean" access="r" description="Whether the window can be resized.">
+				<cocoa key="isResizable"/>
+			</property>
+			<property name="visible" code="pvis" type="boolean" description="Whether the window is currently visible.">
+				<cocoa key="isVisible"/>
+			</property>
+			<property name="zoomable" code="iszm" type="boolean" access="r" description="Whether the window can be zoomed.">
+				<cocoa key="isZoomable"/>
+			</property>
+			<property name="zoomed" code="pzum" type="boolean" description="Whether the window is currently zoomed.">
+				<cocoa key="isZoomed"/>
+			</property>
+			<responds-to name="close">
+				<cocoa method="handleCloseScriptCommand:"/>
+			</responds-to>
+			<responds-to name="print">
+				<cocoa method="handlePrintScriptCommand:"/>
+			</responds-to>
+			<responds-to name="save">
+				<cocoa method="handleSaveScriptCommand:"/>
+			</responds-to>
             <property name="selection" code="pSel" description="The current selection or insertion point.">
                 <cocoa key="scriptSelection"/>
                 <type type="selection-object"/>

@@ -4,7 +4,7 @@
 //
 //  Created by Martin Ott on Tue Feb 24 2004.
 //  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
-//
+// 
 
 #import <Carbon/Carbon.h>
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -2470,7 +2470,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
-	NSLog(@"%s %@ %@",__FUNCTION__,anAbsoluteURL,aType);
     BOOL didShowPanel = (I_savePanel)?YES:NO;
     [I_savePanel setDelegate:nil];
     I_savePanel = nil;
@@ -2511,7 +2510,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             anAbsoluteURL = [NSURL fileURLWithPath:[[anAbsoluteURL path] stringByAppendingPathExtension:seeTextExtension]];
         }
     }
-	NSLog(@"%s %@ %@",__FUNCTION__,anAbsoluteURL,aType);
 
     [super saveToURL:anAbsoluteURL ofType:aType forSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:aContextInfo];
 }
@@ -2521,8 +2519,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 		NSLog(@"%s %@",__FUNCTION__,typeName);
 		NSFileWrapper *pkgInfoWrapper = [[[NSFileWrapper alloc] initRegularFileWithContents:[@"????????" dataUsingEncoding:NSUTF8StringEncoding]] autorelease];
 		NSFileWrapper *contentsDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:pkgInfoWrapper forKey:@"PkgInfo"]] autorelease];
-		NSFileWrapper *previewImage = [[[NSFileWrapper alloc] initRegularFileWithContents:[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]]] autorelease];
-		NSFileWrapper *quicklookDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:previewImage forKey:@"Preview.jpg"]] autorelease];
+		NSFileWrapper *thumbnailImage = [[[NSFileWrapper alloc] initRegularFileWithContents:[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]]] autorelease];
+		NSFileWrapper *quicklookDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:thumbnailImage forKey:@"Thumbnail.jpg"]] autorelease];
 		NSFileWrapper *containerData = [[[NSFileWrapper alloc] initRegularFileWithContents:[self dataOfType:typeName error:outError]] autorelease];
 		NSFileWrapper *resultWrapper = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObjectsAndKeys:containerData,@"data.bencoded",contentsDirectory,@"Contents",quicklookDirectory,@"QuickLook",nil]] autorelease];
 		return resultWrapper;
@@ -5681,7 +5679,7 @@ static NSString *S_measurementUnits;
     }
 }
 
-- (id)coerceValueForDocumentMode:(id)value {
+- (id)coerceValueForScriptDocumentMode:(id)value {
     if ([value isKindOfClass:[DocumentMode class]]) {
         return value;
     } else if ([value isKindOfClass:[NSString class]]) {
@@ -5698,6 +5696,19 @@ static NSString *S_measurementUnits;
         return [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:value toClass:[DocumentMode class]];
     }
 }
+
+- (void)setScriptDocumentMode:(id)value {
+	// because the make new document with properties {} variant doesn't coerce the parameters given correctly in leopard
+	id modeValue = [self coerceValue:value forKey:@"scriptDocumentMode"];
+	if (modeValue) {
+		[self setDocumentMode:modeValue];
+	}
+}
+
+- (id)scriptDocumentMode {
+	return [self documentMode];
+}
+
 
 - (id)scriptSelection {
     if ([self isProxyDocument]) return nil;
