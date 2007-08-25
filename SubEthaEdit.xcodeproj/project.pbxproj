@@ -2584,7 +2584,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i /Developer/Examples/Scripting\\ Definitions/NSCoreSuite.sdef -V 10.3 \"$SRCROOT/SubEthaEdit-Panther.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSDocument/SubEthaEditSuite.PlainTextDocument/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
+			shellScript = "echo \"Running sdp...\"\n\n/usr/bin/sdp -f ast -i \"$SRCROOT/NSCoreSuite.sdef\" -V 10.3 \"$SRCROOT/SubEthaEdit-Panther.sdef\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSApplication/NSCoreSuite.NSApplication/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSWindow/NSCoreSuite.NSWindow/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"\n/usr/bin/sed -i '~' 's/SubEthaEditSuite.NSDocument/SubEthaEditSuite.PlainTextDocument/g' \"$SRCROOT/SubEthaEditSuite.scriptSuite\"";
 		};
 		142898130958165400D14688 /* Run Script (Deployment) */ = {
 			isa = PBXShellScriptBuildPhase;
